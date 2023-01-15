@@ -36,8 +36,8 @@ The following tools are available for exploring the Akash Network blockchain, st
 | Explorers | Wallets | Staking
 | :--- | :--- | :--- |
 | [Mintscan](https://mintscan.io/akash) | [Keplr](https://wallet.keplr.app/#/akash) 🌎📱 | [Keplr](https://wallet.keplr.app/chains/akash) |
-| [Bigdipper](https://forbole.com/akash) | [Cosmostation](https://wallet.cosmostation.io/#/akash) 🌎📱 | [Cosmostation](https://wallet.cosmostation.io/#/akash) |
-| [Atom Scan](https://atomscan.io/akash) | [Mixin Messenger](https://mixin.one/messenger) 📱 | [Staking Rewards](https://www.stakingrewards.com/earn/akash/) |
+| [Bigdipper](https://bigdipper.live/akash) | [Cosmostation](https://wallet.cosmostation.io/#/akash) 🌎📱 | [Cosmostation](https://wallet.cosmostation.io/#/akash) |
+| [Atom Scan](https://atomscan.com/akash) | [Mixin Messenger](https://mixin.one/messenger) 📱 | [Staking Rewards](https://www.stakingrewards.com/earn/akash/) |
 | [Ping.pub](https://ping.pub/akash) | [Omni Wallet](https://omni.app) 📱|
 
 
