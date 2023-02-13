@@ -22,7 +22,7 @@ date: 2023-1-09T00:19:20-08:00
 
 ## Contact
 
-- Discord Server (hyperlink it)
+- [Discord Server] (https://discord.com/invite/DxftX67)
 
 ## Sub Projects, Repositories & Relevant Work Groups
 
