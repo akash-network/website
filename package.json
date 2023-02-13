@@ -70,7 +70,7 @@
     "purgecss-whitelister": "^2.4",
     "shx": "^0.3.4",
     "standard-version": "^9.5.0",
-    "stylelint": "^14.9",
+    "stylelint": "^14.16",
     "stylelint-config-standard-scss": "^6.1"
   },
   "dependencies": {
