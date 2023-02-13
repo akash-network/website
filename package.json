@@ -86,7 +86,7 @@
     "slugify": "^1.6.5",
     "turndown": "^7.1.1",
     "unist-util-inspect": "^7.0.1",
-    "yaml": "^2.2.0"
+    "yaml": "^2.2.1"
   },
   "otherDependencies": {
     "hugo": "0.107.0"
