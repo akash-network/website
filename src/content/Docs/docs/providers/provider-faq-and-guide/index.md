@@ -114,7 +114,7 @@ I[2022-11-11|12:09:11.451] bid complete                                 module=b
 kubectl -n akash-services delete pods -l app=akash-provider
 ```
 
-# Provider Logs
+## Provider Logs
 
 The commands in this section peer into the provider’s logs and may be used to verify possible error conditions on provider start up and to ensure provider order receipt/bid process completion steps.
 
@@ -161,7 +161,7 @@ I[2022-05-19|17:21:29.725] bid complete                                 module=b
 I[2022-05-19|17:21:32.069] syncing sequence                             cmp=client/broadcaster local=23 remote=22
 ```
 
-#@ Provider Status and General Info
+## Provider Status and General Info
 
 Use the verifications included in this section for the following purposes:
 
@@ -301,7 +301,7 @@ info:
 owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
 ```
 
-## Current Versions of Provider's Akash and Kubernetes Installs
+### Current Versions of Provider's Akash and Kubernetes Installs
 
 - Command may be issued from any source with internet connectivity
 
@@ -309,7 +309,7 @@ owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
 curl -sk https://provider.mainnet-1.ca.aksh.pw:8443/version | jq,
 ```
 
-## Provider Lease Management
+### Provider Lease Management
 
 Use the verifications included in this section for the following purposes:
 
@@ -318,9 +318,9 @@ Use the verifications included in this section for the following purposes:
 - [Provider Side Lease Closure](#provider-side-lease-closure)
 - [Ingress Controller Verifications](#ingress-controller-verifications)
 
-## List Provider Active Leases
+### List Provider Active Leases
 
-### Command Template
+#### Command Template
 
 Issue the commands in this section from any machine that has the [Akash CLI](/akash-docs/docs/deployments/akash-cli/installation/) installed.
 
@@ -328,13 +328,13 @@ Issue the commands in this section from any machine that has the [Akash CLI](/ak
 provider-services query market lease list --provider <provider-address> --gseq 0 --oseq 0 --page 1 --limit 500 --state active
 ```
 
-### Example Command Use
+#### Example Command Use
 
 ```
 provider-services query market lease list --provider akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --gseq 0 --oseq 0 --page 1 --limit 500 --state active
 ```
 
-### Example Output
+#### Example Output
 
 ```
 leases:
@@ -369,9 +369,9 @@ leases:
     state: active
 ```
 
-## List Active Leases from Hostname Operator Perspective
+### List Active Leases from Hostname Operator Perspective
 
-#### **Command Syntax**
+##### **Command Syntax**
 
 Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has the kubectl communication with the cluster.
 
@@ -379,7 +379,7 @@ Issue the commands in this section from a control plane node within the Kubernet
 kubectl -n lease get providerhosts
 ```
 
-#### **Example Output**
+##### **Example Output**
 
 ```
 NAME                                                  AGE
@@ -387,9 +387,9 @@ gtu5bo14f99elel76srrbj04do.ingress.akashtesting.xyz   60m
 kbij2mvdlhal5dgc4pc7171cmg.ingress.akashtesting.xyz   18m
 ```
 
-## Provider Side Lease Closure
+### Provider Side Lease Closure
 
-### **Command Template**
+#### **Command Template**
 
 Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has the kubectl communication with the cluster.
 
@@ -397,21 +397,21 @@ Issue the commands in this section from a control plane node within the Kubernet
 provider-services tx market bid close --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID --owner <TENANT-ADDRESS> --dseq $AKASH_DSEQ --gseq 1 --oseq 1 --from <PROVIDER-ADDRESS> --keyring-backend $AKASH_KEYRING_BACKEND -y --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.15
 ```
 
-### Example Command Use
+#### Example Command Use
 
 ```
 provider-services tx market bid close --node $AKASH_NODE --chain-id akashnet-2 --owner akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn --dseq 5905802 --gseq 1 --oseq 1 --from akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --keyring-backend os -y --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.15
 ```
 
-### **Example Output (Truncated)**
+#### **Example Output (Truncated)**
 
 ```
 {"height":"5906491","txhash":"0FC7DA74301B38BC3DF2F6EBBD2020C686409CE6E973E25B4E8F0F1B83235473","codespace":"","code":0,"data":"0A230A212F616B6173682E6D61726B65742E763162657461322E4D7367436C6F7365426964","raw_log":"[{\"events\":[{\"type\":\"akash.v1\",\"attributes\":[{\"key\":\"module\",\"value\":\"deployment\"},{\"key\":\"action\",\"value\":\"group-paused\"},{\"key\":\"owner\",\"value\":\"akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn\"},{\"key\":\"dseq\",\"value\":\"5905802\"},{\"key\":\"gseq\",\"value\":\"1\"},{\"key\":\"module\",\"value\":\"market\"},{\"key\":\"action\",\"value\":\"lease-closed\"}
 ```
 
-## Ingress Controller Verifications
+### Ingress Controller Verifications
 
-### Example Command Use
+#### Example Command Use
 
 Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has the kubectl communication with the cluster.
 
@@ -419,7 +419,7 @@ Issue the commands in this section from a control plane node within the Kubernet
 kubectl get ingress -A
 ```
 
-### Example Output
+#### Example Output
 
 - **NOTE -** in this example output the last entry (with namespace moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk) represents an active deployment on the provider
 
@@ -429,16 +429,16 @@ NAMESPACE                                       NAME                            
 moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk   5n0vp4dmbtced00smdvb84ftu4.ingress.akashtesting.xyz   akash-ingress-class   5n0vp4dmbtced00smdvb84ftu4.ingress.akashtesting.xyz   10.0.10.122,10.0.10.236   80      70s
 ```
 
-# Provider Manifests
+## Provider Manifests
 
 Use the verifications included in this section for the following purposes:
 
 - [Retrieve Active Manifest List From Provider](#retrieve-active-manifest-list-from-provider)
 - [Retrieve Manifest Detail From Provider](#retrieve-manifest-detail-from-provider)
 
-## Retrieve Active Manifest List From Provider
+### Retrieve Active Manifest List From Provider
 
-### **Command Syntax**
+#### **Command Syntax**
 
 Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has kubectl communication with the cluster.
 
@@ -446,7 +446,7 @@ Issue the commands in this section from a control plane node within the Kubernet
 kubectl -n lease get manifests --show-labels
 ```
 
-### Example Output
+#### Example Output
 
 - The show-labels options includes display of associated DSEQ / OSEQ / GSEQ / Owner labels
 
@@ -457,9 +457,9 @@ NAME                                            AGE   LABELS
 h644k9qp92e0qeakjsjkk8f3piivkuhgc6baon9tccuqo   26h   akash.network/lease.id.dseq=5950031,akash.network/lease.id.gseq=1,akash.network/lease.id.oseq=1,akash.network/lease.id.owner=akash15745vczur53teyxl4k05u250tfvp0lvdcfqx27,akash.network/lease.id.provider=akash1xmz9es9ay9ln9x2m3q8dlu0alxf0ltce7ykjfx,akash.network/namespace=h644k9qp92e0qeakjsjkk8f3piivkuhgc6baon9tccuqo,akash.network=true
 ```
 
-## Retrieve Manifest Detail From Provider
+### Retrieve Manifest Detail From Provider
 
-### Command Template
+#### Command Template
 
 Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has kubectl communication with the cluster.
 
@@ -467,7 +467,7 @@ Issue the commands in this section from a control plane node within the Kubernet
 kubectl -n lease get manifest <namespace> -o yaml
 ```
 
-### Example Command Use
+#### Example Command Use
 
 - **Note -** use the \`kubectl get ingress -A\` covered in this guide to lookup the namespace of the deployment of interest
 
@@ -475,7 +475,7 @@ kubectl -n lease get manifest <namespace> -o yaml
 kubectl -n lease get manifest moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk -o yaml
 ```
 
-### Example Output
+#### Example Output
 
 ```
 apiVersion: akash.network/v2beta1
@@ -529,7 +529,7 @@ spec:
     provider: akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j
 ```
 
-## Provider Earnings
+### Provider Earnings
 
 Use the verifications included in this section for the following purposes:
 
@@ -538,11 +538,11 @@ Use the verifications included in this section for the following purposes:
 - [AKT Total Earning Potential Per Active Deployment](#akt-total-earning-potential-per-active-deployment)
 - [Current Leases: Withdrawn vs Consumed](#current-leases-withdrawn-vs-consumed)
 
-## Provider Earnings History
+### Provider Earnings History
 
 Use the commands detailed in this section to gather the daily earnings history of your provider
 
-### Command Template
+#### Command Template
 
 - Only the following variables need update in the template for your use:
   - AKASH_NODE - populate value with the address of your RPC node
@@ -554,13 +554,13 @@ export AKASH_NODE=<your-RPC-node-address>
 PROVIDER=<your-provider-address>; STEP=23.59; BLOCK_TIME=6; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); for i in $(seq 0 23); do BLOCK=$(echo "scale=0; ($HEIGHT-((60/$BLOCK_TIME)*60*($i*$STEP)))/1" | bc); HT=$(provider-services query block $BLOCK | jq -r '.block.header.time'); AL=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 --state active -o json | jq -r '.leases | length'); DCOST=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 -o json --state active | jq --argjson bt $BLOCK_TIME -c -r '(([.leases[].lease.price.amount // 0|tonumber] | add)*(60/$bt)*60*24)/pow(10;6)'); BALANCE=$(provider-services query bank balances --height $BLOCK $PROVIDER -o json | jq -r '.balances[] | select(.denom == "uakt") | .amount // 0|tonumber/pow(10;6)'); IN_ESCROW=$(echo "($AL * 5)" | bc); TOTAL=$( echo "($BALANCE+$IN_ESCROW)" | bc); printf "%8d\t%.32s\t%4d\t%12.4f\t%12.6f\t%4d\t%12.4f\n" $BLOCK $HT $AL $DCOST $BALANCE $IN_ESCROW $TOTAL; done
 ```
 
-### **Example Command Use**
+#### **Example Command Use**
 
 ```
 PROVIDER=akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc; STEP=23.59; BLOCK_TIME=6; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); for i in $(seq 0 23); do BLOCK=$(echo "scale=0; ($HEIGHT-((60/$BLOCK_TIME)*60*($i*$STEP)))/1" | bc); HT=$(provider-services query block $BLOCK | jq -r '.block.header.time'); AL=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 --state active -o json | jq -r '.leases | length'); DCOST=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 -o json --state active | jq --argjson bt $BLOCK_TIME -c -r '(([.leases[].lease.price.amount // 0|tonumber] | add)*(60/$bt)*60*24)/pow(10;6)'); BALANCE=$(provider-services query bank balances --height $BLOCK $PROVIDER -o json | jq -r '.balances[] | select(.denom == "uakt") | .amount // 0|tonumber/pow(10;6)'); IN_ESCROW=$(echo "($AL * 5)" | bc); TOTAL=$( echo "($BALANCE+$IN_ESCROW)" | bc); printf "%8d\t%.32s\t%4d\t%12.4f\t%12.6f\t%4d\t%12.4f\n" $BLOCK $HT $AL $DCOST $BALANCE $IN_ESCROW $TOTAL; done
 ```
 
-### Example Output
+#### Example Output
 
 - Column Headers
 
@@ -585,13 +585,13 @@ block height, timestamp, active leases, daily earning, balance, AKT in escrow, t
  6358917	2022-06-17T15:20:52.671364197Z	   5	     33.2208	  560.532818	  25	    585.5328
 ```
 
-## AKT Total Earned by Provider
+### AKT Total Earned by Provider
 
 Use the commands detailed in this section to gather the total earnings of your provider&#x20;
 
-### Command Template
+#### Command Template
 
-Issue the commands in this section from any machine that has the [Akash CLI ](../../guides/cli/detailed-steps/)installed.
+Issue the commands in this section from any machine that has the [Akash CLI ](/docs/docs/deployments/akash-cli/installation/)installed.
 
 - **Note** - ensure queries are not limited only to leases created by your account by issuing `unset AKASH_FROM` prior to the `akash query market` command execution
 
@@ -599,33 +599,33 @@ Issue the commands in this section from any machine that has the [Akash CLI ](..
 provider-services query market lease list --provider <PROVIDER-ADDRESS> --page 1 --limit 1000 -o json | jq -r '([.leases[].escrow_payment.withdrawn.amount|tonumber] | add) / pow(10;6)'
 ```
 
-### **Example Command Use**
+#### **Example Command Use**
 
 ```
 provider-services query market lease list --provider akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --page 1 --limit 1000 -o json | jq -r '([.leases[].escrow_payment.withdrawn.amount|tonumber] | add) / pow(10;6)'
 ```
 
-### Example Output
+#### Example Output
 
 ```
 8.003348
 ```
 
-## AKT Total Earning Potential Per Active Deployment
+### AKT Total Earning Potential Per Active Deployment
 
-### Legend for Command Syntax
+#### Legend for Command Syntax
 
 In the equations used in the calculation of earning potential, several figures are used that are indeed not static.&#x20;
 
 For accurate earning potential based on today's actual financial/other realities, consider if the following numbers should be updated prior to command execution.
 
-#### Figures in Current Command Syntax
+##### Figures in Current Command Syntax
 
 - 1.79 price of 1 AKT in USD
 - 6.088 block time (current available via: [https://mintscan.io/akash](https://mintscan.io/akash))
 - 30.436875 used as the average number of days in a month\
 
-### Command Syntax
+#### Command Syntax
 
 Issue the commands in this section from any machine that has the [Akash CLI](/akash-docs/docs/deployments/akash-cli/installation/) installed.
 
@@ -635,13 +635,13 @@ Issue the commands in this section from any machine that has the [Akash CLI](/ak
 provider-services query market lease list --provider <PROVIDER-ADDRESS> --gseq 0 --oseq 0 --page 1 --limit 100 --state active -o json | jq -r '["owner","dseq","gseq","oseq","rate","monthly","USD"], (.leases[] | [(.lease.lease_id | .owner, .dseq, .gseq, .oseq), (.escrow_payment | .rate.amount, (.rate.amount|tonumber), (.rate.amount|tonumber))]) | @csv' | awk -F ',' '{if (NR==1) {$1=$1; printf $0"\n"} else {$6=(($6*((60/6.088)*60*24*30.436875))/10^6); $7=(($7*((60/6.088)*60*24*30.436875))/10^6)*1.79; print $0}}' | column -t
 ```
 
-### Example Command Use
+#### Example Command Use
 
 ```
 provider-services query market lease list --provider akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --gseq 0 --oseq 0 --page 1 --limit 100 --state active -o json | jq -r '["owner","dseq","gseq","oseq","rate","monthly","USD"], (.leases[] | [(.lease.lease_id | .owner, .dseq, .gseq, .oseq), (.escrow_payment | .rate.amount, (.rate.amount|tonumber), (.rate.amount|tonumber))]) | @csv' | awk -F ',' '{if (NR==1) {$1=$1; printf $0"\n"} else {$6=(($6*((60/6.088)*60*24*30.436875))/10^6); $7=(($7*((60/6.088)*60*24*30.436875))/10^6)*1.79; print $0}}' | column -t
 ```
 
-### Example Output
+#### Example Output
 
 ```
 "owner"                                         "dseq"     "gseq"  "oseq"  "rate"                  "monthly"  "USD"
@@ -650,11 +650,11 @@ provider-services query market lease list --provider akash1yvu4hhnvs84v4sv53mzu5
 "akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn"  "5850470"  1       1       "2.901120000000000000"  1.13767    2.03643
 ```
 
-## Current Leases: Withdrawn vs Consumed
+### Current Leases: Withdrawn vs Consumed
 
 Use the commands detailed in this section to compare the amount of AKT consumed versus the amount of AKT withdrawn per deployment. This review will ensure that withdraw of consumed funds is occurring as expected.
 
-### Command Syntax
+#### Command Syntax
 
 Only the following variables need update in the template for your use:
 
@@ -667,13 +667,13 @@ export AKASH_NODE=<your-RPC-node-address>
 PROVIDER=<your-provider-address>; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); provider-services query market lease list --height $HEIGHT --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 10000 --state active -o json | jq --argjson h $HEIGHT -r '["owner","dseq/gseq/oseq","rate","monthly","withdrawn","consumed","days"], (.leases[] | [(.lease.lease_id | .owner, (.dseq|tostring) + "/" + (.gseq|tostring) + "/" + (.oseq|tostring)), (.escrow_payment | (.rate.amount|tonumber), (.rate.amount|tonumber), (.withdrawn.amount|tonumber)), (($h-(.lease.created_at|tonumber))*(.escrow_payment.rate.amount|tonumber)/pow(10;6)), (($h-(.lease.created_at|tonumber))/((60/6)*60*24))]) | @csv' | awk -F ',' '{if (NR==1) {$1=$1; printf $0"\n"} else {block_time=6; rate_akt=(($4*((60/block_time)*60*24*30.436875))/10^6); $4=rate_akt; withdrawn_akt=($5/10^6); $5=withdrawn_akt; $6; $7; print $0}}' | column -t
 ```
 
-### Example Command Use
+#### Example Command Use
 
 ```
 PROVIDER=akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); provider-services query market lease list --height $HEIGHT --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 10000 --state active -o json | jq --argjson h $HEIGHT -r '["owner","dseq/gseq/oseq","rate","monthly","withdrawn","consumed","days"], (.leases[] | [(.lease.lease_id | .owner, (.dseq|tostring) + "/" + (.gseq|tostring) + "/" + (.oseq|tostring)), (.escrow_payment | (.rate.amount|tonumber), (.rate.amount|tonumber), (.withdrawn.amount|tonumber)), (($h-(.lease.created_at|tonumber))*(.escrow_payment.rate.amount|tonumber)/pow(10;6)), (($h-(.lease.created_at|tonumber))/((60/6)*60*24))]) | @csv' | awk -F ',' '{if (NR==1) {$1=$1; printf $0"\n"} else {block_time=6; rate_akt=(($4*((60/block_time)*60*24*30.436875))/10^6); $4=rate_akt; withdrawn_akt=($5/10^6); $5=withdrawn_akt; $6; $7; print $0}}' | column -t
 ```
 
-### Example Output
+#### Example Output
 
 ```
 "owner"                                         "dseq/gseq/oseq"  "rate"  "monthly"  "withdrawn"  "consumed"  "days"
@@ -687,7 +687,7 @@ PROVIDER=akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc; HEIGHT=$(provider-service
 "akash1tfj0hh6h0zqak0fx7jhhjyc603p7d7y4xmnlp3"  "6511999/1/1"     66      28.9272    0.169422     0.226182    0.23798611111111112
 ```
 
-# Dangling Deployments
+## Dangling Deployments
 
 As part of routine Akash Provider maintenance it is a good idea to ensure that there are no "dangling deployments" in your provider's Kubernetes cluster.
 
@@ -695,17 +695,17 @@ We define a "dangling deployment" as a scenario in which the lease for a deploym
 
 Please use this [Dangling Deployment Script](https://gist.github.com/andy108369/f211bf6c06f2a6e3635b20bdfb9f0fca) to both discover and close any such deployments.
 
-## Heal Broken Deployment Replicas by Returning Lost command to Manifests
+### Heal Broken Deployment Replicas by Returning Lost command to Manifests
 
 Prior to the `provider` version `0.2.1` (`akash/provider helm-chart version 4.2.0`) there was an issue which was affecting some deployments.
 
-### Issue
+#### Issue
 
 &#x20;The deployments with the `command` explicitly set in their SDL manifest files were losing it upon `akash-provider` pod/service restart.
 
 This was leading to their replica pods running in `CrashLoopBackOff` state on the provider side reserving additional resources, while the original replica was still running which was not visible to the client.
 
-### Impact
+#### Impact
 
 - Double amount of the resources are being occupied by the deployment on the provider side
 - Manifests of these deployments are missing the command
@@ -842,7 +842,7 @@ _**After:**_
 0obkk0j6vdnp7qmsj477a88ml4i0639628gcn016smrg0   syncer-59c447b98c-t9xv9                                           1/1     Running            36 (15h ago)       20d
 ```
 
-## Persistent Storage Deployments
+### Persistent Storage Deployments
 
 - Persistent storage enabled deployments are of statefulset kind.
 - These do not have replicas and thus `CrashLoopBackOff` containers.
@@ -896,7 +896,7 @@ kubectl get statefulset -l akash.network/manifest-service -A -o=jsonpath='{range
 
 That's all. There is no need bouncing the `akash-provider` pod/service for the statefulset deployment.
 
-## Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
+### Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
 
 > The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://txconsole.com/certificate-renewal-manually-in-kubernetes/](https://txconsole.com/certificate-renewal-manually-in-kubernetes/)
 
@@ -938,13 +938,13 @@ front-proxy-ca          Feb 18, 2032 17:12 UTC   8y              no
 root@node1:~#
 ```
 
-## Rotate K8s Certs
+### Rotate K8s Certs
 
-### Backup etcd DB
+#### Backup etcd DB
 
 It is crucial to back up your etcd DB as it contains your K8s cluster state! So make sure to backup your etcd DB first before rotating the certs!
 
-#### Take the etcd DB Backup
+##### Take the etcd DB Backup
 
 > Replace the etcd key & cert with your locations found in the prior steps
 
@@ -962,26 +962,26 @@ You can additionally backup the current certs:
 tar czf etc_kubernetes_ssl_etcd_bkp.tar.gz /etc/kubernetes /etc/ssl/etcd
 ```
 
-### Renew the Certs
+#### Renew the Certs
 
 > IMPORTANT: For an HA Kubernetes cluster with multiple control plane nodes, the `kubeadm certs renew` command (followed by the `kube-apiserver`, `kube-scheduler`, `kube-controller-manage`r pods and `etcd.service` restart) needs to be executed on all the control-plane nodes, on one control plane node at a time, starting with the primary control plane node. This approach ensures that the cluster remains operational throughout the certificate renewal process and that there is always at least one control plane node available to handle API requests. To find out whether you have an HA K8s cluster (multiple control plane nodes) use this command `kubectl get nodes -l node-role.kubernetes.io/control-plane`
 
 Now that you have the etcd DB backup, you can rotate the K8s certs using the following commands:
 
-#### Rotate the k8s Certs
+##### Rotate the k8s Certs
 
 ```
 kubeadm certs renew all
 ```
 
-#### Update your kubeconfig
+##### Update your kubeconfig
 
 ```
 mv -vi /root/.kube/config /root/.kube/config.old
 cp -pi /etc/kubernetes/admin.conf /root/.kube/config
 ```
 
-#### Bounce the following services in this order
+##### Bounce the following services in this order
 
 ```
 kubectl -n kube-system delete pods -l component=kube-apiserver
@@ -990,7 +990,7 @@ kubectl -n kube-system delete pods -l component=kube-controller-manager
 systemctl restart etcd.service
 ```
 
-#### Verify the Certs Status
+##### Verify the Certs Status
 
 ```
 kubeadm certs check-expiration
@@ -998,23 +998,23 @@ kubeadm certs check-expiration
 
 Repeat the process for all control plane nodes, one at a time, if you have a HA Kubernetes cluster.
 
-# Force New ReplicaSet Workaround
+## Force New ReplicaSet Workaround
 
 The steps outlined in this guide provide a workaround for known issue which occurs when a deployment update is attempted and fails due to the provider being out of resources. This is happens because K8s won't destroy an old pod instance until it ensures the new one has been created.\
 \
 GitHub issue description can be found [here](https://github.com/akash-network/support/issues/82).
 
-## Requirements
+### Requirements
 
-#### Install JQ
+##### Install JQ
 
 ```
 apt -y install jq
 ```
 
-## Steps to Implement
+### Steps to Implement
 
-### 1). Create \`/usr/local/bin/akash-force-new-replicasets.sh\` file
+#### 1). Create \`/usr/local/bin/akash-force-new-replicasets.sh\` file
 
 ```
 cat > /usr/local/bin/akash-force-new-replicasets.sh <<'EOF'
@@ -1044,13 +1044,13 @@ kubectl get deployment -l akash.network/manifest-service -A -o=jsonpath='{range 
 EOF
 ```
 
-### 2). Mark As Executable File
+#### 2). Mark As Executable File
 
 ```
 chmod +x /usr/local/bin/akash-force-new-replicasets.sh
 ```
 
-### 3). Create Cronjob
+#### 3). Create Cronjob
 
 Create the crontab job /`etc/cron.d/akash-force-new-replicasets` to run the workaround every 5 minutes.
 
@@ -1063,9 +1063,9 @@ SHELL=/bin/bash
 EOF
 ```
 
-# Kill Zombie Processes
+## Kill Zombie Processes
 
-## Issue
+### Issue
 
 It is possible for certain deployments to initiate subprocesses that do not properly implement the `wait()` function.
 This improper handling can result in the formation of `<defunct>` processes, also known as "zombie" processes.
@@ -1106,7 +1106,7 @@ Refs
 - https://docs.docker.com/config/containers/multi-service_container/#use-a-wrapper-script
 - https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
 
-## Example of the zombie processes on the provider
+### Example of the zombie processes on the provider
 
 Someone's running a wrongly configured image, with the `service ssh start` in it, which fails to start, hence creating bunch of `<defunct>` zombie `sshd` processes growing every `20` seconds:
 
@@ -1133,7 +1133,7 @@ syslog    914913  696516  0 15:06 ?        00:00:00      \_ [sshd] <defunct>
 syslog    922492  696516  0 15:08 ?        00:00:00      \_ [sshd] <defunct>
 ```
 
-## Steps to implement a workaround for the providers
+### Steps to implement a workaround for the providers
 
 Providers can't control this, hence they are recommended to implement the following workaround across all worker nodes.
 
@@ -1191,7 +1191,7 @@ SHELL=/bin/bash
 EOF
 ```
 
-# Close Leases Based on Image
+## Close Leases Based on Image
 
 Below is the suboptimal way of terminating the leases with the selected (unwanted) images (until Akash natively supports that).
 
@@ -1204,9 +1204,9 @@ Follow the steps associated with your Akash Provider install method:
 - [Akash Provider Built with Helm Charts](#akash-provider-built-with-helm-charts)
 - [Praetor Based Akash Provider Installs](#praetor-based-akash-provider-installs)
 
-## Akash Provider Built with Helm Charts
+### Akash Provider Built with Helm Charts
 
-### Create Script
+#### Create Script
 
 - Create script file - `/usr/local/bin/akash-kill-lease.sh` - and populate with the following content:
 
@@ -1229,13 +1229,13 @@ kubectl -n lease get manifests -o json | jq --arg md_lid "akash.network/lease.id
 
 ```
 
-### Make the Script Executable
+#### Make the Script Executable
 
 ```
 chmod +x /usr/local/bin/akash-kill-lease.sh
 ```
 
-### Create Cron Job
+#### Create Cron Job
 
 - Create the Cron Job file - `/etc/cron.d/akash-kill-lease` - with the following content:
 
@@ -1250,9 +1250,9 @@ SHELL=/bin/bash
 */5 * * * * root /usr/local/bin/akash-kill-lease.sh
 ```
 
-## Praetor Based Akash Provider Installs
+### Praetor Based Akash Provider Installs
 
-### Cron Job
+#### Cron Job
 
 - Create cron file - `/etc/cron.d/akash-kill-lease` - and populate with the following content:
 
@@ -1271,7 +1271,7 @@ SHELL=/bin/bash
 */5 * * * * deathless /usr/local/bin/akash-kill-lease.sh
 ```
 
-### Kill Lease Script
+#### Kill Lease Script
 
 Create script file - `/usr/local/bin/akash-kill-lease.sh` - and populate with the following content:
 
@@ -1317,20 +1317,20 @@ id+".gseq"], .[$md_lid+".oseq"]), (.spec.group | .services[].image)] | @tsv' | g
 done
 ```
 
-## Provider Bid Script Migration - GPU Models
+### Provider Bid Script Migration - GPU Models
 
 A new bid script for Akash Providers has been released that now includes the ability to specify pricing of multiple GPU models.
 
 This document details the recommended procedure for Akash providers needing migration to the new bid script from prior versions.
 
-#### New Features of Bid Script Release
+##### New Features of Bid Script Release
 
 - Support for parameterized price targets (configurable through the Akash/Provider Helm chart values), eliminating the need to manually update your bid price script
 - Pricing based on GPU model, allowing you to specify different prices for various GPU models
 
-#### How to Migrate from Prior Bid Script Releases
+##### How to Migrate from Prior Bid Script Releases
 
-#### STEP 1 - Backup your current bid price script
+##### STEP 1 - Backup your current bid price script
 
 > This command will produce an `old-bid-price-script.sh` file which is your currently active bid price script with your custom modifications
 
@@ -1338,13 +1338,13 @@ This document details the recommended procedure for Akash providers needing migr
 helm -n akash-services get values akash-provider -o json | jq -r '.bidpricescript | @base64d' > old-bid-price-script.sh
 ```
 
-#### STEP 2 - Verify Previous Custom Target Price Values
+##### STEP 2 - Verify Previous Custom Target Price Values
 
 ```
 cat old-bid-price-script.sh | grep ^TARGET
 ```
 
-#### Example/Expected Output
+##### Example/Expected Output
 
 ```
 # cat old-bid-price-script.sh | grep ^TARGET
@@ -1359,7 +1359,7 @@ TARGET_IP="5"              # USD for IP/month
 TARGET_GPU_UNIT="100"      # USD/GPU unit a month
 ```
 
-### STEP 3 - Backup Akash/Provider Config
+#### STEP 3 - Backup Akash/Provider Config
 
 > This command will backup your akash/provider config in the `provider.yaml` file (excluding the old bid price script)
 
@@ -1367,7 +1367,7 @@ TARGET_GPU_UNIT="100"      # USD/GPU unit a month
 helm -n akash-services get values akash-provider | grep -v '^USER-SUPPLIED VALUES' | grep -v ^bidpricescript > provider.yaml
 ```
 
-### STEP 4 - Update provider.yaml File Accordingly
+#### STEP 4 - Update provider.yaml File Accordingly
 
 > Update your `provider.yaml` file with the price targets you want. If you don't specify these keys, the bid price script will default values shown below
 
@@ -1390,7 +1390,7 @@ price_target_ip: 5
 price_target_gpu_mappings: "a100=120,t4=80,*=130"
 ```
 
-### STEP 5 - Download New Bid Price Script
+#### STEP 5 - Download New Bid Price Script
 
 ```
 mv -vi price_script_generic.sh price_script_generic.sh.old
@@ -1398,7 +1398,7 @@ mv -vi price_script_generic.sh price_script_generic.sh.old
 wget https://raw.githubusercontent.com/akash-network/helm-charts/main/charts/akash-provider/scripts/price_script_generic.sh
 ```
 
-### STEP 6 - Upgrade Akash/Provider Chart to Version 6.0.5
+#### STEP 6 - Upgrade Akash/Provider Chart to Version 6.0.5
 
 ```
 helm repo update akash
@@ -1406,7 +1406,7 @@ helm repo update akash
 helm search repo akash/provider
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 # helm repo update akash
@@ -1415,26 +1415,26 @@ NAME          	CHART VERSION	APP VERSION	DESCRIPTION
 akash/provider	6.0.5        	0.4.6      	Installs an Akash provider (required)
 ```
 
-### STEP 7 - Upgrade akash-provider Deployment with New Bid Script
+#### STEP 7 - Upgrade akash-provider Deployment with New Bid Script
 
 ```
 helm upgrade akash-provider akash/provider -n akash-services -f provider.yaml --set bidpricescript="$(cat price_script_generic.sh | openssl base64 -A)"
 ```
 
-#### Verification of Bid Script Update
+##### Verification of Bid Script Update
 
 ```
 helm list -n akash-services | grep akash-provider
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 # helm list -n akash-services | grep akash-provider
 akash-provider         	akash-services	28      	2023-09-19 12:25:33.880309778 +0000 UTC	deployed	provider-6.0.5                	0.4.6
 ```
 
-## GPU Provider Troubleshooting
+### GPU Provider Troubleshooting
 
 Should your Akash Provider encounter issues during the installation process or in post install hosting of GPU resources, follow the troubleshooting steps in this guide to isolate the issue.
 
@@ -1445,11 +1445,11 @@ Should your Akash Provider encounter issues during the installation process or i
 - [Ensure Correct Version/Presence of NVIDIA Device Plugin](#ensure-correct-version-presence-of-nvidia-device-plugin)
 - [CUDA Drivers Fabric Manager](#cuda-drivers-fabric-manager)
 
-## Basic GPU Resource Verifications
+### Basic GPU Resource Verifications
 
 - Conduct the steps in this section for basic verification and to ensure the host has access to GPU resources
 
-### Prep/Package Installs
+#### Prep/Package Installs
 
 ```
 apt update && apt -y install python3-venv
@@ -1459,7 +1459,7 @@ source /venv/bin/activate
 pip install torch
 ```
 
-### Confirm GPU Resources Available on Host
+#### Confirm GPU Resources Available on Host
 
 > _**NOTE**_ - example verification steps were conducted on a host with a single NVIDIA T4 GPU resource. Your output will be different based on the type and number of GPU resources on the host.
 
@@ -1467,7 +1467,7 @@ pip install torch
 nvidia-smi -L
 ```
 
-#### Example/Expected Output
+##### Example/Expected Output
 
 ```
 # nvidia-smi -L
@@ -1475,13 +1475,13 @@ nvidia-smi -L
 GPU 0: Tesla T4 (UUID: GPU-faa48437-7587-4bc1-c772-8bd099dba462)
 ```
 
-### Confirm CUDA Install & Version
+#### Confirm CUDA Install & Version
 
 ```
 python3 -c "import torch;print(torch.version.cuda)"
 ```
 
-#### Example/Expected Output
+##### Example/Expected Output
 
 ```
 # python3 -c "import torch;print(torch.version.cuda)"
@@ -1489,13 +1489,13 @@ python3 -c "import torch;print(torch.version.cuda)"
 11.7
 ```
 
-### Confirm CUDA GPU Support iis Available for Hosted GPU Resources
+#### Confirm CUDA GPU Support iis Available for Hosted GPU Resources
 
 ```
 python3 -c "import torch; print(torch.cuda.is_available())"
 ```
 
-#### Example/Expected Output
+##### Example/Expected Output
 
 ```
 # python3 -c "import torch; print(torch.cuda.is_available())"
@@ -1503,13 +1503,13 @@ python3 -c "import torch; print(torch.cuda.is_available())"
 True
 ```
 
-## Examine Linux Kernel Logs for GPU Resource Errors and Mismatches
+### Examine Linux Kernel Logs for GPU Resource Errors and Mismatches
 
 ```
 dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 ```
 
-#### Example/Expected Output
+##### Example/Expected Output
 
 > _**NOTE**_ - example output is from a healthy host which loaded NVIDIA drivers successfully and has no version mismatches. Your output may look very different if there are issues within the host.
 
@@ -1529,7 +1529,7 @@ dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 [Thu Sep 28 19:29:05 2023] nvidia-uvm: Loaded the UVM driver, major device number 235.
 ```
 
-## Ensure Correct Version/Presence of NVIDIA Device Plugin
+### Ensure Correct Version/Presence of NVIDIA Device Plugin
 
 > _**NOTE**_ - conduct this verification step on the Kubernetes control plane node on which Helm was installed during your Akash Provider build
 
@@ -1537,7 +1537,7 @@ dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 helm -n nvidia-device-plugin list
 ```
 
-#### Example/Expected Output
+##### Example/Expected Output
 
 ```
 # helm -n nvidia-device-plugin list
@@ -1546,7 +1546,7 @@ NAME    NAMESPACE               REVISION    UPDATED                             
 nvdp    nvidia-device-plugin    1           2023-09-23 14:30:34.18183027 +0200 CEST    deployed    nvidia-device-plugin-0.14.1    0.14.1
 ```
 
-## CUDA Drivers Fabric Manager
+### CUDA Drivers Fabric Manager
 
 - In rare circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources
 - If the output of the `torch.cuda.is_available()` command - covered in prior section in this doc - is an error condition, consider installing the CUDA Drivers Fabric Manager to resolve issue

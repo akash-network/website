@@ -29,10 +29,10 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
     return (
       <li>
         <a
-          className={`block  px-4 py-2 text-sm hover:bg-gray-100 hover:text-primary dark:hover:bg-background2 depth-${depth} ${
+          className={`block rounded-md px-3 py-2 text-sm hover:bg-gray-100  hover:dark:bg-darkGray depth-${depth} ${
             currentHeading.slug === slug
-              ? "bg-gray-100 text-foreground dark:bg-background2"
-              : "text-para"
+              ? "bg-gray-100 text-foreground dark:bg-darkGray"
+              : "text-textGray"
           }`.trim()}
           href={`#${slug}`}
           onClick={onLinkClick}
@@ -65,7 +65,7 @@ const MobileTableOfContents = ({ toc = [], labels }: Props) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="flex items-center text-xs  text-para">
+        <Menu.Button className="flex items-center rounded-md text-xs leading-[18px]">
           {labels.onThisPage}
           <ChevronDownIcon className="ml-1 h-4 w-4" aria-hidden="true" />
         </Menu.Button>
@@ -83,9 +83,9 @@ const MobileTableOfContents = ({ toc = [], labels }: Props) => {
           className={`absolute
         ${labels.title && labels?.title?.length > 19 ? "right-0" : "left-0"}
         
-         z-10 mt-3 w-56 origin-top-right rounded-md bg-background2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:left-0 sm:mt-2`}
+        z-10 mt-2 w-56 origin-top-right rounded-md bg-background2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
         >
-          <div className="sidebar-scroll max-h-[500px] overflow-y-auto  py-1">
+          <div className="sidebar-scroll max-h-[500px] space-y-1 overflow-y-auto px-2 py-3">
             <Menu.Item>
               {({ active }) => (
                 <TableOfContents
