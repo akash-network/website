@@ -1,0 +1,30 @@
+---
+import ButtonLink from "@/components/ui/button-link.astro";
+
+const { link, label } = Astro.props;
+---
+
+<ButtonLink link={link} variant="secondary" size="lg">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    class="text-para"
+    stroke="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M13.3308 18.356V15.9643C13.3621 15.567 13.3084 15.1675 13.1733 14.7925C13.0382 14.4175 12.8249 14.0755 12.5475 13.7893C15.1641 13.4977 17.9141 12.506 17.9141 7.95599C17.9139 6.79251 17.4664 5.67365 16.6641 4.83099C17.044 3.81308 17.0171 2.68794 16.5891 1.68932C16.5891 1.68932 15.6058 1.39765 13.3308 2.92265C11.4208 2.405 9.40745 2.405 7.49746 2.92265C5.22246 1.39765 4.23913 1.68932 4.23913 1.68932C3.81111 2.68794 3.78425 3.81308 4.16413 4.83099C3.3559 5.6799 2.9079 6.80887 2.91413 7.98099C2.91413 12.4977 5.66413 13.4893 8.28079 13.8143C8.00662 14.0976 7.79518 14.4355 7.66022 14.8059C7.52525 15.1763 7.4698 15.571 7.49746 15.9643V18.356"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+    <path
+      d="M7.4974 16.6885C4.9974 17.4995 2.91406 16.6885 1.66406 14.1885"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+
+  {label}
+</ButtonLink>

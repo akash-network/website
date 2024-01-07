@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import ButtonLink from "../ui/button-link.astro";
+
+const { image, title, description, buttonLabel, buttonLink, darkImage } =
+  Astro.props;
+---
+
+<div
+  class="not-prose mt-10 flex flex-col-reverse items-start justify-between gap-x-10 md:-mt-16 lg:flex-row"
+>
+  <div
+    class="gap mt-10 flex w-full flex-1 flex-col gap-y-4 lg:mt-0 lg:gap-y-10"
+  >
+    <h1 class="text-2lg font-bold leading-[40px] md:text-3lg md:leading-[48px]">
+      {title}
+    </h1>
+
+    <p class="text-sm lg:text-lg">
+      {description}
+    </p>
+
+    <ButtonLink link={buttonLink} variant="secondary" size="lg">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.64062 12.3574L12.3547 7.64331M12.3547 7.64331H8.22988M12.3547 7.64331V11.7681"
+          stroke="#687076"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+        <path
+          d="M9.9974 18.3334C14.5997 18.3334 18.3307 14.6024 18.3307 10.0001C18.3307 5.39771 14.5997 1.66675 9.9974 1.66675C5.39502 1.66675 1.66406 5.39771 1.66406 10.0001C1.66406 14.6024 5.39502 18.3334 9.9974 18.3334Z"
+          stroke="#687076"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+
+      {buttonLabel}
+    </ButtonLink>
+  </div>
+
+  <div class="w-full flex-1">
+    <Image
+      src={image}
+      alt={`banner image `}
+      width={1200}
+      height={1200}
+      format="webp"
+      class="bg-gray-100 object-cover dark:hidden"
+      loading="eager"
+    />
+    <Image
+      src={darkImage ?? image}
+      alt={`banner image `}
+      width={1200}
+      height={1200}
+      format="webp"
+      class="hidden object-cover dark:block"
+      loading="eager"
+    />
+  </div>
+</div>

@@ -1,0 +1,137 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import { nav } from "@/components/community-pages/nav-config.ts";
+
+import generateToc from "@/lib/generateToc";
+import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
+
+import Layout from "@/layouts/layout.astro";
+
+import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
+import MobileNav from "@/components/community-pages/mobile-nav";
+import { proseClasses } from "@/lib/prose-classes";
+import SideNav from "@/components/community-pages/side-nav.astro";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("Community_Page");
+
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: page,
+  }));
+}
+
+type Props = CollectionEntry<"Community_Page">;
+
+const page = Astro.props;
+
+const { Content, headings } = await page.render();
+
+const akashInsidersIndex = nav.findIndex(
+  (item: any) => item.link === `/community/${page.slug}/`,
+);
+
+if (akashInsidersIndex !== -1) {
+  const akashInsidersSubItems = headings
+    .filter((heading) => heading.depth <= 3)
+    .map((heading) => ({
+      label: heading.text,
+      link: `#${heading.slug}`,
+      enabled: true,
+    }));
+
+  // Update the nav array with the sub-items
+  nav[akashInsidersIndex].subItems = akashInsidersSubItems;
+}
+
+function findPrevAndNextPages(nav: any, pathname: any) {
+  // Find the index of the current page in the nav array
+  const currentIndex = nav.findIndex((item: any) => item.link === pathname);
+
+  // Calculate the index of the previous and next pages
+  const prevIndex = currentIndex - 1;
+  const nextIndex = currentIndex + 1;
+
+  // Determine the previous and next pages
+  const prevPage = prevIndex >= 0 ? nav[prevIndex] : null;
+  const nextPage = nextIndex < nav.length ? nav[nextIndex] : null;
+
+  return { prevPage, nextPage };
+}
+
+const pathname = new URL(Astro.request.url).pathname;
+
+const pageName = pathname
+  .split("/")[2]
+  .split("-")
+  .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+  .join(" ");
+
+const fileType = page.id.split("/")[1].split(".")[1];
+---
+
+<Layout
+  title="Akash Community - Join the Decentralized Cloud Movement"
+  description="Connect with like-minded individuals in the Akash Network community. Engage in discussions, share experiences, and contribute to the growth of decentralized cloud computing."
+>
+  <div class="container mt-10 md:mt-[60px] lg:mt-20">
+    <div class="grid grid-cols-12 gap-x-5">
+      <SideNav nav={nav} />
+
+      <div
+        class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
+      >
+        <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
+          <MobileNav
+            currentPath={Astro.url.pathname}
+            nav={nav}
+            pageName={pageName}
+            client:load
+          />
+
+          {
+            !page.data.disableTableOfContents && (
+              <div class="flex items-center justify-start gap-x-3 md:hidden">
+                <MobileTableOfContents
+                  client:load
+                  toc={generateToc(headings, "Overview")}
+                  labels={{
+                    onThisPage: "onThisPage",
+                  }}
+                />
+              </div>
+            )
+          }
+        </div>
+
+        <div class="space-y-10">
+          {
+            !page.data.disableTitle && (
+              <div class="mt-10 md:mt-0">
+                <h1
+                  id="overview"
+                  class="  text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
+                >
+                  {page.data.title}
+                </h1>
+                {page.data.description && (
+                  <p class="mt-3 border-b pb-8 text-base leading-[24px] text-para">
+                    {page.data.description}
+                  </p>
+                )}
+              </div>
+            )
+          }
+
+          <article class={proseClasses}>
+            <Content />
+          </article>
+        </div>
+
+        <div class="md:hidden">
+          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

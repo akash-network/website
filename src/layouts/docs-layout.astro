@@ -1,0 +1,46 @@
+---
+import Header from "@/components/docs/header.astro";
+import MarketingHeader from "@/components/header/header.astro";
+
+import Sidebar from "@/components/docs/sidebar.astro";
+import Footer from "@/components/docs/footer.astro";
+import { getCollection } from "astro:content";
+
+import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav.ts";
+import BaseLayout from "./base-layout.astro";
+import "@fontsource-variable/jetbrains-mono";
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+
+const pages = await getCollection("Docs");
+let nav = generateDocsNav(pages);
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <div class="md:hidden">
+    <MarketingHeader disableSticky />
+  </div>
+  <div class="sticky right-0 top-0 z-20 hidden bg-background md:block">
+    <Header nav={nav} />
+  </div>
+
+  <div class="flex justify-between md:pl-5 lg:pl-10">
+    <div class="hidden md:block">
+      <Sidebar nav={nav} />
+    </div>
+
+    <div class="w-full">
+      <div class="mx-auto mt-10 px-4 lg:px-10 xl:px-20">
+        <slot />
+      </div>
+      <div>
+        <Footer />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

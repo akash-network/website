@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets";
+const { width = 170, height = 21 } = Astro.props;
+---
+
+<Image
+  src="/logos/akash-logo-footer.png"
+  alt="footer-logo-dark"
+  width={width}
+  height={height}
+  class="dark:hidden"
+/>
+<Image
+  src="/logos/akash-logo-footer-dark.png"
+  alt="footer-logo-dark"
+  width={width}
+  height={height}
+  class="hidden dark:block"
+/>

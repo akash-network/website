@@ -1,0 +1,81 @@
+---
+import "@/styles/globals.css";
+import "@/styles/fonts.css";
+
+import TailwindIndicator from "@/components/tailwind-indicator.astro";
+import BaseHead from "@/components/base-head.astro";
+import Header from "@/components/header/header.astro";
+import Footer from "@/components/footer/footer.astro";
+import { ViewTransitions } from "astro:transitions";
+import CTA from "@/components/CTA.astro";
+import AsideTailwindClasses from "@/lib/aside/aside-tailwind-classes.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+
+const isProd = import.meta.env.PROD;
+---
+
+<!doctype html>
+<html
+  lang="en"
+  style="scrollbar-gutter: stable;"
+  class="scroll-pt-[137px] scroll-smooth"
+>
+  <head>
+    <BaseHead title={title} description={description} image={image} />
+    <ViewTransitions />
+  </head>
+  <body class="bg-background">
+    <slot />
+    <AsideTailwindClasses />
+    <!-- Dev tools -->
+    {!isProd && <TailwindIndicator />}
+    <script>
+      //light-plus data-theme dark-plus in html tag
+      const getTheme = () => localStorage.getItem("theme") || "light";
+
+      const setTheme = (theme: string) => {
+        if (theme === "light") {
+          document.documentElement.classList.remove("dark");
+          document.documentElement.setAttribute("data-theme", "light-plus");
+        } else {
+          document.documentElement.classList.add("dark");
+          document.documentElement.setAttribute("data-theme", "dark-plus");
+        }
+      };
+
+      window.addEventListener("DOMContentLoaded", () => setTheme(getTheme()));
+      document.addEventListener("astro:after-swap", () => setTheme(getTheme()));
+
+      const handleHeaderToggleClick = () => {
+        console.log("reached");
+        const element = document.documentElement;
+        element.classList.toggle("dark");
+
+        const isDark = element.classList.contains("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        document.documentElement.setAttribute(
+          "data-theme",
+          isDark ? "dark-plus" : "light-plus",
+        );
+      };
+
+      document
+        .querySelectorAll("#header-toggle")
+        .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
+
+      document
+        .querySelectorAll("#header-toggle-footer")
+        .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
+      document
+        .querySelectorAll("#header-toggle-nav")
+        .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
+    </script>
+  </body>
+</html>

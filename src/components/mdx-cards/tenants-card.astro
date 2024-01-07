@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+
+const { title, description, image } = Astro.props;
+---
+
+<div>
+  <div>
+    <Image
+      src={image}
+      alt={`image for the post ${title}`}
+      width={1200}
+      height={1200}
+      format="svg"
+      class="h-full object-cover"
+      loading="lazy"
+    />
+  </div>
+
+  <div class="mt-3">
+    <h3 class="text-3xs font-bold leading-[12px] md:text-xl md:leading-[30px]">
+      {title}
+    </h3>
+    <p class="mt-2 pr-3 text-3xs leading-[12px] md:text-base md:leading-[24px]">
+      {description}
+    </p>
+  </div>
+</div>

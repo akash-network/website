@@ -1,0 +1,30 @@
+---
+import ButtonLink from "@/components/ui/button-link.astro";
+import Layout from "@/layouts/layout.astro";
+---
+
+<Layout title="Page not found">
+  <div class="pb-[80px] pt-[100px] md:pb-[160px] md:pt-[120px]">
+    <div class="container flex flex-col justify-center text-center">
+      <p class="text-base font-normal text-primary md:text-[18px]">404</p>
+
+      <div class="mt-2">
+        <h3 class="text-3lg font-bold text-foreground md:text-[72px]">
+          Page not found
+        </h3>
+      </div>
+
+      <p class="mt-4 text-base font-normal md:text-[19px]">
+        Akash is an open network that lets users buy and sell computing
+        resources securely and efficiently.
+      </p>
+
+      <div class="mt-8 flex items-center justify-center gap-x-3">
+        <ButtonLink link="/" size="lg">Go back home</ButtonLink>
+        <ButtonLink link="/support" size="lg" variant="secondary">
+          Contact Support
+        </ButtonLink>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,83 @@
+---
+// Import required css files
+import "@/styles/globals.css";
+import "@/styles/fonts.css";
+
+// Import required components
+import TailwindIndicator from "@/components/tailwind-indicator.astro";
+import BaseHead from "@/components/base-head.astro";
+import Header from "@/components/header/header.astro";
+import { ViewTransitions } from "astro:transitions";
+import type { CollectionEntry } from "astro:content";
+import PostCard from "@/components/cards/post-card.astro";
+import CTA from "@/components/CTA.astro";
+import Footer from "@/components/footer/footer.astro";
+import "@/styles/prism.css";
+import BaseLayout from "./base-layout.astro";
+
+type BlogPost = CollectionEntry<"Blog">;
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  tags?: string[];
+  relatedArticles?: BlogPost[];
+}
+
+const {
+  title,
+  description,
+  image,
+  tags = [],
+  relatedArticles = [],
+} = Astro.props;
+
+// Check if the environment is prod or dev
+const isProd = import.meta.env.PROD;
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <!-- <Header /> -->
+  <Header />
+
+  <main class="mt-[40px] md:mt-[120px]">
+    <slot />
+  </main>
+
+  <!-- Related Articles -->
+  <div class="container md:mt-32">
+    <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">
+      Discover what's happening on Akash
+    </h2>
+
+    <div
+      class="md mt-4 grid grid-cols-1 gap-6 gap-y-10 sm:grid-cols-2 md:gap-16 lg:grid-cols-3"
+    >
+      {
+        relatedArticles
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3)
+          .map((post: BlogPost) => {
+            return (
+              <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
+                <PostCard
+                  title={post.data.title}
+                  image={post.data.bannerImage}
+                  tag={post.data.tags[0]}
+                  contributor={post.data.contributors[0]}
+                  pubDate={post.data.pubDate}
+                  description={post.data.description}
+                />
+              </a>
+            );
+          })
+      }
+    </div>
+  </div>
+
+  <div class="mt-32">
+    <CTA />
+    <Footer />
+  </div>
+</BaseLayout>

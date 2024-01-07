@@ -1,0 +1,125 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import { nav } from "@/components/development-pages/nav-config";
+import { SideNav } from "../../components/development-pages/side-nav.tsx";
+import TableOfContents from "@/components/development-pages/table-of-contents.tsx";
+import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
+import generateToc from "@/lib/generateToc";
+import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
+import MobileNav from "@/components/development-pages/mobile-nav.tsx";
+import Layout from "@/layouts/layout.astro";
+import { proseClasses } from "@/lib/prose-classes";
+import TopMargin from "@/components/ui/top-margin.astro";
+import SubItemsSidebar from "@/components/sub-items-sidebar.astro";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("Development_Page");
+
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: page,
+  }));
+}
+
+type Props = CollectionEntry<"Development_Page">;
+
+const page = Astro.props;
+
+const { Content, headings } = await page.render();
+
+const akashInsidersIndex = nav.findIndex(
+  (item: any) => item.link === `/development/${page.slug}/`,
+);
+
+if (akashInsidersIndex !== -1) {
+  const akashInsidersSubItems = headings
+    .filter((heading) => heading.depth <= 3)
+    .map((heading) => ({
+      label: heading.text,
+      link: `#${heading.slug}`,
+      enabled: true,
+    }));
+
+  // Update the nav array with the sub-items
+  nav[akashInsidersIndex].subItems = akashInsidersSubItems;
+}
+
+function findPrevAndNextPages(nav: any, pathname: any) {
+  // Find the index of the current page in the nav array
+  const currentIndex = nav.findIndex((item: any) => item.link === pathname);
+
+  // Calculate the index of the previous and next pages
+  const prevIndex = currentIndex - 1;
+  const nextIndex = currentIndex + 1;
+
+  // Determine the previous and next pages
+  const prevPage = prevIndex >= 0 ? nav[prevIndex] : null;
+  const nextPage = nextIndex < nav.length ? nav[nextIndex] : null;
+
+  return { prevPage, nextPage };
+}
+
+const pathname = new URL(Astro.request.url).pathname;
+console.log(nav);
+
+const fileType = page.id.split("/")[1].split(".")[1];
+---
+
+<Layout
+  title="Developer Hub - Build on Akash Network"
+  description="Access resources, tools, and documentation for developers interested in building on the Akash Network. Explore our APIs, SDKs, and developer-friendly features."
+>
+  <TopMargin>
+    <div class="grid grid-cols-12 gap-x-5">
+      <SubItemsSidebar
+        nav={nav}
+        link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Page/${page.slug}/index.${fileType}`}
+      />
+
+      <div
+        class={`col-span-12 mx-auto w-full md:pl-10 md:col-span-8 lg:col-span-9`}
+      >
+        <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
+          <MobileNav
+            pageName={Astro.url.pathname
+              .split("/")[2]
+              .split("-")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+            currentPath={Astro.url.pathname}
+            nav={nav}
+            client:load
+            link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Page/${page.slug}/index.${fileType}`}
+          />
+
+          <MobileTableOfContents
+            client:load
+            toc={generateToc(headings, "Overview")}
+            labels={{
+              onThisPage: "onThisPage",
+            }}
+          />
+        </div>
+
+        <div class="space-y-10">
+          <div class="mt-10 md:mt-0">
+            <h1
+              id="overview"
+              class="text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg"
+            >
+              {page.data.title}
+            </h1>
+          </div>
+
+          <article class={proseClasses}>
+            <Content />
+          </article>
+        </div>
+
+        <div class="md:hidden">
+          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
+        </div>
+      </div>
+    </div>
+  </TopMargin>
+</Layout>

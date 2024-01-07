@@ -1,0 +1,144 @@
+---
+import { Image } from "astro:assets";
+import ButtonLink from "../ui/button-link.astro";
+const { title, description, button, image, type } = Astro.props;
+console.log(button);
+---
+
+<div
+  class="flex w-full flex-col items-start gap-x-5 py-10 md:justify-between lg:flex-row lg:gap-x-20 lg:py-20"
+>
+  <div class="w-full flex-1 flex-shrink-0">
+    <Image
+      src={image}
+      alt={`banner image for the post`}
+      width={1200}
+      height={1200}
+      format="webp"
+      class="aspect-video rounded-lg object-cover"
+      loading="lazy"
+    />
+  </div>
+
+  <div class="mt-10 w-full flex-1 px-2 md:px-0 lg:mt-4">
+    <h3 class="text-xl font-bold md:text-2xl">{title}</h3>
+    <p class="mt-5 text-xs md:mt-6 md:text-lg">{description}</p>
+    {
+      button.icon === "link" ? (
+        <ButtonLink
+          variant="secondary"
+          size="xl"
+          className="mt-5 md:mt-6"
+          link={button.link}
+        >
+          {button.label}
+
+          <svg
+            width="16"
+            height="17"
+            viewBox="0 0 16 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="text-para"
+          >
+            <path
+              d="M6.11719 10.6248L9.88841 6.85352M9.88841 6.85352H6.58859M9.88841 6.85352V10.1534"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M8.0026 15.4056C11.6845 15.4056 14.6693 12.4208 14.6693 8.73893C14.6693 5.05703 11.6845 2.07227 8.0026 2.07227C4.3207 2.07227 1.33594 5.05703 1.33594 8.73893C1.33594 12.4208 4.3207 15.4056 8.0026 15.4056Z"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </ButtonLink>
+      ) : (
+        <ButtonLink
+          variant="secondary"
+          size="xl"
+          className="mt-5 md:mt-6"
+          link={button.link}
+          download={"akash-brand-resources.zip"}
+        >
+          {button.label}
+          <svg
+            width="10"
+            height="11"
+            viewBox="0 0 10 11"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 text-foreground md:h-5 md:w-5"
+          >
+            <path
+              d="M2.5 9.20508L7.5 9.20508"
+              stroke="currentColor"
+              stroke-width="0.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M4.9974 2.53711V7.53711M4.9974 7.53711L6.45573 6.07878M4.9974 7.53711L3.53906 6.07878"
+              stroke="currentColor"
+              stroke-width="0.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </ButtonLink>
+      )
+    }
+  </div>
+</div>
+
+<!-- 
+<div class="px-[5%] md:px-0">
+  <div
+    class="rounded-lg border border-[#808080] px-8 py-6 shadow-lg md:shadow-none"
+  >
+    <h3
+      class="text-base font-bold leading-[24px] md:text-2xl md:leading-[36px]"
+    >
+      {title}
+    </h3>
+    <p class="mt-3 text-xs leading-[18px] md:text-xl md:leading-[30px]">
+      {description}
+    </p>
+
+    <a
+      href={button.link}
+      class="mt-8 flex cursor-pointer items-center justify-center rounded-lg bg-primary px-2 py-3 text-sm font-bold leading-[24.3px] text-primary-foreground hover:bg-primary/90 md:mt-[62px] md:py-3 md:text-lg"
+    >
+      <svg
+        width="25"
+        height="24"
+        viewBox="0 0 25 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-1.5"
+      >
+        <path
+          d="M21.5 15V19C21.5 19.5304 21.2893 20.0391 20.9142 20.4142C20.5391 20.7893 20.0304 21 19.5 21H5.5C4.96957 21 4.46086 20.7893 4.08579 20.4142C3.71071 20.0391 3.5 19.5304 3.5 19V15"
+          stroke="#FBF8F7"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+        <path
+          d="M7.5 10L12.5 15L17.5 10"
+          stroke="#FBF8F7"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+        <path
+          d="M12.5 15V3"
+          stroke="#FBF8F7"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+      {button.label}
+    </a>
+  </div>
+</div> -->

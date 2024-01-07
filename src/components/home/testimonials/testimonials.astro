@@ -1,0 +1,101 @@
+---
+import ButtonLink from "@/components/ui/button-link.astro";
+import { Swiper } from "./swiper";
+import type { testimonials } from "./data";
+import { TelegramIcon, TwitterIcon } from "@/components/header/icons";
+
+const { testimonialsSection } = Astro.props;
+console.log(testimonialsSection);
+---
+
+<section>
+  <div
+    class="container mt-[80px] flex flex-col items-center gap-y-10 md:justify-between"
+  >
+    <div class="max-w-[690px] text-center md:max-w-[70%]">
+      <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">
+        {testimonialsSection.title}
+      </h2>
+      <p class="mt-4 text-center text-base md:text-lg">
+        {testimonialsSection.description}
+      </p>
+    </div>
+
+    <div class="mt-16 flex flex-wrap items-center justify-center gap-4 md:mt-0">
+      <ButtonLink
+        link="https://github.com/akash-network"
+        variant="secondary"
+        size="lg"
+        target="_blank"
+        aria-label="Github"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9.21154 18.4212C4.59615 19.8057 4.59615 16.1135 2.75 15.652M15.6731 21.1903V17.6181C15.7077 17.1779 15.6482 16.7355 15.4986 16.3201C15.349 15.9047 15.1127 15.5259 14.8054 15.2089C17.7038 14.8858 20.75 13.7874 20.75 8.7475C20.7498 7.45875 20.254 6.21943 19.3654 5.28603C19.7862 4.15852 19.7564 2.91225 19.2823 1.8061C19.2823 1.8061 18.1931 1.48303 15.6731 3.17223C13.5574 2.59885 11.3272 2.59885 9.21154 3.17223C6.69154 1.48303 5.60231 1.8061 5.60231 1.8061C5.12819 2.91225 5.09844 4.15852 5.51923 5.28603C4.62396 6.22635 4.12771 7.47688 4.13462 8.77519C4.13462 13.7782 7.18077 14.8766 10.0792 15.2366C9.77554 15.5504 9.54132 15.9247 9.39182 16.335C9.24233 16.7453 9.1809 17.1825 9.21154 17.6181V21.1903"
+            stroke-width="1.3846"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+         Github
+      </ButtonLink>
+
+      <ButtonLink
+        target="_blank"
+        link="https://discord.akash.network/"
+        variant="secondary"
+        size="lg"
+        aria-label="Discord"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          stroke="currentColor"
+        >
+          <path
+            d="M10.9147 11.9988L10.9147 11.9988V11.9993C10.9147 12.5 10.7719 12.9494 10.5409 13.2725C10.3099 13.5956 9.99295 13.7901 9.64271 13.7901C9.29905 13.7901 8.98205 13.5957 8.74931 13.2724C8.51665 12.9492 8.37069 12.4998 8.37069 11.9993C8.37069 11.4987 8.51354 11.0493 8.74456 10.7262C8.97555 10.4031 9.29247 10.2086 9.64271 10.2086C9.99306 10.2086 10.3132 10.4032 10.5458 10.7263C10.7783 11.0494 10.9211 11.4986 10.9147 11.9988ZM13.0748 11.9993C13.0748 11.4987 13.2177 11.0493 13.4487 10.7262C13.6797 10.4031 13.9966 10.2086 14.3469 10.2086C14.6905 10.2086 15.0075 10.403 15.2403 10.7263C15.4729 11.0495 15.6189 11.4989 15.6189 11.9993C15.6189 12.5 15.476 12.9494 15.245 13.2725C15.014 13.5956 14.6971 13.7901 14.3469 13.7901C14.0032 13.7901 13.6862 13.5957 13.4535 13.2724C13.2208 12.9492 13.0748 12.4998 13.0748 11.9993Z"
+            fill="currentColor"
+            stroke-width="0.0851317"></path>
+          <path
+            d="M4.19168 7.84763C4.20191 7.83011 4.21146 7.81389 4.22029 7.79897C6.74067 6.1844 9.11575 5.36783 12.0034 5.35368C14.8557 5.33971 17.3004 6.19991 19.7792 7.79804C19.7881 7.81321 19.7979 7.82975 19.8083 7.84763C19.8779 7.9668 19.9791 8.14554 20.1013 8.37746C20.346 8.84163 20.6742 9.51698 21.0029 10.3527C21.6408 11.9749 22.2707 14.1773 22.3105 16.5997C22.2775 16.6373 22.238 16.6807 22.1918 16.7288C22.0086 16.9194 21.7189 17.1845 21.3082 17.4561C20.5512 17.9567 19.3661 18.4912 17.6447 18.6091L16.7309 16.9576L16.4455 16.4418L15.8922 16.6452C13.5075 17.5216 10.5126 17.4989 8.11145 16.6277L7.55713 16.4266L7.27394 16.9438L6.35318 18.6255C4.63294 18.5073 3.4489 17.9729 2.69269 17.4711C2.28227 17.1987 1.9931 16.9327 1.81065 16.7409C1.76297 16.6908 1.72263 16.6458 1.68938 16.6071C1.72805 14.1818 2.35859 11.9766 2.99714 10.3527C3.32575 9.51698 3.65396 8.84163 3.89866 8.37746C4.02092 8.14554 4.12208 7.9668 4.19168 7.84763ZM22.4796 17.291C22.3915 17.1616 22.3181 16.9295 22.3125 16.8418H22.9998C22.9988 16.8425 22.9944 16.8482 22.9867 16.8583C22.9451 16.913 22.8046 17.0974 22.5503 17.3425C22.5241 17.326 22.5002 17.3087 22.4796 17.291ZM23 16.8418H23.6875H23Z"
+            stroke-width="1.375"
+            stroke-linejoin="round"></path>
+        </svg>
+         Discord
+      </ButtonLink>
+      <ButtonLink
+        target="_blank"
+        link="https://twitter.com/akashnet_"
+        variant="secondary"
+        size="lg"
+        aria-label="Discord"
+      >
+        <TwitterIcon />
+         Twitter
+      </ButtonLink>
+      <ButtonLink
+        target="_blank"
+        link="https://t.me/AkashNW"
+        variant="secondary"
+        size="lg"
+        aria-label="Discord"
+      >
+        <TelegramIcon />
+         Telegram
+      </ButtonLink>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-[1900px]">
+    <Swiper client:load testimonials={testimonialsSection.testimonials} />
+  </div>
+</section>

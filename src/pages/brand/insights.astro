@@ -1,0 +1,118 @@
+---
+import Layout from "@/layouts/layout.astro";
+import { Image } from "astro:assets";
+import ResourcesCard from "@/components/brand-pages/resources-card.astro";
+import { getEntryBySlug } from "astro:content";
+
+const brandReleasesInsightsPage = await getEntryBySlug(
+  "Brand_Releases_Insights_Homepage",
+  "index",
+);
+
+const { title, description, cards } = brandReleasesInsightsPage.data;
+---
+
+<Layout title="Insights">
+  <div class="container mt-10 space-y-4">
+    <h1
+      class="text-[24px] font-bold leading-[34px] md:text-3lg md:leading-[62.4px]"
+    >
+      {title}
+    </h1>
+    <p
+      class="max-w-[800px] text-sm leading-[20px] md:text-lg md:leading-[30px]"
+    >
+      {description}
+    </p>
+  </div>
+
+  <div class="container mt-10 lg:mt-20">
+    <div class="flex w-full flex-col divide-y border-y">
+      {
+        cards.map((card) => (
+          <ResourcesCard
+            title={card.title}
+            description={card.description}
+            button={card.button}
+            image={card.image}
+          />
+
+          //       <div class="flex px-[10%] md:px-0">
+          //         <div class="flex cursor-pointer flex-col overflow-hidden rounded-lg shadow-lg">
+          //           <div>
+          //             <Image
+          //               src={card.image}
+          //               alt={`banner image for the post `}
+          //               width={1200}
+          //               height={1200}
+          //               format="webp"
+          //               class="aspect-video bg-gray-100 object-cover"
+          //               loading="lazy"
+          //             />
+          //           </div>
+
+          //           <div class="flex flex-col justify-between px-6 py-3 md:min-h-[311px] md:py-10">
+          //             <div>
+          //               <h3
+          //                 class="text-base font-bold leading-normal md:text-2lg
+          // md:leading-10"
+          //               >
+          //                 {card.title}
+          //               </h3>
+
+          //               <p class="mt-4 line-clamp-4 justify-end text-xs leading-[18px] md:text-base md:leading-normal">
+          //                 {card.description}
+          //               </p>
+          //             </div>
+
+          //             <div class="flex justify-center">
+          //               <a
+          //                 class="mt-8 inline-flex w-full cursor-pointer items-center justify-center rounded-lg bg-primary py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90 md:text-lg lg:h-[56px] lg:w-[257px]"
+          //                 href={card.button.link}
+          //               >
+          //                 <svg
+          //                   width="34"
+          //                   height="34"
+          //                   viewBox="0 0 34 34"
+          //                   fill="none"
+          //                   xmlns="http://www.w3.org/2000/svg"
+          //                   class="mr-1"
+          //                 >
+          //                   <g clip-path="url(#clip0_980_14274)">
+          //                     <path
+          //                       d="M13.9912 19.6391L20.0037 14.3617M20.0037 14.3617L15.0644 14.0401M20.0037 14.3617L19.682 19.301"
+          //                       stroke="#FBF8F7"
+          //                       stroke-width="1.5"
+          //                       stroke-linecap="round"
+          //                       stroke-linejoin="round"
+          //                     />
+          //                     <path
+          //                       d="M23.5917 24.5156C27.7425 20.8723 28.1539 14.5541 24.5107 10.4033C20.8674 6.25259 14.5492 5.84117 10.3984 9.4844C6.24766 13.1276 5.83624 19.4459 9.47947 23.5966C13.1227 27.7474 19.441 28.1588 23.5917 24.5156Z"
+          //                       stroke="#FBF8F7"
+          //                       stroke-width="1.5"
+          //                       stroke-linecap="round"
+          //                       stroke-linejoin="round"
+          //                     />
+          //                   </g>
+          //                   <defs>
+          //                     <clipPath id="clip0_980_14274">
+          //                       <rect
+          //                         width="24"
+          //                         height="24"
+          //                         fill="white"
+          //                         transform="translate(0.0625 15.8975) rotate(-41.2744)"
+          //                       />
+          //                     </clipPath>
+          //                   </defs>
+          //                 </svg>
+          //                 {card.button.label}
+          //               </a>
+          //             </div>
+          //           </div>
+          //         </div>
+          //       </div>
+        ))
+      }
+    </div>
+  </div>
+</Layout>

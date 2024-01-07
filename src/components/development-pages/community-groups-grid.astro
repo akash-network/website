@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import CgCard from "../mdx-cards/cg-card.astro";
+
+const pages = await getCollection("Development_Current_Groups_Page");
+
+function filterGroupsByCategory(groups: any, categoryName: string) {
+  return groups.filter((group: any) => group.id.startsWith(categoryName));
+}
+
+const { group } = Astro.props;
+
+const filteredGroups = filterGroupsByCategory(pages, group);
+---
+
+<div
+  class="mt-10 grid gap-4 sm:grid-cols-2 md:grid-cols-1 md:gap-5 lg:grid-cols-2 xl:grid-cols-3"
+>
+  {
+    filteredGroups.map((item: any) => (
+      <CgCard
+        parentGroup={group}
+        tag={item.slug.split("/")[1]}
+        title={item.data.title}
+        description={item.data.description}
+        meetingslinkLabel={item.data.meetings.link.label}
+        meetingsLink={item.data.meetings.link.link}
+        githubLink={item.data.githubLink}
+        discordLink={item.data.discordLink}
+        dateLabel={item.data.meetings.dateLabel}
+      />
+    ))
+  }
+</div>

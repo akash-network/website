@@ -1,0 +1,9 @@
+---
+import { HowToContributeDropdown as DropDown } from "@/components/community-pages/how-to-contribute-dropdown.tsx";
+
+const { heading } = Astro.props;
+---
+
+<DropDown client:load heading={heading}>
+  <slot />
+</DropDown>

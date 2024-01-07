@@ -1,0 +1,160 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Layout from "@/layouts/layout.astro";
+import { nav } from "@/components/community-pages/nav-config.ts";
+import SideNav from "@/components/community-pages/side-nav.astro";
+import MobileNav from "@/components/community-pages/mobile-nav";
+import Tag from "@/components/ui/tag2.astro";
+import SearchDialog from "@/components/community-pages/search-dialog";
+
+import { Image } from "astro:assets";
+import FormattedDate from "@/components/formatted-date.astro";
+import ButtonLink from "@/components/ui/button-link.astro";
+import { ArrowUpCircle } from "lucide-react";
+import TopMargin from "@/components/ui/top-margin.astro";
+import EventCard from "@/components/community-pages/event-card.astro";
+import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
+type Project = CollectionEntry<"Community_Akash_Events_Page">;
+
+const cards = await getCollection("Community_Akash_Events_Page");
+
+const flatedTag = cards.map((card) => card.data.tags).flat();
+const pathname = new URL(Astro.request.url).pathname;
+
+const allCards = cards.map((card) => card.data);
+console.log(allCards);
+
+const tags: string[] = [...new Set(flatedTag)];
+const astroUrl = Astro.url;
+const pageName = pathname
+  .split("/")[2]
+  .split("-")
+  .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+  .join(" ");
+
+console.log(allCards);
+
+const monthwise = allCards.reduce((acc: any, curr: any) => {
+  if (curr.tbd) {
+    if (!acc["TBD"]) {
+      acc["TBD"] = [];
+    }
+    acc["TBD"].push(curr);
+    return acc;
+  }
+
+  const month = new Date(curr.eventDate).toLocaleString("default", {
+    month: "long",
+  });
+  if (!acc[month]) {
+    acc[month] = [];
+  }
+  acc[month].push(curr);
+
+  return acc;
+}, {});
+
+const monthwiseArray = Object.keys(monthwise).map((month) => {
+  return {
+    month,
+    events: monthwise[month],
+  };
+});
+function findPrevAndNextPages(nav: any, pathname: any) {
+  // Find the index of the current page in the nav array
+  const currentIndex = nav.findIndex((item: any) => item.link === pathname);
+
+  // Calculate the index of the previous and next pages
+  const prevIndex = currentIndex - 1;
+  const nextIndex = currentIndex + 1;
+
+  // Determine the previous and next pages
+  const prevPage = prevIndex >= 0 ? nav[prevIndex] : null;
+  const nextPage = nextIndex < nav.length ? nav[nextIndex] : null;
+
+  return { prevPage, nextPage };
+}
+const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
+  if (a.month === "TBD") {
+    return 1;
+  }
+  if (b.month === "TBD") {
+    return -1;
+  }
+
+  return (
+    new Date(a.events[0].eventDate).getTime() -
+    new Date(b.events[0].eventDate).getTime()
+  );
+});
+
+console.log(sortedMonthwiseArray);
+---
+
+<Layout title="Community Contributions">
+  <TopMargin>
+    <div class="grid grid-cols-12 gap-x-5">
+      <SideNav nav={nav} />
+
+      <div
+        class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
+      >
+        <div class="flex items-center justify-between gap-x-3 md:hidden">
+          <MobileNav
+            currentPath={Astro.url.pathname}
+            nav={nav}
+            pageName={pageName}
+            client:load
+          />
+        </div>
+
+        <div>
+          <div class="mt-10 md:mt-0">
+            <h1
+              id="overview"
+              class="text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
+            >
+              Akash Events
+            </h1>
+            <p class="mt-3 text-base leading-[24px] text-para">
+              Here is the list of upcoming events
+            </p>
+
+            <div class="my-8 border-b"></div>
+          </div>
+
+          <div class="flex items-center gap-x-4">
+            <Tag
+              active={astroUrl.pathname === "/community/events/"}
+              href={`/community/events/`}
+            >
+              All
+            </Tag>
+
+            <Tag href={`/community/events/upcoming`}>Upcoming</Tag>
+          </div>
+        </div>
+
+        <div>
+          {
+            sortedMonthwiseArray?.map((item: any) => (
+              <div class="">
+                <h2 class="mt-10 text-lg font-bold  md:text-2lg ">
+                  {item.month}
+                </h2>
+                <div class=" mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
+                  {item.events.map((card: any) => (
+                    <EventCard card={card} />
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <div class="md:hidden">
+          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
+        </div>
+      </div>
+    </div>
+  </TopMargin>
+</Layout>

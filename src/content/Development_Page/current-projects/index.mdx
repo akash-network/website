@@ -1,0 +1,164 @@
+---
+title: Akash Network Projects
+description: These are all the projects that are currently in some state ranging from “ideation” to “release”. To understand the various states see the table at the bottom of this page.
+
+pubDate: "2020-01-19"
+---
+
+import TableBody from "../../../components/mdx-cards/table/table-body.astro";
+import TableHead from "../../../components/mdx-cards/table/table-head.astro";
+import TableRow from "../../../components/mdx-cards/table/table-row.astro";
+import Table from "../../../components/mdx-cards/table/table.astro";
+import Td from "../../../components/mdx-cards/table/td.astro";
+import Th from "../../../components/mdx-cards/table/th.astro";
+import Tl from "../../../components/mdx-cards/table/tl.astro";
+
+These are all the projects that are currently in some state ranging from “ideation” to “release”. To understand the various states see the table at the bottom of this page.
+
+### General guidelines for updating this table
+
+- Projects that are in some working state (ideation or beyond) should have a link to their specific sig or wg page (can even just be a github issue inside the repo for the sig) from the “Project Name”
+- Projects that are in a working state should have a label specified here and linked to a filtered list of github issues for that label
+- Projects that are in a working state should be assigned to a SIG or WG
+- Projects that are not even in ideation (not in a working state) should have a name and a brief description
+
+### List of Projects
+
+<Table>
+    <TableHead>
+        <TableRow>
+            <Th>Project Name</Th>
+            <Th>Label</Th>
+            <Th>Description</Th>
+            <Th>Community Group</Th>
+            <Th>State</Th>
+        </TableRow>
+    </TableHead>
+
+    <TableBody>
+        <TableRow>
+            <Td> <span class="font-bold">Console General Availability</span></Td>
+            <Td>console-ga</Td>
+            <Td>Releasing Console for General Availability</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-clients">sig-clients</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Economics 2.0</span></Td>
+            <Td>econ-2.0</Td>
+            <Td>Redesigning Akash Network’s economics model to have fine grained take rates to fund product development and sustainability of the chain</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-economics">sig-economics</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">GPU Support</span></Td>
+            <Td>gpu</Td>
+            <Td>Everything related to supporting, launching and growing GPUs on Akash</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/wg-gpu">wg-gpu</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Provider Services Microservices Refactor</span></Td>
+            <Td>provider-svc-split</Td>
+            <Td>Splitting Akash Provider Services into microservices so that we’re able to release and maintain software better</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-providers">sig-providers</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Content Moderation</span></Td>
+            <Td>content-mod</Td>
+            <Td>Tools and process for ensuring that providers have visibility into workloads running on them and controls to ensure they don’t violate their terms of service</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-providers">sig-providers</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Client Libraries</span></Td>
+            <Td>client-libs</Td>
+            <Td>Libraries for deploying on Akash programmatically using various programming languages</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-clients">sig-clients</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Console Authorized Spend Support</span></Td>
+            <Td>console-authz</Td>
+            <Td>Supporting Authorized Spend (AuthZ) in Akash Console</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-clients">sig-clients</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Provider Attributes</span></Td>
+            <Td>provider-attr</Td>
+            <Td>Defining an attribute schema for providers and getting providers to incorporate it</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-clients">sig-clients</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Provider Attributes</span></Td>
+            <Td>provider-attr</Td>
+            <Td>Defining an attribute schema for providers and getting providers to incorporate it</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-clients">sig-clients</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+        <TableRow>
+            <Td><span class="font-bold">Certification Program</span></Td>
+            <Td>edu-cert-prgm</Td>
+            <Td>Define, build and finalize Akash Network Certification Program</Td>
+            <Tl link="https://github.com/akash-network/community/tree/main/sig-clients">sig-clients</Tl>
+            <Td>implementation</Td>
+        </TableRow>
+    </TableBody>
+
+</Table>
+
+### Project States
+
+A project may be in one of these states. Note that every project does NOT have to touch every one of these states and some projects may remain in a given state for a long time (like an idea that never gets any interest from the community to implement and remains in “ideation” for a long time).
+
+<Table>
+    <TableHead>
+        <TableRow>
+            <Th>Sate</Th>
+            <Th>Description</Th>
+        </TableRow>
+    </TableHead>
+
+    <TableBody>
+        <TableRow>
+            <Td>ideation</Td>
+            <Td>A rough idea for a project has been proposed</Td>
+        </TableRow>
+        <TableRow>
+            <Td>spec-definition</Td>
+            <Td>Specification (typically a PRD or a ligher version of it in a github issue) is being worked on by a SIG or WIG and is in review</Td>
+        </TableRow>
+        <TableRow>
+            <Td>spec-approved</Td>
+            <Td>The specification for the project has been approved and it has been allocated to specific SIG(s)</Td>
+        </TableRow>
+        <TableRow>
+            <Td>design</Td>
+            <Td>Technical Design is being worked on (typically by SIG(s) )</Td>
+        </TableRow>
+        <TableRow>
+            <Td>implementation</Td>
+            <Td>Actual work to bring the thing to life is happening (code being written, event being organized, docs site being updated)</Td>
+        </TableRow>
+        <TableRow>
+            <Td>beta</Td>
+            <Td>The project is in beta test phase (where/ when applicable) - typically for products/ features</Td>
+        </TableRow>
+        <TableRow>
+            <Td>release</Td>
+            <Td>The product/ feature has been released to everyone (general availability)</Td>
+        </TableRow>
+        <TableRow>
+            <Td>blocked</Td>
+            <Td>The project is blocked or stalled because of some reason (documented)</Td>
+        </TableRow>
+        <TableRow>
+            <Td>abandoned</Td>
+            <Td>The project has been cancelled because no one is willing to shepherd it</Td>
+        </TableRow>
+    </TableBody>
+
+</Table>

@@ -1,0 +1,44 @@
+---
+import ResourcesCard from "@/components/brand-pages/resources-card.astro";
+import Layout from "@/layouts/layout.astro";
+import { getEntryBySlug } from "astro:content";
+
+const brandResourcesPage = await getEntryBySlug(
+  "Brand_Resources_Homepage",
+  "index",
+);
+
+const { title, description, cards } = brandResourcesPage.data;
+console.log(cards);
+---
+
+<Layout title="Resources">
+  <div class="container mt-10 space-y-4 md:mt-[60px] lg:mt-20">
+    <h1
+      class="text-[24px] font-bold leading-[48px] md:text-3lg md:leading-[62.4px]"
+    >
+      {title}
+    </h1>
+    <p
+      class="max-w-[800px] text-sm leading-[20px] md:text-lg md:leading-[30px]"
+    >
+      {description}
+    </p>
+  </div>
+
+  <div class="container mt-10 lg:mt-20">
+    <div class="flex w-full flex-col divide-y divide-defaultBorder border-y">
+      {
+        cards.map((card) => (
+          <ResourcesCard
+            title={card.title}
+            description={card.description}
+            button={card.button}
+            image={card.image}
+            type="resource-card"
+          />
+        ))
+      }
+    </div>
+  </div>
+</Layout>

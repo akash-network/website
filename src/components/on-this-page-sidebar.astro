@@ -1,0 +1,26 @@
+---
+const { nav } = Astro.props;
+---
+
+<div
+  class="sidebar-scroll sticky top-[120px] hidden h-screen overflow-y-auto md:col-span-4 md:block lg:col-span-3"
+>
+  <p class="text-sm font-bold leading-[20px]">ON THIS PAGE</p>
+  <div class="border-b py-2"></div>
+
+  <div class="mt-4 flex flex-col gap-y-4">
+    {
+      nav?.map((subItem: any) => (
+        <a
+          href={subItem.link}
+          style={{
+            paddingLeft: subItem.depth > 2 ? `${subItem.depth * 5}px` : "0px",
+          }}
+          class="inline-flex cursor-pointer text-base font-medium text-para hover:text-primary"
+        >
+          {subItem.label}
+        </a>
+      ))
+    }
+  </div>
+</div>
