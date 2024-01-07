@@ -131,7 +131,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
         <div className="flex flex-col gap-y-6">
           <div className="flex flex-col gap-6">
             <a
-              link="https://akashnet.typeform.com/to/rhR4cWxQ?typeform-source=akash.network"
+              href="https://akashnet.typeform.com/to/rhR4cWxQ?typeform-source=akash.network"
               target="_blank"
               className="flex cursor-pointer items-center justify-center gap-1 rounded-[4px] border border-border px-[9px] py-[7px] text-xs font-medium leading-none text-foreground hover:bg-darkGray"
             >

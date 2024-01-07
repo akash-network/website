@@ -15,10 +15,10 @@ const {
 ---
 
 <div
-  class="not-prose group rounded-lg border bg-background2 p-5 shadow-sm duration-300 ease-in-out hover:drop-shadow-md"
+  class="not-prose group flex flex-col justify-between rounded-lg border bg-background2 p-5 shadow-sm duration-300 ease-in-out hover:drop-shadow-md"
 >
-  <a href={`/current-groups/${parentGroup}/${tag}/`}>
-    <span>
+  <a href={`/current-groups/${parentGroup}/${tag}/`} class="flex-1">
+    <span class="flex flex-1 flex-col justify-between">
       <div>
         <p class="text-sm font-medium leading-[20px] text-cardGray">
           {tag}
@@ -28,11 +28,10 @@ const {
         >
           {title}
         </h3>
+        <p class="mt-6 line-clamp-4 text-sm font-medium leading-[20px]">
+          {description}
+        </p>
       </div>
-
-      <p class="mt-6 line-clamp-4 text-sm font-medium leading-[20px]">
-        {description}
-      </p>
 
       <div class="mt-[53px] md:mt-[80px]">
         <div class="text-sm font-medium leading-[20px] text-foreground">
