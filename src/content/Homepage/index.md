@@ -1,7 +1,7 @@
 ---
 # hero section content
 heroSection:
-  title: The World's<br class="md:hidden" /> Premier Decentralized<br/> Compute Marketplace
+  title: The World'<br class="md:hidden" /> Premier Decentralized<br/> Compute Marketplace
   description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 
   primaryButton:
