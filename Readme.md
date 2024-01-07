@@ -99,8 +99,8 @@ Each commit message should carry a meaningful structure, commencing with a type 
 
 ## Contact
 
-Discord - [Akash Network]()
+Discord - [Akash Network](https://discord.com/invite/akash)
 
-Twitter: [Akash Network]()
+Twitter: [Akash Network](https://twitter.com/akashnet_)
 
-Website: [Akash Network]()
+Website: [Akash Network](https://akash.network/)
