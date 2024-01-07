@@ -69,7 +69,7 @@ module.exports = {
         linkText: "hsl(var(--link-text))",
         defaultBorder: "hsl(var(--default-border))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "var(--primary)",
           foreground: "hsl(var(--primary-foreground))",
         },
 
