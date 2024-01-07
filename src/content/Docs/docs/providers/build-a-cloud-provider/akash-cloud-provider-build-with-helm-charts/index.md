@@ -26,11 +26,11 @@ This guide uses a single Kubernetes control plane node.
 - [Provider Whitelisting (Optional)](#step-11---provider-whitelisting-optional)
 - [Extras](#step-11---extras)
 
-# STEP 1 - Prerequisites of an Akash Provider
+## STEP 1 - Prerequisites of an Akash Provider
 
 > _**NOTE**_ - the commands in this section and in all remaining sections of this guide assume that the `root` user is used. For ease we suggest using the `root` user for the Kubernetes and Akash Provider install. If a non-root user is used instead, minor command adjustments may be necessary such as using `sudo` command prefixes and updating the home directory in command syntaxes.
 
-## Akash Wallet
+### Akash Wallet
 
 Placing a bid on an order requires a 5 AKT deposit placed into collateral per bid won. If the provider desired 2 concurrent leases, the provider’s wallet would need minimum funding of 10AKT.
 
@@ -42,45 +42,45 @@ The steps to create an Akash wallet are covered in the following documentation s
 - [Create an Account](/akash-docs/docs/deployments/sandbox/installation/)
 - [Fund Your Account](/akash-docs/docs/deployments/akash-cli/installation/#fund-your-account)
 
-## **Kubernetes Cluster**
+### **Kubernetes Cluster**
 
 A full Kubernetes cluster is required with outbound internet access and be reachable from the internet.
 
 If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/akash-docs/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)guide.
 
-## RPC Node
+### RPC Node
 
 Akash Providers need to run their own blockchain RPC node to remove dependence on public nodes. This is a strict requirement.&#x20;
 
 We have recently released documentation guiding thru the process of building a [RPC node via Helm Charts](/akash-docs/docs/akash-nodes/akash-node-via-helm-chart/) with state sync.
 
-## CPU Support
+### CPU Support
 
 Only x86_64 processors are officially supported by Akash for provider Kubernetes nodes at this time. This may change in the future and when ARM processors are supported it will be announced and documented.
 
-## Custom Kubernetes Cluster Settings
+### Custom Kubernetes Cluster Settings
 
 Akash Providers are deployed in many environments and we will make additions to these sections as when nuances are discovered.
 
 - [VMware Tanzu](/akash-docs/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)
 
-## Disable Search Domains
+### Disable Search Domains
 
-### Overview
+#### Overview
 
 In this section we perform the following DNS adjustments:
 
-#### Set Use Domains to False
+##### Set Use Domains to False
 
 - Set `use-domains: false` to prevent the possibility of systemd's DHCP client overwriting the DNS search domain. This prevents a potentially bad domain served by the DHCP server from becoming active.
 - This is a common issue to some of the providers which is explained in more detail [here](https://github.com/akash-network/support/issues/80)
 
-#### Set Accept RA to False
+##### Set Accept RA to False
 
 - Set `accept-ra: false` to disable IPv6 Router Advertisement (RA) as the DNS search domain may still leak through if not disabled.
 - Potential issue this addresses is explained in more detail [here](https://bugs.launchpad.net/netplan/+bug/1858503)
 
-### Create Netplan
+#### Create Netplan
 
 > _**NOTE**_ - the DNS resolution issue & the Netplan fix addressed in this step are described [here](https://github.com/akash-network/support/issues/80)
 
@@ -113,7 +113,7 @@ network:
       optional: true
 ```
 
-### Test and Apply Netplan
+#### Test and Apply Netplan
 
 Test the Netplan config and apply via these commands.
 
@@ -124,7 +124,7 @@ netplan apply
 resolvectl domain
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 root@ip-172-31-18-188:~# resolvectl domain
@@ -170,7 +170,7 @@ The wallet used will be used for the following purposes:
 
 > Make sure to create a new Akash account for the provider and do not reuse an account used for deployment purposes. Bids will not be generated from your provider if the deployment orders are created with the same key as the provider.
 
-## List Available Keys
+### List Available Keys
 
 - Print the key names available in the local OS keychain for use in the subsequent step
 
@@ -178,7 +178,7 @@ The wallet used will be used for the following purposes:
 provider-services keys list
 ```
 
-### Example/Expected Output
+#### Example/Expected Output
 
 > _**NOTE**_ - in this example the provider key name is `default` and this key name will be used in the subsequent sections of this documentation. Please adjust the key nane as necessary to suit your needs and preferences.
 
@@ -196,14 +196,14 @@ provider-services keys list
   mnemonic: ""
 ```
 
-## **Export Private Key to Local File**
+### **Export Private Key to Local File**
 
 - The key-name can be any name of your choice
 - Note the passphrase used to protect the private key as it will be used in future steps
 
 > _**NOTE**_ - The passhprase MUST be at least 8 characters long. Otherwise provider will encounter `failed to decrypt private key: ciphertext decryption failed error` when `keys import` is executed.
 
-### STEP 1 - Export Provider Key
+#### STEP 1 - Export Provider Key
 
 ```
 cd ~
@@ -211,7 +211,7 @@ cd ~
 provider-services keys export default
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 provider-services keys export default
@@ -227,7 +227,7 @@ REDACTED
 -----END TENDERMINT PRIVATE KEY-----
 ```
 
-### &#x20;STEP 2 - Create key.pem and Copy Output Into File
+#### &#x20;STEP 2 - Create key.pem and Copy Output Into File
 
 - Create a `key.pem` file
 
@@ -241,7 +241,7 @@ vim key.pem
 
 > _**NOTE -**_ file should contain only what's between `-----BEGIN TENDERMINT PRIVATE KEY-----` and `-----END TENDERMINT PRIVATE KEY-----` (including the `BEGIN` and `END` lines):
 
-#### Example/Expected File Contents
+##### Example/Expected File Contents
 
 ```
 cat key.pem
@@ -256,7 +256,7 @@ REDACTED
 
 ## STEP 4 - Helm Installation on Kubernetes Node
 
-### Install Helm on a Kubernetes Master Node
+#### Install Helm on a Kubernetes Master Node
 
 ```
 wget https://get.helm.sh/helm-v3.11.0-linux-amd64.tar.gz
@@ -271,7 +271,7 @@ helm repo remove akash
 helm repo add akash https://akash-network.github.io/helm-charts
 ```
 
-### **Confirmation of Helm Install**
+#### **Confirmation of Helm Install**
 
 **Print Helm Version**
 
@@ -289,11 +289,11 @@ version.BuildInfo{Version:"v3.11.0", GitCommit:"472c5736ab01133de504a826bd9ee12c
 
 ## Step 5 - Domain Name Review
 
-### Overview
+#### Overview
 
 Add DNS (type A) records for your Akash Provider related domains on your DNS hosting provider.
 
-### Akash Provider Domain Records
+#### Akash Provider Domain Records
 
 - Replace yourdomain.com with your own domain name
 - DNS (type A) records should point to public IP address of a single Kubernetes worker node of your choice
@@ -315,7 +315,7 @@ provider.yourdomain.com
 > `nodes 300 IN A x.x.x.x`\
 > `provider 300 IN CNAME nodes.yourdomain.com.`
 
-### Example DNS Configuration
+#### Example DNS Configuration
 
 ![](../../../../assets/namecheapCapture.png)
 
@@ -330,7 +330,7 @@ provider.yourdomain.com
 helm install akash-hostname-operator akash/akash-hostname-operator -n akash-services
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 NAME: akash-hostname-operator
@@ -347,13 +347,13 @@ NOTES:
   kubectl --namespace akash-services port-forward $POD_NAME 8080:$CONTAINER_PORT
 ```
 
-## **Hostname Operator Confirmation**
+### **Hostname Operator Confirmation**
 
 ```
 kubectl get pods -n akash-services
 ```
 
-#### **Expected output (example and name following akash-provider will differ)**
+##### **Expected output (example and name following akash-provider will differ)**
 
 <pre><code>root@node1:~# kubectl get pods -n akash-services
 
@@ -363,13 +363,13 @@ NAME                                 READY   STATUS    RESTARTS   AGE
 
 ## STEP 7 - Provider Build via Helm Chart
 
-### **Overview**
+#### **Overview**
 
 In this section the Akash Provider will be installed and customized via the use of Helm Charts.
 
 > _**NOTE**_ - when the Helm Chart is installed the Provider instance/details will be created on the blockchain and your provider will be registered in the Akash open cloud marketplace. The associated transaction for Provider creation is detailed [here](/akash-docs/docs/akash-nodes/akash-node-via-helm-chart/).
 
-### **Environment Variables**
+#### **Environment Variables**
 
 - Declare the following environment variables for Helm use
 - Replace the variables with your own settings
@@ -411,7 +411,7 @@ export DOMAIN=test.com
 export NODE=http://akash-node-1:26657
 ```
 
-### **Provider Withdraw Period**
+#### **Provider Withdraw Period**
 
 - Akash providers may dictate how often they withdraw funds consumed by active deployments/tenants escrow accounts
 - Few things to consider regarding the provider withdraw period:
@@ -419,12 +419,12 @@ export NODE=http://akash-node-1:26657
   - An advantage of the one hour default setting is assurance that a deployment may not breach the escrow account dramatically. If the withdraw period were set to 12 hours instead - the deployment could exhaust the amount in escrow in one hour (for example) but the provider would not calculate this until many hours later and the deployment would essentially operate for free in the interim.
   - A disadvantage of frequent withdraws is the possibility of losing profitability based on fees incurred by the providers withdraw transactions. If the provider hosts primarily low resource workloads, it is very possible that fees could exceed deployment cost/profit.
 
-#### OPTIONAL - Update the Provider Withdraw Period
+##### OPTIONAL - Update the Provider Withdraw Period
 
 - If it is desired to change the withdrawal period from the default one hour setting, update the `withdrawalperiod` setting in the provider.yaml file created subsequently in this section.
 - In the example the Provider Build section of this doc the withdrawal period has been set to 12 hours. Please adjust as preferred.
 
-### **Provider Build Prep**
+#### **Provider Build Prep**
 
 - Ensure you are applying the latest version of subsequent Helm Charts install/upgrade steps
 
@@ -432,7 +432,7 @@ export NODE=http://akash-node-1:26657
 helm repo update
 ```
 
-#### Create a provider.yaml File
+##### Create a provider.yaml File
 
 - Issue the following command to build your Akash Provider
 - Update the following keys for your unique use case
@@ -469,7 +469,7 @@ attributes:
 EOF
 ```
 
-#### **Example provider.yaml File Creation**
+##### **Example provider.yaml File Creation**
 
 ```
 root@linux-server ~ % cat > provider.yaml << EOF
@@ -492,7 +492,7 @@ attributes:
 EOF
 ```
 
-### Verification of provider.yaml File
+#### Verification of provider.yaml File
 
 - Issue the following commands to verify the `provider.yaml` file created in previous steps
 
@@ -502,7 +502,7 @@ cd ~/provider
 cat provider.yaml
 ```
 
-#### Example provider.yaml Verification Output
+##### Example provider.yaml Verification Output
 
 - Ensure there are no empty values
 
@@ -524,7 +524,7 @@ attributes:
   value: mycompany
 ```
 
-### **Provider Bid Defaults**
+#### **Provider Bid Defaults**
 
 - When a provider is created the default bid engine settings are used. If desired these settings could be updated and added to the `provider.yaml` file. But we would recommend initially using the default values.
 - Note - the `bidpricestoragescale` value will get overridden by `-f provider-storage.yaml` covered in [Provider Persistent Storage](/akash-docs/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/) documentation.
@@ -537,7 +537,7 @@ bidpriceendpointscale: "0" # endpoint pricing scale in uakt per endpoint
 bidpricestoragescale: "0.00016" # storage pricing scale in uakt per megabyte
 ```
 
-### **Provider CRD Installations**
+#### **Provider CRD Installations**
 
 - Kubernetes CRDs are no longer delivered by the Helm as of chart `v4.3.0`.
 - CRDs are now installed manually using this step.
@@ -548,13 +548,13 @@ bidpricestoragescale: "0.00016" # storage pricing scale in uakt per megabyte
 kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.4.8/pkg/apis/akash.network/crd.yaml
 ```
 
-### **Install the Provider Helm Chart**
+#### **Install the Provider Helm Chart**
 
 ```
 helm install akash-provider akash/provider -n akash-services -f provider.yaml
 ```
 
-#### **Expected Output of Provider Helm Install**
+##### **Expected Output of Provider Helm Install**
 
 ```
 NAME: akash-provider
@@ -565,13 +565,13 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-### **Provider Confirmation**
+#### **Provider Confirmation**
 
 ```
 kubectl get pods -n akash-services
 ```
 
-#### **Expected output (example and name following akash-provider will differ)**
+##### **Expected output (example and name following akash-provider will differ)**
 
 ```
 root@node1:~# kubectl get pods -n akash-services
@@ -580,7 +580,7 @@ NAME                              READY   STATUS    RESTARTS   AGE
 akash-provider-6d7c455dfb-qkf5z   1/1     Running   0          4m37s
 ```
 
-#### Troubleshooting
+##### Troubleshooting
 
 If your Akash Provider pod status displays `init:0/1` for a prolonged period of time, use the following command to view Init container logs. Often the Provider may have a RPC issue and this should be revealed in these logs. RPC issues may be caused by an incorrect declaration in the NODE variable declaration issued previously in this section. Or possibly your custom RPC node is not in sync.
 
@@ -588,7 +588,7 @@ If your Akash Provider pod status displays `init:0/1` for a prolonged period of 
 kubectl -n akash-services logs -l app=akash-provider -c init --tail 200 -f
 ```
 
-### Helm Chart Uninstall Process
+#### Helm Chart Uninstall Process
 
 - Should a need arise to uninstall the Helm Chart and attempt the process anew, the following step can be used
 - Only conduct this step if there is a problem with Akash Provider Helm Chart install
@@ -601,7 +601,7 @@ helm uninstall akash-provider -n akash-services
 
 ## STEP 8 - Provider Bid Customization
 
-### Overview
+#### Overview
 
 > _**NOTE**_ - if you are updating your provider bid script from a previous version use this [bid script migration guide](../../akash-provider-troubleshooting/provider-bid-script-migration-gpu-models.md).
 
@@ -611,9 +611,9 @@ helm uninstall akash-provider -n akash-services
 
 > _**USDC Stable Payment Support**_ - note that the current, default bid script enables stable payment support on the Akash Provider. Akash deployments using stable payments are taxed at a slightly higher rate than deployments using AKT payment. If you choose not to support stable payments on your provider, remove stable payment support from the default bid script.
 
-### Provider Bid Script Customization Steps
+#### Provider Bid Script Customization Steps
 
-#### STEP 1 - Update provider.yaml File
+##### STEP 1 - Update provider.yaml File
 
 - If customization of your provider bid pricing is desired, begin by updating the `provider.yaml` file which will be used to hold customized values
 
@@ -623,7 +623,7 @@ cd ~/provider
 vim provider.yaml
 ```
 
-#### **STEP 2 - Customize** the provider.yaml File
+##### **STEP 2 - Customize** the provider.yaml File
 
 > Update your `provider.yaml` file with the price targets you want. If you don't specify these keys, the bid price script will default values shown below
 
@@ -646,7 +646,7 @@ price_target_ip: 5
 price_target_gpu_mappings: "a100=120,t4=80,*=130"
 ```
 
-#### STEP 3 - Download Bid Price Script
+##### STEP 3 - Download Bid Price Script
 
 ```
 cd ~/provider
@@ -654,19 +654,19 @@ cd ~/provider
 wget https://raw.githubusercontent.com/akash-network/helm-charts/main/charts/akash-provider/scripts/price_script_generic.sh
 ```
 
-#### STEP 4 - Upgrade akash-provider Deployment with Customized Bid Script
+##### STEP 4 - Upgrade akash-provider Deployment with Customized Bid Script
 
 ```
 helm upgrade akash-provider akash/provider -n akash-services -f provider.yaml  --set bidpricescript="$(cat price_script_generic.sh | openssl base64 -A)"
 ```
 
-##### Verification of Bid Script Update
+###### Verification of Bid Script Update
 
 ```
 helm list -n akash-services | grep akash-provider
 ```
 
-##### Expected/Example Output
+###### Expected/Example Output
 
 ```
 # helm list -n akash-services | grep akash-provider
@@ -675,7 +675,7 @@ akash-provider         	akash-services	28      	2023-09-19 12:25:33.880309778 +0
 
 ## STEP 9 - Ingress Controller Install
 
-### Create Upstream Ingress-Nginx Config
+#### Create Upstream Ingress-Nginx Config
 
 Create the `ingress-nginx-custom.yaml` file via this step
 
@@ -708,7 +708,7 @@ tcp:
 EOF
 ```
 
-#### Expose RPC Node to Outside World
+##### Expose RPC Node to Outside World
 
 Use this step only if you choose to expose your Akash Provider RPC Node to the outside world
 
@@ -743,7 +743,7 @@ tcp:
 EOF
 ```
 
-### Install Upstream Ingress-Nginx
+#### Install Upstream Ingress-Nginx
 
 ```
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
@@ -754,7 +754,7 @@ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
   -f ingress-nginx-custom.yaml
 ```
 
-### Apply Necessary Labels
+#### Apply Necessary Labels
 
 - Label the `ingress-nginx` namespace and the `akash-ingress-class` ingressclass
 
@@ -766,17 +766,17 @@ kubectl label ingressclass akash-ingress-class akash.network=true
 
 ## Step 10 - Firewall Rule Review
 
-### External/Internet Firewall Rules
+#### External/Internet Firewall Rules
 
 The following firewall rules are applicable to internet-facing Kubernetes components.
 
-#### **Akash Provider**
+##### **Akash Provider**
 
 ```
 8443/tcp - for manifest uploads
 ```
 
-#### **Ingress Controller**
+##### **Ingress Controller**
 
 ```
 80/tcp - for web app deployments
@@ -787,14 +787,14 @@ The following firewall rules are applicable to internet-facing Kubernetes compon
 
 ## Step 11 - Disable Unattended Upgrades
 
-### Overview
+#### Overview
 
 Unattended upgrades can bring all sorts of uncertainty/troubles such as updates of NVIDIA drivers and have the potential to affects your Provider/K8s cluster. Impact of unattended upgrades can include:
 
 - `nvidia-smi` will hang on the host/pod
 - `nvdp plugin` will become stuck and hence K8s cluster will run in a non-desired state where closed deployments will be stuck in `Terminating` status
 
-### Disable Unattended Upgrades
+#### Disable Unattended Upgrades
 
 To disable unattended upgrades, execute these two commands on your Kubernetes worker & control plane nodes:\
 
@@ -807,7 +807,7 @@ systemctl stop unattended-upgrades.service
 systemctl mask unattended-upgrades.service
 ```
 
-### Verify
+#### Verify
 
 These commands should output `0` following the disable of unattended upgrades. Conduct these verifications your Kubernetes worker & control plane nodes:
 
@@ -817,7 +817,7 @@ apt-config dump APT::Periodic::Unattended-Upgrade
 apt-config dump APT::Periodic::Update-Package-Lists
 ```
 
-#### Example/Expected Output
+##### Example/Expected Output
 
 ```
 # apt-config dump APT::Periodic::Unattended-Upgrade
@@ -829,25 +829,25 @@ APT::Periodic::Update-Package-Lists "0";
 
 ## STEP 11 - Provider Whitelisting (Optional)
 
-### Overview
+#### Overview
 
 - Akash Provider deployment address Whitelist functionality is now enabled in the bid price script
 - To use it simply specify the list via whitelist_url attribute as detailed in this section
 - Complete the steps in this section to enable/customize Akash Provider Whitelisting
 
-### Update the Akash Helm-Charts Repo
+#### Update the Akash Helm-Charts Repo
 
 ```
 helm repo update akash
 ```
 
-### Verify Akash/Provider Helm Chart is 4.3.4 Version or Higher
+#### Verify Akash/Provider Helm Chart is 4.3.4 Version or Higher
 
 ```
 helm search repo akash/provider
 ```
 
-##### Expected/Example Output
+###### Expected/Example Output
 
 ```
 # helm search repo akash/provider
@@ -855,7 +855,7 @@ NAME              CHART VERSION    APP VERSION    DESCRIPTION
 akash/provider    4.3.4            0.4.6          Installs an Akash provider (required)
 ```
 
-### Download Bid Price Script Which Supports Whitelisting
+#### Download Bid Price Script Which Supports Whitelisting
 
 > _**USDC Stable Payment Support**_ - note that the current, default bid script downloaded in this step enables stable payment support on the Akash Provider. Akash deployments using stable payments are taxed at a slightly higher rate than deployments using AKT payment. If you choose not to support stable payments on your provider, remove stable payment support from the default bid script.
 
@@ -863,11 +863,11 @@ akash/provider    4.3.4            0.4.6          Installs an Akash provider (re
 wget https://raw.githubusercontent.com/akash-network/helm-charts/main/charts/akash-provider/scripts/price_script_generic.sh
 ```
 
-### Prepare the Whitelist
+#### Prepare the Whitelist
 
 - Example whitelist hosted on GitHub Gist can be found [here](https://gist.github.com/andy108369/1fa6cfa81674bce438a450d6c14395ea)
 
-## Specify the Bid Price Script and Whitelist URL
+### Specify the Bid Price Script and Whitelist URL
 
 > _**NOTE**_ - Whitelist will only work when `bidpricescript` is also set.\
 > _**NOTE**_ - You need to specify the direct link to the whitelit (with Github Gist you need to click Raw button to get it)
@@ -880,13 +880,13 @@ helm upgrade --install akash-provider akash/provider -n akash-services -f provid
 
 ## STEP 11 - Extras
 
-### Force New ReplicaSet Workaround
+#### Force New ReplicaSet Workaround
 
 A known issue exists which occurs when a deployment update is attempted and fails due to the provider being out of resources. This is happens because K8s won't destroy an old pod instance until it ensures the new one has been created.
 
 Follow the steps in the [Force New ReplicaSet Workaround](../../akash-provider-troubleshooting/force-new-replicaset-workaround.md) document to address this issue.
 
-### Kill Zombie Processes
+#### Kill Zombie Processes
 
 A known issue exists which occurs when a tenant creates a deployment which doesn't handle child processes properly, leaving the defunct (aka zombie) proceses behind.
 These could potentially occupy all available process slots.
