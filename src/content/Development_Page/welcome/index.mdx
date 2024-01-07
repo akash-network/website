@@ -1,0 +1,72 @@
+---
+title: Open Source Community
+description: Learn how Starlight can help you build greener documentation sites and reduce your carbon footprint.
+
+pubDate: "2020-01-19"
+---
+
+Welcome to the Akash Network community.
+
+The Akash Network is supported by a diverse group of users, contributors, and supporters. We strive to improve the project and work together efficiently. We’re proud of our progress over the years. All aspects of the Akash Network - from code to culture - are managed by the community.
+
+import GithubButton from "../../../components/mdx-cards/buttons/github-button.astro";
+import CalenderButton from "../../../components/development-pages/calenderbutton.astro";
+
+<GithubButton label="Code of Conduct" link="https://github.com/akash-network/community/blob/main/CODE_OF_CONDUCT.md" />
+<GithubButton label="How to Contribute" link="https://github.com/akash-network/community#getting-started-with-contributing" />
+
+## Getting started with contributing
+
+This is the starting point for joining and contributing to building Akash Network - committing code, writing docs, testing product features & reporting bugs, organizing meetups, suggesting ideas for new features, and more.
+
+The Akash Network community welcomes contributions from community members at various levels of technical ability and familiarity with Akash. If you are interested in contributing to the project, please read through the “Getting Acquainted” section first. Then, join our discord server and refer to the below table to choose a starting point based on your skillset.
+
+## Community Groups
+
+SIGs are vertically specialized community groups that are working on foundational elements of Akash Network by implementing and supporting products that are defined by the working groups or smaller feature ideas. SIGs may generally be involved in both defining (spec’ing) as well as building specific products and features. SIGs are persistent groups in that they exist forever.
+
+
+
+## Calendar
+
+<div class="bg-background2 border rounded-lg p-4 mb-10 mt-5 flex flex-col gap-4 ">
+  <iframe
+    class="w-full "
+    src="https://calendar.google.com/calendar/embed?src=c_25e5e3748e4c4ab7a55f41fbc5ebebcc0a03b40fb028785f14159bfaebea12e2%40group.calendar.google.com&ctz=America%2FLos_Angeles&mode=AGENDA&amp"
+    style="border: 0"
+    width="800"
+    height="600"
+    frameborder="0"
+
+  ></iframe>
+<CalenderButton/>
+</div>
+
+
+## Special Interest Groups (SIGs)
+
+SIGs are vertically specialized community groups that are working on foundational elements of Akash Network by implementing and supporting products that are defined by the working groups or smaller feature ideas. SIGs may generally be involved in both defining (spec’ing) as well as building specific products and features. SIGs are persistent groups in that they exist forever.
+
+## Working Groups (WGs)
+
+WGs are horizontally aligned community groups that pursue significantly large cross-cutting initiatives involving multiple SIGs. WGs do not work on implementing features or projects but will be involved in defining (PRD-style) large projects with multiple components across the entire stack and potentially involving non-Akash partners and stakeholders as well. Working groups may be active for days, weeks or months but are generally not considered “persistent” like SIGs.
+
+## Committees
+
+Committees are named sets of people that are chartered to take on sensitive topics. This group is encouraged to be as open as possible while achieving its mission but, because of the nature of the topics discussed, private communications are allowed. Examples of committees include the Steering Committee and things like ‘security’ or ‘code of conduct.’
+
+## Steering Committee
+
+The [Steering Committee](/current-groups/steering-committee/steering-committee/) is a special SIG that periodically evaluates the list of projects, prioritizes/adds/removes items and decides which SIG or WG is best suited to tackle the project. The Steering Committee also regularly meets to incorporate learnings to improve how the Akash Network community operates and will perform conflict resolution as necessary.
+
+## Examples
+
+To see a list of projects being worked on or under consideration see [akash-network/projects](https://github.com/orgs/akash-network/projects)
+
+A “wg-gpu” that works on end-to-end execution of what it will take for Akash Network to support GPUs. This may include specifications for changes to Deployments (SDL) and Providers, deciding on what vendors and models of GPUs fit with our customer use cases, figure out the best partnerships for sourcing GPU inventory for those models, decide whether we need to solve bandwidth pricing, running alpha/beta testing, etc. The GPU-WG’s work will potentially result in multiple projects being created for the “Providers-SIG”, the “Deployments-SIG”, the “Economics-SIG” and so on. These SIGs will define a lower-level spec for their specific area (based on the overall high-level spec defined by the GPU-SIG), and implement it.
+
+- An “wg-ethereum” that is focused on understanding how Akash Network can be adopted by the Ethereum ecosystem. They would define a strategy that includes: technical requirements for node operators and developers, along with non-technical things like events and Discord communications. These would also result in multiple projects for various SIGs.
+
+- Projects like the “provider microservices split” do not require a working group as they only pertain to the provider’s code base and, as such, are just handled by the “sig-provider.”
+
+- Support for Authorized Spend in Console would be handled by the “sig-clients” and does not need a dedicated work group.

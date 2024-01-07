@@ -1,0 +1,78 @@
+---
+import generateToc from "@/lib/generateToc";
+import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
+
+import Layout from "@/layouts/layout.astro";
+
+import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
+import MobileNav from "@/components/community-pages/mobile-nav";
+import { proseClasses } from "@/lib/prose-classes";
+
+import {
+  Content,
+  getHeadings,
+  frontmatter,
+} from "../content/Privacy_Homepage/index.mdx";
+import TopMargin from "@/components/ui/top-margin.astro";
+import OnThisPageSidebar from "@/components/on-this-page-sidebar.astro";
+
+const headings = getHeadings();
+const nav = headings
+  .filter((heading) => heading.depth <= 3 && heading.text !== "Privacy Policy")
+  .map((heading) => ({
+    label: heading.text,
+    link: `#${heading.slug}`,
+    enabled: true,
+    depth: heading.depth,
+  }));
+
+console.log(nav);
+
+const pathname = Astro.url.pathname;
+---
+
+<Layout title="Privacy">
+  <TopMargin>
+    <div class="grid grid-cols-12 gap-x-5">
+      <OnThisPageSidebar nav={nav} />
+
+      <div
+        class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
+      >
+        <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
+          <div class="flex items-center justify-start gap-x-3 md:hidden">
+            <MobileTableOfContents
+              client:load
+              toc={headings
+                ?.filter((heading) => heading.depth <= 2)
+                ?.map((heading) => ({
+                  depth: heading.depth,
+                  slug: heading.slug,
+                  text: heading.text,
+                  children: [],
+                }))}
+              labels={{
+                onThisPage: "onThisPage",
+              }}
+            />
+          </div>
+        </div>
+
+        <div class="space-y-10">
+          <div class="mt-10 md:mt-0">
+            <h1
+              id="overview"
+              class="text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
+            >
+              {frontmatter.title}
+            </h1>
+          </div>
+
+          <article class={proseClasses}>
+            <Content />
+          </article>
+        </div>
+      </div>
+    </div>
+  </TopMargin>
+</Layout>

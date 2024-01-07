@@ -1,0 +1,395 @@
+---
+import logo from "@/assets/akash-logo.svg";
+import SunIcon from "@/assets/icons/sun.svg";
+import FooterLink from "@/components/footer/footer-link.astro";
+import { Image } from "astro:assets";
+import DarkModeToggle from "../dark-mode-toggle.astro";
+import Logo from "../ui/logo.astro";
+import AkashFooterLogo from "../ui/akash-footer-logo.astro";
+import {
+  DiscordIcon,
+  GithubIcon,
+  TelegramIcon,
+  TwitterIcon,
+} from "../header/icons";
+---
+
+<footer class="w-full bg-[#ffffff] dark:bg-background">
+  <div class="lg:container">
+    <div class="mx-auto text-white lg:pt-[80px]">
+      <!-- logo -->
+      <div
+        class="flex flex-col items-start px-8 py-[40px] pb-[50px] md:pt-[26px] lg:hidden"
+      >
+        <a href="/" aria-label="Akash Network" class="text-foreground">
+          <AkashFooterLogo />
+        </a>
+
+        <div class="mt-10 flex flex-col items-start justify-start lg:hidden">
+          <p class="text-base font-medium leading-[24px] text-foreground">
+            Stay up to date with Akash Newsletter
+          </p>
+
+          <a
+            href="https://akashnet.typeform.com/to/awKX5bPw"
+            class="mt-4 flex cursor-pointer items-center justify-center rounded-md bg-[#FFDEDE] px-[13px] py-[9px] text-sm font-bold text-[#FA5757] hover:bg-[#ffdededc] dark:bg-primary dark:text-white"
+            >Subscribe Now</a
+          >
+        </div>
+      </div>
+
+      <!-- footer content -->
+      <div class="justify-between px-8 md:mx-auto md:px-0 lg:flex">
+        <!-- description  -->
+        <div class="hidden text-left text-base font-[300] lg:block">
+          <p class="text-foreground">
+            <AkashFooterLogo />
+          </p>
+          <div class="flex gap-x-[24px] pb-[40px] pt-[20px] font-[300]">
+            <!-- discord -->
+            <a
+              href="https://twitter.com/akashnet_"
+              target="_blank"
+              aria-label="Akash Network Twitter"
+              class="flex items-center gap-4 text-para dark:text-linkText"
+            >
+              <TwitterIcon />
+            </a>
+            <!-- github -->
+            <a
+              aria-label="Akash Network Github"
+              href="https://github.com/akash-network"
+              class="flex items-center gap-4 text-para dark:text-linkText"
+            >
+              <GithubIcon />
+            </a>
+            <!-- youtube -->
+            <a
+              aria-label="Akash Network Youtube"
+              href="https://discord.com/invite/akash"
+              class="flex items-center gap-4 text-para dark:text-linkText"
+            >
+              <DiscordIcon />
+            </a>
+            <!-- twitter -->
+            <a
+              aria-label="Akash Network Youtube"
+              href="https://www.youtube.com/c/AkashNetwork"
+              class="flex items-center gap-4"
+            >
+              <svg
+                width="16"
+                height="12"
+                viewBox="0 0 16 12"
+                fill="none"
+                stroke="currentColor"
+                class="text-para dark:text-linkText"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.0542 2.37138C13.9822 2.08376 13.8356 1.82024 13.6292 1.60742C13.4227 1.3946 13.1638 1.24003 12.8785 1.15932C11.8361 0.904785 7.66667 0.904785 7.66667 0.904785C7.66667 0.904785 3.49719 0.904785 2.45482 1.18356C2.16953 1.26427 1.91059 1.41884 1.70416 1.63166C1.49772 1.84448 1.35111 2.108 1.27912 2.39562C1.08835 3.45347 0.995035 4.5266 1.00035 5.60151C0.993546 6.68451 1.08687 7.76582 1.27912 8.83164C1.35848 9.11033 1.50838 9.36383 1.71434 9.56765C1.92029 9.77148 2.17533 9.91875 2.45482 9.99522C3.49719 10.274 7.66667 10.274 7.66667 10.274C7.66667 10.274 11.8361 10.274 12.8785 9.99522C13.1638 9.91451 13.4227 9.75994 13.6292 9.54712C13.8356 9.3343 13.9822 9.07078 14.0542 8.78316C14.2435 7.73327 14.3368 6.66832 14.333 5.60151C14.3398 4.51851 14.2465 3.4372 14.0542 2.37138Z"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M6.3031 7.58323L9.78777 5.60151L6.3031 3.61979V7.58323Z"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <a
+              target="_blank"
+              aria-label="Akash Network Telegram"
+              href="https://t.me/AkashNW"
+              class="flex items-center gap-4 text-para dark:text-linkText"
+            >
+              <TelegramIcon />
+            </a>
+          </div>
+        </div>
+        <div
+          class="grid grid-cols-3 justify-between gap-y-10 md:grid-cols-5 md:gap-x-[30px] md:px-10 lg:gap-x-10 lg:px-0"
+        >
+          <!-- tools -->
+          <div>
+            <p class="text-xs font-[700] text-foreground md:text-sm">
+              Products
+            </p>
+            <FooterLink
+              aria-label="Cloudmos"
+              link="https://deploy.cloudmos.io/"
+            >
+              Cloudmos
+            </FooterLink>
+            <FooterLink aria-label="Praetor App" link="https://praetorapp.com/">
+              Praetor App
+            </FooterLink>
+          </div>
+          <!-- quick links  -->
+          <div>
+            <p class="text-xs font-[700] text-foreground md:text-sm">Network</p>
+            <FooterLink aria-label="Akash Stats" link="/network-activity/">
+              Akash Stats
+            </FooterLink>
+            <FooterLink
+              aria-label="Akash Ecosystem"
+              link="/ecosystem/akash-tools/latest"
+            >
+              Akash Ecosystem
+            </FooterLink>
+            <FooterLink
+              aria-label="About Akash"
+              link="/about/general-information/"
+            >
+              About Akash
+            </FooterLink>
+            <FooterLink aria-label="AKT" link="/token">AKT Token</FooterLink>
+          </div>
+          <!-- Development -->
+          <div>
+            <p class="text-xs font-[700] text-foreground md:text-sm">
+              Development
+            </p>
+            <FooterLink
+              aria-label="Meetings"
+              link="/current-groups/special-interest-groups/sig-analytics/"
+            >
+              Meetings
+            </FooterLink>
+            <FooterLink
+              aria-label="Product Strategy"
+              link="/development/product-strategy/"
+            >
+              Product Strategy
+            </FooterLink>
+            <FooterLink
+              aria-label="Community Groups"
+              link="/development/current-groups/"
+            >
+              Community Groups
+            </FooterLink>
+            <FooterLink
+              aria-label="Current Projects"
+              link="/development/current-projects/"
+            >
+              Current Projects
+            </FooterLink>
+          </div>
+          <div>
+            <p class="text-xs font-[700] text-foreground md:text-sm">
+              Community
+            </p>
+            <FooterLink
+              aria-label="Contributions"
+              link="/community/community-contributions/"
+            >
+              Contributions
+            </FooterLink>
+
+            <FooterLink
+              aria-label="Akash Insiders"
+              link="/community/akash-insiders/"
+            >
+              Akash Insiders
+            </FooterLink>
+            <FooterLink
+              aria-label="Akash Validators"
+              link="/community/akash-validators/"
+            >
+              Akash Validators
+            </FooterLink>
+            <FooterLink
+              aria-label="Akash EDU"
+              link="/community/community-akash-edu/"
+            >
+              Akash EDU
+            </FooterLink>
+            <FooterLink aria-label="Events" link="/community/events/">
+              Events
+            </FooterLink>
+          </div>
+          <div>
+            <p class="text-xs font-[700] text-foreground md:text-sm">
+              Resources
+            </p>
+            <FooterLink aria-label="Documentation" link="/akash-docs/docs">
+              Documentation
+            </FooterLink>
+
+            <FooterLink aria-label="Blog" link="/blog">Blog</FooterLink>
+            <FooterLink aria-label="Support" link="/support">
+              Support
+            </FooterLink>
+            <FooterLink aria-label="Brand & Press" link="/brand/resources/">
+              Brand & Press
+            </FooterLink>
+            <FooterLink
+              aria-label="Discussions"
+              link="https://github.com/akash-network/awesome-akash/discussions"
+            >
+              Discussions
+            </FooterLink>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- social links -->
+    <div
+      class="my-[40px] flex gap-x-6 px-8 font-[300] text-para dark:text-linkText lg:hidden"
+    >
+      <a
+        aria-label="Akash Network Twitter"
+        href="https://twitter.com/akashnet_"
+        target="_blank"
+        class="flex items-center gap-4"
+      >
+        <TwitterIcon />
+      </a>
+      <!-- github -->
+      <a
+        aria-label="Akash Network Github"
+        href="https://github.com/akash-network"
+        target="_blank"
+        class="flex items-center gap-4"
+      >
+        <GithubIcon />
+      </a>
+      <!-- youtube -->
+      <a
+        aria-label="Akash Network Youtube"
+        href="https://discord.com/invite/akash"
+        target="_blank"
+        class="flex items-center gap-4"
+      >
+        <DiscordIcon />
+      </a>
+      <!-- twitter -->
+      <a
+        aria-label="Akash Network Youtube"
+        href="https://www.youtube.com/c/AkashNetwork"
+        target="_blank"
+        class="flex items-center gap-4"
+      >
+        <svg
+          width="16"
+          height="12"
+          viewBox="0 0 16 12"
+          fill="none"
+          stroke="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.0542 2.37138C13.9822 2.08376 13.8356 1.82024 13.6292 1.60742C13.4227 1.3946 13.1638 1.24003 12.8785 1.15932C11.8361 0.904785 7.66667 0.904785 7.66667 0.904785C7.66667 0.904785 3.49719 0.904785 2.45482 1.18356C2.16953 1.26427 1.91059 1.41884 1.70416 1.63166C1.49772 1.84448 1.35111 2.108 1.27912 2.39562C1.08835 3.45347 0.995035 4.5266 1.00035 5.60151C0.993546 6.68451 1.08687 7.76582 1.27912 8.83164C1.35848 9.11033 1.50838 9.36383 1.71434 9.56765C1.92029 9.77148 2.17533 9.91875 2.45482 9.99522C3.49719 10.274 7.66667 10.274 7.66667 10.274C7.66667 10.274 11.8361 10.274 12.8785 9.99522C13.1638 9.91451 13.4227 9.75994 13.6292 9.54712C13.8356 9.3343 13.9822 9.07078 14.0542 8.78316C14.2435 7.73327 14.3368 6.66832 14.333 5.60151C14.3398 4.51851 14.2465 3.4372 14.0542 2.37138Z"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+          <path
+            d="M6.3031 7.58323L9.78777 5.60151L6.3031 3.61979V7.58323Z"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </a>
+      <a
+        aria-label="Akash Network Telegram"
+        href="https://t.me/AkashNW"
+        target="_blank"
+        class="flex items-center gap-4 text-para dark:text-linkText"
+      >
+        <TelegramIcon />
+      </a>
+    </div>
+
+    <!-- Stay up to date -->
+    <div
+      class="mt-20 hidden items-center justify-between border-y py-5 lg:flex"
+    >
+      <p class="text-xl font-medium leading-[30px] text-foreground">
+        Stay up to date with Akash Newsletter
+      </p>
+      <a
+        aria-label="Subscribe Now"
+        href="https://akashnet.typeform.com/to/awKX5bPw"
+        class="ml-6 flex cursor-pointer items-center justify-center rounded-md bg-[#FFDEDE] px-[13px] py-[9px] text-sm font-bold text-[#FA5757] hover:bg-[#ffdededc] dark:bg-primary dark:text-white"
+        >Subscribe Now</a
+      >
+    </div>
+
+    <!-- bottom footer -->
+    <div
+      class="relative flex flex-col px-8 text-center md:pt-4 lg:flex-row lg:px-0 lg:pt-[32px]"
+    >
+      <div
+        class="flex w-full flex-col items-start justify-start gap-y-[16px] lg:flex-row lg:items-center"
+      >
+        <p class="text-left text-2xs text-para lg:border-r lg:pr-[16px]">
+          © Akash Network 2023 The Akash Network Authors Documentation
+          Distributed under CC BY 4.0
+        </p>
+        <div class="flex">
+          <p class="border-r pr-[8px] text-2xs text-para lg:px-[16px]">
+            <a
+              aria-label="Open-source Apache 2.0 Licensed."
+              class="text-decoration-none"
+              target="_blank"
+              href="https://github.com/akash-network"
+            >
+              Open-source Apache 2.0 Licensed.
+            </a>
+          </p>
+          <p class="border-r px-[8px] text-2xs text-para lg:px-[16px]">
+            <a
+              aria-label="GitHub v0.20.0"
+              class="text-decoration-none"
+              target="_blank"
+              href="https://github.com/akash-network/node"
+            >
+              GitHub v0.20.0
+            </a>
+          </p>
+
+          <p class="pl-[8px] text-2xs text-para lg:pl-[16px]">
+            <a
+              aria-label="Privacy"
+              class="text-decoration-none"
+              target="_blank"
+              href="/privacy"
+            >
+              Privacy
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="hidden lg:block">
+        <DarkModeToggle footer />
+      </div>
+    </div>
+    <div
+      class="flex flex-col items-center gap-10 px-8 pb-[40px] pt-[32px] text-cardGray dark:text-textGray md:pb-[80px]"
+    >
+      <p
+        class="text-center text-3xs font-medium text-cardGray dark:text-textGray"
+      >
+        <a
+          aria-label="Developed by Hooman Digital."
+          href="https://www.hooman.digital/"
+          target="_blank"
+        >
+          Developed by Hooman Digital.</a
+        >
+      </p>
+      <div class="grid w-full grid-cols-3 items-center justify-between">
+        <p></p>
+        <a
+          aria-label="Back To Top"
+          class="text-center text-[12px] font-[700] text-foreground lg:hidden"
+          href="#">Back To Top</a
+        >
+        <div class="ml-auto lg:hidden">
+          <DarkModeToggle />
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

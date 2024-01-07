@@ -1,0 +1,89 @@
+---
+import Hero from "@/components/home/hero/hero.astro";
+import Infrastructure from "@/components/home/infrastructure/infrastructure.astro";
+import Feature from "@/components/home/feature/feature.astro";
+import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
+import Layout from "@/layouts/layout.astro";
+import Testimonials from "@/components/home/testimonials/testimonials.astro";
+import PostCard from "@/components/cards/post-card.astro";
+
+import {
+  getCollection,
+  getEntryBySlug,
+  type CollectionEntry,
+} from "astro:content";
+import DarkModeToggle from "@/components/dark-mode-toggle.astro";
+
+const homepage = await getEntryBySlug("Homepage", "index");
+
+type BlogPost = CollectionEntry<"Blog">;
+
+// Get latest posts for latest articles section
+const posts = (await getCollection("Blog"))
+  .filter((post) => {
+    // Filter out posts with archive set to true.
+    return post.data.archive !== true;
+  })
+  .sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+
+    // Sort in descending order (latest date first)
+    return dateB.getTime() - dateA.getTime();
+  });
+const {
+  heroSection,
+  infrastructureSection,
+  featureSection,
+  aiModelsAndAppsSection,
+
+  testimonialsSection,
+} = homepage.data;
+---
+
+<Layout
+  title="Welcome to Akash Network - Decentralized Cloud Computing"
+  description="Explore the future of cloud computing with Akash Network. Discover decentralized, efficient, and cost-effective solutions for hosting and deploying applications."
+>
+  <div>
+    <Hero heroSection={heroSection} />
+
+    <Infrastructure infrastructureSection={infrastructureSection} />
+
+    <Feature featureSection={featureSection} />
+
+    <AiModelsAndApps aiModelsAndAppsSection={aiModelsAndAppsSection} />
+
+    <Testimonials testimonialsSection={testimonialsSection} />
+
+    <div class="container mb-[120px] mt-[120px]">
+      <div class="border-b border-paraDark"></div>
+    </div>
+
+    <div class="container">
+      <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">
+        Discover what's happening on Akash
+      </h2>
+      <div
+        class="mt-10 grid grid-cols-1 gap-16 sm:grid-cols-2 md:gap-16 lg:grid-cols-3"
+      >
+        {
+          posts.slice(0, 3).map((post: BlogPost) => {
+            return (
+              <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
+                <PostCard
+                  title={post.data.title}
+                  image={post.data.bannerImage}
+                  tag={post.data.tags[0]}
+                  contributor={post.data.contributors[0]}
+                  pubDate={post.data.pubDate}
+                  description={post.data.description}
+                />
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

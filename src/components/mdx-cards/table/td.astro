@@ -1,0 +1,11 @@
+---
+const { width } = Astro.props;
+
+console.log(width);
+---
+
+<td
+  class={`not-prose text-3xs md:text-base bg-background2 px-2 md:px-6 leading-snug py-4 text-para w-[${width}]`}
+>
+  <slot /></td
+>

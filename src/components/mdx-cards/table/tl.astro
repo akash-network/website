@@ -1,0 +1,15 @@
+---
+import Td from "./td.astro";
+
+const { link } = Astro.props;
+---
+
+<Td>
+  <a
+    href={link}
+    target="_blank"
+    class="not-prose flex cursor-pointer items-center gap-x-2 font-bold text-foreground hover:text-primary"
+  >
+    <slot />
+  </a>
+</Td>

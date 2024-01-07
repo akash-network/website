@@ -1,0 +1,55 @@
+---
+import AkashLogo from "./akash-docs-logo.astro";
+import { DocsNav } from "./docs-nav";
+
+const { nav, providersNav } = Astro.props;
+
+const pathname = new URL(Astro.request.url).pathname;
+---
+
+<aside
+  class="sidebar-scroll sticky top-[130px] h-[calc(100dvh-130px)] w-[220px] flex-shrink-0 overflow-y-auto border-r py-6 pr-5 lg:w-[281px]"
+>
+  <div class="flex flex-col gap-y-6">
+    <div>
+      <a
+        href={`/akash-docs/${pathname?.split("/")[2]}/`}
+        class={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
+          dark:hover:text-white dark:hover:bg-background2
+        hover:bg-[#F4F1F1]  ${
+          pathname?.split("/")[3]
+            ? "text-para"
+            : "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
+        }`}
+      >
+        Home
+      </a>
+    </div>
+
+    <div class="border-b"></div>
+
+    <div>
+      <DocsNav
+        client:load
+        docsNav={nav}
+        providersNav={providersNav}
+        pathName={pathname}
+      />
+    </div>
+
+    <div class="border-b"></div>
+
+    <div>
+      <a
+        href="/support/"
+        class={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px]  hover:bg-primary/10  ${
+          pathname === "/support/"
+            ? "bg-primary/10 text-foreground"
+            : "text-para"
+        }`}
+      >
+        Support</a
+      >
+    </div>
+  </div>
+</aside>

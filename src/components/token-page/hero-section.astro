@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+
+const { heroSection } = Astro.props;
+---
+
+<div
+  class="mt-7 flex flex-col items-start md:mt-0 lg:flex-row-reverse lg:gap-x-10"
+>
+  <div class="w-full flex-1">
+    <Image
+      alt="Feature illustration"
+      width={1200}
+      height={1200}
+      src={heroSection.heroImage.darkImage}
+      format="svg"
+      class="hidden dark:block"
+      loading="eager"
+    />
+
+    <Image
+      alt="Feature illustration"
+      width={1200}
+      height={1200}
+      src={heroSection.heroImage.mobile}
+      format="svg"
+      class="dark:hidden"
+      loading="eager"
+    />
+  </div>
+
+  <div class="mt-[40px] w-full flex-1 lg:mt-0">
+    <h1
+      class="text-2lg font-bold leading-10 md:text-start md:text-3lg md:font-bold md:leading-[48px]"
+    >
+      {heroSection.title}
+    </h1>
+    <p
+      class="mt-5 text-base capitalize leading-[24px] md:mt-[24px] md:text-lg md:leading-[28px]"
+    >
+      {heroSection.description}
+    </p>
+  </div>
+</div>

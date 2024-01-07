@@ -1,0 +1,40 @@
+---
+import ButtonLink from "./ui/button-link.astro";
+
+const pathname = Astro.url.pathname;
+
+let title = "Experience the Supercloud.";
+let button = { label: "Deploy Now", link: "https://deploy.cloudmos.io/" };
+
+if (pathname.startsWith("/about/providers")) {
+  title = "Join the Supercloud";
+  button = { label: "Become a Provider", link: "/providers" };
+}
+
+if (pathname.startsWith("/ecosystem/providers")) {
+  title = "Join the Supercloud Provider Network";
+  button = { label: "Become a Provider", link: "/about/providers/" };
+}
+---
+
+<section
+  class={`
+  ${pathname.startsWith("/community/") ? "hidden" : ""}
+  mt-10 flex flex-col items-center justify-around bg-[#F4F1EF] px-[30px] py-[80px] text-center dark:bg-background2 md:mt-16 lg:py-[160px]`}
+>
+  <p
+    class="max-w-[1000px] text-[20px] font-medium text-foreground md:text-3xl md:leading-snug lg:text-[48px]"
+  >
+    {title}
+  </p>
+
+  <div class="mt-6 md:mt-10">
+    <div class="hidden md:block">
+      <ButtonLink link={button.link} size="xl">{button.label}</ButtonLink>
+    </div>
+
+    <div class="block md:hidden">
+      <ButtonLink link={button.link} size="md">{button.label}</ButtonLink>
+    </div>
+  </div>
+</section>

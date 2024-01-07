@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "astro-build.astro-vscode",
+    "vivaxy.vscode-conventional-commits"
+  ],
+  "unwantedRecommendations": []
+}

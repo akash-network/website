@@ -1,0 +1,29 @@
+---
+import ButtonLink from "./ui/button-link.astro";
+const { page } = Astro.props;
+---
+
+<div class="mb-10 mt-[56px] flex items-center justify-between">
+  <div class="flex space-x-4">
+    {
+      page.url.prev ? (
+        <>
+          <ButtonLink link={page.url.prev} variant="secondary" size="lg">
+            Previous
+          </ButtonLink>
+        </>
+      ) : null
+    }
+    {
+      page.url.next ? (
+        <>
+          <ButtonLink link={page.url.next} variant="secondary" size="lg">
+            Next
+          </ButtonLink>
+        </>
+      ) : null
+    }
+  </div>
+
+  <p class="text-xs md:text-base">Page: {page.currentPage} / {page.lastPage}</p>
+</div>

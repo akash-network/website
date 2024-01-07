@@ -1,0 +1,121 @@
+---
+import { Image } from "astro:assets";
+import FormattedDate from "@/components/formatted-date.astro";
+
+interface BannerImage {
+  src: string;
+  width: number;
+  height: number;
+  format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg";
+}
+
+interface Props {
+  image: BannerImage;
+  title: string;
+  contributor: string;
+  tag: string;
+  pubDate: Date;
+  type?: "compact" | "large";
+  description?: string;
+}
+
+const {
+  type = "compact",
+  image,
+  contributor,
+  title,
+  tag,
+  pubDate,
+  description,
+} = Astro.props;
+---
+
+<!-- hover:-translate-y-2 -->{
+  type === "compact" ? (
+    <div class="  group flex flex-col   transition-transform duration-100 ease-in hover:transform">
+      <div class="aspect-video  overflow-hidden rounded-lg">
+        <Image
+          src={image}
+          alt={`banner image for the post ${title}`}
+          width={1200}
+          height={1200}
+          format="webp"
+          class=" h-full w-full bg-gray-100 object-cover shadow-sm  transition-all duration-500 ease-in-out group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="mt-4">
+        <div class="flex items-center gap-x-4">
+          <p class=" text-2xs font-medium  md:text-sm">By {contributor}</p>
+
+          <span class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText">
+            {" "}
+            {tag}
+          </span>
+        </div>
+
+        <h3 class="mt-2 line-clamp-2 text-base font-bold leading-[24px] md:mt-4 md:text-xl md:leading-[28px]">
+          {title}
+        </h3>
+
+        <p class="mt-3 line-clamp-2 text-sm font-medium md:mt-6 md:text-base">
+          {description}
+        </p>
+
+        <div class="mt-4 flex items-center gap-x-1.5">
+          <p class="text-2xs font-medium  md:text-sm">5 Min. Read</p>
+          <p class=" text-2xs  font-medium md:text-sm">
+            <FormattedDate date={pubDate} />
+          </p>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div class=" group mx-auto  flex flex-col overflow-hidden duration-100 ease-in hover:-translate-y-2   hover:transform lg:h-[282px] lg:w-[940px] lg:flex-row xl:min-h-[360px] xl:w-full">
+      <div class="w-full overflow-hidden rounded-lg xl:w-[120%]">
+        <Image
+          src={image}
+          alt={`banner image for the post ${title}`}
+          width={1200}
+          height={1200}
+          format="webp"
+          class=" h-full w-full bg-gray-100 object-cover shadow-sm  transition-all duration-500 ease-in-out group-hover:scale-105"
+          loading="eager"
+        />
+      </div>
+
+      <div class="mt-5 flex w-full flex-shrink flex-col justify-start lg:mt-0 lg:pl-12">
+        <div class="flex items-center gap-x-3 md:gap-x-4">
+          <p class=" text-2xs font-medium text-linkText  md:text-base">
+            By {contributor}
+          </p>
+
+          <span class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
+            {" "}
+            {tag}
+          </span>
+        </div>
+
+        <div class="mt-4">
+          <h2 class=" text-lg font-bold md:mb-6 lg:text-3xl xl:text-2lg">
+            {title}
+          </h2>
+
+          <p class="mt-4  line-clamp-6 text-sm  font-medium  text-para md:mt-5 md:line-clamp-2 md:text-lg md:leading-[28px] xl:line-clamp-6">
+            {description}
+          </p>
+        </div>
+
+        <div class="mt-6 flex items-center gap-x-1.5">
+          <p class="text-2xs font-medium text-linkText md:text-base">
+            5 Min. Read
+          </p>
+          <p class=" text-2xs font-medium text-linkText md:text-base">
+            <FormattedDate date={pubDate} />
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {}
+
+const { ...props } = Astro.props;
+---
+
+<a
+  {...props}
+  class="flex-shrink-0 rounded-lg border border-primary px-4 py-2 text-base leading-none text-primary hover:bg-primary/5"
+>
+  <slot />
+</a>

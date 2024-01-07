@@ -1,0 +1,345 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+
+import TableOfContents from "@/components/development-pages/table-of-contents.tsx";
+import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
+import generateToc from "@/lib/generateToc";
+import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
+import MobileNav from "@/components/development-pages/mobile-nav-meetings";
+import Layout from "@/layouts/layout.astro";
+import { proseClasses } from "@/lib/prose-classes";
+
+export async function getStaticPaths() {
+  const meetings: any = await Astro.glob(
+    "../../../content/Development_Current_Groups_Page/**/**/_meetings/*.md",
+  );
+
+  return meetings.map((meet: any) => ({
+    params: {
+      slug:
+        meet.file.split("/")[meet.file.split("/").length - 4] +
+        "/" +
+        meet.file.split("/")[meet.file.split("/").length - 3] +
+        "/" +
+        meet.file.split("/")[meet.file.split("/").length - 1],
+    },
+    props: {
+      meet: meet,
+    },
+  }));
+}
+
+type Props = CollectionEntry<"Development_Current_Groups_Page">;
+
+const page = Astro.props;
+
+const { meet } = page;
+
+const Content = meet.Content;
+const headings = await meet.getHeadings();
+const frontMatter = meet.frontmatter;
+
+const pages = await getCollection("Development_Current_Groups_Page");
+
+const meetings = await Astro.glob(
+  "../../../content/Development_Current_Groups_Page/**/**/_meetings/*.md",
+);
+
+console.log(
+  meetings[0].file.split("/")[meetings[0].file.split("/").length - 4] +
+    "/" +
+    meetings[0].file.split("/")[meetings[0].file.split("/").length - 3] +
+    "/" +
+    meetings[0].file.split("/")[meetings[0].file.split("/").length - 1],
+);
+
+const nav: any = [];
+
+pages.forEach((item) => {
+  const idParts = item.id.split("/");
+  let mainLabel = idParts.length > 0 ? idParts[0] : "Unknown";
+
+  mainLabel = mainLabel
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  const existingItem = nav.find((navItem) => navItem.label === mainLabel);
+
+  if (existingItem) {
+    existingItem.subItems.push({
+      label: item.data.title,
+      link: `/current-groups/${item.slug}/`,
+      enabled: true,
+    });
+  } else {
+    nav.push({
+      label: mainLabel,
+      link: `/current-groups/${idParts.length > 0 ? idParts[0] : "Unknown"}/`,
+      enabled: true,
+      subItems: [
+        {
+          label: item.data.title,
+          link: `/current-groups/${item.slug}/`,
+          enabled: true,
+        },
+      ],
+    });
+  }
+});
+
+nav.forEach((navItem: any) => {
+  if (navItem.subItems && navItem.subItems.length > 0) {
+    navItem.subItems.forEach((subItem: any) => {
+      const slug =
+        subItem.link.split("/")[subItem.link.split("/").length - 3] +
+        "/" +
+        subItem.link.split("/")[subItem.link.split("/").length - 2];
+
+      meetings.forEach((meeting) => {
+        const meetingSlug =
+          meeting.file.split("/")[meeting.file.split("/").length - 4] +
+          "/" +
+          meeting.file.split("/")[meeting.file.split("/").length - 3];
+
+        if (meetingSlug === slug) {
+          if (subItem.meetings) {
+            subItem.meetings.push({
+              link: meeting.file.split("/")[meeting.file.split("/").length - 1],
+              title: meeting.file
+                .split("/")
+                [meeting.file.split("/").length - 1].replace(/\.md$/, ""),
+            });
+          } else {
+            subItem.meetings = [
+              {
+                link: meeting.file.split("/")[
+                  meeting.file.split("/").length - 1
+                ],
+                title: meeting.file
+                  .split("/")
+                  [meeting.file.split("/").length - 1].replace(/\.md$/, ""),
+              },
+            ];
+          }
+        }
+      });
+    });
+  }
+});
+
+function findPrevAndNextPages(nav: any, pathname: any) {
+  let allItems: any = [];
+
+  // Extract all the items from the 'nav' array
+  nav.forEach((category: any) => {
+    if (category.items && category.items.length > 0) {
+      allItems = allItems.concat(category.items);
+    }
+  });
+
+  // Find the index of the current page in the items array
+  const currentIndex = allItems.findIndex(
+    (item: any) => item.link === pathname,
+  );
+
+  // Calculate the index of the previous and next pages
+  const prevIndex = currentIndex - 1;
+  const nextIndex = currentIndex + 1;
+
+  // Determine the previous and next pages
+  const prevPage = prevIndex >= 0 ? allItems[prevIndex] : null;
+  const nextPage = nextIndex < allItems.length ? allItems[nextIndex] : null;
+
+  return { prevPage, nextPage };
+}
+
+const pathname = new URL(Astro.request.url).pathname;
+
+const editThisPageLink = pathname
+  .split("/")
+  .slice(3)
+  .join("/")
+  .replace(/(\d{3}-\d{4}-\d{2}-\d{2}\.md)/, "_meetings/$1");
+---
+
+<Layout title="Development">
+  <div class="container mt-10">
+    <div class="grid grid-cols-12 gap-x-5">
+      <div
+        class="sidebar-scroll sticky top-32 hidden h-screen overflow-auto md:col-span-3 md:block"
+      >
+        <div class="flex flex-col gap-y-3">
+          <a
+            href="/development/current-groups/"
+            class={`flex items-center rounded-lg  py-[6px] text-base font-medium leading-[24px]  gap-x-1 text-para cursor-pointer hover:text-primary`}
+          >
+            <svg
+              width="20"
+              height="20"
+              class="text-para"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12.7071 5.29289C13.0976 5.68342 13.0976 6.31658 12.7071 6.70711L9.41421 10L12.7071 13.2929C13.0976 13.6834 13.0976 14.3166 12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L7.29289 10.7071C6.90237 10.3166 6.90237 9.68342 7.29289 9.29289L11.2929 5.29289C11.6834 4.90237 12.3166 4.90237 12.7071 5.29289Z"
+                fill="currentColor"></path>
+            </svg>
+
+             Back
+          </a>
+          {
+            nav.map((navItem: any) => (
+              <div class="flex flex-col gap-y-3">
+                <a
+                  href={`${navItem.link}${
+                    navItem.subItems[0].link.split("/")[3]
+                  }/`}
+                  class={`
+                   
+                    border-b  pb-3 pt-[8px] text-base font-medium leading-[24px]  `}
+                >
+                  {navItem.label}
+                </a>
+
+                {navItem.subItems &&
+                  pathname.split("/")[3] === navItem.link.split("/")[2] &&
+                  navItem.subItems.map((subItem: any) => (
+                    <div class="flex flex-col gap-y-3">
+                      <a
+                        class={`${
+                          pathname === subItem.link
+                            ? " text-primary"
+                            : "text-para"
+                        }  ml-3 rounded-lg py-1.5   text-base font-medium leading-[24px] `}
+                        href={`${subItem.link}`}
+                      >
+                        {subItem.label}
+                      </a>
+
+                      {subItem.meetings &&
+                        subItem.link.split("/")[3] === pathname.split("/")[4] &&
+                        subItem.meetings
+                          .map((meeting) => {
+                            // Extract the date part from the title (assuming the format is '001-2023-01-25')
+                            const dateString = meeting.title
+                              .split("-")
+                              .slice(1)
+                              .join("-");
+
+                            // Create a Date object from the formatted date string
+                            const dateObject = new Date(dateString);
+                            console.log(dateObject);
+
+                            // Add the date object to the meeting object
+                            return {
+                              ...meeting,
+                              date: dateObject,
+                            };
+                          })
+                          .sort((a, b) => b.date - a.date)
+                          .map((meeting: any) => (
+                            <a
+                              href={`${meeting.link}`}
+                              class={`${
+                                pathname.split("/")[5] ===
+                                  `${subItem.link}${meeting.link}`.split(
+                                    "/",
+                                  )[4] &&
+                                pathname.split("/")[4] ===
+                                  `${subItem.link}${meeting.link}`.split("/")[3]
+                                  ? "text-primary"
+                                  : "text-para"
+                              }  ml-6   py-[6px] text-base font-medium leading-[24px] `}
+                            >
+                              {meeting.title.split("-").slice(1).join("-")}
+                            </a>
+                          ))}
+                    </div>
+                  ))}
+              </div>
+            ))
+          }
+
+          <div
+            class="mt-3 flex flex-col justify-center rounded-[8px] border bg-background2 p-4"
+          >
+            <a
+              href={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Current_Groups_Page/${editThisPageLink}`}
+              class="inline-flex cursor-pointer items-center justify-center gap-x-2 text-xs font-medium hover:text-primary"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                class="text-foreground"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 14L8 14L14 14"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M8.15049 3.88559L10.0361 1.99997L13.3359 5.2998L11.4503 7.18542M8.15049 3.88559L4.51039 7.52569C4.32285 7.71323 4.21749 7.96758 4.21749 8.2328L4.21749 11.1184L7.10311 11.1184C7.36833 11.1184 7.62268 11.0131 7.81022 10.8255L11.4503 7.18542M8.15049 3.88559L11.4503 7.18542"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+               Edit page on github</a
+            >
+
+            <p class="mt-2 text-center text-2xs">
+              Last modified on April 18, 2023
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class={`col-span-12 mx-auto w-full md:pl-10 md:col-span-9`}>
+        <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
+          <MobileNav
+            pageName={Astro.url.pathname
+              .split("/")[2]
+              .split("-")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+            currentPath={Astro.url.pathname}
+            nav={nav}
+            client:load
+            link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Current_Groups_Page/${editThisPageLink}`}
+          />
+
+          <MobileTableOfContents
+            client:load
+            toc={generateToc(headings, "Overview")}
+            labels={{
+              onThisPage: "onThisPage",
+            }}
+          />
+        </div>
+
+        <div class="space-y-10">
+          <div class="mt-10 md:mt-0">
+            <h1
+              id="overview"
+              class="text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg"
+            >
+              {frontMatter.title}
+            </h1>
+          </div>
+
+          <article class={proseClasses}>
+            <Content />
+          </article>
+        </div>
+
+        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
+      </div>
+    </div>
+  </div>
+</Layout>

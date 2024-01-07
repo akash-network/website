@@ -1,0 +1,59 @@
+---
+import { Image } from "astro:assets";
+
+// Import required assets
+
+import SunIcon from "@/assets/icons/sun.svg";
+
+import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
+import AkashFooterLogo from "../ui/akash-footer-logo.astro";
+---
+
+<div class="mt-[80px] flex flex-col gap-4 border-t px-6 py-10 md:px-10">
+  <div class="flex items-start justify-between gap-x-2 gap-y-4 md:gap-y-0">
+    <a href="/" class="flex items-center gap-4">
+      <AkashFooterLogo width={127} height={15} />
+    </a>
+
+    <p class="hidden text-center text-2xs font-medium xl:block">
+      © Akash Network 2023 The Akash Network Authors Documentation Distributed
+      under CC BY 4.0 | Open-source Apache 2.0 Licensed. | GitHub v0.20.0 |
+      Privacy
+    </p>
+
+    <div class="flex items-center gap-x-2 text-para">
+      <a
+        href="https://twitter.com/akashnet_"
+        target="_blank"
+        class="flex items-center gap-4"
+      >
+        <TwitterIcon />
+      </a>
+      <!-- github -->
+      <a
+        href="https://github.com/akash-network"
+        class="flex items-center gap-4"
+      >
+        <GithubIcon />
+      </a>
+      <!-- youtube -->
+      <a
+        href="https://discord.com/invite/akash"
+        class="flex items-center gap-4"
+      >
+        <DiscordIcon />
+      </a>
+    </div>
+  </div>
+  <div
+    class="flex flex-wrap items-center justify-center gap-x-2 gap-y-4 xl:hidden"
+  >
+    <p class="border-r pr-2 text-center text-2xs font-medium">
+      © Akash Network 2023 The Akash Network Authors Documentation Distributed
+      under CC BY 4.0
+    </p>
+    <p class="text-2xs font-medium">Open-source Apache 2.0 Licensed.</p>
+    <p class="border-l pl-2 text-2xs font-medium">GitHub v0.20.0</p>
+    <p class="border-l pl-2 text-2xs font-medium">Privacy</p>
+  </div>
+</div>

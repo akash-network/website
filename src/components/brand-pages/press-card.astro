@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import FormattedDate from "../formatted-date.astro";
+
+const { image, title, tag, author, pubDate, externalLink, description } =
+  Astro.props;
+---
+
+<a class="block" href={externalLink}>
+  <div class="transition-transform duration-100 ease-in hover:transform">
+    <div class="aspect-video overflow-hidden rounded-lg">
+      <Image
+        src={image}
+        alt={`press banner`}
+        width={1200}
+        height={1200}
+        format="webp"
+        class="h-full w-full bg-gray-100 object-cover shadow-sm transition-all duration-500 ease-in-out group-hover:scale-105"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="mt-4">
+      <div class="flex items-center gap-x-3 md:gap-x-4">
+        <p class="text-2xs font-medium md:text-xs">
+          by {author}
+        </p>
+
+        <span
+          class="bg-badgeColor text-iconText inline-flex items-center rounded-full px-3 py-1.5 text-xs font-medium"
+        >
+          {tag}
+        </span>
+      </div>
+      <h3
+        class="mt-2 line-clamp-2 text-base font-bold md:mt-4 md:text-xl md:leading-[30px]"
+      >
+        {title}
+      </h3>
+
+      <p class="mt-3 line-clamp-2 text-sm md:mt-5 md:text-base">
+        {description}
+      </p>
+
+      <div class="mt-4 flex items-center gap-x-1.5">
+        <p class="text-2xs md:text-xs">5 Min Read.</p>
+        <p class="text-2xs font-normal md:text-xs">
+          <FormattedDate date={pubDate} />
+        </p>
+      </div>
+    </div>
+  </div>
+</a>

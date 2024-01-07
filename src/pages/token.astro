@@ -1,0 +1,224 @@
+---
+import EcosystemSection from "@/components/token-page/ecosystem-section.astro";
+import Layout from "@/layouts/layout.astro";
+import { getEntryBySlug } from "astro:content";
+import HowItWorksSection from "@/components/token-page/how-it-works-section.astro";
+import TokenMetricsSection from "@/components/token-page/token-metrics-section.tsx";
+import HeroSection from "@/components/token-page/hero-section.astro";
+import FaqSection from "@/components/token-page/faq-section.astro";
+import BuyingAktSection from "@/components/token-page/buying-akt-section.astro";
+import { Image } from "astro:assets";
+import OnThisPageDropdown from "@/components/token-page/on-this-page-dropdown.tsx";
+import TopMargin from "@/components/ui/top-margin.astro";
+
+// get token page content using getEntryBySlug
+const tokenPage = await getEntryBySlug("Token_Homepage", "index");
+
+const {
+  heroSection,
+  howItWorksSection,
+  faqsSection,
+  ecosystemSection,
+  buyingAKTSection,
+  aktFeaturesSection,
+} = tokenPage.data;
+---
+
+<Layout
+  title="Akash Token (AKT) - The Currency of Decentralized Cloud"
+  description="Discover the Akash Token (AKT) and its role in powering the decentralized cloud ecosystem. Explore its utility, benefits, and how it fuels the Akash Network."
+>
+  <TopMargin>
+    <div class="grid-cols-12 gap-x-10 md:grid">
+      <div class="sticky top-[120px] hidden h-screen md:col-span-3 md:block">
+        <p class="text-sm font-bold leading-[20px]">ON THIS PAGE</p>
+
+        <div class="border-b py-2"></div>
+
+        <div class="mt-4 flex flex-col gap-y-4 text-para">
+          <a
+            href="#how-it-works"
+            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
+            >How it works</a
+          >
+          <a
+            href="#ecosystem"
+            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
+            >Ecosystem Tools</a
+          >
+          <a
+            href="#token-metrics"
+            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
+            >Token Metrics</a
+          >
+          <a
+            href="#akt-features"
+            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
+            >AKT 2.0 Features</a
+          >
+          <a
+            href="#buying-akt"
+            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
+            >Buying AKT</a
+          >
+          <a
+            href="#faq"
+            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
+            >FAQs</a
+          >
+        </div>
+      </div>
+
+      <div class="col-span-12 mx-auto w-full md:col-span-9">
+        <div class="md:hidden">
+          <OnThisPageDropdown client:load />
+        </div>
+
+        <div id="hero">
+          <HeroSection heroSection={heroSection} />
+        </div>
+
+        <!-- Divider Border -->
+        <div class="w-full">
+          <div class="my-10 border-b md:my-20"></div>
+        </div>
+
+        <div id="how-it-works">
+          <HowItWorksSection howItWorksSection={howItWorksSection} />
+        </div>
+
+        <!-- Divider Border -->
+        <div class="w-full">
+          <div class="mt-20 border-b md:mb-10"></div>
+        </div>
+
+        <div id="ecosystem">
+          <EcosystemSection ecosystemSection={ecosystemSection} />
+        </div>
+
+        <!-- Divider Border -->
+        <div class="w-full">
+          <div class="border-b"></div>
+        </div>
+
+        <div id="token-metrics">
+          <TokenMetricsSection client:load />
+        </div>
+
+        <!-- Divider Border -->
+        <div class="w-full">
+          <div class="border-b"></div>
+        </div>
+
+        <div id="akt-features">
+          <div class="mt-[40px] md:mt-[80px]">
+            <div>
+              <h2
+                class="text-2xl font-bold leading-9 md:text-2lg md:leading-10"
+              >
+                {aktFeaturesSection.title}
+              </h2>
+              <p
+                class="mt-4 text-base font-normal md:text-lg md:leading-[30px]"
+              >
+                {aktFeaturesSection.description}
+              </p>
+            </div>
+
+            <div class="mt-10">
+              <Image
+                alt="Feature illustration"
+                width={1200}
+                height={1200}
+                src={aktFeaturesSection.image}
+                format="svg"
+                loading="lazy"
+                class="dark:hidden"
+              />
+              <Image
+                alt="Feature illustration"
+                width={1200}
+                height={1200}
+                src={aktFeaturesSection.darkImage ?? aktFeaturesSection.image}
+                format="svg"
+                loading="lazy"
+                class="hidden dark:block"
+              />
+            </div>
+
+            <!-- not working -->
+            <!-- <div set:html={aktFeaturesSection.endMarkdown} /> -->
+            <div class="mt-10">
+              <div class="space-y-8">
+                <p class="text-sm font-normal md:text-[18px]">
+                  The main features of AKT 2.0 are:
+                </p>
+
+                <ul
+                  class="ml-8 list-disc space-y-2 text-sm font-normal text-[#7F7F7F] md:text-[18px]"
+                >
+                  <li>
+                    Take and Make Fees
+                    <a
+                      target="_blank"
+                      class="font-medium text-primary"
+                      href="https://www.mintscan.io/akash/proposals/224"
+                      >(Live now)</a
+                    >
+                  </li>
+                  <li>
+                    Stable Payment and Settlement
+                    <a
+                      target="_blank"
+                      class="font-medium text-primary"
+                      href="https://www.mintscan.io/akash/proposals/228"
+                      >(Live now)</a
+                    >
+                  </li>
+                  <li>Incentive Distribution Pool</li>
+                  <li>Provider Subsidies</li>
+                  <li>Public Goods Fund</li>
+                </ul>
+
+                <p class="text-sm font-normal leading-normal md:text-[18px]">
+                  Read the specification and roadmap for AKT2.0 <a
+                    target="_blank"
+                    class="font-medium text-primary"
+                    href="https://github.com/akash-network/community/tree/main/sig-economics/akt20-prop"
+                    >here</a
+                  >, and keep up with the latest developments in <a
+                    target="_blank"
+                    class="font-medium text-primary"
+                    href=" https://github.com/akash-network/community/tree/main/sig-economics
+                  "
+                    >sig-economics</a
+                  >
+                   and
+                  <a
+                    target="_blank"
+                    class="font-medium text-primary"
+                    href="https://github.com/orgs/akash-network/discussions/categories/economics"
+                  >
+                    GitHub Discussions.
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-[40px] w-full md:mt-[80px]">
+          <div class="border-b"></div>
+        </div>
+
+        <div id="buying-akt">
+          <BuyingAktSection buyingAKTSection={buyingAKTSection} />
+        </div>
+
+        <div id="faq">
+          <FaqSection faqsSection={faqsSection} />
+        </div>
+      </div>
+    </div>
+  </TopMargin>
+</Layout>

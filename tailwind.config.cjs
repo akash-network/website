@@ -1,0 +1,109 @@
+const { fontFamily } = require("tailwindcss/defaultTheme");
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  theme: {
+    extend: {
+      screens: {
+        "3xl": "1660px",
+      },
+      fontSize: {
+        "2xs": ".625rem",
+        "3xs": ".5rem",
+        "2lg": "32px",
+        "3lg": "40px",
+      },
+      typography(theme) {
+        return {
+          DEFAULT: {
+            css: {
+              "code::before": {
+                content: "none", // don’t generate the pseudo-element
+                //                content: '""', // this is an alternative: generate pseudo element using an empty string
+              },
+              "code::after": {
+                content: "none",
+              },
+              code: {
+                color: "hsl(var(--foreground))",
+
+                backgroundColor: "hsl(var(--badge-color))",
+                border: "1px solid hsl(var(--default-border))",
+                fontWeight: "400",
+                borderRadius: "8px",
+                paddingLeft: theme("spacing[1.5]"),
+                paddingRight: theme("spacing[1.5]"),
+                paddingTop: theme("spacing.1"),
+                paddingBottom: theme("spacing.1"),
+              },
+              strong: {
+                color: "hsl(var(--foreground))",
+              },
+              h4: {
+                color: "hsl(var(--foreground))",
+              },
+              td: {
+                backgroundColor: "hsl(var(--background2))",
+              },
+            },
+          },
+        };
+      },
+
+      colors: {
+        background: "hsl(var(--background))",
+        background2: "hsl(var(--background2))",
+        foreground: "hsl(var(--foreground))",
+        para: "hsl(var(--para))",
+        cardGray: "hsl(var(--card-gray))",
+        textGray: "hsl(var(--text-gray))",
+        border: "hsl(var(--border))",
+        paraDark: "hsl(var(--para-dark))",
+        lightForeground: "hsl(var(--light-foreground))",
+        sortText: "hsl(var(--sort-text))",
+        darkGray: "hsl(var(--dark-gray))",
+        badgeColor: "hsl(var(--badge-color))",
+        iconText: "hsl(var(--icon-text))",
+        linkText: "hsl(var(--link-text))",
+        defaultBorder: "hsl(var(--default-border))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          rose: "hsl(var(--secondary-rose))",
+          lemon: "hsl(var(--secondary-lemon))",
+          lemonDark: "hsl(var(--secondary-lemon-dark))",
+          gray: "hsl(var(--secondary-gray))",
+          lavender: "hsl(var(--secondary-lavender))",
+          mint: "hsl(var(--secondary-mint))",
+          red: "hsl(var(--secondary-red))",
+        },
+      },
+
+      fontFamily: {
+        sans: ["Satoshi-Variable", ...fontFamily.sans],
+      },
+
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("@tailwindcss/typography")],
+};
