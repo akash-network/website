@@ -1,0 +1,23 @@
+---
+import Card from "./card.astro";
+
+const { featureSection } = Astro.props;
+
+export type Card = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  darkImage: string;
+};
+---
+
+<section class="container mb-10">
+  <div
+    class="border-b border-paraDark pb-[80px] pt-[40px] md:pb-[120px] md:pt-[80px]"
+  >
+    <div class="space-y-[60px] md:space-y-[196px]">
+      {featureSection.cards.map((card: Card) => <Card card={card} />)}
+    </div>
+  </div>
+</section>

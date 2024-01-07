@@ -1,0 +1,206 @@
+---
+import ButtonLink from "@/components/ui/button-link.astro";
+import Layout from "@/layouts/layout.astro";
+---
+
+<Layout title="Support">
+  <div class="pt-[40px] md:pb-[80px] md:pt-[120px]">
+    <div class="container text-center">
+      <h3 class="text-2xl font-bold text-foreground md:text-3lg">
+        Get the support you need
+      </h3>
+
+      <!-- <div
+        class="mt-[40px] inline-flex h-[40px] w-full items-center justify-between rounded border bg-background2 p-[6px] md:h-[50px] md:w-[512px] md:rounded-lg md:p-[13px]"
+      >
+        <div
+          class="flex h-6 shrink grow basis-0 items-center justify-start md:pr-[228px]"
+        >
+          <div class="relative text-cardGray dark:text-para">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              stroke="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8.25 14.25C11.5637 14.25 14.25 11.5637 14.25 8.25C14.25 4.93629 11.5637 2.25 8.25 2.25C4.93629 2.25 2.25 4.93629 2.25 8.25C2.25 11.5637 4.93629 14.25 8.25 14.25Z"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M15.7469 15.7508L12.4844 12.4883"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </div>
+          <div class="inline-flex flex-col items-start justify-start pl-2">
+            <div class="flex flex-col items-center justify-start">
+              <p
+                class="text-center text-xs font-normal leading-normal text-zinc-500 md:text-base"
+              >
+                Start with a question
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-between gap-1 rounded border border-solid bg-gray-100 py-px pl-2 pr-2 dark:bg-background"
+        >
+          <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/969e5b8d-6781-4fbb-a805-3e1404e74ab4?apiKey=2f02a73d37034e3f87e18c6bf22f47a0&"
+            class="my-auto aspect-square w-3 max-w-full shrink-0 overflow-hidden object-contain object-center"
+          />
+          <div
+            class="grow self-stretch whitespace-nowrap text-center text-xs leading-5 text-para"
+          >
+            K
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="container py-[40px] md:py-[80px]">
+      <div class="border-b"></div>
+    </div>
+
+    <div
+      class="container flex grid-cols-1 flex-wrap items-center justify-center gap-[40px] md:grid-cols-2 lg:grid-cols-3"
+    >
+      <div
+        class="flex w-full flex-col justify-start rounded-[8px] border bg-background2 p-6 md:w-[45%] lg:w-[30%]"
+      >
+        <h4 class="text-base font-bold leading-normal">GitHub Issues</h4>
+        <p
+          class="mt-2 text-xs font-normal
+      leading-[16px] md:mt-3 md:text-sm md:leading-5"
+        >
+          Explore, discuss, and report technical issues on our GitHub
+          repository. Our community actively collaborates to resolve problems
+          and provide assistance.
+        </p>
+
+        <div class="mt-20 flex justify-start md:mt-12">
+          <ButtonLink link="https://deploy.cloudmos.io/" variant="secondary">
+            <svg
+              width="16"
+              height="16"
+              class="text-para dark:text-iconText"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.6693 14.6842V12.7709C10.6943 12.453 10.6514 12.1334 10.5433 11.8334C10.4353 11.5334 10.2646 11.2598 10.0427 11.0309C12.136 10.7975 14.336 10.0042 14.336 6.3642C14.3358 5.43342 13.9778 4.53834 13.336 3.8642C13.6399 3.04987 13.6184 2.14977 13.276 1.35087C13.276 1.35087 12.4893 1.11754 10.6693 2.33754C9.14133 1.92342 7.53065 1.92342 6.00266 2.33754C4.18266 1.11754 3.39599 1.35087 3.39599 1.35087C3.05357 2.14977 3.03208 3.04987 3.33599 3.8642C2.68941 4.54334 2.331 5.44651 2.33599 6.3842C2.33599 9.99754 4.53599 10.7909 6.62932 11.0509C6.40999 11.2775 6.24083 11.5478 6.13286 11.8442C6.02489 12.1405 5.98053 12.4562 6.00266 12.7709V14.6842"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M6.0026 13.3516C4.0026 14.0004 2.33594 13.3516 1.33594 11.3516"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+
+             GitHub Issues
+          </ButtonLink>
+        </div>
+      </div>
+
+      <div
+        class="flex w-full flex-col justify-start rounded-[8px] border bg-background2 p-6 md:w-[45%] lg:w-[30%]"
+      >
+        <h4 class="text-base font-bold leading-normal">Ask the Community</h4>
+        <p
+          class="mt-2 text-xs font-normal
+      leading-[16px] md:mt-3 md:text-sm md:leading-5"
+        >
+          Explore, discuss, and report technical issues on our GitHub
+          repository. Our community actively collaborates to resolve problems
+          and provide assistance.
+        </p>
+
+        <div class="mt-20 flex justify-start md:mt-12">
+          <ButtonLink link="https://deploy.cloudmos.io/" variant="secondary">
+            <svg
+              width="17"
+              height="16"
+              viewBox="0 0 17 16"
+              class="text-para dark:text-iconText"
+              fill="none"
+              stroke="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 10.667C7.33333 12.3337 9.33333 12.3337 12.6667 10.667"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M10.6693 11.667L11.3359 13.0003C11.3359 13.0003 14.1168 12.1148 15.0026 10.667C15.0026 10.0003 15.356 5.23592 13.0026 3.66699C12.0026 3.00033 10.3359 2.66699 10.3359 2.66699L9.66927 4.00033H8.33594"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M6.01823 11.667L5.35156 13.0003C5.35156 13.0003 2.57068 12.1148 1.6849 10.667C1.6849 10.0003 1.3315 5.23592 3.6849 3.66699C4.6849 3.00033 6.35156 2.66699 6.35156 2.66699L7.01823 4.00033H8.35156"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M6 9.33366C5.44772 9.33366 5 8.73671 5 8.00033C5 7.26395 5.44772 6.66699 6 6.66699C6.55228 6.66699 7 7.26395 7 8.00033C7 8.73671 6.55228 9.33366 6 9.33366Z"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M10.6719 9.33366C10.1196 9.33366 9.67188 8.73671 9.67188 8.00033C9.67188 7.26395 10.1196 6.66699 10.6719 6.66699C11.2242 6.66699 11.6719 7.26395 11.6719 8.00033C11.6719 8.73671 11.2242 9.33366 10.6719 9.33366Z"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+
+             Akash Discord
+          </ButtonLink>
+        </div>
+      </div>
+
+      <div
+        class="flex w-full flex-col justify-start rounded-[8px] border bg-background2 p-6 md:w-[45%] lg:w-[30%]"
+      >
+        <h4 class="text-base font-bold leading-normal">GitHub Discussion</h4>
+        <p
+          class="mt-2 text-xs font-normal
+        leading-[16px] md:mt-3 md:text-sm md:leading-5"
+        >
+          Explore, discuss, and report technical issues on our GitHub
+          repository. Our community actively collaborates to resolve problems
+          and provide assistance.
+        </p>
+
+        <div class="mt-20 flex justify-start md:mt-12">
+          <ButtonLink link="https://deploy.cloudmos.io/" variant="secondary">
+            <svg
+              width="17"
+              height="16"
+              class="text-para dark:text-iconText"
+              viewBox="0 0 17 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.3334 14.6842V12.7709C11.3584 12.453 11.3154 12.1334 11.2074 11.8334C11.0993 11.5334 10.9287 11.2598 10.7067 11.0309C12.8001 10.7975 15.0001 10.0042 15.0001 6.3642C14.9999 5.43342 14.6418 4.53834 14.0001 3.8642C14.304 3.04987 14.2825 2.14977 13.9401 1.35087C13.9401 1.35087 13.1534 1.11754 11.3334 2.33754C9.80539 1.92342 8.19471 1.92342 6.66672 2.33754C4.84672 1.11754 4.06005 1.35087 4.06005 1.35087C3.71764 2.14977 3.69615 3.04987 4.00005 3.8642C3.35347 4.54334 2.99507 5.44651 3.00005 6.3842C3.00005 9.99754 5.20005 10.7909 7.29338 11.0509C7.07405 11.2775 6.90489 11.5478 6.79692 11.8442C6.68895 12.1405 6.64459 12.4562 6.66672 12.7709V14.6842"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M6.66667 13.3516C4.66667 14.0004 3 13.3516 2 11.3516"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+
+             GitHub Discussions
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

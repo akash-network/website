@@ -1,0 +1,23 @@
+---
+projectTitle: Akash Chat
+projectImage: "./project-banner.png"
+pubDate: "2021-01-19"
+
+tags:
+  - AI & ML
+
+category: deployed_on_akash
+
+description: Mistral-7B-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters by Mistral AI. This application is running on NVIDIA GPUs leased from the Akash Supercloud.
+
+showcase: true
+
+websiteLink: "https://chat.akash.network/"
+
+ctaButton:
+  label: View Project
+  link: "https://cloudmos.io/"
+  enable: true
+
+featured: true
+---

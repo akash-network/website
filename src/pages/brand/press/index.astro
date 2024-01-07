@@ -1,0 +1,50 @@
+---
+import PressCard from "@/components/brand-pages/press-card.astro";
+import Layout from "@/layouts/layout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+const press = await getCollection("Press_Page");
+---
+
+<Layout
+  title="Akash Network Press Room - Media Resources and Brand Assets"
+  description="Explore official press releases, media resources, and brand assets in the Akash Network press room. Stay informed about our latest announcements and developments."
+>
+  <div class="container mt-10 space-y-4">
+    <h1
+      class="text-[24px] font-bold leading-[34px] md:text-3lg md:leading-[62.4px]"
+    >
+      Akash Press
+    </h1>
+    <p
+      class="max-w-[800px] text-sm leading-[20px] md:text-lg md:leading-[30px]"
+    >
+      Dive into Akash's Press and Brand for latest updates and authentic brand
+      experience
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="mt-10">
+      <div
+        class="grid grid-cols-1 gap-x-16 gap-y-10 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {
+          press?.map((project, i: number) => {
+            return (
+              <PressCard
+                title={project.data.title}
+                image={project.data.image}
+                externalLink={project.data.externalLink}
+                tag={project.data.tags[0]}
+                author={project.data.author}
+                pubDate={project.data.pubDate}
+                description={project.data.description}
+              />
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

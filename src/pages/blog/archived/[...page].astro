@@ -1,0 +1,133 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { PaginateFunction } from "astro";
+import Layout from "@/layouts/layout.astro";
+import PostCard from "@/components/cards/post-card.astro";
+import Tag from "@/components/ui/tag.astro";
+import Pagination from "@/components/pagination.astro";
+import SearchDialog from "@/components/blog/search-dialog";
+import Tag2 from "@/components/ui/tag2.astro";
+
+type BlogPost = CollectionEntry<"Blog">;
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) {
+  const allPosts: BlogPost[] = (await getCollection("Blog")).sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+
+    // Sort in descending order (latest date first)
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  // Filter for archived posts
+  const archivedPosts = allPosts.filter((post) => post.data.archive === true);
+
+  // Collect tags from all posts
+  const tags: string[] = [];
+  allPosts.forEach((post) => {
+    post.data.tags.forEach((tag) => {
+      const lowerCasedTag = tag.toLowerCase();
+      if (!tags.includes(lowerCasedTag)) {
+        tags.push(lowerCasedTag);
+      }
+    });
+  });
+
+  // Generate pages for archived posts
+  return paginate(archivedPosts, {
+    props: { tags: tags },
+    pageSize: 12,
+  });
+}
+
+// All paginated data is passed on the "page" prop
+const { page, tags } = Astro.props;
+
+const pathName = Astro.url.pathname.split("/");
+---
+
+<Layout
+  title="Akash Network Blog - Insights into Decentralized Cloud Computing"
+  description="Stay updated with the latest trends, news, and insights in decentralized cloud computing. Explore thought leadership, technical deep-dives, and community highlights."
+>
+  <!-- Tags nav -->
+  <div class="container mt-[120px]">
+    <div
+      class="lg: flex flex-col items-start justify-between gap-x-5 border-b pb-0 pb-5 lg:flex-row lg:border-none"
+    >
+      <div
+        class="sidebar-scroll flex max-w-full items-center justify-start gap-2 overflow-auto pb-1"
+      >
+        <Tag2
+          active={pathName[1]?.toLowerCase() === "blog" && !pathName[2]}
+          href={`/blog`}
+        >
+          All Posts
+        </Tag2>
+
+        {
+          tags.map((tag: string) => {
+            return (
+              <Tag2
+                href={
+                  tag.toLowerCase() === "archive"
+                    ? `/blog/archived.astro`
+                    : `/blog/${tag.toLowerCase()}/1`
+                }
+                active={pathName[2]?.toLowerCase() === tag.toLowerCase()}
+              >
+                {tag.charAt(0).toUpperCase() + tag.slice(1)}
+              </Tag2>
+            );
+          })
+        }
+
+        <Tag2
+          active={pathName[2]?.toLowerCase() === "archived"}
+          href={`/blog/archived`}
+        >
+          Archive
+        </Tag2>
+      </div>
+
+      <div class="hidden lg:block">
+        <SearchDialog client:load />
+      </div>
+    </div>
+    <div class="mt-5 flex justify-end lg:hidden">
+      <SearchDialog client:load />
+    </div>
+  </div>
+
+  <div class="container mt-20 space-y-10">
+    <h1 class="text-center text-4xl font-bold">Archive</h1>
+
+    <!-- Posts grid -->
+    <div
+      class="grid grid-cols-1 gap-x-16 gap-y-10 md:grid-cols-2 lg:grid-cols-3"
+    >
+      {
+        page.data.map((post: BlogPost, i: number) => {
+          return (
+            <a class="flex cursor-pointer " href={`/blog/${post.slug}`}>
+              <PostCard
+                title={post.data.title}
+                image={post.data.bannerImage}
+                tag={post.data.tags[0]}
+                contributor={post.data.contributors[0]}
+                pubDate={post.data.pubDate}
+                description={post.data.description}
+              />
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <Pagination page={page} />
+  </div>
+</Layout>

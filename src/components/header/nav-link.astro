@@ -1,0 +1,44 @@
+---
+import { cn } from "@/lib/utils";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  arrowIcon?: boolean;
+  currentPath?: string;
+  href?: string;
+}
+
+const { arrowIcon = false, currentPath, href, ...props } = Astro.props;
+---
+
+<a
+  {...props}
+  href={href}
+  class={cn(
+    "inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm ",
+    href?.startsWith(currentPath as string) && currentPath !== "/"
+      ? "text-primary"
+      : "",
+  )}
+>
+  <slot />
+  {
+    arrowIcon && (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5.30469 10.6569L10.9615 5M10.9615 5H6.0118M10.9615 5V9.94978"
+          stroke="#272540"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    )
+  }
+</a>

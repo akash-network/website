@@ -1,0 +1,50 @@
+---
+import { Image } from "astro:assets";
+
+import SunIcon from "@/assets/icons/sun.svg";
+import Search from "./search-dialog.tsx";
+import AkashDocsLogo from "./akash-docs-logo.astro";
+import ToggleNav from "./toggle-nav.astro";
+import DarkModeToggle from "../dark-mode-toggle.astro";
+import ButtonLink from "../ui/button-link.astro";
+import Logo from "@/components/ui/logo.astro";
+import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
+const { nav } = Astro.props;
+
+const pathname = new URL(Astro.request.url).pathname;
+---
+
+<nav class="flex flex-col">
+  <div class="flex items-center justify-between border-b px-4 py-6 md:px-10">
+    <div class="flex items-center gap-8">
+      <div class="flex items-end gap-x-1">
+        <a href="/">
+          <Logo width={100} />
+        </a>
+      </div>
+      <div>
+        <Search client:load currentPath={pathname} />
+      </div>
+    </div>
+    <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
+      <div class="hidden items-center gap-x-[14px] text-para md:flex">
+        <DarkModeToggle />
+        <GithubIcon />
+        <TwitterIcon />
+
+        <DiscordIcon />
+      </div>
+
+      <div class="flex items-center md:gap-x-4">
+        <div>
+          <a
+            href="https://deploy.cloudmos.io/"
+            class="flex items-center justify-center rounded-[4px] bg-primary px-[11px] py-[7px] text-xs font-medium leading-[16px] text-white hover:bg-primary/90"
+            >Deploy Now</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <ToggleNav nav={nav} />
+</nav>

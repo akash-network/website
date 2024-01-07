@@ -1,0 +1,41 @@
+---
+import { Image } from "astro:assets";
+
+const { title, description, image, link } = Astro.props;
+---
+
+<a
+  href={link}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="group flex flex-col rounded-lg border bg-background2 p-5"
+>
+  {
+    image && (
+      <div class="overflow-hidden rounded-lg">
+        {
+          <Image
+            class="w-full  object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
+            alt="Feature illustration"
+            width={1200}
+            height={1200}
+            src={image}
+            format="webp"
+          />
+        }
+      </div>
+    )
+  }
+
+  <div class="mt-8 pb-5">
+    <h3
+      class="line-clamp-2 text-base font-bold sm:text-lg md:text-xl lg:text-2xl"
+    >
+      {title}
+    </h3>
+    <p
+      class={`mt-2 md:mt-5 text-sm font-medium line-clamp-3`}
+      set:html={description}
+    />
+  </div>
+</a>

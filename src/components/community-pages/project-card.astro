@@ -1,0 +1,105 @@
+---
+// Import the Image component from "astro:assets".
+import { Image } from "astro:assets";
+
+// Destructure props for easier access.
+const { description, title, button, image, githubLink, twitterLink } =
+  Astro.props;
+---
+
+<div class="px-[5%] md:px-0">
+  <div class="flex h-full flex-col overflow-hidden rounded-lg shadow-lg">
+    <div>
+      <Image
+        src={image}
+        alt={`banner image for the post `}
+        width={1200}
+        height={1200}
+        format="webp"
+        class="aspect-video bg-gray-100 object-cover"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="px-6 py-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold leading-normal">{title}</h3>
+        <div class="flex items-center gap-x-2">
+          <a href={githubLink} class="block cursor-pointer">
+            <svg
+              width="12"
+              height="13"
+              viewBox="0 0 12 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.50195 10.4997C2.00195 11.2497 2.00195 9.24973 1.00195 8.99973M8.00195 11.9997V10.0647C8.02071 9.82631 7.9885 9.58663 7.90746 9.36162C7.82642 9.13661 7.69842 8.93144 7.53195 8.75973C9.10195 8.58473 10.752 7.98973 10.752 5.25973C10.7518 4.56164 10.4833 3.89032 10.002 3.38472C10.2299 2.77398 10.2138 2.0989 9.95695 1.49972C9.95695 1.49972 9.36695 1.32472 8.00195 2.23972C6.85596 1.92914 5.64795 1.92914 4.50195 2.23972C3.13695 1.32472 2.54695 1.49972 2.54695 1.49972C2.29014 2.0989 2.27403 2.77398 2.50195 3.38472C2.01702 3.89407 1.74821 4.57146 1.75195 5.27472C1.75195 7.98473 3.40195 8.57973 4.97195 8.77473C4.80745 8.94471 4.68058 9.14743 4.59961 9.36969C4.51863 9.59194 4.48536 9.82876 4.50195 10.0647V11.9997"
+                stroke="#FA5757"
+                stroke-width="1.33333"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a href={twitterLink} class="block cursor-pointer">
+            <svg
+              width="12"
+              height="10"
+              viewBox="0 0 12 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.4507 0H11.2908L7.27076 4.2359L12 10H8.29648L5.39619 6.5041L2.0776 10H0.236407L4.53623 5.46923L0 0H3.79641L6.41802 3.19538L9.44959 0H9.4507ZM8.8049 8.98462H9.8245L3.24294 0.962051H2.1488L8.8049 8.98462Z"
+                fill="#272540"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <p
+        class="mt-4 line-clamp-3 text-xs leading-[18px]"
+        set:html={description}
+      />
+
+      <a
+        class="mt-8 inline-flex w-full cursor-pointer items-center justify-center rounded-lg bg-primary py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90"
+        href={button.link}
+      >
+        <svg
+          width="34"
+          height="34"
+          viewBox="0 0 34 34"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="mr-1"
+        >
+          <g clip-path="url(#clip0_980_14274)">
+            <path
+              d="M13.9912 19.6391L20.0037 14.3617M20.0037 14.3617L15.0644 14.0401M20.0037 14.3617L19.682 19.301"
+              stroke="#FBF8F7"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+            <path
+              d="M23.5917 24.5156C27.7425 20.8723 28.1539 14.5541 24.5107 10.4033C20.8674 6.25259 14.5492 5.84117 10.3984 9.4844C6.24766 13.1276 5.83624 19.4459 9.47947 23.5966C13.1227 27.7474 19.441 28.1588 23.5917 24.5156Z"
+              stroke="#FBF8F7"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </g>
+          <defs>
+            <clipPath id="clip0_980_14274">
+              <rect
+                width="24"
+                height="24"
+                fill="white"
+                transform="translate(0.0625 15.8975) rotate(-41.2744)"></rect>
+            </clipPath>
+          </defs>
+        </svg>
+        {button.label}</a
+      >
+    </div>
+  </div>
+</div>

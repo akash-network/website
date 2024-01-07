@@ -1,0 +1,72 @@
+---
+import { ArrowUpCircle } from "lucide-react";
+import ButtonLink from "../ui/button-link.astro";
+const astroUrl = Astro.url;
+const pathName = astroUrl.pathname.split("/");
+const { tags } = Astro.props;
+console.log(tags);
+---
+
+<div class="hidden w-[200px] flex-shrink-0 pt-5 lg:block">
+  <p class="text-sm font-medium leading-[20px] text-cardGray">Categories</p>
+
+  <div class="border-b pb-2"></div>
+
+  <div class="mt-4 flex flex-col gap-y-4">
+    <a
+      href={`/ecosystem/${pathName?.[2]}/latest`}
+      class={`inline-flex cursor-pointer text-base font-medium  hover:text-primary ${
+        astroUrl.pathname === `/ecosystem/${pathName?.[2]}/latest`
+          ? "text-primary"
+          : "text-para"
+      }`}
+    >
+      All
+    </a>
+    {
+      tags
+        .sort(() => Math.random() - 0.5)
+        .map((tag: string) => (
+          <a
+            href={`/ecosystem/${pathName?.[2]}/${tag.toLowerCase()}/latest/1`}
+            class={`inline-flex cursor-pointer text-base font-medium  hover:text-primary ${
+              astroUrl.pathname
+                .split("/")[3]
+                .split("%20")
+                .join(" ")
+                .toLowerCase() === tag.toLowerCase()
+                ? "text-primary"
+                : "text-para"
+            }`}
+          >
+            {tag === "ai & ml"
+              ? "AI & ML"
+              : tag
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")}
+          </a>
+        ))
+    }
+  </div>
+
+  {
+    pathName.includes("deployed-on-akash") && (
+      <div class="">
+        <div class="my-8 border-b pb-2" />
+        <p class="text-sm font-medium text-para">
+          Are you using Akash Network for your project?
+        </p>
+
+        <ButtonLink
+          link="/ecosystem/submit"
+          className="mt-4 "
+          variant="secondary"
+        >
+          <ArrowUpCircle className="w-4 rotate-45" />
+          <span class="ml-1 line-clamp-1 text-left">Add to Ecosystem</span>
+        </ButtonLink>
+      </div>
+    )
+  }
+</div>

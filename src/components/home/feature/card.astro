@@ -1,0 +1,41 @@
+---
+import { Image } from "astro:assets";
+
+const { card } = Astro.props;
+---
+
+<div
+  class={`flex-col gap-8 lg:gap-x-[80px]  lg:flex lg:items-center   ${
+    card.id % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+  }`}
+>
+  <div class={`w-full flex-1 flex-shrink-0`}>
+    <Image
+      class="w-full object-cover dark:hidden"
+      alt="Feature illustration"
+      width={1200}
+      height={1200}
+      src={card.image}
+      format="svg"
+    />
+    <Image
+      class="hidden w-full object-cover dark:block"
+      alt="Feature illustration"
+      width={1200}
+      height={1200}
+      src={card.darkImage}
+      format="svg"
+    />
+  </div>
+  <div class="mt-[34px] flex w-full flex-1 flex-col pt-0 lg:mt-0">
+    <h2
+      class="text-start text-[24px] font-medium text-foreground md:text-2lg md:leading-10 lg:text-3lg lg:leading-[52px]"
+    >
+      {card.title}
+    </h2>
+    <p
+      class="mt-6 text-start text-base leading-[24px] md:mt-10 md:text-lg md:leading-[28px]"
+      set:html={card.description}
+    />
+  </div>
+</div>

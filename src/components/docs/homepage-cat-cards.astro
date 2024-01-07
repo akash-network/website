@@ -1,0 +1,22 @@
+---
+import { Image } from "astro:assets";
+
+const { icon, title, description, link } = Astro.props;
+---
+
+<a
+  href={link}
+  class="not-prose rounded-[8px] border bg-background2 p-5 shadow-sm"
+>
+  <div class="flex items-center justify-start gap-x-4">
+    <div
+      class="flex-shrink-0 rounded-lg border border-paraDark bg-background p-3"
+    >
+      <Image src={icon} alt={`HeroImage`} loading="eager" />
+    </div>
+
+    <h4 class="text-xs font-medium md:text-base">{title}</h4>
+  </div>
+
+  <p class="mt-6 text-xs md:text-base">{description}</p>
+</a>

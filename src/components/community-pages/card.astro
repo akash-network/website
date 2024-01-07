@@ -1,0 +1,71 @@
+---
+import { Image } from "astro:assets";
+import FormattedDate from "../formatted-date.astro";
+
+interface Props {
+  contribution: {
+    data: {
+      title: string;
+      description: string;
+      author: string;
+
+      image: string;
+      link?: string;
+      pubDate: any;
+      tags: string[];
+    };
+  };
+}
+
+const { contribution } = Astro.props;
+---
+
+<a
+  href={contribution.data.link ?? "#"}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="group rounded-[8px] border bg-background2 p-5"
+>
+  <div class="overflow-hidden rounded-[4px]">
+    <Image
+      class="w-full transform object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+      alt="Feature illustration"
+      width={1200}
+      height={1200}
+      src={contribution.data.image}
+      format="webp"
+    />
+  </div>
+
+  <div class="mt-4">
+    <div class="flex items-center justify-between">
+      <p class="text-xs font-medium leading-[15px]">
+        by {contribution.data.author}
+      </p>
+      <span
+        class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
+      >
+        {
+          contribution.data.tags[0]
+            .toLowerCase()
+            .replace(/^\w/, (c) => c.toUpperCase())
+        }
+      </span>{" "}
+    </div>
+    <h4
+      class="mt-1 line-clamp-2 text-base font-bold leading-normal text-foreground"
+    >
+      {contribution.data.title}
+    </h4>
+
+    <p
+      class="mt-4 line-clamp-2 text-xs font-medium leading-[18px] text-cardGray md:mt-6 md:text-sm"
+    >
+      {contribution.data.description}{" "}
+    </p>
+
+    <p class="mt-4 text-2xs font-normal text-cardGray md:mt-6">
+      <FormattedDate date={contribution.data.pubDate} />{" "}
+    </p>
+  </div>
+</a>

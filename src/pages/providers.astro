@@ -1,0 +1,215 @@
+---
+import Layout from "@/layouts/layout.astro";
+import Card from "../components/providers-page/card.tsx";
+import PreatorsCard from "../components/providers-page/preators-card.astro";
+import { getEntryBySlug } from "astro:content";
+import ResourcesCard from "@/components/providers-page/resources-card.astro";
+import TopPagination from "@/components/providers-page/top-pagination.astro";
+import { Image } from "astro:assets";
+import ButtonLink from "@/components/ui/button-link.astro";
+
+const providersPage = await getEntryBySlug("Providers_Homepage", "index");
+const {
+  heroSection,
+  preatorResourcesSection,
+  resourcesSection,
+  additionalDeploymentSection,
+} = providersPage.data;
+console.log(resourcesSection);
+---
+
+<Layout title="Become a Provider ">
+  <TopPagination currentPage="Provider" />
+
+  <div class="relative overflow-hidden">
+    <div class="container">
+      <div
+        class="border-b border-[#d9d9d9] pb-[40px] pt-5 lg:flex lg:flex-row-reverse lg:justify-between lg:gap-x-8 lg:pt-[60px]"
+      >
+        <div class="flex-shrink">
+          <Image
+            src={heroSection.heroImage}
+            alt={`HeroImage`}
+            width={1500}
+            height={1500}
+            format="webp"
+            class="object-cover lg:w-[591px]"
+            loading="eager"
+          />
+        </div>
+
+        <div class="mt-10 lg:mt-0 lg:w-[569px]">
+          <h2
+            class="text-2xl font-bold leading-8 md:text-3lg md:leading-[48px]"
+          >
+            {heroSection.title}
+          </h2>
+          <p class="mt-4 text-sm md:mt-5 md:text-[18px] md:leading-[28px]">
+            {heroSection.description}
+          </p>
+
+          <!-- <ul
+            class="mt-6 space-y-2 font-medium text-foreground md:mt-10 md:space-y-3 md:text-xl md:font-bold md:leading-[30px]"
+          >
+            {
+              heroSection.links.map((link) => (
+                <li>
+                  <a
+                    class="flex items-center gap-x-3 hover:text-primary"
+                    href={link.link}
+                  >
+                    {link.label}
+                    <svg
+                      width="16"
+                      height="15"
+                      viewBox="0 0 16 15"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-2 w-2 md:h-3 md:w-3"
+                    >
+                      <path
+                        d="M2 13.5L14 1.5M14 1.5H3.50001M14 1.5V12"
+                        stroke="#272540"
+                        stroke-width="2.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </a>
+                </li>
+              ))
+            }
+          </ul> -->
+
+          <div
+            class="mt-[40px] flex flex-col items-start gap-x-6 gap-y-3 xl:flex-row"
+          >
+            <a
+              target="_blank"
+              href={heroSection.button.link}
+              class="inline-flex cursor-pointer items-center justify-center rounded-lg bg-primary px-4 py-1 text-xs font-medium leading-none text-white hover:bg-primary/90 md:px-6 md:py-[6px] md:text-base"
+            >
+              <svg
+                width="34"
+                height="34"
+                viewBox="0 0 34 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="-ml-1 mr-1"
+              >
+                <g clip-path="url(#clip0_1200_10876)">
+                  <path
+                    d="M13.9912 19.6391L20.0037 14.3617M20.0037 14.3617L15.0644 14.0401M20.0037 14.3617L19.682 19.301"
+                    stroke="#FBF8F7"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M23.5917 24.5156C27.7425 20.8723 28.1539 14.5541 24.5107 10.4033C20.8674 6.25259 14.5492 5.84117 10.3984 9.4844C6.24766 13.1276 5.83624 19.4459 9.47947 23.5966C13.1227 27.7474 19.441 28.1588 23.5917 24.5156Z"
+                    stroke="#FBF8F7"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </g>
+                <defs>
+                  <clipPath id="clip0_1200_10876">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0.0625 15.8975) rotate(-41.2744)"
+                    ></rect>
+                  </clipPath>
+                </defs>
+              </svg>
+
+              {heroSection.button.label}
+            </a>
+
+            <!-- <ButtonLink variant="secondary" size="xl" link="/">
+              <span class="text-sm font-medium md:text-base">
+                {heroSection.button2.label}
+              </span>
+            </ButtonLink> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-[90px]">
+    <div class="border-b border-[#d9d9d9] pb-[40px]">
+      <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
+        {preatorResourcesSection.title}
+      </h2>
+
+      <div
+        class="mt-8 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 md:mt-6 lg:grid-cols-3"
+      >
+        {
+          preatorResourcesSection.cards.map((card) => (
+            <PreatorsCard
+              title={card.title}
+              description={card.description}
+              badge={card.badge}
+              link={card.link}
+              linkIcon={card.linkIcon}
+              linkLabel={card.linkLabel}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Resources Cards Container -->
+  <div class="container my-10 border-b border-[#d9d9d9] py-10">
+    <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
+      {resourcesSection.title}
+    </h2>
+
+    <div
+      class="mt-8 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 md:mt-6 md:gap-x-12 lg:grid-cols-3 lg:gap-x-10"
+    >
+      {
+        resourcesSection.cards.map((card) => (
+          <ResourcesCard
+            title={card.title}
+            description={card.description}
+            image={card.img}
+            link={card.link}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Additional Deployment Resources Section -->
+  <div class="container my-10 py-10">
+    <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
+      {additionalDeploymentSection.title}
+    </h2>
+
+    <div class="mt-8">
+      {
+        additionalDeploymentSection.resources.map((resource) => (
+          <div class="flex gap-[14px] pb-2">
+            <span class="block h-full text-[#d9d9d9]">-</span>
+            <p class="leading-[150%]">
+              <a
+                href={resource.link}
+                class="text-sm font-medium text-foreground underline md:text-xl"
+              >
+                {resource.title}
+              </a>
+              &nbsp;
+              <span class="text-sm font-normal text-[#808080] md:text-[18px] md:leading-7">
+                {resource.content}
+              </span>
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Layout>

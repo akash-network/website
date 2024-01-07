@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  isActive?: boolean;
+}
+
+const { isActive = false, ...props } = Astro.props;
+---
+
+<a
+  {...props}
+  class={`cursor-pointer rounded-[6px] border  border-gray-300 bg-white px-[11px] py-[7px] md:px-[13px] md:py-[9px]  text-xs  font-normal leading-normal text-[#889096] shadow-sm hover:border-primary hover:text-primary md:text-sm ${
+    isActive ? "text-primary border-primary" : "border-[#D1D5DB] text-[#889096]"
+  }  `}
+>
+  <slot />
+</a>

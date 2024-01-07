@@ -1,0 +1,35 @@
+---
+title: "Multi-Cloud, Explained"
+description: It’s the start of 2022 and the hiatus from self-hosted solutions to cloud-based deployments will continue to roar. The “cloud” is an IT and computer science term to describe the amalgamation of global servers which can be leased out to end-users, developers, and organizations.
+
+pubDate: "2022-02-09"
+draft: false
+
+categories:
+  - Developers
+tags:
+  - Developers
+contributors:
+  - Stacy White
+
+bannerImage: ./banner-image.jpg
+---
+It’s the start of 2022 and the hiatus from self-hosted solutions to cloud-based deployments will continue to roar. The “cloud” is an IT and computer science term to describe the amalgamation of global servers which can be leased out to end-users, developers, and organizations. An easy to understand analogy is to imagine how your own computer works. When you access an app, that app acts as an interpreter between you and the computer. The computer understands binary code, or 1’s and 0’s, but you as a layman don’t know how to talk to the computer in binary, so the app converts your inputs and turns them into machine-understable code. When you access the internet through a web browser, what’s really happening is your computer is requesting another machine, called a server, to show you some information, which is a web page!
+
+The servers which display these web pages can be run by the owner of the website, or they can be rented from third party organizations, such as Google Cloud (GCP) or Amazon Web Services (AWS). Companies are flocking to the cloud as it is a classic case of economic specialization. Specialization is where organizations focus on a limited service which they can become experts in, create economies of scale, and deliver high-quality products cheaply. Instead of every company having to buy a bunch of machines to act as servers, creating security procedures, and managing this architecture, they can outsource all of this to Amazon and focus on their core product. The benefit becomes more apparent when you consider that a huge percentage of companies are not technology companies and don’t have expertise in IT. In other words, it makes more sense for data center specialists to run a data center than for a paint company to!
+
+However, just as with self-hosted applications and websites, cloud based services can go down and crash your application. Most cloud deployment products offer redundancy services, or deploying your application on multiple servers in case one crashes, but if an entire network or organization is targeted, your application still might go down. For this reason, it makes sense to deploy your website or application on multiple cloud platforms, which is referred to as the “multi-cloud.” Utilizing the multi-cloud protects you against downtime and keeps your users happy!
+
+Another issue with cloud services is that they can censor your content or make deals with political rivals. For example, AWS removed all negative reviews of [Chinese Communist Dictator Xi Jinping’s book](https://www.reuters.com/world/china/amazon-partnered-with-china-propaganda-arm-win-beijings-favor-document-shows-2021-12-17/). If Amazon is willing to censor you to protect a dictator, they probably won’t bat an eye to censor you at the slightest inconvenience. This is another reason why you would want to utilize the multi-cloud, to protect yourself from censorship. There are countless examples of deplatforming apps, but one prominent case was the deplatforming of the social media platform, Parler. In this case, Parler was [deplatformed by Apple, Amazon, and Google](https://www.cnn.com/2021/01/09/tech/parler-suspended-apple-app-store/index.html)! So much for the multi-cloud!
+
+Here lies a key issue in the twenty-first century with the multi-cloud: how can you reap the benefits of redundancy, uptime, and efficiency without the fear of censorship? This is where the benefits of blockchain technology and decentralized cloud solutions, like Akash Network, come into play. Blockchains themselves have inherent censorship resistant qualities. So long as you can find someone willing to sell you a cryptoasset, no one can stop you from owning it, unless they shut down the internet itself. The infrastructure running the blockchain protocol is also designed to be decentralized; with Akash, there are 100 different validators who produce blocks. This means that no one entity can shut down the chain and multiple actors would need to coordinate to take action on something.
+
+Akash Network works by allowing _anyone_ to offer their machines as servers on a network. This allows you to use regular people as your data centers instead of just big tech companies! Big tech companies could also provide their services on Akash, as Equinix does, because Akash is permissionless and can’t restrict anyone from joining. However, you as the user get to decide to use big tech companies or individual providers. Providers maintain their individual sovereignty as well, they can host or not host whatever they like. As long as just one person is willing to host your deployment though, it will be deployed.
+
+Besides censorship protection, this format also allows you to deploy your apps anonymously. Instead of making a bunch of accounts tied to your name, you own an Akash wallet with a cryptographic address protecting your identity. This means if your deployment is hacked, your identity will be much better protected.
+
+An amazing feature of Akash is that it enables access to the multi-cloud all on one platform. Whereas conventional cloud platforms require you to use a different company to use the multi-cloud, you can deploy on entirely different and unrelated providers on Akashnet. You can use Equinix, your neighbor, and random servers in Europe and Asia, all anonymously and conveniently from your desktop on the same account. 
+
+As with anything there are generic negatives to the multi-cloud. We’ve touched on the coordination issues between using different companies, and some centralized providers want to keep you entirely on their native platform. It is also more work to manage your deployments on different accounts than it is on one account. Akash makes significant strides in some of these areas, but also has its drawbacks. For one, even though you can deploy your application on different providers, there’s currently no managed service to automatically switch the active provider if one goes down. If you’re paying attention to your deployments, this would only cause a few minutes of delay time, but it is still a factor to consider.
+
+Akash is still in its infancy, and the lack of managed services is exactly what you’d expect from a network less than a year old. These things are built out and added over time. AWS has a 20 year head start. What’s most important is that the core technology works to provide a solid foundation for new features. With over 60,000 total deployments and 400 active deployments, it’s safe to say the fundamental technology powering Akash has succeeded, and is well on its way to becoming a key player in the dominant multi-cloud environment.

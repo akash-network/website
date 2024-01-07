@@ -1,0 +1,146 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { PaginateFunction } from "astro";
+import Layout from "@/layouts/layout.astro";
+import PostCard from "@/components/cards/post-card.astro";
+import Tag from "@/components/ui/tag.astro";
+import Pagination from "@/components/pagination.astro";
+import SearchDialog from "@/components/blog/search-dialog";
+import Tag2 from "@/components/ui/tag2.astro";
+
+type BlogPost = CollectionEntry<"Blog">;
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) {
+  const posts: BlogPost[] = (await getCollection("Blog")).sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+
+    // Sort in descending order (latest date first)
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  const tags: string[] = [];
+
+  posts.forEach((post) => {
+    // Loop through the tags in each blog post
+    post.data.tags.forEach((tag) => {
+      // Capitalize the first letter of the tag
+      const lowerCasedTag = tag.toLowerCase();
+      // Check if the tag is not already in the allTags array
+      if (!tags.includes(lowerCasedTag)) {
+        // Add the tag to the allTags array
+        tags.push(lowerCasedTag);
+      }
+    });
+  });
+
+  return tags.flatMap((tag) => {
+    const lowercasedTag = tag.toLowerCase();
+
+    // filter posts related to specified tag
+    const filteredPosts = posts.filter((post) =>
+      post.data.tags.some((tag: string) => tag.toLowerCase() === lowercasedTag),
+    );
+
+    return paginate(filteredPosts, {
+      params: { tag },
+      pageSize: 12,
+      props: { currentTag: tag, tags: tags },
+    });
+  });
+}
+
+// All paginated data is passed on the "page" prop
+const { page, currentTag, tags } = Astro.props;
+
+const pathName = Astro.url.pathname.split("/");
+---
+
+<Layout
+  title="Akash Network Blog - Insights into Decentralized Cloud Computing"
+  description="Stay updated with the latest trends, news, and insights in decentralized cloud computing. Explore thought leadership, technical deep-dives, and community highlights."
+>
+  <!-- Tags nav -->
+  <div class="container mt-[120px]">
+    <div
+      class="lg: flex flex-col items-start justify-between gap-x-5 border-b pb-0 pb-5 lg:flex-row lg:border-none"
+    >
+      <div
+        class="sidebar-scroll flex max-w-full items-center justify-start gap-2 overflow-auto pb-1"
+      >
+        <Tag2
+          active={pathName[1]?.toLowerCase() === "blog" && !pathName[2]}
+          href={`/blog`}
+        >
+          All Posts
+        </Tag2>
+
+        {
+          tags.map((tag: string) => {
+            return (
+              <Tag2
+                href={
+                  tag.toLowerCase() === "archive"
+                    ? `/blog/archived.astro`
+                    : `/blog/${tag.toLowerCase()}/1`
+                }
+                active={pathName[2]?.toLowerCase() === tag.toLowerCase()}
+              >
+                {tag.charAt(0).toUpperCase() + tag.slice(1)}
+              </Tag2>
+            );
+          })
+        }
+
+        <Tag2
+          active={pathName[2]?.toLowerCase() === "archived"}
+          href={`/blog/archived`}
+        >
+          Archive
+        </Tag2>
+      </div>
+
+      <div class="hidden lg:block">
+        <SearchDialog client:load />
+      </div>
+    </div>
+    <div class="mt-5 flex justify-end lg:hidden">
+      <SearchDialog client:load />
+    </div>
+  </div>
+
+  <!-- Tag heading -->
+  <div class="container mt-20 space-y-10">
+    <h1 class="text-left text-4xl font-bold">
+      {currentTag.charAt(0).toUpperCase() + currentTag.slice(1)}
+    </h1>
+
+    <!-- Posts grid -->
+    <div
+      class="grid grid-cols-1 gap-x-16 gap-y-10 sm:grid-cols-2 lg:grid-cols-3"
+    >
+      {
+        page.data.map((post: BlogPost, i: number) => {
+          return (
+            <a class="flex cursor-pointer " href={`/blog/${post.slug}`}>
+              <PostCard
+                title={post.data.title}
+                image={post.data.bannerImage}
+                tag={post.data.tags[0]}
+                contributor={post.data.contributors[0]}
+                pubDate={post.data.pubDate}
+                description={post.data.description}
+              />
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <Pagination page={page} />
+  </div>
+</Layout>

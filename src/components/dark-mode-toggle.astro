@@ -1,0 +1,21 @@
+---
+import { Image } from "astro:assets";
+import SunIcon from "@/assets/icons/sun.svg";
+import { Sun, SunMoon } from "lucide-react";
+
+const { footer, nav } = Astro.props;
+---
+
+<div transition:persist class="flex items-center">
+  <button
+    aria-label="Toggle Dark Mode"
+    id={footer
+      ? "header-toggle-footer"
+      : nav
+      ? "header-toggle-nav"
+      : "header-toggle"}
+  >
+    <Sun className="h-5 w-5 text-para dark:hidden" />
+    <SunMoon className="hidden h-5 w-5 text-para dark:block" />
+  </button>
+</div>

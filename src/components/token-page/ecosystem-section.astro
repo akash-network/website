@@ -1,0 +1,64 @@
+---
+import { ArrowUpCircle } from "lucide-react";
+
+const { ecosystemSection } = Astro.props;
+
+console.log(ecosystemSection);
+---
+
+<div class="py-10 md:pb-[80px] md:pt-10">
+  <div>
+    <h2 class="text-2xl font-bold leading-9 md:text-2lg md:leading-10">
+      {ecosystemSection.title}
+    </h2>
+    <p class="mt-4 text-xs font-normal md:text-lg md:leading-[28px]">
+      {ecosystemSection.description}
+    </p>
+  </div>
+
+  <div class="mt-[20px] md:mt-[40px]">
+    {
+      ecosystemSection.table.map(
+        (table: { row: { title: string; link: string }[] }, i: number) => {
+          const colsArray = table.row;
+
+          if (i === 0) {
+            return (
+              <div class="flex w-full justify-between border-b border-[#E6E8EB]   py-[16px] text-base font-bold leading-normal md:text-lg md:leading-9 lg:text-2xl">
+                {colsArray.map((col) => (
+                  <div class="flex w-full justify-start">{col?.title}</div>
+                ))}
+              </div>
+            );
+          } else {
+            return (
+              <div
+                class={`grid w-full grid-cols-3  ${
+                  i === ecosystemSection.table.length - 1
+                    ? ""
+                    : "border-b border-[#E6E8EB]"
+                }   py-[14px] md:py-[16px] `}
+              >
+                {colsArray.map((col, i) => (
+                  <a
+                    target="_blank"
+                    href={col.link}
+                    class="group flex w-full cursor-pointer items-center justify-start gap-x-2 "
+                  >
+                    {col.title !== "" && (
+                      <ArrowUpCircle className="w-4 rotate-45 group-hover:text-primary" />
+                    )}
+
+                    <p class="text-xs font-medium leading-[15px] text-foreground group-hover:text-primary md:text-base md:leading-[28px] lg:text-xl">
+                      {col.title}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            );
+          }
+        },
+      )
+    }
+  </div>
+</div>
