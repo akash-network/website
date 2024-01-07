@@ -8,8 +8,8 @@ import HeroSection from "@/components/token-page/hero-section.astro";
 import FaqSection from "@/components/token-page/faq-section.astro";
 import BuyingAktSection from "@/components/token-page/buying-akt-section.astro";
 import { Image } from "astro:assets";
-import OnThisPageDropdown from "@/components/token-page/on-this-page-dropdown.tsx";
 import TopMargin from "@/components/ui/top-margin.astro";
+import OnThisPageDropdown from "@/components/on-this-page-mobile";
 
 // get token page content using getEntryBySlug
 const tokenPage = await getEntryBySlug("Token_Homepage", "index");
@@ -22,6 +22,33 @@ const {
   buyingAKTSection,
   aktFeaturesSection,
 } = tokenPage.data;
+
+const nav = [
+  {
+    link: "#how-it-works",
+    label: "How it works",
+  },
+  {
+    link: "#ecosystem",
+    label: "Ecosystem Tools",
+  },
+  {
+    link: "#token-metrics",
+    label: "Token Metrics",
+  },
+  {
+    link: "#akt-features",
+    label: "AKT 2.0 Features",
+  },
+  {
+    link: "#buying-akt",
+    label: "Buying AKT",
+  },
+  {
+    link: "#faq",
+    label: "FAQs",
+  },
+];
 ---
 
 <Layout
@@ -71,7 +98,7 @@ const {
 
       <div class="col-span-12 mx-auto w-full md:col-span-9">
         <div class="md:hidden">
-          <OnThisPageDropdown client:load />
+          <OnThisPageDropdown client:load nav={nav} />
         </div>
 
         <div id="hero">
