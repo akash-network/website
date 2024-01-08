@@ -14,6 +14,7 @@ import {
 } from "astro:content";
 import DarkModeToggle from "@/components/dark-mode-toggle.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
+import GettingStarted from "@/components/home/getting-started/getting-started.astro";
 
 const homepage = await getEntryBySlug("Homepage", "index");
 
@@ -37,20 +38,22 @@ const {
   infrastructureSection,
   featureSection,
   aiModelsAndAppsSection,
-
+  getStartedSection,
   testimonialsSection,
 } = homepage.data;
+
+console.log(homepage);
 ---
 
 <Layout
-  title="Welcome to Akash Network - Decentralized Cloud Computing"
-  description="Explore the future of cloud computing with Akash Network. Discover decentralized, efficient, and cost-effective solutions for hosting and deploying applications."
+  title="Akash Network - Decentralized Compute Marketplace"
+  description="Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 >
   <div>
     <Hero heroSection={heroSection} />
 
     <Infrastructure infrastructureSection={infrastructureSection} />
-
+    <GettingStarted gettingStartedSection={getStartedSection} />
     <Feature featureSection={featureSection} />
 
     <AiModelsAndApps aiModelsAndAppsSection={aiModelsAndAppsSection} />

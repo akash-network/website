@@ -6,7 +6,7 @@ heroSection:
 
   primaryButton:
     label: Get Started
-    link: "/getting-started"
+    link: "#getting-started"
     enable: true
 
   secondaryButton:
@@ -54,6 +54,37 @@ featureSection:
       The Akash protocol prioritizes user privacy and security, allowing anonymous deployment of applications, safeguarding the user's identity."
       image: "./assets/feature/feature-svg-2.svg"
       darkImage: "./assets/feature/dark-2.svg"
+
+
+getStartedSection:
+  cards:
+    - title: "Deploy an application"
+      image:
+        link: "./assets/getting-started/one.svg"
+      darkImage:
+        link: "./assets/getting-started/one-dark.svg"
+      description: "Get started with Cloudmos, the user-friendly tool for deploying applications effortlessly on the Akash network."
+      link: "/deploy"
+      linkIcon: false
+      linkLabel: "Get Started"
+    - title: "Become a Provider"
+      image:
+        link: "./assets/getting-started/two.svg"
+      description: "Monetize your cloud resources on the open-source Akash marketplace."
+      link: "/providers"
+      linkIcon: false
+      linkLabel: "Get Started"
+      darkImage:
+        link: "./assets/getting-started/two-dark.svg"
+    - title: "Access high-performance GPUs"
+      image:
+        link: "./assets/getting-started/three.svg"
+      description: "Tap into the Akash Marketplace and deploy permissionlessly using one of the network’s open-source deployment tools."
+      link: "https://akashnet.typeform.com/to/rhR4cWxQ"
+      linkIcon: true
+      linkLabel: "Reach Out"
+      darkImage:
+        link: "./assets/getting-started/three-dark.svg"
 
 #  AiModelsAndApps section content  
 aiModelsAndAppsSection:
