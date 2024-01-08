@@ -1,0 +1,52 @@
+---
+import Card from "./card.astro";
+
+const { gettingStartedSection } = Astro.props;
+// title, image, description, link, linkIcon, linkLabel, darkImage
+export type Card = {
+  id: number;
+  title: string;
+  description: string;
+  image: {
+    link: string;
+  };
+  darkImage: {
+    link: string;
+  };
+  link: string;
+  linkIcon: string;
+  linkLabel: string;
+};
+
+console.log(gettingStartedSection.cards);
+---
+
+<section class="container mb-10">
+  <div
+    class="border-b border-paraDark pb-[80px] pt-[40px] md:pb-[120px] md:pt-[80px]"
+  >
+    <h1
+      id="getting-started"
+      class="mb-10 text-2lg font-bold leading-[40px] md:text-[36px] md:leading-[44px] lg:text-3lg lg:leading-[48px]"
+    >
+      Getting Started
+    </h1>
+    <div
+      class="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-3 lg:grid-cols-3"
+    >
+      {
+        gettingStartedSection.cards.map((card: Card) => (
+          <Card
+            title={card.title}
+            image={card.image.link}
+            description={card.description}
+            link={card.link}
+            linkIcon={card.linkIcon}
+            linkLabel={card.linkLabel}
+            darkImage={card.darkImage.link}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
