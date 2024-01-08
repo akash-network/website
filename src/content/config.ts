@@ -214,7 +214,7 @@ const blog = defineCollection({
 export const collections = {
   Blog: blog,
   Homepage: homePage,
-  Getting_Started_Homepage: gettingStartedPage,
+
   Token_Homepage: tokenPage,
   Deploy_Homepage: deployPage,
   Providers_Homepage: providersPage,
