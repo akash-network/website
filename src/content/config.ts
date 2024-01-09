@@ -62,6 +62,32 @@ const homePage = defineCollection({
           }),
         ),
       }),
+      getStartedSection: z.object({
+        cards: z.array(
+          z.object({
+            title: z.string(),
+            image: z.object({
+              link: image(),
+              width: z.string().optional(),
+            }),
+            darkImage: z.object({
+              link: image(),
+              width: z.string().optional(),
+            }),
+            description: z.string(),
+            link: z.string(),
+            linkIcon: z.boolean(),
+            linkLabel: z.string(),
+            button: z
+              .object({
+                label: z.string(),
+                link: z.string(),
+                enable: z.boolean(),
+              })
+              .optional(),
+          }),
+        ),
+      }),
       aiModelsAndAppsSection: z.object({
         title: z.string(),
         description: z.string(),
@@ -188,7 +214,7 @@ const blog = defineCollection({
 export const collections = {
   Blog: blog,
   Homepage: homePage,
-  Getting_Started_Homepage: gettingStartedPage,
+
   Token_Homepage: tokenPage,
   Deploy_Homepage: deployPage,
   Providers_Homepage: providersPage,

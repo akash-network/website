@@ -88,7 +88,8 @@ function SideNav({ nav, pathname }: any) {
 
       <div className="mt-2 pb-48">
         <a
-          className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px]  hover:bg-[#F4F1F1] hover:text-primary   `}
+          href="/support"
+          className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px]  hover:bg-[#F4F1F1] hover:text-primary dark:hover:bg-darkGray dark:hover:text-white   `}
         >
           Support
         </a>

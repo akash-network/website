@@ -10,7 +10,7 @@ meetings:
   dateLabel: BiWeekly On Wednesdays 
   link:
     label: BiWeekly On Wednesdays at 9am Pacific.
-    link: "#"
+    link: "https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
 
 githubLink: "https://github.com/akash-network/community/tree/main/wg-content-moderation"
 
@@ -25,6 +25,7 @@ gives providers control over the applications that run on their systems.
 
 <div class="flex flex-col lg:flex-row lg:items-center gap-6"  >
 
+import { CalenderIcon } from '@/components/header/icons'
 import ButtonLink from '@/components/ui/button-link.astro'
 
 <ButtonLink 
@@ -45,7 +46,14 @@ link="https://github.com/akash-network/community/tree/main/wg-content-moderation
 View on Github
 </ButtonLink>
 
-
+<ButtonLink
+  link="
+https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20
+"
+ size="xl" variant="secondary">
+  <CalenderIcon className="text-para" />
+  Subscribe to Calendar
+</ButtonLink>
 
 </div>
 
@@ -84,9 +92,9 @@ View on Github
 
 ## PRDs and other documentation
 
-- [PRD & Roadmap](prd.md)
-- [Moderation API](moderation-api.md)
-- [Management API](management-api.md)
+- [PRD & Roadmap](https://github.com/akash-network/community/blob/main/wg-content-moderation/prd.md)
+- [Moderation API](https://github.com/akash-network/community/blob/main/wg-content-moderation/moderation-api.md)
+- [Management API](https://github.com/akash-network/community/blob/main/wg-content-moderation/management-api.md)
 
 ## Related SIGs
 

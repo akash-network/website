@@ -11,7 +11,7 @@ const { link, "aria-label": ariaLabel } = Astro.props;
   class="mt-2 text-left text-2xs font-[500] md:mt-[16px] md:text-xs lg:text-xs"
 >
   <a
-    aria-label={`Link to ${ariaLabel ?? "footer link"}`}
+    aria-label={`${ariaLabel ?? "footer link"}`}
     class="text-decoration-none tracking-[0rem] text-cardGray dark:text-linkText"
     target={link ? (link.startsWith("http") ? "_blank" : "_self") : "_self"}
     href={link}

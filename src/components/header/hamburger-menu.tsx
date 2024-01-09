@@ -12,7 +12,7 @@ import { useLockBody } from "./use-lock-body";
 import DarkModeToggle from "@/components/dark-mode-toggle";
 
 import HamburgerMenuDiscloserComponent from "./hamburger-menu-discloser-component";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 const navigation = [
   {
@@ -89,12 +89,14 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </a>
 
             <div className="flex items-center gap-5">
-              <a
-                href="/getting-started"
+              <Disclosure.Button
+                as="a"
+                href={"#getting-started"}
                 className="flex items-center justify-center rounded-[4px] bg-[#FF414C] px-[11px] py-[7px] text-xs text-white"
               >
                 Get Started
-              </a>
+              </Disclosure.Button>
+
               <Disclosure.Button className="inline-flex items-center justify-center">
                 <span className="sr-only">Open main menu</span>
                 {open ? <XMarkIcon /> : <HamburgerIcon />}
@@ -171,7 +173,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </a>
             <a
               href="https://deploy.cloudmos.io/"
-              className="flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary px-[17px] py-[9px] text-sm font-medium leading-[20px] text-white hover:bg-primary/10 hover:text-primary"
+              className="hover:bg-primary/10 flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary px-[17px] py-[9px] text-sm font-medium leading-[20px] text-white hover:text-primary"
             >
               Deploy Now
             </a>
