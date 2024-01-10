@@ -35,7 +35,10 @@ bannerImage: ./banner-image.png
   - [How to add Community Edu](#how-to-add-community-edu)
   - [How to add Community Contributions Card](#how-to-add-community-contributions-card)
 - [Ecosystem](#ecosystem)
-- [How to add card to ecosystem](#how-to-add-card-to-ecosystem)
+  - [How to add card to ecosystem](#how-to-add-card-to-ecosystem)
+- [Docs](#docs)
+  - [How to change sequence of docs](#how-to-change-sequence-of-docs)
+  - [How to add new doc in docs or engineering docs](#how-to-add-new-doc-in-docs-or-engineering-docs)
 
 ## How to write a blog
 
@@ -145,7 +148,7 @@ description: Greg Osuri, CEO of Overclock Labs and Founder of Akash Network, wil
 
 ## Ecosystem
 
-## How to add card to ecosystem
+### How to add card to ecosystem
 
 1. Create a new folder under `src/content/Ecosystem_Page/` with the name of the event. For example, `src/content/Ecosystem_Page/akash-chat/`
 
@@ -178,10 +181,61 @@ featured: true
 ---
 ```
 
-5. Showcase is used to show the card in [showcase](/ecosystem/showcase/latest)
+5. Showcase is used to show the card in [showcase](/ecosystem/showcase/latest) in ecosystem tag
 
 6. Featured is used to show the card on the top of the page
 
 7. Add the banner image to the same folder as the markdown file. For example, `src/content/Ecosystem_Page/akash-chat/project-banner.png`
 
 8. Commit and push the changes to the repository. The event will be published automatically.
+
+## Docs
+
+### How to change sequence of docs
+
+1. Go to the `src/content/Docs/sequence.ts`
+2. Change the sequence of the docs
+
+```ts
+export const docsSequence = [
+  {
+    label: "Docs",
+    subItems: [
+      {
+        label: "Getting Started", // <--- Change the sequence here
+        subItems: [ // <--- Change the sequence here
+          { label: "Intro To Akash" }, // <--- Change the sequence here
+          { label: "Akash Overview" }
+          { label: "Stack Definition Language (SDL)" },
+          { label: "Tokens and Wallets" },
+        ],
+      },
+  }
+]
+```
+
+3. Name of the label should same as rendered name of the doc in the website
+
+4. Commit and push the changes to the repository. The event will be published automatically.
+
+### How to add new doc in docs or engineering docs
+
+1. Create a new folder under `src/content/Docs/docs` or `src/content/Docs/engineering-documentation` with the name of the doc. For example, `src/content/Docs/docs/akash-101/` or `src/content/Docs/engineering-documentation/akash-101/`
+
+2. Create a new file called `index.md` under the new folder. For example, `src/content/Docs/docs/akash-101/index.md` or `src/content/Docs/engineering-documentation/akash-101/index.md`
+
+3. Copy the following template into the new file and fill in the details.
+
+```md
+---
+categories: ["Akash Nodes"] # <--- Change the category here
+tags: ["Blockchain"] # <--- Change the tag here
+weight: 1 # <--- Change the weight here
+title: "Akash Node CLI Build" # <--- Change the title here
+linkTitle: "Akash Node CLI Build" # <--- Change the link title here
+---
+```
+
+4. If you want to add sub items, add the folder under the folder of the doc. For example, `src/content/Docs/docs/akash-101/akash-node-cli-build/`
+
+5. Create a new file called `index.md` under the new folder. For example, `src/content/Docs/docs/akash-101/akash-node-cli-build/index.md`
