@@ -37,6 +37,7 @@ module.exports = {
                 paddingRight: theme("spacing[1.5]"),
                 paddingTop: theme("spacing.1"),
                 paddingBottom: theme("spacing.1"),
+                wordBreak: "break-word",
               },
               strong: {
                 color: "hsl(var(--foreground))",
