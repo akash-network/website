@@ -18,7 +18,21 @@ const baseSchema = defineCollection({
 });
 
 export const communityContributionsSchema = baseSchema;
-export const communityAkashEduSchema = baseSchema;
+export const communityAkashEduSchema = defineCollection({
+  schema: ({ image }) => {
+    return z.object({
+      image: image(),
+      title: z.string(),
+      pubDate: z.coerce.date(),
+      tags: z.array(z.string()),
+      description: z.string(),
+      // optional
+      author: z.string().optional(),
+      readTime: z.string().optional(),
+      link: z.string().optional(),
+    });
+  },
+});
 
 export const communityEventSchema = defineCollection({
   schema: ({ image }) => {
