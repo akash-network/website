@@ -42,6 +42,9 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
                 {item.subCategories.map((subItem, indx) => (
                   <a
                     href={subItem.href}
+                    target={
+                      subItem.href.startsWith("http") ? "_blank" : "_self"
+                    }
                     key={Math.random() + indx}
                     className="text-base font-medium text-[#808080]"
                   >
