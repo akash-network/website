@@ -20,7 +20,7 @@ const navigation = [
     href: "/",
     subCategories: [
       { name: "About Akash", href: "/about/general-information/" },
-      { name: "Akash Stats", href: "/network-activity/" },
+      { name: "Akash Stats", href: "https://stats.akash.network/" },
       { name: "AKT Token", href: "/token" },
     ],
   },
