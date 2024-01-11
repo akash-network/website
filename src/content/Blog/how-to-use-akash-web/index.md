@@ -31,11 +31,11 @@ bannerImage: ./banner-image.png
 
 - [How to write a blog](#how-to-write-a-blog)
 - [Community](#community)
-  - [How to add community Event Card](#how-to-add-community-event-card)
-  - [How to add Community Edu](#how-to-add-community-edu)
-  - [How to add Community Contributions Card](#how-to-add-community-contributions-card)
+  - [How to contribute to the Events](#how-to-contribute-to-the-events)
+  - [How to contribute to the Akash Edu](#how-to-contribute-to-the-akash-edu)
+  - [How to contribute to the Community Contributions](#how-to-contribute-to-the-community-contributions)
 - [Ecosystem](#ecosystem)
-  - [How to add card to ecosystem](#how-to-add-card-to-ecosystem)
+  - [How to contribute a project to the Ecosystem](#how-to-contribute-a-project-to-the-ecosystem)
 - [Docs](#docs)
   - [How to change sequence of docs](#how-to-change-sequence-of-docs)
   - [How to add new doc in docs or engineering docs](#how-to-add-new-doc-in-docs-or-engineering-docs)
@@ -72,7 +72,7 @@ bannerImage: ./banner-image.jpg
 
 ## Community
 
-### How to add community Event Card
+### How to contribute to the [Events](/community/events/)
 
 1. Create a new folder under `src/content/Community_Akash_Events_Page/` with the name of the event. For example, `src/content/Community_Akash_Events_Page/ai-world-congress/`
 2. Create a new file called `index.md` under the new folder. For example, `src/content/Community_Akash_Events_Page/ai-world-congress/index.md`
@@ -96,9 +96,9 @@ description: ​TOKEN2049 brings together the global Web3 industry, uniting entr
 
 6. Commit and push the changes to the repository. The event will be published automatically.
 
-### How to add Community Edu
+### How to contribute to the [Akash Edu](/community/community-akash-edu/)
 
-1. Create a new folder under `src/content/Community_Akash_Edu_Page/` with the name of the event. For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/`
+1. Create a new folder under `src/content/Community_Akash_Edu_Page/` with the name of the contribution. . For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/`
 
 2. Create a new file called `index.md` under the new folder. For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/index.md`
 
@@ -119,10 +119,11 @@ link: "https://akash-edu.ctlabs.in/"
 4. Add the banner image to the same folder as the markdown file. For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/project-banner.png`
 
 5. Commit and push the changes to the repository. The event will be published automatically.
+<!-- add Community Contributions Card -->
 
-### How to add Community Contributions Card
+### How to contribute to the [Community Contributions](/community/community-contributions/)
 
-1. Create a new folder under `src/content/Community_Contributions_Page/` with the name of the event. For example, `src/content/Community_Contributions_Page/akash-101/`
+1. Create a new folder under `src/content/Community_Contributions_Page/` with name of the contribution . For example, `src/content/Community_Contributions_Page/akash-101/`
 
 2. Create a new file called `index.md` under the new folder. For example, `src/content/Community_Contributions_Page/akash-101/index.md`
 
@@ -148,9 +149,9 @@ description: Greg Osuri, CEO of Overclock Labs and Founder of Akash Network, wil
 
 ## Ecosystem
 
-### How to add card to ecosystem
+### How to contribute a project to the [Ecosystem](/ecosystem/showcase/latest)
 
-1. Create a new folder under `src/content/Ecosystem_Page/` with the name of the event. For example, `src/content/Ecosystem_Page/akash-chat/`
+1. Create a new folder under `src/content/Ecosystem_Page/` with the name of the project. For example, `src/content/Ecosystem_Page/akash-chat/`
 
 2. Create a new file called `index.md` under the new folder. For example, `src/content/Ecosystem_Page/akash-chat/index.md`
 

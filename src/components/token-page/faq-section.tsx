@@ -1,0 +1,84 @@
+import React, { useState, useEffect } from "react";
+import { FAQ } from "./faq";
+import { DessertIcon } from "lucide-react";
+const FaqSection = () => {
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      setIsError(false);
+      setIsLoading(false);
+
+      const response: any = await fetch(
+        "https://api.coingecko.com/api/v3/coins/akash-network?tickers=true&market_data=true",
+      );
+
+      const fetchedData = await response.json();
+      setData(fetchedData);
+    } catch (error) {
+      setData(null);
+      setIsLoading(false);
+      setIsError(true);
+    }
+  };
+  console.log(data);
+
+  useEffect(() => {
+    fetchData(); // Fetch data when the component mounts
+
+    const interval = setInterval(fetchData, 10000); // Fetch data every 10 seconds
+
+    return () => {
+      clearInterval(interval); // Clear the interval when the component unmounts
+    };
+  }, []);
+  return (
+    <div>
+      <div>
+        <h2 className="text-2xl font-bold leading-9 md:text-2lg md:leading-10">
+          FAQs
+        </h2>
+      </div>
+
+      <div>
+        <FAQ
+          faqs={[
+            {
+              title: "What is the maximum and circulating supply of AKT?",
+              description: `Akash has a maximum supply of   ${
+                data?.market_data.max_supply
+                  ? data?.market_data.max_supply
+                      .toString()
+                      .split(".")[0]
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  : "388,539,008"
+              }, with      ${
+                data?.market_data.circulating_supply
+                  ? data?.market_data.circulating_supply
+                      .toString()
+                      .split(".")[0]
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  : "214,430,074"
+              } AKT in circulation as of ${
+                data
+                  ? new Date(data?.market_data.last_updated).toUTCString()
+                  : "Sat Jan 7 07:57:36 UTC"
+              }
+          `,
+            },
+            {
+              title: "What is the unlock schedule for the AKT token?",
+              // markdown DessertIcon
+              description:
+                "All AKT under circulation is unlocked. AKT Unlock Schedule is available [here](https://docs.google.com/spreadsheets/d/1MUULetp59lgNq0z4ckVI51QdtMGvqtKOW8wRfX5R8yY/edit#gid=2130333819)",
+            },
+          ]}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default FaqSection;
