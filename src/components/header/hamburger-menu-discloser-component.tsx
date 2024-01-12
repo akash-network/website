@@ -22,7 +22,7 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
       {({ open }) => (
         <>
           <Disclosure.Button>
-            <span className="flex items-center gap-1 text-base font-medium hover:font-semibold hover:text-[#11181C]">
+            <span className="flex items-center gap-1 text-base font-medium hover:font-semibold ">
               {item.name}
               {/* <ChevronDownIcon className="h-5 font-medium text-[#11181C]" /> */}
             </span>
@@ -42,6 +42,9 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
                 {item.subCategories.map((subItem, indx) => (
                   <a
                     href={subItem.href}
+                    target={
+                      subItem.href.startsWith("http") ? "_blank" : "_self"
+                    }
                     key={Math.random() + indx}
                     className="text-base font-medium text-[#808080]"
                   >

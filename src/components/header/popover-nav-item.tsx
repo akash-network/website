@@ -39,6 +39,7 @@ const PopOverNavItem = ({ subItems }: any) => {
                   {({ active }) => (
                     <a
                       href={item.link}
+                      target={item.link.startsWith("http") ? "_blank" : "_self"}
                       className={`block  cursor-pointer p-2 font-semibold   ${
                         active ? "" : ""
                       } `}

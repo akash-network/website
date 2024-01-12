@@ -5,7 +5,7 @@ import { getEntryBySlug } from "astro:content";
 import HowItWorksSection from "@/components/token-page/how-it-works-section.astro";
 import TokenMetricsSection from "@/components/token-page/token-metrics-section.tsx";
 import HeroSection from "@/components/token-page/hero-section.astro";
-import FaqSection from "@/components/token-page/faq-section.astro";
+import FaqSection from "@/components/token-page/faq-section";
 import BuyingAktSection from "@/components/token-page/buying-akt-section.astro";
 import { Image } from "astro:assets";
 import TopMargin from "@/components/ui/top-margin.astro";
@@ -243,7 +243,7 @@ const nav = [
         </div>
 
         <div id="faq">
-          <FaqSection faqsSection={faqsSection} />
+          <FaqSection client:load />
         </div>
       </div>
     </div>
