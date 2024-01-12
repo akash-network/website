@@ -1,19 +1,21 @@
 ---
 import { Image } from "astro:assets";
-const { width = 170, height = 21 } = Astro.props;
+import AkashLogo from "@/assets/logos/akash-logo-footer.png";
+import AkashLogoDark from "@/assets/logos/akash-logo-footer-dark.png";
+const { width = 270, height = 41 } = Astro.props;
 ---
 
 <Image
-  src="/logos/akash-logo-footer.png"
+  src={AkashLogo}
   alt="footer-logo-dark"
   width={width}
   height={height}
-  class="dark:hidden"
+  class="h-[21px] w-auto dark:hidden"
 />
 <Image
-  src="/logos/akash-logo-footer-dark.png"
+  src={AkashLogoDark}
   alt="footer-logo-dark"
   width={width}
   height={height}
-  class="hidden dark:block"
+  class="hidden h-[21px] w-auto dark:block"
 />
