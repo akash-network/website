@@ -162,7 +162,11 @@ function SideNav({ currentPath, nav }: { currentPath: string; nav: any }) {
       </div>
 
       <div className="mt-3 flex flex-col  rounded-[8px] border  bg-background2 p-4">
-        <a className="inline-flex cursor-pointer items-center  gap-x-2 text-xs font-medium hover:text-primary">
+        <a
+          href="https://github.com/akash-network/website-revamp/tree/main/src/content/Community_Akash_Edu_Page"
+          target="_blank"
+          className="inline-flex cursor-pointer items-center  gap-x-2 text-xs font-medium hover:text-primary"
+        >
           <svg
             width="16"
             height="16"
