@@ -1,20 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import FormattedDate from "../formatted-date.astro";
-
+import type { CollectionEntry } from "astro:content";
+type Project = CollectionEntry<"Community_Contributions_Page">;
 interface Props {
-  contribution: {
-    data: {
-      title: string;
-      description: string;
-      author: string;
-
-      image: string;
-      link?: string;
-      pubDate: any;
-      tags: string[];
-    };
-  };
+  contribution: Project;
 }
 
 const { contribution } = Astro.props;

@@ -102,12 +102,15 @@ const filteredMonthwiseArray = sortedMonthwiseArray.map((item: any) => {
 const filteredMonthwiseArray2 = filteredMonthwiseArray.filter((item: any) => {
   return item.events.length > 0;
 });
+
+const link =
+  "https://github.com/akash-network/website-revamp/tree/main/src/content/Community_Page/events/index.mdx";
 ---
 
 <Layout title="Community Contributions">
   <TopMargin>
     <div class="grid grid-cols-12 gap-x-5">
-      <SideNav nav={nav} />
+      <SideNav nav={nav} link={link} />
 
       <div
         class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
@@ -118,6 +121,7 @@ const filteredMonthwiseArray2 = filteredMonthwiseArray.filter((item: any) => {
             nav={nav}
             pageName={pageName}
             client:load
+            link={link}
           />
         </div>
 
