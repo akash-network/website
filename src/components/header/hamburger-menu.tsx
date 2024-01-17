@@ -91,7 +91,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             <div className="flex items-center gap-5">
               <Disclosure.Button
                 as="a"
-                href={"#getting-started"}
+                href={"/#getting-started"}
                 className="flex items-center justify-center rounded-[4px] bg-[#FF414C] px-[11px] py-[7px] text-xs text-white"
               >
                 Get Started
