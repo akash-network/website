@@ -87,14 +87,15 @@ const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
     new Date(b.events[0].eventDate).getTime()
   );
 });
-
+const link =
+  "https://github.com/akash-network/website-revamp/tree/main/src/content/Community_Page/events/index.mdx";
 console.log(sortedMonthwiseArray);
 ---
 
 <Layout title="Community Contributions">
   <TopMargin>
     <div class="grid grid-cols-12 gap-x-5">
-      <SideNav nav={nav} />
+      <SideNav nav={nav} link={link} />
 
       <div
         class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
@@ -105,6 +106,7 @@ console.log(sortedMonthwiseArray);
             nav={nav}
             pageName={pageName}
             client:load
+            link={link}
           />
         </div>
 

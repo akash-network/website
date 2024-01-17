@@ -44,6 +44,7 @@ export const communityEventSchema = defineCollection({
       tbd: z.boolean().optional(),
       location: z.string(),
       description: z.string(),
+      tags: z.array(z.string()),
     });
   },
 });
