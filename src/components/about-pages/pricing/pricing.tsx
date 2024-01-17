@@ -145,8 +145,13 @@ export function Pricing({ page, pathName }: any) {
                       </p>
                     </div>
                   </div>
-                  <div className="dark:bg-badgeColor bg-gray-50 px-4 py-1 md:px-4 md:py-4">
-                    <a className="cursor-pointer  text-2xs font-bold text-rose-500 dark:text-white md:text-sm">
+                  <div className="bg-gray-50 px-4 py-1 dark:bg-badgeColor md:px-4 md:py-4">
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://deploy.cloudmos.io/"
+                      className="cursor-pointer  text-2xs font-bold text-rose-500 dark:text-white md:text-sm"
+                    >
                       Deploy Now
                     </a>
                   </div>
