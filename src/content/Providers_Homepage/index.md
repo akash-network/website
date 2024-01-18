@@ -11,7 +11,7 @@ heroSection:
     - label: Akash Provider Status
       link: "/"
   button:
-    label: Launch Preator App
+    label: Launch Praetor App
     link: "https://praetorapp.com/"
     enable: true
   button2:
