@@ -19,41 +19,6 @@ discordLink: "https://discord.com/invite/akash"
 
 Akash Network Clients are software and services that make it easier for tenants of all types to deploy on to Akash Providers as well as for new provider onboarding. The Akash Network community has built and supports the following deployment & provider onboarding clients at this time:
 
-<div class="flex flex-col lg:flex-row lg:items-center gap-6"  >
-
-import ButtonLink from "@/components/ui/button-link.astro";
-import {
-  DiscordIcon,
-  GithubIcon,
-  CalenderIcon,
-} from "@/components/header/icons";
-
-<ButtonLink
-link="https://discord.com/invite/akash"
- size="xl" variant="secondary">
-
-  <DiscordIcon className="text-para" />
-  View on Discord
-</ButtonLink>
-<ButtonLink
-
-size="xl" variant="secondary"
-link="https://github.com/akash-network/community/tree/main/sig-clients"
-
->
-
-  <GithubIcon className="text-para" />
-  View on Github
-</ButtonLink>
-<ButtonLink
-  link="https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
- size="xl" variant="secondary">
-  <CalenderIcon className="text-para" />
-  Subscribe to Calendar
-</ButtonLink>
-
-</div>
-
 ## Deployment Clients
 
 - [Akash Console](https://github.com/akash-network/community/tree/main/sig-clients/akash-consoleREADME.md)
@@ -75,7 +40,7 @@ The goal of this SIG is to foster a community around each of these clients that 
 
 | Meeting | Time                                                     | Notes                                                                                               | Transcript                                                                                                     | Recording                                                                                                                    |
 | ------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| #1      | Wednesday, January 18, 2023 10:30 AM PT (Pacific Time)   | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/001-2023-01-19.md)                                                                  | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/001-2023-01-19.md#transcript)                                                                  | [Link](https://j62h6g4vuygradhil2eeape3a6ojy6vf2ty2orv66m5f6kprsqja.arweave.net/T7R_G5WmDRAM6F6IQDybB5yceqXU8adGvvM6XynxlBI) |
+| #1      | Wednesday, January 18, 2023 10:30 AM PT (Pacific Time)   | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/001-2023-01-19.md) | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/001-2023-01-19.md#transcript) | [Link](https://j62h6g4vuygradhil2eeape3a6ojy6vf2ty2orv66m5f6kprsqja.arweave.net/T7R_G5WmDRAM6F6IQDybB5yceqXU8adGvvM6XynxlBI) |
 | #2      | Wednesday, February 15, 2023 10:30 AM PT (Pacific Time)  | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/002-2023-02-15.md) | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/002-2023-02-15.md#transcript) | [Link](https://xq5h5w5nnutwgjjn5bcr2asuge5yukenn3iqjf7xggqqt32sieca.arweave.net/vDp-261tJ2MlLehFHQJUMTuKKI1u0QSX9zGhCe9SQQQ) |
 | #3      | Wednesday, March 15, 2023 10:30 AM PT (Pacific Time)     | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/003-2023-03-15.md) | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/003-2023-03-15.md#transcript) | [Link](https://liubv4bbk44bj6eebql4th7szqza375tjmw5jcajheyvzkiu5m5q.arweave.net/Wiga8CFXOBT4hAwXyZ_yzDIN_7NLLdSICTkxXKkU6zs) |
 | #4      | Wednesday, April 19, 2023 10:30 AM PT (Pacific Time)     | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/004-2023-04-19.md) | [Link](https://github.com/akash-network/community/blob/main/sig-clients/meetings/004-2023-04-19.md#transcript) | [Link](https://flpgrlmt77pkodrrjhytoougl4aowcie2kxsoqy4zk4uavep7e7a.arweave.net/Kt5orZP_3qcOMUnxNzqGXwDrCQTSrydDHMq5QFSP-T4) |
@@ -108,7 +73,6 @@ The goal of this SIG is to foster a community around each of these clients that 
 ### Program Manager(s)
 
 - Tyler Wright (@brewsterdrinkwater)
-
 
 ## Sub Projects, Repositories & Relevant Work Groups
 

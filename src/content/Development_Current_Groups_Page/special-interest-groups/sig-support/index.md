@@ -19,41 +19,6 @@ discordLink: "https://discord.com/invite/akash"
 
 sig-support is responsible for defining mechanics of how support works at Akash Network, as well as organizing a distributed support team across the world. The Support Special Interest group meets **_biweekly_** to discuss open issues in the [Support Repo](https://github.com/akash-network/support/issues). If time permits, the group discusses issues related to the Akash Console which can be found the [Console Repo](https://github.com/akash-network/console/issues).
 
-<div class="flex flex-col lg:flex-row lg:items-center gap-6"  >
-
-import ButtonLink from "@/components/ui/button-link.astro";
-import {
-  DiscordIcon,
-  GithubIcon,
-  CalenderIcon,
-} from "@/components/header/icons";
-
-<ButtonLink
-link="https://discord.com/invite/akash"
- size="xl" variant="secondary">
-
-  <DiscordIcon className="text-para" />
-  View on Discord
-</ButtonLink>
-<ButtonLink
-
-size="xl" variant="secondary"
-link="https://github.com/akash-network/community/tree/main/sig-support"
-
->
-
-  <GithubIcon className="text-para" />
-  View on Github
-</ButtonLink>
-<ButtonLink
-  link="https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
- size="xl" variant="secondary">
-  <CalenderIcon className="text-para" />
-  Subscribe to Calendar
-</ButtonLink>
-
-</div>
-
 ## Meetings
 
 | Meeting | Time                                               | Notes                                                                                               | Transcript                                                                                                     | Recording                                                                                                                    |
@@ -88,7 +53,6 @@ link="https://github.com/akash-network/community/tree/main/sig-support"
 - Artur Troian, Overclock Labs
 - Anil Murty, Overclock Labs
 - Tyler Wright, Overclock Labs
-
 
 ## Sub Projects, Repositories & Relevant Work Groups
 

@@ -14,6 +14,7 @@ export function customAsidePlugin() {
 
   // All remark and rehype plugins return a separate function
   return function (tree, file) {
+    console.log("tree", tree);
     visit(tree, (node, index, parent) => {
       if (!parent || index === null || node.type !== "containerDirective")
         return;
@@ -245,6 +246,7 @@ export function customAsidePlugin() {
           break;
 
         case "github-btn":
+          console.log(node);
           console.log(node.children[0].children[0].value);
 
           data.hChildren = [
@@ -252,6 +254,7 @@ export function customAsidePlugin() {
               type: "element",
               tagName: "a",
               properties: {
+                href: node.children[0].children[0].url,
                 class:
                   "not-prose flex items-center justify-center rounded-[6px] border  bg-background2 px-[17px] py-[9px] text-sm font-medium leading-[20px] text-foreground shadow-sm hover:bg-gray-100 w-fit",
               },
@@ -269,7 +272,7 @@ export function customAsidePlugin() {
 
                 {
                   type: "text",
-                  value: node.children[0].children[0].value,
+                  value: "View on GitHub",
                 },
               ], // Change the text as needed
             },
@@ -278,6 +281,7 @@ export function customAsidePlugin() {
           break;
 
         case "button-group":
+          console.log(node);
           data.hProperties = {
             class: "not-prose flex items-center gap-x-10",
           };

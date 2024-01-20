@@ -9,7 +9,12 @@ import MobileNav from "@/components/development-pages/mobile-nav-current-groups"
 import Layout from "@/layouts/layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import TopMargin from "@/components/ui/top-margin.astro";
-
+import ButtonLink from "@/components/ui/button-link.astro";
+import {
+  DiscordIcon,
+  GithubIcon,
+  CalenderIcon,
+} from "@/components/header/icons";
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Current_Groups_Page");
 
@@ -283,6 +288,33 @@ const fileType = page.id.split("/")[2].split(".")[1];
             >
               {page.data.heading}
             </h1>
+          </div>
+
+          <div class="flex flex-col gap-6 lg:flex-row lg:items-center">
+            <ButtonLink
+              link={page.data.discordLink}
+              size="xl"
+              variant="secondary"
+            >
+              <DiscordIcon className="text-para" />
+               View on Discord
+            </ButtonLink>
+            <ButtonLink
+              size="xl"
+              variant="secondary"
+              link={page.data.githubLink}
+            >
+              <GithubIcon className="text-para" />
+               View on Github
+            </ButtonLink>
+            <ButtonLink
+              link={page.data.meetings.link.link}
+              size="xl"
+              variant="secondary"
+            >
+              <CalenderIcon className="text-para" />
+               Subscribe to Calendar
+            </ButtonLink>
           </div>
 
           <article class={proseClasses}>
