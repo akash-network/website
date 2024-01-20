@@ -4,9 +4,6 @@ title: Provider Attributes
 heading: Akash Network Provider Attributes Working Group
 description: This working group is for figuring out the schema for how providers specify attributes and for maintaining a list of required and optional provider attributes that can be referenced by Akash Network providers.
 
-
-
-
 category: working-groups
 
 meetings:
@@ -20,49 +17,19 @@ githubLink: "https://github.com/akash-network/community/tree/main/wg-provider-at
 discordLink: "https://discord.com/invite/akash"
 ---
 
-
-
 This working group is for figuring out the schema for how providers specify attributes and for maintaining a list of required and optional provider attributes that can be referenced by Akash Network providers.
-
-
-<div class="flex flex-col lg:flex-row lg:items-center gap-6"  >
-
-import ButtonLink from '@/components/ui/button-link.astro'
-
-<ButtonLink 
-link="https://discord.com/invite/akash"
-  size="xl"
-  variant="secondary"
->
-<svg class="mr-1"   width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.66406 10.666C6.9974 12.3327 8.9974 12.3327 12.3307 10.666" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.3333 11.666L11 12.9993C11 12.9993 13.7809 12.1138 14.6667 10.666C14.6667 9.99935 15.0201 5.23494 12.6667 3.66602C11.6667 2.99935 10 2.66602 10 2.66602L9.33333 3.99935H8" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.68229 11.666L5.01563 12.9993C5.01563 12.9993 2.23474 12.1138 1.34896 10.666C1.34896 9.99935 0.995565 5.23494 3.34896 3.66602C4.34896 2.99935 6.01563 2.66602 6.01563 2.66602L6.68229 3.99935H8.01562" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.66406 9.33268C5.11178 9.33268 4.66406 8.73573 4.66406 7.99935C4.66406 7.26297 5.11178 6.66602 5.66406 6.66602C6.21635 6.66602 6.66406 7.26297 6.66406 7.99935C6.66406 8.73573 6.21635 9.33268 5.66406 9.33268Z" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.3359 9.33268C9.78365 9.33268 9.33594 8.73573 9.33594 7.99935C9.33594 7.26297 9.78365 6.66602 10.3359 6.66602C10.8882 6.66602 11.3359 7.26297 11.3359 7.99935C11.3359 8.73573 10.8882 9.33268 10.3359 9.33268Z" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-View on Discord
-</ButtonLink>
-<ButtonLink 
-link="https://github.com/akash-network/community/tree/main/wg-provider-attributes"
-  size="xl"
-  variant="secondary"
->
-<svg  class="mr-1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_2201_20876)"><path d="M10.6693 14.6852V12.7718C10.6943 12.454 10.6514 12.1344 10.5433 11.8344C10.4353 11.5344 10.2646 11.2608 10.0427 11.0318C12.136 10.7985 14.336 10.0052 14.336 6.36518C14.3358 5.4344 13.9778 4.53931 13.336 3.86518C13.6399 3.05085 13.6184 2.15075 13.276 1.35185C13.276 1.35185 12.4893 1.11851 10.6693 2.33851C9.14133 1.92439 7.53065 1.92439 6.00266 2.33851C4.18266 1.11851 3.39599 1.35185 3.39599 1.35185C3.05357 2.15075 3.03208 3.05085 3.33599 3.86518C2.68941 4.54431 2.331 5.44749 2.33599 6.38518C2.33599 9.99851 4.53599 10.7918 6.62932 11.0518C6.40999 11.2785 6.24083 11.5488 6.13286 11.8451C6.02489 12.1415 5.98053 12.4572 6.00266 12.7718V14.6852" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.0026 13.3516C4.0026 14.0004 2.33594 13.3516 1.33594 11.3516" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_2201_20876"><rect width="16" height="16" fill="white"/></clipPath></defs></svg>
-View on Github
-</ButtonLink>
-
-
-
-</div>
-
 
 ## Meetings
 
 Joining the mailing list for the group will typically add invites for the following meetings to your calendar.
 
 - Meeting 1 (e.g bug Scrub): \<weekday\> at \<time\> PT (Pacific Time) (every \<n\> weeks). Convert to your timezone (add link to https://dateful.com/time-zone-converter?t=09:00&tz=PT%20%28Pacific%20Time%29).
-  
+
   - Meeting notes and Agenda.
   - Meeting recordings.
 
 - Meeting 2: \<weekday\> at \<time\> PT (Pacific Time) (every \<n\> weeks). Convert to your timezone (add link to https://dateful.com/time-zone-converter?t=09:00&tz=PT%20%28Pacific%20Time%29).
-  
+
   - Meeting notes and Agenda.
   - Meeting recordings.
 
@@ -73,7 +40,7 @@ Joining the mailing list for the group will typically add invites for the follow
 
 ## Leads
 
-  - Maxime Beauchamp (@baktun14)
+- Maxime Beauchamp (@baktun14)
 
 ## Contacts
 
@@ -86,14 +53,14 @@ Joining the mailing list for the group will typically add invites for the follow
 - Figure out communication and roll out strategy to update existing providers
 - Make code changes to provider code, clients and deployment code to enforce and use the attribute schema
 
-
 ## PRDs and other documentation
+
 The implementation of the provider attribute schema currently resides here:
+
 - https://github.com/ovrclk/cloudmos-config/blob/main/provider-attributes.md
 - https://github.com/ovrclk/cloudmos-config/blob/main/provider-attributes.json
 
 A form to use this schema has been implemented on Cloudmos in the providers section: https://deploy.cloudmos.io/providers
-
 
 ## Related SIGs
 
