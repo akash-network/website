@@ -91,6 +91,9 @@ const fileType = page.id.split("/")[1].split(".")[1];
             currentPath={pathname}
             client:load
             nav={nav}
+            link={`https://github.com/akash-network/website-revamp/tree/main/src/content/About_Page/${
+              page.slug ?? ""
+            }/index.${fileType ?? ""}`}
           />
 
           <MobileTableOfContents

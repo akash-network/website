@@ -17,41 +17,6 @@ githubLink: "https://github.com/akash-network/community/tree/main/sig-providers"
 discordLink: "https://discord.com/invite/akash"
 ---
 
-<div class="flex flex-col lg:flex-row lg:items-center gap-6"  >
-
-import ButtonLink from "@/components/ui/button-link.astro";
-import {
-  DiscordIcon,
-  GithubIcon,
-  CalenderIcon,
-} from "@/components/header/icons";
-
-<ButtonLink
-link="https://discord.com/invite/akash"
- size="xl" variant="secondary">
-
-  <DiscordIcon className="text-para" />
-  View on Discord
-</ButtonLink>
-<ButtonLink
-
-size="xl" variant="secondary"
-link="https://github.com/akash-network/community/tree/main/sig-providers"
-
->
-
-  <GithubIcon className="text-para" />
-  View on Github
-</ButtonLink>
-<ButtonLink
-  link="https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
- size="xl" variant="secondary">
-  <CalenderIcon className="text-para" />
-  Subscribe to Calendar
-</ButtonLink>
-
-</div>
-
 Provider SIG covers everything pertinent to Providers on Akash Network. This includes provider core software features, bug fixes, releases, monitoring, profitability calculation, content moderation, inventory and sourcing, partnerships/ integrations, analytics and more.
 
 ## Meetings
@@ -76,7 +41,6 @@ Provider SIG covers everything pertinent to Providers on Akash Network. This inc
 - Andrey Arapov, Overclock Labs
 - Scott Carruthers, Overclock Labs
 - Jigar Patel, Praetor
-
 
 ## Projects, Repositories & Relevant Work Groups
 

@@ -7,10 +7,12 @@ export default function MobileNav({
   currentPath,
   nav,
   pageName = "pageName",
+  link,
 }: {
   currentPath: string;
   nav: any;
   pageName: string;
+  link: string;
 }) {
   return (
     <Disclosure as="nav" className=" overflow-hidden">
@@ -44,7 +46,12 @@ export default function MobileNav({
             leaveTo="opacity-100 -translate-x-full"
             className="fixed left-0  top-0  z-40  w-full  bg-background   lg:hidden"
           >
-            <Panel currentPath={currentPath} open={open} nav={nav} />
+            <Panel
+              currentPath={currentPath}
+              open={open}
+              nav={nav}
+              link={link}
+            />
           </Transition>
         </>
       )}
@@ -56,10 +63,12 @@ const Panel = ({
   currentPath,
   open,
   nav,
+  link,
 }: {
   currentPath: string;
   open: any;
   nav: any;
+  link: string;
 }) => {
   useLockBody(open);
 
@@ -69,17 +78,26 @@ const Panel = ({
         <Disclosure.Button className="  ml-auto flex items-center justify-center  gap-x-1 rounded-full  text-xs leading-none">
           <XMarkIcon />
         </Disclosure.Button>
-        <SideNav currentPath={currentPath} nav={nav} />
+        <SideNav currentPath={currentPath} nav={nav} link={link} />
       </div>
     </Disclosure.Panel>
   );
 };
 
-function SideNav({ currentPath, nav }: { currentPath: string; nav: any }) {
+function SideNav({
+  currentPath,
+  nav,
+  link,
+}: {
+  currentPath: string;
+  nav: any;
+  link: string;
+}) {
   return (
     <div className="flex w-full flex-col gap-y-3">
-      {nav.map((navItem) => (
+      {nav.map((navItem: any) => (
         <a
+          key={navItem.label}
           className={`${
             currentPath === navItem.link
               ? "bg-background2 text-primary  dark:text-white"
@@ -92,13 +110,15 @@ function SideNav({ currentPath, nav }: { currentPath: string; nav: any }) {
       ))}
       <div className="mt-3 flex flex-col justify-center rounded-[8px] border  bg-background2 p-4">
         <a
-          href={`#`}
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex cursor-pointer items-center gap-x-2 text-xs font-medium hover:text-primary"
         >
           <svg
             width="16"
             height="16"
-            class="text-foreground"
+            className="text-foreground"
             viewBox="0 0 16 16"
             stroke="currentColor"
             fill="none"

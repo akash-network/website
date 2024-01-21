@@ -19,41 +19,6 @@ discordLink: "https://discord.com/invite/akash"
 
 Analytics Special Interest Group is dedicated to defining and building tools that allow data analytics for deployments, providers, chain metrics, etc.
 
-<div class="flex flex-col lg:flex-row lg:items-center gap-6"  >
-
-import ButtonLink from "@/components/ui/button-link.astro";
-import {
-  DiscordIcon,
-  GithubIcon,
-  CalenderIcon,
-} from "@/components/header/icons";
-
-<ButtonLink
-link="https://discord.com/invite/akash"
- size="xl" variant="secondary">
-
-  <DiscordIcon className="text-para" />
-  View on Discord
-</ButtonLink>
-<ButtonLink
-
-size="xl" variant="secondary"
-link="https://github.com/akash-network/community/tree/main/sig-analytics"
-
->
-
-  <GithubIcon className="text-para" />
-  View on Github
-</ButtonLink>
-<ButtonLink
-  link="https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
- size="xl" variant="secondary">
-  <CalenderIcon className="text-para" />
-  Subscribe to Calendar
-</ButtonLink>
-
-</div>
-
 ## Meetings
 
 | Meeting | Time                                                    | Notes                                                                                                 | Transcript                                                                                                       | Recording                                                                                                                    |
@@ -71,7 +36,6 @@ link="https://github.com/akash-network/community/tree/main/sig-analytics"
 ## Leadership
 
 Anil Murty
-
 
 ## Sub Projects, Repositories & Relevant Work Groups
 

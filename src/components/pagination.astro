@@ -4,6 +4,7 @@ const { page } = Astro.props;
 ---
 
 <div class="mb-10 mt-[56px] flex items-center justify-between">
+  <p class="text-xs md:text-base">Page: {page.currentPage} / {page.lastPage}</p>
   <div class="flex space-x-4">
     {
       page.url.prev ? (
@@ -24,6 +25,4 @@ const { page } = Astro.props;
       ) : null
     }
   </div>
-
-  <p class="text-xs md:text-base">Page: {page.currentPage} / {page.lastPage}</p>
 </div>

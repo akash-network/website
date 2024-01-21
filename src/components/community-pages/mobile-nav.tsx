@@ -7,10 +7,12 @@ export default function MobileNav({
   currentPath,
   pageName,
   nav,
+  link = "",
 }: {
   currentPath: string;
   pageName: string;
   nav: any;
+  link?: string;
 }) {
   return (
     <Disclosure as="nav" className="overflow-hidden">
@@ -45,7 +47,12 @@ export default function MobileNav({
             leaveTo="opacity-100 -translate-x-full"
             className="fixed left-0  top-0  z-40  w-full  bg-background   lg:hidden"
           >
-            <Panel currentPath={currentPath} open={open} nav={nav} />
+            <Panel
+              currentPath={currentPath}
+              open={open}
+              nav={nav}
+              link={link}
+            />
           </Transition>
         </>
       )}
@@ -57,10 +64,12 @@ const Panel = ({
   currentPath,
   open,
   nav,
+  link = "",
 }: {
   currentPath: string;
   open: any;
   nav: any;
+  link: string;
 }) => {
   useLockBody(open);
 
@@ -70,13 +79,21 @@ const Panel = ({
         <Disclosure.Button className="  ml-auto flex items-center justify-center  gap-x-1 rounded-full  text-xs leading-none">
           <XMarkIcon />
         </Disclosure.Button>
-        <SideNav currentPath={currentPath} nav={nav} />
+        <SideNav currentPath={currentPath} nav={nav} link={link} />
       </div>
     </Disclosure.Panel>
   );
 };
 
-function SideNav({ currentPath, nav }: { currentPath: string; nav: any }) {
+function SideNav({
+  currentPath,
+  nav,
+  link,
+}: {
+  currentPath: string;
+  nav: any;
+  link: string;
+}) {
   return (
     <div className="flex w-full flex-col gap-y-3 ">
       {nav.map((navItem: any, index: number) => (
@@ -162,7 +179,11 @@ function SideNav({ currentPath, nav }: { currentPath: string; nav: any }) {
       </div>
 
       <div className="mt-3 flex flex-col  rounded-[8px] border  bg-background2 p-4">
-        <a className="inline-flex cursor-pointer items-center  gap-x-2 text-xs font-medium hover:text-primary">
+        <a
+          href={link}
+          target="_blank"
+          className="inline-flex cursor-pointer items-center  gap-x-2 text-xs font-medium hover:text-primary"
+        >
           <svg
             width="16"
             height="16"
