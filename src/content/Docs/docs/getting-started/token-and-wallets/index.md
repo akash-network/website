@@ -4,7 +4,6 @@ tags: []
 title: "Tokens and Wallets"
 linkTitle: "Tokens and Wallets"
 weight: 3
-
 ---
 
 ## Why Do I Need a Wallet?
@@ -18,8 +17,6 @@ The Cosmos Ecosystem offers several compatible wallets. Two particularly user-fr
 ## Developer Tokens
 
 Developers can start experimenting with Akash Deployments within our Sandbox network. The Sandbox allows short-term deployments (may be destroyed after 24 hours of runtime) without spending actual funds to get started.
-
-
 
 ## Purchasing Akash Tokens
 
@@ -35,11 +32,11 @@ Tokens can be purchased on [exchanges listed here](https://akash.network/token).
 
 ---
 
-*Description: Original content produced by Anthony Rosa as part of the community challenge.*
+_Description: Original content produced by Anthony Rosa as part of the community challenge._
 
 # Keplr Wallet
 
-**Here is a [YouTube version](https://www.youtube.com/watch?v=KGu3wiwcxNc\&t=642s) of this guide where I show you how to download, fund, and trade Akash with a Keplr wallet.**
+**Here is a [YouTube version](https://www.youtube.com/watch?v=KGu3wiwcxNc&t=642s) of this guide where I show you how to download, fund, and trade Akash with a Keplr wallet.**
 
 ## How to Download and Install Keplr for Google Chrome:
 
@@ -75,19 +72,19 @@ Tokens can be purchased on [exchanges listed here](https://akash.network/token).
 
 10. Click the Keplr icon.
 
-   ![Image](https://miro.medium.com/max/272/1*OFgsSrkW2yYXQHujo9uI4Q.png)
+![Image](https://miro.medium.com/max/272/1*OFgsSrkW2yYXQHujo9uI4Q.png)
 
 11. Click the dropdown Cosmos menu. Click “Akash”.
 
-   ![Image](https://miro.medium.com/max/744/1*PPobLOFbdYCNhXEyWmTxxw.png)
+![Image](https://miro.medium.com/max/744/1*PPobLOFbdYCNhXEyWmTxxw.png)
 
 12. You have now downloaded Keplr wallet and are ready to fund your wallet with Akash!
 
-   ![Image](https://miro.medium.com/max/736/1*kF2UUXQgSei23dqutkDNVg.png)
+![Image](https://miro.medium.com/max/736/1*kF2UUXQgSei23dqutkDNVg.png)
 
 13. Fund Wallet.
 
-   All that is left is to send AKT tokens to the wallet address provided by Keplr.
+All that is left is to send AKT tokens to the wallet address provided by Keplr.
 
 # Leap Cosmos wallet
 
@@ -104,16 +101,14 @@ We are using **Google Chrome** in this example:
 2. Click “**Install**”.
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/4443a3f0-70fa-4e82-a732-fcc4552561a4)
-   
+
 3. Click the puzzle piece icon in the top right corner of the browser. These are your extensions.
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/e2a09fbf-9cab-4fe2-af15-e3990b789800)
 
 4. Pin the Leap Cosmos Wallet icon.
 
-   ![Image](https://github.com/Dimokus88/docs/assets/23629420/4c213adc-9926-4fd2-
-
-9094-bbd2120bcf3a)
+   ![Image](https://github.com/Dimokus88/docs/assets/23629420/4c213adc-9926-4fd2-9094-bbd2120bcf3a)
 
 5. Click the Leap Cosmos Wallet icon.
 
@@ -123,21 +118,21 @@ We are using **Google Chrome** in this example:
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/d6c722fc-e526-479b-ae63-f83ce0696dd9)
 
-7.  ⚠️ ✍️ **Write down your Mnemonic Seed 12 word phrase on a piece of paper.** ✍️⚠️  
+7. ⚠️ ✍️ **Write down your Mnemonic Seed 12 word phrase on a piece of paper.** ✍️⚠️
 
-   You’ll need these for the next step and if you lose your account information, the mnemonic is the only way to get it back. 
+You’ll need these for the next step and if you lose your account information, the mnemonic is the only way to get it back.
 
-   Click "**I have saved it somewhere safe.**".
+Click "**I have saved it somewhere safe.**".
 
-   ![Image](https://github.com/Dimokus88/docs/assets/23629420/08048f1c-4293-48a3-91fa-e0ec16c199f4)
+![Image](https://github.com/Dimokus88/docs/assets/23629420/08048f1c-4293-48a3-91fa-e0ec16c199f4)
 
-8. Go through the procedure of checking the record of your mnemonic phrase, add the missing words to the fields. 
+8. Go through the procedure of checking the record of your mnemonic phrase, add the missing words to the fields.
 
    Click "**Confirm**".
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/42638118-746d-40e0-ba07-e4fcb5bdfb0a)
 
-9. Set a password for Leap Cosmos Wallet. 
+9. Set a password for Leap Cosmos Wallet.
 
    If you forget this password, you can always reset it by recovering your account from scratch using your Mnemonic Seed you have written down somewhere safe before.
 
@@ -158,5 +153,5 @@ We are using **Google Chrome** in this example:
 
 13. Get address **AKT** and fund your wallet.
 
-    All that is left is to send AKT tokens to the wallet address provided by Leap Cosmos Wallet. 
+    All that is left is to send AKT tokens to the wallet address provided by Leap Cosmos Wallet.
     You can purchase AKT tokens [here](https://akash.network/token/#buying-akt).
