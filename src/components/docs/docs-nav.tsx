@@ -124,15 +124,14 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
   };
 
   const paths = pathName.split("/");
+  console.log(docsNav);
 
   return (
     <>
       <nav className="divide-y">
         <>
           {docsNav
-            .filter(
-              (navItem: any) => navItem.link === `/${paths[1]}/${paths[2]}/`,
-            )
+            .filter((navItem: any) => navItem.link === `/docs/docs/`)
             .map((navItem: any, index: any) => (
               <div key={navItem.link}>
                 {Dropdown(navItem, pathName, 0, index, docsNav.length)}

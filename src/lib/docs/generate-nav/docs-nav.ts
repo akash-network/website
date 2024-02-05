@@ -57,7 +57,7 @@ export const generateDocsNav = (pages) => {
 
   pages.forEach((item) => {
     const idParts = item.id.split("/");
-    const linkPrefix = "/akash-docs";
+    const linkPrefix = "/docs";
     const linkTitle = item.data.linkTitle;
     // Start at the top level
     processPage(nav, idParts, 0, linkPrefix, linkTitle);
