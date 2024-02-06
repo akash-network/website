@@ -100,7 +100,7 @@ pagination:
 
 In this section we will cover using the following clients to create an Akash deployment using Stable Payments.
 
-> NOTE - when creating an Akash deployment using Stable Payment - ensure that the SDL pricing section reflects the correct denomination as covered [here](/akash-docs/docs/getting-started/stack-definition-language#stable-payment).
+> NOTE - when creating an Akash deployment using Stable Payment - ensure that the SDL pricing section reflects the correct denomination as covered [here](/docs/docs/getting-started/stack-definition-language#stable-payment).
 
 - [Cloudmos Deploy](#cloudmos-deploy-stable-payment-use)
 - [Akash CLI](#akash-cli-stable-payment-use)
@@ -115,7 +115,7 @@ In this section we will cover using the following clients to create an Akash dep
 
 ### Akash CLI Stable Payment Use
 
-- When creating a deployment via the Akash CLI, all steps in the typical deployment creation steps (as covered [here](/akash-docs/docs/deployments/akash-cli/installation/)) remain applicable and valid with the only edit in such steps being this syntax in the `deployment create` step.
+- When creating a deployment via the Akash CLI, all steps in the typical deployment creation steps (as covered [here](/docs/docs/deployments/akash-cli/installation/)) remain applicable and valid with the only edit in such steps being this syntax in the `deployment create` step.
 - As shown in this Stable Payment relevant `deployment create` command we must specify the `deposit` switch as the USDC denomination.
 
 #### Create Deployment Command for USDC Stable Payment Use

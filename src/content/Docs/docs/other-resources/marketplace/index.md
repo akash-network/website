@@ -40,8 +40,8 @@ A typical application deployment on Akash will follow this flow:
 3. Their submission generates an [order](#order) on the marketplace.
 4. Providers that would like to fulfill that order [bid](#bid) on it.
 5. After some period of time, a winning [bid](#bid) for the [order](#order) is chosen, and a [lease](#lease) is created.
-6. Once a [lease](#lease) has been created, the tenant submits a [manifest](/akash-docs/docs/getting-started/stack-definition-language/) to the provider.
-7. The provider executes workloads as instructed by the [manifest](/akash-docs/docs/getting-started/stack-definition-language/).
+6. Once a [lease](#lease) has been created, the tenant submits a [manifest](/docs/docs/getting-started/stack-definition-language/) to the provider.
+7. The provider executes workloads as instructed by the [manifest](/docs/docs/getting-started/stack-definition-language/).
 8. The workload is running - if it is a web application it can be visited
 9. The provider or tenant eventually closes the [lease](#lease), shutting down the workload.
 
@@ -60,8 +60,8 @@ The lifecycle of a typical application deployment is as follows:
 3. Their submission generates an [order](#order) on the marketplace.
 4. Providers that would like to fulfill that order [bid](#bid) on it.
 5. After some period of time, a winning [bid](#bid) for the [order](#order) is chosen, and a [lease](#lease) is created.
-6. Once a [lease](#lease) has been created, the tenant submits a [manifest](/akash-docs/docs/getting-started/stack-definition-language/) to the provider.
-7. The provider executes workloads as instructed by the [manifest](/akash-docs/docs/getting-started/stack-definition-language/).
+6. Once a [lease](#lease) has been created, the tenant submits a [manifest](/docs/docs/getting-started/stack-definition-language/) to the provider.
+7. The provider executes workloads as instructed by the [manifest](/docs/docs/getting-started/stack-definition-language/).
 8. The workload is running - if it is a web application it can be visited
 9. The provider or tenant eventually closes the [lease](#lease), shutting down the workload.
 
@@ -75,7 +75,7 @@ If the available funds in the deposit ever reaches zero, a provider may close th
 
 ### Escrow Accounts
 
-[Escrow accounts](/akash-docs/docs/other-resources/payments/) are a mechanism that allow for time-based payments from one account to another without block-by-block micropayments. They also support holding funds for an account until an arbitrary event occurs.
+[Escrow accounts](/docs/docs/other-resources/payments/) are a mechanism that allow for time-based payments from one account to another without block-by-block micropayments. They also support holding funds for an account until an arbitrary event occurs.
 
 Escrow accounts are necessary in akash for two primary reasons:
 
@@ -86,7 +86,7 @@ Escrow accounts are necessary in akash for two primary reasons:
 
 Bidding on an order requires a deposit to be made. The deposit will be returned to the provider account when the [bid](#bid) transitions to state `CLOSED`.
 
-Bid deposits are implemented with an escrow account module. See [here](/akash-docs/docs/other-resources/payments/) for more information.
+Bid deposits are implemented with an escrow account module. See [here](/docs/docs/other-resources/payments/) for more information.
 
 ## Audited Attributes
 

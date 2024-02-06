@@ -605,7 +605,7 @@ Use the [Helm Based Provider Persistent Storage Enablement](/docs/docs/providers
 
 ### IP Leases Enablement (OPTIONAL)
 
-Use the [IP Leases Provider Enablement](/akash-docs/docs/network-features/ip-leases/) guide to allow static IP address/port assignment for hosted deployments and workloads.
+Use the [IP Leases Provider Enablement](/docs/docs/network-features/ip-leases/) guide to allow static IP address/port assignment for hosted deployments and workloads.
 
 ### Akash Provider Setup Complete
 

@@ -14,7 +14,7 @@ For fine tuning of the Akash Node check the _Additional Information_ section.
 
 ### Cloudmos Deploy Overview
 
-If you have not used Cloudmos Deploy previously, please use [this guide](/akash-docs/docs/deployments/akash-cli/installation/) to get started. The guide includes steps to install the app and to set up a wallet for Akash deployments. Once the Cloudmos Deploy tool is installed, return to this guide to walk through the Akash Node deployment.
+If you have not used Cloudmos Deploy previously, please use [this guide](/docs/docs/deployments/akash-cli/installation/) to get started. The guide includes steps to install the app and to set up a wallet for Akash deployments. Once the Cloudmos Deploy tool is installed, return to this guide to walk through the Akash Node deployment.
 
 ### Cloudmos Deploy Walkthrough
 

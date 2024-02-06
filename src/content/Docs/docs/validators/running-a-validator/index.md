@@ -29,7 +29,7 @@ Validators are responsible for committing new blocks to the blockchain through v
 
 ### Akash Node Build
 
-Before setting up your validator node, make sure you've already gone through the[ Full Node Setup ](/akash-docs/docs/akash-nodes/akash-node-cli-build/)guide.
+Before setting up your validator node, make sure you've already gone through the[ Full Node Setup ](/docs/docs/akash-nodes/akash-node-cli-build/)guide.
 
 ## Create Your Validator
 

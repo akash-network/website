@@ -31,7 +31,7 @@ This is a great opportunity to connect with the team at Akash Network and to spo
 
 The Keplr and Leap browser extensions must be installed and with sufficient funds (5 AKT minimum for a single deployment plus a small amount for transaction fees).
 
-Follow our [Keplr Wallet](/akash-docs/docs/getting-started/token-and-wallets/#keplr-wallet) and [Leap Cosmos Wallet](/akash-docs/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
+Follow our [Keplr Wallet](/docs/docs/getting-started/token-and-wallets/#keplr-wallet) and [Leap Cosmos Wallet](/docs/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
 
 ### **Cloudmos Deploy Access**
 

@@ -19,7 +19,6 @@ export default defineConfig({
     "/community": "/community/akash-insiders/",
     "/about": "/about/general-information/",
     "/about/pricing": "/about/pricing/compare",
-    "/akash-docs": "/akash-docs/docs",
   },
   markdown: {
     // shikiConfig: {

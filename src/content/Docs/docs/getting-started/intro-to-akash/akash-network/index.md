@@ -14,20 +14,20 @@ Akash is an open network that facilitates the secure and efficient buying and se
 
 ### How to use Akash?
 
-You can get started right from the [**command-line**](/akash-docs/docs/deployments/akash-cli/cli-booster/) :
+You can get started right from the [**command-line**](/docs/docs/deployments/akash-cli/cli-booster/) :
 
-- Define your Docker image, CPU, Memory, and Storage in a [**deploy.yaml**](/akash-docs/docs/getting-started/stack-definition-language/) file.
+- Define your Docker image, CPU, Memory, and Storage in a [**deploy.yaml**](/docs/docs/getting-started/stack-definition-language/) file.
 - Set your price, receive bids from providers in seconds, and select the lowest price.
 - Deploy your application without having to set up, configure, or manage servers.
 - Scale your application from a single container to hundreds of deployments.
 
 ### What is the Akash Compute Marketplace?
 
-The [**Akash Compute Marketplace**](/akash-docs/docs/other-resources/marketplace/) is where users lease computing resources from Cloud providers before deploying a Docker container on the Akash Container Platform. The marketplace stores on-chain records of requests, bids, leases, and settlement payments using the Akash Token (AKT). Akash's blockchain is a [**Tendermint**](https://github.com/tendermint/tendermint) based application built on the [**Cosmos SDK**](https://github.com/cosmos/cosmos-sdk).
+The [**Akash Compute Marketplace**](/docs/docs/other-resources/marketplace/) is where users lease computing resources from Cloud providers before deploying a Docker container on the Akash Container Platform. The marketplace stores on-chain records of requests, bids, leases, and settlement payments using the Akash Token (AKT). Akash's blockchain is a [**Tendermint**](https://github.com/tendermint/tendermint) based application built on the [**Cosmos SDK**](https://github.com/cosmos/cosmos-sdk).
 
 ### What is the Akash Container Platform?
 
-The [**Akash Container Platform**](/akash-docs/docs/other-resources/containers/) is a deployment platform for hosting and managing [**containers**](/akash-docs/docs/other-resources/containers/), allowing users to run _**any**_ Cloud-Native application. Akash is built with a set of cloud management services, including [**Kubernetes**](https://kubernetes.io), to orchestrate and manage containers.
+The [**Akash Container Platform**](/docs/docs/other-resources/containers/) is a deployment platform for hosting and managing [**containers**](/docs/docs/other-resources/containers/), allowing users to run _**any**_ Cloud-Native application. Akash is built with a set of cloud management services, including [**Kubernetes**](https://kubernetes.io), to orchestrate and manage containers.
 
 ### What is the cost to use Akash?
 
@@ -35,7 +35,7 @@ The cost of hosting your application using Akash is about one-third the cost of 
 
 ### How do I use Akash?
 
-If you're new to Akash, start with our [**deployment guides**](/akash-docs/docs/deployments/cloudmos-deploy/) and go from there. Akash's community has written several more advanced guides for learning about Akash: a [**node operator guide**](/akash-docs/docs/akash-nodes/akash-node-via-helm-chart/), a [**validator guide**](validating/validator.md), a [**cloud provider guide**](broken-reference), and several [**deployment guides**](/akash-docs/docs/deployments/cloudmos-deploy/) for running various apps on Akash.
+If you're new to Akash, start with our [**deployment guides**](/docs/docs/deployments/cloudmos-deploy/) and go from there. Akash's community has written several more advanced guides for learning about Akash: a [**node operator guide**](/docs/docs/akash-nodes/akash-node-via-helm-chart/), a [**validator guide**](validating/validator.md), a [**cloud provider guide**](broken-reference), and several [**deployment guides**](/docs/docs/deployments/cloudmos-deploy/) for running various apps on Akash.
 
 ### Why is Akash different than other Cloud platforms?
 
@@ -45,15 +45,15 @@ Like Airbnb for server hosting, Akash is a marketplace that gives you control ov
 
 ### Why is Akash different than other decentralized platforms?
 
-Akash hosts [**containers**](/akash-docs/docs/other-resources/containers/) where users can run _**any**_ Cloud-Native application. There is no need to re-write the entire internet in a new proprietary language, and there is no vendor lock-in to prevent you from switching Cloud providers. The deployment file is transferred over a private peer-to-peer network isolated from the blockchain. Asset transfer occurs off-chain over mTLS to provide the security and performance required by mission-critical applications running on the Cloud.
+Akash hosts [**containers**](/docs/docs/other-resources/containers/) where users can run _**any**_ Cloud-Native application. There is no need to re-write the entire internet in a new proprietary language, and there is no vendor lock-in to prevent you from switching Cloud providers. The deployment file is transferred over a private peer-to-peer network isolated from the blockchain. Asset transfer occurs off-chain over mTLS to provide the security and performance required by mission-critical applications running on the Cloud.
 
 ### What is the Stack Definition Language (SDL)?
 
-You can define the deployment services, data centers, requirements, and pricing parameters in a "manifest" file (deploy.yaml). The file is written in a declarative language called [**Stack Definition Language (SDL)**](/akash-docs/docs/getting-started/stack-definition-language/). SDL is a human-friendly data standard for declaring deployment attributes. The SDL file is a "form" to request resources from the Network. SDL is compatible with the YAML standard and similar to Docker Compose files.
+You can define the deployment services, data centers, requirements, and pricing parameters in a "manifest" file (deploy.yaml). The file is written in a declarative language called [**Stack Definition Language (SDL)**](/docs/docs/getting-started/stack-definition-language/). SDL is a human-friendly data standard for declaring deployment attributes. The SDL file is a "form" to request resources from the Network. SDL is compatible with the YAML standard and similar to Docker Compose files.
 
 ### How do I configure Networking for my container?
 
-Networking - allowing connectivity to and between workloads - can be configured via the Stack Definition Language ([**SDL**](/akash-docs/docs/getting-started/stack-definition-language/)) file for a deployment. By default, workloads in a deployment group are isolated - nothing else is allowed to connect to them. This restriction can be relaxed.
+Networking - allowing connectivity to and between workloads - can be configured via the Stack Definition Language ([**SDL**](/docs/docs/getting-started/stack-definition-language/)) file for a deployment. By default, workloads in a deployment group are isolated - nothing else is allowed to connect to them. This restriction can be relaxed.
 
 **Do I need to close and re-create my deployment if I want to update the deployment?**
 

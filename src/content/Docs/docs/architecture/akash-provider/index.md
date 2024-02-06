@@ -38,6 +38,6 @@ Akash Providers are obligated to monitor their infrastructure and user applicati
 
 In summary, Akash Providers are indispensable contributors to the Akash Network, providing computing resources and managing user application deployments. Their interaction with the Akash blockchain through the [Provider Daemon (`akashd`)][akashd] and utilization of container orchestration systems ensures the secure and efficient deployment of applications. Managing resources, bidding on orders, handling leases, and proactive infrastructure monitoring are vital tasks for maintaining competitiveness in the marketplace.
 
-[kubernetes]: /akash-docs/docs/architecture/containers-and-kubernetes/
+[kubernetes]: /docs/docs/architecture/containers-and-kubernetes/
 [akash-providers]: https://github.com/akash-network/provider
 [akashd]: https://github.com/akash-network/provider

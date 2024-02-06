@@ -34,7 +34,7 @@ For ease of test deployments within this guide and as they relate to verificatio
 
 If you are not familiar with the Cloudmos Deploy app - please use this [guide](broken-reference) to complete the installation, ensure you have a deployment wallet funded with a small amount of AKT, and make a quick test deployment.
 
-Alternatively the verifications in this guide could be completed using the Akash CLI if you prefer and which is covered in this [guide](/akash-docs/docs/deployments/akash-cli/installation/). But the steps below will be detailed assuming Cloudmos use.
+Alternatively the verifications in this guide could be completed using the Akash CLI if you prefer and which is covered in this [guide](/docs/docs/deployments/akash-cli/installation/). But the steps below will be detailed assuming Cloudmos use.
 
 ### Obtain Provider Address
 

@@ -12,8 +12,8 @@ The command-line client is used to interact with deployments. The `provider-serv
 
 We offer two guides to assist in getting started with the Akash CLI:
 
-- [Detailed Steps](/akash-docs/docs/deployments/akash-cli/installation/)
-- [Akash CLI Booster](/akash-docs/docs/deployments/akash-cli/cli-booster/)
+- [Detailed Steps](/docs/docs/deployments/akash-cli/installation/)
+- [Akash CLI Booster](/docs/docs/deployments/akash-cli/cli-booster/)
 
 The Akash CLI Booster was created to make the use of the current command line tooling much simpler for deployments and related activities. In this guide we will review the primary capabilities of this exciting new tool.
 
