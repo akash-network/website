@@ -117,37 +117,6 @@ export const docsSequence = [
         ],
       },
       {
-        label: "Other Resources",
-        subItems: [
-          {
-            label: "Experimental",
-            subItems: [
-              { label: "Akash Provider Streamlined Build with Rancher K3s" },
-              {
-                label: "Omnibus",
-              },
-              {
-                label: "Hardware and Software Recommendations",
-              },
-              {
-                label: "Streamlined Steps",
-              },
-            ],
-          },
-          { label: "Security" },
-          { label: "Containers" },
-          { label: "Marketplace" },
-          { label: "Payments" },
-          { label: "Authentication" },
-        ],
-      },
-    ],
-  },
-
-  {
-    label: "Engineering Documentation",
-    subItems: [
-      {
         label: "Akash Provider Service And Associated Sub Services",
         subItems: [
           { label: "Overview" },
@@ -282,6 +251,36 @@ export const docsSequence = [
       {
         label: "Akash Api",
       },
+      {
+        label: "Other Resources",
+        subItems: [
+          {
+            label: "Experimental",
+            subItems: [
+              { label: "Akash Provider Streamlined Build with Rancher K3s" },
+              {
+                label: "Omnibus",
+              },
+              {
+                label: "Hardware and Software Recommendations",
+              },
+              {
+                label: "Streamlined Steps",
+              },
+            ],
+          },
+          { label: "Security" },
+          { label: "Containers" },
+          { label: "Marketplace" },
+          { label: "Payments" },
+          { label: "Authentication" },
+        ],
+      },
     ],
+  },
+
+  {
+    label: "Engineering Documentation",
+    subItems: [],
   },
 ];
