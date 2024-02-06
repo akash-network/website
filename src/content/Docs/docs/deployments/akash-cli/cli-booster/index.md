@@ -19,8 +19,8 @@ Our use of the Akash CLI Booster begins by downloading the application.
 
 Ensure the following steps have been completed prior:
 
-- Install Akash CLI which is covered[ here](/akash-docs/docs/deployments/akash-cli/overview/).
-- Create a new wallet or import a pre-existing wallet. New wallet creation steps are covered [here](/akash-docs/docs/getting-started/token-and-wallets/#keplr-wallet).
+- Install Akash CLI which is covered[ here](/docs/docs/deployments/akash-cli/overview/).
+- Create a new wallet or import a pre-existing wallet. New wallet creation steps are covered [here](/docs/docs/getting-started/token-and-wallets/#keplr-wallet).
 
 ## Clone Repo
 

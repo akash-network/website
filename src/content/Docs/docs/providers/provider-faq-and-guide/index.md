@@ -179,7 +179,7 @@ Obtain live Provider status including:
 
 #### Command Template
 
-Issue the commands in this section from any machine that has the [Akash CLI ](/akash-docs/docs/deployments/akash-cli/installation/)installed.
+Issue the commands in this section from any machine that has the [Akash CLI ](/docs/docs/deployments/akash-cli/installation/)installed.
 
 ```
 provider-services status <provider-address>
@@ -258,7 +258,7 @@ Review the Provider’s attribute, and Host URI with the status command
 
 ### Command Template
 
-Issue the commands in this section from any machine that has the [Akash CLI](/akash-docs/docs/deployments/akash-cli/installation/) installed.
+Issue the commands in this section from any machine that has the [Akash CLI](/docs/docs/deployments/akash-cli/installation/) installed.
 
 ```
 provider-services query provider get <akash-address>
@@ -322,7 +322,7 @@ Use the verifications included in this section for the following purposes:
 
 #### Command Template
 
-Issue the commands in this section from any machine that has the [Akash CLI](/akash-docs/docs/deployments/akash-cli/installation/) installed.
+Issue the commands in this section from any machine that has the [Akash CLI](/docs/docs/deployments/akash-cli/installation/) installed.
 
 ```
 provider-services query market lease list --provider <provider-address> --gseq 0 --oseq 0 --page 1 --limit 500 --state active
@@ -627,7 +627,7 @@ For accurate earning potential based on today's actual financial/other realities
 
 #### Command Syntax
 
-Issue the commands in this section from any machine that has the [Akash CLI](/akash-docs/docs/deployments/akash-cli/installation/) installed.
+Issue the commands in this section from any machine that has the [Akash CLI](/docs/docs/deployments/akash-cli/installation/) installed.
 
 **Note** - ensure queries are not limited only to leases created by your account by issuing `unset AKASH_FROM` prior to the `akash query market` command execution
 

@@ -14,7 +14,7 @@ Please be aware of the following prerequisites prior to getting started.&#x20;
 
 ## Prerequisites&#x20;
 
-- Provider IP Leases enablement is only supported for Akash providers built using [Helm Charts](/akash-docs/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/)
+- Provider IP Leases enablement is only supported for Akash providers built using [Helm Charts](/docs/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/)
 - Available pool of unallocated public IP addresses
 
 ## Sections in this Guide

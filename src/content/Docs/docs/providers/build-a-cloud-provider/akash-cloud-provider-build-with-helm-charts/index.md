@@ -38,21 +38,21 @@ As every deployment request bid requires 5 AKT to be deposited in the escrow acc
 
 The steps to create an Akash wallet are covered in the following documentation sections:
 
-- [Install Akash CLI](/akash-docs/docs/deployments/akash-cli/installation/)
-- [Create an Account](/akash-docs/docs/deployments/sandbox/installation/)
-- [Fund Your Account](/akash-docs/docs/deployments/akash-cli/installation/#fund-your-account)
+- [Install Akash CLI](/docs/docs/deployments/akash-cli/installation/)
+- [Create an Account](/docs/docs/deployments/sandbox/installation/)
+- [Fund Your Account](/docs/docs/deployments/akash-cli/installation/#fund-your-account)
 
 ### **Kubernetes Cluster**
 
 A full Kubernetes cluster is required with outbound internet access and be reachable from the internet.
 
-If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/akash-docs/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)guide.
+If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/docs/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)guide.
 
 ### RPC Node
 
 Akash Providers need to run their own blockchain RPC node to remove dependence on public nodes. This is a strict requirement.&#x20;
 
-We have recently released documentation guiding thru the process of building a [RPC node via Helm Charts](/akash-docs/docs/akash-nodes/akash-node-via-helm-chart/) with state sync.
+We have recently released documentation guiding thru the process of building a [RPC node via Helm Charts](/docs/docs/akash-nodes/akash-node-via-helm-chart/) with state sync.
 
 ### CPU Support
 
@@ -62,7 +62,7 @@ Only x86_64 processors are officially supported by Akash for provider Kubernetes
 
 Akash Providers are deployed in many environments and we will make additions to these sections as when nuances are discovered.
 
-- [VMware Tanzu](/akash-docs/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)
+- [VMware Tanzu](/docs/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)
 
 ### Disable Search Domains
 
@@ -161,7 +161,7 @@ kubectl label ns lease akash.network=true
 
 ## STEP 3 - Export Provider Wallet
 
-In this section we will export the pre-existing, funded wallet to store the private key in a local file. To conduct the commands in this section the Akash CLI must be installed which is detailed in this [guide ](/akash-docs/docs/deployments/akash-cli/installation/)(STEP 1 only).
+In this section we will export the pre-existing, funded wallet to store the private key in a local file. To conduct the commands in this section the Akash CLI must be installed which is detailed in this [guide ](/docs/docs/deployments/akash-cli/installation/)(STEP 1 only).
 
 The wallet used will be used for the following purposes:
 
@@ -367,7 +367,7 @@ NAME                                 READY   STATUS    RESTARTS   AGE
 
 In this section the Akash Provider will be installed and customized via the use of Helm Charts.
 
-> _**NOTE**_ - when the Helm Chart is installed the Provider instance/details will be created on the blockchain and your provider will be registered in the Akash open cloud marketplace. The associated transaction for Provider creation is detailed [here](/akash-docs/docs/akash-nodes/akash-node-via-helm-chart/).
+> _**NOTE**_ - when the Helm Chart is installed the Provider instance/details will be created on the blockchain and your provider will be registered in the Akash open cloud marketplace. The associated transaction for Provider creation is detailed [here](/docs/docs/akash-nodes/akash-node-via-helm-chart/).
 
 #### **Environment Variables**
 
@@ -400,7 +400,7 @@ export DOMAIN=test.com
 
 4\. Set the Akash RPC node for your provider to use
 
-- If you are going to deploy Akash RPC Node using Helm-Charts then set the node to http://akash-node-1:26657 It is recommended that you install your own Akash RPC node. Follow [this guide](/akash-docs/docs/akash-nodes/akash-node-via-helm-chart/) to do so.
+- If you are going to deploy Akash RPC Node using Helm-Charts then set the node to http://akash-node-1:26657 It is recommended that you install your own Akash RPC node. Follow [this guide](/docs/docs/akash-nodes/akash-node-via-helm-chart/) to do so.
 
 > \
 > Ensure that the RPC node utilized is in sync prior to proceeding with the provider build.\
@@ -527,8 +527,8 @@ attributes:
 #### **Provider Bid Defaults**
 
 - When a provider is created the default bid engine settings are used. If desired these settings could be updated and added to the `provider.yaml` file. But we would recommend initially using the default values.
-- Note - the `bidpricestoragescale` value will get overridden by `-f provider-storage.yaml` covered in [Provider Persistent Storage](/akash-docs/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/) documentation.
-- Note - if you want to use a shellScript bid price strategy, pass the bid price script via `bidpricescript` variable detailed in the [bid pricing script doc](/akash-docs/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/). This will automatically suppress all `bidprice<cpu|memory|endpoint|storage>scale` settings.
+- Note - the `bidpricestoragescale` value will get overridden by `-f provider-storage.yaml` covered in [Provider Persistent Storage](/docs/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/) documentation.
+- Note - if you want to use a shellScript bid price strategy, pass the bid price script via `bidpricescript` variable detailed in the [bid pricing script doc](/docs/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/). This will automatically suppress all `bidprice<cpu|memory|endpoint|storage>scale` settings.
 
 ```
 bidpricecpuscale: "0.004" # cpu pricing scale in uakt per millicpu
@@ -605,7 +605,7 @@ helm uninstall akash-provider -n akash-services
 
 > _**NOTE**_ - if you are updating your provider bid script from a previous version use this [bid script migration guide](../../akash-provider-troubleshooting/provider-bid-script-migration-gpu-models.md).
 
-- If there is a desire to manipulate the provider bid engine, include the `--set bidpricescript` switch . The pricing script used in this switch is detailed in the [Akash Provider Bid Pricing](/akash-docs/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/) section of this guide.
+- If there is a desire to manipulate the provider bid engine, include the `--set bidpricescript` switch . The pricing script used in this switch is detailed in the [Akash Provider Bid Pricing](/docs/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/) section of this guide.
 - **Note -** When the provider deployment is created the bid script should return the price in under 5 seconds . If the script does not execute in this time period the following error message will be seen in the provider pod logs. Such a report would suggest that there is an error/issue with script customizations that should be reviewed. Following review and adjustment, uninstall the provider deployment (via helm uninstall) and reinstall.
 - **Note** - there is further discussion on the bid script and deployer address whitelisting in this [section](#step-11---provider-whitelisting-optional).
 

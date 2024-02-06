@@ -9,7 +9,7 @@ tags: ["Helm"]
 
 Building an Akash Validator is simplified via the use of Cosmos Omnibus and as detailed in this guide.
 
-> _**NOTE**_ - using the procedures in this guide the Validator private key will be stored within the associated Akash deployment. Ensure that only known, trusted providers are used for such deployments. Additionally consider storing the private key outside of the deployment through the use of TMKMS which is documented [here](/akash-docs/docs/validators/akash-validator-with-tmkms-and-stunnel/).
+> _**NOTE**_ - using the procedures in this guide the Validator private key will be stored within the associated Akash deployment. Ensure that only known, trusted providers are used for such deployments. Additionally consider storing the private key outside of the deployment through the use of TMKMS which is documented [here](/docs/docs/validators/akash-validator-with-tmkms-and-stunnel/).
 
 The Akash Validator will be built with the following attributes:
 

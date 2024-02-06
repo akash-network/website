@@ -32,7 +32,7 @@ const navigation = [
   { name: "Ecosystem", href: "/ecosystem/showcase/latest" },
   { name: "Community", href: "/community/akash-insiders/" },
   { name: "Blog", href: "/blog" },
-  { name: "Docs", href: "/akash-docs/docs" },
+  { name: "Docs", href: "/docs" },
 ];
 
 export default function HamburgerMenu({

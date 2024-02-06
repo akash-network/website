@@ -62,7 +62,7 @@ Andrew Mello - Head of Mining at Akash
 
 ## Default wallet
 
-Akash uses [Keplr](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) as the desktop wallet. Advanced users can follow the [CLI instruction](/akash-docs/docs/deployments/akash-cli/installation/)s.
+Akash uses [Keplr](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) as the desktop wallet. Advanced users can follow the [CLI instruction](/docs/docs/deployments/akash-cli/installation/)s.
 
 Once you have set up your Keplr wallet and imported the address to Cloudmos you are ready to create your first deployment. Follow the instructions in Cloudmos to create a certificate, then click on _Create Deployment_.
 

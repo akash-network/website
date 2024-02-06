@@ -10,7 +10,7 @@ Akash leases are deployed as Kubernetes pods on provider clusters. This guide de
 
 The setup of a Kubernetes cluster is the responsibility of the provider. This guide provides best practices and recommendations for setting up a Kubernetes cluster. This document is not a comprehensive guide and assumes pre-existing Kubernetes knowledge.
 
-The Kubernetes Cluster created is then ready for the Akash Provider build detailed [here](/akash-docs/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/).
+The Kubernetes Cluster created is then ready for the Akash Provider build detailed [here](/docs/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/).
 
 ## Prerequisites
 
@@ -54,7 +54,7 @@ The recommended minimum number of hosts is four for a production Provider Kubern
 
 - We recommend running a single worker node per physical server as CPU is typically the largest resource bottleneck. The use of a single worker node allows larger workloads to be deployed on your provider.
 
-- If you intended to build a provider with persistent storage please refer to host storage requirements detailed [here](./akash-docs/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/).
+- If you intended to build a provider with persistent storage please refer to host storage requirements detailed [here](./docs/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/).
 
 ### Kubernetes Cluster Software/Hardware Requirements and Recommendations
 
@@ -423,7 +423,7 @@ container_manager: containerd
 
 > Skip if you are not using gVisor
 
-If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/akash-docs/docs/providers/build-a-cloud-provider/gvisor-issue---no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
+If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/docs/docs/providers/build-a-cloud-provider/gvisor-issue---no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
 
 ## STEP 6 - DNS Configuration
 
@@ -724,7 +724,7 @@ With inventory in place we are ready to build the Kubernetes cluster via Ansible
 - Note - the cluster creation may take several minutes to complete
 - If the Kubespray process fails or is interpreted, run the Ansible playbook again and it will complete any incomplete steps on the subsequent run
 
-> _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/akash-docs/docs/other-resources/experimental/) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
+> _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/docs/docs/other-resources/experimental/) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
 
 ```
 cd ~/kubespray

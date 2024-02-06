@@ -23,7 +23,7 @@ The Akash Console can be accessed [here](https://console.akash.network/).
 #### Connect Wallet
 
 - The Akash Console currently supports Keplr wallets
-- If Keplr is not installed as a browser extension and/or a funded Akash account is not available, follow the instructions in our [Keplr Guide](/akash-docs/docs/getting-started/token-and-wallets/#keplr-wallet)
+- If Keplr is not installed as a browser extension and/or a funded Akash account is not available, follow the instructions in our [Keplr Guide](/docs/docs/getting-started/token-and-wallets/#keplr-wallet)
 - Select the desired Akash account in Keplr and then select the `Connect Wallet` option within the Akash Console as shown below
 
 ![](../../../assets/akashConsoleWallet.png)

@@ -16,7 +16,7 @@ A complete deployment has the following sections:
 - [services](#services)
 - [profiles](#profiles)
 - [deployment](#deployment)
-- [persistent storage](/akash-docs/docs/network-features/persistent-storage/)
+- [persistent storage](/docs/docs/network-features/persistent-storage/)
 - [gpu support](#gpu-support)
 - [stable payment](#stable-payment)
 
@@ -58,7 +58,7 @@ env:
 #### Notes Regarding Port Use in the Expose Stanza
 
 - HTTPS is possible in Akash deployments but only self signed certs are generated.
-- To implement signed certs the deployment must be front ended via a solution such as Cloudflare. If interested in this path, we have created docs for [Cloudflare with Akash](/akash-docs/docs/guides/tls-termination-of-akash-deployment/).
+- To implement signed certs the deployment must be front ended via a solution such as Cloudflare. If interested in this path, we have created docs for [Cloudflare with Akash](/docs/docs/guides/tls-termination-of-akash-deployment/).
 - You can expose any other port besides 80 as the ingress port (HTTP, HTTPS) port using as: 80 directive if the app understands HTTP / HTTPS. Example of exposing a React web app using this method:
 
 ```
