@@ -141,7 +141,7 @@ aiModelsAndAppsSection:
 
       docsLink: 
         label: Cloudmos Docs
-        link: "/docs/docs/deployments/cloudmos-deploy/"
+        link: "/docs/deployments/cloudmos-deploy/"
 
     - image:  "./assets/tools/praetor.svg"
       description: "Praetor App makes it simple to become an Akash Network cloud provider. Use a streamlined UI to become a provider. "

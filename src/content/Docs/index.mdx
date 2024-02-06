@@ -1,0 +1,92 @@
+---
+categories: ["Akash Documentation"]
+tags: []
+title: "Akash Documentation"
+linkTitle: "Akash Documentation"
+weight: 3
+description: >-
+  Explore the world of Akash through our comprehensive documentation, offering tutorials and a rich repository of platform insights.
+---
+
+import Card from "@/components/docs/homepage-cat-cards.astro";
+
+import wallets from "./assets/essentials/wallets.svg";
+import stack from "./assets/essentials/stack.svg";
+import questions from "./assets/essentials/questions.svg";
+import cli from "./assets/deployments/cli.svg";
+import deploy from "./assets/deployments/deploy.svg";
+import payments from "./assets/deployments/payments.svg";
+
+import gpus from "./assets/providers/gpus.svg";
+import praetor from "./assets/providers/praetor.svg";
+import rocket from "./assets/providers/rocket.svg";
+
+
+### Essentials
+
+      <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 2xl:grid-cols-3">
+        <Card
+          title="What is Akash Network"
+          description="Akash is an open network that facilitates the secure and efficient buying and selling of computing resources. Purpose-built for public utility, it is fully open-source with an active community of contributors."
+          icon={questions}
+          link="/docs/getting-started/intro-to-akash/akash-network/"
+        />
+        <Card
+          title="Stack Definition Language (SDL)"
+          description="Users define the deployment services, datacenters, requirements, and pricing parameters, in a “manifest” file (deploy.yaml). The file is written in a declarative language called Software Definition Language (SDL)."
+          icon={stack}
+          link="/docs/getting-started/stack-definition-language/"
+        />
+        <Card
+          title="Tokens & Wallets"
+          description="When using cryptocurrency, setting up a wallet is crucial to hold and utilize your coins. A wallet, whether software or hardware, allows you to transfer cryptocurrency from an exchange to a usable location."
+          icon={wallets}
+          link="/docs/getting-started/token-and-wallets/"
+        />
+      </div>
+
+### Deployments
+
+      <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 2xl:grid-cols-3">
+        <Card
+          title="Cloudmos Deploy"
+          description="Cloudmos Deploy Tool is a web based application which simplifies the deployment process on the Akash Network. Post deployment the tool provides a dashboard to view the status and details of workloads."
+          icon={deploy}
+          link="/docs/deployments/cloudmos-deploy/"
+        />
+        <Card
+          title="Akash CLI"
+          description="This guide will walk you through installing the Akash CLI, creating and funding an account on an Akash network, and deploying a single-tier web application."
+          icon={cli}
+          link="/docs/deployments/akash-cli/overview/"
+        />
+        <Card
+          title="Deployment Templates"
+          description="Awesome Akash is a curated list of awesome resources people can use to familiarize themselves with Akash and includes examples of several applications they can deploy on the platform."
+          icon={payments}
+          link="/docs/deployments/apps-on-akash/"
+        />
+      </div>
+
+### Providers
+
+<div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 2xl:grid-cols-3">
+  <Card
+    title="Kubernetes Cluster for Akash Providers"
+    description="The setup of a Kubernetes cluster is the responsibility of the provider. This guide provides best practices and recommendations for setting up a Kubernetes cluster. This document is not a comprehensive guide and assumes pre-existing Kubernetes knowledge."
+    icon={gpus}
+    link="/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
+  />
+  <Card
+    title="Build a Cloud Provider with Praetor App"
+    description="Praetor App provides an easy way to become a cloud provider for Akash Network. You can become a provider using a simplified UI rather than Command-line Interface. Once you become a cloud provider, and if the deployers choose your provider to deploy their application, they pay you in AKT."
+    icon={praetor}
+    link="https://docs.praetorapp.com/akash-provider/build-a-cloud-provider"
+  />
+  <Card
+    title="Akash Provider FAQ and Guide "
+    description="Use the techniques detailed in this guide to verify Akash Provider functionality and troubleshoot issues as they appear."
+    icon={rocket}
+    link="/docs/providers/provider-faq-and-guide/"
+  />
+</div>
