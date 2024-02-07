@@ -144,7 +144,6 @@ tags:
   - Tag1
   - Tag2
 contributors:
-  - Maly Ly
   - Greg Osuri
 bannerImage: ./banner-image.jpg
 ---
