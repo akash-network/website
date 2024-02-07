@@ -86,7 +86,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "k" && event.ctrlKey) {
+      if (event.key === "k" && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
         openModal();
       }
