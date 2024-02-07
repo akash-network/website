@@ -1,3 +1,22 @@
+- [Akash Network Website](#akash-network-website)
+  - [Getting Started Locally](#getting-started-locally)
+  - [Contribution Guidelines](#contribution-guidelines)
+    - [File Naming Convention](#file-naming-convention)
+    - [Commit Message Structure](#commit-message-structure)
+    - [Commit Message Best Practices](#commit-message-best-practices)
+    - [How to Contribute to the Akash Website](#how-to-contribute-to-the-akash-website)
+  - [How to write a blog](#how-to-write-a-blog)
+  - [Community](#community)
+    - [How to add to the Events](#how-to-add-to-the-events)
+    - [How to contribute to the Akash Edu](#how-to-contribute-to-the-akash-edu)
+    - [How to contribute to the Community Contributions](#how-to-contribute-to-the-community-contributions)
+  - [Ecosystem](#ecosystem)
+    - [How to contribute a project to the Ecosystem](#how-to-contribute-a-project-to-the-ecosystem)
+  - [Docs](#docs)
+    - [How to change sequence of docs](#how-to-change-sequence-of-docs)
+    - [How to add new file in docs](#how-to-add-new-file-in-docs)
+  - [Contact](#contact)
+
 # Akash Network Website
 
 Explore the repository for the Akash Network website, skillfully developed by [Hooman Digital](https://twitter.com/hooman_digital). The website serves as a dynamic showcase, illustrating the prowess and capabilities of Akash Network—a decentralized cloud computing marketplace revolutionizing the digital landscape.
@@ -31,7 +50,7 @@ To run the repository locally and explore the website on your machine, follow th
    ```
 
 5. **Open Your Browser:**
-   Visit [http://localhost:3000](http://localhost:3000) to view the Akash Network website locally.
+   Visit [http://localhost:4321](http://localhost:4321) to view the Akash Network website locally.
 
 ## Contribution Guidelines
 
@@ -103,25 +122,6 @@ Each commit message should carry a meaningful structure, commencing with a type 
 
 ### How to Contribute to the Akash Website
 
-- [Akash Network Website](#akash-network-website)
-  - [Getting Started Locally](#getting-started-locally)
-  - [Contribution Guidelines](#contribution-guidelines)
-    - [File Naming Convention](#file-naming-convention)
-    - [Commit Message Structure](#commit-message-structure)
-    - [Commit Message Best Practices](#commit-message-best-practices)
-    - [How to Contribute to the Akash Website](#how-to-contribute-to-the-akash-website)
-  - [How to write a blog](#how-to-write-a-blog)
-  - [Community](#community)
-    - [How to contribute to the Events](#how-to-contribute-to-the-events)
-    - [How to contribute to the Akash Edu](#how-to-contribute-to-the-akash-edu)
-    - [How to contribute to the Community Contributions](#how-to-contribute-to-the-community-contributions)
-  - [Ecosystem](#ecosystem)
-    - [How to contribute a project to the Ecosystem](#how-to-contribute-a-project-to-the-ecosystem)
-  - [Docs](#docs)
-    - [How to change sequence of docs](#how-to-change-sequence-of-docs)
-    - [How to add new doc in docs](#how-to-add-new-doc-in-docs)
-  - [Contact](#contact)
-
 ## How to write a blog
 
 1. Create a new folder under `src/content/Blog/` with the name of the blog. For example, `src/content/Blog/how-to-use-akash-web/`
@@ -154,7 +154,7 @@ bannerImage: ./banner-image.jpg
 
 ## Community
 
-### How to contribute to the [Events](/community/events/)
+### How to add to the [Events](https://akash.network/community/events/)
 
 1. Create a new folder under `src/content/Community_Akash_Events_Page/` with the name of the event. For example, `src/content/Community_Akash_Events_Page/ai-world-congress/`
 2. Create a new file called `index.md` under the new folder. For example, `src/content/Community_Akash_Events_Page/ai-world-congress/index.md`
@@ -178,7 +178,7 @@ description: ​TOKEN2049 brings together the global Web3 industry, uniting entr
 
 6. Commit and push the changes to the repository. The event will be published automatically.
 
-### How to contribute to the [Akash Edu](/community/community-akash-edu/)
+### How to contribute to the [Akash Edu](https://akash.network/community/community-akash-edu/)
 
 1. Create a new folder under `src/content/Community_Akash_Edu_Page/` with the name of the contribution. . For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/`
 
@@ -203,7 +203,7 @@ link: "https://akash-edu.ctlabs.in/"
 5. Commit and push the changes to the repository. The event will be published automatically.
 <!-- add Community Contributions Card -->
 
-### How to contribute to the [Community Contributions](/community/community-contributions/)
+### How to contribute to the [Community Contributions](https://akash.network/community/community-contributions/)
 
 1. Create a new folder under `src/content/Community_Contributions_Page/` with name of the contribution . For example, `src/content/Community_Contributions_Page/akash-101/`
 
@@ -231,7 +231,7 @@ description: Greg Osuri, CEO of Overclock Labs and Founder of Akash Network, wil
 
 ## Ecosystem
 
-### How to contribute a project to the [Ecosystem](/ecosystem/showcase/latest)
+### How to contribute a project to the [Ecosystem](https://akash.network/ecosystem/showcase/latest)
 
 1. Create a new folder under `src/content/Ecosystem_Page/` with the name of the project. For example, `src/content/Ecosystem_Page/akash-chat/`
 
@@ -264,7 +264,7 @@ featured: true
 ---
 ```
 
-5. Showcase is used to show the card in [showcase](/ecosystem/showcase/latest) in ecosystem tag
+5. Showcase is used to show the card in [showcase](https://akash.network/ecosystem/showcase/latest) in ecosystem tag
 
 6. Featured is used to show the card on the top of the page
 
@@ -301,9 +301,9 @@ export const docsSequence = [
 
 4. Commit and push the changes to the repository. The event will be published automatically.
 
-### How to add new doc in docs
+### How to add new file in docs
 
-1. Create a new folder under `src/content/docs` with the name of the doc. For example, `src/content/docs/akash-101/`
+1. Create a new folder under `src/content/docs` with the name of the file. For example, `src/content/docs/akash-101/`
 
 2. Create a new file called `index.md` under the new folder. For example, `src/content/docs/akash-101/index.md`
 
