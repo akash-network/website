@@ -65,10 +65,10 @@ const Panel = ({ open, nav, pathname }: any) => {
 function SideNav({ nav, pathname }: any) {
   return (
     <div className="w-full px-4 py-2">
-      <ToggleNav nav={nav} pathname={pathname} />
+      {/* <ToggleNav nav={nav} pathname={pathname} /> */}
 
       <a
-        href={`/akash-docs/${pathname?.split("/")[2]}/`}
+        href={`/docs/`}
         className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] hover:bg-[#F4F1F1] hover:text-primary  ${
           pathname?.split("/")[3]
             ? ""

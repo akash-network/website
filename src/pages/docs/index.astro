@@ -1,0 +1,130 @@
+---
+import DocsLayout from "@/layouts/docs-layout.astro";
+import { Image } from "astro:assets";
+import {
+  getCollection,
+  type CollectionEntry,
+  getEntryBySlug,
+  getEntry,
+} from "astro:content";
+
+import Card from "@/components/docs/homepage-cat-cards.astro";
+import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
+import generateToc from "@/lib/generateToc";
+import MobileNav from "@/components/docs/mobile-sidebar";
+import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
+import Search from "@/components/docs/search-dialog.tsx";
+import NextPrevNav from "@/components/docs/next-prev-nav.astro";
+import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
+// import Index from "../index.astro";
+import { proseClasses } from "@/lib/prose-classes";
+
+// export async function getStaticPaths() {
+//   const docs = await getCollection("Docs");
+//   const docsNav = generateDocsNav(docs);
+
+//   return docsNav.map((entry: any) => ({
+//     params: {
+//       slug: entry.link.split("/")?.[2],
+//     },
+//     props: {
+//       docs: docsNav,
+//       doc: docs.find((doc: any) => doc.slug === entry.link.split("/")?.[2]),
+//     },
+//   }));
+// }
+
+const pathname = new URL(Astro.request.url).pathname;
+
+const catName = pathname
+  .split("/")
+  [pathname.split("/").length - 2].split("-")
+  .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+  .join(" ");
+
+//show current props
+
+type Docs = CollectionEntry<"Docs">;
+
+// const { docs, doc } = Astro.props;
+
+const doc = await getEntry("Docs", "index");
+const docsData = await getCollection("Docs");
+const docs = generateDocsNav(docsData);
+
+const { Content } = await doc.render();
+console.log("docs", docs);
+---
+
+<DocsLayout
+  title={`${doc.data.title} | Akash Network Documentation - Your Guide to Decentralized Cloud`}
+  description="Access comprehensive documentation to guide you through using Akash Network. Find detailed instructions, FAQs, and resources for a seamless experience."
+  image="/meta-images/docs.png"
+>
+  <div
+    class="sticky top-0 z-10 -mt-4 mb-10 h-[130px] bg-background pt-4 md:hidden"
+  >
+    <div>
+      <Search client:load currentPath={pathname} />
+    </div>
+
+    <div class="my-4 border-b"></div>
+
+    <div class="">
+      <div class="flex items-center gap-x-3">
+        <MobileNav
+          client:load
+          catName={"Akash Documentation"}
+          docsNav={docs}
+          pathname={pathname}
+        />
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col items-start">
+    <div
+      class="flex h-[39px] w-[39px] items-center justify-center rounded-lg border bg-background2 md:h-[78px] md:w-[78px]"
+    >
+      <svg
+        width="49"
+        height="42"
+        viewBox="0 0 49 42"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M32.6461 28L40.6323 41.9964H24.5002L16.4297 28H32.6461Z"
+          fill="url(#paint0_linear_2233_35621)"></path>
+        <path
+          d="M40.628 41.9977L48.6852 28.0014L32.5575 0.00195312H16.4297L40.628 41.9977Z"
+          fill="#FF414C"></path>
+        <path
+          d="M8.36851 13.9912H24.4963L8.37522 41.9907L0.304688 27.9943L8.36851 13.9912Z"
+          fill="#FF414C"></path>
+        <defs>
+          <linearGradient
+            id="paint0_linear_2233_35621"
+            x1="24.1078"
+            y1="31.4804"
+            x2="40.5695"
+            y2="42.0771"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#FF414C"></stop>
+            <stop offset="1" stop-color="#FF414C" stop-opacity="0"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <h1 class="mt-6 text-[28px] font-bold md:mt-10 md:text-3lg">
+      {doc.data.title}
+    </h1>
+    <p class="mt-6 text-base md:text-lg">{doc.data.description}</p>
+  </div>
+
+  <article class={proseClasses}>
+    <Content />
+  </article>
+
+  <NextPrevNav nav={findPrevAndNextPages(docs, pathname)} />
+</DocsLayout>

@@ -76,13 +76,13 @@ getStartedSection:
       linkLabel: "Get Started"
       darkImage:
         link: "./assets/getting-started/two-dark.svg"
-    - title: "Access high-performance GPUs"
+    - title: "Akash Documentation"
       image:
         link: "./assets/getting-started/three.svg"
-      description: "Tap into the Akash Marketplace and deploy permissionlessly using one of the network’s open-source deployment tools."
-      link: "https://akashnet.typeform.com/to/rhR4cWxQ"
+      description: "For technical questions and network information, check out the Akash Docs."
+      link: "/docs"
       linkIcon: true
-      linkLabel: "Reach Out"
+      linkLabel: "View Docs"
       darkImage:
         link: "./assets/getting-started/three-dark.svg"
 
@@ -141,7 +141,7 @@ aiModelsAndAppsSection:
 
       docsLink: 
         label: Cloudmos Docs
-        link: "/akash-docs/docs/deployments/cloudmos-deploy/"
+        link: "/docs/deployments/cloudmos-deploy/"
 
     - image:  "./assets/tools/praetor.svg"
       description: "Praetor App makes it simple to become an Akash Network cloud provider. Use a streamlined UI to become a provider. "

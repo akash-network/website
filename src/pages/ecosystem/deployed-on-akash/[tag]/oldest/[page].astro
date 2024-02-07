@@ -77,7 +77,10 @@ const pathName = astroUrl.pathname.split("/");
 const formattedTag = currentTag.charAt(0).toUpperCase() + currentTag.slice(1);
 ---
 
-<Layout title={`${formattedTag} | Deployed On Akash`}>
+<Layout
+  title={`${formattedTag} | Deployed On Akash`}
+  image="/meta-images/ecosystem.png"
+>
   <TopMargin>
     <TopHeader tags={tags} />
   </TopMargin>
