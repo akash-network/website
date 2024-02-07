@@ -6,6 +6,7 @@ const abriviations:
     }
   | any = {
   cli: "CLI",
+  api: "API",
 };
 
 export function addNavItem(nav: any, label: any, link: any, isLastLevel: any) {
