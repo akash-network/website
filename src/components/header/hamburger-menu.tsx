@@ -132,7 +132,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
 
         <div className="flex flex-col gap-y-6">
           <div className="flex flex-col gap-6">
-            <a
+            {/* <a
               href="https://akashnet.typeform.com/to/rhR4cWxQ?typeform-source=akash.network"
               target="_blank"
               className="flex cursor-pointer items-center justify-center gap-1 rounded-[4px] border border-border px-[9px] py-[7px] text-xs font-medium leading-none text-foreground hover:bg-darkGray"
@@ -170,7 +170,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
               </svg>
 
               <span>Reach Out</span>
-            </a>
+            </a> */}
             <a
               href="https://deploy.cloudmos.io/"
               className="hover:bg-primary/10 flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary px-[17px] py-[9px] text-sm font-medium leading-[20px] text-white hover:text-primary"

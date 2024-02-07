@@ -8,8 +8,8 @@ const abriviations:
   cli: "CLI",
 };
 
-export function addNavItem(nav, label, link, isLastLevel) {
-  const existingItem = nav.find((navItem) => navItem.link === link);
+export function addNavItem(nav: any, label: any, link: any, isLastLevel: any) {
+  const existingItem = nav.find((navItem: any) => navItem.link === link);
   if (existingItem) {
     return existingItem;
   }
@@ -25,7 +25,13 @@ export function addNavItem(nav, label, link, isLastLevel) {
   return newItem;
 }
 
-export function processPage(nav, idParts, currentIndex, linkPrefix, linkTitle) {
+export function processPage(
+  nav: any,
+  idParts: any,
+  currentIndex: any,
+  linkPrefix: any,
+  linkTitle: any,
+) {
   if (currentIndex >= idParts.length - 1) {
     return; // End of recursion for the second-to-last level
   }
@@ -52,10 +58,10 @@ export function processPage(nav, idParts, currentIndex, linkPrefix, linkTitle) {
   processPage(currentItem.subItems, idParts, currentIndex + 1, link, linkTitle);
 }
 
-export const generateDocsNav = (pages) => {
+export const generateDocsNav = (pages: any) => {
   const nav: any = [];
 
-  pages.forEach((item) => {
+  pages.forEach((item: any) => {
     const idParts = item.id.split("/");
     const linkPrefix = "/docs";
     const linkTitle = item.data.linkTitle;
@@ -64,7 +70,7 @@ export const generateDocsNav = (pages) => {
   });
 
   function updateLinks(navArray: any) {
-    return navArray.map((item) => ({
+    return navArray.map((item: any) => ({
       ...item,
       link: item.link.endsWith("/") ? item.link : `${item.link}/`,
       subItems: updateLinks(item.subItems),
@@ -73,12 +79,12 @@ export const generateDocsNav = (pages) => {
 
   const newNav = updateLinks(nav);
 
-  function reorderNav(navItem, navSequence) {
+  function reorderNav(navItem: any, navSequence: any) {
     const navMap = new Map();
-    navItem.forEach((item) => navMap.set(item.label, item));
+    navItem.forEach((item: any) => navMap.set(item.label, item));
 
     const orderedNav = navSequence
-      .map((seqItem) => {
+      .map((seqItem: any) => {
         if (navMap.has(seqItem.label)) {
           const item = navMap.get(seqItem.label);
           navMap.delete(seqItem.label);
@@ -92,15 +98,25 @@ export const generateDocsNav = (pages) => {
           return item;
         }
       })
-      .filter((item) => item !== undefined);
+      .filter((item: any) => item !== undefined);
 
     // Add items not present in navSequence to the end of orderedNav
-    navMap.forEach((item) => orderedNav.push(item));
+    navMap.forEach((item: any) => orderedNav.push(item));
 
     return orderedNav;
   }
 
-  const reorderedNav = reorderNav(newNav, docsSequence);
+  const reorderedNav = reorderNav(
+    [
+      {
+        label: "Docs",
+        link: "/docs/",
+
+        subItems: newNav,
+      },
+    ],
+    docsSequence,
+  );
   console.log(reorderedNav);
 
   return reorderedNav;

@@ -56,9 +56,9 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                       <a
                         href={subItem.link}
                         className={`${
-                          pathName.split("/")[3 + depth] ===
-                            subItem.link.split("/")[3 + depth] &&
-                          navItem.link.split("/")[2] === pathName.split("/")[2]
+                          pathName.split("/")[2 + depth] ===
+                            subItem.link.split("/")[2 + depth] &&
+                          navItem.link.split("/")[1] === pathName.split("/")[1]
                             ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
                             : ""
                         } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  px-2 py-1 text-sm font-medium text-para hover:dark:bg-background2 hover:dark:text-white`}
@@ -75,9 +75,9 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
           <div className={`space-y-2 ${depth > 1 ? "pl-5" : "pl-2"} `}>
             <Collapsible
               defaultOpen={
-                pathName.split("/")[2 + depth] ===
-                  navItem.link.split("/")[2 + depth] &&
-                navItem.link.split("/")[2] === pathName.split("/")[2]
+                pathName.split("/")[1 + depth] ===
+                  navItem.link.split("/")[1 + depth] &&
+                navItem.link.split("/")[1] === pathName.split("/")[1]
               }
             >
               <CollapsibleTrigger className="w-full">
@@ -101,10 +101,10 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                         <a
                           href={subItem.link}
                           className={`${
-                            pathName.split("/")[3 + depth] ===
-                              subItem.link.split("/")[3 + depth] &&
-                            navItem.link.split("/")[2] ===
-                              pathName.split("/")[2]
+                            pathName.split("/")[2 + depth] ===
+                              subItem.link.split("/")[2 + depth] &&
+                            navItem.link.split("/")[1] ===
+                              pathName.split("/")[1]
                               ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
                               : ""
                           } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  py-1 pl-5 pr-2 text-sm font-medium text-para  hover:bg-[#F4F1F1] hover:text-primary hover:dark:bg-background2 hover:dark:text-white`}
@@ -125,18 +125,18 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
 
   const paths = pathName.split("/");
   console.log(docsNav);
-
+  const data = [
+    { label: "Home", link: "/docs", enabled: true, subItems: docsNav },
+  ];
   return (
     <>
       <nav className="divide-y">
         <>
-          {docsNav
-            .filter((navItem: any) => navItem.link === `/docs/docs/`)
-            .map((navItem: any, index: any) => (
-              <div key={navItem.link}>
-                {Dropdown(navItem, pathName, 0, index, docsNav.length)}
-              </div>
-            ))}
+          {docsNav?.map((navItem: any, index: any) => (
+            <div key={navItem.link}>
+              {Dropdown(navItem, pathName, 0, index, docsNav.length)}
+            </div>
+          ))}
         </>
       </nav>
     </>

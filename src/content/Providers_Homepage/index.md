@@ -64,17 +64,17 @@ additionalDeploymentSection:
   resources:
     - title: Kubernetes Cluster for Akash Providers
       content: Akash leases are deployed via Kubernetes pods on provider clusters. This guide details the build of the provider’s Kubernetes control plane and worker nodes.
-      link: "/docs/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
+      link: "/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
     - title: Akash Cloud Provider Build With Helm Charts
       content: An Akash Provider leases compute to users launching new deployments. Follow the steps in this guide to build your own provider.
-      link: "/docs/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/"
+      link: "/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/"
     - title: Provider build with GPU
       content: Use this guide and follow the sequential steps to build your Testnet Akash Provider with GPU support.
-      link: "/docs/docs/providers/build-a-cloud-provider/gpu-resource-enablement/"
+      link: "/docs/providers/build-a-cloud-provider/gpu-resource-enablement/"
     - title: Akash Provider Checkup
       content: Within this guide we provide paths to check your Akash Provider health status following initial build and throughout the lifetime of the provider.
-      link: "/docs/docs/providers/build-a-cloud-provider/akash-provider-checkup/"
+      link: "/docs/providers/build-a-cloud-provider/akash-provider-checkup/"
     - title: Akash Provider Maintenance / FAQ / Troubleshooting
       content: Use the techniques detailed in this guide to verify Akash Provider functionality and troubleshoot issues as they appear.ake profit on your spare compute made available for tenant lease.
-      link: "/docs/docs/providers/provider-faq-and-guide/"
+      link: "/docs/providers/provider-faq-and-guide/"
 ---

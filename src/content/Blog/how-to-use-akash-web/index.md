@@ -221,9 +221,9 @@ export const docsSequence = [
 
 ### How to add new doc in docs
 
-1. Create a new folder under `src/content/Docs/docs` with the name of the doc. For example, `src/content/Docs/docs/akash-101/`
+1. Create a new folder under `src/content/docs` with the name of the doc. For example, `src/content/docs/akash-101/`
 
-2. Create a new file called `index.md` under the new folder. For example, `src/content/Docs/docs/akash-101/index.md`
+2. Create a new file called `index.md` under the new folder. For example, `src/content/docs/akash-101/index.md`
 
 3. Copy the following template into the new file and fill in the details.
 
@@ -237,6 +237,6 @@ linkTitle: "Akash Node CLI Build" # <--- Change the link title here
 ---
 ```
 
-4. If you want to add sub items, add the folder under the folder of the doc. For example, `src/content/Docs/docs/akash-101/akash-node-cli-build/`
+4. If you want to add sub items, add the folder under the folder of the doc. For example, `src/content/docs/akash-101/akash-node-cli-build/`
 
-5. Create a new file called `index.md` under the new folder. For example, `src/content/Docs/docs/akash-101/akash-node-cli-build/index.md`
+5. Create a new file called `index.md` under the new folder. For example, `src/content/docs/akash-101/akash-node-cli-build/index.md`

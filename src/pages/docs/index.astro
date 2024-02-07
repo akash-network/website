@@ -48,7 +48,7 @@ type Docs = CollectionEntry<"Docs">;
 
 // const { docs, doc } = Astro.props;
 
-const doc = await getEntry("Docs", "docs");
+const doc = await getEntry("Docs", "index");
 const docsData = await getCollection("Docs");
 const docs = generateDocsNav(docsData);
 
