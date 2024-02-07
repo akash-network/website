@@ -1,5 +1,5 @@
 ---
-title: "The Fast Evolving Ai Landscape"
+title: "The Fast Evolving AI Landscape"
 description: "It’s barely 3 months into 2023 and it is clear that AI is going to dominate the tech space this year, and very likely this decade, by a wide margin (over Web3, Cloud, Mobile or anything else in the past couple decades). If you are in tech"
 
 pubDate: "2023-03-28"
