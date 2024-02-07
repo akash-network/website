@@ -158,7 +158,7 @@ export const docsSequence = [
         ],
       },
       {
-        label: "Table Of Contents",
+        label: "Akash Node Table Of Contents",
         subItems: [{ label: "Akash Node Repo Table of Contents" }],
       },
       {
@@ -249,7 +249,7 @@ export const docsSequence = [
         label: "Akash End To End Testing Provider",
       },
       {
-        label: "Akash Api",
+        label: "Akash API",
       },
       {
         label: "Other Resources",

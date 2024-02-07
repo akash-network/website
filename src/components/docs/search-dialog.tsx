@@ -84,6 +84,20 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     );
   }
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "k" && event.ctrlKey) {
+        event.preventDefault();
+        openModal();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+
   return (
     <>
       <div
@@ -160,7 +174,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg  border  border-[#808080] bg-background2 p-6 text-left align-middle shadow-lg transition-all ">
                   <input
                     className="focus:border-primary/40 w-full rounded-lg border px-4 py-2 outline-none dark:bg-background "
-                    placeholder="Search for projects"
+                    placeholder="Search documentation"
                     value={searchQuery}
                     onChange={handleSearchInput}
                   />
@@ -205,13 +219,13 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   );
 }
 
-const HighlightedText = ({ text, query }) => {
+const HighlightedText = ({ text, query }: any) => {
   const parts = text.split(new RegExp(`(${query})`, "gi"));
   console.log(parts);
 
   return (
     <>
-      {parts.map((part, index) =>
+      {parts.map((part: any, index: any) =>
         index % 2 === 0 ? (
           <span key={index}>{part}</span>
         ) : (

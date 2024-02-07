@@ -1,5 +1,6 @@
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ArrowUpRight } from "lucide-react";
 
 interface IFsubCategories {
   name: string;
@@ -46,9 +47,14 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
                       subItem.href.startsWith("http") ? "_blank" : "_self"
                     }
                     key={Math.random() + indx}
-                    className="text-base font-medium text-[#808080]"
+                    className="flex items-center text-base font-medium text-[#808080]"
                   >
-                    {subItem.name}
+                    {subItem.name}{" "}
+                    {subItem?.href?.startsWith("http") ? (
+                      <ArrowUpRight className="ml-1 inline-block" size={16} />
+                    ) : (
+                      ""
+                    )}
                   </a>
                 ))}
               </div>
