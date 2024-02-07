@@ -8,8 +8,11 @@ import {
 import { Fragment, useState } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ArrowUpRight } from "lucide-react";
 
 const PopOverNavItem = ({ subItems }: any) => {
+  console.log(subItems);
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -44,8 +47,16 @@ const PopOverNavItem = ({ subItems }: any) => {
                         active ? "" : ""
                       } `}
                     >
-                      <p className="text-sm font-bold text-foreground">
+                      <p className="flex items-center text-sm font-bold text-foreground ">
                         {item.title}
+                        {item.link.startsWith("http") ? (
+                          <ArrowUpRight
+                            className="ml-1 inline-block"
+                            size={16}
+                          />
+                        ) : (
+                          ""
+                        )}
                       </p>
                       <p className="mt-1 text-sm font-normal text-para">
                         {item.description}

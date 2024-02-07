@@ -13,12 +13,12 @@ cards:
       enable: true
       icon: "download"
 
-  - title: Press Resources
-    description: Get Akash's official logos, available in both light and dark themes, by downloading them in various formats.
-    image: "./assets-banner.png"
-    button:
-      label: Read More
-      link: "/brand/press/"
-      enable: true
-      icon: "link"
+  # - title: Press Resources
+  #   description: Get Akash's official logos, available in both light and dark themes, by downloading them in various formats.
+  #   image: "./assets-banner.png"
+  #   button:
+  #     label: Read More
+  #     link: "/brand/press/"
+  #     enable: true
+  #     icon: "link"
 ---
