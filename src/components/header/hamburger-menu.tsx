@@ -13,6 +13,7 @@ import DarkModeToggle from "@/components/dark-mode-toggle";
 
 import HamburgerMenuDiscloserComponent from "./hamburger-menu-discloser-component";
 import { Fragment, useEffect } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 const navigation = [
   {
