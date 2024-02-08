@@ -10,10 +10,11 @@ categories:
 tags:
   - Updates
 contributors:
-  - Zach Horn 
+  - Zach Horn
 
 bannerImage: ./banner-image.png
 ---
+
 Akash Weekly with Greg Osuri is our weekly community call hosted on Twitter Spaces. Each week, we cover the latest news and updates from Akash Network with our CEO, Greg Osuri.
 
 Follow Akash Network ([@akashnet\_](https://twitter.com/akashnet_)) on Twitter to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT. Tune in next week for the latest from Akash and conversations with special guests!
@@ -22,26 +23,19 @@ Follow Akash Network ([@akashnet\_](https://twitter.com/akashnet_)) on Twitter t
 
 **On this Akash Weekly:**
 
-*   Greg Osuri, CEO & Co-Founder of Overclock Labs (creator of Akash Network) [@gregosuri](https://twitter.com/gregosuri) 
-    
-*   Ali Merchant, Developer Relations Lead at Overclock Labs
-    
+- Greg Osuri, CEO & Co-Founder of Overclock Labs (creator of Akash Network) [@gregosuri](https://twitter.com/gregosuri)
+- Ali Merchant, Developer Relations Lead at Overclock Labs
 
 **Our topics this week:**
 
-*   Updates from August.
-    
-*   Enterprises begin to repatriate their data centers.
-    
-*   [Ali Merchant](https://twitter.com/Ali_the_Curios) gives an overview of how we will work to make Akash intuitive for developers.
-    
-*   Q&A with our community.
-    
+- Updates from August.
+- Enterprises begin to repatriate their data centers.
+- [Ali Merchant](https://twitter.com/Ali_the_Curios) gives an overview of how we will work to make Akash intuitive for developers.
+- Q&A with our community.
 
-* * *
+---
 
-August Updates from Greg Osuri
-------------------------------
+## August Updates from Greg Osuri
 
 ### Akash Network Trends on Twitter
 
@@ -67,36 +61,33 @@ We are excited to see our community continue to expand and evolve as more projec
 
 We would like to highlight [Cloudmos](https://cloudmos.io/) and [Praetor](https://praetorapp.com/) for their continued work building great products that make it easy for anyone to access Akash Network.
 
-[Our Ecosystem page on akash.network](https://ecosystem.akash.network/) showcases all the projects currently on Akash Network.
+[Our Ecosystem page on akash.network](https://akash.network/ecosystem/showcase/latest/) showcases all the projects currently on Akash Network.
 
-* * *
+---
 
-Enterprises Begin to Repatriate Their Data Centers
---------------------------------------------------
+## Enterprises Begin to Repatriate Their Data Centers
 
-The $500 billion cloud infrastructure industry is undergoing a massive shift. Enterprises are beginning to realize that over time, the centralized cloud is an expensive proposition.  
-  
+The $500 billion cloud infrastructure industry is undergoing a massive shift. Enterprises are beginning to realize that over time, the centralized cloud is an expensive proposition.
+
 The co-founders of Overclock Labs wrote about the concept in the whitepaper that launched Akash Network. It has been an amazing journey watching this early vision of the cloud industry’s progression become a reality.
 
 It will be likely that these repatriated data centers will have underutilized compute—which creates an incredible adoption opportunity for Akash Network.
 
-* * *
+---
 
-An Overview of the Developer Experience on Akash with Ali Merchant
-------------------------------------------------------------------
+## An Overview of the Developer Experience on Akash with Ali Merchant
 
 Ali views the development of blockchain technology as similar to the early internet. It’s important for developers to begin to learn about blockchain, and the potential impacts it will have on many industries.
 
 Web3 and blockchain technology are not necessarily perfect solutions for every problem. Understanding where to apply Web3 tech to solve specific problems requires more than a passing understanding of the technology. Developers have the opportunity to begin learning and experimenting with the technology before it reaches the mainstream. This will give adventurous developers a head start on the adoption of blockchain technology more broadly.
 
-Ali first learned about Akash in 2017. He notes that one of the things that drew him to Akash was the platform being live and operational in a space where many other projects are not. Akash Network was providing value immediately to its users, is still building on that functionality today, and has a strong roadmap planned for the future. 
+Ali first learned about Akash in 2017. He notes that one of the things that drew him to Akash was the platform being live and operational in a space where many other projects are not. Akash Network was providing value immediately to its users, is still building on that functionality today, and has a strong roadmap planned for the future.
 
 Ali believes that Akash Network will shine as Web3 reaches mainstream adoption.
 
-* * *
-
-Q&A
 ---
+
+## Q&A
 
 ### Q: How decentralized are Akash’s validator nodes?
 

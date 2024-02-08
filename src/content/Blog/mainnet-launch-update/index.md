@@ -37,7 +37,7 @@ Mainnet Launch (Genesis Time)Sept 25, 6AM PST /
 **Collect GENTX: Sept. 20th, 2PM PST / 10PM UTC**  
 \_\_\_\_\_
 
-You can submit your GenTx starting **Sunday, September 20th at 2PM PST / 10PM UTC**.  Please follow our [Validator guide here.](https://docs.akash.network/validator-guides/gentx) Note, all GenTx will be the same amount, as you are limited to 1,000 AKT for bonding.
+You can submit your GenTx starting **Sunday, September 20th at 2PM PST / 10PM UTC**.  Please follow our [Validator guide here.](https://akash.network/docs/validator-guides/gentx) Note, all GenTx will be the same amount, as you are limited to 1,000 AKT for bonding.
 
 The deadline to submit GenTx is Wednesday September, 23rd at 9AM PST / 5PM UTC.
 

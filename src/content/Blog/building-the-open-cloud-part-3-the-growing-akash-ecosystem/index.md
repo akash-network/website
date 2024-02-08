@@ -40,7 +40,7 @@ Let’s take a look at a few of these projects in more detail.
 
 ### Praetor App
 
-Besides all the benefits to the user that we outlined in the [previous post](https://akash.network/blog/building-the-open-cloud-part-2-re-imagining-the-cloud-with-akash), Akash Network also enables any data center operator today (or in theory, any person with compute and storage capacity) to become a provider on Akash Network. This is one way for existing data center operators to monetize their unused capacity. When Akash launched, the Overclock Labs team built a [CLI-based process](https://docs.akash.network/providers/build-a-cloud-provider) for setting up an Akash provider on a group of servers. While this was great for those with a technical background, it prevented less technical people from being able to “join the open cloud revolution” by becoming a provider. This is where Praetor App saw an opportunity and decided to build a solution.
+Besides all the benefits to the user that we outlined in the [previous post](https://akash.network/blog/building-the-open-cloud-part-2-re-imagining-the-cloud-with-akash), Akash Network also enables any data center operator today (or in theory, any person with compute and storage capacity) to become a provider on Akash Network. This is one way for existing data center operators to monetize their unused capacity. When Akash launched, the Overclock Labs team built a [CLI-based process](https://akash.network/docs/providers/build-a-cloud-provider) for setting up an Akash provider on a group of servers. While this was great for those with a technical background, it prevented less technical people from being able to “join the open cloud revolution” by becoming a provider. This is where Praetor App saw an opportunity and decided to build a solution.
 
 [Praetor App](https://akash.praetorapp.com/) is web-based product that significantly reduces the technical complexity of setting up a new provider on Akash. Praetor also includes a [provider profitability calculator](https://akash.praetorapp.com/calculator) as well as a [provider status dashboard](https://akash.praetorapp.com/provider-status) that shows the location, count, capacity, and uptime of the (~50 and growing) providers on Akash Network.
 
@@ -56,7 +56,7 @@ Cloudmos includes a downloadable (win/exe and mac/dmg images available [here](ht
 
 ### Terraform Provider for Akash (by Luna, an Akash Insider)
 
-[Terraform](https://www.terraform.io/) is one the most popular infrastructure automation tools used by DevOps teams that operate public cloud infrastructure. The way Terraform automates infrastructure provisioning is through the use of “providers”. Put simply, a “Terraform Provider” is like a “plugin” that lets you work with public APIs provided by cloud service providers, SaaS providers, and other services used by a development team. Given the popularity of Terraform among developers and operations engineers, we were excited to see someone from the Akash community take it upon themselves to build a Terraform provider for Akash. The provider is located at the official Hashicorp Terraform registry docs [here](https://registry.terraform.io/providers/cloud-j-luna/akash/latest/docs). Detailed instructions on how to use it can be found in the Akash Network docs [here](https://docs.akash.network/other-resources/experimental/akash-deployments-via-terraform).
+[Terraform](https://www.terraform.io/) is one the most popular infrastructure automation tools used by DevOps teams that operate public cloud infrastructure. The way Terraform automates infrastructure provisioning is through the use of “providers”. Put simply, a “Terraform Provider” is like a “plugin” that lets you work with public APIs provided by cloud service providers, SaaS providers, and other services used by a development team. Given the popularity of Terraform among developers and operations engineers, we were excited to see someone from the Akash community take it upon themselves to build a Terraform provider for Akash. The provider is located at the official Hashicorp Terraform registry docs [here](https://registry.terraform.io/providers/cloud-j-luna/akash/latest/docs). Detailed instructions on how to use it can be found in the Akash Network docs [here](https://akash.network/docs/other-resources/experimental/akash-deployments-via-terraform).
 
 ![](https://www.datocms-assets.com/45776/1667504595-screen-shot-2022-11-03-at-3-43-06-pm.png)
 
@@ -72,10 +72,10 @@ The Vixello team is increasingly active within the Akash ecosystem. They are tes
 
 ## Join the Akash Ecosystem
 
-Akash Network greatly values its [ecosystem](https://ecosystem.akash.network/) of third-party products and services and is always excited to hear about new ones.
+Akash Network greatly values its [ecosystem](https://akash.network/ecosystem/showcase/latest/) of third-party products and services and is always excited to hear about new ones.
 
 If you are interested in becoming a provider on Akash Network, building services for Akash, or integrating with Akash — reach out to us via [akash.network](https://akash.network), or any of our ecosystem partners.
 
 If you prefer listening to reading, check out [this talk](https://www.youtube.com/watch?v=jGqZzNWQrNs&t=1373s) from Messari Mainnet 2022, or [this video](https://www.youtube.com/watch?v=8cicuhuf94s) that discusses the state of the Akash ecosystem as of October 2022.
 
-Meanwhile, if you are eager to get started, head over to Akash Network’s [documentation](https://docs.akash.network/).
+Meanwhile, if you are eager to get started, head over to Akash Network’s [documentation](https://akash.network/docs/).

@@ -36,7 +36,7 @@ Connect with us on [our Telegram](https://t.me/AkashNW) and visit [The Akashian 
 
 **Onwards and upwards!**
 
-[**Get Started Now**](https://docs.akash.network/akashian/phase1) **|** [**Learn More**](https://akash.network/challenge/)
+[**Get Started Now**](https://akash.network/docs/akashian/phase1) **|** [**Learn More**](https://akash.network/challenge/)
 
 ### **Sirius Release**
 
@@ -67,7 +67,7 @@ Voting End Time:    "14th May, 1600UTC"
 
 - The voting starts on May 12th, 2020 1600 UTC
 - The voting closes on May 14th, 2020 1600 UTC.
-- **Instructions to vote for the proposal will be** [**here**](https://docs.akash.network/akashian/phase1)**.**
+- **Instructions to vote for the proposal will be** [**here**](https://akash.network/docs/akashian/phase1)**.**
 
 **There are a total of 334 AKT rewards for completion of Sirius. Follow the Sirius release guide for instructions.**
 

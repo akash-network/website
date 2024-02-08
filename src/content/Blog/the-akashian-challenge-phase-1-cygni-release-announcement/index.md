@@ -34,7 +34,7 @@ Connect with us on [our Telegram](https://t.me/AkashNW), or [our Riot dev chat](
 
 **Go forth Akashians!**
 
-[**Get Started Now**](https://docs.akash.network/akashian/centauri-2)
+[**Get Started Now**](https://akash.network/docs/akashian/centauri-2)
 
 [**Learn More**](https://akash.network/challenge/)
 
@@ -46,7 +46,7 @@ Cygni, the fourth and final release of The Akashian Challenge: Phase 1, launches
 
 **Please note that the release updates (changelog) and proposal details are** _**critical**_**\--review the information before casting your vote.** If the community votes in favor of the proposal, Cygni Network Upgrade will occur on June 1st, 2020 1600 UTC.
 
-Cygni Network Upgrade will use the updated testnet centauri-2 chain. If you have not upgraded your node to Centauri 2, please follow [these instructions](https://docs.akash.network/akashian/centauri-2) to do so.
+Cygni Network Upgrade will use the updated testnet centauri-2 chain. If you have not upgraded your node to Centauri 2, please follow [these instructions](https://akash.network/docs/akashian/centauri-2) to do so.
 
 **You can view more details** _**tomorrow**_ **on** [**the Cygni release changelog**](https://github.com/ovrclk/akash/releases/tag/v0.7.1).
 
@@ -66,7 +66,7 @@ All validators and delegators will have 48 hours to cast their votes on the prop
 
 - The voting starts on Friday, May 29th, 2020 1600 UTC
 - The voting closes on Sunday, May 31st, 2020 1600 UTC.
-- **Instructions to vote for the proposal will be** [**here**](https://docs.akash.network/akashian/centauri-2)**.**
+- **Instructions to vote for the proposal will be** [**here**](https://akash.network/docs/akashian/centauri-2)**.**
 
 **There are a total of 250 AKT rewards for completion of Cygni.**
 
@@ -106,4 +106,4 @@ Visit [The Akashian Challenge website](https://akash.network/blog/the-akashian-c
 [Join our Riot](https://riot.im/app/#/room/#akashnet:matrix.org) dev chat for The Akashian Challenge support and information.
 
 [**Get Started Now**  
-](https://docs.akash.network/akashian/centauri-2)
+](https://akash.network/docs/akashian/centauri-2)

@@ -29,7 +29,7 @@ As part of today’s announcement, I’ll be sharing how I learned to run a Heli
 
 ### **How I learned to run a Helium Validator on Akash in one day**
 
-Some people can dive into documentation and figure something out in an hour, but for someone like me, it can take a ***whole*** day. Fortunately, this article covers the step-by-step process of deploying a Helium Validator on the Akash decentralized cloud (DeCloud). By end of day, you’ll have a Helium Validator running on [Akash](https://akash.network/) DeCloud — and you don’t need to be a developer.
+Some people can dive into documentation and figure something out in an hour, but for someone like me, it can take a **_whole_** day. Fortunately, this article covers the step-by-step process of deploying a Helium Validator on the Akash decentralized cloud (DeCloud). By end of day, you’ll have a Helium Validator running on [Akash](https://akash.network/) DeCloud — and you don’t need to be a developer.
 
 _**If you already know about Helium Validators, skip to the technical step-by-step section.**_
 
@@ -106,13 +106,13 @@ Once you’ve inputted your address, the Faucet will deliver just over 10000 TNT
 
 #### **Step 3. Set Up an Akash Mainnet Wallet**
 
-- [Install the Akash CLI](https://docs.akash.network/guides/install). To installakashusing homebrew just enter:
+- [Install the Akash CLI](https://akash.network/docs/guides/install). To installakashusing homebrew just enter:
 
   brew tap ovrclk/tap
   brew install akash
   brew link akash --force
 
-- Set the variable AKASH_NET to the URL of the Akash MainNet. [You can also choose to deploy on Testnet or Edgenet.](https://docs.akash.network/guides/version) Enter the following command on your command prompt to set the variable.
+- Set the variable AKASH_NET to the URL of the Akash MainNet. [You can also choose to deploy on Testnet or Edgenet.](https://akash.network/docs/guides/version) Enter the following command on your command prompt to set the variable.
 
   AKASH_NET="https://raw.githubusercontent.com/ovrclk/net/master/mainnet"
 
@@ -188,7 +188,7 @@ If you have a swarm_key already, make sure this is uploaded to S3 in the same lo
 
 #### **Step 6. Deploy on Akash**
 
-You can deploy your Validator on Akash using the Akash CLI following the [Akash deployment guide](https://docs.akash.network/guides/deploy) or using Tom Beynon’s [Deploy UI](https://github.com/tombeynon/akash-deploy).
+You can deploy your Validator on Akash using the Akash CLI following the [Akash deployment guide](https://akash.network/docs/guides/deploy) or using Tom Beynon’s [Deploy UI](https://github.com/tombeynon/akash-deploy).
 
 Once the container is deployed, check the logs to see your address once the server starts (can take a while). If your swarm_key didn’t exist in S3 before, the new one should have been uploaded. Subsequent deploys using the same S3 details will now use the same swarm_key.
 

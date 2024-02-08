@@ -27,7 +27,6 @@ This week, we announce Eridani, the third release in Phase 1 of The Akashian Cha
 
 As with Sirius release last week, the goal of Eridani release is to test governance and voting, and network upgrades. The Eridani Upgrade Proposal **goes live for voting Tuesday May 19th at 1600 UTC**.
 
-  
 Be sure to check the schedule and details below, before voting.
 
 And don’t miss **The Akashian Challenge Live Stream Event this Friday, May 22nd at 4pm UTC**! We’ll be presenting awards and giving attendees a chance to win a [Supermini](https://akash.network/supermini/). Details below.
@@ -36,7 +35,7 @@ Feel free to connect with us on [our Telegram](https://t.me/AkashNW), or [our Ri
 
 **Go forth Akashians!**
 
-[**Get Started Now**](https://docs.akash.network/akashian/phase1#eridani-upgrade)  
+[**Get Started Now**](https://akash.network/docs/akashian/phase1#eridani-upgrade)  
 [**Learn More**](https://akash.network/challenge/)
 
 #### **Eridani Release**
@@ -68,7 +67,7 @@ All validators and delegators will have 48 hours to cast their votes on the prop
 
 - The voting starts on May 19th, 2020 1600 UTC
 - The voting closes on May 21st, 2020 1600 UTC.
-- **Instructions to vote for the proposal will be** [**here**](https://docs.akash.network/akashian/phase1#eridani-upgrade)**.**
+- **Instructions to vote for the proposal will be** [**here**](https://akash.network/docs/akashian/phase1#eridani-upgrade)**.**
 
 **There are a total of 250 AKT rewards for completion of Eridani. Follow the Eridani release guide for instructions.**
 
@@ -106,5 +105,5 @@ Visit [The Akashian Challenge website](https://akash.network/blog/the-akashian-c
 
 [Join our Riot](https://riot.im/app/#/room/#akashnet:matrix.org) dev chat for The Akashian Challenge support and information.
 
-[**Get Started Now**](https://docs.akash.network/akashian/phase1#eridani-upgrade)  
+[**Get Started Now**](https://akash.network/docs/akashian/phase1#eridani-upgrade)  
 [**Learn More**](https://akash.network/challenge/)

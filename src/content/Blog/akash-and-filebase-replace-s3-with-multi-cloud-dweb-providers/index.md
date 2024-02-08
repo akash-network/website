@@ -5,7 +5,6 @@ description: A core goal of the decentralized web, also known as dWeb, is to hel
 pubDate: "2021-07-27"
 draft: false
 
-
 categories:
   - News
 tags:
@@ -34,13 +33,13 @@ Together with Filebase and Akash, developers and enterprises can now quickly mig
 
 Today, we’re highlighting several open-source projects featuring this integration:
 
-- [Akash documentation site](http://docs.akash.network/)
+- [Akash documentation site](https://akash.network/docs/)
 
 - [Pinterest app on Rails](https://github.com/ovrclk/akash-on-rails)
 
-- [Backup and restore Postgres](https://docs.akash.network/deploy/postgresql-restore-backup)
+- [Backup and restore Postgres](https://akash.network/docs/guides/postgres-sql-restore-or-backup/)
 
-- [Unstoppable Web 2.0](https://docs.akash.network/deploy/unstoppable-web-2.0)
+- [Unstoppable Web 2.0](https://akash.network/docs/guides/unstopabble-web/)
 
 - [Hosted Helium Validators](https://github.com/filebase/helium-on-akash)
 

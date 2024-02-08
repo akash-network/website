@@ -5,7 +5,6 @@ description: Over 1,300 people from around the world signed up to participate in
 pubDate: "2023-08-14"
 draft: false
 
-
 categories:
   - Updates
 tags:
@@ -64,7 +63,7 @@ The testnet also hosted [AIQRArt](https://twitter.com/akashnet_/status/167886232
 
 ### Creating Deployment Specifications (SDLs)
 
-Akash deployments require a specification file created in an Akash-specific format called the [Stack Definition Language (SDL)](https://docs.akash.network/readme/stack-definition-language). One of the key testnet tasks involved participants creating these deployment specifications, each of which has to be tailored to the unique deployment (in this case, AI models and applications).
+Akash deployments require a specification file created in an Akash-specific format called the [Stack Definition Language (SDL)](https://akash.network/docs/readme/stack-definition-language). One of the key testnet tasks involved participants creating these deployment specifications, each of which has to be tailored to the unique deployment (in this case, AI models and applications).
 
 The code below is an example of an SDL deployment file.
 

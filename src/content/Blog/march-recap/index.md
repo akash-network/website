@@ -41,7 +41,7 @@ The capabilities in Testnet 3 will be merged into our latest production, Mainnet
 
 ### **Partnerships** 
 
-We continued to strengthen our relationship with the Chia Network, making Chia mining on Akash easier and cheaper. In our latest update, Akashians' were able to create Chia NFT plots for just $0.20/plot. Download the plots directly to your drive or farm with the new Plot Manager. Start plotting by following our Chia Deployment guide, [here](https://docs.akash.network/deploy/chia-on-akash).
+We continued to strengthen our relationship with the Chia Network, making Chia mining on Akash easier and cheaper. In our latest update, Akashians' were able to create Chia NFT plots for just $0.20/plot. Download the plots directly to your drive or farm with the new Plot Manager. Start plotting by following our Chia Deployment guide, [here](https://akash.network/docs/deploy/chia-on-akash).
 
 As a part of our Testnet 3 flagship events, we hosted a Twitter Spaces with Jonmichael Hands from Chia Network on potential use cases he was excited to see and opportunities that come with Chia mining on Akash Network. You can listen to the recording, [here](https://twitter.com/i/spaces/1eaJbNPPOAkJX) and check out a demo below from our Head of Mining, Andrew Mello.
 
@@ -49,9 +49,9 @@ As a part of our Testnet 3 flagship events, we hosted a Twitter Spaces with Jonm
 
 Meanwhile, this past month, the Akash community released many exciting new features to highlight including the Akash CLI Booster and Akashlytics Deploy.
 
-The Akash CLI Booster was created to make the use of the current command line tooling much simpler for deployments and related activities. Additional information regarding the installation and use of the Akash CLI Booster can be found [here](https://docs.akash.network/guides/akash-cli-booster).
+The Akash CLI Booster was created to make the use of the current command line tooling much simpler for deployments and related activities. Additional information regarding the installation and use of the Akash CLI Booster can be found [here](https://akash.network/docs/guides/akash-cli-booster).
 
-The [Akashlytics Deploy](https://docs.akash.network/guides/deploy) desktop app continues to be our most popular option for launching and managing deployments. The Akashlytics development team has released a number of great enhancements over the past couple of releases including:
+The [Akashlytics Deploy](https://akash.network/docs/guides/deploy) desktop app continues to be our most popular option for launching and managing deployments. The Akashlytics development team has released a number of great enhancements over the past couple of releases including:
 
 - Pie chart representation of Akash AKT funds breaking down spend on deployments, available balances, and staking activity.
 - Representation of Akash Network Capacity: displays total, available, and currently consumed resource levels across the entire network.

@@ -34,7 +34,7 @@ Last fall, we announced that we were bringing Akash to the [Cosmos](https://cos
 
 To gain market proof for our decentralized peer-to-peer marketplace, we launched our [Founding Member Rewards Program](https://akash.network/blog/congratulations-to-founding-member-challenge-contributors-still-time-to-join-for-5500-akash-tokens/), a series of challenges over a one month period designed to show contributors how to become a cloud provider and how to deploy applications in our decentralized Supercloud. The program involved 3 progressively difficult challenges along with bonus challenges, and contributors joined from all over the world, including the U.S., Korea, Japan, China, Europe, India, and South America. We were excited by the incredible community engagement, with 45 providers and nearly 1,700 applications completed on the first Akash testnet.
 
-Contributors lit up our Twitter with [praise](https://akash.network/l/love) for our documentation and ease of deployment. In user interviews conducted by a top partner network, 40 out of 100 developers shared that Akash had the best developer experience and documentation. We prioritize exceptional [documentation](https://docs.akash.network/), and it was rewarding to get this feedback from the community.
+Contributors lit up our Twitter with [praise](https://akash.network/l/love) for our documentation and ease of deployment. In user interviews conducted by a top partner network, 40 out of 100 developers shared that Akash had the best developer experience and documentation. We prioritize exceptional [documentation](https://akash.network/docs/), and it was rewarding to get this feedback from the community.
 
 **Engaging Top Validators**
 

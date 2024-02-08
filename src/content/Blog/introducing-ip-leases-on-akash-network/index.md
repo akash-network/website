@@ -17,7 +17,7 @@ bannerImage: ./banner-image.png
 
 [Overclock Labs](https://twitter.com/ovrclk_), the parent company of Akash Network which is developing tools, protocols, and infrastructure that support the evolution and adoption of Web3, is excited to announce the general availability of “IP Leases” on Akash Network.
 
-IP Leases allow Tenants of Akash Network to request reserved, publicly routable IP addresses for the services they deploy, and allow Providers on the network to monetize their acquired and available IP space. IP Leases are supported in version [**0.18.0** of the Akash CLI](https://docs.akash.network/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes) and are also available for use via the [Cloudmos deploy tool](https://cloudmos.io/). The on-chain code changes to support IP Leases were already released as part of the recent Akash Network [Mainnet 4 upgrade](https://www.mintscan.io/akash/proposals/27), so this feature is ready to use right now.
+IP Leases allow Tenants of Akash Network to request reserved, publicly routable IP addresses for the services they deploy, and allow Providers on the network to monetize their acquired and available IP space. IP Leases are supported in version [**0.18.0** of the Akash CLI](https://akash.network/docs/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes) and are also available for use via the [Cloudmos deploy tool](https://cloudmos.io/). The on-chain code changes to support IP Leases were already released as part of the recent Akash Network [Mainnet 4 upgrade](https://www.mintscan.io/akash/proposals/27), so this feature is ready to use right now.
 
 ## Why We Built It
 
@@ -47,7 +47,7 @@ Here is an example of an Akash SDL file and the resulting lease, showing the IP 
 
 ![](https://www.datocms-assets.com/45776/1669215407-screen-shot-2022-11-23-at-9-56-36-am.png)
 
-To see a full detailed explanation of how to use IP Leases, check out our [documentation](https://docs.akash.network/features/ip-leases).
+To see a full detailed explanation of how to use IP Leases, check out our [documentation](https://akash.network/docs/features/ip-leases).
 
 ## For Providers
 
@@ -61,4 +61,4 @@ Current and new providers on Akash Network can use the new IP Lease functionalit
 
 ## Digging Deeper
 
-We would love it if you used IP Leases in your next deployment. To get you going smoothly, we have updated our [documentation](https://docs.akash.network/features/ip-leases) to cover all technical details. If you are curious about the high-level details of how we implement this feature, stay tuned for an upcoming technical blog post outlining how we use [MetalLB](https://metallb.universe.tf/) and [Kubernetes Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) under the hood to make IP Leases possible.
+We would love it if you used IP Leases in your next deployment. To get you going smoothly, we have updated our [documentation](https://akash.network/docs/features/ip-leases) to cover all technical details. If you are curious about the high-level details of how we implement this feature, stay tuned for an upcoming technical blog post outlining how we use [MetalLB](https://metallb.universe.tf/) and [Kubernetes Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) under the hood to make IP Leases possible.

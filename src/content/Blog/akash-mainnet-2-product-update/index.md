@@ -54,7 +54,7 @@ When the network upgrade first went live, we directed tenants to use the Deploy 
 
 As it turned out, many users were having issues with the tool. If one of the intermediate steps failed, for example, the tool would return an error message and exit. The user would fix the cause of error, and run the tool again, but it would restart from the beginning--at times causing new errors as the first steps had already been completed once before.
 
-To remedy this, the [primary documentation](https://docs.akash.network/guides/deploy) for deploying an application now details every step of the process, and provides additional context and clarity for users. We’re already receiving good feedback for this new process, as it gives users a better understanding of what is happening when they deploy their applications.
+To remedy this, the [primary documentation](https://akash.network/docs/guides/deploy) for deploying an application now details every step of the process, and provides additional context and clarity for users. We’re already receiving good feedback for this new process, as it gives users a better understanding of what is happening when they deploy their applications.
 
 ![](https://www.datocms-assets.com/45776/1620925200-n1tzov9msniedx0-wv-4opunrhmdgcfbbuunzdekzftogbinlimot0oaw2l5wdlg9kd3edpnmaj3ml7o8mi8kgaiagpncwvg1zy3uv0mwizjffuyr2q1hqhx3rco9cigssohnfs.png)
 

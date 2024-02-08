@@ -6,41 +6,39 @@ title: "Fractional uAKT"
 linkTitle: "Fractional uAKT"
 ---
 
-
 Fractional uAKT is the removal of the implicit minimum cost of deployment. In the past, a deployment could not be cheaper than one uAKT per block. Meaning, extremely light workloads like a crypto wallet, or perhaps a personal blog could end up being more expensive than necessary. The limitation also would have more severe consequences as token price increases. A lightweight deployment could increase from $1 to $5 per month if the token were to double or triple in price. With fractional uAKT, prices can be adjusted better so resource consumption can be accurate to the cost.
 
 In this guide we will use the Cloudmos Deploy tool to launch deployments using fractional uAKT. If this is your first time using Cloudmos Deploy, use this [guide](https://github.com/akash-network/docs/blob/master/features/fractional-uakt/broken-reference/README.md) to install the app and get started.
 
 [Relevant SDL Declaration and Example Use](#relevant-sdl-declaration-and-example-use)
 
-
 ## Relevant SDL Declaration and Example Use
 
 For the purpose of demonstrating the use of fractional uAKT we will utilize the popular Hello World web application and SDL that can be found in the [Awesome Akash repository](https://github.com/akash-network/awesome-akash). The example SDL file will be modified to take advantage of the new fractional uAKT option.
 
-The [Cloudmos Deploy](https://docs.akash.network/guides/deploy) application will be used to launch the deployment.
+The [Cloudmos Deploy](https://akash.network/docs/guides/deploy) application will be used to launch the deployment.
 
 ### **Example Fractional uAKT Use in Cloudmos Deploy**
 
 Within Cloudmos Deploy:
 
-* [ ] Create a new deployment
-* [ ] Select Hello-world from the available templates
+- [ ] Create a new deployment
+- [ ] Select Hello-world from the available templates
 
-![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ\_NMKu9C-887967055%2Fuploads%2FsFfTMYjuy3sh5mH9NyXi%2FfractionalCreateDeployment.png?alt=media\&token=0b9bf90d-5a35-4bf6-8fec-33d010913337)
+![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ_NMKu9C-887967055%2Fuploads%2FsFfTMYjuy3sh5mH9NyXi%2FfractionalCreateDeployment.png?alt=media&token=0b9bf90d-5a35-4bf6-8fec-33d010913337)
 
-![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ\_NMKu9C-887967055%2Fuploads%2F4iI0PjLQlYtrotySEIS6%2FfractionalHelloWorld.png?alt=media\&token=24b93d25-d5aa-4e8b-aebd-cf14ce7892f7)
+![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ_NMKu9C-887967055%2Fuploads%2F4iI0PjLQlYtrotySEIS6%2FfractionalHelloWorld.png?alt=media&token=24b93d25-d5aa-4e8b-aebd-cf14ce7892f7)
 
 ### Edit the Template with a Fractional uAKT Amount
 
-* Update the template to use a fractional uAKT amount of 100.1 as seen in the capture
-* Additionally ensure that any signBy and attributes sections are removed to mimic the screenshot below
-* The necessary template is also shown in text below the screenshot
-* Proceed thru the remaining steps to complete the deployment
+- Update the template to use a fractional uAKT amount of 100.1 as seen in the capture
+- Additionally ensure that any signBy and attributes sections are removed to mimic the screenshot below
+- The necessary template is also shown in text below the screenshot
+- Proceed thru the remaining steps to complete the deployment
 
-![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ\_NMKu9C-887967055%2Fuploads%2FxB48MXLbSpBdYfnfUHC7%2FtestnetFractionalUpdated.png?alt=media\&token=0eb1cfd9-e8a0-4e87-8939-424ad2ab1ee0)
+![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ_NMKu9C-887967055%2Fuploads%2FxB48MXLbSpBdYfnfUHC7%2FtestnetFractionalUpdated.png?alt=media&token=0eb1cfd9-e8a0-4e87-8939-424ad2ab1ee0)
 
-* The SDL should be as follows post update
+- The SDL should be as follows post update
 
 ```
 ---
@@ -90,8 +88,8 @@ The verification of fractional uAKT functionality comes in two forms:
 
 Continue with these steps:
 
-* Select a fractional uAKT bid from a provider and then select “ACCEPT BID”
-* Proceed the remaining steps of the deployment process
-* When the deployment completes - we have successfully tested fractional uAKT
+- Select a fractional uAKT bid from a provider and then select “ACCEPT BID”
+- Proceed the remaining steps of the deployment process
+- When the deployment completes - we have successfully tested fractional uAKT
 
-![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ\_NMKu9C-887967055%2Fuploads%2F2uSiK0ZeItEQeuPGDAm3%2FfractionalBid.png?alt=media\&token=3a44ce7b-6dd7-429e-add8-ad16ce12602b)
+![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ_NMKu9C-887967055%2Fuploads%2F2uSiK0ZeItEQeuPGDAm3%2FfractionalBid.png?alt=media&token=3a44ce7b-6dd7-429e-add8-ad16ce12602b)
