@@ -23,7 +23,7 @@ The guide is broken down into the following categories:
 - [Force New ReplicaSet Workaround](#force-new-replicaset-workaround)
 - [Kill Zombie Processes](#kill-zombie-processes)
 - [Close Leases Based on Image](#close-leases-based-on-image)
-- [Provider Bid Script Migration for GPU Model Pricing](#provider-bid-script-migration-gpu-models)
+- [Provider Bid Script Migration for GPU Model Pricing](#provider-bid-script-migration---gpu-models)
 - [GPU Provider Troubleshooting](#gpu-provider-troubleshooting)
 
 ## Provider Maintenance
