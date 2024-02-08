@@ -154,7 +154,7 @@ source env.sh
 
 The steps in this section should be followed if you have a pre-existing Akash account that needs to be imported.\
 
-If you do not have an Akash account and need to create one, follow the steps in this[ guide](https://docs.akash.network/token/keplr) and then proceed with the step below.
+If you do not have an Akash account and need to create one, follow the steps in this[ guide](https://akash.network/docs/token/keplr) and then proceed with the step below.
 
 ### **Import Pre-Existing Account**
 

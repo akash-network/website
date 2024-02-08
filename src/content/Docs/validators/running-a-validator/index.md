@@ -37,7 +37,7 @@ Before setting up your validator node, make sure you've already gone through the
 
 #### Validator Account
 
-Prior to validator creation we must create an Akash account for validator use. Use the steps covered in this [guide](https://docs.akash.network/guides/cli/detailed-steps) to create this account. _**NOTE -**_ only the \`Create an Account\` and \`Fund your Account\` sections of this guide need to be completed for this purpose.
+Prior to validator creation we must create an Akash account for validator use. Use the steps covered in this [guide](/docs/deployments/akash-cli/installation/) to create this account. _**NOTE -**_ only the \`Create an Account\` and \`Fund your Account\` sections of this guide need to be completed for this purpose.
 
 #### Network Configuration
 

@@ -27,9 +27,9 @@ But as the saying goes, "If you want to go faster, go alone; if you want to go f
 
 > If you want to go faster, go alone; if you want to go far, go together.
 
-Akash should utilize the strong developer community and open organization tools available to reach its potential. The Akash community is much larger than Overclock's employee pool. By allowing people to participate voluntarily, we can leverage their skills and values to help achieve the goal of executing our [product strategy](https://akash.network/community/core-groups/product-strategy/).
+Akash should utilize the strong developer community and open organization tools available to reach its potential. The Akash community is much larger than Overclock's employee pool. By allowing people to participate voluntarily, we can leverage their skills and values to help achieve the goal of executing our [product strategy](/development/product-strategy/).
 
-We propose a set of [community groups](https://akash.network/community/core-groups/cg-list/) inspired by successful projects like [Kubernetes](https://www.kubernetes.dev/). These groups are open to anyone who wants to join, except for Committees that already have designated members.
+We propose a set of [community groups](/development/current-groups/) inspired by successful projects like [Kubernetes](https://www.kubernetes.dev/). These groups are open to anyone who wants to join, except for Committees that already have designated members.
 
 ![Akash Community Groups Block Diagram](./akash-community-groups-block-diagram.png)
 
@@ -75,11 +75,11 @@ The first Steering Committee meeting is scheduled for January 26th, 2023. In the
 
 _If you are a ..._
 
-- **Technical Operator (non-programmer) that never used Akash:** Review the [documentation](https://docs.akash.network/) for Akash and attempt to deploy a Tetris game. If you have any ideas for changes or improvements to the documentation, please create an issue in sig-documentation.
+- **Technical Operator (non-programmer) that never used Akash:** Review the [documentation](https://akash.network/docs/) for Akash and attempt to deploy a Tetris game. If you have any ideas for changes or improvements to the documentation, please create an issue in sig-documentation.
 
-- **Frontend (node, JS) developer that never used Akash:** Review the [documentation](https://docs.akash.network/) and deploy an application. Check the code base of Akash Console or Cloudmos Deploy, set up a local environment. Look at open issues for either project, select something (like a minor bug fix) that interests you, and leave a comment or submit a pull request for review.
+- **Frontend (node, JS) developer that never used Akash:** Review the [documentation](https://akash.network/docs/) and deploy an application. Check the code base of Akash Console or Cloudmos Deploy, set up a local environment. Look at open issues for either project, select something (like a minor bug fix) that interests you, and leave a comment or submit a pull request for review.
 
-- **Backend (Go) developer that never used Akash:** Review the [documentation](https://docs.akash.network/) and deploy an application on Akash using the Command Line Interface. Review the code bases for Akash CLI and Provider Services, and set up a local development environment. Additionally, review any open issues for either code base, comment on potential solutions to any problems, and submit a Pull Request for review.
+- **Backend (Go) developer that never used Akash:** Review the [documentation](https://akash.network/docs/) and deploy an application on Akash using the Command Line Interface. Review the code bases for Akash CLI and Provider Services, and set up a local development environment. Additionally, review any open issues for either code base, comment on potential solutions to any problems, and submit a Pull Request for review.
 
 - **Technical developer building on Akash:** Consider joining one of our [SIGs, or WGs](https://akash.network/community/core-groups/cg-list/), and writing a spec for one of the projects in the list or suggesting a new project to add to the list of tasks.
 

@@ -21,7 +21,7 @@ As a decentralized system, and the world’s first distributed cloud computing m
 
 **With 3,000,000 AKT in rewards, Supermini prizes, and 106 validators vying for 64 validator spots at Mainnet,** Challengers will need to leverage their technical and social prowess to maneuver their way to victory. Through The Akashian Challenge, participants are able to explore different aspects of our decentralized cloud computing platform.
 
-[**Get Started Now**](https://docs.akash.network/akashian/phase2)
+[**Get Started Now**](https://akash.network/docs/akashian/phase2)
 
 ### **Phase 1 Recap**
 
@@ -147,7 +147,7 @@ You can check out the [**Phase 2 Rewards Schedule**](https://akash.network/chall
 
 1.  **Review the** [**Challenge Schedule**](https://akash.network/challenge/phase2/schedule)
 2.  **Review the** [**Rewards Schedule**](https://akash.network/challenge/phase2/rewards)
-3.  **Check out the** [**Phase 2 Docs**](https://docs.akash.network/akashian/phase2)
+3.  **Check out the** [**Phase 2 Docs**](https://akash.network/docs/akashian/phase2)
 4.  **Plan for launch next Monday, June 29th at 1600 UTC / 9:00 AM PST**
 
 ###
@@ -157,4 +157,4 @@ You can check out the [**Phase 2 Rewards Schedule**](https://akash.network/chall
 
 Join [our Telegram](https://t.me/AkashNW) and [Riot](https://riot.im/app/#/room/#akashnet:matrix.org) to get the latest news, giveaways, and special invitations to events and AMAs!
 
-[**Get Started Now**](https://docs.akash.network/akashian/phase2)
+[**Get Started Now**](https://akash.network/docs/akashian/phase2)

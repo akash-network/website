@@ -65,5 +65,5 @@ additionalDeploymentSection:
       link: /docs/deployments/akash-cli/cli-booster/
     - title: Terraform
       content: Effortless integration with the Akash Network using Terraform Cloud
-      link: https://docs.akash.network/other-resources/experimental/akash-deployments-via-terraform
+      link: /docs/other-resources/experimental/akash-deployments-via-terraform/
 ---

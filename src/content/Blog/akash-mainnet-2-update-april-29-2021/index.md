@@ -83,7 +83,7 @@ This fix now requires a certificate file to be present and on-chain before the t
 
 **UPDATED FAQ**
 
-We started consolidating developer questions into an [FAQ](https://docs.akash.network/documentation/faq) and will continue to expand this resource.
+We started consolidating developer questions into an [FAQ](https://akash.network/docs/documentation/faq) and will continue to expand this resource.
 
 #### **Don’t Miss the Latest MAINNET 2, Akash, and AKT News!**
 

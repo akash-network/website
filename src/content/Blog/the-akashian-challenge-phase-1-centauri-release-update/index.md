@@ -17,7 +17,7 @@ bannerImage: ./banner-image.png
 
 **With 185 registrants from around the world and 3,000,000 AKT at stake, The Akashian Challenge Phase 1 is underway!**
 
-Registration is [still open](https://docs.google.com/forms/d/1oM8eQcaWkpt3nRLh_H0tvQ2AeLpgjkdLn6rfhKyrsJk/edit), and you can [get started](https://docs.akash.network/akashian/phase1) if you’ve already registered.
+Registration is [still open](https://docs.google.com/forms/d/1oM8eQcaWkpt3nRLh_H0tvQ2AeLpgjkdLn6rfhKyrsJk/edit), and you can [get started](https://akash.network/docs/akashian/phase1) if you’ve already registered.
 
 A reminder that Phase 1 is made up of four week-long stages with different objectives. You can earn tokens by completing missions related to operating and validating the Akash Blockchain. The missions will range from setting up Akash nodes to governing the network.
 

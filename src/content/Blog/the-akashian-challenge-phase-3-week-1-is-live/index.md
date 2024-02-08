@@ -25,7 +25,7 @@ Start the Week 1 challenges by clicking Get Started Now, or click on Learn More 
 
 Let the games begin!
 
-#### [**Get Started Now**](https://docs.akash.network/v/master/testnet-challenges/testnet-challenges) **|** [**Learn More**
+#### [**Get Started Now**](https://akash.network/docs/v/master/testnet-challenges/testnet-challenges) **|** [**Learn More**
 
 ](https://akash.network/challenge/)
 
@@ -120,7 +120,7 @@ Join [our Discord](https://discord.akash.network/) dev chat for Phase 3 and DeCl
 
 **Ready to Get Started?**
 
-#### [**Get Started Now**](https://docs.akash.network/v/master/testnet-challenges/testnet-challenges) **|** [**Learn More**](https://akash.network/challenge/)
+#### [**Get Started Now**](https://akash.network/docs/v/master/testnet-challenges/testnet-challenges) **|** [**Learn More**](https://akash.network/challenge/)
 
 —
 
