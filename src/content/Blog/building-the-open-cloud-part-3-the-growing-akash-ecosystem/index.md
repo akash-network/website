@@ -72,7 +72,7 @@ The Vixello team is increasingly active within the Akash ecosystem. They are tes
 
 ## Join the Akash Ecosystem
 
-Akash Network greatly values its [ecosystem](https://ecosystem.akash.network/) of third-party products and services and is always excited to hear about new ones.
+Akash Network greatly values its [ecosystem](https://akash.network/ecosystem/showcase/latest/) of third-party products and services and is always excited to hear about new ones.
 
 If you are interested in becoming a provider on Akash Network, building services for Akash, or integrating with Akash — reach out to us via [akash.network](https://akash.network), or any of our ecosystem partners.
 

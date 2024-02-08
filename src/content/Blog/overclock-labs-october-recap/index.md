@@ -10,46 +10,36 @@ categories:
 tags:
   - News
 contributors:
-  - Zach Horn 
+  - Zach Horn
 
 bannerImage: ./banner-image.png
 ---
+
 As we close out the month of October, here is a look back at our accomplishments over the past month.
 
 **Summary:**
 
-*   Akash's Mainnet 4 and Overclock Console made significant progress over the past month and are expected to launch soon.
-    
-*   _Akash Weekly with Greg Osuri_ reached its four-month milestone.
-    
-*   We began publishing our four-part _Building the Open Cloud_ blog series in early October.
-    
-*   Overclock Labs attended Devcon and Schelling Point.
-    
+- Akash's Mainnet 4 and Overclock Console made significant progress over the past month and are expected to launch soon.
+- _Akash Weekly with Greg Osuri_ reached its four-month milestone.
+- We began publishing our four-part _Building the Open Cloud_ blog series in early October.
+- Overclock Labs attended Devcon and Schelling Point.
 
-Mainnet 4 is coming soon
-------------------------
+## Mainnet 4 is coming soon
 
 Akash is aiming to launch the network’s Mainnet 4 upgrade in November. Over the past month, we made significant progress — working out any remaining bugs and getting closer to finalizing the code. At this point, we are moving into a testing phase to make sure everything runs as expected.
 
 Mainnet 4 will bring four new features to Akash Network:
 
 1.  **IP Leases** — a first-of-its-kind open marketplace for IP addresses.
-    
 2.  **Provider Services Split** — an efficiency upgrade for Akash development.
-    
 3.  **IBC3** — an upgrade that will enable the latest Cosmos features on Akash.
-    
 4.  **Interchain Accounts** — another feature of Cosmos that enables cross-chain composability.
-    
 
-Overclock Console is coming soon
---------------------------------
+## Overclock Console is coming soon
 
-Overclock Console, our flagship deployment tool built by Overclock Labs, is nearing completion. Once Overclock Console is launched, users on Akash Network will have access to an easy, intuitive solution for creating and managing deployments. This will add yet another deployment option for Akash users, alongside [several other deployment solutions built by the incredible Akash community](https://ecosystem.akash.network/).
+Overclock Console, our flagship deployment tool built by Overclock Labs, is nearing completion. Once Overclock Console is launched, users on Akash Network will have access to an easy, intuitive solution for creating and managing deployments. This will add yet another deployment option for Akash users, alongside [several other deployment solutions built by the incredible Akash community](https://akash.network/ecosystem/showcase/latest/).
 
-Akash Weekly reached its four-month milestone
----------------------------------------------
+## Akash Weekly reached its four-month milestone
 
 _Akash Weekly with Greg Osuri_ reached its fourth consecutive month of live Twitter Spaces events. Each week, Greg Osuri goes live on [@akashnet\_](https://twitter.com/akashnet_) , Wednesdays at 8 am PT, to give updates on the ecosystem and the latest developments from Akash and Overclock Labs. Each Akash Weekly update also features guests from around the web3 space and beyond.
 
@@ -63,12 +53,11 @@ Here are the summaries of our Akash Weekly events from October:
 
 [Akash Weekly: Alani Kuye](https://open.substack.com/pub/akashnetwork/p/akash-weekly-alani-kuye-overclock?r=1ov19w&utm_campaign=post&utm_medium=web) - October 7th
 
-Blog series: Building the Open Cloud
-------------------------------------
+## Blog series: Building the Open Cloud
 
 In early October, we began publishing a series of blog posts on the current state of the cloud, the obstacles facing web3, and the ways that Akash addresses these obstacles. The series is based on the presentation (by the same name) from Messari Mainnet by Overclock Labs’ Head of Product, [Anil Murty](https://twitter.com/_Anil_Murty_).
 
-Parts 1 & 2 have already been published, and we will continue the series into November, leading up to the launch of Overclock Console. Part 3 will be published later this week. This series will have four parts, with a potential fifth installment in the works. 
+Parts 1 & 2 have already been published, and we will continue the series into November, leading up to the launch of Overclock Console. Part 3 will be published later this week. This series will have four parts, with a potential fifth installment in the works.
 
 Stay tuned for the public launch announcement of Overclock Console by heading over to [akash.network/connect](https://akash.network/connect) to follow us across our social channels.
 
@@ -76,8 +65,7 @@ Stay tuned for the public launch announcement of Overclock Console by heading ov
 
 [Building the Open Cloud, Part 2: Re-Imagining the Cloud With Akash](https://akash.network/blog/building-the-open-cloud-part-2-re-imagining-the-cloud-with-akash)
 
-Overclock Labs attended Devcon and Schelling Point
---------------------------------------------------
+## Overclock Labs attended Devcon and Schelling Point
 
 This past month, [Adam Wozney](https://twitter.com/AdamDeanWozney), Head of Community at Overclock Labs, attended Devcon ‘22 and Schelling Point in Bogotá, Columbia. We always look forward to opportunities to engage with the broader web3 community, and connect with other projects and companies, to hear how we can support the growth and adoption of web3.
 
