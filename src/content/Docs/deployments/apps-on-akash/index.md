@@ -10,7 +10,7 @@ Awesome Akash is a curated list of awesome resources people can use to familiari
 
 **Repository**: [akash-network/awesome-akash](https://github.com/akash-network/awesome-akash)
 
-**Instructions:** [how to deploy](https://akash.network/docs/guides/deploy) the SDL files in this repository
+**Instructions:** [how to deploy](/docs/deployments/cloudmos-deploy/) the SDL files in this repository
 
 Join our [discord](https://discord.akash.network) if you have questions or concerns. Our team is always eager to hear from you. Also, follow [@akashnet\_](https://twitter.com/akashnet_) to stay in the loop with updates and announcements.
 
