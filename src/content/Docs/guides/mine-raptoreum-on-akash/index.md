@@ -19,7 +19,7 @@ Welcome [**Raptoreum**](https://raptoreum.com) \*\*\*\* miners! [**Akash**](http
 2. Install [**Cloudmos Deploy**](https://cloudmos.io/cloud-deploy) \*\*\*\* and import your AKT wallet address from Keplr
 3. [**Fund your wallet**](https://github.com/akash-network/awesome-akash/blob/raptoreum/raptoreum-miner/README.md#Quickest-way-to-get-more-AKT)
 
-For additional help we recommend you [**follow our full deployment guide**](https://akash.network/docs/guides/deploy) \*\*\*\* in parallel with this guide.
+For additional help we recommend you [**follow our full deployment guide**](/docs/deployments/cloudmos-deploy/) \*\*\*\* in parallel with this guide.
 
 ## How does this work?
 
@@ -27,7 +27,7 @@ Akash uses its blockchain to manage your container deployment and accounting. To
 
 ## Default wallet
 
-Akash uses [**Keplr**](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) as the desktop wallet. Advanced users can follow the \*\*\*\* [**CLI wallet instructions**](https://akash.network/docs/guides/cli).
+Akash uses [**Keplr**](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) as the desktop wallet. Advanced users can follow the \*\*\*\* [**CLI wallet instructions**](/docs/deployments/akash-cli/installation/).
 
 ## Quickest way to get more AKT
 

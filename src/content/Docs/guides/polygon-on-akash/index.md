@@ -30,7 +30,7 @@ If you want a deeper understanding of Polygon and Akash, see these architecture 
 
 ## Akash Application Tools
 
-This [_**guide**_](https://akash.network/docs/guides/deploy) _\*\*\*\*_ provides step by step instructions on how to deploy an app on Akash using a desktop tool named Cloudmos Deploy.
+This [_**guide**_](/docs/deployments/cloudmos-deploy/) _\*\*\*\*_ provides step by step instructions on how to deploy an app on Akash using a desktop tool named Cloudmos Deploy.
 
 ## Technical Support Channels
 

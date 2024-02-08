@@ -272,7 +272,7 @@ helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --
 **TESTING / ALL-IN-ONE**
 
 > - Update `deviceFilter` to match your disks
-> - Change storageClass name from `beta3` to one you are planning to use based on this [table](https://akash.network/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/storage-class-types)
+> - Change storageClass name from `beta3` to one you are planning to use based on this [table](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#storage-class-types)
 > - Add your nodes you want the Ceph storage to use the disks on under the `nodes` section; (make sure to change `node1`, `node2`, ... to your K8s node names!
 >
 > When planning all-in-one production provider (or a single storage node) with multiple storage drives (minimum 3):
@@ -355,8 +355,8 @@ EOF
 **PRODUCTION**
 
 > - Update `deviceFilter` to match your disks
-> - Change storageClass name from `beta3` to one you are planning to use based on this [table](https://akash.network/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/storage-class-types)
-> - Update `osdsPerDevice` based on this [table](https://akash.network/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/storage-class-types)
+> - Change storageClass name from `beta3` to one you are planning to use based on this [table](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#storage-class-types)
+> - Update `osdsPerDevice` based on this [table](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#storage-class-types)
 > - Add your nodes you want the Ceph storage to use the disks on under the `nodes` section; (make sure to change `node1`, `node2`, ... to your K8s node names!
 > - When planning a single storage node with multiple storage drives (minimum 3):
 >   - Change `failureDomain` to `osd`

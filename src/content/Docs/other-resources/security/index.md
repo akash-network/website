@@ -18,7 +18,7 @@ Default certificate lifespan is 365 days from the moment of issuance. This can b
 
 ### **How do I limit my trust to Audited Providers?**
 
-Follow the getting started guide, and you will see the [instructions for audited attributes](https://akash.network/docs/guides/deploy#audited-attributes) suggest using only servers **"signed by"** Akash Network. If you deploy today, you will see bids by Equinix servers that audited and signed by Akash Network. By doing this you are trusting [Equinix’s Security Standards and Compliance](https://www.equinix.com/data-centers/design/standards-compliance) and you are trusting Overclock Labs as the auditor to only sign servers that meet those standards.
+Follow the getting started guide, and you will see the [instructions for audited attributes](/docs/providers/akash-audites-atributes) suggest using only servers **"signed by"** Akash Network. If you deploy today, you will see bids by Equinix servers that audited and signed by Akash Network. By doing this you are trusting [Equinix’s Security Standards and Compliance](https://www.equinix.com/data-centers/design/standards-compliance) and you are trusting Overclock Labs as the auditor to only sign servers that meet those standards.
 
 ### **What are Audited Attributes?**
 
