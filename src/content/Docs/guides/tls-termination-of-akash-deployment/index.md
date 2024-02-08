@@ -40,7 +40,7 @@ Make sure to specify the hostname you control, in this example it is “ghost.ak
 
 When you deploy with 80/tcp port exposed in Akash, the nginx-ingress-controller on the provider will automatically get 443/tcp exposed too. This makes Full TLS termination possible.
 
-If you are not familiar with Akash deployments, visit the documentation for the desktop app [Cloudmos Deploy](https://akash.network/docs/guides/deploy) as an easy way to get started.
+If you are not familiar with Akash deployments, visit the documentation for the desktop app [Cloudmos Deploy](/docs/deployments/cloudmos-deploy/) as an easy way to get started.
 
 ```
 ---

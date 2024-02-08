@@ -257,6 +257,7 @@ export const docsSequence = [
           {
             label: "Experimental",
             subItems: [
+              { label: "AMD GPU Support" },
               { label: "Akash Provider Streamlined Build with Rancher K3s" },
               {
                 label: "Omnibus",
