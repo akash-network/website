@@ -6,21 +6,17 @@ title: " Akash Mainnet8 Upgrade"
 linkTitle: " Akash Mainnet8 Upgrade"
 ---
 
-
-
-> _**NOTE**_ - documentation for Mainnet8 upgrade is not yet complete.  Please check back prior to announced upgrade date/time for finalized details.
+> _**NOTE**_ - documentation for Mainnet8 upgrade is not yet complete. Please check back prior to announced upgrade date/time for finalized details.
 
 Documentation related to Akash Network upgrade to version `0.28.0`:
 
-* [Node Upgrade Instructions](#akash-v0280-node-upgrade-guide)
-* [Provider Upgrade Instructions](#provider-up)
+- [Node Upgrade Instructions](#akash-v0280-node-upgrade-guide)
+- [Provider Upgrade Instructions](#provider-up)
 
 ### Upgrade Details
 
-* Upgrade Height: `13759618`
-* [Upgrade Timer](https://www.mintscan.io/akash/block/13759618)
-
-
+- Upgrade Height: `13759618`
+- [Upgrade Timer](https://www.mintscan.io/akash/block/13759618)
 
 ## Akash v0.28.0 Node Upgrade Guide
 
@@ -183,16 +179,18 @@ Restart the process running `akash`.
 #### Build Binary From Sources
 
 ##### Prerequisites
+
 > _**NOTE**_ - we highly recommend downloading a complied Akash binary over building the binary from source
 
 Direnv is required to compile sources. Check [here](https://direnv.net) for details on how to install and hook to your shell
 
 if using direnv first time (or cloning sources on to a new host) you should see following message after entering source dir:
+
 ```shell
 direnv: error .envrc is blocked. Run `direnv allow` to approve its content
 ```
-if no such message, most like direnv is not hooked to the shell
 
+if no such message, most like direnv is not hooked to the shell
 
 ##### Build
 
@@ -219,18 +217,18 @@ Praetor providers should wait for further upgrade instructions from Praetor team
 
 ### Provider Components to be Upgraded
 
-* `provider-services` is the main binary of the `akash-provider`, `akash-hostname-operator`, `akash-inventory-operator`, and `akash-ip-operator` helm charts
-* `akash` is the main binary of the `akash-node` helm chart
+- `provider-services` is the main binary of the `akash-provider`, `akash-hostname-operator`, `akash-inventory-operator`, and `akash-ip-operator` helm charts
+- `akash` is the main binary of the `akash-node` helm chart
 
 #### Mainnet6 Versions (Pre-Upgrade)
 
-* `provider-services`: `0.4.7`
-* `node`: `0.26.0`
+- `provider-services`: `0.4.7`
+- `node`: `0.26.0`
 
 #### Mainnet8 Versions (Post-Upgrade)
 
-* `provider-services`: `0.4.8`
-* `node`: `0.28.2`
+- `provider-services`: `0.4.8`
+- `node`: `0.28.2`
 
 ### Upgrade Procedure
 
@@ -262,7 +260,7 @@ Verify you can see the correct chart/app versions:
 
 ```
 # helm search repo akash
-NAME                          	CHART VERSION	APP VERSION	DESCRIPTION                                       
+NAME                          	CHART VERSION	APP VERSION	DESCRIPTION
 akash/akash-hostname-operator 	8.0.0        	0.4.8      	An operator to map Ingress objects to Akash dep...
 akash/akash-inventory-operator	8.0.0        	0.4.8      	An operator required for persistent storage (op...
 akash/akash-ip-operator       	8.0.0        	0.4.8      	An operator required for ip marketplace (optional)
@@ -296,7 +294,7 @@ helm -n akash-services get values akash-provider | grep -v '^USER-SUPPLIED VALUE
 helm upgrade akash-provider akash/provider -n akash-services -f provider.yaml
 ```
 
-> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for your akash-provider chart. [https://docs.akash.network/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/step-6-provider-bid-customization](https://docs.akash.network/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/step-6-provider-bid-customization)
+> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for your akash-provider chart. [https://akash.network/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-8---provider-bid-customization](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-8---provider-bid-customization)
 
 ##### 2.4 akash-hostname-operator Chart
 
@@ -341,8 +339,8 @@ kubectl -n akash-services get pods -o custom-columns='NAME:.metadata.name,IMAGE:
 
 The charts upgrade went well, if you are seeing these images and versions:
 
-* provider and operator image is: `ghcr.io/akash-network/provider:0.4.8`
-* node image is: `ghcr.io/akash-network/node:0.28.2`
+- provider and operator image is: `ghcr.io/akash-network/provider:0.4.8`
+- node image is: `ghcr.io/akash-network/node:0.28.2`
 
 Example Result:
 

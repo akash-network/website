@@ -110,4 +110,4 @@ The SDL file answers five questions to help Akash decide which provider to choos
 
 And, that’s it! Isn’t that way easier than you thought it would be? There are many people hard at work at Overclock Labs as well as in small teams of independent developers within the Akash community who are building deployment and provider set-up solutions. This will make the process of interacting with Akash Network much easier. Eventually, someone with little to no technical expertise can operate on Akash. Stay tuned for subsequent posts that will dig into some of these products.
 
-Meanwhile, if you are eager to get started, head over to Akash Network’s [documentation](https://docs.akash.network/).
+Meanwhile, if you are eager to get started, head over to Akash Network’s [documentation](https://akash.network/docs/).

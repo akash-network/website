@@ -23,7 +23,7 @@ The Akashian Challenge Phase 2 will introduce, demonstrate, and test the decentr
 
 Weekly challenges will focus on provider and tenant DEX operations--creating orders, bidding, handling leases--while long-running challenges will focus on supporting a healthy network foundation.
 
-[**Get Started Now**](https://docs.akash.network/akashian/phase2)
+[**Get Started Now**](https://akash.network/docs/akashian/phase2)
 
 ##### **Weekly 1: Capture the Orders**
 
@@ -56,7 +56,7 @@ These long-running challenges include the following, [detailed in last week’s 
 
 1.  **Review the** [**Challenge Schedule**](https://akash.network/challenge/phase2/schedule)
 2.  **Review the** [**Rewards Schedule**](https://akash.network/challenge/phase2/rewards)
-3.  [**Get Started Now**](https://docs.akash.network/akashian/phase2)
+3.  [**Get Started Now**](https://akash.network/docs/akashian/phase2)
 
 ##### **Akash Block Explorers**
 
@@ -73,4 +73,4 @@ Check out Vitwit's and The Big Dipper's block explorers to track our progress:
 
 Join [our Telegram](https://t.me/AkashNW) and [Riot](https://riot.im/app/#/room/#akashnet:matrix.org) to get the latest news, giveaways, and special invitations to events and AMAs!
 
-[**Get Started Now**](https://docs.akash.network/akashian/phase2)
+[**Get Started Now**](https://akash.network/docs/akashian/phase2)

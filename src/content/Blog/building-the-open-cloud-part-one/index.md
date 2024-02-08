@@ -153,4 +153,4 @@ The state of Web3 infrastructure can be summarized in three points:
 
 If this topic has piqued your interest, stay tuned for the next article in this series. We will delve into how Akash Network addresses the above challenges and more.
 
-If you are interested in Akash Network, [get started today with our documentation](https://docs.akash.network/).
+If you are interested in Akash Network, [get started today with our documentation](https://akash.network/docs/).

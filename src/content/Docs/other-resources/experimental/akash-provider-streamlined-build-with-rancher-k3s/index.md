@@ -114,8 +114,8 @@ As every deployment request bid requires 5 AKT to be deposited in the escrow acc
 
 The steps to create an Akash wallet are covered in the following documentation sections:
 
-- [Create an Account](https://docs.akash.network/guides/cli/detailed-steps/part-2.-create-an-account)
-- [Fund Your Account](https://docs.akash.network/guides/cli/detailed-steps/part-3.-fund-your-account)
+- [Create an Account](/docs/deployments/akash-cli/installation/#create-an-account)
+- [Fund Your Account](/docs/deployments/akash-cli/installation/#fund-your-account)
 
 ### Import the Wallet onto the Akash Provider
 

@@ -81,4 +81,4 @@ This past month, [Adam Wozney](https://twitter.com/AdamDeanWozney), Head of Comm
 
 For real-time updates and ecosystem news, follow [@akashnet\_](https://twitter.com/akashnet_) and [@gregosuri](https://twitter.com/gregosuri). Explore all the ways to [connect with the Akash Community here](https://akash.network/connect).
 
-To get started on Akash, [head over to the docs for more information on the network](https://docs.akash.network/).
+To get started on Akash, [head over to the docs for more information on the network](https://akash.network/docs/).

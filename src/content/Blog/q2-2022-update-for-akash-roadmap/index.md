@@ -47,13 +47,13 @@ The source code is now being cleaned up and open-sourced momentarily with an ann
 
 ### **Hostname Migration**
 
-Akash now supports Hostname Migration in the upcoming Testnet. Usage documentation is available [here](https://docs.akash.network/release-notes/v0.14.0#hostname-migration). This feature requires a chain upgrade for Mainnet, which is currently planned for Q1 2022.
+Akash now supports Hostname Migration in the upcoming Testnet. Usage documentation is available [here](https://akash.network/docs/release-notes/v0.14.0#hostname-migration). This feature requires a chain upgrade for Mainnet, which is currently planned for Q1 2022.
 
 Deployment of an updated workload encounters a challenge when the DNS hostname remains active on the existing deployment.  An example scenario is presented to ensure understanding of the challenge - followed by a review of the mechanism introduced in this release to migrate a hostname to the new deployment.
 
 **Status:** Testnet
 
-**Since:** [0.14.0](https://docs.akash.network/release-notes/v0.14.0)
+**Since:** [0.14.0](https://akash.network/docs/release-notes/v0.14.0)
 
 **Related Pull Request(s):**
 
@@ -67,7 +67,7 @@ TTY Access allows developers to access the shell of the container that the appli
 
 **Status:** Testnet
 
-**Since:** [0.14.0](https://docs.akash.network/release-notes/v0.14.0)
+**Since:** [0.14.0](https://akash.network/docs/release-notes/v0.14.0)
 
 **Related Pull Request(s):**
 

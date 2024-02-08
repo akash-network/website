@@ -35,7 +35,7 @@ Week 1 by the numbers:
 
 Week 2 starts today, and challenges will focus on leveraging Akash DeCloud to deploy various node types and components for a live blockchain network. We’ll provide connection details for a live Cosmos SDK-based network.
 
-Start the Week 2 challenges by clicking [Get Started Now](https://docs.akash.network/testnet-challenges/testnet-challenges/guided-deployments), or click on Learn More to visit The Akashian Challenge site for more information on Week 2 challenges and rewards.
+Start the Week 2 challenges by clicking [Get Started Now](https://akash.network/docs/testnet-challenges/testnet-challenges/guided-deployments), or click on Learn More to visit The Akashian Challenge site for more information on Week 2 challenges and rewards.
 
 It’s not too late to get in on the action and earn AKT!
 
@@ -43,7 +43,7 @@ Good luck to all Akashian Challengers as we enter Week 2.
 
 And remember, fortune favors the bold!
 
-#### [**Get Started Now**](https://docs.akash.network/testnet-challenges/testnet-challenges/guided-deployments) **|** [**Learn More**
+#### [**Get Started Now**](https://akash.network/docs/testnet-challenges/testnet-challenges/guided-deployments) **|** [**Learn More**
 
 ](https://akash.network/challenge/)
 
@@ -153,4 +153,4 @@ Join [our Discord](https://discord.akash.network/) dev chat for Phase 3 and DeCl
 
 #### **Ready to Get Started?**
 
-#### [**Get Started Now**](https://docs.akash.network/testnet-challenges/testnet-challenges/guided-deployments) **|** [**Learn More**](https://akash.network/challenge/)
+#### [**Get Started Now**](https://akash.network/docs/testnet-challenges/testnet-challenges/guided-deployments) **|** [**Learn More**](https://akash.network/challenge/)

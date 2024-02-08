@@ -5,7 +5,6 @@ description: "Starting today, Akash is launching capabilities for its Supercloud
 pubDate: "2023-08-31"
 draft: false
 
-
 categories:
   - Updates
 tags:
@@ -71,7 +70,7 @@ This is why now is the perfect time to bring GPUs to the Supercloud. As the netw
 
 ---
 
-_Learn more about the Supercloud from a technical perspective with the [Akash Docs](https://docs.akash.network/). If you are interested in becoming an Akash Provider, see the [Provider setup guides](https://docs.akash.network/providers) in the documentation, and connect with the [Akash Community on Discord](https://discord.akash.network) for individual support._
+_Learn more about the Supercloud from a technical perspective with the [Akash Docs](https://akash.network/docs/). If you are interested in becoming an Akash Provider, see the [Provider setup guides](https://akash.network/docs/providers) in the documentation, and connect with the [Akash Community on Discord](https://discord.akash.network) for individual support._
 
 _To deploy on Akash, get started with [Akash Console](https://console.akash.network) and [Cloudmos Deploy](https://deploy.cloudmos.io/) — two open-source deployment applications that make it easy to get up and running on the Supercloud._
 

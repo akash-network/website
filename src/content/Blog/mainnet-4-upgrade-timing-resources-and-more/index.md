@@ -36,15 +36,15 @@ Today is the day! Akash's Mainnet 4 upgrade is on track to reach the specified b
 
 ## Mainnet 4 upgrade resources
 
-Akash Network's documentation: [https://docs.akash.network/mainnet4-upgrade-docs](https://docs.akash.network/mainnet4-upgrade-docs)
+Akash Network's documentation: [https://akash.network/docs/mainnet4-upgrade-docs](https://akash.network/docs/mainnet4-upgrade-docs)
 
-Akash v0.18.0 CLI Release Notes: [https://docs.akash.network/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes](https://docs.akash.network/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes)
+Akash v0.18.0 CLI Release Notes: [https://akash.network/docs/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes](https://akash.network/docs/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes)
 
-Akash Mainnet 4 Node Upgrade Guide: [https://docs.akash.network/mainnet4-upgrade-docs/akash-mainnet4-node-upgrade-guide](https://docs.akash.network/mainnet4-upgrade-docs/akash-mainnet4-node-upgrade-guide)
+Akash Mainnet 4 Node Upgrade Guide: [https://akash.network/docs/mainnet4-upgrade-docs/akash-mainnet4-node-upgrade-guide](https://akash.network/docs/mainnet4-upgrade-docs/akash-mainnet4-node-upgrade-guide)
 
-Akash Provider Upgrade: [https://docs.akash.network/mainnet4-upgrade-docs/provider-upgrade](https://docs.akash.network/mainnet4-upgrade-docs/provider-upgrade)
+Akash Provider Upgrade: [https://akash.network/docs/mainnet4-upgrade-docs/provider-upgrade](https://akash.network/docs/mainnet4-upgrade-docs/provider-upgrade)
 
-Akash Provider Enablement for **IP Leases**: [https://docs.akash.network/other-resources/experimental/mainnet4-upgrade-docs/ip-leases-provider-enablement-optional-step](https://docs.akash.network/other-resources/experimental/mainnet4-upgrade-docs/ip-leases-provider-enablement-optional-step)
+Akash Provider Enablement for **IP Leases**: [https://akash.network/docs/other-resources/experimental/mainnet4-upgrade-docs/ip-leases-provider-enablement-optional-step](https://akash.network/docs/other-resources/experimental/mainnet4-upgrade-docs/ip-leases-provider-enablement-optional-step)
 
 ## Follow the Mainnet 4 upgrade in real-time
 
