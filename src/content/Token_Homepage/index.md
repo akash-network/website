@@ -108,9 +108,7 @@ buyingAKTSection:
     - row:
         - title: Gate.io
           link: "https://www.gate.io/trade/AKT_USDT"
-    - row:
-        - title: AscendEX
-          link: "https://www.ascendex.com/en/trade/spot/akt_usdt"
+
     - row:
         - title: Huobi Global
           link: "https://www.huobi.com/en-us/exchange/akt_usdt/"
