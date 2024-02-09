@@ -7,7 +7,7 @@ archive: false
 categories:
   - Updates
 tags:
-  - Partner
+  - Partners
 contributors:
   - Zach Horn
 bannerImage: ./solve-care-akash.png
