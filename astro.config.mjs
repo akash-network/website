@@ -19,6 +19,7 @@ export default defineConfig({
     "/community": "/community/akash-insiders/",
     "/about": "/about/general-information/",
     "/about/pricing": "/about/pricing/compare",
+    "/blog/a/acc-akash-accelerationism": "/blog/a-acc-akash-accelerationism/",
   },
   markdown: {
     // shikiConfig: {
