@@ -1,5 +1,5 @@
 ---
-title: "Akash Network and Solve.Care Bring True Patient Data Ownership to the Healthcare Industry"
+title: "Akash Network and Solve.Care Bring Faster, Cheaper, and More Secure Patient Data Ownership to the Healthcare Industry"
 description: "Healthcare is a $7.98 trillion industry that impacts every one of us worldwide."
 pubDate: "2024-02-09"
 draft: false
