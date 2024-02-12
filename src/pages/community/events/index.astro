@@ -1,5 +1,9 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import {
+  getCollection,
+  type CollectionEntry,
+  getEntryBySlug,
+} from "astro:content";
 import Layout from "@/layouts/layout.astro";
 import { nav } from "@/components/community-pages/nav-config.ts";
 import SideNav from "@/components/community-pages/side-nav.astro";
@@ -17,6 +21,8 @@ import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
 type Project = CollectionEntry<"Community_Akash_Events_Page">;
 
 const cards = await getCollection("Community_Akash_Events_Page");
+const { data } = await getEntryBySlug("Community_Page", "events");
+console.log(data);
 
 const flatedTag = cards.map((card) => card.data.tags).flat();
 const pathname = new URL(Astro.request.url).pathname;
@@ -24,7 +30,6 @@ const pathname = new URL(Astro.request.url).pathname;
 const allCards = cards.map((card) => card.data);
 console.log(allCards);
 
-const tags: string[] = [...new Set(flatedTag)];
 const astroUrl = Astro.url;
 const pageName = pathname
   .split("/")[2]
@@ -93,9 +98,10 @@ console.log(sortedMonthwiseArray);
 ---
 
 <Layout
-  title="Community Contributions"
+  title={data?.title}
   image="/meta-images/community.png"
   image="/meta-images/community.png"
+  description={data?.description}
 >
   <TopMargin>
     <div class="grid grid-cols-12 gap-x-5">
@@ -120,10 +126,10 @@ console.log(sortedMonthwiseArray);
               id="overview"
               class="text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
             >
-              Akash Events
+              {data?.title}
             </h1>
             <p class="mt-3 text-base leading-[24px] text-para">
-              Here is the list of upcoming events
+              {data?.description}
             </p>
 
             <div class="my-8 border-b"></div>
