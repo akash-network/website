@@ -7,5 +7,5 @@ author: "Greg Osuri"
 tags:
   - Upcoming
 description: In this course, you will learn how to deploy your project onto the Akash Network using Cloudmos — a simple, point and click deployment tool.
-link: "https://akash-edu.ctlabs.in/"
+link: "https://akashedu.omniflix.tv/"
 ---
