@@ -149,14 +149,7 @@ export const docsSequence = [
           },
         ],
       },
-      {
-        label: "Akash Custom Client",
-        subItems: [
-          { label: "Akash gRPC Implementation Overview" },
-          { label: "Deployments" },
-          { label: "Lease" },
-        ],
-      },
+
       {
         label: "Akash Node Table Of Contents",
         subItems: [{ label: "Akash Node Repo Table of Contents" }],
@@ -164,56 +157,7 @@ export const docsSequence = [
       {
         label: "Akash App",
       },
-      {
-        label: "Akash Custom Clients",
-        subItems: [
-          { label: "Akash Client - Foundational Elements" },
-          {
-            label: "Akash Client   Query Only",
-            subItems: [
-              { label: "Overview" },
-              {
-                label: "Akash Client Creation",
-                subItems: [{ label: "Overview" }],
-              },
-              {
-                label: "Example Rpc Queries",
-                subItems: [
-                  { label: "Overview" },
-                  { label: "Query All Deployments on the Blockchain" },
-                  {
-                    label:
-                      "Query a Specific Deployment ID (DSEQ and Owner ID Specified)",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: "Akash Client   Create Transactions",
-            subItems: [
-              { label: "Overview" },
-              {
-                label: "Akash Message Creation",
-                subItems: [
-                  { label: "Overview" },
-                  { label: "Message Creation Exploration" },
-                  { label: "Read SDL from File" },
-                  { label: "Deployment ID Message Population" },
-                  { label: "Complete Message Construction" },
-                ],
-              },
-              {
-                label: "Transaction Creation, Signing, And Broadcasting",
-                subItems: [
-                  { label: "Client New Function " },
-                  { label: "Retrieve Account from Keyring" },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+
       {
         label: "Akash Development Environment",
         subItems: [
