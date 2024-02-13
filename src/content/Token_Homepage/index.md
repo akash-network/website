@@ -1,7 +1,7 @@
 ---
 heroSection:
   title: The AKT Token
-  description: Akash Network Token ($AKT) is the native utility token of the Akash Network, used as the primary means to govern, secure the blockchain, incentivize participants, and provide a default mechanism to store and exchange value.
+  description: AKT is the native utility token of Akash Network, used as the primary means to govern, secure the blockchain, incentivize participants, and provide a default mechanism to store and exchange value.
   heroImage:
     mobile: "./assets/hero-illustration-mobile.svg"
     desktop: "./assets/hero-illustration.svg"
