@@ -40,6 +40,8 @@ To join the open community and start contributing, head to [passage.io](https://
 ## Launching an AKT/PASG Pool on Osmosis
 As a part of the official launch of Passage World utilizing Akash compute, Passage and Overclock Labs are launching a new AKT/PASG pool on Osmosis, backed by $200,000 in liquidity from both teams, and liquidity providers will be able to receive custom roles in the Passage Discord.
 
+The AKT/PASG pool is [live on Osmosis now](https://app.osmosis.zone/pool/1498).
+
 ## Learn more about Passage
 Passage is building an exciting new platform to power an entirely new way for creators to interact with their communities. By tapping into permissionless Akash compute, Passage will be able to scale its mission to the next level and greatly reduce costs.
 
