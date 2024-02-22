@@ -7,9 +7,7 @@ interface Props {
 const { link, "aria-label": ariaLabel } = Astro.props;
 ---
 
-<p
-  class="mt-2 text-left text-2xs font-[500] md:mt-[16px] md:text-xs lg:text-xs"
->
+<p class="mt-2 text-left text-xs font-[500] md:mt-[16px] lg:text-sm">
   <a
     aria-label={`${ariaLabel ?? "footer link"}`}
     class="text-decoration-none tracking-[0rem] text-cardGray dark:text-linkText"
