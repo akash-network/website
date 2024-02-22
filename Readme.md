@@ -1,5 +1,6 @@
 # Akash Network Website Guide
 
+- [Akash Network Website Guide](#akash-network-website-guide)
 - [Akash Network Website](#akash-network-website)
   - [Getting Started Locally](#getting-started-locally)
   - [Contribution Guidelines](#contribution-guidelines)
@@ -149,9 +150,19 @@ bannerImage: ./banner-image.jpg
 ---
 ```
 
-4. Add the banner image to the same folder as the markdown file. For example, `src/content/Blog/how-to-use-akash-web/banner-image.jpg`
-5. Write the blog content in markdown format in the same file. For example, `src/content/Blog/how-to-use-akash-web/index.md`
-6. Commit and push the changes to the repository. The blog will be published automatically.
+> **_NOTE:_** title : This is the title of the blog
+> description : This is the description of the blog
+> pubDate : This is the date of the blog
+> draft : This is the status of the blog. If it is true, it will not be published
+> archive : This is the status of the blog. If it is true, it will be archived
+> categories : This is the category of the blog which will be shown in the blog page
+> tags : This is the tag of the blog which will be shown in the blog page
+> contributors : This is the contributor of the blog
+> bannerImage : This is the banner image of the blog or the cover image of the blog
+
+1. Add the banner image to the same folder as the markdown file. For example, `src/content/Blog/how-to-use-akash-web/banner-image.jpg`
+2. Write the blog content in markdown format in the same file. For example, `src/content/Blog/how-to-use-akash-web/index.md`
+3. Commit and push the changes to the repository. The blog will be published automatically.
 
 ## Community
 
