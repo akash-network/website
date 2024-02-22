@@ -1,6 +1,6 @@
 ---
 title: "Akash at ETHDenver 2024" 
-description: "Example Blog Description" 
+description: "Connect with the Akash Core Team at ETHDenver." 
 pubDate: "2024-02-22" 
 draft: false 
 archive: false
