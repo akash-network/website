@@ -133,32 +133,22 @@ Each commit message should carry a meaningful structure, commencing with a type 
 
 ```md
 ---
-title: "Example Blog Title"
-description: "Example Blog Description"
-pubDate: "2019-11-25"
-draft: false
-archive: true
-categories:
+title: "Example Blog Title" # <--- This is the title of the blog
+description: "Example Blog Description" # <--- This is the description of the blog
+pubDate: "2019-11-25" # <--- This is the date of the blog in the format of "YYYY-MM-DD"
+draft: false # <--- If the blog is not ready to publish, set it to true
+archive: true # <--- If the blog is not ready to publish, set it to true it will not show in the archive page but will show in the blog page
+categories: # <--- This is the category of the blog
   - Category1
   - Category2
-tags:
+tags: # <--- This is the tags of the blog
   - Tag1
   - Tag2
-contributors:
+contributors: # <--- This is the contributors of the blog
   - Greg Osuri
-bannerImage: ./banner-image.jpg
+bannerImage: ./banner-image.jpg # <--- This is the banner image of the blog or the featured image of the blog
 ---
 ```
-
-> **_NOTE:_** title : This is the title of the blog
-> description : This is the description of the blog
-> pubDate : This is the date of the blog
-> draft : This is the status of the blog. If it is true, it will not be published
-> archive : This is the status of the blog. If it is true, it will be archived
-> categories : This is the category of the blog which will be shown in the blog page
-> tags : This is the tag of the blog which will be shown in the blog page
-> contributors : This is the contributor of the blog
-> bannerImage : This is the banner image of the blog or the cover image of the blog
 
 1. Add the banner image to the same folder as the markdown file. For example, `src/content/Blog/how-to-use-akash-web/banner-image.jpg`
 2. Write the blog content in markdown format in the same file. For example, `src/content/Blog/how-to-use-akash-web/index.md`
