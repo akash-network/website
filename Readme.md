@@ -1,5 +1,6 @@
 # Akash Network Website Guide
 
+- [Akash Network Website Guide](#akash-network-website-guide)
 - [Akash Network Website](#akash-network-website)
   - [Getting Started Locally](#getting-started-locally)
   - [Contribution Guidelines](#contribution-guidelines)
@@ -132,26 +133,26 @@ Each commit message should carry a meaningful structure, commencing with a type 
 
 ```md
 ---
-title: "Example Blog Title"
-description: "Example Blog Description"
-pubDate: "2019-11-25"
-draft: false
-archive: true
-categories:
+title: "Example Blog Title" # <--- This is the title of the blog
+description: "Example Blog Description" # <--- This is the description of the blog
+pubDate: "2019-11-25" # <--- This is the date of the blog in the format of "YYYY-MM-DD"
+draft: false # <--- If the blog is not ready to publish, set it to true
+archive: true # <--- If the blog is not ready to publish, set it to true it will not show in the archive page but will show in the blog page
+categories: # <--- This is the category of the blog
   - Category1
   - Category2
-tags:
+tags: # <--- This is the tags of the blog
   - Tag1
   - Tag2
-contributors:
+contributors: # <--- This is the contributors of the blog
   - Greg Osuri
-bannerImage: ./banner-image.jpg
+bannerImage: ./banner-image.jpg # <--- This is the banner image of the blog or the featured image of the blog
 ---
 ```
 
-4. Add the banner image to the same folder as the markdown file. For example, `src/content/Blog/how-to-use-akash-web/banner-image.jpg`
-5. Write the blog content in markdown format in the same file. For example, `src/content/Blog/how-to-use-akash-web/index.md`
-6. Commit and push the changes to the repository. The blog will be published automatically.
+1. Add the banner image to the same folder as the markdown file. For example, `src/content/Blog/how-to-use-akash-web/banner-image.jpg`
+2. Write the blog content in markdown format in the same file. For example, `src/content/Blog/how-to-use-akash-web/index.md`
+3. Commit and push the changes to the repository. The blog will be published automatically.
 
 ## Community
 
@@ -163,12 +164,12 @@ bannerImage: ./banner-image.jpg
 
 ```md
 ---
-title: AI World Congress
-image: "./project-banner.png"
-eventDate: "2024"
-tbd: true
-location: Singapore
-link: "https://www.asia.token2049.com/"
+title: AI World Congress # <--- This is the title of the event
+image: "./project-banner.png" # <--- This is the banner image of the event
+eventDate: "2024" # <--- This is the date of the event in the format of "YYYY"
+tbd: true # <--- If the date is not confirmed yet, set it to true
+location: Singapore # <--- This is the location of the event
+link: "https://www.asia.token2049.com/" # <--- This is the link of the event
 description: ​TOKEN2049 brings together the global Web3 industry, uniting entrepreneurs, investors, developers, industry insiders and global media - and creates unparalleled networking opportunities.
 ---
 ```
@@ -189,13 +190,13 @@ description: ​TOKEN2049 brings together the global Web3 industry, uniting entr
 
 ```md
 ---
-title: Akash EDU - Cloudmos 101
-image: "./project-banner.png"
-pubDate: "2020-01-19"
-tags:
+title: Akash EDU - Cloudmos 101 # <--- This is the title of the contribution
+image: "./project-banner.png" # <--- This is the banner image of the contribution
+pubDate: "2020-01-19" # <--- This is the date of the contribution in the format of "YYYY-MM-DD"
+tags: # <--- This is the tags of the contribution
   - Upcoming
 description: In this course, you will learn how to deploy your project onto the Akash Network using Cloudmos — a simple, point and click deployment tool.
-link: "https://akash-edu.ctlabs.in/"
+link: "https://akash-edu.ctlabs.in/" # <--- This is the link of the contribution
 ---
 ```
 
@@ -214,13 +215,13 @@ link: "https://akash-edu.ctlabs.in/"
 
 ```md
 ---
-title: "Akash Network Live with Greg Osuri: Akash’s progress in 2023, open community development, and more"
-image: "./project-banner.png"
-pubDate: "2023-02-24"
-readTime: "5 min"
-author: "Robert Del Rey"
-link: https://www.youtube.com/watch?v=aVRqwXOxoe8
-tags:
+title: "Akash Network Live with Greg Osuri: Akash’s progress in 2023, open community development, and more" # <--- This is the title of the contribution
+image: "./project-banner.png" # <--- This is the banner image of the contribution
+pubDate: "2023-02-24" # <--- This is the date of the contribution in the format of "YYYY-MM-DD"
+readTime: "5 min" # <--- This is the read time of the contribution
+author: "Robert Del Rey" # <--- This is the author of the contribution
+link: https://www.youtube.com/watch?v=aVRqwXOxoe8 # <--- This is the link of the contribution
+tags: # <--- This is the tags of the contribution
   - Video
 description: Greg Osuri, CEO of Overclock Labs and Founder of Akash Network, will cover the progress Akash has already made in 2023, our new open community group structure, and what to look out for in the coming months.
 ---
@@ -244,24 +245,24 @@ description: Greg Osuri, CEO of Overclock Labs and Founder of Akash Network, wil
 
 ```md
 ---
-projectTitle: Akash Chat
-projectImage: "./project-banner.png"
-pubDate: "2021-01-19"
+projectTitle: Akash Chat # <--- This is the title of the project
+projectImage: "./project-banner.png" # <--- This is the banner image of the project
+pubDate: "2021-01-19" # <--- This is the date of the project in the format of "YYYY-MM-DD"
 
-tags:
+tags: # <--- This is the tags of the project
   - AI & ML
 
-category: deployed_on_akash
+category: deployed_on_akash # <--- This is the category of the project which can be "deployed_on_akash", "tools"
 
 description: Mistral-7B-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters by Mistral AI. This application is running on NVIDIA GPUs leased from the Akash Supercloud.
 
-showcase: true
+showcase: true # <--- This is the showcase of the project in the ecosystem page/showcase
 
-websiteLink: "https://chat.akash.network/"
-githubLink: "https://chat.akash.network/"
-twitterLink: "https://chat.akash.network"
+websiteLink: "https://chat.akash.network/" # <--- This is the website link of the project
+githubLink: "https://chat.akash.network/" # <--- This is the github link of the project
+twitterLink: "https://chat.akash.network" # <--- This is the twitter link of the project
 
-featured: true
+featured: true # <--- This is the featured of the project in the ecosystem page/showcase
 ---
 ```
 

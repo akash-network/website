@@ -46,6 +46,7 @@ function Layout({ pathName, initialProviders }: any) {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<string>("active-leases-desc");
   const [filteredProviders, setFilteredProviders] = useState<any>([]);
+  console.log(filteredProviders);
 
   const [search, setSearch] = useState("");
   const [isFilteringActive, setIsFilteringActive] = useState(true);
@@ -76,7 +77,9 @@ function Layout({ pathName, initialProviders }: any) {
       }
 
       if (isFilteringAudited) {
-        filteredProviders = filteredProviders.filter((x) => x.isAudited);
+        filteredProviders = filteredProviders.filter(
+          (x) => x.isAudited && x.isOnline,
+        );
       }
 
       filteredProviders = filteredProviders.sort((a, b) => {
