@@ -1,11 +1,11 @@
 <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="calculator" clip-path="url(#clip0_2229_42438)">
-<path id="Vector" d="M1.5 17.1673V2.83398C1.5 1.72941 2.39543 0.833984 3.5 0.833984H17.8333C18.9379 0.833984 19.8333 1.72942 19.8333 2.83399V17.1673C19.8333 18.2719 18.9379 19.1673 17.8333 19.1673H3.5C2.39543 19.1673 1.5 18.2719 1.5 17.1673Z" stroke="#FF414C" stroke-width="1.5"/>
-<path id="Vector_2" d="M13.1641 5.83398L14.8307 5.83398H16.4974" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_3" d="M13.1641 12.916H14.8307L16.4974 12.916" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_4" d="M13.1641 15.416H14.8307L16.4974 15.416" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_5" d="M4.82812 5.83268H6.49479M8.16146 5.83268H6.49479M6.49479 5.83268V4.16602M6.49479 5.83268V7.49935" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_6" d="M5.31914 15.3445L6.49765 14.166M7.67616 12.9875L6.49765 14.166M6.49765 14.166L5.31914 12.9875M6.49765 14.166L7.67616 15.3445" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector" d="M1.5 17.1673V2.83398C1.5 1.72941 2.39543 0.833984 3.5 0.833984H17.8333C18.9379 0.833984 19.8333 1.72942 19.8333 2.83399V17.1673C19.8333 18.2719 18.9379 19.1673 17.8333 19.1673H3.5C2.39543 19.1673 1.5 18.2719 1.5 17.1673Z" stroke="#FF414C" strokeWidth="1.5"/>
+<path id="Vector_2" d="M13.1641 5.83398L14.8307 5.83398H16.4974" stroke="#FF414C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path id="Vector_3" d="M13.1641 12.916H14.8307L16.4974 12.916" stroke="#FF414C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path id="Vector_4" d="M13.1641 15.416H14.8307L16.4974 15.416" stroke="#FF414C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path id="Vector_5" d="M4.82812 5.83268H6.49479M8.16146 5.83268H6.49479M6.49479 5.83268V4.16602M6.49479 5.83268V7.49935" stroke="#FF414C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path id="Vector_6" d="M5.31914 15.3445L6.49765 14.166M7.67616 12.9875L6.49765 14.166M6.49765 14.166L5.31914 12.9875M6.49765 14.166L7.67616 15.3445" stroke="#FF414C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 </g>
 <defs>
 <clipPath id="clip0_2229_42438">

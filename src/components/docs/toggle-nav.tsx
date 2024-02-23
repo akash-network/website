@@ -36,8 +36,8 @@ const ToggleNav = ({ nav, pathname }: { nav: any; pathname: any }) => {
           <path
             d="M3.5 1L0.5 4L3.5 7"
             stroke="#687076"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </svg>
         akash.network

@@ -24,8 +24,8 @@ export default function MobileNav({ catName, docsNav, pathname }: any) {
               <path
                 d="M6 2.5L9.5 6L6 9.5"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>
             </svg>
           </Disclosure.Button>

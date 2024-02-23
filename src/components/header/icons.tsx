@@ -12,9 +12,9 @@ export const GithubIcon = ({ className }: { className?: string }) => {
       <path
         d="M8.61066 15.6385C5.4401 16.5897 5.4401 14.0532 4.17188 13.7362M13.0494 17.5409V15.0868C13.0732 14.7845 13.0324 14.4805 12.9296 14.1951C12.8268 13.9098 12.6645 13.6496 12.4534 13.4318C14.4445 13.2099 16.537 12.4553 16.537 8.99303C16.5369 8.1077 16.1963 7.25632 15.5859 6.61511C15.8749 5.84055 15.8545 4.9844 15.5288 4.22451C15.5288 4.22451 14.7806 4.00257 13.0494 5.16299C11.5961 4.7691 10.064 4.7691 8.61066 5.16299C6.87953 4.00257 6.13128 4.22451 6.13128 4.22451C5.80558 4.9844 5.78515 5.84055 6.07421 6.61511C5.4592 7.26108 5.1183 8.12015 5.12304 9.01205C5.12304 12.4489 7.21561 13.2035 9.20672 13.4508C8.9981 13.6664 8.8372 13.9235 8.7345 14.2054C8.63181 14.4872 8.58961 14.7876 8.61066 15.0868V17.5409"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -33,13 +33,13 @@ export const RightArrowIcon = ({ className }: { className?: string }) => {
       <g clip-path="url(#clip0_2801_2947)">
         <path
           d="M6.11719 9.88588L9.88841 6.11462M9.88841 6.11462H6.58859M9.88841 6.11462V9.41448"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
         <path
           d="M8.0026 14.6667C11.6845 14.6667 14.6693 11.6819 14.6693 8.00004C14.6693 4.31814 11.6845 1.33337 8.0026 1.33337C4.3207 1.33337 1.33594 4.31814 1.33594 8.00004C1.33594 11.6819 4.3207 14.6667 8.0026 14.6667Z"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
       </g>
       <defs>
@@ -64,27 +64,27 @@ export const CalenderIcon = ({ className }: { className?: string }) => {
     >
       <path
         d="M10 2.66732V1.33398M10 2.66732V4.00065M10 2.66732H7M2 6.66732V12.6673C2 13.4037 2.59695 14.0007 3.33333 14.0007H12.6667C13.4031 14.0007 14 13.4037 14 12.6673V6.66732H2Z"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M2 6.66602V3.99935C2 3.26297 2.59695 2.66602 3.33333 2.66602H4.66667"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M4.66406 1.33398V4.00065"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M14.0026 6.66602V3.99935C14.0026 3.26297 13.4057 2.66602 12.6693 2.66602H12.3359"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -103,8 +103,8 @@ export const TwitterIcon = ({ className }: { className?: string }) => {
       <path
         d="M6.99527 4.87939H3.84375L13.6922 17.8794H16.8438L6.99527 4.87939Z"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
       />
       <path
         d="M17.3987 5.3839C17.6773 5.07741 17.6547 4.60307 17.3483 4.32444C17.0418 4.04581 16.5674 4.0684 16.2888 4.37489L17.3987 5.3839ZM16.2888 4.37489L11.2888 9.87489L12.3987 10.8839L17.3987 5.3839L16.2888 4.37489Z"
@@ -113,9 +113,9 @@ export const TwitterIcon = ({ className }: { className?: string }) => {
       <path
         d="M8.84375 12.8794L4.34375 17.8794"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -151,37 +151,37 @@ export const DiscordIcon = ({ className }: { className?: string }) => {
       <path
         d="M5.14062 13.8481C8.87965 15.7177 11.1231 15.7177 14.8621 13.8481"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M12.6173 14.9748L13.3651 16.4704C13.3651 16.4704 16.4845 15.4771 17.4781 13.8531C17.4781 13.1053 17.8745 7.76098 15.2346 6.0011C14.1129 5.2533 12.2434 4.87939 12.2434 4.87939L11.4956 6.37501H10"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M7.40612 14.9748L6.65831 16.4704C6.65831 16.4704 3.53897 15.4771 2.54538 13.8531C2.54538 13.1053 2.14898 7.76098 4.7888 6.0011C5.91051 5.2533 7.78002 4.87939 7.78002 4.87939L8.52783 6.37501H10.0234"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M7.37829 12.355C6.75879 12.355 6.25658 11.6854 6.25658 10.8594C6.25658 10.0334 6.75879 9.36377 7.37829 9.36377C7.99779 9.36377 8.5 10.0334 8.5 10.8594C8.5 11.6854 7.99779 12.355 7.37829 12.355Z"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M12.6205 12.355C12.001 12.355 11.4988 11.6854 11.4988 10.8594C11.4988 10.0334 12.001 9.36377 12.6205 9.36377C13.24 9.36377 13.7422 10.0334 13.7422 10.8594C13.7422 11.6854 13.24 12.355 12.6205 12.355Z"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
