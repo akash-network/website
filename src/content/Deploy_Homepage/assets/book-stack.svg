@@ -1,11 +1,11 @@
 <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="book-stack">
-<path id="Vector" d="M5.66406 19.5V5C5.66406 3.89543 6.55949 3 7.66406 3H19.0641C19.3954 3 19.6641 3.26863 19.6641 3.6V21" stroke="#FA5757" stroke-width="1.5" stroke-linecap="round"/>
-<path id="Vector_2" d="M9.66406 7L15.6641 7" stroke="#FA5757" stroke-width="1.5" stroke-linecap="round"/>
-<path id="Vector_3" d="M7.16406 15L19.6641 15" stroke="#FA5757" stroke-width="1.5" stroke-linecap="round"/>
-<path id="Vector_4" d="M7.16406 18L19.6641 18" stroke="#FA5757" stroke-width="1.5" stroke-linecap="round"/>
-<path id="Vector_5" d="M7.16406 21L19.6641 21" stroke="#FA5757" stroke-width="1.5" stroke-linecap="round"/>
-<path id="Vector_6" d="M7.16406 18C6.16406 18 5.66406 17.3284 5.66406 16.5C5.66406 15.6716 6.16406 15 7.16406 15" stroke="#FA5757" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_7" d="M7.16406 21C6.16406 21 5.66406 20.3284 5.66406 19.5C5.66406 18.6716 6.16406 18 7.16406 18" stroke="#FA5757" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector" d="M5.66406 19.5V5C5.66406 3.89543 6.55949 3 7.66406 3H19.0641C19.3954 3 19.6641 3.26863 19.6641 3.6V21" stroke="#FA5757" strokeWidth="1.5" strokeLinecap="round"/>
+<path id="Vector_2" d="M9.66406 7L15.6641 7" stroke="#FA5757" strokeWidth="1.5" strokeLinecap="round"/>
+<path id="Vector_3" d="M7.16406 15L19.6641 15" stroke="#FA5757" strokeWidth="1.5" strokeLinecap="round"/>
+<path id="Vector_4" d="M7.16406 18L19.6641 18" stroke="#FA5757" strokeWidth="1.5" strokeLinecap="round"/>
+<path id="Vector_5" d="M7.16406 21L19.6641 21" stroke="#FA5757" strokeWidth="1.5" strokeLinecap="round"/>
+<path id="Vector_6" d="M7.16406 18C6.16406 18 5.66406 17.3284 5.66406 16.5C5.66406 15.6716 6.16406 15 7.16406 15" stroke="#FA5757" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path id="Vector_7" d="M7.16406 21C6.16406 21 5.66406 20.3284 5.66406 19.5C5.66406 18.6716 6.16406 18 7.16406 18" stroke="#FA5757" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 </g>
 </svg>

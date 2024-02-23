@@ -32,8 +32,8 @@ export default function MobileNav({
               <path
                 d="M6 2.5L9.5 6L6 9.5"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>
             </svg>
           </Disclosure.Button>
@@ -159,15 +159,15 @@ function SideNav({
               >
                 <path
                   d="M4.08594 9.91536L9.91927 4.08203"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></path>
                 <path
                   d="M4.08594 4.08203H9.91927V9.91536"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></path>
               </svg>
             </h4>
@@ -195,14 +195,14 @@ function SideNav({
             <path
               d="M2 14L8 14L14 14"
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></path>
             <path
               d="M8.15049 3.88559L10.0361 1.99997L13.3359 5.2998L11.4503 7.18542M8.15049 3.88559L4.51039 7.52569C4.32285 7.71323 4.21749 7.96758 4.21749 8.2328L4.21749 11.1184L7.10311 11.1184C7.36833 11.1184 7.62268 11.0131 7.81022 10.8255L11.4503 7.18542M8.15049 3.88559L11.4503 7.18542"
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></path>
           </svg>
           Edit page on github
