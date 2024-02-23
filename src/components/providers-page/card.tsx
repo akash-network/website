@@ -147,7 +147,7 @@ const FeatureComponent: React.FC<FeatureComponentProps> = ({
         </div>
 
         <div className="flex justify-center border-b border-[#272540] py-6 md:pb-[24px] md:pt-[47px]">
-          <button className="mt-auto inline-flex h-[40px] items-center justify-center rounded-lg bg-primary px-2 align-bottom text-sm font-bold leading-none text-primary-foreground hover:bg-primary/80 md:h-[56px] md:px-4 md:text-lg">
+          <button className="hover:bg-primary/80 mt-auto inline-flex h-[40px] items-center justify-center rounded-lg bg-primary px-2 align-bottom text-sm font-bold leading-none text-primary-foreground md:h-[56px] md:px-4 md:text-lg">
             <svg
               width="29"
               height="29"

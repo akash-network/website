@@ -93,7 +93,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     <>
       <button
         onClick={openModal}
-        className="dark:hover:bg-darkGray inline-flex items-center justify-center  gap-x-1.5 rounded-md  border border-border bg-background2 px-3 py-2 text-xs font-medium leading-none text-sortText  shadow-sm hover:bg-gray-50 md:px-3.5 md:py-2.5 md:text-sm"
+        className="inline-flex items-center justify-center gap-x-1.5  rounded-md border  border-border bg-background2 px-3 py-2 text-xs font-medium leading-none text-sortText shadow-sm  hover:bg-gray-50 dark:hover:bg-darkGray md:px-3.5 md:py-2.5 md:text-sm"
       >
         <Search className="text-sm text-foreground" size={16} />
         Search
@@ -145,7 +145,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
+                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>
@@ -226,8 +226,8 @@ const ProjectCard = ({
                   <path
                     d="M6.63636 3H3L14.3636 18H18L6.63636 3Z"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M18.5303 3.53033C18.8232 3.23744 18.8232 2.76256 18.5303 2.46967C18.2374 2.17678 17.7626 2.17678 17.4697 2.46967L18.5303 3.53033ZM17.4697 2.46967L11.4697 8.46967L12.5303 9.53033L18.5303 3.53033L17.4697 2.46967Z"
@@ -236,9 +236,9 @@ const ProjectCard = ({
                   <path
                     d="M9 12L3 18"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </a>
@@ -256,16 +256,16 @@ const ProjectCard = ({
                   <path
                     d="M13.3308 18.3557V15.964C13.3621 15.5666 13.3084 15.1672 13.1733 14.7922C13.0382 14.4172 12.8249 14.0752 12.5475 13.789C15.1641 13.4973 17.9141 12.5057 17.9141 7.95568C17.9139 6.7922 17.4664 5.67335 16.6641 4.83068C17.044 3.81277 17.0171 2.68764 16.5891 1.68901C16.5891 1.68901 15.6058 1.39735 13.3308 2.92235C11.4208 2.4047 9.40745 2.4047 7.49746 2.92235C5.22246 1.39735 4.23913 1.68901 4.23913 1.68901C3.81111 2.68764 3.78425 3.81277 4.16413 4.83068C3.3559 5.6796 2.9079 6.80857 2.91413 7.98068C2.91413 12.4973 5.66413 13.489 8.28079 13.814C8.00662 14.0973 7.79518 14.4352 7.66022 14.8056C7.52525 15.176 7.4698 15.5707 7.49746 15.964V18.3557"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M7.4974 16.689C4.9974 17.5 2.91406 16.689 1.66406 14.189"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </a>
@@ -283,37 +283,37 @@ const ProjectCard = ({
                   <path
                     d="M4.58594 13.3333C8.7526 15.4166 11.2526 15.4166 15.4193 13.3333"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M12.9167 14.5833L13.75 16.25C13.75 16.25 17.2261 15.1431 18.3333 13.3333C18.3333 12.5 18.7751 6.54447 15.8333 4.58331C14.5833 3.74998 12.5 3.33331 12.5 3.33331L11.6667 4.99998H10"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M7.10677 14.5833L6.27344 16.25C6.27344 16.25 2.79733 15.1431 1.6901 13.3333C1.6901 12.5 1.24836 6.54447 4.1901 4.58331C5.4401 3.74998 7.52344 3.33331 7.52344 3.33331L8.35677 4.99998H10.0234"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M7.08594 11.6666C6.39558 11.6666 5.83594 10.9205 5.83594 9.99998C5.83594 9.07951 6.39558 8.33331 7.08594 8.33331C7.77629 8.33331 8.33594 9.07951 8.33594 9.99998C8.33594 10.9205 7.77629 11.6666 7.08594 11.6666Z"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M12.9141 11.6666C12.2237 11.6666 11.6641 10.9205 11.6641 9.99998C11.6641 9.07951 12.2237 8.33331 12.9141 8.33331C13.6044 8.33331 14.1641 9.07951 14.1641 9.99998C14.1641 10.9205 13.6044 11.6666 12.9141 11.6666Z"
                     stroke="#687076"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </a>
