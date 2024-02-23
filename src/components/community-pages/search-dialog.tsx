@@ -92,7 +92,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     <>
       <button
         onClick={openModal}
-        className="dark:hover:bg-darkGray inline-flex items-center justify-center  gap-x-1.5 rounded-md  border border-border bg-background2 px-3 py-2 text-xs font-medium leading-none text-sortText  shadow-sm hover:bg-gray-50 md:px-3.5 md:py-2.5 md:text-sm"
+        className="inline-flex items-center justify-center gap-x-1.5  rounded-md border  border-border bg-background2 px-3 py-2 text-xs font-medium leading-none text-sortText shadow-sm  hover:bg-gray-50 dark:hover:bg-darkGray md:px-3.5 md:py-2.5 md:text-sm"
       >
         <Search className="text-sm text-foreground" size={16} />
         Search
@@ -144,7 +144,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
+                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>

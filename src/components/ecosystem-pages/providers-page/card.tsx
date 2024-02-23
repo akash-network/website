@@ -268,7 +268,7 @@ function Initials() {
           height="26.32"
           rx="1.58667"
           stroke="#D9D9D9"
-          stroke-width="0.56"
+          strokeWidth="0.56"
         />
         <path
           d="M5.36253 18.8999V9.12536H7.13321V13.2633H11.6625V9.12536H13.438V18.8999H11.6625V14.7476H7.13321V18.8999H5.36253ZM16.5384 18.8999H14.6484L18.0895 9.12536H20.2754L23.7213 18.8999H21.8313L19.2206 11.1299H19.1443L16.5384 18.8999ZM16.6004 15.0674H21.755V16.4897H16.6004V15.0674Z"
@@ -292,9 +292,9 @@ function ArrowIcon() {
     >
       <path
         d="M1 8L5 4.5L1 1"
-        stroke-width="1.2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

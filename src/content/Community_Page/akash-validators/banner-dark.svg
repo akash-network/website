@@ -19,8 +19,8 @@
 <path d="M362 272H280" stroke="#464646" stroke-dasharray="2 2"/>
 <path d="M448 272H374" stroke="#464646" stroke-dasharray="2 2"/>
 <path d="M524 272L485 272" stroke="#464646" stroke-dasharray="2 2"/>
-<rect x="227.163" y="28.1629" width="88.2089" height="76.4825" rx="1.83707" fill="#2E2E2E" stroke="#1C1C1C" stroke-width="0.325851"/>
-<rect x="231.163" y="32.1629" width="80.6741" height="67.6741" rx="1.83707" fill="#FF414C" stroke="#1C1C1C" stroke-width="0.325851"/>
+<rect x="227.163" y="28.1629" width="88.2089" height="76.4825" rx="1.83707" fill="#2E2E2E" stroke="#1C1C1C" strokeWidth="0.325851"/>
+<rect x="231.163" y="32.1629" width="80.6741" height="67.6741" rx="1.83707" fill="#FF414C" stroke="#1C1C1C" strokeWidth="0.325851"/>
 <path d="M277.872 70.7075L284.426 82.2359H271.186L264.562 70.7075H277.872Z" fill="url(#paint0_linear_3351_41137)"/>
 <path d="M284.423 82.2376L291.036 70.7092L277.799 47.647H264.562L284.423 82.2376Z" fill="black"/>
 <path d="M257.946 59.1721H271.183L257.952 82.2344L251.328 70.706L257.946 59.1721Z" fill="black"/>

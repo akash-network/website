@@ -107,15 +107,15 @@ export default function SearchDialog() {
         >
           <path
             d="M12.9141 12.9167L15.8307 15.8334"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M4.16406 9.16675C4.16406 11.9282 6.40264 14.1667 9.16406 14.1667C10.5472 14.1667 11.7991 13.6052 12.7043 12.6976C13.6064 11.7931 14.1641 10.5451 14.1641 9.16675C14.1641 6.40532 11.9255 4.16675 9.16406 4.16675C6.40264 4.16675 4.16406 6.40532 4.16406 9.16675Z"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
         Search
@@ -167,7 +167,7 @@ export default function SearchDialog() {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
+                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>

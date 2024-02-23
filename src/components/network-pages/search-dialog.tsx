@@ -119,7 +119,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg  border  border-[#808080] bg-white p-6 text-left align-middle shadow-lg transition-all ">
                   <input
-                    className="w-full rounded-lg border px-4 py-2 outline-none focus:border-primary/40 "
+                    className="focus:border-primary/40 w-full rounded-lg border px-4 py-2 outline-none "
                     placeholder="Search for projects"
                     value={searchQuery}
                     onChange={handleSearchInput}
@@ -130,7 +130,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
+                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>
@@ -166,7 +166,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 const ProjectCard = ({ title, link }: { title: string; link: string }) => {
   return (
     <a href={link}>
-      <div className="flex cursor-pointer items-center justify-between rounded-lg p-4 text-[#808080] hover:bg-primary/10 hover:text-primary md:px-6 md:py-4">
+      <div className="hover:bg-primary/10 flex cursor-pointer items-center justify-between rounded-lg p-4 text-[#808080] hover:text-primary md:px-6 md:py-4">
         <div className="w-[85%]">
           <h3 className="text-base font-bold  md:text-lg">{title}</h3>
         </div>
