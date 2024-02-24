@@ -1,26 +1,24 @@
-import { gettingStartedPage } from "@/content/schema/getting_started_page";
-import { defineCollection, z } from "astro:content";
-import { aboutSchema } from "./schema/about";
+import { aboutSchema } from "@/utils/schema/about";
 import {
   brandReleasesInsightsSchema,
   brandResourcesSchema,
   pressSchema,
-} from "./schema/brandPages";
+} from "@/utils/schema/brandPages";
 import {
   communityAkashEduSchema,
   communityContributionsSchema,
   communityEventSchema,
-} from "./schema/communityContributions";
-import { communityGroupsSchema } from "./schema/communityGroups";
-import { communityPagesSchema } from "./schema/communityPages";
-import { deployPage } from "./schema/deploy_page";
-import { developmentSchema } from "./schema/development";
-import { docsHomePage, docsSchema } from "./schema/docsSchema";
-import { ecosystemSchema } from "./schema/ecosystem";
-import { networkPagesSchema } from "./schema/networkPages";
-import { providersPage } from "./schema/provides_page";
-import { tokenPage } from "./schema/token_page";
-import { privacySchema } from "./schema/privacy";
+} from "@/utils/schema/communityContributions";
+import { communityGroupsSchema } from "@/utils/schema/communityGroups";
+import { communityPagesSchema } from "@/utils/schema/communityPages";
+import { deployPage } from "@/utils/schema/deploy_page";
+import { developmentSchema } from "@/utils/schema/development";
+import { docsHomePage, docsSchema } from "@/utils/schema/docsSchema";
+import { ecosystemSchema } from "@/utils/schema/ecosystem";
+import { privacySchema } from "@/utils/schema/privacy";
+import { providersPage } from "@/utils/schema/provides_page";
+import { tokenPage } from "@/utils/schema/token_page";
+import { defineCollection, z } from "astro:content";
 
 //homepage schema
 const homePage = defineCollection({
@@ -222,14 +220,14 @@ export const collections = {
   About_Page: aboutSchema,
   Brand_Resources_Homepage: brandResourcesSchema,
   Brand_Releases_Insights_Homepage: brandReleasesInsightsSchema,
-  Press_Page: pressSchema,
+  // Press_Page: pressSchema,
   Community_Page: communityPagesSchema,
   Privacy_Homepage: privacySchema,
   Community_Contributions_Page: communityContributionsSchema,
   Community_Akash_Edu_Page: communityAkashEduSchema,
   Community_Akash_Events_Page: communityEventSchema,
   Development_Current_Groups_Page: communityGroupsSchema,
-  Docs_Homepage: docsHomePage,
+  // Docs_Homepage: docsHomePage,
   Docs: docsSchema,
   Ecosystem_Page: ecosystemSchema,
 };
