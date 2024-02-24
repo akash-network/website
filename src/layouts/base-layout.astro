@@ -28,6 +28,20 @@ const isProd = import.meta.env.PROD;
   class="scroll-pt-[137px] scroll-smooth"
 >
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      type="text/partytown"
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GL5HS9J1PR"></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-GL5HS9J1PR");
+    </script>
     <BaseHead title={title} description={description} image={image} />
     <ViewTransitions />
   </head>
@@ -36,6 +50,7 @@ const isProd = import.meta.env.PROD;
     <AsideTailwindClasses />
     <!-- Dev tools -->
     {!isProd && <TailwindIndicator />}
+
     <script>
       //light-plus data-theme dark-plus in html tag
       const getTheme = () => localStorage.getItem("theme") || "light";
