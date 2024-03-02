@@ -25,29 +25,11 @@ In a very simple reverse auction:
 2. Providers bid on orders.
 3. Tenants choose winning bids and create leases.
 
-A typical application deployment on Akash will follow this flow:
-
-1. The tenant describes their desired deployment in [SDL], called a [deployment](#deployment).
-2. The tenant submits that definition to the blockchain.
-3. Their submission generates an [order](#order) on the marketplace.
-4. Providers that would like to fulfill that order [bid](#bid) on it.
-5. After some period of time, a winning [bid](#bid) for the [order](#order) is chosen, and a [lease](#lease) is created.
-6. Once a [lease](#lease) has been created, the tenant submits a [manifest](/docs/getting-started/stack-definition-language/) to the provider.
-7. The provider executes workloads as instructed by the [manifest](/docs/getting-started/stack-definition-language/).
-8. The workload is running - if it is a web application it can be visited
-9. The provider or tenant eventually closes the [lease](#lease), shutting down the workload.
-
-The general workflow is:
-
-1. A tenant creates orders.
-2. Providers bid on orders.
-3. Tenants choose winning bids and create leases.
-
-### Lifecycle of a Deployment
+### Akash Deployment Lifecycle
 
 The lifecycle of a typical application deployment is as follows:
 
-1. The tenant describes their desired deployment in [SDL], called a [deployment](#deployment).
+1. The tenant creates a `.yml` file made up of [SDL](/docs/getting-started/stack-definition-language/) markup which describes the resources needed to run their application. This is known as a [deployment](#deployment).
 2. The tenant submits that definition to the blockchain.
 3. Their submission generates an [order](#order) on the marketplace.
 4. Providers that would like to fulfill that order [bid](#bid) on it.
@@ -59,11 +41,11 @@ The lifecycle of a typical application deployment is as follows:
 
 ## Payments
 
-Leases are paid from deployment owner (tenant) to the provider through a deposit & withdraw mechanism.
+Leases are paid from deployment owner (tenant) to the provider through a deposit and withdraw mechanism.
 
 Tenants are required to submit a deposit when creating a deployment. Leases will be paid passively from the balance of this deposit. At any time, a lease provider may withdraw the balance owed to them from this deposit.
 
-If the available funds in the deposit ever reaches zero, a provider may close the lease. A tenant can add funds to their deposit at any time. When a deployment is closed, the unspent portion of the balance will be returned to the tenant.
+If the available funds in the deposit ever reaches zero, a provider may close the lease, therefore a tenant who wishes to keep a lease alive must add funds to their deposit as this ensures that their lease does not end prematurely. When a deployment is closed, the unspent portion of the balance will be returned to the tenant.
 
 ### Escrow Accounts
 
