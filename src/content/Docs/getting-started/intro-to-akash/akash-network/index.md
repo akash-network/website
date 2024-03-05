@@ -31,7 +31,7 @@ The [**Akash Container Platform**](/docs/other-resources/containers/) is a deplo
 
 ### What is the cost to use Akash?
 
-The cost of hosting your application using Akash is about one-third the cost of Amazon AWS, Google Cloud Platform (GCP), and Microsoft Azure. You can check the prices live using the [**Cloudmos.io price comparison tool**](https://cloudmos.io/price-compare).
+The cost of hosting your application using Akash is about one-third the cost of Amazon AWS, Google Cloud Platform (GCP), and Microsoft Azure. You can check the prices live using the [**price comparison tool**](https://akash.network/about/pricing/custom/).
 
 ### How do I use Akash?
 
@@ -39,17 +39,17 @@ If you're new to Akash, start with our [**deployment guides**](/docs/deployments
 
 ### Why is Akash different than other Cloud platforms?
 
-The decentralized cloud is a shift from computing resources being owned and operated by the three large Cloud companies (Amazon, Google, and Microsoft) to a decentralized network of Cloud providers running **open source** **software** developed by a community and creating competition in an **open** **marketplace** with more providers.
+The decentralized cloud is a shift from computing resources being owned and operated by the three large Cloud companies (Amazon, Google, and Microsoft) to a decentralized network of Cloud providers running **open source software** developed by a community, leading to the emergence of a new cloud computing model. This model takes the shape of an **open marketplace** made up of many providers, all of whom are competing to provide resources.
 
-Like Airbnb for server hosting, Akash is a marketplace that gives you control over the price you pay and the amenities included (we call them attributes). Akash gives app developers a command-line tool for leasing and deploying apps right from a terminal. Akash taps into the massive market of underutilized resources sitting idle in the estimated 8.4 million data centers globally. Any cloud-native and containerized applications running on the centralized cloud can run faster and at a lower cost on the Akash decentralized cloud.
+Like Airbnb for server hosting, Akash is a marketplace that gives you control over the price you pay and the amenities included (we call them attributes). Akash gives app developers a command-line tool for leasing and deploying apps right from a terminal. Akash taps into the massive market of underutilized resources sitting idle in the estimated 8.4 million data centers globally. Any containerized applications running on the centralized cloud can run faster and at a lower cost on the Akash decentralized cloud.
 
 ### Why is Akash different than other decentralized platforms?
 
-Akash hosts [**containers**](/docs/other-resources/containers/) where users can run _**any**_ Cloud-Native application. There is no need to re-write the entire internet in a new proprietary language, and there is no vendor lock-in to prevent you from switching Cloud providers. The deployment file is transferred over a private peer-to-peer network isolated from the blockchain. Asset transfer occurs off-chain over mTLS to provide the security and performance required by mission-critical applications running on the Cloud.
+Akash hosts [**containers**](/docs/other-resources/containers/) where users can run _**any**_ cloud-native application. There is no need to re-write the entire internet in a new proprietary language, and there is no vendor lock-in to prevent you from switching Cloud providers. The deployment file is transferred over a private peer-to-peer network isolated from the blockchain. Asset transfer occurs off-chain over mTLS to provide the security and performance required by mission-critical applications running on the Cloud.
 
 ### What is the Stack Definition Language (SDL)?
 
-You can define the deployment services, data centers, requirements, and pricing parameters in a "manifest" file (deploy.yaml). The file is written in a declarative language called [**Stack Definition Language (SDL)**](/docs/getting-started/stack-definition-language/). SDL is a human-friendly data standard for declaring deployment attributes. The SDL file is a "form" to request resources from the Network. SDL is compatible with the YAML standard and similar to Docker Compose files.
+You can define the deployment services, data centers, requirements, and pricing parameters in a "manifest" file (deploy.yaml), which effectively acts as a form for requesting resources from the network. The file is written in a declarative language called the [**Stack Definition Language (SDL)**](/docs/getting-started/stack-definition-language/). SDL is a human-friendly data standard for declaring deployment attributes. SDL is compatible with the [YAML standard](https://yaml.org/spec/1.2.2/) and similar to Docker Compose files.
 
 ### How do I configure Networking for my container?
 
