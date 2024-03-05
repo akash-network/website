@@ -2,7 +2,7 @@
 pageTitle: Customize your Akash experience with the perfect tool
 
 heroSection:
-  title: Streamline deployment with Cloudmos
+  title: Streamline deployment with Console
   description: Effortless application deployment for the decentralized era.
   heroImage: "./assets/hero-image.png"
   featureList:
@@ -10,17 +10,17 @@ heroSection:
     - Say no to complex processes and yes to one-click deployment
     - Adapt to your business needs in real-time, ensuring optimal performance and cost efficiency
   button:
-    label: Launch Cloudmos
-    link: "https://deploy.cloudmos.io/"
+    label: Launch Console
+    link: "https://console.akash.network/"
     enable: true
 
 cloudmosResourcesSection:
-  title: Cloudmos Resources
+  title: Console Resources
   cards:
     - title: Deployment Templates
       description: Jumpstart your app development process with our pre-built solutions.
       badge: "./assets/github.svg"
-      link: "https://deploy.cloudmos.io/templates"
+      link: "https://console.akash.network/templates"
       linkIcon: true
       linkLabel: "View More"
     - title: Cloudmos Documentation

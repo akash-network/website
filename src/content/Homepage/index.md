@@ -11,7 +11,7 @@ heroSection:
 
   secondaryButton:
     label: Deploy Now
-    link: "https://deploy.cloudmos.io/"
+    link: "https://console.akash.network"
     enable: true
 
 # infrastructure section content
@@ -63,7 +63,7 @@ getStartedSection:
         link: "./assets/getting-started/one.svg"
       darkImage:
         link: "./assets/getting-started/one-dark.svg"
-      description: "Get started with Cloudmos, the user-friendly tool for deploying applications effortlessly on the Akash network."
+      description: "Get started with Console, the user-friendly tool for deploying applications effortlessly on the Akash network."
       link: "/deploy"
       linkIcon: false
       linkLabel: "Get Started"

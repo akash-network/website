@@ -5,6 +5,7 @@ import { defineConfig } from "astro/config";
 import remark from "remark-directive";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import astroExpressiveCode from "astro-expressive-code";
+import partytown from "@astrojs/partytown";
 
 import mdx from "@astrojs/mdx";
 
@@ -44,6 +45,11 @@ export default defineConfig({
       },
     }),
     mdx(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
   ],
   site: "https://akash.network",
 });
