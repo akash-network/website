@@ -15,12 +15,12 @@ heroSection:
     enable: true
 
 cloudmosResourcesSection:
-  title: Cloudmos Resources
+  title: Console Resources
   cards:
     - title: Deployment Templates
       description: Jumpstart your app development process with our pre-built solutions.
       badge: "./assets/github.svg"
-      link: "https://deploy.cloudmos.io/templates"
+      link: "https://console.akash.network/templates"
       linkIcon: true
       linkLabel: "View More"
     - title: Cloudmos Documentation
