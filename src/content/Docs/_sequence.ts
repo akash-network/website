@@ -3,6 +3,10 @@ export const docsSequence = [
     label: "Docs",
     subItems: [
       {
+        type: "Header",
+        label: "General Docs",
+      },
+      {
         label: "Getting Started",
         subItems: [
           { label: "Intro To Akash" },
@@ -77,6 +81,10 @@ export const docsSequence = [
           { label: "Community Solutions" },
           { label: "Custom Kubernetes Cluster Settings" },
         ],
+      },
+      {
+        type: "Header",
+        label: "Engineering Docs",
       },
       {
         label: "Akash Nodes",
@@ -222,10 +230,5 @@ export const docsSequence = [
         ],
       },
     ],
-  },
-
-  {
-    label: "Engineering Documentation",
-    subItems: [],
   },
 ];
