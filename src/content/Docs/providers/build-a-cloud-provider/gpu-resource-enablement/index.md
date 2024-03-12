@@ -98,6 +98,18 @@ apt-get update
 apt-get install -y nvidia-cuda-toolkit nvidia-container-toolkit nvidia-container-runtime
 ```
 
+### For non-PCIe, e.g. SXM\* GPUs
+
+In some circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources (typically, non-PCIe GPU configurations such as those using SXM form factors).
+
+> Replace `525` with your nvidia driver version installed in the previous steps
+
+```
+apt-get install cuda-drivers-fabricmanager-525
+```
+
+[Reference](https://docs.akash.network/providers/akash-provider-troubleshooting/gpu-provider-troubleshooting)
+
 ### Additional References for Node Configurations
 
 > _**NOTE -**_ references are for additional info only. No actions are necessary and the Kubernetes nodes should be all set to proceed to next step based on configurations enacted in prior steps on this doc.
@@ -142,7 +154,7 @@ containerd_additional_runtimes:
     engine: ""
     root: ""
     options:
-      BinaryName: '"/usr/bin/nvidia-container-runtime"'
+      BinaryName: '/usr/bin/nvidia-container-runtime'
 EOF
 ```
 
@@ -256,7 +268,7 @@ helm repo update
 </strong><strong>helm upgrade -i nvdp nvdp/nvidia-device-plugin \
 </strong>  --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.2 \
+  --version 0.14.5 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 </code></pre>
@@ -267,7 +279,7 @@ helm repo update
 root@ip-172-31-8-172:~# helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.2 \
+  --version 0.14.5 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 
@@ -310,7 +322,7 @@ helm repo update
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.2 \
+  --version 0.14.5 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts \
   --set-string nodeSelector.allow-nvdp="true"
@@ -506,6 +518,41 @@ NAME                                       READY   STATUS    RESTARTS   AGE
 akash-hostname-operator-5c59757fcc-kt7dl   1/1     Running   0          17s
 akash-provider-0                           1/1     Running   0          59s
 ```
+
+## Verify Provider Attributes On Chain
+
+- In this step we ensure that your updated Akash Provider Attributes have been updated on the blockchain. Ensure that the GPU model related attributes are now in place via this step.
+
+> _**NOTE**_ - conduct this verification from your Kubernetes control plane node
+
+```
+# Ensure that a RPC node environment variable is present for query
+export AKASH_NODE=https://rpc.akashnet.net:443
+# Replace the provider address with your own value
+provider-services query provider get <provider-address>
+```
+
+#### Example/Expected Output
+
+<pre><code>provider-services query provider get akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
+<strong>
+</strong><strong>attributes:
+</strong>- key: region
+  value: us-central
+- key: host
+  value: akash
+- key: tier
+  value: community
+- key: organization
+  value: akash test provider
+- key: capabilities/gpu/vendor/nvidia/model/t4
+  value: "true"
+host_uri: https://provider.akashtestprovider.xyz:8443
+info:
+  email: ""
+  website: ""
+owner: akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
+</code></pre>
 
 ## Verify Akash Provider Image
 
