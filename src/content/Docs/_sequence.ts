@@ -82,10 +82,7 @@ export const docsSequence = [
           { label: "Custom Kubernetes Cluster Settings" },
         ],
       },
-      {
-        type: "Header",
-        label: "Engineering Docs",
-      },
+
       {
         label: "Akash Nodes",
         subItems: [
@@ -123,6 +120,10 @@ export const docsSequence = [
           { label: "GPU Testnet Submission Instructions" },
           { label: "Testnet Issue Reporting" },
         ],
+      },
+      {
+        type: "Header",
+        label: "Engineering Docs",
       },
       {
         label: "Akash Provider Service And Associated Sub Services",
