@@ -122,6 +122,32 @@ export const docsSequence = [
         ],
       },
       {
+        label: "Other Resources",
+        subItems: [
+          {
+            label: "Experimental",
+            subItems: [
+              { label: "AMD GPU Support" },
+              { label: "Akash Provider Streamlined Build with Rancher K3s" },
+              {
+                label: "Omnibus",
+              },
+              {
+                label: "Hardware and Software Recommendations",
+              },
+              {
+                label: "Streamlined Steps",
+              },
+            ],
+          },
+          { label: "Security" },
+          { label: "Containers" },
+          { label: "Marketplace" },
+          { label: "Payments" },
+          { label: "Authentication" },
+        ],
+      },
+      {
         type: "Header",
         label: "Engineering Docs",
       },
@@ -203,32 +229,6 @@ export const docsSequence = [
       },
       {
         label: "Akash API",
-      },
-      {
-        label: "Other Resources",
-        subItems: [
-          {
-            label: "Experimental",
-            subItems: [
-              { label: "AMD GPU Support" },
-              { label: "Akash Provider Streamlined Build with Rancher K3s" },
-              {
-                label: "Omnibus",
-              },
-              {
-                label: "Hardware and Software Recommendations",
-              },
-              {
-                label: "Streamlined Steps",
-              },
-            ],
-          },
-          { label: "Security" },
-          { label: "Containers" },
-          { label: "Marketplace" },
-          { label: "Payments" },
-          { label: "Authentication" },
-        ],
       },
     ],
   },

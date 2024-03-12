@@ -10,7 +10,7 @@ Akash Console Tool is a web based application which simplifies the deployment pr
 
 This guide will cover the following topics:
 
-- [Akash Console Access](#cloudmos-deploy-access)
+- [Akash Console Access](#akash-console-access)
 - [Minecraft Deployment Example](#minecraft-deployment-example)
 - [Manage Deployments](#manage-deployments)
 - [Define a custom RPC node](#custom-rpc-node)
