@@ -10,7 +10,7 @@ import MobileTableOfContents from "@/components/docs/mobile-table-of-contents.ts
 import Search from "@/components/docs/search-dialog.tsx";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
-import { proseClasses } from "@/lib/prose-classes";
+import { docsProseClasses } from "@/lib/docs-prose-classes";
 
 export async function getStaticPaths() {
   const pages = await getCollection("Docs");
@@ -96,7 +96,7 @@ const nav = generateDocsNav(pages);
 
         <div class="my-5 border-b md:my-10"></div>
 
-        <article class={proseClasses}>
+        <article class={docsProseClasses}>
           <Content />
         </article>
 

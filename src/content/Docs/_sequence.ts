@@ -3,6 +3,10 @@ export const docsSequence = [
     label: "Docs",
     subItems: [
       {
+        type: "Header",
+        label: "General Docs",
+      },
+      {
         label: "Getting Started",
         subItems: [
           { label: "Intro To Akash" },
@@ -15,7 +19,7 @@ export const docsSequence = [
         label: "Deployments",
         subItems: [
           { label: "Deployment Overview" },
-          { label: "Cloudmos Deploy" },
+          { label: "Akash Console" },
           {
             label: "Akash CLI",
             subItems: [
@@ -78,6 +82,7 @@ export const docsSequence = [
           { label: "Custom Kubernetes Cluster Settings" },
         ],
       },
+
       {
         label: "Akash Nodes",
         subItems: [
@@ -115,6 +120,36 @@ export const docsSequence = [
           { label: "GPU Testnet Submission Instructions" },
           { label: "Testnet Issue Reporting" },
         ],
+      },
+      {
+        label: "Other Resources",
+        subItems: [
+          {
+            label: "Experimental",
+            subItems: [
+              { label: "AMD GPU Support" },
+              { label: "Akash Provider Streamlined Build with Rancher K3s" },
+              {
+                label: "Omnibus",
+              },
+              {
+                label: "Hardware and Software Recommendations",
+              },
+              {
+                label: "Streamlined Steps",
+              },
+            ],
+          },
+          { label: "Security" },
+          { label: "Containers" },
+          { label: "Marketplace" },
+          { label: "Payments" },
+          { label: "Authentication" },
+        ],
+      },
+      {
+        type: "Header",
+        label: "Engineering Docs",
       },
       {
         label: "Akash Provider Service And Associated Sub Services",
@@ -195,37 +230,6 @@ export const docsSequence = [
       {
         label: "Akash API",
       },
-      {
-        label: "Other Resources",
-        subItems: [
-          {
-            label: "Experimental",
-            subItems: [
-              { label: "AMD GPU Support" },
-              { label: "Akash Provider Streamlined Build with Rancher K3s" },
-              {
-                label: "Omnibus",
-              },
-              {
-                label: "Hardware and Software Recommendations",
-              },
-              {
-                label: "Streamlined Steps",
-              },
-            ],
-          },
-          { label: "Security" },
-          { label: "Containers" },
-          { label: "Marketplace" },
-          { label: "Payments" },
-          { label: "Authentication" },
-        ],
-      },
     ],
-  },
-
-  {
-    label: "Engineering Documentation",
-    subItems: [],
   },
 ];
