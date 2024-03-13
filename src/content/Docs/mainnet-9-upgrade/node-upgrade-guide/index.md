@@ -20,15 +20,17 @@ Documentation related to Akash Network upgrade to version `v0.30.0`:
 
 
 
-## Akash v0.30.0 Node Upgrade Guide
+
+## Akash v0.32.0 Node Upgrade Guide
 
 ### Upgrade Details
 
-* **Upgrade name**: `v0.30.0`
-* **Binary version**: `v0.30.0`
-* [Upgrade countdown/block height](https://www.mintscan.io/akash/block/13880774)
-* [Binary Links](https://github.com/akash-network/node/releases/tag/v0.30.0)
+* **Upgrade name**: `v0.32.0`
+* **Binary version**: `v0.32.0`
+* [Upgrade countdown/block height](https://www.mintscan.io/akash/block/15414427)
+* Binary Links - will update with link once binary is available
 
+ 
 ### Common Steps for All Upgrade Options
 
 In the sections that follow both `Cosmovisor` and `non-Cosmovisor` upgrade paths are provided. Prior to detailing specifics steps for these upgrade paths, in this section we cover steps required regardless of upgrade path chosen.
