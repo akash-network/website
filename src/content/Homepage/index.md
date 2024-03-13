@@ -63,7 +63,7 @@ getStartedSection:
         link: "./assets/getting-started/one.svg"
       darkImage:
         link: "./assets/getting-started/one-dark.svg"
-      description: "Get started with Console, the user-friendly tool for deploying applications effortlessly on the Akash network."
+      description: "Get started with Akash Console, the user-friendly tool for deploying applications effortlessly on the Akash network."
       link: "/deploy"
       linkIcon: false
       linkLabel: "Get Started"
