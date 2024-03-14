@@ -10,7 +10,7 @@ categories:
 tags:
   - Insights
 contributors:
-  - Maly Ly
+  - Anil Murty
 
 bannerImage: ./banner-image.png
 
