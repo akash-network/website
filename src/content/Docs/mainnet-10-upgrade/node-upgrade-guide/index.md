@@ -2,42 +2,26 @@
 categories: ["Mainnet 9 Upgrade"]
 tags: []
 weight: 2
-title: "Akash v0.30.0 Node Upgrade Guide"
-linkTitle: "Akash v0.30.0 Node Upgrade Guide"
+title: "Akash v0.32.1 Node Upgrade Guide"
+linkTitle: "Akash v0.32.1 Node Upgrade Guide"
 ---
 
-> _**NOTE**_ - documentation for Mainnet9 upgrade is not yet complete.  Please check back prior to announced upgrade date/time for finalized details.
+## Upgrade Details
 
-Documentation related to Akash Network upgrade to version `v0.30.0`:
+- **Upgrade name**: Mainnet10
+- **Binary version**: `v0.32.1`
+- [Upgrade countdown/block height](https://www.mintscan.io/akash/block/15414427)
+- [Binary Links](https://github.com/akash-network/node/releases/tag/v0.32.1)
 
-* [Node Upgrade Instructions](#akash-v0300-node-upgrade-guide)
-
-### Upgrade Details
-
-* Upgrade Height: `13880774`
-* [Upgrade Timer](https://www.mintscan.io/akash/block/13880774)
-
-
-
-
-## Akash v0.30.0 Node Upgrade Guide
-
-### Upgrade Details
-
-* **Upgrade name**: `v0.30.0`
-* **Binary version**: `v0.30.0`
-* [Upgrade countdown/block height](https://www.mintscan.io/akash/block/13880774)
-* [Binary Links](https://github.com/akash-network/node/releases/tag/v0.30.0)
-
-### Common Steps for All Upgrade Options
+## Common Steps for All Upgrade Options
 
 In the sections that follow both `Cosmovisor` and `non-Cosmovisor` upgrade paths are provided. Prior to detailing specifics steps for these upgrade paths, in this section we cover steps required regardless of upgrade path chosen.
 
 > _**NOTE -**_ The following steps are not required if the auto-download option is enabled for Cosmovisor.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.30.0) or build it from source. We highly recommend using a pre-complied binary but provide instructions to build from source here in the rare event it would be necessary.
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.32.1) or build it from source. We highly recommend using a pre-complied binary but provide instructions to build from source here in the rare event it would be necessary.
 
-### Option 1: Upgrade Using Cosmovisor
+## Option 1: Upgrade Using Cosmovisor
 
 The following instructions assume the `akash` and `cosmovisor` binaries are already installed and cosmovisor is set up as a systemd service.
 
@@ -45,7 +29,7 @@ The section that follows will detail the install/configuration of Cosmovisor. If
 
 > _**NOTE**_ - Cosmovisor `1.5.0` is required
 
-#### Configure Cosmovisor
+### Configure Cosmovisor
 
 > _**Note**_: The following steps are not required if Cosmovisor v1.0 is already installed and configured to your preferred settings.
 
@@ -63,8 +47,8 @@ DAEMON_NAME=akash DAEMON_HOME=~/.akash cosmovisor version
 
 Update `cosmovisor` systemd service file and make sure the environment variables are set to the appropriate values(the following example includes the recommended settings).
 
-* _**NOTE**_ - It is preferable if you start your service under a dedicated non-system user other than root.
-* _**NOTE**_ - `DAEMON_SHUTDOWN_GRACE` (optional, default none), if set, send interrupt to binary and wait the specified time to allow for cleanup/cache flush to disk before sending the kill signal. The value must be a duration (e.g. 1s).
+- _**NOTE**_ - It is preferable if you start your service under a dedicated non-system user other than root.
+- _**NOTE**_ - `DAEMON_SHUTDOWN_GRACE` (optional, default none), if set, send interrupt to binary and wait the specified time to allow for cleanup/cache flush to disk before sending the kill signal. The value must be a duration (e.g. 1s).
 
 ```
 [Unit]
@@ -134,23 +118,23 @@ Enable `cosmovisor` to start automatically when the machine reboots:
 sudo systemctl enable cosmovisor.service
 ```
 
-#### Prepare Upgrade Binary
+### Prepare Upgrade Binary
 
-> Skip this section if you have enabled DAEMON\_ALLOW\_DOWNLOAD\_BINARIES cosmovisor parameter. It will automatically create the correct path and download the binary based on the plan info from the govt proposal.
+> Skip this section if you have enabled DAEMON_ALLOW_DOWNLOAD_BINARIES cosmovisor parameter. It will automatically create the correct path and download the binary based on the plan info from the govt proposal.
 
-Create the folder for the upgrade (v0.30.0) - cloned in this [step](v0.30.0-upgrade-docs.md#common-steps-for-all-upgrade-options) - and copy the akash binary into the folder.
+Create the folder for the upgrade (v0.32.0) - cloned in this [step](#common-steps-for-all-upgrade-options) - and copy the akash binary into the folder.
 
 This next step assumes that the akash binary was built from source and stored in the current (i.e., akash) directory:
 
 ```
-mkdir -p $HOME/.akash/cosmovisor/upgrades/v0.30.0/bin
+mkdir -p $HOME/.akash/cosmovisor/upgrades/v0.32.0/bin
 
-cp ./.cache/bin $HOME/.akash/cosmovisor/upgrades/v0.30.0/bin
+cp ./.cache/bin $HOME/.akash/cosmovisor/upgrades/v0.32.0/bin
 ```
 
-At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.28.X), set the upgrade binary as the new current binary (v0.30.0), and then restart the node.\\
+At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.30.X), set the upgrade binary as the new current binary (v0.32.1), and then restart the node.\\
 
-### Option 2: Upgrade Without Cosmovisor
+## Option 2: Upgrade Without Cosmovisor
 
 Using Cosmovisor to perform the upgrade is not mandatory.
 
@@ -158,7 +142,7 @@ Node operators also have the option to manually update the `akash` binary at the
 
 When the chain halts at the proposed upgrade height, stop the current process running `akash`.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.30.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.30.0) or build from source - completed in this [step](v0.32.0-upgrade-docs.md#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
 
 ```
 akash version
@@ -172,11 +156,11 @@ akash init
 
 Restart the process running `akash`.
 
-### Appendix
+## Appendix
 
-#### Build Binary From Sources
+### Build Binary From Sources
 
-##### Prerequisites
+#### Prerequisites
 
 > _**NOTE**_ - we highly recommend downloading a complied Akash binary over building the binary from source
 
@@ -190,10 +174,10 @@ direnv: error .envrc is blocked. Run `direnv allow` to approve its content
 
 if no such message, most like direnv is not hooked to the shell
 
-##### Build
+#### Build
 
 ```shell
-git clone --depth 1 --branch v0.30.0 https://github.com/akash-network/node
+git clone --depth 1 --branch v0.32.1 https://github.com/akash-network/node
 cd node
 direnv allow
 make release

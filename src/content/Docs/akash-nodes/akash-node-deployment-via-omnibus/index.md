@@ -30,7 +30,7 @@ If you have not used Cloudmos Deploy previously, please use [this guide](/docs/d
 - To install the Akash Node we will use a custom SDL file
 - Select the “Empty” option so that we can copy/paste the Akash Node SDL in the next step
 
-![](<../../assets/manifestSelectInitial (1).png>)
+![](../../assets/manifestSelectInitial.png)
 
 - Copy and paste the SDL from [this site](https://github.com/akash-network/cosmos-omnibus/blob/master/akash/deploy.yml) into the Cloudmos SDL editor window
 - **NOTE -** the SDL within GitHub currently has a storage > size value of 120Gi. Omnibus uses a compressed snapshot of the blockchain and when expanded 120GB of storage for the deployment will not be enough. At the time of this writing adjusting the storage size to 350GB will suffice and allow some growth. Please adjust the storage appropriately and as shown in the screenshot below.

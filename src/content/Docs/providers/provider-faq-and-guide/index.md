@@ -88,7 +88,7 @@ root@node1:~# kubectl -n lease get manifest --show-labels --sort-by='.metadata.c
 #### STEP 2 - Close the bid
 
 ```
-root@node1:~# kubectl -n akash-services exec -i $(kubectl -n akash-services get pods -l app=akash-provider --output jsonpath='{.items[0].metadata.name}') -- bash -c "akash tx market bid close --owner akash1h24fljt7p0nh82cq0za0uhsct3sfwsfu9w3c9h --dseq 8438017 --oseq 1 --gseq 1 -y"
+kubectl -n akash-services exec -i $(kubectl -n akash-services get pods -l app=akash-provider --output jsonpath='{.items[0].metadata.name}') -- bash -c "provider-services tx market bid close --owner akash1h24fljt7p0nh82cq0za0uhsct3sfwsfu9w3c9h --dseq 8438017 --oseq 1 --gseq 1 -y"
 ```
 
 #### STEP 3 - Verification
@@ -1377,6 +1377,7 @@ helm -n akash-services get values akash-provider | grep -v '^USER-SUPPLIED VALUE
 - `t4` nvidia models will be charged by `80` USD/GPU unit a month
 - Unspecified nvidia models will be charged `130` USD/GPU unit a month (if `*` is not explicitly set in the mapping it will default to `100` USD/GPU unit a month)
 - Extend with more models your provider is offering if necessary with syntax of `<model>=<USD/GPU unit a month>`
+- If your GPU model has different possible RAM specs - use this type of convention: `a100.40Gi=900,a100.80Gi=1000`
 
 ```
 price_target_cpu: 1.60
@@ -1456,7 +1457,7 @@ apt update && apt -y install python3-venv
 
 python3 -m venv /venv
 source /venv/bin/activate
-pip install torch
+pip install torch numpy
 ```
 
 #### Confirm GPU Resources Available on Host
@@ -1548,7 +1549,7 @@ nvdp    nvidia-device-plugin    1           2023-09-23 14:30:34.18183027 +0200 C
 
 ### CUDA Drivers Fabric Manager
 
-- In rare circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources
+- In some circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources (e.g. non-PCIe GPU configurations such as those using SXM form factors)
 - If the output of the `torch.cuda.is_available()` command - covered in prior section in this doc - is an error condition, consider installing the CUDA Drivers Fabric Manager to resolve issue
 - Frequently encountered error message encounter when issue exists:\
   \

@@ -2,7 +2,7 @@
 pageTitle: Customize your Akash experience with the perfect tool
 
 heroSection:
-  title: Streamline deployment with Akash Console
+  title: Streamline Deployment with Akash Console
   description: Effortless application deployment for the decentralized era.
   heroImage: "./assets/hero-image.png"
   featureList:

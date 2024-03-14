@@ -353,7 +353,7 @@ NOTES:
 kubectl get pods -n akash-services
 ```
 
-##### **Expected output (example and name following akash-provider will differ)**
+##### **Expected output (pod mame will differ)**
 
 <pre><code>root@node1:~# kubectl get pods -n akash-services
 
@@ -545,7 +545,7 @@ bidpricestoragescale: "0.00016" # storage pricing scale in uakt per megabyte
 > _**NOTE**_ - You do not need to run this command if you previously installed the Akash Provider and are now performing an upgrade.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.4.8/pkg/apis/akash.network/crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.5.4/pkg/apis/akash.network/crd.yaml
 ```
 
 #### **Install the Provider Helm Chart**
@@ -705,6 +705,7 @@ controller:
     enable-ssl-passthrough: true
 tcp:
   "8443": "akash-services/akash-provider:8443"
+  "8444": "akash-services/akash-provider:8444"
 EOF
 ```
 
@@ -737,6 +738,7 @@ controller:
 tcp:
   "1317": "akash-services/akash-node-1:1317"
   "8443": "akash-services/akash-provider:8443"
+  "8444": "akash-services/akash-provider:8444"
   "9090":  "akash-services/akash-node-1:9090"
   "26656": "akash-services/akash-node-1:26656"
   "26657": "akash-services/akash-node-1:26657"
@@ -749,7 +751,7 @@ EOF
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
-  --version 4.8.3 \
+  --version 4.10.0 \
   --namespace ingress-nginx --create-namespace \
   -f ingress-nginx-custom.yaml
 ```

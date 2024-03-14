@@ -6,16 +6,41 @@ title: "Akash Console"
 linkTitle: Akash Console
 ---
 
-Akash Console Tool is a web based application which simplifies the deployment process on the Akash Network. Post deployment the tool provides a dashboard to view the status and details of workloads. The dashboard also has the ability to perform administrative tasks including closing the deployment, updating the deployment, redeploying, and increasing the funding available to the deployment.
+> _**PLEASE NOTE**_ - Now that Cloudmos and Overclock labs have joined forces, the Overclock core team is pausing active development and bug fixes for Console. Please use [Cloudmos Deploy](../cloudmos-deploy/) for your Akash Network deployments.
+
+## Akash Console Overview
+
+Akash Console is a web based application that makes it easy to deploy applications onto the Akash Network. Post deployment, Akash Console provides a dashboard to view the status and details of workloads. The dashboard also has the ability to perform administrative tasks including closing the deployment, updating the deployment, redeploying, and increasing the funding available to the deployment.
 
 This guide will cover the following topics:
 
+- [Akash Console Overview](#akash-console-overview)
+- [Akash Wants to Spotlight Your Work](#akash-wants-to-spotlight-your-work)
 - [Akash Console Access](#akash-console-access)
-- [Minecraft Deployment Example](#minecraft-deployment-example)
-- [Manage Deployments](#manage-deployments)
-- [Define a custom RPC node](#custom-rpc-node)
+  - [Before Getting Started](#before-getting-started)
+  - [ Akash Console Access](#-akash-console-access)
+  - [Keplr Account Selection](#keplr-account-selection)
+  - [Connect Wallet](#connect-wallet)
+- [Deployment Management](#deployment-management)
+  - [Deployment Dashboard Overview](#deployment-dashboard-overview)
+- [Minesweeper Deployment Example](#minesweeper-deployment-example)
+  - [STEP 1 - Create the Deployment](#step-1---create-the-deployment)
+  - [STEP 2 - Select the Minesweeper Template](#step-2---select-the-minesweeper-template)
+  - [STEP 3 - Assign Deployment Name/Edit SDL](#step-3---assign-deployment-nameedit-sdl)
+  - [STEP 4 - Pre-Flight Verifications](#step-4---pre-flight-verifications)
+  - [STEP 5 - Certificate Creation ](#step-5---certificate-creation-)
+  - [STEP 6 - Accept Gas Fees for Deployment Creation](#step-6---accept-gas-fees-for-deployment-creation)
+  - [STEP 7 - Select Provider](#step-7---select-provider)
+  - [STEP 8 - Deployment Complete](#step-8---deployment-complete)
+  - [STEP 9 - Access Deployment](#step-9---access-deployment)
+- [Settings](#settings)
+  - [Settings Access](#settings-access)
+  - [Settings Overview](#settings-overview)
+  - [Generate New Cert](#generate-new-cert)
+  - [Certificate Management](#certificate-management)
+  - [Analytics Opt In](#analytics-opt-in)
 
-### Akash Wants to Spotlight Your Work
+## Akash Wants to Spotlight Your Work
 
 Have an idea for a project to deploy on Akash? Already working on a project? Maybe you’ve already deployed a project (or many projects!) to the network?
 
@@ -27,150 +52,236 @@ This is a great opportunity to connect with the team at Akash Network and to spo
 
 ## Akash Console Access
 
-### **Before Getting Started**
+### Before Getting Started
 
-The Keplr and Leap browser extensions must be installed and with sufficient funds (5 AKT minimum for a single deployment plus a small amount for transaction fees).
+The Keplr browser extension must be installed and with sufficient funds (5AKT minimum for a single deployment plus a small amount for transaction fees).
 
-Follow our [Keplr Wallet](/docs/getting-started/token-and-wallets/#keplr-wallet) and [Leap Cosmos Wallet](/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
+Follow our [Keplr Wallet](/docs/getting-started/token-and-wallets/) guide to create your first wallet if necessary.
 
-### **Akash Console Access**
+### &#x20;Akash Console Access
 
 The Akash Console web app is available via the following URL:
 
-- [https://console.akash.network/](https://console.akash.network/)
+- [https://console.akash.network](https://console.akash.network)
 
-## Keplr Account Selection
+### Keplr Account Selection
 
 Ensure that an Akash account with sufficient AKT balance is selected in Keplr prior to proceeding with subsequent steps.
 
-![](../../assets/keplr_wallet.png)
+![](../../assets/akashConsoleKeplr.png)
 
-## Leap Account Selection
+### Connect Wallet
 
-Ensure that an Akash account with sufficient AKT balance is selected in Leap prior to proceeding with subsequent steps.
+Use the `Connect Wallet` button to connect the account selected in Keplr in the prior step to the Akash Console.
 
-![](../../assets/leapwallet.png)
+![](../../assets/akashConsoleConnectWallet.png)
 
-## Minecraft Deployment Example
+```yaml
+version: "2.0"
 
-In this section we will use Akash Console to launch an example Minecraft deployment on the Akash Network. You can follow the same process for any other workload so long as it is containerized and you have an appropriate SDL.
+services:
+  web:
+    image: ovrclk/lunie-light
+    expose:
+      - port: 3000
+        as: 80
+        to:
+          - global: true
 
-#### **STEP 1 - Create the Deployment**
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.1
+        memory:
+          size: 512Mi
+        storage:
+          size: 512Mi
+  placement:
+    westcoast:
+      attributes:
+        host: akash
+      pricing:
+        web:
+          denom: uakt
+          amount: 1000
 
-- From the Dashboard/primary pane click the `CREATE DEPLOYMENT` button
+deployment:
+  web:
+    westcoast:
+      profile: web
+      count: 1
+```
 
-![](../../assets/cloudCreateDeployment.png)
+## Deployment Management
 
-#### **STEP 2 - Create Certficate**
+### Deployment Dashboard Overview
 
-- A number of checks are performed to ensure necessary funds and certificates are available to launch a deployment.
-- If this is your first deployment with Akash Console a `CREATE CERTIFICATE` prompt will be displayed. Select the `CREATE CERTIFICATE` button and accept transaction fee prompt from Keplr to proceed.
+The `My Deployments` link may be selected from any page within the Akash Console. The arrived upon management pane lists all active Deployments associated with the account currently selected.
 
-![](../../assets/cloudmosCreateCert.png)
+Select/click a Deployment of interest to drill into additional details.
 
-**STEP 3 - Choose Deployment Template**
+![](../../assets/akashConsoleDeploymentManagement.png)
 
-- The tool provides several sample templates launch of popular applications
-- Select the `Minecraft` template for our initial deployment
+From the example `My Deployment` screen shown, we drill into the Minesweeper Deployment to expose Deployment details and the ability to navigate into EVENTS/LOGS/LEASES tabs.
 
-![](../../assets/cloudmosSelectTemplate-1.png)
+## Minesweeper Deployment Example
 
-#### **STEP 4 - Proceed with Deployment**
+In this section we will use the Akash Console to launch an example Minesweeper deployment on the Akash Network. You can follow the same process for any other workload so long as it is containerized and you have an appropriate SDL.
 
-- At this stage we could review/customize the Akash SDL deployment template if desired but in this example we will proceed with the default settings and by pressing the `DEPLOY` button
+#### STEP 1 - Create the Deployment
 
-![](../../assets/cloudmosProceedWithDeployment.png)
+From the `New Deployment` page click the `Deploy Now` button in the `Fun & Games` section.
 
-#### **STEP 5 - SDL Verification**
+![](../../assets/akashConsoleDeployNow.png)
 
-- Screen will appear which provides an additional opportunity to customize the SDL but we will again proceed with no edits by pressing the `CREATE DEPLOYMENT` button
-- Subsequently accept the Deployment Deposit pop up which specifies that 5AKT will be placed into an escrow account for deployment cost and then the Keplr transaction fee prompt
+#### STEP 2 - Select the Minesweeper Template
 
-![](../../assets/cloudmosSDLReview.png)
+Select the `Minesweeper` template and the proceed with the deployment by clicking `Deploy Now`.
 
-#### **STEP 6 - Review/Accept Bid**
+![](../../assets/akashConsoleMinecraft.png)
 
-- After a minute or so a list of bids will display.&#x20;
-- Select the most affordable, preferred provider and then press `ACCEPT BID`
+#### STEP 3 - Assign Deployment Name/Edit SDL
 
-> _**NOTE**_ - list of bids and providers may be different in your deployment
+Proceed with the deployment by specifying a useful name to your application. This step is optional and without explicit naming the Akash Console will assign a randomly generated name.
 
-- Accept the Keplr transaction fee prompt to proceed
+Click `Create Deployment` to proceed when satisfied with application naming/settings..
 
-![](../../assets/cloudmosAcceptBid.png)
+> _**NOTE**_ - the Configuration section additionally allows the edit of the following application specifications. In our example - with the goal being the simple launch of an initial application via the Akash Console - these settings are left at defaults and are not changed.\
+> \
+> \- **Configure services** - allows edit of application specs including CPU, memory, storage, and exposed ports.\
+> \
+> \- **Review SDL** - allows direct edit of the applications SDL (Stack Description Language) YAML file. Further details on Akash SDL files can be found [here](../../readme/stack-definition-language.md).
 
-#### **STEP 7 - Post Deployment**
+![](../../assets/akashConsoleNameDeployment.png)
 
-- While the deployment is becoming active the `LOGS` tab is displayed.
-- When the deployment appears to be complete, select the `LEASES` tab.
-- The `LEASES` tab confirms the successful deployment of our example Minecraft application
+#### STEP 4 - Pre-Flight Verifications
 
-![](../../assets/cloudmosLeasesTab.png)
+A number of verifications are made prior to proceeding with application deployment.
 
-## Manage Deployments
+Amongst the verifications made are assurances that the connected wallet has sufficient funds and a valid certificate exists which is used for Akash provider communications.
 
-There are a several important management operations you can do with the Akash Console tool including:
+If all verifications are successful - as shown in the example below - proceed by clicking the `Next` button.
 
-- [Add funds to existing deployment’s Escrow Account](#add-funding-to-active-deployment)
-- [Close an active deployment](#close-active-deployment)
+> _**NOTE**_ - if `Wallet Connected` check fails, ensure the `Connect Wallet` step from the [Akash Console Access](akash-console-access.md) section of this document is completed.
 
-### **Deployment Dashboard Overview**
+> _**NOTE**_ - if this is your first time using the Akash Console it is likely the `Valid Certificate` check will fail. Use the instructions in the subsequent step ([STEP 5 - Certificate Creation](minesweeper-deployment-example.md#step-5-certificate-creation)) should this be the case.
 
-- To get an overview of what you have deployed click the `Dashboard` button on the left hand navigation pane
-- From the Active Deployments window you can see the resources that are dedicated to each deployment.
+![](../../assets/akashConsolePreflight.png)
 
-![](../../assets/cloudmosDashboard.png)
+#### STEP 5 - Certificate Creation&#x20;
 
-### **Add Funding to Active Deployment**
+Use the guidance in this step if a valid certificate does not exist.
 
-- If your escrow for a deployment is running low you will need to add some funds.
-- Within the `Dashboard` pane, isolate the deployment of interest, select the `...` option to expand options, and select `Deposit`
+A valid certificate is necessary to proceed with deployments of apps onto the Akash network. If the `Checking Essentials` screen reports `Missing Certificate` there are two ways to proceed.
 
-![](../../assets/cloudmosAddFunds.png)
+- Simply click the `Create Certificate` button presented in the `Checking Essentials` pane as highlighted in the display below. _**NOTE**_ - following the selection of this button it may take a couple of minutes before the `Missing Certificate` warning disappears.
+- Manage the Akash Console certificates from the [Settings](#settings) page. Following the cert creation/activation - as covered in the [Settings](settings.md) documentation - return to the deployment creation process and `Checking Essentials` should no longer display a `Missing Certificate` warning.
 
-- A dialog box will pop up allowing you to add tokens to the deployment’s escrow account
-- Select the `DEPOSIT` button once you have put in the correct amount
-- As always you must confirm the gas fees and transaction to the blockchain by clicking “APPROVE”
+![](../../assets/akashConsoleCertInPreflight.png)
 
-![](../../assets/cloudmosSpecifyDeposit.png)
+#### STEP 6 - Accept Gas Fees for Deployment Creation
 
-- Notice the balance change in the escrow account for the deployment
+The Keplr wallet will prompt to `Approve` gas fees for the creation of the deployment. Click the `Approve` button to proceed.
 
-![](../../assets/cloudmosDepositUpdated.png)
+Subsequent steps in the Deployment process may also prompt for Gas fee accept. Follow this same step to approve any subsequent such prompts.
 
-### **Close Active Deployment**
+![](../../assets/akashConsoleAcceptFees.png)
 
-Closing a deployment is very simple.
+#### STEP 7 - Select Provider
 
-- Visit the `Dashboard` pane and click the deployment you want to close
-- Within the `Dashboard` pane, isolate the deployment of interest, select the `...` option to expand options, and select `Close`
-- Confirm the transaction to the blockchain
-- The deployment should now be removed from the list
+Select a preferred Akash Provider for your deployment.
 
-![](../../assets/cloudmosDeploymentClose.png)
+Click the `Submit Deploy Request` button following preferred Provider selection to continue with the deployment.
 
-# Custom RPC Node
+![](../../assets/akashConsoleProvider.png)
 
-Specify a custom RPC or API node within Akash Console by using the steps outlined in this section.&#x20;
+#### STEP 8 - Deployment Complete
 
-The custom node option can point to a RPC node we have created and manage ourselves. Or we can point to an alternative public RPC node that was not selected by Akash Console auto selection.
+Upon successful completion of the Akash Deployment the following screen is presented.
 
-### STEP 1 - Enable Custom Node Use
+The Deployment management pane allows actions including:
 
-- Begin by selecting the drop-down next to the current Node and then click the `Custom node`radio button
+- _**EVENTS**_ - view of the related application launch events
+- _**LOGS**_ - view of the logs from the application's container instance
+- _**LEASES**_ - review of the deployment's specifications including exposed ports and assigned resources
+- _**Update/Delete Deployment**_ - ability to manage the active deployment by updating application image or closing the deployment.
 
-![](../../assets/cloudmosCustomNode.png)
+![](../../assets/akashConsoleDeploymentComplete.png)
 
-### STEP 2 - Edit the RPC and API Nodes
+#### STEP 9 - Access Deployment
 
-Press the `EDIT` button to enter the screen where we can enter our preferred nodes
+Access the Deployment's URL via the exposed link.
 
-![](../../assets/cloudmosSpecifyCustomNode.png)
+![](../../assets/akashConsoleURL.png)
 
-### STEP 3 - Specify Preferred RPC and API Nodes
+Example display of the Minesweeper web app within the Akash Deployment.
 
-Use the `Api Endpoint` and `Rpc Endpoint` fields to define your own managed nodes or preferred public nodes.\
-\
-If you do not maintain your own nodes and want to select from a list of popular public nodes, choose from the RPC node list [here](https://github.com/akash-network/net/blob/master/mainnet/rpc-nodes.txt) and the API node list [here](https://github.com/akash-network/net/blob/master/mainnet/api-nodes.txt).
+![](<../../assets/akashConsoleAccess(1).png>)
 
-![](../../assets/cloudmosAcceptCustomNodes.png)
+## Settings
+
+The Akash Console Settings page is used primarily for certificate management. This guide describes cert management and other activities available from the Settings page.
+
+### Settings Access
+
+The Akash Console Settings page can be accessed from the left-hand navigation bar and from any page within the app.
+
+![](../../assets/akashConsoleSettingsAccess.png)
+
+### Settings Overview
+
+The Akash Console Settings page currently allows three types of actions. Drill into the link for each action type for additional detail.
+
+- [Generate New Cert](#generate-new-cert)
+- [Certificate Management](#certificate-management)
+- [Analytics Opt In](#analytics-opt-in)
+
+![](../../assets/akashConsoleSettingsOverivew.png)
+
+### Generate New Cert
+
+The primary activity in the Settings page involves certificate management. A valid, active certificate must exist to proceed with Akash deployment activities (create deployment, delete deployment, etc).
+
+If no certificate currently exists the Akash Console displays the message - `You don't have any certificates. You must generate a new certificate to deploy.` - as per example below.
+
+Follow the steps in the remainder of this section to create a new certificate when necessary.
+
+![](../../assets/akashConsoleNoCert.png)
+
+Click the `Generate New Cert` button to begin the process of new certificate creation.
+
+![](../../assets/akashConsoleCreateNewCert.png)
+
+Click the `Create` button to proceed with new certificate creation.
+
+![](../../assets/akashConsoleNewCert.png)
+
+Following successful certificate creation, click the `ACTIVATE` option.
+
+![](../../assets/akashConsoleActivateCert.png)
+
+Following certificate creation and activation a `Current` status should display.
+
+If the `Settings` page now list the newly created certificate with a status of `Current` - you should be all set to proceed with Akash deployment creations and management within the Console.
+
+![](../../assets/akashConsoleCertCurrent.png)
+
+### Certificate Management
+
+The Settings page can be used for certificate management purposes.&#x20;
+
+When several certificates exist for the current account - as selected in Keplr - use the available management actions to activate a specific cert if needed.
+
+We can additionally use the certificate management pane to determine what certificate is currently active and revoke certificates if desired.
+
+![](../../assets/akashConsoleCertManagement.png)
+
+### Analytics Opt In
+
+The Akash Console development team utilizes analytics received from the application to improve usability and performance. By default Analytics are enabled (`Opted-In` is active) meaning statistics from your browser will be collected and sent to the Akash team. No private information is stored or sent as part of this analytics collection.
+
+To change the status of Analytics Opt In use the toggle highlighted below.
+
+![](../../assets/akashConsoleAnalytics.png)
