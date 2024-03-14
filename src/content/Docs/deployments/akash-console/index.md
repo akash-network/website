@@ -6,7 +6,7 @@ title: "Akash Console"
 linkTitle: Akash Console
 ---
 
-> _**PLEASE NOTE**_ - Now that Cloudmos and Overclock labs have joined forces, the Overclock core team is pausing active development and bug fixes for Console. Please use [Cloudmos Deploy](../cloudmos-deploy/) for your Akash Network deployments.
+> _**PLEASE NOTE**_ - Now that Cloudmos and Overclock labs have joined forces, the Overclock core team is pausing active development and bug fixes for Console. Please use [Akash Console](https://console.akash.network/) for your Akash Network deployments.
 
 ## Akash Console Overview
 
