@@ -37,22 +37,21 @@ helm install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
-  --version v1.11.0 \
+  --version v1.14.3 \
   --set installCRDs=true
 ```
 
-##### Expected/Example Output
+#### Expected/Example Output
 
 ```
 NAME: cert-manager
-LAST DEPLOYED: Tue May  2 13:56:12 2023
+LAST DEPLOYED: Tue Mar  5 11:31:07 2024
 NAMESPACE: cert-manager
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-cert-manager v1.11.0 has been deployed successfully!
-
+cert-manager v1.14.3 has been deployed successfully!
 In order to begin issuing certificates, you will need to set up a ClusterIssuer
 or Issuer resource (for example, by creating a 'letsencrypt-staging' issuer).
 

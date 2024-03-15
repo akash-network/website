@@ -3,12 +3,12 @@ categories: ["Deployment"]
 tags: []
 title: "Deployment Overview"
 linkTitle: "Deployment Overview"
-weight: 3
+weight: 1
 ---
 
 Applications can be deployed onto the Akash network using a platform that best suits your needs and preferences. Explore the following guides for your unique use case.
 
-- [Cloudmos Deploy (web app)](/docs/deployments/cloudmos-deploy/)
+- [Akash Console](/docs/deployments/akash-console/)
 - [Using the Command Line for Akash Deployments ](/docs/deployments/akash-cli/installation/)
 - [Akash Sandbox Use](/docs/deployments/sandbox/introduction/)
 - [Awesome Akash Example Distributed Applications](/docs/deployments/apps-on-akash/)

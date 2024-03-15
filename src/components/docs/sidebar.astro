@@ -10,7 +10,7 @@ const pathname = new URL(Astro.request.url).pathname;
 <aside
   class="sidebar-scroll sticky top-[86px] h-[calc(100dvh-86px)] w-[220px] flex-shrink-0 overflow-y-auto border-r py-6 pr-5 lg:w-[281px]"
 >
-  <div class="flex flex-col gap-y-6">
+  <div class="flex flex-col">
     <div>
       <a
         href={`/docs`}
@@ -26,7 +26,7 @@ const pathname = new URL(Astro.request.url).pathname;
       </a>
     </div>
 
-    <div class="border-b"></div>
+    <!-- <div class="border-b"></div> -->
 
     <div>
       <DocsNav
@@ -37,7 +37,7 @@ const pathname = new URL(Astro.request.url).pathname;
       />
     </div>
 
-    <div class="border-b"></div>
+    <div class="my-6 border-b"></div>
 
     <div>
       <a

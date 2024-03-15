@@ -18,13 +18,14 @@ This guide uses a single Kubernetes control plane node.
 - [Helm Installation on Kubernetes Node](#step-4---helm-installation-on-kubernetes-node)
 - [Domain Name Review](#step-5---domain-name-review)
 - [Hostname Operator Build](#step-6---hostname-operator-build)
-- [Provider Build via Helm Chart](#step-7---provider-build-via-helm-chart)
-- [Provider Bid Customization](#step-8---provider-bid-customization)
-- [Ingress Controller Install](#step-9---ingress-controller-install)
-- [Firewall Rule Review](#step-10---firewall-rule-review)
-- [Disable Unattended Upgrades](#step-11---disable-unattended-upgrades)
-- [Provider Whitelisting (Optional)](#step-11---provider-whitelisting-optional)
-- [Extras](#step-11---extras)
+- [Inventory Operator Install](#step-7---inventory-operator-install)
+- [Provider Build via Helm Chart](#step-8---provider-build-via-helm-chart)
+- [Provider Bid Customization](#step-9---provider-bid-customization)
+- [Ingress Controller Install](#step-10---ingress-controller-install)
+- [Firewall Rule Review](#step-11---firewall-rule-review)
+- [Disable Unattended Upgrades](#step-12---disable-unattended-upgrades)
+- [Provider Whitelisting (Optional)](#step-13---provider-whitelisting-optional)
+- [Extras](#step-14---extras)
 
 ## STEP 1 - Prerequisites of an Akash Provider
 
@@ -353,7 +354,7 @@ NOTES:
 kubectl get pods -n akash-services
 ```
 
-##### **Expected output (example and name following akash-provider will differ)**
+##### **Expected output (pod mame will differ)**
 
 <pre><code>root@node1:~# kubectl get pods -n akash-services
 
@@ -361,7 +362,48 @@ NAME                                 READY   STATUS    RESTARTS   AGE
 <strong>akash-hostname-operator-84977c6fd9-qvnsm   1/1     Running   0          3m29s
 </strong></code></pre>
 
-## STEP 7 - Provider Build via Helm Chart
+## STEP 7 - Inventory Operator Install
+
+_**NOTE**_ - the Inventory Operator is now required on ALL Akash Providers. Previously this operator was only required when the Provider hosted persistent storage. But the operator is now mandated on all providers.
+
+```
+helm install inventory-operator akash/akash-inventory-operator -n akash-services
+```
+
+##### Expected Output
+
+```
+root@node1:~/helm-charts/charts# helm install inventory-operator akash/akash-inventory-operator -n akash-services
+
+NAME: inventory-operator
+LAST DEPLOYED: Thu May  5 18:15:57 2022
+NAMESPACE: akash-services
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+```
+
+### **Inventory Operator Confirmation**
+
+```
+kubectl get pods -n akash-services -o wide
+```
+
+##### **Expected output (pod names will differ)**
+
+> _**NOTE**_ - a pod should exist for the Inentory Operator itself (I.e. `operator-inventory-7d97d54b7f-sjz5v` in the example below) and one Hardware Discovery pod per Kubernetes host.
+
+```
+root@node1:~# kubectl get pods -n akash-services -o wide
+NAME                                          READY   STATUS    RESTARTS   AGE     IP               NODE    NOMINATED NODE   READINESS GATES
+operator-hostname-84875c8df7-rzfct            1/1     Running   0          4m31s   10.233.71.2      node3   <none>           <none>
+operator-inventory-7d97d54b7f-sjz5v           1/1     Running   0          3m54s   10.233.75.2      node2   <none>           <none>
+operator-inventory-hardware-discovery-node1   1/1     Running   0          3m49s   10.233.102.131   node1   <none>           <none>
+operator-inventory-hardware-discovery-node2   1/1     Running   0          3m49s   10.233.75.3      node2   <none>           <none>
+operator-inventory-hardware-discovery-node3   1/1     Running   0          3m49s   10.233.71.3      node3   <none>           <none>
+```
+
+## STEP 8 - Provider Build via Helm Chart
 
 #### **Overview**
 
@@ -545,7 +587,7 @@ bidpricestoragescale: "0.00016" # storage pricing scale in uakt per megabyte
 > _**NOTE**_ - You do not need to run this command if you previously installed the Akash Provider and are now performing an upgrade.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.4.8/pkg/apis/akash.network/crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.5.4/pkg/apis/akash.network/crd.yaml
 ```
 
 #### **Install the Provider Helm Chart**
@@ -599,7 +641,7 @@ kubectl -n akash-services logs -l app=akash-provider -c init --tail 200 -f
 helm uninstall akash-provider -n akash-services
 ```
 
-## STEP 8 - Provider Bid Customization
+## STEP 9 - Provider Bid Customization
 
 #### Overview
 
@@ -673,7 +715,7 @@ helm list -n akash-services | grep akash-provider
 akash-provider         	akash-services	28      	2023-09-19 12:25:33.880309778 +0000 UTC	deployed	provider-6.0.5                	0.4.6
 ```
 
-## STEP 9 - Ingress Controller Install
+## STEP 10 - Ingress Controller Install
 
 #### Create Upstream Ingress-Nginx Config
 
@@ -705,6 +747,7 @@ controller:
     enable-ssl-passthrough: true
 tcp:
   "8443": "akash-services/akash-provider:8443"
+  "8444": "akash-services/akash-provider:8444"
 EOF
 ```
 
@@ -737,6 +780,7 @@ controller:
 tcp:
   "1317": "akash-services/akash-node-1:1317"
   "8443": "akash-services/akash-provider:8443"
+  "8444": "akash-services/akash-provider:8444"
   "9090":  "akash-services/akash-node-1:9090"
   "26656": "akash-services/akash-node-1:26656"
   "26657": "akash-services/akash-node-1:26657"
@@ -749,7 +793,7 @@ EOF
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
-  --version 4.8.3 \
+  --version 4.10.0 \
   --namespace ingress-nginx --create-namespace \
   -f ingress-nginx-custom.yaml
 ```
@@ -764,7 +808,7 @@ kubectl label ns ingress-nginx app.kubernetes.io/name=ingress-nginx app.kubernet
 kubectl label ingressclass akash-ingress-class akash.network=true
 ```
 
-## Step 10 - Firewall Rule Review
+## Step 11 - Firewall Rule Review
 
 #### External/Internet Firewall Rules
 
@@ -785,7 +829,7 @@ The following firewall rules are applicable to internet-facing Kubernetes compon
 30000-32767/udp - for Kubernetes node port range for deployments
 ```
 
-## Step 11 - Disable Unattended Upgrades
+## Step 12 - Disable Unattended Upgrades
 
 #### Overview
 
@@ -827,7 +871,7 @@ APT::Periodic::Unattended-Upgrade "0";
 APT::Periodic::Update-Package-Lists "0";
 ```
 
-## STEP 11 - Provider Whitelisting (Optional)
+## STEP 13 - Provider Whitelisting (Optional)
 
 #### Overview
 
@@ -878,7 +922,7 @@ helm upgrade --install akash-provider akash/provider -n akash-services -f provid
 --set whitelist_url=https://gist.githubusercontent.com/andy108369/1fa6cfa81674bce438a450d6c14395ea/raw/9181887be8e3e019b58e5dc8e7fce4ae0a66eeec/whitelist.txt
 ```
 
-## STEP 11 - Extras
+## STEP 14 - Extras
 
 #### Force New ReplicaSet Workaround
 

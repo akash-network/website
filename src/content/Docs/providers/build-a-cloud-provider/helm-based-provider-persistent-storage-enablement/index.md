@@ -149,9 +149,9 @@ In the subsequent sections persistent storage attributes will be defined. Use th
 | beta2      | ssd                               | 1             |
 | beta3      | NVMe                              | 1 or 2        |
 
-## Deploy Persistent Storage
+# Deploy Persistent Storage
 
-### **Helm Install**
+## **Helm Install**
 
 Install Helm and add the Akash repo if not done previously by following the steps in this [guide](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-4---helm-installation-on-kubernetes-node)**.**
 
@@ -166,7 +166,7 @@ The Helm charts are intended to simplify deployment and upgrades.
 
 ## Persistent Storage Deployment
 
-- **Note** - if any issues are encountered during the Rook deployment, tear down the Rook-Ceph components via the steps listed [here](#teardown) and begin anew.
+- **Note** - if any issues are encountered during the Rook deployment, tear down the Rook-Ceph components via the steps listed [here](teardown.md) and begin anew.
 - Deployment typically takes approximately 10 minutes to complete\*\*.\*\*
 
 ### Migration procedure
@@ -198,24 +198,26 @@ helm repo add rook-release https://charts.rook.io/release
 - Verify the Rook repo has been added
 
 ```
-helm search repo rook-release --version v1.12.4
+helm search repo rook-release --version v1.13.5
 ```
 
 - Expected/Example Result
 
 ```
-# helm search repo rook-release --version v1.12.4
+# helm search repo rook-release --version v1.13.5
 
 NAME                          	CHART VERSION	APP VERSION	DESCRIPTION
-rook-release/rook-ceph        	v1.12.4       	v1.12.4     	File, Block, and Object Storage Services for yo...
-rook-release/rook-ceph-cluster	v1.12.4       	v1.12.4     	Manages a single Ceph cluster namespace for Rook
+rook-release/rook-ceph        	v1.13.5       	v1.13.5     	File, Block, and Object Storage Services for yo...
+rook-release/rook-ceph-cluster	v1.13.5       	v1.13.5     	Manages a single Ceph cluster namespace for Rook
 ```
 
 ### **Deployment Steps**
 
 #### **STEP 1 - Install Ceph Operator Helm Chart**
 
-#### **Testing**
+## TESTING
+
+> Scroll further for **PRODUCTION**
 
 > For additional Operator chart values refer to [this](https://github.com/rook/rook/blob/v1.9.9/deploy/charts/rook-ceph/values.yaml) page.
 
@@ -251,17 +253,17 @@ EOF
 ### Install the Operator Chart
 
 ```
-helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.12.4 -f rook-ceph-operator.values.yml
+helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.13.5 -f rook-ceph-operator.values.yml
 ```
 
-**PRODUCTION**
+## PRODUCTION
 
 > No customization is required by default.
 
 - Install the Operator chart:
 
 ```
-helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.12.4
+helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.13.5
 ```
 
 #### STEP 2 - Install Ceph Cluster Helm Chart
@@ -269,17 +271,26 @@ helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --
 > For additional Cluster chart values refer to [this](https://github.com/rook/rook/blob/v1.9.9/deploy/charts/rook-ceph-cluster/values.yaml) page.\
 > For custom storage configuration refer to [this](https://rook.io/docs/rook/v1.9/ceph-cluster-crd.html#storage-configuration-specific-devices) example.
 
-**TESTING / ALL-IN-ONE**
+## TESTING / ALL-IN-ONE SETUP
 
-> - Update `deviceFilter` to match your disks
-> - Change storageClass name from `beta3` to one you are planning to use based on this [table](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#storage-class-types)
-> - Add your nodes you want the Ceph storage to use the disks on under the `nodes` section; (make sure to change `node1`, `node2`, ... to your K8s node names!
->
-> When planning all-in-one production provider (or a single storage node) with multiple storage drives (minimum 3):
->
-> - Change `failureDomain` to `osd`
-> - Change `min_size` to `2`and size to `3`
-> - Comment or remove `resources:` field to make sure Ceph services will get enough resources before running them
+> For production multi-node setup, please skip this section and scroll further for **PRODUCTION SETUP**
+
+## Preliminary Steps
+
+1. **Device Filter**: Update `deviceFilter` to correspond with your specific disk configurations.
+2. **Storage Class**: Modify the `storageClass` name from `beta3` to an appropriate one, as outlined in the [Storage Class Types table](https://docs.akash.network/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/storage-class-types).
+3. **Node Configuration**: Under the `nodes` section, list the nodes designated for Ceph storage, replacing placeholders like `node1`, `node2`, etc., with your Kubernetes node names.
+
+## Configuration for All-in-One or Single Storage Node
+
+When setting up an **all-in-one production** provider or a single storage node with multiple storage drives (minimum requirement: 3 drives, or 2 drives if `osdsPerDevice` is set to 2):
+
+1. **Failure Domain**: Set `failureDomain` to `osd`.
+2. **Size Settings**:
+   - The `size` and `osd_pool_default_size` should always be set to `osdsPerDevice + 1` when `failureDomain` is set to `osd`.
+   - Set `min_size` and `osd_pool_default_min_size` to `2`.
+   - Set `size` and `osd_pool_default_size` to `3`. Note: These can be set to `2` if you have a minimum of 3 drives and `osdsPerDevice` is `1`.
+3. **Resource Allocation**: To ensure Ceph services receive sufficient resources, comment out or remove the `resources:` field before execution.
 
 ```
 cat > rook-ceph-cluster.values.yml << 'EOF'
@@ -352,14 +363,24 @@ toolbox:
 EOF
 ```
 
-**PRODUCTION**
+## PRODUCTION SETUP
 
-> - Update `deviceFilter` to match your disks
-> - Change storageClass name from `beta3` to one you are planning to use based on this [table](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#storage-class-types)
-> - Update `osdsPerDevice` based on this [table](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#storage-class-types)
-> - Add your nodes you want the Ceph storage to use the disks on under the `nodes` section; (make sure to change `node1`, `node2`, ... to your K8s node names!
-> - When planning a single storage node with multiple storage drives (minimum 3):
->   - Change `failureDomain` to `osd`
+### Core Configuration
+
+1. **Device Filter**: Update `deviceFilter` to match your disk specifications.
+2. **Storage Class**: Change the `storageClass` name from `beta3` to a suitable one, as specified in the [Storage Class Types table](https://docs.akash.network/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/storage-class-types).
+3. **OSDs Per Device**: Adjust `osdsPerDevice` according to the guidelines provided in the aforementioned table.
+4. **Node Configuration**: In the `nodes` section, add your nodes for Ceph storage, ensuring to replace `node1`, `node2`, etc., with the actual names of your Kubernetes nodes.
+
+### Configuration for a Single Storage Node
+
+For a setup involving a single storage node with multiple storage drives (minimum: 3 drives, or 2 drives if `osdsPerDevice` = 2):
+
+1. **Failure Domain**: Set `failureDomain` to `osd`.
+2. **Size Settings**:
+   - The `size` and `osd_pool_default_size` should always be set to `osdsPerDevice + 1` when `failureDomain` is set to `osd`.
+   - Set `min_size` and `osd_pool_default_min_size` to `2`.
+   - Set `size` and `osd_pool_default_size` to `3`. Note: These can be set to `2` if you have a minimum of 3 drives and `osdsPerDevice` is `1`.
 
 ```
 cat > rook-ceph-cluster.values.yml << 'EOF'
@@ -372,10 +393,6 @@ configOverride: |
   osd_pool_default_min_size = 2
 
 cephClusterSpec:
-  resources:
-    prepareosd:
-      limits:
-        memory: "800Mi"
 
   mon:
     count: 3
@@ -443,14 +460,14 @@ EOF
 
 ```
 helm install --create-namespace -n rook-ceph rook-ceph-cluster \
-   --set operatorNamespace=rook-ceph rook-release/rook-ceph-cluster --version 1.12.4 -f rook-ceph-cluster.values.yml
+   --set operatorNamespace=rook-ceph rook-release/rook-ceph-cluster --version 1.13.5 -f rook-ceph-cluster.values.yml
 ```
 
 #### STEP 3 - Label the storageClass
 
 > This label is mandatory and is [used](https://github.com/ovrclk/k8s-inventory-operator/blob/v0.1.4/ceph.go#L185) by the Akash's `inventory-operator` for searching the storageClass.
 
-- Change beta3 to your storageClass you have picked before
+- Change `beta3` to your `storageClass` you have picked before
 
 ```
 kubectl label sc beta3 akash.network=true
