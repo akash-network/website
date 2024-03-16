@@ -1,5 +1,5 @@
 ---
-categories: ["Mainnet 9 Upgrade"]
+categories: ["Mainnet 10 Upgrade"]
 tags: []
 weight: 2
 title: "Akash v0.32.1 Node Upgrade Guide"
@@ -142,7 +142,7 @@ Node operators also have the option to manually update the `akash` binary at the
 
 When the chain halts at the proposed upgrade height, stop the current process running `akash`.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.30.0) or build from source - completed in this [step](v0.32.0-upgrade-docs.md#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.30.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
 
 ```
 akash version
