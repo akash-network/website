@@ -12,7 +12,7 @@ heroSection:
       description: "Browse a wide range of cloud resources and live network pricing"
       buttons:
         - label: "Explore pricing"
-          link: "https://akash.network/about/pricing/custom/"
+          link: "/about/pricing/custom/"
           type: secondary
         - label: "View GPU availability"
           link: "https://stats.akash.network/"
@@ -22,14 +22,14 @@ heroSection:
       description: "Become an Akash Provider by offering your hardware on the network and earn when users deploy"
       buttons:
         - label: "Become a Provider"
-          link: "https://akash.network/providers"
+          link: "/providers"
           type: secondary
 
     - title: "Deploy with Akash Console"
       description: "Get started with the network's user-friendly deployment console"
       buttons:
         - label: "Deploy now"
-          link: "https://console.akash.network/"
+          link: "/deploy"
           type: secondary
 
 # infrastructure section content

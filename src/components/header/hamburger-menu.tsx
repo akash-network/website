@@ -90,13 +90,13 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </a>
 
             <div className="flex items-center gap-5">
-              <Disclosure.Button
+              {/* <Disclosure.Button
                 as="a"
                 href={"/#getting-started"}
                 className="flex items-center justify-center rounded-[4px] bg-[#FF414C] px-[11px] py-[7px] text-xs text-white"
               >
                 Get Started
-              </Disclosure.Button>
+              </Disclosure.Button> */}
 
               <Disclosure.Button className="inline-flex items-center justify-center">
                 <span className="sr-only">Open main menu</span>
