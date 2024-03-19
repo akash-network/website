@@ -34,6 +34,7 @@ const posts = (await getCollection("Blog"))
     return dateB.getTime() - dateA.getTime();
   });
 const {
+  advert,
   heroSection,
   infrastructureSection,
   featureSection,
@@ -41,11 +42,10 @@ const {
   getStartedSection,
   testimonialsSection,
 } = homepage.data;
-
-console.log(homepage);
 ---
 
 <Layout
+  advert={advert}
   title="Akash Network - Decentralized Compute Marketplace"
   description="Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 >
@@ -53,7 +53,7 @@ console.log(homepage);
     <Hero heroSection={heroSection} />
 
     <Infrastructure infrastructureSection={infrastructureSection} />
-    <GettingStarted gettingStartedSection={getStartedSection} />
+    <!-- <GettingStarted gettingStartedSection={getStartedSection} /> -->
     <Feature featureSection={featureSection} />
 
     <AiModelsAndApps aiModelsAndAppsSection={aiModelsAndAppsSection} />
@@ -80,7 +80,7 @@ console.log(homepage);
               <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
                 <PostCard
                   title={post.data.title}
-                  image={post.data.bannerImage}
+                  image={post.data.bannerImage as any}
                   tag={post.data.tags[0]}
                   contributor={post.data.contributors[0]}
                   pubDate={post.data.pubDate}

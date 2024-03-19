@@ -1,5 +1,11 @@
 ---
 import Button from "@/components/ui/button-link.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  heroSection: CollectionEntry<"Homepage">["data"]["heroSection"];
+}
+
 const { heroSection } = Astro.props;
 ---
 
@@ -20,44 +26,29 @@ const { heroSection } = Astro.props;
     </p>
     <!-- buttons -->
 
-    <div class="mx-auto mt-12 flex w-fit flex-row gap-x-3 md:hidden">
-      <Button
-        aria-label={heroSection.primaryButton.label}
-        link={heroSection.primaryButton.link}
-        variant="secondary"
-        size="lg"
-      >
-        {heroSection.primaryButton.label}
-      </Button>
-
-      <Button
-        aria-label={heroSection.secondaryButton.label}
-        link={heroSection.secondaryButton.link}
-        size="lg"
-        target="_blank"
-      >
-        {heroSection.secondaryButton.label}
-      </Button>
-    </div>
-
-    <div class="mx-auto mt-8 hidden w-fit flex-row gap-x-5 md:flex">
-      <Button
-        aria-label={heroSection.primaryButton.label}
-        link={heroSection.primaryButton.link}
-        variant="secondary"
-        size="xl"
-      >
-        {heroSection.primaryButton.label}
-      </Button>
-
-      <Button
-        aria-label={heroSection.secondaryButton.label}
-        target="_blank"
-        link={heroSection.secondaryButton.link}
-        size="xl"
-      >
-        {heroSection.secondaryButton.label}
-      </Button>
+    <div
+      class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-16 lg:grid-cols-3"
+    >
+      {
+        heroSection.cards.map((card, index) => (
+          <div class="flex flex-col gap-2 rounded-lg border bg-background2 p-6 md:rounded-xl">
+            <h1 class="font-base font-bold">{card.title}</h1>
+            <p class="text-sm ">{card.description}</p>
+            <div class="mt-auto flex flex-wrap gap-2 pt-2">
+              {card.buttons.map((button, index) => (
+                <Button
+                  aria-label={button.label}
+                  link={button.link}
+                  variant={button.type}
+                  size="lg"
+                >
+                  {button.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>

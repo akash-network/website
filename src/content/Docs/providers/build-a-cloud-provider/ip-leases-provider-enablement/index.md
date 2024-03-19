@@ -41,9 +41,9 @@ In this guide we present paths to install MetalLB both via Helm Charts and Kubes
 
 Sections within this guide:
 
-- [New MetalLB Deployment via Helm](metallb-install.md#option-1-deploy-metallb-with-helm)
-- [New MetalLB Deployment via Kubespray](metallb-install.md#option-2-deploy-metallb-using-kubespray)
-- [Migration of MetalLB Version 0.12.X to 0.13.x](metallb-install.md#migrating-metallb-0.12.x-to-0.13.x)
+- [New MetalLB Deployment via Helm](#option-1-deploy-metallb-with-helm)
+- [New MetalLB Deployment via Kubespray](#option-2-deploy-metallb-using-kubespray)
+- [Migration of MetalLB Version 0.12.X to 0.13.x](#migrating-metallb-012x-to-013x)
 
 ### Option 1: Deploy MetalLB with Helm
 
