@@ -1,18 +1,36 @@
 ---
+advert: 
+  title: Access NVIDIA H100, A100, and A6000 at industry-leading pricing →
+  link: "#"
+
 # hero section content
 heroSection:
   title: The World's<br class="md:hidden" /> Premier Decentralized<br/> Compute Marketplace
   description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
+  cards: 
+    - title: "Explore network resources and pricing"
+      description: "Browse a wide range of cloud resources and live network pricing"
+      buttons:
+        - label: "Explore pricing"
+          link: "https://akash.network/about/pricing/custom/"
+          type: secondary
+        - label: "View GPU availability"
+          link: "https://stats.akash.network/"
+          type: primary
 
-  primaryButton:
-    label: Get Started
-    link: "#getting-started"
-    enable: true
+    - title: "Provide compute and earn"
+      description: "Become an Akash Provider by offering your hardware on the network and earn when users deploy"
+      buttons:
+        - label: "Become a Provider"
+          link: "https://akash.network/providers"
+          type: secondary
 
-  secondaryButton:
-    label: Deploy Now
-    link: "https://console.akash.network"
-    enable: true
+    - title: "Deploy with Akash Console"
+      description: "Get started with the network's user-friendly deployment console"
+      buttons:
+        - label: "Deploy now"
+          link: "https://console.akash.network/"
+          type: secondary
 
 # infrastructure section content
 infrastructureSection:

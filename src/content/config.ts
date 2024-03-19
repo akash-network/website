@@ -25,19 +25,38 @@ const homePage = defineCollection({
   // Type-check frontmatter using a schema
   schema: ({ image }) => {
     return z.object({
+      advert: z.object({
+        title: z.string(),
+
+        link: z.string(),
+      }),
+
       heroSection: z.object({
         title: z.string(),
         description: z.string(),
-        primaryButton: z.object({
-          label: z.string(),
-          link: z.string(),
-          enable: z.boolean(),
-        }),
-        secondaryButton: z.object({
-          label: z.string(),
-          link: z.string(),
-          enable: z.boolean(),
-        }),
+        cards: z.array(
+          z.object({
+            title: z.string(),
+            description: z.string(),
+            buttons: z.array(
+              z.object({
+                label: z.string(),
+                link: z.string(),
+                type: z.union([z.literal("primary"), z.literal("secondary")]),
+              }),
+            ),
+          }),
+        ),
+        // primaryButton: z.object({
+        //   label: z.string(),
+        //   link: z.string(),
+        //   enable: z.boolean(),
+        // }),
+        // secondaryButton: z.object({
+        //   label: z.string(),
+        //   link: z.string(),
+        //   enable: z.boolean(),
+        // }),
       }),
       infrastructureSection: z.object({
         title: z.string(),
