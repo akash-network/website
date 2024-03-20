@@ -1,7 +1,7 @@
 ---
 advert: 
   title: Access NVIDIA H100, A100, and A6000 at industry-leading pricing →
-  link: "#"
+  link: "https://console.akash.network/rent-gpu"
 
 # hero section content
 heroSection:
@@ -15,7 +15,7 @@ heroSection:
           link: "/about/pricing/custom/"
           type: secondary
         - label: "View GPU availability"
-          link: "https://stats.akash.network/"
+          link: "https://console.akash.network/rent-gpu"
           type: primary
 
     - title: "Provide compute and earn"
