@@ -1443,7 +1443,7 @@ Should your Akash Provider encounter issues during the installation process or i
 
 - [Basic GPU Resource Verifications](#basic-gpu-resource-verifications)
 - [Examine Linux Kernel Logs for GPU Resource Errors and Mismatches](#examine-linux-kernel-logs-for-gpu-resource-errors-and-mismatches)
-- [Ensure Correct Version/Presence of NVIDIA Device Plugin](#ensure-correct-version-presence-of-nvidia-device-plugin)
+- [Ensure Correct Version/Presence of NVIDIA Device Plugin](#ensure-correct-versionpresence-of-nvidia-device-plugin)
 - [CUDA Drivers Fabric Manager](#cuda-drivers-fabric-manager)
 
 ### Basic GPU Resource Verifications

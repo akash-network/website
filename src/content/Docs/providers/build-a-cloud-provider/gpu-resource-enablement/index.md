@@ -13,7 +13,7 @@ The steps involved in enabling your Akash Provider to host GPU resources are cov
 - [Apply NVIDIA Runtime Engine](#apply-nvidia-runtime-engine)
 - [Update Akash Provider](#update-akash-provider)
 - [GPU Test Deployments](#gpu-test-deployments)
-- [GPU Provider Troubleshooting](../../../../providers/akash-provider-troubleshooting/gpu-provider-troubleshooting)
+- [GPU Provider Troubleshooting](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)
 
 ## GPU Provider Configuration
 

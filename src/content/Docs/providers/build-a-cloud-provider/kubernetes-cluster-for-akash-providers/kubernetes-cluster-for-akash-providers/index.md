@@ -19,21 +19,21 @@ The Kubernetes instructions in this guide are intended for audiences that have t
 - **Server Administration Skills** - necessary for setting up servers/network making up the Kubernetes cluster
 - **Kubernetes Experience** - a base level of Kubernetes administration is highly recommended
 
-> Please consider using the [Praetor](../../community-solutions/praetor.md) application to build an Akash Provider for small and medium sized environments which require little customization.
+> Please consider using the [Praetor](/providers) application to build an Akash Provider for small and medium sized environments which require little customization.
 
 ## Guide Sections
 
-- [Clone the Kubespray Project](#step-1---clone-the-kubespray-project)
+- [Clone the Kubespray Project](#clone-the-kubespray-project)
 - [Install Ansible](#step-2---install-ansible)
 - [Ansible Access to Kubernetes Cluster](#step-3---ansible-access-to-kubernetes-cluster)
 - [Ansible Inventory](#step-4---ansible-inventory)
-- [Additional Verifications](#step-5---enable-gvisor)
+- [Additional Verifications](#step-5---additional-verificationsconfig)
 - [DNS Configuration](#step-6---dns-configuration)
-- [Provider Ephemeral Storage Config](#step-6---provider-ephemeral-storage-config)
-- [Create Kubernetes Cluster](#step-6---create-kubernetes-cluster)
-- [Confirm Kubernetes Cluster](#step-7---confirm-kubernetes-cluster)
-- [Custom Kernel Parameters](#step-10---custom-kernel-parameters)
-- [Review Firewall Policies](#step-9---review-firewall-policies)
+- [Provider Ephemeral Storage Config](#step-7---provider-ephemeral-storage-config-optional)
+- [Create Kubernetes Cluster](#step-8---create-kubernetes-cluster)
+- [Confirm Kubernetes Cluster](#step-9---confirm-kubernetes-cluster)
+- [Custom Kernel Parameters](#step-9---custom-kernel-parameters)
+- [Review Firewall Policies](#step-10---review-firewall-policies)
 
 ## STEP 1 - Clone the Kubespray Project
 
@@ -54,7 +54,7 @@ The recommended minimum number of hosts is four for a production Provider Kubern
 
 - We recommend running a single worker node per physical server as CPU is typically the largest resource bottleneck. The use of a single worker node allows larger workloads to be deployed on your provider.
 
-- If you intended to build a provider with persistent storage please refer to host storage requirements detailed [here](./docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/).
+- If you intended to build a provider with persistent storage please refer to host storage requirements detailed [here](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/).
 
 ### Kubernetes Cluster Software/Hardware Requirements and Recommendations
 
@@ -105,7 +105,6 @@ cd ~
 git clone -b v2.24.1 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 
 cd kubespray
-
 ```
 
 ### Cluster Updates
@@ -268,15 +267,15 @@ DEBUG: adding host node4 to group kube_node
 - Update the kube_control_plane category if needed with full list of hosts that should be master nodes
 - Ensure you have either 1 or 3 Kubernetes control plane nodes under `kube_control_plane`. If 2 are listed, change that to 1 or 3, depending on whether you want Kubernetes be Highly Available.
 - Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/the-kubernetes-current/etcd-kubernetes-what-you-should-know/).
-- For additional details regarding `hosts.yaml` best practices and example configurations, review this [guide](additional-k8s-resources/kubespray-hosts.yaml-examples.md).
+- For additional details regarding `hosts.yaml` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples).
 
 ```
 vi ~/kubespray/inventory/akash/hosts.yaml
 ```
 
-#### **Example hosts.yaml File**
+##### **Example hosts.yaml File**
 
-- Additional hosts.yaml examples, based on different Kubernetes cluster topologies, may be found [here](additional-k8s-resources/kubespray-hosts.yaml-examples.md)
+- Additional hosts.yaml examples, based on different Kubernetes cluster topologies, may be found [here](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples)
 
 ```
 all:
@@ -420,7 +419,7 @@ container_manager: containerd
 
 > Skip if you are not using gVisor
 
-If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/docs/providers/build-a-cloud-provider/gvisor-issue---no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
+If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/docs/providers/build-a-cloud-provider/gvisor-issue-no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
 
 ## STEP 6 - DNS Configuration
 
@@ -680,7 +679,7 @@ systemctl start kubelet
 systemctl enable kubelet
 ```
 
-#### Verify
+##### Verify
 
 ```
 journalctl -u kubelet -f
@@ -721,7 +720,7 @@ With inventory in place we are ready to build the Kubernetes cluster via Ansible
 - Note - the cluster creation may take several minutes to complete
 - If the Kubespray process fails or is interpreted, run the Ansible playbook again and it will complete any incomplete steps on the subsequent run
 
-> _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/docs/other-resources/experimental/) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
+> _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/docs/providers/build-a-cloud-provider/gpu-resource-enablement/#gpu-provider-configuration) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
 
 ```
 cd ~/kubespray
@@ -729,7 +728,134 @@ cd ~/kubespray
 ansible-playbook -i inventory/akash/hosts.yaml -b -v --private-key=~/.ssh/id_rsa cluster.yml
 ```
 
-## STEP 8 - Review Firewall Policies
+## STEP 9 - Confirm Kubernetes Cluster
+
+A couple of quick Kubernetes cluster checks are in order before moving into next steps.
+
+### SSH into Kubernetes Master Node
+
+- The verifications in this section must be completed on a master node with kubectl access to the cluster.
+
+### Confirm Kubernetes Nodes
+
+```
+kubectl get nodes
+```
+
+#### **Example output from a healthy Kubernetes cluster**
+
+```
+root@node1:/home/ubuntu# kubectl get nodes
+
+NAME    STATUS   ROLES                  AGE     VERSION
+node1   Ready    control-plane,master   5m48s   v1.22.5
+node2   Ready    control-plane,master   5m22s   v1.22.5
+node3   Ready    control-plane,master   5m12s   v1.22.5
+node4   Ready    <none>                 4m7s    v1.22.5
+```
+
+### **Confirm Kubernetes Pods**
+
+```
+kubectl get pods -n kube-system
+```
+
+#### Example output of the pods that are the brains of the cluster
+
+```
+root@node1:/home/ubuntu# kubectl get pods -n kube-system
+
+NAME                                      READY   STATUS    RESTARTS        AGE
+calico-kube-controllers-5788f6558-mzm64   1/1     Running   1 (4m53s ago)   4m54s
+calico-node-2g4pr                         1/1     Running   0               5m29s
+calico-node-6hrj4                         1/1     Running   0               5m29s
+calico-node-9dqc4                         1/1     Running   0               5m29s
+calico-node-zt8ls                         1/1     Running   0               5m29s
+coredns-8474476ff8-9sgm5                  1/1     Running   0               4m32s
+coredns-8474476ff8-x67xd                  1/1     Running   0               4m27s
+dns-autoscaler-5ffdc7f89d-lnpmm           1/1     Running   0               4m28s
+kube-apiserver-node1                      1/1     Running   1               7m30s
+kube-apiserver-node2                      1/1     Running   1               7m13s
+kube-apiserver-node3                      1/1     Running   1               7m3s
+kube-controller-manager-node1             1/1     Running   1               7m30s
+kube-controller-manager-node2             1/1     Running   1               7m13s
+kube-controller-manager-node3             1/1     Running   1               7m3s
+kube-proxy-75s7d                          1/1     Running   0               5m56s
+kube-proxy-kpxtm                          1/1     Running   0               5m56s
+kube-proxy-stgwd                          1/1     Running   0               5m56s
+kube-proxy-vndvs                          1/1     Running   0               5m56s
+kube-scheduler-node1                      1/1     Running   1               7m37s
+kube-scheduler-node2                      1/1     Running   1               7m13s
+kube-scheduler-node3                      1/1     Running   1               7m3s
+nginx-proxy-node4                         1/1     Running   0               5m58s
+nodelocaldns-7znkj                        1/1     Running   0               4m28s
+nodelocaldns-g8dqm                        1/1     Running   0               4m27s
+nodelocaldns-gf58m                        1/1     Running   0               4m28s
+nodelocaldns-n88fj                        1/1     Running   0               4m28s
+```
+
+### Confirm DNS
+
+#### Verify CoreDNS Config
+
+> This is to verify that Kubespray properly set the expected upstream servers in the DNS Configuration previous step
+
+```
+kubectl -n kube-system get cm coredns -o yaml | grep forward
+```
+
+#### Verify All DNS Related Pods Are in a Running State
+
+```
+kubectl -n kube-system get pods -l k8s-app=kube-dns
+kubectl -n kube-system get pods -l k8s-app=nodelocaldns
+```
+
+With kubespray version >= `2.22.x`:
+
+```
+kubectl -n kube-system get pods -l k8s-app=node-local-dns
+```
+
+### Verify etcd Status and Health
+
+> &#x20;Commands should be run on the control plane node to ensure health of the Kubernetes `etcd` database
+
+```
+export $(grep -v '^#' /etc/etcd.env | xargs -d '\n')
+etcdctl -w table member list
+etcdctl endpoint health --cluster -w table
+etcdctl endpoint status --cluster -w table
+etcdctl check perf
+```
+
+## STEP 9 - Custom Kernel Parameters
+
+### Create and apply custom kernel parameters
+
+Apply these settings to ALL Kubernetes worker nodes to guard against `too many open files` errors.
+
+#### Create Config
+
+```
+cat > /etc/sysctl.d/90-akash.conf << EOF
+# Common: tackle "failed to create fsnotify watcher: too many open files"
+fs.inotify.max_user_instances = 512
+fs.inotify.max_user_watches = 1048576
+
+# Custom: increase memory mapped files limit to allow Solana node
+# https://docs.solana.com/running-validator/validator-start
+vm.max_map_count = 1000000
+EOF
+```
+
+#### Apply Config
+
+```
+sysctl -p /etc/sysctl.d/90-akash.conf
+```
+
+## STEP 10 - Review Firewall Policies
 
 If local firewall instances are running on Kubernetes control-plane and worker nodes, add the following policies.
 
@@ -762,30 +888,4 @@ Ensure the following ports are open in between all Kubernetes worker nodes:
 
 ```
 - 10250/tcp - Kubelet API server; (Kubernetes control plane to kubelet)
-```
-
-## STEP 9 - Custom Kernel Parameters
-
-### Create and apply custom kernel parameters
-
-Apply these settings to ALL Kubernetes worker nodes to guard against `too many open files` errors.
-
-#### Create Config
-
-```
-cat > /etc/sysctl.d/90-akash.conf << EOF
-# Common: tackle "failed to create fsnotify watcher: too many open files"
-fs.inotify.max_user_instances = 512
-fs.inotify.max_user_watches = 1048576
-
-# Custom: increase memory mapped files limit to allow Solana node
-# https://docs.solana.com/running-validator/validator-start
-vm.max_map_count = 1000000
-EOF
-```
-
-#### Apply Config
-
-```
-sysctl -p /etc/sysctl.d/90-akash.conf
 ```
