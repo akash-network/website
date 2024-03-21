@@ -40,6 +40,19 @@ placement:
 {"order-created"},{"key":"owner","value":"akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu"},{"key":"dseq","value":"9507298"},{"key":"gseq","value":"2"},{"key":"oseq","value":"1"}
 ```
 
+## DSEQ - Deployment Sequence
+
+In the Akash Network, the Deployment Sequence (DSEQ) plays a crucial role in the deployment process, allowing users to manage and track their deployments effectively. Understanding the significance of DSEQ is essential for successful interactions within the network. 
+
+**Importance of DSEQ:**
+- Unique Identifier: DSEQ is a unique identifier assigned to each deployment on the Akash Network, enabling precise tracking and management of deployments
+- Order Sequence Number (OSEQ): DSEQ is associated with an Order Sequence Number (OSEQ), which indicates the order in which deployments are created and managed within the network
+- Deployment Management: DSEQ facilitates the management of deployments by providing a specific reference point for each deployment instance, ensuring clarity and organization in the deployment process
+- Lease Creation: When creating a lease with a provider on the Akash Network, DSEQ is a key parameter used to establish the terms of the lease and finalize the deployment process
+- Deployment Status: DSEQ allows users to check the status of their deployments, access application endpoints, and monitor the progress of container image pulling and container startup
+
+By leveraging the DSEQ in the Akash Network, users can streamline their deployment activities, maintain control over their applications, and ensure efficient and secure utilization of computing resources.
+
 ## OSEQ - Order Sequence
 
 - Akash OSEQ distinguishes multiple orders associated with a single deployment.
