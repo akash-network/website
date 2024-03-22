@@ -115,6 +115,10 @@ buyingAKTSection:
         - title: Huobi Global
           link: "https://www.huobi.com/en-us/exchange/akt_usdt/"
 
+    - row:
+        - title: Coinbase
+          link: "https://www.coinbase.com/price/akash-network"
+          
 faqsSection:
   title: FAQs
   faqs:
