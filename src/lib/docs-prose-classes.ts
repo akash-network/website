@@ -10,6 +10,9 @@ const h3 =
   " prose-h3:text-base   md:prose-h3:text-xl  prose-h3:font-medium   lg:prose-h3:text-2xl  ";
 const h4 =
   " prose-h4:text-sm   md:prose-h4:text-base  prose-h3:font-medium   lg:prose-h4:text-lg  ";
+
+const h5 =
+  "prose-h5:mt-4 prose-h5:mb-3 prose-h5:text-sm lg:prose-h5:text-base prose-h5:font-medium ";
 const ul =
   " prose-ul:font-os   prose-ul:text-xs md:prose-ul:text-sm lg:prose-ul:text-base";
 const ol =
@@ -23,6 +26,7 @@ export const proseClasses = classNames(
   h2,
   h3,
   h4,
+  h5,
   ul,
   table,
   ol,

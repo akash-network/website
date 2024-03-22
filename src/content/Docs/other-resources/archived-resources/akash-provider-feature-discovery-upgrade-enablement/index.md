@@ -150,12 +150,14 @@ inventoryConfig:
 
 #### STEP 3
 
-<pre><code>cd ~/helm-charts/charts/akash-inventory-operator
+```
+cd ~/helm-charts/charts/akash-inventory-operator
 
 helm package .
 
-<strong>helm install inventory-operator akash-inventory-operator-9.0.0.tgz -n akash-services --set image.tag=0.5.0
-</strong></code></pre>
+helm install inventory-operator akash-inventory-operator-9.0.0.tgz -n akash-services --set image.tag=0.5.0
+
+```
 
 ### Update Ingress Controller
 
