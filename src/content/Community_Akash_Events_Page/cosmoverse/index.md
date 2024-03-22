@@ -1,9 +1,8 @@
 ---
 title: Cosmoverse
-image: "./project-banner.png"
-eventDate: "2024"
-tbd: true
-location: Brussels
+image: "./project-banner.jpg"
+eventDate: "2024-10-21"
+location: Dubai
 link: "https://cosmoverse.org/"
-description: talks and panels from leading Cosmos builders and Interchain entrepreneurs
+description: Cosmoverse is the largest conference focusing on the Cosmos ecosystem, interoperability, and more.
 ---

@@ -536,12 +536,14 @@ kubectl get pods -n akash-services
 
 ##### **Expected output (example and name following akash-provider will differ)**
 
-<pre><code>root@node1:~# kubectl get pods -n akash-services
+```bash
+root@node1:~# kubectl get pods -n akash-services
 
-NAME                                 READY   STATUS    RESTARTS   AGE
-akash-provider-76966c6795-lvphs      1/1     Running   0          16m
-<strong>akash-hostname-operator-84977c6fd9-qvnsm   1/1     Running   0          3m29s
-</strong></code></pre>
+NAME                                       READY     STATUS    RESTARTS   AGE
+akash-provider-6d7c455dfb-qkf5z             1/1     Running       0      4m37s
+akash-hostname-operator-84977c6fd9-qvnsm    1/1     Running       0      3m29s
+
+```
 
 ## Step 8 - Ingress Controller Install
 
