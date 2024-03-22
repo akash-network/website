@@ -1,9 +1,9 @@
 ---
 title: Messari Mainnet
-image: "./project-banner.png"
-eventDate: "2024"
-tbd: true
+image: "./banner.jpeg"
+eventDate: "2024-09-30"
+
 location: NYC
 link: "https://events.messari.io/mainnet2024"
-description: ​TOKEN2049 brings together the global Web3 industry, uniting entrepreneurs, investors, developers, industry insiders and global media - and creates unparalleled networking opportunities.
+description: Mainnet is an immersive, agenda-setting summit held annually by Messari, the leading provider of market intelligence products that help professionals navigate the world of crypto and Web3.
 ---
