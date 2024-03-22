@@ -217,8 +217,8 @@ export function Pricing({ page, pathName }: any) {
       <div className="mt-10">
         <p className="text-sm font-normal   text-para">
           Disclaimer: <br /> These prices may vary. We strongly suggest that you
-          do your own research as we may have miss-calculated some of the
-          providers pricing. To calculate the pricing for Akash, we use the same
+          do your own research as we may have miscalculated some of the
+          providers' pricing. To calculate the pricing for Akash, we use the same
           calculations from the provider bidding engine in the helm-charts repo
           from Akash. For the other cloud providers, we use the same logic of
           price per GB of ram/storage and price per thread.

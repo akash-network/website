@@ -100,6 +100,8 @@ buyingAKTSection:
     - row:
         - title: KuCoin
           link: "https://trade.kucoin.com/AKT-USDT"
+        - title: Rango Exchange
+          link: "https://app.rango.exchange/swap/BSC.BNB/AKASH.AKT"
 
     - row:
         - title: Crypto.com
@@ -113,6 +115,10 @@ buyingAKTSection:
         - title: Huobi Global
           link: "https://www.huobi.com/en-us/exchange/akt_usdt/"
 
+    - row:
+        - title: Coinbase
+          link: "https://www.coinbase.com/price/akash-network"
+          
 faqsSection:
   title: FAQs
   faqs:

@@ -356,14 +356,11 @@ kubectl get pods -n akash-services
 
 ##### **Expected output (pod mame will differ)**
 
-```shell
-
+```
 root@node1:~# kubectl get pods -n akash-services
 
-NAME                                      READY   STATUS    RESTARTS   AGE
-akash-hostname-operator-84977c6fd9-qvnsm   1/1    Running   0          3m29s
-
-
+NAME                                 READY   STATUS    RESTARTS   AGE
+akash-hostname-operator-84977c6fd9-qvnsm   1/1     Running   0          3m29s
 ```
 
 ## STEP 7 - Inventory Operator Install
