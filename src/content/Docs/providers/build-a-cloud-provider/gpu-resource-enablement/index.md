@@ -261,17 +261,21 @@ kubectl apply -f nvidia-runtime-class.yaml
 
 > _**NOTE**_ - in some scenarios a provider may host GPUs only on a subset of Kubernetes worker nodes. Use the instructions in this section if ALL Kubernetes worker nodes have available GPU resources. If only a subset of worker nodes host GPU resources - use the section `Upgrade/Install the NVIDIA Device Plug In Via Helm - GPUs on Subset of Nodes` instead. Only one of these two sections should be completed.
 
-<pre><code>helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+```shell
+
+helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
 
 helm repo update
-<strong>
-</strong><strong>helm upgrade -i nvdp nvdp/nvidia-device-plugin \
-</strong>  --namespace nvidia-device-plugin \
+
+helm upgrade -i nvdp nvdp/nvidia-device-plugin \
+  --namespace nvidia-device-plugin \
   --create-namespace \
   --version 0.14.5 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
-</code></pre>
+
+
+```
 
 #### Expected/Example Output
 
@@ -534,10 +538,13 @@ provider-services query provider get <provider-address>
 
 #### Example/Expected Output
 
-<pre><code>provider-services query provider get akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
-<strong>
-</strong><strong>attributes:
-</strong>- key: region
+```bash
+
+provider-services query provider get akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
+
+
+attributes:
+- key: region
   value: us-central
 - key: host
   value: akash
@@ -552,7 +559,8 @@ info:
   email: ""
   website: ""
 owner: akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
-</code></pre>
+
+```
 
 ## Verify Akash Provider Image
 
