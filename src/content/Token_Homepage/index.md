@@ -90,18 +90,21 @@ buyingAKTSection:
     - row:
         - title: Centralized
         - title: Decentralized
-
     - row:
-        - title: Kraken
-          link: "https://www.kraken.com/prices/akash-network?quote=usd"
+        - title: Coinbase
+          link: "https://www.coinbase.com/advanced-trade/spot/AKT-USD"
         - title: Osmosis
           link: "https://app.osmosis.zone/?from=OSMO&to=AKT"
 
     - row:
-        - title: KuCoin
-          link: "https://trade.kucoin.com/AKT-USDT"
+        - title: Kraken
+          link: "https://www.kraken.com/prices/akash-network?quote=usd"
         - title: Rango Exchange
           link: "https://app.rango.exchange/swap/BSC.BNB/AKASH.AKT"
+
+    - row:
+        - title: Kucoin
+          link: "https://trade.kucoin.com/AKT-USDT"
 
     - row:
         - title: Crypto.com
@@ -112,12 +115,9 @@ buyingAKTSection:
           link: "https://www.gate.io/trade/AKT_USDT"
 
     - row:
-        - title: Huobi Global
-          link: "https://www.huobi.com/en-us/exchange/akt_usdt/"
+        - title: HTX
+          link: "https://www.htx.com/trade/akt_usdt/"
 
-    - row:
-        - title: Coinbase
-          link: "https://www.coinbase.com/price/akash-network"
           
 faqsSection:
   title: FAQs
