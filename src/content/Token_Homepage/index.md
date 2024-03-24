@@ -92,7 +92,7 @@ buyingAKTSection:
         - title: Decentralized
     - row:
         - title: Coinbase
-          link: "https://www.coinbase.com/advanced-trade/spot/AKT-USD"
+          link: "https://www.coinbase.com/how-to-buy/akash-network"
         - title: Osmosis
           link: "https://app.osmosis.zone/?from=OSMO&to=AKT"
 
