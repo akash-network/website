@@ -57,4 +57,4 @@ Networking - allowing connectivity to and between workloads - can be configured 
 
 **Do I need to close and re-create my deployment if I want to update the deployment?**
 
-No. You can update your deployment. However, only some fields in the Akash stack definition file are mutable. The **image**, **command**, **args**, **env**, and **exposed ports** can be modified, but compute resources and placement criteria cannot.
+No. You can update your deployment. However, only some fields in the Akash stack definition file are mutable. The **image**, **command**, **args**, and **env** can be modified, but compute resources and placement criteria cannot.
