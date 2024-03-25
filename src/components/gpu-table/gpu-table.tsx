@@ -197,14 +197,14 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
       </div>
       <div className="flex w-full items-center justify-center gap-2.5 rounded-md bg-black px-2 py-1 md:w-auto">
         <div className="flex items-center gap-1">
-          <p>
-            <span className="text-base text-para md:text-xs">Mid:</span>
-            <span className="pl-1 text-base font-bold text-white  md:text-xs">
-              ${model?.price?.med}
-            </span>
-          </p>
           <HoverCard openDelay={2} closeDelay={2}>
-            <HoverCardTrigger className="cursor-pointer">
+            <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
+              <p className="">
+                <span className="text-base text-para md:text-xs">Mid:</span>
+                <span className="pl-1 text-base font-bold text-white  md:text-xs">
+                  ${model?.price?.med}
+                </span>
+              </p>
               <Info size={12} className="text-para" />
             </HoverCardTrigger>
             <HoverCardContent align="center">
