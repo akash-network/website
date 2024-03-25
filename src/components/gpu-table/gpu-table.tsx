@@ -29,15 +29,32 @@ const GpuTable = ({ initialData }: { initialData: any }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Table initialData={initialData} />
+      <Table
+        initialData={{
+          data: initialData,
+        }}
+      />
     </QueryClientProvider>
   );
 };
 
 export default GpuTable;
 
-const Table = ({ initialData }: { initialData: any }) => {
-  const { data } = useQuery<Gpus, Error>({
+const Table = ({
+  initialData,
+}: {
+  initialData: {
+    data: any;
+  };
+}) => {
+  const {
+    data: { data },
+  } = useQuery<
+    {
+      data: Gpus;
+    },
+    Error
+  >({
     queryKey: ["GPU_TABLE"],
     queryFn: () =>
       axios.get("https://api-preview.cloudmos.io/internal/gpu-prices"),
