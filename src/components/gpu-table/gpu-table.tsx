@@ -191,7 +191,7 @@ const Table = ({ initialData }: { initialData: any }) => {
 const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
   return (
     <div className="flex flex-col items-start gap-1 ">
-      <div className="relative min-w-[100px] rounded-md border-x border-b px-2 py-1 text-sm font-medium md:text-xs">
+      <div className="relative min-w-[170px] rounded-md border-x border-b px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
         <div className="absolute inset-0 bg-gradient-to-b from-white to-white/20 dark:from-background2 dark:to-background2/20"></div>
         Min: ${model?.price?.min}
       </div>
@@ -249,7 +249,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
           Rent Now
         </a>
       </div>
-      <div className="w relative min-w-[200px] rounded-md border-x border-t px-2 py-1 text-sm font-medium md:text-xs">
+      <div className=" relative min-w-[170px]  rounded-md border-x border-t px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
         Max: ${model?.price?.max}
         <div className="absolute inset-0 bg-gradient-to-t from-white to-white/20 dark:from-background2 dark:to-background2/20"></div>
       </div>
