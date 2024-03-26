@@ -15,7 +15,7 @@ heroSection:
           link: "/about/pricing/custom/"
           type: secondary
         - label: "View GPU availability"
-          link: "https://console.akash.network/rent-gpu"
+          link: "/gpus-on-akash"
           type: primary
 
     - title: "Provide compute and earn"
