@@ -240,7 +240,10 @@ export function Pricing({ page, pathName, initialData }: any) {
       </div>
 
       {/* border */}
-
+      <p className="mt-4 text-sm font-normal   text-para">
+        * Direct comparisons of GPU model pricing with AWS, GCP, and Azure is
+        not possible at this moment
+      </p>
       {/* Notes div */}
       <div className="mt-10">
         <p className="text-sm font-normal   text-para">

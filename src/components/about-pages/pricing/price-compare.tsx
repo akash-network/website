@@ -217,33 +217,13 @@ export default function PriceCompare({ initialData }: any) {
     </div>
   );
 }
-const people = [
-  {
-    id: 1,
-    name: "Wade Cooper",
-    avatar:
-      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 2,
-    name: "Arlene Mccoy",
-    avatar:
-      "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 3,
-    name: "Devon Webb",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80",
-  },
-];
 
 const GpuSelect = ({ data }: { data: Gpus }) => {
   const [selected, setSelected] = useState(data?.models?.[0]);
   return (
-    <div className="w-full lg:col-span-3">
+    <div className="w-full md:col-span-3">
       <p className="text-sm font-medium leading-none text-foreground ">GPU</p>
-      <div className="mt-2 flex  w-full flex-col  rounded-lg border ">
+      <div className="my-2 flex  w-full flex-col  rounded-lg border ">
         <Listbox value={selected} onChange={setSelected}>
           {({ open }) => (
             <>
@@ -301,7 +281,7 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
                                 </span>
                                 <div className="h-5 w-px bg-border"></div>
                                 <span className="text-2xs font-medium leading-none  text-foreground md:text-sm">
-                                  mid: ${person.price.med} / h
+                                  mid: ${person?.price?.med?.toFixed(2)} / h
                                 </span>
                               </div>
 
@@ -342,10 +322,17 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
           </span>
           <div className="h-5 w-px bg-border"></div>
           <span className="text-2xs font-medium leading-none  text-foreground md:text-sm">
-            mid: ${selected?.price?.med} / h
+            mid: ${selected?.price?.med?.toFixed(2)} / h
           </span>
         </div>
       </div>
+      <a
+        href="/gpus-on-akash"
+        className="  text-sm font-normal  text-para  underline"
+      >
+        To explore pricing and availability details of GPU models, please follow
+        this link
+      </a>
     </div>
   );
 };
