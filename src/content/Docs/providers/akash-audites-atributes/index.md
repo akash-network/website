@@ -159,6 +159,8 @@ Community providers vetted by Andy should advertise the following attributes bef
 
 Also make sure to specify email and website in your `provider.yaml` config:
 
+> NOTE: These aren't the provider attributes, but the `info` (informational) fields! So please add them as-is written, do not add them under the `attributes` section. More details on how exactly to add them can be found under "Create a provider.yaml File" section in https://akash.network/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/ document.
+
 ```
 email: your@email.com
 website: yourweb.com
