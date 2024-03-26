@@ -221,7 +221,7 @@ export default function PriceCompare({ initialData }: any) {
 const GpuSelect = ({ data }: { data: Gpus }) => {
   const [selected, setSelected] = useState(data?.models?.[0]);
   return (
-    <div className="w-full lg:col-span-3">
+    <div className="w-full md:col-span-3">
       <p className="text-sm font-medium leading-none text-foreground ">GPU</p>
       <div className="my-2 flex  w-full flex-col  rounded-lg border ">
         <Listbox value={selected} onChange={setSelected}>
