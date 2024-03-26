@@ -82,6 +82,18 @@ const Table = ({
   return <Tables data={data} subCom={subCom} />;
 };
 
+const modifyModel = (model: string) => {
+  return model === "rtxa6000"
+    ? "A6000"
+    : model?.includes("rtx")
+    ? model?.replace("rtx", "rtx ").replace("ti", " ti")
+    : model;
+};
+
+export const price = (price: number) => {
+  return price?.toFixed(2) ?? "0.00";
+};
+
 export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
   return (
     <section
@@ -121,8 +133,8 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
             >
               <div className="flex  items-center gap-3 p-2 ">
                 <img src="/logos/nvidia.png" alt="nvidia" className="h-6 " />
-                <h1 className="text-2xl font-semibold capitalize">
-                  {model?.model}
+                <h1 className="text-2xl font-semibold uppercase">
+                  {modifyModel(model?.model)}
                 </h1>
               </div>
               <div className="h-px w-full bg-border"></div>
@@ -161,25 +173,25 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
         <table
           className={clsx(
             "w-full  border-separate border-spacing-y-1 ",
-            subCom ? "2xl:table-fixed" : "table-fixed",
+            subCom ? "2xl:table-fixed" : "lg:table-fixed",
           )}
           cellSpacing={0}
         >
           <thead>
             <tr>
-              <th className="pl-3 pr-2 text-left  text-xs font-medium text-iconText">
+              <th className="pl-3 pr-2 text-left  text-sm font-medium text-iconText">
                 Chipset
               </th>
-              <th className="pl-3 pr-2 text-left  text-xs font-medium text-iconText">
+              <th className="pl-3 pr-2 text-left  text-sm font-medium text-iconText">
                 vRAM
               </th>
-              <th className="pl-3  pr-2 text-left text-xs font-medium text-iconText">
+              <th className="pl-3  pr-2 text-left text-sm font-medium text-iconText">
                 Interface
               </th>
-              <th className="pl-3 pr-2 text-left  text-xs font-medium text-iconText">
+              <th className="pl-3 pr-2 text-left  text-sm font-medium text-iconText">
                 Availability
               </th>
-              <th className="pl-3 pr-2 text-left  text-xs font-medium text-iconText">
+              <th className="pl-3 pr-2 text-left  text-sm font-medium text-iconText">
                 Price (USD/hr)
               </th>
             </tr>
@@ -194,14 +206,14 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
                   key={index}
                   className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
                 >
-                  <td className="   rounded-l-lg border-y border-l px-6 py-2 text-lg  font-semibold ">
-                    <div className="flex items-center gap-3 capitalize">
+                  <td className="   rounded-l-lg border-y border-l px-4 py-2 text-lg  font-semibold ">
+                    <div className="flex items-center gap-3 uppercase">
                       <img
                         src="/logos/nvidia.png"
                         alt="nvidia"
                         className="h-5 "
                       />
-                      {model?.model}
+                      {modifyModel(model?.model)}
                     </div>
                   </td>
 
@@ -248,7 +260,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
     <div className="flex flex-col items-start gap-1 ">
       <div className="relative min-w-[170px] rounded-md border-x border-b px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
         <div className="absolute inset-0 bg-gradient-to-b from-white to-white/20 dark:from-background2 dark:to-background2/20"></div>
-        Min: ${model?.price?.min}
+        Min: ${price(model?.price?.min)}
       </div>
       <div className="flex w-full items-center justify-center gap-2.5 rounded-md bg-black px-2 py-1 md:w-auto">
         <div className="flex items-center gap-1">
@@ -257,7 +269,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
               <p className="">
                 <span className="text-base text-para md:text-xs">Mid:</span>
                 <span className="pl-1 text-base font-bold text-white  md:text-xs">
-                  ${model?.price?.med}
+                  ${price(model?.price?.med)}
                 </span>
               </p>
               <Info size={12} className="text-para" />
@@ -273,14 +285,14 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                     <div className="flex flex-col items-center justify-center gap-1">
                       <h1 className="text-2xs text-iconText">Max:</h1>
                       <div className="text-xs font-bold ">
-                        ${model?.price?.max}/h
+                        ${price(model?.price?.max)}/h
                       </div>
                     </div>
                     <div className="h-5 w-px border-r "></div>
                     <div className="flex flex-col items-center justify-center gap-1">
                       <h1 className="text-2xs text-iconText">Min:</h1>
                       <div className="text-xs font-bold ">
-                        ${model?.price?.min}/h
+                        ${price(model?.price?.min)}/h
                       </div>
                     </div>
                   </div>
@@ -288,7 +300,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                 <div className="flex items-center justify-between gap-2 border-t bg-badgeColor px-4 py-3">
                   <p className="text-sm  text-para">Mid:</p>
                   <div className="text-sm font-bold  ">
-                    ${model?.price?.med}/h
+                    ${price(model?.price?.med)}/h
                   </div>
                 </div>
               </div>
@@ -305,7 +317,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
         </a>
       </div>
       <div className=" relative min-w-[170px]  rounded-md border-x border-t px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
-        Max: ${model?.price?.max}
+        Max: ${price(model?.price?.max)}
         <div className="absolute inset-0 bg-gradient-to-t from-white to-white/20 dark:from-background2 dark:to-background2/20"></div>
       </div>
     </div>
