@@ -7,6 +7,7 @@ import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
 import { findPrevAndNextPages } from "@/lib/utils";
 import TopMargin from "@/components/ui/top-margin.astro";
 import SubItemsSidebar from "@/components/sub-items-sidebar.astro";
+import { gpus } from "@/utils/api";
 
 const pathname = new URL(Astro.request.url).pathname;
 
@@ -16,6 +17,9 @@ const networkPage = await Astro.glob(
 
 const PageContent = networkPage[0].Content;
 const pageFrontMatter = networkPage[0].frontmatter;
+
+const response = await fetch(gpus);
+const data = await response.json();
 ---
 
 <Layout title="Pricing" image="/meta-images/about.png">
@@ -61,7 +65,12 @@ const pageFrontMatter = networkPage[0].frontmatter;
         </div>
 
         <div class="mt-12">
-          <PricingDashbord client:only page="custom" pathName={pathname} />
+          <PricingDashbord
+            client:only
+            page="custom"
+            pathName={pathname}
+            initialData={data}
+          />
         </div>
 
         <div class="md:hidden">

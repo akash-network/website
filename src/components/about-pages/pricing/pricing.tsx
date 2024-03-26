@@ -17,8 +17,11 @@ import {
 import { Chip } from "./chip";
 import PriceChart from "./price-chart";
 import PriceCompare from "./price-compare";
+import GpuTable, { Tables, type Gpus } from "@/components/gpu-table/gpu-table";
+import { useQuery } from "@tanstack/react-query";
+import { gpus } from "@/utils/api";
 
-export function Pricing({ page, pathName }: any) {
+export function Pricing({ page, pathName, initialData }: any) {
   const { customPricing } = useCustomPricing();
   const [discount, setDiscount] = useState<number>();
 
@@ -44,8 +47,33 @@ export function Pricing({ page, pathName }: any) {
     }
   }, [customPricing]);
 
+  const {
+    data: { data },
+  } = useQuery<
+    {
+      data: Gpus;
+    },
+    Error
+  >({
+    queryKey: ["GPU_TABLE"],
+    queryFn: () => axios.get(gpus),
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+    initialData: initialData
+      ? {
+          data: initialData,
+        }
+      : {
+          data: {
+            availability: { total: 0, available: 0 },
+            models: [],
+          },
+        },
+  });
+  console.log(data);
+
   return (
-    <div className="rounded-[8px] border  bg-background2 p-6 shadow-sm">
+    <div className="rounded-[8px] border  bg-background2 px-4 py-6 shadow-sm md:p-6">
       <div>
         <h3 className="text-base font-bold leading-normal md:text-xl">
           Calculate your ideal price on Akash
@@ -71,7 +99,7 @@ export function Pricing({ page, pathName }: any) {
       <div className="mt-8 ">
         {page === "custom" ? (
           <>
-            <PriceCompare />
+            <PriceCompare initialData={data} />
             <div className="my-10 border-b"></div>
             <div>
               <h3 className="text-base font-bold md:text-xl">
@@ -218,10 +246,10 @@ export function Pricing({ page, pathName }: any) {
         <p className="text-sm font-normal   text-para">
           Disclaimer: <br /> These prices may vary. We strongly suggest that you
           do your own research as we may have miscalculated some of the
-          providers' pricing. To calculate the pricing for Akash, we use the same
-          calculations from the provider bidding engine in the helm-charts repo
-          from Akash. For the other cloud providers, we use the same logic of
-          price per GB of ram/storage and price per thread.
+          providers' pricing. To calculate the pricing for Akash, we use the
+          same calculations from the provider bidding engine in the helm-charts
+          repo from Akash. For the other cloud providers, we use the same logic
+          of price per GB of ram/storage and price per thread.
           <br />
           <ul className="ml-6 mt-1 list-disc">
             <li>
@@ -244,20 +272,9 @@ export function Pricing({ page, pathName }: any) {
           </ul>
         </p>
       </div>
+      <div className="my-6 h-px w-full bg-border"></div>
+      <Tables data={data} subCom />
     </div>
-  );
-}
-
-function TabButton({ props, label, isActive, link }: any) {
-  return (
-    <a
-      href={link}
-      className={`rounded-[6px] px-4 py-2 text-2xs  font-medium leading-none  hover:bg-rose-100 md:px-3 md:py-2 md:text-sm ${
-        isActive ? "bg-rose-100 text-rose-500" : "text-[#7F7F7F]"
-      }`}
-    >
-      {label}
-    </a>
   );
 }
 

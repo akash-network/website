@@ -5,8 +5,9 @@ import { CustomPricingProvider } from "./CustomPricingContext";
 import PriceChart from "./price-chart";
 import PriceCompare from "./price-compare";
 import { Pricing } from "./pricing";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export default function Index({ page, pathName }: any) {
+export default function Index({ page, pathName, initialData }: any) {
   const [locale, setLocale] = useState("en-US");
 
   useEffect(() => {
@@ -17,14 +18,14 @@ export default function Index({ page, pathName }: any) {
 
   return (
     <div>
-      <Layout page={page} pathName={pathName} />
+      <Layout page={page} pathName={pathName} initialData={initialData} />
     </div>
   );
 }
 
-function Layout({ page, pathName }: any) {
+function Layout({ page, pathName, initialData }: any) {
   const [locale, setLocale] = useState("en-US");
-
+  const queryClient = new QueryClient();
   useEffect(() => {
     if (navigator?.language) {
       setLocale(navigator?.language);
@@ -34,9 +35,15 @@ function Layout({ page, pathName }: any) {
   return (
     <CustomPricingProvider>
       <IntlProvider locale={locale} defaultLocale="en-US">
-        <div className="space-y-10">
-          <Pricing page={page} pathName={pathName} />
-        </div>{" "}
+        <QueryClientProvider client={queryClient}>
+          <div className="space-y-10">
+            <Pricing
+              page={page}
+              pathName={pathName}
+              initialData={initialData}
+            />
+          </div>{" "}
+        </QueryClientProvider>
       </IntlProvider>
     </CustomPricingProvider>
   );

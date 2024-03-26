@@ -11,7 +11,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Info } from "lucide-react";
-interface Gpus {
+import { gpus } from "@/utils/api";
+import clsx from "clsx";
+export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
     vendor: string;
@@ -24,7 +26,13 @@ interface Gpus {
   }>;
 }
 
-const GpuTable = ({ initialData }: { initialData: any }) => {
+const GpuTable = ({
+  initialData,
+  subCom,
+}: {
+  initialData?: any;
+  subCom?: boolean;
+}) => {
   const queryClient = new QueryClient();
 
   return (
@@ -33,6 +41,7 @@ const GpuTable = ({ initialData }: { initialData: any }) => {
         initialData={{
           data: initialData,
         }}
+        subCom={subCom}
       />
     </QueryClientProvider>
   );
@@ -42,10 +51,12 @@ export default GpuTable;
 
 const Table = ({
   initialData,
+  subCom,
 }: {
-  initialData: {
+  initialData?: {
     data: any;
   };
+  subCom?: boolean;
 }) => {
   const {
     data: { data },
@@ -56,19 +67,32 @@ const Table = ({
     Error
   >({
     queryKey: ["GPU_TABLE"],
-    queryFn: () =>
-      axios.get("https://api-preview.cloudmos.io/internal/gpu-prices"),
+    queryFn: () => axios.get(gpus),
     refetchInterval: 2000,
     refetchIntervalInBackground: true,
-    initialData: initialData,
+    initialData: initialData || {
+      data: {
+        availability: { total: 0, available: 0 },
+        models: [],
+      },
+    },
   });
   console.log(data);
 
+  return <Tables data={data} subCom={subCom} />;
+};
+
+export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
   return (
-    <section className="container flex flex-col gap-8  pt-[80px]">
+    <section
+      className={clsx(
+        " mx-auto flex max-w-[1080px]  flex-col gap-8 ",
+        subCom ? "" : "container pt-[80px]",
+      )}
+    >
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center md:border-b md:pb-3">
         <h1 className="border-b pb-3 text-base font-medium md:border-b-0 md:pb-0 md:text-xl">
-          GPU Models, Prices & Availability
+          GPU Availability and Pricing
         </h1>
         <div className="ml-auto flex items-center gap-2 ">
           <h2 className="text-xs font-medium text-iconText">
@@ -87,48 +111,58 @@ const Table = ({
       </div>
 
       <div className="flex flex-col gap-4 md:hidden">
-        {data?.models?.map((model, index) => (
-          <div
-            key={index}
-            className="flex flex-col gap-5  rounded-xl border bg-background2  p-3 shadow-sm"
-          >
-            <div className="flex  items-center gap-3 p-2 ">
-              <img src="/logos/nvidia.png" alt="nvidia" className="h-6 " />
-              <h1 className="text-2xl font-semibold">{model?.model}</h1>
+        {/* //most availability at top */}
+        {data?.models
+          ?.sort((a, b) => b.availability.available - a.availability.available)
+          ?.map((model, index) => (
+            <div
+              key={index}
+              className="flex flex-col gap-5  rounded-xl border bg-background2  p-3 shadow-sm"
+            >
+              <div className="flex  items-center gap-3 p-2 ">
+                <img src="/logos/nvidia.png" alt="nvidia" className="h-6 " />
+                <h1 className="text-2xl font-semibold capitalize">
+                  {model?.model}
+                </h1>
+              </div>
+              <div className="h-px w-full bg-border"></div>
+              <div className=" flex  flex-col gap-2">
+                <div className="flex items-center justify-between gap-1">
+                  <p className="text-xs font-medium text-iconText">vRAM:</p>
+                  <p className="text-xs font-semibold">{model?.ram}</p>
+                </div>
+                <div className="flex items-center justify-between gap-1">
+                  <p className="text-xs font-medium text-iconText">
+                    Interface:
+                  </p>
+                  <p className="text-xs font-semibold">{model?.interface}</p>
+                </div>
+                <div className="flex items-center justify-between gap-1">
+                  <p className="text-xs font-medium text-iconText">
+                    Availability:
+                  </p>
+                  <p className="">
+                    <span className="text-sm  font-semibold text-foreground">
+                      {model?.availability?.available}
+                    </span>
+                    <span className="pl-2 text-xs text-iconText">
+                      (of {model?.availability?.total})
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div className="h-px w-full bg-border"></div>
+              <CustomHoverCard model={model} />
             </div>
-            <div className="h-px w-full bg-border"></div>
-            <div className=" flex  flex-col gap-2">
-              <div className="flex items-center justify-between gap-1">
-                <p className="text-xs font-medium text-iconText">vRAM:</p>
-                <p className="text-xs font-semibold">{model?.ram}</p>
-              </div>
-              <div className="flex items-center justify-between gap-1">
-                <p className="text-xs font-medium text-iconText">Interface:</p>
-                <p className="text-xs font-semibold">{model?.interface}</p>
-              </div>
-              <div className="flex items-center justify-between gap-1">
-                <p className="text-xs font-medium text-iconText">
-                  Availability:
-                </p>
-                <p className="">
-                  <span className="text-sm  font-semibold text-foreground">
-                    {model?.availability?.available}
-                  </span>
-                  <span className="pl-2 text-xs text-iconText">
-                    (of {model?.availability?.total})
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div className="h-px w-full bg-border"></div>
-            <CustomHoverCard model={model} />
-          </div>
-        ))}
+          ))}
       </div>
 
       <div className="hidden overflow-x-auto md:block">
         <table
-          className="w-full border-separate border-spacing-y-1"
+          className={clsx(
+            "w-full  border-separate border-spacing-y-1 ",
+            subCom ? "2xl:table-fixed" : "table-fixed",
+          )}
           cellSpacing={0}
         >
           <thead>
@@ -146,47 +180,51 @@ const Table = ({
                 Availability
               </th>
               <th className="pl-3 pr-2 text-left  text-xs font-medium text-iconText">
-                Price (USD)
+                Price (USD/hr)
               </th>
             </tr>
           </thead>
           <tbody className="mt-1 ">
-            {data?.models?.map((model, index) => (
-              <tr
-                key={index}
-                className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
-              >
-                <td className="rounded-l-lg border-y border-l px-6 py-2 text-lg  font-semibold ">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src="/logos/nvidia.png"
-                      alt="nvidia"
-                      className="h-5 "
-                    />
-                    {model?.model}
-                  </div>
-                </td>
+            {data?.models
+              ?.sort(
+                (a, b) => b.availability.available - a.availability.available,
+              )
+              ?.map((model, index) => (
+                <tr
+                  key={index}
+                  className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
+                >
+                  <td className="   rounded-l-lg border-y border-l px-6 py-2 text-lg  font-semibold ">
+                    <div className="flex items-center gap-3 capitalize">
+                      <img
+                        src="/logos/nvidia.png"
+                        alt="nvidia"
+                        className="h-5 "
+                      />
+                      {model?.model}
+                    </div>
+                  </td>
 
-                <td className="border-y py-2 pl-3 pr-2 text-left text-xs font-medium text-para">
-                  {model?.ram}
-                </td>
-                <td className="border-y py-2 pl-3 pr-2 text-left  text-xs font-medium text-para">
-                  {model?.interface}
-                </td>
-                <td className="border-y  py-2 pl-3 pr-2 text-left">
-                  <span className="text-sm  font-semibold text-foreground">
-                    {model?.availability?.available}
-                  </span>
-                  <span className="pl-2 text-xs text-iconText">
-                    (of {model?.availability?.total})
-                  </span>
-                </td>
+                  <td className="  border-y py-2 pl-3 pr-2 text-left text-sm font-medium text-para">
+                    {model?.ram}
+                  </td>
+                  <td className="  border-y py-2 pl-3 pr-2 text-left  text-sm font-medium text-para">
+                    {model?.interface}
+                  </td>
+                  <td className="  border-y py-2 pl-3 pr-2 text-left">
+                    <span className="text-sm  font-semibold text-foreground">
+                      {model?.availability?.available}
+                    </span>
+                    <span className="pl-2 text-xs text-iconText">
+                      (of {model?.availability?.total})
+                    </span>
+                  </td>
 
-                <td className="rounded-r-lg border-y border-r   pl-3 pr-2 ">
-                  <CustomHoverCard model={model} />
-                </td>
-              </tr>
-            ))}
+                  <td className="  rounded-r-lg border-y border-r   pl-3 pr-2 ">
+                    <CustomHoverCard model={model} />
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -249,7 +287,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                 </div>
                 <div className="flex items-center justify-between gap-2 border-t bg-badgeColor px-4 py-3">
                   <p className="text-sm  text-para">Mid:</p>
-                  <div className="text-sm font-semibold  ">
+                  <div className="text-sm font-bold  ">
                     ${model?.price?.med}/h
                   </div>
                 </div>
