@@ -197,7 +197,7 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
         <table
           className={clsx(
             "w-full  border-separate border-spacing-y-1 ",
-            subCom ? "2xl:table-fixed" : "lg:table-fixed",
+            subCom ? "" : "",
           )}
           cellSpacing={0}
         >
@@ -230,7 +230,14 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
                   key={index}
                   className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
                 >
-                  <td className="   rounded-l-lg border-y border-l px-2 py-2 text-base font-semibold xl:px-4  xl:text-lg ">
+                  <td
+                    className={clsx(
+                      " rounded-l-lg  border-y border-l px-2 py-2 text-base font-semibold  xl:px-4  xl:text-lg",
+                      subCom
+                        ? "w-[30%] lg:w-[27%] xl:w-[35%] 2xl:w-[40%] "
+                        : "w-[30%] lg:w-[40%]",
+                    )}
+                  >
                     <div className="flex items-center gap-3 uppercase">
                       <img
                         src="/logos/nvidia.png"
@@ -241,13 +248,13 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
                     </div>
                   </td>
 
-                  <td className="  border-y px-2 py-2 text-left text-sm font-medium text-para">
+                  <td className=" w-[13%]  border-y px-2 py-2 text-left text-sm font-medium text-para">
                     {model?.ram}
                   </td>
-                  <td className="  border-y px-2 py-2 text-left  text-sm font-medium text-para">
+                  <td className=" w-[13%] border-y px-2 py-2 text-left  text-sm font-medium text-para">
                     {model?.interface}
                   </td>
-                  <td className="  border-y px-2 py-2 text-left">
+                  <td className="w-[13%]  border-y px-2 py-2 text-left">
                     <span className="text-sm  font-semibold text-foreground">
                       {model?.availability?.available}
                     </span>
