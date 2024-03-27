@@ -24,12 +24,26 @@ const CheckBox = (props: InputProps) => {
           <div className="block h-4 w-4 rounded  border bg-background2" />
           <div
             className={clsx(
-              "absolute inset-0 rounded transition-transform duration-300",
+              "absolute inset-0 flex items-center justify-center rounded transition-transform duration-300",
               props?.checked
-                ? "scale-100 transform bg-primary"
+                ? "scale-100 transform bg-primary  "
                 : "scale-0 transform",
             )}
-          />
+          >
+            <svg
+              className="h-3 w-3 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={3.5}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
         </div>
         <div className="ml-2 text-sm font-medium text-foreground">
           {props.label}

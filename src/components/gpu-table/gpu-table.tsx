@@ -354,7 +354,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
         {/* <div className="absolute inset-0 bg-gradient-to-b from-white to-white/20 dark:from-background2 dark:to-background2/20"></div> */}
         Min: ${price(model?.price?.min)}
       </div>
-      <div className="flex  items-center  gap-2.5 rounded-md bg-black px-2 py-2 dark:bg-[#EDEDED] ">
+      <div className="flex  w-full items-center justify-center gap-2.5   rounded-md bg-black px-2 py-2 dark:bg-[#EDEDED] md:w-auto ">
         <div className="flex items-center gap-1">
           <HoverCard openDelay={2} closeDelay={2}>
             <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
