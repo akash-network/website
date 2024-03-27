@@ -262,6 +262,22 @@ If your deployment is optimized to run on multiple GPU models, include the appro
                 - model: t4
 ```
 
+#### GPU Interface Specification
+
+Optionally the SDL may include a GPU interface requirement such as the example below.
+
+> _**NOTE**_ - only values of `pcie` or `sxm` should be used in the Akash SDL. There are several variants of the SXM interface but only the simple `sxm` value should be used in the SDL.
+
+```
+gpu:
+  units: 1
+  attributes:
+    vendor:
+      nvidia:
+        - model: a100
+          interface: sxm
+```
+
 ## Stable Payment
 
 Use of Stable Payments is supported in the Akash SDL and is declared in the placement section of the SDL as shown in the example below.
