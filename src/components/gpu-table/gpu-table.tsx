@@ -259,7 +259,7 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
       >
         <table
           className={clsx(
-            "w-full  border-separate border-spacing-y-1 ",
+            "w-full  border-separate border-spacing-y-1.5 ",
             subCom ? "" : "",
           )}
           cellSpacing={0}
