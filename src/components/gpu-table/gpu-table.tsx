@@ -118,13 +118,15 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
       //h100 and a100 at top with same order as in onTop array
       const onTop = ["h100", "a100"];
       const filtered = data?.models
-        ?.filter((model) => onTop.includes(model.model))
-        .sort((a, b) => onTop.indexOf(a.model) - onTop.indexOf(b.model));
+        ?.filter((model) => onTop?.includes(model?.model))
+        .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
       const rest = data?.models
-        ?.filter((model) => !onTop.includes(model.model))
-        .sort((a, b) => b.availability.available - a.availability.available);
+        ?.filter((model) => !onTop?.includes(model.model))
+        .sort(
+          (a, b) => b?.availability?.available - a?.availability?.available,
+        );
       setFilteredData(
-        [...filtered, ...rest].filter((model) => model !== undefined),
+        [...filtered, ...rest]?.filter((model) => model !== undefined),
       );
     }
   }, [filters, data]);
