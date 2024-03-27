@@ -4,7 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -13,6 +13,7 @@ import {
 import { Info } from "lucide-react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
+import CheckBox from "./checkbox";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -95,6 +96,33 @@ export const price = (price: number) => {
 };
 
 export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
+  const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
+
+  const [filters, setFilters] = React.useState<{
+    modal: string[];
+  }>({
+    modal: [],
+  });
+  console.log(filteredData);
+
+  React.useEffect(() => {
+    if (filters.modal.length > 0) {
+      console.log("filtering");
+
+      setFilteredData(
+        data?.models?.filter((model) => filters.modal.includes(model.model)) ||
+          [],
+      );
+    } else {
+      console.log("filtering");
+      setFilteredData(
+        data?.models?.sort(
+          (a, b) => b.availability.available - a.availability.available,
+        ) || [],
+      );
+    }
+  }, [filters, data]);
+
   return (
     <section
       className={clsx(
@@ -102,40 +130,79 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
         subCom ? "" : "container pt-[80px]",
       )}
     >
-      <div
-        className={clsx(
-          "flex flex-col justify-between gap-4 ",
-          subCom
-            ? "lg:flex-row lg:items-center lg:border-b lg:pb-3"
-            : "md:flex-row md:items-center md:border-b md:pb-3",
-        )}
-      >
-        <h1
+      <div className="flex flex-col gap-4 ">
+        <div
           className={clsx(
-            "border-b pb-3 text-base font-medium ",
+            "flex flex-col justify-between gap-4 ",
             subCom
-              ? "md:text-xl lg:border-b-0 lg:pb-0"
-              : "md:border-b-0 md:pb-0 md:text-xl",
+              ? "lg:flex-row lg:items-center lg:border-b lg:pb-3"
+              : "md:flex-row md:items-center md:border-b md:pb-3",
           )}
         >
-          GPU availability and pricing
-        </h1>
-        <div className="ml-auto flex items-center gap-2 ">
-          <h2 className="text-sm font-medium text-linkText">
-            Total Available GPUs
-          </h2>
-          <div className="rounded-md border p-2 shadow-sm ">
-            <span className="text-base font-bold">
-              {data?.availability?.available || 0}
-            </span>
+          <h1
+            className={clsx(
+              "border-b pb-3 text-base font-medium ",
+              subCom
+                ? "md:text-xl lg:border-b-0 lg:pb-0"
+                : "md:border-b-0 md:pb-0 md:text-xl",
+            )}
+          >
+            GPU availability and pricing
+          </h1>
+          <div className="ml-auto flex items-center gap-2 ">
+            <h2 className="text-sm font-medium text-linkText">
+              Total Available GPUs
+            </h2>
+            <div className="rounded-md border p-2 shadow-sm ">
+              <span className="text-base font-bold">
+                {data?.availability?.available || 0}
+              </span>
 
-            <span className="ml-2  text-sm text-linkText">
-              (of {data?.availability?.total || 0})
-            </span>
+              <span className="ml-2  text-sm text-linkText">
+                (of {data?.availability?.total || 0})
+              </span>
+            </div>
           </div>
         </div>
+        <div className="flex items-center gap-4">
+          <CheckBox
+            label="H100"
+            name="h100"
+            onChange={(e) => {
+              if (e.target.checked) {
+                setFilters((prev) => ({
+                  ...prev,
+                  modal: [...prev.modal, e.target.name],
+                }));
+              } else {
+                setFilters((prev) => ({
+                  ...prev,
+                  modal: prev.modal.filter((item) => item !== e.target.name),
+                }));
+              }
+            }}
+            checked={filters.modal.includes("h100")}
+          />
+          <CheckBox
+            label="A100"
+            name="a100"
+            onChange={(e) => {
+              if (e.target.checked) {
+                setFilters((prev) => ({
+                  ...prev,
+                  modal: [...prev.modal, e.target.name],
+                }));
+              } else {
+                setFilters((prev) => ({
+                  ...prev,
+                  modal: prev.modal.filter((item) => item !== e.target.name),
+                }));
+              }
+            }}
+            checked={filters.modal.includes("a100")}
+          />
+        </div>
       </div>
-
       <div
         className={clsx(
           "flex flex-col gap-4 ",
@@ -143,49 +210,45 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
         )}
       >
         {/* //most availability at top */}
-        {data?.models
-          ?.sort((a, b) => b.availability.available - a.availability.available)
-          ?.map((model, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-5  rounded-xl border bg-background2  p-3 shadow-sm"
-            >
-              <div className="flex  items-center gap-3 p-2 ">
-                <img src="/logos/nvidia.png" alt="nvidia" className="h-6 " />
-                <h1 className="text-2xl font-semibold capitalize">
-                  {modifyModel(model?.model)}
-                </h1>
-              </div>
-              <div className="h-px w-full bg-border"></div>
-              <div className=" flex  flex-col gap-2">
-                <div className="flex items-center justify-between gap-1">
-                  <p className="text-xs font-medium text-iconText">vRAM:</p>
-                  <p className="text-xs font-semibold">{model?.ram}</p>
-                </div>
-                <div className="flex items-center justify-between gap-1">
-                  <p className="text-xs font-medium text-iconText">
-                    Interface:
-                  </p>
-                  <p className="text-xs font-semibold">{model?.interface}</p>
-                </div>
-                <div className="flex items-center justify-between gap-1">
-                  <p className="text-xs font-medium text-iconText">
-                    Availability:
-                  </p>
-                  <p className="">
-                    <span className="text-sm  font-semibold text-foreground">
-                      {model?.availability?.available}
-                    </span>
-                    <span className="pl-2 text-xs text-iconText">
-                      (of {model?.availability?.total})
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div className="h-px w-full bg-border"></div>
-              <CustomHoverCard model={model} />
+        {filteredData?.map((model, index) => (
+          <div
+            key={index}
+            className="flex flex-col gap-5  rounded-xl border bg-background2  p-3 shadow-sm"
+          >
+            <div className="flex  items-center gap-3 p-2 ">
+              <img src="/logos/nvidia.png" alt="nvidia" className="h-6 " />
+              <h1 className="text-2xl font-semibold capitalize">
+                {modifyModel(model?.model)}
+              </h1>
             </div>
-          ))}
+            <div className="h-px w-full bg-border"></div>
+            <div className=" flex  flex-col gap-2">
+              <div className="flex items-center justify-between gap-1">
+                <p className="text-xs font-medium text-iconText">vRAM:</p>
+                <p className="text-xs font-semibold">{model?.ram}</p>
+              </div>
+              <div className="flex items-center justify-between gap-1">
+                <p className="text-xs font-medium text-iconText">Interface:</p>
+                <p className="text-xs font-semibold">{model?.interface}</p>
+              </div>
+              <div className="flex items-center justify-between gap-1">
+                <p className="text-xs font-medium text-iconText">
+                  Availability:
+                </p>
+                <p className="">
+                  <span className="text-sm  font-semibold text-foreground">
+                    {model?.availability?.available}
+                  </span>
+                  <span className="pl-2 text-xs text-iconText">
+                    (of {model?.availability?.total})
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="h-px w-full bg-border"></div>
+            <CustomHoverCard model={model} />
+          </div>
+        ))}
       </div>
 
       <div
@@ -221,55 +284,51 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
             </tr>
           </thead>
           <tbody className="mt-1 ">
-            {data?.models
-              ?.sort(
-                (a, b) => b.availability.available - a.availability.available,
-              )
-              ?.map((model, index) => (
-                <tr
-                  key={index}
-                  className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
+            {filteredData?.map((model, index) => (
+              <tr
+                key={index}
+                className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
+              >
+                <td
+                  className={clsx(
+                    " rounded-l-lg  border-y border-l px-2 py-2 text-base font-semibold  xl:px-4  xl:text-lg",
+                    subCom
+                      ? "w-[30%] lg:w-[27%] xl:w-[35%] 2xl:w-[40%] "
+                      : "w-[30%] lg:w-[38%] xl:w-[40%]",
+                  )}
                 >
-                  <td
-                    className={clsx(
-                      " rounded-l-lg  border-y border-l px-2 py-2 text-base font-semibold  xl:px-4  xl:text-lg",
-                      subCom
-                        ? "w-[30%] lg:w-[27%] xl:w-[35%] 2xl:w-[40%] "
-                        : "w-[30%] lg:w-[38%] xl:w-[40%]",
-                    )}
-                  >
-                    <div className="flex items-center gap-3 capitalize">
-                      <img
-                        src="/logos/nvidia.png"
-                        alt="nvidia"
-                        className="h-5 "
-                      />
-                      {modifyModel(model?.model)}
-                    </div>
-                  </td>
+                  <div className="flex items-center gap-3 capitalize">
+                    <img
+                      src="/logos/nvidia.png"
+                      alt="nvidia"
+                      className="h-5 "
+                    />
+                    {modifyModel(model?.model)}
+                  </div>
+                </td>
 
-                  <td className=" w-[14%]  border-y px-2 py-2 text-left text-sm font-medium text-para">
-                    {model?.ram}
-                  </td>
-                  <td className=" w-[14%] border-y px-2 py-2 text-left  text-sm font-medium text-para">
-                    {model?.interface}
-                  </td>
-                  <td className="w-[14%]  border-y px-2 py-2 text-left">
-                    <p className="flex items-center gap-1.5">
-                      <span className="text-sm  font-semibold text-foreground">
-                        {model?.availability?.available}
-                      </span>
-                      <span className=" text-xs text-iconText">
-                        (of {model?.availability?.total})
-                      </span>
-                    </p>
-                  </td>
+                <td className=" w-[14%]  border-y px-2 py-2 text-left text-sm font-medium text-para">
+                  {model?.ram}
+                </td>
+                <td className=" w-[14%] border-y px-2 py-2 text-left  text-sm font-medium text-para">
+                  {model?.interface}
+                </td>
+                <td className="w-[14%]  border-y px-2 py-2 text-left">
+                  <p className="flex items-center gap-1.5">
+                    <span className="text-sm  font-semibold text-foreground">
+                      {model?.availability?.available}
+                    </span>
+                    <span className=" text-xs text-iconText">
+                      (of {model?.availability?.total})
+                    </span>
+                  </p>
+                </td>
 
-                  <td className="  rounded-r-lg border-y border-r   pr-2 ">
-                    <CustomHoverCard model={model} />
-                  </td>
-                </tr>
-              ))}
+                <td className="  rounded-r-lg border-y border-r   pr-2 ">
+                  <CustomHoverCard model={model} />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
