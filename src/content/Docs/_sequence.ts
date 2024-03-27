@@ -19,7 +19,8 @@ export const docsSequence = [
         label: "Deployments",
         subItems: [
           { label: "Deployment Overview" },
-          { label: "Akash Console" },
+          { label: "Cloudmos Deploy" },
+
           {
             label: "Akash CLI",
             subItems: [
