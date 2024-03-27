@@ -327,7 +327,7 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
         </div>
       </div>
       <a
-        href="/gpus-on-akash"
+        href="/pricing"
         className="  text-sm font-normal  text-para  underline"
       >
         To explore pricing and availability details of GPU models, please follow
