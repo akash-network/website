@@ -7,7 +7,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const CheckBox = (props: InputProps) => {
   const ref = React.useRef<HTMLInputElement>(null);
-  console.log(props);
 
   return (
     <div>
