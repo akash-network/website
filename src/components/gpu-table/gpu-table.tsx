@@ -298,14 +298,14 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
           <HoverCard openDelay={2} closeDelay={2}>
             <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
               <p className="">
-                <span className="text-base text-para dark:text-iconText md:text-xs">
+                <span className="text-base text-para dark:text-paraDark md:text-xs">
                   Mid:
                 </span>
                 <span className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
                   ${price(model?.price?.med)}
                 </span>
               </p>
-              <Info size={12} className="text-para" />
+              <Info size={12} className="text-para dark:text-paraDark" />
             </HoverCardTrigger>
             <HoverCardContent align="center">
               <div className="flex flex-col">
