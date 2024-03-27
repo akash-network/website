@@ -203,19 +203,19 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
         >
           <thead>
             <tr>
-              <th className="px-2 text-left   text-sm font-medium  tracking-normal">
+              <th className="px-2 text-left text-sm  font-medium tracking-normal  text-linkText">
                 Chipset
               </th>
-              <th className="px-2 text-left  text-sm font-medium tracking-normal">
+              <th className="px-2 text-left  text-sm font-medium tracking-normal text-linkText">
                 vRAM
               </th>
-              <th className="px-2 text-left text-sm font-medium tracking-normal">
+              <th className="px-2 text-left text-sm font-medium tracking-normal text-linkText">
                 Interface
               </th>
-              <th className="px-2 text-left  text-sm font-medium tracking-normal">
+              <th className="px-2 text-left  text-sm font-medium tracking-normal text-linkText">
                 Availability
               </th>
-              <th className="pr-2 text-left  text-sm font-medium tracking-normal ">
+              <th className="pr-2 text-left  text-sm font-medium tracking-normal text-linkText ">
                 Price (USD/hr)
               </th>
             </tr>
@@ -298,14 +298,14 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
           <HoverCard openDelay={2} closeDelay={2}>
             <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
               <p className="">
-                <span className="text-base text-para dark:text-paraDark md:text-xs">
+                <span className="text-base text-[#D7DBDF] dark:text-[#3E3E3E] md:text-xs">
                   Mid:
                 </span>
                 <span className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
                   ${price(model?.price?.med)}
                 </span>
               </p>
-              <Info size={12} className="text-para dark:text-paraDark" />
+              <Info size={12} className="text-[#D7DBDF] dark:text-[#3E3E3E]" />
             </HoverCardTrigger>
             <HoverCardContent align="center">
               <div className="flex flex-col">
@@ -330,7 +330,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-2 border-t bg-badgeColor px-4 py-3">
+                <div className="flex items-center  justify-between gap-2 rounded-b-md border-t bg-badgeColor px-4 py-3">
                   <p className="text-base  text-para">Mid:</p>
                   <div className="text-base font-bold  ">
                     ${price(model?.price?.med)}/hr
@@ -344,7 +344,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
         <a
           href="https://console.akash.network/rent-gpu"
           target="_blank"
-          className="text-base font-medium text-white dark:text-black md:text-xs"
+          className=" text-base font-medium text-white dark:text-black md:text-xs"
         >
           Rent Now
         </a>

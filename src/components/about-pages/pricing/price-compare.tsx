@@ -281,7 +281,7 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
                                 </span>
                                 <div className="h-5 w-px bg-border"></div>
                                 <span className="text-2xs font-medium leading-none  text-foreground md:text-sm">
-                                  mid: ${person?.price?.med?.toFixed(2)} / hsr
+                                  mid: ${person?.price?.med?.toFixed(2)} / hr
                                 </span>
                               </div>
 
