@@ -481,7 +481,7 @@ helm repo update
 - Update the following keys for your unique use case
   - `region`
   - `organization`
-- Optional Parameters - the following parameters may be added at the same level as `from` and `key` if you which to advertise your support email address and company website URL. (NOTE: These are not "attributes" but rather informational fields; add them as in the example below)
+- Optional Parameters - the following parameters may be added at the same level as `from` and `key` if you which to advertise your support email address and company website URL.
   - `email`
   - `website`
 
@@ -509,8 +509,6 @@ attributes:
     value: community
   - key: organization
     value: "<YOUR ORG>"      # set your organization name here
-email: <YOUR EMAIL>          # set your email here
-website: <YOUR SITE>         # set your website (if you have)
 EOF
 ```
 
@@ -534,8 +532,6 @@ attributes:
     value: community
   - key: organization
     value: myorganization
-email: your@email.com
-website: yoursite.com
 EOF
 ```
 
@@ -569,8 +565,6 @@ attributes:
   value: community
 - key: organization
   value: mycompany
-email: your@email.com
-website: yoursite.com
 ```
 
 #### **Provider Bid Defaults**
