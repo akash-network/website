@@ -34,7 +34,7 @@ const navigation = [
   { name: "Community", href: "/community/akash-insiders/" },
   { name: "Blog", href: "/blog" },
   { name: "Docs", href: "/docs" },
-  { name: "GPU pricing", href: "/gpus-on-akash" },
+  { name: "GPU Pricing", href: "/pricing" },
 ];
 
 export default function HamburgerMenu({

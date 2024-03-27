@@ -281,7 +281,7 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
                                 </span>
                                 <div className="h-5 w-px bg-border"></div>
                                 <span className="text-2xs font-medium leading-none  text-foreground md:text-sm">
-                                  mid: ${person?.price?.med?.toFixed(2)} / h
+                                  mid: ${person?.price?.med?.toFixed(2)} / hr
                                 </span>
                               </div>
 
@@ -322,12 +322,12 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
           </span>
           <div className="h-5 w-px bg-border"></div>
           <span className="text-2xs font-medium leading-none  text-foreground md:text-sm">
-            mid: ${selected?.price?.med?.toFixed(2)} / h
+            mid: ${selected?.price?.med?.toFixed(2)} / hr
           </span>
         </div>
       </div>
       <a
-        href="/gpus-on-akash"
+        href="/pricing"
         className="  text-sm font-normal  text-para  underline"
       >
         To explore pricing and availability details of GPU models, please follow
