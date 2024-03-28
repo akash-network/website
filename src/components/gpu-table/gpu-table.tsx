@@ -14,6 +14,7 @@ import { Info } from "lucide-react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
 import CheckBox from "./checkbox";
+import Filter from "./filter";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -98,38 +99,7 @@ export const price = (price: number) => {
 export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
 
-  const [filters, setFilters] = React.useState<{
-    modal: string[];
-  }>({
-    modal: [],
-  });
   console.log(filteredData);
-
-  React.useEffect(() => {
-    if (filters.modal.length > 0) {
-      console.log("filtering");
-
-      setFilteredData(
-        data?.models?.filter((model) => filters.modal.includes(model.model)) ||
-          [],
-      );
-    } else {
-      console.log("filtering");
-      //h100 and a100 at top with same order as in onTop array
-      const onTop = ["h100", "a100"];
-      const filtered = data?.models
-        ?.filter((model) => onTop?.includes(model?.model))
-        .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
-      const rest = data?.models
-        ?.filter((model) => !onTop?.includes(model.model))
-        .sort(
-          (a, b) => b?.availability?.available - a?.availability?.available,
-        );
-      setFilteredData(
-        [...filtered, ...rest]?.filter((model) => model !== undefined),
-      );
-    }
-  }, [filters, data]);
 
   return (
     <section
@@ -138,26 +108,24 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
         subCom ? "" : "container pt-[80px]",
       )}
     >
+      <h1
+        className={clsx(
+          " text-base font-medium ",
+          subCom ? "md:text-xl " : "  md:text-xl",
+        )}
+      >
+        GPU availability and pricing
+      </h1>
       <div className="flex flex-col gap-4 ">
         <div
           className={clsx(
             "flex flex-col justify-between gap-4 ",
             subCom
-              ? "lg:flex-row lg:items-center lg:border-b lg:pb-3"
-              : "md:flex-row md:items-center md:border-b md:pb-3",
+              ? "border-b pb-4 lg:flex-row lg:items-center"
+              : "border-b pb-4 md:flex-row md:items-center",
           )}
         >
-          <h1
-            className={clsx(
-              "border-b pb-3 text-base font-medium ",
-              subCom
-                ? "md:text-xl lg:border-b-0 lg:pb-0"
-                : "md:border-b-0 md:pb-0 md:text-xl",
-            )}
-          >
-            GPU availability and pricing
-          </h1>
-          <div className="ml-auto flex items-center gap-2 ">
+          <div className=" ml-auto flex items-center gap-2 md:m-0  ">
             <h2 className="text-sm font-medium text-linkText">
               Total Available GPUs
             </h2>
@@ -171,8 +139,11 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
               </span>
             </div>
           </div>
+          <div className="flex gap-4">
+            <Filter setFilteredData={setFilteredData} res={data} />
+          </div>
         </div>
-        <div className="flex items-center gap-4">
+        {/* <div className="flex items-center gap-4">
           <CheckBox
             label="H100"
             name="h100"
@@ -209,7 +180,7 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
             }}
             checked={filters.modal.includes("a100")}
           />
-        </div>
+        </div> */}
       </div>
       <div
         className={clsx(
@@ -301,7 +272,7 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
                   className={clsx(
                     " rounded-l-lg  border-y border-l px-2 py-2 text-base font-semibold  xl:px-4  xl:text-lg",
                     subCom
-                      ? "w-[30%] lg:w-[27%] xl:w-[35%] 2xl:w-[40%] "
+                      ? "w-[30%] lg:w-[27%] xl:w-[35%] 2xl:w-[38%] "
                       : "w-[30%] lg:w-[38%] xl:w-[40%]",
                   )}
                 >
