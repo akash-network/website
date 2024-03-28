@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Menu, Transition, Popover } from "@headlessui/react";
+import { Menu, Transition, Popover, Disclosure } from "@headlessui/react";
 import {
   ArchiveBoxIcon,
   ArrowRightCircleIcon,
@@ -146,46 +146,69 @@ export default function Filter({
       >
         <Popover.Panel className="absolute left-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-background2 px-4 py-3 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none md:left-auto md:right-0">
           {data.map((item) => (
-            <div className="flex flex-col gap-2 py-2" key={item.name}>
-              <div
-                className={
-                  "group flex items-center gap-1.5  text-sm font-bold text-textGray "
-                }
-              >
-                <ChevronDownIcon className=" h-4 w-4 " aria-hidden="true" />
-                {item.name}
-              </div>
-
-              {item.options.map((option) => (
-                <div key={option.name}>
-                  <CheckBox
-                    label={option.name}
-                    name={option.value}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setFilters((prev) => ({
-                          ...prev,
-                          [item.value]: [...prev[item.value], option.value],
-                        }));
-                      } else {
-                        setFilters((prev) => ({
-                          ...prev,
-                          [item.value]: prev[item.value].filter(
-                            (filter) => filter !== option.value,
-                          ),
-                        }));
-                      }
-                    }}
-                    checked={filters?.[item.value]?.includes(option.value)}
-                  />
-                </div>
-              ))}
-            </div>
+            <Disclosure
+              as={"div"}
+              className="flex flex-col gap-2 py-2"
+              key={item.name}
+            >
+              {({ open }) => (
+                <>
+                  <Disclosure.Button
+                    className={
+                      "group flex items-center gap-1.5  text-sm font-bold text-textGray "
+                    }
+                  >
+                    <ChevronDownIcon
+                      aria-hidden="true"
+                      className={classNames(
+                        open ? " rotate-0 transform" : "-rotate-90",
+                        "h-4 w-4 transition-transform duration-200",
+                      )}
+                    />
+                    {item.name}
+                  </Disclosure.Button>
+                  <Disclosure.Panel
+                    className={"flex flex-col gap-2 py-2"}
+                    as="div"
+                  >
+                    {item.options.map((option) => (
+                      <div key={option.name}>
+                        <CheckBox
+                          label={option.name}
+                          name={option.value}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setFilters((prev) => ({
+                                ...prev,
+                                [item.value]: [
+                                  ...prev[item.value],
+                                  option.value,
+                                ],
+                              }));
+                            } else {
+                              setFilters((prev) => ({
+                                ...prev,
+                                [item.value]: prev[item.value].filter(
+                                  (filter) => filter !== option.value,
+                                ),
+                              }));
+                            }
+                          }}
+                          checked={filters?.[item.value]?.includes(
+                            option.value,
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </Disclosure.Panel>
+                </>
+              )}
+            </Disclosure>
           ))}
 
           <button
             onClick={() => setFilters(defaultFilters)}
-            className="pt-2 text-sm font-medium text-cardGray "
+            className="w-full pt-2 text-left text-sm font-medium text-cardGray "
           >
             Clear All
           </button>
