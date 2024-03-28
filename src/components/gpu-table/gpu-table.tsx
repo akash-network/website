@@ -14,7 +14,7 @@ import { Info } from "lucide-react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
 import CheckBox from "./checkbox";
-import Filter from "./filter";
+import Filter, { defaultFilters, type Filters } from "./filter";
 import Sort from "./sort";
 export interface Gpus {
   availability: { total: number; available: number };
@@ -85,7 +85,7 @@ const Table = ({
   return <Tables data={data} subCom={subCom} />;
 };
 
-const modifyModel = (model: string) => {
+export const modifyModel = (model: string) => {
   return model === "rtxa6000"
     ? "A6000"
     : model?.includes("rtx")
@@ -99,7 +99,7 @@ export const price = (price: number) => {
 
 export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
-
+  const [filters, setFilters] = React.useState<Filters>(defaultFilters);
   console.log(filteredData);
 
   return (
@@ -141,52 +141,19 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
             </div>
           </div>
           <div className="flex gap-4">
-            <Filter setFilteredData={setFilteredData} res={data} />
+            <Filter
+              filters={filters}
+              setFilters={setFilters}
+              setFilteredData={setFilteredData}
+              res={data}
+            />
             <Sort
               setFilteredData={setFilteredData}
               res={data}
-              filteredData={filteredData}
+              filters={filters}
             />
           </div>
         </div>
-        {/* <div className="flex items-center gap-4">
-          <CheckBox
-            label="H100"
-            name="h100"
-            onChange={(e) => {
-              if (e.target.checked) {
-                setFilters((prev) => ({
-                  ...prev,
-                  modal: [...prev.modal, e.target.name],
-                }));
-              } else {
-                setFilters((prev) => ({
-                  ...prev,
-                  modal: prev.modal.filter((item) => item !== e.target.name),
-                }));
-              }
-            }}
-            checked={filters.modal.includes("h100")}
-          />
-          <CheckBox
-            label="A100"
-            name="a100"
-            onChange={(e) => {
-              if (e.target.checked) {
-                setFilters((prev) => ({
-                  ...prev,
-                  modal: [...prev.modal, e.target.name],
-                }));
-              } else {
-                setFilters((prev) => ({
-                  ...prev,
-                  modal: prev.modal.filter((item) => item !== e.target.name),
-                }));
-              }
-            }}
-            checked={filters.modal.includes("a100")}
-          />
-        </div> */}
       </div>
       <div
         className={clsx(

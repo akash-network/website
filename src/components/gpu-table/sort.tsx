@@ -3,6 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { clsx as classNames } from "clsx";
 import type { Gpus } from "./gpu-table";
+import type { Filters } from "./filter";
 const publishingOptions = [
   { title: "Availability" },
   { title: "Lowest Price" },
@@ -10,55 +11,60 @@ const publishingOptions = [
 ];
 
 export default function Sort({
-  filteredData,
   setFilteredData,
   res,
+  filters,
 }: {
-  filteredData: Gpus["models"];
   setFilteredData: React.Dispatch<React.SetStateAction<Gpus["models"]>>;
   res: Gpus;
+  filters: Filters;
 }) {
   const [selected, setSelected] = useState(publishingOptions[0]);
 
-  // export interface Gpus {
-  //   availability: { total: number; available: number };
-  //   models: Array<{
-  //     vendor: string;
-  //     model: string;
-  //     ram: string;
-  //     interface: string;
-  //     availability: { total: number; available: number };
-  //     providerAvailability: { total: number; available: number };
-  //     price: { min: number; max: number; avg: number; med: number };
-  //   }>;
-  // }
+  const onTop = () => {
+    const onTop = ["h100", "a100"];
+    const filtered = res?.models
+      ?.filter((model) => onTop?.includes(model?.model))
+      .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
+    const rest = res?.models
+      ?.filter((model) => !onTop?.includes(model.model))
+      .sort((a, b) => b?.availability?.available - a?.availability?.available);
+
+    return [...filtered, ...rest]?.filter((model) => model !== undefined);
+  };
+  console.log(res.models);
 
   useEffect(() => {
     const sortData = (sortType: string) => {
-      const sortedData = filteredData;
       switch (sortType) {
         case "Availability":
-          sortedData.sort((a, b) => {
-            return a.availability.available - b.availability.available;
-          });
+          filters.modal.length > 0 ||
+          filters.ram.length > 0 ||
+          filters.interface.length > 0
+            ? setFilteredData((prev) =>
+                [...prev].sort(
+                  (a, b) => b.availability.available - a.availability.available,
+                ),
+              )
+            : setFilteredData(onTop());
           break;
         case "Lowest Price":
-          sortedData.sort((a, b) => {
-            return a.price.med - b.price.med;
-          });
+          setFilteredData((prev) =>
+            [...prev].sort((a, b) => a.price.med - b.price.med),
+          );
+
           break;
         case "Highest Price":
-          sortedData.sort((a, b) => {
-            return b.price.med - a.price.med;
-          });
+          setFilteredData((prev) =>
+            [...prev].sort((a, b) => b.price.med - a.price.med),
+          );
           break;
         default:
           break;
       }
-      setFilteredData(sortedData);
     };
     sortData(selected.title);
-  }, [selected, res.models, setFilteredData]);
+  }, [selected, res.models, setFilteredData, filters]);
 
   return (
     <Listbox value={selected} onChange={setSelected}>
