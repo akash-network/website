@@ -253,13 +253,27 @@ The declaration of a GPU model is optional in the SDL. If your deployment does n
 If your deployment is optimized to run on multiple GPU models, include the appropriate list of models as seen in the following example. In this usage, any Akash provider that has a model in the list will bid on the deployment.
 
 ```
-        gpu:
-          units: 1
-          attributes:
-            vendor:
-              nvidia:
-                - model: 4090
-                - model: t4
+gpu:
+  units: 1
+  attributes:
+    vendor:
+      nvidia:
+        - model: 4090
+        - model: t4
+```
+
+#### GPU RAM Specification
+
+Optionally the SDL may include a GPU RAM/VRAM requirement such as the example below.
+
+```
+gpu:
+  units: 1
+  attributes:
+    vendor:
+      nvidia:
+        - model: a100
+          ram: 80Gi
 ```
 
 #### GPU Interface Specification
@@ -276,6 +290,21 @@ gpu:
       nvidia:
         - model: a100
           interface: sxm
+```
+
+#### GPU with RAM and Interface Specification
+
+Example of specifying both RAM and interface in the SDL GPU section.
+
+```
+gpu:
+  units: 1
+  attributes:
+    vendor:
+      nvidia:
+        - model: a100
+          interface: pcie
+          ram: 80Gi
 ```
 
 ## Stable Payment
