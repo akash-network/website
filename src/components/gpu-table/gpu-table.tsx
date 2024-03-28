@@ -15,6 +15,7 @@ import { gpus } from "@/utils/api";
 import clsx from "clsx";
 import CheckBox from "./checkbox";
 import Filter from "./filter";
+import Sort from "./sort";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -141,6 +142,11 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
           </div>
           <div className="flex gap-4">
             <Filter setFilteredData={setFilteredData} res={data} />
+            <Sort
+              setFilteredData={setFilteredData}
+              res={data}
+              filteredData={filteredData}
+            />
           </div>
         </div>
         {/* <div className="flex items-center gap-4">
