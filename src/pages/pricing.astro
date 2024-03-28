@@ -1,0 +1,17 @@
+---
+import Layout from "@/layouts/layout.astro";
+import GpuTable from "@/components/gpu-table/gpu-table";
+import { gpus } from "@/utils/api";
+
+const response = await fetch(gpus);
+const data = await response.json();
+
+console.log(data);
+---
+
+<Layout
+  title="  GPU Availability and Pricing"
+  description="  GPU Availability and Pricing"
+>
+  <GpuTable client:load initialData={data} />
+</Layout>

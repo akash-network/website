@@ -19,7 +19,11 @@ if (pathname.startsWith("/ecosystem/providers")) {
 
 <section
   class={`
-  ${pathname.startsWith("/community/") ? "hidden" : ""}
+  ${
+    pathname.startsWith("/community/") || pathname.startsWith("/gpus")
+      ? "hidden"
+      : ""
+  }
   mt-10 flex flex-col items-center justify-around bg-[#F4F1EF] px-[30px] py-[80px] text-center dark:bg-background2 md:mt-16 lg:py-[160px]`}
 >
   <p
