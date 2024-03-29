@@ -111,7 +111,7 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
     >
       <h1
         className={clsx(
-          " text-base font-medium ",
+          " text-lg font-medium ",
           subCom ? "md:text-xl " : "  md:text-xl",
         )}
       >
@@ -120,13 +120,13 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
       <div className="flex flex-col gap-4 ">
         <div
           className={clsx(
-            "flex flex-col justify-between gap-4 ",
+            "flex flex-col justify-between gap-8 ",
             subCom
               ? "border-b pb-4 lg:flex-row lg:items-center"
               : "border-b pb-4 md:flex-row md:items-center",
           )}
         >
-          <div className=" ml-auto flex items-center gap-2 md:m-0  ">
+          <div className="  flex items-center gap-2   ">
             <h2 className="text-sm font-medium text-linkText">
               Total Available GPUs
             </h2>
@@ -246,7 +246,7 @@ export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
                     " rounded-l-lg  border-y border-l px-2 py-2 text-base font-semibold  xl:px-4  xl:text-lg",
                     subCom
                       ? "w-[30%] lg:w-[27%] xl:w-[35%] 2xl:w-[38%] "
-                      : "w-[30%] lg:w-[38%] xl:w-[40%]",
+                      : "w-[30%] lg:w-[38%] xl:w-[39%]",
                   )}
                 >
                   <div className="flex items-center gap-3 capitalize">
