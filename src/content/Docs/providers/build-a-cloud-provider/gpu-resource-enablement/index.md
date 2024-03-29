@@ -233,9 +233,9 @@ Labels:             akash.network/capabilities.gpu.vendor.nvidia.model.a4000=tru
                     kubernetes.io/os=linux
 ```
 
-## Apply NVIDIA Runtime Engine
+### Apply NVIDIA Runtime Engine
 
-### Create RuntimeClass
+#### Create RuntimeClass
 
 > _**NOTE**_ - conduct these steps on the control plane node that Helm was installed on via the previous step
 
@@ -452,7 +452,7 @@ Providers must be updated with attributes in order to bid on the GPUs.
 - GPU model template is used in the subsequent `Provider Configuration File`
 - Multiple such entries should be included in the `Provider Configuration File` if the providers has multiple GPU types
 - Currently Akash providers may only host one GPU type per worker node. But different GPU models/types may be hosted on separate Kubernetes nodes.
-- We recommend including both a GPU attribute which includes VRAM and a GPU attribute which does not include VRAM to ensure your provider bids when the deployer includes/excludes VRAM spec.  Example of this recommended approach in the `provider.yaml` example below.
+- We recommend including both a GPU attribute which includes VRAM and a GPU attribute which does not include VRAM to ensure your provider bids when the deployer includes/excludes VRAM spec. Example of this recommended approach in the `provider.yaml` example below.
 
 ```
 capabilities/gpu/vendor/<vendor name>/model/<model name>: true
