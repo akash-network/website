@@ -137,6 +137,7 @@ export default function PriceCompare({ initialData }: any) {
             type="number"
             defaultValue="1"
             className="w-full bg-background2 px-[13px] py-[9px] text-sm font-medium leading-none text-foreground outline-none"
+            min={1}
           />
         </div>
       </div>
@@ -172,6 +173,7 @@ export default function PriceCompare({ initialData }: any) {
             onChange={handleMemoryChange}
             type="number"
             defaultValue="1"
+            min={1}
             className="w-full bg-background2 px-[13px] py-[9px] text-sm font-medium leading-none text-foreground outline-none"
           />
         </div>
@@ -209,6 +211,7 @@ export default function PriceCompare({ initialData }: any) {
             type="number"
             defaultValue="1"
             className="w-full bg-background2 px-[13px] py-[9px] text-sm font-medium leading-none text-foreground outline-none"
+            min={1}
           />
         </div>
       </div>
@@ -326,10 +329,7 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
           </span>
         </div>
       </div>
-      <a
-        href="/gpus"
-        className="  text-sm font-normal  text-para  underline"
-      >
+      <a href="/gpus" className="  text-sm font-normal  text-para  underline">
         To explore pricing and availability details of GPU models, please follow
         this link
       </a>

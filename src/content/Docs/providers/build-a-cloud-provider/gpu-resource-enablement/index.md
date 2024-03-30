@@ -172,47 +172,9 @@ ansible-playbook -i inventory/akash/hosts.yaml -b -v --private-key=~/.ssh/id_rsa
 
 ### Overview
 
-Each node that provides GPUs must be labeled correctly.
+In this section we verify that necessary Kubernetes node labels have been applied for your GPUs. The labeling of nodes is an automated process and here we only verify proper labels have been applied.
 
-> _**NOTE**_ - these configurations should be completed on a Kubernetes control plane node
-
-### Label Template
-
-- Use this label template in the `kubectl label` command in the subsequent Label Appliction sub-section below
-
-> _**NOTE**_ - this section is information only. The template displayed will be used in a subsequent sections.
-
-```
-akash.network/capabilities.gpu.vendor.<vendor name>.model.<model name>=true
-```
-
-#### Label Application
-
-##### Template
-
-> _**NOTE**_ - if you are unsure of the `<node-name>` to be used in this command - issue `kubectl get nodes` from one of your Kubernetes control plane nodes to obtain via the `NAME` column of this command output
-
-```
-kubectl label node <node-name> <label>
-```
-
-##### Example
-
-> _**NOTE**_ - issue this command/label application for all nodes hosting GPU resources
-
-```
-kubectl label node node1 akash.network/capabilities.gpu.vendor.nvidia.model.a4000=true
-```
-
-##### Expected Output using Example
-
-```
-root@node1:~/provider# kubectl label node node1 akash.network/capabilities.gpu.vendor.nvidia.model.a4000=true
-
-node/node1 labeled
-```
-
-#### Verification of Node Labels
+### Verification of Node Labels
 
 - Replace `<node-name>` with the node of interest
 
@@ -220,17 +182,23 @@ node/node1 labeled
 kubectl describe node <node-name> | grep -A10 Labels
 ```
 
-##### Expected Output using Example
+#### Expected Output using Example
+
+- Note the presence of the GPU model, interface, and ram expected values.
 
 ```
-kubectl describe node node2 | grep -A10 Labels
-
-Labels:             akash.network/capabilities.gpu.vendor.nvidia.model.a4000=true
+root@node1:~# kubectl describe node node2 | grep -A10 Labels
+Labels:             akash.network=true
+                    akash.network/capabilities.gpu.vendor.nvidia.model.t4=1
+                    akash.network/capabilities.gpu.vendor.nvidia.model.t4.interface.PCIe=1
+                    akash.network/capabilities.gpu.vendor.nvidia.model.t4.ram.16Gi=1
+                    akash.network/capabilities.storage.class.beta2=1
+                    akash.network/capabilities.storage.class.default=1
+                    allow-nvdp=true
                     beta.kubernetes.io/arch=amd64
                     beta.kubernetes.io/os=linux
                     kubernetes.io/arch=amd64
                     kubernetes.io/hostname=node2
-                    kubernetes.io/os=linux
 ```
 
 ## Apply NVIDIA Runtime Engine
@@ -239,7 +207,7 @@ Labels:             akash.network/capabilities.gpu.vendor.nvidia.model.a4000=tru
 
 > _**NOTE**_ - conduct these steps on the control plane node that Helm was installed on via the previous step
 
-#### Create the NVIDIA Runtime Config
+### Create the NVIDIA Runtime Config
 
 ```
 cat > nvidia-runtime-class.yaml << EOF
@@ -251,7 +219,7 @@ handler: nvidia
 EOF
 ```
 
-#### Apply the NVIDIA Runtime Config
+### Apply the NVIDIA Runtime Config
 
 ```
 kubectl apply -f nvidia-runtime-class.yaml
@@ -349,7 +317,7 @@ NAME                              READY   STATUS    RESTARTS   AGE   IP         
 nvdp-nvidia-device-plugin-gqnm2   1/1     Running   0          11s   10.233.75.1   node2   <none>           <none>
 ```
 
-## Verification - Applicable to all Environments
+### Verification - Applicable to all Environments
 
 ```
 kubectl -n nvidia-device-plugin logs -l app.kubernetes.io/instance=nvdp
@@ -381,13 +349,13 @@ kubectl -n nvidia-device-plugin logs -l app.kubernetes.io/instance=nvdp
 2023/04/14 14:18:29 Registered device plugin for 'nvidia.com/gpu' with Kubelet
 ```
 
-## Test GPUs
+### Test GPUs
 
 > _**NOTE**_ - conduct the steps in this section on a Kubernetes control plane node
 
-### Launch GPU Test Pod
+#### Launch GPU Test Pod
 
-#### Create the GPU Test Pod Config
+##### Create the GPU Test Pod Config
 
 ```
 cat > gpu-test-pod.yaml << EOF
@@ -415,19 +383,19 @@ spec:
 EOF
 ```
 
-#### Apply the GPU Test Pod Config
+##### Apply the GPU Test Pod Config
 
 ```
 kubectl apply -f gpu-test-pod.yaml
 ```
 
-### Verification of GPU Pod
+#### Verification of GPU Pod
 
 ```
 kubectl logs gpu-pod
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 root@node1:~# kubectl logs gpu-pod
@@ -452,7 +420,7 @@ Providers must be updated with attributes in order to bid on the GPUs.
 - GPU model template is used in the subsequent `Provider Configuration File`
 - Multiple such entries should be included in the `Provider Configuration File` if the providers has multiple GPU types
 - Currently Akash providers may only host one GPU type per worker node. But different GPU models/types may be hosted on separate Kubernetes nodes.
-- We recommend including both a GPU attribute which includes VRAM and a GPU attribute which does not include VRAM to ensure your provider bids when the deployer includes/excludes VRAM spec.  Example of this recommended approach in the `provider.yaml` example below.
+- We recommend including both a GPU attribute which includes VRAM and a GPU attribute which does not include VRAM to ensure your provider bids when the deployer includes/excludes VRAM spec. Example of this recommended approach in the `provider.yaml` example below.
 
 ```
 capabilities/gpu/vendor/<vendor name>/model/<model name>: true
