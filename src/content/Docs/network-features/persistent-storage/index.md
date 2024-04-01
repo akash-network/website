@@ -13,32 +13,32 @@ Akash persistent storage allows deployment data to persist through the lifetime 
 * [Implementation Overview](#implementation-overview)
 * [Persistent Storage SDL Deepdive](#persistent-storage-sdl-deepdive)
 * [Troubleshooting](#troubleshooting)
-* [Complete Persistent Storage Manifest/SDL Example](#complete-persistent-storage-manifest-sdl-example)
+* [Complete Persistent Storage SDL Example](#complete-persistent-storage-sdl-example)
 
 
 ## Persistent Storage Limitations
 
-### Persistence of Storage
+### Storage only persists during the lease
 
-Please note that storage only persists during the lease. The storage is lost when:
+The storage is lost when:
 
 * The deployment is migrated to a different provider.
 * The deployment’s lease is closed.  Even when relaunched onto the same provider, storage will not persist across leases.
 * Shared volumes are not currently supported.  If a SDL defines a single profile with a persistent storage definition - and that profile is then used by multiple services - individual, unique volumes will be created per service.
 
-### Deployment Specifications
+### Single volume per service
 
-* Note that currently only a single persistent volume is allowed/supported per service definition in the Akash SDL.  It is not possible to mount multiple persistent volumes in a service.
+* Note that currently only a single persistent volume is supported per service definition in the Akash SDL.  It is not possible to mount multiple persistent volumes in a service.
 
 ### Additional Details
 
 When planning to use persistent storage in a deployment, take into account the network (between the storage nodes) as a factor which will cause the latency, causing slower disk throughput / IOPS. This might not be suitable for heavy IOPS applications such as a Solana validator.
 
-## Implementation Overview
+## Overview
 
 ### Configuration Examples
 
-For the purposes of our review this [SDL Example ](#complete-persistent-storage-manifest-sdl-example)will be used.
+For the purposes of our review this [SDL Example ](#complete-persistent-storage-sdl-example)will be used.
 
 ### Backward Compatibility
 
@@ -49,42 +49,61 @@ The introduction of persistent storage does not affect your pre-existing SDLs.  
 If any errors occur in your deployments of persistent storage workloads, please review the [troubleshooting ](#troubleshooting)section for possible tips.  We will continue to build on this section if there are any frequently encountered issues.
 
 
-## Persistent Storage SDL Deepdive
+## SDL Deepdive
 
 Our review highlights the persistent storage parameters within the larger SDL example.
 
-### Resources Section <a href="#resources-section" id="resources-section"></a>
 
-#### Overview <a href="#overview" id="overview"></a>
+### Resources Section
 
-Within the profiles > compute > \<profile-name> resources section of the SDL storage profiles are defined. Our review begins with an overview of the section and this is followed by a deep dive into the available parameters.
+The `storage` attribute within the `profiles.compute.<profile-name>.resources` section defines the storage profile. 
 
-_**NOTE**_ - a maximum amount of two (2) volumes per profile may be defined. The storage profile could consist of:
+**NOTE:** A maximum amount of two (2) volumes per profile may be defined. The storage profile could consist of:
 
-* A mandatory local container volume which is created with only a size key in our example
-* An optional persistent storage volume which is created with the persistent: true attribute in our example
+- A mandatory local container volume which is created with only a size key in our example
+- An optional persistent storage volume which is created with the persistent: true attribute in our example
 
-#### Name <a href="#name" id="name"></a>
+```text
+profiles
+└── compute
+    └── <profile-name>
+        └── resources
+            └── storage
+```
 
-Each storage profile has a new and optional field name. The name is used by services to link service specific storage parameters to the storage. It can be omitted for single value use case and default value is set to default.
+This section allows for multiple storage profiles, each with the following set of attributes.
 
-#### Attributes <a href="#attributes" id="attributes"></a>
 
-A storage volume may have the following attributes.
+#### `name`
 
-_**persistent**_ - determines if the volume requires persistence or not. The default value is set to false.
+The name is used by services to link service-specific storage parameters to the storage. It can be omitted in the case of a single value use, and the default value is set to \`default\`.
 
-_**class**_ - storage class for persistent volumes. Default value is set to default. NOTE - It is invalid to set storage class for non-persistent volumes. Storage volume class types are expanded upon in the subsequent section.
+Default: `default`
 
-#### Storage Class Types
+Example: `data`
 
-The class allows selection of a storage type.  Only providers capable of delivering the storage type will bid on the lease.
+#### `size`
 
-| Class Name | Throughput/Approx matching device |
-| ---------- | --------------------------------- |
-| beta1      | hdd                               |
-| beta2      | ssd                               |
-| beta3      | NVMe                              |
+Size requested for the persistent storage
+
+Example: `10Gi` `512mi`
+
+#### `attributes.persistent`
+
+Determine whether the volume requires persistence between restarts.
+
+Default: `false`
+
+#### `attributes.class`
+
+Storage class for persistent volumes. The class enables the selection of a storage type. Only providers capable of delivering the specified storage type will bid on the lease.
+
+| Class      | Matching device |
+| ---------------------------- |
+| beta1      | hdd             |
+| beta2      | ssd             |
+| beta3      | NVMe            |
+| ram        | System Memory   |
 
 ```
 profiles:
@@ -104,11 +123,9 @@ profiles:
               class: beta2
 ```
 
-### Services Section
+### Services
 
-#### Overview
-
-Within the services > \<service-name> section a new params section is introduced and is meant to define service specific settings.  Currently only storage related settings are available in params.  Our review begins with an overview of the section and this is followed by a deep dive into the use of storage params.
+Within the `services.<service-name>` section a new params section is introduced and is meant to define service specific settings.  Currently only storage related settings are available in params.  Our review begins with an overview of the section and this is followed by a deep dive into the use of storage params.
 
 ```
 services:
@@ -142,7 +159,7 @@ profiles:
               class: beta3
 ```
 
-#### Storage
+#### `storage`
 
 The persistent volume is mounted within the container’s local /var/lib/postgres directory.
 
@@ -223,7 +240,7 @@ If the hostname defined in the accept field is already in use within the Akash p
 ```
 
 
-## Complete Persistent Storage Manifest/SDL Example
+## Complete Persistent Storage SDL Example
 
 ```
 version: "2.0"
