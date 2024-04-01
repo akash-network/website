@@ -19,6 +19,8 @@ A complete deployment has the following sections:
 - [persistent storage](/docs/network-features/persistent-storage/)
 - [gpu support](#gpu-support)
 - [stable payment](#stable-payment)
+- [shared memory (shm)](stack-definition-language.md#shared-memory-shm)
+
 
 An example deployment configuration can be found [here](https://github.com/akash-network/docs/tree/62714bb13cfde51ce6210dba626d7248847ba8c1/sdl/deployment.yaml).
 
@@ -208,7 +210,7 @@ This says that the 20 instances of the `web` service should be deployed to a dat
 
 GPUs can be added to your workload via inclusion the compute profile section. The placement of the GPU stanza can be viewed in the full compute profile example shown below.
 
-> _**NOTE**_ - currently the only accepted vendor is `nvidia` but others will be added soon
+> _**NOTE**_  - when declaring the GPU model - I.e. in this example `rtx4090` - ensure that the model name aligns with the conventions found in this [list](https://github.com/akash-network/provider-configs/blob/main/devices/pcie/gpus.json).
 
 ```
 profiles:
@@ -224,7 +226,7 @@ profiles:
           attributes:
             vendor:
               nvidia:
-                - model: 4090
+                - model: rtx4090
         storage:
           size: 1Gi
 
@@ -258,7 +260,7 @@ gpu:
   attributes:
     vendor:
       nvidia:
-        - model: 4090
+        - model: rtx4090
         - model: t4
 ```
 
@@ -328,3 +330,62 @@ Use of Stable Payments is supported in the Akash SDL and is declared in the plac
 #### Full GPU SDL Example&#x20;
 
 To view an example Stable Payment enabled SDL in full for greater context, review this [example](https://gist.github.com/chainzero/040d19bdb20d632009b8ae206fb548f5).
+
+## Shared Memory (SHM)
+
+A new storage class named `ram`  may be added to the SDL to enable shared memory access for multiple services running in the same container.&#x20;
+
+#### SHM Defintion
+
+> _**NOTE**_ - SHM must not be persistent. The SDL validations  will error if SHM is defined as persistent.&#x20;
+
+```
+profiles:
+  compute:
+    grafana:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 1Gi
+        storage:
+          - size: 512Mi
+          - name: data
+            size: 1Gi
+            attributes:
+              persistent: true
+              class: beta2
+          - name: shm
+            size: 1Gi
+            attributes:
+              class: ram
+```
+
+#### SHM Use
+
+Use the defined SHM profile within a service:
+
+```
+services:
+  web:
+    image: <docker image>
+    expose:
+      - port: 80
+        as: 80
+        http_options:
+          max_body_size: 2097152
+          next_cases:
+            - off
+        accept:
+          - hello.localhost
+        to:
+          - global: true
+    params:
+      storage:
+        shm:
+          mount: /dev/shm
+```
+
+#### Full SHM SDL Example
+
+To view an example SHM enabled SDL in full for greater context, review this[ example](https://gist.github.com/chainzero/0dea9f2e1c4241d2e4d490b37153ec86).
