@@ -2,8 +2,8 @@
 categories: ["Providers"]
 tags: []
 weight: 2
-title: "Shared Memory Support"
-linkTitle: "Shared Memory Support"
+title: "Shared Memory Enablement"
+linkTitle: "Shared Memory Enablement"
 ---
 
 # Shared Memory (SHM) Enablement
