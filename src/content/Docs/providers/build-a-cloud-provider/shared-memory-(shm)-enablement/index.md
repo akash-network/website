@@ -2,8 +2,8 @@
 categories: ["Providers"]
 tags: []
 weight: 2
-title: "Shared Memory(SHM) Support (Optional Step)"
-linkTitle: Shared Memory(SHM) Support (Optional Step)"
+title: "Shared Memory (SHM) Support (Optional Step)"
+linkTitle: "Shared Memory (SHM) Support (Optional Step)"
 ---
 
 # Shared Memory (SHM) Enablement
