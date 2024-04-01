@@ -6,53 +6,41 @@ title: "Persistent Storage"
 linkTitle: "Persistent Storage"
 ---
 
+Akash persistent storage allows deployment data to persist through the lifetime of a lease.  The provider creates a volume on disk that is mounted into the deployment. This functionality closely mimics typical container persistent storage.
 
-Akash persistent storage allows deployment data to persist through the lifetime of a lease.  The provider creates a volume on disk that is mounted into the deployment.  This functionality closely mimics typical container persistent storage.
-
-* [Persistent Storage Limitations](#persistent-storage-limitations)
-* [Implementation Overview](#implementation-overview)
-* [Persistent Storage SDL Deepdive](#persistent-storage-sdl-deepdive)
+* [Limitations](#limitations)
+* [SDL Deepdive](#sdl-deepdive)
 * [Troubleshooting](#troubleshooting)
 * [Complete Persistent Storage SDL Example](#complete-persistent-storage-sdl-example)
 
+## Limitations
 
-## Persistent Storage Limitations
-
-### Storage only persists during the lease
+### Storage Only Persists During the Lease
 
 The storage is lost when:
+- The deployment is migrated to a different provider.
+- The deployment's lease is closed. Even when relaunched onto the same provider, storage will not persist across leases.
+- Shared volumes are not currently supported. If an SDL defines a single profile with a persistent storage definition, and that profile is then used by multiple services, individual unique volumes will be created for each service.
 
-* The deployment is migrated to a different provider.
-* The deployment’s lease is closed.  Even when relaunched onto the same provider, storage will not persist across leases.
-* Shared volumes are not currently supported.  If a SDL defines a single profile with a persistent storage definition - and that profile is then used by multiple services - individual, unique volumes will be created per service.
+### Single Volume per Service
 
-### Single volume per service
-
-* Note that currently only a single persistent volume is supported per service definition in the Akash SDL.  It is not possible to mount multiple persistent volumes in a service.
+Note that currently, only a single persistent volume is supported per service definition in the Akash SDL. It is not possible to mount multiple persistent volumes in a service.
 
 ### Additional Details
 
-When planning to use persistent storage in a deployment, take into account the network (between the storage nodes) as a factor which will cause the latency, causing slower disk throughput / IOPS. This might not be suitable for heavy IOPS applications such as a Solana validator.
-
-## Overview
-
-### Configuration Examples
-
-For the purposes of our review this [SDL Example ](#complete-persistent-storage-sdl-example)will be used.
+When planning to use persistent storage in a deployment, consider the network (between the storage nodes) as a factor that will cause latency, resulting in slower disk throughput/IOPS. This might not be suitable for heavy IOPS applications such as a Solana validator.
 
 ### Backward Compatibility
 
-The introduction of persistent storage does not affect your pre-existing SDLs.  All manifests authored previously will work as is with no change necessary.
+The introduction of persistent storage does not affect your pre-existing SDLs. All manifests authored previously will work as they are with no changes necessary.
 
 ### Troubleshooting Tips
 
-If any errors occur in your deployments of persistent storage workloads, please review the [troubleshooting ](#troubleshooting)section for possible tips.  We will continue to build on this section if there are any frequently encountered issues.
-
+If any errors occur in your deployments of persistent storage workloads, please review the troubleshooting section for possible tips. We will continue to build on this section if there are any frequently encountered issues.
 
 ## SDL Deepdive
 
 Our review highlights the persistent storage parameters within the larger SDL example.
-
 
 ### Resources Section
 
@@ -99,11 +87,15 @@ Default: `false`
 Storage class for persistent volumes. The class enables the selection of a storage type. Only providers capable of delivering the specified storage type will bid on the lease.
 
 | Class      | Matching device |
-| ---------------------------- |
-| beta1      | hdd             |
-| beta2      | ssd             |
-| beta3      | NVMe            |
-| ram        | System Memory   |
+| -----------|---------------- |
+| `beta1`    | hdd             |
+| `beta2`    | ssd             |
+| `beta3`    | NVMe            |
+| `ram`      | System Memory   |
+
+Examples:
+
+Attaching nVME Storage:
 
 ```
 profiles:
@@ -117,12 +109,12 @@ profiles:
         storage:
           - size: 512Mi
           - name: data
-            size: 1Gi
+            size: 10Gi
             attributes:
               persistent: true
               class: beta2
 ```
-
+ 
 ### Services
 
 Within the `services.<service-name>` section a new params section is introduced and is meant to define service specific settings.  Currently only storage related settings are available in params.  Our review begins with an overview of the section and this is followed by a deep dive into the use of storage params.
