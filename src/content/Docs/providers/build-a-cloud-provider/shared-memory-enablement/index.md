@@ -6,8 +6,6 @@ title: "Shared Memory Enablement"
 linkTitle: "Shared Memory Enablement"
 ---
 
-# Shared Memory (SHM) Enablement
-
 ## Update Provider Configuration File
 
 Providers must be updated with attributes in order to bid on the SHM deplloyments.
@@ -16,7 +14,7 @@ Providers must be updated with attributes in order to bid on the SHM deplloyment
 
 ### Access Provider Configuration File
 
-* Steps included in this code block create the necessary `provider.yaml` file in the expected directory
+- Steps included in this code block create the necessary `provider.yaml` file in the expected directory
 
 ```
 cd ~
@@ -28,7 +26,7 @@ vim provider.yaml
 
 ### **Update the Provider YAML File With SHM Attribute**
 
-* When the `provider.yaml` file update is complete look like the following example.
+- When the `provider.yaml` file update is complete look like the following example.
 
 ```
   - key: capabilities/storage/3/class
@@ -71,10 +69,10 @@ helm upgrade --install akash-provider akash/provider -n akash-services -f provid
 
 > _**NOTE**_ - when your Akash Provider was initially installed a step was included to also install the Akash Inventory Operator. In this step we will make any necessary changes to the inventory operator for SHM support.
 
-### Helm Chart -  values.yaml file
+### Helm Chart - values.yaml file
 
-* The `values.yaml` file for the inventory operator defaults are as follows
-* To support SHM we must update the inventory operator to include SHM/ram class.  We will update the inventory operator with such support in the subsequent step.
+- The `values.yaml` file for the inventory operator defaults are as follows
+- To support SHM we must update the inventory operator to include SHM/ram class. We will update the inventory operator with such support in the subsequent step.
 
 ```
 # Default values for inventory-operator.
@@ -97,9 +95,9 @@ inventoryConfig:
 
 #### Update Cluster Storage Cluster Setting
 
-* Use this command to update the cluster storage settings with SHM support
+- Use this command to update the cluster storage settings with SHM support
 
-> NOTE - in the example we include the support of persistent storage type of `beta3` as well.  Adjust this section appropriately based on your provider's support of persistent storage.
+> NOTE - in the example we include the support of persistent storage type of `beta3` as well. Adjust this section appropriately based on your provider's support of persistent storage.
 
 ```
 helm upgrade --install inventory-operator akash/akash-inventory-operator -n akash-services --set inventoryConfig.cluster_storage[0]=default,inventoryConfig.cluster_storage[1]=beta3,inventoryConfig.cluster_storage[2]=ram
@@ -137,7 +135,7 @@ akash-provider-0                           1/1     Running   0          59s
 
 ## Verify Provider Attributes On Chain
 
-* In this step we ensure that your updated Akash Provider Attributes have been updated on the blockchain.  Ensure that the GPU model related attributes are now in place via this step.
+- In this step we ensure that your updated Akash Provider Attributes have been updated on the blockchain. Ensure that the GPU model related attributes are now in place via this step.
 
 > _**NOTE**_ - conduct this verification from your Kubernetes control plane node
 
@@ -151,10 +149,12 @@ provider-services query provider get <provider-address>
 
 #### Example/Expected Output
 
-<pre><code>provider-services query provider get akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
-<strong>
-</strong><strong>attributes:
-</strong>- key: region
+```
+
+provider-services query provider get akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
+
+attributes:
+- key: region
   value: us-central
 - key: host
   value: akash
@@ -166,12 +166,14 @@ provider-services query provider get <provider-address>
   value: ram
 - key: capabilities/storage/3/persistent
   value: false
+
 host_uri: https://provider.akashtestprovider.xyz:8443
 info:
   email: ""
   website: ""
 owner: akash1mtnuc449l0mckz4cevs835qg72nvqwlul5wzyf
-</code></pre>
+
+```
 
 ## Verify Akash Provider Image
 
