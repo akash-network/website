@@ -19,8 +19,7 @@ A complete deployment has the following sections:
 - [persistent storage](/docs/network-features/persistent-storage/)
 - [gpu support](#gpu-support)
 - [stable payment](#stable-payment)
-- [shared memory (shm)](stack-definition-language.md#shared-memory-shm)
-
+- [shared memory (shm)](#shared-memory-shm)
 
 An example deployment configuration can be found [here](https://github.com/akash-network/docs/tree/62714bb13cfde51ce6210dba626d7248847ba8c1/sdl/deployment.yaml).
 
