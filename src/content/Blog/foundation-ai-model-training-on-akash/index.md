@@ -37,7 +37,7 @@ ThumperAI is building [Lora Trainer](https://loratrainer.com/) - a service that 
 ## Decisions & Tradeoffs
 As with any significant project, we had to make a number of decisions and tradeoffs before we embarked on the mission. Here’s a quick rundown of the key ones.
 
-![Thumper Model Training](./thumper-1.png)
+![Thumper Model Training](./model-training-flow.png)
 
 ## Model Category Choice
 
@@ -51,14 +51,14 @@ This was our thought process in arriving at a category:
 
 On the 3rd point specifically, we thought it would be a good experiment to try to train an image generation model using a copyright free image data set like [creative commons](https://creativecommons.org/public-domain/cc0/) and so that is what we decided to pursue. 
 
-![HuggingFace Models](./thumper-2.png)
+![HuggingFace Models](./huggingface-model-overview.png)
 
 ## Base Model Choice
 Once we decided on working with an Image generation model, the next decision was which specific model to work with. The 3 most popular ImageGen models at the time (arguably even now) were [Stable Diffusion](https://stability.ai/stable-image), Midjourney and DALL-E. Stable Diffusion was an easy choice because it is [open source](https://github.com/Stability-AI/stablediffusion) while the others aren’t, so initially that was what we had decided to go with and that was what was written in the [proposal](https://github.com/orgs/akash-network/discussions/300) submitted to the Akash community for discussion. We chose to use Stable Diffusion 1.5 in order to meet budget constraints outlined in the proposal.
 
 As we got closer to starting the actual training exercise, MosiacML [published a paper](https://ar5iv.labs.arxiv.org/html/2310.16825) indicating that they were also looking at training Stable Diffusion with a creative commons data set, but were planning to use Stable Diffusion 2.0. Luckily we were able to find a new model called [Pixart-Alpha](https://pixart-alpha.github.io/) that had performance benchmarks very comparable to SDXL (the state of the art Stable Diffusion Model at the time).  We ultimately ended up going with a slightly different Pixart-Alpha-inspired architecture proposed by [Alexandru Papiu](https://github.com/apapiu/transformer_latent_diffusion) after we had some training issues with the Pixart-Alpha Architecture.
 
-![Huang et al. 2023](./thumper-3.png)
+![Huang et al. 2023](./pixart-alpha-paper.png)
 
 ## Dataset Choice
 We created a Creative Commons licensed dataset by filtering [YFCC100M](https://registry.opendata.aws/multimedia-commons/) and [LAION-5B](https://laion.ai/blog/laion-5b/) for images with CC0 or CC-SA licenses.  
@@ -86,12 +86,12 @@ We used Ray Clusters to run distributed training across the 48 GPUs across two p
 
 The architecture of the system we utilized for it can be described with the following blocks:
 
-![Training Architecture](./thumper-4.png)
+![Training Architecture](./model-training-architecture.png)
 
 ## Training
 The end-to-end training pipeline can be summarized with the following block diagram:
 
-![Training Pipeline](./thumper-5.png)
+![Training Pipeline](./model-training-overview.png)
 
 ## Outcomes
 Here are some images generated from the model:
