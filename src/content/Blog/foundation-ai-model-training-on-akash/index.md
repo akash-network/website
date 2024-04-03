@@ -12,7 +12,7 @@ tags:
   - Updates
 contributors:
   - Anil Murty
-bannerImage: ./foundation-ai-model-akash-5.png
+bannerImage: ./foundation-ai-model-akash-6.png
 ---
 [Anil Murty](https://twitter.com/_Anil_Murty_) & [Logan Cerkovnik](https://www.linkedin.com/in/logancerkovnik/)
 
