@@ -91,7 +91,7 @@ The architecture of the system we utilized for it can be described with the foll
 ## Training
 The end-to-end training pipeline can be summarized with the following block diagram:
 
-![Training Pipeline](./model-training-overview.png)
+![Training Pipeline](./model-training-overview-2.png)
 
 ## Outcomes
 Here are some images generated from the model:
