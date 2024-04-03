@@ -357,6 +357,7 @@ profiles:
           - name: shm
             size: 1Gi
             attributes:
+              persistent: false
               class: ram
 ```
 
