@@ -76,6 +76,15 @@ export const docsSequence = [
               {
                 label: "Akash Provider Bid Pricing Calculation",
               },
+              {
+                label: "Akash Provider Attribute Updates",
+              },
+              {
+                label: "gVisor Issue - No system-cgroup v2 Support",
+              },
+              {
+                label: "Shared Memory Enablement",
+              },
             ],
           },
           { label: "Akash Provider FAQ and Guide" },
