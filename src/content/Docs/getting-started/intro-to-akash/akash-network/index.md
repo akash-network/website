@@ -35,7 +35,7 @@ The cost of hosting your application using Akash is about one-third the cost of 
 
 ### How do I use Akash?
 
-If you're new to Akash, start with our [**deployment guides**](/docs/deployments/akash-console/) and go from there. Akash's community has written several more advanced guides for learning about Akash: a [**node operator guide**](/docs/akash-nodes/akash-node-via-helm-chart/), a [**validator guide**](validating/validator.md), a [**cloud provider guide**](broken-reference), and several [**deployment guides**](/docs/deployments/akash-console/) for running various apps on Akash.
+If you're new to Akash, start with our [**deployment guides**](/docs/deployments/cloudmos-deploy/) and go from there. Akash's community has written several more advanced guides for learning about Akash: a [**node operator guide**](/docs/akash-nodes/akash-node-via-helm-chart/), a [**validator guide**](validating/validator.md), a [**cloud provider guide**](broken-reference), and several [**deployment guides**](/docs/deployments/cloudmos-deploy/) for running various apps on Akash.
 
 ### Why is Akash different than other Cloud platforms?
 

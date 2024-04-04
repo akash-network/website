@@ -19,7 +19,7 @@ Welcome [**Raptoreum**](https://raptoreum.com) \*\*\*\* miners! [**Akash**](http
 2. Install [**Cloudmos Deploy**](https://cloudmos.io/cloud-deploy) \*\*\*\* and import your AKT wallet address from Keplr
 3. [**Fund your wallet**](https://github.com/akash-network/awesome-akash/blob/raptoreum/raptoreum-miner/README.md#Quickest-way-to-get-more-AKT)
 
-For additional help we recommend you [**follow our full deployment guide**](/docs/deployments/akash-console/) \*\*\*\* in parallel with this guide.
+For additional help we recommend you [**follow our full deployment guide**](/docs/deployments/cloudmos-deploy/) \*\*\*\* in parallel with this guide.
 
 ## How does this work?
 

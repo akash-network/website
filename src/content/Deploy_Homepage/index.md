@@ -26,7 +26,7 @@ cloudmosResourcesSection:
     - title: Akash Console Documentation
       description: Console Deploy Tool is a web based application which simplifies the deployment process on the Akash Network.
       badge: "./assets/book-stack.svg"
-      link: "/docs/deployments/akash-console/"
+      link: "/docs/deployments/cloudmos-deploy/"
       linkIcon: true
       linkLabel: "View More"
     - title: Deploy a Next.js app with crypto

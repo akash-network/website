@@ -34,7 +34,7 @@ You can deploy the validator on Akash using the example deploy.yml. Note that to
 
 Either clone this repository or create a `deploy.yml` file. Enter your S3 bucket and IAM credentials into the `env` section. If you have a swarm_key already, make sure this is uploaded to S3 in the same location as S3_KEY_PATH.
 
-Deploy as [per the docs](/docs/deployments/akash-console/) or using a [deploy UI](https://github.com/tombeynon/akash-deploy).
+Deploy as [per the docs](/docs/deployments/cloudmos-deploy/) or using a [deploy UI](https://github.com/tombeynon/akash-deploy).
 
 Once the container is deployed, check the logs to see your address once the server starts (can take a while). If your swarm_key didn't exist in S3 before, the new one should have been uploaded. Subsequent deploys using the same S3 details will now use the same swarm_key.
 
