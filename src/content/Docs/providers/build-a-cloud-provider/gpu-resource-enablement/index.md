@@ -421,6 +421,7 @@ Providers must be updated with attributes in order to bid on the GPUs.
 - Multiple such entries should be included in the `Provider Configuration File` if the providers has multiple GPU types
 - Currently Akash providers may only host one GPU type per worker node. But different GPU models/types may be hosted on separate Kubernetes nodes.
 - We recommend including both a GPU attribute which includes VRAM and a GPU attribute which does not include VRAM to ensure your provider bids when the deployer includes/excludes VRAM spec. Example of this recommended approach in the `provider.yaml` example below.
+- Include the GPU interface type - as seen in the example below - to ensure provider bids when the deployer includes the interface in the SDL.
 
 ```
 capabilities/gpu/vendor/<vendor name>/model/<model name>: true
@@ -458,9 +459,13 @@ attributes:
     value: akash
   - key: tier
     value: community
-  - key: capabilities/gpu/vendor/nvidia/model/rtx8000
+  - key: capabilities/gpu/vendor/nvidia/model/a100
     value: true
-  - key: capabilities/gpu/vendor/nvidia/model/rtx8000/ram/48Gi
+  - key: capabilities/gpu/vendor/nvidia/model/a100/ram/80Gi
+    value: true
+  - key: capabilities/gpu/vendor/nvidia/model/a100/ram/80Gi/interface/pcie
+    value: true
+  - key: capabilities/gpu/vendor/nvidia/model/a100/interface/pcie
     value: true
 ```
 
@@ -523,9 +528,13 @@ attributes:
   value: community
 - key: organization
   value: akash test provider
-- key: capabilities/gpu/vendor/nvidia/model/rtx8000
+- key: capabilities/gpu/vendor/nvidia/model/a100
   value: "true"
-- key: capabilities/gpu/vendor/nvidia/model/rtx8000/ram/48Gi
+- key: capabilities/gpu/vendor/nvidia/model/a100/ram/80Gi
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/a100/ram/80Gi/interface/pcie
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/a100/interface/pcie
   value: "true"
 host_uri: https://provider.akashtestprovider.xyz:8443
 info:
