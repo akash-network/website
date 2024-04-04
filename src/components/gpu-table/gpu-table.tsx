@@ -356,6 +356,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
         </div>
         <div className="h-4 w-px  bg-para"></div>
         <a
+          id={model?.model}
           href="https://console.akash.network/rent-gpu"
           target="_blank"
           className=" text-base font-medium text-white dark:text-black md:text-xs"

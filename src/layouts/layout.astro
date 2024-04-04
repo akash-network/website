@@ -29,6 +29,7 @@ const { title, description, image, advert } = Astro.props;
     advert && (
       <div class="flex items-center justify-center bg-primary px-3 py-2">
         <a
+          id="advert-to-gpus"
           href={advert.link}
           target={
             advert.link.startsWith("/") || advert.link.startsWith("#")
