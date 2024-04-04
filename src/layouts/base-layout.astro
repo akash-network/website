@@ -30,10 +30,10 @@ const isProd = import.meta.env.PROD;
   <head>
     <!-- Google tag (gtag.js) -->
     <script
-      type="text/partytown"
+      is:inline
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-GL5HS9J1PR"></script>
-    <script type="text/partytown">
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -43,7 +43,7 @@ const isProd = import.meta.env.PROD;
       gtag("config", "G-GL5HS9J1PR");
     </script>
     <!-- Google Tag Manager -->
-    <script type="text/partytown">
+    <script is:inline>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
