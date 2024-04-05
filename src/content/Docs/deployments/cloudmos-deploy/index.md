@@ -29,7 +29,7 @@ This is a great opportunity to connect with the team at Akash Network and to spo
 
 ### **Before Getting Started**
 
-The Keplr and Leap browser extensions must be installed and with sufficient funds (5 AKT minimum for a single deployment plus a small amount for transaction fees).
+The Keplr and Leap browser extensions must be installed and with sufficient funds (0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
 
 Follow our [Keplr Wallet](/docs/getting-started/token-and-wallets/#keplr-wallet) and [Leap Cosmos Wallet](/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
 
