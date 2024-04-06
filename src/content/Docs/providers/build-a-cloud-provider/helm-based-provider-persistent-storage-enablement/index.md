@@ -150,9 +150,9 @@ In the subsequent sections persistent storage attributes will be defined. Use th
 | beta2      | ssd                               | 1             |
 | beta3      | NVMe                              | 1 or 2        |
 
-# Deploy Persistent Storage
+## Deploy Persistent Storage
 
-## **Helm Install**
+### **Helm Install**
 
 Install Helm and add the Akash repo if not done previously by following the steps in this [guide](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-4---helm-installation-on-kubernetes-node)**.**
 
@@ -485,15 +485,15 @@ ceph osd crush rule create-replicated replicated_rule_osd default osd
 ceph osd pool set .mgr crush_rule replicated_rule_osd
 ```
 
-# Check Persistent Storage Health
+## Check Persistent Storage Health
 
-## Persistent Storage Status Check
+### Persistent Storage Status Check
 
 ```
 kubectl -n rook-ceph get cephclusters
 ```
 
-### **Expected Output**
+#### **Expected Output**
 
 ```
 root@node1:~/akash# kubectl -n rook-ceph get cephclusters
@@ -502,9 +502,9 @@ NAME        DATADIRHOSTPATH   MONCOUNT   AGE     PHASE   MESSAGE                
 rook-ceph   /var/lib/rook     1          5m18s   Ready   Cluster created successfully   HEALTH_OK
 ```
 
-# Provider Attributes and Pricing Adjustments
+## Provider Attributes and Pricing Adjustments
 
-## Attribute Adjustments
+### Attribute Adjustments
 
 - Conduct the steps in this section on the Kubernetes control plane from which the provider was configured in prior steps
 - Adjust the following key-values pairs as necessary within the `provider-storage.yaml` file created below:
@@ -512,12 +512,12 @@ rook-ceph   /var/lib/rook     1          5m18s   Ready   Cluster created success
   - Update the region value from current `us-west` to an appropriate value such as `us-east` OR `eu-west`
 - Ensure that necessary [environment variables](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-6---provider-build-via-helm-chart) are in place prior to issuing
 
-#### Caveat on Attributes Updates in Active Leases
+##### Caveat on Attributes Updates in Active Leases
 
 - If your provider has active leases, attributes that were used during the creation of those leases cannot be updated
 - Example - if a lease was created and is active on your provider with `key=region` and `value=us-east`- it would not be possible to update the `region` attribute without closing those active leases prior
 
-#### Helm Chart Update
+##### Helm Chart Update
 
 ```
 cd ~
@@ -525,12 +525,12 @@ cd ~
 helm repo update
 ```
 
-### Capture and Edit provider.yaml File
+#### Capture and Edit provider.yaml File
 
 - In this section we will capture the current provider settings and add necessary persistent storage elements
 - _**NOTE**_ - the `bidpricestoragescale` setting in the `provider.yaml` file will be ignored if the [bid pricing script](/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/) is used.
 
-#### **Capture Current Provider Settings and Write to File**
+##### **Capture Current Provider Settings and Write to File**
 
 ```
 cd ~
@@ -538,7 +538,7 @@ cd ~
 helm -n akash-services get values akash-provider > provider.yaml
 ```
 
-#### **Update provider.yaml File With Persistent Storage Settings**
+##### **Update provider.yaml File With Persistent Storage Settings**
 
 - Open the `provider.yaml` file with your favorite editor (I.e. `vi` or `vim`) and add the following
 
@@ -557,7 +557,7 @@ And add this attribute if you are not using the bid pricing script:
 bidpricestoragescale: "0.00016,beta2=0.00016" # set your storage class here: beta1, beta2 or beta3!
 ```
 
-#### Finalized provider.yaml File
+##### Finalized provider.yaml File
 
 - Post additions discussed above, your `provider.yaml` file should look something like this:
 
@@ -586,14 +586,14 @@ attributes:
 bidpricestoragescale: "0.00016,beta2=0.00016" # set your storage class here: beta1, beta2 or beta3!
 ```
 
-### Upgrade the Helm Install
+#### Upgrade the Helm Install
 
 ```
 # Make sure you have "provider.yaml" previously created!
 helm upgrade --install akash-provider akash/provider -n akash-services -f provider.yaml
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 NAME: akash-provider
@@ -917,7 +917,7 @@ ingress-nginx    12m         Normal   RELOAD              pod/ingress-nginx-cont
 ingress-nginx    12m         Normal   RELOAD              pod/ingress-nginx-controller-tk8zj         NGINX reload triggered due to a change in configuration
 ```
 
-# Teardown
+## Teardown
 
 If a problem is experienced during persistent storage enablement, review and follow the steps provided in these guides to begin anew.
 
