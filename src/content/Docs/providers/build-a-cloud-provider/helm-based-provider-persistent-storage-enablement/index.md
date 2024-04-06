@@ -28,7 +28,8 @@ Get started within the following sections:
 - [Provider Attributes and Pricing Adjustments](#provider-attributes-and-pricing-adjustments)
 - [Label Nodes For Storage Classes](#label-nodes-for-storage-classes)
 - [Inventory Operator](#inventory-operator)
-- [Verifications](broken-reference)
+- [Verify Node Labels for Storage Classes](#verify-node-labels-for-storage-classes)
+- [Additional Verifications](#verifications)
 - [Teardown](#teardown)
 
 ## <a href="#ensure-unformatted-drives" id="ensure-unformatted-drives"></a>
@@ -737,6 +738,38 @@ REVISION: 1
 TEST SUITE: None
 ```
 
+## Verify Node Labels For Storage Classes
+
+### Overview
+
+Each node serving persistent storage should have `akash.network/storageclasses` label set. These labels are automatically applied and this section we will verify proper labeling.
+
+> _**NOTE**_ - currently the Helm Charts for persistent storage support only a single storageclass per cluster. All nodes in the cluster should be marked as `beta2` - as an example - and cannot have a mix of `beta2` and `beta3` nodes.
+
+### Node Label Verification
+
+#### Verification Template
+
+- Replace `<node-name>` with actual node name as gathered via `kubectl get nodes`
+
+```
+kubectl describe node <node-name> | grep -A10 Labels
+```
+
+#### Example/Expected Output
+
+```
+root@node1:~# kubectl describe node node2 | grep -A10 Labels
+Labels:             akash.network=true
+                    akash.network/capabilities.storage.class.beta2=1
+                    akash.network/capabilities.storage.class.default=1
+                    allow-nvdp=true
+                    beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=node2
+```
+
 ## Verifications
 
 Several provider verifications and troubleshooting options are presented in this section which aid in persistent storage investigations including:
@@ -752,7 +785,7 @@ Several provider verifications and troubleshooting options are presented in this
 kubectl -n rook-ceph get cephclusters
 ```
 
-#### **Example Output**
+##### **Example Output**
 
 ```
 root@node1:~/helm-charts/charts# kubectl -n rook-ceph get cephclusters
@@ -761,13 +794,13 @@ NAME        DATADIRHOSTPATH   MONCOUNT   AGE   PHASE   MESSAGE                  
 rook-ceph   /var/lib/rook     1          69m   Ready   Cluster created successfully   HEALTH_OK
 ```
 
-## Ceph Configuration and Detailed Health
+### Ceph Configuration and Detailed Health
 
 ```
 kubectl -n rook-ceph describe cephclusters
 ```
 
-#### **Example Output (Tail Only)**
+##### **Example Output (Tail Only)**
 
 - Ensure the name is correct in the Nodes section
 - The `Health` key should have a value of `HEALTH_OK` as shown in example output below
@@ -825,7 +858,7 @@ Events:       <none>
 kubectl -n rook-ceph get pods
 ```
 
-#### Example Output
+##### Example Output
 
 ```
 root@node1:~/akash# kubectl -n rook-ceph get pods
@@ -856,7 +889,7 @@ rook-ceph-tools-6646766697-lgngb                  1/1     Running     0         
 kubectl get events --sort-by='.metadata.creationTimestamp' -A -w
 ```
 
-#### Example Output from a Healthy Cluster
+##### Example Output from a Healthy Cluster
 
 ```
 root@node1:~/helm-charts/charts# kubectl get events --sort-by='.metadata.creationTimestamp' -A -w
@@ -884,7 +917,7 @@ ingress-nginx    12m         Normal   RELOAD              pod/ingress-nginx-cont
 ingress-nginx    12m         Normal   RELOAD              pod/ingress-nginx-controller-tk8zj         NGINX reload triggered due to a change in configuration
 ```
 
-## Teardown
+# Teardown
 
 If a problem is experienced during persistent storage enablement, review and follow the steps provided in these guides to begin anew.
 
