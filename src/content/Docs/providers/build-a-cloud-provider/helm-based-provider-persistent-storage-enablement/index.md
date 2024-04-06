@@ -28,7 +28,8 @@ Get started within the following sections:
 - [Provider Attributes and Pricing Adjustments](#provider-attributes-and-pricing-adjustments)
 - [Label Nodes For Storage Classes](#label-nodes-for-storage-classes)
 - [Inventory Operator](#inventory-operator)
-- [Verifications](broken-reference)
+- [Verify Node Labels for Storage Classes](#verify-node-labels-for-storage-classes)
+- [Additional Verifications](#verifications)
 - [Teardown](#teardown)
 
 ## <a href="#ensure-unformatted-drives" id="ensure-unformatted-drives"></a>
@@ -149,9 +150,9 @@ In the subsequent sections persistent storage attributes will be defined. Use th
 | beta2      | ssd                               | 1             |
 | beta3      | NVMe                              | 1 or 2        |
 
-# Deploy Persistent Storage
+## Deploy Persistent Storage
 
-## **Helm Install**
+### **Helm Install**
 
 Install Helm and add the Akash repo if not done previously by following the steps in this [guide](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-4---helm-installation-on-kubernetes-node)**.**
 
@@ -484,15 +485,15 @@ ceph osd crush rule create-replicated replicated_rule_osd default osd
 ceph osd pool set .mgr crush_rule replicated_rule_osd
 ```
 
-# Check Persistent Storage Health
+## Check Persistent Storage Health
 
-## Persistent Storage Status Check
+### Persistent Storage Status Check
 
 ```
 kubectl -n rook-ceph get cephclusters
 ```
 
-### **Expected Output**
+#### **Expected Output**
 
 ```
 root@node1:~/akash# kubectl -n rook-ceph get cephclusters
@@ -501,9 +502,9 @@ NAME        DATADIRHOSTPATH   MONCOUNT   AGE     PHASE   MESSAGE                
 rook-ceph   /var/lib/rook     1          5m18s   Ready   Cluster created successfully   HEALTH_OK
 ```
 
-# Provider Attributes and Pricing Adjustments
+## Provider Attributes and Pricing Adjustments
 
-## Attribute Adjustments
+### Attribute Adjustments
 
 - Conduct the steps in this section on the Kubernetes control plane from which the provider was configured in prior steps
 - Adjust the following key-values pairs as necessary within the `provider-storage.yaml` file created below:
@@ -511,12 +512,12 @@ rook-ceph   /var/lib/rook     1          5m18s   Ready   Cluster created success
   - Update the region value from current `us-west` to an appropriate value such as `us-east` OR `eu-west`
 - Ensure that necessary [environment variables](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-6---provider-build-via-helm-chart) are in place prior to issuing
 
-#### Caveat on Attributes Updates in Active Leases
+##### Caveat on Attributes Updates in Active Leases
 
 - If your provider has active leases, attributes that were used during the creation of those leases cannot be updated
 - Example - if a lease was created and is active on your provider with `key=region` and `value=us-east`- it would not be possible to update the `region` attribute without closing those active leases prior
 
-#### Helm Chart Update
+##### Helm Chart Update
 
 ```
 cd ~
@@ -524,12 +525,12 @@ cd ~
 helm repo update
 ```
 
-### Capture and Edit provider.yaml File
+#### Capture and Edit provider.yaml File
 
 - In this section we will capture the current provider settings and add necessary persistent storage elements
 - _**NOTE**_ - the `bidpricestoragescale` setting in the `provider.yaml` file will be ignored if the [bid pricing script](/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/) is used.
 
-#### **Capture Current Provider Settings and Write to File**
+##### **Capture Current Provider Settings and Write to File**
 
 ```
 cd ~
@@ -537,7 +538,7 @@ cd ~
 helm -n akash-services get values akash-provider > provider.yaml
 ```
 
-#### **Update provider.yaml File With Persistent Storage Settings**
+##### **Update provider.yaml File With Persistent Storage Settings**
 
 - Open the `provider.yaml` file with your favorite editor (I.e. `vi` or `vim`) and add the following
 
@@ -556,7 +557,7 @@ And add this attribute if you are not using the bid pricing script:
 bidpricestoragescale: "0.00016,beta2=0.00016" # set your storage class here: beta1, beta2 or beta3!
 ```
 
-#### Finalized provider.yaml File
+##### Finalized provider.yaml File
 
 - Post additions discussed above, your `provider.yaml` file should look something like this:
 
@@ -585,14 +586,14 @@ attributes:
 bidpricestoragescale: "0.00016,beta2=0.00016" # set your storage class here: beta1, beta2 or beta3!
 ```
 
-### Upgrade the Helm Install
+#### Upgrade the Helm Install
 
 ```
 # Make sure you have "provider.yaml" previously created!
 helm upgrade --install akash-provider akash/provider -n akash-services -f provider.yaml
 ```
 
-#### Expected/Example Output
+##### Expected/Example Output
 
 ```
 NAME: akash-provider
@@ -737,6 +738,38 @@ REVISION: 1
 TEST SUITE: None
 ```
 
+## Verify Node Labels For Storage Classes
+
+### Overview
+
+Each node serving persistent storage should have `akash.network/storageclasses` label set. These labels are automatically applied and this section we will verify proper labeling.
+
+> _**NOTE**_ - currently the Helm Charts for persistent storage support only a single storageclass per cluster. All nodes in the cluster should be marked as `beta2` - as an example - and cannot have a mix of `beta2` and `beta3` nodes.
+
+### Node Label Verification
+
+#### Verification Template
+
+- Replace `<node-name>` with actual node name as gathered via `kubectl get nodes`
+
+```
+kubectl describe node <node-name> | grep -A10 Labels
+```
+
+#### Example/Expected Output
+
+```
+root@node1:~# kubectl describe node node2 | grep -A10 Labels
+Labels:             akash.network=true
+                    akash.network/capabilities.storage.class.beta2=1
+                    akash.network/capabilities.storage.class.default=1
+                    allow-nvdp=true
+                    beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=node2
+```
+
 ## Verifications
 
 Several provider verifications and troubleshooting options are presented in this section which aid in persistent storage investigations including:
@@ -752,7 +785,7 @@ Several provider verifications and troubleshooting options are presented in this
 kubectl -n rook-ceph get cephclusters
 ```
 
-#### **Example Output**
+##### **Example Output**
 
 ```
 root@node1:~/helm-charts/charts# kubectl -n rook-ceph get cephclusters
@@ -761,13 +794,13 @@ NAME        DATADIRHOSTPATH   MONCOUNT   AGE   PHASE   MESSAGE                  
 rook-ceph   /var/lib/rook     1          69m   Ready   Cluster created successfully   HEALTH_OK
 ```
 
-## Ceph Configuration and Detailed Health
+### Ceph Configuration and Detailed Health
 
 ```
 kubectl -n rook-ceph describe cephclusters
 ```
 
-#### **Example Output (Tail Only)**
+##### **Example Output (Tail Only)**
 
 - Ensure the name is correct in the Nodes section
 - The `Health` key should have a value of `HEALTH_OK` as shown in example output below
@@ -825,7 +858,7 @@ Events:       <none>
 kubectl -n rook-ceph get pods
 ```
 
-#### Example Output
+##### Example Output
 
 ```
 root@node1:~/akash# kubectl -n rook-ceph get pods
@@ -856,7 +889,7 @@ rook-ceph-tools-6646766697-lgngb                  1/1     Running     0         
 kubectl get events --sort-by='.metadata.creationTimestamp' -A -w
 ```
 
-#### Example Output from a Healthy Cluster
+##### Example Output from a Healthy Cluster
 
 ```
 root@node1:~/helm-charts/charts# kubectl get events --sort-by='.metadata.creationTimestamp' -A -w
