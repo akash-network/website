@@ -145,7 +145,6 @@ const TokenMetricsSection = () => {
           </div>
         </div>
       </div>
-
       {isError && (
         <p className="mt-10 text-center">
           Failed to get live data please visit
