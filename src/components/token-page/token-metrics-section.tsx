@@ -1,32 +1,12 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-
-const TokenMetricsSection = () => {
-  const queryClient = new QueryClient();
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Section />
-    </QueryClientProvider>
-  );
-};
-
-const Section = () => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["tokenMetrics"],
-    queryFn: async () => {
-      const response: any = await fetch(
-        "https://api.coingecko.com/api/v3/coins/akash-network?tickers=true&market_data=true",
-      );
-      return await response.json();
-    },
-    refetchInterval: 1200000,
-    keepPreviousData: true,
-  });
-
+const TokenMetricsSection = ({
+  data,
+  isLoading,
+  isError,
+}: {
+  data: any;
+  isLoading: boolean;
+  isError: boolean;
+}) => {
   return (
     <div className="py-10 md:pb-[80px]  md:pt-[80px]">
       <div>
