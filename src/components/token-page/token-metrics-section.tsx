@@ -1,39 +1,32 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 const TokenMetricsSection = () => {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Section />
+    </QueryClientProvider>
+  );
+};
 
-  const fetchData = async () => {
-    try {
-      setIsError(false);
-      setIsLoading(false);
-
+const Section = () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["tokenMetrics"],
+    queryFn: async () => {
       const response: any = await fetch(
         "https://api.coingecko.com/api/v3/coins/akash-network?tickers=true&market_data=true",
       );
+      return await response.json();
+    },
+    refetchInterval: 1200000,
+    keepPreviousData: true,
+  });
 
-      const fetchedData = await response.json();
-      setData(fetchedData);
-    } catch (error) {
-      setData(null);
-      setIsLoading(false);
-      setIsError(true);
-    }
-  };
-
-  useEffect(() => {
-    fetchData(); // Fetch data when the component mounts
-
-    const interval = setInterval(fetchData, 10000); // Fetch data every 10 seconds
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-    };
-  }, []);
-
-  // Render your data
   return (
     <div className="py-10 md:pb-[80px]  md:pt-[80px]">
       <div>

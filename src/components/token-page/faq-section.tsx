@@ -1,39 +1,34 @@
-import React, { useState, useEffect } from "react";
 import { FAQ } from "./faq";
-import { DessertIcon } from "lucide-react";
+
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+
 const FaqSection = () => {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      setIsError(false);
-      setIsLoading(false);
-
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Section />
+    </QueryClientProvider>
+  );
+};
+const Section = () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["tokenMetrics"],
+    queryFn: async () => {
       const response: any = await fetch(
         "https://api.coingecko.com/api/v3/coins/akash-network?tickers=true&market_data=true",
       );
-
-      const fetchedData = await response.json();
-      setData(fetchedData);
-    } catch (error) {
-      setData(null);
-      setIsLoading(false);
-      setIsError(true);
-    }
-  };
+      return await response.json();
+    },
+    refetchInterval: 1200000,
+    keepPreviousData: true,
+  });
   console.log(data);
 
-  useEffect(() => {
-    fetchData(); // Fetch data when the component mounts
-
-    const interval = setInterval(fetchData, 10000); // Fetch data every 10 seconds
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-    };
-  }, []);
   return (
     <div>
       <div>
