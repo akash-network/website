@@ -130,7 +130,7 @@ const TokenMetricsSection = () => {
               isLoading={isLoading}
               number={
                 data &&
-                `$${data?.market_data.max_supply
+                `$${data?.market_data.market_cap
                   .toString()
                   .split(".")[0]
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
