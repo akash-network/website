@@ -123,8 +123,8 @@ const Section = () => {
               isLoading={isLoading}
               number={
                 data &&
-                `$${data?.market_data.market_cap
-                  .toString()
+                `$${data?.market_data.market_cap.usd
+                  ?.toString()
                   .split(".")[0]
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
               }
