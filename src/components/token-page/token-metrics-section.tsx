@@ -1,39 +1,12 @@
-import { useEffect, useState } from "react";
-
-const TokenMetricsSection = () => {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      setIsError(false);
-      setIsLoading(false);
-
-      const response: any = await fetch(
-        "https://api.coingecko.com/api/v3/coins/akash-network?tickers=true&market_data=true",
-      );
-
-      const fetchedData = await response.json();
-      setData(fetchedData);
-    } catch (error) {
-      setData(null);
-      setIsLoading(false);
-      setIsError(true);
-    }
-  };
-
-  useEffect(() => {
-    fetchData(); // Fetch data when the component mounts
-
-    const interval = setInterval(fetchData, 10000); // Fetch data every 10 seconds
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-    };
-  }, []);
-
-  // Render your data
+const TokenMetricsSection = ({
+  data,
+  isLoading,
+  isError,
+}: {
+  data: any;
+  isLoading: boolean;
+  isError: boolean;
+}) => {
   return (
     <div className="py-10 md:pb-[80px]  md:pt-[80px]">
       <div>

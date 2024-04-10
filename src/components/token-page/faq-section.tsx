@@ -1,39 +1,14 @@
-import React, { useState, useEffect } from "react";
 import { FAQ } from "./faq";
-import { DessertIcon } from "lucide-react";
-const FaqSection = () => {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
 
-  const fetchData = async () => {
-    try {
-      setIsError(false);
-      setIsLoading(false);
-
-      const response: any = await fetch(
-        "https://api.coingecko.com/api/v3/coins/akash-network?tickers=true&market_data=true",
-      );
-
-      const fetchedData = await response.json();
-      setData(fetchedData);
-    } catch (error) {
-      setData(null);
-      setIsLoading(false);
-      setIsError(true);
-    }
-  };
-  console.log(data);
-
-  useEffect(() => {
-    fetchData(); // Fetch data when the component mounts
-
-    const interval = setInterval(fetchData, 10000); // Fetch data every 10 seconds
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-    };
-  }, []);
+const FaqSection = ({
+  data,
+  isLoading,
+  isError,
+}: {
+  data: any;
+  isLoading: boolean;
+  isError: boolean;
+}) => {
   return (
     <div>
       <div>
@@ -66,7 +41,7 @@ const FaqSection = () => {
                   ? new Date(data?.market_data.last_updated).toUTCString()
                   : "Sat Jan 7 07:57:36 UTC"
               }
-          `,
+        `,
             },
             {
               title: "What is the unlock schedule for the AKT token?",

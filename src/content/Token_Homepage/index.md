@@ -118,7 +118,6 @@ buyingAKTSection:
         - title: HTX
           link: "https://www.htx.com/trade/akt_usdt/"
 
-          
 faqsSection:
   title: FAQs
   faqs:
