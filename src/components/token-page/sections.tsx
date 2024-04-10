@@ -6,6 +6,8 @@ import {
 import BuyingAkt from "./buying-akt-section";
 import FaqSection from "./faq-section";
 import TokenMetricsSection from "./token-metrics-section";
+import { useStorage } from "@/utils/store";
+import { useEffect, useState } from "react";
 
 const Sections = ({
   aktFeaturesSection,
@@ -37,6 +39,17 @@ const Query = ({
   buyingAKTSection: any;
   faqsSection: any;
 }) => {
+  const token = useStorage((state: any) => state?.token);
+  const [enabled, setEnabled] = useState(false);
+  const setToken = useStorage((state: any) => state?.setToken);
+  console.log(
+    new Date(token?.time ?? new Date().getTime()).toLocaleTimeString(),
+  );
+  // 20 mins
+  const fetchInterval = 1000 * 60 * 20;
+  console.log(fetchInterval);
+
+  const [currentTime, setCurrentTime] = useState(new Date().getTime());
   const { data, isLoading, isError } = useQuery({
     queryKey: ["tokenMetrics"],
     queryFn: async () => {
@@ -45,10 +58,41 @@ const Query = ({
       );
       return await response.json();
     },
-    refetchInterval: 1200000,
+    //mili seconds
+    refetchInterval: fetchInterval,
     keepPreviousData: true,
     retry: true,
+    enabled: enabled,
+
+    initialData: token,
   });
+
+  useEffect(() => {
+    if (data) {
+      setToken({
+        ...data,
+        time: new Date().getTime(),
+      });
+    }
+  }, [data]);
+
+  console.log(currentTime, enabled);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().getTime());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!token || currentTime - token?.time > fetchInterval) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  }, [currentTime, token?.time]);
+
   return (
     <>
       <div id="token-metrics">
