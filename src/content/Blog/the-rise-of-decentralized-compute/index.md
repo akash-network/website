@@ -15,7 +15,7 @@ bannerImage: ./akash-decentralized-compute.png
 
 *This is a special guest post from Lachlan Todd, a new community contributor to Akash Network.*
 
-Lachlan is a freelance technical writer and marketer in the DeFi space. He contributes to projects including Fhenix (FHE), ZeroGravity (parallelized DA), and Babylon (BTC restaking), amongst others. Prior to this, he received his Master's degree in Big Data and began his career as a DeFi Sales Engineer at Stably:
+*Lachlan is a freelance technical writer and marketer in the DeFi space. He contributes to projects including Fhenix (FHE), ZeroGravity (parallelized DA), and Babylon (BTC restaking), amongst others. Prior to this, he received his Master's degree in Big Data and began his career as a DeFi Sales Engineer at Stably:*
 
 ---
 
