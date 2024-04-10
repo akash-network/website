@@ -58,12 +58,11 @@ const TokenMetricsSection = () => {
               Circulating Supply
             </p>
             <Skeleton
-              number={
-                data?.market_data.circulating_supply
-                  .toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
-              }
+              isError={isError}
+              number={data?.market_data.circulating_supply
+                .toString()
+                .split(".")[0]
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               isLoading={isLoading}
             />
           </div>
@@ -74,12 +73,11 @@ const TokenMetricsSection = () => {
             </p>
 
             <Skeleton
-              number={
-                data?.market_data.total_supply
-                  .toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
-              }
+              isError={isError}
+              number={data?.market_data.total_supply
+                .toString()
+                .split(".")[0]
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               isLoading={isLoading}
             />
           </div>
@@ -89,12 +87,11 @@ const TokenMetricsSection = () => {
               Maximum Supply
             </p>
             <Skeleton
-              number={
-                data?.market_data.max_supply
-                  .toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
-              }
+              isError={isError}
+              number={data?.market_data.max_supply
+                .toString()
+                .split(".")[0]
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               isLoading={isLoading}
             />
           </div>
@@ -105,11 +102,10 @@ const TokenMetricsSection = () => {
             </p>
 
             <Skeleton
-              number={`$${
-                data?.market_data.current_price.usd
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
-              }`}
+              isError={isError}
+              number={`$${data?.market_data.current_price.usd
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
               isLoading={isLoading}
             />
           </div>
@@ -119,13 +115,12 @@ const TokenMetricsSection = () => {
               Market Cap
             </p>
             <Skeleton
+              isError={isError}
               isLoading={isLoading}
-              number={`$${
-                data?.market_data.max_supply
-                  .toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
-              }`}
+              number={`$${data?.market_data.max_supply
+                .toString()
+                .split(".")[0]
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
             />
           </div>
 
@@ -135,11 +130,10 @@ const TokenMetricsSection = () => {
             </p>
 
             <Skeleton
-              number={`$${
-                data?.market_data.total_volume.usd
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
-              }`}
+              isError={isError}
+              number={`$${data?.market_data.total_volume.usd
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
               isLoading={isLoading}
             />
           </div>
@@ -164,19 +158,23 @@ export default TokenMetricsSection;
 
 const Skeleton = ({
   isLoading,
+  isError,
   number,
 }: {
   isLoading: boolean;
   number: string;
+  isError: boolean;
 }) => {
   //when loading show this instead of number
   return (
     <h4 className="mt-2  text-2xl font-medium  leading-none md:text-3xl md:font-medium">
       {" "}
-      {isLoading ? (
+      {isLoading || isError ? (
         <span className=" block h-8 animate-pulse rounded bg-gray-300"></span>
       ) : (
-        number
+        number ?? (
+          <span className=" block h-8 animate-pulse rounded bg-gray-300"></span>
+        )
       )}
     </h4>
   );
