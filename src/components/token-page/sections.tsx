@@ -42,10 +42,7 @@ const Query = ({
   const token = useStorage((state: any) => state?.token);
   const [enabled, setEnabled] = useState(false);
   const setToken = useStorage((state: any) => state?.setToken);
-  console.log(
-    new Date(token?.time ?? new Date().getTime()).toLocaleTimeString(),
-  );
-  // 20 mins
+
   const fetchInterval = 1000 * 60 * 20;
 
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
@@ -57,7 +54,7 @@ const Query = ({
       );
       return await response.json();
     },
-    //mili seconds
+
     refetchInterval: fetchInterval,
     keepPreviousData: true,
     retry: true,
@@ -88,7 +85,7 @@ const Query = ({
     } else {
       setEnabled(false);
     }
-  }, [currentTime, token?.time]);
+  }, [currentTime, token]);
 
   return (
     <>
