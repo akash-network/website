@@ -47,7 +47,6 @@ const Query = ({
   );
   // 20 mins
   const fetchInterval = 1000 * 60 * 20;
-  console.log(fetchInterval);
 
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
   const { data, isLoading, isError } = useQuery({
@@ -75,8 +74,6 @@ const Query = ({
       });
     }
   }, [data]);
-
-  console.log(currentTime, enabled);
 
   useEffect(() => {
     const timer = setInterval(() => {
