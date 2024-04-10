@@ -22,6 +22,7 @@ const TokenMetricsSection = () => {
       setIsError(true);
     }
   };
+  console.log(isLoading);
 
   useEffect(() => {
     fetchData(); // Fetch data when the component mounts
@@ -56,96 +57,100 @@ const TokenMetricsSection = () => {
             <p className="text-sm font-medium leading-[20px]  md:leading-tight">
               Circulating Supply
             </p>
-            <h4 className="mt-2  text-2xl   font-medium md:text-3xl md:leading-[36px]">
-              {data?.market_data.circulating_supply
-                ? data?.market_data.circulating_supply
-                    .toString()
-                    .split(".")[0]
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                : "214,430,074"}
-            </h4>
+            <Skeleton
+              number={
+                data?.market_data.circulating_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
+              }
+              isLoading={isLoading}
+            />
           </div>
 
           <div className="flex w-full flex-col justify-start  rounded-[8px] bg-background2 p-6 shadow">
             <p className="text-sm font-medium leading-[20px]  md:leading-tight">
               Total Supply
             </p>
-            <h4 className="mt-2  text-2xl font-medium  leading-none md:text-3xl md:font-medium">
-              {" "}
-              {data?.market_data.total_supply
-                ? data?.market_data.total_supply
-                    .toString()
-                    .split(".")[0]
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                : "214,430,074"}{" "}
-            </h4>
+
+            <Skeleton
+              number={
+                data?.market_data.total_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
+              }
+              isLoading={isLoading}
+            />
           </div>
 
           <div className="flex w-full flex-col justify-start  rounded-[8px] bg-background2 p-6 shadow">
             <p className="text-sm font-medium leading-[20px]  md:leading-tight">
               Maximum Supply
             </p>
-            <h4 className="mt-2  text-2xl font-medium  leading-none md:text-3xl md:font-medium">
-              {" "}
-              {data?.market_data.max_supply
-                ? data?.market_data.max_supply
-                    .toString()
-                    .split(".")[0]
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                : "388,539,008"}
-            </h4>
+            <Skeleton
+              number={
+                data?.market_data.max_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
+              }
+              isLoading={isLoading}
+            />
           </div>
 
           <div className="flex w-full flex-col justify-start  rounded-[8px] bg-background2 p-6 shadow">
             <p className="text-sm font-medium leading-[20px]  md:leading-tight">
               Price
             </p>
-            <h4 className="mt-2  text-2xl font-medium  leading-none md:text-3xl md:font-medium">
-              ${" "}
-              {data?.market_data.current_price
-                ? data?.market_data.current_price.usd
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                : "1"}
-            </h4>
+
+            <Skeleton
+              number={`$${
+                data?.market_data.current_price.usd
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
+              }`}
+              isLoading={isLoading}
+            />
           </div>
 
           <div className="flex w-full flex-col justify-start  rounded-[8px] bg-background2 p-6 shadow">
             <p className="text-sm font-medium leading-[20px]  md:leading-tight">
               Market Cap
             </p>
-            <h4 className="mt-2  text-2xl font-medium  leading-none md:text-3xl md:font-medium">
-              $
-              {data?.market_data.market_cap
-                ? data?.market_data.market_cap.usd
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                : "145,449,546"}{" "}
-            </h4>
+            <Skeleton
+              isLoading={isLoading}
+              number={`$${
+                data?.market_data.max_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
+              }`}
+            />
           </div>
 
           <div className="flex w-full flex-col justify-start  rounded-[8px] bg-background2 p-6 shadow">
             <p className="text-sm font-medium leading-[20px]  md:leading-tight">
               24h Trading Volume
             </p>
-            <h4 className="mt-2  text-2xl font-medium  leading-none md:text-3xl md:font-medium">
-              {"$"}
-              {data?.market_data.total_volume
-                ? data?.market_data.total_volume.usd
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                : "2,259,978"}{" "}
-            </h4>
+
+            <Skeleton
+              number={`$${
+                data?.market_data.total_volume.usd
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? "0"
+              }`}
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </div>
-
       {isError && (
         <p className="mt-10 text-center">
           Failed to get live data please visit
           <a
             href="https://www.coingecko.com/en/coins/akash-network"
-            className="ml-1.5 text-primary hover:text-primary/90"
+            className="hover:text-primary/90 ml-1.5 text-primary"
           >
             coingecko
           </a>
@@ -156,3 +161,23 @@ const TokenMetricsSection = () => {
 };
 
 export default TokenMetricsSection;
+
+const Skeleton = ({
+  isLoading,
+  number,
+}: {
+  isLoading: boolean;
+  number: string;
+}) => {
+  //when loading show this instead of number
+  return (
+    <h4 className="mt-2  text-2xl font-medium  leading-none md:text-3xl md:font-medium">
+      {" "}
+      {isLoading ? (
+        <span className=" block h-8 animate-pulse rounded bg-gray-300"></span>
+      ) : (
+        number
+      )}
+    </h4>
+  );
+};
