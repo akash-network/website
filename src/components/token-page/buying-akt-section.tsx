@@ -29,7 +29,10 @@ const BuyingAkt = ({ buyingAKTSection }: any) => {
 
             if (i === 0) {
               return (
-                <div className="flex w-full justify-between border-b  py-[20px] text-base font-bold leading-normal md:text-lg md:leading-9 lg:text-2xl">
+                <div
+                  key={i}
+                  className="flex w-full justify-between border-b  py-[20px] text-base font-bold leading-normal md:text-lg md:leading-9 lg:text-2xl"
+                >
                   {colsArray.map((col) => (
                     <div className="flex w-full justify-start">{col.title}</div>
                   ))}
@@ -38,6 +41,7 @@ const BuyingAkt = ({ buyingAKTSection }: any) => {
             } else {
               return (
                 <div
+                  key={i}
                   className={`flex w-full justify-between  border-b  py-[16px] `}
                 >
                   {colsArray.map((col, i) => (
