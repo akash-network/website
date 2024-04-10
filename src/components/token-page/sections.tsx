@@ -47,6 +47,7 @@ const Query = ({
     },
     refetchInterval: 1200000,
     keepPreviousData: true,
+    retry: true,
   });
   return (
     <>
