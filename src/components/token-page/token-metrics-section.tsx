@@ -58,10 +58,13 @@ const TokenMetricsSection = () => {
             </p>
             <Skeleton
               isError={isError}
-              number={data?.market_data.circulating_supply
-                .toString()
-                .split(".")[0]
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              number={
+                data &&
+                data?.market_data.circulating_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
               isLoading={isLoading}
             />
           </div>
@@ -73,10 +76,13 @@ const TokenMetricsSection = () => {
 
             <Skeleton
               isError={isError}
-              number={data?.market_data.total_supply
-                .toString()
-                .split(".")[0]
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              number={
+                data &&
+                data?.market_data.total_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
               isLoading={isLoading}
             />
           </div>
@@ -87,10 +93,13 @@ const TokenMetricsSection = () => {
             </p>
             <Skeleton
               isError={isError}
-              number={data?.market_data.max_supply
-                .toString()
-                .split(".")[0]
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              number={
+                data &&
+                data?.market_data.max_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
               isLoading={isLoading}
             />
           </div>
@@ -102,9 +111,12 @@ const TokenMetricsSection = () => {
 
             <Skeleton
               isError={isError}
-              number={`$${data?.market_data.current_price.usd
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
+              number={
+                data &&
+                `$${data?.market_data.current_price.usd
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+              }
               isLoading={isLoading}
             />
           </div>
@@ -116,10 +128,13 @@ const TokenMetricsSection = () => {
             <Skeleton
               isError={isError}
               isLoading={isLoading}
-              number={`$${data?.market_data.max_supply
-                .toString()
-                .split(".")[0]
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
+              number={
+                data &&
+                `$${data?.market_data.max_supply
+                  .toString()
+                  .split(".")[0]
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+              }
             />
           </div>
 
@@ -130,9 +145,12 @@ const TokenMetricsSection = () => {
 
             <Skeleton
               isError={isError}
-              number={`$${data?.market_data.total_volume.usd
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}
+              number={
+                data &&
+                `$${data?.market_data.total_volume.usd
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+              }
               isLoading={isLoading}
             />
           </div>
@@ -162,7 +180,7 @@ const Skeleton = ({
   number,
 }: {
   isLoading: boolean;
-  number: string;
+  number?: string;
   isError: boolean;
 }) => {
   //when loading show this instead of number
