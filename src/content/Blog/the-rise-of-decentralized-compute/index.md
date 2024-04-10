@@ -15,11 +15,11 @@ bannerImage: ./akash-decentralized-compute.png
 
 *This is a special guest post from Lachlan Todd, a new community contributor to Akash Network.*
 
-Lachlan is a freelance technical writer and marketer in the DeFi space. He contributes to projects including Fhenix (FHE), ZeroGravity (parallelized DA), and Babylon (BTC restaking), amongst others. Prior to this, he received his Master's degree in Big Data and began his career as a DeFi Sales Engineer at Stably:
+*Lachlan is a freelance technical writer and marketer in the DeFi space. He contributes to projects including Fhenix (FHE), ZeroGravity (parallelized DA), and Babylon (BTC restaking), amongst others. Prior to this, he received his Master's degree in Big Data and began his career as a DeFi Sales Engineer at Stably.*
 
 ---
 
-# Introduction
+## Introduction
 
 Web2 cloud computing is one of the largest and fastest-growing industries, yet ripe for disruption given a myriad of issues faced. In particular, centralized cloud providers have permissioned servicing, limited resource availability, data lock-ins, and prohibitive costs that can be solved through decentralized computing.
 
