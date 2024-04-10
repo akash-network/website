@@ -1,12 +1,11 @@
-import React from "react";
-import TokenMetricsSection from "./token-metrics-section";
-import BuyingAkt from "./buying-akt-section";
-import FaqSection from "./faq-section";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import BuyingAkt from "./buying-akt-section";
+import FaqSection from "./faq-section";
+import TokenMetricsSection from "./token-metrics-section";
 
 const Sections = ({
   aktFeaturesSection,
