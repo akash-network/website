@@ -46,6 +46,7 @@ const Query = ({
   const fetchInterval = 1000 * 60 * 20;
 
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ["tokenMetrics"],
     queryFn: async () => {
@@ -64,7 +65,7 @@ const Query = ({
   });
 
   useEffect(() => {
-    if (data) {
+    if (data?.time !== token?.time && data) {
       setToken({
         ...data,
         time: new Date().getTime(),
