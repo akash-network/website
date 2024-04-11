@@ -46,14 +46,7 @@ const Query = ({
   const fetchInterval = 1000 * 60 * 20;
 
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
-  console.log(
-    "fetchInterval",
-    enabled,
-    "currentTime",
-    new Date(currentTime).toLocaleTimeString(),
-    "token",
-    new Date(token?.time).toLocaleTimeString(),
-  );
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ["tokenMetrics"],
     queryFn: async () => {
