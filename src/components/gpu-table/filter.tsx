@@ -41,7 +41,7 @@ export default function Filter({
   setFilters,
 }: {
   setFilteredData: React.Dispatch<React.SetStateAction<Gpus["models"]>>;
-  res: Gpus;
+  res?: Gpus;
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }) {
@@ -120,8 +120,6 @@ export default function Filter({
       filters.ram.length > 0 ||
       filters.interface.length > 0
     ) {
-      console.log("filtering");
-
       const filtered = res?.models
         ?.filter(
           (model) =>
@@ -134,11 +132,11 @@ export default function Filter({
         .sort(
           (a, b) => b?.availability?.available - a?.availability?.available,
         );
-      setFilteredData(filtered);
+      setFilteredData(filtered || []);
     } else {
       console.log("filtering");
       //h100 and a100 at top with same order as in onTop array
-      setFilteredData(res.models);
+      setFilteredData(res?.models || []);
     }
   }, [filters, res]);
 
