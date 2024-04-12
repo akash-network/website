@@ -69,14 +69,7 @@ const Table = ({
   };
   subCom?: boolean;
 }) => {
-  const token = useStorage((state: any) => state?.gpu);
-  const [enabled, setEnabled] = useState(false);
-  const setToken = useStorage((state: any) => state?.setGpu);
-  console.log(token);
-
-  const fetchInterval = 1000 * 60 * 15;
-
-  const [currentTime, setCurrentTime] = useState(new Date().getTime());
+  const fetchInterval = 1000 * 60;
 
   const { data: result } = useQuery<
     {
@@ -86,50 +79,17 @@ const Table = ({
   >({
     queryKey: ["GPU_TABLE"],
     queryFn: () => axios.get(gpus),
-
     refetchIntervalInBackground: true,
-    initialData: token || {
+    initialData: initialData || {
       data: {
         availability: { total: 0, available: 0 },
         models: [],
       },
     },
     refetchInterval: fetchInterval,
-    keepPreviousData: true,
-    retry: true,
-    enabled: enabled,
   });
 
   const data = result?.data;
-
-  useEffect(() => {
-    if (data?.time !== token?.time && data) {
-      setToken({
-        ...data,
-        time: new Date().getTime(),
-      });
-    }
-    if (token === null) {
-      setToken({
-        time: 0,
-      });
-    }
-  }, [data]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().getTime());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    if (!token || currentTime - token?.time > fetchInterval) {
-      setEnabled(true);
-    } else {
-      setEnabled(false);
-    }
-  }, [currentTime, token]);
 
   return <Tables data={data} subCom={subCom} />;
 };
