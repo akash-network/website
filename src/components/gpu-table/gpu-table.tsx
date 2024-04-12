@@ -102,13 +102,16 @@ const Table = ({
 
   const data = result?.data;
 
-  console.log(data?.time !== token?.time, data);
-
   useEffect(() => {
     if (data?.time !== token?.time && data) {
       setToken({
         ...data,
         time: new Date().getTime(),
+      });
+    }
+    if (token === null) {
+      setToken({
+        time: 0,
       });
     }
   }, [data]);
@@ -127,8 +130,6 @@ const Table = ({
       setEnabled(false);
     }
   }, [currentTime, token]);
-
-  console.log(data);
 
   return <Tables data={data} subCom={subCom} />;
 };

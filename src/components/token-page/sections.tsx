@@ -71,6 +71,11 @@ const Query = ({
         time: new Date().getTime(),
       });
     }
+    if (token === null) {
+      setToken({
+        time: 0,
+      });
+    }
   }, [data]);
 
   useEffect(() => {
