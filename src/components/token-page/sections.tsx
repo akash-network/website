@@ -71,6 +71,11 @@ const Query = ({
         time: new Date().getTime(),
       });
     }
+    if (token === null) {
+      setToken({
+        time: 0,
+      });
+    }
   }, [data]);
 
   useEffect(() => {
@@ -142,7 +147,7 @@ const Query = ({
 
               <ul className="ml-8 list-disc space-y-2 text-sm font-normal text-[#7F7F7F] md:text-[18px]">
                 <li>
-                  Take and Make Fees
+                  Take and Make Fees{" "}
                   <a
                     target="_blank"
                     className="font-medium text-primary"
@@ -152,7 +157,7 @@ const Query = ({
                   </a>
                 </li>
                 <li>
-                  Stable Payment and Settlement
+                  Stable Payment and Settlement{" "}
                   <a
                     target="_blank"
                     className="font-medium text-primary"
@@ -183,8 +188,8 @@ const Query = ({
                   "
                 >
                   sig-economics
-                </a>
-                and
+                </a>{" "}
+                and{" "}
                 <a
                   target="_blank"
                   className="font-medium text-primary"
