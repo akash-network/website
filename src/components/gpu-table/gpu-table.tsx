@@ -4,7 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -16,6 +16,7 @@ import clsx from "clsx";
 import CheckBox from "./checkbox";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import Sort from "./sort";
+import { useStorage } from "@/utils/store";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -25,8 +26,15 @@ export interface Gpus {
     interface: string;
     availability: { total: number; available: number };
     providerAvailability: { total: number; available: number };
-    price: { min: number; max: number; avg: number; med: number };
+    price: {
+      min: number;
+      max: number;
+      avg: number;
+      med: number;
+      weightedAverage: number;
+    };
   }>;
+  time?: number;
 }
 
 const GpuTable = ({
@@ -61,9 +69,15 @@ const Table = ({
   };
   subCom?: boolean;
 }) => {
-  const {
-    data: { data },
-  } = useQuery<
+  const token = useStorage((state: any) => state?.gpus);
+  const [enabled, setEnabled] = useState(false);
+  const setToken = useStorage((state: any) => state?.gpus);
+
+  const fetchInterval = 1000 * 60 * 15;
+
+  const [currentTime, setCurrentTime] = useState(new Date().getTime());
+
+  const { data: result } = useQuery<
     {
       data: Gpus;
     },
@@ -71,15 +85,48 @@ const Table = ({
   >({
     queryKey: ["GPU_TABLE"],
     queryFn: () => axios.get(gpus),
-    refetchInterval: 2000,
+
     refetchIntervalInBackground: true,
-    initialData: initialData || {
+    initialData: token || {
       data: {
         availability: { total: 0, available: 0 },
         models: [],
       },
     },
+    refetchInterval: fetchInterval,
+    keepPreviousData: true,
+    retry: true,
+    enabled: enabled,
   });
+
+  const data = result?.data;
+
+  console.log(data);
+
+  useEffect(() => {
+    if (data?.time !== token?.time && data) {
+      setToken({
+        ...data,
+        time: new Date().getTime(),
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().getTime());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!token || currentTime - token?.time > fetchInterval) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  }, [currentTime, token]);
+
   console.log(data);
 
   return <Tables data={data} subCom={subCom} />;
@@ -94,10 +141,10 @@ export const modifyModel = (model: string) => {
 };
 
 export const price = (price: number) => {
-  return price?.toFixed(2) ?? "0.00";
+  return price ? `$${price?.toFixed(2)}` : "N/A";
 };
 
-export const Tables = ({ data, subCom }: { data: Gpus; subCom?: boolean }) => {
+export const Tables = ({ data, subCom }: { data?: Gpus; subCom?: boolean }) => {
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
   const [filters, setFilters] = React.useState<Filters>(defaultFilters);
   console.log(filteredData);
@@ -304,7 +351,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
     <div className="flex flex-col items-start gap-1 ">
       <div className="rounded-x-md relative min-w-[170px]  rounded-b-md border-x border-b px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
         {/* <div className="absolute inset-0 bg-gradient-to-b from-white to-white/20 dark:from-background2 dark:to-background2/20"></div> */}
-        Min: ${price(model?.price?.min)}
+        Min: {price(model?.price?.min)}
       </div>
       <div className="flex  w-full items-center justify-center gap-2.5   rounded-md bg-black px-2 py-2 dark:bg-[#EDEDED] md:w-auto ">
         <div className="flex items-center gap-1">
@@ -315,7 +362,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                   Mid:
                 </span>
                 <span className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
-                  ${price(model?.price?.med)}
+                  {price(model?.price?.weightedAverage)}
                 </span>
               </p>
               <Info size={12} className="text-[#D7DBDF] dark:text-[#3E3E3E]" />
@@ -332,14 +379,14 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                     <div className="flex flex-col items-center justify-center gap-1">
                       <h1 className="text-xs text-iconText">Max:</h1>
                       <div className="text-base font-bold ">
-                        ${price(model?.price?.max)}/hr
+                        {price(model?.price?.max)}/hr
                       </div>
                     </div>
                     <div className="h-8 w-px border-r "></div>
                     <div className="flex flex-col items-center justify-center gap-1">
                       <h1 className="text-xs text-iconText">Min:</h1>
                       <div className="text-base font-bold ">
-                        ${price(model?.price?.min)}/hr
+                        {price(model?.price?.min)}/hr
                       </div>
                     </div>
                   </div>
@@ -347,7 +394,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                 <div className="flex items-center  justify-between gap-2 rounded-b-md border-t bg-badgeColor px-4 py-3">
                   <p className="text-base  text-para">Mid:</p>
                   <div className="text-base font-bold  ">
-                    ${price(model?.price?.med)}/hr
+                    {price(model?.price?.weightedAverage)}/hr
                   </div>
                 </div>
               </div>
@@ -365,7 +412,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
         </a>
       </div>
       <div className=" rounded-x-md relative min-w-[170px]  rounded-t-md border-x border-t px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
-        Max: ${price(model?.price?.max)}
+        Max: {price(model?.price?.max)}
         {/* <div className="absolute inset-0 bg-gradient-to-t from-white to-white/20 dark:from-background2 dark:to-background2/20"></div> */}
       </div>
     </div>

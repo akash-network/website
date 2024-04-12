@@ -16,7 +16,7 @@ export default function Sort({
   filters,
 }: {
   setFilteredData: React.Dispatch<React.SetStateAction<Gpus["models"]>>;
-  res: Gpus;
+  res?: Gpus;
   filters: Filters;
 }) {
   const [selected, setSelected] = useState(publishingOptions[0]);
@@ -30,9 +30,10 @@ export default function Sort({
       ?.filter((model) => !onTop?.includes(model.model))
       .sort((a, b) => b?.availability?.available - a?.availability?.available);
 
-    return [...filtered, ...rest]?.filter((model) => model !== undefined);
+    return [...(filtered ?? []), ...(rest ?? [])]?.filter(
+      (model) => model !== undefined,
+    );
   };
-  console.log(res.models);
 
   useEffect(() => {
     const sortData = (sortType: string) => {
@@ -64,7 +65,7 @@ export default function Sort({
       }
     };
     sortData(selected.title);
-  }, [selected, res.models, setFilteredData, filters]);
+  }, [selected, res?.models, setFilteredData, filters]);
 
   return (
     <Listbox value={selected} onChange={setSelected}>

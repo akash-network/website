@@ -4,6 +4,8 @@ import { devtools, persist } from "zustand/middleware";
 export interface IStore {
   token: any;
   setToken: (token: string) => void;
+  gpu: any;
+  setGpu: (gpu: string) => void;
 }
 
 export const useStorage = create<IStore>()(
@@ -12,6 +14,8 @@ export const useStorage = create<IStore>()(
       (set) => ({
         token: null,
         setToken: (token) => set({ token }),
+        gpu: null,
+        setGpu: (gpu) => set({ gpu }),
       }),
       {
         name: "akash-network",
