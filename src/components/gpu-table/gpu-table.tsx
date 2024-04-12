@@ -72,6 +72,7 @@ const Table = ({
   const token = useStorage((state: any) => state?.gpu);
   const [enabled, setEnabled] = useState(false);
   const setToken = useStorage((state: any) => state?.setGpu);
+  console.log(token);
 
   const fetchInterval = 1000 * 60 * 15;
 
@@ -101,7 +102,7 @@ const Table = ({
 
   const data = result?.data;
 
-  console.log(data);
+  console.log(data?.time !== token?.time, data);
 
   useEffect(() => {
     if (data?.time !== token?.time && data) {

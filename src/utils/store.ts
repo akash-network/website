@@ -12,9 +12,13 @@ export const useStorage = create<IStore>()(
   devtools(
     persist(
       (set) => ({
-        token: null,
+        token: {
+          time: 0,
+        },
         setToken: (token) => set({ token }),
-        gpu: null,
+        gpu: {
+          time: 0,
+        },
         setGpu: (gpu) => set({ gpu }),
       }),
       {
