@@ -23,22 +23,22 @@ const FaqSection = ({
             {
               title: "What is the maximum and circulating supply of AKT?",
               description: `Akash has a maximum supply of   ${
-                data?.market_data.max_supply
-                  ? data?.market_data.max_supply
-                      .toString()
-                      .split(".")[0]
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                data?.market_data?.max_supply
+                  ? data?.market_data?.max_supply
+                      ?.toString()
+                      ?.split(".")[0]
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : "388,539,008"
               }, with      ${
-                data?.market_data.circulating_supply
-                  ? data?.market_data.circulating_supply
-                      .toString()
-                      .split(".")[0]
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                data?.market_data?.circulating_supply
+                  ? data?.market_data?.circulating_supply
+                      ?.toString()
+                      ?.split(".")[0]
+                      ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : "214,430,074"
               } AKT in circulation as of ${
                 data
-                  ? new Date(data?.market_data.last_updated).toUTCString()
+                  ? new Date(data?.market_data?.last_updated)?.toUTCString()
                   : "Sat Jan 7 07:57:36 UTC"
               }
         `,
