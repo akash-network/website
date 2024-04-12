@@ -16,7 +16,7 @@ const TokenMetricsSection = ({
         <p className="mt-4 text-sm  leading-[20px] md:text-base lg:text-lg lg:leading-[32px]">
           As of{" "}
           {data
-            ? new Date(data?.market_data.last_updated).toUTCString()
+            ? new Date(data?.market_data?.last_updated).toUTCString()
             : "Sat Jan 7 07:57:36 UTC"}
           {", "}
           the following are the AKT metrics, as reported by Coingecko.
@@ -33,10 +33,10 @@ const TokenMetricsSection = ({
               isError={isError}
               number={
                 data &&
-                data?.market_data.circulating_supply
-                  .toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                data?.market_data?.circulating_supply
+                  ?.toString()
+                  ?.split(".")[0]
+                  ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               isLoading={isLoading}
             />
@@ -51,10 +51,10 @@ const TokenMetricsSection = ({
               isError={isError}
               number={
                 data &&
-                data?.market_data.total_supply
-                  .toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                data?.market_data?.total_supply
+                  ?.toString()
+                  ?.split(".")[0]
+                  ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               isLoading={isLoading}
             />
@@ -68,10 +68,10 @@ const TokenMetricsSection = ({
               isError={isError}
               number={
                 data &&
-                data?.market_data.max_supply
-                  .toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                data?.market_data?.max_supply
+                  ?.toString()
+                  ?.split(".")[0]
+                  ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               isLoading={isLoading}
             />
@@ -86,9 +86,9 @@ const TokenMetricsSection = ({
               isError={isError}
               number={
                 data &&
-                `$${data?.market_data.current_price.usd
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+                `$${data?.market_data?.current_price.usd
+                  ?.toString()
+                  ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
               }
               isLoading={isLoading}
             />
@@ -103,10 +103,10 @@ const TokenMetricsSection = ({
               isLoading={isLoading}
               number={
                 data &&
-                `$${data?.market_data.market_cap.usd
+                `$${data?.market_data?.market_cap.usd
                   ?.toString()
-                  .split(".")[0]
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+                  ?.split(".")[0]
+                  ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
               }
             />
           </div>
@@ -120,9 +120,9 @@ const TokenMetricsSection = ({
               isError={isError}
               number={
                 data &&
-                `$${data?.market_data.total_volume.usd
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+                `$${data?.market_data?.total_volume.usd
+                  ?.toString()
+                  ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
               }
               isLoading={isLoading}
             />
