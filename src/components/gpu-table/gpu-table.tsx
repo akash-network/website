@@ -69,9 +69,9 @@ const Table = ({
   };
   subCom?: boolean;
 }) => {
-  const token = useStorage((state: any) => state?.gpus);
+  const token = useStorage((state: any) => state?.gpu);
   const [enabled, setEnabled] = useState(false);
-  const setToken = useStorage((state: any) => state?.gpus);
+  const setToken = useStorage((state: any) => state?.setGpu);
 
   const fetchInterval = 1000 * 60 * 15;
 
@@ -359,7 +359,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
             <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
               <p className="flex items-center">
                 <span className="text-base text-[#D7DBDF] dark:text-[#3E3E3E] md:text-xs">
-                  Mid:
+                  Avg:
                 </span>
                 <span className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
                   {price(model?.price?.weightedAverage)}
@@ -392,7 +392,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
                   </div>
                 </div>
                 <div className="flex items-center  justify-between gap-2 rounded-b-md border-t bg-badgeColor px-4 py-3">
-                  <p className="text-base  text-para">Mid:</p>
+                  <p className="text-base  text-para">Avg:</p>
                   <div className="text-base font-bold  ">
                     {price(model?.price?.weightedAverage)}/hr
                   </div>
