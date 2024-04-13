@@ -1,0 +1,83 @@
+---
+import Layout from "@/layouts/layout.astro";
+import { Image } from "astro:assets";
+import HoverImage from "@/components/animated-components/hover-img";
+import MarqueeButton from "@/components/animated-components/marquee-buttons";
+---
+
+<Layout
+  title="Akash Accelerate 2024"
+  description="Akash Accelerate is a full-day summit that will bring together the entire ecosystem for a packed agenda of talks, panels, and discussions exploring the future of decentralized compute and open-source AI."
+>
+  <div
+    class="mt-16 flex flex-col items-center justify-center gap-10 md:mt-[120px]"
+  >
+    <p
+      class="container text-center text-sm font-medium text-primary md:text-xl"
+    >
+      May 28th 2024
+    </p>
+    <Image
+      src="/images/akash-accelerate.svg"
+      alt="Akash Accelerate 2024"
+      class="container w-full max-w-[616px] object-contain"
+      width={300}
+      height={300}
+    />
+    <p
+      class="container max-w-[873px] text-center text-sm text-primary md:mt-4 md:text-2xl"
+    >
+      Akash Accelerate is a full-day summit that will bring together the entire
+      ecosystem for a packed agenda of talks, panels, and discussions exploring
+      the future of decentralized compute and open-source AI.
+    </p>
+    <HoverImage client:load img="/images/accelerate.png">
+      <!-- href="https://www.eventbrite.com/e/akash-accelerate-2024-tickets-1234567890" -->
+      <a
+        class="rounded-md border border-primary px-8 py-2.5 font-medium text-primary shadow-sm dark:border-[#ff414c] md:mt-4"
+        >Save the date</a
+      >
+    </HoverImage>
+    <MarqueeButton client:only />
+    <HoverImage client:load img="/images/accelerate.png">
+      <a target="_blank" href="https://www.atelier1205.com">
+        <p
+          class="rounded-md border border-primary bg-background2 px-10 py-5 text-center uppercase leading-7 tracking-widest text-primary underline underline-offset-4 shadow-sm dark:border-[#ff414c]"
+        >
+          ATELIER 1205 <br />
+           1205 E Cesar Chavez St.<br />
+           AUSTIN - TEXAS<br />
+           78702
+        </p>
+      </a>
+    </HoverImage>
+    <div class="mx-auto my-8 h-[48px] w-px bg-primary md:my-14 md:h-[96px]">
+    </div>
+
+    <div class="container grid w-full gap-5 md:mb-14 md:grid-cols-3 md:gap-10">
+      {
+        [
+          {
+            title: "Speaker List",
+            description: "Coming Soon...",
+          },
+          {
+            title: "Panels",
+            description: "Coming Soon...",
+          },
+          {
+            title: "Schedule",
+            description: "Coming Soon...",
+          },
+        ].map((item, index) => (
+          <div class="flex flex-col items-center gap-2 rounded-md border px-5 py-10 md:py-20">
+            <h1 class="text-xl font-bold text-primary">{item.title}</h1>
+            <p class="text-center text-sm font-medium  text-linkText">
+              {item.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
