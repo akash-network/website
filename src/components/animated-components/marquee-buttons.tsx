@@ -1,8 +1,28 @@
 import React from "react";
-import Marquee from "react-fast-marquee";
+
 const MarqueeButton = () => {
   return (
-    <Marquee className="mb-8 mt-11 md:my-14 " autoFill>
+    <div className="relative mb-8 mt-11 flex w-full overflow-x-hidden md:my-14  ">
+      <div className="animate-marquee flex whitespace-nowrap ">
+        <Buttons />
+      </div>
+
+      <div className="animate-marquee2 absolute top-0 flex whitespace-nowrap ">
+        <Buttons />
+      </div>
+    </div>
+  );
+};
+
+export default MarqueeButton;
+
+const Button = ({ children }: { children: React.ReactNode }) => {
+  return <div className="mx-2">{children}</div>;
+};
+
+const Buttons = () => {
+  return (
+    <>
       <Button>
         <svg
           width="133"
@@ -248,12 +268,6 @@ const MarqueeButton = () => {
           />
         </svg>
       </Button>
-    </Marquee>
+    </>
   );
-};
-
-export default MarqueeButton;
-
-const Button = ({ children }: { children: React.ReactNode }) => {
-  return <div className="ml-4">{children}</div>;
 };
