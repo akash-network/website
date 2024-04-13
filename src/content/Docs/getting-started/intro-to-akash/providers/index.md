@@ -7,8 +7,6 @@ weight: 3
 
 ---
 
-
-
 Akash providers are entities that contribute computing resources to the Akash Network, a decentralized cloud computing marketplace. They can be individuals or organizations with underutilized computing resources, such as data centers or personal servers. Providers participate in the network by running the Akash node software and setting the price for their services. Users can then choose a provider based on factors such as cost, performance, and location.
 
 ## Key Components

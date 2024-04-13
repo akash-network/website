@@ -12,15 +12,6 @@ Akash is an open network that facilitates the secure and efficient buying and se
 
 ## Common Questions
 
-### How to use Akash?
-
-You can get started right from the [**command-line**](/docs/deployments/akash-cli/cli-booster/) or use the [**web app**](/docs/deployments/cloudmos-deploy/) :
-
-- Define your Docker image, CPU, Memory, and Storage in a [**deploy.yaml**](/docs/getting-started/stack-definition-language/) file.
-- Set your price, receive bids from providers in seconds, and select the lowest price.
-- Deploy your application without having to set up, configure, or manage servers.
-- Scale your application from a single container to hundreds of deployments.
-
 ### What is the Akash Compute Marketplace?
 
 The [**Akash Compute Marketplace**](/docs/other-resources/marketplace/) is where users lease computing resources from Cloud providers before deploying a Docker container on the Akash Container Platform. The marketplace stores on-chain records of requests, bids, leases, and settlement payments using the Akash Token (AKT). Akash's blockchain is a [**Tendermint**](https://github.com/tendermint/tendermint) based application built on the [**Cosmos SDK**](https://github.com/cosmos/cosmos-sdk).
@@ -31,11 +22,20 @@ The [**Akash Container Platform**](/docs/other-resources/containers/) is a deplo
 
 ### What is the cost to use Akash?
 
-The cost of hosting your application using Akash is about one-third the cost of Amazon AWS, Google Cloud Platform (GCP), and Microsoft Azure. You can check the prices live using the [**price comparison tool**](https://akash.network/about/pricing/custom/).
+The cost of running a service on Akash depends on the  your application using Akash is about one-third the cost of Amazon AWS, Google Cloud Platform (GCP), and Microsoft Azure. You can check the prices live using the [**price comparison tool**](https://akash.network/about/pricing/custom/).
 
 ### How do I use Akash?
 
-If you're new to Akash, start with our [**deployment guides**](/docs/deployments/cloudmos-deploy/) and go from there. Akash's community has written several more advanced guides for learning about Akash: a [**node operator guide**](/docs/akash-nodes/akash-node-via-helm-chart/), a [**validator guide**](validating/validator.md), a [**cloud provider guide**](broken-reference), and several [**deployment guides**](/docs/deployments/cloudmos-deploy/) for running various apps on Akash.
+Generally speaking, a blockchain user base is determined, is the sum of the users interacting with particular protocols or dApps that exist on a particular chain. In that sense, users are defined as a wallet address and, while they may be active in discussions, their role is for the most part limited.
+
+This is in contrast to how things work on Akash which relies upon its userbase to assume seperate he role of a user is dynamic operates.  users of Akash interact with the network. Users of Akash  goals of a user are what ultimately determines the they are to use the network. 
+
+| Role| Description |  |
+| --- | --- | --- |
+| Provider | Providers are market participants tasked with supplying the networking with compute and ensuring that these resources are properly maintained. |
+| Tenant | Tenants are market participants who are using akash for the purpose of gaining to or *leasing*, computational resources. |
+| Validator | Participants working to maintain the integrity of the network committing new blocks to the Akash blockchain |
+
 
 ### Why is Akash different than other Cloud platforms?
 
@@ -55,6 +55,6 @@ You can define the deployment services, data centers, requirements, and pricing 
 
 Networking - allowing connectivity to and between workloads - can be configured via the Stack Definition Language ([**SDL**](/docs/getting-started/stack-definition-language/)) file for a deployment. By default, workloads in a deployment group are isolated - nothing else is allowed to connect to them. This restriction can be relaxed.
 
-**Do I need to close and re-create my deployment if I want to update the deployment?**
+### Do I need to close and re-create my deployment if I want to update the deployment?**
 
 No. You can update your deployment. However, only some fields in the Akash stack definition file are mutable. The **image**, **command**, **args**, and **env** can be modified, but compute resources and placement criteria cannot.
