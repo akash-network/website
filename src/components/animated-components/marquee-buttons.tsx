@@ -2,7 +2,7 @@ import React from "react";
 import Marquee from "react-fast-marquee";
 const MarqueeButton = () => {
   return (
-    <Marquee className="my-10 md:my-14 " autoFill>
+    <Marquee className="mb-8 mt-11 md:my-14 " autoFill>
       <Button>
         <svg
           width="133"

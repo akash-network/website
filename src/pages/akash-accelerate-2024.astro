@@ -49,9 +49,10 @@ import MarqueeButton from "@/components/animated-components/marquee-buttons";
          78702
       </div>
     </HoverImage>
-    <div class="mx-auto my-14 h-[96px] w-px bg-primary"></div>
+    <div class="mx-auto my-8 h-[48px] w-px bg-primary md:my-14 md:h-[96px]">
+    </div>
 
-    <div class="container mb-14 grid w-full gap-10 md:grid-cols-3">
+    <div class="container grid w-full gap-5 md:mb-14 md:grid-cols-3 md:gap-10">
       {
         [
           {
@@ -67,7 +68,7 @@ import MarqueeButton from "@/components/animated-components/marquee-buttons";
             description: "Coming Soon...",
           },
         ].map((item, index) => (
-          <div class="flex flex-col items-center gap-2 rounded-md border px-5 py-20">
+          <div class="flex flex-col items-center gap-2 rounded-md border px-5 py-10 md:py-20">
             <h1 class="text-xl font-bold text-primary">{item.title}</h1>
             <p class="text-center text-sm font-medium  text-linkText">
               {item.description}
