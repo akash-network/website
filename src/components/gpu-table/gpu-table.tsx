@@ -103,7 +103,7 @@ export const modifyModel = (model: string) => {
 };
 
 export const price = (price: number) => {
-  return price ? `$${price?.toFixed(2)}` : "0.00";
+  return price ? `$${price?.toFixed(2)}` : "$0.00";
 };
 
 export const Tables = ({ data, subCom }: { data?: Gpus; subCom?: boolean }) => {
