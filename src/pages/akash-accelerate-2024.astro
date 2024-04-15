@@ -81,7 +81,9 @@ import MarqueeButton from "@/components/animated-components/marquee-buttons";
           },
         ].map((item, index) => (
           <div class="flex flex-col items-center gap-2 rounded-md border px-5 py-10 md:py-20">
-            <h1 class="text-xl font-bold text-primary">{item.title}</h1>
+            <h1 class="text-xl font-bold text-primary dark:text-white">
+              {item.title}
+            </h1>
             <p class="text-center text-sm font-medium  text-linkText">
               {item.description}
             </p>
