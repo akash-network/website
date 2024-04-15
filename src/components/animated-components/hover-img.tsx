@@ -23,7 +23,7 @@ const HoverImage = ({
     };
   }, []);
   return (
-    <div className="relative mt-4">
+    <div className="relative ">
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
