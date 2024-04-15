@@ -94,5 +94,5 @@ In the above article, we explained the advantages of decentralized cloud computi
 
 We believe that the advantages are significant and represent a naturally superior solution, but that true change takes time and that barriers exist. As the industry matures and more enter the space, this will help to accelerate adoption, and the Akash Network will be leading the way. 
 
-To learn more, visit [Akash Network](https://akash.network/) or follow us on [Twitter](https://twitter.com/akashnet_)
+To learn more and get started with the network, visit [Akash Network](https://akash.network/) and follow Akash on [X (Twitter)](https://twitter.com/akashnet_).
 
