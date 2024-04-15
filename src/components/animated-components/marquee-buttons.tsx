@@ -1,14 +1,19 @@
 import React from "react";
 
 const MarqueeButton = () => {
+  const count = 10;
   return (
     <div className="relative mb-8 mt-11 flex w-full overflow-x-hidden md:my-14  ">
-      <div className="animate-marquee flex whitespace-nowrap ">
-        <Buttons />
+      <div className="flex animate-marquee whitespace-nowrap ">
+        {new Array(count).fill(0).map((_, i) => (
+          <Buttons key={i} />
+        ))}
       </div>
 
-      <div className="animate-marquee2 absolute top-0 flex whitespace-nowrap ">
-        <Buttons />
+      <div className="absolute top-0 flex animate-marquee2 whitespace-nowrap ">
+        {new Array(count).fill(0).map((_, i) => (
+          <Buttons key={i} />
+        ))}
       </div>
     </div>
   );

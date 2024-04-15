@@ -33,7 +33,7 @@ const HoverImage = ({
       <img
         src={img}
         className={clsx(
-          "fixed  h-44 w-44 transform  rounded-full object-cover transition-transform  duration-500",
+          "fixed  z-[2] h-44 w-44 transform rounded-full object-cover transition-transform  duration-500",
           hover ? "scale-100 blur-0 filter " : "scale-0 blur-sm filter",
         )}
         style={{ left: position.x - 300, top: position.y - 50 }}
