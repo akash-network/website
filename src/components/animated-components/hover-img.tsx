@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 const HoverImage = ({
   children,
   img,
+  direction = "left",
 }: {
   children: React.ReactNode;
   img: string;
+  direction?: "left" | "right";
 }) => {
   const [hover, setHover] = React.useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -36,7 +38,10 @@ const HoverImage = ({
           "fixed  z-[2] h-44 w-44 transform rounded-full bg-white object-cover transition-transform  duration-500",
           hover ? "scale-100 blur-0 filter " : "scale-0 blur-sm filter",
         )}
-        style={{ left: position.x - 300, top: position.y - 50 }}
+        style={{
+          left: position.x - (direction === "left" ? 300 : -150),
+          top: position.y - 50,
+        }}
       />
     </div>
   );
