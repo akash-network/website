@@ -51,23 +51,23 @@ ecosystemSection:
           link: "https://wallet.keplr.app/#/akash"
 
     - row:
-        - title: ""
+        - title: Atom Scan
+          link: "https://atomscan.com/akash/"
         - title: Keplr
           link: "https://wallet.keplr.app/#/akash"
         - title: Cosmostation
           link: "https://wallet.cosmostation.io/#/akash"
 
     - row:
-        - title: Atom Scan
-          link: "https://atomscan.com/akash/"
+        - title: Ping.pub
+          link: "https://ping.pub/akash"
         - title: Cosmostation
           link: "https://wallet.cosmostation.io/#/akash"
         - title: Staking Rewards
           link: "https://www.stakingrewards.com/earn/akash/"
 
     - row:
-        - title: Ping.pub
-          link: "https://ping.pub/akash"
+        - title: ""
         - title: Mixin Messenger
           link: "https://mixin.one/messenger"
 
