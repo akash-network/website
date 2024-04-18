@@ -8,7 +8,7 @@ weight: 3
 
 ## Decentralized Compute Marketplace
 
-Akash is an open network that facilitates the secure and efficient buying and selling of computing resources. Purpose-built for public utility, it is fully open-source with an active community of contributors.
+Akash is a robust open network specially optimized for the secure and efficient trading of computing resources. It is designed as a public utility and as such, it runs atop open-source software that is maintained by members of the Akash community.
 
 ## Common Questions
 
@@ -22,7 +22,9 @@ The [**Akash Container Platform**](/docs/other-resources/containers/) is a deplo
 
 ### What is the cost to use Akash?
 
-The cost of running a service on Akash depends on the  your application using Akash is about one-third the cost of Amazon AWS, Google Cloud Platform (GCP), and Microsoft Azure. You can check the prices live using the [**price comparison tool**](https://akash.network/about/pricing/custom/).
+The cost of running a service on Akash correlates with the amount of resources a particular service needs to be fully operational; therefore, it varies on a case-by-case basis. That said, **services running atop Akash typically cost about one-third the price of those on Amazon AWS, Google Cloud Platform (GCP), and Microsoft Azure**.
+
+You can check the prices live using the [**price comparison tool**](https://akash.network/about/pricing/custom/).
 
 ### How do I use Akash?
 
