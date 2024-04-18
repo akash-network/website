@@ -51,8 +51,7 @@ ecosystemSection:
           link: "https://wallet.keplr.app/#/akash"
 
     - row:
-        - title: Bigdipper
-          link: "https://forbole.com/akash"
+        - title: ""
         - title: Keplr
           link: "https://wallet.keplr.app/#/akash"
         - title: Cosmostation
@@ -60,7 +59,7 @@ ecosystemSection:
 
     - row:
         - title: Atom Scan
-          link: "https://atomscan.io/akash"
+          link: "https://atomscan.com/akash/"
         - title: Cosmostation
           link: "https://wallet.cosmostation.io/#/akash"
         - title: Staking Rewards
