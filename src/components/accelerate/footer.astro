@@ -4,7 +4,9 @@ import DarkModeToggle from "../dark-mode-toggle.astro";
 
 <div class="bg-[#1C1C1C]">
   <footer class="container flex flex-col gap-6 py-10">
-    <div class="flex items-center justify-between">
+    <div
+      class="flex flex-col justify-between gap-6 md:flex-row md:items-center"
+    >
       <a>
         <svg
           width="169"
@@ -76,109 +78,112 @@ import DarkModeToggle from "../dark-mode-toggle.astro";
           </defs>
         </svg>
       </a>
-      <div class="flex items-center gap-6">
-        <a>
-          <svg
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6.99136 4.4624H3.83984L13.6883 17.4624H16.8398L6.99136 4.4624Z"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linejoin="round"></path>
-            <path
-              d="M17.3948 4.96691C17.6734 4.66041 17.6508 4.18608 17.3443 3.90745C17.0379 3.62882 16.5635 3.6514 16.2849 3.9579L17.3948 4.96691ZM16.2849 3.9579L11.2849 9.4579L12.3948 10.4669L17.3948 4.96691L16.2849 3.9579Z"
-              fill="#7E7E7E"></path>
-            <path
-              d="M8.83984 12.4624L4.33984 17.4624"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
-        <a>
-          <svg
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8.60675 15.2215C5.43619 16.1727 5.43619 13.6362 4.16797 13.3192M13.0455 17.1239V14.6698C13.0693 14.3675 13.0285 14.0635 12.9257 13.7782C12.8229 13.4928 12.6606 13.2326 12.4495 13.0148C14.4406 12.7929 16.5331 12.0383 16.5331 8.57604C16.533 7.69071 16.1924 6.83933 15.582 6.19812C15.871 5.42355 15.8506 4.5674 15.5249 3.80752C15.5249 3.80752 14.7767 3.58558 13.0455 4.746C11.5922 4.35211 10.0601 4.35211 8.60675 4.746C6.87562 3.58558 6.12737 3.80752 6.12737 3.80752C5.80168 4.5674 5.78124 5.42355 6.0703 6.19812C5.4553 6.84409 5.11439 7.70316 5.11914 8.59506C5.11914 12.0319 7.2117 12.7865 9.20281 13.0338C8.99419 13.2494 8.83329 13.5065 8.7306 13.7884C8.6279 14.0703 8.5857 14.3706 8.60675 14.6698V17.1239"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
-        <a>
-          <svg
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5.14062 13.4312C8.87965 15.3007 11.1231 15.3007 14.8621 13.4312"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-            <path
-              d="M12.6173 14.5578L13.3651 16.0534C13.3651 16.0534 16.4845 15.0601 17.4781 13.4361C17.4781 12.6883 17.8745 7.34399 15.2346 5.58411C14.1129 4.83631 12.2434 4.4624 12.2434 4.4624L11.4956 5.95801H10"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-            <path
-              d="M7.40612 14.5578L6.65831 16.0534C6.65831 16.0534 3.53897 15.0601 2.54538 13.4361C2.54538 12.6883 2.14898 7.34399 4.7888 5.58411C5.91051 4.83631 7.78002 4.4624 7.78002 4.4624L8.52783 5.95801H10.0234"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-            <path
-              d="M7.3822 11.938C6.7627 11.938 6.26049 11.2684 6.26049 10.4424C6.26049 9.61639 6.7627 8.94678 7.3822 8.94678C8.0017 8.94678 8.50391 9.61639 8.50391 10.4424C8.50391 11.2684 8.0017 11.938 7.3822 11.938Z"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-            <path
-              d="M12.6205 11.938C12.001 11.938 11.4988 11.2684 11.4988 10.4424C11.4988 9.61639 12.001 8.94678 12.6205 8.94678C13.24 8.94678 13.7422 9.61639 13.7422 10.4424C13.7422 11.2684 13.24 11.938 12.6205 11.938Z"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
-        <a>
-          <svg
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.0542 6.95438C15.9822 6.66677 15.8356 6.40324 15.6292 6.19043C15.4227 5.97761 15.1638 5.82304 14.8785 5.74233C13.8361 5.48779 9.66667 5.48779 9.66667 5.48779C9.66667 5.48779 5.49719 5.48779 4.45482 5.76657C4.16953 5.84728 3.91059 6.00185 3.70416 6.21467C3.49772 6.42748 3.35111 6.69101 3.27912 6.97862C3.08835 8.03648 2.99504 9.10961 3.00035 10.1845C2.99355 11.2675 3.08687 12.3488 3.27912 13.4147C3.35848 13.6933 3.50838 13.9468 3.71434 14.1507C3.92029 14.3545 4.17533 14.5018 4.45482 14.5782C5.49719 14.857 9.66667 14.857 9.66667 14.857C9.66667 14.857 13.8361 14.857 14.8785 14.5782C15.1638 14.4975 15.4227 14.3429 15.6292 14.1301C15.8356 13.9173 15.9822 13.6538 16.0542 13.3662C16.2435 12.3163 16.3368 11.2513 16.333 10.1845C16.3398 9.10152 16.2465 8.02021 16.0542 6.95438Z"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-            <path
-              d="M8.3031 12.1662L11.7878 10.1845L8.3031 8.2028V12.1662Z"
-              stroke="#7E7E7E"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-6">
+          <a>
+            <svg
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.99136 4.4624H3.83984L13.6883 17.4624H16.8398L6.99136 4.4624Z"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linejoin="round"></path>
+              <path
+                d="M17.3948 4.96691C17.6734 4.66041 17.6508 4.18608 17.3443 3.90745C17.0379 3.62882 16.5635 3.6514 16.2849 3.9579L17.3948 4.96691ZM16.2849 3.9579L11.2849 9.4579L12.3948 10.4669L17.3948 4.96691L16.2849 3.9579Z"
+                fill="#7E7E7E"></path>
+              <path
+                d="M8.83984 12.4624L4.33984 17.4624"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a>
+            <svg
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8.60675 15.2215C5.43619 16.1727 5.43619 13.6362 4.16797 13.3192M13.0455 17.1239V14.6698C13.0693 14.3675 13.0285 14.0635 12.9257 13.7782C12.8229 13.4928 12.6606 13.2326 12.4495 13.0148C14.4406 12.7929 16.5331 12.0383 16.5331 8.57604C16.533 7.69071 16.1924 6.83933 15.582 6.19812C15.871 5.42355 15.8506 4.5674 15.5249 3.80752C15.5249 3.80752 14.7767 3.58558 13.0455 4.746C11.5922 4.35211 10.0601 4.35211 8.60675 4.746C6.87562 3.58558 6.12737 3.80752 6.12737 3.80752C5.80168 4.5674 5.78124 5.42355 6.0703 6.19812C5.4553 6.84409 5.11439 7.70316 5.11914 8.59506C5.11914 12.0319 7.2117 12.7865 9.20281 13.0338C8.99419 13.2494 8.83329 13.5065 8.7306 13.7884C8.6279 14.0703 8.5857 14.3706 8.60675 14.6698V17.1239"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a>
+            <svg
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.14062 13.4312C8.87965 15.3007 11.1231 15.3007 14.8621 13.4312"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M12.6173 14.5578L13.3651 16.0534C13.3651 16.0534 16.4845 15.0601 17.4781 13.4361C17.4781 12.6883 17.8745 7.34399 15.2346 5.58411C14.1129 4.83631 12.2434 4.4624 12.2434 4.4624L11.4956 5.95801H10"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M7.40612 14.5578L6.65831 16.0534C6.65831 16.0534 3.53897 15.0601 2.54538 13.4361C2.54538 12.6883 2.14898 7.34399 4.7888 5.58411C5.91051 4.83631 7.78002 4.4624 7.78002 4.4624L8.52783 5.95801H10.0234"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M7.3822 11.938C6.7627 11.938 6.26049 11.2684 6.26049 10.4424C6.26049 9.61639 6.7627 8.94678 7.3822 8.94678C8.0017 8.94678 8.50391 9.61639 8.50391 10.4424C8.50391 11.2684 8.0017 11.938 7.3822 11.938Z"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M12.6205 11.938C12.001 11.938 11.4988 11.2684 11.4988 10.4424C11.4988 9.61639 12.001 8.94678 12.6205 8.94678C13.24 8.94678 13.7422 9.61639 13.7422 10.4424C13.7422 11.2684 13.24 11.938 12.6205 11.938Z"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a>
+            <svg
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.0542 6.95438C15.9822 6.66677 15.8356 6.40324 15.6292 6.19043C15.4227 5.97761 15.1638 5.82304 14.8785 5.74233C13.8361 5.48779 9.66667 5.48779 9.66667 5.48779C9.66667 5.48779 5.49719 5.48779 4.45482 5.76657C4.16953 5.84728 3.91059 6.00185 3.70416 6.21467C3.49772 6.42748 3.35111 6.69101 3.27912 6.97862C3.08835 8.03648 2.99504 9.10961 3.00035 10.1845C2.99355 11.2675 3.08687 12.3488 3.27912 13.4147C3.35848 13.6933 3.50838 13.9468 3.71434 14.1507C3.92029 14.3545 4.17533 14.5018 4.45482 14.5782C5.49719 14.857 9.66667 14.857 9.66667 14.857C9.66667 14.857 13.8361 14.857 14.8785 14.5782C15.1638 14.4975 15.4227 14.3429 15.6292 14.1301C15.8356 13.9173 15.9822 13.6538 16.0542 13.3662C16.2435 12.3163 16.3368 11.2513 16.333 10.1845C16.3398 9.10152 16.2465 8.02021 16.0542 6.95438Z"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M8.3031 12.1662L11.7878 10.1845L8.3031 8.2028V12.1662Z"
+                stroke="#7E7E7E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+        </div>
+        <div class="md:hidden"><DarkModeToggle footer /></div>
       </div>
     </div>
     <div class="h-px w-full bg-[#3E3E3E]"></div>
@@ -187,7 +192,7 @@ import DarkModeToggle from "../dark-mode-toggle.astro";
         class="flex flex-wrap items-center justify-center gap-x-2 gap-y-4 xl:hidden"
       >
         <p
-          class="border-r border-[#7E7E7E] pr-2 text-center text-2xs font-medium text-[#7E7E7E]"
+          class="text-center text-2xs font-medium text-[#7E7E7E] md:border-r md:border-[#7E7E7E] md:pr-2"
         >
           © Akash Network {new Date().getFullYear()} The Akash Network Authors
           Documentation Distributed under CC BY 4.0
@@ -206,7 +211,7 @@ import DarkModeToggle from "../dark-mode-toggle.astro";
           Privacy
         </p>
       </div>
-      <DarkModeToggle footer />
+      <div class="hidden md:block"><DarkModeToggle footer /></div>
     </div>
   </footer>
 </div>

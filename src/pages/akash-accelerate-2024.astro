@@ -42,7 +42,7 @@ const speakers = [
   description="Akash Accelerate is a full-day summit that will bring together the entire ecosystem for a packed agenda of talks, panels, and discussions exploring the future of decentralized compute and open-source AI."
   image="/meta-images/acc-2024.png"
 >
-  <div>
+  <div class="overflow-x-hidden">
     <div>
       <section class="hidden aspect-[16/6] items-center justify-center md:flex">
         <Image
@@ -62,16 +62,18 @@ const speakers = [
           class="object-contain md:hidden"
         />
       </section>
-      <button class="w-full bg-primary py-4 text-3xl font-bold text-white">
+      <button
+        class="w-full bg-primary py-4 text-2xl font-bold text-white md:text-3xl"
+      >
         Register Now</button
       >
     </div>
     <div
-      class="container flex flex-col items-center justify-center gap-[120px] py-[120px]"
+      class="container flex flex-col items-center justify-center gap-[72px] py-10 md:gap-[120px] md:py-[120px]"
     >
       <div class="flex flex-col items-center justify-center gap-12">
         <About />
-        <p class="max-w-4xl text-center text-2xl">
+        <p class="max-w-4xl text-center text-xl md:text-2xl">
           Akash Accelerate is a full-day summit that will bring together the
           entire ecosystem for a packed agenda of talks, panels, and discussions
           exploring the future of decentralized compute and open-source AI.
@@ -79,17 +81,17 @@ const speakers = [
       </div>
       <div class="flex w-full flex-col items-center justify-center gap-12">
         <Speakers />
-        <div class="grid w-full grid-cols-4 gap-5">
+        <div class="grid w-full grid-cols-2 gap-5 md:grid-cols-4">
           {
             speakers.map((speaker) => (
               <div class="flex w-full flex-col gap-5">
-                <div class="flex aspect-[16/10] w-full items-center  justify-center rounded-md border bg-white p-6">
+                <div class="flex aspect-square w-full items-center justify-center  rounded-md border bg-white p-6 md:aspect-[16/10]">
                   <Image
                     src={speaker.image}
                     alt={speaker.name}
                     width="200"
                     height="200"
-                    class="h-[80%] w-[80%] rounded-full object-contain"
+                    class="h-full w-full rounded-full object-contain md:h-[80%] md:w-[80%]"
                   />
                 </div>
                 <div class="flex flex-col gap-2.5">
@@ -112,14 +114,17 @@ const speakers = [
                           stroke="#687076"
                           stroke-width="1.5"
                           stroke-linejoin="round"
+                          class="stroke-para"
                         />
                         <path
                           d="M17.3948 4.96691C17.6734 4.66041 17.6508 4.18608 17.3443 3.90745C17.0379 3.62882 16.5635 3.6514 16.2849 3.9579L17.3948 4.96691ZM16.2849 3.9579L11.2849 9.4579L12.3948 10.4669L17.3948 4.96691L16.2849 3.9579Z"
                           fill="#687076"
+                          class="fill-para"
                         />
                         <path
                           d="M8.83984 12.4624L4.33984 17.4624"
                           stroke="#687076"
+                          class="stroke-para"
                           stroke-width="1.5"
                           stroke-linecap="round"
                           stroke-linejoin="round"
@@ -135,7 +140,7 @@ const speakers = [
         <a
           href="https://akashnet.typeform.com/to/bj9Bu7Ax?typeform-source=akash.hooman.digital"
           target="_blank"
-          class="rounded-md bg-primary px-8 py-4 text-xl font-bold text-white"
+          class="rounded-md bg-primary px-8 py-3 text-base font-bold text-white md:py-4 md:text-xl"
           >Interested in speaking? Apply Now!</a
         >
       </div>
@@ -157,7 +162,9 @@ const speakers = [
             height="1080"
             class="w-full rounded-md object-contain"
           />
-          <p class="text-center text-primary">
+          <p
+            class="text-center text-sm text-primary dark:text-white md:text-base"
+          >
             ATELIER 1205, 1205 E Cesar Chavez St., AUSTIN - TEXAS, 78702
           </p>
         </div>
@@ -165,7 +172,7 @@ const speakers = [
     </div>
   </div>
   <div class="flex flex-col items-center justify-center gap-4 bg-primary py-20">
-    <h1 class="text-xl font-medium text-white">
+    <h1 class="container px-6 text-center text-xl font-medium text-white">
       Stay in touch about Akash Accelerate 2024
     </h1>
     <a
