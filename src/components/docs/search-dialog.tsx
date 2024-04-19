@@ -4,8 +4,6 @@ import { Fragment, useEffect, useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2 } from "lucide-react";
 
-import Fuse from "fuse.js"; // Import the Fuse.js library
-
 // Define a TypeScript interface for the project data
 interface Docs {
   title: string;
@@ -23,11 +21,6 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   const [error, setError] = useState<string | null>(null); // Error can be a string or null
   const [searchQuery, setSearchQuery] = useState<string>(""); // State for the search query
   console.log(filteredProjects);
-
-  // Fuse.js options for searching projectTitle and projectDescription
-  const fuseOptions = {
-    keys: ["title", "body"],
-  };
 
   // Function to close the modal
   function closeModal() {
@@ -71,12 +64,13 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     const query = event.target.value;
     setSearchQuery(query);
 
-    // Use Fuse.js to filter projects based on the search query
-    const fuse = new Fuse(collectionData, fuseOptions);
-    const results = fuse.search(query);
-    console.log(results);
+    const lowerQuery = query.toLowerCase();
 
-    const filteredResults = results.map((result) => result.item);
+    // Filter projects based on the search query
+    const filteredResults = collectionData.filter((item: Docs) =>
+      item.title.toLowerCase().includes(lowerQuery) ||
+      item.body.toLowerCase().includes(lowerQuery)
+    )
 
     // Show all filtered projects when the search query is not empty
     setFilteredProjects(
@@ -96,7 +90,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  });
+  }, []);
 
   return (
     <>
@@ -175,6 +169,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                   <input
                     className="focus:border-primary/40 w-full rounded-lg border px-4 py-2 outline-none dark:bg-background "
                     placeholder="Search documentation"
+                    disabled={isLoading}
                     value={searchQuery}
                     onChange={handleSearchInput}
                   />
