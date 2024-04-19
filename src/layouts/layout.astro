@@ -57,9 +57,10 @@ const pathname = Astro.url.pathname;
   <!-- Site Footer -->
 
   <div
-    class={clsx("mt-20", {
-      hidden: pathname === "/akash-accelerate-2024",
-    })}
+    class={clsx(
+      "mt-20",
+      pathname.includes("akash-accelerate-2024") ? "hidden" : "block",
+    )}
   >
     <CTA />
     <Footer />
