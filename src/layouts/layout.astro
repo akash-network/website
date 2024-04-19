@@ -22,6 +22,7 @@ interface Props {
 }
 
 const { title, description, image, advert } = Astro.props;
+const pathname = Astro.url.pathname;
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -54,7 +55,7 @@ const { title, description, image, advert } = Astro.props;
 
   <!-- Site Footer -->
 
-  <div class="mt-20">
+  <div class="mt-20" hidden={pathname === "/akash-accelerate-2024"}>
     <CTA />
     <Footer />
   </div>
