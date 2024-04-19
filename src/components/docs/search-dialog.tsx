@@ -27,6 +27,9 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   // Fuse.js options for searching projectTitle and projectDescription
   const fuseOptions = {
     keys: ["title", "body"],
+    threshold: 0.3,
+    includeScore: true,
+    minMatchCharLength: 2
   };
 
   // Function to close the modal
@@ -219,7 +222,8 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   );
 }
 
-const HighlightedText = ({ text, query }: any) => {
+const HighlightedText = ({ text, query: originQuery }: any) => {
+  const query = originQuery.trim();
   const parts = text.split(new RegExp(`(${query})`, "gi"));
   console.log(parts);
 
