@@ -5,6 +5,7 @@ import About from "@/components/accelerate/about.astro";
 import Speakers from "@/components/accelerate/speakers.astro";
 import Show from "@/components/accelerate/show.astro";
 import Table from "@/components/accelerate/table.astro";
+import BlurTable from "@/components/accelerate/blur-table.astro";
 const speakers = [
   {
     name: "Greg Osuri",
@@ -137,7 +138,10 @@ const speakers = [
       </div>
       <div class="flex w-full flex-col items-center justify-center gap-12">
         <Show />
-        <Table />
+        <div class="flex flex-col gap-4">
+          <Table />
+          <BlurTable />
+        </div>
       </div>
     </div>
   </div>
