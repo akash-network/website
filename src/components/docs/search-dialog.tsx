@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2 } from "lucide-react";
@@ -20,6 +20,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null); // Error can be a string or null
   const [searchQuery, setSearchQuery] = useState<string>(""); // State for the search query
+  const searchInputRef = useRef<HTMLInputElement>(null);
   console.log(filteredProjects);
 
   // Function to close the modal
@@ -34,6 +35,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 
   useEffect(() => {
     if (isOpen) {
+      setSearchQuery("");
       setIsLoading(true);
       setError(null); // Reset error state before fetching data
 
@@ -58,6 +60,13 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
         });
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (searchInputRef.current)
+        searchInputRef.current.focus();
+    }
+  }, [isLoading])
 
   // Function to handle search input changes
   function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -171,6 +180,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                     placeholder="Search documentation"
                     disabled={isLoading}
                     value={searchQuery}
+                    ref={searchInputRef}
                     onChange={handleSearchInput}
                   />
 
