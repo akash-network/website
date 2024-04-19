@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 import About from "@/components/accelerate/about.astro";
 import Speakers from "@/components/accelerate/speakers.astro";
 import Show from "@/components/accelerate/show.astro";
-
+import Table from "@/components/accelerate/table.astro";
 const speakers = [
   {
     name: "Greg Osuri",
@@ -137,6 +137,7 @@ const speakers = [
       </div>
       <div class="flex w-full flex-col items-center justify-center gap-12">
         <Show />
+        <Table />
       </div>
     </div>
   </div>
