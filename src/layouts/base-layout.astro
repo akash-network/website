@@ -28,7 +28,7 @@ const isProd = import.meta.env.PROD;
   class="scroll-pt-[137px] scroll-smooth"
 >
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) tag1-->
     <script
       is:inline
       async
@@ -41,6 +41,20 @@ const isProd = import.meta.env.PROD;
       gtag("js", new Date());
 
       gtag("config", "G-GL5HS9J1PR");
+    </script>
+    <!-- Google tag (gtag.js) tag2-->
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-LFRGN2J2RV"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-LFRGN2J2RV");
     </script>
     <!-- Google Tag Manager -->
     <script is:inline>
