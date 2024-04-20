@@ -1,8 +1,40 @@
 ---
 import Layout from "@/layouts/layout.astro";
 import { Image } from "astro:assets";
-import HoverImage from "@/components/animated-components/hover-img";
-import MarqueeButton from "@/components/animated-components/marquee-buttons";
+import About from "@/components/accelerate/about.astro";
+import Speakers from "@/components/accelerate/speakers.astro";
+import Show from "@/components/accelerate/show.astro";
+import Table from "@/components/accelerate/table.astro";
+import BlurTable from "@/components/accelerate/blur-table.astro";
+import Tablebottom from "@/components/accelerate/tablebottom.astro";
+import Location from "@/components/accelerate/location.astro";
+import Footer from "@/components/accelerate/footer.astro";
+const speakers = [
+  {
+    name: "Greg Osuri",
+    title: "CEO, Overclock Labs -",
+    twitter: "https://twitter.com/gregosuri",
+    image: "/images/accelerate/1.png",
+  },
+  {
+    name: "Anil Murty",
+    title: "VP of Product, Overclock Labs -",
+    twitter: "https://twitter.com/_Anil_Murty_",
+    image: "/images/accelerate/2.png",
+  },
+  {
+    name: "Cheng Wang",
+    title: "CFO, Overclock Labs -",
+    twitter: "https://twitter.com/LeChenghiskhan",
+    image: "/images/accelerate/3.png",
+  },
+  {
+    name: "Tyler Wright",
+    title: "MD, Overclock Labs - ",
+
+    image: "/images/accelerate/4.png",
+  },
+];
 ---
 
 <Layout
@@ -10,112 +42,147 @@ import MarqueeButton from "@/components/animated-components/marquee-buttons";
   description="Akash Accelerate is a full-day summit that will bring together the entire ecosystem for a packed agenda of talks, panels, and discussions exploring the future of decentralized compute and open-source AI."
   image="/meta-images/acc-2024.png"
 >
-  <div
-    class="mt-16 flex flex-col items-center justify-center gap-10 md:mt-[120px]"
-  >
-    <p
-      class="container text-center text-sm font-medium text-primary dark:text-white md:text-xl"
-    >
-      May 28th 2024
-    </p>
-    <Image
-      src="/images/akash-accelerate.svg"
-      alt="Akash Accelerate 2024"
-      class="container w-full max-w-[627px] object-contain dark:hidden"
-      width={300}
-      height={300}
-    />
-    <Image
-      src="/images/acc-dark.svg"
-      alt="Akash Accelerate 2024"
-      class="container hidden w-full max-w-[627px] object-contain dark:block"
-      width={300}
-      height={300}
-    />
-    <p
-      class="container max-w-[873px] text-center text-sm text-primary dark:text-white md:mt-4 md:text-2xl"
-    >
-      Akash Accelerate is a full-day summit that will bring together the entire
-      ecosystem for a packed agenda of talks, panels, and discussions exploring
-      the future of decentralized compute and open-source AI.
-    </p>
-    <div class="mt-4 flex flex-col items-center gap-10 md:flex-row md:gap-5">
-      <HoverImage client:load img="/images/akash-cta.gif">
-        <a
-          href="https://lu.ma/akashaccelerate24"
-          target="_blank"
-          class="rounded-md border border-primary px-8 py-2.5 font-medium text-primary transition-all duration-300 hover:shadow-md dark:border-badgeColor dark:text-iconText dark:hover:bg-background2 md:mt-4"
-          >Save the date</a
-        >
-      </HoverImage>
-      <HoverImage client:load img="/images/cta-speaker.gif" direction="right">
-        <a
-          href="https://akashnet.typeform.com/to/bj9Bu7Ax"
-          target="_blank"
-          class="rounded-md border border-primary px-8 py-2.5 font-medium text-primary transition-all duration-300 hover:shadow-md dark:border-badgeColor dark:text-iconText dark:hover:bg-background2 md:mt-4"
-          >Speaker application</a
-        >
-      </HoverImage>
-    </div>
-    <MarqueeButton />
-    <div class="mx-auto">
-      <svg
-        width="28"
-        height="17"
-        class="h-[14px] first-letter:w-[21px] md:h-[17px] md:w-[28px]"
-        viewBox="0 0 28 17"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+  <div class="overflow-x-hidden">
+    <div>
+      <section class="hidden aspect-[16/6] items-center justify-center md:flex">
+        <Image
+          src="/images/venue.png"
+          alt="Akash Accelerate 2024"
+          width="1920"
+          height="1080"
+          class="hidden object-cover md:block"
+        />
+      </section>
+      <section class="flex aspect-[9/15] items-center justify-center md:hidden">
+        <Image
+          src="/images/venueMobile.png"
+          alt="Akash Accelerate 2024"
+          width="1920"
+          height="1080"
+          class="object-contain md:hidden"
+        />
+      </section>
+      <button
+        class="w-full bg-primary py-4 text-2xl font-bold text-white md:text-3xl"
       >
-        <path
-          d="M13.9995 16.6685L0.409931 0.833904L27.5891 0.833906L13.9995 16.6685Z"
-          fill="#FF414C"
-          class="dark:fill-[#BBB]"></path>
-      </svg>
+        Register Now</button
+      >
     </div>
-    <HoverImage client:load img="/images/akash-acc-event.gif">
-      <a target="_blank" href="https://www.atelier1205.com">
-        <p
-          class="rounded-md border-primary px-10 py-5 text-center uppercase leading-7 tracking-widest text-primary underline underline-offset-4 transition-shadow duration-300 hover:border hover:border-primary hover:shadow-md dark:border-badgeColor dark:text-iconText dark:transition-all dark:hover:bg-background2"
-        >
-          ATELIER 1205 <br />
-           1205 E Cesar Chavez St.<br />
-           AUSTIN - TEXAS<br />
-           78702
-        </p>
-      </a>
-    </HoverImage>
-    <!-- <div
-      class="mx-auto my-8 h-[48px] w-px bg-primary dark:bg-badgeColor md:my-14 md:h-[96px]"
+    <div
+      class="container flex flex-col items-center justify-center gap-[72px] py-10 md:gap-[120px] md:py-[120px]"
     >
+      <div class="flex flex-col items-center justify-center gap-12">
+        <About />
+        <p class="max-w-4xl text-center text-xl md:text-2xl">
+          Akash Accelerate is a full-day summit that will bring together the
+          entire ecosystem for a packed agenda of talks, panels, and discussions
+          exploring the future of decentralized compute and open-source AI.
+        </p>
+      </div>
+      <div class="flex w-full flex-col items-center justify-center gap-12">
+        <Speakers />
+        <div class="grid w-full grid-cols-2 gap-5 md:grid-cols-4">
+          {
+            speakers.map((speaker) => (
+              <div class="flex w-full flex-col gap-5">
+                <div class="flex aspect-square w-full items-center justify-center  rounded-md border bg-white p-6 md:aspect-[16/10]">
+                  <Image
+                    src={speaker.image}
+                    alt={speaker.name}
+                    width="200"
+                    height="200"
+                    class="h-full w-full rounded-full object-contain md:h-[80%] md:w-[80%]"
+                  />
+                </div>
+                <div class="flex flex-col gap-2.5">
+                  <h1 class=" font-bold">{speaker.name}</h1>
+                  <p class="text-sm ">
+                    {speaker.title} <br />
+                    Creators of Akash Network
+                  </p>
+                  {speaker.twitter && (
+                    <a href={speaker.twitter} target="_blank">
+                      <svg
+                        width="20"
+                        height="21"
+                        viewBox="0 0 20 21"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.99136 4.4624H3.83984L13.6883 17.4624H16.8398L6.99136 4.4624Z"
+                          stroke="#687076"
+                          stroke-width="1.5"
+                          stroke-linejoin="round"
+                          class="stroke-para"
+                        />
+                        <path
+                          d="M17.3948 4.96691C17.6734 4.66041 17.6508 4.18608 17.3443 3.90745C17.0379 3.62882 16.5635 3.6514 16.2849 3.9579L17.3948 4.96691ZM16.2849 3.9579L11.2849 9.4579L12.3948 10.4669L17.3948 4.96691L16.2849 3.9579Z"
+                          fill="#687076"
+                          class="fill-para"
+                        />
+                        <path
+                          d="M8.83984 12.4624L4.33984 17.4624"
+                          stroke="#687076"
+                          class="stroke-para"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <a
+          href="https://akashnet.typeform.com/to/bj9Bu7Ax?typeform-source=akash.hooman.digital"
+          target="_blank"
+          class="rounded-md bg-primary px-8 py-3 text-base font-bold text-white md:py-4 md:text-xl"
+          >Interested in speaking? Apply Now!</a
+        >
+      </div>
+      <div class="flex w-full flex-col items-center justify-center gap-12">
+        <Show />
+        <div class="flex flex-col gap-4">
+          <Table />
+          <BlurTable />
+          <Tablebottom />
+        </div>
+      </div>
+      <div class="flex w-full flex-col items-center justify-center gap-12">
+        <Location />
+        <div class="flex max-w-[929px] flex-col gap-5">
+          <Image
+            src="/images/accelerate/location.png"
+            alt="Akash Accelerate 2024"
+            width="1920"
+            height="1080"
+            class="w-full rounded-md object-contain"
+          />
+          <p
+            class="text-center text-sm text-primary dark:text-white md:text-base"
+          >
+            ATELIER 1205, 1205 E Cesar Chavez St., AUSTIN - TEXAS, 78702
+          </p>
+        </div>
+      </div>
     </div>
-
-    <div class="container grid w-full gap-5 md:mb-14 md:grid-cols-3 md:gap-10">
-      {
-        [
-          {
-            title: "Speaker List",
-            description: "Coming Soon...",
-          },
-          {
-            title: "Panels",
-            description: "Coming Soon...",
-          },
-          {
-            title: "Schedule",
-            description: "Coming Soon...",
-          },
-        ].map((item, index) => (
-          <div class="flex flex-col items-center gap-2 rounded-md border px-5 py-10 md:py-20">
-            <h1 class="text-xl font-bold text-primary dark:text-white">
-              {item.title}
-            </h1>
-            <p class="text-center text-sm font-medium  text-linkText">
-              {item.description}
-            </p>
-          </div>
-        ))
-      }
-    </div> -->
   </div>
+  <div class="flex flex-col items-center justify-center gap-4 bg-primary py-20">
+    <h1 class="container px-6 text-center text-xl font-medium text-white">
+      Stay in touch about Akash Accelerate 2024
+    </h1>
+    <a
+      href="https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network"
+      target="_blank"
+      class="rounded-md bg-white px-8 py-2.5 font-medium text-primary"
+    >
+      Subscribe Now
+    </a>
+  </div>
+
+  <Footer />
 </Layout>

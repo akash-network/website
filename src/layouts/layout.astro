@@ -10,6 +10,7 @@ import { ViewTransitions } from "astro:transitions";
 import CTA from "@/components/CTA.astro";
 import AsideTailwindClasses from "@/lib/aside/aside-tailwind-classes.astro";
 import BaseLayout from "./base-layout.astro";
+import clsx from "clsx";
 
 interface Props {
   title: string;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const { title, description, image, advert } = Astro.props;
+const pathname = Astro.url.pathname;
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -54,7 +56,12 @@ const { title, description, image, advert } = Astro.props;
 
   <!-- Site Footer -->
 
-  <div class="mt-20">
+  <div
+    class={clsx(
+      "mt-20",
+      pathname.includes("akash-accelerate-2024") ? "hidden" : "block",
+    )}
+  >
     <CTA />
     <Footer />
   </div>
