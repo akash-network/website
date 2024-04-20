@@ -9,6 +9,8 @@ import BlurTable from "@/components/accelerate/blur-table.astro";
 import Tablebottom from "@/components/accelerate/tablebottom.astro";
 import Location from "@/components/accelerate/location.astro";
 import Footer from "@/components/accelerate/footer.astro";
+import Spearker from "@/components/accelerate/spearker.astro";
+import BluredSpeaker from "@/components/accelerate/blured-speaker.astro";
 const speakers = [
   {
     name: "Greg Osuri",
@@ -29,10 +31,40 @@ const speakers = [
     image: "/images/accelerate/3.png",
   },
   {
+    name: "Scott Hewie",
+    title: "CEO, Overclock Labs",
+    blured: true,
+    image: "/images/accelerate/9.png",
+  },
+  {
+    name: "Adam Wozney",
+    title: "VP of Product, Overclock Labs - ",
+    blured: true,
+    image: "/images/accelerate/7.png",
+  },
+  {
+    name: "Denis Lelic",
+    title: "CFO, Overclock Labs ",
+    blured: true,
+    image: "/images/accelerate/6.png",
+  },
+  {
     name: "Tyler Wright",
     title: "MD, Overclock Labs - ",
-
+    blured: true,
     image: "/images/accelerate/4.png",
+  },
+  {
+    name: "Anil Murty",
+    title: "MD, Overclock Labs - ",
+    blured: true,
+    image: "/images/accelerate/8.png",
+  },
+  {
+    name: "Cheng Wang",
+    title: "MD, Overclock Labs - ",
+    blured: true,
+    image: "/images/accelerate/5.png",
   },
 ];
 ---
@@ -53,7 +85,7 @@ const speakers = [
           class="hidden object-cover md:block"
         />
       </section>
-      <section class="flex aspect-[9/15] items-center justify-center md:hidden">
+      <section class="flex aspect-[9/13] items-center justify-center md:hidden">
         <Image
           src="/images/venueMobile.png"
           alt="Akash Accelerate 2024"
@@ -81,61 +113,18 @@ const speakers = [
       </div>
       <div class="flex w-full flex-col items-center justify-center gap-12">
         <Speakers />
-        <div class="grid w-full grid-cols-2 gap-5 md:grid-cols-4">
+
+        <div
+          class="relative grid w-full max-w-4xl grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-3 md:gap-6"
+        >
           {
-            speakers.map((speaker) => (
-              <div class="flex w-full flex-col gap-5">
-                <div class="flex aspect-square w-full items-center justify-center  rounded-md border bg-white p-6 md:aspect-[16/10]">
-                  <Image
-                    src={speaker.image}
-                    alt={speaker.name}
-                    width="200"
-                    height="200"
-                    class="h-full w-full rounded-full object-contain md:h-[80%] md:w-[80%]"
-                  />
-                </div>
-                <div class="flex flex-col gap-2.5">
-                  <h1 class=" font-bold">{speaker.name}</h1>
-                  <p class="text-sm ">
-                    {speaker.title} <br />
-                    Creators of Akash Network
-                  </p>
-                  {speaker.twitter && (
-                    <a href={speaker.twitter} target="_blank">
-                      <svg
-                        width="20"
-                        height="21"
-                        viewBox="0 0 20 21"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6.99136 4.4624H3.83984L13.6883 17.4624H16.8398L6.99136 4.4624Z"
-                          stroke="#687076"
-                          stroke-width="1.5"
-                          stroke-linejoin="round"
-                          class="stroke-para"
-                        />
-                        <path
-                          d="M17.3948 4.96691C17.6734 4.66041 17.6508 4.18608 17.3443 3.90745C17.0379 3.62882 16.5635 3.6514 16.2849 3.9579L17.3948 4.96691ZM16.2849 3.9579L11.2849 9.4579L12.3948 10.4669L17.3948 4.96691L16.2849 3.9579Z"
-                          fill="#687076"
-                          class="fill-para"
-                        />
-                        <path
-                          d="M8.83984 12.4624L4.33984 17.4624"
-                          stroke="#687076"
-                          class="stroke-para"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))
+            speakers
+              .filter((speaker) => !speaker.blured)
+              .map((speaker) => <Spearker speaker={speaker} />)
           }
+          <BluredSpeaker
+            speakers={speakers.filter((speaker) => speaker.blured)}
+          />
         </div>
         <a
           href="https://akashnet.typeform.com/to/bj9Bu7Ax?typeform-source=akash.hooman.digital"
@@ -152,7 +141,7 @@ const speakers = [
           <Tablebottom />
         </div>
       </div>
-      <div class="flex w-full flex-col items-center justify-center gap-12">
+      <!-- <div class="flex w-full flex-col items-center justify-center gap-12">
         <Location />
         <div class="flex max-w-[929px] flex-col gap-5">
           <Image
@@ -168,7 +157,7 @@ const speakers = [
             ATELIER 1205, 1205 E Cesar Chavez St., AUSTIN - TEXAS, 78702
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="flex flex-col items-center justify-center gap-4 bg-primary py-20">
