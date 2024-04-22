@@ -39,6 +39,7 @@ const TokenMetricsSection = ({
                   ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               isLoading={isLoading}
+              isNumber={data?.market_data?.circulating_supply}
             />
           </div>
 
@@ -57,6 +58,7 @@ const TokenMetricsSection = ({
                   ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               isLoading={isLoading}
+              isNumber={data?.market_data?.total_supply}
             />
           </div>
 
@@ -74,6 +76,7 @@ const TokenMetricsSection = ({
                   ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               isLoading={isLoading}
+              isNumber={data?.market_data?.max_supply}
             />
           </div>
 
@@ -91,6 +94,7 @@ const TokenMetricsSection = ({
                   ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
               }
               isLoading={isLoading}
+              isNumber={data?.market_data?.current_price.usd}
             />
           </div>
 
@@ -108,6 +112,7 @@ const TokenMetricsSection = ({
                   ?.split(".")[0]
                   ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
               }
+              isNumber={data?.market_data?.market_cap.usd}
             />
           </div>
 
@@ -124,6 +129,7 @@ const TokenMetricsSection = ({
                   ?.toString()
                   ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
               }
+              isNumber={data?.market_data?.total_volume.usd}
               isLoading={isLoading}
             />
           </div>
@@ -151,10 +157,12 @@ const Skeleton = ({
   isLoading,
   isError,
   number,
+  isNumber,
 }: {
   isLoading: boolean;
   number?: string;
   isError: boolean;
+  isNumber?: number;
 }) => {
   //when loading show this instead of number
   return (
@@ -162,10 +170,10 @@ const Skeleton = ({
       {" "}
       {isLoading || isError ? (
         <span className=" block h-8 animate-pulse rounded bg-gray-300"></span>
+      ) : isNumber ? (
+        number
       ) : (
-        number ?? (
-          <span className=" block h-8 animate-pulse rounded bg-gray-300"></span>
-        )
+        <span className=" block h-8 animate-pulse rounded bg-gray-300"></span>
       )}
     </h4>
   );

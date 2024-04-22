@@ -9,25 +9,54 @@ interface Props {
 const { heroSection } = Astro.props;
 ---
 
-<section class="container my-10">
-  <div class="border-b border-paraDark pb-[80px] pt-10 md:py-[120px]">
+<section class="container mb-10 md:my-10">
+  <div
+    class="border-b border-paraDark pb-[80px] pt-10 md:pb-[120px] md:pt-[64px]"
+  >
     <!-- title  -->
 
+    <a
+      class="mx-auto flex w-fit items-center gap-2 rounded-md border border-primary px-4 py-2 text-sm font-medium text-primary transition-all duration-300 hover:shadow-md dark:border-badgeColor dark:text-white dark:hover:bg-background2 md:px-6 md:text-base"
+      href="/akash-accelerate-2024"
+    >
+      Akash Accelerate 2024 - Save the Date
+      <svg
+        width="17"
+        height="16"
+        viewBox="0 0 17 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3.83594 8H13.1693"
+          stroke="#FF414C"
+          class="dark:stroke-white"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+        <path
+          d="M8.5 3.33334L13.1667 8.00001L8.5 12.6667"
+          stroke="#FF414C"
+          stroke-linecap="round"
+          class="dark:stroke-white"
+          stroke-linejoin="round"></path>
+      </svg>
+    </a>
+
     <h1
-      class="mx-auto text-center text-3lg font-medium leading-[52px] md:text-6xl lg:text-7xl lg:leading-[93.6px]"
+      class="mx-auto mt-10 text-center text-3lg font-medium leading-[52px] md:mt-6 md:text-6xl lg:text-7xl lg:leading-[93.6px]"
       set:html={heroSection.title}
     />
 
     <!-- description -->
     <p
-      class="mx-auto mt-[72px] max-w-[862px] text-center text-base leading-[24px] md:mt-6 md:text-xl md:leading-[28px]"
+      class="mx-auto mt-10 max-w-[862px] text-center text-base leading-[24px] md:mt-6 md:text-xl md:leading-[28px]"
     >
       {heroSection.description}
     </p>
     <!-- buttons -->
 
     <div
-      class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-16 lg:grid-cols-3"
+      class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"
     >
       {
         heroSection.cards.map((card, index) => (

@@ -7,15 +7,15 @@
     --background: 30 17% 98%;
     --foreground: 202 24% 9%;
     --para: 206 6% 44%;
-    --para-dark : 216 11% 91%;
+    --para-dark: 216 11% 91%;
     --card-gray: 206 6% 52%;
-    --background2 : 0 0% 100%;
+    --background2: 0 0% 100%;
     --light-foreground: 0 0% 50%;
-    --sort-text : 206 6% 56%;
-    --link-text : 206 6% 52%;
+    --sort-text: 206 6% 56%;
+    --link-text: 206 6% 52%;
 
     /* primary colors */
-    --primary: #FF414C;
+    --primary: #ff414c;
     --primary-foreground: 0 0% 100%;
 
     /* secondary colors */
@@ -27,10 +27,10 @@
     --secondary-lavender: 253 73% 90%;
     --secondary-mint: 101 38% 81%;
     --secondary-red: 7 60% 57%;
-    --text-gray:217 19% 27%;
+    --text-gray: 217 19% 27%;
     --border: 216 12% 84%;
-    --badge-color :220 14% 96%;
-    --icon-text : 215 14% 34%;
+    --badge-color: 220 14% 96%;
+    --icon-text: 215 14% 34%;
     /* neutral colors  */
     --gray: 0, 0% 59% 1;
     --gray-100: 0 0% 94%;
@@ -40,105 +40,79 @@
     --gray-500: 0 0% 47%;
     --gray-600: 0 0% 35%;
     --gray-700: 0 0% 24%;
-    --dark-gray : 0 0% 23%;
-    --default-border : 216,11%,91%;
-
+    --dark-gray: 0 0% 23%;
+    --default-border: 216, 11%, 91%;
 
     /* code */
-  
-    --theme-header-bg : #c1c8cd;
-    --three-dots-bg :#d1d5db;
-    
 
+    --theme-header-bg: #c1c8cd;
+    --three-dots-bg: #d1d5db;
 
     /* code */
     /* .ec-theme-dark-plus {
       display: none !important;
     } */
-    
-    
   }
 
   .dark {
     --background: 0, 0%, 11%;
     --foreground: 0, 0%, 93%;
-    --background2 : 0 0% 14%;
-    --light-foreground:15, 33%, 98%;
+    --background2: 0 0% 14%;
+    --light-foreground: 15, 33%, 98%;
     /* primary colors */
     --para: 0 0% 73%;
     --para-dark: 0 0% 50%;
-    --primary: #FF414C;
+    --primary: #ff414c;
     --primary-foreground: 0, 0%, 100%;
-    --text-gray:30 17% 98%;
-    --border :0 0% 50%;
-    --sort-text : 30 17% 98%;
-    --badge-color :0 0% 24%;
-    --icon-text : 0 0% 73%;
-    --link-text : 0 0% 49%;
+    --text-gray: 30 17% 98%;
+    --border: 0 0% 50%;
+    --sort-text: 30 17% 98%;
+    --badge-color: 0 0% 24%;
+    --icon-text: 0 0% 73%;
+    --link-text: 0 0% 49%;
     /* code */
-   
-    --theme-header-bg : #3c3c3c;
-    --three-dots-bg :#515151;
-    --default-border : 0 0% 18%;
 
-  
-   
+    --theme-header-bg: #3c3c3c;
+    --three-dots-bg: #515151;
+    --default-border: 0 0% 18%;
   }
 }
-
-
-
-
-
-
-
 
 @layer components {
   .container {
     @apply mx-auto max-w-[1280px] self-center  px-[16px] md:px-[20px] lg:px-[40px] 2xl:max-w-[1440px] 2xl:px-[20px] 3xl:max-w-[1600px] 3xl:px-[30px];
   }
   .border,
-    .border-r,
-    .border-l,
-    .border-t,
-    .border-b,
-    .border-x,
-    .border-y {
+  .border-r,
+  .border-l,
+  .border-t,
+  .border-b,
+  .border-x,
+  .border-y {
     @apply border-[hsl(216,11%,91%)] dark:border-[hsl(0,0%,18%)];
   }
-
-
 
   .sidebar-scroll {
     /* scrollbar-width: thin; 
     scrollbar-color: #a3a3a3 #fbf8f7;  */
-  
-    
   }
-  
+
   .sidebar-scroll::-webkit-scrollbar {
-    width: 4px; 
-    height: 4px; 
+    width: 4px;
+    height: 4px;
   }
-  
+
   .sidebar-scroll::-webkit-scrollbar-thumb {
-   
-   
-    background-color:  #d9d9d9; 
+    background-color: #d9d9d9;
     border-radius: 10px;
 
-    @apply dark:bg-[hsl(0,0%,24%)]
-    
-    
-  }
-  
-  .sidebar-scroll::-webkit-scrollbar-track {
-    background-color: #fbf8f7; 
-    @apply dark:bg-background
-    
+    @apply dark:bg-[hsl(0,0%,24%)];
   }
 
-  
+  .sidebar-scroll::-webkit-scrollbar-track {
+    background-color: #fbf8f7;
+    @apply dark:bg-background;
+  }
 }
 
 @layer base {
@@ -154,14 +128,7 @@
   h3 {
     @apply text-foreground dark:text-foreground;
   }
-
-
-
-  
 }
-
-
-
 
 /* .ec-theme-dark-plus */
 /* .ec-theme-light-plus */
@@ -181,3 +148,63 @@
   }
 } */
 
+/* button animation */
+
+.button--bestia .button__bg {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+}
+
+.button--bestia:hover .button__bg {
+  transform: scale3d(1.2, 1.2, 1);
+}
+
+.button--bestia .button__bg::before,
+.button--bestia .button__bg::after {
+  content: "";
+  position: absolute;
+  background: #000;
+}
+
+.button--bestia .button__bg::before {
+  width: 110%;
+  height: 0;
+  padding-bottom: 110%;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1);
+}
+
+.button--bestia:hover .button__bg::before {
+  transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+  transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+}
+
+.button--bestia .button__bg::after {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.button--bestia:hover .button__bg::after {
+  opacity: 1;
+  transition-duration: 0.01s;
+  transition-delay: 0.3s;
+}
+
+.button--bestia span {
+  display: block;
+  position: relative;
+
+  color: white;
+}

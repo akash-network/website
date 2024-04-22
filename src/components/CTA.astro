@@ -20,7 +20,9 @@ if (pathname.startsWith("/ecosystem/providers")) {
 <section
   class={`
   ${
-    pathname.startsWith("/community/") || pathname.startsWith("/gpus")
+    pathname.startsWith("/community/") ||
+    pathname.startsWith("/gpus") ||
+    pathname === "/akash-accelerate-2024"
       ? "hidden"
       : ""
   }

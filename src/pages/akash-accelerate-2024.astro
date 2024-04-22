@@ -1,0 +1,179 @@
+---
+import Layout from "@/layouts/layout.astro";
+import { Image } from "astro:assets";
+import About from "@/components/accelerate/about.astro";
+import Speakers from "@/components/accelerate/speakers.astro";
+import Show from "@/components/accelerate/show.astro";
+import Table from "@/components/accelerate/table.astro";
+import BlurTable from "@/components/accelerate/blur-table.astro";
+import Tablebottom from "@/components/accelerate/tablebottom.astro";
+import Location from "@/components/accelerate/location.astro";
+import Footer from "@/components/accelerate/footer.astro";
+import Spearker from "@/components/accelerate/spearker.astro";
+import BluredSpeaker from "@/components/accelerate/blured-speaker.astro";
+const speakers = [
+  {
+    name: "Greg Osuri",
+    title: "CEO, Overclock Labs -",
+    twitter: "https://twitter.com/gregosuri",
+    image: "/images/accelerate/1.png",
+  },
+  {
+    name: "Anil Murty",
+    title: "VP of Product, Overclock Labs -",
+    twitter: "https://twitter.com/_Anil_Murty_",
+    image: "/images/accelerate/2.png",
+  },
+  {
+    name: "Cheng Wang",
+    title: "CFO, Overclock Labs -",
+    twitter: "https://twitter.com/LeChenghiskhan",
+    image: "/images/accelerate/3.png",
+  },
+  {
+    name: "Scott Hewie",
+    title: "CEO, Overclock Labs",
+    blured: true,
+    image: "/images/accelerate/9.png",
+  },
+  {
+    name: "Adam Wozney",
+    title: "VP of Product, Overclock Labs - ",
+    blured: true,
+    image: "/images/accelerate/7.png",
+  },
+  {
+    name: "Denis Lelic",
+    title: "CFO, Overclock Labs ",
+    blured: true,
+    image: "/images/accelerate/6.png",
+  },
+  {
+    name: "Tyler Wright",
+    title: "MD, Overclock Labs - ",
+    blured: true,
+    image: "/images/accelerate/4.png",
+  },
+  {
+    name: "Anil Murty",
+    title: "MD, Overclock Labs - ",
+    blured: true,
+    image: "/images/accelerate/8.png",
+  },
+  {
+    name: "Cheng Wang",
+    title: "MD, Overclock Labs - ",
+    blured: true,
+    image: "/images/accelerate/5.png",
+  },
+];
+---
+
+<Layout
+  title="Akash Accelerate 2024"
+  description="Akash Accelerate is a full-day summit that will bring together the entire ecosystem for a packed agenda of talks, panels, and discussions exploring the future of decentralized compute and open-source AI."
+  image="/meta-images/acc-2024.png"
+>
+  <div class="overflow-x-hidden">
+    <div>
+      <section class="hidden aspect-[16/6] items-center justify-center md:flex">
+        <Image
+          src="/images/venue.png"
+          alt="Akash Accelerate 2024"
+          width="1920"
+          height="1080"
+          class="hidden object-cover md:block"
+        />
+      </section>
+      <section class="flex aspect-[9/13] items-center justify-center md:hidden">
+        <Image
+          src="/images/venueMobile.png"
+          alt="Akash Accelerate 2024"
+          width="1920"
+          height="1080"
+          class="object-contain md:hidden"
+        />
+      </section>
+      <a href="https://lu.ma/akashaccelerate24" target="_blank">
+        <button
+          class="button--bestia relative w-full bg-primary py-4 text-2xl font-bold text-white md:text-3xl"
+        >
+          <div class="button__bg"></div><span> Register Now</span>
+        </button></a
+      >
+    </div>
+    <div
+      class="container flex flex-col items-center justify-center gap-[72px] py-10 md:gap-[120px] md:py-[120px]"
+    >
+      <div class="flex flex-col items-center justify-center gap-12">
+        <About />
+        <p class="max-w-4xl text-center text-xl md:text-2xl">
+          Akash Accelerate is a full-day summit that will bring together the
+          entire ecosystem for a packed agenda of talks, panels, and discussions
+          exploring the future of decentralized compute and open-source AI.
+        </p>
+      </div>
+      <div class="flex w-full flex-col items-center justify-center gap-12">
+        <Speakers />
+
+        <div
+          class="relative grid w-full max-w-4xl grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-3 md:gap-6"
+        >
+          {
+            speakers
+              .filter((speaker) => !speaker.blured)
+              .map((speaker) => <Spearker speaker={speaker} />)
+          }
+          <BluredSpeaker
+            speakers={speakers.filter((speaker) => speaker.blured)}
+          />
+        </div>
+        <a
+          href="https://akashnet.typeform.com/to/bj9Bu7Ax?typeform-source=akash.network"
+          target="_blank"
+          class="rounded-md bg-primary px-8 py-3 text-base font-bold text-white md:py-4 md:text-xl"
+          >Interested in speaking? Apply Now!</a
+        >
+      </div>
+      <div class="flex w-full flex-col items-center justify-center gap-12">
+        <Show />
+        <div class="flex flex-col gap-4">
+          <Table />
+          <BlurTable />
+          <Tablebottom />
+        </div>
+      </div>
+      <!-- <div class="flex w-full flex-col items-center justify-center gap-12">
+        <Location />
+        <div class="flex max-w-[929px] flex-col gap-5">
+          <Image
+            src="/images/accelerate/location.png"
+            alt="Akash Accelerate 2024"
+            width="1920"
+            height="1080"
+            class="w-full rounded-md object-contain"
+          />
+          <p
+            class="text-center text-sm text-primary dark:text-white md:text-base"
+          >
+            ATELIER 1205, 1205 E Cesar Chavez St., AUSTIN - TEXAS, 78702
+          </p>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="flex flex-col items-center justify-center gap-4 bg-primary py-20">
+    <h1 class="container px-6 text-center text-xl font-medium text-white">
+      Stay in touch about Akash Accelerate 2024
+    </h1>
+    <a
+      href="https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network"
+      target="_blank"
+      class="rounded-md bg-white px-8 py-2.5 font-medium text-primary"
+    >
+      Subscribe Now
+    </a>
+  </div>
+
+  <Footer />
+</Layout>
