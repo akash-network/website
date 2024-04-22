@@ -122,10 +122,10 @@ aiModelsAndAppsSection:
       link: "https://sdxl.akash.network/"
 
 
-    - title: "ComfyUI"
-      image: "./assets/tools/3.svg"
-      description: "The most powerful and modular Stable Diffusion GUI and backend. This UI lets users design and execute advanced Stable Diffusion pipelines using a graphs, nodes, and flowcharts."
-      link: "https://deploy.cloudmos.io/templates/akash-network-awesome-akash-comfyui"
+    - title: "Ray cluster on Akash"
+      image: "./assets/tools/3.png"
+      description: "This post explores the difficulties of parallelizing and scaling AI/ML workloads. We present Ray, a leading open-source framework (used by top ML teams) for large-scale parallel computing and distributed training."
+      link: "/blog/distributed-machine-learning-on-akash-network-with-ray/"
 
   cards2:
     - title: "Osmosis DEX"
