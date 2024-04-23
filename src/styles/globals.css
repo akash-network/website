@@ -171,6 +171,10 @@
   position: absolute;
   background: #000;
 }
+.dark .button--bestia .button__bg::before,
+.dark .button--bestia .button__bg::after {
+  background: white;
+}
 
 .button--bestia .button__bg::before {
   width: 110%;
@@ -205,6 +209,9 @@
 .button--bestia span {
   display: block;
   position: relative;
-
   color: white;
+}
+
+.dark .button--bestia:hover span {
+  color: black;
 }
