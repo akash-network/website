@@ -4,7 +4,7 @@ export const docsSequence = [
     subItems: [
       {
         type: "Header",
-        label: "Developer Docs",
+        label: "User Docs",
       },
       {
         label: "Getting Started",
