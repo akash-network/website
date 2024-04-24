@@ -10,6 +10,19 @@ import { Switch } from "../ui/switch";
 import { docsSequence as docs } from "@/content/Docs/_sequence";
 
 export function DocsNav({ docsNav = [], pathName = [] }: any) {
+  const MAX_DEPTH = 10;
+  const getDefaultLink = (navItem: any, depth: any) => {
+    for (let index = 0; index < MAX_DEPTH; index += 1) {
+      if (navItem.subItems && navItem.subItems.length > 0) {
+        navItem = navItem.subItems[0];
+      } else {
+        break;
+      }
+    }
+    if (navItem.link) return navItem.link
+    return ""
+  }
+
   const Dropdown = (
     navItem: any,
     pathName: any,
@@ -24,10 +37,10 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
           index === 0
             ? ""
             : depth && index === 0
-            ? ""
-            : depth === 0
-            ? "mt-5"
-            : ""
+              ? ""
+              : depth === 0
+                ? "mt-5"
+                : ""
         }
       >
         {depth === 0 ? (
@@ -56,14 +69,13 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                       <>
                         <a
                           href={subItem.link}
-                          className={`${
-                            pathName.split("/")[2 + depth] ===
-                              subItem.link.split("/")[2 + depth] &&
+                          className={`${pathName.split("/")[2 + depth] ===
+                            subItem.link.split("/")[2 + depth] &&
                             navItem.link.split("/")[1] ===
-                              pathName.split("/")[1]
-                              ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-                              : ""
-                          } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  px-2 py-1 text-sm font-medium text-para hover:dark:bg-background2 hover:dark:text-white`}
+                            pathName.split("/")[1]
+                            ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
+                            : ""
+                            } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  px-2 py-1 text-sm font-medium text-para hover:dark:bg-background2 hover:dark:text-white`}
                         >
                           {subItem.label}
                         </a>
@@ -80,7 +92,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               -1 &&
               docsSequence[
                 docsSequence.findIndex((item) => item.label === navItem.label) -
-                  1
+                1
               ]?.type === "Header" && (
                 <p className="mt-6 border-t py-6 text-xs font-bold uppercase">
                   {
@@ -96,19 +108,20 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               <Collapsible
                 defaultOpen={
                   pathName.split("/")[1 + depth] ===
-                    navItem.link.split("/")[1 + depth] &&
+                  navItem.link.split("/")[1 + depth] &&
                   navItem.link.split("/")[1] === pathName.split("/")[1]
                 }
               >
                 <CollapsibleTrigger className="w-full">
-                  <div
-                    className={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${
-                      depth > 0 ? "pl-0 pr-2" : "px-2"
-                    }   py-1 text-sm font-medium`}
+                  <a
+                    className={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${depth > 0 ? "pl-0 pr-2" : "px-2"
+                      }   py-1 text-sm font-medium`}
+                    href={getDefaultLink(navItem, depth)}
                   >
-                    <p className="flex-1 text-left">{navItem.label}</p>
+                    <p className="flex-1 text-left"
+                    >{navItem.label}</p>
                     <ChevronDownIcon className=" w-4 text-para" />
-                  </div>
+                  </a>
                 </CollapsibleTrigger>
 
                 {navItem.subItems && (
@@ -120,14 +133,13 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                         ) : (
                           <a
                             href={subItem.link}
-                            className={`${
-                              pathName.split("/")[2 + depth] ===
-                                subItem.link.split("/")[2 + depth] &&
+                            className={`${pathName.split("/")[2 + depth] ===
+                              subItem.link.split("/")[2 + depth] &&
                               navItem.link.split("/")[1] ===
-                                pathName.split("/")[1]
-                                ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-                                : ""
-                            } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  py-1 pl-5 pr-2 text-sm font-medium text-para  hover:bg-[#F4F1F1] hover:text-primary hover:dark:bg-background2 hover:dark:text-white`}
+                              pathName.split("/")[1]
+                              ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
+                              : ""
+                              } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  py-1 pl-5 pr-2 text-sm font-medium text-para  hover:bg-[#F4F1F1] hover:text-primary hover:dark:bg-background2 hover:dark:text-white`}
                           >
                             {subItem.label}
                           </a>
