@@ -1202,7 +1202,6 @@ The other core problem is that the `image` is **unknown** until the client trans
 Follow the steps associated with your Akash Provider install method:
 
 - [Akash Provider Built with Helm Charts](#akash-provider-built-with-helm-charts)
-- [Praetor Based Akash Provider Installs](#praetor-based-akash-provider-installs)
 
 ### Akash Provider Built with Helm Charts
 
@@ -1248,73 +1247,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 SHELL=/bin/bash
 
 */5 * * * * root /usr/local/bin/akash-kill-lease.sh
-```
-
-### Praetor Based Akash Provider Installs
-
-#### Cron Job
-
-- Create cron file - `/etc/cron.d/akash-kill-lease` - and populate with the following content:
-
-```
-# Files:
-# - /etc/cron.d/akash-kill-lease
-# - /usr/local/bin/akash-kill-lease.sh
-
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-SHELL=/bin/bash
-
-# TODO: change "deathless" with your username that runs akash-provider.service
-# $ grep ^User /etc/systemd/system/akash-provider.service
-# User=deathless
-
-*/5 * * * * deathless /usr/local/bin/akash-kill-lease.sh
-```
-
-#### Kill Lease Script
-
-Create script file - `/usr/local/bin/akash-kill-lease.sh` - and populate with the following content:
-
-```
-#!/bin/bash
-# Files:
-# - /etc/cron.d/akash-kill-lease
-# - /usr/local/bin/akash-kill-lease.sh
-
-# Optimized for Praetor based provider
-
-# Uncomment IMAGES to activate this script.
-IMAGES="packetstream/psclient"
-
-# You can provide multiple images, separated by the "|" character as in this example:
-IMAGES="packetstream/psclient|traffmonetizer/cli"
-
-# Quit if no images were specified
-test -z $IMAGES && exit 0
-
-export AKASH_KEYRING_BACKEND=test
-## TODO: point to your key: check "AKASH_KEYRING_BACKEND=test provider-services keys list" -- you can export your key from the "file" or "os" keyring backend or recover using your mnemonic seed: "AKASH_KEYRING_BACKEND=test provider-services keys add default --recover";  the key password is in ~/.praetor/key-pass.txt file
-export AKASH_FROM=default
-export AKASH_YES=1
-
-export AKASH_GAS=auto
-export AKASH_GAS_PRICES=0.025uakt
-export AKASH_GAS_ADJUSTMENT=1.5
-
-export AKASH_BROADCAST_MODE=sync
-
-## TODO: point AKASH_NODE to your RPC node
-export AKASH_NODE=http://node.d3akash.cloud:26657
-export AKASH_CHAIN_ID=akashnet-2
-#export AKASH_CHAIN_ID=$(curl -s -k $AKASH_NODE/status | jq -r '.result.node_info.network')
-
-kubectl -n lease get manifests -o json | jq --arg md_lid "akash.network/lease.id" -r '.items[] | [(.metadata.labels | .[$md_lid+".owner"], .[$md_lid+".dseq"], .[$md_l
-id+".gseq"], .[$md_lid+".oseq"]), (.spec.group | .services[].image)] | @tsv' | grep -Ei "$IMAGES" | while read owner dseq gseq oseq image; do
-  env AKASH_OWNER=$owner AKASH_DSEQ=$dseq AKASH_GSEQ=$gseq AKASH_OSEQ=$oseq ~/bin/provider-services tx market bid close
-
-  # to address: "Unknown desc = account sequence mismatch, expected 5605, got 5604: incorrect account sequence" error, provider service has to restart
-  sudo systemctl restart akash-provider
-done
 ```
 
 ### Provider Bid Script Migration - GPU Models
