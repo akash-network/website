@@ -132,7 +132,7 @@ mkdir -p $HOME/.akash/cosmovisor/upgrades/v0.34.0/bin
 cp ./.cache/bin $HOME/.akash/cosmovisor/upgrades/v0.34.0/bin
 ```
 
-At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.30.X), set the upgrade binary as the new current binary (v0.34.0), and then restart the node.\\
+At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.32.X), set the upgrade binary as the new current binary (v0.34.0), and then restart the node.\\
 
 ## Option 2: Upgrade Without Cosmovisor
 
@@ -142,7 +142,7 @@ Node operators also have the option to manually update the `akash` binary at the
 
 When the chain halts at the proposed upgrade height, stop the current process running `akash`.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.30.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.34.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
 
 ```
 akash version
