@@ -56,8 +56,6 @@ kubectl -n akash-services scale statefulsets akash-provider --replicas=1
 
 ## How to terminate the workload from the Akash Provider using CLI
 
-### How to terminate the workload from the Akash Provider using CLI
-
 #### Impact of Steps Detailed in the K8s Cluster
 
 - Steps outlined in this section will terminate the deployment in K8s cluster and remove the manifest.
