@@ -3,10 +3,8 @@ import Layout from "@/layouts/layout.astro";
 import GpuTable from "@/components/gpu-table/gpu-table";
 import { gpus } from "@/utils/api";
 
-const response = await fetch(gpus);
-const data = await response.json();
-
-console.log(data);
+// const response = await fetch(gpus);
+// const data = await response.json();
 ---
 
 <Layout
@@ -14,5 +12,5 @@ console.log(data);
   description="  GPU Availability and Pricing"
   image="/meta-images/gpus.png"
 >
-  <GpuTable client:load initialData={data} />
+  <GpuTable client:load initialData={null} />
 </Layout>

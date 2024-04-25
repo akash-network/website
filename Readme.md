@@ -121,7 +121,7 @@ Each commit message should carry a meaningful structure, commencing with a type 
 
 - Keep commit messages concise and to the point.
 - Utilize the imperative mood (e.g., "add," "fix," "update") in the description.
-- Provide context in the description when necessary.
+- Provide context in the description when necessary.. 
 
 ### How to Contribute to the Akash Website
 
