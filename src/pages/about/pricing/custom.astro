@@ -18,8 +18,8 @@ const networkPage = await Astro.glob(
 const PageContent = networkPage[0].Content;
 const pageFrontMatter = networkPage[0].frontmatter;
 
-const response = await fetch(gpus);
-const data = await response.json();
+// const response = await fetch(gpus);
+// const data = await response.json();
 ---
 
 <Layout title="Pricing" image="/meta-images/about.png">
@@ -69,7 +69,7 @@ const data = await response.json();
             client:only
             page="custom"
             pathName={pathname}
-            initialData={data}
+            initialData={null}
           />
         </div>
 
