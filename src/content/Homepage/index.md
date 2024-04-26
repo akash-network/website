@@ -135,7 +135,7 @@ aiModelsAndAppsSection:
       administration. Our partnership is driving innovation, making
       healthcare more accessible and efficient. Explore how we're
       transforming the industry together."
-      link : "https://osmosis.zone/"
+      link : "/blog/akash-network-and-solve-care-bring-true-patient-data-ownership-to-the-healthcare-industry/"
       darkImage : "./assets/tools/solvecare.webp"   
 
     - title: "Thumper AI"
