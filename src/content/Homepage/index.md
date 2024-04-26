@@ -128,11 +128,15 @@ aiModelsAndAppsSection:
       link: "/blog/distributed-machine-learning-on-akash-network-with-ray/"
 
   cards2:
-    - title: "Osmosis DEX"
-      image: "./assets/tools/dark-dep-1.svg"
-      description: "Osmosis, an integral part of the Interchain Liquidity Lab, harnesses the power of Akash by running API servers. This partnership showcases the seamless integration of two innovative platforms, enhancing accessibility and liquidity across the ecosystem."
-      link : "https://osmosis.zone/"
-      darkImage : "./assets/tools/dark-dep-1.svg"    
+    - title: "Solve Care"
+      image: "./assets/tools/solvecare.webp"
+      description: "Solve.Care is at the forefront of using blockchain to empower
+      patient data ownership and streamline healthcare
+      administration. Our partnership is driving innovation, making
+      healthcare more accessible and efficient. Explore how we're
+      transforming the industry together."
+      link : "/blog/akash-network-and-solve-care-bring-true-patient-data-ownership-to-the-healthcare-industry/"
+      darkImage : "./assets/tools/solvecare.webp"   
 
     - title: "Thumper AI"
       image: "./assets/tools/dark-dep-2.svg"
