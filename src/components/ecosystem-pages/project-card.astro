@@ -2,6 +2,7 @@
 // Import the Image component from "astro:assets".
 import { Image } from "astro:assets";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
+import DescriptionExpand from "./description-expand";
 
 // Destructure props for easier access.
 const {
@@ -128,10 +129,7 @@ const {
           </div>
         )
       }
-      <p
-        class="mt-6 line-clamp-3 text-sm font-medium leading-[20px] text-cardGray"
-        set:html={description}
-      />
+      <DescriptionExpand description={description} client:load />
     </div>
   </div>
 </div>
