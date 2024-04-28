@@ -37,7 +37,7 @@ The top-level `services` entry contains a map of workloads to be ran on the Akas
 
 | Name         | Required | Meaning                                                                                                                                                          |
 | ------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `image`      | Yes      | <p>Docker image of the container<br><br>Best practices:</p><ul><li>avoid using <code>:latest</code> image tags as Akash Providers heavily cache images</li></ul> |
+| `image`      | Yes      | Docker image of the container <br /><br/> **Note**: avoid using `:latest` image tags as Akash Providers heavily cache images. |
 | `depends-on` | No       | _**NOTE - field is marked for future use and currently has no impact on deployments.**_                                                                          |
 | `command`    | No       | Custom command use when executing container                                                                                                                      |
 | `args`       | No       | Arguments to custom command use when executing the container                                                                                                     |
