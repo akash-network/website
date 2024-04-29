@@ -29,10 +29,27 @@ const pathname = new URL(Astro.request.url).pathname;
     <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
       <div class="hidden items-center gap-x-[14px] text-para md:flex">
         <DarkModeToggle />
-        <GithubIcon />
-        <TwitterIcon />
-
-        <DiscordIcon />
+        <a
+          class="cursor-pointer"
+          href="https://github.com/akash-network"
+          target="_blank"
+        >
+          <GithubIcon />
+        </a>
+        <a
+          class="cursor-pointer"
+          href="https://twitter.com/akashnet_"
+          target="_blank"
+        >
+          <TwitterIcon />
+        </a>
+        <a
+          class="cursor-pointer"
+          href="https://discord.com/invite/akash"
+          target="_blank"
+        >
+          <DiscordIcon />
+        </a>
       </div>
 
       <div class="flex items-center md:gap-x-4">
