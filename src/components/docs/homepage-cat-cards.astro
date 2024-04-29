@@ -7,7 +7,7 @@ const { icon, title, description, link } = Astro.props;
 <a
   href={link}
   target={link?.startsWith("http") ? "_blank" : undefined}
-  class="not-prose rounded-[8px] border bg-background2 p-5 shadow-sm"
+  class="not-prose rounded-[8px] border bg-background2 p-5 shadow-sm hover:bg-[#F4F1F1] hover:dark:bg-background"
 >
   <div class="flex items-center justify-start gap-x-4">
     <div
