@@ -199,25 +199,31 @@ Configure the name of your key. The command below will set the name of your key 
 AKASH_KEY_NAME=myWallet
 ```
 
-Verify you have the shell variables set up . The below command should return the name you've used:
+If set correctly, then the command below should return the name you've just defined.
 
 ```bash
 echo $AKASH_KEY_NAME
 ```
 
-We now need to point Akash to where the keys are stored for your configuration. To do this we will set the AKASH_KEYRING_BACKEND environmental variable.
+Next, we'll set the `$AKASH_KEYRING_BACKEND` environment variable to `os`. This will configure `provider-services` to store all of our keys using our operating system's native key manager (e.g. MacOS Keychain, Windows Credentials Management API).
 
 ```bash
 AKASH_KEYRING_BACKEND=os
+# Confirm that AKASH_KEYRING_BACKEND is set to os
+echo $AKASH_KEYRING_BACKEND
 ```
 
-Copy and paste this command into Terminal to create an Akash account:
+We're finally ready to create our first key! To do so, we'll run the following command:
 
 ```bash
 provider-services keys add $AKASH_KEY_NAME
 ```
 
-Read the output and save your mnemonic phrase is a safe place. Let's set a Shell Variable in Terminal `AKASH_ACCOUNT_ADDRESS` to save your account address for later.
+If everything works as expected, the command above will return information about your newly created key. **Do not continue on without first saving your mnemonic phrase in a safe place**. If you need to recover your account at a later time, or wish to add your account to a browser extension, then you must have this phrase accessibile. If someone manages to access this phrase, then they will have control over the account and any assets held within it, so you should never send this phrase to anyone. 
+
+No one associated with Akash will ever request this information from you. If at any point someone requests that you share your phrase with them, then you are advised to cease all communications with the person and report this instance to the Akash team.
+
+Next, let's create a shell variable in your terminal named `AKASH_ACCOUNT_ADDRESS` and set it to be the wallet address `provider-services` generated at the time of account creations.
 
 ```bash
 export AKASH_ACCOUNT_ADDRESS="$(provider-services keys show $AKASH_KEY_NAME -a)"
@@ -225,7 +231,7 @@ export AKASH_ACCOUNT_ADDRESS="$(provider-services keys show $AKASH_KEY_NAME -a)"
 echo $AKASH_ACCOUNT_ADDRESS
 ```
 
-Note that if you close your Terminal window this variable will not be saved.
+Note that if you close your terminal window this variable will not be saved. For those who wish to have this variable persist throughout restarts of your shell, then you can add the `export ...` line to your terminal's profile file (e.g. `.bashrc`, `.zshrc`). 
 
 ## Fund your Account
 
