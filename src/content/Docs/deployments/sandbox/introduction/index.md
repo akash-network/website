@@ -2,8 +2,8 @@
 categories: ["Introduction"]
 tags: ["CLI"]
 weight: 4
-title: "SandBox Introduction"
-linkTitle: SandBox Introduction
+title: "Sandbox Introduction"
+linkTitle: Sandbox Introduction
 ---
 
 The Akash Sandbox network is intended for short-term workload testing and for new user experimentation.
