@@ -41,13 +41,14 @@ const nav = generateDocsNav(pages);
 
 const lines = page?.body
   ?.split("\n")
-  ?.filter((line) => line.trim() !== "" && !line.includes("#"));
+  ?.filter((line) => line.trim() !== "" && !line.includes("##"));
 ---
 
+<!-- replace [name](link) with name -->
 <DocsLayout
   title={`${page.data.title} | Akash Network - Your Guide to Decentralized Cloud`}
   description={lines?.length > 0
-    ? lines?.[0]
+    ? lines?.[0]?.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1")
     : "Access comprehensive documentation to guide you through using Akash Network. Find detailed instructions, FAQs, and resources for a seamless experience."}
   image="/meta-images/docs.png"
 >
