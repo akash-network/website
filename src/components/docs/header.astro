@@ -30,21 +30,21 @@ const pathname = new URL(Astro.request.url).pathname;
       <div class="hidden items-center gap-x-[14px] text-para md:flex">
         <DarkModeToggle />
         <a
-          class="cursor-pointer"
+          class="cursor-pointer hover:text-primary"
           href="https://github.com/akash-network"
           target="_blank"
         >
           <GithubIcon />
         </a>
         <a
-          class="cursor-pointer"
+          class="cursor-pointer hover:text-primary"
           href="https://twitter.com/akashnet_"
           target="_blank"
         >
           <TwitterIcon />
         </a>
         <a
-          class="cursor-pointer"
+          class="cursor-pointer hover:text-primary"
           href="https://discord.com/invite/akash"
           target="_blank"
         >
@@ -56,9 +56,10 @@ const pathname = new URL(Astro.request.url).pathname;
         <div>
           <a
             href="https://console.akash.network/"
-            class="hover:bg-primary/90 flex items-center justify-center rounded-[4px] bg-primary px-[11px] py-[7px] text-xs font-medium leading-[16px] text-white"
-            >Deploy Now</a
+            class="flex items-center justify-center rounded-[4px] bg-primary px-[11px] py-[7px] text-xs font-medium leading-[16px] text-white hover:bg-darkGray"
           >
+            Deploy Now
+          </a>
         </div>
       </div>
     </div>

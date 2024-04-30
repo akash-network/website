@@ -15,7 +15,9 @@ const { footer, nav } = Astro.props;
       ? "header-toggle-nav"
       : "header-toggle"}
   >
-    <Sun className="h-5 w-5 text-para dark:hidden" />
-    <SunMoon className="hidden h-5 w-5 text-para dark:block" />
+    <Sun className="h-5 w-5 text-para hover:text-primary dark:hidden" />
+    <SunMoon
+      className="hidden h-5 w-5 text-para hover:text-primary dark:block"
+    />
   </button>
 </div>
