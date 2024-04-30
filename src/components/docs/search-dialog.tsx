@@ -3,6 +3,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2 } from "lucide-react";
+import { addKeyboardListener } from "@/utils/keyboardListenerManager";
 
 // Define a TypeScript interface for the project data
 interface Docs {
@@ -88,16 +89,12 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   }
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "k" && (event.ctrlKey || event.metaKey)) {
-        event.preventDefault();
-        openModal();
-      }
-    };
+    const removeListener = addKeyboardListener(() => {
+      openModal();
+    })
 
-    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      removeListener();
     };
   }, []);
 
