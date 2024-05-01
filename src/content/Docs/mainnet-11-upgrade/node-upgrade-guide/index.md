@@ -2,16 +2,16 @@
 categories: ["Mainnet 11 Upgrade"]
 tags: []
 weight: 2
-title: "Akash v0.34.0 Node Upgrade Guide"
-linkTitle: "Akash v0.34.0 Node Upgrade Guide"
+title: "Akash v0.34.1 Node Upgrade Guide"
+linkTitle: "Akash v0.34.1 Node Upgrade Guide"
 ---
 
 ## Upgrade Details
 
 - **Upgrade name**: Mainnet11
-- **Binary version**: `v0.34.0`
+- **Binary version**: `v0.34.1`
 - [Upgrade countdown/block height](https://www.mintscan.io/akash/block/16133283)
-- [Binary Links](https://github.com/akash-network/node/releases/tag/v0.34.0)
+- [Binary Links](https://github.com/akash-network/node/releases/tag/v0.34.1)
 
 ## Common Steps for All Upgrade Options
 
@@ -19,7 +19,7 @@ In the sections that follow both `Cosmovisor` and `non-Cosmovisor` upgrade paths
 
 > _**NOTE -**_ The following steps are not required if the auto-download option is enabled for Cosmovisor.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.34.0) or build it from source. We highly recommend using a pre-complied binary but provide instructions to build from source here in the rare event it would be necessary.
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.34.1) or build it from source. We highly recommend using a pre-complied binary but provide instructions to build from source here in the rare event it would be necessary.
 
 ## Option 1: Upgrade Using Cosmovisor
 
@@ -132,7 +132,7 @@ mkdir -p $HOME/.akash/cosmovisor/upgrades/v0.34.0/bin
 cp ./.cache/bin $HOME/.akash/cosmovisor/upgrades/v0.34.0/bin
 ```
 
-At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.32.X), set the upgrade binary as the new current binary (v0.34.0), and then restart the node.\\
+At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.32.X), set the upgrade binary as the new current binary (v0.34.1), and then restart the node.\\
 
 ## Option 2: Upgrade Without Cosmovisor
 
@@ -142,7 +142,7 @@ Node operators also have the option to manually update the `akash` binary at the
 
 When the chain halts at the proposed upgrade height, stop the current process running `akash`.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.34.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.34.1) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
 
 ```
 akash version
@@ -177,7 +177,7 @@ if no such message, most like direnv is not hooked to the shell
 #### Build
 
 ```shell
-git clone --depth 1 --branch v0.34.0 https://github.com/akash-network/node
+git clone --depth 1 --branch v0.34.1 https://github.com/akash-network/node
 cd node
 direnv allow
 make release
