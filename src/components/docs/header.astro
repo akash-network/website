@@ -23,10 +23,9 @@ const pathname = new URL(Astro.request.url).pathname;
           <Logo width={100} />
         </a>
       </div>
-      <div>
-        <!-- <div id="docsearch"></div> -->
-        <AlgoliaSearch client:only />
-      </div>
+
+      <!-- <div id="docsearch"></div> -->
+      <AlgoliaSearch client:only />
     </div>
     <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
       <div class="hidden items-center gap-x-[14px] text-para md:flex">

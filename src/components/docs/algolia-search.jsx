@@ -4,11 +4,13 @@ import "@docsearch/css";
 import "../../styles/globals.css";
 const AlgoliaSearch = () => {
   return (
-    <DocSearch
-      appId="GIAYK50IZ2"
-      apiKey="ab27356463ffa13e3d75727cd71bfc69"
-      indexName="akash"
-    />
+    <div className="w-full md:w-[22rem]">
+      <DocSearch
+        appId="GIAYK50IZ2"
+        apiKey="ab27356463ffa13e3d75727cd71bfc69"
+        indexName="akash"
+      />
+    </div>
   );
 };
 

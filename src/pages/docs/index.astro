@@ -18,6 +18,7 @@ import NextPrevNav from "@/components/docs/next-prev-nav.astro";
 import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
 // import Index from "../index.astro";
 import { proseClasses } from "@/lib/prose-classes";
+import AlgoliaSearch from "@/components/docs/algolia-search";
 
 // export async function getStaticPaths() {
 //   const docs = await getCollection("Docs");
@@ -65,7 +66,8 @@ console.log("docs", docs);
     class="sticky top-0 z-10 -mt-4 mb-10 h-[130px] bg-background pt-4 md:hidden"
   >
     <div>
-      <Search client:load currentPath={pathname} />
+      <!-- <Search client:load currentPath={pathname} /> -->
+      <AlgoliaSearch client:only />
     </div>
 
     <div class="my-4 border-b"></div>
