@@ -393,7 +393,7 @@ To view an example SHM enabled SDL in full for greater context, review this[ exa
 
 ## Private Container Registry Support
 
-Akash deployments now support the use of private container registries to pull container image into the Akash deployment.
+Akash deployments now support the use of private container registries to pull images into Akash deployments.  The example use section below details the related username and password authentication declarations to access images in a private registry.  When using Docker Hub private image repostories, use your password in the related field.  When using private Github Image Registries, use your developer token in the password field.
 
 #### Private Registry Image Use Example
 
