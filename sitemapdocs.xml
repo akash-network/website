@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://akash.network/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/getting-started/intro-to-akash/akash-network/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/getting-started/stack-definition-language/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/getting-started/token-and-wallets/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/deployments/akash-cli/overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/deployments/apps-on-akash/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/provider-faq-and-guide/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/gpu-resource-enablement/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/akash-provider-checkup/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/deployments/akash-cli/cli-booster/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/experimental/akash-deployments-via-terraform/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/deployments/overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/deployments/stable-payment-deployments/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/getting-started/intro-to-akash/bids-and-leases/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/getting-started/intro-to-akash/dseq-gseq-oseq/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/getting-started/intro-to-akash/providers/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/getting-started/intro-to-akash/rpc-nodes/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/getting-started/intro-to-akash/validator-nodes/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/getting-started/technical-support/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/marketplace/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/containers/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-nodes/akash-node-via-helm-chart/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/network-features/persistent-storage/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/tls-termination-of-akash-deployment/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/deployments/akash-cli/installation/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/deployments/sandbox/installation/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/additional-k8s-resources/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/tls-certs-for-akash-provider/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/ip-leases-provider-enablement/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/akash-provider-attribute-updates/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/gvisor-issue-no-system-cgroup-v2-support/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/build-a-cloud-provider/shared-memory-enablement/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/community-solutions/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/custom-kubernetes-cluster-settings/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/akash-audites-atributes/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/akash-provider-feature-discovery-upgrade-enablement/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/providers/provider-feature-discovery-gpu-configuration-integration-guide/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/ruby-on-rails-with-sia-and-auth0/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/experimental/amd-gpu-support/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/experimental/akash-provider-streamlined-build-with-rancher-k3s/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/experimental/hardware-and-software-recommendations/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/experimental/streamlined-steps/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/security/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/payments/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/authentication/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/akash-mainnet8-upgrade/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/deployments/sandbox/introduction/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/architecture/containers-and-kubernetes/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/architecture/overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-nodes/akash-node-deployment-via-omnibus/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-nodes/akash-node-cli-build/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-nodes/public-rpc-nodes/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-nodes/api-endpoints/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/network-features/ip-leases/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/network-features/authorized-spend/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/network-features/fractional-uakt/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/network-features/deployment-shell-access/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/network-features/deployment-http-options/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/network-features/hostname-migration/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/kava-rpc-node-deployment/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/chia-on-akash/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/polygon-on-akash/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/mine-raptoreum-on-akash/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/unstopabble-web/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/multi-tiered-deployments/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/helium-validator/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/guides/postgres-sql-restore-or-backup/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/testnet/example-gpu-sdls/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/experimental/omnibus/akash-validator-with-tmkms/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/akash-network-upgrade/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/architecture/akash-node/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/architecture/akash-provider/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/validators/running-a-validator/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/testnet/gpu-testnet-client-instructions/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/testnet/gpu-testnet-submission-instructions/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/testnet/testnet-issue-reporting/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/akash-provider-feature-discovery-upgrade-enablement/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/akash-v18-cli-release-notes/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/mainnet5-upgrade-docs/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/provider-build-with-gpu/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/provider-upgrade-instructions/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/provider-upgrade/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/validators/akash-validator-with-tmkms-and-stunnel/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/validators/akash-validator-using-omnibus/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/mainnet-11-upgrade/node-upgrade-guide/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/other-resources/archived-resources/upgrades/v20-upgrade-docs/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-provider-service-and-associated-sub-services/overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-provider-service-and-associated-sub-services/bid-engine-overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-service-and-associated-sub-services/manifest-service-overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-service-and-associated-sub-services/provider-service-overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-service-and-associated-sub-services/bid-engine-service/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-service-and-associated-sub-services/cluster-service/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-service-and-associated-sub-services/manifest-service/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-provider-operators/akash-operator-overview/ip-operator-for-ip-leases/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.13</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-operators/akash-operator-overview/hostname-operator-for-ingress-controller/hostname-operator-for-ingress-controller/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.13</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-operators/provider-service/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.13</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-provider-operators/akash-operator-overview/akash-operator-overview/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.11</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-operators/akash-operator-overview/inventory-operator-for-persistent-storage/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.11</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-provider-operators/akash-operator-overview/hostname-operator-for-ingress-controller/hostname-controller-deep-dive/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.11</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-node-table-of-contents/akash-node-repo-table-of-contents/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.09</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-node-table-of-contents/akash-node-directory-glossary/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.07</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-app/akash-app/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.05</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-development-environment/overview-and-requirments/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.04</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-development-environment/code/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.04</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-development-environment/install-tools/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.04</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-development-environment/development-environment-general-behavior/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.04</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-development-environment/runbook/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.04</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-development-environment/parameters/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.04</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-development-environment/use-runbook/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.04</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-code-contributors---policies-and-standards/getting-started-with-akash-contributions/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.03</priority>
+</url>
+
+<url>
+  <loc>https://akash.network/docs/akash-code-contributors---policies-and-standards/code-conventions/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.02</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-code-contributors---policies-and-standards/contributor-cheatsheet/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.02</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-end-to-end-testing-provider/providerrepocoverage/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.02</priority>
+</url>
+<url>
+  <loc>https://akash.network/docs/akash-api/exploration-of-akash-queries-using-the-akash-api-source-code/</loc>
+  <lastmod>2024-04-28T05:20:36+00:00</lastmod>
+  <priority>0.01</priority>
+</url>
+
+
+</urlset>
