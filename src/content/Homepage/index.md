@@ -204,6 +204,19 @@ testimonialsSection:
     enable: true
 
   testimonials:
+    - userName: "@Solve_Care"
+      useAvatar: "/useravatars/1.png"
+      accountLink: "https://twitter.com/Solve_Care/status/1755951636844007848"
+      testimonial: "“Care.Wallet is now yours for life. Akash Network decentralized compute helped achieve our goal to make every Care.Wallet a permanent #Web3 container, that no #AWS admin can shut down.”"
+      companyName: "Solve.Care"
+
+    - userName: "@_PradeepGoel"
+      useAvatar: "/useravatars/1.png"
+      accountLink: "https://twitter.com/_PradeepGoel/status/1755951930067816607"
+      testimonial: "“Solve.Care is migrating Care.Nodes to @akashnet_
+to reduce cost, scale faster, and get rid of #AWS.”"
+      companyName: "Solve.Care"
+
     - userName: "@jesseeckel"
       useAvatar: "/useravatars/1.png"
       accountLink: "https://twitter.com/Jesseeckel/status/1741999730110959657"
