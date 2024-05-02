@@ -7,6 +7,7 @@ import AkashDocsLogo from "./akash-docs-logo.astro";
 import ToggleNav from "./toggle-nav.astro";
 import DarkModeToggle from "../dark-mode-toggle.astro";
 import ButtonLink from "../ui/button-link.astro";
+import AlgoliaSearch from "./algolia-search.jsx";
 import Logo from "@/components/ui/logo.astro";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
 const { nav } = Astro.props;
@@ -23,7 +24,8 @@ const pathname = new URL(Astro.request.url).pathname;
         </a>
       </div>
       <div>
-        <div id="docsearch"></div>
+        <!-- <div id="docsearch"></div> -->
+        <AlgoliaSearch client:only />
       </div>
     </div>
     <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
@@ -67,7 +69,7 @@ const pathname = new URL(Astro.request.url).pathname;
   <!-- <ToggleNav nav={nav} /> -->
 </nav>
 
-<script>
+<!-- <script >
   import docsearch from "@docsearch/js";
 
   import "@docsearch/css";
@@ -78,4 +80,4 @@ const pathname = new URL(Astro.request.url).pathname;
     apiKey: "ab27356463ffa13e3d75727cd71bfc69",
     indexName: "akash",
   });
-</script>
+</script> -->

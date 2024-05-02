@@ -17,6 +17,7 @@
     "@astrojs/tailwind": "^5.0.4",
     "@docsearch/css": "^3.6.0",
     "@docsearch/js": "^3.6.0",
+    "@docsearch/react": "^3.6.0",
     "@fontsource-variable/jetbrains-mono": "^5.0.18",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
