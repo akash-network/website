@@ -20,6 +20,7 @@ A complete deployment has the following sections:
 - [gpu support](#gpu-support)
 - [stable payment](#stable-payment)
 - [shared memory (shm)](#shared-memory-shm)
+- [private container registry support](#private-container-registry-support)
 
 An example deployment configuration can be found [here](https://github.com/akash-network/docs/tree/62714bb13cfde51ce6210dba626d7248847ba8c1/sdl/deployment.yaml).
 
@@ -389,3 +390,29 @@ services:
 #### Full SHM SDL Example
 
 To view an example SHM enabled SDL in full for greater context, review this[ example](https://gist.github.com/chainzero/0dea9f2e1c4241d2e4d490b37153ec86).
+
+## Private Container Registry Support
+
+Akash deployments now support the use of private container registries to pull container image into the Akash deployment.
+
+#### Private Registry Image Use Example
+
+```
+services:
+  supermario:
+    image: scarruthers/private-repo-testing:1
+    credentials:
+      host: docker.io
+      username: scarruthers
+      password: "password"
+    expose:
+      - port: 8080
+        as: 80
+        to:
+          - global: true
+```
+
+#### Full Private Registry Use in SDL Example
+
+To view an example private regisrry used in an Akash SDL in full for greater context, review this[ example](https://gist.github.com/chainzero/c9d2efdd019b03bfbb6727e41bcb049c).
+
