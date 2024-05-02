@@ -9,6 +9,14 @@ const AlgoliaSearch = () => {
         appId="GIAYK50IZ2"
         apiKey="ab27356463ffa13e3d75727cd71bfc69"
         indexName="akash"
+        hitComponent={({ hit, children }) => (
+          <a
+            href={hit.url.replace("https://akash.network", "")}
+            className="block"
+          >
+            {children}
+          </a>
+        )}
       />
     </div>
   );
