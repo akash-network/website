@@ -64,10 +64,9 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 
   useEffect(() => {
     if (!isLoading) {
-      if (searchInputRef.current)
-        searchInputRef.current.focus();
+      if (searchInputRef.current) searchInputRef.current.focus();
     }
-  }, [isLoading])
+  }, [isLoading]);
 
   // Function to handle search input changes
   function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -77,10 +76,11 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     const lowerQuery = query.toLowerCase();
 
     // Filter projects based on the search query
-    const filteredResults = collectionData.filter((item: Docs) =>
-      item.title.toLowerCase().includes(lowerQuery) ||
-      item.body.toLowerCase().includes(lowerQuery)
-    )
+    const filteredResults = collectionData.filter(
+      (item: Docs) =>
+        item.title.toLowerCase().includes(lowerQuery) ||
+        item.body.toLowerCase().includes(lowerQuery),
+    );
 
     // Show all filtered projects when the search query is not empty
     setFilteredProjects(
@@ -88,15 +88,15 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     );
   }
 
-  useEffect(() => {
-    const removeListener = addKeyboardListener(() => {
-      openModal();
-    })
+  // useEffect(() => {
+  //   const removeListener = addKeyboardListener(() => {
+  //     openModal();
+  //   })
 
-    return () => {
-      removeListener();
-    };
-  }, []);
+  //   return () => {
+  //     removeListener();
+  //   };
+  // }, []);
 
   return (
     <>

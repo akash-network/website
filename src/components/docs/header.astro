@@ -23,7 +23,7 @@ const pathname = new URL(Astro.request.url).pathname;
         </a>
       </div>
       <div>
-        <Search client:load currentPath={pathname} />
+        <div id="docsearch"></div>
       </div>
     </div>
     <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
@@ -66,3 +66,16 @@ const pathname = new URL(Astro.request.url).pathname;
   </div>
   <!-- <ToggleNav nav={nav} /> -->
 </nav>
+
+<script>
+  import docsearch from "@docsearch/js";
+
+  import "@docsearch/css";
+
+  docsearch({
+    container: "#docsearch",
+    appId: "GIAYK50IZ2",
+    apiKey: "ab27356463ffa13e3d75727cd71bfc69",
+    indexName: "akash",
+  });
+</script>

@@ -13,8 +13,6 @@
     --light-foreground: 0 0% 50%;
     --sort-text: 206 6% 56%;
     --link-text: 206 6% 52%;
-
-    /* primary colors */
     --primary: #ff414c;
     --primary-foreground: 0 0% 100%;
 
@@ -52,6 +50,9 @@
     /* .ec-theme-dark-plus {
       display: none !important;
     } */
+    --docsearch-primary-color: #ff414c;
+    --docsearch-searchbox-focus-background: hsl(0 0% 100%);
+    --docsearch-modal-background: hsl(0 0% 100%);
   }
 
   .dark {
@@ -59,7 +60,6 @@
     --foreground: 0, 0%, 93%;
     --background2: 0 0% 14%;
     --light-foreground: 15, 33%, 98%;
-    /* primary colors */
     --para: 0 0% 73%;
     --para-dark: 0 0% 50%;
     --primary: #ff414c;
@@ -75,6 +75,9 @@
     --theme-header-bg: #3c3c3c;
     --three-dots-bg: #515151;
     --default-border: 0 0% 18%;
+
+    --docsearch-searchbox-focus-background: hsl(0 0% 14%);
+    --docsearch-modal-background: hsl(0 0% 14%);
   }
 }
 
@@ -214,4 +217,29 @@
 
 .dark .button--bestia:hover span {
   color: black;
+}
+
+/* doc-search */
+
+.DocSearch-Button {
+  border: 1px solid hsl(var(--default-border));
+  border-radius: 4px;
+  height: 38px;
+  /* background-color: hsl(var(--background2)); */
+  width: 22rem;
+  padding-inline: 0.8rem;
+}
+
+.DocSearch-Button:hover {
+  /* background-color: hsl(var(--background)); */
+}
+
+.DocSearch-Search-Icon {
+  color: hsl(var(--para)) !important;
+  width: 16px;
+  height: 16px;
+}
+
+.DocSearch-Button-Placeholder {
+  color: hsl(var(--para));
 }
