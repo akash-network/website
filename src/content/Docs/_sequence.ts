@@ -29,7 +29,7 @@ export const docsSequence = [
             ],
           },
           { label: "Stable Payment Deployments" },
-          { label: "Sandbox", subItems: [{ label: "SandBox Introduction" }] },
+          { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
         ],
       },
       {
