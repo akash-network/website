@@ -72,7 +72,11 @@ const Table = ({
 }) => {
   const fetchInterval = 1000 * 60;
 
-  const { data: result, isLoading } = useQuery<
+  const {
+    data: result,
+    isLoading,
+    isFetching,
+  } = useQuery<
     {
       data: Gpus;
     },
@@ -92,7 +96,9 @@ const Table = ({
 
   const data = result?.data;
 
-  return <Tables data={data} subCom={subCom} isLoading={isLoading} />;
+  return (
+    <Tables data={data} subCom={subCom} isLoading={isLoading || isFetching} />
+  );
 };
 
 export const modifyModel = (model: string) => {
