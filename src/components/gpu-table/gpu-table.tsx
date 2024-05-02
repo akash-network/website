@@ -76,6 +76,7 @@ const Table = ({
     data: result,
     isLoading,
     isFetching,
+    isInitialLoading,
   } = useQuery<
     {
       data: Gpus;
@@ -85,19 +86,18 @@ const Table = ({
     queryKey: ["GPU_TABLE"],
     queryFn: () => axios.get(gpus),
     refetchIntervalInBackground: true,
-    initialData: initialData || {
-      data: {
-        availability: { total: 0, available: 0 },
-        models: [],
-      },
-    },
+
     refetchInterval: fetchInterval,
   });
 
   const data = result?.data;
 
   return (
-    <Tables data={data} subCom={subCom} isLoading={isLoading || isFetching} />
+    <Tables
+      data={data}
+      subCom={subCom}
+      isLoading={isLoading || isInitialLoading}
+    />
   );
 };
 
