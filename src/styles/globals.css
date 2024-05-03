@@ -53,6 +53,7 @@
     --docsearch-primary-color: #ff414c !important;
     --docsearch-searchbox-focus-background: hsl(0 0% 100%) !important;
     --docsearch-modal-background: hsl(0 0% 100%) !important;
+    --docsearch-searchbox-background: #f9fafb !important;
   }
 
   .dark {
@@ -240,10 +241,10 @@
 .DocSearch-Button {
   border: 1px solid hsl(var(--default-border)) !important;
   border-radius: 4px !important;
-  height: 38px;
+  height: 38px !important;
   /* background-color: hsl(var(--background2)); */
   width: 100%;
-  padding-inline: 0.8rem;
+  padding-inline: 0.8rem !important;
   margin: 0 !important;
 }
 
@@ -257,6 +258,16 @@
   height: 16px;
 }
 
-.DocSearch-Button-Placeholder {
+.DocSearch-Button-Container:after {
   color: hsl(var(--para)) !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  margin-left: 0.8rem;
+  content: "Search docs..." !important;
 }
+
+.DocSearch-Button-Container span {
+  display: none;
+}
+
+/* change text inside */
