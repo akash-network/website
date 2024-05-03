@@ -17,6 +17,7 @@ const AlgoliaSearch = () => {
             {children}
           </a>
         )}
+        placeholder="Search docs..."
       />
     </div>
   );
