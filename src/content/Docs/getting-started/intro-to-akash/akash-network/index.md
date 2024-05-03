@@ -28,15 +28,13 @@ You can check the prices live using the [**price comparison tool**](https://akas
 
 ### How do I use Akash?
 
-Generally speaking, a blockchain user base is determined, is the sum of the users interacting with particular protocols or dApps that exist on a particular chain. In that sense, users are defined as a wallet address and, while they may be active in discussions, their role is for the most part limited.
+On Akash, the way an account interacts with the network entirely depends on what that specific account wishes to accomplish. The table below provides information about the different roles that Akash users can assume. Once you've identified the role that best suits your needs, you can visit the link included in the "Resources" column for that row.
 
-This is in contrast to how things work on Akash which relies upon its userbase to assume seperate he role of a user is dynamic operates.  users of Akash interact with the network. Users of Akash  goals of a user are what ultimately determines the they are to use the network. 
-
-| Role| Description |  |
+| Role | Description | Resources |
 | --- | --- | --- |
-| Provider | Providers are market participants tasked with supplying the networking with compute and ensuring that these resources are properly maintained. |
-| Tenant | Tenants are market participants who are using akash for the purpose of gaining to or *leasing*, computational resources. |
-| Validator | Participants working to maintain the integrity of the network committing new blocks to the Akash blockchain |
+| Provider | Providers are market participants tasked with supplying the networking with compute and ensuring that these resources are properly maintained.|[**Provider guide**](broken-reference) |
+| Tenant | Tenants are market participants who are using akash for the purpose of gaining to or *leasing*, computational resources. | [**Deployment guide**](/docs/deployments/cloudmos-deploy/) |
+| Validator | Participants working to maintain the integrity of the network committing new blocks to the Akash blockchain | [**Validator guide**](validating/validator.md) |
 
 
 ### Why is Akash different than other Cloud platforms?
