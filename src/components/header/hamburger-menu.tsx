@@ -121,7 +121,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                         ? "text-base font-medium text-foreground"
                         : "inline-flex items-center text-base font-medium hover:font-semibold hover:text-foreground",
                     )}
-                    // aria-current={item.current ? "page" : undefined}
+                  // aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
                     {/* {item.icon} */}
@@ -183,11 +183,11 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
 
           <div className="flex items-center justify-between border-t border-border py-7 text-para">
             <div className="flex gap-x-[20px] px-2">
-              <a href="https://github.com/akash-network" target="_blank">
-                <GithubIcon />
-              </a>
               <a href="https://twitter.com/akashnet_" target="_blank">
                 <TwitterIcon />
+              </a>
+              <a href="https://github.com/akash-network" target="_blank">
+                <GithubIcon />
               </a>
               <a href="https://discord.com/invite/akash" target="_blank">
                 <DiscordIcon />
