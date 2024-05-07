@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/layout.astro";
 import Card from "../components/providers-page/card.tsx";
-import PreatorsCard from "../components/providers-page/preators-card.astro";
+import PraetorsCard from "../components/providers-page/praetors-card.astro";
 import { getEntryBySlug } from "astro:content";
 import ResourcesCard from "@/components/providers-page/resources-card.astro";
 import TopPagination from "@/components/providers-page/top-pagination.astro";
@@ -11,7 +11,7 @@ import ButtonLink from "@/components/ui/button-link.astro";
 const providersPage = await getEntryBySlug("Providers_Homepage", "index");
 const {
   heroSection,
-  preatorResourcesSection,
+  praetorResourcesSection,
   resourcesSection,
   additionalDeploymentSection,
 } = providersPage.data;
@@ -140,15 +140,15 @@ console.log(resourcesSection);
   <div class="container mt-[90px]">
     <div class="border-b border-[#d9d9d9] pb-[40px]">
       <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
-        {preatorResourcesSection.title}
+        {praetorResourcesSection.title}
       </h2>
 
       <div
         class="mt-8 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 md:mt-6 lg:grid-cols-3"
       >
         {
-          preatorResourcesSection.cards.map((card) => (
-            <PreatorsCard
+          praetorResourcesSection.cards.map((card) => (
+            <PraetorsCard
               title={card.title}
               description={card.description}
               badge={card.badge}
