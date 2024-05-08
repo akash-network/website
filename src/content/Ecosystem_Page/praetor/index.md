@@ -1,5 +1,5 @@
 ---
-projectTitle: Preator App
+projectTitle: Praetor App
 projectImage: "./project-banner.png"
 pubDate: "2023-01-19"
 
