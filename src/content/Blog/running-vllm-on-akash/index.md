@@ -22,6 +22,7 @@ tags:
 #   - tools
 
 githubLink: "https://github.com/akash-netowork/awesome-akash/vLLM" # <--- This is the github link of the project
+twitterLink: 
 
 contributors:
   - Logan Cerkovnik
@@ -49,7 +50,7 @@ At the time of the original paper ( June 2023), vLLM dramatically outperformed T
 ## Links:
 * [vLLM Docs](https://docs.vLLM.ai)
 * [vLLM repo](https://github.com/vLLM-project/vLLM)
-* [in depth comparison study](https://pages.run.ai/hubfs/PDFs/Serving-Large-Language-Models-Run-ai-Benchmarking-Study.pdf)
+* [In depth comparison study](https://pages.run.ai/hubfs/PDFs/Serving-Large-Language-Models-Run-ai-Benchmarking-Study.pdf)
 
 ## Preparation
 * Create an Akash account and ensure you have AKT tokens.
@@ -147,5 +148,3 @@ Steps to Troubleshoot
 
 ## Wrapping Up
 vLLM may be one of the best open source LLM servers available today,for most applications with multiple users. We hope this blog makes it easier for people to use vLLM in their applications on Akash.  If you have any questions or are looking for some assistance feel free to reach out to logan@thumper.ai  
-
-![WizardLM 2 Meme](imgs/wizardllm2meme.png)
