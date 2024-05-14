@@ -8,8 +8,46 @@ import { ChevronDownIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Switch } from "../ui/switch";
 import { docsSequence as docs } from "@/content/Docs/_sequence";
+import { useStore } from '@nanostores/react';
+import { docsLinkTracks } from "@/stores/appStore";
+
+const MAX_DEPTH = 4;
 
 export function DocsNav({ docsNav = [], pathName = [] }: any) {
+  const $docsLinkTracks = useStore(docsLinkTracks);
+
+  const getCurrentLink = (link: string) => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+    const currentLink = window.location.pathname;
+    return link === currentLink
+  }
+
+  const getDefaultLink = (navItem: any, depth: any) => {
+    for (let index = 0; index <= MAX_DEPTH; index += 1) {
+      if (navItem.subItems && navItem.subItems.length > 0) {
+        navItem = navItem.subItems[0];
+      } else {
+        break;
+      }
+    }
+    if (navItem.link) return navItem.link
+    return ""
+  }
+
+  const handleCollapsibleTrigger = (navItem: any, depth: any) => {
+    const link = getDefaultLink(navItem, depth) as string;
+    const isOpen = $docsLinkTracks[link];
+    if (isOpen) {
+      docsLinkTracks.set({ ...$docsLinkTracks, [link]: !isOpen });
+    } else {
+      docsLinkTracks.set({ ...$docsLinkTracks, [link]: true });
+      window.history.pushState({}, '', link);
+      window.dispatchEvent(new Event('popstate'));
+    }
+  }
+
   const Dropdown = (
     navItem: any,
     pathName: any,
@@ -93,13 +131,9 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               )}
             <div className={`space-y-2 ${depth > 1 ? "pl-5" : "pl-0"}`}>
               <Collapsible
-                defaultOpen={
-                  pathName.split("/")[1 + depth] ===
-                  navItem.link.split("/")[1 + depth] &&
-                  navItem.link.split("/")[1] === pathName.split("/")[1]
-                }
+                defaultOpen={$docsLinkTracks[getDefaultLink(navItem, depth)]}
               >
-                <CollapsibleTrigger className={`w-full group hover:bg-[#F4F1F1] hover:dark:bg-background2 rounded-sm ${depth > 1 ? "pl-5" : "pl-2"}`}>
+                <CollapsibleTrigger className={`w-full group hover:bg-[#F4F1F1] hover:dark:bg-background2 rounded-sm ${depth > 1 ? "pl-5" : "pl-2"}`} onClick={() => handleCollapsibleTrigger(navItem, depth)}>
                   <div
                     className={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${depth > 0 ? "pl-0 pr-2" : "px-2"
                       }   py-1 text-sm font-medium`}
@@ -118,10 +152,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                         ) : (
                           <a
                             href={subItem.link}
-                            className={`${pathName.split("/")[2 + depth] ===
-                              subItem.link.split("/")[2 + depth] &&
-                              navItem.link.split("/")[1] ===
-                              pathName.split("/")[1]
+                            className={`${getCurrentLink(subItem.link)
                               ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
                               : ""
                               } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  py-1 ml-5 pl-5 pr-2 text-sm font-medium text-para  hover:bg-[#F4F1F1] hover:text-primary hover:dark:bg-background2 hover:dark:text-white`}
