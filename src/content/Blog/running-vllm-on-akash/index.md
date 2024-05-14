@@ -1,18 +1,27 @@
 ---
 title: "Running vLLM on Akash"
-description: Learn how to save money by replacing Closed AI models like GPT-4 by running open source LLM's on Akash with vLLM.  vLLm is the most powerful open source LLM server for multiuser / high concurrent request LLM services.  We show you how to run fully featured open source llm application stack on Akash including with OpenWeb UI Chat application and AI Agent workflows for using LangChain and Crew AI.    
+description: Learn how to save money by replacing Closed AI models like GPT-4 by running open source LLM's on Akash with vLLM.  vLLm is the most powerful open source LLM server for multiuser / high concurrent request LLM services.  We show you how to run fully featured open source llm application stack on Akash including with OpenWeb UI Chat application and AI Agent workflows for using LangChain and Crew AI. Use this deployment to replace GPT-4 for your entire office or team.   
 
 pubDate: "2024-5-8"
 draft: true
+showcase: true 
+featured: true
 
 categories:
+  - AI & ML
   - Insights
   - Updates
   - News
+
 tags:
+  - AI & ML
   - Insights
   - Updates
   - News
+#   - deployed_on_akash
+#   - tools
+
+githubLink: "https://github.com/akash-netowork/awesome-akash/vllm" # <--- This is the github link of the project
 
 contributors:
   - Logan Cerkovnik
@@ -22,6 +31,8 @@ bannerImage: ./banner-image.jpg
 ---
 # Running vLLM on Akash
 By Logan Cerkovnik and Anil Murty
+
+[![Running vLLM on Akash](https://res.cloudinary.com/marcomontalbano/image/upload/v1715632074/video_to_markdown/images/youtube--q26V4tpg5OM-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/q26V4tpg5OM "Running vLLM on Akash")
 
 There has been a proliferation of LLM services over the last several months and it’s great to see some of these be made available open source. Ollama is one of the early solutions that gained a significant amount of popularity among developers and has helped many developers accelerate their AI application development using open source AI models. A more recent solution is vLLM - that aims to overcome some of the limitations of Ollama. This post delves into what vLLM is and when and why developers should consider using it. Lastly it also demonstrates how you can run vLLM easily on Akash Network
 
@@ -131,7 +142,7 @@ Steps to Troubleshoot
 - Make sure the vllm container has a large of disk space to store the model weights.
 - If you are doing something funny with really large context lengths you can use the tools below to help estimate VRAM utilization.
 - Remember that really large models like Grok sometimes require multiple gpus.  the max number of gpus supported by this vllm example is 8 gpus or 640Gb VRAM for a100
-- If you needed more than 8 gpus you can use a larger ray cluster instead, but this is beyond the scope of this example. you can contact logan@thumper for asistance if you need help with this. 
+- If you needed more than 8 gpus you can use a larger ray cluster instead, but this is beyond the scope of this example. you can contact logan@thumper.ai for asistance if you need help with this. 
 
 ### Tools for Checking Model VRAM requirements: 
 - [can it run](https://huggingface.co/spaces/Vokturz/can-it-run-llm)
