@@ -43,7 +43,7 @@ The main change vLLM makes is adding Paged Attention to an LMM model by swapping
 
 ![Benchmarks](imgs/benchmarks.png)
 
-At the time of the original paper ( June 2023), vLLM dramatically outperformed TGI.  Since then other 3rd parties have also found vLLM to be one of the most performant open source LLM server implementations available for concurrent requests. Again one thing to note is that no one is putting ollama or llama.cpp based implementations onto these benchmarks because those LLL servers are really intended to only support one user at a time and they are not suitable for being used as a service. 
+At the time of the original paper ( June 2023), vLLM dramatically outperformed TGI.  Since then other 3rd parties have also found vLLM to be one of the most performant open source LLM server implementations available for concurrent requests. Again one thing to note is that no one is putting ollama or llama.cpp based implementations onto these benchmarks because those LLM servers are really intended to only support one user at a time and they are not suitable for being used as a service. 
 
 ![Compare](imgs/compare.png)
 
