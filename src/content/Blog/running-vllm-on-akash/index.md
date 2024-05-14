@@ -2,7 +2,7 @@
 title: "Running vLLM on Akash"
 description: Learn how to save money by replacing Closed AI models like GPT-4 by running open source LLM's on Akash with vLLM.  vLLm is the most powerful open source LLM server for multiuser / high concurrent request LLM services.  We show you how to run fully featured open source llm application stack on Akash including with OpenWeb UI Chat application and AI Agent workflows for using LangChain and Crew AI. Use this deployment to replace GPT-4 for your entire office or team.   
 
-pubDate: "2024-5-8"
+pubDate: "2024-5-14"
 draft: true
 showcase: true 
 featured: true
@@ -34,7 +34,7 @@ By Logan Cerkovnik and Anil Murty
 
 [![Running vLLM on Akash](https://res.cloudinary.com/marcomontalbano/image/upload/v1715632074/video_to_markdown/images/youtube--q26V4tpg5OM-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/q26V4tpg5OM "Running vLLM on Akash")
 
-There has been a proliferation of LLM services over the last several months and it’s great to see some of these be made available open source. Ollama is one of the early solutions that gained a significant amount of popularity among developers and has helped many developers accelerate their AI application development using open source AI models. A more recent solution is vLLM - that aims to overcome some of the limitations of Ollama. This post delves into what vLLM is and when and why developers should consider using it. Lastly it also demonstrates how you can run vLLM easily on Akash Network
+There has been a proliferation of LLM services over the last several months and it’s great to see some of these be made available open source. Ollama is one of the early solutions that gained a significant amount of popularity among developers and has helped many developers accelerate their AI application development using open source AI models. A more recent solution is vLLM - that aims to overcome some of the limitations of Ollama. This post delves into what vLLM is and when and why developers should consider using it. Lastly it also demonstrates how you can run vLLM easily on Akash Network.
 
 ## Delving into vLLM
 vLLM is an LLM server implementation first introduced in a paper last year. Its primary objective was to make LLM inference faster for multiuser services. What vLLM does also achieve is overcoming two of the limitations of Ollama. vLLM enables you to serve more than 1 user at a time, natively, without having to proxy user requests between multiple GPUs. It also allows easy switching of models back and forth, without blocking users from accessing their specific model.
