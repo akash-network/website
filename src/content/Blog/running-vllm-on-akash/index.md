@@ -25,7 +25,6 @@ githubLink: "https://github.com/akash-netowork/awesome-akash/vllm" # <--- This i
 
 contributors:
   - Logan Cerkovnik
-  - Anil Murty
 
 bannerImage: ./banner-image.jpg
 ---
