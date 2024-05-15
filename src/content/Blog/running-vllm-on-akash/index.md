@@ -40,7 +40,7 @@ The main change vLLM makes is adding Paged Attention to an LLM model by swapping
 
 ![Benchmarks](imgs/benchmarks.png)
 
-At the time of the original paper ( June 2023), vLLM dramatically outperformed TGI. Since then other 3rd parties have also found vLLM to be one of the most performant open source LLM server implementations available for concurrent requests. Again, one thing to note is that no one is putting Ollama or llama.cpp based implementations onto these benchmarks because those LLM servers are really intended to only support one user at a time and they are not suitable for being used as a service. 
+At the time of the original paper (June 2023), vLLM dramatically outperformed TGI. Since then other 3rd parties have also found vLLM to be one of the most performant open source LLM server implementations available for concurrent requests. Again, one thing to note is that no one is putting Ollama or llama.cpp based implementations onto these benchmarks because those LLM servers are really intended to only support one user at a time and they are not suitable for being used as a service. 
 
 ![Compare](imgs/compare.png)
 
@@ -140,8 +140,8 @@ Steps to Troubleshoot
 - If you needed more than 8 gpus you can use a larger ray cluster instead, but this is beyond the scope of this example. you can contact logan@thumper.ai for asistance if you need help with this. 
 
 ### Tools for Checking Model VRAM requirements: 
-- [can it run](https://huggingface.co/spaces/Vokturz/can-it-run-llm)
-- [LLM-Model-VRAM-Calculator](https://huggingface.co/spaces/NyxKrage/LLM-Model-VRAM-Calculator)
+- ["Can-it-run" - HuggingFace](https://huggingface.co/spaces/Vokturz/can-it-run-llm)
+- ["LLM-Model-VRAM-Calculator" - HuggingFace](https://huggingface.co/spaces/NyxKrage/LLM-Model-VRAM-Calculator)
 
 ## Wrapping Up
-vLLM may be one of the best open source LLM servers available today,for most applications with multiple users. We hope this blog makes it easier for people to use vLLM in their applications on Akash. If you have any questions or are looking for some assistance feel free to reach out to logan@thumper.ai .
+vLLM may be one of the best open source LLM servers available today,for most applications with multiple users. We hope this blog makes it easier for people to use vLLM in their applications on Akash. If you have any questions or are looking for some assistance feel free to reach out to logan@thumper.ai.
