@@ -2,7 +2,7 @@
 title: "Running vLLM on Akash"
 description: Learn how to save money by replacing Closed AI models like GPT-4 by running open source LLM's on Akash with vLLM. vLLM is the most powerful open source LLM server for multiuser / high concurrent request LLM services. We show you how to run fully featured open source llm application stack on Akash including with OpenWeb UI Chat application and AI Agent workflows for using LangChain and Crew AI. Use this deployment to replace GPT-4 for your entire office or team.  
 
-pubDate: "2024-5-14"
+pubDate: "2024-5-15"
 draft: false
 showcase: true 
 featured: true
@@ -29,7 +29,7 @@ bannerImage: ./banner-image.jpg
 # Running vLLM on Akash
 By [Logan Cerkovnik](https://www.twitter.com/ThumperAI) & [Anil Murty](https://twitter.com/_Anil_Murty_)
 
-[![Running vLLM on Akash](https://res.cloudinary.com/marcomontalbano/image/upload/v1715632074/video_to_markdown/images/youtube--q26V4tpg5OM-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/q26V4tpg5OM "Running vLLM on Akash")
+[![Running vLLM on Akash](https://res.cloudinary.com/marcomontalbano/image/upload/v1715742467/video_to_markdown/images/youtube--_hv9681CV0Y-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/_hv9681CV0Y "Running vLLM on Akash")
 
 There has been a proliferation of LLM services over the last several months and it’s great to see some of these be made available open source. Ollama is one of the early solutions that gained a significant amount of popularity among developers and has helped many developers accelerate their AI application development using open source AI models. A more recent solution is vLLM - that aims to overcome some of the limitations of Ollama. This post delves into what vLLM is and when and why developers should consider using it. Lastly, it also demonstrates how you can run vLLM easily on Akash Network.
 
