@@ -114,7 +114,7 @@ Sizing LLM Server resources for a particular application can be challenging beca
 
 ## Troubleshooting:
 
-If you don't see the model in the OpenWebUI dropdown it usually means you chose a model that was too large for GPU, too large for disk space, or has a bad Hugginface repo entered into the deployment. You can usually verify which issue is is from the logs. You will usually have to redeploy the deployment to change these parameters.
+If you don't see the model in the OpenWebUI dropdown it usually means you chose a model that was too large for GPU, too large for disk space, or has a bad Hugginface repo entered into the deployment. You can usually verify which issue is from the logs. You will usually have to redeploy the deployment to change these parameters.
 
 Steps to Troubleshoot
 1. Read the logs for the vLLM container and the UI container
