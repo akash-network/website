@@ -183,13 +183,13 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
 
           <div className="flex items-center justify-between border-t border-border py-7 text-para">
             <div className="flex gap-x-[20px] px-2">
-              <a href="https://twitter.com/akashnet_" target="_blank">
+              <a href="https://twitter.com/akashnet_" target="_blank" className="hover:text-primary">
                 <TwitterIcon />
               </a>
-              <a href="https://github.com/akash-network" target="_blank">
+              <a href="https://github.com/akash-network" target="_blank" className="hover:text-primary">
                 <GithubIcon />
               </a>
-              <a href="https://discord.com/invite/akash" target="_blank">
+              <a href="https://discord.com/invite/akash" target="_blank" className="hover:text-primary">
                 <DiscordIcon />
               </a>
             </div>
