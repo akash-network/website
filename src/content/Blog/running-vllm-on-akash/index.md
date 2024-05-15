@@ -69,7 +69,7 @@ Note: you should never use latest as a tag for your containers in Akash SDL and 
 
 You can find an example of using CrewAI in the vLLM_crew_notebook_deployment.yml
 
-Below is a code snippet using the llm with langchain in python. Tool calling should be supported pretty well by any model that is as performant as WizardLM2 7B or better. 
+Below is a code snippet using the llm with Langchain in Python. Tool calling should be supported pretty well by any model that is as performant as WizardLM2 7B or better. 
 
 ```python
 import os
