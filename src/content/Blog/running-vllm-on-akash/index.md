@@ -31,16 +31,16 @@ By [Logan Cerkovnik](https://www.twitter.com/ThumperAI) & [Anil Murty](https://t
 
 [![Running vLLM on Akash](https://res.cloudinary.com/marcomontalbano/image/upload/v1715632074/video_to_markdown/images/youtube--q26V4tpg5OM-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/q26V4tpg5OM "Running vLLM on Akash")
 
-There has been a proliferation of LLM services over the last several months and it’s great to see some of these be made available open source. Ollama is one of the early solutions that gained a significant amount of popularity among developers and has helped many developers accelerate their AI application development using open source AI models. A more recent solution is vLLM - that aims to overcome some of the limitations of Ollama. This post delves into what vLLM is and when and why developers should consider using it. Lastly it also demonstrates how you can run vLLM easily on Akash Network.
+There has been a proliferation of LLM services over the last several months and it’s great to see some of these be made available open source. Ollama is one of the early solutions that gained a significant amount of popularity among developers and has helped many developers accelerate their AI application development using open source AI models. A more recent solution is vLLM - that aims to overcome some of the limitations of Ollama. This post delves into what vLLM is and when and why developers should consider using it. Lastly, it also demonstrates how you can run vLLM easily on Akash Network.
 
 ## Delving into vLLM
-vLLM is an LLM server implementation first introduced in a paper last year. Its primary objective was to make LLM inference faster for multiuser services. What vLLM does also achieve is overcoming two of the limitations of Ollama. vLLM enables you to serve more than 1 user at a time, natively, without having to proxy user requests between multiple GPUs. It also allows easy switching of models back and forth, without blocking users from accessing their specific model.
+vLLM is an LLM server implementation first introduced in a paper last year. Its primary objective was to make LLM inference faster for multiuser services. What vLLM does also achieve is overcoming some of the limitations of Ollama. vLLM enables you to serve more than 1 user at a time, natively, without having to proxy user requests between multiple GPUs. It also allows has somewhere between 2-4X the throughput of Ollama for concurrent requests.
 
-The main change vLLM makes is adding Paged Attention to an LLM model by swapping out all the transformer attention modules for Paged Attention which implements attention more efficiently. The authors of vLLM describe Page Attention as, “Paged Attention’s memory sharing greatly reduces the memory overhead of complex sampling algorithms, such as parallel sampling and beam search, cutting their memory usage by up to 55%. This can translate into up to 2.2x improvement in throughput”. You can read more about the technical details of paged attention on the vLLM blog at https://blog.vLLM.ai/2023/06/20/vLLM.html. The current server implementation has gone beyond just Paged Attention and will soon support speculative encoding approaches. Other open source alternatives to vLLM include HuggingFace’s TGI and  the sglang engine with its Radix Attention implementation. The only drawback to using vLLM is that it doesn’t support all of the super low quantization methods and file formats such as GGUF. If you haven’t used GGUF before in llama.cpp-based tools like ollama then you should note that most people actively try to avoid using models with quantization lower than the 4bit (Q4) quantization due to performance issues. The good news is that most models are available in GPTQ or AWQ quantization formats that are supported by vLLM. 
+The main change vLLM makes is adding Paged Attention to an LLM model by swapping out all the transformer attention modules for Paged Attention which implements attention more efficiently. The authors of vLLM describe Page Attention as, “Paged Attention’s memory sharing greatly reduces the memory overhead of complex sampling algorithms, such as parallel sampling and beam search, cutting their memory usage by up to 55%. This can translate into up to 2.2x improvement in throughput”. You can read more about the technical details of paged attention on the vLLM blog at https://blog.vLLM.ai/2023/06/20/vLLM.html. The current server implementation has gone beyond just Paged Attention and will soon support speculative encoding approaches. Other open source alternatives to vLLM include HuggingFace’s TGI and the sglang engine with its Radix Attention implementation. The only drawback to using vLLM is that it doesn’t support all of the super low quantization methods and file formats such as GGUF. If you haven’t used GGUF before in llama.cpp-based tools like ollama then you should note that most people actively try to avoid using models with quantization lower than the 4bit (Q4) quantization due to performance issues. The good news is that most models are available in GPTQ or AWQ quantization formats that are supported by vLLM. 
 
 ![Benchmarks](imgs/benchmarks.png)
 
-At the time of the original paper ( June 2023), vLLM dramatically outperformed TGI. Since then other 3rd parties have also found vLLM to be one of the most performant open source LLM server implementations available for concurrent requests. Again one thing to note is that no one is putting ollama or llama.cpp based implementations onto these benchmarks because those LLM servers are really intended to only support one user at a time and they are not suitable for being used as a service. 
+At the time of the original paper ( June 2023), vLLM dramatically outperformed TGI. Since then other 3rd parties have also found vLLM to be one of the most performant open source LLM server implementations available for concurrent requests. Again, one thing to note is that no one is putting Ollama or llama.cpp based implementations onto these benchmarks because those LLM servers are really intended to only support one user at a time and they are not suitable for being used as a service. 
 
 ![Compare](imgs/compare.png)
 
@@ -61,7 +61,7 @@ You can also build your own image using the Dockerfile in the root of the vLLM r
 Note: you should never use latest as a tag for your containers in Akash SDL and that if you have a new model you should check if it has official vLLM support and note the date to make sure the container has been pushed since support has been added. 
 
 ## Deployment
-1. **Create a Deployment Configuration**: Create a YAML file for your vLLM deployment, including Docker configurations, resource requirements, and port exposures. See the example below which you should be able to copy and paste into  Akash Console. 
+1. **Create a Deployment Configuration**: Create a YAML file for your vLLM deployment, including Docker configurations, resource requirements, and port exposures. See the example below which you should be able to copy and paste into Akash Console. 
 2. **Deploy**: Use Akash Console to deploy your application, which matches you with a suitable provider based on your deployment specifications.
 3. **Use LLM UI** : After deployment, utilize the Akash Console field to find the IP address of the service and you should be good to go. 
 4. **Use LLM API** : After deployment, utilize the Akash Console field to find the IP address of the vLLM service and add the uri and api key variables to whatever client you are using.
@@ -99,8 +99,8 @@ This Repo contains 4 example vLLM yamls
 One example without a user interface and 3 with the awesome openwebui tool
 
 * vLLM_no_ui_deployment.yml a basic example without a user interface
-* vLLM_with_openwebui_dolphin2-9-llama3-70b.yml a l
-* vLLM_with_openwebui_mistral7b.yml
+* vLLM_with_openwebui_dolphin2-9-llama3-70b.yml 
+* vLLM_with_openwebui_wizardlm2-7b.yml
 * vLLM_with_openwebui_wizardlm2-8x22.yml
 * vLLM_crew_notebook_deployment.yml
 
@@ -110,7 +110,7 @@ The vLLM server supports the following OpenAI API endpoints:
 * Create completion
 
 ## Sizing vLLM for a number of different users
-Sizing LLM Server resources for a particular application can be challenging because of the impact of model choice, quantization of that model, GPU hardware, and usage pattern ( human being vs agent). Anyscale ( the company behind Ray) has released a great LLM benchmarking tool called llmperf that is worth using for benchmarking your use case with your specific application requirements. Aside from using this tool, it has been reported that a single Nvidia A100 GPU can support between 10-20 concurrent users for 7B parameter Mistral model with AWQ on vLLM with lower throughput for other server options. Larger models will have lower throughput. There are also a lot of performance improvements going from 1 to 2 GPUs in a vLLM server, but this effect diminishes rapidly.  
+Sizing LLM Server resources for a particular application can be challenging because of the impact of model choice, quantization of that model, GPU hardware, and usage pattern ( human being vs agent). Anyscale ( the company behind Ray) has released a great LLM benchmarking tool called llmperf that is worth using for benchmarking your use case with your specific application requirements. Aside from using this tool, it has been reported that a single Nvidia A100 GPU can support between 10-20 concurrent users for 7B parameter Mistral model with AWQ on vLLM with lower throughput for other server options. Larger models will have lower throughput. There are also a lot of performance improvements going from 1 to 2 GPUs in a vLLM server, but this effect diminishes rapidly.
 
 ## Troubleshooting:
 
@@ -126,7 +126,7 @@ Steps to Troubleshoot
 7. Check the environment variables for setting the `vLLM_API_KEY` and `OPENAI_API_KEYS` environment variables match 
 8. Check that the the `HUGGING_FACE_HUB_TOKEN` is set for downloading models
 9. if using the api externally make sure you have updated the url to use the deployer endpoint variable which can be done by setting `OPENAI_API_BASE`
-10. if you have checked all of these and still have problems than open a issue in the awesome-akash repo and tag @rakataprime. In the issue,  please provide your logs and deployment used with the Hugginface token and other secrets set to XXXXXXXXXXXX. 
+10. if you have checked all of these and still have problems than open a issue in the awesome-akash repo and tag @rakataprime. In the issue, please provide your logs and deployment used with the Hugginface token and other secrets set to XXXXXXXXXXXX. 
 
 ## Choosing The Right GPU for An LLM Model
 
