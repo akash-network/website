@@ -19,7 +19,7 @@ tags:
   - Updates
   - News
 
-githubLink: "https://github.com/akash-netowork/awesome-akash/vllm" # <--- This is the github link of the project
+githubLink: "https://github.com/akash-network/awesome-akash/vllm" # <--- This is the github link of the project
 
 contributors:
   - Logan Cerkovnik
