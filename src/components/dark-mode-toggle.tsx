@@ -23,8 +23,8 @@ const DarkModeToggle = () => {
 
   return (
     <button onClick={toggleTheme} id="header-toggle">
-      <Sun className="h-5 w-5 text-para dark:hidden" />
-      <SunMoon className="hidden h-5 w-5 text-para dark:block" />
+      <Sun className="h-5 w-5 text-para dark:hidden hover:text-primary" />
+      <SunMoon className="hidden h-5 w-5 text-para dark:block hover:text-primary" />
     </button>
   );
 };
