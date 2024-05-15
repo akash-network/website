@@ -23,12 +23,10 @@ tags:
 contributors:
   - Logan Cerkovnik
 
-bannerImage: ./banner-image.jpg
+bannerImage: ./banner-image2.png
 ---
 
-
-# Running vLLM on Akash
-By [Logan Cerkovnik](https://www.twitter.com/ThumperAI) & [Anil Murty](https://twitter.com/_Anil_Murty_)
+*By [Logan Cerkovnik](https://www.twitter.com/ThumperAI) & [Anil Murty](https://twitter.com/_Anil_Murty_)*
 
 There has been a proliferation of LLM services over the last several months and it’s great to see some of these be made available open source. Ollama is one of the early solutions that gained a significant amount of popularity among developers and has helped many developers accelerate their AI application development using open source AI models. A more recent solution is vLLM - that aims to overcome some of the limitations of Ollama. This post delves into what vLLM is and when and why developers should consider using it. Lastly, it also demonstrates how you can run vLLM easily on Akash Network.
 
@@ -45,7 +43,7 @@ At the time of the original paper (June 2023), vLLM dramatically outperformed TG
 
 ![Compare](./imgs/compare.png)
 
-## Links:
+## Links
 * [vLLM Docs](https://docs.vLLM.ai)
 * [vLLM repo](https://github.com/vLLM-project/vLLM)
 * [In depth comparison study](https://pages.run.ai/hubfs/PDFs/Serving-Large-Language-Models-Run-ai-Benchmarking-Study.pdf)
@@ -113,7 +111,7 @@ The vLLM server supports the following OpenAI API endpoints:
 ## Sizing vLLM for a number of different users
 Sizing LLM Server resources for a particular application can be challenging because of the impact of model choice, quantization of that model, GPU hardware, and usage pattern ( human being vs agent). Anyscale ( the company behind Ray) has released a great LLM benchmarking tool called llmperf that is worth using for benchmarking your use case with your specific application requirements. Aside from using this tool, it has been reported that a single Nvidia A100 GPU can support between 10-20 concurrent users for 7B parameter Mistral model with AWQ on vLLM with lower throughput for other server options. Larger models will have lower throughput. There are also a lot of performance improvements going from 1 to 2 GPUs in a vLLM server, but this effect diminishes rapidly.
 
-## Troubleshooting:
+## Troubleshooting
 
 If you don't see the model in the OpenWebUI dropdown it usually means you chose a model that was too large for GPU, too large for disk space, or has a bad Hugginface repo entered into the deployment. You can usually verify which issue is from the logs. You will usually have to redeploy the deployment to change these parameters.
 
@@ -140,7 +138,7 @@ Steps to Troubleshoot
 - Remember that really large models like Grok sometimes require multiple gpus. the max number of gpus supported by this vLLM example is 8 gpus or 640Gb VRAM for a100
 - If you needed more than 8 gpus you can use a larger ray cluster instead, but this is beyond the scope of this example. you can contact logan@thumper.ai for asistance if you need help with this. 
 
-### Tools for Checking Model VRAM requirements: 
+### Tools for Checking Model VRAM requirements
 - ["Can-it-run" - HuggingFace](https://huggingface.co/spaces/Vokturz/can-it-run-llm)
 - ["LLM-Model-VRAM-Calculator" - HuggingFace](https://huggingface.co/spaces/NyxKrage/LLM-Model-VRAM-Calculator)
 
