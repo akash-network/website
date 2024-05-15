@@ -64,7 +64,7 @@ Note: you should never use latest as a tag for your containers in Akash SDL and 
 1. **Create a Deployment Configuration**: Create a YAML file for your vLLM deployment, including Docker configurations, resource requirements, and port exposures. See the example below which you should be able to copy and paste into Akash Console. 
 2. **Deploy**: Use Akash Console to deploy your application, which matches you with a suitable provider based on your deployment specifications.
 3. **Use LLM UI** : After deployment, utilize the Akash Console field to find the IP address of the service and you should be good to go. 
-4. **Use LLM API** : After deployment, utilize the Akash Console field to find the IP address of the vLLM service and add the URI and API key variables to whatever client you are using.
+4. **Use LLM API** : After deployment, utilize the Akash Console field to find the IP address of the vLLM service and add the URI and API key variables to whichever client you are using.
  E.g. "http://localhost:8000/v1"
 
 You can find an example of using crewai in the vLLM_crew_notebook_deployment.yml
