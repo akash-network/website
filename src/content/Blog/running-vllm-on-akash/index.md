@@ -51,7 +51,7 @@ At the time of the original paper ( June 2023), vLLM dramatically outperformed T
 
 ## Preparation
 * Create an Akash account and ensure you have AKT tokens.
-* Login to console.akash.network with your wallet to launch an instance with an SDL (yaml) found in vLLM folder of the awesome akash [repo](https://github.com/akash-network/awesome-akash/vLLM/) 
+* Login to console.akash.network with your wallet to launch an instance with an SDL (YAML) found in vLLM folder of the awesome akash [repo](https://github.com/akash-network/awesome-akash/vLLM/) 
 
 ## Containerization
 We are going to use the latest official vLLM container image: `vLLM/vLLM-openai:v0.4.0.post1` . 
@@ -95,7 +95,7 @@ print(llm.invoke("Rome is"))
 
 The vLLM server is designed to be compatible with the OpenAI API, allowing you to use it as a drop-in replacement for applications using the OpenAI API. 
 
-This Repo contains 4 example vLLM yamls
+This Repo contains 4 example vLLM YAMLs
 One example without a user interface and 3 with the awesome openwebui tool
 
 * vLLM_no_ui_deployment.yml a basic example without a user interface
