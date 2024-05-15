@@ -18,11 +18,8 @@ tags:
   - Insights
   - Updates
   - News
-#   - deployed_on_akash
-#   - tools
 
-githubLink: "https://github.com/akash-netowork/awesome-akash/vLLM" # <--- This is the github link of the project
-twitterLink: 
+githubLink: "https://github.com/akash-netowork/awesome-akash/vllm" # <--- This is the github link of the project
 
 contributors:
   - Logan Cerkovnik
@@ -30,7 +27,7 @@ contributors:
 bannerImage: ./banner-image.jpg
 ---
 # Running vLLM on Akash
-By Logan Cerkovnik and Anil Murty
+By [Logan Cerkovnik](https://www.twitter.com/ThumperAI) & [Anil Murty](https://twitter.com/_Anil_Murty_)
 
 [![Running vLLM on Akash](https://res.cloudinary.com/marcomontalbano/image/upload/v1715632074/video_to_markdown/images/youtube--q26V4tpg5OM-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/q26V4tpg5OM "Running vLLM on Akash")
 
