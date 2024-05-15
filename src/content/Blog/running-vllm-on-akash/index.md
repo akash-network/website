@@ -4,6 +4,7 @@ description: Learn how to save money by replacing Closed AI models like GPT-4 by
 
 pubDate: "2024-5-15"
 draft: false
+archive: false
 showcase: true 
 featured: true
 
@@ -19,13 +20,13 @@ tags:
   - Updates
   - News
 
-githubLink: "https://github.com/akash-network/awesome-akash/vllm" # <--- This is the github link of the project
-
 contributors:
   - Logan Cerkovnik
 
 bannerImage: ./banner-image.jpg
 ---
+
+
 # Running vLLM on Akash
 By [Logan Cerkovnik](https://www.twitter.com/ThumperAI) & [Anil Murty](https://twitter.com/_Anil_Murty_)
 
@@ -38,11 +39,11 @@ vLLM is an LLM server implementation first introduced in a paper last year. Its 
 
 The main change vLLM makes is adding Paged Attention to an LLM model by swapping out all the transformer attention modules for Paged Attention which implements attention more efficiently. The authors of vLLM describe Page Attention as, “Paged Attention’s memory sharing greatly reduces the memory overhead of complex sampling algorithms, such as parallel sampling and beam search, cutting their memory usage by up to 55%. This can translate into up to 2.2x improvement in throughput”. You can read more about the technical details of paged attention on the vLLM blog at https://blog.vLLM.ai/2023/06/20/vLLM.html. The current server implementation has gone beyond just Paged Attention and will soon support speculative encoding approaches. Other open source alternatives to vLLM include HuggingFace’s TGI and the sglang engine with its Radix Attention implementation. The only drawback to using vLLM is that it doesn’t support all of the super low quantization methods and file formats such as GGUF. If you haven’t used GGUF before in llama.cpp-based tools like ollama then you should note that most people actively try to avoid using models with quantization lower than the 4bit (Q4) quantization due to performance issues. The good news is that most models are available in GPTQ or AWQ quantization formats that are supported by vLLM. 
 
-![Benchmarks](imgs/benchmarks.png)
+![Benchmarks](./imgs/benchmarks.png)
 
 At the time of the original paper (June 2023), vLLM dramatically outperformed TGI. Since then other 3rd parties have also found vLLM to be one of the most performant open source LLM server implementations available for concurrent requests. Again, one thing to note is that no one is putting Ollama or llama.cpp based implementations onto these benchmarks because those LLM servers are really intended to only support one user at a time and they are not suitable for being used as a service. 
 
-![Compare](imgs/compare.png)
+![Compare](./imgs/compare.png)
 
 ## Links:
 * [vLLM Docs](https://docs.vLLM.ai)
