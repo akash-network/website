@@ -64,7 +64,7 @@ Note: you should never use latest as a tag for your containers in Akash SDL and 
 1. **Create a Deployment Configuration**: Create a YAML file for your vLLM deployment, including Docker configurations, resource requirements, and port exposures. See the example below which you should be able to copy and paste into Akash Console. 
 2. **Deploy**: Use Akash Console to deploy your application, which matches you with a suitable provider based on your deployment specifications.
 3. **Use LLM UI** : After deployment, utilize the Akash Console field to find the IP address of the service and you should be good to go. 
-4. **Use LLM API** : After deployment, utilize the Akash Console field to find the IP address of the vLLM service and add the uri and api key variables to whatever client you are using.
+4. **Use LLM API** : After deployment, utilize the Akash Console field to find the IP address of the vLLM service and add the URI and API key variables to whatever client you are using.
  E.g. "http://localhost:8000/v1"
 
 You can find an example of using crewai in the vLLM_crew_notebook_deployment.yml
@@ -125,7 +125,7 @@ Steps to Troubleshoot
 6. Make sure that the model is [officially supported by vLLM](https://docs.vLLM.ai/en/latest/models/supported_models.html)
 7. Check the environment variables for setting the `vLLM_API_KEY` and `OPENAI_API_KEYS` environment variables match 
 8. Check that the the `HUGGING_FACE_HUB_TOKEN` is set for downloading models
-9. if using the api externally make sure you have updated the url to use the deployer endpoint variable which can be done by setting `OPENAI_API_BASE`
+9. if using the API externally make sure you have updated the url to use the deployer endpoint variable which can be done by setting `OPENAI_API_BASE`
 10. if you have checked all of these and still have problems than open a issue in the awesome-akash repo and tag @rakataprime. In the issue, please provide your logs and deployment used with the Hugginface token and other secrets set to XXXXXXXXXXXX. 
 
 ## Choosing The Right GPU for An LLM Model
