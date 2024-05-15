@@ -175,7 +175,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </a> */}
             <a
               href="https://console.akash.network/"
-              className="hover:bg-primary/10 flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary px-[17px] py-[9px] text-sm font-medium leading-[20px] text-white hover:text-primary"
+              className="flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary px-[17px] py-[9px] text-sm font-medium leading-[20px] text-white hover:bg-darkGray"
             >
               Deploy Now
             </a>
