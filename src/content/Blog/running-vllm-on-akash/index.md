@@ -50,7 +50,7 @@ At the time of the original paper (June 2023), vLLM dramatically outperformed TG
 
 ## Preparation
 1. Create an Akash account and ensure you have AKT tokens.
-2. Login to console.akash.network with your wallet to launch an instance with an SDL (YAML) found in vLLM folder of the [Awesome-Akash repository](https://github.com/akash-network/awesome-akash/vllm/) 
+2. Login to console.akash.network with your wallet to launch an instance with an SDL (YAML) found in vLLM folder of the [Awesome-Akash repository](https://github.com/akash-network/awesome-akash/tree/master/vllm) 
 
 ## Containerization
 We are going to use the latest official vLLM container image: `vLLM/vLLM-openai:v0.4.0.post1` 
