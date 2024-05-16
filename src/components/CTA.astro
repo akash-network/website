@@ -36,11 +36,23 @@ if (pathname.startsWith("/ecosystem/providers")) {
 
   <div class="mt-6 md:mt-10">
     <div class="hidden md:block">
-      <ButtonLink link={button.link} size="xl">{button.label}</ButtonLink>
+      <ButtonLink
+        link={button.link}
+        size="xl"
+        className="bg-primary text-white hover:bg-darkGray"
+      >
+        {button.label}
+      </ButtonLink>
     </div>
 
     <div class="block md:hidden">
-      <ButtonLink link={button.link} size="md">{button.label}</ButtonLink>
+      <ButtonLink
+        link={button.link}
+        size="md"
+        className="bg-primary text-white hover:bg-darkGray"
+      >
+        {button.label}
+      </ButtonLink>
     </div>
   </div>
 </section>
