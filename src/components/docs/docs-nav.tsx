@@ -137,6 +137,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               )}
             <div className={`space-y-2 ${depth > 1 ? "pl-5" : "pl-0"}`}>
               <Collapsible
+                id={getDefaultLink(navItem, depth)}
                 defaultOpen={$docsLinkTracks[getDefaultLink(navItem, depth)]}
               >
                 <CollapsibleTrigger
@@ -206,3 +207,25 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     </>
   );
 }
+
+export const HomeButton = ({ pathname }: { pathname: string }) => {
+  const setDocsLinkTracks = useStorage((state) => state.setDocsLinkTracks);
+
+  return (
+    <a
+      href={`/docs`}
+      onClick={() => {
+        setDocsLinkTracks({});
+      }}
+      className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
+      hover:bg-[#F4F1F1] dark:hover:bg-background2
+    dark:hover:text-white  ${
+      pathname?.split("/")[3]
+        ? "text-para"
+        : "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
+    }`}
+    >
+      Home
+    </a>
+  );
+};
