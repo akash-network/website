@@ -1,6 +1,6 @@
 ---
 title: "Running vLLM on Akash"
-description: Learn how to save money by replacing Closed AI models like GPT-4 by running open source LLM's on Akash with vLLM. vLLM is the most powerful open source LLM server for multiuser / high concurrent request LLM services. We show you how to run fully featured open source llm application stack on Akash including with OpenWeb UI Chat application and AI Agent workflows for using LangChain and Crew AI. Use this deployment to replace GPT-4 for your entire office or team.  
+description: Learn how to save money by replacing closed-source AI models like GPT-4 by running the leading open-source LLM's on Akash with vLLM.
 
 pubDate: "2024-5-15"
 draft: false
