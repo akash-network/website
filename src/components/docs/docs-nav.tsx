@@ -51,6 +51,13 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
       window.dispatchEvent(new Event("popstate"));
     }
   };
+
+  useEffect(() => {
+    const newLinkTracks = { ...$docsLinkTracks };
+
+    setDocsLinkTracks({ ...newLinkTracks, [pathName]: true });
+  }, [pathName]);
+
   console.log($docsLinkTracks);
 
   const Dropdown = (
@@ -138,7 +145,16 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
             <div className={`space-y-2 ${depth > 1 ? "pl-5" : "pl-0"}`}>
               <Collapsible
                 id={getDefaultLink(navItem, depth)}
-                defaultOpen={$docsLinkTracks[getDefaultLink(navItem, depth)]}
+                defaultOpen={
+                  $docsLinkTracks[getDefaultLink(navItem, depth)] ||
+                  pathName
+                    ?.split("/")
+                    ?.includes(
+                      navItem.link.split("/")[
+                        navItem.link.split("/").length - 2
+                      ],
+                    )
+                }
               >
                 <CollapsibleTrigger
                   className={`group w-full rounded-sm hover:bg-[#F4F1F1] hover:dark:bg-background2 ${
