@@ -188,11 +188,6 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     );
   };
 
-  const paths = pathName.split("/");
-  console.log(docsNav);
-  const data = [
-    { label: "Home", link: "/docs", enabled: true, subItems: docsNav },
-  ];
   return (
     <>
       <nav className="">
