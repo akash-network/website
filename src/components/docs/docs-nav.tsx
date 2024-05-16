@@ -53,12 +53,6 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
   };
   console.log($docsLinkTracks);
 
-  useEffect(() => {
-    if (pathName === "/docs") {
-      setDocsLinkTracks({});
-    }
-  }, [pathName]);
-
   const Dropdown = (
     navItem: any,
     pathName: any,
@@ -143,11 +137,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               )}
             <div className={`space-y-2 ${depth > 1 ? "pl-5" : "pl-0"}`}>
               <Collapsible
-                defaultOpen={
-                  pathName === "/docs"
-                    ? false
-                    : $docsLinkTracks[getDefaultLink(navItem, depth)]
-                }
+                defaultOpen={$docsLinkTracks[getDefaultLink(navItem, depth)]}
               >
                 <CollapsibleTrigger
                   className={`group w-full rounded-sm hover:bg-[#F4F1F1] hover:dark:bg-background2 ${
