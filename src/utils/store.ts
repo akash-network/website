@@ -6,6 +6,8 @@ export interface IStore {
   setToken: (token: string) => void;
   gpu: any;
   setGpu: (gpu: string) => void;
+  docsLinkTracks: { [link: string]: boolean };
+  setDocsLinkTracks: (data: { [link: string]: boolean }) => void;
 }
 
 export const useStorage = create<IStore>()(
@@ -20,6 +22,8 @@ export const useStorage = create<IStore>()(
           time: 0,
         },
         setGpu: (gpu) => set({ gpu }),
+        docsLinkTracks: {},
+        setDocsLinkTracks: (data) => set((state) => ({ docsLinkTracks: data })),
       }),
       {
         name: "akash-network",
