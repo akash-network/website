@@ -2,7 +2,7 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "lucide-react";
 import { XMarkIcon } from "../header/icons";
 import { useLockBody } from "../use-lock-body";
-import { DocsNav } from "./docs-nav";
+import { DocsNav, HomeButton } from "./docs-nav";
 import ToggleNav from "./toggle-nav";
 
 export default function MobileNav({ catName, docsNav, pathname }: any) {
@@ -66,7 +66,7 @@ function SideNav({ nav, pathname }: any) {
   return (
     <div className="w-full px-4 py-2">
       {/* <ToggleNav nav={nav} pathname={pathname} /> */}
-
+      {/* 
       <a
         href={`/docs/`}
         className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] hover:bg-[#F4F1F1] hover:text-primary  ${
@@ -76,9 +76,10 @@ function SideNav({ nav, pathname }: any) {
         }`}
       >
         Home
-      </a>
+      </a> */}
+      <HomeButton pathname={pathname} />
 
-      <div className="mt-3 border-b"></div>
+      {/* <div className="mt-3 border-b"></div> */}
 
       <div className="mt-4">
         <DocsNav docsNav={nav} pathName={pathname} />
