@@ -31,7 +31,7 @@ const pathname = new URL(Astro.request.url).pathname;
 
     <div>
       <DocsNav
-        client:load
+        client:only
         docsNav={nav}
         providersNav={providersNav}
         pathName={pathname}

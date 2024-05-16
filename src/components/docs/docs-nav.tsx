@@ -209,9 +209,6 @@ export const HomeButton = ({ pathname }: { pathname: string }) => {
   return (
     <a
       href={`/docs`}
-      onClick={() => {
-        setDocsLinkTracks({});
-      }}
       className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
       hover:bg-[#F4F1F1] dark:hover:bg-background2
     dark:hover:text-white  ${
@@ -219,6 +216,7 @@ export const HomeButton = ({ pathname }: { pathname: string }) => {
         ? "text-para"
         : "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
     }`}
+      onClick={() => setDocsLinkTracks({})}
     >
       Home
     </a>
