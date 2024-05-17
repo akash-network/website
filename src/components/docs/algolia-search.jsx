@@ -1,6 +1,5 @@
-import React from "react";
-import { DocSearch } from "@docsearch/react";
 import "@docsearch/css";
+import { DocSearch } from "@docsearch/react";
 import "../../styles/globals.css";
 const AlgoliaSearch = () => {
   return (
