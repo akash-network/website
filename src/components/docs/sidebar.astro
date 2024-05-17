@@ -1,6 +1,6 @@
 ---
 import AkashLogo from "./akash-docs-logo.astro";
-import { DocsNav } from "./docs-nav";
+import { DocsNav, HomeButton } from "./docs-nav";
 
 const { nav, providersNav } = Astro.props;
 
@@ -12,7 +12,7 @@ const pathname = new URL(Astro.request.url).pathname;
 >
   <div class="flex flex-col">
     <div>
-      <a
+      <!-- <a
         href={`/docs`}
         class={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
           dark:hover:text-white dark:hover:bg-background2
@@ -23,14 +23,15 @@ const pathname = new URL(Astro.request.url).pathname;
         }`}
       >
         Home
-      </a>
+      </a> -->
+      <HomeButton pathname={pathname} client:load />
     </div>
 
     <!-- <div class="border-b"></div> -->
 
     <div>
       <DocsNav
-        client:load
+        client:only
         docsNav={nav}
         providersNav={providersNav}
         pathName={pathname}

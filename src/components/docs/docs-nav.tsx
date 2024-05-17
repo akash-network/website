@@ -9,7 +9,57 @@ import React, { useEffect, useState } from "react";
 import { Switch } from "../ui/switch";
 import { docsSequence as docs } from "@/content/Docs/_sequence";
 
+import { useStorage } from "@/utils/store";
+
+const MAX_DEPTH = 4;
+
 export function DocsNav({ docsNav = [], pathName = [] }: any) {
+  console.log(pathName);
+
+  const $docsLinkTracks = useStorage((state) => state.docsLinkTracks);
+  const setDocsLinkTracks = useStorage((state) => state.setDocsLinkTracks);
+  console.log($docsLinkTracks);
+
+  const getCurrentLink = (link: string) => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+    const currentLink = window.location.pathname;
+    return link === currentLink;
+  };
+
+  const getDefaultLink = (navItem: any, depth: any) => {
+    for (let index = 0; index <= MAX_DEPTH; index += 1) {
+      if (navItem.subItems && navItem.subItems.length > 0) {
+        navItem = navItem.subItems[0];
+      } else {
+        break;
+      }
+    }
+    if (navItem.link) return navItem.link;
+    return "";
+  };
+
+  const handleCollapsibleTrigger = (navItem: any, depth: any) => {
+    const link = getDefaultLink(navItem, depth) as string;
+    const isOpen = $docsLinkTracks[link];
+    if (isOpen) {
+      setDocsLinkTracks({ ...$docsLinkTracks, [link]: !isOpen });
+    } else {
+      setDocsLinkTracks({ ...$docsLinkTracks, [link]: true });
+      window.history.pushState({}, "", link);
+      window.dispatchEvent(new Event("popstate"));
+    }
+  };
+
+  useEffect(() => {
+    const newLinkTracks = { ...$docsLinkTracks };
+
+    setDocsLinkTracks({ ...newLinkTracks, [pathName]: true });
+  }, [pathName]);
+
+  console.log($docsLinkTracks);
+
   const Dropdown = (
     navItem: any,
     pathName: any,
@@ -24,10 +74,10 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
           index === 0
             ? ""
             : depth && index === 0
-              ? ""
-              : depth === 0
-                ? "mt-5"
-                : ""
+            ? ""
+            : depth === 0
+            ? "mt-5"
+            : ""
         }
       >
         {depth === 0 ? (
@@ -56,13 +106,14 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                       <>
                         <a
                           href={subItem.link}
-                          className={`${pathName.split("/")[2 + depth] ===
-                            subItem.link.split("/")[2 + depth] &&
+                          className={`${
+                            pathName.split("/")[2 + depth] ===
+                              subItem.link.split("/")[2 + depth] &&
                             navItem.link.split("/")[1] ===
-                            pathName.split("/")[1]
-                            ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-                            : ""
-                            } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  px-2 py-1 text-sm font-medium text-para hover:dark:bg-background2 hover:dark:text-white`}
+                              pathName.split("/")[1]
+                              ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
+                              : ""
+                          } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  px-2 py-1 text-sm font-medium text-para hover:dark:bg-background2 hover:dark:text-white`}
                         >
                           {subItem.label}
                         </a>
@@ -79,7 +130,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               -1 &&
               docsSequence[
                 docsSequence.findIndex((item) => item.label === navItem.label) -
-                1
+                  1
               ]?.type === "Header" && (
                 <p className="mt-6 border-t py-6 text-xs font-bold uppercase">
                   {
@@ -93,18 +144,32 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               )}
             <div className={`space-y-2 ${depth > 1 ? "pl-5" : "pl-0"}`}>
               <Collapsible
+                id={getDefaultLink(navItem, depth)}
                 defaultOpen={
-                  pathName.split("/")[1 + depth] ===
-                  navItem.link.split("/")[1 + depth] &&
-                  navItem.link.split("/")[1] === pathName.split("/")[1]
+                  $docsLinkTracks[getDefaultLink(navItem, depth)] ||
+                  pathName
+                    ?.split("/")
+                    ?.includes(
+                      navItem.link.split("/")[
+                        navItem.link.split("/").length - 2
+                      ],
+                    )
                 }
               >
-                <CollapsibleTrigger className={`w-full group hover:bg-[#F4F1F1] hover:dark:bg-background2 rounded-sm ${depth > 1 ? "pl-5" : "pl-2"}`}>
+                <CollapsibleTrigger
+                  className={`group w-full rounded-sm hover:bg-[#F4F1F1] hover:dark:bg-background2 ${
+                    depth > 1 ? "pl-5" : "pl-2"
+                  }`}
+                  onClick={() => handleCollapsibleTrigger(navItem, depth)}
+                >
                   <div
-                    className={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${depth > 0 ? "pl-0 pr-2" : "px-2"
-                      }   py-1 text-sm font-medium`}
+                    className={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${
+                      depth > 0 ? "pl-0 pr-2" : "px-2"
+                    }   py-1 text-sm font-medium`}
                   >
-                    <p className="flex-1 text-left group-hover:text-primary group-hover:dark:text-white">{navItem.label}</p>
+                    <p className="flex-1 text-left group-hover:text-primary group-hover:dark:text-white">
+                      {navItem.label}
+                    </p>
                     <ChevronDownIcon className=" w-4 text-para" />
                   </div>
                 </CollapsibleTrigger>
@@ -118,13 +183,11 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                         ) : (
                           <a
                             href={subItem.link}
-                            className={`${pathName.split("/")[2 + depth] ===
-                              subItem.link.split("/")[2 + depth] &&
-                              navItem.link.split("/")[1] ===
-                              pathName.split("/")[1]
-                              ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-                              : ""
-                              } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  py-1 ml-5 pl-5 pr-2 text-sm font-medium text-para  hover:bg-[#F4F1F1] hover:text-primary hover:dark:bg-background2 hover:dark:text-white`}
+                            className={`${
+                              getCurrentLink(subItem.link)
+                                ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
+                                : ""
+                            } ml-5 flex w-full cursor-pointer items-center justify-between  gap-x-2  rounded-[4px] py-1 pl-5 pr-2 text-sm font-medium text-para  hover:bg-[#F4F1F1] hover:text-primary hover:dark:bg-background2 hover:dark:text-white`}
                           >
                             {subItem.label}
                           </a>
@@ -141,11 +204,6 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     );
   };
 
-  const paths = pathName.split("/");
-  console.log(docsNav);
-  const data = [
-    { label: "Home", link: "/docs", enabled: true, subItems: docsNav },
-  ];
   return (
     <>
       <nav className="">
@@ -160,3 +218,23 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     </>
   );
 }
+
+export const HomeButton = ({ pathname }: { pathname: string }) => {
+  const setDocsLinkTracks = useStorage((state) => state.setDocsLinkTracks);
+
+  return (
+    <a
+      href={`/docs`}
+      className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
+      hover:bg-[#F4F1F1] dark:hover:bg-background2
+    dark:hover:text-white  ${
+      pathname?.split("/")[3]
+        ? "text-para"
+        : "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
+    }`}
+      onClick={() => setDocsLinkTracks({})}
+    >
+      Home
+    </a>
+  );
+};
