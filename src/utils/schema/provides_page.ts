@@ -26,7 +26,7 @@ export const providersPage = defineCollection({
         }),
       }),
 
-      preatorResourcesSection: z.object({
+      praetorResourcesSection: z.object({
         title: z.string(),
         cards: z.array(
           z.object({

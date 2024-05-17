@@ -19,7 +19,7 @@ heroSection:
     link: "#"
     enable: true
 
-preatorResourcesSection:
+praetorResourcesSection:
   title: Praetor Resources
   cards:
     - title: Provider Calculator

@@ -174,7 +174,7 @@ aiModelsAndAppsSection:
         link: "https://praetorapp.com/"
 
       docsLink: 
-        label: Preator Docs
+        label: Praetor Docs
         link: "https://docs.praetorapp.com/"
 
     - image:  "./assets/tools/awesomeakash.svg"

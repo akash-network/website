@@ -3,6 +3,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2 } from "lucide-react";
+import { addKeyboardListener } from "@/utils/keyboardListenerManager";
 
 // Define a TypeScript interface for the project data
 interface Docs {
@@ -63,10 +64,9 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 
   useEffect(() => {
     if (!isLoading) {
-      if (searchInputRef.current)
-        searchInputRef.current.focus();
+      if (searchInputRef.current) searchInputRef.current.focus();
     }
-  }, [isLoading])
+  }, [isLoading]);
 
   // Function to handle search input changes
   function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -76,10 +76,11 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     const lowerQuery = query.toLowerCase();
 
     // Filter projects based on the search query
-    const filteredResults = collectionData.filter((item: Docs) =>
-      item.title.toLowerCase().includes(lowerQuery) ||
-      item.body.toLowerCase().includes(lowerQuery)
-    )
+    const filteredResults = collectionData.filter(
+      (item: Docs) =>
+        item.title.toLowerCase().includes(lowerQuery) ||
+        item.body.toLowerCase().includes(lowerQuery),
+    );
 
     // Show all filtered projects when the search query is not empty
     setFilteredProjects(
@@ -87,19 +88,15 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
     );
   }
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "k" && (event.ctrlKey || event.metaKey)) {
-        event.preventDefault();
-        openModal();
-      }
-    };
+  // useEffect(() => {
+  //   const removeListener = addKeyboardListener(() => {
+  //     openModal();
+  //   })
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     removeListener();
+  //   };
+  // }, []);
 
   return (
     <>

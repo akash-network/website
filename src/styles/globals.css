@@ -13,8 +13,6 @@
     --light-foreground: 0 0% 50%;
     --sort-text: 206 6% 56%;
     --link-text: 206 6% 52%;
-
-    /* primary colors */
     --primary: #ff414c;
     --primary-foreground: 0 0% 100%;
 
@@ -52,6 +50,10 @@
     /* .ec-theme-dark-plus {
       display: none !important;
     } */
+    --docsearch-primary-color: #ff414c !important;
+    --docsearch-searchbox-focus-background: hsl(0 0% 100%) !important;
+    --docsearch-modal-background: hsl(0 0% 100%) !important;
+    --docsearch-searchbox-background: #f9fafb !important;
   }
 
   .dark {
@@ -59,7 +61,6 @@
     --foreground: 0, 0%, 93%;
     --background2: 0 0% 14%;
     --light-foreground: 15, 33%, 98%;
-    /* primary colors */
     --para: 0 0% 73%;
     --para-dark: 0 0% 50%;
     --primary: #ff414c;
@@ -75,6 +76,25 @@
     --theme-header-bg: #3c3c3c;
     --three-dots-bg: #515151;
     --default-border: 0 0% 18%;
+    --docsearch-searchbox-background: hsl(0, 0%, 14%) !important;
+    --docsearch-searchbox-focus-background: hsl(0 0% 14%) !important;
+    --docsearch-hit-shadow: 0 0 0 1px hsl(0 0% 14%) !important;
+    --docsearch-modal-background: hsl(0 0% 14%) !important;
+    --docsearch-modal-shadow: inset 1px 1px 0 0 hsla(0, 0%, 26%, 0.5),
+      0 3px 8px 0 #555a64 !important;
+    --docsearch-key-gradient: linear-gradient(
+      -225deg,
+      #252525,
+      #202020
+    ) !important;
+    --docsearch-key-shadow: inset 0 -2px 0 0 #383838, inset 0 0 1px 1px #4d4d4d,
+      0 1px 2px 1px rgba(30, 35, 90, 0.4) !important;
+    --docsearch-footer-background: hsl(0 0% 11%) !important;
+    --docsearch-footer-shadow: 0 -1px 0 0 #181818 0 -3px 6px 0
+      rgba(69, 98, 155, 0.12) !important;
+    --docsearch-hit-background: hsl(0 0% 11%) !important;
+    --docsearch-hit-color: hsl(0, 0%, 93%) !important;
+    --docsearch-text-color: hsl(0, 0%, 93%) !important;
   }
 }
 
@@ -215,3 +235,39 @@
 .dark .button--bestia:hover span {
   color: black;
 }
+
+/* doc-search */
+
+.DocSearch-Button {
+  border: 1px solid hsl(var(--default-border)) !important;
+  border-radius: 4px !important;
+  height: 38px !important;
+  /* background-color: hsl(var(--background2)); */
+  width: 100%;
+  padding-inline: 0.8rem !important;
+  margin: 0 !important;
+}
+
+.DocSearch-Button:hover {
+  /* background-color: hsl(var(--background)); */
+}
+
+.DocSearch-Search-Icon {
+  color: hsl(var(--para)) !important;
+  width: 16px;
+  height: 16px;
+}
+
+.DocSearch-Button-Container:after {
+  color: hsl(var(--para)) !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  margin-left: 0.8rem;
+  content: "Search docs..." !important;
+}
+
+.DocSearch-Button-Container span {
+  display: none;
+}
+
+/* change text inside */

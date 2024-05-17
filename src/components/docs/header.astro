@@ -7,6 +7,7 @@ import AkashDocsLogo from "./akash-docs-logo.astro";
 import ToggleNav from "./toggle-nav.astro";
 import DarkModeToggle from "../dark-mode-toggle.astro";
 import ButtonLink from "../ui/button-link.astro";
+import AlgoliaSearch from "./algolia-search.jsx";
 import Logo from "@/components/ui/logo.astro";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
 const { nav } = Astro.props;
@@ -22,29 +23,29 @@ const pathname = new URL(Astro.request.url).pathname;
           <Logo width={100} />
         </a>
       </div>
-      <div>
-        <Search client:load currentPath={pathname} />
-      </div>
+
+      <!-- <div id="docsearch"></div> -->
+      <AlgoliaSearch client:only />
     </div>
     <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
       <div class="hidden items-center gap-x-[14px] text-para md:flex">
         <DarkModeToggle />
         <a
-          class="cursor-pointer"
-          href="https://github.com/akash-network"
-          target="_blank"
-        >
-          <GithubIcon />
-        </a>
-        <a
-          class="cursor-pointer"
+          class="cursor-pointer hover:text-primary"
           href="https://twitter.com/akashnet_"
           target="_blank"
         >
           <TwitterIcon />
         </a>
         <a
-          class="cursor-pointer"
+          class="cursor-pointer hover:text-primary"
+          href="https://github.com/akash-network"
+          target="_blank"
+        >
+          <GithubIcon />
+        </a>
+        <a
+          class="cursor-pointer hover:text-primary"
           href="https://discord.com/invite/akash"
           target="_blank"
         >
@@ -56,12 +57,26 @@ const pathname = new URL(Astro.request.url).pathname;
         <div>
           <a
             href="https://console.akash.network/"
-            class="hover:bg-primary/90 flex items-center justify-center rounded-[4px] bg-primary px-[11px] py-[7px] text-xs font-medium leading-[16px] text-white"
-            >Deploy Now</a
+            class="flex items-center justify-center rounded-[4px] bg-primary px-[11px] py-[7px] text-xs font-medium leading-[16px] text-white hover:bg-darkGray"
           >
+            Deploy Now
+          </a>
         </div>
       </div>
     </div>
   </div>
   <!-- <ToggleNav nav={nav} /> -->
 </nav>
+
+<!-- <script >
+  import docsearch from "@docsearch/js";
+
+  import "@docsearch/css";
+
+  docsearch({
+    container: "#docsearch",
+    appId: "GIAYK50IZ2",
+    apiKey: "ab27356463ffa13e3d75727cd71bfc69",
+    indexName: "akash",
+  });
+</script> -->
