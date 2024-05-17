@@ -3,11 +3,9 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronDoubleDownIcon } from "@heroicons/react/20/solid";
-import { ChevronDownIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Switch } from "../ui/switch";
 import { docsSequence as docs } from "@/content/Docs/_sequence";
+import { ChevronDownIcon } from "lucide-react";
+import React, { useEffect } from "react";
 
 import { useStorage } from "@/utils/store";
 
