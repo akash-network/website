@@ -20,8 +20,6 @@ If you’ve ever found yourself bogged down by the complexities of deployment an
 
 Note: This tool is currently in the MVP phase.
 
-## Watch the Tutorial
-
  <iframe width="100%" height="315" src="https://www.youtube.com/embed/bzPXWKgyEtw?si=nRU5KVfYs6PcVR03" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
 
 ## Empowering Developers with Automation
@@ -117,5 +115,5 @@ As we look to the future, we are excited to expand the capabilities of this tool
 
 As we continue to enhance this tool, we invite you to join us on this journey. Try it out, give us your feedback, and help us redefine the deployment landscape on the Akash Network. Happy coding and deploying!
 
-Thank you
+Thank you <br>
 HoomanHq
