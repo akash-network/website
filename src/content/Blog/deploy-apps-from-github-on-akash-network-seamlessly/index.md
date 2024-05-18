@@ -5,9 +5,9 @@ pubDate: "2024-05-18" # <--- This is the date of the blog in the format of "YYYY
 draft: false # <--- If the blog is not ready to publish, set it to true
 archive: false # <--- If the blog is not ready to publish, set it to true it will not show in the archive page but will show in the blog page
 categories: # <--- This is the category of the blog
-  - Deployment
+  - Developers
 tags: # <--- This is the tags of the blog
-  - Deployment
+  - Developers
 contributors: # <--- This is the contributors of the blog
   - HoomanHq
 bannerImage: ./banner-image.jpeg # <--- This is the banner image of the blog or the featured image of the blog
