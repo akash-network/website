@@ -397,14 +397,26 @@ Akash deployments now support the use of private container registries to pull im
 
 #### Private Registry Image Use Example
 
+##### Notes on Host Declaration in SDL
+
+*   Tested container registries include DockerHub and Github Container Registry.  The host section of the SDL should use these values for related services:
+    * DockerHub - `docker.io`
+    * Github Container Registry (GHCR) - `ghcr.io`
+
+##### Notes on Username/Password for Private Registries
+
+*   The password field in the credentials section of the SDL should come from:
+    * DockerHub - password used to access your account when logging into `hub.docker.com`
+    * Github Container Registry - use a Personal Access Token created with your GitHub account > Developer Settings > Personal Access Tokens
+    
 ```
 services:
   supermario:
     image: scarruthers/private-repo-testing:1
     credentials:
       host: docker.io
-      username: scarruthers
-      password: "password"
+      username: myuser
+      password: "mypassword"
     expose:
       - port: 8080
         as: 80
