@@ -9,6 +9,8 @@ interface Props {
     twitter?: string;
     blured?: boolean;
     index?: number;
+
+    subtitle?: string;
   };
 }
 
@@ -28,8 +30,8 @@ const { speaker } = Astro.props;
     <Image
       src={speaker.image}
       alt={speaker.name}
-      width="200"
-      height="200"
+      width={200}
+      height={200}
       class="h-full w-full select-none rounded-full object-contain md:h-[80%] md:w-[80%]"
     />
   </div>
@@ -38,7 +40,7 @@ const { speaker } = Astro.props;
     <p class="select-none text-sm">
       {speaker.title}
       <br />
-       Creators of Akash Network
+      {speaker?.subtitle ?? "Core team, Akash Network"}
     </p>
     {
       speaker.twitter && (

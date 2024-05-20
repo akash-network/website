@@ -19,10 +19,45 @@ const speakers = [
     image: "/images/accelerate/1.png",
   },
   {
+    name: "Erik Voorhees",
+    title: "CEO",
+    subtitle: "Venice.AI",
+    twitter:
+      "https://x.com/ErikVoorhees?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
+    image: "/images/accelerate/erik.png",
+  },
+  {
+    name: "Sriram Vishwanath",
+    title: "Professor,",
+    subtitle: "University of Texas at Austin",
+    image: "/images/accelerate/Sriram.png",
+  },
+  {
+    name: "Daniel Keller",
+    title: "CEO,",
+    subtitle: "Flux",
+    image: "/images/accelerate/Dan.png",
+  },
+  {
     name: "Anil Murty",
     title: "VP of Product, Overclock Labs -",
     twitter: "https://twitter.com/_Anil_Murty_",
     image: "/images/accelerate/2.png",
+  },
+  {
+    name: "Nader Khalil",
+    title: "Co-founder, CEO",
+    twitter:
+      "https://x.com/NaderLikeLadder?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
+    image: "/images/accelerate/Nader.png",
+    subtitle: "Brev.dev",
+  },
+  {
+    name: "David Johnston",
+    title: "Morpheus",
+
+    image: "/images/accelerate/David.png",
+    subtitle: "",
   },
   {
     name: "Cheng Wang",
@@ -30,42 +65,30 @@ const speakers = [
     twitter: "https://twitter.com/LeChenghiskhan",
     image: "/images/accelerate/3.png",
   },
-  //blured
   {
-    name: "Artur Troian",
-    title: "VP of Engineering, Overclock Labs -",
-    blured: true,
-    image: "/images/accelerate/5.png",
+    name: "Teana Baker-Taylor",
+    title: "COO,",
+    subtitle: " Venice.AI",
+    twitter: "https://x.com/TeanaTaylor",
+    image: "/images/accelerate/Teana.png",
   },
   {
-    name: "Adam Wozney",
-    title: "Head of Community, Overclock Labs -",
-    blured: true,
-    image: "/images/accelerate/7.png",
+    name: "Lex Avellino",
+    title: "Chief Creative Officer,",
+    subtitle: "Passage",
+    image: "/images/accelerate/Lex 1.png",
   },
   {
-    name: "Zach Horn",
-    title: "Head of Marketing, Overclock Labs -",
-    blured: true,
-    image: "/images/accelerate/8.png",
+    name: "Peter Toth",
+    title: "Co-founder and CEO,",
+    subtitle: "Eidon AI",
+    image: "/images/accelerate/Daniel.png",
   },
   {
-    name: "Tyler Wright",
-    title: "Program Manager, Overclock Labs -",
-    blured: true,
-    image: "/images/accelerate/4.png",
-  },
-  {
-    name: "Denis Lelic",
-    title: "Lead Product Designer, Overclock Labs -",
-    blured: true,
-    image: "/images/accelerate/6.png",
-  },
-  {
-    name: "Scott Hewitson",
-    title: "CFO, Overclock Labs -",
-    blured: true,
-    image: "/images/accelerate/9.png",
+    name: "Arel Avellino",
+    title: "CEO,",
+    subtitle: "Passage",
+    image: "/images/accelerate/Peter.png",
   },
 ];
 ---
@@ -120,14 +143,10 @@ const speakers = [
         <div
           class="relative grid w-full max-w-4xl grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-3 md:gap-6"
         >
-          {
-            speakers
-              .filter((speaker) => !speaker.blured)
-              .map((speaker) => <Spearker speaker={speaker} />)
-          }
-          <BluredSpeaker
-            speakers={speakers.filter((speaker) => speaker.blured)}
-          />
+          {speakers.map((speaker) => <Spearker speaker={speaker} />)}
+          <!-- <BluredSpeaker
+            speakers={speakers.filter((speaker) => speaker?.blured)}
+          /> -->
         </div>
         <a
           href="https://akashnet.typeform.com/to/bj9Bu7Ax?typeform-source=akash.network"
