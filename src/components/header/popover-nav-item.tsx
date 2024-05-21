@@ -35,33 +35,35 @@ const PopOverNavItem = ({ subItems }: any) => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute left-0 z-10 mt-4 w-[304px] origin-top-right divide-y rounded-xl border  bg-background2 focus:outline-none">
-          <div className="space-y-4 px-6 py-6">
+          <div className="space-y-4 p-4">
             {subItems.map((item: any, i: any) => {
               return (
                 <Menu.Item key={i}>
                   {({ active }) => (
-                    <a
-                      href={item.link}
-                      target={item.link.startsWith("http") ? "_blank" : "_self"}
-                      className={`block  cursor-pointer p-2 font-semibold   ${
-                        active ? "" : ""
-                      } `}
-                    >
-                      <p className="flex items-center text-sm font-bold text-foreground ">
-                        {item.title}
-                        {item.link.startsWith("http") ? (
-                          <ArrowUpRight
-                            className="ml-1 inline-block"
-                            size={16}
-                          />
-                        ) : (
-                          ""
-                        )}
-                      </p>
-                      <p className="mt-1 text-sm font-normal text-para">
-                        {item.description}
-                      </p>
-                    </a>
+                    <div className="flex items-start p-2">
+                      <img src={item.icon} width={18} className="mr-3 mt-1" />
+                      <a
+                        href={item.link}
+                        target={item.link.startsWith("http") ? "_blank" : "_self"}
+                        className={`block  cursor-pointer font-semibold   ${active ? "" : ""
+                          } `}
+                      >
+                        <p className="flex items-center text-sm font-bold text-foreground ">
+                          {item.title}
+                          {item.link.startsWith("http") ? (
+                            <ArrowUpRight
+                              className="ml-1 inline-block"
+                              size={16}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </p>
+                        <p className="mt-1 text-sm font-normal text-para">
+                          {item.description}
+                        </p>
+                      </a>
+                    </div>
                   )}
                 </Menu.Item>
               );
