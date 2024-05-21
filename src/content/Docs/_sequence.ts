@@ -6,10 +6,22 @@ export const docsSequence = [
         type: "Header",
         label: "User Docs",
       },
+
       {
         label: "Getting Started",
         subItems: [
-          { label: "Intro To Akash" },
+          {
+            label: "Intro To Akash",
+            subItems: [
+              { label: "Akash Network" },
+              { label: "Bids and Leases" },
+              { label: "DSEQ, GSEQ and OSEQ" },
+              { label: "Providers" },
+              { label: "RPC Nodes" },
+              { label: "Validator Nodes" },
+              { label: "Payments" },
+            ],
+          },
           { label: "Stack Definition Language (SDL)" },
           { label: "Tokens and Wallets" },
         ],
