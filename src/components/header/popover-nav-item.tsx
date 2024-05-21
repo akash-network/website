@@ -40,7 +40,7 @@ const PopOverNavItem = ({ subItems }: any) => {
               return (
                 <Menu.Item key={i}>
                   {({ active }) => (
-                    <div className="flex items-start p-2">
+                    <div className="flex items-start p-2 rounded-lg hover:bg-[#f9fafb]">
                       <img src={item.icon} width={18} className="mr-3 mt-1" />
                       <a
                         href={item.link}
