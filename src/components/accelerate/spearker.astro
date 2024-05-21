@@ -28,7 +28,7 @@ const { speaker } = Astro.props;
   <div
     class={clsx(
       "flex aspect-square w-full select-none items-center justify-center rounded-md border bg-white  md:aspect-[16/13]",
-      speaker?.type === "image" ? "" : "p-6",
+      speaker?.type === "image" ? "" : "",
     )}
   >
     <Image
@@ -40,7 +40,7 @@ const { speaker } = Astro.props;
         "h-full w-full rounded-md select-none aspect-square md:aspect-[16/13]  ",
         speaker?.type === "image"
           ? "object-cover object-top "
-          : "md:p-3 object-contain ",
+          : " object-contain p-4",
       )}
     />
   </div>
