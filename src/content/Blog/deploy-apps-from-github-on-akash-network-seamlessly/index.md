@@ -46,7 +46,7 @@ This deployment tool isn't just about automating processes; it's about enhancing
 
 To leverage this tool effectively, follow these straightforward steps:
 
-1. **Configure Environment Variables**: Adjust the SDL (Service Deployment Language) file to include your project specifics. Key environment variables like `REPO_URL` and `BRANCH_NAME` need to be set to align with your repository details.
+1. **Configure Environment Variables**: Adjust the SDL (Stack Definition Language) file to include your project specifics. Key environment variables like `REPO_URL` and `BRANCH_NAME` need to be set to align with your repository details.
 
 2. **Customize the Build Settings**: For projects that don’t fit the conventional build paths or commands, you can easily add custom configurations like `BUILD_DIRECTORY` and `BUILD_COMMAND`.
 
