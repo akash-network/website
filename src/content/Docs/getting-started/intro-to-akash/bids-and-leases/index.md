@@ -49,7 +49,7 @@ If the available funds in the deposit ever reaches zero, a provider may close th
 
 ### Escrow Accounts
 
-[Escrow accounts](escrow.md) are a mechanism that allows for time-based payments from one account to another without block-by-block micropayments. They also support holding funds for an account until an arbitrary event occurs.
+[Escrow accounts](/docs/getting-started/intro-to-akash/payments/#escrow-accounts) are a mechanism that allows for time-based payments from one account to another without block-by-block micropayments. They also support holding funds for an account until an arbitrary event occurs.
 
 Escrow accounts are necessary in Akash for two primary reasons:
 
@@ -60,7 +60,7 @@ Escrow accounts are necessary in Akash for two primary reasons:
 
 Bidding on an order requires a deposit to be made. The deposit will be returned to the provider account when the [bid](#bid) transitions to state `CLOSED`.
 
-Bid deposits are implemented with an escrow account module. See [here](escrow.md) for more information.
+Bid deposits are implemented with an escrow account module. See [here](/docs/getting-started/intro-to-akash/payments/#escrow-accounts) for more information.
 
 ## Audited Attributes
 
@@ -68,10 +68,10 @@ Audited attributes allow users deploying applications to be more selective about
 
 ## On-Chain Parameters
 
-| Name                   | Initial Value | Description                                       |
-| ---------------------- | ------------- | ------------------------------------------------- |
-| deployment_min_deposit | 0.5akt          | Minimum deposit to make deployments. Target: ~$2.2 |
-| bid_min_deposit        | 0.5akt         | Deposit amount required to bid. Target: ~$2.2     |
+| Name                   | Initial Value | Description                                        |
+| ---------------------- | ------------- | -------------------------------------------------- |
+| deployment_min_deposit | 0.5akt        | Minimum deposit to make deployments. Target: ~$2.2 |
+| bid_min_deposit        | 0.5akt        | Deposit amount required to bid. Target: ~$2.2      |
 
 ## Transactions
 
