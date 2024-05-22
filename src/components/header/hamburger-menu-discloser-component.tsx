@@ -3,8 +3,10 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ArrowUpRight } from "lucide-react";
 
 interface IFsubCategories {
-  name: string;
-  href: string;
+  title: string;
+  link: string;
+  description: string;
+  icon: JSX.Element;
 }
 
 interface IFitem {
@@ -42,15 +44,16 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
               <div className="flex flex-col gap-6 px-5 pt-5">
                 {item.subCategories.map((subItem, indx) => (
                   <a
-                    href={subItem.href}
+                    href={subItem.link}
                     target={
-                      subItem.href.startsWith("http") ? "_blank" : "_self"
+                      subItem.link.startsWith("http") ? "_blank" : "_self"
                     }
                     key={Math.random() + indx}
                     className="flex items-center text-base font-medium text-[#808080]"
                   >
-                    {subItem.name}{" "}
-                    {subItem?.href?.startsWith("http") ? (
+                    <span className="w-[24px] mr-1">{subItem.icon}</span>
+                    {subItem.title}{" "}
+                    {subItem?.link?.startsWith("http") ? (
                       <ArrowUpRight className="ml-1 inline-block" size={16} />
                     ) : (
                       ""
