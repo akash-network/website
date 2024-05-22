@@ -436,3 +436,16 @@ export const AkashLogo = () => {
     </>
   );
 };
+
+export const Logo = ({ width }: { width?: number }) => {
+  return (
+    <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" width={width}
+      viewBox="145 81.875 270 236.25" xmlns="http://www.w3.org/2000/svg">
+      <g transform="matrix(8.88158 0 0 8.88158 145 81.875)">
+        <path d="m9.9 0 15.4 26.6 5.1-8.9-10.3-17.7z" fill="#ed3524" />
+        <path d="m9.9 18.2 5.3 8.4h10.6l-5.3-8.4z" fill="#ae1e23" />
+        <path d="m5.3 8.4-5.3 9.1 5.3 9.1 10.7-18.2z" fill="#ed3524" />
+      </g>
+    </svg>
+  )
+}
