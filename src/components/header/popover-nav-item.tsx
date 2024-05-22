@@ -9,32 +9,9 @@ import { Fragment, useState } from "react";
 
 import { ChartBarIcon, ChevronDownIcon, InformationCircleIcon } from "@heroicons/react/20/solid";
 import { ArrowUpRight } from "lucide-react";
-import { Logo } from "./icons";
-
-const networkItems = [
-  {
-    title: "About Akash",
-    description: "Discover the story behind Akash and how it works",
-    link: "/about/general-information/",
-    icon: <InformationCircleIcon />,
-  },
-  {
-    title: "Akash Stats",
-    description:
-      "Get insights into the latest statistics about the Akash Network",
-    link: "https://stats.akash.network/",
-    icon: <ChartBarIcon />,
-  },
-  {
-    title: "AKT Token",
-    description: "Understand the role of the $AKT token in the Akash ecosystem",
-    link: "/token",
-    icon: <Logo />,
-  },
-];
+import { networkItems } from "./constants";
 
 const PopOverNavItem = () => {
-  console.log(networkItems);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
