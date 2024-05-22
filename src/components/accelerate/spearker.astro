@@ -9,6 +9,9 @@ interface Props {
     twitter?: string;
     blured?: boolean;
     index?: number;
+
+    subtitle?: string;
+    type?: string;
   };
 }
 
@@ -23,14 +26,22 @@ const { speaker } = Astro.props;
   )}
 >
   <div
-    class="flex aspect-square w-full select-none items-center justify-center rounded-md border bg-white p-6 md:aspect-[16/10]"
+    class={clsx(
+      "flex aspect-square w-full select-none items-center justify-center rounded-md border bg-white  md:aspect-[16/13]",
+      speaker?.type === "image" ? "" : "",
+    )}
   >
     <Image
       src={speaker.image}
       alt={speaker.name}
-      width="200"
-      height="200"
-      class="h-full w-full select-none rounded-full object-contain md:h-[80%] md:w-[80%]"
+      width={200}
+      height={200}
+      class={clsx(
+        "h-full w-full rounded-md select-none aspect-square md:aspect-[16/13]  ",
+        speaker?.type === "image"
+          ? "object-cover object-top "
+          : " object-contain p-4",
+      )}
     />
   </div>
   <div class="flex flex-col gap-2.5">
@@ -38,7 +49,7 @@ const { speaker } = Astro.props;
     <p class="select-none text-sm">
       {speaker.title}
       <br />
-       Creators of Akash Network
+      {speaker?.subtitle ?? "Core team, Akash Network"}
     </p>
     {
       speaker.twitter && (
