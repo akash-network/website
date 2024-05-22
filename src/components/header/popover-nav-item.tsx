@@ -7,11 +7,34 @@ import {
 } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChartBarIcon, ChevronDownIcon, InformationCircleIcon } from "@heroicons/react/20/solid";
 import { ArrowUpRight } from "lucide-react";
+import { Logo } from "./icons";
 
-const PopOverNavItem = ({ subItems }: any) => {
-  console.log(subItems);
+const networkItems = [
+  {
+    title: "About Akash",
+    description: "Discover the story behind Akash and how it works",
+    link: "/about/general-information/",
+    icon: <InformationCircleIcon />,
+  },
+  {
+    title: "Akash Stats",
+    description:
+      "Get insights into the latest statistics about the Akash Network",
+    link: "https://stats.akash.network/",
+    icon: <ChartBarIcon />,
+  },
+  {
+    title: "AKT Token",
+    description: "Understand the role of the $AKT token in the Akash ecosystem",
+    link: "/token",
+    icon: <Logo />,
+  },
+];
+
+const PopOverNavItem = () => {
+  console.log(networkItems);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -35,17 +58,17 @@ const PopOverNavItem = ({ subItems }: any) => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute left-0 z-10 mt-4 w-[304px] origin-top-right divide-y rounded-xl border  bg-background2 focus:outline-none">
-          <div className="space-y-4 p-4">
-            {subItems.map((item: any, i: any) => {
+          <div className="space-y-4 p-3">
+            {networkItems.map((item: any, i: any) => {
               return (
                 <Menu.Item key={i}>
                   {({ active }) => (
-                    <div className="flex items-start p-2 rounded-lg hover:bg-[#f9fafb]">
-                      <img src={item.icon} width={18} className="mr-3 mt-1" />
+                    <div className="flex items-start p-2 rounded-lg hover:bg-[#f9fafb] cursor-pointer">
+                      <span className="w-[40px] mr-3 mt-1">{item.icon}</span>
                       <a
                         href={item.link}
                         target={item.link.startsWith("http") ? "_blank" : "_self"}
-                        className={`block  cursor-pointer font-semibold   ${active ? "" : ""
+                        className={`block font-semibold   ${active ? "" : ""
                           } `}
                       >
                         <p className="flex items-center text-sm font-bold text-foreground ">
