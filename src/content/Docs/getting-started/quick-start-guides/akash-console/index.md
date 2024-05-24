@@ -1,8 +1,8 @@
 ---
 categories: ["Getting Started"]
 tags: []
-title: " Deploy 'Hello World' SDL on Akash Network via Console within 5 Minutes"
-linkTitle: " Deploy 'Hello World' SDL on Akash Network via Console within 5 Minutes"
+title: "Akash Console"
+linkTitle: "Akash Console"
 weight: 3
 ---
 
@@ -12,7 +12,7 @@ This guide will walk you through deploying a simple "Hello World" Next.JS applic
 
 Console is compatible with two wallets as of now, Keplr and Leap wallet. The Keplr or Leap browser extensions must be installed and with sufficient funds (0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
 
-Follow our [Keplr Wallet](https://akash.network/docs/getting-started/token-and-wallets/#keplr-wallet) or [Leap Cosmos Wallet](https://akash.network/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
+Follow our [Keplr Wallet](/docs/getting-started/token-and-wallets/#keplr-wallet) or [Leap Cosmos Wallet](/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
 
 #### Cloudmos Deploy Access
 

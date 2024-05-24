@@ -1,8 +1,8 @@
 ---
 categories: ["Getting Started"]
 tags: []
-title: "Deploy 'Hello World' SDL on Akash Network via CLI within 5 Minutes"
-linkTitle: "Deploy 'Hello World' SDL on Akash Network via CLI within 5 Minutes"
+title: "Akash CLI"
+linkTitle: "Akash CLI"
 weight: 3
 ---
 
@@ -12,7 +12,7 @@ This guide will walk you through deploying a simple "Hello World" Next.JS applic
 
 You must have Akash Cli installed and properly configured along with some AKTs in your wallet(0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
 
-Follow our [CLI Installation Guide](https://akash.network/docs/deployments/akash-cli/installation/#install-akash-cli) guide to install the Akash Cli if necessary.
+Follow our [CLI Installation Guide](/docs/deployments/akash-cli/installation/#install-akash-cli) guide to install the Akash Cli if necessary.
 
 ### Check your Account Balance
 
