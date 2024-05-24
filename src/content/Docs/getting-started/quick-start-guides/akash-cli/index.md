@@ -6,13 +6,13 @@ linkTitle: "Akash CLI"
 weight: 3
 ---
 
-This guide will walk you through deploying a simple "Hello World" Next.JS application onto the Akash Network via The Akash Cli. This guide is beginner-friendly and requires no previous knowledge of navigating the Akash Cli or Akash Network in general.
+This guide will walk you through deploying a simple "Hello World" Next.JS application onto the Akash Network via The Akash CLI. This guide is beginner-friendly and requires no previous knowledge of navigating the Akash CLI or Akash Network in general.
 
 #### Before Getting Started
 
-You must have Akash Cli installed and properly configured along with some AKTs in your wallet(0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
+You must have Akash CLI installed and properly configured along with some AKTs in your wallet(0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
 
-Follow our [CLI Installation Guide](/docs/deployments/akash-cli/installation/#install-akash-cli) guide to install the Akash Cli if necessary.
+Follow [CLI Installation Guide](/docs/deployments/akash-cli/installation/#install-akash-cli) to install the Akash CLI if necessary.
 
 ### Check your Account Balance
 
@@ -35,15 +35,14 @@ pagination:
 
 If you don't have a balance, please see the [funding guide](https://github.com/akash-network/docs/tree/b65f668b212ad1976fb976ad84a9104a9af29770/guides/wallet/funding.md). Please note the balance indicated is denominated in uAKT (AKT x 10^-6), in the above example, the account has a balance of _93 AKT_. We're now setup to deploy.
 
-{/_ {% hint style="info" %} _/}
-Your account must have a minimum balance of 0.5 AKT to create a deployment. This 0.5 AKT funds the escrow account associated with the deployment and is used to pay the provider for their services. It is recommended you have more than this minimum balance to pay for transaction fees. For more information on escrow accounts, see [here](https://github.com/akash-network/docs/blob/master/guides/cli/detailed-steps/broken-reference/README.md)
-{/_ {% endhint %} _/}
+**Note:** Your account must have a minimum balance of 0.5 AKT to create a deployment. This 0.5 AKT funds the escrow account associated with the deployment and is used to pay the provider for their services. It is recommended you have more than this minimum balance to pay for transaction fees. For more information on escrow accounts, see [here](https://github.com/akash-network/docs/blob/master/guides/cli/detailed-steps/broken-reference/README.md)
 
-### Step1:- Create your Configuration
+
+### STEP 1:- Create your Configuration
 
 Create a deployment configuration [deploy.yaml](https://raw.githubusercontent.com/maxmaxlabs/hello-akash-world/master/deploy.yml) to deploy the `akashlytics/hello-akash-world:0.2.0` for [hello-akash-world](https://github.com/maxmaxlabs/hello-akash-world) which is a simple Next.JS "Hello World" application.
 
-You can use cURL to download the SDL file:
+You can use CURL command to download the SDL file:
 
 ```
 curl -s https://raw.githubusercontent.com/maxmaxlabs/hello-akash-world/master/deploy.yml > deploy.yml
@@ -51,9 +50,9 @@ curl -s https://raw.githubusercontent.com/maxmaxlabs/hello-akash-world/master/de
 
 The SDL file is the configuration file specifying all the needed resources like cpu, ram, storage etc. Since, this is a simple "Hello World" application so the needed resources will be very less.
 
-## Step2:- Create your Deployment
+## STEP 2:- Create your Deployment
 
-To deploy the sdl file we pulled in the previous step, run:
+To deploy the sdl file that we curled in the previous step, run following command:
 
 ```
 provider-services tx deployment create deploy.yml --from $AKASH_KEY_NAME
@@ -180,9 +179,10 @@ You should see a response similar to:
 }
 ```
 
-### Find your Deployment \#
+### Find your Deployment 
 
-Find the Deployment Sequence (DSEQ) in the deployment you just created. For example, in the current deployment the dseq value is 140324, which you confirm in the response above.
+Find the Deployment Sequence (**DSEQ**) in the deployment you just created. For example, in the current deployment the dseq value is 140324, which you can confirm in the response above.
+
 Then run the following command, make sure to copy paste the DSEQ value from your deployment:
 
 ```bash
@@ -202,7 +202,7 @@ Verify we have the right values populated by running:
 echo $AKASH_DSEQ $AKASH_OSEQ $AKASH_GSEQ
 ```
 
-## Step3:- View your Bids and choose a provider
+## STEP 3:- View your Bids and choose a provider
 
 After a short time, you should see bids from providers for this deployment with the following command:
 
@@ -268,7 +268,7 @@ bids:
       denom: uakt
 ```
 
-For this example, we will choose `akash10cl5rm0cqnpj45knzakpa4cnvn5amzwp4lhcal` Run this command to set the provider shell variable:
+For this example, we will choose provider `akash10cl5rm0cqnpj45knzakpa4cnvn5amzwp4lhcal`. Run following command to set the provider shell variable:
 
 ```
 AKASH_PROVIDER=akash10cl5rm0cqnpj45knzakpa4cnvn5amzwp4lhcal
@@ -280,7 +280,7 @@ Verify we have the right value populated by running:
 echo $AKASH_PROVIDER
 ```
 
-## Step4:- Create and confirm a Lease
+## STEP 4:- Create and confirm a Lease
 
 Create a lease for the bid from the chosen provider above by running this command:
 
@@ -314,9 +314,7 @@ If your lease was successful you should see a response that ends with:
     state: active
 ```
 
-{/_ {% hint style="info" %} _/}
-Please note that once the lease is created, the provider will begin debiting your deployment's escrow account, even if you have not completed the deployment process by uploading the manifest in the following step.
-{/_ {% endhint %} _/}
+**Note:** Please note that once the lease is created, the provider will begin debiting your deployment's escrow account, even if you have not completed the deployment process by uploading the manifest in the following step.
 
 ## Send the Manifest
 
@@ -328,7 +326,7 @@ provider-services send-manifest deploy.yml --dseq $AKASH_DSEQ --provider $AKASH_
 
 ### Confirm the URL
 
-Now that the manifest is uploaded, your image is deployed. You can retrieve the access details by running the below:
+Now that the manifest is uploaded, your image is deployed. You can retrieve the access details by running the following command:
 
 ```
 provider-services lease-status --dseq $AKASH_DSEQ --from $AKASH_KEY_NAME --provider $AKASH_PROVIDER
@@ -374,16 +372,18 @@ provider-services lease-logs \
   --from "$AKASH_KEY_NAME"
 ```
 
-## Step5:- Close Deployment
+## STEP 5:- Close Deployment
 
 ### Close the Deployment
 
-Now, since we have learned how to deploy the application, we will close the deployment in order to not waste any AKTs. After closing the deployment we will get the remaing balance left as a refund. Run this command:
+Now, since we have learned how to deploy the 'Hello World' application, we will close the deployment in order to not waste any AKTs. After closing the deployment we will get the remaing balance left as a refund. 
+
+Run following command to close the deployment:
 
 ```
 provider-services tx deployment close --from $AKASH_KEY_NAME
 ```
 
-## Conslusion
+## Conclusion
 
-We deployed a simple "Hello World" Next.JS application within 5 minutes. The process of deploying any other application will be identical, just the sdl file needs to be changed accordingly.
+We deployed a simple "Hello World" Next.JS application within 5 minutes. The process of deploying any other applications is identical, just the sdl file needs to be changed accordingly with proper configuration and container image.
