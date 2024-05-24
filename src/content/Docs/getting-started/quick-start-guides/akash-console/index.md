@@ -6,17 +6,17 @@ linkTitle: "Akash Console"
 weight: 3
 ---
 
-This guide will walk you through deploying a simple "Hello World" Next.JS application onto the Akash Network via Console. This guide is beginner-friendly and requires no previous knowledge of navigating Console or Akash Network in general.
+This guide will walk you through deploying a simple "Hello World" Next.JS application onto the Akash Network via Akash Console. This guide is beginner-friendly and requires no previous knowledge of navigating Console or Akash Network in general.
 
 #### Before Getting Started
 
 Console is compatible with two wallets as of now, Keplr and Leap wallet. The Keplr or Leap browser extensions must be installed and with sufficient funds (0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
 
-Follow our [Keplr Wallet](/docs/getting-started/token-and-wallets/#keplr-wallet) or [Leap Cosmos Wallet](/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
+Follow [Keplr Wallet](/docs/getting-started/token-and-wallets/#keplr-wallet) or [Leap Cosmos Wallet](/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
 
-#### Cloudmos Deploy Access
+#### Akash Console Deploy Access
 
-The Console web app is available via the following URL:
+The Akash Console web app is available via the following URL:
 
 - https://console.akash.network/
 
@@ -42,7 +42,7 @@ Now, an SDL file will be loaded for your deployment, which will have the docker 
 
 ### STEP 3 - Proceed to pay the deployment deposit
 
-Click the continue button and approve the transaction. The **amount will be refunded** as soon as you close the deployment.
+Click the continue button and approve the transaction:
 
 ![image](./assets/6.png)
 
@@ -74,7 +74,7 @@ You will be able to see the website you just deployed:
 
 ![image](./assets/12.png)
 
-Once the example is deployed, you can easily close it and get refunded as well. Just click the Close option and once again approve the transaction:
+Once the 'Hello World' application is deployed, you can easily close it and get refunded. Just click the Close option and once again approve the transaction:
 
 ![image](./assets/13.png)
 
@@ -82,4 +82,4 @@ Once the example is deployed, you can easily close it and get refunded as well. 
 
 #### Conclusion
 
-You have successfully deployed a simple hello world application using Console. Other deployments are also the same, only the SDL file along with docker image and resources is to be configured as per the need.
+You have successfully deployed a simple hello world application using Console. Follow similar flow for other deployments, only the SDL file along with docker image and resources is to be configured as per the need.
