@@ -188,13 +188,37 @@ const speakers = [
     <div
       class="container flex flex-col items-center justify-center gap-[72px] py-10 md:gap-[120px] md:py-[120px]"
     >
-      <div class="flex flex-col items-center justify-center gap-12">
+      <div class="relative flex flex-col items-center justify-center gap-12">
         <About />
         <p class="max-w-4xl text-center text-xl md:text-2xl">
           Akash Accelerate is a full-day summit that will bring together the
           entire ecosystem for a packed agenda of talks, panels, and discussions
           exploring the future of decentralized compute and open-source AI.
         </p>
+
+        <a
+          href="https://www.youtube.com/live/60mmj3bNzB0"
+          target="_blank"
+          class="absolute bottom-[-65%] right-0"
+        >
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="60" cy="60" r="50" fill="#FF0000"></circle>
+            <path
+              d="M72.6328 58.9022L51.398 69.3046L51.398 48.4999L72.6328 58.9022Z"
+              fill="white"></path>
+
+            <text class="text-[6px] uppercase" style={{ fill: "red" }}>
+              <textPath href="#curve">Curabitur mattis efficitur velit</textPath
+              >
+            </text>
+          </svg>
+        </a>
       </div>
       <div class="flex w-full flex-col items-center justify-center gap-12">
         <Speakers />
