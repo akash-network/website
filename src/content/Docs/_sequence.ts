@@ -22,6 +22,9 @@ export const docsSequence = [
               { label: "Payments" },
             ],
           },
+          {
+            label: "Quickstart Guides",
+          },
           { label: "Stack Definition Language (SDL)" },
           { label: "Tokens and Wallets" },
         ],
