@@ -8,6 +8,8 @@ weight: 3
 
 This guide will walk you through deploying a simple "Hello World" Next.JS application onto the Akash Network via The Akash CLI. This guide is beginner-friendly and requires no previous knowledge of navigating the Akash CLI or Akash Network in general.
 
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/fYta01WFyVU?si=kYJxOfObuXx2EfCQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 #### Before Getting Started
 
 You must have Akash CLI installed and properly configured along with some AKTs in your wallet(0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
