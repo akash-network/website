@@ -35,9 +35,9 @@ pagination:
   total: "0"
 ```
 
-If you don't have a balance, please see the [funding guide](https://github.com/akash-network/docs/tree/b65f668b212ad1976fb976ad84a9104a9af29770/guides/wallet/funding.md). Please note the balance indicated is denominated in uAKT (AKT x 10^-6), in the above example, the account has a balance of _93 AKT_. We're now setup to deploy.
+If you don't have a balance, please see the [funding guide](/docs/deployments/akash-cli/installation/#fund-your-account). Please note the balance indicated is denominated in uAKT (AKT x 10^-6), in the above example, the account has a balance of _93 AKT_. We're now setup to deploy.
 
-**Note:** Your account must have a minimum balance of 0.5 AKT to create a deployment. This 0.5 AKT funds the escrow account associated with the deployment and is used to pay the provider for their services. It is recommended you have more than this minimum balance to pay for transaction fees. For more information on escrow accounts, see [here](https://github.com/akash-network/docs/blob/master/guides/cli/detailed-steps/broken-reference/README.md)
+**Note:** Your account must have a minimum balance of 0.5 AKT to create a deployment. This 0.5 AKT funds the escrow account associated with the deployment and is used to pay the provider for their services. It is recommended you have more than this minimum balance to pay for transaction fees. For more information on escrow accounts, see [here](/docs/getting-started/intro-to-akash/payments/#escrow-accounts)
 
 
 ### STEP 1:- Create your Configuration
