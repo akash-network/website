@@ -8,6 +8,8 @@ weight: 3
 
 This guide will walk you through deploying a simple "Hello World" Next.JS application onto the Akash Network via Akash Console. This guide is beginner-friendly and requires no previous knowledge of navigating Console or Akash Network in general.
 
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/ZJaRzAR7uzU?si=Yp5e_xxgcaqq9dpV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 #### Before Getting Started
 
 Console is compatible with two wallets as of now, Keplr and Leap wallet. The Keplr or Leap browser extensions must be installed and with sufficient funds (0.5 AKT minimum for a single deployment plus a small amount for transaction fees).
