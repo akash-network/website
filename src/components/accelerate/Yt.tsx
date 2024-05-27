@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 
-const Yt = ({ fill = "fill-white" }: { fill?: string }) => {
+const Yt = ({ pc, fill = "fill-white" }: { pc?: boolean; fill?: string }) => {
   const youtube = "https://www.youtube.com/live/60mmj3bNzB0";
   const [scroll, setScroll] = React.useState(0);
   const [start, setStart] = React.useState(true);
@@ -20,27 +20,30 @@ const Yt = ({ fill = "fill-white" }: { fill?: string }) => {
 
   return (
     <>
-      <a
-        href={youtube}
-        target="_blank"
-        style={{
-          bottom: scroll > 5500 ? `${scroll / 14}px` : "20px",
-        }}
-        className={clsx(
-          " fixed right-5 z-10  hidden  transition-all duration-300 ease-in-out md:flex",
-          //   scroll > 5500 ? "bottom-[450px]" : "bottom-5",
-        )}
-      >
-        <Svg fill={"fill-foreground"} />
-      </a>
-      <a
-        href={youtube}
-        target="_blank"
-        className="absolute bottom-2 right-2 z-[5] md:hidden"
-      >
-        {" "}
-        <Svg fill={fill} />
-      </a>
+      {pc ? (
+        <a
+          href={youtube}
+          target="_blank"
+          style={{
+            bottom: scroll > 5500 ? `${scroll / 14}px` : "20px",
+          }}
+          className={clsx(
+            " fixed right-5 z-10  hidden  transition-all duration-300 ease-in-out md:flex",
+            //   scroll > 5500 ? "bottom-[450px]" : "bottom-5",
+          )}
+        >
+          <Svg fill={"fill-foreground"} />
+        </a>
+      ) : (
+        <a
+          href={youtube}
+          target="_blank"
+          className="absolute bottom-2 right-2 z-[5] md:hidden"
+        >
+          {" "}
+          <Svg fill={fill} />
+        </a>
+      )}
     </>
   );
 };
