@@ -11,7 +11,7 @@ import Location from "@/components/accelerate/location.astro";
 import Footer from "@/components/accelerate/footer.astro";
 import Spearker from "@/components/accelerate/spearker.astro";
 import BluredSpeaker from "@/components/accelerate/blured-speaker.astro";
-import Yt from "@/components/accelerate/yt.astro";
+import Yt from "@/components/accelerate/Yt";
 const speakers = [
   {
     name: "Greg Osuri",
@@ -179,8 +179,6 @@ const speakers = [
     type: "image",
   },
 ];
-
-const youtube = "https://www.youtube.com/live/60mmj3bNzB0";
 ---
 
 <Layout
@@ -188,6 +186,7 @@ const youtube = "https://www.youtube.com/live/60mmj3bNzB0";
   description="Akash Accelerate is a full-day summit that will bring together the entire ecosystem for a packed agenda of talks, panels, and discussions exploring the future of decentralized compute and open-source AI."
   image="/meta-images/acc-2024.png"
 >
+  <Yt client:only />
   <div class="overflow-x-hidden">
     <div>
       <section class="hidden aspect-[16/6] items-center justify-center md:flex">
@@ -202,13 +201,8 @@ const youtube = "https://www.youtube.com/live/60mmj3bNzB0";
       <section
         class="relative flex aspect-[9/13] items-center justify-center md:hidden"
       >
-        <a
-          href={youtube}
-          target="_blank"
-          class="absolute bottom-2 right-2 z-[5] md:hidden"
-        >
-          <Yt />
-        </a>
+        <Yt client:only />
+
         <Image
           src="/images/venueMobile.png"
           alt="Akash Accelerate 2024"
@@ -235,14 +229,6 @@ const youtube = "https://www.youtube.com/live/60mmj3bNzB0";
           entire ecosystem for a packed agenda of talks, panels, and discussions
           exploring the future of decentralized compute and open-source AI.
         </p>
-
-        <a
-          href={youtube}
-          target="_blank"
-          class="fixed bottom-5 right-5 z-10 hidden md:flex"
-        >
-          <Yt fill="fill-foreground" />
-        </a>
       </div>
       <div class="flex w-full flex-col items-center justify-center gap-12">
         <Speakers />
