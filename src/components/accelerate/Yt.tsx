@@ -17,7 +17,6 @@ const Yt = ({ fill = "fill-white" }: { fill?: string }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  console.log(scroll);
 
   return (
     <>
@@ -28,7 +27,7 @@ const Yt = ({ fill = "fill-white" }: { fill?: string }) => {
           bottom: scroll > 5500 ? `${scroll / 14}px` : "20px",
         }}
         className={clsx(
-          " fixed right-5 z-10 hidden   transition-all duration-300 ease-in-out md:flex",
+          " fixed right-5 z-10  hidden  transition-all duration-300 ease-in-out md:flex",
           //   scroll > 5500 ? "bottom-[450px]" : "bottom-5",
         )}
       >
