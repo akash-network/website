@@ -106,6 +106,7 @@ In this section we will use Cloudmos Deploy to launch an example Minecraft deplo
 - The `LEASES` tab confirms the successful deployment of our example Minecraft application
 
 ![](../../assets/cloudmosLeasesTab.png)
+![](../../assets/cloudmosLeasesTabWithURI.png)
 
 ## Manage Deployments
 

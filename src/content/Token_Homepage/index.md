@@ -117,6 +117,10 @@ buyingAKTSection:
         - title: HTX
           link: "https://www.htx.com/trade/akt_usdt/"
 
+    - row:
+        - title: RevolutApp
+          link: "https://revolut.com/"
+
 faqsSection:
   title: FAQs
   faqs:

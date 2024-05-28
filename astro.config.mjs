@@ -20,6 +20,7 @@ export default defineConfig({
     "/about": "/about/general-information/",
     "/about/pricing": "/about/pricing/compare",
     "/blog/a/acc-akash-accelerationism": "/blog/a-acc-akash-accelerationism/",
+    "/roadmap": "https://github.com/orgs/akash-network/projects/5/views/1?layout=roadmap",
   },
   markdown: {
     // shikiConfig: {
