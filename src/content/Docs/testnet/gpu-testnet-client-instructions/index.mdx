@@ -111,20 +111,27 @@ The following screen shot shows an example/expected output following successful 
 
 ### Minesweeper Deployment Example
 
-In this section we will use the Akash Console to launch an example Minesweeper deployment on the Akash Testmet. You can follow the same process for any other workload so long as it is containerized and you have an appropriate SDL.
+In this section we will use the Akash Console to launch an example Minesweeper deployment on the Akash Testnet. You can follow the same process for any other workload so long as it is containerized and you have an appropriate SDL.
 
 #### STEP 1 - Create the Deployment
 
-- Begin the process of creating a new deployment by selecting the `+` symbol from the left hand navigation pane
-- A number of deployment types are presented in the gallery
-- For our purposes we will import a SDL for the Minesweeper deployment example. Select `Import SDL` to proceed.
+- Begin the process of creating a new deployment by clicking opn the `Deploy` button on the top left corner of the page. 
 
 ![](../../assets/createDeployment.png)
+
+- A number of deployment types are presented in the gallery
+- For our purposes we will import a SDL for the Minesweeper deployment example. Select `Build your template` to proceed.
+
+![](../../assets/buildDeployment.png)
+
+You would be redirected to the page below. Click on the `YAML` button.
+
+![](../../assets/selectYAML.png)
 
 ##### Copy Awesome Akash Minesweeper SDL
 
 - The Minesweeper SDL (Stack Definition Language) file - which is the recipe for an Akash Deployment - can be found in the Awesome Akash repository [here](https://github.com/akash-network/awesome-akash/blob/master/minesweeper/deploy.yaml).
-- Copy the contents of the SDL into the Akash Console editor as demonstrated below.
+- Copy the contents of the SDL into the YAML C editor as demonstrated below.
 - Select `Save & Close` when complete
 
 ![](../../assets/minesweeperSDL.png)
@@ -136,10 +143,21 @@ In this section we will use the Akash Console to launch an example Minesweeper d
 
 ![](../../assets/nameDeployment.png)
 
+- You'll be required to make a minimum deposit of 5 AKT or 5 USDC. Enter at least that amount and click on the `Continue` button. 
+
+![](../../assets/deploymentDeposit.png)
+
+- You then approve the transaction. If you are having trouble with the transaction being completed, try setting the `gas fees` to either `medium` or `high`.
+
+![](../../assets/approveTransaction.png)
+
 #### STEP 2 - Pre-Flight Check
 
-- A `Pre-Flight` screen is displayed which ensures all necessary criteria - such as a connected wallet, sufficient funding to launch a deployment, etc - are presented
-- Most likely - if this is your first time using the Akash Console - a `Missing Certificate` warning will be displayed
+
+- Most likely - if this is your first time using the Akash Console - you would need to create a certificate. Go to `Settings` and click on the `Create Certificate` button. 
+![](../../assets/createCertificate.png)
+- Like before, approve the transaction.
+![](../../assets/approveTransaction.png)
 - Select the `Create Certificate` option and approve Keplr gas fee prompts that follow
 - Once the creation of the certificate step is complete the warning of `Missing Certificate` should update to `Valid Certificate`
 - Select the `Next` button when all Pre-Flight Checks are green
@@ -214,14 +232,14 @@ import TabsWrapper, { TabContent } from "@/components/ui/tabs";
 
 **Download Akash Binary**
 
-_**NOTE**_ - in the commands below we download the Akash binary for version `0.3.1-rc1` and the `darwin_all`. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.3.1-rc1) page and find/replace the link used appropriately
+_**NOTE**_ - in the commands below we download the Akash binary for version `0.6.2` and the `darwin_all`. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.6.2) page and find/replace the link used appropriately
 
 ```
 cd ~/Downloads
 
-wget https://github.com/akash-network/provider/releases/download/v0.3.1-rc1/provider-services_0.3.1-rc1_darwin_all.zip
+wget https://github.com/akash-network/provider/releases/download/v0.6.2/provider-services_0.6.2_darwin_all.zip
 
-unzip provider-services_0.3.1-rc1_darwin_all.zip
+unzip provider-services_0.6.2_darwin_all.zip
 ```
 
 **Move the Akash Binary**
@@ -243,7 +261,7 @@ provider-services version
 **Expect/Example Output**
 
 ```
-v0.3.1-rc1
+v0.6.2
 ```
 
 </TabContent>
@@ -251,7 +269,7 @@ v0.3.1-rc1
 
 **Download Akash Binary**
 
-> _**NOTE**_ - in the commands below we download the Akash binary for version `0.3.1-rc1` and a `AMD-64` architecture. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.3.1-rc1) page and find/replace the link used appropriately.
+> _**NOTE**_ - in the commands below we download the Akash binary for version `0.6.2` and a `AMD-64` architecture. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.6.2) page and find/replace the link used appropriately.
 
 ```
 cd ~
@@ -260,9 +278,9 @@ apt install jq -y
 
 apt install unzip -y
 
-wget https://github.com/akash-network/provider/releases/download/v0.3.1-rc1/provider-services_0.3.1-rc1_linux_amd64.zip
+wget https://github.com/akash-network/provider/releases/download/v0.3.1-rc1/provider-services_0.6.2_linux_amd64.zip
 
-unzip provider-services_0.3.1-rc1_linux_amd64.zip
+unzip provider-services_0.6.2_linux_amd64.zip
 
 mkdir bin; mv provider-services /root/bin/
 ```
@@ -314,7 +332,7 @@ provider-services version
 **Expected/Example Result**
 
 ```
-v0.3.1-rc1
+v0.6.2
 ```
 
 </TabContent>
@@ -360,7 +378,7 @@ Note that if you close your Terminal window this variable will not be saved.
 
 #### Fund Created Account via Testnet Faucet
 
-Visit the Testnet faucet [here](http://faucet.testnet-02.aksh.pw/) to fund your provider account. &#x20;
+Visit the Testnet faucet [here](https://faucet.sandbox-01.aksh.pw/) to fund your provider account. &#x20;
 
 Enter the address of the `myWallet` account created in previous steps as prompted by the faucet.
 
@@ -377,8 +395,8 @@ The following screen shot shows an example/expected output following successful 
 #### Configure the Testnet Chain ID and RPC Node
 
 ```bash
-export AKASH_CHAIN_ID=testnet-02
-export AKASH_NODE=http://rpc.testnet-02.aksh.pw:26657
+export AKASH_CHAIN_ID=sandbox-01
+export AKASH_NODE=https://rpc.sandbox-01.aksh.pw:26657
 ```
 
 #### Confirm your network variables are setup
@@ -392,7 +410,7 @@ echo $AKASH_NODE $AKASH_CHAIN_ID $AKASH_KEYRING_BACKEND
 You should see something similar to:
 
 ```
-http://rpc.testnet-02.aksh.pw:26657 testnet-02 os
+https://rpc.sandbox-01.aksh.pw:26657 sandbox-01 os
 ```
 
 #### Set Additional Environment Variables
