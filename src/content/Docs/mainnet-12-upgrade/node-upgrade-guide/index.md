@@ -8,7 +8,7 @@ linkTitle: "Akash v0.36.0 Node Upgrade Guide"
 
 ## Upgrade Details
 
-- **Upgrade name**: Mainnet11
+- **Upgrade name**: Mainnet12
 - **Binary version**: `v0.36.0`
 - [Upgrade countdown/block height](https://www.mintscan.io/akash/block/16708237)
 - Binary Links - TBD
