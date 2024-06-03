@@ -17,13 +17,13 @@ This guide will cover the following topics:
 
 ### Akash Wants to Spotlight Your Work
 
-Have an idea for a project to deploy on Akash? Already working on a project? Maybe you’ve already deployed a project (or many projects!) to the network?
+Do you have an idea for a project to deploy on Akash? Are you already working on a project? Maybe you’ve already deployed one or many projects to the network?
 
 We love seeing what our community is building. Once your deployment is live, head over to our Discord and share the details of your app in our [Deployments channel](https://discord.com/channels/747885925232672829/771909909335506955) and tag @Admin.
 
-Once you share your app, someone from the Akash team may reach out to spotlight your app across our newsletter, blog, and social media.
+After you share your app, someone from the Akash team may reach out to spotlight your app across our newsletter, blog, and social media.
 
-This is a great opportunity to connect with the team at Akash Network and to spotlight your work for our world-class community.
+This is a great opportunity to connect with the team at Akash Network and to showcase your work to our world-class community.
 
 ## Cloudmos Deploy Access
 
@@ -57,38 +57,34 @@ In this section we will use Cloudmos Deploy to launch an example Minecraft deplo
 
 #### **STEP 1 - Create the Deployment**
 
-- From the Dashboard/primary pane click the `CREATE DEPLOYMENT` button
+- From the Dashboard/primary pane click the `DEPLOY` button
 
 ![](../../assets/cloudCreateDeployment.png)
 
-#### **STEP 2 - Create Certficate**
-
-- A number of checks are performed to ensure necessary funds and certificates are available to launch a deployment.
-- If this is your first deployment with Cloudmos Deploy a `CREATE CERTIFICATE` prompt will be displayed. Select the `CREATE CERTIFICATE` button and accept transaction fee prompt from Keplr to proceed.
-
-![](../../assets/cloudmosCreateCert.png)
-
-**STEP 3 - Choose Deployment Template**
+**STEP 2 - Choose Deployment Template**
 
 - The tool provides several sample templates launch of popular applications
 - Select the `Minecraft` template for our initial deployment
 
 ![](../../assets/cloudmosSelectTemplate-1.png)
 
-#### **STEP 4 - Proceed with Deployment**
-
-- At this stage we could review/customize the Akash SDL deployment template if desired but in this example we will proceed with the default settings and by pressing the `DEPLOY` button
-
-![](../../assets/cloudmosProceedWithDeployment.png)
-
-#### **STEP 5 - SDL Verification**
+#### **STEP 3 - SDL Verification**
 
 - Screen will appear which provides an additional opportunity to customize the SDL but we will again proceed with no edits by pressing the `CREATE DEPLOYMENT` button
-- Subsequently accept the Deployment Deposit pop up which specifies that 5AKT will be placed into an escrow account for deployment cost and then the Keplr transaction fee prompt
 
 ![](../../assets/cloudmosSDLReview.png)
 
-#### **STEP 6 - Review/Accept Bid**
+#### **STEP 4 - Deployment Deposit**
+- Next, accept the Deployment Deposit popup, which indicates that 0.5 AKT will be placed into an escrow account to cover deployment costs. Then, proceed with confirming the Keplr transaction fee prompt.
+
+![](../../assets/DeploymentDeposit.png)
+
+#### **STEP 4 - Approve Tractions**
+- An approval transaction popup will appear in your Keplr/Leap wallet. Please approve it to continue.
+
+![](../../assets/ApproveTransaction.png)
+
+#### **STEP 5 - Review/Accept Bid**
 
 - After a minute or so a list of bids will display.&#x20;
 - Select the most affordable, preferred provider and then press `ACCEPT BID`
@@ -106,7 +102,6 @@ In this section we will use Cloudmos Deploy to launch an example Minecraft deplo
 - The `LEASES` tab confirms the successful deployment of our example Minecraft application
 
 ![](../../assets/cloudmosLeasesTab.png)
-![](../../assets/cloudmosLeasesTabWithURI.png)
 
 ## Manage Deployments
 
@@ -150,6 +145,8 @@ Closing a deployment is very simple.
 
 ![](../../assets/cloudmosDeploymentClose.png)
 
+> _**NOTE**_ - After closing the deployment, the remaining balance will be returned to your wallet.
+
 # Custom RPC Node
 
 Specify a custom RPC or API node within Cloudmos Deploy by using the steps outlined in this section.&#x20;
@@ -158,20 +155,14 @@ The custom node option can point to a RPC node we have created and manage oursel
 
 ### STEP 1 - Enable Custom Node Use
 
-- Begin by selecting the drop-down next to the current Node and then click the `Custom node`radio button
+- Begin by selecting the drop-down next to the current Node and then click the `Custom node` Toggle button
 
 ![](../../assets/cloudmosCustomNode.png)
 
-### STEP 2 - Edit the RPC and API Nodes
-
-Press the `EDIT` button to enter the screen where we can enter our preferred nodes
-
-![](../../assets/cloudmosSpecifyCustomNode.png)
-
-### STEP 3 - Specify Preferred RPC and API Nodes
+### STEP 2 - Specify Preferred RPC and API Nodes
 
 Use the `Api Endpoint` and `Rpc Endpoint` fields to define your own managed nodes or preferred public nodes.\
-\
+
 If you do not maintain your own nodes and want to select from a list of popular public nodes, choose from the RPC node list [here](https://github.com/akash-network/net/blob/master/mainnet/rpc-nodes.txt) and the API node list [here](https://github.com/akash-network/net/blob/master/mainnet/api-nodes.txt).
 
-![](../../assets/cloudmosAcceptCustomNodes.png)
+![](../../assets/cloudmosSpecifyCustomNode.png)
