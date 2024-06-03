@@ -136,7 +136,7 @@ export const docsSequence = [
         ],
       },
       {
-        label: "Mainnet 11 Upgrade",
+        label: "Mainnet 12 Upgrade",
       },
       {
         label: "Testnet",
