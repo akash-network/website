@@ -11,7 +11,7 @@ linkTitle: "Akash v0.36.0 Node Upgrade Guide"
 - **Upgrade name**: Mainnet12
 - **Binary version**: `v0.36.0`
 - [Upgrade countdown/block height](https://www.mintscan.io/akash/block/16708237)
-- Binary Links - TBD
+- [Binary Links](https://github.com/akash-network/node/releases/tag/v0.36.0)
 
 ## Common Steps for All Upgrade Options
 
