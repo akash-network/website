@@ -170,7 +170,7 @@ The `apt install <driver-name>`alternatively allows the install of preferred dri
 ubuntu-drivers autoinstall
 ```
 
-### Install the NVIDIA CUDA Toolkit
+### Install the NVIDIA Container Toolkit
 
 ```
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
@@ -178,7 +178,7 @@ curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | apt-key add -
 curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | tee /etc/apt/sources.list.d/libnvidia-container.list
 
 apt-get update
-apt-get install -y nvidia-cuda-toolkit nvidia-container-toolkit nvidia-container-runtime
+apt-get install -y nvidia-container-toolkit nvidia-container-runtime
 ```
 
 ### Additional References for Node Configurations
