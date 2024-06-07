@@ -123,6 +123,7 @@ export const docsSequence = [
           { label: "IP Leases" },
           { label: "Persistent Storage" },
           { label: "Authorized Spend" },
+          { label: "Fee Grants" },
           { label: "Fractional uAKT" },
           { label: "Deployment Shell Access" },
           { label: "Deployment HTTP Options" },
