@@ -117,7 +117,7 @@ Check out the complete list of presentations and panels from Akash Accelerate â€
     - [David Johnston](https://x.com/DJohnstonEC) (Morpheus)
 - [Akash Network Builder Showcase](https://youtu.be/fVYeAVvuNLI?si=a_5YRUo9GCtJIOFx&t=8227)
     - [Arel Avellino](https://x.com/ArelAvellino) (Passage)
-    - [Ishan Dhanani](https://x.com/0xishand) (Brev.dev)
+    - [Ishan Dhanani](https://x.com/0xishand) & [Anish Maddipoti](https://x.com/athreesh) (Brev.dev)
     - [Jiahao Sun](https://x.com/0x7SUN) (Flock.io)
 - [Decentralized AI and Privacy-Preserving Learning](https://youtu.be/fVYeAVvuNLI?si=W-dQ1sMTQCtlymO0&t=11500)
     - [Sriram Vishwanath](https://www.ece.utexas.edu/people/faculty/sriram-vishwanath) (University of Texas at Austin)
