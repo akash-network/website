@@ -19,6 +19,7 @@ Explore detailed steps and options of the Akash CLI. In this guide we will defin
   - [Make the Path Active in the Current Session](#make-the-path-active-in-the-current-session)
   - [Verify Akash Install](#verify-akash-install)
   - [From Source](#from-source)
+- [Import an Existing Account(#import-existing-account)]
 - [Create an Account](#create-an-account)
 - [Fund your Account](#fund-your-account)
   - [Expected Result](#expected-result)
@@ -206,6 +207,19 @@ Once you have the dependencies properly setup, download and build `akash` using 
 
 </TabContent>
 </TabsWrapper>
+
+## Import an Existing Account 
+
+If you have an existing account saved in the system path, you may import using:
+
+```
+
+provider-services keys add default --recover
+
+```
+
+Otherwise, head to the [next](#create-an-account)  section.
+
 
 ## Create an Account
 
