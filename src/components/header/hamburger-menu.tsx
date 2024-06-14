@@ -121,7 +121,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                         ? "text-base font-medium text-foreground"
                         : "inline-flex items-center text-base font-medium hover:font-semibold hover:text-foreground",
                     )}
-                  // aria-current={item.current ? "page" : undefined}
+                    // aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
                     {/* {item.icon} */}
@@ -175,6 +175,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </a> */}
             <a
               href="https://console.akash.network/"
+              id="console-header"
               className="flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary px-[17px] py-[9px] text-sm font-medium leading-[20px] text-white hover:bg-darkGray"
             >
               Deploy Now
@@ -183,13 +184,25 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
 
           <div className="flex items-center justify-between border-t border-border py-7 text-para">
             <div className="flex gap-x-[20px] px-2">
-              <a href="https://twitter.com/akashnet_" target="_blank" className="hover:text-primary">
+              <a
+                href="https://twitter.com/akashnet_"
+                target="_blank"
+                className="hover:text-primary"
+              >
                 <TwitterIcon />
               </a>
-              <a href="https://github.com/akash-network" target="_blank" className="hover:text-primary">
+              <a
+                href="https://github.com/akash-network"
+                target="_blank"
+                className="hover:text-primary"
+              >
                 <GithubIcon />
               </a>
-              <a href="https://discord.com/invite/akash" target="_blank" className="hover:text-primary">
+              <a
+                href="https://discord.com/invite/akash"
+                target="_blank"
+                className="hover:text-primary"
+              >
                 <DiscordIcon />
               </a>
             </div>
