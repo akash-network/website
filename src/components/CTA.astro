@@ -4,16 +4,28 @@ import ButtonLink from "./ui/button-link.astro";
 const pathname = Astro.url.pathname;
 
 let title = "Experience the Supercloud.";
-let button = { label: "Deploy Now", link: "https://console.akash.network/" };
+let button = {
+  label: "Deploy Now",
+  link: "https://console.akash.network/",
+  id: "console-home",
+};
 
 if (pathname.startsWith("/about/providers")) {
   title = "Join the Supercloud";
-  button = { label: "Become a Provider", link: "/providers" };
+  button = {
+    label: "Become a Provider",
+    link: "/providers",
+    id: "provider-home",
+  };
 }
 
 if (pathname.startsWith("/ecosystem/providers")) {
   title = "Join the Supercloud Provider Network";
-  button = { label: "Become a Provider", link: "/about/providers/" };
+  button = {
+    label: "Become a Provider",
+    link: "/about/providers/",
+    id: "provider-ecosystem",
+  };
 }
 ---
 
@@ -40,6 +52,7 @@ if (pathname.startsWith("/ecosystem/providers")) {
         link={button.link}
         size="xl"
         className="bg-primary text-white hover:bg-darkGray"
+        id={button.id}
       >
         {button.label}
       </ButtonLink>
