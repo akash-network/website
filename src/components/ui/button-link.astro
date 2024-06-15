@@ -11,6 +11,7 @@ interface Props {
   target?: "_self" | "_blank";
   "aria-label"?: string;
   download?: string;
+  id?: string;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   target = "_self",
   "aria-label": ariaLabel,
   download,
+  id,
   ...props
 } = Astro.props;
 
@@ -52,6 +54,7 @@ export const buttonVariants = cva(
 ---
 
 <a
+  id={id}
   aria-label={ariaLabel ?? ""}
   href={link}
   download={download}
