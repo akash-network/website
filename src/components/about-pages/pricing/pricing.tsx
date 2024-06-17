@@ -178,7 +178,7 @@ export function Pricing({ page, pathName, initialData }: any) {
                       target="_blank"
                       rel="noreferrer"
                       href="https://deploy.cloudmos.io/"
-                      className="cursor-pointer  text-2xs font-bold md:text-sm bg-primary text-white hover:bg-darkGray"
+                      className="flex items-center justify-center px-[11px] py-[7px] rounded-[4px] cursor-pointer  text-2xs font-bold md:text-sm bg-primary text-white hover:bg-darkGray"
                     >
                       Deploy Now
                     </a>
