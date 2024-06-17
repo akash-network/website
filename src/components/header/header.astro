@@ -74,7 +74,12 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
 
         <NavLink href="/blog" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs" currentPath={pathname}>Docs</NavLink>
-        <NavLink href="/gpus" currentPath={pathname}>GPU Pricing</NavLink>
+        <NavLink href="/gpus" currentPath={pathname}>
+          <div class="flex gap-1 items-center">
+            <span>Pricing</span>
+            <span class="text-[12px] outline outline-1 px-2 rounded-full">New GPUs</span>
+          </div>
+        </NavLink>
       </div>
     </div>
 

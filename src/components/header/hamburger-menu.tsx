@@ -34,7 +34,7 @@ const navigation = [
   { name: "Community", href: "/community/akash-insiders/" },
   { name: "Blog", href: "/blog" },
   { name: "Docs", href: "/docs" },
-  { name: "GPU Pricing", href: "/gpus" },
+  { name: "Pricing", href: "/gpus" },
 ];
 
 export default function HamburgerMenu({
@@ -121,9 +121,15 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                         ? "text-base font-medium text-foreground"
                         : "inline-flex items-center text-base font-medium hover:font-semibold hover:text-foreground",
                     )}
-                    // aria-current={item.current ? "page" : undefined}
+                  // aria-current={item.current ? "page" : undefined}
                   >
-                    {item.name}
+                    {item.name === 'Pricing' ?
+                      <div className="flex gap-1 items-center">
+                        <span>Pricing</span>
+                        <span className="text-[10px] outline outline-1 px-2 rounded-full">New GPUs</span>
+                      </div> :
+                      item.name
+                    }
                     {/* {item.icon} */}
                   </Disclosure.Button>
                 )}
