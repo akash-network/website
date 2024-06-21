@@ -11,11 +11,12 @@ export const nav: any = [
     link: "/community/events/",
     enabled: true,
   },
-  {
-    label: "Akash EDU", // Label for the main menu item.
-    link: "/community/community-akash-edu/",
-    enabled: true,
-  },
+  // ToDo: temporary remove until new courses are live.
+  // {
+  //   label: "Akash EDU", // Label for the main menu item.
+  //   link: "/community/community-akash-edu/",
+  //   enabled: true,
+  // },
   {
     label: "Community Contributions", // Label for the main menu item.
     link: "/community/community-contributions/",
