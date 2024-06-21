@@ -40,24 +40,32 @@ export default function Sort({
       switch (sortType) {
         case "Availability":
           filters.modal.length > 0 ||
-          filters.ram.length > 0 ||
-          filters.interface.length > 0
+            filters.ram.length > 0 ||
+            filters.interface.length > 0
             ? setFilteredData((prev) =>
-                [...prev].sort(
-                  (a, b) => b.availability.available - a.availability.available,
-                ),
-              )
+              [...prev].sort(
+                (a, b) => b.availability.available - a.availability.available,
+              ),
+            )
             : setFilteredData(onTop());
           break;
         case "Lowest Price":
           setFilteredData((prev) =>
-            [...prev].sort((a, b) => a.price.med - b.price.med),
+            [...prev].sort((a, b) => {
+              const aMed = a.price ? a.price.med : 0;
+              const bMed = b.price ? b.price.med : 0;
+              return aMed - bMed;
+            }),
           );
 
           break;
         case "Highest Price":
           setFilteredData((prev) =>
-            [...prev].sort((a, b) => b.price.med - a.price.med),
+            [...prev].sort((a, b) => {
+              const aMed = a.price ? a.price.med : 0;
+              const bMed = b.price ? b.price.med : 0;
+              return bMed - aMed;
+            }),
           );
           break;
         default:
