@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/collapsible";
 import { docsSequence as docs } from "@/content/Docs/_sequence";
 import { ChevronDownIcon } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 
 import { useStorage } from "@/utils/store";
 
@@ -13,9 +13,9 @@ const MAX_DEPTH = 4;
 
 export function DocsNav({ docsNav = [], pathName = [] }: any) {
   console.log(pathName);
-
-  const $docsLinkTracks = useStorage((state) => state.docsLinkTracks);
-  const setDocsLinkTracks = useStorage((state) => state.setDocsLinkTracks);
+  const [$docsLinkTracks, setDocsLinkTracks] = useState<any>({});
+  // const $docsLinkTracks = useStorage((state) => state.docsLinkTracks);
+  // const setDocsLinkTracks = useStorage((state) => state.setDocsLinkTracks);
   console.log($docsLinkTracks);
 
   const getCurrentLink = (link: string) => {
@@ -203,17 +203,13 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
   };
 
   return (
-    <>
-      <nav className="">
-        <>
-          {docsNav?.map((navItem: any, index: any) => (
-            <div key={navItem.link}>
-              {Dropdown(navItem, pathName, 0, index, docsNav.length)}
-            </div>
-          ))}
-        </>
-      </nav>
-    </>
+    <nav>
+      {docsNav?.map((navItem: any, index: any) => (
+        <div key={navItem.link}>
+          {Dropdown(navItem, pathName, 0, index, docsNav.length)}
+        </div>
+      ))}
+    </nav>
   );
 }
 

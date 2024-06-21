@@ -26,7 +26,7 @@ cloudmosResourcesSection:
     - title: Akash Console Documentation
       description: Console Deploy Tool is a web based application which simplifies the deployment process on the Akash Network.
       badge: "./assets/book-stack.svg"
-      link: "/docs/deployments/cloudmos-deploy/"
+      link: "/docs/deployments/akash-console/"
       linkIcon: true
       linkLabel: "View More"
     - title: Deploy a Next.js app with crypto
@@ -39,20 +39,15 @@ cloudmosResourcesSection:
 resourcesSection:
   title: Getting Started
   cards:
-    - title: What is cloudmos?
-      description: Alani Kuye, Overclock Labs' Technical Program Manager introduces Cloudmos, formerly Akashlytics, was one of the first graduates of the Akash Accelerator program.
-      img: "./assets/card-image-1.png"
-      link: "https://www.youtube.com/watch?v=Jx4Fr0_mlss"
+    - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash Console
+      description: Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash Console.
+      img: "./assets/console.jpg"
+      link: "/docs/getting-started/quickstart-guides/akash-console/"
 
-    - title: Step-by-step to setting up your own live-stream server with Cloudmos
-      description: "@DarksideofThePodocasts shows how to setup your own live-stream server on Akash Network using Cloudmos deployment tool."
-      img: "./assets/card-image-2.png"
-      link: "https://www.youtube.com/watch?v=vZmnapa_DpA"
-
-    - title: How to mine Zephyr Protocol using Akash Network's Cloudmos
-      description: In this video @IBCGANG shows how to mine Zephyr Protocol using Akash Networks Cloudmos
-      img: "./assets/card-image-3.png"
-      link: "https://www.youtube.com/watch?v=fceHfdNZF64"
+    - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash CLI
+      description: "Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash CLI."
+      img: "./assets/cli.jpg"
+      link: "/docs/getting-started/quickstart-guides/akash-cli/"
 
 additionalDeploymentSection:
   title: Additional Deployment Resources
