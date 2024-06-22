@@ -13,8 +13,6 @@ import Card from "@/components/docs/homepage-cat-cards.astro";
 import wallets from "./assets/essentials/wallets.svg";
 import stack from "./assets/essentials/stack.svg";
 import questions from "./assets/essentials/questions.svg";
-import cliRocket from "./assets/essentials/cli.svg";
-import Logout from "./assets/essentials/logout.svg";
 import cli from "./assets/deployments/cli.svg";
 import deploy from "./assets/deployments/deploy.svg";
 import payments from "./assets/deployments/payments.svg";
@@ -25,17 +23,17 @@ import rocket from "./assets/providers/rocket.svg";
 
 ### Quickstart
 
-      <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
         <Card
           title='Deploy "Hello World" SDL in 5 Minutes using the Akash Console'
           description='Learn how to deploy a "Hello World" SDL in 5 minutes using the Akash Console.'
-          icon={Logout}
+          icon={deploy}
           link="/docs/getting-started/quickstart-guides/akash-console/"
         />
         <Card
           title='Deploy "Hello World" SDL in 5 Minutes using the Akash CLI'
           description='Learn how to deploy a "Hello World" SDL in 5 minutes using the Akash CLI.'
-          icon={cliRocket}
+          icon={cli}
           link="/docs/getting-started/quickstart-guides/akash-cli/"
         />
 
