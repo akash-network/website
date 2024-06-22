@@ -110,7 +110,7 @@ v0.4.6
 
 Placing a bid on an order requires a 0.5 AKT deposit placed into collateral per bid won. If the provider desired 2 concurrent leases, the provider’s wallet would need minimum funding of 10AKT.
 
-As every deployment request bid requires 0.5 AKT to be deposited in the escrow account, it's always good to have more so your provider can keep bidding. If your provider is ready to offer 10 deployments, then it's best to have 5 x 10 = 5 AKT and a little more to make sure the provider can pay the fees for broadcasting the transactions on Akash Network.
+As every deployment request bid requires 0.5 AKT to be deposited in the escrow account, it's always good to have more so your provider can keep bidding. If your provider is ready to offer 10 deployments, then it's best to have .5 x 10 = 5 AKT and a little more to make sure the provider can pay the fees for broadcasting the transactions on Akash Network.
 
 The steps to create an Akash wallet are covered in the following documentation sections:
 
