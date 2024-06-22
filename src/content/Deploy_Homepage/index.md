@@ -41,12 +41,12 @@ resourcesSection:
   cards:
     - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash Console
       description: Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash Console.
-      img: "./assets/console.jpg"
+      img: "./assets/console.png"
       link: "/docs/getting-started/quickstart-guides/akash-console/"
 
     - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash CLI
       description: "Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash CLI."
-      img: "./assets/cli.jpg"
+      img: "./assets/cli.png"
       link: "/docs/getting-started/quickstart-guides/akash-cli/"
 
 additionalDeploymentSection:
