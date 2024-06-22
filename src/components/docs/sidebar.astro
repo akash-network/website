@@ -1,8 +1,12 @@
 ---
+import { ChevronDownIcon } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
 import AkashLogo from "./akash-docs-logo.astro";
 import { DocsNav, HomeButton } from "./docs-nav";
+import { docsSequence } from "@/content/Docs/_sequence";
 
 const { nav, providersNav } = Astro.props;
+console.log(nav);
 
 const pathname = new URL(Astro.request.url).pathname;
 ---
@@ -35,7 +39,29 @@ const pathname = new URL(Astro.request.url).pathname;
         docsNav={nav}
         providersNav={providersNav}
         pathName={pathname}
-      />
+      >
+        <div class="hidden flex-col gap-2 md:flex" slot="fallback">
+          {
+            nav?.[0]?.subItems?.map((navItem: any, i: any) => (
+              <>
+                {i === 0 && (
+                  <p class="mt-6 border-t py-6 text-xs font-bold uppercase">
+                    User Docs
+                  </p>
+                )}
+                <div
+                  class={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${"px-2"}   py-1 text-sm font-medium`}
+                >
+                  <p class="flex-1 text-left group-hover:text-primary group-hover:dark:text-white">
+                    {navItem.label}
+                  </p>
+                  <ChevronDownIcon className=" w-4 text-para" />
+                </div>
+              </>
+            ))
+          }
+        </div>
+      </DocsNav>
     </div>
 
     <div class="my-6 border-b"></div>
