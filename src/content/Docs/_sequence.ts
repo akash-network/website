@@ -77,6 +77,9 @@ export const docsSequence = [
                 label: "Akash Provider Checkup",
               },
               {
+                label: "Time Synchronization",
+              },
+              {
                 label: "GPU Resource Enablement (Optional Step)",
               },
               {
