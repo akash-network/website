@@ -73,6 +73,7 @@ additionalDeploymentSection:
       link: "/docs/providers/build-a-cloud-provider/gpu-resource-enablement/"
     - title: Akash Provider Checkup
       content: Within this guide we provide paths to check your Akash Provider health status following initial build and throughout the lifetime of the provider.
+      link: "/docs/providers/build-a-cloud-provider/akash-provider-checkup/"
     - title: Time Synchronization
       content: To ensure your Akash node maintains accurate time synchronization, we recommend using `chrony` over `systemd-timesyncd`. Chrony is a versatile implementation of the Network Time Protocol (NTP) and ensures better time accuracy and reliability.
       link: "/docs/providers/build-a-cloud-provider/time-synchronization/"
