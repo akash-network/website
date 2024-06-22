@@ -44,7 +44,7 @@ For additional help we recommend you [follow our full deployment guide](broken-r
 
 ## How does this work?
 
-Akash uses its blockchain to manage your container deployment and accounting. To deploy on Akash you will need to fund your wallet with at least 10 AKT. Each time you create a deployment, 5 AKT will be used for escrow and to fund the deployment. If the deployment is canceled, the balance of the escrow is returned to you. You can spin up deployments without worrying about any long term contracts and you can cancel anytime.
+Akash uses its blockchain to manage your container deployment and accounting. To deploy on Akash you will need to fund your wallet with at least 10 AKT. Each time you create a deployment, 0.5 AKT will be used for escrow and to fund the deployment. If the deployment is canceled, the balance of the escrow is returned to you. You can spin up deployments without worrying about any long term contracts and you can cancel anytime.
 
 ## Plotting Demo
 

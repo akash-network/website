@@ -184,7 +184,7 @@ deployment:
 #### Deployment Deposit
 
 - An escrow account is created for the deployment that is deducted from by the provider for the cost of the workload over time
-- By default 5 AKT is specified as the initial escrow deposit
+- By default 0.5 AKT is specified as the initial escrow deposit
 - If a deployment's escrow runs out of funds (0 AKT), the lease will be closed by the provider. Consider increasing the initial deposit to an amount that will be enough to fund the deployment for some time. And/or consider a strategy to ensure the escrow is re-funded on a periodic basis to ensure no disruption to your validator.
 - When ready select `DEPOSIT` to proceed and `APPROVE` any Transaction/gas fee prompts that follow
 

@@ -37,7 +37,7 @@ If you have not used Cloudmos Deploy previously, please use [this guide](/docs/d
 
 ![](../../assets/sdlWithStorageAdjustment.png)
 
-- Accept the initial deposit of 5 AKT into the deployment’s escrow account
+- Accept the initial deposit of 0.5 AKT into the deployment’s escrow account
 - The escrow can be refilled easily within Cloudmos Deploy at any time
 
 ![](<../../assets/acceptDeposit (1) (1) (1) (2).png>)
