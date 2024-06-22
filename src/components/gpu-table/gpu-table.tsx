@@ -508,7 +508,7 @@ const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
         <div className="h-4 w-px  bg-para"></div>
         <a
           id={`${model?.model}-(gpu-rent)`}
-          href="https://console.akash.network/rent-gpu"
+          href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
           target="_blank"
           className=" text-base font-medium text-white dark:text-black md:text-xs"
         >
