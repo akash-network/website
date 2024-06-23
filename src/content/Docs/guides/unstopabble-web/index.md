@@ -69,7 +69,7 @@ You can deploy to Akash using the [standard Akash CLI ](https://akash.network/do
 
 2.  Visit [http://localhost:3000](https://github.com/coffeeroaster/unstoppable-web2.0/blob/main) to access the tool
 3.  Use the tool to **create a new wallet**. Make sure to record your mnemonic phrase so that you can restore the wallet if needed in the future.
-4.  **Fund this new wallet with at least 5 AKT** (5,000,000 UAKT) by transferring 5 AKT or more to the displayed wallet address.
+4.  **Fund this new wallet with at least 0.5 AKT** (500,000 UAKT) by transferring 0.5 AKT or more to the displayed wallet address.
 5.  **Create a new certificate**. This certificate only needs to be created once and will be used for all future deployments.
 6.  **Create a new deployment** using `akash/deploy-sample.yml` as a template. The Akash Stack Definition Language (SDL)
 7.  Once you have created your deployment, you will start to receive bids. You can view these in the tool.
