@@ -51,8 +51,6 @@ As test deployments are launched within this guide, we want to ensure that our p
 
 ## Akash Provider Status and Attributes Endpoints
 
-# Provider Endpoints
-
 The section details the provider REST and gRPC endpoints that may be used following initial build and ongoing health verifications.
 
 ### Provider Status gRPC Endpoint
