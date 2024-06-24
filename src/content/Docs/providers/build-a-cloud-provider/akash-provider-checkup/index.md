@@ -11,6 +11,7 @@ Within this guide we provide paths to check your Akash Provider health status fo
 The guide is broken down into the following sections:
 
 - [Prerequisites](#prerequisites)
+- [Provider Status and Attributes Endpoints](#akash-provider-status-and-attributes-endpoints)
 - [Launch a Test Deployment on Provider](#step-1---launch-a-test-deployment-on-provider)
 - [Inbound Communication Verifications](#step-2---inbound-communication-verifications)
 - [Shell Access Verification](#step-3---shell-access-verification)
@@ -24,35 +25,91 @@ The guide is broken down into the following sections:
 
 In prep for the Akash Provider checkup steps performed in this guide, please ensure the following prerequisites are in place:
 
-- [Familiarity with Cloudmos Deploy](#familiarity-with-cloudmos-deploy)
+- [Familiarity with Akash Console](#familiarity-with-akash-console)
 - [Obtain Provider Address](#obtain-provider-address)
 - [Familiarity with Your Provider’s Attributes](#familiarity-with-your-providers-attributes)
 
-### Familiarity with Cloudmos Deploy
+### Familiarity with Akash Console
 
-For ease of test deployments within this guide and as they relate to verification of your Provider, we will use the Cloudmos Deploy application.
+For ease of test deployments within this guide and as they relate to verification of your Provider, we will use the Akash Console application.
 
-If you are not familiar with the Cloudmos Deploy app - please use this [guide](broken-reference) to complete the installation, ensure you have a deployment wallet funded with a small amount of AKT, and make a quick test deployment.
+If you are not familiar with the Akash Console - please use this [guide](/docs/deployments/akash-console/) to complete the installation, ensure you have a deployment wallet funded with a small amount of AKT, and make a quick test deployment.
 
-Alternatively the verifications in this guide could be completed using the Akash CLI if you prefer and which is covered in this [guide](/docs/deployments/akash-cli/installation/). But the steps below will be detailed assuming Cloudmos use.
+Alternatively the verifications in this guide could be completed using the Akash CLI if you prefer and which is covered in this [guide](/docs/deployments/akash-cli/installation/). But the steps below will be detailed assuming Akash Console use.
 
 ### Obtain Provider Address
 
-In most cases your Akash provider address is likely known and was captured during the provider installation steps. If you do not know your provider’s address, which will be necessary for verifications as we proceed, it may be obtained in the Cloudmos app and in the Provider sections shown below.
+In most cases your Akash provider address is likely known and was captured during the provider installation steps. If you do not know your provider’s address, which will be necessary for verifications as we proceed, it may be obtained in the Akash Console and in the Provider sections shown below.
 
 ![](../../../assets/akashlyticsProviderList.png)
 
 ### **Familiarity with Your Provider’s Attributes**
 
-As test deployments are launched within this guide, we want to ensure that our provider will bid on those deployments. Ensure you are familiar with your provider’s attribute list. The active attributes for a provider can be obtained by drilling into the details within the Cloudmos Provider list by selecting your instance from the list and then drilling into the details as shown.
+As test deployments are launched within this guide, we want to ensure that our provider will bid on those deployments. Ensure you are familiar with your provider’s attribute list. The active attributes for a provider can be obtained by drilling into the details within the Akash Console Provider list by selecting your instance from the list and then drilling into the details as shown.
 
 ![](../../../assets/akashlyticsProviderAttributes.png)
+
+## Akash Provider Status and Attributes Endpoints
+
+# Provider Endpoints
+
+The section details the provider REST and gRPC endpoints that may be used following initial build and ongoing health verifications.
+
+### Provider Status gRPC Endpoint
+
+This endpoint provides detailed info on a Proviider's total allocatable and currently allocated host resources including GPU model type/status and CPU/memory/storage levels on a per node basis.
+
+> _**NOTE**_ - to use this endpoint ensure that gRPC Curl is installed on the machine executing the command
+
+#### Template
+
+```
+grpcurl -insecure <provider-domain>:8444 akash.provider.v1.ProviderRPC.GetStatus
+```
+
+#### Example
+
+```
+grpcurl -insecure provider.hurricane.akash.pub:8444 akash.provider.v1.ProviderRPC.GetStatus
+```
+
+### Provider Status Endpoint
+
+This endpoint provides high level details on the status of the Provider including the number of active leases and the hardware specs of those leases.
+
+#### Template
+
+```
+curl -ks https://<provider-domain>:8443/status
+```
+
+#### Example
+
+```
+curl -ks https://provider.hurricane.akash.pub:8443/status
+```
+
+### Provider Version Endpoint
+
+This endpoint is not necessarily useful for a general health check following Provider install but may become useful if/when detailed package versions need to be reviewed in troubleshooting exercises.  The lengthy output of this endpoint reveals Akash Provider, Go, and many other packages versions involved in the implementation.
+
+Template
+
+```
+curl -ks https://<provider-domain>:8443/version
+```
+
+#### Example
+
+```
+curl -ks https://provider.hurricane.akash.pub:8443/version
+```
 
 ## STEP 1 - Launch a Test Deployment on Provider
 
 In the first step of our checkup, we will launch a test deployment that our provider should bid on. We will subsequently accept the bid from our provider, ensure that the lease was created successfully, and then fully test access to the deployment for verification of inbound communications.
 
-Launch the Cloudmos Deploy application to complete the sections that follow.
+Launch the Akash Console application to complete the sections that follow.
 
 ### Create Deployment
 
@@ -78,7 +135,7 @@ Launch the Cloudmos Deploy application to complete the sections that follow.
 ## STEP 2 - Inbound Communication Verifications
 
 - In this step we will verify functionality of inbound communication for active deployments on our provider
-- Within the Cloudmos Deployment detail pane > navigate to the LEASES tab > and click the URL of the test deployment
+- Within the Akash Console Deployment detail pane > navigate to the LEASES tab > and click the URL of the test deployment
 
 ![](../../../assets/akashlyticsInboundVerification.png)
 
@@ -92,7 +149,7 @@ Launch the Cloudmos Deploy application to complete the sections that follow.
 
 - Tenants should have access to their deployment’s Linux shell which can be used for basic troubleshooting and administration.
 - Within this step we will ensure that there are no issues with shell access into a deployment running on your provider.
-- Open the shell for the Hello Akash World test deployment and within Cloudmos via the deployment’s SHELL tab as demonstrated
+- Open the shell for the Hello Akash World test deployment and within Akash Console via the deployment’s SHELL tab as demonstrated
 
 ![](../../../assets/deploymentShellAccess.png)
 
