@@ -1,6 +1,6 @@
 ---
-projectTitle: Akash Cloudmos
-projectImage: "./project-banner.png"
+projectTitle: Akash Console
+projectImage: "./akash-console.png"
 pubDate: "2024-01-19"
 
 tags:
@@ -12,9 +12,9 @@ description: Tailored for Web3 users, offering a powerful platform to deploy app
 
 ctaButton:
   label: View Project
-  link: "https://cloudmos.io/"
+  link: "https://console.akash.network/"
   enable: true
 
-websiteLink: "https://deploy.cloudmos.io/"
+websiteLink: "https://console.akash.network/"
 featured: true
 ---
