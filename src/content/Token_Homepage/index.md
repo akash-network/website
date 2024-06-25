@@ -102,6 +102,10 @@ buyingAKTSection:
           link: "https://app.rango.exchange/swap/BSC.BNB/AKASH.AKT"
 
     - row:
+        - title: Upbit
+          link: "https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AKT"
+
+    - row:
         - title: Kucoin
           link: "https://trade.kucoin.com/AKT-USDT"
 
@@ -120,6 +124,10 @@ buyingAKTSection:
     - row:
         - title: RevolutApp
           link: "https://revolut.com/"
+
+    - row:
+        - title: Bitpanda
+          link: "https://www.bitpanda.com/en/prices/akash-akt"
 
 faqsSection:
   title: FAQs
