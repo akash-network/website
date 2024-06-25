@@ -121,6 +121,10 @@ buyingAKTSection:
         - title: RevolutApp
           link: "https://revolut.com/"
 
+    - row:
+        - title: Bitpanda
+          link: "https://www.bitpanda.com/"
+
 faqsSection:
   title: FAQs
   faqs:
