@@ -16,7 +16,7 @@ If you have a Windows machine and want to become a Provider, follow these steps:
 
 2. Install VirtualBox by double-clicking the downloaded file.
 
-## Step 2: Create a New VM and Install an OS
+## Step 2a: Create a New VM and Install an OS
 
 1. Open VirtualBox and click on Machine > New.
 
@@ -25,4 +25,56 @@ If you have a Windows machine and want to become a Provider, follow these steps:
 2. Provide a name and path for the VM. Select the operating system type "Linux" and the version "Ubuntu" based on your computer's architecture.
 
 ![](../../../../assets/virutalbox.png)
+
+3. Click Next and set the memory size (minimum required is 4096 MB).
+
+![](../../../../assets/memorySize.png)
+
+4. Click Next and select the "Create a virtual hard disk now" radio button.
+
+5. Click Create and choose the "VDI (VirtualBox Disk Image)" radio button.
+
+6. Click Next and select the "Dynamically allocated" radio button.
+
+7. Click Next and set the virtual hard disk size (minimum required is 30 GB).
+
+![](../../../../assets/harddiskSize.png)
+
+8. Click Create to finalize the new VM setup.
+
+![](../../../../assets/createVM.png)
+
+## Step 2b: Configure the VM
+
+1. Select the newly created VM and click Settings.
+
+2. In the System section, go to the Processor tab and set the Processor(s) to at least 2 CPUs.
+
+![](../../../../assets/processorNumber.png)
+
+3. In the Network section, go to the Adapter 1 tab and select "Bridged Adapter" under the "Attached to" label.
+
+4. Under Advanced settings:
+  * Set "Promiscuous Mode" to "Allow All".
+  
+  *Click the Refresh icon to refresh your MAC Address.
+
+  *Ensure the "Cable Connected" checkbox is checked.
+
+  
+5. Click OK to save your settings.
+
+![](../../../../assets/networkSettings.png)
+
+## Step 2c: Start the VM and Install the OS
+
+1. Click Start to launch your VM.
+
+2. Provide an image of the OS you want to install in the VM.
+
+3. Follow the prompts to complete the OS installation (this typically takes 10-15 minutes).
+
+4. After installation, restart the VM.
+
+
 

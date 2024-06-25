@@ -32,10 +32,14 @@ Locate the following lines in the sudoers file and update them as shown to enabl
 %admin ALL=(ALL) NOPASSWD: ALL
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL
 <user> ALL=(ALL) NOPASSWD: ALL
+
 ```
 
-Replace <user> with the username you wish to grant sudo rights to, if it is not already an admin or root user. For example, if the user is "praetor," the line should read:
+Replace `<user>` with the username you wish to grant sudo rights to, if it is not already an admin or root user. For example, if the user is `praetor`, the line should read:
 
 ```
 praetor ALL=(ALL) NOPASSWD: ALL
+
 ```
+
+![](../../../../assets/praetorRoot.png)
