@@ -1,5 +1,5 @@
 ---
-title: "Decentralized AI Model Training on Akash With Flock.io"
+title: "Decentralized AI Model Training on Akash With FLock.io"
 
 description: This case study outlines the integration between Akash and FLock.io that enables users to easily train AI models on decentralized compute.
 
