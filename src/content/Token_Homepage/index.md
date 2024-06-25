@@ -102,6 +102,10 @@ buyingAKTSection:
           link: "https://app.rango.exchange/swap/BSC.BNB/AKASH.AKT"
 
     - row:
+        - title: Upbit
+          link: "https://www.upbit.com/"
+
+    - row:
         - title: Kucoin
           link: "https://trade.kucoin.com/AKT-USDT"
 
