@@ -72,9 +72,40 @@ If you have a Windows machine and want to become a Provider, follow these steps:
 
 2. Provide an image of the OS you want to install in the VM.
 
+![](../../../../assets/loadImage.png)
+
 3. Follow the prompts to complete the OS installation (this typically takes 10-15 minutes).
 
 4. After installation, restart the VM.
+
+## Step 2d: Configure the OS
+
+1. If the user is a sudo user, refer to the [sudo user requirements](../sudo-user-reqs/).
+
+2. Open the terminal and type `ip a` to get your private IPv4 address.
+
+![](../../../../assets/privateIP.png)
+
+## Step 3: Port Forwarding
+
+1. Access your router's configuration page and set up port forwarding to the IPv4 address obtained earlier.
+  * Port 8443, 8444: For running Akash Provider service.
+
+  * Port 80, 443: For applications deployed under your provider.
+
+  * Port 22: For SSH connections.
+
+  * Ports 30000-32767: For other TCP/UDP connections.
+
+![](../../../../assets/basicSettings.png)
+
+Note: The configuration settings may vary depending on your ISP.
+
+You are now ready to become an Akash cloud provider. First, you will need to know your public IP address.
+
+## Support
+
+If you have any issues or trouble getting the provider machine up and running, you may reach out to the [Praetor](https://praetorapp.com) team  on [Discord](https://discord.com/invite/uzUCHTF93D) or [Twitter/X](https://x.com/praetor_app).
 
 
 
