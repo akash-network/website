@@ -103,7 +103,7 @@ buyingAKTSection:
 
     - row:
         - title: Upbit
-          link: "https://www.upbit.com/"
+          link: "https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AKT"
 
     - row:
         - title: Kucoin
@@ -127,7 +127,7 @@ buyingAKTSection:
 
     - row:
         - title: Bitpanda
-          link: "https://www.bitpanda.com/"
+          link: "https://www.bitpanda.com/en/prices/akash-akt"
 
 faqsSection:
   title: FAQs
