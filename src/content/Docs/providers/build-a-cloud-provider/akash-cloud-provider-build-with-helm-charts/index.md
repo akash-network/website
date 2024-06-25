@@ -594,7 +594,7 @@ bidpricestoragescale: "0.00016" # storage pricing scale in uakt per megabyte
 > _**NOTE**_ - You do not need to run this command if you previously installed the Akash Provider and are now performing an upgrade.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.5.4/pkg/apis/akash.network/crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.6.2/pkg/apis/akash.network/crd.yaml
 ```
 
 #### **Install the Provider Helm Chart**
@@ -800,7 +800,7 @@ EOF
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
-  --version 4.10.0 \
+  --version 4.10.1 \
   --namespace ingress-nginx --create-namespace \
   -f ingress-nginx-custom.yaml
 ```
