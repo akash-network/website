@@ -20,6 +20,8 @@ contributors:
 
 bannerImage: ./flock-io-on-akash.png
 ---
+by [Zach Horn](https://x.com/zacharyhorn/) and [Matt Burke](https://linkedin.com/in/mattburkej/)
+
 Developing truly open and decentralized AI is one of society's most critical challenges. The networks, platforms, and clients we build will help guide this development, from open compute networks like Akash to platforms like FLock.io that make it easy to train and fine-tune AI models. Integrating these projects simplifies the user experience, enabling greater access that puts AI development directly in the hands of people around the world.
 
 This case study outlines the integration between Akash and [FLock.io](https://www.flock.io/#/) that enables users to easily train AI models on decentralized compute. It illustrates how Akash, the first open-source Supercloud, gives AI developers access to the high-performance compute resources needed to train AI models with FLock.io, a platform for decentralized machine learning.
