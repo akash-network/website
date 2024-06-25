@@ -173,9 +173,8 @@ ubuntu-drivers autoinstall
 ### Install the NVIDIA Container Toolkit
 
 ```
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | apt-key add -
-curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | tee /etc/apt/sources.list.d/libnvidia-container.list
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | tee /etc/apt/sources.list.d/libnvidia-container.list
 
 apt-get update
 apt-get install -y nvidia-container-toolkit nvidia-container-runtime
@@ -473,7 +472,7 @@ kubectl apply -f nvidia-runtime-class.yaml
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.5 \
+  --version 0.15.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 ```
@@ -484,7 +483,7 @@ helm upgrade -i nvdp nvdp/nvidia-device-plugin \
 root@ip-172-31-8-172:~# helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.5 \
+  --version 0.15.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 
@@ -523,7 +522,7 @@ kubectl label nodes <node-name> allow-nvdp=true
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.5 \
+  --version 0.15.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts \
   --set-string nodeSelector.allow-nvdp="true"
@@ -924,7 +923,7 @@ tcp:
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
-  --version 4.10.0 \
+  --version 4.10.1 \
   --namespace ingress-nginx --create-namespace \
   -f ingress-nginx-custom.yaml
 ```

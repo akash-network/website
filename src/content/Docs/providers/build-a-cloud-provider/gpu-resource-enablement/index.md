@@ -90,9 +90,8 @@ ubuntu-drivers autoinstall
 > _**NOTE**_ - The steps in this sub-section should be completed on all Kubernetes nodes hosting GPU resources
 
 ```
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | apt-key add -
-curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | tee /etc/apt/sources.list.d/libnvidia-container.list
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | tee /etc/apt/sources.list.d/libnvidia-container.list
 
 apt-get update
 apt-get install -y nvidia-container-toolkit nvidia-container-runtime
@@ -238,7 +237,7 @@ helm repo update
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.5 \
+  --version 0.15.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 
@@ -251,7 +250,7 @@ helm upgrade -i nvdp nvdp/nvidia-device-plugin \
 root@ip-172-31-8-172:~# helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.5 \
+  --version 0.15.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 
@@ -294,7 +293,7 @@ helm repo update
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.14.5 \
+  --version 0.15.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts \
   --set-string nodeSelector.allow-nvdp="true"
