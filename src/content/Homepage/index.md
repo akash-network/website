@@ -152,18 +152,18 @@ aiModelsAndAppsSection:
       darkImage : "./assets/tools/dark-dep-3.svg" 
      
   cards3:
-    - image:  "./assets/tools/cloudmos.svg"
-      darkImage : "./assets/tools/dark-cloudmos.svg"
+    - image:  "./assets/tools/awesomeakash.svg"
+      darkImage : "./assets/tools/awesomeakash.svg"
       description: "Tailored for Web3 users, offering a powerful platform to deploy applications on the Akash network with enhanced capabilities."
-      logoTitle: Cloudmos
+      logoTitle: Akash Console
 
       launchAppLink: 
         label: Launch App
-        link: "https://deploy.cloudmos.io/"
+        link: "https://console.akash.network/"
 
       docsLink: 
-        label: Cloudmos Docs
-        link: "/docs/deployments/cloudmos-deploy/"
+        label: Console Docs
+        link: "/docs/getting-started/quickstart-guides/akash-console/"
 
     - image:  "./assets/tools/praetor.svg"
       description: "Praetor App makes it simple to become an Akash Network cloud provider. Use a streamlined UI to become a provider. "
