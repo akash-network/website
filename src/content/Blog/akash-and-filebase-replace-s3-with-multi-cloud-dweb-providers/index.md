@@ -10,7 +10,7 @@ categories:
 tags:
   - Developers
   - News
-  - product
+  - Product
 contributors:
   - Colin Pollen
 
