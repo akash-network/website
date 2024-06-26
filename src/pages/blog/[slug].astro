@@ -1,21 +1,16 @@
 ---
 // Import required assets
 
-import FacebookIcon from "@/assets/icons/facebook.svg";
-import LinkedinIcon from "@/assets/icons/linkedin.svg";
-
 // Import required components
-import { type CollectionEntry, getCollection } from "astro:content";
-import BlogLayout from "@/layouts/blog-layout.astro";
-import { Image } from "astro:assets";
-import FormattedDate from "@/components/formatted-date.astro";
-import Tag from "@/components/ui/tag.astro";
-import PostCard from "@/components/cards/post-card.astro";
 import CalloutsClasses from "@/components/callouts-classes.astro";
-import ButtonLink from "@/components/ui/button-link.astro";
-import { proseClasses } from "@/lib/prose-classes";
-import { Facebook, Linkedin } from "lucide-react";
+import FormattedDate from "@/components/formatted-date.astro";
 import { TwitterIcon } from "@/components/header/icons";
+import ButtonLink from "@/components/ui/button-link.astro";
+import BlogLayout from "@/layouts/blog-layout.astro";
+import { proseClasses } from "@/lib/prose-classes";
+import { Image } from "astro:assets";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Facebook, Linkedin } from "lucide-react";
 
 type BlogPost = CollectionEntry<"Blog">;
 
@@ -29,7 +24,7 @@ export async function getStaticPaths() {
     // Loop through the tags in each blog post
     post.data.tags.forEach((tag) => {
       // Capitalize the first letter of the tag
-      const lowerCasedTag = tag.toLowerCase();
+      const lowerCasedTag = tag;
       // Check if the tag is not already in the allTags array
       if (!tags.includes(lowerCasedTag)) {
         // Add the tag to the allTags array
@@ -178,9 +173,9 @@ const { Content } = await post.render();
               .map((tag: string) => (
                 <a
                   class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText"
-                  href={`/blog/${tag.toLowerCase()}/1`}
+                  href={`/blog/${tag.toLowerCase()?.replaceAll(" ", "-")}/1`}
                 >
-                  {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                  {tag}
                 </a>
               ))
           }
