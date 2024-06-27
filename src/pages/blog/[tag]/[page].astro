@@ -1,12 +1,11 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import type { PaginateFunction } from "astro";
-import Layout from "@/layouts/layout.astro";
-import PostCard from "@/components/cards/post-card.astro";
-import Tag from "@/components/ui/tag.astro";
-import Pagination from "@/components/pagination.astro";
 import SearchDialog from "@/components/blog/search-dialog";
+import PostCard from "@/components/cards/post-card.astro";
+import Pagination from "@/components/pagination.astro";
 import Tag2 from "@/components/ui/tag2.astro";
+import Layout from "@/layouts/layout.astro";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 type BlogPost = CollectionEntry<"Blog">;
 
@@ -29,7 +28,7 @@ export async function getStaticPaths({
     // Loop through the tags in each blog post
     post.data.tags.forEach((tag) => {
       // Capitalize the first letter of the tag
-      const lowerCasedTag = tag.toLowerCase();
+      const lowerCasedTag = tag;
       // Check if the tag is not already in the allTags array
       if (!tags.includes(lowerCasedTag)) {
         // Add the tag to the allTags array
@@ -39,15 +38,16 @@ export async function getStaticPaths({
   });
 
   return tags.flatMap((tag) => {
-    const lowercasedTag = tag.toLowerCase();
+    // const lowercasedTag = tag.toLowerCase();
+    const lowercasedTag = tag;
 
     // filter posts related to specified tag
     const filteredPosts = posts.filter((post) =>
-      post.data.tags.some((tag: string) => tag.toLowerCase() === lowercasedTag),
+      post.data.tags.some((tag: string) => tag === lowercasedTag),
     );
 
     return paginate(filteredPosts, {
-      params: { tag },
+      params: { tag: tag?.toLowerCase()?.replaceAll(" ", "-") },
       pageSize: 12,
       props: { currentTag: tag, tags: tags },
     });
@@ -86,11 +86,14 @@ const pathName = Astro.url.pathname.split("/");
                 href={
                   tag.toLowerCase() === "archive"
                     ? `/blog/archived.astro`
-                    : `/blog/${tag.toLowerCase()}/1`
+                    : `/blog/${tag.toLowerCase()?.replaceAll(" ", "-")}/1`
                 }
-                active={pathName[2]?.toLowerCase() === tag.toLowerCase()}
+                active={
+                  pathName[2]?.toLowerCase() ===
+                  tag.toLowerCase()?.replaceAll(" ", "-")
+                }
               >
-                {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                {tag}
               </Tag2>
             );
           })
