@@ -33,7 +33,7 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap({
-      lastmod: new Date("2024-06-27").toISOString(),
+      lastmod: new Date("2024-06-27"),
     }),
     react(),
     astroExpressiveCode({
