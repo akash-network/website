@@ -7,8 +7,6 @@ import { defineConfig } from "astro/config";
 import remark from "remark-directive";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 
-import robotsTxt from "astro-robots-txt";
-
 // https://astro.build/config
 export default defineConfig({
   // experimental: {
@@ -48,7 +46,6 @@ export default defineConfig({
       },
     }),
     mdx(),
-    robotsTxt(),
   ],
   site: "https://akash.network",
 });
