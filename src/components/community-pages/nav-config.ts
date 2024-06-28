@@ -8,7 +8,7 @@ export const nav: any = [
   },
   {
     label: "Events", // Label for the main menu item.
-    link: "/community/events/",
+    link: "/community/events/upcoming",
     enabled: true,
   },
   // ToDo: temporary remove until new courses are live.
