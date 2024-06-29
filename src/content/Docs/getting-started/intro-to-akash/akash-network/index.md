@@ -14,7 +14,7 @@ Akash is an open network that facilitates the secure and efficient buying and se
 
 ### How to use Akash?
 
-You can get started right from the [**command-line**](/docs/deployments/akash-cli/cli-booster/) or use the [**web app**](/docs/deployments/cloudmos-deploy/) :
+You can get started right from the [**command-line**](/docs/deployments/akash-cli/cli-booster/) or use the [**web app**](/docs/deployments/akash-console/) :
 
 - Define your Docker image, CPU, Memory, and Storage in a [**deploy.yaml**](/docs/getting-started/stack-definition-language/) file.
 - Set your price, receive bids from providers in seconds, and select the lowest price.
