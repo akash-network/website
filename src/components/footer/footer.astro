@@ -1,11 +1,6 @@
 ---
-import logo from "@/assets/akash-logo.svg";
-import SunIcon from "@/assets/icons/sun.svg";
 import FooterLink from "@/components/footer/footer-link.astro";
-import { Image } from "astro:assets";
 import DarkModeToggle from "../dark-mode-toggle.astro";
-import Logo from "../ui/logo.astro";
-import AkashFooterLogo from "../ui/akash-footer-logo.astro";
 import {
   DiscordIcon,
   GithubIcon,
@@ -13,6 +8,7 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "../header/icons";
+import AkashFooterLogo from "../ui/akash-footer-logo.astro";
 
 const pathname = Astro.url.pathname;
 ---
@@ -197,7 +193,7 @@ const pathname = Astro.url.pathname;
             >
               Akash EDU
             </FooterLink> -->
-            <FooterLink aria-label="Events" link="/community/events/">
+            <FooterLink aria-label="Events" link="/community/events/upcoming">
               Events
             </FooterLink>
           </div>
