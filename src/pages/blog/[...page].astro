@@ -1,13 +1,11 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import type { PaginateFunction } from "astro";
-import Layout from "@/layouts/layout.astro";
-import PostCard from "@/components/cards/post-card.astro";
-import Tag from "@/components/ui/tag.astro";
-import Pagination from "@/components/pagination.astro";
-import ButtonLink from "@/components/ui/button-link.astro";
 import SearchDialog from "@/components/blog/search-dialog";
+import PostCard from "@/components/cards/post-card.astro";
+import Pagination from "@/components/pagination.astro";
 import Tag2 from "@/components/ui/tag2.astro";
+import Layout from "@/layouts/layout.astro";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 type BlogPost = CollectionEntry<"Blog">;
 
@@ -37,9 +35,9 @@ export async function getStaticPaths({
       // Capitalize the first letter of the tag
       const lowerCasedTag = tag.toLowerCase();
       // Check if the tag is not already in the allTags array
-      if (!tags.includes(lowerCasedTag)) {
+      if (!tags.includes(tag)) {
         // Add the tag to the allTags array
-        tags.push(lowerCasedTag);
+        tags.push(tag);
       }
     });
   });
@@ -107,7 +105,7 @@ const pathName = Astro.url.pathname.split("/");
                 href={
                   tag.toLowerCase() === "archive"
                     ? `/blog/archived.astro`
-                    : `/blog/${tag.toLowerCase()}/1`
+                    : `/blog/${tag.toLowerCase()?.replaceAll(" ", "-")}/1`
                 }
                 active={pathName[2]?.toLowerCase() === tag.toLowerCase()}
               >
