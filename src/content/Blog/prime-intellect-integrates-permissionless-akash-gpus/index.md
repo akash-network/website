@@ -1,7 +1,7 @@
 ---
-title: ""
+title: "Prime Intellect Integrates Permissionless Akash GPUs"
 
-description:
+description: Today, high-performance GPUs from the Akash Supecloud, including NVIDIA H100, A100, and more, have been added to the Prime Intellect platform.
 
 pubDate: "2024-07-01"
 draft: false
