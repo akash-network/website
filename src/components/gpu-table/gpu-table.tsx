@@ -139,7 +139,7 @@ export const Tables = ({
           subCom ? "md:text-xl " : "  md:text-xl",
         )}
       >
-        GPU availability and pricing
+        GPU Availability and Pricing
       </h1>
       <div className="flex flex-col gap-4 ">
         <div
