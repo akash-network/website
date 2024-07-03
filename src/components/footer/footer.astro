@@ -10,13 +10,157 @@ import {
 } from "../header/icons";
 import AkashFooterLogo from "../ui/akash-footer-logo.astro";
 
-const pathname = Astro.url.pathname;
+const subscribeLink = "https://akashnet.typeform.com/to/awKX5bPw";
+const socials = [
+  {
+    name: "Twitter",
+    link: "https://twitter.com/akashnet_",
+    icon: TwitterIcon,
+  },
+  {
+    name: "Github",
+    link: "https://github.com/akash-network",
+    icon: GithubIcon,
+  },
+  {
+    name: "Discord",
+    link: "https://discord.com/invite/akash",
+    icon: DiscordIcon,
+  },
+  {
+    name: "Youtube",
+    link: "https://www.youtube.com/c/AkashNetwork",
+    icon: YoutubeIcon,
+  },
+  {
+    name: "Telegram",
+    link: "https://t.me/AkashNW",
+    icon: TelegramIcon,
+  },
+];
+
+const links = [
+  {
+    title: "Products",
+    links: [
+      {
+        title: "Akash Console",
+        link: "https://console.akash.network/",
+      },
+      {
+        title: "Praetor App",
+        link: "https://praetorapp.com/",
+      },
+    ],
+  },
+  {
+    title: "Network",
+    links: [
+      {
+        title: "Akash Stats",
+        link: "https://stats.akash.network/",
+      },
+      {
+        title: "Akash Ecosystem",
+        link: "/ecosystem/akash-tools/latest",
+      },
+      {
+        title: "About Akash",
+        link: "/about/general-information/",
+      },
+      {
+        title: "AKT Token",
+        link: "/token",
+      },
+    ],
+  },
+  {
+    title: "Development",
+    links: [
+      {
+        title: "Meetings",
+        link: "/current-groups/special-interest-groups/sig-analytics/",
+      },
+      {
+        title: "Product Strategy",
+        link: "/development/product-strategy/",
+      },
+      {
+        title: "Community Groups",
+        link: "/development/current-groups/",
+      },
+      {
+        title: "Current Projects",
+        link: "/development/current-projects/",
+      },
+    ],
+  },
+  {
+    title: "Community",
+    links: [
+      {
+        title: "Contributions",
+        link: "/community/community-contributions/",
+      },
+      {
+        title: "Akash Insiders",
+        link: "/community/akash-insiders/",
+      },
+      {
+        title: "Akash Validators",
+        link: "/community/akash-validators/",
+      },
+      // ToDo: temporary remove until new courses are live.
+      // {
+      //   title: "Akash EDU",
+      //   link: "/community/community-akash-edu/",
+      // },
+
+      {
+        title: "Events",
+        link: "/community/events/upcoming",
+      },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      {
+        title: "Documentation",
+        link: "/docs",
+      },
+      {
+        title: "Economics Paper",
+        link: "https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B",
+      },
+      {
+        title: "White Paper",
+        link: "https://ipfs.io/ipfs/QmVwsi5kTrg7UcUEGi5UfdheVLBWoHjze2pHy4tLqYvLYv",
+      },
+      {
+        title: "Blog",
+        link: "/blog",
+      },
+      {
+        title: "Support",
+        link: "/support",
+      },
+      {
+        title: "Brand & Press",
+        link: "/brand/resources/",
+      },
+      {
+        title: "Discussions",
+        link: "https://github.com/orgs/akash-network/discussions",
+      },
+    ],
+  },
+];
 ---
 
 <footer class="w-full bg-[#ffffff] dark:bg-background">
   <div class="lg:container">
     <div class="mx-auto text-white lg:pt-[80px]">
-      <!-- logo -->
       <div
         class="flex flex-col items-start px-4 py-[40px] pb-[50px] md:pt-[26px] lg:hidden"
       >
@@ -30,247 +174,69 @@ const pathname = Astro.url.pathname;
           </p>
 
           <a
-            href="https://akashnet.typeform.com/to/awKX5bPw"
+            href={subscribeLink}
             class="mt-4 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-bold text-white hover:bg-darkGray"
             >Subscribe Now</a
           >
         </div>
       </div>
 
-      <!-- footer content -->
       <div class="justify-between px-4 md:mx-auto md:px-0 lg:flex">
-        <!-- description  -->
         <div class="hidden text-left text-base font-[300] lg:block">
           <p class="text-foreground">
             <AkashFooterLogo />
           </p>
           <div class="flex gap-x-[24px] pb-[40px] pt-[20px] font-[300]">
-            <!-- twitter -->
-            <a
-              href="https://twitter.com/akashnet_"
-              target="_blank"
-              aria-label="Akash Network Twitter"
-              class="flex items-center gap-4 text-para hover:text-primary"
-            >
-              <TwitterIcon />
-            </a>
-            <!-- github -->
-            <a
-              aria-label="Akash Network Github"
-              href="https://github.com/akash-network"
-              class="flex items-center gap-4 text-para hover:text-primary"
-            >
-              <GithubIcon />
-            </a>
-            <!-- discord -->
-            <a
-              aria-label="Akash Network Discord"
-              href="https://discord.com/invite/akash"
-              class="flex items-center gap-4 text-para hover:text-primary"
-            >
-              <DiscordIcon />
-            </a>
-            <!-- youtube -->
-            <a
-              aria-label="Akash Network Youtube"
-              href="https://www.youtube.com/c/AkashNetwork"
-              class="flex items-center gap-4 text-para hover:text-primary"
-            >
-              <YoutubeIcon />
-            </a>
-            <!-- telegram -->
-            <a
-              target="_blank"
-              aria-label="Akash Network Telegram"
-              href="https://t.me/AkashNW"
-              class="flex items-center gap-4 text-para hover:text-primary"
-            >
-              <TelegramIcon />
-            </a>
+            {
+              socials.map((social) => (
+                <a
+                  aria-label={`Akash Network ${social.name}`}
+                  href={social.link}
+                  target="_blank"
+                  class="flex items-center gap-4 text-para hover:text-primary"
+                >
+                  <social.icon />
+                </a>
+              ))
+            }
           </div>
         </div>
         <div
           class="grid grid-cols-3 justify-between gap-y-10 md:grid-cols-5 md:gap-x-[30px] md:px-10 lg:gap-x-7 lg:px-0 xl:gap-x-10"
         >
-          <!-- tools -->
-          <div>
-            <p class="text-xs font-[700] text-foreground md:text-sm">
-              Products
-            </p>
-            <FooterLink
-              aria-label="Cloudmos"
-              id="console-footer"
-              link="https://console.akash.network/"
-            >
-              Akash Console
-            </FooterLink>
-            <FooterLink aria-label="Praetor App" link="https://praetorapp.com/">
-              Praetor App
-            </FooterLink>
-          </div>
-          <!-- quick links  -->
-          <div>
-            <p class="text-xs font-[700] text-foreground md:text-sm">Network</p>
-            <FooterLink
-              aria-label="Akash Stats"
-              link="https://stats.akash.network/"
-            >
-              Akash Stats
-            </FooterLink>
-            <FooterLink
-              aria-label="Akash Ecosystem"
-              link="/ecosystem/akash-tools/latest"
-            >
-              Akash Ecosystem
-            </FooterLink>
-            <FooterLink
-              aria-label="About Akash"
-              link="/about/general-information/"
-            >
-              About Akash
-            </FooterLink>
-            <FooterLink aria-label="AKT Token" link="/token">
-              AKT Token
-            </FooterLink>
-          </div>
-          <!-- Development -->
-          <div>
-            <p class="text-xs font-[700] text-foreground md:text-sm">
-              Development
-            </p>
-            <FooterLink
-              aria-label="Meetings"
-              link="/current-groups/special-interest-groups/sig-analytics/"
-            >
-              Meetings
-            </FooterLink>
-            <FooterLink
-              aria-label="Product Strategy"
-              link="/development/product-strategy/"
-            >
-              Product Strategy
-            </FooterLink>
-            <FooterLink
-              aria-label="Community Groups"
-              link="/development/current-groups/"
-            >
-              Community Groups
-            </FooterLink>
-            <FooterLink
-              aria-label="Current Projects"
-              link="/development/current-projects/"
-            >
-              Current Projects
-            </FooterLink>
-          </div>
-          <div>
-            <p class="text-xs font-[700] text-foreground md:text-sm">
-              Community
-            </p>
-            <FooterLink
-              aria-label="Contributions"
-              link="/community/community-contributions/"
-            >
-              Contributions
-            </FooterLink>
-
-            <FooterLink
-              aria-label="Akash Insiders"
-              link="/community/akash-insiders/"
-            >
-              Akash Insiders
-            </FooterLink>
-            <FooterLink
-              aria-label="Akash Validators"
-              link="/community/akash-validators/"
-            >
-              Akash Validators
-            </FooterLink>
-            <!-- ToDo: temporary remove until new courses are live. -->
-            <!-- <FooterLink
-              aria-label="Akash EDU"
-              link="/community/community-akash-edu/"
-            >
-              Akash EDU
-            </FooterLink> -->
-            <FooterLink aria-label="Events" link="/community/events/upcoming">
-              Events
-            </FooterLink>
-          </div>
-          <div>
-            <p class="text-xs font-[700] text-foreground md:text-sm">
-              Resources
-            </p>
-            <FooterLink aria-label="Documentation" link="/docs">
-              Documentation
-            </FooterLink>
-
-            <FooterLink aria-label="Blog" link="/blog">Blog</FooterLink>
-            <FooterLink aria-label="Support" link="/support">
-              Support
-            </FooterLink>
-            <FooterLink aria-label="Brand & Press" link="/brand/resources/">
-              Brand & Press
-            </FooterLink>
-            <FooterLink
-              aria-label="Discussions"
-              link="https://github.com/orgs/akash-network/discussions"
-            >
-              Discussions
-            </FooterLink>
-          </div>
+          {
+            links.map((link) => (
+              <div>
+                <p class="text-xs font-[700] text-foreground md:text-sm">
+                  {link.title}
+                </p>
+                {link.links.map((item) => (
+                  <FooterLink aria-label={item.title} link={item.link}>
+                    {item.title}
+                  </FooterLink>
+                ))}
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
-    <!-- social links -->
+
     <div class="my-[40px] flex gap-x-6 px-4 font-[300] text-para lg:hidden">
-      <!-- twittee -->
-      <a
-        aria-label="Akash Network Twitter"
-        href="https://twitter.com/akashnet_"
-        target="_blank"
-        class="flex items-center gap-4 hover:text-primary"
-      >
-        <TwitterIcon />
-      </a>
-      <!-- github -->
-      <a
-        aria-label="Akash Network Github"
-        href="https://github.com/akash-network"
-        target="_blank"
-        class="flex items-center gap-4 hover:text-primary"
-      >
-        <GithubIcon />
-      </a>
-      <!-- discord -->
-      <a
-        aria-label="Akash Network Discord"
-        href="https://discord.com/invite/akash"
-        target="_blank"
-        class="flex items-center gap-4 hover:text-primary"
-      >
-        <DiscordIcon />
-      </a>
-      <!-- youtube -->
-      <a
-        aria-label="Akash Network Youtube"
-        href="https://www.youtube.com/c/AkashNetwork"
-        target="_blank"
-        class="flex items-center gap-4 hover:text-primary"
-      >
-        <YoutubeIcon />
-      </a>
-      <a
-        aria-label="Akash Network Telegram"
-        href="https://t.me/AkashNW"
-        target="_blank"
-        class="flex items-center gap-4 text-para hover:text-primary"
-      >
-        <TelegramIcon />
-      </a>
+      {
+        socials.map((social) => (
+          <a
+            aria-label={`Akash Network ${social.name}`}
+            href={social.link}
+            target="_blank"
+            class="flex items-center gap-4 text-para hover:text-primary"
+          >
+            <social.icon />
+          </a>
+        ))
+      }
     </div>
 
-    <!-- Stay up to date -->
     <div
       class="mt-20 hidden items-center justify-between border-y py-5 lg:flex"
     >
@@ -279,13 +245,12 @@ const pathname = Astro.url.pathname;
       </p>
       <a
         aria-label="Subscribe Now"
-        href="https://akashnet.typeform.com/to/awKX5bPw"
+        href={subscribeLink}
         class="ml-6 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-bold text-white hover:bg-darkGray"
         >Subscribe Now</a
       >
     </div>
 
-    <!-- bottom footer -->
     <div
       class="relative flex flex-col px-4 text-center md:pt-4 lg:flex-row lg:px-0 lg:pt-[32px]"
     >
