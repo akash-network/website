@@ -45,24 +45,7 @@ export const docsSequence = [
           },
           { label: "Stable Payment Deployments" },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
-          {
-            label: "Praetor App",
-            subItems: [
-              { label: "What is Praetor App?" },
-              { label: "Akash Provider",
-              subItems: [
-                { label: "Build a Cloud Provider" },
-                { label: "Existing Kubernetes Cluster" },
-                { label: "Single Server Provider" },
-                { label: "Build a Cloud Provider (Windows Machine)" },
-                { label: "Sudo User Requirements" },
-                { label: "Decommision a Provider" },
-              ],
-              },
-            ],
-          },
         ],
-        
       },
       {
         label: "Guides",
@@ -92,6 +75,9 @@ export const docsSequence = [
               },
               {
                 label: "Akash Provider Checkup",
+              },
+              {
+                label: "Time Synchronization",
               },
               {
                 label: "GPU Resource Enablement (Optional Step)",
