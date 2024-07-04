@@ -34,7 +34,6 @@ export const docsSequence = [
         label: "Deployments",
         subItems: [
           { label: "Deployment Overview" },
-          { label: "Cloudmos Deploy" },
 
           {
             label: "Akash CLI",
@@ -43,8 +42,15 @@ export const docsSequence = [
               { label: "Akash CLI Installation" },
             ],
           },
-          { label: "Stable Payment Deployments" },
+          {
+            label: "Akash Console",
+          },
+          {
+            label: "Praetor App",
+            subItems: [{ label: "What is Praetor App?" }],
+          },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
+          { label: "Stable Payment Deployments" },
         ],
       },
       {
