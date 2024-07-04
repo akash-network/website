@@ -34,7 +34,6 @@ export const docsSequence = [
         label: "Deployments",
         subItems: [
           { label: "Deployment Overview" },
-          { label: "Cloudmos Deploy" },
 
           {
             label: "Akash CLI",
@@ -43,26 +42,16 @@ export const docsSequence = [
               { label: "Akash CLI Installation" },
             ],
           },
-          { label: "Stable Payment Deployments" },
-          { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
+          {
+            label: "Akash Console",
+          },
           {
             label: "Praetor App",
-            subItems: [
-              { label: "What is Praetor App?" },
-              { label: "Akash Provider",
-              subItems: [
-                { label: "Build a Cloud Provider" },
-                { label: "Existing Kubernetes Cluster" },
-                { label: "Single Server Provider" },
-                { label: "Build a Cloud Provider (Windows Machine)" },
-                { label: "Sudo User Requirements" },
-                { label: "Decommision a Provider" },
-              ],
-              },
-            ],
+            subItems: [{ label: "What is Praetor App?" }],
           },
+          { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
+          { label: "Stable Payment Deployments" },
         ],
-        
       },
       {
         label: "Guides",
@@ -92,6 +81,9 @@ export const docsSequence = [
               },
               {
                 label: "Akash Provider Checkup",
+              },
+              {
+                label: "Time Synchronization",
               },
               {
                 label: "GPU Resource Enablement (Optional Step)",
