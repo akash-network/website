@@ -16,10 +16,10 @@ Welcome [**Raptoreum**](https://raptoreum.com) \*\*\*\* miners! [**Akash**](http
 ## Windows/Linux/Mac Users
 
 1. Install [**Keplr**](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) \*\*\*\* wallet as a browser plugin
-2. Install [**Cloudmos Deploy**](https://cloudmos.io/cloud-deploy) \*\*\*\* and import your AKT wallet address from Keplr
-3. [**Fund your wallet**](https://github.com/akash-network/awesome-akash/blob/raptoreum/raptoreum-miner/README.md#Quickest-way-to-get-more-AKT)
+2. Go to the [**Akash Console**](https://console.akash.network/new-deployment) \*\*\*\* and import your AKT wallet address from Keplr
+3. [**Fund your wallet**](/token/#buying-akt)
 
-For additional help we recommend you [**follow our full deployment guide**](/docs/deployments/cloudmos-deploy/) \*\*\*\* in parallel with this guide.
+For additional help we recommend you [**follow our full deployment guide**](/docs/deployments/akash-console/) \*\*\*\* in parallel with this guide.
 
 ## How does this work?
 
@@ -47,7 +47,7 @@ To fund your deployment you will need AKT in your account. The fastest way to do
 4. Now go back to \*\*\*\* [**Osmosis Homepage**](https://app.osmosis.zone/?from=ATOM&to=AKT) \*\*\*\* and ensure _ATOM > AKT_ is selected to complete the swap. This step swaps your ATOM you deposited onto the Osmosis platform into any other supported coin.
 5. Return to the \*\*\*\* [**Osmosis Assets**](https://app.osmosis.zone/assets) page to withdraw your AKT to your Keplr wallet. This step withdraws AKT from the Osmosis platform back into your Keplr wallet. You can now send AKT to Cloudmos
 
-Have more questions? Find our team in \*\*\*\* [**Discord**](https://discord.com/invite/DxftX67) and [**Telegram**](https://t.me/AkashNW).
+Have more questions? Find our team in \*\*\*\* [**Discord**](https://discord.gg/TQWWZYCb) and [**Telegram**](https://t.me/AkashNW).
 
 ## Deploying on Akash
 

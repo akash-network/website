@@ -19,7 +19,7 @@ These guides include architecture and technical documentation and a curated list
 Throughout this guide we have included resources we believe most valuable to your journey.
 
 - _\*\*\*\*_[_**Akash Starter Kit**_](https://akashnet.notion.site/akashnet/Polygon-Akash-Starter-Kit-d4e817023556417ea8c9b679336d0d76)_\*\*\*\*_
-- _\*\*\*\*_[_**Polygon Starter Kit**_](https://polygontechnology.notion.site/Polygon-Starter-Kit-a289a505a0bb4e8b8189c1fc3b2223d0)_\*\*\*\*_
+- _\*\*\*\*_[_**Polygon Developer Hub**_](https://polygon.technology/developers)_\*\*\*\*_
 
 ## Polygon and Akash Architectures
 
@@ -30,7 +30,7 @@ If you want a deeper understanding of Polygon and Akash, see these architecture 
 
 ## Akash Application Tools
 
-This [_**guide**_](/docs/deployments/cloudmos-deploy/) _\*\*\*\*_ provides step by step instructions on how to deploy an app on Akash using a desktop tool named Cloudmos Deploy.
+This [_**guide**_](/docs/deployments/akash-console/) _\*\*\*\*_ provides step by step instructions on how to deploy an app on Akash using a desktop tool named Cloudmos Deploy.
 
 ## Technical Support Channels
 
@@ -38,7 +38,7 @@ In depth support for Polygon and Akash is available via the following channels.
 
 ### Polygon on Akash
 
-- _\*\*\*\*_[_**Discord**_](https://discord.com/invite/xpUtZcWtyp)_\*\*\*\*_
+- _\*\*\*\*_[_**Discord**_](https://discord.com/channels/747885925232672829/1146553364117737642)_\*\*\*\*_
 
 ### Polygon General
 
@@ -47,12 +47,12 @@ In depth support for Polygon and Akash is available via the following channels.
 
 ### Akash General
 
-- _\*\*\*\*_[_**Discord**_](https://discord.com/invite/akash)_\*\*\*\*_
+- _\*\*\*\*_[_**Discord**_](https://discord.gg/TQWWZYCb)_\*\*\*\*_
 - _\*\*\*\*_[_**Support Forum**_](https://forum.akash.network)_\*\*\*\*_
 
 ### **Faucets**
 
 The following faucets let users collect a small amount of AKT (Akash) or MATIC (Polygon) currency for development purposes.
 
-- _\*\*\*\*_[_**Akash Developer Faucet**_](https://drip.akash.network/login)_\*\*\*\*_
-- _\*\*\*\*_[_**Polygon Developer Faucet**_](https://faucet.polygon.technology)_\*\*\*\*_
+- _\*\*\*\*_[_**Akash Developer Faucet**_](https://faucet.sandbox-01.aksh.pw/)_\*\*\*\*_
+- _\*\*\*\*_[_**Polygon Developer Faucet**_](https://faucet.polygon.technology/)_\*\*\*\*_

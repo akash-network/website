@@ -57,9 +57,9 @@ There are a few simple options for registering a **Handshake** domain name:
 
 ### Step 3 - Deploy back-end to Akash
 
-If you haven't already, take the time to read through the [Akash deployment documentation](https://akash.network/docs/guides/deploy) and familiarize yourself with the concepts and steps involved.
+If you haven't already, take the time to read through the [Akash deployment documentation](/docs/deployments/overview/) and familiarize yourself with the concepts and steps involved.
 
-You can deploy to Akash using the [standard Akash CLI ](https://akash.network/docs/guides/cli)directly but for the purpose of this guide, I am using [Tom Beynon's Akash Deploy UI](https://github.com/tombeynon/akash-deploy) which is a great tool built on top of the standard CLI. Steps for deploying to Akash using this tool are below.
+You can deploy to Akash using the [standard Akash CLI ](/docs/getting-started/quickstart-guides/akash-cli/)directly but for the purpose of this guide, I am using [Tom Beynon's Akash Deploy UI](https://github.com/tombeynon/akash-deploy) which is a great tool built on top of the standard CLI. Steps for deploying to Akash using this tool are below.
 
 1.  Start the **Akash Deploy UI** tool by running the following:
 
