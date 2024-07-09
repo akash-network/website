@@ -48,16 +48,16 @@ Akash uses its blockchain to manage your container deployment and accounting. To
 
 ## Plotting Demos
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xCNoXI6_Tf8?si=JW0VHidgz8yJ6ccl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/xCNoXI6_Tf8?si=JW0VHidgz8yJ6ccl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 @DigitalSpaceport
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/HLhrSeDemBI?si=yHsgLy-FbDlV2gly" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/HLhrSeDemBI?si=yHsgLy-FbDlV2gly" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Jonmichael Hands - VP of Storage Business Development at Chia
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/RY2cjiizk5k?si=pm9T9Wfb4h6DchTv&amp;start=1434" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/RY2cjiizk5k?si=pm9T9Wfb4h6DchTv&amp;start=1434" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Andrew Mello - Head of Mining at Akash
 
