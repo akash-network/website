@@ -12,7 +12,7 @@ Welcome [Chia](https://www.chia.net/) community! We are excited to announce supp
 
 ## Summer Sale
 
-![](<../../assets/Summer Sale for Chia Plots 5.png>)
+![](../../assets/Summer Sale for Chia Plots 5.png)
 
 ### Providers
 
