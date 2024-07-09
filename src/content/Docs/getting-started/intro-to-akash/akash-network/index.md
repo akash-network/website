@@ -14,7 +14,7 @@ Akash is an open network that facilitates the secure and efficient buying and se
 
 ### How to use Akash?
 
-You can get started right from the [**command-line**](/docs/deployments/akash-cli/cli-booster/) or use the [**web app**](/docs/deployments/akash-console/) :
+You can get started right from the [**command-line**](/docs/deployments/akash-cli/overview/) or use the [**web app**](/docs/deployments/akash-console/) :
 
 - Define your Docker image, CPU, Memory, and Storage in a [**deploy.yaml**](/docs/getting-started/stack-definition-language/) file.
 - Set your price, receive bids from providers in seconds, and select the lowest price.
@@ -35,7 +35,7 @@ The cost of hosting your application using Akash is about one-third the cost of 
 
 ### How do I use Akash?
 
-If you're new to Akash, start with our [**deployment guides**](/docs/deployments/cloudmos-deploy/) and go from there. Akash's community has written several more advanced guides for learning about Akash: a [**node operator guide**](/docs/akash-nodes/akash-node-via-helm-chart/), a [**validator guide**](validating/validator.md), a [**cloud provider guide**](broken-reference), and several [**deployment guides**](/docs/deployments/cloudmos-deploy/) for running various apps on Akash.
+If you're new to Akash, start with our [**deployment guides**](/docs/deployments/akash-console/) and go from there. Akash's community has written several more advanced guides for learning about Akash: a [**node operator guide**](/docs/akash-nodes/akash-node-via-helm-chart/), a [**validator guide**](/docs/getting-started/intro-to-akash/validator-nodes/), a [**cloud provider guide**](/docs/getting-started/intro-to-akash/providers/), and several [**deployment guides**](/docs/deployments/akash-console/) for running various apps on Akash.
 
 ### Why is Akash different than other Cloud platforms?
 

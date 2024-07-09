@@ -27,19 +27,19 @@ The Akash Node continuously synchronizes with the network to maintain an up-to-d
 
 #### Transaction Validation and Propagation
 
-Responsible for validating and propagating transactions, the node checks the validity of received transactions according to the network's rules. Valid transactions are added to the mempool and propagated to [peers](https://tendermint-core-documentation).
+Responsible for validating and propagating transactions, the node checks the validity of received transactions according to the network's rules. Valid transactions are added to the mempool and propagated to [peers](https://docs.tendermint.com/).
 
 #### Block Creation
 
-Validator nodes within the Akash Network engage in block creation, proposing new blocks that contain transactions from the mempool. Validators then participate in the consensus process to reach agreement on block validity. Once consensus is reached, the new block is appended to the blockchain, and the node updates its local copy [accordingly](https://tendermint-core-documentation).
+Validator nodes within the Akash Network engage in block creation, proposing new blocks that contain transactions from the mempool. Validators then participate in the consensus process to reach agreement on block validity. Once consensus is reached, the new block is appended to the blockchain, and the node updates its local copy [accordingly](https://docs.tendermint.com/).
 
 #### Gossip Protocol
 
-The Akash Node utilizes a gossip protocol to efficiently communicate with [peers](https://github.com/tendermint/spec/tree/master/spec). This protocol enables nodes to share information about the network's state, ensuring consistent views of the blockchain [state](https://github.com/tendermint/spec/tree/master/spec).
+The Akash Node utilizes a gossip protocol to efficiently communicate with [peers](https://github.com/tendermint/tendermint/tree/master/spec). This protocol enables nodes to share information about the network's state, ensuring consistent views of the blockchain [state](https://github.com/tendermint/tendermint/tree/master/spec).
 
 #### Querying Network State
 
-Maintaining an indexed view of the blockchain state, the Akash Node enables users to query information such as account balances, deployment statuses, and order books. Leveraging the [Application Blockchain Interface (ABCI)](https://docs.tendermint.com/master/spec/abci/), the node processes and responds to user queries, offering insights into the network's state.
+Maintaining an indexed view of the blockchain state, the Akash Node enables users to query information such as account balances, deployment statuses, and order books. Leveraging the [Application Blockchain Interface (ABCI)](https://github.com/tendermint/tendermint/blob/v0.34.x/spec/abci/README.md), the node processes and responds to user queries, offering insights into the network's state.
 
 #### Governance and Staking
 
@@ -51,5 +51,5 @@ In conclusion, the Akash Node serves as a pivotal component in the Akash Network
 - [Akash Network Official Website](https://akash.network/)
 - [Tendermint Consensus](https://tendermint.com/core/)
 - [Tendermint Core Documentation](https://docs.tendermint.com/)
-- [Gossip Protocol in Tendermint](https://github.com/tendermint/spec/tree/master/spec)
-- [Application Blockchain Interface](https://docs.tendermint.com/master/spec/abci/)
+- [Gossip Protocol in Tendermint](https://github.com/tendermint/tendermint/tree/master/spec)
+- [Application Blockchain Interface](https://github.com/tendermint/tendermint/blob/v0.34.x/spec/abci/abci.md)

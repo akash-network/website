@@ -10,9 +10,9 @@ Awesome Akash is a curated list of awesome resources people can use to familiari
 
 **Repository**: [akash-network/awesome-akash](https://github.com/akash-network/awesome-akash)
 
-**Instructions:** [how to deploy](/docs/deployments/cloudmos-deploy/) the SDL files in this repository
+**Instructions:** [how to deploy](/docs/deployments/akash-console/) the SDL files in this repository
 
-Join our [discord](https://discord.akash.network) if you have questions or concerns. Our team is always eager to hear from you. Also, follow [@akashnet\_](https://twitter.com/akashnet_) to stay in the loop with updates and announcements.
+Join our [discord](https://discord.akash.network) if you have questions or concerns. Our team is always eager to hear from you. Also, follow [@akashnet\_](https://x.com/akashnet_) to stay in the loop with updates and announcements.
 
 ## Table of Contents
 
@@ -30,7 +30,7 @@ Awesome DeFi apps you can deploy on Akash
 - [dFed](https://github.com/akash-network/awesome-akash/blob/master/dfed)
 - [Pancake Swap](https://github.com/akash-network/awesome-akash/blob/master/pancake-swap)
 - [Augur](https://github.com/akash-network/awesome-akash/blob/master/augur)
-- [Bancor](https://github.com/akash-network/awesome-akash/blob/master/Bancor)
+- [Bancor](https://github.com/akash-network/awesome-akash/tree/73e3e1fc90f9e0f14a3d4cf93f00d6b8a455b0bb/bancor)
 - [Balancer](https://github.com/akash-network/awesome-akash/blob/master/Balancer)
 - [Luaswap](https://github.com/akash-network/awesome-akash/blob/master/luaswap)
 - [SushiSwap](https://github.com/akash-network/awesome-akash/blob/master/sushiswap)
@@ -59,8 +59,7 @@ Awesome DeFi apps you can deploy on Akash
 - [Supermario](https://github.com/akash-network/awesome-akash/blob/master/supermario)
 - [Minesweeper](https://github.com/akash-network/awesome-akash/blob/master/minesweeper)
 - [Tetris2](https://github.com/akash-network/awesome-akash/blob/master/tetris2)
-- [MemoryGame](https://github.com/akash-network/awesome-akash/blob/master/Memorygame)
-- [DOOM](https://github.com/akash-network/awesome-akash/blob/master/doom)
+- [MemoryGame](https://github.com/akash-network/awesome-akash/tree/73e3e1fc90f9e0f14a3d4cf93f00d6b8a455b0bb/MemoryGame)
 - [Snake Game](https://github.com/akash-network/awesome-akash/blob/master/snake-game)
 
 ### Databases and Administration
@@ -102,7 +101,7 @@ Awesome DeFi apps you can deploy on Akash
 
 ### Wallet
 
-- [MyetherWallet](https://github.com/akash-network/awesome-akash/blob/master/MyetherWallet)
+- [MyetherWallet](https://github.com/akash-network/awesome-akash/tree/73e3e1fc90f9e0f14a3d4cf93f00d6b8a455b0bb/MyEtherWallet)
 - [tronwallet](https://github.com/akash-network/awesome-akash/blob/master/tronwallet)
 
 ### Built with Cosmos-SDK

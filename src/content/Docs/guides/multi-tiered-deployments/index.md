@@ -12,7 +12,7 @@ In this guide, we will deploy a multi-tier web application on Akash. The example
 
 ### Before We Begin
 
-This guide is to be considered an extension of the [Deploy an Application](https://github.com/akash-network/docs/blob/master/deploy/broken-reference/README.md) guide. Please ensure you have successfully completed all steps leading up to the "Create the Deployment Configuration" step in said guide, as they will not be discussed here.
+This guide is to be considered an extension of the [Akash CLI](/docs/getting-started/quickstart-guides/akash-cli/) guide. Please ensure you have successfully completed all steps leading up to the ["Create the Deployment Configuration"](/docs/getting-started/quickstart-guides/akash-cli/#step-1--create-your-configuration) step in said guide, as they will not be discussed here.
 
 ## Create the Deployment Configuration
 
