@@ -23,7 +23,7 @@ The Blockchain Layer is built on top of the Cosmos SDK and Tendermint Core, prov
 ### Key Components
 
 - [**Tendermint Core**](https://tendermint.com/sdk/): A Byzantine Fault Tolerant (BFT) consensus engine that provides the foundation for the Akash blockchain.
-- [**Cosmos SDK**](https://v1.cosmos.network/sdk): A modular framework that allows for the creation of custom blockchains, offering tools and modules to build the Akash Network.
+- [**Cosmos SDK**](https://docs.cosmos.network/): A modular framework that allows for the creation of custom blockchains, offering tools and modules to build the Akash Network.
 
 ## Application Layer
 
@@ -50,7 +50,7 @@ The User Layer comprises users who require computing resources, such as develope
 ### Key Components
 
 - [**Akash Client (cli)**](https://github.com/akash-network/provider): A command-line interface (CLI) tool that allows users to interact with the Akash Network, create deployments, manage resources, and monitor the status of their applications.
-- [**Akash Console**](https://console.akash.network/new-deployment): Akash Console is a web app for deploying applications on Akash Network, offering a dashboard for deployment monitoring and administration.
-- [**Akash Cloudmos Dashboard**](https://cloudmos.io/akash/dashboard): A graphical user interface (GUI) that provides users with an intuitive way to interact with the network, manage deployments, and monitor their resources.
+- [**Akash Console**](https://console.akash.network/): Akash Console is a web app for deploying applications on Akash Network, offering a dashboard for deployment monitoring and administration.
+
 
 In summary, the Akash Network architecture consists of the Blockchain Layer, Application Layer, Provider Layer, and User Layer. This structure enables the platform to provide a decentralized marketplace for computing resources, connecting users who need resources with providers.

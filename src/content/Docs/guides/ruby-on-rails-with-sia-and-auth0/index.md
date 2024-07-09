@@ -9,7 +9,7 @@ linkTitle: "Ruby on Rails with Sia and Auth0"
 
 
 **Repository**: [ovrclk/akash-on-rails](https://github.com/ovrclk/akash-on-rails)\
-**Demo**: [pin.akash.host](https://pin.akash.host/)
+
 
 This is an example Rails Pinterest clone hosted on Akash. There are a few extra features to make the most of decentralised hosting:
 
@@ -25,7 +25,7 @@ This is an example Rails Pinterest clone hosted on Akash. There are a few extra 
 
 * Runs the rails server and hosts the actual website.
 * Connects to the Postgres container for a persistent database.
-* Hosts files on [Filebase](https://filebase.com/) ([Sia](https://sia.tech/), [Skynet](https://siasky.net/), and [Storj](https://www.storj.io/) hosting currently).
+* Hosts files on [Filebase](https://filebase.com/), ([Sia](https://sia.tech/) and [Storj](https://www.storj.io/) hosting currently).
 * Uses [Auth0](https://auth0.com/) for user login and registration.
 
 ### Cron container
@@ -51,8 +51,8 @@ Ultimately this repository is designed to provide a sensible example of hosting 
   * Add a `backups` folder to your bucket.
   * You will need your bucket name, client ID, and secret.
 * Sign up for an [Auth0](https://auth0.com/) account and set up an App.
-  * Callback URL: [https://yourdomain.com/auth/auth0/callback](https://yourdomain.com/auth/auth0/callback).
-  * Logout URL: [https://yourdomain.com](https://yourdomain.com/).
+  * Callback URL: `https://{yourdomain}/auth/auth0/callback`.
+  * Logout URL: `https://{yourdomain}`.
   * You will need your [Auth0](https://auth0.com/) domain, client ID, and secret.
 * Using the example deploy.yml, populate the environment variables with the values from [Filebase](https://filebase.com/) and [Auth0](https://auth0.com/).
 * Deploy on Akash and get your app URL.

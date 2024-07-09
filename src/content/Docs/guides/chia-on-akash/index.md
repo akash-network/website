@@ -12,11 +12,11 @@ Welcome [Chia](https://www.chia.net/) community! We are excited to announce supp
 
 ## Summer Sale
 
-![](<../../assets/Summer Sale for Chia Plots 5.png>)
+![](../../assets/SummerSaleforChiaPlots5.png)
 
 ### Providers
 
-For the following providers who are participating in the sale, expect to see these prices in Cloudmos! Each provider has been benchmarked and tested to create a $0.10/plot.
+For the following providers who are participating in the sale, expect to see these prices in Akash Console! Each provider has been benchmarked and tested to create a $0.10/plot.
 
 | On-Sale Providers      | BladeBit Price / Month  | MadMax Price / Month   |
 | ---------------------- | ----------------------- | ---------------------- |
@@ -26,7 +26,7 @@ For the following providers who are participating in the sale, expect to see the
 
 ### Required SDL
 
-To make sure you get the sale price from the providers, please Copy and Paste the SDL into [Cloudmos](broken-reference) :
+To make sure you get the sale price from the providers, please Copy and Paste the SDL into [Akash Console](https://console.akash.network/sdl-builder) :
 
 [BladeBit Summer Sale SDL](#bladebit-ram-plotting)
 
@@ -37,34 +37,36 @@ Please wait up to 60 seconds to see bids from all the providers.
 ## Windows/Linux/Mac Users
 
 1. Install [Keplr](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) wallet as a browser plugin
-2. Install [Cloudmos Deploy](https://cloudmos.io/cloud-deploy) and import your AKT wallet address from Keplr.
-3. [Fund your wallet](https://github.com/akash-network/awesome-akash/tree/chia/chia#Quickest-way-to-get-more-AKT)
+2. Go to [Akash Console](https://console.akash.network/) and import your AKT wallet address from Keplr.
+3. [Fund your wallet](/token/#buying-akt)
 
-For additional help we recommend you [follow our full deployment guide](broken-reference) in parallel with this guide.
+For additional help we recommend you [follow our full deployment guide](/docs/deployments/overview/) in parallel with this guide.
 
 ## How does this work?
 
 Akash uses its blockchain to manage your container deployment and accounting. To deploy on Akash you will need to fund your wallet with at least 10 AKT. Each time you create a deployment, 0.5 AKT will be used for escrow and to fund the deployment. If the deployment is canceled, the balance of the escrow is returned to you. You can spin up deployments without worrying about any long term contracts and you can cancel anytime.
 
-## Plotting Demo
+## Plotting Demos
 
-{% embed url="https://www.youtube.com/watch?v=xCNoXI6_Tf8" %}
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/xCNoXI6_Tf8?si=JW0VHidgz8yJ6ccl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 @DigitalSpaceport
-{% endembed %}
 
-{% embed url="https://www.youtube.com/watch?v=HLhrSeDemBI" %}
+
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/HLhrSeDemBI?si=yHsgLy-FbDlV2gly" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 Jonmichael Hands - VP of Storage Business Development at Chia
-{% endembed %}
 
-{% embed url="https://youtu.be/RY2cjiizk5k?t=1434" %}
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/RY2cjiizk5k?si=pm9T9Wfb4h6DchTv&amp;start=1434" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 Andrew Mello - Head of Mining at Akash
-{% endembed %}
+
 
 ## Default wallet
 
 Akash uses [Keplr](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) as the desktop wallet. Advanced users can follow the [CLI instruction](/docs/deployments/akash-cli/installation/)s.
 
-Once you have set up your Keplr wallet and imported the address to Cloudmos you are ready to create your first deployment. Follow the instructions in Cloudmos to create a certificate, then click on _Create Deployment_.
+Once you have set up your Keplr wallet and imported the address to Akash Console you are ready to create your first deployment. Follow the instructions in Akash Console to create a certificate, then click on _Create Deployment_.
 
 ## Quickest way to get more AKT
 
@@ -82,9 +84,9 @@ To fund your deployment you will need AKT in your account. The fastest way to do
 2. Send 10 ATOM to your new Cosmos wallet address inside Keplr (this address will start with cosmos)
 3. Go to [Osmosis Assets](https://app.osmosis.zone/assets) > next to Cosmos Hub - ATOM click on Deposit. This step will deposit ATOM from your Keplr wallet onto the Osmosis platform. Press Connect Wallet to connect your Keplr wallet to Osmosis.
 4. Now go back to [Osmosis Homepage](https://app.osmosis.zone/?from=ATOM&to=AKT) and ensure ATOM > AKT is selected to complete the swap. This step swaps your ATOM you deposited onto the Osmosis platform into any other supported coin.
-5. Return to the [Osmosis Assets](https://app.osmosis.zone/assets) page to withdraw your AKT to your Keplr wallet. This step withdraws AKT from the Osmosis platform back into your Keplr wallet. You can now send AKT to Cloudmos.
+5. Return to the [Osmosis Assets](https://app.osmosis.zone/assets) page to withdraw your AKT to your Keplr wallet. This step withdraws AKT from the Osmosis platform back into your Keplr wallet. You can now send AKT to Akash Console.
 
-Have more questions? Find our team in [Discord](https://discord.com/invite/DxftX67) and [Telegram](https://t.me/AkashNW).
+Have more questions? Find our team in [Discord](https://discord.gg/TQWWZYCb) and [Telegram](https://t.me/AkashNW).
 
 ## MadMax Disk Plotting
 
@@ -540,7 +542,7 @@ aria2c -c -s 16 -x 16 -k 64M -j 1 $plot_download_url
 
 ## Waiting for bids...
 
-If Cloudmos hangs on "Waiting for Bids" that could be an indication that all providers are full at the moment. The recommended fix is to reduce the requested storage amount from `1Ti` to something more reasonable like `768Gi`
+If Akash Console hangs on "Waiting for Bids" that could be an indication that all providers are full at the moment. The recommended fix is to reduce the requested storage amount from `1Ti` to something more reasonable like `768Gi`
 
 ```
 profiles:
