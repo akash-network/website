@@ -121,7 +121,7 @@ Each commit message should carry a meaningful structure, commencing with a type 
 
 - Keep commit messages concise and to the point.
 - Utilize the imperative mood (e.g., "add," "fix," "update") in the description.
-- Provide context in the description when necessary.. 
+- Provide context in the description when necessary..
 
 ### How to Contribute to the Akash Website
 
@@ -182,25 +182,25 @@ description: ​TOKEN2049 brings together the global Web3 industry, uniting entr
 
 ### How to contribute to the [Akash Edu](https://akash.network/community/community-akash-edu/)
 
-1. Create a new folder under `src/content/Community_Akash_Edu_Page/` with the name of the contribution. . For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/`
+1. Create a new folder under `src/content/Community_Akash_Edu_Page/` with the name of the contribution. . For example, `src/content/Community_Akash_Edu_Page/console-101/`
 
-2. Create a new file called `index.md` under the new folder. For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/index.md`
+2. Create a new file called `index.md` under the new folder. For example, `src/content/Community_Akash_Edu_Page/console-101/index.md`
 
 3. Copy the following template into the new file and fill in the details.
 
 ```md
 ---
-title: Akash EDU - Cloudmos 101 # <--- This is the title of the contribution
+title: Akash EDU - Console 101 # <--- This is the title of the contribution
 image: "./project-banner.png" # <--- This is the banner image of the contribution
 pubDate: "2020-01-19" # <--- This is the date of the contribution in the format of "YYYY-MM-DD"
 tags: # <--- This is the tags of the contribution
   - Upcoming
-description: In this course, you will learn how to deploy your project onto the Akash Network using Cloudmos — a simple, point and click deployment tool.
+description: In this course, you will learn how to deploy your project onto the Akash Network using Console — a simple, point and click deployment tool.
 link: "https://akash-edu.ctlabs.in/" # <--- This is the link of the contribution
 ---
 ```
 
-4. Add the banner image to the same folder as the markdown file. For example, `src/content/Community_Akash_Edu_Page/cloudmos-101/project-banner.png`
+4. Add the banner image to the same folder as the markdown file. For example, `src/content/Community_Akash_Edu_Page/console-101/project-banner.png`
 
 5. Commit and push the changes to the repository. The event will be published automatically.
 <!-- add Community Contributions Card -->

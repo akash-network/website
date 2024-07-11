@@ -6,7 +6,6 @@ import {
 import { roundDecimal } from "@/lib/math-helpers";
 import { bytesToShrink } from "@/lib/unit-utils";
 import { getSplitText } from "@/lib/utils";
-import { useState } from "react";
 import { useIntl } from "react-intl";
 import { Uptime } from "./uptime";
 
@@ -196,7 +195,7 @@ export default function ProvidersCard({ provider }: any) {
           href={`https://deploy.cloudmos.io/providers/${provider.owner}`}
           className="hover:text-primarytext-xs flex cursor-pointer items-center  gap-x-2 text-foreground"
         >
-          View on Cloudmos
+          View on Console
           <ArrowIcon />
         </a>
       </div>
