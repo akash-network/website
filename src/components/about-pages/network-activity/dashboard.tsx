@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import OnThisPageDropdown from "@/components/on-this-page-mobile";
 import { mainnetId } from "@/lib/constants";
 import { percIncrease, udenomToDenom } from "@/lib/math-helpers.ts";
 import { bytesToShrink } from "@/lib/unit-utils";
@@ -18,17 +18,9 @@ import {
 } from "react-intl";
 import { HumanReadableBytes } from "./human-readable-bytes";
 import StatsCard, { StatsCardSkeleton } from "./stats-card";
-import {
-  AKTLabel,
-  CpuLabel,
-  GpuLabel,
-  USD,
-  USDCLabel,
-  USDLabel,
-} from "./usd-label";
+import { USD } from "./usd-label";
 import { useDashboardData } from "./useDashboardData";
 import { useMarketData } from "./useMarketData";
-import OnThisPageDropdown from "@/components/on-this-page-mobile";
 
 const queryClient = new QueryClient();
 
@@ -330,7 +322,7 @@ export function Dashboard({
         </h2>
         <div className="mt-5  grid grid-cols-2  gap-4  gap-y-4 md:grid-cols-1  md:gap-5  lg:grid-cols-2 xl:grid-cols-3  ">
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/daily-usd-spent"
+            graphLink="https://stats.akash.network/graph/daily-usd-spent"
             number={
               <>
                 <USD />
@@ -355,7 +347,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/total-usd-spent"
+            graphLink="https://stats.akash.network/graph/total-usd-spent"
             number={
               <>
                 <USD />
@@ -380,7 +372,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/daily-deployment-count"
+            graphLink="https://stats.akash.network/graph/daily-deployment-count"
             number={
               <FormattedNumber
                 value={
@@ -402,7 +394,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/all-time-deployment-count"
+            graphLink="https://stats.akash.network/graph/all-time-deployment-count"
             number={
               <FormattedNumber
                 value={dashboardData.now.totalLeaseCount}
@@ -430,7 +422,7 @@ export function Dashboard({
         </h2>
         <div className="mt-5  grid grid-cols-2  gap-4  gap-y-4 md:grid-cols-1  md:gap-5  lg:grid-cols-2 xl:grid-cols-3  ">
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/daily-akt-spent"
+            graphLink="https://stats.akash.network/graph/daily-akt-spent"
             number={
               <>
                 <span>
@@ -454,7 +446,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/total-akt-spent"
+            graphLink="https://stats.akash.network/graph/total-akt-spent"
             number={
               <>
                 <FormattedNumber
@@ -476,7 +468,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/daily-usdc-spent"
+            graphLink="https://stats.akash.network/graph/daily-usdc-spent"
             number={
               <>
                 <span>
@@ -500,7 +492,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/total-usdc-spent"
+            graphLink="https://stats.akash.network/graph/total-usdc-spent"
             number={
               <>
                 <FormattedNumber
@@ -530,7 +522,7 @@ export function Dashboard({
         </h2>
         <div className="mt-5  grid grid-cols-2  gap-4  gap-y-4 md:grid-cols-1  md:gap-5  lg:grid-cols-2 xl:grid-cols-3  ">
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/active-deployment"
+            graphLink="https://stats.akash.network/graph/active-deployment"
             number={
               <FormattedNumber
                 maximumFractionDigits={2}
@@ -550,7 +542,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/compute"
+            graphLink="https://stats.akash.network/graph/compute"
             number={
               <>
                 <FormattedNumber
@@ -572,7 +564,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/graphics-gpu"
+            graphLink="https://stats.akash.network/graph/graphics-gpu"
             number={
               <>
                 <FormattedNumber
@@ -593,7 +585,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/memory"
+            graphLink="https://stats.akash.network/graph/memory"
             number={
               <HumanReadableBytes value={dashboardData.now.activeMemory} />
             }
@@ -607,7 +599,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/graph/storage"
+            graphLink="https://stats.akash.network/graph/storage"
             number={
               <HumanReadableBytes value={dashboardData.now.activeStorage} />
             }

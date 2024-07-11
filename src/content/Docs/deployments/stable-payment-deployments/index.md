@@ -70,7 +70,7 @@ In the steps that follow we will swap Akash AKT for Axelar USDC. Other methods a
 ### Verify IBC Transfer and Availability of USDC on Akash Network
 
 - The simplest means of verifying the IBC transfer of USDC was successful and is available in your account on the Akash network is via the Akash CLI.
-- USDC balances can also be verified in Cloudmos Deploy of preferred.
+- USDC balances can also be verified in Akash Console of preferred.
 
 _**CLI Verification/Command Template**_
 
@@ -102,13 +102,13 @@ In this section we will cover using the following clients to create an Akash dep
 
 > NOTE - when creating an Akash deployment using Stable Payment - ensure that the SDL pricing section reflects the correct denomination as covered [here](/docs/getting-started/stack-definition-language#stable-payment).
 
-- [Cloudmos Deploy](#cloudmos-deploy-stable-payment-use)
+- [Akash Console](#cloudmos-deploy-stable-payment-use)
 - [Akash CLI](#akash-cli-stable-payment-use)
 
-### Cloudmos Deploy Stable Payment Use
+### Akash Console Stable Payment Use
 
-- When using Cloudmos Deploy no change is necessary in the deployment creation when using Stable Payments.
-- When the associated SDL uses the USDC denomination, Cloudmos Deploy will create the deployment with Stable Payment.
+- When using Akash Console no change is necessary in the deployment creation when using Stable Payments.
+- When the associated SDL uses the USDC denomination, Akash Console will create the deployment with Stable Payment.
 - An indication that Stable Payments are being used in the deployment creation is provided in the `Deployment Deposit` dialog box as shown below.
 
 ![](../../assets/cloudmosStable.png)

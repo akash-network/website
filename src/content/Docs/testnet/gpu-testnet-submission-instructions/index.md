@@ -54,7 +54,7 @@ The test deployment can be closed once you have captured the necessary informati
 
 Submit the DSEQ of your test deployment with the submission form. The DSEQ will be used to verify that the deployment was successfully launched on your provider.
 
-The DSEQ can be found easily in the deployment tool (Akash Console, Cloudmos Deploy, or Akash CLI). Example of isolating the deployment's DSEQ is shown below.
+The DSEQ can be found easily in the deployment tool (Akash Console, Akash Console, or Akash CLI). Example of isolating the deployment's DSEQ is shown below.
 
 ![](../../assets/isoalteDSEQ.png)
 
@@ -62,7 +62,7 @@ The DSEQ can be found easily in the deployment tool (Akash Console, Cloudmos Dep
 
 Attach a screenshot of the deployment launched on your provider. This step will verify that the provider is fully functional and additional allows verification of the GPU model hosted in the provider.\
 \
-These logs can be found easily in the deployment tool (Akash Console, Cloudmos Deploy, or Akash CLI). Example of isolating the deployment's logs is shown below.
+These logs can be found easily in the deployment tool (Akash Console, Akash Console, or Akash CLI). Example of isolating the deployment's logs is shown below.
 
 > _**NOTE**_ - ensure that the DSEQ is captured within the screen as well. In the example provided below the DSEQ is captured in the screenshot (DSEQ = 1066270 in example). Capture of the DSEQ allows confirmation that this deployment was tested in your provider.
 

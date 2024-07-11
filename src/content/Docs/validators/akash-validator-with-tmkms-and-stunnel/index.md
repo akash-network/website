@@ -74,14 +74,14 @@ cat ~/.akash/config/priv_validator_key.json
 
 ## Akash Validator Deployment
 
-### Cloudmos Deploy
+### Akash Console
 
-- Within this guide we will use the Cloudmos Deploy application to create the Akash Validator
-- Please review our[ Cloudmos Deploy ](broken-reference)docs to install and configure the application if this is your first time using
+- Within this guide we will use the Akash Console application to create the Akash Validator
+- Please review our[ Akash Console ](broken-reference)docs to install and configure the application if this is your first time using
 
 ### Create the Akash Validator Deployment
 
-- Use the steps that follow - within Cloudmos Deploy - to create your Akash Validator deployment
+- Use the steps that follow - within Akash Console - to create your Akash Validator deployment
 - The Akash SDL used additionally spins up a Stunnel server to facilitate secure communication with the TMKMS server created in later steps
 
 #### Create New Deployment
@@ -596,11 +596,11 @@ client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]:      1 session reuse(s)
 ### Overview
 
 - In this section we will verify the state of the Akash Validator following successful integration of TMKMS and Stunnel
-- Use Cloudmos Deploy for the validations in this section
+- Use Akash Console for the validations in this section
 
 ### Verify Stunnel Proxy Service
 
-- Navigate into your Akash Validator deployment within Cloudmos
+- Navigate into your Akash Validator deployment within Akash Console
 - Enter the `LOGS` tab of the deployment
 - From the `Services` drop down menu > select `proxy`
 - With Stunnel logs isolated we should see successful TLS connection messages such as the examples below
@@ -631,7 +631,7 @@ proxy: 2022.09.15 00:08:10 LOG6[12]: Session id: A33315836C947E567A8BBA625BAB4C1
 
 ### Verify Validator Status
 
-- Navigate into your Akash Validator deployment within Cloudmos
+- Navigate into your Akash Validator deployment within Akash Console
 - Enter the `LOGS` tab of the deployment
 - From the `Services` drop down menu > select `node`
 - With Validator logs isolated we should see successful `executed block` and `committed state` messages such as those below

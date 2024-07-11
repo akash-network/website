@@ -30,7 +30,7 @@ cloudmosResourcesSection:
       linkIcon: true
       linkLabel: "View More"
     - title: Deploy a Next.js app with crypto
-      description: In this video, Max from Cloudmos shows how to deploy a simple Next.js web app to the decentralized cloud Akash Network.
+      description: In this video, Max from Akash Console shows how to deploy a simple Next.js web app to the decentralized cloud Akash Network.
       badge: "./assets/youtube.svg"
       link: "https://www.youtube.com/watch?v=KscVdyESSm4&t=869s"
       linkIcon: true
