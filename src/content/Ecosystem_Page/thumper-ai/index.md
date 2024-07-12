@@ -12,7 +12,7 @@ description: Blockchain analysis, deploy tool and proud validator of the Akash N
 
 ctaButton:
   label: View Project
-  link: "https://cloudmos.io/"
+  link: "https://console.akash.network/"
   enable: true
 
 websiteLink: "https://thumper.ai/"

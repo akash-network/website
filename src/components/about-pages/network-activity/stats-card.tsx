@@ -20,7 +20,7 @@ export const StatsCard: React.FunctionComponent<IStatsCardProps> = ({
   diffPercent,
   diffNumberUnit,
   graph = true,
-  graphLink = "https://cloudmos.io/",
+  graphLink = "https://console.akash.network/",
 }) => {
   return (
     <div className="overflow-hidden  rounded-lg bg-background2    shadow-sm">
