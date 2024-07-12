@@ -16,27 +16,27 @@ The Akash Validator will be built with the following attributes:
 - Two Sentry nodes will be created to protect the validator from distributed denial of service (DDOS) attacks
 - The Akash Validator will sit behind the Sentry nodes and will not be directly exposed to the internet
 - The Sentry nodes and the Akash Validator will launched on the Akash Network as deployments
-- This guide will detail the launch of the deployments via the Cloudmos Deploy tool for ease
+- This guide will detail the launch of the deployments via the Akash Console tool for ease
 
 ### Sections within this Guide
 
-[STEP 1 - Cloudmos Deploy Review](#cloudmos-deploy-review)
+[STEP 1 - Akash Console Review](#akash-console-review)
 
 [STEP 2 - FileBase Buckets](#filebase-buckets)
 
 [STEP 3 - Akash SDL Review](#akash-sdl-review)
 
-[STEP 4 - Cloudmos Initial Deployment](#cloudmos-initial-deployment)
+[STEP 4 - Akash Console Initial Deployment](#cloudmos-initial-deployment)
 
 [STEP 5 - Edit SDL with Known IDs](#edit-sdl-with-known-ids)
 
-[STEP 6 - Redeploy Validator and Sentries with Cloudmos](#redeploy-validator-and-sentries-with-cloudmos)
+[STEP 6 - Redeploy Validator and Sentries with Akash Console](#redeploy-validator-and-sentries-with-akash-console)
 
-## Cloudmos Deploy Review
+## Akash Console Review
 
-While all steps within this guide could be accomplished via the Akash CLI, we will use the Cloudmos Deploy tool as it has become our most popular deploy tool.\
+While all steps within this guide could be accomplished via the Akash CLI, we will use the Akash Console tool as it has become our most popular deploy tool.\
 \
-If you have not installed Cloudmos prior and/or are not overly familiar with the app, please review our [Cloudmos Deploy documentation](broken-reference) before getting started with the Validator build steps detailed in subsequent sections.
+If you have not installed Akash Console prior and/or are not overly familiar with the app, please review our [Akash Console documentation](broken-reference) before getting started with the Validator build steps detailed in subsequent sections.
 
 ## FileBase Buckets
 
@@ -207,15 +207,15 @@ KEY_PATH=akashnode2
       - KEY_PATH=akashnode2
 ```
 
-## Cloudmos Initial Deployment
+## Akash Console Initial Deployment
 
 The Akash validator build - using a Sentry architecture - requires that the Validator ID is known by the Sentry nodes. Additionally the Sentry node IDs must be known by the Validator. As these IDs are unknown prior to the build process - and are then stored for re-use in the S3 bucket during the build process - we must create an initial deployment, capture the necessary IDs, close the initial deployments, and launch anew the deployments with the IDs specified.
 
 In this section we will create the initial deployments for ID captures.
 
-### **Create Deployments via Cloudmos**
+### **Create Deployments via Akash Console**
 
-- Within the Cloudmos Deploy app, begin the process of creating a new deployment
+- Within the Akash Console app, begin the process of creating a new deployment
 
 ![](../../assets/initialDeployCreateDeployment.png)
 
@@ -231,7 +231,7 @@ In this section we will create the initial deployments for ID captures.
 
 ## Capture Validator and Sentry Node IDs
 
-- Within the Cloudmos deployment shell tab - as shown in the depiction below - we can capture the necessary IDs for the eventual, permanent Akash Validator deployment
+- Within the Akash Console deployment shell tab - as shown in the depiction below - we can capture the necessary IDs for the eventual, permanent Akash Validator deployment
 - Select the SHELL tab and select the `validator` instance from Service drop down
 - Enter the command `akash tendermint show-node-id` in the command line entry box on the bottom of the display
 - Copy the exposed ID for the validator to a text pad for use in a later step
@@ -310,9 +310,9 @@ In this step we will revisit and edit our initial SDL file with the known Valida
       - KEY_PATH=akashnode1
 ```
 
-## Redeploy Validator and Sentries with Cloudmos
+## Redeploy Validator and Sentries with Akash Console
 
-Within Cloudmos Deploy using the identical steps covered in the initial Validator deployment but use the updated SDL within IDs populated
+Within Akash Console using the identical steps covered in the initial Validator deployment but use the updated SDL within IDs populated
 
 ## Validator Verifications
 

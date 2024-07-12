@@ -14,6 +14,6 @@ The Akash Sandbox version matches the current Mainnet version.
 
 Use the following documentation for sandbox use and depending on your preferred deployment tool.
 
-> _**NOTE**_ - this documentation covers the use of the Akash CLI for deployment creation and management. The [Cloudmos Deploy](/docs/deployments/cloudmos-deploy/) also now support Sandbox network use. Simply update the network in Settings from `Mainnet` to `Sandbox` to deploy using these web apps.
+> _**NOTE**_ - this documentation covers the use of the Akash CLI for deployment creation and management. The [Akash Console](/docs/deployments/cloudmos-deploy/) also now support Sandbox network use. Simply update the network in Settings from `Mainnet` to `Sandbox` to deploy using these web apps.
 
 - [Akash CLI for Sandbox Use](/docs/deployments/sandbox/installation/)

@@ -16,7 +16,7 @@ websiteLink: "https://chat.akash.network/"
 
 ctaButton:
   label: View Project
-  link: "https://cloudmos.io/"
+  link: "https://console.akash.network/"
   enable: true
 
 featured: true

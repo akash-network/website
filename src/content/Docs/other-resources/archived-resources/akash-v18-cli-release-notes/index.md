@@ -14,7 +14,7 @@ Following the release of Akash Mainnet4 - and the associated split of Akash netw
 
 In these release notes we detail the new CLI syntax for deployment creation and for the purpose of illustration. The prior CLI command syntax (pre-Mainnet4) will be included for clarity as users transition to a new common syntax.
 
-These changes only impact Akash CLI use and have no impact on application use of Cloudmos Deploy, Praetor App, Akash Helm Charts, etc.
+These changes only impact Akash CLI use and have no impact on application use of Akash Console, Praetor App, Akash Helm Charts, etc.
 
 ## Create an Akash Deployment
 

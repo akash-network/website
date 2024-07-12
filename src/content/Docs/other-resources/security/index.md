@@ -57,7 +57,7 @@ Please note that all of the following can be substituted in the `datacenter` fie
 
 ## Create a Certificate
 
-Before you can create a deployment, a [certificate](#mtls) must first be created. While an account may have several certificates associated, when using the Akash CLI a single cert may be used across many/all deployments. If using both the Cloudmos Deploy and Akash CLI, a single account may be used across those platforms with a separate certificate create and used per platform. To do this, run:
+Before you can create a deployment, a [certificate](#mtls) must first be created. While an account may have several certificates associated, when using the Akash CLI a single cert may be used across many/all deployments. If using both the Akash Console and Akash CLI, a single account may be used across those platforms with a separate certificate create and used per platform. To do this, run:
 
 ```
 akash tx cert create client --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_KEY_NAME --node $AKASH_NODE --fees 5000uakt
