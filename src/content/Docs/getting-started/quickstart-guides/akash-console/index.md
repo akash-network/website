@@ -16,7 +16,7 @@ Console is compatible with two wallets as of now, Keplr and Leap wallet. The Kep
 
 Follow [Keplr Wallet](/docs/getting-started/token-and-wallets/#keplr-wallet) or [Leap Cosmos Wallet](/docs/getting-started/token-and-wallets/#leap-cosmos-wallet) guides to create your first wallet if necessary.
 
-#### Akash Console Deploy Access
+#### Akash Console Access
 
 The Akash Console web app is available via the following URL:
 

@@ -24,7 +24,7 @@ Akash Network Clients are software and services that make it easier for tenants 
 - [Akash Console](https://github.com/akash-network/community/tree/main/sig-clients/akash-consoleREADME.md)
 - [AKash Command Line Interface](https://github.com/akash-network/community/tree/main/sig-clients/akash-cli)
 - [Client Libraries](https://github.com/akash-network/community/tree/main/sig-clients/client-libraries/README.md) (for various programming languages)
-- [Akash Console Deploy](https://github.com/akash-network/community/tree/main/sig-clients/cloudmos-deploy/README.md)
+- [Akash Console](https://github.com/akash-network/community/tree/main/sig-clients/cloudmos-deploy/README.md)
 - [Fleek](https://github.com/akash-network/community/tree/main/sig-clients/fleek/README.md)
 - [Spheron](https://github.com/akash-network/community/tree/main/sig-clients/spheron/README.md)
 - [Terraform Provider](https://github.com/akash-network/community/tree/main/sig-clients/terraform-provider/README.md)
@@ -58,7 +58,7 @@ The goal of this SIG is to foster a community around each of these clients that 
 - Anil Murty, Overclock Labs (@anilmurty) - Akash Console
 - Greg Osuri, Overclock Labs (@gosuri) - Akash CLI
 - Joao Luna, Quasarch (@cloud-j-luna) - Terraform Provider, Client Libraries
-- Maxime Beauchamp, Akash Console (baktun14) - Akash Console Deploy
+- Maxime Beauchamp, Akash Console (baktun14) - Akash Console
 - Prashant Maurya, Spheron Network () - Spheron
 - Jigar Patel, Praetor (jigar-arc10) - Praetor App
 

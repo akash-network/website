@@ -195,7 +195,7 @@ export default function ProvidersCard({ provider }: any) {
           href={`https://deploy.cloudmos.io/providers/${provider.owner}`}
           className="hover:text-primarytext-xs flex cursor-pointer items-center  gap-x-2 text-foreground"
         >
-          View on Console
+          View on Akash Console
           <ArrowIcon />
         </a>
       </div>
