@@ -26,7 +26,7 @@ The Akash Validator will be built with the following attributes:
 
 [STEP 3 - Akash SDL Review](#akash-sdl-review)
 
-[STEP 4 - Akash Console Initial Deployment](#cloudmos-initial-deployment)
+[STEP 4 - Akash Console Initial Deployment](#akash-console-initial-deployment)
 
 [STEP 5 - Edit SDL with Known IDs](#edit-sdl-with-known-ids)
 

@@ -102,7 +102,7 @@ In this section we will cover using the following clients to create an Akash dep
 
 > NOTE - when creating an Akash deployment using Stable Payment - ensure that the SDL pricing section reflects the correct denomination as covered [here](/docs/getting-started/stack-definition-language#stable-payment).
 
-- [Akash Console](#cloudmos-deploy-stable-payment-use)
+- [Akash Console](#akash-console-stable-payment-use)
 - [Akash CLI](#akash-cli-stable-payment-use)
 
 ### Akash Console Stable Payment Use

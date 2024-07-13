@@ -27,17 +27,17 @@ export function Pricing({ page, pathName, initialData }: any) {
 
   const customPriceAvg = customPricing
     ? roundDecimal(
-      (customPricing.aws + customPricing.gcp + customPricing.azure) / 3,
-      2,
-    )
+        (customPricing.aws + customPricing.gcp + customPricing.azure) / 3,
+        2,
+      )
     : null;
 
   useEffect(() => {
     const customPriceAvg = customPricing
       ? roundDecimal(
-        (customPricing.aws + customPricing.gcp + customPricing.azure) / 3,
-        2,
-      )
+          (customPricing.aws + customPricing.gcp + customPricing.azure) / 3,
+          2,
+        )
       : null;
 
     if (customPriceAvg) {
@@ -61,14 +61,14 @@ export function Pricing({ page, pathName, initialData }: any) {
     refetchIntervalInBackground: true,
     initialData: initialData
       ? {
-        data: initialData,
-      }
+          data: initialData,
+        }
       : {
-        data: {
-          availability: { total: 0, available: 0 },
-          models: [],
+          data: {
+            availability: { total: 0, available: 0 },
+            models: [],
+          },
         },
-      },
   });
   console.log(data);
 
@@ -177,8 +177,8 @@ export function Pricing({ page, pathName, initialData }: any) {
                     <a
                       target="_blank"
                       rel="noreferrer"
-                      href="https://deploy.cloudmos.io/"
-                      className="flex items-center justify-center px-[11px] py-[7px] rounded-[4px] cursor-pointer  text-2xs font-bold md:text-sm bg-primary text-white hover:bg-darkGray"
+                      href="https://console.akash.network/"
+                      className="flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-[11px]  py-[7px] text-2xs font-bold text-white hover:bg-darkGray md:text-sm"
                     >
                       Deploy Now
                     </a>
