@@ -12,7 +12,7 @@ description: The Awesome Akash GitHub repository is a comprehensive collection o
 
 ctaButton:
   label: View Project
-  link: "https://cloudmos.io/"
+  link: "https://console.akash.network/"
   enable: true
 
 githubLink: "https://github.com/akash-network/awesome-akash"

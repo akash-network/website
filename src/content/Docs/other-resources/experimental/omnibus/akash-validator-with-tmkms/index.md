@@ -18,7 +18,7 @@ Sections in this guide:
 - [Obtain Private Key](#obtain-private-key)
   - [Example Validator Private Key Retrieval](#example-validator-private-key-retrieval)
 - [Akash Validator Deployment](#akash-validator-deployment)
-  - [Cloudmos Deploy](#cloudmos-deploy)
+  - [Akash Console](#akash-console)
   - [Create the Akash Validator Deployment](#create-the-akash-validator-deployment)
     - [Create New Deployment](#create-new-deployment)
   - [Empty Template Option](#empty-template-option)
@@ -89,14 +89,14 @@ cat ~/.akash/config/priv_validator_key.json
 
 ## Akash Validator Deployment
 
-### Cloudmos Deploy
+### Akash Console
 
-- Within this guide we will use the Cloudmos Deploy application to create the Akash Validator
-- Please review our[ Cloudmos Deploy ](broken-reference)docs to install and configuration the application if this is your first time using
+- Within this guide we will use the Akash Console application to create the Akash Validator
+- Please review our[ Akash Console ](broken-reference)docs to install and configuration the application if this is your first time using
 
 ### Create the Akash Validator Deployment
 
-- Use the steps that follow - within Cloudmos Deploy - to create your Akash Validator deployment
+- Use the steps that follow - within Akash Console - to create your Akash Validator deployment
 
 #### Create New Deployment
 

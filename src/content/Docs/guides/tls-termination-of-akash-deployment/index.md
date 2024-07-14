@@ -92,7 +92,7 @@ We will need to lookup the IP address of the deployment to later use in the Clou
 
 ### Domain of the Deployment
 
-- Find the domain name of the deployment in the Cloudmos Deployment Detail page
+- Find the domain name of the deployment in the Akash Console Deployment Detail page
 
 ![](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-LrNFlfuifzmQ_NMKu9C-887967055%2Fuploads%2F1OLAZX7ITvAbCClUClxb%2FcloudflareURL.png?alt=media&token=c3a3e6f0-5e71-49dc-8688-afe8a58d57a8)
 
