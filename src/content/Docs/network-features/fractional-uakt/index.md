@@ -16,7 +16,7 @@ In this guide we will use the Akash Console tool to launch deployments using fra
 
 For the purpose of demonstrating the use of fractional uAKT we will utilize the popular Hello World web application and SDL that can be found in the [Awesome Akash repository](https://github.com/akash-network/awesome-akash). The example SDL file will be modified to take advantage of the new fractional uAKT option.
 
-The [Akash Console](/docs/deployments/cloudmos-deploy/) application will be used to launch the deployment.
+The [Akash Console](/docs/deployments/akash-console/) application will be used to launch the deployment.
 
 ### **Example Fractional uAKT Use in Akash Console**
 

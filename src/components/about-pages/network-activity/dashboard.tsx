@@ -621,7 +621,7 @@ export function Dashboard({
         </h2>
         <div className="mt-5  grid grid-cols-2  gap-4  gap-y-4 md:grid-cols-1  md:gap-5  lg:grid-cols-2 xl:grid-cols-3  ">
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/provider-graph/active-providers"
+            graphLink="https://console.akash.network/provider-graph/active-providers"
             number={
               <FormattedNumber
                 value={dashboardData.networkCapacity.activeProviderCount}
@@ -639,7 +639,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/provider-graph/compute-cpu"
+            graphLink="https://console.akash.network/provider-graph/compute-cpu"
             number={
               <>
                 <FormattedNumber
@@ -661,7 +661,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/provider-graph/graphics-gpu"
+            graphLink="https://console.akash.network/provider-graph/graphics-gpu"
             number={
               <>
                 <FormattedNumber
@@ -682,7 +682,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/provider-graph/memory"
+            graphLink="https://console.akash.network/provider-graph/memory"
             number={
               <HumanReadableBytes
                 value={dashboardData.networkCapacity.totalMemory}
@@ -698,7 +698,7 @@ export function Dashboard({
           />
 
           <StatsCard
-            graphLink="https://deploy.cloudmos.io/provider-graph/storage"
+            graphLink="https://console.akash.network/provider-graph/storage"
             number={
               <HumanReadableBytes
                 value={dashboardData.networkCapacity.totalStorage}
@@ -838,7 +838,7 @@ export function Dashboard({
               <tr key={block.height}>
                 <td className="py-2 text-[10px] font-bold md:py-5 md:text-base ">
                   <a
-                    href={`https://deploy.cloudmos.io/blocks/${
+                    href={`https://stats.akash.network/blocks/${
                       block.height
                     }${appendSearchParams({
                       network: mainnetId,
@@ -850,7 +850,7 @@ export function Dashboard({
                 </td>
                 <td className="flex w-fit text-[10px] font-bold text-[#808080] md:py-[16px] md:text-base">
                   <a
-                    href={`https://deploy.cloudmos.io/validators/${
+                    href={`https://stats.akash.network/validators/${
                       block.proposer.operatorAddress
                     }${appendSearchParams({
                       network: mainnetId,
@@ -883,7 +883,7 @@ export function Dashboard({
 
         <a
           target="_blank"
-          href="https://deploy.cloudmos.io/blocks"
+          href="https://stats.akash.network/blocks"
           className="mx-auto mt-8 flex w-fit cursor-pointer rounded-[6px] border bg-background2  px-2.5 py-1.5 text-sm font-medium leading-none lg:px-3 lg:py-2"
         >
           View more
@@ -911,7 +911,7 @@ export function Dashboard({
                 <td className="py-2 text-[10px] font-bold md:py-5 md:text-base ">
                   <a
                     target="_blank"
-                    href={`https://deploy.cloudmos.io/transactions/${
+                    href={`https://stats.akash.network/transactions/${
                       transaction.hash
                     }${appendSearchParams({
                       network: mainnetId,
@@ -952,7 +952,7 @@ export function Dashboard({
 
         <a
           target="_blank"
-          href="https://deploy.cloudmos.io/transactions"
+          href="https://stats.akash.network/transactions"
           className="mx-auto mt-8 flex w-fit cursor-pointer rounded-[6px] border bg-background2  px-2.5 py-1.5 text-sm font-medium leading-none lg:px-3 lg:py-2"
         >
           View more

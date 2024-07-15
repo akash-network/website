@@ -192,7 +192,7 @@ export default function ProvidersCard({ provider }: any) {
       <div className="mt-3">
         <a
           target="_blank"
-          href={`https://deploy.cloudmos.io/providers/${provider.owner}`}
+          href={`https://console.akash.network/providers/${provider.owner}`}
           className="hover:text-primarytext-xs flex cursor-pointer items-center  gap-x-2 text-foreground"
         >
           View on Akash Console
