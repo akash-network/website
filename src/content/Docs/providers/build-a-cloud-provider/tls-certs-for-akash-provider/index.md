@@ -389,7 +389,7 @@ The steps in section replace the Kubernetes Ingress Controller Fake Certificate 
 
 ### Update the ingress-nginx-custom.yaml Config File
 
-Update the `ingress-nginx-custom.yaml` file - originally created when installing your Akash Provider ingress controller in this [guide/step](ingress-controller-wildcard-cert-use.md) - with this extra argument:
+Update the `ingress-nginx-custom.yaml` file - originally created when installing your Akash Provider ingress controller in this [guide/step](/docs/providers/build-a-cloud-provider/tls-certs-for-akash-provider/#ingress-controller-wildcard-cert-use) - with this extra argument:
 
 ```
   extraArgs:
