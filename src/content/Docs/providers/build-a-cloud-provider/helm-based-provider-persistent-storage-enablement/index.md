@@ -10,7 +10,7 @@ At Akash we use the Kubernetes Rook Operator coupled with the Ceph distributed f
 
 Refer to the [ Akash Provider](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/) guide if your provider has not yet been built.
 
-We encourage becoming familiar with Rook and Ceph prior to configuring Akash persistent storage via this [guide](https://rook.github.io/docs/rook/v1.9/). The current persistent storage use is based on the Rook Ceph helm chart.
+We encourage becoming familiar with Rook and Ceph prior to configuring Akash persistent storage via this [guide](https://rook.github.io/docs/rook/latest-release/). The current persistent storage use is based on the Rook Ceph helm chart.
 
 Please take into consideration the following Akash recommendations:
 
@@ -167,7 +167,7 @@ The Helm charts are intended to simplify deployment and upgrades.
 
 ## Persistent Storage Deployment
 
-- **Note** - if any issues are encountered during the Rook deployment, tear down the Rook-Ceph components via the steps listed [here](teardown.md) and begin anew.
+- **Note** - if any issues are encountered during the Rook deployment, tear down the Rook-Ceph components via the steps listed [here](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#teardown) and begin anew.
 - Deployment typically takes approximately 10 minutes to complete\*\*.\*\*
 
 ### Migration procedure

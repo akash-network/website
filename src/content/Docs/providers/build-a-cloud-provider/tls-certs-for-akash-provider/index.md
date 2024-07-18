@@ -115,7 +115,7 @@ We can use either Google Cloud or Cloudflare as the DNS solver. Subsequent secti
 
 - Add the following section in the `solvers` section of your `cert-manager-values.yaml` file.
 
-> _**NOTE**_ - see these [section](configure-the-issuer.md#google-dns-example) for a full `cert-manager-values.yaml` YAML file example
+> _**NOTE**_ - see this [section](/docs/providers/build-a-cloud-provider/tls-certs-for-akash-provider/#complete-cert-manager-valuesyaml-yaml-file-example) for a full `cert-manager-values.yaml` YAML file example
 
 ```
     - dns01:
@@ -398,7 +398,7 @@ Update the `ingress-nginx-custom.yaml` file - originally created when installing
 
 ### Update the Ingress Controller
 
-Use the `helm upgrade` command - same syntax which was used in the original install of the `ingress-nginx` chart and detailed [here](ingress-controller-wildcard-cert-use.md) - to apply the changes.
+Use the `helm upgrade` command - same syntax which was used in the original install of the `ingress-nginx` chart and detailed [here](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-10---ingress-controller-install) - to apply the changes.
 
 ### Verification
 
