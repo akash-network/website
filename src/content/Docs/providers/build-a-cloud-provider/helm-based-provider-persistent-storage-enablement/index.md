@@ -922,5 +922,5 @@ ingress-nginx    12m         Normal   RELOAD              pod/ingress-nginx-cont
 If a problem is experienced during persistent storage enablement, review and follow the steps provided in these guides to begin anew.
 
 1. [https://rook.io/docs/rook/latest-release/Helm-Charts/ceph-cluster-chart/?h=ceph+cluster+helm+chart#uninstalling-the-chart](https://rook.io/docs/rook/latest-release/Helm-Charts/ceph-cluster-chart/?h=ceph+cluster+helm+chart#uninstalling-the-chart)
-2. [https://rook.io/docs/rook/v1.9/helm-operator.html#uninstalling-the-chart](https://rook.io/docs/rook/v1.9/helm-operator.html#uninstalling-the-chart)
-3. [https://rook.io/docs/rook/v1.9/ceph-teardown.html](https://rook.io/docs/rook/v1.9/ceph-teardown.html)
+2. [https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/?h=ceph+operator+helm+chart#uninstalling-the-chart](https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/?h=ceph+operator+helm+chart#uninstalling-the-chart)
+3. [https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/?h=cleaning+up+cluste](https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/?h=cleaning+up+cluste)
