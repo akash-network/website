@@ -19,6 +19,8 @@ export default defineConfig({
     "/about": "/about/general-information/",
     "/about/pricing": "/about/pricing/compare",
     "/blog/a/acc-akash-accelerationism": "/blog/a-acc-akash-accelerationism/",
+    "/akash-accelerate-2024":
+      "/blog/akash-accelerate-24-the-path-forward-for-permissionless-compute/",
     "/roadmap":
       "https://github.com/orgs/akash-network/projects/5/views/1?layout=roadmap",
   },
