@@ -10,7 +10,7 @@ At Akash we use the Kubernetes Rook Operator coupled with the Ceph distributed f
 
 Refer to the [ Akash Provider](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/) guide if your provider has not yet been built.
 
-We encourage becoming familiar with Rook and Ceph prior to configuring Akash persistent storage via this [guide](https://rook.github.io/docs/rook/v1.9/). The current persistent storage use is based on the Rook Ceph helm chart.
+We encourage becoming familiar with Rook and Ceph prior to configuring Akash persistent storage via this [guide](https://rook.github.io/docs/rook/latest-release/). The current persistent storage use is based on the Rook Ceph helm chart.
 
 Please take into consideration the following Akash recommendations:
 
@@ -167,7 +167,7 @@ The Helm charts are intended to simplify deployment and upgrades.
 
 ## Persistent Storage Deployment
 
-- **Note** - if any issues are encountered during the Rook deployment, tear down the Rook-Ceph components via the steps listed [here](teardown.md) and begin anew.
+- **Note** - if any issues are encountered during the Rook deployment, tear down the Rook-Ceph components via the steps listed [here](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#teardown) and begin anew.
 - Deployment typically takes approximately 10 minutes to complete\*\*.\*\*
 
 ### Migration procedure
@@ -279,7 +279,7 @@ helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --
 ## Preliminary Steps
 
 1. **Device Filter**: Update `deviceFilter` to correspond with your specific disk configurations.
-2. **Storage Class**: Modify the `storageClass` name from `beta3` to an appropriate one, as outlined in the [Storage Class Types table](https://docs.akash.network/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/storage-class-types).
+2. **Storage Class**: Modify the `storageClass` name from `beta3` to an appropriate one, as outlined in the [Storage Class Types table](#storage-class-types).
 3. **Node Configuration**: Under the `nodes` section, list the nodes designated for Ceph storage, replacing placeholders like `node1`, `node2`, etc., with your Kubernetes node names.
 
 ## Configuration for All-in-One or Single Storage Node
@@ -369,7 +369,7 @@ EOF
 ### Core Configuration
 
 1. **Device Filter**: Update `deviceFilter` to match your disk specifications.
-2. **Storage Class**: Change the `storageClass` name from `beta3` to a suitable one, as specified in the [Storage Class Types table](https://docs.akash.network/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/storage-class-types).
+2. **Storage Class**: Change the `storageClass` name from `beta3` to a suitable one, as specified in the [Storage Class Types table](#storage-class-types).
 3. **OSDs Per Device**: Adjust `osdsPerDevice` according to the guidelines provided in the aforementioned table.
 4. **Node Configuration**: In the `nodes` section, add your nodes for Ceph storage, ensuring to replace `node1`, `node2`, etc., with the actual names of your Kubernetes nodes.
 
@@ -466,7 +466,7 @@ helm install --create-namespace -n rook-ceph rook-ceph-cluster \
 
 #### STEP 3 - Label the storageClass
 
-> This label is mandatory and is [used](https://github.com/ovrclk/k8s-inventory-operator/blob/v0.1.4/ceph.go#L185) by the Akash's `inventory-operator` for searching the storageClass.
+> This label is mandatory and is [used](https://github.com/akash-network/provider/blob/main/operator/inventory/ceph.go) by the Akash's `inventory-operator` for searching the storageClass.
 
 - Change `beta3` to your `storageClass` you have picked before
 
@@ -510,7 +510,7 @@ rook-ceph   /var/lib/rook     1          5m18s   Ready   Cluster created success
 - Adjust the following key-values pairs as necessary within the `provider-storage.yaml` file created below:
   - Update the values of the `capabilities/storage/2/class` key to the correct class type (I.e. `beta2`). Reference the [Storage Class Types](#storage-class-types) doc section for additional details.
   - Update the region value from current `us-west` to an appropriate value such as `us-east` OR `eu-west`
-- Ensure that necessary [environment variables](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-6---provider-build-via-helm-chart) are in place prior to issuing
+- Ensure that necessary [environment variables](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-8---provider-build-via-helm-chart) are in place prior to issuing
 
 ##### Caveat on Attributes Updates in Active Leases
 
@@ -906,6 +906,6 @@ ingress-nginx    12m         Normal   RELOAD              pod/ingress-nginx-cont
 
 If a problem is experienced during persistent storage enablement, review and follow the steps provided in these guides to begin anew.
 
-1. [https://rook.io/docs/rook/v1.9/helm-ceph-cluster.html#uninstalling-the-chart](https://rook.io/docs/rook/v1.9/helm-ceph-cluster.html#uninstalling-the-chart)
-2. [https://rook.io/docs/rook/v1.9/helm-operator.html#uninstalling-the-chart](https://rook.io/docs/rook/v1.9/helm-operator.html#uninstalling-the-chart)
-3. [https://rook.io/docs/rook/v1.9/ceph-teardown.html](https://rook.io/docs/rook/v1.9/ceph-teardown.html)
+1. [https://rook.io/docs/rook/latest-release/Helm-Charts/ceph-cluster-chart/?h=ceph+cluster+helm+chart#uninstalling-the-chart](https://rook.io/docs/rook/latest-release/Helm-Charts/ceph-cluster-chart/?h=ceph+cluster+helm+chart#uninstalling-the-chart)
+2. [https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/?h=ceph+operator+helm+chart#uninstalling-the-chart](https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/?h=ceph+operator+helm+chart#uninstalling-the-chart)
+3. [https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/?h=cleaning+up+cluste](https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/?h=cleaning+up+cluste)

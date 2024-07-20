@@ -8,7 +8,7 @@ linkTitle: "Ruby on Rails with Sia and Auth0"
 
 
 
-**Repository**: [ovrclk/akash-on-rails](https://github.com/ovrclk/akash-on-rails)\
+**Repository**: [ovrclk/akash-on-rails](https://github.com/ovrclk/akash-on-rails)
 
 
 This is an example Rails Pinterest clone hosted on Akash. There are a few extra features to make the most of decentralised hosting:
