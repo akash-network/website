@@ -116,7 +116,7 @@ Launch the Akash Console application to complete the sections that follow.
 ![](../../../assets/akashlyticsCreateDeployment.png)
 
 - In our testing we will use the Hello Akash World simple SDL
-- Note - this SDL does not specify any attributes. If the list of bids received from the deployment is large and you would like to reduce the list to isolate a bid from your provider a bit easier, consider attribute use as detailed in this [SDL reference](/docs/providers/akash-audites-atributes#auditor-location-within-the-sdl).
+- Note - this SDL does not specify any attributes. If the list of bids received from the deployment is large and you would like to reduce the list to isolate a bid from your provider a bit easier, consider attribute use as detailed in this [SDL reference](/docs/providers/audited-attributes/#auditor-location-within-the-sdl).
 - Otherwise process with the deployment with no need for change to the Hello Akash World SDL and pause when you reach reach the Create Lease phase of the deployment
 
 ![](../../../assets/akashlyticsHelloWorldSelect.png)
@@ -139,7 +139,7 @@ Launch the Akash Console application to complete the sections that follow.
 
 - A new tab within your browser should launch and Hello Akash World home page should display as demonstrated below
 - Note - the URL will be directed to the Ingress Controller of your provider Kubernetes cluster
-- If this page does not display properly it would indicate an issue with the provider’s Ingress Controller and we should investigate via the [Provider Troubleshooting guide](../../akash-provider-troubleshooting/)
+- If this page does not display properly it would indicate an issue with the provider’s Ingress Controller and we should investigate via the [Provider Troubleshooting guide](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)
 
 ![](../../../assets/helloWorldHomePage.png)
 
@@ -322,17 +322,17 @@ AKASH_WITHDRAWAL_PERIOD=1h
 
 ## STEP 7 - Additional Verifications
 
-As desired consider additional verifications covered in the [Akash Provider Troubleshooting ](../../akash-provider-troubleshooting/)documentation.
+As desired consider additional verifications covered in the [Akash Provider Troubleshooting ](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)documentation.
 
 Among the topics covered in the troubleshooting guide that should be considered for your new provider verifications:
 
-- [Provider Lease Verifications and Management](../../akash-provider-troubleshooting/provider-lease-management.md)
-- [Provider Manifest Verifications and Management](../../akash-provider-troubleshooting/provider-manifests.md)
-- [Provider Earnings Review](../../akash-provider-troubleshooting/provider-earnings.md)
+- [Provider Lease Verifications and Management](/docs/providers/provider-faq-and-guide/#provider-lease-management)
+- [Provider Manifest Verifications and Management](/docs/providers/provider-faq-and-guide/#provider-manifests)
+- [Provider Earnings Review](/docs/providers/provider-faq-and-guide/#provider-earnings)
 
 # Contact Technical Support
 
-Please contact Akash technical support for any Provider issues not resolved following the review of our [Provider Checkup](./) and [Provider Troubleshooting](../../akash-provider-troubleshooting/) guides.
+Please contact Akash technical support for any Provider issues not resolved following the review of our [Provider Checkup](./) and [Provider Troubleshooting](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting) guide.
 
 - [Akash Discord Server](https://discord.com/invite/akash) - post questions in the dedicated provider channel where our internal and community experts are ready to assist
-- [Akash Forums](https://forum.akash.network/) - post questions in the Help Desk category for Provider support&#x20;
+- [Akash Community Discussions](hhttps://github.com/orgs/akash-network/discussions) - post questions in the `🙏Q&A` category for Provider support&#x20;

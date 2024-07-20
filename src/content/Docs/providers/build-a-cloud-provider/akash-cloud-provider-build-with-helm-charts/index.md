@@ -652,11 +652,11 @@ helm uninstall akash-provider -n akash-services
 
 #### Overview
 
-> _**NOTE**_ - if you are updating your provider bid script from a previous version use this [bid script migration guide](../../akash-provider-troubleshooting/provider-bid-script-migration-gpu-models.md).
+> _**NOTE**_ - if you are updating your provider bid script from a previous version use this [bid script migration guide](../../../../docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting).
 
 - If there is a desire to manipulate the provider bid engine, include the `--set bidpricescript` switch . The pricing script used in this switch is detailed in the [Akash Provider Bid Pricing](/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/) section of this guide.
 - **Note -** When the provider deployment is created the bid script should return the price in under 5 seconds . If the script does not execute in this time period the following error message will be seen in the provider pod logs. Such a report would suggest that there is an error/issue with script customizations that should be reviewed. Following review and adjustment, uninstall the provider deployment (via helm uninstall) and reinstall.
-- **Note** - there is further discussion on the bid script and deployer address whitelisting in this [section](#step-11---provider-whitelisting-optional).
+- **Note** - there is further discussion on the bid script and deployer address whitelisting in this [section](#step-11---firewall-rule-review).
 
 > _**USDC Stable Payment Support**_ - note that the current, default bid script enables stable payment support on the Akash Provider. Akash deployments using stable payments are taxed at a slightly higher rate than deployments using AKT payment. If you choose not to support stable payments on your provider, remove stable payment support from the default bid script.
 
@@ -728,7 +728,7 @@ akash-provider         	akash-services	28      	2023-09-19 12:25:33.880309778 +0
 
 Create the `ingress-nginx-custom.yaml` file via this step
 
-> _**NOTE**_ - in the default install the dedicated Akash RPC Node used for your provider is reachable only within the Kubernetes cluster. This is done intentionally as this RPC Node is intended for use only by the Akash Provider only. The Provider will have access within the cluster to the RPC Node. This additionally protects the RPC Node from possible DDoS attacks from external parties. If have a need to expose the Provider's RPC Node to the outside world, use the `ingress-nginx-custom.yaml` file included in this [section](#step-8---provider-bid-customization) instead.
+> _**NOTE**_ - in the default install the dedicated Akash RPC Node used for your provider is reachable only within the Kubernetes cluster. This is done intentionally as this RPC Node is intended for use only by the Akash Provider only. The Provider will have access within the cluster to the RPC Node. This additionally protects the RPC Node from possible DDoS attacks from external parties. If have a need to expose the Provider's RPC Node to the outside world, use the `ingress-nginx-custom.yaml` file included in this [section](#step-8---provider-build-via-helm-chart) instead.
 
 ```
 cd ~

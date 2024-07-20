@@ -44,7 +44,7 @@ apt autoremove
 
 The `ubuntu-drivers devices` command detects your GPU and determines which version of the NVIDIA drivers is best.
 
-> _**NOTE**_ - the NVIDIA drivers detailed and installed in this section have known compatibility issues with some `6.X` lLinux kernels as discussed [here](https://forums.developer.nvidia.com/t/390-154-driver-no-longer-works-with-kernel-6-0/230959/7). In our experience, when such compatibility issue occur the driver will install with no errors generated but will not functionality properly. If you encounter Linux kernel and NVIDIA driver compatibility issues, consider downgrading the Kernel to the officially supported Ubuntu 22.04 kernel which at the time of this writing is `5.15.0-73`
+> _**NOTE**_ - the NVIDIA drivers detailed and installed in this section have known compatibility issues with some `6.X` Linux kernels as discussed [here](https://forums.developer.nvidia.com/t/390-154-driver-no-longer-works-with-kernel-6-0/230959/7). In our experience, when such compatibility issue occur the driver will install with no errors generated but will not functionality properly. If you encounter Linux kernel and NVIDIA driver compatibility issues, consider downgrading the Kernel to the officially supported Ubuntu 22.04 kernel which at the time of this writing is `5.15.0-73`
 
 ```
 apt install ubuntu-drivers-common
@@ -107,7 +107,7 @@ In some circumstances it has been found that the CUDA Drivers Fabric Manager nee
 apt-get install cuda-drivers-fabricmanager-525
 ```
 
-[Reference](https://docs.akash.network/providers/akash-provider-troubleshooting/gpu-provider-troubleshooting)
+[Reference](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)
 
 ### Additional References for Node Configurations
 
