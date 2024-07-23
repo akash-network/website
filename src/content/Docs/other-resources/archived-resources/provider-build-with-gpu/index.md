@@ -129,7 +129,7 @@ apt autoremove
 
 The `ubuntu-drivers devices` command detects your GPU and determines which version of the NVIDIA drivers is best.
 
-> _**NOTE**_ - the NVIDIA drivers detailed and installed in this section have known compatibility issues with some `6.X` lLinux kernels as discussed [here](https://forums.developer.nvidia.com/t/390-154-driver-no-longer-works-with-kernel-6-0/230959/7). In our experience, when such compatibility issue occur the driver will install with no errors generated but will not functionality properly. If you encounter Linux kernel and NVIDIA driver compatibility issues, consider downgrading the Kernel to the officially supported Ubuntu 22.04 kernel which at the time of this writing is `5.15.0-73`
+> _**NOTE**_ - the NVIDIA drivers detailed and installed in this section have known compatibility issues with some `6.X` Linux kernels as discussed [here](https://forums.developer.nvidia.com/t/390-154-driver-no-longer-works-with-kernel-6-0/230959/7). In our experience, when such compatibility issue occur the driver will install with no errors generated but will not functionality properly. If you encounter Linux kernel and NVIDIA driver compatibility issues, consider downgrading the Kernel to the officially supported Ubuntu 22.04 kernel which at the time of this writing is `5.15.0-73`
 
 ```
 apt install ubuntu-drivers-common
@@ -691,7 +691,7 @@ provider-services keys add default
 
 ### Fund Provider Account via Faucet
 
-Ensure that the provider account - created in the prior step - is funded. Avenues to fund an account are discussed in this [document](https://docs.akash.network/guides/cli/detailed-steps/part-3.-fund-your-account).
+Ensure that the provider account - created in the prior step - is funded. Avenues to fund an account are discussed in this [document](/docs/deployments/akash-cli/installation/#fund-your-account).
 
 ### Export Provider Key for Build Process
 
@@ -823,7 +823,7 @@ EOF
 ### **Provider Bid Defaults**
 
 - When a provider is created the default bid engine settings are used which are used to derive pricing per workload. If desired these settings could be updated. But we would recommend initially using the default values.
-- For a through discussion on customized pricing please visit this [guide](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-8---provider-bid-customization).
+- For a through discussion on customized pricing please visit this [guide](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-9---provider-bid-customization).
 
 ### Create Provider Via Helm
 
