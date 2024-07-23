@@ -621,7 +621,7 @@ For accurate earning potential based on today's actual financial/other realities
 
 - 1.79 price of 1 AKT in USD
 - 6.088 block time (current available via: [https://mintscan.io/akash](https://mintscan.io/akash))
-- 30.436875 used as the average number of days in a month\
+- 30.436875 used as the average number of days in a month
 
 #### Command Syntax
 
@@ -896,7 +896,7 @@ That's all. There is no need bouncing the `akash-provider` pod/service for the s
 
 ### Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
 
-> The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://txconsole.com/certificate-renewal-manually-in-kubernetes/](https://txconsole.com/certificate-renewal-manually-in-kubernetes/)
+> The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes](https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes)
 
 When K8s certs expire, you won't be able to use your cluster. Make sure to rotate your certs proactively.
 
