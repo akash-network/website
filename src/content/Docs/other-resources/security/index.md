@@ -12,13 +12,13 @@ With Akash, you decide **who** you want to trust.
 
 ### How does Akash authenticate users?
 
-It is important for the tenant to send their manifest to the correct provider, and for the provider to ensure only valid owners can access their deployments. This authentication is implemented with [mTLS](mtls.md) and involves each account creating a certificate prior to deploying a workload or starting a provider.
+It is important for the tenant to send their manifest to the correct provider, and for the provider to ensure only valid owners can access their deployments. This authentication is implemented with [mTLS](#create-a-certificate) and involves each account creating a certificate prior to deploying a workload or starting a provider.
 
 Default certificate lifespan is 365 days from the moment of issuance. This can be customized to be valid up to a certain date, or not valid until a certain date.
 
 ### **How do I limit my trust to Audited Providers?**
 
-Follow the getting started guide, and you will see the [instructions for audited attributes](/docs/providers/akash-audites-atributes) suggest using only servers **"signed by"** Akash Network. If you deploy today, you will see bids by Equinix servers that audited and signed by Akash Network. By doing this you are trusting [Equinix’s Security Standards and Compliance](https://www.equinix.com/data-centers/design/standards-compliance) and you are trusting Overclock Labs as the auditor to only sign servers that meet those standards.
+Follow the getting started guide, and you will see the [instructions for audited attributes](/docs/providers/audited-attributes) suggest using only servers **"signed by"** Akash Network. If you deploy today, you will see bids by Equinix servers that audited and signed by Akash Network. By doing this you are trusting [Equinix’s Security Standards and Compliance](https://www.equinix.com/data-centers/design/standards-compliance) and you are trusting Overclock Labs as the auditor to only sign servers that meet those standards.
 
 ### **What are Audited Attributes?**
 
@@ -57,7 +57,7 @@ Please note that all of the following can be substituted in the `datacenter` fie
 
 ## Create a Certificate
 
-Before you can create a deployment, a [certificate](#mtls) must first be created. While an account may have several certificates associated, when using the Akash CLI a single cert may be used across many/all deployments. If using both the Akash Console and Akash CLI, a single account may be used across those platforms with a separate certificate create and used per platform. To do this, run:
+Before you can create a deployment, a [certificate](/docs/other-resources/authentication/) must first be created. While an account may have several certificates associated, when using the Akash CLI a single cert may be used across many/all deployments. If using both the Akash Console and Akash CLI, a single account may be used across those platforms with a separate certificate create and used per platform. To do this, run:
 
 ```
 akash tx cert create client --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_KEY_NAME --node $AKASH_NODE --fees 5000uakt

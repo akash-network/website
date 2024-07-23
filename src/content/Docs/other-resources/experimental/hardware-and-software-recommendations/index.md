@@ -10,7 +10,7 @@ linkTitle: "Hardware and Software Recommendations"
 
 ## Kubernetes Cluster Options
 
-### **Easy Difficulty**
+### **Easy**
 
 [**Praetor**](https://praetorapp.com/) **(Web based setup/Keplr wallet)**
 
@@ -20,7 +20,7 @@ Web based setup / Requires [Keplr](https://www.keplr.app/) wallet and uses SSH t
 
 [OS Based setup](https://github.com/HandyOSS/HandyHost/releases) / take over machine - great for old laptops or unused machines around the house
 
-### Medium Difficulty
+### **Medium Difficulty**
 
 Requires terminal skills and general knowledge of dev-ops. &#x20;
 
@@ -36,19 +36,19 @@ Built into Ubuntu by default - microk8s requires snapd is a great way to easily 
 
 Rancher uses Docker to create a Kubernetes cluster on the master and worker nodes
 
-### Advanced Difficulty
+### **Advanced**
 
 #### [Kubespray](https://github.com/kubernetes-sigs/kubespray) + [Helm Charts](https://github.com/akash-network/helm-charts)
 
 Configure bare-metal hosts on-prem or in datacenters to create a Kubernetes cluster using etcd.
 
-### Additional Paths
+### **Additional Paths**
 
 #### [k3sup](https://github.com/alexellis/k3sup) + [Helm Charts](https://github.com/akash-network/helm-charts)
 
 Easily create a Kubernetes cluster with a simple CLI.&#x20;
 
-#### akashos
+#### akashOS
 
 Coming Soon!
 
