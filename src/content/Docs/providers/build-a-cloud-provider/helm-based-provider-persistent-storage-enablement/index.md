@@ -199,17 +199,17 @@ helm repo add rook-release https://charts.rook.io/release
 - Verify the Rook repo has been added
 
 ```
-helm search repo rook-release --version v1.14.0
+helm search repo rook-release --version v1.14.8
 ```
 
 - Expected/Example Result
 
 ```
-# helm search repo rook-release --version v1.14.0
+# helm search repo rook-release --version v1.14.8
 
 NAME                          	CHART VERSION	APP VERSION	DESCRIPTION
-rook-release/rook-ceph        	v1.14.0       	v1.14.0     	File, Block, and Object Storage Services for yo...
-rook-release/rook-ceph-cluster	v1.14.0       	v1.14.0     	Manages a single Ceph cluster namespace for Rook
+rook-release/rook-ceph        	v1.14.8       	v1.14.8     	File, Block, and Object Storage Services for yo...
+rook-release/rook-ceph-cluster	v1.14.8       	v1.14.8     	Manages a single Ceph cluster namespace for Rook
 ```
 
 ### **Deployment Steps**
@@ -254,7 +254,7 @@ EOF
 ### Install the Operator Chart
 
 ```
-helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.14.0 -f rook-ceph-operator.values.yml
+helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.14.8 -f rook-ceph-operator.values.yml
 ```
 
 ## PRODUCTION
@@ -264,7 +264,7 @@ helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --
 - Install the Operator chart:
 
 ```
-helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.14.0
+helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.14.8
 ```
 
 #### STEP 2 - Install Ceph Cluster Helm Chart
@@ -461,7 +461,7 @@ EOF
 
 ```
 helm install --create-namespace -n rook-ceph rook-ceph-cluster \
-   --set operatorNamespace=rook-ceph rook-release/rook-ceph-cluster --version 1.14.0 -f rook-ceph-cluster.values.yml
+   --set operatorNamespace=rook-ceph rook-release/rook-ceph-cluster --version 1.14.8 -f rook-ceph-cluster.values.yml
 ```
 
 #### STEP 3 - Label the storageClass
@@ -654,12 +654,11 @@ akash-provider-6bf9986cdc-btvlg      1/1     Running   0          3m13s
 
 ## Label Nodes For Storage Classes
 
-Each node serving persistent storage should have `akash.network/storageclasses` label set.&#x20;
+Each node serving persistent storage will automatically get `akash.network/capabilities.storage.class.beta3=1` by the `inventory-operator`. (This could be `beta2` or `beta1` instead of `beta3` depending on your type of storage)
 
 > _**NOTE**_ - currently the Helm Charts for persistent storage support only a single storageclass per cluster. All nodes in the cluster should be marked as `beta2` - as an example - and cannot have a mix of `beta2` and `beta3` nodes.
 
 - Ensure that this command is issued - one at a time - for all nodes serving persistent storage
-- Replace the `storageclasses` value with the proper storage class and as clarified in the example command
 
 ### List Kubernetes Node Names
 
@@ -668,22 +667,6 @@ Each node serving persistent storage should have `akash.network/storageclasses` 
 ```
 kubectl get nodes
 ```
-
-### Apply Node Labels
-
-> _**NOTE**_ - ensure ALL nodes in the Kubernetes cluster receive this label
-
-```
-kubectl label node <node-name> akash.network/storageclasses=<beta1|beta2|beta3> --overwrite
-```
-
-#### Example Label Command
-
-- In our example with a single node serving persistent storage with the storage class of beta2, the following label syntax would be applied.
-
-  ```
-  kubectl label node node2 akash.network/storageclasses=beta2 --overwrite
-  ```
 
 ## Inventory Operator
 
@@ -742,7 +725,9 @@ TEST SUITE: None
 
 ### Overview
 
-Each node serving persistent storage should have `akash.network/storageclasses` label set. These labels are automatically applied and this section we will verify proper labeling.
+Each node serving persistent storage will automatically get `akash.network/capabilities.storage.class.beta3=1` by the `inventory-operator`. (This could be `beta2` or `beta1` instead of `beta3` depending on your type of storage)
+
+As these labels are automatically applied and this section we will verify proper labeling.
 
 > _**NOTE**_ - currently the Helm Charts for persistent storage support only a single storageclass per cluster. All nodes in the cluster should be marked as `beta2` - as an example - and cannot have a mix of `beta2` and `beta3` nodes.
 
