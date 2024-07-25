@@ -34,24 +34,24 @@ description: >-
 | -------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------- |
 |                      |                                                                                                       |                           |
 | _**Success**_        |                                                                                                       |                           |
-|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH BETA2 STORAGE TYPE](broken-reference)                 | \[] Coverage              |
-|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO STORAGE TYPE DEFINED](broken-reference)            | \[X] Coverage             |
+|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH BETA2 STORAGE TYPE](#simple-persistent-storage-deployment-test-with-beta2-storage-type)                 | \[] Coverage              |
+|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO STORAGE TYPE DEFINED](#simple-persistent-storage-deployment-test-with-no-storage-type-defined)            | \[X] Coverage             |
 | _**Failure**_        |                                                                                                       |                           |
-|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO MOUNT SPECIFIED](broken-reference)                 | \[] Coverage              |
-|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO ABSOLUTE MOUNT PATH](broken-reference)          | \[] Coverage              |
-|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON INVALID NAME](broken-reference)                    | \[] Coverage              |
-|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON ATTEMPT TO USE MOUNT PATH TWICE](broken-reference) | \[] Coverage              |
-|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO SERVICE CONFIG](broken-reference)               | \[] Coverage              |
+|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO MOUNT SPECIFIED](#simple-persistent-storage-deployment-test-with-no-mount-specified)                 | \[] Coverage              |
+|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO ABSOLUTE MOUNT PATH](#simple-persistent-storage-deployment-test-with-no-absolute-mount-path)          | \[] Coverage              |
+|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON INVALID NAME](#simple-persistent-storage-deployment-test-fail-on-invalid-name)                    | \[] Coverage              |
+|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON ATTEMPT TO USE MOUNT PATH TWICE](#simple-persistent-storage-deployment-test-fail-on-attempt-to-use-mount-path-twice) | \[] Coverage              |
+|                      | [SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO SERVICE CONFIG](#simple-persistent-storage-deployment-test-fail-on-no-service-config)               | \[] Coverage              |
 
 #### Expected Success
 
-**SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH BETA2 STORAGE TYPE**
+#### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH BETA2 STORAGE TYPE**
 
 * _**Description**_ - verify simple persistent storage deployment with the storage type of BETA2.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/deployment/deployment-v2-storage-beta2.yaml) - `deployment-v2-storage-beta2.yaml`
 * _**Expected Outcome**_ - success deployment/order creation with associated provider bid receipt for persistent storage type of BETA2.
 
-**SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO STORAGE TYPE DEFINED**
+#### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO STORAGE TYPE DEFINED**
 
 * _**Description**_ - verify simple persistent storage deployment with the storage type omitted/not populated.
 * [Current SDL](https://github.com/akash-network/provider/blob/main/testdata/deployment/deployment-v2-storage-default.yaml) - `deployment-v2-storage-default.yaml`
@@ -72,31 +72,31 @@ description: >-
 
 #### Expected Failure
 
-**SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO MOUNT SPECIFIED**
+#### SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO MOUNT SPECIFIED 
 
 * _**Description**_ - Failure test when no mount point is provided for persistent storage use
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/storageClass1.yaml) - `storageClass1.yaml`
 * _**Expected Outcome**_ - The SDL should fail validation on deployment creation attempt as there is no mount point specified for persistent storage in the `services > params > storage > configs` stanza.
 
-**SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO ABSOLUTE MOUNT PATH**
+#### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO ABSOLUTE MOUNT PATH**
 
 * _**Description**_ - Failure test when no absolute directory path is supplied in mount point.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/storageClass2.yaml) - `storageClass2.yaml`
 * _**Expected Outcome**_ - The SDL should fail validation on deployment creation attempt as the persistent storage mount point specified is a relative path of `etc/nginx`. If the path were the absolute path of `/etc/nginx` the validation would succeed.
 
-**SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON INVALID NAME**
+#### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON INVALID NAME**
 
 * _**Description**_ - Failure test when the persistent storage name does not align with name provided in services stanza.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/storageClass3.yaml) - `storageClass3.yaml`
 * _**Expected Outcome**_ - The SDL should fail validation on deployment creation attempt as the persistent storage name specified in the `profiles` stanza - which is `configs` - does not align with the name used in the `services` stanza which is `data`.
 
-**SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON ATTEMPT TO USE MOUNT PATH TWICE**
+#### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON ATTEMPT TO USE MOUNT PATH TWICE**
 
 * _**Description**_ - Failure test when a single mount path is used on more than one persistent storage volume.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/storageClass4.yaml) - `storageClass4.yaml`
 * _**Expected Outcome**_ - The SDL should fail validation on deployment creation attempt as the persistent storage mount point of `/etc/nginx` is used on multiple persistent storage volumes within the `services` stanza.
 
-**SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO SERVICE CONFIG**
+#### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON NO SERVICE CONFIG**
 
 * _**Description**_ - Failure test when no config for persistent storage is present in the `services > params > storage` stanza.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/storageClass5.yaml) - `storageClass5.yaml`

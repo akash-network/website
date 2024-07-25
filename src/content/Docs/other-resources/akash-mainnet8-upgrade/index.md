@@ -53,7 +53,7 @@ If additional details are necessary, visit [Start a node with Cosmovisor](https:
 To install `cosmovisor` by running the following command:
 
 ```
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
+go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.5.0
 ```
 
 Check to ensure the installation was successful:

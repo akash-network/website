@@ -435,7 +435,7 @@ kubectl -n akash-services scale statefulsets akash-provider --replicas=0
 
 > The link to the binary files in case if you have other than x86_64 (amd64) architecture [https://github.com/akash-network/provider/releases/tag/v0.4.6](https://github.com/akash-network/provider/releases/tag/v0.4.6)
 
-To install `provider-services` `v0.4.6` follow this doc [https://docs.akash.network/other-resources/sandbox/detailed-steps/part-1.-install-akash](https://docs.akash.network/other-resources/sandbox/detailed-steps/part-1.-install-akash)
+To install `provider-services` `v0.4.6` follow this [doc](/docs/deployments/sandbox/installation/#install-akash-cli)
 
 Verify you have installed the `provider-services` properly:
 

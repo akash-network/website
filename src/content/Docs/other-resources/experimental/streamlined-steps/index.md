@@ -14,7 +14,7 @@ For a more through review of the Akash CLI, including direct use of variables, v
 
 Have an idea for a project to deploy on Akash? Already working on a project? Maybe you’ve already deployed a project (or many projects!) to the network?
 
-We love seeing what our community is building. Once your deployment is live, head over to our Discord and share the details of your app in our [Deployments channel](https://discord.com/channels/747885925232672829/771909909335506955) and tag @Admin.
+We love seeing what our community is building. Once your deployment is live, head over to our Discord and share the details of your app in our [Deployments channel](https://discord.com/channels/747885925232672829/1111748832489910332) and tag @Admin.
 
 Once you share your app, someone from the Akash team may reach out to spotlight your app across our newsletter, blog, and social media.
 

@@ -66,6 +66,9 @@ Use tools like Lens to easily manage your Kubernetes cluster.
 
 **Adding compute to the Akash network has never been easier! Here are some of the recommended builds to get you started. You should plan to pair at least 1Gb of memory for each thread. We recommend providers always have unmetered / unlimited bandwidth to avoid any unexpected fees.**
 
+**NOTE** Availablity of hardware entirely depends on manufacturers and stockists.
+
+
 ## Build Guides
 
 ### NUC Prebuilds
