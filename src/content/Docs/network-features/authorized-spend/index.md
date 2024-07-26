@@ -115,7 +115,7 @@ provider-services tx deployment authz grant akash17ck7uhkpjjj45fw9s9vpv7jn0m9795
 
 Use the funds from the authorizers wallet to create a deployment. Please note that the deployment wallet needs some minimal, additional AKT to cover gas costs.
 
-NOTE - only the creation deployment step is covered in this section.  Please refer to our [Getting Started with Testnet](broken-reference) documentation for additional steps in creating a deployment.
+NOTE - only the creation deployment step is covered in this section.  Please refer to our [Deployments Overview](/docs/deployments/overview/) documentation for additional steps in creating a deployment.
 
 #### **Syntax**
 
