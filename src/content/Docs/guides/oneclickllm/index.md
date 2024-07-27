@@ -417,9 +417,126 @@ A stream of JSON objects is returned:
 
 ```
 
+#### Chat Request (No Streaming)
+
+**Request:**
+
+```
+
+curl http://baseAkashUrl/api/chat -d '{
+  "model": "llama3",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Why is the sky blue?"
+    }
+  ],
+  "stream": false
+}'
+
+```
+
+**Response:**
+
+```
+
+{
+  "model": "llama3:latest",
+  "created_at": "2023-12-12T14:13:43.416799Z",
+  "message": {
+    "role": "assistant",
+    "content": "The sky appears blue due to the scattering of sunlight by the atmosphere."
+  },
+  "done": true,
+  "total_duration": 5191566416,
+  "load_duration": 2154458,
+  "prompt_eval_count": 26,
+  "prompt_eval_duration": 383809000,
+  "eval_count": 298,
+  "eval_duration": 4799921000
+}
+
+```
+
+## List Loaded Models
+
+```
+
+GET /api/tags
+
+```
+
+This endpoint lists the models available locally on the server.
+
+## Example
+
+**Request:**
+
+```
+
+curl http://baseAkashUrl/api/tags
+
+```
+
+**Response:**
+
+```
+
+{
+  "models": [
+    {
+      "name": "codellama:13b",
+      "modified_at": "2023-11-04T14:56:49.277302595-07:00",
+      "size": 7365960935,
+      "digest": "9f438cb9cd581fc025612d27f7c1a6669ff83a8bb0ed86c94fcf4c5440555697",
+      "details": {
+        "format": "gguf",
+        "family": "llama",
+        "parameter_size": "13B",
+        "quantization_level": "Q4_0"
+      }
+    },
+    {
+      "name": "llama3:latest",
+      "modified_at": "2023-12-07T09:32:18.757212583-08:00",
+      "size": 3825819519,
+      "digest": "fe938a131f40e6f6d40083c9f0f430a515233eb2edaa6d72eb85c50d64f2300e",
+      "details": {
+        "format": "gguf",
+        "family": "llama",
+        "parameter_size": "7B",
+        "quantization_level": "Q4_0"
+      }
+    }
+  ]
+}
+
+```
+
+## Show Model Information
 
 
+```
+
+POST /api/show
+
+```
+
+This endpoint retrieves detailed information about a specific model, including its details, modelfile, template, parameters, license, and system prompt.
+
+### Parameters
+
+- `name`: The name of the model for which to show information.
+
+### Example
+
+**Request:**
 
 
+```
 
+curl http://baseAkashUrl/api/show -d '{
+  "name": "llama3"
+}'
 
+```
