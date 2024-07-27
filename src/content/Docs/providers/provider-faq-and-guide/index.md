@@ -1487,7 +1487,10 @@ nvdp    nvidia-device-plugin    1           2023-09-23 14:30:34.18183027 +0200 C
 - Further details on the CUDA Drivers Fabric Manager are available [here](https://forums.developer.nvidia.com/t/error-802-system-not-yet-initialized-cuda-11-3/234955)
 
 > _**NOTE**_ - replace `525` in the following command with the NVIDIA driver version used on your host
+> _**NOTE**_ - you may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
 
 ```
 apt-get install cuda-drivers-fabricmanager-525
+systemctl start nvidia-fabricmanager
+systemctl enable nvidia-fabricmanager
 ```
