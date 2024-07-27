@@ -8,7 +8,7 @@ linkTitle: "AkashOS"
 
 ## AkashOS: Akash Provider OS - Ubuntu Server 24.04 Edition
 
-![image](/docs/assets/akashos.png)
+![](/docs/assets/akashos.png)
 
 Welcome to AkashOS, an innovative solution for those aspiring to become a provider within the Akash Network. By utilizing Autoinstall and cloud-init, AkashOS offers a seamless, unattended installation of Ubuntu Server. It autonomously establishes a Kubernetes cluster and deploys Helm charts to configure the system as an Akash Network provider.
 
@@ -18,15 +18,17 @@ After installation, users can configure the provider via a user-friendly Dashboa
 
 Start your journey as a provider with a minimal investment of 25 AKT, valued at $75 at the time of writing. Explore unlimited earning possibilities within the Akash Network.
 
--  🧮 Estimate Your Earnings: Curious about what your hardware could be earning? Check out the [Akash Calculator](https://akashcalcualtor.com)!
-Akash Dash: Discover real-time earnings of existing providers on the Akash Network.
-🛠 Quick & Easy Setup!
-Download and attach the latest AkashOS Release ISO to your chosen hardware: Bare-Metal, VPS, or Virtual Machine.
-Watch it transform into a provider on the Akash Network!
-💡 Why AkashOS?
-Streamlined & Automated: Effortlessly install Ubuntu Server and configure your system with our automated setup.
-Infinite Earnings: Unlock unparalleled earning potential as a provider.
-Versatile Application: Compatible with various setups, ensuring everyone can join.
+-  🧮 **Estimate Your Earnings:** Curious about what your hardware could be earning? Check out the [Akash Calculator](https://akashcalcualtor.com)!
+- 📊 **Explore Existing Provider Earnings:** Discover what existing providers are earning in real-time on the Akash Network at [Akash Dash](https://akashdash.com).
+
+
+## 🛠 Quick & Easy Setup!
+Download and attach the latest AkashOS Release ISO to your chosen hardware: Bare-Metal, VPS, or Virtual Machine. and watch it transform into a provider on the Akash Network!
+
+## 💡 Why AkashOS?
+- **Streamlined & Automated:** Effortlessly install Ubuntu Server and configure your system with this automated setup.
+- **Infinite Earnings:** Unlock unparalleled earning potential as a provider.
+- **Versatile Application:** Compatible with various setups, ensuring everyone can join.
 What is this image best used for?
 You can use this image to take over any x86 machine or virtual machine that you want to configure as a provider on the Akash Network.
 

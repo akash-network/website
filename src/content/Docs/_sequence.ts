@@ -47,7 +47,20 @@ export const docsSequence = [
           },
           {
             label: "Praetor App",
-            subItems: [{ label: "What is Praetor App?" }],
+            subItems: [
+              { label: "What is Praetor App?"},
+              { label: "Akash Provider",
+                subItems: [
+                  { label: "Build a Cloud Provider"},
+                  { label: "Existing Kubernetes Cluster"},
+                  { label: "Single Server Provider"},
+                  { label: "Build a Cloud Provider (Windows Machine)"},
+                  { label: "Sudo User Requirements"},
+                  { label: "Decommission a Provider"}
+                ]
+              }  
+            ],
+            
           },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
@@ -64,6 +77,8 @@ export const docsSequence = [
           { label: "Unstoppable Web 2.0" },
           { label: "Multi-Tiered Deployment" },
           { label: "Helium Validator" },
+          { label: "Ruby on Rails with Sia and Auth0"},
+          {label: "PostgreSQL restore/backup"},
           { label: "AkashOS"},
         ],
       },
