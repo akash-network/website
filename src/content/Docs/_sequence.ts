@@ -56,11 +56,10 @@ export const docsSequence = [
                   { label: "Single Server Provider"},
                   { label: "Build a Cloud Provider (Windows Machine)"},
                   { label: "Sudo User Requirements"},
-                  { label: "Decommission a Provider"}
-                ]
-              }  
-            ],
-            
+                  { label: "Decommission a Provider"},
+                ],
+              },  
+            ],   
           },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
