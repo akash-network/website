@@ -64,6 +64,7 @@ export const docsSequence = [
           { label: "Unstoppable Web 2.0" },
           { label: "Multi-Tiered Deployment" },
           { label: "Helium Validator" },
+          { label: "AkashOS"},
         ],
       },
       {
