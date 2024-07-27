@@ -102,9 +102,12 @@ apt-get install -y nvidia-container-toolkit nvidia-container-runtime
 In some circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources (typically, non-PCIe GPU configurations such as those using SXM form factors).
 
 > Replace `525` with your nvidia driver version installed in the previous steps
+> You may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
 
 ```
 apt-get install cuda-drivers-fabricmanager-525
+systemctl start nvidia-fabricmanager
+systemctl enable nvidia-fabricmanager
 ```
 
 [Reference](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)

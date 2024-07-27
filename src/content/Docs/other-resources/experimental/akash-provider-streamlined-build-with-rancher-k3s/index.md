@@ -284,7 +284,7 @@ helm repo add akash https://akash-network.github.io/helm-charts
 
 In this section the Akash Provider will be installed and customized via the use of Helm Charts.
 
-> _**NOTE**_ - when the Helm Chart is installed the Provider instance/details will be created on the blockchain and your provider will be registered in the Akash open cloud marketplace. The associated transaction for Provider creation is detailed [here](https://github.com/akash-network/docs/blob/master/cli/akash_tx_provider_create.md).
+> _**NOTE**_ - when the Helm Chart is installed the Provider instance/details will be created on the blockchain and your provider will be registered in the Akash open cloud marketplace. The associated transaction for Provider creation is detailed [here](https://github.com/akash-network/docs/blob/master/cli/provider-services_tx_provider_create.md).
 
 ### **Environment Variables**
 

@@ -435,7 +435,7 @@ kubectl -n akash-services scale statefulsets akash-provider --replicas=0
 
 > The link to the binary files in case if you have other than x86_64 (amd64) architecture [https://github.com/akash-network/provider/releases/tag/v0.4.6](https://github.com/akash-network/provider/releases/tag/v0.4.6)
 
-To install `provider-services` `v0.4.6` follow this doc [https://docs.akash.network/other-resources/sandbox/detailed-steps/part-1.-install-akash](https://docs.akash.network/other-resources/sandbox/detailed-steps/part-1.-install-akash)
+To install `provider-services` `v0.4.6` follow this [doc](/docs/deployments/sandbox/installation/#install-akash-cli)
 
 Verify you have installed the `provider-services` properly:
 
@@ -551,7 +551,7 @@ helm -n akash-services get values akash-provider | grep -v '^USER-SUPPLIED VALUE
 helm upgrade akash-provider akash/provider -n akash-services -f akash-provider-values.yml
 ```
 
-> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for your akash-provider chart. [https://docs.akash.network/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/step-6-provider-bid-customization](https://docs.akash.network/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/step-6-provider-bid-customization)
+> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for [your akash-provider chart](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-9---provider-bid-customization).
 
 ##### 3.4 akash-hostname-operator Chart
 

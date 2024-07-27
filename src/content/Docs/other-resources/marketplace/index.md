@@ -75,7 +75,7 @@ If the available funds in the deposit ever reaches zero, a provider may close th
 
 ### Escrow Accounts
 
-[Escrow accounts](/docs/other-resources/payments/) are a mechanism that allow for time-based payments from one account to another without block-by-block micropayments. They also support holding funds for an account until an arbitrary event occurs.
+[Escrow accounts](/docs/getting-started/intro-to-akash/payments/#escrow-accounts) are a mechanism that allow for time-based payments from one account to another without block-by-block micropayments. They also support holding funds for an account until an arbitrary event occurs.
 
 Escrow accounts are necessary in akash for two primary reasons:
 
@@ -86,7 +86,7 @@ Escrow accounts are necessary in akash for two primary reasons:
 
 Bidding on an order requires a deposit to be made. The deposit will be returned to the provider account when the [bid](#bid) transitions to state `CLOSED`.
 
-Bid deposits are implemented with an escrow account module. See [here](/docs/other-resources/payments/) for more information.
+Bid deposits are implemented with an escrow account module. See [here](/docs/getting-started/intro-to-akash/payments/#escrow-account) for more information.
 
 ## Audited Attributes
 

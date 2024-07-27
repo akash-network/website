@@ -69,7 +69,7 @@ Follow these steps to install the AMD GPU Driver:
 - Add the helm repository and install the chart:
 
   ```bash
-  helm repo add amd-gpu-helm https://rocm.github.io/k8s-device-plugin/
+  helm repo add amd-gpu-helm https://github.com/ROCm/k8s-device-plugin/
   helm install --create-namespace --namespace amd-device-plugin --set namespace=amd-device-plugin amd-gpu amd-gpu-helm/amd-gpu --version 0.12.0
   ```
 

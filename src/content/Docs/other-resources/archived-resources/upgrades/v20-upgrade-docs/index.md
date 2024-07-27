@@ -152,7 +152,7 @@ sudo systemctl enable cosmovisor.service
 
 #### Prepare Upgrade Binary
 
-Create the folder for the upgrade binary (v0.20.0) - cloned in this [step](v0.20.0-upgrade-docs.md#common-steps-for-all-upgrade-options) - and copy the akash binary into the folder.
+Create the folder for the upgrade binary (v0.20.0) - cloned in this [step](#common-steps-for-all-upgrade-options) - and copy the akash binary into the folder.
 
 This next step assumes that the akash binary was built from source and stored in the current (i.e., akash) directory:
 
@@ -172,7 +172,7 @@ Node operators also have the option to manually update the `akash` binary at the
 
 When the chain halts at the proposed upgrade height, stop the current process running `akash`.
 
-Either download the Akash upgrade binary (v0.20.0) or build from source - completed in this [step](v0.20.0-upgrade-docs.md#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
+Either download the Akash upgrade binary (v0.20.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
 
 ```
 akash version

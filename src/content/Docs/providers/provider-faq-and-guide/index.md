@@ -621,7 +621,7 @@ For accurate earning potential based on today's actual financial/other realities
 
 - 1.79 price of 1 AKT in USD
 - 6.088 block time (current available via: [https://mintscan.io/akash](https://mintscan.io/akash))
-- 30.436875 used as the average number of days in a month\
+- 30.436875 used as the average number of days in a month
 
 #### Command Syntax
 
@@ -896,7 +896,7 @@ That's all. There is no need bouncing the `akash-provider` pod/service for the s
 
 ### Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
 
-> The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://txconsole.com/certificate-renewal-manually-in-kubernetes/](https://txconsole.com/certificate-renewal-manually-in-kubernetes/)
+> The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes](https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes)
 
 When K8s certs expire, you won't be able to use your cluster. Make sure to rotate your certs proactively.
 
@@ -1487,7 +1487,10 @@ nvdp    nvidia-device-plugin    1           2023-09-23 14:30:34.18183027 +0200 C
 - Further details on the CUDA Drivers Fabric Manager are available [here](https://forums.developer.nvidia.com/t/error-802-system-not-yet-initialized-cuda-11-3/234955)
 
 > _**NOTE**_ - replace `525` in the following command with the NVIDIA driver version used on your host
+> _**NOTE**_ - you may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
 
 ```
 apt-get install cuda-drivers-fabricmanager-525
+systemctl start nvidia-fabricmanager
+systemctl enable nvidia-fabricmanager
 ```

@@ -36,7 +36,7 @@ The Akash Validator will be built with the following attributes:
 
 While all steps within this guide could be accomplished via the Akash CLI, we will use the Akash Console tool as it has become our most popular deploy tool.\
 \
-If you have not installed Akash Console prior and/or are not overly familiar with the app, please review our [Akash Console documentation](broken-reference) before getting started with the Validator build steps detailed in subsequent sections.
+If you have not used Akash Console prior and/or are not overly familiar with the app, please review our [Akash Console documentation](/docs/deployments/akash-console/) before getting started with the Validator build steps detailed in subsequent sections.
 
 ## FileBase Buckets
 
@@ -61,7 +61,7 @@ Visit the FileBase \`Access Keys\` menu option and capture the `KEY` and `SECRET
 
 ## Akash SDL Review
 
-Akash deployments are created using [Stack Definition Language (SDL)](../../readme/stack-definition-language.md) files that serve as the recipe for your deployments. In this section we detail the Omnibus SDL used for the Akash Validator deployment.
+Akash deployments are created using [Stack Definition Language (SDL)](/docs/getting-started/stack-definition-language/) files that serve as the recipe for your deployments. In this section we detail the Omnibus SDL used for the Akash Validator deployment.
 
 ### Akash Validator SDL Template
 
