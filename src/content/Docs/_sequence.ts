@@ -79,6 +79,7 @@ export const docsSequence = [
           { label: "Ruby on Rails with Sia and Auth0"},
           {label: "PostgreSQL restore/backup"},
           { label: "AkashOS"},
+          { label: "OneClickLLM"},
         ],
       },
       {
