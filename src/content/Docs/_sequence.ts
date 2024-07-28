@@ -81,7 +81,7 @@ export const docsSequence = [
           { label: "AkashOS"},
           { label: "OneClickLLM"},
           { label: "Provider Utilization Dashboard"},
-          { label: "Akash AutoDeployer Tool"},
+          { label: "Akash AutoDeployer"},
           { label: "Akash Playground"},
         ],
       },
