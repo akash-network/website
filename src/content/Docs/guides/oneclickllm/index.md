@@ -1,6 +1,6 @@
 ---
 categories: ["Guides"]
-tags: ["Deployment", "API"]
+tags: ["AI/GPU", "Deployment", "API"]
 weight: 1
 title: "OneClickLLM"
 linkTitle: "OneClickLLM"
