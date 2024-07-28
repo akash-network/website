@@ -83,6 +83,7 @@ export const docsSequence = [
           { label: "Provider Utilization Dashboard"},
           { label: "Akash AutoDeployer"},
           { label: "Akash Playground"},
+          { label: "Ray"}
         ],
       },
       {
