@@ -84,7 +84,8 @@ export const docsSequence = [
           { label: "Akash AutoDeployer"},
           { label: "Akash Playground"},
           { label: "Ray"},
-          { label: "FLock.io"}
+          { label: "FLock.io"},
+          { label: "vLLM"},
         ],
       },
       {
