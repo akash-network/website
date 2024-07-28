@@ -63,29 +63,50 @@ export const docsSequence = [
           },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
+          
         ],
       },
       {
         label: "Guides",
-        subItems: [
-          { label: "TLS Termination of Akash Deployments" },
-          { label: "Kava RPC Node Deployment" },
-          { label: "Chia on Akash" },
-          { label: "Polygon on Akash" },
-          { label: "Mine Raptoreum on Akash Network" },
-          { label: "Unstoppable Web 2.0" },
-          { label: "Multi-Tiered Deployment" },
-          { label: "Helium Validator" },
-          { label: "Ruby on Rails with Sia and Auth0"},
-          { label: "PostgreSQL restore/backup"},
-          { label: "AkashOS"},
-          { label: "OneClickLLM"},
-          { label: "Provider Utilization Dashboard"},
-          { label: "Akash AutoDeployer"},
-          { label: "Akash Playground"},
-          { label: "Ray"},
-          { label: "FLock.io"},
-          { label: "vLLM"},
+        subItems: [ 
+          { 
+            label: "Artificial Intelligence",
+            subItems: [
+              { label: "Ray"},
+              { label: "FLock.io"},
+              { label: "vLLM"},
+            ],
+          },
+          { 
+            label: "Deployments",
+            subItems: [
+              { label: "TLS Termination of Akash Deployments" },
+              { label: "Multi-Tiered Deployment" },
+              { label: "Ruby on Rails with Sia and Auth0"},
+              { label: "AkashOS"},
+              { label: "OneClickLLM"},
+              { label: "Akash AutoDeployer"},
+              { label: "Jackal S3 Gateway"},
+            ],
+          },
+          {
+            label: "Tooling",
+            subItems: [
+              { label: "PostgreSQL restore/backup"},
+              { label: "Provider Utilization Dashboard"},
+              { label: "Akash Playground"},
+            ],
+          },
+          {
+            label: "Mining",
+            subItems: [
+              { label: "Kava RPC Node Deployment" },
+            { label: "Chia on Akash" },
+            { label: "Polygon on Akash" },
+            { label: "Mine Raptoreum on Akash Network" },
+            ],
+          }
+          
         ],
       },
       {

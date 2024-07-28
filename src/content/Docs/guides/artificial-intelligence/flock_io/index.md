@@ -38,11 +38,11 @@ Staking FML makes you eligible to participate in the training task as a Training
 
 *NOTE: On the Stake page, be sure you are on the Training Node or Validator tab, depending on how you want to participate in the training task.*
 
-![](../../assets/flock_io_select.png)
+![](../../../assets/flock_io_select.png)
 
 ### 2. Stake FML tokens on the task
 
-![](../../assets/flock_io-stake.png)
+![](../../../assets/flock_io-stake.png)
 
 ### 3. Get the Task ID & API Key
 

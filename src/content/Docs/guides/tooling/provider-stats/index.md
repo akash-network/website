@@ -1,7 +1,7 @@
 ---
 categories: ["Guides"]
 tags: ["Dashboard"]
-weight: 1
+weight: 3
 title: "Akash Provider Node Utilization Dashboard"
 linkTitle: "Provider Utilization Dashboard"
 ---
@@ -51,13 +51,13 @@ You will need an Akash wallet with at least 0.5 AKT. You can use any deployment 
 
 To access the CouchDB UI, navigate to the URL provided by the [Akash Console](https://console.akash.network) in your web browser. Log in with the `COUCHDB_USER` and `COUCHDB_PASSWORD` configured in your environment variables. Add `/_utils/` to the end of your URL.
 
-![](../../assets/provider-stats1.png)
+![](../../../assets/provider-stats1.png)
 
 **Flask App**
 
 Your Flask application will be available at the URL provided by the [Akash Console](https://console.akash.network). You can also set a custom domain as specified in the SDL.
 
-![](../../assets/provider-stats2.png)
+![](../../../assets/provider-stats2.png)
 
 **gRPC Poller**
 

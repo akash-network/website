@@ -1,7 +1,7 @@
 ---
 categories: ["Guides"]
 tags: ["AI/GPU", "Marketplace"]
-weight: 1
+weight: 3
 title: "Akash Playground"
 linkTitle: "Akash Playground"
 ---

@@ -1,5 +1,5 @@
 ---
-categories: ["Guides"]
+categories: ["Deployments"]
 tags: ["Deployment"]
 weight: 1
 title: "Akash AutoDeployer Tool"

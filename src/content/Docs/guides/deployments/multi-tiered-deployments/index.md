@@ -1,5 +1,5 @@
 ---
-categories: ["Guides"]
+categories: ["Deployments"]
 tags: ["Blockchain"]
 weight: 1
 title: "Multi-Tiered Deployment"

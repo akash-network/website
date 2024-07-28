@@ -28,7 +28,7 @@ Some of the capabilities Ray offers include:
 
 Ray’s ultimate goal is to provide a simple programmatic interface for developers to leverage distributed computing, so that you don’t have to be a distributed systems expert to be able to deploy, run, scale and manage your ML workload across a cluster of machines. The Ray AI Runtime (AIR) is the toolkit that implements this abstraction on top of the core Ray functionality.
 
-![](../../assets/ray.png)
+![](../../../assets/ray.png)
 
 The libraries made available as part of the AIR toolkit enable organizations to run the full gamut of ML workloads on distributed computing platforms like Akash Network.
 
@@ -50,7 +50,7 @@ The typical Ray based machine learning workflow may involve the following steps:
 
 4. Submit jobs and monitor them via the (web) dashboard
 
-![](../../assets/ray-work.png)
+![](../../../assets/ray-work.png)
 
 ## Ray on Akash
 
@@ -152,9 +152,9 @@ ray-head:
 
 Once you have those things set up correctly, you can head over to the [Akash Console](https://console.akash.network/) and use the template builder option to deploy your Ray cluster on Akash.
 
-![](../../assets/ray-akashconsole.png)
+![](../../../assets/ray-akashconsole.png)
 
-![](../../assets/ray-akashconsoleyml.png)
+![](../../../assets/ray-akashconsoleyml.png)
 
 And here is a quick rin throigh of what the whole end-to-end deployment workflow looks like:
 
