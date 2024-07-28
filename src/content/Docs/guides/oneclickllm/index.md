@@ -15,7 +15,7 @@ OneClickLLM offers a free API endpoint featuring llava-phi3, llama2-7b, and Mist
 
 ## Base Link
 
-You can access the API using the follwing base link:
+You can access the API using the following base link:
 
 ```
 https://kk3lu4jbrtdr98lh63g7vrq75k.ingress.akash-cloud.com
@@ -23,8 +23,6 @@ https://kk3lu4jbrtdr98lh63g7vrq75k.ingress.akash-cloud.com
 ```
 
 ## Examples
-
-### Generate Request (Streaming)
 
 **Request:**
 

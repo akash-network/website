@@ -6,7 +6,6 @@ title: "Ray"
 linkTitle: "Ray"
 ---
 
-# Ray
 
 **Note**
 This guide was originally posted on the Akash [blog](https://akash.network/blog/distributed-machine-learning-on-akash-network-with-ray/). The opening parapgraph has been edited outand the text was formatted where necessary, otherwise the rest of the post being left as it was in the blog. 

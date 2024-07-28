@@ -6,8 +6,6 @@ title: "Akash Playground"
 linkTitle: "Akash Playground"
 ---
 
-# Akash Playground - A Community-Driven AI Marketplace on Akash Cloud
-
 [Akash Playground](https://github.com/javiersuweijie/plygrnd-ui/tree/main) is a community-driven marketplace where users can upload, run, and monetize their AI models without the hassle of managing underlying infrastructure. This platform simplifies infrastructure management, making AI models more accessible and usable for various applications. It is compatible with [Hugging Face Spaces](https://huggingface.co/spaces) repositories, facilitating seamless integration and collaboration.
 
 ![](../../assets/playground.png)

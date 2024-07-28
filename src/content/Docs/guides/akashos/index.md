@@ -2,13 +2,13 @@
 categories: ["Guides"]
 tags: ["Deployment"]
 weight: 1
-title: "AkashOS"
+title: "AkashOS: Akash Provider OS - Ubuntu Server 24.04 Edition"
 linkTitle: "AkashOS"
 ---
 
-# AkashOS: Akash Provider OS - Ubuntu Server 24.04 Edition
 
 ![](../../assets/akashos.png)
+
                                                                                                                                
 [AkashOS](https://github.com/cryptoandcoffee/akashos/releases) is an innovative solution for those aspiring to become a provider within the Akash Network. By utilizing Autoinstall and cloud-init, AkashOS offers a seamless, unattended installation of Ubuntu Server. It autonomously establishes a Kubernetes cluster and deploys Helm charts to configure the system as an Akash Network provider.
 

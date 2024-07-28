@@ -2,11 +2,10 @@
 categories: ["Guides"]
 tags: ["Dashboard"]
 weight: 1
-title: "Provider Utilization Dashboard"
+title: "Akash Provider Node Utilization Dashboard"
 linkTitle: "Provider Utilization Dashboard"
 ---
 
-# Provider Utilization Dashboard
 
 The [Akash Provider Utilization Dashboard](https://github.com/Zblocker64/provider-stats) has three pods with three diffrent services:
 
