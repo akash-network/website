@@ -6,7 +6,7 @@ title: "OneClickLLM"
 linkTitle: "OneClickLLM"
 ---
 
-OneClickLLM simplifies the deployment of LLM inference APIs on the Akash Network, allowing users to deploy any open source large language model from Huggingface or Ollama Registry with zero configuration. With the capability to deploy within seconds, users can select a model, generate a properly configured SDL file, and deploy it seamlessly on Cloudmos or the console. The API is compatible with the popular OpenAI library, serving as a drop-in replacement. The fully automated and managed deployment process ensures high availability, scalability, and security, making it easy to deploy your own LLM or use the free demo [API](https://one-click-llm.vercel.app/free-demo-api/example/).
+[OneClickLLM](https://one-click-llm.vercel.app/) simplifies the deployment of LLM inference APIs on the Akash Network, allowing users to deploy any open source large language model from Huggingface or Ollama Registry with zero configuration. With the capability to deploy within seconds, users can select a model, generate a properly configured SDL file, and deploy it seamlessly on the [Akash Console](https://console.akash.network) or the console. The API is compatible with the popular OpenAI library, serving as a drop-in replacement. The fully automated and managed deployment process ensures high availability, scalability, and security, making it easy to deploy your own LLM or use the free demo [API](https://one-click-llm.vercel.app/free-demo-api/example/).
 
 # Free Demo Inference API
 
@@ -68,7 +68,7 @@ Deploy open-source models within seconds and a few clicks on the Akash Network:
 - Our aim is to streamline the deployment of LLM APIs on the Akash Network. 
 - Our goal is to make it easy for users to deploy their preferred LLM models without worrying about the underlying infrastructure. 
 - Users can simply select the LLM model they wish to deploy, and we will provide them with a properly configured SDL file with an inference server. 
-- Once users have the SDL file, they can deploy the LLM API on the Akash Network with just a few clicks on Cloudmos/console. 
+- Once users have the SDL file, they can deploy the LLM API on the Akash Network with just a few clicks on the [Akash Console](https://console.akash.network)or using the [CLI](/docs/deployments/akash-cli/overview/). 
 - The deployment process is fully automated and managed by the Akash Network, ensuring that the service is highly available, scalable, and secure.
 
 ## Endpoints

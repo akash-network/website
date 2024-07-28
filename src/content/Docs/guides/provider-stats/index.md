@@ -8,13 +8,7 @@ linkTitle: "Provider Utilization Dashboard"
 
 # Provider Utilization Dashboard
 
-**Note**
-
-You can find the `Provider Utilization Dashboard's` repo [here](https://github.com/Zblocker64/provider-stats)
-
-
-
-This program has three pods with three diffrent services:
+The [Akash Provider Utilization Dashboard](https://github.com/Zblocker64/provider-stats) has three pods with three diffrent services:
 
 1. **Periodic Shell Script:** This script runs at a configurable frequency, making a gRPCurl request to a server with reflection enabled. It retrieves the current provider utilization data and stores the JSON response in a database.
 2. **NoSQL Database (CouchDB):** This database stores the server utilization logs (in JSON format) retrieved by the shell script.

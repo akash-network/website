@@ -77,10 +77,11 @@ export const docsSequence = [
           { label: "Multi-Tiered Deployment" },
           { label: "Helium Validator" },
           { label: "Ruby on Rails with Sia and Auth0"},
-          {label: "PostgreSQL restore/backup"},
+          { label: "PostgreSQL restore/backup"},
           { label: "AkashOS"},
           { label: "OneClickLLM"},
-          {label: "Provider Utilization Dashboard"},
+          { label: "Provider Utilization Dashboard"},
+          { label: "Akash AutoDeployer Tool"}
         ],
       },
       {
