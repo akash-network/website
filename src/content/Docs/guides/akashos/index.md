@@ -10,6 +10,10 @@ linkTitle: "AkashOS"
 
 ![](../../assets/akashos.png)
 
+ **Note**
+ You can find the latest AkashOS Image release [here](https://github.com/cryptoandcoffee/akashos/releases).                                                                                                                                
+ 
+
 Welcome to AkashOS, an innovative solution for those aspiring to become a provider within the Akash Network. By utilizing Autoinstall and cloud-init, AkashOS offers a seamless, unattended installation of Ubuntu Server. It autonomously establishes a Kubernetes cluster and deploys Helm charts to configure the system as an Akash Network provider.
 
 After installation, users can configure the provider via a user-friendly Dashboard/GUI or through SSH, providing a versatile approach to provider configuration. The installation process is designed to be intuitive, requiring users to answer a few straightforward questions, ensuring a smooth setup experience.

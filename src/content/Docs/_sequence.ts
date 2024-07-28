@@ -80,6 +80,7 @@ export const docsSequence = [
           {label: "PostgreSQL restore/backup"},
           { label: "AkashOS"},
           { label: "OneClickLLM"},
+          {label: "Provider Utilization Dashboard"},
         ],
       },
       {
