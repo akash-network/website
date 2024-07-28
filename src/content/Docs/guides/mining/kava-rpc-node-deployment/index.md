@@ -33,7 +33,7 @@ The Akash Console can be accessed [here](https://console.akash.network/).
 - If Keplr is not installed as a browser extension and/or a funded Akash account is not available, follow the instructions in our [Keplr Guide](/docs/getting-started/token-and-wallets/#keplr-wallet)
 - Select the desired Akash account in Keplr and then select the `Connect Wallet` option within the Akash Console as shown below
 
-![](../../assets/akashConsoleWallet.png)
+![](../../../assets/akashConsoleWallet.png)
 
 ## Kava RPC Node Deployment
 
@@ -41,15 +41,15 @@ The Akash Console can be accessed [here](https://console.akash.network/).
 
 - Within the Akash Console template gallery, locate the Kava card and select the `Deploy Now` option
 
-![](../../assets/akashConsoleDeployment.png)
+![](../../../assets/akashConsoleDeployment.png)
 
 - Proceed with the deployment of the Kava Node by selecting the `Deploy Now` option
 
-![](../../assets/akashConsoleProceedWithDeployment.png)
+![](../../../assets/akashConsoleProceedWithDeployment.png)
 
 - Assign the Deployment an appropriate name and then click `Review SDL`
 
-![](../../assets/akashConsoleEditSDL.png)
+![](../../../assets/akashConsoleEditSDL.png)
 
 - The Kava RPC Node snapshot is updated every 24 hours and must be changed in the Akash SDL
 - Obtain the latest snapshot URL [here](https://polkachu.com/tendermint_snapshots/kava). Find the `DOWNLOAD` hyperlink > right click > and Copy Link Address.
@@ -59,21 +59,21 @@ The Akash Console can be accessed [here](https://console.akash.network/).
 
 - Select `Save & Close` when this single Akash SDL update is in place.
 
-![](../../assets/akashConsoleSnapshotUpdate.png)
+![](../../../assets/akashConsoleSnapshotUpdate.png)
 
 - Proceed by selecting `Create Deployment`&#x20;
 
-![](../../assets/akashConsoleCreateDeployment.png)
+![](../../../assets/akashConsoleCreateDeployment.png)
 
 - The Akash Console will conduct necessary pre-deployment verifications to ensure that a wallet is connected with sufficient funds and that a certificate exists to communicate with the deployment
 - If all pre-deployment checks pass, select the `Next` option to proceed
 
-![](../../assets/akashConsolePreflightCheck.png)
+![](../../../assets/akashConsolePreflightCheck.png)
 
 - A Keplr wallet prompt will display requesting approval of a small blockchain fee to proceed with deployment creation
 - Select the `Approve` option to proceed
 
-![](../../assets/akashConsoleDeploymentFees.png)
+![](../../../assets/akashConsoleDeploymentFees.png)
 
 - The Akash open marketplace displays available cloud providers to deploy your Kava RPC Node on
 - Select the cloud provider of your preference
@@ -81,18 +81,18 @@ The Akash Console can be accessed [here](https://console.akash.network/).
 
 > _**NOTE -**_ the cloud providers available for your deployment may be different than those shown in the example below
 
-![](../../assets/akashConsoleSelectProvider.png)
+![](../../../assets/akashConsoleSelectProvider.png)
 
 - Accept the Keplr prompt to approve small blockchain fee for lease creation with the selected cloud provider
 
-![](../../assets/akashConsoleLeaseFees.png)
+![](../../../assets/akashConsoleLeaseFees.png)
 
 ## Kava RPC Node Deployment Complete
 
 - When the deployment of the Kava RPC Node is complete and live on the selected cloud provider, a verification screen will display
 - Proceed to the [Kava RPC Node Health Check](#kava-rpc-node-health-check) section to conduct a health/status check of the node
 
-![](../../assets/akashConsoleLeaseStatus.png)
+![](../../../assets/akashConsoleLeaseStatus.png)
 
 ## Kava RPC Node Health Check
 
@@ -101,11 +101,11 @@ The Akash Console can be accessed [here](https://console.akash.network/).
 - In the Akash Console a URL for the deployment is displayed
 - Click on the URL hyperlink
 
-![](../../assets/akashConsoleDeploymentURI.png)
+![](../../../assets/akashConsoleDeploymentURI.png)
 
 - From the displayed web page, select the `status` link to view the current state of the Kava RPC Node
 
-![](../../assets/akashConsoleNodeStatus.png)
+![](../../../assets/akashConsoleNodeStatus.png)
 
 #### Expected Status When Node is in Sync
 
