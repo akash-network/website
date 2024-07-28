@@ -8,7 +8,7 @@ linkTitle: "Akash Playground"
 
 # Akash Playground - A Community-Driven AI Marketplace on Akash Cloud
 
-[Akash Playground](https://github.com/javiersuweijie/plygrnd-ui/tree/main) is a community-driven marketplace where users can upload, run, and monetize their AI models without the hassle of managing underlying infrastructure. This platform simplifies infrastructure management, making AI models more accessible and usable for various applications. It is compatible with [Hugging Face](https://huggingface.com) Spaces repositories, facilitating seamless integration and collaboration.
+[Akash Playground](https://github.com/javiersuweijie/plygrnd-ui/tree/main) is a community-driven marketplace where users can upload, run, and monetize their AI models without the hassle of managing underlying infrastructure. This platform simplifies infrastructure management, making AI models more accessible and usable for various applications. It is compatible with [Hugging Face Spaces](https://huggingface.co/spaces) repositories, facilitating seamless integration and collaboration.
 
 ![](../../assets/playground.png)
 
@@ -30,4 +30,80 @@ The rapid development of AI models has spurred numerous innovative applications.
 - **Compatibility with Hugging Face Spaces**: The platform is compatible with Hugging Face Spaces repositories, enabling seamless integration and collaboration.
 
 - **Community Engagement**: The platform includes a community forum for discussions, feedback, and collaboration among users.
+
+## Setup & Deployment
+
+### Clone the Repo & Install the Dependencies
+
+Clone the repo using either of these methods:
+
+1. If you have SSH enabled: 
+
+```
+
+```
+
+2. Using the GitHub CLI:
+
+```
+
+gh repo clone javiersuweijie/plygrnd-ui
+
+```
+
+3. Via the Web URL:
+
+```
+
+https://github.com/javiersuweijie/plygrnd-ui.git
+
+```
+
+Once you've successfully clone the repo, run the following command:
+
+```
+
+cd plygrnd-ui
+
+```
+
+Install the dependencies with `npm install` (or `pnpm install` or `yarn install`).
+
+### Setting Up the Environment Variables
+
+Create a .env file and set the following environment variables:
+
+```
+
+AKASH_KEY_NAME=plygrnd
+AKASH_KEYRING_BACKEND=os
+AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+AKASH_VERSION=v0.6.1
+AKASH_CHAIN_ID=akashnet-2
+AKASH_NODE=https://rpc.akashnet.net:443
+AKASH_GAS_ADJUSTMENT=1.15
+AKASH_GAS_PRICES=0.025uakt
+AKASH_GAS=auto
+AKASH_SIGN_MODE=amino-json
+
+AKASH_MNEMONIC=
+AKASH_ACCOUNT_ADDRESS=
+AKASH_CERT=
+AKASH_CERT_PUB_KEY=
+AKASH_CERT_KEY=
+SUPABASE_KEY=
+
+```
+
+### Starting the Development Server
+
+Start the development server by running the following command: 
+
+```
+npm run dev
+
+```
+
+By using Akash Playground, developers can effortlessly deploy and monetize their AI models, while users can easily access a wide range of AI capabilities, driving growth and innovation in the AI ecosystem.
+
 
