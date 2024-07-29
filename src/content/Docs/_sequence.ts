@@ -107,7 +107,14 @@ export const docsSequence = [
             { label: "Polygon on Akash" },
             { label: "Mine Raptoreum on Akash Network" },
             ],
-          }
+          },
+          {
+            label: "Apps",
+            subItems: [
+              { label: ""}
+
+            ],
+          },
           
         ],
       },
