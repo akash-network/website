@@ -140,6 +140,60 @@ Examples for training are currently included in `model_parallelism/detrain/examp
 
 - Change settings and start deployment.
 
+### To customize DeTrain docker image for agents
+
+- Go to folder `agent`
+
+- Modify Dockerfile if you want to add new commands or change the base image
+
+- To add new function, go to `main.py` and add your code block
+
+- Build new image
+
+- Push to your docker repository.
+
+## Run examples manually
+
+Ensure that DeTrain library is installed on your machines.
+
+### To test DeTrain python library
+
+- Go to folder `model_parallelism/examples`
+
+- Select what kind of training you want to see
+
+    - PPL: Pipeline parallelism
+
+    - TP: Tensor parallelism
+
+    - FSDP + TP: Full sharding data parallelism + Tensor Parallelism
+
+- All examples contain logs and evaluation steps, these functions can make training process longer. These files for testing and instruction only.
+
+### Torchrun commands:
+
+- For PPL training:
+
+`torchrun --nnodes=3 --nproc_per_node=1 --node_rank=0 --master_addr=localhost --master_port=9999 main.py --gpu="0_0_0" --epochs=2 --batch_size=40 --lr=0.001 --model_name="ppl_04"`
+
+Node rank is the rank of each node joining the training process. If you have one master node and two GPU worker nodes, you need to run each command for each node with node_rank values of 0, 1, and 2. The master address is the address of the master node for tensor offloading.
+
+- For TP and FSDP + TP training:
+
+`torchrun --nnodes=1 --node_rank=0 --nproc_per_node=2 --rdzv_id=101 --rdzv-backend=c10d --rdzv_endpoint="localhost:9999" main.py --gpu="0_0_0" --epochs=4 --batch_size=50 --lr=0.001 --model_name="ppl_04"`
+
+If you have N nodes, rdzv_endpoint is the rendezvous backend endpoint: use localhost on the master node and use internal IP or public IP on the remaining nodes.
+
+## Run examples using the DeTrain console
+
+Use this tool; you don't need to set up any environment, SSH to a remote node, and run commands manually. Follow these steps:
+
+- Deploy new nodes on Akash.
+
+- Use `DeTrain console` to create new pipelines.
+
+
+
 
 
 
