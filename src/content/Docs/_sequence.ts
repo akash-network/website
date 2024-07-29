@@ -70,12 +70,13 @@ export const docsSequence = [
         label: "Guides",
         subItems: [ 
           { 
-            label: "Artificial Intelligence",
+            label: "Machine Learning",
             subItems: [
+              { label: "OneClickLLM"},
+              { label: "DeTrain"},
               { label: "Ray"},
               { label: "FLock.io"},
               { label: "vLLM"},
-              { label: "DeTrain"},
               { label: "Llama-2 70B"},
             ],
           },
@@ -86,7 +87,6 @@ export const docsSequence = [
               { label: "Multi-Tiered Deployment" },
               { label: "Ruby on Rails with Sia and Auth0"},
               { label: "AkashOS"},
-              { label: "OneClickLLM"},
               { label: "Akash AutoDeployer"},
               { label: "Jackal S3 Gateway"},
             ],
