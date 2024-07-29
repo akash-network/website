@@ -88,7 +88,7 @@ The DeTrain project comprises four components:
 
 - **Sample SDL Templates & Example Code for Distributed Training Jobs**: This component provides examples to guide developers on how to define infrastructure for PP & TP training.
 
-Examples for training are currently included in `model_parallelism/detrain/examples`  for easy reference. They would later be mainted in the [DeTrain Examples repository](https://github.com/a2nfinance/detrain-example).
+Examples for training are currently included in `model_parallelism/detrain/examples`  for easy reference. They would later be maintained in the [DeTrain Examples repository](https://github.com/a2nfinance/detrain-example).
 
 ## Technology Stack
 
