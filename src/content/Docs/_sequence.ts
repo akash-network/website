@@ -111,8 +111,8 @@ export const docsSequence = [
           {
             label: "Apps",
             subItems: [
-              { label: ""}
-
+              { label: "Waku"},
+              { label: "qBittorrent"},
             ],
           },
           
