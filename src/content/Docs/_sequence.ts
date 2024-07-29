@@ -100,7 +100,7 @@ export const docsSequence = [
             ],
           },
           {
-            label: "Mining",
+            label: "Blockchain",
             subItems: [
               { label: "Kava RPC Node Deployment" },
             { label: "Chia on Akash" },
