@@ -58,7 +58,7 @@ DeTrain's different components would later be maintained in seperate repositorie
 
 6. **New pipeline - Review & start training**
 
-
+![](../../../assets/6_review_and_train_model.png)
 
 7. **DeTrain - Code base**
 
