@@ -76,6 +76,7 @@ export const docsSequence = [
               { label: "FLock.io"},
               { label: "vLLM"},
               { label: "DeTrain"},
+              { label: "Llama-2 70B"},
             ],
           },
           { 
