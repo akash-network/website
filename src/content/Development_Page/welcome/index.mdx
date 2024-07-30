@@ -11,6 +11,7 @@ The Akash Network is supported by a diverse group of users, contributors, and su
 
 import GithubButton from "../../../components/mdx-cards/buttons/github-button.astro";
 import CalenderButton from "../../../components/development-pages/calenderbutton.astro";
+import TimeZoneCalendar from '../../../components/development-pages/time-zone-calendar.tsx';
 
 <GithubButton label="Code of Conduct" link="https://github.com/akash-network/community/blob/main/CODE_OF_CONDUCT.md" />
 <GithubButton label="How to Contribute" link="https://github.com/akash-network/community#getting-started-with-contributing" />
@@ -28,20 +29,10 @@ The Akash Network is supported by a diverse group of users, contributors, and su
 
 
 ## Calendar
-
-<div class="bg-background2 border rounded-lg p-4 mb-10 mt-5 flex flex-col gap-4 ">
-  <iframe
-    class="w-full "
-    src={`https://calendar.google.com/calendar/embed?src=c_25e5e3748e4c4ab7a55f41fbc5ebebcc0a03b40fb028785f14159bfaebea12e2%40group.calendar.google.com&ctz=${Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Los_Angeles"}&mode=AGENDA&amp`}
-    style="border: 0"
-    width="800"
-    height="600"
-    frameborder="0"
-
-  ></iframe>
-<CalenderButton/>
+<div class="bg-background2 border rounded-lg p-4 mb-10 mt-5 flex flex-col gap-4">
+    <TimeZoneCalendar client:only calendarId="c_25e5e3748e4c4ab7a55f41fbc5ebebcc0a03b40fb028785f14159bfaebea12e2%40group.calendar.google.com" />
+    <CalenderButton />
 </div>
-
 
 ## Special Interest Groups (SIGs)
 
