@@ -87,7 +87,6 @@ export const docsSequence = [
               { label: "Multi-Tiered Deployment" },
               { label: "Ruby on Rails with Sia and Auth0"},
               { label: "AkashOS"},
-              { label: "Akash AutoDeployer"},
               { label: "Jackal S3 Gateway"},
             ],
           },
