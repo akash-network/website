@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
+import { ArrowUpCircle } from "lucide-react";
 import FormattedDate from "../formatted-date.astro";
 import ButtonLink from "../ui/button-link.astro";
-import { ArrowUpCircle } from "lucide-react";
 interface Props {
   card: {
     image: string;
@@ -38,6 +38,7 @@ const { card } = Astro.props;
       <p class="h-[2px] w-[2px] bg-para"></p>
       <p class="text-xs">{card.location}</p>
     </div>
+
     <h4
       class="mt-3 line-clamp-1 text-sm font-bold leading-normal text-foreground md:text-base lg:text-lg"
     >
@@ -49,6 +50,7 @@ const { card } = Astro.props;
     >
       {card.description}{" "}
     </p>
+
     <ButtonLink
       variant="secondary"
       size="xs"
