@@ -1,16 +1,16 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
 import { nav } from "@/components/community-pages/nav-config.ts";
+import { type CollectionEntry, getCollection } from "astro:content";
 
-import generateToc from "@/lib/generateToc";
 import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
+import generateToc from "@/lib/generateToc";
 
 import Layout from "@/layouts/layout.astro";
 
-import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
 import MobileNav from "@/components/community-pages/mobile-nav";
-import { proseClasses } from "@/lib/prose-classes";
+import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
 import SideNav from "@/components/community-pages/side-nav.astro";
+import { proseClasses } from "@/lib/prose-classes";
 
 export async function getStaticPaths() {
   const pages = await getCollection("Community_Page");
