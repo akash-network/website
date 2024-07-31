@@ -44,6 +44,7 @@ The top-level `services` entry contains a map of workloads to be ran on the Akas
 | `args`       | No       | Arguments to custom command use when executing the container                                                                                                     |
 | `env`        | No       | Environment variables to set in running container. See [services.env](#servicesenv)                                                                              |
 | `expose`     | No       | Entities allowed to connect to the services. See [services.expose](#servicesexpose)                                                                              |
+| `params`     | No       | Defines parameters for Persistent Storage and Shared Memory (SHM) use                                                                             |
 
 ### services.env
 
