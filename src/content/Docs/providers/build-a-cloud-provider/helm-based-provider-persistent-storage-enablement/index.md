@@ -83,6 +83,12 @@ In order to configure the Ceph storage cluster, at least one of these local stor
 - Raw partitions (no formatted filesystem)
 - PVs available from a storage class in `block` mode
 
+### Networking Requirements
+
+We recommend updating the requirements to include 10 Gbps internal networking (NICs and infrastructure) for Ceph nodes. This is the absolute minimum for providers we aim to include. 10G networking is relatively affordable, and higher speeds like 25G or 100G are common in HPC environments, especially when Ceph is involved.
+
+- **Minimum Network Requirement:** 10 GbE NIC cards for Ceph nodes
+
 ## Environment Review
 
 ### Retrieve Node Names
