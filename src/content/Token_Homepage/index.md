@@ -104,6 +104,8 @@ buyingAKTSection:
     - row:
         - title: Upbit
           link: "https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AKT"
+        - title: Kado
+          link: "https://www.kado.money/assets/akash"
 
     - row:
         - title: Kucoin
