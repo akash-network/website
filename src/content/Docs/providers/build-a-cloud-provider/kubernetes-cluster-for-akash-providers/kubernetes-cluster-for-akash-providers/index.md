@@ -446,7 +446,7 @@ _**Expected/Example Output**_
 ```
 #upstream_dns_servers:
   #- 8.8.8.8
-  #- 8.8.4.4
+  #- 1.1.1.1
 ```
 
 #### Update Upstream DNS Server Config
@@ -462,8 +462,11 @@ vim inventory/akash/group_vars/all/all.yml
 ## Upstream dns servers
 upstream_dns_servers:
   - 8.8.8.8
-  - 8.8.4.4
+  - 1.1.1.1
 ```
+
+It is best to use two different DNS nameserver providers as in this example - Google DNS (8.8.8.8) and Cloudflare (1.1.1.1).
+
 
 ## STEP 7 - Provider Ephemeral Storage Config (OPTIONAL)
 

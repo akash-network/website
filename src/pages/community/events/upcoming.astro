@@ -1,19 +1,14 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import Layout from "@/layouts/layout.astro";
+import MobileNav from "@/components/community-pages/mobile-nav";
 import { nav } from "@/components/community-pages/nav-config.ts";
 import SideNav from "@/components/community-pages/side-nav.astro";
-import MobileNav from "@/components/community-pages/mobile-nav";
 import Tag from "@/components/ui/tag2.astro";
-import SearchDialog from "@/components/community-pages/search-dialog";
+import Layout from "@/layouts/layout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-import { Image } from "astro:assets";
-import FormattedDate from "@/components/formatted-date.astro";
-import ButtonLink from "@/components/ui/button-link.astro";
-import { ArrowUpCircle } from "lucide-react";
-import TopMargin from "@/components/ui/top-margin.astro";
 import EventCard from "@/components/community-pages/event-card.astro";
 import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
 type Project = CollectionEntry<"Community_Akash_Events_Page">;
 
 const cards = await getCollection("Community_Akash_Events_Page");
@@ -57,7 +52,9 @@ const monthwise = allCards.reduce((acc: any, curr: any) => {
 const monthwiseArray = Object.keys(monthwise).map((month) => {
   return {
     month,
-    events: monthwise[month],
+    events: monthwise?.[month]?.sort((a: any, b: any) => {
+      return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
+    }),
   };
 });
 function findPrevAndNextPages(nav: any, pathname: any) {
