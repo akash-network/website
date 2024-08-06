@@ -78,6 +78,7 @@ export const docsSequence = [
               { label: "FLock.io"},
               { label: "vLLM"},
               { label: "Llama-2 70B"},
+              { label: "Akash Chat API"},
             ],
           },
           { 
@@ -88,6 +89,7 @@ export const docsSequence = [
               { label: "Ruby on Rails with Sia and Auth0"},
               { label: "AkashOS"},
               { label: "Jackal S3 Gateway"},
+              { label: "Cloudflare"},
             ],
           },
           {
