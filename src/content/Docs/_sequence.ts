@@ -47,23 +47,76 @@ export const docsSequence = [
           },
           {
             label: "Praetor App",
-            subItems: [{ label: "What is Praetor App?" }],
+            subItems: [
+              { label: "What is Praetor App?"},
+              { label: "Akash Provider",
+                subItems: [
+                  { label: "Build a Cloud Provider"},
+                  { label: "Existing Kubernetes Cluster"},
+                  { label: "Single Server Provider"},
+                  { label: "Build a Cloud Provider (Windows Machine)"},
+                  { label: "Sudo User Requirements"},
+                  { label: "Decommission a Provider"},
+                ],
+              },  
+            ],   
           },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
+          
         ],
       },
       {
         label: "Guides",
-        subItems: [
-          { label: "TLS Termination of Akash Deployments" },
-          { label: "Kava RPC Node Deployment" },
-          { label: "Chia on Akash" },
-          { label: "Polygon on Akash" },
-          { label: "Mine Raptoreum on Akash Network" },
-          { label: "Unstoppable Web 2.0" },
-          { label: "Multi-Tiered Deployment" },
-          { label: "Helium Validator" },
+        subItems: [ 
+          { 
+            label: "Machine Learning",
+            subItems: [
+              { label: "OneClickLLM"},
+              { label: "DeTrain"},
+              { label: "Ray"},
+              { label: "FLock.io"},
+              { label: "vLLM"},
+              { label: "Llama-2 70B"},
+              { label: "Akash Chat API"},
+            ],
+          },
+          { 
+            label: "Deployments",
+            subItems: [
+              { label: "TLS Termination of Akash Deployments" },
+              { label: "Multi-Tiered Deployment" },
+              { label: "Ruby on Rails with Sia and Auth0"},
+              { label: "AkashOS"},
+              { label: "Jackal S3 Gateway"},
+              { label: "Cloudflare"},
+            ],
+          },
+          {
+            label: "Tooling",
+            subItems: [
+              { label: "PostgreSQL restore/backup"},
+              { label: "Provider Utilization Dashboard"},
+              { label: "Akash Playground"},
+            ],
+          },
+          {
+            label: "Blockchain",
+            subItems: [
+              { label: "Kava RPC Node Deployment" },
+            { label: "Chia on Akash" },
+            { label: "Polygon on Akash" },
+            { label: "Mine Raptoreum on Akash Network" },
+            ],
+          },
+          {
+            label: "Apps",
+            subItems: [
+              { label: "Waku"},
+              { label: "qBittorrent"},
+            ],
+          },
+          
         ],
       },
       {

@@ -1,5 +1,5 @@
 ---
-categories: ["Guides"]
+categories: ["Deployments"]
 tags: ["Blockchain"]
 weight: 1
 title: "Ruby on Rails with Sia and Auth0"

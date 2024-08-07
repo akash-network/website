@@ -7,7 +7,7 @@ linkTitle: "Mine Raptoreum on Akash Network"
 description: How to Mine Raptoreum (RTM) on Akash Network
 ---
 
-![](../../assets/raptoreumAkashlytics.png)
+![](../../../assets/raptoreumAkashlytics.png)
 
 ## Why use Akash?
 
@@ -102,7 +102,7 @@ deployment:
 
 Akash is a marketplace of compute. Providers set their own prices for compute resources. We recommend you try different providers and check your logs after deployment to determine the hashrate.
 
-![](<../../assets/chooseProvider (1).png>)
+![](<../../../assets/chooseProvider (1).png>)
 
 ## How to speed up mining?
 
