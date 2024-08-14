@@ -1,18 +1,11 @@
-import {
-  Dialog,
-  Disclosure,
-  Menu,
-  Popover,
-  Transition,
-} from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { ArrowUpRight } from "lucide-react";
-import { BadgeHelp, Codesandbox, ArrowRightCircle } from "lucide-react";
 import clsx from "clsx";
+import { ArrowRightCircle, BadgeHelp, Codesandbox } from "lucide-react";
 
-export const networkItems = [
+const networkItems = [
   {
     icon: BadgeHelp,
     title: "About Akash",
@@ -137,7 +130,7 @@ export default PopOverNavItemNetwork;
 
 export const NetworkNavbar = ({ pathname }: { pathname: string }) => {
   return (
-    <div className="border-t">
+    <div className="border-y">
       <div className="container flex">
         {networkItems.map((item, i: any) => {
           return (
