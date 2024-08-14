@@ -1,20 +1,16 @@
 ---
+import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
+import Card from "@/components/community-pages/card.astro";
+import MobileNav from "@/components/community-pages/mobile-nav";
+import { nav } from "@/components/community-pages/nav-config.ts";
+import SearchDialog from "@/components/community-pages/search-dialog";
+import SideNav from "@/components/community-pages/side-nav.astro";
+import Pagination from "@/components/pagination.astro";
+import Tag from "@/components/ui/tag2.astro";
 import Layout from "@/layouts/layout.astro";
+import { proseClasses } from "@/lib/prose-classes";
 import type { PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import Pagination from "@/components/pagination.astro";
-import { Image } from "astro:assets";
-import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
-import { nav } from "@/components/community-pages/nav-config.ts";
-import FormattedDate from "@/components/formatted-date.astro";
-import { proseClasses } from "@/lib/prose-classes";
-import SearchDialog from "@/components/community-pages/search-dialog";
-import SortDropDown from "@/components/community-pages/sort-dropdown";
-import TagsSortDropDown from "@/components/community-pages/tags-sort-dropdown";
-import MobileNav from "@/components/community-pages/mobile-nav";
-import Tag from "@/components/ui/tag2.astro";
-import SideNav from "@/components/community-pages/side-nav.astro";
-import Card from "@/components/community-pages/card.astro";
 type Project = CollectionEntry<"Community_Contributions_Page">;
 
 export async function getStaticPaths({
@@ -95,7 +91,7 @@ const link =
 <Layout title="Community Contributions" image="/meta-images/community.png">
   <div class="container mt-10 md:mt-[60px] lg:mt-20">
     <div class="grid grid-cols-12 gap-x-5">
-      <SideNav nav={nav} link={link} />
+      <SideNav nav={nav} link={link} subNav />
 
       <div
         class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}

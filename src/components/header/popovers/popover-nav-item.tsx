@@ -146,7 +146,11 @@ export const NetworkNavbar = ({ pathname }: { pathname: string }) => {
                   : "",
               )}
             >
-              {item.icon ? <item.icon size={24} /> : item.customIcon}
+              {item.icon ? (
+                <item.icon size={24} strokeWidth={1.5} />
+              ) : (
+                item.customIcon
+              )}
               <h1 className="text-sm font-medium text-foreground">
                 {item.title}
               </h1>
