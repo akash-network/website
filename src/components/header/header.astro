@@ -12,6 +12,7 @@ import PopOverNavItem from "./popover-nav-item";
 import DarkModeToggle from "../dark-mode-toggle.astro";
 import ButtonLink from "../ui/button-link.astro";
 import { GithubIcon, TwitterIcon, DiscordIcon } from "./icons";
+import PopOverNavItemNetwork, { NetworkNavbar } from "./popover-nav-item";
 
 // Get current pathname
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
@@ -22,24 +23,9 @@ interface Props {
 
 const { disableSticky } = Astro.props;
 
-const networkItems = [
-  {
-    title: "About Akash",
-    description: "Discover the story behind Akash and how it works",
-    link: "/about/general-information/",
-  },
-  {
-    title: "Akash Stats",
-    description:
-      "Get insights into the latest statistics about the Akash Network",
-    link: "https://stats.akash.network/",
-  },
-  {
-    title: "AKT Token",
-    description: "Understand the role of the $AKT token in the Akash ecosystem",
-    link: "/token",
-  },
-];
+const visibilty = {
+  network: ["/about", "/token"],
+};
 ---
 
 <header
@@ -60,7 +46,7 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
       <div
         class="mt-1 hidden lg:flex lg:w-full lg:justify-center lg:gap-x-[20px] xl:gap-x-[24px]"
       >
-        <PopOverNavItem client:load subItems={networkItems} />
+        <PopOverNavItemNetwork client:load />
 
         <NavLink href="/development/welcome/" currentPath={pathname}>
           Development
@@ -173,4 +159,9 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
       </div>
     </div>
   </nav>
+  {
+    visibilty.network.includes(pathname) && (
+      <NetworkNavbar pathname={Astro.url.pathname} client:load />
+    )
+  }
 </header>
