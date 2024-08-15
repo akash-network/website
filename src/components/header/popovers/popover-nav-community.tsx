@@ -4,10 +4,11 @@ import { Fragment } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { ArrowRightCircle } from "lucide-react";
-import { communityItems, developmentItems } from "./links";
+import { communityItems, developmentItems, networkItems } from "./links";
 
 const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
   const items = type === "community" ? communityItems : developmentItems;
+  const external = items.find((item) => item.external);
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -31,58 +32,58 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
       >
         <Menu.Items className="absolute left-1/2 z-10 mt-4 flex w-[303px] origin-top-right  -translate-x-1/2   flex-col overflow-hidden rounded-3xl  border bg-background2 shadow focus:outline-none">
           <div className="p-5">
-            {items.map((item, i: any) => {
-              return (
-                <Menu.Item key={i}>
-                  {({ active }) => (
-                    <a
-                      href={item.link}
-                      target={item.link.startsWith("http") ? "_blank" : "_self"}
-                      className={`flex cursor-pointer items-center  gap-6 px-4 py-3    ${
-                        active ? "" : ""
-                      } `}
-                    >
-                      <div className="text-[#9CA3AF] dark:text-para">
-                        {item.icon ? (
-                          <item.icon size={24} strokeWidth={1.5} />
-                        ) : (
-                          item.customIcon
-                        )}
-                      </div>
-                      <div className="font-semibold">
-                        <p className="flex items-center text-sm font-bold text-foreground ">
-                          {item.title}
-                          {item.link.startsWith("http") ? (
-                            <ArrowRightCircle
-                              className="ml-1 inline-block"
-                              size={16}
-                            />
+            {items
+              .filter((item) => !item.external)
+              .map((item, i: any) => {
+                return (
+                  <Menu.Item key={i}>
+                    {({ active }) => (
+                      <a
+                        href={item.link}
+                        target={
+                          item.link.startsWith("http") ? "_blank" : "_self"
+                        }
+                        className={`flex cursor-pointer items-center  gap-6 px-4 py-3    ${
+                          active ? "" : ""
+                        } `}
+                      >
+                        <div className="text-[#9CA3AF] dark:text-para">
+                          {item.icon ? (
+                            <item.icon size={24} strokeWidth={1.5} />
                           ) : (
-                            ""
+                            item.customIcon
                           )}
-                        </p>
-                      </div>
-                    </a>
-                  )}
-                </Menu.Item>
-              );
-            })}
+                        </div>
+                        <div className="font-semibold">
+                          <p className="flex items-center text-sm font-bold text-foreground ">
+                            {item.title}
+                            {item.link.startsWith("http") ? (
+                              <ArrowRightCircle
+                                className="ml-1 inline-block"
+                                size={16}
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </p>
+                        </div>
+                      </a>
+                    )}
+                  </Menu.Item>
+                );
+              })}
           </div>
-          <div className="border-t bg-gray-50 px-8 py-3 dark:bg-background">
-            <a
-              href="https://shop.akash.network/"
-              target="_blank"
-              className="font-semibold"
-            >
-              <p className="flex items-center text-sm font-bold text-foreground ">
-                Swag Shop
+          <div className="border-t bg-gray-50 px-7 py-3 dark:bg-background">
+            <a href={external?.link} target="_blank" className="font-semibold">
+              <p className="inline-flex items-center text-sm font-bold text-foreground ">
+                {external?.title}
                 <ArrowRightCircle
                   className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
                   size={16}
                 />
               </p>
               <p className="mt-1 text-sm font-normal text-para">
-                A selection of Akash Network apparel and accessories
+                {external?.description}
               </p>
             </a>
           </div>
@@ -94,42 +95,65 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
 
 export default PopOverSmall;
 
-export const CommunityNavbar = ({
+export const SubNavbar = ({
   pathname,
   type,
 }: {
   pathname: string;
-  type: "community" | "development";
+  type: "community" | "development" | "network";
 }) => {
-  const items = type === "community" ? communityItems : developmentItems;
+  const items =
+    type === "community"
+      ? communityItems
+      : type === "development"
+      ? developmentItems
+      : networkItems.map((item) => ({ ...item, external: false }));
+  const external = items.find((item) => item?.external);
   return (
     <div className="border-y">
-      <div className="container flex">
-        {items.map((item, i: any) => {
-          return (
-            <a
-              key={i}
-              href={item.link}
-              target={item.link.startsWith("http") ? "_blank" : "_self"}
-              className={clsx(
-                "flex cursor-pointer items-center gap-2  p-4 text-para    ",
-                pathname === item.link ||
-                  pathname?.split("/")[2] === item.link?.split("/")[2]
-                  ? "border-b-2 border-foreground "
-                  : "",
-              )}
-            >
-              {item.icon ? (
-                <item.icon size={24} strokeWidth={1.5} />
-              ) : (
-                item.customIcon
-              )}
-              <h1 className="text-sm font-medium text-foreground">
-                {item.title}
-              </h1>
-            </a>
-          );
-        })}
+      <div className="container flex items-center  justify-between">
+        <div className="flex">
+          {items
+            .filter((item) => !item?.external)
+            .map((item, i: any) => {
+              return (
+                <a
+                  key={i}
+                  href={item.link}
+                  target={item.link.startsWith("http") ? "_blank" : "_self"}
+                  className={clsx(
+                    "flex cursor-pointer items-center gap-2  p-4 text-para    ",
+                    pathname === item.link ||
+                      pathname?.split("/")[2] === item.link?.split("/")[2]
+                      ? "border-b-2 border-foreground "
+                      : "",
+                  )}
+                >
+                  {item.icon ? (
+                    <item.icon size={24} strokeWidth={1.5} />
+                  ) : (
+                    item.customIcon
+                  )}
+                  <h1 className="text-sm font-medium text-foreground">
+                    {item.title}
+                  </h1>
+                </a>
+              );
+            })}
+        </div>
+        {external && (
+          <a
+            href={external.link}
+            target="_blank"
+            className="flex items-center rounded-full border bg-background px-3 py-1.5 text-sm font-semibold "
+          >
+            {external.title}
+            <ArrowRightCircle
+              className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
+              size={16}
+            />
+          </a>
+        )}
       </div>
     </div>
   );

@@ -5,12 +5,12 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ArrowRightCircle } from "lucide-react";
 import { networkItems } from "./links";
 
-const PopOverNavItemNetwork = () => {
+const PopOverNavItemEcosystem = () => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm ">
-          Network
+          Ecosystem
           <ChevronDownIcon
             className="text-gra -mr-1 ml-1 h-4 w-4"
             aria-hidden="true"
@@ -27,7 +27,7 @@ const PopOverNavItemNetwork = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute left-1/2 z-10 mt-4 flex w-[456px] origin-top-right translate-x-[-40%] flex-col   overflow-hidden rounded-3xl border  bg-background2 shadow focus:outline-none 2xl:-translate-x-1/2">
+        <Menu.Items className="absolute left-1/2 z-10 mt-4 flex w-[593px] origin-top-right translate-x-[-40%] flex-col   overflow-hidden rounded-3xl border  bg-background2 shadow focus:outline-none 2xl:-translate-x-1/2">
           <div className="p-5">
             {networkItems.map((item, i: any) => {
               return (
@@ -89,4 +89,4 @@ const PopOverNavItemNetwork = () => {
   );
 };
 
-export default PopOverNavItemNetwork;
+export default PopOverNavItemEcosystem;

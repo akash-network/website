@@ -1,16 +1,14 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import { nav } from "@/components/development-pages/nav-config";
-import { SideNav } from "../../components/development-pages/side-nav.tsx";
-import TableOfContents from "@/components/development-pages/table-of-contents.tsx";
-import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
-import generateToc from "@/lib/generateToc";
-import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
 import MobileNav from "@/components/development-pages/mobile-nav.tsx";
-import Layout from "@/layouts/layout.astro";
-import { proseClasses } from "@/lib/prose-classes";
-import TopMargin from "@/components/ui/top-margin.astro";
+import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
+import { nav } from "@/components/development-pages/nav-config";
+import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
 import SubItemsSidebar from "@/components/sub-items-sidebar.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import generateToc from "@/lib/generateToc";
+import { proseClasses } from "@/lib/prose-classes";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Page");
@@ -73,6 +71,7 @@ const fileType = page.id.split("/")[1].split(".")[1];
   <TopMargin>
     <div class="grid grid-cols-12 gap-x-5">
       <SubItemsSidebar
+        subNav
         nav={nav}
         link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Page/${page.slug}/index.${fileType}`}
       />

@@ -7,12 +7,8 @@ import Logo from "@/components/ui/logo.astro";
 import DarkModeToggle from "../dark-mode-toggle.astro";
 import HamburgerMenu from "./hamburger-menu";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
-import PopOverCommunity, {
-  CommunityNavbar,
-} from "./popovers/popover-nav-community";
-import PopOverNavItemNetwork, {
-  NetworkNavbar,
-} from "./popovers/popover-nav-item";
+import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
+import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 
 // Get current pathname
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
@@ -25,7 +21,9 @@ const { disableSticky } = Astro.props;
 
 const visibilty = {
   network: ["/about", "/token"],
-  community: ["/community", "/ecosystem", "/blog"],
+  community: ["/community"],
+  development: ["/development"],
+  ecosystem: ["/ecosystem"],
 };
 ---
 
@@ -161,16 +159,17 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
   </nav>
   {
     visibilty.network.includes(pathname) && (
-      <NetworkNavbar pathname={Astro.url.pathname} client:load />
+      <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
     )
   }
   {
     visibilty.community.includes(pathname) && (
-      <CommunityNavbar
-        pathname={Astro.url.pathname}
-        client:load
-        type="community"
-      />
+      <SubNavbar pathname={Astro.url.pathname} client:load type="community" />
+    )
+  }
+  {
+    visibilty.development.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
     )
   }
 </header>
