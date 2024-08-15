@@ -4,7 +4,12 @@ import { Fragment } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { ArrowRightCircle } from "lucide-react";
-import { communityItems, developmentItems, networkItems } from "./links";
+import {
+  communityItems,
+  developmentItems,
+  ecosystemNavItems,
+  networkItems,
+} from "./links";
 
 const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
   const items = type === "community" ? communityItems : developmentItems;
@@ -100,18 +105,21 @@ export const SubNavbar = ({
   type,
 }: {
   pathname: string;
-  type: "community" | "development" | "network";
+  type: "community" | "development" | "network" | "ecosystem";
 }) => {
   const items =
     type === "community"
       ? communityItems
       : type === "development"
       ? developmentItems
+      : type === "ecosystem"
+      ? ecosystemNavItems
       : networkItems.map((item) => ({ ...item, external: false }));
+
   const external = items.find((item) => item?.external);
   return (
-    <div className="border-y">
-      <div className="container flex items-center  justify-between">
+    <div className=" border-y">
+      <div className="container flex items-center gap-2 overflow-x-auto  md:justify-between">
         <div className="flex">
           {items
             .filter((item) => !item?.external)
@@ -134,7 +142,7 @@ export const SubNavbar = ({
                   ) : (
                     item.customIcon
                   )}
-                  <h1 className="text-sm font-medium text-foreground">
+                  <h1 className="flex-1 whitespace-nowrap text-sm font-medium text-foreground">
                     {item.title}
                   </h1>
                 </a>
@@ -145,7 +153,7 @@ export const SubNavbar = ({
           <a
             href={external.link}
             target="_blank"
-            className="flex items-center rounded-full border bg-background px-3 py-1.5 text-sm font-semibold "
+            className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
           >
             {external.title}
             <ArrowRightCircle

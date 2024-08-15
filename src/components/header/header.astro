@@ -9,7 +9,7 @@ import HamburgerMenu from "./hamburger-menu";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
-
+import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
 // Get current pathname
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
@@ -52,9 +52,7 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
         <!-- <NavLink href="/community/akash-insiders/" currentPath={pathname}>
           Community
         </NavLink> -->
-        <NavLink href="/ecosystem/showcase/latest" currentPath={pathname}>
-          Ecosystem
-        </NavLink>
+        <PopOverNavItemEcosystem client:load />
 
         <NavLink href="/blog" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs" currentPath={pathname}>Docs</NavLink>
@@ -170,6 +168,11 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
   {
     visibilty.development.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
+    )
+  }
+  {
+    visibilty.ecosystem.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
     )
   }
 </header>
