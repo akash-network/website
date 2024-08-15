@@ -108,11 +108,11 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
-            {navigation.map((item) => (
-              <div key={item.name}>
-                {item.subCategories ? (
-                  <Accordion type="single" collapsible className="w-full ">
+          <Accordion type="single" collapsible className="w-full ">
+            <div className="flex flex-col gap-4">
+              {navigation.map((item) => (
+                <div key={item.name}>
+                  {item.subCategories ? (
                     <AccordionItem
                       key={item.name}
                       value={item.name}
@@ -164,26 +164,26 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                         </div>
                       </AccordionContent>
                     </AccordionItem>
-                  </Accordion>
-                ) : (
-                  <Disclosure.Button
-                    as="a"
-                    href={item.href}
-                    className={cn(
-                      item.href.startsWith(currentPath as string) &&
-                        currentPath !== "/"
-                        ? "text-base font-medium text-foreground"
-                        : "inline-flex items-center text-base font-medium hover:font-semibold hover:text-foreground",
-                    )}
-                    // aria-current={item.current ? "page" : undefined}
-                  >
-                    {item.name}
-                    {/* {item.icon} */}
-                  </Disclosure.Button>
-                )}
-              </div>
-            ))}
-          </div>
+                  ) : (
+                    <Disclosure.Button
+                      as="a"
+                      href={item.href}
+                      className={cn(
+                        item.href.startsWith(currentPath as string) &&
+                          currentPath !== "/"
+                          ? "text-base font-medium text-foreground"
+                          : "inline-flex items-center text-base font-medium hover:font-semibold hover:text-foreground",
+                      )}
+                      // aria-current={item.current ? "page" : undefined}
+                    >
+                      {item.name}
+                      {/* {item.icon} */}
+                    </Disclosure.Button>
+                  )}{" "}
+                </div>
+              ))}
+            </div>
+          </Accordion>
         </div>
 
         <div className="flex flex-col gap-y-6">
