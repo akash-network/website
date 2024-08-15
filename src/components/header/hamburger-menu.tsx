@@ -18,9 +18,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion-arrow";
 import clsx from "clsx";
-import { ChevronDown } from "lucide-react";
+import { ArrowRightCircle, ChevronDown } from "lucide-react";
 import { Fragment } from "react";
-import { developmentItems, networkItems } from "./popovers/links";
+import {
+  communityItems,
+  developmentItems,
+  ecosystemNavItems,
+  networkItems,
+} from "./popovers/links";
 const navigation = [
   {
     name: "Network",
@@ -32,8 +37,8 @@ const navigation = [
     name: "Development",
     subCategories: developmentItems,
   },
-  { name: "Ecosystem", href: "/ecosystem/showcase/latest" },
-  { name: "Community", href: "/community/akash-insiders/" },
+  { name: "Ecosystem", subCategories: ecosystemNavItems },
+  { name: "Community", subCategories: communityItems },
   { name: "Blog", href: "/blog" },
   { name: "Docs", href: "/docs" },
   { name: "GPU Pricing", href: "/gpus" },
@@ -82,6 +87,24 @@ export default function HamburgerMenu({
 
 const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
   useLockBody(open);
+  const currentOpen = navigation.find((item) => {
+    if (item.subCategories) {
+      if (
+        item.subCategories.find(
+          (subItem) =>
+            subItem.link?.split("/")[1] === currentPath?.split("/")[1],
+        )
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  });
+
+  console.log(currentOpen);
 
   return (
     <Disclosure.Panel className="h-full lg:hidden">
@@ -108,13 +131,18 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </div>
           </div>
 
-          <Accordion type="single" collapsible className="w-full ">
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full "
+            defaultValue={currentOpen?.name}
+          >
             <div className="flex flex-col gap-4">
-              {navigation.map((item) => (
+              {navigation.map((item, index) => (
                 <div key={item.name}>
                   {item.subCategories ? (
                     <AccordionItem
-                      key={item.name}
+                      key={index}
                       value={item.name}
                       className="border-b-0 "
                     >
@@ -122,9 +150,9 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                         notClose
                         className="text-base  font-medium text-foreground"
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 text-lg font-medium">
                           {item.name}
-                          <ChevronDown className="text-muted-foreground h-4 w-4 shrink-0 transition-transform duration-200 " />
+                          <ChevronDown className="text-muted-foreground h-5 w-5 shrink-0 transition-transform duration-200 " />
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className2="!pb-0">
@@ -146,17 +174,29 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                                 }
                                 className={clsx(
                                   subItem?.external
-                                    ? "w-full bg-gray-100"
-                                    : "flex cursor-pointer items-center gap-2  p-2 text-para     ",
+                                    ? "flex w-full items-center justify-center rounded-full bg-[#F2F2F2] p-3 text-base dark:bg-background2"
+                                    : "flex cursor-pointer items-center gap-2 p-2 text-base text-para     ",
                                 )}
                               >
-                                {subItem.icon ? (
-                                  <subItem.icon size={24} strokeWidth={1.5} />
-                                ) : (
-                                  subItem.customIcon
-                                )}
-                                <h1 className="flex-1 whitespace-nowrap text-sm font-medium text-foreground">
+                                {!subItem?.external &&
+                                  (subItem.icon ? (
+                                    <subItem.icon size={24} strokeWidth={1.5} />
+                                  ) : (
+                                    subItem.customIcon
+                                  ))}
+                                <h1
+                                  className={clsx(
+                                    "flex-1 whitespace-nowrap  font-medium text-foreground",
+                                    subItem?.external && "text-center",
+                                  )}
+                                >
                                   {subItem.title}
+                                  {subItem.external && (
+                                    <ArrowRightCircle
+                                      className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
+                                      size={16}
+                                    />
+                                  )}
                                 </h1>
                               </a>
                             ),
@@ -172,7 +212,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                         item.href.startsWith(currentPath as string) &&
                           currentPath !== "/"
                           ? "text-base font-medium text-foreground"
-                          : "inline-flex items-center text-base font-medium hover:font-semibold hover:text-foreground",
+                          : "inline-flex items-center text-lg font-medium hover:font-semibold hover:text-foreground",
                       )}
                       // aria-current={item.current ? "page" : undefined}
                     >
