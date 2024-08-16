@@ -4,8 +4,15 @@ import { Fragment } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ArrowRightCircle } from "lucide-react";
 import { ecosystemNavItems } from "./links";
+import type { CollectionEntry } from "astro:content";
 
-const PopOverNavItemEcosystem = () => {
+const PopOverNavItemEcosystem = ({
+  posts,
+}: {
+  posts: CollectionEntry<"Blog">[];
+}) => {
+  console.log(posts);
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -73,7 +80,10 @@ const PopOverNavItemEcosystem = () => {
             </div>
 
             <div className="flex w-full flex-1 flex-col border-l pl-2.5">
-              <p className="flex items-center gap-1.5 px-8 py-1.5 text-sm font-medium text-[#939393] dark:text-para">
+              <a
+                href="/blog/"
+                className="flex items-center gap-1.5 px-8 py-1.5 text-sm font-medium text-[#939393] dark:text-para"
+              >
                 Case Studies{" "}
                 <svg
                   width="5"
@@ -89,15 +99,16 @@ const PopOverNavItemEcosystem = () => {
                     fill="currentColor"
                   />
                 </svg>
-              </p>
-              {[1, 1].map((item, i: any) => {
+              </a>
+              {posts?.slice(0, 2)?.map(({ data, slug }, i: any) => {
                 return (
                   <a
                     key={i}
+                    href={`/blog/${slug}`}
                     className="flex cursor-pointer flex-col gap-0.5  px-8 py-1.5 text-sm    "
                   >
-                    <h1 className="font-medium">Case Study Name</h1>
-                    <p className="text-para">Short Case Study description</p>
+                    <h1 className="line-clamp-1 font-medium ">{data.title}</h1>
+                    <p className="line-clamp-1 text-para">{data.description}</p>
                   </a>
                 );
               })}

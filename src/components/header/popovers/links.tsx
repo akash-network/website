@@ -242,7 +242,7 @@ export const developmentItems = [
     description:
       "View all current technical efforts happening on the Akash Network",
 
-    link: "/docs/roadmap/",
+    link: "/development/product-strategy/",
     external: true,
   },
 ];
@@ -401,7 +401,7 @@ export const ecosystemNavItems = [
     icon: FileStack,
     title: "Case Studies",
 
-    link: "/about/providers/",
+    link: "/blog/",
     external: true,
   },
 ];

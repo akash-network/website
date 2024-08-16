@@ -10,6 +10,7 @@ import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
+import { getCollection } from "astro:content";
 // Get current pathname
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
@@ -25,6 +26,19 @@ const visibilty = {
   development: ["/development"],
   ecosystem: ["/ecosystem"],
 };
+
+const posts = (await getCollection("Blog"))
+  .filter((post) => {
+    // Filter out posts with archive set to true.
+    return post.data.archive !== true;
+  })
+  .sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+
+    // Sort in descending order (latest date first)
+    return dateB.getTime() - dateA.getTime();
+  });
 ---
 
 <header
@@ -52,7 +66,7 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
         <!-- <NavLink href="/community/akash-insiders/" currentPath={pathname}>
           Community
         </NavLink> -->
-        <PopOverNavItemEcosystem client:load />
+        <PopOverNavItemEcosystem client:load posts={posts} />
 
         <NavLink href="/blog" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs" currentPath={pathname}>Docs</NavLink>
