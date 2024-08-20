@@ -156,11 +156,24 @@ export const Tables = ({
             </h2>
             <div className="rounded-md border p-2 shadow-sm ">
               <span className="text-base font-bold">
-                {data?.availability?.available || 0}
+                {filteredData?.length > 0
+                  ? filteredData?.reduce(
+                      (prev, curr) =>
+                        prev + (curr?.availability?.available ?? 0),
+                      0,
+                    )
+                  : data?.availability?.available || 0}
               </span>
 
               <span className="ml-2  text-sm text-linkText">
-                (of {data?.availability?.total || 0})
+                (of{" "}
+                {filteredData?.length > 0
+                  ? filteredData?.reduce(
+                      (prev, curr) => prev + (curr?.availability?.total ?? 0),
+                      0,
+                    )
+                  : data?.availability?.total || 0}
+                )
               </span>
             </div>
           </div>
