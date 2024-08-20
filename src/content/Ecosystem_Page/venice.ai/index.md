@@ -1,21 +1,21 @@
 ---
-projectTitle: Texas-edu
+projectTitle: Venice.ai
 projectImage: "./project-banner.png"
-pubDate: "2023-11-01"
+pubDate: "2024-07-18"
 
 tags:
   - AI & ML
 
 category: deployed_on_akash
 
-description: The University of Texas at Austin is a bold, ambitious leader, providing a first-class education and the tools of discovery to more than 51,000 students.
+description: Venice is the easy app for private, uncensored AI conversations and image generation. Try for free with no log-in needed.
 
 ctaButton:
   label: View Project
-  link:  "https://www.utexas.edu/"
+  link:  "https://venice.ai/home"
   enable: true
 
-websiteLink: "https://www.utexas.edu/"
-twitterLink: "https://twitter.com/UTAustin"
+websiteLink: "https://venice.ai/home"
+twitterLink: "https://twitter.com/AskVenice"
 featured: true
 ---
