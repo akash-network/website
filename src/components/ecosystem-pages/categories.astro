@@ -15,11 +15,19 @@ const sortedTags = [
   ...normalizedTags.filter(tag => tag !== "ai & ml").sort((a, b) => a.localeCompare(b)),
 ];
 
-// Function to display "AI & ML" in proper casing
-const displayTag = (tag) => tag === "ai & ml" ? "AI & ML" : tag
-  .split(" ")
-  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-  .join(" ");
+// Function to display specific tags in proper casing or modify others appropriately
+const displayTag = (tag) => {
+  const specialCases = {
+    "dao": "DAO",
+    "pos validator": "PoS Validator",
+    "ai & ml": "AI & ML"
+  };
+
+  return specialCases[tag.toLowerCase()] || tag
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
 ---
 
 <div class="hidden w-[200px] flex-shrink-0 pt-5 lg:block">

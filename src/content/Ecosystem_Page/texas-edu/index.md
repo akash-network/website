@@ -1,5 +1,5 @@
 ---
-projectTitle: Texas-edu
+projectTitle: University of Texas at Austin
 projectImage: "./project-banner.png"
 pubDate: "2023-11-01"
 

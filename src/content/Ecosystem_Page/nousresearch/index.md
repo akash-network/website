@@ -1,5 +1,5 @@
 ---
-projectTitle: Nousresearch
+projectTitle: Nous Research
 projectImage: "./project-banner.png"
 pubDate: "2023-03-04"
 
