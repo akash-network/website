@@ -1,5 +1,5 @@
 ---
-projectTitle: node shift
+projectTitle: NodeShift
 projectImage: "./project-banner.png"
 pubDate: "2017-03-09"
 
