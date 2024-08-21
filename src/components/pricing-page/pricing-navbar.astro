@@ -1,0 +1,33 @@
+---
+import Tag from "../ui/pricing-tag.astro";
+const { pathName } = Astro.props;
+---
+
+<div
+  class="sidebar-scroll flex items-center overflow-x-auto p-2 md:overflow-x-hidden lg:justify-center"
+>
+  <div>
+    <Tag href="/pricing/gpus" 
+    active={pathName[2] === "gpus"}>
+      GPU Pricing
+    </Tag>
+  </div>
+
+  <div>
+    <Tag
+      href="/pricing/usage"
+      active={pathName[2] === "usage"}
+    >
+      Usage Pricing Calculator
+    </Tag>
+  </div>
+
+  <div>
+    <Tag
+      href="/pricing/provider"
+      active={pathName[2] === "provider"}
+    >
+      Provider Earn Calculator
+    </Tag>
+  </div>
+</div>

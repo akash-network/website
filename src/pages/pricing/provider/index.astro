@@ -1,0 +1,37 @@
+---
+import Layout from "@/layouts/layout.astro";
+import PricingNavbar from "@/components/pricing-page/pricing-navbar.astro";
+import ProviderTable from "@/components/pricing-page/provider/provider-table";
+import { gpus } from "@/utils/api";
+
+const astroUrl = Astro.url;
+const pathName = astroUrl.pathname.split("/");
+// const response = await fetch(gpus);
+// const data = await response.json();
+---
+
+<Layout
+  title="  GPU Availability and Pricing"
+  description="  GPU Availability and Pricing"
+  image="/meta-images/gpus.png"
+>
+  <section
+    class="container mx-auto flex max-w-[1380px] flex-col gap-16 pt-[100px]"
+  >
+    <h1
+      class="text-center text-2xl font-bold md:block md:text-2lg lg:text-3lg lg:leading-[52px]"
+    >
+      Explorer pricing and calculate<br /> your costs or earnings
+    </h1>
+    <PricingNavbar pathName={pathName} />
+    <div class="">
+      <h2 class="text-center text-2xl font-bold md:block md:text-3xl">
+        Provider Earn Calculator
+      </h2>
+      <p class="text-center leading-[28px]">
+        Calculate your potential earnings by providing resources to the Akash Network.
+      </p>
+    </div>
+    <ProviderTable client:load initialData={null}/>
+  </section>
+</Layout>
