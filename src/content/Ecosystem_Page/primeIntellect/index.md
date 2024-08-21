@@ -1,5 +1,5 @@
 ---
-projectTitle: PrimeIntellect.ai
+projectTitle: PrimeIntellect AI
 projectImage: "./project-banner.png"
 pubDate: "2024-02-23"
 

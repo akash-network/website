@@ -1,5 +1,5 @@
 ---
-projectTitle: Venice.ai
+projectTitle: Venice AI
 projectImage: "./project-banner.png"
 pubDate: "2024-07-18"
 

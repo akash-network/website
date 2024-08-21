@@ -1,5 +1,5 @@
 ---
-projectTitle: AukiLabs
+projectTitle: node shift
 projectImage: "./project-banner.png"
 pubDate: "2017-03-09"
 
