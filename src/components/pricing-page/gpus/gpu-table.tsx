@@ -16,6 +16,7 @@ import clsx from "clsx";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import { Skeleton } from "../../ui/skeleton";
 import arrowUpRight from '../../../assets/icons/arrow-up-right.svg';
+import CircularProgressBar from "./CircularProgressBar";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -171,9 +172,12 @@ export const Tables = ({
               </div>
             </div>
           </div>
-          <div className="">
-            Round
-          </div>
+          <CircularProgressBar
+            diameter={80}
+            strokeWidth={15}
+            progressValue={((data?.availability?.available || 0) / (data?.availability?.total || 1) * 100)}
+            gapSize={1.5}
+          />
         </div>
         <div className="flex gap-4">
           <Filter
