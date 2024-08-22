@@ -16,7 +16,8 @@ import clsx from "clsx";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import { Skeleton } from "../../ui/skeleton";
 import arrowUpRight from '../../../assets/icons/arrow-up-right.svg';
-import CircularProgressBar from "./CircularProgressBar";
+import CircularProgressBar from "./circular-progress-bar";
+import AvailabilityBar from "./availability-bar";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -380,21 +381,13 @@ export const Tables = ({
                         className="h-5"
                       />
                       <div className="">
-                        <p className="text-xl font-semibold capitalize">{modifyModel(model?.model)}</p>
+                        <p className="text-xl font-semibold capitalize text-black">{modifyModel(model?.model)}</p>
                         <p className="text-sm font-medium">{model?.ram} {model?.interface}</p>
                       </div>
                     </div>
                   </td>
                   <td className="pr-8 border-y">
-                    <div className="flex justify-between items-center">
-                      <span className="font-semibold ">
-                        {model?.availability?.available} Available
-                      </span>
-                      <span className="text-sm text-iconText">
-                        (out of {model?.availability?.total})
-                      </span>
-                    </div>
-                    <div className=""></div>
+                    <AvailabilityBar available={model?.availability?.available} total={model?.availability?.total} />
                   </td>
                   <td className="pl-4 border-y">
                     <div className="flex justify-between">
