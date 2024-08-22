@@ -150,6 +150,25 @@ aiModelsAndAppsSection:
       description: "Presearch runs nodes smoothly on Akash, with plans for one-click deployments. Stay tuned on their Twitter for updates. CEO Colin Pape explores Akash's potential in a Cointelegraph article."
       link : "https://presearch.io/"
       darkImage : "./assets/tools/dark-dep-3.svg" 
+      
+    - title: "Venice AI"
+      image: "./assets/tools/venice.png"
+      description: "Venice is the easy app for private, uncensored AI conversations and image generation. Try for free with no log-in needed."
+      link : "https://venice.ai/home"
+      darkImage : "./assets/tools/venice.png"   
+
+    - title: "Brev.dev"
+      image: "./assets/tools/brev.png"
+      description: "Brev.dev, known for its seamless setup of Jupyter notebooks for AI development, has integrated with Akash Network, enabling scalable, permissionless access to NVIDIA GPUs."
+      link : "https://brev.dev/"
+      darkImage : "./assets/tools/brev.png" 
+     
+
+    - title: "Nous Research"
+      image: "./assets/tools/nous.png"
+      description: "The AI Accelerator Company"
+      link : "https://nousresearch.com/"
+      darkImage : "./assets/tools/nous.png" 
      
   cards3:
     - image:  "./assets/tools/awesomeakash.svg"
