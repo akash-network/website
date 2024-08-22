@@ -4,7 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -13,12 +13,8 @@ import {
 import { Info } from "lucide-react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import CheckBox from "./checkbox";
 import Filter, { defaultFilters, type Filters } from "./filter";
-import Sort from "./sort";
-import { useStorage } from "@/utils/store";
 import { Skeleton } from "../../ui/skeleton";
-import Nav from "./nav";
 import arrowUpRight from '../../../assets/icons/arrow-up-right.svg';
 
 export interface Gpus {
@@ -231,12 +227,12 @@ export const Tables = ({
                     <HoverCard openDelay={2} closeDelay={2}>
                       <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
                         <div className="flex items-center">
-                          <span className="text-base text-[#D7DBDF] dark:text-[#3E3E3E] md:text-xs">
+                          <div className="text-base text-[#D7DBDF] dark:text-[#3E3E3E] md:text-xs">
                             Avg:
-                          </span>
-                          <span className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
+                          </div>
+                          <div className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
                             <Skeleton className="h-5 w-20" />
-                          </span>
+                          </div>
                         </div>
                         <Info
                           size={12}

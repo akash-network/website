@@ -4,7 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -13,10 +13,8 @@ import {
 import { Info } from "lucide-react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import CheckBox from "./checkbox";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import Sort from "./sort";
-import { useStorage } from "@/utils/store";
 import { Skeleton } from "../ui/skeleton";
 export interface Gpus {
   availability: { total: number; available: number };
@@ -234,14 +232,14 @@ export const Tables = ({
                   <div className="flex items-center gap-1">
                     <HoverCard openDelay={2} closeDelay={2}>
                       <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
-                        <p className="flex items-center">
+                        <div className="flex items-center">
                           <span className="text-base text-[#D7DBDF] dark:text-[#3E3E3E] md:text-xs">
                             Avg:
                           </span>
                           <span className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
                             <Skeleton className="h-5 w-20" />
                           </span>
-                        </p>
+                        </div>
                         <Info
                           size={12}
                           className="text-[#D7DBDF] dark:text-[#3E3E3E]"
@@ -360,9 +358,9 @@ export const Tables = ({
                     <Skeleton className="h-5 w-20" />
                   </td>
                   <td className="w-[14%]  border-y px-2 py-2 text-left">
-                    <p className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5">
                       <Skeleton className="h-5 w-20" />
-                    </p>
+                    </div>
                   </td>
 
                   <td className="  rounded-r-lg border-y border-r   pr-2 ">
@@ -374,17 +372,17 @@ export const Tables = ({
                         <div className="flex items-center gap-1">
                           <HoverCard openDelay={2} closeDelay={2}>
                             <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
-                              <p className="flex items-center">
+                              <div className="flex items-center">
                                 <span
                                   className="dark:text-[#3 E3E3E] text-base
                         text-[#D7DBDF] md:text-xs"
                                 >
                                   Avg:
                                 </span>
-                                <span className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
+                                <div className="pl-1 text-base font-bold text-white dark:text-black  md:text-xs">
                                   <Skeleton className="h-5 w-20" />
-                                </span>
-                              </p>
+                                </div>
+                              </div>
                               <Info
                                 size={12}
                                 className="text-[#D7DBDF] dark:text-[#3E3E3E]"

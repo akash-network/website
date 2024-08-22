@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
-import ProgressBar from "./progress-bar";
+import { useState } from "react";
+import { Slider } from "@/components/ui/slider";
 
 type UsageAmountProps = {
     title: string;
     content: string;
+    max: number;
+    defaultValue: number;
 };
 
-function UsageAmount({ title, content }: UsageAmountProps) {
-
-
-    const [progress, setProgress] = useState<number>(60);
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setProgress(Number(event.target.value));
-    };
-
+function UsageAmount({ title, content, max, defaultValue }: UsageAmountProps) {
+    const [value, setValue] = useState<number[]>([defaultValue]);
 
     return (
         <div className="flex flex-col gap-5">
@@ -24,19 +19,17 @@ function UsageAmount({ title, content }: UsageAmountProps) {
             </div>
             <div className="flex justify-between items-center gap-5 ">
                 <div className="relative w-full">
-                    <ProgressBar
-                        progress={progress} />
-                    <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        value={progress}
-                        onChange={handleInputChange}
-                        className="w-full top-0 left-0 absolute opacity-0 cursor-pointer"
+                    <Slider
+                        defaultValue={[defaultValue]}
+                        max={max}
+                        step={1}
+                        className={"w-[100%]"}
+                        onValueChange={setValue}
+                        draggable
                     />
                 </div>
-                <div className="rounded-md border px-5 py-3 shadow-sm  text-center bg-white text-[21px] leading-[28px] font-semibold text-black">
-                    240
+                <div className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-white text-[21px] font-semibold text-black">
+                    {value[0]}
                 </div>
             </div>
         </div>

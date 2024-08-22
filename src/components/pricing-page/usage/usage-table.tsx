@@ -4,20 +4,12 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Info } from "lucide-react";
+import React, { useState } from "react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import { Skeleton } from "../../ui/skeleton";
 import arrowUpRight from '../../../assets/icons/arrow-up-right.svg';
 import Compare from "./compare";
 import akashLogo from '../../../assets/akash-logo-primary.svg'
-import ProgressBar from "./progress-bar";
 import Disclaimer from "./disclaimer";
 import UsageAmount from "./usage-amount";
 export interface Gpus {
@@ -183,15 +175,23 @@ export const Tables = ({
           <p className="text-sm font-medium">Usage estimate</p>
           <UsageAmount
             title="CPU"
+            max={1000}
+            defaultValue={240}
             content="(Amount of vCPU's)" />
           <UsageAmount
             title="Memory"
+            max={1000}
+            defaultValue={240}
             content="(Amount of memory)" />
           <UsageAmount
             title="Ephemeral Storage"
+            max={1000}
+            defaultValue={240}
             content="(Amount of ephemeral disk storage)" />
           <UsageAmount
             title="Persistent Storage"
+            max={1000}
+            defaultValue={240}
             content="(Amount of persistent disk storage)" />
           <div className="flex justify-end">
             <Disclaimer />

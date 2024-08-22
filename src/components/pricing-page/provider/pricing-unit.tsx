@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import ProgressBar from "./progress-bar";
+import React from "react";
+import { Slider } from "@/components/ui/slider";
 
 type PricingUnitProps = {
     progress: number;
@@ -11,10 +11,6 @@ type PricingUnitProps = {
 }
 
 function PricingUnit({ title, content, position, progress, setProgress, max }: PricingUnitProps) {
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setProgress(Number(event.target.value));
-    };
 
     return (
         <div className="flex flex-col gap-5 w-full">
@@ -32,16 +28,13 @@ function PricingUnit({ title, content, position, progress, setProgress, max }: P
                 </div>
             </div>
             <div className="relative w-full py-5">
-                <ProgressBar
-                    progress={progress}
-                    max={max} />
-                <input
-                    type="range"
-                    min="0"
+                <Slider
+                    defaultValue={[progress]}
                     max={max}
-                    value={progress}
-                    onChange={handleInputChange}
-                    className="w-full top-1/2 left-0 -translate-y-1/2  absolute opacity-0 cursor-pointer"
+                    step={1}
+                    className={"w-[100%]"}
+                    onValueChange={(value) => setProgress(value[0])}
+                    draggable
                 />
             </div>
         </div>
