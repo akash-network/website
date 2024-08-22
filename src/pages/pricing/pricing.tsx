@@ -1,4 +1,4 @@
-import GpuTable from "@/components/gpu-table/gpu-table";
+import GpuTable from "@/components/pricing-page/gpus/gpu-table";
 import ProviderTable from "@/components/pricing-page/provider/provider-table";
 import UsageTable from "@/components/pricing-page/usage/usage-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
