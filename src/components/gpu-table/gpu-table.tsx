@@ -1,10 +1,16 @@
 import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { gpus } from "@/utils/api";
+import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -13,8 +19,10 @@ import {
 import { Info } from "lucide-react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
+import CheckBox from "./checkbox";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import Sort from "./sort";
+import { useStorage } from "@/utils/store";
 import { Skeleton } from "../ui/skeleton";
 export interface Gpus {
   availability: { total: number; available: number };
@@ -103,8 +111,8 @@ export const modifyModel = (model: string) => {
   return model === "rtxa6000"
     ? "A6000"
     : model?.includes("rtx")
-      ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
-      : model;
+    ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
+    : model;
 };
 
 export const price = (price: number) => {

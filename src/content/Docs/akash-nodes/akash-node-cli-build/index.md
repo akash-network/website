@@ -386,18 +386,18 @@ cd ~/.akash
 
 ### Download Snapshot&#x20;
 
-> NOTE - in the `Example Steps` provided below a specific snapshot version is used (`12992214`).  In your use the current/latest snapshot version should be used.  The latest Akash snapshot version - made available via Polkachu - can be found [here](https://polkachu.com/tendermint\_snapshots/akash).  Replace all references to example snapshot version `12992214` with the current/latest version found on this site.
+The latest Akash snapshot version - made available via The Offical Akash Network Snapshot - can be found [here](https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4).  This snapshot is updated every hour.
 
 #### Example Steps
 
 ```
-wget -O akash_12992214.tar.lz4 https://snapshots.polkachu.com/snapshots/akash/akash_12992214.tar.lz4 --inet4-only
+wget -O akashnet-2_latest.tar.lz4 https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4 --inet4-only
 
 apt-get install lz4
 
-lz4 -d akash_12992214.tar.lz4
+lz4 -d akashnet-2_latest.tar.lz4
 
-tar -xvf akash_12992214.tar
+tar -xvf akashnet-2_latest.tar
 ```
 
 ## STEP10 - Start the Akash Node

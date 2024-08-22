@@ -1,5 +1,5 @@
 ---
-projectTitle: Akash Chat - API
+projectTitle: Akash Chat API
 projectImage: "./project-banner.png"
 pubDate: "2024-07-29"
 
