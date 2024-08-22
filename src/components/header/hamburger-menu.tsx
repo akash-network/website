@@ -30,11 +30,11 @@ const navigation = [
     name: "Development",
     href: "/development/welcome/",
   },
-  { name: "Ecosystem", href: "/ecosystem/showcase/latest" },
+  { name: "Ecosystem", href: "/ecosystem/showcase/latest/" },
   { name: "Community", href: "/community/akash-insiders/" },
   { name: "Blog", href: "/blog" },
   { name: "Docs", href: "/docs" },
-  { name: "Pricing & Earnings", href: "/pricing/gpus" },
+  { name: "Pricing & Earnings", href: "/pricing/" },
 ];
 
 export default function HamburgerMenu({
