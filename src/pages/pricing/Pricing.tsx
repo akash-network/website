@@ -7,13 +7,15 @@ function Pricing() {
 
     return (
         <Tabs defaultValue={"gpus"} className="w-full">
-            <TabsList className="bg-slate-800">
-                <TabsTrigger value="gpus">GPU Pricing</TabsTrigger>
-                <TabsTrigger value="usage">Usage Pricing Calculator</TabsTrigger>
-                <TabsTrigger value="provider">Provider Earn Calculator</TabsTrigger>
-            </TabsList>
+            <div className="flex justify-center w-full">
+                <TabsList className="bg-white">
+                    <TabsTrigger value="gpus">GPU Pricing</TabsTrigger>
+                    <TabsTrigger value="usage">Usage Pricing Calculator</TabsTrigger>
+                    <TabsTrigger value="provider">Provider Earn Calculator</TabsTrigger>
+                </TabsList>
+            </div>
             <TabsContent value="gpus">
-                <div className="">
+                <div className="m-12">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         GPU Models, Prices & Availabilty
                     </h2>
@@ -24,7 +26,7 @@ function Pricing() {
                 <GpuTable initialData={null} />
             </TabsContent>
             <TabsContent value="usage">
-                <div className="">
+                <div className="m-12">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Usage Pricing
                     </h2>
@@ -37,7 +39,7 @@ function Pricing() {
                 <UsageTable initialData={null} />
             </TabsContent>
             <TabsContent value="provider">
-                <div className="">
+                <div className="m-12">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Provider Earn Calculator
                     </h2>
