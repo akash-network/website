@@ -1,39 +1,16 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import type { PaginateFunction } from "astro";
-import Layout from "@/layouts/layout.astro";
-import Tag from "@/components/ui/tag.astro";
-import Pagination from "@/components/pagination.astro";
+import Categories from "@/components/ecosystem-pages/categories.astro";
 import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
-import EcosystemNavbar from "@/components/ecosystem-pages/ecosystem-navbar.astro";
-import { SortActions } from "@/components/ecosystem-pages/sort-actions";
 import SortDropDown from "@/components/ecosystem-pages/sort-dropdown";
 import TagsSortDropDown from "@/components/ecosystem-pages/tags-sort-dropdown";
-import SearchDialog from "@/components/ecosystem-pages/search-dialog";
-
-import TopMargin from "@/components/ui/top-margin.astro";
 import TopHeader from "@/components/ecosystem-pages/top-header.astro";
-import Categories from "@/components/ecosystem-pages/categories.astro";
+import Pagination from "@/components/pagination.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import { getPriorityIndex } from "@/utils/sequences/deployedOnAkash";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 type Project = CollectionEntry<"Ecosystem_Page">;
-
-// Define a function to generate static paths
-const priorityTitles = [
-  "Brev.dev",
-  "Venice.ai",
-  "Prime Intellect",
-  "University of Texas at Austin",
-  "Nous Research",
-  "Flock.io",
-  "Akash Chat API",
-  "Akash Chat",
-  "Auki"
-];
-
-// Function to get the index of a project based on the priority list
-function getPriorityIndex(title) {
-  const index = priorityTitles.indexOf(title);
-  return index === -1 ? priorityTitles.length : index;  // If not found, place it at the end
-}
 
 export async function getStaticPaths({
   paginate,
@@ -120,22 +97,26 @@ const formattedTag = currentTag.charAt(0).toUpperCase() + currentTag.slice(1);
         class="mt-4 grid flex-shrink-0 grid-cols-1 gap-y-[24px] sm:grid-cols-2 sm:gap-x-8 md:gap-y-8 lg:grid-cols-3 lg:gap-x-[36px] lg:gap-y-[32px]"
       >
         {
-          [...page.data].sort((a, b) =>
-            getPriorityIndex(a.data.projectTitle) - getPriorityIndex(b.data.projectTitle)
-          ).map((project: Project, i: number) => {
-            return (
-              <ProjectCard
-                title={project.data.projectTitle}
-                description={project.data.description}
-                image={project.data.projectImage}
-                button={project.data.ctaButton}
-                githubLink={project.data.githubLink}
-                twitterLink={project.data.twitterLink}
-                websiteLink={project.data.websiteLink}
-                discordLink={project.data.discordLink}
-              />
-            );
-          })
+          [...page.data]
+            .sort(
+              (a, b) =>
+                getPriorityIndex(a.data.projectTitle) -
+                getPriorityIndex(b.data.projectTitle),
+            )
+            .map((project: Project, i: number) => {
+              return (
+                <ProjectCard
+                  title={project.data.projectTitle}
+                  description={project.data.description}
+                  image={project.data.projectImage}
+                  button={project.data.ctaButton}
+                  githubLink={project.data.githubLink}
+                  twitterLink={project.data.twitterLink}
+                  websiteLink={project.data.websiteLink}
+                  discordLink={project.data.discordLink}
+                />
+              );
+            })
         }
       </div>
 
