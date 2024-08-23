@@ -120,19 +120,37 @@ export const Tables = ({
     const max = {
         leasePercentInput: 100,
         cpuInput: 100,
-        cpuPricing: 100,
-        memoryInput: 512,
-        memoryPricing: 100,
+        cpuPricing: 5,
+        memoryInput: 1024,
+        memoryPricing: 5,
         storageInput: 10240,
-        storagePricing: 100,
+        storagePricing: 1,
         persistentStorageInput: 10240,
-        persistentStoragePricing: 100,
+        persistentStoragePricing: 1,
         gpuInput: 100,
-        gpuPricing: 100,
+        gpuPricing: 1000,
         ipInput: 100,
-        ipPricing: 100,
+        ipPricing: 10,
         endpointInput: 100,
-        endpointPricing: 100,
+        endpointPricing: 1,
+    }
+
+    const step = {
+        leasePercentInput: 0.5,
+        cpuInput: 1,
+        cpuPricing: 0.1,
+        memoryInput: 1,
+        memoryPricing: 0.1,
+        storageInput: 1,
+        storagePricing: 0.001,
+        persistentStorageInput: 1,
+        persistentStoragePricing: 0.001,
+        gpuInput: 1,
+        gpuPricing: 1,
+        ipInput: 1,
+        ipPricing: 0.1,
+        endpointInput: 1,
+        endpointPricing: 0.01,
     }
 
     const [leasePercentInput, setLeasePercentInput] = useState(100)
@@ -239,6 +257,7 @@ export const Tables = ({
         ipPricing,
         endpointInput,
         endpointPricing,
+        leasePercentInput,
     ])
 
     const calculateAKTPrice = (usdValue: any) => {
@@ -322,6 +341,7 @@ export const Tables = ({
                             content="Usage % (Leases in your provider)"
                             position="items-center"
                             max={max.leasePercentInput}
+                            step={step.leasePercentInput}
                             progress={leasePercentInput}
                             setProgress={setLeasePercentInput}
                         />
@@ -341,13 +361,14 @@ export const Tables = ({
                                 title="CPU"
                                 content="vCPU"
                                 max={max.cpuInput}
+                                step={step.cpuInput}
                                 progress={cpuInput}
-                                suffix="%"
                                 setProgress={setCpuInput} />
                             <PricingUnit
                                 title="CPU Pricing"
                                 content="USD / thread-month"
                                 max={max.cpuPricing}
+                                step={step.cpuPricing}
                                 progress={cpuPricing}
                                 setProgress={setCpuPricing} />
                         </div>
@@ -357,12 +378,14 @@ export const Tables = ({
                                 title="Memory"
                                 content="Gi"
                                 max={max.memoryInput}
+                                step={step.memoryInput}
                                 progress={memoryInput}
                                 setProgress={setMemoryInput} />
                             <PricingUnit
                                 title="Memory Pricing"
                                 content="USD / GB-month"
                                 max={max.memoryPricing}
+                                step={step.memoryPricing}
                                 progress={memoryPricing}
                                 setProgress={setMemoryPricing} />
                         </div>
@@ -372,12 +395,14 @@ export const Tables = ({
                                 title="Ephemeral Storage"
                                 content="Gi"
                                 max={max.storageInput}
+                                step={step.storageInput}
                                 progress={storageInput}
                                 setProgress={setStorageInput} />
                             <PricingUnit
                                 title="Storage Pricing"
                                 content="USD / GB-month"
                                 max={max.storagePricing}
+                                step={step.storagePricing}
                                 progress={storagePricing}
                                 setProgress={setStoragePricing} />
                         </div>
@@ -387,12 +412,14 @@ export const Tables = ({
                                 title="Persistent Storage"
                                 content="Gi"
                                 max={max.persistentStorageInput}
+                                step={step.persistentStorageInput}
                                 progress={persistentStorageInput}
                                 setProgress={setPersistentStorageInput} />
                             <PricingUnit
                                 title="Storage Pricing"
                                 content="USD / GB-month"
                                 max={max.persistentStoragePricing}
+                                step={step.persistentStoragePricing}
                                 progress={persistentStoragePricing}
                                 setProgress={setPersistentStoragePricing} />
                         </div>
@@ -402,12 +429,14 @@ export const Tables = ({
                                 title="GPUs"
                                 content="Unit"
                                 max={max.gpuInput}
+                                step={step.gpuInput}
                                 progress={gpuInput}
                                 setProgress={setGPUInput} />
                             <PricingUnit
                                 title="GPU Pricing"
                                 content="GPU pricing per Unit"
                                 max={max.gpuPricing}
+                                step={step.gpuPricing}
                                 progress={gpuPricing}
                                 setProgress={setGPUPricing} />
                         </div>
@@ -417,12 +446,14 @@ export const Tables = ({
                                 title="IPs"
                                 content="Unit"
                                 max={max.ipInput}
+                                step={step.ipInput}
                                 progress={ipInput}
                                 setProgress={setIpInput} />
                             <PricingUnit
                                 title="IP Pricing"
                                 content="USD / unit-month"
                                 max={max.ipPricing}
+                                step={step.ipPricing}
                                 progress={ipPricing}
                                 setProgress={setIpPricing} />
                         </div>
@@ -432,12 +463,14 @@ export const Tables = ({
                                 title="Endpoints"
                                 content="Unit"
                                 max={max.endpointInput}
+                                step={step.endpointInput}
                                 progress={endpointInput}
                                 setProgress={setEndpointInput} />
                             <PricingUnit
                                 title="Endpoint Pricing"
                                 content="USD / port-month"
                                 max={max.endpointPricing}
+                                step={step.endpointPricing}
                                 progress={endpointPricing}
                                 setProgress={setEndpointPricing} />
                         </div>

@@ -9,9 +9,10 @@ type PricingUnitProps = {
     content: string;
     position?: string;
     suffix?: string;
+    step?: number;
 }
 
-function PricingUnit({ title, content, position, progress, setProgress, max, suffix }: PricingUnitProps) {
+function PricingUnit({ title, content, position, progress, setProgress, max, suffix, step = 1 }: PricingUnitProps) {
 
     useEffect(() => {
         if (!progress) {
@@ -41,7 +42,7 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
                     defaultValue={[progress]}
                     value={[progress]}
                     max={max}
-                    step={1}
+                    step={step}
                     className={"w-[100%] z-10"}
                     onValueChange={(value) => setProgress(value[0])}
                     sliderLabel={suffix ? `${progress} ${suffix}` : `${progress}`}
