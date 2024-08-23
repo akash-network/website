@@ -1,19 +1,19 @@
 import GpuTable from "@/components/pricing-page/gpus/gpu-table";
 import ProviderTable from "@/components/pricing-page/provider/provider-table";
 import UsageTable from "@/components/pricing-page/usage/usage-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import TabsWraaper, { TabContent, TabList, TabTrigger } from "@/components/ui/tabs"
 
 function Pricing() {
     return (
-        <Tabs defaultValue={"gpus"} className="w-full">
+        <TabsWraaper defaultValue={"gpus"} className="w-full">
             <div className="flex justify-center w-full">
-                <TabsList className="bg-secondary-gray dark:bg-darkGray">
-                    <TabsTrigger value="gpus">GPU Pricing</TabsTrigger>
-                    <TabsTrigger value="usage">Usage Pricing Calculator</TabsTrigger>
-                    <TabsTrigger value="provider">Provider Earn Calculator</TabsTrigger>
-                </TabsList>
+                <TabList className="bg-secondary-gray dark:bg-darkGray">
+                    <TabTrigger value="gpus">GPU Pricing</TabTrigger>
+                    <TabTrigger value="usage">Usage Pricing Calculator</TabTrigger>
+                    <TabTrigger value="provider">Provider Earn Calculator</TabTrigger>
+                </TabList>
             </div>
-            <TabsContent value="gpus">
+            <TabContent value="gpus">
                 <div className="m-12">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         GPU Models, Prices & Availabilty
@@ -23,8 +23,8 @@ function Pricing() {
                     </p>
                 </div>
                 <GpuTable initialData={null} />
-            </TabsContent>
-            <TabsContent value="usage">
+            </TabContent>
+            <TabContent value="usage">
                 <div className="m-12">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Usage Pricing
@@ -36,8 +36,8 @@ function Pricing() {
                     </p>
                 </div>
                 <UsageTable initialData={null} />
-            </TabsContent>
-            <TabsContent value="provider">
+            </TabContent>
+            <TabContent value="provider">
                 <div className="m-12">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Provider Earn Calculator
@@ -47,8 +47,8 @@ function Pricing() {
                     </p>
                 </div>
                 <ProviderTable initialData={null} />
-            </TabsContent>
-        </Tabs>
+            </TabContent>
+        </TabsWraaper>
     )
 }
 
