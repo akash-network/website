@@ -141,7 +141,7 @@ export default function Filter({
   }, [filters, res]);
 
   return (
-    <div className="rounded-md border px-5 py-4 shadow-sm w-full bg-white">
+    <div className="rounded-md border px-5 py-4 shadow-sm w-full bg-white dark:bg-darkGray">
       <p className="pb-3 text-sm font-medium">Filtering Options</p>
       {options?.map((item) => (
         <Disclosure

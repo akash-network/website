@@ -155,10 +155,10 @@ export const Tables = ({
             </div>
           </div>
           <a
-            id={`usage`}
-            href={`#`}
+            id={"usage"}
+            href={"https://console.akash.network/"}
             target="_blank"
-            className=" rounded-md bg-primary flex justify-center py-2 px-4 gap-1.5"
+            className="rounded-md bg-primary flex justify-center py-2 px-4 gap-1.5 hover:bg-darkGray"
           >
             <p className="font-medium text-white leading-[24px]">Deploy Now</p>
             <img src={arrowUpRight.src} alt="" />

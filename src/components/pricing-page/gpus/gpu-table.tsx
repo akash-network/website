@@ -15,9 +15,9 @@ import { gpus } from "@/utils/api";
 import clsx from "clsx";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import { Skeleton } from "../../ui/skeleton";
-import arrowUpRight from '../../../assets/icons/arrow-up-right.svg';
 import CircularProgressBar from "./circular-progress-bar";
 import AvailabilityBar from "./availability-bar";
+import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -139,7 +139,7 @@ export const Tables = ({
           "flex flex-col gap-8 "
         )}
       >
-        <div className="rounded-md border p-5 shadow-sm  flex gap-8 items-center justify-between mt-8 w-[274px] bg-white">
+        <div className="rounded-md border p-5 shadow-sm  flex gap-8 items-center justify-between mt-8 w-[274px] bg-white dark:bg-darkGray">
           <div className="flex flex-col gap-5">
             <div className="">
               <h2 className="text-sm font-medium text-linkText">
@@ -149,7 +149,7 @@ export const Tables = ({
                 isLoading ?
                   <Skeleton className="h-8 w-20" />
                   :
-                  <p className="text-2xl font-bold text-black">{data?.availability?.total || 0}</p>
+                  <p className="text-2xl font-bold text-black dark:text-white">{data?.availability?.total || 0}</p>
               }
             </div>
             <div className="flex flex-col gap-2">
@@ -381,7 +381,7 @@ export const Tables = ({
                         className="h-5"
                       />
                       <div className="">
-                        <p className="text-xl font-semibold capitalize text-black">{modifyModel(model?.model)}</p>
+                        <p className="text-xl font-semibold capitalize text-black dark:text-white">{modifyModel(model?.model)}</p>
                         <p className="text-sm font-medium">{model?.ram} {model?.interface}</p>
                       </div>
                     </div>
@@ -391,10 +391,10 @@ export const Tables = ({
                   </td>
                   <td className="pl-4 border-y">
                     <div className="flex justify-between">
-                      <span className="font-semibold ">
+                      <span className="font-semibold">
                         Average price:
                       </span>
-                      <span className="font-semibold ">
+                      <span className="font-semibold">
                         ${model?.price?.avg || 0}
                       </span>
                     </div>
@@ -450,10 +450,10 @@ export const Tables = ({
                       id={`${model?.model}-(gpu-rent)`}
                       href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                       target="_blank"
-                      className=" rounded-md bg-[#272626] py-2 px-4 inline-flex gap-1.5"
+                      className=" rounded-md bg-foreground py-2 px-4 inline-flex gap-1.5 hover:bg-primary text-white dark:text-black dark:hover:text-inherit"
                     >
-                      <p className="text-xs font-medium text-white">Rent Now</p>
-                      <img src={arrowUpRight.src} alt="" />
+                      <p className="text-xs font-medium text-inherit">Rent Now</p>
+                      <ArrowUpRightIcon className="w-[15px]" />
                     </a>
                   </td>
                 </tr>

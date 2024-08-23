@@ -18,7 +18,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
     progressValue,
     primaryColor = '#ff4757',
     secondaryColor = '#e5e7eb',
-    backgroundCircleColor = '#ffffff',
+    backgroundCircleColor = 'transparent',
     gapSize = 1,
     className,
 }) => {
