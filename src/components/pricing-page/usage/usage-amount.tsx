@@ -6,17 +6,19 @@ type UsageAmountProps = {
     content: string;
     max: number;
     defaultValue: number;
+    amount: number;
+    setAmount: React.Dispatch<React.SetStateAction<number>>;
     suffix?: string;
 };
 
-function UsageAmount({ title, content, max, defaultValue, suffix }: UsageAmountProps) {
-    const [value, setValue] = useState<number[]>([defaultValue]);
+function UsageAmount({ title, content, max, defaultValue, amount, setAmount, suffix }: UsageAmountProps) {
+    // const [amount, setAmount] = useState<number[]>([defaultValue]);
 
     useEffect(() => {
-        if (!value[0]) {
-            setValue([0]);
+        if (!amount) {
+            setAmount(0);
         }
-    }, [value])
+    }, [amount])
 
     return (
         <div className="flex flex-col gap-5">
@@ -28,19 +30,19 @@ function UsageAmount({ title, content, max, defaultValue, suffix }: UsageAmountP
                 <div className="relative w-full">
                     <Slider
                         defaultValue={[defaultValue]}
-                        value={value}
+                        value={[amount]}
                         max={max}
                         step={1}
                         className={"w-[100%] z-10"}
-                        onValueChange={setValue}
-                        sliderLabel={`${value} ${suffix}`}
+                        onValueChange={(value) => setAmount(value[0])}
+                        sliderLabel={`${amount} ${suffix}`}
                         draggable
                     />
                 </div>
                 <input
                     className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-white text-[21px] font-semibold text-black focus:outline-primary"
-                    value={value[0]}
-                    onChange={(e) => { setValue([parseInt(e.target.value)]) }}
+                    value={amount}
+                    onChange={(e) => { setAmount(parseInt(e.target.value)) }}
                 />
             </div>
         </div>

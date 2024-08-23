@@ -14,7 +14,7 @@ const CompareItem = ({ title, cost, logo }: CompareItemProps) => {
             <div className="flex justify-between pt-2">
                 <p className="text-sm font-medium">Estimated Cost:</p>
                 <p className="text-[21px] leading-[28px] font-semibold text-black dark:text-white">
-                    ${cost}
+                    ${cost.toFixed(2)}
                 </p>
             </div>
         </div>
