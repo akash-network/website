@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 
 type PricingUnitProps = {
@@ -13,6 +13,12 @@ type PricingUnitProps = {
 
 function PricingUnit({ title, content, position, progress, setProgress, max, suffix }: PricingUnitProps) {
 
+    useEffect(() => {
+        if (!progress) {
+            setProgress(0);
+        }
+    }, [progress])
+
     return (
         <div className="flex flex-col gap-5 w-full">
             <div className={`flex justify-between ${position ? position : 'items-start'}`}>
@@ -24,13 +30,16 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
                         {content}
                     </p>
                 </div>
-                <div className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-white font-bold text-black">
-                    {progress}{title === 'CPU' ? '%' : ''}
-                </div>
+                <input
+                    className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-white font-bold text-black"
+                    value={progress}
+                    onChange={(e) => { setProgress(parseInt(e.target.value)) }}
+                />
             </div>
             <div className="relative w-full py-5">
                 <Slider
                     defaultValue={[progress]}
+                    value={[progress]}
                     max={max}
                     step={1}
                     className={"w-[100%] z-10"}

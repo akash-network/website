@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 
 type UsageAmountProps = {
@@ -12,6 +12,12 @@ type UsageAmountProps = {
 function UsageAmount({ title, content, max, defaultValue, suffix }: UsageAmountProps) {
     const [value, setValue] = useState<number[]>([defaultValue]);
 
+    useEffect(() => {
+        if (!value[0]) {
+            setValue([0]);
+        }
+    }, [value])
+
     return (
         <div className="flex flex-col gap-5">
             <div className="">
@@ -22,6 +28,7 @@ function UsageAmount({ title, content, max, defaultValue, suffix }: UsageAmountP
                 <div className="relative w-full">
                     <Slider
                         defaultValue={[defaultValue]}
+                        value={value}
                         max={max}
                         step={1}
                         className={"w-[100%] z-10"}
@@ -30,9 +37,11 @@ function UsageAmount({ title, content, max, defaultValue, suffix }: UsageAmountP
                         draggable
                     />
                 </div>
-                <div className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-white text-[21px] font-semibold text-black">
-                    {value[0]}
-                </div>
+                <input
+                    className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-white text-[21px] font-semibold text-black"
+                    value={value[0]}
+                    onChange={(e) => { setValue([parseInt(e.target.value)]) }}
+                />
             </div>
         </div>
     );
