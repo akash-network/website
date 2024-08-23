@@ -24,7 +24,7 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
         <div className="flex flex-col gap-5 w-full">
             <div className={`flex justify-between ${position ? position : 'items-start'}`}>
                 <div className="">
-                    <p className="font-semibold text-black">
+                    <p className="font-semibold text-black dark:text-white">
                         {title}
                     </p>
                     <p className="font-medium">
