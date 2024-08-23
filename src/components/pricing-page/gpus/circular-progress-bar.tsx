@@ -17,7 +17,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
     strokeWidth = 10,
     progressValue,
     primaryColor = '#ff4757',
-    secondaryColor = '#e5e7eb',
+    secondaryColor = '#ffd9db',
     backgroundCircleColor = 'transparent',
     gapSize = 1,
     className,
@@ -27,9 +27,9 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
     // Circumference of the circles (used for calculating strokeDasharray)
     const circumference = 2 * Math.PI * radius;
     // Offset for the primary progress bar (determines how much of the circle is filled)
-    const primaryOffset = circumference - (progressValue / 100) * circumference;
+    const primaryOffset = circumference - (1 - (progressValue + gapSize * 2) / 100) * circumference;
     // Offset for the secondary progress bar (adjusted for gap between bars)
-    const secondaryOffset = circumference - (1 - (progressValue + gapSize * 2) / 100) * circumference;
+    const secondaryOffset = circumference - (progressValue / 100) * circumference;
 
     return (
         <svg
@@ -57,7 +57,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                 strokeDasharray={circumference}
                 strokeDashoffset={secondaryOffset}
                 strokeLinecap="butt"
-                transform={`rotate(${(progressValue + gapSize) * 3.6}, ${diameter / 2}, ${diameter / 2})`}
+                transform={`rotate(${(100 - progressValue - gapSize) * 3.6}, ${diameter / 2}, ${diameter / 2})`}
             />
             {/* Primary Progress Bar */}
             <circle
