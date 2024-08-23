@@ -1,56 +1,88 @@
-"use client"
+import { useEffect, useId, useState } from "react";
 
-import * as React from "react";
-import * as TabsPrimitive from "@radix-ui/react-tabs";
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ");
+}
 
-import { cn } from "@/lib/utils";
+export default function TabsWrapper({
+  defaultTab,
+  children,
+}: {
+  defaultTab?: string;
+  children: any;
+}) {
+  const [currentTab, setCurrentTab] = useState<any>(defaultTab);
+  const [alltabs, setAllTabs] = useState<string[]>([]);
+  const mainId = useId();
 
-const TabsWrapper = TabsPrimitive.Root;
+  useEffect(() => {
+    const main = document.getElementById(mainId);
+    const tabs = main?.querySelectorAll("section");
+    tabs?.forEach((tab) => {
+      if (tab.id === currentTab) {
+        tab.classList.remove("hidden");
+      } else {
+        tab.classList.add("hidden");
+      }
+    });
+  }, [currentTab]);
 
-const TabList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(
-      "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
-      className
-    )}
-    {...props}
-  />
-));
-TabList.displayName = TabsPrimitive.List.displayName;
+  useEffect(() => {
+    const main = document.getElementById(mainId);
 
-const TabTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-      className
-    )}
-    {...props}
-  />
-));
-TabTrigger.displayName = TabsPrimitive.Trigger.displayName;
+    // get all ids of section and log
 
-const TabContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content
-    ref={ref}
-    className={cn(
-      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      className
-    )}
-    {...props}
-  />
-));
-TabContent.displayName = TabsPrimitive.Content.displayName;
+    const tabs = main?.querySelectorAll("section");
 
-export { TabList, TabTrigger, TabContent };
-export default TabsWrapper;
+    const allTabs: string[] = [];
+    tabs?.forEach((tab) => {
+      allTabs.push(tab.id);
+    });
+    setAllTabs(allTabs);
+
+    if (!defaultTab) {
+      setCurrentTab(allTabs[0]);
+    }
+  }, []);
+
+  console.log(currentTab);
+
+  return (
+    <div className="bg-background2 p-5 ">
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex" aria-label="Tabs">
+          {alltabs.map((tab) => (
+            <button
+              onClick={() => setCurrentTab(tab)}
+              key={tab}
+              className={classNames(
+                currentTab === tab
+                  ? "border-black text-black dark:border-white dark:text-white"
+                  : "border-transparent text-[#889096] hover:border-gray-300 hover:text-gray-700 dark:hover:text-white",
+                " border-b-2 px-3 py-2 text-center text-sm font-medium",
+              )}
+              aria-current={tab ? "page" : undefined}
+            >
+              {tab}
+            </button>
+          ))}
+        </nav>
+      </div>
+      <div id={mainId}>{children}</div>
+    </div>
+  );
+}
+
+export const TabContent = ({
+  children,
+  value,
+}: {
+  children: any;
+  value: string;
+}) => {
+  return (
+    <section id={value} className="hidden">
+      {children}
+    </section>
+  );
+};
