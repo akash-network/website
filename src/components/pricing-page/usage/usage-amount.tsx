@@ -38,7 +38,7 @@ function UsageAmount({ title, content, max, defaultValue, suffix }: UsageAmountP
                     />
                 </div>
                 <input
-                    className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-white text-[21px] font-semibold text-black"
+                    className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-white text-[21px] font-semibold text-black focus:outline-primary"
                     value={value[0]}
                     onChange={(e) => { setValue([parseInt(e.target.value)]) }}
                 />

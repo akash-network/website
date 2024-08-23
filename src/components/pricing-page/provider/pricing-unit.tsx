@@ -31,7 +31,7 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
                     </p>
                 </div>
                 <input
-                    className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-white font-bold text-black"
+                    className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-white font-bold text-black focus:outline-primary"
                     value={progress}
                     onChange={(e) => { setProgress(parseInt(e.target.value)) }}
                 />
