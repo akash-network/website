@@ -8,10 +8,13 @@ import React, { useState } from "react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
 import arrowUpRight from '../../../assets/icons/arrow-up-right.svg';
-import Compare from "./compare";
+import awsLogo from '../../../assets/aws-logo.svg'
+import gcpLogo from '../../../assets/gcp-logo.svg'
+import azureLogo from '../../../assets/azure-logo.svg'
 import akashLogo from '../../../assets/akash-logo-primary.svg'
 import Disclaimer from "./disclaimer";
 import UsageAmount from "./usage-amount";
+import CompareItem from "./compare-item";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -135,21 +138,21 @@ export const Tables = ({
           "flex flex-col gap-8 "
         )}
       >
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-white">
+        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-white dark:bg-darkGray">
           <p className="text-sm font-medium">Price estimate</p>
           <div className="">
             <div className="flex gap-4 items-center pb-2 border-b">
               <img src={akashLogo.src} alt="akash-logo" />
-              <p className="font-semibold text-black">Akash Network</p>
+              <p className="font-semibold text-black dark:text-white">Akash Network</p>
             </div>
             <div className="flex justify-between pt-2">
               <p className="text-sm font-medium">Estimated Cost:</p>
-              <p className="text-[21px] leading-[28px] font-semibold text-black">
+              <p className="text-[21px] leading-[28px] font-semibold text-black dark:text-white">
                 ${mock.cost}
               </p>
             </div>
             <div className="flex justify-end pt-[5px]">
-              <p className="px-2.5 py-1 bg-success-light text-success-dark rounded-full text-sm font-medium">
+              <p className="px-2.5 py-1 bg-success-light text-success-dark dark:bg-success-dark dark:text-success-light rounded-full text-sm font-medium">
                 {mock.percent}
               </p>
             </div>
@@ -164,14 +167,30 @@ export const Tables = ({
             <img src={arrowUpRight.src} alt="" />
           </a>
         </div>
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-white">
+        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-white dark:bg-darkGray">
           <p className="text-sm font-medium">Price compare</p>
-          <Compare />
+          <div className="flex flex-col gap-5">
+            <CompareItem
+              title="AWS"
+              cost={25.12}
+              logo={awsLogo.src}
+            />
+            <CompareItem
+              title="GCP"
+              cost={25.12}
+              logo={gcpLogo.src}
+            />
+            <CompareItem
+              title="Azure"
+              cost={25.12}
+              logo={azureLogo.src}
+            />
+          </div>
         </div>
       </div>
       <div className="w-full">
 
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-6 w-full bg-white">
+        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-6 w-full bg-white dark:bg-darkGray">
           <p className="text-sm font-medium">Usage estimate</p>
           <UsageAmount
             title="CPU"
