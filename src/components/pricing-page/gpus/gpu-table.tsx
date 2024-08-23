@@ -136,10 +136,10 @@ export const Tables = ({
     >
       <div
         className={clsx(
-          "flex flex-col gap-8 "
+          "flex flex-col gap-10"
         )}
       >
-        <div className="rounded-md border p-5 shadow-sm  flex gap-8 items-center justify-between mt-8 w-[274px] bg-white dark:bg-darkGray">
+        <div className="rounded-md border p-5 shadow-sm  flex gap-8 items-center justify-between mt-8 w-[274px] bg-background2">
           <div className="flex flex-col gap-5">
             <div className="">
               <h2 className="text-sm font-medium text-linkText">
@@ -149,7 +149,7 @@ export const Tables = ({
                 isLoading ?
                   <Skeleton className="h-8 w-20" />
                   :
-                  <p className="text-2xl font-bold text-black dark:text-white">{data?.availability?.total || 0}</p>
+                  <p className="text-2xl font-bold text-foreground">{data?.availability?.total || 0}</p>
               }
             </div>
             <div className="flex flex-col gap-2">
@@ -159,7 +159,7 @@ export const Tables = ({
                   isLoading ?
                     <Skeleton className="h-[10px] w-10" />
                     :
-                    <p className="text-[10px] font-medium"><span className="">{((data?.availability?.available || 0) / (data?.availability?.total || 1) * 100).toFixed(2)}</span>% Available</p>
+                    <p className="text-[10px] font-medium text-foreground"><span className="font-bold">{((data?.availability?.available || 0) / (data?.availability?.total || 1) * 100).toFixed(2)}</span>% Available</p>
                 }
               </div>
               <div className="flex items-center gap-1 w-full">
@@ -168,7 +168,7 @@ export const Tables = ({
                   isLoading ?
                     <Skeleton className="h-[10px] w-10" />
                     :
-                    <p className="text-[10px] font-medium"><span className="">{(100 - ((data?.availability?.available || 0) / (data?.availability?.total || 1) * 100)).toFixed(2)}</span>% Used</p>
+                    <p className="text-[10px] font-medium text-foreground"><span className="font-bold">{(100 - ((data?.availability?.available || 0) / (data?.availability?.total || 1) * 100)).toFixed(2)}</span>% Used</p>
                 }
               </div>
             </div>
@@ -329,11 +329,11 @@ export const Tables = ({
               ? new Array(10).fill(0).map((_, index) => (
                 <tr
                   key={index}
-                  className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
+                  className="border overflow-hidden rounded-lg  bg-background2 shadow-sm"
                 >
                   <td
                     className=
-                    " rounded-l-lg  border-y border-l px-2 py-2 text-base font-semibold  xl:px-4  xl:text-lg w-[26%]"
+                    " rounded-l-lg  border-l text-base font-semibold xl:text-lg w-[24%]"
                   >
                     <div className="flex items-center gap-3 capitalize">
                       <Skeleton className="h-5 w-7" />
@@ -344,13 +344,13 @@ export const Tables = ({
                     </div>
                   </td>
 
-                  <td className=" w-[26%] border-y pr-8">
+                  <td className=" w-[27.2%] pr-8">
                     <div className=" flex justify-between items-center">
                       <Skeleton className="h-5 w-20" />
                       <Skeleton className="h-5 w-20" />
                     </div>
                   </td>
-                  <td className="w-[26%] pl-4 border-y">
+                  <td className="w-[27.2%] pl-4">
                     <div className="flex justify-between">
                       <Skeleton className="h-6 w-20" />
                       <Skeleton className="h-6 w-20" />
@@ -361,7 +361,7 @@ export const Tables = ({
                       <Skeleton className="h-3 w-3"></Skeleton>
                     </div>
                   </td>
-                  <td className="text-center border-y border-r rounded-r-lg">
+                  <td className="text-center px-8 border-r rounded-r-lg">
                     <Skeleton className="h-8 w-24 mx-auto" />
                   </td>
                 </tr>
@@ -369,28 +369,30 @@ export const Tables = ({
               : filteredData?.map((model, index) => (
                 <tr
                   key={index}
-                  className=" overflow-hidden rounded-lg  bg-background2 shadow-sm"
+                  className="border overflow-hidden rounded-lg  bg-background2 shadow-sm"
                 >
                   <td
-                    className=" rounded-l-lg  border-y border-l px-2 py-2 text-base font-semibold  xl:px-4  xl:text-lg"
+                    className=" rounded-l-lg  border-l  text-base font-semibold  xl:text-lg w-[24%]"
                   >
                     <div className="flex items-center gap-3">
-                      <img
-                        src="/logos/nvidia.png"
-                        alt="nvidia"
-                        className="h-5"
-                      />
+                      <div className="p-[11px_5px] ml-6 border rounded-md">
+                        <img
+                          src="/logos/nvidia.png"
+                          alt="nvidia"
+                          className="h-5"
+                        />
+                      </div>
                       <div className="">
-                        <p className="text-xl font-semibold capitalize text-black dark:text-white">{modifyModel(model?.model)}</p>
+                        <p className="text-xl font-semibold capitalize text-foreground">{modifyModel(model?.model)}</p>
                         <p className="text-sm font-medium">{model?.ram} {model?.interface}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="pr-8 border-y">
+                  <td className="w-[27.2%] px-8">
                     <AvailabilityBar available={model?.availability?.available} total={model?.availability?.total} />
                   </td>
-                  <td className="pl-4 border-y">
-                    <div className="flex justify-between">
+                  <td className="w-[27.2%] px-8">
+                    <div className="flex justify-between border-b">
                       <span className="font-semibold">
                         Average price:
                       </span>
@@ -409,7 +411,7 @@ export const Tables = ({
                         <span className="text-sm font-medium text-iconText">
                           Max: ${model?.price?.max || 0}
                         </span>
-                        <Info size={12} className="text-[#D7DBDF] dark:text-[#3E3E3E]" />
+                        <Info size={12} className="text-[#71717A] dark:text-[#3E3E3E]" />
                       </HoverCardTrigger>
                       <HoverCardContent align="center">
                         <div className="flex flex-col">
@@ -445,7 +447,7 @@ export const Tables = ({
                       </HoverCardContent>
                     </HoverCard>
                   </td>
-                  <td className="text-center border-y border-r rounded-r-lg">
+                  <td className="text-center px-8 border-r rounded-r-lg">
                     <a
                       id={`${model?.model}-(gpu-rent)`}
                       href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
@@ -467,7 +469,7 @@ export const Tables = ({
 
 const CustomHoverCard = ({ model }: { model: Gpus["models"][0] }) => {
   return (
-    <div className="flex flex-col items-start gap-1 ">
+    <div className="flex flex-col items-start gap-1">
       <div className="rounded-x-md relative min-w-[170px]  rounded-b-md border-x border-b px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
         {/* <div className="absolute inset-0 bg-gradient-to-b from-white to-white/20 dark:from-background2 dark:to-background2/20"></div> */}
         Min: {price(model?.price?.min)}

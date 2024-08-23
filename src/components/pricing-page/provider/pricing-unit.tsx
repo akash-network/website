@@ -24,7 +24,7 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
         <div className="flex flex-col gap-5 w-full">
             <div className={`flex justify-between ${position ? position : 'items-start'}`}>
                 <div className="">
-                    <p className="font-semibold text-black dark:text-white">
+                    <p className="font-semibold text-foreground">
                         {title}
                     </p>
                     <p className="font-medium">
@@ -32,7 +32,7 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
                     </p>
                 </div>
                 <input
-                    className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-white font-bold text-black focus:outline-primary"
+                    className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-background font-bold text-foreground focus:outline-primary dark:outline-none"
                     value={progress}
                     onChange={(e) => { setProgress(parseInt(e.target.value)) }}
                 />

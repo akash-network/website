@@ -23,7 +23,7 @@ function UsageAmount({ title, content, max, defaultValue, amount, setAmount, suf
     return (
         <div className="flex flex-col gap-5">
             <div className="">
-                <h2 className="text-2xl font-semibold text-black">{title}</h2>
+                <h2 className="text-2xl font-semibold text-foreground">{title}</h2>
                 <p className="text-sm font-medium">{content}</p>
             </div>
             <div className="flex justify-between items-center gap-5 ">
@@ -40,7 +40,7 @@ function UsageAmount({ title, content, max, defaultValue, amount, setAmount, suf
                     />
                 </div>
                 <input
-                    className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-white text-[21px] font-semibold text-black focus:outline-primary"
+                    className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-background text-[21px] font-semibold text-foreground focus:outline-primary dark:outline-none"
                     value={amount}
                     onChange={(e) => { setAmount(parseInt(e.target.value)) }}
                 />

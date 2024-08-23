@@ -141,69 +141,71 @@ export default function Filter({
   }, [filters, res]);
 
   return (
-    <div className="rounded-md border px-5 py-4 shadow-sm w-full bg-white dark:bg-darkGray">
+    <div className="w-full">
       <p className="pb-3 text-sm font-medium">Filtering Options</p>
-      {options?.map((item) => (
-        <Disclosure
-          as={"div"}
-          className="flex flex-col gap-2 py-2"
-          key={item.name}
-          defaultOpen={filters?.[item.value]?.length > 0 ? true : false}
-        >
-          {({ open }) => (
-            <>
-              <Disclosure.Button
-                className={
-                  "group flex items-center gap-1.5  text-sm font-bold text-textGray "
-                }
-              >
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className={classNames(
-                    open ? " rotate-0 transform" : "-rotate-90",
-                    "h-4 w-4 transition-transform duration-200",
-                  )}
-                />
-                {item.name}
-              </Disclosure.Button>
-              <Disclosure.Panel
-                className={"flex flex-col gap-2 py-2"}
-                as="div"
-              >
-                {item.options.map((option) => (
-                  <div key={option.name}>
-                    <CheckBox
-                      label={option.name}
-                      name={option.value}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setFilters((prev) => ({
-                            ...prev,
-                            [item.value]: [
-                              ...prev[item.value],
-                              option.value,
-                            ],
-                          }));
-                        } else {
-                          setFilters((prev) => ({
-                            ...prev,
-                            [item.value]: prev[item.value].filter(
-                              (filter) => filter !== option.value,
-                            ),
-                          }));
-                        }
-                      }}
-                      checked={filters?.[item.value]?.includes(
-                        option.value,
-                      )}
-                    />
-                  </div>
-                ))}
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      ))}
+      <div className="rounded-md border shadow-sm w-full bg-background2">
+        {options?.map((item) => (
+          <Disclosure
+            as={"div"}
+            className="flex flex-col gap-2 py-2 border-b pl-3"
+            key={item.name}
+            defaultOpen={filters?.[item.value]?.length > 0 ? true : false}
+          >
+            {({ open }) => (
+              <>
+                <Disclosure.Button
+                  className={
+                    "group flex items-center gap-1.5  text-base font-bold text-textGray "
+                  }
+                >
+                  <ChevronDownIcon
+                    aria-hidden="true"
+                    className={classNames(
+                      open ? " rotate-0 transform" : "-rotate-90",
+                      "h-4 w-4 transition-transform duration-200",
+                    )}
+                  />
+                  {item.name}
+                </Disclosure.Button>
+                <Disclosure.Panel
+                  className={"flex flex-col gap-2 py-2"}
+                  as="div"
+                >
+                  {item.options.map((option) => (
+                    <div key={option.name}>
+                      <CheckBox
+                        label={option.name}
+                        name={option.value}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFilters((prev) => ({
+                              ...prev,
+                              [item.value]: [
+                                ...prev[item.value],
+                                option.value,
+                              ],
+                            }));
+                          } else {
+                            setFilters((prev) => ({
+                              ...prev,
+                              [item.value]: prev[item.value].filter(
+                                (filter) => filter !== option.value,
+                              ),
+                            }));
+                          }
+                        }}
+                        checked={filters?.[item.value]?.includes(
+                          option.value,
+                        )}
+                      />
+                    </div>
+                  ))}
+                </Disclosure.Panel>
+              </>
+            )}
+          </Disclosure>
+        ))}
+      </div>
     </div>
   );
 }

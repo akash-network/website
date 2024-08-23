@@ -198,7 +198,7 @@ export const Tables = ({
           "flex flex-col gap-8 "
         )}
       >
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-white dark:bg-darkGray">
+        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-background2">
           <p className="text-sm font-medium">Price estimate</p>
           <div className="">
             <div className="flex gap-4 items-center pb-2 border-b">
@@ -227,7 +227,7 @@ export const Tables = ({
             <img src={arrowUpRight.src} alt="" />
           </a>
         </div>
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-white dark:bg-darkGray">
+        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-background2">
           <p className="text-sm font-medium">Price compare</p>
           <div className="flex flex-col gap-5">
             <CompareItem
@@ -250,7 +250,7 @@ export const Tables = ({
       </div>
       <div className="w-full">
 
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-6 w-full bg-white dark:bg-darkGray">
+        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-6 w-full bg-background2">
           <p className="text-sm font-medium">Usage estimate</p>
           <UsageAmount
             title="CPU"

@@ -278,7 +278,7 @@ export const Tables = ({
             >
                 <div className="flex flex-col gap-2">
                     <p className="font-semibold">Estimated Earnings</p>
-                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-white dark:bg-darkGray text-black dark:text-white">
+                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-background2 text-black dark:text-white">
                         <MonthEarning
                             size={24}
                             title="Total Monthly Earnings in USD"
@@ -300,7 +300,7 @@ export const Tables = ({
                 </div>
                 <div className="flex flex-col gap-2">
                     <p className="font-semibold">Estimated Breakdown</p>
-                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-white dark:bg-darkGray">
+                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-background2">
                         <MonthEarning
                             size={20}
                             title="Total CPU Earnings"
@@ -334,7 +334,7 @@ export const Tables = ({
             </div>
             <div className="flex flex-col gap-2 w-full">
                 <p className="font-semibold">Estimated Earnings</p>
-                <div className="rounded-md border p-6 shadow-sm bg-white dark:bg-darkGray">
+                <div className="rounded-md border p-6 shadow-sm bg-background2">
                     <div className="border-b pb-8">
                         <PricingUnit
                             title="Provider Utilization"
@@ -356,7 +356,7 @@ export const Tables = ({
                     </div>
                     <div className="flex flex-col gap-7">
                         <div className="flex items-start gap-10 justify-between pb-7 border-b">
-                            <img src={CpuBrand.src} alt="" />
+                            <img src={CpuBrand.src} alt="CPU" />
                             <PricingUnit
                                 title="CPU"
                                 content="vCPU"

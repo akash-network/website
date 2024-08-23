@@ -14,7 +14,7 @@ function Pricing() {
                 </TabsList>
             </div>
             <TabsContent value="gpus">
-                <div className="m-12">
+                <div className="m-[4.5rem]">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         GPU Models, Prices & Availabilty
                     </h2>
@@ -25,7 +25,7 @@ function Pricing() {
                 <GpuTable initialData={null} />
             </TabsContent>
             <TabsContent value="usage">
-                <div className="m-12">
+                <div className="m-[4.5rem]">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Usage Pricing
                     </h2>
@@ -38,7 +38,7 @@ function Pricing() {
                 <UsageTable initialData={null} />
             </TabsContent>
             <TabsContent value="provider">
-                <div className="m-12">
+                <div className="m-[4.5rem]">
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Provider Earn Calculator
                     </h2>
