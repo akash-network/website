@@ -6,9 +6,10 @@ type UsageAmountProps = {
     content: string;
     max: number;
     defaultValue: number;
+    suffix?: string;
 };
 
-function UsageAmount({ title, content, max, defaultValue }: UsageAmountProps) {
+function UsageAmount({ title, content, max, defaultValue, suffix }: UsageAmountProps) {
     const [value, setValue] = useState<number[]>([defaultValue]);
 
     return (
@@ -23,8 +24,9 @@ function UsageAmount({ title, content, max, defaultValue }: UsageAmountProps) {
                         defaultValue={[defaultValue]}
                         max={max}
                         step={1}
-                        className={"w-[100%]"}
+                        className={"w-[100%] z-10"}
                         onValueChange={setValue}
+                        sliderLabel={`${value} ${suffix}`}
                         draggable
                     />
                 </div>

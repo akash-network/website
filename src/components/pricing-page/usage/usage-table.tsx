@@ -177,21 +177,25 @@ export const Tables = ({
             title="CPU"
             max={1000}
             defaultValue={240}
+            suffix="vCPUs"
             content="(Amount of vCPU's)" />
           <UsageAmount
             title="Memory"
             max={1000}
             defaultValue={240}
+            suffix="GB"
             content="(Amount of memory)" />
           <UsageAmount
             title="Ephemeral Storage"
             max={1000}
             defaultValue={240}
+            suffix="GB"
             content="(Amount of ephemeral disk storage)" />
           <UsageAmount
             title="Persistent Storage"
             max={1000}
             defaultValue={240}
+            suffix="GB"
             content="(Amount of persistent disk storage)" />
           <div className="flex justify-end">
             <Disclaimer />

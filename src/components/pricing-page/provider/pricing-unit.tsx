@@ -8,9 +8,10 @@ type PricingUnitProps = {
     title: string;
     content: string;
     position?: string;
+    suffix?: string;
 }
 
-function PricingUnit({ title, content, position, progress, setProgress, max }: PricingUnitProps) {
+function PricingUnit({ title, content, position, progress, setProgress, max, suffix }: PricingUnitProps) {
 
     return (
         <div className="flex flex-col gap-5 w-full">
@@ -32,8 +33,9 @@ function PricingUnit({ title, content, position, progress, setProgress, max }: P
                     defaultValue={[progress]}
                     max={max}
                     step={1}
-                    className={"w-[100%]"}
+                    className={"w-[100%] z-10"}
                     onValueChange={(value) => setProgress(value[0])}
+                    sliderLabel={suffix ? `${progress} ${suffix}` : `${progress}`}
                     draggable
                 />
             </div>

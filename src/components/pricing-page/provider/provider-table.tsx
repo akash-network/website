@@ -342,6 +342,7 @@ export const Tables = ({
                                 content="vCPU"
                                 max={max.cpuInput}
                                 progress={cpuInput}
+                                suffix="%"
                                 setProgress={setCpuInput} />
                             <PricingUnit
                                 title="CPU Pricing"
