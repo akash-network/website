@@ -1,15 +1,15 @@
 ---
+import {
+  getDashboardData,
+  getProviderDetail,
+} from "@/components/about-pages/network-activity/useDashboardData";
 import NetworkTabs from "@/components/about-pages/network-tabs.astro";
-import { getProviderList } from "@/components/ecosystem-pages/providers-page/useProviderList";
+import Map from "@/components/providersandincentives/Map";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 
-import Dashboard from "@/components/ecosystem-pages/providers-page/dashboard.tsx";
-const astroUrl = Astro.url;
-
-const pathName = astroUrl.pathname.split("/");
-
-let initialData = await getProviderList();
+let initialData = await getProviderDetail();
+let initialData2 = await getDashboardData();
 ---
 
 <Layout
@@ -32,6 +32,12 @@ let initialData = await getProviderList();
 
     <NetworkTabs />
 
-    <Dashboard client:load pathName={pathName} initialProviders={initialData} />
+    <div class="flex flex-col gap-10">
+      <h2 id="overview" class="text-base font-semibold md:text-xl">
+        Network Capacity
+      </h2>
+
+      <Map client:load initialData={initialData} initialData2={initialData2} />
+    </div>
   </TopMargin>
 </Layout>

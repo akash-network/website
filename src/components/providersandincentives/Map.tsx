@@ -1,12 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Chart } from "react-google-charts";
-import React from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
-  ZoomableGroup,
 } from "react-simple-maps";
 
 import {
@@ -79,7 +77,7 @@ const PieCharts = ({ initialData }: { initialData: any }) => {
   console.log(memoryData, "memoryData", gpuData, storageData);
 
   return (
-    <div className="mt-10 grid grid-cols-2 gap-4 md:mt-20 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4  md:grid-cols-2 lg:grid-cols-4">
       <CustomChart title={"CPU"} data={cpuData} ceil sub={"CPU"} />
       <CustomChart title={"GPU"} data={gpuData} ceil sub={"GPU"} />
       <CustomChart title={"Memory"} data={memoryData} sub={"TB"} />
