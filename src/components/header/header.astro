@@ -4,13 +4,14 @@
 // Import required components
 import NavLink from "@/components/header/nav-link.astro";
 import Logo from "@/components/ui/logo.astro";
+import { getCollection } from "astro:content";
+import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
 import HamburgerMenu from "./hamburger-menu";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
-import { getCollection } from "astro:content";
 // Get current pathname
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
@@ -27,6 +28,8 @@ const visibilty = {
   ecosystem: ["/ecosystem"],
 };
 
+const pathnames = Object.values(visibilty).flat();
+
 const posts = (await getCollection("Blog"))
   .filter((post) => {
     // Filter out posts with archive set to true.
@@ -42,12 +45,19 @@ const posts = (await getCollection("Blog"))
 ---
 
 <header
-  class={`
-${disableSticky ? "" : "sticky top-0 z-[30]"}
- bg-white dark:bg-[#242424]`}
+  class={clsx(
+    "bg-white dark:bg-[#242424]",
+    disableSticky
+      ? ""
+      : pathnames.includes(pathname)
+      ? ""
+      : "top-0 sticky z-[30]",
+  )}
 >
   <nav
-    class="container mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]"
+    class={clsx(
+      "container  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
+    )}
     id="page-top"
   >
     <!-- Logo for desktops -->
@@ -169,6 +179,17 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
       </div>
     </div>
   </nav>
+</header>
+<div
+  class={clsx(
+    "bg-white dark:bg-[#242424]",
+    disableSticky
+      ? "hidden"
+      : pathnames.includes(pathname)
+      ? "top-0 sticky z-[30]"
+      : "hidden",
+  )}
+>
   {
     visibilty.network.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
@@ -189,4 +210,4 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
       <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
     )
   }
-</header>
+</div>
