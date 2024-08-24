@@ -27,7 +27,7 @@ const PopOverNavItemNetwork = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute left-1/2 z-10 mt-4 flex w-[456px] origin-top-right translate-x-[-40%] flex-col   overflow-hidden rounded-3xl border  bg-background2 shadow focus:outline-none 2xl:-translate-x-1/2">
+        <Menu.Items className="absolute left-1/2 z-[35] mt-4 flex w-[456px] origin-top-right translate-x-[-40%] flex-col   overflow-hidden rounded-3xl border  bg-background2 shadow focus:outline-none 2xl:-translate-x-1/2">
           <div className="p-5">
             {networkItems.map((item, i: any) => {
               return (

@@ -7,9 +7,8 @@ import generateToc from "@/lib/generateToc";
 
 import Layout from "@/layouts/layout.astro";
 
-import MobileNav from "@/components/community-pages/mobile-nav";
 import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
-import SideNav from "@/components/community-pages/side-nav.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
 import { proseClasses } from "@/lib/prose-classes";
 
 export async function getStaticPaths() {
@@ -78,65 +77,53 @@ const link = `https://github.com/akash-network/website-revamp/tree/main/src/cont
   description="Connect with like-minded individuals in the Akash Network community. Engage in discussions, share experiences, and contribute to the growth of decentralized cloud computing."
   image="/meta-images/community.png"
 >
-  <div class="container mt-10 md:mt-[60px] lg:mt-20">
-    <div class="grid grid-cols-12 gap-x-5">
-      <SideNav nav={nav} link={link} subNav />
+  <TopMargin>
+    <div
+      class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
+    >
+      <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
+        {
+          !page.data.disableTableOfContents && (
+            <div class="flex items-center justify-start gap-x-3 md:hidden">
+              <MobileTableOfContents
+                client:load
+                toc={generateToc(headings, "Overview")}
+                labels={{
+                  onThisPage: "onThisPage",
+                }}
+              />
+            </div>
+          )
+        }
+      </div>
 
-      <div
-        class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
-      >
-        <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
-          <MobileNav
-            currentPath={Astro.url.pathname}
-            nav={nav}
-            pageName={pageName}
-            client:load
-            link={link}
-          />
+      <div class="mt-10 space-y-10 md:mt-0">
+        {
+          !page.data.disableTitle && (
+            <div class="mt-10 md:mt-0">
+              <h1
+                id="overview"
+                class="  text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
+              >
+                {page.data.title}
+              </h1>
+              {page.data.description && (
+                <p class="mt-3 border-b pb-8 text-base leading-[24px] text-para">
+                  {page.data.description}
+                </p>
+              )}
+            </div>
+          )
+        }
 
-          {
-            !page.data.disableTableOfContents && (
-              <div class="flex items-center justify-start gap-x-3 md:hidden">
-                <MobileTableOfContents
-                  client:load
-                  toc={generateToc(headings, "Overview")}
-                  labels={{
-                    onThisPage: "onThisPage",
-                  }}
-                />
-              </div>
-            )
-          }
-        </div>
+        <article class={proseClasses}>
+          <Content />
+        </article>
+      </div>
 
-        <div class="space-y-10">
-          {
-            !page.data.disableTitle && (
-              <div class="mt-10 md:mt-0">
-                <h1
-                  id="overview"
-                  class="  text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
-                >
-                  {page.data.title}
-                </h1>
-                {page.data.description && (
-                  <p class="mt-3 border-b pb-8 text-base leading-[24px] text-para">
-                    {page.data.description}
-                  </p>
-                )}
-              </div>
-            )
-          }
-
-          <article class={proseClasses}>
-            <Content />
-          </article>
-        </div>
-
-        <div class="md:hidden">
-          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
-        </div>
+      <div class="md:hidden">
+        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
     </div>
-  </div>
+  </TopMargin>
 </Layout>

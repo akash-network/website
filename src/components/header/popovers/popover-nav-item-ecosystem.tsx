@@ -2,9 +2,9 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import type { CollectionEntry } from "astro:content";
 import { ArrowRightCircle } from "lucide-react";
 import { ecosystemNavItems } from "./links";
-import type { CollectionEntry } from "astro:content";
 
 const PopOverNavItemEcosystem = ({
   posts,
@@ -34,7 +34,7 @@ const PopOverNavItemEcosystem = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute left-1/2 z-10 mt-4 flex w-[593px] origin-top-right translate-x-[-40%] flex-col   overflow-hidden rounded-3xl border  bg-background2 shadow focus:outline-none 2xl:-translate-x-1/2">
+        <Menu.Items className="absolute left-1/2 z-[35] mt-4 flex w-[593px] origin-top-right translate-x-[-40%] flex-col   overflow-hidden rounded-3xl border  bg-background2 shadow focus:outline-none 2xl:-translate-x-1/2">
           <div className="flex gap-2.5 p-5 ">
             <div className="flex w-full flex-1 flex-col">
               {ecosystemNavItems

@@ -3,7 +3,6 @@ import MobileNav from "@/components/development-pages/mobile-nav.tsx";
 import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
 import { nav } from "@/components/development-pages/nav-config";
 import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
-import SubItemsSidebar from "@/components/sub-items-sidebar.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import generateToc from "@/lib/generateToc";
@@ -69,56 +68,48 @@ const fileType = page.id.split("/")[1].split(".")[1];
   image="/meta-images/development.png"
 >
   <TopMargin>
-    <div class="grid grid-cols-12 gap-x-5">
-      <SubItemsSidebar
-        subNav
-        nav={nav}
-        link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Page/${page.slug}/index.${fileType}`}
-      />
+    <div
+      class={`col-span-12 mx-auto w-full md:pl-10 md:col-span-8 lg:col-span-9`}
+    >
+      <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
+        <MobileNav
+          pageName={Astro.url.pathname
+            .split("/")[2]
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")}
+          currentPath={Astro.url.pathname}
+          nav={nav}
+          client:load
+          link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Page/${page.slug}/index.${fileType}`}
+        />
 
-      <div
-        class={`col-span-12 mx-auto w-full md:pl-10 md:col-span-8 lg:col-span-9`}
-      >
-        <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
-          <MobileNav
-            pageName={Astro.url.pathname
-              .split("/")[2]
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ")}
-            currentPath={Astro.url.pathname}
-            nav={nav}
-            client:load
-            link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Page/${page.slug}/index.${fileType}`}
-          />
+        <MobileTableOfContents
+          client:load
+          toc={generateToc(headings, "Overview")}
+          labels={{
+            onThisPage: "onThisPage",
+          }}
+        />
+      </div>
 
-          <MobileTableOfContents
-            client:load
-            toc={generateToc(headings, "Overview")}
-            labels={{
-              onThisPage: "onThisPage",
-            }}
-          />
+      <div class="space-y-10">
+        <div class="mt-10 md:mt-0">
+          <h1
+            id="overview"
+            class="text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg"
+          >
+            {page.data.title}
+          </h1>
         </div>
 
-        <div class="space-y-10">
-          <div class="mt-10 md:mt-0">
-            <h1
-              id="overview"
-              class="text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg"
-            >
-              {page.data.title}
-            </h1>
-          </div>
+        <article class={proseClasses}>
+          <Content />
+        </article>
+      </div>
 
-          <article class={proseClasses}>
-            <Content />
-          </article>
-        </div>
-
-        <div class="md:hidden">
-          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
-        </div>
+      <div class="md:hidden">
+        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
     </div>
   </TopMargin>

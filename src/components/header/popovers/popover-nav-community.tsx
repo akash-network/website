@@ -35,7 +35,7 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute left-1/2 z-10 mt-4 flex w-[303px] origin-top-right  -translate-x-1/2   flex-col overflow-hidden rounded-3xl  border bg-background2 shadow focus:outline-none">
+        <Menu.Items className="absolute left-1/2 z-[35] mt-4 flex w-[303px] origin-top-right  -translate-x-1/2   flex-col overflow-hidden rounded-3xl  border bg-background2 shadow focus:outline-none">
           <div className="p-5">
             {items
               .filter((item) => !item.external)

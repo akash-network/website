@@ -1,7 +1,6 @@
 ---
 import MobileNav from "@/components/community-pages/mobile-nav";
 import { nav } from "@/components/community-pages/nav-config.ts";
-import SideNav from "@/components/community-pages/side-nav.astro";
 import Tag from "@/components/ui/tag2.astro";
 import Layout from "@/layouts/layout.astro";
 import {
@@ -101,68 +100,64 @@ console.log(sortedMonthwiseArray);
   description={data?.description}
 >
   <TopMargin>
-    <div class="grid grid-cols-12 gap-x-5">
-      <SideNav nav={nav} link={link} subNav />
+    <div
+      class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
+    >
+      <div class="flex items-center justify-between gap-x-3 md:hidden">
+        <MobileNav
+          currentPath={Astro.url.pathname}
+          nav={nav}
+          pageName={pageName}
+          client:load
+          link={link}
+        />
+      </div>
 
-      <div
-        class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
-      >
-        <div class="flex items-center justify-between gap-x-3 md:hidden">
-          <MobileNav
-            currentPath={Astro.url.pathname}
-            nav={nav}
-            pageName={pageName}
-            client:load
-            link={link}
-          />
+      <div>
+        <div class="mt-10 md:mt-0">
+          <h1
+            id="overview"
+            class="text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
+          >
+            {data?.title}
+          </h1>
+          <p class="mt-3 text-base leading-[24px] text-para">
+            {data?.description}
+          </p>
+
+          <div class="my-8 border-b"></div>
         </div>
 
-        <div>
-          <div class="mt-10 md:mt-0">
-            <h1
-              id="overview"
-              class="text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
-            >
-              {data?.title}
-            </h1>
-            <p class="mt-3 text-base leading-[24px] text-para">
-              {data?.description}
-            </p>
+        <div class="flex items-center gap-x-4">
+          <Tag
+            active={astroUrl.pathname === "/community/events/"}
+            href={`/community/events/`}
+          >
+            All
+          </Tag>
 
-            <div class="my-8 border-b"></div>
-          </div>
-
-          <div class="flex items-center gap-x-4">
-            <Tag
-              active={astroUrl.pathname === "/community/events/"}
-              href={`/community/events/`}
-            >
-              All
-            </Tag>
-
-            <Tag href={`/community/events/upcoming`}>Upcoming</Tag>
-          </div>
+          <Tag href={`/community/events/upcoming`}>Upcoming</Tag>
         </div>
+      </div>
 
-        <div>
-          {
-            sortedMonthwiseArray?.map((item: any) => (
-              <div class="">
-                <h2 class="mt-10 text-lg font-bold  md:text-2lg ">
-                  {item.month}
-                </h2>
-                <div class=" mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
-                  {item.events.map((card: any) => (
-                    <EventCard card={card} />
-                  ))}
-                </div>
+      <div>
+        {
+          sortedMonthwiseArray?.map((item: any) => (
+            <div class="">
+              <h2 class="mt-10 text-lg font-bold  md:text-2lg ">
+                {item.month}
+              </h2>
+              <div class=" mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
+                {item.events.map((card: any) => (
+                  <EventCard card={card} />
+                ))}
               </div>
-            ))
-          }
-        </div>
-        <div class="md:hidden">
-          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
-        </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="md:hidden">
+        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
     </div>
   </TopMargin>
