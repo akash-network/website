@@ -18,7 +18,7 @@ function Pricing() {
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         GPU Models, Prices & Availabilty
                     </h2>
-                    <p className="text-center leading-[28px]">
+                    <p className="text-center mt-3">
                         Browse the list of available GPUs along with their hourly rates.
                     </p>
                 </div>
@@ -29,7 +29,7 @@ function Pricing() {
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Usage Pricing
                     </h2>
-                    <p className="text-center leading-[28px]">
+                    <p className="text-center mt-3">
                         Estimate your costs by selecting the resources you need. <br />
                         Adjust CPU, memory, storage, and other parameters to get a detailed
                         cost breakdown.
@@ -42,7 +42,7 @@ function Pricing() {
                     <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
                         Provider Earn Calculator
                     </h2>
-                    <p className="text-center leading-[28px]">
+                    <p className="text-center mt-3">
                         Calculate your potential earnings by providing resources to the Akash Network.
                     </p>
                 </div>

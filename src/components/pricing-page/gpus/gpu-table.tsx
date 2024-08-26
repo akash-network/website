@@ -324,7 +324,7 @@ export const Tables = ({
               <th className=""></th>
             </tr>
           </thead>
-          <tbody className="mt-1 ">
+          <tbody className="mt-1">
             {isLoading
               ? new Array(10).fill(0).map((_, index) => (
                 <tr
@@ -372,19 +372,19 @@ export const Tables = ({
                   className="border overflow-hidden rounded-lg  bg-background2 shadow-sm"
                 >
                   <td
-                    className=" rounded-l-lg  border-l  text-base font-semibold  xl:text-lg w-[24%]"
+                    className=" rounded-l-lg  text-base font-semibold  xl:text-lg w-[24%]"
                   >
                     <div className="flex items-center gap-3">
                       <div className="p-[11px_5px] ml-6 border rounded-md">
                         <img
                           src="/logos/nvidia.png"
                           alt="nvidia"
-                          className="h-5"
+                          className="w-6 h-4"
                         />
                       </div>
                       <div className="">
                         <p className="text-xl font-semibold capitalize text-foreground">{modifyModel(model?.model)}</p>
-                        <p className="text-sm font-medium">{model?.ram} {model?.interface}</p>
+                        <p className="text-sm font-medium text-[#71717A] dark:text-[#E4E4EB]">{model?.ram} {model?.interface}</p>
                       </div>
                     </div>
                   </td>
@@ -402,52 +402,49 @@ export const Tables = ({
                     </div>
                     <HoverCard openDelay={2} closeDelay={2}>
                       <HoverCardTrigger className="pt-1.5 flex justify-between items-center">
-                        <span className="text-sm font-medium text-iconText">
+                        <span className="text-sm font-medium text-[#71717A]">
                           Min: ${model?.price?.min || 0}
                         </span>
-                        <span className="text-sm font-medium text-iconText">
+                        <span className="text-sm font-medium text-[#71717A]">
                           -
                         </span>
-                        <span className="text-sm font-medium text-iconText">
+                        <span className="text-sm font-medium text-[#71717A]">
                           Max: ${model?.price?.max || 0}
                         </span>
-                        <Info size={12} className="text-[#71717A] dark:text-[#3E3E3E]" />
+                        <Info size={12} className="text-[#71717A]" />
                       </HoverCardTrigger>
                       <HoverCardContent align="center">
                         <div className="flex flex-col">
                           <div className="flex flex-col px-4 py-3">
-                            <h1 className="text-sm font-medium ">
-                              {model?.providerAvailability?.available || 0} providers{" "}
+                            <h1 className="text-sm font-medium text-black dark:text-white">
+                              {model?.providerAvailability?.available || 0} {model?.providerAvailability?.available > 1 ? "providers" : "provider"}
                               <br />
-                              offering this model
+                              offering this model:
                             </h1>
-                            <div className="mt-4  flex items-center justify-between gap-2">
-                              <div className="flex flex-col items-center justify-center gap-1">
-                                <h1 className="text-xs text-iconText">Max:</h1>
-                                <div className="text-base font-bold ">
-                                  {price(model?.price?.max)}/hr
+                            <div className="mt-3 rounded-md border-1 bg-[#F1F1F1] px-4 py-3 ">
+                              <div className="flex items-center  justify-between gap-2 pb-2 border-b border-[#E4E4E7]">
+                                <p className="text-base  font-semibold text-4 text-black">Avg price:</p>
+                                <div className="text-base font-bold  ">
+                                  {price(model?.price?.weightedAverage)}/hr
                                 </div>
                               </div>
-                              <div className="h-8 w-px border-r "></div>
-                              <div className="flex flex-col items-center justify-center gap-1">
-                                <h1 className="text-xs text-iconText">Min:</h1>
-                                <div className="text-base font-bold ">
-                                  {price(model?.price?.min)}/hr
+                              <div className="mt-2  flex items-center justify-between gap-2">
+                                <div className="flex flex-col items-center justify-center gap-1">
+                                  <h1 className="text-sm text-[#71717A] ">Max: <span>{price(model?.price?.max)}/hr</span></h1>
+                                </div>
+                                <div className="">-</div>
+                                <div className="flex flex-col items-center justify-center gap-1">
+                                  <h1 className="text-sm text-[#71717A] ">Min: <span>{price(model?.price?.min)}/hr</span></h1>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="flex items-center  justify-between gap-2 rounded-b-md border-t bg-badgeColor px-4 py-3">
-                            <p className="text-base  text-para">Avg:</p>
-                            <div className="text-base font-bold  ">
-                              {price(model?.price?.weightedAverage)}/hr
-                            </div>
-                          </div>
+
                         </div>
                       </HoverCardContent>
                     </HoverCard>
                   </td>
-                  <td className="text-center px-8 border-r rounded-r-lg">
+                  <td className="text-center px-8 rounded-r-lg">
                     <a
                       id={`${model?.model}-(gpu-rent)`}
                       href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}

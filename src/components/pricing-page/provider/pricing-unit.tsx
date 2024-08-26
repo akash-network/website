@@ -10,9 +10,10 @@ type PricingUnitProps = {
     position?: string;
     suffix?: string;
     step?: number;
+    flag?: boolean;
 }
 
-function PricingUnit({ title, content, position, progress, setProgress, max, suffix, step = 1 }: PricingUnitProps) {
+function PricingUnit({ title, content, position, progress, setProgress, max, suffix, step = 1, flag }: PricingUnitProps) {
 
     useEffect(() => {
         if (!progress) {
@@ -32,8 +33,8 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
                     </p>
                 </div>
                 <input
-                    className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-background font-bold text-foreground focus:outline-primary dark:outline-none"
-                    value={progress}
+                    className="rounded-md border w-[90px] py-1.5 px-3 shadow-sm bg-transparent font-bold text-foreground focus:outline-primary dark:outline-none"
+                    value={flag ? `${progress} ${suffix}` : `${progress}`}
                     onChange={(e) => { setProgress(parseInt(e.target.value)) }}
                 />
             </div>

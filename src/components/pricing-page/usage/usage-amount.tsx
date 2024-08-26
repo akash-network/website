@@ -40,7 +40,7 @@ function UsageAmount({ title, content, max, defaultValue, amount, setAmount, suf
                     />
                 </div>
                 <input
-                    className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-background text-[21px] font-semibold text-foreground focus:outline-primary dark:outline-none"
+                    className="w-[80px] relative rounded-md border py-2 shadow-sm  text-center bg-transparent text-[21px] font-semibold text-foreground focus:outline-primary dark:outline-none"
                     value={amount}
                     onChange={(e) => { setAmount(parseInt(e.target.value)) }}
                 />

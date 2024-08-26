@@ -17,6 +17,7 @@ import StorageBrand from '../../../assets/storage-brand.svg'
 import GpuBrand from '../../../assets/gpu-brand.svg'
 import IpsBrand from '../../../assets/ips-brand.svg'
 import EndpointBrand from '../../../assets/endpoint-brand.svg'
+import { Switch } from "@/components/ui/switch";
 
 export interface Gpus {
     availability: { total: number; available: number };
@@ -277,7 +278,7 @@ export const Tables = ({
                 )}
             >
                 <div className="flex flex-col gap-2">
-                    <p className="font-semibold">Estimated Earnings</p>
+                    <p className="font-semibold text-[#7E868C]">Estimated Earnings</p>
                     <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-background2 text-black dark:text-white">
                         <MonthEarning
                             size={24}
@@ -287,6 +288,13 @@ export const Tables = ({
                             size={24}
                             title="Total Monthly Earnings in AKT"
                             value={`${calculateAKTPrice(usdPrices.totalPrice)}AKT`} />
+                        <div className="flex justify-between items-center gap-5">
+                            <div>
+                                <p className="text-[#09090B] dark:text-[#EDEDED]">Use 30day average price of AKT</p>
+                                <p className="text-[#71717A] dark:text-[#EDEDED]">Average Price for 1 AKT is $3.562 USD.</p>
+                            </div>
+                            <Switch className="data-[state=checked]:bg-black data-[state=unchecked]:bg-[#71717A]" />
+                        </div>
                         <a
                             id={`usage`}
                             href={`#`}
@@ -299,7 +307,7 @@ export const Tables = ({
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <p className="font-semibold">Estimated Breakdown</p>
+                    <p className="font-semibold text-[#7E868C]">Estimated Breakdown</p>
                     <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-background2">
                         <MonthEarning
                             size={20}
@@ -344,6 +352,8 @@ export const Tables = ({
                             step={step.leasePercentInput}
                             progress={leasePercentInput}
                             setProgress={setLeasePercentInput}
+                            suffix="%"
+                            flag={true}
                         />
                     </div>
                     <div className="py-8">
@@ -363,6 +373,8 @@ export const Tables = ({
                                 max={max.cpuInput}
                                 step={step.cpuInput}
                                 progress={cpuInput}
+                                suffix="%"
+                                flag={true}
                                 setProgress={setCpuInput} />
                             <PricingUnit
                                 title="CPU Pricing"
