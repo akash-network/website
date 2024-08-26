@@ -18,6 +18,10 @@ import { Skeleton } from "../../ui/skeleton";
 import CircularProgressBar from "./circular-progress-bar";
 import AvailabilityBar from "./availability-bar";
 import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
+import {
+  Card,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -388,10 +392,10 @@ export const Tables = ({
                       </div>
                     </div>
                   </td>
-                  <td className="w-[27.2%] px-8">
+                  <td className="w-[27.2%] px-2 xl:px-8">
                     <AvailabilityBar available={model?.availability?.available} total={model?.availability?.total} />
                   </td>
-                  <td className="w-[27.2%] px-8">
+                  <td className="w-[27.2%] px-2 xl:px-8">
                     <div className="flex justify-between border-b">
                       <span className="font-semibold">
                         Average price:
@@ -444,7 +448,7 @@ export const Tables = ({
                       </HoverCardContent>
                     </HoverCard>
                   </td>
-                  <td className="text-center px-8 rounded-r-lg">
+                  <td className="text-center px-2 xl:px-8 rounded-r-lg">
                     <a
                       id={`${model?.model}-(gpu-rent)`}
                       href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
