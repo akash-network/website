@@ -8,7 +8,8 @@ tags:
 
 category: deployed_on_akash
 
-description: The AI Accelerator Company
+description: Leveraging the power of Akash's decentralized cloud, Nous Research successfully trained "Nous Hermes 2," an advanced AI model built on over 1,000,000 entries of GPT-4 data.
+
 
 ctaButton:
   label: View Project
