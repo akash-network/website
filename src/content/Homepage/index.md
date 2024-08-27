@@ -128,28 +128,6 @@ aiModelsAndAppsSection:
       link: "/blog/distributed-machine-learning-on-akash-network-with-ray/"
 
   cards2:
-    - title: "Solve Care"
-      image: "./assets/tools/solvecare.webp"
-      description: "Solve.Care is at the forefront of using blockchain to empower
-      patient data ownership and streamline healthcare
-      administration. Our partnership is driving innovation, making
-      healthcare more accessible and efficient. Explore how we're
-      transforming the industry together."
-      link : "/blog/akash-network-and-solve-care-bring-true-patient-data-ownership-to-the-healthcare-industry/"
-      darkImage : "./assets/tools/solvecare.webp"   
-
-    - title: "Thumper AI"
-      image: "./assets/tools/dark-dep-2.svg"
-      description: "Thumper AI offers powerful, personalized, and equitable generative AI solutions. Their mission is to empower artists, creatives, technologists, and individuals from diverse fields by providing the tools to enhance their passions, practices, and work."
-      link : "https://thumper.ai/"
-      darkImage : "./assets/tools/dark-dep-2.svg" 
-     
-
-    - title: "Presearch"
-      image: "./assets/tools/dark-dep-3.svg"
-      description: "Presearch runs nodes smoothly on Akash, with plans for one-click deployments. Stay tuned on their Twitter for updates. CEO Colin Pape explores Akash's potential in a Cointelegraph article."
-      link : "https://presearch.io/"
-      darkImage : "./assets/tools/dark-dep-3.svg" 
       
     - title: "Venice AI"
       image: "./assets/tools/venice.png"
@@ -157,7 +135,7 @@ aiModelsAndAppsSection:
       link : "https://venice.ai/home"
       darkImage : "./assets/tools/venice.png"   
 
-    - title: "Brev.dev"
+    - title: "Brev.dev (Acq. by NVIDIA)"
       image: "./assets/tools/brev.png"
       description: "Brev.dev, known for its seamless setup of Jupyter notebooks for AI development, has integrated with Akash Network, enabling scalable, permissionless access to NVIDIA GPUs."
       link : "https://brev.dev/"
