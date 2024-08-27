@@ -4,7 +4,7 @@ projectImage: "./project-banner.png"
 pubDate: "2017-03-09"
 
 tags:
-  - AI & ML
+  - Dev tools
 
 category: deployed_on_akash
 
