@@ -48,11 +48,11 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
                         target={
                           item.link.startsWith("http") ? "_blank" : "_self"
                         }
-                        className={`flex cursor-pointer items-center  gap-6 px-4 py-3    ${
+                        className={`dark:hover:bg- group flex  cursor-pointer items-center gap-6 rounded-lg px-4 py-3 transition-all hover:bg-gray-50 dark:hover:bg-black/10    ${
                           active ? "" : ""
                         } `}
                       >
-                        <div className="text-[#9CA3AF] dark:text-para">
+                        <div className="text-[#9CA3AF] transition-all group-hover:text-primary dark:text-para">
                           {item.icon ? (
                             <item.icon size={24} strokeWidth={1.5} />
                           ) : (
@@ -111,10 +111,10 @@ export const SubNavbar = ({
     type === "community"
       ? communityItems
       : type === "development"
-      ? developmentItems
-      : type === "ecosystem"
-      ? ecosystemNavItems
-      : networkItems.map((item) => ({ ...item, external: false }));
+        ? developmentItems
+        : type === "ecosystem"
+          ? ecosystemNavItems
+          : networkItems.map((item) => ({ ...item, external: false }));
 
   const external = items.find((item) => item?.external);
   return (
@@ -130,11 +130,11 @@ export const SubNavbar = ({
                   href={item.link}
                   target={item.link.startsWith("http") ? "_blank" : "_self"}
                   className={clsx(
-                    "flex cursor-pointer items-center gap-2  p-4 text-para    ",
+                    "flex cursor-pointer items-center gap-2  border-b-2   p-4 text-para    ",
                     pathname === item.link ||
                       pathname?.split("/")[2] === item.link?.split("/")[2]
-                      ? "border-b-2 border-foreground "
-                      : "",
+                      ? " border-foreground "
+                      : "border-transparent",
                   )}
                 >
                   {item.icon ? (

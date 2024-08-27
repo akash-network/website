@@ -36,11 +36,11 @@ const PopOverNavItemNetwork = () => {
                     <a
                       href={item.link}
                       target={item.link.startsWith("http") ? "_blank" : "_self"}
-                      className={`flex cursor-pointer items-center  gap-6 px-4 py-5    ${
+                      className={`group flex cursor-pointer  items-center gap-6 px-4 py-5 transition-all hover:rounded-lg hover:bg-gray-50 dark:hover:bg-black/10   ${
                         active ? "" : ""
                       } `}
                     >
-                      <div className="rounded-lg bg-background p-2.5 text-para">
+                      <div className="rounded-lg bg-background p-2.5 text-para transition-all group-hover:bg-background2 group-hover:text-primary">
                         {item.icon ? <item.icon size={24} /> : item.customIcon}
                       </div>
                       <div className="font-semibold">

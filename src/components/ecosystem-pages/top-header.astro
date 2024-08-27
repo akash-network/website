@@ -9,15 +9,16 @@ console.log(pathName);
 const { tags } = Astro.props;
 ---
 
-<h1 class="text-2xl font-bold md:block md:text-2lg lg:text-3lg">
-  Dive into the Akash ecosystem
-</h1>
-
+<div class="flex items-center justify-between">
+  <h1 class="text-2xl font-bold md:block md:text-2lg lg:text-3lg">
+    Dive into the Akash ecosystem
+  </h1>
+  <SearchDialog client:load currentPath={astroUrl.pathname} />
+</div>
 <div
   class="mt-6 flex flex-col justify-between gap-x-6 pb-6 md:mt-8 md:pb-8 lg:mt-10 lg:flex-row lg:border-b lg:pb-10"
 >
-  <EcosystemNavbar pathName={pathName} /><div class="my-5 border-b lg:hidden">
-  </div>
+  <div class="my-5 border-b lg:hidden"></div>
 
   <div class="flex items-center justify-between">
     <Categories
@@ -26,6 +27,5 @@ const { tags } = Astro.props;
       className=" md:hidden"
       page={pathName?.[2]}
     />
-    <SearchDialog client:load currentPath={astroUrl.pathname} />
   </div>
 </div>

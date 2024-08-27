@@ -1,6 +1,8 @@
 import {
+  BadgeCheck,
   BadgeHelp,
   CalendarHeart,
+  CheckCircle2,
   Codesandbox,
   FileStack,
   GraduationCap,
@@ -15,7 +17,7 @@ export const communityItems = [
     link: "/community/events/upcoming/",
   },
   {
-    icon: BadgeHelp,
+    icon: BadgeCheck,
     title: "Akash Insiders",
 
     link: "/community/akash-insiders/",
@@ -242,7 +244,7 @@ export const developmentItems = [
     description:
       "View all current technical efforts happening on the Akash Network",
 
-    link: "/development/product-strategy/",
+    link: "https://github.com/orgs/akash-network/projects/5",
     external: true,
   },
 ];
@@ -280,7 +282,7 @@ export const networkItems = [
     ),
     title: "$AKT Token",
     description: "Understand the role of $AKT token",
-    link: "/token",
+    link: "/token/",
   },
 ];
 
