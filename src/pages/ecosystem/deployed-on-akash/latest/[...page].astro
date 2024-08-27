@@ -1,21 +1,16 @@
 ---
-import Layout from "@/layouts/layout.astro";
-import { SortActions } from "../../../../components/ecosystem-pages/sort-actions";
 import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
-import type { PaginateFunction } from "astro";
-import { getCollection, type CollectionEntry } from "astro:content";
-import Pagination from "@/components/pagination.astro";
-import { Image } from "astro:assets";
-import ChevronRight from "@/assets/chevron-right.svg";
-import Tag from "@/components/ui/tag.astro";
-import EcosystemNavbar from "@/components/ecosystem-pages/ecosystem-navbar.astro";
-import SearchDialog from "@/components/ecosystem-pages/search-dialog";
 import SortDropDown from "@/components/ecosystem-pages/sort-dropdown";
 import TagsSortDropDown from "@/components/ecosystem-pages/tags-sort-dropdown";
+import Pagination from "@/components/pagination.astro";
+import Layout from "@/layouts/layout.astro";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-import TopMargin from "@/components/ui/top-margin.astro";
-import TopHeader from "@/components/ecosystem-pages/top-header.astro";
 import Categories from "@/components/ecosystem-pages/categories.astro";
+import TopHeader from "@/components/ecosystem-pages/top-header.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { getPriorityIndex } from "@/utils/sequences/deployedOnAkash";
 
 type Project = CollectionEntry<"Ecosystem_Page">;
 
@@ -55,12 +50,8 @@ export async function getStaticPaths({
   });
 }
 
-// All paginated data is passed on the "page" prop
 const { page, tags } = Astro.props;
 const astroUrl = Astro.url;
-console.log(tags);
-
-const pathName = astroUrl.pathname.split("/");
 ---
 
 <Layout title={`Deployed On Akash`} image="/meta-images/ecosystem.png">
@@ -78,7 +69,7 @@ const pathName = astroUrl.pathname.split("/");
         <h3
           class="text-[20px] font-bold leading-[28px] md:text-2lg md:leading-[48px]"
         >
-          Deployed
+          Deployed On Akash
         </h3>
 
         <div>
@@ -97,20 +88,26 @@ const pathName = astroUrl.pathname.split("/");
         class="mt-4 grid flex-shrink-0 grid-cols-1 gap-y-[24px] sm:grid-cols-2 sm:gap-x-8 md:gap-y-8 lg:grid-cols-3 lg:gap-x-[36px] lg:gap-y-[32px]"
       >
         {
-          page.data.map((project: Project, i: number) => {
-            return (
-              <ProjectCard
-                title={project.data.projectTitle}
-                description={project.data.description}
-                image={project.data.projectImage}
-                button={project.data.ctaButton}
-                githubLink={project.data.githubLink}
-                twitterLink={project.data.twitterLink}
-                websiteLink={project.data.websiteLink}
-                discordLink={project.data.discordLink}
-              />
-            );
-          })
+          [...page.data]
+            .sort(
+              (a, b) =>
+                getPriorityIndex(a.data.projectTitle) -
+                getPriorityIndex(b.data.projectTitle),
+            )
+            ?.map((project: Project, i: number) => {
+              return (
+                <ProjectCard
+                  title={project.data.projectTitle}
+                  description={project.data.description}
+                  image={project.data.projectImage}
+                  button={project.data.ctaButton}
+                  githubLink={project.data.githubLink}
+                  twitterLink={project.data.twitterLink}
+                  websiteLink={project.data.websiteLink}
+                  discordLink={project.data.discordLink}
+                />
+              );
+            })
         }
       </div>
 
