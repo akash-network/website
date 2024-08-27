@@ -78,7 +78,10 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
         <NavLink href="/pricing/" currentPath={pathname}>
           <div class="flex items-center gap-1">
             <span class="text-sm font-medium">Pricing & Earnings</span>
-            <span class="text-xs font-medium border border-[#FF414C] px-2 py-[2px] text-[#FF414C] bg-[#FF414C] bg-opacity-10 rounded-full">New GPUs</span>
+            <span
+              class="rounded-full border border-primary bg-[#FF414C] bg-opacity-10 px-2 py-[2px] text-xs font-medium text-primary dark:border-primary"
+              >New GPUs</span
+            >
           </div>
         </NavLink>
       </div>
