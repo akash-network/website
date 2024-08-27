@@ -1,5 +1,5 @@
 export const deployedOnAkash = [
-  "Brev.dev",
+  "Brev.dev (Acq. by NVIDIA)",
   "Venice.ai",
   "Prime Intellect",
   "University of Texas at Austin",
