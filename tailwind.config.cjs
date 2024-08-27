@@ -56,6 +56,7 @@ module.exports = {
       colors: {
         background: "hsl(var(--background))",
         background2: "hsl(var(--background2))",
+        "background-muted": "hsl(var(--background-muted))",
         foreground: "hsl(var(--foreground))",
         para: "hsl(var(--para))",
         cardGray: "hsl(var(--card-gray))",
@@ -73,6 +74,8 @@ module.exports = {
           DEFAULT: "var(--primary)",
           foreground: "hsl(var(--primary-foreground))",
         },
+        "success-light": "#D1FAE5",
+        "success-dark": "#065F46",
 
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -117,5 +120,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
 };

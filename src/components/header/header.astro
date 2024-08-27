@@ -6,6 +6,7 @@ import SunIcon from "@/assets/icons/sun.svg";
 // Import required components
 import Logo from "@/components/ui/logo.astro";
 import NavLink from "@/components/header/nav-link.astro";
+import { Badge } from "@/components/ui/badge";
 import { Image } from "astro:assets";
 import HamburgerMenu from "./hamburger-menu";
 import PopOverNavItem from "./popover-nav-item";
@@ -72,9 +73,14 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
           Ecosystem
         </NavLink>
 
-        <NavLink href="/blog" currentPath={pathname}>Blog</NavLink>
-        <NavLink href="/docs" currentPath={pathname}>Docs</NavLink>
-        <NavLink href="/gpus" currentPath={pathname}>GPU Pricing</NavLink>
+        <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
+        <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
+        <NavLink href="/pricing/" currentPath={pathname}>
+          <div class="flex items-center gap-1">
+            <span class="text-sm font-medium">Pricing & Earnings</span>
+            <span class="text-xs font-medium border border-[#FF414C] px-2 py-[2px] text-[#FF414C] bg-[#FF414C] bg-opacity-10 rounded-full">New GPUs</span>
+          </div>
+        </NavLink>
       </div>
     </div>
 

@@ -15,7 +15,8 @@
     --link-text: 206 6% 52%;
     --primary: #ff414c;
     --primary-foreground: 0 0% 100%;
-
+    --background-muted: #F4F4F5;
+    
     /* secondary colors */
     --secondary: 0 100% 94%;
     --secondary-rose: 0 100% 94%;
