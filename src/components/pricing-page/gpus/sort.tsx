@@ -92,7 +92,7 @@ export default function Sort({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute left-0 z-10 mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-background2 py-1 shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-800 md:left-auto md:right-0">
+              <Listbox.Options className="absolute right-0 z-10 mt-2 w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-background2 py-1 shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-800 md:left-auto md:right-0">
                 {publishingOptions.map((option) => (
                   <Listbox.Option
                     key={option.title}

@@ -14,6 +14,8 @@ import { Info } from "lucide-react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
 import Filter, { defaultFilters, type Filters } from "./filter";
+import OFilter from "@/components/gpu-table/filter";
+import Sort from "./sort";
 import { Skeleton } from "../../ui/skeleton";
 import CircularProgressBar from "./circular-progress-bar";
 import AvailabilityBar from "./availability-bar";
@@ -134,13 +136,13 @@ export const Tables = ({
   return (
     <section
       className={clsx(
-        " mx-auto flex max-w-[1380px] gap-10 ",
-        subCom ? "" : "container",
+        " mx-auto flex flex-col xl:flex-row max-w-[1380px] gap-0 md:gap-10 ",
+        subCom ? "" : "md:container",
       )}
     >
       <div
         className={clsx(
-          "flex flex-col gap-10"
+          "hidden xl:flex flex-col gap-10"
         )}
       >
         <div className="rounded-md border p-5 shadow-sm  flex gap-8 items-center justify-between mt-8 w-[274px] bg-background2">
@@ -193,9 +195,31 @@ export const Tables = ({
           />
         </div>
       </div>
+      <div className="flex flex-col gap-1 xl:hidden">
+        <p>Total Available GPUs</p>
+        <div className="flex justify-between">
+          <Card className="px-2 py-1">
+            <span className="text-black font-bold">{data?.availability?.total || 0} </span>
+            <span className="text-sm">(of {data?.availability?.available || 0})</span>
+          </Card>
+          <div className="flex gap-1">
+            <OFilter
+              filters={filters}
+              setFilters={setFilters}
+              setFilteredData={setFilteredData}
+              res={data}
+            />
+            <Sort
+              setFilteredData={setFilteredData}
+              res={data}
+              filters={filters}
+            />
+          </div>
+        </div>
+      </div>
       <div
         className={clsx(
-          "flex flex-col gap-4",
+          "flex flex-col w-full gap-4",
           subCom ? "lg:hidden" : "md:hidden",
         )}
       >
@@ -259,45 +283,88 @@ export const Tables = ({
             </div>
           ))
           : filteredData?.map((model, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-5  rounded-xl border bg-background2  p-3 shadow-sm"
-            >
-              <div className="flex  items-center gap-3 p-2 ">
-                <img src="/logos/nvidia.png" alt="nvidia" className="h-6 " />
-                <h1 className="text-2xl font-semibold capitalize">
-                  {modifyModel(model?.model)}
-                </h1>
-              </div>
-              <div className="h-px w-full bg-border"></div>
-              <div className=" flex  flex-col gap-2">
-                <div className="flex items-center justify-between gap-1">
-                  <p className="text-xs font-medium text-iconText">vRAM:</p>
-                  <p className="text-xs font-semibold">{model?.ram}</p>
+            <Card className="flex flex-col w-full p-6 my-3" key={index}>
+              <div className="flex items-center gap-3 pb-5">
+                <div className="p-[11px_5px] border rounded-md">
+                  <img
+                    src="/logos/nvidia.png"
+                    alt="nvidia"
+                    className="w-6 h-4"
+                  />
                 </div>
-                <div className="flex items-center justify-between gap-1">
-                  <p className="text-xs font-medium text-iconText">
-                    Interface:
-                  </p>
-                  <p className="text-xs font-semibold">{model?.interface}</p>
-                </div>
-                <div className="flex items-center justify-between gap-1">
-                  <p className="text-xs font-medium text-iconText">
-                    Availability:
-                  </p>
-                  <p className="">
-                    <span className="text-sm  font-semibold text-foreground">
-                      {model?.availability?.available}
-                    </span>
-                    <span className="pl-2 text-xs text-iconText">
-                      (of {model?.availability?.total})
-                    </span>
-                  </p>
+                <div className="">
+                  <p className="text-xl font-semibold capitalize text-foreground">{modifyModel(model?.model)}</p>
+                  <p className="text-sm font-medium text-[#71717A] dark:text-[#E4E4EB]">{model?.ram} {model?.interface}</p>
                 </div>
               </div>
-              <div className="h-px w-full bg-border"></div>
-              <CustomHoverCard model={model} />
-            </div>
+
+              <AvailabilityBar available={model?.availability?.available} total={model?.availability?.total} className="border-y my-0 py-5" />
+
+              <div className="flex flex-col justify-center py-5 border-b">
+                <div className="flex justify-between border-b">
+                  <span className="font-semibold">
+                    Average price:
+                  </span>
+                  <span className="font-semibold">
+                    ${model?.price?.avg || 0}
+                  </span>
+                </div>
+                <HoverCard openDelay={2} closeDelay={2}>
+                  <HoverCardTrigger className="pt-1.5 flex justify-between items-center">
+                    <span className="text-sm font-medium text-[#71717A]">
+                      Min: ${model?.price?.min || 0}
+                    </span>
+                    <span className="text-sm font-medium text-[#71717A]">
+                      -
+                    </span>
+                    <span className="text-sm font-medium text-[#71717A]">
+                      Max: ${model?.price?.max || 0}
+                    </span>
+                    <Info size={12} className="text-[#71717A]" />
+                  </HoverCardTrigger>
+                  <HoverCardContent align="center">
+                    <div className="flex flex-col">
+                      <div className="flex flex-col px-4 py-3">
+                        <h1 className="text-sm font-medium text-black dark:text-white">
+                          {model?.providerAvailability?.available || 0} {model?.providerAvailability?.available > 1 ? "providers" : "provider"}
+                          <br />
+                          offering this model:
+                        </h1>
+                        <div className="mt-3 rounded-md border-1 bg-[#F1F1F1] px-4 py-3 ">
+                          <div className="flex items-center  justify-between gap-2 pb-2 border-b border-[#E4E4E7]">
+                            <p className="text-base  font-semibold text-4 text-black">Avg price:</p>
+                            <div className="text-base font-bold  ">
+                              {price(model?.price?.weightedAverage)}/hr
+                            </div>
+                          </div>
+                          <div className="mt-2  flex items-center justify-between gap-2">
+                            <div className="flex flex-col items-center justify-center gap-1">
+                              <h1 className="text-sm text-[#71717A] ">Max: <span>{price(model?.price?.max)}/hr</span></h1>
+                            </div>
+                            <div className="">-</div>
+                            <div className="flex flex-col items-center justify-center gap-1">
+                              <h1 className="text-sm text-[#71717A] ">Min: <span>{price(model?.price?.min)}/hr</span></h1>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+              </div>
+              <div className="flex flex-col justify-center py-5">
+                <a
+                  id={`${model?.model}-(gpu-rent)`}
+                  href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
+                  target="_blank"
+                  className="rounded-md bg-foreground py-3 inline-flex justify-center gap-1.5 hover:bg-primary text-white dark:text-black dark:hover:text-inherit"
+                >
+                  <p className="text-sm font-medium text-inherit">Rent Now</p>
+                  <ArrowUpRightIcon className="w-[15px]" />
+                </a>
+              </div>
+            </Card>
           ))}
       </div>
 

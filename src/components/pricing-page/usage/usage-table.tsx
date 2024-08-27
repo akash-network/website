@@ -189,7 +189,7 @@ export const Tables = ({
   return (
     <section
       className={clsx(
-        " mx-auto flex max-w-[1380px] gap-10 ",
+        " mx-auto flex flex-col-reverse max-w-[1380px] gap-10 md:flex-row",
         subCom ? "" : "container",
       )}
     >
@@ -198,60 +198,68 @@ export const Tables = ({
           "flex flex-col gap-8 "
         )}
       >
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-background2">
-          <p className="text-sm font-medium">Price estimate</p>
-          <div className="">
-            <div className="flex gap-4 items-center pb-2 border-b">
-              <img src={akashLogo.src} alt="akash-logo" />
-              <p className="font-semibold text-black dark:text-white">Akash Network</p>
+        <div>
+          <p className="text-sm mb-2 font-medium">Price estimate</p>
+          <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-full md:w-[274px] bg-background2">
+            <div className="">
+              <div className="flex gap-4 items-center pb-2 border-b">
+                <img src={akashLogo.src} alt="akash-logo" />
+                <p className="font-semibold text-black dark:text-white">Akash Network</p>
+              </div>
+              <div className="flex justify-between md:block">
+                <div className="flex justify-between flex-grow items-center pt-2 pr-2 md:pr-0">
+                  <p className="text-sm font-medium">Estimated Cost:</p>
+                  <p className="text-[21px] leading-[28px] font-semibold text-black dark:text-white hidden md:block">
+                    ${akashCost.toFixed(2)}
+                  </p>
+                  <p className="text-[21px] leading-[28px] font-semibold text-black dark:text-white md:hidden">
+                    ${akashCost.toFixed(0)}
+                  </p>
+                </div>
+                <div className="flex justify-end items-center pt-[5px]">
+                  <p className="px-2.5 py-1 bg-success-light text-success-dark dark:bg-success-dark dark:text-success-light rounded-full text-sm font-medium">
+                    {savingPercent.toFixed(2)}%
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="flex justify-between pt-2">
-              <p className="text-sm font-medium">Estimated Cost:</p>
-              <p className="text-[21px] leading-[28px] font-semibold text-black dark:text-white">
-                ${akashCost.toFixed(2)}
-              </p>
-            </div>
-            <div className="flex justify-end pt-[5px]">
-              <p className="px-2.5 py-1 bg-success-light text-success-dark dark:bg-success-dark dark:text-success-light rounded-full text-sm font-medium">
-                {savingPercent.toFixed(2)}%
-              </p>
-            </div>
+            <a
+              id={"usage"}
+              href={"https://console.akash.network/"}
+              target="_blank"
+              className="rounded-md bg-primary flex justify-center py-2 px-4 gap-1.5 hover:bg-darkGray dark:hover:bg-background"
+            >
+              <p className="font-medium text-white leading-[24px]">Deploy Now</p>
+              <img src={arrowUpRight.src} alt="" />
+            </a>
           </div>
-          <a
-            id={"usage"}
-            href={"https://console.akash.network/"}
-            target="_blank"
-            className="rounded-md bg-primary flex justify-center py-2 px-4 gap-1.5 hover:bg-darkGray dark:hover:bg-background"
-          >
-            <p className="font-medium text-white leading-[24px]">Deploy Now</p>
-            <img src={arrowUpRight.src} alt="" />
-          </a>
         </div>
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-[274px] bg-background2">
-          <p className="text-sm font-medium">Price compare</p>
-          <div className="flex flex-col gap-5">
-            <CompareItem
-              title="AWS"
-              cost={awsCost}
-              logo={awsLogo.src}
-            />
-            <CompareItem
-              title="GCP"
-              cost={gcpCost}
-              logo={gcpLogo.src}
-            />
-            <CompareItem
-              title="Azure"
-              cost={azureCost}
-              logo={azureLogo.src}
-            />
+        <div>
+          <p className="text-sm font-medium mb-2">Price compare</p>
+          <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-full md:w-[274px] bg-background2">
+            <div className="flex flex-col gap-5">
+              <CompareItem
+                title="AWS"
+                cost={awsCost}
+                logo={awsLogo.src}
+              />
+              <CompareItem
+                title="GCP"
+                cost={gcpCost}
+                logo={gcpLogo.src}
+              />
+              <CompareItem
+                title="Azure"
+                cost={azureCost}
+                logo={azureLogo.src}
+              />
+            </div>
           </div>
         </div>
       </div>
       <div className="w-full">
-
+        <p className="text-sm mb-2 font-medium">Usage estimate</p>
         <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-6 w-full bg-background2">
-          <p className="text-sm font-medium">Usage estimate</p>
           <UsageAmount
             title="CPU"
             max={MAX_VALUE.cpu}

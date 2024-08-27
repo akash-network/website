@@ -268,13 +268,13 @@ export const Tables = ({
     return (
         <section
             className={clsx(
-                " mx-auto flex max-w-[1380px] gap-10 w-full",
+                " mx-auto flex max-w-[1380px] lg:gap-10 gap-6 w-full ",
                 subCom ? "" : "container",
             )}
         >
             <div
                 className={clsx(
-                    "flex flex-col gap-8 "
+                    "gap-8 hidden md:flex flex-col"
                 )}
             >
                 <div className="flex flex-col gap-2">
@@ -290,10 +290,10 @@ export const Tables = ({
                             value={`${calculateAKTPrice(usdPrices.totalPrice)}AKT`} />
                         <div className="flex justify-between items-center gap-5">
                             <div>
-                                <p className="text-[#09090B] dark:text-[#EDEDED]">Use 30day average price of AKT</p>
-                                <p className="text-[#71717A] dark:text-[#EDEDED]">Average Price for 1 AKT is $3.562 USD.</p>
+                                <p className="text-foreground text-[14px]">Use 30day average price of AKT</p>
+                                <p className="text-muted-foreground text-[14px]">Average Price for 1 AKT is $3.562 USD.</p>
                             </div>
-                            <Switch className="data-[state=checked]:bg-black data-[state=unchecked]:bg-[#71717A]" />
+                            <Switch className="data-[state=checked]:bg-black data-[state=checked]:dark:bg-white data-[state=unchecked]:bg-[#71717A]" />
                         </div>
                         <a
                             id={`usage`}
@@ -302,7 +302,7 @@ export const Tables = ({
                             className=" rounded-md bg-primary flex justify-center py-2 px-4 gap-1.5"
                         >
                             <p className="font-medium text-white leading-[24px]">Become a Provider</p>
-                            <img src={arrowUpRight.src} alt="" />
+                            <img src={arrowUpRight.src} alt=""  className="hidden lg:block"/>
                         </a>
                     </div>
                 </div>
@@ -341,9 +341,9 @@ export const Tables = ({
                 </div>
             </div>
             <div className="flex flex-col gap-2 w-full">
-                <p className="font-semibold">Estimated Earnings</p>
-                <div className="rounded-md border p-6 shadow-sm bg-background2">
-                    <div className="border-b pb-8">
+                <p className="font-semibold  hidden md:block">Estimated Earnings</p>
+                <div className="md:rounded-md md:border md:p-6 md:shadow-sm md:bg-background2">
+                    <div className="border-b pb-6 md:pb-8">
                         <PricingUnit
                             title="Provider Utilization"
                             content="Usage % (Leases in your provider)"
@@ -365,15 +365,15 @@ export const Tables = ({
                         </p>
                     </div>
                     <div className="flex flex-col gap-7">
-                        <div className="flex items-start gap-10 justify-between pb-7 border-b">
-                            <img src={CpuBrand.src} alt="CPU" />
+                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                            <img src={CpuBrand.src} alt="CPU" className="hidden lg:block"/>
                             <PricingUnit
                                 title="CPU"
                                 content="vCPU"
                                 max={max.cpuInput}
                                 step={step.cpuInput}
                                 progress={cpuInput}
-                                suffix="%"
+                                suffix=""
                                 flag={true}
                                 setProgress={setCpuInput} />
                             <PricingUnit
@@ -384,8 +384,8 @@ export const Tables = ({
                                 progress={cpuPricing}
                                 setProgress={setCpuPricing} />
                         </div>
-                        <div className="flex items-start gap-10 justify-between pb-7 border-b">
-                            <img src={MemoryBrand.src} alt="" />
+                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                            <img src={MemoryBrand.src} alt=""  className="hidden lg:block"/>
                             <PricingUnit
                                 title="Memory"
                                 content="Gi"
@@ -401,8 +401,8 @@ export const Tables = ({
                                 progress={memoryPricing}
                                 setProgress={setMemoryPricing} />
                         </div>
-                        <div className="flex items-start gap-10 justify-between pb-7 border-b">
-                            <img src={StorageBrand.src} alt="" />
+                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                            <img src={StorageBrand.src} alt=""  className="hidden lg:block"/>
                             <PricingUnit
                                 title="Ephemeral Storage"
                                 content="Gi"
@@ -418,8 +418,8 @@ export const Tables = ({
                                 progress={storagePricing}
                                 setProgress={setStoragePricing} />
                         </div>
-                        <div className="flex items-start gap-10 justify-between pb-7 border-b">
-                            <img src={StorageBrand.src} alt="" />
+                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                            <img src={StorageBrand.src} alt=""  className="hidden lg:block"/>
                             <PricingUnit
                                 title="Persistent Storage"
                                 content="Gi"
@@ -435,8 +435,8 @@ export const Tables = ({
                                 progress={persistentStoragePricing}
                                 setProgress={setPersistentStoragePricing} />
                         </div>
-                        <div className="flex items-start gap-10 justify-between pb-7 border-b">
-                            <img src={GpuBrand.src} alt="" />
+                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                            <img src={GpuBrand.src} alt=""  className="hidden lg:block"/>
                             <PricingUnit
                                 title="GPUs"
                                 content="Unit"
@@ -452,8 +452,8 @@ export const Tables = ({
                                 progress={gpuPricing}
                                 setProgress={setGPUPricing} />
                         </div>
-                        <div className="flex items-start gap-10 justify-between pb-7 border-b">
-                            <img src={IpsBrand.src} alt="" />
+                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                            <img src={IpsBrand.src} alt=""  className="hidden lg:block"/>
                             <PricingUnit
                                 title="IPs"
                                 content="Unit"
@@ -470,7 +470,7 @@ export const Tables = ({
                                 setProgress={setIpPricing} />
                         </div>
                         <div className="flex items-start gap-10 justify-between pb-7">
-                            <img src={EndpointBrand.src} alt="" />
+                            <img src={EndpointBrand.src} alt=""  className="hidden lg:block"/>
                             <PricingUnit
                                 title="Endpoints"
                                 content="Unit"
