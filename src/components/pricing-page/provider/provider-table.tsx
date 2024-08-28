@@ -351,7 +351,7 @@ export const Tables = ({
             <div className="flex flex-col gap-2 w-full">
                 <p className="font-semibold  hidden md:block">Estimated Earnings</p>
                 <div className="md:rounded-md md:border md:p-6 md:shadow-sm md:bg-background2">
-                    <div className="pb-6 border rounded-md md:border-none p-4">
+                    <div className="border rounded-md md:border-b md:border-l-0 md:border-t-0 md:border-r-0 p-4 md:pb-7">
                         <PricingUnit
                             title="Provider Utilization"
                             content="Usage % (Leases in your provider)"
@@ -364,15 +364,15 @@ export const Tables = ({
                             flag={true}
                         />
                     </div>
-                    <div className="mt-8 md:mt-0 border rounded-md md:border-none p-4 md:p-0">
+                    <div className="mt-8 md:mt-0 border rounded-md md:border-none p-4 md:pt-4">
                         <p className="font-semibold text-black dark:text-white">
                             Resources pricing
                         </p>
                         <p className="font-medium">
                             Usage % (Leases in your provider)
                         </p>
-                        <div className="flex flex-col gap-7 pt-4 md:pt-0">
-                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                        <div className="flex flex-col gap-7">
+                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between py-7 border-b">
                                 <img src={CpuBrand.src} alt="CPU" className="hidden lg:block" />
                                 <PricingUnit
                                     title="CPU"

@@ -440,10 +440,10 @@ export const Tables = ({
               : filteredData?.map((model, index) => (
                 <tr
                   key={index}
-                  className="border overflow-hidden rounded-lg  bg-background2 shadow-sm"
+                  className="overflow-hidden bg-background2 rounded-lg outline-none border-none shadow-sm"
                 >
                   <td
-                    className=" rounded-l-lg  text-base font-semibold  xl:text-lg w-[24%]"
+                    className="rounded-l-lg border-l border-y text-base font-semibold xl:text-lg w-[24%]"
                   >
                     <div className="flex items-center gap-3">
                       <div className="p-[11px_5px] ml-6 border rounded-md">
@@ -459,10 +459,10 @@ export const Tables = ({
                       </div>
                     </div>
                   </td>
-                  <td className="w-[27.2%] px-2 xl:px-8">
+                  <td className="w-[27.2%] border-y px-2 xl:px-8">
                     <AvailabilityBar available={model?.availability?.available} total={model?.availability?.total} />
                   </td>
-                  <td className="w-[27.2%] px-2 xl:px-8">
+                  <td className="w-[27.2%] border-y px-2 xl:px-8">
                     <div className="flex justify-between border-b text-lg">
                       <span className="font-semibold">
                         Average price:
@@ -515,12 +515,12 @@ export const Tables = ({
                       </HoverCardContent>
                     </HoverCard>
                   </td>
-                  <td className="text-center px-2 xl:px-8 rounded-r-lg">
+                  <td className="rounded-r-lg border-r border-y text-center px-2 xl:px-8">
                     <a
                       id={`${model?.model}-(gpu-rent)`}
                       href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                       target="_blank"
-                      className=" rounded-md bg-foreground py-2 px-4 inline-flex gap-1.5 hover:bg-primary text-white dark:text-black dark:hover:text-inherit"
+                      className="rounded-md bg-foreground py-2 px-4 inline-flex gap-1.5 hover:bg-primary text-white dark:text-black dark:hover:text-inherit"
                     >
                       <p className="text-xs font-medium text-inherit">Rent Now</p>
                       <ArrowUpRightIcon className="w-[15px]" />

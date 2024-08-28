@@ -101,7 +101,10 @@ function Pricing() {
                     <h2 className="text-center text-2xl font-bold md:hidden">
                         Provider Earnings
                     </h2>
-                    <p className="text-center mt-3 leading-normal">
+                    <p className="text-center mt-3 leading-normal hidden md:block">
+                        Calculate your potential earnings by providing resources to the Akash Network.
+                    </p>
+                    <p className="text-center mt-3 leading-normal md:hidden">
                         Calculate your potential earnings by<br />providing resources to the Akash Network.
                     </p>
                 </div>

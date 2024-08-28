@@ -22,15 +22,20 @@ function PricingUnit({ title, content, position, progress, setProgress, max, suf
     }, [progress])
 
     return (
-        <div className="flex flex-col justify-between gap-4 md:gap-5 w-full">
+        <div className={`flex flex-col justify-between md:gap-6 w-full ${flag ? 'gap-0' : 'gap-4'}`}>
             <div className={`lg:flex lg:justify-between ${position ? position : 'items-start'} ${flag ? 'flex justify-between items-baseline' : ''}`}>
                 <div className={flag ? 'mb-4' : ''}>
                     <p className="font-semibold text-foreground whitespace-nowrap md:whitespace-normal">
                         {title}
                     </p>
-                    {flag ? <p className="font-medium text-sm md:text-base whitespace-nowrap md:whitespace-normal">
-                        Usage %<br />(Leases in your provider)
-                    </p> : <p className="font-medium text-sm md:text-base whitespace-nowrap md:whitespace-normal">
+                    {flag ? (<>
+                        <p className="font-medium text-sm md:text-base whitespace-nowrap md:whitespace-normal sm:hidden">
+                            Usage %<br />(Leases in your provider)
+                        </p>
+                        <p className="font-medium text-sm md:text-base whitespace-nowrap md:whitespace-normal hidden sm:block">
+                            Usage % (Leases in your provider)
+                        </p>
+                    </>) : <p className="font-medium text-sm md:text-base whitespace-nowrap md:whitespace-normal">
                         {content}
                     </p>}
                 </div>
