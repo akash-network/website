@@ -109,7 +109,7 @@ aiModelsAndAppsSection:
   title: "What’s possible with Akash?"
   description: "Akash isn't just a cloud computing platform; it's a catalyst for innovation and limitless possibilities. Here, you'll discover the latest AI models, groundbreaking apps, and much more, all empowered by the scalable and cost-effective Akash resources."
   subtitle1: "AI & ML"
-  subtitle2: "Deployed on Akash"
+  subtitle2: "Latest Integrations"
   cards1:
     - title: "Akash Chat"
       image:  "./assets/tools/1.svg"
@@ -128,29 +128,7 @@ aiModelsAndAppsSection:
       link: "/blog/distributed-machine-learning-on-akash-network-with-ray/"
 
   cards2:
-    - title: "Solve Care"
-      image: "./assets/tools/solvecare.webp"
-      description: "Solve.Care is at the forefront of using blockchain to empower
-      patient data ownership and streamline healthcare
-      administration. Our partnership is driving innovation, making
-      healthcare more accessible and efficient. Explore how we're
-      transforming the industry together."
-      link : "/blog/akash-network-and-solve-care-bring-true-patient-data-ownership-to-the-healthcare-industry/"
-      darkImage : "./assets/tools/solvecare.webp"   
-
-    - title: "Thumper AI"
-      image: "./assets/tools/dark-dep-2.svg"
-      description: "Thumper AI offers powerful, personalized, and equitable generative AI solutions. Their mission is to empower artists, creatives, technologists, and individuals from diverse fields by providing the tools to enhance their passions, practices, and work."
-      link : "https://thumper.ai/"
-      darkImage : "./assets/tools/dark-dep-2.svg" 
-     
-
-    - title: "Presearch"
-      image: "./assets/tools/dark-dep-3.svg"
-      description: "Presearch runs nodes smoothly on Akash, with plans for one-click deployments. Stay tuned on their Twitter for updates. CEO Colin Pape explores Akash's potential in a Cointelegraph article."
-      link : "https://presearch.io/"
-      darkImage : "./assets/tools/dark-dep-3.svg" 
-      
+          
     - title: "Venice AI"
       image: "./assets/tools/venice.png"
       description: "Venice is the easy app for private, uncensored AI conversations and image generation. Try for free with no log-in needed."

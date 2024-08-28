@@ -4,8 +4,7 @@ projectImage: "./project-banner.png"
 pubDate: "2017-03-09"
 
 tags:
-  - AI & ML
-
+  - Dev Tools
 category: deployed_on_akash
 
 description: NodeShift offers reliable, scalable, secure and decentralized cloud computing services.

@@ -10,6 +10,8 @@ category: deployed_on_akash
 
 description: Flock.io is advancing open, decentralized AI by integrating with Akash's Supercloud, making it simple for developers to access high-performance compute for training AI models.
 
+showcase: true
+
 ctaButton:
   label: View Project
   link: "https://www.flock.io/"

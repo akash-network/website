@@ -10,6 +10,8 @@ category: deployed_on_akash
 
 description: The AI Accelerator Company
 
+showcase: true
+
 ctaButton:
   label: View Project
   link: "https://nousresearch.com/"

@@ -10,6 +10,8 @@ category: deployed_on_akash
 
 description: The University of Texas at Austin is a bold, ambitious leader, providing a first-class education and the tools of discovery to more than 51,000 students.
 
+showcase: true
+
 ctaButton:
   label: View Project
   link:  "https://www.utexas.edu/"
