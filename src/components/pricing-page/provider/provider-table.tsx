@@ -265,6 +265,10 @@ export const Tables = ({
         return (aktAverage ? usdValue / monthlyAverage : usdValue / usdPrice).toFixed(2)
     }
 
+    const onPriceChangeHandle = (value: boolean) => {
+        setAktAverage(value);
+    }
+
     return (
         <section
             className={clsx(
@@ -291,9 +295,13 @@ export const Tables = ({
                         <div className="flex justify-between items-center gap-5">
                             <div>
                                 <p className="text-foreground text-[14px]">Use 30day average price of AKT</p>
-                                <p className="text-muted-foreground text-[14px]">Average Price for 1 AKT is $3.562 USD.</p>
+                                <p className="text-muted-foreground text-[14px]">Average Price for 1 AKT is ${monthlyAverage.toFixed(2)} USD.</p>
                             </div>
-                            <Switch className="data-[state=checked]:bg-black data-[state=checked]:dark:bg-white data-[state=unchecked]:bg-[#71717A]" />
+                            <Switch
+                                className="data-[state=checked]:bg-black data-[state=checked]:dark:bg-white data-[state=unchecked]:bg-[#71717A]"
+                                onCheckedChange={onPriceChangeHandle}
+                                checked={aktAverage}
+                            />
                         </div>
                         <a
                             id={`usage`}

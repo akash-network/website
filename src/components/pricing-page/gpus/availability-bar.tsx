@@ -14,20 +14,20 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({ available, total, cla
     return (
         <div className={clsx('flex flex-col my-5 gap-2', className)}>
             <div className='flex justify-between items-center'>
-                <span className='font-bold text-foreground'>{available} Available</span>
-                <span>(out of {total})</span>
+                <span className='font-bold text-foreground text-lg'>{available} Available</span>
+                <span className='text-sm text-[#71717A]'>(out of {total})</span>
             </div>
             <div className='flex justify-between'>
                 {Array.from({ length: filledDots }).map((_, i) => (
                     <div
                         key={i}
-                        className='w-[8px] h-[8px] bg-black rounded-full mx-[2px]'
+                        className='w-[8px] h-[8px] bg-black rounded-full'
                     />
                 ))}
                 {Array.from({ length: emptyDots }).map((_, i) => (
                     <div
                         key={i + filledDots}
-                        className='w-[8px] h-[8px] bg-[#DADADA] rounded-full mx-[2px]'
+                        className='w-[8px] h-[8px] bg-[#DADADA] rounded-full'
                     />
                 ))}
             </div>

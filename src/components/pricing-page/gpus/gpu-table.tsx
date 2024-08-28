@@ -196,7 +196,7 @@ export const Tables = ({
         </div>
       </div>
       <div className="flex flex-col gap-1 xl:hidden">
-        <p>Total Available GPUs</p>
+        <p className="text-sm md:text-base">Total Available GPUs</p>
         <div className="flex justify-between">
           <Card className="px-2 py-1">
             <span className="text-black font-bold">{data?.availability?.total || 0} </span>
@@ -285,7 +285,7 @@ export const Tables = ({
           : filteredData?.map((model, index) => (
             <Card className="flex flex-col w-full p-6 my-3" key={index}>
               <div className="flex items-center gap-3 pb-5">
-                <div className="p-[11px_5px] border rounded-md">
+                <div className="p-[14px_10px] border rounded-md">
                   <img
                     src="/logos/nvidia.png"
                     alt="nvidia"
@@ -300,8 +300,8 @@ export const Tables = ({
 
               <AvailabilityBar available={model?.availability?.available} total={model?.availability?.total} className="border-y my-0 py-5" />
 
-              <div className="flex flex-col justify-center py-5 border-b">
-                <div className="flex justify-between border-b">
+              <div className="flex flex-col justify-center py-6 border-b">
+                <div className="flex justify-between border-b text-lg">
                   <span className="font-semibold">
                     Average price:
                   </span>
@@ -353,14 +353,14 @@ export const Tables = ({
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              <div className="flex flex-col justify-center py-5">
+              <div className="flex flex-col justify-center py-6">
                 <a
                   id={`${model?.model}-(gpu-rent)`}
                   href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                   target="_blank"
                   className="rounded-md bg-foreground py-3 inline-flex justify-center gap-1.5 hover:bg-primary text-white dark:text-black dark:hover:text-inherit"
                 >
-                  <p className="text-sm font-medium text-inherit">Rent Now</p>
+                  <p className="text-xs font-medium text-inherit">Rent Now</p>
                   <ArrowUpRightIcon className="w-[15px]" />
                 </a>
               </div>
@@ -463,7 +463,7 @@ export const Tables = ({
                     <AvailabilityBar available={model?.availability?.available} total={model?.availability?.total} />
                   </td>
                   <td className="w-[27.2%] px-2 xl:px-8">
-                    <div className="flex justify-between border-b">
+                    <div className="flex justify-between border-b text-lg">
                       <span className="font-semibold">
                         Average price:
                       </span>

@@ -57,8 +57,11 @@ function Pricing() {
                     <h2 className="text-center text-2xl font-medium md:block md:text-3xl">
                         GPU Models, Prices & Availabilty
                     </h2>
-                    <p className="text-center mt-3 leading-normal">
+                    <p className="text-center mt-3 leading-normal hidden md:block">
                         Browse the list of available GPUs along with their hourly rates.
+                    </p>
+                    <p className="text-center mt-3 leading-normal md:hidden">
+                        Browse the list of available GPUs along<br />with their hourly rates.
                     </p>
                 </div>
                 <GpuTable initialData={null} />
