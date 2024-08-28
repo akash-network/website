@@ -45,10 +45,10 @@ function Pricing() {
     >
       <div className="flex w-full justify-center md:hidden">
         <Select defaultValue={tabs[0].value} onValueChange={handleTabChange}>
-          <SelectTrigger className="w-full max-w-sm">
+          <SelectTrigger className="w-full max-w-sm shadow-sm">
             <SelectValue placeholder={tabs[0].description} />
           </SelectTrigger>
-          <SelectContent className="bg-background">
+          <SelectContent className="bg-background ">
             {tabs.map((item) => {
               return (
                 <SelectItem value={item.value}>{item.description}</SelectItem>

@@ -301,7 +301,7 @@ export const Tables = ({
               </div>
             ))
           : filteredData?.map((model, index) => (
-              <Card className="my-3 flex w-full flex-col p-6" key={index}>
+              <Card className="my-3 flex w-full flex-col px-6 py-4" key={index}>
                 <div className="flex items-center gap-3 pb-2 md:pb-5">
                   <div className="flex aspect-square w-12 items-center justify-center rounded-md border">
                     <img
@@ -328,22 +328,26 @@ export const Tables = ({
 
                 <div className="flex flex-col justify-center border-b py-5">
                   <div className="flex justify-between border-b pb-2">
-                    <span className="font-semibold">Average price:</span>
-                    <span className="font-semibold">
+                    <span className="text-lg font-semibold md:text-base">
+                      Average price:
+                    </span>
+                    <span className="text-lg font-semibold md:text-base">
                       ${model?.price?.avg || 0}
                     </span>
                   </div>
                   <HoverCard openDelay={2} closeDelay={2}>
                     <HoverCardTrigger className="flex items-center justify-between pt-1.5">
-                      <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                        Min: ${model?.price?.min || 0}
-                      </span>
-                      <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                        -
-                      </span>
-                      <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                        Max: ${model?.price?.max || 0}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-[#71717A] dark:text-para">
+                          Min: ${model?.price?.min || 0}
+                        </span>
+                        <span className="text-sm font-medium text-[#71717A] dark:text-para">
+                          -
+                        </span>
+                        <span className="text-sm font-medium text-[#71717A] dark:text-para">
+                          Max: ${model?.price?.max || 0}
+                        </span>
+                      </div>
                       <Info
                         size={12}
                         className="text-[#71717A] dark:text-para"
@@ -390,7 +394,7 @@ export const Tables = ({
                     </HoverCardContent>
                   </HoverCard>
                 </div>
-                <div className="flex flex-col justify-center py-5">
+                <div className="flex flex-col justify-center pt-5">
                   <a
                     id={`${model?.model}-(gpu-rent)`}
                     href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
