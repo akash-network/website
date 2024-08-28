@@ -53,19 +53,19 @@ function Pricing() {
                 </TabsList>
             </div>
             <TabsContent value="gpus">
-                <div className="my-8 mx-4 md:m-[4.5rem]">
-                    <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
+                <div className="my-8 md:m-[4.5rem]">
+                    <h2 className="text-center text-2xl font-medium md:block md:text-3xl">
                         GPU Models, Prices & Availabilty
                     </h2>
-                    <p className="text-center mt-3">
+                    <p className="text-center mt-3 leading-normal">
                         Browse the list of available GPUs along with their hourly rates.
                     </p>
                 </div>
                 <GpuTable initialData={null} />
             </TabsContent>
             <TabsContent value="usage">
-                <div className="my-8 mx-4 md:m-[4.5rem]">
-                    <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
+                <div className="my-8 md:m-[4.5rem]">
+                    <h2 className="text-center text-2xl font-medium md:block md:text-3xl">
                         Usage Pricing
                     </h2>
                     <p className="text-center hidden md:block mt-3">
@@ -73,7 +73,7 @@ function Pricing() {
                         Adjust CPU, memory, storage, and other parameters to get a detailed
                         cost breakdown.
                     </p>
-                    <p className="text-center md:hidden mt-3">
+                    <p className="text-center md:hidden mt-3 leading-normal">
                         Estimate your costs by selecting the resources you need. Adjust CPU, memory, storage, and other parameters to get a detailed cost breakdown.
                     </p>
                 </div>
@@ -81,13 +81,13 @@ function Pricing() {
             </TabsContent>
             <TabsContent value="provider">
                 <div className="my-8 md:m-[4.5rem]">
-                    <h2 className="text-center text-2xl font-bold hidden md:block md:text-3xl">
+                    <h2 className="text-center text-2xl font-medium hidden md:block md:text-3xl">
                         Provider Earn Calculator
                     </h2>
                     <h2 className="text-center text-2xl font-bold md:hidden">
                         Provider Earnings
                     </h2>
-                    <p className="text-center mt-3">
+                    <p className="text-center mt-3 leading-normal">
                         Calculate your potential earnings by<br />providing resources to the Akash Network.
                     </p>
                 </div>

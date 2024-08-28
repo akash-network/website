@@ -143,7 +143,7 @@ export default function Filter({
   return (
     <Popover as="div" className="relative inline-block text-left">
       <div>
-        <Popover.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-4 py-2 text-sm font-medium text-textGray shadow-sm">
+        <Popover.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-3 py-1.5 text-sm font-medium text-textGray shadow-sm">
           Filter
           <svg
             xmlns="http://www.w3.org/2000/svg"

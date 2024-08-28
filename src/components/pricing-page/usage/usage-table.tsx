@@ -189,7 +189,7 @@ export const Tables = ({
   return (
     <section
       className={clsx(
-        " mx-auto flex flex-col-reverse max-w-[1380px] gap-10 md:flex-row",
+        " mx-auto flex flex-col-reverse max-w-[1380px] gap-10 md:flex-row px-0",
         subCom ? "" : "container",
       )}
     >

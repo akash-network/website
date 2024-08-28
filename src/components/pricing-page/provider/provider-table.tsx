@@ -268,18 +268,18 @@ export const Tables = ({
     return (
         <section
             className={clsx(
-                " mx-auto flex max-w-[1380px] lg:gap-10 gap-6 w-full ",
-                subCom ? "" : "container",
+                " mx-auto flex flex-col-reverse md:flex-row  max-w-[1380px] lg:gap-10 gap-6 w-full ",
+                subCom ? "" : "container px-0",
             )}
         >
             <div
                 className={clsx(
-                    "gap-8 hidden md:flex flex-col"
+                    "gap-8 flex flex-col"
                 )}
             >
                 <div className="flex flex-col gap-2">
                     <p className="font-semibold text-[#7E868C]">Estimated Earnings</p>
-                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-background2 text-black dark:text-white">
+                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-full md:w-[340px] bg-background2 text-black dark:text-white">
                         <MonthEarning
                             size={24}
                             title="Total Monthly Earnings in USD"
@@ -302,13 +302,13 @@ export const Tables = ({
                             className=" rounded-md bg-primary flex justify-center py-2 px-4 gap-1.5"
                         >
                             <p className="font-medium text-white leading-[24px]">Become a Provider</p>
-                            <img src={arrowUpRight.src} alt=""  className="hidden lg:block"/>
+                            <img src={arrowUpRight.src} alt="" className="hidden lg:block" />
                         </a>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
                     <p className="font-semibold text-[#7E868C]">Estimated Breakdown</p>
-                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-[340px] bg-background2">
+                    <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-10 w-full md:w-[340px] bg-background2">
                         <MonthEarning
                             size={20}
                             title="Total CPU Earnings"
@@ -343,7 +343,7 @@ export const Tables = ({
             <div className="flex flex-col gap-2 w-full">
                 <p className="font-semibold  hidden md:block">Estimated Earnings</p>
                 <div className="md:rounded-md md:border md:p-6 md:shadow-sm md:bg-background2">
-                    <div className="border-b pb-6 md:pb-8">
+                    <div className="pb-6 border rounded-md md:border-none p-4">
                         <PricingUnit
                             title="Provider Utilization"
                             content="Usage % (Leases in your provider)"
@@ -356,135 +356,134 @@ export const Tables = ({
                             flag={true}
                         />
                     </div>
-                    <div className="py-8">
+                    <div className="mt-8 md:mt-0 border rounded-md md:border-none p-4 md:p-0">
                         <p className="font-semibold text-black dark:text-white">
                             Resources pricing
                         </p>
                         <p className="font-medium">
                             Usage % (Leases in your provider)
                         </p>
-                    </div>
-                    <div className="flex flex-col gap-7">
-                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
-                            <img src={CpuBrand.src} alt="CPU" className="hidden lg:block"/>
-                            <PricingUnit
-                                title="CPU"
-                                content="vCPU"
-                                max={max.cpuInput}
-                                step={step.cpuInput}
-                                progress={cpuInput}
-                                suffix=""
-                                flag={true}
-                                setProgress={setCpuInput} />
-                            <PricingUnit
-                                title="CPU Pricing"
-                                content="USD / thread-month"
-                                max={max.cpuPricing}
-                                step={step.cpuPricing}
-                                progress={cpuPricing}
-                                setProgress={setCpuPricing} />
-                        </div>
-                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
-                            <img src={MemoryBrand.src} alt=""  className="hidden lg:block"/>
-                            <PricingUnit
-                                title="Memory"
-                                content="Gi"
-                                max={max.memoryInput}
-                                step={step.memoryInput}
-                                progress={memoryInput}
-                                setProgress={setMemoryInput} />
-                            <PricingUnit
-                                title="Memory Pricing"
-                                content="USD / GB-month"
-                                max={max.memoryPricing}
-                                step={step.memoryPricing}
-                                progress={memoryPricing}
-                                setProgress={setMemoryPricing} />
-                        </div>
-                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
-                            <img src={StorageBrand.src} alt=""  className="hidden lg:block"/>
-                            <PricingUnit
-                                title="Ephemeral Storage"
-                                content="Gi"
-                                max={max.storageInput}
-                                step={step.storageInput}
-                                progress={storageInput}
-                                setProgress={setStorageInput} />
-                            <PricingUnit
-                                title="Storage Pricing"
-                                content="USD / GB-month"
-                                max={max.storagePricing}
-                                step={step.storagePricing}
-                                progress={storagePricing}
-                                setProgress={setStoragePricing} />
-                        </div>
-                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
-                            <img src={StorageBrand.src} alt=""  className="hidden lg:block"/>
-                            <PricingUnit
-                                title="Persistent Storage"
-                                content="Gi"
-                                max={max.persistentStorageInput}
-                                step={step.persistentStorageInput}
-                                progress={persistentStorageInput}
-                                setProgress={setPersistentStorageInput} />
-                            <PricingUnit
-                                title="Storage Pricing"
-                                content="USD / GB-month"
-                                max={max.persistentStoragePricing}
-                                step={step.persistentStoragePricing}
-                                progress={persistentStoragePricing}
-                                setProgress={setPersistentStoragePricing} />
-                        </div>
-                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
-                            <img src={GpuBrand.src} alt=""  className="hidden lg:block"/>
-                            <PricingUnit
-                                title="GPUs"
-                                content="Unit"
-                                max={max.gpuInput}
-                                step={step.gpuInput}
-                                progress={gpuInput}
-                                setProgress={setGPUInput} />
-                            <PricingUnit
-                                title="GPU Pricing"
-                                content="GPU pricing per Unit"
-                                max={max.gpuPricing}
-                                step={step.gpuPricing}
-                                progress={gpuPricing}
-                                setProgress={setGPUPricing} />
-                        </div>
-                        <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
-                            <img src={IpsBrand.src} alt=""  className="hidden lg:block"/>
-                            <PricingUnit
-                                title="IPs"
-                                content="Unit"
-                                max={max.ipInput}
-                                step={step.ipInput}
-                                progress={ipInput}
-                                setProgress={setIpInput} />
-                            <PricingUnit
-                                title="IP Pricing"
-                                content="USD / unit-month"
-                                max={max.ipPricing}
-                                step={step.ipPricing}
-                                progress={ipPricing}
-                                setProgress={setIpPricing} />
-                        </div>
-                        <div className="flex items-start gap-10 justify-between pb-7">
-                            <img src={EndpointBrand.src} alt=""  className="hidden lg:block"/>
-                            <PricingUnit
-                                title="Endpoints"
-                                content="Unit"
-                                max={max.endpointInput}
-                                step={step.endpointInput}
-                                progress={endpointInput}
-                                setProgress={setEndpointInput} />
-                            <PricingUnit
-                                title="Endpoint Pricing"
-                                content="USD / port-month"
-                                max={max.endpointPricing}
-                                step={step.endpointPricing}
-                                progress={endpointPricing}
-                                setProgress={setEndpointPricing} />
+                        <div className="flex flex-col gap-7 pt-4 md:pt-0">
+                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                                <img src={CpuBrand.src} alt="CPU" className="hidden lg:block" />
+                                <PricingUnit
+                                    title="CPU"
+                                    content="vCPU"
+                                    max={max.cpuInput}
+                                    step={step.cpuInput}
+                                    progress={cpuInput}
+                                    suffix=""
+                                    setProgress={setCpuInput} />
+                                <PricingUnit
+                                    title="CPU Pricing"
+                                    content="USD / thread-month"
+                                    max={max.cpuPricing}
+                                    step={step.cpuPricing}
+                                    progress={cpuPricing}
+                                    setProgress={setCpuPricing} />
+                            </div>
+                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                                <img src={MemoryBrand.src} alt="" className="hidden lg:block" />
+                                <PricingUnit
+                                    title="Memory"
+                                    content="Gi"
+                                    max={max.memoryInput}
+                                    step={step.memoryInput}
+                                    progress={memoryInput}
+                                    setProgress={setMemoryInput} />
+                                <PricingUnit
+                                    title="Memory Pricing"
+                                    content="USD / GB-month"
+                                    max={max.memoryPricing}
+                                    step={step.memoryPricing}
+                                    progress={memoryPricing}
+                                    setProgress={setMemoryPricing} />
+                            </div>
+                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                                <img src={StorageBrand.src} alt="" className="hidden lg:block" />
+                                <PricingUnit
+                                    title="Ephemeral Storage"
+                                    content="Gi"
+                                    max={max.storageInput}
+                                    step={step.storageInput}
+                                    progress={storageInput}
+                                    setProgress={setStorageInput} />
+                                <PricingUnit
+                                    title="Storage Pricing"
+                                    content="USD / GB-month"
+                                    max={max.storagePricing}
+                                    step={step.storagePricing}
+                                    progress={storagePricing}
+                                    setProgress={setStoragePricing} />
+                            </div>
+                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                                <img src={StorageBrand.src} alt="" className="hidden lg:block" />
+                                <PricingUnit
+                                    title="Persistent Storage"
+                                    content="Gi"
+                                    max={max.persistentStorageInput}
+                                    step={step.persistentStorageInput}
+                                    progress={persistentStorageInput}
+                                    setProgress={setPersistentStorageInput} />
+                                <PricingUnit
+                                    title="Storage Pricing"
+                                    content="USD / GB-month"
+                                    max={max.persistentStoragePricing}
+                                    step={step.persistentStoragePricing}
+                                    progress={persistentStoragePricing}
+                                    setProgress={setPersistentStoragePricing} />
+                            </div>
+                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                                <img src={GpuBrand.src} alt="" className="hidden lg:block" />
+                                <PricingUnit
+                                    title="GPUs"
+                                    content="Unit"
+                                    max={max.gpuInput}
+                                    step={step.gpuInput}
+                                    progress={gpuInput}
+                                    setProgress={setGPUInput} />
+                                <PricingUnit
+                                    title="GPU Pricing"
+                                    content="GPU pricing per Unit"
+                                    max={max.gpuPricing}
+                                    step={step.gpuPricing}
+                                    progress={gpuPricing}
+                                    setProgress={setGPUPricing} />
+                            </div>
+                            <div className="flex items-start gap-6 md:gap-8 xl:gap-10 justify-between pb-7 border-b">
+                                <img src={IpsBrand.src} alt="" className="hidden lg:block" />
+                                <PricingUnit
+                                    title="IPs"
+                                    content="Unit"
+                                    max={max.ipInput}
+                                    step={step.ipInput}
+                                    progress={ipInput}
+                                    setProgress={setIpInput} />
+                                <PricingUnit
+                                    title="IP Pricing"
+                                    content="USD / unit-month"
+                                    max={max.ipPricing}
+                                    step={step.ipPricing}
+                                    progress={ipPricing}
+                                    setProgress={setIpPricing} />
+                            </div>
+                            <div className="flex items-start gap-10 justify-between pb-7">
+                                <img src={EndpointBrand.src} alt="" className="hidden lg:block" />
+                                <PricingUnit
+                                    title="Endpoints"
+                                    content="Unit"
+                                    max={max.endpointInput}
+                                    step={step.endpointInput}
+                                    progress={endpointInput}
+                                    setProgress={setEndpointInput} />
+                                <PricingUnit
+                                    title="Endpoint Pricing"
+                                    content="USD / port-month"
+                                    max={max.endpointPricing}
+                                    step={step.endpointPricing}
+                                    progress={endpointPricing}
+                                    setProgress={setEndpointPricing} />
+                            </div>
                         </div>
                     </div>
                 </div>
