@@ -9,6 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 const tabs = [
@@ -38,9 +39,19 @@ function Pricing() {
                     <SelectTrigger className="w-full max-w-sm">
                         <SelectValue placeholder={tabs[0].description} />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className="bg-white group">
                         {tabs.map((item) => {
-                            return <SelectItem value={item.value}>{item.description}</SelectItem>
+                            return <SelectItem
+                                key={item.value}
+                                value={item.value}
+                                className={cn(
+                                    "data-[state=checked]:bg-primary",
+                                    "data-[state=checked]:text-white",
+                                    "group/item hover:bg-primary hover:text-white",
+                                )}
+                            >
+                                {item.description}
+                            </SelectItem>
                         })}
                     </SelectContent>
                 </Select>
