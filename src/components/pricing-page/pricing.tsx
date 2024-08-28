@@ -68,11 +68,13 @@ function Pricing() {
       </div>
       <TabsContent value="gpus">
         <div className="mx-4 my-8 md:m-[4.5rem]">
-          <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
-            GPU Models, Prices & Availabilty
+          <h2 className="text-center text-2xl font-medium md:block md:text-3xl md:font-bold">
+            GPU Models,
+            <br className="md:hidden" /> Prices & Availabilty
           </h2>
           <p className="mt-3 text-center">
-            Browse the list of available GPUs along with their hourly rates.
+            Browse the list of available GPUs <br className="md:hidden" /> along
+            with their hourly rates.
           </p>
         </div>
         <GpuTable initialData={null} />

@@ -209,8 +209,8 @@ export const Tables = ({
           />
         </div>
       </div>
-      <div className="flex flex-col gap-1 xl:hidden">
-        <p>Total Available GPUs</p>
+      <div className="flex flex-col gap-2 xl:hidden">
+        <p className="text-sm md:text-base">Total Available GPUs</p>
         <div className="flex justify-between">
           <Card className="flex items-center gap-1.5 px-2 py-1">
             <span className="font-bold text-foreground">
