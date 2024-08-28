@@ -443,10 +443,10 @@ export const Tables = ({
                     key={index}
                     className="overflow-hidden rounded-lg border  bg-background2 shadow-sm"
                   >
-                    <td className=" w-[24%]  rounded-l-lg border-l text-base font-semibold xl:text-lg">
+                    <td className="  w-[24%] rounded-l-lg border-l  px-3 py-2 text-base font-semibold xl:text-lg">
                       <div className="flex items-center gap-3 capitalize">
                         <Skeleton className="h-5 w-7" />
-                        <div className="">
+                        <div className="flex flex-col gap-2">
                           <Skeleton className="h-7 w-20" />
                           <Skeleton className="h-5 w-20" />
                         </div>
