@@ -196,11 +196,11 @@ export const Tables = ({
         </div>
       </div>
       <div className="flex flex-col gap-1 xl:hidden">
-        <p className="text-sm md:text-base">Total Available GPUs</p>
+        <p className="text-sm md:text-base text-[#7E868C]">Total Available GPUs</p>
         <div className="flex justify-between">
           <Card className="px-2 py-1">
-            <span className="text-black font-bold">{data?.availability?.total || 0} </span>
-            <span className="text-sm">(of {data?.availability?.available || 0})</span>
+            <span className="text-[#09090B] font-bold dark:text-[#EDEDED]">{data?.availability?.total || 0} </span>
+            <span className="text-sm text-[#71717A]">(of {data?.availability?.available || 0})</span>
           </Card>
           <div className="flex gap-1">
             <OFilter
@@ -311,15 +311,17 @@ export const Tables = ({
                 </div>
                 <HoverCard openDelay={2} closeDelay={2}>
                   <HoverCardTrigger className="pt-1.5 flex justify-between items-center">
-                    <span className="text-sm font-medium text-[#71717A]">
-                      Min: ${model?.price?.min || 0}
-                    </span>
-                    <span className="text-sm font-medium text-[#71717A]">
-                      -
-                    </span>
-                    <span className="text-sm font-medium text-[#71717A]">
-                      Max: ${model?.price?.max || 0}
-                    </span>
+                    <div className="flex justify-center gap-1 items-center">
+                      <span className="text-sm font-medium text-[#71717A]">
+                        Min: ${model?.price?.min || 0}
+                      </span>
+                      <span className="text-sm font-medium text-[#71717A]">
+                        -
+                      </span>
+                      <span className="text-sm font-medium text-[#71717A]">
+                        Max: ${model?.price?.max || 0}
+                      </span>
+                    </div>
                     <Info size={12} className="text-[#71717A]" />
                   </HoverCardTrigger>
                   <HoverCardContent align="center">
@@ -353,14 +355,14 @@ export const Tables = ({
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              <div className="flex flex-col justify-center py-6">
+              <div className="flex flex-col justify-center pt-6">
                 <a
                   id={`${model?.model}-(gpu-rent)`}
                   href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                   target="_blank"
                   className="rounded-md bg-foreground py-3 inline-flex justify-center gap-1.5 hover:bg-primary text-white dark:text-black dark:hover:text-inherit"
                 >
-                  <p className="text-xs font-medium text-inherit">Rent Now</p>
+                  <p className="text-sm font-medium text-inherit">Rent Now</p>
                   <ArrowUpRightIcon className="w-[15px]" />
                 </a>
               </div>
@@ -522,7 +524,7 @@ export const Tables = ({
                       target="_blank"
                       className="rounded-md bg-foreground py-2 px-4 inline-flex gap-1.5 hover:bg-primary text-white dark:text-black dark:hover:text-inherit"
                     >
-                      <p className="text-xs font-medium text-inherit">Rent Now</p>
+                      <p className="text-sm font-medium text-inherit">Rent Now</p>
                       <ArrowUpRightIcon className="w-[15px]" />
                     </a>
                   </td>
