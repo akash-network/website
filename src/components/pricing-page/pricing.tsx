@@ -87,7 +87,7 @@ function Pricing() {
             Adjust CPU, memory, storage, and other parameters to get a detailed
             cost breakdown.
           </p>
-          <p className="mt-3 text-center md:hidden">
+          <p className="mt-3 text-center leading-6 md:hidden">
             Estimate your costs by selecting the resources you need. Adjust CPU,
             memory, storage, and other parameters to get a detailed cost
             breakdown.

@@ -276,7 +276,7 @@ export const Tables = ({
     <section
       className={clsx(
         " mx-auto flex w-full max-w-[1380px] flex-col-reverse gap-6 md:flex-row lg:gap-10 ",
-        subCom ? "" : "container",
+        subCom ? "" : "",
       )}
     >
       <div className={clsx("flex flex-col gap-8")}>
@@ -301,10 +301,14 @@ export const Tables = ({
                   Use 30day average price of AKT
                 </p>
                 <p className="text-muted-foreground text-[14px]">
-                  Average Price for 1 AKT is $3.562 USD.
+                  Average Price for 1 AKT is ${monthlyAverage?.toFixed(2)}
                 </p>
               </div>
-              <Switch className="data-[state=checked]:bg-black data-[state=unchecked]:bg-[#71717A] dark:data-[state=unchecked]:bg-[##27272A] data-[state=checked]:dark:bg-white" />
+              <Switch
+                checked={aktAverage}
+                onCheckedChange={setAktAverage}
+                className="data-[state=checked]:bg-black data-[state=unchecked]:bg-[#71717A] dark:data-[state=unchecked]:bg-[##27272A] data-[state=checked]:dark:bg-white"
+              />
             </div>
             <a
               id={`usage`}
@@ -368,14 +372,20 @@ export const Tables = ({
           <div className="border-b pb-6 md:pb-8">
             <PricingUnit
               title="Provider Utilization"
-              content="Usage % (Leases in your provider)"
-              position="items-center"
+              content={
+                <span>
+                  Usage % <br className="md:hidden" />
+                  (Leases in your provider)
+                </span>
+              }
               max={max.leasePercentInput}
               step={step.leasePercentInput}
               progress={leasePercentInput}
               setProgress={setLeasePercentInput}
               suffix="%"
               flag={true}
+              position="flex  flex-row justify-between items-start"
+              inputClass="mt-0 lg:mt-auto"
             />
           </div>
           <div className="py-8">

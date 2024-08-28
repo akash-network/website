@@ -7,11 +7,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import arrowUpRight from '../../../assets/icons/arrow-up-right.svg';
-import awsLogo from '../../../assets/aws-logo.svg'
-import gcpLogo from '../../../assets/gcp-logo.svg'
-import azureLogo from '../../../assets/azure-logo.svg'
-import akashLogo from '../../../assets/akash-logo-primary.svg'
+import arrowUpRight from "../../../assets/icons/arrow-up-right.svg";
+import awsLogo from "../../../assets/aws-logo.svg";
+import gcpLogo from "../../../assets/gcp-logo.svg";
+import azureLogo from "../../../assets/azure-logo.svg";
+import akashLogo from "../../../assets/akash-logo-primary.svg";
 import Disclaimer from "./disclaimer";
 import UsageAmount from "./usage-amount";
 import CompareItem from "./compare-item";
@@ -108,44 +108,42 @@ const DEFAULT_USAGE = {
   memory: 128,
   ephemeralStorage: 256,
   persistentStorage: 256,
-}
+};
 
 const MAX_VALUE = {
   cpu: 100,
   memory: 1024,
   ephemeralStorage: 10240,
   persistentStorage: 10240,
-}
+};
 
 const AKASH_DEFAULT_PRICE = {
   cpu: 1.6,
   memory: 0.8,
   ephemeralStorage: 0.02,
   persistentStorage: 0.04,
-}
+};
 
 const AWS_DEFAULT_PRICE = {
   cpu: 2.5,
   memory: 1.2,
   ephemeralStorage: 0.03,
   persistentStorage: 0.04,
-}
-
+};
 
 const GCP_DEFAULT_PRICE = {
   cpu: 2,
   memory: 1,
   ephemeralStorage: 0.025,
   persistentStorage: 0.04,
-}
-
+};
 
 const AZURE_DEFAULT_PRICE = {
   cpu: 2.1,
   memory: 1.1,
   ephemeralStorage: 0.02,
   persistentStorage: 0.044,
-}
+};
 
 export const Tables = ({
   data,
@@ -166,58 +164,80 @@ export const Tables = ({
 
   const [cpu, setCpu] = useState<number>(DEFAULT_USAGE.cpu);
   const [memory, setMemory] = useState<number>(DEFAULT_USAGE.memory);
-  const [ephemeralStorage, setEphemeralStorage] = useState<number>(DEFAULT_USAGE.ephemeralStorage);
-  const [persistentStorage, setPersistentStorage] = useState<number>(DEFAULT_USAGE.persistentStorage);
+  const [ephemeralStorage, setEphemeralStorage] = useState<number>(
+    DEFAULT_USAGE.ephemeralStorage,
+  );
+  const [persistentStorage, setPersistentStorage] = useState<number>(
+    DEFAULT_USAGE.persistentStorage,
+  );
 
   const mock = {
     cost: 5.12,
-    percent: - 83.55
-  }
+    percent: -83.55,
+  };
 
   useEffect(() => {
-    setAkashCost(cpu * AKASH_DEFAULT_PRICE.cpu + memory * AKASH_DEFAULT_PRICE.memory + ephemeralStorage * AKASH_DEFAULT_PRICE.ephemeralStorage + persistentStorage * AKASH_DEFAULT_PRICE.persistentStorage);
-    setAwsCost(cpu * AWS_DEFAULT_PRICE.cpu + memory * AWS_DEFAULT_PRICE.memory + ephemeralStorage * AWS_DEFAULT_PRICE.ephemeralStorage + persistentStorage * AWS_DEFAULT_PRICE.persistentStorage);
-    setGcpCost(cpu * GCP_DEFAULT_PRICE.cpu + memory * GCP_DEFAULT_PRICE.memory + ephemeralStorage * GCP_DEFAULT_PRICE.ephemeralStorage + persistentStorage * GCP_DEFAULT_PRICE.persistentStorage);
-    setAzureCost(cpu * AZURE_DEFAULT_PRICE.cpu + memory * AZURE_DEFAULT_PRICE.memory + ephemeralStorage * AZURE_DEFAULT_PRICE.ephemeralStorage + persistentStorage * AZURE_DEFAULT_PRICE.persistentStorage);
+    setAkashCost(
+      cpu * AKASH_DEFAULT_PRICE.cpu +
+        memory * AKASH_DEFAULT_PRICE.memory +
+        ephemeralStorage * AKASH_DEFAULT_PRICE.ephemeralStorage +
+        persistentStorage * AKASH_DEFAULT_PRICE.persistentStorage,
+    );
+    setAwsCost(
+      cpu * AWS_DEFAULT_PRICE.cpu +
+        memory * AWS_DEFAULT_PRICE.memory +
+        ephemeralStorage * AWS_DEFAULT_PRICE.ephemeralStorage +
+        persistentStorage * AWS_DEFAULT_PRICE.persistentStorage,
+    );
+    setGcpCost(
+      cpu * GCP_DEFAULT_PRICE.cpu +
+        memory * GCP_DEFAULT_PRICE.memory +
+        ephemeralStorage * GCP_DEFAULT_PRICE.ephemeralStorage +
+        persistentStorage * GCP_DEFAULT_PRICE.persistentStorage,
+    );
+    setAzureCost(
+      cpu * AZURE_DEFAULT_PRICE.cpu +
+        memory * AZURE_DEFAULT_PRICE.memory +
+        ephemeralStorage * AZURE_DEFAULT_PRICE.ephemeralStorage +
+        persistentStorage * AZURE_DEFAULT_PRICE.persistentStorage,
+    );
   }, [cpu, memory, ephemeralStorage, persistentStorage]);
 
   useEffect(() => {
     const maxCost = Math.max(...[awsCost, gcpCost, azureCost]);
-    setSavingPercent((maxCost - akashCost) * 100 / maxCost)
-  }, [akashCost, awsCost, gcpCost, azureCost])
+    setSavingPercent(((maxCost - akashCost) * 100) / maxCost);
+  }, [akashCost, awsCost, gcpCost, azureCost]);
 
   return (
     <section
       className={clsx(
-        " mx-auto flex flex-col-reverse max-w-[1380px] gap-10 md:flex-row",
-        subCom ? "" : "container",
+        " mx-auto flex max-w-[1380px] flex-col-reverse gap-10 md:flex-row",
+        subCom ? "" : "",
       )}
     >
-      <div
-        className={clsx(
-          "flex flex-col gap-8 "
-        )}
-      >
+      <div className={clsx("flex flex-col gap-8 ")}>
         <div>
-          <p className="text-sm mb-2 font-medium">Price estimate</p>
-          <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-full md:w-[274px] bg-background2">
+          <p className="mb-2 text-sm font-medium">Price estimate</p>
+          <div className="flex w-full flex-col gap-5  rounded-md border bg-background2 p-6 shadow-sm md:w-[274px]">
             <div className="">
-              <div className="flex gap-4 items-center pb-2 border-b">
+              <div className="flex items-center gap-4 border-b pb-2">
                 <img src={akashLogo.src} alt="akash-logo" />
-                <p className="font-semibold text-black dark:text-white">Akash Network</p>
+                <p className="font-semibold text-black dark:text-white">
+                  Akash Network
+                </p>
               </div>
               <div className="flex justify-between md:block">
-                <div className="flex justify-between flex-grow items-center pt-2 pr-2 md:pr-0">
+                <div className="flex flex-grow items-center justify-between pr-2 pt-2 md:pr-0">
                   <p className="text-sm font-medium">Estimated Cost:</p>
-                  <p className="text-[21px] leading-[28px] font-semibold text-black dark:text-white hidden md:block">
+                  <p className="hidden text-[21px] font-semibold leading-[28px] text-black dark:text-white md:block">
                     ${akashCost.toFixed(2)}
                   </p>
-                  <p className="text-[21px] leading-[28px] font-semibold text-black dark:text-white md:hidden">
+                  <p className="text-[21px] font-semibold leading-[28px] text-black dark:text-white md:hidden">
                     ${akashCost.toFixed(0)}
                   </p>
                 </div>
-                <div className="flex justify-end items-center pt-[5px]">
-                  <p className="px-2.5 py-1 bg-success-light text-success-dark dark:bg-success-dark dark:text-success-light rounded-full text-sm font-medium">
+                <div className="flex items-center justify-end pt-[5px]">
+                  <p className="rounded-full bg-success-light px-2.5 py-1 text-sm font-medium text-success-dark dark:bg-success-dark dark:text-success-light">
                     {savingPercent.toFixed(2)}%
                   </p>
                 </div>
@@ -227,27 +247,21 @@ export const Tables = ({
               id={"usage"}
               href={"https://console.akash.network/"}
               target="_blank"
-              className="rounded-md bg-primary flex justify-center py-2 px-4 gap-1.5 hover:bg-darkGray dark:hover:bg-background"
+              className="flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2 hover:bg-darkGray dark:hover:bg-background"
             >
-              <p className="font-medium text-white leading-[24px]">Deploy Now</p>
+              <p className="font-medium leading-[24px] text-white">
+                Deploy Now
+              </p>
               <img src={arrowUpRight.src} alt="" />
             </a>
           </div>
         </div>
         <div>
-          <p className="text-sm font-medium mb-2">Price compare</p>
-          <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-5 w-full md:w-[274px] bg-background2">
+          <p className="mb-2 text-sm font-medium">Price compare</p>
+          <div className="flex w-full flex-col gap-5  rounded-md border bg-background2 p-6 shadow-sm md:w-[274px]">
             <div className="flex flex-col gap-5">
-              <CompareItem
-                title="AWS"
-                cost={awsCost}
-                logo={awsLogo.src}
-              />
-              <CompareItem
-                title="GCP"
-                cost={gcpCost}
-                logo={gcpLogo.src}
-              />
+              <CompareItem title="AWS" cost={awsCost} logo={awsLogo.src} />
+              <CompareItem title="GCP" cost={gcpCost} logo={gcpLogo.src} />
               <CompareItem
                 title="Azure"
                 cost={azureCost}
@@ -258,8 +272,8 @@ export const Tables = ({
         </div>
       </div>
       <div className="w-full">
-        <p className="text-sm mb-2 font-medium">Usage estimate</p>
-        <div className="rounded-md border p-6 shadow-sm  flex flex-col gap-6 w-full bg-background2">
+        <p className="mb-2 text-sm font-medium">Usage estimate</p>
+        <div className="flex w-full flex-col gap-6  rounded-md border bg-background2 p-6 shadow-sm">
           <UsageAmount
             title="CPU"
             max={MAX_VALUE.cpu}
@@ -267,7 +281,8 @@ export const Tables = ({
             suffix="vCPUs"
             amount={cpu}
             setAmount={setCpu}
-            content="(Amount of vCPU's)" />
+            content="(Amount of vCPU's)"
+          />
           <UsageAmount
             title="Memory"
             max={MAX_VALUE.memory}
@@ -275,7 +290,8 @@ export const Tables = ({
             setAmount={setMemory}
             defaultValue={DEFAULT_USAGE.memory}
             suffix="GB"
-            content="(Amount of memory)" />
+            content="(Amount of memory)"
+          />
           <UsageAmount
             title="Ephemeral Storage"
             amount={ephemeralStorage}
@@ -283,7 +299,8 @@ export const Tables = ({
             max={MAX_VALUE.ephemeralStorage}
             defaultValue={DEFAULT_USAGE.ephemeralStorage}
             suffix="GB"
-            content="(Amount of ephemeral disk storage)" />
+            content="(Amount of ephemeral disk storage)"
+          />
           <UsageAmount
             title="Persistent Storage"
             amount={persistentStorage}
@@ -291,12 +308,13 @@ export const Tables = ({
             max={MAX_VALUE.persistentStorage}
             defaultValue={DEFAULT_USAGE.persistentStorage}
             suffix="GB"
-            content="(Amount of persistent disk storage)" />
+            content="(Amount of persistent disk storage)"
+          />
           <div className="flex justify-end">
             <Disclaimer />
           </div>
         </div>
       </div>
-    </section >
+    </section>
   );
 };

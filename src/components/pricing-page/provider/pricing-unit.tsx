@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
+import clsx from "clsx";
 
 type PricingUnitProps = {
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   max: number;
   title: string;
-  content: string;
+  content: string | React.ReactNode;
   position?: string;
   suffix?: string;
   step?: number;
   flag?: boolean;
+  inputClass?: string;
 };
 
 function PricingUnit({
@@ -23,6 +25,7 @@ function PricingUnit({
   suffix,
   step = 1,
   flag,
+  inputClass,
 }: PricingUnitProps) {
   useEffect(() => {
     if (!progress) {
@@ -44,7 +47,10 @@ function PricingUnit({
           </p>
         </div>
         <input
-          className="mt-4 w-[63px] rounded-md border bg-transparent px-1 py-1.5 font-bold text-foreground shadow-sm focus:outline-primary dark:outline-none md:w-[90px] md:px-3"
+          className={clsx(
+            inputClass,
+            "mt-4 w-[63px] rounded-md border bg-transparent px-1 py-1.5 font-bold text-foreground shadow-sm focus:outline-primary dark:outline-none md:w-[90px] md:px-3",
+          )}
           value={flag ? `${progress} ${suffix}` : `${progress}`}
           onChange={(e) => {
             setProgress(parseInt(e.target.value));
