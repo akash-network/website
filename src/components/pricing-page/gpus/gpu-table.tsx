@@ -213,10 +213,10 @@ export const Tables = ({
         <p className="text-sm md:text-base">Total Available GPUs</p>
         <div className="flex justify-between">
           <Card className="flex items-center gap-1.5 px-2 py-1">
-            <span className="font-bold text-foreground">
+            <span className="text-sm font-bold text-foreground md:text-base">
               {data?.availability?.total || 0}{" "}
             </span>
-            <span className="text-sm">
+            <span className="m:text-sm text-xs">
               (of {data?.availability?.available || 0})
             </span>
           </Card>
@@ -237,7 +237,7 @@ export const Tables = ({
       </div>
       <div
         className={clsx(
-          "flex w-full flex-col gap-4",
+          "mt-5 flex w-full flex-col gap-4 md:mt-0",
           subCom ? "lg:hidden" : "md:hidden",
         )}
       >
@@ -302,8 +302,8 @@ export const Tables = ({
             ))
           : filteredData?.map((model, index) => (
               <Card className="my-3 flex w-full flex-col p-6" key={index}>
-                <div className="flex items-center gap-3 pb-5">
-                  <div className="flex aspect-square w-10 items-center justify-center rounded-md border">
+                <div className="flex items-center gap-3 pb-2 md:pb-5">
+                  <div className="flex aspect-square w-12 items-center justify-center rounded-md border">
                     <img
                       src="/logos/nvidia.png"
                       alt="nvidia"

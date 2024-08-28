@@ -18,8 +18,10 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
   return (
     <div className={clsx("my-5 flex flex-col gap-2", className)}>
       <div className="flex items-center justify-between">
-        <span className="font-bold text-foreground">{available} Available</span>
-        <span>(out of {total})</span>
+        <span className="text-lg font-bold text-foreground md:text-base">
+          {available} Available
+        </span>
+        <span className="text-sm text-para md:text-base">(out of {total})</span>
       </div>
       <div className="flex justify-between">
         {Array.from({ length: filledDots }).map((_, i) => (

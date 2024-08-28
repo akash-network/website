@@ -40,13 +40,13 @@ export default function Sort({
       switch (sortType) {
         case "Availability":
           filters.modal.length > 0 ||
-            filters.ram.length > 0 ||
-            filters.interface.length > 0
+          filters.ram.length > 0 ||
+          filters.interface.length > 0
             ? setFilteredData((prev) =>
-              [...prev].sort(
-                (a, b) => b.availability.available - a.availability.available,
-              ),
-            )
+                [...prev].sort(
+                  (a, b) => b.availability.available - a.availability.available,
+                ),
+              )
             : setFilteredData(onTop());
           break;
         case "Lowest Price":
@@ -80,7 +80,7 @@ export default function Sort({
       {({ open }) => (
         <>
           <div className="relative">
-            <Listbox.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-4 py-2 text-sm font-medium text-textGray shadow-sm">
+            <Listbox.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-3 py-1.5 text-sm font-medium text-textGray shadow-sm md:px-4 md:py-2">
               {selected.title}
               <ChevronDownIcon className="h-5 w-5 " aria-hidden="true" />
             </Listbox.Button>
