@@ -309,7 +309,9 @@ export const Tables = ({
 
                 <div className="flex flex-col  justify-center gap-1 border-b pb-6 pt-2">
                   <div className="flex justify-between border-b pb-1.5 text-lg">
-                    <span className="font-semibold">Average price:</span>
+                    <span className="text-lg font-semibold md:text-base">
+                      Average price:
+                    </span>
                     <span className="font-semibold">
                       ${model?.price?.avg || 0}
                     </span>
