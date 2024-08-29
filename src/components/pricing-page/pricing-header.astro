@@ -5,9 +5,10 @@ import Dropdown from "./dropdown";
 type Props = {
   title: string;
   description: string;
+  image?: string;
 };
 
-const { title, description } = Astro.props;
+const { title, description, image } = Astro.props;
 
 const tabs = [
   {
@@ -30,7 +31,7 @@ const pathname = Astro.url.pathname;
 <Layout
   title={`${title} | Explore Pricing and Earnings on Akash`}
   description={description}
-  image="/meta-images/gpus.png"
+  image={image || "/meta-images/gpus.png"}
 >
   <section
     class="container mx-auto flex max-w-[1380px] flex-col gap-12 pt-12 md:gap-[4.5rem] md:pt-[100px]"
