@@ -357,7 +357,7 @@ export const Tables = ({
       >
         <table
           className={clsx(
-            "w-full  border-separate border-spacing-y-1.5 ",
+            "w-full  border-separate border-spacing-y-2.5 ",
             subCom ? "" : "",
           )}
           cellSpacing={0}

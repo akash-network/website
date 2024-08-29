@@ -59,7 +59,7 @@ function Pricing() {
             <div className="hidden md:flex justify-center w-full">
                 <TabsList className="bg-secondary-gray dark:bg-darkGray">
                     {tabs.map((item) => {
-                        return <TabsTrigger value={item.value}>{item.description}</TabsTrigger>
+                        return <TabsTrigger value={item.value} className={'data-[state=active]:bg-white data-[state=active]:dark:bg-background'}>{item.description}</TabsTrigger>
                     })}
                 </TabsList>
             </div>
