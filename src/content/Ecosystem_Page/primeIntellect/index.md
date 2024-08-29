@@ -1,6 +1,6 @@
 ---
 projectTitle: Prime Intellect
-projectImage: "./project-banner.png"
+projectImage: "./banner.jpg"
 pubDate: "2024-02-23"
 
 tags:
