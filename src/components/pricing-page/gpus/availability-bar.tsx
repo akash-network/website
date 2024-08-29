@@ -21,13 +21,13 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({ available, total, cla
                 {Array.from({ length: filledDots }).map((_, i) => (
                     <div
                         key={i}
-                        className='w-[8px] h-[8px] bg-black rounded-full'
+                        className='w-[8px] h-[8px] bg-black dark:bg-[#DADADA] rounded-full'
                     />
                 ))}
                 {Array.from({ length: emptyDots }).map((_, i) => (
                     <div
                         key={i + filledDots}
-                        className='w-[8px] h-[8px] bg-[#DADADA] rounded-full'
+                        className='w-[8px] h-[8px] bg-[#DADADA] dark:bg-black rounded-full'
                     />
                 ))}
             </div>

@@ -39,7 +39,7 @@ function Pricing() {
                     <SelectTrigger className="w-full max-w-sm">
                         <SelectValue placeholder={tabs[0].description} />
                     </SelectTrigger>
-                    <SelectContent className="bg-white group">
+                    <SelectContent className="bg-background2 group">
                         {tabs.map((item) => {
                             return <SelectItem
                                 key={item.value}
@@ -66,7 +66,7 @@ function Pricing() {
             <TabsContent value="gpus">
                 <div className="my-8 md:m-[4.5rem]">
                     <h2 className="text-center text-2xl font-medium md:block md:text-3xl">
-                        GPU Models, Prices & Availabilty
+                        GPU Pricing and Availability
                     </h2>
                     <p className="text-center mt-3 leading-normal hidden md:block">
                         Browse the list of available GPUs along with their hourly rates.
