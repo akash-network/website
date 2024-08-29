@@ -103,10 +103,10 @@ export const modifyModel = (model: string) => {
   return model === "rtxa6000"
     ? "A6000"
     : model?.includes("rtx")
-    ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
-    : model?.includes("gtx")
-    ? model?.replace("gtx", "GTX ").replace("ti", " Ti")
-    : model;
+      ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
+      : model?.includes("gtx")
+        ? model?.replace("gtx", "GTX ").replace("ti", " Ti")
+        : model;
 };
 
 export const price = (price: number) => {
@@ -376,8 +376,8 @@ export const Tables = ({
                               <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
                                 <p className="flex items-center">
                                   <span
-                                    className="dark:text-[#3 E3E3E] text-base
-                        text-[#D7DBDF] md:text-xs"
+                                    className="text-base text-[#D7DBDF]
+                        dark:text-[#3E3E3E] md:text-xs"
                                   >
                                     Avg:
                                   </span>

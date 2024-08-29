@@ -255,7 +255,7 @@ export const Tables = ({
                   <Skeleton className="h-5 w-5" />
                   <Skeleton className="h-5 w-20" />
                 </div>
-                <div className="h-px w-full bg-border"></div>
+                <div className="h-px w-full bg-defaultBorder"></div>
                 <div className=" flex  flex-col gap-2">
                   <div className="flex items-center justify-between gap-1">
                     <Skeleton className="h-5 w-20" />
@@ -270,7 +270,7 @@ export const Tables = ({
                     <Skeleton className="h-5 w-20" />
                   </div>
                 </div>
-                <div className="h-px w-full bg-border"></div>
+                <div className="h-px w-full bg-defaultBorder"></div>
                 <div className="flex flex-col items-start gap-1 ">
                   <div className="rounded-x-md relative min-w-[170px]  rounded-md border px-2 py-1 text-sm font-medium md:min-w-[100px] md:text-xs">
                     <Skeleton className="h-5 w-20" />
@@ -282,8 +282,8 @@ export const Tables = ({
               </div>
             ))
           : filteredData?.map((model, index) => (
-              <Card className="my-3 flex w-full flex-col p-6" key={index}>
-                <div className="flex items-center gap-3 pb-5">
+              <Card className="my-2 flex w-full flex-col p-6" key={index}>
+                <div className="flex items-center gap-3 ">
                   <div className="rounded-md border p-[14px_10px]">
                     <img
                       src="/logos/nvidia.png"
@@ -307,8 +307,8 @@ export const Tables = ({
                   className="my-0 border-y py-5"
                 />
 
-                <div className="flex flex-col justify-center border-b py-6">
-                  <div className="flex justify-between border-b text-lg">
+                <div className="flex flex-col  justify-center gap-1 border-b pb-6 pt-2">
+                  <div className="flex justify-between border-b pb-1.5 text-lg">
                     <span className="font-semibold">Average price:</span>
                     <span className="font-semibold">
                       ${model?.price?.avg || 0}
@@ -317,13 +317,13 @@ export const Tables = ({
                   <HoverCard openDelay={2} closeDelay={2}>
                     <HoverCardTrigger className="flex items-center justify-between pt-1.5">
                       <div className="flex items-center justify-center gap-1">
-                        <span className="text-sm font-medium text-[#71717A]">
+                        <span className="text-sm font-medium text-[#71717A] dark:text-para">
                           Min: ${model?.price?.min || 0}
                         </span>
-                        <span className="text-sm font-medium text-[#71717A]">
+                        <span className="text-sm font-medium text-[#71717A] dark:text-para">
                           -
                         </span>
-                        <span className="text-sm font-medium text-[#71717A]">
+                        <span className="text-sm font-medium text-[#71717A] dark:text-para">
                           Max: ${model?.price?.max || 0}
                         </span>
                       </div>
@@ -340,9 +340,9 @@ export const Tables = ({
                             <br />
                             offering this model:
                           </h1>
-                          <div className="border-1 mt-3 rounded-md bg-[#F1F1F1] px-4 py-3 ">
-                            <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2">
-                              <p className="text-4  text-base font-semibold text-black">
+                          <div className="border-1 mt-3 rounded-md bg-[#F1F1F1] px-4 py-3 dark:bg-background ">
+                            <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2 dark:border-defaultBorder">
+                              <p className="text-4  text-base font-semibold text-foreground">
                                 Avg price:
                               </p>
                               <div className="text-base font-bold  ">
@@ -351,14 +351,14 @@ export const Tables = ({
                             </div>
                             <div className="mt-2  flex items-center justify-between gap-2">
                               <div className="flex flex-col items-center justify-center gap-1">
-                                <h1 className="text-sm text-[#71717A] ">
+                                <h1 className="text-sm text-[#71717A] dark:text-para">
                                   Max:{" "}
                                   <span>{price(model?.price?.max)}/hr</span>
                                 </h1>
                               </div>
                               <div className="">-</div>
                               <div className="flex flex-col items-center justify-center gap-1">
-                                <h1 className="text-sm text-[#71717A] ">
+                                <h1 className="text-sm text-[#71717A] dark:text-para">
                                   Min:{" "}
                                   <span>{price(model?.price?.min)}/hr</span>
                                 </h1>
@@ -482,7 +482,7 @@ export const Tables = ({
                       />
                     </td>
                     <td className="w-[27.2%] border-y px-2 xl:px-8">
-                      <div className="flex justify-between border-b text-lg">
+                      <div className="flex justify-between border-b pb-1 text-lg">
                         <span className="font-semibold">Average price:</span>
                         <span className="font-semibold">
                           ${model?.price?.avg || 0}
@@ -490,13 +490,13 @@ export const Tables = ({
                       </div>
                       <HoverCard openDelay={2} closeDelay={2}>
                         <HoverCardTrigger className="flex items-center justify-between pt-1.5">
-                          <span className="text-sm font-medium text-[#71717A]">
+                          <span className="text-sm font-medium text-[#71717A] dark:text-para">
                             Min: ${model?.price?.min || 0}
                           </span>
-                          <span className="text-sm font-medium text-[#71717A]">
+                          <span className="text-sm font-medium text-[#71717A] dark:text-para">
                             -
                           </span>
-                          <span className="text-sm font-medium text-[#71717A]">
+                          <span className="text-sm font-medium text-[#71717A] dark:text-para">
                             Max: ${model?.price?.max || 0}
                           </span>
                           <Info size={12} className="text-[#71717A]" />
@@ -513,7 +513,7 @@ export const Tables = ({
                                 offering this model:
                               </h1>
                               <div className="border-1 mt-3 rounded-md bg-[#F1F1F1] px-4 py-3 dark:bg-background ">
-                                <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2">
+                                <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2 dark:border-defaultBorder">
                                   <p className="text-4  text-base font-semibold text-black dark:text-white">
                                     Avg price:
                                   </p>
@@ -523,14 +523,14 @@ export const Tables = ({
                                 </div>
                                 <div className="mt-2  flex items-center justify-between gap-2">
                                   <div className="flex flex-col items-center justify-center gap-1">
-                                    <h1 className="text-sm text-[#71717A] ">
+                                    <h1 className="text-sm text-[#71717A] dark:text-para">
                                       Max:{" "}
                                       <span>{price(model?.price?.max)}/hr</span>
                                     </h1>
                                   </div>
                                   <div className="">-</div>
                                   <div className="flex flex-col items-center justify-center gap-1">
-                                    <h1 className="text-sm text-[#71717A] ">
+                                    <h1 className="text-sm text-[#71717A] dark:text-para">
                                       Min:{" "}
                                       <span>{price(model?.price?.min)}/hr</span>
                                     </h1>

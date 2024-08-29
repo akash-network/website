@@ -10,8 +10,10 @@ function Disclaimer() {
     <div className="flex items-center gap-1">
       <HoverCard openDelay={2} closeDelay={2}>
         <HoverCardTrigger className="flex items-center justify-between pt-1.5">
-          <p className="mr-2 text-sm font-medium text-[#7E868C]">Disclaimer</p>
-          <Info size={14} className="text-[#9D9C9C] dark:text-[#3E3E3E]" />
+          <p className="mr-2 text-sm font-medium text-[#7E868C] dark:text-para">
+            Disclaimer
+          </p>
+          <Info size={14} className="text-[#9D9C9C] dark:text-para" />
         </HoverCardTrigger>
         <HoverCardContent
           className="r-0"
