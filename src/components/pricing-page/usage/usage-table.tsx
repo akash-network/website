@@ -156,6 +156,7 @@ export const Tables = ({
   subCom?: boolean;
   isLoading?: boolean;
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const [akashCost, setAkashCost] = useState<number>(0);
   const [awsCost, setAwsCost] = useState<number>(0);
   const [gcpCost, setGcpCost] = useState<number>(0);
@@ -208,6 +209,18 @@ export const Tables = ({
     setSavingPercent(((maxCost - akashCost) * 100) / maxCost);
   }, [akashCost, awsCost, gcpCost, azureCost]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  console.log(isMobile);
+
   return (
     <section
       className={clsx(
@@ -217,7 +230,9 @@ export const Tables = ({
     >
       <div className={clsx("flex flex-col gap-8 ")}>
         <div>
-          <p className="mb-2 text-sm font-medium">Price estimate</p>
+          <p className="mb-2 text-sm font-medium">
+            Price estimate <span className="text-xs">(USD per month)</span>
+          </p>
           <div className="flex w-full flex-col gap-5  rounded-md border bg-background2 p-6 shadow-sm md:w-[274px]">
             <div className="">
               <div className="flex items-center gap-4 border-b pb-2">
@@ -284,7 +299,11 @@ export const Tables = ({
             content="(Amount of vCPU's)"
           />
           <UsageAmount
-            title="Memory"
+            title={
+              <>
+                Memory <span className="text-sm md:hidden">(GB)</span>
+              </>
+            }
             max={MAX_VALUE.memory}
             amount={memory}
             setAmount={setMemory}
@@ -293,19 +312,29 @@ export const Tables = ({
             content="(Amount of memory)"
           />
           <UsageAmount
-            title="Ephemeral Storage"
+            title={
+              <>
+                Ephemeral Storage{" "}
+                <span className="text-sm md:hidden">(GB)</span>
+              </>
+            }
             amount={ephemeralStorage}
             setAmount={setEphemeralStorage}
-            max={MAX_VALUE.ephemeralStorage}
+            max={isMobile ? 1024 : MAX_VALUE.ephemeralStorage}
             defaultValue={DEFAULT_USAGE.ephemeralStorage}
             suffix="GB"
             content="(Amount of ephemeral disk storage)"
           />
           <UsageAmount
-            title="Persistent Storage"
+            title={
+              <>
+                Persistent Storage{" "}
+                <span className="text-sm md:hidden">(GB)</span>
+              </>
+            }
             amount={persistentStorage}
             setAmount={setPersistentStorage}
-            max={MAX_VALUE.persistentStorage}
+            max={isMobile ? 1024 : MAX_VALUE.persistentStorage}
             defaultValue={DEFAULT_USAGE.persistentStorage}
             suffix="GB"
             content="(Amount of persistent disk storage)"

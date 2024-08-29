@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 
 type UsageAmountProps = {
-  title: string;
+  title: string | React.ReactNode;
   content: string;
   max: number;
   defaultValue: number;
