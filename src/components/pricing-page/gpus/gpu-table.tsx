@@ -452,7 +452,7 @@ export const Tables = ({
                         ${model?.price?.avg || 0}
                       </span>
                     </div>
-                    <HoverCard openDelay={2} closeDelay={20000}>
+                    <HoverCard openDelay={2} closeDelay={2}>
                       <HoverCardTrigger className="pt-1.5 flex justify-between items-center">
                         <span className="text-sm font-medium text-[#71717A]">
                           Min: ${model?.price?.min || 0}
