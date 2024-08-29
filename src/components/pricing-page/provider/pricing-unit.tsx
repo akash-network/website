@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
-import clsx from "clsx";
 
 type PricingUnitProps = {
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   max: number;
   title: string;
-  content: string | React.ReactNode;
+  content: string;
   position?: string;
   suffix?: string;
   step?: number;
   flag?: boolean;
-  inputClass?: string;
 };
 
 function PricingUnit({
@@ -25,7 +23,6 @@ function PricingUnit({
   suffix,
   step = 1,
   flag,
-  inputClass,
 }: PricingUnitProps) {
   useEffect(() => {
     if (!progress) {
@@ -34,30 +31,41 @@ function PricingUnit({
   }, [progress]);
 
   return (
-    <div className="flex w-full flex-col justify-between gap-4 md:gap-5 ">
+    <div
+      className={`flex w-full flex-col justify-between md:gap-6 ${flag ? "gap-0" : "gap-4"}`}
+    >
       <div
-        className={`md:space-x-2 lg:flex lg:justify-between ${position ? position : "items-start"}`}
+        className={`lg:flex lg:justify-between ${position ? position : "items-start"} ${flag ? "flex items-baseline justify-between" : ""}`}
       >
-        <div className="">
+        <div className={flag ? "mb-4" : ""}>
           <p className="whitespace-nowrap font-semibold text-foreground md:whitespace-normal">
             {title}
           </p>
-          <p className="whitespace-nowrap text-sm font-medium md:whitespace-normal md:text-base">
-            {content}
-          </p>
+          {flag ? (
+            <>
+              <p className="whitespace-nowrap text-sm font-medium sm:hidden md:whitespace-normal md:text-base">
+                Usage %<br />
+                (Leases in your provider)
+              </p>
+              <p className="hidden whitespace-nowrap text-sm font-medium sm:block md:whitespace-normal md:text-base">
+                Usage % (Leases in your provider)
+              </p>
+            </>
+          ) : (
+            <p className="whitespace-nowrap text-sm font-medium md:whitespace-normal md:text-base">
+              {content}
+            </p>
+          )}
         </div>
         <input
-          className={clsx(
-            inputClass,
-            "mt-4 w-[63px] rounded-md border bg-transparent px-1 py-1.5 font-bold text-foreground shadow-sm focus:outline-primary dark:outline-none md:w-[90px] md:px-3",
-          )}
+          className={`w-[63px] rounded-md border bg-transparent px-1 py-1.5 font-bold text-foreground shadow-sm focus:outline-primary dark:outline-none md:w-[90px] md:px-3 ${flag ? "mt-0" : "mt-4"}`}
           value={flag ? `${progress} ${suffix}` : `${progress}`}
           onChange={(e) => {
             setProgress(parseInt(e.target.value));
           }}
         />
       </div>
-      <div className="relative w-full  md:py-5">
+      <div className="relative w-full md:py-5">
         <Slider
           defaultValue={[progress]}
           value={[progress]}

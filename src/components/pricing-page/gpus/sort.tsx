@@ -81,7 +81,9 @@ export default function Sort({
         <>
           <div className="relative">
             <Listbox.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-3 py-1.5 text-sm font-medium text-textGray shadow-sm md:px-4 md:py-2">
-              {selected.title}
+              <span className="w-[4.2rem] truncate sm:w-full">
+                {selected.title}
+              </span>
               <ChevronDownIcon className="h-5 w-5 " aria-hidden="true" />
             </Listbox.Button>
 

@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 const tabs = [
@@ -45,20 +46,30 @@ function Pricing() {
     >
       <div className="flex w-full justify-center md:hidden">
         <Select defaultValue={tabs[0].value} onValueChange={handleTabChange}>
-          <SelectTrigger className="w-full max-w-sm shadow-sm">
+          <SelectTrigger className="w-full max-w-sm">
             <SelectValue placeholder={tabs[0].description} />
           </SelectTrigger>
-          <SelectContent className="bg-background ">
+          <SelectContent className="group bg-background2">
             {tabs.map((item) => {
               return (
-                <SelectItem value={item.value}>{item.description}</SelectItem>
+                <SelectItem
+                  key={item.value}
+                  value={item.value}
+                  className={cn(
+                    "data-[state=checked]:bg-primary",
+                    "data-[state=checked]:text-white",
+                    "group/item hover:bg-primary hover:text-white",
+                  )}
+                >
+                  {item.description}
+                </SelectItem>
               );
             })}
           </SelectContent>
         </Select>
       </div>
       <div className="hidden w-full justify-center md:flex">
-        <TabsList className="bg-secondary-gray dark:bg-background2">
+        <TabsList className="bg-secondary-gray dark:bg-darkGray">
           {tabs.map((item) => {
             return (
               <TabsTrigger value={item.value}>{item.description}</TabsTrigger>
@@ -67,21 +78,24 @@ function Pricing() {
         </TabsList>
       </div>
       <TabsContent value="gpus">
-        <div className="mx-4 my-8 md:m-[4.5rem]">
-          <h2 className="text-center text-2xl font-medium md:block md:text-3xl md:font-bold">
-            GPU Models,
-            <br className="md:hidden" /> Prices & Availabilty
+        <div className="my-8 md:m-[4.5rem]">
+          <h2 className="text-center text-2xl font-medium md:block md:text-3xl">
+            GPU Pricing and Availability
           </h2>
-          <p className="mt-3 text-center">
-            Browse the list of available GPUs <br className="md:hidden" /> along
+          <p className="mt-3 hidden text-center leading-normal md:block">
+            Browse the list of available GPUs along with their hourly rates.
+          </p>
+          <p className="mt-3 text-center leading-normal md:hidden">
+            Browse the list of available GPUs along
+            <br />
             with their hourly rates.
           </p>
         </div>
         <GpuTable initialData={null} />
       </TabsContent>
       <TabsContent value="usage">
-        <div className="mx-4 my-8 md:m-[4.5rem]">
-          <h2 className="text-center text-2xl font-bold md:block md:text-3xl">
+        <div className="my-8 md:m-[4.5rem]">
+          <h2 className="text-center text-2xl font-medium md:block md:text-3xl">
             Usage Pricing
           </h2>
           <p className="mt-3 hidden text-center md:block">
@@ -89,7 +103,7 @@ function Pricing() {
             Adjust CPU, memory, storage, and other parameters to get a detailed
             cost breakdown.
           </p>
-          <p className="mt-3 text-center leading-6 md:hidden">
+          <p className="mt-3 text-center leading-normal md:hidden">
             Estimate your costs by selecting the resources you need. Adjust CPU,
             memory, storage, and other parameters to get a detailed cost
             breakdown.
@@ -99,13 +113,17 @@ function Pricing() {
       </TabsContent>
       <TabsContent value="provider">
         <div className="my-8 md:m-[4.5rem]">
-          <h2 className="hidden text-center text-2xl font-bold md:block md:text-3xl">
+          <h2 className="hidden text-center text-2xl font-medium md:block md:text-3xl">
             Provider Earn Calculator
           </h2>
           <h2 className="text-center text-2xl font-bold md:hidden">
             Provider Earnings
           </h2>
-          <p className="mt-3 text-center">
+          <p className="mt-3 hidden text-center leading-normal md:block">
+            Calculate your potential earnings by providing resources to the
+            Akash Network.
+          </p>
+          <p className="mt-3 text-center leading-normal md:hidden">
             Calculate your potential earnings by
             <br />
             providing resources to the Akash Network.

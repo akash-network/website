@@ -9,10 +9,10 @@ tags:
 category: deployed_on_akash
 
 description: Prime Intellect leverages Akash Supercloud's high-performance GPUs, like NVIDIA H100 and A100, to democratize AI development.
-
+showcase: true
 ctaButton:
   label: View Project
-  link:  "https://www.primeintellect.ai/"
+  link: "https://www.primeintellect.ai/"
   enable: true
 
 websiteLink: "https://www.primeintellect.ai/"

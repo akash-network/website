@@ -144,7 +144,7 @@ aiModelsAndAppsSection:
 
     - title: "Nous Research"
       image: "./assets/tools/nous.png"
-      description: "The AI Accelerator Company"
+      description: "Leveraging the power of Akash's decentralized cloud, Nous Research successfully trained 'Nous Hermes 2,' an advanced AI model built on over 1,000,000 entries of GPT-4 data."
       link : "https://nousresearch.com/"
       darkImage : "./assets/tools/nous.png" 
      

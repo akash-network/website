@@ -144,10 +144,10 @@ export default function Filter({
     <div className="w-full">
       <p className="pb-3 text-sm font-medium">Filtering Options</p>
       <div className="rounded-md border shadow-sm w-full bg-background2">
-        {options?.map((item) => (
+        {options?.map((item, index) => (
           <Disclosure
             as={"div"}
-            className="flex flex-col gap-2 py-2 border-b pl-3"
+            className={`flex flex-col gap-2 py-4 pl-5 ${index === 2 ? "border-none" : "border-b"}`}
             key={item.name}
             defaultOpen={filters?.[item.value]?.length > 0 ? true : false}
           >
