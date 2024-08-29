@@ -1,7 +1,7 @@
 ---
 advert: 
   title: Access NVIDIA H100, A100, and A6000 at industry-leading pricing →
-  link: "/gpus"
+  link: "/pricing/gpus"
 
 # hero section content
 heroSection:
@@ -15,7 +15,7 @@ heroSection:
           link: "/about/pricing/custom/"
           type: secondary
         - label: "View GPU availability"
-          link: "/gpus"
+          link: "/pricing/gpus"
           type: primary
 
     - title: "Provide compute and earn"
