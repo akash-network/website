@@ -6,28 +6,33 @@ const pathName = astroUrl.pathname.split("/");
 const { tags } = Astro.props;
 
 // Normalize tags to lowercase and remove duplicates
-const normalizedTags = [...new Set(tags.map(tag => tag.toLowerCase()))];
+const normalizedTags = [...new Set(tags.map((tag) => tag.toLowerCase()))];
 
 // Separate "ai & ml" tag and sort the rest alphabetically
 const aiMlTag = ["ai & ml"];
 const sortedTags = [
   ...aiMlTag,
-  ...normalizedTags.filter(tag => tag !== "ai & ml").sort((a, b) => a.localeCompare(b)),
+  ...normalizedTags
+    .filter((tag) => tag !== "ai & ml")
+    .sort((a, b) => a.localeCompare(b)),
 ];
 
 // Function to display specific tags in proper casing or modify others appropriately
 const displayTag = (tag) => {
   const specialCases = {
-    "dao": "DAO",
+    dao: "DAO",
     "pos validator": "PoS Validator",
-    "ai & ml": "AI & ML"
+    "ai & ml": "AI & ML",
   };
 
-  return specialCases[tag.toLowerCase()] || tag
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
+  return (
+    specialCases[tag.toLowerCase()] ||
+    tag
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  );
+};
 ---
 
 <div class="hidden w-[200px] flex-shrink-0 pt-5 lg:block">
