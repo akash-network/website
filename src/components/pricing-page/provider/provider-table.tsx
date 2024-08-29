@@ -313,8 +313,8 @@ export const Tables = ({
               />
             </div>
             <a
-              id={`usage`}
-              href={`#`}
+              id={`become-a-provider-(gpus)`}
+              href={`/providers/`}
               target="_blank"
               className=" flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2"
             >
