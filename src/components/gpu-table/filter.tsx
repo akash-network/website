@@ -13,6 +13,7 @@ import {
 import { clsx as classNames } from "clsx";
 import CheckBox from "./checkbox";
 import { modifyModel, type Gpus } from "./gpu-table";
+import { onTop } from "../pricing-page/gpus/sort";
 
 export const defaultFilters = {
   modal: [],
@@ -82,7 +83,7 @@ export default function Filter({
   const [options, setOptions] = React.useState<Options[]>(data);
 
   React.useEffect(() => {
-    const modal = res?.models?.map((model) => model.model);
+    const modal = onTop(res)?.map((model) => model.model);
     const ram = res?.models?.map((model) => model.ram);
     const interfaceTypes = res?.models?.map((model) => model.interface);
 

@@ -13,6 +13,7 @@ import {
 import { clsx as classNames } from "clsx";
 import CheckBox from "./checkbox";
 import { modifyModel, type Gpus } from "./gpu-table";
+import { onTop } from "./sort";
 
 export const defaultFilters = {
   modal: [],
@@ -32,7 +33,7 @@ interface Options {
   options: { name: string; value: string }[];
 }
 
-export const availabilitySort = () => { };
+export const availabilitySort = () => {};
 
 export default function Filter({
   setFilteredData,
@@ -82,7 +83,7 @@ export default function Filter({
   const [options, setOptions] = React.useState<Options[]>(data);
 
   React.useEffect(() => {
-    const modal = res?.models?.map((model) => model.model);
+    const modal = onTop(res)?.map((model) => model.model);
     const ram = res?.models?.map((model) => model.ram);
     const interfaceTypes = res?.models?.map((model) => model.interface);
 
@@ -120,6 +121,8 @@ export default function Filter({
       filters.ram.length > 0 ||
       filters.interface.length > 0
     ) {
+      console.log("filtering");
+
       const filtered = res?.models
         ?.filter(
           (model) =>
@@ -143,7 +146,7 @@ export default function Filter({
   return (
     <div className="w-full">
       <p className="pb-3 text-sm font-medium">Filtering Options</p>
-      <div className="rounded-md border shadow-sm w-full bg-background2">
+      <div className="w-full rounded-md border bg-background2 shadow-sm">
         {options?.map((item, index) => (
           <Disclosure
             as={"div"}
@@ -180,10 +183,7 @@ export default function Filter({
                           if (e.target.checked) {
                             setFilters((prev) => ({
                               ...prev,
-                              [item.value]: [
-                                ...prev[item.value],
-                                option.value,
-                              ],
+                              [item.value]: [...prev[item.value], option.value],
                             }));
                           } else {
                             setFilters((prev) => ({
@@ -194,9 +194,7 @@ export default function Filter({
                             }));
                           }
                         }}
-                        checked={filters?.[item.value]?.includes(
-                          option.value,
-                        )}
+                        checked={filters?.[item.value]?.includes(option.value)}
                       />
                     </div>
                   ))}
