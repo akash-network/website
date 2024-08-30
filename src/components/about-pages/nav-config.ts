@@ -16,9 +16,4 @@ export const nav: any = [
     link: "/about/tenants/",
     enabled: true,
   },
-  {
-    label: "Pricing",
-    link: "/about/pricing/custom/",
-    enabled: true,
-  },
 ];

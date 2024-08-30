@@ -153,7 +153,8 @@ export const Tables = ({
     endpointInput: 1,
     endpointPricing: 0.01,
   };
-
+  const [loading, setIsLoading] = useState(false);
+  const [loadingDaily, setIsLoadingDaily] = useState(false);
   const [leasePercentInput, setLeasePercentInput] = useState(100);
   const [cpuInput, setCpuInput] = useState(10);
   const [cpuPricing, setCpuPricing] = useState(10);
@@ -186,6 +187,8 @@ export const Tables = ({
   });
 
   useEffect(() => {
+    setIsLoading(true);
+    setIsLoadingDaily(true);
     let currentPrice = 0.0;
     let averagePrice = 0.0;
     fetch("https://api.coingecko.com/api/v3/coins/akash-network/tickers")
@@ -198,6 +201,7 @@ export const Tables = ({
             break;
           }
         }
+        setIsLoading(false);
       });
     fetch(
       "https://api.coingecko.com/api/v3/coins/akash-network/market_chart?vs_currency=usd&days=30&interval=daily",
@@ -212,6 +216,7 @@ export const Tables = ({
           setAktAverage(false);
         }
         setMonthlyAverage(mean);
+        setIsLoadingDaily(false);
       });
   }, []);
 
@@ -276,6 +281,10 @@ export const Tables = ({
     setAktAverage(value);
   };
 
+  const convertPricing = (value: number) => {
+    return value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   return (
     <section
       className={clsx(
@@ -289,18 +298,24 @@ export const Tables = ({
           <div className="flex w-full flex-col gap-10  rounded-md border bg-background2 p-6 text-black shadow-sm dark:text-white md:w-[340px]">
             <MonthEarning
               size={24}
-              title="Total Monthly Earnings in USD"
-              value={`$${usdPrices?.totalPrice?.toFixed(2)}`}
+              suffix=""
+              title="Total Monthly Earnings (USD)"
+              value={`$${convertPricing(usdPrices?.totalPrice)}`}
+              loading={loading || loadingDaily}
             />
             <MonthEarning
               size={24}
-              title="Total Monthly Earnings in AKT"
-              value={`${calculateAKTPrice(usdPrices.totalPrice)}AKT`}
+              suffix=""
+              title="Total Monthly Earnings (AKT)"
+              value={`${convertPricing(
+                +calculateAKTPrice(usdPrices.totalPrice),
+              )} AKT`}
+              loading={loading || loadingDaily}
             />
             <div className="flex items-center justify-between gap-5">
               <div>
                 <p className="text-[14px] text-foreground">
-                  Use 30day average price of AKT
+                  Use the 30-Day Average Price of AKT
                 </p>
                 <p className="text-muted-foreground text-[14px]">
                   Average Price for 1 AKT is ${monthlyAverage.toFixed(2)} USD.
