@@ -10,6 +10,20 @@ const publishingOptions = [
   { title: "Highest Price" },
 ];
 
+export const onTop = (res?: Gpus) => {
+  const onTop = ["h100", "a100"];
+  const filtered = res?.models
+    ?.filter((model) => onTop?.includes(model?.model))
+    .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
+  const rest = res?.models
+    ?.filter((model) => !onTop?.includes(model.model))
+    .sort((a, b) => b?.availability?.available - a?.availability?.available);
+
+  return [...(filtered ?? []), ...(rest ?? [])]?.filter(
+    (model) => model !== undefined,
+  );
+};
+
 export default function Sort({
   setFilteredData,
   res,
@@ -20,20 +34,6 @@ export default function Sort({
   filters: Filters;
 }) {
   const [selected, setSelected] = useState(publishingOptions[0]);
-
-  const onTop = () => {
-    const onTop = ["h100", "a100"];
-    const filtered = res?.models
-      ?.filter((model) => onTop?.includes(model?.model))
-      .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
-    const rest = res?.models
-      ?.filter((model) => !onTop?.includes(model.model))
-      .sort((a, b) => b?.availability?.available - a?.availability?.available);
-
-    return [...(filtered ?? []), ...(rest ?? [])]?.filter(
-      (model) => model !== undefined,
-    );
-  };
 
   useEffect(() => {
     const sortData = (sortType: string) => {
@@ -47,7 +47,7 @@ export default function Sort({
                   (a, b) => b.availability.available - a.availability.available,
                 ),
               )
-            : setFilteredData(onTop());
+            : setFilteredData(onTop(res));
           break;
         case "Lowest Price":
           setFilteredData((prev) =>
