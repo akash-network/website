@@ -1,0 +1,32 @@
+---
+import PricingHeader from "@/components/pricing-page/pricing-header.astro";
+import ProviderTable from "@/components/pricing-page/provider/provider-table";
+import UsageTable from "@/components/pricing-page/usage/usage-table";
+---
+
+<PricingHeader
+  title="Provider Earn Calculator"
+  description="Calculate your potential earnings by providing resources to the Akash Network."
+  image="/meta-images/pricing/provider.jpg"
+>
+  <div>
+    <div class="my-8 md:m-[4.5rem]">
+      <h2 class="hidden text-center text-2xl font-medium md:block md:text-3xl">
+        Provider Earn Calculator
+      </h2>
+      <h2 class="text-center text-2xl font-bold md:hidden">
+        Provider Earnings
+      </h2>
+      <p class="mt-3 hidden text-center leading-normal md:block">
+        Calculate your potential earnings by providing resources to the Akash
+        Network.
+      </p>
+      <p class="mt-3 text-center leading-normal md:hidden">
+        Calculate your potential earnings by
+        <br />
+        providing resources to the Akash Network.
+      </p>
+    </div>
+    <ProviderTable initialData={null} client:load />
+  </div>
+</PricingHeader>
