@@ -15,4 +15,7 @@ export const redirects = {
     "https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B",
   "/docs/features/ip-leases": "/docs/network-features/ip-leases/",
   "/testnet": "/docs/testnet/gpu-testnet-client-instructions/",
+  "/gpus": "/pricing/gpus/",
+  "/about/pricing": "/pricing/usage-calculator/",
+  "/about/pricing/custom": "/pricing/usage-calculator/",
 };

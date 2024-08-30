@@ -1,7 +1,7 @@
 ---
 advert: 
   title: Access NVIDIA H100, A100, and A6000 at industry-leading pricing →
-  link: "/gpus"
+  link: "/pricing/gpus"
 
 # hero section content
 heroSection:
@@ -15,7 +15,7 @@ heroSection:
           link: "/about/pricing/custom/"
           type: secondary
         - label: "View GPU availability"
-          link: "/gpus"
+          link: "/pricing/gpus"
           type: primary
 
     - title: "Provide compute and earn"
@@ -144,7 +144,7 @@ aiModelsAndAppsSection:
 
     - title: "Nous Research"
       image: "./assets/tools/nous.png"
-      description: "The AI Accelerator Company"
+      description: "Leveraging the power of Akash's decentralized cloud, Nous Research successfully trained 'Nous Hermes 2,' an advanced AI model built on over 1,000,000 entries of GPT-4 data."
       link : "https://nousresearch.com/"
       darkImage : "./assets/tools/nous.png" 
      

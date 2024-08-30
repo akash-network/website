@@ -1,0 +1,75 @@
+---
+import Layout from "@/layouts/layout.astro";
+import Dropdown from "./dropdown";
+
+type Props = {
+  title: string;
+  description: string;
+  image?: string;
+};
+
+const { title, description, image } = Astro.props;
+
+const tabs = [
+  {
+    value: "gpus",
+    description: "GPU Pricing",
+  },
+  {
+    value: "usage-calculator",
+    description: "Usage Pricing Calculator",
+  },
+  {
+    value: "provider-calculator",
+    description: "Provider Earn Calculator",
+  },
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<Layout
+  title={`${title} | Explore Pricing and Earnings on Akash`}
+  description={description}
+  image={image || "/meta-images/gpus.png"}
+>
+  <section
+    class="container mx-auto flex max-w-[1380px] flex-col gap-12 pt-12 md:gap-[4.5rem] md:pt-[100px]"
+  >
+    <h1
+      class="text-center text-[28px] font-semibold leading-none md:text-2lg md:font-bold lg:text-3lg lg:leading-10"
+    >
+      Explore Pricing and Earnings on Akash
+    </h1>
+    <div class="sidebar-scroll flex flex-col">
+      <div class="flex w-full justify-center md:hidden">
+        <Dropdown
+          client:load
+          tabs={tabs}
+          value={tabs.find((item) => pathname.includes(item.value))?.value ||
+            "gpus"}
+        />
+      </div>
+      <div class="hidden w-full justify-center md:flex">
+        <div
+          class="bg-muted text-muted-foreground inline-flex h-10 items-center justify-center rounded-lg bg-secondary-gray p-1 dark:bg-darkGray"
+        >
+          {
+            tabs.map((item) => {
+              return (
+                <a
+                  href={`/pricing/${item.value}`}
+                  data-state={pathname.includes(item.value) ? "active" : ""}
+                  class="focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-sm  px-3 py-1.5 text-sm font-medium text-linkText ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:rounded-md data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm dark:text-para dark:data-[state=active]:text-foreground"
+                >
+                  {item.description}
+                </a>
+              );
+            })
+          }
+        </div>
+      </div>
+      <slot />
+    </div>
+  </section>
+</Layout>
