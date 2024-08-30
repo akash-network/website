@@ -126,7 +126,8 @@ export const docsSequence = [
             label: "Databases",
             subItems: [
               { label: "PostgreSQL restore/backup"},
-
+              { label: "Redash"},
+              {label: "JSON Server"},
             ],
           },
           {

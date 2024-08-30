@@ -1,6 +1,6 @@
 ---
 categories: ["Guides"]
-tags: ["Blockchain"]
+tags: ["Data Visualization"]
 weight: 1
 title: "Redash"
 linkTitle: "Redash"
