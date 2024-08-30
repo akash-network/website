@@ -1,0 +1,28 @@
+---
+import PricingHeader from "@/components/pricing-page/pricing-header.astro";
+import UsageTable from "@/components/pricing-page/usage/usage-table";
+---
+
+<PricingHeader
+  title="Usage Pricing"
+  description="Estimate your costs by selecting the resources you need. Adjust CPU, memory, storage, and other parameters to get a detailed cost breakdown."
+  image="/meta-images/pricing/deployment.jpg"
+>
+  <div>
+    <div class="my-8 md:m-[4.5rem]">
+      <h2 class="text-center text-2xl font-medium md:block md:text-3xl">
+        Usage Pricing
+      </h2>
+      <p class="mt-3 hidden text-center md:block">
+        Estimate your costs by selecting the resources you need. <br />
+        Adjust CPU, memory, storage, and other parameters to get a detailed cost
+        breakdown.
+      </p>
+      <p class="mt-3 text-center leading-normal md:hidden">
+        Estimate your costs by selecting the resources you need. Adjust CPU,
+        memory, storage, and other parameters to get a detailed cost breakdown.
+      </p>
+    </div>
+    <UsageTable initialData={null} client:load />
+  </div>
+</PricingHeader>

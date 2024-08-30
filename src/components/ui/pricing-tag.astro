@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  className?: string;
+  active?: boolean;
+}
+const { className, active, ...props } = Astro.props;
+---
+
+<a
+  class={`
+${className}
+${active ? `bg-white` : `bg-background-muted`}
+cursor-pointer border rounded-[4px] whitespace-nowrap text-foreground px-[12px] py-[4px] md:px-[13px] md:py-[9px]  text-sm  font-medium leading-normal hover:text-primary`}
+  {...props}
+>
+  <slot />
+</a>
