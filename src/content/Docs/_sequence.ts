@@ -80,6 +80,7 @@ export const docsSequence = [
               { label: "Llama-2 70B"},
               { label: "Akash Chat API"},
               { label: "AI Art"},
+              { label: "Jupyter Notebook"},
               {label: "Text-Generation-WebUI"},
             ],
           },
@@ -118,6 +119,20 @@ export const docsSequence = [
             subItems: [
               { label: "Waku"},
               { label: "qBittorrent"},
+              { label: "Discourse"},
+            ],
+          },
+          {
+            label: "Databases",
+            subItems: [
+              { label: "PostgreSQL restore/backup"},
+
+            ],
+          },
+          {
+            label: "Data Visualizations",
+            subItems: [
+              { label: "Redash"},
             ],
           },
           
