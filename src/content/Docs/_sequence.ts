@@ -79,6 +79,8 @@ export const docsSequence = [
               { label: "vLLM"},
               { label: "Llama-2 70B"},
               { label: "Akash Chat API"},
+              { label: "AI Art"},
+              {label: "Text-Generation-WebUI"},
             ],
           },
           { 
@@ -98,6 +100,7 @@ export const docsSequence = [
               { label: "PostgreSQL restore/backup"},
               { label: "Provider Utilization Dashboard"},
               { label: "Akash Playground"},
+              { label: "Radicle"}
             ],
           },
           {
@@ -107,6 +110,7 @@ export const docsSequence = [
             { label: "Chia on Akash" },
             { label: "Polygon on Akash" },
             { label: "Mine Raptoreum on Akash Network" },
+            { label: "Deploying Iron Fish on Akash"}
             ],
           },
           {

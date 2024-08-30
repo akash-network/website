@@ -42,6 +42,7 @@
     "fuse.js": "^6.6.2",
     "hastscript": "^8.0.0",
     "lucide-react": "^0.279.0",
+    "openai": "^4.57.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-google-charts": "^4.0.1",
