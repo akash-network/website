@@ -110,7 +110,9 @@ export const modifyModel = (model: string) => {
     ? "A6000"
     : model?.includes("rtx")
       ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
-      : model;
+      : model?.includes("gtx")
+        ? model?.replace("gtx", "GTX ").replace("ti", " Ti")
+        : model;
 };
 
 export const price = (price: number) => {
@@ -130,6 +132,22 @@ export const Tables = ({
 }) => {
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
   const [filters, setFilters] = React.useState<Filters>(defaultFilters);
+  const totalGpus =
+    filteredData?.length > 0
+      ? filteredData?.reduce(
+          (prev, curr) => prev + (curr?.availability?.total ?? 0),
+          0,
+        )
+      : data?.availability?.total || 0;
+
+  const totalAvailableGpus =
+    filteredData?.length > 0
+      ? filteredData?.reduce(
+          (prev, curr) => prev + (curr?.availability?.available ?? 0),
+          0,
+        )
+      : data?.availability?.available || 0;
+
   console.log(filteredData);
   return (
     <section
@@ -147,7 +165,7 @@ export const Tables = ({
                 <Skeleton className="h-8 w-20" />
               ) : (
                 <p className="text-2xl font-bold text-foreground">
-                  {data?.availability?.total || 0}
+                  {totalGpus}
                 </p>
               )}
             </div>
@@ -160,8 +178,7 @@ export const Tables = ({
                   <p className="text-[10px] font-medium text-foreground">
                     <span className="font-bold">
                       {(
-                        ((data?.availability?.available || 0) /
-                          (data?.availability?.total || 1)) *
+                        ((totalAvailableGpus || 0) / (totalGpus || 1)) *
                         100
                       ).toFixed(2)}
                     </span>
@@ -178,9 +195,7 @@ export const Tables = ({
                     <span className="font-bold">
                       {(
                         100 -
-                        ((data?.availability?.available || 0) /
-                          (data?.availability?.total || 1)) *
-                          100
+                        ((totalAvailableGpus || 0) / (totalGpus || 1)) * 100
                       ).toFixed(2)}
                     </span>
                     % Used
@@ -192,11 +207,7 @@ export const Tables = ({
           <CircularProgressBar
             diameter={80}
             strokeWidth={15}
-            progressValue={
-              ((data?.availability?.available || 0) /
-                (data?.availability?.total || 1)) *
-              100
-            }
+            progressValue={((totalAvailableGpus || 0) / (totalGpus || 1)) * 100}
             gapSize={1.5}
           />
         </div>
@@ -216,10 +227,10 @@ export const Tables = ({
         <div className="my-2 flex justify-between">
           <Card className="px-2 py-1">
             <span className="font-bold text-[#09090B] dark:text-[#EDEDED]">
-              {data?.availability?.total || 0}{" "}
+              {totalAvailableGpus || 0}{" "}
             </span>
             <span className="text-sm text-[#71717A]">
-              (of {data?.availability?.available || 0})
+              (of {totalGpus || 0})
             </span>
           </Card>
           <div className="flex gap-1">
@@ -313,20 +324,20 @@ export const Tables = ({
                       Average price:
                     </span>
                     <span className="font-semibold">
-                      ${model?.price?.avg || 0}
+                      {price(model?.price?.avg)}
                     </span>
                   </div>
                   <HoverCard openDelay={2} closeDelay={2}>
                     <HoverCardTrigger className="flex items-center justify-between pt-1.5">
                       <div className="flex items-center justify-center gap-1">
                         <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                          Min: ${model?.price?.min || 0}
+                          Min: {price(model?.price?.min)}
                         </span>
                         <span className="text-sm font-medium text-[#71717A] dark:text-para">
                           -
                         </span>
                         <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                          Max: ${model?.price?.max || 0}
+                          Max: {price(model?.price?.max)}
                         </span>
                       </div>
                       <Info size={12} className="text-[#71717A]" />
@@ -409,7 +420,7 @@ export const Tables = ({
                 Availability
               </th>
               <th className="w-[26%] whitespace-nowrap pr-2  text-left text-sm font-medium tracking-normal text-linkText ">
-                Price (USD)
+                Price (USD per hour)
               </th>
               <th className=""></th>
             </tr>
@@ -487,19 +498,19 @@ export const Tables = ({
                       <div className="flex justify-between border-b pb-1 text-lg">
                         <span className="font-semibold">Average price:</span>
                         <span className="font-semibold">
-                          ${model?.price?.avg || 0}
+                          {price(model?.price?.avg)}
                         </span>
                       </div>
                       <HoverCard openDelay={2} closeDelay={2}>
                         <HoverCardTrigger className="flex items-center justify-between pt-1.5">
                           <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                            Min: ${model?.price?.min || 0}
+                            Min: {price(model?.price?.min)}
                           </span>
                           <span className="text-sm font-medium text-[#71717A] dark:text-para">
                             -
                           </span>
                           <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                            Max: ${model?.price?.max || 0}
+                            Max: {price(model?.price?.max)}
                           </span>
                           <Info size={12} className="text-[#71717A]" />
                         </HoverCardTrigger>
@@ -547,7 +558,8 @@ export const Tables = ({
                     <td className="rounded-r-lg border-y border-r px-2 text-center xl:px-8">
                       <a
                         id={`${model?.model}-(gpu-rent)`}
-                        href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
+                        // href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
+                        href="https://console.akash.network/new-deployment"
                         target="_blank"
                         className="inline-flex gap-1.5 rounded-md bg-foreground px-4 py-2 text-white hover:bg-primary dark:text-black dark:hover:text-inherit"
                       >
