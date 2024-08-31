@@ -72,18 +72,6 @@ const fileType = page.id.split("/")[1].split(".")[1];
       class={`col-span-12 mx-auto w-full md:pl-10 md:col-span-8 lg:col-span-9`}
     >
       <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
-        <MobileNav
-          pageName={Astro.url.pathname
-            .split("/")[2]
-            .split("-")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")}
-          currentPath={Astro.url.pathname}
-          nav={nav}
-          client:load
-          link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Page/${page.slug}/index.${fileType}`}
-        />
-
         <MobileTableOfContents
           client:load
           toc={generateToc(headings, "Overview")}
