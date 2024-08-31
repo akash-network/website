@@ -13,6 +13,7 @@ import {
 import { clsx as classNames } from "clsx";
 import CheckBox from "./checkbox";
 import { modifyModel, type Gpus } from "./gpu-table";
+import { onTop } from "../pricing-page/gpus/sort";
 
 export const defaultFilters = {
   modal: [],
@@ -82,7 +83,7 @@ export default function Filter({
   const [options, setOptions] = React.useState<Options[]>(data);
 
   React.useEffect(() => {
-    const modal = res?.models?.map((model) => model.model);
+    const modal = onTop(res)?.map((model) => model.model);
     const ram = res?.models?.map((model) => model.ram);
     const interfaceTypes = res?.models?.map((model) => model.interface);
 
@@ -143,7 +144,7 @@ export default function Filter({
   return (
     <Popover as="div" className="relative inline-block text-left">
       <div>
-        <Popover.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-4 py-2 text-sm font-medium text-textGray shadow-sm">
+        <Popover.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-3 py-1.5 text-sm font-medium text-textGray shadow-sm md:px-4 md:py-2">
           Filter
           <svg
             xmlns="http://www.w3.org/2000/svg"

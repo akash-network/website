@@ -50,8 +50,8 @@ const posts = (await getCollection("Blog"))
     disableSticky
       ? ""
       : pathnames.includes(pathname)
-      ? ""
-      : "top-0 sticky z-[30]",
+        ? ""
+        : "top-0 sticky z-[30]",
   )}
 >
   <nav
@@ -78,9 +78,18 @@ const posts = (await getCollection("Blog"))
         </NavLink> -->
         <PopOverNavItemEcosystem client:load posts={posts} />
 
-        <NavLink href="/blog" currentPath={pathname}>Blog</NavLink>
-        <NavLink href="/docs" currentPath={pathname}>Docs</NavLink>
-        <NavLink href="/gpus" currentPath={pathname}>GPU Pricing</NavLink>
+        <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
+        <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
+        <NavLink href="/pricing/gpus" currentPath={pathname}>
+          <div class="flex items-center gap-1">
+            <span class="text-sm font-medium">Pricing & Earnings</span>
+            <span
+              class="inline-flex items-center rounded-full bg-primary/5 px-1.5 py-0.5 text-xs font-medium text-primary ring-1 ring-inset ring-primary/10"
+            >
+              New GPUs
+            </span>
+          </div>
+        </NavLink>
       </div>
     </div>
 
@@ -186,8 +195,8 @@ const posts = (await getCollection("Blog"))
     disableSticky
       ? "hidden"
       : pathnames.includes(pathname)
-      ? "top-0 sticky z-[30]"
-      : "hidden",
+        ? "top-0 sticky z-[30]"
+        : "hidden",
   )}
 >
   {

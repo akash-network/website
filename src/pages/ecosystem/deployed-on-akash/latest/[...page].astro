@@ -33,7 +33,7 @@ export async function getStaticPaths({
 
   projects.forEach((project) => {
     // Loop through the tags in each blog post
-    project.data.tags.forEach((tag) => {
+    project.data.tags.forEach((tag: any) => {
       // Capitalize the first letter of the tag
       const lowerCasedTag = tag.toLowerCase();
       // Check if the tag is not already in the allTags array

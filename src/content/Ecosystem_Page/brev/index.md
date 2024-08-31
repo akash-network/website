@@ -2,7 +2,7 @@
 projectTitle: Brev.dev (Acq. by NVIDIA)
 projectImage: "./project-banner.png"
 pubDate: "2021-02-01"
-
+showcase: true
 tags:
   - AI & ML
 
