@@ -1,7 +1,6 @@
 ---
 import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
 import Card from "@/components/community-pages/card.astro";
-import MobileNav from "@/components/community-pages/mobile-nav";
 import { nav } from "@/components/community-pages/nav-config.ts";
 import SearchDialog from "@/components/community-pages/search-dialog";
 import Pagination from "@/components/pagination.astro";
@@ -93,16 +92,6 @@ const link =
     <div
       class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
     >
-      <div class="flex items-center justify-between gap-x-3 md:hidden">
-        <MobileNav
-          currentPath={Astro.url.pathname}
-          nav={nav}
-          pageName={pageName}
-          client:load
-          link={link}
-        />
-      </div>
-
       <div>
         <div class="mt-10 md:mt-0">
           <h1

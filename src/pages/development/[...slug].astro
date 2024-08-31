@@ -1,11 +1,8 @@
 ---
-import MobileNav from "@/components/development-pages/mobile-nav.tsx";
-import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
 import { nav } from "@/components/development-pages/nav-config";
 import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
-import generateToc from "@/lib/generateToc";
 import { proseClasses } from "@/lib/prose-classes";
 import { type CollectionEntry, getCollection } from "astro:content";
 
@@ -71,16 +68,6 @@ const fileType = page.id.split("/")[1].split(".")[1];
     <div
       class={`col-span-12 mx-auto w-full md:pl-10 md:col-span-8 lg:col-span-9`}
     >
-      <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
-        <MobileTableOfContents
-          client:load
-          toc={generateToc(headings, "Overview")}
-          labels={{
-            onThisPage: "onThisPage",
-          }}
-        />
-      </div>
-
       <div class="space-y-10">
         <div class="mt-10 md:mt-0">
           <h1

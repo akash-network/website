@@ -3,11 +3,9 @@ import { nav } from "@/components/community-pages/nav-config.ts";
 import { type CollectionEntry, getCollection } from "astro:content";
 
 import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
-import generateToc from "@/lib/generateToc";
 
 import Layout from "@/layouts/layout.astro";
 
-import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
 import TopMargin from "@/components/ui/top-margin.astro";
 import { proseClasses } from "@/lib/prose-classes";
 
@@ -81,22 +79,6 @@ const link = `https://github.com/akash-network/website-revamp/tree/main/src/cont
     <div
       class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
     >
-      <div class="mt-6 flex items-center justify-start gap-x-3 md:hidden">
-        {
-          !page.data.disableTableOfContents && (
-            <div class="flex items-center justify-start gap-x-3 md:hidden">
-              <MobileTableOfContents
-                client:load
-                toc={generateToc(headings, "Overview")}
-                labels={{
-                  onThisPage: "onThisPage",
-                }}
-              />
-            </div>
-          )
-        }
-      </div>
-
       <div class="mt-10 space-y-10 md:mt-0">
         {
           !page.data.disableTitle && (
