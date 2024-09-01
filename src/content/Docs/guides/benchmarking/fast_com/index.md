@@ -20,7 +20,7 @@ Before you begin, make sure you have the following:
 
 - An Akash wallet with a minimum of 5 AKT to pay for the deployment.
 
-- Docker: Installed and running on your machine if you plan to use Docker for building the Next.js app.
+- Docker: Installed and running on your machine. 
 
 - An SDL file: This file defines the resources and configuration for your Akash deployment.
 

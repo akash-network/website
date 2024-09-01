@@ -98,7 +98,6 @@ export const docsSequence = [
           {
             label: "Tooling",
             subItems: [
-              { label: "PostgreSQL restore/backup" },
               { label: "Provider Utilization Dashboard" },
               { label: "Akash Playground" },
               { label: "Radicle" }
@@ -126,16 +125,17 @@ export const docsSequence = [
           {
             label: "Databases",
             subItems: [
-              { label: "PostgreSQL restore/backup" },
               {label: "JSON Server" },
               { label: "Dolt" },
               { label: "CouchDB" },
+              { label: "PostgreSQL restore/backup" },
             ],
           },
           {
             label: "Data Visualizations",
             subItems: [
               { label: "Redash" },
+              { label: "Dash" },
             ],
           },
           {
@@ -148,8 +148,9 @@ export const docsSequence = [
             label: "Benchmarkings",
             subItems: [
               { label: "Fast.com" },
-            ]
-          }
+            ],
+          },
+
         ],
       },
       {
