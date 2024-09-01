@@ -48,15 +48,15 @@ export const docsSequence = [
           {
             label: "Praetor App",
             subItems: [
-              { label: "What is Praetor App?"},
+              { label: "What is Praetor App?" },
               { label: "Akash Provider",
                 subItems: [
-                  { label: "Build a Cloud Provider"},
-                  { label: "Existing Kubernetes Cluster"},
-                  { label: "Single Server Provider"},
-                  { label: "Build a Cloud Provider (Windows Machine)"},
-                  { label: "Sudo User Requirements"},
-                  { label: "Decommission a Provider"},
+                  { label: "Build a Cloud Provider" },
+                  { label: "Existing Kubernetes Cluster" },
+                  { label: "Single Server Provider" },
+                  { label: "Build a Cloud Provider (Windows Machine)" },
+                  { label: "Sudo User Requirements" },
+                  { label: "Decommission a Provider" },
                 ],
               },  
             ],   
@@ -72,16 +72,16 @@ export const docsSequence = [
           { 
             label: "Machine Learning",
             subItems: [
-              { label: "OneClickLLM"},
-              { label: "DeTrain"},
-              { label: "Ray"},
-              { label: "FLock.io"},
-              { label: "vLLM"},
-              { label: "Llama-2 70B"},
-              { label: "Akash Chat API"},
-              { label: "AI Art"},
-              { label: "Jupyter Notebook"},
-              {label: "Text-Generation-WebUI"},
+              { label: "OneClickLLM" },
+              { label: "DeTrain" },
+              { label: "Ray" },
+              { label: "FLock.io" },
+              { label: "vLLM" },
+              { label: "Llama-2 70B" },
+              { label: "Akash Chat API" },
+              { label: "AI Art" },
+              { label: "Jupyter Notebook" },
+              {label: "Text-Generation-WebUI" },
             ],
           },
           { 
@@ -89,19 +89,19 @@ export const docsSequence = [
             subItems: [
               { label: "TLS Termination of Akash Deployments" },
               { label: "Multi-Tiered Deployment" },
-              { label: "Ruby on Rails with Sia and Auth0"},
-              { label: "AkashOS"},
-              { label: "Jackal S3 Gateway"},
-              { label: "Cloudflare"},
+              { label: "Ruby on Rails with Sia and Auth0" },
+              { label: "AkashOS" },
+              { label: "Jackal S3 Gateway" },
+              { label: "Cloudflare" },
             ],
           },
           {
             label: "Tooling",
             subItems: [
-              { label: "PostgreSQL restore/backup"},
-              { label: "Provider Utilization Dashboard"},
-              { label: "Akash Playground"},
-              { label: "Radicle"}
+              { label: "PostgreSQL restore/backup" },
+              { label: "Provider Utilization Dashboard" },
+              { label: "Akash Playground" },
+              { label: "Radicle" }
             ],
           },
           {
@@ -111,32 +111,45 @@ export const docsSequence = [
             { label: "Chia on Akash" },
             { label: "Polygon on Akash" },
             { label: "Mine Raptoreum on Akash Network" },
-            { label: "Deploying Iron Fish on Akash"}
+            { label: "Deploying Iron Fish on Akash" }
             ],
           },
           {
             label: "Apps",
             subItems: [
-              { label: "Waku"},
-              { label: "qBittorrent"},
-              { label: "Discourse"},
+              { label: "Waku" },
+              { label: "qBittorrent" },
+              { label: "Discourse" },
+              { label: "Invidious" },
             ],
           },
           {
             label: "Databases",
             subItems: [
-              { label: "PostgreSQL restore/backup"},
-              { label: "Redash"},
-              {label: "JSON Server"},
+              { label: "PostgreSQL restore/backup" },
+              {label: "JSON Server" },
+              { label: "Dolt" },
+              { label: "CouchDB" },
             ],
           },
           {
             label: "Data Visualizations",
             subItems: [
-              { label: "Redash"},
+              { label: "Redash" },
             ],
           },
-          
+          {
+            label: "Frameworks",
+            subItems: [
+              { label: "Next.js" },
+            ],
+          },
+          {
+            label: "Benchmarkings",
+            subItems: [
+              { label: "Fast.com" },
+            ]
+          }
         ],
       },
       {

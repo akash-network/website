@@ -22,4 +22,3 @@ This guide will help you deploy a multi-tiered Discourse application on the Akas
 
 To deploy your Discourse instance on the Akash Network, simply use the provided [`deploy.yml`](https://github.com/akash-network/awesome-akash/blob/master/discourse/deploy.yml) script on Mainnet. You can refer to any "Step by Step Guide to Akash" for detailed instructions.
 
-A
