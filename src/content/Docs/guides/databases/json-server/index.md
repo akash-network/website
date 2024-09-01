@@ -1,6 +1,6 @@
 ---
 categories: ["Guides"]
-tags: ["Database"]
+tags: ["Database", "NoSQL"]
 weight: 1
 title: "JSON Server"
 linkTitle: "JSON Server"
