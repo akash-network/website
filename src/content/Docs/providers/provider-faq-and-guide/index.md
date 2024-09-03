@@ -1050,7 +1050,7 @@ chmod +x /usr/local/bin/akash-force-new-replicasets.sh
 
 #### 3). Create Cronjob
 
-Create the crontab job /`etc/cron.d/akash-force-new-replicasets` to run the workaround every 5 minutes.
+Create the crontab job `/etc/cron.d/akash-force-new-replicasets` to run the workaround every 5 minutes.
 
 ```
 cat > /etc/cron.d/akash-force-new-replicasets << 'EOF'
@@ -1065,50 +1065,59 @@ EOF
 
 ### Issue
 
-It is possible for certain deployments to initiate subprocesses that do not properly implement the `wait()` function.
-This improper handling can result in the formation of `<defunct>` processes, also known as "zombie" processes.
-Zombie processes occur when a subprocess completes its task but still remains in the system's process table due to the parent process not reading its exit status.
-Over time, if not managed correctly, these zombie processes have the potential to accumulate and occupy all available process slots in the system, leading to resource exhaustion.
+In certain Kubernetes deployments, subprocesses may not properly implement the `wait()` function, leading to the creation of `<defunct>` processes, commonly known as "zombie" processes. These occur when a subprocess completes its task but remains in the system's process table because the parent process has not retrieved its exit status. Over time, if these zombie processes are not managed, they can accumulate and consume all available process slots in the system, leading to PID exhaustion and resource starvation.
 
-These zombie processes aren't too harmful much (they don't occupy cpu/mem / nor impact cgroup cpu/mem limits) unless they take up the whole process table space so no new processes will be able to spawn, i.e. the limit:
+While zombie processes do not consume CPU or memory resources directly, they occupy slots in the system's process table. If the process table becomes full, no new processes can be spawned, potentially causing severe disruptions. The limit for the number of process IDs (PIDs) available on a system can be checked using:
 
 ```
 $ cat /proc/sys/kernel/pid_max
 4194304
 ```
 
-To address this issue, tenants should ensure they manage and terminate child processes appropriately to prevent them from becoming zombie processes.
+To prevent this issue, it is crucial to manage and terminate child processes correctly to avoid the formation of zombie processes.
 
-One of the correct ways to approach that would be this example:
+### Recommended Approaches
 
-```
-#!/bin/bash
+1. **Proper Process Management in Scripts**: Ensure that any scripts initiating subprocesses correctly manage their lifecycle. For example:
 
-# Start the first process
-./my_first_process &
+   ```bash
+   #!/bin/bash
 
-# Start the second process
-./my_second_process &
+   # Start the first process
+   ./my_first_process &
 
-# Wait for any process to exit
-wait -n
+   # Start the second process
+   ./my_second_process &
 
-# Exit with status of process that exited first
-exit $?
-```
+   # Wait for any process to exit
+   wait -n
 
-Or using a proper container init (tini) / supervision system (such as s6, supervisor, runsv, ...) that would reap adopted child processes.
+   # Exit with the status of the process that exited first
+   exit $?
+   ```
 
-Refs
+2. **Using a Container Init System**: Deploying a proper container init system ensures that zombie processes are automatically reaped, and signals are forwarded correctly, reducing the likelihood of zombie process accumulation. Here are some tools and examples that you can use:
 
-- https://docs.docker.com/config/containers/multi-service_container/#use-a-wrapper-script
-- https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
+   - [**Tini**](https://github.com/krallin/tini): A lightweight init system designed for containers. It is commonly used to ensure zombie process reaping and signal handling within Docker containers. You can easily add Tini to your Docker container by using the `--init` flag or adding it as an entrypoint in your Dockerfile.
+   - [**Dumb-init**](https://github.com/Yelp/dumb-init): Another lightweight init system designed to handle signal forwarding and process reaping. It is simple and efficient, making it a good alternative for minimal containers that require proper PID 1 behavior.
+   - [**Runit Example**](https://git.nixaid.com/arno/postfix/src/branch/master/Dockerfile#L21): Runit is a fast and reliable init system and service manager. This [Dockerfile example](https://git.nixaid.com/arno/postfix/src/branch/master/Dockerfile#L21) demonstrates how to use Runit as the init system in a Docker container.
+   - [**Supervisord Example by Docker.com**](https://docs.docker.com/config/containers/multi-service_container/#use-a-process-manager): Supervisord is a popular process manager that allows for managing multiple services within a container. The official Docker documentation provides a [supervisord example](https://docs.docker.com/config/containers/multi-service_container/#use-a-process-manager) that illustrates how to manage multiple processes effectively.
+   - [**S6 Example**](https://github.com/just-containers/s6-overlay): S6 is a powerful init system and process supervisor. The [S6 overlay repository](https://github.com/just-containers/s6-overlay) offers examples and guidelines on how to integrate S6 into your Docker containers, providing process management and reaping.
 
-### Example of the zombie processes on the provider
 
-Someone's running a wrongly configured image, with the `service ssh start` in it, which fails to start, hence creating bunch of `<defunct>` zombie `sshd` processes growing every `20` seconds:
+For more details on this approach, refer to the following resources:
+- [Container Init Process](https://devopsdirective.com/posts/2023/06/container-init-process/)
+- [zombie reproducer and in-depth explanation](https://github.com/akash-network/awesome-akash/issues/565#issuecomment-2304206825)
+- [Docker Multi-Service Containers](https://docs.docker.com/config/containers/multi-service_container/#use-a-wrapper-script)
+- [Docker and the PID 1 Zombie Reaping Problem](https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)
+- [Terminating a Zombie Process in Linux Environments](https://www.dell.com/support/kbdoc/en-us/000019108/terminating-a-zombie-process-in-linux-environments)
+- [Zombie Processes and their Prevention](https://www.geeksforgeeks.org/zombie-processes-prevention/)
 
-```
+### Example of Zombie Processes on the Provider
+
+In some cases, misconfigured container images can lead to a rapid accumulation of zombie processes. For instance, a container that repeatedly fails to start an `sshd` service might spawn zombie processes every 20 seconds:
+
+```bash
 root      712532  696516  0 14:28 ?        00:00:00      \_ [bash] <defunct>
 syslog    713640  696516  0 14:28 ?        00:00:00      \_ [sshd] <defunct>
 root      807481  696516  0 14:46 ?        00:00:00      \_ [bash] <defunct>
@@ -1131,63 +1140,126 @@ syslog    914913  696516  0 15:06 ?        00:00:00      \_ [sshd] <defunct>
 syslog    922492  696516  0 15:08 ?        00:00:00      \_ [sshd] <defunct>
 ```
 
-### Steps to implement a workaround for the providers
+### Steps to Implement a Workaround for Providers
 
-Providers can't control this, hence they are recommended to implement the following workaround across all worker nodes.
+Since providers cannot control the internal configuration of tenant containers, it is advisable to implement a system-wide workaround to handle zombie processes.
 
-1. create `/usr/local/bin/kill_zombie_parents.sh` script
+1. **Create a Script to Kill Zombie Processes**
 
-```
-cat > /usr/local/bin/kill_zombie_parents.sh <<'EOF'
-#!/bin/bash
+   Create the script `/usr/local/bin/kill_zombie_parents.sh`:
+   ```bash
+   cat > /usr/local/bin/kill_zombie_parents.sh <<'EOF'
+   #!/bin/bash
 
-# This script detects zombie processes and kills their parent processes.
+   # This script detects persistent zombie processes that are descendants of containerd-shim processes
+   # and first attempts to prompt the parent process to reap them by sending a SIGCHLD signal.
+   # If the number of zombies exceeds the specified threshold and SIGCHLD does not resolve the issue,
+   # the script will proceed to kill the parent processes.
 
-# Get a list of zombie processes.
-zombies=$(ps -eo pid,ppid,stat,cmd | awk '$3 == "Z" { print $2 }' | sort -u)
+   # Check if pstree command is available, if not install psmisc package
+   if ! command -v pstree &> /dev/null; then
+       echo "pstree command not found, installing psmisc package..."
+       if command -v apt-get &> /dev/null; then
+           apt-get update && apt-get install -y psmisc
+       elif command -v yum &> /dev/null; then
+           yum install -y psmisc
+       elif command -v dnf &> /dev/null; then
+           dnf install -y psmisc
+       else
+           echo "Package manager not supported. Please install psmisc manually."
+           exit 1
+       fi
+   fi
 
-# If there are no zombies, exit.
-if [[ -z "$zombies" ]]; then
-    #echo "No zombie processes found."
-    exit 0
-fi
+   # Function to detect containerd-shim zombies
+   detect_zombies() {
+       containerd_shim_ppids=$(ps -eo pid,ppid,stat,cmd | awk '/containerd-shim/ {print $1}')
+       zombie_parents=$(ps -eo pid,ppid,stat,cmd | awk '$3 ~ /^Z/ {print $2}')
+       for shim_pid in $containerd_shim_ppids; do
+           for parent_pid in $zombie_parents; do
+               if pstree -p $shim_pid | grep -q "($parent_pid)"; then
+                   echo $parent_pid
+               fi
+           done
+       done
+   }
 
-# Kill parent processes of the zombies.
-for parent in $zombies; do
-    # Double check that the parent process is still alive.
-    if kill -0 $parent 2>/dev/null; then
-        echo "Killing parent process $parent."
-        kill -TERM $parent
-        sleep 2  # Give the process a chance to terminate.
+   # Get the threshold from the script argument or default to 50 if not provided or invalid
+   threshold=${1:-50}
 
-        # Force kill if it didn't terminate.
-        if kill -0 $parent 2>/dev/null; then
-            echo "Force killing parent process $parent."
-            kill -KILL $parent
-        fi
-    fi
-done
-EOF
-```
+   # Ensure the threshold is a number
+   if ! [[ "$threshold" =~ ^[0-9]+$ ]]; then
+       echo "Invalid threshold specified. Defaulting to 50."
+       threshold=50
+   fi
 
-2. mark it as executable
+   # First detection of zombie processes
+   initial_zombies=$(detect_zombies)
+   zombie_count=$(echo "$initial_zombies" | wc -l)
 
-```
-chmod +x /usr/local/bin/kill_zombie_parents.sh
-```
+   # If the number of zombies is less than or equal to the threshold, exit
+   if [[ $zombie_count -le $threshold ]]; then
+       exit 0
+   fi
 
-3. create cronjob
+   # Get the unique list of parent process IDs from the initial zombie list
+   unique_parents=$(echo "$initial_zombies" | sort -u)
 
-This way the workaround will automatically run every 5 minutes.
+   # Wait for a short period to see if the zombies persist
+   sleep 15
 
-```
-cat > /etc/cron.d/kill_zombie_parents << 'EOF'
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-SHELL=/bin/bash
+   # Re-check for zombie processes
+   persistent_zombies=$(detect_zombies)
 
-*/5 * * * * root /usr/local/bin/kill_zombie_parents.sh
-EOF
-```
+   # Compare initial and persistent zombies and take action if necessary
+   for parent in $unique_parents; do
+       if echo "$persistent_zombies" | grep -q "^$parent$"; then
+           # Double-check that the parent process is still alive
+           if kill -0 $parent 2>/dev/null; then
+               echo "Persistent zombie found; sending SIGCHLD to parent process $parent."
+               kill -SIGCHLD $parent
+               sleep 15  # Give the parent process time to reap the zombies
+
+               # Re-check if the parent process still has zombies
+               remaining_zombies=$(ps -eo ppid,stat | awk -v ppid="$parent" '$1 == ppid && $2 ~ /^Z/ {print $1}')
+               if [[ -n "$remaining_zombies" ]]; then
+                   echo "SIGCHLD did not work; killing (SIGTERM) parent process $parent."
+                   kill -TERM $parent
+                   sleep 15  # Give the process a chance to terminate
+
+                   # Force kill if it didn't terminate
+                   if kill -0 $parent 2>/dev/null; then
+                       echo "Force killing (SIGKILL) parent process $parent."
+                       kill -KILL $parent
+                   fi
+               fi
+           fi
+       fi
+   done
+   EOF
+   ```
+
+2. **Mark the Script as Executable**
+
+   ```bash
+   chmod +x /usr/local/bin/kill_zombie_parents.sh
+   ```
+
+3. **Create a Cron Job**
+
+   Set up a cron job to run the script every 5 minutes:
+
+   ```bash
+   cat > /etc/cron.d/kill_zombie_parents << 'EOF'
+   PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+   SHELL=/bin/bash
+
+   */15 * * * * root /usr/local/bin/kill_zombie_parents.sh 50 | logger -t kill_zombie_parents
+   EOF
+   ```
+
+This workaround will help mitigate the impact of zombie processes on the system by periodically terminating their parent processes, thus preventing the system's PID table from being overwhelmed.
+
 
 ## Close Leases Based on Image
 
