@@ -1150,38 +1150,47 @@ Since providers cannot control the internal configuration of tenant containers, 
    ```bash
    cat > /usr/local/bin/kill_zombie_parents.sh <<'EOF'
    #!/bin/bash
-
    # This script detects persistent zombie processes that are descendants of containerd-shim processes
    # and first attempts to prompt the parent process to reap them by sending a SIGCHLD signal.
    # If the number of zombies exceeds the specified threshold and SIGCHLD does not resolve the issue,
    # the script will proceed to kill the parent processes.
 
-   # Check if pstree command is available, if not install psmisc package
-   if ! command -v pstree &> /dev/null; then
-       echo "pstree command not found, installing psmisc package..."
-       if command -v apt-get &> /dev/null; then
-           apt-get update && apt-get install -y psmisc
-       elif command -v yum &> /dev/null; then
-           yum install -y psmisc
-       elif command -v dnf &> /dev/null; then
-           dnf install -y psmisc
-       else
-           echo "Package manager not supported. Please install psmisc manually."
-           exit 1
-       fi
-   fi
+   # Function to print the process tree for a given parent PID
+   pidtree() {
+     local parent=$1
+     local list="$parent"
+     local children
 
-   # Function to detect containerd-shim zombies
+     while : ; do
+       children=$(ps --ppid "$parent" -o pid= | xargs)
+       if [[ -z "$children" ]]; then
+         break
+       fi
+       list="$list $children"
+       parent="$children"
+     done
+     echo "$list"
+   }
+
+   # Function to detect zombies under containerd-shim processes
    detect_zombies() {
-       containerd_shim_ppids=$(ps -eo pid,ppid,stat,cmd | awk '/containerd-shim/ {print $1}')
-       zombie_parents=$(ps -eo pid,ppid,stat,cmd | awk '$3 ~ /^Z/ {print $2}')
-       for shim_pid in $containerd_shim_ppids; do
-           for parent_pid in $zombie_parents; do
-               if pstree -p $shim_pid | grep -q "($parent_pid)"; then
-                   echo $parent_pid
-               fi
-           done
+       # Find all containerd-shim processes
+       shim_pids=$(pgrep -f containerd-shim)
+
+       for shim_pid in $shim_pids; do
+           # Use pidtree function to get the process tree under each containerd-shim
+           pidtree "$shim_pid" | xargs ps -o pid,ppid,stat,cmd --forest | awk '
+           {
+               if ($3 ~ /^Z/) {
+                   print $1;  # print the PID of the zombie process
+               }
+           }'
        done
+   }
+
+   # Function to find unique parent PIDs of the zombie processes
+   find_zombie_parents() {
+       detect_zombies | xargs -I {} ps -o ppid= -p {} | sort -u
    }
 
    # Get the threshold from the script argument or default to 50 if not provided or invalid
@@ -1193,42 +1202,43 @@ Since providers cannot control the internal configuration of tenant containers, 
        threshold=50
    fi
 
-   # First detection of zombie processes
+   # First detection of zombie processes and their PIDs under containerd-shim
    initial_zombies=$(detect_zombies)
-   zombie_count=$(echo "$initial_zombies" | wc -l)
+   zombie_count=$(echo "$initial_zombies" | wc -w)
 
    # If the number of zombies is less than or equal to the threshold, exit
    if [[ $zombie_count -le $threshold ]]; then
        exit 0
    fi
 
-   # Get the unique list of parent process IDs from the initial zombie list
-   unique_parents=$(echo "$initial_zombies" | sort -u)
+   # Identify the parent PID of the zombie processes
+   zombie_parents=$(find_zombie_parents)
 
    # Wait for a short period to see if the zombies persist
    sleep 15
 
-   # Re-check for zombie processes
+   # Re-check for zombie processes and their PIDs under containerd-shim
    persistent_zombies=$(detect_zombies)
 
    # Compare initial and persistent zombies and take action if necessary
-   for parent in $unique_parents; do
-       if echo "$persistent_zombies" | grep -q "^$parent$"; then
-           # Double-check that the parent process is still alive
-           if kill -0 $parent 2>/dev/null; then
+   for parent in $zombie_parents; do
+       if ps -p $parent >/dev/null 2>&1; then
+           # Check if any zombies from the initial detection are still present under their parent PID
+           persistent_parent_zombies=$(echo "$persistent_zombies" | xargs -I {} ps -o ppid= -p {} | grep "^$parent$")
+           if [[ -n "$persistent_parent_zombies" ]]; then
                echo "Persistent zombie found; sending SIGCHLD to parent process $parent."
                kill -SIGCHLD $parent
                sleep 15  # Give the parent process time to reap the zombies
 
                # Re-check if the parent process still has zombies
-               remaining_zombies=$(ps -eo ppid,stat | awk -v ppid="$parent" '$1 == ppid && $2 ~ /^Z/ {print $1}')
-               if [[ -n "$remaining_zombies" ]]; then
+               remaining_zombies=$(ps --ppid $parent -o stat | grep '^Z' | wc -l)
+               if [[ $remaining_zombies -gt 0 ]]; then
                    echo "SIGCHLD did not work; killing (SIGTERM) parent process $parent."
                    kill -TERM $parent
                    sleep 15  # Give the process a chance to terminate
 
                    # Force kill if it didn't terminate
-                   if kill -0 $parent 2>/dev/null; then
+                   if ps -p $parent >/dev/null 2>&1; then
                        echo "Force killing (SIGKILL) parent process $parent."
                        kill -KILL $parent
                    fi
