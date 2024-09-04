@@ -48,11 +48,11 @@ const PopOverNavItemEcosystem = ({
                           target={
                             item.link.startsWith("http") ? "_blank" : "_self"
                           }
-                          className={`flex cursor-pointer items-center  gap-6 px-4 py-3    ${
+                          className={`group flex cursor-pointer items-center gap-6 rounded-lg px-4 py-3  transition-all hover:bg-gray-50 dark:hover:bg-black/10    ${
                             active ? "" : ""
                           } `}
                         >
-                          <div className="text-[#9CA3AF] dark:text-para">
+                          <div className="text-[#9CA3AF] transition-all group-hover:text-primary dark:text-para ">
                             {item.icon ? (
                               <item.icon size={24} strokeWidth={1.5} />
                             ) : (
@@ -105,7 +105,7 @@ const PopOverNavItemEcosystem = ({
                   <a
                     key={i}
                     href={`/blog/${slug}`}
-                    className="flex cursor-pointer flex-col gap-0.5  px-8 py-1.5 text-sm    "
+                    className="flex  cursor-pointer flex-col gap-0.5 rounded-lg px-8 py-1.5  text-sm transition-all hover:bg-gray-50 dark:hover:bg-black/10    "
                   >
                     <h1 className="line-clamp-1 font-medium ">{data.title}</h1>
                     <p className="line-clamp-1 text-para">{data.description}</p>
