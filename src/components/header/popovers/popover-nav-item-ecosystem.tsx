@@ -92,7 +92,7 @@ const PopOverNavItemEcosystem = ({
 
               <div className="flex w-full flex-1 flex-col border-l pl-2.5">
                 <a
-                  href="/blog/"
+                  href="/blog/case-studies/1"
                   className="flex items-center gap-1.5 px-8 py-1.5 text-sm font-medium text-[#939393] transition-all hover:text-foreground dark:text-para"
                 >
                   Case Studies{" "}
