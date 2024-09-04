@@ -1160,9 +1160,12 @@ Since providers cannot control the internal configuration of tenant containers, 
      local parent=$1
      local list="$parent"
      local children
-
      while : ; do
-       children=$(ps --ppid "$parent" -o pid= | xargs)
+       children=""
+       while read -r child; do
+         children+="$child "
+       done < <(ps --ppid "$parent" -o pid=)
+       children=${children% } # Remove trailing space
        if [[ -z "$children" ]]; then
          break
        fi
@@ -1176,22 +1179,26 @@ Since providers cannot control the internal configuration of tenant containers, 
    detect_zombies() {
        # Find all containerd-shim processes
        shim_pids=$(pgrep -f containerd-shim)
-
        for shim_pid in $shim_pids; do
            # Use pidtree function to get the process tree under each containerd-shim
-           pidtree "$shim_pid" | xargs ps -o pid,ppid,stat,cmd --forest | awk '
-           {
-               if ($3 ~ /^Z/) {
-                   print $1;  # print the PID of the zombie process
-               }
-           }'
+           pidtree "$shim_pid" | while read -r pid; do
+               ps -o pid=,ppid=,stat=,cmd= -p "$pid" --forest | awk '
+               {
+                   if ($3 ~ /^Z/) {
+                       print $1;  # print the PID of the zombie process
+                   }
+               }'
+           done
        done
    }
 
    # Function to find unique parent PIDs of the zombie processes
    find_zombie_parents() {
-       detect_zombies | xargs -I {} ps -o ppid= -p {} | sort -u
+       detect_zombies | while read -r zombie_pid; do
+           ps -o ppid= -p "$zombie_pid" | tr -d ' '
+       done | sort -u
    }
+
 
    # Get the threshold from the script argument or default to 50 if not provided or invalid
    threshold=${1:-50}
@@ -1224,7 +1231,12 @@ Since providers cannot control the internal configuration of tenant containers, 
    for parent in $zombie_parents; do
        if ps -p $parent >/dev/null 2>&1; then
            # Check if any zombies from the initial detection are still present under their parent PID
-           persistent_parent_zombies=$(echo "$persistent_zombies" | xargs -I {} ps -o ppid= -p {} | grep "^$parent$")
+           persistent_parent_zombies=""
+           while read -r zombie_pid; do
+               if [[ $(ps -o ppid= -p "$zombie_pid" | tr -d ' ') == $parent ]]; then
+                   persistent_parent_zombies="$persistent_parent_zombies $zombie_pid"
+               fi
+           done < <(echo "$persistent_zombies")
            if [[ -n "$persistent_parent_zombies" ]]; then
                echo "Persistent zombie found; sending SIGCHLD to parent process $parent."
                kill -SIGCHLD $parent
