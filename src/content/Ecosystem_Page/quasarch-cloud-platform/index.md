@@ -2,7 +2,6 @@
 projectTitle: Quasarch Cloud Plaftorm
 projectImage: "./banner.png"
 pubDate: "2024-08-30"
-showcase: true
 tags:
   - Cloud Platform
 
