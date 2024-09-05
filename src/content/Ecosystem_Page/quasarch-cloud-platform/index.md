@@ -3,7 +3,7 @@ projectTitle: Quasarch Cloud Plaftorm
 projectImage: "./banner.png"
 pubDate: "2024-08-30"
 tags:
-  - Cloud Platform
+  - Dev tools
 
 category: deployed_on_akash
 
