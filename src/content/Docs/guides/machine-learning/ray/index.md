@@ -156,7 +156,7 @@ Once you have those things set up correctly, you can head over to the [Akash Con
 
 ![](../../../assets/ray-akashconsoleyml.png)
 
-And here is a quick rin throigh of what the whole end-to-end deployment workflow looks like:
+And here is a quick run through of what the whole end-to-end deployment workflow looks like:
 
 [![How To Deploy a Ray Cluster on Akash Network](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DpRsDy6rBY_A)](https://www.youtube.com/watch?v=pRsDy6rBY_A)
 
