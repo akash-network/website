@@ -1,5 +1,5 @@
 ---
-projectTitle: Brev.dev (Acq. by NVIDIA)
+projectTitle: NVIDIA
 projectImage: "./project-banner.png"
 pubDate: "2021-02-01"
 showcase: true
