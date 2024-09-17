@@ -3,7 +3,6 @@ export const redirects = {
   "/development": "/development/welcome/overview/",
   "/community": "/community/akash-insiders/",
   "/about": "/about/general-information/",
-  "/about/pricing": "/about/pricing/compare",
   "/blog/a/acc-akash-accelerationism": "/blog/a-acc-akash-accelerationism/",
 
   "/roadmap":
