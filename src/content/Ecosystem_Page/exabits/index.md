@@ -16,5 +16,5 @@ ctaButton:
 
 websiteLink: " https://www.exabits.ai/"
 twitterLink: "https://twitter.com/exa_bits"
-featured: true
+featured: false
 ---

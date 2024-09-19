@@ -17,5 +17,5 @@ ctaButton:
 
 websiteLink: "https://rango.exchange/integrations"
 twitterLink: "https://twitter.com/RangoExchange"
-featured: true
+featured: false
 ---

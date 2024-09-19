@@ -8,7 +8,7 @@ tags:
 
 category: deployed_on_akash
 
-description: To Make the world-class clouds technologies all accessible to everyone
+description: Nebula Block offers smart and cost effective hosting solutions to make compute accessible to everyone in AI & Blockchain community.
 ctaButton:
   label: View Project
   link: " https://www.nebulablock.com/"

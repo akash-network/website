@@ -8,7 +8,8 @@ tags:
 
 category: deployed_on_akash
 
-description: We empower institutional miners, staking customers, and participants within the crypto ecosystem to mine and stake digital assets.
+description: Foundry empowers institutional miners, staking customers, and participants within the crypto ecosystem to mine and stake digital assets.
+
 ctaButton:
   label: View Project
   link: "https://foundrydigital.com/"

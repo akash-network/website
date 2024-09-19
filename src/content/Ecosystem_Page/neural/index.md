@@ -8,7 +8,7 @@ tags:
 
 category: deployed_on_akash
 
-description: Exabits,DGX B200, H100, GPU, web3.0,Decentralized,NVIDIA H100 GPUs,NVIDIA RTX 3090,network,docker,computing,blockchain,nft market,dapp
+description: Neural AI transforms words into 3D AI game assets.
 ctaButton:
   label: View Project
   link: " https://goneural.ai/"

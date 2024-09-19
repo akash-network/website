@@ -8,7 +8,7 @@ tags:
 
 category: deployed_on_akash
 
-description: Brev.dev, known for its seamless setup of Jupyter notebooks for AI development, has integrated with Akash Network, enabling scalable, permissionless access to NVIDIA GPUs.
+description: Brev.dev (Acq. by NVIDIA), known for its seamless setup of Jupyter notebooks for AI development, has integrated with Akash Network, enabling scalable, permissionless access to NVIDIA GPUs.
 
 ctaButton:
   label: View Project
