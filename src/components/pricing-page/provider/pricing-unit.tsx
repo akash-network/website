@@ -60,9 +60,11 @@ function PricingUnit({
         <input
           className={`hide-arrow w-[63px] rounded-md border bg-transparent px-1 py-1.5 font-bold text-foreground shadow-sm focus:outline-primary dark:outline-none md:w-[90px] md:px-3 ${flag ? "mt-0" : "mt-4"}`}
           value={flag ? `${progress} ${suffix}` : `${progress}`}
-          type="number"
+          type={flag ? "text" : "number"}
           onChange={(e) => {
-            setProgress(+e.target.value);
+            if (flag) {
+              setProgress(parseInt(e.target.value));
+            } else setProgress(+e.target.value);
           }}
         />
       </div>
