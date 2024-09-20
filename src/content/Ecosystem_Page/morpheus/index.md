@@ -8,7 +8,7 @@ tags:
 
 category: deployed_on_akash
 
-description: Morpheus is designed to incentivize the first open-source peer-to-peer network of personal general-purpose AI, powered by the MOR token.
+description: Morpheus is designed to incentivize the first open-source p2p network of personal general-purpose AI, powered by the MOR token.
 ctaButton:
   label: View Project
   link: "https://mor.org/"
