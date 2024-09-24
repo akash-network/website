@@ -90,9 +90,7 @@ export const docsSequence = [
               { label: "TLS Termination of Akash Deployments" },
               { label: "Multi-Tiered Deployment" },
               { label: "Ruby on Rails with Sia and Auth0" },
-              { label: "AkashOS" },
               { label: "Jackal S3 Gateway" },
-              { label: "Cloudflare" },
             ],
           },
           {
