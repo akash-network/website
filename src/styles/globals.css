@@ -271,4 +271,14 @@
   display: none;
 }
 
-/* change text inside */
+
+.hide-arrow::-webkit-outer-spin-button,
+.hide-arrow::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.hide-arrow {
+  -moz-appearance: textfield;
+}
