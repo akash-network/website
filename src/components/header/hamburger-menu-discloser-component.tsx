@@ -1,5 +1,4 @@
 import { Disclosure, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ArrowUpRight } from "lucide-react";
 
 interface IFsubCategories {
@@ -30,7 +29,7 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
           </Disclosure.Button>
 
           <Transition
-            show={true}
+            show={open}
             enter="transition duration-100 ease-out"
             enterFrom="transform scale-95 opacity-0"
             enterTo="transform scale-100 opacity-100"
