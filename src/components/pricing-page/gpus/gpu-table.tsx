@@ -416,10 +416,10 @@ export const Tables = ({
               <th className="w-[26%] px-2 text-left text-sm  font-medium tracking-normal  text-linkText ">
                 Chipset
               </th>
-              <th className="w-[26%] px-2 text-left  text-sm font-medium tracking-normal text-linkText">
+              <th className="w-[26%] px-2 text-left text-sm  font-medium tracking-normal text-linkText xl:pl-8">
                 Availability
               </th>
-              <th className="w-[26%] whitespace-nowrap pr-2  text-left text-sm font-medium tracking-normal text-linkText ">
+              <th className="w-[26%] whitespace-nowrap pr-2 text-left  text-sm font-medium tracking-normal text-linkText xl:pl-8 ">
                 Price (USD per hour)
               </th>
               <th className=""></th>
