@@ -1,20 +1,16 @@
 ---
-import generateToc from "@/lib/generateToc";
-import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
-
 import Layout from "@/layouts/layout.astro";
 
 import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
-import MobileNav from "@/components/community-pages/mobile-nav";
 import { proseClasses } from "@/lib/prose-classes";
 
+import OnThisPageSidebar from "@/components/on-this-page-sidebar.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
 import {
   Content,
-  getHeadings,
   frontmatter,
+  getHeadings,
 } from "../content/Privacy_Homepage/index.mdx";
-import TopMargin from "@/components/ui/top-margin.astro";
-import OnThisPageSidebar from "@/components/on-this-page-sidebar.astro";
 
 const headings = getHeadings();
 const nav = headings

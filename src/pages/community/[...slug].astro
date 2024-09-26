@@ -2,8 +2,6 @@
 import { nav } from "@/components/community-pages/nav-config.ts";
 import { type CollectionEntry, getCollection } from "astro:content";
 
-import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
-
 import Layout from "@/layouts/layout.astro";
 
 import TopMargin from "@/components/ui/top-margin.astro";
@@ -101,10 +99,6 @@ const link = `https://github.com/akash-network/website-revamp/tree/main/src/cont
         <article class={proseClasses}>
           <Content />
         </article>
-      </div>
-
-      <div class="md:hidden">
-        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
     </div>
   </TopMargin>

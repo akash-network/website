@@ -1,11 +1,9 @@
 ---
-import { nav } from "@/components/community-pages/nav-config.ts";
 import Tag from "@/components/ui/tag2.astro";
 import Layout from "@/layouts/layout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 import EventCard from "@/components/community-pages/event-card.astro";
-import NextPrevNav from "@/components/community-pages/next-prev-nav.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 type Project = CollectionEntry<"Community_Akash_Events_Page">;
 
@@ -144,9 +142,6 @@ const link =
             </div>
           ))
         }
-      </div>
-      <div class="md:hidden">
-        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
     </div>
   </TopMargin>

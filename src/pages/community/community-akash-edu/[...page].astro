@@ -1,21 +1,15 @@
 ---
+import EduCard from "@/components/community-pages/edu-card.astro";
+import MobileNav from "@/components/community-pages/mobile-nav";
+import { nav } from "@/components/community-pages/nav-config.ts";
+import SearchDialog from "@/components/community-pages/search-dialog";
+import SideNav from "@/components/community-pages/side-nav.astro";
+import Pagination from "@/components/pagination.astro";
+import Tag from "@/components/ui/tag2.astro";
 import Layout from "@/layouts/layout.astro";
+import { proseClasses } from "@/lib/prose-classes";
 import type { PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import Pagination from "@/components/pagination.astro";
-import { Image } from "astro:assets";
-import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
-import { nav } from "@/components/community-pages/nav-config.ts";
-import FormattedDate from "@/components/formatted-date.astro";
-import { proseClasses } from "@/lib/prose-classes";
-import SearchDialog from "@/components/community-pages/search-dialog";
-import SortDropDown from "@/components/community-pages/sort-dropdown";
-import TagsSortDropDown from "@/components/community-pages/tags-sort-dropdown";
-import MobileNav from "@/components/community-pages/mobile-nav";
-import Tag from "@/components/ui/tag2.astro";
-import SideNav from "@/components/community-pages/side-nav.astro";
-import Card from "@/components/community-pages/card.astro";
-import EduCard from "@/components/community-pages/edu-card.astro";
 type Project = CollectionEntry<"Community_Akash_Edu_Page">;
 
 export async function getStaticPaths({
@@ -171,9 +165,6 @@ const link =
           </div>
 
           <Pagination page={page} />
-        </div>
-        <div class="md:hidden">
-          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
         </div>
       </div>
     </div>
