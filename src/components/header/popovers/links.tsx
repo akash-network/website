@@ -2,7 +2,6 @@ import {
   BadgeCheck,
   BadgeHelp,
   CalendarHeart,
-  CheckCircle2,
   Codesandbox,
   FileStack,
   GraduationCap,
@@ -280,8 +279,8 @@ export const networkItems = [
         />
       </svg>
     ),
-    title: "$AKT Token",
-    description: "Understand the role of $AKT token",
+    title: "AKT Token",
+    description: "Understand the role of AKT token",
     link: "/token/",
   },
 ];
