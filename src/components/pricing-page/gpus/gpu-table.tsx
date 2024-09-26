@@ -105,14 +105,24 @@ const Table = ({
   );
 };
 
+const modelTexts: Record<string, string> = {
+  rtx: "RTX ",
+  gtx: "GTX ",
+  ti: " Ti",
+  ada: " ADA",
+};
+
+const formatText = (model: string) => {
+  let formattedText = model;
+  for (const key in modelTexts) {
+    const regex = new RegExp(key, "gi");
+    formattedText = formattedText.replace(regex, modelTexts[key]);
+  }
+
+  return formattedText;
+};
 export const modifyModel = (model: string) => {
-  return model === "rtxa6000"
-    ? "A6000"
-    : model?.includes("rtx")
-      ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
-      : model?.includes("gtx")
-        ? model?.replace("gtx", "GTX ").replace("ti", " Ti")
-        : model;
+  return model === "rtxa6000" ? "A6000" : formatText(model);
 };
 
 export const price = (price: number) => {
