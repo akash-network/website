@@ -1,6 +1,6 @@
 ---
-projectTitle: SDXL on Akash
-projectImage: "./project-banner.png"
+projectTitle: Akash SDXL
+projectImage: "./project-banner.svg"
 pubDate: "2021-01-19"
 
 tags:

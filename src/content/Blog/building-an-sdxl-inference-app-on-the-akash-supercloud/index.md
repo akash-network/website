@@ -30,9 +30,9 @@ Open-source models are not far behind. Stability AI released Stable Diffusion XL
 
 Open-source is essential for enabling permissionless development. Akash has always been aligned with this principle — the network’s code and the [surrounding development community are both radically open](https://akash.network/blog/public-cloud-is-a-public-utility/).
 
-To build SDXL on Akash, the team at [Overclock Labs](https://twitter.com/ovrclk_) set out to develop a simple web application to demonstrate the benefits of building with the Akash Supercloud. The development of SDXL on Akash was managed by [Zach Horn](https://twitter.com/zacharyhorn), with technical support from Andrey Arapov from Overclock Labs, and developed by Akash Insider [Julius Haus](https://twitter.com/zJu_u).
+To build Akash SDXL, the team at [Overclock Labs](https://twitter.com/ovrclk_) set out to develop a simple web application to demonstrate the benefits of building with the Akash Supercloud. The development of Akash SDXL was managed by [Zach Horn](https://twitter.com/zacharyhorn), with technical support from Andrey Arapov from Overclock Labs, and developed by Akash Insider [Julius Haus](https://twitter.com/zJu_u).
 
-The three objectives for SDXL on Akash:
+The three objectives for Akash SDXL:
 
 1. Develop a simple yet performant web application to allow users to complete inference of SDXL.
 2. Showcase GPUs on the Akash Supercloud from the highest-performance NVIDIA L40 and A100 to more cost-effective 40 and 30 series chips.
@@ -44,21 +44,21 @@ Akash provides several unique benefits that make the network well-suited to deve
 
 **Access to high-performance GPUs**. Akash currently provides access to a wide range of GPU types. The network has been extensively tested across many of the most utilized NVIDIA GPU models. These include the L40, H100, A100, V100, A8000, A6000, 4090, 4080, 3090, 3080, and many more.
 
-**The ability to easily combine compute resources.** The power of Akash lies in its flexibility when mixing heterogeneous cloud resources across multiple deployments within a single application. We’ll touch on how this applies to the architecture of SDXL on Akash shortly.
+**The ability to easily combine compute resources.** The power of Akash lies in its flexibility when mixing heterogeneous cloud resources across multiple deployments within a single application. We’ll touch on how this applies to the architecture of Akash SDXL shortly.
 
-**Flexibility in optimizing price and performance.** Akash's true power and performance shine through when extracting the most performance from a finite budget. Because of the network’s flexibility in terms of mixing resource types, it is possible to blend GPU types with different price and performance levels seamlessly. For example, SDXL on Akash has multiple instances deployed on NVIDIA A100 GPUs and RTX-3090s. If the user selects the A100 and 3090 options within the UI, the app will route to whichever GPU is available when the generation request is sent. A developer on a constrained resource budget could seamlessly allocate their resources in favor of lower-cost GPUs like the 3090 and deprioritize higher-cost (yet higher-performance) GPUs like the L40 or A100. Conversely, developers aiming for the highest possible performance and higher cost flexibility could weigh their deployments in favor of NVIDIA L40, H100, and A100 models. One of the most robust features of the network is the ability to architect the application in a way that provides complete control over the compute mix.
+**Flexibility in optimizing price and performance.** Akash's true power and performance shine through when extracting the most performance from a finite budget. Because of the network’s flexibility in terms of mixing resource types, it is possible to blend GPU types with different price and performance levels seamlessly. For example, Akash SDXL has multiple instances deployed on NVIDIA A100 GPUs and RTX-3090s. If the user selects the A100 and 3090 options within the UI, the app will route to whichever GPU is available when the generation request is sent. A developer on a constrained resource budget could seamlessly allocate their resources in favor of lower-cost GPUs like the 3090 and deprioritize higher-cost (yet higher-performance) GPUs like the L40 or A100. Conversely, developers aiming for the highest possible performance and higher cost flexibility could weigh their deployments in favor of NVIDIA L40, H100, and A100 models. One of the most robust features of the network is the ability to architect the application in a way that provides complete control over the compute mix.
 
 Below, we’ll cover how these benefits translate across the developer experience when building on Akash. First, we’ll briefly cover our thought process in choosing an open-source AI model.
 
-## Development of SDXL on Akash
+## Development of Akash SDXL
 
-The idea to create the app that eventually became SDXL on Akash evolved as a collaboration between Overclock Labs and the Akash community.
+The idea to create the app that eventually became Akash SDXL evolved as a collaboration between Overclock Labs and the Akash community.
 
-Our goal in creating [SDXL on Akash](https://sdxl.akash.network) was an easy-to-access, permissionless touchpoint for users to interact with Akash compute. Development began with work that Julius started during the Akash Mainnet 6 testnet. At that time, the initial version of the app could turn standard black-and-white QR codes into custom images styled according to a prompt but maintaining the functionality of the base QR code. In developing this AIQRArt, zJ became versed in Automatic1111 (A1111) — a Gradio-based web UI for working with diffusion models — and its API. With the launch of SDXL, which was released shortly after the [Akashathon](https://dorahacks.io/hackathon/167), we decided to pursue building and deploying this app on Akash.
+Our goal in creating [Akash SDXL](https://sdxl.akash.network) was an easy-to-access, permissionless touchpoint for users to interact with Akash compute. Development began with work that Julius started during the Akash Mainnet 6 testnet. At that time, the initial version of the app could turn standard black-and-white QR codes into custom images styled according to a prompt but maintaining the functionality of the base QR code. In developing this AIQRArt, zJ became versed in Automatic1111 (A1111) — a Gradio-based web UI for working with diffusion models — and its API. With the launch of SDXL, which was released shortly after the [Akashathon](https://dorahacks.io/hackathon/167), we decided to pursue building and deploying this app on Akash.
 
-![SDXL on Akash application architecture](./A1111backend.png)
+![Akash SDXL application architecture](./A1111backend.png)
 
-The backend of SDXL on Akash is built with three layers. The top layer consists of a websocket server the user connects to from [sdxl.akash.network](https://sdxl.akash.network). This server validates the user's input and sends a POST request with the values required for image generation to the web server in the middle layer. To ensure that the A1111 instance is correctly configured, the settings are also updated in a previous step with the associated interface.
+The backend of Akash SDXL is built with three layers. The top layer consists of a websocket server the user connects to from [sdxl.akash.network](https://sdxl.akash.network). This server validates the user's input and sends a POST request with the values required for image generation to the web server in the middle layer. To ensure that the A1111 instance is correctly configured, the settings are also updated in a previous step with the associated interface.
 
 The middle layer consists of a manual load balancer written in Typescript and provides a redirect to the Rest-API of the A1111 instance via an Express webserver. The primary function of the load balancer is to prevent multiple user requests from queuing on a single instance, which would result in long wait times for completed generations.
 
@@ -97,19 +97,19 @@ Deploying the entire app on Akash was seamless. It only required minimal prior k
 
 ## UI/UX Highlights
 
-There are four primary ways we surface Akash compute through the user interface (UI) and user experience (UX) of SDXL on Akash.
+There are four primary ways we surface Akash compute through the user interface (UI) and user experience (UX) of Akash SDXL.
 
 **User access to GPU selection.** Users are given the option to toggle the GPU type that will run the inference. This allows users to experiment with compute from a range of NVIDIA GPUs, including the L40, A100, V100, RTX-8000, and RTX-3090. Each GPU provides a different level of performance at different prices. This allows users to understand the price-to-performance balance for their specific needs, whether that balance is weighted towards higher efficiency or more processing power for faster generation or higher-resolution images.
 
 **A tailored set of inference options.** The application gives the user control of a selection of inference options to customize the generation process. By narrowing the scope of inference optionality from all possible options to only a few, the app remains easy to use while still providing a degree of image customization. The primary user input comes from the Prompt and Negative Prompt, which guide the model to produce an image with the keywords included in the prompt and remove aspects of the image based on keywords in the negative prompt. Upon opening the app, the user encounters the default prompt `futuristic city with neon lights, rainy streets, bright colors, detailed`, which gives new users a sense of the prompt structure that is optimal for inference. These prompts are typically short keywords or phrases separated by commas, and the negative prompt follows the same prompting syntax.
 
-The 'Sampler Name' dropdown allows the users to choose from a selection of popular Stable Diffusion samplers (an algorithm that generates images by iteratively refining random noise into coherent visual content based on learned patterns). Each sampler can affect the output differently, so the user can experiment with each sampler to discover which works best to achieve their desired result. When loading the app, the sampler defaults to `DPM++ SDE Karras`. Although sampler preference can often be subjective, DPM++ SDE Karras offers a near-optimal mix of image quality and fast generation speeds at relatively low step counts (SDXL on Akash is hard-coded to run inference at 25 steps).
+The 'Sampler Name' dropdown allows the users to choose from a selection of popular Stable Diffusion samplers (an algorithm that generates images by iteratively refining random noise into coherent visual content based on learned patterns). Each sampler can affect the output differently, so the user can experiment with each sampler to discover which works best to achieve their desired result. When loading the app, the sampler defaults to `DPM++ SDE Karras`. Although sampler preference can often be subjective, DPM++ SDE Karras offers a near-optimal mix of image quality and fast generation speeds at relatively low step counts (Akash SDXL is hard-coded to run inference at 25 steps).
 
 Lastly, the `Refiner Switch` presented with a slider, allows users to determine the point at which the refiner should take over in the image creation process. The diagram below shows the image production process in SDXL and how the refiner interacts with the base model to produce the final 1024x1024 image.
 
 ![SDXL Diagram](./pipeline.png)
 
-**Provider locations.** One of the most striking features of the Akash Supercloud is the global nature of the network. Akash currently features compute providers from around the world. In designing SDXL on Akash, we wanted to surface the provider name and location directly during image generation to showcase how seamlessly the network can distribute user requests to providers worldwide.
+**Provider locations.** One of the most striking features of the Akash Supercloud is the global nature of the network. Akash currently features compute providers from around the world. In designing Akash SDXL, we wanted to surface the provider name and location directly during image generation to showcase how seamlessly the network can distribute user requests to providers worldwide.
 
 ![Foundry GPU v100](./foundry-gpu-v100.png)
 
@@ -117,8 +117,8 @@ Lastly, the `Refiner Switch` presented with a slider, allows users to determine 
 
 ## The path forward for AI deployments on the Supercloud
 
-The process of building SDXL on Akash demonstrates the power and flexibility of an open-source Supercloud to combine and optimize resources for building applications. The development process also shows how decentralized communities can collaborate to work on projects in a radically open manner — producing open-source code for public benefit along the way.
+The process of building Akash SDXL demonstrates the power and flexibility of an open-source Supercloud to combine and optimize resources for building applications. The development process also shows how decentralized communities can collaborate to work on projects in a radically open manner — producing open-source code for public benefit along the way.
 
 Any developers interested in building applications on Akash (both AI-focused and otherwise) can participate in open bounties that are offered to the entire community, including new developers who would like to join the Akash community. Currently available bounties can be [found on GitHub](https://github.com/akash-network/community).
 
-SDXL on Akash is only the first of many AI deployments to come. As new applications for distributed Akash compute are realized, there will only be more opportunities to grow awareness of the potential of the Supercloud.
+Akash SDXL is only the first of many AI deployments to come. As new applications for distributed Akash compute are realized, there will only be more opportunities to grow awareness of the potential of the Supercloud.

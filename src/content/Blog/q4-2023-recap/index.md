@@ -33,7 +33,7 @@ In October, we published the proposal to begin [re-training](https://twitter.com
 
 While the experiment is still underway, Akash provided 24,000 NVIDIA A100 (80GB) hours to Thumper to code and train the model, and we’ll be publishing the model and code to Hugging Face soon. The result will be an image-generation AI model that can be used without the risk of copyright infringement, and will round out Akash’s capabilities to support the three most popular AI tasks: training, fine-tuning, and inferencing.
 
-## SDXL on Akash & Akash Chat
+## Akash SDXL & Akash Chat
 
 In December, the network demonstrated that developers can tap a variety of GPUs – not just the fastest and highest-performing (which are hard for many companies to secure) – for AI imaging and chat models, paving the way for a new wave of open-source and permissionless AI applications.
 

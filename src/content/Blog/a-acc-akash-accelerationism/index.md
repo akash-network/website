@@ -79,7 +79,7 @@ However, a notable challenge with centralized apps like ChatGPT is balancing mod
 
 Akash Chat provides a solution to address the demand for unrestricted access to open-source models without the complexities of deployment. It offers a user-friendly interface for interacting with several leading open-source models, including Mixtral-8x7B, Dolphin-Mixtral, and Mistral-7B, catering to the need for a permissionless environment in AI model interaction.
 
-### Deploying the ‘SDXL on Akash’ Inference App
+### Deploying the ‘Akash SDXL’ Inference App
 
 In recent years, AI diffusion models have seen remarkable advancements, particularly in generating photo-realistic images from brief natural language prompts. These models are broadly categorized into two classes. The first includes closed-source, proprietary models like Midjourney and DALL-E, accessed through OpenAI's ChatGPT interface, which operates under consumer-facing SaaS business models. The second class comprises open-source models from entities such as StabilityAI, Meta, and Runway, which, despite being trained on proprietary datasets, release their model weights for public use and modification.
 
@@ -87,13 +87,13 @@ Closed-source models, like Midjourney's v5.2, are currently leading in image qua
 
 Akash Network, aligning with the ethos of open-source development, has facilitated the building of SDXL on its platform. Overclock Labs developed a web application on the Akash Supercloud to demonstrate its capabilities, with key contributions from Zach Horn, Andrey Arapov, and Akash Insider Julius Haus. This project aimed to create an accessible, permissionless platform for users to interact with Akash's compute resources, showcasing the use of a variety of NVIDIA GPUs, from high-performance models like the L40 and A100 to more cost-effective options.
 
-![SDXL on Akash](./sdxl-on-akash.png)
+![Akash SDXL](./sdxl-on-akash.png)
 
-The architecture of SDXL on Akash features a three-layered backend, including a websocket server, a manual load balancer, and several A1111 instances deployed across multiple GPUs. The app efficiently manages user requests, ensuring quick response times and reliability. It also includes a simple, user-friendly frontend built with React and Typescript, incorporating ChakraUI components.
+The architecture of Akash SDXL features a three-layered backend, including a websocket server, a manual load balancer, and several A1111 instances deployed across multiple GPUs. The app efficiently manages user requests, ensuring quick response times and reliability. It also includes a simple, user-friendly frontend built with React and Typescript, incorporating ChakraUI components.
 
-Key highlights of the SDXL on Akash UI/UX include the ability for users to select GPUs for their tasks, a range of customizable inference options, and real-time performance feedback. Additionally, the app displays the global nature of the Akash Supercloud by showcasing provider locations and compute performance.
+Key highlights of the Akash SDXL UI/UX include the ability for users to select GPUs for their tasks, a range of customizable inference options, and real-time performance feedback. Additionally, the app displays the global nature of the Akash Supercloud by showcasing provider locations and compute performance.
 
-The development and deployment of SDXL on Akash exemplify the potential of open-source Superclouds in optimizing resources for application development. This project is a testament to decentralized communities' collaborative spirit and open-source development's benefits. Akash Network continues to encourage and support developers through open bounties, paving the way for future AI deployments and broader application possibilities on the Supercloud.
+The development and deployment of Akash SDXL exemplify the potential of open-source Superclouds in optimizing resources for application development. This project is a testament to decentralized communities' collaborative spirit and open-source development's benefits. Akash Network continues to encourage and support developers through open bounties, paving the way for future AI deployments and broader application possibilities on the Supercloud.
 
 ### Onboarding high-performance compute providers and validating the ‘Repurposed ETH Miner’ thesis
 
@@ -159,7 +159,7 @@ The Akash Provider Incentives program is still in development and will launch so
 
 2023 was a defining year for Akash, and 2024 is already shaping up to continue that progress and expand on it as the network focuses on scaling supply, demand, and core functionality. Last year, the network's milestones, including the radical open-sourcing of the process that builds the network and the launch of GPU support, laid a foundation for the core initiatives planned for the coming year. Provider incentives will bring more compute onto the network and help to scale demand (given the network’s ~50% utilization and PMF), which in turn will help to create a flywheel of growth that will only build over time.
 
-In addition, the growth of the Akash Community, with its unique open structure comprised of SIGs and WGs, has been pivotal in driving the development of the network. This radically open approach has enabled a level of collaboration not possible with closed-source projects and companies. Open-source development and deployment of apps like SDXL on Akash and Akash Chat only serves to showcase this progress.
+In addition, the growth of the Akash Community, with its unique open structure comprised of SIGs and WGs, has been pivotal in driving the development of the network. This radically open approach has enabled a level of collaboration not possible with closed-source projects and companies. Open-source development and deployment of apps like Akash SDXL and Akash Chat only serves to showcase this progress.
 
 Emerging trends will continue to shape the industry, including the rise of open-source and decentralized AI, agentic AI, RAG applications, and the evolving role of AI Trust and Safety. Akash Network's alignment and support of these trends, coupled with its commitment to community-led development and rapid technological acceleration, positions the network to play a significant role in the industry’s progress — poised to drive unprecedented growth in 2024 and beyond.
 
