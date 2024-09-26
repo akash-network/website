@@ -8,10 +8,12 @@ categories:
   - Updates
 tags:
   - Updates
+  - Case Studies
 contributors:
   - Zach Horn
 bannerImage: ./brev-akash.png
 ---
+
 [Brev.dev](https://brev.dev/), a platform that enables easy setup of Jupyter notebooks for AI development, has announced its integration with Akash Network, the premier decentralized cloud marketplace. This integration will allow Brev to scale its platform with permissionless access to the most in-demand NVIDIA GPU models provided by the Akash Supercloud.
 
 Brev has established itself as the easiest way for AI developers to get up and running with GPUS in the cloud and describes itself as “the missing Google Colab pro tier.” Its user-friendly interface provisions all the necessary dependencies for working with the leading open-source AI models, including CUDA, Python, and Jupyter Lab, in an easy, 1-click deployment. Brev.dev empowers developers to iterate their fine-tuning and inference workflows rapidly on best-in-class AI models including Mistral-7B, Llama 2 & 3, and many more.
@@ -22,7 +24,7 @@ The integration between Brev.dev and Akash Network brings together the best of b
 
 **The key benefits of Brev’s integration with Akash include:**
 
-1. Permissionless Access to GPUs: With Akash, Brev can access a wide range of GPUs, giving developers even more options when creating new deployments. 
+1. Permissionless Access to GPUs: With Akash, Brev can access a wide range of GPUs, giving developers even more options when creating new deployments.
 
 2. Supercloud Scale: Akash is an open-source and permissionless compute marketplace, enabling Brev to scale its platform by tapping into Akash’s supply of in-demand NVIDIA GPUs.
 
@@ -31,4 +33,3 @@ The integration between Brev.dev and Akash Network brings together the best of b
 Developers gain access to a globally distributed network of computing resources and competitive pricing by deploying applications on Akash GPUs via Brev. This ensures high availability, scalability, and resilience for their applications. Moreover, Akash's decentralized nature will provide Brev with enhanced flexibility in offering deployment configurations to developers, as the network comprises a large number of independent providers distributed around the world, with different price points and resource types.
 
 This integration will significantly increase Akash’s utilization while providing Brev with the necessary compute to scale. In addition, this is an excellent proof point of the adoption of the decentralized cloud, which will ultimately simplify the workflow of developing AI applications and fine-tuning the leading open-source AI models while making this workflow widely available and accessible to developers of all skill levels. Visit [Brev.dev](https://brev.dev/) today to get started with your first deployment on Akash GPUs.
-

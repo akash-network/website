@@ -1,19 +1,17 @@
 ---
 // Import required assets
 
-import SunIcon from "@/assets/icons/sun.svg";
-
 // Import required components
-import Logo from "@/components/ui/logo.astro";
 import NavLink from "@/components/header/nav-link.astro";
-import { Badge } from "@/components/ui/badge";
-import { Image } from "astro:assets";
-import HamburgerMenu from "./hamburger-menu";
-import PopOverNavItem from "./popover-nav-item";
+import Logo from "@/components/ui/logo.astro";
+import { getCollection } from "astro:content";
+import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
-import ButtonLink from "../ui/button-link.astro";
-import { GithubIcon, TwitterIcon, DiscordIcon } from "./icons";
-
+import HamburgerMenu from "./hamburger-menu";
+import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
+import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
+import PopOverNavItemNetwork from "./popovers/popover-nav-item";
+import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
 // Get current pathname
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
@@ -23,33 +21,43 @@ interface Props {
 
 const { disableSticky } = Astro.props;
 
-const networkItems = [
-  {
-    title: "About Akash",
-    description: "Discover the story behind Akash and how it works",
-    link: "/about/general-information/",
-  },
-  {
-    title: "Akash Stats",
-    description:
-      "Get insights into the latest statistics about the Akash Network",
-    link: "https://stats.akash.network/",
-  },
-  {
-    title: "AKT Token",
-    description: "Understand the role of the $AKT token in the Akash ecosystem",
-    link: "/token",
-  },
-];
+const visibilty = {
+  network: ["/about", "/token"],
+  community: ["/community"],
+  development: ["/development"],
+  ecosystem: ["/ecosystem"],
+};
+
+const pathnames = Object.values(visibilty).flat();
+
+const posts = (await getCollection("Blog"))
+  .filter((post) => {
+    // Filter out posts with archive set to true.
+    return post.data.archive !== true;
+  })
+  .sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+
+    // Sort in descending order (latest date first)
+    return dateB.getTime() - dateA.getTime();
+  });
 ---
 
 <header
-  class={`
-${disableSticky ? "" : "sticky top-0 z-[30]"}
- bg-white dark:bg-[#242424]`}
+  class={clsx(
+    "bg-white dark:bg-[#242424]",
+    disableSticky
+      ? ""
+      : pathnames.includes(pathname)
+        ? ""
+        : "top-0 sticky z-[30]",
+  )}
 >
   <nav
-    class="container mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]"
+    class={clsx(
+      "container  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
+    )}
     id="page-top"
   >
     <!-- Logo for desktops -->
@@ -61,17 +69,14 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
       <div
         class="mt-1 hidden lg:flex lg:w-full lg:justify-center lg:gap-x-[20px] xl:gap-x-[24px]"
       >
-        <PopOverNavItem client:load subItems={networkItems} />
+        <PopOverNavItemNetwork client:load />
+        <PopOverCommunity client:load type="community" />
+        <PopOverCommunity client:load type="development" />
 
-        <NavLink href="/development/welcome/" currentPath={pathname}>
-          Development
-        </NavLink>
-        <NavLink href="/community/akash-insiders/" currentPath={pathname}>
+        <!-- <NavLink href="/community/akash-insiders/" currentPath={pathname}>
           Community
-        </NavLink>
-        <NavLink href="/ecosystem/showcase/latest" currentPath={pathname}>
-          Ecosystem
-        </NavLink>
+        </NavLink> -->
+        <PopOverNavItemEcosystem client:load posts={posts} />
 
         <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
@@ -184,3 +189,34 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
     </div>
   </nav>
 </header>
+<div
+  class={clsx(
+    "bg-white dark:bg-[#242424]",
+    disableSticky
+      ? "hidden"
+      : pathnames.includes(pathname)
+        ? "top-0 sticky z-[30]"
+        : "hidden",
+  )}
+>
+  {
+    visibilty.network.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
+    )
+  }
+  {
+    visibilty.community.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="community" />
+    )
+  }
+  {
+    visibilty.development.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
+    )
+  }
+  {
+    visibilty.ecosystem.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
+    )
+  }
+</div>
