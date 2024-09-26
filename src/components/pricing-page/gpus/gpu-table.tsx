@@ -109,7 +109,7 @@ const modelTexts: Record<string, string> = {
   rtx: "RTX ",
   gtx: "GTX ",
   ti: " Ti",
-  ada: " ADA",
+  ada: " Ada",
 };
 
 const formatText = (model: string) => {
