@@ -1,7 +1,5 @@
 ---
-import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
 import Card from "@/components/community-pages/card.astro";
-import { nav } from "@/components/community-pages/nav-config.ts";
 import SearchDialog from "@/components/community-pages/search-dialog";
 import Pagination from "@/components/pagination.astro";
 import Tag from "@/components/ui/tag2.astro";
@@ -74,8 +72,6 @@ const communityPage = await Astro.glob(
 
 const PageContent = communityPage[0].Content;
 const pageFrontMatter = communityPage[0].frontmatter;
-
-console.log(pageFrontMatter);
 
 const pageName = pathname
   .split("/")[2]
@@ -152,10 +148,6 @@ const link =
         </div>
 
         <Pagination page={page} />
-      </div>
-
-      <div class="md:hidden">
-        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
     </div>
   </TopMargin>

@@ -72,12 +72,7 @@ const posts = (await getCollection("Blog"))
         <PopOverNavItemNetwork client:load />
         <PopOverCommunity client:load type="community" />
         <PopOverCommunity client:load type="development" />
-
-        <!-- <NavLink href="/community/akash-insiders/" currentPath={pathname}>
-          Community
-        </NavLink> -->
         <PopOverNavItemEcosystem client:load posts={posts} />
-
         <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
         <NavLink href="/pricing/gpus" currentPath={pathname}>
@@ -136,44 +131,6 @@ const posts = (await getCollection("Blog"))
       </div>
 
       <div class="flex items-center lg:gap-x-4">
-        <!-- <div>
-          <ButtonLink
-            aria-label="Reach Out"
-            link="https://akashnet.typeform.com/to/rhR4cWxQ?typeform-source=akash.network"
-            variant="secondary"
-            target="_blank"
-            size="sm"
-            className=" rounded-[4px]  px-[11px] py-[7px] text-xs "
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clip-path="url(#clip0_2801_2947)">
-                <path
-                  d="M6.11719 9.88588L9.88841 6.11462M9.88841 6.11462H6.58859M9.88841 6.11462V9.41448"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-                <path
-                  d="M8.0026 14.6667C11.6845 14.6667 14.6693 11.6819 14.6693 8.00004C14.6693 4.31814 11.6845 1.33337 8.0026 1.33337C4.3207 1.33337 1.33594 4.31814 1.33594 8.00004C1.33594 11.6819 4.3207 14.6667 8.0026 14.6667Z"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </g>
-              <defs>
-                <clipPath id="clip0_2801_2947">
-                  <rect width="16" height="16" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-
-             Reach Out
-          </ButtonLink>
-        </div> -->
-
         <div>
           <a
             aria-label="Deploy Now"

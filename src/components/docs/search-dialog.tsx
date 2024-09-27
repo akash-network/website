@@ -3,7 +3,6 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2 } from "lucide-react";
-import { addKeyboardListener } from "@/utils/keyboardListenerManager";
 
 // Define a TypeScript interface for the project data
 interface Docs {
@@ -22,7 +21,6 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   const [error, setError] = useState<string | null>(null); // Error can be a string or null
   const [searchQuery, setSearchQuery] = useState<string>(""); // State for the search query
   const searchInputRef = useRef<HTMLInputElement>(null);
-  console.log(filteredProjects);
 
   // Function to close the modal
   function closeModal() {
@@ -173,7 +171,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg  border  border-[#808080] bg-background2 p-6 text-left align-middle shadow-lg transition-all ">
                   <input
-                    className="focus:border-primary/40 w-full rounded-lg border px-4 py-2 outline-none dark:bg-background "
+                    className="w-full rounded-lg border px-4 py-2 outline-none focus:border-primary/40 dark:bg-background "
                     placeholder="Search documentation"
                     disabled={isLoading}
                     value={searchQuery}
@@ -186,7 +184,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
+                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>
@@ -223,7 +221,6 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 
 const HighlightedText = ({ text, query }: any) => {
   const parts = text.split(new RegExp(`(${query})`, "gi"));
-  console.log(parts);
 
   return (
     <>
@@ -259,7 +256,7 @@ const ProjectCard = ({
 
   return (
     <a href={`/docs/${link}/`}>
-      <div className="hover:bg-primary/10 flex cursor-pointer items-center justify-between rounded-lg p-4 text-[#808080] hover:text-primary md:px-6 md:py-4">
+      <div className="flex cursor-pointer items-center justify-between rounded-lg p-4 text-[#808080] hover:bg-primary/10 hover:text-primary md:px-6 md:py-4">
         <div className="w-[85%]">
           <h3 className="text-base font-bold  md:text-lg">
             <HighlightedText text={title} query={query} />

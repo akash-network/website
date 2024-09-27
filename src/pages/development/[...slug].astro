@@ -1,6 +1,5 @@
 ---
 import { nav } from "@/components/development-pages/nav-config";
-import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
@@ -54,7 +53,6 @@ function findPrevAndNextPages(nav: any, pathname: any) {
 }
 
 const pathname = new URL(Astro.request.url).pathname;
-console.log(nav);
 
 const fileType = page.id.split("/")[1].split(".")[1];
 ---
@@ -81,10 +79,6 @@ const fileType = page.id.split("/")[1].split(".")[1];
         <article class={proseClasses}>
           <Content />
         </article>
-      </div>
-
-      <div class="md:hidden">
-        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
     </div>
   </TopMargin>

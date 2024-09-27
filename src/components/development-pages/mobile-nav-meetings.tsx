@@ -1,5 +1,4 @@
 import { Disclosure, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "lucide-react";
 import { XMarkIcon } from "../header/icons";
 import { useLockBody } from "../use-lock-body";
 
@@ -185,7 +184,6 @@ function SideNav({
 
                         // Create a Date object from the formatted date string
                         const dateObject = new Date(dateString);
-                        console.log(dateObject);
 
                         // Add the date object to the meeting object
                         return {

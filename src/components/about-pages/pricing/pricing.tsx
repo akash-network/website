@@ -1,25 +1,18 @@
+import { Tables, type Gpus } from "@/components/gpu-table/gpu-table";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { BASE_API_URL } from "@/lib/constants";
 import { roundDecimal } from "@/lib/math-helpers";
-import { bibyteUnits, bytesToShrink, toBytes } from "@/lib/unit-utils";
-import { priceCompareCustom } from "@/lib/urlUtils";
+import { gpus } from "@/utils/api";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FormattedNumber } from "react-intl";
-import {
-  CustomPricingProvider,
-  useCustomPricing,
-} from "./CustomPricingContext";
-import { Chip } from "./chip";
+import { useCustomPricing } from "./CustomPricingContext";
 import PriceChart from "./price-chart";
 import PriceCompare from "./price-compare";
-import GpuTable, { Tables, type Gpus } from "@/components/gpu-table/gpu-table";
-import { useQuery } from "@tanstack/react-query";
-import { gpus } from "@/utils/api";
 
 export function Pricing({ page, pathName, initialData }: any) {
   const { customPricing } = useCustomPricing();
@@ -70,7 +63,6 @@ export function Pricing({ page, pathName, initialData }: any) {
           },
         },
   });
-  console.log(data);
 
   return (
     <div className="rounded-[8px] border  bg-background2 px-4 py-6 shadow-sm md:p-6">

@@ -87,13 +87,15 @@ export default function HamburgerMenu({
 
 const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
   useLockBody(open);
+
   const currentOpen = navigation.find((item) => {
     if (item.subCategories) {
       if (
         item.subCategories.find(
           (subItem) =>
             subItem.link?.split("/")[1] === currentPath?.split("/")[1],
-        )
+        ) &&
+        currentPath !== "/"
       ) {
         return true;
       } else {
@@ -103,8 +105,6 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
       return false;
     }
   });
-
-  console.log(currentOpen);
 
   return (
     <Disclosure.Panel className="h-full lg:hidden">
