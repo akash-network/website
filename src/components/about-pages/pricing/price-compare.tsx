@@ -1,17 +1,12 @@
+import type { Gpus } from "@/components/gpu-table/gpu-table";
 import { BASE_API_URL } from "@/lib/constants";
-import { bibyteUnits, bytesToShrink, toBytes } from "@/lib/unit-utils";
-import { priceCompareCustom } from "@/lib/urlUtils";
-import axios from "axios";
-import { Fragment, useEffect, useState } from "react";
-import { useCustomPricing } from "./CustomPricingContext";
-import { Chip } from "./chip";
+import { bibyteUnits, toBytes } from "@/lib/unit-utils";
 import { Listbox, Transition } from "@headlessui/react";
-import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import axios from "axios";
 import clsx from "clsx";
 import { CheckIcon } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import type { Gpus } from "@/components/gpu-table/gpu-table";
-import { gpus } from "@/utils/api";
+import { Fragment, useEffect, useState } from "react";
+import { useCustomPricing } from "./CustomPricingContext";
 const isProd = import.meta.env.PROD;
 
 const mockData = {
@@ -45,12 +40,6 @@ export default function PriceCompare({ initialData }: any) {
       const isStorageBibyte = bibyteUnits.some(
         (x) => x === selectedStorageUnit,
       );
-
-      console.log({
-        cpu: selectedCPU * 1000,
-        memory: toBytes(selectedMemory, selectedMemoryUnit, isMemBibyte),
-        storage: toBytes(selectedStorage, selectedStorageUnit, isStorageBibyte),
-      });
 
       if (isProd) {
         const response = await axios.post(BASE_API_URL + "/pricing", {

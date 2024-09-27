@@ -11,7 +11,6 @@ const PopOverNavItemEcosystem = ({
 }: {
   posts: CollectionEntry<"Blog">[];
 }) => {
-  console.log(posts);
   const [open2, setOpen] = useState(false);
   return (
     <Menu

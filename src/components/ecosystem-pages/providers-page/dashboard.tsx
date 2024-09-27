@@ -41,7 +41,6 @@ function Layout({ pathName, initialProviders }: any) {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<string>("active-leases-desc");
   const [filteredProviders, setFilteredProviders] = useState<any>([]);
-  console.log(filteredProviders);
 
   const [search, setSearch] = useState("");
   const [isFilteringActive, setIsFilteringActive] = useState(true);

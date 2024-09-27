@@ -1,7 +1,5 @@
 ---
-import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
 import Card from "@/components/community-pages/card.astro";
-import { nav } from "@/components/community-pages/nav-config.ts";
 import SearchDialog from "@/components/community-pages/search-dialog";
 import Pagination from "@/components/pagination.astro";
 import Tag from "@/components/ui/tag2.astro";
@@ -98,8 +96,6 @@ const pageName = pathname
 
 const link =
   "https://github.com/akash-network/website-revamp/tree/main/src/content/Community_Page/_community-contributions/index.mdx";
-
-console.log(pageFrontMatter);
 ---
 
 <Layout title="Community Contributions" image="/meta-images/community.png">
@@ -171,11 +167,6 @@ console.log(pageFrontMatter);
         </div>
 
         <Pagination page={page} />
-      </div>
-      <div class="md:hidden">
-        <NextPrevNav
-          nav={findPrevAndNextPages(nav, "/community/community-akash-edu/")}
-        />
       </div>
     </div>
   </div>

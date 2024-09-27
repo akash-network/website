@@ -78,8 +78,6 @@ const communityPage = await Astro.glob(
 const PageContent = communityPage[0].Content;
 const pageFrontMatter = communityPage[0].frontmatter;
 
-console.log(pageFrontMatter);
-
 const pageName = pathname
   .split("/")[2]
   .split("-")
@@ -198,7 +196,7 @@ const pageName = pathname
                 stroke-linecap="round"
                 stroke-linejoin="round"></path>
             </svg>
-             Edit page on github</a
+            Edit page on github</a
           >
 
           <p class="mt-2 text-center text-2xs">

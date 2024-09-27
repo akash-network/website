@@ -57,7 +57,6 @@ export default function ProvidersCard({ provider }: any) {
   const intl = useIntl();
   const name =
     provider?.name?.split(".")?.[provider?.name?.split(".")?.length - 2];
-  console.log(name);
 
   return (
     <div className="flex w-full flex-col overflow-hidden rounded-lg border   bg-background2 p-4">
