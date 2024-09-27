@@ -90,7 +90,7 @@ module.exports = {
       },
 
       fontFamily: {
-        sans: ["Satoshi-Variable", ...fontFamily.sans],
+        sans: ["Inter", ...fontFamily.sans],
         instrument: ["Instrument Serif", ...fontFamily.serif],
       },
 

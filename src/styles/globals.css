@@ -145,7 +145,7 @@
     @apply text-para;
   }
   h1 {
-    @apply font-instrument !font-normal !tracking-wide !leading-[1.2];
+    @apply font-instrument !font-normal  !leading-normal;
   }
   h2 {
     @apply text-foreground dark:text-foreground;

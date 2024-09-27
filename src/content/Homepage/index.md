@@ -186,7 +186,7 @@ aiModelsAndAppsSection:
 # CTA section content
 testimonialsSection:
   title: Join the Community
-  description: Akash is supported by a radically open community. As a free public service, the network source code is open-source and available to everyone.
+  description: Akash is supported by a radically open community. As a free public service, the network source code is open-source and available to everyone. The Akash community actively oversees all aspects of the network.
 
 
   discordButton:
