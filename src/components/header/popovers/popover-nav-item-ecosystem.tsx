@@ -120,9 +120,9 @@ const PopOverNavItemEcosystem = ({
                         href={`/blog/${slug}`}
                         className="flex  cursor-pointer flex-col gap-0.5 rounded-lg px-8 py-1.5  text-sm transition-all hover:bg-gray-50 dark:hover:bg-black/10    "
                       >
-                        <h1 className="line-clamp-1 font-medium ">
+                        <p className="line-clamp-1 font-medium ">
                           {data.title}
-                        </h1>
+                        </p>
                         <p className="line-clamp-1 text-para">
                           {data.description}
                         </p>

@@ -91,6 +91,7 @@ module.exports = {
 
       fontFamily: {
         sans: ["Satoshi-Variable", ...fontFamily.sans],
+        instrument: ["Instrument Serif", ...fontFamily.serif],
       },
 
       keyframes: {

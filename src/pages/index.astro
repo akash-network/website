@@ -1,20 +1,18 @@
 ---
+import PostCard from "@/components/cards/post-card.astro";
+import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
+import Feature from "@/components/home/feature/feature.astro";
 import Hero from "@/components/home/hero/hero.astro";
 import Infrastructure from "@/components/home/infrastructure/infrastructure.astro";
-import Feature from "@/components/home/feature/feature.astro";
-import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
-import Layout from "@/layouts/layout.astro";
 import Testimonials from "@/components/home/testimonials/testimonials.astro";
-import PostCard from "@/components/cards/post-card.astro";
+import Layout from "@/layouts/layout.astro";
 
+import ButtonLink from "@/components/ui/button-link.astro";
 import {
   getCollection,
   getEntryBySlug,
   type CollectionEntry,
 } from "astro:content";
-import DarkModeToggle from "@/components/dark-mode-toggle.astro";
-import ButtonLink from "@/components/ui/button-link.astro";
-import GettingStarted from "@/components/home/getting-started/getting-started.astro";
 
 const homepage = await getEntryBySlug("Homepage", "index");
 

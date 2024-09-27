@@ -62,7 +62,7 @@ export default function HamburgerMenu({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 hidden bg-slate-900/25 opacity-100 backdrop-blur transition-opacity md:block" />
+            <div className="fixed inset-0 z-[51] hidden bg-slate-900/25 opacity-100 backdrop-blur transition-opacity md:block" />
           </Transition.Child>
           <Disclosure.Button className="mt-1.5 inline-flex items-center justify-center">
             <span className="sr-only">Open main menu</span>
@@ -75,7 +75,7 @@ export default function HamburgerMenu({
             leave="transition ease duration-300 transform"
             leaveFrom="opacity-100 translate-x-0"
             leaveTo="opacity-100 translate-x-full"
-            className="fixed  inset-0 z-40  w-full overflow-y-auto  bg-background md:left-auto md:right-0  md:w-1/2 lg:hidden"
+            className="fixed  inset-0 z-[52]  w-full overflow-y-auto  bg-background md:left-auto md:right-0  md:w-1/2 lg:hidden"
           >
             <Panel currentPath={currentPath} open={open} />
           </Transition>

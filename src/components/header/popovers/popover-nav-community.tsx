@@ -1,5 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
@@ -158,9 +158,9 @@ export const SubNavbar = ({
                   ) : (
                     item.customIcon
                   )}
-                  <h1 className="flex-1 whitespace-nowrap text-sm font-medium text-foreground">
+                  <p className="flex-1 whitespace-nowrap text-sm font-medium text-foreground">
                     {item.title}
-                  </h1>
+                  </p>
                 </a>
               );
             })}

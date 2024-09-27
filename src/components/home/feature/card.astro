@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 
 const { card } = Astro.props;
+console.log(card);
 ---
 
 <div
@@ -16,20 +17,18 @@ const { card } = Astro.props;
       width={1200}
       height={1200}
       src={card.image}
-      format="svg"
     />
     <Image
       class="hidden w-full object-cover dark:block"
       alt="Feature illustration"
       width={1200}
       height={1200}
-      src={card.darkImage}
-      format="svg"
+      src={card.darkImage ?? card.image}
     />
   </div>
   <div class="mt-[34px] flex w-full flex-1 flex-col pt-0 lg:mt-0">
     <h2
-      class="text-start text-[24px] font-medium text-foreground md:text-2lg md:leading-10 lg:text-3lg lg:leading-[52px]"
+      class="font-instrument text-start text-[24px] font-medium text-foreground md:text-2lg md:leading-10 lg:text-3lg lg:leading-[52px]"
     >
       {card.title}
     </h2>

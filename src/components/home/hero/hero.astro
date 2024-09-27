@@ -34,7 +34,7 @@ const { heroSection } = Astro.props;
       {
         heroSection.cards.map((card, index) => (
           <div class="flex flex-col gap-2 rounded-lg border bg-background2 p-6 md:rounded-xl">
-            <h1 class="font-base font-bold">{card.title}</h1>
+            <h3 class="font-base font-bold">{card.title}</h3>
             <p class="text-sm ">{card.description}</p>
             <div class="mt-auto flex flex-wrap gap-2 pt-2">
               {card.buttons.map((button, index) => (
