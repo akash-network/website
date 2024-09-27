@@ -87,13 +87,16 @@ export default function HamburgerMenu({
 
 const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
   useLockBody(open);
+
   const currentOpen = navigation.find((item) => {
+    console.log(currentPath?.split("/")[1]);
     if (item.subCategories) {
       if (
         item.subCategories.find(
           (subItem) =>
             subItem.link?.split("/")[1] === currentPath?.split("/")[1],
-        )
+        ) &&
+        currentPath !== "/"
       ) {
         return true;
       } else {

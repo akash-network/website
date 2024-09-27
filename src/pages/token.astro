@@ -5,7 +5,6 @@ import HowItWorksSection from "@/components/token-page/how-it-works-section.astr
 import Layout from "@/layouts/layout.astro";
 import { getEntryBySlug } from "astro:content";
 
-import OnThisPageDropdown from "@/components/on-this-page-mobile";
 import Sections from "@/components/token-page/sections";
 import TopMargin from "@/components/ui/top-margin.astro";
 
@@ -96,10 +95,6 @@ const nav = [
       </div>
 
       <div class="col-span-12 mx-auto w-full md:col-span-9">
-        <div class="md:hidden">
-          <OnThisPageDropdown client:load nav={nav} />
-        </div>
-
         <div id="hero">
           <HeroSection heroSection={heroSection} />
         </div>

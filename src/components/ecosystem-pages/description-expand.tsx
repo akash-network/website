@@ -76,7 +76,7 @@ const DescriptionExpand = ({ description }: any) => {
                   className="mt-6 line-clamp-3  cursor-pointer text-left text-sm font-medium leading-[20px] text-cardGray"
                 ></p>
                 <p className="mt-2 text-left text-sm font-medium text-primary">
-                  Read more
+                  Show more
                 </p>
               </PopoverTrigger>
               <PopoverContent className="max-w-[25rem]  bg-background2">
@@ -107,7 +107,7 @@ const DescriptionExpand = ({ description }: any) => {
             onClick={() => setIsExpanded(!isExpanded)}
             className="mt-2 text-sm font-medium text-primary"
           >
-            {isExpanded ? "Read less" : "Read more"}
+            {isExpanded ? "Show less" : "Show more"}
           </button>
         )}
       </div>
