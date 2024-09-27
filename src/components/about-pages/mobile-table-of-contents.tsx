@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Fragment, useEffect, useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Fragment, useState } from "react";
 import type { TocItem } from "../../lib/generateToc";
 
 interface Props {

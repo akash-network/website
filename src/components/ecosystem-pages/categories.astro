@@ -2,13 +2,14 @@
 import { ArrowUpCircle } from "lucide-react";
 import ButtonLink from "../ui/button-link.astro";
 const astroUrl = Astro.url;
+type Props = {
+  tags: string[];
+};
 const pathName = astroUrl.pathname.split("/");
 const { tags } = Astro.props;
 
-// Normalize tags to lowercase and remove duplicates
 const normalizedTags = [...new Set(tags.map((tag) => tag.toLowerCase()))];
 
-// Separate "ai & ml" tag and sort the rest alphabetically
 const aiMlTag = ["ai & ml"];
 const sortedTags = [
   ...aiMlTag,
@@ -17,9 +18,8 @@ const sortedTags = [
     .sort((a, b) => a.localeCompare(b)),
 ];
 
-// Function to display specific tags in proper casing or modify others appropriately
-const displayTag = (tag) => {
-  const specialCases = {
+const displayTag = (tag: string) => {
+  const specialCases: Record<string, string> = {
     dao: "DAO",
     "pos validator": "PoS Validator",
     "ai & ml": "AI & ML",

@@ -1,12 +1,11 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import type { PaginateFunction } from "astro";
-import Layout from "@/layouts/layout.astro";
-import PostCard from "@/components/cards/post-card.astro";
-import Tag from "@/components/ui/tag.astro";
-import Pagination from "@/components/pagination.astro";
 import SearchDialog from "@/components/blog/search-dialog";
+import PostCard from "@/components/cards/post-card.astro";
+import Pagination from "@/components/pagination.astro";
 import Tag2 from "@/components/ui/tag2.astro";
+import Layout from "@/layouts/layout.astro";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 type BlogPost = CollectionEntry<"Blog">;
 
@@ -19,14 +18,11 @@ export async function getStaticPaths({
     const dateA = new Date(a.data.pubDate);
     const dateB = new Date(b.data.pubDate);
 
-    // Sort in descending order (latest date first)
     return dateB.getTime() - dateA.getTime();
   });
 
-  // Filter for archived posts
   const archivedPosts = allPosts.filter((post) => post.data.archive === true);
 
-  // Collect tags from all posts
   const tags: string[] = [];
   allPosts.forEach((post) => {
     post.data.tags.forEach((tag) => {
@@ -37,14 +33,12 @@ export async function getStaticPaths({
     });
   });
 
-  // Generate pages for archived posts
   return paginate(archivedPosts, {
     props: { tags: tags },
     pageSize: 12,
   });
 }
 
-// All paginated data is passed on the "page" prop
 const { page, tags } = Astro.props;
 
 const pathName = Astro.url.pathname.split("/");
@@ -104,9 +98,8 @@ const pathName = Astro.url.pathname.split("/");
   </div>
 
   <div class="container mt-20 space-y-10">
-    <h1 class="text-center text-4xl font-bold">Archive</h1>
+    <h1 class="text-3xl md:text-4xl lg:text-5xl">Archive</h1>
 
-    <!-- Posts grid -->
     <div
       class="grid grid-cols-1 gap-x-16 gap-y-10 md:grid-cols-2 lg:grid-cols-3"
     >

@@ -18,30 +18,24 @@ export async function getStaticPaths({
     const dateA = new Date(a.data.pubDate);
     const dateB = new Date(b.data.pubDate);
 
-    // Sort in descending order (latest date first)
     return dateB.getTime() - dateA.getTime();
   });
 
   const tags: string[] = [];
 
   posts.forEach((post) => {
-    // Loop through the tags in each blog post
     post.data.tags.forEach((tag) => {
-      // Capitalize the first letter of the tag
       const lowerCasedTag = tag;
-      // Check if the tag is not already in the allTags array
+
       if (!tags.includes(lowerCasedTag)) {
-        // Add the tag to the allTags array
         tags.push(lowerCasedTag);
       }
     });
   });
 
   return tags.flatMap((tag) => {
-    // const lowercasedTag = tag.toLowerCase();
     const lowercasedTag = tag;
 
-    // filter posts related to specified tag
     const filteredPosts = posts.filter((post) =>
       post.data.tags.some((tag: string) => tag === lowercasedTag),
     );
@@ -54,7 +48,6 @@ export async function getStaticPaths({
   });
 }
 
-// All paginated data is passed on the "page" prop
 const { page, currentTag, tags } = Astro.props;
 
 const pathName = Astro.url.pathname.split("/");
@@ -116,13 +109,11 @@ const pathName = Astro.url.pathname.split("/");
     </div>
   </div>
 
-  <!-- Tag heading -->
   <div class="container mt-20 space-y-10">
-    <h1 class="text-left text-4xl font-bold">
+    <h1 class="text-3xl md:text-4xl lg:text-5xl">
       {currentTag.charAt(0).toUpperCase() + currentTag.slice(1)}
     </h1>
 
-    <!-- Posts grid -->
     <div
       class="grid grid-cols-1 gap-x-16 gap-y-10 sm:grid-cols-2 lg:grid-cols-3"
     >

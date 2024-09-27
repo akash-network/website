@@ -14,7 +14,7 @@ import {
 const DescriptionExpand = ({ description }: any) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [linesGreater, setLinesGreater] = useState(false);
-  const [open, setOpen] = useState(false);
+
   const ref = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const DescriptionExpand = ({ description }: any) => {
           ></p>
         )}
       </div>
-      {/* mobile */}
+
       <div className="md:hidden">
         <p
           dangerouslySetInnerHTML={{ __html: description }}

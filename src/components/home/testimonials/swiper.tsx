@@ -1,16 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-// Import Swiper React components
-import { Swiper as SwiperReact, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper as SwiperReact, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
 import "swiper/css";
 
 import TestimonialCard from "./card";
 
-// import required modules
 import { Autoplay, Navigation } from "swiper/modules";
-
-// import { testimonials } from "./data";
 
 export function Swiper({
   testimonials,
@@ -79,8 +73,6 @@ export function Swiper({
 }
 
 export const SwiperNavButtons = () => {
-  const swiper = useSwiper();
-
   return (
     <div className="flex space-x-4">
       <button

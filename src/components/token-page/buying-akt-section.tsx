@@ -1,7 +1,5 @@
 import { ArrowUpCircle } from "lucide-react";
 
-import React from "react";
-
 const BuyingAkt = ({ buyingAKTSection }: any) => {
   return (
     <div className="py-[40px] md:pb-[80px] md:pt-[80px]">
