@@ -1,20 +1,20 @@
+import { gpus } from "@/utils/api";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import arrowUpRight from "../../../assets/icons/arrow-up-right.svg";
-import awsLogo from "../../../assets/aws-logo.svg";
-import gcpLogo from "../../../assets/gcp-logo.svg";
-import azureLogo from "../../../assets/azure-logo.svg";
+import { useEffect, useState } from "react";
 import akashLogo from "../../../assets/akash-logo-primary.svg";
+import awsLogo from "../../../assets/aws-logo.svg";
+import azureLogo from "../../../assets/azure-logo.svg";
+import gcpLogo from "../../../assets/gcp-logo.svg";
+import arrowUpRight from "../../../assets/icons/arrow-up-right.svg";
+import CompareItem from "./compare-item";
 import Disclaimer from "./disclaimer";
 import UsageAmount from "./usage-amount";
-import CompareItem from "./compare-item";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -219,7 +219,6 @@ export const Tables = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log(isMobile);
 
   return (
     <section

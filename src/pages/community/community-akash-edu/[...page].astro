@@ -75,8 +75,6 @@ const communityPage = await Astro.glob(
 const PageContent = communityPage[0].Content;
 const pageFrontMatter = communityPage[0].frontmatter;
 
-console.log(pageFrontMatter);
-
 const pageName = pathname
   .split("/")[2]
   .split("-")

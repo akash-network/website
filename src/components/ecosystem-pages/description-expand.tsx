@@ -24,15 +24,12 @@ const DescriptionExpand = ({ description }: any) => {
       const lineHeight = parseInt(style.getPropertyValue("line-height"));
       const height = parseInt(style.getPropertyValue("height"));
       const lines = height / 20;
-      console.log(lines, description?.split(" ")?.[0]);
 
       if (lines > 3) {
         setLinesGreater(true);
       }
     }
   }, [ref, description]);
-
-  console.log(linesGreater);
 
   return (
     <div className="relative">

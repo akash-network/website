@@ -1,11 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2 } from "lucide-react";
 
 import Fuse from "fuse.js"; // Import the Fuse.js library
-import FormattedDate from "../formatted-date.astro";
 
 // Define a TypeScript interface for the project data
 interface Blog {
@@ -62,7 +60,6 @@ export default function SearchDialog() {
         .then((jsonData) => {
           setCollectionData(jsonData as Blog[]); // Type assertion to Blog[]
           setFilteredProjects(jsonData.slice(0, 3)); // Initialize filteredBlogs with the first 3 projects
-          console.log(jsonData);
         })
         .catch((err) => {
           setError(err.message);
@@ -167,7 +164,7 @@ export default function SearchDialog() {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
+                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>

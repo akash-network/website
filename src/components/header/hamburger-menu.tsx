@@ -89,7 +89,6 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
   useLockBody(open);
 
   const currentOpen = navigation.find((item) => {
-    console.log(currentPath?.split("/")[1]);
     if (item.subCategories) {
       if (
         item.subCategories.find(
@@ -106,8 +105,6 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
       return false;
     }
   });
-
-  console.log(currentOpen);
 
   return (
     <Disclosure.Panel className="h-full lg:hidden">

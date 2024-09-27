@@ -244,8 +244,6 @@ export function Dashboard({
       dashboardData.networkCapacityStats.compare.storage,
   );
 
-  console.log(marketData);
-
   return (
     <div className="space-y-10">
       <section>

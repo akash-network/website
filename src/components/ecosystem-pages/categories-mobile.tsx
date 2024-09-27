@@ -15,8 +15,6 @@ const Categories = ({
   page: string;
   className?: string;
 }) => {
-  console.log(tags);
-
   return (
     <Menu
       as="div"

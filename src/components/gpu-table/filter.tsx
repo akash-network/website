@@ -1,19 +1,10 @@
-import React, { Fragment } from "react";
-import { Menu, Transition, Popover, Disclosure } from "@headlessui/react";
-import {
-  ArchiveBoxIcon,
-  ArrowRightCircleIcon,
-  ChevronDownIcon,
-  DocumentDuplicateIcon,
-  HeartIcon,
-  PencilSquareIcon,
-  TrashIcon,
-  UserPlusIcon,
-} from "@heroicons/react/20/solid";
+import { Disclosure, Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { clsx as classNames } from "clsx";
+import React, { Fragment } from "react";
+import { onTop } from "../pricing-page/gpus/sort";
 import CheckBox from "./checkbox";
 import { modifyModel, type Gpus } from "./gpu-table";
-import { onTop } from "../pricing-page/gpus/sort";
 
 export const defaultFilters = {
   modal: [],
@@ -113,8 +104,6 @@ export default function Filter({
     ]);
   }, [res]);
 
-  console.log(options);
-
   React.useEffect(() => {
     if (
       filters.modal.length > 0 ||
@@ -135,8 +124,6 @@ export default function Filter({
         );
       setFilteredData(filtered || []);
     } else {
-      console.log("filtering");
-      //h100 and a100 at top with same order as in onTop array
       setFilteredData(res?.models || []);
     }
   }, [filters, res]);

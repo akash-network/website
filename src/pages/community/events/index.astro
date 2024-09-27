@@ -13,13 +13,11 @@ type Project = CollectionEntry<"Community_Akash_Events_Page">;
 
 const cards = await getCollection("Community_Akash_Events_Page");
 const { data } = await getEntryBySlug("Community_Page", "events");
-console.log(data);
 
 const flatedTag = cards.map((card) => card.data.tags).flat();
 const pathname = new URL(Astro.request.url).pathname;
 
 const allCards = cards.map((card) => card.data);
-console.log(allCards);
 
 const astroUrl = Astro.url;
 const pageName = pathname
@@ -27,8 +25,6 @@ const pageName = pathname
   .split("-")
   .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
   .join(" ");
-
-console.log(allCards);
 
 const monthwise = allCards.reduce((acc: any, curr: any) => {
   if (curr.tbd) {
@@ -87,7 +83,6 @@ const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
 });
 const link =
   "https://github.com/akash-network/website-revamp/tree/main/src/content/Community_Page/events/index.mdx";
-console.log(sortedMonthwiseArray);
 ---
 
 <Layout

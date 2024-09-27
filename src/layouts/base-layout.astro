@@ -94,7 +94,6 @@ const isProd = import.meta.env.PROD;
       document.addEventListener("astro:after-swap", () => setTheme(getTheme()));
 
       const handleHeaderToggleClick = () => {
-        console.log("reached");
         const element = document.documentElement;
         element.classList.toggle("dark");
 

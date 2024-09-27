@@ -19,8 +19,6 @@ const Map = ({
   initialData: any;
   initialData2: any;
 }) => {
-  console.log(initialData);
-
   return (
     <QueryClientProvider client={queryClient}>
       <PieCharts initialData={initialData2} />
@@ -32,8 +30,6 @@ const Map = ({
 export default Map;
 
 const PieCharts = ({ initialData }: { initialData: any }) => {
-  console.log(initialData);
-
   const dashboard = useDashboardData({ initialData });
   const dashboardData = dashboard?.data;
   const cpuData = [
@@ -74,7 +70,6 @@ const PieCharts = ({ initialData }: { initialData: any }) => {
       2,
     ),
   ];
-  console.log(memoryData, "memoryData", gpuData, storageData);
 
   return (
     <div className="grid grid-cols-2 gap-4  md:grid-cols-2 lg:grid-cols-4">
@@ -150,9 +145,7 @@ const CustomChart = ({
 };
 
 const MapData = ({ initialData }: { initialData: any }) => {
-  console.log(initialData);
   const activeProviders = useProviderDetail({ initialData });
-  console.log(activeProviders.data);
 
   const error = activeProviders?.isError;
   const activeProvidersData = activeProviders?.data?.filter(

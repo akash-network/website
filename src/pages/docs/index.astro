@@ -1,24 +1,14 @@
 ---
 import DocsLayout from "@/layouts/docs-layout.astro";
-import { Image } from "astro:assets";
-import {
-  getCollection,
-  type CollectionEntry,
-  getEntryBySlug,
-  getEntry,
-} from "astro:content";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
-import Card from "@/components/docs/homepage-cat-cards.astro";
-import MobileTableOfContents from "@/components/community-pages/mobile-table-of-contents";
-import generateToc from "@/lib/generateToc";
 import MobileNav from "@/components/docs/mobile-sidebar";
-import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
-import Search from "@/components/docs/search-dialog.tsx";
 import NextPrevNav from "@/components/docs/next-prev-nav.astro";
 import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
+import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 // import Index from "../index.astro";
-import { proseClasses } from "@/lib/prose-classes";
 import AlgoliaSearch from "@/components/docs/algolia-search";
+import { proseClasses } from "@/lib/prose-classes";
 
 // export async function getStaticPaths() {
 //   const docs = await getCollection("Docs");
@@ -54,7 +44,6 @@ const docsData = await getCollection("Docs");
 const docs = generateDocsNav(docsData);
 
 const { Content } = await doc.render();
-console.log("docs", docs);
 ---
 
 <DocsLayout

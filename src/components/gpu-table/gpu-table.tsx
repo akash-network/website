@@ -124,7 +124,6 @@ export const Tables = ({
 }) => {
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
   const [filters, setFilters] = React.useState<Filters>(defaultFilters);
-  console.log(filteredData);
 
   return (
     <section
