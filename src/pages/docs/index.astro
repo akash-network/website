@@ -6,38 +6,13 @@ import MobileNav from "@/components/docs/mobile-sidebar";
 import NextPrevNav from "@/components/docs/next-prev-nav.astro";
 import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
-// import Index from "../index.astro";
+
 import AlgoliaSearch from "@/components/docs/algolia-search";
 import { proseClasses } from "@/lib/prose-classes";
 
-// export async function getStaticPaths() {
-//   const docs = await getCollection("Docs");
-//   const docsNav = generateDocsNav(docs);
-
-//   return docsNav.map((entry: any) => ({
-//     params: {
-//       slug: entry.link.split("/")?.[2],
-//     },
-//     props: {
-//       docs: docsNav,
-//       doc: docs.find((doc: any) => doc.slug === entry.link.split("/")?.[2]),
-//     },
-//   }));
-// }
-
 const pathname = new URL(Astro.request.url).pathname;
 
-const catName = pathname
-  .split("/")
-  [pathname.split("/").length - 2].split("-")
-  .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-  .join(" ");
-
-//show current props
-
 type Docs = CollectionEntry<"Docs">;
-
-// const { docs, doc } = Astro.props;
 
 const doc = await getEntry("Docs", "index");
 const docsData = await getCollection("Docs");
@@ -55,7 +30,6 @@ const { Content } = await doc.render();
     class="sticky top-0 z-10 -mt-4 mb-10 h-[130px] bg-background pt-4 md:hidden"
   >
     <div>
-      <!-- <Search client:load currentPath={pathname} /> -->
       <AlgoliaSearch client:only />
     </div>
 
@@ -107,7 +81,7 @@ const { Content } = await doc.render();
         </defs>
       </svg>
     </div>
-    <h1 class="mt-6 text-[28px] font-bold md:mt-10 md:text-3lg">
+    <h1 class="mt-6 text-3xl md:mt-10 md:text-4xl lg:text-5xl">
       {doc.data.title}
     </h1>
     <p class="mt-6 text-base md:text-lg">{doc.data.description}</p>
