@@ -1,18 +1,8 @@
 ---
-import { Image } from "astro:assets";
-
-import SunIcon from "@/assets/icons/sun.svg";
-import Search from "./search-dialog.tsx";
-import AkashDocsLogo from "./akash-docs-logo.astro";
-import ToggleNav from "./toggle-nav.astro";
-import DarkModeToggle from "../dark-mode-toggle.astro";
-import ButtonLink from "../ui/button-link.astro";
-import AlgoliaSearch from "./algolia-search.jsx";
 import Logo from "@/components/ui/logo.astro";
+import DarkModeToggle from "../dark-mode-toggle.astro";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
-const { nav } = Astro.props;
-
-const pathname = new URL(Astro.request.url).pathname;
+import AlgoliaSearch from "./algolia-search.jsx";
 ---
 
 <nav class="flex flex-col">
@@ -24,7 +14,6 @@ const pathname = new URL(Astro.request.url).pathname;
         </a>
       </div>
 
-      <!-- <div id="docsearch"></div> -->
       <AlgoliaSearch client:only />
     </div>
     <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
@@ -66,18 +55,4 @@ const pathname = new URL(Astro.request.url).pathname;
       </div>
     </div>
   </div>
-  <!-- <ToggleNav nav={nav} /> -->
 </nav>
-
-<!-- <script >
-  import docsearch from "@docsearch/js";
-
-  import "@docsearch/css";
-
-  docsearch({
-    container: "#docsearch",
-    appId: "GIAYK50IZ2",
-    apiKey: "ab27356463ffa13e3d75727cd71bfc69",
-    indexName: "akash",
-  });
-</script> -->

@@ -49,12 +49,12 @@ const { contribution } = Astro.props;
     </h4>
 
     <p
-      class="mt-4 line-clamp-2 text-xs font-medium leading-[18px] text-cardGray md:mt-6 md:text-sm"
+      class="mt-4 line-clamp-2 text-xs font-medium leading-[18px] text-linkText md:mt-6 md:text-sm"
     >
       {contribution.data.description}{" "}
     </p>
 
-    <p class="mt-4 text-2xs font-normal text-cardGray md:mt-6">
+    <p class="mt-4 text-2xs font-normal text-linkText md:mt-6">
       <FormattedDate date={contribution.data.pubDate} />{" "}
     </p>
   </div>

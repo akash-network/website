@@ -8,7 +8,7 @@ const className = clsx(
   "prose-h1:text-foreground",
   "prose-h2:mt-14",
   "prose-h2:mb-0",
-  "prose-h2:font-bold",
+  "prose-h2:font-semibold",
   "prose-h2:text-xl",
   "md:prose-h2:mt-20",
   "md:prose-h2:text-2xl",

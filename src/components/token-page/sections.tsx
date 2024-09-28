@@ -1,13 +1,13 @@
+import { useStorage } from "@/utils/store";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import BuyingAkt from "./buying-akt-section";
 import FaqSection from "./faq-section";
 import TokenMetricsSection from "./token-metrics-section";
-import { useStorage } from "@/utils/store";
-import { useEffect, useState } from "react";
 
 const Sections = ({
   aktFeaturesSection,
@@ -110,10 +110,10 @@ const Query = ({
       <div id="akt-features">
         <div className="mt-[40px] md:mt-[80px]">
           <div>
-            <h2 className="text-2xl font-bold leading-9 md:text-2lg md:leading-10">
+            <h2 className="text-2xl font-semibold  md:text-2lg ">
               {aktFeaturesSection.title}
             </h2>
-            <p className="mt-4 text-base font-normal md:text-lg md:leading-[30px]">
+            <p className="mt-4 text-base font-normal md:text-lg ">
               {aktFeaturesSection.description}
             </p>
           </div>
@@ -145,7 +145,7 @@ const Query = ({
                 The main features of AKT 2.0 are:
               </p>
 
-              <ul className="ml-8 list-disc space-y-2 text-sm font-normal text-[#7F7F7F] md:text-[18px]">
+              <ul className="ml-8 list-disc space-y-2 text-sm font-normal text-para md:text-[18px]">
                 <li>
                   Take and Make Fees{" "}
                   <a
@@ -171,7 +171,7 @@ const Query = ({
                 <li>Public Goods Fund</li>
               </ul>
 
-              <p className="text-sm font-normal leading-normal md:text-[18px]">
+              <p className="text-sm font-normal leading-normal md:text-lg">
                 Read the specification and roadmap for AKT2.0{" "}
                 <a
                   target="_blank"
