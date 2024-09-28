@@ -5,8 +5,8 @@ advert:
 
 # hero section content
 heroSection:
-  title: The World's<br class="md:hidden" /> Premier Decentralized<br/> Compute Marketplace
-  description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
+  title: The World's<br class="md:hidden" /> Premier <br class="md:hidden"/> Decentralized<br/> Compute <br class="md:hidden"/> Marketplace
+  description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently.<br/>Purpose-built for public utility."
   cards: 
     - title: "Explore network resources and pricing"
       description: "Browse a wide range of cloud resources and live network pricing"

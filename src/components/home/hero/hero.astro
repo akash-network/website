@@ -14,15 +14,14 @@ const { heroSection } = Astro.props;
     class="border-b border-paraDark pb-[80px] pt-10 md:pb-[120px] md:pt-[64px]"
   >
     <h1
-      class="mx-auto text-center text-5xl tracking-[-0.88px] md:text-6xl lg:text-[88px]"
+      class="mx-auto text-center text-6xl tracking-[-0.88px] lg:text-[88px]"
       set:html={heroSection.title}
     />
 
     <p
-      class="mx-auto mt-10 max-w-[950px] text-center text-base md:mt-6 md:text-lg"
-    >
-      {heroSection.description}
-    </p>
+      class="mx-auto mt-10 text-center text-base md:mt-6 md:text-lg"
+      set:html={heroSection.description}
+    />
 
     <div
       class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"

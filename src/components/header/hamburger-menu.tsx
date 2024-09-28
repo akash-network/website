@@ -184,7 +184,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                                   ) : (
                                     subItem.customIcon
                                   ))}
-                                <h1
+                                <p
                                   className={clsx(
                                     "flex-1 whitespace-nowrap  font-medium text-foreground",
                                     subItem?.external && "text-center",
@@ -197,7 +197,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                                       size={16}
                                     />
                                   )}
-                                </h1>
+                                </p>
                               </a>
                             ),
                           )}
