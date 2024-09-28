@@ -17,4 +17,6 @@ export const redirects = {
   "/gpus": "/pricing/gpus/",
   "/about/pricing": "/pricing/usage-calculator/",
   "/about/pricing/custom": "/pricing/usage-calculator/",
+  "/community/insiders/": "/community/akash-insiders/",
+  "/community/core-groups/cg-list/": "/development/current-groups/",
 };
