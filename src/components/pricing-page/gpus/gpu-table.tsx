@@ -1,27 +1,26 @@
+import OFilter from "@/components/gpu-table/filter";
+import { Card } from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { gpus } from "@/utils/api";
+import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Info } from "lucide-react";
-import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import Filter, { defaultFilters, type Filters } from "./filter";
-import OFilter from "@/components/gpu-table/filter";
-import Sort from "./sort";
+import { Info } from "lucide-react";
+import React from "react";
 import { Skeleton } from "../../ui/skeleton";
-import CircularProgressBar from "./circular-progress-bar";
 import AvailabilityBar from "./availability-bar";
-import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import CircularProgressBar from "./circular-progress-bar";
+import Filter, { defaultFilters, type Filters } from "./filter";
+import Sort from "./sort";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -324,7 +323,7 @@ export const Tables = ({
                       Average price:
                     </span>
                     <span className="font-semibold">
-                      {price(model?.price?.avg)}
+                      {price(model?.price?.weightedAverage)}
                     </span>
                   </div>
                   <HoverCard openDelay={2} closeDelay={2}>
