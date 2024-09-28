@@ -1,5 +1,4 @@
 ---
-import "@/styles/fonts.css";
 import "@/styles/globals.css";
 
 import CTA from "@/components/CTA.astro";
@@ -35,22 +34,19 @@ const pathname = Astro.url.pathname;
               : "_blank"
           }
         >
-          <p class="text-center text-sm font-bold text-white underline">
+          <p class="text-center text-sm font-semibold text-white underline">
             {advert.title}
           </p>
         </a>
       </div>
     )
   }
-  <!-- Site Header/Navbar -->
+
   <Header />
 
-  <!-- Main Content -->
   <main>
     <slot />
   </main>
-
-  <!-- Site Footer -->
 
   <div
     class={clsx(

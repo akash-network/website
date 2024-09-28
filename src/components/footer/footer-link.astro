@@ -5,14 +5,14 @@ interface Props {
   id?: string;
 }
 
-const { link, "aria-label": ariaLabel ,id} = Astro.props;
+const { link, "aria-label": ariaLabel, id } = Astro.props;
 ---
 
 <p class="mt-2 text-left text-xs font-[500] md:mt-[16px] lg:text-sm">
   <a
     id={id}
     aria-label={`${ariaLabel ?? "footer link"}`}
-    class="text-decoration-none tracking-[0rem] text-cardGray dark:text-linkText"
+    class="text-decoration-none text-linkText"
     target={link ? (link.startsWith("http") ? "_blank" : "_self") : "_self"}
     href={link}
   >

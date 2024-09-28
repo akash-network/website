@@ -10,13 +10,14 @@ const { testimonialsSection } = Astro.props;
   <div
     class="container mt-[80px] flex flex-col items-center gap-y-10 md:justify-between"
   >
-    <div class="w-full max-w-[80rem] text-center">
+    <div class="w-full text-center">
       <h2 class="font-instrument text-2xl md:text-3xl lg:text-5xl">
         {testimonialsSection.title}
       </h2>
-      <p class="mt-4 text-center text-base md:text-lg">
-        {testimonialsSection.description}
-      </p>
+      <p
+        class="mt-8 text-center text-base md:text-lg"
+        set:html={testimonialsSection.description}
+      />
     </div>
 
     <div class="mt-16 flex flex-wrap items-center justify-center gap-4 md:mt-0">

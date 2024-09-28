@@ -51,7 +51,7 @@ export function Swiper({
           prevEl: ".swiper-button-prev",
         }}
         className="w-full"
-        autoplay
+        // autoplay
       >
         {testimonials?.map((testimonial) => (
           <SwiperSlide key={Math.random()}>

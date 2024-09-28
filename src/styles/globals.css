@@ -15,8 +15,8 @@
     --link-text: 206 6% 52%;
     --primary: #ff414c;
     --primary-foreground: 0 0% 100%;
-    --background-muted: #F4F4F5;
-    
+    --background-muted: #f4f4f5;
+
     /* secondary colors */
     --secondary: 0 100% 94%;
     --secondary-rose: 0 100% 94%;
@@ -47,10 +47,6 @@
     --theme-header-bg: #c1c8cd;
     --three-dots-bg: #d1d5db;
 
-    /* code */
-    /* .ec-theme-dark-plus {
-      display: none !important;
-    } */
     --docsearch-primary-color: #ff414c !important;
     --docsearch-searchbox-focus-background: hsl(0 0% 100%) !important;
     --docsearch-modal-background: hsl(0 0% 100%) !important;
@@ -114,11 +110,6 @@
     @apply border-[hsl(216,11%,91%)] dark:border-[hsl(0,0%,18%)];
   }
 
-  .sidebar-scroll {
-    /* scrollbar-width: thin; 
-    scrollbar-color: #a3a3a3 #fbf8f7;  */
-  }
-
   .sidebar-scroll::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -139,13 +130,13 @@
 
 @layer base {
   body {
-    @apply overflow-x-hidden bg-background  tracking-wide  text-foreground subpixel-antialiased;
+    @apply overflow-x-hidden bg-background    text-foreground subpixel-antialiased;
   }
   p {
     @apply text-para;
   }
   h1 {
-    @apply font-instrument !font-normal  !leading-normal;
+    @apply font-instrument !font-normal !leading-[1];
   }
   h2 {
     @apply text-foreground dark:text-foreground;
@@ -154,26 +145,6 @@
     @apply text-foreground dark:text-foreground;
   }
 }
-
-/* .ec-theme-dark-plus */
-/* .ec-theme-light-plus */
-
-/* @media (prefers-color-scheme: dark) {
-  .ec-theme-dark-plus{
-    display: block !important;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .ec-theme-light-plus{
-    display: block !important;
-  }
-  .ec-theme-dark-plus{
-    display: hidden !important;
-  }
-} */
-
-/* button animation */
 
 .button--bestia .button__bg {
   top: 0;
@@ -247,14 +218,9 @@
   border: 1px solid hsl(var(--default-border)) !important;
   border-radius: 4px !important;
   height: 38px !important;
-  /* background-color: hsl(var(--background2)); */
   width: 100%;
   padding-inline: 0.8rem !important;
   margin: 0 !important;
-}
-
-.DocSearch-Button:hover {
-  /* background-color: hsl(var(--background)); */
 }
 
 .DocSearch-Search-Icon {
@@ -275,13 +241,11 @@
   display: none;
 }
 
-
 .hide-arrow::-webkit-outer-spin-button,
 .hide-arrow::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 
 .hide-arrow {
   -moz-appearance: textfield;
