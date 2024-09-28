@@ -54,7 +54,7 @@ const className = clsx(
   "md:prose-td:px-4",
   "md:prose-td:text-sm",
   // Images
-  "prose-img:my-0 prose-img:mx-auto prose-img:max-w-[70rem] [&_svg]:max-w-[70rem] [&_svg]:mx-auto ",
+  "prose-img:my-0 prose-img:mx-auto prose-img:max-w-[70rem] prose-img:w-full [&_svg]:max-w-[70rem] [&_svg]:w-full [&_svg]:mx-auto ",
   // Horizontal rules
   "prose-hr:border-defaultBorder",
   "prose-hr:mb-0",

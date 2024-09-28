@@ -13,21 +13,16 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { Facebook, Linkedin } from "lucide-react";
 
 type BlogPost = CollectionEntry<"Blog">;
-
-//  This async function, getStaticPaths, fetches data from a "blog" collection. It then generates paths with "slug" parameters for pre-rendered pages. These paths are essential for routing in Astro, facilitating the creation of dynamic routes for blog posts.
 export async function getStaticPaths() {
   const posts = await getCollection("Blog");
 
   const tags: string[] = [];
 
   posts.forEach((post) => {
-    // Loop through the tags in each blog post
     post.data.tags.forEach((tag) => {
-      // Capitalize the first letter of the tag
       const lowerCasedTag = tag;
-      // Check if the tag is not already in the allTags array
+
       if (!tags.includes(lowerCasedTag)) {
-        // Add the tag to the allTags array
         tags.push(lowerCasedTag);
       }
     });
@@ -36,13 +31,11 @@ export async function getStaticPaths() {
   return posts.map((post) => {
     const serchTag = post.data.tags[0].toLowerCase();
 
-    // Get related articles for specified tag
     const relatedArticles = posts
       .filter((post) =>
         post.data.tags.some((tag: string) => tag.toLowerCase() === serchTag),
       )
       .filter((post) => {
-        // Filter out posts with archive set to true
         return post.data.archive !== true;
       });
 
@@ -71,7 +64,6 @@ const { Content } = await post.render();
   tags={tags}
   relatedArticles={relatedArticles}
 >
-  <!-- Blog frontmatter  -->
   <div class="container grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
     <div class="col-span-12 md:col-span-9">
       <div class="mt-4 hidden items-center gap-x-4 md:mt-0 md:flex">
@@ -127,7 +119,6 @@ const { Content } = await post.render();
     </div>
   </div>
 
-  <!-- Blog Content and grid -->
   <div class="container mt-4 grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
     <article class="col-span-12 md:col-span-9">
       <div>
