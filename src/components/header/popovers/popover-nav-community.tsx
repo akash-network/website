@@ -52,7 +52,7 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
             <div className="  p-5 ">
               {items
                 .filter((item) => !item.external)
-                .map((item, i: any) => {
+                .map((item, i) => {
                   return (
                     <Menu.Item key={i}>
                       {({ active }) => (
@@ -73,7 +73,7 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
                             )}
                           </div>
                           <div className="font-semibold">
-                            <p className="flex items-center text-sm font-bold text-foreground ">
+                            <p className="flex items-center text-sm font-semibold text-foreground ">
                               {item.title}
                               {item.link.startsWith("http") ? (
                                 <ArrowRightCircle
@@ -96,7 +96,7 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
               target="_blank"
               className="border-t bg-gray-50 px-7 py-3 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
             >
-              <p className="inline-flex items-center text-sm font-bold text-foreground ">
+              <p className="inline-flex items-center text-sm font-semibold text-foreground ">
                 {external?.title}
                 <ArrowRightCircle
                   className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
@@ -139,7 +139,7 @@ export const SubNavbar = ({
         <div className="flex">
           {items
             .filter((item) => !item?.external)
-            .map((item, i: any) => {
+            .map((item, i) => {
               return (
                 <a
                   key={i}

@@ -12,7 +12,7 @@ import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
-// Get current pathname
+
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
 interface Props {
@@ -32,14 +32,11 @@ const pathnames = Object.values(visibilty).flat();
 
 const posts = (await getCollection("Blog"))
   .filter((post) => {
-    // Filter out posts with archive set to true.
     return post.data.archive !== true;
   })
   .sort((a, b) => {
     const dateA = new Date(a.data.pubDate);
     const dateB = new Date(b.data.pubDate);
-
-    // Sort in descending order (latest date first)
     return dateB.getTime() - dateA.getTime();
   });
 ---
@@ -60,7 +57,6 @@ const posts = (await getCollection("Blog"))
     )}
     id="page-top"
   >
-    <!-- Logo for desktops -->
     <div class="hidden flex-shrink-0 items-center md:flex md:gap-x-6">
       <a href="/">
         <Logo width={128} />
@@ -88,14 +84,12 @@ const posts = (await getCollection("Blog"))
       </div>
     </div>
 
-    <!-- Logo for mobiles -->
     <div class="block flex-shrink-0 md:hidden">
       <a href="/">
         <Logo width={118} height={24} />
       </a>
     </div>
 
-    <!-- HamburgerMenu -->
     <div class="block overflow-hidden lg:hidden">
       <HamburgerMenu client:load currentPath={pathname} />
     </div>

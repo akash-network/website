@@ -6,10 +6,10 @@ const { ecosystemSection } = Astro.props;
 
 <div class="py-10 md:pb-[80px] md:pt-10">
   <div>
-    <h2 class="text-2xl font-bold leading-9 md:text-2lg md:leading-10">
+    <h2 class="text-2xl font-semibold md:text-2lg">
       {ecosystemSection.title}
     </h2>
-    <p class="mt-4 text-xs font-normal md:text-lg md:leading-[28px]">
+    <p class="mt-4 text-xs font-normal md:text-lg">
       {ecosystemSection.description}
     </p>
   </div>
@@ -22,9 +22,11 @@ const { ecosystemSection } = Astro.props;
 
           if (i === 0) {
             return (
-              <div class="flex w-full justify-between border-b border-[#E6E8EB]   py-[16px] text-base font-bold leading-normal md:text-lg md:leading-9 lg:text-2xl">
+              <div class="flex w-full justify-between border-b border-defaultBorder   py-[16px] text-base  md:text-lg  lg:text-2xl">
                 {colsArray.map((col) => (
-                  <div class="flex w-full justify-start">{col?.title}</div>
+                  <h3 class="flex w-full justify-start font-semibold">
+                    {col?.title}
+                  </h3>
                 ))}
               </div>
             );
@@ -34,7 +36,7 @@ const { ecosystemSection } = Astro.props;
                 class={`grid w-full grid-cols-3  ${
                   i === ecosystemSection.table.length - 1
                     ? ""
-                    : "border-b border-[#E6E8EB]"
+                    : "border-b border-defaultBorder"
                 }   py-[14px] md:py-[16px] `}
               >
                 {colsArray.map((col, i) => (
@@ -47,7 +49,7 @@ const { ecosystemSection } = Astro.props;
                       <ArrowUpCircle className="w-4 rotate-45 group-hover:text-primary" />
                     )}
 
-                    <p class="text-xs font-medium leading-[15px] text-foreground group-hover:text-primary md:text-base md:leading-[28px] lg:text-xl">
+                    <p class="text-xs font-medium  text-foreground group-hover:text-primary md:text-base  lg:text-xl">
                       {col.title}
                     </p>
                   </a>

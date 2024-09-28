@@ -3,13 +3,12 @@ import EcosystemSection from "@/components/token-page/ecosystem-section.astro";
 import HeroSection from "@/components/token-page/hero-section.astro";
 import HowItWorksSection from "@/components/token-page/how-it-works-section.astro";
 import Layout from "@/layouts/layout.astro";
-import { getEntryBySlug } from "astro:content";
 
 import Sections from "@/components/token-page/sections";
 import TopMargin from "@/components/ui/top-margin.astro";
+import { getEntry } from "astro:content";
 
-// get token page content using getEntryBySlug
-const tokenPage = await getEntryBySlug("Token_Homepage", "index");
+const tokenPage = await getEntry("Token_Homepage", "index");
 
 const {
   heroSection,
