@@ -9,16 +9,16 @@ const { card } = Astro.props;
     card.id % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
   }`}
 >
-  <div class={`w-full flex-1 flex-shrink-0`}>
+  <div class={`max-w-[575px] w-full flex-1 flex-shrink-0`}>
     <Image
-      class="w-full object-cover dark:hidden"
+      class="w-full object-contain dark:hidden"
       alt="Feature illustration"
       width={1200}
       height={1200}
       src={card.image}
     />
     <Image
-      class="hidden w-full object-cover dark:block"
+      class="hidden w-full object-contain dark:block"
       alt="Feature illustration"
       width={1200}
       height={1200}

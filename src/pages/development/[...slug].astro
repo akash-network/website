@@ -4,6 +4,7 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import { type CollectionEntry, getCollection } from "astro:content";
+import clsx from "clsx";
 
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Page");
@@ -17,6 +18,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"Development_Page">;
 
 const page = Astro.props;
+console.log(page);
 
 const { Content, headings } = await page.render();
 
@@ -45,7 +47,13 @@ if (akashInsidersIndex !== -1) {
   <TopMargin>
     <div class="space-y-10">
       <div class="mt-10 md:mt-0">
-        <h1 id="overview" class="text-3xl md:text-4xl lg:text-5xl">
+        <h1
+          id="overview"
+          class={clsx(
+            "text-3xl md:text-4xl lg:text-5xl",
+            page?.data?.centeredHeader && "text-center",
+          )}
+        >
           {page.data.title}
         </h1>
       </div>

@@ -20,30 +20,29 @@ export function Swiper({
   return (
     <div className=" flex flex-col justify-between md:min-h-[560px]">
       <SwiperReact
-        slidesPerView={4.5}
-        breakpoints={{
-          50: {
-            slidesPerView: 1.4,
-            spaceBetween: 32,
-          },
-          758: {
-            slidesPerView: 2.5,
-          },
+        slidesPerView="auto"
+        // breakpoints={{
+        //   50: {
+        //     slidesPerView: 1.4,
+        //     spaceBetween: 32,
+        //   },
+        //   758: {
+        //     slidesPerView: 2.5,
+        //   },
 
-          1024: {
-            slidesPerView: 3.5,
-          },
-          1280: {
-            slidesPerView: 4.005,
-          },
-          1536: {
-            slidesPerView: 4.5,
-          },
-        }}
+        //   1024: {
+        //     slidesPerView: 3.5,
+        //   },
+        //   1280: {
+        //     slidesPerView: 4.005,
+        //   },
+        //   1536: {
+        //     slidesPerView: 4.5,
+        //   },
+        // }}
         modules={[Navigation, Autoplay]}
         loop
         centeredSlides
-        loopedSlides={4}
         grabCursor={true}
         spaceBetween={48}
         navigation={{
@@ -51,10 +50,10 @@ export function Swiper({
           prevEl: ".swiper-button-prev",
         }}
         className="w-full"
-        // autoplay
+        autoplay
       >
         {testimonials?.map((testimonial) => (
-          <SwiperSlide key={Math.random()}>
+          <SwiperSlide key={Math.random()} className="!w-[300px]">
             <TestimonialCard
               userName={testimonial.userName}
               testimonial={testimonial.testimonial}

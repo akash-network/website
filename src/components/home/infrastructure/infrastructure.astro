@@ -29,9 +29,10 @@ const { infrastructureSection } = Astro.props;
                   class="h-14 text-base font-semibold "
                   set:html={card.title}
                 />
-                <p class=" mt-2 flex-shrink-0 text-xs  md:mt-4 md:text-sm ">
-                  {card.description}
-                </p>
+                <p
+                  set:html={card.description}
+                  class=" mt-2 flex-shrink-0 text-xs  md:mt-4 md:text-sm "
+                ></p>
               </div>
             </div>
           ))

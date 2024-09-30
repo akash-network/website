@@ -47,7 +47,7 @@ infrastructureSection:
       description: "Akash offers limitless storage, safeguarding data even post-restart, an ideal feature for data-intensive apps."
     - title: "Dedicated<br/> IP Leasing"
       image: "./assets/infrastructure/ip.svg"
-      description: "By leasing a dedicated IP address, Akash permits port assignment, directing traffic – especially beneficial for DNS, web servers, etc."
+      description: "By leasing a dedicated IP address, Akash permits port assignment, directing traffic – especially beneficial for DNS,<br class='hidden md:block'/> web servers, etc."
  
     - title: "Permissionless"
       image: "./assets/infrastructure/censorship.svg"
