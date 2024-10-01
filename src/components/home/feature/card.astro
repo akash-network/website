@@ -1,6 +1,4 @@
 ---
-import { Image } from "astro:assets";
-
 const { card } = Astro.props;
 ---
 
@@ -9,20 +7,11 @@ const { card } = Astro.props;
     card.id % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
   }`}
 >
-  <div class={`max-w-[575px] w-full flex-1 flex-shrink-0`}>
-    <Image
-      class="w-full object-contain dark:hidden"
+  <div class={`md:max-w-[575px] w-full flex-1 flex-shrink-0`}>
+    <img
+      class="w-full object-contain"
       alt="Feature illustration"
-      width={1200}
-      height={1200}
-      src={card.image}
-    />
-    <Image
-      class="hidden w-full object-contain dark:block"
-      alt="Feature illustration"
-      width={1200}
-      height={1200}
-      src={card.darkImage ?? card.image}
+      src={card?.image?.src}
     />
   </div>
   <div class="mt-[34px] flex w-full flex-1 flex-col pt-0 lg:mt-0">

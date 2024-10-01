@@ -52,6 +52,7 @@ if (akashInsidersIndex !== -1) {
           class={clsx(
             "text-3xl md:text-4xl lg:text-5xl",
             page?.data?.centeredHeader && "text-center",
+            page?.data?.hideHeader && "hidden",
           )}
         >
           {page.data.title}
