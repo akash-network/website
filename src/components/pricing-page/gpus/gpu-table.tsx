@@ -332,7 +332,7 @@ export const Tables = ({
                       Average price:
                     </span>
                     <span className="font-semibold">
-                      {price(model?.price?.avg)}
+                      {price(model?.price?.weightedAverage)}
                     </span>
                   </div>
                   <HoverCard openDelay={2} closeDelay={2}>
