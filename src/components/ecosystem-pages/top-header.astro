@@ -1,23 +1,24 @@
 ---
 import Categories from "./categories-mobile";
-import EcosystemNavbar from "./ecosystem-navbar.astro";
 import SearchDialog from "./search-dialog";
 const astroUrl = Astro.url;
 const pathName = astroUrl.pathname.split("/");
-console.log(pathName);
 
 const { tags } = Astro.props;
 ---
 
-<h1 class="text-2xl font-bold md:block md:text-2lg lg:text-3lg">
-  Explore the Akash Ecosystem
-</h1>
-
+<div class="flex items-center justify-between">
+  <h1 class="text-2xl font-bold md:block md:text-2lg lg:text-3lg">
+    Explore the Akash Ecosystem
+  </h1>
+  <div class="hidden md:block">
+    <SearchDialog client:load currentPath={astroUrl.pathname} />
+  </div>
+</div>
 <div
   class="mt-6 flex flex-col justify-between gap-x-6 pb-6 md:mt-8 md:pb-8 lg:mt-10 lg:flex-row lg:border-b lg:pb-10"
 >
-  <EcosystemNavbar pathName={pathName} /><div class="my-5 border-b lg:hidden">
-  </div>
+  <div class="my-5 border-b lg:hidden"></div>
 
   <div class="flex items-center justify-between">
     <Categories
@@ -26,6 +27,8 @@ const { tags } = Astro.props;
       className=" md:hidden"
       page={pathName?.[2]}
     />
-    <SearchDialog client:load currentPath={astroUrl.pathname} />
+    <div class="block md:hidden">
+      <SearchDialog client:load currentPath={astroUrl.pathname} />
+    </div>
   </div>
 </div>

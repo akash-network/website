@@ -1,21 +1,15 @@
 ---
-import Layout from "@/layouts/layout.astro";
 import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
-import { SortActions } from "../../../../components/ecosystem-pages/sort-actions";
-import Pagination from "@/components/pagination.astro";
-import Tag from "@/components/ui/tag.astro";
-import { Image } from "astro:assets";
-import ChevronRight from "@/assets/chevron-right.svg";
-import { getCollection, type CollectionEntry } from "astro:content";
-import type { PaginateFunction } from "astro";
-import EcosystemNavbar from "@/components/ecosystem-pages/ecosystem-navbar.astro";
-import SearchDialog from "@/components/ecosystem-pages/search-dialog";
 import SortDropDown from "@/components/ecosystem-pages/sort-dropdown";
 import TagsSortDropDown from "@/components/ecosystem-pages/tags-sort-dropdown";
+import Pagination from "@/components/pagination.astro";
+import Layout from "@/layouts/layout.astro";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-import TopMargin from "@/components/ui/top-margin.astro";
-import TopHeader from "@/components/ecosystem-pages/top-header.astro";
 import Categories from "@/components/ecosystem-pages/categories.astro";
+import TopHeader from "@/components/ecosystem-pages/top-header.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
 type Project = CollectionEntry<"Ecosystem_Page">;
 
 // Define a function to generate static paths

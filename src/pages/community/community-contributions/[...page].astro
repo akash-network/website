@@ -1,20 +1,13 @@
 ---
+import Card from "@/components/community-pages/card.astro";
+import SearchDialog from "@/components/community-pages/search-dialog";
+import Pagination from "@/components/pagination.astro";
+import Tag from "@/components/ui/tag2.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
+import { proseClasses } from "@/lib/prose-classes";
 import type { PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import Pagination from "@/components/pagination.astro";
-import { Image } from "astro:assets";
-import NextPrevNav from "@/components/about-pages/next-prev-nav.astro";
-import { nav } from "@/components/community-pages/nav-config.ts";
-import FormattedDate from "@/components/formatted-date.astro";
-import { proseClasses } from "@/lib/prose-classes";
-import SearchDialog from "@/components/community-pages/search-dialog";
-import SortDropDown from "@/components/community-pages/sort-dropdown";
-import TagsSortDropDown from "@/components/community-pages/tags-sort-dropdown";
-import MobileNav from "@/components/community-pages/mobile-nav";
-import Tag from "@/components/ui/tag2.astro";
-import SideNav from "@/components/community-pages/side-nav.astro";
-import Card from "@/components/community-pages/card.astro";
 type Project = CollectionEntry<"Community_Contributions_Page">;
 
 export async function getStaticPaths({
@@ -80,8 +73,6 @@ const communityPage = await Astro.glob(
 const PageContent = communityPage[0].Content;
 const pageFrontMatter = communityPage[0].frontmatter;
 
-console.log(pageFrontMatter);
-
 const pageName = pathname
   .split("/")[2]
   .split("-")
@@ -93,89 +84,71 @@ const link =
 ---
 
 <Layout title="Community Contributions" image="/meta-images/community.png">
-  <div class="container mt-10 md:mt-[60px] lg:mt-20">
-    <div class="grid grid-cols-12 gap-x-5">
-      <SideNav nav={nav} link={link} />
-
-      <div
-        class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
-      >
-        <div class="flex items-center justify-between gap-x-3 md:hidden">
-          <MobileNav
-            currentPath={Astro.url.pathname}
-            nav={nav}
-            pageName={pageName}
-            client:load
-            link={link}
-          />
+  <TopMargin class="container mt-10 md:mt-[60px] lg:mt-20">
+    <div
+      class={`col-span-12 mx-auto w-full md:pl-10   md:px-5 md:col-span-8 lg:col-span-9 `}
+    >
+      <div>
+        <div class="mt-10 md:mt-0">
+          <h1
+            id="overview"
+            class="text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
+          >
+            {pageFrontMatter.title}
+          </h1>
         </div>
 
-        <div>
-          <div class="mt-10 md:mt-0">
-            <h1
-              id="overview"
-              class="text-2xl font-bold leading-[40px] md:text-2lg md:leading-[48px] lg:text-3lg"
-            >
-              {pageFrontMatter.title}
-            </h1>
-          </div>
-
-          <div class="md:-mt-10">
-            <article class={proseClasses}>
-              <PageContent />
-            </article>
-          </div>
-
-          <div class="mt-[72px] flex items-center justify-between">
-            <h3 class="text-xl font-bold md:text-2lg lg:text-3lg">
-              Community Contributions
-            </h3>
-          </div>
-          <div
-            class="not-prose mt-6 flex flex-col justify-between gap-x-6 gap-y-4 md:mt-8 md:gap-y-5 lg:flex-row lg:border-b lg:pb-[20px]"
-          >
-            <div
-              class="flex items-center gap-x-4 border-b pb-4 md:pb-5 lg:border-0 lg:pb-0"
-            >
-              <Tag active={true} href={`/community/community-contributions/`}>
-                All
-              </Tag>
-
-              {
-                tags.map((tag: string) => (
-                  <Tag
-                    href={`/community/community-contributions/${tag.toLowerCase()}/latest/1`}
-                  >
-                    {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                  </Tag>
-                ))
-              }
-            </div>
-
-            <div class="flex items-center justify-end lg:justify-between">
-              <SearchDialog client:load currentPath={astroUrl.pathname} />
-            </div>
-          </div>
+        <div class="md:-mt-10">
+          <article class={proseClasses}>
+            <PageContent />
+          </article>
         </div>
 
-        <div>
+        <div class="mt-[72px] flex items-center justify-between">
+          <h3 class="text-xl font-bold md:text-2lg lg:text-3lg">
+            Community Contributions
+          </h3>
+        </div>
+        <div
+          class="not-prose mt-6 flex flex-col justify-between gap-x-6 gap-y-4 md:mt-8 md:gap-y-5 lg:flex-row lg:border-b lg:pb-[20px]"
+        >
           <div
-            class="mt-[42px] grid grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-x-6 lg:grid-cols-3"
+            class="flex items-center gap-x-4 border-b pb-4 md:pb-5 lg:border-0 lg:pb-0"
           >
+            <Tag active={true} href={`/community/community-contributions/`}>
+              All
+            </Tag>
+
             {
-              page.data.map((contribution: Project, i: number) => {
-                return <Card contribution={contribution} />;
-              })
+              tags.map((tag: string) => (
+                <Tag
+                  href={`/community/community-contributions/${tag.toLowerCase()}/latest/1`}
+                >
+                  {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                </Tag>
+              ))
             }
           </div>
 
-          <Pagination page={page} />
-        </div>
-
-        <div class="md:hidden">
-          <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
+          <div class="flex items-center justify-end lg:justify-between">
+            <SearchDialog client:load currentPath={astroUrl.pathname} />
+          </div>
         </div>
       </div>
+
+      <div>
+        <div
+          class="mt-[42px] grid grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-x-6 lg:grid-cols-3"
+        >
+          {
+            page.data.map((contribution: Project, i: number) => {
+              return <Card contribution={contribution} />;
+            })
+          }
+        </div>
+
+        <Pagination page={page} />
+      </div>
     </div>
-  </div>
+  </TopMargin>
 </Layout>

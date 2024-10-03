@@ -5,7 +5,6 @@ import HowItWorksSection from "@/components/token-page/how-it-works-section.astr
 import Layout from "@/layouts/layout.astro";
 import { getEntryBySlug } from "astro:content";
 
-import OnThisPageDropdown from "@/components/on-this-page-mobile";
 import Sections from "@/components/token-page/sections";
 import TopMargin from "@/components/ui/top-margin.astro";
 
@@ -56,7 +55,7 @@ const nav = [
 >
   <TopMargin>
     <div class="grid-cols-12 gap-x-10 md:grid">
-      <div class="sticky top-[120px] hidden h-screen md:col-span-3 md:block">
+      <div class="sticky top-[176px] hidden h-screen md:col-span-3 md:block">
         <p class="text-sm font-bold leading-[20px]">ON THIS PAGE</p>
 
         <div class="border-b py-2"></div>
@@ -96,10 +95,6 @@ const nav = [
       </div>
 
       <div class="col-span-12 mx-auto w-full md:col-span-9">
-        <div class="md:hidden">
-          <OnThisPageDropdown client:load nav={nav} />
-        </div>
-
         <div id="hero">
           <HeroSection heroSection={heroSection} />
         </div>

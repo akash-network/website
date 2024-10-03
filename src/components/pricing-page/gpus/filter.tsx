@@ -1,16 +1,7 @@
-import React, { Fragment } from "react";
-import { Menu, Transition, Popover, Disclosure } from "@headlessui/react";
-import {
-  ArchiveBoxIcon,
-  ArrowRightCircleIcon,
-  ChevronDownIcon,
-  DocumentDuplicateIcon,
-  HeartIcon,
-  PencilSquareIcon,
-  TrashIcon,
-  UserPlusIcon,
-} from "@heroicons/react/20/solid";
+import { Disclosure } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { clsx as classNames } from "clsx";
+import React from "react";
 import CheckBox from "./checkbox";
 import { modifyModel, type Gpus } from "./gpu-table";
 import { onTop } from "./sort";
@@ -113,16 +104,12 @@ export default function Filter({
     ]);
   }, [res]);
 
-  console.log(options);
-
   React.useEffect(() => {
     if (
       filters.modal.length > 0 ||
       filters.ram.length > 0 ||
       filters.interface.length > 0
     ) {
-      console.log("filtering");
-
       const filtered = res?.models
         ?.filter(
           (model) =>
@@ -137,8 +124,6 @@ export default function Filter({
         );
       setFilteredData(filtered || []);
     } else {
-      console.log("filtering");
-      //h100 and a100 at top with same order as in onTop array
       setFilteredData(res?.models || []);
     }
   }, [filters, res]);

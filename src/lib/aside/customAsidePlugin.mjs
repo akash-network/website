@@ -14,7 +14,6 @@ export function customAsidePlugin() {
 
   // All remark and rehype plugins return a separate function
   return function (tree, file) {
-    console.log("tree", tree);
     visit(tree, (node, index, parent) => {
       if (!parent || index === null || node.type !== "containerDirective")
         return;
@@ -35,8 +34,6 @@ export function customAsidePlugin() {
             class:
               "not-prose my-10 space-y-2 rounded-[4px] shadow-sm border-l-4 border-l-[#C1C8CD] bg-[#F1F0EF] dark:bg-background2 p-4 text-lg font-medium ",
           };
-
-          console.log(node.children[0].children[0].value);
 
           data.hChildren = [
             {
@@ -246,9 +243,6 @@ export function customAsidePlugin() {
           break;
 
         case "github-btn":
-          console.log(node);
-          console.log(node.children[0].children[0].value);
-
           data.hChildren = [
             {
               type: "element",
@@ -281,7 +275,6 @@ export function customAsidePlugin() {
           break;
 
         case "button-group":
-          console.log(node);
           data.hProperties = {
             class: "not-prose flex items-center gap-x-10",
           };
