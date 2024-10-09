@@ -1,6 +1,4 @@
 ---
-import { Image } from "astro:assets";
-
 const { card } = Astro.props;
 ---
 
@@ -9,32 +7,20 @@ const { card } = Astro.props;
     card.id % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
   }`}
 >
-  <div class={`w-full flex-1 flex-shrink-0`}>
-    <Image
-      class="w-full object-cover dark:hidden"
+  <div class={`lg:max-w-[575px] w-full flex-1 flex-shrink-0`}>
+    <img
+      class="w-full object-contain"
       alt="Feature illustration"
-      width={1200}
-      height={1200}
-      src={card.image}
-      format="svg"
-    />
-    <Image
-      class="hidden w-full object-cover dark:block"
-      alt="Feature illustration"
-      width={1200}
-      height={1200}
-      src={card.darkImage}
-      format="svg"
+      src={card?.image?.src}
     />
   </div>
   <div class="mt-[34px] flex w-full flex-1 flex-col pt-0 lg:mt-0">
     <h2
-      class="text-start text-[24px] font-medium text-foreground md:text-2lg md:leading-10 lg:text-3lg lg:leading-[52px]"
-    >
-      {card.title}
-    </h2>
+      class="text-start font-instrument text-3xl !leading-[1.14] text-foreground md:text-4xl xl:text-5xl 2xl:text-[56px]"
+      set:html={card.title}
+    />
     <p
-      class="mt-6 text-start text-base leading-[24px] md:mt-10 md:text-lg md:leading-[28px]"
+      class="mt-6 text-start text-base md:mt-10 md:text-lg"
       set:html={card.description}
     />
   </div>

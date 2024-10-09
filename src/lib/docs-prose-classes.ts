@@ -2,7 +2,7 @@ import classNames from "clsx";
 
 const p = "    prose-p:text-xs md:prose-p:text-sm lg:prose-p:text-base  ";
 const h1 =
-  " prose-h1:text-2xl   md:prose-h1:text-3xl prose-h1:font-bold prose-h1:text-foreground    lg:prose-h1:text-4xl  ";
+  " prose-h1:text-3xl   md:prose-h1:text-4xl prose-h1:font-bold prose-h1:text-foreground    lg:prose-h1:text-6xl  ";
 const h2 =
   " prose-h2:text-xl   md:prose-h2:text-2xl   prose-h2:font-medium  lg:prose-h2:text-3xl  ";
 

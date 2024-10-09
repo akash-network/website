@@ -3,13 +3,12 @@ import EcosystemSection from "@/components/token-page/ecosystem-section.astro";
 import HeroSection from "@/components/token-page/hero-section.astro";
 import HowItWorksSection from "@/components/token-page/how-it-works-section.astro";
 import Layout from "@/layouts/layout.astro";
-import { getEntryBySlug } from "astro:content";
 
 import Sections from "@/components/token-page/sections";
 import TopMargin from "@/components/ui/top-margin.astro";
+import { getEntry } from "astro:content";
 
-// get token page content using getEntryBySlug
-const tokenPage = await getEntryBySlug("Token_Homepage", "index");
+const tokenPage = await getEntry("Token_Homepage", "index");
 
 const {
   heroSection,
@@ -99,7 +98,6 @@ const nav = [
           <HeroSection heroSection={heroSection} />
         </div>
 
-        <!-- Divider Border -->
         <div class="w-full">
           <div class="my-10 border-b md:my-20"></div>
         </div>
@@ -108,7 +106,6 @@ const nav = [
           <HowItWorksSection howItWorksSection={howItWorksSection} />
         </div>
 
-        <!-- Divider Border -->
         <div class="w-full">
           <div class="mt-20 border-b md:mb-10"></div>
         </div>
@@ -117,7 +114,6 @@ const nav = [
           <EcosystemSection ecosystemSection={ecosystemSection} />
         </div>
 
-        <!-- Divider Border -->
         <div class="w-full">
           <div class="border-b"></div>
         </div>

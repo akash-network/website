@@ -1,20 +1,17 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import type { PaginateFunction } from "astro";
 import Layout from "@/layouts/layout.astro";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-import Pagination from "@/components/pagination.astro";
 import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
-import EcosystemNavbar from "@/components/ecosystem-pages/ecosystem-navbar.astro";
+import Pagination from "@/components/pagination.astro";
 
 import SortDropDown from "@/components/ecosystem-pages/sort-dropdown";
 import TagsSortDropDown from "@/components/ecosystem-pages/tags-sort-dropdown";
-import SearchDialog from "@/components/ecosystem-pages/search-dialog";
 
-import TopMargin from "@/components/ui/top-margin.astro";
-import TopHeader from "@/components/ecosystem-pages/top-header.astro";
-import SubItemsSidebar from "@/components/sub-items-sidebar.astro";
 import Categories from "@/components/ecosystem-pages/categories.astro";
+import TopHeader from "@/components/ecosystem-pages/top-header.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
 // Define the data structure for a project
 type Project = CollectionEntry<"Ecosystem_Page">;
 
@@ -87,32 +84,6 @@ const formattedTag = currentTag.charAt(0).toUpperCase() + currentTag.slice(1);
   <TopMargin class="container mt-10">
     <TopHeader tags={tags} />
   </TopMargin>
-
-  <!-- <div class="container">
-    <div class="mt-10 hidden gap-x-5 overflow-x-auto md:flex lg:hidden">
-      {
-        tags
-          .sort(() => Math.random() - 0.5)
-          .map((tag: string) => (
-            <Tag href={`/ecosystem/akash-tools/${tag.toLowerCase()}/latest/1`}>
-              {tag.charAt(0).toUpperCase() + tag.slice(1)}
-            </Tag>
-          ))
-      }
-    </div>
-  </div> -->
-
-  <!-- <div class="container mt-10 flex gap-x-5 overflow-x-auto md:hidden">
-    {
-      tags
-        .sort(() => Math.random() - 0.5)
-        .map((tag: string) => (
-          <Tag href={`/ecosystem/akash-tools/${tag.toLowerCase()}/latest/1`}>
-            {tag.charAt(0).toUpperCase() + tag.slice(1)}
-          </Tag>
-        ))
-    }
-  </div> -->
 
   <div
     class="container mt-10 flex justify-between lg:gap-x-[20px] xl:gap-x-[48px]"

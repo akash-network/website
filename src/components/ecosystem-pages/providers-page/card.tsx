@@ -19,14 +19,6 @@ export default function ProvidersCard({ provider }: any) {
       1000
     : 0;
 
-  const activeGPU = provider.isOnline && provider.activeStats.gpu;
-  const pendingGPU = provider.isOnline && provider.pendingStats.gpu;
-  const totalGPU =
-    provider.isOnline &&
-    provider.availableStats.gpu +
-      provider.pendingStats.gpu +
-      provider.activeStats.gpu;
-
   const gpuModels = provider.hardwareGpuModels.map((gpu: any) =>
     gpu.substring(gpu.lastIndexOf(" ") + 1, gpu.length),
   );
@@ -39,18 +31,6 @@ export default function ProvidersCard({ provider }: any) {
         provider.availableStats.memory +
           provider.pendingStats.memory +
           provider.activeStats.memory,
-      )
-    : null;
-  const _activeStorage = provider.isOnline
-    ? bytesToShrink(
-        provider.activeStats.storage + provider.pendingStats.storage,
-      )
-    : null;
-  const _totalStorage = provider.isOnline
-    ? bytesToShrink(
-        provider.availableStats.storage +
-          provider.pendingStats.storage +
-          provider.activeStats.storage,
       )
     : null;
 
@@ -67,7 +47,7 @@ export default function ProvidersCard({ provider }: any) {
         </div>
 
         <div>
-          <p className="break-words  text-base font-bold text-foreground">
+          <p className="break-words  text-base font-semibold text-foreground">
             {provider.name?.length > 20 ? (
               <span>{getSplitText(provider.name, 4, 13)}</span>
             ) : (
@@ -192,7 +172,7 @@ export default function ProvidersCard({ provider }: any) {
         <a
           target="_blank"
           href={`https://console.akash.network/providers/${provider.owner}`}
-          className="hover:text-primarytext-xs flex cursor-pointer items-center  gap-x-2 text-foreground"
+          className="flex cursor-pointer items-center gap-x-2 text-sm font-semibold  text-foreground hover:text-primary"
         >
           View on Akash Console
           <ArrowIcon />

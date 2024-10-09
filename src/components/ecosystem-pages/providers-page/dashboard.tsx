@@ -32,8 +32,6 @@ const sortOptions = [
 ];
 
 function Layout({ pathName, initialProviders }: any) {
-  const [searchIconVisible, setSearchIconVisible] = useState(true);
-
   const { data: providers, isLoading: isLoadingProviders } = useProviderList({
     initialProviders: initialProviders,
   });

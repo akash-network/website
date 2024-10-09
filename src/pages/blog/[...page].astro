@@ -16,44 +16,34 @@ export async function getStaticPaths({
 }) {
   const posts = (await getCollection("Blog"))
     .filter((post) => {
-      // Filter out posts with archive set to true
       return post.data.archive !== true;
     })
     .sort((a, b) => {
       const dateA = new Date(a.data.pubDate);
       const dateB = new Date(b.data.pubDate);
 
-      // Sort in descending order (latest date first)
       return dateB.getTime() - dateA.getTime();
     });
 
   const tags: string[] = [];
 
   posts.forEach((post) => {
-    // Loop through the tags in each blog post
     post.data.tags.forEach((tag) => {
-      // Capitalize the first letter of the tag
       const lowerCasedTag = tag.toLowerCase();
-      // Check if the tag is not already in the allTags array
       if (!tags.includes(tag)) {
-        // Add the tag to the allTags array
         tags.push(tag);
       }
     });
   });
 
-  // Remove first post we will use that post as pinned post
   const pinnedPost: BlogPost = posts[0];
   posts.shift();
-
-  // Generate pages from our array of astronauts, with 2 to a page
   return paginate(posts, {
     props: { tags: tags, pinnedPost: pinnedPost },
     pageSize: 12,
   });
 }
 
-// All paginated data is passed on the "page" prop
 const { page, tags, pinnedPost } = Astro.props;
 
 const pathName = Astro.url.pathname.split("/");
@@ -64,7 +54,6 @@ const pathName = Astro.url.pathname.split("/");
   description="Stay updated with the latest trends, news, and insights in decentralized cloud computing. Explore thought leadership, technical deep-dives, and community highlights."
   image={pinnedPost.data.bannerImage.src}
 >
-  <!-- Pinned post -->
   <div class="container mt-[120px]">
     {
       page.currentPage === 1 && (
@@ -84,7 +73,6 @@ const pathName = Astro.url.pathname.split("/");
   </div>
 
   <div class="container mt-[120px]">
-    <!-- Tags nav -->
     <div
       class="lg: flex flex-col items-start justify-between gap-x-5 border-b pb-0 pb-5 lg:flex-row lg:border-none"
     >

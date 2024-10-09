@@ -9,8 +9,6 @@ export const tokenPage = defineCollection({
         description: z.string(),
         heroImage: z.object({
           mobile: image(),
-          desktop: image(),
-          darkImage: image().optional(),
         }),
       }),
 

@@ -10,16 +10,17 @@ const { testimonialsSection } = Astro.props;
   <div
     class="container mt-[80px] flex flex-col items-center gap-y-10 md:justify-between"
   >
-    <div class="max-w-[690px] text-center md:max-w-[70%]">
-      <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">
+    <div class="w-full text-center">
+      <h2 class="font-instrument text-3xl md:text-4xl lg:text-5xl">
         {testimonialsSection.title}
       </h2>
-      <p class="mt-4 text-center text-base md:text-lg">
-        {testimonialsSection.description}
-      </p>
+      <p
+        class="mt-8 text-center text-base md:text-lg"
+        set:html={testimonialsSection.description}
+      />
     </div>
 
-    <div class="mt-16 flex flex-wrap items-center justify-center gap-4 md:mt-0">
+    <div class="flex flex-wrap items-center justify-center gap-4">
       <ButtonLink
         link="https://github.com/akash-network"
         variant="secondary"
@@ -93,7 +94,7 @@ const { testimonialsSection } = Astro.props;
     </div>
   </div>
 
-  <div class="mx-auto max-w-[1900px]">
+  <div class="container">
     <Swiper client:load testimonials={testimonialsSection.testimonials} />
   </div>
 </section>

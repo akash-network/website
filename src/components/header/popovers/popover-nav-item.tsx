@@ -1,10 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ArrowRightCircle } from "lucide-react";
 import { networkItems } from "./links";
-import { useLockBody } from "../use-lock-body";
 
 const PopOverNavItemNetwork = () => {
   const [open2, setOpen] = useState(false);
@@ -64,7 +63,7 @@ const PopOverNavItemNetwork = () => {
                           )}
                         </div>
                         <div className="font-semibold">
-                          <p className="flex items-center text-sm font-bold text-foreground ">
+                          <p className="flex items-center text-sm font-semibold text-foreground ">
                             {item.title}
                             {item.link.startsWith("http") ? (
                               <ArrowRightCircle
@@ -90,7 +89,7 @@ const PopOverNavItemNetwork = () => {
               target="_blank"
               className="border-t bg-gray-50 px-8 py-4 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
             >
-              <p className="flex items-center text-sm font-bold text-foreground ">
+              <p className="flex items-center text-sm font-semibold text-foreground ">
                 Akash Stats
                 <ArrowRightCircle
                   className="ml-1 inline-block -rotate-45 stroke-[1.5px]"

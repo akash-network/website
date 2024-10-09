@@ -1,13 +1,15 @@
 ---
 title: Funding Programs
 description: Funding Programs
-
+hideHeader: true
 pubDate: "2020-01-19"
 
 
 
 
 ---
+import Card from "../../../components/mdx-cards/card.astro";
+import { FAQ } from '../../../components/mdx-cards/faq.tsx';
 import TableBody from "../../../components/mdx-cards/table/table-body.astro";
 import TableHead from "../../../components/mdx-cards/table/table-head.astro";
 import TableRow from "../../../components/mdx-cards/table/table-row.astro";
@@ -15,14 +17,12 @@ import Table from "../../../components/mdx-cards/table/table.astro";
 import Td from "../../../components/mdx-cards/table/td.astro";
 import Th from "../../../components/mdx-cards/table/th.astro";
 import Tl from "../../../components/mdx-cards/table/tl.astro";
-import Card from "../../../components/mdx-cards/card.astro";
-import image1 from "./card1.svg";
 import image1Dark from "./assets/card1-dark.svg";
 import image2Dark from "./assets/card2-dark.svg";
-import image2 from "./card2.svg";
+import image1 from "./card1.png";
+import image2 from "./card2.png";
+import github from './github-icon.svg';
 import link from './link.svg';
-import github from './github-icon.svg'
-import {FAQ} from '../../../components/mdx-cards/faq.tsx';
 
 
 
@@ -32,33 +32,30 @@ import {FAQ} from '../../../components/mdx-cards/faq.tsx';
 
 <Card
   card={{
+    title: "Governance Proposal",
     icon :github,
     link :"https://github.com/orgs/akash-network/discussions/170",
     image: image1,
-    darkImage : image1Dark,
+ 
     linkText: "View Governance Proposal Best Practices",
     id: 1,
     title: "Governance Proposal",
     description:
       "Governance proposals are your way to directly influence the direction of Akash. These proposals allow you to suggest and vote on changes to the network's rules, features, and parameters. If you have ideas for improvements, upgrades, or new initiatives, this is your platform to voice them. Your input drives the evolution of the Akash Network, making it more decentralized, efficient, and adaptable. Join our governance process today and play a pivotal role in shaping the decentralized cloud of the future.",
   }}
->
-### Governance Proposal
-</Card>
+/>
 
 
 <Card
   card={{
+    title:"Akash Grants Program",
     icon :link,
     image: image2,
-    darkImage : image2Dark,
-    linkText: "Apply Now",
+      linkText: "Apply Now",
     id: 2,
        link :"https://github.com/orgs/akash-network/discussions",
     title: "Akash Grants Program",
     description:
       "Get started with a micro grant and open doors to deployment incentives.",
   }}
->
-### Akash Grants Program
-</Card>
+/>

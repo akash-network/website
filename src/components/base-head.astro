@@ -16,28 +16,16 @@ const { title, description, image = "/meta-images/home.png" } = Astro.props;
 <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 <meta name="generator" content={Astro.generator} />
 <!-- Font preloads -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-  rel="preload"
-  href="/fonts/Satoshi-Variable.ttf"
-  as="font"
-  type="font/ttf"
-  crossorigin
+  href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+  rel="stylesheet"
 />
 <link
-  rel="preload"
-  href="/fonts/Satoshi-Variable.woff"
-  as="font"
-  type="font/woff"
-  crossorigin
+  href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+  rel="stylesheet"
 />
-<link
-  rel="preload"
-  href="/fonts/Satoshi-Variable.woff2"
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
-
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 

@@ -14,6 +14,7 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import generateToc from "@/lib/generateToc";
 import { proseClasses } from "@/lib/prose-classes";
+import clsx from "clsx";
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Current_Groups_Page");
 
@@ -80,23 +81,19 @@ nav.forEach((navItem: any) => {
 function findPrevAndNextPages(nav: any, pathname: any) {
   let allItems: any = [];
 
-  // Extract all the items from the 'nav' array
   nav.forEach((category: any) => {
     if (category.items && category.items.length > 0) {
       allItems = allItems.concat(category.items);
     }
   });
 
-  // Find the index of the current page in the items array
   const currentIndex = allItems.findIndex(
     (item: any) => item.link === pathname,
   );
 
-  // Calculate the index of the previous and next pages
   const prevIndex = currentIndex - 1;
   const nextIndex = currentIndex + 1;
 
-  // Determine the previous and next pages
   const prevPage = prevIndex >= 0 ? allItems[prevIndex] : null;
   const nextPage = nextIndex < allItems.length ? allItems[nextIndex] : null;
 
@@ -232,7 +229,10 @@ const fileType = page.id.split("/")[2].split(".")[1];
           <div class="mt-10 md:mt-0">
             <h1
               id="overview"
-              class="text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg"
+              class={clsx(
+                "text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg",
+                page?.data?.centeredHeader && "text-center",
+              )}
             >
               {page.data.heading}
             </h1>
