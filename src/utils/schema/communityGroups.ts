@@ -6,6 +6,7 @@ export const communityGroupsSchema = defineCollection({
     return z.object({
       title: z.string(),
       heading: z.string(),
+      centeredHeader: z.boolean().optional().default(false),
       description: z.string(),
       category: z.string(),
       meetings: z.object({

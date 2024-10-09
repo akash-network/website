@@ -1,16 +1,17 @@
 ---
-import { Image } from "astro:assets";
 import FormattedDate from "@/components/formatted-date.astro";
+import { Image } from "astro:assets";
 
 interface BannerImage {
   src: string;
   width: number;
   height: number;
+
   format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg";
 }
 
 interface Props {
-  image: BannerImage;
+  image: any;
   title: string;
   contributor: string;
   tag: string;
@@ -30,9 +31,9 @@ const {
 } = Astro.props;
 ---
 
-<!-- hover:-translate-y-2 -->{
+{
   type === "compact" ? (
-    <div class="  group flex flex-col   transition-transform duration-100 ease-in hover:transform">
+    <div class="  group flex flex-col    duration-100 ease-in ">
       <div class="aspect-video  overflow-hidden rounded-lg">
         <Image
           src={image}
@@ -40,14 +41,16 @@ const {
           width={1200}
           height={1200}
           format="webp"
-          class=" h-full w-full bg-gray-100 object-cover shadow-sm  transition-all duration-500 ease-in-out group-hover:scale-105"
+          class=" h-full w-full  bg-gray-100 object-cover shadow-sm  transition-all duration-500 ease-in-out group-hover:scale-105"
           loading="lazy"
         />
       </div>
 
       <div class="mt-4">
         <div class="flex items-center gap-x-4">
-          <p class=" text-2xs font-medium  md:text-sm">By {contributor}</p>
+          <p class=" text-2xs font-medium  text-linkText md:text-sm">
+            By {contributor}
+          </p>
 
           <span class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText">
             {" "}
@@ -55,16 +58,17 @@ const {
           </span>
         </div>
 
-        <h3 class="mt-2 line-clamp-2 text-base font-bold leading-[24px] md:mt-4 md:text-xl md:leading-[28px]">
+        <h3 class="mt-2 line-clamp-2 text-base font-semibold  md:mt-4 md:text-xl ">
           {title}
         </h3>
 
-        <p class="mt-3 line-clamp-2 text-sm font-medium md:mt-6 md:text-base">
+        <p class="mt-3 line-clamp-2 text-sm  text-linkText md:mt-6 md:text-base">
           {description}
         </p>
 
-        <div class="mt-4 flex items-center gap-x-1.5">
-          <p class="text-2xs font-medium  md:text-sm">5 Min. Read</p>
+        <div class="mt-4 flex items-center gap-x-2 text-linkText">
+          <p class="text-2xs font-medium  md:text-sm ">5 Min. Read</p>
+          <div class="size-1 rounded-full bg-linkText" />
           <p class=" text-2xs  font-medium md:text-sm">
             <FormattedDate date={pubDate} />
           </p>
@@ -98,7 +102,7 @@ const {
         </div>
 
         <div class="mt-4">
-          <h2 class=" text-lg font-bold md:mb-6 lg:text-3xl xl:text-2lg">
+          <h2 class=" text-lg font-semibold md:mb-6 lg:text-3xl xl:text-2lg">
             {title}
           </h2>
 

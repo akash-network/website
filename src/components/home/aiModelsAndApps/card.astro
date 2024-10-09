@@ -34,7 +34,7 @@ const { card } = Astro.props;
                   />
                 </div>
 
-                <p class="text-xl font-bold text-foreground">
+                <p class="text-base font-medium text-foreground">
                   {card.logoTitle}
                 </p>
               </div>
@@ -54,10 +54,10 @@ const { card } = Astro.props;
         )}
 
         <div class="mt-6 md:mt-8">
-          <h3 class="text-2xl font-bold">{card.title}</h3>
+          <h3 class="text-2xl font-medium">{card.title}</h3>
 
           <p
-            class={`mt-6 text-sm  font-medium md:mt-5  `}
+            class={`mt-6 text-sm  font-medium text-linkText md:mt-5 `}
             set:html={card.description}
           />
         </div>
@@ -98,7 +98,7 @@ const { card } = Astro.props;
                   />
                 </div>
 
-                <p class="text-xl font-bold text-foreground">
+                <p class="text-xl font-semibold text-foreground">
                   {card.logoTitle}
                 </p>
               </div>
@@ -139,10 +139,10 @@ const { card } = Astro.props;
         )}
 
         <div class="mt-6 md:mt-8">
-          <h3 class="text-2xl font-bold">{card.title}</h3>
+          <h3 class="text-2xl font-semibold">{card.title}</h3>
 
           <p
-            class={`mt-6 text-sm  font-medium md:mt-5  `}
+            class={`mt-6 text-sm  font-medium text-linkText md:mt-5 `}
             set:html={card.description}
           />
         </div>

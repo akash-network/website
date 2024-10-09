@@ -49,7 +49,7 @@ const PopOverNavItemEcosystem = ({
               <div className="flex w-full flex-1 flex-col">
                 {ecosystemNavItems
                   .filter((item) => !item.external)
-                  .map((item, i: any) => {
+                  .map((item, i) => {
                     return (
                       <Menu.Item key={i}>
                         {({ active }) => (
@@ -70,7 +70,7 @@ const PopOverNavItemEcosystem = ({
                               )}
                             </div>
                             <div className="font-semibold">
-                              <p className="flex items-center text-sm font-bold text-foreground ">
+                              <p className="flex items-center text-sm font-semibold text-foreground ">
                                 {item.title}
                                 {item.link.startsWith("http") ? (
                                   <ArrowRightCircle
@@ -113,16 +113,16 @@ const PopOverNavItemEcosystem = ({
                 {posts
                   ?.filter(({ data }) => data.tags.includes("Case Studies"))
                   ?.slice(0, 2)
-                  ?.map(({ data, slug }, i: any) => {
+                  ?.map(({ data, slug }, i) => {
                     return (
                       <a
                         key={i}
                         href={`/blog/${slug}`}
-                        className="flex  cursor-pointer flex-col gap-0.5 rounded-lg px-8 py-1.5  text-sm transition-all hover:bg-gray-50 dark:hover:bg-black/10    "
+                        className="group  flex cursor-pointer flex-col gap-0.5 rounded-lg px-8  py-1.5 text-sm transition-all hover:bg-gray-50 dark:hover:bg-black/10    "
                       >
-                        <h1 className="line-clamp-1 font-medium ">
+                        <p className="line-clamp-1 font-medium group-hover:text-foreground ">
                           {data.title}
-                        </h1>
+                        </p>
                         <p className="line-clamp-1 text-para">
                           {data.description}
                         </p>

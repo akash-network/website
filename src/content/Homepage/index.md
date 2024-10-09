@@ -5,8 +5,8 @@ advert:
 
 # hero section content
 heroSection:
-  title: The World's<br class="md:hidden" /> Premier Decentralized<br/> Compute Marketplace
-  description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
+  title: The World's<br class="md:hidden" /> Premier <br class="md:hidden"/> Decentralized<br/> Compute <br class="md:hidden"/> Marketplace
+  description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently.<br/>Purpose-built for public utility."
   cards: 
     - title: "Explore network resources and pricing"
       description: "Browse a wide range of cloud resources and live network pricing"
@@ -34,26 +34,26 @@ heroSection:
 
 # infrastructure section content
 infrastructureSection:
-  title: "Key features of the Akash Supercloud"
+  title: "Akash - The Decentralized Infrastructure Supercloud"
   cards:
-    - title: "Infrastructure as Code"
+    - title: "Infrastructure as<br/> Code"
       image: "./assets/infrastructure/code.svg"
       description: "Akash's orchestration layer, fueled by SDL, enables intricate deployments across regions, providers, with resource control and pricing decisions."
-    - title: "Kubernetes Powered"
+    - title: "Kubernetes<br/> Powered"
       image: "./assets/infrastructure/kubernetes.svg"
       description: "Built on Kubernetes, Akash ensures a secure, tested, and reliable platform for hosting applications."
-    - title: "Persistent Storage"
+    - title: "Persistent<br/> Storage"
       image: "./assets/infrastructure/storage.svg"
       description: "Akash offers limitless storage, safeguarding data even post-restart, an ideal feature for data-intensive apps."
-    - title: "Dedicated IP Leasing"
+    - title: "Dedicated<br/> IP Leasing"
       image: "./assets/infrastructure/ip.svg"
-      description: "By leasing a dedicated IP address, Akash permits port assignment, directing traffic – especially beneficial for DNS, web servers, etc."
+      description: "By leasing a dedicated IP address, Akash permits port assignment, directing traffic – especially beneficial for DNS,<br class='hidden md:block'/> web servers, etc."
  
     - title: "Permissionless"
       image: "./assets/infrastructure/censorship.svg"
       description: "Akash democratizes secure, censorship-resistant app deployment, open to all innovators."
 
-    - title: "Peer-to-Peer and Private"
+    - title: "Peer-to-Peer<br/> and Private"
       image: "./assets/infrastructure/peer.svg" 
       description: "Peer-to-peer communication guarantees data privacy, payment transparency, and immunity from central control, reinforcing dependability."
 
@@ -61,17 +61,16 @@ infrastructureSection:
 featureSection:
   cards:
     - id: 1
-      title: "Powerful, flexible, and designed for what's next"
+      title: "Powerful, flexible, and <br/> designed for what's next"
       description:  Create your own sovereign compute  experience with the Supercloud. Seamlessly scale and access a global array services while keeping controlling your budget with the Akash 'Reverse Auction' system. Enjoy prices up to 85% lower than other public clouds, customized to your preferences.
-      image: "./assets/feature/feature-svg-1.svg"
-      darkImage: "./assets/feature/dark-1.svg"
+      image: "./assets/feature/feature.png"
     - id: 2
-      title: "Pioneering Layer One Protocol built on Cosmos SDK"
+      title: "Pioneering Layer One Protocol <br/> built on Cosmos SDK"
       description: "Secured by its native token AKT. It is the first blockchain to achieve IBC communication with Cosmos Hub, enabling seamless connections to other IBC compatible blockchains.
       <br/> <br/>
       The Akash protocol prioritizes user privacy and security, allowing anonymous deployment of applications, safeguarding the user's identity."
-      image: "./assets/feature/feature-svg-2.svg"
-      darkImage: "./assets/feature/dark-2.svg"
+      image: "./assets/feature/feature-2.png"
+   
 
 
 getStartedSection:
@@ -187,7 +186,8 @@ aiModelsAndAppsSection:
 # CTA section content
 testimonialsSection:
   title: Join the Community
-  description: Akash is supported by a radically open community. As a free public service, the network source code is open-source and available to everyone.
+  description: Akash is supported by a radically open community.<br/> As a free public service, the network source code is open-source and available to everyone.
+
 
 
   discordButton:

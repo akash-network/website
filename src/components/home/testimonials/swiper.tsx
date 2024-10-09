@@ -1,16 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-// Import Swiper React components
-import { Swiper as SwiperReact, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper as SwiperReact, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
 import "swiper/css";
 
 import TestimonialCard from "./card";
 
-// import required modules
 import { Autoplay, Navigation } from "swiper/modules";
-
-// import { testimonials } from "./data";
 
 export function Swiper({
   testimonials,
@@ -26,30 +20,29 @@ export function Swiper({
   return (
     <div className=" flex flex-col justify-between md:min-h-[560px]">
       <SwiperReact
-        slidesPerView={4.5}
-        breakpoints={{
-          50: {
-            slidesPerView: 1.4,
-            spaceBetween: 32,
-          },
-          758: {
-            slidesPerView: 2.5,
-          },
+        slidesPerView="auto"
+        // breakpoints={{
+        //   50: {
+        //     slidesPerView: 1.4,
+        //     spaceBetween: 32,
+        //   },
+        //   758: {
+        //     slidesPerView: 2.5,
+        //   },
 
-          1024: {
-            slidesPerView: 3.5,
-          },
-          1280: {
-            slidesPerView: 4.005,
-          },
-          1536: {
-            slidesPerView: 4.5,
-          },
-        }}
+        //   1024: {
+        //     slidesPerView: 3.5,
+        //   },
+        //   1280: {
+        //     slidesPerView: 4.005,
+        //   },
+        //   1536: {
+        //     slidesPerView: 4.5,
+        //   },
+        // }}
         modules={[Navigation, Autoplay]}
         loop
         centeredSlides
-        loopedSlides={4}
         grabCursor={true}
         spaceBetween={48}
         navigation={{
@@ -60,7 +53,7 @@ export function Swiper({
         autoplay
       >
         {testimonials?.map((testimonial) => (
-          <SwiperSlide key={Math.random()}>
+          <SwiperSlide key={Math.random()} className="!w-[300px]">
             <TestimonialCard
               userName={testimonial.userName}
               testimonial={testimonial.testimonial}
@@ -79,8 +72,6 @@ export function Swiper({
 }
 
 export const SwiperNavButtons = () => {
-  const swiper = useSwiper();
-
   return (
     <div className="flex space-x-4">
       <button

@@ -1,5 +1,4 @@
 import { Disclosure, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "lucide-react";
 import { XMarkIcon } from "../header/icons.tsx";
 import { useLockBody } from "../use-lock-body.ts";
 

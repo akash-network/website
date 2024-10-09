@@ -4,6 +4,7 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import { type CollectionEntry, getCollection } from "astro:content";
+import clsx from "clsx";
 
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Page");
@@ -17,6 +18,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"Development_Page">;
 
 const page = Astro.props;
+console.log(page);
 
 const { Content, headings } = await page.render();
 
@@ -33,28 +35,8 @@ if (akashInsidersIndex !== -1) {
       enabled: true,
     }));
 
-  // Update the nav array with the sub-items
   nav[akashInsidersIndex].subItems = akashInsidersSubItems;
 }
-
-function findPrevAndNextPages(nav: any, pathname: any) {
-  // Find the index of the current page in the nav array
-  const currentIndex = nav.findIndex((item: any) => item.link === pathname);
-
-  // Calculate the index of the previous and next pages
-  const prevIndex = currentIndex - 1;
-  const nextIndex = currentIndex + 1;
-
-  // Determine the previous and next pages
-  const prevPage = prevIndex >= 0 ? nav[prevIndex] : null;
-  const nextPage = nextIndex < nav.length ? nav[nextIndex] : null;
-
-  return { prevPage, nextPage };
-}
-
-const pathname = new URL(Astro.request.url).pathname;
-
-const fileType = page.id.split("/")[1].split(".")[1];
 ---
 
 <Layout
@@ -63,23 +45,23 @@ const fileType = page.id.split("/")[1].split(".")[1];
   image="/meta-images/development.png"
 >
   <TopMargin>
-    <div
-      class={`col-span-12 mx-auto w-full md:pl-10 md:col-span-8 lg:col-span-9`}
-    >
-      <div class="space-y-10">
-        <div class="mt-10 md:mt-0">
-          <h1
-            id="overview"
-            class="text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg"
-          >
-            {page.data.title}
-          </h1>
-        </div>
-
-        <article class={proseClasses}>
-          <Content />
-        </article>
+    <div class="space-y-10">
+      <div class="mt-10 md:mt-0">
+        <h1
+          id="overview"
+          class={clsx(
+            "text-3xl md:text-4xl lg:text-5xl",
+            page?.data?.centeredHeader && "text-center",
+            page?.data?.hideHeader && "hidden",
+          )}
+        >
+          {page.data.title}
+        </h1>
       </div>
+
+      <article class={proseClasses}>
+        <Content />
+      </article>
     </div>
   </TopMargin>
 </Layout>
