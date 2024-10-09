@@ -1,5 +1,5 @@
 ---
-projectTitle: AukiLabs
+projectTitle: Auki
 projectImage: "./project-banner.png"
 pubDate: "2023-12-21"
 
@@ -16,6 +16,6 @@ ctaButton:
   enable: true
 
 websiteLink: "https://www.aukilabs.com/"
-twitterLink: "https://twitter.com/AukiLabs"
+twitterLink: "https://twitter.com/Aukinetwork"
 featured: true
 ---
