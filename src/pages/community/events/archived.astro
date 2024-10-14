@@ -34,36 +34,7 @@ const archivedCards = allCards.filter((curr: any) => {
 
 const astroUrl = Astro.url;
 
-const monthwise = archivedCards.reduce((acc: any, curr: any) => {
-  if (curr.tbd) {
-    if (!acc["TBD"]) {
-      acc["TBD"] = [];
-    }
-    acc["TBD"].push(curr);
-    return acc;
-  }
-
-  const month = new Date(curr.eventDate).toLocaleString("default", {
-    month: "long",
-  });
-  if (!acc[month]) {
-    acc[month] = [];
-  }
-  acc[month].push(curr);
-
-  return acc;
-}, {});
-
-const monthwiseArray = Object.keys(monthwise).map((month) => {
-  return {
-    month,
-    events: monthwise?.[month]?.sort((a: any, b: any) => {
-      return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
-    }),
-  };
-});
-
-const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
+const sortedCards = archivedCards.sort((a, b) => {
   if (a.month === "TBD") {
     return 1;
   }
@@ -72,8 +43,8 @@ const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
   }
 
   return (
-    new Date(a.events[0].eventDate).getTime() -
-    new Date(b.events[0].eventDate).getTime()
+    new Date(a.eventDate).getTime() -
+    new Date(b.eventDate).getTime()
   );
 });
 ---
@@ -82,47 +53,39 @@ const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
   title={data?.title}
   image="/meta-images/community.png"
   image="/meta-images/community.png"
-  description={"data?.description"}
+  description={data?.description}
 >
   <TopMargin>
     <div>
       <div>
-        <div class="mt-10 md:mt-0">
+        <div class="m-auto mt-10 md:mt-0 w-[864px] text-center">
           <h1 id="overview" class="text-3xl md:text-4xl lg:text-5xl">
             {data?.title}
           </h1>
           <p class="mt-3 text-base leading-[24px] text-para">
             {data?.description}
           </p>
-
-          <div class="my-8 border-b"></div>
         </div>
       </div>
 
-      <div>
+      <div class="w-[1073px] m-auto">
         {
-          sortedMonthwiseArray?.map((item: any) => (
-            <div class="">
-              <h2 class="mt-10 text-lg font-semibold md:text-2lg ">
-                {item.month}
-              </h2>
-              <div class=" mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-4">
-                {item.events.map((card: any) => (
-                  <EventCard card={card} />
-                ))}
-              </div>
+            <div class=" mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-3">
+              {sortedCards.map((card: any) => (
+                <EventCard key={card.id} card={card} />
+              ))}
             </div>
-          ))
         }
+        <div class="flex justify-center mt-10">
+          <ButtonLink
+            variant="secondary"
+            size="xs"
+            link={"../events/"}
+          >
+            See current and upcoming events
+          </ButtonLink>
+        </div>
       </div>
-      <ButtonLink
-        variant="secondary"
-        size="xs"
-        link={"../events"}
-        className="mt-10"
-      >
-        See upcoming events
-      </ButtonLink>
     </div>
   </TopMargin>
 </Layout>
