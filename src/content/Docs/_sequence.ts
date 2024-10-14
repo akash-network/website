@@ -51,7 +51,6 @@ export const docsSequence = [
               { label: "What is Praetor App?" },
               {
                 label: "Akash Provider",
->>>>>>> main
                 subItems: [
                   { label: "Build a Cloud Provider" },
                   { label: "Existing Kubernetes Cluster" },
