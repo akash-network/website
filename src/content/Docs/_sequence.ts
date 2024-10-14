@@ -49,7 +49,9 @@ export const docsSequence = [
             label: "Praetor App",
             subItems: [
               { label: "What is Praetor App?" },
-              { label: "Akash Provider",
+              {
+                label: "Akash Provider",
+>>>>>>> main
                 subItems: [
                   { label: "Build a Cloud Provider" },
                   { label: "Existing Kubernetes Cluster" },
@@ -58,18 +60,17 @@ export const docsSequence = [
                   { label: "Sudo User Requirements" },
                   { label: "Decommission a Provider" },
                 ],
-              },  
-            ],   
+              },
+            ],
           },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
-          
         ],
       },
       {
         label: "Guides",
-        subItems: [ 
-          { 
+        subItems: [
+          {
             label: "Machine Learning",
             subItems: [
               { label: "OneClickLLM" },
@@ -81,10 +82,10 @@ export const docsSequence = [
               { label: "Akash Chat API" },
               { label: "AI Art" },
               { label: "Jupyter Notebook" },
-              {label: "Text-Generation-WebUI" },
+              { label: "Text-Generation-WebUI" },
             ],
           },
-          { 
+          {
             label: "Deployments",
             subItems: [
               { label: "TLS Termination of Akash Deployments" },
@@ -99,6 +100,9 @@ export const docsSequence = [
               { label: "Provider Utilization Dashboard" },
               { label: "Akash Playground" },
               { label: "Radicle" }
+              { label: "PostgreSQL restore/backup" },
+              { label: "Provider Utilization Dashboard" },
+              { label: "Akash Playground" },
             ],
           },
           {
@@ -109,10 +113,11 @@ export const docsSequence = [
             { label: "Polygon on Akash" },
             { label: "Mine Raptoreum on Akash Network" },
             { label: "Deploying Iron Fish on Akash" }
-            ],
+           ],
           },
           {
             label: "Apps",
+
             subItems: [
               { label: "Waku" },
               { label: "qBittorrent" },
@@ -148,7 +153,8 @@ export const docsSequence = [
               { label: "Fast.com" },
             ],
           },
-
+            subItems: [{ label: "Waku" }, { label: "qBittorrent" }],
+          },
         ],
       },
       {
