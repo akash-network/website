@@ -2,6 +2,7 @@
 import Tag from "@/components/ui/tag2.astro";
 import Layout from "@/layouts/layout.astro";
 import { getCollection, getEntry } from "astro:content";
+import ButtonLink from "../../../components/ui/button-link.astro";
 
 import EventCard from "@/components/community-pages/event-card.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
@@ -11,9 +12,25 @@ const { data } = await getEntry("Community_Page", "events");
 
 const allCards = cards.map((card) => card.data);
 
+const eventDurationInMilliSeconds = 864000000; // 10 days
+const archivePeriodInMilliSeconds = 31449600000; // 1 year
+const currentOffsetDateTime = new Date(new Date() - eventDurationInMilliSeconds).getTime(); // offset into the past as event duration can last up to a week
+const cutoffOffsetDateTime = new Date(new Date() - archivePeriodInMilliSeconds).getTime(); // cutoff time set into the past by the archive period variable for when events should not be shown in archive 
+
+const relevantCards = allCards.filter((curr: any) => {
+  // return true for all tbd events under the assumption that tbd events are set in the future don't always have a set date yet
+  if (curr.tbd) {
+    return true;
+  }
+
+  const eventDate = new Date(curr.eventDate).getTime();
+    
+  return eventDate > currentOffsetDateTime;
+});
+
 const astroUrl = Astro.url;
 
-const monthwise = allCards.reduce((acc: any, curr: any) => {
+const monthwise = relevantCards.reduce((acc: any, curr: any) => {
   if (curr.tbd) {
     if (!acc["TBD"]) {
       acc["TBD"] = [];
@@ -76,24 +93,13 @@ const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
 
           <div class="my-8 border-b"></div>
         </div>
-
-        <div class="flex items-center gap-x-4">
-          <Tag
-            active={astroUrl.pathname === "/community/events/"}
-            href={`/community/events/`}
-          >
-            All
-          </Tag>
-
-          <Tag href={`/community/events/upcoming`}>Upcoming</Tag>
-        </div>
       </div>
 
       <div>
         {
           sortedMonthwiseArray?.map((item: any) => (
             <div class="">
-              <h2 class="mt-10 text-lg font-semibold  md:text-2lg ">
+              <h2 class="mt-10 text-lg font-semibold md:text-2lg ">
                 {item.month}
               </h2>
               <div class=" mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-4">
@@ -105,6 +111,14 @@ const sortedMonthwiseArray = monthwiseArray.sort((a, b) => {
           ))
         }
       </div>
+      <ButtonLink
+        variant="secondary"
+        size="xs"
+        link={"events/archived"}
+        className="mt-10"
+      >
+        See past events in the archive
+      </ButtonLink>
     </div>
   </TopMargin>
 </Layout>
