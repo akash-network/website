@@ -62,13 +62,13 @@ featureSection:
   cards:
     - id: 1
       title: "Powerful, flexible, and <br/> designed for what's next"
-      description:  Create your own sovereign compute  experience with the Supercloud. Seamlessly scale and access a global array services while keeping controlling your budget with the Akash 'Reverse Auction' system. Enjoy prices up to 85% lower than other public clouds, customized to your preferences.
+      description:  Create your own sovereign compute experience with the Akash Supercloud. Seamlessly scale and access a global array of services while controlling your budget with the Akash 'Reverse Auction' system. Access compute at prices up to 85% lower than hyperscale cloud providers, customized to your preferences.
       image: "./assets/feature/feature.png"
     - id: 2
       title: "Pioneering Layer One Protocol <br/> built on Cosmos SDK"
-      description: "Secured by its native token AKT. It is the first blockchain to achieve IBC communication with Cosmos Hub, enabling seamless connections to other IBC compatible blockchains.
+      description: "Akash is secured by AKT, the network's utility token. It is also the first blockchain to achieve IBC communication with Cosmos Hub, enabling seamless connections to other IBC-compatible blockchains.
       <br/> <br/>
-      The Akash protocol prioritizes user privacy and security, allowing anonymous deployment of applications, safeguarding the user's identity."
+      By design, Akash prioritizes user privacy and security, allowing anonymous application deployment and safeguarding user identity."
       image: "./assets/feature/feature-2.png"
    
 
@@ -106,7 +106,7 @@ getStartedSection:
 #  AiModelsAndApps section content  
 aiModelsAndAppsSection:
   title: "What’s possible with Akash?"
-  description: "Akash isn't just a cloud computing platform; it's a catalyst for innovation and limitless possibilities. Here, you'll discover the latest AI models, groundbreaking apps, and much more, all empowered by the scalable and cost-effective Akash resources."
+  description: "Akash isn't just a cloud computing platform; it's a catalyst for innovation and limitless possibilities. Here, you'll discover the latest AI models, groundbreaking apps, and much more, all powered by the scalable and cost-effective Akash resources."
   subtitle1: "AI & ML"
   subtitle2: "Deployed on Akash"
   cards1:
