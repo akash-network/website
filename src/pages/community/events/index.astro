@@ -31,10 +31,10 @@ const relevantCards = allCards.filter((curr: any) => {
 const astroUrl = Astro.url;
 
 const sortedCards = relevantCards.sort((a, b) => {
-  if (a.month === "TBD") {
+  if (a.tbd) {
     return 1;
   }
-  if (b.month === "TBD") {
+  if (b.tbd) {
     return -1;
   }
 
@@ -84,4 +84,5 @@ const sortedCards = relevantCards.sort((a, b) => {
       </div>
     </div>
   </TopMargin>
+  <div class="border-b border-[#d9d9d9] pb-[40px] pt-5"></div>
 </Layout>
