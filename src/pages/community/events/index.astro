@@ -52,9 +52,9 @@ const sortedCards = relevantCards.sort((a, b) => {
   description={data?.description}
 >
   <TopMargin>
-    <div>
+    <div class="overflow-hidden">
       <div>
-        <div class="m-auto mt-10 md:mt-0 w-[864px] text-center">
+        <div class="mx-auto mt-10 md:mt-0 text-center">
           <h1 id="overview" class="text-3xl md:text-4xl lg:text-5xl">
             {data?.title}
           </h1>
@@ -64,9 +64,9 @@ const sortedCards = relevantCards.sort((a, b) => {
         </div>
       </div>
 
-      <div class="w-[1073px] m-auto">
+      <div class="overflow-hidden">
         {
-            <div class=" mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-3">
+            <div class="mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-4">
               {sortedCards.map((card: any) => (
                 <EventCard key={card.id} card={card} />
               ))}
