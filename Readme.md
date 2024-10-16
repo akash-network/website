@@ -31,13 +31,13 @@ To run the repository locally and explore the website on your machine, follow th
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/akash-network/website-revamp
+   git clone https://github.com/akash-network/website
    ```
 
 2. **Navigate to the Project Directory:**
 
    ```bash
-   cd website-revamp
+   cd website
    ```
 
 3. **Install Dependencies:**
