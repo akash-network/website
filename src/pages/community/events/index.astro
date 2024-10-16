@@ -1,5 +1,4 @@
 ---
-import Tag from "@/components/ui/tag2.astro";
 import Layout from "@/layouts/layout.astro";
 import { getCollection, getEntry } from "astro:content";
 import ButtonLink from "../../../components/ui/button-link.astro";
@@ -9,26 +8,21 @@ import TopMargin from "@/components/ui/top-margin.astro";
 
 const cards = await getCollection("Community_Akash_Events_Page");
 const { data } = await getEntry("Community_Page", "events");
-
 const allCards = cards.map((card) => card.data);
-
-const eventDurationInMilliSeconds = 864000000; // 10 days
-const archivePeriodInMilliSeconds = 31449600000; // 1 year
-const currentOffsetDateTime = new Date(new Date() - eventDurationInMilliSeconds).getTime(); // offset into the past as event duration can last up to a week
-const cutoffOffsetDateTime = new Date(new Date() - archivePeriodInMilliSeconds).getTime(); // cutoff time set into the past by the archive period variable for when events should not be shown in archive 
+const eventDurationInMilliSeconds = 864000000;
+const currentOffsetDateTime = new Date(
+  new Date().getTime() - eventDurationInMilliSeconds,
+).getTime();
 
 const relevantCards = allCards.filter((curr: any) => {
-  // return true for all tbd events under the assumption that tbd events are set in the future don't always have a set date yet
   if (curr.tbd) {
     return true;
   }
 
   const eventDate = new Date(curr.eventDate).getTime();
-    
+
   return eventDate > currentOffsetDateTime;
 });
-
-const astroUrl = Astro.url;
 
 const sortedCards = relevantCards.sort((a, b) => {
   if (a.tbd) {
@@ -38,10 +32,7 @@ const sortedCards = relevantCards.sort((a, b) => {
     return -1;
   }
 
-  return (
-    new Date(a.eventDate).getTime() -
-    new Date(b.eventDate).getTime()
-  );
+  return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
 });
 ---
 
@@ -52,9 +43,9 @@ const sortedCards = relevantCards.sort((a, b) => {
   description={data?.description}
 >
   <TopMargin>
-    <div class="overflow-hidden">
+    <div>
       <div>
-        <div class="mx-auto mt-10 md:mt-0 text-center">
+        <div class="mx-auto mt-10 text-center md:mt-0">
           <h1 id="overview" class="text-3xl md:text-4xl lg:text-5xl">
             {data?.title}
           </h1>
@@ -64,25 +55,23 @@ const sortedCards = relevantCards.sort((a, b) => {
         </div>
       </div>
 
-      <div class="overflow-hidden">
+      <div>
         {
-            <div class="mt-8 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-4">
+          (
+            <div class="mt-10 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-4">
               {sortedCards.map((card: any) => (
-                <EventCard key={card.id} card={card} />
+                <EventCard card={card} />
               ))}
             </div>
+          )
         }
-        <div class="flex justify-center mt-10">
-          <ButtonLink
-            variant="secondary"
-            size="xs"
-            link={"archived"}
-          >
+        <div class="mt-10 flex justify-center">
+          <ButtonLink variant="secondary" size="xs" link={"archived"}>
             See past events in the archive
           </ButtonLink>
         </div>
       </div>
     </div>
+    <div class="border-b pb-10"></div>
   </TopMargin>
 </Layout>
-<div class="border-b border-[#d9d9d9] pb-[40px] pt-5"></div>
