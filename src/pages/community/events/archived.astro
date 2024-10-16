@@ -7,31 +7,33 @@ import EventCard from "@/components/community-pages/event-card.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 
 const cards = await getCollection("Community_Akash_Events_Page");
-const { data } = await getEntry("Community_Page", "events");
+const { data } = await getEntry("Community_Page", "events/archived");
+
 const allCards = cards.map((card) => card.data);
+
 const eventDurationInMilliSeconds = 864000000;
+const archivePeriodInMilliSeconds = 31449600000;
 const currentOffsetDateTime = new Date(
-  new Date().getTime() - eventDurationInMilliSeconds,
+  new Date()?.getTime() - eventDurationInMilliSeconds,
+).getTime();
+const cutoffOffsetDateTime = new Date(
+  new Date()?.getTime() - archivePeriodInMilliSeconds,
 ).getTime();
 
-const relevantCards = allCards.filter((curr: any) => {
+const archivedCards = allCards.filter((curr: any) => {
   if (curr.tbd) {
-    return true;
+    return false;
   }
-
   const eventDate = new Date(curr.eventDate).getTime();
 
-  return eventDate > currentOffsetDateTime;
+  if (eventDate < cutoffOffsetDateTime) {
+    return false;
+  }
+
+  return eventDate < currentOffsetDateTime;
 });
 
-const sortedCards = relevantCards.sort((a, b) => {
-  if (a.tbd) {
-    return 1;
-  }
-  if (b.tbd) {
-    return -1;
-  }
-
+const sortedCards = archivedCards.sort((a, b) => {
   return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
 });
 ---
@@ -43,7 +45,7 @@ const sortedCards = relevantCards.sort((a, b) => {
   description={data?.description}
 >
   <TopMargin>
-    <div>
+    <div class="overflow-hidden">
       <div>
         <div class="mx-auto mt-10 text-center md:mt-0">
           <h1 id="overview" class="text-3xl md:text-4xl lg:text-5xl">
@@ -55,7 +57,7 @@ const sortedCards = relevantCards.sort((a, b) => {
         </div>
       </div>
 
-      <div>
+      <div class="overflow-hidden">
         {
           (
             <div class="mt-10 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-4">
@@ -66,8 +68,8 @@ const sortedCards = relevantCards.sort((a, b) => {
           )
         }
         <div class="mt-10 flex justify-center">
-          <ButtonLink variant="secondary" size="xs" link={"archived"}>
-            See past events in the archive
+          <ButtonLink variant="secondary" size="xs" link={"../events/"}>
+            See current and upcoming events
           </ButtonLink>
         </div>
       </div>
