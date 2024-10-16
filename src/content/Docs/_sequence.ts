@@ -161,6 +161,8 @@ export const docsSequence = [
             subItems: [
               { label: "Waku" }, 
               { label: "qBittorrent" },
+              { label: "Discourse"},
+              { label: "Invidious"},
             ],
           },
         ],
