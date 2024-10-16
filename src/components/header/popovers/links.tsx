@@ -13,7 +13,7 @@ export const communityItems = [
     icon: CalendarHeart,
     title: "Events",
 
-    link: "/community/events/upcoming/",
+    link: "/community/events/",
   },
   {
     icon: BadgeCheck,

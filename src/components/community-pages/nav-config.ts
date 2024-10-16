@@ -6,7 +6,7 @@ export const nav: any = [
   },
   {
     label: "Events",
-    link: "/community/events/upcoming",
+    link: "/community/events/",
     enabled: true,
   },
 

@@ -8,7 +8,7 @@ import EventCard from "@/components/community-pages/event-card.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 
 const cards = await getCollection("Community_Akash_Events_Page");
-const { data } = await getEntry("Community_Page", "events");
+const { data } = await getEntry("Community_Page", "events/archived");
 
 const allCards = cards.map((card) => card.data);
 
@@ -17,27 +17,24 @@ const archivePeriodInMilliSeconds = 31449600000; // 1 year
 const currentOffsetDateTime = new Date(new Date() - eventDurationInMilliSeconds).getTime(); // offset into the past as event duration can last up to a week
 const cutoffOffsetDateTime = new Date(new Date() - archivePeriodInMilliSeconds).getTime(); // cutoff time set into the past by the archive period variable for when events should not be shown in archive 
 
-const relevantCards = allCards.filter((curr: any) => {
-  // return true for all tbd events under the assumption that tbd events are set in the future don't always have a set date yet
+const archivedCards = allCards.filter((curr: any) => {
+  // skip all tbd events for the archive as we never went to those or they are in the future
   if (curr.tbd) {
-    return true;
+    return false;
   }
 
   const eventDate = new Date(curr.eventDate).getTime();
+
+  if (eventDate < cutoffOffsetDateTime) {
+    return false;
+  }
     
-  return eventDate > currentOffsetDateTime;
+  return eventDate < currentOffsetDateTime;
 });
 
 const astroUrl = Astro.url;
 
-const sortedCards = relevantCards.sort((a, b) => {
-  if (a.tbd) {
-    return 1;
-  }
-  if (b.tbd) {
-    return -1;
-  }
-
+const sortedCards = archivedCards.sort((a, b) => {
   return (
     new Date(a.eventDate).getTime() -
     new Date(b.eventDate).getTime()
@@ -76,13 +73,12 @@ const sortedCards = relevantCards.sort((a, b) => {
           <ButtonLink
             variant="secondary"
             size="xs"
-            link={"archived"}
+            link={"../events/"}
           >
-            See past events in the archive
+            See current and upcoming events
           </ButtonLink>
         </div>
       </div>
     </div>
   </TopMargin>
 </Layout>
-<div class="border-b border-[#d9d9d9] pb-[40px] pt-5"></div>
