@@ -1,19 +1,24 @@
 ---
+import clsx from "clsx";
 interface Props {
   nav: {
     label: string;
     link: string;
   }[];
   link?: string;
+  subNav?: boolean;
 }
 
-const { nav, link } = Astro.props;
+const { nav, link, subNav } = Astro.props;
 
 const pathname = new URL(Astro.request.url).pathname;
 ---
 
 <div
-  class="sidebar-scroll sticky top-[120px] hidden h-screen overflow-y-auto md:col-span-4 md:block lg:col-span-3"
+  class={clsx(
+    "sidebar-scroll sticky top-[120px] hidden h-screen overflow-y-auto md:col-span-4 md:block lg:col-span-3",
+    subNav ? "top-[176px]" : "top-[120px]",
+  )}
 >
   <div class="flex flex-col gap-y-3">
     {
@@ -119,7 +124,7 @@ const pathname = new URL(Astro.request.url).pathname;
           stroke-linecap="round"
           stroke-linejoin="round"></path>
       </svg>
-       Edit page on github</a
+      Edit page on github</a
     >
 
     <p class="mt-2 text-2xs">Last modified on April 18, 2023</p>

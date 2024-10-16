@@ -1,29 +1,22 @@
-// Define an array named 'nav' that represents a navigation menu.
 export const nav: any = [
-  // Create an item for 'Product Strategy' with sub-items.
   {
-    label: "Akash Insiders", // Label for the main menu item.
+    label: "Akash Insiders",
     link: "/community/akash-insiders/",
     enabled: true,
   },
   {
-    label: "Events", // Label for the main menu item.
-    link: "/community/events/upcoming",
+    label: "Events",
+    link: "/community/events/",
     enabled: true,
   },
-  // ToDo: temporary remove until new courses are live.
-  // {
-  //   label: "Akash EDU", // Label for the main menu item.
-  //   link: "/community/community-akash-edu/",
-  //   enabled: true,
-  // },
+
   {
-    label: "Community Contributions", // Label for the main menu item.
+    label: "Community Contributions",
     link: "/community/community-contributions/",
     enabled: true,
   },
   {
-    label: "Akash Validators", // Label for the main menu item.
+    label: "Akash Validators",
     link: "/community/akash-validators/",
     enabled: true,
   },

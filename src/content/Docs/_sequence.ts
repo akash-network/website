@@ -72,7 +72,8 @@ export const docsSequence = [
       },
       {
         label: "Guides",
-        subItems: [ 
+
+        subItems: [
           {
             label: "Machine Learning",
             subItems: [
@@ -112,10 +113,10 @@ export const docsSequence = [
             label: "Blockchain",
             subItems: [
               { label: "Kava RPC Node Deployment" },
-            { label: "Chia on Akash" },
-            { label: "Polygon on Akash" },
-            { label: "Mine Raptoreum on Akash Network" },
-            { label: "Deploying Iron Fish on Akash" }
+              { label: "Chia on Akash" },
+              { label: "Polygon on Akash" },
+              { label: "Mine Raptoreum on Akash Network" },
+              { label: "Deploying Iron Fish on Akash" }
            ],
           },
           {
@@ -164,7 +165,7 @@ export const docsSequence = [
               { label: "Discourse"},
               { label: "Invidious"},
             ],
-          },
+
         ],
       },
       {

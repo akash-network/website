@@ -7,7 +7,8 @@ export const developmentSchema = defineCollection({
       title: z.string(),
       description: z.string(),
       pubDate: z.coerce.date(),
+      centeredHeader: z.boolean().optional().default(false),
+      hideHeader: z.boolean().optional().default(false),
     });
   },
 });
-

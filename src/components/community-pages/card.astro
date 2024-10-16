@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import FormattedDate from "../formatted-date.astro";
 import type { CollectionEntry } from "astro:content";
+import FormattedDate from "../formatted-date.astro";
 type Project = CollectionEntry<"Community_Contributions_Page">;
 interface Props {
   contribution: Project;
@@ -43,18 +43,18 @@ const { contribution } = Astro.props;
       </span>{" "}
     </div>
     <h4
-      class="mt-1 line-clamp-2 text-base font-bold leading-normal text-foreground"
+      class="mt-1 line-clamp-2 text-base font-semibold leading-normal text-foreground"
     >
       {contribution.data.title}
     </h4>
 
     <p
-      class="mt-4 line-clamp-2 text-xs font-medium leading-[18px] text-cardGray md:mt-6 md:text-sm"
+      class="mt-4 line-clamp-2 text-xs font-medium leading-[18px] text-linkText md:mt-6 md:text-sm"
     >
       {contribution.data.description}{" "}
     </p>
 
-    <p class="mt-4 text-2xs font-normal text-cardGray md:mt-6">
+    <p class="mt-4 text-2xs font-normal text-linkText md:mt-6">
       <FormattedDate date={contribution.data.pubDate} />{" "}
     </p>
   </div>

@@ -1,0 +1,35 @@
+---
+import clsx from "clsx";
+const links = [
+  {
+    title: "Network Capacity",
+    link: "/about/network-capacity/",
+  },
+  {
+    title: "Akash Providers",
+    link: "/about/providers/",
+  },
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<div class="my-10 flex items-center justify-center md:my-16">
+  <div class="flex gap-1 rounded-lg bg-[#F4F4F5] p-1 dark:bg-background2">
+    {
+      links.map((link) => (
+        <a
+          href={link.link}
+          class={clsx(
+            " rounded-[4px] px-3 py-1.5 text-sm font-medium",
+            pathname === link.link
+              ? "bg-background text-foreground shadow-sm"
+              : "text-para",
+          )}
+        >
+          {link.title}
+        </a>
+      ))
+    }
+  </div>
+</div>

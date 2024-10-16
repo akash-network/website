@@ -118,7 +118,6 @@ export const generateDocsNav = (pages: any) => {
     ],
     docsSequence,
   );
-  console.log(reorderedNav);
 
   return reorderedNav;
 };

@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import ButtonLink from "../ui/button-link.astro";
 
 const { image, title, description, buttonLabel, buttonLink, darkImage } =
@@ -7,12 +6,10 @@ const { image, title, description, buttonLabel, buttonLink, darkImage } =
 ---
 
 <div
-  class="not-prose mt-10 flex flex-col-reverse items-start justify-between gap-x-10 md:-mt-16 lg:flex-row"
+  class="not-prose flex flex-col-reverse items-center justify-between gap-x-10 gap-y-6 lg:flex-row"
 >
-  <div
-    class="gap mt-10 flex w-full flex-1 flex-col gap-y-4 lg:mt-0 lg:gap-y-10"
-  >
-    <h1 class="text-2lg font-bold leading-[40px] md:text-3lg md:leading-[48px]">
+  <div class="gap flex w-full flex-1 flex-col gap-y-4 lg:gap-y-10">
+    <h1 class="text-3xl md:text-4xl lg:text-5xl">
       {title}
     </h1>
 
@@ -44,24 +41,7 @@ const { image, title, description, buttonLabel, buttonLink, darkImage } =
     </ButtonLink>
   </div>
 
-  <div class="w-full flex-1">
-    <Image
-      src={image}
-      alt={`banner image `}
-      width={1200}
-      height={1200}
-      format="webp"
-      class="bg-gray-100 object-cover dark:hidden"
-      loading="eager"
-    />
-    <Image
-      src={darkImage ?? image}
-      alt={`banner image `}
-      width={1200}
-      height={1200}
-      format="webp"
-      class="hidden object-cover dark:block"
-      loading="eager"
-    />
+  <div class="w-full flex-1 lg:max-w-[575px]">
+    <img src={image.src} alt={`banner image `} class="w-full object-contain" />
   </div>
 </div>

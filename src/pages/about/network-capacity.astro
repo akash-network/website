@@ -1,0 +1,41 @@
+---
+import {
+  getDashboardData,
+  getProviderDetail,
+} from "@/components/about-pages/network-activity/useDashboardData";
+import NetworkTabs from "@/components/about-pages/network-tabs.astro";
+import Map from "@/components/providersandincentives/Map";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+
+let initialData = await getProviderDetail();
+let initialData2 = await getDashboardData();
+---
+
+<Layout
+  title="About Akash Network - Empowering a Decentralized Cloud Revolution"
+  description="Learn about Akash Network's mission, values, and the vision for revolutionizing cloud computing through decentralization. Explore our journey and commitment to a more open and inclusive cloud infrastructure"
+  image="/meta-images/about.png"
+>
+  <TopMargin>
+    <div class="flex flex-col items-center gap-6">
+      <h1 class="text-3xl md:mt-0 md:text-4xl lg:text-5xl">
+        Akash Network Providers
+      </h1>
+      <p class="max-w-[50rem] text-center text-para">
+        Explore the global network of compute providers and real-time capacity,
+        fueling decentralized deployments across the Akash Network.
+      </p>
+    </div>
+
+    <NetworkTabs />
+
+    <div class="flex flex-col gap-10">
+      <h2 id="overview" class="text-base font-semibold md:text-xl">
+        Network Capacity
+      </h2>
+
+      <Map client:load initialData={initialData} initialData2={initialData2} />
+    </div>
+  </TopMargin>
+</Layout>

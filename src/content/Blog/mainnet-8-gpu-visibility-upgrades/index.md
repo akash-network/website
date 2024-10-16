@@ -179,7 +179,7 @@ While either the A100 or H100 may be sufficient for the application, the deploye
 
 Since the launch of the GPU marketplace as part of the Mainnet 6 upgrade, network usage has been steadily climbing. As seen in the charts below, daily network revenue (measured here as daily USD spend, which is based on the underlying AKT spend on the network) is at an all-time high.
 
-This is fueled in part by the start of the [Akash-Thumper AI foundation model training](https://github.com/orgs/akash-network/discussions/300) — marking the first time this has been done on a decentralized platform — and the continued growth of [SDXL on Akash](https://sdxl.akash.network), but also by increased adoption of the network by those looking for on-demand and high-performance compute.
+This is fueled in part by the start of the [Akash-Thumper AI foundation model training](https://github.com/orgs/akash-network/discussions/300) — marking the first time this has been done on a decentralized platform — and the continued growth of [Akash SDXL](https://sdxl.akash.network), but also by increased adoption of the network by those looking for on-demand and high-performance compute.
 
 ![AKT Daily Spend, 1 Month](./daily-spend-1-mo.png)
 

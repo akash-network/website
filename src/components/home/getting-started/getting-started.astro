@@ -2,7 +2,7 @@
 import Card from "./card.astro";
 
 const { gettingStartedSection } = Astro.props;
-// title, image, description, link, linkIcon, linkLabel, darkImage
+
 export type Card = {
   id: number;
   title: string;
@@ -17,8 +17,6 @@ export type Card = {
   linkIcon: string;
   linkLabel: string;
 };
-
-console.log(gettingStartedSection.cards);
 ---
 
 <section class="container mb-10">

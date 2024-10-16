@@ -1,8 +1,5 @@
 ---
-import { Image } from "astro:assets";
-
 const { icon, title, description } = Astro.props;
-console.log(icon);
 ---
 
 <div class="flex flex-col items-start">
@@ -12,14 +9,10 @@ console.log(icon);
     </svg>
   </div>
 
-  <h3
-    class="mt-5 text-base font-bold leading-[24px] md:mt-6 md:text-xl md:leading-[28px]"
-  >
+  <h3 class="mt-5 text-base font-semibold md:mt-6 md:text-xl">
     {title}
   </h3>
-  <p
-    class="mt-2 text-sm font-normal leading-[16px] md:mt-3 md:text-base md:leading-[24px]"
-  >
+  <p class="mt-2 text-sm font-normal md:mt-3 md:text-base">
     {description}
   </p>
 </div>

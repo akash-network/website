@@ -13,31 +13,26 @@ const { heroSection } = Astro.props;
   <div
     class="border-b border-paraDark pb-[80px] pt-10 md:pb-[120px] md:pt-[64px]"
   >
-    <!-- title  -->
-
     <h1
-      class="mx-auto text-center text-3lg font-medium leading-[52px] md:text-6xl lg:text-7xl lg:leading-[93.6px]"
+      class="mx-auto text-center text-6xl tracking-[-0.88px] lg:text-[88px]"
       set:html={heroSection.title}
     />
 
-    <!-- description -->
     <p
-      class="mx-auto mt-10 max-w-[862px] text-center text-base leading-[24px] md:mt-6 md:text-xl md:leading-[28px]"
-    >
-      {heroSection.description}
-    </p>
-    <!-- buttons -->
+      class="mx-auto mt-10 text-center text-base md:mt-6 md:text-lg"
+      set:html={heroSection.description}
+    />
 
     <div
       class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"
     >
       {
-        heroSection.cards.map((card, index) => (
+        heroSection.cards.map((card) => (
           <div class="flex flex-col gap-2 rounded-lg border bg-background2 p-6 md:rounded-xl">
-            <h1 class="font-base font-bold">{card.title}</h1>
-            <p class="text-sm ">{card.description}</p>
+            <h3 class="font-semibold">{card.title}</h3>
+            <p class="text-sm">{card.description}</p>
             <div class="mt-auto flex flex-wrap gap-2 pt-2">
-              {card.buttons.map((button, index) => (
+              {card.buttons.map((button) => (
                 <Button
                   aria-label={button.label}
                   link={button.link}

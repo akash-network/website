@@ -1,12 +1,10 @@
 ---
-import Layout from "@/layouts/layout.astro";
-import Card from "../components/providers-page/card.tsx";
-import PraetorsCard from "../components/providers-page/praetors-card.astro";
-import { getEntryBySlug } from "astro:content";
 import ResourcesCard from "@/components/providers-page/resources-card.astro";
 import TopPagination from "@/components/providers-page/top-pagination.astro";
+import Layout from "@/layouts/layout.astro";
 import { Image } from "astro:assets";
-import ButtonLink from "@/components/ui/button-link.astro";
+import { getEntryBySlug } from "astro:content";
+import PraetorsCard from "../components/providers-page/praetors-card.astro";
 
 const providersPage = await getEntryBySlug("Providers_Homepage", "index");
 const {
@@ -15,7 +13,6 @@ const {
   resourcesSection,
   additionalDeploymentSection,
 } = providersPage.data;
-console.log(resourcesSection);
 ---
 
 <Layout title="Become a Provider ">

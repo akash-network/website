@@ -30,8 +30,6 @@ export default function TabsWrapper({
   useEffect(() => {
     const main = document.getElementById(mainId);
 
-    // get all ids of section and log
-
     const tabs = main?.querySelectorAll("section");
 
     const allTabs: string[] = [];
@@ -44,8 +42,6 @@ export default function TabsWrapper({
       setCurrentTab(allTabs[0]);
     }
   }, []);
-
-  console.log(currentTab);
 
   return (
     <div className="bg-background2 p-5 ">
