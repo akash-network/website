@@ -68,6 +68,7 @@ export const docsSequence = [
       },
       {
         label: "Guides",
+
         subItems: [
           {
             label: "Machine Learning",
@@ -79,6 +80,9 @@ export const docsSequence = [
               { label: "vLLM" },
               { label: "Llama-2 70B" },
               { label: "Akash Chat API" },
+              { label: "AI Art" },
+              { label: "Jupyter Notebook" },
+              { label: "Text-Generation-WebUI" },
             ],
           },
           {
@@ -93,6 +97,9 @@ export const docsSequence = [
           {
             label: "Tooling",
             subItems: [
+              { label: "Provider Utilization Dashboard" },
+              { label: "Akash Playground" },
+              { label: "Radicle" },
               { label: "PostgreSQL restore/backup" },
               { label: "Provider Utilization Dashboard" },
               { label: "Akash Playground" },
@@ -105,11 +112,48 @@ export const docsSequence = [
               { label: "Chia on Akash" },
               { label: "Polygon on Akash" },
               { label: "Mine Raptoreum on Akash Network" },
+              { label: "Deploying Iron Fish on Akash" },
             ],
           },
           {
             label: "Apps",
-            subItems: [{ label: "Waku" }, { label: "qBittorrent" }],
+
+            subItems: [
+              { label: "Waku" },
+              { label: "qBittorrent" },
+              { label: "Discourse" },
+              { label: "Invidious" },
+            ],
+          },
+          {
+            label: "Databases",
+            subItems: [
+              { label: "JSON Server" },
+              { label: "Dolt" },
+              { label: "CouchDB" },
+              { label: "PostgreSQL restore/backup" },
+            ],
+          },
+          {
+            label: "Data Visualizations",
+            subItems: [{ label: "Redash" }, { label: "Dash" }],
+          },
+          {
+            label: "Frameworks",
+            subItems: [{ label: "Next.js" }],
+          },
+          {
+            label: "Benchmarkings",
+            subItems: [{ label: "Fast.com" }],
+          },
+          {
+            label: "Apps",
+            subItems: [
+              { label: "Waku" },
+              { label: "qBittorrent" },
+              { label: "Discourse" },
+              { label: "Invidious" },
+            ],
           },
         ],
       },
