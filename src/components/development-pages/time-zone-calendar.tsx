@@ -18,7 +18,7 @@ const TimeZoneCalendar: React.FC<TimeZoneCalendarProps> = ({ calendarId, timeZon
     }
   }, [timeZone]);
 
-  const src = `https://calendar.google.com/calendar/embed?src=${calendarId}&ctz=${currentTimeZone}&mode=${mode}`;
+  const src = `https://calendar.google.com/calendar/embed?src=${calendarId}&ctz=${currentTimeZone}&mode=${mode}&showTitle=0&showPrint=0&showTabs=0&showCalendars=0`;
 
   return (
     <>
@@ -29,6 +29,7 @@ const TimeZoneCalendar: React.FC<TimeZoneCalendarProps> = ({ calendarId, timeZon
         width="800"
         height="600"
         frameBorder="0"
+        scrolling='no'
       ></iframe>
     </>
   );
