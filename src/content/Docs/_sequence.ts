@@ -29,7 +29,11 @@ export const docsSequence = [
           { label: "Tokens and Wallets" },
         ],
       },
-      { label: "Architecture", subItems: [{ label: "Architecture Overview" }] },
+      { label: "Architecture", 
+        subItems: [
+          { label: "Architecture Overview" }
+  
+        ] },
       {
         label: "Deployments",
         subItems: [
@@ -68,7 +72,7 @@ export const docsSequence = [
       },
       {
         label: "Guides",
-        subItems: [
+        subItems: [ 
           {
             label: "Machine Learning",
             subItems: [
@@ -98,7 +102,7 @@ export const docsSequence = [
             subItems: [
               { label: "Provider Utilization Dashboard" },
               { label: "Akash Playground" },
-              { label: "Radicle" }
+              { label: "Radicle" },
               { label: "PostgreSQL restore/backup" },
               { label: "Provider Utilization Dashboard" },
               { label: "Akash Playground" },
@@ -152,7 +156,12 @@ export const docsSequence = [
               { label: "Fast.com" },
             ],
           },
-            subItems: [{ label: "Waku" }, { label: "qBittorrent" }],
+          { 
+            label: "Apps",
+            subItems: [
+              { label: "Waku" }, 
+              { label: "qBittorrent" },
+            ],
           },
         ],
       },
