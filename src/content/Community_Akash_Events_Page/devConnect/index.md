@@ -1,6 +1,6 @@
 ---
 title: DevConnect
-image: "./banner.jpeg"
+image: "./banner.png"
 eventDate: "2024-11-13"
 location: TBD
 link: "https://devconnect.org/"

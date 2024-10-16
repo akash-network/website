@@ -1,6 +1,6 @@
 ---
 title: NeurIPS 2024
-image: "./project-banner.webp"
+image: "./project-banner.png"
 eventDate: "2024-12-09"
 location: Vancouver
 link: "https://neurips.cc/"
