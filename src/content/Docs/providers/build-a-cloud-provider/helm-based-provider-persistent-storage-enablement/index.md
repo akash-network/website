@@ -205,17 +205,17 @@ helm repo add rook-release https://charts.rook.io/release
 - Verify the Rook repo has been added
 
 ```
-helm search repo rook-release --version v1.14.8
+helm search repo rook-release --version v1.15.3
 ```
 
 - Expected/Example Result
 
 ```
-# helm search repo rook-release --version v1.14.8
+# helm search repo rook-release --version v1.15.3
 
 NAME                          	CHART VERSION	APP VERSION	DESCRIPTION
-rook-release/rook-ceph        	v1.14.8       	v1.14.8     	File, Block, and Object Storage Services for yo...
-rook-release/rook-ceph-cluster	v1.14.8       	v1.14.8     	Manages a single Ceph cluster namespace for Rook
+rook-release/rook-ceph        	v1.15.3       	v1.15.3     	File, Block, and Object Storage Services for yo...
+rook-release/rook-ceph-cluster	v1.15.3       	v1.15.3     	Manages a single Ceph cluster namespace for Rook
 ```
 
 ### **Deployment Steps**
@@ -260,7 +260,7 @@ EOF
 ### Install the Operator Chart
 
 ```
-helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.14.8 -f rook-ceph-operator.values.yml
+helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.15.3 -f rook-ceph-operator.values.yml
 ```
 
 ## PRODUCTION
@@ -270,7 +270,7 @@ helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --
 - Install the Operator chart:
 
 ```
-helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.14.8
+helm install --create-namespace -n rook-ceph rook-ceph rook-release/rook-ceph --version 1.15.3
 ```
 
 #### STEP 2 - Install Ceph Cluster Helm Chart
@@ -467,7 +467,7 @@ EOF
 
 ```
 helm install --create-namespace -n rook-ceph rook-ceph-cluster \
-   --set operatorNamespace=rook-ceph rook-release/rook-ceph-cluster --version 1.14.8 -f rook-ceph-cluster.values.yml
+   --set operatorNamespace=rook-ceph rook-release/rook-ceph-cluster --version 1.15.3 -f rook-ceph-cluster.values.yml
 ```
 
 #### STEP 3 - Label the storageClass
