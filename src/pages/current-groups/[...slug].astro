@@ -1,20 +1,20 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 
-import TableOfContents from "@/components/development-pages/table-of-contents.tsx";
-import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
-import generateToc from "@/lib/generateToc";
-import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
 import MobileNav from "@/components/development-pages/mobile-nav-current-groups";
-import Layout from "@/layouts/layout.astro";
-import { proseClasses } from "@/lib/prose-classes";
-import TopMargin from "@/components/ui/top-margin.astro";
-import ButtonLink from "@/components/ui/button-link.astro";
+import MobileTableOfContents from "@/components/development-pages/mobile-table-of-contents.tsx";
+import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
 import {
+  CalenderIcon,
   DiscordIcon,
   GithubIcon,
-  CalenderIcon,
 } from "@/components/header/icons";
+import ButtonLink from "@/components/ui/button-link.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import generateToc from "@/lib/generateToc";
+import { proseClasses } from "@/lib/prose-classes";
+import clsx from "clsx";
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Current_Groups_Page");
 
@@ -31,14 +31,6 @@ const page = Astro.props;
 const { Content, headings } = await page.render();
 
 const pages = await getCollection("Development_Current_Groups_Page");
-
-// const meetings = await Astro.glob(
-//   "../../content/Development_Current_Groups_Page/**/**/_meetings/*.md",
-// );
-
-// console.log(
-//   meetings[0].file.split("/")[meetings[0].file.split("/").length - 1],
-// );
 
 const nav: any = [];
 
@@ -82,47 +74,6 @@ nav.forEach((navItem: any) => {
         subItem.link.split("/")[subItem.link.split("/").length - 3] +
         "/" +
         subItem.link.split("/")[subItem.link.split("/").length - 2];
-
-      // meetings.forEach((meeting) => {
-      //   const meetingSlug =
-      //     meeting.file.split("/")[meeting.file.split("/").length - 4] +
-      //     "/" +
-      //     meeting.file.split("/")[meeting.file.split("/").length - 3];
-
-      //   console.log(
-      //     meeting.file.split("/")[subItem.link.split("/").length - 0],
-      //   );
-
-      //   if (meetingSlug === slug) {
-      //     if (subItem.meetings) {
-      //       subItem.meetings.push({
-      //         link:
-      //           meeting.file.split("/")[meeting.file.split("/").length - 4] +
-      //           "/" +
-      //           meeting.file.split("/")[meeting.file.split("/").length - 3] +
-      //           "/" +
-      //           meeting.file.split("/")[meeting.file.split("/").length - 1],
-      //         title: meeting.file
-      //           .split("/")
-      //           [meeting.file.split("/").length - 1].replace(/\.md$/, ""),
-      //       });
-      //     } else {
-      //       subItem.meetings = [
-      //         {
-      //           link:
-      //             meeting.file.split("/")[meeting.file.split("/").length - 4] +
-      //             "/" +
-      //             meeting.file.split("/")[meeting.file.split("/").length - 3] +
-      //             "/" +
-      //             meeting.file.split("/")[meeting.file.split("/").length - 1],
-      //           title: meeting.file
-      //             .split("/")
-      //             [meeting.file.split("/").length - 1].replace(/\.md$/, ""),
-      //         },
-      //       ];
-      //     }
-      //   }
-      // });
     });
   }
 });
@@ -130,23 +81,19 @@ nav.forEach((navItem: any) => {
 function findPrevAndNextPages(nav: any, pathname: any) {
   let allItems: any = [];
 
-  // Extract all the items from the 'nav' array
   nav.forEach((category: any) => {
     if (category.items && category.items.length > 0) {
       allItems = allItems.concat(category.items);
     }
   });
 
-  // Find the index of the current page in the items array
   const currentIndex = allItems.findIndex(
     (item: any) => item.link === pathname,
   );
 
-  // Calculate the index of the previous and next pages
   const prevIndex = currentIndex - 1;
   const nextIndex = currentIndex + 1;
 
-  // Determine the previous and next pages
   const prevPage = prevIndex >= 0 ? allItems[prevIndex] : null;
   const nextPage = nextIndex < allItems.length ? allItems[nextIndex] : null;
 
@@ -154,8 +101,6 @@ function findPrevAndNextPages(nav: any, pathname: any) {
 }
 
 const pathname = new URL(Astro.request.url).pathname;
-
-console.log(page.id.split("/")[2].split(".")[1]);
 
 const fileType = page.id.split("/")[2].split(".")[1];
 ---
@@ -185,7 +130,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
                 fill="#687076"></path>
             </svg>
 
-             Back
+            Back
           </a>
           {
             nav.map((navItem: any) => (
@@ -247,7 +192,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
                   stroke-linecap="round"
                   stroke-linejoin="round"></path>
               </svg>
-               Edit page on github</a
+              Edit page on github</a
             >
 
             <p class="mt-2 text-center text-2xs">
@@ -284,7 +229,10 @@ const fileType = page.id.split("/")[2].split(".")[1];
           <div class="mt-10 md:mt-0">
             <h1
               id="overview"
-              class="text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg"
+              class={clsx(
+                "text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg",
+                page?.data?.centeredHeader && "text-center",
+              )}
             >
               {page.data.heading}
             </h1>
@@ -297,7 +245,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
               variant="secondary"
             >
               <DiscordIcon className="text-para" />
-               View on Discord
+              View on Discord
             </ButtonLink>
             <ButtonLink
               size="xl"
@@ -305,7 +253,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
               link={page.data.githubLink}
             >
               <GithubIcon className="text-para" />
-               View on Github
+              View on Github
             </ButtonLink>
             <ButtonLink
               link={page.data.meetings.link.link}
@@ -313,7 +261,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
               variant="secondary"
             >
               <CalenderIcon className="text-para" />
-               Subscribe to Calendar
+              Subscribe to Calendar
             </ButtonLink>
           </div>
 
@@ -327,33 +275,3 @@ const fileType = page.id.split("/")[2].split(".")[1];
     </div>
   </TopMargin>
 </Layout>
-
-<!-- {pathname.split("/")[2] === navItem.link.split("/")[2]} -->
-<!-- {subItem.meetings &&
-  pathname.split("/")[3] === subItem.link.split("/")[3] &&
-  subItem.meetings
-    .map((meeting:any) => {
-      const dateString = meeting.title
-        .split("-")
-        .slice(1)
-        .join("-");
-
-      const dateObject = new Date(dateString);
-      console.log(dateObject);
-
-      return {
-        ...meeting,
-        date: dateObject,
-      };
-    })
-    .sort((a:any, b:any) => b.date - a.date)
-    .map((meeting: any) => (
-      <a
-        href={`/current-groups/meetings/${meeting.link}`}
-        class={`${
-          pathname === meeting.link ? "" : "text-para"
-        }  ml-6   py-[6px] text-base font-medium leading-[24px] `}
-      >
-        {meeting.title.split("-").slice(1).join("-")}
-      </a>
-    ))} -->

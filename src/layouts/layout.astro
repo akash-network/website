@@ -1,16 +1,11 @@
 ---
 import "@/styles/globals.css";
-import "@/styles/fonts.css";
 
-import TailwindIndicator from "@/components/tailwind-indicator.astro";
-import BaseHead from "@/components/base-head.astro";
-import Header from "@/components/header/header.astro";
-import Footer from "@/components/footer/footer.astro";
-import { ViewTransitions } from "astro:transitions";
 import CTA from "@/components/CTA.astro";
-import AsideTailwindClasses from "@/lib/aside/aside-tailwind-classes.astro";
-import BaseLayout from "./base-layout.astro";
+import Footer from "@/components/footer/footer.astro";
+import Header from "@/components/header/header.astro";
 import clsx from "clsx";
+import BaseLayout from "./base-layout.astro";
 
 interface Props {
   title: string;
@@ -39,22 +34,19 @@ const pathname = Astro.url.pathname;
               : "_blank"
           }
         >
-          <h1 class="text-center text-sm font-bold text-white underline">
+          <p class="text-center text-sm font-semibold text-white underline">
             {advert.title}
-          </h1>
+          </p>
         </a>
       </div>
     )
   }
-  <!-- Site Header/Navbar -->
+
   <Header />
 
-  <!-- Main Content -->
   <main>
     <slot />
   </main>
-
-  <!-- Site Footer -->
 
   <div
     class={clsx(

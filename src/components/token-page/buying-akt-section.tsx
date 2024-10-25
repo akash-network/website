@@ -1,15 +1,13 @@
 import { ArrowUpCircle } from "lucide-react";
 
-import React from "react";
-
 const BuyingAkt = ({ buyingAKTSection }: any) => {
   return (
     <div className="py-[40px] md:pb-[80px] md:pt-[80px]">
       <div>
-        <h2 className="text-2xl font-bold leading-9 md:text-2lg md:leading-10">
+        <h2 className="text-2xl font-semibold  md:text-2lg ">
           {buyingAKTSection.title}
         </h2>
-        <p className="mt-4 text-base font-normal md:text-lg md:leading-[30px]">
+        <p className="mt-4 text-base font-normal md:text-lg ">
           {buyingAKTSection.description}
         </p>
       </div>
@@ -31,7 +29,7 @@ const BuyingAkt = ({ buyingAKTSection }: any) => {
               return (
                 <div
                   key={i}
-                  className="flex w-full justify-between border-b  py-[20px] text-base font-bold leading-normal md:text-lg md:leading-9 lg:text-2xl"
+                  className="flex w-full justify-between border-b  py-[20px] text-base font-semibold  md:text-lg  lg:text-2xl"
                 >
                   {colsArray.map((col) => (
                     <div className="flex w-full justify-start">{col.title}</div>

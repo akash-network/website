@@ -1,6 +1,5 @@
 ---
 import "@/styles/globals.css";
-import "@/styles/fonts.css";
 
 import TailwindIndicator from "@/components/tailwind-indicator.astro";
 import BaseHead from "@/components/base-head.astro";
@@ -28,9 +27,6 @@ const isProd = import.meta.env.PROD;
   class="scroll-pt-[137px] scroll-smooth"
 >
   <head>
-    <!-- Google tag (gtag.js) tag1-->
-
-    <!-- Google tag (gtag.js) tag2-->
     <script
       is:inline
       async
@@ -44,7 +40,7 @@ const isProd = import.meta.env.PROD;
 
       gtag("config", "G-LFRGN2J2RV");
     </script>
-    <!-- Google Tag Manager -->
+
     <script is:inline>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -57,12 +53,11 @@ const isProd = import.meta.env.PROD;
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", "GTM-573RDG5H");
     </script>
-    <!-- End Google Tag Manager -->
+
     <BaseHead title={title} description={description} image={image} />
     <ViewTransitions />
   </head>
   <body class="bg-background">
-    <!-- Google Tag Manager (noscript) -->
     <noscript
       ><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-573RDG5H"
@@ -70,14 +65,13 @@ const isProd = import.meta.env.PROD;
         width="0"
         style="display:none;visibility:hidden"></iframe></noscript
     >
-    <!-- End Google Tag Manager (noscript) -->
+
     <slot />
     <AsideTailwindClasses />
-    <!-- Dev tools -->
+
     {!isProd && <TailwindIndicator />}
 
     <script>
-      //light-plus data-theme dark-plus in html tag
       const getTheme = () => localStorage.getItem("theme") || "light";
 
       const setTheme = (theme: string) => {
@@ -94,7 +88,6 @@ const isProd = import.meta.env.PROD;
       document.addEventListener("astro:after-swap", () => setTheme(getTheme()));
 
       const handleHeaderToggleClick = () => {
-        console.log("reached");
         const element = document.documentElement;
         element.classList.toggle("dark");
 

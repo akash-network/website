@@ -1,12 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Chart } from "react-google-charts";
-import React from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
-  ZoomableGroup,
 } from "react-simple-maps";
 
 import {
@@ -21,8 +19,6 @@ const Map = ({
   initialData: any;
   initialData2: any;
 }) => {
-  console.log(initialData);
-
   return (
     <QueryClientProvider client={queryClient}>
       <PieCharts initialData={initialData2} />
@@ -34,8 +30,6 @@ const Map = ({
 export default Map;
 
 const PieCharts = ({ initialData }: { initialData: any }) => {
-  console.log(initialData);
-
   const dashboard = useDashboardData({ initialData });
   const dashboardData = dashboard?.data;
   const cpuData = [
@@ -76,10 +70,9 @@ const PieCharts = ({ initialData }: { initialData: any }) => {
       2,
     ),
   ];
-  console.log(memoryData, "memoryData", gpuData, storageData);
 
   return (
-    <div className="mt-10 grid grid-cols-2 gap-4 md:mt-20 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4  md:grid-cols-2 lg:grid-cols-4">
       <CustomChart title={"CPU"} data={cpuData} ceil sub={"CPU"} />
       <CustomChart title={"GPU"} data={gpuData} ceil sub={"GPU"} />
       <CustomChart title={"Memory"} data={memoryData} sub={"TB"} />
@@ -102,7 +95,7 @@ const CustomChart = ({
   return (
     <div className="flex flex-col rounded-lg  border bg-background2 p-5 shadow-sm">
       <div className="flex flex-1 flex-col ">
-        <h1 className="font-bold">{title}</h1>
+        <h2 className="font-semibold">{title}</h2>
         <p className="mt-1 text-xs text-para">
           {data[0] || 0} {sub} / {(data[1] + data[0]).toFixed(2) || 0} {sub}
         </p>
@@ -131,6 +124,9 @@ const CustomChart = ({
           backgroundColor: "transparent",
           colors: ["#ff414c", "#7e868c"],
           pieSliceBorderColor: "transparent",
+          pieSliceTextStyle: {
+            fontSize: 12,
+          },
         }}
       />
       <div className="mt-5 flex flex-col items-center justify-center">
@@ -152,9 +148,7 @@ const CustomChart = ({
 };
 
 const MapData = ({ initialData }: { initialData: any }) => {
-  console.log(initialData);
   const activeProviders = useProviderDetail({ initialData });
-  console.log(activeProviders.data);
 
   const error = activeProviders?.isError;
   const activeProvidersData = activeProviders?.data?.filter(
@@ -163,9 +157,9 @@ const MapData = ({ initialData }: { initialData: any }) => {
 
   return (
     <div className="mt-10 flex flex-col gap-6">
-      <h1 className="text-base font-semibold md:text-xl">
+      <h2 className="text-base font-semibold md:text-xl">
         {activeProvidersData?.length} Active Providers
-      </h1>
+      </h2>
       <ComposableMap
         className="border bg-background2"
         projectionConfig={{ rotate: [-10, 0, 0] }}

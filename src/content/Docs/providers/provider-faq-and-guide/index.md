@@ -549,13 +549,13 @@ Use the commands detailed in this section to gather the daily earnings history o
 ```
 export AKASH_NODE=<your-RPC-node-address>
 
-PROVIDER=<your-provider-address>; STEP=23.59; BLOCK_TIME=6; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); for i in $(seq 0 23); do BLOCK=$(echo "scale=0; ($HEIGHT-((60/$BLOCK_TIME)*60*($i*$STEP)))/1" | bc); HT=$(provider-services query block $BLOCK | jq -r '.block.header.time'); AL=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 --state active -o json | jq -r '.leases | length'); DCOST=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 -o json --state active | jq --argjson bt $BLOCK_TIME -c -r '(([.leases[].lease.price.amount // 0|tonumber] | add)*(60/$bt)*60*24)/pow(10;6)'); BALANCE=$(provider-services query bank balances --height $BLOCK $PROVIDER -o json | jq -r '.balances[] | select(.denom == "uakt") | .amount // 0|tonumber/pow(10;6)'); IN_ESCROW=$(echo "($AL * 5)" | bc); TOTAL=$( echo "($BALANCE+$IN_ESCROW)" | bc); printf "%8d\t%.32s\t%4d\t%12.4f\t%12.6f\t%4d\t%12.4f\n" $BLOCK $HT $AL $DCOST $BALANCE $IN_ESCROW $TOTAL; done
+PROVIDER=<your-provider-address>; STEP=23.59; BLOCK_TIME=6; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); for i in $(seq 0 23); do BLOCK=$(echo "scale=0; ($HEIGHT-((60/$BLOCK_TIME)*60*($i*$STEP)))/1" | bc); HT=$(provider-services query block $BLOCK | jq -r '.block.header.time'); AL=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 --state active -o json | jq -r '.leases | length'); DCOST=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 -o json --state active | jq --argjson bt $BLOCK_TIME -c -r '(([.leases[].lease.price.amount // 0|tonumber] | add)*(60/$bt)*60*24)/pow(10;6)'); BALANCE=$(provider-services query bank balances --height $BLOCK $PROVIDER -o json | jq -r '.balances[] | select(.denom == "uakt") | .amount // 0|tonumber/pow(10;6)'); IN_ESCROW=$(echo "($AL * 0.5)" | bc); TOTAL=$( echo "($BALANCE+$IN_ESCROW)" | bc); printf "%8d\t%.32s\t%4d\t%12.4f\t%12.6f\t%12.4f\t%12.4f\n" $BLOCK $HT $AL $DCOST $BALANCE $IN_ESCROW $TOTAL; done
 ```
 
 #### **Example Command Use**
 
 ```
-PROVIDER=akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc; STEP=23.59; BLOCK_TIME=6; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); for i in $(seq 0 23); do BLOCK=$(echo "scale=0; ($HEIGHT-((60/$BLOCK_TIME)*60*($i*$STEP)))/1" | bc); HT=$(provider-services query block $BLOCK | jq -r '.block.header.time'); AL=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 --state active -o json | jq -r '.leases | length'); DCOST=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 -o json --state active | jq --argjson bt $BLOCK_TIME -c -r '(([.leases[].lease.price.amount // 0|tonumber] | add)*(60/$bt)*60*24)/pow(10;6)'); BALANCE=$(provider-services query bank balances --height $BLOCK $PROVIDER -o json | jq -r '.balances[] | select(.denom == "uakt") | .amount // 0|tonumber/pow(10;6)'); IN_ESCROW=$(echo "($AL * 5)" | bc); TOTAL=$( echo "($BALANCE+$IN_ESCROW)" | bc); printf "%8d\t%.32s\t%4d\t%12.4f\t%12.6f\t%4d\t%12.4f\n" $BLOCK $HT $AL $DCOST $BALANCE $IN_ESCROW $TOTAL; done
+PROVIDER=akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc; STEP=23.59; BLOCK_TIME=6; HEIGHT=$(provider-services query block | jq -r '.block.header.height'); for i in $(seq 0 23); do BLOCK=$(echo "scale=0; ($HEIGHT-((60/$BLOCK_TIME)*60*($i*$STEP)))/1" | bc); HT=$(provider-services query block $BLOCK | jq -r '.block.header.time'); AL=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 --state active -o json | jq -r '.leases | length'); DCOST=$(provider-services query market lease list --height $BLOCK --provider $PROVIDER --gseq 0 --oseq 0 --page 1 --limit 200 -o json --state active | jq --argjson bt $BLOCK_TIME -c -r '(([.leases[].lease.price.amount // 0|tonumber] | add)*(60/$bt)*60*24)/pow(10;6)'); BALANCE=$(provider-services query bank balances --height $BLOCK $PROVIDER -o json | jq -r '.balances[] | select(.denom == "uakt") | .amount // 0|tonumber/pow(10;6)'); IN_ESCROW=$(echo "($AL * 0.5)" | bc); TOTAL=$( echo "($BALANCE+$IN_ESCROW)" | bc); printf "%8d\t%.32s\t%4d\t%12.4f\t%12.6f\t%12.4f\t%12.4f\n" $BLOCK $HT $AL $DCOST $BALANCE $IN_ESCROW $TOTAL; done
 ```
 
 #### Example Output
@@ -1050,7 +1050,7 @@ chmod +x /usr/local/bin/akash-force-new-replicasets.sh
 
 #### 3). Create Cronjob
 
-Create the crontab job /`etc/cron.d/akash-force-new-replicasets` to run the workaround every 5 minutes.
+Create the crontab job `/etc/cron.d/akash-force-new-replicasets` to run the workaround every 5 minutes.
 
 ```
 cat > /etc/cron.d/akash-force-new-replicasets << 'EOF'
@@ -1065,50 +1065,59 @@ EOF
 
 ### Issue
 
-It is possible for certain deployments to initiate subprocesses that do not properly implement the `wait()` function.
-This improper handling can result in the formation of `<defunct>` processes, also known as "zombie" processes.
-Zombie processes occur when a subprocess completes its task but still remains in the system's process table due to the parent process not reading its exit status.
-Over time, if not managed correctly, these zombie processes have the potential to accumulate and occupy all available process slots in the system, leading to resource exhaustion.
+In certain Kubernetes deployments, subprocesses may not properly implement the `wait()` function, leading to the creation of `<defunct>` processes, commonly known as "zombie" processes. These occur when a subprocess completes its task but remains in the system's process table because the parent process has not retrieved its exit status. Over time, if these zombie processes are not managed, they can accumulate and consume all available process slots in the system, leading to PID exhaustion and resource starvation.
 
-These zombie processes aren't too harmful much (they don't occupy cpu/mem / nor impact cgroup cpu/mem limits) unless they take up the whole process table space so no new processes will be able to spawn, i.e. the limit:
+While zombie processes do not consume CPU or memory resources directly, they occupy slots in the system's process table. If the process table becomes full, no new processes can be spawned, potentially causing severe disruptions. The limit for the number of process IDs (PIDs) available on a system can be checked using:
 
 ```
 $ cat /proc/sys/kernel/pid_max
 4194304
 ```
 
-To address this issue, tenants should ensure they manage and terminate child processes appropriately to prevent them from becoming zombie processes.
+To prevent this issue, it is crucial to manage and terminate child processes correctly to avoid the formation of zombie processes.
 
-One of the correct ways to approach that would be this example:
+### Recommended Approaches
 
-```
-#!/bin/bash
+1. **Proper Process Management in Scripts**: Ensure that any scripts initiating subprocesses correctly manage their lifecycle. For example:
 
-# Start the first process
-./my_first_process &
+   ```bash
+   #!/bin/bash
 
-# Start the second process
-./my_second_process &
+   # Start the first process
+   ./my_first_process &
 
-# Wait for any process to exit
-wait -n
+   # Start the second process
+   ./my_second_process &
 
-# Exit with status of process that exited first
-exit $?
-```
+   # Wait for any process to exit
+   wait -n
 
-Or using a proper container init (tini) / supervision system (such as s6, supervisor, runsv, ...) that would reap adopted child processes.
+   # Exit with the status of the process that exited first
+   exit $?
+   ```
 
-Refs
+2. **Using a Container Init System**: Deploying a proper container init system ensures that zombie processes are automatically reaped, and signals are forwarded correctly, reducing the likelihood of zombie process accumulation. Here are some tools and examples that you can use:
 
-- https://docs.docker.com/config/containers/multi-service_container/#use-a-wrapper-script
-- https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
+   - [**Tini**](https://github.com/krallin/tini): A lightweight init system designed for containers. It is commonly used to ensure zombie process reaping and signal handling within Docker containers. You can easily add Tini to your Docker container by using the `--init` flag or adding it as an entrypoint in your Dockerfile.
+   - [**Dumb-init**](https://github.com/Yelp/dumb-init): Another lightweight init system designed to handle signal forwarding and process reaping. It is simple and efficient, making it a good alternative for minimal containers that require proper PID 1 behavior.
+   - [**Runit Example**](https://git.nixaid.com/arno/postfix/src/branch/master/Dockerfile#L21): Runit is a fast and reliable init system and service manager. This [Dockerfile example](https://git.nixaid.com/arno/postfix/src/branch/master/Dockerfile#L21) demonstrates how to use Runit as the init system in a Docker container.
+   - [**Supervisord Example by Docker.com**](https://docs.docker.com/config/containers/multi-service_container/#use-a-process-manager): Supervisord is a popular process manager that allows for managing multiple services within a container. The official Docker documentation provides a [supervisord example](https://docs.docker.com/config/containers/multi-service_container/#use-a-process-manager) that illustrates how to manage multiple processes effectively.
+   - [**S6 Example**](https://github.com/just-containers/s6-overlay): S6 is a powerful init system and process supervisor. The [S6 overlay repository](https://github.com/just-containers/s6-overlay) offers examples and guidelines on how to integrate S6 into your Docker containers, providing process management and reaping.
 
-### Example of the zombie processes on the provider
 
-Someone's running a wrongly configured image, with the `service ssh start` in it, which fails to start, hence creating bunch of `<defunct>` zombie `sshd` processes growing every `20` seconds:
+For more details on this approach, refer to the following resources:
+- [Container Init Process](https://devopsdirective.com/posts/2023/06/container-init-process/)
+- [zombie reproducer and in-depth explanation](https://github.com/akash-network/awesome-akash/issues/565#issuecomment-2304206825)
+- [Docker Multi-Service Containers](https://docs.docker.com/config/containers/multi-service_container/#use-a-wrapper-script)
+- [Docker and the PID 1 Zombie Reaping Problem](https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)
+- [Terminating a Zombie Process in Linux Environments](https://www.dell.com/support/kbdoc/en-us/000019108/terminating-a-zombie-process-in-linux-environments)
+- [Zombie Processes and their Prevention](https://www.geeksforgeeks.org/zombie-processes-prevention/)
 
-```
+### Example of Zombie Processes on the Provider
+
+In some cases, misconfigured container images can lead to a rapid accumulation of zombie processes. For instance, a container that repeatedly fails to start an `sshd` service might spawn zombie processes every 20 seconds:
+
+```bash
 root      712532  696516  0 14:28 ?        00:00:00      \_ [bash] <defunct>
 syslog    713640  696516  0 14:28 ?        00:00:00      \_ [sshd] <defunct>
 root      807481  696516  0 14:46 ?        00:00:00      \_ [bash] <defunct>
@@ -1131,63 +1140,128 @@ syslog    914913  696516  0 15:06 ?        00:00:00      \_ [sshd] <defunct>
 syslog    922492  696516  0 15:08 ?        00:00:00      \_ [sshd] <defunct>
 ```
 
-### Steps to implement a workaround for the providers
+### Steps to Implement a Workaround for Providers
 
-Providers can't control this, hence they are recommended to implement the following workaround across all worker nodes.
+Since providers cannot control the internal configuration of tenant containers, it is advisable to implement a system-wide workaround to handle zombie processes.
 
-1. create `/usr/local/bin/kill_zombie_parents.sh` script
+1. **Create a Script to Kill Zombie Processes**
 
-```
-cat > /usr/local/bin/kill_zombie_parents.sh <<'EOF'
-#!/bin/bash
+   Create the script `/usr/local/bin/kill_zombie_parents.sh`:
+   ```bash
+   cat > /usr/local/bin/kill_zombie_parents.sh <<'EOF'
+   #!/bin/bash
+   # This script detects zombie processes that are descendants of containerd-shim processes
+   # and first attempts to prompt the parent process to reap them by sending a SIGCHLD signal.
 
-# This script detects zombie processes and kills their parent processes.
+   find_zombie_and_parents() {
+     for pid in /proc/[0-9]*; do
+       if [[ -r $pid/stat ]]; then
+         read -r proc_pid comm state ppid < <(cut -d' ' -f1,2,3,4 "$pid/stat")
+         if [[ $state == "Z" ]]; then
+           echo "$proc_pid $ppid"
+           return 0
+         fi
+       fi
+     done
+     return 1
+   }
 
-# Get a list of zombie processes.
-zombies=$(ps -eo pid,ppid,stat,cmd | awk '$3 == "Z" { print $2 }' | sort -u)
+   get_parent_chain() {
+     local pid=$1
+     local chain=""
+     while [[ $pid -ne 1 ]]; do
+       if [[ ! -r /proc/$pid/stat ]]; then
+         break
+       fi
+       read -r ppid cmd < <(awk '{print $4, $2}' /proc/$pid/stat)
+       chain="$pid:$cmd $chain"
+       pid=$ppid
+     done
+     echo "$chain"
+   }
 
-# If there are no zombies, exit.
-if [[ -z "$zombies" ]]; then
-    #echo "No zombie processes found."
-    exit 0
-fi
+   is_process_zombie() {
+     local pid=$1
+     if [[ -r /proc/$pid/stat ]]; then
+       read -r state < <(cut -d' ' -f3 /proc/$pid/stat)
+       [[ $state == "Z" ]]
+     else
+       return 1
+     fi
+   }
 
-# Kill parent processes of the zombies.
-for parent in $zombies; do
-    # Double check that the parent process is still alive.
-    if kill -0 $parent 2>/dev/null; then
-        echo "Killing parent process $parent."
-        kill -TERM $parent
-        sleep 2  # Give the process a chance to terminate.
+   attempt_kill() {
+     local pid=$1
+     local signal=$2
+     local wait_time=$3
+     local signal_name=${4:-$signal}
 
-        # Force kill if it didn't terminate.
-        if kill -0 $parent 2>/dev/null; then
-            echo "Force killing parent process $parent."
-            kill -KILL $parent
-        fi
-    fi
-done
-EOF
-```
+     echo "Attempting to send $signal_name to parent process $pid"
+     kill $signal $pid
+     sleep $wait_time
 
-2. mark it as executable
+     if is_process_zombie $zombie_pid; then
+       echo "Zombie process $zombie_pid still exists after $signal_name"
+       return 1
+     else
+       echo "Zombie process $zombie_pid no longer exists after $signal_name"
+       return 0
+     fi
+   }
 
-```
-chmod +x /usr/local/bin/kill_zombie_parents.sh
-```
+   if zombie_info=$(find_zombie_and_parents); then
+     zombie_pid=$(echo "$zombie_info" | awk '{print $1}')
+     parent_pid=$(echo "$zombie_info" | awk '{print $2}')
 
-3. create cronjob
+     echo "Found zombie process $zombie_pid with immediate parent $parent_pid"
 
-This way the workaround will automatically run every 5 minutes.
+     parent_chain=$(get_parent_chain "$parent_pid")
+     echo "Parent chain: $parent_chain"
 
-```
-cat > /etc/cron.d/kill_zombie_parents << 'EOF'
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-SHELL=/bin/bash
+     if [[ $parent_chain == *"containerd-shim"* ]]; then
+       echo "Top-level parent is containerd-shim"
+       immediate_parent=$(echo "$parent_chain" | awk -F' ' '{print $1}' | cut -d':' -f1)
+       if [[ $immediate_parent != $parent_pid ]]; then
+         if attempt_kill $parent_pid -SIGCHLD 15 "SIGCHLD"; then
+           echo "Zombie process cleaned up after SIGCHLD"
+         elif attempt_kill $parent_pid -SIGTERM 15 "SIGTERM"; then
+           echo "Zombie process cleaned up after SIGTERM"
+         elif attempt_kill $parent_pid -SIGKILL 5 "SIGKILL"; then
+           echo "Zombie process cleaned up after SIGKILL"
+         else
+           echo "Failed to clean up zombie process after all attempts"
+         fi
+       else
+         echo "Immediate parent is containerd-shim. Not killing."
+       fi
+     else
+       echo "Top-level parent is not containerd-shim. No action taken."
+     fi
+   fi
+   EOF
+   ```
 
-*/5 * * * * root /usr/local/bin/kill_zombie_parents.sh
-EOF
-```
+2. **Mark the Script as Executable**
+
+   ```bash
+   chmod +x /usr/local/bin/kill_zombie_parents.sh
+   ```
+
+3. **Create a Cron Job**
+
+   Set up a cron job to run the script every 5 minutes:
+
+   ```bash
+   cat > /etc/cron.d/kill_zombie_parents << 'EOF'
+   PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+   SHELL=/bin/bash
+
+   */5 * * * * root /usr/local/bin/kill_zombie_parents.sh | logger -t kill_zombie_parents
+   EOF
+   ```
+
+This workaround will help mitigate the impact of zombie processes on the system by periodically terminating their parent processes, thus preventing the system's PID table from being overwhelmed.
+
 
 ## Close Leases Based on Image
 

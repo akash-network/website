@@ -1,20 +1,14 @@
 ---
-import { FAQ } from "@/components/faq";
-import { Image } from "astro:assets";
-import { Code2 } from "lucide-react";
 const { infrastructureSection } = Astro.props;
-console.log(infrastructureSection);
 ---
 
 <section class="container mb-10">
   <div class="border-b border-paraDark pb-[80px] pt-0 md:pb-[120px] md:pt-10">
-    <h2
-      class="text-center text-xl font-medium leading-[30px] md:text-2lg md:leading-[48px]"
-    >
+    <h2 class="text-center text-xl font-medium md:text-[28px]">
       {infrastructureSection.title}
     </h2>
 
-    <div class="mt-10">
+    <div class="mt-10 lg:mt-20">
       <div
         class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-6 3xl:gap-6"
       >
@@ -30,13 +24,15 @@ console.log(infrastructureSection);
                 </svg>
               </div>
 
-              <div class="mt-5 md:mt-6">
-                <h3 class=" text-base font-bold leading-[24px] md:text-xl">
-                  {card.title}
-                </h3>
-                <p class="mt-2 flex-shrink-0 text-xs leading-[16px] md:mt-3 md:text-base ">
-                  {card.description}
-                </p>
+              <div class="mt-5   md:mt-6">
+                <h3
+                  class="text-base font-semibold md:h-14 "
+                  set:html={card.title}
+                />
+                <p
+                  set:html={card.description}
+                  class=" mt-2 flex-shrink-0 text-xs  md:mt-4 md:text-sm "
+                />
               </div>
             </div>
           ))

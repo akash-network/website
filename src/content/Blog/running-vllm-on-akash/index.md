@@ -19,6 +19,7 @@ tags:
   - Insights
   - Updates
   - News
+  - Case Studies
 
 contributors:
   - Logan Cerkovnik

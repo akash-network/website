@@ -1,11 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2 } from "lucide-react";
 
 import Fuse from "fuse.js"; // Import the Fuse.js library
-import FormattedDate from "../formatted-date.astro";
 
 // Define a TypeScript interface for the project data
 interface Blog {
@@ -62,7 +60,6 @@ export default function SearchDialog() {
         .then((jsonData) => {
           setCollectionData(jsonData as Blog[]); // Type assertion to Blog[]
           setFilteredProjects(jsonData.slice(0, 3)); // Initialize filteredBlogs with the first 3 projects
-          console.log(jsonData);
         })
         .catch((err) => {
           setError(err.message);
@@ -122,7 +119,7 @@ export default function SearchDialog() {
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative " onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -132,10 +129,10 @@ export default function SearchDialog() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-slate-900/25 opacity-100 backdrop-blur transition-opacity" />
+            <div className="fixed inset-0 z-[50] bg-slate-900/25 opacity-100 backdrop-blur transition-opacity" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-hidden">
+          <div className="fixed inset-0 z-[51] overflow-y-hidden">
             <div className="mt-10  flex  min-h-full items-start justify-center p-4 text-center md:mt-[96px]">
               <Transition.Child
                 as={Fragment}
@@ -146,7 +143,7 @@ export default function SearchDialog() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg    p-6 text-left align-middle  transition-all ">
+                <Dialog.Panel className=" w-full max-w-2xl transform overflow-hidden rounded-lg    p-6 text-left align-middle  transition-all ">
                   <div className="relative">
                     <input
                       className="block w-full rounded-lg border  bg-background2 py-3 pl-4 pr-12 text-base text-textGray placeholder:text-para focus:outline-none sm:text-sm sm:leading-6"
@@ -167,7 +164,7 @@ export default function SearchDialog() {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
+                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>

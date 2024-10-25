@@ -1,15 +1,14 @@
 ---
-import Layout from "@/layouts/layout.astro";
-import { getEntryBySlug } from "astro:content";
+import CloudmosCards from "@/components/deploy-page/cloudmos-cards.astro";
 import ResourcesCard from "@/components/deploy-page/resources-card.astro";
 import TopPagination from "@/components/deploy-page/top-pagination.astro";
+import Layout from "@/layouts/layout.astro";
 import { Image } from "astro:assets";
-import CloudmosCards from "@/components/deploy-page/cloudmos-cards.astro";
+import { getEntry } from "astro:content";
 
-const deployPage = await getEntryBySlug("Deploy_Homepage", "index");
+const deployPage = await getEntry("Deploy_Homepage", "index");
 
 const {
-  pageTitle,
   resourcesSection,
   heroSection,
   cloudmosResourcesSection,
@@ -23,7 +22,7 @@ const {
   <div class="relative overflow-hidden">
     <div class="container">
       <div
-        class="border-b border-[#d9d9d9] pb-[40px] pt-5 lg:flex lg:flex-row-reverse lg:justify-between lg:gap-x-8 lg:pt-[60px]"
+        class="border-b pb-[40px] pt-5 lg:flex lg:flex-row-reverse lg:justify-between lg:gap-x-8 lg:pt-[60px]"
       >
         <div class="flex-shrink">
           <Image
@@ -37,7 +36,6 @@ const {
           />
         </div>
 
-        <!-- hero contents -->
         <div class="mt-10 lg:mt-0 lg:w-[569px]">
           <h2 class="text-2xl font-bold md:text-3lg md:leading-[48px]">
             {heroSection.title}
@@ -49,7 +47,7 @@ const {
           <ul
             class="mt-6 space-y-2 text-base font-bold text-foreground md:mt-10 md:space-y-6 md:text-xl"
           >
-            {heroSection.featureList.map((li) => <li>{`• ${li}`}</li>)}
+            {heroSection.featureList.map((li: string) => <li>{`• ${li}`}</li>)}
           </ul>
 
           <div class="mt-[40px]">
@@ -101,7 +99,7 @@ const {
   </div>
 
   <div class="container mt-[90px]">
-    <div class="border-b border-[#d9d9d9] pb-[40px]">
+    <div class="border-b pb-[40px]">
       <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
         {cloudmosResourcesSection.title}
       </h2>
@@ -126,7 +124,7 @@ const {
   </div>
 
   <!-- Resources Cards Container -->
-  <div class="container my-10 border-b border-[#d9d9d9] py-10">
+  <div class="container my-10 border-b py-10">
     <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
       {resourcesSection.title}
     </h2>
@@ -157,7 +155,7 @@ const {
       {
         additionalDeploymentSection.resources.map((resource) => (
           <div class="flex gap-[14px] pb-2">
-            <span class="block h-full text-[rgb(217,217,217)]">-</span>
+            <span class="block h-full text-para">-</span>
             <p class="leading-[150%]">
               <a
                 href={resource.link}
@@ -166,7 +164,7 @@ const {
                 {resource.title}
               </a>
               &nbsp;
-              <span class="text-sm font-normal text-[#808080] md:text-[18px] md:leading-7">
+              <span class="text-sm font-normal text-para md:text-[18px] md:leading-7">
                 {resource.content}
               </span>
             </p>

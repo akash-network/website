@@ -29,11 +29,7 @@ export const docsSequence = [
           { label: "Tokens and Wallets" },
         ],
       },
-      { label: "Architecture", 
-        subItems: [
-          { label: "Architecture Overview" }
-  
-        ] },
+      { label: "Architecture", subItems: [{ label: "Architecture Overview" }] },
       {
         label: "Deployments",
         subItems: [
@@ -72,7 +68,8 @@ export const docsSequence = [
       },
       {
         label: "Guides",
-        subItems: [ 
+
+        subItems: [
           {
             label: "Machine Learning",
             subItems: [
@@ -112,11 +109,11 @@ export const docsSequence = [
             label: "Blockchain",
             subItems: [
               { label: "Kava RPC Node Deployment" },
-            { label: "Chia on Akash" },
-            { label: "Polygon on Akash" },
-            { label: "Mine Raptoreum on Akash Network" },
-            { label: "Deploying Iron Fish on Akash" }
-           ],
+              { label: "Chia on Akash" },
+              { label: "Polygon on Akash" },
+              { label: "Mine Raptoreum on Akash Network" },
+              { label: "Deploying Iron Fish on Akash" },
+            ],
           },
           {
             label: "Apps",
@@ -131,7 +128,7 @@ export const docsSequence = [
           {
             label: "Databases",
             subItems: [
-              {label: "JSON Server" },
+              { label: "JSON Server" },
               { label: "Dolt" },
               { label: "CouchDB" },
               { label: "PostgreSQL restore/backup" },
@@ -139,30 +136,23 @@ export const docsSequence = [
           },
           {
             label: "Data Visualizations",
-            subItems: [
-              { label: "Redash" },
-              { label: "Dash" },
-            ],
+            subItems: [{ label: "Redash" }, { label: "Dash" }],
           },
           {
             label: "Frameworks",
-            subItems: [
-              { label: "Next.js" },
-            ],
+            subItems: [{ label: "Next.js" }],
           },
           {
             label: "Benchmarkings",
-            subItems: [
-              { label: "Fast.com" },
-            ],
+            subItems: [{ label: "Fast.com" }],
           },
-          { 
+          {
             label: "Apps",
             subItems: [
-              { label: "Waku" }, 
+              { label: "Waku" },
               { label: "qBittorrent" },
-              { label: "Discourse"},
-              { label: "Invidious"},
+              { label: "Discourse" },
+              { label: "Invidious" },
             ],
           },
           {

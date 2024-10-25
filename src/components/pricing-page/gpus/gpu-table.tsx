@@ -1,27 +1,26 @@
+import OFilter from "@/components/gpu-table/filter";
+import { Card } from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { gpus } from "@/utils/api";
+import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Info } from "lucide-react";
-import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import Filter, { defaultFilters, type Filters } from "./filter";
-import OFilter from "@/components/gpu-table/filter";
-import Sort from "./sort";
+import { Info } from "lucide-react";
+import React from "react";
 import { Skeleton } from "../../ui/skeleton";
-import CircularProgressBar from "./circular-progress-bar";
 import AvailabilityBar from "./availability-bar";
-import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import CircularProgressBar from "./circular-progress-bar";
+import Filter, { defaultFilters, type Filters } from "./filter";
+import Sort from "./sort";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -105,14 +104,24 @@ const Table = ({
   );
 };
 
+const modelTexts: Record<string, string> = {
+  rtx: "RTX ",
+  gtx: "GTX ",
+  ti: " Ti",
+  ada: " Ada",
+};
+
+const formatText = (model: string) => {
+  let formattedText = model;
+  for (const key in modelTexts) {
+    const regex = new RegExp(key, "gi");
+    formattedText = formattedText.replace(regex, modelTexts[key]);
+  }
+
+  return formattedText;
+};
 export const modifyModel = (model: string) => {
-  return model === "rtxa6000"
-    ? "A6000"
-    : model?.includes("rtx")
-      ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
-      : model?.includes("gtx")
-        ? model?.replace("gtx", "GTX ").replace("ti", " Ti")
-        : model;
+  return model === "rtxa6000" ? "A6000" : formatText(model);
 };
 
 export const price = (price: number) => {
@@ -148,7 +157,6 @@ export const Tables = ({
         )
       : data?.availability?.available || 0;
 
-  console.log(filteredData);
   return (
     <section
       className={clsx(
@@ -324,7 +332,7 @@ export const Tables = ({
                       Average price:
                     </span>
                     <span className="font-semibold">
-                      {price(model?.price?.avg)}
+                      {price(model?.price?.weightedAverage)}
                     </span>
                   </div>
                   <HoverCard openDelay={2} closeDelay={2}>
@@ -345,14 +353,14 @@ export const Tables = ({
                     <HoverCardContent align="center">
                       <div className="flex flex-col">
                         <div className="flex flex-col px-4 py-3">
-                          <h1 className="text-sm font-medium text-black dark:text-white">
+                          <h2 className="text-sm font-medium text-black dark:text-white">
                             {model?.providerAvailability?.available || 0}{" "}
                             {model?.providerAvailability?.available > 1
                               ? "providers"
                               : "provider"}
                             <br />
                             offering this model:
-                          </h1>
+                          </h2>
                           <div className="border-1 mt-3 rounded-md bg-[#F1F1F1] px-4 py-3 dark:bg-background ">
                             <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2 dark:border-defaultBorder">
                               <p className="text-4  text-base font-semibold text-foreground">
@@ -364,17 +372,17 @@ export const Tables = ({
                             </div>
                             <div className="mt-2  flex items-center justify-between gap-2">
                               <div className="flex flex-col items-center justify-center gap-1">
-                                <h1 className="text-sm text-[#71717A] dark:text-para">
+                                <h3 className="text-sm text-[#71717A] dark:text-para">
                                   Max:{" "}
                                   <span>{price(model?.price?.max)}/hr</span>
-                                </h1>
+                                </h3>
                               </div>
                               <div className="">-</div>
                               <div className="flex flex-col items-center justify-center gap-1">
-                                <h1 className="text-sm text-[#71717A] dark:text-para">
+                                <h3 className="text-sm text-[#71717A] dark:text-para">
                                   Min:{" "}
                                   <span>{price(model?.price?.min)}/hr</span>
-                                </h1>
+                                </h3>
                               </div>
                             </div>
                           </div>
@@ -416,10 +424,10 @@ export const Tables = ({
               <th className="w-[26%] px-2 text-left text-sm  font-medium tracking-normal  text-linkText ">
                 Chipset
               </th>
-              <th className="w-[26%] px-2 text-left  text-sm font-medium tracking-normal text-linkText">
+              <th className="w-[26%] px-2 text-left text-sm  font-medium tracking-normal text-linkText xl:pl-8">
                 Availability
               </th>
-              <th className="w-[26%] whitespace-nowrap pr-2  text-left text-sm font-medium tracking-normal text-linkText ">
+              <th className="w-[26%] whitespace-nowrap pr-2 text-left  text-sm font-medium tracking-normal text-linkText xl:pl-8 ">
                 Price (USD per hour)
               </th>
               <th className=""></th>
@@ -517,14 +525,14 @@ export const Tables = ({
                         <HoverCardContent align="center">
                           <div className="flex flex-col">
                             <div className="flex flex-col px-4 py-3">
-                              <h1 className="text-sm font-medium text-black dark:text-white">
+                              <h2 className="text-sm font-medium text-black dark:text-white">
                                 {model?.providerAvailability?.available || 0}{" "}
                                 {model?.providerAvailability?.available > 1
                                   ? "providers"
                                   : "provider"}
                                 <br />
                                 offering this model:
-                              </h1>
+                              </h2>
                               <div className="border-1 mt-3 rounded-md bg-[#F1F1F1] px-4 py-3 dark:bg-background ">
                                 <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2 dark:border-defaultBorder">
                                   <p className="text-4  text-base font-semibold text-black dark:text-white">
@@ -536,17 +544,17 @@ export const Tables = ({
                                 </div>
                                 <div className="mt-2  flex items-center justify-between gap-2">
                                   <div className="flex flex-col items-center justify-center gap-1">
-                                    <h1 className="text-sm text-[#71717A] dark:text-para">
+                                    <h3 className="text-sm text-[#71717A] dark:text-para">
                                       Max:{" "}
                                       <span>{price(model?.price?.max)}/hr</span>
-                                    </h1>
+                                    </h3>
                                   </div>
                                   <div className="">-</div>
                                   <div className="flex flex-col items-center justify-center gap-1">
-                                    <h1 className="text-sm text-[#71717A] dark:text-para">
+                                    <h3 className="text-sm text-[#71717A] dark:text-para">
                                       Min:{" "}
                                       <span>{price(model?.price?.min)}/hr</span>
-                                    </h1>
+                                    </h3>
                                   </div>
                                 </div>
                               </div>

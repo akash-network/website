@@ -12,9 +12,7 @@ const FaqSection = ({
   return (
     <div>
       <div>
-        <h2 className="text-2xl font-bold leading-9 md:text-2lg md:leading-10">
-          FAQs
-        </h2>
+        <h2 className="text-2xl font-semibold md:text-2lg ">FAQs</h2>
       </div>
 
       <div>

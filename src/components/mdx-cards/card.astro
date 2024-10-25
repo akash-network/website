@@ -1,7 +1,5 @@
 ---
-import { Image } from "astro:assets";
 import ButtonLink from "../ui/button-link.astro";
-import { proseClasses } from "@/lib/prose-classes";
 
 import fallbackImage from "@/assets/akash-logo.svg";
 import { GithubIcon, RightArrowIcon } from "../header/icons";
@@ -14,26 +12,28 @@ const { card } = Astro.props;
     card.id % 2 === 0 ? "lg:flex-row " : "lg:flex-row-reverse"
   }`}
 >
-  <div class={`w-full not-prose flex-1 flex-shrink-0  !rounded-lg`}>
-    <Image
-      class="w-full object-cover dark:hidden"
+  <div
+    class={`md:max-w-[576px] w-full not-prose flex-1 flex-shrink-0  !rounded-lg`}
+  >
+    <img
+      class="w-full object-contain"
+      alt="Feature illustration"
+      src={card?.image.src ?? fallbackImage}
+    />
+    <!-- <Image
+      class="hidden w-full object-contain dark:block"
       alt="Feature illustration"
       width={1200}
       height={1200}
-      src={card?.image ?? fallbackImage}
-      format="svg"
-    />
-    <Image
-      class="hidden w-full object-cover dark:block"
-      alt="Feature illustration"
-      width={1200}
-      height={1200}
-      src={card?.darkImage ?? fallbackImage}
-      format="svg"
-    />
+      src={card?.darkImage ?? card?.image ?? fallbackImage}
+    /> -->
   </div>
   <div class="flex w-full flex-1 flex-col gap-6 pt-0">
-    <slot />
+    <h2
+      class="not-prose font-instrument text-3xl md:mt-0 md:text-4xl lg:text-5xl"
+    >
+      {card.title}
+    </h2>
 
     <p
       class="not-prose text-sm leading-[24px] text-para md:text-start md:text-base md:leading-[28px]"

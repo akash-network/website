@@ -1,6 +1,6 @@
 ---
 title: DevCon 7
-image: "./banner.jpeg"
+image: "./banner.png"
 eventDate: "2024-11-09"
 location: Bangkok
 link: "https://devcon.org/en/"
