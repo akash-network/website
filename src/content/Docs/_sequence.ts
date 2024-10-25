@@ -159,6 +159,7 @@ export const docsSequence = [
             label: "Hosting",
             subItems: [
               { label: "React" },
+              { label: "Astro"},
             ]
           }
         ],

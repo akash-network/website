@@ -1,4 +1,10 @@
-# Hosting a React App on Akash
+---
+categories: ["Guides"]
+tags: ["Hosting"]
+weight: 1
+title: "Hosting a React App on Akash"
+linkTitle: "React"
+---
 
 Building and deploying a React application to Akash, a decentralized cloud computing marketplace, involves several steps. I'll guide you through the process of creating a React app, packaging it for deployment, and deploying it using both the Akash CLI and the Akash Console. This guide will include a sample SDL (Service Definition Language) file that you can use for your deployment.
 
