@@ -165,6 +165,12 @@ export const docsSequence = [
               { label: "Invidious"},
             ],
           },
+          {
+            label: "Hosting",
+            subItems: [
+              { label: "React" },
+            ]
+          }
         ],
       },
       {
