@@ -148,6 +148,7 @@ export const docsSequence = [
               { label: "Next.js" },
               { label: "React" },
               { label: "Astro" },
+              { label: "Angular" },
               { label: "Django" },
             ],
           },
