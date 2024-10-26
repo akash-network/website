@@ -1,6 +1,6 @@
 ---
 categories: ["Guides"]
-tags: ["Hosting"]
+tags: ["Frameworks"]
 weight: 1
 title: "Building and Deploying an Astro App on Akash"
 linkTitle: "Astro"

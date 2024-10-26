@@ -136,11 +136,20 @@ export const docsSequence = [
           },
           {
             label: "Data Visualizations",
-            subItems: [{ label: "Redash" }, { label: "Dash" }],
+            subItems: [
+              { label: "Redash" },
+              { label: "Dash" },
+              { label: "Metabase" },
+            ],
           },
           {
             label: "Frameworks",
-            subItems: [{ label: "Next.js" }],
+            subItems: [
+              { label: "Next.js" },
+              { label: "React" },
+              { label: "Astro" },
+              { label: "Django" },
+            ],
           },
           {
             label: "Benchmarkings",
@@ -155,13 +164,6 @@ export const docsSequence = [
               { label: "Invidious" },
             ],
           },
-          {
-            label: "Hosting",
-            subItems: [
-              { label: "React" },
-              { label: "Astro"},
-            ]
-          }
         ],
       },
       {

@@ -1,6 +1,6 @@
 ---
 categories: ["Guides"]
-tags: ["Hosting"]
+tags: ["Frameworks"]
 weight: 1
 title: "Hosting a React App on Akash"
 linkTitle: "React"
