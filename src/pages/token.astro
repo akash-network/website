@@ -19,31 +19,13 @@ const {
   aktFeaturesSection,
 } = tokenPage.data;
 
-const nav = [
-  {
-    link: "#how-it-works",
-    label: "How it works",
-  },
-  {
-    link: "#ecosystem",
-    label: "Ecosystem Tools",
-  },
-  {
-    link: "#token-metrics",
-    label: "Token Metrics",
-  },
-  {
-    link: "#akt-features",
-    label: "AKT 2.0 Features",
-  },
-  {
-    link: "#buying-akt",
-    label: "Buying AKT",
-  },
-  {
-    link: "#faq",
-    label: "FAQs",
-  },
+const links = [
+  { href: "#how-it-works", label: "How it works" },
+  { href: "#ecosystem", label: "Ecosystem Tools" },
+  { href: "#token-metrics", label: "Token Metrics" },
+  { href: "#akt-features", label: "AKT 2.0 Features" },
+  { href: "#buying-akt", label: "Buying AKT" },
+  { href: "#faq", label: "FAQs" },
 ];
 ---
 
@@ -60,36 +42,16 @@ const nav = [
         <div class="border-b py-2"></div>
 
         <div class="mt-4 flex flex-col gap-y-4 text-para">
-          <a
-            href="#how-it-works"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >How it works</a
-          >
-          <a
-            href="#ecosystem"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >Ecosystem Tools</a
-          >
-          <a
-            href="#token-metrics"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >Token Metrics</a
-          >
-          <a
-            href="#akt-features"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >AKT 2.0 Features</a
-          >
-          <a
-            href="#buying-akt"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >Buying AKT</a
-          >
-          <a
-            href="#faq"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >FAQs</a
-          >
+          {
+            links.map((link) => (
+              <a
+                href={link.href}
+                class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
+              >
+                {link.label}
+              </a>
+            ))
+          }
         </div>
       </div>
 

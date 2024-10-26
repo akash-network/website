@@ -6,14 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function findPrevAndNextPages(nav: any, pathname: any) {
-  // Find the index of the current page in the nav array
   const currentIndex = nav.findIndex((item: any) => item.link === pathname);
 
-  // Calculate the index of the previous and next pages
   const prevIndex = currentIndex - 1;
   const nextIndex = currentIndex + 1;
 
-  // Determine the previous and next pages
   const prevPage = prevIndex >= 0 ? nav[prevIndex] : null;
   const nextPage = nextIndex < nav.length ? nav[nextIndex] : null;
 
@@ -59,7 +56,7 @@ export const useFriendlyMessageType = (type: string) => {
   const splittedType = type.split(".");
   const msgType = splittedType[splittedType.length - 1];
   const friendlyMessageType = msgType
-    .substring(3) // Remove "Msg"
+    .substring(3)
     .split(/(?=[A-Z])/)
     .join(" ");
 

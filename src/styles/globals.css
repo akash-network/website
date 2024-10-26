@@ -136,7 +136,7 @@
     @apply text-para;
   }
   h1 {
-    @apply font-instrument !font-normal !leading-[1];
+    @apply !font-medium;
   }
   h2 {
     @apply text-foreground dark:text-foreground;

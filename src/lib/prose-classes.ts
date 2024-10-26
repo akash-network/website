@@ -1,9 +1,11 @@
 import clsx from "clsx";
 
 const className = clsx(
+  // Base prose styles
   "prose",
   "max-w-full",
   "text-foreground",
+
   // Headings
   "prose-h1:text-foreground",
   "prose-h2:mt-14",
@@ -23,12 +25,14 @@ const className = clsx(
   "prose-h4:text-base",
   "md:prose-h4:text-lg",
   "lg:prose-h4:text-xl",
-  // Ordered and unordered lists
+
+  // Lists
   "prose-ol:mt-5",
   "prose-li:mt-0",
   "prose-li:text-para",
   "prose-ul:mt-5",
-  // Paragraphs and anchors
+
+  // Paragraphs and Links
   "prose-p:mt-3",
   "prose-p:text-sm",
   "md:prose-p:mt-5",
@@ -37,6 +41,7 @@ const className = clsx(
   "prose-a:text-primary",
   "prose-a:no-underline",
   "hover:prose-a:text-primary/80",
+
   // Tables
   "prose-table:mt-10",
   "prose-table:border-b",
@@ -53,11 +58,15 @@ const className = clsx(
   "prose-td:px-2",
   "md:prose-td:px-4",
   "md:prose-td:text-sm",
+
   // Images
-  "prose-img:my-0 prose-img:mx-auto prose-img:max-w-[70rem] prose-img:w-full [&_.image]:max-w-[70rem]   [&_.image]:mx-auto ",
+  "prose-img:my-0 prose-img:mx-auto prose-img:max-w-[70rem] prose-img:w-full",
+  "[&_.image]:max-w-[70rem] [&_.image]:mx-auto",
+
   // Horizontal rules
   "prose-hr:border-defaultBorder",
   "prose-hr:mb-0",
+
   // Media Queries
   "md:mt-16",
 );

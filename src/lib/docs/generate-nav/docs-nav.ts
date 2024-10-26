@@ -66,7 +66,7 @@ export const generateDocsNav = (pages: any) => {
     const idParts = item.id.split("/");
     const linkPrefix = "/docs";
     const linkTitle = item.data.linkTitle;
-    // Start at the top level
+
     processPage(nav, idParts, 0, linkPrefix, linkTitle);
   });
 

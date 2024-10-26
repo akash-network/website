@@ -7,7 +7,6 @@ function diveChildren(item: TocItem, depth: number): TocItem[] {
   if (depth === 1) {
     return item.children;
   } else {
-    // e.g., 2
     return diveChildren(item.children[item.children.length - 1], depth - 1);
   }
 }
@@ -35,14 +34,11 @@ export default function generateToc(
         throw new Error(`Orphan heading found: ${heading.text}.`);
       }
       if (heading.depth === lastItemInToc.depth) {
-        // same depth
         toc.push({
           ...heading,
           children: [],
         });
       } else {
-        // higher depth
-        // push into children, or children' children alike
         const gap = heading.depth - lastItemInToc.depth;
         const target = diveChildren(lastItemInToc, gap);
         target.push({
