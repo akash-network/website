@@ -1,5 +1,25 @@
-export const byteUnits = ["Bytes", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-export const bibyteUnits = ["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+export const byteUnits = [
+  "Bytes",
+  "kB",
+  "MB",
+  "GB",
+  "TB",
+  "PB",
+  "EB",
+  "ZB",
+  "YB",
+];
+export const bibyteUnits = [
+  "Bytes",
+  "KiB",
+  "MiB",
+  "GiB",
+  "TiB",
+  "PiB",
+  "EiB",
+  "ZiB",
+  "YiB",
+];
 
 export function bytesToShrink(value: number, bibyte?: boolean) {
   const multiplier = bibyte ? 1024 : 1000;
@@ -9,7 +29,9 @@ export function bytesToShrink(value: number, bibyte?: boolean) {
   const _value = Math.abs(value);
 
   if (_value !== 0) {
-    const i = parseInt(Math.floor(Math.log(_value) / Math.log(multiplier)).toString());
+    const i = parseInt(
+      Math.floor(Math.log(_value) / Math.log(multiplier)).toString(),
+    );
 
     if (i !== 0) {
       finalValue = _value / Math.pow(multiplier, i);
@@ -21,7 +43,9 @@ export function bytesToShrink(value: number, bibyte?: boolean) {
 }
 
 export function toBytes(size: number, type: string, bibyte?: boolean) {
-  const key = bibyte ? bibyteUnits.indexOf(type) : byteUnits.indexOf(type.toUpperCase());
+  const key = bibyte
+    ? bibyteUnits.indexOf(type)
+    : byteUnits.indexOf(type.toUpperCase());
 
   if (key === -1) throw new Error("Invalid unit type: " + type);
 

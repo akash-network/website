@@ -1,9 +1,9 @@
 ---
 import ResourcesCard from "@/components/brand-pages/resources-card.astro";
 import Layout from "@/layouts/layout.astro";
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 
-const brandReleasesInsightsPage = await getEntryBySlug(
+const brandReleasesInsightsPage = await getEntry(
   "Brand_Releases_Insights_Homepage",
   "index",
 );

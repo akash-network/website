@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { Slider } from "@/components/ui/slider";
+import { useEffect } from "react";
 
 type UsageAmountProps = {
   title: string | React.ReactNode;
@@ -20,8 +20,6 @@ function UsageAmount({
   setAmount,
   suffix,
 }: UsageAmountProps) {
-  // const [amount, setAmount] = useState<number[]>([defaultValue]);
-
   useEffect(() => {
     if (!amount) {
       setAmount(0);
