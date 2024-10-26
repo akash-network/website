@@ -1,6 +1,6 @@
 ---
 import DocsLayout from "@/layouts/docs-layout.astro";
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 import MobileNav from "@/components/docs/mobile-sidebar";
 import NextPrevNav from "@/components/docs/next-prev-nav.astro";
@@ -11,8 +11,6 @@ import AlgoliaSearch from "@/components/docs/algolia-search";
 import { proseClasses } from "@/lib/prose-classes";
 
 const pathname = new URL(Astro.request.url).pathname;
-
-type Docs = CollectionEntry<"Docs">;
 
 const doc = await getEntry("Docs", "index");
 const docsData = await getCollection("Docs");

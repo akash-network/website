@@ -3,10 +3,10 @@ import ResourcesCard from "@/components/providers-page/resources-card.astro";
 import TopPagination from "@/components/providers-page/top-pagination.astro";
 import Layout from "@/layouts/layout.astro";
 import { Image } from "astro:assets";
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 import PraetorsCard from "../components/providers-page/praetors-card.astro";
 
-const providersPage = await getEntryBySlug("Providers_Homepage", "index");
+const providersPage = await getEntry("Providers_Homepage", "index");
 const {
   heroSection,
   praetorResourcesSection,
@@ -44,39 +44,6 @@ const {
           <p class="mt-4 text-sm md:mt-5 md:text-[18px] md:leading-[28px]">
             {heroSection.description}
           </p>
-
-          <!-- <ul
-            class="mt-6 space-y-2 font-medium text-foreground md:mt-10 md:space-y-3 md:text-xl md:font-bold md:leading-[30px]"
-          >
-            {
-              heroSection.links.map((link) => (
-                <li>
-                  <a
-                    class="flex items-center gap-x-3 hover:text-primary"
-                    href={link.link}
-                  >
-                    {link.label}
-                    <svg
-                      width="16"
-                      height="15"
-                      viewBox="0 0 16 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-2 w-2 md:h-3 md:w-3"
-                    >
-                      <path
-                        d="M2 13.5L14 1.5M14 1.5H3.50001M14 1.5V12"
-                        stroke="#272540"
-                        stroke-width="2.25"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </a>
-                </li>
-              ))
-            }
-          </ul> -->
 
           <div
             class="mt-[40px] flex flex-col items-start gap-x-6 gap-y-3 xl:flex-row"
@@ -122,12 +89,6 @@ const {
 
               {heroSection.button.label}
             </a>
-
-            <!-- <ButtonLink variant="secondary" size="xl" link="/">
-              <span class="text-sm font-medium md:text-base">
-                {heroSection.button2.label}
-              </span>
-            </ButtonLink> -->
           </div>
         </div>
       </div>
@@ -159,7 +120,6 @@ const {
     </div>
   </div>
 
-  <!-- Resources Cards Container -->
   <div class="container my-10 border-b border-[#d9d9d9] py-10">
     <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
       {resourcesSection.title}
@@ -181,7 +141,6 @@ const {
     </div>
   </div>
 
-  <!-- Additional Deployment Resources Section -->
   <div class="container my-10 py-10">
     <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
       {additionalDeploymentSection.title}
