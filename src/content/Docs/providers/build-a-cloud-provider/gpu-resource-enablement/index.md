@@ -9,6 +9,7 @@ linkTitle: "GPU Resource Enablement (Optional Step)"
 The steps involved in enabling your Akash Provider to host GPU resources are covered in this section and via these steps:
 
 - [GPU Provider Configuration](#gpu-provider-configuration)
+- [Enabling GPU Resources on Akash](#enabling-gpu-resources-on-akash)
 - [GPU Node Label](#gpu-node-label)
 - [Apply NVIDIA Runtime Engine](#apply-nvidia-runtime-engine)
 - [Update Akash Provider](#update-akash-provider)
@@ -169,6 +170,30 @@ source venv/bin/activate
 
 ansible-playbook -i inventory/akash/hosts.yaml -b -v --private-key=~/.ssh/id_rsa cluster.yml
 ```
+
+## Enabling GPU Resources on Akash
+
+To set up GPU resources on Akash, providers need to ensure their configuration allows for proper GPU detection. This guide will walk you through essential resources, troubleshooting steps, and configuration tips to get your GPUs recognized and operational.
+
+### 1. Important Guides for GPU Configuration
+
+For a comprehensive setup, new providers should start with these foundational guides:
+
+- [Provider Feature Discovery GPU Configuration Integration Guide](/docs/providers/provider-feature-discovery-gpu-configuration-integration-guide/): Step-by-step instructions for configuring GPUs to work seamlessly with Akash.
+- [Akash Provider Feature Discovery Upgrade Enablement](/docs/providers/akash-provider-feature-discovery-upgrade-enablement/): Detailed guidance on necessary upgrades to fully support GPU functionality.
+
+These guides are essential for ensuring GPU compatibility, particularly for providers facing detection issues or new to the configuration process.
+
+### 2. Troubleshooting Undetected GPUs in `gpus.json`
+
+In some cases, a provider’s GPU may not be recognized if it isn’t listed in the [gpus.json](https://github.com/akash-network/provider-configs/blob/main/devices/pcie/gpus.json) file. To check if your GPU model is missing, use the following command to list GPU details on your system:
+
+```bash
+provider-services tools psutil list gpu | jq '.cards[] | .pci | {vendor: .vendor, product: .product}'
+
+```
+
+This command returns the vendor and product information of detected GPUs, which you can use to update `gpus.json` and ensure your hardware is correctly identified by Akash.
 
 ## GPU Node Label
 
