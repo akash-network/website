@@ -1,15 +1,21 @@
 ---
-import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
-import SortDropDown from "@/components/ecosystem-pages/sort-dropdown";
-import TagsSortDropDown from "@/components/ecosystem-pages/tags-sort-dropdown";
-import Pagination from "@/components/pagination.astro";
 import Layout from "@/layouts/layout.astro";
+import { SortActions } from "../../../../components/ecosystem-pages/sort-actions";
+import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
 import type { PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
+import Pagination from "@/components/pagination.astro";
+import { Image } from "astro:assets";
+import ChevronRight from "@/assets/chevron-right.svg";
+import Tag from "@/components/ui/tag.astro";
+import EcosystemNavbar from "@/components/ecosystem-pages/ecosystem-navbar.astro";
+import SearchDialog from "@/components/ecosystem-pages/search-dialog";
+import SortDropDown from "@/components/ecosystem-pages/sort-dropdown";
+import TagsSortDropDown from "@/components/ecosystem-pages/tags-sort-dropdown";
 
-import Categories from "@/components/ecosystem-pages/categories.astro";
-import TopHeader from "@/components/ecosystem-pages/top-header.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
+import TopHeader from "@/components/ecosystem-pages/top-header.astro";
+import Categories from "@/components/ecosystem-pages/categories.astro";
 
 type Project = CollectionEntry<"Ecosystem_Page">;
 
@@ -24,16 +30,20 @@ export async function getStaticPaths({
       const dateA = new Date(a.data.pubDate);
       const dateB = new Date(b.data.pubDate);
 
+      // Sort in descending order (latest date first)
       return dateA.getTime() - dateB.getTime();
     });
 
   const tags: string[] = [];
 
   projects.forEach((project) => {
-    project.data.tags.forEach((tag: string) => {
+    // Loop through the tags in each blog post
+    project.data.tags.forEach((tag) => {
+      // Capitalize the first letter of the tag
       const lowerCasedTag = tag.toLowerCase();
-
+      // Check if the tag is not already in the allTags array
       if (!tags.includes(lowerCasedTag)) {
+        // Add the tag to the allTags array
         tags.push(lowerCasedTag);
       }
     });
@@ -45,8 +55,11 @@ export async function getStaticPaths({
   });
 }
 
+// All paginated data is passed on the "page" prop
 const { page, tags } = Astro.props;
 const astroUrl = Astro.url;
+
+const pathName = astroUrl.pathname.split("/");
 ---
 
 <Layout title={`Deployed On Akash`} image="/meta-images/ecosystem.png">

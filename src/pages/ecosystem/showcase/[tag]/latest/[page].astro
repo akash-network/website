@@ -56,6 +56,7 @@ export async function getStaticPaths({
 const { page, currentTag, tags } = Astro.props;
 
 const astroUrl = Astro.url;
+const pathName = astroUrl.pathname.split("/");
 
 const formattedTag = currentTag.charAt(0).toUpperCase() + currentTag.slice(1);
 ---

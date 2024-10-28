@@ -25,20 +25,20 @@ export async function getStaticPaths({
       const dateA = new Date(a.data.pubDate);
       const dateB = new Date(b.data.pubDate);
 
-      return (
-        dateB.getTime() - dateA.getTime() &&
-        getPriorityIndex(a.data.projectTitle) -
-          getPriorityIndex(b.data.projectTitle)
-      );
+      // Sort in descending order (latest date first)
+      return dateB.getTime() - dateA.getTime();
     });
 
   const tags: string[] = [];
 
   projects.forEach((project) => {
+    // Loop through the tags in each blog post
     project.data.tags.forEach((tag: any) => {
+      // Capitalize the first letter of the tag
       const lowerCasedTag = tag.toLowerCase();
-
+      // Check if the tag is not already in the allTags array
       if (!tags.includes(lowerCasedTag)) {
+        // Add the tag to the allTags array
         tags.push(lowerCasedTag);
       }
     });
@@ -88,20 +88,26 @@ const astroUrl = Astro.url;
         class="mt-4 grid flex-shrink-0 grid-cols-1 gap-y-[24px] sm:grid-cols-2 sm:gap-x-8 md:gap-y-8 lg:grid-cols-3 lg:gap-x-[36px] lg:gap-y-[32px]"
       >
         {
-          page.data?.map((project: Project, i: number) => {
-            return (
-              <ProjectCard
-                title={project.data.projectTitle}
-                description={project.data.description}
-                image={project.data.projectImage}
-                button={project.data.ctaButton}
-                githubLink={project.data.githubLink}
-                twitterLink={project.data.twitterLink}
-                websiteLink={project.data.websiteLink}
-                discordLink={project.data.discordLink}
-              />
-            );
-          })
+          [...page.data]
+            .sort(
+              (a, b) =>
+                getPriorityIndex(a.data.projectTitle) -
+                getPriorityIndex(b.data.projectTitle),
+            )
+            ?.map((project: Project, i: number) => {
+              return (
+                <ProjectCard
+                  title={project.data.projectTitle}
+                  description={project.data.description}
+                  image={project.data.projectImage}
+                  button={project.data.ctaButton}
+                  githubLink={project.data.githubLink}
+                  twitterLink={project.data.twitterLink}
+                  websiteLink={project.data.websiteLink}
+                  discordLink={project.data.discordLink}
+                />
+              );
+            })
         }
       </div>
 
