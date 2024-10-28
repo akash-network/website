@@ -10,7 +10,9 @@ const { tags } = Astro.props;
 
 const normalizedTags = [...new Set(tags.map((tag) => tag.toLowerCase()))];
 
-const aiMlTag = ["ai & ml"];
+const aiMlTag = normalizedTags?.find((tag) => tag === "ai & ml")
+  ? ["ai & ml"]
+  : [];
 const sortedTags = [
   ...aiMlTag,
   ...normalizedTags
