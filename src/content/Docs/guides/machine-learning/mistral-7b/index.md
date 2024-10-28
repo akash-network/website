@@ -34,9 +34,9 @@ services:
       cpu:
         units: 1.0
       memory:
-        size: 8Gi
+        size: 16Gi 
       storage:
-        size: 10Gi
+        size: 100Gi
       gpus:
         units: 1  # Set this according to your GPU requirement
 
@@ -47,9 +47,9 @@ profiles:
         cpu:
           units: 1.0
         memory:
-          size: 8Gi
+          size: 16Gi
         storage:
-          size: 10Gi
+          size: 100Gi
         gpus:
           units: 1  # Set this according to your GPU requirement
 

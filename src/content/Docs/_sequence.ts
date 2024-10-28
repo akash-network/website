@@ -83,6 +83,7 @@ export const docsSequence = [
               { label: "AI Art" },
               { label: "Jupyter Notebook" },
               { label: "Text-Generation-WebUI" },
+              { label: "Mistral 7B"}
             ],
           },
           {
@@ -140,6 +141,7 @@ export const docsSequence = [
               { label: "Redash" },
               { label: "Dash" },
               { label: "Metabase" },
+              { label: "KNIME"},
             ],
           },
           {
