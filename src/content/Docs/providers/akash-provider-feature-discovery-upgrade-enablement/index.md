@@ -10,7 +10,7 @@ The following provides an overview of the steps necessary to upgrade your Akash 
 
 - [Akash Hostname Operator Upgrade](#akash-hostname-operator-upgrade)
 - [Akash Inventory Operator Install/Upgrade](#akash-inventory-operator-installupgrade)
-  - [Default Helm Chart - values.yaml file](#default-helm-chart----valuesyaml-file)
+  - [Default Helm Chart - values.yaml file](#default-helm-chart---valuesyaml-file)
   - [Non-Persistent Storage Providers](#non-persistent-storage-providers)
   - [Persistent Storage Providers](#persistent-storage-providers)
 - [Akash IP Operator Upgrade (If Applicable)](#akash-ip-operator-upgrade-if-applicable)
@@ -120,7 +120,13 @@ The Ingress Controller rules have been updated to include Feature Discovery dest
 > _**NOTE**_ - provider GPU attributes must now adhere to the naming conventions in this [JSON file](https://github.com/akash-network/provider-configs/blob/main/devices/pcie/gpus.json). Your attributes may need to be updated to follow these standards. If your provider attributes do not adhere to the naming conventions in this JSON file it may not bid when specific models are included in the SDL. If the GPU model has multiple memory options the attributes should be in the form such as the following where again the model and the RAM spec use the nomenclatures of the JSON file.
 
 ```
-  - key: capabilities/gpu/vendor/nvidia/model/a100/ram/40Gi
+- key: capabilities/gpu/vendor/nvidia/model/a100
+    value: true
+  - key: capabilities/gpu/vendor/nvidia/model/a100/ram/80Gi
+    value: true
+  - key: capabilities/gpu/vendor/nvidia/model/a100/ram/80Gi/interface/pcie
+    value: true
+  - key: capabilities/gpu/vendor/nvidia/model/a100/interface/pcie
     value: true
 ```
 
