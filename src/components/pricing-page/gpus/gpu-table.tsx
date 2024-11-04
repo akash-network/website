@@ -479,7 +479,7 @@ export const Tables = ({
                   >
                     <td className="w-[24%] rounded-l-lg border-y border-l text-base font-semibold xl:text-lg">
                       <div className="flex items-center gap-3">
-                        <div className="ml-6 flex aspect-square w-10 items-center justify-center rounded-md  border">
+                        <div className="ml-3 flex aspect-square w-10 items-center justify-center rounded-md border lg:ml-6">
                           <img
                             src="/logos/nvidia.png"
                             alt="nvidia"
