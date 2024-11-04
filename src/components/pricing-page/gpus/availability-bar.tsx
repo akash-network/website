@@ -21,7 +21,7 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
         <span className="text-lg font-bold text-foreground md:text-sm lg:text-base">
           {available} Available
         </span>
-        <span className="text-sm text-para lg:text-base">(out of {total})</span>
+        <span className="text-sm text-para lg:text-base">({total} total)</span>
       </div>
       <div className="flex justify-between">
         {Array.from({ length: filledDots }).map((_, i) => (
