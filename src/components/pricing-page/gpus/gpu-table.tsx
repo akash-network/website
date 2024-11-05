@@ -424,11 +424,11 @@ export const Tables = ({
               <th className="w-[26%] px-2 text-left text-sm  font-medium tracking-normal  text-linkText ">
                 Chipset
               </th>
-              <th className="w-[26%] px-2 text-left text-sm  font-medium tracking-normal text-linkText xl:pl-8">
+              <th className="w-[26%] px-2 text-left text-sm  font-medium tracking-normal text-linkText xl:pl-6">
                 Availability
               </th>
-              <th className="w-[26%] whitespace-nowrap pr-2 text-left  text-sm font-medium tracking-normal text-linkText xl:pl-8 ">
-                Price (USD per hour)
+              <th className="w-[26%] whitespace-nowrap px-2 text-left  text-sm font-medium tracking-normal text-linkText xl:pl-6 ">
+                Average Price (USD per hour)
               </th>
               <th className=""></th>
             </tr>
@@ -450,7 +450,7 @@ export const Tables = ({
                       </div>
                     </td>
 
-                    <td className=" w-[27.2%] pr-8">
+                    <td className=" w-[27.2%] pr-6">
                       <div className=" flex items-center justify-between">
                         <Skeleton className="h-5 w-20" />
                         <Skeleton className="h-5 w-20" />
@@ -467,7 +467,7 @@ export const Tables = ({
                         <Skeleton className="h-3 w-3"></Skeleton>
                       </div>
                     </td>
-                    <td className="rounded-r-lg border-r px-8 text-center">
+                    <td className="rounded-r-lg border-r px-6 text-center">
                       <Skeleton className="mx-auto h-8 w-24" />
                     </td>
                   </tr>
@@ -487,7 +487,7 @@ export const Tables = ({
                           />
                         </div>
                         <div className="flex-1">
-                          <p className="text-lg font-semibold capitalize text-foreground lg:text-xl">
+                          <p className="text-lg font-bold capitalize text-foreground lg:text-xl">
                             {modifyModel(model?.model)}
                           </p>
                           <p className="text-sm font-medium text-[#71717A]">
@@ -496,74 +496,76 @@ export const Tables = ({
                         </div>
                       </div>
                     </td>
-                    <td className="w-[20%] border-y px-2 lg:w-[27.2%] xl:px-8">
+                    <td className="w-[20%] border-y px-2 lg:w-[27.2%] xl:px-6">
                       <AvailabilityBar
                         available={model?.availability?.available}
                         total={model?.availability?.total}
                       />
                     </td>
-                    <td className="w-[27.2%] border-y px-2 xl:px-8">
-                      <div className="flex justify-between border-b pb-1 text-sm lg:text-lg">
-                        <span className=" font-semibold ">Average price:</span>
-                        <span className="font-semibold">
-                          {price(model?.price?.avg)}
-                        </span>
-                      </div>
-                      <HoverCard openDelay={2} closeDelay={2}>
-                        <HoverCardTrigger className="flex items-center justify-between pt-1.5">
-                          <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                            Min: {price(model?.price?.min)}
-                          </span>
-                          <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                            -
-                          </span>
-                          <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                            Max: {price(model?.price?.max)}
-                          </span>
-                          <Info size={12} className="text-[#71717A]" />
-                        </HoverCardTrigger>
-                        <HoverCardContent align="center">
-                          <div className="flex flex-col">
-                            <div className="flex flex-col px-4 py-3">
-                              <h2 className="text-sm font-medium text-black dark:text-white">
-                                {model?.providerAvailability?.available || 0}{" "}
-                                {model?.providerAvailability?.available > 1
-                                  ? "providers"
-                                  : "provider"}
-                                <br />
-                                offering this model:
-                              </h2>
-                              <div className="border-1 mt-3 rounded-md bg-[#F1F1F1] px-4 py-3 dark:bg-background ">
-                                <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2 dark:border-defaultBorder">
-                                  <p className="text-4  text-base font-semibold text-black dark:text-white">
-                                    Avg price:
-                                  </p>
-                                  <div className="text-base font-bold  ">
-                                    {price(model?.price?.weightedAverage)}/hr
+                    <td className="w-[16%] border-y px-2 xl:w-[18%] xl:px-6">
+                      <div className="flex max-w-[12rem] items-center justify-between gap-4">
+                        <HoverCard openDelay={2} closeDelay={2}>
+                          <HoverCardTrigger className="flex  flex-col gap-2 pt-1.5">
+                            <span className="text-sm font-medium text-[#71717A] dark:text-para">
+                              Min: {price(model?.price?.min)}
+                            </span>
+
+                            <span className="text-sm font-medium text-[#71717A] dark:text-para">
+                              Max: {price(model?.price?.max)}
+                            </span>
+                          </HoverCardTrigger>
+                          <HoverCardContent align="center">
+                            <div className="flex flex-col">
+                              <div className="flex flex-col px-4 py-3">
+                                <h2 className="text-sm font-medium text-black dark:text-white">
+                                  {model?.providerAvailability?.available || 0}{" "}
+                                  {model?.providerAvailability?.available > 1
+                                    ? "providers"
+                                    : "provider"}
+                                  <br />
+                                  offering this model:
+                                </h2>
+                                <div className="border-1 mt-3 rounded-md bg-[#F1F1F1] px-4 py-3 dark:bg-background ">
+                                  <div className="flex items-center  justify-between gap-2 border-b border-[#E4E4E7] pb-2 dark:border-defaultBorder">
+                                    <p className="text-4  text-base font-semibold text-black dark:text-white">
+                                      Avg price:
+                                    </p>
+                                    <div className="text-base font-bold  ">
+                                      {price(model?.price?.weightedAverage)}/hr
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="mt-2  flex items-center justify-between gap-2">
-                                  <div className="flex flex-col items-center justify-center gap-1">
-                                    <h3 className="text-sm text-[#71717A] dark:text-para">
-                                      Max:{" "}
-                                      <span>{price(model?.price?.max)}/hr</span>
-                                    </h3>
-                                  </div>
-                                  <div className="">-</div>
-                                  <div className="flex flex-col items-center justify-center gap-1">
-                                    <h3 className="text-sm text-[#71717A] dark:text-para">
-                                      Min:{" "}
-                                      <span>{price(model?.price?.min)}/hr</span>
-                                    </h3>
+                                  <div className="mt-2  flex items-center justify-between gap-2">
+                                    <div className="flex flex-col items-center justify-center gap-1">
+                                      <h3 className="text-sm text-[#71717A] dark:text-para">
+                                        Max:{" "}
+                                        <span>
+                                          {price(model?.price?.max)}/hr
+                                        </span>
+                                      </h3>
+                                    </div>
+                                    <div className="">-</div>
+                                    <div className="flex flex-col items-center justify-center gap-1">
+                                      <h3 className="text-sm text-[#71717A] dark:text-para">
+                                        Min:{" "}
+                                        <span>
+                                          {price(model?.price?.min)}/hr
+                                        </span>
+                                      </h3>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </HoverCardContent>
-                      </HoverCard>
+                          </HoverCardContent>
+                        </HoverCard>
+                        <div className="flex min-w-16 justify-between text-base ">
+                          <span className="text-xl font-bold lg:text-2xl ">
+                            {price(model?.price?.avg)}
+                          </span>
+                        </div>
+                      </div>
                     </td>
-                    <td className="rounded-r-lg border-y border-r px-2 text-center xl:px-8">
+                    <td className="rounded-r-lg border-y border-r px-2 text-center xl:px-6">
                       <a
                         id={`${model?.model}-(gpu-rent)`}
                         // href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
@@ -571,7 +573,7 @@ export const Tables = ({
                         target="_blank"
                         className="inline-flex gap-1.5 rounded-md bg-foreground px-4 py-2 text-white hover:bg-primary dark:text-black dark:hover:text-inherit md:px-2 lg:px-4"
                       >
-                        <p className="text-sm font-medium text-inherit">
+                        <p className="whitespace-nowrap text-sm font-medium text-inherit">
                           Rent Now
                         </p>
                         <ArrowUpRightIcon className="w-[15px]" />
