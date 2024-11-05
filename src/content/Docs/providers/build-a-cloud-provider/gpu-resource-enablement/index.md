@@ -100,13 +100,13 @@ apt-get install -y nvidia-container-toolkit nvidia-container-runtime
 
 ### For non-PCIe, e.g. SXM\* GPUs
 
-In some circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources (typically, non-PCIe GPU configurations such as those using SXM form factors).
+In some circumstances it has been found that the NVIDIA Fabric Manager needs to be installed on worker nodes hosting GPU resources (typically, non-PCIe GPU configurations such as those using SXM form factors).
 
 > Replace `525` with your nvidia driver version installed in the previous steps
 > You may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
 
 ```
-apt-get install cuda-drivers-fabricmanager-525
+apt-get install nvidia-fabricmanager-525
 systemctl start nvidia-fabricmanager
 systemctl enable nvidia-fabricmanager
 ```
