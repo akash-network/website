@@ -1,3 +1,10 @@
+---
+categories: ["Other Resources"]
+tags: []
+weight: 2
+title: "Testnet 5 CLI Verifications"
+linkTitle: "Testnet 5 CLI Verifications"
+---
 
 # Akash Cosmos SDK 0.47.0 Upgrade Testnet
 
