@@ -15,7 +15,7 @@ The testing procedure for the REST API is rather simple and should be conducted 
 
 
 
-* Retrieve the current API swagger file [here](https://github.com/akash-network/akash-api/blob/main/docs/swagger-ui/swagger.yaml)
+* Retrieve the current API swagger file [here](https://raw.githubusercontent.com/akash-network/akash-api/refs/tags/go/v0.0.2-rc3/docs/swagger-ui/swagger.yaml)
 * Dump the contents of the file into a swagger rendering engine such as this [web app](https://editor.swagger.io/)
 * Thoroughly test both Akash and Cosmos exposed endpoints
 * NOTE - all Akash queries must be updated to use `v1beta4` - see example below
