@@ -502,8 +502,8 @@ export const Tables = ({
                         total={model?.availability?.total}
                       />
                     </td>
-                    <td className="w-[16%] border-y px-2 xl:w-[18%] xl:px-6">
-                      <div className="flex max-w-[12rem] items-center justify-between gap-4">
+                    <td className="w-[16%] border-y px-2 xl:w-[17%] xl:px-6">
+                      <div className="flex max-w-[10.5rem] items-center justify-between gap-4">
                         <HoverCard openDelay={2} closeDelay={2}>
                           <HoverCardTrigger className="flex  flex-col gap-2 pt-1.5">
                             <span className="text-sm font-medium text-[#71717A] dark:text-para">
