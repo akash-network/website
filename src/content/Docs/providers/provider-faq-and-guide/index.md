@@ -1561,6 +1561,7 @@ nvdp    nvidia-device-plugin    1           2023-09-23 14:30:34.18183027 +0200 C
 - Further details on the NVIDIA Fabric Manager are available [here](https://forums.developer.nvidia.com/t/error-802-system-not-yet-initialized-cuda-11-3/234955)
 
 > _**NOTE**_ - replace `525` in the following command with the NVIDIA driver version used on your host
+
 > _**NOTE**_ - you may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
 
 ```
@@ -1586,6 +1587,7 @@ Nov 05 13:55:26 node1 systemd[1]: nvidia-fabricmanager.service: Control process 
 To resolve this issue, you’ll need to use the official NVIDIA repository. Here's how to add it:
 
 > _**NOTE**_ - replace `2204` with your Ubuntu version (e.g. `2404` for Ubuntu noble release)
+
 > _**NOTE**_ - Running `apt dist-upgrade` with the official NVIDIA repo bumps the `nvidia` packages along with the `nvidia-fabricmanager`, without version mismatch issue.
 
 ```
