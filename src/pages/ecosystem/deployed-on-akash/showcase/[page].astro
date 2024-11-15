@@ -21,12 +21,14 @@ export async function getStaticPaths({
 
   const sortProjects = (projects: Project[]) =>
     projects.sort((a, b) => {
-      const dateDiff =
-        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
       const priorityDiff =
         getPriorityIndex(a.data.projectTitle) -
         getPriorityIndex(b.data.projectTitle);
-      return dateDiff || priorityDiff;
+      if (priorityDiff !== 0) return priorityDiff;
+
+      return (
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+      );
     });
 
   const cards = sortProjects(
@@ -49,7 +51,6 @@ export async function getStaticPaths({
     pageSize: 9,
   });
 }
-
 const { page, tags } = Astro.props;
 ---
 
