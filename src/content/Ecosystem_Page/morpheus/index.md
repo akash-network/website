@@ -2,7 +2,7 @@
 projectTitle: Morpheus
 projectImage: "./project-banner.png"
 pubDate: "2024-05-08"
-showcase: false
+showcase: true
 tags:
   - AI & ML
 

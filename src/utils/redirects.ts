@@ -19,5 +19,5 @@ export const redirects = {
   "/about/pricing/custom": "/pricing/usage-calculator/",
   "/community/insiders/": "/community/akash-insiders/",
   "/community/core-groups/cg-list/": "/development/current-groups/",
-  "/ecosystem/showcase/latest/": "/ecosystem/deployed-on-akash/showcase/1",
+  "/ecosystem/showcase/latest/": "/ecosystem/deployed-on-akash/showcase/",
 };

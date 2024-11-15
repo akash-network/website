@@ -1,8 +1,6 @@
 ---
 import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
-import Pagination from "@/components/pagination.astro";
 import Layout from "@/layouts/layout.astro";
-import type { PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 import Categories from "@/components/ecosystem-pages/categories.astro";
@@ -12,51 +10,39 @@ import { getPriorityIndex } from "@/utils/sequences/deployedOnAkash";
 
 type Project = CollectionEntry<"Ecosystem_Page">;
 
-export async function getStaticPaths({
-  paginate,
-}: {
-  paginate: PaginateFunction;
-}) {
-  const data = await getCollection("Ecosystem_Page");
+const data = await getCollection("Ecosystem_Page");
 
-  const sortProjects = (projects: Project[]) =>
-    projects.sort((a, b) => {
-      const priorityDiff =
-        getPriorityIndex(a.data.projectTitle) -
-        getPriorityIndex(b.data.projectTitle);
-      if (priorityDiff !== 0) return priorityDiff;
+const sortProjects = (projects: Project[]) =>
+  projects.sort((a, b) => {
+    const priorityDiff =
+      getPriorityIndex(a.data.projectTitle) -
+      getPriorityIndex(b.data.projectTitle);
+    if (priorityDiff !== 0) return priorityDiff;
 
-      return (
-        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-      );
-    });
-
-  const cards = sortProjects(
-    data.filter((project) => project.data.category === "deployed_on_akash"),
-  );
-  const projects = sortProjects(
-    data.filter((project) => project.data.showcase === true),
-  );
-
-  const tags: string[] = Array.from(
-    new Set(
-      cards.flatMap((project) =>
-        project.data.tags.map((tag) => tag.toLowerCase()),
-      ),
-    ),
-  );
-
-  return paginate(projects, {
-    props: { tags },
-    pageSize: 9,
+    return (
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+    );
   });
-}
-const { page, tags } = Astro.props;
+
+const cards = sortProjects(
+  data.filter((project) => project.data.category === "deployed_on_akash"),
+);
+const projects = sortProjects(
+  data.filter((project) => project.data.showcase === true),
+);
+
+const tags: string[] = Array.from(
+  new Set(
+    cards.flatMap((project) =>
+      project.data.tags.map((tag) => tag.toLowerCase()),
+    ),
+  ),
+);
 ---
 
 <Layout title="Showcase" image="/meta-images/ecosystem.png">
   <TopMargin>
-    <TopHeader />
+    <TopHeader tags={tags} />
   </TopMargin>
 
   <div
@@ -75,7 +61,7 @@ const { page, tags } = Astro.props;
         class="mt-4 grid flex-shrink-0 grid-cols-1 gap-y-[24px] sm:grid-cols-2 sm:gap-x-8 md:gap-y-8 lg:grid-cols-3 lg:gap-x-[36px] lg:gap-y-[32px]"
       >
         {
-          page?.data?.map((project: Project, i: number) => (
+          projects?.map((project: Project, i: number) => (
             <ProjectCard
               key={i}
               title={project.data.projectTitle}
@@ -90,8 +76,6 @@ const { page, tags } = Astro.props;
           ))
         }
       </div>
-
-      <Pagination page={page} />
     </div>
   </div>
 </Layout>

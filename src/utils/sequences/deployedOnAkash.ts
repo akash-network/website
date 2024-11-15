@@ -4,6 +4,7 @@ export const deployedOnAkash = [
   "Prime Intellect",
   "University of Texas at Austin",
   "Nous Research",
+  "Morpheus",
   "Flock.io",
   "Akash Chat API",
   "Akash Chat",
