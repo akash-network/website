@@ -7,12 +7,10 @@ const pathName = astroUrl.pathname.split("/");
 const { tags } = Astro.props;
 ---
 
-<div class="flex items-center justify-between">
-  <h1 class="text-3xl md:text-4xl lg:text-5xl">Explore the Akash Ecosystem</h1>
-  <div class="hidden md:block">
-    <SearchDialog client:load currentPath={astroUrl.pathname} />
-  </div>
-</div>
+<h1 class="w-full text-center text-3xl md:text-4xl lg:text-5xl">
+  Explore the Akash Ecosystem
+</h1>
+
 <div
   class="mt-6 flex flex-col justify-between gap-x-6 pb-6 md:mt-8 md:pb-8 lg:mt-10 lg:flex-row lg:border-b lg:pb-10"
 >

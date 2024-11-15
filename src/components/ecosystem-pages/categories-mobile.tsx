@@ -15,6 +15,8 @@ const Categories = ({
   page: string;
   className?: string;
 }) => {
+  console.log(page);
+
   return (
     <Menu
       as="div"
@@ -44,11 +46,11 @@ const Categories = ({
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href={`/ecosystem/${page}/latest`}
+                  href={`/ecosystem/${page}`}
                   className={classNames(
                     active
                       ? "bg-gray-100 text-foreground dark:bg-darkGray"
-                      : "text-[#687076]",
+                      : "text-para",
                     "block px-4 py-2 text-sm",
                   )}
                 >
@@ -56,15 +58,33 @@ const Categories = ({
                 </a>
               )}
             </Menu.Item>
+            {page === "deployed-on-akash" && (
+              <Menu.Item>
+                {({ active }) => (
+                  <a
+                    href={`/ecosystem/deployed-on-akash/showcase/`}
+                    className={classNames(
+                      active
+                        ? "bg-gray-100 text-foreground dark:bg-darkGray"
+                        : "text-para",
+                      "block px-4 py-2 text-sm",
+                    )}
+                  >
+                    Showcase
+                  </a>
+                )}
+              </Menu.Item>
+            )}
+
             {tags?.map((tag: string) => (
               <Menu.Item key={tag}>
                 {({ active }) => (
                   <a
-                    href={`/ecosystem/${page}/${tag.toLowerCase()}/latest/1`}
+                    href={`/ecosystem/${page}/${tag.toLowerCase()}`}
                     className={classNames(
                       active
                         ? "bg-gray-100 text-foreground  dark:bg-darkGray"
-                        : "text-[#687076]",
+                        : "text-para",
                       "block px-4 py-2 text-sm",
                     )}
                   >
