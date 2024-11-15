@@ -37,13 +37,13 @@ grpcurl --version
 
 
 ```
-grpcurl -plaintext rpc.akashtestnet.xyz:9090 list
+grpcurl -plaintext grpc.akashtestnet.xyz:9090 list
 ```
 
 ### Example/Expected Output
 
 ```
-grpcurl -plaintext rpc.akashtestnet.xyz:9090 list
+grpcurl -plaintext grpc.akashtestnet.xyz:9090 list
 
 akash.audit.v1.Query
 akash.cert.v1.Query
@@ -66,7 +66,7 @@ grpcurl -plaintext grpc.akashtestnet.xyz:9090 list <service-name>
 ### Example/Expected Output
 
 ```
-grpcurl -plaintext grpc.akashtestnet.xyz:9090 list
+grpcurl -plaintext grpc.akashtestnet.xyz:9090 list akash.deployment.v1beta4.Query
  
 akash.deployment.v1beta4.Query
 akash.deployment.v1beta4.Query.Deployment
