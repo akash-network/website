@@ -54,6 +54,20 @@ const displayTag = (tag: string) => {
       All
     </a>
     {
+      astroUrl.pathname.includes("deployed-on-akash") && (
+        <a
+          href={`/ecosystem/${pathName?.[2]}/showcase/1`}
+          class={`inline-flex cursor-pointer text-base font-medium hover:text-primary ${
+            astroUrl.pathname?.includes("showcase")
+              ? "text-primary"
+              : "text-para"
+          }`}
+        >
+          Showcase
+        </a>
+      )
+    }
+    {
       sortedTags.map((tag: string) => (
         <a
           href={`/ecosystem/${pathName?.[2]}/${tag.toLowerCase()}/latest/1`}
