@@ -46,7 +46,7 @@ const Categories = ({
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href={`/ecosystem/${page}/latest`}
+                  href={`/ecosystem/${page}`}
                   className={classNames(
                     active
                       ? "bg-gray-100 text-foreground dark:bg-darkGray"
@@ -62,7 +62,7 @@ const Categories = ({
               <Menu.Item>
                 {({ active }) => (
                   <a
-                    href={`/ecosystem/deployed-on-akash/showcase/1`}
+                    href={`/ecosystem/deployed-on-akash/showcase/`}
                     className={classNames(
                       active
                         ? "bg-gray-100 text-foreground dark:bg-darkGray"
@@ -80,7 +80,7 @@ const Categories = ({
               <Menu.Item key={tag}>
                 {({ active }) => (
                   <a
-                    href={`/ecosystem/${page}/${tag.toLowerCase()}/latest/1`}
+                    href={`/ecosystem/${page}/${tag.toLowerCase()}`}
                     className={classNames(
                       active
                         ? "bg-gray-100 text-foreground  dark:bg-darkGray"

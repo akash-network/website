@@ -388,7 +388,7 @@ export const ecosystemNavItems = [
     ),
     title: "Tools",
 
-    link: "/ecosystem/akash-tools/latest/",
+    link: "/ecosystem/akash-tools",
   },
 
   {
