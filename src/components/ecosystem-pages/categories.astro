@@ -44,9 +44,9 @@ const displayTag = (tag: string) => {
 
   <div class="mt-4 flex flex-col gap-y-4">
     <a
-      href={`/ecosystem/${pathName?.[2]}`}
+      href={`/ecosystem/${pathName?.[2]}/`}
       class={`inline-flex cursor-pointer text-base  hover:text-primary ${
-        astroUrl.pathname === `/ecosystem/${pathName?.[2]}`
+        astroUrl.pathname === `/ecosystem/${pathName?.[2]}/`
           ? "text-primary"
           : "text-para"
       }`}

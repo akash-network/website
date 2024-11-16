@@ -333,7 +333,7 @@ export const ecosystemNavItems = [
     ),
     title: "Deployed on Akash",
 
-    link: "/ecosystem/deployed-on-akash/showcase/",
+    link: "/ecosystem/deployed-on-akash/",
   },
   {
     customIcon: (
@@ -388,7 +388,7 @@ export const ecosystemNavItems = [
     ),
     title: "Tools",
 
-    link: "/ecosystem/akash-tools",
+    link: "/ecosystem/akash-tools/",
   },
 
   {
