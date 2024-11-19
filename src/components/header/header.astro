@@ -50,7 +50,7 @@ const posts = (await getCollection("Blog"))
 >
   <nav
     class={clsx(
-      "container  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
+      "container-nav  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
     )}
     id="page-top"
   >
@@ -60,7 +60,7 @@ const posts = (await getCollection("Blog"))
       </a>
 
       <div
-        class="mt-1 hidden lg:flex lg:w-full lg:justify-center lg:gap-x-[20px] xl:gap-x-[24px]"
+        class="slg:flex mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] xl:gap-x-[24px]"
       >
         <PopOverNavItemNetwork client:load />
         <PopOverCommunity client:load type="community" />
@@ -87,11 +87,11 @@ const posts = (await getCollection("Blog"))
       </a>
     </div>
 
-    <div class="block overflow-hidden lg:hidden">
+    <div class="slg:hidden block overflow-hidden">
       <HamburgerMenu client:load currentPath={pathname} />
     </div>
 
-    <div class="hidden flex-shrink-0 lg:flex lg:gap-x-[12px]">
+    <div class="slg:flex slg:gap-x-[12px] hidden flex-shrink-0">
       <DarkModeToggle nav />
 
       <div class="mr-3 hidden items-center gap-x-[12px] text-para xl:flex">
