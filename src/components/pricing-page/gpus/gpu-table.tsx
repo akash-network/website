@@ -487,10 +487,10 @@ export const Tables = ({
                           />
                         </div>
                         <div className="flex-1">
-                          <p className="text-lg font-bold capitalize text-foreground lg:text-xl">
+                          <p className="text-lg font-semibold capitalize text-foreground lg:text-xl">
                             {modifyModel(model?.model)}
                           </p>
-                          <p className="text-sm font-medium text-[#71717A]">
+                          <p className="text-sm font-medium text-cardGray dark:text-para">
                             {model?.ram} {model?.interface}
                           </p>
                         </div>
@@ -503,16 +503,23 @@ export const Tables = ({
                       />
                     </td>
                     <td className="w-[16%] border-y px-2 xl:w-[17%] xl:px-6">
-                      <div className="flex max-w-[10.5rem] items-center justify-between gap-4">
-                        <HoverCard openDelay={2} closeDelay={2}>
-                          <HoverCardTrigger className="flex  flex-col gap-2 pt-1.5">
-                            <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                              Min: {price(model?.price?.min)}
-                            </span>
+                      <div className="flex max-w-[12rem] items-center justify-between gap-4">
+                        <div className="flex  flex-col gap-2 pt-1.5">
+                          <span className="text-sm font-medium text-cardGray dark:text-para">
+                            Min: {price(model?.price?.min)}
+                          </span>
 
-                            <span className="text-sm font-medium text-[#71717A] dark:text-para">
-                              Max: {price(model?.price?.max)}
+                          <span className="text-sm font-medium text-cardGray dark:text-para">
+                            Max: {price(model?.price?.max)}
+                          </span>
+                        </div>
+
+                        <HoverCard openDelay={2} closeDelay={2}>
+                          <HoverCardTrigger className="flex min-w-16 items-center justify-between gap-1 text-base ">
+                            <span className="text-lg font-semibold  ">
+                              {price(model?.price?.avg)}
                             </span>
+                            <Info size={16} className="text-cardGray" />
                           </HoverCardTrigger>
                           <HoverCardContent align="center">
                             <div className="flex flex-col">
@@ -558,11 +565,6 @@ export const Tables = ({
                             </div>
                           </HoverCardContent>
                         </HoverCard>
-                        <div className="flex min-w-16 justify-between text-base ">
-                          <span className="text-xl font-bold lg:text-2xl ">
-                            {price(model?.price?.avg)}
-                          </span>
-                        </div>
                       </div>
                     </td>
                     <td className="rounded-r-lg border-y border-r px-2 text-center xl:px-6">
