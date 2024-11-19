@@ -1,6 +1,7 @@
 ---
 import Button from "@/components/ui/button-link.astro";
 import type { CollectionEntry } from "astro:content";
+import { ArrowRight } from "lucide-react";
 
 interface Props {
   heroSection: CollectionEntry<"Homepage">["data"]["heroSection"];
@@ -13,8 +14,23 @@ const { heroSection } = Astro.props;
   <div
     class="border-b border-paraDark pb-[80px] pt-10 md:pb-[120px] md:pt-[64px]"
   >
+    <a
+      href="/pricing/gpus"
+      class="mx-auto flex w-fit items-center gap-2 rounded-full border border-primary bg-primary/5 py-1.5 pl-5 pr-3 dark:border-primary/10 md:gap-3 md:py-2.5"
+    >
+      <p
+        class="line-clamp-2 max-w-[250px] flex-1 text-center text-sm font-semibold text-primary md:max-w-max"
+      >
+        Access NVIDIA H100, A100, and A6000 at industry-leading pricing
+      </p>
+      <div
+        class="flex size-[22px] items-center justify-center rounded-full bg-primary text-white"
+      >
+        <ArrowRight size={16} />
+      </div>
+    </a>
     <h1
-      class="mx-auto text-center font-instrument text-6xl font-normal leading-[1] tracking-[-0.88px] lg:text-[88px]"
+      class="mx-auto mt-10 text-center font-instrument text-6xl font-normal leading-[1] tracking-[-0.88px] lg:text-[88px]"
       set:html={heroSection.title}
     />
 

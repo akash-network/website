@@ -75,7 +75,7 @@ export default function HamburgerMenu({
             leave="transition ease duration-300 transform"
             leaveFrom="opacity-100 translate-x-0"
             leaveTo="opacity-100 translate-x-full"
-            className="fixed  inset-0 z-[52]  w-full overflow-y-auto  bg-background md:left-auto md:right-0  md:w-1/2 lg:hidden"
+            className="slg:hidden  fixed inset-0  z-[52] w-full  overflow-y-auto bg-background md:left-auto  md:right-0 md:w-1/2"
           >
             <Panel currentPath={currentPath} open={open} />
           </Transition>
@@ -107,7 +107,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
   });
 
   return (
-    <Disclosure.Panel className="h-full lg:hidden">
+    <Disclosure.Panel className="slg:hidden h-full">
       <div className="box-border flex h-full  flex-col justify-between gap-y-6  px-6">
         <div className="flex flex-col gap-10">
           <div className="flex justify-between pb-4 pt-4 md:pt-6">
