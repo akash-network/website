@@ -504,12 +504,12 @@ export const Tables = ({
                     </td>
                     <td className="w-[16%] border-y px-2 xl:w-[17%] xl:px-6">
                       <div className="flex max-w-[12rem] items-center justify-between gap-4">
-                        <div className="flex  flex-col gap-2 pt-1.5">
-                          <span className="text-sm font-medium text-cardGray dark:text-para">
+                        <div className="flex  flex-col  pt-1.5">
+                          <span className="text-sm  text-cardGray dark:text-para">
                             Min: {price(model?.price?.min)}
                           </span>
 
-                          <span className="text-sm font-medium text-cardGray dark:text-para">
+                          <span className="text-sm  text-cardGray dark:text-para">
                             Max: {price(model?.price?.max)}
                           </span>
                         </div>
