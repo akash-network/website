@@ -13,7 +13,7 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
   className,
 }) => {
   const [maxDots, setMaxDots] = useState(25);
-  const filledDots = Math.round((available / total) * maxDots);
+  const filledDots = Math.round(((total - available) / total) * maxDots);
   const emptyDots = maxDots - filledDots;
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
         {Array.from({ length: filledDots }).map((_, i) => (
           <div
             key={i}
-            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-[#666666] dark:bg-white"
+            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-foreground "
           />
         ))}
         {Array.from({ length: emptyDots }).map((_, i) => (
