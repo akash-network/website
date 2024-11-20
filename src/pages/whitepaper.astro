@@ -1,0 +1,38 @@
+---
+import Layout from "@/layouts/layout.astro";
+const redirectUrl = "https://ipfs.io/ipfs/QmVwsi5kTrg7UcUEGi5UfdheVLBWoHjze2pHy4tLqYvLYv";
+---
+
+<Layout title="Redirecting to Akash Whitepaper">
+  <head>
+    <meta http-equiv="refresh" content={`0; url=${redirectUrl}`} />
+  </head>
+  <div class="relative overflow-hidden">
+    <div class="container text-center">
+      <div class="border-b border-[#d9d9d9] pb-[40px] pt-5 lg:pt-[60px] text-center">
+        <h1 class="text-xl font-bold md:text-3xl lg:text-4xl leading-tight">
+          Redirecting to Akash Whitepaper
+        </h1>
+        <p class="mt-4 text-sm text-gray-600 md:mt-6 md:text-lg md:leading-relaxed">
+          You are being redirected to our whitepaper, where you can explore in-depth insights into our platform. If redirection doesn’t happen automatically, please click the button below.
+        </p>
+        
+        <div class="mt-8">
+          <a
+            href={redirectUrl}
+            target="_blank"
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-white text-base font-semibold hover:bg-primary/90"
+          >
+            Access Akash Whitepaper
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-[90px] text-center">
+    <p class="text-sm text-gray-500">
+      If automatic redirection fails, <a href={redirectUrl} class="text-primary underline">click here</a> to access the whitepaper manually.
+    </p>
+  </div>
+</Layout>

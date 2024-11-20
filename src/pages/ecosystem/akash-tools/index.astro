@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+
+import EcosystemPage from "@/components/ecosystem-pages/ecosystem-page.astro";
+
+const projects = (await getCollection("Ecosystem_Page"))
+  .filter((project) => project.data.category === "tool")
+  .sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+
+    return dateB.getTime() - dateA.getTime();
+  });
+
+const tags: string[] = [];
+
+projects.forEach((project) => {
+  project.data.tags.forEach((tag: string) => {
+    const lowerCasedTag = tag.toLowerCase();
+
+    if (!tags.includes(lowerCasedTag)) {
+      tags.push(lowerCasedTag);
+    }
+  });
+});
+---
+
+<EcosystemPage title="Akash Tools" tags={tags} projects={projects} />

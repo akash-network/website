@@ -43,47 +43,41 @@ apt autoremove
 
 #### Install Latest NVIDIA Drivers
 
-The `ubuntu-drivers devices` command detects your GPU and determines which version of the NVIDIA drivers is best.
+> _**NOTE**_ - replace `2204` with your Ubuntu version (e.g. `2404` for Ubuntu noble release)
 
-> _**NOTE**_ - the NVIDIA drivers detailed and installed in this section have known compatibility issues with some `6.X` Linux kernels as discussed [here](https://forums.developer.nvidia.com/t/390-154-driver-no-longer-works-with-kernel-6-0/230959/7). In our experience, when such compatibility issue occur the driver will install with no errors generated but will not functionality properly. If you encounter Linux kernel and NVIDIA driver compatibility issues, consider downgrading the Kernel to the officially supported Ubuntu 22.04 kernel which at the time of this writing is `5.15.0-73`
+> _**NOTE**_ - Running `apt dist-upgrade` with the official NVIDIA repo bumps the `nvidia` packages along with the `nvidia-fabricmanager`, without version mismatch issue.
 
-```
-apt install ubuntu-drivers-common
-
-ubuntu-drivers devices
-```
-
-#### Expected/Example Output
+- Add the official nvidia repo
 
 ```
-root@node1:~# ubuntu-drivers devices
-
-== /sys/devices/pci0000:00/0000:00:1e.0 ==
-modalias : pci:v000010DEd00001EB8sv000010DEsd000012A2bc03sc02i00
-vendor   : NVIDIA Corporation
-model    : TU104GL [Tesla T4]
-driver   : nvidia-driver-450-server - distro non-free
-driver   : nvidia-driver-418-server - distro non-free
-driver   : nvidia-driver-470-server - distro non-free
-driver   : nvidia-driver-515 - distro non-free
-driver   : nvidia-driver-510 - distro non-free
-driver   : nvidia-driver-525-server - distro non-free
-driver   : nvidia-driver-525 - distro non-free recommended
-driver   : nvidia-driver-515-server - distro non-free
-driver   : nvidia-driver-470 - distro non-free
-driver   : xserver-xorg-video-nouveau - distro free builtin
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub && \
+apt-key add 3bf863cc.pub && \
+echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /" | tee /etc/apt/sources.list.d/nvidia-official-repo.list && \
+apt update
 ```
 
-#### Driver Install Based on Output
+- Install the latest nvidia-driver version
 
-Run either `ubuntu-drivers autoinstall` or `apt install nvidia-driver-525` (driver names may be different in your environment).
-
-The `autoinnstall` option installs the recommended version and is appropriate in most instances.
-
-The `apt install <driver-name>`alternatively allows the install of preferred driver instead of the recommended version.
+> In this example the latest was nvidia 560 (max supported CUDA 12.6), you can use `apt-cache search nvidia-driver | grep ^nvidia-driver` command to determine the latest version.
 
 ```
-ubuntu-drivers autoinstall
+DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nvidia-driver-560 && \
+apt -y autoremove
+```
+
+And reboot.
+
+### For non-PCIe, e.g. SXM\* GPUs
+
+In some circumstances it has been found that the NVIDIA Fabric Manager needs to be installed on worker nodes hosting GPU resources (typically, non-PCIe GPU configurations such as those using SXM form factors).
+
+> Replace `560` with your nvidia driver version installed in the previous steps
+> You may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
+
+```
+apt-get install nvidia-fabricmanager-560
+systemctl start nvidia-fabricmanager
+systemctl enable nvidia-fabricmanager
 ```
 
 ### Install the NVIDIA Container Toolkit
@@ -96,19 +90,6 @@ curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-contai
 
 apt-get update
 apt-get install -y nvidia-container-toolkit nvidia-container-runtime
-```
-
-### For non-PCIe, e.g. SXM\* GPUs
-
-In some circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources (typically, non-PCIe GPU configurations such as those using SXM form factors).
-
-> Replace `525` with your nvidia driver version installed in the previous steps
-> You may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
-
-```
-apt-get install cuda-drivers-fabricmanager-525
-systemctl start nvidia-fabricmanager
-systemctl enable nvidia-fabricmanager
 ```
 
 [Reference](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)

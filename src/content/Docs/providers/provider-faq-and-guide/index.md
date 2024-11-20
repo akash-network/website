@@ -1448,7 +1448,7 @@ Should your Akash Provider encounter issues during the installation process or i
 - [Basic GPU Resource Verifications](#basic-gpu-resource-verifications)
 - [Examine Linux Kernel Logs for GPU Resource Errors and Mismatches](#examine-linux-kernel-logs-for-gpu-resource-errors-and-mismatches)
 - [Ensure Correct Version/Presence of NVIDIA Device Plugin](#ensure-correct-versionpresence-of-nvidia-device-plugin)
-- [CUDA Drivers Fabric Manager](#cuda-drivers-fabric-manager)
+- [NVIDIA Fabric Manager](#nvidia-fabric-manager)
 
 ### Basic GPU Resource Verifications
 
@@ -1551,20 +1551,54 @@ NAME    NAMESPACE               REVISION    UPDATED                             
 nvdp    nvidia-device-plugin    1           2023-09-23 14:30:34.18183027 +0200 CEST    deployed    nvidia-device-plugin-0.14.1    0.14.1
 ```
 
-### CUDA Drivers Fabric Manager
+### NVIDIA Fabric Manager
 
-- In some circumstances it has been found that the CUDA Drivers Fabric Manager needs to be installed on worker nodes hosting GPU resources (e.g. non-PCIe GPU configurations such as those using SXM form factors)
-- If the output of the `torch.cuda.is_available()` command - covered in prior section in this doc - is an error condition, consider installing the CUDA Drivers Fabric Manager to resolve issue
+- In some circumstances it has been found that the NVIDIA Fabric Manager needs to be installed on worker nodes hosting GPU resources (e.g. non-PCIe GPU configurations such as those using SXM form factors)
+- If the output of the `torch.cuda.is_available()` command - covered in prior section in this doc - is an error condition, consider installing the NVIDIA Fabric Manager to resolve issue
 - Frequently encountered error message encounter when issue exists:\
   \
   `torch.cuda.is_available() function: Error 802: system not yet initialized (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:109.)`
-- Further details on the CUDA Drivers Fabric Manager are available [here](https://forums.developer.nvidia.com/t/error-802-system-not-yet-initialized-cuda-11-3/234955)
+- Further details on the NVIDIA Fabric Manager are available [here](https://forums.developer.nvidia.com/t/error-802-system-not-yet-initialized-cuda-11-3/234955)
 
 > _**NOTE**_ - replace `525` in the following command with the NVIDIA driver version used on your host
+
 > _**NOTE**_ - you may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
 
 ```
-apt-get install cuda-drivers-fabricmanager-525
+apt-get install nvidia-fabricmanager-525
 systemctl start nvidia-fabricmanager
 systemctl enable nvidia-fabricmanager
 ```
+
+- **nvidia-fabricmanager** package version mismatch
+
+
+Occasionally, the Ubuntu repositories may not provide the correct version of the **nvidia-fabricmanager** package. This can result in the `Error 802: system not yet initialized` error on SXM NVIDIA GPUs.
+
+A common symptom of this issue is that **nvidia-fabricmanager** fails to start properly:
+
+```
+# systemctl status nvidia-fabricmanager
+Nov 05 13:55:26 node1 systemd[1]: Starting NVIDIA fabric manager service...
+Nov 05 13:55:26 node1 nv-fabricmanager[104230]: fabric manager NVIDIA GPU driver interface version 550.127.05 don't match with driver version 550.120. Please update with matching NVIDIA driver package.
+Nov 05 13:55:26 node1 systemd[1]: nvidia-fabricmanager.service: Control process exited, code=exited, status=1/FAILURE
+```
+
+To resolve this issue, you’ll need to use the official NVIDIA repository. Here's how to add it:
+
+> _**NOTE**_ - replace `2204` with your Ubuntu version (e.g. `2404` for Ubuntu noble release)
+
+> _**NOTE**_ - Running `apt dist-upgrade` with the official NVIDIA repo bumps the `nvidia` packages along with the `nvidia-fabricmanager`, without version mismatch issue.
+
+```
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub
+apt-key add 3bf863cc.pub
+
+echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /" > /etc/apt/sources.list.d/nvidia-official-repo.list
+apt update
+apt dist-upgrade
+apt autoremove
+```
+
+> `dpkg -l | grep nvidia` -- make sure to remove any version you don't expect
+> and reboot

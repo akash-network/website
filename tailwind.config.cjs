@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       screens: {
         "3xl": "1660px",
+        slg: "1100px",
       },
       fontSize: {
         "2xs": ".625rem",

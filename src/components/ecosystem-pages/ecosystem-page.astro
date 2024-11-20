@@ -1,0 +1,62 @@
+---
+import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
+import Layout from "@/layouts/layout.astro";
+import { type CollectionEntry } from "astro:content";
+
+import Categories from "@/components/ecosystem-pages/categories.astro";
+import TopHeader from "@/components/ecosystem-pages/top-header.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import SearchDialog from "./search-dialog";
+type Project = CollectionEntry<"Ecosystem_Page">;
+const { projects, tags, title } = Astro.props;
+const astroUrl = Astro.url;
+---
+
+<Layout
+  title={`${title ? `${title} | ` : ""} Deployed On Akash`}
+  image="/meta-images/ecosystem.png"
+>
+  <TopMargin>
+    <TopHeader tags={tags} />
+  </TopMargin>
+
+  <div
+    class="container mt-4 flex justify-between md:mt-10 lg:gap-x-[20px] xl:gap-x-[48px]"
+  >
+    <Categories tags={tags} />
+
+    <div>
+      <div class="flex items-center justify-between">
+        <h2
+          class="text-[20px] font-semibold leading-[28px] md:text-2lg md:leading-[48px]"
+        >
+          {title || "Deployed On Akash"}
+        </h2>
+        <div class="hidden md:block">
+          <SearchDialog client:load currentPath={astroUrl.pathname} />
+        </div>
+      </div>
+
+      <div
+        class="mt-4 grid flex-shrink-0 grid-cols-1 gap-y-[24px] sm:grid-cols-2 sm:gap-x-8 md:gap-y-8 lg:grid-cols-3 lg:gap-x-[36px] lg:gap-y-[32px]"
+      >
+        {
+          projects?.map((project: Project, i: number) => {
+            return (
+              <ProjectCard
+                title={project.data.projectTitle}
+                description={project.data.description}
+                image={project.data.projectImage}
+                button={project.data.ctaButton}
+                githubLink={project.data.githubLink}
+                twitterLink={project.data.twitterLink}
+                websiteLink={project.data.websiteLink}
+                discordLink={project.data.discordLink}
+              />
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</Layout>
