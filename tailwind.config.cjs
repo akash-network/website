@@ -67,6 +67,7 @@ module.exports = {
         lightForeground: "hsl(var(--light-foreground))",
         sortText: "hsl(var(--sort-text))",
         darkGray: "hsl(var(--dark-gray))",
+        darkText: "var(--dark-text)",
         badgeColor: "hsl(var(--badge-color))",
         iconText: "hsl(var(--icon-text))",
         linkText: "hsl(var(--link-text))",
