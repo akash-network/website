@@ -16,7 +16,7 @@
     --primary: #ff414c;
     --primary-foreground: 0 0% 100%;
     --background-muted: #f4f4f5;
-
+    --dark-text: #080808;
     /* secondary colors */
     --secondary: 0 100% 94%;
     --secondary-rose: 0 100% 94%;
@@ -68,8 +68,7 @@
     --badge-color: 0 0% 24%;
     --icon-text: 0 0% 73%;
     --link-text: 0 0% 49%;
-    /* code */
-
+    --dark-text: #ffffff; /* code */
     --theme-header-bg: #3c3c3c;
     --three-dots-bg: #515151;
     --default-border: 0 0% 18%;
@@ -96,6 +95,10 @@
 }
 
 @layer components {
+  .darkline {
+    @apply h-[2px]  w-full max-w-24 bg-foreground;
+  }
+
   .container {
     @apply mx-auto max-w-[1280px] self-center  px-[16px] md:px-[20px] lg:px-[40px] 2xl:max-w-[1440px] 2xl:px-[20px] 3xl:max-w-[1600px] 3xl:px-[30px];
   }
@@ -252,4 +255,12 @@
 
 .hide-arrow {
   -moz-appearance: textfield;
+}
+
+.prose-blog li > p {
+  margin-bottom: 10px !important;
+}
+
+.prose-blog li > ul {
+  margin-block: 10px !important;
 }

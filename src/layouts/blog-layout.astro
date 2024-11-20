@@ -26,26 +26,33 @@ const {
 } = Astro.props;
 
 const isProd = import.meta.env.PROD;
+const slug = Astro.url.pathname.split("/")[2];
 ---
 
 <BaseLayout title={title} description={description} image={image}>
   <Header />
 
-  <main class="mt-[40px] md:mt-[120px]">
+  <main class="mx-auto mt-[40px] max-w-[1100px] px-4 md:mt-[120px]">
     <slot />
   </main>
 
-  <div class="container md:mt-32">
-    <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">
+  <div class="mx-auto max-w-[1100px] px-4 md:mt-32">
+    <h2 class="text-xl font-medium md:text-2xl">
       Discover what's happening on Akash
     </h2>
 
     <div
-      class="md mt-4 grid grid-cols-1 gap-6 gap-y-10 sm:grid-cols-2 md:gap-16 lg:grid-cols-3"
+      class="md mt-4 grid grid-cols-1 gap-10 gap-6 sm:grid-cols-2 lg:grid-cols-3"
     >
       {
         relatedArticles
-          .sort(() => Math.random() - 0.5)
+          ?.sort((a, b) => {
+            const dateA = new Date(a.data.pubDate);
+            const dateB = new Date(b.data.pubDate);
+
+            return dateB.getTime() - dateA.getTime();
+          })
+          ?.filter((post) => !post.data.archive && post.slug !== slug)
           .slice(0, 3)
           .map((post: BlogPost) => {
             return (
