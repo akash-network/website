@@ -1,24 +1,12 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import IntegrationSwiper from "./IntegrationSwiper.tsx";
 import { getPriorityIndex } from "@/utils/sequences/deployedOnAkash";
-import ProjectCard from "../ecosystem-pages/project-card.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 import { Button } from "../ui/button";
-import PostCard from "../cards/post-card.astro";
-
-const showBlogs = [
-  "brev-dev-leverages-akash-networks-permissionless-gpu-infrastructure-to-seamlessly-scale",
-  "prime-intellect-integrates-permissionless-akash-gpus",
-  "running-vllm-on-akash",
-];
+import IntegrationSwiper from "./IntegrationSwiper.tsx";
 
 type Project = CollectionEntry<"Ecosystem_Page">;
-type BlogPost = CollectionEntry<"Blog">;
 
 const data = await getCollection("Ecosystem_Page");
-const blogs = await getCollection("Blog").then((blogs) =>
-  blogs.filter((blog) => showBlogs.includes(blog.slug)),
-);
 
 const sortProjects = (projects: Project[]) =>
   projects.sort((a, b) => {
@@ -37,14 +25,16 @@ const projects = sortProjects(
 );
 ---
 
-<section class="bg-black py-20">
+<section class="bg-black py-10 md:py-20">
   <div class="container-small flex flex-col items-center">
-    <h2 class="mb-4 text-center text-3xl font-medium text-white">
+    <h2
+      class="mb-4 text-left text-xl font-medium text-white md:text-center md:text-3xl"
+    >
       Akash is a global, peer-to-peer network for cloud resources and the
       starting point for an entirely new generation of AI and machine learning
       applications.
     </h2>
-    <p class="text-center text-white/60">
+    <p class="text-left text-white/60 md:text-center">
       Check out the latest projects and companies that have integrated the Akash
       Supercloud.
     </p>

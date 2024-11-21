@@ -1,57 +1,37 @@
 ---
 import { ArrowRight } from "lucide-react";
+import JoinCard from "./joinCard.astro";
 ---
 
-<section class="dark bg-[#111114] py-24 text-white">
-  <div class="container-small flex items-center justify-between gap-10 pb-10">
+<section class="dark bg-[#111114] py-14 text-white md:py-24">
+  <div
+    class="container-small flex flex-col items-center justify-between gap-10 pb-10 md:flex-row"
+  >
     <div class="w-full flex-1">
-      <h1 class="mb-4 text-6xl font-semibold">Join Akash at NeurIPS 2024</h1>
-      <p class="mb-12 text-lg">
-        December 10-19 / Vancouver, BC / Vancouver Convention Centre
+      <h1 class="mb-4 text-[40px] font-semibold leading-[1] md:text-6xl">
+        Join Akash at NeurIPS 2024
+      </h1>
+      <p class="md:mb-12 md:text-lg">
+        December 10-19 / Vancouver, BC <span class="hidden md:block">/</span><br
+          class="md:hidden"
+        /> Vancouver Convention Centre
       </p>
-      <div
-        class="flex max-w-[700px] items-center gap-6 rounded-lg border bg-background p-5"
-      >
-        <div
-          class="flex aspect-square w-28 flex-col items-center justify-center rounded-[5px] bg-white p-4"
-        >
-          <p class="font-instrument text-lg text-black">NeurIPS</p>
-          <p
-            class="text-center font-instrument text-lg italic leading-4 text-primary"
-          >
-            AI Social Space
-          </p>
-        </div>
-        <div class="flex flex-col gap-4">
-          <div class="flex items-center gap-2">
-            <h2 class="text-2xl font-semibold">
-              Join Us at the NeurIPS AI Social Space
-            </h2>
-            <div
-              class="flex size-6 items-center justify-center rounded-full bg-white"
-            >
-              <ArrowRight className="size-4 stroke-[1.5] text-black" />
-            </div>
-          </div>
-          <p class="text-sm text-white">
-            Connect and collaborate with the leading projects and companies
-          </p>
-        </div>
-      </div>
+      <JoinCard className="hidden md:flex" />
     </div>
-    <div class="w-[30%] xl:w-[35%]">
+    <div class="w-[90%] md:w-[30%] xl:w-[35%]">
       <img src="/images/neurips/hero.png" alt="Akash Icon" class="w-full" />
     </div>
+    <JoinCard className="flex md:hidden" />
   </div>
 </section>
 <section
-  class="z-[2] mx-auto -mt-10 flex max-w-6xl items-center divide-x divide-defaultBorder rounded-lg border bg-background p-6 shadow-xl"
+  class="z-[2] mx-5 -mt-10 flex max-w-6xl flex-col items-center divide-y divide-defaultBorder rounded-lg border bg-background p-6 shadow-lg md:mx-auto md:flex-row md:divide-x md:divide-y-0 md:shadow-xl"
 >
-  <div class="pl-3 pr-6">
+  <div class="pb-5 md:pb-0 md:pl-3 md:pr-6">
     <img src="/images/neurips/neural.png" alt="NeurIPS Logo" />
   </div>
-  <div class="flex flex-col gap-4 p-3 pl-6">
-    <h2 class="text-2xl font-semibold">
+  <div class="flex flex-col gap-4 pt-5 md:pl-6 md:pr-3 md:pt-0">
+    <h2 class="text-xl font-semibold md:text-2xl">
       Akash is a platinum sponsor of the 2024 NeurIPS Conference
     </h2>
     <a

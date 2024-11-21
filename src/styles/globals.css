@@ -107,7 +107,7 @@
   }
 
   .container-small {
-    @apply mx-auto max-w-[1440px] px-[16px] md:px-[20px] lg:px-[40px];
+    @apply mx-auto max-w-[1440px] px-5  lg:px-[40px];
   }
   .border,
   .border-r,

@@ -1,44 +1,45 @@
 import type { CollectionEntry } from "astro:content";
-import React from "react";
-import DescriptionExpand from "../ecosystem-pages/description-expand";
-import { GithubIcon } from "../header/icons";
-import { TwitterIcon } from "../header/icons";
-import { DiscordIcon } from "../header/icons";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
+import DescriptionExpand from "../ecosystem-pages/description-expand";
+import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
 
 type Project = CollectionEntry<"Ecosystem_Page">;
 
 const IntegrationSwiper = ({ projects }: { projects: Project[] }) => {
   return (
-    <Swiper
-      spaceBetween={30}
-      slidesPerView={1.2}
-      slidesOffsetBefore={30}
-      slidesOffsetAfter={30}
-      breakpoints={{
-        640: {
-          slidesPerView: 2,
-          slidesOffsetBefore: 60,
-          slidesOffsetAfter: 60,
-        },
-        1024: {
-          slidesPerView: 3.9,
-          slidesOffsetBefore: 100,
-          slidesOffsetAfter: 100,
-        },
-      }}
-      className="mt-12"
-    >
-      {projects.map((project) => (
-        <SwiperSlide key={project.data.projectTitle}>
-          <Card project={project} />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div className="mt-12 flex w-full flex-col gap-2">
+      <h3 className="mb-2 px-5 text-left text-sm  font-medium text-white/60 md:px-[100px] md:text-base ">
+        Latest Integrations
+      </h3>
+      <Swiper
+        spaceBetween={30}
+        slidesPerView={1.2}
+        slidesOffsetBefore={20}
+        slidesOffsetAfter={20}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            slidesOffsetBefore: 60,
+            slidesOffsetAfter: 60,
+          },
+          1024: {
+            slidesPerView: 3.9,
+            slidesOffsetBefore: 100,
+            slidesOffsetAfter: 100,
+          },
+        }}
+        className=" w-full"
+      >
+        {projects.map((project) => (
+          <SwiperSlide key={project.data.projectTitle}>
+            <Card project={project} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 };
 
