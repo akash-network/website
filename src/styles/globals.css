@@ -106,6 +106,9 @@
     @apply mx-auto max-w-[1800px] px-[16px] md:px-[20px];
   }
 
+  .container-small {
+    @apply mx-auto max-w-[1440px] px-[16px] md:px-[20px] lg:px-[40px];
+  }
   .border,
   .border-r,
   .border-l,
