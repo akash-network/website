@@ -72,8 +72,14 @@ const isProd = import.meta.env.PROD;
     {!isProd && <TailwindIndicator />}
 
     <script>
-      const getTheme = () => localStorage.getItem("theme") || "light";
+      const getTheme = () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) return savedTheme;
 
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
       const setTheme = (theme: string) => {
         if (theme === "light") {
           document.documentElement.classList.remove("dark");

@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       screens: {
         "3xl": "1660px",
+        slg: "1100px",
       },
       fontSize: {
         "2xs": ".625rem",
@@ -66,6 +67,7 @@ module.exports = {
         lightForeground: "hsl(var(--light-foreground))",
         sortText: "hsl(var(--sort-text))",
         darkGray: "hsl(var(--dark-gray))",
+        darkText: "var(--dark-text)",
         badgeColor: "hsl(var(--badge-color))",
         iconText: "hsl(var(--icon-text))",
         linkText: "hsl(var(--link-text))",

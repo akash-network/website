@@ -410,6 +410,8 @@ Akash deployments now support the use of private container registries to pull im
     * DockerHub - password used to access your account when logging into `hub.docker.com`
     * Github Container Registry - use a Personal Access Token created with your GitHub account > Developer Settings > Personal Access Tokens
     
+##### DockerHub Example
+
 ```
 services:
   supermario:
@@ -424,6 +426,26 @@ services:
         to:
           - global: true
 ```
+
+##### GitHub Container Registry Example
+
+```
+services:  
+  bew:
+    image: ghcr.io/akash-network/test-app-web-private:main
+    credentials:
+      host: ghcr.io
+      username: HIDDEN
+      password: "HIDDEN"
+    expose:
+      - port: 80
+        as: 80
+        accept:
+          - hello1.localhost
+        to:
+          - global: true
+```
+
 
 #### Full Private Registry Use in SDL Example
 

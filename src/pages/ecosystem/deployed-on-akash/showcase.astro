@@ -1,0 +1,39 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+
+import EcosystemPage from "@/components/ecosystem-pages/ecosystem-page.astro";
+import { getPriorityIndex } from "@/utils/sequences/deployedOnAkash";
+
+type Project = CollectionEntry<"Ecosystem_Page">;
+
+const data = await getCollection("Ecosystem_Page");
+
+const sortProjects = (projects: Project[]) =>
+  projects.sort((a, b) => {
+    const priorityDiff =
+      getPriorityIndex(a.data.projectTitle) -
+      getPriorityIndex(b.data.projectTitle);
+    if (priorityDiff !== 0) return priorityDiff;
+
+    return (
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+    );
+  });
+
+const cards = sortProjects(
+  data.filter((project) => project.data.category === "deployed_on_akash"),
+);
+const projects = sortProjects(
+  data.filter((project) => project.data.showcase === true),
+);
+
+const tags: string[] = Array.from(
+  new Set(
+    cards.flatMap((project) =>
+      project.data.tags.map((tag) => tag.toLowerCase()),
+    ),
+  ),
+);
+---
+
+<EcosystemPage tags={tags} projects={projects} title="Showcase" />
