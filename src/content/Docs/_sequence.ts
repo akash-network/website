@@ -142,6 +142,7 @@ export const docsSequence = [
               { label: "Dash" },
               { label: "Metabase" },
               { label: "KNIME"},
+              { label: "Dataiku"},
             ],
           },
           {
