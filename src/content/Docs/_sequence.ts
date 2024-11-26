@@ -83,6 +83,7 @@ export const docsSequence = [
               { label: "AI Art" },
               { label: "Jupyter Notebook" },
               { label: "Text-Generation-WebUI" },
+              { label: "Mistral 7B"}
             ],
           },
           {
@@ -136,11 +137,22 @@ export const docsSequence = [
           },
           {
             label: "Data Visualizations",
-            subItems: [{ label: "Redash" }, { label: "Dash" }],
+            subItems: [
+              { label: "Redash" },
+              { label: "Dash" },
+              { label: "Metabase" },
+              { label: "KNIME"},
+            ],
           },
           {
             label: "Frameworks",
-            subItems: [{ label: "Next.js" }],
+            subItems: [
+              { label: "Next.js" },
+              { label: "React" },
+              { label: "Astro" },
+              { label: "Angular" },
+              { label: "Django" },
+            ],
           },
           {
             label: "Benchmarkings",
