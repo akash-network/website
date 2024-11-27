@@ -154,12 +154,15 @@ export const docsSequence = [
           {
             label: "Frameworks",
             subItems: [
+              { label: "Django" },
+              { label: "Flask"},
               { label: "Next.js" },
               { label: "React" },
               { label: "Astro" },
               { label: "Angular" },
-              { label: "Django" },
-              { label: "Flask"},
+              { label: "Nue JS"},
+              { label: "Gatsby"}
+              { label: "NextJS"},
             ],
           },
           {
