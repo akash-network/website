@@ -5,6 +5,7 @@ import CTA from "@/components/CTA.astro";
 import Footer from "@/components/footer/footer.astro";
 import Header from "@/components/header/header.astro";
 import { getEntry } from "astro:content";
+
 import clsx from "clsx";
 import BaseLayout from "./base-layout.astro";
 
@@ -13,6 +14,7 @@ interface Props {
   description?: string;
   image?: string;
 }
+
 const homepage = await getEntry("Homepage", "index");
 
 const { advert } = homepage.data;
@@ -23,7 +25,7 @@ const pathname = Astro.url.pathname;
 
 <BaseLayout title={title} description={description} image={image}>
   {
-    advert && pathname !== advert?.link && (
+    advert && !pathname.includes("neurips") && (
       <div class="flex items-center justify-center bg-primary px-3 py-2">
         <a
           id="advert-to-gpus"
