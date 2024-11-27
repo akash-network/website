@@ -163,6 +163,7 @@ export const docsSequence = [
               { label: "Gatsby"},
               { label: "NextJS"},
               { label: "Vue.js"},
+              { labe: "Ruby on Rails"},
             ],
           },
           {
