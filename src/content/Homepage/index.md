@@ -1,6 +1,6 @@
 ---
 advert: 
-  title: Join Akash at NeurIPS 2024, Dec 10-19, Vancouver Convention Centre, BC. →
+  title: Join Akash at NeurIPS 2024 →
   link: "/neurips"
 
 # hero section content
