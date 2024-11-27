@@ -1,0 +1,54 @@
+---
+import PostCard from "@/components/cards/post-card.astro";
+import Hero from "@/components/neurips/hero.astro";
+import InfoCards from "@/components/neurips/InfoCards.astro";
+import Integrations from "@/components/neurips/Integrations.astro";
+import Layout from "@/layouts/layout.astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+const showBlogs = [
+  "brev-dev-leverages-akash-networks-permissionless-gpu-infrastructure-to-seamlessly-scale",
+  "prime-intellect-integrates-permissionless-akash-gpus",
+  "running-vllm-on-akash",
+];
+const blogs = await getCollection("Blog").then((blogs) =>
+  blogs.filter((blog) => showBlogs.includes(blog.slug)),
+);
+
+type BlogPost = CollectionEntry<"Blog">;
+---
+
+<Layout
+  title="Join Us at NeurIPS AI Social Space"
+  description="Connect and collaborate with AI researchers, developers, and leaders on December 9-10th."
+>
+  <Hero />
+  <InfoCards />
+  <Integrations />
+  <section class="container-small py-10 md:py-20">
+    <h2 class="text-2xl font-semibold md:text-3xl">
+      Discover what's happening on Akash
+    </h2>
+
+    <div
+      class="md mt-4 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3"
+    >
+      {
+        blogs.map((post: BlogPost) => {
+          return (
+            <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
+              <PostCard
+                title={post.data.title}
+                image={post.data.bannerImage}
+                tag={post.data.tags[0]}
+                contributor={post.data.contributors[0]}
+                pubDate={post.data.pubDate}
+                description={post.data.description}
+              />
+            </a>
+          );
+        })
+      }
+    </div>
+  </section>
+</Layout>
