@@ -83,7 +83,11 @@ export const docsSequence = [
               { label: "AI Art" },
               { label: "Jupyter Notebook" },
               { label: "Text-Generation-WebUI" },
-              { label: "Mistral 7B"}
+              { label: "Mistral 7B"}, 
+              { label: "Skypilot"},
+              { label: "H2O"},
+              { label: "H2O Flow"},
+              { label: "H2O LLM Studio"}
             ],
           },
           {
