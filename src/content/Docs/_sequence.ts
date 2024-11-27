@@ -87,7 +87,7 @@ export const docsSequence = [
               { label: "Skypilot"},
               { label: "H2O"},
               { label: "H2O Flow"},
-              { label: "H2O LLM Studio"}
+              { label: "H2O LLM Studio"},
             ],
           },
           {
