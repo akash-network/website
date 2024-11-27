@@ -12,7 +12,7 @@ const IntegrationSwiper = ({ projects }: { projects: Project[] }) => {
   return (
     <div className="mt-12 flex w-full select-none flex-col gap-2">
       <h3 className="mb-2 px-5 text-left text-sm  font-medium text-white/60 md:px-14  md:text-base lg:px-[100px] ">
-        Latest Integrations
+        Explore the Akash Ecosystem
       </h3>
       <Swiper
         spaceBetween={30}
