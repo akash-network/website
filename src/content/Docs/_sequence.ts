@@ -89,7 +89,6 @@ export const docsSequence = [
               { label: "H2O Flow"},
               { label: "H2O LLM Studio"},
               { label: "h2oGPT"},
-
             ],
           },
           {
