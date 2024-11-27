@@ -141,13 +141,14 @@ export const docsSequence = [
             ],
           },
           {
-            label: "Data Visualizations",
+            label: "Data Analysis",
             subItems: [
               { label: "Redash" },
               { label: "Dash" },
               { label: "Metabase" },
               { label: "KNIME"},
               { label: "Dataiku"},
+              { label: "Rstudio"}
             ],
           },
           {
