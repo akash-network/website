@@ -11,33 +11,31 @@ const { className } = Astro.props;
   href="https://lu.ma/AISocialSpace"
   target="_blank"
   class={clsx(
-    "flex max-w-[700px] items-center gap-4 md:gap-6 rounded-lg border bg-background p-3 md:p-5",
+    "flex max-w-[700px] items-center gap-4 lg:gap-6 rounded-lg border bg-background p-3 md:p-5",
     className,
   )}
 >
   <div
-    class="flex aspect-square flex-col items-center justify-center rounded-[5px] bg-white p-3 md:w-28 md:p-4"
+    class="flex aspect-square w-16 flex-col items-center justify-center overflow-hidden rounded-[5px] bg-white p-3 md:w-20 lg:w-28 lg:p-4"
   >
-    <p class="font-instrument text-sm text-black md:text-lg">NeurIPS</p>
-    <p
-      class="text-center font-instrument text-sm italic !leading-[1] text-primary md:text-lg"
-    >
-      AI Social <br /> Space
-    </p>
+    <img src="/images/neurips/neurIPS.jpg" alt="NeurIPS" class="size-full" />
   </div>
-  <div class="flex w-full flex-1 flex-col gap-2 md:gap-4">
+  <div class="flex flex-1 flex-col gap-2 md:gap-4">
     <div class="flex gap-2 md:items-center">
-      <h2 class="flex-1 text-sm font-semibold md:flex-initial md:text-2xl">
-        Join Us at the NeurIPS AI Social Space
+      <h2
+        class="w-full flex-1 text-sm font-semibold md:flex-initial md:text-base lg:text-2xl"
+      >
+        Register for the NeurIPS AI Social Space
       </h2>
       <div
-        class="flex size-6 items-center justify-center rounded-full bg-white"
+        class="flex h-6 w-6 items-center justify-center rounded-full bg-white"
       >
         <ArrowRight className="size-4 stroke-[1.5] text-black" />
       </div>
     </div>
-    <p class="text-xs text-white md:text-sm">
-      Connect and collaborate with the leading projects and companies
+    <p class="text-xs text-white lg:text-sm">
+      Connect and collaborate with AI researchers, developers, and leaders on
+      December 9-10th.
     </p>
   </div>
 </a>
