@@ -1,0 +1,44 @@
+---
+import { getPriorityIndex } from "@/utils/sequences/deployedOnAkash";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Button } from "../ui/button";
+import IntegrationSwiper from "./IntegrationSwiper.tsx";
+
+type Project = CollectionEntry<"Ecosystem_Page">;
+
+const data = await getCollection("Ecosystem_Page");
+
+const sortProjects = (projects: Project[]) =>
+  projects.sort((a, b) => {
+    const priorityDiff =
+      getPriorityIndex(a.data.projectTitle) -
+      getPriorityIndex(b.data.projectTitle);
+    if (priorityDiff !== 0) return priorityDiff;
+
+    return (
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+    );
+  });
+
+const projects = sortProjects(
+  data.filter((project) => project.data.showcase === true),
+);
+---
+
+<section class="bg-black py-10 md:py-20">
+  <div class="container-small flex flex-col items-center">
+    <h2
+      class="mb-4 text-left text-xl font-medium text-white md:text-center md:text-3xl"
+    >
+      Akash is a global, peer-to-peer network for cloud resources and the
+      starting point for an entirely new generation of AI and machine learning
+      applications.
+    </h2>
+  </div>
+  <IntegrationSwiper projects={projects} client:load />
+  <div class="mt-10 flex justify-center">
+    <a href="/ecosystem/deployed-on-akash/">
+      <Button variant={"outline"}>View Akash Ecosystem</Button></a
+    >
+  </div>
+</section>
