@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import CTA from "@/components/CTA.astro";
 import Footer from "@/components/footer/footer.astro";
 import Header from "@/components/header/header.astro";
+import { getEntry } from "astro:content";
 import clsx from "clsx";
 import BaseLayout from "./base-layout.astro";
 
@@ -11,31 +12,30 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
-  advert?: {
-    title: string;
-    link: string;
-  };
 }
+const homepage = await getEntry("Homepage", "index");
 
-const { title, description, image, advert } = Astro.props;
+const { advert } = homepage.data;
+
+const { title, description, image } = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 
 <BaseLayout title={title} description={description} image={image}>
   {
-    advert && (
+    advert && pathname !== advert?.link && (
       <div class="flex items-center justify-center bg-primary px-3 py-2">
         <a
           id="advert-to-gpus"
-          href={advert.link}
+          href={advert?.link}
           target={
-            advert.link.startsWith("/") || advert.link.startsWith("#")
+            advert?.link.startsWith("/") || advert?.link.startsWith("#")
               ? "_self"
               : "_blank"
           }
         >
           <p class="text-center text-sm font-semibold text-white underline">
-            {advert.title}
+            {advert?.title}
           </p>
         </a>
       </div>
