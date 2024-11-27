@@ -18,7 +18,10 @@ const blogs = await getCollection("Blog").then((blogs) =>
 type BlogPost = CollectionEntry<"Blog">;
 ---
 
-<Layout title="NeurIPS 2024">
+<Layout
+  title="Join Us at NeurIPS AI Social Space"
+  description="Connect and collaborate with AI researchers, developers, and leaders on December 9-10th."
+>
   <Hero />
   <InfoCards />
   <Integrations />
