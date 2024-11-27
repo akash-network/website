@@ -1,6 +1,6 @@
 ---
 categories: ["Guides"]
-tags: ["Frameworks"]
+tags: ["Frameworks", "Python", "Flask"]
 weight: 1
 title: "Deploying a Flask App on Akash"
 linkTitle: "Flask"

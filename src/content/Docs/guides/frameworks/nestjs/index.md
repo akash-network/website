@@ -1,9 +1,9 @@
 ---
 categories: ["Guides"]
-tags: ["Web Development", "React", "JavaScript", "Framework"]
+tags: ["Web Development", "NestJS", "JavaScript", "Framework"]
 weight: 1
 title: "Building and Deploying a NestJS App on Akash Network"
-linkTitle: "Next.js"
+linkTitle: "NestJS"
 ---
 
 This guide walks you through setting up, containerizing, and deploying a NestJS application on Akash Network. 

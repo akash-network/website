@@ -161,8 +161,9 @@ export const docsSequence = [
               { label: "Astro" },
               { label: "Angular" },
               { label: "Nue JS"},
-              { label: "Gatsby"}
+              { label: "Gatsby"},
               { label: "NextJS"},
+              { label: "Vue.js"},
             ],
           },
           {
