@@ -8,12 +8,12 @@ const { card } = Astro.props;
 ---
 
 <div
-  class={`flex-col  gap-x-10 gap-y-6   mt-10  flex lg:items-center   ${
-    card.id % 2 === 0 ? "lg:flex-row " : "lg:flex-row-reverse"
+  class={`flex-col gap-x-10 gap-y-6 mt-20 mx-auto w-fit  flex lg:items-start justify-items-center  ${
+    card.id % 2 === 0 ? "lg:flex-row-reverse" : "lg:flex-row"
   }`}
 >
   <div
-    class={`md:max-w-[576px] w-full not-prose flex-1 flex-shrink-0  !rounded-lg`}
+    class={`md:max-w-[536px] w-full not-prose flex-1 flex-shrink-0  !rounded-lg`}
   >
     <img
       class="w-full object-contain"
@@ -28,13 +28,13 @@ const { card } = Astro.props;
       src={card?.darkImage ?? card?.image ?? fallbackImage}
     /> -->
   </div>
-  <div class="flex w-full flex-1 flex-col gap-6 pt-0">
-    <h2 class="not-prose text-3xl font-medium md:mt-0 md:text-4xl lg:text-5xl">
+  <div class="flex flex-1 flex-col gap-6 pt-0 max-w-[500px]">
+    <h2 class="not-prose text-3xl font-semibold md:mt-0">
       {card.title}
     </h2>
 
     <p
-      class="not-prose text-sm leading-[24px] text-para md:text-start md:text-base md:leading-[28px]"
+      class="not-prose text-sm leading-[24px] text-[#71717A] font-normal text-para md:text-start md:text-base md:leading-[24px] px-2"
       set:html={card.description}
     />
     <ButtonLink

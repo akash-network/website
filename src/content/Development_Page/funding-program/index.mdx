@@ -8,6 +8,7 @@ pubDate: "2020-01-19"
 
 
 ---
+
 import Card from "../../../components/mdx-cards/card.astro";
 import { FAQ } from '../../../components/mdx-cards/faq.tsx';
 import TableBody from "../../../components/mdx-cards/table/table-body.astro";
@@ -21,20 +22,18 @@ import image1Dark from "./assets/card1-dark.svg";
 import image2Dark from "./assets/card2-dark.svg";
 import image1 from "./card1.png";
 import image2 from "./card2.png";
-import github from './github-icon.svg';
+import image3 from "./card3.png";
 import link from './link.svg';
+import github from "./github-icon.svg";
+
+<h1 class="text-[32px] font-semibold leading-10 mx-auto max-w-[1155px] text-center">The Akash Network is open source and operates under an open development framework. There are a number of ways for individuals or teams to be financially compensated for contributions to the network.</h1>
 
 
-
-
-
-
-
-<Card
+{/* <Card
   card={{
     title: "Governance Proposal",
     icon :github,
-    link :"https://github.com/orgs/akash-network/discussions/170",
+    link :"#",
     image: image1,
  
     linkText: "View Governance Proposal Best Practices",
@@ -43,19 +42,62 @@ import link from './link.svg';
     description:
       "Governance proposals are your way to directly influence the direction of Akash. These proposals allow you to suggest and vote on changes to the network's rules, features, and parameters. If you have ideas for improvements, upgrades, or new initiatives, this is your platform to voice them. Your input drives the evolution of the Akash Network, making it more decentralized, efficient, and adaptable. Join our governance process today and play a pivotal role in shaping the decentralized cloud of the future.",
   }}
+/> */}
+
+<Card
+  card={{
+    title: "Bounties ($100s - $1000s)",
+    icon :github,
+    link :"#",
+    image: image1,
+ 
+    linkText: "View More",
+    id: 1,
+    title: "Bounties ($100s - $1000s)",
+    description:
+"Through the Community Support Governance Proposals, managed by Overclock Labs, there is AKT funding available for smaller contributors helping build and progress the network. Possible contributions can include but are not limited to support of documentation, the Akash Network website, Akash Console, Testnets, small pilot programs, Akash related content, or other efforts that are discussed during special interest groups or working groups.<br></br>The community tries to match people's skills and interests with Akash Network’s needs to create a symbiotic relationship where people can learn and earn while contributing, and the network becomes more mature.<br></br>No matter your skill set or passion, there are various ways to get involved and contribute to the growth of the Akash Network.Feel free to get involved."
+  }}
 />
+{/* 
+<Card
+  card={{
+    title:"Akash Grants Program",
+    icon :github,
+    image: image2,
+      linkText: "Apply Now",
+    id: 2,
+       link :"#",
+    title: "Akash Grants Program",
+    description:
+      "Get started with a micro grant and open doors to deployment incentives.",
+  }}
+/> */}
 
 
 <Card
   card={{
-    title:"Akash Grants Program",
-    icon :link,
+    title:"Community Pool Spend Proposals via Governance",
+    icon :github,
     image: image2,
-      linkText: "Apply Now",
+      linkText: "View more",
     id: 2,
-       link :"https://github.com/orgs/akash-network/discussions",
-    title: "Akash Grants Program",
+       link :"#",
+    title: "Community Pool Spend Proposals via Governance",
     description:
-      "Get started with a micro grant and open doors to deployment incentives.",
+      "Outside of some of the programs managed by Overclock Labs,anyone can <a class='font-semibold underline dark:text-[#f4f4f5] text-black' href='https://www.mintscan.io/akash/address/community-pool' target='_blank'>request funds from the community pool</a>. The community pool is completely permissionless, meaning anyone can request any funding amount, at any time, for anything. The caveat being that a proposal must pass on-chain governance for funds to be released to the requestor.<br></br> Please review <a class='font-semibold underline dark:text-[#f4f4f5] text-black' href='https://github.com/orgs/akash-network/discussions/170' target='_blank'>Best Practices for putting up Governance Proposals </a>",
+  }}
+/>
+
+<Card
+  card={{
+    title:"Delegations",
+    icon :github,
+    image: image3,
+      linkText: "View more",
+    id: 3,
+       link :"#",
+    title: "Delegations",
+    description:
+      "Foundation delegations will be earned, and maintained over time, by consistent, professional, and value-adding contributions to the Akash Network. While there may be some exceptions to the rule, the Akash Foundation (managed by Overclock Labs) will govern delegations to Akash validators per the following principles and parameters.",
   }}
 />
