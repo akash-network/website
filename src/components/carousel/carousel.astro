@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+
+const images = [
+  "/images/slides/slide1.png",
+  "/images/slides/slide2.png",
+  "/images/slides/slide3.png",
+  "/images/slides/slide4.png",
+  "/images/slides/slide5.png",
+  "/images/slides/slide6.png",
+  "/images/slides/slide7.png",
+  "/images/slides/slide8.png",
+];
+---
+
+<div>
+  <div class="slider bg-background">
+    <div class="slide-track">
+      {images.map((src, index) => (
+        <div class="slide w-auto pb-3 mx-3 md:mx-5 lg:mx-[28px]" key={index}>
+          <Image src={src} alt={`Image ${index + 1}`} height={380} width={260} class="slide-img aspect-auto h-full w-full rounded-md shadow-[12px_12px_#E4E4E4]"/>
+        </div>
+      ))}
+      {/* Optionally, you can repeat the images to create a continuous effect */}
+      {images.map((src, index) => (
+        <div class="slide w-auto pb-3 mx-3 md:mx-5 lg:mx-[28px]" key={`repeat-${index}`}>
+          <Image src={src} alt={`Image ${index + 1}`} height={380} width={260} class="slide-img aspect-auto h-full w-full rounded-md shadow-[12px_12px_#E4E4E4]"/>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Include your CSS from the `crousel.css` file */
+  @import './carousel.css';
+</style>

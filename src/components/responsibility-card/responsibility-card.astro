@@ -1,0 +1,16 @@
+---
+// Props for the card: icon, title, and description
+const { icon = "code", title, description } = Astro.props;
+import { CodeBracketIcon } from '@heroicons/react/24/outline';
+---
+
+<div
+  class="p-4 min-w-[200px]"
+>
+    <div>
+      <CodeBracketIcon className="w-12 h-12 text-black border border-gray-300 rounded-lg p-3"/>
+    </div>
+    
+  <h3 class="text-base mb-2">{title}</h3>
+  <p class="text-sm text-[#71717A]">{description}</p>
+</div>

@@ -1,19 +1,22 @@
 ---
 import ButtonLink from "../ui/button-link.astro";
-
-const { image, title, description, buttonLabel, buttonLink, darkImage } =
+const { subTitle, title1, title2, description, buttonLabel, buttonLink, darkImage } =
   Astro.props;
 ---
 
 <div
-  class="not-prose flex flex-col-reverse items-center justify-between gap-x-10 gap-y-6 lg:flex-row"
+  class="text-center not-prose flex items-center justify-between gap-x-10 gap-y-6 flex-col mb-[80px] md:mb-[100px] xl:mb-[120px]"
 >
-  <div class="gap flex w-full flex-1 flex-col gap-y-4 lg:gap-y-10">
-    <h1 class="text-3xl md:text-4xl lg:text-5xl">
-      {title}
+  <div class="gap flex w-full flex-1 flex-col">
+    <p class="text-base lg:text-xl">
+      {subTitle}
+    </p>
+    <h1 class="text-3xl md:text-4xl lg:text-5xl leading-snug">
+      {title1}
+      <br>
+      {title2}
     </h1>
-
-    <p class="text-sm lg:text-lg">
+    <p class="text-sm lg:text-lg pt-6 max-w-3xl m-auto">
       {description}
     </p>
 
@@ -41,7 +44,4 @@ const { image, title, description, buttonLabel, buttonLink, darkImage } =
     </ButtonLink>
   </div>
 
-  <div class="w-full flex-1 lg:max-w-[575px]">
-    <img src={image.src} alt={`banner image `} class="w-full object-contain" />
-  </div>
 </div>

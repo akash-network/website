@@ -10,23 +10,82 @@ contributeDropdown:
   content: "The Akash community is global in it’s reach and enourmous in it’s impact. However, due to the size and complexity in the ways members can contribute, there is no central repository of all the content that’s educating and inspiring current and future crypto community members."
 ---
 
-Akash EDU is a free educational program designed to teach individuals basic to advanced knowledge of the Akash Network Ecosystem. We’re starting off small with introducing a few courses one at a time giving students a better understanding of our ecosystem partners, eg -Akash Console, Praetor and Terraform. We have a long term plan to add additional courses over time and eventually get to a place where students can become full fledged decentralized cloud professionals
+import CommunityHero from "../../../components/mdx-cards/community-hero.astro";
 
-Applications are reviewed bi-weekly and onboarding instructions are sent to new students on a rolling basis.
+<CommunityHero
+  subTitle="Akash EDU:"
+  title1="Free Cloud Computing Education"
+  title2=""
+  description="Master the future of cloud infrastructure with our comprehensive, no-cost education program. Akash Network is revolutionizing cloud computing by creating an open marketplace for compute resources."
+  buttonLabel="Start your learning journey today!"
+  buttonLink="https://akashedu.omniflix.tv/"
+/>
 
-import ButtonLink from "../../../components/ui/button-link.astro";
+<div className="mx-auto mb-[80px] flex max-w-[1155px] flex-col gap-[56px] text-base md:mb-[100px] md:flex-row md:gap-[68px] xl:mb-[120px]">
+  <div className="flex-1">
+    <h2 className="m-0">What You'll Get:</h2>
+    <ul className="m-0 pl-5">
+      <li>
+        Validators are rewarded for their participation in block validation and maintaining a secure network. Rewards are often in the form of $AKT, influenced by factors like the validator's stake and performance.
+      </li>
+      <li>
+        Expert-Led Content: Learn from active Akash developers and community leaders
+      </li>
+      <li>
+        Zero Cost: All educational materials are completely free and go at your own pace
+      </li>
+      <li>
+        Community Access: Join a thriving network of cloud computing innovators
+      </li>
+    </ul>
+  </div>
 
-<ButtonLink className="not-prose" variant="secondary" size="lg"
- link ="https://akashedu.omniflix.tv/"
->
-  <svg
-  class="text-para"
-  stroke = "currentColor"
-   width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M7.64062 12.3573L12.3547 7.64319M12.3547 7.64319H8.22988M12.3547 7.64319V11.768"  strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M9.9974 18.3333C14.5997 18.3333 18.3307 14.6023 18.3307 9.99996C18.3307 5.39758 14.5997 1.66663 9.9974 1.66663C5.39502 1.66663 1.66406 5.39758 1.66406 9.99996C1.66406 14.6023 5.39502 18.3333 9.9974 18.3333Z"  strokeLinecap="round" strokeLinejoin="round"/>
-</svg>
+  <div className="relative order-first flex-1">
+    <img
+      src="/images/security-shieldIcon.png"
+      alt="Node Infrastructure"
+      className="relative z-10 m-0 max-w-full rounded-md shadow-[12px_12px_#E4E4E4]"
+    />
+  </div>
+</div>
 
-Join Today
+<div className="mx-auto flex max-w-[1155px] flex-col gap-0 text-base md:flex-row md:gap-[56px]">
+  <div className="flex-1">
+    <h2 className="m-0">Who Should Join?</h2>
+    <ul className="m-0">
+      <li>
+        Developers seeking cloud alternatives
+      </li>
+      <li>
+        DevOps professionals
+      </li>
+      <li>
+        Blockchain enthusiasts pace
+      </li>
+      <li>
+        Students and educators
+      </li>
+      <li>
+        Tech entrepreneurs
+      </li>
+    </ul>
+  </div>
 
-</ButtonLink>
+  <div className="relative order-first flex-1 md:order-last">
+    <img
+      src="/images/cloud-keyboard-image.png"
+      alt="Rewards and Penalties Graphic"
+      className="relative z-10 m-0 max-w-full rounded-md shadow-[12px_12px_#E4E4E4]"
+    />
+  </div>
+</div>
+<div class="mt-[80px] md:mt-[100px]"></div>
+<CommunityHero
+  subTitle=""
+  title1="Get Started Today"
+  title2=""
+  description="Join thousands of learners already building on Akash. Transform your cloud computing skills and be part of the decentralized future."
+  buttonLabel="Sign Up Now"
+  buttonLink="https://console.akash.network/"
+/>
+---

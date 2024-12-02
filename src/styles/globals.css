@@ -261,7 +261,8 @@
 }
 
 .prose-blog li > p {
-  margin-bottom: 10px !important;
+  /* margin-bottom: 10px !important; */
+  margin: 0 !important;
 }
 
 .prose-blog li > ul {

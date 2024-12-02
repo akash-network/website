@@ -6,43 +6,105 @@ pubDate: "2020-01-19"
 ---
 
 import CommunityHero from "../../../components/mdx-cards/community-hero.astro";
-import bannerImage1 from "./hero.png";
+import Carousel from "../../../components/carousel/carousel.astro";
 
 
 <CommunityHero
-  image={bannerImage1}
-  title="Akash Insiders"
-  description="A global community of AI, cloud, and crypto developers and enthusiasts."
-  buttonLabel="Become an Akash Insider"
+  subTitle="Akash Insiders:"
+  title1="Connecting Cloud Innovators,"
+  title2="AI Enthusiasts, and Crypto Crusaders"
+  description="Akash Insiders are leaders within the Akash ecosystem. They are an inclusive community of collaborative, digital pioneers helping to move DePin technologies forward."
+  buttonLabel="Apply to become an Akash Insider today!"
   buttonLink="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
 
 />
 
----
-
-## Who are Akash Insiders?
-
-Akash Insiders is a global community of AI, cloud, and crypto developers and enthusiasts. These passionate individuals collaborate, exchange ideas, and spearhead innovation within both the Akash community and the broader tech ecosystem.
+    <Carousel />
 
 ---
 
-## What do Akash Insiders do?
+<div className="mx-auto flex max-w-[1155px] flex-row flex-col gap-0 text-base md:flex-row md:gap-5">
+  <div class="flex-1">
+    <h2 class="m-0">What do Akash Insiders do?</h2>
+    <ul class="m-0">
+      <li>
+        Contribute to the development of the Akash ecosystem, leveraging their
+        shared expertise in AI, cloud, and crypto technologies.
+      </li>
+      <li>
+        Participate in testing new features, products, and updates within the
+        Akash ecosystem.
+      </li>
+      <li>
+        Contribute to the creation and maintenance of technical documentation,
+        tutorials, and resources to help others understand and utilize Akash
+        technologies.
+      </li>
+      <li>
+        Offer assistance and guidance to fellow community members, sharing
+        knowledge and fostering a supportive and collaborative environment.
+      </li>
+      <li>
+        Host workshops, webinars, or tutorials to educate the community about
+        cloud computing, AI, and best practices for development on the Akash
+        Network.
+      </li>
+      <li>Represent Akash Network at in-person events around the world.</li>
+    </ul>
+  </div>
+  <div class="relative order-first flex-1 md:order-last">
+    <img
+      src="/images/akash-image.png"
+      alt="Akash Insiders Graphic"
+      className="relative z-10 m-0 max-w-full rounded-md shadow-[12px_12px_#E4E4E4]"
+    />
+  </div>
+</div>
 
-- Contribute to the development of the Akash ecosystem, leveraging their shared expertise in AI, cloud, and crypto technologies.
-- Participate in testing new features, products, and updates within the Akash ecosystem.
-- Contribute to the creation and maintenance of technical documentation, tutorials, and resources to help others understand and utilize Akash technologies.
-- Offer assistance and guidance to fellow community members, sharing knowledge and fostering a supportive and collaborative environment.
-- Host workshops, webinars, or tutorials to educate the community about cloud computing, AI, and best practices for development on the Akash Network.
+<div className="mx-auto mb-[80px] flex max-w-[1155px] flex-col gap-[56px] text-base md:mb-[100px] md:flex-row md:gap-[68px] xl:mb-[120px]">
+  <div className="flex-1">
+    <h2 className="m-0">Why Become an Insider?</h2>
+    <ul className="m-0">
+      <li>
+        Engage with a diverse and global community of like-minded developers and
+        enthusiasts.
+      </li>
+      <li>
+        Gain early access to new features, products, and updates within the
+        Akash ecosystem.
+      </li>
+      <li>
+        Get a front-row education on the latest in web3, AI, and cloud
+        technologies.
+      </li>
+      <li>
+        Actively engage and learn from other community members from across the
+        world.
+      </li>
+      <li>
+        Gain closer access to the Overclock Labs team, the creators of the Akash
+        Network.
+      </li>
+      <li>Represent the Akash community at IRL events around the world.</li>
+    </ul>
+  </div>
+  <div className="relative order-first flex-1">
+    <img
+      src="/images/insider.png"
+      alt="Akash Insiders Graphic"
+      className="relative z-10 m-0 max-w-full rounded-md shadow-[12px_12px_#E4E4E4]"
+    />
+  </div>
+</div>
 
----
+<CommunityHero
+  subTitle=""
+  title1="Interested in becoming an Akash Insider?"
+  title2=""
+  description=""
+  buttonLabel="Apply today!"
+  buttonLink="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
 
-## Why Become an Insider?
-
-- Engage with a diverse and global community of like-minded developers and enthusiasts.
-- Gain early access to new features, products, and updates within the Akash ecosystem.
-- Get a front-row education on the latest in web3, AI and cloud technologies.
-- Actively engage and learn from other community members from across the world.
-- Gain closer access to the Overclock Labs team the creators of the Akash Network.
-- Represent the Akash community at IRL events around the world.
+/>
 
 ---
