@@ -1,7 +1,7 @@
 ---
 advert: 
-  title: Access NVIDIA H100, A100, and A6000 at industry-leading pricing →
-  link: "/pricing/gpus"
+  title: Join Akash at NeurIPS 2024 →
+  link: "/neurips"
 
 # hero section content
 heroSection:
