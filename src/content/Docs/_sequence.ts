@@ -98,6 +98,9 @@ export const docsSequence = [
               { label: "Multi-Tiered Deployment" },
               { label: "Ruby on Rails with Sia and Auth0" },
               { label: "Jackal S3 Gateway" },
+              { label: "Caddy"},
+              { label: "Nginx"},
+              { label: "Apache HTTP Server"},
             ],
           },
           {
@@ -164,21 +167,11 @@ export const docsSequence = [
               { label: "Gatsby"},
               { label: "NextJS"},
               { label: "Vue.js"},
-              { labe: "Ruby on Rails"},
             ],
           },
           {
             label: "Benchmarkings",
             subItems: [{ label: "Fast.com" }],
-          },
-          {
-            label: "Apps",
-            subItems: [
-              { label: "Waku" },
-              { label: "qBittorrent" },
-              { label: "Discourse" },
-              { label: "Invidious" },
-            ],
           },
         ],
       },

@@ -89,5 +89,5 @@ akash tx deployment create deploy-rstudio.yaml --from <your-akash-wallet> --chai
 
 ## Additional Tips
 
-- **Storage and Memory**: You may need to adjust the memory and storage configurations in the SDL file depending on your workload.
+- **Storage and Memory**: You may need to adjust the `memory` and `storage` configurations in the SDL file depending on your workload.
 - **Security**: For production deployments, consider securing the deployment with SSL or limiting access.
