@@ -83,7 +83,12 @@ export const docsSequence = [
               { label: "AI Art" },
               { label: "Jupyter Notebook" },
               { label: "Text-Generation-WebUI" },
-              { label: "Mistral 7B"}
+              { label: "Mistral 7B"}, 
+              { label: "Skypilot"},
+              { label: "H2O"},
+              { label: "H2O Flow"},
+              { label: "H2O LLM Studio"},
+              { label: "h2oGPT"},
             ],
           },
           {
@@ -93,6 +98,9 @@ export const docsSequence = [
               { label: "Multi-Tiered Deployment" },
               { label: "Ruby on Rails with Sia and Auth0" },
               { label: "Jackal S3 Gateway" },
+              { label: "Caddy"},
+              { label: "Nginx"},
+              { label: "Apache HTTP Server"},
             ],
           },
           {
@@ -136,36 +144,34 @@ export const docsSequence = [
             ],
           },
           {
-            label: "Data Visualizations",
+            label: "Data Analysis",
             subItems: [
               { label: "Redash" },
               { label: "Dash" },
               { label: "Metabase" },
               { label: "KNIME"},
+              { label: "Dataiku"},
+              { label: "Rstudio"}
             ],
           },
           {
             label: "Frameworks",
             subItems: [
+              { label: "Django" },
+              { label: "Flask"},
               { label: "Next.js" },
               { label: "React" },
               { label: "Astro" },
               { label: "Angular" },
-              { label: "Django" },
+              { label: "Nue JS"},
+              { label: "Gatsby"},
+              { label: "NextJS"},
+              { label: "Vue.js"},
             ],
           },
           {
             label: "Benchmarkings",
             subItems: [{ label: "Fast.com" }],
-          },
-          {
-            label: "Apps",
-            subItems: [
-              { label: "Waku" },
-              { label: "qBittorrent" },
-              { label: "Discourse" },
-              { label: "Invidious" },
-            ],
           },
         ],
       },
