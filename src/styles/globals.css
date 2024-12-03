@@ -107,7 +107,7 @@
   }
 
   .container-reader {
-    @apply mx-auto max-w-[1150px] px-5 lg:px-0;
+    @apply mx-auto max-w-[1150px] px-5;
   }
   .container-small {
     @apply mx-auto max-w-[1440px] px-5  xl:px-[40px];
