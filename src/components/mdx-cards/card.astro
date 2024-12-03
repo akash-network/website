@@ -28,22 +28,24 @@ const { card } = Astro.props;
       class="not-prose text-sm font-normal leading-[24px] text-para md:text-start md:text-base md:leading-[24px]"
       set:html={card.description}
     />
-    <ButtonLink
-      link={card.link ?? "#"}
-      size="lg"
-      variant={card.type ?? "secondary"}
-      className="not-prose"
-    >
-      {
-        card.icon &&
-          (card.link.startsWith("https://github.com") ? (
-            <GithubIcon className="text-para" />
-          ) : (
-            <RightArrowIcon className="text-para" />
-          ))
-      }
+    {
+      card.link && (
+        <ButtonLink
+          link={card.link ?? "#"}
+          size="lg"
+          variant={card.type ?? "secondary"}
+          className="not-prose"
+        >
+          {card.icon &&
+            (card.link.startsWith("https://github.com") ? (
+              <GithubIcon className="text-para" />
+            ) : (
+              <RightArrowIcon className="text-para" />
+            ))}
 
-      {card.linkText}
-    </ButtonLink>
+          {card.linkText}
+        </ButtonLink>
+      )
+    }
   </div>
 </div>
