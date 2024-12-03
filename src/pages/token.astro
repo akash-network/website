@@ -18,15 +18,6 @@ const {
   buyingAKTSection,
   aktFeaturesSection,
 } = tokenPage.data;
-
-const links = [
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#ecosystem", label: "Ecosystem Tools" },
-  { href: "#token-metrics", label: "Token Metrics" },
-  { href: "#akt-features", label: "AKT 2.0 Features" },
-  { href: "#buying-akt", label: "Buying AKT" },
-  { href: "#faq", label: "FAQs" },
-];
 ---
 
 <Layout
@@ -34,59 +25,22 @@ const links = [
   description={heroSection?.description}
   image="/meta-images/token.png"
 >
-  <TopMargin>
-    <div class="grid-cols-12 gap-x-10 md:grid">
-      <div class="sticky top-[176px] hidden h-screen md:col-span-3 md:block">
-        <p class="text-sm font-bold leading-[20px]">ON THIS PAGE</p>
+  <TopMargin readable>
+    <div class="flex flex-col gap-10 md:gap-y-20">
+      <HeroSection heroSection={heroSection} />
 
-        <div class="border-b py-2"></div>
+      <HowItWorksSection howItWorksSection={howItWorksSection} />
+      <div class="border-b"></div>
+      <EcosystemSection ecosystemSection={ecosystemSection} />
 
-        <div class="mt-4 flex flex-col gap-y-4 text-para">
-          {
-            links.map((link) => (
-              <a
-                href={link.href}
-                class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-              >
-                {link.label}
-              </a>
-            ))
-          }
-        </div>
-      </div>
+      <div class="border-b"></div>
 
-      <div class="col-span-12 mx-auto w-full md:col-span-9">
-        <div id="hero">
-          <HeroSection heroSection={heroSection} />
-        </div>
-
-        <div class="w-full">
-          <div class="my-10 border-b md:my-20"></div>
-        </div>
-
-        <div id="how-it-works">
-          <HowItWorksSection howItWorksSection={howItWorksSection} />
-        </div>
-
-        <div class="w-full">
-          <div class="mt-20 border-b md:mb-10"></div>
-        </div>
-
-        <div id="ecosystem">
-          <EcosystemSection ecosystemSection={ecosystemSection} />
-        </div>
-
-        <div class="w-full">
-          <div class="border-b"></div>
-        </div>
-
-        <Sections
-          client:only
-          aktFeaturesSection={aktFeaturesSection}
-          buyingAKTSection={buyingAKTSection}
-          faqsSection={faqsSection}
-        />
-      </div>
+      <Sections
+        client:only
+        aktFeaturesSection={aktFeaturesSection}
+        buyingAKTSection={buyingAKTSection}
+        faqsSection={faqsSection}
+      />
     </div>
   </TopMargin>
 </Layout>

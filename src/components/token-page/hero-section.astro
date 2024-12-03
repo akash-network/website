@@ -2,21 +2,16 @@
 const { heroSection } = Astro.props;
 ---
 
-<div
-  class="mt-7 flex flex-col items-center md:mt-0 lg:flex-row-reverse lg:gap-x-10"
->
-  <div class="flex-1 lg:max-w-[575px]">
-    <img alt="Feature illustration" src={heroSection.heroImage.mobile.src} />
-  </div>
-
-  <div class="mt-[40px] w-full flex-1 lg:mt-0">
-    <h1 class="text-3xl md:text-4xl lg:text-5xl">
+<div class="mb-10 flex flex-col items-center gap-10 md:mb-20 md:gap-14">
+  <div class="w-full flex-1">
+    <p class="mb-2 text-center text-base font-medium md:text-base lg:text-xl">
+      The AKT Token
+    </p>
+    <h1 class="text-center text-xl leading-tight md:text-2xl lg:text-[32px]">
       {heroSection.title}
     </h1>
-    <p
-      class="mt-5 text-base leading-[24px] md:mt-[24px] md:text-lg md:leading-[28px]"
-    >
-      {heroSection.description}
-    </p>
+  </div>
+  <div class="flex-1 lg:max-w-[575px]">
+    <img alt="Feature illustration" src={heroSection.heroImage.mobile.src} />
   </div>
 </div>

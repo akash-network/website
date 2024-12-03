@@ -1,0 +1,57 @@
+---
+import FeatureCard from "../cards/FeatureCard.astro";
+
+const responsibilities = [
+  {
+    title: "Block Validation",
+    description:
+      "Validators actively validate transactions and create new blocks as part of Akash Network's robust, secure, and attack-resistant consensus algorithm.",
+  },
+  {
+    title: "Network Security",
+    description:
+      "Validators are central to maintaining the overall security of the network, preventing malicious activities like double-spending and ensuring blockchain integrity.",
+  },
+  {
+    title: "Staking",
+    description:
+      "Validators must stake a specific amount of $AKT (Akash Network's native cryptocurrency) to join the consensus process. Staking incentivizes honesty by aligning validators' interests with the network's success.",
+  },
+  {
+    title: "Governance",
+    description:
+      "Validators may participate in the governance process, contributing to decisions affecting the protocol and the network’s development trajectory.",
+  },
+  {
+    title: "Reliability",
+    description:
+      "Validators ensure the network's reliability and availability by managing stable, well-connected nodes that keep it operational.",
+  },
+];
+---
+
+<div class="not-prose flex flex-col gap-10">
+  <div>
+    <h2 class="text-center text-3xl font-semibold">Responsibilities</h2>
+    <p class="m-auto max-w-3xl pt-2 text-center text-sm md:text-base">
+      The primary responsibilities of an Akash Network Validators encompass:
+    </p>
+  </div>
+  <div class="flex gap-5 overflow-x-auto">
+    {
+      responsibilities.map((responsibility) => (
+        <FeatureCard
+          autoHeight
+          className="min-w-[145px] lg:min-w-[unset]"
+          card={responsibility}
+          icon={`<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.1001 6L10.6001 18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.1001 8.5L3.6001 12L7.1001 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.1001 8.5L21.6001 12L18.1001 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`}
+        />
+      ))
+    }
+  </div>
+</div>

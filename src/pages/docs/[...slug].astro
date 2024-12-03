@@ -15,7 +15,7 @@ import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 export async function getStaticPaths() {
   const pages = await getCollection("Docs");
 
-  return pages.map((page) => ({
+  return pages.map((page: CollectionEntry<"Docs">) => ({
     params: { slug: page.slug },
     props: page,
   }));
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 
 type Props = CollectionEntry<"Docs">;
 
-const page = Astro.props;
+const page: Props = Astro.props;
 
 const { Content, headings } = await page.render();
 
@@ -32,7 +32,7 @@ const pathname = new URL(Astro.request.url).pathname;
 const catName = pathname
   .split("/")
   [pathname.split("/").length - 2].split("-")
-  .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+  .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
   .join(" ");
 
 const pages = await getCollection("Docs");
@@ -41,7 +41,7 @@ const nav = generateDocsNav(pages);
 
 const lines = page?.body
   ?.split("\n")
-  ?.filter((line) => line.trim() !== "" && !line.includes("##"));
+  ?.filter((line: string) => line.trim() !== "" && !line.includes("##"));
 ---
 
 <!-- replace [name](link) with name -->

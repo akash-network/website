@@ -8,12 +8,12 @@ const TokenMetricsSection = ({
   isError: boolean;
 }) => {
   return (
-    <div className="py-10 md:pb-[80px]  md:pt-[80px]">
+    <div className="">
       <div>
-        <h2 className="text-2xl font-bold leading-9 md:text-2lg md:leading-10">
+        <h2 className="text-center text-2xl font-semibold leading-9 md:text-2lg md:leading-10">
           Token Metrics
         </h2>
-        <p className="mt-4 text-sm  leading-[20px] md:text-base lg:text-lg lg:leading-[32px]">
+        <p className="mt-4 text-center text-sm  leading-[20px] md:text-base lg:text-lg lg:leading-[32px]">
           As of{" "}
           {data
             ? new Date(data?.market_data?.last_updated).toUTCString()
@@ -141,7 +141,7 @@ const TokenMetricsSection = ({
           Failed to get live data please visit
           <a
             href="https://www.coingecko.com/en/coins/akash-network"
-            className="hover:text-primary/90 ml-1.5 text-primary"
+            className="ml-1.5 text-primary hover:text-primary/90"
           >
             coingecko
           </a>

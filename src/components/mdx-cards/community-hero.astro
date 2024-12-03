@@ -1,23 +1,35 @@
 ---
 import ButtonLink from "../ui/button-link.astro";
-
-const { image, title, description, buttonLabel, buttonLink, darkImage } =
+const { subTitle, title, description, buttonLabel, buttonLink, darkImage } =
   Astro.props;
 ---
 
 <div
-  class="not-prose flex flex-col-reverse items-center justify-between gap-x-10 gap-y-6 lg:flex-row"
+  class="not-prose mb-[80px] flex flex-col items-center justify-between gap-x-10 gap-y-6 text-center md:mb-[100px] xl:mb-[120px]"
 >
-  <div class="gap flex w-full flex-1 flex-col gap-y-4 lg:gap-y-10">
-    <h1 class="text-3xl md:text-4xl lg:text-5xl">
-      {title}
-    </h1>
+  <div class="flex w-full flex-1 flex-col">
+    {
+      subTitle && (
+        <p class="mb-2 text-base font-medium lg:text-xl">{subTitle}</p>
+      )
+    }
+    <h1
+      class="text-3xl !font-semibold md:text-4xl md:leading-snug lg:text-5xl"
+      set:html={title}
+    />
 
-    <p class="text-sm lg:text-lg">
-      {description}
-    </p>
+    {
+      description && (
+        <p class="mx-auto max-w-3xl pt-6  lg:text-lg">{description}</p>
+      )
+    }
 
-    <ButtonLink link={buttonLink} variant="secondary" size="lg">
+    <ButtonLink
+      link={buttonLink}
+      variant="secondary"
+      size="lg"
+      className="mt-10"
+    >
       <svg
         width="20"
         height="20"
@@ -39,9 +51,5 @@ const { image, title, description, buttonLabel, buttonLink, darkImage } =
 
       {buttonLabel}
     </ButtonLink>
-  </div>
-
-  <div class="w-full flex-1 lg:max-w-[575px]">
-    <img src={image.src} alt={`banner image `} class="w-full object-contain" />
   </div>
 </div>
