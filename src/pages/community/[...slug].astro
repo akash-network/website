@@ -10,7 +10,7 @@ import { proseClasses } from "@/lib/prose-classes";
 export async function getStaticPaths() {
   const pages = await getCollection("Community_Page");
 
-  return pages.map((page) => ({
+  return pages.map((page: CollectionEntry<"Community_Page">) => ({
     params: { slug: page.slug },
     props: page,
   }));
@@ -18,18 +18,18 @@ export async function getStaticPaths() {
 
 type Props = CollectionEntry<"Community_Page">;
 
-const page = Astro.props;
+const page: Props = Astro.props;
 
 const { Content, headings } = await page.render();
 
 const akashInsidersIndex = nav.findIndex(
-  (item: any) => item.link === `/community/${page.slug}/`,
+  (item: { link: string }) => item.link === `/community/${page.slug}/`
 );
 
 if (akashInsidersIndex !== -1) {
   const akashInsidersSubItems = headings
-    .filter((heading) => heading.depth <= 3)
-    .map((heading) => ({
+    .filter((heading: { depth: number }) => heading.depth <= 3)
+    .map((heading: { text: string; slug: string }) => ({
       label: heading.text,
       link: `#${heading.slug}`,
       enabled: true,
@@ -44,9 +44,9 @@ if (akashInsidersIndex !== -1) {
   description="Connect with like-minded individuals in the Akash Network community. Engage in discussions, share experiences, and contribute to the growth of decentralized cloud computing."
   image="/meta-images/community.png"
 >
-  <TopMargin>
+  <TopMargin readable>
     <div>
-      <div class="mt-10 space-y-10 md:mt-0 max-w-[1155px] m-auto">
+      <div class="m-auto mt-10 max-w-[1155px] space-y-10 md:mt-0">
         {
           !page.data.disableTitle && (
             <div class="mt-10 md:mt-0">
