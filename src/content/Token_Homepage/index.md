@@ -77,8 +77,8 @@ ecosystemSection:
 aktFeaturesSection:
   title: AKT 2.0 Features
   description: AKT 2.0 is an ongoing effort to bring new token features and utility to Akash and the AKT token. These features will generate value for the network by funding critical incentive pools that will support network growth and development, a wide range of currency options for lease settlement, and much more.
-  image: "./assets/akt-features.png"
-  darkImage: "./assets/akt-features.png"
+  image: "./assets/akt-features.svg"
+  darkImage: "./assets/akt-features.svg"
 
 buyingAKTSection:
   title: Buying AKT
