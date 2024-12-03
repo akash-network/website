@@ -95,57 +95,32 @@ const Query = ({
 
   return (
     <>
-      <div id="token-metrics">
-        <TokenMetricsSection
-          data={data}
-          isLoading={isLoading}
-          isError={isError}
-        />
-      </div>
+      <TokenMetricsSection
+        data={data}
+        isLoading={isLoading}
+        isError={isError}
+      />
 
-      <div className="w-full">
-        <div className="border-b"></div>
-      </div>
+      <div className="border-b"></div>
 
-      <div id="akt-features">
-        <div className="mt-[40px] md:mt-[80px]">
+      <div className="flex flex-col gap-8 lg:flex-row lg:gap-14">
+        <div className="flex-1">
           <div>
             <h2 className="text-2xl font-semibold  md:text-2lg ">
               {aktFeaturesSection.title}
             </h2>
-            <p className="mt-4 text-base font-normal md:text-lg ">
+            <p className="mt-4 text-sm font-normal md:text-base  ">
               {aktFeaturesSection.description}
             </p>
           </div>
 
-          <div className="mt-10">
-            <img
-              alt="Feature illustration"
-              width={1200}
-              height={1200}
-              src={aktFeaturesSection.image.src}
-              loading="lazy"
-              className="dark:hidden"
-            />
-            <img
-              alt="Feature illustration"
-              width={1200}
-              height={1200}
-              src={
-                aktFeaturesSection.darkImage.src ?? aktFeaturesSection.image.src
-              }
-              loading="lazy"
-              className="hidden dark:block"
-            />
-          </div>
-
-          <div className="mt-10">
-            <div className="space-y-8">
-              <p className="text-sm font-normal md:text-[18px]">
+          <div className="mt-8">
+            <div className="space-y-4">
+              <p className=" text-sm font-normal md:text-base">
                 The main features of AKT 2.0 are:
               </p>
 
-              <ul className="ml-8 list-disc space-y-2 text-sm font-normal text-para md:text-[18px]">
+              <ul className="ml-5 list-disc space-y-2  text-sm font-normal text-para md:text-base">
                 <li>
                   Take and Make Fees{" "}
                   <a
@@ -171,7 +146,7 @@ const Query = ({
                 <li>Public Goods Fund</li>
               </ul>
 
-              <p className="text-sm font-normal leading-normal md:text-lg">
+              <p className=" text-sm font-normal leading-normal md:text-base">
                 Read the specification and roadmap for AKT2.0{" "}
                 <a
                   target="_blank"
@@ -188,8 +163,8 @@ const Query = ({
                   "
                 >
                   sig-economics
-                </a>{" "}
-                and{" "}
+                </a>
+                and
                 <a
                   target="_blank"
                   className="font-medium text-primary"
@@ -201,19 +176,33 @@ const Query = ({
             </div>
           </div>
         </div>
+        <div className="flex-1">
+          <img
+            alt="Feature illustration"
+            width={1200}
+            height={1200}
+            src={aktFeaturesSection.image.src}
+            loading="lazy"
+            className="dark:hidden"
+          />
+          <img
+            alt="Feature illustration"
+            width={1200}
+            height={1200}
+            src={
+              aktFeaturesSection.darkImage.src ?? aktFeaturesSection.image.src
+            }
+            loading="lazy"
+            className="hidden dark:block"
+          />
+        </div>
       </div>
 
-      <div className="mt-[40px] w-full md:mt-[80px]">
-        <div className="border-b"></div>
-      </div>
+      <div className="border-b"></div>
 
-      <div id="buying-akt">
-        <BuyingAkt buyingAKTSection={buyingAKTSection} />
-      </div>
-
-      <div id="faq">
-        <FaqSection data={data} isLoading={isLoading} isError={isError} />
-      </div>
+      <BuyingAkt buyingAKTSection={buyingAKTSection} />
+      <div className="border-b"></div>
+      <FaqSection data={data} isLoading={isLoading} isError={isError} />
     </>
   );
 };

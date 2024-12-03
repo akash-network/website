@@ -1,7 +1,17 @@
 ---
+import clsx from "clsx";
+type Props = {
+  readable?: boolean;
+};
 
+const { readable } = Astro.props;
 ---
 
-<div class="container mt-10 md:mt-[60px] lg:mt-20">
+<div
+  class={clsx(
+    " mt-10 md:mt-[60px] lg:mt-20",
+    readable ? "container-reader " : "container"
+  )}
+>
   <slot />
 </div>

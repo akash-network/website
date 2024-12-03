@@ -1,0 +1,45 @@
+---
+import clsx from "clsx";
+
+type Props = {
+  icon?: string;
+  card: {
+    image?: { src: string };
+    title: string;
+    description: string;
+  };
+  className?: string;
+  autoHeight?: boolean;
+};
+const { icon, card, className, autoHeight } = Astro.props as Props;
+---
+
+<div class={clsx("flex flex-col items-start", className)}>
+  <div
+    class={"flex-shrink-0 rounded-lg border border-paraDark bg-background2 p-3"}
+  >
+    {
+      icon ? (
+        <div set:html={icon} />
+      ) : card.image ? (
+        <svg class="h-6 w-6 " fill="currentColor" viewBox="0 0 24 24">
+          <use
+            xlink:href={`${card.image.src}#img`}
+            href={`${card.image.src}#img`}
+          />
+        </svg>
+      ) : null
+    }
+  </div>
+
+  <div class="mt-5 md:mt-6">
+    <h3
+      class={clsx("text-base font-semibold ", autoHeight ? "" : "md:h-14")}
+      set:html={card.title}
+    />
+    <p
+      set:html={card.description}
+      class="mt-2 flex-shrink-0 text-xs md:mt-4 md:text-sm"
+    />
+  </div>
+</div>

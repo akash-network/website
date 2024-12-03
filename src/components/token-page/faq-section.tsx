@@ -11,9 +11,7 @@ const FaqSection = ({
 }) => {
   return (
     <div>
-      <div>
-        <h2 className="text-2xl font-semibold md:text-2lg ">FAQs</h2>
-      </div>
+      <h2 className="text-center text-2xl font-semibold  md:text-2lg ">FAQs</h2>
 
       <div>
         <FAQ

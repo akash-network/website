@@ -1,0 +1,80 @@
+---
+import clsx from "clsx";
+type Props = {
+  title: string;
+  description?: string;
+  items: {
+    title: string;
+    items?: string[];
+  }[];
+  image: string;
+  reverse?: boolean;
+  type?: "list" | "sublist" | "paragraph";
+};
+const {
+  title,
+  items,
+  image,
+  reverse,
+  type = "list",
+  description,
+} = Astro.props;
+---
+
+<section
+  class={clsx(
+    "not-prose mx-auto mt-0 flex max-w-[1155px] flex-col gap-8 text-base  lg:gap-14",
+    reverse ? "md:flex-row-reverse" : "md:flex-row"
+  )}
+>
+  <div class="flex flex-1 flex-col gap-4">
+    <h2 class="text-3xl font-semibold">{title}</h2>
+    {
+      description && (
+        <p class="text-sm font-semibold text-foreground md:text-base">
+          {description}
+        </p>
+      )
+    }
+
+    {
+      type === "list" && (
+        <ul class="list-disc space-y-0.5 pl-5 text-sm text-para md:text-base">
+          {items.map((item) => (
+            <li>{item.title}</li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      type === "sublist" && (
+        <ul class="   mt-2 flex flex-col gap-4 text-sm   md:text-base">
+          {items.map((item) => (
+            <li>
+              <strong>{item.title}</strong>
+              {item.items && (
+                <ul class="list-disc pl-5 text-para">
+                  {item.items.map((i) => (
+                    <li>{i}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      type === "paragraph" && (
+        <div class="mt-2 flex flex-col gap-4 text-sm text-para md:text-base">
+          {items.map((item) => (
+            <p>{item.title}</p>
+          ))}
+        </div>
+      )
+    }
+  </div>
+  <div class="relative order-first flex-1 md:order-last">
+    <img src={image} alt={title} class="relative z-10 m-0 w-full max-w-full" />
+  </div>
+</section>

@@ -135,7 +135,7 @@ export const SubNavbar = ({
   const external = items.find((item) => item?.external);
   return (
     <div className=" border-y">
-      <div className="container flex items-center gap-2 overflow-x-auto  md:justify-between">
+      <div className="container-nav flex items-center gap-2 overflow-x-auto  md:justify-between">
         <div className="flex">
           {items
             .filter((item) => !item?.external)
