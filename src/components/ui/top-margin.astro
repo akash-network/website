@@ -2,15 +2,19 @@
 import clsx from "clsx";
 type Props = {
   readable?: boolean;
+  className?: string;
+  isNotContainer?: boolean;
 };
 
-const { readable } = Astro.props;
+const { readable, className, isNotContainer } = Astro.props;
 ---
 
 <div
   class={clsx(
     " mt-10 md:mt-[60px] lg:mt-20",
-    readable ? "container-reader " : "container"
+
+    isNotContainer ? "" : readable ? "container-reader " : "container",
+    className
   )}
 >
   <slot />

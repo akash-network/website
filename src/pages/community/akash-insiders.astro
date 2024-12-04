@@ -1,0 +1,107 @@
+---
+import Carousel from "@/components/community-pages/carousel";
+import PointerSection from "@/components/community-pages/pointer-section.astro";
+import CommunityHero from "@/components/mdx-cards/community-hero.astro";
+import ButtonLink from "@/components/ui/button-link.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+---
+
+<Layout
+  title="Akash Community - Join the Decentralized Cloud Movement"
+  description="Connect with like-minded individuals in the Akash Network community. Engage in discussions, share experiences, and contribute to the growth of decentralized cloud computing."
+  image="/meta-images/community.png"
+>
+  <TopMargin isNotContainer>
+    <CommunityHero
+      container
+      subTitle="Akash Insiders:"
+      title="Connecting Cloud Innovators, <br/> AI Enthusiasts, and Crypto Crusaders"
+      description="Akash Insiders are leaders within the Akash ecosystem. They are an inclusive community of collaborative, digital pioneers helping to move DePin technologies forward."
+      buttonLabel="Apply to become an Akash Insider today!"
+      buttonLink="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
+    />
+    <div class="flex flex-col gap-20 md:gap-40">
+      <Carousel client:load />
+      <div class="container-reader flex flex-col gap-20 md:gap-40">
+        <PointerSection
+          title="What do Akash Insiders do?"
+          items={[
+            {
+              title:
+                "Contribute to the development of the Akash ecosystem, leveraging their shared expertise in AI, cloud, and crypto technologies.",
+            },
+            {
+              title:
+                "Participate in testing new features, products, and updates within the Akash ecosystem.",
+            },
+            {
+              title:
+                "Contribute to the creation and maintenance of technical documentation, tutorials, and resources to help others understand and utilize Akash technologies.",
+            },
+            {
+              title:
+                "Offer assistance and guidance to fellow community members, sharing knowledge and fostering a supportive and collaborative environment.",
+            },
+            {
+              title:
+                "Host workshops, webinars, or tutorials to educate the community about cloud computing, AI, and best practices for development on the Akash Network.",
+            },
+            {
+              title:
+                "Represent Akash Network at in-person events around the world.",
+            },
+          ]}
+          image="/images/insiders/akash-image.png"
+        />
+
+        <PointerSection
+          title="Why Become an Insider?"
+          items={[
+            {
+              title:
+                "Engage with a diverse and global community of like-minded developers and enthusiasts.",
+            },
+            {
+              title:
+                "Gain early access to new features, products, and updates within the Akash ecosystem.",
+            },
+            {
+              title:
+                "Get a front-row education on the latest in web3, AI, and cloud technologies.",
+            },
+            {
+              title:
+                "Actively engage and learn from other community members from across the world.",
+            },
+            {
+              title:
+                "Gain closer access to the Overclock Labs team, the creators of the Akash Network.",
+            },
+            {
+              title:
+                "Represent the Akash community at IRL events around the world.",
+            },
+          ]}
+          image="/images/insiders/become-insider.png"
+          reverse={true}
+        />
+
+        <div class="not-prose flex flex-col items-center justify-center gap-10">
+          <h2 class="text-center text-3xl font-semibold">
+            Interested in becoming an Akash Insider?
+          </h2>
+          <ButtonLink
+            arrow
+            className="mt-0"
+            link="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
+            variant="secondary"
+            size="lg"
+          >
+            Apply today!
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
+  </TopMargin>
+</Layout>
