@@ -179,21 +179,7 @@ const Query = ({
         <div className="flex-1">
           <img
             alt="Feature illustration"
-            width={1200}
-            height={1200}
-            src={aktFeaturesSection.image.src}
-            loading="lazy"
-            className="dark:hidden"
-          />
-          <img
-            alt="Feature illustration"
-            width={1200}
-            height={1200}
-            src={
-              aktFeaturesSection.darkImage.src ?? aktFeaturesSection.image.src
-            }
-            loading="lazy"
-            className="hidden dark:block"
+            src={"/images/token/akt-features-image.svg"}
           />
         </div>
       </div>
