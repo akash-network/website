@@ -3,26 +3,6 @@ heroSection:
   title: AKT is the native utility token of Akash Network, used as the primary means to govern, secure the blockchain, incentivize participants, and provide a default mechanism to store and exchange value.
   description: AKT is the native utility token of Akash Network, used as the primary means to govern, secure the blockchain, incentivize participants, and provide a default mechanism to store and exchange value.
 
-howItWorksSection:
-  title: How it works
-
-  cards:
-    - title: Security
-      description: Akash Network is secured by a Proof-of-Stake (PoS) blockchain, and AKT is used to secure the network by staking. Staking AKT provides a passive income stream for stakers, and increases the security of the network.
-      icon: "./assets/security.svg"
-
-    - title: Governance
-      description: Akash Network is community-owned and all aspects of the network are governed by AKT holders. AKT holders can vote on proposals to improve the network and manage critical parameters such as inflation rate and take rates.
-      icon: "./assets/governance.svg"
-
-    - title: Value Exchange
-      description: AKT provides a default mechanism to store and exchange value, and acts as a reserve currency in Cosmos’ multi-currency and multi-chain ecosystem.
-      icon: "./assets/exchange.svg"
-
-    - title: Incentivization
-      description: AKT provides a default mechanism to store and exchange value, and acts as a reserve currency in Cosmos’ multi-currency and multi-chain ecosystem.
-      icon: "./assets/incentive.svg"
-
 ecosystemSection:
   title: Ecosystem Tools
   description: "The following tools are available to explore the Akash Network blockchain, stake AKT, and participate in governance."

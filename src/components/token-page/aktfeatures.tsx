@@ -1,10 +1,15 @@
+import { ArrowUpRight } from "lucide-react";
+
 const AktFeatures = ({
   aktFeaturesSection,
+  url,
 }: {
   aktFeaturesSection: { title: string; description: string };
+  url: string;
 }) => {
+  const image = `images/token/akt-feat.png`;
   return (
-    <div className="flex flex-col gap-8 lg:flex-row lg:gap-14">
+    <div className="flex flex-col items-start gap-8 lg:flex-row lg:gap-14">
       <div className="flex-1">
         <section>
           <h2 className="text-2xl font-semibold md:text-2lg">
@@ -74,9 +79,22 @@ const AktFeatures = ({
           </p>
         </section>
       </div>
-      <div className="flex-1">
-        <img alt="Feature illustration" src="/images/token/akt-feat.png" />
-      </div>
+
+      <a
+        className="group relative flex-1"
+        href={`${url}${image}`}
+        target="_blank"
+      >
+        <img
+          alt="Feature illustration"
+          src={`/${image}`}
+          className={`h-auto w-full transition-all duration-300`}
+        />
+
+        <div className="absolute bottom-[4.5%] left-[0.6%] right-[2.6%] top-[0.6%]  flex items-center justify-center rounded bg-black bg-opacity-40 opacity-0 transition-all duration-300 group-hover:opacity-100">
+          <ArrowUpRight className="h-12 w-12 text-white opacity-80 transition-transform group-hover:scale-110" />
+        </div>
+      </a>
     </div>
   );
 };

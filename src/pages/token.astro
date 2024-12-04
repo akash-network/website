@@ -12,12 +12,14 @@ const tokenPage = await getEntry("Token_Homepage", "index");
 
 const {
   heroSection,
-  howItWorksSection,
+
   faqsSection,
   ecosystemSection,
   buyingAKTSection,
   aktFeaturesSection,
 } = tokenPage.data;
+
+const url = Astro.site;
 ---
 
 <Layout
@@ -29,7 +31,7 @@ const {
     <div class="flex flex-col gap-10 md:gap-y-20">
       <HeroSection heroSection={heroSection} />
 
-      <HowItWorksSection howItWorksSection={howItWorksSection} />
+      <HowItWorksSection />
       <div class="border-b"></div>
       <EcosystemSection ecosystemSection={ecosystemSection} />
 
@@ -40,6 +42,7 @@ const {
         aktFeaturesSection={aktFeaturesSection}
         buyingAKTSection={buyingAKTSection}
         faqsSection={faqsSection}
+        url={url?.toString() ?? ""}
       />
     </div>
   </TopMargin>

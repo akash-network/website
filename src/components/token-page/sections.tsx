@@ -14,9 +14,11 @@ interface SectionProps {
   aktFeaturesSection: any;
   buyingAKTSection: any;
   faqsSection: any;
+  url: string;
 }
 
 const Sections = ({
+  url,
   aktFeaturesSection,
   buyingAKTSection,
   faqsSection,
@@ -29,6 +31,7 @@ const Sections = ({
         aktFeaturesSection={aktFeaturesSection}
         buyingAKTSection={buyingAKTSection}
         faqsSection={faqsSection}
+        url={url}
       />
     </QueryClientProvider>
   );
@@ -38,6 +41,7 @@ const Query = ({
   aktFeaturesSection,
   buyingAKTSection,
   faqsSection,
+  url,
 }: SectionProps) => {
   const token = useStorage((state: any) => state?.token);
   const setToken = useStorage((state: any) => state?.setToken);
@@ -97,7 +101,7 @@ const Query = ({
       />
       <div className="border-b" />
 
-      <AktFeatures aktFeaturesSection={aktFeaturesSection} />
+      <AktFeatures aktFeaturesSection={aktFeaturesSection} url={url} />
       <div className="border-b" />
 
       <BuyingAkt buyingAKTSection={buyingAKTSection} />
