@@ -163,8 +163,8 @@ const Query = ({
                   "
                 >
                   sig-economics
-                </a>
-                and
+                </a>{" "}
+                and{" "}
                 <a
                   target="_blank"
                   className="font-medium text-primary"
@@ -177,10 +177,7 @@ const Query = ({
           </div>
         </div>
         <div className="flex-1">
-          <img
-            alt="Feature illustration"
-            src={"/images/token/akt-features-image.svg"}
-          />
+          <img alt="Feature illustration" src={"/images/token/akt-feat.png"} />
         </div>
       </div>
 
