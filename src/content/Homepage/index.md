@@ -63,13 +63,13 @@ featureSection:
     - id: 1
       title: "Powerful, flexible, and <br/> designed for what's next"
       description:  Create your own sovereign compute experience with the Akash Supercloud. Seamlessly scale and access a global array of services while controlling your budget with the Akash 'Reverse Auction' system. Access compute at prices up to 85% lower than hyperscale cloud providers, customized to your preferences.
-      image: "./assets/feature/feature.png"
+      image: "./assets/feature/feature-1.webp"
     - id: 2
       title: "Pioneering Layer One Protocol <br/> built on Cosmos SDK"
       description: "Akash is secured by AKT, the network's utility token. It is also the first blockchain to achieve IBC communication with Cosmos Hub, enabling seamless connections to other IBC-compatible blockchains.
       <br/> <br/>
       By design, Akash prioritizes user privacy and security, allowing anonymous application deployment and safeguarding user identity."
-      image: "./assets/feature/feature-2.png"
+      image: "./assets/feature/feature-2.webp"
    
 
 
