@@ -160,64 +160,73 @@ export const Tables = ({
   return (
     <section
       className={clsx(
-        " mx-auto flex max-w-[1380px] flex-col gap-0 md:gap-10 xl:flex-row ",
+        " mx-auto flex w-full max-w-[1380px] flex-col gap-0 md:gap-10 xl:flex-row ",
         subCom ? "" : "md:container",
       )}
     >
       <div className={clsx("hidden flex-col gap-10 xl:flex")}>
-        <div className="mt-8 flex w-[274px] items-center  justify-between gap-8 rounded-md border bg-background2 p-5 shadow-sm">
-          <div className="flex flex-col gap-5">
-            <div className="">
-              <h2 className="text-sm font-medium text-linkText">Total GPUs</h2>
-              {isLoading ? (
-                <Skeleton className="h-8 w-20" />
-              ) : (
-                <p className="text-2xl font-bold text-foreground">
-                  {totalGpus}
-                </p>
-              )}
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex w-full items-center gap-1">
-                <div className="h-2 w-3 rounded-[3px] bg-[#FFD9DB]"></div>
+        <div>
+          <h1 className=" mt-1.5 !font-semibold">
+            GPU Pricing and Availability
+          </h1>
+          <div className="mt-5 flex w-[274px] items-center  justify-between gap-8 rounded-md border bg-background2 p-5 shadow-sm">
+            <div className="flex flex-col gap-5">
+              <div className="">
+                <h2 className="text-sm font-medium text-linkText">
+                  Total GPUs
+                </h2>
                 {isLoading ? (
-                  <Skeleton className="h-[10px] w-10" />
+                  <Skeleton className="h-8 w-20" />
                 ) : (
-                  <p className="text-[10px] font-medium text-foreground">
-                    <span className="font-bold">
-                      {(
-                        ((totalAvailableGpus || 0) / (totalGpus || 1)) *
-                        100
-                      ).toFixed(2)}
-                    </span>
-                    % Available
+                  <p className="text-2xl font-bold text-foreground">
+                    {totalGpus}
                   </p>
                 )}
               </div>
-              <div className="flex w-full items-center gap-1">
-                <div className="h-2 w-3 rounded-[3px] bg-primary"></div>
-                {isLoading ? (
-                  <Skeleton className="h-[10px] w-10" />
-                ) : (
-                  <p className="text-[10px] font-medium text-foreground">
-                    <span className="font-bold">
-                      {(
-                        100 -
-                        ((totalAvailableGpus || 0) / (totalGpus || 1)) * 100
-                      ).toFixed(2)}
-                    </span>
-                    % Used
-                  </p>
-                )}
+              <div className="flex flex-col gap-2">
+                <div className="flex w-full items-center gap-1">
+                  <div className="h-2 w-3 rounded-[3px] bg-[#FFD9DB]"></div>
+                  {isLoading ? (
+                    <Skeleton className="h-[10px] w-10" />
+                  ) : (
+                    <p className="text-[10px] font-medium text-foreground">
+                      <span className="font-bold">
+                        {(
+                          ((totalAvailableGpus || 0) / (totalGpus || 1)) *
+                          100
+                        ).toFixed(2)}
+                      </span>
+                      % Available
+                    </p>
+                  )}
+                </div>
+                <div className="flex w-full items-center gap-1">
+                  <div className="h-2 w-3 rounded-[3px] bg-primary"></div>
+                  {isLoading ? (
+                    <Skeleton className="h-[10px] w-10" />
+                  ) : (
+                    <p className="text-[10px] font-medium text-foreground">
+                      <span className="font-bold">
+                        {(
+                          100 -
+                          ((totalAvailableGpus || 0) / (totalGpus || 1)) * 100
+                        ).toFixed(2)}
+                      </span>
+                      % Used
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
+            <CircularProgressBar
+              diameter={80}
+              strokeWidth={15}
+              progressValue={
+                ((totalAvailableGpus || 0) / (totalGpus || 1)) * 100
+              }
+              gapSize={1.5}
+            />
           </div>
-          <CircularProgressBar
-            diameter={80}
-            strokeWidth={15}
-            progressValue={((totalAvailableGpus || 0) / (totalGpus || 1)) * 100}
-            gapSize={1.5}
-          />
         </div>
         <div className="flex gap-4">
           <Filter

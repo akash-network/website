@@ -8,24 +8,5 @@ import ProviderTable from "@/components/pricing-page/provider/provider-table";
   description="Calculate your potential earnings by providing resources to the Akash Network."
   image="/meta-images/pricing/provider.jpg"
 >
-  <div>
-    <div class="my-8 md:m-[4.5rem]">
-      <h1
-        class="text-center font-sans text-2xl !font-semibold md:text-3xl lg:text-4xl"
-      >
-        Provider Earn Calculator
-      </h1>
-
-      <p class="mt-3 hidden text-center leading-normal md:block">
-        Calculate your potential earnings by providing resources to the Akash
-        Network.
-      </p>
-      <p class="mt-3 text-center leading-normal md:hidden">
-        Calculate your potential earnings by
-        <br />
-        providing resources to the Akash Network.
-      </p>
-    </div>
-    <ProviderTable initialData={null} client:load />
-  </div>
+  <ProviderTable initialData={null} client:load />
 </PricingHeader>
