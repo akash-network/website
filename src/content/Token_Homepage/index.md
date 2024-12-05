@@ -105,6 +105,34 @@ buyingAKTSection:
         - title: Bitpanda
           link: "https://www.bitpanda.com/en/prices/akash-akt"
 
+    - row:
+        - title: Hotcoin
+          link: "https://www.hotcoin.com/en_US/trade/akt_usdt"
+
+    - row:
+        - title: XT.COM
+          link: "https://www.xt.com/en/trade/akt_usdt"
+
+    - row:
+        - title: Bithumb
+          link: "https://www.bithumb.com/react/trade/order/AKT-KRW"
+
+    - row:
+        - title: Bitmart
+          link: "https://www.bitmart.com/trade/en-US?symbol=AKT_USDT&r=PjkAFy"
+
+    - row:
+        - title: BingX
+          link: "https://bingx.com/en/spot/AKTUSDT/?ch=cgk_organic"
+
+    - row:
+        - title: Bitvavo
+          link: "https://account.bitvavo.com/markets/AKT-EUR"
+
+    - row:
+        - title: Bitrue
+          link: "https://www.bitrue.com/trade/akt_usdt"
+
 faqsSection:
   title: FAQs
   faqs:
