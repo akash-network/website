@@ -6,6 +6,7 @@ import Header from "@/components/header/header.astro";
 import "@/styles/globals.css";
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./base-layout.astro";
+import { getCollection } from "astro:content";
 
 type BlogPost = CollectionEntry<"Blog">;
 
@@ -17,16 +18,22 @@ interface Props {
   relatedArticles?: BlogPost[];
 }
 
-const {
-  title,
-  description,
-  image,
-  tags = [],
-  relatedArticles = [],
-} = Astro.props;
+const { title, description, image, tags = [] } = Astro.props;
 
-const isProd = import.meta.env.PROD;
 const slug = Astro.url.pathname.split("/")[2];
+const relatedArticles = (
+  await getCollection("Blog")
+    .then((posts) =>
+      posts.filter((post) => !post.data.archive && post.slug !== slug),
+    )
+    .then((posts) =>
+      posts.sort((a, b) => {
+        const dateA = new Date(a.data.pubDate);
+        const dateB = new Date(b.data.pubDate);
+        return dateB.getTime() - dateA.getTime();
+      }),
+    )
+).slice(0, 3);
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -41,33 +48,22 @@ const slug = Astro.url.pathname.split("/")[2];
       Discover what's happening on Akash
     </h2>
 
-    <div
-      class="md mt-4 grid grid-cols-1 gap-10 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-    >
+    <div class="md mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {
-        relatedArticles
-          ?.sort((a, b) => {
-            const dateA = new Date(a.data.pubDate);
-            const dateB = new Date(b.data.pubDate);
-
-            return dateB.getTime() - dateA.getTime();
-          })
-          ?.filter((post) => !post.data.archive && post.slug !== slug)
-          .slice(0, 3)
-          .map((post: BlogPost) => {
-            return (
-              <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
-                <PostCard
-                  title={post.data.title}
-                  image={post.data.bannerImage}
-                  tag={post.data.tags[0]}
-                  contributor={post.data.contributors[0]}
-                  pubDate={post.data.pubDate}
-                  description={post.data.description}
-                />
-              </a>
-            );
-          })
+        relatedArticles.map((post: BlogPost) => {
+          return (
+            <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
+              <PostCard
+                title={post.data.title}
+                image={post.data.bannerImage}
+                tag={post.data.tags[0]}
+                contributor={post.data.contributors[0]}
+                pubDate={post.data.pubDate}
+                description={post.data.description}
+              />
+            </a>
+          );
+        })
       }
     </div>
   </div>

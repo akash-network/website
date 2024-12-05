@@ -8,51 +8,44 @@ const { card } = Astro.props;
 ---
 
 <div
-  class={`flex-col  gap-x-10 gap-y-6   mt-10  flex lg:items-center   ${
-    card.id % 2 === 0 ? "lg:flex-row " : "lg:flex-row-reverse"
+  class={`flex-col gap-x-10 lg:gap-x-14 gap-y-6    flex lg:items-start justify-items-center  ${
+    card.id % 2 === 0 ? "lg:flex-row-reverse" : "lg:flex-row"
   }`}
 >
-  <div
-    class={`md:max-w-[576px] w-full not-prose flex-1 flex-shrink-0  !rounded-lg`}
-  >
+  <div class={`flex-1 w-full not-prose  flex-shrink-0  !rounded-lg`}>
     <img
       class="w-full object-contain"
       alt="Feature illustration"
       src={card?.image.src ?? fallbackImage}
     />
-    <!-- <Image
-      class="hidden w-full object-contain dark:block"
-      alt="Feature illustration"
-      width={1200}
-      height={1200}
-      src={card?.darkImage ?? card?.image ?? fallbackImage}
-    /> -->
   </div>
-  <div class="flex w-full flex-1 flex-col gap-6 pt-0">
-    <h2 class="not-prose text-3xl font-medium md:mt-0 md:text-4xl lg:text-5xl">
+  <div class="flex w-full flex-1 flex-col gap-6 pt-0 lg:max-w-[500px]">
+    <h2 class="not-prose text-3xl font-semibold md:mt-0">
       {card.title}
     </h2>
 
     <p
-      class="not-prose text-sm leading-[24px] text-para md:text-start md:text-base md:leading-[28px]"
+      class="not-prose text-sm font-normal leading-[24px] text-para md:text-start md:text-base md:leading-[24px]"
       set:html={card.description}
     />
-    <ButtonLink
-      link={card.link ?? "#"}
-      size="lg"
-      variant={card.type ?? "secondary"}
-      className="not-prose"
-    >
-      {
-        card.icon &&
-          (card.link.startsWith("https://github.com") ? (
-            <GithubIcon className="text-para" />
-          ) : (
-            <RightArrowIcon className="text-para" />
-          ))
-      }
+    {
+      card.link && (
+        <ButtonLink
+          link={card.link ?? "#"}
+          size="lg"
+          variant={card.type ?? "secondary"}
+          className="not-prose"
+        >
+          {card.icon &&
+            (card.link.startsWith("https://github.com") ? (
+              <GithubIcon className="text-para" />
+            ) : (
+              <RightArrowIcon className="text-para" />
+            ))}
 
-      {card.linkText}
-    </ButtonLink>
+          {card.linkText}
+        </ButtonLink>
+      )
+    }
   </div>
 </div>

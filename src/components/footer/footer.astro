@@ -1,5 +1,7 @@
 ---
 import FooterLink from "@/components/footer/footer-link.astro";
+import { shouldHideCta } from "@/utils/hideCta";
+import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
 import {
   DiscordIcon,
@@ -110,12 +112,6 @@ const links = [
         title: "Akash Validators",
         link: "/community/akash-validators/",
       },
-      // ToDo: temporary remove until new courses are live.
-      // {
-      //   title: "Akash EDU",
-      //   link: "/community/community-akash-edu/",
-      // },
-
       {
         title: "Events",
         link: "/community/events",
@@ -156,162 +152,167 @@ const links = [
     ],
   },
 ];
+
+const pathname = Astro.url.pathname;
+
+const shouldHide = shouldHideCta(pathname);
 ---
 
-<footer class="w-full bg-[#ffffff] dark:bg-background">
-  <div class="container-nav">
-    <div class="mx-auto text-white lg:pt-[80px]">
-      <div
-        class="flex flex-col items-start px-4 py-[40px] pb-[50px] md:pt-[26px] lg:hidden"
-      >
-        <a href="/" aria-label="Akash Network" class="text-foreground">
-          <AkashFooterLogo />
-        </a>
+<footer
+  class={clsx(
+    " w-full bg-white px-4 pb-10 md:p-8 xl:p-20 dark:bg-background text-white ",
+    shouldHide && "border-t  mt-20"
+  )}
+>
+  <div>
+    <div
+      class="flex w-full flex-col items-start pb-[50px] pt-[40px] md:pt-[26px] lg:hidden"
+    >
+      <a href="/" aria-label="Akash Network" class="text-foreground">
+        <AkashFooterLogo />
+      </a>
 
-        <div class="mt-10 flex flex-col items-start justify-start lg:hidden">
-          <p class="text-base font-medium leading-[24px] text-foreground">
-            Stay up to date with Akash Newsletter
-          </p>
+      <div class="mt-10 flex flex-col items-start justify-start lg:hidden">
+        <p class="text-base font-medium leading-[24px] text-foreground">
+          Stay up to date with Akash Newsletter
+        </p>
 
-          <a
-            href={subscribeLink}
-            class="mt-4 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-bold text-white hover:bg-darkGray"
-            >Subscribe Now</a
-          >
-        </div>
-      </div>
-
-      <div class="justify-between px-4 md:mx-auto md:px-0 lg:flex">
-        <div class="hidden text-left text-base font-[300] lg:block">
-          <p class="text-foreground">
-            <AkashFooterLogo />
-          </p>
-          <div class="flex gap-x-[24px] pb-[40px] pt-[20px] font-[300]">
-            {
-              socials.map((social) => (
-                <a
-                  aria-label={`Akash Network ${social.name}`}
-                  href={social.link}
-                  target="_blank"
-                  class="flex items-center gap-4 text-para hover:text-primary"
-                >
-                  <social.icon />
-                </a>
-              ))
-            }
-          </div>
-        </div>
-        <div
-          class="grid grid-cols-3 justify-between gap-y-10 md:grid-cols-5 md:gap-x-[30px] md:px-10 lg:gap-x-7 lg:px-0 xl:gap-x-10"
+        <a
+          href={subscribeLink}
+          class="mt-4 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-bold text-white hover:bg-darkGray"
+          >Subscribe Now</a
         >
+      </div>
+    </div>
+
+    <div class="justify-between md:mx-auto lg:flex">
+      <div class="hidden text-left text-base font-[300] lg:block">
+        <p class="text-foreground">
+          <AkashFooterLogo />
+        </p>
+        <div class="flex gap-x-[24px] pb-[40px] pt-[20px] font-[300]">
           {
-            links.map((link) => (
-              <div>
-                <p class="text-xs font-medium text-foreground md:text-sm">
-                  {link.title}
-                </p>
-                {link.links.map((item) => (
-                  <FooterLink aria-label={item.title} link={item.link}>
-                    {item.title}
-                  </FooterLink>
-                ))}
-              </div>
+            socials.map((social) => (
+              <a
+                aria-label={`Akash Network ${social.name}`}
+                href={social.link}
+                target="_blank"
+                class="flex items-center gap-4 text-para hover:text-primary"
+              >
+                <social.icon />
+              </a>
             ))
           }
         </div>
       </div>
-    </div>
-
-    <div class="my-[40px] flex gap-x-6 px-4 font-[300] text-para lg:hidden">
-      {
-        socials.map((social) => (
-          <a
-            aria-label={`Akash Network ${social.name}`}
-            href={social.link}
-            target="_blank"
-            class="flex items-center gap-4 text-para hover:text-primary"
-          >
-            <social.icon />
-          </a>
-        ))
-      }
-    </div>
-
-    <div
-      class="mt-20 hidden items-center justify-between border-y py-5 lg:flex"
-    >
-      <p class="text-xl font-medium leading-[30px] text-foreground">
-        Stay up to date with Akash Newsletter
-      </p>
-      <a
-        aria-label="Subscribe Now"
-        href={subscribeLink}
-        class="ml-6 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-semibold text-white hover:bg-darkGray"
-        >Subscribe Now</a
-      >
-    </div>
-
-    <div
-      class="relative flex flex-col px-4 text-center md:pt-4 lg:flex-row lg:px-0 lg:pt-[32px]"
-    >
       <div
-        class="flex w-full flex-col items-start justify-start gap-y-[16px] lg:flex-row lg:items-center"
+        class="grid grid-cols-3 justify-between gap-y-10 md:grid-cols-5 md:gap-x-[30px] lg:gap-x-7 xl:gap-x-10"
       >
-        <p class="text-left text-2xs text-para lg:border-r lg:pr-[16px]">
-          © Akash Network {new Date().getFullYear()}
-          The Akash Network Authors Documentation Distributed under CC BY 4.0
-        </p>
-        <div class="flex">
-          <p class="border-r pr-[8px] text-2xs text-para lg:px-[16px]">
-            <a
-              aria-label="Open-source Apache 2.0 Licensed."
-              class="text-decoration-none"
-              target="_blank"
-              href="https://github.com/akash-network"
-            >
-              Open-source Apache 2.0 Licensed.
-            </a>
-          </p>
-          <p class="border-r px-[8px] text-2xs text-para lg:px-[16px]">
-            <a
-              aria-label="GitHub v0.20.0"
-              class="text-decoration-none"
-              target="_blank"
-              href="https://github.com/akash-network/node"
-            >
-              GitHub v0.20.0
-            </a>
-          </p>
-
-          <p class="pl-[8px] text-2xs text-para lg:pl-[16px]">
-            <a
-              aria-label="Privacy"
-              class="text-decoration-none"
-              target="_blank"
-              href="/privacy"
-            >
-              Privacy
-            </a>
-          </p>
-        </div>
-      </div>
-      <div class="hidden lg:block">
-        <DarkModeToggle footer />
+        {
+          links.map((link) => (
+            <div>
+              <p class="text-xs font-medium text-foreground md:text-sm">
+                {link.title}
+              </p>
+              {link.links.map((item) => (
+                <FooterLink aria-label={item.title} link={item.link}>
+                  {item.title}
+                </FooterLink>
+              ))}
+            </div>
+          ))
+        }
       </div>
     </div>
-    <div
-      class="flex flex-col items-center gap-10 px-4 pb-[40px] pt-[32px] text-cardGray dark:text-textGray md:pb-[80px]"
-    >
-      <div class="grid w-full grid-cols-3 items-center justify-between">
-        <p></p>
+  </div>
+
+  <div class="my-[40px] flex gap-x-6 font-[300] text-para lg:hidden">
+    {
+      socials.map((social) => (
         <a
-          aria-label="Back To Top"
-          class="text-center text-[12px] font-[700] text-foreground lg:hidden"
-          href="#">Back To Top</a
+          aria-label={`Akash Network ${social.name}`}
+          href={social.link}
+          target="_blank"
+          class="flex items-center gap-4 text-para hover:text-primary"
         >
-        <div class="ml-auto lg:hidden">
-          <DarkModeToggle />
-        </div>
+          <social.icon />
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="mt-20 hidden items-center justify-between border-y py-5 lg:flex">
+    <p class="text-xl font-medium leading-[30px] text-foreground">
+      Stay up to date with Akash Newsletter
+    </p>
+    <a
+      aria-label="Subscribe Now"
+      href={subscribeLink}
+      class="ml-6 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-semibold text-white hover:bg-darkGray"
+      >Subscribe Now</a
+    >
+  </div>
+
+  <div
+    class="relative flex flex-col text-center md:pt-4 lg:flex-row lg:pt-[32px]"
+  >
+    <div
+      class="flex w-full flex-col items-start justify-start gap-y-[16px] lg:flex-row lg:items-center"
+    >
+      <p class="text-left text-2xs text-para lg:border-r lg:pr-[16px]">
+        © Akash Network {new Date().getFullYear()}
+        The Akash Network Authors Documentation Distributed under CC BY 4.0
+      </p>
+      <div class="flex">
+        <p class="border-r pr-[8px] text-2xs text-para lg:px-[16px]">
+          <a
+            aria-label="Open-source Apache 2.0 Licensed."
+            class="text-decoration-none"
+            target="_blank"
+            href="https://github.com/akash-network"
+          >
+            Open-source Apache 2.0 Licensed.
+          </a>
+        </p>
+        <p class="border-r px-[8px] text-2xs text-para lg:px-[16px]">
+          <a
+            aria-label="GitHub v0.20.0"
+            class="text-decoration-none"
+            target="_blank"
+            href="https://github.com/akash-network/node"
+          >
+            GitHub v0.20.0
+          </a>
+        </p>
+
+        <p class="pl-[8px] text-2xs text-para lg:pl-[16px]">
+          <a
+            aria-label="Privacy"
+            class="text-decoration-none"
+            target="_blank"
+            href="/privacy"
+          >
+            Privacy
+          </a>
+        </p>
+      </div>
+    </div>
+    <div class="hidden lg:block">
+      <DarkModeToggle footer />
+    </div>
+  </div>
+  <div
+    class="flex flex-col items-center gap-10 pt-[32px] text-cardGray dark:text-textGray"
+  >
+    <div class="grid w-full grid-cols-3 items-center justify-between">
+      <p></p>
+      <a
+        aria-label="Back To Top"
+        class="text-center text-[12px] font-[700] text-foreground lg:hidden"
+        href="#">Back To Top</a
+      >
+      <div class="ml-auto lg:hidden">
+        <DarkModeToggle />
       </div>
     </div>
   </div>

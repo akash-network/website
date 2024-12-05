@@ -1,7 +1,7 @@
 {
   "name": "akash_network",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.2.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -59,7 +59,7 @@
     "remark-directive": "^3.0.0",
     "remark-smartypants": "^2.0.0",
     "shiki": "^0.14.5",
-    "swiper": "10.2.0",
+    "swiper": "^10.2.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.0.24",
     "tailwindcss-animate": "^1.0.7",

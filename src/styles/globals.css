@@ -106,6 +106,12 @@
     @apply mx-auto max-w-[1800px] px-[16px] md:px-[20px];
   }
 
+  .container-reader {
+    @apply mx-auto max-w-[1150px] px-5;
+  }
+  .container-small {
+    @apply mx-auto max-w-[1440px] px-5  xl:px-[40px];
+  }
   .border,
   .border-r,
   .border-l,
@@ -260,7 +266,10 @@
 .prose-blog li > p {
   margin-bottom: 10px !important;
 }
-
 .prose-blog li > ul {
   margin-block: 10px !important;
+}
+
+.swiper-linear .swiper-wrapper {
+  transition-timing-function: linear !important;
 }

@@ -1,0 +1,41 @@
+---
+import clsx from "clsx";
+import { ArrowRight } from "lucide-react";
+type Props = {
+  className?: string;
+};
+const { className } = Astro.props;
+---
+
+<a
+  href="https://lu.ma/AISocialSpace"
+  target="_blank"
+  class={clsx(
+    "flex max-w-[700px] items-center gap-4 lg:gap-6 rounded-lg border bg-background p-3 md:p-5",
+    className,
+  )}
+>
+  <div
+    class="fmd:w-20 flex aspect-square w-16 flex-col items-center justify-center overflow-hidden rounded-[5px] bg-white lg:w-28"
+  >
+    <img src="/images/neurips/neurIPS.png" alt="NeurIPS" class="size-full" />
+  </div>
+  <div class="flex flex-1 flex-col gap-2 md:gap-4">
+    <div class="flex gap-2 md:items-center">
+      <h2
+        class="text-sm font-semibold md:flex-initial md:text-base lg:text-2xl"
+      >
+        Register for the NeurIPS AI Social Space
+      </h2>
+      <div
+        class="flex size-5 items-center justify-center rounded-full bg-white md:size-6"
+      >
+        <ArrowRight className="size-3 stroke-[1.5] text-black md:size-4" />
+      </div>
+    </div>
+    <p class="text-xs text-white lg:text-sm">
+      Connect and collaborate with AI researchers, developers, and leaders on
+      December 9-10th, hosted by Akash.
+    </p>
+  </div>
+</a>
