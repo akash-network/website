@@ -22,7 +22,9 @@ import Layout from "@/layouts/layout.astro";
       buttonLink="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
     />
     <div class="flex flex-col gap-20 lg:gap-40">
-      <Carousel client:only />
+      <div transition:persist>
+        <Carousel client:load />
+      </div>
       <div class="container-reader flex flex-col gap-20 lg:gap-40">
         <PointerSection
           title="What do Akash Insiders do?"
