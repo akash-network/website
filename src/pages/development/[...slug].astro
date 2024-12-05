@@ -5,6 +5,7 @@ import Layout from "@/layouts/layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import type { MarkdownHeading } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
+import CalenderModal from "../../components/development-pages/calendar-modal.astro"
 import clsx from "clsx";
 
 interface NavItem {
@@ -54,6 +55,7 @@ if (akashInsidersIndex !== -1) {
   description={page.data.description}
   image="/meta-images/development.png"
 >
+  <CalenderModal />
   <TopMargin readable>
     <div class="text-padding w-full space-y-10">
       <div class="mt-10 md:mt-0">
