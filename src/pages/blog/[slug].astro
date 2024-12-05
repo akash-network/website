@@ -16,24 +16,26 @@ type BlogPost = CollectionEntry<"Blog">;
 export async function getStaticPaths() {
   const posts = await getCollection("Blog");
 
-  const tags: string[] = [];
+  const categories: string[] = [];
 
   posts.forEach((post) => {
-    post.data.tags.forEach((tag) => {
-      const lowerCasedTag = tag;
+    post.data.categories.forEach((category) => {
+      const lowerCasedCategory = category;
 
-      if (!tags.includes(lowerCasedTag)) {
-        tags.push(lowerCasedTag);
+      if (!categories.includes(lowerCasedCategory)) {
+        categories.push(lowerCasedCategory);
       }
     });
   });
 
   return posts.map((post) => {
-    const serchTag = post.data.tags[0].toLowerCase();
+    const searchCategory = post.data.categories[0].toLowerCase();
 
     const relatedArticles = posts
       .filter((post) =>
-        post.data.tags.some((tag: string) => tag.toLowerCase() === serchTag),
+        post.data.categories.some(
+          (category: string) => category.toLowerCase() === searchCategory
+        )
       )
       .filter((post) => {
         return post.data.archive !== true;
@@ -43,14 +45,14 @@ export async function getStaticPaths() {
       params: { slug: post.slug },
       props: {
         post: post,
-        tags: tags,
+        categories: categories,
         relatedArticles: relatedArticles,
       },
     };
   });
 }
 
-const { post, tags, relatedArticles } = Astro.props;
+const { post, categories, relatedArticles } = Astro.props;
 
 const { Content } = await post.render();
 ---
@@ -61,7 +63,7 @@ const { Content } = await post.render();
   description={post.data.metaDescription
     ? post.data.metaDescription
     : post.data.description}
-  tags={tags}
+  tags={categories}
   relatedArticles={relatedArticles}
 >
   <div class="grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
@@ -74,8 +76,8 @@ const { Content } = await post.render();
           class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
         >
           {
-            post.data.tags[0].charAt(0).toUpperCase() +
-              post.data.tags[0].slice(1)
+            post.data.categories[0].charAt(0).toUpperCase() +
+              post.data.categories[0].slice(1)
           }
         </a>
       </div>
@@ -157,14 +159,14 @@ const { Content } = await post.render();
 
         <div class="mt-6 flex flex-wrap gap-2">
           {
-            tags
+            categories
               .sort(() => Math.random() - 0.5)
-              .map((tag: string) => (
+              .map((category: string) => (
                 <a
                   class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-darkText"
-                  href={`/blog/${tag.toLowerCase()?.replaceAll(" ", "-")}/1`}
+                  href={`/blog/${category.toLowerCase()?.replaceAll(" ", "-")}/1`}
                 >
-                  {tag}
+                  {category}
                 </a>
               ))
           }
@@ -257,14 +259,14 @@ const { Content } = await post.render();
         <p class="text-xs font-bold text-foreground">Explore Topics</p>
         <div class="mt-3 flex flex-wrap gap-x-2 gap-y-2">
           {
-            tags
+            categories
               .sort(() => Math.random() - 0.5)
-              .map((tag: string) => (
+              .map((category: string) => (
                 <a
                   class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText"
-                  href={`/blog/${tag.toLowerCase()}/1`}
+                  href={`/blog/${category.toLowerCase()}/1`}
                 >
-                  {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
                 </a>
               ))
           }
