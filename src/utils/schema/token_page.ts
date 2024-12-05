@@ -48,17 +48,6 @@ export const tokenPage = defineCollection({
         description: z.string(),
       }),
 
-      howItWorksSection: z.object({
-        title: z.string(),
-        cards: z.array(
-          z.object({
-            title: z.string(),
-            description: z.string(),
-            icon: image(),
-          }),
-        ),
-      }),
-
       faqsSection: z.object({
         title: z.string(),
         faqs: z.array(

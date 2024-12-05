@@ -1,50 +1,69 @@
 ---
+import { shouldHideCta } from "@/utils/hideCta";
+import clsx from "clsx";
 import ButtonLink from "./ui/button-link.astro";
 
 const pathname = Astro.url.pathname;
 
-let title = "Experience the Supercloud.";
-let button = {
-  label: "Deploy Now",
-  link: "https://console.akash.network/",
-  id: "console-home",
+const defaultContent = {
+  title: "Experience the Supercloud.",
+  button: {
+    label: "Deploy Now",
+    link: "https://console.akash.network/",
+    id: "console-home",
+  },
 };
 
-if (pathname.startsWith("/about/providers")) {
-  title = "Join the Supercloud";
-  button = {
-    label: "Become a Provider",
-    link: "/providers",
-    id: "provider-home",
-  };
-}
+const pathContent = {
+  "/about/providers": {
+    title: "Join the Supercloud",
+    button: {
+      label: "Become a Provider",
+      link: "/providers",
+      id: "provider-home",
+    },
+  },
+  "/ecosystem/providers": {
+    title: "Join the Supercloud Provider Network",
+    button: {
+      label: "Become a Provider",
+      link: "/about/providers/",
+      id: "provider-ecosystem",
+    },
+  },
+};
 
-if (pathname.startsWith("/ecosystem/providers")) {
-  title = "Join the Supercloud Provider Network";
-  button = {
-    label: "Become a Provider",
-    link: "/about/providers/",
-    id: "provider-ecosystem",
-  };
-}
+const content = pathname.startsWith("/about/providers")
+  ? pathContent["/about/providers"]
+  : pathname.startsWith("/ecosystem/providers")
+    ? pathContent["/ecosystem/providers"]
+    : defaultContent;
+
+const { title, button } = content;
+
+const shouldHide = shouldHideCta(pathname);
 ---
 
 <section
-  class={`
-  ${
-    pathname.startsWith("/community/") ||
-    pathname.startsWith("/pricing/gpus") ||
-    pathname === "/akash-accelerate-2024"
-      ? "hidden"
-      : ""
-  }
-  mt-10 flex flex-col items-center justify-around bg-white border-y  px-[30px] py-[80px] text-center dark:bg-background2 md:mt-16 lg:py-[160px]`}
+  class={clsx(
+    shouldHide && "hidden",
+    "flex flex-col items-center justify-around",
+    "bg-white dark:bg-background2",
+    "border-y",
+    "px-[30px] py-[80px] lg:py-[160px]",
+    "mt-20",
+    "text-center"
+  )}
 >
-  <p
-    class="max-w-[1000px] font-instrument text-3xl text-foreground md:text-5xl md:leading-snug xl:text-6xl 2xl:text-[80px]"
+  <h2
+    class={clsx(
+      "max-w-[1000px] font-instrument text-foreground",
+      "text-3xl md:text-5xl xl:text-6xl 2xl:text-[80px]",
+      "md:leading-snug"
+    )}
   >
     {title}
-  </p>
+  </h2>
 
   <div class="mt-6 md:mt-10">
     <div class="hidden md:block">
@@ -63,6 +82,7 @@ if (pathname.startsWith("/ecosystem/providers")) {
         link={button.link}
         size="md"
         className="bg-primary text-white hover:bg-darkGray"
+        id={button.id}
       >
         {button.label}
       </ButtonLink>

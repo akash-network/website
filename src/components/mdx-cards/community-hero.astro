@@ -1,11 +1,18 @@
 ---
 import ButtonLink from "../ui/button-link.astro";
-const { subTitle, title, description, buttonLabel, buttonLink, darkImage } =
-  Astro.props;
+const {
+  subTitle,
+  title,
+  description,
+  buttonLabel,
+  buttonLink,
+  darkImage,
+  container,
+} = Astro.props;
 ---
 
 <div
-  class="not-prose mb-[80px] flex flex-col items-center justify-between gap-x-10 gap-y-6 text-center md:mb-[100px] xl:mb-[120px]"
+  class={`not-prose mb-[80px] flex flex-col items-center justify-between gap-x-10 gap-y-6 text-center md:mb-[100px] xl:mb-[120px] ${container ? "container-reader" : ""}`}
 >
   <div class="flex w-full flex-1 flex-col">
     {
@@ -20,7 +27,9 @@ const { subTitle, title, description, buttonLabel, buttonLink, darkImage } =
 
     {
       description && (
-        <p class="mx-auto max-w-3xl pt-6  lg:text-lg">{description}</p>
+        <p class="mx-auto max-w-3xl pt-6  !leading-relaxed lg:text-lg">
+          {description}
+        </p>
       )
     }
 

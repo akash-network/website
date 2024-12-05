@@ -19,7 +19,7 @@ const { card } = Astro.props;
       src={card?.image.src ?? fallbackImage}
     />
   </div>
-  <div class="flex max-w-[500px] flex-1 flex-col gap-6 pt-0">
+  <div class="flex w-full flex-1 flex-col gap-6 pt-0 lg:max-w-[500px]">
     <h2 class="not-prose text-3xl font-semibold md:mt-0">
       {card.title}
     </h2>
