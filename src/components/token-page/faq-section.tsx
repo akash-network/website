@@ -24,7 +24,7 @@ const FaqSection = ({
     ? formatNumber(data.market_data.circulating_supply)
     : "214,430,074";
 
-  const lastUpdated = data
+  const lastUpdated = data?.market_data?.last_updated
     ? new Date(data.market_data.last_updated).toUTCString()
     : "Sat Jan 7 07:57:36 UTC";
 
