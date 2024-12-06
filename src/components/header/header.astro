@@ -23,6 +23,7 @@ const visibilty = {
   community: ["/community"],
   development: ["/development"],
   ecosystem: ["/ecosystem"],
+  pricing: ["/pricing"],
 };
 
 const pathnames = Object.values(visibilty).flat();
@@ -45,12 +46,12 @@ const posts = (await getCollection("Blog"))
       ? ""
       : pathnames.includes(pathname)
         ? ""
-        : "top-0 sticky z-[30]",
+        : "top-0 sticky z-[30]"
   )}
 >
   <nav
     class={clsx(
-      "container-nav  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
+      "container-nav  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]"
     )}
     id="page-top"
   >
@@ -60,7 +61,7 @@ const posts = (await getCollection("Blog"))
       </a>
 
       <div
-        class="slg:flex mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] xl:gap-x-[24px]"
+        class="mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] slg:flex xl:gap-x-[24px]"
       >
         <PopOverNavItemNetwork client:load />
         <PopOverCommunity client:load type="community" />
@@ -87,11 +88,11 @@ const posts = (await getCollection("Blog"))
       </a>
     </div>
 
-    <div class="slg:hidden block overflow-hidden">
+    <div class="block overflow-hidden slg:hidden">
       <HamburgerMenu client:load currentPath={pathname} />
     </div>
 
-    <div class="slg:flex slg:gap-x-[12px] hidden flex-shrink-0">
+    <div class="hidden flex-shrink-0 slg:flex slg:gap-x-[12px]">
       <DarkModeToggle nav />
 
       <div class="mr-3 hidden items-center gap-x-[12px] text-para xl:flex">
@@ -144,7 +145,7 @@ const posts = (await getCollection("Blog"))
       ? "hidden"
       : pathnames.includes(pathname)
         ? "top-0 sticky z-[30]"
-        : "hidden",
+        : "hidden"
   )}
 >
   {
@@ -165,6 +166,11 @@ const posts = (await getCollection("Blog"))
   {
     visibilty.ecosystem.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
+    )
+  }
+  {
+    visibilty.pricing.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="pricing" />
     )
   }
 </div>

@@ -1,23 +1,23 @@
+import { Switch } from "@/components/ui/switch";
+import { gpus } from "@/utils/api";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import MonthEarning from "./month-earning";
 import _ from "lodash";
-import arrowUpRight from "../../../assets/icons/arrow-up-right.svg";
-import PricingUnit from "./pricing-unit";
+import { useEffect, useState } from "react";
 import CpuBrand from "../../../assets/cpu-brand.svg";
+import EndpointBrand from "../../../assets/endpoint-brand.svg";
+import GpuBrand from "../../../assets/gpu-brand.svg";
+import arrowUpRight from "../../../assets/icons/arrow-up-right.svg";
+import IpsBrand from "../../../assets/ips-brand.svg";
 import MemoryBrand from "../../../assets/memory-brand.svg";
 import StorageBrand from "../../../assets/storage-brand.svg";
-import GpuBrand from "../../../assets/gpu-brand.svg";
-import IpsBrand from "../../../assets/ips-brand.svg";
-import EndpointBrand from "../../../assets/endpoint-brand.svg";
-import { Switch } from "@/components/ui/switch";
+import MonthEarning from "./month-earning";
+import PricingUnit from "./pricing-unit";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -293,262 +293,252 @@ export const Tables = ({
       )}
     >
       <div className={clsx("flex flex-col gap-8")}>
-        <div className="flex flex-col gap-2">
-          <p className="font-semibold text-[#7E868C]">Estimated Earnings</p>
-          <div className="flex w-full flex-col gap-10  rounded-md border bg-background2 p-6 text-black shadow-sm dark:text-white md:w-[340px]">
-            <MonthEarning
-              size={24}
-              suffix=""
-              title="Total Monthly Earnings (USD)"
-              value={`$${convertPricing(usdPrices?.totalPrice)}`}
-              loading={loading || loadingDaily}
-            />
-            <MonthEarning
-              size={24}
-              suffix=""
-              title="Total Monthly Earnings (AKT)"
-              value={`${convertPricing(
-                +calculateAKTPrice(usdPrices.totalPrice),
-              )} AKT`}
-              loading={loading || loadingDaily}
-            />
-            <div className="flex items-center justify-between gap-5">
-              <div>
-                <p className="text-[14px] text-foreground">
-                  Use the 30-Day Average Price of AKT
-                </p>
-                <p className="text-muted-foreground text-[14px]">
-                  Average Price for 1 AKT is ${monthlyAverage.toFixed(2)} USD.
-                </p>
-              </div>
-              <Switch
-                className="data-[state=checked]:bg-black data-[state=unchecked]:bg-[#71717A] data-[state=checked]:dark:bg-white"
-                onCheckedChange={onPriceChangeHandle}
-                checked={aktAverage}
-              />
-            </div>
-            <a
-              id={`become-a-provider-(gpus)`}
-              href={`/providers/`}
-              target="_blank"
-              className=" flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2"
-            >
-              <p className="font-medium leading-[24px] text-white">
-                Become a Provider
+        <div className="flex w-full flex-col gap-10  rounded-md border bg-background2 px-4 py-8 text-black shadow-sm dark:text-white md:w-[340px] md:p-6">
+          <p className="font-semibold text-cardGray">Estimated Earnings</p>
+          <MonthEarning
+            size={24}
+            suffix=""
+            title="Total Monthly Earnings (USD)"
+            value={`$${convertPricing(usdPrices?.totalPrice)}`}
+            loading={loading || loadingDaily}
+          />
+          <MonthEarning
+            size={24}
+            suffix=""
+            title="Total Monthly Earnings (AKT)"
+            value={`${convertPricing(
+              +calculateAKTPrice(usdPrices.totalPrice),
+            )} AKT`}
+            loading={loading || loadingDaily}
+          />
+          <div className="flex items-center justify-between gap-5">
+            <div>
+              <p className="text-[14px] text-foreground">
+                Use the 30-Day Average Price of AKT
               </p>
-              <img src={arrowUpRight.src} alt="" className="hidden lg:block" />
-            </a>
+              <p className="text-muted-foreground text-[14px]">
+                Average Price for 1 AKT is ${monthlyAverage.toFixed(2)} USD.
+              </p>
+            </div>
+            <Switch
+              className="data-[state=checked]:bg-black data-[state=unchecked]:bg-[#71717A] data-[state=checked]:dark:bg-white"
+              onCheckedChange={onPriceChangeHandle}
+              checked={aktAverage}
+            />
           </div>
+          <a
+            id={`become-a-provider-(gpus)`}
+            href={`/providers/`}
+            target="_blank"
+            className=" flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2"
+          >
+            <p className="font-medium leading-[24px] text-white">
+              Become a Provider
+            </p>
+            <img src={arrowUpRight.src} alt="" className="hidden lg:block" />
+          </a>
         </div>
-        <div className="flex flex-col gap-2">
-          <p className="font-semibold text-[#7E868C]">Estimated Breakdown</p>
-          <div className="flex w-full flex-col gap-10  rounded-md border bg-background2 p-6 shadow-sm md:w-[340px]">
-            <MonthEarning
-              size={20}
-              title="Total CPU Earnings"
-              value={`$${usdPrices.cpuTotalPrice.toFixed(2)}`}
-            />
-            <MonthEarning
-              size={20}
-              title="Total Memory Earnings"
-              value={`$${usdPrices.memoryTotalPrice.toFixed(2)}`}
-            />
-            <MonthEarning
-              size={20}
-              title="Total Storage Earnings"
-              value={`$${usdPrices.storageTotalPrice.toFixed(2)}`}
-            />
-            <MonthEarning
-              size={20}
-              title="Total Persistent Storage Earnings"
-              value={`$${usdPrices.persistenStorageTotalPrice.toFixed(2)}`}
-            />
-            <MonthEarning
-              size={20}
-              title="Total GPU Earnings"
-              value={`$${usdPrices.gpuTotalPrice.toFixed(2)}`}
-            />
-            <MonthEarning
-              size={20}
-              title="Total IP Earnings"
-              value={`$${usdPrices.ipTotalPrice.toFixed(2)}`}
-            />
-            <MonthEarning
-              size={20}
-              title="Total Endpoint Earnings"
-              value={`$${usdPrices.endpointTotalPrice.toFixed(2)}`}
-            />
-          </div>
+
+        <div className="flex w-full flex-col gap-10  rounded-md border bg-background2 px-4 py-8 shadow-sm md:w-[340px] md:p-6">
+          <p className="font-semibold text-cardGray">Estimated Breakdown</p>
+          <MonthEarning
+            size={20}
+            title="Total CPU Earnings"
+            value={`$${usdPrices.cpuTotalPrice.toFixed(2)}`}
+          />
+          <MonthEarning
+            size={20}
+            title="Total Memory Earnings"
+            value={`$${usdPrices.memoryTotalPrice.toFixed(2)}`}
+          />
+          <MonthEarning
+            size={20}
+            title="Total Storage Earnings"
+            value={`$${usdPrices.storageTotalPrice.toFixed(2)}`}
+          />
+          <MonthEarning
+            size={20}
+            title="Total Persistent Storage Earnings"
+            value={`$${usdPrices.persistenStorageTotalPrice.toFixed(2)}`}
+          />
+          <MonthEarning
+            size={20}
+            title="Total GPU Earnings"
+            value={`$${usdPrices.gpuTotalPrice.toFixed(2)}`}
+          />
+          <MonthEarning
+            size={20}
+            title="Total IP Earnings"
+            value={`$${usdPrices.ipTotalPrice.toFixed(2)}`}
+          />
+          <MonthEarning
+            size={20}
+            title="Total Endpoint Earnings"
+            value={`$${usdPrices.endpointTotalPrice.toFixed(2)}`}
+          />
         </div>
       </div>
-      <div className="flex w-full flex-col gap-2">
-        <p className="hidden  font-semibold md:block">Estimated Earnings</p>
-        <div className="md:rounded-md md:border md:bg-background2 md:p-6 md:shadow-sm">
-          <div className="rounded-md border bg-background2 p-4 md:border-b md:border-l-0 md:border-r-0 md:border-t-0 md:pb-7">
-            <PricingUnit
-              title="Provider Utilization"
-              content="Usage % (Leases in your provider)"
-              position="items-center"
-              max={max.leasePercentInput}
-              step={step.leasePercentInput}
-              progress={leasePercentInput}
-              setProgress={setLeasePercentInput}
-              suffix="%"
-              flag={true}
-            />
-          </div>
-          <div className="mt-8 rounded-md border bg-background2 p-4 md:mt-0 md:border-none  md:pt-4">
-            <p className="font-semibold text-black dark:text-white">
-              Resources pricing
-            </p>
-            <p className="font-medium">Usage % (Leases in your provider)</p>
-            <div className="flex flex-col gap-7">
-              <div className="flex items-start justify-between gap-6 border-b py-7 md:gap-8 xl:gap-10">
-                <img src={CpuBrand.src} alt="CPU" className="hidden lg:block" />
-                <PricingUnit
-                  title="CPU"
-                  content="vCPU"
-                  max={max.cpuInput}
-                  step={step.cpuInput}
-                  progress={cpuInput}
-                  suffix=""
-                  setProgress={setCpuInput}
-                />
-                <PricingUnit
-                  title="CPU Pricing"
-                  content="USD / thread-month"
-                  max={max.cpuPricing}
-                  step={step.cpuPricing}
-                  progress={cpuPricing}
-                  setProgress={setCpuPricing}
-                />
-              </div>
-              <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
-                <img src={MemoryBrand.src} alt="" className="hidden lg:block" />
-                <PricingUnit
-                  title="Memory"
-                  content="Gi"
-                  max={max.memoryInput}
-                  step={step.memoryInput}
-                  progress={memoryInput}
-                  setProgress={setMemoryInput}
-                />
-                <PricingUnit
-                  title="Memory Pricing"
-                  content="USD / GB-month"
-                  max={max.memoryPricing}
-                  step={step.memoryPricing}
-                  progress={memoryPricing}
-                  setProgress={setMemoryPricing}
-                />
-              </div>
-              <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
-                <img
-                  src={StorageBrand.src}
-                  alt=""
-                  className="hidden lg:block"
-                />
-                <PricingUnit
-                  title="Ephemeral Storage"
-                  content="Gi"
-                  max={max.storageInput}
-                  step={step.storageInput}
-                  progress={storageInput}
-                  setProgress={setStorageInput}
-                />
-                <PricingUnit
-                  title="Storage Pricing"
-                  content="USD / GB-month"
-                  max={max.storagePricing}
-                  step={step.storagePricing}
-                  progress={storagePricing}
-                  setProgress={setStoragePricing}
-                />
-              </div>
-              <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
-                <img
-                  src={StorageBrand.src}
-                  alt=""
-                  className="hidden lg:block"
-                />
-                <PricingUnit
-                  title="Persistent Storage"
-                  content="Gi"
-                  max={max.persistentStorageInput}
-                  step={step.persistentStorageInput}
-                  progress={persistentStorageInput}
-                  setProgress={setPersistentStorageInput}
-                />
-                <PricingUnit
-                  title="Storage Pricing"
-                  content="USD / GB-month"
-                  max={max.persistentStoragePricing}
-                  step={step.persistentStoragePricing}
-                  progress={persistentStoragePricing}
-                  setProgress={setPersistentStoragePricing}
-                />
-              </div>
-              <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
-                <img src={GpuBrand.src} alt="" className="hidden lg:block" />
-                <PricingUnit
-                  title="GPUs"
-                  content="Unit"
-                  max={max.gpuInput}
-                  step={step.gpuInput}
-                  progress={gpuInput}
-                  setProgress={setGPUInput}
-                />
-                <PricingUnit
-                  title="GPU Pricing"
-                  content="GPU pricing per Unit"
-                  max={max.gpuPricing}
-                  step={step.gpuPricing}
-                  progress={gpuPricing}
-                  setProgress={setGPUPricing}
-                />
-              </div>
-              <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
-                <img src={IpsBrand.src} alt="" className="hidden lg:block" />
-                <PricingUnit
-                  title="IPs"
-                  content="Unit"
-                  max={max.ipInput}
-                  step={step.ipInput}
-                  progress={ipInput}
-                  setProgress={setIpInput}
-                />
-                <PricingUnit
-                  title="IP Pricing"
-                  content="USD / unit-month"
-                  max={max.ipPricing}
-                  step={step.ipPricing}
-                  progress={ipPricing}
-                  setProgress={setIpPricing}
-                />
-              </div>
-              <div className="flex items-start justify-between gap-10 pb-7">
-                <img
-                  src={EndpointBrand.src}
-                  alt=""
-                  className="hidden lg:block"
-                />
-                <PricingUnit
-                  title="Endpoints"
-                  content="Unit"
-                  max={max.endpointInput}
-                  step={step.endpointInput}
-                  progress={endpointInput}
-                  setProgress={setEndpointInput}
-                />
-                <PricingUnit
-                  title="Endpoint Pricing"
-                  content="USD / port-month"
-                  max={max.endpointPricing}
-                  step={step.endpointPricing}
-                  progress={endpointPricing}
-                  setProgress={setEndpointPricing}
-                />
-              </div>
+
+      <div className="flex w-full  flex-col md:gap-4 md:rounded-md md:border md:bg-background2 md:p-6 md:shadow-sm">
+        <div className="flex flex-col gap-1 pb-8 md:border-b">
+          <h1 className="!font-semibold ">Provider Earn Calculator</h1>
+          <p className="text-muted-foreground">
+            Calculate your potential earnings by providing resources to the
+            Akash Network.
+          </p>
+        </div>
+        <div className="rounded-md border bg-background2 px-4 py-4 md:rounded-none md:border-b md:border-l-0 md:border-r-0 md:border-t-0 md:px-0 md:pb-7">
+          <PricingUnit
+            title="Provider Utilization"
+            content="Usage % (Leases in your provider)"
+            position="items-center"
+            max={max.leasePercentInput}
+            step={step.leasePercentInput}
+            progress={leasePercentInput}
+            setProgress={setLeasePercentInput}
+            suffix="%"
+            flag={true}
+          />
+        </div>
+        <div className="mt-8 rounded-md border bg-background2 px-4 pb-8 pt-8 md:mt-0 md:border-none md:px-0 md:pb-0  ">
+          <p className="font-semibold text-black dark:text-white">
+            Resources pricing
+          </p>
+          <p className="font-medium">Usage % (Leases in your provider)</p>
+          <div className="flex flex-col gap-7">
+            <div className="flex items-start justify-between gap-6 border-b py-7 md:gap-8 xl:gap-10">
+              <img src={CpuBrand.src} alt="CPU" className="hidden lg:block" />
+              <PricingUnit
+                title="CPU"
+                content="vCPU"
+                max={max.cpuInput}
+                step={step.cpuInput}
+                progress={cpuInput}
+                suffix=""
+                setProgress={setCpuInput}
+              />
+              <PricingUnit
+                title="CPU Pricing"
+                content="USD / thread-month"
+                max={max.cpuPricing}
+                step={step.cpuPricing}
+                progress={cpuPricing}
+                setProgress={setCpuPricing}
+              />
+            </div>
+            <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
+              <img src={MemoryBrand.src} alt="" className="hidden lg:block" />
+              <PricingUnit
+                title="Memory"
+                content="Gi"
+                max={max.memoryInput}
+                step={step.memoryInput}
+                progress={memoryInput}
+                setProgress={setMemoryInput}
+              />
+              <PricingUnit
+                title="Memory Pricing"
+                content="USD / GB-month"
+                max={max.memoryPricing}
+                step={step.memoryPricing}
+                progress={memoryPricing}
+                setProgress={setMemoryPricing}
+              />
+            </div>
+            <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
+              <img src={StorageBrand.src} alt="" className="hidden lg:block" />
+              <PricingUnit
+                title="Ephemeral Storage"
+                content="Gi"
+                max={max.storageInput}
+                step={step.storageInput}
+                progress={storageInput}
+                setProgress={setStorageInput}
+              />
+              <PricingUnit
+                title="Storage Pricing"
+                content="USD / GB-month"
+                max={max.storagePricing}
+                step={step.storagePricing}
+                progress={storagePricing}
+                setProgress={setStoragePricing}
+              />
+            </div>
+            <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
+              <img src={StorageBrand.src} alt="" className="hidden lg:block" />
+              <PricingUnit
+                title="Persistent Storage"
+                content="Gi"
+                max={max.persistentStorageInput}
+                step={step.persistentStorageInput}
+                progress={persistentStorageInput}
+                setProgress={setPersistentStorageInput}
+              />
+              <PricingUnit
+                title="Storage Pricing"
+                content="USD / GB-month"
+                max={max.persistentStoragePricing}
+                step={step.persistentStoragePricing}
+                progress={persistentStoragePricing}
+                setProgress={setPersistentStoragePricing}
+              />
+            </div>
+            <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
+              <img src={GpuBrand.src} alt="" className="hidden lg:block" />
+              <PricingUnit
+                title="GPUs"
+                content="Unit"
+                max={max.gpuInput}
+                step={step.gpuInput}
+                progress={gpuInput}
+                setProgress={setGPUInput}
+              />
+              <PricingUnit
+                title="GPU Pricing"
+                content="GPU pricing per Unit"
+                max={max.gpuPricing}
+                step={step.gpuPricing}
+                progress={gpuPricing}
+                setProgress={setGPUPricing}
+              />
+            </div>
+            <div className="flex items-start justify-between gap-6 border-b pb-7 md:gap-8 xl:gap-10">
+              <img src={IpsBrand.src} alt="" className="hidden lg:block" />
+              <PricingUnit
+                title="IPs"
+                content="Unit"
+                max={max.ipInput}
+                step={step.ipInput}
+                progress={ipInput}
+                setProgress={setIpInput}
+              />
+              <PricingUnit
+                title="IP Pricing"
+                content="USD / unit-month"
+                max={max.ipPricing}
+                step={step.ipPricing}
+                progress={ipPricing}
+                setProgress={setIpPricing}
+              />
+            </div>
+            <div className="flex items-start justify-between gap-10">
+              <img src={EndpointBrand.src} alt="" className="hidden lg:block" />
+              <PricingUnit
+                title="Endpoints"
+                content="Unit"
+                max={max.endpointInput}
+                step={step.endpointInput}
+                progress={endpointInput}
+                setProgress={setEndpointInput}
+              />
+              <PricingUnit
+                title="Endpoint Pricing"
+                content="USD / port-month"
+                max={max.endpointPricing}
+                step={step.endpointPricing}
+                progress={endpointPricing}
+                setProgress={setEndpointPricing}
+              />
             </div>
           </div>
         </div>

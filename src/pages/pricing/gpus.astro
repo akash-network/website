@@ -8,22 +8,5 @@ import PricingHeader from "@/components/pricing-page/pricing-header.astro";
   description=" Browse the list of available GPUs along with their hourly rates."
   image="/meta-images/pricing/gpu.jpg"
 >
-  <div>
-    <div class="my-8 md:m-[4.5rem]">
-      <h1
-        class="text-center font-sans text-2xl !font-semibold md:text-3xl lg:text-4xl"
-      >
-        GPU Pricing and Availability
-      </h1>
-      <p class="mt-3 hidden text-center leading-normal md:block">
-        Browse the list of available GPUs along with their hourly rates.
-      </p>
-      <p class="mt-3 text-center leading-normal md:hidden">
-        Browse the list of available GPUs along
-        <br />
-        with their hourly rates.
-      </p>
-    </div>
-    <GpuTable initialData={null} client:load />
-  </div>
+  <GpuTable initialData={null} client:load />
 </PricingHeader>
