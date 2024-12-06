@@ -45,6 +45,7 @@
     "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "flowbite": "^2.5.2",
     "fuse.js": "^6.6.2",
     "hastscript": "^8.0.0",
     "lodash": "^4.17.21",

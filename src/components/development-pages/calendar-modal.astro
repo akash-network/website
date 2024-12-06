@@ -1,0 +1,78 @@
+---
+import Calenderbutton from "./calenderbutton.astro";
+import TimeZoneCalendar from "./time-zone-calendar";
+import { CalendarIcon } from "@heroicons/react/20/solid";
+---
+
+<div>
+  <!-- Modal toggle -->
+  <button
+    id="button"
+    class="fixed bottom-6 right-6 flex items-center justify-between rounded-full bg-[#2B2B2B] px-5 py-3 text-xs text-white dark:bg-white dark:text-black md:bottom-9 md:right-9 md:text-sm lg:bottom-12 lg:right-12 lg:text-lg"
+    type="button"
+  >
+    <CalendarIcon className="mr-1 h-4 w-4" />
+    Community Calendar
+  </button>
+
+  <!-- Main modal -->
+  <div
+    id="default-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+  >
+    <div
+      class="relative max-h-full w-full max-w-screen-2xl px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20"
+    >
+      <!-- Modal content -->
+      <div class="relative rounded-lg bg-background2 py-8 shadow">
+        <!-- Modal header -->
+        <div
+          class="flex items-center justify-between rounded-t px-4 md:px-8 xl:px-12"
+        >
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Akash Community Groups Calendar
+          </h3>
+          <button
+            type="button"
+            class="ms-auto inline-flex items-center justify-center rounded-lg border bg-transparent px-3 py-2 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:bg-background dark:text-white dark:hover:bg-gray-600 dark:hover:text-gray-800"
+            data-modal-hide="default-modal"
+          >
+            Close
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="space-y-4 px-4 md:px-8 xl:px-12">
+          <div
+            class="mt-5 flex h-full max-h-[56vh] flex-col gap-4 rounded-lg border bg-background2 p-4"
+          >
+            <TimeZoneCalendar
+              client:only
+              calendarId="c_25e5e3748e4c4ab7a55f41fbc5ebebcc0a03b40fb028785f14159bfaebea12e2%40group.calendar.google.com"
+            />
+            <Calenderbutton />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { Modal } from "flowbite";
+
+    // select the two elements that we'll work with
+    const $buttonElement: HTMLElement | null =
+      document.querySelector("#button");
+    const $modalElement: HTMLElement | null =
+      document.querySelector("#default-modal");
+
+    // create a new modal component
+    const modal = new Modal($modalElement);
+
+    // toggle the visibility of the modal when clicking on the button
+    if ($buttonElement) {
+      $buttonElement.addEventListener("click", () => modal.toggle());
+    }
+  </script>
+</div>
