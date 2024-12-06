@@ -111,7 +111,9 @@ const PopOverNavItemEcosystem = ({
                   </svg>
                 </a>
                 {posts
-                  ?.filter(({ data }) => data.tags.includes("Case Studies"))
+                  ?.filter(({ data }) =>
+                    data.categories.includes("Case Studies"),
+                  )
                   ?.slice(0, 2)
                   ?.map(({ data, slug }, i) => {
                     return (

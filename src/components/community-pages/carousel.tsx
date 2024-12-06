@@ -35,13 +35,19 @@ const Carousel = () => {
         loop={true}
         centeredSlides={true}
         speed={4000}
-        freeMode={true}
+        freeMode={{
+          enabled: true,
+          momentum: false,
+        }}
         autoplay={{
           delay: 0,
           disableOnInteraction: false,
           pauseOnMouseEnter: false,
+          reverseDirection: false,
         }}
         className="w-full"
+        watchSlidesProgress={true}
+        preventInteractionOnTransition={true}
       >
         {images.map((src, index) => (
           <SwiperSlide key={index} className="!w-auto ">

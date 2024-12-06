@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface AvailabilityBarProps {
   available: number;
@@ -12,13 +12,27 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
   total,
   className,
 }) => {
-  const filledDots = Math.round((available / total) * 15);
-  const emptyDots = 15 - filledDots;
+  const [maxDots, setMaxDots] = useState(25);
+  const filledDots = Math.round(((total - available) / total) * maxDots);
+  const emptyDots = maxDots - filledDots;
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMediumScreen = window.matchMedia(
+        "(min-width: 768px) and (max-width: 1023px)",
+      ).matches;
+      setMaxDots(isMediumScreen ? 15 : 25);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className={clsx("my-5 flex flex-col gap-2", className)}>
       <div className="flex items-center justify-between">
-        <span className="text-lg font-bold text-foreground md:text-sm lg:text-base">
+        <span className="text-lg font-semibold text-foreground md:text-sm lg:text-base">
           {available} Available
         </span>
         <span className="text-sm text-para lg:text-base">({total} total)</span>
@@ -27,13 +41,13 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
         {Array.from({ length: filledDots }).map((_, i) => (
           <div
             key={i}
-            className="mx-[2px] h-[8px] w-[8px] rounded-full bg-black dark:bg-white"
+            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-foreground "
           />
         ))}
         {Array.from({ length: emptyDots }).map((_, i) => (
           <div
             key={i + filledDots}
-            className="mx-[2px] h-[8px] w-[8px] rounded-full bg-[#DADADA] dark:bg-zinc-700"
+            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-[#DADADA] dark:bg-zinc-700"
           />
         ))}
       </div>
