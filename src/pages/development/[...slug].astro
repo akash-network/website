@@ -1,4 +1,5 @@
 ---
+import CalendarModal from "@/components/development-pages/calendar-modal";
 import { nav } from "@/components/development-pages/nav-config";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
@@ -55,7 +56,7 @@ if (akashInsidersIndex !== -1) {
   image="/meta-images/development.png"
 >
   <TopMargin readable>
-    <div class="text-padding w-full space-y-10">
+    <div class="text-padding relative w-full space-y-10">
       <div class="mt-10 md:mt-0">
         <h1
           id="overview"
@@ -72,6 +73,9 @@ if (akashInsidersIndex !== -1) {
       <article class={proseClasses}>
         <Content />
       </article>
+      <div class="">
+        <CalendarModal client:load />
+      </div>
     </div>
   </TopMargin>
 </Layout>
