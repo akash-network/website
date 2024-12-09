@@ -6,6 +6,7 @@ import { proseClasses } from "@/lib/prose-classes";
 import type { MarkdownHeading } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import clsx from "clsx";
+import { CalendarModal } from "@/components/development-pages/calendar-modal.tsx";
 
 interface NavItem {
   link: string;
@@ -33,7 +34,7 @@ console.log(page);
 const { Content, headings } = await page.render();
 
 const akashInsidersIndex = nav.findIndex(
-  (item: NavItem) => item.link === `/development/${page.slug}/`
+  (item: NavItem) => item.link === `/development/${page.slug}/`,
 );
 
 if (akashInsidersIndex !== -1) {
@@ -62,7 +63,7 @@ if (akashInsidersIndex !== -1) {
           class={clsx(
             "text-3xl md:text-4xl lg:text-5xl",
             page?.data?.centeredHeader && "text-center",
-            page?.data?.hideHeader && "hidden"
+            page?.data?.hideHeader && "hidden",
           )}
         >
           {page.data.title}
@@ -72,6 +73,7 @@ if (akashInsidersIndex !== -1) {
       <article class={proseClasses}>
         <Content />
       </article>
+      <CalendarModal client:load />
     </div>
   </TopMargin>
 </Layout>
