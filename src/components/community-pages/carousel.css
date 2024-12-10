@@ -15,10 +15,6 @@
   width: fit-content;
 }
 
-.carousel-container {
-  background-color: #f0f0f0;
-}
-
 .carousel-item img {
   max-width: 100%;
   height: auto;
