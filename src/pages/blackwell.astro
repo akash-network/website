@@ -10,16 +10,14 @@ const products = [
   {
     title: "NVIDIA GB200 Grace™ Blackwell Superchip",
     description:
-      "World's first 5nm data center chip with 208B transistors and 5x higher training throughput.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1591405351990-4726e331f141?q=80&w=1000&auto=format&fit=crop",
+      "Delivers up to 30x faster real-time LLM inference and 4x faster training compared to NVIDIA Hopper architecture.",
+    imageUrl: "/images/blackwell/gpu1.png",
   },
   {
     title: "NVIDIA HGX B200",
     description:
-      "The ultimate AI training platform with unprecedented memory bandwidth and compute density.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000&auto=format&fit=crop",
+      "Provides up to 15x faster real-time inference and 3x faster training than the previous generation.",
+    imageUrl: "/images/blackwell/gpu2.png",
   },
 ];
 ---
@@ -58,15 +56,12 @@ const products = [
           }
         </div>
       </div>
-      <div class="bg-muted px-6 py-16 lg:px-8">
-        <div class="mx-auto max-w-3xl">
-          <h2 class="mb-12 text-center text-3xl font-bold">
-            Secure your NVIDIA Blackwell Superchips
-          </h2>
-          <div class="rounded-lg bg-background p-8 shadow-xl">
-            <ContactForm client:load />
-          </div>
-        </div>
+      <div class="flex flex-col gap-8 rounded-lg border p-14">
+        <h2 class="text-2xl font-medium">
+          Secure your NVIDIA Blackwell Superchips
+        </h2>
+
+        <ContactForm client:load />
       </div>
     </section>
   </TopMargin>
