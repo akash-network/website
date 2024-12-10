@@ -3,7 +3,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-1 * var(--scroll-width) / 2));
+    transform: translateX(calc(-1 * var(--scroll-width)));
   }
 }
 

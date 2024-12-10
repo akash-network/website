@@ -19,8 +19,8 @@ const Carousel: React.FC = () => {
   useEffect(() => {
     const carousel = carouselRef.current;
     if (carousel) {
-      const scrollWidth = carousel.scrollWidth;
-      const animationDuration = scrollWidth / 200;
+      const scrollWidth = carousel.scrollWidth / 3;
+      const animationDuration = scrollWidth / 100;
 
       carousel.style.setProperty("--scroll-width", `${scrollWidth}px`);
       carousel.style.setProperty(
@@ -45,7 +45,7 @@ const Carousel: React.FC = () => {
           ${isLoaded ? "animate-scroll" : ""}
         `}
       >
-        {[...images, ...images].map((src, index) => (
+        {[...images, ...images, ...images].map((src, index) => (
           <div
             key={`${src}-${index}`}
             className="carousel-item mx-3 flex-shrink-0 md:mx-5 lg:mx-[28px]"
