@@ -6,6 +6,7 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import "@/styles/globals.css";
 
+import { GpuScroll } from "@/components/blackwell/GpuScroll";
 const products = [
   {
     title: "NVIDIA GB200 Grace™ Blackwell Superchip",
@@ -23,9 +24,9 @@ const products = [
 ---
 
 <Layout title="NVIDIA Blackwell GPUs - Coming Soon">
-  <TopMargin>
-    <section class="grid min-h-screen grid-cols-2 gap-20">
-      <div class="flex flex-col gap-16">
+  <TopMargin className="container-small" isNotContainer>
+    <section class="grid min-h-screen gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="flex flex-col gap-12 lg:gap-16">
         <div class="flex flex-col gap-4">
           <div class="flex">
             <img
@@ -36,7 +37,7 @@ const products = [
           <h1 class="text-4xl !font-semibold leading-[1.2] lg:text-[54px]">
             NVIDIA Blackwell GPUs Coming Soon to Akash Supercloud
           </h1>
-          <p class="text-lg text-para">
+          <p class="text-para md:text-lg">
             Supercharge your AI and compute workloads with NVIDIA's most
             advanced GPUs, coming soon to Akash Supercloud. These game-changing
             innovations redefine performance for real-time inference and AI
@@ -44,7 +45,8 @@ const products = [
           </p>
         </div>
 
-        <div class="flex flex-col gap-4">
+        <GpuScroll products={products} client:load />
+        <div class="hidden grid-cols-2 flex-col gap-4 md:grid lg:flex">
           {
             products.map((product) => (
               <ProductCard
@@ -56,7 +58,7 @@ const products = [
           }
         </div>
       </div>
-      <div class="flex flex-col gap-8 rounded-lg border p-14">
+      <div class="flex flex-col gap-8 rounded-lg border p-6 md:p-14">
         <h2 class="text-2xl font-medium">
           Secure your NVIDIA Blackwell Superchips
         </h2>

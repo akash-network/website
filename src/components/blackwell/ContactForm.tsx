@@ -21,15 +21,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "../ui/checkbox";
 
 const formSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Invalid phone number"),
-  jobRole: z.string().min(1, "Please select a job role"), // Changed from businessType to jobRole
-  companyName: z.string().min(2, "Company name must be at least 2 characters"),
-  businessEmail: z.string().email("Invalid business email"), // Added businessEmail
+  firstName: z
+    .string()
+    .min(2, "First name must be at least 2 characters")
+    .min(1, "First name is required*"),
+  lastName: z
+    .string()
+    .min(2, "Last name must be at least 2 characters")
+    .min(1, "Last name is required*"),
+
+  phone: z
+    .string()
+    .min(10, "Invalid phone number")
+    .min(1, "Phone number is required*"),
+  jobRole: z
+    .string()
+    .min(1, "Please select a job role")
+    .min(1, "Job role is required*"), // Changed from businessType to jobRole
+  companyName: z
+    .string()
+    .min(2, "Company name must be at least 2 characters")
+    .min(1, "Company name is required*"),
+  businessEmail: z
+    .string()
+    .email("Invalid business email")
+    .min(1, "Business email is required*"), // Added businessEmail
+  check: z
+    .boolean()
+    .refine((value) => value === true, "You must agree to the terms*"),
 });
 
 export function ContactForm() {
@@ -38,11 +60,12 @@ export function ContactForm() {
     defaultValues: {
       firstName: "",
       lastName: "",
-      email: "",
+
       phone: "",
-      jobRole: "", // Updated default value
+      jobRole: "other",
       companyName: "",
-      businessEmail: "", // Added default value
+      businessEmail: "",
+      check: false,
     },
   });
 
@@ -52,13 +75,13 @@ export function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
         <FormField
           control={form.control}
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>First Name*</FormLabel>
               <FormControl>
                 <Input placeholder="John" {...field} />
               </FormControl>
@@ -71,7 +94,7 @@ export function ContactForm() {
           name="lastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>Last Name*</FormLabel>
               <FormControl>
                 <Input placeholder="Doe" {...field} />
               </FormControl>
@@ -79,15 +102,14 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="email"
+          name="businessEmail"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Business Email*</FormLabel>
               <FormControl>
-                <Input placeholder="john.doe@example.com" {...field} />
+                <Input placeholder="business@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -95,14 +117,27 @@ export function ContactForm() {
         />
         <FormField
           control={form.control}
+          name="companyName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Company Name*</FormLabel>
+              <FormControl>
+                <Input placeholder="Acme Inc." {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="phone"
           render={({ field }) => (
             <FormItem className="flex flex-col items-start">
-              <FormLabel>Phone Number</FormLabel>
+              <FormLabel>Phone Number*</FormLabel>
               <FormControl className="w-full">
-                <PhoneInput placeholder="Enter a phone number" {...field} />
+                <PhoneInput placeholder="+1" {...field} />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
@@ -113,7 +148,7 @@ export function ContactForm() {
           name="jobRole"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Job Role</FormLabel> {/* Updated label */}
+              <FormLabel>Job Role*</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -132,36 +167,42 @@ export function ContactForm() {
           )}
         />
 
+        <p className="!mt-8 text-xs text-gray-500 md:text-sm">
+          By clicking submit below, you consent to allow Akash Network to store
+          and process the personal information submitted above to provide you
+          the content requested. Please review our{" "}
+          <a href="/privacy-policy" className="text-primary underline">
+            privacy policy
+          </a>{" "}
+          for more information.
+        </p>
         <FormField
           control={form.control}
-          name="companyName"
+          name="check"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Company Name</FormLabel>
               <FormControl>
-                <Input placeholder="Acme Inc." {...field} />
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    onCheckedChange={field.onChange}
+                    checked={field.value}
+                  />
+                  <FormLabel>
+                    I agree to receive other communications from Akash Network.
+                  </FormLabel>
+                </div>
               </FormControl>
+
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="businessEmail"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Business Email</FormLabel>
-              <FormControl>
-                <Input placeholder="business@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" className="w-full">
-          Submit
+        <Button
+          type="submit"
+          className="!mt-8 h-auto w-auto rounded-md px-6 py-3"
+        >
+          Sign up now
         </Button>
       </form>
     </Form>
