@@ -167,7 +167,7 @@ export function ContactForm() {
           )}
         />
 
-        <p className="!mt-8 text-xs text-gray-500 md:text-sm">
+        <p className="!mt-8 text-xs text-para md:text-sm">
           By clicking submit below, you consent to allow Akash Network to store
           and process the personal information submitted above to provide you
           the content requested. Please review our{" "}
