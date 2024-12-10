@@ -1,33 +1,37 @@
+import { useState, useMemo } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 
 const images = [
-  "/images/slides/slide1.png",
-  "/images/slides/slide2.png",
-  "/images/slides/slide3.png",
-  "/images/slides/slide4.png",
-  "/images/slides/slide5.png",
-  "/images/slides/slide6.png",
-  "/images/slides/slide7.png",
-  "/images/slides/slide8.png",
-  "/images/slides/slide1.png",
-  "/images/slides/slide2.png",
-  "/images/slides/slide3.png",
-  "/images/slides/slide4.png",
-  "/images/slides/slide5.png",
-  "/images/slides/slide6.png",
-  "/images/slides/slide7.png",
-  "/images/slides/slide8.png",
+  "/images/slides/slide1.webp",
+  "/images/slides/slide2.webp",
+  "/images/slides/slide3.webp",
+  "/images/slides/slide4.webp",
+  "/images/slides/slide5.webp",
+  "/images/slides/slide6.webp",
+  "/images/slides/slide7.webp",
+  "/images/slides/slide8.webp",
+  "/images/slides/slide1.webp",
+  "/images/slides/slide2.webp",
+  "/images/slides/slide3.webp",
+  "/images/slides/slide4.webp",
+  "/images/slides/slide5.webp",
+  "/images/slides/slide6.webp",
+  "/images/slides/slide7.webp",
+  "/images/slides/slide8.webp",
 ];
 
 const Carousel = () => {
+  const memoizedImages = useMemo(() => images, []);
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
-    <div className="swiper-linear relative  w-full overflow-hidden bg-background ">
-      {/* disabled gradient for future use */}
-      {/* <div className="absolute inset-0 z-[2] hidden bg-gradient-to-r  from-background from-0%  to-transparent to-5% md:block "></div>
-      <div className="absolute inset-0 z-[2] hidden bg-gradient-to-l  from-background from-0%  to-transparent to-5% md:block "></div> */}
+    <div
+      className="swiper-linear pointer-events-none relative w-full select-none overflow-hidden bg-background"
+      aria-label="Image Carousel"
+    >
       <Swiper
         modules={[Autoplay]}
         spaceBetween={5}
@@ -48,16 +52,30 @@ const Carousel = () => {
         className="w-full"
         watchSlidesProgress={true}
         preventInteractionOnTransition={true}
+        onInit={() => setIsLoaded(true)}
       >
-        {images.map((src, index) => (
-          <SwiperSlide key={index} className="!w-auto ">
-            <div className="mx-3  md:mx-5 lg:mx-[28px]">
+        {memoizedImages.map((src, index) => (
+          <SwiperSlide key={src} className="!w-auto">
+            <div className="mx-3 md:mx-5 lg:mx-[28px]">
               <img
                 src={src}
-                alt={`Image ${index + 1}`}
+                alt={`Carousel image ${index + 1}`}
                 height={380}
                 width={260}
-                className=" aspect-auto !max-h-[14rem] w-full md:h-full md:!max-h-[unset]  md:object-cover"
+                loading="lazy"
+                decoding="async"
+                className={`
+                  aspect-auto 
+                  !max-h-[14rem] 
+                  w-full 
+                  md:h-full 
+                  md:!max-h-[unset] 
+                  md:object-cover
+                  ${isLoaded ? "opacity-100" : "opacity-0"}
+                  transition-opacity 
+                  duration-300
+                `}
+                draggable="false"
               />
             </div>
           </SwiperSlide>
