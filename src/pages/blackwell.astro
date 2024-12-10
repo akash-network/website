@@ -1,0 +1,73 @@
+---
+import { ContactForm } from "@/components/blackwell/ContactForm";
+
+import ProductCard from "@/components/blackwell/ProductCard.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import "@/styles/globals.css";
+
+const products = [
+  {
+    title: "NVIDIA GB200 Grace™ Blackwell Superchip",
+    description:
+      "World's first 5nm data center chip with 208B transistors and 5x higher training throughput.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1591405351990-4726e331f141?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    title: "NVIDIA HGX B200",
+    description:
+      "The ultimate AI training platform with unprecedented memory bandwidth and compute density.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000&auto=format&fit=crop",
+  },
+];
+---
+
+<Layout title="NVIDIA Blackwell GPUs - Coming Soon">
+  <TopMargin>
+    <section class="grid min-h-screen grid-cols-2 gap-20">
+      <div class="flex flex-col gap-16">
+        <div class="flex flex-col gap-4">
+          <div class="flex">
+            <img
+              src="/images/blackwell/nvidiatoakash.svg"
+              alt="NVIDIA Blackwell"
+            />
+          </div>
+          <h1 class="text-4xl !font-semibold leading-[1.2] lg:text-[54px]">
+            NVIDIA Blackwell GPUs Coming Soon to Akash Supercloud
+          </h1>
+          <p class="text-lg text-para">
+            Supercharge your AI and compute workloads with NVIDIA's most
+            advanced GPUs, coming soon to Akash Supercloud. These game-changing
+            innovations redefine performance for real-time inference and AI
+            training.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          {
+            products.map((product) => (
+              <ProductCard
+                title={product.title}
+                description={product.description}
+                imageUrl={product.imageUrl}
+              />
+            ))
+          }
+        </div>
+      </div>
+      <div class="bg-muted px-6 py-16 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="mb-12 text-center text-3xl font-bold">
+            Secure your NVIDIA Blackwell Superchips
+          </h2>
+          <div class="rounded-lg bg-background p-8 shadow-xl">
+            <ContactForm client:load />
+          </div>
+        </div>
+      </div>
+    </section>
+  </TopMargin>
+</Layout>
