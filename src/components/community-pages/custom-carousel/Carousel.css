@@ -1,0 +1,11 @@
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  width: fit-content;
+  will-change: transform;
+}
