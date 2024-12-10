@@ -26,7 +26,7 @@ export function GpuScroll({ products }: GpuScrollProps) {
 
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-semibold">{product.title}</h3>
-                <p className="text-sm text-gray-600">{product.description}</p>
+                <p className="text-param text-sm">{product.description}</p>
               </div>
             </div>
           </SwiperSlide>
