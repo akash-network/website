@@ -1,7 +1,5 @@
-import { useState, useMemo } from "react";
-import { Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
+import React, { useState, useEffect, useRef } from "react";
+import "./carousel.css";
 
 const images = [
   "/images/slides/slide1.webp",
@@ -12,75 +10,68 @@ const images = [
   "/images/slides/slide6.webp",
   "/images/slides/slide7.webp",
   "/images/slides/slide8.webp",
-  "/images/slides/slide1.webp",
-  "/images/slides/slide2.webp",
-  "/images/slides/slide3.webp",
-  "/images/slides/slide4.webp",
-  "/images/slides/slide5.webp",
-  "/images/slides/slide6.webp",
-  "/images/slides/slide7.webp",
-  "/images/slides/slide8.webp",
 ];
 
-const Carousel = () => {
-  const memoizedImages = useMemo(() => images, []);
-
+const Carousel: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (carousel) {
+      const scrollWidth = carousel.scrollWidth;
+      const animationDuration = scrollWidth / 200;
+
+      carousel.style.setProperty("--scroll-width", `${scrollWidth}px`);
+      carousel.style.setProperty(
+        "--animation-duration",
+        `${animationDuration}s`,
+      );
+
+      setIsLoaded(true);
+    }
+  }, []);
 
   return (
     <div
-      className="swiper-linear pointer-events-none relative w-full select-none overflow-hidden bg-background"
+      className="carousel-container w-full overflow-hidden bg-background"
       aria-label="Image Carousel"
     >
-      <Swiper
-        modules={[Autoplay]}
-        spaceBetween={5}
-        slidesPerView="auto"
-        loop={true}
-        centeredSlides={true}
-        speed={4000}
-        freeMode={{
-          enabled: true,
-          momentum: false,
-        }}
-        autoplay={{
-          delay: 0,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: false,
-          reverseDirection: false,
-        }}
-        className="w-full"
-        watchSlidesProgress={true}
-        preventInteractionOnTransition={true}
-        onInit={() => setIsLoaded(true)}
+      <div
+        ref={carouselRef}
+        className={`
+          carousel-track
+          flex
+          ${isLoaded ? "animate-scroll" : ""}
+        `}
       >
-        {memoizedImages.map((src, index) => (
-          <SwiperSlide key={src} className="!w-auto">
-            <div className="mx-3 md:mx-5 lg:mx-[28px]">
-              <img
-                src={src}
-                alt={`Carousel image ${index + 1}`}
-                height={380}
-                width={260}
-                loading="lazy"
-                decoding="async"
-                className={`
-                  aspect-auto 
-                  !max-h-[14rem] 
-                  w-full 
-                  md:h-full 
-                  md:!max-h-[unset] 
-                  md:object-cover
-                  ${isLoaded ? "opacity-100" : "opacity-0"}
-                  transition-opacity 
-                  duration-300
-                `}
-                draggable="false"
-              />
-            </div>
-          </SwiperSlide>
+        {[...images, ...images].map((src, index) => (
+          <div
+            key={`${src}-${index}`}
+            className="carousel-item mx-3 flex-shrink-0 md:mx-5 lg:mx-[28px]"
+          >
+            <img
+              src={src}
+              alt={`Carousel image ${(index % images.length) + 1}`}
+              width={260}
+              height={380}
+              className={`
+                aspect-auto 
+                max-h-[14rem] 
+                w-auto
+                md:h-full 
+                md:max-h-[unset] 
+                md:object-cover
+                ${isLoaded ? "opacity-100" : "opacity-0"}
+                transition-opacity 
+                duration-300
+              `}
+              draggable={false}
+              loading="lazy"
+            />
+          </div>
         ))}
-      </Swiper>
+      </div>
     </div>
   );
 };
