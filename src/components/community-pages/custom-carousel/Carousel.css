@@ -1,0 +1,42 @@
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  width: fit-content;
+  will-change: transform;
+}
+
+@keyframes smooth-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--scroll-width)));
+  }
+}
+
+.animate-scroll {
+  animation: smooth-scroll var(--animation-duration) linear infinite;
+  animation-fill-mode: forwards;
+}
+
+.carousel-track {
+  width: fit-content;
+  will-change: transform;
+}
+
+.carousel-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .carousel-item img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
