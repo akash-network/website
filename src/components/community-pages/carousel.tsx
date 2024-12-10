@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./carousel.css";
-
 const images = [
   "/images/slides/slide1.webp",
   "/images/slides/slide2.webp",
@@ -15,13 +14,17 @@ const images = [
 const Carousel: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const carousel = carouselRef.current;
-    if (carousel) {
-      const scrollWidth = carousel.scrollWidth / 3;
+    const track = trackRef.current;
+
+    if (carousel && track) {
+      const scrollWidth = track.scrollWidth / 3;
       const animationDuration = scrollWidth / 100;
 
+      // Use CSS variables for more consistent animation
       carousel.style.setProperty("--scroll-width", `${scrollWidth}px`);
       carousel.style.setProperty(
         "--animation-duration",
@@ -34,11 +37,12 @@ const Carousel: React.FC = () => {
 
   return (
     <div
+      ref={carouselRef}
       className="carousel-container w-full overflow-hidden bg-background"
       aria-label="Image Carousel"
     >
       <div
-        ref={carouselRef}
+        ref={trackRef}
         className={`
           carousel-track
           flex
@@ -56,14 +60,14 @@ const Carousel: React.FC = () => {
               width={260}
               height={380}
               className={`
-                aspect-auto 
-                max-h-[14rem] 
+                aspect-auto
+                max-h-[14rem]
                 w-auto
-                md:h-full 
-                md:max-h-[unset] 
+                md:h-full
+                md:max-h-[unset]
                 md:object-cover
                 ${isLoaded ? "opacity-100" : "opacity-0"}
-                transition-opacity 
+                transition-opacity
                 duration-300
               `}
               draggable={false}
