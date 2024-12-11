@@ -192,9 +192,19 @@ export function ContactForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="developer">Developer</SelectItem>
-                    <SelectItem value="designer">Designer</SelectItem>
-                    <SelectItem value="manager">Manager</SelectItem>
+                    <SelectItem value="machine-learning-engineer">
+                      Machine Learning Engineer
+                    </SelectItem>
+                    <SelectItem value="machine-learning-researcher">
+                      Machine Learning Researcher
+                    </SelectItem>
+                    <SelectItem value="director-of-machine-learning">
+                      Director of Machine Learning
+                    </SelectItem>
+                    <SelectItem value="vp-of-machine-learning">
+                      VP of Machine Learning
+                    </SelectItem>
+                    <SelectItem value="cto">CTO</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
