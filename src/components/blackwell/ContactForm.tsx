@@ -258,15 +258,25 @@ export function ContactForm() {
       </Form>
 
       <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CheckCircle2 className="h-6 w-6 text-green-500" />
+        <DialogContent className="animate-fade-in rounded-xl bg-white shadow-2xl sm:max-w-md">
+          <DialogHeader className="space-y-4">
+            <div className="animate-bounce-in flex justify-center">
+              <CheckCircle2 className="h-16 w-16 text-green-500 " />
+            </div>
+
+            <DialogTitle
+              className="flex items-center justify-center gap-2 
+            text-center text-2xl font-bold tracking-tight text-gray-800"
+            >
               Success!
             </DialogTitle>
-            <DialogDescription className="pt-2 text-center">
+
+            <DialogDescription
+              className="px-4 text-center text-base leading-relaxed 
+            text-gray-600 opacity-90"
+            >
               Thank you for your interest! We've received your information and
-              will be in touch soon.
+              will be in touch soon with exciting updates.
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
