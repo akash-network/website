@@ -1,109 +1,104 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { IntlProvider } from "react-intl";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import ProvidersCard from "./card";
 import SortDropDown from "./sort-dropdown";
 import { useProviderList } from "./useProviderList";
+
 const queryClient = new QueryClient();
 
-export default function Index({ pathName, initialProviders }: any) {
+const SORT_OPTIONS = [
+  { id: "active-leases-desc", title: "Most Active Leases" },
+  { id: "active-leases-asc", title: "Least Active Leases" },
+  { id: "gpu-available-desc", title: "Most Available GPUs" },
+];
+
+const ROWS_PER_PAGE = 12;
+
+interface ProviderListProps {
+  pathName?: string;
+}
+
+export default function ProvidersList({ pathName }: ProviderListProps) {
   const [locale, setLocale] = useState("en-US");
 
   useEffect(() => {
-    if (navigator?.language) {
-      setLocale(navigator?.language);
+    const navigatorLocale = navigator?.language;
+    if (navigatorLocale) {
+      setLocale(navigatorLocale);
     }
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <IntlProvider locale={locale} defaultLocale="en-US">
-        <Layout pathName={pathName} initialProviders={initialProviders} />
+        <ProviderListContent pathName={pathName} />
       </IntlProvider>
     </QueryClientProvider>
   );
 }
 
-const sortOptions = [
-  { id: "active-leases-desc", title: "Active Leases (desc)" },
-  { id: "active-leases-asc", title: "Active Leases (asc)" },
-  { id: "gpu-available-desc", title: "GPUs Available (desc)" },
-];
-
-function Layout({ pathName, initialProviders }: any) {
-  const { data: providers, isLoading: isLoadingProviders } = useProviderList({
-    initialProviders: initialProviders,
-  });
+function ProviderListContent({ pathName }: ProviderListProps) {
+  const { data: providers, isLoading: isLoadingProviders } = useProviderList();
 
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<string>("active-leases-desc");
-  const [filteredProviders, setFilteredProviders] = useState<any>([]);
-
+  const [filteredProviders, setFilteredProviders] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [isFilteringActive, setIsFilteringActive] = useState(true);
-  const [isFilteringFavorites, setIsFilteringFavorites] = useState(false);
   const [isFilteringAudited, setIsFilteringAudited] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(12);
 
-  const start = (page - 1) * rowsPerPage;
-  const end = start + rowsPerPage;
+  const start = (page - 1) * ROWS_PER_PAGE;
+  const end = start + ROWS_PER_PAGE;
   const currentPageProviders = filteredProviders.slice(start, end);
-  const pageCount = Math.ceil(filteredProviders.length / rowsPerPage);
+  const pageCount = Math.ceil(filteredProviders.length / ROWS_PER_PAGE);
 
   useEffect(() => {
-    if (providers) {
-      let filteredProviders = [...providers];
+    if (!providers) return;
 
-      // Filter for search
-      if (search) {
-        filteredProviders = filteredProviders.filter(
-          (x) =>
-            x.hostUri?.includes(search.toLowerCase()) ||
-            x.owner?.includes(search.toLowerCase()),
-        );
-      }
+    let filtered = [...providers];
 
-      if (isFilteringActive) {
-        filteredProviders = filteredProviders.filter((x) => x.isOnline);
-      }
+    if (search) {
+      const searchLower = search.toLowerCase();
+      filtered = filtered.filter(
+        (provider) =>
+          provider.hostUri?.toLowerCase().includes(searchLower) ||
+          provider.owner?.toLowerCase().includes(searchLower),
+      );
+    }
 
-      if (isFilteringAudited) {
-        filteredProviders = filteredProviders.filter(
-          (x) => x.isAudited && x.isOnline,
-        );
-      }
+    if (isFilteringActive) {
+      filtered = filtered.filter((provider) => provider.isOnline);
+    }
 
-      filteredProviders = filteredProviders.sort((a, b) => {
-        if (sort === "active-leases-desc") {
+    if (isFilteringAudited) {
+      filtered = filtered.filter(
+        (provider) => provider.isAudited && provider.isOnline,
+      );
+    }
+
+    filtered.sort((a, b) => {
+      switch (sort) {
+        case "active-leases-desc":
           return b.leaseCount - a.leaseCount;
-        } else if (sort === "active-leases-asc") {
+        case "active-leases-asc":
           return a.leaseCount - b.leaseCount;
-        } else if (sort === "my-leases-desc") {
-          return b.userLeases - a.userLeases;
-        } else if (sort === "my-active-leases-desc") {
-          return b.userActiveLeases - a.userActiveLeases;
-        } else if (sort === "gpu-available-desc") {
+        case "gpu-available-desc":
           const totalGpuB =
             b.availableStats.gpu + b.pendingStats.gpu + b.activeStats.gpu;
           const totalGpuA =
             a.availableStats.gpu + a.pendingStats.gpu + a.activeStats.gpu;
           return totalGpuB - totalGpuA;
-        } else {
-          return 1;
-        }
-      });
+        default:
+          return 0;
+      }
+    });
 
-      setFilteredProviders(filteredProviders);
-    }
-  }, [
-    providers,
-    isFilteringActive,
-    isFilteringFavorites,
-    isFilteringAudited,
-    search,
-    sort,
-  ]);
+    setFilteredProviders(filtered);
+    setPage(1);
+  }, [providers, isFilteringActive, isFilteringAudited, search, sort]);
 
   const handleNextPage = () => {
     if (page < pageCount) {
@@ -117,85 +112,118 @@ function Layout({ pathName, initialProviders }: any) {
     }
   };
 
-  const onIsFilteringActiveClick = (value: any) => {
-    setPage(1);
-    setIsFilteringActive(value);
-  };
-
-  const onIsFilteringAuditedClick = (value: any) => {
-    setPage(1);
-    setIsFilteringAudited(value);
-  };
-  const ref = useRef<HTMLInputElement>(null);
-  const onSearchChange = (event: any) => {
-    const value = event.target.value;
-    setSearch(value);
-  };
+  if (isLoadingProviders) {
+    return (
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: ROWS_PER_PAGE }).map((_, index) => (
+          <ProviderCardSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <>
-      {isLoadingProviders ? (
-        <div className="">loading...</div>
-      ) : (
-        <div className="  flex justify-between lg:gap-x-[20px] xl:gap-x-[48px]">
-          <div className="w-full">
-            <div className="flex flex-col  items-center justify-between gap-6 md:flex-row">
-              <h2 id="overview" className="text-base font-semibold md:text-xl">
-                List of Providers
-              </h2>
+    <div className="container mx-auto px-4">
+      <div className="mb-6 flex flex-col items-center justify-between md:flex-row">
+        <h2 className="mb-4 text-xl font-semibold md:mb-0">
+          List of Providers
+        </h2>
 
-              <div className="flex flex-shrink-0 items-center gap-x-3 md:gap-x-3 lg:gap-x-9">
-                <SortDropDown
-                  setSort={setSort}
-                  currentSort={sort}
-                  sortOptions={sortOptions}
-                />
-              </div>
-            </div>
-
-            {currentPageProviders.length === 0 && (
-              <p className="py-6  text-center">No providers found</p>
-            )}
-
-            <div className="mt-4   grid w-full grid-cols-1 gap-5  sm:grid-cols-2    md:grid-cols-2 md:gap-5   lg:grid-cols-3  lg:gap-5  ">
-              {currentPageProviders.map((provider: any) => {
-                return (
-                  <ProvidersCard key={provider.owner} provider={provider} />
-                );
-              })}
-            </div>
-
-            {/* Pagination */}
-            <div className="mb-10 mt-10 flex w-full items-center  justify-between">
-              <div className="flex flex-shrink-0 space-x-4">
-                {page !== 1 && (
-                  <button
-                    disabled={page === 1}
-                    onClick={handlePrevPage}
-                    className="inline-flex items-center justify-center  gap-x-1.5 rounded-md border  bg-background px-2.5 py-1.5 text-sm font-medium  leading-none text-textGray shadow-sm hover:bg-gray-50 dark:bg-darkGray lg:px-3 lg:py-2"
-                  >
-                    Previous
-                  </button>
-                )}
-
-                {page !== pageCount && (
-                  <button
-                    onClick={handleNextPage}
-                    disabled={page === pageCount}
-                    className="inline-flex items-center justify-center  gap-x-1.5 rounded-md border bg-background  px-2.5 py-1.5 text-sm font-medium  leading-none text-textGray shadow-sm hover:bg-gray-50 dark:bg-darkGray lg:px-3 lg:py-2"
-                  >
-                    Next
-                  </button>
-                )}
-              </div>
-
-              <p className="text-xs md:text-base">
-                Page: {page} / {pageCount}
-              </p>
-            </div>
-          </div>
+        <div className="flex items-center space-x-4">
+          <SortDropDown
+            setSort={setSort}
+            currentSort={sort}
+            sortOptions={SORT_OPTIONS}
+          />
         </div>
+      </div>
+
+      {currentPageProviders.length === 0 ? (
+        <p className="py-6 text-center text-gray-500">No providers found</p>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {currentPageProviders.map((provider) => (
+              <ProvidersCard key={provider.owner} provider={provider} />
+            ))}
+          </div>
+
+          {/* Pagination */}
+          <div className="mt-8 flex items-center justify-between">
+            <div className="flex space-x-2">
+              {page > 1 && (
+                <button
+                  onClick={handlePrevPage}
+                  className="rounded border px-4 py-2 hover:bg-gray-100"
+                >
+                  Previous
+                </button>
+              )}
+              {page < pageCount && (
+                <button
+                  onClick={handleNextPage}
+                  className="rounded border px-4 py-2 hover:bg-gray-100"
+                >
+                  Next
+                </button>
+              )}
+            </div>
+            <p className="text-sm text-gray-600">
+              Page {page} of {pageCount}
+            </p>
+          </div>
+        </>
       )}
-    </>
+    </div>
+  );
+}
+
+export function ProviderCardSkeleton() {
+  return (
+    <div className="flex w-full flex-col overflow-hidden rounded-lg border bg-background2 p-4">
+      <div className="flex gap-x-[10px]">
+        <Skeleton className="h-12 w-12 rounded border" />
+
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-3 w-1/2" />
+        </div>
+      </div>
+
+      <div className="mt-[10px] border-b pb-3">
+        <Skeleton className="h-6 w-20 rounded-full" />
+      </div>
+
+      <div className="mt-3 flex flex-col items-center justify-between">
+        <div className="flex w-full items-center justify-between">
+          <Skeleton className="h-3 w-1/4" />
+          <Skeleton className="h-3 w-1/4" />
+        </div>
+
+        <Skeleton className="mt-3 h-2 w-full" />
+      </div>
+
+      <div className="mt-3 flex flex-col gap-y-[6px]">
+        {[
+          { label: "CPU:", width: "w-full" },
+          { label: "GPU:", width: "w-full" },
+          { label: "Memory:", width: "w-full" },
+          { label: "Active Leases:", width: "w-full" },
+          { label: "Region:", width: "w-full" },
+        ].map((stat, index) => (
+          <div
+            key={index}
+            className="flex w-full items-center justify-between rounded-sm border p-[9px]"
+          >
+            <Skeleton className="h-3 w-1/4" />
+            <Skeleton className="h-3 w-1/4" />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-3">
+        <Skeleton className="h-5 w-48" />
+      </div>
+    </div>
   );
 }
