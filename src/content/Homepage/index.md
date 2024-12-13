@@ -1,7 +1,7 @@
 ---
 advert: 
   title: NVIDIA Blackwell is coming to Akash. Join the waitlist.
-  link: "/blackwell"
+  link: "/nvidia-blackwell-gpus"
 
 # hero section content
 heroSection:
