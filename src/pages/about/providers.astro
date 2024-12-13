@@ -1,6 +1,5 @@
 ---
 import NetworkTabs from "@/components/about-pages/network-tabs.astro";
-import { getProviderList } from "@/components/ecosystem-pages/providers-page/useProviderList";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 
@@ -8,8 +7,6 @@ import Dashboard from "@/components/ecosystem-pages/providers-page/dashboard.tsx
 const astroUrl = Astro.url;
 
 const pathName = astroUrl.pathname.split("/");
-
-let initialData = await getProviderList();
 ---
 
 <Layout
@@ -30,6 +27,6 @@ let initialData = await getProviderList();
 
     <NetworkTabs />
 
-    <Dashboard client:load pathName={pathName} initialProviders={initialData} />
+    <Dashboard client:load />
   </TopMargin>
 </Layout>

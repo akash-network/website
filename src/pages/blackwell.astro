@@ -1,0 +1,66 @@
+---
+import { ContactForm } from "@/components/blackwell/ContactForm";
+
+import ProductCard from "@/components/blackwell/ProductCard.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import "@/styles/globals.css";
+
+import { GpuScroll } from "@/components/blackwell/GpuScroll";
+const products = [
+  {
+    title: "NVIDIA GB200 Grace™ Blackwell Superchip",
+    description:
+      "GB200 NVL72 provides up to 30X faster real-time LLM inference and 4X faster training performance compared to the NVIDIA Hopper architecture.",
+    imageUrl: "/images/blackwell/gpu1.png",
+  },
+  {
+    title: "NVIDIA HGX B200",
+    description:
+      "Up to 15X more real-time inference and 3X faster training compared to the NVIDIA Hopper architecture generation.",
+    imageUrl: "/images/blackwell/gpu2.png",
+  },
+];
+---
+
+<Layout title="NVIDIA Blackwell GPUs - Coming Soon">
+  <TopMargin className="container-small" isNotContainer>
+    <section
+      class="flex min-h-screen flex-col gap-12 lg:grid lg:grid-cols-2 lg:gap-20"
+    >
+      <div class="flex flex-col gap-12 lg:gap-16">
+        <div class="flex flex-col gap-4">
+          <h1 class="text-4xl !font-semibold leading-[1.2] lg:text-[54px]">
+            NVIDIA Blackwell GPUs
+          </h1>
+          <p class="text-para md:text-lg">
+            Coming soon to the Akash Supercloud!
+          </p>
+          <p class="text-para md:text-lg">
+            The NVIDIA GB200 Grace Blackwell Superchip, along with NVIDIA
+            Blackwell GPUs, will soon be available on Akash.
+          </p>
+        </div>
+
+        <GpuScroll products={products} client:load />
+        <div class="hidden grid-cols-2 flex-col gap-4 md:grid lg:flex">
+          {
+            products.map((product) => (
+              <ProductCard
+                title={product.title}
+                description={product.description}
+                imageUrl={product.imageUrl}
+              />
+            ))
+          }
+        </div>
+      </div>
+      <div class="flex flex-col gap-8 rounded-lg border p-6 md:p-14">
+        <h2 class="text-2xl font-medium">
+          Secure your NVIDIA Blackwell Superchips
+        </h2>
+        <ContactForm client:load />
+      </div>
+    </section>
+  </TopMargin>
+</Layout>

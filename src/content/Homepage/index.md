@@ -1,7 +1,7 @@
 ---
 advert: 
-  title: Join Akash at NeurIPS 2024 →
-  link: "/neurips"
+  title: NVIDIA Blackwell is coming to Akash. Join the waitlist.
+  link: "/blackwell"
 
 # hero section content
 heroSection:

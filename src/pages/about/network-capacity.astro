@@ -1,15 +1,8 @@
 ---
-import {
-  getDashboardData,
-  getProviderDetail,
-} from "@/components/about-pages/network-activity/useDashboardData";
 import NetworkTabs from "@/components/about-pages/network-tabs.astro";
 import Map from "@/components/providersandincentives/Map";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
-
-let initialData = await getProviderDetail();
-let initialData2 = await getDashboardData();
 ---
 
 <Layout
@@ -35,7 +28,7 @@ let initialData2 = await getDashboardData();
         Network Capacity
       </h2>
 
-      <Map client:load initialData={initialData} initialData2={initialData2} />
+      <Map client:load />
     </div>
   </TopMargin>
 </Layout>
