@@ -230,7 +230,11 @@ export function ContactForm() {
             By clicking submit below, you consent to allow Akash Network to
             store and process the personal information submitted above to
             provide you the content requested. Please review our{" "}
-            <a href="/privacy-policy" className="text-primary underline">
+            <a
+              target="_blank"
+              href="/privacy"
+              className="text-primary underline"
+            >
               privacy policy
             </a>{" "}
             for more information.
