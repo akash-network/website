@@ -15,20 +15,23 @@ const images = [
   { src: "/images/slides/slide7.webp", alt: "Slide 7" },
   { src: "/images/slides/slide8.webp", alt: "Slide 8" },
 ];
+const title = "Akash Insiders: DePIN, AI and Crypto Pioneers";
+const description =
+  "Akash Insiders are community leaders driving growth, innovation and support within the Akash Network ecosystem.";
 ---
 
 <Layout
-  title="Akash Community - Join the Decentralized Cloud Movement"
-  description="Connect with like-minded individuals in the Akash Network community. Engage in discussions, share experiences, and contribute to the growth of decentralized cloud computing."
+  title={title}
+  description={description}
   image="/meta-images/community.png"
 >
   <TopMargin isNotContainer>
     <CommunityHero
       container
       subTitle="Akash Insiders:"
-      title="Connecting Cloud Innovators, <br/> AI Enthusiasts, and Crypto Crusaders"
-      description="Akash Insiders are leaders within the Akash ecosystem. They are an inclusive community of collaborative, digital pioneers helping to move DePIN technologies forward."
-      buttonLabel="Apply to become an Akash Insider today!"
+      title={title}
+      description={description}
+      buttonLabel="Akash Insider Application"
       buttonLink="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
     />
     <div class="flex flex-col gap-20 lg:gap-40">
@@ -54,8 +57,7 @@ const images = [
                 "Support community members and foster collaborative learning",
             },
             {
-              title:
-                "Educate the community through workshops and webinars on DePIN and AI",
+              title: "Educate the community through workshops and webinars",
             },
             {
               title: "Represent the Akash Network online and in person",
