@@ -1,8 +1,7 @@
 ---
 import EcosystemPage from "@/components/ecosystem-pages/ecosystem-page.astro";
 import { getPriorityIndex } from "@/utils/sequences/deployedOnAkash";
-import { getCollection, type CollectionEntry } from "astro:content";
-type Project = CollectionEntry<"Ecosystem_Page">;
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const projects = (await getCollection("Ecosystem_Page"))
@@ -17,41 +16,28 @@ export async function getStaticPaths() {
       );
     });
 
-  const tags: string[] = [];
+  const tags = Array.from(
+    new Set(projects.flatMap((project) => project.data.tags)),
+  );
 
-  projects.forEach((project) => {
-    project.data.tags.forEach((tag: string) => {
-      const lowerCasedTag = tag.toLowerCase();
-      if (!tags.includes(lowerCasedTag)) {
-        tags.push(lowerCasedTag);
-      }
-    });
-  });
-
-  return tags.flatMap((tag) => {
-    const lowercasedTag = tag.toLowerCase();
+  return tags.map((tag) => {
     const filteredPosts = projects.filter((post) =>
-      post.data.tags.some((tag: string) => tag.toLowerCase() === lowercasedTag),
+      post.data.tags.includes(tag),
     );
 
     return {
-      params: { tag },
-
-      props: { currentTag: tag, tags: tags, page: filteredPosts },
+      params: { tag: tag.toLowerCase() },
+      props: {
+        currentTag: tag,
+        tags: tags,
+        page: filteredPosts,
+      },
     };
   });
 }
 
 const { page, currentTag, tags } = Astro.props;
 const astroUrl = Astro.url;
-const pathName = astroUrl.pathname.split("/");
-const formattedTag = currentTag.charAt(0).toUpperCase() + currentTag.slice(1);
 ---
 
-<EcosystemPage
-  title={currentTag === "ai & ml"
-    ? "AI & ML"
-    : currentTag.charAt(0).toUpperCase() + currentTag.slice(1)}
-  tags={tags}
-  projects={page}
-/>
+<EcosystemPage title={currentTag} tags={tags} projects={page} />

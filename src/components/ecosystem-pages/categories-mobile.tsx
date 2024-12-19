@@ -15,7 +15,10 @@ const Categories = ({
   page: string;
   className?: string;
 }) => {
-  console.log(page);
+  const sortedTags = [
+    ...tags.filter((tag: string) => tag.toLowerCase().includes("ai")),
+    ...tags.filter((tag: string) => !tag.toLowerCase().includes("ai")),
+  ];
 
   return (
     <Menu
@@ -76,7 +79,7 @@ const Categories = ({
               </Menu.Item>
             )}
 
-            {tags?.map((tag: string) => (
+            {sortedTags?.map((tag: string) => (
               <Menu.Item key={tag}>
                 {({ active }) => (
                   <a
@@ -88,9 +91,7 @@ const Categories = ({
                       "block px-4 py-2 text-sm",
                     )}
                   >
-                    {tag === "ai & ml"
-                      ? "AI & ML"
-                      : tag.charAt(0).toUpperCase() + tag.slice(1)}
+                    {tag}
                   </a>
                 )}
               </Menu.Item>
