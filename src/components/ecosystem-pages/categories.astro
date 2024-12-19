@@ -45,7 +45,7 @@ const displayTag = (tag: string) => {
   <div class="mt-4 flex flex-col gap-y-4">
     <a
       href={`/ecosystem/${pathName?.[2]}/`}
-      class={`inline-flex cursor-pointer text-base  hover:text-primary ${
+      class={`inline-flex cursor-pointer text-base   hover:text-primary ${
         astroUrl.pathname === `/ecosystem/${pathName?.[2]}/`
           ? "text-primary"
           : "text-para"
@@ -71,7 +71,7 @@ const displayTag = (tag: string) => {
       sortedTags.map((tag: string) => (
         <a
           href={`/ecosystem/${pathName?.[2]}/${tag.toLowerCase()}`}
-          class={`inline-flex cursor-pointer text-base  hover:text-primary ${
+          class={`inline-flex cursor-pointer text-base   hover:text-primary ${
             astroUrl?.pathname
               ?.split("/")?.[3]
               ?.split("%20")
