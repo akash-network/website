@@ -2,8 +2,8 @@
 categories: ["Guides"]
 tags: ["Artificial Intelligence/Machine Learning"]
 weight: 1
-title: "H2O FLOW"
-linkTitle: "H2O FLOW"
+title: "H2O Flow"
+linkTitle: "H2O Flow"
 ---
 
 H2O Flow is a tool for machine learning workflows, typically running as part of the H2O.ai suite, and Akash offers a decentralized cloud environment where you can host this application.

@@ -89,6 +89,16 @@ export const docsSequence = [
               { label: "H2O Flow"},
               { label: "H2O LLM Studio"},
               { label: "h2oGPT"},
+              { label: "FlowiseAI"},
+              { label: "Machine Learning Environments"},
+              { label: "Deeplearning4j"},
+              { label: "Keras"},
+              { label: "Haystack"},
+              { label: "AnythingLLM"},
+              { label: "LocalAI"},
+              { label: "LangFlow"},
+              { label: "TensorFlow"},
+              { label: "PyTorch"},
             ],
           },
           {
@@ -101,17 +111,28 @@ export const docsSequence = [
               { label: "Caddy"},
               { label: "Nginx"},
               { label: "Apache HTTP Server"},
+              { label: "LocalStack"},
             ],
           },
           {
             label: "Tooling",
             subItems: [
-              { label: "Provider Utilization Dashboard" },
-              { label: "Akash Playground" },
+              { label: "Provider Utilization Dashboard"},
               { label: "Radicle" },
-              { label: "PostgreSQL restore/backup" },
-              { label: "Provider Utilization Dashboard" },
               { label: "Akash Playground" },
+              { label: "Kong"},
+              { label: "Jenkins"},
+              { label: "Traefik"},
+              { label: "Mautic"},
+              { label: "RabbitMQ"},
+              { label: "JetBrains Hub"},
+              { label: "EMQX"},
+              { label: "Apache Flink"},
+              { label: "Lightstreamer"},
+              { label: "RabbitMQ"},
+              { label: "NATS"}, 
+              { label: "Apache Airflow"},
+              { label: "Apache Kafka"},
             ],
           },
           {
@@ -131,7 +152,7 @@ export const docsSequence = [
               { label: "Waku" },
               { label: "qBittorrent" },
               { label: "Discourse" },
-              { label: "Invidious" },
+              { label: "Invidious" }, 
             ],
           },
           {
@@ -140,8 +161,21 @@ export const docsSequence = [
               { label: "JSON Server" },
               { label: "Dolt" },
               { label: "CouchDB" },
-              { label: "PostgreSQL restore/backup" },
+              { label: "MariaDB"},
+              { label: "PostgreSQL" },
+              { label: "ArangoDB"},
+              { label: "OrientDB"},
+              { label: "MongoDB"},
             ],
+          },
+          {
+            label: "Hosting",
+            subItems:[
+              { label: "Caddy"},
+              { label: "WordPress"},
+              { label: "Discourse"},
+              { label: "Ghost"},
+            ]
           },
           {
             label: "Data Analysis",
@@ -151,7 +185,14 @@ export const docsSequence = [
               { label: "Metabase" },
               { label: "KNIME"},
               { label: "Dataiku"},
-              { label: "Rstudio"}
+              { label: "Apache Superset"},
+              { label: "Rstudio"},
+              { label: "Apache Druid"},
+              { label: "Grafana"},
+              { label: "OpenSearch"}, 
+              { label: "Matomo"},
+              { label: "JupyterHub"},
+              { label: "JATOS"},
             ],
           },
           {
@@ -173,6 +214,20 @@ export const docsSequence = [
             label: "Benchmarkings",
             subItems: [{ label: "Fast.com" }],
           },
+          {
+            label: "Games",
+            subItems: [
+              { label: "Minecraft"},
+            ]
+          },
+          {
+            label: "Science",
+            subItems:[
+              { label: "GeoNetwork"},
+              { label: "GNU Octave"},
+              { label: "MATLAB"}
+            ]
+          }
         ],
       },
       {

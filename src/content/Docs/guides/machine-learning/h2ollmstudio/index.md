@@ -2,8 +2,8 @@
 categories: ["Guides"]
 tags: ["Artificial Intelligence/Machine Learning"]
 weight: 1
-title: "H2O LLM STUDIO"
-linkTitle: "H2O LLM STUDIO"
+title: "H2O LLM Studio"
+linkTitle: "H2O LLM Studio"
 ---
 
 ![](../../../assets/h20llm.png)
