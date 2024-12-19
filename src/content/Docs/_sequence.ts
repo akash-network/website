@@ -133,6 +133,7 @@ export const docsSequence = [
               { label: "NATS"}, 
               { label: "Apache Airflow"},
               { label: "Apache Kafka"},
+              { label: "Apache Storm"},
             ],
           },
           {
@@ -166,6 +167,7 @@ export const docsSequence = [
               { label: "ArangoDB"},
               { label: "OrientDB"},
               { label: "MongoDB"},
+              { label: "Neo4j"},
             ],
           },
           {
