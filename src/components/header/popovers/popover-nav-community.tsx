@@ -9,6 +9,7 @@ import {
   developmentItems,
   ecosystemNavItems,
   networkItems,
+  pricingItems,
 } from "./links";
 
 const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
@@ -121,7 +122,7 @@ export const SubNavbar = ({
   type,
 }: {
   pathname: string;
-  type: "community" | "development" | "network" | "ecosystem";
+  type: "community" | "development" | "network" | "ecosystem" | "pricing";
 }) => {
   const items =
     type === "community"
@@ -130,12 +131,14 @@ export const SubNavbar = ({
         ? developmentItems
         : type === "ecosystem"
           ? ecosystemNavItems
-          : networkItems.map((item) => ({ ...item, external: false }));
+          : type === "pricing"
+            ? pricingItems
+            : networkItems.map((item) => ({ ...item, external: false }));
 
   const external = items.find((item) => item?.external);
   return (
     <div className=" border-y">
-      <div className="container flex items-center gap-2 overflow-x-auto  md:justify-between">
+      <div className="container-nav flex items-center gap-2 overflow-x-auto  md:justify-between">
         <div className="flex">
           {items
             .filter((item) => !item?.external)

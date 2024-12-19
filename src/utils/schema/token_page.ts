@@ -7,9 +7,6 @@ export const tokenPage = defineCollection({
       heroSection: z.object({
         title: z.string(),
         description: z.string(),
-        heroImage: z.object({
-          mobile: image(),
-        }),
       }),
 
       ecosystemSection: z.object({
@@ -49,19 +46,6 @@ export const tokenPage = defineCollection({
       aktFeaturesSection: z.object({
         title: z.string(),
         description: z.string(),
-        image: image(),
-        darkImage: image().optional(),
-      }),
-
-      howItWorksSection: z.object({
-        title: z.string(),
-        cards: z.array(
-          z.object({
-            title: z.string(),
-            description: z.string(),
-            icon: image(),
-          }),
-        ),
       }),
 
       faqsSection: z.object({

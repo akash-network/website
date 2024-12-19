@@ -1,5 +1,4 @@
 ---
-import { nav } from "@/components/community-pages/nav-config.ts";
 import { type CollectionEntry, getCollection } from "astro:content";
 
 import Layout from "@/layouts/layout.astro";
@@ -10,7 +9,7 @@ import { proseClasses } from "@/lib/prose-classes";
 export async function getStaticPaths() {
   const pages = await getCollection("Community_Page");
 
-  return pages.map((page) => ({
+  return pages.map((page: CollectionEntry<"Community_Page">) => ({
     params: { slug: page.slug },
     props: page,
   }));
@@ -18,25 +17,9 @@ export async function getStaticPaths() {
 
 type Props = CollectionEntry<"Community_Page">;
 
-const page = Astro.props;
+const page: Props = Astro.props;
 
-const { Content, headings } = await page.render();
-
-const akashInsidersIndex = nav.findIndex(
-  (item: any) => item.link === `/community/${page.slug}/`,
-);
-
-if (akashInsidersIndex !== -1) {
-  const akashInsidersSubItems = headings
-    .filter((heading) => heading.depth <= 3)
-    .map((heading) => ({
-      label: heading.text,
-      link: `#${heading.slug}`,
-      enabled: true,
-    }));
-
-  nav[akashInsidersIndex].subItems = akashInsidersSubItems;
-}
+const { Content } = await page.render();
 ---
 
 <Layout
@@ -44,28 +27,9 @@ if (akashInsidersIndex !== -1) {
   description="Connect with like-minded individuals in the Akash Network community. Engage in discussions, share experiences, and contribute to the growth of decentralized cloud computing."
   image="/meta-images/community.png"
 >
-  <TopMargin>
-    <div>
-      <div class="mt-10 space-y-10 md:mt-0">
-        {
-          !page.data.disableTitle && (
-            <div class="mt-10 md:mt-0">
-              <h1 id="overview" class="text-3xl md:text-4xl lg:text-5xl">
-                {page.data.title}
-              </h1>
-              {page.data.description && (
-                <p class="mt-3 border-b pb-8 text-base  text-para">
-                  {page.data.description}
-                </p>
-              )}
-            </div>
-          )
-        }
-
-        <article class={proseClasses}>
-          <Content />
-        </article>
-      </div>
-    </div>
+  <TopMargin readable>
+    <article class={proseClasses}>
+      <Content />
+    </article>
   </TopMargin>
 </Layout>

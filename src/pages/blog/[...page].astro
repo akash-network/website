@@ -25,13 +25,13 @@ export async function getStaticPaths({
       return dateB.getTime() - dateA.getTime();
     });
 
-  const tags: string[] = [];
+  const categories: string[] = [];
 
   posts.forEach((post) => {
-    post.data.tags.forEach((tag) => {
-      const lowerCasedTag = tag.toLowerCase();
-      if (!tags.includes(tag)) {
-        tags.push(tag);
+    post.data.categories.forEach((category) => {
+      const lowerCasedCategory = category.toLowerCase();
+      if (!categories.includes(category)) {
+        categories.push(category);
       }
     });
   });
@@ -39,12 +39,12 @@ export async function getStaticPaths({
   const pinnedPost: BlogPost = posts[0];
   posts.shift();
   return paginate(posts, {
-    props: { tags: tags, pinnedPost: pinnedPost },
+    props: { categories: categories, pinnedPost: pinnedPost },
     pageSize: 12,
   });
 }
 
-const { page, tags, pinnedPost } = Astro.props;
+const { page, categories, pinnedPost } = Astro.props;
 
 const pathName = Astro.url.pathname.split("/");
 ---
@@ -62,7 +62,7 @@ const pathName = Astro.url.pathname.split("/");
             type="large"
             title={pinnedPost.data.title}
             image={pinnedPost.data.bannerImage}
-            tag={pinnedPost.data.tags[0]}
+            tag={pinnedPost.data.categories[0]}
             contributor={pinnedPost.data.contributors[0]}
             pubDate={pinnedPost.data.pubDate}
             description={pinnedPost.data.description}
@@ -87,17 +87,17 @@ const pathName = Astro.url.pathname.split("/");
         </Tag2>
 
         {
-          tags.map((tag: string) => {
+          categories.map((category: string) => {
             return (
               <Tag2
                 href={
-                  tag.toLowerCase() === "archive"
+                  category.toLowerCase() === "archive"
                     ? `/blog/archived.astro`
-                    : `/blog/${tag.toLowerCase()?.replaceAll(" ", "-")}/1`
+                    : `/blog/${category.toLowerCase()?.replaceAll(" ", "-")}/1`
                 }
-                active={pathName[2]?.toLowerCase() === tag.toLowerCase()}
+                active={pathName[2]?.toLowerCase() === category.toLowerCase()}
               >
-                {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                {category.charAt(0).toUpperCase() + category.slice(1)}
               </Tag2>
             );
           })
@@ -130,7 +130,7 @@ const pathName = Astro.url.pathname.split("/");
               <PostCard
                 title={post.data.title}
                 image={post.data.bannerImage}
-                tag={post.data.tags[0]}
+                tag={post.data.categories[0]}
                 contributor={post.data.contributors[0]}
                 pubDate={post.data.pubDate}
                 description={post.data.description}

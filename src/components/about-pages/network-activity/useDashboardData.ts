@@ -24,30 +24,20 @@ interface ProviderDetail {
   isOnline: boolean;
 }
 
-export function useDashboardData({
-  initialData,
-}: {
-  initialData: DashboardData;
-}) {
+export function useDashboardData() {
   return useQuery<DashboardData, Error>({
     queryKey: ["DASHBOARD_DATA"],
     queryFn: getDashboardData,
     refetchInterval: 2000,
     refetchIntervalInBackground: true,
-    initialData: initialData,
   });
 }
-// owner, name, ipLon, ipLat, ipRegion, ipCountryCode
-export function useProviderDetail({
-  initialData,
-}: {
-  initialData: ProviderDetail[];
-}) {
+
+export function useProviderDetail() {
   return useQuery<ProviderDetail[], Error>({
     queryKey: ["PROVIDER_DETAIL"],
     queryFn: getProviderDetail,
     refetchInterval: 2000,
     refetchIntervalInBackground: true,
-    initialData: initialData,
   });
 }

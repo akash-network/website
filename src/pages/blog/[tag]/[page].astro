@@ -21,29 +21,31 @@ export async function getStaticPaths({
     return dateB.getTime() - dateA.getTime();
   });
 
-  const tags: string[] = [];
+  const categories: string[] = [];
 
   posts.forEach((post) => {
-    post.data.tags.forEach((tag) => {
-      const lowerCasedTag = tag;
+    post.data.categories.forEach((category) => {
+      const lowerCasedCategory = category;
 
-      if (!tags.includes(lowerCasedTag)) {
-        tags.push(lowerCasedTag);
+      if (!categories.includes(lowerCasedCategory)) {
+        categories.push(lowerCasedCategory);
       }
     });
   });
 
-  return tags.flatMap((tag) => {
-    const lowercasedTag = tag;
+  return categories.flatMap((category) => {
+    const lowercasedCategory = category;
 
     const filteredPosts = posts.filter((post) =>
-      post.data.tags.some((tag: string) => tag === lowercasedTag),
+      post.data.categories.some(
+        (category: string) => category === lowercasedCategory
+      )
     );
 
     return paginate(filteredPosts, {
-      params: { tag: tag?.toLowerCase()?.replaceAll(" ", "-") },
+      params: { tag: category?.toLowerCase()?.replaceAll(" ", "-") },
       pageSize: 12,
-      props: { currentTag: tag, tags: tags },
+      props: { currentTag: category, tags: categories },
     });
   });
 }
@@ -57,7 +59,7 @@ const pathName = Astro.url.pathname.split("/");
   title="Akash Network Blog - Insights into Decentralized Cloud Computing"
   description="Stay updated with the latest trends, news, and insights in decentralized cloud computing. Explore thought leadership, technical deep-dives, and community highlights."
 >
-  <!-- Tags nav -->
+  <!-- Categories nav -->
   <div class="container mt-[120px]">
     <div
       class="lg: flex flex-col items-start justify-between gap-x-5 border-b pb-0 pb-5 lg:flex-row lg:border-none"
@@ -73,20 +75,20 @@ const pathName = Astro.url.pathname.split("/");
         </Tag2>
 
         {
-          tags.map((tag: string) => {
+          tags.map((category: string) => {
             return (
               <Tag2
                 href={
-                  tag.toLowerCase() === "archive"
+                  category.toLowerCase() === "archive"
                     ? `/blog/archived.astro`
-                    : `/blog/${tag.toLowerCase()?.replaceAll(" ", "-")}/1`
+                    : `/blog/${category.toLowerCase()?.replaceAll(" ", "-")}/1`
                 }
                 active={
                   pathName[2]?.toLowerCase() ===
-                  tag.toLowerCase()?.replaceAll(" ", "-")
+                  category.toLowerCase()?.replaceAll(" ", "-")
                 }
               >
-                {tag}
+                {category}
               </Tag2>
             );
           })
@@ -124,7 +126,7 @@ const pathName = Astro.url.pathname.split("/");
               <PostCard
                 title={post.data.title}
                 image={post.data.bannerImage}
-                tag={post.data.tags[0]}
+                tag={post.data.categories[0]}
                 contributor={post.data.contributors[0]}
                 pubDate={post.data.pubDate}
                 description={post.data.description}

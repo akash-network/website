@@ -3,13 +3,24 @@ import { nav } from "@/components/development-pages/nav-config";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
+import type { MarkdownHeading } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import clsx from "clsx";
+import { CalendarModal } from "@/components/development-pages/calendar-modal.tsx";
+
+interface NavItem {
+  link: string;
+  subItems?: {
+    label: string;
+    link: string;
+    enabled: boolean;
+  }[];
+}
 
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Page");
 
-  return pages.map((page) => ({
+  return pages.map((page: CollectionEntry<"Development_Page">) => ({
     params: { slug: page.slug },
     props: page,
   }));
@@ -23,13 +34,13 @@ console.log(page);
 const { Content, headings } = await page.render();
 
 const akashInsidersIndex = nav.findIndex(
-  (item: any) => item.link === `/development/${page.slug}/`,
+  (item: NavItem) => item.link === `/development/${page.slug}/`,
 );
 
 if (akashInsidersIndex !== -1) {
   const akashInsidersSubItems = headings
-    .filter((heading) => heading.depth <= 3)
-    .map((heading) => ({
+    .filter((heading: MarkdownHeading) => heading.depth <= 3)
+    .map((heading: MarkdownHeading) => ({
       label: heading.text,
       link: `#${heading.slug}`,
       enabled: true,
@@ -40,12 +51,12 @@ if (akashInsidersIndex !== -1) {
 ---
 
 <Layout
-  title="Developer Hub - Build on Akash Network"
-  description="Access resources, tools, and documentation for developers interested in building on the Akash Network. Explore our APIs, SDKs, and developer-friendly features."
+  title={`${page.data.title} - Developer Hub`}
+  description={page.data.description}
   image="/meta-images/development.png"
 >
-  <TopMargin>
-    <div class="space-y-10">
+  <TopMargin readable>
+    <div class="text-padding w-full space-y-10">
       <div class="mt-10 md:mt-0">
         <h1
           id="overview"
@@ -62,6 +73,7 @@ if (akashInsidersIndex !== -1) {
       <article class={proseClasses}>
         <Content />
       </article>
+      <CalendarModal client:load />
     </div>
   </TopMargin>
 </Layout>

@@ -1,0 +1,78 @@
+---
+import FeatureCard from "../cards/FeatureCard.astro";
+
+const responsibilities = [
+  {
+    title: "Block Validation",
+    description:
+      "Validators actively validate transactions and create new blocks as part of Akash Network's robust, secure, and attack-resistant consensus algorithm.",
+    icon: `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 18L7.03 20.38C6.71894 20.5669 6.36289 20.6656 6 20.6656C5.63711 20.6656 5.28106 20.5669 4.97 20.38L1.97 18.58C1.67476 18.4026 1.43033 18.152 1.26039 17.8524C1.09045 17.5528 1.00075 17.2144 1 16.87V13.63C1.00075 13.2855 1.09045 12.9471 1.26039 12.6476C1.43033 12.348 1.67476 12.0973 1.97 11.92L6 9.49997M11 18V12.5M11 18L14.97 20.38C15.2811 20.5669 15.6371 20.6656 16 20.6656C16.3629 20.6656 16.7189 20.5669 17.03 20.38L20.03 18.58C20.3252 18.4026 20.5697 18.152 20.7396 17.8524C20.9096 17.5528 20.9992 17.2144 21 16.87V13.63C20.9992 13.2855 20.9096 12.9471 20.7396 12.6476C20.5697 12.348 20.3252 12.0973 20.03 11.92L16 9.49997M11 12.5L6 9.49997M11 12.5L6 15.5M11 12.5L16 9.49997M11 12.5L16 15.5M11 12.5V6.99997M6 9.49997V5.12997C6.00075 4.78554 6.09045 4.44714 6.26039 4.14756C6.43033 3.84797 6.67476 3.59735 6.97 3.41997L9.97 1.61997C10.2811 1.43308 10.6371 1.33435 11 1.33435C11.3629 1.33435 11.7189 1.43308 12.03 1.61997L15.03 3.41997C15.3252 3.59735 15.5697 3.84797 15.7396 4.14756C15.9096 4.44714 15.9992 4.78554 16 5.12997V9.49997M6 15.5L1.26 12.65M6 15.5V20.67M16 15.5L20.74 12.65M16 15.5V20.67M11 6.99997L6.26 4.14997M11 6.99997L15.74 4.14997" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+`,
+  },
+  {
+    title: "Network Security",
+    description:
+      "Validators are central to maintaining the overall security of the network, preventing malicious activities like double-spending and ensuring blockchain integrity.",
+    icon: `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.6001 12L11.6001 14L15.6001 10M12.6001 22C12.6001 22 20.6001 18 20.6001 12V5L12.6001 2L4.6001 5V12C4.6001 18 12.6001 22 12.6001 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+`,
+  },
+  {
+    title: "Staking",
+    description:
+      "Validators must stake a specific amount of $AKT (Akash Network's native cryptocurrency) to join the consensus process. Staking incentivizes honesty by aligning validators' interests with the network's success.",
+    icon: `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.29 10.37C19.2353 10.7224 20.0764 11.3075 20.7357 12.0712C21.395 12.8349 21.851 13.7524 22.0617 14.7391C22.2724 15.7257 22.2309 16.7495 21.941 17.7158C21.6511 18.6822 21.1223 19.5598 20.4034 20.2676C19.6845 20.9754 18.7987 21.4905 17.8279 21.7652C16.8572 22.04 15.8329 22.0655 14.8496 21.8395C13.8664 21.6134 12.9561 21.1431 12.2028 20.472C11.4495 19.8009 10.8776 18.9507 10.54 18M7.19995 6H8.19995V10M16.91 13.88L17.61 14.59L14.79 17.41M14.2 8C14.2 11.3137 11.5137 14 8.19995 14C4.88624 14 2.19995 11.3137 2.19995 8C2.19995 4.68629 4.88624 2 8.19995 2C11.5137 2 14.2 4.68629 14.2 8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+`,
+  },
+  {
+    title: "Governance",
+    description:
+      "Validators may participate in the governance process, contributing to decisions affecting the protocol and the network’s development trajectory.",
+    icon: `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.80005 12L11.8 14L15.8 10M22.8 19H2.80005M5.80005 7C5.80005 5.9 6.70005 5 7.80005 5H17.8C18.3305 5 18.8392 5.21071 19.2143 5.58579C19.5893 5.96086 19.8 6.46957 19.8 7V19H5.80005V7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+`,
+  },
+  {
+    title: "Reliability",
+    description:
+      "Validators ensure the network's reliability and availability by managing stable, well-connected nodes that keep it operational.",
+    icon: `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.8723 20H4.4999C4.16853 20 3.8999 19.7314 3.8999 19.4V9.6C3.8999 9.26863 4.16853 9 4.4999 9H7.26752C7.97005 9 8.62106 8.6314 8.98251 8.02899L11.6929 3.51161C12.2778 2.53688 13.6553 2.44422 14.3654 3.33186C14.7001 3.75025 14.808 4.30635 14.654 4.81956L13.6316 8.22759C13.5161 8.61256 13.8044 9 14.2063 9H18.7814C20.1001 9 21.0579 10.254 20.7109 11.5262L18.8018 18.5262C18.5645 19.3964 17.7742 20 16.8723 20Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M7.3999 20L7.3999 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+`,
+  },
+];
+---
+
+<div class="not-prose flex flex-col gap-10">
+  <div>
+    <h2 class="text-center text-3xl font-semibold">Responsibilities</h2>
+    <p class="m-auto max-w-3xl pt-2 text-center text-sm md:text-base">
+      The primary responsibilities of an Akash Network Validators encompass:
+    </p>
+  </div>
+  <div class="flex grid-cols-5 gap-5 overflow-x-auto md:grid">
+    {
+      responsibilities.map((responsibility) => (
+        <FeatureCard
+          autoHeight
+          className="min-w-[145px] w-full lg:min-w-[unset]"
+          card={responsibility}
+          icon={responsibility.icon}
+        />
+      ))
+    }
+  </div>
+</div>

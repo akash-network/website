@@ -1,0 +1,18 @@
+---
+type Props = {
+  title: string;
+  description: string;
+  imageUrl: string;
+};
+
+const { title, description, imageUrl } = Astro.props;
+---
+
+<div class="flex gap-4 overflow-hidden rounded-lg border p-5">
+  <img src={imageUrl} alt={title} class="size-24 rounded-md object-cover" />
+
+  <div class="flex flex-col gap-3">
+    <h2 class="text-2xl font-semibold">{title}</h2>
+    <p class="text-sm">{description}</p>
+  </div>
+</div>

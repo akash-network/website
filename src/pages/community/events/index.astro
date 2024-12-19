@@ -11,7 +11,7 @@ const { data } = await getEntry("Community_Page", "events");
 const allCards = cards.map((card) => card.data);
 const eventDurationInMilliSeconds = 864000000;
 const currentOffsetDateTime = new Date(
-  new Date().getTime() - eventDurationInMilliSeconds,
+  new Date().getTime() - eventDurationInMilliSeconds
 ).getTime();
 
 const relevantCards = allCards.filter((curr: any) => {
@@ -76,6 +76,5 @@ const sortedCards = relevantCards.sort((a, b) => {
         </div>
       </div>
     </div>
-    <div class="border-b pb-10"></div>
   </TopMargin>
 </Layout>
