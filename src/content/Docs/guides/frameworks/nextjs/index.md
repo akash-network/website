@@ -1,6 +1,6 @@
 ---
 categories: ["Guides"]
-tags: ["Web Development", "React", "JavaScript", "Framework"]
+tags: ["Web Development", "Next.js", "JavaScript", "Framework"]
 weight: 1
 title: "Next.js"
 linkTitle: "Next.js"
