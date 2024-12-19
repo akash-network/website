@@ -4,7 +4,7 @@ projectImage: "./banner.jpg"
 pubDate: "2016-12-15"
 
 tags:
-  - AI & ML
+  - AI Agents
 
 category: deployed_on_akash
 
