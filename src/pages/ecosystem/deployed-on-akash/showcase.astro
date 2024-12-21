@@ -27,13 +27,7 @@ const projects = sortProjects(
   data.filter((project) => project.data.showcase === true),
 );
 
-const tags: string[] = Array.from(
-  new Set(
-    cards.flatMap((project) =>
-      project.data.tags.map((tag) => tag.toLowerCase()),
-    ),
-  ),
-);
+const tags = Array.from(new Set(cards.flatMap((project) => project.data.tags)));
 ---
 
 <EcosystemPage tags={tags} projects={projects} title="Showcase" />
