@@ -106,7 +106,6 @@ export const docsSequence = [
             subItems: [
               { label: "TLS Termination of Akash Deployments" },
               { label: "Multi-Tiered Deployment" },
-              { label: "Ruby on Rails with Sia and Auth0" },
               { label: "Jackal S3 Gateway" },
               { label: "Caddy"},
               { label: "Nginx"},
