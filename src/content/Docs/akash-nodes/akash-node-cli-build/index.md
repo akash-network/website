@@ -386,12 +386,12 @@ cd ~/.akash
 
 ### Download Snapshot&#x20;
 
-The latest Akash snapshot version - made available via The Offical Akash Network Snapshot - can be found [here](https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4).  This snapshot is updated every hour.
+The latest Akash snapshot version - made available via The Offical Akash Network Snapshot - can be found [here](https://snapshots.akash.network/akashnet-2/latest).  This snapshot is updated every hour.
 
 #### Example Steps
 
 ```
-wget -O akashnet-2_latest.tar.lz4 https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4 --inet4-only
+wget -O akashnet-2_latest.tar.lz4 https://snapshots.akash.network/akashnet-2/latest --inet4-only
 
 apt-get install lz4
 

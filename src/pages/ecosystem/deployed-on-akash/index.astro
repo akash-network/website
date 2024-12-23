@@ -35,17 +35,9 @@ const nonPriorityProjects = (await getCollection("Ecosystem_Page"))
 
 const projects = [...priorityProjects, ...nonPriorityProjects];
 
-const tags: string[] = [];
-
-projects.forEach((project) => {
-  project.data.tags.forEach((tag: any) => {
-    const lowerCasedTag = tag.toLowerCase();
-
-    if (!tags.includes(lowerCasedTag)) {
-      tags.push(lowerCasedTag);
-    }
-  });
-});
+const tags = Array.from(
+  new Set(projects.flatMap((project) => project.data.tags)),
+);
 ---
 
 <EcosystemPage projects={projects} tags={tags} />
