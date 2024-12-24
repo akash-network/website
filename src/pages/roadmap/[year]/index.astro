@@ -1,9 +1,10 @@
 ---
+import QuarterNavigation from "@/components/QuarterNavigation";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-
+import clsx from "clsx";
 type Roadmap = CollectionEntry<"aeps">;
 
 export async function getStaticPaths() {
@@ -13,7 +14,7 @@ export async function getStaticPaths() {
     ...new Set(
       roadmaps.map((roadmap) => new Date(roadmap.data.created).getFullYear()),
     ),
-  ].sort((a, b) => b - a);
+  ].sort((a, b) => a - b);
   console.log(roadmaps);
   return years.map((year) => {
     const yearRoadmaps = roadmaps.filter(
@@ -38,8 +39,8 @@ export async function getStaticPaths() {
     Object.values(quarters).forEach((quarter) => {
       quarter.sort(
         (a, b) =>
-          new Date(b.data.created).getTime() -
-          new Date(a.data.created).getTime(),
+          new Date(a.data.created).getTime() -
+          new Date(b.data.created).getTime(),
       );
     });
 
@@ -61,45 +62,106 @@ const title = `Akash Network Roadmap`;
     <section class="max-w-2xl">
       <h1 class="text-3xl font-semibold">{title}</h1>
       <p class="mt-6">
-        Akash's 
-        <a href="/roadmap" class="text-primary underline">roadmap</a> outlines
-        the high-level goals and priorities for the Akash Network.
+        Akash's
+        <a href="/roadmap" class="text-primary underline">roadmap</a> outlines the
+        high-level goals and priorities for the Akash Network.
       </p>
       <p class="mt-3">
-        Akash Enhancement Proposals (AEPs) describe standards for
-        the Akash Decentralized Cloud platform, including core protocol
-        specifications, client APIs, and SDL standards.
+        Akash Enhancement Proposals (AEPs) describe standards for the Akash
+        Decentralized Cloud platform, including core protocol specifications,
+        client APIs, and SDL standards.
       </p>
     </section>
+    <section class="flex items-center gap-4">
+      <h2 class="text-lg font-medium">Year:</h2>
+      <div class="flex items-center gap-4">
+        {
+          years?.map((y) => (
+            <a
+              href={`/roadmap/${y}`}
+              class={clsx(
+                "rounded-full  px-3 py-1 text-lg font-medium",
+                y.toString() === year?.toString() && "bg-badgeColor",
+              )}
+            >
+              {y}
+            </a>
+          ))
+        }
+      </div>
+    </section>
 
-    {
-      Object.entries(quarters).map(
-        ([quarter, roadmaps]) =>
-          roadmaps.length > 0 && (
-            <div class="mb-16">
-              <h2 class="mb-8 text-2xl font-bold">{quarter}</h2>
-              <div class="space-y-8">
-                {roadmaps.map((roadmap) => (
-                  <a
-                    href={`/roadmap/${year}/${roadmap.slug.split("/")[0]}`}
-                    class="border-l-4 border-primary pl-4"
-                  >
-                    <h3 class="text-xl font-semibold">{roadmap.data.title}</h3>
-                    <p class="mt-1 text-sm text-gray-600">
-                      Status: {roadmap.data.status}
-                    </p>
-                    <p class="text-sm text-gray-600">
-                      Estimated Completion:{" "}
-                      {roadmap.data[
-                        "estimated-completion"
-                      ].toLocaleDateString()}
-                    </p>
-                  </a>
-                ))}
-              </div>
-            </div>
-          ),
-      )
-    }
+    <section class="mt-10 flex gap-14">
+      <QuarterNavigation client:load quarters={quarters} />
+      <div
+        class="relative w-full border-l border-[#F0F1F2] pb-36 dark:border-[#2E2E2E]"
+      >
+        <div
+          class="bg-line-dashed dark:bg-line-dashed-dark absolute -top-1 left-0 flex h-full w-full bg-center bg-repeat-y"
+        >
+        </div>
+        <div class="relative z-[1] flex flex-col gap-10 pt-10">
+          {
+            Object.entries(quarters).map(
+              ([quarter, roadmaps]) =>
+                roadmaps.length > 0 && (
+                  <div class="-ml-3 flex w-full gap-10" data-quarter={quarter}>
+                    <div class="flex w-full flex-col gap-10">
+                      {roadmaps.map((roadmap) => (
+                        <div class="flex items-start gap-10 ">
+                          <div class="flex items-center gap-3  pt-10">
+                            <div class="flex size-6 items-center justify-center rounded-full bg-badgeColor">
+                              <div class="size-1.5 rounded-full bg-black dark:bg-white" />
+                            </div>
+                            <p class="text-sm font-medium text-[#7E868C99] dark:text-para">
+                              {roadmap.slug.split("/")[0]}
+                            </p>
+                          </div>
+
+                          <a
+                            href={`/roadmap/${year}/${roadmap.slug.split("/")[0]}`}
+                            class={clsx(
+                              "flex flex-col gap-4 rounded-lg border bg-background p-6 shadow",
+                              roadmap.data.roadmap === "major"
+                                ? "w-[70%]"
+                                : "w-[40%]",
+                            )}
+                          >
+                            <div class="flex items-center justify-between gap-2">
+                              <h3
+                                class={clsx(
+                                  roadmap.data.roadmap === "major"
+                                    ? "font-instrument text-5xl"
+                                    : "text-lg font-semibold",
+                                )}
+                              >
+                                {roadmap.data.title}
+                              </h3>
+                              <p class=" rounded-full bg-badgeColor px-2 py-1 text-xs font-medium text-foreground">
+                                {roadmap.data.status}
+                              </p>
+                            </div>
+                            <p class="text-sm ">
+                              Estimated Completion:{" "}
+                              {roadmap.data[
+                                "estimated-completion"
+                              ].toLocaleDateString()}
+                            </p>
+                            <div class="my-1 h-px w-full border-b" />
+                            <p class="text-sm">
+                              Since 2016, Overclock Labs has fully borne the
+                              cost of development and support of Akash...
+                            </p>
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ),
+            )
+          }
+        </div>
+      </div>
+    </section>
   </TopMargin>
 </Layout>
