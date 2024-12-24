@@ -1,0 +1,105 @@
+---
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+type Roadmap = CollectionEntry<"aeps">;
+
+export async function getStaticPaths() {
+  const roadmaps = await getCollection("aeps");
+
+  const years = [
+    ...new Set(
+      roadmaps.map((roadmap) => new Date(roadmap.data.created).getFullYear()),
+    ),
+  ].sort((a, b) => b - a);
+  console.log(roadmaps);
+  return years.map((year) => {
+    const yearRoadmaps = roadmaps.filter(
+      (roadmap) => new Date(roadmap.data.created).getFullYear() === year,
+    );
+
+    const quarters = {
+      Q1: [] as Roadmap[],
+      Q2: [] as Roadmap[],
+      Q3: [] as Roadmap[],
+      Q4: [] as Roadmap[],
+    };
+
+    yearRoadmaps.forEach((roadmap) => {
+      const month = new Date(roadmap.data.created).getMonth();
+      if (month <= 2) quarters.Q1.push(roadmap);
+      else if (month <= 5) quarters.Q2.push(roadmap);
+      else if (month <= 8) quarters.Q3.push(roadmap);
+      else quarters.Q4.push(roadmap);
+    });
+
+    Object.values(quarters).forEach((quarter) => {
+      quarter.sort(
+        (a, b) =>
+          new Date(b.data.created).getTime() -
+          new Date(a.data.created).getTime(),
+      );
+    });
+
+    return {
+      params: { year },
+      props: { quarters, years },
+    };
+  });
+}
+
+const { quarters, years } = Astro.props;
+const { year } = Astro.params;
+console.log(years);
+const title = `Akash Network Roadmap`;
+---
+
+<Layout title={`${title} - ${year}`}>
+  <TopMargin className="container-small flex flex-col gap-10" isNotContainer>
+    <section class="max-w-2xl">
+      <h1 class="text-3xl font-semibold">{title}</h1>
+      <p class="mt-6">
+        Akash's 
+        <a href="/roadmap" class="text-primary underline">roadmap</a> outlines
+        the high-level goals and priorities for the Akash Network.
+      </p>
+      <p class="mt-3">
+        Akash Enhancement Proposals (AEPs) describe standards for
+        the Akash Decentralized Cloud platform, including core protocol
+        specifications, client APIs, and SDL standards.
+      </p>
+    </section>
+
+    {
+      Object.entries(quarters).map(
+        ([quarter, roadmaps]) =>
+          roadmaps.length > 0 && (
+            <div class="mb-16">
+              <h2 class="mb-8 text-2xl font-bold">{quarter}</h2>
+              <div class="space-y-8">
+                {roadmaps.map((roadmap) => (
+                  <a
+                    href={`/roadmap/${year}/${roadmap.slug.split("/")[0]}`}
+                    class="border-l-4 border-primary pl-4"
+                  >
+                    <h3 class="text-xl font-semibold">{roadmap.data.title}</h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                      Status: {roadmap.data.status}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                      Estimated Completion:{" "}
+                      {roadmap.data[
+                        "estimated-completion"
+                      ].toLocaleDateString()}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ),
+      )
+    }
+  </TopMargin>
+</Layout>

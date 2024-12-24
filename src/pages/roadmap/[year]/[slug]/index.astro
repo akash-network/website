@@ -1,0 +1,78 @@
+---
+import Layout from "@/layouts/layout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const roadmaps = await getCollection("aeps");
+
+  return roadmaps.map((roadmap) => {
+    const year = new Date(roadmap.data.created).getFullYear();
+
+    return {
+      params: {
+        year,
+        slug: roadmap.slug?.split("/")[0],
+      },
+      props: { roadmap },
+    };
+  });
+}
+
+const { roadmap } = Astro.props;
+const { Content } = await roadmap.render();
+---
+
+<Layout title={roadmap.data.title}>
+  <div class="container mt-[120px]">
+    <div class="mx-auto max-w-3xl">
+      <div class="mb-8">
+        <h1 class="mb-4 text-4xl font-bold">{roadmap.data.title}</h1>
+
+        <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+          <p>AEP: {roadmap.data.aep}</p>
+          <p>Status: {roadmap.data.status}</p>
+          <p>Type: {roadmap.data.type}</p>
+          <p>Category: {roadmap.data.category}</p>
+          <p>Created: {roadmap.data.created.toLocaleDateString()}</p>
+          <p>Updated: {roadmap.data.updated.toLocaleDateString()}</p>
+          <p>
+            Estimated Completion: {
+              roadmap.data["estimated-completion"].toLocaleDateString()
+            }
+          </p>
+          <p>Roadmap Type: {roadmap.data.roadmap}</p>
+        </div>
+
+        <div class="mt-4">
+          <p class="font-medium">Authors:</p>
+          <p>{roadmap.data.author}</p>
+        </div>
+
+        <div class="mt-4 space-y-2">
+          <p>
+            <span class="font-medium">Discussions:</span>
+            <a
+              href={roadmap.data["discussions-to"]}
+              class="ml-2 text-primary hover:underline"
+            >
+              Link to Discussion
+            </a>
+          </p>
+          <p>
+            <span class="font-medium">Resolution:</span>
+            <a
+              href={roadmap.data.resolution}
+              class="ml-2 text-primary hover:underline"
+            >
+              Link to Resolution
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <article class="prose max-w-none">
+        <Content />
+      </article>
+    </div>
+  </div>
+</Layout>
