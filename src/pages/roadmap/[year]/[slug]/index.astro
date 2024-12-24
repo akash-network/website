@@ -3,6 +3,7 @@ import RoadmapCard from "@/components/roadmap-card.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
+import { docsProseClasses } from "@/lib/docs-prose-classes";
 import { getCollection } from "astro:content";
 import { ChevronRight } from "lucide-react";
 export async function getStaticPaths() {
@@ -89,7 +90,7 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
           </p>
         </div>
         <div class="h-px w-full border-b"></div>
-        <article class="prose max-w-none">
+        <article class={docsProseClasses}>
           <Content />
         </article>
       </div>
