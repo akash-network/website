@@ -1,6 +1,6 @@
 ---
 aep: 30
-title: "Upgrade Proposal 10"
+title: "Upgrade Proposal 10as"
 author: Cheng Wang (@lechenghiskhan) Artur Troian (@atroian) Scott Carrutthers (@chainzero)
 status: Final
 type: Standard

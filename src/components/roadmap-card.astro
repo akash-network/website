@@ -1,0 +1,43 @@
+---
+import clsx from "clsx";
+
+const { roadmap, year, className } = Astro.props;
+---
+
+<a
+  href={`/roadmap/${year}/${roadmap.slug.split("/")[0]}`}
+  class={clsx(
+    "flex flex-col gap-4 rounded-lg border bg-background p-6 shadow",
+    className
+      ? className
+      : roadmap.data.roadmap === "major"
+        ? "w-[70%]"
+        : "w-[40%]",
+  )}
+>
+  <div class="flex items-center justify-between gap-2">
+    <h3
+      class={clsx(
+        roadmap.data.roadmap === "major" || className
+          ? "font-instrument text-5xl"
+          : "text-lg font-semibold",
+      )}
+    >
+      {roadmap.data.title}
+    </h3>
+    <p
+      class="rounded-full bg-badgeColor px-2 py-1 text-xs font-medium text-foreground"
+    >
+      {roadmap.data.status}
+    </p>
+  </div>
+  <p class="text-sm">
+    Estimated Completion:{" "}
+    {roadmap.data["estimated-completion"].toLocaleDateString()}
+  </p>
+  <div class="my-1 h-px w-full border-b"></div>
+  <p class="text-sm">
+    Since 2016, Overclock Labs has fully borne the cost of development and
+    support of Akash...
+  </p>
+</a>

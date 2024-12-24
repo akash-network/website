@@ -1,4 +1,5 @@
 ---
+import RoadmapCard from "@/components/roadmap-card.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
@@ -6,22 +7,29 @@ import { getCollection } from "astro:content";
 import { ChevronRight } from "lucide-react";
 export async function getStaticPaths() {
   const roadmaps = await getCollection("aeps");
-
-  return roadmaps.map((roadmap) => {
+  const sortedRoadmaps = roadmaps.sort(
+    (a, b) =>
+      new Date(a.data.created).getTime() - new Date(b.data.created).getTime(),
+  );
+  return sortedRoadmaps.map((roadmap) => {
     const year = new Date(roadmap.data.created).getFullYear();
+    const nextRoadmap = sortedRoadmaps.find(
+      (r) => new Date(r.data.created) > new Date(roadmap.data.created),
+    );
 
     return {
       params: {
         year,
         slug: roadmap.slug?.split("/")[0],
       },
-      props: { roadmap },
+      props: { roadmap, nextRoadmap },
     };
   });
 }
 
-const { roadmap } = Astro.props;
+const { roadmap, nextRoadmap } = Astro.props;
 const { Content } = await roadmap.render();
+const year = Astro.params.year;
 
 const quarter = Math.floor(new Date(roadmap.data.created).getMonth() / 3) + 1;
 
@@ -31,7 +39,6 @@ interface AuthorLink {
 }
 
 const parseAuthors = (authorString: string): AuthorLink[] => {
-  // First split by any combination of spaces and newlines
   const authorParts = authorString.trim().split(/[\s\n]+/);
 
   const authors: AuthorLink[] = [];
@@ -65,11 +72,11 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
 <Layout title={roadmap.data.title}>
   <TopMargin readable className="flex flex-col gap-16">
     <div class="flex items-center gap-3 text-para">
-      <p>Akash Network Roadmap</p>
+      <a href={`/roadmap/${year}`}>Akash Network Roadmap</a>
       <ChevronRight size={16} />
-      <p>Q{quarter}</p>
+      <a href={`/roadmap/${year}`}>Q{quarter}</a>
       <ChevronRight size={16} />
-      <p>{roadmap.slug.split("/")[0]}</p>
+      <p class="text-foreground">{roadmap.slug.split("/")[0]}</p>
     </div>
     <div class="flex gap-14 rounded-lg border p-8">
       <div class="mb-8 flex w-full flex-1 flex-col gap-6">
@@ -141,6 +148,10 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
           Edit on GitHub
         </ButtonLink>
       </div>
+    </div>
+    <div class="mx-auto flex w-[80%] flex-col gap-4">
+      <p class="text-sm font-medium text-foreground">View next aep</p>
+      <RoadmapCard roadmap={nextRoadmap} year={year} className="w-full" />
     </div>
   </TopMargin>
 </Layout>
