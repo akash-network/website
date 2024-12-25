@@ -1,5 +1,5 @@
 ---
-aep: 30
+aep: 3230
 title: "Cosmos SDK v0.47 Migration"
 author: Cheng Wang (@lechenghiskhan) Artur Troian (@atroian) Scott Carrutthers (@chainzero)
 status: Final

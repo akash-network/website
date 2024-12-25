@@ -5,7 +5,7 @@ const { roadmap, year, className } = Astro.props;
 ---
 
 <a
-  href={`/roadmap/${year}/${roadmap.slug.split("/")[0]}`}
+  href={`/roadmap/${year}/${roadmap?.slug?.split("/")?.[0]}`}
   class={clsx(
     "flex flex-col gap-4 rounded-lg border bg-background p-6 shadow",
     className
@@ -18,22 +18,22 @@ const { roadmap, year, className } = Astro.props;
   <div class="flex items-center justify-between gap-2">
     <h3
       class={clsx(
-        roadmap.data.roadmap === "major" || className
+        roadmap?.data?.roadmap === "major" || className
           ? "font-instrument text-5xl"
           : "text-lg font-semibold",
       )}
     >
-      {roadmap.data.title}
+      {roadmap?.data?.title}
     </h3>
     <p
       class="rounded-full bg-badgeColor px-2 py-1 text-xs font-medium text-foreground"
     >
-      {roadmap.data.status}
+      {roadmap?.data?.status}
     </p>
   </div>
   <p class="text-sm">
     Estimated Completion:{" "}
-    {roadmap.data["estimated-completion"].toLocaleDateString()}
+    {roadmap?.data?.["estimated-completion"]?.toLocaleDateString()}
   </p>
   <div class="my-1 h-px w-full border-b"></div>
   <p class="text-sm">

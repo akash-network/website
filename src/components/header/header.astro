@@ -9,6 +9,7 @@ import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
+import RoadmapLink from "./roadmap-link";
 
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
@@ -46,12 +47,12 @@ const posts = (await getCollection("Blog"))
       ? ""
       : pathnames.includes(pathname)
         ? ""
-        : "top-0 sticky z-[30]"
+        : "top-0 sticky z-[30]",
   )}
 >
   <nav
     class={clsx(
-      "container-nav  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]"
+      "container-nav  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
     )}
     id="page-top"
   >
@@ -69,6 +70,7 @@ const posts = (await getCollection("Blog"))
         <PopOverNavItemEcosystem client:load posts={posts} />
         <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
+        <RoadmapLink currentPath={pathname} client:load>Roadmap</RoadmapLink>
         <NavLink href="/pricing/gpus" currentPath={pathname}>
           <div class="flex items-center gap-1">
             <span class="text-sm font-medium">Pricing & Earnings</span>
@@ -145,7 +147,7 @@ const posts = (await getCollection("Blog"))
       ? "hidden"
       : pathnames.includes(pathname)
         ? "top-0 sticky z-[30]"
-        : "hidden"
+        : "hidden",
   )}
 >
   {
