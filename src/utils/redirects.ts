@@ -1,3 +1,4 @@
+const currentYear = new Date().getFullYear();
 export const redirects = {
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",
@@ -5,8 +6,6 @@ export const redirects = {
   "/about": "/about/general-information/",
   "/blog/a/acc-akash-accelerationism": "/blog/a-acc-akash-accelerationism/",
   "/community/events/upcoming": "/community/events/",
-  "/roadmap":
-    "https://github.com/orgs/akash-network/projects/5/views/1?layout=roadmap",
   "/careers": "/",
   "/whitepapers":
     "https://ipfs.io/ipfs/QmVwsi5kTrg7UcUEGi5UfdheVLBWoHjze2pHy4tLqYvLYv",
@@ -22,4 +21,5 @@ export const redirects = {
   "/ecosystem/showcase/latest/": "/ecosystem/deployed-on-akash/showcase/",
   "/ecosystem/akash-tools/latest/": "/ecosystem/akash-tools/",
   "/pricing": "/pricing/gpus",
+  "/roadmap": `/roadmap/${currentYear}`,
 };

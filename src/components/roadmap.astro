@@ -1,0 +1,97 @@
+---
+import QuarterNavigation from "@/components/QuarterNavigation";
+import RoadmapCard from "@/components/roadmap-card.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import type { CollectionEntry } from "astro:content";
+import clsx from "clsx";
+const title = `Akash Network Roadmap`;
+type Roadmap = CollectionEntry<"aeps">;
+type Props = {
+  year: number;
+  quarters: {
+    Q1: any[];
+    Q2: any[];
+    Q3: any[];
+    Q4: any[];
+  };
+  years: number[];
+};
+
+const { year, quarters, years } = Astro.props;
+---
+
+<Layout title={`${title} - ${year}`}>
+  <TopMargin className="container-small flex flex-col gap-10" isNotContainer>
+    <section class="max-w-2xl">
+      <h1 class="text-3xl font-semibold">{title}</h1>
+      <p class="mt-6">
+        Akash's
+        <a href="/roadmap" class="text-primary underline">roadmap</a> outlines the
+        high-level goals and priorities for the Akash Network.
+      </p>
+      <p class="mt-3">
+        Akash Enhancement Proposals (AEPs) describe standards for the Akash
+        Decentralized Cloud platform, including core protocol specifications,
+        client APIs, and SDL standards.
+      </p>
+    </section>
+    <section class="flex items-center gap-4">
+      <h2 class="text-lg font-medium">Year:</h2>
+      <div class="flex items-center gap-4">
+        {
+          years?.map((y) => (
+            <a
+              href={`/roadmap/${y}`}
+              class={clsx(
+                "rounded-full  px-3 py-1 text-lg font-medium",
+                y.toString() === year?.toString() && "bg-badgeColor",
+              )}
+            >
+              {y}
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-10 flex gap-14">
+      <QuarterNavigation client:load quarters={quarters} />
+      <div
+        class="relative w-full border-l border-[#F0F1F2] pb-36 dark:border-[#2E2E2E]"
+      >
+        <div
+          class="absolute -top-1 left-0 flex h-full w-full bg-line-dashed bg-center bg-repeat-y dark:bg-line-dashed-dark"
+        >
+        </div>
+        <div class="relative z-[1] flex flex-col gap-10 pt-10">
+          {
+            Object.entries(quarters).map(
+              ([quarter, roadmaps]) =>
+                roadmaps.length > 0 && (
+                  <div class="-ml-3 flex w-full gap-10" data-quarter={quarter}>
+                    <div class="flex w-full flex-col gap-10">
+                      {roadmaps.map((roadmap) => (
+                        <div class="flex items-start gap-10 ">
+                          <div class="flex items-center gap-3  pt-10">
+                            <div class="flex size-6 items-center justify-center rounded-full bg-badgeColor">
+                              <div class="size-1.5 rounded-full bg-black dark:bg-white" />
+                            </div>
+                            <p class="text-sm font-medium text-[#7E868C99] dark:text-para">
+                              {roadmap.slug.split("/")[0]}
+                            </p>
+                          </div>
+
+                          <RoadmapCard roadmap={roadmap} year={year} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ),
+            )
+          }
+        </div>
+      </div>
+    </section>
+  </TopMargin>
+</Layout>

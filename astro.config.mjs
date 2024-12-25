@@ -8,16 +8,9 @@ import remark from "remark-directive";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { redirects } from "./src/utils/redirects";
 
-// https://astro.build/config
 export default defineConfig({
-  // experimental: {
-  //   contentCollectionCache: true,
-  // },
   redirects: redirects,
   markdown: {
-    // shikiConfig: {
-    //   theme: theme,
-    // },
     remarkPlugins: [remark, customAsidePlugin],
   },
   integrations: [
