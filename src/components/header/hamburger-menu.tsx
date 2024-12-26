@@ -40,6 +40,7 @@ const navigation = [
   { name: "Ecosystem", subCategories: ecosystemNavItems },
   { name: "Community", subCategories: communityItems },
   { name: "Blog", href: "/blog" },
+  { name: "Roadmap", href: "/roadmap" },
   { name: "Docs", href: "/docs" },
   { name: "Pricing & Earnings", href: "/pricing/gpus" },
 ];
@@ -75,7 +76,7 @@ export default function HamburgerMenu({
             leave="transition ease duration-300 transform"
             leaveFrom="opacity-100 translate-x-0"
             leaveTo="opacity-100 translate-x-full"
-            className="slg:hidden  fixed inset-0  z-[52] w-full  overflow-y-auto bg-background md:left-auto  md:right-0 md:w-1/2"
+            className="fixed  inset-0 z-[52]  w-full overflow-y-auto  bg-background md:left-auto md:right-0  md:w-1/2 slg:hidden"
           >
             <Panel currentPath={currentPath} open={open} />
           </Transition>
@@ -107,7 +108,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
   });
 
   return (
-    <Disclosure.Panel className="slg:hidden h-full">
+    <Disclosure.Panel className="h-full slg:hidden">
       <div className="box-border flex h-full  flex-col justify-between gap-y-6  px-6">
         <div className="flex flex-col gap-10">
           <div className="flex justify-between pb-4 pt-4 md:pt-6">
