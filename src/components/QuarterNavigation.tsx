@@ -18,12 +18,11 @@ export default function QuarterNavigation({
   useEffect(() => {
     const handleScroll = () => {
       const quarterElements = document.querySelectorAll("[data-quarter]");
-      // Get viewport height to calculate better thresholds
+
       const viewportHeight = window.innerHeight;
-      // Use 1/3 of viewport height as threshold
+
       const threshold = viewportHeight / 3;
 
-      // Convert NodeList to Array and reverse it to check from bottom to top
       const quartersArray = Array.from(quarterElements).reverse();
 
       for (const element of quartersArray) {
@@ -31,29 +30,28 @@ export default function QuarterNavigation({
           const rect = element.getBoundingClientRect();
           const quarterTop = rect.top;
 
-          // Check if the element's top is within the threshold of the viewport
           if (quarterTop <= threshold) {
             const quarter = element.getAttribute("data-quarter");
             if (quarter && quarter !== activeQuarter) {
               setActiveQuarter(quarter);
             }
-            break; // Stop checking once we find the first matching quarter
+            break;
           }
         }
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Initial check
+
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeQuarter]); // Add activeQuarter as dependency
+  }, [activeQuarter]);
 
   const scrollToQuarter = (quarter: string) => {
     const element = document.querySelector(`[data-quarter="${quarter}"]`);
     if (element) {
-      const headerOffset = 120; // Match your sticky top offset
+      const headerOffset = 120;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition =
         elementPosition + window.pageYOffset - headerOffset;
@@ -66,15 +64,15 @@ export default function QuarterNavigation({
   };
 
   return (
-    <div className="sticky left-0 top-[120px] col-span-3 h-[30dvh]">
-      <div className="flex flex-col gap-8">
+    <div className="sticky left-0 top-[57px] z-[10] col-span-3 bg-background px-5 py-6 md:top-[120px] md:h-[45dvh] md:px-0 md:py-0   ">
+      <div className="flex flex-row justify-center gap-4 md:flex-col md:justify-normal md:gap-8">
         {Object.entries(quarters).map(([quarter, roadmaps]) =>
           roadmaps.length > 0 ? (
             <button
               key={quarter}
               onClick={() => scrollToQuarter(quarter)}
               className={clsx(
-                "flex size-20 items-center justify-center rounded border bg-background font-instrument text-[40px] shadow-sm transition-all",
+                "flex  size-20 items-center justify-center rounded border bg-background  font-instrument text-[40px] shadow-sm transition-all",
                 activeQuarter === quarter
                   ? "text-foreground"
                   : "text-[#11182733] dark:text-[#ffffff33]",

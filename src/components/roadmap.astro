@@ -22,58 +22,68 @@ const { year, quarters, years } = Astro.props;
 ---
 
 <Layout title={`${title} - ${year}`}>
-  <TopMargin className="container-small flex flex-col gap-10" isNotContainer>
-    <section class="max-w-2xl">
-      <h1 class="text-3xl font-semibold">{title}</h1>
-      <p class="mt-6">
-        Akash's
-        <a href="/roadmap" class="text-primary underline">roadmap</a> outlines the
-        high-level goals and priorities for the Akash Network.
-      </p>
-      <p class="mt-3">
-        Akash Enhancement Proposals (AEPs) describe standards for the Akash
-        Decentralized Cloud platform, including core protocol specifications,
-        client APIs, and SDL standards.
-      </p>
-    </section>
-    <section class="flex items-center gap-4">
-      <h2 class="text-lg font-medium">Year:</h2>
-      <div class="flex items-center gap-4">
-        {
-          years?.map((y) => (
-            <a
-              href={`/roadmap/${y}`}
-              class={clsx(
-                "rounded-full  px-3 py-1 text-lg font-medium",
-                y.toString() === year?.toString() && "bg-badgeColor",
-              )}
-            >
-              {y}
-            </a>
-          ))
-        }
+  <TopMargin className=" flex flex-col " isNotContainer>
+    <section class="container-small w-full">
+      <div class="max-w-2xl">
+        <h1 class="text-3xl font-semibold">{title}</h1>
+        <p class="mt-6">
+          Akash's
+          <a href="/roadmap" class="text-primary underline">roadmap</a> outlines
+          the high-level goals and priorities for the Akash Network.
+        </p>
+        <p class="mt-3">
+          Akash Enhancement Proposals (AEPs) describe standards for the Akash
+          Decentralized Cloud platform, including core protocol specifications,
+          client APIs, and SDL standards.
+        </p>
       </div>
     </section>
-
-    <section class="mt-10 flex gap-14">
+    <section class="container-small w-full">
+      <div class="mt-10 flex items-center gap-4">
+        <h2 class="text-lg font-medium">Year:</h2>
+        <div class="flex items-center gap-4">
+          {
+            years?.map((y) => (
+              <a
+                href={`/roadmap/${y}`}
+                class={clsx(
+                  "rounded-full  px-3 py-1 text-lg font-medium",
+                  y.toString() === year?.toString() && "bg-badgeColor",
+                )}
+              >
+                {y}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+    <section
+      class="md:container-small flex w-full flex-col gap-6 md:mt-20 md:flex-row md:gap-14"
+    >
       <QuarterNavigation client:load quarters={quarters} />
       <div
-        class="relative w-full border-l border-[#F0F1F2] pb-36 dark:border-[#2E2E2E]"
+        class="relative w-full border-l border-[#F0F1F2] px-5 pb-44 dark:border-[#2E2E2E] md:px-0"
       >
         <div
-          class="absolute -top-1 left-0 flex h-full w-full bg-line-dashed bg-center bg-repeat-y dark:bg-line-dashed-dark"
+          class="absolute -top-8 left-0 flex h-full w-full bg-line-dashed bg-center bg-repeat-y dark:bg-line-dashed-dark md:-top-1"
         >
         </div>
-        <div class="relative z-[1] flex flex-col gap-10 pt-10">
+        <div
+          class="relative z-[1] flex flex-col gap-6 border-l border-[#F0F1F2] md:gap-10 md:border-l-0 md:pt-10"
+        >
           {
             Object.entries(quarters).map(
               ([quarter, roadmaps]) =>
                 roadmaps.length > 0 && (
-                  <div class="-ml-3 flex w-full gap-10" data-quarter={quarter}>
-                    <div class="flex w-full flex-col gap-10">
+                  <div
+                    class="flex w-full flex-col gap-6 md:-ml-3 md:flex-row md:gap-10"
+                    data-quarter={quarter}
+                  >
+                    <div class="flex w-full flex-col gap-10  ">
                       {roadmaps.map((roadmap) => (
-                        <div class="flex items-start gap-10 ">
-                          <div class="flex items-center gap-3  pt-10">
+                        <div class="flex flex-col items-start gap-4 md:flex-row md:gap-10  ">
+                          <div class="-ml-3 flex items-center gap-3 md:ml-0  md:pt-10">
                             <div class="flex size-6 items-center justify-center rounded-full bg-badgeColor">
                               <div class="size-1.5 rounded-full bg-black dark:bg-white" />
                             </div>
