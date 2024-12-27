@@ -63,10 +63,10 @@ const { year, quarters, years } = Astro.props;
     >
       <QuarterNavigation client:load quarters={quarters} />
       <div
-        class="relative w-full border-l border-[#F0F1F2] px-5 pb-44 dark:border-[#2E2E2E] md:px-0"
+        class="relative w-full border-[#F0F1F2] px-5 pb-44 dark:border-[#2E2E2E] md:border-l md:px-0"
       >
         <div
-          class="absolute -top-8 left-5 flex h-full w-full bg-line-dashed bg-center bg-repeat-y dark:bg-line-dashed-dark md:-top-3 md:left-0"
+          class="absolute -top-8 left-5 right-0 flex h-full bg-line-dashed bg-center bg-repeat-y dark:bg-line-dashed-dark md:-top-3 md:left-0 md:right-auto md:w-full"
         >
         </div>
         <div

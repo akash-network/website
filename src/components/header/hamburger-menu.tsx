@@ -26,6 +26,7 @@ import {
   ecosystemNavItems,
   networkItems,
 } from "./popovers/links";
+const year = new Date().getFullYear();
 const navigation = [
   {
     name: "Network",
@@ -40,7 +41,7 @@ const navigation = [
   { name: "Ecosystem", subCategories: ecosystemNavItems },
   { name: "Community", subCategories: communityItems },
   { name: "Blog", href: "/blog" },
-  { name: "Roadmap", href: "/roadmap" },
+  { name: "Roadmap", href: `/roadmap/${year}` },
   { name: "Docs", href: "/docs" },
   { name: "Pricing & Earnings", href: "/pricing/gpus" },
 ];
