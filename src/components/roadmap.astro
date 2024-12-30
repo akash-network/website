@@ -47,8 +47,10 @@ const { year, quarters, years } = Astro.props;
               <a
                 href={`/roadmap/${y}`}
                 class={clsx(
-                  "rounded-full  px-3 py-1 text-lg font-medium",
-                  y.toString() === year?.toString() && "bg-badgeColor",
+                  "rounded-full  px-3 py-1 text-lg font-medium transition-all duration-300 hover:bg-badgeColor hover:text-para",
+                  y.toString() === year?.toString()
+                    ? "bg-badgeColor"
+                    : "text-linkText",
                 )}
               >
                 {y}

@@ -7,7 +7,7 @@ const { roadmap, year, className } = Astro.props;
 <a
   href={`/roadmap/${year}/${roadmap?.slug?.split("/")?.[0]}`}
   class={clsx(
-    "flex flex-col gap-4 rounded-lg border bg-background p-6 shadow ml-5 md:ml-0",
+    "flex flex-col gap-4 rounded-lg border bg-background p-6 shadow ml-5 md:ml-0 hover:shadow-md transition-all duration-300",
     className
       ? className
       : roadmap.data.roadmap === "major"
