@@ -13,8 +13,8 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
   className,
 }) => {
   const [maxDots, setMaxDots] = useState(25);
-  const filledDots = Math.round(((total - available) / total) * maxDots);
-  const emptyDots = maxDots - filledDots;
+  const emptyDots = Math.round(((total - available) / total) * maxDots);
+  const filledDots = maxDots - emptyDots;
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,13 +40,13 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
       <div className="flex justify-between">
         {Array.from({ length: filledDots }).map((_, i) => (
           <div
-            key={i}
-            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-foreground "
+            key={i + filledDots}
+            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-foreground"
           />
         ))}
         {Array.from({ length: emptyDots }).map((_, i) => (
           <div
-            key={i + filledDots}
+            key={i}
             className="mx-[2px] h-[6px] w-[6px] rounded-full bg-[#DADADA] dark:bg-zinc-700"
           />
         ))}
