@@ -28,19 +28,20 @@ This will enhance the overall security, reliability, and transparency of the net
 
 With provider service installaiton comes `Feature Discovery Service` (FDS) which hands inventory information to the provider engine.
 The FDS functionality will be extended to snapshot information below which further will be signed by the provider and placed to the **DA**:
+
 - CPU
- - cpu id 
- - architecture
- - model
- - vendor
-   - micro-architecture [levels](https://github.com/HenrikBengtsson/x86-64-level)
- - features
+- cpu id
+- architecture
+- model
+- vendor
+  - micro-architecture [levels](https://github.com/HenrikBengtsson/x86-64-level)
+- features
 - GPU
- - gpu id
- - vendor (already implemented)
- - model (already implemented)
- - memory size (already implemented)
- - interface (already implemented)
+- gpu id
+- vendor (already implemented)
+- model (already implemented)
+- memory size (already implemented)
+- interface (already implemented)
 - Memory
   - vendor
   - negotiated speed
@@ -51,15 +52,17 @@ The FDS functionality will be extended to snapshot information below which furth
 ### Workflow
 
 For provider to be verified it must:
+
 - commit first snapshot of resources upon commissioning to the network
 - allow Auditor to inspect hardware
 - commit snapshots:
   - whenever there is change to the hardware due to expansion, maintenance
   - when challenged by the Auditor (workflow TBD)
 
-
 ### Stores extension
-1. Implement extension to the `x/provider` store 
+
+1. Implement extension to the `x/provider` store
+
    ```protobuf
    syntax = "proto3";
    package akash.provider.v1beta4;
@@ -83,19 +86,21 @@ For provider to be verified it must:
        string hash = 4;
    }
    ```
+
 2. Implement extension to the `x/audit` store
+
    ```protobuf
    syntax = "proto3";
    package akash.audit.v1;
-   
+
    import "akash/provider/v1beta4/provider.proto";
-   
+
    message AuditedResourcesSnapshot {
       string auditor = 1 [
         (gogoproto.jsontag)  = "auditor",
         (gogoproto.moretags) = "yaml:\"auditor\""
       ];
-   
+
       akash.provider.v1beta4.ResourcesSnapshot snapshot = 2;
    }
    ```
