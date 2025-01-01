@@ -1,9 +1,14 @@
-const today = new Date();
-const currentYear = today.getFullYear();
+export const getYearToUse = () => {
+  const today = new Date();
+  const currentYear = today.getFullYear();
 
-const isBeforeJan10 = today.getMonth() === 0 && today.getDate() <= 10;
+  const isBeforeJan10 = today.getMonth() === 0 && today.getDate() <= 10;
 
-const yearToUse = isBeforeJan10 ? currentYear - 1 : currentYear;
+  const yearToUse = isBeforeJan10 ? currentYear - 1 : currentYear;
+
+  return yearToUse;
+};
+
 export const redirects = {
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",
@@ -26,5 +31,5 @@ export const redirects = {
   "/ecosystem/showcase/latest/": "/ecosystem/deployed-on-akash/showcase/",
   "/ecosystem/akash-tools/latest/": "/ecosystem/akash-tools/",
   "/pricing": "/pricing/gpus",
-  "/roadmap": `/roadmap/${yearToUse}`,
+  "/roadmap": `/roadmap/${getYearToUse()}`,
 };

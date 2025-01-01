@@ -41,7 +41,7 @@ const { year, quarters, years } = Astro.props;
     <section class="container-small w-full">
       <div class="mt-10 flex items-center gap-4">
         <h2 class="text-lg font-medium">Year:</h2>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 overflow-x-auto">
           {
             years?.map((y) => (
               <a
