@@ -87,7 +87,7 @@ const PopOverNavItemNetwork = () => {
             <a
               href="https://stats.akash.network/"
               target="_blank"
-              className="border-t bg-gray-50 px-8 py-3 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
+              className="border-t bg-gray-50 px-8 py-4 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
             >
               <p className="flex items-center text-sm font-semibold text-foreground ">
                 Akash Stats
@@ -96,8 +96,8 @@ const PopOverNavItemNetwork = () => {
                   size={16}
                 />
               </p>
-              <p className="mt-1 text-sm font-normal text-para">
-                Insights into the latest statistics about the Akash Network
+              <p className="mt-1 text-sm font-normal text-textGray">
+                Insights into the latest statistics about the Akash
               </p>
             </a>
           </div>
