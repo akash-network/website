@@ -102,11 +102,11 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
         <div class="flex flex-col gap-1 text-sm">
           <p>
             Estimated completion: {
-              roadmap.data["estimated-completion"].toLocaleDateString()
+              roadmap.data["estimated-completion"]?.toLocaleDateString()
             }
           </p>
-          <p>Created: {roadmap.data.created.toLocaleDateString()}</p>
-          <p>Last Updated: {roadmap.data.updated.toLocaleDateString()}</p>
+          <p>Created: {roadmap.data.created?.toLocaleDateString()}</p>
+          <p>Last Updated: {roadmap.data.updated?.toLocaleDateString()}</p>
         </div>
         <div class="h-px w-full border-b"></div>
         <div class="flex flex-col gap-1 text-sm">

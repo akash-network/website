@@ -1,276 +1,67 @@
 ---
-aep: 30
-title: "Upgrade Proposal 10as"
-author: Cheng Wang (@lechenghiskhan) Artur Troian (@atroian) Scott Carrutthers (@chainzero)
-status: Final
+aep: 10
+title: Subsidized Computing Incentive
+author: Greg Osuri (@gosuri)
+status: Draft
 type: Standard
-category: Core
-created: 2024-03-01
-updated: 2024-03-01
-estimated-completion: 2024-08-31
-roadmap: minor
-discussions-to: https://github.com/orgs/akash-network/discussions/673
-resolution: https://www.mintscan.io/akash/proposals/268
+category: Economics
+created: 2020-04-01
 ---
+
+## Summary
+
+Offer an exponential cost reduction (10x-15x the market) as an extremely attractive incentive to tenants by subsidizing using Inflation
 
 ## Motivation
 
-Akash Network has been live for almost 4 years, and we have made incredible strides in decentralizing development, coordination, and funding.
+The early stages of the Akash market economy need to solve the demand-supply paradox of short-term undersupply to reach market equilibrium and unlock network effects.
 
-As proposed in [AKT 2.0](https://github.com/orgs/akash-network/discussions/32), which received overwhelming support from the community, we proposed formally funding technical Research, Development, and Support done by the Akash Core Team and administered by Overclock Labs. As bolstered by proposals [211](https://www.mintscan.io/akash/proposals/211), [240](https://www.mintscan.io/akash/proposals/240), and [241](https://www.mintscan.io/akash/proposals/241), the Community Pool will continue to be well-funded as Akash Network accelerates its development.
+## Rationale
 
-Any unused funds will be returned to the community as with all previous funding proposals.
+To solve the demand-supply paradox, we can use the subsidies from inflation (i.e., borrowing from the future) as described in the framework "[Bootstrapping the Free Market By Borrowing From Future]."
 
-## Introduction
+Akash employs an inflation model where a portion of block rewards can be captured by a subsidy pool that is distributed to achieve adoption goals depending on the stage of the network and involves stakeholders performing challenges to claim the subsidy. These subsidy distributions and claim challenges are governed using community proposals that are expected to evolve as the network grows. 
 
-Akash Network launched in 2020 and has experienced explosive growth over the last few years, partly due to being open-sourced fully in late 2023. Today, [Akash Network organization](https://github.com/akash-network/community) has over 350 contributors building across 49 repositories coordinated and led by the Overclock Labs team through 11 special interest groups, working groups, and user groups. This achievement is monumental and should be celebrated, especially as we focus on the actual output: 2 major acquisitions, multiple web2 and web3 AI platform partnerships, university research collaborations, 11 network upgrades, and nearly 100 completed issues and over 200 discussions spanning more than four years.
+## Parameters
 
-## Challenge
+- `SUBSIDY_POOL_RATE`: Percentage of inflation to be captured for subsidies. The proposed rate at Genesis is 50%.
 
-With a growing codebase driven by an ever-larger feature set, Akash Network is more complex than ever and this complexity will only increase over time. As the community of contributors continues to grow, coordination becomes more challenging, costs rise, and development velocity slows.
+## Specification
 
-## Proposal
+In the first phase of Akash, we propose using "exponential cost savings" as the initial subsidy trigger. An exponential cost reduction (10x-15x the market) is an extremely attractive incentive for cloud users where cost remains a top industry priority for three years in a row — particularly to price-sensitive segments such as machine learning and big data.
 
-Since 2016, Overclock Labs has fully borne the cost of development and support of Akash Network. Overclock Labs continues to fund most of these costs today and will continue to bear significant portions of the administrative, development, and marketing costs. Today, Overclock Labs is asking the community to help fund the development and testing efforts associated with the migration of Akash Network to [COSMOS SDK v0.47](https://github.com/orgs/akash-network/projects/5?pane=issue&itemId=59184208).
+In this model, the subsidies are distributed periodically based on the Subsidy Distribution Cycle network parameter, which is expected to be daily (or equivalent block periods) at genesis.
 
-### Responsibilities & Requirements
+As a first step, a tenant asks for a low price and providers that win the bid by offering the lowest price are awarded a bounty. The bounty in the early days may be exponentially high (usually 5x – 6x the cost).
 
-- Commit time and resources towards development, integration, and ongoing maintenance of COSMOS SDK v0.47 and its customizations for Akash Network
-- Provide support and code management to the community
-- Provide responsible and open reporting on the conversion of AKT to USD
-- Builds tools necessary for the maintenance and support of COSMOS SDK v0.47 for Akash Network
-- Possess deep, proven knowledge of the Akash Network codebase, which covers development work under these primary repositories
-  - Node: [http://github.com/akash-network/node](http://github.com/akash-network/node)
-  - Provider: [http://github.com/akash-network/provider](http://github.com/akash-network/provider)
-  - Akash-Api: [http://github.com/akash-network/akash-api](http://github.com/akash-network/akash-api)
-- Possess extensive open-source development experience on the Akash Network code base
-- Should have extensive experience managing the community.
-- Should be publicly known and respected within the Akash Community.
-- Should have contributed to the Akash open-source repositories.
+For example, Alice wants to run a machine learning application and it costs her $10 / day today on the cloud. Alice then realizes that she gets 10 times more resources on Akash for the same price and she places a bid for $1 / day on Akash’s marketplace.
 
-Supplementing Overclock Labs’ treasury expenditures and Akash Network’s development efforts will help support more open-source contributors like zJ, Shimpa, HoomanDigital, and others and accelerate Akash Networks’ efforts to achieve cloud parity.
+Bob and Charlie are cloud providers on Akash. Bob expects to earn $5 / day for running Alice’s Job and Charlie (with a better fill rate) expects to earn $6 / day.  A fill rate is the percent of bids won.
 
-### Budget
+Let’s assume the subsidy pool is at $20 / day. This Order is placed on the order book for $1 / day which receives no bids. From there on, the Ask increments every block period by using the subsidy until a provider fulfills the order or the subsidy pool is exhausted for that distribution cycle. Any unspent subsidy is carried on to the next cycle.
 
-For Q4 2024, Overclock Labs will request $377,196.13. This represents approximately 52% of this project's total cost of $726,814.22. This proposal covers work started on April 9, 2024 through the end of the testnet, estimated to be, September 27, 2024. Overclock Labs pays the remaining 48%. This percentage breakout is an aggregation of personnel multiplied by the amount of time spent on this effort vs other efforts. For example, the core engineering team may work on this project 75% of the time and other efforts 25% of the time.
+In our example, let’s say after 4 blocks, the Ask reaches $5. Bob bids for $5 and Charlie bids for $6. Bob wins the Job and earns $5 whereas Alice pays $1. The $4 is paid to Bob from the subsidy pool and $16 is carried to the next cycle. 
 
-This request is broken down as follows:
+![case1](case1.png)
 
-<table>
-  <tr>
-   <td><strong>Upgrade to SDK v0.47</strong>
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td>Total Cost
-   </td>
-   <td>Request from CP
-   </td>
-  </tr>
-  <tr>
-   <td>Estimated engineering hours
-   </td>
-   <td><p style="text-align: right">
-2,485.71</p>
+Alice then posts another order for $1. With the subsidy pool at $20 / day, the pool accumulates to $36. Bob is fully utilized and cannot offer any more compute. Charlie realizes he’s the only one that can fulfill the order and waits until the Ask reaches $36. Charlie now bids on the order and earns $36, 6x what he expected to earn. 
 
-   </td>
-   <td><p style="text-align: right">
-1,382.29</p>
+![case2](case2.png)
 
-   </td>
-  </tr>
-  <tr>
-   <td>Engineering rate per hour
-   </td>
-   <td><p style="text-align: right">
-$99.91</p>
+Alice then posts another order for $1. With the subsidy pool at $20 / day, the pool accumulates to $36. Bob is fully utilized and cannot offer any more compute. Charlie realizes he’s the only one that can fulfill the order and waits until the Ask reaches $36. Charlie now bids on the order and earns $36, 6x what he expected to earn. 
 
-   </td>
-   <td><p style="text-align: right">
-$111.15</p>
+Alice happily posts another order for $1. Since the subsidy pool in the previous bid was won by Charlie, the subsidy pool resets to $20. Bob realizes Charlie made $36 and adds more capacity to the network, expecting to take part in the network prosperity. Bob realizes that he’s the only provider and decides to wait until the Ask reaches $20. 
 
-   </td>
-  </tr>
-  <tr>
-   <td>Engineering total cost
-   </td>
-   <td><p style="text-align: right">
-$248,341.22</p>
+But Alice is so pleased that she can’t help but share her Akash experience with her friends. Now the Ask is at $15. Danny, another provider, hears about this and decides to offer his capacity to Akash and expects to earn $5. He sees an offer for $15 and bids for $15. Danny earns $15. Alice Pays $1.
 
-   </td>
-   <td><p style="text-align: right">
-$153,646.62</p>
+![case3](case3.png)
 
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>Estimated support hours
-   </td>
-   <td><p style="text-align: right">
-977.14</p>
+Akash’s system design ensures that a provider can be at risk of losing a job (and subsidy along with it) if they’re always trying to win the entire subsidy, and encourages providers to employ incremental strategies.
 
-   </td>
-   <td><p style="text-align: right">
-244.29</p>
+## Bibliography
 
-   </td>
-  </tr>
-  <tr>
-   <td>Support rate per hour
-   </td>
-   <td><p style="text-align: right">
-$94.22</p>
+- [Bootstrapping a Free Market by Borrowing from the Future](https://akash.network/blog/bootstrapping-a-free-market-by-borrowing-from-the-future/)
 
-   </td>
-   <td><p style="text-align: right">
-$94.22</p>
+## Copyright
 
-   </td>
-  </tr>
-  <tr>
-   <td>Support total cost
-   </td>
-   <td><p style="text-align: right">
-$92,071.04</p>
-
-   </td>
-   <td><p style="text-align: right">
-$23,017.76</p>
-
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>Labor Subtotal
-   </td>
-   <td><p style="text-align: right">
-$340,412.26</p>
-
-   </td>
-   <td><p style="text-align: right">
-$176,664.38</p>
-
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>Operational Overage
-   </td>
-   <td><p style="text-align: right">
-$51,061.84</p>
-
-   </td>
-   <td><p style="text-align: right">
-$26,499.66</p>
-
-   </td>
-  </tr>
-  <tr>
-   <td>AKT Volatility Buffer (68.51%)*
-   </td>
-   <td><p style="text-align: right">
-$233,216.44</p>
-
-   </td>
-   <td><p style="text-align: right">
-$121,032.77</p>
-
-   </td>
-  </tr>
-  <tr>
-   <td>CA state tax (USA)
-   </td>
-   <td><p style="text-align: right">
-$30,637.10</p>
-
-   </td>
-   <td><p style="text-align: right">
-$15,899.79</p>
-
-   </td>
-  </tr>
-  <tr>
-   <td>Federal tax (USA)
-   </td>
-   <td><p style="text-align: right">
-$71,486.57</p>
-
-   </td>
-   <td><p style="text-align: right">
-$37,099.52</p>
-
-   </td>
-  </tr>
-  <tr>
-   <td>Tax, Vol & Overage Subtotal
-   </td>
-   <td><p style="text-align: right">
-$386,401.96</p>
-
-   </td>
-   <td><p style="text-align: right">
-$200,531.74</p>
-
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Grand Total</strong>
-   </td>
-   <td><p style="text-align: right">
-<strong>$726,814.22</strong></p>
-
-   </td>
-   <td><p style="text-align: right">
-<strong>$377,196.13</strong></p>
-
-   </td>
-  </tr>
-</table>
-
-_\*AKT volatility buffer_
-
-_This buffer accounts for the historical daily volatility of AKT measured over the last 30 days leading up to August 28, 2024. By providing a more substantial buffer against potential downswings in AKT, we mitigate the need to request any budget shortfalls through subsequent proposals. In the event of excess funds above the US dollar amount of labor, taxes, and overage, all remaining AKT will be returned to the community promptly after completing the proposal._
-
-## Limited Market Impact & Transparent Reporting
-
-### Limited Market Impact
-
-Overclock Labs will custody the requested funds in a new, distinct wallet so that funds from any other source are not commingled.
-
-All funds will be liquidated and managed in a manner that ensures minimal impact on the market. These funds will be managed with the same care and attention as all previous Community Funding Proposals with liquidations done in a fashion that will not adversely affect the market. In practice, the effort of this liquidation will add depth to the AKT market for buyers looking to enter.
+All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
