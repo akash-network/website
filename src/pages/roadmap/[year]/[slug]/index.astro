@@ -153,11 +153,19 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
         </ButtonLink>
       </div>
     </div>
-    <div class="flex flex-col gap-4 md:mx-auto md:w-[80%]">
-      <p class="text-center text-sm font-medium text-foreground md:text-left">
-        View next aep
-      </p>
-      <RoadmapCard roadmap={nextRoadmap} year={year} className="!ml-0 w-full" />
-    </div>
+    {
+      nextRoadmap && (
+        <div class="flex flex-col gap-4 md:mx-auto md:w-[80%]">
+          <p class="text-center text-sm font-medium text-foreground md:text-left">
+            View next aep
+          </p>
+          <RoadmapCard
+            roadmap={nextRoadmap}
+            year={year}
+            className="!ml-0 w-full"
+          />
+        </div>
+      )
+    }
   </TopMargin>
 </Layout>
