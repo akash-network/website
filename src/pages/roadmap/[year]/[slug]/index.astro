@@ -139,16 +139,20 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
               Link
             </a>
           </p>
-          <p>
-            <span class="font-medium">Resolution:</span>
-            <a
-              href={roadmap.data.resolution}
-              target="_blank"
-              class="ml-2 text-primary hover:underline"
-            >
-              Link
-            </a>
-          </p>
+          {
+            roadmap.data.resolution && (
+              <p>
+                <span class="font-medium">Resolution:</span>
+                <a
+                  href={roadmap.data.resolution}
+                  target="_blank"
+                  class="ml-2 text-primary hover:underline"
+                >
+                  Link
+                </a>
+              </p>
+            )
+          }
         </div>
         <div class="h-px w-full border-b"></div>
         <ButtonLink
