@@ -127,36 +127,40 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
         </div>
 
         <div class="h-px w-full border-b"></div>
-
-        <div class="space-y-1 text-sm">
-          <p>
-            <span class="font-medium">Discussion on Github:</span>
-            <a
-              href={roadmap.data["discussions-to"]}
-              target="_blank"
-              class="ml-2 text-primary hover:underline"
-            >
-              Link
-            </a>
-          </p>
-          {
-            roadmap.data.resolution && (
-              <p>
-                <span class="font-medium">Resolution:</span>
-                <a
-                  href={roadmap.data.resolution}
-                  target="_blank"
-                  class="ml-2 text-primary hover:underline"
-                >
-                  Link
-                </a>
-              </p>
-            )
-          }
-        </div>
+        {
+          roadmap.data["discussions-to"] ||
+            (roadmap.data.resolution && (
+              <div class="space-y-1 text-sm">
+                {roadmap.data["discussions-to"] && (
+                  <p>
+                    <span class="font-medium">Discussion on Github:</span>
+                    <a
+                      href={roadmap.data["discussions-to"]}
+                      target="_blank"
+                      class="ml-2 text-primary hover:underline"
+                    >
+                      Link
+                    </a>
+                  </p>
+                )}
+                {roadmap.data.resolution && (
+                  <p>
+                    <span class="font-medium">Resolution:</span>
+                    <a
+                      href={roadmap.data.resolution}
+                      target="_blank"
+                      class="ml-2 text-primary hover:underline"
+                    >
+                      Link
+                    </a>
+                  </p>
+                )}
+              </div>
+            ))
+        }
         <div class="h-px w-full border-b"></div>
         <ButtonLink
-          link={`https://github.com/akash-network/website-revamp/tree/main/src/content/Roadmap/${roadmap.slug}/index.md`}
+          link={`https://github.com/akash-network/website-revamp/tree/main/src/content/aeps/${roadmap.slug.split("/")[0]}`}
           variant="secondary"
         >
           Edit on GitHub
