@@ -31,5 +31,5 @@ export const redirects = {
   "/ecosystem/showcase/latest/": "/ecosystem/deployed-on-akash/showcase/",
   "/ecosystem/akash-tools/latest/": "/ecosystem/akash-tools/",
   "/pricing": "/pricing/gpus",
-  "/roadmap": `/roadmap/${getYearToUse()}`,
+  "/roadmap": `/roadmap/2024`,
 };

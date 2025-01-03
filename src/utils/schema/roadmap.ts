@@ -14,5 +14,6 @@ export const roadmapSchema = defineCollection({
     roadmap: z.enum(["major", "minor"]).optional(),
     "discussions-to": z.string().url().optional(),
     resolution: z.string().url().optional(),
+    completed: z.coerce.date().optional(),
   }),
 });

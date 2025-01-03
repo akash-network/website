@@ -37,6 +37,16 @@ const posts = (await getCollection("Blog"))
     const dateB = new Date(b.data.pubDate);
     return dateB.getTime() - dateA.getTime();
   });
+
+const latestRoadmap = await getCollection("aeps").then((aeps) => {
+  return aeps.sort((a, b) => {
+    const dateA = new Date(a.data.created);
+    const dateB = new Date(b.data.created);
+    return dateB.getTime() - dateA.getTime();
+  });
+});
+
+const latestRoadmapYear = latestRoadmap[0].data.created.getFullYear();
 ---
 
 <header
@@ -63,7 +73,10 @@ const posts = (await getCollection("Blog"))
       <div
         class="mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] slg:flex xl:gap-x-[24px]"
       >
-        <PopOverNavItemNetwork client:load />
+        <PopOverNavItemNetwork
+          client:load
+          latestRoadmapYear={latestRoadmapYear}
+        />
         <PopOverCommunity client:load type="community" />
         <PopOverCommunity client:load type="development" />
         <PopOverNavItemEcosystem client:load posts={posts} />
@@ -89,7 +102,11 @@ const posts = (await getCollection("Blog"))
     </div>
 
     <div class="block overflow-hidden slg:hidden">
-      <HamburgerMenu client:load currentPath={pathname} />
+      <HamburgerMenu
+        client:load
+        currentPath={pathname}
+        latestRoadmapYear={latestRoadmapYear}
+      />
     </div>
 
     <div class="hidden flex-shrink-0 slg:flex slg:gap-x-[12px]">

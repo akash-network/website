@@ -68,6 +68,10 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
     return `<a href="https://github.com/${author.username}" class="text-foreground underline" target="_blank">${author.fullName}</a><br/>`;
   })
   .join(" ");
+
+const estimatedCompletion =
+  roadmap.data["estimated-completion"]?.toLocaleDateString();
+const completionDate = roadmap.data["completed"]?.toLocaleDateString();
 ---
 
 <Layout title={roadmap.data.title}>
@@ -80,9 +84,9 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
       <p class="text-foreground">{roadmap.slug.split("/")[0]}</p>
     </div>
     <div
-      class="flex flex-col gap-8 rounded-lg border p-6 md:flex-row md:gap-14 md:p-8"
+      class="grid min-w-0 grid-cols-1 gap-8 rounded-lg border p-6 md:grid-cols-[minmax(0,75%)_minmax(0,25%)] md:gap-14 md:p-8"
     >
-      <div class="mb-8 flex w-full flex-1 flex-col gap-6">
+      <div class="mb-8 flex min-w-0 flex-col gap-6">
         <div class="flex items-start justify-between gap-2 md:items-center">
           <h1 class="text-3xl font-bold md:text-[40px]">
             {roadmap.data.title}
@@ -98,19 +102,20 @@ const parsedAuthors = parseAuthors(roadmap.data.author)
           <Content />
         </article>
       </div>
-      <div class="flex flex-col gap-4 md:w-[25%]">
+      <div class="flex min-w-0 flex-col gap-4">
         <div class="flex flex-col gap-1 text-sm">
-          <p>
-            Estimated completion: {
-              roadmap.data["estimated-completion"]?.toLocaleDateString()
-            }
-          </p>
+          {
+            estimatedCompletion && (
+              <p>Estimated completion: {estimatedCompletion}</p>
+            )
+          }
+          {completionDate && <p>Completion date: {completionDate}</p>}
           <p>Created: {roadmap.data.created?.toLocaleDateString()}</p>
           <p>Last Updated: {roadmap.data.updated?.toLocaleDateString()}</p>
         </div>
         <div class="h-px w-full border-b"></div>
         <div class="flex flex-col gap-1 text-sm">
-          <p>Category: {roadmap.data.category}</p>
+          {roadmap.data.category && <p>Category: {roadmap.data.category}</p>}
           <p>Status: {roadmap.data.status}</p>
         </div>
 

@@ -1,7 +1,24 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
 
+type Props = {
+  roadmap: CollectionEntry<"aeps">;
+  year: number;
+  className?: string;
+};
+
 const { roadmap, year, className } = Astro.props;
+const estimatedCompletion =
+  roadmap?.data?.["estimated-completion"]?.toLocaleDateString();
+const completionDate = roadmap?.data?.completed?.toLocaleDateString();
+
+const firstParagraph = roadmap?.body
+  ?.split("\n")
+  .find(
+    (line) => line.trim() && !line.startsWith("#") && !line.startsWith("---"),
+  )
+  ?.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
 ---
 
 <a
@@ -31,13 +48,18 @@ const { roadmap, year, className } = Astro.props;
       {roadmap?.data?.status}
     </p>
   </div>
-  <p class="text-sm">
-    Estimated Completion:{" "}
-    {roadmap?.data?.["estimated-completion"]?.toLocaleDateString()}
-  </p>
+  {
+    estimatedCompletion && (
+      <p class="text-sm">Estimated Completion: {estimatedCompletion}</p>
+    )
+  }
+  {completionDate && <p class="text-sm">Completion Date: {completionDate}</p>}
   <div class="my-1 h-px w-full border-b"></div>
-  <p class="text-sm">
-    Since 2016, Overclock Labs has fully borne the cost of development and
-    support of Akash...
-  </p>
+  <p
+    class={clsx(
+      "text-sm",
+      roadmap.data.roadmap === "major" ? "line-clamp-1" : "line-clamp-2",
+    )}
+    set:html={firstParagraph}
+  />
 </a>

@@ -1,4 +1,3 @@
-import { getYearToUse } from "@/utils/redirects";
 import {
   BadgeCheck,
   BadgeHelp,
@@ -257,7 +256,7 @@ export const networkItems: NavItem[] = [
     ),
     title: "Roadmap",
     description: "Explore development milestones",
-    link: `/roadmap/${getYearToUse()}`,
+    link: "roadmap",
   },
   {
     customIcon: (
