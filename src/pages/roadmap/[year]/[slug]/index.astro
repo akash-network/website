@@ -4,19 +4,16 @@ import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { docsProseClasses } from "@/lib/docs-prose-classes";
+import { getRoadmapYear, sortRoadmapsByDate } from "@/utils/roadmap-helpers";
 import { getCollection } from "astro:content";
 import { ChevronRight } from "lucide-react";
 export async function getStaticPaths() {
   const roadmaps = await getCollection("aeps");
-  const sortedRoadmaps = roadmaps.sort(
-    (a, b) =>
-      new Date(a.data.created).getTime() - new Date(b.data.created).getTime(),
-  );
+  const sortedRoadmaps = sortRoadmapsByDate(roadmaps);
   return sortedRoadmaps.map((roadmap) => {
-    const year = new Date(roadmap.data.created).getFullYear();
-    const nextRoadmap = sortedRoadmaps.find(
-      (r) => new Date(r.data.created) > new Date(roadmap.data.created),
-    );
+    const year = getRoadmapYear(roadmap);
+    const nextIndex = sortedRoadmaps.findIndex((r) => r.id === roadmap.id);
+    const nextRoadmap = sortedRoadmaps[nextIndex + 1];
 
     return {
       params: {
@@ -88,7 +85,7 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
     >
       <div class="mb-8 flex min-w-0 flex-col gap-6">
         <div class="flex items-start justify-between gap-2 md:items-center">
-          <h1 class="text-3xl font-bold md:text-[40px]">
+          <h1 class="text-3xl font-bold md:text-[40px] md:leading-[48px]">
             {roadmap.data.title}
           </h1>
           <p

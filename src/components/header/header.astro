@@ -1,6 +1,7 @@
 ---
 import NavLink from "@/components/header/nav-link.astro";
 import Logo from "@/components/ui/logo.astro";
+import { getYearToUse } from "@/utils/redirects";
 import { getCollection } from "astro:content";
 import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
@@ -9,7 +10,6 @@ import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
-
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
 interface Props {
@@ -38,15 +38,7 @@ const posts = (await getCollection("Blog"))
     return dateB.getTime() - dateA.getTime();
   });
 
-const latestRoadmap = await getCollection("aeps").then((aeps) => {
-  return aeps.sort((a, b) => {
-    const dateA = new Date(a.data.created);
-    const dateB = new Date(b.data.created);
-    return dateB.getTime() - dateA.getTime();
-  });
-});
-
-const latestRoadmapYear = latestRoadmap[0].data.created.getFullYear();
+const latestRoadmapYear = getYearToUse();
 ---
 
 <header
