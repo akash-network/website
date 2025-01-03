@@ -1,10 +1,10 @@
 ---
 import QuarterNavigation from "@/components/QuarterNavigation";
-import RoadmapCard from "@/components/roadmap-card.astro";
+import RoadmapCard from "@/components/roadmap/roadmap-card.astro";
+import YearSelector from "@/components/roadmap/YearSelector";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import type { CollectionEntry } from "astro:content";
-import clsx from "clsx";
 const title = `Akash Network Roadmap`;
 type Roadmap = CollectionEntry<"aeps">;
 type Props = {
@@ -39,26 +39,7 @@ const { year, quarters, years } = Astro.props;
       </div>
     </section>
     <section class="container-small w-full">
-      <div class="mt-10 flex items-center gap-4">
-        <h2 class="text-lg font-medium">Year:</h2>
-        <div class="flex items-center gap-4 overflow-x-auto">
-          {
-            years?.map((y) => (
-              <a
-                href={`/roadmap/${y}`}
-                class={clsx(
-                  "rounded-full  px-3 py-1 text-lg font-medium transition-all duration-300 hover:bg-badgeColor hover:text-para",
-                  y.toString() === year?.toString()
-                    ? "bg-badgeColor"
-                    : "text-linkText",
-                )}
-              >
-                {y}
-              </a>
-            ))
-          }
-        </div>
-      </div>
+      <YearSelector years={years} currentYear={year} client:only />
     </section>
     <section
       class="md:container-small flex w-full flex-col gap-6 md:mt-20 md:flex-row md:gap-14"
