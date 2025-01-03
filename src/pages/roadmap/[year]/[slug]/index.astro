@@ -4,7 +4,11 @@ import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { docsProseClasses } from "@/lib/docs-prose-classes";
-import { getRoadmapYear, sortRoadmapsByDate } from "@/utils/roadmap-helpers";
+import {
+  getRelevantDate,
+  getRoadmapYear,
+  sortRoadmapsByDate,
+} from "@/utils/roadmap-helpers";
 import { getCollection } from "astro:content";
 import { ChevronRight } from "lucide-react";
 export async function getStaticPaths() {
@@ -29,7 +33,7 @@ const { roadmap, nextRoadmap } = Astro.props;
 const { Content } = await roadmap.render();
 const year = Astro.params.year;
 
-const quarter = Math.floor(new Date(roadmap.data.created).getMonth() / 3) + 1;
+const quarter = Math.floor(getRelevantDate(roadmap).getMonth() / 3) + 1;
 
 interface AuthorLink {
   fullName: string;
