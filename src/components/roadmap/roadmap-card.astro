@@ -25,8 +25,8 @@ const firstParagraph = roadmap?.body
 <a
   href={`/roadmap/${year}/${roadmap?.slug?.split("/")?.[0]}`}
   class={clsx(
-    "flex flex-col md:w-[70%] gap-4 rounded-lg border bg-background p-6 shadow ml-5 md:ml-0 hover:shadow-md transition-all duration-300",
-    className,
+    "flex flex-col  gap-4 rounded-lg border bg-background p-6 shadow ml-5 md:ml-0 hover:shadow-md transition-all duration-300",
+    className ?? "md:w-[70%]",
   )}
 >
   <div class="flex items-start justify-between gap-2">
