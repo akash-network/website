@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
+import RoadmapTooltip from "./RoadmapTooltip";
 
 type Props = {
   roadmap: CollectionEntry<"aeps">;
@@ -24,12 +25,8 @@ const firstParagraph = roadmap?.body
 <a
   href={`/roadmap/${year}/${roadmap?.slug?.split("/")?.[0]}`}
   class={clsx(
-    "flex flex-col gap-4 rounded-lg border bg-background p-6 shadow ml-5 md:ml-0 hover:shadow-md transition-all duration-300",
-    className
-      ? className
-      : roadmap.data.roadmap === "major"
-        ? "md:w-[70%]"
-        : "md:w-[40%]",
+    "flex flex-col md:w-[70%] gap-4 rounded-lg border bg-background p-6 shadow ml-5 md:ml-0 hover:shadow-md transition-all duration-300",
+    className,
   )}
 >
   <div class="flex items-start justify-between gap-2">
@@ -37,16 +34,12 @@ const firstParagraph = roadmap?.body
       class={clsx(
         roadmap?.data?.roadmap === "major" || className
           ? "font-instrument text-4xl md:text-5xl"
-          : "text-lg font-semibold",
+          : "text-2xl font-semibold",
       )}
     >
       {roadmap?.data?.title}
     </h3>
-    <p
-      class="whitespace-nowrap rounded-full bg-badgeColor px-2 py-1 text-xs font-medium text-foreground"
-    >
-      {roadmap?.data?.status}
-    </p>
+    <RoadmapTooltip isCompleted={!!roadmap?.data?.completed} client:only />
   </div>
   {
     estimatedCompletion && (
@@ -55,11 +48,5 @@ const firstParagraph = roadmap?.body
   }
   {completionDate && <p class="text-sm">Completion Date: {completionDate}</p>}
   <div class="my-1 h-px w-full border-b"></div>
-  <p
-    class={clsx(
-      "text-sm",
-      roadmap.data.roadmap === "major" ? "line-clamp-1" : "line-clamp-2",
-    )}
-    set:html={firstParagraph}
-  />
+  <p class={"line-clamp-1 text-sm"} set:html={firstParagraph} />
 </a>
