@@ -30,6 +30,16 @@ export default function YearSelector({
     }
   }, [currentYear, years, isInitialized]);
 
+  const handleYearClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+  ) => {
+    if (swiperRef.current) {
+      const swiper = swiperRef.current.swiper;
+      swiper.slideTo(index, 300);
+    }
+  };
+
   return (
     <div className="relative mt-10 flex w-full items-center gap-4">
       <h2 className="shrink-0 whitespace-nowrap text-lg font-medium">Year:</h2>
@@ -40,9 +50,11 @@ export default function YearSelector({
           spaceBetween={12}
           freeMode={{
             enabled: true,
-            sticky: true,
+            sticky: false,
             momentumBounce: false,
+            minimumVelocity: 0.02,
           }}
+          touchRatio={1.5}
           breakpoints={{
             0: {
               slidesOffsetBefore: 0,
@@ -55,12 +67,14 @@ export default function YearSelector({
           }}
           modules={[FreeMode]}
           className="w-full !overflow-visible"
-          slideToClickedSlide={true}
+          slideToClickedSlide={false}
+          threshold={5}
         >
-          {years?.map((y) => (
+          {years?.map((y, index) => (
             <SwiperSlide key={y} style={{ width: "auto" }}>
               <a
                 href={`/roadmap/${y}`}
+                onClick={(e) => handleYearClick(e, index)}
                 className={clsx(
                   "block rounded-full px-3 py-1 text-lg font-medium transition-colors duration-200 hover:bg-badgeColor hover:text-para",
                   y.toString() === currentYear?.toString()
