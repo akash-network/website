@@ -23,7 +23,7 @@ const { year, quarters, years } = Astro.props;
 
 <Layout title={`${title} - ${year}`}>
   <TopMargin className=" flex flex-col " isNotContainer>
-    <section class="container-small w-full">
+    <section class="container-reader w-full">
       <div class="max-w-2xl">
         <h1 class="text-3xl font-semibold">{title}</h1>
         <p class="mt-6">
@@ -37,11 +37,13 @@ const { year, quarters, years } = Astro.props;
         </p>
       </div>
     </section>
-    <section class="container-small w-full">
+    <section
+      class="container-reader sticky top-[56px] z-[20] w-full bg-background pb-6 md:top-[66px]"
+    >
       <YearSelector years={years} currentYear={year} client:load />
     </section>
     <section
-      class="md:container-small flex w-full flex-col gap-6 md:mt-20 md:flex-row md:gap-14"
+      class="md:container-reader flex w-full flex-col gap-6 md:mt-14 md:flex-row md:gap-14"
     >
       <QuarterNavigation client:load quarters={quarters} />
       <div
@@ -66,10 +68,10 @@ const { year, quarters, years } = Astro.props;
                       {roadmaps.map((roadmap) => (
                         <div class="flex flex-col items-start gap-4 md:flex-row md:gap-10  ">
                           <div class="-ml-3 flex items-center gap-3 md:ml-0  md:pt-6">
-                            <div class="flex size-6 items-center justify-center rounded-full bg-badgeColor">
+                            <div class="flex min-h-6 min-w-6 items-center justify-center rounded-full bg-badgeColor">
                               <div class="size-1.5 rounded-full bg-black dark:bg-white" />
                             </div>
-                            <p class="text-sm font-medium text-[#7E868C99] dark:text-para">
+                            <p class="whitespace-nowrap text-sm font-medium text-[#7E868C99] dark:text-para">
                               {roadmap.slug.split("/")[0]}
                             </p>
                           </div>

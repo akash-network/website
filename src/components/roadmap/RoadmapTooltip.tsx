@@ -58,7 +58,7 @@ const InProgressIcon = () => (
 const RoadmapTooltip = ({ isCompleted }: { isCompleted: boolean }) => {
   return (
     <HoverCard openDelay={500}>
-      <HoverCardTrigger>
+      <HoverCardTrigger className="cursor-pointer">
         {isCompleted ? <CompletedIcon /> : <InProgressIcon />}
       </HoverCardTrigger>
       <HoverCardContent align="start" className="p-3">
