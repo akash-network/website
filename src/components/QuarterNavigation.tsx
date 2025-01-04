@@ -13,7 +13,13 @@ interface QuarterNavigationProps {
 export default function QuarterNavigation({
   quarters,
 }: QuarterNavigationProps) {
-  const [activeQuarter, setActiveQuarter] = useState<string>("Q1");
+  const firstAvailableQuarter =
+    Object.entries(quarters).find(([_, items]) => items.length > 0)?.[0] ||
+    "Q1";
+
+  const [activeQuarter, setActiveQuarter] = useState<string>(
+    firstAvailableQuarter,
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +57,7 @@ export default function QuarterNavigation({
   const scrollToQuarter = (quarter: string) => {
     const element = document.querySelector(`[data-quarter="${quarter}"]`);
     if (element) {
-      const headerOffset = 120;
+      const headerOffset = 140;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition =
         elementPosition + window.pageYOffset - headerOffset;
