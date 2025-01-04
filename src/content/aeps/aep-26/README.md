@@ -17,6 +17,7 @@ roadmap: major
 Akash faces a critical shortage of high-density GPUs, particularly A100s, hindering new tenant acquisition. 91% of A100 GPUs are fully utilized, leaving no inventory for meaningful workloads.
 
 Immediate use cases for these GPUs include:
+
 1. AI workload training and fine-tuning
 2. AI inference applications
 3. Virtual world rendering and game hosting
@@ -29,43 +30,41 @@ In this initial pilot program, we will request $5,000,000. We estimate these inc
 
 Any non-distributed tokens will be returned to the community just as done [here](https://github.com/orgs/akash-network/discussions/99#discussioncomment-7085698).
 
-
 ## Approaches
 
 We propose three methods to incentivize providers, all administered by the Pilot Program Administrator (PPA), which can be an individual or a team. The PPA will be elected by a vote within the steering committee. Anyone can apply to be the PPA, provided they meet the following criteria:
 
-* Should have extensive experience in managing the community.
-* Must possess deep expertise in managing Akash providers.
-* Should be publicly known and respected within the Akash Community.
-* Ideally should have contributed to the Akash open-source repositories.
+- Should have extensive experience in managing the community.
+- Must possess deep expertise in managing Akash providers.
+- Should be publicly known and respected within the Akash Community.
+- Ideally should have contributed to the Akash open-source repositories.
 
 **Responsibilities:**
 
-* Commit time and resources towards administering the program.
-* Disclose all payments to the public and maintain a strict record of all payments that are subject to 3rd party audit if necessary.
-* Provide server management and support to participants.
-* Provide responsible settlement services (AKT to USD) for participants if needed.
-* Builds tools for verifying compute.
+- Commit time and resources towards administering the program.
+- Disclose all payments to the public and maintain a strict record of all payments that are subject to 3rd party audit if necessary.
+- Provide server management and support to participants.
+- Provide responsible settlement services (AKT to USD) for participants if needed.
+- Builds tools for verifying compute.
 
 #### 1. Committed Pool
 
-The goal of the committed pool is to provide high-quality computing resources by engaging professional providers of compute, usually [tier-2 or higher](https://phoenixnap.com/blog/data-center-tiers-classification) data center operators, who can commit to providing computing power to Akash for at least one year. The program is open to anyone, but it has strict requirements for quality, quantity, reliability, compliance, and support. 
+The goal of the committed pool is to provide high-quality computing resources by engaging professional providers of compute, usually [tier-2 or higher](https://phoenixnap.com/blog/data-center-tiers-classification) data center operators, who can commit to providing computing power to Akash for at least one year. The program is open to anyone, but it has strict requirements for quality, quantity, reliability, compliance, and support.
 
 Information (pricing, specs, and availability) on all compute providers considered for this pool will be shared publicly. The rationale guiding provider selection will also be disclosed to the public.
 
 Some advantages are:
 
-* High-quality and reliable compute
-* Cost-optimized (No overage)
-* Akash Core Team has identified providers that are ready and can go live with short notice
+- High-quality and reliable compute
+- Cost-optimized (No overage)
+- Akash Core Team has identified providers that are ready and can go live with short notice
 
 Some disadvantages are:
 
-* Fewer participants (providers)
-* More centralized
-* A smaller sample size means less data to learn from for building on-chain incentives
-* Risk of obsolescence
-
+- Fewer participants (providers)
+- More centralized
+- A smaller sample size means less data to learn from for building on-chain incentives
+- Risk of obsolescence
 
 ##### Budget & Distribution
 
@@ -114,7 +113,6 @@ We propose allocating 40% of the Pilot budget that is approximately $3,500,000 w
   </tr>
 </table>
 
-
 #### 2. Liquidity Mining Pool
 
 In alignment with how DeFi applications and other [DePIN](https://messari.io/assets/depin) projects (like Helium Network, Filecoin, and others) we propose a model in which providers supply GPUs to a homogeneous configuration pool. This pool allocates a fixed amount of tokens per epoch, distributed pro-rata to all participants.
@@ -125,19 +123,19 @@ These incentives will attract and retain providers on Akash, directly addressing
 
 Some advantages are:
 
-* More participants
-* Increased awareness
-* A larger sample size means more data to learn from for building on-chain incentives
+- More participants
+- Increased awareness
+- A larger sample size means more data to learn from for building on-chain incentives
 
 Some disadvantages are:
 
-* Unknown quality and reliability
-* Greater volatility on compute availability
-* Value-extraction by arbitrageurs (Inefficient use of funds)
-* Greater risk
-* Harder to answer tenant questions
+- Unknown quality and reliability
+- Greater volatility on compute availability
+- Value-extraction by arbitrageurs (Inefficient use of funds)
+- Greater risk
+- Harder to answer tenant questions
 
-#####  Budget & Distribution
+##### Budget & Distribution
 
 We propose allocating 40% of the Pilot budget which is approximately $750,000 with the following distribution (not final):
 
@@ -166,18 +164,18 @@ As AI models are evolving the GPU architecture and following suit. This model pr
 
 ##### Budget & Distribution
 
-We propose allocating 20% of the program budget, which is $750,000 and will be exclusively allocated to GPUs launched in 2024 or later. This will apply to both Nvidia and AMD GPUs. Some GPU models under consideration are Nvidia’s H200, B100, L40s, and AMD’s MI300 MI350. 
+We propose allocating 20% of the program budget, which is $750,000 and will be exclusively allocated to GPUs launched in 2024 or later. This will apply to both Nvidia and AMD GPUs. Some GPU models under consideration are Nvidia’s H200, B100, L40s, and AMD’s MI300 MI350.
 
 Some advantages are:
 
-* Greater flexibility
-* Future-proofing
-* Being able to be first-to-market on new GPUs 
+- Greater flexibility
+- Future-proofing
+- Being able to be first-to-market on new GPUs
 
 Some disadvantages are:
 
-* Opportunity cost of not being able to use the funds immediately
+- Opportunity cost of not being able to use the funds immediately
 
 # Copyright
 
-All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). 
+All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
