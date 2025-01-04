@@ -32,8 +32,8 @@ export default function YearSelector({
 
   return (
     <div className="relative mt-10 flex w-full items-center gap-4">
-      <h2 className="whitespace-nowrap text-lg font-medium">Year:</h2>
-      <div className="relative w-full overflow-hidden">
+      <h2 className="shrink-0 whitespace-nowrap text-lg font-medium">Year:</h2>
+      <div className="relative flex-1 overflow-hidden">
         <Swiper
           ref={swiperRef}
           slidesPerView="auto"
@@ -50,7 +50,7 @@ export default function YearSelector({
             },
             768: {
               slidesOffsetBefore: 0,
-              slidesOffsetAfter: 100,
+              slidesOffsetAfter: 0,
             },
           }}
           modules={[FreeMode]}
