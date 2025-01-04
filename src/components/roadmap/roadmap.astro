@@ -38,7 +38,7 @@ const { year, quarters, years } = Astro.props;
       </div>
     </section>
     <section class="container-small w-full">
-      <YearSelector years={years} currentYear={year} client:only />
+      <YearSelector years={years} currentYear={year} client:load />
     </section>
     <section
       class="md:container-small flex w-full flex-col gap-6 md:mt-20 md:flex-row md:gap-14"
