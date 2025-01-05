@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
+import { getYearToUse } from "@/utils/redirects";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { ArrowRightCircle } from "lucide-react";
@@ -141,12 +142,16 @@ export const SubNavbar = ({
       <div className="container-nav flex items-center gap-2 overflow-x-auto  md:justify-between">
         <div className="flex">
           {items
-            .filter((item) => !item?.external && item?.link !== "roadmap")
+            .filter((item) => !item?.external)
             .map((item, i) => {
               return (
                 <a
                   key={i}
-                  href={item.link}
+                  href={
+                    item.link === "roadmap"
+                      ? `/roadmap/${getYearToUse()}`
+                      : item.link
+                  }
                   target={item.link.startsWith("http") ? "_blank" : "_self"}
                   className={clsx(
                     "flex cursor-pointer items-center gap-2  border-b-2   p-4 text-para    ",
