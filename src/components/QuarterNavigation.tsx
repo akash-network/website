@@ -57,10 +57,9 @@ export default function QuarterNavigation({
   const scrollToQuarter = (quarter: string) => {
     const element = document.querySelector(`[data-quarter="${quarter}"]`);
     if (element) {
-      const headerOffset = 140;
+      const headerOffset = window.innerWidth < 768 ? 244 : 180;
       const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - headerOffset;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
       window.scrollTo({
         top: offsetPosition,
@@ -78,7 +77,7 @@ export default function QuarterNavigation({
               key={quarter}
               onClick={() => scrollToQuarter(quarter)}
               className={clsx(
-                "flex  size-20 items-center justify-center rounded border bg-background font-instrument  text-[40px] shadow shadow-sm transition-all  duration-300 ",
+                "flex  size-20 items-center justify-center rounded border bg-background font-instrument  text-[40px]  shadow-sm transition-all  duration-300 ",
                 activeQuarter === quarter
                   ? "text-foreground"
                   : "text-[#11182733] hover:text-foreground hover:shadow-md dark:text-[#ffffff33] dark:hover:text-foreground",
