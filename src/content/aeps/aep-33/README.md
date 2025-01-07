@@ -1,8 +1,8 @@
 ---
 aep: 33
-title: "Escrow Balance Alerts via Akash Console"
+title: "Escrow Balance Alerts in Akash Console"
 description: "Alerting system for low escrow balance"
-author: Anil Murty (@anilmurty)
+author: Anil Murty (@anilmurty) Maxime Beauchamp (@baktun14)
 status: Draft
 type: Standard
 category: Interface

@@ -1,7 +1,7 @@
 ---
 aep: 27
 title: "Opensource Praetor with a Merger"
-author: Cheng Wang (@lechenghiskhan)
+author: Cheng Wang (@lechenghiskhan) Anil Murty (@anilmurty)
 status: Final
 type: Meta
 created: 2024-03-28

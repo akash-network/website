@@ -26,7 +26,6 @@ Verifiable provisioning of hardware: This corresponds to the case where we desir
 Specifically, if a 4090 GPU were to be incorporated in the Akash network, verifiable provisioning ensures that it indeed matches its hardware specifications, and it is genuinely allocated for functions on the Akash network.
 
 Verifiable execution of program/software: This corresponds to the case where a program (any AI program, ranging from inference to training) is correctly executed on a node/set of nodes in the Akash network. For example, that a particular piece of code was executed correctly in a cluster of 4090s on the Akash network. Verifiable execution of programs/software also comes in multiple flavors, including:
-
 - Non-real-time: An offline verification mechanism that presents a proof in non-real-time, where the proof has no time or size constraints.
 - Optimistic, real-time proofs: An optimistic proof mechanism that can be verified or contested in (near) real time.
 - Zero knowledge, real-time proofs: A zero knowledge proof mechanism (that does not reveal anything about the inputs but can still be verified) in (near) real time.
@@ -94,7 +93,7 @@ Q2 2025 - Devnet and Conclusion of Testing
 
 ## Budget
 
-The tentative budget for this project is presented in the spreadsheet attached [here](https://docs.google.com/spreadsheets/d/1asmvyi5r7QgKRjsImZInAENXptr_cwoW/edit?usp=sharing&ouid=103645797398143147236&rtpof=true&sd=true).
+The tentative budget for this project is presented in the spreadsheet attached here (https://docs.google.com/spreadsheets/d/1asmvyi5r7QgKRjsImZInAENXptr_cwoW/edit?usp=sharing&ouid=103645797398143147236&rtpof=true&sd=true).
 
 The high-level breakdown for the budget is:
 R\&D Costs (Student salaries + tuition + University Overhead): $146,547
@@ -119,4 +118,4 @@ Disbursement will happen in two increments, coinciding with the few weeks before
 
 ## Copyright
 
-All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). 

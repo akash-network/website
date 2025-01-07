@@ -1,6 +1,6 @@
 ---
 aep: 43
-title: "Tenant/ Workload Utilization Metrics"
+title: "Workload Utilization Metrics"
 author: Anil Murty (@anilmurty)
 status: Draft
 type: Standard

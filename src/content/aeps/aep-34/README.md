@@ -1,13 +1,13 @@
 ---
 aep: 34
-title: "Tenant Workload Log Forwarding"
-author: Anil Murty (@anilmurty)
+title: "Workload Log Forwarding via Akash Console"
+author: Anil Murty (@anilmurty) 
 status: Draft
 type: Standard
 category: Interface
 created: 2024-12-01
 updated: 2024-12-06
-estimated-completion: 2025-2-15
+estimated-completion: 2025-2-30
 roadmap: minor
 ---
 

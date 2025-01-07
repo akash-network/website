@@ -1,7 +1,7 @@
 ---
 aep: 31
 title: "Credit Card Payments In Console"
-author: Cheng Wang (@lechenghiskhan)
+author: Anil Murty (@anilmurty) Cheng Wang (@lechenghiskhan)
 status: Final
 type: Standard
 category: Interface

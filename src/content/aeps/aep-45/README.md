@@ -1,6 +1,6 @@
 ---
 aep: 45
-title: "Offchain (potentially available) Compute"
+title: "Offchain Compute Inventory"
 author: Anil Murty (@anilmurty)
 status: Draft
 type: Standard

@@ -1,7 +1,7 @@
 ---
 aep: 32
 title: "Provider Console 1.0"
-author: Anil Murty (@anilmurty)
+author: Anil Murty (@anilmurty) Jigar Patel (@jigar-arc10) Deval Patel (devalpatel67)
 status: Draft
 type: Standard
 category: Interface

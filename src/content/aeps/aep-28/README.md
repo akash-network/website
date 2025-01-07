@@ -1,7 +1,7 @@
 ---
 aep: 28
 title: "Auto Deployment from VCS"
-author: Anil Murty (@anilmurty)
+author: Anil Murty (@anilmurty) Piyush (@piyush-hooman)
 status: Final
 type: Standard
 category: Interface

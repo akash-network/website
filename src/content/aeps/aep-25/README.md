@@ -1,7 +1,7 @@
 ---
 aep: 25
 title: "Foundation Model Training"
-author: Anil Murty (@anilmurty)
+author: Anil Murty (@anilmurty) Logan Cerkovnik (@rakataprime)
 status: Final
 type: Meta
 created: 2023-08-29

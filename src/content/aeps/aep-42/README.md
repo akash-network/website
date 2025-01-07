@@ -1,6 +1,6 @@
 ---
 aep: 42
-title: "Tenant/ Workload Logs on Decentralized Storage"
+title: "Workload Logs on Decentralized Storage"
 author: Anil Murty (@anilmurty)
 status: Draft
 type: Standard
