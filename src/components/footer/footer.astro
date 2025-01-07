@@ -11,6 +11,7 @@ import {
   YoutubeIcon,
 } from "../header/icons";
 import AkashFooterLogo from "../ui/akash-footer-logo.astro";
+import FooterYear from "./footer-year";
 
 const subscribeLink = "https://akashnet.typeform.com/to/awKX5bPw";
 const socials = [
@@ -161,7 +162,7 @@ const shouldHide = shouldHideCta(pathname);
 <footer
   class={clsx(
     " w-full bg-white px-4 pb-10 md:p-8 xl:p-20 dark:bg-background text-white ",
-    shouldHide && "border-t  mt-20"
+    shouldHide && "border-t  mt-20",
   )}
 >
   <div>
@@ -260,7 +261,7 @@ const shouldHide = shouldHideCta(pathname);
       class="flex w-full flex-col items-start justify-start gap-y-[16px] lg:flex-row lg:items-center"
     >
       <p class="text-left text-2xs text-para lg:border-r lg:pr-[16px]">
-        © Akash Network {new Date().getFullYear()}
+        © Akash Network <FooterYear client:load />
         The Akash Network Authors Documentation Distributed under CC BY 4.0
       </p>
       <div class="flex">
