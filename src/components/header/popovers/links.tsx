@@ -233,7 +233,7 @@ export const networkItems: NavItem[] = [
   {
     icon: Codesandbox,
     title: "Providers",
-    description: "Your customers' data will be safe and secure",
+    description: "Explore network providers and capacity",
     link: "/about/providers/",
   },
   {
@@ -255,7 +255,7 @@ export const networkItems: NavItem[] = [
       </svg>
     ),
     title: "AKT Token",
-    description: "Understand the role of AKT token",
+    description: "Learn more about the utility of AKT",
     link: "/token/",
   },
 ];
