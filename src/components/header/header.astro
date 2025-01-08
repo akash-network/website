@@ -65,12 +65,13 @@ const latestRoadmapYear = getYearToUse();
       <div
         class="mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] slg:flex xl:gap-x-[24px]"
       >
-        <PopOverNavItemNetwork
+        <PopOverNavItemNetwork client:load />
+        <PopOverCommunity client:load type="community" />
+        <PopOverCommunity
           client:load
+          type="development"
           latestRoadmapYear={latestRoadmapYear}
         />
-        <PopOverCommunity client:load type="community" />
-        <PopOverCommunity client:load type="development" />
         <PopOverNavItemEcosystem client:load posts={posts} />
         <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>

@@ -5,11 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ArrowRightCircle } from "lucide-react";
 import { networkItems } from "./links";
 
-const PopOverNavItemNetwork = ({
-  latestRoadmapYear,
-}: {
-  latestRoadmapYear: number;
-}) => {
+const PopOverNavItemNetwork = () => {
   const [open2, setOpen] = useState(false);
 
   return (
@@ -51,11 +47,7 @@ const PopOverNavItemNetwork = ({
                   <Menu.Item key={i}>
                     {({ active }) => (
                       <a
-                        href={
-                          item.link === "roadmap"
-                            ? `/roadmap/${latestRoadmapYear}`
-                            : item.link
-                        }
+                        href={item.link}
                         target={
                           item.link.startsWith("http") ? "_blank" : "_self"
                         }

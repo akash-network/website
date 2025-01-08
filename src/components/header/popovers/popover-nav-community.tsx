@@ -13,7 +13,13 @@ import {
   pricingItems,
 } from "./links";
 
-const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
+const PopOverSmall = ({
+  type,
+  latestRoadmapYear,
+}: {
+  type: "community" | "development";
+  latestRoadmapYear?: number;
+}) => {
   const items = type === "community" ? communityItems : developmentItems;
   const external = items.find((item) => item.external);
   const [open2, setOpen] = useState(false);
@@ -59,7 +65,11 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
                     <Menu.Item key={i}>
                       {({ active }) => (
                         <a
-                          href={item.link}
+                          href={
+                            item.link === "roadmap"
+                              ? `/roadmap/${latestRoadmapYear}`
+                              : item.link
+                          }
                           target={
                             item.link.startsWith("http") ? "_blank" : "_self"
                           }
