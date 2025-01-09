@@ -102,8 +102,7 @@ In December, the Swedish stock exchange [Spotlight](https://www.spotlightstockma
 [Upbit](https://upbit.com/), a leading South Korean exchange, officially listed AKT. This move was particularly influential for the Korean market and neighboring regions, expanding access to AKT to a massive new market in APAC. The momentum sparked by Coinbase and Upbit set the stage for further expansion as the year progressed.
 
 #### Revolut
-By late spring, Akash had achieved another milestone:​​ [AKT was added as a supported asset on the Revolut App](https://x.com/akashnet_/status/1795126803276742821), one of the largest European banking and payment platforms. Revolut provided a convenient entry point for many retail users to access AKT directly.   
-Let me help expand these sections:
+By late spring, Akash had achieved another milestone:​​ [AKT was added as a supported asset on the Revolut App](https://x.com/akashnet_/status/1795126803276742821), one of the largest European banking and payment platforms. Revolut provided a convenient entry point for many retail users to access AKT directly.
 
 #### Staking on Crypto.com
 On June 27th, [Crypto.com](http://Crypto.com) introduced [staking capabilities for AKT](https://x.com/cryptocom/status/1806284403187851748), marking a significant milestone for accessibility in the Akash Network ecosystem. The platform provided users with a streamlined staking experience, eliminating the need for technical knowledge of validator selection or wallet management. Users could stake their AKT directly through their Crypto.com accounts. This integration helped broaden AKT's reach to Crypto.com's extensive user base.
