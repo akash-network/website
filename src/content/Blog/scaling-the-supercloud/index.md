@@ -210,7 +210,7 @@ The achievements of 2024 have demonstrated the viability and value of decentrali
 *For developers:*
 
 * *To get started with a deployment, head to [Akash Console](https://console.akash.network), where you can receive $10 in credits and find a library of one-click templates for deploying the leading open-source AI models and apps.*  
-* *View the Akash codebase on GitHub.*
+* *View the [Akash codebase on GitHub](https://github.com/akash-network).*
 
 *For compute providers:*
 
