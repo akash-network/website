@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from "astro:content";
+import clsx from "clsx";
+import RoadmapTooltip from "./RoadmapTooltip";
+
+type Props = {
+  roadmap: CollectionEntry<"aeps">;
+  year: number;
+  className?: string;
+};
+
+const { roadmap, year, className } = Astro.props;
+const estimatedCompletion =
+  roadmap?.data?.["estimated-completion"]?.toLocaleDateString();
+const completionDate = roadmap?.data?.completed?.toLocaleDateString();
+
+const firstParagraph = roadmap?.body
+  ?.split("\n")
+  .find(
+    (line) => line.trim() && !line.startsWith("#") && !line.startsWith("---"),
+  )
+  ?.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+---
+
+<a
+  href={`/roadmap/${year}/${roadmap?.slug?.split("/")?.[0]}`}
+  class={clsx(
+    "flex flex-col  gap-4 rounded-lg border bg-background dark:bg-background2 p-6 shadow ml-5 md:ml-0 hover:shadow-md transition-all duration-300",
+    className ?? "md:w-full",
+  )}
+>
+  <div class="flex items-start justify-between gap-2">
+    <h3
+      class={clsx(
+        roadmap?.data?.roadmap === "major" || className
+          ? "font-instrument text-4xl md:text-5xl"
+          : "text-2xl font-semibold",
+      )}
+    >
+      {roadmap?.data?.title}
+    </h3>
+    <RoadmapTooltip isCompleted={!!roadmap?.data?.completed} client:only />
+  </div>
+  {
+    estimatedCompletion && (
+      <p class="text-sm">Estimated Completion: {estimatedCompletion}</p>
+    )
+  }
+  {completionDate && <p class="text-sm">Completion Date: {completionDate}</p>}
+  <div class="my-1 h-px w-full border-b"></div>
+  <p class={"line-clamp-1 text-sm"} set:html={firstParagraph} />
+</a>

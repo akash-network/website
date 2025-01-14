@@ -1,0 +1,191 @@
+---
+import RoadmapCard from "@/components/roadmap/roadmap-card.astro";
+import ButtonLink from "@/components/ui/button-link.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import { docsProseClasses } from "@/lib/docs-prose-classes";
+import {
+  getRelevantDate,
+  getRoadmapYear,
+  sortRoadmapsByDate,
+} from "@/utils/roadmap-helpers";
+import { getCollection } from "astro:content";
+import { ChevronRight } from "lucide-react";
+export async function getStaticPaths() {
+  const roadmaps = await getCollection("aeps");
+  const sortedRoadmaps = sortRoadmapsByDate(roadmaps);
+  return sortedRoadmaps.map((roadmap) => {
+    const year = getRoadmapYear(roadmap);
+    const nextIndex = sortedRoadmaps.findIndex((r) => r.id === roadmap.id);
+    const nextRoadmap = sortedRoadmaps[nextIndex + 1];
+
+    return {
+      params: {
+        year,
+        slug: roadmap.slug?.split("/")[0],
+      },
+      props: { roadmap, nextRoadmap },
+    };
+  });
+}
+
+const { roadmap, nextRoadmap } = Astro.props;
+const { Content } = await roadmap.render();
+const year = Astro.params.year;
+
+const quarter = Math.floor(getRelevantDate(roadmap).getMonth() / 3) + 1;
+
+interface AuthorLink {
+  fullName: string;
+  username: string;
+}
+
+const parseAuthors = (authorString: string): AuthorLink[] => {
+  const authorParts = authorString.trim().split(/[\s\n]+/);
+
+  const authors: AuthorLink[] = [];
+  let currentAuthor: string[] = [];
+
+  authorParts.forEach((part) => {
+    if (part.startsWith("(") || part.startsWith("@")) {
+      const username = part.replace(/[()@]/g, "");
+      if (currentAuthor.length > 0) {
+        authors.push({
+          fullName: currentAuthor.join(" "),
+          username: username,
+        });
+        currentAuthor = [];
+      }
+    } else {
+      currentAuthor.push(part);
+    }
+  });
+
+  return authors;
+};
+
+const parsedAuthors = parseAuthors(roadmap.data.author)
+  .map((author) => {
+    return `<a href="https://github.com/${author.username}" class="text-foreground underline" target="_blank">${author.fullName}</a><br/>`;
+  })
+  .join(" ");
+
+const estimatedCompletion =
+  roadmap.data["estimated-completion"]?.toLocaleDateString();
+const completionDate = roadmap.data["completed"]?.toLocaleDateString();
+---
+
+<Layout title={roadmap.data.title}>
+  <TopMargin readable className="flex flex-col gap-10 md:gap-16">
+    <div class="flex items-center gap-3 text-para">
+      <a href={`/roadmap/${year}`} class="hidden md:block"
+        >Akash Network Roadmap</a
+      >
+      <a href={`/roadmap/${year}`} class="md:hidden"> Roadmap</a>
+      <ChevronRight size={16} />
+      <a href={`/roadmap/${year}`}>{year}</a>
+      <ChevronRight size={16} />
+      <a href={`/roadmap/${year}`}>Q{quarter}</a>
+      <ChevronRight size={16} />
+      <p class="text-foreground">{roadmap.slug.split("/")[0]}</p>
+    </div>
+    <div
+      class="grid min-w-0 grid-cols-1 gap-8 rounded-lg border p-6 md:grid-cols-[minmax(0,75%)_minmax(0,25%)] md:gap-14 md:p-8"
+    >
+      <div class="mb-8 flex min-w-0 flex-col gap-6">
+        <div class="flex items-start justify-between gap-2 md:items-center">
+          <h1 class="text-3xl font-bold md:text-[40px] md:leading-[48px]">
+            {roadmap.data.title}
+          </h1>
+          <p
+            class="mt-1.5 whitespace-nowrap rounded-full bg-badgeColor px-2 py-1 text-xs font-medium text-foreground md:mt-0"
+          >
+            {roadmap.data.status}
+          </p>
+        </div>
+        <div class="h-px w-full border-b"></div>
+        <article class={docsProseClasses}>
+          <Content />
+        </article>
+      </div>
+      <div class="flex min-w-0 flex-col gap-4">
+        <div class="flex flex-col gap-1 text-sm">
+          {
+            estimatedCompletion && (
+              <p>Estimated completion: {estimatedCompletion}</p>
+            )
+          }
+          {completionDate && <p>Completion date: {completionDate}</p>}
+          <p>Created: {roadmap.data.created?.toLocaleDateString()}</p>
+          <p>Last Updated: {roadmap.data.updated?.toLocaleDateString()}</p>
+        </div>
+        <div class="h-px w-full border-b"></div>
+        <div class="flex flex-col gap-1 text-sm">
+          {roadmap.data.category && <p>Category: {roadmap.data.category}</p>}
+          <p>Status: {roadmap.data.status}</p>
+        </div>
+
+        <div class="h-px w-full border-b"></div>
+        <div class="flex flex-col gap-1 text-sm">
+          <p class="font-medium">Authors:</p>
+          <p set:html={parsedAuthors} />
+        </div>
+
+        {
+          (roadmap.data["discussions-to"] || roadmap.data.resolution) && (
+            <>
+              <div class="h-px w-full border-b" />
+              <div class="space-y-1 text-sm">
+                {roadmap.data["discussions-to"] && (
+                  <p>
+                    <span class="font-medium">Discussion on Github:</span>
+                    <a
+                      href={roadmap.data["discussions-to"]}
+                      target="_blank"
+                      class="ml-2 text-primary hover:underline"
+                    >
+                      Link
+                    </a>
+                  </p>
+                )}
+                {roadmap.data.resolution && (
+                  <p>
+                    <span class="font-medium">Resolution:</span>
+                    <a
+                      href={roadmap.data.resolution}
+                      target="_blank"
+                      class="ml-2 text-primary hover:underline"
+                    >
+                      Link
+                    </a>
+                  </p>
+                )}
+              </div>
+            </>
+          )
+        }
+        <div class="h-px w-full border-b"></div>
+        <ButtonLink
+          link={`https://github.com/akash-network/website-revamp/tree/main/src/content/aeps/${roadmap.slug.split("/")[0]}`}
+          variant="secondary"
+        >
+          Edit on GitHub
+        </ButtonLink>
+      </div>
+    </div>
+    {
+      nextRoadmap && (
+        <div class="flex flex-col gap-4 md:mx-auto md:w-[80%]">
+          <p class="text-center text-sm font-medium text-foreground md:text-left">
+            View next aep
+          </p>
+          <RoadmapCard
+            roadmap={nextRoadmap}
+            year={year}
+            className="!ml-0 w-full"
+          />
+        </div>
+      )
+    }
+  </TopMargin>
+</Layout>

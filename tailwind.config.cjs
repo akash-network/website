@@ -53,6 +53,10 @@ module.exports = {
           },
         };
       },
+      backgroundImage: {
+        "line-dashed": "url('/images/line-dashed.svg')",
+        "line-dashed-dark": "url('/images/line-dashed-dark.svg')",
+      },
 
       colors: {
         background: "hsl(var(--background))",
