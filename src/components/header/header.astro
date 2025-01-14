@@ -1,6 +1,7 @@
 ---
 import NavLink from "@/components/header/nav-link.astro";
 import Logo from "@/components/ui/logo.astro";
+import { getYearToUse } from "@/utils/redirects";
 import { getCollection } from "astro:content";
 import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
@@ -9,7 +10,6 @@ import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
-
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
 interface Props {
@@ -37,6 +37,8 @@ const posts = (await getCollection("Blog"))
     const dateB = new Date(b.data.pubDate);
     return dateB.getTime() - dateA.getTime();
   });
+
+const latestRoadmapYear = getYearToUse();
 ---
 
 <header
@@ -46,12 +48,12 @@ const posts = (await getCollection("Blog"))
       ? ""
       : pathnames.includes(pathname)
         ? ""
-        : "top-0 sticky z-[30]"
+        : "top-0 sticky z-[30]",
   )}
 >
   <nav
     class={clsx(
-      "container-nav  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]"
+      "container-nav  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
     )}
     id="page-top"
   >
@@ -65,7 +67,11 @@ const posts = (await getCollection("Blog"))
       >
         <PopOverNavItemNetwork client:load />
         <PopOverCommunity client:load type="community" />
-        <PopOverCommunity client:load type="development" />
+        <PopOverCommunity
+          client:load
+          type="development"
+          latestRoadmapYear={latestRoadmapYear}
+        />
         <PopOverNavItemEcosystem client:load posts={posts} />
         <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
@@ -89,7 +95,11 @@ const posts = (await getCollection("Blog"))
     </div>
 
     <div class="block overflow-hidden slg:hidden">
-      <HamburgerMenu client:load currentPath={pathname} />
+      <HamburgerMenu
+        client:load
+        currentPath={pathname}
+        latestRoadmapYear={latestRoadmapYear}
+      />
     </div>
 
     <div class="hidden flex-shrink-0 slg:flex slg:gap-x-[12px]">
@@ -145,7 +155,7 @@ const posts = (await getCollection("Blog"))
       ? "hidden"
       : pathnames.includes(pathname)
         ? "top-0 sticky z-[30]"
-        : "hidden"
+        : "hidden",
   )}
 >
   {

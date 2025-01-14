@@ -1,7 +1,6 @@
 import { defineCollection, z } from "astro:content";
 
 export const deployPage = defineCollection({
-  // Type-check frontmatter using a schema
   schema: ({ image }) => {
     return z.object({
       pageTitle: z.string(),
