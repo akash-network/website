@@ -60,7 +60,7 @@ As we designed our roadmap, we layed out key priorities:
 
 Some highlights from the roadmap:
 
-**Sovereign AI Agents**: Akash is the only general-purpose decentralized network that allows AI Agents to operate with sovereignty at scale. With confidentiality coming this year, Akash is well-positioned to be the premier decentralized hosting network for AI agents.
+**Sovereign AI Agents**: Akash is the only general-purpose decentralized network that allows AI Agents to operate with sovereignty at scale. With [confidentiality](roadmap/2025/aep-12/) coming this year, Akash is well-positioned to be the premier decentralized hosting network for AI agents.
 
 With generative AI, we see AI being helpful in making us smarter. With AI agents, AI will make us much faster. There is little doubt that AI agents are the future of applications.
 
