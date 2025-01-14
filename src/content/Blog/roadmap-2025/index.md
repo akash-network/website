@@ -60,16 +60,16 @@ As we designed our roadmap, we layed out key priorities:
 
 Some highlights from the roadmap:
 
-**Sovereign AI Agents**: Akash is the only general-purpose decentralized network that allows AI Agents to operate with sovereignty at scale. With [confidentiality](roadmap/2025/aep-12/) coming this year, Akash is well-positioned to be the premier decentralized hosting network for AI agents.
+**Sovereign AI Agents**: Akash is the only general-purpose decentralized network that allows AI Agents to operate with sovereignty at scale. With [confidentiality](/roadmap/aep-12/) coming this year, Akash is well-positioned to be the premier decentralized hosting network for AI agents.
 
 With generative AI, we see AI being helpful in making us smarter. With AI agents, AI will make us much faster. There is little doubt that AI agents are the future of applications.
 
-**On-chain Provider Incentives**: In 2024, we observed that demand increased fairly linearly as supply increased in the several provider incentive pilots we executed. In 2025, we bring incentives on-chain to unlock network effects-driven supply growth.
+**On-chain Provider Incentives**: In 2024, we observed that demand increased fairly linearly as supply increased in the several provider [incentive pilots](/roadmap/aep-26/) we executed. In 2025, we bring [incentives on-chain](/roadmap/aep-53/) to unlock network effects-driven supply growth.
 
-**Sovereign Services**: The Managed Service Market (MSM) strengthens the Akash ecosystem by unlocking a new wave of service providers and strengthens AKT. Services enables creators of software to generate meaningful income while sustaining improving their work and keep software open. Today, the value capture is at a massive imbalance where Cloud Service Providers (CSPs) are the biggest benefactors. MSM balances this asymmetry.
+**Sovereign Services**: The [Managed Service Market (MSM)](/roadmap/aep-11/) strengthens the Akash ecosystem by unlocking a new wave of service providers and strengthens AKT. Services enables creators of software to generate meaningful income while sustaining improving their work and keep software open. Today, the value capture is at a massive imbalance where Cloud Service Providers (CSPs) are the biggest benefactors. MSM balances this asymmetry.
 
 **Improved Developer Experience**: Increasing distribution is a key aspect for gaining adoption and core improvements in developer experience when integrating with Akash remove friction points for developers to interate Akash into their core offerings
 
-**Akash at Home**: We believe personal AI will run on home servers for privacy and security. Akash at Home aims to use spare computing power in homes to host AI workloads and bring Akash to home users.
+**Akash at Home**: We believe personal AI will run on home servers for privacy and security. [Akash at Home](/roadmap/aep-60/) aims to use spare computing power in homes to host AI workloads and bring Akash to home users.
 
 **Access Akash's roadmap at [akash.network/roadmap](https://akash.network/roadmap)**
