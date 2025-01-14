@@ -26,6 +26,7 @@ import {
   ecosystemNavItems,
   networkItems,
 } from "./popovers/links";
+
 const navigation = [
   {
     name: "Network",
@@ -46,8 +47,10 @@ const navigation = [
 
 export default function HamburgerMenu({
   currentPath,
+  latestRoadmapYear,
 }: {
   currentPath: string;
+  latestRoadmapYear: number;
 }) {
   return (
     <Disclosure as="nav" className=" overflow-hidden">
@@ -75,9 +78,13 @@ export default function HamburgerMenu({
             leave="transition ease duration-300 transform"
             leaveFrom="opacity-100 translate-x-0"
             leaveTo="opacity-100 translate-x-full"
-            className="slg:hidden  fixed inset-0  z-[52] w-full  overflow-y-auto bg-background md:left-auto  md:right-0 md:w-1/2"
+            className="fixed  inset-0 z-[52]  w-full overflow-y-auto  bg-background md:left-auto md:right-0  md:w-1/2 slg:hidden"
           >
-            <Panel currentPath={currentPath} open={open} />
+            <Panel
+              currentPath={currentPath}
+              open={open}
+              latestRoadmapYear={latestRoadmapYear}
+            />
           </Transition>
         </>
       )}
@@ -85,7 +92,15 @@ export default function HamburgerMenu({
   );
 }
 
-const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
+const Panel = ({
+  currentPath,
+  open,
+  latestRoadmapYear,
+}: {
+  currentPath: string;
+  open: any;
+  latestRoadmapYear: number;
+}) => {
   useLockBody(open);
 
   const currentOpen = navigation.find((item) => {
@@ -107,7 +122,7 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
   });
 
   return (
-    <Disclosure.Panel className="slg:hidden h-full">
+    <Disclosure.Panel className="h-full slg:hidden">
       <div className="box-border flex h-full  flex-col justify-between gap-y-6  px-6">
         <div className="flex flex-col gap-10">
           <div className="flex justify-between pb-4 pt-4 md:pt-6">
@@ -116,14 +131,6 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
             </a>
 
             <div className="flex items-center gap-5">
-              {/* <Disclosure.Button
-                as="a"
-                href={"/#getting-started"}
-                className="flex items-center justify-center rounded-[4px] bg-[#FF414C] px-[11px] py-[7px] text-xs text-white"
-              >
-                Get Started
-              </Disclosure.Button> */}
-
               <Disclosure.Button className="inline-flex items-center justify-center">
                 <span className="sr-only">Open main menu</span>
                 {open ? <XMarkIcon /> : <HamburgerIcon />}
@@ -166,7 +173,11 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                             ) => (
                               <a
                                 key={i}
-                                href={subItem.link}
+                                href={
+                                  subItem.link === "roadmap"
+                                    ? `/roadmap/${latestRoadmapYear}`
+                                    : subItem.link
+                                }
                                 target={
                                   subItem.link.startsWith("http")
                                     ? "_blank"
@@ -214,10 +225,8 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
                           ? "text-base font-medium text-foreground"
                           : "inline-flex items-center text-lg font-medium hover:font-semibold hover:text-foreground",
                       )}
-                      // aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
-                      {/* {item.icon} */}
                     </Disclosure.Button>
                   )}{" "}
                 </div>
@@ -228,45 +237,6 @@ const Panel = ({ currentPath, open }: { currentPath: string; open: any }) => {
 
         <div className="flex flex-col gap-y-6">
           <div className="flex flex-col gap-6">
-            {/* <a
-              href="https://akashnet.typeform.com/to/rhR4cWxQ?typeform-source=akash.network"
-              target="_blank"
-              className="flex cursor-pointer items-center justify-center gap-1 rounded-[4px] border border-border px-[9px] py-[7px] text-xs font-medium leading-none text-foreground hover:bg-darkGray"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 23 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <g clipPath="url(#clip0_1797_72752)">
-                  <path
-                    d="M9.49934 13.7593L13.5077 10.2411M13.5077 10.2411L10.2148 10.0267M13.5077 10.2411L13.2932 13.534"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M15.8997 17.0105C18.6668 14.5816 18.9411 10.3695 16.5123 7.6023C14.0835 4.83514 9.87131 4.56086 7.10414 6.98968C4.33698 9.4185 4.0627 13.6307 6.49152 16.3978C8.92034 19.165 13.1325 19.4393 15.8997 17.0105Z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_1797_72752">
-                    <rect
-                      width="16"
-                      height="16"
-                      fill="white"
-                      transform="translate(0.210938 11.2649) rotate(-41.2744)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-
-              <span>Reach Out</span>
-            </a> */}
             <a
               href="https://console.akash.network/"
               id="console-header"

@@ -28,7 +28,7 @@ export async function getStaticPaths({
   const categories: string[] = [];
 
   posts.forEach((post) => {
-    post.data.categories.forEach((category) => {
+    post.data.categories.forEach((category: string) => {
       const lowerCasedCategory = category.toLowerCase();
       if (!categories.includes(category)) {
         categories.push(category);

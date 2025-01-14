@@ -1,0 +1,34 @@
+---
+import Roadmap from "@/components/roadmap/roadmap.astro";
+import {
+  categorizeRoadmapsByQuarter,
+  getRoadmapYear,
+} from "@/utils/roadmap-helpers";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+type Roadmap = CollectionEntry<"aeps">;
+
+export async function getStaticPaths() {
+  const roadmaps = await getCollection("aeps");
+  const years = [...new Set(roadmaps.map(getRoadmapYear))].sort();
+
+  return years.map((year) => {
+    const yearRoadmaps = roadmaps.filter(
+      (roadmap) => getRoadmapYear(roadmap) === year,
+    );
+
+    const quarters = categorizeRoadmapsByQuarter(yearRoadmaps);
+
+    return {
+      params: { year },
+      props: { quarters, years },
+    };
+  });
+}
+
+const { quarters, years } = Astro.props;
+const { year } = Astro.params;
+---
+
+<Roadmap year={year} quarters={quarters} years={years} />

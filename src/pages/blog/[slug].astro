@@ -1,7 +1,4 @@
 ---
-// Import required assets
-
-// Import required components
 import CalloutsClasses from "@/components/callouts-classes.astro";
 import FormattedDate from "@/components/formatted-date.astro";
 import { TwitterIcon } from "@/components/header/icons";
@@ -19,7 +16,7 @@ export async function getStaticPaths() {
   const categories: string[] = [];
 
   posts.forEach((post) => {
-    post.data.categories.forEach((category) => {
+    post.data.categories.forEach((category: string) => {
       const lowerCasedCategory = category;
 
       if (!categories.includes(lowerCasedCategory)) {
@@ -34,8 +31,8 @@ export async function getStaticPaths() {
     const relatedArticles = posts
       .filter((post) =>
         post.data.categories.some(
-          (category: string) => category.toLowerCase() === searchCategory
-        )
+          (category: string) => category.toLowerCase() === searchCategory,
+        ),
       )
       .filter((post) => {
         return post.data.archive !== true;

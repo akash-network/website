@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
+import { getYearToUse } from "@/utils/redirects";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { ArrowRightCircle } from "lucide-react";
@@ -12,7 +13,13 @@ import {
   pricingItems,
 } from "./links";
 
-const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
+const PopOverSmall = ({
+  type,
+  latestRoadmapYear,
+}: {
+  type: "community" | "development";
+  latestRoadmapYear?: number;
+}) => {
   const items = type === "community" ? communityItems : developmentItems;
   const external = items.find((item) => item.external);
   const [open2, setOpen] = useState(false);
@@ -58,7 +65,11 @@ const PopOverSmall = ({ type }: { type: "community" | "development" }) => {
                     <Menu.Item key={i}>
                       {({ active }) => (
                         <a
-                          href={item.link}
+                          href={
+                            item.link === "roadmap"
+                              ? `/roadmap/${latestRoadmapYear}`
+                              : item.link
+                          }
                           target={
                             item.link.startsWith("http") ? "_blank" : "_self"
                           }
@@ -146,7 +157,11 @@ export const SubNavbar = ({
               return (
                 <a
                   key={i}
-                  href={item.link}
+                  href={
+                    item.link === "roadmap"
+                      ? `/roadmap/${getYearToUse()}`
+                      : item.link
+                  }
                   target={item.link.startsWith("http") ? "_blank" : "_self"}
                   className={clsx(
                     "flex cursor-pointer items-center gap-2  border-b-2   p-4 text-para    ",
