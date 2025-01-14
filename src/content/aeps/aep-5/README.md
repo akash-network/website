@@ -12,7 +12,7 @@ resolution: https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B
 
 ## Summary
 
-This proposal covers the economics of the Akash Network and introduces the Akash Token (AKT). 
+This proposal covers the economics of the Akash Network and introduces the Akash Token (AKT).
 
 ## Motivation
 
@@ -20,7 +20,7 @@ Akash is a marketplace for cloud compute resources which is designed to reduce w
 
 ## Detailed Proposal
 
-Detailed proposal is publised in the [paper](economics.pdf)
+Detailed proposal is publised in the [paper](/roadmap/aep-5/economics.pdf)
 
 ## References
 

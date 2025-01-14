@@ -6,8 +6,8 @@ status: Final
 type: Standard
 category: Core
 created: 2024-08-29
-updated: 2024-12-01
-estimated-completion: 2025-01-30
+updated: 2024-01-11
+estimated-completion: 2025-02-28
 roadmap: major
 discussions-to: https://github.com/orgs/akash-network/discussions/673
 resolution: https://www.mintscan.io/akash/proposals/268
@@ -15,9 +15,9 @@ resolution: https://www.mintscan.io/akash/proposals/268
 
 ## Motivation
 
-Akash Network has been live for almost 4 years, and we have made incredible strides in decentralizing development, coordination, and funding. 
+Akash Network has been live for almost 4 years, and we have made incredible strides in decentralizing development, coordination, and funding.
 
-As proposed in [AKT 2.0](https://github.com/orgs/akash-network/discussions/32), which received overwhelming support from the community, we proposed formally funding technical Research, Development, and Support done by the Akash Core Team and administered by Overclock Labs. As bolstered by proposals [211](https://www.mintscan.io/akash/proposals/211), [240](https://www.mintscan.io/akash/proposals/240), and [241](https://www.mintscan.io/akash/proposals/241), the Community Pool will continue to be well-funded as Akash Network accelerates its development.  
+As proposed in [AKT 2.0](https://github.com/orgs/akash-network/discussions/32), which received overwhelming support from the community, we proposed formally funding technical Research, Development, and Support done by the Akash Core Team and administered by Overclock Labs. As bolstered by proposals [211](https://www.mintscan.io/akash/proposals/211), [240](https://www.mintscan.io/akash/proposals/240), and [241](https://www.mintscan.io/akash/proposals/241), the Community Pool will continue to be well-funded as Akash Network accelerates its development.
 
 Any unused funds will be returned to the community as with all previous funding proposals.
 
@@ -27,22 +27,22 @@ Akash Network launched in 2020 and has experienced explosive growth over the las
 
 ## Challenge
 
-With a growing codebase driven by an ever-larger feature set, Akash Network is more complex than ever and this complexity will only increase over time. As the community of contributors continues to grow, coordination becomes more challenging, costs rise, and development velocity slows. 
+With a growing codebase driven by an ever-larger feature set, Akash Network is more complex than ever and this complexity will only increase over time. As the community of contributors continues to grow, coordination becomes more challenging, costs rise, and development velocity slows.
 
 ## Proposal
 
-Since 2016, Overclock Labs has fully borne the cost of development and support of Akash Network. Overclock Labs continues to fund most of these costs today and will continue to bear significant portions of the administrative, development, and marketing costs. Today, Overclock Labs is asking the community to help fund the development and testing efforts associated with the migration of Akash Network to [COSMOS SDK v0.47](https://github.com/orgs/akash-network/projects/5?pane=issue&itemId=59184208).  
+Since 2016, Overclock Labs has fully borne the cost of development and support of Akash Network. Overclock Labs continues to fund most of these costs today and will continue to bear significant portions of the administrative, development, and marketing costs. Today, Overclock Labs is asking the community to help fund the development and testing efforts associated with the migration of Akash Network to [COSMOS SDK v0.47](https://github.com/orgs/akash-network/projects/5?pane=issue&itemId=59184208).
 
 ### Responsibilities & Requirements
 
-* Commit time and resources towards development, integration, and ongoing maintenance of COSMOS SDK v0.47 and its customizations for Akash Network 
-* Provide support and code management to the community 
+* Commit time and resources towards development, integration, and ongoing maintenance of COSMOS SDK v0.47 and its customizations for Akash Network
+* Provide support and code management to the community
 * Provide responsible and open reporting on the conversion of AKT to USD
-* Builds tools necessary for the maintenance and support of COSMOS SDK v0.47 for Akash Network 
-* Possess deep, proven knowledge of the Akash Network codebase, which covers development work under these primary repositories 
-    * Node: [http://github.com/akash-network/node](http://github.com/akash-network/node) 
-    * Provider: [http://github.com/akash-network/provider](http://github.com/akash-network/provider) 
-    * Akash-Api: [http://github.com/akash-network/akash-api](http://github.com/akash-network/akash-api) 
+* Builds tools necessary for the maintenance and support of COSMOS SDK v0.47 for Akash Network
+* Possess deep, proven knowledge of the Akash Network codebase, which covers development work under these primary repositories
+    * Node: [http://github.com/akash-network/node](http://github.com/akash-network/node)
+    * Provider: [http://github.com/akash-network/provider](http://github.com/akash-network/provider)
+    * Akash-Api: [http://github.com/akash-network/akash-api](http://github.com/akash-network/akash-api)
 * Possess extensive open-source development experience on the Akash Network code base
 * Should have extensive experience managing the community.
 * Should be publicly known and respected within the Akash Community.
@@ -52,7 +52,7 @@ Supplementing Overclock Labs’ treasury expenditures and Akash Network’s deve
 
 ### Budget
 
-For Q4 2024, Overclock Labs will request $377,196.13. This represents approximately 52% of this project's total cost of $726,814.22. This proposal covers work started on April 9, 2024 through the end of the testnet, estimated to be, September 27, 2024. Overclock Labs pays the remaining 48%. This percentage breakout is an aggregation of personnel multiplied by the amount of time spent on this effort vs other efforts. For example, the core engineering team may work on this project 75% of the time and other efforts 25% of the time. 
+For Q4 2024, Overclock Labs will request $377,196.13. This represents approximately 52% of this project's total cost of $726,814.22. This proposal covers work started on April 9, 2024 through the end of the testnet, estimated to be, September 27, 2024. Overclock Labs pays the remaining 48%. This percentage breakout is an aggregation of personnel multiplied by the amount of time spent on this effort vs other efforts. For example, the core engineering team may work on this project 75% of the time and other efforts 25% of the time.
 
 This request is broken down as follows:
 
@@ -263,9 +263,9 @@ $200,531.74</p>
   </tr>
 </table>
 
-_*AKT volatility buffer_ 
+_*AKT volatility buffer_
 
-_This buffer accounts for the historical daily volatility of AKT measured over the last 30 days leading up to August 28, 2024. By providing a more substantial buffer against potential downswings in AKT, we mitigate the need to request any budget shortfalls through subsequent proposals. In the event of excess funds above the US dollar amount of labor, taxes, and overage, all remaining AKT will be returned to the community promptly after completing the proposal._    
+_This buffer accounts for the historical daily volatility of AKT measured over the last 30 days leading up to August 28, 2024. By providing a more substantial buffer against potential downswings in AKT, we mitigate the need to request any budget shortfalls through subsequent proposals. In the event of excess funds above the US dollar amount of labor, taxes, and overage, all remaining AKT will be returned to the community promptly after completing the proposal._
 
 ## Limited Market Impact & Transparent Reporting
 

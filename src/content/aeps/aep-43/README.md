@@ -1,12 +1,12 @@
 ---
 aep: 43
 title: "Workload Utilization Metrics"
-author: Anil Murty (@anilmurty)
+author: Anil Murty (@anilmurty) Artur Troian (@troian)
 status: Draft
 type: Standard
 category: Interface
 created: 2024-12-01
-updated: 2024-12-01
+updated: 2024-01-11
 estimated-completion: 2025-06-30
 roadmap: minor
 ---

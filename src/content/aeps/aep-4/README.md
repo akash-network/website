@@ -28,8 +28,8 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 
 - Codename: Alpha
 - Includes DCSs:
-  - [AEP-2: Decentralized Cloud Exchange](/spec/aep-2)
-  - [AEP-3: Stack Definition Language](/spec/aep-3)
+  - [AEP-2: Decentralized Cloud Exchange](/roadmap/2018/aep-2)
+  - [AEP-3: Stack Definition Language](/roadmap/2018/aep-3)
 - Token Allocation: 2,000,000 AKT
 - Limit: 100 Members
 - Program(s): Akash Founder Member Rewards
@@ -37,23 +37,23 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 
 ### Akash Founder Member Challenge
 
-| Level | Reward | Bonus | Begins | Challenge |
-| --- | --- | --- | -- | -- |
-| **Level 1** | 500 AKT | 25 AKT | Nov 6, 2019 | Deploy an end-to-end encrypted chat client on Akash. [Details](https://github.com/ovrclk/ecosystem/blob/master/founders/level1/README.md).|
-| **Level 2** | 1000 AKT | 25 AKT | Nov 12, 2019 | Deploy a secure, decentralized, real-time messaging service on Akash. [Details](https://github.com/ovrclk/ecosystem/blob/master/founders/level2/README.md).|
-| **Level 3** | 2000 AKT |  2000 AKT | Nov 21, 2019 | Sell your spare capacity on Akash. [Details](https://github.com/ovrclk/ecosystem/blob/master/founders/level3/README.md).|
+| Level       | Reward   | Bonus    | Begins       | Challenge                                                                                                                                                   |
+| ----------- | -------- | -------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Level 1** | 500 AKT  | 25 AKT   | Nov 6, 2019  | Deploy an end-to-end encrypted chat client on Akash. [Details](https://github.com/ovrclk/ecosystem/blob/master/founders/level1/README.md).                  |
+| **Level 2** | 1000 AKT | 25 AKT   | Nov 12, 2019 | Deploy a secure, decentralized, real-time messaging service on Akash. [Details](https://github.com/ovrclk/ecosystem/blob/master/founders/level2/README.md). |
+| **Level 3** | 2000 AKT | 2000 AKT | Nov 21, 2019 | Sell your spare capacity on Akash. [Details](https://github.com/ovrclk/ecosystem/blob/master/founders/level3/README.md).                                    |
 
 ## Outcome
 
-- Completed Deployments: 1802. [Proof](./orders.json).
-- Active Deployments: 399. [Proof](./fulfillments.json).
+- Completed Deployments: 1802. [Proof](/roadmap/aep-4/orders.json).
+- Active Deployments: 399. [Proof](/roadmap/aep-4/fulfillments.json).
 - Developers: 68. [Proof](https://github.com/ovrclk/ecosystem/graphs/contributors).
 - Providers: 144. [Proof](https://akash.vitwit.com).
 
 ## Annoucements
 
-* [Become an Akash Founding Member and Earn Token Rewards](https://akash.network/blog/become-and-akash-founding-member-and-earn-token-rewards/)
-* [Earn 1,000 Tokens and the Akash Founder Level 2 Badge!](https://akash.network/blog/earn-1000-tokens-and-the-akash-founder-level-2-badge/)
-* [Announcing Our Third Founding Member Challenge!](https://akash.network/blog/announcing-our-third-founding-member-challenge-earn-2000-akash-tokens/)
-* [Congratulations to Founding Member Challenge Contributors! Still Time to Join for 5500 Akash Tokens!](https://akash.network/blog/congratulations-to-founding-member-challenge-contributors-still-time-to-join-for-5500-akash-tokens)
-* [Announcing Our Founding Member Challenge Winners & Leaderboard!](https://akash.network/blog/announcing-our-founding-member-challenge-winners-leaderboard)
+- [Become an Akash Founding Member and Earn Token Rewards](https://akash.network/blog/become-and-akash-founding-member-and-earn-token-rewards/)
+- [Earn 1,000 Tokens and the Akash Founder Level 2 Badge!](https://akash.network/blog/earn-1000-tokens-and-the-akash-founder-level-2-badge/)
+- [Announcing Our Third Founding Member Challenge!](https://akash.network/blog/announcing-our-third-founding-member-challenge-earn-2000-akash-tokens/)
+- [Congratulations to Founding Member Challenge Contributors! Still Time to Join for 5500 Akash Tokens!](https://akash.network/blog/congratulations-to-founding-member-challenge-contributors-still-time-to-join-for-5500-akash-tokens)
+- [Announcing Our Founding Member Challenge Winners & Leaderboard!](https://akash.network/blog/announcing-our-founding-member-challenge-winners-leaderboard)

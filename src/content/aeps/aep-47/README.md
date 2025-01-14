@@ -1,7 +1,7 @@
 ---
 aep: 47
 title: "Long Standing Orders"
-author: Anil Murty (@anilmurty)
+author: Anil Murty (@anilmurty) Artur Troian (@troian)
 status: Draft
 type: Standard
 category: Core

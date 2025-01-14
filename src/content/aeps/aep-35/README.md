@@ -1,6 +1,6 @@
 ---
 aep: 35
-title: "Compute Pricing Page in Akash Console"
+title: "Realtime Pricing In Akash Console"
 author: Anil Murty (@anilmurty)
 status: Draft
 type: Standard

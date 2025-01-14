@@ -1,13 +1,13 @@
 ---
 aep: 39
 title: "Lease Termination Reasons"
-author: Anil Murty (@anilmurty)
+author: Artur Troian (@troian) Anil Murty (@anilmurty)
 status: Draft
 type: Standard
 category: Interface
 created: 2024-12-01
-updated: 2024-12-01
-estimated-completion: 2025-05-30
+updated: 2025-01-11
+estimated-completion: 2025-06-30
 roadmap: minor
 ---
 

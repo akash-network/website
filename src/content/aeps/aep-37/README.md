@@ -4,10 +4,10 @@ title: "Lease control API via GRPC"
 author: Artur Troian (@troian)
 status: Draft
 type: Standard
-category: Interface
+category: Core
 created: 2024-12-01
 updated: 2024-12-09
-estimated-completion: 2025-01-30
+estimated-completion: 2025-04-30
 roadmap: minor
 ---
 
@@ -25,12 +25,12 @@ Here are the key reasons to consider this migration:
 - **Efficiency**: gRPC uses Protocol Buffers (protobuf) for serialization, which is more efficient and compact compared to JSON used in REST. This results in faster processing and reduced bandwidth
   usage.
 - **Streaming**: gRPC natively supports streaming, allowing for real-time data exchange between client and server. This is useful for applications requiring continuous data flow, such as live logs or
-  events.  
+  events.
 - **Strongly Typed Contracts**: gRPC enforces a strongly typed contract between client and server through protobuf definitions. This reduces the likelihood of errors and ensures consistency across
-  different services.  
-- **Code Generation**: gRPC provides tools to automatically generate client and server code from protobuf definitions, reducing boilerplate code and speeding up development.  
-- **Interoperability**: gRPC supports multiple programming languages, making it easier to build polyglot services and integrate with different systems.  
-- **Error Handling**: gRPC has a standardized way of handling errors, providing more detailed and structured error messages compared to REST.  
+  different services.
+- **Code Generation**: gRPC provides tools to automatically generate client and server code from protobuf definitions, reducing boilerplate code and speeding up development.
+- **Interoperability**: gRPC supports multiple programming languages, making it easier to build polyglot services and integrate with different systems.
+- **Error Handling**: gRPC has a standardized way of handling errors, providing more detailed and structured error messages compared to REST.
 - **Security**: gRPC supports built-in authentication and encryption mechanisms, leveraging HTTP/2 features to enhance security.
 
 By migrating to gRPC, we expect to achieve better performance, efficiency, and maintainability of the provider APIs, ultimately leading to a more robust and scalable system.
@@ -209,7 +209,7 @@ service LeaseRPC {
   // ServiceRestart Restarts services associated with a lease.
   rpc ServiceRestart(ServiceRestartRequest) returns (ServiceRestartResponse);
 }
-``` 
+```
 
 # Copyright
 

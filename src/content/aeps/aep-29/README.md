@@ -1,7 +1,7 @@
 ---
 aep: 29
 title: "Verifiable Hardware Provisioning"
-author: Sriram Vishwanath (@sriramvish)
+author: Sriram Vishwanath (@sriramvish) Artur Troian (@troian)
 status: Final
 type: Standard
 category: Core
@@ -15,7 +15,7 @@ resolution: https://www.mintscan.io/akash/proposals/261
 
 ## Motivation
 
-Verification of resources is critical for on-chain incentivization; hence, we propose a TEE-based verification mechanism detailed below.
+Verification of resources is critical for on-chain incentivization; hence, we propose a TEE-based verification mechanism detailed below and extend the [Trusted providers](../aep-9/README.md) proposal.
 
 ## Summary
 
@@ -68,6 +68,82 @@ The provisioning/benchmarking tasks verify the identification while simultaneous
 
 A key point is that both the entire system (user, operating system) cannot differentiate between a provisioning/benchmarking task and a regular AI workload provided by the Akash network, and therefore cannot selectively serve a particular type of workload/task. This ensures that the GPUs are both correctly identified and are made available to Akash network-centric tasks at all times.
 
+## Implementation
+
+With provider service installaiton comes `Feature Discovery Service` (FDS) which hands inventory information to the provider engine.
+The FDS functionality will be extended to snapshot information below which further will be signed by the provider and placed to the **DA**:
+- CPU
+ - cpu id
+ - architecture
+ - model
+ - vendor
+   - micro-architecture [levels](https://github.com/HenrikBengtsson/x86-64-level)
+ - features
+- GPU
+ - gpu id
+ - vendor (already implemented)
+ - model (already implemented)
+ - memory size (already implemented)
+ - interface (already implemented)
+- Memory
+  - vendor
+  - negotiated speed
+  - timings
+  - serial number
+- Storage
+
+### Workflow
+
+For provider to be verified it must:
+- commit first snapshot of resources upon commissioning to the network
+- allow Auditor to inspect hardware
+- commit snapshots:
+  - whenever there is change to the hardware due to expansion, maintenance
+  - when challenged by the Auditor (workflow TBD)
+
+
+### Stores extension
+1. Implement extension to the `x/provider` store
+   ```protobuf
+   syntax = "proto3";
+   package akash.provider.v1beta4;
+
+   import "gogoproto/gogo.proto";
+   import "cosmos_proto/cosmos.proto";
+
+   message ResourcesSnapshot {
+       string owner    = 1 [
+           (cosmos_proto.scalar) = "cosmos.AddressString",
+           (gogoproto.jsontag)   = "owner",
+           (gogoproto.moretags)  = "yaml:\"owner\""
+       ];
+       google.protobuf.Duration timestamp = 2 [
+           (gogoproto.jsontag) = "timestamp",
+           (gogoproto.moretags) = "yaml:\"timestamp\""
+       ];
+       // location of the snapshot on the external DA
+       string filepath = 3;
+       // checksum of the timestamp, filepath and it's content
+       string hash = 4;
+   }
+   ```
+2. Implement extension to the `x/audit` store
+   ```protobuf
+   syntax = "proto3";
+   package akash.audit.v1;
+
+   import "akash/provider/v1beta4/provider.proto";
+
+   message AuditedResourcesSnapshot {
+      string auditor = 1 [
+        (gogoproto.jsontag)  = "auditor",
+        (gogoproto.moretags) = "yaml:\"auditor\""
+      ];
+
+      akash.provider.v1beta4.ResourcesSnapshot snapshot = 2;
+   }
+   ```
+
 ## Team
 
 The team for this project is led by Prof. Sriram Vishwanath from The University of Texas, Austin. Sriram Vishwanath is a professor at The University of Texas, Austin and Shruti Raghavan is a PhD candidate in Computer Science at UT Austin. They are working together with the Harvard Medical School and MITRE on the design of new foundation/base models in healthcare, with causal learning incorporated into such a platform.
@@ -118,4 +194,4 @@ Disbursement will happen in two increments, coinciding with the few weeks before
 
 ## Copyright
 
-All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). 
+All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).

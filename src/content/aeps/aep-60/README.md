@@ -1,21 +1,19 @@
 ---
 aep: 60
-title: "NextGen AMD GPU support"
-author: Anil Murty (@anilmurty)
+title: "Akash at Home"
+author: Greg Osuri (@gosuri)
 status: Draft
-type: Standard
-category: Core
-created: 2024-01-05
-updated: 2024-01-05
-estimated-completion: 2025-03-15
-roadmap: minor
+type: Meta
+created: 2024-12-01
+updated: 2024-12-06
+estimated-completion: 2026-03-30
+roadmap: major
 ---
-
 
 ## Motivation
 
-Akash providers and users would like to be able to provide and user AMD GPUs.
+Akash is a cloud platform that allows users to deploy their applications on a global network of providers. Akash at Home is a project that aims to bring Akash to the home user.
 
 ## Summary
 
-While Akash added support for AMD GPUs in 2024, there are indications that the support may have regressed since the Feature Discovery service was implemented. Specifically, AMD GPUs are not being labeled correctly even when added to the GPU database. The scope of this AEP is to fix this issue and to test with the latest available AMD GPUs like the MI300 to ensure that it all works asa expected.
+We believe personal home AI will be hosted on home servers to ensure privacy and security. Akash at Home is a project that aims to unused compute resource in the home users of Akash network to host AI workloads. Akash at Home is a project that aims to bring Akash to the home user. 

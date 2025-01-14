@@ -1,13 +1,13 @@
 ---
 aep: 46
 title: "Spot Instances"
-author: Anil Murty (@anilmurty)
+author: Anil Murty (@anilmurty) Artur Troian (@troian)
 status: Draft
 type: Standard
 category: Interface
 created: 2024-12-01
-updated: 2024-12-10
-estimated-completion: 2026-01-31
+updated: 2025-01-11
+estimated-completion: 2026-08-30
 roadmap: minor
 ---
 

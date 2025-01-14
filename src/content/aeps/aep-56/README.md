@@ -1,106 +1,30 @@
 ---
 aep: 56
-title: Verifiable provider resources
-author: Artur Troian (@troian)
+title: "Unified Akash Integration API"
+author: Anil Murty (@anilmurty) Artur Troian (@troian) Iaroslav Gryshaiev (@ygrishajev) Maxime Beauchamp (@baktun14)
 status: Draft
 type: Standard
-category: Core
-created: 2024-12-19
-updated: 2024-12-19
-estimated-completion: 2025-06-30
-roadmap: minor
+category: Interface
+created: 2025-01-10
+updated: 2025-01-10
+estimated-completion: 2025-02-15
+roadmap: major
 ---
 
-## Summary
-
-This proposal aims to implement verification of the compute resources supplied by providers on Akash Network and extends already in place [Trusted providers](../aep-9/README.md).
 
 ## Motivation
 
-To ensure that the resources supplied by the providers are accurately represented and can be trusted by users and other stakeholders within the ecosystem.
-This will enhance the overall security, reliability, and transparency of the network, fostering greater trust and adoption of Akash Network as a decentralized cloud computing platform.
+Integrations are a key part of Akash's growth strategy. In order for integrations to happen quicker Akash needs first class API support, coupled with easy to follow documentation and support for multiple programming languages.
 
-## Features
+## Summary
 
-- **Data Availability Layer** - external to Akash Network storage for the snapshots of the provider resources.
+While Akash has a Javascript API (AKashJS), it really is more of an SDK. Further, based on going through integrations with over a dozen partners, it is clear that folks cannot use it without handholding from the core team. The issues that users of AkashJS run into include, challenges with using the documented examples as well as not having enough examples. Akash needs a better JS API that abstracts away a lot of the underlying complexity of the blockchain and Akash specific things and is accompanies by easy to follow documentation. The story is similar for the GoLang API. Further, most API driven products offer suport for a wide range of programming languages.
 
-## Implementation
+The goal is this AEP is to build a first class API that can be used by partners and customers in a self-serve manner. If done correctly, this would be comparable if not better that the API offered by API-first companies like stripe (https://docs.stripe.com/api).
 
-With provider service installaiton comes `Feature Discovery Service` (FDS) which hands inventory information to the provider engine.
-The FDS functionality will be extended to snapshot information below which further will be signed by the provider and placed to the **DA**:
-
-- CPU
-- cpu id
-- architecture
-- model
-- vendor
-  - micro-architecture [levels](https://github.com/HenrikBengtsson/x86-64-level)
-- features
-- GPU
-- gpu id
-- vendor (already implemented)
-- model (already implemented)
-- memory size (already implemented)
-- interface (already implemented)
-- Memory
-  - vendor
-  - negotiated speed
-  - timings
-  - serial number
-- Storage
-
-### Workflow
-
-For provider to be verified it must:
-
-- commit first snapshot of resources upon commissioning to the network
-- allow Auditor to inspect hardware
-- commit snapshots:
-  - whenever there is change to the hardware due to expansion, maintenance
-  - when challenged by the Auditor (workflow TBD)
-
-### Stores extension
-
-1. Implement extension to the `x/provider` store
-
-   ```protobuf
-   syntax = "proto3";
-   package akash.provider.v1beta4;
-
-   import "gogoproto/gogo.proto";
-   import "cosmos_proto/cosmos.proto";
-
-   message ResourcesSnapshot {
-       string owner    = 1 [
-           (cosmos_proto.scalar) = "cosmos.AddressString",
-           (gogoproto.jsontag)   = "owner",
-           (gogoproto.moretags)  = "yaml:\"owner\""
-       ];
-       google.protobuf.Duration timestamp = 2 [
-           (gogoproto.jsontag) = "timestamp",
-           (gogoproto.moretags) = "yaml:\"timestamp\""
-       ];
-       // location of the snapshot on the external DA
-       string filepath = 3;
-       // checksum of the timestamp, filepath and it's content
-       string hash = 4;
-   }
-   ```
-
-2. Implement extension to the `x/audit` store
-
-   ```protobuf
-   syntax = "proto3";
-   package akash.audit.v1;
-
-   import "akash/provider/v1beta4/provider.proto";
-
-   message AuditedResourcesSnapshot {
-      string auditor = 1 [
-        (gogoproto.jsontag)  = "auditor",
-        (gogoproto.moretags) = "yaml:\"auditor\""
-      ];
-
-      akash.provider.v1beta4.ResourcesSnapshot snapshot = 2;
-   }
-   ```
+Specificaly the scope of this AEP will include
+- Designing and implementing new interfaces that abstract a lot of the blockchain and Akash specific things as far as possible
+- Implementing better error handling and reporting (HTTP response codes)
+- Implementing version management
+- Evaulating options for documentation (JSDocs, type-doc, Swagger, Docusaurus, Slateor others) and choosing one.
+- Deciding on how to publicly display the API reference (where to put it, link it from etc)

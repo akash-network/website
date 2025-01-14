@@ -1,14 +1,14 @@
 ---
 aep: 32
-title: "Provider Console 1.0"
+title: "Akash Provider Console 1.0"
 author: Anil Murty (@anilmurty) Jigar Patel (@jigar-arc10) Deval Patel (devalpatel67)
 status: Draft
 type: Standard
 category: Interface
 created: 2024-12-01
-updated: 2024-12-06
+updated: 2025-01-10
 estimated-completion: 2025-01-30
-roadmap: minor
+roadmap: major
 ---
 
 ## Motivation
