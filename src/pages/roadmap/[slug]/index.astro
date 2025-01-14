@@ -15,13 +15,11 @@ export async function getStaticPaths() {
   const roadmaps = await getCollection("aeps");
   const sortedRoadmaps = sortRoadmapsByDate(roadmaps);
   return sortedRoadmaps.map((roadmap) => {
-    const year = getRoadmapYear(roadmap);
     const nextIndex = sortedRoadmaps.findIndex((r) => r.id === roadmap.id);
     const nextRoadmap = sortedRoadmaps[nextIndex + 1];
 
     return {
       params: {
-        year,
         slug: roadmap.slug?.split("/")[0],
       },
       props: { roadmap, nextRoadmap },
@@ -31,7 +29,7 @@ export async function getStaticPaths() {
 
 const { roadmap, nextRoadmap } = Astro.props;
 const { Content } = await roadmap.render();
-const year = Astro.params.year;
+const year = getRoadmapYear(roadmap);
 
 const quarter = Math.floor(getRelevantDate(roadmap).getMonth() / 3) + 1;
 
@@ -166,10 +164,10 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
         }
         <div class="h-px w-full border-b"></div>
         <ButtonLink
-          link={`https://github.com/akash-network/website-revamp/tree/main/src/content/aeps/${roadmap.slug.split("/")[0]}`}
+          link={`https://github.com/akash-network/AEP/tree/main/spec/${roadmap.slug.split("/")[0]}`}
           variant="secondary"
         >
-          Edit on GitHub
+          View on GitHub
         </ButtonLink>
       </div>
     </div>
@@ -179,11 +177,7 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
           <p class="text-center text-sm font-medium text-foreground md:text-left">
             View next aep
           </p>
-          <RoadmapCard
-            roadmap={nextRoadmap}
-            year={year}
-            className="!ml-0 w-full"
-          />
+          <RoadmapCard roadmap={nextRoadmap} className="!ml-0 w-full" />
         </div>
       )
     }

@@ -5,11 +5,11 @@ import RoadmapTooltip from "./RoadmapTooltip";
 
 type Props = {
   roadmap: CollectionEntry<"aeps">;
-  year: number;
+
   className?: string;
 };
 
-const { roadmap, year, className } = Astro.props;
+const { roadmap, className } = Astro.props;
 const estimatedCompletion =
   roadmap?.data?.["estimated-completion"]?.toLocaleDateString();
 const completionDate = roadmap?.data?.completed?.toLocaleDateString();
@@ -23,7 +23,7 @@ const firstParagraph = roadmap?.body
 ---
 
 <a
-  href={`/roadmap/${year}/${roadmap?.slug?.split("/")?.[0]}`}
+  href={`/roadmap/${roadmap?.slug?.split("/")?.[0]}`}
   class={clsx(
     "flex flex-col  gap-4 rounded-lg border bg-background dark:bg-background2 p-6 shadow ml-5 md:ml-0 hover:shadow-md transition-all duration-300",
     className ?? "md:w-full",
