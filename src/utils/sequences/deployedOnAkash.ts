@@ -10,6 +10,8 @@ export const deployedOnAkash = [
   "Akash Chat API",
   "Akash Chat",
   "Auki",
+  "Bagel",
+  "Levangie Laboratories",
 ];
 
 export function getPriorityIndex(title: any) {
