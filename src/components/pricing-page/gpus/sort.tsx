@@ -1,9 +1,9 @@
-import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { clsx as classNames } from "clsx";
-import type { Gpus } from "./gpu-table";
+import { Fragment, useEffect, useState } from "react";
 import type { Filters } from "./filter";
+import type { Gpus } from "./gpu-table";
 const publishingOptions = [
   { title: "Availability" },
   { title: "Lowest Price" },
@@ -11,7 +11,7 @@ const publishingOptions = [
 ];
 
 export const onTop = (res?: Gpus) => {
-  const onTop = ["h100", "a100"];
+  const onTop = ["h100", "h200", "a100"];
   const filtered = res?.models
     ?.filter((model) => onTop?.includes(model?.model))
     .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
