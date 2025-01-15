@@ -11,7 +11,7 @@ const publishingOptions = [
 ];
 
 export const onTop = (res?: Gpus) => {
-  const onTop = ["h100", "h200", "a100"];
+  const onTop = ["h200", "h100", "a100"];
   const filtered = res?.models
     ?.filter((model) => onTop?.includes(model?.model))
     .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
