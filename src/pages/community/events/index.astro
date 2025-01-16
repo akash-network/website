@@ -11,16 +11,15 @@ const { data } = await getEntry("Community_Page", "events");
 const allCards = cards.map((card) => card.data);
 const eventDurationInMilliSeconds = 864000000;
 const currentOffsetDateTime = new Date(
-  new Date().getTime() - eventDurationInMilliSeconds
+  new Date().getTime() - eventDurationInMilliSeconds,
 ).getTime();
 
 const relevantCards = allCards.filter((curr: any) => {
-  if (curr.tbd) {
+  if (curr.tbd && curr.eventDate.getFullYear() === new Date().getFullYear()) {
     return true;
   }
 
   const eventDate = new Date(curr.eventDate).getTime();
-
   return eventDate > currentOffsetDateTime;
 });
 
