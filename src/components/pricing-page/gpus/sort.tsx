@@ -10,18 +10,151 @@ const publishingOptions = [
   { title: "Highest Price" },
 ];
 
-export const onTop = (res?: Gpus) => {
-  const onTop = ["h200", "h100", "a100"];
-  const filtered = res?.models
-    ?.filter((model) => onTop?.includes(model?.model))
-    .sort((a, b) => onTop.indexOf(a?.model) - onTop.indexOf(b?.model));
-  const rest = res?.models
-    ?.filter((model) => !onTop?.includes(model.model))
-    .sort((a, b) => b?.availability?.available - a?.availability?.available);
+type ModelPriority = {
+  model: string;
+  ramPreference?: string[];
+  interfacePreference?: string[];
+};
 
-  return [...(filtered ?? []), ...(rest ?? [])]?.filter(
-    (model) => model !== undefined,
-  );
+export const onTop = (res?: Gpus): Gpus["models"] => {
+  try {
+    if (!res) {
+      console.warn("Input is undefined, returning empty array");
+      return [];
+    }
+
+    if (!Array.isArray(res.models)) {
+      console.warn("No models array found in input, returning empty array");
+      return [];
+    }
+
+    const validModels = res.models.filter(
+      (model): model is Gpus["models"][0] => {
+        if (!model) {
+          console.warn("Encountered undefined model, filtering it out");
+          return false;
+        }
+
+        if (typeof model.model !== "string") {
+          console.warn(
+            `Invalid model property for GPU: ${JSON.stringify(model)}`,
+          );
+          return false;
+        }
+
+        if (
+          !model.availability ||
+          typeof model.availability.available !== "number"
+        ) {
+          console.warn(
+            `Invalid availability for GPU: ${JSON.stringify(model)}`,
+          );
+          return false;
+        }
+
+        return true;
+      },
+    );
+
+    const modelPriorities: ModelPriority[] = [
+      {
+        model: "h200",
+      },
+      {
+        model: "h100",
+      },
+      {
+        model: "a100",
+        ramPreference: ["80Gi"],
+        interfacePreference: ["SXM4"],
+      },
+    ];
+
+    const getPriorityScore = (
+      gpu: Gpus["models"][0],
+      modelConfig: ModelPriority,
+    ): number => {
+      try {
+        let score = 0;
+
+        if (modelConfig.ramPreference?.length && gpu.ram) {
+          const ramIndex = modelConfig.ramPreference.indexOf(gpu.ram);
+          score += (ramIndex === -1 ? 999 : ramIndex) * 1000;
+        }
+
+        if (modelConfig.interfacePreference?.length && gpu.interface) {
+          const interfaceIndex = modelConfig.interfacePreference.indexOf(
+            gpu.interface,
+          );
+          score += interfaceIndex === -1 ? 999 : interfaceIndex;
+        }
+
+        return score;
+      } catch (error) {
+        console.error("Error calculating priority score:", error);
+        return 999999;
+      }
+    };
+
+    const filtered = validModels
+      .filter((model) =>
+        modelPriorities.some((priority) => priority.model === model.model),
+      )
+      .sort((a, b) => {
+        try {
+          const aModelIndex = modelPriorities.findIndex(
+            (p) => p.model === a.model,
+          );
+          const bModelIndex = modelPriorities.findIndex(
+            (p) => p.model === b.model,
+          );
+
+          if (aModelIndex === -1 || bModelIndex === -1) {
+            console.warn(
+              `Model not found in priorities: ${a.model} or ${b.model}`,
+            );
+            return 0;
+          }
+
+          if (aModelIndex !== bModelIndex) {
+            return aModelIndex - bModelIndex;
+          }
+
+          const modelConfig = modelPriorities[aModelIndex];
+
+          if (!modelConfig.ramPreference && !modelConfig.interfacePreference) {
+            return b.availability.available - a.availability.available;
+          }
+
+          const aScore = getPriorityScore(a, modelConfig);
+          const bScore = getPriorityScore(b, modelConfig);
+
+          return aScore - bScore;
+        } catch (error) {
+          console.error("Error during sort comparison:", error);
+          return 0;
+        }
+      });
+
+    const rest = validModels
+      .filter(
+        (model) =>
+          !modelPriorities.some((priority) => priority.model === model.model),
+      )
+      .sort((a, b) => {
+        try {
+          return b.availability.available - a.availability.available;
+        } catch (error) {
+          console.error("Error sorting remaining models:", error);
+          return 0;
+        }
+      });
+
+    return [...filtered, ...rest];
+  } catch (error) {
+    console.error("Fatal error in onTop function:", error);
+    return [];
+  }
 };
 
 export default function Sort({
