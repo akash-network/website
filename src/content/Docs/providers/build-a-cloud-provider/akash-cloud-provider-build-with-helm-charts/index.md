@@ -462,8 +462,7 @@ export NODE=http://akash-node-1:26657
 
 - Akash providers may dictate how often they withdraw funds consumed by active deployments/tenants escrow accounts
 - Few things to consider regarding the provider withdraw period:
-  - The default withdraw setting in the Helm Charts is one (1) hour
-  - An advantage of the one hour default setting is assurance that a deployment may not breach the escrow account dramatically. If the withdraw period were set to 12 hours instead - the deployment could exhaust the amount in escrow in one hour (for example) but the provider would not calculate this until many hours later and the deployment would essentially operate for free in the interim.
+  - The default withdraw setting in the Helm Charts is (12) hour   
   - A disadvantage of frequent withdraws is the possibility of losing profitability based on fees incurred by the providers withdraw transactions. If the provider hosts primarily low resource workloads, it is very possible that fees could exceed deployment cost/profit.
 
 ##### OPTIONAL - Update the Provider Withdraw Period
