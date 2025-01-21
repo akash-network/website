@@ -69,7 +69,7 @@ export default function QuarterNavigation({
   };
 
   return (
-    <div className="sticky left-0 top-[140px] z-[10] col-span-3 bg-background px-5 pb-6 md:top-[170px] md:h-[45dvh] md:px-0 md:py-0   ">
+    <div className="sticky left-0 top-[141px] z-[10] col-span-3 bg-background px-5 pb-6 md:top-[143px] md:h-[45dvh] md:px-0 md:py-0   ">
       <div className="flex flex-row justify-start  gap-4 md:flex-col md:justify-normal md:gap-8">
         {Object.entries(quarters).map(([quarter, roadmaps]) =>
           roadmaps.length > 0 ? (
