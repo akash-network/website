@@ -30,20 +30,23 @@ const PopOverSmall = ({
       className="relative inline-block text-left"
       onMouseLeave={() => setOpen(false)}
     >
-      <div>
-        <Menu.Button
-          onMouseEnter={() => {
-            setOpen(true);
-          }}
-          className="inline-flex cursor-pointer items-center justify-center text-sm font-medium capitalize leading-normal hover:text-primary xl:text-sm "
-        >
-          {type}
-          <ChevronDownIcon
-            className="text-gra -mr-1 ml-1 h-4 w-4"
-            aria-hidden="true"
-          />
-        </Menu.Button>
-      </div>
+      <a
+        href={
+          type === "community"
+            ? communityItems[0].link
+            : developmentItems[0].link
+        }
+        onMouseEnter={() => {
+          setOpen(true);
+        }}
+        className="inline-flex cursor-pointer items-center justify-center text-sm font-medium capitalize leading-normal hover:text-primary xl:text-sm "
+      >
+        {type}
+        <ChevronDownIcon
+          className="text-gra -mr-1 ml-1 h-4 w-4"
+          aria-hidden="true"
+        />
+      </a>
 
       <Transition
         show={open2}
