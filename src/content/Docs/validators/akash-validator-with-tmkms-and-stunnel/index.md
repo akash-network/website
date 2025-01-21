@@ -120,7 +120,7 @@ services:
     env:
       - MONIKER=my-moniker-1
       - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
-      - MINIMUM_GAS_PRICES=0.025uakt
+      - MINIMUM_GAS_PRICES=0.0025uakt
       - P2P_POLKACHU=1
       - STATESYNC_POLKACHU=1
       - AKASH_PRIV_VALIDATOR_LADDR=tcp://0.0.0.0:26658 # requires remote signer

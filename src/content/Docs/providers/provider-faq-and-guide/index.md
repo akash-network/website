@@ -392,13 +392,13 @@ kbij2mvdlhal5dgc4pc7171cmg.ingress.akashtesting.xyz   18m
 Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has the kubectl communication with the cluster.
 
 ```
-provider-services tx market bid close --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID --owner <TENANT-ADDRESS> --dseq $AKASH_DSEQ --gseq 1 --oseq 1 --from <PROVIDER-ADDRESS> --keyring-backend $AKASH_KEYRING_BACKEND -y --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.15
+provider-services tx market bid close --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID --owner <TENANT-ADDRESS> --dseq $AKASH_DSEQ --gseq 1 --oseq 1 --from <PROVIDER-ADDRESS> --keyring-backend $AKASH_KEYRING_BACKEND -y --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.15
 ```
 
 #### Example Command Use
 
 ```
-provider-services tx market bid close --node $AKASH_NODE --chain-id akashnet-2 --owner akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn --dseq 5905802 --gseq 1 --oseq 1 --from akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --keyring-backend os -y --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.15
+provider-services tx market bid close --node $AKASH_NODE --chain-id akashnet-2 --owner akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn --dseq 5905802 --gseq 1 --oseq 1 --from akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --keyring-backend os -y --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.15
 ```
 
 #### **Example Output (Truncated)**

@@ -207,7 +207,7 @@ provider-services tx cert generate client --from $AKASH_KEY_NAME
 ##### Publish Cert to the Blockchain
 
 ```
-provider-services tx cert publish client --from $AKASH_KEY_NAME --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.15
+provider-services tx cert publish client --from $AKASH_KEY_NAME --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.15
 ```
 
 ## Create Test Deployment

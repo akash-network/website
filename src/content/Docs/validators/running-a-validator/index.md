@@ -71,7 +71,7 @@ akash tx staking create-validator \
   --commission-max-change-rate="0.01" \
   --min-self-delegation="1" \
   --gas="auto" \
-  --gas-prices="0.025uakt" \
+  --gas-prices="0.0025uakt" \
   --gas-adjustment=1.5 \
   --from="$AKASH_KEY_NAME"
 ```
@@ -98,7 +98,7 @@ akash tx staking edit-validator
   --details="The SUPERCLOUD IS HERE!" \
   --chain-id="$AKASH_CHAIN_ID" \
   --gas="auto" \
-  --gas-prices="0.025uakt" \
+  --gas-prices="0.0025uakt" \
   --gas-adjustment=1.5 \
   --from="$AKASH_KEY_NAME" \
   --commission-rate="0.10"

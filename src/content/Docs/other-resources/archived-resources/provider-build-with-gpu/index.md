@@ -764,7 +764,7 @@ We have recently released documentation guiding thru the process of building a [
 export AKASH_CHAIN_ID=akashnet-2
 export AKASH_NODE=<RPC-NODE-ADDRESS>
 export AKASH_GAS=auto
-export AKASH_GAS_PRICES=0.025uakt
+export AKASH_GAS_PRICES=0.0025uakt
 export AKASH_GAS_ADJUSTMENT=1.5
 ```
 
