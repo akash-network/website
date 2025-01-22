@@ -105,7 +105,7 @@ validator:
     env:
       - MONIKER=validator
       - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
-      - MINIMUM_GAS_PRICES=0.025uakt
+      - MINIMUM_GAS_PRICES=0.0025uakt
       - FASTSYNC_VERSION=v2
       - AKASH_MODE=validator
       - AKASH_P2P_PEX=true
@@ -149,7 +149,7 @@ KEY_PATH=akashnode1
     env:
       - MONIKER=private_node_1
       - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
-      - MINIMUM_GAS_PRICES=0.025uakt
+      - MINIMUM_GAS_PRICES=0.0025uakt
       - FASTSYNC_VERSION=v2
       - AKASH_MODE=full
       - AKASH_P2P_PEX=true
@@ -192,7 +192,7 @@ KEY_PATH=akashnode2
     env:
       - MONIKER=private_node_1
       - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
-      - MINIMUM_GAS_PRICES=0.025uakt
+      - MINIMUM_GAS_PRICES=0.0025uakt
       - FASTSYNC_VERSION=v2
       - AKASH_MODE=full
       - AKASH_P2P_PEX=true
@@ -262,7 +262,7 @@ In this step we will revisit and edit our initial SDL file with the known Valida
     env:
       - MONIKER=validator
       - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
-      - MINIMUM_GAS_PRICES=0.025uakt
+      - MINIMUM_GAS_PRICES=0.0025uakt
       - FASTSYNC_VERSION=v2
       - AKASH_MODE=validator
       - AKASH_P2P_PEX=true
@@ -295,7 +295,7 @@ In this step we will revisit and edit our initial SDL file with the known Valida
     env:
       - MONIKER=private_node_1
       - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
-      - MINIMUM_GAS_PRICES=0.025uakt
+      - MINIMUM_GAS_PRICES=0.0025uakt
       - FASTSYNC_VERSION=v2
       - AKASH_MODE=full
       - AKASH_P2P_PEX=true

@@ -92,7 +92,7 @@ akash tx deployment create h2o-llm.yml --from <your-wallet-name> --node <akash-n
 Deploy the service:
 
 ```
-akash tx deployment create ./h2o-llm.yml --from <wallet-name> --gas auto --gas-prices 0.025uakt --gas-adjustment 1.2
+akash tx deployment create ./h2o-llm.yml --from <wallet-name> --gas auto --gas-prices 0.0025uakt --gas-adjustment 1.2
 ```
 
 ### Step 4: Wait for Providers
@@ -110,7 +110,7 @@ akash tx market lease create \
   --bid-id <selected-bid-id> \
   --from <wallet-name> \
   --gas auto \
-  --gas-prices 0.025uakt
+  --gas-prices 0.0025uakt
 ```
 
 ### Step 6: Access Your Deployment
