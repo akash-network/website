@@ -28,8 +28,8 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 
 - Codename: Alpha
 - Includes DCSs:
-  - [AEP-2: Decentralized Cloud Exchange](/roadmap/2018/aep-2)
-  - [AEP-3: Stack Definition Language](/roadmap/2018/aep-3)
+  - [AEP-2: Decentralized Cloud Exchange](/spec/aep-2)
+  - [AEP-3: Stack Definition Language](/spec/aep-3)
 - Token Allocation: 2,000,000 AKT
 - Limit: 100 Members
 - Program(s): Akash Founder Member Rewards
@@ -45,8 +45,8 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 
 ## Outcome
 
-- Completed Deployments: 1802. [Proof](/roadmap/aep-4/orders.json).
-- Active Deployments: 399. [Proof](/roadmap/aep-4/fulfillments.json).
+- Completed Deployments: 1802. [Proof](https://github.com/akash-network/AEP/blob/main/assets/aep-4/orders.json).
+- Active Deployments: 399. [Proof](https://github.com/akash-network/AEP/blob/main/assets/aep-4/fulfillments.json).
 - Developers: 68. [Proof](https://github.com/ovrclk/ecosystem/graphs/contributors).
 - Providers: 144. [Proof](https://akash.vitwit.com).
 
