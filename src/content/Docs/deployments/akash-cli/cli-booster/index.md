@@ -27,7 +27,7 @@ Ensure the following steps have been completed prior:
 <br/>
 
 ```
-git clone https://github.com/arno01/akash-tools.git
+git clone https://github.com/andy108369/akash-tools.git
 ```
 
 ## Initialize
