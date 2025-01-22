@@ -29,16 +29,16 @@ In speaking with many existing cloud IaaS and PaaS users and onboarding several 
 
 Note that “Akash Savviness” is the willingness of the user to deal with things like understanding the infrastructure needs of their applications at a detailed level and being able to package their application or service into a form that allows for deployment onto Akash Network.
 
-| Developer Type | Akash Savviness | Desired Workflow |
+| **Developer Type** | **Akash Savviness** | **Desired Workflow** |
 | :---- | :---- | :---- |
 | Web Developers (Including AI/ ML app developers and Data Scientists) | Low | Would like to be able not to have to worry about infrastructure selection, provisioning, dockerization, or “Akashization” at all Typically use Platform-as-a-Service (PaaS) products like Vercel, Netlify, or Heroku. |
 | Ops/ Infra Engineers | Low-Med | Are used to being able to just get a Virtual Machine with their SSH pub keys copied into it so that they can SSH from a terminal and copy/ run what they need. Are fine specifying infrastructure requirements (number of GPUs/ CPUs, amount of Memory & Storage, locations, etc) at a very detailed level Typically use Infrastructure-as-a-Service (IaaS) products like AWS EC2, Azure-VM, GCE-VM or Digital Ocean droplet |
 | DevOps Engineers  | Med-High | Are comfortable dockerizing applications and building deployment workflows (for CI/ CD, etc), specifying infrastructure requirements, and setting up automatic infrastructure scaling with load balancers. They can figure out how to write an AkashSDL for their needs but there’s a potential b Typically, they may use managed Kubernetes services (like AWS EKS) or may obtain Virtual Machines and run their own Kubernetes clusters with applications and services deployed as containers |
 | Akash Champions | Very High | These users understand how Akash works and likely have an SDL file ready (or a repository of SDL files) that they have deployed before and want to deploy again as quickly as possible. |
 
-Akash Console has now built workflows to help each of those four user types get started with less friction than before by trying to provide them with a workflow that looks familiar to what they are used to. Here are the four workflow types and how they map to the user groups outlined above
+Akash Console has now built workflows to help each of those four user types get started with less friction than before by trying to provide them with a workflow that looks familiar to what they are used to. Here are the four workflow types and how they map to the user groups outlined above. Each of these workflows correspond with one of the four options after clicking `Deploy` in Akash Console.
 
-| Developer Type | Akash Console Workflow |
+| **Developer Type** | **Akash Console Workflow** |
 | :---- | ----- |
 | Web Developers  | Build & Deploy |
 | Ops/ Infra Engineers | Launch Container - VM |
