@@ -166,7 +166,7 @@ _**This setting can be found in the following file and we will change the defaul
 vi ~/.akash/config/app.toml
 ```
 
-_**The initial recommended min-gas-prices is 0.025uakt but you might want to change it later.**_
+_**The initial recommended min-gas-prices is 0.0025uakt but you might want to change it later.**_
 
 ```
 # This is a TOML config file.
@@ -178,7 +178,7 @@ _**The initial recommended min-gas-prices is 0.025uakt but you might want to cha
 # transaction. A transaction's fees must meet the minimum of any denomination
 # specified in this config (e.g. 10uatom).
 
-minimum-gas-prices = "0.025uakt"
+minimum-gas-prices = "0.0025uakt"
 ```
 
 ## STEP6 - Copy the Genesis File

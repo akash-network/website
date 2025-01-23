@@ -15,18 +15,19 @@ const PopOverNavItemNetwork = () => {
       className="relative inline-block text-left"
     >
       <div>
-        <Menu.Button
+        <a
+          href={networkItems[0].link}
+          className="inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm "
           onMouseEnter={() => {
             setOpen(true);
           }}
-          className="inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm "
         >
           Network
           <ChevronDownIcon
             className="text-gra -mr-1 ml-1 h-4 w-4"
             aria-hidden="true"
           />
-        </Menu.Button>
+        </a>
       </div>
 
       <Transition

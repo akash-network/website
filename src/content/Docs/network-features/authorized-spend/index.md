@@ -100,13 +100,13 @@ To change the amount of an authorized funds
 #### **Syntax**
 
 ```
-provider-services tx deployment authz grant <deploy-wallet> <fund-amount> --from <funding-wallet> --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.5 -y
+provider-services tx deployment authz grant <deploy-wallet> <fund-amount> --from <funding-wallet> --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.5 -y
 ```
 
 #### **Example Use**
 
 ```
-provider-services tx deployment authz grant akash17ck7uhkpjjj45fw9s9vpv7jn0m97958vjjxmf8 10000000uakt --from akash10x24jqyplwk37nynqy0pqaez5sx9fqrll59hl9 --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.5 -y
+provider-services tx deployment authz grant akash17ck7uhkpjjj45fw9s9vpv7jn0m97958vjjxmf8 10000000uakt --from akash10x24jqyplwk37nynqy0pqaez5sx9fqrll59hl9 --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.5 -y
 ```
 
 ### Create a Deployment from Authorized Funds
@@ -120,13 +120,13 @@ NOTE - only the creation deployment step is covered in this section.  Please ref
 #### **Syntax**
 
 ```
-provider-services tx deployment create --depositor-account <funding-wallet> --from <deploy-wallet> deploy.yaml --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.5 -y 
+provider-services tx deployment create --depositor-account <funding-wallet> --from <deploy-wallet> deploy.yaml --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.5 -y 
 ```
 
 #### **Example Use**
 
 ```
-provider-services tx deployment create --depositor-account akash10x24jqyplwk37nynqy0pqaez5sx9fqrll59hl9 --from akash17ck7uhkpjjj45fw9s9vpv7jn0m97958vjjxmf8 deploy.yaml --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.5 -y
+provider-services tx deployment create --depositor-account akash10x24jqyplwk37nynqy0pqaez5sx9fqrll59hl9 --from akash17ck7uhkpjjj45fw9s9vpv7jn0m97958vjjxmf8 deploy.yaml --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.5 -y
 ```
 
 ### **Deposit Additional Funds to Deployment**
@@ -138,13 +138,13 @@ Deposit additional funds into the escrow account of a running deployment from th
 #### **Syntax**
 
 ```
-provider-services tx deployment deposit <fund-amount> --dseq <deployment-id> --from <deploy-wallet> -–depositor-account <funding-wallet> --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.5 -y
+provider-services tx deployment deposit <fund-amount> --dseq <deployment-id> --from <deploy-wallet> -–depositor-account <funding-wallet> --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.5 -y
 ```
 
 #### **Example Use**
 
 ```
-provider-services tx deployment deposit 10000000uakt --dseq 19012 --from akash17ck7uhkpjjj45fw9s9vpv7jn0m97958vjjxmf8 --depositor-account akash10x24jqyplwk37nynqy0pqaez5sx9fqrll59hl9 --gas-prices="0.025uakt" --gas="auto" --gas-adjustment=1.5 -y
+provider-services tx deployment deposit 10000000uakt --dseq 19012 --from akash17ck7uhkpjjj45fw9s9vpv7jn0m97958vjjxmf8 --depositor-account akash10x24jqyplwk37nynqy0pqaez5sx9fqrll59hl9 --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.5 -y
 ```
 
 ### Revoke Access to a Deploy Wallet

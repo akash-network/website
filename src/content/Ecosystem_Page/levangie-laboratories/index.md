@@ -12,10 +12,10 @@ description: Levangie Laboratories is shaping the next generation of adaptive AI
 showcase: true
 ctaButton:
   label: View Project
-  link: "https://www.levangielaboratories.com/"
+  link: "https://api.levangielaboratories.com/"
   enable: true
 
-websiteLink: "https://www.levangielaboratories.com/"
+websiteLink: "https://api.levangielaboratories.com/"
 twitterLink: "https://x.com/blevlabs"
 featured: true
 ---

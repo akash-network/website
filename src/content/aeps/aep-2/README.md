@@ -13,7 +13,7 @@ resolution: https://github.com/akash-network/node/releases/tag/v0.3.0
 
 ## Summary
 
-Decentralized cloud computing exchange connects those who need computing resources with those that have computing capacity to lease providers. Based on the [Akash Network Whitepaper](/roadmap/aep-2/whitepaper.pdf).
+Decentralized cloud computing exchange connects those who need computing resources with those that have computing capacity to lease providers. Based on the [Akash Network Whitepaper](https://github.com/akash-network/AEP/blob/main/spec/aep-2/whitepaper.pdf).
 
 ## Specification
 
