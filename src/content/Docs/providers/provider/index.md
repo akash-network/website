@@ -6,10 +6,10 @@ title: "Creating an Akash Provider Using the Akash Console"
 linkTitle: "Provider Console"
 ---
 
-The Akash Provider Console is an easy way to become an Akash provider. Being a provider llows individuals and organizations to rent out their unused computing resources. 
+The Akash Provider Console is an easy way to become an Akash Provider. Being a provider allows individuals and organizations to rent out their unused computing resources. 
 
 
-This guide will walk you through the process of setting up an **Akash provider** using the Akash Provider Console.
+This guide will walk you through the process of setting up an **Akash Provider** using the Akash Provider Console.
 
 ---
 
@@ -34,7 +34,7 @@ This guide will walk you through the process of setting up an **Akash provider**
 
 - If everything went well, you will now have an option to `Create Provider`
 
-![]((../../assets/provider_landing.png)
+![](../../assets/provider_landing.png)
 
 
 ---
@@ -63,9 +63,15 @@ This guide will walk you through the process of setting up an **Akash provider**
 
    ![](../../assets/provider_info.png)
 
+   5. If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses. 
+
+   ![](../../assets/worker_nodes.png)
+
    5. Review the attributes you provided:
 
    ![](../../assets/review_pov.png)
+
+   6. 
 
    6. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
 
