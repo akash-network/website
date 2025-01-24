@@ -1,5 +1,199 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="693" height="421" viewBox="-0.5 -0.5 693 421" style="background-color:#fff"><path d="M109 75.61Q109 30 428.63 30" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke"/><path d="m109 80.86-2.33-7 2.33 1.75 2.33-1.75zM433.88 30l-7 3.5 1.75-3.5-1.75-3.5z" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:31px;margin-left:326px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">1. Pre-Established Trust (Offline)</div></div></div></foreignObject><text x="326" y="34" font-family="Helvetica" font-size="12" text-anchor="middle">1. Pre-Established Trust (Offline)</text></switch><path d="M115 146.37Q115 190 428.63 190" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke"/><path d="m115 141.12 2.33 7-2.33-1.75-2.33 1.75zM433.88 190l-7 3.5 1.75-3.5-1.75-3.5z" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:191px;margin-left:336px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">1. Pre-Established Trust (Offline)</div></div></div></foreignObject><text x="336" y="194" font-family="Helvetica" font-size="12" text-anchor="middle">1. Pre-Established Trust (Offline)</text></switch><path d="M75 146.37v207.26" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke"/><path d="m75 141.12 2.33 7-2.33-1.75-2.33 1.75zM75 358.88l-3.5-7 3.5 1.75 3.5-1.75z" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:179px;margin-left:76px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">2. Publish Trusted Providers</div></div></div></foreignObject><text x="76" y="182" font-family="Helvetica" font-size="12" text-anchor="middle">2. Publish Trusted Providers</text></switch><path fill="#fff" stroke="#000" pointer-events="all" d="M55 80h120v60H55z"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:110px;margin-left:56px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">Accreditor</div></div></div></foreignObject><text x="115" y="114" font-family="Helvetica" font-size="12" text-anchor="middle">Accreditor</text></switch><path fill="#fff" stroke="#000" pointer-events="all" d="M435 0h120v60H435z"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:30px;margin-left:436px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">Provider</div></div></div></foreignObject><text x="495" y="34" font-family="Helvetica" font-size="12" text-anchor="middle">Provider</text></switch><path d="M495 206.37v147.26" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke"/><path d="m495 201.12 2.33 7-2.33-1.75-2.33 1.75zM495 358.88l-3.5-7 3.5 1.75 3.5-1.75z" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:277px;margin-left:465px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:11px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">3. Deploy</div></div></div></foreignObject><text x="465" y="280" font-family="Helvetica" font-size="11" text-anchor="middle">3. Deploy </text></switch><path d="M561.37 170Q615 170 615 92.5T561.37 15" fill="none" stroke="#000" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke"/><path d="m556.12 170 7-2.33-1.75 2.33 1.75 2.33zM556.12 15l7-3.5-1.75 3.5 1.75 3.5z" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:92px;margin-left:615px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:11px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">4. Establish trust by association</div></div></div></foreignObject><text x="615" y="95" font-family="Helvetica" font-size="11" text-anchor="middle">4. Establish trust by association</text></switch><path fill="#fff" stroke="#000" pointer-events="all" d="M435 140h120v60H435z"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:170px;margin-left:436px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">Tenant</div></div></div></foreignObject><text x="495" y="174" font-family="Helvetica" font-size="12" text-anchor="middle">Tenant</text></switch><path fill="#fff" stroke="#000" pointer-events="all" d="M85 217.5h180v115H85z"/><path fill="none" pointer-events="all" d="M95 230h170v90H95z"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe flex-start;width:168px;height:1px;padding-top:275px;margin-left:97px"><div style="box-sizing:border-box;font-size:0;text-align:left"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal"><div style="text-align:left"/>provider: b6fd0c3d883a1a....<div/>authority:
-                                82cf24099dc53...<br/>attributes:<br/>tier: 4<br/>region:
-                                us-west<br/>sig: ea3bc80a54bb...<br/></div></div></div></foreignObject><text x="97" y="279" font-family="Helvetica" font-size="12">provider:
-                    b6fd0c3d883a1a.......</text></switch><path fill="#fff" stroke="#000" pointer-events="all" d="M35 360h160v60H35z"/><path d="M51 360v60m128-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:126px;height:1px;padding-top:390px;margin-left:52px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">Akash Blockchain</div></div></div></foreignObject><text x="115" y="394" font-family="Helvetica" font-size="12" text-anchor="middle">Akash Blockchain</text></switch><path fill="#fff" stroke="#000" pointer-events="all" d="M195 360h80v60h-80z"/><path d="M203 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><path fill="#fff" stroke="#000" pointer-events="all" d="M275 360h80v60h-80z"/><path d="M283 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><path fill="#fff" stroke="#000" pointer-events="all" d="M355 360h80v60h-80z"/><path d="M363 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><path fill="#fff" stroke="#000" pointer-events="all" d="M435 360h80v60h-80z"/><path d="M443 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><path fill="#fff" stroke="#000" pointer-events="all" d="M515 360h80v60h-80z"/><path d="M523 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all"/><path fill="#fff" stroke="#000" pointer-events="all" d="M505 248.5h180v93H505z"/><path fill="none" pointer-events="all" d="M515 258.61h170v72.78H515z"/><switch transform="translate(-.5 -.5)"><foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe flex-start;width:168px;height:1px;padding-top:295px;margin-left:517px"><div style="box-sizing:border-box;font-size:0;text-align:left"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal"><div style="text-align:left"/>authority: 82cf24099dc53...<br/>attributes:<br/>tier: 4<br/>region: us-west<br/></div></div></div></foreignObject><text x="517" y="299" font-family="Helvetica" font-size="12">authority:
-                    82cf24099dc53......</text></switch><switch><a transform="translate(0 -5)" xlink:href="https://desk.draw.io/support/solutions/articles/16000042487" target="_blank"><text text-anchor="middle" font-size="10" x="50%" y="100%">Viewer does not support full SVG 1.1</text></a></switch></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="693" height="421"
+    viewBox="-0.5 -0.5 693 421" style="background-color:#fff">
+    <path d="M109 75.61Q109 30 428.63 30" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke" />
+    <path d="m109 80.86-2.33-7 2.33 1.75 2.33-1.75zM433.88 30l-7 3.5 1.75-3.5-1.75-3.5z" stroke="#000"
+        stroke-miterlimit="10" pointer-events="all" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:31px;margin-left:326px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">
+                        1. Pre-Established Trust (Offline)</div>
+                </div>
+            </div>
+        </foreignObject><text x="326" y="34" font-family="Helvetica" font-size="12" text-anchor="middle">1.
+            Pre-Established Trust (Offline)</text>
+    </switch>
+    <path d="M115 146.37Q115 190 428.63 190" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke" />
+    <path d="m115 141.12 2.33 7-2.33-1.75-2.33 1.75zM433.88 190l-7 3.5 1.75-3.5-1.75-3.5z" stroke="#000"
+        stroke-miterlimit="10" pointer-events="all" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:191px;margin-left:336px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">
+                        1. Pre-Established Trust (Offline)</div>
+                </div>
+            </div>
+        </foreignObject><text x="336" y="194" font-family="Helvetica" font-size="12" text-anchor="middle">1.
+            Pre-Established Trust (Offline)</text>
+    </switch>
+    <path d="M75 146.37v207.26" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke" />
+    <path d="m75 141.12 2.33 7-2.33-1.75-2.33 1.75zM75 358.88l-3.5-7 3.5 1.75 3.5-1.75z" stroke="#000"
+        stroke-miterlimit="10" pointer-events="all" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:179px;margin-left:76px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">
+                        2. Publish Trusted Providers</div>
+                </div>
+            </div>
+        </foreignObject><text x="76" y="182" font-family="Helvetica" font-size="12" text-anchor="middle">2. Publish
+            Trusted Providers</text>
+    </switch>
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M55 80h120v60H55z" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:110px;margin-left:56px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                        Accreditor</div>
+                </div>
+            </div>
+        </foreignObject><text x="115" y="114" font-family="Helvetica" font-size="12"
+            text-anchor="middle">Accreditor</text>
+    </switch>
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M435 0h120v60H435z" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:30px;margin-left:436px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                        Provider</div>
+                </div>
+            </div>
+        </foreignObject><text x="495" y="34" font-family="Helvetica" font-size="12" text-anchor="middle">Provider</text>
+    </switch>
+    <path d="M495 206.37v147.26" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="stroke" />
+    <path d="m495 201.12 2.33 7-2.33-1.75-2.33 1.75zM495 358.88l-3.5-7 3.5 1.75 3.5-1.75z" stroke="#000"
+        stroke-miterlimit="10" pointer-events="all" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:277px;margin-left:465px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:11px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">
+                        3. Deploy</div>
+                </div>
+            </div>
+        </foreignObject><text x="465" y="280" font-family="Helvetica" font-size="11" text-anchor="middle">3.
+            Deploy </text>
+    </switch>
+    <path d="M561.37 170Q615 170 615 92.5T561.37 15" fill="none" stroke="#000" stroke-miterlimit="10"
+        stroke-dasharray="3 3" pointer-events="stroke" />
+    <path d="m556.12 170 7-2.33-1.75 2.33 1.75 2.33zM556.12 15l7-3.5-1.75 3.5 1.75 3.5z" stroke="#000"
+        stroke-miterlimit="10" pointer-events="all" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:1px;height:1px;padding-top:92px;margin-left:615px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:11px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;background-color:#fff;white-space:nowrap">
+                        4. Establish trust by association</div>
+                </div>
+            </div>
+        </foreignObject><text x="615" y="95" font-family="Helvetica" font-size="11" text-anchor="middle">4. Establish
+            trust by association</text>
+    </switch>
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M435 140h120v60H435z" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:170px;margin-left:436px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                        Tenant</div>
+                </div>
+            </div>
+        </foreignObject><text x="495" y="174" font-family="Helvetica" font-size="12" text-anchor="middle">Tenant</text>
+    </switch>
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M85 217.5h180v115H85z" />
+    <path fill="none" pointer-events="all" d="M95 230h170v90H95z" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe flex-start;width:168px;height:1px;padding-top:275px;margin-left:97px">
+                <div style="box-sizing:border-box;font-size:0;text-align:left">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                        <div style="text-align:left" />provider: b6fd0c3d883a1a....
+                        <div />authority:
+                        82cf24099dc53...<br />attributes:<br />tier: 4<br />region:
+                        us-west<br />sig: ea3bc80a54bb...<br />
+                    </div>
+                </div>
+            </div>
+        </foreignObject><text x="97" y="279" font-family="Helvetica" font-size="12">provider:
+            b6fd0c3d883a1a.......</text>
+    </switch>
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M35 360h160v60H35z" />
+    <path d="M51 360v60m128-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:126px;height:1px;padding-top:390px;margin-left:52px">
+                <div style="box-sizing:border-box;font-size:0;text-align:center">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                        Akash Blockchain</div>
+                </div>
+            </div>
+        </foreignObject><text x="115" y="394" font-family="Helvetica" font-size="12" text-anchor="middle">Akash
+            Blockchain</text>
+    </switch>
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M195 360h80v60h-80z" />
+    <path d="M203 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all" />
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M275 360h80v60h-80z" />
+    <path d="M283 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all" />
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M355 360h80v60h-80z" />
+    <path d="M363 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all" />
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M435 360h80v60h-80z" />
+    <path d="M443 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all" />
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M515 360h80v60h-80z" />
+    <path d="M523 360v60m64-60v60" fill="none" stroke="#000" stroke-miterlimit="10" pointer-events="all" />
+    <path fill="#fff" stroke="#000" pointer-events="all" d="M505 248.5h180v93H505z" />
+    <path fill="none" pointer-events="all" d="M515 258.61h170v72.78H515z" />
+    <switch transform="translate(-.5 -.5)">
+        <foreignObject style="overflow:visible;text-align:left" pointer-events="none" width="100%" height="100%"
+            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="display:flex;align-items:unsafe center;justify-content:unsafe flex-start;width:168px;height:1px;padding-top:295px;margin-left:517px">
+                <div style="box-sizing:border-box;font-size:0;text-align:left">
+                    <div
+                        style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                        <div style="text-align:left" />authority: 82cf24099dc53...<br />attributes:<br />tier:
+                        4<br />region: us-west<br />
+                    </div>
+                </div>
+            </div>
+        </foreignObject><text x="517" y="299" font-family="Helvetica" font-size="12">authority:
+            82cf24099dc53......</text>
+    </switch>
+    <switch><a transform="translate(0 -5)" xlink:href="https://desk.draw.io/support/solutions/articles/16000042487"
+            target="_blank"><text text-anchor="middle" font-size="10" x="50%" y="100%">Viewer does not support full SVG
+                1.1</text></a></switch>
+</svg>

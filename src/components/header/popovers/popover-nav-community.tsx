@@ -30,20 +30,23 @@ const PopOverSmall = ({
       className="relative inline-block text-left"
       onMouseLeave={() => setOpen(false)}
     >
-      <div>
-        <Menu.Button
-          onMouseEnter={() => {
-            setOpen(true);
-          }}
-          className="inline-flex cursor-pointer items-center justify-center text-sm font-medium capitalize leading-normal hover:text-primary xl:text-sm "
-        >
-          {type}
-          <ChevronDownIcon
-            className="text-gra -mr-1 ml-1 h-4 w-4"
-            aria-hidden="true"
-          />
-        </Menu.Button>
-      </div>
+      <a
+        href={
+          type === "community"
+            ? communityItems[0].link
+            : developmentItems[0].link
+        }
+        onMouseEnter={() => {
+          setOpen(true);
+        }}
+        className="inline-flex cursor-pointer items-center justify-center text-sm font-medium capitalize leading-normal hover:text-primary xl:text-sm "
+      >
+        {type}
+        <ChevronDownIcon
+          className="text-gra -mr-1 ml-1 h-4 w-4"
+          aria-hidden="true"
+        />
+      </a>
 
       <Transition
         show={open2}
@@ -73,9 +76,7 @@ const PopOverSmall = ({
                           target={
                             item.link.startsWith("http") ? "_blank" : "_self"
                           }
-                          className={`dark:hover:bg- group flex  cursor-pointer items-center gap-6 rounded-lg px-4 py-3 transition-all hover:bg-gray-50 dark:hover:bg-black/10    ${
-                            active ? "" : ""
-                          } `}
+                          className="dark:hover:bg- group flex  cursor-pointer items-center gap-6 rounded-lg px-4 py-3 transition-all hover:bg-gray-50 dark:hover:bg-black/10"
                         >
                           <div className="text-[#9CA3AF] transition-all group-hover:text-primary dark:text-para">
                             {item.icon ? (
@@ -166,6 +167,8 @@ export const SubNavbar = ({
                   className={clsx(
                     "flex cursor-pointer items-center gap-2  border-b-2   p-4 text-para    ",
                     pathname === item.link ||
+                      (item.link === "roadmap" &&
+                        pathname?.split("/")[1] === "roadmap") ||
                       pathname?.split("/")[2] === item.link?.split("/")[2]
                       ? " border-foreground "
                       : "border-transparent",

@@ -77,10 +77,17 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
    ![](../../assets/pricing.png)
 
-   7. Import your wallet. You'll have the option of either automatically importing it pr manually doing so. 
+   7. Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or  manually doing so. 
+
+   a. **Importing Automatically**
    
-   i. If you decide to automatically do so, select `Auto Import` and click `Next`.
+   - If you decide to automatically do so, select `Auto Import` and click `Next`.
    
-   ii. You would then be asked to enter your seed phrase. 
+   - You would then be asked to enter your seed phrase. Ideally, you should use a different wallet from the one you connected to the Provider Console with. Enter your seed phrase and click next.
+
+   [incomplete]
+
+
+   b. 
 
 

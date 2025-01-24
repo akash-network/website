@@ -31,7 +31,7 @@ export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainn
 export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
 export AKASH_NODE="$(curl -s "$AKASH_NET/rpc-nodes.txt" | shuf -n 1)"
 
-export AKASH_GAS_PRICES=0.025uakt
+export AKASH_GAS_PRICES=0.0025uakt
 export AKASH_GAS=auto
 export AKASH_GAS_ADJUSTMENT=1.5
 ```

@@ -21,7 +21,7 @@ const { disableSticky } = Astro.props;
 const visibilty = {
   network: ["/about", "/token"],
   community: ["/community"],
-  development: ["/development"],
+  development: ["/development", "/roadmap"],
   ecosystem: ["/ecosystem"],
   pricing: ["/pricing"],
 };
@@ -43,7 +43,9 @@ const latestRoadmapYear = getYearToUse();
 
 <header
   class={clsx(
-    "bg-white dark:bg-[#242424] border-b border-defaultBorder",
+    "bg-white dark:bg-[#242424]  ",
+    !visibilty.development.includes(pathname) &&
+      "border-b border-defaultBorder",
     disableSticky
       ? ""
       : pathnames.includes(pathname)
