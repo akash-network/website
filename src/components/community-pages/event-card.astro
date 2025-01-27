@@ -12,6 +12,10 @@ interface Props {
     description: string;
     link: string;
     tbd: boolean;
+    cta?: {
+      text: string;
+      link: string;
+    }[];
   };
 }
 
@@ -50,15 +54,19 @@ const { card } = Astro.props;
     >
       {card.description}{" "}
     </p>
-
-    <ButtonLink
-      variant="secondary"
-      size="xs"
-      link={card.link}
-      className="mt-10"
-    >
-      <ArrowUpCircle className="w-4 rotate-45 text-para" />
-      Read More
-    </ButtonLink>
+    <div class="mt-10 flex items-center gap-2">
+      <ButtonLink variant="secondary" size="xs" link={card.link}>
+        <ArrowUpCircle className="w-4 rotate-45 text-para" />
+        Read More
+      </ButtonLink>
+      {
+        card?.cta?.map((cta) => (
+          <ButtonLink variant="secondary" size="xs" link={cta.link}>
+            <ArrowUpCircle className="w-4 rotate-45 text-para" />
+            {cta.text}
+          </ButtonLink>
+        ))
+      }
+    </div>
   </div>
 </div>
