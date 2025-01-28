@@ -16,8 +16,74 @@ This guide will walk you through the process of setting up an **Akash Provider**
 ## Prerequisites:
 1. **Akash Wallet with Sufficient Funds:** Ensure you have an account on Keplr Wallet with at least 30 AKT in it. 
 2. **Provider Node:** To be a provider on Akash, you must have a node set up to offer resources. This could be a cloud server, a bare metal machine, or any server capable of hosting containers.
+3. **Configure your server** Make sure your server is properly configured. 
 
 ---
+## Prerequisite Step: Configure your Server:
+This assumes you are using Linux. 
+
+### Edit Your SSHD Configuration
+First of all, you should edit your sshd configuration `/etc/ssh/sshd_config` to update specific perimeters for enhanced security. 
+1. Switch to the root user to ensure you have you have the necessary permissions:
+
+`sudo -i`
+
+2. Open the configuration file with a text editor: 
+
+`sudo nano /etc/ssh/sshd_config`
+
+3. Locate the following lines in the file. If they are commented out (prefixed with `#`), remove the `#` to uncomment them:
+
+```plaintext
+PermitRootLogin prohibit-password
+PubkeyAuthentication yes
+```
+
+4. Update the `PasswordAuthentication` parameter. Uncomment it, and change its value to `no` if it is currently set to `yes`:
+```plaintext
+   PasswordAuthentication no
+```
+
+5. Save and close the file:
+   - If using `nano`, press `CTRL+O` to save and `CTRL+X` to exit.
+
+6. Edit the `~/.ssh/authorized_keys` file:
+
+`nano ~/.ssh/authorized_keys`
+
+ 7. Ensure the file contains the following lines:
+
+ ``` no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142" ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTBuQzRQor39mU++RthyjUheuWj1Ph+lyyQwwp5t5AgfvXjM2SuQNFyEedIAkOd8/fuv/ejKrtP85TurF1fdAiixj/N5N+nW+GgJO9s/W6......
+``` 
+
+8. Comment the first line, and then find `ssh-rsa`, and hit the `enter` (or `return`) key to take it to a new line. It should now look like this:
+
+```
+     #no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142" 
+     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTBuQzRQor39mU++RthyjUheuWj1Ph+lyyQwwp5t5AgfvXjM2SuQNFyEedIAkOd8/fuv/ejKrtP85TurF1fdAiixj/N5N+nW+GgJO9s/W6......
+```
+
+9.  Restart the SSH service to apply the changes:
+
+```
+sudo systemctl restart ssh
+```
+
+NB: If you get and error message, try `sudo systemctl restart sshd`.
+
+10. To ensure the changes have been applied, check the current SSHD configuration:
+
+```
+sudo sshd -T | grep -E 'permitrootlogin|pubkeyauthentication|passwordauthentication'
+```
+
+If you did everything correctly, you should see the following message
+
+
+
+
+
+
 
 ## Step 1: Log in to the Akash Console
 - Go to the [Akash Provider Console]() in your browser.
