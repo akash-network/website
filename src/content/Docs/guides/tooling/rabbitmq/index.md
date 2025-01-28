@@ -112,7 +112,11 @@ If there are errors, correct them before proceeding.
    Submit the deployment to Akash:
 
    ```bash
+<<<<<<< HEAD
    provider-services tx deployment create rocketmq-deployment.yml --from <your-account> --gas auto --gas-prices 0.025uakt
+=======
+   akash tx deployment create rocketmq-deployment.yml --from <your-account> --gas auto --gas-prices 0.0025uakt
+>>>>>>> 3d0281b5feb0124cad7689fa4cce08ac9610dcbb
    ```
 
 2. **Check for Bids:**

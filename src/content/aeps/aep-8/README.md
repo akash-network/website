@@ -35,7 +35,7 @@ We propose launching Mainnet with 64 validators to establish economic value and 
 
 ## Genesis Configuration and Token Distribution
 
-Token distribution is critical to the success of Akash, propose the [genesis.json](/roadmap/aep-8/genesis.json) to bootstrap the network. Chain identifier will be `akashnet-1`.
+Token distribution is critical to the success of Akash, propose the [genesis.json](https://github.com/akash-network/AEP/blob/main/assets/aep-8/genesis.json) to bootstrap the network. Chain identifier will be `akashnet-1`.
 
 ## Liquidity
 

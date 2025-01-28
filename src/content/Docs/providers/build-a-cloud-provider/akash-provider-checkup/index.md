@@ -301,7 +301,7 @@ AKASH_BOOT_KEYS=/boot-keys
 AKASH_VERSION=0.1.0
 HOSTNAME=akash-provider-77bddc8c4c-qkwtz
 AKASH_PROVIDER_PORT_8443_TCP_ADDR=10.233.24.154
-AKASH_GAS_PRICES=0.025uakt
+AKASH_GAS_PRICES=0.0025uakt
 ```
 
 #### List Specific Provider Setting
