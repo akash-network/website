@@ -64,7 +64,7 @@ One critical advantage of decentralized AI is the increased security and resilie
 
 As AI evolves, decentralized approaches will likely play an increasingly important role in shaping its future development and applications.
 
-In the "Decentralized AI Revealed" panel with David Johnston (OSS Contributor to Morpheus), Teana Baker Taylor (COO, Venice AI), Sam Padilla (Co-founder and head of product at Eidon AI), Cameron Fairchild (Software developer at Bittensor) — the panelists discussed how Decentralized AI enables new kinds of applications that are unique to decentralized networks. They explored how decentralized AI enhances privacy, security, and collaboration among network participants, allowing for the developmemt of new and novel applications.
+In the "Decentralized AI Revealed" panel with David Johnston (OSS Contributor to Morpheus), Teana Baker Taylor (COO, Venice AI), Sam Padilla (Co-founder and head of product at Eidon AI), Cameron Fairchild (Software developer at Bittensor) — the panelists discussed how Decentralized AI enables new kinds of applications that are unique to decentralized networks. They explored how decentralized AI enhances privacy, security, and collaboration among network participants, allowing for the development of new and novel applications.
 
 The panelists also discussed the potential for decentralized AI to make powerful AI tools and resources more widely available, enabling open access for developers and organizations. By leveraging decentralized networks, the future of AI is poised to become more open and transparent — bringing open AI development to a global scale.
 
