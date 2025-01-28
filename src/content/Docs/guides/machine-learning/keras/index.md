@@ -115,17 +115,17 @@ deployment:
 3. **Upload Your SDL File**:
    - Deploy using the Akash CLI:
      ```bash
-     akash tx deployment create deployment.yaml --from <your-account>
+     provider-services tx deployment create deployment.yaml --from <your-account>
      ```
    - Monitor your deployment status with:
      ```bash
-     akash query deployment list --owner <your-address>
+     provider-services query deployment list --owner <your-address>
      ```
 
 ### **Step 5: Access Your Keras Application**
 - Once the deployment is active, obtain the endpoint for your service using:
   ```bash
-  akash query provider lease-status --id <lease-id>
+  provider-services query provider lease-status --id <lease-id>
   ```
 - Access your application via the provided public endpoint.
 

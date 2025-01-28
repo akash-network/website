@@ -63,18 +63,18 @@ deployment:
 1. **Initialize Deployment**: Use the Akash CLI to initialize the deployment:
 
 ```
-akash tx deployment create deploy.yaml --from $AKASH_KEY_NAME --chain-id $AKASH_CHAIN_ID --node $AKASH_NODE
+provider-services tx deployment create deploy.yaml --from $AKASH_KEY_NAME --chain-id $AKASH_CHAIN_ID --node $AKASH_NODE
 ```
 
 2. **Check Lease Status**: After deploying, you need to monitor the lease and ensure it’s active. Run:
 
 ```
-akash query market lease list --owner $AKASH_ACCOUNT_ADDRESS --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID
+provider-services query market lease list --owner $AKASH_ACCOUNT_ADDRESS --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID
 ```
 3. **Obtain Lease Information**: Once the lease is confirmed, fetch the details:
 
 ```
-akash query market lease status --owner $AKASH_ACCOUNT_ADDRESS --chain-id $AKASH_CHAIN_ID --node $AKASH_NODE --provider <provider-address>
+provider-services query market lease status --owner $AKASH_ACCOUNT_ADDRESS --chain-id $AKASH_CHAIN_ID --node $AKASH_NODE --provider <provider-address>
 ```
 Make sure to replace <provider-address> with the provider's actual address from the lease status.
 

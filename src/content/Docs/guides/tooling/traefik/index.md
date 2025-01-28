@@ -88,19 +88,19 @@ deployment:
 1. **Initialize Deployment**:
    Run the following command to create a deployment:
    ```
-   akash tx deployment create deploy.yaml --from <your-wallet> --node https://rpc.akashnet.io --chain-id akashnet-2
+   provider-services tx deployment create deploy.yaml --from <your-wallet> --node https://rpc.akashnet.io --chain-id akashnet-2
    ```
 
 2. **View Lease Information**:
    After successful deployment, query the lease to get the deployment's details:
    ```
-   akash query deployment list --owner <your-address> --state active
+   provider-services query deployment list --owner <your-address> --state active
    ```
 
 3. **Expose Traefik's Public Endpoint**:
    Use the lease information to query the provider and fetch the public endpoint (IP or domain):
    ```
-   akash provider lease-status --node <provider-node> --chain-id akashnet-2
+   provider-services provider lease-status --node <provider-node> --chain-id akashnet-2
    ```
 
 ---

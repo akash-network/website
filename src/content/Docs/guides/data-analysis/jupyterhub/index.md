@@ -85,21 +85,21 @@ deployment:
 Use the Akash CLI to deploy the SDL file.
 
 ```
-akash tx deployment create deploy.yaml --from <your-wallet-name>
+provider-services tx deployment create deploy.yaml --from <your-wallet-name>
 ```
 
 ### 4. **Accept a Bid**
 Once a provider bids on your deployment, accept the bid to launch the service:
 
 ```
-akash tx market lease create --dseq <deployment-sequence-number> --from <your-wallet-name>
+provider-services tx market lease create --dseq <deployment-sequence-number> --from <your-wallet-name>
 ```
 
 ### 5. **Access JupyterHub**
 After deployment, obtain the service endpoint by running:
 
 ```
-akash provider lease-status --dseq <deployment-sequence-number> --from <your-wallet-name>
+provider-services provider lease-status --dseq <deployment-sequence-number> --from <your-wallet-name>
 ```
 
 The endpoint will look something like `http://<provider-ip>:<port>`. Use this in your browser to access JupyterHub.

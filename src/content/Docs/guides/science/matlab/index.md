@@ -98,25 +98,25 @@ The Akash Network provides a decentralized cloud platform where you can deploy c
 1. **Create a Deployment**:
    - Submit your SDL file to Akash:
      ```
-     akash tx deployment create deploy.yml --from <your_account>
+     provider-services tx deployment create deploy.yml --from <your_account>
      ```
 
 2. **Find a Provider**:
    - Query for providers willing to host your deployment:
      ```
-     akash query market bid list --owner <your_account>
+     provider-services query market bid list --owner <your_account>
      ```
 
 3. **Accept a Lease**:
    - Accept a lease from a provider:
      ```
-     akash tx market lease create --from <your_account> --dseq <deployment_sequence>
+     provider-services tx market lease create --from <your_account> --dseq <deployment_sequence>
      ```
 
 4. **Access Your Deployment**:
    - Get the public endpoint of your deployment:
      ```
-     akash query market lease get --dseq <deployment_sequence>
+     provider-services query market lease get --dseq <deployment_sequence>
      ```
 
    - Use the endpoint to access your MATLAB application.
@@ -134,12 +134,12 @@ The Akash Network provides a decentralized cloud platform where you can deploy c
 
 - Use the Akash CLI to check logs and manage your deployment:
   ```
-  akash logs --dseq <deployment_sequence> --from <your_account>
+  provider-services logs --dseq <deployment_sequence> --from <your_account>
   ```
 
 - If you need to update or terminate the deployment:
   ```
-  akash tx deployment close --dseq <deployment_sequence> --from <your_account>
+  provider-services tx deployment close --dseq <deployment_sequence> --from <your_account>
   ```
 
 ---

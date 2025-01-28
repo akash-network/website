@@ -93,17 +93,17 @@ Run the following commands to deploy the SDL file to Akash:
 
 ```
 # Create a deployment
-akash tx deployment create deploy.yaml --from <wallet-name> --node https://rpc.akash.network:26657 --chain-id akashnet-2
+provider-services tx deployment create deploy.yaml --from <wallet-name> --node https://rpc.akash.network:26657 --chain-id akashnet-2
 
 # Confirm deployment
-akash query deployment list --owner <wallet-address> --node https://rpc.akash.network:26657
+provider-servicesquery deployment list --owner <wallet-address> --node https://rpc.akash.network:26657
 ```
 
 ### **3. Check the Deployment Status**
 Use the following command to check the status of your deployment:
 
 ```
-akash query deployment get <deployment-id> --node https://rpc.akash.network:26657
+provider-services query deployment get <deployment-id> --node https://rpc.akash.network:26657
 ```
 
 ### **4. Access the TensorLayer Service**

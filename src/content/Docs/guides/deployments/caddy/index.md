@@ -72,16 +72,16 @@ deployment:
 
 1. Validate the SDL File:
 ```
-akash deployment validate deploy.yaml
+provider-services deployment validate deploy.yaml
 ```
 
 2. Create Deployment:
 ```
-akash tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <chain-id> --node <node-url> --fees <fee-amount>uakt
+provider-services tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <chain-id> --node <node-url> --fees <fee-amount>uakt
 ```
 3. Query Lease: After creating the deployment, query the lease to ensure it’s active:
 ```
-    akash query market lease list --owner <your-wallet-address> --node <node-url>
+    provider-services query market lease list --owner <your-wallet-address> --node <node-url>
 ```
 4. Access the Deployment: Note the endpoint provided in the lease logs. Use this URL to access your Caddy instance.
 

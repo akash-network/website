@@ -116,24 +116,24 @@ deployment:
 1. **Validate the SDL**:
    Save the SDL as `deploy.yaml` and validate it using the Akash CLI:
    ```bash
-   akash tx deployment create deploy.yaml --from <wallet-name>
+   provider-services tx deployment create deploy.yaml --from <wallet-name>
    ```
 
 2. **Bid and Lease**:
    Once your deployment is created, monitor and accept a bid for your deployment:
    ```bash
-   akash query market lease list --state open
+   provider-services query market lease list --state open
    ```
 
    After finding a suitable bid, create a lease:
    ```bash
-   akash tx market lease create --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --from <wallet-name>
+   provider-services tx market lease create --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --from <wallet-name>
    ```
 
 3. **Access Haystack**:
    After successful deployment, retrieve the service’s IP and port:
    ```bash
-   akash provider service-status <lease-id>
+   provider-services provider service-status <lease-id>
    ```
 
    Access the Haystack REST API at the provided IP/port, typically accessible via `http://<IP>:80`.

@@ -89,14 +89,14 @@ deployment:
 - Use the Akash CLI to submit your deployment:
 
 ```
-akash tx deployment create deploy.yaml --from <wallet_name> --node <node>
+provider-services tx deployment create deploy.yaml --from <wallet_name> --node <node>
 ```
 
 2. **Set Up Lease**:
 
 - Once deployed, create a lease with the provider to make your service accessible:
 ```
-akash tx deployment lease create <deployment-id> --from <wallet_name> --node <node>
+provider-services tx deployment lease create <deployment-id> --from <wallet_name> --node <node>
 ```
 
 3. **Access KNIME**:

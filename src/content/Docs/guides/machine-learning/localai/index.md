@@ -108,19 +108,19 @@ deployment:
 ### 3. **Validate the SDL File**
 Run the following command to validate your SDL file:
 ```bash
-akash tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <rpc-node>
+provider-services tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <rpc-node>
 ```
 
 ### 4. **Create the Deployment**
 Submit your deployment request:
 ```bash
-akash tx deployment create deploy.yaml --from <wallet-name>
+provider-services tx deployment create deploy.yaml --from <wallet-name>
 ```
 
 ### 5. **Monitor the Deployment**
 Check the status of your deployment using:
 ```bash
-akash query deployment list --owner <wallet-address>
+provider-services query deployment list --owner <wallet-address>
 ```
 
 ### 6. **Access the Application**

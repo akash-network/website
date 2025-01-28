@@ -118,13 +118,13 @@ Before deploying your app on Akash, ensure you have the following prerequisites:
 1. Deploy the App:
 
 ```
-akash tx deployment create deploy.yml --from your-wallet --chain-id your-chain-id
+provider-services tx deployment create deploy.yml --from your-wallet --chain-id your-chain-id
 ```
 
 2. Monitor Deployment:
 
 ```
-akash query deployment list
+provider-services query deployment list
 ```
 
 3. Get Service URL: After deployment, you can find your service URL and access your Dash app.

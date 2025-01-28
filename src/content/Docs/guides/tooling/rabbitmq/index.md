@@ -98,7 +98,7 @@ deployment:
 Run the following command to validate the SDL file syntax:
 
 ```bash
-akash validate --manifest rocketmq-deployment.yml
+provider-services validate --manifest rocketmq-deployment.yml
 ```
 
 If there are errors, correct them before proceeding.
@@ -112,7 +112,7 @@ If there are errors, correct them before proceeding.
    Submit the deployment to Akash:
 
    ```bash
-   akash tx deployment create rocketmq-deployment.yml --from <your-account> --gas auto --gas-prices 0.025uakt
+   provider-services tx deployment create rocketmq-deployment.yml --from <your-account> --gas auto --gas-prices 0.025uakt
    ```
 
 2. **Check for Bids:**
@@ -120,7 +120,7 @@ If there are errors, correct them before proceeding.
    Monitor bids from providers using:
 
    ```bash
-   akash query market bid list --owner <your-address>
+   provider-services query market bid list --owner <your-address>
    ```
 
 3. **Accept a Bid:**
@@ -128,7 +128,7 @@ If there are errors, correct them before proceeding.
    Once you find a suitable bid, accept it:
 
    ```bash
-   akash tx market lease create --owner <your-address> --provider <provider-address> --dseq <deployment-sequence> --from <your-account>
+   provider-services tx market lease create --owner <your-address> --provider <provider-address> --dseq <deployment-sequence> --from <your-account>
    ```
 
 ---

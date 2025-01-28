@@ -78,7 +78,7 @@ deployment:
 Save the above SDL template as `deploy.yaml`. Run the following commands to deploy via the CLI:
 
 ```
-akash tx deployment create deploy.yml --from <your_wallet_name> --chain-id <chain_id> --node <node_url> --gas-prices <price> --gas-adjustment <adjustment>
+provider-services tx deployment create deploy.yaml --from <your_wallet_name> --chain-id <chain_id> --node <node_url> --gas-prices <price> --gas-adjustment <adjustment>
 ```
 
 2. **Bid on the Deployment**
@@ -86,13 +86,13 @@ akash tx deployment create deploy.yml --from <your_wallet_name> --chain-id <chai
 Fetch the deployment status:
 
 ```
-akash query market lease list --owner <your_wallet_address> --dseq <deployment_sequence>
+provider-services query market lease list --owner <your_wallet_address> --dseq <deployment_sequence>
 ```
 
 Look for active bids and create a lease with:
 
 ```
-akash tx market lease create --owner <your_wallet_address> --dseq <deployment_sequence> --gseq <group_sequence> --oseq <order_sequence> --from <your_wallet_name> --chain-id <chain_id> --node <node_url> --gas-prices <price> --gas-adjustment <adjustment>
+provider-services tx market lease create --owner <your_wallet_address> --dseq <deployment_sequence> --gseq <group_sequence> --oseq <order_sequence> --from <your_wallet_name> --chain-id <chain_id> --node <node_url> --gas-prices <price> --gas-adjustment <adjustment>
 ```
 
 3. **Access Your Deployment**
@@ -100,7 +100,7 @@ akash tx market lease create --owner <your_wallet_address> --dseq <deployment_se
 Once the lease is active, query the lease status to find the assigned external IP:
 
 ```
-akash query market lease status --owner <your_wallet_address> --dseq <deployment_sequence> --gseq <group_sequence> --oseq <order_sequence> --provider <provider_address>
+provider-services query market lease status --owner <your_wallet_address> --dseq <deployment_sequence> --gseq <group_sequence> --oseq <order_sequence> --provider <provider_address>
 ```
 
 Visit <`assigned_IP`>:80 for the H2O API and <`assigned_IP`>:443 for the web UI.
@@ -138,7 +138,7 @@ Visit <`assigned_IP`>:80 for the H2O API and <`assigned_IP`>:443 for the web UI.
     - **Monitor Logs**: Use the Akash CLI to view logs for the deployment:
 
     ```
-    akash logs --dseq <deployment_sequence> --gseq <group_sequence> --oseq <order_sequence> --provider <provider_address> --from <your_wallet_name>
+    provider-services logs --dseq <deployment_sequence> --gseq <group_sequence> --oseq <order_sequence> --provider <provider_address> --from <your_wallet_name>
     ```
 
 ## Additional Notes
