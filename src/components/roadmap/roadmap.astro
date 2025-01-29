@@ -5,7 +5,6 @@ import YearSelector from "@/components/roadmap/YearSelector";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import type { CollectionEntry } from "astro:content";
-import { CalendarModal } from "@/components/development-pages/calendar-modal.tsx";
 const title = `Akash Network Roadmap`;
 type Roadmap = CollectionEntry<"aeps">;
 type Props = {
@@ -83,6 +82,5 @@ const { year, quarters, years } = Astro.props;
         </div>
       </div>
     </section>
-    <CalendarModal client:load />
   </TopMargin>
 </Layout>

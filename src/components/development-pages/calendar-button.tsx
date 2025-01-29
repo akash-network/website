@@ -8,7 +8,7 @@ export function CalendarButton({ onClick }: CalendarButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="fixed top-1/4 right-1/4 flex items-center justify-between rounded-full bg-[#ff414c] px-5 py-3 text-xs text-white dark:bg-[#ff414c] dark:text-white md:top-1/4 md:right-9 md:text-sm lg:top-1/4 lg:right-12 "
+      className="flex items-center justify-between rounded-full bg-primary/5 dark:border-primary/10 px-5 py-3 text-xs text-primary font-semibold border border-primary md:text-sm "
     >
       <CalendarIcon className="mr-2 h-4 w-4" />
       Community Calendar
