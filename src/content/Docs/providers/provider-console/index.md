@@ -11,14 +11,13 @@ The Akash Provider Console is an easy way to become an Akash Provider. Being a p
 
 This guide will walk you through the process of setting up an **Akash Provider** using the Akash Provider Console.
 
----
 
 ## Prerequisites:
 1. **Akash Wallet with Sufficient Funds:** Ensure you have an account on Keplr Wallet with at least 30 AKT in it. 
 2. **Provider Node:** To be a provider on Akash, you must have a node set up to offer resources. This could be a cloud server, a bare metal machine, or any server capable of hosting containers.
 3. **Configure your server** Make sure your server is properly configured. 
 
----
+
 ## Prerequisite Step: Configure your Server:
 This assumes you are using Linux. 
 
