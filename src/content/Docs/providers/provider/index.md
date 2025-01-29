@@ -41,7 +41,7 @@ PubkeyAuthentication yes
 
 4. Update the `PasswordAuthentication` parameter. Uncomment it, and change its value to `no` if it is currently set to `yes`:
 ```plaintext
-   PasswordAuthentication no
+ PasswordAuthentication no
 ```
 
 5. Save and close the file:
@@ -59,17 +59,17 @@ PubkeyAuthentication yes
 8. Comment the first line, and then find `ssh-rsa`, and hit the `enter` (or `return`) key to take it to a new line. It should now look like this:
 
 ```
-     #no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142" 
-     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTBuQzRQor39mU++RthyjUheuWj1Ph+lyyQwwp5t5AgfvXjM2SuQNFyEedIAkOd8/fuv/ejKrtP85TurF1fdAiixj/N5N+nW+GgJO9s/W6......
+ #no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142" 
+ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTBuQzRQor39mU++RthyjUheuWj1Ph+lyyQwwp5t5AgfvXjM2SuQNFyEedIAkOd8/fuv/ejKrtP85TurF1fdAiixj/N5N+nW+GgJO9s/W6......
 ```
 
-9.  Restart the SSH service to apply the changes:
+9. Restart the SSH service to apply the changes:
 
 ```
 sudo systemctl restart ssh
 ```
 
-NB: If you get and error message, try `sudo systemctl restart sshd`.
+NB: If you get an error message, try `sudo systemctl restart sshd`.
 
 10. To ensure the changes have been applied, check the current SSHD configuration:
 
@@ -77,13 +77,19 @@ NB: If you get and error message, try `sudo systemctl restart sshd`.
 sudo sshd -T | grep -E 'permitrootlogin|pubkeyauthentication|passwordauthentication'
 ```
 
-If you did everything correctly, you should see the following message
+If you did everything correctly, the output should display:
 
+```
+permitrootlogin prohibit-password
+ pubkeyauthentication yes
+ passwordauthentication no
+```
 
+11. Finally, make sure you open the following IP addresses:
 
+`2379`-`2380`, `6443`, `30000`,`32676`, `22`, `8443`, `8444`, `80`, `443`.
 
-
-
+You are now ready to create a provider. 
 
 ## Step 1: Log in to the Akash Console
 - Go to the [Akash Provider Console]() in your browser.
@@ -106,54 +112,63 @@ If you did everything correctly, you should see the following message
 ---
 
 ## Step 2: Set Up Your Provider Node
-   You may now go ahead and create a provider to lease out to users. 
+ You may now go ahead and create a provider to lease out to users. 
 
    1. Click on the `Create Provider` button. You will be redirected to the`Import Wallet` page. 
    
-   ![](../../assets/import_wallet.png)
+ ![](../../assets/import_wallet.png)
 
 
    2. In `Server Access`, enter the number of servers you want to provide. If you intend to have both `control plane` and `worker` nodes, you should provide at least 2 servers.
 
-   ![](../../assets/server_access.png)
+ ![](../../assets/server_access.png)
 
 
-   ![](../../assets/server_count.png)
+ ![](../../assets/server_count.png)
 
-   3. Fill in the requested information for your `Control Plane Node`. Make sure you choose how you would like to provide your credentials: select either one of `ssh` or `password`. Repeat the process for all of your nodes. 
+   3. Fill in the requested information for your `Control Plane Node`. Make sure you choose how you would like to provide your credentials: select either one `ssh` or `password`. Repeat the process for all of your nodes. 
 
 
-   ![](../../assets/control_plane.png)
+ ![](../../assets/control_plane.png)
 
    4. Fill in your provider attributes
 
-   ![](../../assets/provider_info.png)
+ ![](../../assets/provider_info.png)
 
    5. If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses. 
 
-   ![](../../assets/worker_nodes.png)
+ ![](../../assets/worker_nodes.png)
 
    5. Review the attributes you provided:
 
-   ![](../../assets/review_pov.png)
+ ![](../../assets/review_pov.png)
 
    6. 
 
    6. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
 
-   ![](../../assets/pricing.png)
+ ![](../../assets/pricing.png)
 
    7. Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or  manually doing so. 
 
-   a. **Importing Automatically**
+    **Importing Automatically**
    
-   - If you decide to automatically do so, select `Auto Import` and click `Next`.
+   - If you decide to do so automatically, select `Auto Import` and click `Next`.
    
-   - You would then be asked to enter your seed phrase. Ideally, you should use a different wallet from the one you connected to the Provider Console with. Enter your seed phrase and click next.
+   - You would then be asked to enter your seed phrase. You should use the seed phrase from the same wallet you connected to `Provider Console` with. 
 
-   [incomplete]
+  8. Once you do that, it should start building your cluster. 
 
+ ![](../../assets/beginning.png)
 
-   b. 
+ If your settings and configurations are done correctly, you should be done in a couple of minutes. 
+
+ ![](../../assets/complete.png)
+
+ And, *voila!* your machine is now a provider. 
+
+   ## Conclusion
+
+Your machine is now ready to be leased. However, to increase the odds of earning from your machine, you could request an audit [here](https://github.com/akash-network/community/issues?q=is%3Aissue+is%3Aopen+label%3A%22Provider+Audit%22)
 
 
