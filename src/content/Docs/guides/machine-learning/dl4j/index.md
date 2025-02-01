@@ -129,21 +129,21 @@ deployment:
    Use the Akash CLI to submit the SDL file and create a deployment.
 
    ```bash
-   akash tx deployment create deploy.yml --from <your-wallet-name>
+   provider-services tx deployment create deploy.yml --from <your-wallet-name>
    ```
 
 2. **Bid Selection**:
    Choose a provider from the bids and accept their offer.
 
    ```bash
-   akash query market bid list --owner <your-deployment-address>
+   provider-services query market bid list --owner <your-deployment-address>
    ```
 
 3. **Lease Creation**:
    After selecting the bid, create a lease:
 
    ```bash
-   akash tx market lease create --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --from <your-wallet-name>
+   provider-services tx market lease create --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --from <your-wallet-name>
    ```
 
 4. **Access Your Application**:
@@ -155,7 +155,7 @@ deployment:
 
 - **Logs**: Use the Akash CLI to retrieve service logs.
   ```bash
-  akash provider lease-logs --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --provider <provider-address>
+  provider-services provider lease-logs --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --provider <provider-address>
   ```
 
 - **Scale Resources**: Modify the SDL file and re-submit for scaling up/down CPU, memory, or storage.

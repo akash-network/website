@@ -74,7 +74,7 @@ deployment:
 Run the following command to ensure your SDL file is valid:
 
 ```
-akash validate deploy.yaml
+provider-services validate deploy.yaml
 ```
 
 ---
@@ -83,20 +83,20 @@ akash validate deploy.yaml
 Submit the deployment to the Akash network:
 
 ```
-akash tx deployment create deploy.yaml --from <your-wallet-name> --node <akash-node-url>
+provider-services tx deployment create deploy.yaml --from <your-wallet-name> --node <akash-node-url>
 ```
 
 ### **Step 5: Bid Selection**
 Once your deployment is live, select a bid:
 
 ```
-akash query market lease list --owner <your-wallet-address> --node <akash-node-url>
+provider-services query market lease list --owner <your-wallet-address> --node <akash-node-url>
 ```
 
 Identify a suitable bid and accept it:
 
 ```
-akash tx market lease create --owner <your-wallet-address> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --provider <provider-address> --from <your-wallet-name>
+provider-services tx market lease create --owner <your-wallet-address> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --provider <provider-address> --from <your-wallet-name>
 ```
 
 ---
@@ -105,7 +105,7 @@ akash tx market lease create --owner <your-wallet-address> --dseq <deployment-se
 1. Get the access details from your provider:
 
    ```
-   akash provider lease-status --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --provider <provider-address> --from <your-wallet-name>
+   provider-services provider lease-status --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --provider <provider-address> --from <your-wallet-name>
    ```
 
 2. Note the `Service URI` for the Grafana service (e.g., `http://<provider-ip>:<port>`).

@@ -69,13 +69,13 @@ deployment:
 ### 1. Akash CLI Guide 
 
 **Prerequisites**:
-- Make sure you have the [Akash CLI](/docs/getting-started/quickstart-guides/akash-cli/) (akash) installed and configured.
+- Make sure you have the [Akash CLI](/docs/getting-started/quickstart-guides/akash-cli/) installed and configured.
 
 **Steps**:
 1. **Initialize the SDL file**: Save the mistral_7b_akash_deployment.yaml file in your working directory.
 2. **Submit the Deployment**: Use the Akash CLI to deploy the file to Akash.
 ```
-akash tx deployment create --from <your_akash_key> --node <akash_node> --dseq <deployment_sequence_number> --sdl mistral_7b_akash_deployment.yaml --fees <fees_in_akt>
+provider-services tx deployment create --from <your_akash_key> --node <akash_node> --dseq <deployment_sequence_number> --sdl mistral_7b_akash_deployment.yaml --fees <fees_in_akt>
 ```
 
 Replace <your_akash_key>, <akash_node>, <deployment_sequence_number>, and <fees_in_akt> with your specific values.
@@ -84,7 +84,7 @@ Replace <your_akash_key>, <akash_node>, <deployment_sequence_number>, and <fees_
 
 4. **Service Validation**: Once the lease is active, find the assigned IP for the service:
 ```
-akash provider lease-status --dseq <deployment_sequence_number> --from <your_akash_key>
+provider-services provider lease-status --dseq <deployment_sequence_number> --from <your_akash_key>
 ```
 
 5. **Access the Service**: You should be able to access the Mistral 7B model at http://<provider-ip>:80.

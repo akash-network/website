@@ -86,19 +86,19 @@ deployment:
 1. **Initialize Deployment:**
    Use the Akash CLI to create and deploy the configuration:
    ```
-   akash tx deployment create deploy.yaml --from <wallet_name>
+   provider-services tx deployment create deploy.yaml --from <wallet_name>
    ```
 
 2. **View Deployment Status:**
    Check the status of your deployment:
    ```
-   akash query deployment list --owner <your_wallet_address>
+   provider-services query deployment list --owner <your_wallet_address>
    ```
 
 3. **Accept a Lease:**
    Once your deployment is created, accept a provider's lease:
    ```
-   akash tx market lease create --dseq <deployment_sequence> --from <wallet_name>
+   provider-services tx market lease create --dseq <deployment_sequence> --from <wallet_name>
    ```
 
 ---

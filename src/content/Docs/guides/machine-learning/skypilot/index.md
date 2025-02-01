@@ -152,11 +152,11 @@ curl https://raw.githubusercontent.com/ovrclk/akash/master/godownloader.sh | sh
 3. Create a deployment using the SDL file:
 
 ```
-akash tx deployment create --from <your-wallet-address> --node <akash-node-url> --fees <fee>
+provider-services tx deployment create --from <your-wallet-address> --node <akash-node-url> --fees <fee>
 ```
 4. Monitor the status of the deployment:
 
 ```
-akash query deployment list --owner <your-wallet-address>
+provider-services query deployment list --owner <your-wallet-address>
 ```
 5. Access the application using the assigned endpoint once the deployment is active.

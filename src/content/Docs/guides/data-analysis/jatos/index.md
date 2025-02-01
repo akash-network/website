@@ -100,11 +100,11 @@ Update the following variables in the SDL file if needed:
 ### 3. **Deploy to Akash**
 1. **Validate SDL File**: Use the Akash CLI to validate your SDL file.
    ```
-   akash tx deployment create deploy.yaml --from <wallet-name>
+   provider-services tx deployment create deploy.yaml --from <wallet-name>
    ```
 2. **Query Deployment**: Check the status of your deployment.
    ```
-   akash query market lease list --owner <your-address>
+   provider-services query market lease list --owner <your-address>
    ```
 3. **Accept a Bid**: Once a provider submits a bid, accept it.
 

@@ -111,32 +111,32 @@ deployment:
 ### **2. Validate the SDL File**
 Run the following command to validate the SDL file:
 ```
-akash deployment sdl validate deploy.yaml
+provider-services deployment sdl validate deploy.yaml
 ```
 
 ### **3. Create the Deployment**
 Create the deployment using:
 ```
-akash tx deployment create deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <node_url>
+provider-services tx deployment create deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <node_url>
 ```
 
 ### **4. Bid for Deployment**
 Wait for providers to submit bids and select a provider:
 ```
-akash tx market lease create --dseq <deployment_sequence> --oseq 1 --gseq 1 --from <your_wallet>
+provider-services tx market lease create --dseq <deployment_sequence> --oseq 1 --gseq 1 --from <your_wallet>
 ```
 
 ### **5. Retrieve Lease Information**
 After the lease is created, get the lease information:
 ```
-akash query market lease list --owner <your_address>
+provider-services query market lease list --owner <your_address>
 ```
 
 ### **6. Access Matomo**
 Once deployed:
 1. Retrieve the service URL or IP using:
    ```
-   akash provider service-status --provider <provider_address> --dseq <deployment_sequence> --from <your_wallet>
+   provider-services provider service-status --provider <provider_address> --dseq <deployment_sequence> --from <your_wallet>
    ```
 2. Configure your domain (if applicable) to point to the service's external IP.
 

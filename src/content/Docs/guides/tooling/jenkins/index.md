@@ -77,7 +77,7 @@ deployment:
 Before deploying, validate the SDL file to ensure correctness.
 
 ```bash
-akash tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <chain-id> --node <node-url> --fees <fee>
+provider-services tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <chain-id> --node <node-url> --fees <fee>
 ```
 
 ---
@@ -87,21 +87,21 @@ akash tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <cha
    Use the Akash CLI to deploy the `jenkins/jenkins` service.
 
    ```bash
-   akash tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <node-url> --fees <fee>
+   provider-services tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <node-url> --fees <fee>
    ```
 
 2. **Check Deployment Status**:
    After deploying, monitor the status to ensure it’s active.
 
    ```bash
-   akash query deployment list --owner <your-wallet-address>
+   provider-services query deployment list --owner <your-wallet-address>
    ```
 
 3. **Bid Matching**:
    Accept a bid for your deployment if necessary.
 
    ```bash
-   akash tx market lease create --owner <your-wallet-address> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --from <wallet-name> --fees <fee>
+   provider-services tx market lease create --owner <your-wallet-address> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --from <wallet-name> --fees <fee>
    ```
 
 ---
@@ -111,7 +111,7 @@ akash tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <cha
    Obtain the external IP and ports for accessing Jenkins.
 
    ```bash
-   akash query market lease list --owner <your-wallet-address>
+   provider-services query market lease list --owner <your-wallet-address>
    ```
 
 2. **Login to Jenkins**:

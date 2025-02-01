@@ -83,20 +83,20 @@ deployment:
 2. **Validate the SDL**:
    Run the following command to validate your SDL file:
    ```bash
-   akash tx deployment validate anythingllm.yaml
+   provider-services tx deployment validate deploy.yaml
    ```
 
 3. **Create the Deployment**:
    Submit the SDL file to the Akash network to create a deployment:
    ```bash
-   akash tx deployment create anythingllm.yaml --from <your-wallet-name>
+   provider-services tx deployment create anythingllm.yaml --from <your-wallet-name>
    ```
 
 4. **Bid on a Provider**:
    After creating the deployment, providers will bid to host it. Accept a suitable bid:
    ```bash
-   akash query market lease list --owner <your-deployment-address>
-   akash tx market lease create --owner <your-deployment-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --from <your-wallet-name>
+   provider-services query market lease list --owner <your-deployment-address>
+   provider-services tx market lease create --owner <your-deployment-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --from <your-wallet-name>
    ```
 
 5. **Access the Application**:
@@ -106,7 +106,7 @@ deployment:
 6. **Monitor Logs**:
    View logs to ensure the service is running correctly:
    ```bash
-   akash provider lease logs --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence>
+   provider-services provider lease logs --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence>
    ```
 
 ---

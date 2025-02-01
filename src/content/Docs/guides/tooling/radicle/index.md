@@ -36,14 +36,14 @@ Prepare a deployment manifest that includes the following parameters:
 
 ```
 
-akash tx deployment create --file deployment.yaml
+provider-services tx deployment create --file deployment.yaml
 
 ```
 
 2. Find the Random Port: Akash Network assigns a random port to your service. Retrieve this port by running:
 
 ```
-akash query deployment info --id <deployment_id>
+provider-services query deployment info --id <deployment_id>
 ```
 
 3. Update External Address: After finding the random port, update the `RAD_EXTERNAL_ADDR` environment variable with the format provider.url:<random_port>.
@@ -54,7 +54,7 @@ export RAD_EXTERNAL_ADDR=provider.url:<random_port>
 4. Deploy the Container: Deploy the container using the updated configuration.
 
 ```
-akash tx deployment deploy --file deployment.yaml
+provider-services tx deployment deploy --file deployment.yaml
 
 
 ```

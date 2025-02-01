@@ -91,18 +91,18 @@ Run the following commands to deploy Airflow on Akash:
 
 1. **Validate Your SDL File**:
    ```
-   akash deployment validate deploy.yaml
+   provider-services deployment validate deploy.yaml
    ```
 
 2. **Send the Deployment**:
    ```
-   akash deployment create deploy.yaml
+   provider-services deployment create deploy.yaml
    ```
 
 3. **Query the Lease**:
    Find the lease created for your deployment:
    ```
-   akash deployment lease-status --dseq <deployment-sequence>
+   provider-services deployment lease-status --dseq <deployment-sequence>
    ```
 
 4. **Access Airflow**:

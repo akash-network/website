@@ -65,11 +65,11 @@ curl https://raw.githubusercontent.com/ovrclk/akash/master/godownloader.sh | sh
 
 2. **Authenticate with Akash using your wallet**:
 ```
-akash tx authz grant <your_wallet_address> --from <your_wallet_name> --keyring-backend <keyring-backend>
+provider-services tx authz grant <your_wallet_address> --from <your_wallet_name> --keyring-backend <keyring-backend>
 ```
 3. **Submit the Deployment**:
 ```
-akash tx deployment create --owner <your_wallet_address> --from <your_wallet_name> --dseq <unique_deployment_sequence> --keyring-backend <keyring-backend> --node https://rpc-akash.<network>.org --chain-id akashnet-2 --file kibana_deployment.yaml
+provider-services tx deployment create --owner <your_wallet_address> --from <your_wallet_name> --dseq <unique_deployment_sequence> --keyring-backend <keyring-backend> --node https://rpc-akash.<network>.org --chain-id akashnet-2 --file kibana_deployment.yaml
 ```
 4. **Approve the Bid and Lease**: Use Akash CLI or Akashlytics to view and accept bids for your deployment. Once you find a provider, you can finalize the lease.
 

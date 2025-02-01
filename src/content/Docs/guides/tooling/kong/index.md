@@ -89,7 +89,7 @@ Before you can deploy, make sure your SDL file is valid:
 1. Save the SDL file as `deploy.yaml`.
 2. Validate the SDL file using the Akash CLI:
    ```bash
-   akash tx deployment validate deploy.yaml
+    provider-services tx deployment validate deploy.yaml
    ```
 
 ---
@@ -99,25 +99,25 @@ Before you can deploy, make sure your SDL file is valid:
 1. **Submit the Deployment**  
    Deploy the SDL file with the Akash CLI:
    ```bash
-   akash tx deployment create deploy.yaml --from <your-account>
+   provider-services tx deployment create deploy.yaml --from <your-account>
    ```
 
 2. **Monitor Deployment Status**  
    To check the status of your deployment:
    ```bash
-   akash query deployment list --owner <your-address>
+   provider-services query deployment list --owner <your-address>
    ```
 
 3. **Accept a Bid**  
    When a provider bids on your deployment, accept that bid:
    ```bash
-   akash tx deployment lease create --from <your-account> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --provider <provider-address>
+   provider-services tx deployment lease create --from <your-account> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --provider <provider-address>
    ```
 
 4. **Access Kong**  
    After the deployment has been activated, retrieve the access details (IP and port) for your Kong API Gateway by querying the lease:
    ```bash
-   akash query lease status --owner <your-address> --provider <provider-address> --dseq <deployment-sequence>
+   provider-services query lease status --owner <your-address> --provider <provider-address> --dseq <deployment-sequence>
    ```
 
 ---
@@ -137,7 +137,7 @@ To ensure Kong is operational:
 - **Update Deployment:** Adjust your `deploy.yaml` file and redeploy using the same commands.
 - **Stop Deployment:** To cancel your lease and stop the deployment:
   ```bash
-  akash tx deployment close --from <your-account> --dseq <deployment-sequence>
+  provider-services tx deployment close --from <your-account> --dseq <deployment-sequence>
   ```
 
 ---

@@ -27,7 +27,7 @@ Download and edit the YAML file [here](https://github.com/akash-network/awesome-
 
 ```
 
-akash tx deployment create deploy.yml --from <your-akash-account> --node https://rpc-akash.chain-1.com --chain-id akashnet-2 --fees 5000uakt
+provider-services tx deployment create deploy.yaml -from $AKASH_KEY_NAME
 
 ```
 
@@ -36,8 +36,7 @@ akash tx deployment create deploy.yml --from <your-akash-account> --node https:/
 
 ```
 
-akash query deployment get <deployment-id>
-
+provider-services lease-status -dseq $AKASH_DSEQ -from $AKASH_KEY_NAME -provider $AKASH_PROVIDER
 
 ```
 

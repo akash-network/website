@@ -62,7 +62,7 @@ Make sure you have the Akash CLI installed and configured.
 
     
     ```
-    akash tx deployment create <your_sdl_file>.yml --from <your_wallet> --chain-id <chain_id> --node <node_url>
+    provider-services tx deployment create <your_sdl_file>.yml --from <your_wallet> --chain-id <chain_id> --node <node_url>
     ```
 
     2. **Wait for bid completion and accept the lease**: You’ll need to monitor for a bid and accept the lease using Akash CLI commands.

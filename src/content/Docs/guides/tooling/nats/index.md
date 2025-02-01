@@ -94,7 +94,7 @@ deployment:
 Run the following command to create a deployment on Akash:
 
 ```bash
-akash tx deployment create deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
+provider-services tx deployment create deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
 ```
 
 Replace:
@@ -106,7 +106,7 @@ Replace:
 Use this command to check the status of your deployment:
 
 ```bash
-akash query deployment list --owner <your_address>
+provider-services query deployment list --owner <your_address>
 ```
 
 Once approved, you’ll get the `lease_id`.
@@ -118,7 +118,7 @@ Once approved, you’ll get the `lease_id`.
 After the provider accepts the deployment, create a lease using:
 
 ```bash
-akash tx market lease create --dseq <deployment_sequence> --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
+provider-services tx market lease create --dseq <deployment_sequence> --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
 ```
 
 ---
@@ -129,7 +129,7 @@ akash tx market lease create --dseq <deployment_sequence> --from <your_wallet> -
 Run the following command to retrieve the endpoint of your deployment:
 
 ```bash
-akash query market lease get --owner <your_address> --dseq <deployment_sequence> --gseq 1 --oseq 1 --provider <provider_address>
+aprovider-services query market lease get --owner <your_address> --dseq <deployment_sequence> --gseq 1 --oseq 1 --provider <provider_address>
 ```
 
 ### 2. **Connect to NATS**
@@ -161,13 +161,13 @@ http://<provider_endpoint>:8222
 ### **To Update Deployment**:
 Modify the SDL file and use:
 ```bash
-akash tx deployment update deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
+ provider-services tx deployment update deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
 ```
 
 ### **To Close Deployment**:
 Terminate the deployment when it’s no longer needed:
 ```bash
-akash tx deployment close --dseq <deployment_sequence> --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
+provider-services tx deployment close --dseq <deployment_sequence> --from <your_wallet> --chain-id <chain_id> --node <rpc_node> --fees 5000uakt -y
 ```
 
 ---

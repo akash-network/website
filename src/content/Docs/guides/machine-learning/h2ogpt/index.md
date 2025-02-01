@@ -99,20 +99,20 @@ deployment:
     - Save the SDL file as deploy.yaml.
     - Create the deployment:
     ```
-    akash tx deployment create h2ogpt-deployment.yaml --from <your-wallet-name> --node https://rpc.akashnet.io:443 --chain-id akashnet-2
+    provider-services tx deployment create h2ogpt-deployment.yaml --from <your-wallet-name> --node https://rpc.akashnet.io:443 --chain-id akashnet-2
     ```
     - Query for bids:
     ```
-    akash query market bid list --owner <your-wallet-address> --node https://rpc.akashnet.io:443
+    provider-services query market bid list --owner <your-wallet-address> --node https://rpc.akashnet.io:443
     ```
     - Accept a bid:
     ```
-    akash tx market lease create --owner <your-wallet-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --provider <provider-address> --from <your-wallet-name>
+    provider-services tx market lease create --owner <your-wallet-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence> --provider <provider-address> --from <your-wallet-name>
     ```
 4. Retrieve Deployment Logs: Use the following command to check the logs:
 
 ```
-akash provider lease-logs --provider <provider-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence>
+provider-services provider lease-logs --provider <provider-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence>
 ```
 
 5. Access h2oGPT: Find the deployment's external IP or domain in the logs, then navigate to it in your browser.

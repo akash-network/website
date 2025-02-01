@@ -121,26 +121,26 @@ deployment:
 
 1. **Initialize Deployment**:
    ```bash
-   akash tx deployment create <path_to_sdl_file> --from <your_wallet_address> --node <node_url> --chain-id <chain_id>
+   provider-services tx deployment create <path_to_sdl_file> --from <your_wallet_address> --node <node_url> --chain-id <chain_id>
    ```
 
 2. **Query Lease**:
    Find available providers and create a lease:
    ```bash
-   akash query market lease list --owner <your_wallet_address>
-   akash tx market lease create --dseq <deployment_sequence> --oseq <order_sequence> --gseq <group_sequence> --from <your_wallet_address>
+   provider-services query market lease list --owner <your_wallet_address>
+   provider-services tx market lease create --dseq <deployment_sequence> --oseq <order_sequence> --gseq <group_sequence> --from <your_wallet_address>
    ```
 
 3. **Verify Deployment**:
    Ensure the deployment is active and the services are running:
    ```bash
-   akash query deployment get --owner <your_wallet_address> --dseq <deployment_sequence>
+   provider-services vquery deployment get --owner <your_wallet_address> --dseq <deployment_sequence>
    ```
 
 4. **Access the Website**:
    - Obtain the deployment's public IP or domain:
      ```bash
-     akash query provider lease-status --owner <your_wallet_address> --dseq <deployment_sequence> --provider <provider_address>
+     provider-services query provider lease-status --owner <your_wallet_address> --dseq <deployment_sequence> --provider <provider_address>
      ```
    - Configure DNS to map your domain to the provided IP or access via the generated IP.
 

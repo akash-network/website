@@ -98,19 +98,19 @@ deployment:
 
 2. **Authenticate to Akash:**
    ```
-   akash wallet import <your-wallet-key>
+   provider-services wallet import <your-wallet-key>
    ```
 
 3. **Submit the Deployment:**
    ```
-   akash tx deployment create kafka-deployment.yml --from <your-wallet-address>
+   provider-services tx deployment create kafka-deployment.yml --from <your-wallet-address>
    ```
 
 4. **Bid on the Deployment:**
    Use the Akash CLI to review provider bids and accept a bid:
    ```
-   akash query market lease list --owner <your-wallet-address>
-   akash tx market lease create --dseq <deployment-sequence> --from <your-wallet-address>
+   provider-services query market lease list --owner <your-wallet-address>
+   provider-services tx market lease create --dseq <deployment-sequence> --from <your-wallet-address>
    ```
 
 ---
@@ -120,13 +120,13 @@ deployment:
 1. **Check Logs:**
    Use the Akash CLI to view the logs and ensure the services are running:
    ```
-   akash provider lease-logs --dseq <deployment-sequence> --from <your-wallet-address>
+   provider-services provider lease-logs --dseq <deployment-sequence> --from <your-wallet-address>
    ```
 
 2. **Access Kafka:**
    Once deployed, Akash will assign an external hostname or IP for your Kafka service. You can retrieve it using:
    ```
-   akash provider lease-status --dseq <deployment-sequence> --from <your-wallet-address>
+   provider-services provider lease-status --dseq <deployment-sequence> --from <your-wallet-address>
    ```
 
    Use the `KAFKA_ADVERTISED_LISTENERS` address to interact with Kafka clients.
@@ -159,7 +159,7 @@ Install Kafka's CLI tools on your local machine and configure them to interact w
 - **Monitor Resource Usage:**
   Regularly monitor the usage of your deployment to ensure sufficient resources are allocated.
   ```
-  akash provider lease-status --dseq <deployment-sequence>
+  provider-services provider lease-status --dseq <deployment-sequence>
   ```
 
 - **Scale the Deployment:**

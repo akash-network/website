@@ -102,19 +102,19 @@ deployment:
 1. **Validate the SDL File:**
    Run the following command to ensure the SDL file is valid:
    ```bash
-   akash validate flink-deployment.yml
+   provider-services validate flink-deployment.yml
    ```
 
 2. **Create a Deployment:**
    Deploy the application to Akash:
    ```bash
-   akash tx deployment create flink-deployment.yml --from <your-account>
+   provider-services tx deployment create flink-deployment.yml --from <your-account>
    ```
 
 3. **Wait for the Deployment to Be Approved:**
    After submitting your deployment, wait for a provider to accept it. You can view the status with:
    ```bash
-   akash query deployment list --owner <your-wallet-address>
+   provider-services query deployment list --owner <your-wallet-address>
    ```
 
 4. **Access the Flink Dashboard:**

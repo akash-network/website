@@ -80,20 +80,20 @@ deployment:
 ### **2. Deploy to Akash**
 1. **Initialize Deployment:**
    ```
-   akash tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <node-address>
+   provider-services tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <node-address>
    ```
 
 2. **Bid and Accept Lease:**
    After submitting the deployment, monitor the bid and accept the lease once a provider is found:
    ```
-   akash query market bid list
-   akash tx market lease create --dseq <deployment-seq> --gseq <group-seq> --oseq <order-seq> --provider <provider-address> --from <wallet-name>
+   provider-services query market bid list
+   provider-services tx market lease create --dseq <deployment-seq> --gseq <group-seq> --oseq <order-seq> --provider <provider-address> --from <wallet-name>
    ```
 
 3. **Verify Deployment:**
    Check the status of your deployment:
    ```
-   akash query deployment get --dseq <deployment-seq>
+   provider-services query deployment get --dseq <deployment-seq>
    ```
 
 ---

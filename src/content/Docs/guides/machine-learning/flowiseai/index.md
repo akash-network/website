@@ -85,19 +85,19 @@ deployment:
 1. **Validate the SDL File**:
    Run the following command to validate the SDL file:
    ```bash
-   akash tx deployment create <sdl-file-path> --from <wallet-name> --chain-id <chain-id>
+   provider-services tx deployment create <sdl-file-path> --from <wallet-name> --chain-id <chain-id>
    ```
 
 2. **Check Deployment Status**:
    Use the command below to verify your deployment:
    ```bash
-   akash query deployment list --owner <wallet-address>
+   provider-services query deployment list --owner <wallet-address>
    ```
 
 3. **Bid Selection**:
    Select a provider from the available bids list and accept the bid to finalize your deployment:
    ```bash
-   akash tx market lease create --from <wallet-name> --chain-id <chain-id> --bid-id <bid-id>
+   provider-services tx market lease create --from <wallet-name> --chain-id <chain-id> --bid-id <bid-id>
    ```
 
 ---

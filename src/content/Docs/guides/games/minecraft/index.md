@@ -92,19 +92,19 @@ Use the Akash CLI to deploy your server.
 
 1. **Create the Deployment:**
    ```bash
-   akash tx deployment create <path-to-sdl> --from <your-wallet> --chain-id <chain-id>
+   provider-services tx deployment create <path-to-sdl> --from <your-wallet> --chain-id <chain-id>
    ```
 
 2. **Bid for Resources:**
    Wait for providers to respond with bids. Accept a bid using the CLI:
    ```bash
-   akash tx market lease create --dseq <deployment-sequence> --from <your-wallet> --chain-id <chain-id>
+   provider-services tx market lease create --dseq <deployment-sequence> --from <your-wallet> --chain-id <chain-id>
    ```
 
 3. **Monitor the Deployment:**
    Use the following command to check the status of your deployment:
    ```bash
-   akash query market lease list --owner <your-wallet>
+   provider-services query market lease list --owner <your-wallet>
    ```
 
 ---
@@ -122,7 +122,7 @@ To manage or update your Minecraft server:
 - Redeploy the updated SDL using the Akash CLI.
 - Use the Akash logs to monitor server activity:
   ```bash
-  akash logs --dseq <deployment-sequence> --from <your-wallet>
+  provider-services logs --dseq <deployment-sequence> --from <your-wallet>
   ```
 
 ---
