@@ -174,7 +174,7 @@ const latestRoadmapYear = getYearToUse();
   {
     visibilty.development.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
-      <div class="flex justify-end p-2"><CalendarModal client:load /></div>
+      <div class="flex justify-end p-2 bg-background"><CalendarModal client:load /></div>
     )
   }
   {
