@@ -58,6 +58,7 @@ export const docsSequence = [
                   { label: "Build a Cloud Provider (Windows Machine)" },
                   { label: "Sudo User Requirements" },
                   { label: "Decommission a Provider" },
+                  { label: "Provider Console"},
                 ],
               },
             ],
