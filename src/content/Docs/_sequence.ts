@@ -31,13 +31,6 @@ export const docsSequence = [
       },
       { label: "Architecture", subItems: [{ label: "Architecture Overview" }] },
       {
-        label: "Provider Console",
-        subItems: [
-          { label: "How to Enable Root Sign-in"},
-          { label: "Provider Console"},  
-        ],
-      },
-      {
         label: "Deployments",
         subItems: [
           { label: "Deployment Overview" },
@@ -68,6 +61,13 @@ export const docsSequence = [
                   
                 ],
               },
+            ],
+          },
+          {
+            label: "Provider Console",
+            subItems: [
+              { label: "How to Enable Root Sign-in"},
+              { label: "Provider Console"},  
             ],
           },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },

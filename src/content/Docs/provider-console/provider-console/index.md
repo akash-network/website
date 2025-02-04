@@ -15,7 +15,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
 ## Prerequisites:
 1. **Akash Wallet with Sufficient Funds:** Ensure you have an account on Keplr Wallet with at least 30 AKT in it. 
 2. **Provider Node:** To be a provider on Akash, you must have a node set up to offer resources. This could be a cloud server, a bare metal machine, or any server capable of hosting containers.ç
-3. **Be logged in to your machine as the root user:**  You shouold be the root user, and should have configured your machine 
+3. **Be logged in to your machine as the root user:**  You shouold be the root user, and should have configured your machine. If you have not done that yet, please follow the [guide](../root-sign-in/) 
 
 
 ## Step 1: Log in to the Akash Console
@@ -69,7 +69,37 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
  ![](../../assets/worker_nodes.png)
 
-   6. What the attributes are
+   6. What the attributes are: 
+   - **`Public IP`**: This is the public IP of your machine. You can find it by running 
+
+   `ig +short myip.opendns.com @resolver1.opendns.com`. 
+
+   It would return your public IP which should look like:
+
+   `127.81.125.35`
+
+   This would only work if you are online.
+
+   - **`Private IP`**: This is your machine's private IP address. 
+   To find it use the following command if you are using a Wi-Fi connection
+
+   `ipconfig getifaddr en0`
+
+   and the following if you are using a wired connection:
+
+   `ipconfig getifaddr en1 `
+
+   
+
+   - **`Port`**: This is set at `22` by default. Do not change it, as this is allows access to your SSH client.
+
+   - **`SSH Username`**: This is the SSH Username of your machine. It should be set to root. You may follow this [guide](../root-sign-in/) to set it up if you have not done so yet. 
+
+   - **`File`**: This is one of two options to provide your login credentials. You would upload your SSH key file here. It is the prefered credential method.
+
+   -**`Password`**: This is the second option to provide yopur login credentials. You woulld need to enable logging into your machine with password. It is advised that you use the file method. 
+
+
 
    5. Review the attributes you provided:
 
