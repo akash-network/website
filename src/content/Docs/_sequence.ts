@@ -31,6 +31,13 @@ export const docsSequence = [
       },
       { label: "Architecture", subItems: [{ label: "Architecture Overview" }] },
       {
+        label: "Provider Console",
+        subItems: [
+          { label: "How to Enable Root Sign-in"},
+          { label: "Provider Console"},  
+        ],
+      },
+      {
         label: "Deployments",
         subItems: [
           { label: "Deployment Overview" },
@@ -58,7 +65,7 @@ export const docsSequence = [
                   { label: "Build a Cloud Provider (Windows Machine)" },
                   { label: "Sudo User Requirements" },
                   { label: "Decommission a Provider" },
-                  { label: "Provider Console"},
+                  
                 ],
               },
             ],
