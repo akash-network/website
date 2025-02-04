@@ -115,10 +115,10 @@ aiModelsAndAppsSection:
       description: "Mistral-7B-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters by Mistral AI. This application is running on NVIDIA GPUs leased from the Akash Supercloud."
       link: "https://chat.akash.network/"
 
-    - title: "Akash SDXL"
-      image: "./assets/tools/2.svg"
-      description: "SDXL is a high quality text-to-image model from Stability AI. This application is running on NVIDIA A100s leased from the Akash Supercloud, to achieve high-performing and cost-effective inference of 1024×1024 images."
-      link: "https://sdxl.akash.network/"
+    - title: "AkashGen"
+      image: "./assets/tools/2.png"
+      description: "AkashGen is a high quality text-to-image model from Stability AI. This application is running on NVIDIA A100s leased from the Akash Supercloud, to achieve high-performing and cost-effective inference of 1024×1024 images."
+      link: "https://gen.akash.network/"
 
 
     - title: "Ray cluster on Akash"
