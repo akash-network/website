@@ -75,7 +75,7 @@ permitrootlogin prohibit-password
  passwordauthentication no
 ```
 
-11. Finally, make sure you open the following IP addresses:
+11. Finally, make sure you open the following ports:
 
 `2379`-`2380`, `6443`, `30000`,`32676`, `22`, `8443`, `8444`, `80`, `443`.
 

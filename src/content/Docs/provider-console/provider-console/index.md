@@ -72,7 +72,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
    6. What the attributes are: 
    - **`Public IP`**: This is the public IP of your machine. You can find it by running 
 
-   `ig +short myip.opendns.com @resolver1.opendns.com`. 
+   `dig +short myip.opendns.com @resolver1.opendns.com`. 
 
    It would return your public IP which should look like:
 
@@ -83,13 +83,13 @@ This guide will walk you through the process of setting up an **Akash Provider**
    - **`Private IP`**: This is your machine's private IP address. 
    To find it use the following command if you are using a Wi-Fi connection
 
-   `ipconfig getifaddr en0`
+   `hostname -I`
 
-   and the following if you are using a wired connection:
+   You should receive a response similar to:
 
-   `ipconfig getifaddr en1 `
+   `172.31.13.12`
 
-   
+
 
    - **`Port`**: This is set at `22` by default. Do not change it, as this is allows access to your SSH client.
 
@@ -101,17 +101,17 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
 
 
-   5. Review the attributes you provided:
+   7. Review the attributes you provided:
 
  ![](../../assets/review_pov.png)
 
-   6. 
+  
 
-   6. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
+   8. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
 
  ![](../../assets/pricing.png)
 
-   7. Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or  manually doing so. 
+   9. Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or  manually doing so. 
 
     **Importing Automatically**
    
@@ -119,7 +119,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
    
    - You would then be asked to enter your seed phrase. You should use the seed phrase from the same wallet you connected to `Provider Console` with. 
 
-  8. Once you do that, it should start building your cluster. 
+  10. Once you do that, it should start building your cluster. 
 
  ![](../../assets/beginning.png)
 
@@ -127,7 +127,9 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
  ![](../../assets/complete.png)
 
- And, *voila!* your machine is now a provider. 
+  11. Make DNS Changes: For your domain to work, you would need to point your machines' public IPs to the `provider.example.com` domain name and the `*.ingress.example.com` domain name. This would need to be configured from your domain registrar's control panel. As the methods vary widely per domain registrar, please check the specific registrar docs for instructions. 
+
+
 
    ## Conclusion
 
