@@ -16,6 +16,7 @@ import arrowUpRight from "../../../assets/icons/arrow-up-right.svg";
 import IpsBrand from "../../../assets/ips-brand.svg";
 import MemoryBrand from "../../../assets/memory-brand.svg";
 import StorageBrand from "../../../assets/storage-brand.svg";
+import SpeakToExpert from "../SpeakToExpert";
 import MonthEarning from "./month-earning";
 import PricingUnit from "./pricing-unit";
 
@@ -326,17 +327,22 @@ export const Tables = ({
               checked={aktAverage}
             />
           </div>
-          <a
-            id={`become-a-provider-(gpus)`}
-            href={`/providers/`}
-            target="_blank"
-            className=" flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2"
-          >
-            <p className="font-medium leading-[24px] text-white">
-              Become a Provider
-            </p>
-            <img src={arrowUpRight.src} alt="" className="hidden lg:block" />
-          </a>
+          <div className="flex flex-col gap-3">
+            <a
+              id={`become-a-provider-(gpus)`}
+              href={`/providers/`}
+              target="_blank"
+              className=" flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2"
+            >
+              <p className="font-medium leading-[24px] text-white">
+                Become a Provider
+              </p>
+              <img src={arrowUpRight.src} alt="" className="hidden lg:block" />
+            </a>
+            <div className="md:hidden">
+              <SpeakToExpert />
+            </div>
+          </div>
         </div>
 
         <div className="flex w-full flex-col gap-10  rounded-md border bg-background2 px-4 py-8 shadow-sm md:w-[340px] md:p-6">
@@ -376,6 +382,9 @@ export const Tables = ({
             title="Total Endpoint Earnings"
             value={`$${usdPrices.endpointTotalPrice.toFixed(2)}`}
           />
+        </div>
+        <div className="hidden md:block">
+          <SpeakToExpert />
         </div>
       </div>
 
