@@ -21,20 +21,28 @@ This guide will walk you through the process of setting up an **Akash Provider**
 ## Step 1: Log in to the Akash Console
 - Go to the [Akash Provider Console](https://provider-console.akash.network/) in your browser.
 
+
 ![](../../assets/provider_lp.png)
 
 - Click on `connect wallet`.
+
 
 ![](../../assets/connect_wallet.png)
 
 - Select `Keplr`, sign into your wallet, and approve the network collection request.
 
+
 ![](../../assets/select_keplr.png)
 
-- ![](../../assets/wallet_login.png)
-- ![](../../assets/approved.png)
+
+![](../../assets/wallet_login.png)
+
+
+![](../../assets/approved.png)
+
 
 - Once you sign in successfully, you be on the `Create Provider` page. 
+
 
 ![](../../assets/provider_landing.png)
 
@@ -45,13 +53,16 @@ This guide will walk you through the process of setting up an **Akash Provider**
  You may now go ahead and create a provider to lease out to users. 
 
    1. Click on the `Create Provider` button. You will be redirected to the`Import Wallet` page. 
+
    
  ![](../../assets/import_wallet.png)
 
 
    2. In `Server Access`, enter the number of servers you want to provide. If you intend to have both `control plane` and `worker` nodes, you should provide at least 2 servers.
 
+
  ![](../../assets/server_access.png)
+
 
 
  ![](../../assets/server_count.png)
@@ -85,23 +96,29 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
    `172.31.13.12`
 
+
  ![](../../assets/control_plane.png)
 
    4. Fill in your provider configurations
 
+
  ![](../../assets/provider_info.png)
 
+
    5. If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses. 
+
 
  ![](../../assets/worker_nodes.png)
 
   6. Review the attributes you provided:
+
 
  ![](../../assets/review_pov.png)
 
   
 
    7. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
+
 
  ![](../../assets/pricing.png)
 
@@ -115,9 +132,13 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
   9. Once you do that, it should start building your cluster. 
 
+
+
  ![](../../assets/beginning.png)
 
  If your settings and configurations are done correctly, you should be done in a couple of minutes. 
+
+
 
  ![](../../assets/complete.png)
 
