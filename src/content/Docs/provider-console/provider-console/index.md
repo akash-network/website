@@ -64,7 +64,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
    - **`File`**: This is one of two options to provide your login credentials. You would upload your SSH key file here. It is the prefered credential method.
 
-   -**`Password`**: This is the second option to provide yopur login credentials. You woulld need to enable logging into your machine with password. It is advised that you use the file method. 
+   - **`Password`**: This is the second option to provide yopur login credentials. You woulld need to enable logging into your machine with password. It is advised that you use the file method. 
 
  ![](../../assets/control_plane.png)
 
