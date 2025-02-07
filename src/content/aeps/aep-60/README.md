@@ -22,25 +22,76 @@ Akash at Home is an initiative to transform residential computing resources into
 - Democratize access to AI infrastructure
 - Create a decentralized network of home-based compute resources
 
-## Model A: Production Grade Edge Datacenter at Home
+## Model A: Residential Edge Datacenter
 
-A production-grade edge data center at home consists of high-performance computing hardware optimized for AI inference workloads. This setup enables running sophisticated AI models locally, such as DeepSeek R1 (671B parameters), achieving speeds of 3,872 tokens per second. Key components include:
+A production-grade edge data center at home transforms residential space into a professional AI compute facility. This setup enables running sophisticated AI models locally with performance comparable to cloud providers. For example, it can run large language models like DeepSeek R1 (671B parameters) at speeds of 3,872 tokens per second - matching or exceeding cloud performance while maintaining data privacy and control.
 
-- Enterprise-grade GPU infrastructure
-- High-bandwidth networking
-- Redundant power systems
-- Advanced cooling solutions
+Key components of this infrastructure include:
 
-In this scenario, we propose a topology with feasibility in Austin, Texas, where you're effectively acquiring the data center at no cost using Akash over a 5-year window.
+- Enterprise-grade GPU servers with latest NVIDIA H200 GPUs
+- High-bandwidth networking (10+ Gbps) with redundant ISP connections  
+- Redundant power systems with UPS and optional solar backup
+- Advanced cooling solutions using liquid and air systems
+- Professional rack mounting and cable management
+- Remote monitoring and management capabilities
+
+This model outlines a practical topology for implementing such a facility in Austin, Texas.
+Through Akash's decentralized compute marketplace, the capital costs can be recovered within a 5-year window by renting excess capacity - effectively acquiring a private data center at neutral cost while maintaining priority access for your own workloads.
 
 ### Hardware Requirements
 
 - **High-Density GPU Servers:** The facility will host 5 × 8-GPU NVIDIA HGX H200 servers (total 40 GPUs). Each server is configured similarly to an AWS p5.48xlarge instance, with 8 H200 GPUs connected via NVLink/NVSwitch for high-bandwidth peer-to-peer communication (up to ~900 GB/s interconnect)​[^SECUREMACHINERY.COM]. Each server includes dual high-end CPUs (e.g. 3rd Gen AMD EPYC), ~2 TB of RAM, and ~30 TB of NVMe SSD storage, matching the p5.48xlarge specs​[^AWS.AMAZON.COM].
-This ensures each server can deliver performance comparable to AWS’s top GPU instances. This ensures each server can deliver performance comparable to AWS’s top GPU instances.
+This ensures each server can deliver performance comparable to AWS’s top GPU instances​[^AWS.AMAZON.COM]. 
 - **NVLink Switch Fabric**: An NVSwitch (NVLink Switch) is integrated into each HGX H200 baseboard, allowing all 8 GPUs in a server to directly communicate at full bandwidth. This provides ~3.6 TB/s bisection bandwidth within each server​[^AWS.AMAZON.COM], critical for multi-GPU training efficiency. The NVLink/NVSwitch fabric is a core component to match AWS’s architecture.
 - **Rack Infrastructure:** All equipment will be mounted in a standard 42U data center rack. The 5 GPU servers (each ~4U–6U form factor) occupy roughly 20–30U, leaving space for networking gear and cooling components. Power Distribution Units (PDUs) (likely two for redundancy) are installed in-rack to supply power to each server’s dual PSUs. The PDUs must handle high load (total ~28 kW, see power section) and provide appropriate outlets (e.g. IEC 309 or HPC connectors) on 208–240V circuits. Each server’s PSU will connect to separate A/B power feeds for redundancy.
 - **Networking Hardware:** A high-bandwidth Top-of-Rack switch is required to interconnect servers and uplinks. A 10 GbE (or 25 GbE) managed switch with at least 8–16 ports will connect the GPU nodes and the uplink to the ISPs. This switch should support the full 10 Gbps Internet feed and internal traffic between servers (which may need higher throughput if servers communicate). Additionally, a capable router/firewall is needed to manage dual ISP connections and failover. For example, an enterprise router with dual 10G WAN ports can handle BGP or failover configurations for the two ISPs and Starlink backup.
 - **Ancillary Components:** Miscellaneous rack components include cable management, rack-mounted KVM or remote management devices (though IPMI/BMC on servers allows remote control, minimizing on-site interaction), and environmental sensors (temperature, humidity, smoke) for monitoring. Cooling apparatus may also be integrated (e.g. a rack-mounted liquid cooling distribution unit or rear-door heat exchanger – discussed in Cooling section). All components are chosen to ensure high uptime and remote manageability, aligning with the goal of minimal on-site staff.
+
+```
++--------------------------------------------------------------------------------+
+|                             DATA CENTER 42U RACK                               |
+|                                                                                |
+|  ┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────┐   |
+|  | GPU Server 1 (4U-6U)    |     | GPU Server 2 (4U-6U)    | ... | GPU     |   |
+|  |─────────────────────────|     |─────────────────────────|     | Server  |   |
+|  | • 8 x NVIDIA HGX H200   |     | • 8 x NVIDIA HGX H200   |     | 5(4U-6U)|   |
+|  |   GPUs per server       |     |   GPUs per server       |     |         |   |
+|  | • NVLink/NVSwitch       |     | • NVLink/NVSwitch       |     |         |   |
+|  |   Fabric (~3.6 TB/s)    |     |   Fabric (~3.6 TB/s)    |     |         |   |
+|  | • Dual high-end CPUs    |     | • Dual high-end CPUs    |     |         |   |
+|  |   (e.g., 3rd Gen AMD)   |     |   (e.g., 3rd Gen AMD)   |     |         |   |
+|  | • ~2 TB RAM, ~30 TB     |     | • ~2 TB RAM, ~30 TB     |     |         |   |
+|  |   NVMe SSD storage      |     |   NVMe SSD storage      |     |         |   |
+|  └─────────────────────────┘     └─────────────────────────┘     └─────────┘   |
+|          (Total of 5 GPU Servers, ~20–30U allocated)                           |
+|                                                                                |
+|  ┌────────────────────────────────────────────────────────────────────────┐    |
+|  |            Top-of-Rack Network Hardware (1 Unit)                       |    |
+|  | ────────────────────────────────────────────────────────────────────── |    |
+|  | • Managed 10/25 GbE switch (8–16 ports)                                |    |
+|  | • Uplink ports for dual ISP connections (with Starlink backup)         |    |
+|  | • Interconnects GPU nodes for high-throughput internal traffic         |    |
+|  └────────────────────────────────────────────────────────────────────────┘    |
+|                                                                                |
+|  ┌────────────────────────────────────────────────────────────────────────┐    |
+|  |          Power Distribution Units (PDUs) (1–2 Units)                   |    |
+|  | ────────────────────────────────────────────────────────────────────── |    |
+|  | • Dual redundant PDUs                                                  |    |
+|  | • Each server’s dual PSU connects to separate A/B feeds                |    |
+|  | • Handles high load (~28 kW on 208–240V circuits, IEC 309/HPC connec)  |    |
+|  └────────────────────────────────────────────────────────────────────────┘    |
+|                                                                                |
+|  ┌────────────────────────────────────────────────────────────────────────┐    |
+|  |             Ancillary & Environmental Components (1 Unit)              |    |
+|  | ────────────────────────────────────────────────────────────────────── |    |
+|  | • Cable management & rack-mounted KVM/remote management devices        |    |
+|  | • Environmental sensors (temperature, humidity, smoke)                 |    |
+|  | • Integrated cooling: liquid cooling distribution unit or rear-door    |    |
+|  |   heat exchanger                                                       |    |
+|  └────────────────────────────────────────────────────────────────────────┘    |
+|                                                                                |
++--------------------------------------------------------------------------------+
+```
 
 ### Power and Cooling Considerations
 
