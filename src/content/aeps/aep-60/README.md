@@ -295,6 +295,7 @@ Over five years, the cumulative revenue would be roughly ~$2.46 million. This as
 
 #### 5-Year Profitability Outlook
 
+<!-- 
 ```mermaid
 xychart-beta
     title "Annual Revenue Over Time"
@@ -302,6 +303,7 @@ xychart-beta
     y-axis "Revenue (USD)" 0 --> 700000
     bar [645000, 561000, 477000, 420000, 364000]
 ```
+-->
 
 To evaluate profitability, we compare the revenue against expenses and include the residual value of hardware after 5 years:
 
