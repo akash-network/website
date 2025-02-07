@@ -20,6 +20,7 @@ import {
 import clsx from "clsx";
 import { ArrowRightCircle, ChevronDown } from "lucide-react";
 import { Fragment } from "react";
+import SpeakToExpert from "../pricing-page/SpeakToExpert";
 import {
   communityItems,
   developmentItems,
@@ -236,7 +237,7 @@ const Panel = ({
         </div>
 
         <div className="flex flex-col gap-y-6">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3">
             <a
               href="https://console.akash.network/"
               id="console-header"
@@ -244,6 +245,7 @@ const Panel = ({
             >
               Deploy Now
             </a>
+            <SpeakToExpert />
           </div>
 
           <div className="flex items-center justify-between border-t border-border py-7 text-para">
