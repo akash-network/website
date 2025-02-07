@@ -52,10 +52,14 @@ This guide will walk you through the process of setting up an **Akash Provider**
 ## Step 2: Set Up Your Provider Console
  You may now go ahead and create a provider to lease out to users. 
 
-   1. Click on the `Create Provider` button. You will be redirected to the`Import Wallet` page. 
+   1. Click on the `Create Provider` button. 
+
+
+   ![](../../assets/server_access.png)
 
    
- ![](../../assets/import_wallet.png)
+  
+    You will be redirected to the Server Access Page
 
 
    2. In `Server Access`, enter the number of servers you want to provide. If you intend to have both `control plane` and `worker` nodes, you should provide at least 2 servers.
