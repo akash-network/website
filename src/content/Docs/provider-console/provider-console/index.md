@@ -66,17 +66,6 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
    - **`Password`**: This is the second option to provide yopur login credentials. You woulld need to enable logging into your machine with password. It is advised that you use the file method. 
 
- ![](../../assets/control_plane.png)
-
-   4. Fill in your provider configurations
-
- ![](../../assets/provider_info.png)
-
-   5. If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses. 
-
- ![](../../assets/worker_nodes.png)
-
-   6. What the attributes are: 
    - **`Public IP`**: This is the public IP of your machine. You can find it by running 
 
    `curl -s ifconfig.me`. 
@@ -96,20 +85,27 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
    `172.31.13.12`
 
+ ![](../../assets/control_plane.png)
 
+   4. Fill in your provider configurations
 
+ ![](../../assets/provider_info.png)
 
-   7. Review the attributes you provided:
+   5. If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses. 
+
+ ![](../../assets/worker_nodes.png)
+
+  6. Review the attributes you provided:
 
  ![](../../assets/review_pov.png)
 
   
 
-   8. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
+   7. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
 
  ![](../../assets/pricing.png)
 
-   9. Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or  manually doing so. 
+   8. Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or  manually doing so. 
 
     **Importing Automatically**
    
@@ -117,7 +113,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
    
    - You would then be asked to enter your seed phrase. You should use the seed phrase from the same wallet you connected to `Provider Console` with. 
 
-  10. Once you do that, it should start building your cluster. 
+  9. Once you do that, it should start building your cluster. 
 
  ![](../../assets/beginning.png)
 
@@ -125,7 +121,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
  ![](../../assets/complete.png)
 
-  11. Make DNS Changes: For your domain to work, you would need to point your machines' public IPs to the `provider.example.com` domain name and the `*.ingress.example.com` domain name. This would need to be configured from your domain registrar's control panel. As the methods vary widely per domain registrar, please check the specific registrar docs for instructions. 
+  10. Make DNS Changes: For your domain to work, you would need to point your machines' public IPs to the `provider.example.com` domain name and the `*.ingress.example.com` domain name. This would need to be configured from your domain registrar's control panel. As the methods vary widely per domain registrar, please check the specific registrar docs for instructions. 
 
 
 
