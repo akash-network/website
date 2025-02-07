@@ -288,8 +288,17 @@ Rental pricing mirrors this as older GPUs command lower rates. Our revenue model
 | 3    | $1.70 (-15%)               | ~$477,000              |
 | 4    | $1.50 (-12%)               | ~$420,000              |
 | 5    | $1.30 (-13%)               | ~$364,000              |
-
 *(The rate percentages indicate the drop from the previous year. Utilization kept at 80% for consistency.)*
+
+```mermaid
+xychart-beta
+    title "GPU Lease Rate and Annual Revenue Over Time"
+    x-axis [1, 2, 3, 4, 5]
+    y-axis "Lease Rate (USD/GPU/hr)" 0 --> 2.5
+    y2-axis "Annual Revenue (USD)" 0 --> 700000
+    line [2.30, 2.00, 1.70, 1.50, 1.30]
+    line [645000, 561000, 477000, 420000, 364000]
+```
 
 Over five years, the cumulative revenue would be roughly ~$2.46 million. This assumes that demand remains high enough to keep 80% of capacity leased even as prices drop. In practice, we might increase utilization in later years (e.g. to 85–90%) as the service matures, which could somewhat offset the lower hourly rates.
 
