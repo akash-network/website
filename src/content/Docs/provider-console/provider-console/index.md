@@ -103,16 +103,20 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
  ![](../../assets/control_plane.png)
 
-   4. Fill in your provider configurations
+ 4. Fill in your provider configurations for you `Control Nodes`.
 
 
  ![](../../assets/provider_info.png)
 
 
+   
+
    5. If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses. 
 
 
  ![](../../assets/worker_nodes.png)
+
+
 
   6. Review the attributes you provided:
 
