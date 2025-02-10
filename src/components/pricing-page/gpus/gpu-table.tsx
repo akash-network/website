@@ -17,6 +17,7 @@ import clsx from "clsx";
 import { Info } from "lucide-react";
 import React from "react";
 import { Skeleton } from "../../ui/skeleton";
+import SpeakToExpert from "../SpeakToExpert";
 import AvailabilityBar from "./availability-bar";
 import CircularProgressBar from "./circular-progress-bar";
 import Filter, { defaultFilters, type Filters } from "./filter";
@@ -164,7 +165,7 @@ export const Tables = ({
         subCom ? "" : "md:container",
       )}
     >
-      <div className={clsx("hidden flex-col gap-10 xl:flex")}>
+      <div className={clsx("hidden flex-col gap-6 xl:flex")}>
         <div>
           <h1 className=" mt-1.5 !font-semibold">
             GPU Pricing and Availability
@@ -236,6 +237,7 @@ export const Tables = ({
             res={data}
           />
         </div>
+        <SpeakToExpert />
       </div>
       <div className="flex flex-col gap-1 xl:hidden">
         <p className="text-sm text-[#7E868C] md:text-base">

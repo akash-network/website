@@ -6,12 +6,13 @@ import astroExpressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
 import remark from "remark-directive";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
+import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
 
 export default defineConfig({
   redirects: redirects,
   markdown: {
-    remarkPlugins: [remark, customAsidePlugin],
+    remarkPlugins: [remark, mermaid, customAsidePlugin],
   },
   integrations: [
     tailwind(),

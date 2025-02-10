@@ -12,6 +12,7 @@ import awsLogo from "../../../assets/aws-logo.svg";
 import azureLogo from "../../../assets/azure-logo.svg";
 import gcpLogo from "../../../assets/gcp-logo.svg";
 import arrowUpRight from "../../../assets/icons/arrow-up-right.svg";
+import SpeakToExpert from "../SpeakToExpert";
 import CompareItem from "./compare-item";
 import Disclaimer from "./disclaimer";
 import UsageAmount from "./usage-amount";
@@ -256,15 +257,22 @@ export const Tables = ({
               </div>
             </div>
           </div>
-          <a
-            id={"usage"}
-            href={"https://console.akash.network/"}
-            target="_blank"
-            className="flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2 hover:bg-darkGray dark:hover:bg-background"
-          >
-            <p className="font-medium leading-[24px] text-white">Deploy Now</p>
-            <img src={arrowUpRight.src} alt="" />
-          </a>
+          <div className="flex flex-col gap-3">
+            <a
+              id={"usage"}
+              href={"https://console.akash.network/"}
+              target="_blank"
+              className="flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2 hover:bg-darkGray dark:hover:bg-background"
+            >
+              <p className="font-medium leading-[24px] text-white">
+                Deploy Now
+              </p>
+              <img src={arrowUpRight.src} alt="" />
+            </a>
+            <div className="md:hidden">
+              <SpeakToExpert />
+            </div>
+          </div>
         </div>
 
         <div className="flex w-full flex-col gap-5  rounded-md border bg-background2 p-6 shadow-sm md:w-[274px]">
@@ -274,6 +282,9 @@ export const Tables = ({
             <CompareItem title="GCP" cost={gcpCost} logo={gcpLogo.src} />
             <CompareItem title="Azure" cost={azureCost} logo={azureLogo.src} />
           </div>
+        </div>
+        <div className="hidden md:block">
+          <SpeakToExpert />
         </div>
       </div>
 
