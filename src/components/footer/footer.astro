@@ -10,10 +10,10 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "../header/icons";
+import SpeakToExpert from "../pricing-page/SpeakToExpert";
 import AkashFooterLogo from "../ui/akash-footer-logo.astro";
 import FooterYear from "./footer-year";
-
-const subscribeLink = "https://akashnet.typeform.com/to/awKX5bPw";
+import SubscribeButton from "./subscribe-button.astro";
 const socials = [
   {
     name: "Twitter",
@@ -172,26 +172,28 @@ const shouldHide = shouldHideCta(pathname);
       <a href="/" aria-label="Akash Network" class="text-foreground">
         <AkashFooterLogo />
       </a>
+      <div class="mt-4 md:hidden">
+        <SpeakToExpert size="small" />
+      </div>
 
       <div class="mt-10 flex flex-col items-start justify-start lg:hidden">
         <p class="text-base font-medium leading-[24px] text-foreground">
           Stay up to date with Akash Newsletter
         </p>
-
-        <a
-          href={subscribeLink}
-          class="mt-4 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-bold text-white hover:bg-darkGray"
-          >Subscribe Now</a
-        >
+        <div class="mt-4">
+          <SubscribeButton />
+        </div>
       </div>
     </div>
 
     <div class="justify-between md:mx-auto lg:flex">
-      <div class="hidden text-left text-base font-[300] lg:block">
+      <div
+        class="hidden flex-col gap-6 pb-[40px] text-left text-base font-[300] lg:flex"
+      >
         <p class="text-foreground">
           <AkashFooterLogo />
         </p>
-        <div class="flex gap-x-[24px] pb-[40px] pt-[20px] font-[300]">
+        <div class="flex gap-x-[24px] font-[300]">
           {
             socials.map((social) => (
               <a
@@ -205,6 +207,7 @@ const shouldHide = shouldHideCta(pathname);
             ))
           }
         </div>
+        <SpeakToExpert size="small" />
       </div>
       <div
         class="grid grid-cols-3 justify-between gap-y-10 md:grid-cols-5 md:gap-x-[30px] lg:gap-x-7 xl:gap-x-10"
@@ -226,32 +229,28 @@ const shouldHide = shouldHideCta(pathname);
       </div>
     </div>
   </div>
-
-  <div class="my-[40px] flex gap-x-6 font-[300] text-para lg:hidden">
-    {
-      socials.map((social) => (
-        <a
-          aria-label={`Akash Network ${social.name}`}
-          href={social.link}
-          target="_blank"
-          class="flex items-center gap-4 text-para hover:text-primary"
-        >
-          <social.icon />
-        </a>
-      ))
-    }
+  <div class="my-[40px] flex flex-col gap-4 lg:hidden">
+    <div class="flex gap-x-6 font-[300] text-para">
+      {
+        socials.map((social) => (
+          <a
+            aria-label={`Akash Network ${social.name}`}
+            href={social.link}
+            target="_blank"
+            class="flex items-center gap-4 text-para hover:text-primary"
+          >
+            <social.icon />
+          </a>
+        ))
+      }
+    </div>
   </div>
 
   <div class="mt-20 hidden items-center justify-between border-y py-5 lg:flex">
     <p class="text-xl font-medium leading-[30px] text-foreground">
       Stay up to date with Akash Newsletter
     </p>
-    <a
-      aria-label="Subscribe Now"
-      href={subscribeLink}
-      class="ml-6 flex cursor-pointer items-center justify-center rounded-md bg-primary px-[13px] py-[9px] text-sm font-semibold text-white hover:bg-darkGray"
-      >Subscribe Now</a
-    >
+    <SubscribeButton />
   </div>
 
   <div

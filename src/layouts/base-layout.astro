@@ -116,5 +116,145 @@ const isProd = import.meta.env.PROD;
         .querySelectorAll("#header-toggle-nav")
         .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
     </script>
+    <script>
+      // Type definitions
+      type Theme = any;
+      type MermaidConfig = {
+        startOnLoad: boolean;
+        fontFamily: string;
+        theme: Theme;
+      };
+
+      interface MermaidAPI {
+        initialize: (config: MermaidConfig) => void;
+        render: (id: string, content: string) => Promise<{ svg: string }>;
+      }
+
+      declare module "mermaid" {
+        const mermaid: MermaidAPI;
+      }
+
+      // Store original content to allow re-rendering
+      const diagramContents = new Map();
+
+      const getTheme = (): Theme => {
+        const savedTheme = localStorage.getItem("theme") as Theme | null;
+        if (savedTheme) return savedTheme;
+
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "neutral";
+      };
+
+      async function renderDiagrams(
+        graphs: HTMLCollectionOf<Element>,
+        theme?: Theme,
+      ) {
+        const { default: mermaid } = await import("mermaid");
+
+        // Reset mermaid with new theme
+        mermaid.initialize({
+          startOnLoad: false,
+          fontFamily: "var(--sans-font)",
+          theme: theme || getTheme(),
+        });
+
+        Array.from(graphs).forEach(async (graph) => {
+          // Get content either from our stored map or from the element
+          let content = diagramContents.get(graph);
+          if (!content) {
+            const contentElement = graph.querySelector(".mermaid-src");
+            content = contentElement?.textContent || "";
+            if (content) {
+              diagramContents.set(graph, content);
+            }
+          }
+
+          if (!content) return;
+
+          // Clear the graph before re-rendering
+          graph.innerHTML = "";
+
+          const svg = document.createElement("svg");
+          const id = `mermaid-${Math.round(Math.random() * 100000)}`;
+          svg.id = id;
+
+          graph.appendChild(svg);
+          try {
+            const result = await mermaid.render(id, content);
+            graph.innerHTML = result.svg;
+          } catch (error) {
+            console.error("Failed to render mermaid diagram:", error);
+            // Restore original content on error
+            const contentElement = document.createElement("div");
+            contentElement.className = "mermaid-src";
+            contentElement.textContent = content;
+            graph.appendChild(contentElement);
+          }
+        });
+      }
+
+      // Initial render
+      const graphs = document.getElementsByClassName("mermaid");
+      if (graphs.length > 0) {
+        renderDiagrams(graphs);
+      }
+
+      // Watch for theme changes in localStorage
+      window.addEventListener("storage", (e: StorageEvent) => {
+        if (e.key === "theme") {
+          const graphs = document.getElementsByClassName("mermaid");
+          if (graphs.length > 0) {
+            renderDiagrams(graphs, e.newValue as Theme);
+          }
+        }
+      });
+
+      // Watch for system theme changes
+      const darkModeMediaQuery = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      );
+      darkModeMediaQuery.addEventListener(
+        "change",
+        (e: MediaQueryListEvent) => {
+          if (!localStorage.getItem("theme")) {
+            const graphs = document.getElementsByClassName("mermaid");
+            if (graphs.length > 0) {
+              renderDiagrams(graphs, e.matches ? "dark" : "neutral");
+            }
+          }
+        },
+      );
+
+      // Function to handle manual theme changes
+      function updateMermaidTheme(newTheme: Theme): void {
+        const graphs = document.getElementsByClassName("mermaid");
+        if (graphs.length > 0) {
+          renderDiagrams(graphs, newTheme);
+        }
+      }
+
+      // Make updateMermaidTheme available globally
+      (window as any).updateMermaidTheme = updateMermaidTheme;
+
+      // Add a mutation observer to watch for theme attribute changes on body or html
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.attributeName === "data-theme" ||
+            mutation.attributeName === "class"
+          ) {
+            const graphs = document.getElementsByClassName("mermaid");
+            if (graphs.length > 0) {
+              renderDiagrams(graphs, getTheme());
+            }
+          }
+        });
+      });
+
+      // Start observing the document with the configured parameters
+      observer.observe(document.documentElement, { attributes: true });
+      observer.observe(document.body, { attributes: true });
+    </script>
   </body>
 </html>
