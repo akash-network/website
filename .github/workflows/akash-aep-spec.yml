@@ -12,31 +12,117 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # Fetch all history for all branches
+
+      - name: Check for existing PR
+        id: check-pr
+        run: |
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          PR_EXIST=$(gh pr list --search "Update AEP Specs" --state open --json number --jq 'length')
+          echo "pr_exists=$PR_EXIST" >> $GITHUB_OUTPUT
+          if [ "$PR_EXIST" -gt "0" ]; then
+            PR_INFO=$(gh pr list --search "Update AEP Specs" --state open --json number,headRefName --jq '.[0]')
+            PR_NUMBER=$(echo $PR_INFO | jq -r '.number')
+            PR_BRANCH=$(echo $PR_INFO | jq -r '.headRefName')
+            echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            echo "pr_branch=$PR_BRANCH" >> $GITHUB_OUTPUT
+          fi
 
       - name: Clone and Update Specs
+        id: update-specs
         run: |
-          # Remove existing specs
+          # Save current state
+          if [ -d "src/content/aeps" ]; then
+            mkdir -p ../old_specs
+            cp -r src/content/aeps/* ../old_specs/
+          fi
+
+          # Clone the AEP repository
+          rm -rf temp_aep
+          git clone --depth 1 https://github.com/akash-network/AEP.git temp_aep
+
+          # Clear existing specs and copy new ones
           rm -rf src/content/aeps
-
-          # Clone only the necessary files
-          git clone --depth 1 --filter=blob:none https://github.com/akash-network/AEP.git temp_aep
-
-          # Create target directory and copy only spec folder
           mkdir -p src/content/aeps
           cp -r temp_aep/spec/* src/content/aeps/
           rm -rf temp_aep
 
           # Check for changes
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "Changes detected in specs"
-            git config --global user.name 'GitHub Action'
-            git config --global user.email 'action@github.com'
-            git add src/content/aeps
-            git commit -m "chore: update AEP specs"
-            git push
+          if [ -d "../old_specs" ]; then
+            if diff -r ../old_specs src/content/aeps > /dev/null 2>&1; then
+              echo "has_changes=false" >> $GITHUB_OUTPUT
+              echo "No changes detected in specs"
+            else
+              echo "has_changes=true" >> $GITHUB_OUTPUT
+              echo "Changes detected in specs"
+              diff -r ../old_specs src/content/aeps || true
+            fi
           else
-            echo "No changes in specs"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Initial specs setup"
           fi
+
+          # Cleanup old specs
+          rm -rf ../old_specs
+
+      - name: Update Existing PR
+        if: steps.update-specs.outputs.has_changes == 'true' && steps.check-pr.outputs.pr_exists != '0'
+        run: |
+          # Configure git
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+
+          # Stash any uncommitted changes
+          git stash --include-untracked
+
+          # Fetch and checkout PR branch
+          git fetch origin ${{ steps.check-pr.outputs.pr_branch }}
+          git checkout ${{ steps.check-pr.outputs.pr_branch }}
+
+          # Apply stashed changes (if any)
+          git stash pop || echo "No stashed changes to apply"
+
+          # Stage and check for changes
+          git add src/content/aeps
+          if git diff --staged --quiet; then
+            echo "No changes to commit after staging"
+            exit 0
+          fi
+
+          # Commit and push changes
+          git commit -m "chore: update AEP specs [skip ci]"
+          git push origin ${{ steps.check-pr.outputs.pr_branch }}
+
+          echo "Updated existing PR #${{ steps.check-pr.outputs.pr_number }}"
+
+      - name: Create New PR
+        if: steps.update-specs.outputs.has_changes == 'true' && steps.check-pr.outputs.pr_exists == '0'
+        run: |
+          # Configure git
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+
+          # Create a new branch with timestamp
+          branch_name="update-aep-specs-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b $branch_name
+
+          # Stage changes and check if there's anything to commit
+          git add src/content/aeps
+          if git diff --staged --quiet; then
+            echo "No changes to commit after staging"
+            exit 0
+          fi
+
+          # Commit and push changes
+          git commit -m "chore: update AEP specs"
+          git push origin $branch_name
+
+          # Create PR using GitHub CLI
+          gh pr create \
+            --title "Update AEP Specs $(date +%Y-%m-%d)" \
+            --body "Automated PR to update AEP specifications" \
+            --base main \
+            --head $branch_name
 
       - name: Trigger Build
         if: success()
