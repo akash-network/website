@@ -22,73 +22,21 @@ Akash at Home is an initiative to transform residential computing resources into
 - Democratize access to AI infrastructure
 - Create a decentralized network of home-based compute resources
 
-## Model A: Residential Edge Datacenter
+## Model A: Production Grade Edge Datacenter at Home
 
-A production-grade edge data center at home transforms residential space into a professional AI compute facility.
-This setup enables running sophisticated AI models locally with performance comparable to cloud providers.
-For example, it can run large language models like DeepSeek R1 (671B parameters) at speeds of 3,872 tokens per second - matching or exceeding cloud performance while maintaining data privacy and control.
-Key components of this infrastructure include:
+A production-grade edge data center at home consists of high-performance computing hardware optimized for AI inference workloads. This setup enables running sophisticated AI models locally, such as DeepSeek R1 (671B parameters), achieving speeds of 3,872 tokens per second. Key components include:
 
-- Enterprise-grade GPU servers with latest NVIDIA H200 GPUs
-- High-bandwidth networking (10+ Gbps) with redundant ISP connections  
-- Redundant power systems with UPS and optional solar backup
-- Advanced cooling solutions using liquid and air systems
-- Professional rack mounting and cable management
-- Remote monitoring and management capabilities
+- Enterprise-grade GPU infrastructure
+- High-bandwidth networking
+- Redundant power systems
+- Advanced cooling solutions
 
-This model outlines a practical topology for implementing such a facility in Austin, Texas. 
-Through Akash's decentralized compute marketplace, the capital costs can be recovered within a 5-year window by renting excess capacity - effectively acquiring a private data center at neutral cost while maintaining priority access for your own workloads.
+In this scenario, we propose a topology with feasibility in Austin, Texas, where you're effectively acquiring the data center at no cost using Akash over a 5-year window.
 
 ### Hardware Requirements
 
-```
-+--------------------------------------------------------------------------------+
-|                             DATA CENTER 42U RACK                               |
-|                                                                                |
-|  ┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────┐   |
-|  | GPU Server 1 (4U-6U)    |     | GPU Server 2 (4U-6U)    | ... | GPU     |   |
-|  |─────────────────────────|     |─────────────────────────|     | Server  |   |
-|  | • 8 x NVIDIA HGX H200   |     | • 8 x NVIDIA HGX H200   |     | 5(4U-6U)|   |
-|  |   GPUs per server       |     |   GPUs per server       |     |         |   |
-|  | • NVLink/NVSwitch       |     | • NVLink/NVSwitch       |     |         |   |
-|  |   Fabric (~3.6 TB/s)    |     |   Fabric (~3.6 TB/s)    |     |         |   |
-|  | • Dual high-end CPUs    |     | • Dual high-end CPUs    |     |         |   |
-|  |   (e.g., 3rd Gen AMD)   |     |   (e.g., 3rd Gen AMD)   |     |         |   |
-|  | • ~2 TB RAM, ~30 TB     |     | • ~2 TB RAM, ~30 TB     |     |         |   |
-|  |   NVMe SSD storage      |     |   NVMe SSD storage      |     |         |   |
-|  └─────────────────────────┘     └─────────────────────────┘     └─────────┘   |
-|          (Total of 5 GPU Servers, ~20–30U allocated)                           |
-|                                                                                |
-|  ┌────────────────────────────────────────────────────────────────────────┐    |
-|  |            Top-of-Rack Network Hardware (1 Unit)                       |    |
-|  | ────────────────────────────────────────────────────────────────────── |    |
-|  | • Managed 10/25 GbE switch (8–16 ports)                                |    |
-|  | • Uplink ports for dual ISP connections (with Starlink backup)         |    |
-|  | • Interconnects GPU nodes for high-throughput internal traffic         |    |
-|  └────────────────────────────────────────────────────────────────────────┘    |
-|                                                                                |
-|  ┌────────────────────────────────────────────────────────────────────────┐    |
-|  |          Power Distribution Units (PDUs) (1–2 Units)                   |    |
-|  | ────────────────────────────────────────────────────────────────────── |    |
-|  | • Dual redundant PDUs                                                  |    |
-|  | • Each server’s dual PSU connects to separate A/B feeds                |    |
-|  | • Handles high load (~28 kW on 208–240V circuits, IEC 309/HPC connec)  |    |
-|  └────────────────────────────────────────────────────────────────────────┘    |
-|                                                                                |
-|  ┌────────────────────────────────────────────────────────────────────────┐    |
-|  |             Ancillary & Environmental Components (1 Unit)              |    |
-|  | ────────────────────────────────────────────────────────────────────── |    |
-|  | • Cable management & rack-mounted KVM/remote management devices        |    |
-|  | • Environmental sensors (temperature, humidity, smoke)                 |    |
-|  | • Integrated cooling: liquid cooling distribution unit or rear-door    |    |
-|  |   heat exchanger                                                       |    |
-|  └────────────────────────────────────────────────────────────────────────┘    |
-|                                                                                |
-+--------------------------------------------------------------------------------+
-```
-
 - **High-Density GPU Servers:** The facility will host 5 × 8-GPU NVIDIA HGX H200 servers (total 40 GPUs). Each server is configured similarly to an AWS p5.48xlarge instance, with 8 H200 GPUs connected via NVLink/NVSwitch for high-bandwidth peer-to-peer communication (up to ~900 GB/s interconnect)​[^SECUREMACHINERY.COM]. Each server includes dual high-end CPUs (e.g. 3rd Gen AMD EPYC), ~2 TB of RAM, and ~30 TB of NVMe SSD storage, matching the p5.48xlarge specs​[^AWS.AMAZON.COM].
-This ensures each server can deliver performance comparable to AWS’s top GPU instances​[^AWS.AMAZON.COM]. 
+This ensures each server can deliver performance comparable to AWS’s top GPU instances. This ensures each server can deliver performance comparable to AWS’s top GPU instances.
 - **NVLink Switch Fabric**: An NVSwitch (NVLink Switch) is integrated into each HGX H200 baseboard, allowing all 8 GPUs in a server to directly communicate at full bandwidth. This provides ~3.6 TB/s bisection bandwidth within each server​[^AWS.AMAZON.COM], critical for multi-GPU training efficiency. The NVLink/NVSwitch fabric is a core component to match AWS’s architecture.
 - **Rack Infrastructure:** All equipment will be mounted in a standard 42U data center rack. The 5 GPU servers (each ~4U–6U form factor) occupy roughly 20–30U, leaving space for networking gear and cooling components. Power Distribution Units (PDUs) (likely two for redundancy) are installed in-rack to supply power to each server’s dual PSUs. The PDUs must handle high load (total ~28 kW, see power section) and provide appropriate outlets (e.g. IEC 309 or HPC connectors) on 208–240V circuits. Each server’s PSU will connect to separate A/B power feeds for redundancy.
 - **Networking Hardware:** A high-bandwidth Top-of-Rack switch is required to interconnect servers and uplinks. A 10 GbE (or 25 GbE) managed switch with at least 8–16 ports will connect the GPU nodes and the uplink to the ISPs. This switch should support the full 10 Gbps Internet feed and internal traffic between servers (which may need higher throughput if servers communicate). Additionally, a capable router/firewall is needed to manage dual ISP connections and failover. For example, an enterprise router with dual 10G WAN ports can handle BGP or failover configurations for the two ISPs and Starlink backup.
@@ -289,6 +237,7 @@ Rental pricing mirrors this as older GPUs command lower rates. Our revenue model
 | 3    | $1.70 (-15%)               | ~$477,000              |
 | 4    | $1.50 (-12%)               | ~$420,000              |
 | 5    | $1.30 (-13%)               | ~$364,000              |
+
 *(The rate percentages indicate the drop from the previous year. Utilization kept at 80% for consistency.)*
 
 Over five years, the cumulative revenue would be roughly ~$2.46 million. This assumes that demand remains high enough to keep 80% of capacity leased even as prices drop. In practice, we might increase utilization in later years (e.g. to 85–90%) as the service matures, which could somewhat offset the lower hourly rates.
@@ -342,7 +291,7 @@ The design with redundant power and connectivity ensures a high service uptime, 
 
 Overall, the analysis indicates that an edge data center with 5×HGX H200 servers can be run in a retrofitted residential building space and achieve profitable operations within 5 years. While it won’t rival a hyperscale cloud in scale, it leverages owned infrastructure and renewable energy to deliver competitive GPU compute at a regional edge, aligning with the growing trend of decentralized, on-premise AI computing​[^TRGDATACENTERS.COM].
 
-### References
+## References
 
 [^TRGDATACENTERS.COM]: [NVIDIA H200 specifications and power requirements](https://www.trgdatacenters.com/resource/nvidia-h200)
 [^AWS.AMAZON.COM]: [AWS p5 instance (8×H100) configuration for reference​](https://aws.amazon.com/blogs/aws/new-amazon-ec2-p5-instances-powered-by-nvidia-h100-tensor-core-gpus-for-accelerating-generative-ai-and-hpc-applications/)
