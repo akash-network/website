@@ -1,4 +1,3 @@
-
 ---
 categories: ["Guides"]
 tags: ["Apps", "p2p", "file-sharing"]
@@ -10,8 +9,6 @@ linkTitle: "qBittorrent"
 The [qBittorrent](https://www.qbittorrent.org/) project aims to provide an open-source software alternative to µTorrent. The provided deployment configuration [(`deploy-ssh-tunnel.yaml`)](https://github.com/akash-network/awesome-akash/blob/master/qbittorrent/deploy-ssh-tunnel.yaml) enables a relatively secure means of torrenting on Akash via qBittorrent. Please use this responsibly.
 
 ![](../../../assets/qbittorent.png)
-
-## Overview
 
 The deployment uses a custom image (`ghcr.io/spacepotahto/qbittorrent:1.0.0`, code [here](https://github.com/spacepotahto/docker-qbittorrent-server)) that bundles the qBittorrent client ([base image](https://github.com/linuxserver/docker-qbittorrent) provided by LinuxServer.io) with a HTTP file server. This allows the user to access the qBitorrent WebUI to download files to the Akash provider, and to download the downloaded files through the HTTP file server. `deploy.yaml` and `deploy-ssh-tunnel.yaml` (recommended) differs in how security is handled.
 
@@ -42,6 +39,7 @@ The `deploy-ssh-tunnel.yaml` is configured to enable SSH tunneling (using the `g
 ssh -p <THE FORWARDED EXTERNAL PORT OF 2222> -N -L 8080:web:8080 -L 5000:web:5000 <USER_NAME>@<PROVIDER HOST>
 
 ```
+
 Then in your browser, you can navigate to `http://localhost:8080` to access the qBittorrent WebUI. The default username and password is `admin` and `adminadmin` respectively. They can be changed via the WebUI settings once authenticated.
 
 When adding the torrent files or magnet links using the WebUI, keep the default download location at `/downloads`. Once the files finish downloading, you can download the files to your computer by accessing the HTTP file server that serves `/downloads` at `http://localhost:5000`. Due to the SSH tunneling, your file download is done through an encrypted connection.

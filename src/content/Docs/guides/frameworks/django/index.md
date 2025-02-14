@@ -109,7 +109,6 @@ Akash requires an account to have a valid certificate associated with it to star
 
 Once an account has a certificate associated with it, it can begin deploying services on the Akash blockchain. **A certificate needs to be created only once per account. After creation, it can be used across any number of deployments for as long as it remains valid.**
 
-
 ```
 provider-services tx cert generate client -from $AKASH_KEY_NAME
 ```
@@ -390,9 +389,9 @@ If your lease was successful you should see a response that ends with:
     state: active
 ```
 
-{/* {% hint style="info" %} */}
+{/_ {% hint style="info" %} _/}
 Please note that once the lease is created, the provider will begin debiting your deployment's escrow account, even if you have not completed the deployment process by uploading the manifest in the following step.
-{/* {% endhint %} */}
+{/_ {% endhint %} _/}
 
 - Send the Manifest
 
@@ -465,11 +464,3 @@ provider-services tx deployment update deploy.yaml -dseq $AKASH_DSEQ -from $AKAS
 ```
 provider-services send-manifest deploy.yaml -dseq $AKASH_DSEQ -provider $AKASH_PROVIDER -from $AKASH_KEY_NAME
 ```
-
-```
-
-
-
-
-
-
