@@ -6,7 +6,6 @@ import { proseClasses } from "@/lib/prose-classes";
 import type { MarkdownHeading } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import clsx from "clsx";
-import { CalendarModal } from "@/components/development-pages/calendar-modal.tsx";
 
 interface NavItem {
   link: string;
@@ -73,7 +72,6 @@ if (akashInsidersIndex !== -1) {
       <article class={proseClasses}>
         <Content />
       </article>
-      <CalendarModal client:load />
     </div>
   </TopMargin>
 </Layout>

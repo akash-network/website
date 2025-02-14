@@ -10,6 +10,7 @@ import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
 import PopOverNavItemNetwork from "./popovers/popover-nav-item";
 import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
+import { CalendarModal } from "../development-pages/calendar-modal";
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
 interface Props {
@@ -173,6 +174,7 @@ const latestRoadmapYear = getYearToUse();
   {
     visibilty.development.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
+      <div class="flex justify-end p-2 bg-background"><CalendarModal client:load /></div>
     )
   }
   {
