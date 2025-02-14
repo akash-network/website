@@ -68,31 +68,31 @@ This SDL file:
 1. **Validate the SDL file**:
    Run the following command to ensure the SDL file is valid:
    ```
-   akash deployment validate <sdl-file-name>.yaml
+   provider-services deployment validate <sdl-file-name>.yaml
    ```
 
 2. **Create the Deployment**:
    Use the Akash CLI to create the deployment:
    ```
-   akash tx deployment create <sdl-file-name>.yaml --from <account-name> --node <akash-node>
+   provider-services tx deployment create <sdl-file-name>.yaml --from <account-name> --node <akash-node>
    ```
 
 3. **View the Deployment Status**:
    Check the deployment status:
    ```
-   akash query deployment list --owner <your-address>
+   provider-services query deployment list --owner <your-address>
    ```
 
 4. **Accept a Bid**:
    Once a provider makes a bid, accept it:
    ```
-   akash tx market lease create --dseq <deployment-sequence> --from <account-name>
+   provider-services tx market lease create --dseq <deployment-sequence> --from <account-name>
    ```
 
 5. **Get the Lease Information**:
    After accepting the bid, retrieve the lease details:
    ```
-   akash query market lease list --owner <your-address>
+   provider-services query market lease list --owner <your-address>
    ```
 
 ---
@@ -103,14 +103,14 @@ Once the deployment is live, you can access the `terraform` service.
 1. **Retrieve Service Endpoint**:
    Get the service's public IP/endpoint:
    ```
-   akash query market lease status --dseq <deployment-sequence>
+   provider-services query market lease status --dseq <deployment-sequence>
    ```
 
 2. **SSH or Use Akash Logs**:
    - If the container is running, you can connect using `kubectl exec` if you have a setup to manage pods.
    - Alternatively, tail logs:
      ```
-     akash query deployment logs --dseq <deployment-sequence> --from <account-name>
+     provider-services query deployment logs --dseq <deployment-sequence> --from <account-name>
      ```
 
 ---
@@ -119,7 +119,7 @@ Once the deployment is live, you can access the `terraform` service.
 To run Terraform commands inside the container:
 1. **Use Akash's interactive shell** (if supported):
    ```
-   akash exec run <lease-info>
+   provider-services exec run <lease-info>
    ```
 2. Inside the container, initialize Terraform:
    ```
@@ -134,7 +134,7 @@ To run Terraform commands inside the container:
 ---
 
 ## **6. Monitoring and Managing the Deployment**
-- Use `akash query deployment` commands to monitor deployment health and logs.
+- Use `provider-services query deployment` commands to monitor deployment health and logs.
 - Scale or update resources by modifying and re-deploying the SDL.
 
 ---
@@ -142,7 +142,7 @@ To run Terraform commands inside the container:
 ## **7. Terminate the Deployment**
 When the deployment is no longer needed, close it to stop incurring costs:
 ```
-akash tx deployment close --dseq <deployment-sequence> --from <account-name>
+provider-services tx deployment close --dseq <deployment-sequence> --from <account-name>
 ```
 
 ---

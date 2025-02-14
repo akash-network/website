@@ -83,26 +83,26 @@ deployment:
 
 1. **Initialize Deployment**:
    ```
-   akash tx deployment create deploy.yaml --from <your-wallet> --node <node-address> --chain-id <chain-id>
+   provider-services tx deployment create deploy.yaml --from <your-wallet> --node <node-address> --chain-id <chain-id>
    ```
    Replace `<your-wallet>`, `<node-address>`, and `<chain-id>` with your Akash configuration.
 
 2. **Bid for Resources**:
    Once the deployment is created, providers will bid to host it. Run the following command to view the bids:
    ```
-   akash query market bid list --owner <your-wallet>
+   provider-services query market bid list --owner <your-wallet>
    ```
 
 3. **Lease Selection**:
    Accept a bid to create a lease:
    ```
-   akash tx market lease create --dseq <deployment-sequence> --gseq 1 --oseq 1 --from <your-wallet>
+   provider-services tx market lease create --dseq <deployment-sequence> --gseq 1 --oseq 1 --from <your-wallet>
    ```
 
 4. **Check Deployment Status**:
    After creating the lease, check the status of your deployment:
    ```
-   akash query deployment get --owner <your-wallet> --dseq <deployment-sequence>
+  provider-services  query deployment get --owner <your-wallet> --dseq <deployment-sequence>
    ```
 
 ---
@@ -112,7 +112,7 @@ deployment:
 1. **Retrieve Deployment Details**:
    Obtain the external IP and port assigned to your deployment:
    ```
-   akash provider lease-status --dseq <deployment-sequence> --from <your-wallet>
+   provider-services provider lease-status --dseq <deployment-sequence> --from <your-wallet>
    ```
 
 2. **Connect to the Service**:
@@ -165,12 +165,12 @@ If you need additional libraries or custom configurations:
 1. **Update Deployment**:
    Modify the `deploy.yaml` file and run:
    ```
-   akash tx deployment update deploy.yaml --from <your-wallet>
+   provider-services tx deployment update deploy.yaml --from <your-wallet>
    ```
 
 2. **Stop Deployment**:
    ```
-   akash tx deployment close --owner <your-wallet> --dseq <deployment-sequence>
+   provider-services tx deployment close --owner <your-wallet> --dseq <deployment-sequence>
    ```
 
 ---

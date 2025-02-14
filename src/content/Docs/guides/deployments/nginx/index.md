@@ -70,25 +70,25 @@ deployment:
 1. **Authenticate and prepare your environment**:
 
 ```
-akash tx authz grant <provider-address> --from <wallet-name>
+provider-services tx authz grant <provider-address> --from <wallet-name>
 ```
 Replace `<provider-address>` and `<wallet-name>` with your provider's address and your wallet name.
 
 2. **Submit the SDL file for deployment**:
 ```
-akash tx deployment create deploy.yaml --from <wallet-name>
+provider-services tx deployment create deploy.yaml --from <wallet-name>
 ```
 3. **Bid on a provider: Run this command to find available bids**:
 ```
-akash query market bid list --owner <wallet-address>
+provider-services query market bid list --owner <wallet-address>
 ```
 4. **Accept a bid and deploy**:
 ```
-akash tx market lease create --bid-id <bid-id> --from <wallet-name>
+provider-services tx market lease create --bid-id <bid-id> --from <wallet-name>
 ```
 5. **Check deployment status**:
 ```
-    akash query market lease status --owner <wallet-address> --dseq <deployment-sequence>
+    provider-services query market lease status --owner <wallet-address> --dseq <deployment-sequence>
 ```
 6. **Access your Nginx server**: Use the provided endpoint to access your running Nginx server.
 

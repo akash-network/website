@@ -83,7 +83,7 @@ deployment:
 2. Run the following commands in your terminal:
 
 ```bash
-akash tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <akash-chain-id>
+provider-services tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <akash-chain-id>
 ```
 
 Replace `<your-wallet-name>` and `<akash-chain-id>` with your Akash wallet name and chain ID.
@@ -91,13 +91,13 @@ Replace `<your-wallet-name>` and `<akash-chain-id>` with your Akash wallet name 
 3. After the deployment is submitted, check the status:
 
 ```bash
-akash query market lease list --owner <your-wallet-address>
+provider-services query market lease list --owner <your-wallet-address>
 ```
 
 4. Once the lease is established, retrieve the access URL for your deployment:
 
 ```bash
-akash provider lease-status --dseq <deployment-sequence-id> --owner <your-wallet-address>
+provider-services provider lease-status --dseq <deployment-sequence-id> --owner <your-wallet-address>
 ```
 
 ### 3. **Access GNU Octave**

@@ -84,7 +84,7 @@ Save the SDL file as `deploy.yaml` in your project directory.
 Run the following command to validate the SDL file:
 
 ```
-akash tx deployment create h2o-llm.yml --from <your-wallet-name> --node <akash-node> --chain-id <chain-id> --keyring-backend <keyring>
+provider-services tx deployment create h2o-llm.yml --from <your-wallet-name> --node <akash-node> --chain-id <chain-id> --keyring-backend <keyring>
 ```
 
 ### Step 3: Submit Deployment
@@ -92,13 +92,17 @@ akash tx deployment create h2o-llm.yml --from <your-wallet-name> --node <akash-n
 Deploy the service:
 
 ```
+<<<<<<< HEAD
+provider-services tx deployment create ./h2o-llm.yml --from <wallet-name> --gas auto --gas-prices 0.025uakt --gas-adjustment 1.2
+=======
 akash tx deployment create ./h2o-llm.yml --from <wallet-name> --gas auto --gas-prices 0.0025uakt --gas-adjustment 1.2
+>>>>>>> 3d0281b5feb0124cad7689fa4cce08ac9610dcbb
 ```
 
 ### Step 4: Wait for Providers
 
 ```
-akash query market bid list --owner <your-deployment-address>
+provider-services query market bid list --owner <your-deployment-address>
 ```
 
 ### Step 5: Accept a Bid
@@ -106,7 +110,7 @@ akash query market bid list --owner <your-deployment-address>
 Choose a provider and accept the bid:
 
 ```
-akash tx market lease create \
+provider-services tx market lease create \
   --bid-id <selected-bid-id> \
   --from <wallet-name> \
   --gas auto \
@@ -118,7 +122,7 @@ akash tx market lease create \
 Retrieve the lease status to get the external IP:
 
 ```
-akash provider lease-status \
+provider-services provider lease-status \
   --dseq <deployment-sequence> \
   --from <wallet-name> \
   --provider <provider-address>

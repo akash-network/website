@@ -70,7 +70,7 @@ If you haven’t already installed the Akash CLI, install it by following these 
 1. **Create a Wallet** if you don’t already have one:
 
 ```
-akash keys add <your-wallet-name>
+provider-services keys add <your-wallet-name>
 ```
 
 2. **Fund Your Wallet**: Get some Akash tokens (AKT) by either purchasing them or using the [faucet](https://faucet.sandbox-01.aksh.pw/) if available.
@@ -78,7 +78,7 @@ akash keys add <your-wallet-name>
 3. **Check Your Balance**: 
 
 ```
-akash query bank balances <your-wallet-address>
+provider-services query bank balances <your-wallet-address>
 ```
 
 ## Step 4: Deploy on Akash
@@ -86,19 +86,19 @@ akash query bank balances <your-wallet-address>
 1. **Create a Certificate**:
 
 ```
-akash tx cert create client --from <your-wallet-name> --chain-id akashnet-2 --fees 5000uakt
+provider-services tx cert create client --from <your-wallet-name> --chain-id akashnet-2 --fees 5000uakt
 ```
 
 2. **Create a Deployment**: Run the following command to start the deployment with your deploy.yaml file:
 
 ```
-akash tx deployment create deploy.yaml --from <your-wallet-name> --chain-id akashnet-2 --fees 5000uakt
+provider-services tx deployment create deploy.yaml --from <your-wallet-name> --chain-id akashnet-2 --fees 5000uakt
 ```
 
 3. **View the Deployment Status**: Once deployed, you can check the status by running:
 
 ```
-akash query deployment list --owner <your-wallet-address>
+provider-services query deployment list --owner <your-wallet-address>
 ```
 
 4. **Get the Service Endpoint**: Once the deployment is live, you will get an external IP or domain through which you can access H2O Flow. Use this to connect to the H2O Flow service.

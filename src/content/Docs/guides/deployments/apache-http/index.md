@@ -69,23 +69,23 @@ deployment:
 
     - Run the following command to create the deployment:
 ```
-    akash tx deployment create deploy.yaml --from <your-wallet> --node <node-url> --chain-id <chain-id> --fees <fees>
+   provider-services tx deployment create deploy.yaml --from <your-wallet> --node <node-url> --chain-id <chain-id> --fees <fees>
 ```
 2. Bid Selection:
 
     - Monitor the bids for your deployment using:
 ```
-akash query market bid list --owner <your-address>
+provider-services query market bid list --owner <your-address>
 ```
 3. Accept a bid with:
 ```
-    akash tx market lease create --bid-id <bid-id> --from <your-wallet> --fees <fees>
+   provider-services tx market lease create --bid-id <bid-id> --from <your-wallet> --fees <fees>
 ```
 4. Verify Lease:
 
     - Confirm the lease creation with:
 ```
-    akash query market lease list --owner <your-address>
+    provider-services query market lease list --owner <your-address>
 ```
 5. Access Deployment:
 

@@ -81,7 +81,7 @@ With the SDL file ready, you can deploy it using the Akash CLI.
 1. Initialize the Deployment: Use the following command to initialize the deployment:
 
 ```
-akash tx deployment create deploy.yaml --from <your-wallet> --node <node-address> --chain-id <chain-id>
+provider-services tx deployment create deploy.yaml --from <your-wallet> --node <node-address> --chain-id <chain-id>
 ```
 
 Replace `<your-wallet>`, `<node-address>`, and `<chain-id>` with your specific configurations.
@@ -89,7 +89,7 @@ Replace `<your-wallet>`, `<node-address>`, and `<chain-id>` with your specific c
 2. Find a Provider: After initializing, find a provider that meets your requirements:
 
 ```
-akash provider lease-status --from <your-wallet>
+provider-services provider lease-status --from <your-wallet>
 ```
 
 This command will show the available providers and the status of your lease.
@@ -97,13 +97,13 @@ This command will show the available providers and the status of your lease.
 3. Approve the Lease: Approve the lease to start the deployment:
 
 ```
-akash tx market lease-create --from <your-wallet> --node <node-address> --chain-id <chain-id>
+provider-services tx market lease-create --from <your-wallet> --node <node-address> --chain-id <chain-id>
 ```
 
 4. Monitor the Deployment: You can monitor the status of your deployment using:
 
 ```
-akash provider lease-status --from <your-wallet>
+provider-services provider lease-status --from <your-wallet>
 ```
 This will give you the necessary details to access your deployment.
 
@@ -116,7 +116,7 @@ Once the deployment is live, you can access the Fast.com service via the public 
 To terminate your deployment when it's no longer needed, use the following command:
 
 ```
-akash tx deployment close --from <your-wallet> --node <node-address> --chain-id <chain-id>
+provider-services tx deployment close --from <your-wallet> --node <node-address> --chain-id <chain-id>
 ```
 
 ### Using Akash Console

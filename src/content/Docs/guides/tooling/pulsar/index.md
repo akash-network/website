@@ -90,11 +90,11 @@ deployment:
 1. Save the YAML file as `deploy.yaml`.
 2. Deploy it using the Akash CLI:
    ```
-   akash tx deployment create deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <node_url>
+   provider-services tx deployment create deploy.yaml --from <your_wallet> --chain-id <chain_id> --node <node_url>
    ```
 3. Monitor the deployment:
    ```
-   akash query deployment list --owner <your_wallet>
+   provider-services query deployment list --owner <your_wallet>
    ```
 
 ## Verifying the Deployment

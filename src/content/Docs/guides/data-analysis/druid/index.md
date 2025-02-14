@@ -101,19 +101,19 @@ deployment:
 
 2. **Validate the SDL File:**
    ```bash
-   akash tx deployment create deploy.yaml --from <wallet-name>
+   provider-services tx deployment create deploy.yaml --from <wallet-name>
    ```
 
 3. **Send Your Deployment to Akash:**
    After successful validation, use the following commands to interact with the Akash marketplace:
    ```bash
-   akash tx deployment create deploy.yaml --from <wallet-name>
+   provider-services tx deployment create deploy.yaml --from <wallet-name>
    ```
 
 4. **Approve Lease:**
    Once bids are received, select the appropriate provider and approve the lease:
    ```bash
-   akash tx market lease create --dseq <deployment-sequence> --from <wallet-name>
+   provider-services tx market lease create --dseq <deployment-sequence> --from <wallet-name>
    ```
 
 ---
@@ -126,7 +126,7 @@ deployment:
 2. **Monitor Logs:**
    - Use the Akash CLI to check logs:
      ```bash
-     akash provider lease logs --dseq <deployment-sequence> --from <wallet-name>
+     provider-services provider lease logs --dseq <deployment-sequence> --from <wallet-name>
      ```
 
 ---
@@ -136,7 +136,7 @@ deployment:
 - To scale your deployment, update the `count` field in the SDL file for the `deployment` section.
 - Redeploy the updated SDL file with:
   ```bash
-  akash tx deployment update deploy.yaml --from <wallet-name>
+  provider-services tx deployment update deploy.yaml --from <wallet-name>
   ```
 
 ---

@@ -78,27 +78,27 @@ Update the following placeholders in the `deploy.yaml` file:
 1. Initialize the deployment by creating an Akash deployment with the deploy.yml file:
 
 ```
-akash tx deployment create deploy.yml --from <your-wallet> --chain-id <chain-id> --node <node-address>
+provider-services tx deployment create deploy.yml --from <your-wallet> --chain-id <chain-id> --node <node-address>
 ```
 
 2. Verify the deployment status to check if it is live:
 
 ```
-akash query deployment list --owner <your-wallet>
+provider-services query deployment list --owner <your-wallet>
 ```
 
 3. Find and accept a bid by checking available bids for your deployment and accepting one:
 
 ```
-akash query market bid list --owner <your-wallet>
+provider-services query market bid list --owner <your-wallet>
 # Accept a bid
-akash tx market lease create --from <your-wallet> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --provider <provider-address>
+provider-services tx market lease create --from <your-wallet> --dseq <deployment-sequence> --oseq <order-sequence> --gseq <group-sequence> --provider <provider-address>
 ```
 
 4. Retrieve the lease endpoint to access your Apache Superset instance:
 
     ```
-    akash query market lease status --owner <your-wallet> --provider <provider-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence>
+    provider-services query market lease status --owner <your-wallet> --provider <provider-address> --dseq <deployment-sequence> --gseq <group-sequence> --oseq <order-sequence>
     ```
 The endpoint will provide the public IP or domain where you can access your Apache Superset instance. Navigate to this address in your web browser to start using Apache Superset.
 
