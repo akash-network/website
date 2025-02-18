@@ -1,0 +1,61 @@
+---
+import TimeZoneCalendar from "./time-zone-calendar";
+
+const DEFAULT_CALENDAR_ID =
+  "c_25e5e3748e4c4ab7a55f41fbc5ebebcc0a03b40fb028785f14159bfaebea12e2@group.calendar.google.com";
+
+const calendarUrl = `https://calendar.google.com/calendar/u/0?cid=${encodeURIComponent(DEFAULT_CALENDAR_ID)}`;
+---
+
+<h2 class="text-lg font-semibold md:text-2xl text-gray-900 dark:text-white flex justify-between">
+    Akash Community <br class="md:hidden" /> Groups Calendar
+</h2>
+
+<div class="mt-5 flex flex-col gap-4 rounded-md border bg-background2 p-3 md:max-h-[60vh] md:p-5">
+    <TimeZoneCalendar calendarId={DEFAULT_CALENDAR_ID} />
+ <a
+    href={calendarUrl}
+    class="flex items-center justify-center gap-3 rounded-md bg-[#FFDEDE] py-3 text-sm font-medium text-primary dark:bg-background md:text-base"
+    target="_blank"
+    rel="noopener noreferrer"
+ >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+    <path
+      d="M12.5 3.33366V1.66699M12.5 3.33366V5.00033M12.5 3.33366H8.75M2.5 8.33366V15.8337C2.5 16.7542 3.24619 17.5003 4.16667 17.5003H15.8333C16.7538 17.5003 17.5 16.7542 17.5 15.8337V8.33366H2.5Z"
+      stroke="#FF414C"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+    <path
+      d="M2.5 8.33301V4.99967C2.5 4.0792 3.24619 3.33301 4.16667 3.33301H5.83333"
+      stroke="#FF414C"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+    <path
+      d="M5.83594 1.66699V5.00033"
+      stroke="#FF414C"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+    <path
+      d="M17.4974 8.33301V4.99967C17.4974 4.0792 16.7512 3.33301 15.8307 3.33301H15.4141"
+      stroke="#FF414C"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+    </svg>
+      Subscribe to SIG & WG calendar
+  </a>
+</div>

@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
+import { CalendarModal } from "@/components/development-pages/calendar-modal";
 import { getYearToUse } from "@/utils/redirects";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
@@ -200,6 +201,11 @@ export const SubNavbar = ({
           </a>
         )}
       </div>
+      {type === "development" && (
+        <div className="container-nav absolute left-0 right-0 top-full hidden justify-end py-3 md:flex">
+          <CalendarModal />
+        </div>
+      )}
     </div>
   );
 };
