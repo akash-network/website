@@ -5,7 +5,6 @@ import { getYearToUse } from "@/utils/redirects";
 import { getCollection } from "astro:content";
 import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
-import { CalendarModal } from "../development-pages/calendar-modal";
 import HamburgerMenu from "./hamburger-menu";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
@@ -41,14 +40,6 @@ const posts = (await getCollection("Blog"))
 
 const latestRoadmapYear = getYearToUse();
 ---
-
-{
-  visibilty.development.includes(pathname) && (
-    <div class="container-nav fixed bottom-0 left-0 right-0 z-50 flex justify-end  py-3 md:hidden">
-      <CalendarModal client:load />
-    </div>
-  )
-}
 
 <header
   class={clsx(
