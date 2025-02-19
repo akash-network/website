@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
   return years.map((year) => {
     const yearRoadmaps = roadmaps.filter(
-      (roadmap) => getRoadmapYear(roadmap) === year,
+      (roadmap) => getRoadmapYear(roadmap) === year && roadmap?.data?.roadmap,
     );
 
     const quarters = categorizeRoadmapsByQuarter(yearRoadmaps);
