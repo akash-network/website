@@ -107,7 +107,7 @@ const PopOverSmall = ({
             </div>
             <a
               href={external?.link}
-              target="_blank"
+              target={external?.link.startsWith("http") ? "_blank" : "_self"}
               className="border-t bg-gray-50 px-7 py-3 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
             >
               <p className="inline-flex items-center text-sm font-semibold text-foreground ">
@@ -187,25 +187,24 @@ export const SubNavbar = ({
               );
             })}
         </div>
-        {external && (
-          <a
-            href={external.link}
-            target="_blank"
-            className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
-          >
-            {external.title}
-            <ArrowRightCircle
-              className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
-              size={16}
-            />
-          </a>
+        {type === "development" ? (
+          <CalendarModal />
+        ) : (
+          external && (
+            <a
+              href={external.link}
+              target="_blank"
+              className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
+            >
+              {external.title}
+              <ArrowRightCircle
+                className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
+                size={16}
+              />
+            </a>
+          )
         )}
       </div>
-      {type === "development" && (
-        <div className="container-nav absolute left-0 right-0 top-full hidden justify-end py-3 md:flex">
-          <CalendarModal />
-        </div>
-      )}
     </div>
   );
 };
