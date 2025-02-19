@@ -6,9 +6,10 @@ status: Final
 type: Standard
 category: Core
 created: 2024-08-29
-updated: 2024-01-11
-estimated-completion: 2025-02-28
+updated: 2024-02-18
+estimated-completion: 2025-03-15
 roadmap: major
+requires: 61
 discussions-to: https://github.com/orgs/akash-network/discussions/673
 resolution: https://www.mintscan.io/akash/proposals/268
 ---
@@ -274,3 +275,8 @@ _This buffer accounts for the historical daily volatility of AKT measured over t
 Overclock Labs will custody the requested funds in a new, distinct wallet so that funds from any other source are not commingled.
 
 All funds will be liquidated and managed in a manner that ensures minimal impact on the market. These funds will be managed with the same care and attention as all previous Community Funding Proposals with liquidations done in a fashion that will not adversely affect the market. In practice, the effort of this liquidation will add depth to the AKT market for buyers looking to enter.
+
+
+## Copyright
+
+All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
