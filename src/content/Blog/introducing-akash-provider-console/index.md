@@ -21,7 +21,7 @@ bannerImage: ./pc-main.png
 ---
 by [Jigar Patel](https://x.com/pateljigar053), [Deval Patel](https://x.com/Deval_Vora), and [Anil Murty](https://x.com/_Anil_Murty_)
 
-The Akash core team is excited to announce the general availability of Akash Provider Console. Akash Provider Console aims to be the easiest and most elegant way for compute providers (including datacenter operators) of all sizes to become Akash Providers, as well as the the primary way that existing Akash Providers view and manage resources on the network.
+The Akash core team is excited to announce the general availability of Akash Provider Console. Akash Provider Console aims to be the easiest and most elegant way for compute providers (including datacenter operators) of all sizes to become Akash Providers, as well as the primary way that existing Akash Providers view and manage resources on the network.
 
 ## Why was Akash Provider Console built?
 
