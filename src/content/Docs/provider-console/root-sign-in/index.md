@@ -6,19 +6,21 @@ title: "How to Enable Root Sign-in to Provider Console"
 linkTitle: "How to Enable Root Sign-in"
 ---
 
-To successfully become a provider, root login need to have been enabled on your machine. Below is a guide on how to successfuly do that, if it has not yet been enabled. 
+To successfully become a provider, root login need to have been enabled on your machine. Below is a guide on how to successfuly do that, if it has not yet been enabled.
 
 ## Prerequisite Step: Configure your Server:
-This assumes you are using Linux. 
 
+This assumes you are using Linux.
 
 ### Edit Your SSHD Configuration
-First of all, you should edit your sshd configuration `/etc/ssh/sshd_config` to update specific perimeters for enhanced security. 
+
+First of all, you should edit your sshd configuration `/etc/ssh/sshd_config` to update specific perimeters for enhanced security.
+
 1. Switch to the root user to ensure you have you have the necessary permissions:
 
 `sudo -i`
 
-2. Open the configuration file with a text editor: 
+2. Open the configuration file with a text editor:
 
 `sudo nano /etc/ssh/sshd_config`
 
@@ -30,26 +32,29 @@ PubkeyAuthentication yes
 ```
 
 4. Update the `PasswordAuthentication` parameter. Uncomment it, and change its value to `no` if it is currently set to `yes`:
+
 ```plaintext
  PasswordAuthentication no
 ```
 
 5. Save and close the file:
+
    - If using `nano`, press `CTRL+O` to save and `CTRL+X` to exit.
 
 6. Edit the `~/.ssh/authorized_keys` file:
 
 `nano ~/.ssh/authorized_keys`
 
- 7. Ensure the file contains the following lines:
+7.  Ensure the file contains the following lines:
 
- ``` no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142" ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTBuQzRQor39mU++RthyjUheuWj1Ph+lyyQwwp5t5AgfvXjM2SuQNFyEedIAkOd8/fuv/ejKrtP85TurF1fdAiixj/N5N+nW+GgJO9s/W6......
-``` 
+```
+no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142" ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTBuQzRQor39mU++RthyjUheuWj1Ph+lyyQwwp5t5AgfvXjM2SuQNFyEedIAkOd8/fuv/ejKrtP85TurF1fdAiixj/N5N+nW+GgJO9s/W6......
+```
 
 8. Comment the first line, and then find `ssh-rsa`, and hit the `enter` (or `return`) key to take it to a new line. It should now look like this:
 
 ```
- #no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142" 
+ #no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user "admin" rather than the user "root".';echo;sleep 10;exit 142"
  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTBuQzRQor39mU++RthyjUheuWj1Ph+lyyQwwp5t5AgfvXjM2SuQNFyEedIAkOd8/fuv/ejKrtP85TurF1fdAiixj/N5N+nW+GgJO9s/W6......
 ```
 
@@ -79,4 +84,4 @@ permitrootlogin prohibit-password
 
 `2379`-`2380`, `6443`, `30000`,`32676`, `22`, `8443`, `8444`, `80`, `443`.
 
-You are now ready to create a provider. 
+You are now ready to create a provider.
