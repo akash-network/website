@@ -12,7 +12,7 @@ heroSection:
       description: "Browse a wide range of cloud resources and live network pricing"
       buttons:
         - label: "Explore pricing"
-          link: "/about/pricing/custom/"
+          link: "/pricing/usage-calculator/"
           type: secondary
         - label: "View GPU availability"
           link: "/pricing/gpus"

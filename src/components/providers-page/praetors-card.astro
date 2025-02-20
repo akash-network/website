@@ -1,89 +1,25 @@
 ---
-import { Image } from "astro:assets";
 import ButtonLink from "../ui/button-link.astro";
 
 const { title, description, badge, link, linkIcon, linkLabel } = Astro.props;
 ---
 
 <div class="flex flex-col rounded-lg border bg-background2 p-5">
-  {
-    badge && (
-      <div class="flex h-[40px] w-[40px] items-center justify-center rounded-[6.6px] border  sm:h-[43px] sm:w-[43px] md:h-[46px] md:w-[46px] md:rounded-lg lg:h-[48px] lg:w-[48px]">
-        {
-          <Image
-            class="w-[24px] object-cover"
-            alt="Feature illustration"
-            width={1200}
-            height={1200}
-            src={badge}
-            format="svg"
-          />
-        }
-      </div>
-    )
-  }
-
-  <div class="mt-6">
-    <h3 class="text-base font-bold" set:html={title} />
-    <p
-      class={`mt-3 text-sm font-medium ${link ? "line-clamp-3" : ""}`}
-      set:html={description}
-    />
+  <div>
+    <h3 class="text-base font-semibold md:text-xl" set:html={title} />
+    <p class={`mt-3 text-sm  `} set:html={description} />
   </div>
 
   <div class="flex flex-grow items-end gap-x-4">
     {
       link && (
         <div class="mt-14 flex justify-start">
-          <ButtonLink link={link ? link : "#"} variant="secondary" size="lg">
-            {linkIcon && (
-              <div class="flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="21"
-                  viewBox="0 0 20 21"
-                  fill="none"
-                  class="dark:text-iconText hidden text-para md:inline"
-                >
-                  <path
-                    d="M7.64062 12.4953L12.3547 7.78125M12.3547 7.78125H8.22988M12.3547 7.78125V11.9061"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M9.9974 18.4714C14.5997 18.4714 18.3307 14.7404 18.3307 10.138C18.3307 5.53565 14.5997 1.80469 9.9974 1.80469C5.39502 1.80469 1.66406 5.53565 1.66406 10.138C1.66406 14.7404 5.39502 18.4714 9.9974 18.4714Z"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="13.8"
-                  height="13.8"
-                  viewBox="0 0 20 21"
-                  fill="none"
-                  class="dark:text-iconText inline text-para md:hidden"
-                >
-                  <path
-                    d="M7.64062 12.4953L12.3547 7.78125M12.3547 7.78125H8.22988M12.3547 7.78125V11.9061"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M9.9974 18.4714C14.5997 18.4714 18.3307 14.7404 18.3307 10.138C18.3307 5.53565 14.5997 1.80469 9.9974 1.80469C5.39502 1.80469 1.66406 5.53565 1.66406 10.138C1.66406 14.7404 5.39502 18.4714 9.9974 18.4714Z"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-            )}
-
+          <ButtonLink
+            arrow={linkIcon}
+            link={link ? link : "#"}
+            variant="secondary"
+            size="lg"
+          >
             <span class="text-xs leading-4 md:text-sm md:leading-5">
               {linkLabel}
             </span>
