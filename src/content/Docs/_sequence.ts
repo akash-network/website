@@ -63,13 +63,6 @@ export const docsSequence = [
               },
             ],
           },
-          {
-            label: "Provider Console",
-            subItems: [
-              { label: "How to Enable Root Sign-in"},
-              { label: "Provider Console"},  
-            ],
-          },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
         ],
@@ -282,6 +275,13 @@ export const docsSequence = [
               {
                 label: "Shared Memory Enablement",
               },
+            ],
+          },
+          {
+            label: "Provider Console",
+            subItems: [
+              { label: "How to Enable Root Sign-in"},
+              { label: "Provider Console"},  
             ],
           },
           { label: "Akash Provider FAQ and Guide" },
