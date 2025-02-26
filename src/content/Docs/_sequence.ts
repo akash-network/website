@@ -45,26 +45,74 @@ export const docsSequence = [
           {
             label: "Akash Console",
           },
+          { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
+          { label: "Stable Payment Deployments" },
+        ],
+      },
+      {
+        label: "Providers",
+        subItems: [
           {
-            label: "Praetor App",
+            label: "Build A Cloud Provider",
             subItems: [
-              { label: "What is Praetor App?" },
-              {
-                label: "Akash Provider",
+              { label: "Provider Overview"},
+              { label: "Using the Akash CLI",
                 subItems: [
-                  { label: "Build a Cloud Provider" },
-                  { label: "Existing Kubernetes Cluster" },
-                  { label: "Single Server Provider" },
-                  { label: "Build a Cloud Provider (Windows Machine)" },
-                  { label: "Sudo User Requirements" },
-                  { label: "Decommission a Provider" },
-                  
+                    {
+                      label: "Kubernetes Cluster For Akash Providers",
+                      subItems: [{ label: "Kubernetes Cluster for Akash Providers" }],
+                    },
+                    {
+                      label: "Akash Cloud Provider Build With Helm Charts",
+                    },
+                    {
+                      label: "Akash Provider Checkup",
+                    },
+                    {
+                      label: "Time Synchronization",
+                    },
+                    {
+                      label: "GPU Resource Enablement (Optional Step)",
+                    },
+                    {
+                      label: "TLS Certs for Akash Provider (Optional Step)",
+                    },
+                    {
+                      label: "IP Leases - Provider Enablement (Optional Step)",
+                    },
+                    {
+                      label: "Helm Based Provider Persistent Storage Enablement",
+                    },
+                    {
+                      label: "Akash Provider Bid Pricing Calculation",
+                    },
+                    {
+                      label: "Akash Provider Attribute Updates",
+                    },
+                    {
+                      label: "gVisor Issue - No system-cgroup v2 Support",
+                    },
+                    {
+                      label: "Shared Memory Enablement",
+                    },
+
+                ],
+              },
+              { label: "Provider Console",
+                subItems: [
+                  { label: "What is Provider Console"},
+                  { label: "Provider Console"},
+                  { label: "How to Enable Root Sign-in"}, 
                 ],
               },
             ],
           },
-          { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
-          { label: "Stable Payment Deployments" },
+          {
+            
+          },
+          { label: "Akash Provider FAQ and Guide" },
+          { label: "Community Solutions" },
+          { label: "Custom Kubernetes Cluster Settings" },
         ],
       },
       {
@@ -232,75 +280,7 @@ export const docsSequence = [
           }
         ],
       },
-      {
-        label: "Providers",
-        subItems: [
-          {
-            label: "Build A Cloud Provider",
-            subItems: [
-              { label: "Using the Akash CLI",
-                subItems: [
-                    {
-                      label: "Kubernetes Cluster For Akash Providers",
-                      subItems: [{ label: "Kubernetes Cluster for Akash Providers" }],
-                    },
-                    {
-                      label: "Akash Cloud Provider Build With Helm Charts",
-                    },
-                    {
-                      label: "Akash Provider Checkup",
-                    },
-                    {
-                      label: "Time Synchronization",
-                    },
-                    {
-                      label: "GPU Resource Enablement (Optional Step)",
-                    },
-                    {
-                      label: "TLS Certs for Akash Provider (Optional Step)",
-                    },
-                    {
-                      label: "IP Leases - Provider Enablement (Optional Step)",
-                    },
-                    {
-                      label: "Helm Based Provider Persistent Storage Enablement",
-                    },
-                    {
-                      label: "Akash Provider Bid Pricing Calculation",
-                    },
-                    {
-                      label: "Akash Provider Attribute Updates",
-                    },
-                    {
-                      label: "gVisor Issue - No system-cgroup v2 Support",
-                    },
-                    {
-                      label: "Shared Memory Enablement",
-                    },
-
-                ],
-              },
-                { label: "Provider Console",
-                  subItems: [
-                    { label: "What is Provider Console"},
-                    { label: "Provider Console",
-                      subItems: [
-                        { label: "How to Enable Root Sign-in"},
-                        { label: "Provider Console"}, 
-                      ]
-                    } ,
-                  ],
-                },
-            ],
-          },
-          {
-            
-          },
-          { label: "Akash Provider FAQ and Guide" },
-          { label: "Community Solutions" },
-          { label: "Custom Kubernetes Cluster Settings" },
-        ],
-      },
+      
 
       {
         label: "Akash Nodes",
