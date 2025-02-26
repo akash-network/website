@@ -1,7 +1,7 @@
 ---
-categories: ["Providers"]
-tags: ["Praetor Console"]
-weight: 5
+categories: ["Provider Console"]
+tags: ["Provider Console"]
+weight: 3
 title: "What is Provider Console?"
 linkTitle: "What is Provider Console?"
 ---
