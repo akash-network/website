@@ -211,9 +211,9 @@ This is a comprehensive guide that covers the steps necessary to upgrade from Ma
 
 ### IMPORTANT
 
-#### This procedure does not apply to Praetor providers!
+#### This procedure does not apply to providers using the Provider Console!
 
-Praetor providers should wait for further upgrade instructions from Praetor team!
+Providers using the Provider Console (previously know as Praetor App) should wait for further upgrade instructions from the Akash team!
 
 ### Provider Components to be Upgraded
 
