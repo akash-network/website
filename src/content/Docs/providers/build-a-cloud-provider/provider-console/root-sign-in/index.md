@@ -1,7 +1,7 @@
 ---
 categories: ["Provider Console"]
 tags: []
-weight: 2
+weight: 1
 title: "How to Enable Root Sign-in to Provider Console"
 linkTitle: "How to Enable Root Sign-in"
 ---
