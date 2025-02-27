@@ -52,10 +52,10 @@ export const docsSequence = [
       {
         label: "Providers",
         subItems: [
+          { label: "Provider Overview"},
           {
             label: "Build A Cloud Provider",
             subItems: [
-              { label: "Provider Overview"},
               { label: "Akash CLI",
                 subItems: [
                     {
