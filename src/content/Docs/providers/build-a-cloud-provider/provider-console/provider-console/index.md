@@ -1,12 +1,12 @@
 ---
 categories: ["Provider Console"]
-tags: []
-weight: 2
+tags: ["Provider Console"]
+weight: 1
 title: "Creating an Akash Provider Using the Akash Console"
-linkTitle: "Provider Console"
+linkTitle: " Building with Provider Console"
 ---
 
-The Akash Provider Console is an easy way to become an Akash Provider. Being a provider allows individuals and organizations to rent out their unused computing resources. 
+The Akash Provider Console (previously known as Praetor App) is an easy way to become an Akash Provider. Being a provider allows individuals and organizations to rent out their unused computing resources. 
 
 
 This guide will walk you through the process of setting up an **Akash Provider** using the Akash Provider Console.
@@ -22,29 +22,29 @@ This guide will walk you through the process of setting up an **Akash Provider**
 - Go to the [Akash Provider Console](https://provider-console.akash.network/) in your browser.
 
 
-![](../../assets/provider_lp.png)
+![](../../../../assets/provider_lp.png)
 
 - Click on `connect wallet`.
 
 
-![](../../assets/connect_wallet.png)
+![](../../../../assets/connect_wallet.png)
 
 - Select `Keplr`, sign into your wallet, and approve the network collection request.
 
 
-![](../../assets/select_keplr.png)
+![](../../../../assets/select_keplr.png)
 
 
-![](../../assets/wallet_login.png)
+![](../../../../assets/wallet_login.png)
 
 
-![](../../assets/approved.png)
+![](../../../../assets/approved.png)
 
 
 - Once you sign in successfully, you be on the `Create Provider` page. 
 
 
-![](../../assets/provider_landing.png)
+![](../../../../assets/provider_landing.png)
 
 
 ---
@@ -55,7 +55,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
    1. Click on the `Create Provider` button. 
 
 
-   ![](../../assets/server_access.png)
+   ![](../../../../assets/server_access.png)
 
    
   
@@ -65,11 +65,11 @@ This guide will walk you through the process of setting up an **Akash Provider**
    2. In `Server Access`, enter the number of servers you want to provide. If you intend to have both `control plane` and `worker` nodes, you should provide at least 2 servers.
 
 
- ![](../../assets/server_access.png)
+ ![](../../../../assets/server_access.png)
 
 
 
- ![](../../assets/server_count.png)
+ ![](../../../../assets/server_count.png)
 
    3. Fill in the requested information for your `Control Plane Node`. Make sure you choose how you would like to provide your credentials: select either one `ssh` or `password`. Repeat the process for all of your nodes. 
 
@@ -101,20 +101,20 @@ This guide will walk you through the process of setting up an **Akash Provider**
    `172.31.13.12`
 
 
- ![](../../assets/control_plane.png)
+ ![](../../../../assets/control_plane.png)
 
 
  4. If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses. 
 
 
- ![](../../assets/worker_nodes.png)
+ ![](../../../../assets/worker_nodes.png)
 
 
 
  5. Fill in your provider configurations for you `Control Nodes`.
 
 
- ![](../../assets/provider_info.png)
+ ![](../../../../assets/provider_info.png)
 
 
 
@@ -123,14 +123,14 @@ This guide will walk you through the process of setting up an **Akash Provider**
   6. Review the attributes you provided:
 
 
- ![](../../assets/review_pov.png)
+ ![](../../../../assets/review_pov.png)
 
   
 
    7. Adjust the pricing of the various services you would be providing. The prices you set here determine the price your provider bids with and total revenue it earns for you.
 
 
- ![](../../assets/pricing.png)
+ ![](../../../../assets/pricing.png)
 
    8. Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or  manually doing so. 
 
@@ -144,13 +144,13 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
 
 
- ![](../../assets/beginning.png)
+ ![](../../../../assets/beginning.png)
 
  If your settings and configurations are done correctly, you should be done in a couple of minutes. 
 
 
 
- ![](../../assets/complete.png)
+ ![](../../../../assets/complete.png)
 
   10. Make DNS Changes: For your domain to work, you would need to point your machines' public IPs to the `provider.example.com` domain name and the `*.ingress.example.com` domain name. This would need to be configured from your domain registrar's control panel. As the methods vary widely per domain registrar, please check the specific registrar docs for instructions. 
 

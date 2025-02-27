@@ -12,7 +12,7 @@ linkTitle: "Hardware and Software Recommendations"
 
 ### **Easy**
 
-[**Praetor**](https://praetorapp.com/) **(Web based setup/Keplr wallet)**
+[**Akash Provider Console (previously known as Praetor App)**](https://provider-console.akash.network/) **(Web based setup/Keplr wallet)**
 
 Web based setup / Requires [Keplr](https://www.keplr.app/) wallet and uses SSH to install k3s
 

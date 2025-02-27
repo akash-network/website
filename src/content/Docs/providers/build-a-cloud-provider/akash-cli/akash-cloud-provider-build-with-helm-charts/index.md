@@ -322,7 +322,7 @@ provider.yourdomain.com
 
 #### Example DNS Configuration
 
-![](../../../assets/namecheapCapture.png)
+![](../../../../assets/namecheapCapture.png)
 
 ## Step 6 - Hostname Operator Build
 

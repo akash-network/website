@@ -8,19 +8,8 @@ linkTitle: "Community Solutions"
 
 The Akash community drives innovation in Provider tooling. Our highlighted community contributions include:
 
-- [Praetor](#praetor) - allows users with limited Kubernetes experience to fully build a provider in a curated series of steps within a user friendly web app
 - [AkashDash](#akashdash---provider-earnings-portal) - offers Akash providers an instantaneous view of profitability metrics both on a per lease basis and in summation across all current/active leases.
 
-## Praetor
-
-The Praetor application offers a streamlined mechanism to deploy an Akash Provider. The web app allows the creation of the necessary Kubernetes cluster and the Provider instance all from within an extremely user friendly series of guided steps.
-
-In addition to the Praetor Provider build app, the team has created great tools for viewing current Akash Providers and a Provider revenue calculator.
-
-- [Praetor Documentation](https://docs.praetorapp.com/) or [here](/docs/deployments/praetor-app/what-is/)
-- [Praetor Provider Build App](https://akash.praetorapp.com/auth/login)
-- [Praetor Provider Revenue Calculator](https://akash.praetorapp.com/calculator)
-- [Praetor Current Akash Provider Report](https://akash.praetorapp.com/provider-status)
 
 ## AkashDash - Provider Earnings Portal
 
