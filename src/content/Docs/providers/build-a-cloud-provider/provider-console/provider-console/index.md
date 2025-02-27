@@ -6,7 +6,7 @@ title: "Creating an Akash Provider Using the Akash Console"
 linkTitle: " Building with Provider Console"
 ---
 
-The Akash Provider Console is an easy way to become an Akash Provider. Being a provider allows individuals and organizations to rent out their unused computing resources. 
+The Akash Provider Console (previously known as Praetor App) is an easy way to become an Akash Provider. Being a provider allows individuals and organizations to rent out their unused computing resources. 
 
 
 This guide will walk you through the process of setting up an **Akash Provider** using the Akash Provider Console.

@@ -8,7 +8,7 @@ linkTitle: "What is Provider Console?"
 
 # Provider Console
 
-The **Provider Console** simplifies the process of becoming a cloud provider on the Akash Network. Instead of using a Command-line Interface, you can manage everything through our intuitive graphical interface. Once set up as a provider, deployers who select your services will compensate you in **AKT**.
+The **Provider Console** (previously known as Praetor App) simplifies the process of becoming a cloud provider on the Akash Network. Instead of using a Command-line Interface, you can manage everything through our intuitive graphical interface. Once set up as a provider, deployers who select your services will compensate you in **AKT**.
 
 ## Features
 
