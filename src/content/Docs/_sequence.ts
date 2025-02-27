@@ -56,7 +56,7 @@ export const docsSequence = [
             label: "Build A Cloud Provider",
             subItems: [
               { label: "Provider Overview"},
-              { label: "Using the Akash CLI",
+              { label: "Akash CLI",
                 subItems: [
                     {
                       label: "Kubernetes Cluster For Akash Providers",
@@ -100,8 +100,8 @@ export const docsSequence = [
               },
               { label: "Provider Console",
                 subItems: [
-                  { label: "What is Provider Console"},
-                  { label: "Provider Console"},
+                  { label: "What is Provider Console?"},
+                  { label: "Building with Provider Console"},
                   { label: "How to Enable Root Sign-in"}, 
                 ],
               },
@@ -119,10 +119,10 @@ export const docsSequence = [
         label: "Guides",
 
         subItems: [
+          { label: "Guides Overview"},
           {
             label: "Machine Learning",
             subItems: [
-              { label: "OneClickLLM" },
               { label: "DeTrain" },
               { label: "Ray" },
               { label: "FLock.io" },

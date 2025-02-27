@@ -1,9 +1,9 @@
 ---
 categories: ["Provider Console"]
-tags: []
-weight: 2
+tags: ["Provider Console"]
+weight: 1
 title: "Creating an Akash Provider Using the Akash Console"
-linkTitle: "Provider Console"
+linkTitle: " Building with Provider Console"
 ---
 
 The Akash Provider Console is an easy way to become an Akash Provider. Being a provider allows individuals and organizations to rent out their unused computing resources. 

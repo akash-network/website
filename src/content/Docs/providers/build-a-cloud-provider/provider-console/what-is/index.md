@@ -20,4 +20,6 @@ Do you have underutilized Kubernetes resources? You can seamlessly integrate the
 
 ---
 
+
+
 For more information on how to get started, visit the official **Provider Console** documentation.
