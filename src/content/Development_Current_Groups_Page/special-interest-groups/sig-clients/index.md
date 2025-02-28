@@ -31,7 +31,7 @@ Akash Network Clients are software and services that make it easier for tenants 
 
 ## Provider Onboarding Clients
 
-- [Akash Command Line, with Helm Charts](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/)
+- [Akash Command Line, with Helm Charts](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/)
 - [Praetor App](https://github.com/akash-network/community/tree/main/sig-clients/praetor/README.md)
 
 The goal of this SIG is to foster a community around each of these clients that is focused on building a roadmap for each client, capturing feedback from users, resolving issues and driving adoption of the clients. Each of these clients cater to specific Akash Network user segments and as such, drive the north star metric of driving deployemtns on Akash Network as a whole.

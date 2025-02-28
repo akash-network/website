@@ -14,7 +14,7 @@ Please be aware of the following prerequisites prior to getting started.&#x20;
 
 ## Prerequisites&#x20;
 
-- Provider IP Leases enablement is only supported for Akash providers built using [Helm Charts](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/)
+- Provider IP Leases enablement is only supported for Akash providers built using [Helm Charts](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/)
 - Available pool of unallocated public IP addresses
 
 ## Sections in this Guide
@@ -116,7 +116,7 @@ kubectl apply -f metallb-config.yaml
 
 Based on MetalLB via Kubespray guidance documented [here](https://github.com/kubernetes-sigs/kubespray/blob/v2.20.0/docs/metallb.md)
 
-The Kubespray flags provided bellow should go into your Provider's Kubespray inventory file and under the vars section. Our reference Provider Kubespray inventory file - used during initial Provider Kubernetes cluster build - is located [here](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers#step-4---ansible-inventory).
+The Kubespray flags provided bellow should go into your Provider's Kubespray inventory file and under the vars section. Our reference Provider Kubespray inventory file - used during initial Provider Kubernetes cluster build - is located [here](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers#step-4---ansible-inventory).
 
 ```
 # akash provider needs metallb pool name set to `default` - https://github.com/akash-network/provider/blob/v0.1.0-rc13/cluster/kube/metallb/client.go#L43

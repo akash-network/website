@@ -8,7 +8,7 @@ linkTitle: "Helm Based Provider Persistent Storage Enablement"
 
 At Akash we use the Kubernetes Rook Operator coupled with the Ceph distributed file system to provision Provider persistent storage.
 
-Refer to the [ Akash Provider](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/) guide if your provider has not yet been built.
+Refer to the [ Akash Provider](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/) guide if your provider has not yet been built.
 
 We encourage becoming familiar with Rook and Ceph prior to configuring Akash persistent storage via this [guide](https://rook.github.io/docs/rook/latest-release/). The current persistent storage use is based on the Rook Ceph helm chart.
 
@@ -160,7 +160,7 @@ In the subsequent sections persistent storage attributes will be defined. Use th
 
 ### **Helm Install**
 
-Install Helm and add the Akash repo if not done previously by following the steps in this [guide](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-4---helm-installation-on-kubernetes-node)**.**
+Install Helm and add the Akash repo if not done previously by following the steps in this [guide](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts#step-4---helm-installation-on-kubernetes-node)**.**
 
 All steps in this section should be conducted from the Kubernetes control plane node on which Helm has been installed.
 
@@ -516,7 +516,7 @@ rook-ceph   /var/lib/rook     1          5m18s   Ready   Cluster created success
 - Adjust the following key-values pairs as necessary within the `provider-storage.yaml` file created below:
   - Update the values of the `capabilities/storage/2/class` key to the correct class type (I.e. `beta2`). Reference the [Storage Class Types](#storage-class-types) doc section for additional details.
   - Update the region value from current `us-west` to an appropriate value such as `us-east` OR `eu-west`
-- Ensure that necessary [environment variables](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-8---provider-build-via-helm-chart) are in place prior to issuing
+- Ensure that necessary [environment variables](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts#step-8---provider-build-via-helm-chart) are in place prior to issuing
 
 ##### Caveat on Attributes Updates in Active Leases
 
@@ -534,7 +534,7 @@ helm repo update
 #### Capture and Edit provider.yaml File
 
 - In this section we will capture the current provider settings and add necessary persistent storage elements
-- _**NOTE**_ - the `bidpricestoragescale` setting in the `provider.yaml` file will be ignored if the [bid pricing script](/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/) is used.
+- _**NOTE**_ - the `bidpricestoragescale` setting in the `provider.yaml` file will be ignored if the [bid pricing script](/docs/providers/build-a-cloud-provider/akash-cli/akash-provider-bid-pricing-calculation/) is used.
 
 ##### **Capture Current Provider Settings and Write to File**
 
