@@ -41,13 +41,13 @@ Alternatively the verifications in this guide could be completed using the Akash
 
 In most cases your Akash provider address is likely known and was captured during the provider installation steps. If you do not know your provider’s address, which will be necessary for verifications as we proceed, it may be obtained in the Akash Console and in the Provider sections shown below.
 
-![](../../../assets/akashlyticsProviderList.png)
+![](../../../../assets/akashlyticsProviderList.png)
 
 ### **Familiarity with Your Provider’s Attributes**
 
 As test deployments are launched within this guide, we want to ensure that our provider will bid on those deployments. Ensure you are familiar with your provider’s attribute list. The active attributes for a provider can be obtained by drilling into the details within the Akash Console Provider list by selecting your instance from the list and then drilling into the details as shown.
 
-![](../../../assets/akashlyticsProviderAttributes.png)
+![](../../../../assets/akashlyticsProviderAttributes.png)
 
 ## Akash Provider Status and Attributes Endpoints
 
@@ -89,7 +89,7 @@ curl -ks https://provider.hurricane.akash.pub:8443/status
 
 ### Provider Version Endpoint
 
-This endpoint is not necessarily useful for a general health check following Provider install but may become useful if/when detailed package versions need to be reviewed in troubleshooting exercises.  The lengthy output of this endpoint reveals Akash Provider, Go, and many other packages versions involved in the implementation.
+This endpoint is not necessarily useful for a general health check following Provider install but may become useful if/when detailed package versions need to be reviewed in troubleshooting exercises. The lengthy output of this endpoint reveals Akash Provider, Go, and many other packages versions involved in the implementation.
 
 Template
 
@@ -113,13 +113,13 @@ Launch the Akash Console application to complete the sections that follow.
 
 - Select the CREATE DEPLOYMENT option from the Dashboard page
 
-![](../../../assets/akashlyticsCreateDeployment.png)
+![](../../../../assets/akashlyticsCreateDeployment.png)
 
 - In our testing we will use the Hello Akash World simple SDL
 - Note - this SDL does not specify any attributes. If the list of bids received from the deployment is large and you would like to reduce the list to isolate a bid from your provider a bit easier, consider attribute use as detailed in this [SDL reference](/docs/providers/audited-attributes/#auditor-location-within-the-sdl).
 - Otherwise process with the deployment with no need for change to the Hello Akash World SDL and pause when you reach reach the Create Lease phase of the deployment
 
-![](../../../assets/akashlyticsHelloWorldSelect.png)
+![](../../../../assets/akashlyticsHelloWorldSelect.png)
 
 ### Create Lease
 
@@ -128,20 +128,20 @@ Launch the Akash Console application to complete the sections that follow.
 - If a bid from your provider was received, select that bid and proceed with ACCEPT BID which will complete our first test deployment on our provider and we can proceed to next verification steps. Leave the test deployment open for next steps.
 - If a bid from your provider was not received, review the [Provider Logs](#step-5---provider-logs) section of this guide in which we will verify that the deployment order reached the provider and was processed successfully.
 
-![](../../../assets/akashlyticsAcceptBid.png)
+![](../../../../assets/akashlyticsAcceptBid.png)
 
 ## STEP 2 - Inbound Communication Verifications
 
 - In this step we will verify functionality of inbound communication for active deployments on our provider
 - Within the Akash Console Deployment detail pane > navigate to the LEASES tab > and click the URL of the test deployment
 
-![](../../../assets/akashlyticsInboundVerification.png)
+![](../../../../assets/akashlyticsInboundVerification.png)
 
 - A new tab within your browser should launch and Hello Akash World home page should display as demonstrated below
 - Note - the URL will be directed to the Ingress Controller of your provider Kubernetes cluster
 - If this page does not display properly it would indicate an issue with the provider’s Ingress Controller and we should investigate via the [Provider Troubleshooting guide](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)
 
-![](../../../assets/helloWorldHomePage.png)
+![](../../../../assets/helloWorldHomePage.png)
 
 ## STEP 3 - Shell Access Verification
 
@@ -149,12 +149,12 @@ Launch the Akash Console application to complete the sections that follow.
 - Within this step we will ensure that there are no issues with shell access into a deployment running on your provider.
 - Open the shell for the Hello Akash World test deployment and within Akash Console via the deployment’s SHELL tab as demonstrated
 
-![](../../../assets/deploymentShellAccess.png)
+![](../../../../assets/deploymentShellAccess.png)
 
 - Ensure that not only can we get into a deployment’s shell but we can issue commands in operating system
 - Issue a simple `ls -al` and list the file details in the current directory as a simple shell command execution test
 
-![](../../../assets/akashlyticsShellLS.png)
+![](../../../../assets/akashlyticsShellLS.png)
 
 ## STEP 4 - Provider DNS Verification
 
@@ -162,7 +162,7 @@ Launch the Akash Console application to complete the sections that follow.
 - Often DNS issues can be unrecognized for some time so this verification ensures we will not have such issues in the future.
 - Issue a `nslookup akash.network` from the deployment's shell as shown in the demonstration. The example also displays the successful response of the domain name to IP address lookup we would expect and verifies that no DNS issues exist within deployments on our provider.
 
-![](../../../assets/deploymentDNSLookup.png)
+![](../../../../assets/deploymentDNSLookup.png)
 
 ## STEP 5 - Provider Logs
 
