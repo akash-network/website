@@ -115,7 +115,7 @@ We can use either Google Cloud or Cloudflare as the DNS solver. Subsequent secti
 
 - Add the following section in the `solvers` section of your `cert-manager-values.yaml` file.
 
-> _**NOTE**_ - see this [section](/docs/providers/build-a-cloud-provider/tls-certs-for-akash-provider/#complete-cert-manager-valuesyaml-yaml-file-example) for a full `cert-manager-values.yaml` YAML file example
+> _**NOTE**_ - see this [section](/docs/providers/build-a-cloud-provider/akash-cli/tls-certs-for-akash-provider/#complete-cert-manager-valuesyaml-yaml-file-example) for a full `cert-manager-values.yaml` YAML file example
 
 ```
     - dns01:
@@ -389,7 +389,7 @@ The steps in section replace the Kubernetes Ingress Controller Fake Certificate 
 
 ### Update the ingress-nginx-custom.yaml Config File
 
-Update the `ingress-nginx-custom.yaml` file - originally created when installing your Akash Provider ingress controller in this [guide/step](/docs/providers/build-a-cloud-provider/tls-certs-for-akash-provider/#ingress-controller-wildcard-cert-use) - with this extra argument:
+Update the `ingress-nginx-custom.yaml` file - originally created when installing your Akash Provider ingress controller in this [guide/step](/docs/providers/build-a-cloud-provider/akash-cli/tls-certs-for-akash-provider/#ingress-controller-wildcard-cert-use) - with this extra argument:
 
 ```
   extraArgs:
@@ -398,7 +398,7 @@ Update the `ingress-nginx-custom.yaml` file - originally created when installing
 
 ### Update the Ingress Controller
 
-Use the `helm upgrade` command - same syntax which was used in the original install of the `ingress-nginx` chart and detailed [here](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-10---ingress-controller-install) - to apply the changes.
+Use the `helm upgrade` command - same syntax which was used in the original install of the `ingress-nginx` chart and detailed [here](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/#step-10---ingress-controller-install) - to apply the changes.
 
 ### Verification
 

@@ -109,7 +109,7 @@ helm install akash-ip-operator akash/akash-ip-operator -n akash-services --set p
 
 > _**NOTE**_ - ensure to open port `8444` on your firewall if necessary as well
 
-The Ingress Controller rules have been updated to include Feature Discovery destinations and mainly port `8444`. Update your ingress controller to ensure they are current via the instructions in this doc [section](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-8-ingress-controller-install).
+The Ingress Controller rules have been updated to include Feature Discovery destinations and mainly port `8444`. Update your ingress controller to ensure they are current via the instructions in this doc [section](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/#step-8-ingress-controller-install).
 
 ### Akash Provider Upgrade
 
