@@ -1,19 +1,15 @@
 ---
-// Import required assets
-
-import SunIcon from "@/assets/icons/sun.svg";
-
-// Import required components
-import Logo from "@/components/ui/logo.astro";
 import NavLink from "@/components/header/nav-link.astro";
-import { Image } from "astro:assets";
-import HamburgerMenu from "./hamburger-menu";
-import PopOverNavItem from "./popover-nav-item";
+import Logo from "@/components/ui/logo.astro";
+import { getYearToUse } from "@/utils/redirects";
+import { getCollection } from "astro:content";
+import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
-import ButtonLink from "../ui/button-link.astro";
-import { GithubIcon, TwitterIcon, DiscordIcon } from "./icons";
-
-// Get current pathname
+import HamburgerMenu from "./hamburger-menu";
+import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
+import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
+import PopOverNavItemNetwork from "./popovers/popover-nav-item";
+import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
 interface Props {
@@ -22,75 +18,94 @@ interface Props {
 
 const { disableSticky } = Astro.props;
 
-const networkItems = [
-  {
-    title: "About Akash",
-    description: "Discover the story behind Akash and how it works",
-    link: "/about/general-information/",
-  },
-  {
-    title: "Akash Stats",
-    description:
-      "Get insights into the latest statistics about the Akash Network",
-    link: "https://stats.akash.network/",
-  },
-  {
-    title: "AKT Token",
-    description: "Understand the role of the $AKT token in the Akash ecosystem",
-    link: "/token",
-  },
-];
+const visibilty = {
+  network: ["/about", "/token"],
+  community: ["/community"],
+  development: ["/development", "/roadmap"],
+  ecosystem: ["/ecosystem"],
+  pricing: ["/pricing"],
+};
+
+const pathnames = Object.values(visibilty).flat();
+
+const posts = (await getCollection("Blog"))
+  .filter((post) => {
+    return post.data.archive !== true;
+  })
+  .sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+    return dateB.getTime() - dateA.getTime();
+  });
+
+const latestRoadmapYear = getYearToUse();
 ---
 
 <header
-  class={`
-${disableSticky ? "" : "sticky top-0 z-[30]"}
- bg-white dark:bg-[#242424]`}
+  class={clsx(
+    "bg-white dark:bg-[#242424]  ",
+    !visibilty.development.includes(pathname) &&
+      "border-b border-defaultBorder",
+    disableSticky
+      ? ""
+      : pathnames.includes(pathname)
+        ? ""
+        : "top-0 sticky z-[30]",
+  )}
 >
   <nav
-    class="container mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]"
+    class={clsx(
+      "  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
+      "container",
+    )}
     id="page-top"
   >
-    <!-- Logo for desktops -->
     <div class="hidden flex-shrink-0 items-center md:flex md:gap-x-6">
       <a href="/">
         <Logo width={128} />
       </a>
 
       <div
-        class="mt-1 hidden lg:flex lg:w-full lg:justify-center lg:gap-x-[20px] xl:gap-x-[24px]"
+        class="mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] slg:flex xl:gap-x-[24px]"
       >
-        <PopOverNavItem client:load subItems={networkItems} />
-
-        <NavLink href="/development/welcome/" currentPath={pathname}>
-          Development
+        <PopOverNavItemNetwork client:load />
+        <PopOverCommunity client:load type="community" />
+        <PopOverCommunity
+          client:load
+          type="development"
+          latestRoadmapYear={latestRoadmapYear}
+        />
+        <PopOverNavItemEcosystem client:load posts={posts} />
+        <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
+        <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
+        <NavLink href="/pricing/gpus" currentPath={pathname}>
+          <div class="flex items-center gap-1">
+            <span class="text-sm font-medium">Pricing & Earnings</span>
+            <span
+              class="inline-flex items-center rounded-full bg-primary/5 px-1.5 py-0.5 text-xs font-medium text-primary ring-1 ring-inset ring-primary/10"
+            >
+              New GPUs
+            </span>
+          </div>
         </NavLink>
-        <NavLink href="/community/akash-insiders/" currentPath={pathname}>
-          Community
-        </NavLink>
-        <NavLink href="/ecosystem/showcase/latest" currentPath={pathname}>
-          Ecosystem
-        </NavLink>
-
-        <NavLink href="/blog" currentPath={pathname}>Blog</NavLink>
-        <NavLink href="/docs" currentPath={pathname}>Docs</NavLink>
-        <NavLink href="/gpus" currentPath={pathname}>GPU Pricing</NavLink>
       </div>
     </div>
 
-    <!-- Logo for mobiles -->
     <div class="block flex-shrink-0 md:hidden">
       <a href="/">
         <Logo width={118} height={24} />
       </a>
     </div>
 
-    <!-- HamburgerMenu -->
-    <div class="block overflow-hidden lg:hidden">
-      <HamburgerMenu client:load currentPath={pathname} />
+    <div class="block overflow-hidden slg:hidden">
+      <HamburgerMenu
+        client:load
+        currentPath={pathname}
+        latestRoadmapYear={latestRoadmapYear}
+      />
     </div>
 
-    <div class="hidden flex-shrink-0 lg:flex lg:gap-x-[12px]">
+    <div class="hidden flex-shrink-0 slg:flex slg:gap-x-[12px]">
       <DarkModeToggle nav />
 
       <div class="mr-3 hidden items-center gap-x-[12px] text-para xl:flex">
@@ -121,44 +136,6 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
       </div>
 
       <div class="flex items-center lg:gap-x-4">
-        <!-- <div>
-          <ButtonLink
-            aria-label="Reach Out"
-            link="https://akashnet.typeform.com/to/rhR4cWxQ?typeform-source=akash.network"
-            variant="secondary"
-            target="_blank"
-            size="sm"
-            className=" rounded-[4px]  px-[11px] py-[7px] text-xs "
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clip-path="url(#clip0_2801_2947)">
-                <path
-                  d="M6.11719 9.88588L9.88841 6.11462M9.88841 6.11462H6.58859M9.88841 6.11462V9.41448"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-                <path
-                  d="M8.0026 14.6667C11.6845 14.6667 14.6693 11.6819 14.6693 8.00004C14.6693 4.31814 11.6845 1.33337 8.0026 1.33337C4.3207 1.33337 1.33594 4.31814 1.33594 8.00004C1.33594 11.6819 4.3207 14.6667 8.0026 14.6667Z"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </g>
-              <defs>
-                <clipPath id="clip0_2801_2947">
-                  <rect width="16" height="16" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-
-             Reach Out
-          </ButtonLink>
-        </div> -->
-
         <div>
           <a
             aria-label="Deploy Now"
@@ -174,3 +151,39 @@ ${disableSticky ? "" : "sticky top-0 z-[30]"}
     </div>
   </nav>
 </header>
+<div
+  class={clsx(
+    "bg-white dark:bg-[#242424]",
+    disableSticky
+      ? "hidden"
+      : pathnames.includes(pathname)
+        ? "top-0 sticky z-[30]"
+        : "hidden",
+  )}
+>
+  {
+    visibilty.network.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
+    )
+  }
+  {
+    visibilty.community.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="community" />
+    )
+  }
+  {
+    visibilty.development.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
+    )
+  }
+  {
+    visibilty.ecosystem.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
+    )
+  }
+  {
+    visibilty.pricing.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} client:load type="pricing" />
+    )
+  }
+</div>

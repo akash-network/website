@@ -1,10 +1,10 @@
 ---
 import ButtonLink from "@/components/ui/button-link.astro";
 
-const { link, label } = Astro.props;
+const { link, label, className } = Astro.props;
 ---
 
-<ButtonLink link={link} variant="secondary" size="lg">
+<ButtonLink link={link} variant="secondary" size="lg" className={className}>
   <svg
     width="20"
     height="20"

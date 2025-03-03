@@ -1,23 +1,21 @@
 import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { gpus } from "@/utils/api";
+import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Info } from "lucide-react";
-import { gpus } from "@/utils/api";
 import clsx from "clsx";
-import CheckBox from "./checkbox";
+import { Info } from "lucide-react";
+import React from "react";
+import { Skeleton } from "../ui/skeleton";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import Sort from "./sort";
-import { useStorage } from "@/utils/store";
-import { Skeleton } from "../ui/skeleton";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -105,8 +103,10 @@ export const modifyModel = (model: string) => {
   return model === "rtxa6000"
     ? "A6000"
     : model?.includes("rtx")
-    ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
-    : model;
+      ? model?.replace("rtx", "RTX ").replace("ti", " Ti")
+      : model?.includes("gtx")
+        ? model?.replace("gtx", "GTX ").replace("ti", " Ti")
+        : model;
 };
 
 export const price = (price: number) => {
@@ -124,7 +124,6 @@ export const Tables = ({
 }) => {
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
   const [filters, setFilters] = React.useState<Filters>(defaultFilters);
-  console.log(filteredData);
 
   return (
     <section
@@ -156,11 +155,24 @@ export const Tables = ({
             </h2>
             <div className="rounded-md border p-2 shadow-sm ">
               <span className="text-base font-bold">
-                {data?.availability?.available || 0}
+                {filteredData?.length > 0
+                  ? filteredData?.reduce(
+                      (prev, curr) =>
+                        prev + (curr?.availability?.available ?? 0),
+                      0,
+                    )
+                  : data?.availability?.available || 0}
               </span>
 
               <span className="ml-2  text-sm text-linkText">
-                (of {data?.availability?.total || 0})
+                (of{" "}
+                {filteredData?.length > 0
+                  ? filteredData?.reduce(
+                      (prev, curr) => prev + (curr?.availability?.total ?? 0),
+                      0,
+                    )
+                  : data?.availability?.total || 0}
+                )
               </span>
             </div>
           </div>
@@ -363,8 +375,8 @@ export const Tables = ({
                               <HoverCardTrigger className="flex cursor-pointer items-center gap-1">
                                 <p className="flex items-center">
                                   <span
-                                    className="dark:text-[#3 E3E3E] text-base
-                        text-[#D7DBDF] md:text-xs"
+                                    className="text-base text-[#D7DBDF]
+                        dark:text-[#3E3E3E] md:text-xs"
                                   >
                                     Avg:
                                   </span>

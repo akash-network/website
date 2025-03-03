@@ -166,7 +166,7 @@ _**This setting can be found in the following file and we will change the defaul
 vi ~/.akash/config/app.toml
 ```
 
-_**The initial recommended min-gas-prices is 0.025uakt but you might want to change it later.**_
+_**The initial recommended min-gas-prices is 0.0025uakt but you might want to change it later.**_
 
 ```
 # This is a TOML config file.
@@ -178,7 +178,7 @@ _**The initial recommended min-gas-prices is 0.025uakt but you might want to cha
 # transaction. A transaction's fees must meet the minimum of any denomination
 # specified in this config (e.g. 10uatom).
 
-minimum-gas-prices = "0.025uakt"
+minimum-gas-prices = "0.0025uakt"
 ```
 
 ## STEP6 - Copy the Genesis File
@@ -374,7 +374,7 @@ cat $HOME/.akash/config/config.toml
 
 We could let our node catch up to the current block but this would take a very long time. Instead we will download a snapshot of the blockchain before starting our node.
 
-**NOTE** - at the time of this writing the snapshot is 200GB and could take some time to pull down.
+**NOTE** - at the time of this writing the snapshot is 7GB.
 
 ### Remove Existing Data
 
@@ -386,18 +386,18 @@ cd ~/.akash
 
 ### Download Snapshot&#x20;
 
-> NOTE - in the `Example Steps` provided below a specific snapshot version is used (`12992214`).  In your use the current/latest snapshot version should be used.  The latest Akash snapshot version - made available via Polkachu - can be found [here](https://polkachu.com/tendermint\_snapshots/akash).  Replace all references to example snapshot version `12992214` with the current/latest version found on this site.
+The latest Akash snapshot version - made available via The Offical Akash Network Snapshot - can be found [here](https://snapshots.akash.network/akashnet-2/latest).  This snapshot is updated every hour.
 
 #### Example Steps
 
 ```
-wget -O akash_12992214.tar.lz4 https://snapshots.polkachu.com/snapshots/akash/akash_12992214.tar.lz4 --inet4-only
+wget -O akashnet-2_latest.tar.lz4 https://snapshots.akash.network/akashnet-2/latest --inet4-only
 
 apt-get install lz4
 
-lz4 -d akash_12992214.tar.lz4
+lz4 -d akashnet-2_latest.tar.lz4
 
-tar -xvf akash_12992214.tar
+tar -xvf akashnet-2_latest.tar
 ```
 
 ## STEP10 - Start the Akash Node

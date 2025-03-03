@@ -1,7 +1,4 @@
 ---
-// Import required assets
-
-// Import required components
 import CalloutsClasses from "@/components/callouts-classes.astro";
 import FormattedDate from "@/components/formatted-date.astro";
 import { TwitterIcon } from "@/components/header/icons";
@@ -13,36 +10,31 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { Facebook, Linkedin } from "lucide-react";
 
 type BlogPost = CollectionEntry<"Blog">;
-
-//  This async function, getStaticPaths, fetches data from a "blog" collection. It then generates paths with "slug" parameters for pre-rendered pages. These paths are essential for routing in Astro, facilitating the creation of dynamic routes for blog posts.
 export async function getStaticPaths() {
   const posts = await getCollection("Blog");
 
-  const tags: string[] = [];
+  const categories: string[] = [];
 
   posts.forEach((post) => {
-    // Loop through the tags in each blog post
-    post.data.tags.forEach((tag) => {
-      // Capitalize the first letter of the tag
-      const lowerCasedTag = tag;
-      // Check if the tag is not already in the allTags array
-      if (!tags.includes(lowerCasedTag)) {
-        // Add the tag to the allTags array
-        tags.push(lowerCasedTag);
+    post.data.categories.forEach((category: string) => {
+      const lowerCasedCategory = category;
+
+      if (!categories.includes(lowerCasedCategory)) {
+        categories.push(lowerCasedCategory);
       }
     });
   });
 
   return posts.map((post) => {
-    const serchTag = post.data.tags[0].toLowerCase();
+    const searchCategory = post.data.categories[0].toLowerCase();
 
-    // Get related articles for specified tag
     const relatedArticles = posts
       .filter((post) =>
-        post.data.tags.some((tag: string) => tag.toLowerCase() === serchTag),
+        post.data.categories.some(
+          (category: string) => category.toLowerCase() === searchCategory,
+        ),
       )
       .filter((post) => {
-        // Filter out posts with archive set to true
         return post.data.archive !== true;
       });
 
@@ -50,14 +42,14 @@ export async function getStaticPaths() {
       params: { slug: post.slug },
       props: {
         post: post,
-        tags: tags,
+        categories: categories,
         relatedArticles: relatedArticles,
       },
     };
   });
 }
 
-const { post, tags, relatedArticles } = Astro.props;
+const { post, categories, relatedArticles } = Astro.props;
 
 const { Content } = await post.render();
 ---
@@ -68,22 +60,21 @@ const { Content } = await post.render();
   description={post.data.metaDescription
     ? post.data.metaDescription
     : post.data.description}
-  tags={tags}
+  tags={categories}
   relatedArticles={relatedArticles}
 >
-  <!-- Blog frontmatter  -->
-  <div class="container grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
-    <div class="col-span-12 md:col-span-9">
+  <div class="grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
+    <div class="col-span-12 md:col-span-8">
       <div class="mt-4 hidden items-center gap-x-4 md:mt-0 md:flex">
-        <p class="text-xs font-medium leading-none text-cardGray md:text-base">
+        <p class="text-xs font-medium leading-none text-darkText md:text-base">
           by {`${post.data.contributors[0]}`}
         </p>
         <a
           class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
         >
           {
-            post.data.tags[0].charAt(0).toUpperCase() +
-              post.data.tags[0].slice(1)
+            post.data.categories[0].charAt(0).toUpperCase() +
+              post.data.categories[0].slice(1)
           }
         </a>
       </div>
@@ -98,24 +89,22 @@ const { Content } = await post.render();
         </span>
       </p>
 
-      <h1
-        class="mt-4 text-2xl font-bold md:mt-[18px] md:text-2lg md:leading-10 lg:text-3lg lg:leading-[48px]"
-      >
+      <h1 class="mt-4 font-sans text-3xl md:mt-[18px] md:text-4xl lg:text-5xl">
         {post.data.title}
       </h1>
 
       <p
-        class="mt-6 hidden items-center text-xs font-medium text-para md:mt-4 md:inline-flex md:text-base"
+        class="mt-6 hidden items-center text-xs font-medium text-darkText md:mt-4 md:inline-flex md:text-base"
       >
         5 Min. Read
-        <span class="ml-2 text-xs text-para md:text-base">
+        <span class="ml-2 text-xs md:text-base">
           <FormattedDate date={post.data.pubDate} />
         </span>
       </p>
 
       <div class="mt-4 flex items-center gap-x-4 md:mt-0 md:hidden">
         <p
-          class="text-xs font-medium leading-none text-cardGray md:block md:text-base"
+          class="text-xs font-medium leading-none text-darkText md:block md:text-base"
         >
           by {`${post.data.contributors[0]}`}
         </p>
@@ -129,9 +118,8 @@ const { Content } = await post.render();
     </div>
   </div>
 
-  <!-- Blog Content and grid -->
-  <div class="container mt-4 grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
-    <article class="col-span-12 md:col-span-9">
+  <div class="mt-4 grid grid-cols-12 md:gap-x-10">
+    <article class="col-span-12 md:col-span-8">
       <div>
         <Image
           src={post.data.bannerImage}
@@ -161,21 +149,21 @@ const { Content } = await post.render();
     </article>
 
     <aside
-      class="sticky top-28 col-span-3 hidden h-screen space-y-[56px] md:block"
+      class="sticky top-28 col-span-4 hidden h-screen space-y-[56px] md:block"
     >
       <div>
         <p class="font-bold leading-none text-foreground">Explore Topics</p>
 
         <div class="mt-6 flex flex-wrap gap-2">
           {
-            tags
+            categories
               .sort(() => Math.random() - 0.5)
-              .map((tag: string) => (
+              .map((category: string) => (
                 <a
-                  class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText"
-                  href={`/blog/${tag.toLowerCase()?.replaceAll(" ", "-")}/1`}
+                  class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-darkText"
+                  href={`/blog/${category.toLowerCase()?.replaceAll(" ", "-")}/1`}
                 >
-                  {tag}
+                  {category}
                 </a>
               ))
           }
@@ -193,7 +181,7 @@ const { Content } = await post.render();
                 return (
                   <a
                     href={`/blog/${post.slug}`}
-                    class="line-clamp-2 cursor-pointer  text-para hover:text-primary hover:no-underline"
+                    class="line-clamp-2 cursor-pointer  text-darkText hover:text-primary hover:no-underline"
                   >
                     {post.data.title}
                   </a>
@@ -233,7 +221,7 @@ const { Content } = await post.render();
     </aside>
   </div>
 
-  <div class="container block md:hidden">
+  <div class="block md:hidden">
     <div class="flex items-center justify-between pt-10 md:hidden">
       <p class="text-center text-base font-bold text-foreground">
         Share this Blog
@@ -268,14 +256,14 @@ const { Content } = await post.render();
         <p class="text-xs font-bold text-foreground">Explore Topics</p>
         <div class="mt-3 flex flex-wrap gap-x-2 gap-y-2">
           {
-            tags
+            categories
               .sort(() => Math.random() - 0.5)
-              .map((tag: string) => (
+              .map((category: string) => (
                 <a
                   class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText"
-                  href={`/blog/${tag.toLowerCase()}/1`}
+                  href={`/blog/${category.toLowerCase()}/1`}
                 >
-                  {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
                 </a>
               ))
           }
@@ -296,7 +284,7 @@ const { Content } = await post.render();
                 return (
                   <a
                     href={`/blog/${post.slug}`}
-                    class="line-clamp-2 cursor-pointer  text-xs text-para hover:text-primary hover:no-underline"
+                    class="line-clamp-2 cursor-pointer  text-xs text-darkText hover:text-primary hover:no-underline"
                   >
                     {post.data.title}
                   </a>

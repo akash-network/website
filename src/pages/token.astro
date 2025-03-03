@@ -3,50 +3,23 @@ import EcosystemSection from "@/components/token-page/ecosystem-section.astro";
 import HeroSection from "@/components/token-page/hero-section.astro";
 import HowItWorksSection from "@/components/token-page/how-it-works-section.astro";
 import Layout from "@/layouts/layout.astro";
-import { getEntryBySlug } from "astro:content";
 
-import OnThisPageDropdown from "@/components/on-this-page-mobile";
 import Sections from "@/components/token-page/sections";
 import TopMargin from "@/components/ui/top-margin.astro";
+import { getEntry } from "astro:content";
 
-// get token page content using getEntryBySlug
-const tokenPage = await getEntryBySlug("Token_Homepage", "index");
+const tokenPage = await getEntry("Token_Homepage", "index");
 
 const {
   heroSection,
-  howItWorksSection,
+
   faqsSection,
   ecosystemSection,
   buyingAKTSection,
   aktFeaturesSection,
 } = tokenPage.data;
 
-const nav = [
-  {
-    link: "#how-it-works",
-    label: "How it works",
-  },
-  {
-    link: "#ecosystem",
-    label: "Ecosystem Tools",
-  },
-  {
-    link: "#token-metrics",
-    label: "Token Metrics",
-  },
-  {
-    link: "#akt-features",
-    label: "AKT 2.0 Features",
-  },
-  {
-    link: "#buying-akt",
-    label: "Buying AKT",
-  },
-  {
-    link: "#faq",
-    label: "FAQs",
-  },
-];
+const url = Astro.site;
 ---
 
 <Layout
@@ -54,86 +27,23 @@ const nav = [
   description={heroSection?.description}
   image="/meta-images/token.png"
 >
-  <TopMargin>
-    <div class="grid-cols-12 gap-x-10 md:grid">
-      <div class="sticky top-[120px] hidden h-screen md:col-span-3 md:block">
-        <p class="text-sm font-bold leading-[20px]">ON THIS PAGE</p>
+  <TopMargin readable>
+    <div class="flex flex-col gap-10 md:gap-y-20">
+      <HeroSection heroSection={heroSection} />
 
-        <div class="border-b py-2"></div>
+      <HowItWorksSection />
+      <div class="border-b"></div>
+      <EcosystemSection ecosystemSection={ecosystemSection} />
 
-        <div class="mt-4 flex flex-col gap-y-4 text-para">
-          <a
-            href="#how-it-works"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >How it works</a
-          >
-          <a
-            href="#ecosystem"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >Ecosystem Tools</a
-          >
-          <a
-            href="#token-metrics"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >Token Metrics</a
-          >
-          <a
-            href="#akt-features"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >AKT 2.0 Features</a
-          >
-          <a
-            href="#buying-akt"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >Buying AKT</a
-          >
-          <a
-            href="#faq"
-            class="inline-flex cursor-pointer text-base font-medium hover:text-primary"
-            >FAQs</a
-          >
-        </div>
-      </div>
+      <div class="border-b"></div>
 
-      <div class="col-span-12 mx-auto w-full md:col-span-9">
-        <div class="md:hidden">
-          <OnThisPageDropdown client:load nav={nav} />
-        </div>
-
-        <div id="hero">
-          <HeroSection heroSection={heroSection} />
-        </div>
-
-        <!-- Divider Border -->
-        <div class="w-full">
-          <div class="my-10 border-b md:my-20"></div>
-        </div>
-
-        <div id="how-it-works">
-          <HowItWorksSection howItWorksSection={howItWorksSection} />
-        </div>
-
-        <!-- Divider Border -->
-        <div class="w-full">
-          <div class="mt-20 border-b md:mb-10"></div>
-        </div>
-
-        <div id="ecosystem">
-          <EcosystemSection ecosystemSection={ecosystemSection} />
-        </div>
-
-        <!-- Divider Border -->
-        <div class="w-full">
-          <div class="border-b"></div>
-        </div>
-
-        <Sections
-          client:only
-          aktFeaturesSection={aktFeaturesSection}
-          buyingAKTSection={buyingAKTSection}
-          faqsSection={faqsSection}
-        />
-      </div>
+      <Sections
+        client:only
+        aktFeaturesSection={aktFeaturesSection}
+        buyingAKTSection={buyingAKTSection}
+        faqsSection={faqsSection}
+        url={url?.toString() ?? ""}
+      />
     </div>
   </TopMargin>
 </Layout>

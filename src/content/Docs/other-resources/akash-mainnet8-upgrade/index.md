@@ -211,9 +211,9 @@ This is a comprehensive guide that covers the steps necessary to upgrade from Ma
 
 ### IMPORTANT
 
-#### This procedure does not apply to Praetor providers!
+#### This procedure does not apply to providers using the Provider Console!
 
-Praetor providers should wait for further upgrade instructions from Praetor team!
+Providers using the Provider Console (previously know as Praetor App) should wait for further upgrade instructions from the Akash team!
 
 ### Provider Components to be Upgraded
 
@@ -294,7 +294,7 @@ helm -n akash-services get values akash-provider | grep -v '^USER-SUPPLIED VALUE
 helm upgrade akash-provider akash/provider -n akash-services -f provider.yaml
 ```
 
-> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for your akash-provider chart. [/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-8---provider-bid-customization](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts#step-8---provider-bid-customization)
+> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for your akash-provider chart. [/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/#step-8---provider-bid-customization](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts#step-8---provider-bid-customization)
 
 ##### 2.4 akash-hostname-operator Chart
 

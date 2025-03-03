@@ -551,7 +551,7 @@ helm -n akash-services get values akash-provider | grep -v '^USER-SUPPLIED VALUE
 helm upgrade akash-provider akash/provider -n akash-services -f akash-provider-values.yml
 ```
 
-> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for [your akash-provider chart](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-9---provider-bid-customization).
+> _**IMPORTANT**_: Make sure your provider is using the latest bid price script! Here is the guide that tells you how you can set it for [your akash-provider chart](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/#step-9---provider-bid-customization).
 
 ##### 3.4 akash-hostname-operator Chart
 

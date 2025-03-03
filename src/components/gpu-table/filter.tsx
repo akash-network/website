@@ -1,16 +1,8 @@
-import React, { Fragment } from "react";
-import { Menu, Transition, Popover, Disclosure } from "@headlessui/react";
-import {
-  ArchiveBoxIcon,
-  ArrowRightCircleIcon,
-  ChevronDownIcon,
-  DocumentDuplicateIcon,
-  HeartIcon,
-  PencilSquareIcon,
-  TrashIcon,
-  UserPlusIcon,
-} from "@heroicons/react/20/solid";
+import { Disclosure, Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { clsx as classNames } from "clsx";
+import React, { Fragment } from "react";
+import { onTop } from "../pricing-page/gpus/sort";
 import CheckBox from "./checkbox";
 import { modifyModel, type Gpus } from "./gpu-table";
 
@@ -82,7 +74,7 @@ export default function Filter({
   const [options, setOptions] = React.useState<Options[]>(data);
 
   React.useEffect(() => {
-    const modal = res?.models?.map((model) => model.model);
+    const modal = onTop(res)?.map((model) => model.model);
     const ram = res?.models?.map((model) => model.ram);
     const interfaceTypes = res?.models?.map((model) => model.interface);
 
@@ -112,8 +104,6 @@ export default function Filter({
     ]);
   }, [res]);
 
-  console.log(options);
-
   React.useEffect(() => {
     if (
       filters.modal.length > 0 ||
@@ -134,8 +124,6 @@ export default function Filter({
         );
       setFilteredData(filtered || []);
     } else {
-      console.log("filtering");
-      //h100 and a100 at top with same order as in onTop array
       setFilteredData(res?.models || []);
     }
   }, [filters, res]);
@@ -143,7 +131,7 @@ export default function Filter({
   return (
     <Popover as="div" className="relative inline-block text-left">
       <div>
-        <Popover.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-4 py-2 text-sm font-medium text-textGray shadow-sm">
+        <Popover.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md border bg-background2 px-3 py-1.5 text-sm font-medium text-textGray shadow-sm md:px-4 md:py-2">
           Filter
           <svg
             xmlns="http://www.w3.org/2000/svg"

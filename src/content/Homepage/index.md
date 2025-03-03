@@ -1,21 +1,21 @@
 ---
 advert: 
-  title: Access NVIDIA H100, A100, and A6000 at industry-leading pricing →
-  link: "/gpus"
+  title: NVIDIA Blackwell is coming to Akash. Join the waitlist.
+  link: "/nvidia-blackwell-gpus"
 
 # hero section content
 heroSection:
-  title: The World's<br class="md:hidden" /> Premier Decentralized<br/> Compute Marketplace
-  description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
+  title: The World's<br class="md:hidden" /> Premier <br class="md:hidden"/> Decentralized<br/> Compute <br class="md:hidden"/> Marketplace
+  description: "Akash is an open network that lets users buy and sell computing resources securely and efficiently.<br/>Purpose-built for public utility."
   cards: 
     - title: "Explore network resources and pricing"
       description: "Browse a wide range of cloud resources and live network pricing"
       buttons:
         - label: "Explore pricing"
-          link: "/about/pricing/custom/"
+          link: "/pricing/usage-calculator/"
           type: secondary
         - label: "View GPU availability"
-          link: "/gpus"
+          link: "/pricing/gpus"
           type: primary
 
     - title: "Provide compute and earn"
@@ -34,26 +34,26 @@ heroSection:
 
 # infrastructure section content
 infrastructureSection:
-  title: "Key features of the Akash Supercloud"
+  title: "Akash - The Decentralized Infrastructure Supercloud"
   cards:
-    - title: "Infrastructure as Code"
+    - title: "Infrastructure as<br/> Code"
       image: "./assets/infrastructure/code.svg"
       description: "Akash's orchestration layer, fueled by SDL, enables intricate deployments across regions, providers, with resource control and pricing decisions."
-    - title: "Kubernetes Powered"
+    - title: "Kubernetes<br/> Powered"
       image: "./assets/infrastructure/kubernetes.svg"
       description: "Built on Kubernetes, Akash ensures a secure, tested, and reliable platform for hosting applications."
-    - title: "Persistent Storage"
+    - title: "Persistent<br/> Storage"
       image: "./assets/infrastructure/storage.svg"
       description: "Akash offers limitless storage, safeguarding data even post-restart, an ideal feature for data-intensive apps."
-    - title: "Dedicated IP Leasing"
+    - title: "Dedicated<br/> IP Leasing"
       image: "./assets/infrastructure/ip.svg"
-      description: "By leasing a dedicated IP address, Akash permits port assignment, directing traffic – especially beneficial for DNS, web servers, etc."
+      description: "By leasing a dedicated IP address, Akash permits port assignment, directing traffic – especially beneficial for DNS,<br class='hidden md:block'/> web servers, etc."
  
     - title: "Permissionless"
       image: "./assets/infrastructure/censorship.svg"
       description: "Akash democratizes secure, censorship-resistant app deployment, open to all innovators."
 
-    - title: "Peer-to-Peer and Private"
+    - title: "Peer-to-Peer<br/> and Private"
       image: "./assets/infrastructure/peer.svg" 
       description: "Peer-to-peer communication guarantees data privacy, payment transparency, and immunity from central control, reinforcing dependability."
 
@@ -61,17 +61,16 @@ infrastructureSection:
 featureSection:
   cards:
     - id: 1
-      title: "Powerful, flexible, and designed for what's next"
-      description:  Create your own sovereign compute  experience with the Supercloud. Seamlessly scale and access a global array services while keeping controlling your budget with the Akash 'Reverse Auction' system. Enjoy prices up to 85% lower than other public clouds, customized to your preferences.
-      image: "./assets/feature/feature-svg-1.svg"
-      darkImage: "./assets/feature/dark-1.svg"
+      title: "Powerful, flexible, and <br/> designed for what's next"
+      description:  Create your own sovereign compute experience with the Akash Supercloud. Seamlessly scale and access a global array of services while controlling your budget with the Akash 'Reverse Auction' system. Access compute at prices up to 85% lower than hyperscale cloud providers, customized to your preferences.
+      image: "./assets/feature/feature-1.webp"
     - id: 2
-      title: "Pioneering Layer One Protocol built on Cosmos SDK"
-      description: "Secured by its native token AKT. It is the first blockchain to achieve IBC communication with Cosmos Hub, enabling seamless connections to other IBC compatible blockchains.
+      title: "Pioneering Layer One Protocol <br/> built on Cosmos SDK"
+      description: "Akash is secured by AKT, the network's utility token. It is also the first blockchain to achieve IBC communication with Cosmos Hub, enabling seamless connections to other IBC-compatible blockchains.
       <br/> <br/>
-      The Akash protocol prioritizes user privacy and security, allowing anonymous deployment of applications, safeguarding the user's identity."
-      image: "./assets/feature/feature-svg-2.svg"
-      darkImage: "./assets/feature/dark-2.svg"
+      By design, Akash prioritizes user privacy and security, allowing anonymous application deployment and safeguarding user identity."
+      image: "./assets/feature/feature-2.webp"
+   
 
 
 getStartedSection:
@@ -107,7 +106,7 @@ getStartedSection:
 #  AiModelsAndApps section content  
 aiModelsAndAppsSection:
   title: "What’s possible with Akash?"
-  description: "Akash isn't just a cloud computing platform; it's a catalyst for innovation and limitless possibilities. Here, you'll discover the latest AI models, groundbreaking apps, and much more, all empowered by the scalable and cost-effective Akash resources."
+  description: "Akash isn't just a cloud computing platform; it's a catalyst for innovation and limitless possibilities. Here, you'll discover the latest AI models, groundbreaking apps, and much more, all powered by the scalable and cost-effective Akash resources."
   subtitle1: "AI & ML"
   subtitle2: "Deployed on Akash"
   cards1:
@@ -116,10 +115,10 @@ aiModelsAndAppsSection:
       description: "Mistral-7B-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters by Mistral AI. This application is running on NVIDIA GPUs leased from the Akash Supercloud."
       link: "https://chat.akash.network/"
 
-    - title: "SDXL on Akash"
-      image: "./assets/tools/2.svg"
-      description: "SDXL is a high quality text-to-image model from Stability AI. This application is running on NVIDIA A100s leased from the Akash Supercloud, to achieve high-performing and cost-effective inference of 1024×1024 images."
-      link: "https://sdxl.akash.network/"
+    - title: "AkashGen"
+      image: "./assets/tools/2.png"
+      description: "AkashGen is a high quality text-to-image model from Stability AI. This application is running on NVIDIA A100s leased from the Akash Supercloud, to achieve high-performing and cost-effective inference of 1024×1024 images."
+      link: "https://gen.akash.network/"
 
 
     - title: "Ray cluster on Akash"
@@ -128,28 +127,25 @@ aiModelsAndAppsSection:
       link: "/blog/distributed-machine-learning-on-akash-network-with-ray/"
 
   cards2:
-    - title: "Solve Care"
-      image: "./assets/tools/solvecare.webp"
-      description: "Solve.Care is at the forefront of using blockchain to empower
-      patient data ownership and streamline healthcare
-      administration. Our partnership is driving innovation, making
-      healthcare more accessible and efficient. Explore how we're
-      transforming the industry together."
-      link : "/blog/akash-network-and-solve-care-bring-true-patient-data-ownership-to-the-healthcare-industry/"
-      darkImage : "./assets/tools/solvecare.webp"   
+      
+    - title: "Venice AI"
+      image: "./assets/tools/venice.png"
+      description: "Venice is the easy app for private, uncensored AI conversations and image generation. Try for free with no log-in needed."
+      link : "https://venice.ai/home"
+      darkImage : "./assets/tools/venice.png"   
 
-    - title: "Thumper AI"
-      image: "./assets/tools/dark-dep-2.svg"
-      description: "Thumper AI offers powerful, personalized, and equitable generative AI solutions. Their mission is to empower artists, creatives, technologists, and individuals from diverse fields by providing the tools to enhance their passions, practices, and work."
-      link : "https://thumper.ai/"
-      darkImage : "./assets/tools/dark-dep-2.svg" 
+    - title: "Brev.dev (Acq. by NVIDIA)"
+      image: "./assets/tools/brev.png"
+      description: "Brev.dev, known for its seamless setup of Jupyter notebooks for AI development, has integrated with Akash Network, enabling scalable, permissionless access to NVIDIA GPUs."
+      link : "https://brev.dev/"
+      darkImage : "./assets/tools/brev.png" 
      
 
-    - title: "Presearch"
-      image: "./assets/tools/dark-dep-3.svg"
-      description: "Presearch runs nodes smoothly on Akash, with plans for one-click deployments. Stay tuned on their Twitter for updates. CEO Colin Pape explores Akash's potential in a Cointelegraph article."
-      link : "https://presearch.io/"
-      darkImage : "./assets/tools/dark-dep-3.svg" 
+    - title: "Nous Research"
+      image: "./assets/tools/nous.png"
+      description: "Leveraging the power of Akash's decentralized cloud, Nous Research successfully trained 'Nous Hermes 2,' an advanced AI model built on over 1,000,000 entries of GPT-4 data."
+      link : "https://nousresearch.com/"
+      darkImage : "./assets/tools/nous.png" 
      
   cards3:
     - image:  "./assets/tools/awesomeakash.svg"
@@ -165,17 +161,18 @@ aiModelsAndAppsSection:
         label: Console Docs
         link: "/docs/getting-started/quickstart-guides/akash-console/"
 
-    - image:  "./assets/tools/praetor.svg"
-      description: "Praetor App makes it simple to become an Akash Network cloud provider. Use a streamlined UI to become a provider. "
-      logoTitle: Praetor App
+    - image:  "./assets/tools/awesomeakash.svg"
+      darkImage : "./assets/tools/awesomeakash.svg"
+      description: "Offer your compute resources on the Akash marketplace, and earn when people deploy. The Akash Provider Console walks you through the setup process, so you can get up and running on the Akash Supercloud."
+      logoTitle: Provider Console
 
       launchAppLink: 
         label: Launch App
-        link: "https://praetorapp.com/"
+        link: "https://provider-console.akash.network/"
 
       docsLink: 
-        label: Praetor Docs
-        link: "https://docs.praetorapp.com/"
+        label: Provider Console Docs
+        link: "/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
 
     - image:  "./assets/tools/awesomeakash.svg"
       description: " View collection of SDL deployment templates based on the Awesome Akash GitHub repository "
@@ -190,7 +187,8 @@ aiModelsAndAppsSection:
 # CTA section content
 testimonialsSection:
   title: Join the Community
-  description: Akash is supported by a radically open community. As a free public service, the network source code is open-source and available to everyone.
+  description: Akash is supported by a radically open community.<br/> As a free public service, the network source code is open-source and available to everyone.
+
 
 
   discordButton:

@@ -1,0 +1,29 @@
+---
+import GithubButton from "../mdx-cards/buttons/github-button.astro";
+---
+
+<section class="not-prose flex flex-col items-center justify-center gap-8">
+  <h2 class="text-center text-lg font-medium text-foreground md:text-xl">
+    Welcome to the Akash Network community.
+  </h2>
+
+  <p class="text-center text-sm text-foreground md:text-lg">
+    The Akash Network is supported by a diverse group of users, contributors,
+    and supporters. We strive to improve the project and work together
+    efficiently. We’re proud of our progress over the years. All aspects of the
+    Akash Network - from code to culture - are managed by the community.
+  </p>
+
+  <div class="flex flex-col items-center gap-4 md:flex-row">
+    <GithubButton
+      className="mt-0"
+      label="Code of Conduct"
+      link="https://github.com/akash-network/community/blob/main/CODE_OF_CONDUCT.md"
+    />
+    <GithubButton
+      className="mt-0"
+      label="How to Contribute"
+      link="https://github.com/akash-network/community#getting-started-with-contributing"
+    />
+  </div>
+</section>

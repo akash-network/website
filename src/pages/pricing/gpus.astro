@@ -1,0 +1,12 @@
+---
+import GpuTable from "@/components/pricing-page/gpus/gpu-table";
+import PricingHeader from "@/components/pricing-page/pricing-header.astro";
+---
+
+<PricingHeader
+  title="GPU Pricing and Availability"
+  description=" Browse the list of available GPUs along with their hourly rates."
+  image="/meta-images/pricing/gpu.jpg"
+>
+  <GpuTable initialData={null} client:load />
+</PricingHeader>

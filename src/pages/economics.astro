@@ -1,0 +1,38 @@
+---
+import Layout from "@/layouts/layout.astro";
+const redirectUrl = "https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B";
+---
+
+<Layout title="Redirecting to Economic Resources">
+  <head>
+    <meta http-equiv="refresh" content={`0; url=${redirectUrl}`} />
+  </head>
+  <div class="relative overflow-hidden">
+    <div class="container">
+      <div class="border-b border-[#d9d9d9] pb-[40px] pt-5 lg:pt-[60px] text-center">
+        <h1 class="text-xl font-bold md:text-3xl lg:text-4xl leading-tight">
+          Redirecting to Economic Resources
+        </h1>
+        <p class="mt-4 text-sm text-gray-600 md:mt-6 md:text-lg md:leading-relaxed">
+          You’re being redirected to our economic resources for a deeper insight into our platform. If you’re not automatically redirected, please click below.
+        </p>
+        
+        <div class="mt-8">
+          <a
+            href={redirectUrl}
+            target="_blank"
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-white text-base font-semibold hover:bg-primary/90"
+          >
+            Visit Economic Resources
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-[90px] text-center">
+    <p class="text-sm text-gray-500">
+      If redirection does not happen, please <a href={redirectUrl} class="text-primary underline">click here</a> to proceed manually.
+    </p>
+  </div>
+</Layout>

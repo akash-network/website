@@ -1,27 +1,26 @@
 ---
+import { TelegramIcon, TwitterIcon } from "@/components/header/icons";
 import ButtonLink from "@/components/ui/button-link.astro";
 import { Swiper } from "./swiper";
-import type { testimonials } from "./data";
-import { TelegramIcon, TwitterIcon } from "@/components/header/icons";
 
 const { testimonialsSection } = Astro.props;
-console.log(testimonialsSection);
 ---
 
 <section>
   <div
     class="container mt-[80px] flex flex-col items-center gap-y-10 md:justify-between"
   >
-    <div class="max-w-[690px] text-center md:max-w-[70%]">
-      <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">
+    <div class="w-full text-center">
+      <h2 class="font-instrument text-3xl md:text-4xl lg:text-5xl">
         {testimonialsSection.title}
       </h2>
-      <p class="mt-4 text-center text-base md:text-lg">
-        {testimonialsSection.description}
-      </p>
+      <p
+        class="mt-8 text-center text-base md:text-lg"
+        set:html={testimonialsSection.description}
+      />
     </div>
 
-    <div class="mt-16 flex flex-wrap items-center justify-center gap-4 md:mt-0">
+    <div class="flex flex-wrap items-center justify-center gap-4">
       <ButtonLink
         link="https://github.com/akash-network"
         variant="secondary"
@@ -43,7 +42,7 @@ console.log(testimonialsSection);
             stroke-linecap="round"
             stroke-linejoin="round"></path>
         </svg>
-         Github
+        Github
       </ButtonLink>
 
       <ButtonLink
@@ -70,7 +69,7 @@ console.log(testimonialsSection);
             stroke-width="1.375"
             stroke-linejoin="round"></path>
         </svg>
-         Discord
+        Discord
       </ButtonLink>
       <ButtonLink
         target="_blank"
@@ -80,7 +79,7 @@ console.log(testimonialsSection);
         aria-label="Twitter"
       >
         <TwitterIcon />
-         Twitter
+        Twitter
       </ButtonLink>
       <ButtonLink
         target="_blank"
@@ -90,12 +89,12 @@ console.log(testimonialsSection);
         aria-label="Telegram"
       >
         <TelegramIcon />
-         Telegram
+        Telegram
       </ButtonLink>
     </div>
   </div>
 
-  <div class="mx-auto max-w-[1900px]">
+  <div class="container">
     <Swiper client:load testimonials={testimonialsSection.testimonials} />
   </div>
 </section>

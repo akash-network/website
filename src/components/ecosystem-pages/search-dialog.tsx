@@ -1,7 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Loader2, Search } from "lucide-react";
 
 import Fuse from "fuse.js"; // Import the Fuse.js library
@@ -100,7 +99,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-50" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -145,7 +144,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                       <Loader2 className="mr-2 h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : error ? (
-                    <div className="bg-primary/10 mt-6 rounded-lg px-6 py-4">
+                    <div className="mt-6 rounded-lg bg-primary/10 px-6 py-4">
                       <h3 className="text-lg font-bold text-primary">
                         Something Bad Happened
                       </h3>

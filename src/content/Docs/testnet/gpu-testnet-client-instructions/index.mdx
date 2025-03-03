@@ -220,14 +220,14 @@ import TabsWrapper, { TabContent } from "@/components/ui/tabs";
 
 **Download Akash Binary**
 
-_**NOTE**_ - in the commands below we download the Akash binary for version `0.6.2` and the `darwin_all`. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.6.2) page and find/replace the link used appropriately
+_**NOTE**_ - in the commands below we download the Akash binary for version `0.6.4` and the `darwin_all`. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.6.4) page and find/replace the link used appropriately
 
 ```
 cd ~/Downloads
 
-wget https://github.com/akash-network/provider/releases/download/v0.6.2/provider-services_0.6.2_darwin_all.zip
+wget https://github.com/akash-network/provider/releases/download/v0.6.4/provider-services_0.6.4_darwin_all.zip
 
-unzip provider-services_0.6.2_darwin_all.zip
+unzip provider-services_0.6.4_darwin_all.zip
 ```
 
 **Move the Akash Binary**
@@ -249,7 +249,7 @@ provider-services version
 **Expect/Example Output**
 
 ```
-v0.6.2
+v0.6.4
 ```
 
 </TabContent>
@@ -257,7 +257,7 @@ v0.6.2
 
 **Download Akash Binary**
 
-> _**NOTE**_ - in the commands below we download the Akash binary for version `0.6.2` and a `AMD-64` architecture. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.6.2) page and find/replace the link used appropriately.
+> _**NOTE**_ - in the commands below we download the Akash binary for version `0.6.4` and a `AMD-64` architecture. If an alternate binary is needed, visit this [GitHub Release](https://github.com/akash-network/provider/releases/tag/v0.6.4) page and find/replace the link used appropriately.
 
 ```
 cd ~
@@ -266,9 +266,9 @@ apt install jq -y
 
 apt install unzip -y
 
-wget https://github.com/akash-network/provider/releases/download/v0.3.1-rc1/provider-services_0.6.2_linux_amd64.zip
+wget https://github.com/akash-network/provider/releases/download/v0.3.1-rc1/provider-services_0.6.4_linux_amd64.zip
 
-unzip provider-services_0.6.2_linux_amd64.zip
+unzip provider-services_0.6.4_linux_amd64.zip
 
 mkdir bin; mv provider-services /root/bin/
 ```
@@ -320,7 +320,7 @@ provider-services version
 **Expected/Example Result**
 
 ```
-v0.6.2
+v0.6.4
 ```
 
 </TabContent>
@@ -409,13 +409,13 @@ Set the below set of environment variables to ensure smooth operations
 | -------------------- | ----------------------------------------------------------------------------------------- | ----------------- |
 | AKASH_GAS            | Gas limit to set per-transaction; set to "auto" to calculate sufficient gas automatically | `auto`            |
 | AKASH_GAS_ADJUSTMENT | Adjustment factor to be multiplied against the estimate returned by the tx simulation     | `1.15`            |
-| AKASH_GAS_PRICES     | Gas prices in decimal format to determine the transaction fee                             | `0.025uakt`       |
+| AKASH_GAS_PRICES     | Gas prices in decimal format to determine the transaction fee                             | `0.0025uakt`       |
 | AKASH_SIGN_MODE      | Signature mode                                                                            | `amino-json`      |
 
 ```
 export AKASH_GAS=auto
 export AKASH_GAS_ADJUSTMENT=1.25
-export AKASH_GAS_PRICES=0.025uakt
+export AKASH_GAS_PRICES=0.0025uakt
 export AKASH_SIGN_MODE=amino-json
 ```
 

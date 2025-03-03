@@ -1,6 +1,7 @@
 ---
 import Button from "@/components/ui/button-link.astro";
 import type { CollectionEntry } from "astro:content";
+import { ArrowRight } from "lucide-react";
 
 interface Props {
   heroSection: CollectionEntry<"Homepage">["data"]["heroSection"];
@@ -13,31 +14,41 @@ const { heroSection } = Astro.props;
   <div
     class="border-b border-paraDark pb-[80px] pt-10 md:pb-[120px] md:pt-[64px]"
   >
-    <!-- title  -->
-
+    <a
+      href="/pricing/gpus"
+      class="mx-auto flex w-fit items-center gap-2 rounded-full border border-primary bg-primary/5 py-1.5 pl-5 pr-3 dark:border-primary/10 md:gap-3 md:py-2.5"
+    >
+      <p
+        class="line-clamp-2 max-w-[250px] flex-1 text-center text-sm font-semibold text-primary md:max-w-max"
+      >
+        Access NVIDIA GPUs at industry-leading pricing
+      </p>
+      <div
+        class="flex size-[22px] items-center justify-center rounded-full bg-primary text-white"
+      >
+        <ArrowRight size={16} />
+      </div>
+    </a>
     <h1
-      class="mx-auto text-center text-3lg font-medium leading-[52px] md:text-6xl lg:text-7xl lg:leading-[93.6px]"
+      class="mx-auto mt-10 text-center font-instrument text-6xl font-normal leading-[1] tracking-[-0.88px] lg:text-[88px]"
       set:html={heroSection.title}
     />
 
-    <!-- description -->
     <p
-      class="mx-auto mt-10 max-w-[862px] text-center text-base leading-[24px] md:mt-6 md:text-xl md:leading-[28px]"
-    >
-      {heroSection.description}
-    </p>
-    <!-- buttons -->
+      class="mx-auto mt-10 text-center text-base md:mt-6 md:text-lg"
+      set:html={heroSection.description}
+    />
 
     <div
       class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"
     >
       {
-        heroSection.cards.map((card, index) => (
+        heroSection.cards.map((card) => (
           <div class="flex flex-col gap-2 rounded-lg border bg-background2 p-6 md:rounded-xl">
-            <h1 class="font-base font-bold">{card.title}</h1>
-            <p class="text-sm ">{card.description}</p>
+            <h3 class="font-semibold">{card.title}</h3>
+            <p class="text-sm">{card.description}</p>
             <div class="mt-auto flex flex-wrap gap-2 pt-2">
-              {card.buttons.map((button, index) => (
+              {card.buttons.map((button) => (
                 <Button
                   aria-label={button.label}
                   link={button.link}

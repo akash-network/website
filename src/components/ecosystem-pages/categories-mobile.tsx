@@ -15,7 +15,10 @@ const Categories = ({
   page: string;
   className?: string;
 }) => {
-  console.log(tags);
+  const sortedTags = [
+    ...tags.filter((tag: string) => tag.toLowerCase().includes("ai")),
+    ...tags.filter((tag: string) => !tag.toLowerCase().includes("ai")),
+  ];
 
   return (
     <Menu
@@ -46,11 +49,11 @@ const Categories = ({
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href={`/ecosystem/${page}/latest`}
+                  href={`/ecosystem/${page}`}
                   className={classNames(
                     active
                       ? "bg-gray-100 text-foreground dark:bg-darkGray"
-                      : "text-[#687076]",
+                      : "text-para",
                     "block px-4 py-2 text-sm",
                   )}
                 >
@@ -58,21 +61,37 @@ const Categories = ({
                 </a>
               )}
             </Menu.Item>
-            {tags?.map((tag: string) => (
-              <Menu.Item key={tag}>
+            {page === "deployed-on-akash" && (
+              <Menu.Item>
                 {({ active }) => (
                   <a
-                    href={`/ecosystem/${page}/${tag.toLowerCase()}/latest/1`}
+                    href={`/ecosystem/deployed-on-akash/showcase/`}
                     className={classNames(
                       active
-                        ? "bg-gray-100 text-foreground  dark:bg-darkGray"
-                        : "text-[#687076]",
+                        ? "bg-gray-100 text-foreground dark:bg-darkGray"
+                        : "text-para",
                       "block px-4 py-2 text-sm",
                     )}
                   >
-                    {tag === "ai & ml"
-                      ? "AI & ML"
-                      : tag.charAt(0).toUpperCase() + tag.slice(1)}
+                    Showcase
+                  </a>
+                )}
+              </Menu.Item>
+            )}
+
+            {sortedTags?.map((tag: string) => (
+              <Menu.Item key={tag}>
+                {({ active }) => (
+                  <a
+                    href={`/ecosystem/${page}/${tag.toLowerCase()}`}
+                    className={classNames(
+                      active
+                        ? "bg-gray-100 text-foreground  dark:bg-darkGray"
+                        : "text-para",
+                      "block px-4 py-2 text-sm",
+                    )}
+                  >
+                    {tag}
                   </a>
                 )}
               </Menu.Item>

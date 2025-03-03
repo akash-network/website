@@ -1,36 +1,25 @@
 ---
+import PostCard from "@/components/cards/post-card.astro";
+import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
+import Feature from "@/components/home/feature/feature.astro";
 import Hero from "@/components/home/hero/hero.astro";
 import Infrastructure from "@/components/home/infrastructure/infrastructure.astro";
-import Feature from "@/components/home/feature/feature.astro";
-import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
-import Layout from "@/layouts/layout.astro";
 import Testimonials from "@/components/home/testimonials/testimonials.astro";
-import PostCard from "@/components/cards/post-card.astro";
-
-import {
-  getCollection,
-  getEntryBySlug,
-  type CollectionEntry,
-} from "astro:content";
-import DarkModeToggle from "@/components/dark-mode-toggle.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
-import GettingStarted from "@/components/home/getting-started/getting-started.astro";
+import Layout from "@/layouts/layout.astro";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
-const homepage = await getEntryBySlug("Homepage", "index");
+const homepage = await getEntry("Homepage", "index");
 
 type BlogPost = CollectionEntry<"Blog">;
 
-// Get latest posts for latest articles section
 const posts = (await getCollection("Blog"))
   .filter((post) => {
-    // Filter out posts with archive set to true.
     return post.data.archive !== true;
   })
   .sort((a, b) => {
     const dateA = new Date(a.data.pubDate);
     const dateB = new Date(b.data.pubDate);
-
-    // Sort in descending order (latest date first)
     return dateB.getTime() - dateA.getTime();
   });
 const {
@@ -39,31 +28,23 @@ const {
   infrastructureSection,
   featureSection,
   aiModelsAndAppsSection,
-  getStartedSection,
   testimonialsSection,
 } = homepage.data;
 ---
 
 <Layout
-  advert={advert}
   title="Akash Network - Decentralized Compute Marketplace"
   description="Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 >
   <div>
     <Hero heroSection={heroSection} />
-
-    <Infrastructure infrastructureSection={infrastructureSection} />
-    <!-- <GettingStarted gettingStartedSection={getStartedSection} /> -->
     <Feature featureSection={featureSection} />
-
+    <Infrastructure infrastructureSection={infrastructureSection} />
     <AiModelsAndApps aiModelsAndAppsSection={aiModelsAndAppsSection} />
-
     <Testimonials testimonialsSection={testimonialsSection} />
-
     <div class="container mb-[120px] mt-[120px]">
       <div class="border-b border-paraDark"></div>
     </div>
-
     <div class="container">
       <div class="flex items-center justify-between">
         <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">

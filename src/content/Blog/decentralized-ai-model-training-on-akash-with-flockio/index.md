@@ -14,6 +14,7 @@ categories:
 
 tags:
   - Insights
+  - Case Studies
 
 contributors:
   - Zach Horn

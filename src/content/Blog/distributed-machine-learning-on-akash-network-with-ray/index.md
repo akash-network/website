@@ -8,6 +8,7 @@ categories:
   - Insights
 tags:
   - Insights
+  - Case Studies
 contributors:
   - Anil Murty
 

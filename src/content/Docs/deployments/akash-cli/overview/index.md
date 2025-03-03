@@ -17,7 +17,7 @@ We offer two guides to assist in getting started with the Akash CLI:
 
 The Akash CLI Booster was created to make the use of the current command line tooling much simpler for deployments and related activities. In this guide we will review the primary capabilities of this exciting new tool.
 
-The Akash CLI Booster will receive continued updates and new features. Review the latest updates and through list of current features [here](https://github.com/arno01/akash-tools/tree/main/cli-booster).
+The Akash CLI Booster will receive continued updates and new features. Review the latest updates and through list of current features [here](https://github.com/andy108369/akash-tools/tree/main/cli-booster).
 
 ### Akash Wants to Spotlight Your Work&#x20;
 

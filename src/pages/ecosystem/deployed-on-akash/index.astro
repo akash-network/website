@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+
+import EcosystemPage from "@/components/ecosystem-pages/ecosystem-page.astro";
+import {
+  deployedOnAkash,
+  getPriorityIndex,
+} from "@/utils/sequences/deployedOnAkash";
+
+const priorityProjects = (await getCollection("Ecosystem_Page"))
+  .filter(
+    (project) =>
+      project.data.category === "deployed_on_akash" &&
+      getPriorityIndex(project.data.projectTitle) < deployedOnAkash.length,
+  )
+  .sort((a, b) => {
+    return (
+      getPriorityIndex(a.data.projectTitle) -
+      getPriorityIndex(b.data.projectTitle)
+    );
+  });
+
+const nonPriorityProjects = (await getCollection("Ecosystem_Page"))
+  .filter(
+    (project) =>
+      project.data.category === "deployed_on_akash" &&
+      getPriorityIndex(project.data.projectTitle) === deployedOnAkash.length,
+  )
+  .sort((a, b) => {
+    const dateA = new Date(a.data.pubDate);
+    const dateB = new Date(b.data.pubDate);
+
+    return dateB.getTime() - dateA.getTime();
+  });
+
+const projects = [...priorityProjects, ...nonPriorityProjects];
+
+const tags = Array.from(
+  new Set(projects.flatMap((project) => project.data.tags)),
+);
+---
+
+<EcosystemPage projects={projects} tags={tags} />

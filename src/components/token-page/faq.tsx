@@ -20,13 +20,13 @@ export function FAQ({ faqs }: { faqs: FAQs[] }) {
     <Accordion
       type="multiple"
       onValueChange={() => setValue("")}
-      className="w-full md:min-h-[460px]"
+      className="w-full "
     >
       {faqs.map((faq: any, index: number) => (
         <AccordionItem
           key={index}
           value={`item-${index}`}
-          className=" border-b    py-3  md:py-10"
+          className={`py-3 md:py-10 ${index !== faqs.length - 1 ? "border-b" : "!border-0"}`}
         >
           <AccordionTrigger plus className="flex cursor-pointer no-underline ">
             <span className="flex h-full w-full">

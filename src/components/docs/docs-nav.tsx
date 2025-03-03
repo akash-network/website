@@ -5,18 +5,14 @@ import {
 } from "@/components/ui/collapsible";
 import { docsSequence as docs } from "@/content/Docs/_sequence";
 import { ChevronDownIcon } from "lucide-react";
-import React, { useEffect, Suspense, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useStorage } from "@/utils/store";
 
 const MAX_DEPTH = 4;
 
 export function DocsNav({ docsNav = [], pathName = [] }: any) {
-  console.log(pathName);
   const [$docsLinkTracks, setDocsLinkTracks] = useState<any>({});
-  // const $docsLinkTracks = useStorage((state) => state.docsLinkTracks);
-  // const setDocsLinkTracks = useStorage((state) => state.setDocsLinkTracks);
-  console.log($docsLinkTracks);
 
   const getCurrentLink = (link: string) => {
     if (typeof window === "undefined") {
@@ -56,8 +52,6 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     setDocsLinkTracks({ ...newLinkTracks, [pathName]: true });
   }, [pathName]);
 
-  console.log($docsLinkTracks);
-
   const Dropdown = (
     navItem: any,
     pathName: any,
@@ -72,10 +66,10 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
           index === 0
             ? ""
             : depth && index === 0
-            ? ""
-            : depth === 0
-            ? "mt-5"
-            : ""
+              ? ""
+              : depth === 0
+                ? "mt-5"
+                : ""
         }
       >
         {depth === 0 ? (

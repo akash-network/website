@@ -1,31 +1,7 @@
 ---
 heroSection:
-  title: The AKT Token
+  title: AKT is the native utility token of Akash Network, used as the primary means to govern, secure the blockchain, incentivize participants, and provide a default mechanism to store and exchange value.
   description: AKT is the native utility token of Akash Network, used as the primary means to govern, secure the blockchain, incentivize participants, and provide a default mechanism to store and exchange value.
-  heroImage:
-    mobile: "./assets/hero-illustration-mobile.svg"
-    desktop: "./assets/hero-illustration.svg"
-    darkImage: "./assets/hero-illustration-dark.svg"
-
-howItWorksSection:
-  title: How it works
-
-  cards:
-    - title: Security
-      description: Akash Network is secured by a Proof-of-Stake (PoS) blockchain, and AKT is used to secure the network by staking. Staking AKT provides a passive income stream for stakers, and increases the security of the network.
-      icon: "./assets/security.svg"
-
-    - title: Governance
-      description: Akash Network is community-owned and all aspects of the network are governed by AKT holders. AKT holders can vote on proposals to improve the network and manage critical parameters such as inflation rate and take rates.
-      icon: "./assets/governance.svg"
-
-    - title: Value Exchange
-      description: AKT provides a default mechanism to store and exchange value, and acts as a reserve currency in Cosmos’ multi-currency and multi-chain ecosystem.
-      icon: "./assets/exchange.svg"
-
-    - title: Incentivization
-      description: AKT provides a default mechanism to store and exchange value, and acts as a reserve currency in Cosmos’ multi-currency and multi-chain ecosystem.
-      icon: "./assets/incentive.svg"
 
 ecosystemSection:
   title: Ecosystem Tools
@@ -79,8 +55,6 @@ ecosystemSection:
 aktFeaturesSection:
   title: AKT 2.0 Features
   description: AKT 2.0 is an ongoing effort to bring new token features and utility to Akash and the AKT token. These features will generate value for the network by funding critical incentive pools that will support network growth and development, a wide range of currency options for lease settlement, and much more.
-  image: "./assets/akt-features.svg"
-  darkImage: "./assets/akt-features-dark.svg"
 
 buyingAKTSection:
   title: Buying AKT
@@ -130,6 +104,34 @@ buyingAKTSection:
     - row:
         - title: Bitpanda
           link: "https://www.bitpanda.com/en/prices/akash-akt"
+
+    - row:
+        - title: Hotcoin
+          link: "https://www.hotcoin.com/en_US/trade/akt_usdt"
+
+    - row:
+        - title: XT.COM
+          link: "https://www.xt.com/en/trade/akt_usdt"
+
+    - row:
+        - title: Bithumb
+          link: "https://www.bithumb.com/react/trade/order/AKT-KRW"
+
+    - row:
+        - title: Bitmart
+          link: "https://www.bitmart.com/trade/en-US?symbol=AKT_USDT&r=PjkAFy"
+
+    - row:
+        - title: BingX
+          link: "https://bingx.com/en/spot/AKTUSDT/?ch=cgk_organic"
+
+    - row:
+        - title: Bitvavo
+          link: "https://account.bitvavo.com/markets/AKT-EUR"
+
+    - row:
+        - title: Bitrue
+          link: "https://www.bitrue.com/trade/akt_usdt"
 
 faqsSection:
   title: FAQs

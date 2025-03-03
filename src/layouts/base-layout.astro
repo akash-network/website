@@ -1,6 +1,5 @@
 ---
 import "@/styles/globals.css";
-import "@/styles/fonts.css";
 
 import TailwindIndicator from "@/components/tailwind-indicator.astro";
 import BaseHead from "@/components/base-head.astro";
@@ -28,9 +27,6 @@ const isProd = import.meta.env.PROD;
   class="scroll-pt-[137px] scroll-smooth"
 >
   <head>
-    <!-- Google tag (gtag.js) tag1-->
-
-    <!-- Google tag (gtag.js) tag2-->
     <script
       is:inline
       async
@@ -44,7 +40,7 @@ const isProd = import.meta.env.PROD;
 
       gtag("config", "G-LFRGN2J2RV");
     </script>
-    <!-- Google Tag Manager -->
+
     <script is:inline>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -57,12 +53,11 @@ const isProd = import.meta.env.PROD;
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", "GTM-573RDG5H");
     </script>
-    <!-- End Google Tag Manager -->
+
     <BaseHead title={title} description={description} image={image} />
     <ViewTransitions />
   </head>
   <body class="bg-background">
-    <!-- Google Tag Manager (noscript) -->
     <noscript
       ><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-573RDG5H"
@@ -70,16 +65,21 @@ const isProd = import.meta.env.PROD;
         width="0"
         style="display:none;visibility:hidden"></iframe></noscript
     >
-    <!-- End Google Tag Manager (noscript) -->
+
     <slot />
     <AsideTailwindClasses />
-    <!-- Dev tools -->
+
     {!isProd && <TailwindIndicator />}
 
     <script>
-      //light-plus data-theme dark-plus in html tag
-      const getTheme = () => localStorage.getItem("theme") || "light";
+      const getTheme = () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) return savedTheme;
 
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
       const setTheme = (theme: string) => {
         if (theme === "light") {
           document.documentElement.classList.remove("dark");
@@ -94,7 +94,6 @@ const isProd = import.meta.env.PROD;
       document.addEventListener("astro:after-swap", () => setTheme(getTheme()));
 
       const handleHeaderToggleClick = () => {
-        console.log("reached");
         const element = document.documentElement;
         element.classList.toggle("dark");
 
@@ -116,6 +115,146 @@ const isProd = import.meta.env.PROD;
       document
         .querySelectorAll("#header-toggle-nav")
         .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
+    </script>
+    <script>
+      // Type definitions
+      type Theme = any;
+      type MermaidConfig = {
+        startOnLoad: boolean;
+        fontFamily: string;
+        theme: Theme;
+      };
+
+      interface MermaidAPI {
+        initialize: (config: MermaidConfig) => void;
+        render: (id: string, content: string) => Promise<{ svg: string }>;
+      }
+
+      declare module "mermaid" {
+        const mermaid: MermaidAPI;
+      }
+
+      // Store original content to allow re-rendering
+      const diagramContents = new Map();
+
+      const getTheme = (): Theme => {
+        const savedTheme = localStorage.getItem("theme") as Theme | null;
+        if (savedTheme) return savedTheme;
+
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "neutral";
+      };
+
+      async function renderDiagrams(
+        graphs: HTMLCollectionOf<Element>,
+        theme?: Theme,
+      ) {
+        const { default: mermaid } = await import("mermaid");
+
+        // Reset mermaid with new theme
+        mermaid.initialize({
+          startOnLoad: false,
+          fontFamily: "var(--sans-font)",
+          theme: theme || getTheme(),
+        });
+
+        Array.from(graphs).forEach(async (graph) => {
+          // Get content either from our stored map or from the element
+          let content = diagramContents.get(graph);
+          if (!content) {
+            const contentElement = graph.querySelector(".mermaid-src");
+            content = contentElement?.textContent || "";
+            if (content) {
+              diagramContents.set(graph, content);
+            }
+          }
+
+          if (!content) return;
+
+          // Clear the graph before re-rendering
+          graph.innerHTML = "";
+
+          const svg = document.createElement("svg");
+          const id = `mermaid-${Math.round(Math.random() * 100000)}`;
+          svg.id = id;
+
+          graph.appendChild(svg);
+          try {
+            const result = await mermaid.render(id, content);
+            graph.innerHTML = result.svg;
+          } catch (error) {
+            console.error("Failed to render mermaid diagram:", error);
+            // Restore original content on error
+            const contentElement = document.createElement("div");
+            contentElement.className = "mermaid-src";
+            contentElement.textContent = content;
+            graph.appendChild(contentElement);
+          }
+        });
+      }
+
+      // Initial render
+      const graphs = document.getElementsByClassName("mermaid");
+      if (graphs.length > 0) {
+        renderDiagrams(graphs);
+      }
+
+      // Watch for theme changes in localStorage
+      window.addEventListener("storage", (e: StorageEvent) => {
+        if (e.key === "theme") {
+          const graphs = document.getElementsByClassName("mermaid");
+          if (graphs.length > 0) {
+            renderDiagrams(graphs, e.newValue as Theme);
+          }
+        }
+      });
+
+      // Watch for system theme changes
+      const darkModeMediaQuery = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      );
+      darkModeMediaQuery.addEventListener(
+        "change",
+        (e: MediaQueryListEvent) => {
+          if (!localStorage.getItem("theme")) {
+            const graphs = document.getElementsByClassName("mermaid");
+            if (graphs.length > 0) {
+              renderDiagrams(graphs, e.matches ? "dark" : "neutral");
+            }
+          }
+        },
+      );
+
+      // Function to handle manual theme changes
+      function updateMermaidTheme(newTheme: Theme): void {
+        const graphs = document.getElementsByClassName("mermaid");
+        if (graphs.length > 0) {
+          renderDiagrams(graphs, newTheme);
+        }
+      }
+
+      // Make updateMermaidTheme available globally
+      (window as any).updateMermaidTheme = updateMermaidTheme;
+
+      // Add a mutation observer to watch for theme attribute changes on body or html
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.attributeName === "data-theme" ||
+            mutation.attributeName === "class"
+          ) {
+            const graphs = document.getElementsByClassName("mermaid");
+            if (graphs.length > 0) {
+              renderDiagrams(graphs, getTheme());
+            }
+          }
+        });
+      });
+
+      // Start observing the document with the configured parameters
+      observer.observe(document.documentElement, { attributes: true });
+      observer.observe(document.body, { attributes: true });
     </script>
   </body>
 </html>

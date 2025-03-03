@@ -8,6 +8,7 @@ categories:
   - Updates
 tags:
   - Partners
+  - Case Studies
 contributors:
   - Zach Horn
 bannerImage: ./solve-care-akash.png

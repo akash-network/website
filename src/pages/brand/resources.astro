@@ -1,15 +1,11 @@
 ---
 import ResourcesCard from "@/components/brand-pages/resources-card.astro";
 import Layout from "@/layouts/layout.astro";
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 
-const brandResourcesPage = await getEntryBySlug(
-  "Brand_Resources_Homepage",
-  "index",
-);
+const brandResourcesPage = await getEntry("Brand_Resources_Homepage", "index");
 
 const { title, description, cards } = brandResourcesPage.data;
-console.log(cards);
 ---
 
 <Layout title="Resources">

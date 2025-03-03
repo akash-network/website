@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       screens: {
         "3xl": "1660px",
+        slg: "1100px",
       },
       fontSize: {
         "2xs": ".625rem",
@@ -52,10 +53,15 @@ module.exports = {
           },
         };
       },
+      backgroundImage: {
+        "line-dashed": "url('/images/line-dashed.svg')",
+        "line-dashed-dark": "url('/images/line-dashed-dark.svg')",
+      },
 
       colors: {
         background: "hsl(var(--background))",
         background2: "hsl(var(--background2))",
+        "background-muted": "hsl(var(--background-muted))",
         foreground: "hsl(var(--foreground))",
         para: "hsl(var(--para))",
         cardGray: "hsl(var(--card-gray))",
@@ -65,14 +71,17 @@ module.exports = {
         lightForeground: "hsl(var(--light-foreground))",
         sortText: "hsl(var(--sort-text))",
         darkGray: "hsl(var(--dark-gray))",
+        darkText: "var(--dark-text)",
         badgeColor: "hsl(var(--badge-color))",
         iconText: "hsl(var(--icon-text))",
         linkText: "hsl(var(--link-text))",
         defaultBorder: "hsl(var(--default-border))",
         primary: {
-          DEFAULT: "var(--primary)",
+          DEFAULT: "#ff414c",
           foreground: "hsl(var(--primary-foreground))",
         },
+        "success-light": "#D1FAE5",
+        "success-dark": "#065F46",
 
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -87,7 +96,8 @@ module.exports = {
       },
 
       fontFamily: {
-        sans: ["Satoshi-Variable", ...fontFamily.sans],
+        sans: ["Inter", ...fontFamily.sans],
+        instrument: ["Instrument Serif", ...fontFamily.serif],
       },
 
       keyframes: {
@@ -117,5 +127,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
 };

@@ -1,0 +1,112 @@
+---
+import { Carousel } from "@/components/community-pages/custom-carousel/Carousel";
+import PointerSection from "@/components/community-pages/pointer-section.astro";
+import CommunityHero from "@/components/mdx-cards/community-hero.astro";
+import ButtonLink from "@/components/ui/button-link.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+const images = [
+  { src: "/images/slides/slide1.webp", alt: "Slide 1" },
+  { src: "/images/slides/slide2.webp", alt: "Slide 2" },
+  { src: "/images/slides/slide3.webp", alt: "Slide 3" },
+  { src: "/images/slides/slide4.webp", alt: "Slide 4" },
+  { src: "/images/slides/slide5.webp", alt: "Slide 5" },
+  { src: "/images/slides/slide6.webp", alt: "Slide 6" },
+  { src: "/images/slides/slide7.webp", alt: "Slide 7" },
+  { src: "/images/slides/slide8.webp", alt: "Slide 8" },
+];
+const title = "DePIN, AI and Crypto Pioneers";
+const description =
+  "Akash Insiders are community leaders driving network growth, breakthrough innovation, and strategic support across the Akash Network ecosystem.";
+---
+
+<Layout
+  title={title}
+  description={description}
+  image="/meta-images/community.png"
+>
+  <TopMargin isNotContainer>
+    <CommunityHero
+      container
+      subTitle="Akash Insiders:"
+      title={title}
+      description={description}
+      buttonLabel="Akash Insider Application"
+      buttonLink="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
+    />
+    <div class="flex flex-col gap-20 lg:gap-40">
+      <div>
+        <Carousel client:only images={images} speed={100} gap={0} />
+      </div>
+      <div class="container-reader flex flex-col gap-20 lg:gap-40">
+        <PointerSection
+          title="What do Akash Insiders do?"
+          items={[
+            {
+              title: "Contribute to the development of the Akash ecosystem",
+            },
+            {
+              title: "Test new features and products within the Akash Network",
+            },
+            {
+              title:
+                "Create and maintain technical documentation and tutorials",
+            },
+            {
+              title:
+                "Support community members and foster collaborative learning",
+            },
+            {
+              title: "Educate the community through workshops and webinars",
+            },
+            {
+              title: "Represent the Akash Network online and in person",
+            },
+          ]}
+          image="/images/insiders/akash-image.png"
+        />
+
+        <PointerSection
+          title="Why Become an Insider?"
+          items={[
+            {
+              title:
+                "Connect with like-minded AI, crypto and DePIN advocates from around the world.",
+            },
+            {
+              title: "Gain early access to Akash ecosystem features",
+            },
+            {
+              title: "Learn cutting-edge AI, crypto, and DePIN technologies",
+            },
+            {
+              title:
+                "Interact directly with Overclock Labs team, the creators of the Akash Network",
+            },
+            {
+              title:
+                "Opportunities to attend in-person events around the world",
+            },
+          ]}
+          image="/images/insiders/become-insider.png"
+          reverse={true}
+        />
+
+        <div class="not-prose flex flex-col items-center justify-center gap-10">
+          <h2 class="text-center text-3xl font-semibold">
+            Interested in becoming an Akash Insider?
+          </h2>
+          <ButtonLink
+            arrow
+            className="mt-0"
+            link="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
+            variant="secondary"
+            size="lg"
+          >
+            Apply today!
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
+  </TopMargin>
+</Layout>

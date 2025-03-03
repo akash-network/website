@@ -1,12 +1,8 @@
 ---
 import { ChevronDownIcon } from "lucide-react";
-import { Skeleton } from "../ui/skeleton";
-import AkashLogo from "./akash-docs-logo.astro";
 import { DocsNav, HomeButton } from "./docs-nav";
-import { docsSequence } from "@/content/Docs/_sequence";
 
 const { nav, providersNav } = Astro.props;
-console.log(nav);
 
 const pathname = new URL(Astro.request.url).pathname;
 ---

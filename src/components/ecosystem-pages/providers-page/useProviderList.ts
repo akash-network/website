@@ -1,5 +1,4 @@
 import { BASE_API_URL } from "@/lib/constants";
-import type { ApiProviderList } from "@/types/provider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -11,9 +10,8 @@ export async function getProviderList() {
   return response.data;
 }
 
-export function useProviderList({ initialProviders }: any) {
+export function useProviderList() {
   return useQuery(["PROVIDER_LIST"], () => getProviderList(), {
-    initialData: initialProviders,
     refetchInterval: 2000,
     refetchIntervalInBackground: true,
   });

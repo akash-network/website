@@ -46,7 +46,7 @@ const TestimonialCard = ({
               {userName}
             </a>
           ) : (
-            <p className="text-sm font-bold text-foreground">{userName}</p>
+            <p className="text-sm font-semibold   text-linkText">{userName}</p>
           )}
           <p className=" text-sm  ">{companyName}</p>
         </div>

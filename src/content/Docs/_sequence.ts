@@ -45,130 +45,242 @@ export const docsSequence = [
           {
             label: "Akash Console",
           },
-          {
-            label: "Praetor App",
-            subItems: [
-              { label: "What is Praetor App?"},
-              { label: "Akash Provider",
-                subItems: [
-                  { label: "Build a Cloud Provider"},
-                  { label: "Existing Kubernetes Cluster"},
-                  { label: "Single Server Provider"},
-                  { label: "Build a Cloud Provider (Windows Machine)"},
-                  { label: "Sudo User Requirements"},
-                  { label: "Decommission a Provider"},
-                ],
-              },  
-            ],   
-          },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
-          
-        ],
-      },
-      {
-        label: "Guides",
-        subItems: [ 
-          { 
-            label: "Machine Learning",
-            subItems: [
-              { label: "OneClickLLM"},
-              { label: "DeTrain"},
-              { label: "Ray"},
-              { label: "FLock.io"},
-              { label: "vLLM"},
-              { label: "Llama-2 70B"},
-              { label: "Akash Chat API"},
-            ],
-          },
-          { 
-            label: "Deployments",
-            subItems: [
-              { label: "TLS Termination of Akash Deployments" },
-              { label: "Multi-Tiered Deployment" },
-              { label: "Ruby on Rails with Sia and Auth0"},
-              { label: "AkashOS"},
-              { label: "Jackal S3 Gateway"},
-              { label: "Cloudflare"},
-            ],
-          },
-          {
-            label: "Tooling",
-            subItems: [
-              { label: "PostgreSQL restore/backup"},
-              { label: "Provider Utilization Dashboard"},
-              { label: "Akash Playground"},
-            ],
-          },
-          {
-            label: "Blockchain",
-            subItems: [
-              { label: "Kava RPC Node Deployment" },
-            { label: "Chia on Akash" },
-            { label: "Polygon on Akash" },
-            { label: "Mine Raptoreum on Akash Network" },
-            ],
-          },
-          {
-            label: "Apps",
-            subItems: [
-              { label: "Waku"},
-              { label: "qBittorrent"},
-            ],
-          },
-          
         ],
       },
       {
         label: "Providers",
         subItems: [
+          { label: "Provider Overview"},
           {
             label: "Build A Cloud Provider",
             subItems: [
-              {
-                label: "Kubernetes Cluster For Akash Providers",
-                subItems: [{ label: "Kubernetes Cluster for Akash Providers" }],
+              { label: "Akash CLI",
+                subItems: [
+                    {
+                      label: "Kubernetes Cluster For Akash Providers",
+                      subItems: [{ label: "Kubernetes Cluster for Akash Providers" }],
+                    },
+                    {
+                      label: "Akash Cloud Provider Build With Helm Charts",
+                    },
+                    {
+                      label: "Akash Provider Checkup",
+                    },
+                    {
+                      label: "Time Synchronization",
+                    },
+                    {
+                      label: "GPU Resource Enablement (Optional Step)",
+                    },
+                    {
+                      label: "TLS Certs for Akash Provider (Optional Step)",
+                    },
+                    {
+                      label: "IP Leases - Provider Enablement (Optional Step)",
+                    },
+                    {
+                      label: "Helm Based Provider Persistent Storage Enablement",
+                    },
+                    {
+                      label: "Akash Provider Bid Pricing Calculation",
+                    },
+                    {
+                      label: "Akash Provider Attribute Updates",
+                    },
+                    {
+                      label: "gVisor Issue - No system-cgroup v2 Support",
+                    },
+                    {
+                      label: "Shared Memory Enablement",
+                    },
+
+                ],
               },
-              {
-                label: "Akash Cloud Provider Build With Helm Charts",
-              },
-              {
-                label: "Akash Provider Checkup",
-              },
-              {
-                label: "Time Synchronization",
-              },
-              {
-                label: "GPU Resource Enablement (Optional Step)",
-              },
-              {
-                label: "TLS Certs for Akash Provider (Optional Step)",
-              },
-              {
-                label: "IP Leases - Provider Enablement (Optional Step)",
-              },
-              {
-                label: "Helm Based Provider Persistent Storage Enablement",
-              },
-              {
-                label: "Akash Provider Bid Pricing Calculation",
-              },
-              {
-                label: "Akash Provider Attribute Updates",
-              },
-              {
-                label: "gVisor Issue - No system-cgroup v2 Support",
-              },
-              {
-                label: "Shared Memory Enablement",
+              { label: "Provider Console",
+                subItems: [
+                  { label: "What is Provider Console?"},
+                  { label: "Building with Provider Console"},
+                  { label: "How to Enable Root Sign-in"}, 
+                ],
               },
             ],
+          },
+          {
+            
           },
           { label: "Akash Provider FAQ and Guide" },
           { label: "Community Solutions" },
           { label: "Custom Kubernetes Cluster Settings" },
         ],
       },
+      {
+        label: "Guides",
+
+        subItems: [
+          { label: "Guides Overview"},
+          {
+            label: "Machine Learning",
+            subItems: [
+              { label: "DeTrain" },
+              { label: "Ray" },
+              { label: "FLock.io" },
+              { label: "vLLM" },
+              { label: "Llama-2 70B" },
+              { label: "Akash Chat API" },
+              { label: "AI Art" },
+              { label: "Jupyter Notebook" },
+              { label: "Text-Generation-WebUI" },
+              { label: "Mistral 7B"}, 
+              { label: "Skypilot"},
+              { label: "H2O"},
+              { label: "H2O Flow"},
+              { label: "H2O LLM Studio"},
+              { label: "h2oGPT"},
+              { label: "FlowiseAI"},
+              { label: "Machine Learning Environments"},
+              { label: "Deeplearning4j"},
+              { label: "Keras"},
+              { label: "Haystack"},
+              { label: "AnythingLLM"},
+              { label: "LocalAI"},
+              { label: "LangFlow"},
+              { label: "TensorFlow"},
+              { label: "PyTorch"},
+            ],
+          },
+          {
+            label: "Deployments",
+            subItems: [
+              { label: "TLS Termination of Akash Deployments" },
+              { label: "Multi-Tiered Deployment" },
+              { label: "Jackal S3 Gateway" },
+              { label: "Caddy"},
+              { label: "Nginx"},
+              { label: "Apache HTTP Server"},
+              { label: "LocalStack"},
+            ],
+          },
+          {
+            label: "Tooling",
+            subItems: [
+              { label: "Provider Utilization Dashboard"},
+              { label: "Radicle" },
+              { label: "Akash Playground" },
+              { label: "Kong"},
+              { label: "Jenkins"},
+              { label: "Traefik"},
+              { label: "Mautic"},
+              { label: "RabbitMQ"},
+              { label: "JetBrains Hub"},
+              { label: "EMQX"},
+              { label: "Apache Flink"},
+              { label: "Lightstreamer"},
+              { label: "RabbitMQ"},
+              { label: "NATS"}, 
+              { label: "Apache Airflow"},
+              { label: "Apache Kafka"},
+              { label: "Apache Storm"},
+            ],
+          },
+          {
+            label: "Blockchain",
+            subItems: [
+              { label: "Kava RPC Node Deployment" },
+              { label: "Chia on Akash" },
+              { label: "Polygon on Akash" },
+              { label: "Mine Raptoreum on Akash Network" },
+              { label: "Deploying Iron Fish on Akash" },
+            ],
+          },
+          {
+            label: "Apps",
+
+            subItems: [
+              { label: "Waku" },
+              { label: "qBittorrent" },
+              { label: "Discourse" },
+              { label: "Invidious" }, 
+            ],
+          },
+          {
+            label: "Databases",
+            subItems: [
+              { label: "JSON Server" },
+              { label: "Dolt" },
+              { label: "CouchDB" },
+              { label: "MariaDB"},
+              { label: "PostgreSQL" },
+              { label: "ArangoDB"},
+              { label: "OrientDB"},
+              { label: "MongoDB"},
+              { label: "Neo4j"},
+            ],
+          },
+          {
+            label: "Hosting",
+            subItems:[
+              { label: "Caddy"},
+              { label: "WordPress"},
+              { label: "Discourse"},
+              { label: "Ghost"},
+            ]
+          },
+          {
+            label: "Data Analysis",
+            subItems: [
+              { label: "Redash" },
+              { label: "Dash" },
+              { label: "Metabase" },
+              { label: "KNIME"},
+              { label: "Dataiku"},
+              { label: "Apache Superset"},
+              { label: "Rstudio"},
+              { label: "Apache Druid"},
+              { label: "Grafana"},
+              { label: "OpenSearch"}, 
+              { label: "Matomo"},
+              { label: "JupyterHub"},
+              { label: "JATOS"},
+            ],
+          },
+          {
+            label: "Frameworks",
+            subItems: [
+              { label: "Django" },
+              { label: "Flask"},
+              { label: "Next.js" },
+              { label: "React" },
+              { label: "Astro" },
+              { label: "Angular" },
+              { label: "Nue JS"},
+              { label: "Gatsby"},
+              { label: "NextJS"},
+              { label: "Vue.js"},
+            ],
+          },
+          {
+            label: "Benchmarkings",
+            subItems: [{ label: "Fast.com" }],
+          },
+          {
+            label: "Games",
+            subItems: [
+              { label: "Minecraft"},
+            ]
+          },
+          {
+            label: "Science",
+            subItems:[
+              { label: "GeoNetwork"},
+              { label: "GNU Octave"},
+              { label: "MATLAB"}
+            ]
+          }
+        ],
+      },
+      
 
       {
         label: "Akash Nodes",

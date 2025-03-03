@@ -1,0 +1,12 @@
+---
+import PricingHeader from "@/components/pricing-page/pricing-header.astro";
+import ProviderTable from "@/components/pricing-page/provider/provider-table";
+---
+
+<PricingHeader
+  title="Provider Earn Calculator"
+  description="Calculate your potential earnings by providing resources to the Akash Network."
+  image="/meta-images/pricing/provider.jpg"
+>
+  <ProviderTable initialData={null} client:load />
+</PricingHeader>
