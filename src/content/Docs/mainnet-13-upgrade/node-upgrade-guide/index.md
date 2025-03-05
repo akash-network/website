@@ -15,8 +15,8 @@ linkTitle: "Akash v0.38.0 Node Upgrade Guide"
 
 ## Special Instructions
 
-We recommend validators utilize 96GB of RAM. This upgrade brings state change and might take a few minutes to complete.
-If you are unable to have 96GB of RAM, at a minimum have a total of 96GB of swap set to prevent out of memory errors.
+We recommend validators utilize 128GB of RAM. This upgrade brings state change and might take a few minutes to complete.
+If you are unable to have 128GB of RAM, at a minimum have a total of 128GB of swap set to prevent out of memory errors.
 
 ## Common Steps for All Upgrade Options
 
