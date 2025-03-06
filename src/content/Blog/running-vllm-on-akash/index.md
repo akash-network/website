@@ -142,7 +142,7 @@ Steps to Troubleshoot
 - Make sure the vLLM container has a large of disk space to store the model weights.
 - If you are doing something funny with really large context lengths you can use the tools below to help estimate VRAM utilization.
 - Remember that really large models like Grok sometimes require multiple gpus. the max number of gpus supported by this vLLM example is 8 gpus or 640Gb VRAM for a100
-- If you needed more than 8 gpus you can use a larger ray cluster instead, but this is beyond the scope of this example. you can contact logan@thumper.ai for asistance if you need help with this.
+- If you needed more than 8 gpus you can use a larger ray cluster instead, but this is beyond the scope of this example. you can contact logan@thumper.ai for assistance if you need help with this.
 
 ### Tools for Checking Model VRAM requirements
 

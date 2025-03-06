@@ -1,16 +1,16 @@
 import type { TransactionMessage } from "./transaction";
-import type { IValidatorAddess } from "./validator";
+import type { IValidatorAddress } from "./validator";
 
 export interface Block {
   datetime: string;
   height: number;
-  proposer: IValidatorAddess;
+  proposer: IValidatorAddress;
   transactionCount: number;
 }
 
 export interface BlockDetail {
   height: number;
-  proposer: IValidatorAddess;
+  proposer: IValidatorAddress;
   datetime: string;
   hash: string;
   gasUsed: number;
