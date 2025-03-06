@@ -26,7 +26,7 @@ Use this guide and follow the sequential steps to build your Testnet Akash Provi
 
 Akash Providers utilize an underlying Kubernetes cluster. Begin your Akash Provider build by preparing the hosts that the Kubernetes cluster will be built on.
 
-Follow the instructions in this [guide](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/) to prepare the hosts. Complete steps 1-6 in the linked guide and then return to proceed with the steps of this `Provider Build with GPU` guide.
+Follow the instructions in this [guide](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/) to prepare the hosts. Complete steps 1-6 in the linked guide and then return to proceed with the steps of this `Provider Build with GPU` guide.
 
 ## Disable Search Domains
 
@@ -823,7 +823,7 @@ EOF
 ### **Provider Bid Defaults**
 
 - When a provider is created the default bid engine settings are used which are used to derive pricing per workload. If desired these settings could be updated. But we would recommend initially using the default values.
-- For a through discussion on customized pricing please visit this [guide](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-9---provider-bid-customization).
+- For a through discussion on customized pricing please visit this [guide](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/#step-9---provider-bid-customization).
 
 ### Create Provider Via Helm
 

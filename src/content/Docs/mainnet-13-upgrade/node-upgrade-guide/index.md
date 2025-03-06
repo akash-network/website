@@ -1,17 +1,22 @@
 ---
-categories: ["Mainnet 12 Upgrade"]
+categories: ["Mainnet 13 Upgrade"]
 tags: []
 weight: 2
-title: "Akash v0.36.0 Node Upgrade Guide"
-linkTitle: "Akash v0.36.0 Node Upgrade Guide"
+title: "Akash v0.38.0 Node Upgrade Guide"
+linkTitle: "Akash v0.38.0 Node Upgrade Guide"
 ---
 
 ## Upgrade Details
 
-- **Upgrade name**: Mainnet12
-- **Binary version**: `v0.36.0`
-- [Upgrade countdown/block height](https://www.mintscan.io/akash/block/16708237)
-- [Binary Links](https://github.com/akash-network/node/releases/tag/v0.36.0)
+- **Upgrade name**: Mainnet13
+- **Binary version**: `v0.38.0`
+- [Upgrade countdown/block height](https://www.mintscan.io/akash/block/20608553)
+- [Binary Links](https://github.com/akash-network/node/releases/tag/v0.38.0)
+
+## Special Instructions
+
+We recommend validators utilize 128GB of RAM. This upgrade brings state change and might take a few minutes to complete.
+If you are unable to have 128GB of RAM, at a minimum have a total of 128GB of swap set to prevent out of memory errors.
 
 ## Common Steps for All Upgrade Options
 
@@ -19,7 +24,7 @@ In the sections that follow both `Cosmovisor` and `non-Cosmovisor` upgrade paths
 
 > _**NOTE -**_ The following steps are not required if the auto-download option is enabled for Cosmovisor.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.36.0) or build it from source. We highly recommend using a pre-complied binary but provide instructions to build from source here in the rare event it would be necessary.
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.38.0) or build it from source. We highly recommend using a pre-complied binary but provide instructions to build from source here in the rare event it would be necessary.
 
 ## Option 1: Upgrade Using Cosmovisor
 
@@ -122,17 +127,17 @@ sudo systemctl enable cosmovisor.service
 
 > Skip this section if you have enabled DAEMON_ALLOW_DOWNLOAD_BINARIES cosmovisor parameter. It will automatically create the correct path and download the binary based on the plan info from the govt proposal.
 
-Create the folder for the upgrade (v0.36.0) - cloned in this [step](#common-steps-for-all-upgrade-options) - and copy the akash binary into the folder.
+Create the folder for the upgrade (v0.38.0) - cloned in this [step](#common-steps-for-all-upgrade-options) - and copy the akash binary into the folder.
 
 This next step assumes that the akash binary was built from source and stored in the current (i.e., akash) directory:
 
 ```
-mkdir -p $HOME/.akash/cosmovisor/upgrades/v0.36.0/bin
+mkdir -p $HOME/.akash/cosmovisor/upgrades/v0.38.0/bin
 
-cp ./.cache/bin $HOME/.akash/cosmovisor/upgrades/v0.36.0/bin
+cp ./.cache/bin $HOME/.akash/cosmovisor/upgrades/v0.38.0/bin
 ```
 
-At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.34.X), set the upgrade binary as the new current binary (v0.36.0), and then restart the node.\\
+At the proposed block height, `cosmovisor` will automatically stop the current binary (v0.34.X), set the upgrade binary as the new current binary (v0.38.0), and then restart the node.\\
 
 ## Option 2: Upgrade Without Cosmovisor
 
@@ -142,7 +147,7 @@ Node operators also have the option to manually update the `akash` binary at the
 
 When the chain halts at the proposed upgrade height, stop the current process running `akash`.
 
-Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.36.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
+Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v0.38.0) or build from source - completed in this [step](#common-steps-for-all-upgrade-options) - and ensure the `akash` binary has been updated:
 
 ```
 akash version
@@ -177,7 +182,7 @@ if no such message, most like direnv is not hooked to the shell
 #### Build
 
 ```shell
-git clone --depth 1 --branch v0.36.0 https://github.com/akash-network/node
+git clone --depth 1 --branch v0.38.0 https://github.com/akash-network/node
 cd node
 direnv allow
 make release

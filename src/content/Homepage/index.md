@@ -172,7 +172,7 @@ aiModelsAndAppsSection:
 
       docsLink: 
         label: Provider Console Docs
-        link: "/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
+        link: "/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
 
     - image:  "./assets/tools/awesomeakash.svg"
       description: " View collection of SDL deployment templates based on the Awesome Akash GitHub repository "
