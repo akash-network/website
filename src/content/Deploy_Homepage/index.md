@@ -3,8 +3,8 @@ pageTitle: Customize your Akash experience with the perfect tool
 
 heroSection:
   title: Streamline Deployment with Akash Console
-  description: Effortless application deployment for the decentralized era.
-  heroImage: "./assets/hero-image.png"
+  description: Akash Console makes it easy to deploy on compute providers around the world. Access 1-click templates, view deployment status, and customize deployments to your specifications.
+  heroImage: "./assets/hero.svg"
   featureList:
     - Built for the unique demands of Web3 and crypto apps
     - Say no to complex processes and yes to one-click deployment
@@ -15,24 +15,24 @@ heroSection:
     enable: true
 
 cloudmosResourcesSection:
-  title: Console Resources
+  title: Akash Console Resources
   cards:
-    - title: Deployment Templates
-      description: Jumpstart your app development process with our pre-built solutions.
+    - title: Akash Console Docs
+      description: Tap into the Akash Marketplace and deploy permissionlessly using one of the network’s open-source deployment tools.
       badge: "./assets/github.svg"
-      link: "https://console.akash.network/templates"
+      link: "/docs/getting-started/quickstart-guides/akash-console/"
       linkIcon: true
       linkLabel: "View More"
-    - title: Akash Console Documentation
-      description: Console Deploy Tool is a web based application which simplifies the deployment process on the Akash Network.
+    - title: Credit Card Payments in Akash Console
+      description: Akash Console now supports credit card payments, giving users a seamless way to manage costs without crypto.
       badge: "./assets/book-stack.svg"
-      link: "/docs/deployments/akash-console/"
+      link: "/blog/introducing-credit-card-payments-in-akash-console/"
       linkIcon: true
       linkLabel: "View More"
-    - title: Deploy a Next.js app with crypto
-      description: In this video, Max from Akash Console shows how to deploy a simple Next.js web app to the decentralized cloud Akash Network.
+    - title: Developer Specific Workflows in Akash Console
+      description: Tailored flows for different use cases, making it easier than ever to deploy, manage, and scale on Akash.
       badge: "./assets/youtube.svg"
-      link: "https://www.youtube.com/watch?v=KscVdyESSm4&t=869s"
+      link: "/blog/introducing-developer-specific-workflows-in-akash-console/ "
       linkIcon: true
       linkLabel: "View More"
 
@@ -52,13 +52,13 @@ resourcesSection:
 additionalDeploymentSection:
   title: Additional Deployment Resources
   resources:
-    - title: CLI
+    - title: Akash CLI
       content: Deploy and manage your applications on Akash with ease using the Command Line Interface
       link: "/docs/deployments/akash-cli/overview/"
     - title: CLI Booster
       content: The Akash CLI Booster was created to make the use of the current command line tooling much simpler for deployments and related activities. In this guide we will review the primary capabilities of this exciting new tool.
       link: /docs/deployments/akash-cli/cli-booster/
-    - title: Terraform
+    - title: Terraform Cloud Integration
       content: Effortless integration with the Akash Network using Terraform Cloud
       link: /docs/other-resources/experimental/akash-deployments-via-terraform/
 ---

@@ -6,13 +6,12 @@ title: "PyTorch"
 linkTitle: "PyTorch"
 ---
 
-
-
 Akash Network is a decentralized cloud platform that enables developers to deploy containerized applications, including machine learning frameworks like PyTorch. This guide will help you deploy PyTorch on Akash using its official Docker image.
 
 ---
 
 ## **Prerequisites**
+
 1. **Akash CLI Installed**: Ensure the Akash CLI is installed and configured. Follow the [official guide](https://docs.akash.network/) for installation.
 2. **Akash Wallet**: Fund your wallet with AKT tokens for deployment.
 3. **Docker Knowledge**: Basic understanding of Docker and containerization.
@@ -82,27 +81,31 @@ deployment:
 ## **Step 2: Deploy on Akash**
 
 1. **Initialize Deployment**:
+
    ```
-   akash tx deployment create deploy.yaml --from <your-wallet> --node <node-address> --chain-id <chain-id>
+   provider-services tx deployment create deploy.yaml --from <your-wallet> --node <node-address> --chain-id <chain-id>
    ```
+
    Replace `<your-wallet>`, `<node-address>`, and `<chain-id>` with your Akash configuration.
 
 2. **Bid for Resources**:
    Once the deployment is created, providers will bid to host it. Run the following command to view the bids:
+
    ```
-   akash query market bid list --owner <your-wallet>
+   provider-services query market bid list --owner <your-wallet>
    ```
 
 3. **Lease Selection**:
    Accept a bid to create a lease:
+
    ```
-   akash tx market lease create --dseq <deployment-sequence> --gseq 1 --oseq 1 --from <your-wallet>
+   provider-services tx market lease create --dseq <deployment-sequence> --gseq 1 --oseq 1 --from <your-wallet>
    ```
 
 4. **Check Deployment Status**:
    After creating the lease, check the status of your deployment:
    ```
-   akash query deployment get --owner <your-wallet> --dseq <deployment-sequence>
+   provider-services  query deployment get --owner <your-wallet> --dseq <deployment-sequence>
    ```
 
 ---
@@ -111,8 +114,9 @@ deployment:
 
 1. **Retrieve Deployment Details**:
    Obtain the external IP and port assigned to your deployment:
+
    ```
-   akash provider lease-status --dseq <deployment-sequence> --from <your-wallet>
+   provider-services provider lease-status --dseq <deployment-sequence> --from <your-wallet>
    ```
 
 2. **Connect to the Service**:
@@ -124,9 +128,11 @@ deployment:
 ## **Step 4: Verify PyTorch**
 
 1. SSH into the container:
+
    ```
    ssh -p <port> root@<external-ip>
    ```
+
    (Use the credentials provided by the provider.)
 
 2. Start a Python shell and test PyTorch:
@@ -141,7 +147,9 @@ deployment:
 ## **Optional: Customize the Docker Container**
 
 If you need additional libraries or custom configurations:
+
 1. Create a custom `Dockerfile`:
+
    ```dockerfile
    FROM pytorch/pytorch:latest
    RUN pip install flask gunicorn  # Example: Add Flask and Gunicorn
@@ -151,6 +159,7 @@ If you need additional libraries or custom configurations:
    ```
 
 2. Build and push your custom image:
+
    ```
    docker build -t <your-dockerhub-username>/custom-pytorch:latest .
    docker push <your-dockerhub-username>/custom-pytorch:latest
@@ -164,13 +173,14 @@ If you need additional libraries or custom configurations:
 
 1. **Update Deployment**:
    Modify the `deploy.yaml` file and run:
+
    ```
-   akash tx deployment update deploy.yaml --from <your-wallet>
+   provider-services tx deployment update deploy.yaml --from <your-wallet>
    ```
 
 2. **Stop Deployment**:
    ```
-   akash tx deployment close --owner <your-wallet> --dseq <deployment-sequence>
+   provider-services tx deployment close --owner <your-wallet> --dseq <deployment-sequence>
    ```
 
 ---

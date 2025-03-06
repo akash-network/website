@@ -169,11 +169,11 @@ deployment:
 #### Deploy to Akash
 1. Deploy the application:
    ```bash
-   akash tx deployment create deploy.yaml --from your-wallet
+   provider-services tx deployment create deploy.yaml --from your-wallet
    ```
 2. Check the status of your deployment:
    ```bash
-   akash query deployment list --owner your-wallet-address
+   provider-services query deployment list --owner your-wallet-address
    ```
 
 #### Point a Domain to Your Akash Deployment

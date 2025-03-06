@@ -87,7 +87,7 @@ deployment:
 
 1. Retrieve the service endpoint using:
    ```bash
-   akash query deployment get <deployment-id>
+   provider-services lease-status --dseq $AKASH_DSEQ --from $AKASH_KEY_NAME --provider $AKASH_PROVIDER
    ```
 2. Connect to MongoDB using a MongoDB client or CLI:
    ```bash

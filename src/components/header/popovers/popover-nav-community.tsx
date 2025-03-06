@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
+import { CalendarModal } from "@/components/development-pages/calendar-modal";
 import { getYearToUse } from "@/utils/redirects";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
@@ -106,7 +107,7 @@ const PopOverSmall = ({
             </div>
             <a
               href={external?.link}
-              target="_blank"
+              target={external?.link.startsWith("http") ? "_blank" : "_self"}
               className="border-t bg-gray-50 px-7 py-3 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
             >
               <p className="inline-flex items-center text-sm font-semibold text-foreground ">
@@ -150,7 +151,7 @@ export const SubNavbar = ({
   const external = items.find((item) => item?.external);
   return (
     <div className=" border-y">
-      <div className="container-nav flex items-center gap-2 overflow-x-auto  md:justify-between">
+      <div className="container flex items-center gap-2 overflow-x-auto  md:justify-between">
         <div className="flex">
           {items
             .filter((item) => !item?.external)
@@ -186,18 +187,22 @@ export const SubNavbar = ({
               );
             })}
         </div>
-        {external && (
-          <a
-            href={external.link}
-            target="_blank"
-            className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
-          >
-            {external.title}
-            <ArrowRightCircle
-              className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
-              size={16}
-            />
-          </a>
+        {type === "development" ? (
+          <CalendarModal />
+        ) : (
+          external && (
+            <a
+              href={external.link}
+              target="_blank"
+              className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
+            >
+              {external.title}
+              <ArrowRightCircle
+                className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
+                size={16}
+              />
+            </a>
+          )
         )}
       </div>
     </div>

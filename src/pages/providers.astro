@@ -1,9 +1,8 @@
 ---
-import ResourcesCard from "@/components/providers-page/resources-card.astro";
-import TopPagination from "@/components/providers-page/top-pagination.astro";
 import Layout from "@/layouts/layout.astro";
 import { Image } from "astro:assets";
 import { getEntry } from "astro:content";
+import { ArrowUpCircle } from "lucide-react";
 import PraetorsCard from "../components/providers-page/praetors-card.astro";
 
 const providersPage = await getEntry("Providers_Homepage", "index");
@@ -15,157 +14,98 @@ const {
 } = providersPage.data;
 ---
 
-<Layout title="Become a Provider ">
-  <TopPagination currentPage="Provider" />
-
-  <div class="relative overflow-hidden">
-    <div class="container">
+<Layout
+  title={heroSection.title}
+  image={heroSection.heroImage.src}
+  description={heroSection.description}
+>
+  <div class="bg-background py-10 md:py-20">
+    <div class="container flex flex-col gap-y-14">
       <div
-        class="border-b border-[#d9d9d9] pb-[40px] pt-5 lg:flex lg:flex-row-reverse lg:justify-between lg:gap-x-8 lg:pt-[60px]"
+        class="flex flex-col items-center gap-6 lg:flex-row-reverse lg:justify-between lg:gap-14"
       >
-        <div class="flex-shrink">
+        <div class="w-full flex-shrink lg:max-w-[50%]">
           <Image
             src={heroSection.heroImage}
             alt={`HeroImage`}
             width={1500}
             height={1500}
             format="webp"
-            class="object-cover lg:w-[591px]"
+            class="w-full rounded-md object-cover"
             loading="eager"
           />
         </div>
 
-        <div class="mt-10 lg:mt-0 lg:w-[569px]">
+        <div class="flex-1">
           <h2
-            class="text-2xl font-bold leading-8 md:text-3lg md:leading-[48px]"
+            class="text-2xl font-semibold leading-8 md:text-3lg md:leading-[48px]"
           >
             {heroSection.title}
           </h2>
-          <p class="mt-4 text-sm md:mt-5 md:text-[18px] md:leading-[28px]">
+          <p class="mt-4 text-sm md:mt-5 md:text-base md:leading-[28px]">
             {heroSection.description}
           </p>
 
           <div
-            class="mt-[40px] flex flex-col items-start gap-x-6 gap-y-3 xl:flex-row"
+            class="mt-10 flex flex-col items-start gap-x-6 gap-y-3 xl:flex-row"
           >
             <a
               target="_blank"
               href={heroSection.button.link}
-              class="inline-flex cursor-pointer items-center justify-center rounded-lg bg-primary px-4 py-1 text-xs font-medium leading-none text-white hover:bg-primary/90 md:px-6 md:py-[6px] md:text-base"
+              class="inline-flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary/5 px-4 py-2 text-xs font-medium leading-none text-primary transition-all duration-300 hover:bg-primary hover:text-white dark:border-primary md:px-6 md:text-base"
             >
-              <svg
-                width="34"
-                height="34"
-                viewBox="0 0 34 34"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="-ml-1 mr-1"
-              >
-                <g clip-path="url(#clip0_1200_10876)">
-                  <path
-                    d="M13.9912 19.6391L20.0037 14.3617M20.0037 14.3617L15.0644 14.0401M20.0037 14.3617L19.682 19.301"
-                    stroke="#FBF8F7"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"></path>
-                  <path
-                    d="M23.5917 24.5156C27.7425 20.8723 28.1539 14.5541 24.5107 10.4033C20.8674 6.25259 14.5492 5.84117 10.3984 9.4844C6.24766 13.1276 5.83624 19.4459 9.47947 23.5966C13.1227 27.7474 19.441 28.1588 23.5917 24.5156Z"
-                    stroke="#FBF8F7"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"></path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_1200_10876">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(0.0625 15.8975) rotate(-41.2744)"
-                    ></rect>
-                  </clipPath>
-                </defs>
-              </svg>
-
+              <ArrowUpCircle className="mr-2 size-4  rotate-45" />
               {heroSection.button.label}
             </a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+      <div class="h-px w-full bg-defaultBorder"></div>
 
-  <div class="container mt-[90px]">
-    <div class="border-b border-[#d9d9d9] pb-[40px]">
-      <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
-        {praetorResourcesSection.title}
-      </h2>
+      <div>
+        <h2 class="font-medium">
+          {praetorResourcesSection.title}
+        </h2>
 
-      <div
-        class="mt-8 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 md:mt-6 lg:grid-cols-3"
-      >
-        {
-          praetorResourcesSection.cards.map((card) => (
-            <PraetorsCard
-              title={card.title}
-              description={card.description}
-              badge={card.badge}
-              link={card.link}
-              linkIcon={card.linkIcon}
-              linkLabel={card.linkLabel}
-            />
-          ))
-        }
+        <div
+          class="mt-4 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {
+            praetorResourcesSection.cards.map((card) => (
+              <PraetorsCard
+                title={card.title}
+                description={card.description}
+                badge={card.badge}
+                link={card.link}
+                linkIcon={card.linkIcon}
+                linkLabel={card.linkLabel}
+              />
+            ))
+          }
+        </div>
       </div>
-    </div>
-  </div>
+      <div class="h-px w-full bg-defaultBorder"></div>
+      <div>
+        <h2 class="font-medium">
+          {additionalDeploymentSection.title}
+        </h2>
 
-  <div class="container my-10 border-b border-[#d9d9d9] py-10">
-    <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
-      {resourcesSection.title}
-    </h2>
-
-    <div
-      class="mt-8 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 md:mt-6 md:gap-x-12 lg:grid-cols-3 lg:gap-x-10"
-    >
-      {
-        resourcesSection.cards.map((card) => (
-          <ResourcesCard
-            title={card.title}
-            description={card.description}
-            image={card.img}
-            link={card.link}
-          />
-        ))
-      }
-    </div>
-  </div>
-
-  <div class="container my-10 py-10">
-    <h2 class="text-xl font-bold md:text-2xl md:leading-[48px]">
-      {additionalDeploymentSection.title}
-    </h2>
-
-    <div class="mt-8">
-      {
-        additionalDeploymentSection.resources.map((resource) => (
-          <div class="flex gap-[14px] pb-2">
-            <span class="block h-full text-[#d9d9d9]">-</span>
-            <p class="leading-[150%]">
-              <a
-                href={resource.link}
-                class="text-sm font-medium text-foreground underline md:text-xl"
-              >
-                {resource.title}
-              </a>
-              &nbsp;
-              <span class="text-sm font-normal text-[#808080] md:text-[18px] md:leading-7">
-                {resource.content}
-              </span>
-            </p>
-          </div>
-        ))
-      }
+        <div
+          class="mt-4 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {
+            additionalDeploymentSection.resources.map((resource) => (
+              <PraetorsCard
+                title={resource.title}
+                description={resource.content}
+                link={resource.link}
+                linkIcon={true}
+                linkLabel={"Read More"}
+              />
+            ))
+          }
+        </div>
+      </div>
     </div>
   </div>
 </Layout>

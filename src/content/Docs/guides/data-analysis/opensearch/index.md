@@ -72,7 +72,7 @@ deployment:
 1. **Upload the SDL File:**
    Run the following command to validate and create a deployment from your SDL file:
    ```
-   akash tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <node-url>
+   provider-services tx deployment create deploy.yaml --from <wallet-name> --chain-id <chain-id> --node <node-url>
    ```
 
 2. **Wait for Deployment Approval:**
@@ -81,13 +81,13 @@ deployment:
 3. **Lease the Deployment:**
    Once a bid is accepted, lease the deployment by running:
    ```
-   akash tx market lease create --dseq <deployment-sequence> --oseq 1 --gseq 1 --from <wallet-name>
+   provider-services tx market lease create --dseq <deployment-sequence> --oseq 1 --gseq 1 --from <wallet-name>
    ```
 
 4. **Query Lease Details:**
    Use the following command to get the deployment’s IP address:
    ```
-   akash provider lease-status --dseq <deployment-sequence> --oseq 1 --gseq 1 --provider <provider-address>
+   provider-services provider lease-status --dseq <deployment-sequence> --oseq 1 --gseq 1 --provider <provider-address>
    ```
 
 ---

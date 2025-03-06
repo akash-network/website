@@ -101,15 +101,14 @@ You may deploy to Akash either via the CLI or the Console
 ### Deploying via Akash CLI
 
 1. Initialize Your Akash Deployment:
-
 ```
-akash tx deployment create deploy.yaml --from <your_wallet_name>
+provider-services tx deployment create deploy.yaml -from $AKASH_KEY_NAME
 ```
 
 2. Check the Deployment Status:
 
 ```
-akash query deployment get --owner <your_wallet_address> --dseq <your_deployment_sequence>
+provider-services lease-status -dseq $AKASH_DSEQ -from $AKASH_KEY_NAME -provider $AKASH_PROVIDER
 ```
 
 Make sure your deployment is active and ready.

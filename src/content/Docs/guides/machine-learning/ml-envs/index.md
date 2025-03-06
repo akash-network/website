@@ -15,7 +15,7 @@ The **nielsborie/machine-learning-environments** Docker image provides a preconf
 ## **Steps to Deploy on Akash**
 
 ### 1. **Set Up Akash Environment**
-   - Install the Akash CLI (`akash`).
+   - Install the Akash CLI.
    - Fund your wallet with $AKT tokens to cover deployment costs.
 
 ### 2. **Write the SDL File**
@@ -66,11 +66,11 @@ The **nielsborie/machine-learning-environments** Docker image provides a preconf
 ### 4. **Submit Deployment**
    - Deploy the environment using the Akash CLI:
      ```bash
-     akash tx deployment create <your-sdl-file>.yaml --from <your-wallet>
+     provider-services tx deployment create <your-sdl-file>.yaml --from <your-wallet>
      ```
    - Verify your deployment:
      ```bash
-     akash query deployment list --owner <your-address>
+     provider-services query deployment list --owner <your-address>
      ```
 
 ### 5. **Access the Environment**

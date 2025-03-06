@@ -90,28 +90,28 @@ deployment:
 
 ### Step 3: Deploy to Akash
 1. **Create the Deployment**:
-   Use the `akash tx deployment create` command to submit your deployment.
+   Use the `provider-services tx deployment create` command to submit your deployment.
 
    ```
-   akash tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <chain-id> --node <node-url>
+   provider-services tx deployment create deploy.yaml --from <your-wallet-name> --chain-id <chain-id> --node <node-url>
    ```
 
 2. **Check Deployment Status**:
    Verify the status of your deployment to ensure it was accepted:
    ```
-   akash query deployment list --owner <your-wallet-address>
+   provider-services query deployment list --owner <your-wallet-address>
    ```
 
 3. **Accept a Bid**:
    Once your deployment is active, accept a provider’s bid:
    ```
-   akash tx deployment lease create --from <your-wallet-name> --chain-id <chain-id> --node <node-url>
+   provider-services tx deployment lease create --from <your-wallet-name> --chain-id <chain-id> --node <node-url>
    ```
 
 4. **Query Lease Status**:
    Confirm the lease has been established:
    ```
-   akash query market lease list --owner <your-wallet-address>
+   provider-services query market lease list --owner <your-wallet-address>
    ```
 
 ---
@@ -119,7 +119,7 @@ deployment:
 ### Step 4: Access the Lightstreamer Service
 Once the lease is active, find the external IP and port assigned to your deployment:
 ```
-akash query provider service-logs --provider <provider-address> --dseq <deployment-sequence>
+provider-services query provider service-logs --provider <provider-address> --dseq <deployment-sequence>
 ```
 
 Visit the Lightstreamer service in your browser using the assigned URL:
@@ -151,11 +151,11 @@ http://<external-ip>:8080
 ### **Useful Commands**
 - **Stop a Deployment**:
   ```
-  akash tx deployment close --dseq <deployment-sequence> --from <your-wallet-name>
+  provider-services tx deployment close --dseq <deployment-sequence> --from <your-wallet-name>
   ```
 - **Fetch Logs**:
   ```
-  akash query provider service-logs --provider <provider-address> --dseq <deployment-sequence>
+  provider-services query provider service-logs --provider <provider-address> --dseq <deployment-sequence>
   ```
 
 ---

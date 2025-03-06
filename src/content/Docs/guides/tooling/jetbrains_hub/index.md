@@ -91,19 +91,19 @@ deployment:
 1. **Validate the SDL File**  
    Run the following command to ensure your SDL file is correctly formatted:
    ```
-   akash validate deploy.yaml
+   provider-services validate deploy.yaml
    ```
 
 2. **Create a Deployment**  
    Use the Akash CLI to create a deployment:
    ```
-   akash tx deployment create deploy.yaml --from <wallet_name> --node https://rpc.akash.forbole.com:443 --chain-id akashnet-2
+   provider-services tx deployment create deploy.yaml --from <wallet_name> --node https://rpc.akash.forbole.com:443 --chain-id akashnet-2
    ```
 
 3. **Wait for Bidding**  
    Monitor the status of your deployment using:
    ```
-   akash query market lease list --owner <your_wallet_address>
+   provider-services query market lease list --owner <your_wallet_address>
    ```
 
    Once a bid is matched, you'll need to approve it.
@@ -111,13 +111,13 @@ deployment:
 4. **Approve the Lease**  
    Approve the lease using:
    ```
-   akash tx market lease create <deployment_id> --from <wallet_name>
+   provider-services tx market lease create <deployment_id> --from <wallet_name>
    ```
 
 5. **Retrieve Access Details**  
    After deployment, find the public IP of your service:
    ```
-   akash query market lease status --dseq <deployment_id>
+   provider-services query market lease status --dseq <deployment_id>
    ```
 
    Look for the service URI under the `services` section.

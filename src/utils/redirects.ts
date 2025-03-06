@@ -28,4 +28,10 @@ export const redirects = {
   "/ecosystem/akash-tools/latest/": "/ecosystem/akash-tools/",
   "/pricing": "/pricing/gpus",
   "/roadmap": `/roadmap/${getYearToUse()}`,
+  "/docs/providers/build-a-cloud-provider/gpu-resource-enablement/":
+    "/docs/providers/build-a-cloud-provider/akash-cli/gpu-resource-enablement/",
+  "/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/":
+    "/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/",
+  "/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/":
+    "/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/",
 };

@@ -88,23 +88,23 @@ deployment:
 1. **Create the Deployment**:
    Run the following command to create a deployment using your `deploy.yaml` file:
    ```
-   akash tx deployment create deploy.yaml --from <your-wallet-name> --node <node-url> --chain-id <chain-id>
+   provider-services tx deployment create deploy.yaml --from <your-wallet-name> --node <node-url> --chain-id <chain-id>
    ```
 
 2. **Bid Selection**:
    Once the deployment is created, choose a provider:
    ```
-   akash query market bid list --owner <your-address>
+   provider-services query market bid list --owner <your-address>
    ```
    Accept a bid:
    ```
-   akash tx market lease create --owner <your-address> --dseq <dseq> --oseq <oseq> --gseq <gseq> --from <your-wallet-name>
+   provider-services tx market lease create --owner <your-address> --dseq <dseq> --oseq <oseq> --gseq <gseq> --from <your-wallet-name>
    ```
 
 3. **Submit Manifest**:
    Submit the deployment manifest:
    ```
-   akash tx deployment send-manifest deploy.yaml --from <your-wallet-name>
+   provider-services tx deployment send-manifest deploy.yaml --from <your-wallet-name>
    ```
 
 ---
@@ -113,7 +113,7 @@ deployment:
 
 1. **Get Lease Info**:
    ```
-   akash query market lease list --owner <your-address>
+   provider-services query market lease list --owner <your-address>
    ```
 2. **Access Your Service**:
    - Use the `EMQX` broker’s exposed ports (`1883` for MQTT, `8883` for MQTT with SSL).

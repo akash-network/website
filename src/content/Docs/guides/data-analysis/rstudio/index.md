@@ -74,7 +74,7 @@ Replace `<set_a_secure_password>` with a secure password of your choice. This wi
 - Run the following command to initialize the deployment:
 
 ```
-akash tx deployment create deploy-rstudio.yaml --from <your-akash-wallet> --chain-id <chain-id> --node <node-url>
+provider-services tx deployment create deploy-rstudio.yaml --from <your-akash-wallet> --chain-id <chain-id> --node <node-url>
 ```
 
 3. **Monitor the Deployment**

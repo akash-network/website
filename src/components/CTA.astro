@@ -4,7 +4,7 @@ import clsx from "clsx";
 import ButtonLink from "./ui/button-link.astro";
 
 const pathname = Astro.url.pathname;
-
+const disableMargin = ["/deploy", "/providers"];
 const defaultContent = {
   title: "Experience the Supercloud.",
   button: {
@@ -51,15 +51,15 @@ const shouldHide = shouldHideCta(pathname);
     "bg-white dark:bg-background2",
     "border-y",
     "px-[30px] py-[80px] lg:py-[160px]",
-    "mt-20",
-    "text-center"
+    disableMargin.includes(pathname) ? "mt-0" : "mt-20",
+    "text-center",
   )}
 >
   <h2
     class={clsx(
       "max-w-[1000px] font-instrument text-foreground",
       "text-3xl md:text-5xl xl:text-6xl 2xl:text-[80px]",
-      "md:leading-snug"
+      "md:leading-snug",
     )}
   >
     {title}
