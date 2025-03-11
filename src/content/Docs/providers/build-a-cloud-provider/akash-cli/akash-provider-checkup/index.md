@@ -87,8 +87,6 @@ curl -ks https://<provider-domain>:8443/status
 curl -ks https://provider.hurricane.akash.pub:8443/status
 ```
 
-### Provider Version Endpoint
-
 This endpoint is not necessarily useful for a general health check following Provider install but may become useful if/when detailed package versions need to be reviewed in troubleshooting exercises. The lengthy output of this endpoint reveals Akash Provider, Go, and many other packages versions involved in the implementation.
 
 Template
