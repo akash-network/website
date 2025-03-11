@@ -8,7 +8,11 @@ const brandResourcesPage = await getEntry("Brand_Resources_Homepage", "index");
 const { title, description, cards } = brandResourcesPage.data;
 ---
 
-<Layout title="Resources">
+<Layout
+  title={`${title} - Akash Network`}
+  description={description}
+  image="/brand-resources/guidelines.png"
+>
   <div class="container mt-10 space-y-4 md:mt-[60px] lg:mt-20">
     <h1
       class="text-[24px] font-bold leading-[48px] md:text-3lg md:leading-[62.4px]"

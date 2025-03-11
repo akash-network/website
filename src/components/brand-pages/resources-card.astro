@@ -60,7 +60,7 @@ const { title, description, button, image, type } = Astro.props;
           size="xl"
           className="mt-5 md:mt-6"
           link={button.link}
-          download={"akash-brand-resources.zip"}
+          download={`${title?.toLowerCase()?.replace(/\s+/g, "-")}.zip`}
         >
           {button.label}
           <svg
@@ -91,53 +91,3 @@ const { title, description, button, image, type } = Astro.props;
     }
   </div>
 </div>
-
-<!-- 
-<div class="px-[5%] md:px-0">
-  <div
-    class="rounded-lg border border-[#808080] px-8 py-6 shadow-lg md:shadow-none"
-  >
-    <h3
-      class="text-base font-bold leading-[24px] md:text-2xl md:leading-[36px]"
-    >
-      {title}
-    </h3>
-    <p class="mt-3 text-xs leading-[18px] md:text-xl md:leading-[30px]">
-      {description}
-    </p>
-
-    <a
-      href={button.link}
-      class="mt-8 flex cursor-pointer items-center justify-center rounded-lg bg-primary px-2 py-3 text-sm font-bold leading-[24.3px] text-primary-foreground hover:bg-primary/90 md:mt-[62px] md:py-3 md:text-lg"
-    >
-      <svg
-        width="25"
-        height="24"
-        viewBox="0 0 25 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="mr-1.5"
-      >
-        <path
-          d="M21.5 15V19C21.5 19.5304 21.2893 20.0391 20.9142 20.4142C20.5391 20.7893 20.0304 21 19.5 21H5.5C4.96957 21 4.46086 20.7893 4.08579 20.4142C3.71071 20.0391 3.5 19.5304 3.5 19V15"
-          stroke="#FBF8F7"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-        <path
-          d="M7.5 10L12.5 15L17.5 10"
-          stroke="#FBF8F7"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-        <path
-          d="M12.5 15V3"
-          stroke="#FBF8F7"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-      {button.label}
-    </a>
-  </div>
-</div> -->
