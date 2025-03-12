@@ -28,7 +28,7 @@ python --version
 
 
 
-If you have Python installed, you should see something similar to the the response below:
+If you have Python installed, you should see something similar to the response below:
 
 ```
 Python 3.9.13
