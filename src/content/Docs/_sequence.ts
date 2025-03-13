@@ -148,8 +148,12 @@ export const docsSequence = [
               { label: "LocalAI"},
               { label: "LangFlow"},
               { label: "TensorFlow"},
+              { label: "TensorLayer"},
               { label: "PyTorch"},
               { label: "DeepSeek V3"},
+              { label: "Perplexity R1 1776"},
+              { label: "OpenThinker-32B"},
+              { label: "DeepSeek R1"},
             ],
           },
           {
@@ -266,7 +270,10 @@ export const docsSequence = [
           },
           {
             label: "Benchmarkings",
-            subItems: [{ label: "Fast.com" }],
+            subItems: [
+              { label: "Fast.com" },
+              { label: "LibreSpeed"},
+            ],
           },
           {
             label: "Games",
@@ -287,7 +294,13 @@ export const docsSequence = [
             subItems: [
               { label: "Overview"},
               { label: "Owncloud"},
-            ]
+              { label: "CJDNS PKT"},
+              { label: "Tor"},
+              { label: "X-UI"},
+              { label: "SoftEther VPN"},
+              { label: "Cloudflare"},
+              { label: "Custom Domain"},
+            ],
           },
           {
             label: "Storage",
