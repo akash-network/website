@@ -123,6 +123,7 @@ export const docsSequence = [
           {
             label: "Machine Learning",
             subItems: [
+              { label: "Overview"},
               { label: "DeTrain" },
               { label: "Ray" },
               { label: "FLock.io" },
@@ -148,6 +149,7 @@ export const docsSequence = [
               { label: "LangFlow"},
               { label: "TensorFlow"},
               { label: "PyTorch"},
+              { label: "DeepSeek V3"},
             ],
           },
           {
@@ -182,6 +184,7 @@ export const docsSequence = [
               { label: "Apache Airflow"},
               { label: "Apache Kafka"},
               { label: "Apache Storm"},
+              { label: "Thirdweb"},
             ],
           },
           {
@@ -225,6 +228,7 @@ export const docsSequence = [
               { label: "WordPress"},
               { label: "Discourse"},
               { label: "Ghost"},
+              { label: "Nextcloud"},
             ]
           },
           {
@@ -268,7 +272,7 @@ export const docsSequence = [
             label: "Games",
             subItems: [
               { label: "Minecraft"},
-            ]
+            ],
           },
           {
             label: "Science",
@@ -276,8 +280,28 @@ export const docsSequence = [
               { label: "GeoNetwork"},
               { label: "GNU Octave"},
               { label: "MATLAB"}
+            ],
+          },
+          {
+            label: "Network",
+            subItems: [
+              { label: "Overview"},
+              { label: "Owncloud"},
             ]
-          }
+          },
+          {
+            label: "Storage",
+            subItems: [
+              { label: "Codex"},
+            ],
+          },
+          {
+            label: "Project Management",
+            subItems: [
+              { label: "Kanboard"},
+              { label: "Redmine"},
+            ],
+          },
         ],
       },
       

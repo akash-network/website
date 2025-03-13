@@ -468,9 +468,71 @@ provider-services send-manifest deploy.yaml -dseq $AKASH_DSEQ -provider $AKASH_P
 ---
 
 ### 6. (Optional) Scaling to a Cluster
-To deploy a multi-node CockroachDB cluster:
-1. Adjust the SDL file to add additional nodes and define `--join` arguments for cluster setup.
-2. Use a shared network for nodes.
+
+To deploy a multi-node CockroachDB cluster, adjust the SDL file as follows:
+
+**Key Modifications**:
+
+    Increase the `node count` under `deployment.cockroachdb.count`.
+    Modify `args` to remove `start-single-node` and add `--join `for clustering.
+    Use a shared network so nodes can communicate.
+
+Updated deploy.yaml for Multi-Node Deployment:
+
+
+```
+version: "2.0"
+
+services:
+  cockroachdb:
+    image: cockroachdb/cockroach:v23.1.1
+    expose:
+      - port: 26257
+        as: 26257
+        to:
+          - global: true
+      - port: 8080
+        as: 8080
+        to:
+          - global: true
+    args:
+      - start
+      - --insecure
+      - --join=cockroachdb-0,cockroachdb-1,cockroachdb-2
+
+profiles:
+  compute:
+    cockroachdb:
+      resources:
+        cpu:
+          units: 2
+        memory:
+          size: 2Gi
+        storage:
+          size: 10Gi
+
+  placement:
+    cockroachdb:
+      pricing:
+        cockroachdb: 
+          denom: uakt
+          amount: 100
+
+deployment:
+  cockroachdb:
+    cockroachdb:
+      profile: cockroachdb
+      count: 3 # Deploys 3 nodes
+```
+
+**Explanation of Changes**:
+
+- `count: 3` → Deploys 3 CockroachDB nodes.
+- `--join=cockroachdb-0,cockroachdb-1,cockroachdb-2` → Ensures nodes form a cluster.
+- Retains `--insecure` for simplicity (remove for production).
+- Exposed ports remain the same.
+
+
 
 ---
 
