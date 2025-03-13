@@ -107,7 +107,7 @@ Only x86_64 processors are officially supported for Akash deployments. This may 
 
 - Akash Deployment
 
-> _**NOTE**_ - if your current terminal session has been used to create prior deployments, issue the command `unset AKASH_DSEQ` to prevent receipt of error message `Deployment Exists`
+**_NOTE:_** if your current terminal session has been used to create prior deployments, issue the command `unset AKASH_DSEQ` to prevent receipt of error message `Deployment Exists`
 
 To deploy on Akash, run:
 
@@ -369,9 +369,8 @@ If your lease was successful you should see a response that ends with:
     state: active
 ```
 
-{/* {% hint style="info" %} */}
-Please note that once the lease is created, the provider will begin debiting your deployment's escrow account, even if you have not completed the deployment process by uploading the manifest in the following step.
-{/* {% endhint %} */}
+**_NOTE:_** Please note that once the lease is created, the provider will begin debiting your deployment's escrow account, even if you have not completed the deployment process by uploading the manifest in the following step.
+
 
 - Send the Manifest
 
@@ -431,7 +430,7 @@ provider-services lease-logs \
 
 Update the deploy.yaml manifest file with the desired change.
 
-_**NOTE:**_\*\* Not all attributes of the manifest file are eligible for deployment update. If the hardware specs of the manifest are updated (I.e. CPU count), a re-deployment of the workload is necessary. Other attributes, such as deployment image and funding, are eligible for updates.
+**_NOTE:_** Not all attributes of the manifest file are eligible for deployment update. If the hardware specs of the manifest are updated (I.e. CPU count), a re-deployment of the workload is necessary. Other attributes, such as deployment image and funding, are eligible for updates.
 
 - Issue Transaction for On Chain Update
 

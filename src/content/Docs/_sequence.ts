@@ -300,6 +300,7 @@ export const docsSequence = [
             subItems: [
               { label: "Kanboard"},
               { label: "Redmine"},
+              { label: "Jira"},
             ],
           },
         ],
