@@ -13,6 +13,8 @@ linkTitle: "Akash v0.38.0 Node Upgrade Guide"
 - [Upgrade countdown/block height](https://www.mintscan.io/akash/block/20608553)
 - [Binary Links](https://github.com/akash-network/node/releases/tag/v0.38.0)
 
+# Please set `pruning = "nothing"` in your `app.toml` file or else the node will not sync
+
 ## Special Instructions
 
 We recommend validators utilize 128GB of RAM. This upgrade brings state change and might take a few minutes to complete.

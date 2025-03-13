@@ -54,7 +54,7 @@ Sections within this guide:
 ```
 helm repo add metallb https://metallb.github.io/metallb
 
-helm -n metallb-system install metallb metallb/metallb --version 0.14.8
+helm -n metallb-system install metallb metallb/metallb --version 0.14.9
 ```
 
 ### Expose your MetalLB Controller to the Akash IP Operator
