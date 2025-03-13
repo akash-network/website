@@ -923,7 +923,7 @@ tcp:
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
-  --version 4.10.1 \
+  --version 4.12.0 \
   --namespace ingress-nginx --create-namespace \
   -f ingress-nginx-custom.yaml
 ```

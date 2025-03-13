@@ -246,7 +246,7 @@ helm repo update
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.16.2 \
+  --version 0.17.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 
@@ -259,7 +259,7 @@ helm upgrade -i nvdp nvdp/nvidia-device-plugin \
 root@ip-172-31-8-172:~# helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.16.2 \
+  --version 0.17.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts
 
@@ -302,7 +302,7 @@ helm repo update
 helm upgrade -i nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
-  --version 0.16.2 \
+  --version 0.17.1 \
   --set runtimeClassName="nvidia" \
   --set deviceListStrategy=volume-mounts \
   --set-string nodeSelector.allow-nvdp="true"
