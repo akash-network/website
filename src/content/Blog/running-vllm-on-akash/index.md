@@ -129,7 +129,7 @@ Steps to Troubleshoot
 5. Check the Hugginface repo model type and make sure its not GGUF and is compatible with vLLM (GPTQ, AWQ, GGML, Safetensors etc)
 6. Make sure that the model is [officially supported by vLLM](https://docs.vLLM.ai/en/latest/models/supported_models.html)
 7. Check the environment variables for setting the `vLLM_API_KEY` and `OPENAI_API_KEYS` environment variables match
-8. Check that the the `HUGGING_FACE_HUB_TOKEN` is set for downloading models
+8. Check that the `HUGGING_FACE_HUB_TOKEN` is set for downloading models
 9. if using the API externally make sure you have updated the url to use the deployer endpoint variable which can be done by setting `OPENAI_API_BASE`
 10. if you have checked all of these and still have problems than open a issue in the awesome-akash repo and tag @rakataprime. In the issue, please provide your logs and deployment used with the Hugginface token and other secrets set to XXXXXXXXXXXX.
 

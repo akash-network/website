@@ -346,7 +346,7 @@ TEST SUITE: None
 
 ## Verification
 
-Run the following command to verify the the IP Operator setting
+Run the following command to verify the IP Operator setting
 
 ```
 kubectl -n akash-services get statefulsets akash-provider -o yaml | grep -i -A1 ip_oper

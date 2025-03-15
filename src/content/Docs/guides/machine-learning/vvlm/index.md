@@ -116,7 +116,7 @@ If you don’t see the model in the OpenWebUI dropdown it usually means you chos
 
 7. Check the environment variables for setting the `vLLM_API_KEY` and `OPENAI_API_KEYS` environment variables match.
 
-8. Check that the the `HUGGING_FACE_HUB_TOKEN` is set for downloading models.
+8. Check that the `HUGGING_FACE_HUB_TOKEN` is set for downloading models.
 
 9. If you are using the API externally make sure you have updated the url to use the deployer endpoint variable which can be done by setting `OPENAI_API_BASE`.
 
