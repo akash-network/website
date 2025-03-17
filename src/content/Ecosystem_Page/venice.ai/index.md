@@ -1,6 +1,6 @@
 ---
 projectTitle: Venice.ai
-projectImage: "./project-banner.png"
+projectImage: "./banner.webp"
 pubDate: "2024-07-18"
 
 tags:

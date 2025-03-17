@@ -26,7 +26,7 @@ The following list provides some thoughts on areas prime for contribution:
 
 Contributing to Akash documentation is a great way to get started.  In the process of documentation contribution the author will benefit from:
 
-* Gain experience in the the code submission/review process
+* Gain experience in the code submission/review process
 * Gain insight further into Akash frameworks
 * Solve simple tasks in first submission such as fixing broken links or missing links
 
