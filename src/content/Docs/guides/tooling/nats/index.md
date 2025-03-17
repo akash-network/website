@@ -13,7 +13,7 @@ NATS is a lightweight, high-performance, open-source messaging system for distri
 
 ## **Prerequisites**
 1. **Akash Account**: Ensure you have an Akash wallet and some AKT tokens for deployment.
-2. **Akash CLI**: Installed and configured. Refer to [Akash CLI setup](https://docs.akash.network/guides/cli).
+2. **Akash CLI**: Installed and configured. Refer to [Akash CLI setup](docs/getting-started/quickstart-guides/akash-cli/).
 3. **Dockerized NATS Image**: We'll use the official NATS Docker image (`nats:latest`).
 4. **Domain/Access**: Optional but recommended to configure DNS for accessing your NATS instance.
 

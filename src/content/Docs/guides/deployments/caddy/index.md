@@ -99,7 +99,7 @@ For detailed steps on using the CLI, refer to the Akash CLI Deployment Guide.
 
 4. Monitor Deployment: Use the console to monitor logs and obtain the deployment’s public endpoint.
 
-For more details, follow the [Akash Console Guide](http://localhost:4321/docs/deployments/akash-console/).
+For more details, follow the [Akash Console Guide](docs/deployments/akash-console/).
 
 ## Step 4: Verify and Launch Caddy
 
@@ -113,5 +113,4 @@ For more details, follow the [Akash Console Guide](http://localhost:4321/docs/de
 
 ## Troubleshooting
 
-- **Common Deployment Issues**: https://docs.akash.network/guides/deploy/troubleshooting
 - **Akash Discord Support**: Join [Akash Discord](https://discord.gg/akash) for community help.

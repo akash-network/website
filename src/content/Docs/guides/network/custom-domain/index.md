@@ -18,9 +18,9 @@ This guide walks you through setting up a custom domain for your Akash deploymen
 ## **Prerequisites**  
 Before you start, ensure you have:  
 
-- An **Akash deployment** running (if not, follow the [Akash deployment guide](https://docs.akash.network)).  
+- An **Akash deployment** running (if not, follow the [Akash deployment guide](https://akash.network/docs)).  
 - A **domain name** (purchased from a domain registrar like Namecheap, GoDaddy, or Cloudflare).  
-- The latest Akash CLI installed (`akash provider-services`).  
+- The latest Akash CLI installed.  
 
 ---
 
@@ -29,7 +29,7 @@ Before you start, ensure you have:
 Run the following command to fetch the lease details of your deployment:  
 
 ```sh
-akash provider-services lease-status --dseq <DSEQ> --from <WALLET_NAME> --provider <PROVIDER_ADDRESS>
+provider-services lease-status --dseq <DSEQ> --from <WALLET_NAME> --provider <PROVIDER_ADDRESS>
 ```
 
 Replace:  

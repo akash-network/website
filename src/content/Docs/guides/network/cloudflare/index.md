@@ -18,9 +18,9 @@ Cloudflare can help improve the security, performance, and reliability of your A
 ## **Prerequisites**  
 Before you begin, ensure you have:  
 
-- A **deployed Akash application** (follow the [Akash deployment guide](https://docs.akash.network) if you don’t have one).  
+- A **deployed Akash application** (follow the [Akash deployment guide](https://akash.network/docs) if you don’t have one).  
 - A **domain** added to Cloudflare.  
-- The latest **Akash CLI** installed (`akash provider-services`).  
+- The latest **Akash CLI** installed .  
 
 ---
 
@@ -29,7 +29,7 @@ Before you begin, ensure you have:
 Run the following command to fetch the lease details of your deployment:  
 
 ```sh
-akash provider-services lease-status --dseq <DSEQ> --from <WALLET_NAME> --provider <PROVIDER_ADDRESS>
+provider-services lease-status --dseq <DSEQ> --from <WALLET_NAME> --provider <PROVIDER_ADDRESS>
 ```
 
 Replace:  

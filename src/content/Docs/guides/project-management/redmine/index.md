@@ -10,7 +10,7 @@ Here’s a guide on deploying Redmine on Akash. This guide will walk you through
 
 ## Prerequisites
 
-- **Akash CLI**: Install the Akash CLI by following the instructions in the [Akash documentation](https://docs.akash.network/).
+- **Akash CLI**: Install the Akash CLI by following the instructions in the [Akash documentation](https://akash.network/docs).
 
 ## Steps to Deploy Redmine
 

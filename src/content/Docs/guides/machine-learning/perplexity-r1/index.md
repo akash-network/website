@@ -99,7 +99,7 @@ Modify the `image` field in `deploy.yml` with your actual Docker Hub repository 
 Ensure your Akash wallet has enough AKT tokens to deploy.
 
 ```bash
-akash wallet balance
+provider-services wallet balance
 ```
 
 If needed, fund your wallet through [an exchange](https://akash.network/token/).
@@ -107,23 +107,23 @@ If needed, fund your wallet through [an exchange](https://akash.network/token/).
 ### 3.2 Deploy Using Provider Services
 
 #### 3.2.1 Create an Order
-```bash
-akash provider-services bid submit deploy.yml
+```bash 
+provider-services bid submit deploy.yml
 ```
 
 #### 3.2.2 View Your Deployment Status
-```bash
-akash provider-services lease status --dseq <deployment-sequence>
+```bash 
+provider-services lease status --dseq <deployment-sequence>
 ```
 
 #### 3.2.3 View Assigned Provider Information
-```bash
-akash provider-services lease list
+```bash 
+provider-services lease list
 ```
 
 #### 3.2.4 Get Your Deployment URL
-```bash
-akash provider-services lease logs --dseq <deployment-sequence>
+```bash 
+provider-services lease logs --dseq <deployment-sequence>
 ```
 Once the logs confirm that your application is running, navigate to the assigned provider URL.
 
@@ -139,7 +139,7 @@ curl http://<your-provider-url>/predict -X POST -d '{"query": "What is Akash Net
 You have successfully deployed **Perplexity R1 1776** on **Akash**! This setup enables you to leverage the model's capabilities in a decentralized, cost-effective manner. You can scale it further by adjusting resource allocations in the SDL file.
 
 For troubleshooting, check:
-- `akash provider-services lease logs --dseq <deployment-sequence>` for deployment logs.
+- `provider-services lease logs --dseq <deployment-sequence>` for deployment logs.
 - The [Akash documentation](https://akash.network/docs) for further configurations.
 
 Happy Deploying!

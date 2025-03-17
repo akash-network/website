@@ -113,7 +113,7 @@ Here's a step-by-step guide on how to deploy **X-UI** on Akash.
 
 - Ensure your **X-UI** Docker image is publicly available, or host it in a container registry like Docker Hub.
 - Make sure you have enough funds in your Akash wallet to cover the deployment.
-- For more advanced configurations or troubleshooting, consult the [Akash Documentation](https://docs.akash.network).
+- For more advanced configurations or troubleshooting, consult the [Akash Documentation](https://akash.network/docs).
 
 ---
 
