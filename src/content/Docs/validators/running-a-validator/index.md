@@ -53,7 +53,7 @@ export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
 Your `akashvalconspub` can be used to create a new validator by staking tokens. You can find your validator pubkey by running:
 
 ```bash
-akash tendermint show-validator
+provider-services tendermint show-validator
 ```
 
 The file that stores this private key lives at `~/.akash/config/priv_validator_key.json`. To create your validator, just use the following command.
@@ -61,7 +61,7 @@ The file that stores this private key lives at `~/.akash/config/priv_validator_k
 > Note that in the output of this command your \`akashvaloper\` address will be revealed. Note this address for future use including the verification steps later in this guide.
 
 ```bash
-akash tx staking create-validator \
+provider-services tx staking create-validator \
   --amount=1000000uakt \
   --pubkey="$(akash tendermint show-validator)" \
   --moniker="$AKASH_MONIKER" \
@@ -91,7 +91,7 @@ The `$AKASH_KEY_NAME` specifies the key for the validator which you are editing.
 The `--identity` can be used as to verify identity with systems like Keybase or UPort. When using with Keybase `--identity` should be populated with a 16-digit string that is generated with a [keybase.io](https://keybase.io) account. It's a cryptographically secure method of verifying your identity across multiple online networks. The Keybase API allows explorers to retrieve your Keybase avatar. This is how you can add a logo to your validator profile.
 
 ```bash
-akash tx staking edit-validator
+provider-services tx staking edit-validator
   --new-moniker="$AKASH_MONIKER" \
   --website="https://akash.network" \
   --identity=6A0D65E29A4CBC8E \
@@ -118,7 +118,7 @@ akash tx staking edit-validator
 View the validator's information with this command:
 
 ```bash
-akash query staking validator $AKASH_VALIDATOR_ADDRESS
+provider-services query staking validator $AKASH_VALIDATOR_ADDRESS
 ```
 
 ## Track Validator Signing Information
@@ -126,7 +126,7 @@ akash query staking validator $AKASH_VALIDATOR_ADDRESS
 In order to keep track of a validator's signatures in the past you can do so by using the `signing-info` command:
 
 ```bash
-akash query slashing signing-info $AKASH_VALIDATOR_PUBKEY \
+provider-services query slashing signing-info $AKASH_VALIDATOR_PUBKEY \
   --chain-id="$AKASH_CHAIN_ID"
 ```
 
@@ -135,7 +135,7 @@ akash query slashing signing-info $AKASH_VALIDATOR_PUBKEY \
 When a validator is "jailed" for downtime, you must submit an `Unjail` transaction from the operator account in order to be able to get block proposer rewards again (depends on the zone fee distribution).
 
 ```bash
-akash tx slashing unjail \
+provider-services tx slashing unjail \
     --from="$AKASH_KEY_NAME" \
     --chain-id="$AKASH_CHAIN_ID"
 ```
@@ -207,14 +207,14 @@ Your validator is active if the following command returns anything
 > _**NOTE**_ - this command will only display output of your validator is in the active set
 
 ```bash
-akash query tendermint-validator-set | grep "$(akash tendermint show-validator)"
+provider-services query tendermint-validator-set | grep "$(provider-services tendermint show-validator)"
 ```
 
 You should now see your validator in one of the Akash Testnet explorers. You are looking for the `bech32` encoded `address` in the `~/.akash/config/priv_validator.json` file.
 
 ## Halting Your Validator
 
-When attempting to perform routine maintenance or planning for an upcoming coordinated upgrade, it can be useful to have your validator systematically and gracefully halt. You can achieve this by either setting the `halt-height` to the height at which you want your node to shutdown or by passing the `--halt-height` flag to `akash`. The node will shutdown with a zero exit code at that given height after committing the block.
+When attempting to perform routine maintenance or planning for an upcoming coordinated upgrade, it can be useful to have your validator systematically and gracefully halt. You can achieve this by either setting the `halt-height` to the height at which you want your node to shutdown or by passing the `--halt-height` flag to `provider-services`. The node will shutdown with a zero exit code at that given height after committing the block.
 
 ## Common Problems
 
@@ -222,10 +222,10 @@ When attempting to perform routine maintenance or planning for an upcoming coord
 
 Your validator has become jailed. Validators get jailed, i.e. get removed from the active validator set, if they do not vote on `500` of the last `10000` blocks, or if they double sign.
 
-If you got jailed for downtime, you can get your voting power back to your validator. First, if `akash` is not running, start it up again. If you are running `systemd` this will be different:
+If you got jailed for downtime, you can get your voting power back to your validator. First, if `provider-services` is not running, start it up again. If you are running `systemd` this will be different:
 
 ```bash
-akash start
+provider-services start
 ```
 
 Wait for your full node to catch up to the latest block. Then, you can [unjail your validator](#unjail-validator)
@@ -233,11 +233,11 @@ Wait for your full node to catch up to the latest block. Then, you can [unjail y
 Lastly, check your validator again to see if your voting power is back.
 
 ```bash
-akash status
+provider-services status
 ```
 
 You may notice that your voting power is less than it used to be. That's because you got slashed for downtime!
 
-### Problem #2: My `akash` crashes because of `too many open files`
+### Problem #2: My `provider-services` crashes because of `too many open files`
 
-The default number of files Linux can open (per-process) is `1024`. `akash` is known to open more than `1024` files. This causes the process to crash. A quick fix is to run `ulimit -n 4096` (increase the number of open files allowed) and then restart the process with `akash start`. If you are using `systemd` or another process manager to launch `akash` this may require some configuration at that level. See the [`systemd` configuration doc](https://github.com/akash-network/docs/tree/1c9232aaec2197efbf4532e8883a247566cf9e28/guides/node/systemd.md) for details on how to configure `systemd` to aleviate this issue.
+The default number of files Linux can open (per-process) is `1024`. `aprovider-services` is known to open more than `1024` files. This causes the process to crash. A quick fix is to run `ulimit -n 4096` (increase the number of open files allowed) and then restart the process with `provider-services start`. If you are using `systemd` or another process manager to launch `provider-services` this may require some configuration at that level. See the [`systemd` configuration doc](https://github.com/akash-network/docs/tree/1c9232aaec2197efbf4532e8883a247566cf9e28/guides/node/systemd.md) for details on how to configure `systemd` to aleviate this issue.

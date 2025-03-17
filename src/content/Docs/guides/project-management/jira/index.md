@@ -109,7 +109,7 @@ Upon accessing Jira:
 
 If the deployment fails, check logs:
 ```bash
-akash query deployment status --owner <your-wallet-address> --dseq <deployment-sequence>
+provider-services query deployment status --owner <your-wallet-address> --dseq <deployment-sequence>
 ```
 - Ensure your wallet has enough uakt tokens for bidding.
 - If Jira is inaccessible, confirm the global exposure settings in `deploy.yaml`.
