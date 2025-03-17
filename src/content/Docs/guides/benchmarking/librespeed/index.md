@@ -13,8 +13,8 @@ This guide demonstrates how to deploy **LibreSpeed**, a fast speed test service,
 
 Before you begin, ensure the following:
 
-1. **Akash CLI** installed. Follow the installation guide [here](https://docs.akash.network/docs/install/).
-2. **Akash Account Setup** and **API Key** configured. (You can find details in the Akash [documentation](https://docs.akash.network/docs/)).
+1. **Akash CLI** installed. Follow the installation guide [here](/docs/getting-started/quickstart-guides/akash-cli/).
+2. **Akash Account Setup** and **API Key** configured. (You can find details in the Akash [documentation](/docs).
 3. **Docker** installed for building the LibreSpeed container.
 4. **Provider Services Command** installed. This new command replaces the old `Akash` CLI for interacting with Akash provider services.
 

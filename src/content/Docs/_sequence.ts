@@ -271,8 +271,9 @@ export const docsSequence = [
           {
             label: "Benchmarkings",
             subItems: [
-              { label: "Fast.com" },
+              { label: "Fast_com" },
               { label: "LibreSpeed"},
+              { label: "Geekbench 5"},
             ],
           },
           {
