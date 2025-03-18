@@ -1,6 +1,6 @@
 ---
 title: "How NodeShift Accelerates Enterprise AI Development With Akash"
-description: 
+description: Akash Network provides cost-effective, secure, decentralized cloud computing at scale.
 pubDate: "2025-3-18"
 draft: false
 archive: false
