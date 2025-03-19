@@ -29,6 +29,13 @@ const { title, description, image = "/meta-images/home.png" } = Astro.props;
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="Akash Network Blog"
+  href={new URL("blog.xml", Astro.site)}
+/>
+
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
