@@ -1,9 +1,18 @@
 name: Update AEP Specs
 
 on:
-  schedule:
-    - cron: "0 */6 * * *" # Check every 6 hours
   workflow_dispatch:
+  repository_dispatch:
+    types: [aep-repo-trigger]
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: write      # Required to push commits and create branches
+  pull-requests: write # Required to create and label PRs
+
+# Make sure to:
+# GH Repo Settings -> Actions -> General -> Workflow permissions -> [x] Allow GitHub Actions to create and approve pull requests
+# GH Repo Settings -> Branches -> Add branch ruleset -> call it "default-main" or however you like, leave defaults and click "Save changes"
 
 jobs:
   update-specs:
@@ -69,6 +78,7 @@ jobs:
         if: steps.update-specs.outputs.has_changes == 'true' && steps.check-pr.outputs.pr_exists != '0'
         run: |
           # Configure git
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
 
@@ -95,38 +105,45 @@ jobs:
 
           echo "Updated existing PR #${{ steps.check-pr.outputs.pr_number }}"
 
-      - name: Create New PR
-        if: steps.update-specs.outputs.has_changes == 'true' && steps.check-pr.outputs.pr_exists == '0'
+      - name: Create &/ Merge PR if Needed
+        if: steps.update-specs.outputs.has_changes == 'true'
         run: |
           # Configure git
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
 
-          # Create a new branch with timestamp
-          branch_name="update-aep-specs-$(date +%Y%m%d-%H%M%S)"
-          git checkout -b $branch_name
+          if [[ "${{ steps.check-pr.outputs.pr_exists }}" -gt "0" ]]; then
+            echo "Merging existing PR #${{ steps.check-pr.outputs.pr_number }}..."
+            # If sporadically fails with "GraphQL: Pull request Protected branch rules not configured for this branch (enablePullRequestAutoMerge)", then use: gh pr merge --admin --merge --delete-branch ${{ steps.check-pr.outputs.pr_number }}
+            # Ref. https://github.com/orgs/community/discussions/129063#discussioncomment-10689765
+            gh pr merge --admin --squash --delete-branch ${{ steps.check-pr.outputs.pr_number }}
+          else
+            echo "No existing PR found. Creating a new one..."
 
-          # Stage changes and check if there's anything to commit
-          git add src/content/aeps
-          if git diff --staged --quiet; then
-            echo "No changes to commit after staging"
-            exit 0
+            branch_name="update-aep-specs-$(date +%Y%m%d-%H%M%S)"
+            git checkout -b $branch_name
+            # Stage changes and check if there's anything to commit
+            git add src/content/aeps
+            if git diff --staged --quiet; then
+              echo "No changes to commit after staging"
+              exit 0
+            fi
+            git commit -m "chore: update AEP specs"
+            git push origin $branch_name
+
+            # Create PR and capture the PR URL
+            PR_URL=$(gh pr create \
+              --title "Update AEP Specs $(date +%Y-%m-%d)" \
+              --body "Automated PR to update AEP specifications" \
+              --base main \
+              --head $branch_name)
+
+            # Extract PR number from PR URL
+            PR_NUMBER=$(echo $PR_URL | grep -oE '[0-9]+$')
+
+            echo "Merging newly created PR #$PR_NUMBER..."
+            # If sporadically fails with "GraphQL: Pull request Protected branch rules not configured for this branch (enablePullRequestAutoMerge)", then use: gh pr merge --admin --merge --delete-branch $PR_NUMBER
+            # Ref. https://github.com/orgs/community/discussions/129063#discussioncomment-10689765
+            gh pr merge --admin --squash --delete-branch $PR_NUMBER
           fi
-
-          # Commit and push changes
-          git commit -m "chore: update AEP specs"
-          git push origin $branch_name
-
-          # Create PR using GitHub CLI
-          gh pr create \
-            --title "Update AEP Specs $(date +%Y-%m-%d)" \
-            --body "Automated PR to update AEP specifications" \
-            --base main \
-            --head $branch_name
-
-      - name: Trigger Build
-        if: success()
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: spec-update
