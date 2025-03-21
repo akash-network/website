@@ -12,7 +12,7 @@ This guide will walk you through deploying Lightstreamer on Akash, utilizing the
 ---
 
 ### **Prerequisites**
-1. **Akash CLI Setup**: Ensure you have the Akash CLI installed and configured. Refer to the [Akash documentation](https://docs.akash.network/) for setup instructions.
+1. **Akash CLI Setup**: Ensure you have the Akash CLI installed and configured. Refer to the [Akash documentation](https://akash.network/docs) for setup instructions.
 2. **Docker Image**: Use the official Lightstreamer Docker image (`lightstreamer`) from Docker Hub.
 3. **Akash Wallet**: Have an Akash wallet funded with AKT tokens to cover deployment costs.
 4. **SDL File Template**: Use an SDL (Stack Definition Language) file for deployment configuration.
