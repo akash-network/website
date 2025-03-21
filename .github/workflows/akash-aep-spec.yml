@@ -17,6 +17,8 @@ permissions:
 jobs:
   update-specs:
     runs-on: ubuntu-latest
+    outputs:
+      merge_complete: ${{ steps.create-merge-pr.outputs.merge_complete }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -106,6 +108,7 @@ jobs:
           echo "Updated existing PR #${{ steps.check-pr.outputs.pr_number }}"
 
       - name: Create &/ Merge PR if Needed
+        id: create-merge-pr
         if: steps.update-specs.outputs.has_changes == 'true'
         run: |
           # Configure git
@@ -115,9 +118,9 @@ jobs:
 
           if [[ "${{ steps.check-pr.outputs.pr_exists }}" -gt "0" ]]; then
             echo "Merging existing PR #${{ steps.check-pr.outputs.pr_number }}..."
-            # If sporadically fails with "GraphQL: Pull request Protected branch rules not configured for this branch (enablePullRequestAutoMerge)", then use: gh pr merge --admin --merge --delete-branch ${{ steps.check-pr.outputs.pr_number }}
+            # If fails with "GraphQL: Pull request Protected branch rules not configured for this branch (enablePullRequestAutoMerge)", then either create Classic Branch protection rule OR use: gh pr merge --admin --merge --delete-branch ${{ steps.check-pr.outputs.pr_number }}
             # Ref. https://github.com/orgs/community/discussions/129063#discussioncomment-10689765
-            gh pr merge --admin --squash --delete-branch ${{ steps.check-pr.outputs.pr_number }}
+            gh pr merge --auto --squash --delete-branch ${{ steps.check-pr.outputs.pr_number }}
           else
             echo "No existing PR found. Creating a new one..."
 
@@ -143,7 +146,36 @@ jobs:
             PR_NUMBER=$(echo $PR_URL | grep -oE '[0-9]+$')
 
             echo "Merging newly created PR #$PR_NUMBER..."
-            # If sporadically fails with "GraphQL: Pull request Protected branch rules not configured for this branch (enablePullRequestAutoMerge)", then use: gh pr merge --admin --merge --delete-branch $PR_NUMBER
+            # If fails with "GraphQL: Pull request Protected branch rules not configured for this branch (enablePullRequestAutoMerge)", then either create Classic Branch protection rule OR use: gh pr merge --admin --merge --delete-branch $PR_NUMBER
             # Ref. https://github.com/orgs/community/discussions/129063#discussioncomment-10689765
-            gh pr merge --admin --squash --delete-branch $PR_NUMBER
+
+            # Make sure freshy created PR is MERGEABLE before proceeding!
+            # Otherwise it will fail with either:
+            # - "GraphQL: Pull request Auto merge is not allowed for this repository (enablePullRequestAutoMerge)"
+            # - "GraphQL: Pull request Pull request is in clean status (enablePullRequestAutoMerge)"
+            echo "Waiting until PR is mergeable ..."
+            for i in {1..10}; do
+              MERGEABLE=$(gh pr view "$PR_URL" --json mergeable --jq '.mergeable')
+              echo "Mergeable status: $MERGEABLE"
+              if [ "$MERGEABLE" = "MERGEABLE" ]; then
+                break
+              fi
+              echo "Waiting for PR to become mergeable..."
+              sleep 3
+            done
+            gh pr merge --auto --squash --delete-branch $PR_NUMBER
           fi
+          echo "merge_complete=true" >> $GITHUB_OUTPUT
+
+  # to trigger the Astro Build workflow (for repo that use Classic Branch protection)
+  trigger-astro:
+    name: Trigger Astro Build
+    needs: update-specs
+    if: needs.update-specs.outputs.merge_complete == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch event to trigger Astro build
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: aep-spec-update
