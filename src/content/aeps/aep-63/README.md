@@ -18,7 +18,7 @@ The number of Managed Wallet (Credit Card) users in Akash Console has grown sign
 
 ## Summary
 
-Akash provides a programmatic way for users to deploy workloads via the [AkashJS SDK](https://github.com/akash-network/akashjs) but AkashJS is requires that the user of the API be familiar with not just crypto (API requires specifying wallets, mnemonics) but even the Cosmos SDK (requires importing cosmos specific libraries). This makes it hard if not impossible for non-crypto users to consume this API. Based on conversations with such non-crypto users it has become clear that they need a clean API with simple endpoints to call, for deployment and lease lifecycle management. 
+Akash provides a programmatic way for users to deploy workloads via the [AkashJS SDK](https://github.com/akash-network/akashjs) but AkashJS is requires that the user of the API be familiar with not just crypto (API requires specifying wallets, mnemonics) but even the Cosmos SDK (requires importing cosmos specific libraries). This makes it hard if not impossible for non-crypto users to consume this API. Based on conversations with such non-crypto users it has become clear that they need a clean API with simple endpoints to call, for deployment and lease lifecycle management.
 
 The goal of this roadmap milestone is to implement clean API endpoints for all parts of managing the lifecycle of applications and workloads programmatically for users who pay with a credit card.
 
@@ -32,7 +32,7 @@ The specification is split into the following functional areas:
 Progress is tracked in the [Managed Wallets API Milestone](https://github.com/akash-network/console/milestone/10)
 
 ### API Endpoints
-The following API endpoints have been identified at the time of writing this spec. As we work on onboaring customers to use the API we will either update this spec or create new roadmap items to add additional API endpoints. 
+The following API endpoints have been identified at the time of writing this spec. As we work on onboarding customers to use the API we will either update this spec or create new roadmap items to add additional API endpoints. 
 
 Note that while there are a lot of API endpoints listed here - the managed wallets user will only need to exercise a subset of them. The rest are listed here in the interest of full specification.
 
