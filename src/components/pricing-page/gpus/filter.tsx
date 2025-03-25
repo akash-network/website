@@ -1,6 +1,6 @@
 import { Disclosure } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { clsx as classNames } from "clsx";
+import { Plus } from "lucide-react";
 import React from "react";
 import CheckBox from "./checkbox";
 import { modifyModel, type Gpus } from "./gpu-table";
@@ -129,66 +129,60 @@ export default function Filter({
   }, [filters, res]);
 
   return (
-    <div className="w-full">
-      <p className="pb-3 text-sm font-medium">Filtering Options</p>
-      <div className="w-full rounded-md border bg-background2 shadow-sm">
-        {options?.map((item, index) => (
-          <Disclosure
-            as={"div"}
-            className={`flex flex-col gap-2 py-4 pl-5 ${index === 2 ? "border-none" : "border-b"}`}
-            key={item.name}
-            defaultOpen={filters?.[item.value]?.length > 0 ? true : false}
-          >
-            {({ open }) => (
-              <>
-                <Disclosure.Button
-                  className={
-                    "group flex items-center gap-1.5  text-base font-bold text-textGray "
-                  }
-                >
-                  <ChevronDownIcon
-                    aria-hidden="true"
-                    className={classNames(
-                      open ? " rotate-0 transform" : "-rotate-90",
-                      "h-4 w-4 transition-transform duration-200",
-                    )}
-                  />
-                  {item.name}
-                </Disclosure.Button>
-                <Disclosure.Panel
-                  className={"flex flex-col gap-2 py-2"}
-                  as="div"
-                >
-                  {item.options.map((option) => (
-                    <div key={option.name}>
-                      <CheckBox
-                        label={option.name}
-                        name={option.value}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFilters((prev) => ({
-                              ...prev,
-                              [item.value]: [...prev[item.value], option.value],
-                            }));
-                          } else {
-                            setFilters((prev) => ({
-                              ...prev,
-                              [item.value]: prev[item.value].filter(
-                                (filter) => filter !== option.value,
-                              ),
-                            }));
-                          }
-                        }}
-                        checked={filters?.[item.value]?.includes(option.value)}
-                      />
-                    </div>
-                  ))}
-                </Disclosure.Panel>
-              </>
-            )}
-          </Disclosure>
-        ))}
-      </div>
+    <div className="w-full ">
+      {options?.map((item, index) => (
+        <Disclosure
+          as={"div"}
+          className={`flex flex-col gap-2 py-4 ${index === 2 ? "border-none" : "border-b"}`}
+          key={item.name}
+          defaultOpen={filters?.[item.value]?.length > 0 ? true : false}
+        >
+          {({ open }) => (
+            <>
+              <Disclosure.Button
+                className={
+                  "group flex items-center justify-between gap-1.5  text-base font-bold text-textGray "
+                }
+              >
+                {item.name}
+                <Plus
+                  aria-hidden="true"
+                  className={classNames(
+                    open ? " -rotate-45 transform" : "-rotate-90",
+                    "h-4 w-4 transition-transform duration-200",
+                  )}
+                />
+              </Disclosure.Button>
+              <Disclosure.Panel className={"flex flex-col gap-2 py-2"} as="div">
+                {item.options.map((option) => (
+                  <div key={option.name}>
+                    <CheckBox
+                      label={option.name}
+                      name={option.value}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFilters((prev) => ({
+                            ...prev,
+                            [item.value]: [...prev[item.value], option.value],
+                          }));
+                        } else {
+                          setFilters((prev) => ({
+                            ...prev,
+                            [item.value]: prev[item.value].filter(
+                              (filter) => filter !== option.value,
+                            ),
+                          }));
+                        }
+                      }}
+                      checked={filters?.[item.value]?.includes(option.value)}
+                    />
+                  </div>
+                ))}
+              </Disclosure.Panel>
+            </>
+          )}
+        </Disclosure>
+      ))}
     </div>
   );
 }
