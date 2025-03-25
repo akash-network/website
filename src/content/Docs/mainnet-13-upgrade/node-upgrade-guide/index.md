@@ -12,8 +12,17 @@ linkTitle: "Akash v0.38.0 Node Upgrade Guide"
 - **Binary version**: `v0.38.0`
 - [Upgrade countdown/block height](https://www.mintscan.io/akash/block/20608553)
 - [Binary Links](https://github.com/akash-network/node/releases/tag/v0.38.0)
+- Please set `pruning = "nothing"` in your `app.toml` file or else the node will not sync
 
-# Please set `pruning = "nothing"` in your `app.toml` file or else the node will not sync
+## Validator Expectations
+
+To ensure a network upgrade with minimal downtime, Akash Validators should be available as follows:
+
+- One hour prior to upgrade - available and monitoring the Akash Discord server's `validator` and `validator-announcement` channels for any late breaking guidance
+
+- Avaialble throughout the network upgrade window
+
+- One hour post upgrade - available and monitoring the Akash Discord server's `validator` and `validator-announcement` channels for any possible revised strategies or updates deemed necessary
 
 ## Special Instructions
 
