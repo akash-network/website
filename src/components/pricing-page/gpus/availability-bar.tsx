@@ -1,5 +1,6 @@
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 interface AvailabilityBarProps {
   available: number;
@@ -12,22 +13,7 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
   total,
   className,
 }) => {
-  const [maxDots, setMaxDots] = useState(25);
-  const filledDots = Math.round(((total - available) / total) * maxDots);
-  const emptyDots = maxDots - filledDots;
-
-  useEffect(() => {
-    const handleResize = () => {
-      const isMediumScreen = window.matchMedia(
-        "(min-width: 768px) and (max-width: 1023px)",
-      ).matches;
-      setMaxDots(isMediumScreen ? 15 : 25);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const percentageFilled = Math.round(((total - available) / total) * 100);
 
   return (
     <div className={clsx("my-5 flex flex-col gap-2", className)}>
@@ -35,21 +21,24 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
         <span className="text-lg font-semibold text-foreground md:text-sm lg:text-base">
           {available} Available
         </span>
-        <span className="text-sm text-para lg:text-base">({total} total)</span>
+        <span className="rounded border px-1.5 py-[1px] text-xs font-medium text-para">
+          Total: {total}
+        </span>
       </div>
-      <div className="flex justify-between">
-        {Array.from({ length: filledDots }).map((_, i) => (
+      <div className="relative h-[6px] w-full rounded-full border-2 border-zinc-500 bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-500">
+        <div
+          className="absolute -top-[2px] bottom-[-2px] left-[-2px]  bg-background"
+          style={{
+            width: `calc(${percentageFilled}% + 4px)`,
+          }}
+        >
           <div
-            key={i}
-            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-foreground "
+            className={cn(
+              "h-full  rounded-l-full border-2 border-primary bg-primary/50",
+              percentageFilled === 100 ? "rounded-r-full" : "",
+            )}
           />
-        ))}
-        {Array.from({ length: emptyDots }).map((_, i) => (
-          <div
-            key={i + filledDots}
-            className="mx-[2px] h-[6px] w-[6px] rounded-full bg-[#DADADA] dark:bg-zinc-700"
-          />
-        ))}
+        </div>
       </div>
     </div>
   );

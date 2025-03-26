@@ -1,78 +1,82 @@
-import { cn } from '@/lib/utils';
-import * as React from 'react';
+import { cn } from "@/lib/utils";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
+import * as React from "react";
+import { Doughnut } from "react-chartjs-2";
+
+// Register the required Chart.js components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface CircularProgressBarProps {
-    diameter?: number; // Diameter of the entire SVG element
-    strokeWidth?: number; // Width of the stroke for the progress circles
-    progressValue: number; // Progress value (0-100) representing the percentage of the circle that is filled
-    primaryColor?: string; // Color of the primary progress bar
-    secondaryColor?: string; // Color of the secondary progress bar
-    backgroundCircleColor?: string; // Background color for the circle behind the progress bars
-    gapSize?: number; // Gap between the primary and secondary progress bars
-    className?: string; // Additional custom class names for styling
+  diameter?: number; // Diameter of the entire SVG element
+  strokeWidth?: number; // Width of the stroke for the progress circles
+  primaryProgress?: number; // Primary progress value (0-100)
+  primaryColor?: string; // Color of the primary progress bar
+  secondaryColor?: string; // Color of the secondary progress bar
+  pathLength?: number; // Total path length for dasharray calculations
+  className?: string; // Additional custom class names for styling
 }
 
 const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
-    diameter = 100,
-    strokeWidth = 10,
-    progressValue,
-    primaryColor = '#ff4757',
-    secondaryColor = '#ffd9db',
-    backgroundCircleColor = 'transparent',
-    gapSize = 1,
-    className,
+  diameter = 100,
+  strokeWidth = 9,
+  primaryProgress = 50,
+  primaryColor = "var(--primary)",
+  secondaryColor = "#cccccc",
+  className,
 }) => {
-    // Radius of the progress circles
-    const radius = (diameter - strokeWidth) / 2;
-    // Circumference of the circles (used for calculating strokeDasharray)
-    const circumference = 2 * Math.PI * radius;
-    // Offset for the primary progress bar (determines how much of the circle is filled)
-    const primaryOffset = circumference - (1 - (progressValue + gapSize * 2) / 100) * circumference;
-    // Offset for the secondary progress bar (adjusted for gap between bars)
-    const secondaryOffset = circumference - (progressValue / 100) * circumference;
+  // Calculate the available and used percentages
+  const availablePercentage = primaryProgress;
+  const usedPercentage = 100 - primaryProgress;
 
-    return (
-        <svg
-            width={diameter}
-            height={diameter}
-            className={cn("relative transform rotate-[-90deg]", className)} // Rotates the progress bar to start from the top
-        >
-            {/* Background Circle */}
-            <circle
-                cx={diameter / 2}
-                cy={diameter / 2}
-                r={radius}
-                stroke={backgroundCircleColor}
-                strokeWidth={strokeWidth}
-                fill="transparent"
-            />
-            {/* Secondary Progress Bar */}
-            <circle
-                cx={diameter / 2}
-                cy={diameter / 2}
-                r={radius}
-                stroke={secondaryColor}
-                strokeWidth={strokeWidth}
-                fill="transparent"
-                strokeDasharray={circumference}
-                strokeDashoffset={secondaryOffset}
-                strokeLinecap="butt"
-                transform={`rotate(${(100 - progressValue - gapSize) * 3.6}, ${diameter / 2}, ${diameter / 2})`}
-            />
-            {/* Primary Progress Bar */}
-            <circle
-                cx={diameter / 2}
-                cy={diameter / 2}
-                r={radius}
-                stroke={primaryColor}
-                strokeWidth={strokeWidth}
-                fill="transparent"
-                strokeDasharray={circumference}
-                strokeDashoffset={primaryOffset}
-                strokeLinecap="butt"
-            />
-        </svg>
-    );
+  // Set up the data for the donut chart
+  const data = {
+    datasets: [
+      {
+        data: [availablePercentage, usedPercentage],
+        backgroundColor: [primaryColor, secondaryColor],
+        borderColor: ["transparent", "transparent"],
+        borderWidth: 0,
+        borderRadius: 10,
+        spacing: 2, // Add space between segments
+        weight: strokeWidth,
+      },
+    ],
+  };
+
+  // Configure the options for the donut chart
+  const options = {
+    cutout: `${85}%`, // Thickness of the donut (higher percentage = thinner ring)
+    responsive: true,
+    maintainAspectRatio: true,
+    layout: {
+      padding: 0,
+    },
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+      },
+      tooltip: {
+        enabled: false, // Disable tooltips
+      },
+    },
+    animation: {
+      animateRotate: true,
+      animateScale: false,
+    },
+  };
+
+  return (
+    <div
+      className={cn(
+        "flex h-full w-full items-center justify-center",
+        className,
+      )}
+    >
+      <div className="h-full w-full">
+        <Doughnut data={data} options={options} />
+      </div>
+    </div>
+  );
 };
 
 export default CircularProgressBar;
