@@ -12,8 +12,8 @@ const GpuAvailabilityPie = ({
 }) => {
   return (
     <div>
-      <h1 className=" mt-1.5 !font-semibold">GPU Pricing and Availability</h1>
-      <div className="mt-5 flex w-[274px] flex-col justify-between   gap-8 rounded-md border bg-background2 p-5 shadow ">
+      <h1 className=" mt-3 !font-semibold">GPU Pricing and Availability</h1>
+      <div className="mt-[11px] flex w-[274px] flex-col justify-between   gap-8 rounded-md border bg-background2 p-5 shadow ">
         <div className="flex flex-col gap-2">
           <div className="">
             <h2 className="text-sm font-semibold ">Total GPUs</h2>
