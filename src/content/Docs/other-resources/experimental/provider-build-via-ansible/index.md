@@ -106,10 +106,13 @@ However, when dealing with a Kubernetes cluster involving multiple nodes, using 
 Each role in the playbook has specific configuration variables that can be set to customize your deployment. These variables can be defined in your inventory files, host_vars files, or passed directly using the -e parameter.
 
 #### Tailscale Role
+Tailscale is a simple networking tool that creates a secure private network between your devices with minimal configuration. It lets you access services safely without public internet exposure by handling complex security and connection details automatically.
 
-`tailscale_authkey`: Your Tailscale authentication key
+`tailscale_authkey`: Your Tailscale authentication key -  allows a device to join your Tailscale network securely
 `tailscale_hostname`: The hostname for the Tailscale node
 Refer [here](https://github.com/akash-network/provider-playbooks/blob/main/roles/tailscale/README.md#configuration-variables) for optional variables that can be customized.
+
+> Note: Tailscale is entirely optional when deploying an Akash provider.
 
 #### OS Role
 No additional variables required beyond host specification.
@@ -117,6 +120,8 @@ No additional variables required beyond host specification.
 #### OP Role
 `provider_name`: The name of your Akash provider
 Refer [here](https://github.com/akash-network/provider-playbooks/blob/main/roles/op/README.md#configuration-variables) for optional variables that can be customized.
+
+> Note: OP is entirely optional when deploying an Akash provider.
 
 #### Provider Role
 
