@@ -3,6 +3,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { ArrowUpCircle, Info } from "lucide-react";
 import { useState } from "react";
@@ -31,7 +32,7 @@ const DesktopTableGpu = ({
     >
       <table
         className={clsx(
-          "w-full  border-separate border-spacing-y-1.5 ",
+          "w-full  border-separate border-spacing-y-3 ",
           subCom ? "" : "",
         )}
         cellSpacing={0}
@@ -48,7 +49,7 @@ const DesktopTableGpu = ({
               Price Range
             </th>
             <th className="w-[13%] whitespace-nowrap px-2 text-left text-sm font-medium tracking-normal text-linkText xl:pl-6">
-              <p className="relative w-min">
+              <p className="relative w-min text-linkText">
                 Avg. Price
                 <span className="absolute left-full ml-1"> per hour</span>
               </p>
@@ -112,13 +113,13 @@ const DesktopTableGpu = ({
             : filteredData?.map((model, index) => (
                 <tr
                   key={index}
-                  className=" overflow-hidden rounded-lg border-none bg-background2 shadow-sm outline-none"
+                  className=" overflow-hidden rounded-lg border-none bg-background2 shadow-sm outline-none transition-all hover:bg-[#FBFBFB] hover:shadow dark:hover:bg-background2/70"
                   onMouseEnter={() => setHoveredRowIndex(index)}
                   onMouseLeave={() => setHoveredRowIndex(null)}
                 >
                   <td className="rounded-l-lg border-y border-l border-r text-base font-semibold xl:text-lg">
-                    <div className="flex items-center gap-4 ">
-                      <div className="ml-3 flex aspect-square w-11 items-center justify-center rounded-md border ">
+                    <div className=" flex gap-4 ">
+                      <div className="ml-3 flex aspect-square w-11 shrink-0 items-center justify-center rounded-md border ">
                         <img
                           src="/logos/nvidia.png"
                           alt="nvidia"
@@ -126,7 +127,7 @@ const DesktopTableGpu = ({
                         />
                       </div>
                       <div className="flex flex-1 flex-col gap-1">
-                        <p className="text-lg font-semibold capitalize text-foreground lg:text-xl">
+                        <p className="text-base font-semibold capitalize text-foreground ">
                           {modifyModel(model?.model)}
                         </p>
                         <div className="flex gap-1">
@@ -171,7 +172,7 @@ const DesktopTableGpu = ({
                         </span>
                         <Info
                           size={16}
-                          className="absolute -right-2 -top-2 text-defaultBorder"
+                          className="absolute -right-2 -top-2 text-[#DADADB] dark:text-para"
                         />
                       </HoverCardTrigger>
                       <HoverCardContent align="center">
@@ -222,11 +223,12 @@ const DesktopTableGpu = ({
                         // href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                         href="https://console.akash.network/new-deployment"
                         target="_blank"
-                        className={`flex items-center gap-1.5 rounded-md border px-2 py-[1px] font-medium text-[#71717A] shadow-sm transition-all duration-300 hover:border-black hover:bg-black hover:text-white dark:text-para md:px-2 lg:px-3 ${
+                        className={cn(
+                          "flex items-center gap-1.5 rounded-md border px-2 py-[1px] font-medium  shadow-sm transition-all duration-300 hover:border-black hover:bg-black hover:text-white  md:px-2 lg:px-3",
                           hoveredRowIndex === index
-                            ? "border-black bg-black text-white"
-                            : ""
-                        }`}
+                            ? "!border-black bg-black text-white "
+                            : "text-[#71717A] dark:text-para",
+                        )}
                       >
                         <p className="whitespace-nowrap text-xs font-medium text-inherit">
                           Rent Now

@@ -133,7 +133,7 @@ export default function Filter({
       {options?.map((item, index) => (
         <Disclosure
           as={"div"}
-          className={`flex flex-col gap-2 py-4 ${index === 2 ? "border-none" : "border-b"}`}
+          className={`flex flex-col gap-2 border-b py-4`}
           key={item.name}
           defaultOpen={filters?.[item.value]?.length > 0 ? true : false}
         >
@@ -141,7 +141,7 @@ export default function Filter({
             <>
               <Disclosure.Button
                 className={
-                  "group flex items-center justify-between gap-1.5  text-base font-bold text-textGray "
+                  "group flex items-center justify-between gap-1.5  text-sm font-semibold text-textGray "
                 }
               >
                 {item.name}
