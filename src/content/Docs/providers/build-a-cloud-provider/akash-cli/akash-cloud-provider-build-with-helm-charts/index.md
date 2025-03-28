@@ -605,7 +605,7 @@ bidpricestoragescale: "0.00016" # storage pricing scale in uakt per megabyte
 > _**NOTE**_ - You do not need to run this command if you previously installed the Akash Provider and are now performing an upgrade.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.6.4/pkg/apis/akash.network/crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.6.10/pkg/apis/akash.network/crd.yaml
 ```
 
 #### **Install the Provider Helm Chart**
