@@ -21,7 +21,7 @@ The Kubernetes instructions in this guide are intended for audiences that have t
 - **Server Administration Skills** - necessary for setting up servers/network making up the Kubernetes cluster
 - **Kubernetes Experience** - a base level of Kubernetes administration is highly recommended
 
-> Please consider using the [Praetor](/providers) application to build an Akash Provider for small and medium sized environments which require little customization.
+> Please consider using the [Akash Provider Console](https://provider-console.akash.network/) application to build an Akash Provider for small and medium sized environments which require little customization.
 
 ## Guide Sections
 
