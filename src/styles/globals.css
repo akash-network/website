@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html body[data-scroll-locked] {
+  --removed-body-scroll-bar-size: 0 !important;
+  margin-right: 0 !important;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -17,7 +21,10 @@
     --primary-foreground: 0 0% 100%;
     --background-muted: #f4f4f5;
     --dark-text: #080808;
+    --light-gray: #f4f5f7;
+    --dark-gray-text: #71717a;
     /* secondary colors */
+    --dark-gray-border: #d1d5db;
     --secondary: 0 100% 94%;
     --secondary-rose: 0 100% 94%;
     --secondary-lemon: 49 92% 85%;
@@ -61,6 +68,7 @@
     --para: 0 0% 73%;
     --para-dark: 0 0% 50%;
     --primary: #ff414c;
+    --light-gray: #3a3a3a;
     --primary-foreground: 0, 0%, 100%;
     --text-gray: 30 17% 98%;
     --border: 0 0% 50%;
@@ -68,6 +76,8 @@
     --badge-color: 0 0% 24%;
     --icon-text: 0 0% 73%;
     --link-text: 0 0% 49%;
+    --dark-gray-text: #5e5e5e;
+    --dark-gray-border: #515151;
     --dark-text: #ffffff; /* code */
     --theme-header-bg: #3c3c3c;
     --three-dots-bg: #515151;
