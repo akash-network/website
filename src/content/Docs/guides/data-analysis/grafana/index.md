@@ -11,7 +11,7 @@ Here’s a step-by-step guide for deploying Grafana on Akash using the **grafana
 ---
 
 ### **Step 1: Install Akash CLI**
-Ensure you have the Akash CLI installed and configured. Follow [Akash CLI installation documentation](https://docs.akash.network/cli/install) to set up the CLI and connect to your wallet.
+Ensure you have the Akash CLI installed and configured. Follow [Akash CLI installation documentation](/docs/getting-started/quickstart-guides/akash-cli/) to set up the CLI and connect to your wallet.
 
 ---
 
@@ -123,7 +123,7 @@ provider-services tx market lease create --owner <your-wallet-address> --dseq <d
 ### **Step 8: (Optional) Add Persistent Storage**
 To make your Grafana setup persistent:
 1. Use decentralized storage solutions like Filecoin or Storj.
-2. Update your SDL file to include persistent volume mounts (e.g., Akash's [PVC](https://docs.akash.network/guides/deployments/storage)).
+2. Update your SDL file to include persistent volume mounts \.
 
 ---
 

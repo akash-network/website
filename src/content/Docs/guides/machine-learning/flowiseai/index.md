@@ -22,7 +22,7 @@ To deploy FlowiseAI on Akash, follow these steps:
 
 ### **Step 1: Prerequisites**
 
-1. **Install Akash CLI**: Ensure the Akash CLI is installed on your local machine. Consult the [Akash CLI installation guide](https://docs.akash.network/guides/install).
+1. **Install Akash CLI**: Ensure the Akash CLI is installed on your local machine. Consult the [Akash CLI installation guide](docs/getting-started/quickstart-guides/akash-cli/).
 
 2. **Create an Akash Wallet**: Use the Akash CLI to create a wallet and fund it with AKT tokens.
 

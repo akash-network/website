@@ -122,8 +122,8 @@ provider-services query market bid list --owner <your-address>
 ## Useful Links
 
     - Apache Docker Hub: https://hub.docker.com/_/httpd
-    - Akash Documentation: https://docs.akash.network
+    - Akash Documentation: https://akash.network/docs
     - Akash Console: https://console.akash.network
-    - Akash CLI Deployment: https://docs.akash.network/guides/deploy
+    - Akash CLI Deployment: (/docs/getting-started/quickstart-guides/akash-cli/)
 
 This guide ensures you have a functional Apache HTTP server running on Akash Network using either the CLI or the console.

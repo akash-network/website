@@ -107,7 +107,7 @@ Only x86_64 processors are officially supported for Akash deployments. This may 
 
 - Akash Deployment
 
-> _**NOTE**_ - if your current terminal session has been used to create prior deployments, issue the command `unset AKASH_DSEQ` to prevent receipt of error message `Deployment Exists`
+**_NOTE:_** if your current terminal session has been used to create prior deployments, issue the command `unset AKASH_DSEQ` to prevent receipt of error message `Deployment Exists`
 
 To deploy on Akash, run:
 
@@ -369,9 +369,8 @@ If your lease was successful you should see a response that ends with:
     state: active
 ```
 
-{/* {% hint style="info" %} */}
-Please note that once the lease is created, the provider will begin debiting your deployment's escrow account, even if you have not completed the deployment process by uploading the manifest in the following step.
-{/* {% endhint %} */}
+**_NOTE:_** Please note that once the lease is created, the provider will begin debiting your deployment's escrow account, even if you have not completed the deployment process by uploading the manifest in the following step.
+
 
 - Send the Manifest
 
@@ -431,7 +430,7 @@ provider-services lease-logs \
 
 Update the deploy.yaml manifest file with the desired change.
 
-_**NOTE:**_\*\* Not all attributes of the manifest file are eligible for deployment update. If the hardware specs of the manifest are updated (I.e. CPU count), a re-deployment of the workload is necessary. Other attributes, such as deployment image and funding, are eligible for updates.
+**_NOTE:_** Not all attributes of the manifest file are eligible for deployment update. If the hardware specs of the manifest are updated (I.e. CPU count), a re-deployment of the workload is necessary. Other attributes, such as deployment image and funding, are eligible for updates.
 
 - Issue Transaction for On Chain Update
 
@@ -468,9 +467,71 @@ provider-services send-manifest deploy.yaml -dseq $AKASH_DSEQ -provider $AKASH_P
 ---
 
 ### 6. (Optional) Scaling to a Cluster
-To deploy a multi-node CockroachDB cluster:
-1. Adjust the SDL file to add additional nodes and define `--join` arguments for cluster setup.
-2. Use a shared network for nodes.
+
+To deploy a multi-node CockroachDB cluster, adjust the SDL file as follows:
+
+**Key Modifications**:
+
+    Increase the `node count` under `deployment.cockroachdb.count`.
+    Modify `args` to remove `start-single-node` and add `--join `for clustering.
+    Use a shared network so nodes can communicate.
+
+Updated deploy.yaml for Multi-Node Deployment:
+
+
+```
+version: "2.0"
+
+services:
+  cockroachdb:
+    image: cockroachdb/cockroach:v23.1.1
+    expose:
+      - port: 26257
+        as: 26257
+        to:
+          - global: true
+      - port: 8080
+        as: 8080
+        to:
+          - global: true
+    args:
+      - start
+      - --insecure
+      - --join=cockroachdb-0,cockroachdb-1,cockroachdb-2
+
+profiles:
+  compute:
+    cockroachdb:
+      resources:
+        cpu:
+          units: 2
+        memory:
+          size: 2Gi
+        storage:
+          size: 10Gi
+
+  placement:
+    cockroachdb:
+      pricing:
+        cockroachdb: 
+          denom: uakt
+          amount: 100
+
+deployment:
+  cockroachdb:
+    cockroachdb:
+      profile: cockroachdb
+      count: 3 # Deploys 3 nodes
+```
+
+**Explanation of Changes**:
+
+- `count: 3` → Deploys 3 CockroachDB nodes.
+- `--join=cockroachdb-0,cockroachdb-1,cockroachdb-2` → Ensures nodes form a cluster.
+- Retains `--insecure` for simplicity (remove for production).
+- Exposed ports remain the same.
+
+
 
 ---
 
