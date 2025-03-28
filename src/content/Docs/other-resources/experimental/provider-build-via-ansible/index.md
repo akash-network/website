@@ -69,9 +69,9 @@ cp -rfp inventory/sample inventory/akash
 declare -a IPS=(10.4.8.196)
 
 CONFIG_FILE=inventory/akash/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
-
-#### **Expected Result(Example)**
 ```
+#### **Expected Result(Example)**
+```bash
 (venv) root@node1:~/kubespray# CONFIG_FILE=inventory/akash/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 DEBUG: Adding group all
 DEBUG: Adding group kube_control_plane
@@ -179,7 +179,7 @@ Use these resources for a more through understanding of Kubespray and for troubl
 - [Upgrading Kubernetes in Kubespray](https://github.com/kubernetes-sigs/kubespray/blob/e9c89132485989/docs/upgrades.md)
 
 #### STEP 5 - Configure Ephemeral Storage
-The cluster specific variables can be defined in the group vars and they are located here `/root/kubespray/inventory/akash/group_vars`. Ensure your provider is configured to offer more ephemeral storage compared to the root volume by modifying group_vars/k8s_cluster/k8s-cluster.yml on the Kubespray host.
+The cluster specific variables can be defined in the group vars and they are located here */root/kubespray/inventory/akash/group_vars//k8s_cluster/k8s-cluster.yml*. Ensure your provider is configured to offer more ephemeral storage compared to the root volume by modifying group_vars/k8s_cluster/k8s-cluster.yml on the Kubespray host.
 
 ```bash
 containerd_storage_dir: "/data/containerd"
@@ -187,7 +187,7 @@ kubelet_custom_flags: "--root-dir=/data/kubelet"
 ```
 
 #### STEP 6 - Configure Scheduler Profiles
-Add the following configuration to group_vars/k8s_cluster/k8s-cluster.yml:
+Add the following configuration to */root/kubespray/inventory/akash/group_vars//k8s_cluster/k8s-cluster.yml*:
 
 ```yml
 kube_scheduler_profiles:
@@ -208,7 +208,7 @@ kube_scheduler_profiles:
 ```
 
 ### STEP 7 - Enable Helm Installation
-Add the following configuration to group_vars/k8s_cluster/addson.yml:
+Add the following configuration to */root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml*:
 
 ```yml
 # Helm deployment
