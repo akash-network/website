@@ -58,10 +58,10 @@ apt update
 
 - Install the latest nvidia-driver version
 
-> In this example the latest was nvidia 560 (max supported CUDA 12.6), you can use `apt-cache search nvidia-driver | grep ^nvidia-driver` command to determine the latest version.
+> In this example the latest was nvidia 565 (max supported CUDA 12.7), you can use `apt-cache search nvidia-driver | grep ^nvidia-driver` command to determine the latest version.
 
 ```
-DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nvidia-driver-560 && \
+DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nvidia-driver-565 && \
 apt -y autoremove
 ```
 
@@ -71,11 +71,11 @@ And reboot.
 
 In some circumstances it has been found that the NVIDIA Fabric Manager needs to be installed on worker nodes hosting GPU resources (typically, non-PCIe GPU configurations such as those using SXM form factors).
 
-> Replace `560` with your nvidia driver version installed in the previous steps
+> Replace `565` with your nvidia driver version installed in the previous steps
 > You may need to wait for about 2-3 minutes for the nvidia fabricmanager to initialize
 
 ```
-apt-get install nvidia-fabricmanager-560
+apt-get install nvidia-fabricmanager-565
 systemctl start nvidia-fabricmanager
 systemctl enable nvidia-fabricmanager
 ```

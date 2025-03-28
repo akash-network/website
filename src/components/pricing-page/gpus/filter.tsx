@@ -1,8 +1,12 @@
-import { Disclosure } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { clsx as classNames } from "clsx";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { Check, X } from "lucide-react";
 import React from "react";
-import CheckBox from "./checkbox";
+import SpeakToExpert from "../SpeakToExpert";
 import { modifyModel, type Gpus } from "./gpu-table";
 import { onTop } from "./sort";
 
@@ -41,33 +45,17 @@ export default function Filter({
     {
       name: "Chipset",
       value: "modal",
-      options: [
-        // { name: "H100", value: "h100" },
-        // { name: "A100", value: "a100" },
-        // { name: "A6000", value: "rtxa6000" },
-      ],
+      options: [],
     },
     {
       name: "vRAM",
       value: "ram",
-      options: [
-        // { name: "80Gi", value: "80Gi" },
-        // { name: "40Gi", value: "40Gi" },
-        // { name: "32Gi", value: "32Gi" },
-        // { name: "24Gi", value: "24Gi" },
-        // { name: "16Gi", value: "16Gi" },
-        // { name: "8Gi", value: "8Gi" },
-      ],
+      options: [],
     },
     {
       name: "Interface",
       value: "interface",
-      options: [
-        // { name: "PCIe", value: "PCIe" },
-        // { name: "SXM5", value: "SXM5" },
-        // { name: "SXM4", value: "SXM4" },
-        // { name: "SXM2", value: "SXM2" },
-      ],
+      options: [],
     },
   ];
 
@@ -128,67 +116,126 @@ export default function Filter({
     }
   }, [filters, res]);
 
+  const handleSelectOption = (item: Options, optionValue: string) => {
+    if (filters[item.value].includes(optionValue)) {
+      // If already selected, remove it
+      setFilters((prev) => ({
+        ...prev,
+        [item.value]: prev[item.value].filter(
+          (filter) => filter !== optionValue,
+        ),
+      }));
+    } else {
+      // If not selected, add it
+      setFilters((prev) => ({
+        ...prev,
+        [item.value]: [...prev[item.value], optionValue],
+      }));
+    }
+  };
+
+  const removeFilter = (
+    filterType: "modal" | "ram" | "interface",
+    value: string,
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterType]: prev[filterType].filter((filter) => filter !== value),
+    }));
+  };
+
+  const hasActiveFilters =
+    filters.modal.length > 0 ||
+    filters.ram.length > 0 ||
+    filters.interface.length > 0;
+
   return (
-    <div className="w-full">
-      <p className="pb-3 text-sm font-medium">Filtering Options</p>
-      <div className="w-full rounded-md border bg-background2 shadow-sm">
-        {options?.map((item, index) => (
-          <Disclosure
-            as={"div"}
-            className={`flex flex-col gap-2 py-4 pl-5 ${index === 2 ? "border-none" : "border-b"}`}
-            key={item.name}
-            defaultOpen={filters?.[item.value]?.length > 0 ? true : false}
-          >
-            {({ open }) => (
-              <>
-                <Disclosure.Button
-                  className={
-                    "group flex items-center gap-1.5  text-base font-bold text-textGray "
-                  }
-                >
-                  <ChevronDownIcon
-                    aria-hidden="true"
-                    className={classNames(
-                      open ? " rotate-0 transform" : "-rotate-90",
-                      "h-4 w-4 transition-transform duration-200",
-                    )}
-                  />
-                  {item.name}
-                </Disclosure.Button>
-                <Disclosure.Panel
-                  className={"flex flex-col gap-2 py-2"}
-                  as="div"
-                >
-                  {item.options.map((option) => (
-                    <div key={option.name}>
-                      <CheckBox
-                        label={option.name}
-                        name={option.value}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFilters((prev) => ({
-                              ...prev,
-                              [item.value]: [...prev[item.value], option.value],
-                            }));
-                          } else {
-                            setFilters((prev) => ({
-                              ...prev,
-                              [item.value]: prev[item.value].filter(
-                                (filter) => filter !== option.value,
-                              ),
-                            }));
-                          }
+    <div className="flex w-full flex-col ">
+      <div className="flex items-center justify-between border-b  pb-5">
+        <div className=" flex flex-1 flex-wrap gap-4">
+          {options?.map((item) => (
+            <div key={item.name} className="">
+              <Select>
+                <SelectTrigger className="px-4">
+                  <p className="text-s2 mr-2.5 font-medium text-foreground">
+                    {item.name}
+                  </p>
+                </SelectTrigger>
+                <SelectContent>
+                  {item.options.map((option) => {
+                    const isSelected = filters[item.value].includes(
+                      option.value,
+                    );
+                    return (
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        hideCheck={true}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          handleSelectOption(item, option.value);
                         }}
-                        checked={filters?.[item.value]?.includes(option.value)}
-                      />
-                    </div>
-                  ))}
-                </Disclosure.Panel>
-              </>
-            )}
-          </Disclosure>
-        ))}
+                        className="flex cursor-pointer items-center justify-between"
+                      >
+                        <div className="flex items-center gap-2">
+                          {isSelected && (
+                            <span className="absolute left-2 flex h-3.5 w-3.5 shrink-0 items-center justify-center">
+                              <Check className="h-4 w-4 text-primary" />
+                            </span>
+                          )}
+                          <span>{option.name}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
+          ))}
+        </div>
+        <SpeakToExpert className="!py-[7px] px-4" />
       </div>
+
+      {/* Combined badges area */}
+      {hasActiveFilters && (
+        <div className="flex flex-wrap items-center gap-2 border-b  py-3">
+          <div className="mr-2 text-sm font-medium">Active filters:</div>
+          {options.map((item) =>
+            filters[item.value].map((filterValue) => {
+              const optionName =
+                item.options.find((o) => o.value === filterValue)?.name ||
+                filterValue;
+              return (
+                <div
+                  key={`${item.value}-${filterValue}`}
+                  className="inline-flex items-center rounded-full border border-darkGrayBorder bg-lightGray px-3 py-1 text-xs dark:border-defaultBorder dark:bg-background2"
+                >
+                  <span className="mr-1 font-medium text-darkGrayText dark:text-para">
+                    {item.name}:
+                  </span>
+                  <span className="font-semibold text-foreground">
+                    {optionName}
+                  </span>
+                  <button
+                    onClick={() => removeFilter(item.value, filterValue)}
+                    className="ml-1 text-textGray  hover:text-primary"
+                  >
+                    <X className="h-3 w-3 " />
+                  </button>
+                </div>
+              );
+            }),
+          )}
+          {hasActiveFilters && (
+            <button
+              onClick={() => setFilters(defaultFilters)}
+              className="ml-auto text-xs  hover:underline"
+            >
+              Clear all
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

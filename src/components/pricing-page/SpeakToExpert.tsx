@@ -26,15 +26,19 @@ const speakToExpertVariants = cva(
 );
 
 interface SpeakToExpertProps
-  extends VariantProps<typeof speakToExpertVariants> {}
+  extends VariantProps<typeof speakToExpertVariants> {
+  className?: string;
+}
 
-const SpeakToExpert = ({ size, variant }: SpeakToExpertProps) => {
+const SpeakToExpert = ({ size, variant, className }: SpeakToExpertProps) => {
   return (
     <a
       href="https://share.hsforms.com/1gQOaeJXgQ-GMc7MnsTOmsAsaima"
       target="_blank"
     >
-      <button className={speakToExpertVariants({ size, variant })}>
+      <button
+        className={clsx(speakToExpertVariants({ size, variant }), className)}
+      >
         <svg
           className={clsx(
             size === "small"
