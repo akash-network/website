@@ -181,6 +181,13 @@ Use these resources for a more through understanding of Kubespray and for troubl
 #### STEP 5 - Configure Ephemeral Storage
 The cluster specific variables can be defined in the group vars and they are located here */root/kubespray/inventory/akash/group_vars//k8s_cluster/k8s-cluster.yml*. Ensure your provider is configured to offer more ephemeral storage compared to the root volume by modifying group_vars/k8s_cluster/k8s-cluster.yml on the Kubespray host.
 
+```bash 
+nano /root/kubespray/inventory/akash/group_vars/k8s_cluster/k8s-cluster.yml 
+```
+
+
+And add these lines
+
 ```bash
 containerd_storage_dir: "/data/containerd"
 kubelet_custom_flags: "--root-dir=/data/kubelet"
@@ -188,6 +195,11 @@ kubelet_custom_flags: "--root-dir=/data/kubelet"
 
 #### STEP 6 - Configure Scheduler Profiles
 Add the following configuration to */root/kubespray/inventory/akash/group_vars//k8s_cluster/k8s-cluster.yml*:
+
+```bash 
+nano /root/kubespray/inventory/akash/group_vars/k8s_cluster/k8s-cluster.yml
+```
+
 
 ```yml
 kube_scheduler_profiles:
@@ -209,6 +221,9 @@ kube_scheduler_profiles:
 
 ### STEP 7 - Enable Helm Installation
 Add the following configuration to */root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml*:
+```bash
+nano /root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml
+```
 
 ```yml
 # Helm deployment
