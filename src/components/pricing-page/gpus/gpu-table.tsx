@@ -17,11 +17,10 @@ import clsx from "clsx";
 import { Info } from "lucide-react";
 import React from "react";
 import { Skeleton } from "../../ui/skeleton";
-import SpeakToExpert from "../SpeakToExpert";
 import AvailabilityBar from "./availability-bar";
 import DesktopTableGpu from "./desktop-table-gpu";
 import Filter, { defaultFilters, type Filters } from "./filter";
-import GpuAvailabilityPie from "./gpu-availability-pie";
+import GpuAvailability from "./gpu-availability";
 import Sort from "./sort";
 export interface Gpus {
   availability: { total: number; available: number };
@@ -161,25 +160,23 @@ export const Tables = ({
   return (
     <section
       className={clsx(
-        " mx-auto flex w-full max-w-[1380px] flex-col gap-0 md:gap-10 xl:flex-row ",
+        " mx-auto flex w-full  !max-w-[1250px] flex-col gap-0 md:gap-4  ",
         subCom ? "" : "md:container",
       )}
     >
-      <div className={clsx("hidden flex-col gap-6 xl:flex")}>
-        <GpuAvailabilityPie
+      <div className={clsx("hidden flex-col gap-10 xl:flex")}>
+        <GpuAvailability
           totalGpus={totalGpus}
           totalAvailableGpus={totalAvailableGpus}
           isLoading={isLoading || false}
         />
-        <div className="flex gap-4">
-          <Filter
-            filters={filters}
-            setFilters={setFilters}
-            setFilteredData={setFilteredData}
-            res={data}
-          />
-        </div>
-        <SpeakToExpert />
+
+        <Filter
+          filters={filters}
+          setFilters={setFilters}
+          setFilteredData={setFilteredData}
+          res={data}
+        />
       </div>
       <div className="flex flex-col gap-1 xl:hidden">
         <p className="text-sm text-[#7E868C] md:text-base">
