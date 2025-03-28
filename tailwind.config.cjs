@@ -82,6 +82,9 @@ module.exports = {
         },
         "success-light": "#D1FAE5",
         "success-dark": "#065F46",
+        lightGray: "var(--light-gray)",
+        darkGrayText: "var(--dark-gray-text)",
+        darkGrayBorder: "var(--dark-gray-border)",
 
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
