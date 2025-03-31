@@ -26,12 +26,12 @@ By deploying DeepSeek V3 on **Akash**, we leverage decentralized computing infra
 Ensure you have the following installed on your **Linux/macOS** system:
 
 - **Docker** ([Installation Guide](https://docs.docker.com/get-docker/))
-- **Akash CLI** ([Installation Guide](docs/getting-started/quickstart-guides/akash-cli/))
+- **Akash CLI** ([Installation Guide](/docs/getting-started/quickstart-guides/akash-cli/))
 - **Provider Services CLI** (Replaces the old `akash` CLI) 
   ```sh
   curl -sSfL https://raw.githubusercontent.com/akash-network/provider-services/main/install.sh | sh
   ```
-- **A funded Akash wallet** ([Funding Guide](docs/deployments/akash-cli/installation/#fund-your-account))
+- **A funded Akash wallet** ([Funding Guide](/docs/deployments/akash-cli/installation/#fund-your-account))
 
 ---
 

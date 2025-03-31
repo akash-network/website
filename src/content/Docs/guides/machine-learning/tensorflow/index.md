@@ -22,7 +22,7 @@ Akash provides GPU and CPU instances to handle TensorFlow workloads, making it i
 ---
 
 ## **Prerequisites**
-1. **Install Akash CLI:** Ensure you have the Akash CLI installed and configured. Refer to the [Akash documentation](docs/getting-started/quickstart-guides/akash-cli/) for setup instructions.
+1. **Install Akash CLI:** Ensure you have the Akash CLI installed and configured. Refer to the [Akash documentation](/docs/getting-started/quickstart-guides/akash-cli/) for setup instructions.
 2. **Akash Tokens:** Acquire Akash tokens (AKT) to pay for compute resources.
 3. **Dockerized TensorFlow:** Use the official TensorFlow Docker image from Docker Hub.
 4. **Domain Configuration (Optional):** If you want to expose the service via a domain, configure DNS appropriately.
@@ -127,4 +127,4 @@ curl http://<provider-ip>:80/v1/models/my_model:predict -d '{"instances": [[1.0,
 ## **Conclusion**
 By deploying TensorFlow on Akash, you gain access to affordable, decentralized cloud resources while maintaining high performance and scalability. Follow this guide to deploy your TensorFlow workloads seamlessly on Akash.
 
-For more advanced configurations or issues, consult the [Akash Documentation](docs/) or TensorFlow's [official Docker repository](https://hub.docker.com/r/tensorflow/tensorflow).
+For more advanced configurations or issues, consult the [Akash Documentation](/docs/) or TensorFlow's [official Docker repository](https://hub.docker.com/r/tensorflow/tensorflow).

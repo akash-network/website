@@ -486,8 +486,8 @@ Once your deployment is live:
 
 ## Useful Links
 
-    - [Akash CLI setup](docs/getting-started/quickstart-guides/akash-cli/)
-    - [Funding wallet](docs/getting-started/token-and-wallets/#compatible-wallets-in-the-cosmos-ecosystem)
+    - [Akash CLI setup](/docs/getting-started/quickstart-guides/akash-cli/)
+    - [Funding wallet](/docs/getting-started/token-and-wallets/#compatible-wallets-in-the-cosmos-ecosystem)
     - Akash Console: https://console.akash.network/
 
 

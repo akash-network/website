@@ -13,7 +13,7 @@ This guide walks you through deploying EMQX (Erlang MQTT Broker) on Akash Networ
 ### **Step 1: Prerequisites**
 
 1. **Akash CLI Setup**: Ensure you have the Akash CLI installed and configured.
-   - Follow the [Akash CLI guide](docs/deployments/akash-cli/overview/) to set up your wallet and environment.
+   - Follow the [Akash CLI guide](/docs/deployments/akash-cli/overview/) to set up your wallet and environment.
 2. **Docker Hub Account**: Ensure access to the official `emqx` Docker image.
 3. **Akash Provider**: Ensure your Akash provider is active for accepting deployments.
 
@@ -149,4 +149,4 @@ deployment:
 
 ---
 
-This setup provides a fully functioning EMQX broker on Akash Network, leveraging the flexibility and decentralized hosting capabilities of Akash. For further customization, refer to the [EMQX documentation](https://www.emqx.io/docs) and Akash’s [deployment guides](docs/deployments/akash-cli/overview/).
+This setup provides a fully functioning EMQX broker on Akash Network, leveraging the flexibility and decentralized hosting capabilities of Akash. For further customization, refer to the [EMQX documentation](https://www.emqx.io/docs) and Akash’s [deployment guides](/docs/deployments/akash-cli/overview/).

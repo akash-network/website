@@ -90,7 +90,7 @@ deployment:
 
 ## Part 3: Deploy Using Akash CLI
 
-1. Install Akash CLI: Follow the official [Akash CLI setup guide](docs/getting-started/quickstart-guides/akash-cli/).
+1. Install Akash CLI: Follow the official [Akash CLI setup guide](/docs/getting-started/quickstart-guides/akash-cli/).
 
 2. Fund Your Wallet: Ensure your Akash wallet is funded with AKT for deployment fees.
 

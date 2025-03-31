@@ -12,9 +12,9 @@ To deploy an Apache HTTP Server on Akash using Docker and Akash CLI, follow this
 
 ## Prerequisites
 
-1. **Install Akash CLI**: [Installation guide](docs/deployments/akash-cli/overview/)
-2. **Set up an Akash Wallet**: [Wallet setup guide](docs/deployments/akash-cli/installation/#create-an-account)
-3. **Fund your Wallet**: Ensure your wallet is funded with AKT to cover deployment costs. [Funding guide](docs/deployments/akash-cli/installation/#fund-your-account)
+1. **Install Akash CLI**: [Installation guide](/docs/deployments/akash-cli/overview/)
+2. **Set up an Akash Wallet**: [Wallet setup guide](/docs/deployments/akash-cli/installation/#create-an-account)
+3. **Fund your Wallet**: Ensure your wallet is funded with AKT to cover deployment costs. [Funding guide](/docs/deployments/akash-cli/installation/#fund-your-account)
 4. **Basic SDL Knowledge**: Understand how SDL files work for Akash deployments.
 5. **Docker**: Installed locally to test the Apache container.
 

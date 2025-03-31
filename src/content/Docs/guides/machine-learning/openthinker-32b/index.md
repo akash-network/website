@@ -31,7 +31,7 @@ With its deployment on **Akash**, a decentralized cloud marketplace, OpenThinker
 ### Prerequisites
 Ensure you have the following installed on your Linux system:
 
-- [Akash CLI](docs/getting-started/quickstart-guides/akash-cli/)
+- [Akash CLI](/docs/getting-started/quickstart-guides/akash-cli/)
 - Docker
 - `jq`
 - `curl`

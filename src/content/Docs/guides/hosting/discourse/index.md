@@ -37,7 +37,7 @@ By deploying Discourse on Akash, you can leverage the decentralized cloud’s co
 ## **Step-by-Step Deployment Guide**
 
 ### **Prerequisites:**
-1. **Akash CLI Installed:** Set up the [Akash CLI](docs/getting-started/quickstart-guides/akash-cli/) for managing deployments.
+1. **Akash CLI Installed:** Set up the [Akash CLI](/docs/getting-started/quickstart-guides/akash-cli/) for managing deployments.
 2. **Discourse Requirements:**
    - A domain name with DNS configuration for SSL.
    - Minimum of 2GB RAM and 1 CPU for Discourse.

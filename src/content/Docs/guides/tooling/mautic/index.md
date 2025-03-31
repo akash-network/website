@@ -11,7 +11,7 @@ To deploy **Mautic** (an open-source marketing automation platform) using the `m
 ---
 
 ### **1. Requirements**
-- Install the Akash CLI on your system ([Guide](docs/getting-started/quickstart-guides/akash-cli/)).
+- Install the Akash CLI on your system ([Guide](/docs/getting-started/quickstart-guides/akash-cli/)).
 - Fund your Akash wallet with AKT tokens to pay for deployment costs.
 - A domain name or Akash's automatically generated domain for accessing Mautic.
 - Basic knowledge of Docker and Akash SDL configuration.
