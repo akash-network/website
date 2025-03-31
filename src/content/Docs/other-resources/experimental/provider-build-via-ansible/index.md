@@ -20,7 +20,7 @@ This guide walks you through the process of building an Akash Provider using Ans
 #### STEP 1 - Clone the Kubespray Repository
 ```bash
 cd ~
-git clone -b v2.24.1 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
+git clone -b v2.27.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 ```
 
 #### STEP 2 - Install Ansible
