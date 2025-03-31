@@ -47,7 +47,7 @@ cat >> /root/kubespray/cluster.yml << EOF
 EOF
 ```
 
-***Verify:****
+***Verify:***
 ```bash
 cat /root/kubespray/cluster.yml
 ---
@@ -97,9 +97,9 @@ DEBUG: adding host node1 to group kube_node
 vi ~/kubespray/inventory/akash/hosts.yaml
 ```
 
-##### **Example hosts.yaml File**
+##### Example hosts.yaml File
 
-- Additional hosts.yaml examples, based on different Kubernetes cluster topologies, may be found [here](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples)
+- Additional hosts.yaml examples, based on different Kubernetes cluster topologies, may be found [here](/Docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources/index.md#kubespray-hostsyaml-examples)
 
 ```yml
 all:
@@ -194,7 +194,7 @@ kubelet_custom_flags: "--root-dir=/data/kubelet"
 ```
 
 #### STEP 6 - Configure Scheduler Profiles
-Add the following configuration to */root/kubespray/inventory/akash/group_vars//k8s_cluster/k8s-cluster.yml*:
+Add the following configuration to */root/kubespray/inventory/akash/group_vars/k8s_cluster/k8s-cluster.yml*:
 
 ```bash 
 nano /root/kubespray/inventory/akash/group_vars/k8s_cluster/k8s-cluster.yml
@@ -219,10 +219,10 @@ kube_scheduler_profiles:
               weight: 1
 ```
 
-### STEP 7 - Enable Helm Installation
+#### STEP 7 - Enable Helm Installation
 Add the following configuration to */root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml*:
 ```bash
-nano /root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml
+vi /root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml
 ```
 
 ```yml
@@ -230,9 +230,9 @@ nano /root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml
 helm_enabled: true
 ```
 
-## STEP 8 - DNS Configuration
+#### STEP 8 - DNS Configuration
 
-### Upstream DNS Servers
+#### Upstream DNS Servers
 
 Add `upstream_dns_servers` in your Ansible inventory
 
@@ -278,31 +278,72 @@ It is best to use two different DNS nameserver providers as in this example - Go
 
 
 #### STEP 8 - Host vars creation for Provider Deployment
-Based on the host keys under `hosts` that was defined in the STEP 4 Example (`/root/kubespray/inventory/akash/hosts.yaml )`, create the host_vars file in `/root/provider-playbooks/host_vars`
+Create host_vars file for each node defined in your kubespray hosts.yaml file. The host_vars files contain the configuration specific to each node in your Akash provider setup.
+
+1) Create a host_vars file for each node in your /root/provider-playbooks/host_vars directory
+2) Use the same hostname as defined in your hosts.yaml file from Step 4
+
+
+Based on the host keys under `hosts` that was defined in the STEP 4 Example (`/root/kubespray/inventory/akash/hosts.yml )`, create the host_vars file in `/root/provider-playbooks/host_vars`
 
 ```bash
+# Create the host_vars directory if it doesn't exist
+mkdir -p /root/provider-playbooks/host_vars
+
+#Create the host_vars file for each node (example for node1)
 cat >> /root/provider-playbooks/host_vars/node1.yml << EOF
-akash1_address: "<PLACEHOLDER>"
-provider_b64_key: "<PLACEHOLDER>"
-provider_b64_keysecret: "<PLACEHOLDER>"
+# Node Configuration - Host Vars File
+
+## Provider Identification
+akash1_address: ""  # Your Akash wallet address
+
+## Security Credentials
+provider_b64_key: ""        # Base64-encoded provider key
+provider_b64_keysecret: ""  # Base64-encoded provider key secret
+
+## Network Configuration
 domain: t100.abc.xy.akash.pub
-tailscale_hostname: "node1-t100-abc-xy-akash-pub"
-city: abc
+region: "us-central"
+
+## Organization Details
+host: ""          # Provider node hostname
+organization: ""  # Your organization name
+email: ""         # Contact email address
+website: ""       # Organization website
+
+## Notes:
+# - Replace empty values with your actual configuration
+# - Keep sensitive values secure and never share them publicly
+# - Ensure domain format follows Akash naming conventions
 EOF
 ```
+#### Important Notes
 
-## STEP 9 - Running the Ansible Playbook
+- Create a separate .yml file for each node in your cluster
+- Keep the placeholders for keys if you haven't generated them yet
+- You'll fill in the empty values after generating keys and certificates
+- For multi-node deployments, repeat this process with appropriate values for each node
 
-Run the complete Ansible playbook with the necessary variables:
+#### STEP 9 - Running the Ansible Playbook
+
+Deploy your Akash Provider by running the Ansible playbook:
 
 ```bash
 ansible-playbook -i inventory/akash/hosts.yaml cluster.yml -t kubespray,os,provider,gpu -e 'host=node1' -v
 ```
 
-> Note: Each tag involes each role which requires specific variables. Refer to the Configuration Variables in the README under each role.
+#### Notes:
 
-> For an All-in-One node setup, we can also consider using  extra vars -e option with the above command as it's a simpler deployment with all components on a single node.
-> However, when dealing with a Kubernetes cluster involving multiple nodes, using host_vars is the better approach. This allows you to define specific variables for each host in the cluster, providing more granular configuration control and better organization of your infrastructure as code.
+- The command includes the following tags:
+  - *kubespray*: Sets up the Kubernetes cluster
+  - *os*: Configures the operating system
+  - *provider*: Deploys the Akash provider software
+  - *gpu*: Configures GPU support if available
+
+
+- For single-node cluster, using command-line variables with -e is sufficient
+- For multi-node clusters, using the host_vars files created in Step 8 is recommended for better organization
+- Each role has specific variable requirements - refer to the README in each role directory for details
 
 ### Role-Specific Variables
 
