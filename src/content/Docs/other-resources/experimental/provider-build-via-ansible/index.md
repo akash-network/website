@@ -220,9 +220,9 @@ kube_scheduler_profiles:
 ```
 
 #### STEP 7 - Enable Helm Installation
-Add the following configuration to */root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml*:
+Add the following configuration to */root/kubespray/inventory/akash/group_vars/k8s_cluster/addons.yml*:
 ```bash
-vi /root/kubespray/inventory/akash/group_vars/k8s_cluster/addson.yml
+vi /root/kubespray/inventory/akash/group_vars/k8s_cluster/addons.yml
 ```
 
 ```yml
