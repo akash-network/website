@@ -20,7 +20,7 @@ This guide walks you through the process of building an Akash Provider using Ans
 #### STEP 1 - Clone the Kubespray Repository
 ```bash
 cd ~
-git clone -b v2.27.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
+git clone -b v2.26.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 ```
 
 #### STEP 2 - Install Ansible
@@ -32,6 +32,7 @@ cd ~/kubespray
 virtualenv --python=python3 venv
 source venv/bin/activate
 pip3 install -r requirements.txt
+pip3 install ruamel.yaml
 ```
 
 #### STEP 3 - Ansible Access to Kubernetes Cluster
