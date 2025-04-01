@@ -135,6 +135,7 @@ cat /root/kubespray/cluster.yml
 ```
 
 #### STEP 5 - Ansible Inventory
+#### Single Node Cluster
 ```bash
 cd ~/kubespray
 
@@ -160,6 +161,38 @@ DEBUG: adding host node1 to group kube_control_plane
 DEBUG: adding host node1 to group kube_node
 ```
 
+#### Multi Node Cluster
+```bash
+cp -rfp inventory/sample inventory/akash
+
+#REPLACE IP ADDRESSES BELOW WITH YOUR KUBERNETES CLUSTER IP ADDRESSES
+declare -a IPS=(10.0.10.136 10.0.10.239 10.0.10.253 10.0.10.9)
+
+CONFIG_FILE=inventory/akash/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}```
+```
+
+#### **Expected Result(Example)**
+```bash
+DEBUG: Adding group all
+DEBUG: Adding group kube_control_plane
+DEBUG: Adding group kube_node
+DEBUG: Adding group etcd
+DEBUG: Adding group k8s_cluster
+DEBUG: Adding group calico_rr
+DEBUG: adding host node1 to group all
+DEBUG: adding host node2 to group all
+DEBUG: adding host node3 to group all
+DEBUG: adding host node4 to group all
+DEBUG: adding host node1 to group etcd
+DEBUG: adding host node2 to group etcd
+DEBUG: adding host node3 to group etcd
+DEBUG: adding host node1 to group kube_control_plane
+DEBUG: adding host node2 to group kube_control_plane
+DEBUG: adding host node1 to group kube_node
+DEBUG: adding host node2 to group kube_node
+DEBUG: adding host node3 to group kube_node
+DEBUG: adding host node4 to group kube_node
+```
 #### **Verification of Generated File**
 
 - Open the hosts.yaml file in VI (Visual Editor) or nano
@@ -364,7 +397,7 @@ Based on the host keys under `hosts` that was defined in the STEP 4 Example (`/r
 # Create the host_vars directory if it doesn't exist
 mkdir -p /root/provider-playbooks/host_vars
 
-#Create the host_vars file for each node (example for node1)
+#Create the host_vars file for setting up provider
 cat >> /root/provider-playbooks/host_vars/node1.yml << EOF
 # Node Configuration - Host Vars File
 
