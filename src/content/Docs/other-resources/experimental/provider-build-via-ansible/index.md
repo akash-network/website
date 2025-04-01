@@ -260,7 +260,6 @@ The cluster specific variables can be defined in the group vars and they are loc
 nano /root/kubespray/inventory/akash/group_vars/k8s_cluster/k8s-cluster.yml 
 ```
 
-
 And add these lines
 
 ```bash
@@ -305,7 +304,7 @@ vi /root/kubespray/inventory/akash/group_vars/k8s_cluster/addons.yml
 helm_enabled: true
 ```
 
-#### STEP 8 - DNS Configuration
+#### STEP 9 - DNS Configuration
 
 #### Upstream DNS Servers
 
@@ -352,7 +351,7 @@ upstream_dns_servers:
 It is best to use two different DNS nameserver providers as in this example - Google DNS (8.8.8.8) and Cloudflare (1.1.1.1).
 
 
-#### STEP 9 - Host vars creation for Provider Deployment
+#### STEP 10 - Host vars creation for Provider Deployment
 Create host_vars file for each node defined in your kubespray hosts.yaml file. The host_vars files contain the configuration specific to each node in your Akash provider setup.
 
 1) Create a host_vars file for each node in your /root/provider-playbooks/host_vars directory
@@ -376,9 +375,10 @@ akash1_address: ""  # Your Akash wallet address
 provider_b64_key: ""        # Base64-encoded provider key
 provider_b64_keysecret: ""  # Base64-encoded provider key secret
 
+
 ## Network Configuration
-domain: t100.abc.xy.akash.pub
-region: "us-central"
+domain: ""          # Publicly accessible DNS name dedicated for your provider, e.g. "t100.abc.xy.akash.pub"
+region: ""          # Set your region here, e.g. "us-west"
 
 ## Organization Details
 host: ""          # Provider node hostname
@@ -401,7 +401,7 @@ EOF
 - You'll fill in the empty values after generating keys and certificates
 - For multi-node deployments, repeat this process with appropriate values for each node
 
-#### STEP 10 - Running the Ansible Playbook
+#### STEP 11 - Running the Ansible Playbook
 
 Deploy your Akash Provider by running the Ansible playbook:
 
