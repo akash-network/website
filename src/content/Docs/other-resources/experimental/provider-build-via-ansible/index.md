@@ -400,6 +400,7 @@ EOF
 - Keep the placeholders for keys if you haven't generated them yet
 - You'll fill in the empty values after generating keys and certificates
 - For multi-node deployments, repeat this process with appropriate values for each node
+- Provider playbook should only run on the Kubernetes control plane (typically node1).
 
 #### STEP 11 - Running the Ansible Playbook
 
