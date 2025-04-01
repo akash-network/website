@@ -32,6 +32,7 @@ cd ~/kubespray
 virtualenv --python=python3 venv
 source venv/bin/activate
 pip3 install -r requirements.txt
+pip3 install ruamel.yaml
 ```
 
 #### STEP 3 - Ansible Access to Kubernetes Cluster
