@@ -136,6 +136,7 @@ cat /root/kubespray/cluster.yml
 ```
 
 #### STEP 5 - Ansible Inventory
+#### Single Node Cluster
 ```bash
 cd ~/kubespray
 
@@ -161,6 +162,38 @@ DEBUG: adding host node1 to group kube_control_plane
 DEBUG: adding host node1 to group kube_node
 ```
 
+#### Multi Node Cluster
+```bash
+cp -rfp inventory/sample inventory/akash
+
+#REPLACE IP ADDRESSES BELOW WITH YOUR KUBERNETES CLUSTER IP ADDRESSES
+declare -a IPS=(10.0.10.136 10.0.10.239 10.0.10.253 10.0.10.9)
+
+CONFIG_FILE=inventory/akash/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}```
+```
+
+#### **Expected Result(Example)**
+```bash
+DEBUG: Adding group all
+DEBUG: Adding group kube_control_plane
+DEBUG: Adding group kube_node
+DEBUG: Adding group etcd
+DEBUG: Adding group k8s_cluster
+DEBUG: Adding group calico_rr
+DEBUG: adding host node1 to group all
+DEBUG: adding host node2 to group all
+DEBUG: adding host node3 to group all
+DEBUG: adding host node4 to group all
+DEBUG: adding host node1 to group etcd
+DEBUG: adding host node2 to group etcd
+DEBUG: adding host node3 to group etcd
+DEBUG: adding host node1 to group kube_control_plane
+DEBUG: adding host node2 to group kube_control_plane
+DEBUG: adding host node1 to group kube_node
+DEBUG: adding host node2 to group kube_node
+DEBUG: adding host node3 to group kube_node
+DEBUG: adding host node4 to group kube_node
+```
 #### **Verification of Generated File**
 
 - Open the hosts.yaml file in VI (Visual Editor) or nano
@@ -351,8 +384,102 @@ upstream_dns_servers:
 
 It is best to use two different DNS nameserver providers as in this example - Google DNS (8.8.8.8) and Cloudflare (1.1.1.1).
 
+## STEP 10 - Export Provider Wallet
 
-#### STEP 10 - Host vars creation for Provider Deployment
+In this section we will export the pre-existing, funded wallet to store the private key in a local file. To conduct the commands in this section the Akash CLI must be installed which is detailed in this [guide ](/docs/deployments/akash-cli/installation/)(STEP 1 only).
+
+The wallet used will be used for the following purposes:
+
+- Pay for provider transaction gas fees
+- Pay for bid collateral which is discussed further in this section
+
+> Make sure to create a new Akash account for the provider and do not reuse an account used for deployment purposes. Bids will not be generated from your provider if the deployment orders are created with the same key as the provider.
+
+### List Available Keys
+
+- Print the key names available in the local OS keychain for use in the subsequent step
+
+```
+provider-services keys list
+```
+
+#### Example/Expected Output
+
+> _**NOTE**_ - in this example the provider key name is `default` and this key name will be used in the subsequent sections of this documentation. Please adjust the key nane as necessary to suit your needs and preferences.
+
+```
+provider-services keys list
+- name: ""
+  type: local
+  address: akash1<redacted>
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"<redacted>"}'
+  mnemonic: ""
+- name: default
+  type: local
+  address: akash1<redacted>
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"<redacted>"}'
+  mnemonic: ""
+```
+
+### **Export Private Key to Local File**
+
+- The key-name can be any name of your choice
+- Note the passphrase used to protect the private key as it will be used in future steps
+
+> _**NOTE**_ - The passhprase MUST be at least 8 characters long. Otherwise provider will encounter `failed to decrypt private key: ciphertext decryption failed error` when `keys import` is executed.
+
+#### STEP 1 - Export Provider Key
+
+```
+cd ~
+
+provider-services keys export default
+```
+
+##### Expected/Example Output
+
+```
+provider-services keys export default
+
+Enter passphrase to encrypt the exported key:
+Enter keyring passphrase:
+-----BEGIN TENDERMINT PRIVATE KEY-----
+kdf: bcrypt
+salt: REDACTED
+type: secp256k1
+
+REDACTED
+-----END TENDERMINT PRIVATE KEY-----
+```
+
+#### STEP 2 - Create key.pem and Copy Output Into File
+
+- Create a `key.pem` file
+
+```
+cd ~
+
+vim key.pem
+```
+
+- Copy the output of the prior command (`provider-services keys export default`) into the `key.pem` file
+
+> _**NOTE -**_ file should contain only what's between `-----BEGIN TENDERMINT PRIVATE KEY-----` and `-----END TENDERMINT PRIVATE KEY-----` (including the `BEGIN` and `END` lines):
+
+##### Example/Expected File Contents
+
+```
+cat key.pem
+-----BEGIN TENDERMINT PRIVATE KEY-----
+kdf: bcrypt
+salt: REDACTED
+type: secp256k1
+
+REDACTED
+-----END TENDERMINT PRIVATE KEY-----
+```
+
+#### STEP 11 - Host vars creation for Provider Deployment
 Create host_vars file for each node defined in your kubespray hosts.yaml file. The host_vars files contain the configuration specific to each node in your Akash provider setup.
 
 1) Create a host_vars file for each node in your /root/provider-playbooks/host_vars directory
@@ -365,7 +492,7 @@ Based on the host keys under `hosts` that was defined in the STEP 4 Example (`/r
 # Create the host_vars directory if it doesn't exist
 mkdir -p /root/provider-playbooks/host_vars
 
-#Create the host_vars file for each node (example for node1)
+#Create the host_vars file for setting up provider
 cat >> /root/provider-playbooks/host_vars/node1.yml << EOF
 # Node Configuration - Host Vars File
 
@@ -403,7 +530,7 @@ EOF
 - For multi-node deployments, repeat this process with appropriate values for each node
 - Provider playbook should only run on the Kubernetes control plane (typically node1).
 
-#### STEP 11 - Running the Ansible Playbook
+#### STEP 12 - Running the Ansible Playbook
 
 Deploy your Akash Provider by running the Ansible playbook:
 
