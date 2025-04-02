@@ -479,6 +479,16 @@ REDACTED
 -----END TENDERMINT PRIVATE KEY-----
 ```
 
+To get the provider_b64_key & provider_b64_keysecret you need to base64 encode your provider's key & the password it is protected with (you only set it when you export it).
+
+> Note: Replace KEY_PASSWORD with the password you have entered upon provider-services keys export > key.pem !
+```bash
+# This would be the value of provider_b64_key in the next step
+cat ~/key.pem | openssl base64 -A ; echo
+# This would be the value of provider_b64_keysecret in the next step
+echo "KEY_PASSWORD" | openssl base64 -A; echo
+```
+
 #### STEP 11 - Host vars creation for Provider Deployment
 Create host_vars file for each node defined in your kubespray hosts.yaml file. The host_vars files contain the configuration specific to each node in your Akash provider setup.
 
