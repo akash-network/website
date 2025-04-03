@@ -226,7 +226,7 @@ REDACTED
 -----END TENDERMINT PRIVATE KEY-----
 ```
 
-#### &#x20;STEP 2 - Create key.pem and Copy Output Into File
+#### STEP 2 - Create key.pem and Copy Output Into File
 
 - Copy the contents of the prior step into the `key.pem` file
 
