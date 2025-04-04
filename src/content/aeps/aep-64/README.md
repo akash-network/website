@@ -81,7 +81,7 @@ JWT authentication offers several advantages:
     },
     "version": {
       "type": "string",
-      "const": "v1",
+      "enum": ["v1"],
       "description": "Version of the JWT specification (currently fixed at v1)"
     },
     "alg": {
