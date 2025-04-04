@@ -1,7 +1,7 @@
 ---
 aep: 12
 title: Trusted Execution Environment (TEE)
-author: Adam Bozanich (@boz), Greg Osuri (@gosuri)
+author: Adam Bozanich (@boz) Greg Osuri (@gosuri)
 discussions-to: https://github.com/orgs/akash-network/discussions/614
 status: Draft
 type: Standard

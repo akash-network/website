@@ -1,7 +1,7 @@
 ---
 aep: 5
 title: "AKT: Akash Network Token & Mining Economics"
-author: Greg Osuri (@gosuri), Adam Bozanich (@boz)
+author: Greg Osuri (@gosuri) Adam Bozanich (@boz)
 status: Final
 type: Standard
 category: Economics

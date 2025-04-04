@@ -1,7 +1,7 @@
 ---
 aep: 9
 title: Trusted Providers
-author: Greg Osuri (@gosuri), Adam Bozanich (@boz)
+author: Greg Osuri (@gosuri) Adam Bozanich (@boz)
 status: Final
 type: Standard
 category: Core
