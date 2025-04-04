@@ -68,7 +68,7 @@ JWT authentication offers several advantages:
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://example.com/akash-jwt-schema.json",
+  "$id": "https://raw.githubusercontent.com/akash-network/akash-api/refs/heads/main/specs/jwt-schema.json",
   "title": "Akash JWT Schema",
   "description": "JSON Schema for JWT used in the Akash Provider API.",
   "type": "object",
