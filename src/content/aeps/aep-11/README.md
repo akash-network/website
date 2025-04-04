@@ -1,7 +1,7 @@
 ---
 aep: 11
 title: Managed Services Market
-author: Greg Osuri (@gosuri), Adam Bozanich (@boz)
+author: Greg Osuri (@gosuri) Adam Bozanich (@boz)
 status: Draft
 type: Standard
 category: Core

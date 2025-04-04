@@ -1,7 +1,7 @@
 ---
 aep: 13
 title: "Mainnet 2: DCX Platform"
-author: Kaustubh Patral (@kaustubhkapatral), Greg Osuri (@gosuri)
+author: Kaustubh Patral (@kaustubhkapatral) Greg Osuri (@gosuri)
 status: Final
 type: Standard
 category: Core
