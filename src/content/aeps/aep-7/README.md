@@ -1,7 +1,7 @@
 ---
 aep: 7
 title: "Incentivized Testnet 1: Akashian Challenge Phase 1"
-author: Greg Osuri (@gosuri), Chris Remus (@chris-remus)
+author: Greg Osuri (@gosuri) Chris Remus (@chris-remus)
 status: Final
 type: Meta
 requires: 5

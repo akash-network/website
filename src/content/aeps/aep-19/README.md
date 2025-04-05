@@ -1,7 +1,7 @@
 ---
 aep: 19
 title: "Open Development Model"
-author: Greg Osuri (@gosuri), Anil Murty (@anilmurty)
+author: Greg Osuri (@gosuri) Anil Murty (@anilmurty)
 status: Final
 type: Meta
 created: 2022-12-19
