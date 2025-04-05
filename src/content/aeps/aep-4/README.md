@@ -1,7 +1,7 @@
 ---
 aep: 4
 title: "Testnet: Alpha"
-author: Greg Osuri (@gosuri), Adam Bozanich (@boz)
+author: Greg Osuri (@gosuri) Adam Bozanich (@boz)
 status: Final
 type: Meta
 requires: 2, 3

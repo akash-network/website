@@ -1,7 +1,7 @@
 ---
 aep: 8
 title: "Mainnet 1: Security"
-author: Greg Osuri (@gosuri), Adam Bozanich (@boz)
+author: Greg Osuri (@gosuri) Adam Bozanich (@boz)
 status: Final
 type: Standard
 category: Core
