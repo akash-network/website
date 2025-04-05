@@ -11,7 +11,7 @@ Akash leases are deployed as Kubernetes pods on provider clusters. This guide de
 The setup of a Kubernetes cluster is the responsibility of the provider. This guide provides best practices and recommendations for setting up a Kubernetes cluster. This document is not a comprehensive guide and assumes pre-existing Kubernetes knowledge.
 
 
-The Kubernetes Cluster created is then ready for the Akash Provider build detailed [here](/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/).
+The Kubernetes Cluster created is then ready for the Akash Provider build detailed [here](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/).
 
 
 ## Prerequisites
@@ -56,7 +56,7 @@ The recommended minimum number of hosts is four for a production Provider Kubern
 
 - We recommend running a single worker node per physical server as CPU is typically the largest resource bottleneck. The use of a single worker node allows larger workloads to be deployed on your provider.
 
-- If you intended to build a provider with persistent storage please refer to host storage requirements detailed [here](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/).
+- If you intended to build a provider with persistent storage please refer to host storage requirements detailed [here](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/).
 
 ### Kubernetes Cluster Software/Hardware Requirements and Recommendations
 
@@ -271,7 +271,7 @@ DEBUG: adding host node4 to group kube_node
 - Update the kube_control_plane category if needed with full list of hosts that should be master nodes
 - Ensure you have either 1 or 3 Kubernetes control plane nodes under `kube_control_plane`. If 2 are listed, change that to 1 or 3, depending on whether you want Kubernetes be Highly Available.
 - Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/the-kubernetes-current/etcd-kubernetes-what-you-should-know/).
-- For additional details regarding `hosts.yaml` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples).
+- For additional details regarding `hosts.yaml` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples).
 
 ```
 vi ~/kubespray/inventory/akash/hosts.yaml
@@ -279,7 +279,7 @@ vi ~/kubespray/inventory/akash/hosts.yaml
 
 ##### **Example hosts.yaml File**
 
-- Additional hosts.yaml examples, based on different Kubernetes cluster topologies, may be found [here](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples)
+- Additional hosts.yaml examples, based on different Kubernetes cluster topologies, may be found [here](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples)
 
 ```
 all:
@@ -424,7 +424,7 @@ container_manager: containerd
 > Skip if you are not using gVisor
 
 
-If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/docs/providers/build-a-cloud-provider/gvisor-issue-no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
+If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/docs/providers/build-a-cloud-provider/akash-cli/gvisor-issue-no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
 
 
 ## STEP 6 - DNS Configuration
@@ -729,7 +729,7 @@ With inventory in place we are ready to build the Kubernetes cluster via Ansible
 - If the Kubespray process fails or is interpreted, run the Ansible playbook again and it will complete any incomplete steps on the subsequent run
 
 
-> _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/docs/providers/build-a-cloud-provider/gpu-resource-enablement/#gpu-provider-configuration) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
+> _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/docs/providers/build-a-cloud-provider/akash-cli/gpu-resource-enablement/#gpu-provider-configuration) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
 
 
 ```
