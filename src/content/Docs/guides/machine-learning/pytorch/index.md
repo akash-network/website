@@ -12,7 +12,7 @@ Akash Network is a decentralized cloud platform that enables developers to deplo
 
 ## **Prerequisites**
 
-1. **Akash CLI Installed**: Ensure the Akash CLI is installed and configured. Follow the [official guide](https://docs.akash.network/) for installation.
+1. **Akash CLI Installed**: Ensure the Akash CLI is installed and configured. Follow the [official guide](/docs/getting-started/quickstart-guides/akash-cli/) for installation.
 2. **Akash Wallet**: Fund your wallet with AKT tokens for deployment.
 3. **Docker Knowledge**: Basic understanding of Docker and containerization.
 4. **SDL Template**: Akash uses SDL files for defining deployments.

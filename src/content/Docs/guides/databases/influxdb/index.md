@@ -481,7 +481,7 @@ curl -XPOST 'http://<your-deployment-url>:80/query' \
 ## **Key Notes**
 
 1. **Persistent Storage**:
-   - Akash provides persistent storage with only during the lease. Review the [documentation](docs/network-features/persistent-storage/) for a further explanation of the limitations.
+   - Akash provides persistent storage with only during the lease. Review the [documentation](/docs/network-features/persistent-storage/) for a further explanation of the limitations.
 
 2. **Scaling**:
    - Modify the `count` parameter in the `deployment` section to scale horizontally.

@@ -13,7 +13,7 @@ Building and deploying a React application to Akash, a decentralized cloud compu
 Before you start, ensure you have the following:
 
 - [Node.js](https://nodejs.org/) and npm installed to build your React app.
-- **Akash CLI** installed. You can find installation instructions on the [Akash documentation](docs/getting-started/quickstart-guides/akash-cli/).
+- **Akash CLI** installed. You can find installation instructions on the [Akash documentation](/docs/getting-started/quickstart-guides/akash-cli/).
 - Akash Wallet with sufficient funds to deploy your application.
 - A basic understanding of [Docker](https://docker.com/), as Akash deploys applications using Docker containers.
 

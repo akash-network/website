@@ -16,7 +16,7 @@ Akash is a decentralized cloud computing platform that allows users to deploy co
 
 ## **Step 1: Prerequisites**
 
-1. **Install Akash CLI**: Ensure you have the Akash Command Line Interface (CLI) installed. You can follow [Akash's documentation](docs/deployments/akash-cli/overview/) to install and set up your CLI.
+1. **Install Akash CLI**: Ensure you have the Akash Command Line Interface (CLI) installed. You can follow [Akash's documentation](/docs/deployments/akash-cli/overview/) to install and set up your CLI.
 2. **Create a Wallet**: Create and fund an Akash wallet with the required AKT tokens to pay for the deployment.
 3. **Install Docker**: Make sure Docker is installed to verify the `storm:latest` image locally if needed.
 4. **Create an SDL Template**: Akash deployments are configured using an SDL file (Service Definition Language).

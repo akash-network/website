@@ -32,7 +32,7 @@ Akash Network is a decentralized cloud marketplace that allows users to deploy w
 ### 1. Prerequisites
 
 1. **Akash CLI and Wallet Setup:**
-   - Install the Akash CLI by following the [official documentation](docs/deployments/akash-cli/overview/).
+   - Install the Akash CLI by following the [official documentation](/docs/deployments/akash-cli/overview/).
    - Fund your Akash wallet with sufficient AKT tokens.
 
 2. **Druid Docker Image:**

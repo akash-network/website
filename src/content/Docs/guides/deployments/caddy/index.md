@@ -10,8 +10,8 @@ linkTitle: "Caddy"
 
 ## Prerequisites
 
-1. **Install Akash CLI**: Follow the official guide to [set up the Akash CLI](docs/getting-started/quickstart-guides/akash-cli/).
-2. **Create an Akash Wallet**: If you don’t already have an Akash wallet, use the [wallet creation guide](docs/getting-started/token-and-wallets/#keplr-wallet) to set one up.
+1. **Install Akash CLI**: Follow the official guide to [set up the Akash CLI](/docs/getting-started/quickstart-guides/akash-cli/).
+2. **Create an Akash Wallet**: If you don’t already have an Akash wallet, use the [wallet creation guide](/docs/getting-started/token-and-wallets/#keplr-wallet) to set one up.
 3. **Fund Your Wallet**: Fund your Akash wallet with AKT tokens to pay for deployments.
 4. **Install Docker**: Ensure Docker is installed and running on your local machine.
 5. **Install a Code Editor**: Use an editor like VSCode for editing SDL files.
@@ -99,7 +99,7 @@ For detailed steps on using the CLI, refer to the Akash CLI Deployment Guide.
 
 4. Monitor Deployment: Use the console to monitor logs and obtain the deployment’s public endpoint.
 
-For more details, follow the [Akash Console Guide](http://localhost:4321/docs/deployments/akash-console/).
+For more details, follow the [Akash Console Guide](/docs/deployments/akash-console/).
 
 ## Step 4: Verify and Launch Caddy
 
@@ -113,5 +113,4 @@ For more details, follow the [Akash Console Guide](http://localhost:4321/docs/de
 
 ## Troubleshooting
 
-- **Common Deployment Issues**: https://docs.akash.network/guides/deploy/troubleshooting
 - **Akash Discord Support**: Join [Akash Discord](https://discord.gg/akash) for community help.

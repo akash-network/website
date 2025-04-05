@@ -94,7 +94,7 @@ deployment:
 ## **Step 2: Deploy the SDL to Akash**
 
 1. **Install Akash CLI:**
-   Ensure you have the Akash CLI installed on your system. You can follow [Akash's official installation guide](docs/deployments/akash-cli/overview/).
+   Ensure you have the Akash CLI installed on your system. You can follow [Akash's official installation guide](/docs/deployments/akash-cli/overview/).
 
 2. **Authenticate to Akash:**
    ```

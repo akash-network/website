@@ -18,7 +18,7 @@ The Akash Network provides a decentralized cloud platform where you can deploy c
    - MATLAB requires a valid license. You will need your license server information or network license key for deployment.
 
 2. **Akash CLI Setup**:
-   - Install and configure the [Akash CLI](docs/deployments/akash-cli/overview/).
+   - Install and configure the [Akash CLI](/docs/deployments/akash-cli/overview/).
    - Fund your Akash wallet with AKT tokens for deployment.
 
 3. **Docker Knowledge**:

@@ -92,7 +92,7 @@ provider-services tx market lease create --bid-id <bid-id> --from <wallet-name>
 ```
 6. **Access your Nginx server**: Use the provided endpoint to access your running Nginx server.
 
-For a full CLI guide, visit: [Akash CLI Deployment](docs/deployments/akash-cli/overview/).
+For a full CLI guide, visit: [Akash CLI Deployment](/docs/deployments/akash-cli/overview/).
 
 ### Step 3b: Deploy Using Akash Console
 
@@ -103,7 +103,7 @@ For a full CLI guide, visit: [Akash CLI Deployment](docs/deployments/akash-cli/o
 5. Choose a provider and approve the bid.
 6. Monitor your deployment and retrieve the endpoint URL once the deployment is live.
 
-For detailed instructions, check the [Akash Console Guide](docs/deployments/akash-console/).
+For detailed instructions, check the [Akash Console Guide](/docs/deployments/akash-console/).
 
 ## Step 4: Verify Your Nginx Server
 

@@ -20,10 +20,10 @@ linkTitle: "AnythingLLM"
 ## Prerequisites
 
 1. **Install Akash CLI**:
-   - Download and install the [Akash CLI](https://docs.akash.network/guides/install-cli).
+   - Download and install the [Akash CLI](http://localhost:4321/docs/getting-started/quickstart-guides/akash-cli/).
 2. **Set Up Your Wallet**:
    - Create a wallet and fund it with AKT tokens.
-   - Follow the [wallet setup guide](https://docs.akash.network/guides/wallet-setup).
+   - Follow the [wallet setup guide](/docs/getting-started/token-and-wallets/).
 3. **Akash Deployment Account**:
    - Ensure you have a deployment account set up with the Akash CLI.
 4. **Docker Image**:
