@@ -149,4 +149,4 @@ deployment:
 
 ---
 
-This setup provides a fully functioning EMQX broker on Akash Network, leveraging the flexibility and decentralized hosting capabilities of Akash. For further customization, refer to the [EMQX documentation](https://www.emqx.io/docs) and Akash’s [deployment guides](/docs/deployments/akash-cli/overview/).
+This setup provides a fully functioning EMQX broker on Akash Network, leveraging the flexibility and decentralized hosting capabilities of Akash. For further customization, refer to the [EMQX documentation](https://docs.emqx.com/en/) and Akash’s [deployment guides](/docs/deployments/akash-cli/overview/).

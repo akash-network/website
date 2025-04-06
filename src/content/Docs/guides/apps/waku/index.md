@@ -80,7 +80,7 @@ Two important pieces of information about your node are the node's multiaddresse
 
 ```
 
-You can verify that your deployment was successful and your node is reachable by connecting to it using [`wakucanary`](https://github.com/waku-org/nwaku/releases/latest) tool or, if you used the full deployment, by connecting via WSS using one of the [js-waku-examples](https://examples.waku.org/light-js/).
+You can verify that your deployment was successful and your node is reachable by connecting to it using [`wakucanary`](https://github.com/waku-org/nwaku/releases/latest) tool.
 
 You can monitor your deployment with Prometheus and use a Grafana dashboard available in https://github.com/waku-org/nwaku-compose/tree/master/monitoring.
 

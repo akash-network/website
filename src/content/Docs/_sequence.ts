@@ -197,7 +197,6 @@ export const docsSequence = [
               { label: "Kava RPC Node Deployment" },
               { label: "Chia on Akash" },
               { label: "Polygon on Akash" },
-              { label: "Mine Raptoreum on Akash Network" },
               { label: "Deploying Iron Fish on Akash" },
             ],
           },
