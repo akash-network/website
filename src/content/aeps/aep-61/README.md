@@ -78,7 +78,7 @@ This approach has the following pros and cons:
 
 ### `x/authz`
 
-Store will update with following prefixes:
+Store will be updated with the following prefixes:
 - `{0x01}` - grantor prefix (remains unchanged)
 - `{0x03}` - grantee prefix. Format of the key is `0x03<granteeAddressLen (1 Byte)><granteeAddress_Bytes><granterAddressLen (1 Byte)><granterAddress_Bytes>: grants count`
 

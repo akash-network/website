@@ -1,7 +1,7 @@
 # Akash Network Website Guide
 
 - [Akash Network Website Guide](#akash-network-website-guide)
-- [Akash Network Website](#akash-network-website)
+  - [Akash Network Website](#akash-network-website)
   - [Getting Started Locally](#getting-started-locally)
   - [Contribution Guidelines](#contribution-guidelines)
     - [File Naming Convention](#file-naming-convention)
@@ -20,7 +20,7 @@
     - [How to add new file in docs](#how-to-add-new-file-in-docs)
   - [Contact](#contact)
 
-# Akash Network Website
+## Akash Network Website
 
 Explore the repository for the Akash Network website, skillfully developed by [Hooman Digital](https://twitter.com/hooman_digital). The website serves as a dynamic showcase, illustrating the prowess and capabilities of Akash Network—a decentralized cloud computing marketplace revolutionizing the digital landscape.
 
