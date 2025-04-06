@@ -2,11 +2,11 @@
 categories: ["Other Resources"]
 tags: []
 weight: 2
-title: "Testnet 5 CLI Verifications"
-linkTitle: "Testnet 5 CLI Verifications"
+title: "Testnet 6 CLI Verifications"
+linkTitle: "Testnet 6 CLI Verifications"
 ---
 
-# Akash Cosmos SDK 0.47.0 Upgrade Testnet
+# Akash Cosmos SDK 0.50.13 Upgrade Testnet
 
 
 ## Akash Command Line Interface (CLI) Testing
@@ -130,6 +130,6 @@ For AKT payout incentives the following are strictly required for credit:
     * Each command variation tested must be collected in a separate row
     * Pass/Fail status
     * Associated GitHub issue (see below) for any Fail scenarios
-* Any Fail scenarios must also have a GitHub issue created.  Please consult with core team members if there are any questions if the issue has already been captured.  Link to required repository for issue creation is listed below.  Please use the associated `Testnet 5 Issue Discovery` template for submissions.
+* Any Fail scenarios must also have a GitHub issue created.  Please consult with core team members if there are any questions if the issue has already been captured.  Link to required repository for issue creation is listed below.  Please use the associated `Testnet 6 Issue Discovery` template for submissions.
 
 https://github.com/akash-network/support

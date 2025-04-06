@@ -2,11 +2,11 @@
 categories: ["Other Resources"]
 tags: []
 weight: 2
-title: "Testnet 5 API Verifications"
-linkTitle: "Testnet 5 API Verifications"
+title: "Testnet 6 API Verifications"
+linkTitle: "Testnet 6 API Verifications"
 ---
 
-# Akash Cosmos SDK 0.47.0 Upgrade Testnet
+# Akash Cosmos SDK 0.50.13 Upgrade Testnet
 
 
 ## Akash REST API Testing Overview
@@ -19,7 +19,7 @@ The testing procedure for the REST API is rather simple and should be conducted 
 * Dump the contents of the file into a swagger rendering engine such as this [web app](https://editor.swagger.io/)
 * Thoroughly test both Akash and Cosmos exposed endpoints
 * NOTE - all Akash queries must be updated to use `v1beta4` - see example below
-* Current testnet-5 API node is available [here](https://github.com/akash-network/net/blob/main/testnet-5/api-nodes.txt)
+* Current testnet-6 API node is available [here](https://github.com/akash-network/net/blob/main/testnet-6/api-nodes.txt )
 
 
 ## Akash REST API Test Example
