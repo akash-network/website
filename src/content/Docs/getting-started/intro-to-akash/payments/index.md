@@ -48,7 +48,7 @@ Many actions invoke the settlement process and may cause the account to become o
 
 **How are gas fees calculated on Akash?**
 
-Akash uses the basic Cosmos gas calculations for all fees. Cosmos documentation on gas can be found [here](https://docs.cosmos.network/v0.52/learn/beginner/gas-fees).
+Akash uses the basic Cosmos gas calculations for all fees. Cosmos documentation on gas can be found [here](https://docs.cosmos.network/v0.53/learn/beginner/gas-fees).
 
 ## Account Settlement
 
