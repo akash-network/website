@@ -893,7 +893,7 @@ That's all. There is no need to bounce the `akash-provider` pod/service for the 
 
 ### Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
 
-> The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes](https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes)
+> The following doc is based on [Certificate Management with kubeadm](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes](https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes)
 
 When K8s certs expire, you won't be able to use your cluster. Make sure to rotate your certs proactively.
 

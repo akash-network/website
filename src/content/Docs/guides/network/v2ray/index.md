@@ -14,7 +14,7 @@ This guide will walk you through deploying a V2Ray instance on Akash. V2Ray is a
 ### Prerequisites
 
 Before deploying V2Ray, make sure you have the following tools installed:
-- [Akash CLI](https://github.com/akash-network/akash) (v0.21.0 or newer)
+- [Akash CLI](/docs/deployments/akash-cli/installation/#install-akash-cli) (v0.21.0 or newer)
 - [Docker](https://docs.docker.com/get-docker/)
 - [V2Ray Docker Image](https://hub.docker.com/r/v2ray/official)
 
