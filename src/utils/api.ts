@@ -1,1 +1,3 @@
-export const gpus = "https://console-api.akash.network/internal/gpu-prices";
+import { BASE_API_URL } from "@/lib/constants";
+
+export const gpus = `${BASE_API_URL}/internal/gpu-prices`;
