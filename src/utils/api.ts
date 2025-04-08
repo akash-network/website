@@ -1,1 +1,1 @@
-export const gpus = "https://api.cloudmos.io/internal/gpu-prices";
+export const gpus = "https://console-api.akash.network/internal/gpu-prices";
