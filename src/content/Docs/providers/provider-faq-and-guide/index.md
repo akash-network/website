@@ -23,7 +23,7 @@ The guide is broken down into the following categories:
 - [Force New ReplicaSet Workaround](#force-new-replicaset-workaround)
 - [Kill Zombie Processes](#kill-zombie-processes)
 - [Close Leases Based on Image](#close-leases-based-on-image)
-- [Provider Bid Script Migration for GPU Model Pricing](#provider-bid-script-migration---gpu-models)
+- [Provider Bid Script Migration - GPU Models](#provider-bid-script-migration---gpu-models)
 - [GPU Provider Troubleshooting](#gpu-provider-troubleshooting)
 
 ## Provider Maintenance
@@ -307,7 +307,7 @@ owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
 curl -sk https://provider.mainnet-1.ca.aksh.pw:8443/version | jq,
 ```
 
-### Provider Lease Management
+## Provider Lease Management
 
 Use the verifications included in this section for the following purposes:
 
@@ -527,7 +527,7 @@ spec:
     provider: akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j
 ```
 
-### Provider Earnings
+## Provider Earnings
 
 Use the verifications included in this section for the following purposes:
 
@@ -693,7 +693,7 @@ We define a "dangling deployment" as a scenario in which the lease for a deploym
 
 Please use this [Dangling Deployment Script](https://gist.github.com/andy108369/f211bf6c06f2a6e3635b20bdfb9f0fca) to both discover and close any such deployments.
 
-### Heal Broken Deployment Replicas by Returning Lost command to Manifests
+## Heal Broken Deployment Replicas by Returning Lost command to Manifests
 
 Prior to the `provider` version `0.2.1` (`akash/provider helm-chart version 4.2.0`) there was an issue which was affecting some deployments.
 
@@ -894,9 +894,9 @@ kubectl get statefulset -l akash.network/manifest-service -A -o=jsonpath='{range
 
 That's all. There is no need bouncing the `akash-provider` pod/service for the statefulset deployment.
 
-### Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
+## Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
 
-> The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/).
+> The following doc is based on [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) & [https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes](https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes)
 
 When K8s certs expire, you won't be able to use your cluster. Make sure to rotate your certs proactively.
 
@@ -1321,7 +1321,7 @@ SHELL=/bin/bash
 */5 * * * * root /usr/local/bin/akash-kill-lease.sh
 ```
 
-### Provider Bid Script Migration - GPU Models
+## Provider Bid Script Migration - GPU Models
 
 A new bid script for Akash Providers has been released that now includes the ability to specify pricing of multiple GPU models.
 
@@ -1439,7 +1439,7 @@ helm list -n akash-services | grep akash-provider
 akash-provider         	akash-services	28      	2023-09-19 12:25:33.880309778 +0000 UTC	deployed	provider-6.0.5                	0.4.6
 ```
 
-### GPU Provider Troubleshooting
+## GPU Provider Troubleshooting
 
 Should your Akash Provider encounter issues during the installation process or in post install hosting of GPU resources, follow the troubleshooting steps in this guide to isolate the issue.
 

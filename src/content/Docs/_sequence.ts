@@ -110,7 +110,13 @@ export const docsSequence = [
           {
             
           },
-          { label: "Akash Provider FAQ and Guide" },
+          { label: "Akash Provider FAQ and Guide",
+            subItems: [
+              { label: "Quick Fixes / Operational Tasks"},
+              { label: "Monitoring, Logs, & Management"},
+
+            ],
+          },
           { label: "Community Solutions" },
           { label: "Custom Kubernetes Cluster Settings" },
         ],
