@@ -3,7 +3,7 @@ categories: ["Guides"]
 tags: ["Benchmarking"]
 weight: 1
 title: "Fast.com By Netflix"
-linkTitle: "Fast.com"
+linkTitle: "Fast_com"
 ---
 
 ![](../../../assets/fast-logo.png)

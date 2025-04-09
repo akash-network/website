@@ -30,7 +30,7 @@ Akash is a decentralized cloud computing platform that allows developers to depl
 ### **1. Prepare the Deployment Environment**
 
 1. **Install Akash CLI:**  
-   Follow the [official Akash CLI installation guide](docs/deployments/akash-cli/overview/) to set up your environment.
+   Follow the [official Akash CLI installation guide](/docs/deployments/akash-cli/overview/) to set up your environment.
 
 2. **Fund Your Wallet:**  
    Ensure your Akash wallet is funded with sufficient AKT tokens to pay for the deployment.

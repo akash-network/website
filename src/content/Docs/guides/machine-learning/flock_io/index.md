@@ -59,7 +59,7 @@ This script automates the training process and submits up to 6 models per day. C
 
 - `FLOCK_API_KEY` - API key from [train.flock.io](https://train.flock.io/).
 
-- `HF_USERNAME` - [HuggingFace](https://hugginface.co) username. 
+- `HF_USERNAME` - [HuggingFace](https://huggingface.co) username. 
 
 - `TASK_ID` - ID for the task that you staked on through [train.flock.io](https://train.flock.io/). 
 

@@ -11,7 +11,6 @@ Iron Fish is a Layer 1 blockchain that ensures strong privacy for every transact
 ## Prerequisites
 
 1. Iron Fish Wallet: You need an Iron Fish wallet to receive rewards. Get one [here](https://ironfish.network/docs/onboarding/iron-fish-tutorial).
-Akash Account: Ensure you have an Akash account set up.
 2. Akash Account: Ensure you have an Akash account and wallet [set up](http://localhost:4321/docs/deployments/akash-console/).
 
 ## Deploy Iron Fish on Akash

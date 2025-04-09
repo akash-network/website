@@ -14,7 +14,7 @@ linkTitle: "PostgreSQL"
 #### **Key Steps to Deploy PostgreSQL on Akash**
 
 1. **Set Up Akash CLI**:
-   - Install the Akash CLI by following the [official guide](https://docs.akash.network/).
+   - Install the Akash CLI by following the [official guide](/docs/getting-started/quickstart-guides/akash-cli/).
    - Configure your wallet and fund it with AKT tokens to pay for deployments.
 
 2. **Prepare the PostgreSQL Docker Image**:

@@ -1,9 +1,9 @@
 ---
 categories: ["Getting Started"]
 tags: []
+weight: 2
 title: "Stack Definition Language (SDL)"
 linkTitle: "Stack Definition Language (SDL)"
-weight: 3
 ---
 
 Customers / tenants define the deployment services, datacenters, requirements, and pricing parameters, in a "manifest" file (deploy.yaml). The file is written in a declarative language called Stack Definition Language (SDL). SDL is a human friendly data standard for declaring deployment attributes. The SDL file is a "form" to request resources from the Network. SDL is compatible with the [YAML](https://yaml.org/) standard and similar to Docker Compose files.
@@ -61,7 +61,7 @@ env:
 #### Notes Regarding Port Use in the Expose Stanza
 
 - HTTPS is possible in Akash deployments but only self signed certs are generated.
-- To implement signed certs the deployment must be front ended via a solution such as Cloudflare. If interested in this path, we have created docs for [Cloudflare with Akash](/docs/guides/tls-termination-of-akash-deployment/).
+- To implement signed certs the deployment must be front ended via a solution such as Cloudflare. If interested in this path, we have created docs for [Cloudflare with Akash](/docs/guides/deployments/tls-termination-of-akash-deployment/).
 - You can expose any other port besides 80 as the ingress port (HTTP, HTTPS) port using as: 80 directive if the app understands HTTP / HTTPS. Example of exposing a React web app using this method:
 
 ```
