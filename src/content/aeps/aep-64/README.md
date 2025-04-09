@@ -6,14 +6,14 @@ status: Last Call
 type: Standard
 category: Core
 created: 2025-04-03
-updated: 2025-04-04
+updated: 2025-04-07
 estimated-completion: 2025-04-30
 roadmap: major
 ---
 
 ## Abstract
 
-This AEP proposes implementing JWT (JSON Web Token) authentication for the Akash Provider API. This enhancement aims to improve the reliability of client API communication with leases during blockchain maintenance periods and provide more granular access control capabilities.
+This AEP proposes implementing [JWT (JSON Web Token)](https://datatracker.ietf.org/doc/html/rfc7519) authentication for the Akash Provider API. This enhancement aims to improve the reliability of client API communication with leases during blockchain maintenance periods and provide more granular access control capabilities.
 
 ## Motivation
 
@@ -63,6 +63,10 @@ JWT authentication offers several advantages:
 
 ## JWT Specification
 
+### Signing methods
+
+Only ES256K with secp256k1 curve is supported
+
 ### Schema Definition
 
 ```json
@@ -73,91 +77,102 @@ JWT authentication offers several advantages:
   "description": "JSON Schema for JWT used in the Akash Provider API.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["iss", "version", "alg", "created", "nva", "access"],
+  "required": ["iss", "iat", "exp", "nbf", "version", "leases"],
   "properties": {
     "iss": {
       "type": "string",
       "pattern": "^akash1[a-z0-9]{38}$",
       "description": "Akash address of the lease(s) owner, e.g., akash1abcd... (44 characters)"
     },
+    "iat": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Token issuance timestamp as Unix time (seconds since 1970-01-01T00:00:00Z)"
+    },
+    "nbf": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Not valid before timestamp as Unix time (seconds since 1970-01-01T00:00:00Z)"
+    },
+    "exp": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Expiration timestamp as Unix time (seconds since 1970-01-01T00:00:00Z)"
+    },
+    "jti": {
+      "type": "string",
+      "description": "The jti (JWT ID) claim provides a unique identifier for the JWT"
+    },
     "version": {
       "type": "string",
       "enum": ["v1"],
       "description": "Version of the JWT specification (currently fixed at v1)"
     },
-    "alg": {
-      "type": "string",
-      "const": "ES256K",
-      "description": "Algorithm used for signing (fixed to ES256K)"
-    },
-    "created": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Token creation timestamp in RFC3339 format (e.g., 2025-04-04T12:00:00Z)"
-    },
-    "nva": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Not valid after timestamp in RFC3339 format (e.g., 2025-04-05T12:00:00Z)"
-    },
-    "access": {
-      "type": "string",
-      "enum": ["full", "granular"],
-      "description": "Access level of the token: 'full' for unrestricted, 'granular' for specific permissions"
-    },
-    "permissions": {
-      "type": "array",
-      "description": "Required if access is 'granular'; defines specific permissions",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["provider", "scope"],
-        "properties": {
-          "provider": {
-            "type": "string",
-            "pattern": "^akash1[a-z0-9]{38}$",
-            "description": "Provider address, e.g., akash1xyz... (44 characters)"
-          },
-          "scope": {
-            "type": "array",
-            "minItems": 1,
-            "uniqueItems": true,
-            "items": {
-              "type": "string",
-              "enum": ["send-manifest", "shell", "logs", "restart"]
-            },
-            "description": "List of permitted actions (no duplicates)"
-          },
-          "dseq": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Optional deployment sequence number"
-          },
-          "gseq": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Optional group sequence number (requires dseq)"
-          },
-          "oseq": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Optional order sequence number (requires dseq)"
-          },
-          "services": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-              "type": "string",
-              "minLength": 1
-            },
-            "description": "Optional list of service names (requires dseq)"
-          }
+    "leases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["access"],
+      "properties": {
+        "access": {
+          "type": "string",
+          "enum": ["full", "granular"],
+          "description": "Access level of the token: 'full' for unrestricted, 'granular' for specific permissions"
         },
-        "dependencies": {
-          "gseq": ["dseq"],
-          "oseq": ["dseq"],
-          "services": ["dseq"]
+        "permissions": {
+          "type": "array",
+          "description": "Required if access is 'granular'; defines specific permissions",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["provider", "scope"],
+            "properties": {
+              "provider": {
+                "type": "string",
+                "pattern": "^akash1[a-z0-9]{38}$",
+                "description": "Provider address, e.g., akash1xyz... (44 characters)"
+              },
+              "scope": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "enum": ["send-manifest", "shell", "logs", "events", "restart"]
+                },
+                "description": "List of permitted actions (no duplicates)"
+              },
+              "dseq": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Optional deployment sequence number"
+              },
+              "gseq": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Optional group sequence number (requires dseq)"
+              },
+              "oseq": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Optional order sequence number (requires dseq)"
+              },
+              "services": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": "Optional list of service names (requires dseq)"
+              }
+            },
+            "dependencies": {
+              "gseq": ["dseq"],
+              "oseq": ["dseq", "gseq"],
+              "services": ["dseq"]
+            }
+          }
         }
       }
     }
@@ -166,26 +181,44 @@ JWT authentication offers several advantages:
     {
       "if": {
         "properties": {
-          "access": { "const": "granular" }
+          "leases": {
+            "properties": {
+              "access": { "const": "granular" }
+            },
+            "required": ["access"]
+          }
         },
-        "required": ["access"]
+        "required": ["leases"]
       },
       "then": {
-        "required": ["permissions"]
+        "properties": {
+          "leases": {
+            "required": ["permissions"]
+          }
+        }
       }
     },
     {
       "if": {
         "properties": {
-          "permissions": { "type": "array", "minItems": 1 }
+          "leases": {
+            "properties": {
+              "permissions": { "type": "array", "minItems": 1 }
+            },
+            "required": ["permissions"]
+          }
         },
-        "required": ["permissions"]
+        "required": ["leases"]
       },
       "then": {
         "properties": {
-          "access": { "const": "granular" }
-        },
-        "required": ["access"]
+          "leases": {
+            "properties": {
+              "access": { "const": "granular" }
+            },
+            "required": ["access"]
+          }
+        }
       }
     }
   ]
@@ -195,14 +228,14 @@ JWT authentication offers several advantages:
 ### Field Descriptions
 
 1. **Required Fields**:
-   - `iss`: Akash address of the lease owner
-   - `version`: JWT specification version (must be "v1")
-   - `alg`: Signing algorithm (must be "ES256K")
-   - `created`: Token creation timestamp (RFC3339)
-   - `nva`: Token expiration timestamp (RFC3339)
-   - `access`: Access level ("full" or "granular")
+    - `iss`: Akash address of the lease owner
+    - `iat`: Token creation timestamp (NumericDate)
+    - `exp`: Token expiration timestamp (NumericDate)
+    - `version`: JWT specification version (must be "v1")
+    - `leases` :
+      - `access`: Access level ("full" or "granular")
 
-2. **Optional Fields**:
+2. **Optional Fields for leases**:
    - `permissions`: Array of granular access permissions
      - `provider`: Provider address (required)
      - `scope`: List of permitted actions (required)
@@ -217,20 +250,23 @@ JWT authentication offers several advantages:
 {
     "iss": "akash1...",
     "version": "v1",
-    "alg": "ES256K",
-    "created": "2025-04-03T12:00:00Z",
-    "nva": "2025-04-03T12:15:00Z",
-    "access": "granular",
-    "permissions": [
-        {
-            "provider": "akash1...",
-            "scope": ["logs", "shell"],
-            "dseq": 123456,
-            "gseq": 1,
-            "oseq": 1,
-            "services": ["web", "api"]
-        }
-    ]
+    "iat": "1744029137",
+    "exp": "1744029139",
+    "nbf": "1744029138",
+    "jti": "<unique id>",
+    "leases" : {
+      "access": "granular",
+      "permissions": [
+          {
+              "provider": "akash1...",
+              "scope": ["logs", "shell"],
+              "dseq": 123456,
+              "gseq": 1,
+              "oseq": 1,
+              "services": ["web", "api"]
+          }
+      ]
+    }
 }
 ```
 
@@ -238,13 +274,7 @@ JWT authentication offers several advantages:
 
 ### Recommended Libraries
 
-1. **Golang**:
-   - [did-jwt](https://www.npmjs.com/package/did-jwt)
-   - Features: ES256K support, JWT validation
-
-2. **TypeScript**:
-   - [jose](https://www.npmjs.com/package/jose)
-   - Features: Comprehensive JWT implementation, ES256K support
+Any JWT implemenation with ability to implement custom signer/verifiers.
 
 ### Security Considerations
 
