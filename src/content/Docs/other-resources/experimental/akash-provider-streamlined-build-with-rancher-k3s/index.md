@@ -439,7 +439,7 @@ attributes:
 ### **Provider Bid Defaults**
 
 - When a provider is created the default bid engine settings are used. If desired these settings could be updated and added to the `provider.yaml` file. But we would recommend initially using the default values.
-- Note - the `bidpricestoragescale` value will get overridden by `-f provider-storage.yaml` covered in [Provider Persistent Storage](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/) documentation.
+- Note - the `bidpricestoragescale` value will get overridden by `-f provider-storage.yaml` covered in [Provider Persistent Storage](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/) documentation.
 - Note - if you want to use a shellScript bid price strategy, pass the bid price script via `bidpricescript` variable detailed in the [bid pricing script doc](/docs/providers/build-a-cloud-provider/akash-cli/akash-provider-bid-pricing-calculation/). This will automatically suppress all `bidprice<cpu|memory|endpoint|storage>scale` settings.
 
 ```
@@ -603,7 +603,7 @@ Following the initial build of your Akash Provider, use the [Akash Provider Chec
 
 ### Persistent Storage Enablement (OPTIONAL)
 
-Use the [Helm Based Provider Persistent Storage Enablement](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/) guide to host persistent volumes that will survive Kubernetes pod restarts for hosted deployments and workloads.
+Use the [Helm Based Provider Persistent Storage Enablement](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/) guide to host persistent volumes that will survive Kubernetes pod restarts for hosted deployments and workloads.
 
 ### IP Leases Enablement (OPTIONAL)
 

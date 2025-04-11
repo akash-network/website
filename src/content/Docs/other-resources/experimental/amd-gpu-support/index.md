@@ -32,7 +32,7 @@ Follow these steps to install the AMD GPU Driver:
 
 - Apply these commands on your node with AMD GPU:
 
-  > based on https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/native-install/ubuntu.html
+  > based on https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/install-methods/package-manager/package-manager-ubuntu.html
 
   ```
   mkdir --parents --mode=0755 /etc/apt/keyrings

@@ -149,7 +149,7 @@ To ensure persistent data storage:
 ---
 
 ## **Useful Links**
-- [Akash CLI Documentation](https://docs.akash.network/)
+- [Akash CLI Documentation](/docs/getting-started/quickstart-guides/akash-cli/)
 - [JATOS Official Docker Image](https://hub.docker.com/r/jatos/jatos)
 - [JATOS Documentation](https://www.jatos.org/)
 

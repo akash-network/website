@@ -14,7 +14,7 @@ This guide outlines how to deploy **Solar** on Akash using the `upstage/solar` D
 
 ## **Prerequisites**
 
-1. **Akash CLI**: Install the Akash CLI on your system by following the [official guide](https://docs.akash.network/guides/cli).
+1. **Akash CLI**: Install the Akash CLI on your system by following the [official guide](/docs/getting-started/quickstart-guides/akash-cli/).
 2. **Akash Wallet**: Set up an Akash wallet with sufficient funds to pay for your deployment.
 3. **Docker Knowledge**: Basic familiarity with Docker images.
 4. **Solar Docker Image**: The prebuilt Docker image `upstage/solar`.

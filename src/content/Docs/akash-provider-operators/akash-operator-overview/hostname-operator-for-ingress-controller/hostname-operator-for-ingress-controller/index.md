@@ -110,7 +110,7 @@ The Hostname Operator custom controller logic is located in the Go file `provide
 
 Our code review will detail the mechanics involved in the controller's reconciliation of Desired and Actual states.
 
-> [Source code location](https://github.com/akash-network/provider/blob/main/operator/hostnameoperator/hostname_operator.go)
+> [Source code location](https://github.com/akash-network/provider/blob/main/operator/hostname/operator.go)
 
 As the implementation details of the Hostname Operator custom controller is a rather dense topic, the following sections have been created. The Visual High Level Representation is sufficient for a quick understanding of the mechanics. While the Controller Deep Dive section goes into detail at a code level.
 

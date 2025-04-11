@@ -9,8 +9,8 @@ linkTitle: "Akash Provider Attribute Updates"
 ## Initial Guidance and Assumptions
 
 - Conduct all steps in this guide from a Kubernetes control plane node in your Akash Provider cluster.
-- Guide assumes that your Akash Provider was installed via Helm Charts as detailed in this [guide](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/).
-- Guide assumes that the Kubernetes control plane node used has Helm installed. Refer to this [guide](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/#step-4-helm-installation-on-kubernetes-node) step if a Helm install is needed. Return to this guide once Helm install is completed.
+- Guide assumes that your Akash Provider was installed via Helm Charts as detailed in this [guide](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/).
+- Guide assumes that the Kubernetes control plane node used has Helm installed. Refer to this [guide](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/#step-4-helm-installation-on-kubernetes-node) step if a Helm install is needed. Return to this guide once Helm install is completed.
 
 ## Caveats
 

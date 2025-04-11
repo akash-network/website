@@ -14,7 +14,7 @@ This guide will walk you through the steps to deploy **TensorLayer** on the Akas
 ## **Prerequisites**
 1. **Install Akash CLI**  
    Ensure you have the Akash CLI installed and configured. Follow the official guide to set up your Akash environment:  
-   [Akash CLI Documentation](docs/deployments/overview/).
+   [Akash CLI Documentation](/docs/deployments/overview/).
 
 2. **Akash Account**  
    Ensure you have an Akash wallet funded with sufficient AKT tokens.

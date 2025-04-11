@@ -98,7 +98,7 @@ deployment:
 ## Steps to Deploy
 
 ### 1. **Set Up Akash CLI**
-- Install the Akash CLI from the [Akash documentation](docs/deployments/akash-cli/overview/).
+- Install the Akash CLI from the [Akash documentation](/docs/deployments/akash-cli/overview/).
 - Configure your wallet and ensure sufficient funds for deployment.
 
 ### 2. **Prepare the SDL File**

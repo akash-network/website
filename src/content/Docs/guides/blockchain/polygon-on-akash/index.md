@@ -19,14 +19,9 @@ These guides include architecture and technical documentation and a curated list
 Throughout this guide we have included resources we believe most valuable to your journey.
 
 - _\*\*\*\*_[_**Akash Starter Kit**_](https://akashnet.notion.site/akashnet/Polygon-Akash-Starter-Kit-d4e817023556417ea8c9b679336d0d76)_\*\*\*\*_
-- _\*\*\*\*_[_**Polygon Developer Hub**_](https://polygon.technology/developers)_\*\*\*\*_
+- _\*\*\*\*_[_**Polygon Knowledge Layer (docs)**_](https://docs.polygon.technology/)_\*\*\*\*_
 
-## Polygon and Akash Architectures
 
-If you want a deeper understanding of Polygon and Akash, see these architecture guides
-
-- _\*\*\*\*_[_**Polygon Architecture and Documentation**_](https://docs.polygon.technology)_\*\*\*\*_
-- [_**Akash Architecture and Documentation**_](https://akash.network/docs/)_\*\*\*\*_
 
 ## Akash Application Tools
 
@@ -36,9 +31,6 @@ This [_**guide**_](/docs/deployments/akash-console/) _\*\*\*\*_ provides step by
 
 In depth support for Polygon and Akash is available via the following channels.
 
-### Polygon on Akash
-
-- _\*\*\*\*_[_**Discord**_](https://discord.com/channels/747885925232672829/1146553364117737642)_\*\*\*\*_
 
 ### Polygon General
 
