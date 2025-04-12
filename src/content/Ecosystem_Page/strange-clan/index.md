@@ -10,11 +10,11 @@ tags:
 description: Farm, craft, & quest with your clan. P20 ( Play-to-Own™ ). Built on Passage 3d and UE5. Powered by Akash & Cosmos IBC.
 
 twitterLink: "https://twitter.com/thestrangeclan"
-websiteLink: "https://market.passage3d.com/explore"
+websiteLink: "https://marketplace.passage.io/"
 
 
 ctaButton:
   label: View Project
-  link: "https://market.passage3d.com/explore"
+  link: "https://marketplace.passage.io/"
   enable: true
 ---

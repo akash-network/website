@@ -25,7 +25,7 @@ The working group is created to work on the proposal to see what support is need
 
 | Meeting | Time                                                   | Notes                                                                                            | Transcript                                                                                                  | Recording   |
 | ------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ----------- |
-| #1      | Friday, February 17, 2023 08:30 AM PT (Pacific Time)   | [Link](https://github.com/akash-network/community/blob/main/wg-crew3/meetings/001-2023-02-17.md) | [Link](https://github.com/akash-network/community/blob/main/wg-crew3/meetings/001-2023-02-17.md#transcript) | coming soon |
+| #1      | Friday, February 17, 2023 08:30 AM PT (Pacific Time)   | [Link](https://github.com/akash-network/community/blob/main/wg-zealy/meetings/001-2023-02-17.md) | [Link](https://github.com/akash-network/community/blob/main/wg-zealy/meetings/001-2023-02-17.md#transcript) | coming soon |
 | #2      | Monday, November 20th, 2023 08:30 AM PT (Pacific Time) |                                                                                                  |                                                                                                             |
 | #3      | Monday, November 27th, 2023 08:30 AM PT (Pacific Time) |                                                                                                  |                                                                                                             |
 | #4      | Friday, December 4th, 2023 08:30 AM PT (Pacific Time)  |                                                                                                  |                                                                                                             |
@@ -42,4 +42,4 @@ The working group is created to work on the proposal to see what support is need
 
 ## Related SIGs
 
-- [community/sig-community](https://github.com/akash-network/community/blob/main/wg-zealy/sig-community)
+- [community/sig-community](https://github.com/akash-network/community/tree/main/sig-community)

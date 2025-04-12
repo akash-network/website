@@ -59,8 +59,8 @@ This working group is responsible for managing and improving the Akash Network W
 
 ## PRDs and other documentation
 
-- [Code of Conduct](https://github.com/akash-network/website/blob/main/CODE_OF_CONDUCT.md)
-- [How to contribute to the Akash Network website](https://github.com/akash-network/website/blob/main/README.md#development)
+- [Code of Conduct](https://github.com/akash-network/website/tree/main?tab=coc-ov-file)
+- [How to contribute to the Akash Network website](https://github.com/akash-network/website/blob/main/Readme.md#contribution-guidelines)
 
 ## Related SIGs
 
