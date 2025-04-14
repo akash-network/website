@@ -59,7 +59,7 @@ We would like to welcome [Spheron](https://spheron.network/) to Akash Network as
 
 We are excited to see our community continue to expand and evolve as more projects choose Akash as the decentralized Web3 network of choice.
 
-We would like to highlight [Cloudmos](https://cloudmos.io/) and [Praetor](https://praetorapp.com/) for their continued work building great products that make it easy for anyone to access Akash Network.
+We would like to highlight [Cloudmos](https://cloudmos.io/) and [Akash Console](https://provider-console.akash.network/) for their continued work building great products that make it easy for anyone to access Akash Network.
 
 [Our Ecosystem page on akash.network](https://akash.network/ecosystem/showcase/latest/) showcases all the projects currently on Akash Network.
 

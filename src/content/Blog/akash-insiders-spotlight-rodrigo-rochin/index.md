@@ -49,7 +49,7 @@ At first, it did take me a few days to understand how to use Akash, but after th
 
 Anyone with a little over five AKT can start using Akash Network. At first, I used the Akash binary and command line, but now we have tools like Cloudmos, which makes it extremely simple to deploy your projects onto the Akash Network.
 
-Thanks to PraetorApp it is also now very easy to become a provider, allowing anyone to take advantage of their idle compute resources and earn some AKT.
+Thanks to [Akash Provider Console](https://provider-console.akash.network/) it is also now very easy to become a provider, allowing anyone to take advantage of their idle compute resources and earn some AKT.
 
 These are all things that help to decentralize the cloud industry, give more opportunities to people around the world and that help to promote freedom of speech.
 
