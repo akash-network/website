@@ -12,7 +12,6 @@ linkTitle: "DeTrain"
 
 ## Demo information
 
-- [Frontend Application](https://detrain-console.a2n.finance/)
 
 - [Demo video](https://www.youtube.com/watch?v=YaSvU51iQg0)
 

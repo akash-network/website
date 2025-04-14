@@ -181,7 +181,7 @@ Similar to the `profiles` entries, we must specify deployment criteria for both 
 
 #### Deployment
 
-Now that we have the SDL configured, let's deploy this application and see what happens. A more detailed guide on this process can be found in the [Deploy an Application](https://github.com/akash-network/docs/blob/master/deploy/broken-reference/README.md) guide.
+Now that we have the SDL configured, let's deploy this application and see what happens. 
 
 **Create the Deployment**
 

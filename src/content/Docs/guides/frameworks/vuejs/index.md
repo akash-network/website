@@ -98,7 +98,7 @@ Save this file as `deploy.yaml`.
 
 Option 1: Using Akash CLI
 
-- Install Akash CLI: Follow the guide [here](docs/getting-started/quickstart-guides/akash-cli/) to set up the CLI.
+- Install Akash CLI: Follow the guide [here](/docs/getting-started/quickstart-guides/akash-cli/) to set up the CLI.
 
 - Fund Your Account: Fund your Akash wallet to cover deployment costs. Instructions can be found [here](http://localhost:4321/docs/getting-started/token-and-wallets/).
 

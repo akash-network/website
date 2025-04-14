@@ -482,7 +482,7 @@ provider-services send-manifest deploy.yaml -dseq $AKASH_DSEQ -provider $AKASH_P
 To delete the deployment and free resources:
 
 ```bash
-akash tx deployment close --owner <your_wallet_address> --dseq <deployment_sequence> --from <your_wallet_name>
+provider-services tx deployment close --owner <your_wallet_address> --dseq <deployment_sequence> --from <your_wallet_name>
 ```
 
 ---

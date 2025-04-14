@@ -365,4 +365,4 @@ provider-services version
 type -p provider-services
 ```
 
-If you get anything below `0.4.8`, then get the right binary from [this page](https://github.com/akash-network/provider/releases/tag/v0.4.8).
+If you get anything below `0.4.8`, then get the right binary from [this page](https://github.com/akash-network/provider/releases/).

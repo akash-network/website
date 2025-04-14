@@ -140,4 +140,4 @@ deployment:
 ---
 
 ## **Conclusion**
-Deploying Keras applications on Akash Network allows you to leverage a cost-effective, decentralized cloud platform. By following this guide, you can deploy, scale, and manage your machine learning workloads efficiently. For advanced configurations, refer to Akash's [documentation](https://docs.akash.network/) and the [Keras API reference](https://keras.io/api/).
+Deploying Keras applications on Akash Network allows you to leverage a cost-effective, decentralized cloud platform. By following this guide, you can deploy, scale, and manage your machine learning workloads efficiently. For advanced configurations, refer to Akash's [documentation](https://akash.network/docs) and the [Keras API reference](https://keras.io/api/).

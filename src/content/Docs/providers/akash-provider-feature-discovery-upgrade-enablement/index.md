@@ -30,7 +30,7 @@ The following provides an overview of the steps necessary to upgrade your Akash 
 # If this is being executed on machine that does not yet have the Akash
 # Helm Chart repo, first follow the steps in this guide to install Helm and pull down
 # the Akash repo:
-# https://docs.akash.network/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-4-helm-installation-on-kubernetes-node
+# https://akash.network/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/#step-4-helm-installation-on-kubernetes-node
 
 helm repo update
 

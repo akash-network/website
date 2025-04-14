@@ -24,7 +24,7 @@ In this guide, we’ll deploy **GNU Octave** on the **Akash Network** using the 
 
 ## Prerequisites
 
-1. **Akash CLI Installed**: Ensure you have the Akash CLI installed and configured. Refer to the [Akash Documentation](docs/deployments/akash-cli/overview/) for setup instructions.
+1. **Akash CLI Installed**: Ensure you have the Akash CLI installed and configured. Refer to the [Akash Documentation](/docs/deployments/akash-cli/overview/) for setup instructions.
 2. **AKT Tokens**: Ensure you have AKT tokens in your wallet for deployment.
 3. **Account Setup**: Your Akash account should be set up and ready to deploy workloads.
 

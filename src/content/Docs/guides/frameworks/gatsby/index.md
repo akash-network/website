@@ -104,7 +104,7 @@ Before deployment, host the public/ files on your image. For example:
 
 ## Option B: Akash CLI
 
-- Install the Akash CLI by following the [CLI Installation Guide](docs/getting-started/quickstart-guides/akash-cli/).
+- Install the Akash CLI by following the [CLI Installation Guide](/docs/getting-started/quickstart-guides/akash-cli/).
 - Fund your wallet to pay for deployment fees.
 - Create your Certificate
 

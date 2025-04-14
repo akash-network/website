@@ -2,11 +2,11 @@
 categories: ["Other Resources"]
 tags: []
 weight: 2
-title: "Testnet 5 gRPC Verifications"
-linkTitle: "Testnet 5 gRPC Verifications"
+title: "Testnet 6 gRPC Verifications"
+linkTitle: "Testnet 6 gRPC Verifications"
 ---
 
-# Akash Cosmos SDK 0.47.0 Upgrade Testnet
+# Akash Cosmos SDK 0.50.13 Upgrade Testnet
 
 ## Akash gRPC Testing Overview
 
@@ -24,9 +24,9 @@ In the step by step procedures that follow in this guide we find:
 
 ```
 # Download the latest version (replace the version number as needed)
-wget https://github.com/fullstorydev/grpcurl/releases/download/v1.8.7/grpcurl_1.8.7_linux_x86_64.tar.gz
+wget https://github.com/fullstorydev/grpcurl/releases/download/v1.9.3/grpcurl_1.9.3_linux_x86_64.tar.gz
 
-tar -xvf grpcurl_1.8.7_linux_x86_64.tar.gz
+tar -xvf grpcurl_1.9.3_linux_x86_64.tar.gz
 
 mv grpcurl /usr/local/bin/
 # Check grpcurl install status/version
