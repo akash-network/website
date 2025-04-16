@@ -1,0 +1,76 @@
+---
+import { acc2025 } from "./acc-2025";
+---
+
+<section
+  class="container-nav-2 flex flex-col pb-10 pt-10 md:pb-0 lg:pb-16 sxl:pb-5"
+>
+  <div class="flex flex-col justify-between lg:flex-row lg:gap-14">
+    <div class="flex w-full flex-1 flex-col items-start gap-4">
+      <svg
+        width="85"
+        class="w-[78px] md:w-[84px]"
+        viewBox="0 0 85 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="64.7517" cy="20" r="20" fill="#474748"></circle>
+        <path
+          d="M77.5914 20.4244L64.9981 30.6891L64.9981 10.1598L77.5914 20.4244Z"
+          fill="white"></path>
+        <path
+          d="M67.7143 20.4244L55.8617 30.6891L55.8617 10.1598L67.7143 20.4244Z"
+          fill="white"></path>
+        <circle cx="20.4539" cy="19.9539" r="19.9539" fill="#FF414C"></circle>
+        <path
+          d="M23.4901 23.3338L27.438 28.2863L28.1378 29.9994H20.4826L16.653 23.3338H23.4901Z"
+          fill="white"></path>
+        <path
+          d="M28.1357 30.0001L31.9591 23.3344L24.306 10H16.653L28.1357 30.0001Z"
+          fill="white"></path>
+        <path
+          d="M12.8265 16.6647H20.4796L12.8297 29.9991L9 23.3335L12.8265 16.6647Z"
+          fill="white"></path>
+      </svg>
+
+      <h1
+        class="text-5xl !font-semibold !leading-[1] tracking-[-3px] md:text-6xl xl:text-[88px]"
+      >
+        Akash <br /> Accelerate <span class="font-instrument font-normal italic"
+          >2025</span
+        >
+      </h1>
+      <p
+        class="font-jetBrainsMono text-sm font-medium text-[#747474] md:my-4 md:text-lg"
+      >
+        NYC + Virtual / June 23rd / 9:30-6:30pm
+      </p>
+      <div class="my-5 flex w-full md:hidden">
+        <img
+          src="/images/acc-2025/hero.png"
+          alt="Akash Accelerate 2025"
+          class="w-full object-contain"
+        />
+      </div>
+      <p class="max-w-[35rem] text-lg text-foreground xl:text-xl">
+        Akash Accelerate is a full-day summit that brings together the DeAI
+        ecosystem for a packed agenda of presentations and panels exploring the
+        future of decentralized compute and open-source AI.
+      </p>
+      <a
+        href={acc2025.register}
+        target="_blank"
+        class="mr-auto mt-2 flex gap-1 rounded bg-primary px-6 py-3 font-jetBrainsMono text-xl uppercase tracking-wide transition-all hover:bg-white hover:text-black md:mt-8 md:py-4 2xl:text-2xl"
+      >
+        Register
+      </a>
+    </div>
+    <div class="hidden w-full flex-1 items-center justify-center md:flex">
+      <img
+        src="/images/acc-2025/hero.png"
+        alt="Akash Accelerate 2025"
+        class="w-full object-contain md:w-[75%] lg:h-[80%] lg:w-full"
+      />
+    </div>
+  </div>
+</section>
