@@ -2,7 +2,7 @@
 aep: 64
 title: "JWT Authentication for Provider API"
 author: Artur Troian (@troian)
-status: Last Call
+status: Final
 type: Standard
 category: Core
 created: 2025-04-03
