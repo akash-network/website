@@ -1,1 +1,0 @@
-https://docs.cosmos.network/v0.52/learn/beginner/gas-fees

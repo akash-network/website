@@ -74,7 +74,7 @@ Use the verifications included in this section for the following purposes:
 Obtain live Provider status including:
 
 - Number of active leases
-- Active leases and hard consumed by those leases
+- Active leases and hard-consumed resources reserved by those leases
 - Available resources on a per-node basis
 
 #### Command Template
