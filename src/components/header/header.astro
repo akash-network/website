@@ -14,11 +14,21 @@ const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 
 interface Props {
   disableSticky?: boolean;
+  hideDarkToggle?: boolean;
+  overrideClassName?: string;
+  hideContainer?: boolean;
+  navClassName?: string;
 }
 
-const { disableSticky } = Astro.props;
+const {
+  disableSticky,
+  hideDarkToggle,
+  overrideClassName,
+  hideContainer,
+  navClassName,
+} = Astro.props;
 
-const visibilty = {
+const visibility = {
   network: ["/about", "/token"],
   community: ["/community"],
   development: ["/development", "/roadmap"],
@@ -26,7 +36,7 @@ const visibilty = {
   pricing: ["/pricing"],
 };
 
-const pathnames = Object.values(visibilty).flat();
+const pathnames = Object.values(visibility).flat();
 
 const posts = (await getCollection("Blog"))
   .filter((post) => {
@@ -39,25 +49,35 @@ const posts = (await getCollection("Blog"))
   });
 
 const latestRoadmapYear = getYearToUse();
+
+// Determine header styling based on props and current path
+const isDevPath = visibility.development.includes(pathname);
+const isPathInNavigation = pathnames.includes(pathname);
+const needsBorder = !isDevPath ? "border-b border-defaultBorder" : "";
+const stickyClass =
+  !disableSticky && !isPathInNavigation ? "top-0 sticky z-[30]" : "";
+const headerBaseClass = "bg-white dark:bg-[#242424]";
+
+const headerClass =
+  overrideClassName || clsx(headerBaseClass, needsBorder, stickyClass);
+
+// Navigation container styling
+const navContainerBaseClass = "bg-white dark:bg-[#242424]";
+const navContainerVisibility = disableSticky
+  ? "hidden"
+  : pathnames.includes(pathname)
+    ? "top-0 sticky z-[30]"
+    : "hidden";
+
+// Navigation styling
+const navBaseClass =
+  "mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]";
+const navContainerClass = hideContainer ? "" : "container";
 ---
 
-<header
-  class={clsx(
-    "bg-white dark:bg-[#242424]  ",
-    !visibilty.development.includes(pathname) &&
-      "border-b border-defaultBorder",
-    disableSticky
-      ? ""
-      : pathnames.includes(pathname)
-        ? ""
-        : "top-0 sticky z-[30]",
-  )}
->
+<header class={headerClass}>
   <nav
-    class={clsx(
-      "  mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]",
-      "container",
-    )}
+    class={clsx(navBaseClass, navContainerClass, navClassName)}
     id="page-top"
   >
     <div class="hidden flex-shrink-0 items-center md:flex md:gap-x-6">
@@ -102,11 +122,12 @@ const latestRoadmapYear = getYearToUse();
         client:load
         currentPath={pathname}
         latestRoadmapYear={latestRoadmapYear}
+        hideDarkToggle={hideDarkToggle}
       />
     </div>
 
     <div class="hidden flex-shrink-0 slg:flex slg:gap-x-[12px]">
-      <DarkModeToggle nav />
+      {!hideDarkToggle && <DarkModeToggle nav />}
 
       <div class="mr-3 hidden items-center gap-x-[12px] text-para xl:flex">
         <a
@@ -151,38 +172,30 @@ const latestRoadmapYear = getYearToUse();
     </div>
   </nav>
 </header>
-<div
-  class={clsx(
-    "bg-white dark:bg-[#242424]",
-    disableSticky
-      ? "hidden"
-      : pathnames.includes(pathname)
-        ? "top-0 sticky z-[30]"
-        : "hidden",
-  )}
->
+
+<div class={clsx(navContainerBaseClass, navContainerVisibility)}>
   {
-    visibilty.network.includes(pathname) && (
+    visibility.network.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
     )
   }
   {
-    visibilty.community.includes(pathname) && (
+    visibility.community.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="community" />
     )
   }
   {
-    visibilty.development.includes(pathname) && (
+    visibility.development.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
     )
   }
   {
-    visibilty.ecosystem.includes(pathname) && (
+    visibility.ecosystem.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
     )
   }
   {
-    visibilty.pricing.includes(pathname) && (
+    visibility.pricing.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="pricing" />
     )
   }
