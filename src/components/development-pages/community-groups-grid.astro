@@ -1,11 +1,14 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import CgCard from "../mdx-cards/cg-card.astro";
 
 const pages = await getCollection("Development_Current_Groups_Page");
 
-function filterGroupsByCategory(groups: any, categoryName: string) {
-  return groups.filter((group: any) => group.id.startsWith(categoryName));
+function filterGroupsByCategory(
+  groups: CollectionEntry<"Development_Current_Groups_Page">[],
+  categoryName: string,
+) {
+  return groups.filter((group) => group.data.category === categoryName);
 }
 
 const { group } = Astro.props;
@@ -20,14 +23,15 @@ const filteredGroups = filterGroupsByCategory(pages, group);
     filteredGroups.map((item: any) => (
       <CgCard
         parentGroup={group}
-        tag={item.slug.split("/")[1]}
-        title={item.data.title}
-        description={item.data.description}
-        meetingslinkLabel={item.data.meetings.link.label}
-        meetingsLink={item.data.meetings.link.link}
-        githubLink={item.data.githubLink}
-        discordLink={item.data.discordLink}
-        dateLabel={item.data.meetings.dateLabel}
+        tag={item?.slug?.split("/")[0]}
+        title={item?.data?.title}
+        description={item?.data?.description}
+        meetingslinkLabel={item?.data?.meetings?.link?.label}
+        meetingsLink={item?.data?.meetings?.link?.link}
+        githubLink={item?.data?.githubLink}
+        discordLink={item?.data?.discordLink}
+        dateLabel={item?.data?.meetings?.dateLabel}
+        slug={item?.slug}
       />
     ))
   }

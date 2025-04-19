@@ -4,7 +4,7 @@ export const communityGroupsSchema = defineCollection({
   schema: ({ image }) => {
     return z.object({
       title: z.string(),
-      heading: z.string(),
+      heading: z.string().optional(),
       centeredHeader: z.boolean().optional().default(false),
       description: z.string(),
       category: z.string(),

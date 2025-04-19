@@ -14,12 +14,11 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import generateToc from "@/lib/generateToc";
 import { proseClasses } from "@/lib/prose-classes";
-import clsx from "clsx";
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Current_Groups_Page");
 
   return pages.map((page) => ({
-    params: { slug: page.slug },
+    params: { slug: page?.slug?.split("/")?.[0] },
     props: page,
   }));
 }
@@ -35,8 +34,7 @@ const pages = await getCollection("Development_Current_Groups_Page");
 const nav: any = [];
 
 pages.forEach((item) => {
-  const idParts = item.id.split("/");
-  let mainLabel = idParts.length > 0 ? idParts[0] : "Unknown";
+  let mainLabel = item?.data?.category;
 
   mainLabel = mainLabel
     .split("-")
@@ -48,18 +46,18 @@ pages.forEach((item) => {
   if (existingItem) {
     existingItem.subItems.push({
       label: item.data.title,
-      link: `/current-groups/${item.slug}/`,
+      link: `/current-groups/${item.slug?.split("/")[0]}/`,
       enabled: true,
     });
   } else {
     nav.push({
       label: mainLabel,
-      link: `/current-groups/${idParts.length > 0 ? idParts[0] : "Unknown"}/`,
+      link: `/current-groups/${item?.slug?.split("/")[0]}/`,
       enabled: true,
       subItems: [
         {
           label: item.data.title,
-          link: `/current-groups/${item.slug}/`,
+          link: `/current-groups/${item.slug?.split("/")[0]}/`,
           enabled: true,
         },
       ],
@@ -82,8 +80,8 @@ function findPrevAndNextPages(nav: any, pathname: any) {
   let allItems: any = [];
 
   nav.forEach((category: any) => {
-    if (category.items && category.items.length > 0) {
-      allItems = allItems.concat(category.items);
+    if (category.subItems && category.subItems.length > 0) {
+      allItems = allItems.concat(category.subItems);
     }
   });
 
@@ -101,8 +99,6 @@ function findPrevAndNextPages(nav: any, pathname: any) {
 }
 
 const pathname = new URL(Astro.request.url).pathname;
-
-const fileType = page.id.split("/")[2].split(".")[1];
 ---
 
 <Layout title="Development" image="/meta-images/development.png">
@@ -133,7 +129,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
             Back
           </a>
           {
-            nav.map((navItem: any) => (
+            nav?.map((navItem: any) => (
               <div class="flex flex-col gap-y-3">
                 <a
                   href={`${navItem.link}${
@@ -147,7 +143,6 @@ const fileType = page.id.split("/")[2].split(".")[1];
                 </a>
 
                 {navItem.subItems &&
-                  // pathname.split("/")[2] === navItem.link.split("/")[2] &&
                   navItem.subItems.map((subItem: any) => (
                     <div class="flex flex-col gap-y-3">
                       <a
@@ -170,7 +165,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
             class="mt-3 flex flex-col justify-center rounded-[8px] border bg-background2 p-4"
           >
             <a
-              href={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Current_Groups_Page/${page.slug}/index.${fileType}`}
+              href={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Current_Groups_Page/${page.slug}/README.md`}
               class="inline-flex cursor-pointer items-center justify-center gap-x-2 text-xs font-medium hover:text-primary"
             >
               <svg
@@ -213,7 +208,7 @@ const fileType = page.id.split("/")[2].split(".")[1];
             currentPath={Astro.url.pathname}
             nav={nav}
             client:load
-            link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Current_Groups_Page/${page.slug}/index.${fileType}`}
+            link={`https://github.com/akash-network/website-revamp/blob/main/src/content/Development_Current_Groups_Page/${page.slug}/README.md`}
           />
 
           <MobileTableOfContents
@@ -226,18 +221,6 @@ const fileType = page.id.split("/")[2].split(".")[1];
         </div>
 
         <div class="space-y-10">
-          <div class="mt-10 md:mt-0">
-            <h1
-              id="overview"
-              class={clsx(
-                "text-2xl font-bold leading-[48px] md:text-2lg md:leading-[62.4px] lg:text-3lg",
-                page?.data?.centeredHeader && "text-center",
-              )}
-            >
-              {page.data.heading}
-            </h1>
-          </div>
-
           <div class="flex flex-col gap-6 lg:flex-row lg:items-center">
             <ButtonLink
               link={page.data.discordLink}

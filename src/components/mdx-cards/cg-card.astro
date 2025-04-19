@@ -11,13 +11,14 @@ const {
   discordLink,
   parentGroup,
   dateLabel,
+  slug,
 } = Astro.props;
 ---
 
 <div
   class="not-prose group flex flex-col justify-between rounded-lg border bg-background2 p-5 shadow-sm duration-300 ease-in-out hover:drop-shadow-md"
 >
-  <a href={`/current-groups/${parentGroup}/${tag}/`} class="flex-1">
+  <a href={`/current-groups/${slug?.split("/")[0]}/`} class="flex-1">
     <span class="flex flex-1 flex-col justify-between">
       <div>
         <p class="text-sm font-medium leading-[20px] text-cardGray">
