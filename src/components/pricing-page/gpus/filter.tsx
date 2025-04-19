@@ -156,7 +156,7 @@ export default function Filter({
           {options?.map((item) => (
             <div key={item.name} className="">
               <Select>
-                <SelectTrigger className="px-4">
+                <SelectTrigger className="px-4 hover:bg-gray-50 dark:hover:bg-darkGray">
                   <p className="text-s2 mr-2.5 font-medium text-foreground">
                     {item.name}
                   </p>

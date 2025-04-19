@@ -1,7 +1,7 @@
 ---
 advert: 
-  title: NVIDIA Blackwell is coming to Akash. Join the waitlist.
-  link: "/nvidia-blackwell-gpus"
+  title: Akash Accelerate 2025 is coming to NYC. Register here.
+  link: "/akash-accelerate-2025"
 
 # hero section content
 heroSection:

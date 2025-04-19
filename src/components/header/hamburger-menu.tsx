@@ -49,9 +49,11 @@ const navigation = [
 export default function HamburgerMenu({
   currentPath,
   latestRoadmapYear,
+  hideDarkToggle,
 }: {
   currentPath: string;
   latestRoadmapYear: number;
+  hideDarkToggle?: boolean;
 }) {
   return (
     <Disclosure as="nav" className=" overflow-hidden">
@@ -85,6 +87,7 @@ export default function HamburgerMenu({
               currentPath={currentPath}
               open={open}
               latestRoadmapYear={latestRoadmapYear}
+              hideDarkToggle={hideDarkToggle}
             />
           </Transition>
         </>
@@ -97,10 +100,12 @@ const Panel = ({
   currentPath,
   open,
   latestRoadmapYear,
+  hideDarkToggle,
 }: {
   currentPath: string;
   open: any;
   latestRoadmapYear: number;
+  hideDarkToggle?: boolean;
 }) => {
   useLockBody(open);
 
@@ -281,9 +286,11 @@ const Panel = ({
               </a>
             </div>
 
-            <div>
-              <DarkModeToggle />
-            </div>
+            {!hideDarkToggle && (
+              <div>
+                <DarkModeToggle />
+              </div>
+            )}
           </div>
         </div>
       </div>
