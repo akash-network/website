@@ -95,60 +95,59 @@ provider-services status akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
 
 ```
 provider-services status akash1wxr49evm8hddnx9ujsdtd86gk46s7ejnccqfmy
-{
- "cluster": {
- "leases": 3,
- "inventory": {
- "active": [
- {
- "cpu": 8000,
- "memory": 8589934592,
- "storage_ephemeral": 5384815247360
- },
- {
- "cpu": 100000,
- "memory": 450971566080,
- "storage_ephemeral": 982473768960
- },
- {
- "cpu": 8000,
- "memory": 8589934592,
- "storage_ephemeral": 2000000000000
- }
- ],
- "available": {
- "nodes": [
- {
- "cpu": 111495,
- "memory": 466163988480,
- "storage_ephemeral": 2375935850345
- },
- {
- "cpu": 118780,
- "memory": 474497601536,
- "storage_ephemeral": 7760751097705
- },
- {
- "cpu": 110800,
- "memory": 465918152704,
- "storage_ephemeral": 5760751097705
- },
- {
- "cpu": 19525,
- "memory": 23846356992,
- "storage_ephemeral": 6778277328745
- }
- ]
- }
- }
- },
- "bidengine": {
- "orders": 0
- },
- "manifest": {
- "deployments": 0
- },
- "cluster_public_hostname": "provider.bigtractorplotting.com"
+{  "cluster": {
+    "leases": 3,
+    "inventory": {
+      "active": [
+        {
+          "cpu": 8000,
+          "memory": 8589934592,
+          "storage_ephemeral": 5384815247360
+        },
+        {
+          "cpu": 100000,
+          "memory": 450971566080,
+          "storage_ephemeral": 982473768960
+        },
+        {
+          "cpu": 8000,
+          "memory": 8589934592,
+          "storage_ephemeral": 2000000000000
+        }
+      ],
+      "available": {
+        "nodes": [
+          {
+            "cpu": 111495,
+            "memory": 466163988480,
+            "storage_ephemeral": 2375935850345
+          },
+          {
+            "cpu": 118780,
+            "memory": 474497601536,
+            "storage_ephemeral": 7760751097705
+          },
+          {
+            "cpu": 110800,
+            "memory": 465918152704,
+            "storage_ephemeral": 5760751097705
+          },
+          {
+            "cpu": 19525,
+            "memory": 23846356992,
+            "storage_ephemeral": 6778277328745
+          }
+        ]
+      }
+    }
+  },
+  "bidengine": {
+    "orders": 0
+  },
+  "manifest": {
+    "deployments": 0
+  },
+  "cluster_public_hostname": "provider.bigtractorplotting.com"
 }
 ```
 
@@ -182,34 +181,34 @@ provider-services query market lease list --provider akash1yvu4hhnvs84v4sv53mzu5
 ```
 leases:
 - escrow_payment:
- account_id:
- scope: deployment
- xid: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28/5903794
- balance:
- amount: "0.455120000000000000"
- denom: uakt
- owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
- payment_id: 1/1/akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
- rate:
- amount: "24.780240000000000000"
- denom: uakt
- state: open
- withdrawn:
- amount: "32536"
- denom: uakt
- lease:
- closed_on: "0"
- created_at: "5903822"
- lease_id:
- dseq: "5903794"
- gseq: 1
- oseq: 1
- owner: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28
- provider: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
- price:
- amount: "24.780240000000000000"
- denom: uakt
- state: active
+   account_id:
+      scope: deployment
+      xid: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28/5903794
+    balance:
+      amount: "0.455120000000000000"
+      denom: uakt
+    owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+    payment_id: 1/1/akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+    rate:
+      amount: "24.780240000000000000"
+      denom: uakt
+    state: open
+    withdrawn:
+      amount: "32536"
+      denom: uakt
+  lease:
+    closed_on: "0"
+    created_at: "5903822"
+    lease_id:
+      dseq: "5903794"
+      gseq: 1
+      oseq: 1
+      owner: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28
+      provider: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+    price:
+      amount: "24.780240000000000000"
+      denom: uakt
+    state: active
 ```
 
 ### List Active Leases from Hostname Operator Perspective
@@ -325,51 +324,51 @@ apiVersion: akash.network/v2beta1
 kind: Manifest
 metadata:
  creationTimestamp: "2022-05-16T14:42:29Z"
- generation: 1
- labels:
- akash.network: "true"
- akash.network/lease.id.dseq: "5905802"
- akash.network/lease.id.gseq: "1"
- akash.network/lease.id.oseq: "1"
- akash.network/lease.id.owner: akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn
- akash.network/lease.id.provider: akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j
- akash.network/namespace: moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk
- name: moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk
- namespace: lease
- resourceVersion: "75603"
- uid: 81fc7e4f-9091-44df-b4cf-5249ddd4863d
+  generation: 1
+  labels:
+    akash.network: "true"
+    akash.network/lease.id.dseq: "5905802"
+    akash.network/lease.id.gseq: "1"
+    akash.network/lease.id.oseq: "1"
+    akash.network/lease.id.owner: akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn
+    akash.network/lease.id.provider: akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j
+    akash.network/namespace: moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk
+  name: moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk
+  namespace: lease
+  resourceVersion: "75603"
+  uid: 81fc7e4f-9091-44df-b4cf-5249ddd4863d
 spec:
- group:
- name: akash
- services:
- - count: 1
- expose:
- - external_port: 80
- global: true
- http_options:
- max_body_size: 1048576
- next_cases:
- - error
- - timeout
- next_tries: 3
- read_timeout: 60000
- send_timeout: 60000
- port: 8080
- proto: TCP
- image: pengbai/docker-supermario
- name: supermario
- unit:
- cpu: 100
- memory: "268435456"
- storage:
- - name: default
- size: "268435456"
- lease_id:
- dseq: "5905802"
- gseq: 1
- oseq: 1
- owner: akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn
- provider: akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j
+  group:
+    name: akash
+    services:
+    - count: 1
+      expose:
+      - external_port: 80
+        global: true
+        http_options:
+          max_body_size: 1048576
+          next_cases:
+          - error
+          - timeout
+          next_tries: 3
+          read_timeout: 60000
+          send_timeout: 60000
+        port: 8080
+        proto: TCP
+      image: pengbai/docker-supermario
+      name: supermario
+      unit:
+        cpu: 100
+        memory: "268435456"
+        storage:
+        - name: default
+          size: "268435456"
+  lease_id:
+    dseq: "5905802"
+    gseq: 1
+    oseq: 1
+    owner: akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn
+    provider: akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j
 ```
 
 ## Provider Earnings
@@ -414,18 +413,18 @@ block height, timestamp, active leases, daily earning, balance, AKT in escrow, t
 - Output generated from `Example Command Use`
 
 ```
- 6514611  2022-06-28T15:32:53.445887205Z    52      142.8624   1523.253897   260     1783.2539
- 6500457  2022-06-27T15:56:52.370736803Z    61      190.8000   1146.975982   305     1451.9760
- 6486303  2022-06-26T15:25:08.727479091Z    38      116.9280   1247.128473   190     1437.1285
- 6472149  2022-06-25T15:18:50.058601546Z    39      119.3184   1211.060233   195     1406.0602
- 6457995  2022-06-24T15:17:19.284205728Z    56      186.8688   1035.764462   280     1315.7645
- 6443841  2022-06-23T14:51:42.110369321Z    50      182.6352   1005.680589   250     1255.6806
- 6429687  2022-06-22T14:58:52.656092131Z    36      120.3984    962.763599   180     1142.7636
- 6415533  2022-06-21T15:04:57.22739534Z   29      226.7568    837.161130   145      982.1611
- 6401379  2022-06-20T15:08:17.114891411Z     8       57.5136    760.912627    40      800.9126
- 6387225  2022-06-19T15:12:16.883456449Z     6       53.9856    697.260245    30      727.2602
- 6373071  2022-06-18T15:16:16.007190056Z     6      257.1696    635.254956    30      665.2550
- 6358917  2022-06-17T15:20:52.671364197Z     5       33.2208    560.532818    25      585.5328
+ 6514611	2022-06-28T15:32:53.445887205Z	  52	    142.8624	 1523.253897	 260	   1783.2539
+ 6500457	2022-06-27T15:56:52.370736803Z	  61	    190.8000	 1146.975982	 305	   1451.9760
+ 6486303	2022-06-26T15:25:08.727479091Z	  38	    116.9280	 1247.128473	 190	   1437.1285
+ 6472149	2022-06-25T15:18:50.058601546Z	  39	    119.3184	 1211.060233	 195	   1406.0602
+ 6457995	2022-06-24T15:17:19.284205728Z	  56	    186.8688	 1035.764462	 280	   1315.7645
+ 6443841	2022-06-23T14:51:42.110369321Z	  50	    182.6352	 1005.680589	 250	   1255.6806
+ 6429687	2022-06-22T14:58:52.656092131Z	  36	    120.3984	  962.763599	 180	   1142.7636
+ 6415533	2022-06-21T15:04:57.22739534Z	  29	    226.7568	  837.161130	 145	    982.1611
+ 6401379	2022-06-20T15:08:17.114891411Z	   8	     57.5136	  760.912627	  40	    800.9126
+ 6387225	2022-06-19T15:12:16.883456449Z	   6	     53.9856	  697.260245	  30	    727.2602
+ 6373071	2022-06-18T15:16:16.007190056Z	   6	    257.1696	  635.254956	  30	    665.2550
+ 6358917	2022-06-17T15:20:52.671364197Z	   5	     33.2208	  560.532818	  25	    585.5328
 ```
 
 ### AKT Total Earned by Provider
