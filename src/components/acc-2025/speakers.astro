@@ -1,0 +1,120 @@
+---
+import { ArrowUpCircle } from "lucide-react";
+import { acc2025 } from "./acc-2025";
+
+const speakers = [
+  {
+    name: "Greg Osuri",
+    title: "CEO Overclock Labs",
+    company: "Founder of Akash Network",
+    image: "/images/acc-2025/speakers/greg.png",
+  },
+  {
+    name: "Haseeb Qureshi",
+    title: "Founder and Managing Partner Dragonfly",
+
+    image: "/images/acc-2025/speakers/haseeb.png",
+  },
+  {
+    name: "Jake Brukhman",
+    title: "Founder and CEO",
+    company: "Coinfund",
+    image: "/images/acc-2025/speakers/jake.png",
+  },
+  {
+    name: "Benjamin Parr",
+    title: "CoFounder",
+    company: "YesNoError, Theory Forge Ventures",
+    image: "/images/acc-2025/speakers/benjamin.png",
+  },
+  {
+    name: "Nirmal Krishnan",
+    title: "CEO",
+    company: "Chakra Labs",
+    image: "/images/acc-2025/speakers/nirmal.png",
+  },
+  {
+    name: "Bidhan Roy",
+    title: "Founder and CEO",
+    company: "Bagel",
+    image: "/images/acc-2025/speakers/bidhan.png",
+  },
+  {
+    name: "Manouk Termaaten",
+    title: "Founder and CEO",
+    company: "Vertical Studio BV",
+    image: "/images/acc-2025/speakers/manouk.png",
+  },
+  {
+    name: "Daniel Keller",
+    title: "Founder and CEO",
+    company: "InFlux Technologies",
+    image: "/images/acc-2025/speakers/daniel.png",
+  },
+  {
+    name: "Tommy Eastman",
+    title: "Research Lead",
+    company: "Plaintext Capital",
+    image: "/images/acc-2025/speakers/tommy.png",
+  },
+  {
+    name: "Arel Avellino",
+    title: "CEO",
+    company: "Passage",
+    image: "/images/acc-2025/speakers/arel.png",
+  },
+  {
+    name: "Lex Avellino",
+    title: "Founder and CCO",
+    company: "Passage",
+    image: "/images/acc-2025/speakers/lex.png",
+  },
+];
+---
+
+<section
+  class="container-nav-2 overflow-hidden pb-10 pt-10 md:overflow-visible md:pb-16"
+>
+  <div class="flex flex-col gap-10">
+    <h2 class="text-3xl font-semibold lg:text-4xl 2xl:text-5xl">Speakers</h2>
+
+    <div
+      class="grid grid-cols-2 gap-x-3 gap-y-5 md:gap-x-5 md:gap-y-12 lg:grid-cols-4"
+    >
+      {
+        speakers.map((speaker) => (
+          <div class="flex flex-col gap-2 md:gap-3">
+            <img
+              src={speaker.image}
+              alt={speaker.name}
+              class=" aspect-[16/13.3] w-full bg-[#363636] object-cover"
+            />
+            <div class="flex flex-col gap-3">
+              <p class="text-sm font-medium !leading-[1.2] text-foreground md:text-xl">
+                {speaker.name}
+              </p>
+              <div class="flex flex-col ">
+                <p class="text-xs font-medium !leading-[1.2] text-[#909090]  md:text-lg">
+                  {speaker.title}
+                </p>
+                {speaker.company && (
+                  <p class="text-xs font-medium !leading-[1.2] text-[#909090] md:text-lg">
+                    {speaker.company}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <a
+      href={acc2025.apply}
+      target="_blank"
+      class="flex w-full items-center justify-center gap-2 rounded border-2 border-[#666666] px-4 py-2.5 font-jetBrainsMono text-lg font-medium transition-all hover:bg-[#666666] md:mx-auto md:mt-4 md:w-auto"
+    >
+      <ArrowUpCircle className="size-6 rotate-45" />
+      Interested in speaking?
+    </a>
+  </div>
+</section>

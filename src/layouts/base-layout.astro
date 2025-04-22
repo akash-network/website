@@ -13,9 +13,10 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  classname?: string;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, classname } = Astro.props;
 
 const isProd = import.meta.env.PROD;
 ---
@@ -57,7 +58,7 @@ const isProd = import.meta.env.PROD;
     <BaseHead title={title} description={description} image={image} />
     <ViewTransitions />
   </head>
-  <body class="bg-background">
+  <body class="bg-background" class:list={classname}>
     <noscript
       ><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-573RDG5H"
