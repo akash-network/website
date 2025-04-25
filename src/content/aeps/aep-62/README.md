@@ -2,11 +2,11 @@
 aep: 62
 title: "Provider Console - Node Manager"
 author: Anil Murty (@anilmurty) Jigar Patel (@jigar-arc10) Deval Patel (devalpatel67)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2024-03-15
-updated: 2025-04-08
+updated: 2025-04-22
 estimated-completion: 2025-04-15
 roadmap: minor
 ---
