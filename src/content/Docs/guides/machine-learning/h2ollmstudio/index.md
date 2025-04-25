@@ -14,7 +14,7 @@ Here’s a comprehensive guide to deploying the H2O LLM on Akash using your SDL 
 
 1. **Akash Wallet**: Ensure you have an Akash wallet with sufficient $AKT to cover deployment costs and fees.
 
-2. **Akash CLI**: Install the Akash CLI from the [official documentation](docs/deployments/akash-cli/overview/).
+2. **Akash CLI**: Install the Akash CLI from the [official documentation](/docs/deployments/akash-cli/overview/).
 
 3. **Akash Console**: Access the Akash Console.
 

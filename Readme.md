@@ -327,8 +327,8 @@ linkTitle: "Akash Node CLI Build" # <--- Change the link title here
 
 ## Contact
 
-Discord - [Akash Network](https://discord.com/invite/akash)
+Discord: [Akash Network](https://discord.com/invite/akash)
 
-Twitter: [Akash Network](https://twitter.com/akashnet_)
+X/Twitter: [Akash Network](https://x.com/akashnet_)
 
 Website: [Akash Network](https://akash.network/)

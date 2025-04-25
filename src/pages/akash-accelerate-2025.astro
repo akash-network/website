@@ -1,0 +1,49 @@
+---
+import "@/styles/globals.css";
+
+import Header from "@/components/header/header.astro";
+
+import BaseLayout from "@/layouts/base-layout.astro";
+
+import Accfooter from "@/components/acc-2025/accfooter.astro";
+import Head from "@/components/acc-2025/head.astro";
+import Highlights from "@/components/acc-2025/highlights.astro";
+import Information from "@/components/acc-2025/information.astro";
+import Location from "@/components/acc-2025/Location";
+import Recap from "@/components/acc-2025/Recap";
+import Speakers from "@/components/acc-2025/speakers.astro";
+---
+
+<BaseLayout
+  title="Akash Accelerate 2025"
+  description="Akash Accelerate is a full-day summit that will bring together the entire ecosystem for a packed agenda of talks, panels, and discussions exploring the future of decentralized compute and open-source AI."
+  image="/meta-images/acc-2025.png"
+  classname="dark !bg-[#000000] container-nav-3 "
+>
+  <Header
+    hideDarkToggle
+    overrideClassName="!bg-[#000000]  top-0 sticky z-[30] "
+    navClassName="container-nav-2 "
+    hideContainer
+  />
+
+  <main>
+    <Head />
+    <Recap client:load type="button" />
+    <div class="bg-[#0D0D0D]">
+      <Speakers />
+    </div>
+    <Location client:load />
+    <Highlights />
+
+    <Information />
+    <section class="w-full">
+      <img
+        src="/images/acc-2025/acc.png"
+        alt="Akash Accelerate 2025"
+        class="w-full object-cover md:aspect-[16/6]"
+      />
+    </section>
+    <Accfooter />
+  </main>
+</BaseLayout>

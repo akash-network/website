@@ -491,7 +491,7 @@ Access the CouchDB dashboard by navigating to `http://<your-ip>:5984/_utils/`.
 
 ## Useful Resources
 
-- [Official CouchDB Documentation](https://couchdb.apache.org/)
+- [Official CouchDB Documentation](https://docs.couchdb.org/en/stable/)
 
 - [Akash CLI Documentation](/docs/getting-started/quickstart-guides/akash-cli/)
 

@@ -480,7 +480,7 @@ attributes:
 ## **Provider Bid Defaults**
 
 - When a provider is created the default bid engine settings are used which are used to derive pricing per workload. If desired these settings could be updated. But we would recommend initially using the default values.
-- For a through discussion on customized pricing please visit this [guide](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement#/step-6---provider-bid-customization).
+- For a through discussion on customized pricing please visit this [guide](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement#/step-6---provider-bid-customization).
 
 ## Update Provider Via Helm
 
@@ -574,7 +574,7 @@ root@node1:~/provider# kubectl -n akash-services get pod akash-provider-0 -o yam
 Use any of the Akash deployment tools covered [here](/docs/deployments/overview/) for your Provider test deployments.
 
 
-> _**NOTE**_ - this section covers GPU specific deployment testing and verificaiton of your Akash Provider. In addition, general Provider verifications can be made via this [Provider Checkup](/docs/providers/build-a-cloud-provider/akash-provider-checkup/) guide.
+> _**NOTE**_ - this section covers GPU specific deployment testing and verificaiton of your Akash Provider. In addition, general Provider verifications can be made via this [Provider Checkup](/docs/providers/build-a-cloud-provider/akash-cli/akash-provider-checkup/) guide.
 
 
 ### Example GPU SDL #1

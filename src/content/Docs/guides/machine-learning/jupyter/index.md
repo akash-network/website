@@ -26,7 +26,7 @@ Once logged in, go to the "Deployments" section and click on "Create New Deploym
 
 ### SDL Configuration
 
-The SDL configuration in the [Akash Console](console.akash.network) can be seen below:
+The SDL configuration in the [Akash Console](https://console.akash.network) can be seen below:
 
 ```
 

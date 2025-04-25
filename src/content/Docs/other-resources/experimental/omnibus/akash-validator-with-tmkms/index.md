@@ -92,7 +92,7 @@ cat ~/.akash/config/priv_validator_key.json
 ### Akash Console
 
 - Within this guide we will use the Akash Console application to create the Akash Validator
-- Please review our[ Akash Console ](broken-reference)docs to install and configuration the application if this is your first time using
+- Please review our[ Akash Console ](broken-reference)docs to install and configure the application if this is your first time using
 
 ### Create the Akash Validator Deployment
 

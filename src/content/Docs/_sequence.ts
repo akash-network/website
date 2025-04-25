@@ -123,6 +123,7 @@ export const docsSequence = [
           {
             label: "Machine Learning",
             subItems: [
+              { label: "Overview"},
               { label: "DeTrain" },
               { label: "Ray" },
               { label: "FLock.io" },
@@ -147,7 +148,12 @@ export const docsSequence = [
               { label: "LocalAI"},
               { label: "LangFlow"},
               { label: "TensorFlow"},
+              { label: "TensorLayer"},
               { label: "PyTorch"},
+              { label: "DeepSeek V3"},
+              { label: "Perplexity R1 1776"},
+              { label: "OpenThinker-32B"},
+              { label: "DeepSeek R1"},
             ],
           },
           {
@@ -182,6 +188,7 @@ export const docsSequence = [
               { label: "Apache Airflow"},
               { label: "Apache Kafka"},
               { label: "Apache Storm"},
+              { label: "Thirdweb"},
             ],
           },
           {
@@ -190,7 +197,6 @@ export const docsSequence = [
               { label: "Kava RPC Node Deployment" },
               { label: "Chia on Akash" },
               { label: "Polygon on Akash" },
-              { label: "Mine Raptoreum on Akash Network" },
               { label: "Deploying Iron Fish on Akash" },
             ],
           },
@@ -225,6 +231,7 @@ export const docsSequence = [
               { label: "WordPress"},
               { label: "Discourse"},
               { label: "Ghost"},
+              { label: "Nextcloud"},
             ]
           },
           {
@@ -262,13 +269,17 @@ export const docsSequence = [
           },
           {
             label: "Benchmarkings",
-            subItems: [{ label: "Fast.com" }],
+            subItems: [
+              { label: "Fast_com" },
+              { label: "LibreSpeed"},
+              { label: "Geekbench 5"},
+            ],
           },
           {
             label: "Games",
             subItems: [
               { label: "Minecraft"},
-            ]
+            ],
           },
           {
             label: "Science",
@@ -276,8 +287,35 @@ export const docsSequence = [
               { label: "GeoNetwork"},
               { label: "GNU Octave"},
               { label: "MATLAB"}
-            ]
-          }
+            ],
+          },
+          {
+            label: "Network",
+            subItems: [
+              { label: "Overview"},
+              { label: "Owncloud"},
+              { label: "CJDNS PKT"},
+              { label: "Tor"},
+              { label: "X-UI"},
+              { label: "SoftEther VPN"},
+              { label: "Cloudflare"},
+              { label: "Custom Domain"},
+            ],
+          },
+          {
+            label: "Storage",
+            subItems: [
+              { label: "Codex"},
+            ],
+          },
+          {
+            label: "Project Management",
+            subItems: [
+              { label: "Kanboard"},
+              { label: "Redmine"},
+              { label: "Jira"},
+            ],
+          },
         ],
       },
       

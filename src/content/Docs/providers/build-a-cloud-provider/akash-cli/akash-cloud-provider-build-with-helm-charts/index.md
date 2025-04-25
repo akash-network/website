@@ -54,7 +54,7 @@ The steps to create an Akash wallet are covered in the following documentation s
 A full Kubernetes cluster is required with outbound internet access and be reachable from the internet.
 
 
-If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)guide.
+If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)guide.
 
 ### RPC Node
 
@@ -71,7 +71,7 @@ Only x86_64 processors are officially supported by Akash for provider Kubernetes
 Akash Providers are deployed in many environments and we will make additions to these sections as when nuances are discovered.
 
 
-- [VMware Tanzu](/docs/providers/build-a-cloud-provider/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)
+- [VMware Tanzu](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)
 
 
 ### Disable Search Domains
@@ -585,9 +585,9 @@ website: yoursite.com
 #### **Provider Bid Defaults**
 
 - When a provider is created the default bid engine settings are used. If desired these settings could be updated and added to the `provider.yaml` file. But we would recommend initially using the default values.
-- Note - the `bidpricestoragescale` value will get overridden by `-f provider-storage.yaml` covered in [Provider Persistent Storage](/docs/providers/build-a-cloud-provider/helm-based-provider-persistent-storage-enablement/) documentation.
+- Note - the `bidpricestoragescale` value will get overridden by `-f provider-storage.yaml` covered in [Provider Persistent Storage](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/) documentation.
 
-- Note - if you want to use a shellScript bid price strategy, pass the bid price script via `bidpricescript` variable detailed in the [bid pricing script doc](/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/). This will automatically suppress all `bidprice<cpu|memory|endpoint|storage>scale` settings.
+- Note - if you want to use a shellScript bid price strategy, pass the bid price script via `bidpricescript` variable detailed in the [bid pricing script doc](/docs/providers/build-a-cloud-provider/akash-cli/akash-provider-bid-pricing-calculation/). This will automatically suppress all `bidprice<cpu|memory|endpoint|storage>scale` settings.
 
 
 ```
@@ -666,7 +666,7 @@ helm uninstall akash-provider -n akash-services
 > _**NOTE**_ - if you are updating your provider bid script from a previous version use this [bid script migration guide](../../../../docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting).
 
 
-- If there is a desire to manipulate the provider bid engine, include the `--set bidpricescript` switch . The pricing script used in this switch is detailed in the [Akash Provider Bid Pricing](/docs/providers/build-a-cloud-provider/akash-provider-bid-pricing-calculation/) section of this guide.
+- If there is a desire to manipulate the provider bid engine, include the `--set bidpricescript` switch . The pricing script used in this switch is detailed in the [Akash Provider Bid Pricing](/docs/providers/build-a-cloud-provider/akash-cli/akash-provider-bid-pricing-calculation/) section of this guide.
 
 - **Note -** When the provider deployment is created the bid script should return the price in under 5 seconds . If the script does not execute in this time period the following error message will be seen in the provider pod logs. Such a report would suggest that there is an error/issue with script customizations that should be reviewed. Following review and adjustment, uninstall the provider deployment (via helm uninstall) and reinstall.
 - **Note** - there is further discussion on the bid script and deployer address whitelisting in this [section](#step-11---firewall-rule-review).
