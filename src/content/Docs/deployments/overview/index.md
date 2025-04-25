@@ -12,7 +12,7 @@ Applications can be deployed onto the Akash network using a platform that best s
 - [Using the Command Line for Akash Deployments ](/docs/deployments/akash-cli/installation/)
 - [Akash Sandbox Use](/docs/deployments/sandbox/introduction/)
 - [Awesome Akash Example Distributed Applications](/docs/deployments/apps-on-akash/)
-- [Praetor App](/docs/deployments/praetor-app/what-is/). [Praetor is now called Akash provider console](https://provider-console.akash.network/)
+- [Provider Console](/docs/providers/build-a-cloud-provider/provider-console/what-is/)
 
 ## Best Practices
 
