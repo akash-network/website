@@ -165,7 +165,9 @@ helm install inventory-operator akash-inventory-operator-9.0.0.tgz -n akash-serv
 
 > _**NOTE**_ - ensure to open port `8444` on your firewall if necessary as well
 
+
 The Ingress Controller rules have been updated to include Feature Discovery destinations and mainly port `8444`. Update your ingress controller to ensure they are current via the instructions in this doc [section](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/#step-10---ingress-controller-install).
+
 
 ### Verifications
 
