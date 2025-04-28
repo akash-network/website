@@ -6,8 +6,9 @@ status: Final
 type: Standard
 category: Interface
 created: 2024-03-15
-updated: 2025-04-22
-estimated-completion: 2025-04-15
+updated: 2025-04-28
+completed: 2025-04-17
+resolution: https://github.com/akash-network/console/milestone/17?closed=1
 roadmap: minor
 ---
 
