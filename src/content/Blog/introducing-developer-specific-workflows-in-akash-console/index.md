@@ -121,7 +121,7 @@ Last but not least important is the upload SDL option for the “Akash Champion.
 ## Community-contributed Templates
 In addition to the user-specific workflows noted above, Akash Console features a rich collection of community-contributed templates for users who want less customization and want to get started with just a few clicks. 
 
-There are a few templates that are featured up front on the new-deployment page that are primarily focused on launching AI inference services using leading open-source AI models like [Meta’s Llama Models](https://www.llama.com/), [Falcon-7B](https://falconllm.tii.ae/falcon-models.html), [ComfyUI](https://www.comfy.org/en/), [Stable Diffusion](https://stability.ai/stable-image), and [Google’s BERT](https://research.google/pubs/bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding/).
+There are a few templates that are featured up front on the new-deployment page that are primarily focused on launching AI inference services using leading open-source AI models like [Meta’s Llama Models](https://www.llama.com/), [Falcon-7B](https://falconllm.tii.ae/falcon-models.html), [ComfyUI](https://www.comfy.org/), [Stable Diffusion](https://stability.ai/stable-image), and [Google’s BERT](https://research.google/pubs/bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding/).
 
 ![Explore templates](./dw-14.png)
 

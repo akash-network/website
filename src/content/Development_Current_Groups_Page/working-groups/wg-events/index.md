@@ -23,8 +23,8 @@ This working group is to discuss events to attend, year by year, and ways to enc
 
 | Meeting | Time                                                 | Notes                                                                                                       | Transcript                                                                                                             | Recording   |
 | ------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------- |
-| #1      | Friday, February 17, 2023 10:30 AM PT (Pacific Time) | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings/wg-events-001-2023-02-17.md) | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings/wg-events-001-2023-02-17.md#transcript) | Coming Soon |
-| #2      | Wednesday April 19, 2023 10:00 AM PT (Pacific Time)  | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings/wg-events-002-2023-04-14.md) | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings/wg-events-002-2023-04-14.md#transcript) | Coming Soon |
+| #1      | Friday, February 17, 2023 10:30 AM PT (Pacific Time) | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings-2023/wg-events-001-2023-02-17.md) | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings-2023/wg-events-001-2023-02-17.md#transcript) | Coming Soon |
+| #2      | Wednesday April 19, 2023 10:00 AM PT (Pacific Time)  | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings-2023/wg-events-002-2023-04-14.md) | [Link](https://github.com/akash-network/community/blob/main/wg-events/meetings-2023/wg-events-002-2023-04-14.md#transcript) | Coming Soon |
 
 ## wg-events 2024 Meetings
 
