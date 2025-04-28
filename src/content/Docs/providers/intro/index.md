@@ -10,14 +10,15 @@ Akash Network provides a decentralized cloud marketplace where users can lease c
 
 ## Getting Started
 
-There are two primary ways to become an Akash provider:
+There are three primary ways to become an Akash provider:
 
-1. **Using the Akash CLI:** This method gives you full control over your provider setup and operations, allowing for advanced configurations and automation.
-2. **Using the Akash Web App:** This more user-friendly approach enables providers to onboard quickly without needing extensive command-line knowledge.
+1. **Using the Provider Playbook Script:** This automated approach uses Ansible playbooks to set up and configure your provider infrastructure, including Kubernetes, GPU support, and storage solutions. It's ideal for those who want a standardized, repeatable deployment process.
+2. **Using the Akash CLI:** This method gives you full control over your provider setup and operations, allowing for advanced configurations and automation.
+3. **Using the Akash Web App:** This more user-friendly approach enables providers to onboard quickly without needing extensive command-line knowledge.
 
-Both methods allow you to register your resources, set pricing, and accept deployment requests from tenants seeking cloud compute power.
+All methods allow you to register your resources, set pricing, and accept deployment requests from tenants seeking cloud compute power.
 
-Becoming an Akash provider helps to decentralize cloud computing while allowing you to monetize unused compute capacity. Whether you choose the CLI or the web app, the process is designed to be straightforward and accessible to a wide range of users.
+Becoming an Akash provider helps to decentralize cloud computing while allowing you to monetize unused compute capacity. Whether you choose the playbook, CLI, or web app approach, the process is designed to be straightforward and accessible to a wide range of users.
 
 ## Prerequisites for Building an Akash Provider
 
@@ -32,8 +33,8 @@ For detailed steps on creating an Akash account, please refer to our [documentat
 **Kubernetes Master Node Requirements**
 
 - **Minimum Specifications:**
-    - 8 CPUs
-    - 16 GB RAM
+    - 4 CPUs
+    - 8 GB RAM
     - 50 GB Disk
 
 - **Recommended Specifications:**
