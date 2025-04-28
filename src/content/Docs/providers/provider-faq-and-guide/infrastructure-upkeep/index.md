@@ -1,11 +1,12 @@
 ---
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "Infrastructure", "Maintenance"]
+weight: 1
+title: "Infrastructure Upkeep"
+linkTitle: "Infrastructure Upkeep"
+---
 
-categories: ["Providers"]
- tags: [] 
- weight: 2 
- title: "Infrastructure, Upkeep, and Advanced Operations" 
- linkTitle: "Infrastructure, Upkeep, and Advanced Operations"
---- 
+# Infrastructure Upkeep
 
 ## Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
 
