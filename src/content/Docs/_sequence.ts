@@ -113,11 +113,9 @@ export const docsSequence = [
 
           { label: "Akash Provider FAQ and Guide",
             subItems: [
-              { label: "Infrastructure Upkeep and Advanced Operations"},
-              { label: "Quick Fixes / Operational Tasks"},
-              { label: "Monitoring, Logs, & Management"},
-              
-
+              { label: "Infrastructure Upkeep"},
+              { label: "Lease Management"},
+              { label: "Maintenance, Logs and Troubleshooting"},
             ],
           },
 
