@@ -9,7 +9,6 @@ linkTitle: "Infrastructure, Upkeep, and Advanced Operations"
 - [Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide](#maintaining-and-rotating-kubernetes-etcd-certificates-a-how-to-guide)
 - [Force New ReplicaSet Workaround](#force-new-replicaset-workaround)
 - [Kill Zombie Processes](#kill-zombie-processes)
-- [Provider Bid Script Migration - GPU Models](#provider-bid-script-migration---gpu-models)
 
 
 ## Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
@@ -357,72 +356,4 @@ Since providers cannot control the internal configuration of tenant containers, 
 
 This workaround will help mitigate the impact of zombie processes on the system by periodically terminating their parent processes, thus preventing the system's PID table from being overwhelmed.
 
-
-
-## Provider Bid Script Migration - GPU Models
-
-A new bid script for Akash Providers has been released that now includes the ability to specify pricing of multiple GPU models.
-
-##### New Features of Bid Script Release
-
-- Parameterized price targets via Helm chart values
-- Model-based GPU pricing
-
-##### STEP 1 - Backup your current bid price script
-
-```
-helm -n akash-services get values akash-provider -o json | jq -r '.bidpricescript | @base64d' > old-bid-price-script.sh
-```
-
-##### STEP 2 - Verify Previous Custom Target Price Values
-
-```
-cat old-bid-price-script.sh | grep ^TARGET
-```
-
-##### STEP 3 - Backup Akash/Provider Config
-
-```
-helm -n akash-services get values akash-provider | grep -v '^USER-SUPPLIED VALUES' | grep -v ^bidpricescript > provider.yaml
-```
-
-##### STEP 4 - Update provider.yaml File Accordingly
-
-```
-price_target_cpu: 1.60
-price_target_memory: 0.80
-price_target_hd_ephemeral: 0.02
-price_target_hd_pers_hdd: 0.01
-price_target_hd_pers_ssd: 0.03
-price_target_hd_pers_nvme: 0.04
-price_target_endpoint: 0.05
-price_target_ip: 5
-price_target_gpu_mappings: "a100=120,t4=80,*=130"
-```
-
-##### STEP 5 - Download New Bid Price Script
-
-```
-mv -vi price_script_generic.sh price_script_generic.sh.old
-wget https://raw.githubusercontent.com/akash-network/helm-charts/main/charts/akash-provider/scripts/price_script_generic.sh
-```
-
-##### STEP 6 - Upgrade Akash/Provider Chart to Version 6.0.5
-
-```
-helm repo update akash
-helm search repo akash/provider
-```
-
-##### STEP 7 - Upgrade akash-provider Deployment with New Bid Script
-
-```
-helm upgrade akash-provider akash/provider -n akash-services -f provider.yaml --set bidpricescript="$(cat price_script_generic.sh | openssl base64 -A)"
-```
-
-##### Verification of Bid Script Update
-
-```
-helm list -n akash-services | grep akash-provider
-```
 
