@@ -1,9 +1,9 @@
 ---
-categories: ["Providers"]
-tags: []
-weight: 2
-title: "Helm Based Provider Persistent Storage Enablement"
-linkTitle: "Helm Based Provider Persistent Storage Enablement"
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "Storage", "Persistent"]
+weight: 4
+title: "Persistent Storage Enablement"
+linkTitle: "Persistent Storage Enablement"
 ---
 
 At Akash we use the Kubernetes Rook Operator coupled with the Ceph distributed file system to provision Provider persistent storage.
@@ -17,7 +17,7 @@ We encourage becoming familiar with Rook and Ceph prior to configuring Akash per
 Please take into consideration the following Akash recommendations:
 
 - Persistent storage should only be enabled on Kubernetes nodes that are NOT serving as control-plane/master nodes. This does not apply if you are running all-in-one node deployment.
-- Ceph will only deploy it’s BlueStore on unformatted volumes. A node must have unformatted volumes mounted to serve persistent storage capabilities.
+- Ceph will only deploy it's BlueStore on unformatted volumes. A node must have unformatted volumes mounted to serve persistent storage capabilities.
 - Ceph uses BlueStore as its default backend to store the objects in a monolithic database-like fashion.
 - To read more on Ceph Architecture go [here](https://docs.ceph.com/en/quincy/architecture/).
 
@@ -40,9 +40,9 @@ Get started within the following sections:
 
 ### Environment Overview
 
-When planning persistent storage, take into account the network (between the storage nodes) as a factor which will cause the latency, causing slower disk throughput / IOPS. This might not be suitable for heavy IOPS applications such as Solana validator.&#x20;
+When planning persistent storage, take into account the network (between the storage nodes) as a factor which will cause the latency, causing slower disk throughput / IOPS. This might not be suitable for heavy IOPS applications such as Solana validator.
 
-In this case the "all-in-one" provider configuration might be desirable to avoid the network affecting the storage performance. I.e. for the best disk performance, the pods should run where persistent storage has been deployed.&#x20;
+In this case the "all-in-one" provider configuration might be desirable to avoid the network affecting the storage performance. I.e. for the best disk performance, the pods should run where persistent storage has been deployed.
 
 It is advised to run control-plane / etcd separately, for sake of performance and security. We recommend to benchmark your storage with this [script](https://github.com/masonr/yet-another-bench-script) before and after deploying Persistent Storage. This will help know the difference before starting to advertising your provider on the Akash network.
 
@@ -61,7 +61,7 @@ At least three Ceph OSDs are normally required for redundancy and high availabil
 
 - At least 1 HDD/SSD/NVME disk with 1 OSD per disk over 3 storage nodes; (which makes a total 3 of OSDs)
 
-#### Maximum OSDs per single drive&#x20;
+#### Maximum OSDs per single drive
 
 - HDD 1 OSD
 - SSD 1 OSD
@@ -618,7 +618,7 @@ TEST SUITE: None
 
 ## Verify Provider Settings
 
-- Issue the following command to verify values applied by Helm&#x20;
+- Issue the following command to verify values applied by Helm
 
 ```
 helm -n akash-services get values akash-provider

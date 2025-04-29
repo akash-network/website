@@ -1,9 +1,9 @@
 ---
-categories: ["Providers"]
-tags: []
-weight: 2
-title: "Akash Provider Attribute Updates"
-linkTitle: "Akash Provider Attribute Updates"
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "Attributes", "Updates"]
+weight: 6
+title: "Provider Attribute Updates"
+linkTitle: "Provider Attribute Updates"
 ---
 
 ## Initial Guidance and Assumptions

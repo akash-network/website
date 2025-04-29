@@ -1,9 +1,9 @@
 ---
-categories: ["Providers"]
-tags: []
-weight: 2
-title: "TLS Certs for Akash Provider (Optional Step)"
-linkTitle: "TLS Certs for Akash Provider (Optional Step)"
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "TLS", "Certificates"]
+weight: 7
+title: "TLS Certificates"
+linkTitle: "TLS Certificates"
 ---
 
 Follow the instructions in this guide to replace the `Kubernetes Ingress Controller Fake Certificate` default cert which `ingress-nginx` serves over 443/tcp (HTTPS) by default.

@@ -1,7 +1,11 @@
 ---
-title: Hardware Best Practices
-description: Guidelines for hardware requirements and best practices when setting up an Akash provider
----
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "Hardware", "Best Practices"]
+weight: 4
+title: "Hardware Best Practices"
+linkTitle: "Hardware Best Practices"
+description: "Guidelines for hardware requirements and best practices when setting up an Akash provider"
+--- 
 
 # Hardware Best Practices
 

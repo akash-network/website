@@ -1,9 +1,9 @@
 ---
-categories: ["Providers"]
-tags: []
-weight: 2
-title: "IP Leases - Provider Enablement (Optional Step)"
-linkTitle: "IP Leases - Provider Enablement (Optional Step)"
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "IP", "Leases"]
+weight: 5
+title: "IP Leases Enablement"
+linkTitle: "IP Leases Enablement"
 ---
 
 In this guide we detail the enablement of IP Leases on a pre-existing Akash provider.
@@ -235,9 +235,9 @@ status: {}
 
 ## Enable strictARP in kube-proxy
 
-If you’re using kube-proxy in IPVS mode, since Kubernetes v1.14.2 you have to enable strict ARP mode.
+If you're using kube-proxy in IPVS mode, since Kubernetes v1.14.2 you have to enable strict ARP mode.
 
-> _**NOTE**_ - this is not needed if you’re using kube-router as service-proxy because it is enabling strict ARP by default.
+> _**NOTE**_ - this is not needed if you're using kube-router as service-proxy because it is enabling strict ARP by default.
 
 Achieve this by patching your kube-proxy config in current cluster:
 

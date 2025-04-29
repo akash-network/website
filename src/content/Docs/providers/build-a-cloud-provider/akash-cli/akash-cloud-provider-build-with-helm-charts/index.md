@@ -1,6 +1,6 @@
 ---
-categories: ["Providers"]
-tags: []
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "Helm", "Charts"]
 weight: 2
 title: "Akash Cloud Provider Build With Helm Charts"
 linkTitle: "Akash Cloud Provider Build With Helm Charts"

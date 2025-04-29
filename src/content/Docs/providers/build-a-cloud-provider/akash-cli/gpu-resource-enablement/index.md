@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
 tags: []
-weight: 2
+weight: 3
 title: "GPU Resource Enablement (Optional Step)"
 linkTitle: "GPU Resource Enablement (Optional Step)"
 ---
