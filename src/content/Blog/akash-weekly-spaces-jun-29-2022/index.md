@@ -33,7 +33,7 @@ Praetor App is a Web3 and blockchain application development group focused on de
 ![](https://www.datocms-assets.com/45776/1656696411-screen-shot-2022-07-01-at-9-28-05-am.png)
 
 - Validators such as [Vixelo are frequently offering FREE assistance](https://twitter.com/0xVixello/status/1541428927570186245?s=20&t=_QB8k29Obfn_AltQIHZpiQ) to anyone willing to migrate to Akash. Click [here](https://vixello.com/akash-network-deployment-support/) to reach out for assistance in deploying your app on Akash Network.
-- [Strangeclan](https://market.passage3d.com/explore), an action rpg is one of the first NFT-based games to be released on Akash and [announced on July 7th at 3 PM EDT, their Town 2 collection is minting](https://twitter.com/gregosuri/status/1541892979903692800?s=20&t=-8PiaDoa2mdQCnLR7LnCSQ).
+- [Strangeclan](https://marketplace.passage.io/), an action rpg is one of the first NFT-based games to be released on Akash and [announced on July 7th at 3 PM EDT, their Town 2 collection is minting](https://twitter.com/gregosuri/status/1541892979903692800?s=20&t=-8PiaDoa2mdQCnLR7LnCSQ).
 
 ####  Akash GPU Marketplace is Closer Than You Think
 

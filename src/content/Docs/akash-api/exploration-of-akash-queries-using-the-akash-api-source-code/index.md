@@ -133,7 +133,7 @@ func manualMarshal(msg proto.Message) ([]byte, error) {
 #### Protoc Generated Go Code Overview
 
 * Within the example Deployments blockchain query we make use of:
-  * [ ] Deployments protobuf definitions which are originally defined [here](https://github.com/akash-network/akash-api/tree/main/proto/node/akash/deployment/v1beta3) and specifically in the `query.proto` definition file
+  * [ ] Deployments protobuf definitions which are originally defined [here](-api/tree/main/proto/node/akash/deployment/v1beta3) and specifically in the `query.proto` definition file
   * [ ] Go code generated via protoc and that are located [here](https://github.com/akash-network/akash-api/tree/main/go/node/deployment/v1beta3) and specifically the `query.pb.gw.go` and `query.pb.go` files
 
 > _**NOTE**_ - the protoc generated Go files used in our custom code examples are the same type definitions used throughout Akash source code.  For example - the Akash CLI source code and specifically Deployment/Deployments queries are defined [here](https://github.com/akash-network/node/blob/main/x/deployment/client/cli/query.go).   Within the referenced file and CLI client definitions the types located in `github.com/akash-network/akash-api/go/node/deployment/v1beta3` are utilized.  These are the same definitions and types we we use in this custom client code example.

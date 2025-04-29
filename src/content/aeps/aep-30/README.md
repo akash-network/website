@@ -6,8 +6,8 @@ status: Final
 type: Standard
 category: Core
 created: 2024-08-29
-updated: 2024-02-18
-estimated-completion: 2025-03-31
+updated: 2024-04-22
+estimated-completion: 2025-08-31
 roadmap: major
 requires: 61
 discussions-to: https://github.com/orgs/akash-network/discussions/673

@@ -13,7 +13,9 @@ Here’s a step-by-step guide on how to deploy **CJDNS PKT** on Akash:
 ### Prerequisites
 
 1. **Akash Account**: Ensure you have an Akash account. If you don’t, create one at [Akash](https://akash.network/).
-2. **Akash CLI**: Install the Akash CLI to interact with the Akash network. Follow the [Akash CLI installation guide](/docs/deployments/akash-cli/installation/#install-akash-cli) to install the CLI.
+
+2. **Akash CLI**: Install the Akash CLI to interact with the Akash network. Follow the [Akash CLI installation guide](/docs/getting-started/quickstart-guides/akash-cli/) to install the CLI.
+
 3. **Docker**: cjdns needs to run inside a container. Ensure Docker is installed on your local machine.
 4. **cjdns Packet**: You will need the container image or packet of cjdns, or you will build one from the cjdns source.
 
