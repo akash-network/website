@@ -28,27 +28,12 @@ A deposit of 5 AKT is required to place a bid on an order. This deposit is fully
 
 For detailed steps on creating an Akash account, please refer to our [documentation](/docs/deployments/akash-cli/installation/).
 
-### Kubernetes Cluster Hardware Requirements and Recommendations
+### Hardware Requirements
 
-**Kubernetes Master Node Requirements**
+For comprehensive hardware requirements and best practices, please refer to our [Hardware Best Practices](/docs/providers/build-a-cloud-provider/hardware-best-practices/) guide. This guide covers:
 
-- **Minimum Specifications:**
-    - 4 CPUs
-    - 8 GB RAM
-    - 50 GB Disk
-
-- **Recommended Specifications:**
-    - 16 CPUs
-    - 32 GB RAM
-    - 100 GB Disk
-
-**Kubernetes Worker Node Requirements**
-
-- **Minimum Specifications:**
-    - 4 CPUs
-    - 8 GB RAM
-    - 100 GB Disk
-
-- **Recommendations:**
-    - The more resources available, the better the performance, especially for handling more concurrent deployments.
-    - It is crucial to maximize CPU capacity. For instance, if you have 8 CPUs, 100 GB RAM, and 2 TB of storage, the CPU is likely to be the bottleneck. Since people tend to deploy at least 1 CPU per deployment, the server could only host a maximum of 8 deployments, and likely only around 6 deployments, as approximately 2 CPUs will be reserved for Kubernetes system components.
+- System requirements for control plane and worker nodes
+- GPU requirements and configurations
+- Storage best practices
+- Network requirements
+- Security considerations

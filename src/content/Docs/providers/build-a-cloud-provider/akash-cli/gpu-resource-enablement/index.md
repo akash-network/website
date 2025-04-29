@@ -6,7 +6,7 @@ title: "GPU Resource Enablement (Optional Step)"
 linkTitle: "GPU Resource Enablement (Optional Step)"
 ---
 
-The steps involved in enabling your Akash Provider to host GPU resources are covered in this section and via these steps:
+The steps involved in enabling your Akash Provider to host GPU resources are covered in this section and via these steps. For comprehensive hardware requirements and best practices, including GPU specifications and configurations, please refer to our [Hardware Best Practices](/docs/providers/build-a-cloud-provider/hardware-best-practices/) guide.
 
 - [GPU Provider Configuration](#gpu-provider-configuration)
 - [Enabling GPU Resources on Akash](#enabling-gpu-resources-on-akash)
@@ -167,7 +167,7 @@ These guides are essential for ensuring GPU compatibility, particularly for prov
 
 ### 2. Troubleshooting Undetected GPUs in `gpus.json`
 
-In some cases, a provider’s GPU may not be recognized if it isn’t listed in the [gpus.json](https://github.com/akash-network/provider-configs/blob/main/devices/pcie/gpus.json) file. To check if your GPU model is missing, use the following command to list GPU details on your system:
+In some cases, a provider's GPU may not be recognized if it isn't listed in the [gpus.json](https://github.com/akash-network/provider-configs/blob/main/devices/pcie/gpus.json) file. To check if your GPU model is missing, use the following command to list GPU details on your system:
 
 ```bash
 provider-services tools psutil list gpu | jq '.cards[] | .pci | {vendor: .vendor, product: .product}'
