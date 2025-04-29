@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "CLI", "Command Line"]
 weight: 2
 title: "Akash CLI Provider Setup"

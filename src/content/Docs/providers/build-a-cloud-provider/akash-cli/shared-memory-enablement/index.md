@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "Shared Memory"]
 weight: 8
 title: "Shared Memory Enablement"

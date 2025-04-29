@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "Provider Playbook", "Automation"]
 weight: 1
 title: "Provider Playbook Script"

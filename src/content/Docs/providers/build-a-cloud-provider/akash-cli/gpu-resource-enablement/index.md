@@ -1,6 +1,6 @@
 ---
 categories: ["Providers"]
-tags: []
+tags: ["Akash Provider", "GPU", "Resources"]
 weight: 3
 title: "GPU Resource Enablement (Optional Step)"
 linkTitle: "GPU Resource Enablement (Optional Step)"

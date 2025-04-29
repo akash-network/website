@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "Hardware", "Best Practices"]
 weight: 4
 title: "Hardware Best Practices"

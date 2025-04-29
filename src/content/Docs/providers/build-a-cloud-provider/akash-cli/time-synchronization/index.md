@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "Time", "Synchronization"]
 weight: 12
 title: "Time Synchronization"

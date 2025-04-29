@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "Storage", "Persistent"]
 weight: 4
 title: "Persistent Storage Enablement"

@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "gVisor", "Issue Resolution"]
 weight: 10
 title: "gVisor Issue Resolution"

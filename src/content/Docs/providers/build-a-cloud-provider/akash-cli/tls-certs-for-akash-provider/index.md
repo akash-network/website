@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "TLS", "Certificates"]
 weight: 7
 title: "TLS Certificates"

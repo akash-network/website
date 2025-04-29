@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "Kubernetes", "Cluster Setup"]
 weight: 1
 title: "Kubernetes Cluster Setup"

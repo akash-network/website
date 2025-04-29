@@ -1,5 +1,5 @@
 ---
-categories: ["Akash Provider"]
+categories: ["Providers"]
 tags: ["Akash Provider", "IP", "Leases"]
 weight: 5
 title: "IP Leases Enablement"
