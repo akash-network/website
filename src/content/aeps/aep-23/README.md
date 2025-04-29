@@ -40,7 +40,6 @@ AKT 2.0 is a massive undertaking that encompasses economics, incentive theory, a
 ### Phase 1: MVP
 
 For the initial launch, we should focus on the bare essentials to expedite implementation. This phase should be limited to:
-
 1. Native USDC integration
    - Transactions will occur in a single currency (USDC to USDC or AKT to AKT), without any currency conversion.
 2. Simplified take rate mechanism
@@ -58,7 +57,6 @@ For the initial launch, we should focus on the bare essentials to expedite imple
 ### Stage 3: Additional Features
 
 All Phasse 3 enhancements should be considered secondary priorities after implementing more critical aspects of AKT 2.0.
-
 1. Implement atomic swap functionality:
    - Integrate at the account module level to potentially enable automatic burning in the future.
    - Incorporate at the tenant account level, allowing those who prefer to pay in USDC to avoid acquiring AKT solely for gas fees.
@@ -69,7 +67,6 @@ All Phasse 3 enhancements should be considered secondary priorities after implem
 ## Feature and Capability Overview
 
 The following list outlines key features and capabilities, presented without specific prioritization:
-
 1. Axelar-based USDC integration
    - Implement USDC support within the SDL
 2. Osmosis DEX integration
@@ -94,7 +91,7 @@ This document outlines the key features for the first phase of the stable paymen
 ### USDC Integration
 
 1. Initially, only Axelar USDC on Osmosis will be supported as the stable currency on Akash Network.Future considerations: Axelar USDC directly on Akash Network, Gravity USDC, issuance chain USDC.
-   ![USDC on Osmosis](https://user-images.githubusercontent.com/68354230/228345109-ab3d4ecc-2325-453a-8d03-54da6005cf3a.png)
+![USDC on Osmosis](https://user-images.githubusercontent.com/68354230/228345109-ab3d4ecc-2325-453a-8d03-54da6005cf3a.png)
 
 2. Leverage existing Kado onramp support on Osmosis
 
@@ -105,9 +102,9 @@ This document outlines the key features for the first phase of the stable paymen
 4. Establish a governance-updatable table of supported currencies and their respective Take rates. Initial table for phase 1:
 
 | Currency | Take Rate |
-| -------- | --------- |
-| AKT      | 4%        |
-| USDC     | 20%       |
+| -------- | -------- |
+| AKT | 4% |
+| USDC | 20% |
 
 ### Fee Structure
 
@@ -138,7 +135,7 @@ This document outlines the key features for the first phase of the stable paymen
 
 1. Inform providers about fee rates and pricing strategies.
 2. Educate tenants on potential cost benefits of AKT vs USDC payments.
-3. Brief ecosystem partners (Praetor, Cloudmos, Spheron, etc.) on changes. Praetor is now called Akash providers console.
+3. Brief ecosystem partners (Praetor, Cloudmos, Spheron, etc.) on changes.
 4. Initiate discussions on GitHub and Discord for feedback and clarifications.
 5. Prepare Vanguards and insiders to address community questions.
 6. Update relevant documentation.
@@ -152,4 +149,4 @@ This document outlines the key features for the first phase of the stable paymen
 
 ## Copyright
 
-All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). 
