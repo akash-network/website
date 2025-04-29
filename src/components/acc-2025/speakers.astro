@@ -52,6 +52,24 @@ const speakers = [
     image: "/images/acc-2025/speakers/daniel.png",
   },
   {
+    name: "Mark Palmer",
+    title: "Managing Director/Senior ",
+    company: "Equity Research Analyst <br/> The Benchmark Company",
+    image: "/images/acc-2025/speakers/mark.png",
+  },
+  {
+    name: "Jiahao Sun",
+    title: "CEO",
+    company: "FLock.io",
+    image: "/images/acc-2025/speakers/jiahao.png",
+  },
+  {
+    name: "Casey Caruso",
+    title: "Investor",
+    company: "Topology Ventures",
+    image: "/images/acc-2025/speakers/casey.png",
+  },
+  {
     name: "Tommy Eastman",
     title: "Research Lead",
     company: "Plaintext Capital",
@@ -98,9 +116,10 @@ const speakers = [
                   {speaker.title}
                 </p>
                 {speaker.company && (
-                  <p class="text-xs font-medium !leading-[1.2] text-[#909090] md:text-lg">
-                    {speaker.company}
-                  </p>
+                  <p
+                    set:html={speaker.company}
+                    class="text-xs font-medium !leading-[1.2] text-[#909090] md:text-lg"
+                  />
                 )}
               </div>
             </div>

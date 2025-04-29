@@ -10,7 +10,7 @@ tags:
 description: The no-code platform for AI model fine-tuning. Train, deploy, and monetize AI models effortlessly through our integrated marketplace.
 
 twitterLink: "https://x.com/Build_Vertical"
-websiteLink: "https://app.verticalstudio.ai/model/44"
+websiteLink: "https://app.verticalstudio.ai/stream"
 
 ctaButton:
   label: View Project

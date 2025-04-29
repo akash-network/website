@@ -89,7 +89,7 @@ You can customize the reference to your specific workload needs in the following
 
 Note that you will need to rebuild the docker images for the head node and the worker node and push them to a container registry, if you update the Dockerfiles. Follow the instructions in the [README](https://github.com/akash-network/awesome-akash/blob/master/ray/README.md) for that.
 
-2. To update the number of worker nodes in your Ray cluster, modify the [deployment example file](https://github.com/akash-network/awesome-akash/blob/master/ray/deployment_example.yaml) (note that the reference deploys 6 Ray worker nodes).
+2. To update the number of worker nodes in your Ray cluster, modify the [deployment example file](https://github.com/akash-network/awesome-akash/blob/master/ray/deploy.yaml) (note that the reference deploys 6 Ray worker nodes).
 
    ```
    version: '2.0'

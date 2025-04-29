@@ -16,6 +16,6 @@ ctaButton:
   enable: true
 
 websiteLink: "https://nodeshift.com/"
-twitterLink: "https://twitter.com/nodeshiftcloud"
+twitterLink: "https://twitter.com/nodeshiftai"
 featured: true
 ---

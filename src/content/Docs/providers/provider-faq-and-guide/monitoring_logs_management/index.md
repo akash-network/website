@@ -6,6 +6,9 @@ title: "Monitoring, Logs, & Management"
 linkTitle: "Monitoring, Logs, & Management"
 ---
 
+
+This section addresses common questions about monitoring, logging, and managing Akash provider operations. It aims to equip providers with the knowledge and tools necessary to effectively oversee their infrastructure, manage leases, track revenue, and troubleshoot issues.
+
 - [Provider Logs](#provider-logs)
 - [Provider Status and General Info](#provider-status-and-general-info)
 - [Provider Lease Management](#provider-lease-management)
@@ -35,8 +38,10 @@ kubectl -n akash-services logs $(kubectl -n akash-services get pods -l app=akash
 ### Example Output
 
 - Note within the example the receipt of a deployment order with a DSEQ of 5949829
-- The sequence shown from `order-detected` thru reservations thru `bid-complete` provides an example of what we would expect to see when an order is received by the provider
-- The order receipt is one of many events sequences that can be verified within provider logs
+
+- The sequence shown from `order-detected` through reservations through `bid-complete` provides an example of what we would expect to see when an order is received by the provider
+- The order receipt is one of many event sequences that can be verified within provider logs
+
 
 ```
 kubectl -n akash-services logs $(kubectl -n akash-services get pods -l app=akash-provider --output jsonpath='{.items[-1].metadata.name}') --tail=10 -f
@@ -72,8 +77,9 @@ Use the verifications included in this section for the following purposes:
 Obtain live Provider status including:
 
 - Number of active leases
-- Active leases and hard consumed by those leases
-- Available resources on a per node basis
+- Active leases and hard-consumed resources reserved by those leases. 
+- Available resources on a per-node basis
+
 
 #### Command Template
 
@@ -93,8 +99,10 @@ provider-services status akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
 
 ```
 provider-services status akash1wxr49evm8hddnx9ujsdtd86gk46s7ejnccqfmy
+
 {
   "cluster": {
+
     "leases": 3,
     "inventory": {
       "active": [
@@ -150,6 +158,127 @@ provider-services status akash1wxr49evm8hddnx9ujsdtd86gk46s7ejnccqfmy
 }
 ```
 
+
+## Provider Lease Management
+
+Use the verifications included in this section for the following purposes:
+
+- [List Provider Active Leases](#list-provider-active-leases)
+- [List Active Leases from Hostname Operator Perspective](#list-active-leases-from-hostname-operator-perspective)
+- [Provider Side Lease Closure](#provider-side-lease-closure)
+- [Ingress Controller Verifications](#ingress-controller-verifications)
+
+### List Provider Active Leases
+
+#### Command Template
+
+Issue the commands in this section from any machine that has the [Akash CLI](/docs/deployments/akash-cli/installation/) installed.
+
+```
+provider-services query market lease list --provider <provider-address> --gseq 0 --oseq 0 --page 1 --limit 500 --state active
+```
+
+#### Example Command Use
+
+```
+provider-services query market lease list --provider akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --gseq 0 --oseq 0 --page 1 --limit 500 --state active
+```
+
+#### Example Output
+
+```
+leases:
+- escrow_payment:
+   account_id:
+      scope: deployment
+      xid: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28/5903794
+    balance:
+      amount: "0.455120000000000000"
+      denom: uakt
+    owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+    payment_id: 1/1/akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+    rate:
+      amount: "24.780240000000000000"
+      denom: uakt
+    state: open
+    withdrawn:
+      amount: "32536"
+      denom: uakt
+  lease:
+    closed_on: "0"
+    created_at: "5903822"
+    lease_id:
+      dseq: "5903794"
+      gseq: 1
+      oseq: 1
+      owner: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28
+      provider: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+    price:
+      amount: "24.780240000000000000"
+      denom: uakt
+    state: active
+```
+
+### List Active Leases from Hostname Operator Perspective
+
+##### **Command Syntax**
+
+Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has kubectl communication with the cluster.
+
+```
+kubectl -n lease get providerhosts
+```
+
+##### **Example Output**
+
+```
+NAME                                                  AGE
+gtu5bo14f99elel76srrbj04do.ingress.akashtesting.xyz   60m
+kbij2mvdlhal5dgc4pc7171cmg.ingress.akashtesting.xyz   18m
+```
+
+### Provider Side Lease Closure
+
+#### **Command Template**
+
+Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has kubectl communication with the cluster.
+
+```
+provider-services tx market bid close --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID --owner <TENANT-ADDRESS> --dseq $AKASH_DSEQ --gseq 1 --oseq 1 --from <PROVIDER-ADDRESS> --keyring-backend $AKASH_KEYRING_BACKEND -y --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.15
+```
+
+#### Example Command Use
+
+```
+provider-services tx market bid close --node $AKASH_NODE --chain-id akashnet-2 --owner akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn --dseq 5905802 --gseq 1 --oseq 1 --from akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j --keyring-backend os -y --gas-prices="0.0025uakt" --gas="auto" --gas-adjustment=1.15
+```
+
+#### **Example Output (Truncated)**
+
+```
+{"height":"5906491","txhash":"0FC7DA74301B38BC3DF2F6EBBD2020C686409CE6E973E25B4E8F0F1B83235473","codespace":"","code":0,"data":"0A230A212F616B6173682E6D61726B65742E763162657461322E4D7367436C6F7365426964","raw_log":"[{\"events\":[{\"type\":\"akash.v1\",\"attributes\":[{\"key\":\"module\",\"value\":\"deployment\"},{\"key\":\"action\",\"value\":\"group-paused\"},{\"key\":\"owner\",\"value\":\"akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn\"},{\"key\":\"dseq\",\"value\":\"5905802\"},{\"key\":\"gseq\",\"value\":\"1\"},{\"key\":\"module\",\"value\":\"market\"},{\"key\":\"action\",\"value\":\"lease-closed\"}
+```
+
+### Ingress Controller Verifications
+
+#### Example Command Use
+
+Issue the commands in this section from a control plane node within the Kubernetes cluster or a machine that has kubectl communication with the cluster.
+
+```
+kubectl get ingress -A
+```
+
+#### Example Output
+
+- **NOTE -** In this example output the last entry (with namespace moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk) represents an active deployment on the provider
+
+```
+NAMESPACE                                       NAME                                                  CLASS                 HOSTS                                                 ADDRESS                   PORTS   AGE
+
+moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk   5n0vp4dmbtced00smdvb84ftu4.ingress.akashtesting.xyz   akash-ingress-class   5n0vp4dmbtced00smdvb84ftu4.ingress.akashtesting.xyz   10.0.10.122,10.0.10.236   80      70s
+```
+
 ## Provider Manifests
 
 Use the verifications included in this section for the following purposes:
@@ -169,7 +298,9 @@ kubectl -n lease get manifests --show-labels
 
 #### Example Output
 
+
 - The show-labels options includes display of associated DSEQ / OSEQ / GSEQ / Owner labels
+
 
 ```
 kubectl -n lease get manifests --show-labels
@@ -202,6 +333,7 @@ kubectl -n lease get manifest moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk -o y
 apiVersion: akash.network/v2beta1
 kind: Manifest
 metadata:
+
   creationTimestamp: "2022-05-16T14:42:29Z"
   generation: 1
   labels:
@@ -250,7 +382,9 @@ spec:
     provider: akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j
 ```
 
-### Provider Earnings
+
+## Provider Earnings
+
 
 Use the verifications included in this section for the following purposes:
 
@@ -261,11 +395,13 @@ Use the verifications included in this section for the following purposes:
 
 ### Provider Earnings History
 
-Use the commands detailed in this section to gather the daily earnings history of your provider
+
+Use the commands detailed in this section to gather the daily earnings history of your provider.
 
 #### Command Template
 
-- Only the following variables need update in the template for your use:
+- Only the following variables need to be updated in the template for your use:
+
   - AKASH_NODE - populate value with the address of your RPC node
   - PROVIDER - populate value with your provider address
 
@@ -373,11 +509,15 @@ provider-services query market lease list --provider akash1yvu4hhnvs84v4sv53mzu5
 
 ### Current Leases: Withdrawn vs Consumed
 
-Use the commands detailed in this section to compare the amount of AKT consumed versus the amount of AKT withdrawn per deployment. This review will ensure that withdraw of consumed funds is occurring as expected.
+
+
+Only the following variables need update in the template for your use:
+=======
+Use the commands detailed in this section to compare the amount of AKT consumed versus the amount of AKT withdrawn per deployment. This review will ensure that the withdrawal of consumed funds is occurring as expected.
 
 #### Command Syntax
 
-Only the following variables need update in the template for your use:
+Only the following variables need to be updated in the template for your use:
 
 - AKASH_NODE - populate value with the address of your RPC node
 - PROVIDER - populate value with your provider address
@@ -406,4 +546,9 @@ PROVIDER=akash18ga02jzaq8cw52anyhzkwta5wygufgu6zsz6xc; HEIGHT=$(provider-service
 "akash12r63l4ldjvjqmagmq9fe82r78cqent5hucyg48"  "6496087/1/1"     114     49.9652    2.10661      2.204874    1.343125
 "akash12r63l4ldjvjqmagmq9fe82r78cqent5hucyg48"  "6496338/1/1"     98      42.9525    1.78683      1.871212    1.3259722222222223
 "akash1tfj0hh6h0zqak0fx7jhhjyc603p7d7y4xmnlp3"  "6511999/1/1"     66      28.9272    0.169422     0.226182    0.23798611111111112
+
 ```
+
+
+
+

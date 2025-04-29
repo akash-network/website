@@ -31,7 +31,7 @@ Awesome DeFi apps you can deploy on Akash
 - [Pancake Swap](https://github.com/akash-network/awesome-akash/blob/master/pancake-swap)
 - [Augur](https://github.com/akash-network/awesome-akash/blob/master/augur)
 - [Bancor](https://github.com/akash-network/awesome-akash/tree/73e3e1fc90f9e0f14a3d4cf93f00d6b8a455b0bb/bancor)
-- [Balancer](https://github.com/akash-network/awesome-akash/blob/master/Balancer)
+- [Balancer](https://github.com/akash-network/awesome-akash/tree/master/balancer)
 - [Luaswap](https://github.com/akash-network/awesome-akash/blob/master/luaswap)
 - [SushiSwap](https://github.com/akash-network/awesome-akash/blob/master/sushiswap)
 - [Uma Protocol](https://github.com/akash-network/awesome-akash/blob/master/uma-protocol)
