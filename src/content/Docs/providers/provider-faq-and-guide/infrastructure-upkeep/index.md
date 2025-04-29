@@ -6,6 +6,8 @@ title: "Infrastructure Upkeep"
 linkTitle: "Infrastructure Upkeep"
 ---
 
+- [Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide](#maintaining-and-rotating-kubernetes-etcd-certificates-a-how-to-guide)
+
 # Infrastructure Upkeep
 
 ## Maintaining and Rotating Kubernetes/etcd Certificates: A How-To Guide
