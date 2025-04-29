@@ -101,19 +101,19 @@ We recommend installing Kubespray on Ubuntu 22.04. Versions prior it Ubuntu 20.X
 
 Obtain Kubespray and navigate into the created local directory:
 
-> NOTE: It is recommended to try a newer version of Kubespray than `v2.24.1` -- https://github.com/kubernetes-sigs/kubespray/releases  
+> NOTE: It is recommended to try a newer version of Kubespray than `v2.26.0` -- https://github.com/kubernetes-sigs/kubespray/releases  
 
 ```
 cd ~
 
-git clone -b v2.24.1 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
+git clone -b v2.26.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 
 cd kubespray
 ```
 
 ### Cluster Updates
 
-To update the Kubernetes cluster in the future, review the[ latest Kubespray documentation](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/upgrades.md) to take advantage of recent bug fixes and enhancements.
+To update the Kubernetes cluster in the future, review the[ latest Kubespray documentation](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/upgrades/migrate_docker2containerd.md) to take advantage of recent bug fixes and enhancements.
 
 ## STEP 2 - Install Ansible
 

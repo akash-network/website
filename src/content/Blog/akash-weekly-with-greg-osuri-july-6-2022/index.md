@@ -40,7 +40,7 @@ We attribute this uptick to our partnership with the Chia Project, a new blockch
 
 ![](https://www.datocms-assets.com/45776/1657299368-unnamed-4.png)
 
-The Praetor App streamlined provider deployments, and it now includes persistent storage. Persistent storage, as a newer feature on the Akash Network, is still somewhat expensive simply because there aren't enough providers who currently offer it. Praetor is continuing to come up with innovative ways that simplify persistent storage enablement on Akash and we anticipate more and more providers offering this feature in near future. To learn more about Praetor App, click [here](https://youtu.be/M6-8x4WUMjo).
+The Praetor App streamlined provider deployments, and it now includes persistent storage. Persistent storage, as a newer feature on the Akash Network, is still somewhat expensive simply because there aren't enough providers who currently offer it. Praetor is continuing to come up with innovative ways that simplify persistent storage enablement on Akash and we anticipate more and more providers offering this feature in near future. To learn more about Praetor App, click [here](https://youtu.be/M6-8x4WUMjo). [Praetor is now called Akash provider console](https://provider-console.akash.network/)
 
 ![](https://www.datocms-assets.com/45776/1657300118-unnamed-5.png)
 

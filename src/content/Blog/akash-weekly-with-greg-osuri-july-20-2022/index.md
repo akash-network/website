@@ -36,7 +36,7 @@ On this Spaces: CEO of Overclock Labs, Greg Osuri, and Alani Kuye, Program Manag
 
 ![](https://www.datocms-assets.com/45776/1658528393-unnamed-3.png)
 
-- **Praetor App launched its Akash Providers' map.** Praetor launched a new feature that allows users of the Praetor app to check the provider dashboard, and discover providers on a map of the entire world that uses Akash. Currently, Akash has 50 providers across the globe. Click [here](https://akash.praetorapp.com/provider-status) to see for yourself.
+- **Praetor App launched its Akash Providers' map.** Praetor launched a new feature that allows users of the Praetor app to check the provider dashboard, and discover providers on a map of the entire world that uses Akash. Praetor App is now called Akash Provider Console. Currently, Akash has 50 providers across the globe. Click [here](https://console.akash.network/providers) to see for yourself.
 
 ![](https://www.datocms-assets.com/45776/1658528480-unnamed-4.png)
 

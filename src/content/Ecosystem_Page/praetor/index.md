@@ -8,14 +8,14 @@ tags:
 
 category: tool
 
-description: Praetor App makes it simple to become an Akash Network cloud provider. Use a streamlined UI to become a provider.
+description: Praetor App makes it simple to become an Akash Network cloud provider. Use a streamlined UI to become a provider. Praetor is now called Akash provider console.
 
 ctaButton:
   label: View Project
-  link: "https://praetorapp.com/"
+  link: "https://provider-console.akash.network/"
   enable: true
 
-websiteLink: "https://akash.praetorapp.com/auth/login"
+websiteLink: "https://provider-console.akash.network/"
 
 featured: true
 ---

@@ -900,6 +900,8 @@ That's all. There is no need bouncing the `akash-provider` pod/service for the s
 The following doc is based on https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/.
 
 
+
+
 When K8s certs expire, you won't be able to use your cluster. Make sure to rotate your certs proactively.
 
 The following procedure explains how to rotate them manually.
