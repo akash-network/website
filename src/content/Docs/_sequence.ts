@@ -61,10 +61,13 @@ export const docsSequence = [
                 label: "Akash CLI",
                 subItems: [
                   { 
-                    label: "Kubernetes Cluster Setup" 
+                    label: "Akash CLI Introduction",
                   },
                   { 
-                    label: "Additional K8s Resources" 
+                    label: "Kubernetes Cluster Setup",
+                  },
+                  { 
+                    label: "Additional K8s Resources",
                   },
                   {
                     label: "Akash Cloud Provider Build With Helm Charts",

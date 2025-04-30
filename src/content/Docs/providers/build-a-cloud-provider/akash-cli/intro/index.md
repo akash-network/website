@@ -1,14 +1,19 @@
 ---
 categories: ["Providers"]
-tags: ["Akash Provider", "CLI", "Command Line"]
-weight: 2
-title: "Akash CLI Provider Setup"
-linkTitle: "Akash CLI Provider Setup"
+tags: ["Akash Provider", "CLI", "Introduction"]
+weight: 1
+title: "Akash CLI Introduction"
+linkTitle: "Akash CLI Introduction"
+description: "Introduction to setting up an Akash provider using the command-line interface."
 ---
 
-# Akash CLI Provider Setup
+# Akash CLI Introduction
 
-This section covers the manual setup of an Akash provider using the Akash CLI. Choose this method if you want full control over your provider setup and operations.
+This guide provides an overview and links for setting up an Akash provider manually using the Akash Command Line Interface (CLI).
+
+// You might want to add more introductory content here
+
+See the topics in the sidebar for specific setup steps.
 
 ## Topics
 

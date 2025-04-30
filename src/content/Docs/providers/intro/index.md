@@ -12,9 +12,9 @@ Akash Network provides a decentralized cloud marketplace where users can lease c
 
 There are three primary ways to become an Akash provider:
 
-1. **Using the Provider Playbook Script:** This automated approach uses Ansible playbooks to set up and configure your provider infrastructure, including Kubernetes, GPU support, and storage solutions. It's ideal for those who want a standardized, repeatable deployment process.
-2. **Using the Akash CLI:** This method gives you full control over your provider setup and operations, allowing for advanced configurations and automation.
-3. **Using the Akash Web App:** This more user-friendly approach enables providers to onboard quickly without needing extensive command-line knowledge.
+1. **[Using the Provider Playbook Script](/docs/providers/build-a-cloud-provider/provider-playbook-script/):** This automated approach uses Ansible playbooks to set up and configure your provider infrastructure, including Kubernetes, GPU support, and storage solutions. It's ideal for those who want a standardized, repeatable deployment process.
+2. **[Using the Akash CLI](/docs/providers/build-a-cloud-provider/akash-cli/):** This method gives you full control over your provider setup and operations, allowing for advanced configurations and automation.
+3. **[Using the Provider Console](/docs/providers/build-a-cloud-provider/provider-console/):** This more user-friendly approach enables providers to onboard quickly without needing extensive command-line knowledge.
 
 All methods allow you to register your resources, set pricing, and accept deployment requests from tenants seeking cloud compute power.
 
