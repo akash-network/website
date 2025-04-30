@@ -3,9 +3,13 @@ categories: ["Providers"]
 tags: ["Akash Provider", "Kubernetes", "Cluster Setup"]
 weight: 1
 title: "Kubernetes Cluster Setup"
-linkTitle: "Kubernetes Cluster Setup" 
+linkTitle: "Kubernetes Cluster Setup"
+description: "Guide for setting up a Kubernetes cluster for Akash providers"
+---
 
-Akash leases are deployed as Kubernetes pods on provider clusters. This guide details the build of the provider’s Kubernetes control plane and worker nodes.
+# Kubernetes Cluster Setup
+
+Akash leases are deployed as Kubernetes pods on provider infrastructure. This guide will walk you through setting up a Kubernetes cluster for your Akash provider.
 
 The setup of a Kubernetes cluster is the responsibility of the provider. This guide provides best practices and recommendations for setting up a Kubernetes cluster. This document is not a comprehensive guide and assumes pre-existing Kubernetes knowledge.
 
@@ -162,7 +166,7 @@ ssh-keygen -t rsa -C $(hostname) -f "$HOME/.ssh/id_rsa" -P "" ; cat ~/.ssh/id_rs
 
 #### **Confirm SSH Keys**
 
-- The keys will be stored in the user’s home directory
+- The keys will be stored in the user's home directory
 - Use these commands to verify keys
 
 ```
@@ -219,10 +223,10 @@ Ansible will use an inventory file to determine the hosts Kubernetes should be i
 
 ### **Inventory File**
 
-- Use the following commands on the Ansible host and in the “kubespray” directory
+- Use the following commands on the Ansible host and in the "kubespray" directory
 - Replace the IP addresses in the declare command with the addresses of your Kubernetes hosts (master/control-plane and worker nodes)
 - Running these commands will create a hosts.yaml file within the kubespray/inventory/akash directory
-- NOTE - ensure that you are still within the Python virtual environment when running these commands. Your cursor should have a “(venv)” prefix. If needed - re-enter the virtual environment by issuing:
+- NOTE - ensure that you are still within the Python virtual environment when running these commands. Your cursor should have a "(venv)" prefix. If needed - re-enter the virtual environment by issuing:
   - `source venv/bin/activate`
 
 ```
@@ -332,7 +336,7 @@ all:
 vi ~/kubespray/inventory/akash/hosts.yaml
 ```
 
-- Within the YAML file’s “all” stanza and prior to the “hosts” sub-stanza level - insert the following vars stanza
+- Within the YAML file's "all" stanza and prior to the "hosts" sub-stanza level - insert the following vars stanza
 
 ```
 vars:
@@ -828,73 +832,4 @@ kubectl -n kube-system get pods -l k8s-app=node-local-dns
 
 ### Verify etcd Status and Health
 
-> &#x20;Commands should be run on the control plane node to ensure health of the Kubernetes `etcd` database
-
-```
-export $(grep -v '^#' /etc/etcd.env | xargs -d '\n')
-etcdctl -w table member list
-etcdctl endpoint health --cluster -w table
-etcdctl endpoint status --cluster -w table
-etcdctl check perf
-```
-
-## STEP 9 - Custom Kernel Parameters
-
-### Create and apply custom kernel parameters
-
-Apply these settings to ALL Kubernetes worker nodes to guard against `too many open files` errors.
-
-#### Create Config
-
-```
-cat > /etc/sysctl.d/90-akash.conf << EOF
-# Common: tackle "failed to create fsnotify watcher: too many open files"
-fs.inotify.max_user_instances = 512
-fs.inotify.max_user_watches = 1048576
-
-# Custom: increase memory mapped files limit to allow Solana node
-# https://docs.solana.com/running-validator/validator-start
-vm.max_map_count = 1000000
-EOF
-```
-
-#### Apply Config
-
-```
-sysctl -p /etc/sysctl.d/90-akash.conf
-```
-
-## STEP 10 - Review Firewall Policies
-
-If local firewall instances are running on Kubernetes control-plane and worker nodes, add the following policies.
-
-### Kubernetes Port List
-
-In this step we will cover common Kubernetes ports that need to be opened for cross server communications. For an exhaustive and constantly updated reference, please use the following list published by the Kubernetes developers.
-
-- [Exhaustive list of Kubernetes Ports](https://kubernetes.io/docs/reference/ports-and-protocols/)
-
-### **Etcd Key Value Store Policies**
-
-Ensure the following ports are open in between all Kubernetes etcd instances:
-
-```
-- 2379/tcp for client requests; (Kubernetes control plane to etcd)
-- 2380/tcp for peer communication; (etcd to etcd communication)
-```
-
-### **API Server Policies**
-
-Ensure the following ports are open in between all Kubernetes API server instances:
-
-```
-- 6443/tcp - Kubernetes API server
-```
-
-### Worker Node Policies
-
-Ensure the following ports are open in between all Kubernetes worker nodes:
-
-```
-- 10250/tcp - Kubelet API server; (Kubernetes control plane to kubelet)
-```
+> Commands should be run on the control plane node to ensure health of the Kubernetes `
