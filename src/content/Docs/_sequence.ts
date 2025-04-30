@@ -118,10 +118,6 @@ export const docsSequence = [
               { label: "Hardware Best Practices" },
             ],
           },
-          {
-            
-          },
-
           { label: "Akash Provider FAQ and Guide",
             subItems: [
               { label: "Infrastructure Upkeep"},
@@ -130,7 +126,6 @@ export const docsSequence = [
               { label: "Provider Feature Discovery - GPU Configuration Integration Guide"},
             ],
           },
-
         ],
       },
       {
