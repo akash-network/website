@@ -61,7 +61,7 @@ Before using the Provider Playbook Script, ensure you have:
   >   - Handling provider operations
   >   - Emergency situations
   > 
-  > For more information on wallet setup and funding, see our [Wallet Setup Guide](/docs/getting-started/tokens-and-wallets/).
+  > For more information on wallet setup and funding, see our [Wallet Setup Guide](/docs/getting-started/token-and-wallets/).
 
 ## Quick Start
 
