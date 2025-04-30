@@ -1,4 +1,7 @@
 ---
+categories: ["Providers"]
+tags: ["Akash Provider", "Kubernetes", "Resources"]
+weight: 1
 title: "Build A Cloud Provider"
 linkTitle: "Build A Cloud Provider"
 description: "Guides for building an Akash cloud provider using different methods."
