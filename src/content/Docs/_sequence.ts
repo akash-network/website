@@ -102,6 +102,9 @@ export const docsSequence = [
                   {
                     label: "Time Synchronization",
                   },
+                  {
+                    label: "Custom Kubernetes Cluster Settings",
+                  },
                 ],
               },
               {
@@ -124,13 +127,10 @@ export const docsSequence = [
               { label: "Infrastructure Upkeep"},
               { label: "Lease Management"},
               { label: "Maintenance, Logs and Troubleshooting"},
+              { label: "Provider Feature Discovery - GPU Configuration Integration Guide"},
             ],
           },
 
-      
-
-          { label: "Community Solutions" },
-          { label: "Custom Kubernetes Cluster Settings" },
         ],
       },
       {

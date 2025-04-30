@@ -1,7 +1,7 @@
 ---
-categories: ["Providers"]
+categories: ["Akash CLi"]
 tags: []
-weight: 2
+weight: 5
 title: "Akash Audited Attributes"
 linkTitle: "Akash Audited Attributes"
 ---
