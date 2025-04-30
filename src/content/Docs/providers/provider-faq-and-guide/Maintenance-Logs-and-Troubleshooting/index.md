@@ -243,15 +243,18 @@ dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 > _**NOTE**_ - This method is prefered as helm could be deployed but pods may not be running
 
 ```bash
+
 kubectl get pods -n nvidia-device-plugin -l app.kubernetes.io/name=nvidia-device-plugin
-```
+
 
 ##### Example/Expected Output
 
 ```bash
 
+
 nvidia-device-plugin   nvidia-device-plugin-daemonset-abc123   1/1     Running   0     2d3h
 nvidia-device-plugin   nvidia-device-plugin-daemonset-def456   1/1     Running   0     2d3h
+
 
 ```
 
