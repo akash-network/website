@@ -321,4 +321,3 @@ dpkg -l | grep nvidia
 
 > Remove unexpected versions if necessary, and **reboot** the node to apply changes.
 
-
