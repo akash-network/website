@@ -43,16 +43,15 @@ apt autoremove
 
 #### Install Latest NVIDIA Drivers
 
-> _**NOTE**_ - replace `2204` with your Ubuntu version (e.g. `2404` for Ubuntu noble release)
-
+> _**NOTE**_ - Your Ubuntu version should be 24.04.
 > _**NOTE**_ - Running `apt dist-upgrade` with the official NVIDIA repo bumps the `nvidia` packages along with the `nvidia-fabricmanager`, without version mismatch issue.
 
 - Add the official nvidia repo
 
 ```
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub && \
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub && \
 apt-key add 3bf863cc.pub && \
-echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /" | tee /etc/apt/sources.list.d/nvidia-official-repo.list && \
+echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/ /" | tee /etc/apt/sources.list.d/nvidia-official-repo.list && \
 apt update
 ```
 
