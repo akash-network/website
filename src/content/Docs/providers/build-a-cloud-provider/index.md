@@ -1,4 +1,4 @@
- ---
+---
 categories: ["Providers"]
 tags: ["Akash Provider", "Kubernetes", "Resources"]
 weight: 1
@@ -14,4 +14,4 @@ This section contains guides for setting up your own Akash provider using variou
 - [Provider Playbook Script](/docs/providers/build-a-cloud-provider/provider-playbook-script/)
 - [Akash CLI Provider Setup](/docs/providers/build-a-cloud-provider/akash-cli/)
 - [Provider Console Setup](/docs/providers/build-a-cloud-provider/provider-console/)
-- [Hardware Best Practices](/docs/providers/build-a-cloud-provider/hardware-best-practices/) 
+- [Hardware Best Practices](/docs/providers/build-a-cloud-provider/hardware-best-practices/)
