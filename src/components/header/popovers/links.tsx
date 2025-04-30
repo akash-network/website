@@ -20,6 +20,11 @@ type NavItem = {
 
 export const communityItems: NavItem[] = [
   {
+    title: "Welcome",
+    link: "/community/welcome/",
+    icon: HeartHandshake,
+  },
+  {
     icon: CalendarHeart,
     title: "Events",
     link: "/community/events/",

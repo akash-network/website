@@ -1,0 +1,117 @@
+---
+import { socialLinks } from "@/lib/constants";
+interface SocialProps {
+  icon: string;
+  name: string;
+  link: string;
+}
+
+const socials: SocialProps[] = [
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.72498 20.75C14.7074 23.7412 18.2969 23.7412 24.2793 20.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20.6877 22.5526L21.8842 24.9456C21.8842 24.9456 26.8752 23.3563 28.4649 20.7579C28.4649 19.5614 29.0991 11.0106 24.8754 8.19476C23.0807 6.99827 20.0895 6.40002 20.0895 6.40002L18.893 8.793H16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.3498 22.5526L11.1533 24.9456C11.1533 24.9456 6.16232 23.3563 4.57258 20.7579C4.57258 19.5614 3.93834 11.0106 8.16205 8.19476C9.95679 6.99827 12.948 6.40002 12.948 6.40002L14.1445 8.793H16.5375" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.3115 18.3609C11.3203 18.3609 10.5167 17.2895 10.5167 15.9679C10.5167 14.6463 11.3203 13.575 12.3115 13.575C13.3027 13.575 14.1062 14.6463 14.1062 15.9679C14.1062 17.2895 13.3027 18.3609 12.3115 18.3609Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20.6928 18.3609C19.7016 18.3609 18.8981 17.2895 18.8981 15.9679C18.8981 14.6463 19.7016 13.575 20.6928 13.575C21.684 13.575 22.4875 14.6463 22.4875 15.9679C22.4875 17.2895 21.684 18.3609 20.6928 18.3609Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    name: "Discord",
+    link: socialLinks.discord,
+  },
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.2708 23.6145C9.19786 25.1364 9.19786 21.0781 7.1687 20.5708M21.3728 26.6583V22.7319C21.4109 22.2481 21.3455 21.7617 21.1811 21.3052C21.0166 20.8486 20.7569 20.4322 20.4191 20.0838C23.6049 19.7287 26.953 18.5214 26.953 12.9818C26.9527 11.5652 26.4078 10.203 25.4311 9.1771C25.8936 7.93779 25.8609 6.56795 25.3398 5.35213C25.3398 5.35213 24.1426 4.99703 21.3728 6.85371C19.0474 6.22348 16.5962 6.22348 14.2708 6.85371C11.501 4.99703 10.3037 5.35213 10.3037 5.35213C9.78264 6.56795 9.74994 7.93779 10.2124 9.1771C9.22842 10.2106 8.68298 11.5852 8.69057 13.0122C8.69057 18.5112 12.0387 19.7186 15.2245 20.1143C14.8907 20.4592 14.6332 20.8705 14.4689 21.3215C14.3046 21.7725 14.2371 22.253 14.2708 22.7319V26.6583" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    name: "Github",
+    link: socialLinks.github,
+  },
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.6862 6.40002H6.6438L22.4014 27.2H27.4438L11.6862 6.40002Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M27.9898 6.91418C28.2737 6.61261 28.2594 6.13795 27.9579 5.854C27.6563 5.57004 27.1817 5.58431 26.8977 5.88587L27.9898 6.91418ZM26.8977 5.88587L18.3288 14.986L19.4209 16.0143L27.9898 6.91418L26.8977 5.88587Z" fill="currentColor"/>
+<path d="M15.3749 18.4998L7.44373 27.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    name: "X",
+    link: socialLinks.twitter,
+  },
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.925 11.2632C22.8346 11.2632 24.6659 12.0284 26.0162 13.3905C27.3664 14.7526 28.125 16.6 28.125 18.5263V27H23.325V18.5263C23.325 17.8842 23.0721 17.2684 22.6221 16.8144C22.172 16.3603 21.5615 16.1053 20.925 16.1053C20.2885 16.1053 19.678 16.3603 19.2279 16.8144C18.7779 17.2684 18.525 17.8842 18.525 18.5263V27H13.725V18.5263C13.725 16.6 14.4836 14.7526 15.8338 13.3905C17.1841 12.0284 19.0154 11.2632 20.925 11.2632Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.925 12.4737H4.125V27H8.925V12.4737Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.525 8.84211C7.85048 8.84211 8.925 7.75816 8.925 6.42105C8.925 5.08394 7.85048 4 6.525 4C5.19952 4 4.125 5.08394 4.125 6.42105C4.125 7.75816 5.19952 8.84211 6.525 8.84211Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    name: "LinkedIn",
+    link: socialLinks.linkedin,
+  },
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M26.1868 10.3872C26.0716 9.92701 25.837 9.50537 25.5067 9.16486C25.1764 8.82436 24.7621 8.57704 24.3057 8.4479C22.6379 8.04065 15.9667 8.04065 15.9667 8.04065C15.9667 8.04065 9.29555 8.04065 7.62775 8.48669C7.17129 8.61583 6.75699 8.86314 6.4267 9.20365C6.09641 9.54416 5.86182 9.96579 5.74664 10.426C5.44141 12.1186 5.29211 13.8356 5.3006 15.5554C5.28972 17.2882 5.43904 19.0183 5.74664 20.7236C5.87362 21.1695 6.11346 21.5751 6.44299 21.9012C6.77251 22.2274 7.18057 22.463 7.62775 22.5853C9.29555 23.0314 15.9667 23.0314 15.9667 23.0314C15.9667 23.0314 22.6379 23.0314 24.3057 22.5853C24.7621 22.4562 25.1764 22.2089 25.5067 21.8684C25.837 21.5279 26.0716 21.1062 26.1868 20.6461C26.4897 18.9662 26.639 17.2623 26.6328 15.5554C26.6437 13.8226 26.4944 12.0925 26.1868 10.3872Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.785 18.7262L19.3605 15.5554L13.785 12.3847V18.7262Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    name: "Youtube",
+    link: socialLinks.youtube,
+  },
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M28.5 6.66663L3.16663 16.6666L12.5 18M28.5 6.66663L25.1666 26.6666L12.5 18M28.5 6.66663L12.5 18M12.5 18V25.3333L16.8317 20.9638" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    name: "Telegram",
+    link: socialLinks.telegram,
+  },
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M25.3394 16.4159C25.7351 16.0242 26.1342 15.6241 26.525 15.2208C26.525 14.7497 26.5283 10.2864 26.5283 10.2864L22.3237 6C17.2328 7.73737 11.8016 8.1341 6.46865 7.84812C6.46865 7.84812 6.46537 8.46141 6.46537 13.814L7.95521 15.3299C7.26835 15.7812 6.57658 16.2225 5.87827 16.6556L5.875 21.5834L10.0828 25.8748C15.7282 26.25 21.4962 25.8318 26.875 23.939V17.9781L25.3394 16.4126V16.4159ZM24.1133 21.6968C19.5964 23.0275 15.135 23.3763 10.5756 23.1912V20.8008C13.1987 19.1015 15.8235 17.2236 18.4434 15.0713C16.0165 15.3904 13.5945 15.4714 11.1627 15.3986V12.7554C15.3967 12.881 19.5588 12.5388 23.7617 11.3453V13.7356C21.1385 16.2847 18.5138 18.508 15.8939 20.4934C18.6364 20.3049 21.3724 19.8619 24.115 19.0535L24.6773 21.442L24.1133 21.6968Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
+`,
+    name: "Zealy",
+    link: socialLinks.zealy,
+  },
+  {
+    icon: `<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M21.7868 7.15716C21.7868 7.15716 21.1667 7.63922 21.1667 8.53677C21.1667 9.5345 21.9502 10.3433 22.9167 10.3433C23.8832 10.3433 24.6667 9.5345 24.6667 8.53677C24.6667 7.53905 23.8832 6.73023 22.9167 6.73023C22.486 6.73023 22.0917 6.89082 21.7868 7.15716ZM21.7868 7.15716L17.2422 6L15.5997 12.7825C13.4146 12.9309 11.4495 13.614 9.96702 14.6453C9.54611 14.2192 8.96945 13.9564 8.33333 13.9564C7.04467 13.9564 6 15.0348 6 16.3651C6 17.2909 6.50593 18.0947 7.24795 18.4979C7.19434 18.7852 7.16667 19.0783 7.16667 19.376C7.16667 23.0343 11.3453 26 16.5 26C21.6547 26 25.8333 23.0343 25.8333 19.376C25.8333 19.0783 25.8057 18.7852 25.752 18.4979C26.4941 18.0947 27 17.2909 27 16.3651C27 15.0348 25.9553 13.9564 24.6667 13.9564C24.0306 13.9564 23.4539 14.2192 23.033 14.6453C21.4179 13.5217 19.375 12.7556 15.6062 12.7556M12.0931 22.1896C13.3625 23.0632 14.9313 23.5 16.5 23.5C18.0687 23.5 19.6375 23.0632 20.9069 22.1896M14.1667 18.1717C14.1667 19.1694 13.3832 19.9782 12.4167 19.9782C11.4502 19.9782 10.6667 19.1694 10.6667 18.1717C10.6667 17.1739 11.4502 16.3651 12.4167 16.3651C13.3832 16.3651 14.1667 17.1739 14.1667 18.1717ZM22.3333 18.1717C22.3333 19.1694 21.5498 19.9782 20.5833 19.9782C19.6168 19.9782 18.8333 19.1694 18.8333 18.1717C18.8333 17.1739 19.6168 16.3651 20.5833 16.3651C21.5498 16.3651 22.3333 17.1739 22.3333 18.1717Z" stroke="currentColor" stroke-width="1.5"/>
+</svg>
+`,
+    name: "Reddit",
+    link: socialLinks.reddit,
+  },
+];
+---
+
+<section
+  id="socials"
+  class="mx-auto mb-[66px] flex max-w-[1100px] flex-col items-center justify-center px-6 md:mb-[96px] xl:px-0"
+>
+  <div>
+    <h2 class="text-center text-2xl font-semibold">
+      Explore our Social Channels
+    </h2>
+    <p class="mt-3 text-center text-sm">
+      Be part of the Akash Network community. Connect, contribute, and
+      collaborate to shape the future of decentralized cloud computing.
+    </p>
+  </div>
+
+  <div
+    class="mt-10 grid w-full grid-cols-2 flex-wrap justify-center gap-4 md:grid-cols-3 md:gap-6 lg:flex"
+  >
+    {
+      socials.map((social) => (
+        <a
+          href={social.link}
+          class="flex items-center gap-2 rounded-lg border bg-background2 px-3 py-3 shadow-sm transition-colors hover:bg-gray-50 dark:hover:bg-darkGray  lg:px-12 lg:py-4"
+        >
+          <div class="flex size-10 items-center  justify-center rounded-lg border border-paraDark bg-background md:size-12">
+            <div set:html={social.icon} />
+          </div>
+          <span class="text-sm font-semibold md:text-base">{social.name}</span>
+        </a>
+      ))
+    }
+  </div>
+</section>
