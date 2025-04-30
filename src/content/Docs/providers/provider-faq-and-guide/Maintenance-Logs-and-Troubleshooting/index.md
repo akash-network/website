@@ -34,7 +34,7 @@ kubectl -n akash-services scale statefulsets akash-provider --replicas=0
 
 ```
 kubectl -n akash-services get statefulsets
-kubectl -n akash-services get pods -l app=akash-provide
+kubectl -n akash-services get pods -l app=akash-provider
 ```
 
 #### Steps to Start the `akash-provider` Service Post Maintenance
@@ -243,17 +243,19 @@ dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 > _**NOTE**_ - This method is prefered as helm could be deployed but pods may not be running
 
 ```bash
-kubectl get pods -n kube-system -l name=nvidia-device-plugin-ds
-```
+
+kubectl get pods -n nvidia-device-plugin -l app.kubernetes.io/name=nvidia-device-plugin
+
 
 ##### Example/Expected Output
 
 ```bash
-# kubectl get pods -n kube-system -l name=nvidia-device-plugin-ds
 
-NAME                                      READY   STATUS    RESTARTS   AGE
-nvidia-device-plugin-daemonset-abcde      1/1     Running   0          5d1h
-nvidia-device-plugin-daemonset-fghij      1/1     Running   0          5d1h
+
+nvidia-device-plugin   nvidia-device-plugin-daemonset-abc123   1/1     Running   0     2d3h
+nvidia-device-plugin   nvidia-device-plugin-daemonset-def456   1/1     Running   0     2d3h
+
+
 ```
 
 - `READY` should be `1/1`
