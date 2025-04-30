@@ -11,6 +11,29 @@ description: "Guidelines for hardware requirements and best practices when setti
 
 This guide outlines the hardware requirements and best practices for setting up an Akash provider.
 
+## Table of Contents
+
+- [System Requirements](#system-requirements)
+  - [Operating System](#operating-system)
+  - [CPU Architecture](#cpu-architecture)
+  - [Hardware Specifications](#hardware-specifications)
+    - [Control Plane Node Requirements](#control-plane-node-requirements)
+    - [Worker Node Requirements](#worker-node-requirements)
+- [GPU Requirements](#gpu-requirements)
+  - [Important Considerations](#important-considerations)
+  - [Supported GPU Types](#supported-gpu-types)
+- [Persistent Storage Guidelines](#persistent-storage-guidelines)
+- [Network Requirements](#network-requirements)
+  - [External Network Access](#external-network-access)
+  - [Firewall Rules](#firewall-rules)
+  - [Internal Network Requirements](#internal-network-requirements)
+    - [Network Topology](#network-topology)
+    - [Network Configuration](#network-configuration)
+  - [Network Performance](#network-performance)
+  - [Security](#security)
+- [System Configuration](#system-configuration)
+  - [DNS Configuration](#dns-configuration)
+
 ## System Requirements
 
 ### Operating System
@@ -56,7 +79,7 @@ This guide outlines the hardware requirements and best practices for setting up 
 ### Supported GPU Types
 - NVIDIA GPUs only.
 
-### Persistent Storage Guidelines
+## Persistent Storage Guidelines
 - All persistent storage must be of the same type across the entire cluster
 - SSD or NVMe storage is required for optimal performance
 - Do not mix different storage types (e.g., SSD and HDD) within the cluster

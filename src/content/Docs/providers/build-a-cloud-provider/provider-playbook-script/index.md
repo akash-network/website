@@ -10,6 +10,18 @@ linkTitle: "Provider Playbook Script"
 
 The Provider Playbook Script is an automated solution for setting up and configuring Akash providers. It uses Ansible playbooks to streamline the deployment process, making it easier to set up and manage provider infrastructure. The script follows the same principles and configurations as the [Akash CLI provider setup](/docs/providers/build-a-cloud-provider/akash-cli/), automating many of the manual steps involved in the process.
 
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Related Documentation](#related-documentation)
+- [Advanced Usage](#advanced-usage)
+  - [Customizing the Playbook](#customizing-the-playbook)
+- [Troubleshooting](#troubleshooting)
+- [Support](#support)
+- [Contributing](#contributing)
+
 > **Source Code**: The Provider Playbook Script is open source and available on [GitHub](https://github.com/akash-network/provider-playbooks). Contributions and feedback are welcome!
 
 ## Features
