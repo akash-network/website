@@ -54,7 +54,7 @@ The steps to create an Akash wallet are covered in the following documentation s
 A full Kubernetes cluster is required with outbound internet access and be reachable from the internet.
 
 
-If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)guide.
+If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/)guide.
 
 ### RPC Node
 
@@ -71,7 +71,7 @@ Only x86_64 processors are officially supported by Akash for provider Kubernetes
 Akash Providers are deployed in many environments and we will make additions to these sections as when nuances are discovered.
 
 
-- [VMware Tanzu](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/)
+- [VMware Tanzu](/docs/providers/build-a-cloud-provider/akash-cli/custom-kubernetes-cluster-settings/)
 
 
 ### Disable Search Domains

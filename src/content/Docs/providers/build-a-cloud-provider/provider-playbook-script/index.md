@@ -8,7 +8,7 @@ linkTitle: "Provider Playbook Script"
 
 # Provider Playbook Script
 
-The Provider Playbook Script is an automated solution for setting up and configuring Akash providers. It uses Ansible playbooks to streamline the deployment process, making it easier to set up and manage provider infrastructure. The script follows the same principles and configurations as the [Akash CLI provider setup](/docs/providers/build-a-cloud-provider/akash-cli/), automating many of the manual steps involved in the process.
+The Provider Playbook Script is an automated solution for setting up and configuring Akash providers. It uses Ansible playbooks to streamline the deployment process, making it easier to set up and manage provider infrastructure. The script follows the same principles and configurations as the [Akash CLI provider setup](/docs/providers/build-a-cloud-provider/akash-cli/intro/), automating many of the manual steps involved in the process.
 
 ## Table of Contents
 
@@ -40,9 +40,28 @@ Before using the Provider Playbook Script, ensure you have:
   - 4 CPUs
   - 8 GB RAM
   - 50 GB Disk
-- Root access to the server
-- SSH access configured
-- An Akash wallet with at least 5 AKT for provider registration
+  > **Note**: This server will become your Akash provider node.
+
+- Root access to the server:
+  > **Note**: Root access is required to install and configure system-level components like Kubernetes and other dependencies.
+
+- SSH access to the server:
+  > **Note**: You'll need to be able to connect to your server via SSH. The playbook script will help you set up SSH keys and configure access. This is necessary for the script to remotely configure your server.
+  > 
+  > For more information about SSH, see [What is SSH?](https://www.cloudflare.com/learning/access-management/what-is-ssh/) from Cloudflare.
+
+- An Akash wallet with at least 5 AKT for provider registration:
+  > **Note**: The 5 AKT minimum is required for provider registration on the Akash network. However, we recommend:
+  > - Having at least 10-15 AKT in your provider wallet to cover:
+  >   - Provider registration fees
+  >   - Transaction fees for operations
+  >   - Buffer for unexpected costs
+  > - Keeping additional AKT available for:
+  >   - Bidding on deployments
+  >   - Handling provider operations
+  >   - Emergency situations
+  > 
+  > For more information on wallet setup and funding, see our [Wallet Setup Guide](/docs/getting-started/tokens-and-wallets/).
 
 ## Quick Start
 
