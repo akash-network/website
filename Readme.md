@@ -333,6 +333,8 @@ linkTitle: "Akash Node CLI Build" # <--- Change the link title here
 
 - Website: [Akash Network](https://akash.network/)
 
+- Telegram: [Akash Network](https://t.me/AkashNW)
+
 - YouTube: [Akash Network](https://www.youtube.com/c/AkashNetwork)
 
 
