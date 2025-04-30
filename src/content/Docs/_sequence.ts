@@ -56,55 +56,60 @@ export const docsSequence = [
           {
             label: "Build A Cloud Provider",
             subItems: [
-              { label: "Akash CLI",
+              { label: "Provider Playbook Script" },
+              {
+                label: "Akash CLI",
                 subItems: [
-                    {
-                      label: "Kubernetes Cluster For Akash Providers",
-                      subItems: [{ label: "Kubernetes Cluster for Akash Providers" }],
-                    },
-                    {
-                      label: "Akash Cloud Provider Build With Helm Charts",
-                    },
-                    {
-                      label: "Akash Provider Checkup",
-                    },
-                    {
-                      label: "Time Synchronization",
-                    },
-                    {
-                      label: "GPU Resource Enablement (Optional Step)",
-                    },
-                    {
-                      label: "TLS Certs for Akash Provider (Optional Step)",
-                    },
-                    {
-                      label: "IP Leases - Provider Enablement (Optional Step)",
-                    },
-                    {
-                      label: "Helm Based Provider Persistent Storage Enablement",
-                    },
-                    {
-                      label: "Akash Provider Bid Pricing Calculation",
-                    },
-                    {
-                      label: "Akash Provider Attribute Updates",
-                    },
-                    {
-                      label: "gVisor Issue - No system-cgroup v2 Support",
-                    },
-                    {
-                      label: "Shared Memory Enablement",
-                    },
-
+                  { 
+                    label: "Kubernetes Cluster Setup" 
+                  },
+                  { 
+                    label: "Additional K8s Resources" 
+                  },
+                  {
+                    label: "Akash Cloud Provider Build With Helm Charts",
+                  },
+                  {
+                    label: "GPU Resource Enablement",
+                  },
+                  {
+                    label: "Persistent Storage Enablement",
+                  },
+                  {
+                    label: "IP Leases Enablement",
+                  },
+                  {
+                    label: "Provider Attribute Updates",
+                  },
+                  {
+                    label: "TLS Certificates",
+                  },
+                  {
+                    label: "Shared Memory Enablement",
+                  },
+                  {
+                    label: "Bid Pricing Calculation",
+                  },
+                  {
+                    label: "gVisor Issue Resolution",
+                  },
+                  {
+                    label: "Provider Checkup",
+                  },
+                  {
+                    label: "Time Synchronization",
+                  },
                 ],
               },
-              { label: "Provider Console",
+              {
+                label: "Provider Console",
                 subItems: [
-                  { label: "What is Provider Console?"},
-                  { label: "Building with Provider Console"},
-                  { label: "How to Enable Root Sign-in"}, 
+                  { label: "What is Provider Console?" },
+                  { label: "Building with Provider Console" },
+                  { label: "How to Enable Root Sign-in" },
                 ],
               },
+              { label: "Hardware Best Practices" },
             ],
           },
           {
