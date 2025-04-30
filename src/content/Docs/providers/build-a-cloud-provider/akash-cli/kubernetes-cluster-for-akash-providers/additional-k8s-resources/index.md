@@ -1,9 +1,10 @@
 ---
 categories: ["Providers"]
-tags: []
+tags: ["Akash Provider", "Kubernetes", "Resources"]
 weight: 2
 title: "Additional K8s Resources"
 linkTitle: "Additional K8s Resources"
+description: "Additional resources and examples for Kubernetes cluster setup"
 ---
 
 ## Kubespray Hosts.Yaml Examples
