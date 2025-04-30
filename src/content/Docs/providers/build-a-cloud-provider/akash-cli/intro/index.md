@@ -11,14 +11,14 @@ description: "Introduction to setting up an Akash provider using the command-lin
 
 This guide provides an overview and links for setting up an Akash provider manually using the Akash Command Line Interface (CLI).
 
-// You might want to add more introductory content here
-
-See the topics in the sidebar for specific setup steps.
-
-## Topics
+## Main Guides
 
 - [Kubernetes Cluster Setup](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/)
 - [Akash Cloud Provider Build With Helm Charts](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/)
+
+
+## Extra Steps
+
 - [GPU Resource Enablement](/docs/providers/build-a-cloud-provider/akash-cli/gpu-resource-enablement/)
 - [Persistent Storage Enablement](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/)
 - [IP Leases Enablement](/docs/providers/build-a-cloud-provider/akash-cli/ip-leases-provider-enablement/)
