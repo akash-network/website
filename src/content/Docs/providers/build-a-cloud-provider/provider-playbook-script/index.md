@@ -51,17 +51,19 @@ Before using the Provider Playbook Script, ensure you have:
   > For more information about SSH, see [What is SSH?](https://www.cloudflare.com/learning/access-management/what-is-ssh/) from Cloudflare.
 
 - An Akash wallet with at least 5 AKT for provider registration:
-  > **Note**: The 5 AKT minimum is required for provider registration on the Akash network. However, we recommend:
-  > - Having at least 10-15 AKT in your provider wallet to cover:
-  >   - Provider registration fees
-  >   - Transaction fees for operations
-  >   - Buffer for unexpected costs
-  > - Keeping additional AKT available for:
-  >   - Bidding on deployments
-  >   - Handling provider operations
-  >   - Emergency situations
-  > 
-  > For more information on wallet setup and funding, see our [Wallet Setup Guide](/docs/getting-started/token-and-wallets/).
+  > **Note:** The 5 AKT minimum is required for provider registration on the Akash network.
+
+  We recommend:
+  - Having at least 10-15 AKT in your provider wallet to cover:
+    - Provider registration fees
+    - Transaction fees for operations
+    - Buffer for unexpected costs
+  - Keeping additional AKT available for:
+    - Bidding on deployments
+    - Handling provider operations
+    - Emergency situations
+
+  For more information on wallet setup and funding, see our [Wallet Setup Guide](/docs/getting-started/token-and-wallets/).
 
 ## Quick Start
 
