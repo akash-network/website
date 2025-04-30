@@ -1,5 +1,6 @@
 ---
 import FooterLink from "@/components/footer/footer-link.astro";
+import { socialLinks } from "@/lib/constants";
 import { shouldHideCta } from "@/utils/hideCta";
 import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
@@ -17,27 +18,27 @@ import SubscribeButton from "./subscribe-button.astro";
 const socials = [
   {
     name: "Twitter",
-    link: "https://twitter.com/akashnet_",
+    link: socialLinks.twitter,
     icon: TwitterIcon,
   },
   {
     name: "Github",
-    link: "https://github.com/akash-network",
+    link: socialLinks.github,
     icon: GithubIcon,
   },
   {
     name: "Discord",
-    link: "https://discord.com/invite/akash",
+    link: socialLinks.discord,
     icon: DiscordIcon,
   },
   {
     name: "Youtube",
-    link: "https://www.youtube.com/c/AkashNetwork",
+    link: socialLinks.youtube,
     icon: YoutubeIcon,
   },
   {
     name: "Telegram",
-    link: "https://t.me/AkashNW",
+    link: socialLinks.telegram,
     icon: TelegramIcon,
   },
 ];
