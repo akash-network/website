@@ -3,8 +3,7 @@ categories: ["Providers"]
 tags: []
 weight: 2
 title: "Provider Maintenance, Logs, and Troubleshooting"
-linkTitle: "Provider Maintenance, Logs, and Troubleshooting
-"
+linkTitle: "Provider Maintenance, Logs, and Troubleshooting"
 ---
 
 This section addresses common questions about monitoring, logging, and managing Akash provider operations. It aims to equip providers with the knowledge and tools necessary to effectively oversee their infrastructure, manage leases, track revenue, and troubleshoot issues.
@@ -45,7 +44,7 @@ kubectl -n akash-services scale statefulsets akash-provider --replicas=1
 
 ## Provider Logs
 
-The commands in this section peer into the provider’s logs and may be used to verify possible error conditions on provider start up and to ensure provider order receipt/bid process completion steps.
+The commands in this section peer into the provider's logs and may be used to verify possible error conditions on provider start up and to ensure provider order receipt/bid process completion steps.
 
 ### Command Template
 
