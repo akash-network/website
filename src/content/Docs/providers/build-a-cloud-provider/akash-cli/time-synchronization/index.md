@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
-tags: []
-weight: 2
+tags: ["Akash Provider", "Time", "Synchronization"]
+weight: 12
 title: "Time Synchronization"
 linkTitle: "Time Synchronization"
 ---

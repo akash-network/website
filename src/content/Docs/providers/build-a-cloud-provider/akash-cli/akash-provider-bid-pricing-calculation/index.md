@@ -1,14 +1,14 @@
 ---
-categories: ["Providers"]
-tags: []
-weight: 2
-title: "Akash Provider Bid Pricing Calculation"
-linkTitle: "Akash Provider Bid Pricing Calculation"
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "Bid", "Pricing"]
+weight: 9
+title: "Bid Pricing Calculation"
+linkTitle: "Bid Pricing Calculation"
 ---
 
 In this guide we cover the use of a utility which calculates pricing used by an Akash Provider based on inputted server specifications.&#x20;
 
-Following a dry run of the Provider price script within this guide, the utility will be used within the execution of the provider build and will tune the provider’s bin engine appropriately.
+Following a dry run of the Provider price script within this guide, the utility will be used within the execution of the provider build and will tune the provider's bin engine appropriately.
 
 Review these sections for Provider pricing and bid info:
 

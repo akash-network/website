@@ -1,9 +1,9 @@
 ---
-categories: ["Providers"]
-tags: []
-weight: 2
-title: "Akash Provider Checkup"
-linkTitle: "Akash Provider Checkup"
+categories: ["Akash Provider"]
+tags: ["Akash Provider", "Checkup", "Verification"]
+weight: 11
+title: "Provider Checkup"
+linkTitle: "Provider Checkup"
 ---
 
 Within this guide we provide paths to check your Akash Provider health status following initial build and throughout the lifetime of the provider.
@@ -27,7 +27,7 @@ In prep for the Akash Provider checkup steps performed in this guide, please ens
 
 - [Familiarity with Akash Console](#familiarity-with-akash-console)
 - [Obtain Provider Address](#obtain-provider-address)
-- [Familiarity with Your Provider’s Attributes](#familiarity-with-your-providers-attributes)
+- [Familiarity with Your Provider's Attributes](#familiarity-with-your-providers-attributes)
 
 ### Familiarity with Akash Console
 
@@ -39,13 +39,13 @@ Alternatively the verifications in this guide could be completed using the Akash
 
 ### Obtain Provider Address
 
-In most cases your Akash provider address is likely known and was captured during the provider installation steps. If you do not know your provider’s address, which will be necessary for verifications as we proceed, it may be obtained in the Akash Console and in the Provider sections shown below.
+In most cases your Akash provider address is likely known and was captured during the provider installation steps. If you do not know your provider's address, which will be necessary for verifications as we proceed, it may be obtained in the Akash Console and in the Provider sections shown below.
 
 ![](../../../../assets/akashlyticsProviderList.png)
 
-### **Familiarity with Your Provider’s Attributes**
+### **Familiarity with Your Provider's Attributes**
 
-As test deployments are launched within this guide, we want to ensure that our provider will bid on those deployments. Ensure you are familiar with your provider’s attribute list. The active attributes for a provider can be obtained by drilling into the details within the Akash Console Provider list by selecting your instance from the list and then drilling into the details as shown.
+As test deployments are launched within this guide, we want to ensure that our provider will bid on those deployments. Ensure you are familiar with your provider's attribute list. The active attributes for a provider can be obtained by drilling into the details within the Akash Console Provider list by selecting your instance from the list and then drilling into the details as shown.
 
 ![](../../../../assets/akashlyticsProviderAttributes.png)
 
@@ -137,19 +137,19 @@ Launch the Akash Console application to complete the sections that follow.
 
 - A new tab within your browser should launch and Hello Akash World home page should display as demonstrated below
 - Note - the URL will be directed to the Ingress Controller of your provider Kubernetes cluster
-- If this page does not display properly it would indicate an issue with the provider’s Ingress Controller and we should investigate via the [Provider Troubleshooting guide](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)
+- If this page does not display properly it would indicate an issue with the provider's Ingress Controller and we should investigate via the [Provider Troubleshooting guide](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting)
 
 ![](../../../../assets/helloWorldHomePage.png)
 
 ## STEP 3 - Shell Access Verification
 
-- Tenants should have access to their deployment’s Linux shell which can be used for basic troubleshooting and administration.
+- Tenants should have access to their deployment's Linux shell which can be used for basic troubleshooting and administration.
 - Within this step we will ensure that there are no issues with shell access into a deployment running on your provider.
-- Open the shell for the Hello Akash World test deployment and within Akash Console via the deployment’s SHELL tab as demonstrated
+- Open the shell for the Hello Akash World test deployment and within Akash Console via the deployment's SHELL tab as demonstrated
 
 ![](../../../../assets/deploymentShellAccess.png)
 
-- Ensure that not only can we get into a deployment’s shell but we can issue commands in operating system
+- Ensure that not only can we get into a deployment's shell but we can issue commands in operating system
 - Issue a simple `ls -al` and list the file details in the current directory as a simple shell command execution test
 
 ![](../../../../assets/akashlyticsShellLS.png)

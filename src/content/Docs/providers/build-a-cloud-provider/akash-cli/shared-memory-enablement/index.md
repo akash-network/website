@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
-tags: []
-weight: 2
+tags: ["Akash Provider", "Shared Memory"]
+weight: 8
 title: "Shared Memory Enablement"
 linkTitle: "Shared Memory Enablement"
 ---
