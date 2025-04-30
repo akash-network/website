@@ -21,7 +21,7 @@ This section addresses common questions about monitoring, logging, and managing 
 
 When conducting maintenance on your Akash Provider, ensure the `akash-provider` service is stopped during the maintenance period.
 
-> An issue exist currently in which provider leases may be lost during maintenance activities if the `akash-provider` service is not stopped prior. This issue is detailed further [here](https://github.com/akash-network/provider/issues/64).
+> An issue exists currently in which provider leases may be lost during maintenance activities if the `akash-provider` service is not stopped prior. This issue is detailed further [here](https://github.com/akash-network/provider/issues/64).
 
 #### Steps to Stop the `akash-provider` Service
 
@@ -60,7 +60,7 @@ kubectl logs <pod-name> -n akash-services
 - Using the example command syntax we will list the last ten entries in Provider logs and enter a live streaming session of new logs generated
 
 ```
-kubectl -n akash-services logs $(kubectl -n akash-services get pods -l app=akash-provider --output jsonpath='{.items[-1].metadata.name}') --tail=10 -f
+kubectl logs akash-provider-0 -n akash-services --tail=50 -f
 ```
 
 ### Example Output
@@ -70,24 +70,18 @@ kubectl -n akash-services logs $(kubectl -n akash-services get pods -l app=akash
 - The order receipt is one of many event sequences that can be verified within provider logs
 
 ```
-kubectl -n akash-services logs $(kubectl -n akash-services get pods -l app=akash-provider --output jsonpath='{.items[-1].metadata.name}') --tail=10 -f
+kubectl logs akash-provider-0 -n akash-services --tail=50 -f
 
-I[2022-05-19|17:20:42.069] syncing sequence                             cmp=client/broadcaster local=22 remote=22
-I[2022-05-19|17:20:52.069] syncing sequence                             cmp=client/broadcaster local=22 remote=22
-I[2022-05-19|17:21:02.068] syncing sequence                             cmp=client/broadcaster local=22 remote=22
-D[2022-05-19|17:21:10.983] cluster resources                            module=provider-cluster cmp=service cmp=inventory-service dump="{\"nodes\":[{\"name\":\"node1\",\"allocatable\":{\"cpu\":1800,\"memory\":3471499264,\"storage_ephemeral\":46663523866},\"available\":{\"cpu\":780,\"memory\":3155841024,\"storage_ephemeral\":46663523866}},{\"name\":\"node2\",\"allocatable\":{\"cpu\":1900,\"memory\":3739934720,\"storage_ephemeral\":46663523866},\"available\":{\"cpu\":1295,\"memory\":3204544512,\"storage_ephemeral\":46663523866}}],\"total_allocatable\":{\"cpu\":3700,\"memory\":7211433984,\"storage_ephemeral\":93327047732},\"total_available\":{\"cpu\":2075,\"memory\":6360385536,\"storage_ephemeral\":93327047732}}\n"
-I[2022-05-19|17:21:12.068] syncing sequence                             cmp=client/broadcaster local=22 remote=22
-I[2022-05-19|17:21:22.068] syncing sequence                             cmp=client/broadcaster local=22 remote=22
-I[2022-05-19|17:21:29.391] order detected                               module=bidengine-service order=order/akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu/5949829/1/1
-I[2022-05-19|17:21:29.495] group fetched                                module=bidengine-order order=akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu/5949829/1/1
-I[2022-05-19|17:21:29.495] requesting reservation                       module=bidengine-order order=akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu/5949829/1/1
-D[2022-05-19|17:21:29.495] reservation requested                        module=provider-cluster cmp=service cmp=inventory-service order=akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu/5949829/1/1 resources="group_id:<owner:\"akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu\" dseq:5949829 gseq:1 > state:open group_spec:<name:\"akash\" requirements:<signed_by:<> attributes:<key:\"host\" value:\"akash\" > > resources:<resources:<cpu:<units:<val:\"100\" > > memory:<quantity:<val:\"2686451712\" > > storage:<name:\"default\" quantity:<val:\"268435456\" > > endpoints:<> > count:1 price:<denom:\"uakt\" amount:\"10000000000000000000000\" > > > created_at:5949831 "
-D[2022-05-19|17:21:29.495] reservation count                            module=provider-cluster cmp=service cmp=inventory-service cnt=1
-I[2022-05-19|17:21:29.495] Reservation fulfilled                        module=bidengine-order order=akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu/5949829/1/1
-D[2022-05-19|17:21:29.496] submitting fulfillment                       module=bidengine-order order=akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu/5949829/1/1 price=4.540160000000000000uakt
-I[2022-05-19|17:21:29.725] broadcast response                           cmp=client/broadcaster response="code: 0\ncodespace: \"\"\ndata: \"\"\nevents: []\ngas_used: \"0\"\ngas_wanted: \"0\"\nheight: \"0\"\ninfo: \"\"\nlogs: []\nraw_log: '[]'\ntimestamp: \"\"\ntx: null\ntxhash: AFCA8D4A900A62D961F4AB82B607749FFCA8C10E2B0486B89A8416B74593DBFA\n" err=null
-I[2022-05-19|17:21:29.725] bid complete                                 module=bidengine-order order=akash1ggk74pf9avxh3llu30yfhmr345h2yrpf7c2cdu/5949829/1/1
-I[2022-05-19|17:21:32.069] syncing sequence                             cmp=client/broadcaster local=23 remote=22
+I[2025-04-29|20:35:25.057] order detected                               module=bidengine-service cmp=provider order=order/akash1d2xltxu5vmsxza8gu2j9vudcpacuntn6r72aee/21299713/1/1
+I[2025-04-29|20:35:25.058] group fetched                                module=bidengine-order cmp=provider order=akash1d2xltxu5vmsxza8gu2j9vudcpacuntn6r72aee/21299713/1/1
+D[2025-04-29|20:35:25.058] unable to fulfill: incompatible attributes for resources requirements module=bidengine-order cmp=provider order=akash1d2xltxu5vmsxza8gu2j9vudcpacuntn6r72aee/21299713/1/1 wanted="{Name:akash Requirements:{SignedBy:{AllOf:[] AnyOf:[]} Attributes:[]} Resources:[{Resources:{ID:1 CPU:units:<val:\"2000\" >  Memory:quantity:<val:\"10737418240\" >  Storage:[{Name:default Quantity:{Val:32212254720} Attributes:[]}] GPU:units:<val:\"1\" > attributes:<key:\"vendor/nvidia/model/rtx-3060-ti\" value:\"true\" >  Endpoints:[{Kind:RANDOM_PORT SequenceNumber:0}]} Count:1 Price:30000.000000000000000000uakt}]}" have="[{Key:host Value:akash} {Key:tier Value:community} {Key:organization Value:Akash Provider Services} {Key:email Value:info@akashprovid.com} {Key:status-page Value:status.akashprovid.com} {Key:location-region Value:na-us-southwest} {Key:country Value:US} {Key:city Value:DAL} {Key:timezone Value:utc-5} {Key:location-type Value:home} {Key:capabilities/cpu Value:amd} {Key:capabilities/cpu/arch Value:x86-64} {Key:capabilities/gpu Value:nvidia} {Key:capabilities/storage/1/class Value:beta2} {Key:capabilities/storage/1/persistent Value:false} {Key:capabilities/memory Value:ddr4ecc} {Key:network-provider Value:Pavlov Media} {Key:network-speed-up Value:1000} {Key:network-speed-down Value:1000} {Key:capabilities/storage/2/class Value:beta3} {Key:capabilities/storage/2/persistent Value:true} {Key:feat-persistent-storage Value:true} {Key:capabilities/gpu/vendor/nvidia/model/rtx4090 Value:true} {Key:capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi Value:true} {Key:capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi/interface/pcie Value:true} {Key:capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie Value:true} {Key:capabilities/storage/3/class Value:ram} {Key:capabilities/storage/3/persistent Value:false} {Key:cuda Value:12.7}]"
+D[2025-04-29|20:35:25.059] declined to bid                              module=bidengine-order cmp=provider order=akash1d2xltxu5vmsxza8gu2j9vudcpacuntn6r72aee/21299713/1/1
+I[2025-04-29|20:35:25.059] shutting down                                module=bidengine-order cmp=provider order=akash1d2xltxu5vmsxza8gu2j9vudcpacuntn6r72aee/21299713/1/1
+D[2025-04-29|20:36:00.041] cluster resources dump={"nodes":[{"name":"4090-node","allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502},"available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526}}],"total_allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502,"storage":{"beta3":2445568376832}},"total_available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526,"storage":{"beta3":2179280404480}}} module=provider-cluster cmp=provider cmp=service cmp=inventory-service
+D[2025-04-29|20:37:00.839] cluster resources dump={"nodes":[{"name":"4090-node","allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502},"available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526}}],"total_allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502,"storage":{"beta3":2445568376832}},"total_available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526,"storage":{"beta3":2179280404480}}} module=provider-cluster cmp=provider cmp=service cmp=inventory-service
+D[2025-04-29|20:38:01.687] cluster resources dump={"nodes":[{"name":"4090-node","allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502},"available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526}}],"total_allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502,"storage":{"beta3":2445568376832}},"total_available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526,"storage":{"beta3":2179280404480}}} module=provider-cluster cmp=provider cmp=service cmp=inventory-service
+2025-04-29 20:38:44.338894 I | http: TLS handshake error from 172.16.224.203:54788: EOF
+D[2025-04-29|20:39:02.531] cluster resources dump={"nodes":[{"name":"4090-node","allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502},"available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526}}],"total_allocatable":{"cpu":224000,"gpu":8,"memory":506969817088,"storage_ephemeral":1868399843502,"storage":{"beta3":2445568376832}},"total_available":{"cpu":129690,"gpu":5,"memory":351501647872,"storage_ephemeral":1430067812526,"storage":{"beta3":2179280404480}}} module=provider-cluster cmp=provider cmp=service cmp=inventory-service                          cmp=client/broadcaster local=23 remote=22
 ```
 
 ## Provider Status and General Info
@@ -220,14 +214,6 @@ python3 -c "import torch; print(torch.cuda.is_available())"
 dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 ```
 
-### Ensure Correct Version/Presence of NVIDIA Device Plugin
-
-TBD
-
-### NVIDIA Fabric Manager
-
-TBD
-
 
 
 ##### Example/Expected Output
@@ -252,26 +238,35 @@ TBD
 
 ### Ensure Correct Version/Presence of NVIDIA Device Plugin
 
-> _**NOTE**_ - Conduct this verification step on the Kubernetes control plane node where Helm was installed during your Akash Provider setup.
+> _**NOTE**_ - Conduct this verification step on the Kubernetes control plane node where the NVIDIA Device Plugin DaemonSet is running.
+
+> _**NOTE**_ - This method is prefered as helm could be deployed but pods may not be running
 
 ```bash
-helm -n nvidia-device-plugin list
+kubectl get pods -n kube-system -l name=nvidia-device-plugin-ds
 ```
 
 ##### Example/Expected Output
 
 ```bash
-# helm -n nvidia-device-plugin list
+# kubectl get pods -n kube-system -l name=nvidia-device-plugin-ds
 
-NAME    NAMESPACE               REVISION    UPDATED                                    STATUS      CHART                          APP VERSION
-nvdp    nvidia-device-plugin    1           2023-09-23 14:30:34.18183027 +0200 CEST    deployed    nvidia-device-plugin-0.14.1    0.14.1
+NAME                                      READY   STATUS    RESTARTS   AGE
+nvidia-device-plugin-daemonset-abcde      1/1     Running   0          5d1h
+nvidia-device-plugin-daemonset-fghij      1/1     Running   0          5d1h
 ```
 
----
+- `READY` should be `1/1`
+- `STATUS` should be `Running`
+- There should be one pod per GPU-enabled node in your cluster.
+- The pod name format will typically be: `nvidia-device-plugin-daemonset-*`
+
+This confirms that the NVIDIA Device Plugin is active and correctly scheduled on GPU nodes.
+
 
 ### NVIDIA Fabric Manager
 
-- In certain configurations (e.g., non-PCIe GPU setups like SXM form factors), installing the **NVIDIA Fabric Manager** on worker nodes hosting GPU resources may be necessary.
+- In certain configurations (e.g., all non-PCIe GPU setups like SXM form factors), installing the **NVIDIA Fabric Manager** on worker nodes hosting GPU resources may be necessary.
 - If `torch.cuda.is_available()` fails (as discussed earlier), installing the Fabric Manager may resolve the issue.
 
 **Common error message:**
@@ -282,12 +277,10 @@ torch.cuda.is_available() function: Error 802: system not yet initialized (Trigg
 
 Further details: [NVIDIA Developer Forum Thread](https://forums.developer.nvidia.com/t/error-802-system-not-yet-initialized-cuda-11-3/234955)
 
-> _**NOTE**_ - Replace `525` with your installed NVIDIA driver version.
->
 > _**NOTE**_ - Wait ~2–3 minutes after installation for the service to initialize.
 
 ```bash
-apt-get install nvidia-fabricmanager-525
+apt-get install nvidia-fabricmanager-565
 systemctl start nvidia-fabricmanager
 systemctl enable nvidia-fabricmanager
 ```
@@ -305,12 +298,12 @@ Nov 05 13:55:26 node1 systemd[1]: nvidia-fabricmanager.service: Control process 
 
 #### Fix: Use Official NVIDIA Repository
 
-> _**NOTE**_ - Replace `2204` with your Ubuntu version (e.g., `2404` for Ubuntu 24.04).
+> _**NOTE**_ - Your Ubuntu version should be 24.04.
 >
 > _**NOTE**_ - `apt dist-upgrade` with the official NVIDIA repo upgrades all NVIDIA packages in sync.
 
 ```bash
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub
 apt-key add 3bf863cc.pub
 
 echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /" > /etc/apt/sources.list.d/nvidia-official-repo.list
