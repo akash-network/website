@@ -1,0 +1,174 @@
+name: Update Community Groups
+
+on:
+  repository_dispatch:
+    types: [community-groups-changed]
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: write # Required to push commits and create branches
+  pull-requests: write # Required to create and label PRs
+
+# Make sure to:
+# GH Repo Settings -> Actions -> General -> Workflow permissions -> [x] Allow GitHub Actions to create and approve pull requests
+# GH Repo Settings -> Branches -> Add branch ruleset -> call it "default-main" or however you like, leave defaults and click "Save changes"
+
+jobs:
+  update-groups:
+    runs-on: ubuntu-latest
+    outputs:
+      merge_complete: ${{ steps.create-merge-pr.outputs.merge_complete }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Check for existing PR
+        id: check-pr
+        run: |
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          PR_EXIST=$(gh pr list --search "Update Community Groups" --state open --json number --jq 'length')
+          echo "pr_exists=$PR_EXIST" >> $GITHUB_OUTPUT
+          if [ "$PR_EXIST" -gt "0" ]; then
+            PR_INFO=$(gh pr list --search "Update Community Groups" --state open --json number,headRefName --jq '.[0]')
+            PR_NUMBER=$(echo $PR_INFO | jq -r '.number')
+            PR_BRANCH=$(echo $PR_INFO | jq -r '.headRefName')
+            echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            echo "pr_branch=$PR_BRANCH" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Clone and Update Groups
+        id: update-groups
+        run: |
+          # Save current state
+          if [ -d "src/content/Development_Current_Groups_Page" ]; then
+            mkdir -p ../old_groups
+            cp -r src/content/Development_Current_Groups_Page/* ../old_groups/
+          fi
+
+          # Clone the community repository
+          rm -rf temp_community
+          git clone --depth 1 https://github.com/akash-network/community.git temp_community
+
+          # Create target directory if it doesn't exist
+          mkdir -p src/content/Development_Current_Groups_Page
+
+          # Copy only sig-* and wg-* folders and their README.md files
+          cd temp_community
+          for dir in sig-* wg-*; do
+            if [ -d "$dir" ] && [ -f "$dir/README.md" ]; then
+              mkdir -p ../src/content/Development_Current_Groups_Page/$dir
+              cp $dir/README.md ../src/content/Development_Current_Groups_Page/$dir/
+            fi
+          done
+          cd ..
+
+          # Remove temporary directory
+          rm -rf temp_community
+
+          # Check for changes
+          if [ -d "../old_groups" ]; then
+            if diff -r ../old_groups src/content/Development_Current_Groups_Page > /dev/null 2>&1; then
+              echo "has_changes=false" >> $GITHUB_OUTPUT
+              echo "No changes detected in groups"
+            else
+              echo "has_changes=true" >> $GITHUB_OUTPUT
+              echo "Changes detected in groups"
+              diff -r ../old_groups src/content/Development_Current_Groups_Page || true
+            fi
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Initial groups setup"
+          fi
+
+          # Cleanup old groups
+          rm -rf ../old_groups
+
+      - name: Update Existing PR
+        if: steps.update-groups.outputs.has_changes == 'true' && steps.check-pr.outputs.pr_exists != '0'
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+
+          git stash --include-untracked
+          git fetch origin ${{ steps.check-pr.outputs.pr_branch }}
+          git checkout ${{ steps.check-pr.outputs.pr_branch }}
+          git stash pop || echo "No stashed changes to apply"
+
+          git add src/content/Development_Current_Groups_Page
+          if git diff --staged --quiet; then
+            echo "No changes to commit after staging"
+            exit 0
+          fi
+
+          git commit -m "chore: update community groups [skip ci]"
+          git push origin ${{ steps.check-pr.outputs.pr_branch }}
+
+      - name: Create & Merge PR if Needed
+        id: create-merge-pr
+        if: steps.update-groups.outputs.has_changes == 'true'
+        run: |
+          # Configure git
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+
+          if [[ "${{ steps.check-pr.outputs.pr_exists }}" -gt "0" ]]; then
+            echo "Merging existing PR #${{ steps.check-pr.outputs.pr_number }}..."
+            gh pr merge --auto --squash --delete-branch ${{ steps.check-pr.outputs.pr_number }}
+          else
+            echo "No existing PR found. Creating a new one..."
+
+            branch_name="update-community-groups-$(date +%Y%m%d-%H%M%S)"
+            git checkout -b $branch_name
+            git add src/content/Development_Current_Groups_Page
+            if git diff --staged --quiet; then
+              echo "No changes to commit after staging"
+              exit 0
+            fi
+            git commit -m "chore: update community groups"
+            git push origin $branch_name
+
+            # Create PR and capture the PR URL
+            PR_URL=$(gh pr create \
+              --title "Update Community Groups $(date +%Y-%m-%d)" \
+              --body "Automated PR to update community groups documentation" \
+              --base main \
+              --head $branch_name)
+
+            # Extract PR number from PR URL using a more reliable method
+            PR_NUMBER=$(echo $PR_URL | grep -oP 'pull/\K[0-9]+')
+            if [ -z "$PR_NUMBER" ]; then
+              echo "Error: Could not extract PR number from URL: $PR_URL"
+              exit 1
+            fi
+
+            echo "Merging newly created PR #$PR_NUMBER..."
+            echo "Waiting until PR is mergeable ..."
+            for i in {1..10}; do
+              MERGEABLE=$(gh pr view $PR_NUMBER --json mergeable --jq '.mergeable')
+              echo "Mergeable status: $MERGEABLE"
+              if [ "$MERGEABLE" = "MERGEABLE" ]; then
+                break
+              fi
+              echo "Waiting for PR to become mergeable..."
+              sleep 3
+            done
+            gh pr merge --auto --squash --delete-branch $PR_NUMBER
+          fi
+          echo "merge_complete=true" >> $GITHUB_OUTPUT
+
+  # to trigger the Astro Build workflow
+  trigger-astro:
+    name: Trigger Astro Build
+    needs: update-groups
+    if: needs.update-groups.outputs.merge_complete == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch event to trigger Astro build
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: groups-update
