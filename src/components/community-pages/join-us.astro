@@ -52,7 +52,7 @@ const cards: CardProps[] = [
     title: "Review Akash Community Contributions",
     description:
       "The Akash Network is open source, offering financial rewards for individual or team contributions.",
-    link: "#",
+    link: "https://github.com/orgs/akash-network/discussions/811",
     linkLabel: "Learn More",
   },
   {
@@ -98,6 +98,7 @@ const cards: CardProps[] = [
             </p>
             <div class="mt-auto pt-5">
               <a
+                target={card.link.includes("http") ? "_blank" : "_self"}
                 href={card.link}
                 class=" inline-flex items-center text-sm font-medium hover:text-primary hover:underline"
               >
