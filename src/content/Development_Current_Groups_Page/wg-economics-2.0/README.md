@@ -49,4 +49,4 @@ TBD
 
 ## Related SIGs
 
-- [sig-economics](../../special-interest-groups/sig-economics/)
+- [sig-economics](../sig-economics)
