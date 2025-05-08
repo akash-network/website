@@ -34,7 +34,7 @@ The tenant address used to launch the test deployment/deployments can be isolate
 
 The address/account used to launch the deployment will be used in Testnet task grading to ensure that the deployment lease was created on your specific provider.
 
-![](../../../assets/tenantAddress.png)
+![](/Docs/assets/tenantAddress.png)
 
 ### Launch Test Deployment
 
@@ -56,7 +56,7 @@ Submit the DSEQ of your test deployment with the submission form. The DSEQ will 
 
 The DSEQ can be found easily in the deployment tool (Akash Console, Akash Console, or Akash CLI). Example of isolating the deployment's DSEQ is shown below.
 
-![](../../../assets/isoalteDSEQ.png)
+![](/Docs/assets/isoalteDSEQ.png)
 
 #### Provide Screenshot of Test Deployment
 
@@ -66,4 +66,4 @@ These logs can be found easily in the deployment tool (Akash Console, Akash Cons
 
 > _**NOTE**_ - ensure that the DSEQ is captured within the screen as well. In the example provided below the DSEQ is captured in the screenshot (DSEQ = 1066270 in example). Capture of the DSEQ allows confirmation that this deployment was tested in your provider.
 
-![](../../../assets/gpuCheck.png)
+![](/Docs/assets/gpuCheck.png)

@@ -91,7 +91,7 @@ deployment:
 - The SDL used in the provided example prints the GPU Model/Chip Type to the logs as depicted below
 - We can use these logs to determine the success of the deployment
 
-![](../../../assets/gpuCheck.png)
+![](/Docs/assets/gpuCheck.png)
 
 ### Specific GPU Vendor & Model
 
@@ -163,7 +163,7 @@ deployment:
 - The SDL used in the provided example prints the GPU Model/Chip Type to the logs as depicted below
 - We can use these logs to determine the success of the deployment and confirm that the requested GPU model/type was allocated
 
-![](../../../assets/gpuCheck.png)
+![](/Docs/assets/gpuCheck.png)
 
 ## Specific GPU Vendor & List of Acceptable Models
 
@@ -239,4 +239,4 @@ deployment:
 - The SDL used in the provided example prints the GPU Model/Chip Type to the logs as depicted below
 - We can use these logs to determine the success of the deployment and confirm that the selected GPU model/type was allocated
 
-![](../../../assets/gpuCheck.png)
+![](/Docs/assets/gpuCheck.png)
