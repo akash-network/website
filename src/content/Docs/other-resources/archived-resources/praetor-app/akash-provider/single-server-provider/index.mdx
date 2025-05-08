@@ -1,5 +1,5 @@
 ---
-categories: ["Praetor App"]
+categories: ["Praetor App", "Archived Resources"]
 tags: ["Praetor App"]
 weight: 6
 title: "Single Server Provider"
@@ -81,7 +81,7 @@ There are two ways to import your Akash wallet, namely:
 
 - Input your wallet seed phrase and password. The app will verify the seed phrase and create a keystore file on your server.
 
-> IMPORTANT! Praetor uses end-to-end encryption on both your password and seed phrase, so you can rest assured that they are safe. That said, if you don’t want to provide your seed phrase here, you can switch to manual mode by clicking on the “Switch to Manual Mode” button.
+> IMPORTANT! Praetor uses end-to-end encryption on both your password and seed phrase, so you can rest assured that they are safe. That said, if you don't want to provide your seed phrase here, you can switch to manual mode by clicking on the "Switch to Manual Mode" button.
 
 2. Manual Mode:
 
@@ -89,9 +89,9 @@ There are two ways to import your Akash wallet, namely:
 
 - Log in to your server.
 
-- Use the command `~/bin/akash — keyring-backend file keys add wallet_name — recover` to create a keyring file.
+- Use the command `~/bin/akash -- keyring-backend file keys add wallet_name -- recover` to create a keyring file.
 
-- Enter your seed phrase and password, run `echo {passphrase} >  ~/.praetor/wallet_phrase_password.txt`.
+- Enter your seed phrase and password, run `echo {passphrase} > ~/.praetor/wallet_phrase_password.txt`.
 
 ## Step 4a: Provider Configuration
 

@@ -1,5 +1,5 @@
 ---
-categories: ["Other Resources"]
+categories: ["Other Resources", "Archived Resources"]
 tags: []
 weight: 2
 title: " Akash Mainnet8 Upgrade"
