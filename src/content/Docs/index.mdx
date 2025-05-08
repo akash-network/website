@@ -50,7 +50,7 @@ import rocket from "./assets/providers/rocket.svg";
         />
         <Card
           title="Stack Definition Language (SDL)"
-          description="Users define the deployment services, datacenters, requirements, and pricing parameters, in a “manifest” file (deploy.yaml). The file is written in a declarative language called Stack Definition Language (SDL)."
+          description="Users define the deployment services, datacenters, requirements, and pricing parameters, in a "manifest" file (deploy.yaml). The file is written in a declarative language called Stack Definition Language (SDL)."
           icon={stack}
           link="/docs/getting-started/stack-definition-language/"
         />
@@ -85,25 +85,25 @@ import rocket from "./assets/providers/rocket.svg";
         />
       </div>
 
-### Providers
+### Build a Provider 
 
 <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 2xl:grid-cols-3">
   <Card
-    title="Kubernetes Cluster for Akash Providers"
-    description="The setup of a Kubernetes cluster is the responsibility of the provider. This guide provides best practices and recommendations for setting up a Kubernetes cluster. This document is not a comprehensive guide and assumes pre-existing Kubernetes knowledge."
+    title="Option 1: Provider Playbook"
+    description="The fastest way to deploy an Akash provider. Use our automated installation scripts from the Provider Playbook to quickly set up a production-ready provider with minimal effort."
+    icon={rocket}
+    link="/docs/providers/build-a-cloud-provider/provider-playbook/"
+  />
+  <Card
+    title="Option 2: Manual Setup"
+    description="For advanced users who want complete control over their infrastructure. Follow our step-by-step guide to manually configure a Kubernetes cluster and deploy all required Akash provider components."
     icon={gpus}
     link="/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
   />
   <Card
-    title="Build a Cloud Provider with Akash Provider Console"
-    description="Provider Console (previously know as Praetor App) provides an easy way to become a cloud provider for Akash Network. You can become a provider using a simplified UI rather than Command-line Interface. Once you become a cloud provider, and if the deployers choose your provider to deploy their application, they pay you in AKT."
+    title="Option 3: Provider Console"
+    description="The simplest way to become a provider with a user-friendly web interface. Provider Console eliminates the need for command-line knowledge and guides you through the entire setup process."
     icon={praetor}
     link="/docs/providers/build-a-cloud-provider/provider-console/what-is"
-  />
-  <Card
-    title="Akash Provider FAQ and Guide "
-    description="Use the techniques detailed in this guide to verify Akash Provider functionality and troubleshoot issues as they appear."
-    icon={rocket}
-    link="/docs/providers/provider-faq-and-guide/"
   />
 </div>
