@@ -1,5 +1,5 @@
 ---
-categories: ["Mainnet 13 Upgrade"]
+categories: ["Mainnet 13 Upgrade", "Archived Resources"]
 tags: []
 weight: 2
 title: "Akash v0.38.0 Node Upgrade Guide"

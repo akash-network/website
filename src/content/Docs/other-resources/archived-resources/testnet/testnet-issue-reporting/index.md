@@ -1,5 +1,5 @@
 ---
-categories: ["Testnet"]
+categories: ["Testnet", "Archived Resources"]
 tags: []
 weight: 2
 title: "Testnet Issue Reporting"

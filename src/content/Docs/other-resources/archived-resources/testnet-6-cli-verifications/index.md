@@ -1,5 +1,5 @@
 ---
-categories: ["Other Resources"]
+categories: ["Other Resources", "Archived Resources"]
 tags: []
 weight: 2
 title: "Testnet 6 CLI Verifications"
@@ -14,14 +14,14 @@ linkTitle: "Testnet 6 CLI Verifications"
 
 ### Overview and Methodology
 
-The Akash CLI’s commands and flags are defined predominantly within modules.  Example modules within the Akash code base include deployment, market, and provider.
+The Akash CLI's commands and flags are defined predominantly within modules.  Example modules within the Akash code base include deployment, market, and provider.
 
 The CLI validations within this test plan rely on:
 
 
 
 * Assignment of a specific module to an individual/small group of individuals
-* The assigned module and it’s associated CLI implementation will be tested thoroughly by that individual and/or small group
+* The assigned module and it's associated CLI implementation will be tested thoroughly by that individual and/or small group
 * Instead of explicitly outlining all possible subcommands and flags within this test plan
 * We will instead provide guidance to isolate command sets directly from the code base for efficiency
 * The ability to isolate commands to test assumes no Go language knowledge but instead anyone should be able to extract the full command sets of a module based on guidance provided
@@ -60,7 +60,7 @@ Within the `client` > `cli` directory of the Akash deployment module our primary
 
 #### Queries and Transactions - Command Isolation Example
 
-Let’s use the `query.go` file as an example of how we would isolate command sets to test.
+Let's use the `query.go` file as an example of how we would isolate command sets to test.
 
 The Cosmos SDK and thus the Akash code base uses a package named Cobras for command definitions.  We can see an example of a query definition in this section of code for Akash Deployment list queries: 
  
