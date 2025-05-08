@@ -71,157 +71,370 @@ Only ES256K with secp256k1 curve is supported
 
 ```json
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/akash-network/akash-api/refs/heads/main/specs/jwt-schema.json",
-  "title": "Akash JWT Schema",
-  "description": "JSON Schema for JWT used in the Akash Provider API.",
-  "type": "object",
-  "additionalProperties": false,
-  "required": ["iss", "iat", "exp", "nbf", "version", "leases"],
-  "properties": {
-    "iss": {
-      "type": "string",
-      "pattern": "^akash1[a-z0-9]{38}$",
-      "description": "Akash address of the lease(s) owner, e.g., akash1abcd... (44 characters)"
-    },
-    "iat": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Token issuance timestamp as Unix time (seconds since 1970-01-01T00:00:00Z)"
-    },
-    "nbf": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Not valid before timestamp as Unix time (seconds since 1970-01-01T00:00:00Z)"
-    },
-    "exp": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Expiration timestamp as Unix time (seconds since 1970-01-01T00:00:00Z)"
-    },
-    "jti": {
-      "type": "string",
-      "description": "The jti (JWT ID) claim provides a unique identifier for the JWT"
-    },
-    "version": {
-      "type": "string",
-      "enum": ["v1"],
-      "description": "Version of the JWT specification (currently fixed at v1)"
-    },
-    "leases": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["access"],
-      "properties": {
-        "access": {
-          "type": "string",
-          "enum": ["full", "granular"],
-          "description": "Access level of the token: 'full' for unrestricted, 'granular' for specific permissions"
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://raw.githubusercontent.com/akash-network/akash-api/refs/heads/main/specs/jwt-schema.json",
+    "title": "Akash JWT Schema",
+    "description": "JSON Schema for JWT used in the Akash Provider API.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "iss",
+        "iat",
+        "exp",
+        "nbf",
+        "version",
+        "leases"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "pattern": "^akash1[a-z0-9]{38}$",
+            "description": "Akash address of the lease(s) owner, e.g., akash1abcd... (44 characters)"
         },
-        "permissions": {
-          "type": "array",
-          "description": "Required if access is 'granular'; defines specific permissions",
-          "minItems": 1,
-          "items": {
+        "iat": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Token issuance timestamp as Unix time (seconds since 1970-01-01T00:00:00Z). Should be <= exp and >= nbf."
+        },
+        "nbf": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Not valid before timestamp as Unix time (seconds since 1970-01-01T00:00:00Z). Should be <= iat."
+        },
+        "exp": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Expiration timestamp as Unix time (seconds since 1970-01-01T00:00:00Z). Should be >= iat."
+        },
+        "jti": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Unique identifier for the JWT, used to prevent token reuse."
+        },
+        "version": {
+            "type": "string",
+            "enum": [
+                "v1"
+            ],
+            "description": "Version of the JWT specification (currently fixed at v1)."
+        },
+        "leases": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["provider", "scope"],
+            "required": [
+                "access"
+            ],
             "properties": {
-              "provider": {
-                "type": "string",
-                "pattern": "^akash1[a-z0-9]{38}$",
-                "description": "Provider address, e.g., akash1xyz... (44 characters)"
-              },
-              "scope": {
-                "type": "array",
-                "minItems": 1,
-                "uniqueItems": true,
-                "items": {
-                  "type": "string",
-                  "enum": ["send-manifest", "shell", "logs", "events", "restart"]
+                "access": {
+                    "type": "string",
+                    "enum": [
+                        "full",
+                        "granular"
+                    ],
+                    "description": "Access level for the lease: 'full' for unrestricted access to all actions, 'granular' for provider-specific permissions."
                 },
-                "description": "List of permitted actions (no duplicates)"
-              },
-              "dseq": {
-                "type": "integer",
-                "minimum": 1,
-                "description": "Optional deployment sequence number"
-              },
-              "gseq": {
-                "type": "integer",
-                "minimum": 1,
-                "description": "Optional group sequence number (requires dseq)"
-              },
-              "oseq": {
-                "type": "integer",
-                "minimum": 1,
-                "description": "Optional order sequence number (requires dseq)"
-              },
-              "services": {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "type": "string",
-                  "minLength": 1
+                "scope": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "send-manifest",
+                            "get-manifest",
+                            "logs",
+                            "shell",
+                            "events",
+                            "status",
+                            "restart",
+                            "hostname-migrate",
+                            "ip-migrate"
+                        ]
+                    },
+                    "description": "Global list of permitted actions across all owned leases (no duplicates). Applies when access is 'full'."
                 },
-                "description": "Optional list of service names (requires dseq)"
-              }
+                "permissions": {
+                    "type": "array",
+                    "description": "Required if leases.access is 'granular'; defines provider-specific permissions.",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "provider",
+                            "access"
+                        ],
+                        "properties": {
+                            "provider": {
+                                "type": "string",
+                                "pattern": "^akash1[a-z0-9]{38}$",
+                                "description": "Provider address, e.g., akash1xyz... (44 characters)."
+                            },
+                            "access": {
+                                "type": "string",
+                                "enum": [
+                                    "full",
+                                    "scoped",
+                                    "granular"
+                                ],
+                                "description": "Provider-level access: 'full' for all actions, 'scoped' for specific actions across all provider leases, 'granular' for deployment-specific actions."
+                            },
+                            "scope": {
+                                "type": "array",
+                                "minItems": 1,
+                                "uniqueItems": true,
+                                "items": {
+                                    "type": "string",
+                                    "enum": [
+                                        "send-manifest",
+                                        "get-manifest",
+                                        "logs",
+                                        "shell",
+                                        "events",
+                                        "status",
+                                        "restart",
+                                        "hostname-migrate",
+                                        "ip-migrate"
+                                    ]
+                                },
+                                "description": "Provider-level list of permitted actions for 'scoped' access (no duplicates)."
+                            },
+                            "deployments": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                        "dseq",
+                                        "scope"
+                                    ],
+                                    "properties": {
+                                        "dseq": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "description": "Deployment sequence number."
+                                        },
+                                        "scope": {
+                                            "type": "array",
+                                            "minItems": 1,
+                                            "uniqueItems": true,
+                                            "items": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "send-manifest",
+                                                    "get-manifest",
+                                                    "logs",
+                                                    "shell",
+                                                    "events",
+                                                    "status",
+                                                    "restart",
+                                                    "hostname-migrate",
+                                                    "ip-migrate"
+                                                ]
+                                            },
+                                            "description": "Deployment-level list of permitted actions (no duplicates)."
+                                        },
+                                        "gseq": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "description": "Group sequence number (requires dseq)."
+                                        },
+                                        "oseq": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "description": "Order sequence number (requires dseq and gseq)."
+                                        },
+                                        "services": {
+                                            "type": "array",
+                                            "minItems": 1,
+                                            "items": {
+                                                "type": "string",
+                                                "minLength": 1
+                                            },
+                                            "description": "List of service names (requires dseq)."
+                                        }
+                                    },
+                                    "dependencies": {
+                                        "gseq": [
+                                            "dseq"
+                                        ],
+                                        "oseq": [
+                                            "dseq",
+                                            "gseq"
+                                        ],
+                                        "services": [
+                                            "dseq"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "allOf": [
+                            {
+                                "if": {
+                                    "properties": {
+                                        "access": {
+                                            "const": "scoped"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "scope"
+                                    ],
+                                    "properties": {
+                                        "scope": {
+                                            "minItems": 1
+                                        },
+                                        "deployments": false
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "access": {
+                                            "const": "granular"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "deployments"
+                                    ],
+                                    "properties": {
+                                        "scope": false
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "access": {
+                                            "const": "full"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "scope": false,
+                                        "deployments": false
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
             },
-            "dependencies": {
-              "gseq": ["dseq"],
-              "oseq": ["dseq", "gseq"],
-              "services": ["dseq"]
-            }
-          }
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "access": {
+                                "const": "full"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "scope"
+                        ],
+                        "properties": {
+                            "permissions": false
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "access": {
+                                "const": "granular"
+                            }
+                        },
+                        "required": [
+                            "access"
+                        ]
+                    },
+                    "then": {
+                        "required": [
+                            "permissions"
+                        ],
+                        "properties": {
+                            "scope": false
+                        }
+                    }
+                }
+            ]
         }
-      }
-    }
-  },
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "leases": {
-            "properties": {
-              "access": { "const": "granular" }
-            },
-            "required": ["access"]
-          }
-        },
-        "required": ["leases"]
-      },
-      "then": {
-        "properties": {
-          "leases": {
-            "required": ["permissions"]
-          }
-        }
-      }
     },
-    {
-      "if": {
-        "properties": {
-          "leases": {
-            "properties": {
-              "permissions": { "type": "array", "minItems": 1 }
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "leases": {
+                        "properties": {
+                            "access": {
+                                "const": "granular"
+                            }
+                        },
+                        "required": [
+                            "access"
+                        ]
+                    }
+                },
+                "required": [
+                    "leases"
+                ]
             },
-            "required": ["permissions"]
-          }
+            "then": {
+                "properties": {
+                    "leases": {
+                        "required": [
+                            "permissions"
+                        ],
+                        "properties": {
+                            "scope": false
+                        }
+                    }
+                }
+            }
         },
-        "required": ["leases"]
-      },
-      "then": {
-        "properties": {
-          "leases": {
-            "properties": {
-              "access": { "const": "granular" }
+        {
+            "if": {
+                "properties": {
+                    "leases": {
+                        "properties": {
+                            "permissions": {
+                                "type": "array",
+                                "minItems": 1
+                            }
+                        },
+                        "required": [
+                            "permissions"
+                        ]
+                    }
+                },
+                "required": [
+                    "leases"
+                ]
             },
-            "required": ["access"]
-          }
+            "then": {
+                "properties": {
+                    "leases": {
+                        "properties": {
+                            "access": {
+                                "const": "granular"
+                            }
+                        },
+                        "required": [
+                            "access"
+                        ]
+                    }
+                }
+            }
         }
-      }
-    }
-  ]
+    ]
 }
 ```
 
@@ -238,14 +451,18 @@ Only ES256K with secp256k1 curve is supported
 2. **Optional Fields for leases**:
    - `permissions`: Array of granular access permissions
      - `provider`: Provider address (required)
+     - `access`: Access level ("full", "scoped" or "granular")
      - `scope`: List of permitted actions (required)
-     - `dseq`: Deployment sequence number (optional)
-     - `gseq`: Group sequence number (requires dseq)
-     - `oseq`: Order sequence number (requires dseq)
-     - `services`: List of service names (requires dseq)
+     - `deployments`
+      - `scope`: List of permitted actions (required)
+      - `dseq`: Deployment sequence number (optional)
+      - `gseq`: Group sequence number (requires dseq)
+      - `oseq`: Order sequence number (requires dseq)
+      - `services`: List of service names (requires dseq)
 
-### Example JWT Payload
+### Examples
 
+#### Scoped access for specific deployment
 ```json
 {
     "iss": "akash1...",
@@ -259,16 +476,67 @@ Only ES256K with secp256k1 curve is supported
       "permissions": [
           {
               "provider": "akash1...",
-              "scope": ["logs", "shell"],
-              "dseq": 123456,
-              "gseq": 1,
-              "oseq": 1,
-              "services": ["web", "api"]
+              "access": "granular",
+              "deployments": [
+                {
+                  "scope": ["logs", "shell"],
+                  "dseq": 123456,
+                  "gseq": 1,
+                  "oseq": 1,
+                  "services": ["web", "api"]
+                }
+              ]
           }
       ]
     }
 }
 ```
+
+#### Full access to all tenant's workloads within specific provider
+```json
+{
+    "iss": "akash1...",
+    "version": "v1",
+    "iat": "1744029137",
+    "exp": "1744029139",
+    "nbf": "1744029138",
+    "jti": "<unique id>",
+    "leases" : {
+      "access": "granular",
+      "permissions": [
+          {
+              "provider": "akash1...",
+              "access": "full"
+          }
+      ]
+    }
+}
+```
+
+#### Scoped access to only logs for all tenant's workloads within specific provider
+```json
+{
+    "iss": "akash1...",
+    "version": "v1",
+    "iat": "1744029137",
+    "exp": "1744029139",
+    "nbf": "1744029138",
+    "jti": "<unique id>",
+    "leases" : {
+      "access": "granular",
+      "permissions": [
+          {
+              "provider": "akash1...",
+              "access": "scoped",
+              "scope": [
+                "logs"
+              ]
+          }
+      ]
+    }
+}
+```
+
 
 ## Implementation Resources
 
