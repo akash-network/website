@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 
-const speakToExpertVariants = cva(
+export const speakToExpertVariants = cva(
   "flex items-center justify-center border transition-all duration-300",
   {
     variants: {
