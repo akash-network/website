@@ -20,7 +20,7 @@ import {
 import clsx from "clsx";
 import { ArrowRightCircle, ChevronDown } from "lucide-react";
 import { Fragment } from "react";
-import SpeakToExpert from "../pricing-page/SpeakToExpert";
+import TryAkashForm from "../home/hero/try-akash-form";
 import {
   communityItems,
   developmentItems,
@@ -258,7 +258,7 @@ const Panel = ({
             >
               Deploy Now
             </a>
-            <SpeakToExpert />
+            <TryAkashForm type="speakToExpertHeader" />
           </div>
 
           <div className="flex items-center justify-between border-t border-border py-7 text-para">
