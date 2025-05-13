@@ -1,45 +1,67 @@
 ---
-import Button from "@/components/ui/button-link.astro";
+import TryAkashForm from "@/components/ui/try-akash-form";
 import type { CollectionEntry } from "astro:content";
-import { ArrowRight } from "lucide-react";
+import clsx from "clsx";
+import { ArrowRight, Info } from "lucide-react";
 
 interface Props {
   heroSection: CollectionEntry<"Homepage">["data"]["heroSection"];
 }
 
 const { heroSection } = Astro.props;
+const pathname = Astro.url.pathname;
 ---
 
 <section class="container mb-10 md:my-10">
   <div
     class="border-b border-paraDark pb-[80px] pt-10 md:pb-[120px] md:pt-[64px]"
   >
-    <a
-      href="/pricing/gpus"
-      class="mx-auto flex w-fit items-center gap-2 rounded-full border border-primary bg-primary/5 py-1.5 pl-5 pr-3 dark:border-primary/10 md:gap-3 md:py-2.5"
-    >
-      <p
-        class="line-clamp-2 max-w-[250px] flex-1 text-center text-sm font-semibold text-primary md:max-w-max"
-      >
-        Access NVIDIA GPUs at industry-leading pricing
-      </p>
-      <div
-        class="flex size-[22px] items-center justify-center rounded-full bg-primary text-white"
-      >
-        <ArrowRight size={16} />
-      </div>
-    </a>
+    {
+      pathname.includes("meetingconfirmation") && (
+        <div class="relative mx-auto mt-10 flex w-fit items-center justify-center gap-2 rounded-lg border !border-primary px-4 py-3 text-sm text-primary">
+          <Info className="size-4 shrink-0" />
+          Thanks for booking your meeting, we look forward to speaking with you!
+        </div>
+      )
+    }
     <h1
-      class="mx-auto mt-10 text-center font-instrument text-6xl font-normal leading-[1] tracking-[-0.88px] lg:text-[88px]"
+      class={clsx(
+        "mx-auto  text-center font-instrument text-6xl font-normal leading-[1] tracking-[-0.88px] lg:text-[94px]",
+        pathname.includes("meetingconfirmation") ? "mt-7" : "mt-10",
+      )}
       set:html={heroSection.title}
     />
 
     <p
-      class="mx-auto mt-10 text-center text-base md:mt-6 md:text-lg"
+      class="mx-auto mt-4 text-center text-lg md:text-xl lg:text-2xl"
       set:html={heroSection.description}
     />
 
-    <div
+    <div class="mt-12 flex flex-col justify-center gap-4">
+      <div class="flex justify-center">
+        <TryAkashForm client:load type="hero" />
+      </div>
+      <div
+        class="mt-8 flex flex-col items-center justify-center gap-5 md:flex-row md:gap-6"
+      >
+        <a
+          href="/providers"
+          class="flex items-center gap-1.5 font-medium text-foreground transition-all hover:text-primary"
+        >
+          Become a GPU Provider <ArrowRight className="size-4" />
+        </a>
+        <div class="hidden h-6 w-px bg-defaultBorder md:block"></div>
+        <a
+          href="/pricing/gpus"
+          class="flex items-center gap-1.5 font-medium text-foreground transition-all hover:text-primary"
+        >
+          See GPU Availability
+          <ArrowRight className="size-4" />
+        </a>
+      </div>
+    </div>
+
+    <!-- <div
       class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"
     >
       {
@@ -62,6 +84,6 @@ const { heroSection } = Astro.props;
           </div>
         ))
       }
-    </div>
+    </div> -->
   </div>
 </section>

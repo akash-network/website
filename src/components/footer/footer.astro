@@ -174,7 +174,7 @@ const shouldHide = shouldHideCta(pathname);
         <AkashFooterLogo />
       </a>
       <div class="mt-4 md:hidden">
-        <SpeakToExpert size="small" />
+        <SpeakToExpert size="small" client:load />
       </div>
 
       <div class="mt-10 flex flex-col items-start justify-start lg:hidden">
@@ -208,7 +208,7 @@ const shouldHide = shouldHideCta(pathname);
             ))
           }
         </div>
-        <SpeakToExpert size="small" />
+        <SpeakToExpert size="small" client:load />
       </div>
       <div
         class="grid grid-cols-3 justify-between gap-y-10 md:grid-cols-5 md:gap-x-[30px] lg:gap-x-7 xl:gap-x-10"

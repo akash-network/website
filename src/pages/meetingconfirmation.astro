@@ -2,8 +2,7 @@
 import PostCard from "@/components/cards/post-card.astro";
 import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
 import Feature from "@/components/home/feature/feature.astro";
-import HeroMeetingConfirmation from "@/components/home/hero/hero-meeting-confirmation.astro";
-
+import Hero from "@/components/home/hero/hero.astro";
 import Infrastructure from "@/components/home/infrastructure/infrastructure.astro";
 import Testimonials from "@/components/home/testimonials/testimonials.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
@@ -38,7 +37,7 @@ const {
   description="Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 >
   <div>
-    <HeroMeetingConfirmation heroSection={heroSection} />
+    <Hero heroSection={heroSection} />
     <Feature featureSection={featureSection} />
     <Infrastructure infrastructureSection={infrastructureSection} />
     <AiModelsAndApps aiModelsAndAppsSection={aiModelsAndAppsSection} />

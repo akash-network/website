@@ -1,10 +1,15 @@
 import { speakToExpertVariants } from "@/components/pricing-page/SpeakToExpert";
 import { buttonVariants } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import type { VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface TryAkashFormProps extends VariantProps<typeof speakToExpertVariants> {
   type: "hero" | "header" | "speckToExpert" | "speakToExpertHeader";
@@ -19,18 +24,6 @@ export default function TryAkashForm({
   variant,
   className,
 }: TryAkashFormProps) {
-  useEffect(() => {
-    // Load HubSpot script
-    const script = document.createElement("script");
-    script.src = "https://js.hsforms.net/forms/embed/47519938.js";
-    script.defer = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   const [isOpen, setIsOpen] = useState(false);
 
   const defaultButton = (
@@ -54,7 +47,7 @@ export default function TryAkashForm({
         fullWidth ? "w-full" : "mx-auto",
       )}
     >
-      Access The Marketplace
+      Access the Marketplace
     </button>
   );
 
@@ -175,8 +168,10 @@ export default function TryAkashForm({
       </DialogTrigger>
       <DialogContent
         hideCloseButton
-        className="hide-scrollbar  max-h-[95vh] overflow-hidden overflow-y-auto !border-none bg-transparent  p-0 shadow-none sm:max-w-[600px]"
+        overlayClassName="z-[99]"
+        className="hide-scrollbar  z-[100] max-h-[95vh] overflow-hidden overflow-y-auto !border-none  bg-transparent p-0 shadow-none sm:max-w-[600px]"
       >
+        <DialogTitle className="sr-only">Form</DialogTitle>
         <button
           onClick={() => {
             setIsOpen(false);
