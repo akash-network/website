@@ -193,7 +193,7 @@ export default function Filter({
             </div>
           ))}
         </div>
-        <SpeakToExpert className="!py-[7px] px-4" />
+        <SpeakToExpert className="!w-fit !py-[7px] px-4" />
       </div>
 
       {/* Combined badges area */}

@@ -5,6 +5,8 @@ import { getYearToUse } from "@/utils/redirects";
 import { getCollection } from "astro:content";
 import clsx from "clsx";
 import DarkModeToggle from "../dark-mode-toggle.astro";
+import ButtonLink from "../ui/button-link.astro";
+import TryAkashForm from "../ui/try-akash-form";
 import HamburgerMenu from "./hamburger-menu";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
 import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
@@ -100,12 +102,7 @@ const navContainerClass = hideContainer ? "" : "container";
         <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
         <NavLink href="/pricing/gpus" currentPath={pathname}>
           <div class="flex items-center gap-1">
-            <span class="text-sm font-medium">Pricing & Earnings</span>
-            <span
-              class="inline-flex items-center rounded-full bg-primary/5 px-1.5 py-0.5 text-xs font-medium text-primary ring-1 ring-inset ring-primary/10"
-            >
-              New GPUs
-            </span>
+            <span class="text-sm font-medium">Pricing</span>
           </div>
         </NavLink>
       </div>
@@ -126,10 +123,8 @@ const navContainerClass = hideContainer ? "" : "container";
       />
     </div>
 
-    <div class="hidden flex-shrink-0 slg:flex slg:gap-x-[12px]">
-      {!hideDarkToggle && <DarkModeToggle nav />}
-
-      <div class="mr-3 hidden items-center gap-x-[12px] text-para xl:flex">
+    <div class="hidden flex-shrink-0 slg:flex slg:gap-x-5">
+      <div class="hidden items-center gap-x-2 text-para xl:flex">
         <a
           aria-label="Twitter Icon"
           href="https://twitter.com/akashnet_"
@@ -156,19 +151,19 @@ const navContainerClass = hideContainer ? "" : "container";
         </a>
       </div>
 
-      <div class="flex items-center lg:gap-x-4">
-        <div>
-          <a
-            aria-label="Deploy Now"
-            target="_blank"
-            id="console-header"
-            href="https://console.akash.network/"
-            class="flex h-full items-center justify-center rounded-[4px] bg-primary px-[10px] py-[7px] text-xs font-medium leading-[16px] text-white hover:bg-darkGray"
-          >
-            Deploy Now
-          </a>
-        </div>
+      <div class="flex items-center gap-2">
+        <ButtonLink
+          link="https://console.akash.network/"
+          variant="secondary"
+          size="sm"
+          className="px-[11px] py-[7px] text-xs"
+        >
+          Console Login
+        </ButtonLink>
+
+        <TryAkashForm client:load type="header" />
       </div>
+      {!hideDarkToggle && <DarkModeToggle nav />}
     </div>
   </nav>
 </header>

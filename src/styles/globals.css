@@ -291,3 +291,7 @@ html body[data-scroll-locked] {
 .swiper-linear .swiper-wrapper {
   transition-timing-function: linear !important;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

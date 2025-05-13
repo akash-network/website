@@ -265,7 +265,7 @@ export const Tables = ({
               className="flex justify-center gap-1.5 rounded-md bg-primary px-4 py-2 hover:bg-darkGray dark:hover:bg-background"
             >
               <p className="font-medium leading-[24px] text-white">
-                Deploy Now
+                Console Login
               </p>
               <img src={arrowUpRight.src} alt="" />
             </a>

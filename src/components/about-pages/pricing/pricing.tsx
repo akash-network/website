@@ -172,7 +172,7 @@ export function Pricing({ page, pathName, initialData }: any) {
                       href="https://console.akash.network/"
                       className="flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-[11px]  py-[7px] text-2xs font-bold text-white hover:bg-darkGray md:text-sm"
                     >
-                      Deploy Now
+                      Console Login
                     </a>
                   </div>
                 </div>
