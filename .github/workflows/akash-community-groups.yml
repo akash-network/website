@@ -55,9 +55,9 @@ jobs:
           # Create target directory if it doesn't exist
           mkdir -p src/content/Development_Current_Groups_Page
 
-          # Copy only sig-* and wg-* folders and their README.md files
+          # Copy only sig-* , committee-* and wg-* folders and their README.md files
           cd temp_community
-          for dir in sig-* wg-*; do
+          for dir in sig-* committee-* wg-*; do
             if [ -d "$dir" ] && [ -f "$dir/README.md" ]; then
               mkdir -p ../src/content/Development_Current_Groups_Page/$dir
               cp $dir/README.md ../src/content/Development_Current_Groups_Page/$dir/
