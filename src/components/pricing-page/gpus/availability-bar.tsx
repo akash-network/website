@@ -17,14 +17,9 @@ const AvailabilityBar: React.FC<AvailabilityBarProps> = ({
 
   return (
     <div className={clsx("my-5 flex flex-col gap-1.5", className)}>
-      <div className="flex items-center justify-between">
-        <span className="text-lg font-semibold text-foreground md:text-sm lg:text-base">
-          {available} Available
-        </span>
-        <span className="rounded border px-1.5 py-[1px] text-xs font-medium text-para">
-          Total: {total}
-        </span>
-      </div>
+      <span className="text-lg font-semibold text-foreground md:text-sm lg:text-base">
+        {percentageFilled}% Utilized
+      </span>
       <div className="relative h-[3px] w-full rounded-full border border-[#8F8F8F] bg-[#A8A8A8] dark:border-zinc-700 dark:bg-zinc-500">
         <div
           className="absolute -top-[1px] bottom-[-1px] left-[-1px]  bg-background"

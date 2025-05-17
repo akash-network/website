@@ -43,7 +43,7 @@ const DesktopTableGpu = ({
               GPU Model
             </th>
             <th className="w-[30%]  text-left text-sm font-medium tracking-normal text-linkText ">
-              Availability
+              Utilization
             </th>
             <th className="w-[16%] whitespace-nowrap  text-left text-sm font-medium tracking-normal text-linkText ">
               Price Range
