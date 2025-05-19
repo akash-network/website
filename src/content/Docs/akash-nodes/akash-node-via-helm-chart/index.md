@@ -2,7 +2,7 @@
 categories: ["Akash Nodes"]
 tags: ["Blockchain"]
 weight: 1
-title: "Akash Node Via Helm Charts"
+title: "Akash Node Via Helm Charts (RPC Node)"
 linkTitle: "Akash Node Via Helm Charts"
 ---
 
