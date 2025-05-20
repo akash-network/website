@@ -3,11 +3,17 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  noIndex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = "/meta-images/home.png" } = Astro.props;
+const {
+  title,
+  description,
+  image = "/meta-images/home.png",
+  noIndex,
+} = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -32,6 +38,8 @@ const { title, description, image = "/meta-images/home.png" } = Astro.props;
 />
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
+
+{noIndex && <meta name="robots" content="noindex, nofollow" />}
 
 <link
   rel="alternate"

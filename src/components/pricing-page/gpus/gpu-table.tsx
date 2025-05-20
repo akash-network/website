@@ -45,9 +45,11 @@ export interface Gpus {
 const GpuTable = ({
   initialData,
   subCom,
+  counts,
 }: {
   initialData?: any;
   subCom?: boolean;
+  counts?: boolean;
 }) => {
   const queryClient = new QueryClient();
 
@@ -58,6 +60,7 @@ const GpuTable = ({
           data: initialData,
         }}
         subCom={subCom}
+        counts={counts}
       />
     </QueryClientProvider>
   );
@@ -68,11 +71,13 @@ export default GpuTable;
 const Table = ({
   initialData,
   subCom,
+  counts,
 }: {
   initialData?: {
     data: any;
   };
   subCom?: boolean;
+  counts?: boolean;
 }) => {
   const fetchInterval = 1000 * 60;
 
@@ -100,6 +105,7 @@ const Table = ({
       data={data}
       subCom={subCom}
       isLoading={isLoading || isInitialLoading}
+      counts={counts}
     />
   );
 };
@@ -133,11 +139,13 @@ export const Tables = ({
   pathName,
   subCom,
   isLoading,
+  counts,
 }: {
   data?: Gpus;
   pathName?: any;
   subCom?: boolean;
   isLoading?: boolean;
+  counts?: boolean;
 }) => {
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
   const [filters, setFilters] = React.useState<Filters>(defaultFilters);
@@ -169,6 +177,7 @@ export const Tables = ({
           totalGpus={totalGpus}
           totalAvailableGpus={totalAvailableGpus}
           isLoading={isLoading || false}
+          counts={counts}
         />
 
         <Filter
@@ -179,18 +188,22 @@ export const Tables = ({
         />
       </div>
       <div className="flex flex-col gap-1 xl:hidden">
-        <p className="text-sm text-[#7E868C] md:text-base">
-          Total Available GPUs
-        </p>
+        {counts && (
+          <p className="text-sm text-[#7E868C] md:text-base">
+            Total Available GPUs
+          </p>
+        )}
         <div className="my-2 flex justify-between">
-          <Card className="px-2 py-1">
-            <span className="font-bold text-[#09090B] dark:text-[#EDEDED]">
-              {totalAvailableGpus || 0}{" "}
-            </span>
-            <span className="text-sm text-[#71717A]">
-              (of {totalGpus || 0})
-            </span>
-          </Card>
+          {counts && (
+            <Card className="px-2 py-1">
+              <span className="font-bold text-[#09090B] dark:text-[#EDEDED]">
+                {totalAvailableGpus || 0}{" "}
+              </span>
+              <span className="text-sm text-[#71717A]">
+                (of {totalGpus || 0})
+              </span>
+            </Card>
+          )}
           <div className="flex gap-1">
             <OFilter
               filters={filters}
@@ -274,6 +287,7 @@ export const Tables = ({
                   available={model?.availability?.available}
                   total={model?.availability?.total}
                   className="my-0 border-y py-5"
+                  counts={counts}
                 />
 
                 <div className="flex flex-col  justify-center gap-1 border-b pb-6 pt-2">
@@ -360,6 +374,7 @@ export const Tables = ({
         subCom={subCom || false}
         isLoading={isLoading || false}
         filteredData={filteredData}
+        counts={counts}
       />
     </section>
   );

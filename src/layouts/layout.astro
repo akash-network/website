@@ -13,17 +13,23 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  noIndex?: boolean;
 }
 
 const homepage = await getEntry("Homepage", "index");
 
 const { advert } = homepage.data;
 
-const { title, description, image } = Astro.props;
+const { title, description, image, noIndex } = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  noIndex={noIndex}
+>
   {
     advert && !pathname.includes("neurips") && (
       <div class="flex items-center justify-center bg-primary px-3 py-2">

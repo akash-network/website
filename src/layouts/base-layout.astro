@@ -14,9 +14,10 @@ interface Props {
   description?: string;
   image?: string;
   classname?: string;
+  noIndex?: boolean;
 }
 
-const { title, description, image, classname } = Astro.props;
+const { title, description, image, classname, noIndex } = Astro.props;
 
 const isProd = import.meta.env.PROD;
 ---
@@ -55,7 +56,12 @@ const isProd = import.meta.env.PROD;
       })(window, document, "script", "dataLayer", "GTM-573RDG5H");
     </script>
 
-    <BaseHead title={title} description={description} image={image} />
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      noIndex={noIndex}
+    />
     <ViewTransitions />
   </head>
   <body class="bg-background" class:list={classname}>
