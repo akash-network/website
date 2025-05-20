@@ -5,15 +5,17 @@ type Props = {
   title: string;
   description: string;
   image?: string;
+  noIndex?: boolean;
 };
 
-const { title, description, image } = Astro.props;
+const { title, description, image, noIndex } = Astro.props;
 ---
 
 <Layout
   title={`${title} | Explore Pricing and Earnings on Akash`}
   description={description}
   image={image || "/meta-images/gpus.png"}
+  noIndex={noIndex}
 >
   <section
     class="container mx-auto flex max-w-[1380px] flex-col gap-12 pt-12 md:gap-[4.5rem] md:pt-[100px]"
