@@ -17,7 +17,7 @@ const calendarUrl = `https://calendar.google.com/calendar/u/0?cid=${encodeURICom
 <div
   class="mt-5 flex flex-col gap-4 rounded-md border bg-background2 p-3 md:max-h-[60vh] md:p-5"
 >
-  <TimeZoneCalendar calendarId={DEFAULT_CALENDAR_ID} />
+  <TimeZoneCalendar calendarId={DEFAULT_CALENDAR_ID} client:idle />
   <a
     href={calendarUrl}
     class="flex items-center justify-center gap-3 rounded-md bg-[#FFDEDE] py-3 text-sm font-medium text-primary dark:bg-background md:text-base"
