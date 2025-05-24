@@ -63,7 +63,7 @@ The recommended minimum number of hosts is four for a production Provider Kubern
 
 #### Software Recommendation
 
-Akash Providers have been tested on **Ubuntu 22.04** with the default Linux kernel. Your experience may vary should install be attempted using a different Linux distro/kernel.
+Akash Providers have been tested on **Ubuntu 24.04** with the default Linux kernel. Your experience may vary should install be attempted using a different Linux distro/kernel.
 
 #### Kubernetes Control Plane Node Requirements
 
@@ -96,18 +96,17 @@ Install Kubespray on a machine that has connectivity to the hosts that will serv
 
 #### Kubespray Host Recommendation
 
-We recommend installing Kubespray on Ubuntu 22.04. Versions prior it Ubuntu 20.X may experience issues with recent Ansible versions specified in later steps.
+We recommend installing Kubespray on Ubuntu 24.04. Versions prior it Ubuntu 20.X may experience issues with recent Ansible versions specified in later steps.
 
 #### Clone the Kubespray Project
 
 Obtain Kubespray and navigate into the created local directory:
 
-> NOTE: It is recommended to try a newer version of Kubespray than `v2.26.0` -- https://github.com/kubernetes-sigs/kubespray/releases  
 
 ```
 cd ~
 
-git clone -b v2.26.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
+git clone -b v2.28.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 
 cd kubespray
 ```
@@ -231,162 +230,42 @@ Ansible will use an inventory file to determine the hosts Kubernetes should be i
 cd ~/kubespray
 
 cp -rfp inventory/sample inventory/akash
-
-#REPLACE IP ADDRESSES BELOW WITH YOUR KUBERNETES CLUSTER IP ADDRESSES
-declare -a IPS=(10.0.10.136 10.0.10.239 10.0.10.253 10.0.10.9)
-
-CONFIG_FILE=inventory/akash/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 ```
 
-#### **Expected Result (Example)**
+#### **Editing Inventory File**
 
-```
-(venv) root@ip-10-0-10-145:/home/ubuntu/kubespray# CONFIG_FILE=inventory/akash/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
-
-DEBUG: Adding group all
-DEBUG: Adding group kube_control_plane
-DEBUG: Adding group kube_node
-DEBUG: Adding group etcd
-DEBUG: Adding group k8s_cluster
-DEBUG: Adding group calico_rr
-DEBUG: adding host node1 to group all
-DEBUG: adding host node2 to group all
-DEBUG: adding host node3 to group all
-DEBUG: adding host node4 to group all
-DEBUG: adding host node1 to group etcd
-DEBUG: adding host node2 to group etcd
-DEBUG: adding host node3 to group etcd
-DEBUG: adding host node1 to group kube_control_plane
-DEBUG: adding host node2 to group kube_control_plane
-DEBUG: adding host node3 to group kube_control_plane
-
-DEBUG: adding host node1 to group kube_node
-DEBUG: adding host node2 to group kube_node
-DEBUG: adding host node3 to group kube_node
-DEBUG: adding host node4 to group kube_node
-```
-
-#### **Verification of Generated File**
-
-- Open the hosts.yaml file in VI (Visual Editor) or nano
+- Open the inventory.ini file in VI (Visual Editor) or nano
 - Update the kube_control_plane category if needed with full list of hosts that should be master nodes
 - Ensure you have either 1 or 3 Kubernetes control plane nodes under `kube_control_plane`. If 2 are listed, change that to 1 or 3, depending on whether you want Kubernetes be Highly Available.
 - Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/the-kubernetes-current/etcd-kubernetes-what-you-should-know/).
-- For additional details regarding `hosts.yaml` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples).
+- For additional details regarding `inventory.ini` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples).
 
 ```
 vi ~/kubespray/inventory/akash/hosts.yaml
 ```
 
-##### **Example hosts.yaml File**
-
-- Additional hosts.yaml examples, based on different Kubernetes cluster topologies, may be found [here](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources/#kubespray-hostsyaml-examples)
-
+##### **Example inventory.ini File**
 ```
-all:
-  hosts:
-    node1:
-      ansible_host: 10.0.10.136
-      ip: 10.0.10.136
-      access_ip: 10.0.10.136
-    node2:
-      ansible_host: 10.0.10.239
-      ip: 10.0.10.239
-      access_ip: 10.0.10.239
-    node3:
-      ansible_host: 10.0.10.253
-      ip: 10.0.10.253
-      access_ip: 10.0.10.253
-    node4:
-      ansible_host: 10.0.10.9
-      ip: 10.0.10.9
-      access_ip: 10.0.10.9
-  children:
-    kube_control_plane:
-      hosts:
-        node1:
-        node2:
-        node3:
-    kube_node:
-      hosts:
-        node1:
-        node2:
-        node3:
-        node4:
-    etcd:
-      hosts:
-        node1:
-        node2:
-        node3:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    calico_rr:
-      hosts: {}
-```
+# This inventory describe a HA typology with stacked etcd (== same nodes as control plane)
+# and 3 worker nodes
+# See https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
+# for tips on building your # inventory
 
-### Manual Edits/Insertions of the hosts.yaml Inventory File
+# Configure 'ip' variable to bind kubernetes services on a different ip than the default iface
+# We should set etcd_member_name for etcd cluster. The node that are not etcd members do not need to set the value,
+# or can set the empty string value.
+[kube_control_plane]
+# node1 ansible_host=95.54.0.12  # ip=10.3.0.1 etcd_member_name=etcd1
+# node2 ansible_host=95.54.0.13  # ip=10.3.0.2 etcd_member_name=etcd2
+# node3 ansible_host=95.54.0.14  # ip=10.3.0.3 etcd_member_name=etcd3
 
-- Open the hosts.yaml file in VI (Visual Editor) or nano
+[etcd:children]
+kube_control_plane
 
-```
-vi ~/kubespray/inventory/akash/hosts.yaml
-```
-
-- Within the YAML file's "all" stanza and prior to the "hosts" sub-stanza level - insert the following vars stanza
-
-```
-vars:
-  ansible_user: root
-```
-
-- The hosts.yaml file should look like this once finished
-
-```
-all:
-  vars:
-    ansible_user: root
-  hosts:
-    node1:
-      ansible_host: 10.0.10.136
-      ip: 10.0.10.136
-      access_ip: 10.0.10.136
-    node2:
-      ansible_host: 10.0.10.239
-      ip: 10.0.10.239
-      access_ip: 10.0.10.239
-    node3:
-      ansible_host: 10.0.10.253
-      ip: 10.0.10.253
-      access_ip: 10.0.10.253
-    node4:
-      ansible_host: 10.0.10.9
-      ip: 10.0.10.9
-      access_ip: 10.0.10.9
-  children:
-    kube_control_plane:
-      hosts:
-        node1:
-        node2:
-        node3:
-    kube_node:
-      hosts:
-        node1:
-        node2:
-        node3:
-        node4:
-    etcd:
-      hosts:
-        node1:
-        node2:
-        node3:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    calico_rr:
-      hosts: {}
+[kube_node]
+# node4 ansible_host=95.54.0.15  # ip=10.3.0.4
+# node5 ansible_host=95.54.0.16  # ip=10.3.0.5
+# node6 ansible_host=95.54.0.17  # ip=10.3.0.6
 ```
 
 ### Additional Kubespray Documentation
@@ -736,7 +615,7 @@ With inventory in place we are ready to build the Kubernetes cluster via Ansible
 ```
 cd ~/kubespray
 
-ansible-playbook -i inventory/akash/hosts.yaml -b -v --private-key=~/.ssh/id_rsa cluster.yml
+ansible-playbook -i inventory/akash/inventory.ini -b -v --private-key=~/.ssh/id_rsa cluster.yml
 ```
 
 ## STEP 9 - Confirm Kubernetes Cluster

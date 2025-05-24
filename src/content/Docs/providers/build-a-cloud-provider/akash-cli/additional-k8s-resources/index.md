@@ -7,35 +7,36 @@ linkTitle: "Additional K8s Resources"
 description: "Additional resources and examples for Kubernetes cluster setup"
 ---
 
-## Kubespray Hosts.Yaml Examples
+## Kubespray inventory.ini Examples
 
-### Hosts.Yaml Overview
+### inventory.ini Overview
 
-The Kubespray hosts.yaml inventory file is composed of 3 groups:
+The Kubespray inventory.ini file is composed of several key groups:
 
-- **kube_node**: list of Kubernetes nodes where the pods will run.
-- **kube_control_plane**: list of servers where Kubernetes control plane components (apiserver, scheduler, controller) will run.
-- **etcd**: list of servers to compose the etcd server. You should have at least 3 servers for failover purpose.
+- **kube_control_plane**: list of servers where Kubernetes control plane components (apiserver, scheduler, controller) will run
+- **kube_node**: list of Kubernetes nodes where the pods will run
+- **etcd**: list of servers to compose the etcd server. 
+- **etcd:children**: typically includes kube_control_plane for stacked etcd topology
 
 Please following these links for YAML examples and depending on your preferred topology:
 
-- [Kubespray Hosts.Yaml Examples](#kubespray-hostsyaml-examples)
-  - [Hosts.Yaml Overview](#hostsyaml-overview)
+- [Kubespray inventory.ini Examples](#kubespray-inventory-examples)
+  - [Inventory File Overview](#inventory-file-overview)
 - [All-In-One Node](#all-in-one-node)
   - [Topology](#topology)
-  - [ Pros](#-pros)
+  - [Pros](#pros)
   - [Cons](#cons)
-  - [Example Hosts.yaml File](#example-hostsyaml-file)
+  - [Example Inventory File](#example-inventory-file)
 - [One Control Plane Node with Multiple Worker Nodes](#one-control-plane-node-with-multiple-worker-nodes)
   - [Topology](#topology-1)
-  - [Pros](#pros)
-  - [Cons](#cons-1)
-  - [Example Hosts.yaml File](#example-hostsyaml-file-1)
-- [Multiple Control Plane Nodes with Multiple Work Nodes](#multiple-control-plane-nodes-with-multiple-work-nodes)
-  - [Topology](#topology-2)
   - [Pros](#pros-1)
+  - [Cons](#cons-1)
+  - [Example Inventory File](#example-inventory-file-1)
+- [Multiple Control Plane Nodes with Multiple Worker Nodes](#multiple-control-plane-nodes-with-multiple-worker-nodes)
+  - [Topology](#topology-2)
+  - [Pros](#pros-2)
   - [Cons](#cons-2)
-  - [Example Hosts.yaml File](#example-hostsyaml-file-2)
+  - [Example Inventory File](#example-inventory-file-2)
 
 ## All-In-One Node
 
@@ -53,25 +54,17 @@ Please following these links for YAML examples and depending on your preferred t
 - Single point of failure for K8s/etcd/pods;
 - Thinner security barrier since pods are running on control plane / etcd nodes;
 
-### Example Hosts.yaml File
+### Example Inventory File
 
 ```
-  children:
-    kube_control_plane:
-      hosts:
-        node1:
-    kube_node:
-      hosts:
-        node1:
-    etcd:
-      hosts:
-        node1:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    calico_rr:
-      hosts: {}
+[kube_control_plane]
+node1 ansible_host=95.54.0.12  # ip=10.3.0.1 etcd_member_name=etcd1
+
+[etcd:children]
+kube_control_plane
+
+[kube_node]
+node1 ansible_host=95.54.0.12  # ip=10.3.0.1
 ```
 
 ## One Control Plane Node with Multiple Worker Nodes
@@ -90,34 +83,26 @@ Please following these links for YAML examples and depending on your preferred t
 
 - Single point of failure only for K8s/etcd but not the pods
 
-### Example Hosts.yaml File
+### Example Inventory File
 
 ```
- children:
-    kube_control_plane:
-      hosts:
-        node1:
-    kube_node:
-      hosts:
-        node2:
-        node3:
-    etcd:
-      hosts:
-        node1:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    calico_rr:
-      hosts: {}
+[kube_control_plane]
+node1 ansible_host=95.54.0.12  # ip=10.3.0.1 etcd_member_name=etcd1
+
+[etcd:children]
+kube_control_plane
+
+[kube_node]
+node2 ansible_host=95.54.0.13  # ip=10.3.0.2
+node3 ansible_host=95.54.0.14  # ip=10.3.0.3
 ```
 
-## Multiple Control Plane Nodes with Multiple Work Nodes
+## Multiple Control Plane Nodes with Multiple Worker Nodes
 
 ### Topology
 
-- Nodes 1.-3 - the control plane + etcd nodes; (This makes K8s High Available)
-- Node 4.-N - the kube nodes on which the Pods will run
+- Nodes 1-3 - the control plane + etcd nodes; (This makes K8s High Available)
+- Node 4-N - the kube nodes on which the Pods will run
 
 ### Pros
 
@@ -129,29 +114,19 @@ Please following these links for YAML examples and depending on your preferred t
 
 - More complex environment makes its configuration & management more difficult
 
-### Example Hosts.yaml File
+### Example Inventory File
 
 ```
-  children:
-    kube_control_plane:
-      hosts:
-        node1:
-        node2:
-        node3:
-    kube_node:
-      hosts:
-        node4:
-        node5:
-        node6:
-    etcd:
-      hosts:
-        node1:
-        node2:
-        node3:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    calico_rr:
-      hosts: {}
+[kube_control_plane]
+node1 ansible_host=95.54.0.12  # ip=10.3.0.1 etcd_member_name=etcd1
+node2 ansible_host=95.54.0.13  # ip=10.3.0.2 etcd_member_name=etcd2
+node3 ansible_host=95.54.0.14  # ip=10.3.0.3 etcd_member_name=etcd3
+
+[etcd:children]
+kube_control_plane
+
+[kube_node]
+node4 ansible_host=95.54.0.15  # ip=10.3.0.4
+node5 ansible_host=95.54.0.16  # ip=10.3.0.5
+node6 ansible_host=95.54.0.17  # ip=10.3.0.6
 ```
