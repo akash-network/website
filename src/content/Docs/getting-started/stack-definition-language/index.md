@@ -117,7 +117,7 @@ The `profiles` section contains named compute and placement profiles to be used 
 
 ### profiles.compute
 
-`profiles.compute` is map of named compute profiles. Each profile specifies compute resources to be leased for each service instance uses uses the profile.
+`profiles.compute` is map of named compute profiles. Each profile specifies compute resources to be leased for each service instance uses the profile.
 
 Example:
 
