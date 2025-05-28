@@ -2,12 +2,12 @@
 aep: 63
 title: "Console API for Managed Wallet Users - v1"
 author: Anil Murty (@anilmurty) Maxime Beauchamp (@baktun14)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2024-03-14
-updated: 2025-03-14
-estimated-completion: 2025-05-30
+updated: 2025-05-28
+completed: 2025-05-28
 roadmap: major
 ---
 
@@ -104,14 +104,6 @@ implementation tracked in [issue #989](https://github.com/akash-network/console/
 #### Funding Account
 
 This is for the customer to purchase more credits and fund their account - we will decide if we offer this or not based on customer requests but it will likely directly go to the Stripe Checkout API https://docs.stripe.com/api/checkout/sessions/object
-
-#### Retrieving Logs
-
-`GET/v1/logs/{dseq}`
-
-#### Retrieving Events
-
-`GET/v1/events/{dseq}`
 
 ### UI for Managing API Keys
 
