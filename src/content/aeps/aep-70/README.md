@@ -2,12 +2,12 @@
 aep: 70
 title: "Console API - JWT and new features"
 author: Anil Murty (@anilmurty) Maxime Beauchamp (@baktun14)
-status: Final
+status: draft
 type: Standard
 category: Interface
-created: 2024-05-28
+created: 2025-05-28
 updated: 2025-05-28
-estimated completion: 2025-07-15
+estimated-completion: 2025-07-15
 roadmap: minor
 ---
 
