@@ -64,7 +64,7 @@ additionalDeploymentSection:
   resources:
     - title: Kubernetes Cluster for Akash Providers
       content: Akash leases are deployed via Kubernetes pods on provider clusters. This guide details the build of the provider’s Kubernetes control plane and worker nodes.
-      link: "/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers/"
+      link: "/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/"
     - title: Akash Cloud Provider Build With Helm Charts
       content: An Akash Provider leases compute to users launching new deployments. Follow the steps in this guide to build your own provider.
       link: "/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/"
