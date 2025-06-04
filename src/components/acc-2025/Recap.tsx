@@ -41,17 +41,25 @@ const Recap = ({ type }: { type: "button" | "image" }) => {
           <div className="absolute inset-0 z-[2] flex items-end py-10 transition-all group-hover:bg-black/10">
             <div className="container-nav-2 flex flex-col gap-2">
               <svg
-                className="size-14 lg:size-[85px]"
-                viewBox="0 0 85 85"
+                className="w-12 md:w-[68px]"
+                viewBox="0 0 68 69"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <circle cx="42.5" cy="42.5002" r="42.5" fill="#21B35D"></circle>
+                <circle
+                  cx="34"
+                  cy="34.2393"
+                  r="33"
+                  stroke="white"
+                  stroke-width="2"
+                />
                 <path
-                  d="M61 43.5002L30.25 60.3877L30.25 26.6127L61 43.5002Z"
-                  fill="white"
-                ></path>
+                  d="M25.25 49.209L25.25 22.2695L49.9141 35.7393L25.25 49.209Z"
+                  stroke="white"
+                  stroke-width="2"
+                />
               </svg>
+
               <h2 className="text-left text-3xl font-semibold leading-[1.2] transition-all group-hover:underline md:text-5xl">
                 View highlights <br />
                 from last year
