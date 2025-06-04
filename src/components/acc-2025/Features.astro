@@ -1,0 +1,69 @@
+---
+import {
+  BadgeCheck,
+  BrainCog,
+  Building2,
+  Coffee,
+  MessageSquare,
+  PackageOpen,
+  Shirt,
+} from "lucide-react";
+
+const features = [
+  {
+    icon: BadgeCheck,
+    text: "Hear from 30+ AI Thought Leaders",
+  },
+  {
+    icon: PackageOpen,
+    text: "Win $25,000 in Compute Credits",
+  },
+  {
+    icon: MessageSquare,
+    text: "Trade insights with the architects behind tomorrow's AI",
+  },
+  {
+    icon: BrainCog,
+    text: "Find your next AI opportunity",
+  },
+  {
+    icon: Shirt,
+    text: "Score limited-edition Akash merch",
+  },
+  {
+    icon: Building2,
+    text: "Iconic Williamsburg rooftop with panoramic skyline views",
+  },
+  {
+    icon: Coffee,
+    text: "Craft food, coffee, and cocktails",
+  },
+];
+---
+
+<section class="flex flex-col items-stretch md:flex-row">
+  <div class="flex w-full items-center justify-center md:w-1/2">
+    <img
+      src="/images/acc-2025/nyc.png"
+      alt="Event Rooftop"
+      class="w-full"
+      loading="lazy"
+    />
+  </div>
+
+  <div
+    class="flex w-full flex-col justify-center gap-8 px-4 py-10 md:w-1/2 md:gap-12 md:px-14 md:py-20"
+  >
+    {
+      features.map((feature) => (
+        <div class="flex items-start gap-4">
+          <feature.icon className="size-6 text-white" />
+
+          <span class="font-medium leading-snug text-white md:text-lg lg:text-xl">
+            {feature.text}
+          </span>
+        </div>
+      ))
+    }
+  </div>
+</section>

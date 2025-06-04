@@ -135,13 +135,54 @@ const speakers = [
     image: "/images/acc-2025/speakers/daniel.png",
   },
 ];
+
+const fromTheCommunity = [
+  {
+    logo: "/images/acc-2025/speakers/from/near.png",
+    name: "Near",
+  },
+  {
+    logo: "/images/acc-2025/speakers/from/softbank.png",
+    name: "SoftBank",
+  },
+  {
+    logo: "/images/acc-2025/speakers/from/helium.png",
+    name: "Helium",
+  },
+  {
+    logo: "/images/acc-2025/speakers/from/coinfund.png",
+    name: "CoinFund",
+  },
+  {
+    logo: "/images/acc-2025/speakers/from/dragonfly.png",
+    name: "Dragonfly",
+  },
+  {
+    logo: "/images/acc-2025/speakers/from/topology.png",
+    name: "Topology",
+  },
+];
 ---
 
 <section
   class="container-nav-2 overflow-hidden pb-10 pt-10 md:overflow-visible md:pb-16"
 >
-  <div class="flex flex-col gap-10">
-    <h2 class="text-3xl font-semibold lg:text-4xl 2xl:text-5xl">Speakers</h2>
+  <div class="flex flex-col gap-8 md:gap-10">
+    <h3 class="text-center text-lg font-medium !text-[#626262] md:text-xl">
+      Speakers from
+    </h3>
+    <div class="flex justify-evenly gap-8 overflow-y-auto md:gap-4">
+      {
+        fromTheCommunity.map((item) => (
+          <img src={item.logo} alt={item.name} class="w-auto object-contain" />
+        ))
+      }
+    </div>
+    <div class="mx-auto mt-3 h-[3px] w-full max-w-[18rem] bg-[#626262] md:mt-5">
+    </div>
+    <h2 class="mt-3 text-center text-3xl font-semibold md:mt-5 lg:text-4xl">
+      Speakers
+    </h2>
 
     <div
       class="grid grid-cols-2 gap-x-3 gap-y-5 md:gap-x-5 md:gap-y-12 lg:grid-cols-4"
