@@ -8,6 +8,7 @@ import {
   PackageOpen,
   Shirt,
 } from "lucide-react";
+import NYCCarousel from "./NYCCarousel";
 
 const features = [
   {
@@ -43,12 +44,7 @@ const features = [
 
 <section class="flex flex-col items-stretch lg:flex-row">
   <div class="flex w-full items-center justify-center lg:w-1/2">
-    <img
-      src="/images/acc-2025/nyc.png"
-      alt="Event Rooftop"
-      class="h-full w-full object-cover"
-      loading="lazy"
-    />
+    <NYCCarousel client:load />
   </div>
 
   <div
