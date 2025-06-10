@@ -295,3 +295,14 @@ html body[data-scroll-locked] {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Custom Swiper Pagination Styles */
+.swiper-pagination-bullet {
+  background: #d1d5db !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ff414c !important;
+  opacity: 1 !important;
+}
