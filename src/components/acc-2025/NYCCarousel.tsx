@@ -24,6 +24,25 @@ const NYCCarousel: React.FC = () => {
 
   return (
     <div className="relative h-full w-full">
+      <style>
+        {`
+          .swiper-pagination-bullet {
+            background-color: #D9D9D9 !important;
+            opacity: 1 !important;
+            width: 15px !important;
+            height: 15px !important;
+            margin: 0 4px !important;
+          }
+          .swiper-pagination-bullet-active {
+            background-color: #5C5C5C !important;
+          }
+          .swiper-pagination {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+          }
+        `}
+      </style>
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={0}
@@ -44,11 +63,11 @@ const NYCCarousel: React.FC = () => {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <div className="relative h-full w-full">
+            <div className="relative h-[50vh] w-full lg:h-full">
               <img
                 src={image.src}
                 alt={image.alt}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-center"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-black bg-opacity-20"></div>
