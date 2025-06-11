@@ -51,12 +51,12 @@ const Recap = ({ type }: { type: "button" | "image" }) => {
                   cy="34.2393"
                   r="33"
                   stroke="white"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
                 <path
                   d="M25.25 49.209L25.25 22.2695L49.9141 35.7393L25.25 49.209Z"
                   stroke="white"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
               </svg>
 
