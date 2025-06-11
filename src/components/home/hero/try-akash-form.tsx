@@ -6,6 +6,49 @@ import clsx from "clsx";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
+// Singleton to track if HubSpot script is already loaded
+let hubspotScriptLoaded = false;
+let hubspotScriptPromise: Promise<void> | null = null;
+
+const loadHubSpotScript = (): Promise<void> => {
+  if (hubspotScriptLoaded) {
+    return Promise.resolve();
+  }
+
+  if (hubspotScriptPromise) {
+    return hubspotScriptPromise;
+  }
+
+  hubspotScriptPromise = new Promise((resolve, reject) => {
+    // Check if script already exists
+    const existingScript = document.querySelector(
+      'script[src="https://js.hsforms.net/forms/embed/47519938.js"]',
+    );
+    if (existingScript) {
+      hubspotScriptLoaded = true;
+      resolve();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://js.hsforms.net/forms/embed/47519938.js";
+    script.defer = true;
+
+    script.onload = () => {
+      hubspotScriptLoaded = true;
+      resolve();
+    };
+
+    script.onerror = () => {
+      reject(new Error("Failed to load HubSpot script"));
+    };
+
+    document.body.appendChild(script);
+  });
+
+  return hubspotScriptPromise;
+};
+
 interface TryAkashFormProps extends VariantProps<typeof speakToExpertVariants> {
   type: "hero" | "header" | "speckToExpert" | "speakToExpertHeader";
   fullWidth?: boolean;
@@ -20,15 +63,8 @@ export default function TryAkashForm({
   className,
 }: TryAkashFormProps) {
   useEffect(() => {
-    // Load HubSpot script
-    const script = document.createElement("script");
-    script.src = "https://js.hsforms.net/forms/embed/47519938.js";
-    script.defer = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
+    // Load HubSpot script only once
+    loadHubSpotScript().catch(console.error);
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -73,27 +109,27 @@ export default function TryAkashForm({
         <path
           d="M12 18.25C15.5 18.25 19.25 16.5 19.25 12C19.25 7.5 15.5 5.75 12 5.75C8.5 5.75 4.75 7.5 4.75 12C4.75 13.0298 4.94639 13.9156 5.29123 14.6693C5.50618 15.1392 5.62675 15.6573 5.53154 16.1651L5.26934 17.5635C5.13974 18.2547 5.74527 18.8603 6.43651 18.7307L9.64388 18.1293C9.896 18.082 10.1545 18.0861 10.4078 18.1263C10.935 18.2099 11.4704 18.25 12 18.25Z"
           stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
         <path
           d="M9.5 12C9.5 12.2761 9.27614 12.5 9 12.5C8.72386 12.5 8.5 12.2761 8.5 12C8.5 11.7239 8.72386 11.5 9 11.5C9.27614 11.5 9.5 11.7239 9.5 12Z"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
         <path
           d="M12.5 12C12.5 12.2761 12.2761 12.5 12 12.5C11.7239 12.5 11.5 12.2761 11.5 12C11.5 11.7239 11.7239 11.5 12 11.5C12.2761 11.5 12.5 11.7239 12.5 12Z"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
         <path
           d="M15.5 12C15.5 12.2761 15.2761 12.5 15 12.5C14.7239 12.5 14.5 12.2761 14.5 12C14.5 11.7239 14.7239 11.5 15 11.5C15.2761 11.5 15.5 11.7239 15.5 12Z"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
       </svg>
 
@@ -111,16 +147,16 @@ export default function TryAkashForm({
         <path
           d="M17.25 15.25V6.75H8.75"
           stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
         <path
           d="M17 7L6.75 17.25"
           stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
       </svg>
     </button>
@@ -153,9 +189,9 @@ export default function TryAkashForm({
         <path
           d="M9.99984 19.0724C14.6022 19.0724 18.3332 15.3415 18.3332 10.7391C18.3332 6.13672 14.6022 2.40576 9.99984 2.40576C5.39746 2.40576 1.6665 6.13672 1.6665 10.7391C1.6665 12.257 2.07231 13.68 2.78136 14.9058L2.08317 18.6558L5.83317 17.9576C7.05889 18.6666 8.48197 19.0724 9.99984 19.0724Z"
           stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
       <p className="font-medium text-inherit ">Speak to an expert</p>

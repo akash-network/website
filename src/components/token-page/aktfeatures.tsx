@@ -100,9 +100,9 @@ const AktFeatures = ({
             <path
               d="M27.3333 27.3333H54.6667M54.6667 27.3333V54.6667M54.6667 27.3333L27.3333 54.6667M17.0833 10.25H64.9167C68.6906 10.25 71.75 13.3094 71.75 17.0833V64.9167C71.75 68.6906 68.6906 71.75 64.9167 71.75H17.0833C13.3094 71.75 10.25 68.6906 10.25 64.9167V17.0833C10.25 13.3094 13.3094 10.25 17.0833 10.25Z"
               stroke="white"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>

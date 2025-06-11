@@ -143,9 +143,9 @@ export default function Filter({
             <path
               d="M2.49967 5.83333V3.5C2.49967 2.94772 2.94739 2.5 3.49967 2.5H16.4998C17.052 2.5 17.4997 2.94766 17.4998 3.4999L17.5 5.83333M2.49967 5.83333L7.9838 10.534C8.20544 10.724 8.33301 11.0013 8.33301 11.2933V16.2192C8.33301 16.8698 8.9444 17.3472 9.57554 17.1894L10.9089 16.856C11.354 16.7447 11.6663 16.3448 11.6663 15.8859V11.2933C11.6663 11.0014 11.7939 10.724 12.0156 10.534L17.5 5.83333M2.49967 5.83333H17.5"
               stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </Popover.Button>

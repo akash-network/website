@@ -43,7 +43,7 @@ const Buttons = () => {
             height="40.0136"
             rx="20.0068"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
@@ -68,7 +68,7 @@ const Buttons = () => {
             height="39.731"
             rx="19.8655"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
@@ -93,7 +93,7 @@ const Buttons = () => {
             height="39.731"
             rx="19.8655"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
@@ -118,7 +118,7 @@ const Buttons = () => {
             height="40.5137"
             rx="20.2568"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
@@ -148,7 +148,7 @@ const Buttons = () => {
             height="39.731"
             rx="19.8655"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
@@ -173,7 +173,7 @@ const Buttons = () => {
             height="40.5137"
             rx="20.2568"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
@@ -203,7 +203,7 @@ const Buttons = () => {
             height="39.731"
             rx="19.8655"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
@@ -229,7 +229,7 @@ const Buttons = () => {
             height="40.6332"
             rx="20.3166"
             stroke="white"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
           />
           <path
             d="M50.7658 24.6436L54.6499 31.4507H46.804L42.8789 24.6436H50.7658Z"
@@ -282,7 +282,7 @@ const Buttons = () => {
             height="40.6332"
             rx="20.3166"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
           />
           <path
             d="M50.7658 24.6436L54.6499 31.4507H46.804L42.8789 24.6436H50.7658Z"
@@ -335,7 +335,7 @@ const Buttons = () => {
             height="39.731"
             rx="19.8655"
             stroke="#FF414C"
-            stroke-width="0.967458"
+            strokeWidth="0.967458"
             className="dark:stroke-white"
           />
           <path
