@@ -2,7 +2,7 @@
 import TryAkashForm from "@/components/ui/try-akash-form";
 import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
-import { ArrowRight, Info } from "lucide-react";
+import { ArrowRight, Award, Info } from "lucide-react";
 
 interface Props {
   heroSection: CollectionEntry<"Homepage">["data"]["heroSection"];
@@ -37,6 +37,12 @@ const pathname = Astro.url.pathname;
     />
 
     <div class="mt-12 flex flex-col justify-center gap-4">
+      <div
+        class="mx-auto flex items-center gap-2 rounded-full border bg-background2 px-6 py-2.5 text-center text-sm dark:bg-[#18181B] md:py-3 md:text-base"
+      >
+        <Award className="size-5 text-primary" />
+        <p class="text-foreground">Get up to $500 in GPU credits</p>
+      </div>
       <div class="flex justify-center">
         <TryAkashForm client:load type="hero" />
       </div>
