@@ -50,9 +50,11 @@ const loadHubSpotScript = (): Promise<void> => {
 };
 
 interface TryAkashFormProps extends VariantProps<typeof speakToExpertVariants> {
-  type: "hero" | "header" | "speckToExpert" | "speakToExpertHeader";
+  type: "hero" | "header" | "speckToExpert" | "speakToExpertHeader" | "custom";
   fullWidth?: boolean;
   className?: string;
+  id?: string;
+  text?: string;
 }
 
 export default function TryAkashForm({
@@ -61,6 +63,8 @@ export default function TryAkashForm({
   size,
   variant,
   className,
+  id = "f6d48b8a-55fd-4327-b947-1ae5b33ed63f",
+  text,
 }: TryAkashFormProps) {
   useEffect(() => {
     // Load HubSpot script only once
@@ -201,13 +205,17 @@ export default function TryAkashForm({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        {type === "hero"
-          ? heroButton
-          : type === "speckToExpert"
-            ? speckToExpertButton
-            : type === "speakToExpertHeader"
-              ? speakToExpertHeaderButton
-              : defaultButton}
+        {type === "custom" ? (
+          <button className={className}>{text}</button>
+        ) : type === "hero" ? (
+          heroButton
+        ) : type === "speckToExpert" ? (
+          speckToExpertButton
+        ) : type === "speakToExpertHeader" ? (
+          speakToExpertHeaderButton
+        ) : (
+          defaultButton
+        )}
       </DialogTrigger>
       <DialogContent
         hideCloseButton
@@ -224,7 +232,7 @@ export default function TryAkashForm({
         <div
           className="hs-form-frame"
           data-region="na1"
-          data-form-id="f6d48b8a-55fd-4327-b947-1ae5b33ed63f"
+          data-form-id={id}
           data-portal-id="47519938"
         />
       </DialogContent>
