@@ -19,33 +19,35 @@ import Speakers from "@/components/acc-2025/speakers.astro";
   title="Akash Accelerate 2025"
   description="Akash Accelerate is a full-day summit that will bring together the entire ecosystem for a packed agenda of talks, panels, and discussions exploring the future of decentralized compute and open-source AI."
   image="/meta-images/acc-2025.jpg"
-  classname="dark !bg-[#000000] container-nav-3 "
+  classname="dark !bg-[#000000] "
 >
-  <Header
-    hideDarkToggle
-    overrideClassName="!bg-[#000000]  top-0 sticky z-[30] "
-    navClassName="container-nav-2 "
-    hideContainer
-  />
+  <div class="container-nav-3">
+    <Header
+      hideDarkToggle
+      overrideClassName="!bg-[#000000]  top-0 sticky z-[30] "
+      navClassName="container-nav-2 "
+      hideContainer
+    />
 
-  <main>
-    <Head />
-    <Recap client:load type="button" />
-    <Features />
-    <div class="bg-[#0D0D0D]">
-      <Speakers />
-    </div>
-    <Location client:load />
-    <Highlights />
+    <main>
+      <Head />
+      <Recap client:load type="button" />
+      <Features />
+      <div class="bg-[#0D0D0D]">
+        <Speakers />
+      </div>
+      <Location client:load />
+      <Highlights />
 
-    <Information />
-    <section class="w-full">
-      <img
-        src="/images/acc-2025/acc.png"
-        alt="Akash Accelerate 2025"
-        class="aspect-[16/12] w-full object-cover md:aspect-auto"
-      />
-    </section>
-    <Accfooter />
-  </main>
+      <Information />
+      <section class="w-full">
+        <img
+          src="/images/acc-2025/acc.png"
+          alt="Akash Accelerate 2025"
+          class="aspect-[16/12] w-full object-cover md:aspect-auto"
+        />
+      </section>
+      <Accfooter />
+    </main>
+  </div>
 </BaseLayout>
