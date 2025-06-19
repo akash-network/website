@@ -1,5 +1,13 @@
 ---
+import TryAkashForm from "../home/hero/try-akash-form";
 import { acc2025 } from "./acc-2025";
+type Props = {
+  isLivestream?: boolean;
+};
+
+const { isLivestream = false }: Props = Astro.props;
+const className =
+  "flex w-full justify-center gap-1 rounded bg-primary px-6 py-3 text-center font-jetBrainsMono text-xl uppercase tracking-wide transition-all hover:bg-white hover:text-black md:py-4 2xl:text-2xl";
 ---
 
 <section
@@ -102,25 +110,40 @@ import { acc2025 } from "./acc-2025";
       <div
         class="mt-2 flex w-full flex-col gap-5 md:mb-14 md:mt-8 lg:max-w-[35rem]"
       >
-        <div class="flex flex-col items-center gap-3 md:flex-row">
-          <p
-            class="rounded-full border-2 border-[#2E2E2E] bg-[#232323] px-4 py-2 text-center font-jetBrainsMono text-foreground slg:px-8"
-          >
-            Free to Attend
-          </p>
-          <p
-            class="flex-1 rounded-full border-2 border-[#2E2E2E] bg-[#232323] px-4 py-2 text-center font-jetBrainsMono text-foreground"
-          >
-            Only <span class="text-primary">125</span> Spots Remaining
-          </p>
-        </div>
-        <a
-          href={acc2025.register}
-          target="_blank"
-          class="flex w-full justify-center gap-1 rounded bg-primary px-6 py-3 text-center font-jetBrainsMono text-xl uppercase tracking-wide transition-all hover:bg-white hover:text-black md:py-4 2xl:text-2xl"
-        >
-          Register
-        </a>
+        {
+          !isLivestream && (
+            <div class="flex flex-col items-center gap-3 md:flex-row">
+              <p class="rounded-full border-2 border-[#2E2E2E] bg-[#232323] px-4 py-2 text-center font-jetBrainsMono text-foreground slg:px-8">
+                Free to Attend
+              </p>
+              <p class="flex-1 rounded-full border-2 border-[#2E2E2E] bg-[#232323] px-4 py-2 text-center font-jetBrainsMono text-foreground">
+                Only <span class="text-primary">125</span> Spots Remaining
+              </p>
+            </div>
+          )
+        }
+        {
+          isLivestream ? (
+            <TryAkashForm
+              type="custom"
+              className={className}
+              client:load
+              id="4f18c376-2ece-4bda-b6c8-7800f23c9c5a"
+              text="REGISTER FOR LIVE STREAM"
+            />
+          ) : (
+            <a href={acc2025.register} target="_blank" class={className}>
+              Register
+            </a>
+          )
+        }
+        {
+          isLivestream && (
+            <p class="flex-1 rounded-full border-2 border-[#2E2E2E] bg-[#232323] px-4 py-2 text-center font-jetBrainsMono text-foreground">
+              Win $25,000 in Compute Credits
+            </p>
+          )
+        }
       </div>
     </div>
     <div class="hidden w-full flex-1 items-center justify-center md:flex">
