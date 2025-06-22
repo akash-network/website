@@ -55,7 +55,7 @@ const schedule = [
   {
     time: "3:05 PM",
     title: "Showcase: The Rise of DeAI",
-    speakers: ["Jiahao Sun, Manouk Vermaaten, Brayden Levangie"],
+    speakers: ["Jiahao Sun, Manouk Termaaten, Brayden Levangie"],
   },
   {
     time: "3:30 PM",
