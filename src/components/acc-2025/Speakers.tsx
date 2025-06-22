@@ -102,10 +102,10 @@ const speakers = [
     image: "/images/acc-2025/speakers/manouk.png",
   },
   {
-    name: "Jiahao Sun",
-    title: "CEO",
+    name: "Nick Wen",
+    title: "Dev Lead",
     company: "FLock.io",
-    image: "/images/acc-2025/speakers/jiahao.png",
+    image: "/images/acc-2025/speakers/nick.png",
   },
   {
     name: "Jason Badeaux",
