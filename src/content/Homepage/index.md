@@ -1,7 +1,7 @@
 ---
 advert: 
-  title: Akash Accelerate 2025 is coming to NYC. Register here.
-  link: "/akash-accelerate-2025"
+  title: Watch the livestream of Akash Accelerate 2025
+  link: "/akash-accelerate-2025-livestream"
 
 # hero section content
 heroSection:
