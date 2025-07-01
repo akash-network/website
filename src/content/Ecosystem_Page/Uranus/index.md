@@ -13,7 +13,6 @@ description: Browser with remote access + playwright controls for persistent sta
 showcase: true 
 
 websiteLink: "https://vision.uranus.im/" 
-githubLink: "https://github.com/adappterxyz/uranus" 
 twitterLink: "https://x.com/uranusdotim" 
 
 featured: true 
