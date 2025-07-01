@@ -3,8 +3,8 @@ projectTitle: Uranus Vision
 projectImage: "./project-banner.png" 
 pubDate: "2025-07-01" 
 
-tags: # <--- This is the tags of the project
-  - Dev Tool
+tags: 
+  - Dev tools
 
 category: deployed_on_akash
 
