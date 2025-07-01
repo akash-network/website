@@ -12,6 +12,11 @@ description: Browser with remote access + playwright controls for persistent sta
 
 showcase: true 
 
+ctaButton:
+  label: View Project
+  link: "https://brev.dev/](https://vision.uranus.im/"
+  enable: true
+  
 websiteLink: "https://vision.uranus.im/" 
 twitterLink: "https://x.com/uranusdotim" 
 
