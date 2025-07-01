@@ -21,7 +21,11 @@ const sortProjects = (projects: Project[]) =>
   });
 
 const cards = sortProjects(
-  data.filter((project) => project.data.category === "deployed_on_akash"),
+  data.filter(
+    (project) =>
+      project.data.category === "deployed_on_akash" ||
+      project.data.category.includes("deployed_on_akash"),
+  ),
 );
 const projects = sortProjects(
   data.filter((project) => project.data.showcase === true),
