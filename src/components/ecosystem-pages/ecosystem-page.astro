@@ -7,7 +7,13 @@ import Categories from "@/components/ecosystem-pages/categories.astro";
 import TopHeader from "@/components/ecosystem-pages/top-header.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 type Project = CollectionEntry<"Ecosystem_Page">;
-const { projects, tags, title } = Astro.props;
+type Props = {
+  projects: Project[];
+  tags: string[];
+  title: string;
+  type?: "tool" | "deployed";
+};
+const { projects, tags, title, type = "deployed" } = Astro.props;
 const astroUrl = Astro.url;
 ---
 
@@ -16,13 +22,13 @@ const astroUrl = Astro.url;
   image="/meta-images/ecosystem.png"
 >
   <TopMargin>
-    <TopHeader tags={tags} />
+    <TopHeader tags={tags} title={title} />
   </TopMargin>
 
   <div
     class="container mt-4 flex justify-between md:mt-10 lg:gap-x-[20px] xl:gap-x-[48px]"
   >
-    <Categories tags={tags} />
+    {type !== "tool" && <Categories tags={tags} />}
 
     <div>
       <div

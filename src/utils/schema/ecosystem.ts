@@ -13,7 +13,7 @@ const baseSchema = defineCollection({
         link: z.string(),
         enable: z.boolean(),
       }),
-      category: z.string(),
+      category: z.union([z.string(), z.array(z.string())]),
       showcase: z.boolean().optional(),
       githubLink: z.string().optional(),
       twitterLink: z.string().optional(),
