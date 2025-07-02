@@ -14,7 +14,7 @@ showcase: true
 
 ctaButton:
   label: View Project
-  link: "https://brev.dev/](https://vision.uranus.im/"
+  link: "https://vision.uranus.im/"
   enable: true
   
 websiteLink: "https://vision.uranus.im/" 
