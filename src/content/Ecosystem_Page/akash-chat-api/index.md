@@ -6,7 +6,9 @@ pubDate: "2024-07-29"
 tags:
   - AI & ML
 
-category: deployed_on_akash
+category:
+  - deployed_on_akash
+  - tool
 
 description: Akash Chat API, an open and permissionless Llama3 API powered by the Akash Supercloud that anyone can access at completely zero-cost.
 

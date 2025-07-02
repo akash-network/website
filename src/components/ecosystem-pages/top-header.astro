@@ -4,11 +4,11 @@ import SearchDialog from "./search-dialog";
 const astroUrl = Astro.url;
 const pathName = astroUrl.pathname.split("/");
 
-const { tags } = Astro.props;
+const { tags, title = "Explore the Akash Ecosystem" } = Astro.props;
 ---
 
 <h1 class="w-full text-center text-3xl md:text-4xl lg:text-5xl">
-  Explore the Akash Ecosystem
+  {title}
 </h1>
 
 <div

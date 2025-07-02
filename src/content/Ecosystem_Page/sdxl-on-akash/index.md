@@ -6,7 +6,9 @@ pubDate: "2021-01-19"
 tags:
   - AI & ML
 
-category: deployed_on_akash
+category:
+  - deployed_on_akash
+  - tool
 
 description: AkashGen is a high quality text-to-image model from Stability AI. This application is running on NVIDIA A100s leased from the Akash Supercloud, to achieve high-performing and cost-effective inference of 1024×1024 images.
 

@@ -23,7 +23,8 @@ const priorityProjects = (await getCollection("Ecosystem_Page"))
 const nonPriorityProjects = (await getCollection("Ecosystem_Page"))
   .filter(
     (project) =>
-      project.data.category === "deployed_on_akash" &&
+      (project.data.category === "deployed_on_akash" ||
+        project.data.category.includes("deployed_on_akash")) &&
       getPriorityIndex(project.data.projectTitle) === deployedOnAkash.length,
   )
   .sort((a, b) => {

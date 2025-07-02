@@ -5,7 +5,11 @@ import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const projects = (await getCollection("Ecosystem_Page"))
-    .filter((project) => project.data.category === "deployed_on_akash")
+    .filter(
+      (project) =>
+        project.data.category === "deployed_on_akash" ||
+        project.data.category.includes("deployed_on_akash"),
+    )
     .sort((a, b) => {
       const dateA = new Date(a.data.pubDate);
       const dateB = new Date(b.data.pubDate);

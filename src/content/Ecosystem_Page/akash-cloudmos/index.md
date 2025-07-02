@@ -1,6 +1,6 @@
 ---
 projectTitle: Akash Console
-projectImage: "./akash-console.png"
+projectImage: "./akash-console.jpg"
 pubDate: "2024-01-19"
 
 tags:
