@@ -8,6 +8,8 @@ linkTitle: "Payments"
 
 Leases are paid from deployment owner (tenant) to the provider through a [deposit](#bid-deposits) & withdraw mechanism.
 
+For a step-by-step guide to funding your Akash account with cards, bank, or coupons, see the [Billing & Credits Guide](/docs/getting-started/billing-and-credits/).
+
 ### Bid Deposits
 
 Tenants are required to submit a deposit when creating a deployment. Leases will be paid passively from the balance of this deposit. At any time, a lease provider may withdraw the balance owed to them from this deposit.

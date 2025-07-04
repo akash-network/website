@@ -1,35 +1,26 @@
 ---
 title: Billing & Credits
 linkTitle: Billing & Credits
-description: Friendly, detailed guide to funding your Akash account, redeeming coupons, and managing billing with all available payment options.
+description: Comprehensive guide to funding your Akash account, redeeming coupons, and managing billing using all available payment methods.
 ---
 
-
-Welcome to Akash! Whether you’re a crypto-native or just want a simple way to pay, Akash now supports both decentralized wallet payments (using AKT tokens) and traditional credit/debit card payments. This guide will help you understand both options, so you can choose what works best for you.
-
----
 
 ## Payment Options on Akash
 
-Akash is unique: you can fund your account and pay for deployments in two ways:
 
 ### 1. Decentralized Wallet (AKT Token)
 
-- **Best for:** Users who want full control, privacy, and the benefits of decentralized finance.
-- **How it works:** You connect your crypto wallet (like Keplr, Cosmostation, or Leap) to the Akash Console. You pay for deployments using AKT tokens directly from your wallet.
-- **Setup:** If you’re new to crypto wallets or AKT, see our [Token & Wallets guide](../token-and-wallets/) for step-by-step instructions on creating, funding, and connecting your wallet.
-- **Benefits:** No intermediaries, instant payments, and you keep custody of your funds.
+- **Ideal for:** Users seeking maximum control, privacy, and the advantages of decentralized finance.
+- **Overview:** Connect your preferred crypto wallet (such as Keplr, Cosmostation, or Leap) to the Akash Console to pay for deployments directly with AKT tokens.
+- **Getting Started:** If you are new to crypto wallets or AKT, refer to our [Token & Wallets guide](../token-and-wallets/) for comprehensive instructions on creating, funding, and connecting your wallet.
+- **Key Benefits:** Maintain full custody of your funds, benefit from instant payments, and transact without intermediaries.
 
-<!-- ![Connect wallet screenshot](./connect-wallet.png) -->
+### 2. Credit/Debit Card, Bank Transfer, and Alternative Methods
 
-### 2. Credit/Debit Card, Bank, and More
-
-- **Best for:** Anyone who prefers the convenience of paying with a card or doesn’t want to manage crypto.
-- **How it works:** Add a payment method (Visa, Mastercard, bank transfer, Amazon Pay, Cash App, etc.) in the Console. Your account is credited in USD, and Akash handles the conversion to AKT for you behind the scenes.
-- **No wallet required:** You can deploy and pay without ever touching crypto if you prefer.
-- **Trial credits:** Every new user gets $10 in free trial credits—no card or wallet needed to start.
-
-<!-- ![Add payment method screenshot](./add-payment-method.png) -->
+- **Ideal for:** Users who prefer the convenience of traditional payment methods and do not wish to manage cryptocurrencies.
+- **Overview:** Add a payment method (Visa, Mastercard, bank transfer, Amazon Pay, Cash App, etc.) directly in the Console. Your account will be credited in USD, with Akash automatically handling the conversion to AKT.
+- **No Wallet Required:** Deploy and pay for services without interacting with cryptocurrencies.
+- **Trial Credits:** All new users receive $10 in complimentary trial credits—no card or wallet required to get started.
 
 ---
 
