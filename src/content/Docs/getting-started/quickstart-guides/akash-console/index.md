@@ -85,3 +85,7 @@ Once the 'Hello World' application is deployed, you can easily close it and get 
 #### Conclusion
 
 You have successfully deployed a simple hello world application using Console. Follow similar flow for other deployments, only the SDL file along with docker image and resources is to be configured as per the need.
+
+### Next Steps
+
+For even easier deployments, try the **[GitHub Deploy Feature](/docs/getting-started/github-deploy-feature/)** which allows you to deploy applications directly from GitHub, GitLab, and Bitbucket repositories without manually building Docker images.
