@@ -125,8 +125,4 @@ If you have a promo, referral, or trial code, after step 13, enter it in the **C
 
 Need more help? Visit [Akash Support](https://akash.network/support) or ask in the [Akash Discord](https://discord.com/invite/akash).
 
-**Payment Success Example:**
-
-
----
 
