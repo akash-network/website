@@ -6,13 +6,11 @@ tags: ["deployment", "github", "gitlab", "bitbucket", "console", "quickstart"]
 weight: 5
 ---
 
-> **Deploy applications directly from GitHub, GitLab, and Bitbucket repositories with minimal setup!**
+> Deploy applications directly from GitHub, GitLab, and Bitbucket repositories with minimal setup!
 
----
+## How It Works
 
-## Overview
-
-The **Akash Console** now supports a powerful feature that allows users to **deploy applications directly from GitHub, GitLab, and Bitbucket repositories**, enabling rapid deployment of modern web apps and static sites with minimal setup.
+The Akash Console now supports a powerful feature that allows users to **deploy applications directly from GitHub, GitLab, and Bitbucket repositories**, enabling rapid deployment of modern web apps and static sites with minimal setup.
 
 This feature eliminates the need for manual Docker image building and pushing, making it easier than ever to deploy your applications to the Akash Network.
 
