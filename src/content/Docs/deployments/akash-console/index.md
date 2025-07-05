@@ -15,6 +15,8 @@ This guide will cover the following topics:
 - [Manage Deployments](#manage-deployments)
 - [Define a custom RPC node](#custom-rpc-node)
 
+Alternatively, here's a [video walkthrough](https://akashedu.thinkific.com/courses/take/ai-placeholder/lessons/64818806-akash-103-mastering-the-akash-console-deployments) on mastering deployments using the Akash console. 
+
 ### Akash Wants to Spotlight Your Work
 
 Have an idea for a project to deploy on Akash? Already working on a project? Maybe you’ve already deployed a project (or many projects!) to the network?

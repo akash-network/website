@@ -10,6 +10,8 @@ weight: 3
 
 Akash is an open network that facilitates the secure and efficient buying and selling of computing resources. Purpose-built for public utility, it is fully open-source with an active community of contributors.
 
+New to decentralized cloud computing? Watch our [Intro to the Decentralized Cloud](https://akashedu.thinkific.com/courses/take/ai-placeholder/lessons/64764719-akash-101-intro-to-the-decentralized-cloud) lesson to learn the fundamentals of cloud storage, decentralized computing, and how Akash differs from traditional cloud providers.
+
 ## Common Questions
 
 ### How to use Akash?
