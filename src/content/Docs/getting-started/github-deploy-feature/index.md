@@ -72,12 +72,31 @@ The feature automatically detects and configures the following frameworks:
 
 ### Step 2: Connect Your Repository
 
+You have two options to connect your repository:
+
+#### Option 1: Connect a Provider (Recommended)
+
 1. Click **"Build & Deploy"** or similar option
-2. Choose your repository provider (GitHub, GitLab, or Bitbucket)
-3. Authenticate with your repository provider
-4. Select the repository you want to deploy
+2. Choose your repository provider:
+   - **GitHub**: Authenticate with your GitHub account and authorize Akash Console. Select your repository (public or private).
+   - **GitLab**: Authenticate with your GitLab account and authorize Akash Console. Select your repository (public or private).
+   - **Bitbucket**: Authenticate with your Bitbucket account and authorize Akash Console. Select your repository (public or private).
+3. Proceed with configuration and deployment as described in the next steps.
+
+> **Note:** The Akash Console supports deploying from **private repositories** on GitHub, GitLab, and Bitbucket. When connecting your account, you may be prompted to grant access to private repositories. Ensure you select the correct repository visibility during the selection step. All build and deployment steps are performed securely in the Akash Console.
 
 ![Repository Selection](./screenshots/repository-selection.png)
+
+#### Option 2: Paste Public Repo Link & Branch (No Provider Connection)
+
+1. On the deployment screen, look for the option to deploy via repo URL.
+2. Paste the full public repository link (e.g., `https://github.com/username/repo`).
+3. Enter the branch name you wish to deploy (e.g., `main`).
+4. Proceed with configuration and deployment as usual.
+
+> **Note:** This method only works for public repositories. Private repositories require provider authentication.
+
+![Paste Public Repo Link](./screenshots/third-party-repo.png)
 
 ### Step 3: Configure Your Deployment
 
@@ -351,4 +370,6 @@ The GitHub Deploy Feature makes it incredibly easy to deploy your applications t
 - **Join the community** to share your experiences
 - **Contribute** to the Akash ecosystem
 
-For more information about Akash deployments, see the [Deployment Overview](/docs/deployments/overview/) and [Akash Console](/docs/getting-started/quickstart-guides/akash-console/) documentation. 
+For more information about Akash deployments, see the [Deployment Overview](/docs/deployments/overview/) and [Akash Console](/docs/getting-started/quickstart-guides/akash-console/) documentation.
+
+--- 
