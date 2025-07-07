@@ -240,7 +240,7 @@ your-project/
 If you encounter issues not covered here:
 
 1. **Check the logs:** Use the console's log viewer to debug issues
-2. **Community support:** Join the [Akash Discord](https://discord.akash.network) for help
+2. **Community support:** Join the [Akash Discord](https://discord.com/invite/akash) for help
 3. **Documentation:** Refer to the [Akash documentation](/docs) for more details
 
 ---
@@ -370,6 +370,6 @@ The GitHub Deploy Feature makes it incredibly easy to deploy your applications t
 - **Join the community** to share your experiences
 - **Contribute** to the Akash ecosystem
 
-For more information about Akash deployments, see the [Deployment Overview](/docs/deployments/overview/) and [Akash Console](/docs/getting-started/quickstart-guides/akash-console/) documentation.
+For more information about Akash deployments, see the [Deployment Overview](/docs/deployments/overview/) and [Akash Console](/docs/getting-started/quickstart-guides/akash-console/) documentation. 
 
 --- 
