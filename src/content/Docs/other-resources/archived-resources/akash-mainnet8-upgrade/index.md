@@ -232,7 +232,7 @@ Providers using the Provider Console (previously know as Praetor App) should wai
 
 ### Upgrade Procedure
 
-IMPORTANT! Seek help if you encounter an issue at any step or have doubts! Please seek the support in the `#providers` Akash Network Devs Discord room [here](https://discord.akash.network/).
+IMPORTANT! Seek help if you encounter an issue at any step or have doubts! Please seek the support in the `#providers` Akash Network Devs Discord room [here](https://discord.com/invite/akash).
 
 #### STEP 1 - Scale down to 0 replicas the akash-provider
 
