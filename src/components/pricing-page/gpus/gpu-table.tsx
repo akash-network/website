@@ -5,6 +5,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import TryAkashForm from "@/components/ui/try-akash-form";
 import { gpus } from "@/utils/api";
 import { ArrowUpRightIcon } from "@heroicons/react/20/solid";
 import {
@@ -355,16 +356,21 @@ export const Tables = ({
                     </HoverCardContent>
                   </HoverCard>
                 </div>
-                <div className="flex flex-col justify-center pt-6">
+                <div className="flex flex-col justify-center gap-2 pt-6">
                   <a
                     id={`${model?.model}-(gpu-rent)`}
                     href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                     target="_blank"
-                    className="inline-flex justify-center gap-1.5 rounded-md bg-foreground py-3 text-white hover:bg-primary dark:text-black dark:hover:text-inherit"
+                    className="inline-flex justify-center  gap-1.5 rounded-md bg-primary py-3  text-white hover:bg-primary/90 "
                   >
                     <p className="text-sm font-medium text-inherit">Rent Now</p>
                     <ArrowUpRightIcon className="w-[15px]" />
                   </a>
+                  <TryAkashForm
+                    type="customButton"
+                    linkText="Request More"
+                    className="inline-flex justify-center gap-1.5 rounded-md border bg-foreground bg-white py-3 text-sm font-medium text-black hover:bg-primary hover:text-black "
+                  />
                 </div>
               </Card>
             ))}
