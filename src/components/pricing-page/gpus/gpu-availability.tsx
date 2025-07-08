@@ -60,7 +60,7 @@ const GpuAvailability = ({
                   Available GPUs:
                 </p>
                 <p className="text-sm font-semibold text-foreground">
-                  {availablePercentage.toFixed(2)}%
+                  {totalAvailableGpus > 0 ? availablePercentage.toFixed(2) : 0}%
                 </p>
               </div>
               <div className="h-full w-[1.5px] bg-darkGrayBorder" />
@@ -69,7 +69,7 @@ const GpuAvailability = ({
                   Used:
                 </p>
                 <p className="text-sm font-semibold text-foreground">
-                  {usedPercentage.toFixed(2)}%
+                  {totalGpus > 0 ? usedPercentage.toFixed(2) : 0}%
                 </p>
               </div>
             </div>

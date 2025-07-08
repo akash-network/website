@@ -1,3 +1,4 @@
+import { buttonVariants } from "@/components/ui/button-link.astro";
 import {
   HoverCard,
   HoverCardContent,
@@ -116,7 +117,7 @@ const DesktopTableGpu = ({
             : filteredData?.map((model, index) => (
                 <tr
                   key={index}
-                  className=" overflow-hidden rounded-lg border-none bg-background2 shadow-sm outline-none transition-all hover:bg-[#FBFBFB] hover:shadow dark:hover:bg-background2/70"
+                  className=" overflow-hidden rounded-lg border-none bg-background2 shadow-sm outline-none transition-all  "
                   onMouseEnter={() => setHoveredRowIndex(index)}
                   onMouseLeave={() => setHoveredRowIndex(null)}
                 >
@@ -235,8 +236,11 @@ const DesktopTableGpu = ({
                         href="https://console.akash.network/new-deployment"
                         target="_blank"
                         className={cn(
-                          "flex items-center gap-1.5 rounded-md border border-primary   bg-primary px-2 py-[1px] font-medium    md:px-2 lg:px-3",
-                          "text-white  shadow-sm transition-all duration-300 ",
+                          buttonVariants({
+                            variant: "primary",
+                            size: "sm",
+                          }),
+                          "flex h-auto items-center gap-1.5 rounded-md px-2 py-[2px] text-xs font-medium   md:px-2 lg:px-3",
                         )}
                       >
                         <p className="whitespace-nowrap text-xs  text-inherit">
@@ -248,8 +252,11 @@ const DesktopTableGpu = ({
                         type="customButton"
                         linkText="Request More"
                         className={cn(
-                          "font-medium  text-[#71717A] shadow-sm transition-all duration-300 dark:text-para",
-                          "flex items-center gap-1.5 rounded-md border px-2 py-[5px] text-xs font-medium   md:px-2 lg:px-3",
+                          buttonVariants({
+                            variant: "secondary",
+                            size: "sm",
+                          }),
+                          "flex h-auto items-center gap-1.5 rounded-md border px-2 py-[5px] text-xs font-medium   md:px-2 lg:px-3",
                         )}
                       />
                     </div>
