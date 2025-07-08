@@ -236,7 +236,7 @@ const DesktopTableGpu = ({
                         target="_blank"
                         className={cn(
                           "flex items-center gap-1.5 rounded-md border border-primary   bg-primary px-2 py-[1px] font-medium    md:px-2 lg:px-3",
-                          "text-white  shadow-sm transition-all duration-300 hover:border-black hover:bg-black hover:text-white",
+                          "text-white  shadow-sm transition-all duration-300 ",
                         )}
                       >
                         <p className="whitespace-nowrap text-xs  text-inherit">
@@ -248,7 +248,7 @@ const DesktopTableGpu = ({
                         type="customButton"
                         linkText="Request More"
                         className={cn(
-                          "font-medium  text-[#71717A] shadow-sm transition-all duration-300 hover:border-black hover:bg-black hover:text-white dark:text-para",
+                          "font-medium  text-[#71717A] shadow-sm transition-all duration-300 dark:text-para",
                           "flex items-center gap-1.5 rounded-md border px-2 py-[5px] text-xs font-medium   md:px-2 lg:px-3",
                         )}
                       />
