@@ -12,9 +12,16 @@ import { X } from "lucide-react";
 import { useState } from "react";
 
 interface TryAkashFormProps extends VariantProps<typeof speakToExpertVariants> {
-  type: "hero" | "header" | "speckToExpert" | "speakToExpertHeader";
+  type:
+    | "hero"
+    | "header"
+    | "speckToExpert"
+    | "speakToExpertHeader"
+    | "linkButton"
+    | "customButton";
   fullWidth?: boolean;
   className?: string;
+  linkText?: string;
 }
 
 export default function TryAkashForm({
@@ -23,9 +30,10 @@ export default function TryAkashForm({
   size,
   variant,
   className,
+  linkText,
 }: TryAkashFormProps) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const randomId = Math.random().toString(36).substring(2, 15);
   const defaultButton = (
     <button
       type="button"
@@ -48,6 +56,24 @@ export default function TryAkashForm({
       )}
     >
       Access the Marketplace
+    </button>
+  );
+
+  const linkButton = (
+    <button
+      type="button"
+      className={clsx(
+        buttonVariants({ variant: "link", size: "sm" }),
+        className,
+      )}
+    >
+      {linkText}
+    </button>
+  );
+
+  const CustomButton = (
+    <button type="button" className={clsx(className)}>
+      {linkText}
     </button>
   );
 
@@ -164,7 +190,11 @@ export default function TryAkashForm({
             ? speckToExpertButton
             : type === "speakToExpertHeader"
               ? speakToExpertHeaderButton
-              : defaultButton}
+              : type === "linkButton"
+                ? linkButton
+                : type === "customButton"
+                  ? CustomButton
+                  : defaultButton}
       </DialogTrigger>
       <DialogContent
         hideCloseButton
@@ -181,6 +211,7 @@ export default function TryAkashForm({
           <X className="h-4 w-4" />
         </button>
         <div
+          id={`hs-form-iframe-${randomId}`}
           className="hs-form-frame"
           data-region="na1"
           data-form-id="f6d48b8a-55fd-4327-b947-1ae5b33ed63f"
