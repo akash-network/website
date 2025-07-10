@@ -10,7 +10,7 @@ This section guides you through setting up a wallet and acquiring AKT tokens. If
 
 ## Why Do I Need a Wallet?
 
-Whn using cryptocurrency, setting up a wallet is crucial to hold and utilize your coins. A wallet, whether software or hardware, allows you to transfer cryptocurrency from an exchange to a usable location. Using your own wallet, as opposed to storing crypto on an exchange, reduces the risk of losing funds due to an exchange hack. Additionally, it enables you to deploy your crypto into Decentralized Finance (DeFi) applications like [Osmosis DEX](https://app.osmosis.zone) or stake your funds at higher rates. Exchange wallets are suitable for buying crypto, but non-exchange wallets are better for various other purposes.
+When using cryptocurrency, setting up a wallet is crucial to hold and utilize your coins. A wallet, whether software or hardware, allows you to transfer cryptocurrency from an exchange to a usable location. Using your own wallet, as opposed to storing crypto on an exchange, reduces the risk of losing funds due to an exchange hack. Additionally, it enables you to deploy your crypto into Decentralized Finance (DeFi) applications like [Osmosis DEX](https://app.osmosis.zone) or stake your funds at higher rates. Exchange wallets are suitable for buying crypto, but non-exchange wallets are better for various other purposes.
 
 ## Compatible Wallets in the Cosmos Ecosystem
 
