@@ -6,8 +6,8 @@ status: Draft
 type: Standard
 category: Interface
 created: 2025-05-20
-updated: 2025-05-20
-estimated-completion: 2025-06-30
+updated: 2025-07-07
+estimated-completion: 2025-07-15
 roadmap: major
 ---
 

@@ -413,7 +413,7 @@ This is a comprehensive guide that covers the steps necessary to upgrade from Ma
 
 ### Upgrade Procedure
 
-IMPORTANT! Seek help if you encounter an issue at any step or have doubts! Please seek the support in the `#providers` Akash Network Devs Discord room [here](https://discord.akash.network/).
+IMPORTANT! Seek help if you encounter an issue at any step or have doubts! Please seek the support in the `#providers` Akash Network Devs Discord room [here](https://discord.com/invite/akash)!
 
 #### STEP 1 - Scale down to 0 replicas the akash-provider
 
@@ -452,7 +452,7 @@ v0.4.6
 
 ##### 2.2. Dry-run Provider Migration
 
-> _**IMPORTANT**_: If the following commands returns any error, please seek the support in the #providers Akash Network Devs Discord room [here](https://discord.akash.network/)!
+> _**IMPORTANT**_: If the following commands returns any error, please seek the support in the #providers Akash Network Devs Discord room [here](https://discord.com/invite/akash)!
 
 > _**NOTE**_: `--crd-dry-run=true` by default
 

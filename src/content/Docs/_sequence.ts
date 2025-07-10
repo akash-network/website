@@ -28,6 +28,7 @@ export const docsSequence = [
           { label: "Stack Definition Language (SDL)" },
           { label: "Tokens and Wallets" },
           { label: "Billing & Credits" },
+          { label: "GitHub Deploy Feature" },
         ],
       },
       { label: "Architecture", subItems: [{ label: "Architecture Overview" }] },
