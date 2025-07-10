@@ -157,3 +157,9 @@ Click "**I have saved it somewhere safe.**".
 
     All that is left is to send AKT tokens to the wallet address provided by Leap Cosmos Wallet.
     You can purchase AKT tokens [here](https://akash.network/token/#buying-akt).
+
+---
+
+## Next Steps
+
+Now that you have your wallet set up, you can start deploying applications on Akash! For the easiest deployment experience, try the **[GitHub Deploy Feature](/docs/getting-started/github-deploy-feature/)** which allows you to deploy applications directly from GitHub, GitLab, and Bitbucket repositories.

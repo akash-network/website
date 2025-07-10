@@ -1,4 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import TryAkashForm from "@/components/ui/try-akash-form";
 
 const GpuAvailability = ({
   totalGpus,
@@ -19,9 +20,19 @@ const GpuAvailability = ({
       {isLoading ? (
         <Skeleton className="h-9 w-64 dark:bg-darkGray" />
       ) : (
-        <h1 className="text-2xl !font-semibold">
-          GPU Pricing and Availability
-        </h1>
+        <div className="flex flex-col ">
+          <h1 className="text-2xl !font-semibold">
+            GPU Pricing and Availability
+          </h1>
+          <p className="text-sm text-darkGrayText dark:text-para">
+            We are able to access as many GPUs as you request — just ask us!{" "}
+            <TryAkashForm
+              type="linkButton"
+              linkText="Request more."
+              className="!px-0"
+            />
+          </p>
+        </div>
       )}
       <div className="flex gap-1">
         {isLoading ? (
@@ -49,7 +60,7 @@ const GpuAvailability = ({
                   Available GPUs:
                 </p>
                 <p className="text-sm font-semibold text-foreground">
-                  {availablePercentage.toFixed(2)}%
+                  {totalAvailableGpus > 0 ? availablePercentage.toFixed(2) : 0}%
                 </p>
               </div>
               <div className="h-full w-[1.5px] bg-darkGrayBorder" />
@@ -58,7 +69,7 @@ const GpuAvailability = ({
                   Used:
                 </p>
                 <p className="text-sm font-semibold text-foreground">
-                  {usedPercentage.toFixed(2)}%
+                  {totalGpus > 0 ? usedPercentage.toFixed(2) : 0}%
                 </p>
               </div>
             </div>

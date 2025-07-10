@@ -1,8 +1,10 @@
+import { buttonVariants } from "@/components/ui/button-link.astro";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import TryAkashForm from "@/components/ui/try-akash-form";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { ArrowUpCircle, Info } from "lucide-react";
@@ -115,7 +117,7 @@ const DesktopTableGpu = ({
             : filteredData?.map((model, index) => (
                 <tr
                   key={index}
-                  className=" overflow-hidden rounded-lg border-none bg-background2 shadow-sm outline-none transition-all hover:bg-[#FBFBFB] hover:shadow dark:hover:bg-background2/70"
+                  className=" overflow-hidden rounded-lg border-none bg-background2 shadow-sm outline-none transition-all  "
                   onMouseEnter={() => setHoveredRowIndex(index)}
                   onMouseLeave={() => setHoveredRowIndex(null)}
                 >
@@ -226,25 +228,37 @@ const DesktopTableGpu = ({
                       </HoverCardContent>
                     </HoverCard>
                   </td>
-                  <td className="rounded-r-lg border-y border-r px-2 text-center xl:px-4">
-                    <div className="flex items-center justify-center">
+                  <td className="rounded-r-lg border-y border-r px-2 py-3 text-center xl:px-4">
+                    <div className="flex  flex-col gap-2">
                       <a
                         id={`${model?.model}-(gpu-rent)`}
                         // href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                         href="https://console.akash.network/new-deployment"
                         target="_blank"
                         className={cn(
-                          "flex items-center gap-1.5 rounded-md border px-2 py-[1px] font-medium  shadow-sm transition-all duration-300 hover:border-black hover:bg-black hover:text-white  md:px-2 lg:px-3",
-                          hoveredRowIndex === index
-                            ? "!border-black bg-black text-white "
-                            : "text-[#71717A] dark:text-para",
+                          buttonVariants({
+                            variant: "primary",
+                            size: "sm",
+                          }),
+                          "flex h-auto items-center gap-1.5 rounded-md px-2 py-[2px] text-xs font-medium   md:px-2 lg:px-3",
                         )}
                       >
-                        <p className="whitespace-nowrap text-xs font-medium text-inherit">
+                        <p className="whitespace-nowrap text-xs  text-inherit">
                           Rent Now
                         </p>
                         <ArrowUpCircle className="w-[15px] rotate-45" />
                       </a>
+                      <TryAkashForm
+                        type="customButton"
+                        linkText="Request More"
+                        className={cn(
+                          buttonVariants({
+                            variant: "secondary",
+                            size: "sm",
+                          }),
+                          "flex h-auto items-center gap-1.5 rounded-md border px-2 py-[5px] text-xs font-medium   md:px-2 lg:px-3",
+                        )}
+                      />
                     </div>
                   </td>
                 </tr>
