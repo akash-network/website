@@ -22,6 +22,7 @@ A complete deployment has the following sections:
 - [shared memory (shm)](#shared-memory-shm)
 - [private container registry support](#private-container-registry-support)
 
+We have prepared a [video tutorial](https://akashedu.thinkific.com/courses/take/ai-placeholder/lessons/64899107-akash104-introduction-to-sdl-files) showing how to create an SDL file.
 An example deployment configuration can be found [here](https://github.com/akash-network/docs/tree/62714bb13cfde51ce6210dba626d7248847ba8c1/sdl/deployment.yaml).
 
 #### Networking
