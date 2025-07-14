@@ -40,11 +40,11 @@ const PopOverSmall = ({
         onMouseEnter={() => {
           setOpen(true);
         }}
-        className="inline-flex cursor-pointer items-center justify-center text-sm font-medium capitalize leading-normal hover:text-primary xl:text-sm "
+        className="group inline-flex cursor-pointer items-center justify-center text-sm font-medium capitalize leading-normal hover:text-primary xl:text-sm "
       >
         {type}
         <ChevronDownIcon
-          className="text-gra -mr-1 ml-1 h-4 w-4"
+          className="text-gra -mr-1 ml-1 h-4 w-4 transition-all group-hover:rotate-180"
           aria-hidden="true"
         />
       </a>

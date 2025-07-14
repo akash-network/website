@@ -10,14 +10,14 @@ interface Props {
 
 const { heroSection } = Astro.props;
 const pathname = Astro.url.pathname;
-// class="border-b border-paraDark pb-[80px] pt-10 md:pb-[120px] md:pt-[64px]"
 ---
 
-<section class="container mb-10 md:my-10">
-  <div class="border-b border-paraDark pb-[25px]">
+<section class="relative overflow-hidden bg-[#181818]">
+  <div class="glow"></div>
+  <div class="container relative z-[2] py-12 md:py-20">
     {
       pathname.includes("meetingconfirmation") && (
-        <div class="relative mx-auto mt-10 flex w-fit items-center justify-center gap-2 rounded-lg border !border-primary px-4 py-3 text-sm text-primary">
+        <div class="relative mx-auto mt-10 flex w-fit items-center justify-center gap-2  rounded-lg border !border-primary px-4 py-3 text-sm text-primary">
           <Info className="size-4 shrink-0" />
           Thanks for booking your meeting, we look forward to speaking with you!
         </div>

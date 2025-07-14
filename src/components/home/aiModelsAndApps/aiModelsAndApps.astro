@@ -1,76 +1,19 @@
 ---
-import ButtonLink from "@/components/ui/button-link.astro";
 import Card from "./card.astro";
 const { aiModelsAndAppsSection } = Astro.props;
 ---
 
-<section class="container mb-[40px]">
-  <div class="border-b pb-[80px] pt-[40px] md:pb-[120px] md:pt-[80px]">
-    <h2 class="text-center text-xl font-medium md:text-[28px]">
-      What’s possible with Akash?
+<section class="bg-[#181818] py-12 md:py-20">
+  <div class="container-home relative z-[2]">
+    <h2 class="text-center text-[26px] font-medium md:text-[56px]">
+      Akash Apps
     </h2>
-    <p class="mt-8 text-center text-base md:mt-4 md:text-lg">
-      Akash isn't just a distributed network of cloud resources — it's the
-      starting point for limitless possibilities.<br />Discover custom
-      deployments to power the latest AI models, popular apps, and much more —
-      all empowered by scalable Akash resources.
+    <p class="mt-3 text-center text-base md:mt-6 md:text-lg">
+      Free instant AI tools at your fingertips—no infrastructure required.
     </p>
 
-    <div class="mt-8 flex justify-center md:mt-10">
-      <div class="hidden md:block">
-        <ButtonLink
-          aria-label="View Akash Ecosystem"
-          link="/ecosystem/showcase/latest"
-          variant="secondary"
-          size="xl"
-        >
-          View Akash Ecosystem
-        </ButtonLink>
-      </div>
-
-      <div class="block md:hidden">
-        <ButtonLink
-          aria-label="View Akash Ecosystem"
-          link="/ecosystem/showcase/latest"
-          variant="secondary"
-          size="md"
-        >
-          View Akash Ecosystem
-        </ButtonLink>
-      </div>
-    </div>
-
-    <div class="mt-10">
-      <p class="text-sm font-medium leading-none text-linkText md:text-base">
-        AI & ML
-      </p>
-      <div
-        class="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-3 lg:grid-cols-3"
-      >
-        {aiModelsAndAppsSection.cards1.map((card: any) => <Card card={card} />)}
-      </div>
-    </div>
-
-    <div class="mt-10">
-      <p class="text-sm font-medium leading-none md:text-base">
-        Latest Integrations
-      </p>
-      <div
-        class="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-3 lg:grid-cols-3"
-      >
-        {aiModelsAndAppsSection.cards2.map((card: any) => <Card card={card} />)}
-      </div>
-    </div>
-
-    <div class="mt-10">
-      <p class="text-sm font-medium leading-none text-linkText md:text-base">
-        Dev Tools
-      </p>
-      <div
-        class="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-3 lg:grid-cols-3"
-      >
-        {aiModelsAndAppsSection.cards3.map((card: any) => <Card card={card} />)}
-      </div>
+    <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {aiModelsAndAppsSection.cards1.map((card: any) => <Card card={card} />)}
     </div>
   </div>
 </section>

@@ -34,28 +34,25 @@ heroSection:
 
 # infrastructure section content
 infrastructureSection:
-  title: "Akash - The Decentralized Infrastructure Supercloud"
+  title: "Optimized for AI & Data Workloads"
+  description: "Purpose-built infrastructure designed for the most demanding computational tasks"
   cards:
-    - title: "Infrastructure as<br/> Code"
+    - title: "Machine Learning<br/> Training"
       image: "./assets/infrastructure/code.svg"
-      description: "Akash's orchestration layer, fueled by SDL, enables intricate deployments across regions, providers, with resource control and pricing decisions."
-    - title: "Kubernetes<br/> Powered"
-      image: "./assets/infrastructure/kubernetes.svg"
-      description: "Built on Kubernetes, Akash ensures a secure, tested, and reliable platform for hosting applications."
-    - title: "Persistent<br/> Storage"
-      image: "./assets/infrastructure/storage.svg"
-      description: "Akash offers limitless storage, safeguarding data even post-restart, an ideal feature for data-intensive apps."
-    - title: "Dedicated<br/> IP Leasing"
-      image: "./assets/infrastructure/ip.svg"
-      description: "By leasing a dedicated IP address, Akash permits port assignment, directing traffic – especially beneficial for DNS,<br class='hidden md:block'/> web servers, etc."
- 
-    - title: "Permissionless"
-      image: "./assets/infrastructure/censorship.svg"
-      description: "Akash democratizes secure, censorship-resistant app deployment, open to all innovators."
+      description: "Accelerate model training with scalable GPU resources, significantly reducing time-to-market."
+    - title: "Generative AI<br/> Applications"
+      image: "./assets/infrastructure/ai.svg"
+      description: "Deploy and scale generative AI platforms seamlessly, catering to variable demands."
+    - title: "Large Language<br/> Models"
+      image: "./assets/infrastructure/llm.svg"
+      description: "Power your conversational AI and NLP tasks with decentralized, cost-effective resources."
+    - title: "Real-time AI<br/> Inference"
+      image: "./assets/infrastructure/realtime.svg"
+      description: "Deliver instant insights and analytics, supporting critical real-time decisions."
+    - title: "Data-intensive<br/> Analytics"
+      image: "./assets/infrastructure/data.svg"
+      description: "Efficiently handle extensive data processing without infrastructure bottlenecks."
 
-    - title: "Peer-to-Peer<br/> and Private"
-      image: "./assets/infrastructure/peer.svg" 
-      description: "Peer-to-peer communication guarantees data privacy, payment transparency, and immunity from central control, reinforcing dependability."
 
 # feature section content
 featureSection:
@@ -110,79 +107,23 @@ aiModelsAndAppsSection:
   subtitle1: "AI & ML"
   subtitle2: "Deployed on Akash"
   cards1:
-    - title: "Akash Chat"
-      image:  "./assets/tools/1.svg"
-      description: "Mistral-7B-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters by Mistral AI. This application is running on NVIDIA GPUs leased from the Akash Supercloud."
-      link: "https://chat.akash.network/"
-
-    - title: "AkashGen"
-      image: "./assets/tools/2.png"
-      description: "AkashGen is a high quality text-to-image model from Stability AI. This application is running on NVIDIA A100s leased from the Akash Supercloud, to achieve high-performing and cost-effective inference of 1024×1024 images."
-      link: "https://gen.akash.network/"
-
-
-    - title: "Ray cluster on Akash"
-      image: "./assets/tools/3.png"
-      description: "This post explores the difficulties of parallelizing and scaling AI/ML workloads. We present Ray, a leading open-source framework (used by top ML teams) for large-scale parallel computing and distributed training."
-      link: "/blog/distributed-machine-learning-on-akash-network-with-ray/"
-
-  cards2:
+    - title: "Run Inference Instantly"
+      image: "./assets/tools/chat-api.svg"
+      description: "Tap into a curated catalog of open‑source models through a single, unified API. Simply request, receive results, and scale automatically on Akash's decentralized GPU network—no model deployment or setup needed."
+      link: "https://chatapi.akash.network/"
+      button: "Get Your Free API Key"
       
-    - title: "Venice AI"
-      image: "./assets/tools/venice.png"
-      description: "Venice is the easy app for private, uncensored AI conversations and image generation. Try for free with no log-in needed."
-      link : "https://venice.ai/home"
-      darkImage : "./assets/tools/venice.png"   
+    - title: "Chat with Multiple Models"
+      image:  "./assets/tools/akash-chat.svg"
+      description: "Benchmark conversational LLMs side‑by‑side. Seamlessly switch between leading open‑source chat models, evaluate responses, and choose the best fit for your application."
+      link: "https://chat.akash.network/"
+      button: "Open Akash Chat"
 
-    - title: "Brev.dev (Acq. by NVIDIA)"
-      image: "./assets/tools/brev.png"
-      description: "Brev.dev, known for its seamless setup of Jupyter notebooks for AI development, has integrated with Akash Network, enabling scalable, permissionless access to NVIDIA GPUs."
-      link : "https://brev.dev/"
-      darkImage : "./assets/tools/brev.png" 
-     
-
-    - title: "Nous Research"
-      image: "./assets/tools/nous.png"
-      description: "Leveraging the power of Akash's decentralized cloud, Nous Research successfully trained 'Nous Hermes 2,' an advanced AI model built on over 1,000,000 entries of GPT-4 data."
-      link : "https://nousresearch.com/"
-      darkImage : "./assets/tools/nous.png" 
-     
-  cards3:
-    - image:  "./assets/tools/awesomeakash.svg"
-      darkImage : "./assets/tools/awesomeakash.svg"
-      description: "Tailored for Web3 users, offering a powerful platform to deploy applications on the Akash network with enhanced capabilities."
-      logoTitle: Akash Console
-
-      launchAppLink: 
-        label: Launch App
-        link: "https://console.akash.network/"
-
-      docsLink: 
-        label: Console Docs
-        link: "/docs/getting-started/quickstart-guides/akash-console/"
-
-    - image:  "./assets/tools/awesomeakash.svg"
-      darkImage : "./assets/tools/awesomeakash.svg"
-      description: "Offer your compute resources on the Akash marketplace, and earn when people deploy. The Akash Provider Console walks you through the setup process, so you can get up and running on the Akash Supercloud."
-      logoTitle: Provider Console
-
-      launchAppLink: 
-        label: Launch App
-        link: "https://provider-console.akash.network/"
-
-      docsLink: 
-        label: Provider Console Docs
-        link: "/docs/providers/intro/"
-
-    - image:  "./assets/tools/awesomeakash.svg"
-      description: " View collection of SDL deployment templates based on the Awesome Akash GitHub repository "
-      logoTitle: Awesome Akash templates
-
-      githubLink: 
-        label: View on Github
-        link: "https://github.com/akash-network/awesome-akash"
-
-
+    - title: "Create Images on Demand"
+      image: "./assets/tools/akash-gen.svg"
+      button: "Try Image Generator"
+      description: "Generate photorealistic or artistic images using powerful diffusion models hosted on Akash. Perfect for rapid concepting, creative exploration, and content creation—right in your browser."
+      link: "https://gen.akash.network/"
 
 # CTA section content
 testimonialsSection:
@@ -212,7 +153,7 @@ testimonialsSection:
       useAvatar: "/useravatars/1.png"
       accountLink: "https://twitter.com/_PradeepGoel/status/1755951930067816607"
       testimonial: "“Solve.Care is migrating Care.Nodes to @akashnet_
-to reduce cost, scale faster, and get rid of #AWS.”"
+      to reduce cost, scale faster, and get rid of #AWS.”"
       companyName: "Solve.Care"
 
     - userName: "@jesseeckel"
@@ -274,9 +215,21 @@ to reduce cost, scale faster, and get rid of #AWS.”"
       testimonial: “Deploying on @akashnet_ is getting faster and easier by the day! Using the Akash Terraform Provider I can have my infrastructure on Akash in just 22s.”
       accountLink: "https://twitter.com/luna_4_go/status/1588978684203237376"
       companyName: "Founder Quasarch"
+      
+trustedBySection:
+  - image: "/images/trustedby/venice.svg"
+    title: "Venice"
+  - image: "/images/trustedby/passage.svg"
+    title: "Passage"
+  - image: "/images/trustedby/nodeshift.svg"
+    title: "Nodeshift"
+  - image: "/images/trustedby/envision.svg"
+    title: "Envision"
+  - image: "/images/trustedby/texas.svg"
+    title: "Texas"
 
 
-# CTA section content
+
 CTASection:
   title: Experience the Supercloud - Deploy Now
 
@@ -284,4 +237,7 @@ CTASection:
     label: Deploy Now
     link: "/"
     enable: true
+
+
+
 ---

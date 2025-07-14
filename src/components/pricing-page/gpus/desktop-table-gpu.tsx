@@ -3,6 +3,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import TryAkashForm from "@/components/ui/try-akash-form";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { ArrowUpCircle, Info } from "lucide-react";
@@ -226,25 +227,31 @@ const DesktopTableGpu = ({
                       </HoverCardContent>
                     </HoverCard>
                   </td>
-                  <td className="rounded-r-lg border-y border-r px-2 text-center xl:px-4">
-                    <div className="flex items-center justify-center">
+                  <td className="rounded-r-lg border-y border-r px-2 py-3 text-center xl:px-4">
+                    <div className="flex  flex-col gap-2">
                       <a
                         id={`${model?.model}-(gpu-rent)`}
                         // href={`https://console.akash.network/rent-gpu?vendor=${model?.vendor}&gpu=${model?.model}&interface=${model?.interface}&vram=${model?.ram}`}
                         href="https://console.akash.network/new-deployment"
                         target="_blank"
                         className={cn(
-                          "flex items-center gap-1.5 rounded-md border px-2 py-[1px] font-medium  shadow-sm transition-all duration-300 hover:border-black hover:bg-black hover:text-white  md:px-2 lg:px-3",
-                          hoveredRowIndex === index
-                            ? "!border-black bg-black text-white "
-                            : "text-[#71717A] dark:text-para",
+                          "flex items-center gap-1.5 rounded-md border border-primary   bg-primary px-2 py-[1px] font-medium    md:px-2 lg:px-3",
+                          "text-white  shadow-sm transition-all duration-300 ",
                         )}
                       >
-                        <p className="whitespace-nowrap text-xs font-medium text-inherit">
+                        <p className="whitespace-nowrap text-xs  text-inherit">
                           Rent Now
                         </p>
                         <ArrowUpCircle className="w-[15px] rotate-45" />
                       </a>
+                      <TryAkashForm
+                        type="customButton"
+                        linkText="Request More"
+                        className={cn(
+                          "font-medium  text-[#71717A] shadow-sm transition-all duration-300 dark:text-para",
+                          "flex items-center gap-1.5 rounded-md border px-2 py-[5px] text-xs font-medium   md:px-2 lg:px-3",
+                        )}
+                      />
                     </div>
                   </td>
                 </tr>

@@ -14,13 +14,26 @@ interface Props {
   description?: string;
   image?: string;
   noIndex?: boolean;
+  classname?: string;
+  headerClassName?: string;
+  footerClassName?: string;
+  hideDarkToggle?: boolean;
 }
 
 const homepage = await getEntry("Homepage", "index");
 
 const { advert } = homepage.data;
 
-const { title, description, image, noIndex } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  noIndex,
+  classname,
+  headerClassName,
+  footerClassName,
+  hideDarkToggle,
+} = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 
@@ -29,6 +42,7 @@ const pathname = Astro.url.pathname;
   description={description}
   image={image}
   noIndex={noIndex}
+  classname={classname}
 >
   {
     advert && !pathname.includes("neurips") && (
@@ -50,7 +64,7 @@ const pathname = Astro.url.pathname;
     )
   }
 
-  <Header />
+  <Header overrideClassName={headerClassName} hideDarkToggle={hideDarkToggle} />
 
   <main>
     <slot />
@@ -65,6 +79,9 @@ const pathname = Astro.url.pathname;
     )}
   >
     <CTA />
-    <Footer />
+    <Footer
+      overrideClassName={footerClassName}
+      hideDarkToggle={hideDarkToggle}
+    />
   </div>
 </BaseLayout>
