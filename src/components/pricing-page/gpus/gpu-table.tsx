@@ -85,7 +85,6 @@ const Table = ({
   const {
     data: result,
     isLoading,
-    isFetching,
     isInitialLoading,
   } = useQuery<
     {

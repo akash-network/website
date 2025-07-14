@@ -1,24 +1,133 @@
 ---
 import FeatureCard from "@/components/cards/FeatureCard.astro";
+import WhyChooseSwiper from "./WhyChooseSwiper.tsx";
 
 const { infrastructureSection } = Astro.props;
+
+// Why Choose Akash Network section data
+const whyChooseSection = {
+  title: "Why Choose Akash Network?",
+  description:
+    "Discover the advantages that make Akash Network the preferred choice for decentralized cloud computing",
+  cards: [
+    {
+      title: "Significant Cost Savings",
+      description:
+        "Benefit from blockchain-secured infrastructure, ensuring data integrity and privacy.",
+      icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M30.15 17.3843C31.7256 17.9717 33.1275 18.9469 34.2263 20.2197C35.3251 21.4924 36.0852 23.0217 36.4363 24.6661C36.7874 26.3105 36.7182 28.0169 36.2351 29.6274C35.752 31.238 34.8706 32.7007 33.6724 33.8803C32.4742 35.06 30.9979 35.9185 29.38 36.3764C27.7621 36.8343 26.0549 36.8768 24.4162 36.5001C22.7775 36.1234 21.2602 35.3395 20.0048 34.221C18.7493 33.1025 17.7961 31.6855 17.2334 30.101M11.6667 10.101H13.3334V16.7677M27.85 23.2343L29.0167 24.4177L24.3167 29.1177M23.3334 13.4343C23.3334 18.9572 18.8562 23.4343 13.3334 23.4343C7.81053 23.4343 3.33337 18.9572 3.33337 13.4343C3.33337 7.91148 7.81053 3.43433 13.3334 3.43433C18.8562 3.43433 23.3334 7.91148 23.3334 13.4343Z" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    },
+    {
+      title: "Enhanced Security",
+      description:
+        "Benefit from blockchain-secured infrastructure, ensuring data integrity and privacy.",
+      icon: `<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.6666 20.101L18.9999 23.4343L25.6666 16.7677M20.6666 36.7677C20.6666 36.7677 33.9999 30.101 33.9999 20.101V8.43433L20.6666 3.43433L7.33325 8.43433V20.101C7.33325 30.101 20.6666 36.7677 20.6666 36.7677Z" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    },
+    {
+      title: "Ready to Deploy",
+      description:
+        "Deploy your applications globally with ease, leveraging a decentralized network.",
+      icon: `<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.5836 25.5178H29.0836C30.9245 25.5178 32.4169 24.0254 32.4169 22.1845V11.3512C32.4169 9.51021 30.9245 8.01782 29.0836 8.01782H11.5836C9.74263 8.01782 8.25024 9.51021 8.25024 11.3512V22.1845C8.25024 24.0254 9.74263 25.5178 11.5836 25.5178H16.5836ZM16.5836 25.5178C16.5836 25.5178 17.0002 30.5178 13.6669 32.1845H27.0002C23.6669 30.5178 24.0836 25.5178 24.0836 25.5178" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    },
+    {
+      title: "Decentralized Infrastructure",
+      description:
+        "Experience censorship-resistant and permissionless cloud services.",
+      icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.8333 3.73449C18.9247 3.32678 21.0752 3.32678 23.1666 3.73449M29.3333 6.28449C31.1037 7.48158 32.6261 9.00961 33.8166 10.7845M36.3666 16.9345C36.7743 19.0259 36.7743 21.1764 36.3666 23.2678M33.8166 29.4345C32.6195 31.2049 31.0915 32.7273 29.3166 33.9178M23.1666 36.4678C21.0752 36.8751 18.9248 36.8751 16.8333 36.4678M10.6666 33.9178C8.89618 32.7207 7.37381 31.1927 6.18329 29.4178M3.63329 23.2678C3.22559 21.1764 3.22559 19.0259 3.63329 16.9345M6.18329 10.7678C7.38039 8.99737 8.90841 7.475 10.6833 6.28449" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    },
+    {
+      title: "Optimized for AI/ML",
+      description:
+        "Ideal for AI/ML workloads, offeringscalable GPU resources at competitive prices.",
+      icon: `<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M23.1666 10.1011L17.3333 30.9344" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11.5 14.2677L5.66663 20.101L11.5 25.9343" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M29.8333 14.2677L35.6666 20.101L29.8333 25.9343" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    },
+    {
+      title: "Community Exposure",
+      description:
+        "Join a vibrant AI community where standout projects are spotlighted across the ecosystem.",
+      icon: `<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M23.6667 31.7677C23.6667 29.1155 22.6132 26.572 20.7378 24.6966C18.8625 22.8212 16.3189 21.7677 13.6667 21.7677M13.6667 21.7677C11.0146 21.7677 8.47104 22.8212 6.59568 24.6966C4.72032 26.572 3.66675 29.1155 3.66675 31.7677M13.6667 21.7677C17.3486 21.7677 20.3334 18.7829 20.3334 15.101C20.3334 11.4191 17.3486 8.43433 13.6667 8.43433C9.98485 8.43433 7.00008 11.4191 7.00008 15.101C7.00008 18.7829 9.98485 21.7677 13.6667 21.7677ZM37.0001 31.7677C37.0001 29.1155 35.9465 26.572 34.0711 24.6966C32.1958 22.8212 29.6522 21.7677 27.0001 21.7677C28.7682 21.7677 30.4639 21.0653 31.7141 19.815C32.9644 18.5648 33.6667 16.8691 33.6667 15.101C33.6667 13.3329 32.9644 11.6372 31.7141 10.3869C30.4639 9.1367 28.7682 8.43433 27.0001 8.43433" stroke="#FF414C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+    },
+  ],
+};
 ---
 
-<section class="container mb-10">
-  <div class="border-b border-paraDark pb-[80px] pt-0 md:pb-[120px] md:pt-10">
-    <h2 class="text-center text-xl font-medium md:text-[28px]">
-      {infrastructureSection.title}
-    </h2>
+<section class="bg-[#181818] py-12 md:py-20">
+  <div class="container-home relative z-[2] flex flex-col gap-12 md:gap-20">
+    <div class="flex flex-col gap-2">
+      <div class="flex flex-col items-center justify-center gap-2">
+        <h2 class="text-center text-[26px] font-medium md:text-[28px]">
+          {infrastructureSection.title}
+        </h2>
+        <p class="mt-1 text-center text-base text-paraDark">
+          {infrastructureSection.description}
+        </p>
+      </div>
+      <div class="mx-auto mt-10 max-w-[1237px]">
+        <div
+          class="grid grid-cols-2 gap-x-10 gap-y-5 md:grid-cols-4 md:gap-y-10 lg:grid-cols-5 3xl:gap-6"
+        >
+          {
+            infrastructureSection.cards.map((card: any) => (
+              <FeatureCard card={card} />
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="flex flex-col items-center justify-center gap-3">
+        <h2
+          class="text-center text-[26px] font-medium leading-tight md:text-[40px]"
+        >
+          {whyChooseSection.title}
+        </h2>
+        <p class="mt-1 text-center text-base text-paraDark">
+          {whyChooseSection.description}
+        </p>
+      </div>
+      <div class="mt-10">
+        <WhyChooseSwiper cards={whyChooseSection.cards} client:load />
 
-    <div class="mt-10 lg:mt-20">
-      <div
-        class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-6 3xl:gap-6"
-      >
-        {
-          infrastructureSection.cards.map((card: any) => (
-            <FeatureCard card={card} />
-          ))
-        }
+        <div
+          class="hidden grid-cols-1 gap-6 sm:grid-cols-2 md:grid lg:grid-cols-3"
+        >
+          {
+            whyChooseSection.cards.map((card: any) => (
+              <div class="flex gap-3  rounded-lg border bg-background p-6 shadow-xl">
+                <div set:html={card.icon} />
+
+                <div class=" flex flex-1 flex-col">
+                  <h3
+                    class="text-2xl font-semibold md:text-[28px]"
+                    set:html={card.title}
+                  />
+                  <p class="mt-3 flex-grow text-base font-medium leading-[20px] text-paraDark md:mt-4">
+                    {card.description}
+                  </p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </div>
