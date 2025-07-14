@@ -120,7 +120,7 @@ aiModelsAndAppsSection:
       button: "Open Akash Chat"
 
     - title: "Create Images on Demand"
-      image: "./assets/tools/akash-gen.svg"
+      image: "./assets/tools/akash-gen.png"
       button: "Try Image Generator"
       description: "Generate photorealistic or artistic images using powerful diffusion models hosted on Akash. Perfect for rapid concepting, creative exploration, and content creation—right in your browser."
       link: "https://gen.akash.network/"
