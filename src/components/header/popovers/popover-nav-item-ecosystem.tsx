@@ -21,14 +21,14 @@ const PopOverNavItemEcosystem = ({
       <div>
         <a
           href={ecosystemNavItems[0].link}
-          className="inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm "
+          className="group inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm "
           onMouseEnter={() => {
             setOpen(true);
           }}
         >
           Ecosystem
           <ChevronDownIcon
-            className="text-gra -mr-1 ml-1 h-4 w-4"
+            className="text-gra -mr-1 ml-1 h-4 w-4 transition-all group-hover:rotate-180"
             aria-hidden="true"
           />
         </a>
