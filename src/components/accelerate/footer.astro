@@ -1,5 +1,5 @@
 ---
-import DarkModeToggle from "../dark-mode-toggle.astro";
+import DarkModeToggle from "../dark-mode-toggle";
 import {
   DiscordIcon,
   GithubIcon,
@@ -128,7 +128,7 @@ import {
             <TelegramIcon />
           </a>
         </div>
-        <div class="md:hidden"><DarkModeToggle footer /></div>
+        <div class="md:hidden"><DarkModeToggle footer client:load /></div>
       </div>
     </div>
     <div class="h-px w-full bg-[#3E3E3E]"></div>
@@ -154,7 +154,7 @@ import {
           Privacy
         </p>
       </div>
-      <div class="hidden md:block"><DarkModeToggle footer /></div>
+      <div class="hidden md:block"><DarkModeToggle footer client:load /></div>
     </div>
   </footer>
 </div>
