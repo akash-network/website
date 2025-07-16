@@ -1,5 +1,6 @@
 ---
 import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
+import Fuel from "@/components/home/Fuel";
 
 import Hero from "@/components/home/hero/hero.astro";
 import Infrastructure from "@/components/home/infrastructure/infrastructure.astro";
@@ -7,7 +8,6 @@ import ReadyToDeploy from "@/components/home/ready-to-deploy.astro";
 import TrustedBy from "@/components/home/trusted-by.astro";
 import Layout from "@/layouts/layout.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
-import { ChevronRight } from "lucide-react";
 
 const homepage = await getEntry("Homepage", "index");
 
@@ -46,29 +46,7 @@ const {
     <TrustedBy trustedBySection={trustedBySection} />
 
     <Infrastructure infrastructureSection={infrastructureSection} />
-    <section class="bg-primary">
-      <div
-        class="flex flex-col items-center justify-center bg-[url('/images/trustedby/gradient-primary.svg')] bg-cover bg-center py-12 md:py-20"
-      >
-        <img src="/images/akashstar.svg" alt="Akash Star" class="h-12" />
-        <div class="mt-5 flex flex-col gap-2">
-          <h2
-            class="text-center text-[40px] font-semibold leading-[50px] md:text-5xl"
-          >
-            <span class="font-instrument">AKT</span>:The Fuel <br
-              class="md:hidden"
-            /> Behind Akash
-          </h2>
-          <p class="px-6 text-center text-[#9E1E26]">
-            AKT is the utility token that powers every GPU transaction on the
-            Akash decentralized cloud.
-          </p>
-        </div>
-        <a href="/token/" class="mt-10 flex items-center gap-2">
-          Learn How AKT Works <ChevronRight className="h-4 w-4" />
-        </a>
-      </div>
-    </section>
+    <Fuel client:load />
     <AiModelsAndApps aiModelsAndAppsSection={aiModelsAndAppsSection} />
     <ReadyToDeploy />
   </div>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { Sun, SunMoon } from "lucide-react";
+import { useEffect, useState } from "react";
 
-const DarkModeToggle = () => {
+const DarkModeToggle = ({ footer }: { footer?: boolean }) => {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
@@ -22,9 +22,12 @@ const DarkModeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} id="header-toggle">
-      <Sun className="h-5 w-5 text-para dark:hidden hover:text-primary" />
-      <SunMoon className="hidden h-5 w-5 text-para dark:block hover:text-primary" />
+    <button
+      onClick={toggleTheme}
+      id={footer ? "header-toggle-footer" : "header-toggle"}
+    >
+      <Sun className="h-5 w-5 text-para hover:text-primary dark:hidden" />
+      <SunMoon className="hidden h-5 w-5 text-para hover:text-primary dark:block" />
     </button>
   );
 };

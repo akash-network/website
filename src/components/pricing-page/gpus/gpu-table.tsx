@@ -1,4 +1,6 @@
 import OFilter from "@/components/gpu-table/filter";
+
+import { buttonVariants } from "@/components/ui/button-link.astro";
 import { Card } from "@/components/ui/card";
 import {
   HoverCard,
@@ -368,7 +370,13 @@ export const Tables = ({
                   <TryAkashForm
                     type="customButton"
                     linkText="Request More"
-                    className="inline-flex justify-center gap-1.5 rounded-md border bg-foreground bg-white py-3 text-sm font-medium text-black  "
+                    className={clsx(
+                      buttonVariants({
+                        variant: "secondary",
+                        size: "sm",
+                      }),
+                      "inline-flex justify-center gap-1.5 rounded-md border  py-3.5 text-sm font-medium  ",
+                    )}
                   />
                 </div>
               </Card>

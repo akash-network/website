@@ -251,6 +251,7 @@ const ExpandedGpu = () => {
               className={clsx(
                 "flex flex-col",
                 item.selected && " -mt-1 md:-mt-2",
+                index !== gpuTypes.length - 1 && index !== 1 && "border-r",
               )}
             >
               <h3
@@ -312,9 +313,11 @@ const ExpandedGpu = () => {
                       key={i}
                       className={clsx(
                         " py-2.5 text-center text-sm font-semibold md:py-4 md:text-xl ",
+                        i === 1 ? " border-t !border-[#DC1D28]" : "border-t",
                         i === 1 && index !== 1
-                          ? "bg-primary text-white"
+                          ? "bg-primary  text-white"
                           : "bg-background",
+                        i !== item.length - 1 && i !== 1 && "border-r",
                       )}
                     >
                       {item}
