@@ -118,12 +118,6 @@ export const homePageSchema = defineCollection({
           enable: z.boolean(),
         }),
       }),
-      trustedBySection: z.array(
-        z.object({
-          title: z.string(),
-          image: z.string(),
-        }),
-      ),
     });
   },
 });

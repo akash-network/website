@@ -216,17 +216,7 @@ testimonialsSection:
       accountLink: "https://twitter.com/luna_4_go/status/1588978684203237376"
       companyName: "Founder Quasarch"
       
-trustedBySection:
-  - image: "/images/trustedby/venice.svg"
-    title: "Venice"
-  - image: "/images/trustedby/passage.svg"
-    title: "Passage"
-  - image: "/images/trustedby/nodeshift.svg"
-    title: "Nodeshift"
-  - image: "/images/trustedby/envision.svg"
-    title: "Envision"
-  - image: "/images/trustedby/texas.svg"
-    title: "Texas"
+
 
 
 

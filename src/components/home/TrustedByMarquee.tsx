@@ -34,8 +34,9 @@ const useAutoScroll = (speed: number = 50) => {
 };
 
 interface TrustedByItem {
-  image: string;
+  image?: string;
   title: string;
+  svg?: string;
 }
 
 const TrustedByMarquee = ({
@@ -71,12 +72,19 @@ const TrustedByMarquee = ({
             key={`${item.title}-${index}`}
             className="flex  min-w-[200px] items-center justify-center"
           >
-            <img
-              src={item.image}
-              alt={item.title}
-              className="max-h-full max-w-full object-contain"
-              style={{ opacity: isLoaded ? 1 : 0 }}
-            />
+            {item.svg ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: item.svg }}
+                className="max-h-full max-w-full object-contain"
+              />
+            ) : (
+              <img
+                src={item.image}
+                alt={item.title}
+                className="max-h-full max-w-full object-contain"
+                style={{ opacity: isLoaded ? 1 : 0 }}
+              />
+            )}
           </div>
         ))}
       </div>
