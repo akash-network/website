@@ -207,7 +207,7 @@ const Fuel = () => {
         config={
           {
             count: isMobile ? 40 : 100,
-            speed: 1,
+            speed: 0.6,
             sizeRange: [1, 4],
             opacityRange: [0.2, 0.7],
             connectionDistance: 150,
@@ -218,10 +218,9 @@ const Fuel = () => {
       />
       <div className="relative z-10 flex flex-col items-center justify-center py-12 md:py-20">
         <img src="/images/akashstar.svg" alt="Akash Star" className="h-12" />
-        <div className="mt-5 flex flex-col gap-2">
-          <h2 className="text-center text-[40px] font-semibold leading-[50px] md:text-5xl">
-            <span className="font-instrument">AKT</span>:The Fuel{" "}
-            <br className="md:hidden" /> Behind Akash
+        <div className="mt-5 flex flex-col md:gap-2">
+          <h2 className="text-center text-2xl font-semibold leading-[50px] md:text-5xl">
+            <span className="font-instrument">AKT</span>:The Fuel Behind Akash
           </h2>
           <p className="px-6 text-center text-white">
             AKT is the utility token that powers every GPU transaction on the

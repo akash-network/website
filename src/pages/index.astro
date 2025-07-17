@@ -5,7 +5,7 @@ import Fuel from "@/components/home/Fuel";
 import Hero from "@/components/home/hero/hero.astro";
 import Infrastructure from "@/components/home/infrastructure/infrastructure.astro";
 import ReadyToDeploy from "@/components/home/ready-to-deploy.astro";
-import TrustedBy from "@/components/home/trusted-by.astro";
+import TrustedBy from "@/components/home/trustedby/trusted-by.astro";
 import Layout from "@/layouts/layout.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
@@ -29,7 +29,6 @@ const {
   featureSection,
   aiModelsAndAppsSection,
   testimonialsSection,
-  trustedBySection,
 } = homepage?.data;
 ---
 
@@ -43,7 +42,7 @@ const {
 >
   <div>
     <Hero heroSection={heroSection} />
-    <TrustedBy trustedBySection={trustedBySection} />
+    <TrustedBy />
 
     <Infrastructure infrastructureSection={infrastructureSection} />
     <Fuel client:load />
