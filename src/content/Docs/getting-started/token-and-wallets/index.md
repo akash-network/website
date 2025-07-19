@@ -159,4 +159,8 @@ Click "**I have saved it somewhere safe.**".
 ---
 
 > **Next Step:**
-> Curious to try Akash without a wallet or setup? Check out our [$10 Trial Deployment guide](../trial-deployment.md) to deploy instantly with free credits!
+> Curious to try Akash without a wallet or setup? Check out our [Trial Deployment guide](../trial-deployment.md) to deploy instantly with free credits!
+
+## Next Steps
+
+Now that you have your wallet set up, you can start deploying applications on Akash! For the easiest deployment experience, try the **[GitHub Deploy Feature](/docs/getting-started/github-deploy-feature/)** which allows you to deploy applications directly from GitHub, GitLab, and Bitbucket repositories.
