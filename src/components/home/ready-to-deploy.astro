@@ -1,0 +1,62 @@
+---
+const data = [
+  {
+    title: "85%",
+    description: "Average Cost Savings",
+  },
+  {
+    title: "50+",
+    description: "Provider Locations",
+  },
+  {
+    title: "2min",
+    description: "Deployment Speed",
+  },
+  {
+    title: "99%",
+    description: "Customer Satisfaction",
+  },
+];
+---
+
+<section class="bg-[#1c1c1c] py-12 md:py-20">
+  <div class="container-home relative z-[2] flex flex-col items-center gap-10">
+    <div class="flex flex-col items-center justify-center gap-2">
+      <h2
+        class="text-center text-[26px] font-semibold leading-tight text-white md:text-4xl"
+      >
+        Ready to deploy<br />on the Supercloud?
+      </h2>
+      <p class="mt-2 text-center text-base md:mt-4">
+        Get started with Akash Network and experience the future of cloud
+        computing today.
+      </p>
+    </div>
+    <div class="grid w-full grid-cols-2 gap-4 md:gap-5 lg:grid-cols-4">
+      {
+        data.map((item) => (
+          <div class="relative flex flex-col items-center justify-center overflow-hidden rounded-lg border bg-background2 py-4 shadow-xl md:py-14">
+            <div class="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2  select-none whitespace-nowrap bg-gradient-to-b from-white/80 to-background2 bg-clip-text text-6xl font-semibold tracking-wide  text-transparent opacity-10 md:text-8xl">
+              {item.title}
+            </div>
+            <div class="relative z-10 flex flex-col items-center px-5">
+              <div class="text-[40px] font-semibold md:text-5xl">
+                {item.title}
+              </div>
+              <p class="text-center text-sm md:mt-2 md:text-base ">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <a
+      target="_blank"
+      href="https://console.akash.network/"
+      class="rounded-md bg-primary px-12 py-3 text-lg text-white hover:bg-primary/90"
+    >
+      Try Akash Now
+    </a>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ExpandedGpuPricing from "./ExpandedGpuPricing";
+import TrustedByMarquee from "./TrustedByMarquee";
+
+interface Props {
+  trustedBySection: CollectionEntry<"Homepage">["data"]["trustedBySection"];
+}
+
+const { trustedBySection } = Astro.props;
+---
+
+<div class="w-full overflow-hidden bg-[#1c1c1c] py-12 md:py-20">
+  <div class="container-home relative z-[2] flex flex-col gap-12 md:gap-[72px]">
+    <div class="flex flex-col items-center justify-center gap-6">
+      <h2 class="text-gray-300 dark:text-[#8A8F98] md:text-lg">
+        Trusted by Leading Investors
+      </h2>
+
+      <div class="hidden lg:flex">
+        {
+          trustedBySection.map((item) => (
+            <img src={item.image} alt={item.title} class="h-16" />
+          ))
+        }
+      </div>
+
+      <TrustedByMarquee trustedBySection={trustedBySection} client:only />
+    </div>
+    <ExpandedGpuPricing client:load />
+  </div>
+</div>

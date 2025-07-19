@@ -3,7 +3,8 @@ import FooterLink from "@/components/footer/footer-link.astro";
 import { socialLinks } from "@/lib/constants";
 import { shouldHideCta } from "@/utils/hideCta";
 import clsx from "clsx";
-import DarkModeToggle from "../dark-mode-toggle.astro";
+
+import DarkModeToggle from "../dark-mode-toggle";
 import {
   DiscordIcon,
   GithubIcon,
@@ -12,9 +13,17 @@ import {
   YoutubeIcon,
 } from "../header/icons";
 import SpeakToExpert from "../pricing-page/SpeakToExpert";
-import AkashFooterLogo from "../ui/akash-footer-logo.astro";
 import FooterYear from "./footer-year";
 import SubscribeButton from "./subscribe-button.astro";
+import Superclound from "./superclound.astro";
+
+type Props = {
+  overrideClassName?: string;
+  hideDarkToggle?: boolean;
+};
+
+const { overrideClassName, hideDarkToggle }: Props = Astro.props;
+
 const socials = [
   {
     name: "Twitter",
@@ -45,7 +54,7 @@ const socials = [
 
 const links = [
   {
-    title: "Products",
+    title: "Tools",
     links: [
       {
         title: "Akash Console",
@@ -54,6 +63,18 @@ const links = [
       {
         title: "Akash Provider Console",
         link: "https://provider-console.akash.network/",
+      },
+      {
+        title: "Akash Chat",
+        link: "https://chat.akash.network",
+      },
+      {
+        title: "Akash ChatAPI",
+        link: "https://chatapi.akash.network",
+      },
+      {
+        title: "Akash Gen",
+        link: "https://gen.akash.network",
       },
     ],
   },
@@ -75,6 +96,10 @@ const links = [
       {
         title: "AKT Token",
         link: "/token",
+      },
+      {
+        title: "Providers",
+        link: "/providers",
       },
     ],
   },
@@ -162,56 +187,131 @@ const shouldHide = shouldHideCta(pathname);
 
 <footer
   class={clsx(
-    " w-full bg-white px-4 pb-10 md:p-8 xl:p-20 dark:bg-background text-white ",
+    " w-full  py-12  md:pt-20 pb-10 text-white ",
     shouldHide && "border-t  mt-20",
+    overrideClassName
+      ? overrideClassName
+      : "bg-white dark:bg-background container"
   )}
 >
-  <div>
-    <div
-      class="flex w-full flex-col items-start pb-[50px] pt-[40px] md:pt-[26px] lg:hidden"
-    >
-      <a href="/" aria-label="Akash Network" class="text-foreground">
-        <AkashFooterLogo />
-      </a>
-      <div class="mt-4 md:hidden">
-        <SpeakToExpert size="small" client:load />
-      </div>
-
-      <div class="mt-10 flex flex-col items-start justify-start lg:hidden">
-        <p class="text-base font-medium leading-[24px] text-foreground">
-          Stay up to date with Akash Newsletter
-        </p>
-        <div class="mt-4">
-          <SubscribeButton />
-        </div>
-      </div>
-    </div>
-
-    <div class="justify-between md:mx-auto lg:flex">
+  <div class="border-b pb-6 md:pb-20">
+    <div class="justify-between md:mx-auto lg:flex lg:gap-5">
+      <Superclound className="flex border-b pb-6 md:hidden" />
       <div
-        class="hidden flex-col gap-6 pb-[40px] text-left text-base font-[300] lg:flex"
+        class="mb-6 flex items-center justify-center gap-5 border-b py-5 font-[300] md:hidden"
       >
-        <p class="text-foreground">
-          <AkashFooterLogo />
-        </p>
-        <div class="flex gap-x-[24px] font-[300]">
+        {
+          !hideDarkToggle && (
+            <>
+              <DarkModeToggle footer client:load />
+              <div class="h-7 w-[1.5px] bg-[#3B3B3B]" />
+            </>
+          )
+        }
+        {
+          socials.map((social) => (
+            <a
+              aria-label={`Akash Network ${social.name}`}
+              href={social.link}
+              target="_blank"
+              class="flex items-center gap-4 text-linkText hover:text-primary"
+            >
+              <social.icon />
+            </a>
+          ))
+        }
+      </div>
+      <div
+        class="hidden flex-col gap-8 pb-[40px] text-left text-base font-[300] md:flex"
+      >
+        <div class="flex flex-col">
+          <svg
+            width="105"
+            height="27"
+            viewBox="0 0 105 27"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.1542 16.4897L21.1887 23.5858H13.039L8.96191 16.4897H17.1542Z"
+              class="fill-foreground"
+              fill="url(#paint0_linear_125_570)"></path>
+            <path
+              d="M21.1865 23.5869L25.2568 16.4909L17.1094 2.29541H8.96191L21.1865 23.5869Z"
+              class="fill-foreground"
+              fill="currentColor"></path>
+            <path
+              d="M4.88828 9.38965H13.0358L4.89167 23.5851L0.814575 16.4891L4.88828 9.38965Z"
+              class="fill-foreground"
+              fill="currentColor"></path>
+            <path
+              d="M41.669 9.39684L41.4662 11.5876C40.5975 9.88687 38.5994 8.96447 36.4565 8.96447C32.4313 8.96447 29.7382 11.8758 29.7382 16.3438C29.7382 20.7829 32.1707 24.0113 36.4275 24.0113C38.7442 24.0113 40.4527 22.8871 41.3504 21.417L41.5821 23.6366H44.8833V9.39684H41.669ZM41.2925 16.5167C41.2925 19.0822 39.6998 20.8405 37.2383 20.8405C34.7769 20.8405 33.2711 19.0533 33.2711 16.5167C33.2711 13.9801 34.8059 12.1641 37.2673 12.1641C39.7288 12.1641 41.2925 13.9512 41.2925 16.5167Z"
+              class="fill-foreground"
+              fill="currentColor"></path>
+            <path
+              d="M50.8944 23.6366V19.8028L52.9794 17.6409L56.715 23.6366H60.7691L55.4408 15.0466L60.885 9.39684H56.4544L50.8944 15.3637V2.60986H47.3904V23.6366H50.8944Z"
+              class="fill-foreground"
+              fill="currentColor"></path>
+            <path
+              d="M72.6334 9.39684L72.4307 11.5876C71.5619 9.88687 69.5638 8.96447 67.4209 8.96447C63.3957 8.96447 60.7026 11.8758 60.7026 16.3438C60.7026 20.7829 63.1351 24.0113 67.3919 24.0113C69.7086 24.0113 71.4171 22.8871 72.3148 21.417L72.5465 23.6366H75.8477V9.39684H72.6334ZM72.2569 16.5167C72.2569 19.0822 70.6642 20.8405 68.2028 20.8405C65.7413 20.8405 64.2355 19.0533 64.2355 16.5167C64.2355 13.9801 65.7703 12.1641 68.2317 12.1641C70.6932 12.1641 72.2569 13.9512 72.2569 16.5167Z"
+              class="fill-foreground"
+              fill="currentColor"></path>
+            <path
+              d="M77.6355 19.3128C77.6355 22.1088 79.8942 24.0113 83.4561 24.0113C86.989 24.0113 89.4504 22.2241 89.4504 19.3416C89.4504 17.1509 88.2342 16.0555 85.8307 15.5078L83.2534 14.9025C82.0371 14.6142 81.4001 14.0954 81.4001 13.2883C81.4001 12.2217 82.2109 11.5876 83.6009 11.5876C84.9619 11.5876 85.7727 12.3659 85.8017 13.5765H89.1609C89.1319 10.8093 86.96 8.96447 83.7457 8.96447C80.4444 8.96447 78.0699 10.6363 78.0699 13.4324C78.0699 15.7096 79.3151 16.9203 81.8923 17.4968L84.4696 18.1021C85.7438 18.3904 86.1202 18.9092 86.1202 19.6298C86.1202 20.6676 85.2225 21.3305 83.5719 21.3305C81.9503 21.3305 81.0236 20.5523 80.9946 19.3128H77.6355Z"
+              class="fill-foreground"
+              fill="currentColor"></path>
+            <path
+              d="M94.9515 23.6366V15.8537C94.9515 13.7206 96.2547 12.1641 98.4844 12.1641C100.28 12.1641 101.467 13.3171 101.467 15.7096V23.6366H105V14.8737C105 11.184 103.147 8.96447 99.6138 8.96447C97.5578 8.96447 95.8782 9.85805 94.9805 11.2417V2.60986H91.4186V23.6366H94.9515Z"
+              class="fill-foreground"
+              fill="currentColor"></path>
+            <defs>
+              <linearGradient
+                id="paint0_linear_125_570"
+                x1="15.2499"
+                y1="19.5356"
+                x2="18.5702"
+                y2="16.2255"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="currentColor"></stop>
+                <stop
+                  offset="1"
+                  stop-color="currentColor"
+                  stop-opacity="0.127613"></stop>
+              </linearGradient>
+            </defs>
+          </svg>
+          <p class="mt-2 max-w-[20rem] text-linkText">
+            The world's first distributed peer-to-peer marketplace for cloud
+            compute.
+          </p>
+        </div>
+
+        <div class="flex gap-5 font-[300]">
+          {
+            !hideDarkToggle && (
+              <>
+                <DarkModeToggle footer />
+                <div class="h-7 w-[1.5px] bg-gray-300 dark:bg-[#3B3B3B] " />
+              </>
+            )
+          }
           {
             socials.map((social) => (
               <a
                 aria-label={`Akash Network ${social.name}`}
                 href={social.link}
                 target="_blank"
-                class="flex items-center gap-4 text-para hover:text-primary"
+                class="flex items-center gap-4 text-linkText hover:text-primary"
               >
                 <social.icon />
               </a>
             ))
           }
         </div>
-        <SpeakToExpert size="small" client:load />
       </div>
       <div
-        class="grid grid-cols-3 justify-between gap-y-10 md:grid-cols-5 md:gap-x-[30px] lg:gap-x-7 xl:gap-x-10"
+        class="grid grid-cols-2 justify-between gap-y-10 md:grid-cols-5 md:gap-x-5"
       >
         {
           links.map((link) => (
@@ -230,42 +330,34 @@ const shouldHide = shouldHideCta(pathname);
       </div>
     </div>
   </div>
-  <div class="my-[40px] flex flex-col gap-4 lg:hidden">
-    <div class="flex gap-x-6 font-[300] text-para">
-      {
-        socials.map((social) => (
-          <a
-            aria-label={`Akash Network ${social.name}`}
-            href={social.link}
-            target="_blank"
-            class="flex items-center gap-4 text-para hover:text-primary"
-          >
-            <social.icon />
-          </a>
-        ))
-      }
+  <div
+    class="flex flex-col justify-between border-b py-6 md:flex-row md:items-center md:py-8"
+  >
+    <div
+      class="flex flex-col items-center gap-3 border-b pb-6 md:items-start md:border-b-0 md:pb-0"
+    >
+      <p class="text-sm text-linkText">Not sure where to start?</p>
+      <SpeakToExpert size="small" client:load />
+    </div>
+    <div class="flex flex-col items-center gap-3 pt-6 md:items-end md:pt-0">
+      <p class="text-sm text-linkText">Stay up to date with Akash Newsletter</p>
+      <SubscribeButton />
     </div>
   </div>
 
-  <div class="mt-20 hidden items-center justify-between border-y py-5 lg:flex">
-    <p class="text-xl font-medium leading-[30px] text-foreground">
-      Stay up to date with Akash Newsletter
-    </p>
-    <SubscribeButton />
-  </div>
-
-  <div
-    class="relative flex flex-col text-center md:pt-4 lg:flex-row lg:pt-[32px]"
-  >
+  <div class="relative flex flex-col justify-center pt-6 text-center md:pt-14">
+    <Superclound className="mb-4 hidden md:flex" />
     <div
-      class="flex w-full flex-col items-start justify-start gap-y-[16px] lg:flex-row lg:items-center"
+      class="flex w-full flex-col items-center justify-center gap-y-[16px] lg:flex-row lg:items-center"
     >
-      <p class="text-left text-2xs text-para lg:border-r lg:pr-[16px]">
+      <p
+        class="text-center text-2xs text-linkText md:text-left lg:border-r lg:pr-[16px]"
+      >
         © Akash Network <FooterYear client:load />
         The Akash Network Authors Documentation Distributed under CC BY 4.0
       </p>
       <div class="flex">
-        <p class="border-r pr-[8px] text-2xs text-para lg:px-[16px]">
+        <p class="border-r pr-[8px] text-2xs text-linkText lg:px-[16px]">
           <a
             aria-label="Open-source Apache 2.0 Licensed."
             class="text-decoration-none"
@@ -275,7 +367,7 @@ const shouldHide = shouldHideCta(pathname);
             Open-source Apache 2.0 Licensed.
           </a>
         </p>
-        <p class="border-r px-[8px] text-2xs text-para lg:px-[16px]">
+        <p class="border-r px-[8px] text-2xs text-linkText lg:px-[16px]">
           <a
             aria-label="GitHub v0.38.2"
             class="text-decoration-none"
@@ -286,7 +378,7 @@ const shouldHide = shouldHideCta(pathname);
           </a>
         </p>
 
-        <p class="pl-[8px] text-2xs text-para lg:pl-[16px]">
+        <p class="pl-[8px] text-2xs text-linkText lg:pl-[16px]">
           <a
             aria-label="Privacy"
             class="text-decoration-none"
@@ -296,24 +388,6 @@ const shouldHide = shouldHideCta(pathname);
             Privacy
           </a>
         </p>
-      </div>
-    </div>
-    <div class="hidden lg:block">
-      <DarkModeToggle footer />
-    </div>
-  </div>
-  <div
-    class="flex flex-col items-center gap-10 pt-[32px] text-cardGray dark:text-textGray"
-  >
-    <div class="grid w-full grid-cols-3 items-center justify-between">
-      <p></p>
-      <a
-        aria-label="Back To Top"
-        class="text-center text-[12px] font-[700] text-foreground lg:hidden"
-        href="#">Back To Top</a
-      >
-      <div class="ml-auto lg:hidden">
-        <DarkModeToggle />
       </div>
     </div>
   </div>

@@ -116,6 +116,10 @@ html body[data-scroll-locked] {
     @apply mx-auto max-w-[1800px] px-[16px] md:px-[20px];
   }
 
+  .container-home {
+    @apply mx-auto max-w-[1391px] px-5  xl:px-10;
+  }
+
   .container-nav-2 {
     @apply px-[16px] md:px-[40px];
   }
@@ -305,4 +309,17 @@ html body[data-scroll-locked] {
 .swiper-pagination-bullet-active {
   background: #ff414c !important;
   opacity: 1 !important;
+}
+
+.glow {
+  position: absolute;
+  left: 50%;
+  top: -20%;
+  z-index: 1;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 100px;
+  background-color: white;
+  filter: blur(100px);
+  border-radius: 50%;
 }
