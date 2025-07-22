@@ -37,7 +37,7 @@ In this guide we create a Validator within an Akash Deployment.
 The topology of the environment will be as follows:
 
 - **Akash Validator** as a deployment and as created in the [Akash Validator Deployment](#akash-validator-deployment) section of this guide
-- **Tendermint Key Managment System (TMKMS)** used for storage of the Validators private key on a secured server. The TMKMS instance - configured in the [TMKMS Setup](#tmkms-setup) section of this guide - may be created on any secure server of your choosing. The TMKMS server must have connectivity to the Akash Validator.
+- **Tendermint Key Management System (TMKMS)** used for storage of the Validators private key on a secured server. The TMKMS instance - configured in the [TMKMS Setup](#tmkms-setup) section of this guide - may be created on any secure server of your choosing. The TMKMS server must have connectivity to the Akash Validator.
 - **Stunnel** provides a secure communication path between the validator and the TMKMS node. A Stunnel server will be co-located with the Validator. A Stunnel client will be co-located with the TMKMS server.
 
 ## Obtain Private Key
@@ -77,7 +77,7 @@ cat ~/.akash/config/priv_validator_key.json
 ### Akash Console
 
 - Within this guide we will use the Akash Console application to create the Akash Validator
-- Please review our[ Akash Console ](http://localhost:4321/docs/deployments/akash-console/)docs for instructions on how to install and configure the application if this is your first time using
+- Please review our[ Akash Console ](http://localhost:4321/docs/deployments/akash-console/)docs for instructions on how to install and configure the application if this is your first time using it.
 
 ### Create the Akash Validator Deployment
 
@@ -100,9 +100,9 @@ cat ~/.akash/config/priv_validator_key.json
 
 - Copy the following Akash SDL into the Editor pane
 - Reference the [Populated Editor](#populated-editor) section of this guide for further clarity
-- Note that the SDL is using persistent storage to allow data residency should your deployment restart. Data will only persist thru the life of the associated Akash lease.
+- Note that the SDL is using persistent storage to allow data residency should your deployment restart. Data will only persist through the life of the associated Akash lease.
 
-> To ensure the most to update SDL is utilized, view the latest version [here](https://github.com/akash-network/cosmos-omnibus/blob/master/_examples/validator-and-tmkms/deploy.yml).
+> To ensure the most to up-to-date SDL is utilized, view the latest version [here](https://github.com/akash-network/cosmos-omnibus/blob/master/_examples/validator-and-tmkms/deploy.yml).
 
 ##### SDL Edits
 
