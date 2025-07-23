@@ -102,7 +102,7 @@ cat ~/.akash/config/priv_validator_key.json
 - Reference the [Populated Editor](#populated-editor) section of this guide for further clarity
 - Note that the SDL is using persistent storage to allow data residency should your deployment restart. Data will only persist through the life of the associated Akash lease.
 
-> To ensure the most to up-to-date SDL is utilized, view the latest version [here](https://github.com/akash-network/cosmos-omnibus/blob/master/_examples/validator-and-tmkms/deploy.yml).
+> To ensure the updated SDL is utilized, view the latest version [here](https://github.com/akash-network/cosmos-omnibus/blob/master/_examples/validator-and-tmkms/deploy.yml).
 
 ##### SDL Edits
 
