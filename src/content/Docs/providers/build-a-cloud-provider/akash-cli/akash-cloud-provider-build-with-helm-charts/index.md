@@ -33,9 +33,9 @@ This guide uses a single Kubernetes control plane node.
 
 ### Akash Wallet
 
-Placing a bid on an order requires a 0.5 AKT deposit placed into collateral per bid won. If the provider desired 2 concurrent leases, the provider’s wallet would need minimum funding of 1 AKT.
+Placing a bid on an order requires a 0.5 AKT deposit placed into collateral per bid won. If the provider desires 2 concurrent leases, the provider’s wallet would need minimum funding of 1 AKT.
 
-As every deployment request bid requires 0.5 AKT to be deposited in the escrow account, it's always good to have more so your provider can keep bidding. If your provider is ready to offer 10 deployments, then it's best to have .5 x 10 = 5 AKT and a little more to make sure provider can pay the fees for broadcasting the transactions on Akash Network.
+As every deployment request bid requires 0.5 AKT to be deposited in the escrow account, it's always good to have more so your provider can keep bidding. If your provider is ready to offer 10 deployments, then it's best to have .5 x 10 = 5 AKT and a little more to make sure the provider can pay the fees for broadcasting the transactions on Akash Network.
 
 - Recommended amounts:
 
@@ -51,7 +51,7 @@ The steps to create an Akash wallet are covered in the following documentation s
 
 ### **Kubernetes Cluster**
 
-A full Kubernetes cluster is required with outbound internet access and be reachable from the internet.
+A full Kubernetes cluster is required with outbound internet access that can be reachable from the internet.
 
 
 If you need assistance in building a new cluster, visit the [Kubernetes Cluster for Akash Providers ](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/)guide.
@@ -60,7 +60,7 @@ If you need assistance in building a new cluster, visit the [Kubernetes Cluster 
 
 Akash Providers need to run their own blockchain RPC node to remove dependence on public nodes. This is a strict requirement.&#x20;
 
-We have recently released documentation guiding thru the process of building a [RPC node via Helm Charts](/docs/akash-nodes/akash-node-via-helm-chart/) with state sync.
+We have recently released documentation guiding through the process of building a [RPC node via Helm Charts](/docs/akash-nodes/akash-node-via-helm-chart/) with state sync.
 
 ### CPU Support
 
@@ -68,7 +68,7 @@ Only x86_64 processors are officially supported by Akash for provider Kubernetes
 
 ### Custom Kubernetes Cluster Settings
 
-Akash Providers are deployed in many environments and we will make additions to these sections as when nuances are discovered.
+Akash Providers are deployed in many environments and we will make additions to these sections as  and when nuances are discovered.
 
 
 - [VMware Tanzu](/docs/providers/build-a-cloud-provider/akash-cli/custom-kubernetes-cluster-settings/)
@@ -211,7 +211,7 @@ provider-services keys list
 - The key-name can be any name of your choice
 - Note the passphrase used to protect the private key as it will be used in future steps
 
-> _**NOTE**_ - The passhprase MUST be at least 8 characters long. Otherwise provider will encounter `failed to decrypt private key: ciphertext decryption failed error` when `keys import` is executed.
+> _**NOTE**_ - The passphrase MUST be at least 8 characters long. Otherwise provider will encounter `failed to decrypt private key: ciphertext decryption failed error` when `keys import` is executed.
 
 #### STEP 1 - Export Provider Key
 
@@ -401,7 +401,7 @@ kubectl get pods -n akash-services -o wide
 
 ##### **Expected output (pod names will differ)**
 
-> _**NOTE**_ - a pod should exist for the Inentory Operator itself (I.e. `operator-inventory-7d97d54b7f-sjz5v` in the example below) and one Hardware Discovery pod per Kubernetes host.
+> _**NOTE**_ - a pod should exist for the Inventory Operator itself (i.e. `operator-inventory-7d97d54b7f-sjz5v` in the example below) and one Hardware Discovery pod per Kubernetes host.
 
 ```
 root@node1:~# kubectl get pods -n akash-services -o wide
@@ -490,7 +490,7 @@ helm repo update
 - Update the following keys for your unique use case
   - `region`
   - `organization`
-- Optional Parameters - the following parameters may be added at the same level as `from` and `key` if you which to advertise your support email address and company website URL. (NOTE: These are not "attributes" but rather informational fields; add them as in the example below)
+- Optional Parameters - the following parameters may be added at the same level as `from` and `key` if you wish to advertise your support email address and company website URL. (NOTE: These are not "attributes" but rather informational fields; add them as in the example below)
   - `email`
   - `website`
 
@@ -663,7 +663,7 @@ helm uninstall akash-provider -n akash-services
 
 #### Overview
 
-> _**NOTE**_ - if you are updating your provider bid script from a previous version use this [bid script migration guide](../../../../docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting).
+> _**NOTE**_ - if you are updating your provider bid script from a previous version, use this [bid script migration guide](../../../../docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting).
 
 
 - If there is a desire to manipulate the provider bid engine, include the `--set bidpricescript` switch . The pricing script used in this switch is detailed in the [Akash Provider Bid Pricing](/docs/providers/build-a-cloud-provider/akash-cli/akash-provider-bid-pricing-calculation/) section of this guide.
@@ -741,7 +741,7 @@ akash-provider         	akash-services	28      	2023-09-19 12:25:33.880309778 +0
 
 Create the `ingress-nginx-custom.yaml` file via this step
 
-> _**NOTE**_ - in the default install the dedicated Akash RPC Node used for your provider is reachable only within the Kubernetes cluster. This is done intentionally as this RPC Node is intended for use only by the Akash Provider only. The Provider will have access within the cluster to the RPC Node. This additionally protects the RPC Node from possible DDoS attacks from external parties. If have a need to expose the Provider's RPC Node to the outside world, use the `ingress-nginx-custom.yaml` file included in this [section](#step-8---provider-build-via-helm-chart) instead.
+> _**NOTE**_ - in the default install the dedicated Akash RPC Node used for your provider is reachable only within the Kubernetes cluster. This is done intentionally as this RPC Node is intended for use only by the Akash Provider only. The Provider will have access within the cluster to the RPC Node. This additionally protects the RPC Node from possible DDoS attacks from external parties. If you have a need to expose the Provider's RPC Node to the outside world, use the `ingress-nginx-custom.yaml` file included in this [section](#step-8---provider-build-via-helm-chart) instead.
 
 ```
 cd ~
@@ -853,7 +853,7 @@ The following firewall rules are applicable to internet-facing Kubernetes compon
 
 #### Overview
 
-Unattended upgrades can bring all sorts of uncertainty/troubles such as updates of NVIDIA drivers and have the potential to affects your Provider/K8s cluster. Impact of unattended upgrades can include:
+Unattended upgrades can bring all sorts of uncertainty/troubles such as updates of NVIDIA drivers and have the potential to affect your Provider/K8s cluster. Impact of unattended upgrades can include:
 
 - `nvidia-smi` will hang on the host/pod
 - `nvdp plugin` will become stuck and hence K8s cluster will run in a non-desired state where closed deployments will be stuck in `Terminating` status
@@ -873,7 +873,7 @@ systemctl mask unattended-upgrades.service
 
 #### Verify
 
-These commands should output `0` following the disable of unattended upgrades. Conduct these verifications your Kubernetes worker & control plane nodes:
+These commands should output `0` following the disable of unattended upgrades. Conduct these verifications on your Kubernetes worker & control plane nodes:
 
 ```
 apt-config dump APT::Periodic::Unattended-Upgrade
