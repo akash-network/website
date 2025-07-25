@@ -24,6 +24,7 @@ import AvailabilityBar from "./availability-bar";
 import DesktopTableGpu from "./desktop-table-gpu";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import GpuAvailability from "./gpu-availability";
+import GpusComingSoon from "./GpusComingSoon";
 import Sort from "./sort";
 export interface Gpus {
   availability: { total: number; available: number };
@@ -174,13 +175,14 @@ export const Tables = ({
         subCom ? "" : "md:container",
       )}
     >
-      <div className={clsx("hidden flex-col gap-10 xl:flex")}>
+      <div className="hidden flex-col gap-5 xl:flex">
         <GpuAvailability
           totalGpus={totalGpus}
           totalAvailableGpus={totalAvailableGpus}
           isLoading={isLoading || false}
           counts={counts}
         />
+        <GpusComingSoon />
 
         <Filter
           filters={filters}
@@ -220,6 +222,7 @@ export const Tables = ({
             />
           </div>
         </div>
+        <GpusComingSoon />
       </div>
       <div
         className={clsx(
@@ -382,7 +385,6 @@ export const Tables = ({
               </Card>
             ))}
       </div>
-
       <DesktopTableGpu
         subCom={subCom || false}
         isLoading={isLoading || false}
