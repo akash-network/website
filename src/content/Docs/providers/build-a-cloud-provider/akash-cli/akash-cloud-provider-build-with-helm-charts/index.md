@@ -68,7 +68,7 @@ Only x86_64 processors are officially supported by Akash for provider Kubernetes
 
 ### Custom Kubernetes Cluster Settings
 
-Akash Providers are deployed in many environments and we will make additions to these sections as  and when nuances are discovered.
+Akash Providers are deployed in many environments and we will make additions to these sections as and when nuances are discovered.
 
 
 - [VMware Tanzu](/docs/providers/build-a-cloud-provider/akash-cli/custom-kubernetes-cluster-settings/)
