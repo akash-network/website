@@ -6,7 +6,7 @@ title: "Stack Definition Language (SDL)"
 linkTitle: "Stack Definition Language (SDL)"
 ---
 
-Customers / tenants define the deployment services, datacenters, requirements, and pricing parameters, in a "manifest" file (deploy.yaml). The file is written in a declarative language called Stack Definition Language (SDL). SDL is a human friendly data standard for declaring deployment attributes. The SDL file is a "form" to request resources from the Network. SDL is compatible with the [YAML](https://yaml.org/) standard and similar to Docker Compose files.
+Customers/tenants define the deployment services, datacenters, requirements, and pricing parameters, in a "manifest" file (deploy.yaml). The file is written in a declarative language called Stack Definition Language (SDL). SDL is a human friendly data standard for declaring deployment attributes. The SDL file is a "form" to request resources from the Network. SDL is compatible with the [YAML](https://yaml.org/) standard and similar to Docker Compose files.
 
 Configuration files may end in `.yml` or `.yaml`.
 
@@ -35,15 +35,15 @@ Indicates version of Akash configuration file. Currently only `"2.0"` is accepte
 
 ## Services
 
-The top-level `services` entry contains a map of workloads to be ran on the Akash deployment. Each key is a service name; values are a map containing the following keys:
+The top-level `services` entry contains a map of workloads to be run on the Akash deployment. Each key is a service name; values are a map containing the following keys:
 
 | Name         | Required | Meaning                                                                                                                                                          |
 | ------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `image`      | Yes      | Docker image of the container <br /><br/> **Note**: avoid using `:latest` image tags as Akash Providers heavily cache images. |
 | `depends-on` | No       | _**NOTE - field is marked for future use and currently has no impact on deployments.**_                                                                          |
-| `command`    | No       | Custom command use when executing container                                                                                                                      |
-| `args`       | No       | Arguments to custom command use when executing the container                                                                                                     |
-| `env`        | No       | Environment variables to set in running container. See [services.env](#servicesenv)                                                                              |
+| `command`    | No       | Custom command to use when executing container                                                                                                                      |
+| `args`       | No       | Arguments to custom command to use when executing the container                                                                                                     |
+| `env`        | No       | Environment variables to set in the running container. See [services.env](#servicesenv)                                                                              |
 | `expose`     | No       | Entities allowed to connect to the services. See [services.expose](#servicesexpose)                                                                              |
 | `params`     | No       | Defines parameters for Persistent Storage and Shared Memory (SHM) use                                                                             |
 
@@ -61,7 +61,7 @@ env:
 
 #### Notes Regarding Port Use in the Expose Stanza
 
-- HTTPS is possible in Akash deployments but only self signed certs are generated.
+- HTTPS is possible in Akash deployments, but only self signed certs are generated.
 - To implement signed certs the deployment must be front ended via a solution such as Cloudflare. If interested in this path, we have created docs for [Cloudflare with Akash](/docs/guides/deployments/tls-termination-of-akash-deployment/).
 - You can expose any other port besides 80 as the ingress port (HTTP, HTTPS) port using as: 80 directive if the app understands HTTP / HTTPS. Example of exposing a React web app using this method:
 
@@ -118,7 +118,7 @@ The `profiles` section contains named compute and placement profiles to be used 
 
 ### profiles.compute
 
-`profiles.compute` is map of named compute profiles. Each profile specifies compute resources to be leased for each service instance uses the profile.
+`profiles.compute` is a map of named compute profiles. Each profile specifies compute resources to be leased for each service instance uses the profile.
 
 Example:
 
@@ -131,7 +131,7 @@ web:
   storage: "5Gi"
 ```
 
-`cpu` units represent a vCPU share and can be fractional. When no suffix is present the value represents a fraction of a whole CPU share. With a `m` suffix, the value represnts the number of milli-CPU shares (1/1000 of a CPU share).
+`cpu` units represent a vCPU share and can be fractional. When no suffix is present the value represents a fraction of a whole CPU share. With a `m` suffix, the value represents the number of milli-CPU shares (1/1000 of a CPU share).
 
 Example:
 
@@ -161,7 +161,7 @@ Example:
 
 ### profiles.placement
 
-`profiles.placement` is map of named datacenter profiles. Each profile specifies required datacenter attributes and pricing configuration for each [compute profile](#profilescompute) that will be used within the datacenter. It also specifies optional list of signatures of which tenants expects audit of datacenter attributes.
+`profiles.placement` is a map of named datacenter profiles. Each profile specifies required datacenter attributes and pricing configuration for each [compute profile](#profilescompute) that will be used within the datacenter. It also specifies an optional list of signatures from which tenants expects audit of datacenter attributes.
 
 Example:
 
@@ -195,7 +195,7 @@ The `signedBy` section allows you to state attributes that must be signed by one
 
 The `deployment` section defines how to deploy the services. It is a mapping of service name to deployment configuration.
 
-Each service to be deployed has an entry in the `deployment`. This entry is maps datacenter profiles to [compute profiles](#profilescompute) to create a final desired configuration for the resources required for the service.
+Each service to be deployed has an entry in the `deployment`. This entry maps datacenter profiles to [compute profiles](#profilescompute) to create a final desired configuration for the resources required for the service.
 
 Example:
 
@@ -395,7 +395,7 @@ To view an example SHM enabled SDL in full for greater context, review this[ exa
 
 ## Private Container Registry Support
 
-Akash deployments now support the use of private container registries to pull images into Akash deployments.  The example use section below details the related username and password authentication declarations to access images in a private registry.  When using Docker Hub private image repostories, use your password in the related field.  When using private Github Image Registries, use your developer token in the password field.
+Akash deployments now support the use of private container registries to pull images into Akash deployments. The example use section below details the related username and password authentication declarations to access images in a private registry. When using Docker Hub private image repositories, use your password in the related field. When using private Github Image Registries, use your developer token in the password field.
 
 #### Private Registry Image Use Example
 
@@ -450,5 +450,5 @@ services:
 
 #### Full Private Registry Use in SDL Example
 
-To view an example private regisrry used in an Akash SDL in full for greater context, review this[ example](https://gist.github.com/chainzero/c9d2efdd019b03bfbb6727e41bcb049c).
+To view an example private registry used in an Akash SDL in full for greater context, review this[ example](https://gist.github.com/chainzero/c9d2efdd019b03bfbb6727e41bcb049c).
 
