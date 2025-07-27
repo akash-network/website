@@ -31,9 +31,9 @@ The Trial Deployment feature lets you experience Akash deployments with zero fri
 
 2. **Activate Your Trial Wallet**
    
-   After clicking, a temporary wallet is generated and trial credits are allocated.
+   After clicking 'Start Trial', you'll be taken to the Akash Console dashboard where you can see your trial balance and account status. The trial wallet is automatically created with free credits.
 
-   ![Trial wallet activated, balance shown](./screenshots/trial-wallet-placeholder.png)
+   ![Akash Console dashboard with trial balance](./screenshots/trial-wallet-placeholder.png)
 
 3. **Deploy an App**
    
@@ -41,11 +41,33 @@ The Trial Deployment feature lets you experience Akash deployments with zero fri
 
    ![Deployment confirmation modal with trial balance](./screenshots/trial-deploy-placeholder.png)
 
-4. **See Trial Limitations/Warnings**
+4. **Wait for Bids**
    
-   If all trial providers are in use, or you hit a limitation, you'll see a warning or alert.
+   The system will automatically find providers and generate bids for your deployment. This usually takes 30-60 seconds.
 
-   ![Trial limitation warning: Waiting for bids](./screenshots/trial-warning-placeholder.png)
+   ![Waiting for provider bids](./screenshots/trail-waiting-bids.png)
+
+5. **Choose a Provider**
+   
+   Once bids are received, you'll see a list of available providers with their pricing and specifications. Select the provider that best meets your needs.
+
+6. **Complete Deployment**
+   
+   After selecting a provider, your deployment will be processed and your application will be deployed to the chosen provider's infrastructure. You can monitor the deployment status and account balance.
+
+   ![Deployment status and account balance](./screenshots/trail-account-balance.png)
+
+7. **Access Your Live Application**
+   
+   Once deployment is complete, you'll receive a live URL where your application is accessible. The URL will be displayed in the deployment details.
+
+   ![Live application URL](./screenshots/trail-active-deployment.png)
+
+8. **Monitor Your Deployment**
+   
+   You can monitor your deployment status, logs, and resource usage through the Akash Console dashboard.
+
+   ![Deployment monitoring dashboard](./screenshots/trail-account-overview.png)
 
 ---
 
@@ -69,6 +91,42 @@ The Trial Deployment feature lets you experience Akash deployments with zero fri
 
 ---
 
+## Complete Deployment Example
+
+Here's what a complete trial deployment looks like from start to finish:
+
+### Step 1: Start Trial
+- Click 'Start Trial' in navigation
+- Temporary wallet created with trial credits
+
+### Step 2: Create Deployment
+- Choose your application (e.g., Hello World, web app, etc.)
+- Configure resources (CPU, memory, storage)
+- Submit deployment request
+
+### Step 3: Provider Selection
+- Review incoming bids from providers
+- Compare pricing and specifications
+- Select your preferred provider
+
+### Step 4: Deployment Processing
+- Provider prepares your deployment
+- Application container is pulled and started
+- Network configuration is applied
+
+### Step 5: Live Application
+- Receive live URL for your application
+- Access your deployed app immediately
+- Monitor performance and logs
+
+### Step 6: Management
+- View deployment status and health
+- Access application logs
+- Monitor resource usage
+- Close deployment when done
+
+---
+
 ## FAQ
 
 **Q: Can I use the trial for production workloads?**  
@@ -85,6 +143,12 @@ A: _Trial deployments are isolated, but not intended for sensitive or production
 
 **Q: Will my trial wallet expire?**  
 A: _Trial wallets may expire after a set period or at the discretion of Akash. Check for any alerts in the UI._
+
+**Q: How long does deployment take?**  
+A: _From start to live URL, deployment typically takes 2-5 minutes, including provider selection and application startup._
+
+**Q: Can I deploy any application?**  
+A: _You can deploy any containerized application that's compatible with the Akash network. Popular options include web apps, APIs, and development tools._
 
 ---
 
