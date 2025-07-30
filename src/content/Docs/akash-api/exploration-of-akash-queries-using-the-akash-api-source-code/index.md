@@ -8,10 +8,10 @@ description: >-
 ---
 
 
-In this section we will use an Akash deployments query as an example of:
+In this section, we will use an Akash deployments query as an example of:
 
 * General use of the Akash API repository within custom code
-* Explore Akash API Go code generated thru protoc
+* Explore the Akash API Go code generated through protoc
 * Using the Protobuf generated gateway for blockchain queries
 * Sending receipt of Protobuf messages with HTTP API requests to Akash RPC nodes
 
@@ -22,7 +22,7 @@ In this section we will use an Akash deployments query as an example of:
 
 ## gRPC Gateway Use
 
-The Protobuf generated gRPC gateway creates a HTTP handler for upstream gRPC queries.  The gRPC gateway provides an interface for clients incapable of using gRPC calls directly.  In this guide we use the gRPC source code for blockchain queries to remove friction and ease of development.
+The Protobuf generated gRPC gateway creates a HTTP handler for upstream gRPC queries.  The gRPC gateway provides an interface for clients incapable of using gRPC calls directly.  In this guide, we use the gRPC source code for blockchain queries to remove friction and ease of development.
 
 The gRPC gateway definitions used on our example query of Akash deployments are located [here](https://github.com/akash-network/akash-api/blob/main/go/node/deployment/v1beta3/query.pb.gw.go).
 
@@ -40,7 +40,7 @@ The gRPC gateway definitions used on our example query of Akash deployments are 
 
 ### Complete Code Example - Query Deployments with Owner Filter
 
-> _**NOTE**_ - prior to execution of this code ensure package dependencies mirror those found in the source code repo `go.mod` file [here](https://github.com/akash-network/akash-api/blob/main/go.mod)
+> _**NOTE**_ - before execution of this code, ensure package dependencies mirror those found in the source code repo `go.mod` file [here](https://github.com/akash-network/akash-api/blob/main/go.mod)
 
 ```
 package main
@@ -132,11 +132,11 @@ func manualMarshal(msg proto.Message) ([]byte, error) {
 
 #### Protoc Generated Go Code Overview
 
-* Within the example Deployments blockchain query we make use of:
+* Within the example Deployments blockchain query, we make use of:
   * [ ] Deployments protobuf definitions which are originally defined [here](-api/tree/main/proto/node/akash/deployment/v1beta3) and specifically in the `query.proto` definition file
   * [ ] Go code generated via protoc and that are located [here](https://github.com/akash-network/akash-api/tree/main/go/node/deployment/v1beta3) and specifically the `query.pb.gw.go` and `query.pb.go` files
 
-> _**NOTE**_ - the protoc generated Go files used in our custom code examples are the same type definitions used throughout Akash source code.  For example - the Akash CLI source code and specifically Deployment/Deployments queries are defined [here](https://github.com/akash-network/node/blob/main/x/deployment/client/cli/query.go).   Within the referenced file and CLI client definitions the types located in `github.com/akash-network/akash-api/go/node/deployment/v1beta3` are utilized.  These are the same definitions and types we we use in this custom client code example.
+> _**NOTE**_ - the protoc generated Go files used in our custom code examples are the same type definitions used throughout the Akash source code.  For example - the Akash CLI source code and specifically Deployment/Deployments queries are defined [here](https://github.com/akash-network/node/blob/main/x/deployment/client/cli/query.go).   Within the referenced file and CLI client definitions, the types located in `github.com/akash-network/akash-api/go/node/deployment/v1beta3` are utilized.  These are the same definitions and types we use in this custom client code example.
 
 #### Protoc Generated File Deepdive
 
@@ -153,7 +153,7 @@ _**Custom/Relevant Code**_
 
 ```
 	// Create the QueryDeploymentsRequest with necessary filters
-	// Replace the Owner address with the account of interest and to query deplpyments associated with that account
+	// Replace the Owner address with the account of interest and query deployments associated with that account
 	request := &v1beta3.QueryDeploymentsRequest{
 		Filters: v1beta3.DeploymentFilters{
 			// Set any filters you need to query deployments
@@ -186,7 +186,7 @@ _**QueryDeploymentsRequest Type**_
 * Source code for this type is located [here](https://github.com/akash-network/akash-api/blob/main/go/node/deployment/v1beta3/query.pb.go)
 
 ```
-// QueryDeploymentsRequest is request type for the Query/Deployments RPC method
+// QueryDeploymentsRequest is a request type for the Query/Deployments RPC method
 type QueryDeploymentsRequest struct {
 	Filters    DeploymentFilters  `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
