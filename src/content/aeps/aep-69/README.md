@@ -6,8 +6,9 @@ status: Draft
 type: Standard
 category: Interface
 created: 2025-05-22
-updated: 2025-05-22
-estimated-completion: 2025-07-15
+updated: 2025-07-30
+completed: 2025-07-25
+resolution: https://github.com/akash-network/console/milestone/22
 roadmap: minor
 ---
 
