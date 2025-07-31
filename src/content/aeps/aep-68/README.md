@@ -6,8 +6,9 @@ status: Draft
 type: Standard
 category: Interface
 created: 2025-05-20
-updated: 2025-07-30
-estimated-completion: 2025-08-08
+updated: 2025-07-31
+completed: 2025-07-31
+resolution: https://github.com/akash-network/console/milestone/20
 roadmap: major
 ---
 
@@ -45,7 +46,7 @@ A new page and submenu in the user Account Settings page called "Billing & Usage
 
 #### Tenative Design Mocks
 
-These are just placeholders for now to provide general direction and the final version will be different
+These are just placeholders for now to provide general direction and the final version will be different (see resolution link or console.akash.network for final UI/ UX)
 
 ![Stripe Transactions](stripe-transactions.png)
 ![Daily Usage](daily-usage.png)
