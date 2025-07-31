@@ -49,26 +49,26 @@ description: >-
 
 * _**Description**_ - verify simple persistent storage deployment with the storage type of BETA2.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/deployment/deployment-v2-storage-beta2.yaml) - `deployment-v2-storage-beta2.yaml`
-* _**Expected Outcome**_ - success deployment/order creation with associated provider bid receipt for persistent storage type of BETA2.
+* _**Expected Outcome**_ - successful deployment/order creation with associated provider bid receipt for persistent storage type of BETA2.
 
 #### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST WITH NO STORAGE TYPE DEFINED**
 
 * _**Description**_ - verify simple persistent storage deployment with the storage type omitted/not populated.
 * [Current SDL](https://github.com/akash-network/provider/blob/main/testdata/deployment/deployment-v2-storage-default.yaml) - `deployment-v2-storage-default.yaml`
-* _**Expected Outcome**_ - success deployment/order creation. Note - no providers on the network (at the time of this writing) bid on default storage type.
+* _**Expected Outcome**_ - successful deployment/order creation. Note - no providers on the network (at the time of this writing) bid on the default storage type.
 * _**Current Coverage**_ - [end to end test coverage](https://github.com/akash-network/provider/blob/main/integration/persistentstorage\_test.go)
 
 **PERSISTENT STORAGE DEPLOYMENT UPDATE TEST A**
 
-* _**Description**_ - verify deployment update capability when persistent storage is included in workload.
+* _**Description**_ - verify deployment update capability when persistent storage is included in the workload.
 * [Current SDL](https://github.com/akash-network/provider/blob/main/testdata/deployment/deployment-v2-storage-updateA.yaml) - `deployment-v2-storage-updateA.yaml`
-* _**Expected Outcome**_ - successful update of image and/or env variables when persistent storage is included in deplopyment.
+* _**Expected Outcome**_ - successful update of image and/or env variables when persistent storage is included in deployment.
 
 **PERSISTENT STORAGE DEPLOYMENT UPDATE TEST B**
 
-* _**Description**_ - verify deployment update capability when persistent storage is included in workload.
+* _**Description**_ - verify deployment update capability when persistent storage is included in the workload.
 * [Current SDL](https://github.com/akash-network/provider/blob/main/testdata/deployment/deployment-v2-storage-updateB.yaml) - `deployment-v2-storage-updateB.yaml`
-* _**Expected Outcome**_ - successful update of image and/or env variables when persistent storage is included in deplopyment.
+* _**Expected Outcome**_ - successful update of image and/or env variables when persistent storage is included in deployment.
 
 #### Expected Failure
 
@@ -82,11 +82,11 @@ description: >-
 
 * _**Description**_ - Failure test when no absolute directory path is supplied in mount point.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/storageClass2.yaml) - `storageClass2.yaml`
-* _**Expected Outcome**_ - The SDL should fail validation on deployment creation attempt as the persistent storage mount point specified is a relative path of `etc/nginx`. If the path were the absolute path of `/etc/nginx` the validation would succeed.
+* _**Expected Outcome**_ - The SDL should fail validation on deployment creation attempt as the persistent storage mount point specified is a relative path of `etc/nginx`. If the path were the absolute path of `/etc/nginx`, the validation would succeed.
 
 #### **SIMPLE PERSISTENT STORAGE DEPLOYMENT TEST FAIL ON INVALID NAME**
 
-* _**Description**_ - Failure test when the persistent storage name does not align with name provided in services stanza.
+* _**Description**_ - Failure test when the persistent storage name does not align with the name provided in the services stanza.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/storageClass3.yaml) - `storageClass3.yaml`
 * _**Expected Outcome**_ - The SDL should fail validation on deployment creation attempt as the persistent storage name specified in the `profiles` stanza - which is `configs` - does not align with the name used in the `services` stanza which is `data`.
 
@@ -133,15 +133,15 @@ description: >-
 
 ##### **MULTIPLE AND UNIQUE IP LEASES CREATION AND ASSIGNMENT - SINGLE PLACEMENT GROUP**
 
-* _**Description**_ - two IP Leases declaration and assignment in unique deployment groups with a single placement groups.
+* _**Description**_ - two IP Leases declaration and assignment in unique deployment groups with a single placement group.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/deployment/deployment-v2-multi-ip-endpoint.yamll) - `deployment-v2-multi-ip-endpoint.yaml`
-* _**Expected Outcome**_ - successful creation of two IP Leases with activation in associated deployment group.
+* _**Expected Outcome**_ - successful creation of two IP Leases with activation in the associated deployment group.
 
 ##### **MULTIPLE AND UNIQUE IP LEASES CREATION AND ASSIGNMENT - MULTIPLE PLACEMENT GROUPS**
 
 * _**Description**_ - two IP Leases declaration and assignment in unique deployment groups with multiple placement groups.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/deployment/deployment-v2-multi-groups-ip-endpoint.yaml) - `deployment-v2-multi-groups-ip-endpoint.yaml`
-* _**Expected Outcome**_ - successful creation of two IP Leases with activation in associated deployment group.
+* _**Expected Outcome**_ - successful creation of two IP Leases with activation in the associated deployment group.
 
 ##### **SINGLE IP LEASE CREATION AND WITH MULTIPLE SERVICES ASSIGNMENT**
 
@@ -185,7 +185,7 @@ description: >-
 
 * _**Description**_ - ensure a service that does not have `global: true` specification in the `expose\to` stanza is only reachable to specified services of the same SDL.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/private\_service.yaml) - `private_service.yaml`
-* _**Expected Outcome**_ - referenced SDL should create a service with no node port assignment that should only be reachable inside the Kubernetes cluster and only to services it is exposed to explicitly. In the SDL tested only the `bind` service should have access to the `pg` service.
+* _**Expected Outcome**_ - referenced SDL should create a service with no node port assignment that should only be reachable inside the Kubernetes cluster and only to services it is explicitly exposed to. In the SDL tested only the `bind` service should have access to the `pg` service.
 
 #### Expected Failure
 
@@ -193,7 +193,7 @@ description: >-
 
 * _**Description**_ - service name mismatch in the declaration within the `services` stanza and the use of the service in the `deployment` stanza
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/deployment-svc-mismatch.yaml) - `deployment-svc-mismatch.yaml`
-* _**Expected Outcome**_ - referenced SDL names the service `web` in the `services` stanza but references the service with name `webapp` in the \`deployment stanza. The misalignment of service name between stanzas should result in a validation failure during deployment creation transaction send.
+* _**Expected Outcome**_ - referenced SDL names the service `web` in the `services` stanza but references the service with the name `webapp` in the \`deployment stanza. The misalignment of service name between stanzas should result in a validation failure during deployment creation transaction send.
 
 ### Profiles
 
@@ -277,20 +277,20 @@ description: >-
 
 * _**Description**_ - verify deployment update capability.
 * [Current SDL](https://github.com/akash-network/provider/blob/main/testdata/deployment/deployment-v2-updateA.yaml) - `deployment-v2-updateA.yaml`
-* _**Expected Outcome**_ - successful update of image and/or env variables of pre-existing deplopyment.
+* _**Expected Outcome**_ - successful update of image and/or env variables of pre-existing deployment.
 * _**Current Coverage**_ - [end to end test coverage](https://github.com/akash-network/provider/blob/main/integration/deployment\_update\_test.go)
 
 **DEPLOYMENT UPDATE TEST B**
 
 * _**Description**_ - verify deployment update capability.
 * [Current SDL](https://github.com/akash-network/provider/blob/main/testdata/deployment/deployment-v2-updateB.yaml) - `deployment-v2-updateB.yaml`
-* _**Expected Outcome**_ - successful update of image and/or env variables of pre-existing deplopyment.
+* _**Expected Outcome**_ - successful update of image and/or env variables of pre-existing deployment.
 
 #### Expected Failure
 
 **SIMPLE DEPLOYMENT - TWO SERVICES**
 
-* **Description** - simple deployment test with two services. Deployment should fail validation as two services are declared but only one used. No IP Leases, persistent storage, or other services.
+* **Description** - simple deployment test with two services. Deployment should fail validation as two services are declared, but only one is used. No IP Leases, persistent storage, or other services.
 * [Current SDL](https://github.com/akash-network/provider/blob/f13aca40ac42f96b80ec5e863cdfa20093e23b44/testdata/sdl/simple2.yaml) - `simple2.yaml`
 * _**Expected Outcome**_ - simple deployment with two services declares should fail validation as only one of the created services is called in the `deployment` stanza.
 

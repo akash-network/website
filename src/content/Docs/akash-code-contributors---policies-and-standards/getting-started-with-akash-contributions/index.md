@@ -8,7 +8,7 @@ description: >-
 ---
 
 
-This guides provides ideas on how to get started with Akash code base contributions.
+This guide provides ideas on how to get started with Akash code base contributions.
 
 ## Find Something to Work On
 
@@ -24,11 +24,11 @@ The following list provides some thoughts on areas prime for contribution:
 
 ### Documentation Improvement
 
-Contributing to Akash documentation is a great way to get started.  In the process of documentation contribution the author will benefit from:
+Contributing to Akash documentation is a great way to get started.  In the process of documentation contribution, the author will benefit from:
 
 * Gain experience in the code submission/review process
-* Gain insight further into Akash frameworks
-* Solve simple tasks in first submission such as fixing broken links or missing links
+* Gain further insight into Akash frameworks
+* Solve simple tasks in first submission, such as fixing broken links or missing links
 
 All Akash documentation - both the Akash user guides and engineering docs - are open source and prime for contributions.
 
@@ -53,7 +53,6 @@ The Akash community is organized into SIGs (Special Interest Groups) to improve 
 #### SIG Structure
 
 Anyone is welcome to jump into a SIG and begin fixing issues, critique design proposals, and review code. SIGs have regular video meetings which everyone is welcome to attend. Each SIG has an associated Discord channel, meeting notes, and their own documentation that is useful to read and understand.
-
 
 
 

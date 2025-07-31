@@ -6,7 +6,7 @@ title: "Payments"
 linkTitle: "Payments"
 ---
 
-Leases are paid from deployment owner (tenant) to the provider through a [deposit](#bid-deposits) & withdraw mechanism.
+Leases are paid from the deployment owner (tenant) to the provider through a [deposit](#bid-deposits) & withdraw mechanism.
 
 For a step-by-step guide to funding your Akash account with cards, bank, or coupons, see the [Billing & Credits Guide](/docs/getting-started/billing-and-credits/).
 
@@ -24,7 +24,7 @@ Bid deposits are implemented with an escrow account module. See [here](#escrow-a
 
 Escrow accounts are a mechanism that allow for time-based payments from one account to another without block-by-block micropayments. They also support holding funds for an account until an arbitrary event occurs.
 
-Escrow accounts are necessary in akash for two primary reasons:
+Escrow accounts are necessary in Akash for two primary reasons:
 
 1.  Leases in Akash are priced in blocks - every new block, a payment
 
@@ -114,7 +114,7 @@ Account settlement goes as follows:
 
 ### `AccountCreate`
 
-Create an escrow account. Funds are deposited from the owner account to the escrow module account.
+Create an escrow account. Funds are deposited from the owner's account to the escrow module account.
 
 #### Arguments
 
@@ -203,7 +203,7 @@ Hooks are callbacks that are registered by users of the escrow module that are t
 
 ### `OnAccountClosed`
 
-Whenever an account is closed `OnAccountClosed(Account)` will be called.
+Whenever an account is closed, `OnAccountClosed(Account)` will be called.
 
 ### `OnPaymentClosed`
 
