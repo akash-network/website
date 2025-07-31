@@ -6,6 +6,7 @@ import Footer from "@/components/footer/footer.astro";
 import Header from "@/components/header/header.astro";
 import { getEntry } from "astro:content";
 
+import { NVIDIAB200SoonForm } from "@/components/pricing-page/gpus/GpusComingSoon";
 import clsx from "clsx";
 import BaseLayout from "./base-layout.astro";
 
@@ -46,21 +47,22 @@ const pathname = Astro.url.pathname;
 >
   {
     advert && !pathname.includes("neurips") && (
-      <div class="flex items-center justify-center bg-primary px-3 py-2">
-        <a
-          id="advert-to-gpus"
-          href={advert?.link}
-          target={
-            advert?.link.startsWith("/") || advert?.link.startsWith("#")
-              ? "_self"
-              : "_blank"
-          }
-        >
-          <p class="text-center text-sm font-semibold text-white underline">
-            {advert?.title}
-          </p>
-        </a>
-      </div>
+      // <div class="flex items-center justify-center bg-primary px-3 py-2">
+      //   <a
+      //     id="advert-to-gpus"
+      //     href={advert?.link}
+      //     target={
+      //       advert?.link.startsWith("/") || advert?.link.startsWith("#")
+      //         ? "_self"
+      //         : "_blank"
+      //     }
+      //   >
+      //     <p class="text-center text-sm font-semibold text-white underline">
+      //       {advert?.title}
+      //     </p>
+      //   </a>
+      // </div>
+      <NVIDIAB200SoonForm client:load externalButton />
     )
   }
 
@@ -75,7 +77,7 @@ const pathname = Astro.url.pathname;
       pathname.includes("akash-accelerate-2024") ||
         pathname.includes("akash-accelerate-2025")
         ? "hidden"
-        : "block",
+        : "block"
     )}
   >
     <CTA />

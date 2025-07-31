@@ -9,8 +9,6 @@ import { ArrowUpCircle, X } from "lucide-react";
 import { useState } from "react";
 
 const GpusComingSoon = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const randomId = Math.random().toString(36).substring(2, 15);
   const description =
     "Supercharge your AI and compute workloads with NVIDIA's most advanced GPUs, coming soon to Akash Supercloud.";
 
@@ -52,47 +50,73 @@ const GpusComingSoon = () => {
         <p className="mb-5 mt-4 text-sm text-[#8F8F8F] sm:hidden">
           {description}
         </p>
-
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogTrigger asChild>
-            <button
-              className={buttonVariants({
-                variant: "primary",
-                className:
-                  "flex w-fit items-center gap-2 whitespace-nowrap !px-4 !py-3",
-              })}
-            >
-              Request Access
-              <ArrowUpCircle className="h-4 w-4 rotate-45" />
-            </button>
-          </DialogTrigger>
-
-          <DialogContent
-            hideCloseButton
-            overlayClassName="z-[99]"
-            className="hide-scrollbar z-[100] max-h-[95vh] overflow-hidden overflow-y-auto !border-none bg-transparent p-0 shadow-none sm:max-w-[600px]"
+        <NVIDIAB200SoonForm>
+          <button
+            className={buttonVariants({
+              variant: "primary",
+              className:
+                "flex w-fit items-center gap-2 whitespace-nowrap !px-4 !py-3",
+            })}
           >
-            <DialogTitle className="sr-only">Request Access Form</DialogTitle>
-            <button
-              onClick={() => {
-                setIsOpen(false);
-              }}
-              className="absolute right-4 top-4 z-10 rounded-full bg-white p-2 text-black hover:bg-white/90"
-            >
-              <X className="h-4 w-4" />
-            </button>
-            <div
-              id={`hs-form-iframe-${randomId}`}
-              className="hs-form-frame"
-              data-region="na1"
-              data-form-id="2d95f20c-cd65-4648-94f1-df0732aa60e6"
-              data-portal-id="47519938"
-            />
-          </DialogContent>
-        </Dialog>
+            Request Access
+            <ArrowUpCircle className="h-4 w-4 rotate-45" />
+          </button>
+        </NVIDIAB200SoonForm>
       </div>
     </>
   );
 };
 
 export default GpusComingSoon;
+
+export const NVIDIAB200SoonForm = ({
+  children,
+  externalButton,
+}: {
+  children?: React.ReactNode;
+  externalButton?: boolean;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const randomId = Math.random().toString(36).substring(2, 15);
+  const button = (
+    <button className="flex w-full items-center justify-center bg-primary px-3 py-2">
+      <div>
+        <p className="text-center text-sm font-semibold text-white ">
+          NVIDIA B200/300 are coming to Akash -{" "}
+          <span className="underline">Get Early Access</span>
+        </p>
+      </div>
+    </button>
+  );
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        {externalButton ? button : children}
+      </DialogTrigger>
+
+      <DialogContent
+        hideCloseButton
+        overlayClassName="z-[99]"
+        className="hide-scrollbar z-[100] max-h-[95vh] overflow-hidden overflow-y-auto !border-none bg-transparent p-0 shadow-none sm:max-w-[600px]"
+      >
+        <DialogTitle className="sr-only">Request Access Form</DialogTitle>
+        <button
+          onClick={() => {
+            setIsOpen(false);
+          }}
+          className="absolute right-4 top-4 z-10 rounded-full bg-white p-2 text-black hover:bg-white/90"
+        >
+          <X className="h-4 w-4" />
+        </button>
+        <div
+          id={`hs-form-iframe-${randomId}`}
+          className="hs-form-frame"
+          data-region="na1"
+          data-form-id="2d95f20c-cd65-4648-94f1-df0732aa60e6"
+          data-portal-id="47519938"
+        />
+      </DialogContent>
+    </Dialog>
+  );
+};
