@@ -6,9 +6,9 @@ status: Draft
 type: Standard
 category: Interface
 created: 2024-01-05
-updated: 2025-07-07
-estimated-completion: 2025-08-15
-roadmap: minor
+updated: 2025-07-30
+estimated-completion: 2025-08-30
+roadmap: major
 ---
 
 
