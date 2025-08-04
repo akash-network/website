@@ -245,24 +245,6 @@ akash auth jwt --exp 15m --access full
 akash auth jwt --exp 1h --access scoped --scope logs,status
 ```
 
-## Migration Checklist
-
-- [ ] Update dependencies to include JWT support
-- [ ] Replace certificate loading with JWT signer creation
-- [ ] Update client initialization to use `WithAuthJWTSigner`
-- [ ] Remove certificate file management code
-- [ ] Test authentication with different access types
-- [ ] Update documentation and examples
-- [ ] Consider implementing token refresh logic if needed
-
-## Best Practices
-
-1. **Token Expiration**: Set reasonable expiration times (15 minutes is recommended)
-2. **Access Control**: Use the minimum required access level for security
-3. **Error Handling**: Implement proper error handling for authentication failures
-4. **Token Refresh**: Consider implementing automatic token refresh for long-running applications
-5. **Security**: Store private keys securely and never expose them in logs
-
 ## Troubleshooting
 
 ### Common Issues
