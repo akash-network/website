@@ -10,12 +10,14 @@ export const brandResourcesSchema = defineCollection({
           title: z.string(),
           description: z.string(),
           image: image(),
-          button: z.object({
-            label: z.string(),
-            link: z.string(),
-            enable: z.boolean(),
-            icon: z.string(),
-          }),
+          button: z.array(
+            z.object({
+              label: z.string(),
+              link: z.string(),
+              enable: z.boolean(),
+              icon: z.string(),
+            }),
+          ),
         }),
       ),
     });

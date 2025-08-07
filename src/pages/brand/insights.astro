@@ -5,7 +5,7 @@ import { getEntry } from "astro:content";
 
 const brandReleasesInsightsPage = await getEntry(
   "Brand_Releases_Insights_Homepage",
-  "index",
+  "index"
 );
 
 const { title, description, cards } = brandReleasesInsightsPage.data;
@@ -32,7 +32,7 @@ const { title, description, cards } = brandReleasesInsightsPage.data;
           <ResourcesCard
             title={card.title}
             description={card.description}
-            button={card.button}
+            buttons={[card.button]}
             image={card.image}
           />
         ))
