@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
+import { ArrowUpCircle } from "lucide-react";
 import ButtonLink from "../ui/button-link.astro";
-const { title, description, button, image, type } = Astro.props;
+const { title, description, buttons, image, type } = Astro.props;
 ---
 
 <div
@@ -22,72 +23,55 @@ const { title, description, button, image, type } = Astro.props;
   <div class="mt-10 w-full flex-1 px-2 md:px-0 lg:mt-4">
     <h3 class="text-xl font-bold md:text-2xl">{title}</h3>
     <p class="mt-5 text-xs md:mt-6 md:text-lg">{description}</p>
-    {
-      button.icon === "link" ? (
-        <ButtonLink
-          variant="secondary"
-          size="xl"
-          className="mt-5 md:mt-6"
-          link={button.link}
-        >
-          {button.label}
+    <div class="mt-5 flex flex-col gap-3 md:mt-6 md:flex-row">
+      {
+        buttons.map((button: any) =>
+          button.icon === "link" ? (
+            <ButtonLink
+              variant="secondary"
+              size="xl"
+              link={button.link}
+              target={button.link.includes("http") ? "_blank" : "_self"}
+            >
+              {button.label}
 
-          <svg
-            width="16"
-            height="17"
-            viewBox="0 0 16 17"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="text-para"
-          >
-            <path
-              d="M6.11719 10.6248L9.88841 6.85352M9.88841 6.85352H6.58859M9.88841 6.85352V10.1534"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M8.0026 15.4056C11.6845 15.4056 14.6693 12.4208 14.6693 8.73893C14.6693 5.05703 11.6845 2.07227 8.0026 2.07227C4.3207 2.07227 1.33594 5.05703 1.33594 8.73893C1.33594 12.4208 4.3207 15.4056 8.0026 15.4056Z"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </ButtonLink>
-      ) : (
-        <ButtonLink
-          variant="secondary"
-          size="xl"
-          className="mt-5 md:mt-6"
-          link={button.link}
-          download={`${title?.toLowerCase()?.replace(/\s+/g, "-")}.zip`}
-        >
-          {button.label}
-          <svg
-            width="10"
-            height="11"
-            viewBox="0 0 10 11"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4 text-foreground md:h-5 md:w-5"
-          >
-            <path
-              d="M2.5 9.20508L7.5 9.20508"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M4.9974 2.53711V7.53711M4.9974 7.53711L6.45573 6.07878M4.9974 7.53711L3.53906 6.07878"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </ButtonLink>
-      )
-    }
+              <ArrowUpCircle className="h-4 w-4 rotate-45" />
+            </ButtonLink>
+          ) : (
+            <ButtonLink
+              variant="secondary"
+              size="xl"
+              link={button.link}
+              download={`${title?.toLowerCase()?.replace(/\s+/g, "-")}.zip`}
+            >
+              {button.label}
+              <svg
+                width="10"
+                height="11"
+                viewBox="0 0 10 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-foreground md:h-5 md:w-5"
+              >
+                <path
+                  d="M2.5 9.20508L7.5 9.20508"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M4.9974 2.53711V7.53711M4.9974 7.53711L6.45573 6.07878M4.9974 7.53711L3.53906 6.07878"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </ButtonLink>
+          )
+        )
+      }
+    </div>
   </div>
 </div>
