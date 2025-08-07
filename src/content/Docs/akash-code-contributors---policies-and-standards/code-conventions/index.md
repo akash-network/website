@@ -15,10 +15,10 @@ This document outlines a collection of guidelines, style suggestions, and tips f
 
 The creators and maintainers of the Go programming language have created standards and policies within this [documentation](https://go.dev/wiki/CodeReviewComments).
 
-Akash contributors should become familiar with all standards in this idiomatic Go guide with particular attention focused on topics such as:
+Akash contributors should become familiar with all standards in this idiomatic Go guide, with particular attention focused on topics such as:
 
-* [Go Fmt ](https://go.dev/wiki/CodeReviewComments#gofmt)- all code submitted to the Akash code base should have `go fmt` performed prior to submission to ensure proper and conventional formatting
-* [Code Comments](https://go.dev/wiki/CodeReviewComments#comment-sentences) - all code submitted should be commented throughly and adhere to commenting standards provided in this section
+* [Go Fmt ](https://go.dev/wiki/CodeReviewComments#gofmt)- all code submitted to the Akash code base should have `go fmt` performed before submission to ensure proper and conventional formatting
+* [Code Comments](https://go.dev/wiki/CodeReviewComments#comment-sentences) - all code submitted should be commented thoroughly and adhere to the commenting standards provided in this section
 * [Error Handling](https://go.dev/wiki/CodeReviewComments#handle-errors) - handle and do not discard errors as described further in this section
 * [Variable Names](https://go.dev/wiki/CodeReviewComments#variable-names) - const and var naming conventions should follow Go standards as described in this section
 
