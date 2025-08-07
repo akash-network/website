@@ -44,7 +44,7 @@ _Description: Original content produced by Anthony Rosa as part of the community
 
 1. Navigate to the [Google Chrome Extension Store](https://chrome.google.com/webstore/category/extensions?hl=en).
 2. Search for [Keplr](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en).
-3. Click “Add to Chrome”
+3. Click "Add to Chrome"
 
    ![Image](https://miro.medium.com/max/1400/1*b-gl3aaJpxx4_VAK4T58QA.png)
 
@@ -60,15 +60,15 @@ _Description: Original content produced by Anthony Rosa as part of the community
 
    ![Image](https://miro.medium.com/max/272/1*fUjYWaDxVltwkbu_LWjsvg.png)
 
-7. Click “Create new account”
+7. Click "Create new account"
 
    ![Image](https://miro.medium.com/max/1288/1*eu6QM_p5jbeorJQTWXMNXg.png)
 
-8. **Write down your Mnemonic Seed 12 word phrase on a piece of paper.** You’ll need these for the next step and if you lose your account information, the mnemonic is the only way to get it back. Give your account a name and type in a password of choice. Click Next.
+8. **Write down your Mnemonic Seed 12 word phrase on a piece of paper.** You'll need these for the next step and if you lose your account information, the mnemonic is the only way to get it back. Give your account a name and type in a password of choice. Click Next.
 
    ![Image](https://miro.medium.com/max/1400/1*3j8sS3D8YIJbBhNsb2uiig.png)
 
-9. Use your piece of paper to click the boxes to arrange the Mnemonic Seed in its proper order. Once complete, **store your Mnemonic Seed in a safe, protected place**. Click “Register”.
+9. Use your piece of paper to click the boxes to arrange the Mnemonic Seed in its proper order. Once complete, **store your Mnemonic Seed in a safe, protected place**. Click "Register".
 
    ![Image](https://miro.medium.com/max/1400/1*8ax_97-t6IRo2mWw7HV1cg.png)
 
@@ -76,7 +76,7 @@ _Description: Original content produced by Anthony Rosa as part of the community
 
 ![Image](https://miro.medium.com/max/272/1*OFgsSrkW2yYXQHujo9uI4Q.png)
 
-11. Click the dropdown Cosmos menu. Click “Akash”.
+11. Click the dropdown Cosmos menu. Click "Akash".
 
 ![Image](https://miro.medium.com/max/744/1*PPobLOFbdYCNhXEyWmTxxw.png)
 
@@ -100,7 +100,7 @@ We are using **Google Chrome** in this example:
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/2e23aa24-6ea4-42a2-a70f-e4497fd911b0)
 
-2. Click “**Install**”.
+2. Click "**Install**".
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/4443a3f0-70fa-4e82-a732-fcc4552561a4)
 
@@ -116,13 +116,13 @@ We are using **Google Chrome** in this example:
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/2168c244-2253-4e37-9d00-bc29a50e1dbb)
 
-6. Click “**Create new wallet**”.
+6. Click "**Create new wallet**".
 
    ![Image](https://github.com/Dimokus88/docs/assets/23629420/d6c722fc-e526-479b-ae63-f83ce0696dd9)
 
 7. ⚠️ ✍️ **Write down your Mnemonic Seed 12 word phrase on a piece of paper.** ✍️⚠️
 
-You’ll need these for the next step and if you lose your account information, the mnemonic is the only way to get it back.
+You'll need these for the next step and if you lose your account information, the mnemonic is the only way to get it back.
 
 Click "**I have saved it somewhere safe.**".
 
@@ -159,6 +159,9 @@ Click "**I have saved it somewhere safe.**".
     You can purchase AKT tokens [here](https://akash.network/token/#buying-akt).
 
 ---
+
+> **Next Step:**
+> Curious to try Akash without a wallet or setup? Check out our [Trial Deployment guide](../trial-deployment.md) to deploy instantly with free credits!
 
 ## Next Steps
 
