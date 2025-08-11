@@ -189,21 +189,83 @@ v0.4.6
 <TabContent value="Source">
 #### From Source
 
-Installing Akash suite from source:
+##### Prerequisites
+
+The following prerequisites are required:
+
+- Go 1.21.0 or later
+- GNU Make 4.0 or later
+- Bash 4.0 or later
+- [direnv](https://direnv.net/docs/installation.html) 2.32.x or later
+- wget
+- unzip
+- curl
+- npm
+- jq
+- git
+- realpath and readlink (may be installed via GNU coreutils)
+- gnu-getopt for macOS (`brew install gnu-getopt`)
+
+These can be installed using the relevant package manager your OS
+e.g. Homebrew for macOS or Apt for Debian based systems.
+
+In macOS, the default version is usually outdated. An updated version
+can be installed via Homebrew, and the `PATH` adjusted to point to it as
+follows.
+
+```bash
+# Install using Homebrew
+brew install make
+
+# The new GNU Make will be installed as 'gmake'
+# Add this to your ~/.zshrc or ~/.bashrc to use it as 'make':
+export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+```
+
+In case of any issues, checkout the more detailed [docs](https://github.com/akash-network/provider/blob/main/CONTRIBUTING.md) in the provider
+repository.
+
+##### Direnv setup
+
+Check that the `direnv` version (`direnv --version`) installed meets
+the minimum version requirement. In case the version installed by the
+package manager is outdated, prebuild binaries can be used
+instead. See the direnv instructions
+[here](https://direnv.net/docs/installation.html)
+
+After `direnv` is installed it needs to be hooked to your shell. For
+example:
+
+```bash
+# For zsh (add to ~/.zshrc):
+eval "$(direnv hook zsh)"
+
+# For bash (add to ~/.bashrc):
+eval "$(direnv hook bash)"
+```
+The shell config needs to be reread. This can be done by opening a new
+terminal, or using source e.g. `source ~/.bashrc`
+
+##### Installation
+
+The Akash CLI can be built as follows:
+
+``` bash
+git clone https://github.com/akash-network/provider.git
+cd provider
+direnv allow  # some packages may be downloaded
+make install
 
 ```
-$ go get -d github.com/akash-network/provider
-$ cd $GOPATH/src/github.com/akash-network/provider
-$ AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
-$ AKASH_VERSION="$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -r '.tag_name')"
-$ git checkout "v$AKASH_VERSION"
-$ make deps-install
-$ make install
-```
 
-Akash is developed and tested with [golang 1.16+](https://golang.org/). Building requires a working [golang](https://golang.org/) installation, a properly set `GOPATH`, and `$GOPATH/bin` present in `$PATH`.
+After the above steps are completed, the `provider-services`
+executable will be located at the following path within the
+provider repository.
 
-Once you have the dependencies properly setup, download and build `akash` using `make install`
+`<project root>.cache/bin/provider-services`
+
+It can now be copied to a location that is present in `PATH`
+e.g. `usr/local/bin` for convenience.
 
 </TabContent>
 </TabsWrapper>
