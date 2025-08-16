@@ -6,6 +6,7 @@ export const getYearToUse = () => {
 };
 
 export const redirects = {
+  "/development/current-projects": "/roadmap/",
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",
   "/community": "/community/akash-insiders/",
