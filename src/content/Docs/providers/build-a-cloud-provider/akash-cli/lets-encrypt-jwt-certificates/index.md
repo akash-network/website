@@ -39,9 +39,26 @@ Before enabling Let's Encrypt JWT certificates, ensure you have:
 2. **DNS Provider Access**: Either Google Cloud DNS or Cloudflare DNS with appropriate API credentials
 3. **Domain Management**: Your provider domain must be managed by your chosen DNS provider
 4. **Kubernetes Cluster**: A running Kubernetes cluster with the provider deployed
-5. **Storage Class**: Ensure your provider's storage class attribute points to a valid storage class available in your cluster
 
 ## Configuration
+
+### Basic Provider Configuration
+
+Add the `letsEncrypt` section to your `provider.yaml` file:
+
+```yaml
+letsEncrypt:
+  enabled: true
+  acme:
+    email: "your-email@example.com"
+    caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"  # Production
+    # caDirUrl: "https://acme-staging-v02.api.letsencrypt.org/directory"  # Staging (for testing)
+  dns:
+    providers:
+      - "cf"  # or "gcloud" for Google Cloud DNS
+  providers:
+    # DNS provider specific configuration (see sections below)
+```
 
 ### Cloudflare DNS Configuration
 
@@ -132,6 +149,39 @@ letsEncrypt:
    ```
 
 4. **Copy the JSON Content**: Replace the `content:` section in your `provider.yaml` with the actual content of the `service-account.json` file.
+
+If you're using Cloudflare DNS, add the following configuration:
+
+```yaml
+letsEncrypt:
+  enabled: true
+  acme:
+    email: "your-email@example.com"
+    caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"
+  dns:
+    providers:
+      - "cf"
+  providers:
+    cloudflare:
+      enabled: true
+      apiToken: "your-cloudflare-api-token"
+```
+
+#### Cloudflare DNS Setup Steps
+
+1. **Create API Token**:
+   - Log into your Cloudflare dashboard
+   - Go to "My Profile" → "API Tokens"
+   - Click "Create Token"
+   - Use the "Custom token" template
+
+2. **Configure Token Permissions**:
+   - **Zone Resources**: Include → All zones
+   - **Zone Permissions**: DNS:Edit
+   - **Account Resources**: Include → All accounts
+   - **Account Permissions**: Zone:Read
+
+3. **Copy the Token**: Replace `your-cloudflare-api-token` in your `provider.yaml` with the actual token.
 
 ## Complete Example Configuration
 

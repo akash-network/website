@@ -2,13 +2,13 @@
 title: "Provider Console - Earnings API"
 description: The new Provider Console Earnings API gives Akash providers powerful insights into their revenue, with secure access and easy integration for custom dashboards.
 
-pubDate: "2025-08-13"
+pubDate: "2025-08-18"
 draft: false
 
 categories:
-  - Updates
+  - Product
 tags:
-  - Updates
+  - Product
 contributors:
   - Anil Murty
 
