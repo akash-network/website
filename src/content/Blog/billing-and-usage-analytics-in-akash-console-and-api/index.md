@@ -2,13 +2,13 @@
 title: "Billing & Usage Analytics in Akash Console & API"
 description: "Billing & Usage: credit card purchase history and analytics for Akash."
 
-pubDate: "2025-08-18T14:00:00Z"
+pubDate: "2025-08-17"
 draft: false
 
 categories:
-  - Updates
+  - Product
 tags:
-  - Updates
+  - Product
 contributors:
   - Anil Murty
 

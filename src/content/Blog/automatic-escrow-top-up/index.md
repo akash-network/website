@@ -2,13 +2,13 @@
 title: "Automatic Escrow Top-Up"
 description: "Auto-funds Akash deployments to prevent downtime for credit card users."
 
-pubDate: "2025-08-18T10:00:00Z"
+pubDate: "2025-08-14"
 draft: false
 
 categories:
-  - Updates
+  - Product
 tags:
-  - Updates
+  - Product
 contributors:
   - Anil Murty
 
