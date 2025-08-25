@@ -231,7 +231,9 @@ terminal, or using source e.g. `source ~/.bashrc`
 
 ##### Installation
 
-The Akash CLI can be built as follows:
+First, check that [GOPATH](https://go.dev/wiki/GOPATH) is set correctly.
+
+The Akash CLI can then be built as follows:
 
 ``` bash
 git clone https://github.com/akash-network/provider.git
@@ -242,14 +244,9 @@ make install
 ```
 
 After the above steps are completed, the `provider-services`
-executable will be located at the following path within the
-provider repository.
+executable will be located at `$GOPATH/bin`
 
-`<project root>.cache/bin/provider-services`
-
-It can now be copied to a location that is present in `PATH`
-e.g. `usr/local/bin` for convenience.
-
+The location above can be added to your `PATH` for convenience.
   </TabContent>
   </TabsWrapper>
 
