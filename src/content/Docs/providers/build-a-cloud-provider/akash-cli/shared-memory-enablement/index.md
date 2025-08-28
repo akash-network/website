@@ -8,7 +8,7 @@ linkTitle: "Shared Memory Enablement"
 
 ## Update Provider Configuration File
 
-Providers must be updated with attributes in order to bid on the SHM deplloyments.
+Providers must be updated with attributes in order to bid on the SHM deployments.
 
 > _**NOTE**_ - in the Akash Provider build documentation a `provider.yaml` file was created and which stores provider attribute/other settings. In this section we will update that `provider.yaml` file with SHM related attributes. The remainder of the pre-existing file should be left unchanged.
 
@@ -26,7 +26,7 @@ vim provider.yaml
 
 ### **Update the Provider YAML File With SHM Attribute**
 
-- When the `provider.yaml` file update is complete look like the following example.
+- When the `provider.yaml` file update is complete looks like the following example.
 
 ```
   - key: capabilities/storage/3/class
