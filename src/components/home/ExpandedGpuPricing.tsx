@@ -224,9 +224,11 @@ const ExpandedGpu = () => {
 
   return (
     <div className="flex flex-col justify-center gap-8 md:gap-16">
-      <h2 className="text-center text-2xl font-semibold md:text-[40px]">
-        GPU's at Costs <br className="md:hidden" /> That Scale
-      </h2>
+      <div className="flex flex-col gap-1 md:gap-3">
+        <h2 className="text-center text-2xl font-semibold md:text-[40px]">
+          GPU's at Costs That Scale
+        </h2>
+      </div>
       <div className="shadow">
         <div className="grid w-full grid-cols-5 rounded-t-lg border">
           {gpuTypes.map((item, index) => (
@@ -276,6 +278,9 @@ const ExpandedGpu = () => {
                 )}
               >
                 {prices[0][index]}
+                {index !== 0 && (
+                  <span className="inline-flex text-xs  md:text-xl">/hr</span>
+                )}
               </h4>
             </div>
           ))}
@@ -304,6 +309,11 @@ const ExpandedGpu = () => {
                       )}
                     >
                       {item}
+                      {i !== 0 && (
+                        <span className="inline-flex text-xs md:text-xl">
+                          /hr
+                        </span>
+                      )}
                     </h4>
                   ))}
                 </div>

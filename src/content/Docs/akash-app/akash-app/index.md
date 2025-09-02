@@ -58,9 +58,9 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 > [Source code reference location](https://github.com/akash-network/node/blob/52d5ee5caa2c6e5a5e59893d903d22fe450d6045/cmd/akash/cmd/root.go#L103)
 
-The `initRootCmd` function calls method `AddCommands` within the Cosmos SDK `server` package.  Per Cosmos documentation:
+The `initRootCmd` function calls the method `AddCommands` within the Cosmos SDK `server` package.  Per Cosmos documentation:
 
-> The server package is responsible for providing the mechanisms necessary to start an ABCI CometBFT application and provides the CLI framework (based on cobra) necessary to fully bootstrap an application. The package exposes two core functions: StartCmd and ExportCmd which creates commands to start the application and export state respectively.
+> The server package is responsible for providing the mechanisms necessary to start an ABCI CometBFT application and provides the CLI framework (based on cobra) necessary to fully bootstrap an application. The package exposes two core functions: StartCmd and ExportCmd, which create commands to start the application and export state, respectively.
 
 ```
 func initRootCmd(rootCmd *cobra.Command, encodingConfig params.EncodingConfig) {
@@ -74,7 +74,7 @@ func initRootCmd(rootCmd *cobra.Command, encodingConfig params.EncodingConfig) {
 
 > [Source code reference location](https://github.com/cosmos/cosmos-sdk/blob/main/server/util.go)
 
-Amongst other command registrations via the Cosmos SDK server package, note that the `startCmd` is registered via function `StartCmd`.
+Amongst other command registrations via the Cosmos SDK server package, note that the `startCmd` is registered via the function `StartCmd`.
 
 ```
 // add server commands
@@ -152,10 +152,10 @@ func newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, appOpts serverty
 
 > [Source code reference location](https://github.com/akash-network/node/blob/52d5ee5caa2c6e5a5e59893d903d22fe450d6045/app/app.go#L179)
 
-When called the `NewApp` function creates many definitions for the blockchain including:
+When called, the `NewApp` function creates many definitions for the blockchain, including:
 
 * Keepers for blockchain store definitions for all modules
-* Blockchain store key values
+* Blockchain stores key values
 
 The `NewApp` function returns an instance of the `AkashApp` struct.
 

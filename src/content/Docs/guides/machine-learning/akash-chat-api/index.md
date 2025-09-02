@@ -174,7 +174,7 @@ response = client.chat.completions.create(
 # Print the generated code
 print(response.choices[0].message.content.strip())
 ```
-SHould give you something similar to:
+Should give you something similar to:
 
 ```
 **Reversing a String in Python**

@@ -13,8 +13,8 @@ This guide will walk you through the process of setting up an **Akash Provider**
 ## Prerequisites:
 
 1. **Akash Wallet with Sufficient Funds:** Ensure you have an account on Keplr Wallet with at least 30 AKT in it.
-2. **Provider Machine:** To be a provider on Akash, you must have a node set up to offer resources. This could be a cloud server, a bare metal machine, or any server capable of hosting containers.ç
-3. **Be logged in to your machine as the root user:** You shouold be the root user, and should have configured your machine. If you have not done that yet, please follow the [guide](../root-sign-in/)
+2. **Provider Machine:** To be a provider on Akash, you must have a node set up to offer resources. This could be a cloud server, a bare metal machine, or any server capable of hosting containers.
+3. **Be logged in to your machine as the root user:** You should be the root user, and should have configured your machine. If you have not done that yet, please follow the [guide](../root-sign-in/)
 
 ## Step 1: Log in to the Akash Console
 
@@ -26,7 +26,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
 ![](../../../../assets/connect_wallet.png)
 
-- Select `Keplr`, sign into your wallet, and approve the network collection request.
+- Select `Keplr`, sign into your wallet, and approve the network connection request.
 
 ![](../../../../assets/select_keplr.png)
 
@@ -34,7 +34,7 @@ This guide will walk you through the process of setting up an **Akash Provider**
 
 ![](../../../../assets/approved.png)
 
-- Once you sign in successfully, you be on the `Create Provider` page.
+- Once you sign in successfully, you will be on the `Create Provider` page.
 
 ![](../../../../assets/provider_landing.png)
 
@@ -64,7 +64,7 @@ You may now go ahead and create a provider to lease out to users.
 
 - **`File`**: This is one of two options to provide your login credentials. You would upload your SSH key file here. It is the prefered credential method.
 
-- **`Password`**: This is the second option to provide yopur login credentials. You woulld need to enable logging into your machine with password. It is advised that you use the file method.
+- **`Password`**: This is the second option to provide yopur login credentials. You would need to enable logging into your machine with password. It is advised that you use the file method.
 
 - **`Public IP`**: This is the public IP of your machine. You can find it by running
 
@@ -87,11 +87,11 @@ You should receive a response similar to:
 
 ![](../../../../assets/control_plane.png)
 
-4.  If you selected created 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses.
+4.  If you selected to create 2 or more servers, you would have at least one worker node. For every node Pairing, the `Control Nodes` use the public IP addresses, while the `Worker Nodes` use the private IP addresses.
 
 ![](../../../../assets/worker_nodes.png)
 
-5.  Fill in your provider configurations for you `Control Nodes`.
+5.  Fill in your provider configurations for your `Control Nodes`.
 
 ![](../../../../assets/provider_info.png)
 
@@ -103,7 +103,7 @@ You should receive a response similar to:
 
 ![](../../../../assets/pricing.png)
 
-8.  Import your wallet. This would be the wallet you ould be paid by leasées for using your machine. You'll have the option of either importing it automatically or manually doing so.
+8.  Import your wallet. This will be the wallet you would be paid by lessees for using your machine. You'll have the option of either importing it automatically or manually doing so.
 
     **Importing Automatically**
 

@@ -43,14 +43,23 @@ const sortedCards = relevantCards.sort((a, b) => {
 >
   <TopMargin>
     <div>
-      <div>
-        <div class="mx-auto mt-10 text-center md:mt-0">
+      <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+        <div class="mt-10 text-center md:mt-0 md:text-left">
           <h1 id="overview" class="text-3xl md:text-4xl lg:text-5xl">
             {data?.title}
           </h1>
           <p class="mt-3 text-base leading-[24px] text-para">
             {data?.description}
           </p>
+        </div>
+        <div>
+          <ButtonLink
+            arrow
+            variant="secondary"
+            link={"https://lu.ma/akashnetworkevents?k=c"}
+          >
+            Akash Community Events
+          </ButtonLink>
         </div>
       </div>
 
