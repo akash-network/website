@@ -146,7 +146,7 @@ message ServiceRestartRequest {
     (gogoproto.moretags) = "yaml:\"filter\""
   ];
 
-  // Timeout duration to to wait on requested services to restart.
+  // Timeout duration to wait on requested services to restart.
   // 0 - no wait
   google.protobuf.Duration timeout = 3 [
     (gogoproto.jsontag) = "timeout",
