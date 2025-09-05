@@ -35,7 +35,7 @@ Another critical difference between Akash and the Grid Projects is in the use of
 
 Akash, on the other hand, uses the blockchain to provide an open and transparent marketplace on which generic compute resources are traded. In other words, space on a server is bought and sold on chain, while deployment is off chain in Docker containers, orchestrated by Kubernetes, residing on specific servers, within datacenters with user-specified characteristics such as region, cross-connections, certification level, end-user latency, reputation, and provider identity.
 
-Akash’s blockchain marketplace also provides a significant price advantage because each workload is bid on by all providers willing and capable to host it.  This auction process is visible to all and the resulting competition will provide downward pressure on prices charged by all providers. Since today’s IaaS providers currently [bring in about US$45B per year](https://www.gartner.com/newsroom/id/3815165), all cloud use cases bring in in over US$300B, and the IaaS market is growing at 36%YoY, we believe there is plenty of room for price relief.
+Akash’s blockchain marketplace also provides a significant price advantage because each workload is bid on by all providers willing and capable to host it.  This auction process is visible to all and the resulting competition will provide downward pressure on prices charged by all providers. Since today’s IaaS providers currently [bring in about US$45B per year](https://www.gartner.com/newsroom/id/3815165), all cloud use cases bring in over US$300B, and the IaaS market is growing at 36%YoY, we believe there is plenty of room for price relief.
 
 ## **In Summary**
 
