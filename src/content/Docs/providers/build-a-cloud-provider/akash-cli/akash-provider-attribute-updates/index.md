@@ -31,7 +31,7 @@ linkTitle: "Provider Attribute Updates"
 - Replace the `<provider-address>` variable with the address of your provider
 
 ```
-provider-services query provider get <provder-address>
+provider-services query provider get <provider-address>
 ```
 
 #### Example Command
@@ -130,7 +130,7 @@ TEST SUITE: None
 #### Command Template
 
 ```
-provider-services query provider get <provder-address>
+provider-services query provider get <provider-address>
 ```
 
 #### Example Command
