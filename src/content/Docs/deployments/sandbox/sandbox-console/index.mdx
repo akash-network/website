@@ -1,0 +1,97 @@
+---
+categories: ["Sandbox"]
+tags: ["Console", "Sandbox", "GUI", "Testnet"]
+weight: 3
+title: "Sandbox via Console"
+linkTitle: Sandbox via Console
+---
+
+## Using Sandbox Network via Akash Console
+
+The Akash Console provides an intuitive web interface for deploying and managing workloads on the Akash Network. For testing and experimentation, you can easily switch from the mainnet to the sandbox network directly through the Console interface.
+
+> _**NOTE**_ - Sandbox network is only accessible via wallet payments. So make sure you are using the wallet as payment method and connected to the console.
+
+## Switching to Sandbox Network
+
+This section provides detailed instructions for enabling sandbox mode in the Akash Console.
+
+### Access Akash Console
+
+Navigate to the Akash Console web app homepage:
+
+- [https://console.akash.network/](https://console.akash.network/)
+
+### Open Network Settings
+
+1. Locate the settings button at the **bottom left** of the console homepage
+2. Click on **App Settings** from the menu
+if you don't see the settings button, ensure you are logged in and connected to your wallet. Go to [Troubleshooting below](#troubleshooting) for help.
+   ![Akash Console Homepage](https://miro.medium.com/v2/1*FZvpGJGaF_-mEW4vLQt62Q.png)
+### Navigate to Network Settings
+
+After clicking on **App Settings**, you will be directed to the network configuration page.
+
+### Change Network to Sandbox
+
+1. On the network configuration page, locate the **pencil button** in the network settings section.  
+   ![Network Settings](https://miro.medium.com/v2/1*G-NbSAf6n72Xw44wQDwtqg.png)
+2. Click on the button (currently set to `Mainnet`)
+3. Select **Sandbox** from the available options and Click `Save`
+4. The change will be applied automatically
+   ![Change Network](https://miro.medium.com/v2/1*k7sCogrqpSIjz3blklUdTw.png)
+
+5. All deployments will now use sandbox resources and test tokens
+
+## Getting Sandbox Tokens
+
+Before deploying on the sandbox environment, you'll need test tokens:
+
+1. Visit the [Sandbox Faucet](https://faucet.sandbox-01.aksh.pw/)
+2. Enter your Akash wallet address
+3. Request test tokens for deployment
+
+
+## Switching Back to Mainnet
+
+To return to the mainnet environment:
+
+1. Follow steps 1-3 from the switching process above
+2. In the Settings section, change the network back to `Mainnet`
+3. Verify you're connected to mainnet before creating production deployments
+
+### Troubleshooting
+
+### Cannot Access Network Settings
+
+- Ensure you're on the correct Akash Console page.
+- Ensure you have connected your wallet.
+- Ensure you select payment method as **Wallet** - if not, hover over the credits/funds button on the top right Navigation bar and select `switch to wallet payments`.
+- Try refreshing the browser.
+- Clear browser cache if issues persist.
+
+
+### Sandbox Network Not Available
+
+- Verify sandbox network is currently operational
+- Check Validators Announcement channel on Akash Discord for maintenance updates
+
+### Deployment Failures
+
+- Ensure you have sufficient test tokens from the faucet
+- Verify your SDL configuration is valid
+- Check that sandbox providers are available
+
+### Not Getting Bids for Deployments
+
+- Verify your deployment **configuration/SDL** is correct
+- Check that you have sufficient test tokens
+- Ensure sandbox providers are available and not overloaded
+
+## Related Documentation
+
+- [Sandbox Introduction](/docs/deployments/sandbox/introduction/) - Overview of sandbox network
+- [Akash CLI for Sandbox](/docs/deployments/sandbox/installation/) - Command-line sandbox usage
+- [Akash Console](/docs/deployments/akash-console/) - Complete Console documentation
+- [Akash Wallet](/docs/getting-started/token-and-wallets/) - Wallet setup and usage
+- [Stack Definition Language (SDL)](/docs/getting-started/stack-definition-language/) - Deployment configuration reference
