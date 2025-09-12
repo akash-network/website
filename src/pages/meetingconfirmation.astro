@@ -1,11 +1,11 @@
 ---
-import PostCard from "@/components/cards/post-card.astro";
 import AiModelsAndApps from "@/components/home/aiModelsAndApps/aiModelsAndApps.astro";
-import Feature from "@/components/home/feature/feature.astro";
+import Fuel from "@/components/home/Fuel";
+
 import Hero from "@/components/home/hero/hero.astro";
 import Infrastructure from "@/components/home/infrastructure/infrastructure.astro";
-import Testimonials from "@/components/home/testimonials/testimonials.astro";
-import ButtonLink from "@/components/ui/button-link.astro";
+import ReadyToDeploy from "@/components/home/ready-to-deploy.astro";
+import TrustedBy from "@/components/home/trustedby/trusted-by.astro";
 import Layout from "@/layouts/layout.astro";
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
@@ -29,49 +29,24 @@ const {
   featureSection,
   aiModelsAndAppsSection,
   testimonialsSection,
-} = homepage.data;
+} = homepage?.data;
 ---
 
 <Layout
+  classname="dark !bg-[#000000] "
+  headerClassName="!bg-[#000000] top-0 sticky z-[30] "
   title="Akash Network - Decentralized Compute Marketplace"
+  footerClassName="bg-[#000000] container-home"
+  hideDarkToggle
   description="Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 >
   <div>
     <Hero heroSection={heroSection} />
-    <Feature featureSection={featureSection} />
+    <TrustedBy />
+
     <Infrastructure infrastructureSection={infrastructureSection} />
+    <Fuel client:load />
     <AiModelsAndApps aiModelsAndAppsSection={aiModelsAndAppsSection} />
-    <Testimonials testimonialsSection={testimonialsSection} />
-    <div class="container mb-[120px] mt-[120px]">
-      <div class="border-b border-paraDark"></div>
-    </div>
-    <div class="container">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-medium md:text-2xl lg:text-2lg">
-          Discover what's happening on Akash
-        </h2>
-        <ButtonLink link="/blog" variant="secondary">View All Posts</ButtonLink>
-      </div>
-      <div
-        class="mt-10 grid grid-cols-1 gap-16 sm:grid-cols-2 md:gap-16 lg:grid-cols-3"
-      >
-        {
-          posts.slice(0, 3).map((post: BlogPost) => {
-            return (
-              <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
-                <PostCard
-                  title={post.data.title}
-                  image={post.data.bannerImage as any}
-                  tag={post.data.tags[0]}
-                  contributor={post.data.contributors[0]}
-                  pubDate={post.data.pubDate}
-                  description={post.data.description}
-                />
-              </a>
-            );
-          })
-        }
-      </div>
-    </div>
+    <ReadyToDeploy />
   </div>
 </Layout>

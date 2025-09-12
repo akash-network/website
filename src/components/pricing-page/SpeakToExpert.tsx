@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import TryAkashForm from "../home/hero/try-akash-form";
+import TryAkashForm from "../ui/try-akash-form";
 
 export const speakToExpertVariants = cva(
   "flex items-center justify-center border transition-all duration-300",
