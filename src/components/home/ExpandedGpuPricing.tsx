@@ -250,13 +250,15 @@ const ExpandedGpu = () => {
                     : "border-b bg-black dark:text-[#8A8F98]",
                 )}
               >
-                <div
-                  dangerouslySetInnerHTML={{ __html: item.svg ?? "" }}
-                  className={clsx(
-                    !item.selected && " hidden lg:block",
-                    " size-4 md:size-6",
-                  )}
-                />
+                {item?.svg && (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: item.svg }}
+                    className={clsx(
+                      !item.selected && " hidden lg:block",
+                      " size-4 md:size-6",
+                    )}
+                  />
+                )}
                 <span className="hidden md:block">{item.name}</span>
                 <span className="block md:hidden">
                   {item.mobileName ?? item.name}

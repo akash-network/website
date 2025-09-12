@@ -1,12 +1,6 @@
+import NvidiaBlackwellForm from "@/components/blackwell/nvidia-blackwell-form";
 import { buttonVariants } from "@/components/ui/button-link.astro";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { ArrowUpCircle, X } from "lucide-react";
-import { useState } from "react";
+import { ArrowUpCircle } from "lucide-react";
 
 const GpusComingSoon = () => {
   const description =
@@ -50,7 +44,7 @@ const GpusComingSoon = () => {
         <p className="mb-5 mt-4 text-sm text-[#8F8F8F] sm:hidden">
           {description}
         </p>
-        <NVIDIAB200SoonForm>
+        <NvidiaBlackwellForm>
           <button
             className={buttonVariants({
               variant: "primary",
@@ -61,7 +55,7 @@ const GpusComingSoon = () => {
             Request Access
             <ArrowUpCircle className="h-4 w-4 rotate-45" />
           </button>
-        </NVIDIAB200SoonForm>
+        </NvidiaBlackwellForm>
       </div>
     </>
   );
@@ -76,8 +70,6 @@ export const NVIDIAB200SoonForm = ({
   children?: React.ReactNode;
   externalButton?: boolean;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const randomId = Math.random().toString(36).substring(2, 15);
   const button = (
     <button className="flex w-full items-center justify-center bg-primary px-3 py-2">
       <div>
@@ -90,33 +82,8 @@ export const NVIDIAB200SoonForm = ({
   );
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {externalButton ? button : children}
-      </DialogTrigger>
-
-      <DialogContent
-        hideCloseButton
-        overlayClassName="z-[99]"
-        className="hide-scrollbar z-[100] max-h-[95vh] overflow-hidden overflow-y-auto !border-none bg-transparent p-0 shadow-none sm:max-w-[600px]"
-      >
-        <DialogTitle className="sr-only">Request Access Form</DialogTitle>
-        <button
-          onClick={() => {
-            setIsOpen(false);
-          }}
-          className="absolute right-4 top-4 z-10 rounded-full bg-white p-2 text-black hover:bg-white/90"
-        >
-          <X className="h-4 w-4" />
-        </button>
-        <div
-          id={`hs-form-iframe-${randomId}`}
-          className="hs-form-frame"
-          data-region="na1"
-          data-form-id="2d95f20c-cd65-4648-94f1-df0732aa60e6"
-          data-portal-id="47519938"
-        />
-      </DialogContent>
-    </Dialog>
+    <NvidiaBlackwellForm>
+      {externalButton ? button : children}
+    </NvidiaBlackwellForm>
   );
 };
