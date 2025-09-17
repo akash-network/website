@@ -159,8 +159,8 @@ To set up GPU resources on Akash, providers need to ensure their configuration a
 
 For a comprehensive setup, new providers should start with these foundational guides:
 
-- [Provider Feature Discovery GPU Configuration Integration Guide](/docs/providers/provider-feature-discovery-gpu-configuration-integration-guide/): Step-by-step instructions for configuring GPUs to work seamlessly with Akash.
-- [Akash Provider Feature Discovery Upgrade Enablement](/docs/providers/akash-provider-feature-discovery-upgrade-enablement/): Detailed guidance on necessary upgrades to fully support GPU functionality.
+- [Provider Feature Discovery GPU Configuration Integration Guide](/docs/providers/provider-faq-and-guide/provider-feature-discovery-gpu-configuration-integration-guide/): Step-by-step instructions for configuring GPUs to work seamlessly with Akash.
+- [Akash Provider Feature Discovery Upgrade Enablement](/docs/other-resources/archived-resources/akash-provider-feature-discovery-upgrade-enablement/): Detailed guidance on necessary upgrades to fully support GPU functionality.
 
 These guides are essential for ensuring GPU compatibility, particularly for providers facing detection issues or new to the configuration process.
 
@@ -572,9 +572,7 @@ root@node1:~/provider# kubectl -n akash-services get pod akash-provider-0 -o yam
 
 Use any of the Akash deployment tools covered [here](/docs/deployments/overview/) for your Provider test deployments.
 
-
 > _**NOTE**_ - this section covers GPU specific deployment testing and verificaiton of your Akash Provider. In addition, general Provider verifications can be made via this [Provider Checkup](/docs/providers/build-a-cloud-provider/akash-cli/akash-provider-checkup/) guide.
-
 
 ### Example GPU SDL #1
 
