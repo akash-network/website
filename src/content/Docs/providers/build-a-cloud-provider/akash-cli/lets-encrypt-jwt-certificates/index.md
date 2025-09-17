@@ -6,7 +6,7 @@ title: "Let's Encrypt JWT Certificates"
 linkTitle: "Let's Encrypt JWT Certificates"
 ---
 
-> _**NOTE**_ - This feature requires provider-services version 0.7.0 or higher. (which isnt released yet)
+> _**NOTE**_ - This feature requires provider-services version 0.8.2 or higher.
 
 This guide explains how to enable automatic Let's Encrypt certificate issuance for JWT (JSON Web Token) authentication in your Akash provider using Helm charts. This feature allows your provider to automatically obtain and manage SSL/TLS certificates for secure JWT token validation.
 
