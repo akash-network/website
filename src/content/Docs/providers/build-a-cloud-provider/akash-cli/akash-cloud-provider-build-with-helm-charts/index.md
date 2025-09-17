@@ -421,6 +421,8 @@ In this section the Akash Provider will be installed and customized via the use 
 
 > _**NOTE**_ - when the Helm Chart is installed the Provider instance/details will be created on the blockchain and your provider will be registered in the Akash open cloud marketplace. The associated transaction for Provider creation is detailed [here](/docs/akash-nodes/akash-node-via-helm-chart/).
 
+> _**NOTE**_ - For automatic Let's Encrypt certificate issuance for JWT authentication, refer to the [Let's Encrypt JWT Certificates](/docs/providers/build-a-cloud-provider/akash-cli/lets-encrypt-jwt-certificates/) guide.
+
 #### **Environment Variables**
 
 - Declare the following environment variables for Helm use
