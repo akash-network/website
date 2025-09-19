@@ -42,7 +42,7 @@ The top-level `services` entry contains a map of workloads to be ran on the Akas
 | `depends-on` | No       | List of services which must be brought up before the current service                   |
 | `args`       | No       | Arguments to use when executing the container                                          |
 | `env`        | No       | Environment variables to set in running container                                      |
-| `expose`     | No       | Entities allowed to connec to to the services. See [services.expose](#servicesexpose). |
+| `expose`     | No       | Entities allowed to connec to the services. See [services.expose](#servicesexpose). |
 
 #### services.expose
 
