@@ -11,9 +11,7 @@ Akash leases are deployed as Kubernetes pods on provider clusters. This guide de
 
 The setup of a Kubernetes cluster is the responsibility of the provider. This guide provides best practices and recommendations for setting up a Kubernetes cluster. This document is not a comprehensive guide and assumes pre-existing Kubernetes knowledge.
 
-
 The Kubernetes Cluster created is then ready for the Akash Provider build detailed [here](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/).
-
 
 ## Prerequisites
 
@@ -102,7 +100,6 @@ We recommend installing Kubespray on Ubuntu 24.04. Versions prior it Ubuntu 20.X
 
 Obtain Kubespray and navigate into the created local directory:
 
-
 ```
 cd ~
 
@@ -157,8 +154,9 @@ The command sets provided in this section may be copied and pasted into your ter
 
 - Accept the defaults to create a public-private key pair
 
-```
+```bash
 ssh-keygen -t rsa -C $(hostname) -f "$HOME/.ssh/id_rsa" -P "" ; cat ~/.ssh/id_rsa.pub
+
 ```
 
 #### **Confirm SSH Keys**
@@ -245,6 +243,7 @@ vi ~/kubespray/inventory/akash/inventory.ini
 ```
 
 ##### **Example inventory.ini File**
+
 ```
 # This inventory describe a HA typology with stacked etcd (== same nodes as control plane)
 # and 3 worker nodes
@@ -303,9 +302,7 @@ container_manager: containerd
 
 > Skip if you are not using gVisor
 
-
 If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/docs/providers/build-a-cloud-provider/akash-cli/gvisor-issue-no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
-
 
 ## STEP 6 - DNS Configuration
 
@@ -608,9 +605,7 @@ With inventory in place we are ready to build the Kubernetes cluster via Ansible
 - Note - the cluster creation may take several minutes to complete
 - If the Kubespray process fails or is interpreted, run the Ansible playbook again and it will complete any incomplete steps on the subsequent run
 
-
 > _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/docs/providers/build-a-cloud-provider/akash-cli/gpu-resource-enablement/#gpu-provider-configuration) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
-
 
 ```
 cd ~/kubespray
