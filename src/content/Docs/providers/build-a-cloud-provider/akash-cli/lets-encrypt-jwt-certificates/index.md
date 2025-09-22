@@ -6,7 +6,7 @@ title: "Let's Encrypt JWT Certificates"
 linkTitle: "Let's Encrypt JWT Certificates"
 ---
 
-> _**NOTE**_ - This feature requires provider-services version 0.8.2 or higher.
+> _**NOTE**_ - This feature requires provider-services version 0.8.0 or higher.
 
 This guide explains how to enable automatic Let's Encrypt certificate issuance for JWT (JSON Web Token) authentication in your Akash provider using Helm charts. This feature allows your provider to automatically obtain and manage SSL/TLS certificates for secure JWT token validation.
 
@@ -26,8 +26,9 @@ The guide is broken down into the following sections:
 
 The Let's Encrypt JWT certificate feature enables your Akash provider to:
 - Automatically obtain SSL certificates from Let's Encrypt
-- Use DNS-01 challenge validation for wildcard certificates
-- Support multiple DNS providers (Google Cloud DNS, Cloudflare)
+- Use HTTP-01 challenge validation by default (no configuration required)
+- Support DNS-01 challenge validation as a backup option for wildcard certificates
+- Support multiple DNS providers (Google Cloud DNS, Cloudflare) when using DNS validation
 - Integrate with JWT authentication workflows
 - Automatically renew certificates before expiration
 
@@ -36,14 +37,23 @@ The Let's Encrypt JWT certificate feature enables your Akash provider to:
 Before enabling Let's Encrypt JWT certificates, ensure you have:
 
 1. **Helm-based Akash Provider**: Your provider must be deployed using the official Helm charts
-2. **DNS Provider Access**: Either Google Cloud DNS or Cloudflare DNS with appropriate API credentials
-3. **Domain Management**: Your provider domain must be managed by your chosen DNS provider
-4. **Kubernetes Cluster**: A running Kubernetes cluster with the provider deployed
-5. **Storage Class**: Ensure your provider's storage class attribute points to a valid storage class available in your cluster
+2. **Kubernetes Cluster**: A running Kubernetes cluster with the provider deployed
+3. **Storage Class**: Ensure your provider's storage class attribute points to a valid storage class available in your cluster
+4. **Public Domain**: Your provider domain must be publicly accessible for HTTP-01 challenge validation
+5. **DNS Provider Access** (Optional): Only required if you want to use DNS-01 challenge validation for wildcard certificates
 
 ## Configuration
 
-### Cloudflare DNS Configuration
+### HTTP Challenge (Default - Recommended)
+
+The HTTP-01 challenge is now the default and recommended method. No additional configuration is required:
+
+
+### DNS Challenge (Optional)
+
+If you need wildcard certificates or prefer DNS validation, you can configure DNS providers:
+
+#### Cloudflare DNS Configuration
 
 If you're using Cloudflare DNS, add the following configuration:
 
@@ -78,7 +88,7 @@ letsEncrypt:
 
 3. **Copy the Token**: Replace `your-cloudflare-api-token` in your `provider.yaml` with the actual token.
 
-### Google Cloud DNS Configuration
+#### Google Cloud DNS Configuration
 
 If you're using Google Cloud DNS, add the following configuration:
 
@@ -135,7 +145,7 @@ letsEncrypt:
 
 ## Complete Example Configuration
 
-Here's a complete `provider.yaml` example with Let's Encrypt JWT certificates enabled using Cloudflare DNS:
+Here's a complete `provider.yaml` example with Let's Encrypt JWT certificates enabled using the default HTTP challenge:
 
 ```yaml
 ---
@@ -170,19 +180,12 @@ email: hosting@your-domain.com
 website: https://your-domain.com
 bidmindeposit: "5000000uakt"
 
-# Let's Encrypt JWT Certificate Configuration
+# Let's Encrypt JWT Certificate Configuration (HTTP Challenge - Default)
 letsEncrypt:
   enabled: true
   acme:
     email: "your-email@example.com"
     caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"
-  dns:
-    providers:
-      - "cf"  # Cloudflare DNS
-  providers:
-    cloudflare:
-      enabled: true
-      apiToken: "your-cloudflare-api-token"
 ```
 
 ## Deployment
@@ -220,24 +223,30 @@ letsEncrypt:
 
 ### Common Issues
 
-#### 1. "project name missing" Error
-**Cause**: Google Cloud service account JSON is not properly configured.
-**Solution**: Verify the `serviceAccount.content` in your `provider.yaml` contains valid JSON.
-
-#### 2. "DNS provider not found" Error
-**Cause**: DNS provider configuration is missing or incorrect.
-**Solution**: Ensure the `dns.providers` list contains the correct provider name (`gcloud` or `cf`).
-
-#### 3. Certificate Not Issued
-**Cause**: DNS validation failed or domain not managed by the configured provider.
+#### 1. HTTP Challenge Failed
+**Cause**: Provider domain is not publicly accessible or firewall is blocking HTTP traffic.
 **Solution**: 
-- Verify your domain is managed by the configured DNS provider
-- Check DNS provider credentials have proper permissions
+- Ensure your provider domain is publicly accessible
+- Check that port 80 is open and accessible
+- Verify your domain DNS points to the correct IP address
+
+#### 2. Certificate Not Issued
+**Cause**: HTTP challenge validation failed or domain not accessible.
+**Solution**: 
+- Verify your domain is publicly accessible
+- Check that the provider service is running and accessible
 - Review provider logs for specific error messages
 
-#### 4. Environment Variables Not Set
+#### 3. Environment Variables Not Set
 **Cause**: Let's Encrypt configuration not properly applied.
-**Solution**: Verify the `letsEncrypt.enabled: true` is set and DNS provider is correctly configured.
+**Solution**: Verify the `letsEncrypt.enabled: true` is set in your configuration.
+
+#### 4. DNS Challenge Issues (If Using DNS)
+**Cause**: DNS provider configuration is missing or incorrect.
+**Solution**: 
+- For Google Cloud: Verify the `serviceAccount.content` in your `provider.yaml` contains valid JSON
+- For Cloudflare: Ensure the `apiToken` is correct and has proper permissions
+- Ensure the `dns.providers` list contains the correct provider name (`gcloud` or `cf`)
 
 ### Debug Commands
 
@@ -246,7 +255,7 @@ letsEncrypt:
    kubectl exec -n akash-services akash-provider-0 -- env | grep AP_CERT_ISSUER
    ```
 
-2. **Check DNS Provider Secret**:
+2. **Check DNS Provider Secret** (if using DNS challenge):
    ```bash
    kubectl get secret akash-provider-gcp-dns -n akash-services -o yaml
    ```
