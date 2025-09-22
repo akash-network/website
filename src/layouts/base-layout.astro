@@ -93,7 +93,14 @@ const isProd = import.meta.env.PROD;
           processEscapes: true,
         },
         options: {
-          skipHtmlTags: ["script", "noscript", "style", "textarea"],
+          skipHtmlTags: [
+            "script",
+            "noscript",
+            "style",
+            "textarea",
+            "pre",
+            "code",
+          ],
         },
         startup: {
           ready: () => {
@@ -109,8 +116,7 @@ const isProd = import.meta.env.PROD;
     <script
       defer
       id="mathjax"
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
-    ></script>
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <ViewTransitions />
   </head>
   <body class="bg-background" class:list={classname}>
@@ -159,7 +165,7 @@ const isProd = import.meta.env.PROD;
         localStorage.setItem("theme", isDark ? "dark" : "light");
         document.documentElement.setAttribute(
           "data-theme",
-          isDark ? "dark-plus" : "light-plus",
+          isDark ? "dark-plus" : "light-plus"
         );
       };
 
@@ -206,7 +212,7 @@ const isProd = import.meta.env.PROD;
 
       async function renderDiagrams(
         graphs: HTMLCollectionOf<Element>,
-        theme?: Theme,
+        theme?: Theme
       ) {
         const { default: mermaid } = await import("mermaid");
 
@@ -270,7 +276,7 @@ const isProd = import.meta.env.PROD;
 
       // Watch for system theme changes
       const darkModeMediaQuery = window.matchMedia(
-        "(prefers-color-scheme: dark)",
+        "(prefers-color-scheme: dark)"
       );
       darkModeMediaQuery.addEventListener(
         "change",
@@ -281,7 +287,7 @@ const isProd = import.meta.env.PROD;
               renderDiagrams(graphs, e.matches ? "dark" : "neutral");
             }
           }
-        },
+        }
       );
 
       // Function to handle manual theme changes
