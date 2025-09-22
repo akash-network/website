@@ -26,7 +26,7 @@ Maintaining the foundational role of AKT within the Akash ecosystem is crucial. 
 
 #### Non Goals
 1. Replace or modify consensus/security.
-2. Depend on any single off‑chain venue; use diverse liquidity sources (Osmosis TWAP and external oracle aggregation). *Osmosis supports on‑chain [TWAP](https://docs.osmosis.zone/overview/features/concentrated-liquidity); Cosmos SDK supports custom bank/mint flows*
+2. Depend on any single off‑chain venue; use diverse liquidity sources (Osmosis TWAP[^3] and external oracle aggregation). 
 
 ### Burn-Mint-Equilibrium Overview
 
@@ -67,10 +67,10 @@ BME overhauls Akash network lease settlement and tenant payments, improving user
 * **Batch Top-ups Deepen AKT Sink:** Larger, infrequent top-ups increase outstanding ACT, deepening the AKT sink and reducing circulating supply.
 
 ##### Economic Walkthrough
-* **As of Sept 16, 2025:** Total supply minted ≈ 278,583,970 AKT; max 388,539,008; price ≈ USD 1.14  
+
 * Assume the average tenant keeps **7 days** of runway in ACT.  
-* If monthly gross new top‑ups are $10M, that’s an immediate **market buy** of \~**8.77M AKT** at USD 1.14 and removal from float until spent.  
-* If the blended settlement price later averages $1.25, providers receive \~**$10M / 1.25 \= 8.00M AKT**.  
+* If monthly gross new top‑ups are $10M, that’s an immediate **market buy** of \~**8.77M AKT** at USD 1.14[^1] and removal from float until spent.  
+* If the blended settlement price later averages $1.25, providers receive **\~10M USD / 1.25 \= 8.00M AKT**.  
   * **Net monthly burn:** **\~0.77M AKT** plus the *time‑in‑vault* float reduction during the month.
 
 ### Tokens & Denoms
@@ -105,16 +105,16 @@ When an invoice for A ACT is due, the protocol:
 2. **Mints** $S = \frac{A}{P_{settle}}$ AKT to the provider.
 
 **Net supply effect per dollar of usage**
-* At top‑up: burn $\frac{USD}{P_{mint}}$ AKT.  
-* At settlement: mint $\frac{USD}{P_{settle}}$ AKT.  
-* **ΔSupply (AKT)** = $\frac{USD}{P_{mint}} - \frac{USD}{P_{settle}}$.
+* At top‑up: burn $\frac{1}{P_{mint}}$ AKT.  
+* At settlement: mint $\frac{1}{P_{settle}}$ AKT.  
+* **ΔSupply (AKT)** = $\frac{1}{P_{mint}} - \frac{1}{P_{settle}}$.
   * If **price rises** while credits are outstanding → **net burn**.  
   * If **price falls** → **net mint**.  
 * Between events, **AKT float is reduced** by the amount sequestered in the BME vault against outstanding ACT.
 
 **Concrete Example**
 * Tenant tops up **1,000 USD ⇒ burn 877.192982 AKT[^1]**, mint 1,000 ACT.  
-* If settlement occurs at **$1.50** ⇒ mint **666.666667 AKT** to provider ⇒ **net −210.526316 AKT** (deflation).  
+* If settlement occurs at **1.50 USD** ⇒ mint **666.666667 AKT** to provider ⇒ **net −210.526316 AKT** (deflation).  
 * If settlement at **0.90 USD** ⇒ mint **1,111.111111 AKT** ⇒ **net \+233.918129 AKT** (inflation). (*These deltas balance over time; outstanding ACT acts like an elastic buffer.*)
 
 ## Architecture
@@ -223,7 +223,7 @@ CR = \frac{VaultAKT × P}{OutstandingACT}
 * Tenant funds **10,000,000 USD** in **ACT** by burning AKT priced at 1.14 USD[^1] → vault receives/burns **8,771,929 AKT**.  
 * If payouts happen at **1.25 USD**, the protocol remints $10,000,000 / 1.25 \= **8,000,000 AKT** to providers.  
   * Net effect: **−771,929 AKT (deflation).**  
-* If payouts happen at **$0.90 USD**, the protocol needs **11,111,111 AKT**; it reissues the 8.77M from the vault and mints the **\~2.34M shortfall (inflation)**.
+* If payouts happen at **0.90 USD**, the protocol needs **11,111,111 AKT**; it reissues the 8.77M from the vault and mints the \~2.34M shortfall (inflation).
   While those credits are outstanding, that **8.77M AKT is out of circulation**. If spot drifts up to $1.20 before payout, the vault’s value vs. the liability becomes:  
 
   $CR=\frac{8.77M × 1.20}{10M}≈1.053$ - a \~5.3% buffer that will materialize as **net burn** on payout.
@@ -307,7 +307,7 @@ MsgMintACT {
    * Verify `payer` signature (or valid feegrant/authz).  
    * Collect fees, increment sequence.  
 2. Oracle read (mint price)  
-   * Fetch **P\_mint \= AKT/USD TWAP** (e.g., 30-min, medianized).  
+   * Fetch **P_mint = AKT/USD TWAP** (e.g., 30-min, medianized).  
    * Reject if stale or outside deviation bounds.  
 3. Determine AKT to pull  
    * If `akt_in` provided → `akt_req = akt_in`.  
@@ -409,27 +409,24 @@ MsgBurnACT {
 * Rounding rules  
   * Favor **tenant** on mint (round ACT **down** very slightly); favor **provider** on settlement (round AKT **down** very slightly) to avoid over-pay; the residuals accrue to the vault as dust and improve CR over time.
 
-* Idempotency  
-  * `MsgSpendACT` should carry a lease `nonce` or reference the invoice id; keeper must be idempotent.
-
 * AuthZ / Feegrant  
   * Allow org billing wallets or the console to act on behalf of tenants (auto top-ups).
 
-#### One Concrete Flow (numbers)
+#### One Concrete Flow
 
-* **Mint:** Tenant tops up **$1,000 @ P\_mint \= $1.14**  
+* **Mint:** Tenant tops up USD 1,000 @ `P_mint = $1.14`
   * Pull `akt_req = 877.192982`, send to `BME_VAULT`  
   * Mint `act_out = 1,000` ACT  
   * RemintCredits \+= 877.192982
 
-* Spend (settle later @ P\_settle \= $1.50)  
+* **Spend**: Settle later @ P\_settle \= $1.50
   * Burn `1,000` ACT  
   * Owe provider `akt_out = 666.666667`  
   * Pay entirely from vault (`use_vault = 666.666667`)  
   * `RemintCredits = 210.526315` remaining  
   * **Net AKT still out of circulation:** 210.526315 (which is the deflation)
 
-* Refund (if tenant cancels remaining $X credits)  
+* **Refund** (if tenant cancels remaining $X credits)  
   * Same as spend: burn ACT, return AKT using vault first, mint only if needed.
 
 #### State
@@ -487,4 +484,5 @@ MsgBurnACT {
 * **What if AKT dumps?** The seeded vault and circuit breakers cover shortfalls without taxing leases. Worst case, tenants pay AKT directly for a short window while CR recovers.  
 * **Does this harm providers?** No. Providers are paid AKT valued at the invoice’s USD amount using the settlement TWAP. No take‑rate applies to their payout.
 
-[^1]: *AKT trading ≈ $1.14 as of Sept 16, 2025*
+[^1]: AKT is trading at $1.14 with a circulating supply of 278,583,970 as of Sept 16, 2025 according to [CoinMarketCap](https://coinmarketcap.com/currencies/akash-network)
+[^3]: Osmosis supports on‑chain [TWAP](https://docs.osmosis.zone/overview/features/concentrated-liquidity); Cosmos SDK supports custom bank/mint flows
