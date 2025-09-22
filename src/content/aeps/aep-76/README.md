@@ -22,7 +22,7 @@ Maintaining the foundational role of AKT within the Akash ecosystem is crucial. 
 #### Goals
 1. Restore **AKT‑only settlement** while preserving tenants’ **stable USD experience**.  
 2. Increase **structural AKT demand** and shrink effective float.  
-3. Make the mechanism **sustainably neutral** without hidden taxes; volatility and timing determine net burn/mint, not a fee.
+3. Make the mechanism **sustainably neutral** without hidden taxes.
 
 #### Non Goals
 1. Replace or modify consensus/security.
