@@ -27,25 +27,46 @@ const escapeHtml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 
+const normalizeValue = (value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return "";
+  }
+
+  const { cleaned } = stripBalancedTicks(trimmed);
+  return cleaned.replace(/\\\\(?=\S)/g, "\\");
+};
+
+const asMathHtml = (value: string, display: boolean) => {
+  const normalized = normalizeValue(value);
+  if (!normalized) {
+    return "";
+  }
+
+  const escaped = escapeHtml(normalized);
+
+  return display
+    ? `<div class="math-display">\\[${escaped}\\]</div>`
+    : `<span class="math-inline">\\(${escaped}\\)</span>`;
+};
+
 export const normalizeMath: RemarkPlugin<[]> = () => (tree) => {
-  visit(tree, ["inlineMath", "math"], (node: any, index: number | null, parent: any) => {
-    if (!parent || typeof index !== "number" || typeof node.value !== "string") return;
+  visit(tree, (node: any, index: number | null, parent: any) => {
+    if (!parent || typeof index !== "number") return;
 
-    const { cleaned, stripped } = stripBalancedTicks(node.value);
+    const language = typeof node.lang === "string" ? node.lang.toLowerCase() : undefined;
 
-    if (!cleaned) {
-      parent.children[index] = { type: "html", value: "" };
+    if (node.type === "code" && typeof node.value === "string" && language === "math") {
+      const html = asMathHtml(node.value, true);
+      parent.children[index] = { type: "html", value: html };
       return;
     }
 
-    const normalized = stripped ? cleaned.replace(/\\{2}/g, "\\") : cleaned;
-    const escaped = escapeHtml(normalized);
+    if ((node.type !== "inlineMath" && node.type !== "math") || typeof node.value !== "string") {
+      return;
+    }
 
-    const html =
-      node.type === "math"
-        ? `<div class="math-display">\\[${escaped}\\]</div>`
-        : `<span class="math-inline">\\(${escaped}\\)</span>`;
-
+    const html = asMathHtml(node.value, node.type === "math");
     parent.children[index] = { type: "html", value: html };
   });
 };
