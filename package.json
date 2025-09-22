@@ -67,6 +67,7 @@
     "react-simple-maps": "^3.0.0",
     "react-swipeable": "^7.0.1",
     "remark-directive": "^3.0.0",
+    "remark-math": "^6.0.0",
     "remark-smartypants": "^2.0.0",
     "shiki": "^0.14.5",
     "swiper": "^10.2.0",
