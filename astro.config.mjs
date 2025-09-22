@@ -4,15 +4,17 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import astroExpressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
-import remark from "remark-directive";
+import remarkDirective from "remark-directive";
+import remarkMath from "remark-math";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
+import { normalizeMath } from "./src/lib/markdown/normalizeMath";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
 
 export default defineConfig({
   redirects: redirects,
   markdown: {
-    remarkPlugins: [remark, mermaid, customAsidePlugin],
+    remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin],
   },
   integrations: [
     tailwind(),

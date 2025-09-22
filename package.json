@@ -10,6 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "^2.0.2",
     "@astrojs/partytown": "^2.0.4",
     "@astrojs/react": "^3.0.8",
@@ -67,12 +68,14 @@
     "react-simple-maps": "^3.0.0",
     "react-swipeable": "^7.0.1",
     "remark-directive": "^3.0.0",
+    "remark-math": "^6.0.0",
     "remark-smartypants": "^2.0.0",
     "shiki": "^0.14.5",
     "swiper": "^10.2.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.0.24",
     "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.9.2",
     "unist-util-remove": "^4.0.0",
     "unist-util-visit": "^5.0.0",
     "zod": "^3.24.0",

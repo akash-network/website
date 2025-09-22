@@ -72,6 +72,45 @@ const isProd = import.meta.env.PROD;
       image={image}
       noIndex={noIndex}
     />
+    <script is:inline>
+      const queueMathTypeset = () => {
+        if (window.MathJax?.typesetPromise) {
+          window.MathJax.typesetClear?.();
+          window.MathJax.typesetPromise();
+        }
+      };
+
+      window.MathJax = {
+        tex: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+          processEscapes: true,
+        },
+        options: {
+          skipHtmlTags: ["script", "noscript", "style", "textarea"],
+        },
+        startup: {
+          ready: () => {
+            const { MathJax } = window;
+            MathJax.startup.defaultReady();
+            queueMathTypeset();
+          },
+        },
+      };
+
+      document.addEventListener("astro:after-swap", queueMathTypeset);
+    </script>
+    <script
+      defer
+      id="mathjax"
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+    ></script>
     <ViewTransitions />
   </head>
   <body class="bg-background" class:list={classname}>
