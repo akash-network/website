@@ -238,7 +238,11 @@ The Akash CLI can then be built as follows:
 ``` bash
 git clone https://github.com/akash-network/provider.git
 cd provider
-direnv allow  # some packages may be downloaded
+direnv allow  # some network activity may be observed
+AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+AKASH_VERSION="$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -r '.tag_name')"
+git checkout $AKASH_VERSION
+direnv reload
 make install
 
 ```
