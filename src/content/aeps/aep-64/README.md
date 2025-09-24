@@ -537,8 +537,125 @@ Only ES256K with secp256k1 curve is supported
 }
 ```
 
-
 ## Implementation Resources
+
+### JWT Authentication with Let's Encrypt and mTLS Fallback
+
+#### Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as Client/Tenant
+    participant Provider as Provider API Gateway
+    participant Blockchain as Blockchain
+    participant LE as Let's Encrypt
+    participant Cache as Certificate Cache
+
+    Note over Client, Cache: JWT Authentication Flow with Certificate Management
+
+    %% Initial Setup Phase
+    rect rgb(240, 248, 255)
+        Note over Client, Provider: 1. Initial Setup Phase
+        Client->>Blockchain: Publish public key
+        Provider->>Blockchain: Publish public key
+        Provider->>LE: Request certificate for gateway domain
+        LE-->>Provider: Let's Encrypt certificate
+        Provider->>Cache: Store certificates (LE + mTLS)
+    end
+
+    %% Authentication Request Phase
+    rect rgb(255, 248, 240)
+        Note over Client, Provider: 2. Authentication Request Phase
+        Client->>Client: Generate JWT with private key
+        Client->>Provider: Send request with JWT token
+    end
+
+    %% Certificate Selection Phase
+    rect rgb(248, 255, 248)
+        Note over Client, Provider: 3. Certificate Selection Phase
+        alt SNI starts with provider gateway domain
+            Provider->>Cache: Check Let's Encrypt certificate
+            alt Let's Encrypt certificate available & valid
+                Provider-->>Client: Serve Let's Encrypt certificate
+            else Let's Encrypt certificate unavailable/expired
+                Provider->>Cache: Get mTLS certificate
+                Provider-->>Client: Serve mTLS certificate (fallback)
+            end
+        else No SNI or SNI starts with mTLS prefix
+            Provider->>Cache: Get mTLS certificate
+            Provider-->>Client: Serve mTLS certificate
+        end
+    end
+
+    %% TLS Handshake Phase
+    rect rgb(255, 240, 255)
+        Note over Client, Provider: 4. TLS Handshake Phase
+        Client->>Provider: TLS handshake with selected certificate
+        Provider-->>Client: TLS connection established
+    end
+
+    %% JWT Validation Phase
+    rect rgb(240, 255, 240)
+        Note over Client, Provider: 5. JWT Validation Phase
+        Provider->>Blockchain: Fetch client's public key
+        Provider->>Cache: Cache public key for future use
+        Provider->>Provider: Validate JWT signature with public key
+        Provider->>Provider: Validate JWT permissions/claims
+
+        alt JWT valid
+            Provider-->>Client: Authentication successful
+            Provider->>Provider: Process authenticated request
+        else JWT invalid
+            Provider-->>Client: Authentication failed (401/403)
+        end
+    end
+
+    %% Certificate Renewal Phase
+    rect rgb(255, 255, 240)
+        Note over Provider, LE: 6. Certificate Renewal (Background)
+        loop Periodically
+            Provider->>LE: Check certificate expiry
+            alt Certificate expiring soon
+                Provider->>LE: Request certificate renewal
+                LE-->>Provider: New Let's Encrypt certificate
+                Provider->>Cache: Update certificate cache
+            end
+        end
+    end
+```
+
+##### Key Components
+
+###### 1. Certificate Management
+- **Let's Encrypt Certificate**: Primary certificate for production use
+- **mTLS Certificate**: Fallback certificate for testing and when LE is unavailable
+- **Certificate Cache**: Stores both certificates with availability status
+
+###### 2. SNI-Based Certificate Selection
+- **Gateway Domain SNI**: Routes to Let's Encrypt certificate
+- **mTLS Prefix SNI**: Routes to mTLS certificate
+- **No SNI**: Defaults to mTLS certificate
+
+###### 3. Fallback Strategy
+- **Primary**: Let's Encrypt certificate (when available and valid)
+- **Fallback**: mTLS certificate (always available)
+- **Automatic**: Seamless fallback without client intervention
+
+###### 4. JWT Validation Process
+1. Client generates JWT with private key
+2. Provider fetches client's public key from blockchain
+3. Provider validates JWT signature using public key
+4. Provider validates JWT permissions/claims
+5. Authentication succeeds or fails based on validation
+
+##### Benefits
+
+- **Backward Compatibility**: Supports both JWT and mTLS clients
+- **Production Ready**: Let's Encrypt certificates for production use
+- **Testing Friendly**: mTLS certificates for development/testing
+- **High Availability**: Automatic fallback ensures service continuity
+- **Simplified Implementation**: Clients only need to implement JWT, not custom TLS handshake
+
 
 ### Recommended Libraries
 
