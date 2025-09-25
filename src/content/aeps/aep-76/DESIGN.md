@@ -1,10 +1,11 @@
-# BME Architecture Blueprint
-
-**Document status:** Draft for architecture sign-off  
-**Related spec:** [AEP-76](https://akash.network/roadmap/aep-76/)
-**Scope:** Phase 0 (Architecture) - no code delivery, establish invariant-complete blueprint
-**Prepared by:** Greg Osuri
-**Reviewers:** Protocol Engineering, Economics, Client Engineering, DevOps
+---
+title: BME Architecture Blueprint
+related-aeps: AEP-76
+status: Draft
+scope: Architecture
+author: Greg Osuri (@gosuri)
+reviewers: sig-chain, sig-economics
+---
 
 
 ## 1. Objectives & Deliverables
