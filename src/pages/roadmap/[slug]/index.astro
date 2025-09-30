@@ -62,7 +62,7 @@ const parseAuthors = (authorString: string): AuthorLink[] => {
   return authors;
 };
 
-const parsedAuthors = parseAuthors(roadmap.data.author)
+const parsedAuthors = parseAuthors(roadmap?.data?.author ?? "")
   .map((author) => {
     return `<a href="https://github.com/${author.username}" class="text-foreground underline" target="_blank">${author.fullName}</a><br/>`;
   })
@@ -73,7 +73,7 @@ const estimatedCompletion =
 const completionDate = roadmap.data["completed"]?.toLocaleDateString();
 ---
 
-<Layout title={roadmap.data.title}>
+<Layout title={roadmap.data.title ?? ""}>
   <TopMargin readable className="flex flex-col gap-10 md:gap-16">
     <div class="flex items-center gap-3 text-para">
       <a href={`/roadmap/${year}`} class="hidden md:block"
