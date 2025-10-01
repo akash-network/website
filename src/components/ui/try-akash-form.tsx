@@ -310,7 +310,7 @@ export default function TryAkashForm({
         className: "!h-auto !rounded px-[11px] py-[7px] text-xs",
       })}
     >
-      Try Akash
+      Get in Touch
     </button>
   );
 
@@ -322,7 +322,7 @@ export default function TryAkashForm({
         fullWidth ? "w-full" : "mx-auto",
       )}
     >
-      Access the Marketplace
+      Contact Sales to Get Started
     </button>
   );
 
