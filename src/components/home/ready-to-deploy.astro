@@ -1,4 +1,6 @@
 ---
+import TryAkashForm from "@/components/ui/try-akash-form";
+
 const data = [
   {
     title: "85%",
@@ -51,12 +53,11 @@ const data = [
         ))
       }
     </div>
-    <a
-      target="_blank"
-      href="https://console.akash.network/"
-      class="rounded-md bg-primary px-12 py-3 text-lg text-white hover:bg-primary/90"
-    >
-      Try Akash Now
-    </a>
+    <TryAkashForm
+      client:load
+      type="customButton"
+      className="rounded-md bg-primary px-12 py-3 text-lg text-white hover:bg-primary/90"
+      linkText="Try Akash"
+    />
   </div>
 </section>
