@@ -180,7 +180,7 @@ const DesktopTableGpu = ({
                     <HoverCard openDelay={2} closeDelay={2}>
                       <HoverCardTrigger className="relative flex items-center justify-center gap-1 py-2 text-base">
                         <span className="text-lg font-semibold">
-                          {price(model?.price?.avg)}
+                          {price(model?.price?.weightedAverage)}
                         </span>
                         <Info
                           size={16}
