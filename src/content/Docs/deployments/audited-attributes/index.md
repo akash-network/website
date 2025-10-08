@@ -270,38 +270,7 @@ profiles:
 
 Provider auditors play the role of governance within SDL attribute use.
 
-Using the sample SDL section below should help clarify the concept and use of the auditor role*.*
-
-```
-profiles:
- compute:
-   web:
-     resources:
-       cpu:
-         units: 0.1
-       memory:
-         size: 512Mi
-       storage:
-         size: 512Mi
- placement:
-   ewr1-provider0:
-     attributes:
-       host: akash
-       datacenter: equinix-metal-ewr1
-     signedBy:
-       anyOf:
-         - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
-     pricing:
-       web:
-         denom: uakt
-         amount: 100
-```
-
-_**Auditor Role**_
-
-Provider auditors play the role of governance within SDL attribute use.
-
-Using the sample SDL section below should help clarify the concept and use of the auditor role*.*
+Using the sample SDL section below should help clarify the concept and use of the auditor role.
 
 ```
 profiles:
