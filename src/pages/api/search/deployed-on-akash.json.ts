@@ -15,7 +15,7 @@ async function getDeployedOnAkashContent() {
     projectImage: content.data.projectImage,
     projectTitle: content.data.projectTitle,
     projectDescription: content.data.description,
-    projectLink: content.data.ctaButton.link,
+    projectLink: content?.data.ctaButton?.link,
     pubDate: content.data.pubDate,
     githubLink: content.data.githubLink,
     twitterLink: content.data.twitterLink,
