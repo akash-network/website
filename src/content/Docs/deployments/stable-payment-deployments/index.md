@@ -15,7 +15,7 @@ In this guide we will review:
 
 ### Currently Supported Stable Coins
 
-- Axelar USDC (axlUSDC)
+- Axelar USDC (USDC.axl)
 
 ## Transfer USDC onto Akash using Leap Wallet
 
@@ -27,50 +27,66 @@ In this section we will detail methods to transfer Axelar USDC into your Akash a
 
 We find that using Leap Wallet to be the simplest method of transferring Axelar USDC into the Akash network and associated accounts as no manual specification of the IBC is necessary.
 
-In the steps that follow we will swap Akash AKT for Axelar USDC. Other methods are possible but if you would like to follow these instructions explictly, ensure that you have some available AKT.
+In the steps that follow we will swap Akash AKT for Axelar USDC. You can use any tokens that are swappable on the Osmosis DEX to get Axelar USDC but in this guide we assume you have some AKT on Akash.
+
+This involves two steps:
+
+- Swapping AKT for USDC.axl
+- Performing an Inter-Blockchain (IBC) transfer of the USDC.axl into Akash
 
 #### Install Leap Wallet Browser Plug In
 
 - Follow the instructions provided by Leap Wallet to install the appropriate web browser plug in [here](https://www.leapwallet.io/download).
 
-### IBC Transfer of USDC onto Akash
+### Transfer of USDC.axl onto Akash
 
-> _**NOTE**_ - in the current Leap Wallet version swaps of AKT to axlUSDC are only possible in the web app. Via the instructions below you will be automatically redirected to the Leap Wallet app for the purpose of AKT to axlUSDC swap. In future versions of Leap Wallet it may become possible to conduct the swap directly within the Leap Wallet browser plug in.
-
-#### STEP 1 - Open Leap Wallet Web App
+#### STEP 1 - Open Leap Wallet Browser Plug In
 
 - Open your Leap Wallet browser extension
-- Select Akash from the network selection drop down as shown
+- Select Akash from the network selection drop down on the top right as shown.
+- Confirm that you have some AKT available.
 
 ![](../../assets/leapWalletWithAkashSelected.png)
 
-#### STEP 2 - Open Leap Wallet Web App to Conduct Swap
+#### STEP 2 - Swap the AKT for USDC.axl
 
 - Select the Swap option within Leap Wallet as shown below
 
-![](../../assets/leapWalletInitiateWebApp.png)
+![](../../assets/leapWalletSwap.png)
 
-- The selection of the Swap option in the prior step will provoke the opening of the Leap Wallet web app
-- Within the app make the selections as indicated in the depiction below. The source and destination network should be Osmosis. The source denomination should be `AKT` and the destination denomination should be `axlUSDC` also as shown.
+- The selection of the Swap option in the prior step will open the swap interface within the browser extension.
+- Make the selections as indicated, swapping from `AKT` to `USDC.axl` on `Axelar` then complete the swap.
 
 ![](../../assets/ibcSwap.png)
 
-#### STEP 3 - Complete the IBC Transfer of axlUSDC onto Akash
+#### STEP 3 - Complete the IBC Transfer of USDC.axl into Akash
 
-- With the Swap now completed in the previous step, return to the Leap Wallet browser plug in.
-- Select the `IBC` option as depicted below.
+- With the Swap now completed in the previous step, we need to transfer the `USDC.axl` from the Axelar network into Akash.
+- For this we need some `AXL` on Axelar for gas fees. If you don't have any `AXL`, you can swap some of the `AKT` for `AXL` as shown below.
+- Make sure to select `AXL` on the `Axelar` network as the destination.
+
+![](../../assets/swapForAXL.png)
+
+- Next, select the `Send` option as depicted below to initiate transfer of `USDC.axl` into Akash.
 
 ![](../../assets/initiateIBC.png)
 
-- Complete an IBC transfer of `axlUSDC` onto the Akash Network.
-- Ensure that the Osmosis network is selected during this step as depicted below.
+- Select the `USDC.axl` token on Axelar as the token to send.
+- For the recipient, paste in your Akash wallet address, or click the contacts icon select Your Wallets > Wallet name > Akash.
+- The wallet should automatically detect an IBC transfer as shown below.
 
 ![](../../assets/sendOntoAkash.png)
 
+- Review and complete the transfer.
+
 ### Verify IBC Transfer and Availability of USDC on Akash Network
 
-- The simplest means of verifying the IBC transfer of USDC was successful and is available in your account on the Akash network is via the Akash CLI.
-- USDC balances can also be verified in Akash Console of preferred.
+- Going back to the home section of the leap wallet extension and selecting Akash as the network from the dropdown, you should be able
+to see your `USDC.axl` balance as below.
+
+![](../../assets/confirmBalance.png)
+
+- USDC balances can also be verified with the Akash CLI as follows:
 
 _**CLI Verification/Command Template**_
 
@@ -81,15 +97,15 @@ provider-services query bank balances <akash-address>
 _**Expected/Example Output**_
 
 - Note the appearance and balance of denom `ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1`
-- This demon represents available Axelar USDC and indicates availability of stable payment funds to utilize for Akash deployments
+- This denom represents available Axelar USDC and indicates availability of stable payment funds to utilize for Akash deployments
 
 ```
 provider-services query bank balances akash1w3k6qpr4uz44py4z68chfrl7ltpxwtkngnc6xk
 
 balances:
-- amount: "3068485"
+- amount: "19442338"
   denom: ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1
-- amount: "8650845"
+- amount: "59994563"
   denom: uakt
 pagination:
   next_key: null
