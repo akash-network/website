@@ -8,11 +8,13 @@ const baseSchema = defineCollection({
       description: z.string(),
       pubDate: z.coerce.date(),
       tags: z.array(z.string()),
-      ctaButton: z.object({
-        label: z.string(),
-        link: z.string(),
-        enable: z.boolean(),
-      }),
+      ctaButton: z
+        .object({
+          label: z.string(),
+          link: z.string(),
+          enable: z.boolean(),
+        })
+        .optional(),
       category: z.union([z.string(), z.array(z.string())]),
       showcase: z.boolean().optional(),
       githubLink: z.string().optional(),
