@@ -6,7 +6,9 @@ html body[data-scroll-locked] {
   --removed-body-scroll-bar-size: 0 !important;
   margin-right: 0 !important;
 }
+
 @layer base {
+  
   :root {
     --background: 0 0% 100%;
     --foreground: 202 24% 9%;
@@ -163,6 +165,7 @@ html body[data-scroll-locked] {
 }
 
 @layer base {
+
   body {
     @apply overflow-x-hidden bg-background    text-foreground subpixel-antialiased;
   }
@@ -323,3 +326,8 @@ html body[data-scroll-locked] {
   filter: blur(100px);
   border-radius: 50%;
 }
+
+*{
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
