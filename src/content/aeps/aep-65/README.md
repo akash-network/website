@@ -67,11 +67,11 @@ BIOS configuration changes need to be made to enable TDX/ SGX (for intel) and SE
 
 ##### Intel
 
-Enable memory encryption, TDX and SGX for Intel: https://github.com/canonical/tdx/blob/1.2/README.md 
+To Enable memory encryption, TDX and SGX for Intel, consult [this document](https://github.com/canonical/tdx/blob/1.2/README.md ). 
 
 ##### AMD
 
-Enable AMD SEV: https://github.com/AMDESE/AMDSEV/blob/master/README.md 
+To Enable AMD SEV, consult [this document](https://github.com/AMDESE/AMDSEV/blob/master/README.md).
 
 
 #### Access to Device Nodes for Attestation
