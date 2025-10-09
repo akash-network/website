@@ -1,74 +1,74 @@
 ---
 aep: 29
-title: "Hardware Verification (Via Attestation)"
+title: "Hardware Verification using Trusted Execution"
 author: Anil Murty (@anilmurty) Artur Troian (@troian)
 status: Final
 type: Standard
 category: Core
 created: 2024-06-27
-updated: 2025-07-30
-estimated-completion: 2025-09-15
+updated: 2025-10-09
+estimated-completion: 2026-01-30
 roadmap: major
 ---
 ## Motivation
 
-Hardware Verification is an important aspect of improving the credibility of a decentralized platform like Akash and is a key component to achieving support for Confidential Computing as outlined in [AEP-65](https://akash.network/roadmap/aep-65/)
+Currently, hardware provided by a provider is verified using a decentralized network of Auditors on Akash. While this approach is practical for a limited set of providers, the manual verification is proving challenging at scale, even more critical when incentives go onchain and are distributed without a human in the loop. Hardware Verification using Trusted Execution minimizes trust required to verify the accuracy of hardware provided by the providers on Akash network and serves as a fundamental building block for enabling Confidential Computing capabilities, as detailed in [AEP-65](https://akash.network/roadmap/aep-65/).
 
 ## Summary & Background
 
 Hardware Verification is the process of verifying that the specific CPU or GPU is what the provider claims to be. In the context of [Confidential Computing](https://akash.network/roadmap/aep-65/), this is achieved through an attestation process using a Trusted Authority
 
 ### Attestation Process
+
 The attestation process with a trusted Authority is ratified in the  IETF's [Remote Attestation Procedures Architecture (RATS) RFC 9334](https://datatracker.ietf.org/doc/rfc9334/) and can be outlined in the following block diagram. In this diagram, the "Attester" is the software running on the device (typically the CPU/ GPU), the "Relying Party" is the client (typically the application developer) and the "Reference Value Provider" is the vendor (Nvidia, Intel, AMD etc)
 
 ![Attestation High-Level Flow](attestation-high-level.png)
 
 At a high level, the attestation process involves three main steps:
 
-##### 1.  Measurement Collection 
-   The system gathers cryptographic measurements from the hardware platform — including CPU, GPU, firmware, bootloader, and drivers. These measurements serve as a unique fingerprint of the environment, rooted in hardware (e.g., via Intel TDX, AMD SEV-SNP, or NVIDIA NVTrust). These may include:
-     - Platform identity (vendor, model, firmware version)
-     - Enclave or VM launch measurements
-     - Device-specific attestation evidence (e.g., GPU certificate chain)
+#### 1.  Measurement Collection 
+
+The system gathers cryptographic measurements from the hardware platform — including CPU, GPU, firmware, bootloader, and drivers. These measurements serve as a unique fingerprint of the environment, rooted in hardware (e.g., via Intel TDX, AMD SEV-SNP, or NVIDIA NVTrust). These may include:
+  - Platform identity (vendor, model, firmware version)
+  - Enclave or VM launch measurements
+  - Device-specific attestation evidence (e.g., GPU certificate chain)
 
 
-##### 2. Verification
-   The collected evidence is sent to a remote verifier — either a vendor-provided service (e.g., [Intel Trust Authority](https://www.intel.com/content/www/us/en/security/trust-authority.html), [AMD Attestation Service](https://www.amd.com/content/dam/amd/en/documents/developer/lss-snp-attestation.pdf),[NVIDIA NVTrust CA](https://docs.nvidia.com/attestation/#overview)) or a custom verifier (sometime called a “local verifier”). 
-   
-   The verifier perfoms the following functions:
-     - Authenticates the hardware’s cryptographic identity
-     - Compares measurements against a set of trusted baseline values (aka “golden measurements”)
-     - Validates integrity and authenticity of the platform state
+#### 2. Verification
 
-##### 3. **Policy Enforcement**
-   Based on the result of verification, an attestation policy is evaluated to determine if the workload should proceed. The policy might check for the following things:
-     - Is the platform from an approved vendor/model?
-     - Are all firmware and drivers up-to-date?
-     - Was the workload launched in a verified TEE?
+The collected evidence is sent to a remote verifier — either a vendor-provided service (e.g., [Intel Trust Authority](https://www.intel.com/content/www/us/en/security/trust-authority.html), [AMD Attestation Service](https://www.amd.com/content/dam/amd/en/documents/developer/lss-snp-attestation.pdf), NVIDIA [NVTrust CA](https://docs.nvidia.com/attestation/#overview)) or a custom verifier (sometime called a “local verifier”). 
 
-  The outcome is a binary verdict (e.g., Attestation OK or Rejected) which can be used to:
-  - Gate access to secrets or encrypted data
-  - Approve running a sensitive workload
-  - Trigger alerts or block execution in untrusted environments
+The verifier perfoms the following functions:
+  - Authenticates the hardware’s cryptographic identity
+  - Compares measurements against a set of trusted baseline values (aka “golden measurements”)
+  - Validates integrity and authenticity of the platform state
+
+#### 3. Policy Enforcement
+Based on the result of verification, an attestation policy is evaluated to determine if the workload should proceed. The policy might check for the following things:
+  - Is the platform from an approved vendor/model?
+  - Are all firmware and drivers up-to-date?
+  - Was the workload launched in a verified TEE?
+
+The outcome is a binary verdict (e.g., Attestation OK or Rejected) which can be used to:
+- Gate access to secrets or encrypted data
+- Approve running a sensitive workload
+- Trigger alerts or block execution in untrusted environments
+
+### Vendor SDKs
 
 #### NVTrust SDK
 
-Nvidia provides the [NVTRUST SDK](https://github.com/NVIDIA/nvtrust) that abstracts a lot of the complexity involved in attesting Nvidia GPUs (primarily H100s and NVSwitches) for trusted execution. This SDK provides abstractions for gathering evidence (aka measurements) as well as a verifier (NRAS) that plugs into Nvidia’s internal build pipeline (to obtain “golden measurements” through the RIM service)
-https://nras.attestation.nvidia.com/
-https://docs.nvidia.com/attestation/api-docs-nras/latest/nras_api.html 
+Nvidia provides the [NVTRUST SDK](https://github.com/NVIDIA/nvtrust) that abstracts a lot of the complexity involved in attesting Nvidia GPUs (primarily H100s and NVSwitches) for trusted execution. This SDK provides abstractions for gathering evidence (aka measurements) as well as a verifier (NRAS) that plugs into Nvidia’s internal build pipeline (to obtain “golden measurements” through the RIM service). For reference see NRAS [documention](https://nras.attestation.nvidia.com/) and [API](https://docs.nvidia.com/attestation/api-docs-nras/latest/nras_api.html).
 
 This is what attestation with the Nvidia SDK looks like at a high level
 
 ![NVTrust Attestation](nvtrust-attestation.png)
 
 ### Intel Trusted Authority SDK
-Since GPUs do not operte standalone - they typically are part of a server that includes a CPU (and memory, storage and other things) which is where the application is typically executed (with the AI model then getting loaded into GPU memory for inference or training or fine-tuning), the attestation must encompass the CPU, GPU and the interface between them. To make this easy for customers, Intel has an SDK of its own that plugs into the NVTrust SDK and enables performing attestation for the whole system
 
-https://github.com/intel/trustauthority-client-for-python 
-https://github.com/intel/trustauthority-client-for-go 
+Since GPUs do not operte standalone - they typically are part of a server that includes a CPU (and memory, storage and other things) which is where the application is typically executed (with the AI model then getting loaded into GPU memory for inference or training or fine-tuning), the attestation must encompass the CPU, GPU and the interface between them. To make this easy for customers, Intel has an SDK of its own that plugs into the NVTrust SDK and enables performing attestation for the whole system with SDKs available in  [python](https://github.com/intel/trustauthority-client-for-python) and [golang](https://github.com/intel/trustauthority-client-for-go).
 
 ![Intel Attestation](intel-ita-attestation.png)
-
 
 ## Scope of Work
 
@@ -105,10 +105,7 @@ In summary, Providers must use the following hardware:
 
 BIOS configuration changes need to be made to enable TDX/ SGX (for intel) and SEV (for AMD). These typically also require a certain minimum version of the Linux Kernel to be used.
 
-##### Intel
+## References 
 
-Enable memory encryption, TDX and SGX for Intel: https://github.com/canonical/tdx/blob/1.2/README.md 
-
-##### AMD
-
-Enable AMD SEV: https://github.com/AMDESE/AMDSEV/blob/master/README.md 
+1. [Intel](https://github.com/canonical/tdx/blob/1.2/README.md): Enable memory encryption, TDX and SGX for Intel 
+2. [AMD](https://github.com/AMDESE/AMDSEV/blob/master/README.md): Enable AMD SEV
