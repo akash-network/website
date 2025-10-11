@@ -41,7 +41,7 @@ export default function YearSelector({
   };
 
   return (
-    <div className="relative mt-6 flex w-full items-center gap-4 md:mt-10">
+    <div className="relative mt-5 flex w-full items-center gap-4 md:mt-10">
       <h2 className="shrink-0 whitespace-nowrap text-lg font-medium">Year:</h2>
       <div className="relative flex-1 overflow-hidden">
         <Swiper

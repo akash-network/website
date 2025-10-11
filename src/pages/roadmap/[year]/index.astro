@@ -1,5 +1,7 @@
 ---
-import Roadmap from "@/components/roadmap/roadmap.astro";
+import Roadmap from "@/components/roadmap/roadmap";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
 import {
   categorizeRoadmapsByQuarter,
   getRoadmapYear,
@@ -7,7 +9,9 @@ import {
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
-type Roadmap = CollectionEntry<"aeps">;
+type RoadmapType = CollectionEntry<"aeps">;
+
+const title = `Akash Network Roadmap`;
 
 export async function getStaticPaths() {
   const roadmaps = (await getCollection("aeps")).filter(
@@ -33,4 +37,13 @@ const { quarters, years } = Astro.props;
 const { year } = Astro.params;
 ---
 
-<Roadmap year={year} quarters={quarters} years={years} />
+<Layout title={`${title} - ${year}`}>
+  <TopMargin className="flex flex-col" isNotContainer>
+    <Roadmap
+      year={Number(year)}
+      quarters={quarters}
+      years={years}
+      client:load
+    />
+  </TopMargin>
+</Layout>
