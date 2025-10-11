@@ -239,7 +239,7 @@ dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 
 > _**NOTE**_ - Conduct this verification step on the Kubernetes control plane node where the NVIDIA Device Plugin DaemonSet is running.
 
-> _**NOTE**_ - This method is prefered as helm could be deployed but pods may not be running
+> _**NOTE**_ - This method is preferred as helm could be deployed but pods may not be running
 
 ```bash
 

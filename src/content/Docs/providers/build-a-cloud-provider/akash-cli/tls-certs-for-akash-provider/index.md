@@ -232,7 +232,7 @@ kubectl apply -f cert-manager-values.yaml
 
 ## Google Cloud OR Cloudflare Configuration
 
-> _**NOTE**_ - both the use of Google Cloud and Cloudflare DNS configurations are presented in this section. Only complete one of these paths based on DNS prefered platform.
+> _**NOTE**_ - both the use of Google Cloud and Cloudflare DNS configurations are presented in this section. Only complete one of these paths based on DNS preferred platform.
 
 ### Create the Google DNS Cloud Service Account for DNS-01 Challenge
 
