@@ -1,5 +1,5 @@
 ---
-import RoadmapCard from "@/components/roadmap/roadmap-card.astro";
+import RoadmapCard from "@/components/roadmap/roadmap-card";
 import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
@@ -177,7 +177,11 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
           <p class="text-center text-sm font-medium text-foreground md:text-left">
             View next aep
           </p>
-          <RoadmapCard roadmap={nextRoadmap} className="!ml-0 w-full" />
+          <RoadmapCard
+            roadmap={nextRoadmap}
+            className="!ml-0 w-full"
+            client:load
+          />
         </div>
       )
     }
