@@ -16,7 +16,7 @@ import { docsSchema } from "@/utils/schema/docsSchema";
 import { ecosystemSchema } from "@/utils/schema/ecosystem";
 import { homePageSchema } from "@/utils/schema/homepage";
 import { privacySchema } from "@/utils/schema/privacy";
-import { providersPage } from "@/utils/schema/provides_page";
+import { providersPage } from "@/utils/schema/providers_page.ts";
 import { roadmapSchema } from "@/utils/schema/roadmap";
 import { tokenPage } from "@/utils/schema/token_page";
 import { defineCollection, z } from "astro:content";
