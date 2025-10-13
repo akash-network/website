@@ -10,8 +10,8 @@ linkTitle: "Akash v1.0.0 Node Upgrade Guide"
 
 - **Upgrade name**: Mainnet14
 - **Binary version**: `v1.0.0`
-- [Upgrade countdown/block height](https://www.mintscan.io/akash/block/TBD) Not Avaible Yet
-- [Binary Links](https://github.com/akash-network/node/releases/tag/v1.0.0) Not Avaible Yet
+- [Upgrade countdown/block height](https://www.mintscan.io/akash/block/TBD) Not Available Yet
+- [Binary Links](https://github.com/akash-network/node/releases/tag/v1.0.0) Not Available Yet
 - Please set `pruning = "nothing"` in your `app.toml` file before upgrade or else your node might get stuck.
 
 ## Validator Expectations
