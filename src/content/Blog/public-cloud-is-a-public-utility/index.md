@@ -29,7 +29,7 @@ But as the saying goes, "If you want to go faster, go alone; if you want to go f
 
 Akash should utilize the strong developer community and open organization tools available to reach its potential. The Akash community is much larger than Overclock's employee pool. By allowing people to participate voluntarily, we can leverage their skills and values to help achieve the goal of executing our [product strategy](/development/product-strategy/).
 
-We propose a set of [community groups](/development/current-groups/) inspired by successful projects like [Kubernetes](https://www.kubernetes.dev/). These groups are open to anyone who wants to join, except for Committees that already have designated members.
+We propose a set of [community groups](/development/community-groups/) inspired by successful projects like [Kubernetes](https://www.kubernetes.dev/). These groups are open to anyone who wants to join, except for Committees that already have designated members.
 
 ![Akash Community Groups Block Diagram](./akash-community-groups-block-diagram.png)
 
