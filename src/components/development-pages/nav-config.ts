@@ -7,8 +7,8 @@ export const nav: any = [
     enabled: true, // A flag indicating whether the sub-item is enabled.
   },
   {
-    label: "Current Groups",
-    link: "/development/current-groups/",
+    label: "Community Groups",
+    link: "/development/community-groups/",
     enabled: true,
   },
   {

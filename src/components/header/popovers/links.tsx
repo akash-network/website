@@ -214,8 +214,8 @@ export const developmentItems: NavItem[] = [
         />
       </svg>
     ),
-    title: "Current Groups",
-    link: "/development/current-groups/",
+    title: "Community Groups",
+    link: "/development/community-groups/",
   },
   {
     customIcon: (

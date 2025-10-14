@@ -24,7 +24,7 @@ export const redirects = {
   "/about/pricing": "/pricing/usage-calculator/",
   "/about/pricing/custom": "/pricing/usage-calculator/",
   "/community/insiders/": "/community/akash-insiders/",
-  "/community/core-groups/cg-list/": "/development/current-groups/",
+  "/community/core-groups/cg-list/": "/development/community-groups/",
   "/ecosystem/showcase/latest/": "/ecosystem/deployed-on-akash/showcase/",
   "/ecosystem/akash-tools/latest/": "/ecosystem/akash-tools/",
   "/pricing": "/pricing/gpus",
@@ -36,4 +36,5 @@ export const redirects = {
   "/docs/providers/build-a-cloud-provider/akash-cloud-provider-build-with-helm-charts/":
     "/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/",
   "/akash-accelerate-2025": "/akash-accelerate-2025-livestream/",
+  "/development/current-groups/": "/development/community-groups/",
 };

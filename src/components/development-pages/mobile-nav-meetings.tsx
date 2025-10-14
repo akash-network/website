@@ -128,7 +128,7 @@ function SideNav({
     <>
       <div className="flex w-full flex-col  gap-y-3 overflow-auto">
         <a
-          href="/development/current-groups/"
+          href="/development/community-groups/"
           className={`flex cursor-pointer items-center gap-x-1 rounded-lg  py-[6px] text-base font-medium leading-[24px] text-para hover:bg-[#F4F1F1] hover:text-primary`}
         >
           <svg
