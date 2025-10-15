@@ -322,7 +322,7 @@ export default function TryAkashForm({
         fullWidth ? "w-full" : "mx-auto",
       )}
     >
-      Contact Sales to Get Started
+      Get Started
     </button>
   );
 
