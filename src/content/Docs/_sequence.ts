@@ -350,7 +350,13 @@ export const docsSequence = [
         subItems: [
           { label: "IP Leases" },
           { label: "Persistent Storage" },
-          { label: "Authorized Spend" },
+          {
+            label: "Authorized Spend",
+            subItems: [ 
+              { label: "Authorized Spend" },
+              { label: "Authorized Spend console" },
+            ],
+          },
           { label: "Fee Grants" },
           { label: "Fractional uAKT" },
           { label: "Deployment Shell Access" },
