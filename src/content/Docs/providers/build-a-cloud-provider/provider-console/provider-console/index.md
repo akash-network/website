@@ -62,7 +62,7 @@ You may now go ahead and create a provider to lease out to users.
 
 - **`SSH Username`**: This is the SSH Username of your machine. It should be set to root. You may follow this [guide](../root-sign-in/) to set it up if you have not done so yet.
 
-- **`File`**: This is one of two options to provide your login credentials. You would upload your SSH key file here. It is the prefered credential method.
+- **`File`**: This is one of two options to provide your login credentials. You would upload your SSH key file here. It is the preferred credential method.
 
 - **`Password`**: This is the second option to provide yopur login credentials. You would need to enable logging into your machine with password. It is advised that you use the file method.
 
