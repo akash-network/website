@@ -14,5 +14,6 @@ Choose a topic below or from the sidebar to get started:
 - [Provider Overview](/docs/providers/intro/)
 - [Build A Cloud Provider](/docs/providers/build-a-cloud-provider/)
 - [Akash Provider FAQ and Guide](/docs/providers/provider-faq-and-guide/)
+- [Akash Provider Audit Process](/docs/providers/provider-audit-process/)
 - [Community Solutions](/docs/providers/community-solutions/)
 - [Custom Kubernetes Cluster Settings](/docs/providers/custom-kubernetes-cluster-settings/) 

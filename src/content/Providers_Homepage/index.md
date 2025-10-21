@@ -77,4 +77,7 @@ additionalDeploymentSection:
     - title: Akash Provider Maintenance / FAQ / Troubleshooting
       content: Use the techniques detailed in this guide to verify Akash Provider functionality and troubleshoot issues as they appear.ake profit on your spare compute made available for tenant lease.
       link: "/docs/providers/provider-faq-and-guide/"
+    - title: Akash Provider Audit Process
+      content: This guide outlines how you can get your Akash Provider audited.
+      link: "/docs/providers/provider-audit-process/"
 ---

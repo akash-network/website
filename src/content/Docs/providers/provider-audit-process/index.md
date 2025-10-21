@@ -1,7 +1,7 @@
 ---
 title: "Akash Provider Audit Process"
 linkTitle: "Akash Provider Audit Process"
-description: "Guide to get your Akash Provide audited."
+description: "Guide to get your Akash Provider audited."
 weight: 3 # Adjust weight relative to other sections under Providers
 ---
 
