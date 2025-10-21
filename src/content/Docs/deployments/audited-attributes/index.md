@@ -146,11 +146,11 @@ Provider auditors assume the role of governance within SDL attributes use. An Au
 
 ### Standard Attributes
 
-A comprehensive, open-source framework is in development which will further decentralize the auditing of providers. Pending the release of this framework, an interim process has been developed to confirm providers claiming Akash recognized attributes. The process will allow providers to bid on deployments launched via the SDLs within the Awesome Akash repository. Interested providers may initiate the interim signing process by making contact in Discord with Andy (member of the Akash Developer Insider team) at the following handle: @andy01.
+A comprehensive, open-source framework is in development which will further decentralize the auditing of providers. Pending the release of this framework, an interim process has been developed to confirm providers claiming Akash recognized attributes. The process will allow providers to bid on deployments launched via the SDLs within the Awesome Akash repository. Interested providers may initiate the interim signing process by creating an issue on the [community repository](https://github.com/akash-network/community/issues) using the `Provider Audit` template.
 
 _**Attributes of Community Providers**_
 
-Community providers vetted by Andy should advertise the following attributes before they can be signed by Akash address `akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63`. Leases should use these attributes to allow audited community providers to bid.
+Community providers vetted should advertise the following attributes before they can be signed by Akash address `akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63`. Leases should use these attributes to allow audited community providers to bid.
 
 - host: akash
 - tier: community
@@ -270,38 +270,7 @@ profiles:
 
 Provider auditors play the role of governance within SDL attribute use.
 
-Using the sample SDL section below should help clarify the concept and use of the auditor role*.*
-
-```
-profiles:
- compute:
-   web:
-     resources:
-       cpu:
-         units: 0.1
-       memory:
-         size: 512Mi
-       storage:
-         size: 512Mi
- placement:
-   ewr1-provider0:
-     attributes:
-       host: akash
-       datacenter: equinix-metal-ewr1
-     signedBy:
-       anyOf:
-         - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
-     pricing:
-       web:
-         denom: uakt
-         amount: 100
-```
-
-_**Auditor Role**_
-
-Provider auditors play the role of governance within SDL attribute use.
-
-Using the sample SDL section below should help clarify the concept and use of the auditor role*.*
+Using the sample SDL section below should help clarify the concept and use of the auditor role.
 
 ```
 profiles:
