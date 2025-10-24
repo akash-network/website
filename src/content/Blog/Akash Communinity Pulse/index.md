@@ -11,11 +11,10 @@ tags:
   - Akash Network
   - SIG Updates
   - Working groups
-  - Web3
-  - Decentralized Cloud
 contributors:
   - George Appiah
-bannerImage: ./akash-community-pulse-sept2025-banner.jpg
+bannerImage: ./banner-image.png
+
 ---
 
 
