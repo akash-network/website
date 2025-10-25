@@ -82,8 +82,10 @@ export const NVIDIAB200SoonForm = ({
   );
 
   return (
-    <NvidiaBlackwellForm>
-      {externalButton ? button : children}
-    </NvidiaBlackwellForm>
+    // <NvidiaBlackwellForm>
+    //   {externalButton ? button : children}
+    // </NvidiaBlackwellForm>
+
+    <a href="/nvidia-blackwell-gpus">{button}</a>
   );
 };
