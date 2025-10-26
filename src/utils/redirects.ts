@@ -37,5 +37,5 @@ export const redirects = {
     "/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/",
   "/akash-accelerate-2025": "/akash-accelerate-2025-livestream/",
   "/development/current-groups/": "/development/community-groups/",
-    "/docs/features/authorized-spend/": "/docs/network-features/authorized-spend/",
+  "/docs/features/authorized-spend/": "/docs/network-features/authorized-spend/",
 };
