@@ -157,6 +157,8 @@ Link 2 (eth0): us-east-2.compute.internal
 
 ## STEP 2 - Kubernetes Configurations
 
+### Create Provider Namespaces
+
 Create Provider namespaces on your Kubernetes cluster.
 
 Run these commands from a Kubernetes control plane node which has kubectl access to cluster.
@@ -168,6 +170,53 @@ kubectl label ns akash-services akash.network/name=akash-services akash.network=
 kubectl create ns lease
 kubectl label ns lease akash.network=true
 ```
+
+### Persistent Storage Requirement
+
+#### Overview
+
+Akash Providers require a Kubernetes storage class for storing provider data and Let's Encrypt certificates.
+
+#### Check for Existing Storage Class
+
+First, verify if your cluster already has a storage class configured:
+
+```
+kubectl get storageclass
+```
+
+If you see one or more storage classes listed (from an existing setup or cloud provider), your cluster is ready and you can proceed to the next step.
+
+#### Storage Class Options
+
+You have two options for providing a storage class to your provider:
+
+1. **Use Ceph-backed persistent storage** - If you plan to offer persistent storage to tenant deployments, you can set up Ceph/Rook following the [Persistent Storage Enablement](/docs/providers/build-a-cloud-provider/akash-cli/helm-based-provider-persistent-storage-enablement/) guide. The provider can use this same storage for its own needs.
+
+2. **Install local-path-provisioner** - If you don't have Ceph-backed storage and don't plan to offer persistent storage to tenants, install the local-path-provisioner as shown below.
+
+#### Install Local Path Provisioner (If Not Using Ceph)
+
+If you don't have or plan to have Ceph-backed persistent storage, install the local-path-provisioner:
+
+```
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.24/deploy/local-path-storage.yaml
+```
+
+##### Verify Installation
+
+```
+kubectl get storageclass
+```
+
+##### Expected Output
+
+```
+NAME                   PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-path (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  10s
+```
+
+> _**NOTE**_ - The local-path-provisioner uses local storage on your nodes at `/opt/local-path-provisioner`. Ensure sufficient disk space is available.
 
 ## STEP 3 - Export Provider Wallet
 
