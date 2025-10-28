@@ -85,7 +85,7 @@ The Akash Core Team heads to Denver to connect with builders in the decentralize
 - 10AM-6PM MST: Come meet and chat with the Akash Core Team as we wrap up ETHDenver 2024
 
 ## Connect with Akash
-To stay up to date with the latest updates, follow [Akash](https://twitter.com/akashnet_) and the core team to connect in person at ETHDenver:
+To stay up to date with the latest updates, follow [Akash](https://twitter.com/akashnet) and the core team to connect in person at ETHDenver:
 - [Greg Osuri](https://twitter.com/gregosuri), CEO
 - [Adam Wozney](https://twitter.com/AdamDeanWozney), Head of Community
 - [Zach Horn](https://twitter.com/zacharyhorn), Head of Marketing

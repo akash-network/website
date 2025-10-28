@@ -73,4 +73,4 @@ You can [learn more about Supermini](https://akash.network/supermini/) and add y
 **.:** [**Join Supermini Waitlist Now**](https://akash.network/supermini) **:.** 
 
 [Sign up for our newsletter](https://akash.network/) to get the latest updates first.   
-Join our [Telegram](https://t.me/AkashNW) channel and add us on [Twitter](https://twitter.com/akashnet_)\--we’d love to connect with you!
+Join our [Telegram](https://t.me/AkashNW) channel and add us on [Twitter](https://twitter.com/akashnet)\--we’d love to connect with you!

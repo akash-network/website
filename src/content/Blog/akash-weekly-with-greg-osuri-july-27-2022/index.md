@@ -17,7 +17,7 @@ bannerImage: ./banner-image.png
 ---
 Akash Weekly is our weekly community call hosted on Twitter Spaces. Each week, we cover the latest news and updates from Akash Network with our CEO, Greg Osuri.
 
-[Follow Akash Network (@akashnet\_) on Twitter](https://twitter.com/akashnet_) to get notifications for all future Akash Weekly events. We’re live every Wednesday morning, and everyone is welcome. We hope to see you next week!
+[Follow Akash Network (@akashnet\_) on Twitter](https://twitter.com/akashnet) to get notifications for all future Akash Weekly events. We’re live every Wednesday morning, and everyone is welcome. We hope to see you next week!
 
 On this Akash Weekly: 
 
@@ -111,7 +111,7 @@ Connect with Akash
 
 We invite you to dive deeper into the original audio on our YouTube Channel.
 
-[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://twitter.com/akashnet_) _to stay up to date with Akash Network, AKT, and the Akash Community._
+[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://twitter.com/akashnet) _to stay up to date with Akash Network, AKT, and the Akash Community._
 
 [_**Join our Discord**_](https://discord.com/invite/DxftX67) _to get involved with our community._
 

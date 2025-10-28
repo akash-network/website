@@ -16,7 +16,7 @@ bannerImage: ./banner-image.png
 ---
 Akash Weekly with Greg Osuri is our weekly community call hosted on Twitter Spaces. Each week, we cover the latest news and updates from Akash Network with our CEO, Greg Osuri.  
   
-Follow Akash Network ([@akashnet\_](https://twitter.com/akashnet_)) on Twitter to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT. Tune in next week for the latest from Akash and conversations with special guests!  
+Follow Akash Network ([@akashnet\_](https://twitter.com/akashnet)) on Twitter to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT. Tune in next week for the latest from Akash and conversations with special guests!  
   
 **On this Akash Weekly:**
 
@@ -54,7 +54,7 @@ Every week we see more projects join the Akash ecosystem. We would like to highl
   
 [**Money.space**](https://money.space/) enables deep interblockchain liquidity for stable assets.  
   
-If you deploy a project on Akash, be sure to include the Powered by Akash logo on the project site, and tweet us at [@akashnet\_](https://twitter.com/akashnet_) with the hashtag #PoweredByAkash to be discovered by the Akash community.  
+If you deploy a project on Akash, be sure to include the Powered by Akash logo on the project site, and tweet us at [@akashnet\_](https://twitter.com/akashnet) with the hashtag #PoweredByAkash to be discovered by the Akash community.  
   
 **Allnodes lists Akash Network**  
 [Allnodes](https://www.allnodes.com/), a non-custodial platform for node hosting and staking, has listed Akash Network. This gives Akash even more exposure to the wider staking ecosystem.  

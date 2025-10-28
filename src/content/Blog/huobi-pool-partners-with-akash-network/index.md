@@ -105,4 +105,4 @@ Akash Network is developing the world’s first and only decentralized cloud com
 Through Akash’s platform, developers can easily and securely access cloud compute at a cost ten times lower than the current market providers (AWS, Google Cloud, and Microsoft Azure). The platform achieves these benefits by integrating advanced containerization technology with a unique staking model to accelerate adoption.
 
 ####   
-[Telegram](https://t.me/AkashNW) | [Twitter](https://twitter.com/akashnet_) | [Discord](http://discord.akash.network/) | [Blog](https://akash.network/blog/)
+[Telegram](https://t.me/AkashNW) | [Twitter](https://twitter.com/akashnet) | [Discord](http://discord.akash.network/) | [Blog](https://akash.network/blog/)

@@ -37,7 +37,7 @@ Last Wednesday, Nov. 6th, we shared Akash’s Founder Level 1: First Challenge i
 
 ![](https://www.datocms-assets.com/45776/1620922422-124475c9-eb22-4bb9-a2de-5fa5deee41d1.png)
 
-[Check out our Twitter Wall of Love](https://twitter.com/akashnet_/timelines/1192593567870357505)
+[Check out our Twitter Wall of Love](https://twitter.com/akashnet/timelines/1192593567870357505)
 
 ### **Introducing Akash Founder Level 2 Second Challenge: Deploy Your Own Private Matrix Server**
 

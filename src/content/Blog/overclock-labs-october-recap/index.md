@@ -41,7 +41,7 @@ Overclock Console, our flagship deployment tool built by Overclock Labs, is near
 
 ## Akash Weekly reached its four-month milestone
 
-_Akash Weekly with Greg Osuri_ reached its fourth consecutive month of live Twitter Spaces events. Each week, Greg Osuri goes live on [@akashnet\_](https://twitter.com/akashnet_) , Wednesdays at 8 am PT, to give updates on the ecosystem and the latest developments from Akash and Overclock Labs. Each Akash Weekly update also features guests from around the web3 space and beyond.
+_Akash Weekly with Greg Osuri_ reached its fourth consecutive month of live Twitter Spaces events. Each week, Greg Osuri goes live on [@akashnet\_](https://twitter.com/akashnet) , Wednesdays at 8 am PT, to give updates on the ecosystem and the latest developments from Akash and Overclock Labs. Each Akash Weekly update also features guests from around the web3 space and beyond.
 
 Here are the summaries of our Akash Weekly events from October:
 
@@ -79,6 +79,6 @@ This past month, [Adam Wozney](https://twitter.com/AdamDeanWozney), Head of Comm
 
 ### Stay up to date with Overclock Labs and Akash Network
 
-For real-time updates and ecosystem news, follow [@akashnet\_](https://twitter.com/akashnet_) and [@gregosuri](https://twitter.com/gregosuri). Explore all the ways to [connect with the Akash Community here](https://akash.network/connect).
+For real-time updates and ecosystem news, follow [@akashnet\_](https://twitter.com/akashnet) and [@gregosuri](https://twitter.com/gregosuri). Explore all the ways to [connect with the Akash Community here](https://akash.network/connect).
 
 To get started on Akash, [head over to the docs for more information on the network](https://akash.network/docs/).

@@ -329,7 +329,7 @@ linkTitle: "Akash Node CLI Build" # <--- Change the link title here
 
 - Discord: [Akash Network](https://discord.com/invite/akash)
 
-- X/Twitter: [Akash Network](https://x.com/akashnet_)
+- X/Twitter: [Akash Network](https://x.com/akashnet)
 
 - Website: [Akash Network](https://akash.network/)
 

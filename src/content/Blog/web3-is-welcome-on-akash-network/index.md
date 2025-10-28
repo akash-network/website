@@ -73,6 +73,6 @@ Deploying on Akash Network is that simple, and this process works with any docke
 
 The possibilities are limitless.
 
-Be sure to share your new deployment on Twitter, tag [@akashnet\_](https://twitter.com/akashnet_), and include the hashtag **#PoweredByAkash** to connect with our community.
+Be sure to share your new deployment on Twitter, tag [@akashnet\_](https://twitter.com/akashnet), and include the hashtag **#PoweredByAkash** to connect with our community.
 
 _\*prices as of August 2022._

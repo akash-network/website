@@ -102,4 +102,4 @@ We're heading to sunny Florida to mingle with some of the top minds in crypto th
 Our team is growing! We're always on the lookout for great talent and currently have positions open for a Content Marketing Associate, Developer Relations Lead, Sr. DevOps/Site Reliability Engineer, and a Distributed Systems Engineer. If you’re interested in joining the Akash Network, the infrastructure that powers Web3, click [here](https://akash.network/careers). 
 
   
-Be sure to follow us on [Twitter](https://twitter.com/akashnet_) and [Telegram](https://t.me/AkashNW) to stay in the loop on the latest news and updates. For technical support, head to our [Discord](https://discord.com/channels/747885925232672829/747885925878726841) or [Forum](https://forum.akash.network/).
+Be sure to follow us on [Twitter](https://twitter.com/akashnet) and [Telegram](https://t.me/AkashNW) to stay in the loop on the latest news and updates. For technical support, head to our [Discord](https://discord.com/channels/747885925232672829/747885925878726841) or [Forum](https://forum.akash.network/).

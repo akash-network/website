@@ -4,7 +4,7 @@ export const mainnetId = "mainnet";
 export const subscribeLink = "https://akashnet.typeform.com/to/awKX5bPw";
 
 export const socialLinks = {
-  twitter: "https://twitter.com/akashnet_",
+  twitter: "https://twitter.com/akashnet",
   github: "https://github.com/akash-network",
   discord: "https://discord.com/invite/akash",
   youtube: "https://www.youtube.com/c/AkashNetwork",

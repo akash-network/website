@@ -12,7 +12,7 @@ Awesome Akash is a curated list of awesome resources people can use to familiari
 
 **Instructions:** [how to deploy](/docs/deployments/akash-console/) the SDL files in this repository
 
-Join our [discord](https://discord.com/invite/akash) if you have questions or concerns. Our team is always eager to hear from you. Also, follow [@akashnet_](https://x.com/akashnet_) to stay in the loop with updates and announcements.
+Join our [discord](https://discord.com/invite/akash) if you have questions or concerns. Our team is always eager to hear from you. Also, follow [@akashnet](https://x.com/akashnet) to stay in the loop with updates and announcements.
 
 ## Table of Contents
 
