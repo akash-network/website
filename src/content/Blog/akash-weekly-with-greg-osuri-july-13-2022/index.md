@@ -16,7 +16,7 @@ contributors:
 bannerImage: ./banner-image.png
 ---
 
-Akash Weekly is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. [Follow us on Twitter](https://twitter.com/akashnet_) to be notified when Akash Weekly's are live.
+Akash Weekly is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. [Follow us on Twitter](https://twitter.com/akashnet) to be notified when Akash Weekly's are live.
 
 On this Spaces: CEO of Overclock Labs, Greg Osuri and Rebecca Liao, the Co-founder and CEO of Saga get together to go over the partnership between Saga and Akash, Ecosystem and AKT updates.
 

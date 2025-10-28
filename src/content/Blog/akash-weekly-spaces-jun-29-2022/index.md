@@ -16,7 +16,7 @@ contributors:
 bannerImage: ./banner-image.png
 ---
 
-Akash Weekly Spaces is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. Follow us [on Twitter](https://twitter.com/akashnet_) to be notified when Akash Weekly Spaces are live.
+Akash Weekly Spaces is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. Follow us [on Twitter](https://twitter.com/akashnet) to be notified when Akash Weekly Spaces are live.
 
 On this Spaces: CEO of Overclock Labs, Greg Osuri & Jigar Patel, Founder of Praetor App get together to go over Akash Ecosystem updates and the story of Akash Accelerator alum, Praetor's success so far, and its vital role within Web3.
 

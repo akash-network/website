@@ -16,7 +16,7 @@ bannerImage: ./banner-image.png
 ---
 Akash Weekly with Greg Osuri is our weekly community call hosted on Twitter Spaces. Each week, we cover the latest news and updates from Akash Network with our CEO, Greg Osuri.
 
-Follow Akash Network ([@akashnet\_](https://twitter.com/akashnet_)) on Twitter to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT.
+Follow Akash Network ([@akashnet\_](https://twitter.com/akashnet)) on Twitter to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT.
 
 **On this Akash Weekly:**
 

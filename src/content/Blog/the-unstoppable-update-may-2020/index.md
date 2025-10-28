@@ -71,4 +71,4 @@ We just launched a reservation campaign for a limited production of 300 Supermin
 [**Reserve Your Supermini**](https://akash.network/supermini) 
 
 [Sign up for our newsletter](https://akash.network/) to get the latest updates first.   
-Join our [Telegram](https://t.me/AkashNW) channel and add us on [Twitter](https://twitter.com/akashnet_)\--we’d love to connect with you
+Join our [Telegram](https://t.me/AkashNW) channel and add us on [Twitter](https://twitter.com/akashnet)\--we’d love to connect with you

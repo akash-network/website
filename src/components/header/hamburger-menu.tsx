@@ -265,7 +265,7 @@ const Panel = ({
           <div className="flex items-center justify-between border-t border-border py-7 text-para">
             <div className="flex gap-x-[20px] px-2">
               <a
-                href="https://twitter.com/akashnet_"
+                href="https://twitter.com/akashnet"
                 target="_blank"
                 className="hover:text-primary"
               >

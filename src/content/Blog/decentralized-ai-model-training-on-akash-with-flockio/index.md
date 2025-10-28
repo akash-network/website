@@ -284,4 +284,4 @@ To get up and running with your FLock deployment, complete the following steps.
 3. Deploy a [FLock Training Node](https://console.akash.network/templates/akash-network-awesome-akash-FLock-training-node) from Akash Console.
 4. Deploy a [FLock Validator](https://console.akash.network/templates/akash-network-awesome-akash-FLock-validator) from Akash Console.
 
-To connect with [Akash](https://akash.network/), follow the network on [X (Twitter)](https://x.com/akashnet_) and [sign up to hear about the latest announcements and updates](https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network).
+To connect with [Akash](https://akash.network/), follow the network on [X (Twitter)](https://x.com/akashnet) and [sign up to hear about the latest announcements and updates](https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network).

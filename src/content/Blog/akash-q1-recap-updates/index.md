@@ -108,4 +108,4 @@ Production on the Supermini is underway, and we’re only producing 300 units fo
 
 [**\[ Learn More About Supermini \]**](https://akash.network/supermini/) 
 
-Please visit our [new website and sign up for our newsletter](https://akash.network/) to get announcements and articles first. Join our [Telegram](https://t.me/AkashNW) channel and add us on [Twitter](https://twitter.com/akashnet_)\--we’d love to connect with you!
+Please visit our [new website and sign up for our newsletter](https://akash.network/) to get announcements and articles first. Join our [Telegram](https://t.me/AkashNW) channel and add us on [Twitter](https://twitter.com/akashnet)\--we’d love to connect with you!

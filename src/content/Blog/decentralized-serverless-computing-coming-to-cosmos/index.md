@@ -74,6 +74,6 @@ If you’re a validator, or interested in becoming one, find out how you can ear
 
 **Telegram:** [**https://t.me/AkashNW**](https://t.me/AkashNW)
 
-**Twitter:** [**https://twitter.com/akashnet\_**](https://twitter.com/akashnet_)
+**Twitter:** [**https://twitter.com/akashnet\_**](https://twitter.com/akashnet)
 
 **Github:** [**https://github.com/ovrclk**](https://github.com/ovrclk)

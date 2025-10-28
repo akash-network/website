@@ -16,7 +16,7 @@ bannerImage: ./banner-image.png
 ---
 Akash Weekly is our weekly community call hosted on Twitter Spaces. Each week, we cover the latest news and updates from Akash Network with our CEO, Greg Osuri.
 
-[Follow Akash Network (@akashnet\_) on Twitter](https://twitter.com/akashnet_) to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT. Tune in next week for the latest from Akash and conversations with special guests!
+[Follow Akash Network (@akashnet\_) on Twitter](https://twitter.com/akashnet) to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT. Tune in next week for the latest from Akash and conversations with special guests!
 
 [Sign up for our newsletter](https://akash.network/?newsletter=true) to stay up to date with everything Akash Network.
 
@@ -154,7 +154,7 @@ There is no plan for an APR boost.
 Connect with Akash
 ------------------
 
-[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://twitter.com/akashnet_) _to stay up to date with Akash Network, AKT, and the Akash Community._
+[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://twitter.com/akashnet) _to stay up to date with Akash Network, AKT, and the Akash Community._
 
 [_**Join our Discord**_](https://discord.com/invite/DxftX67) _to get involved with our community._
 

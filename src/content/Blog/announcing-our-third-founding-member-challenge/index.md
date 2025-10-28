@@ -36,7 +36,7 @@ The Akash Founding Member Rewards Program is for contributors to Akash’s testn
 
 Since the launch of our Founding Member challenges, we’ve had incredible participation from around the world, and gained Founding Member hopefuls from the U.S., Korea, Japan, China, Europe, India, and South America.
 
-**.:** [**Check Out Our Wall of Love**](https://twitter.com/akashnet_/timelines/1192593567870357505) **:.**
+**.:** [**Check Out Our Wall of Love**](https://twitter.com/akashnet/timelines/1192593567870357505) **:.**
 
 **Introducing Akash Founder Level 3 Third Challenge**
 -----------------------------------------------------
