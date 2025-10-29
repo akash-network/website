@@ -15,6 +15,7 @@ contributors:
 
 bannerImage: ./banner-image.jpg
 ---
+
 In a market expected to exceed $198 billion by 2024, the leading cloud providers–Amazon Web Services (AWS), Google Cloud, and Microsoft Azure–dominate the market with 56% market share, and this figure is expected to increase. This accelerated growth is tied to increased consumer demand for throughput and content, a global surge of smartphones, rapid development of web and mobile applications, and high costs of DevOps for on-premise server management.
 
 Current services are inflexible and come at a high recurring cost with lock-in agreements. Outside of the large incumbent providers, organizations do not have many options for cloud computing. With an estimated 85% of server capacity underutilized and accelerated global demand for cloud computing, there is a critical need for flexibility, cost management, and automation. The cloud needs to evolve to a more distributed and decentralized infrastructure for greater flexibility, efficiency, and security.
@@ -35,14 +36,12 @@ Through Akash’s platform, developers can easily and securely access cloud comp
 
 We’re drawn to innovations that enable us to iterate and deploy quickly and without friction, and that enable us to increase efficiency. We made a bet on [kubernetes](https://www.youtube.com/watch?v=Z-JSQpScYck&t=4s) in 2014 and now 80% of the cloud is deployed on kubernetes. We made a bet on Cosmos SDK in [2018](https://github.com/ovrclk/akash/commit/ce720c089ad2f33408abe32ac514a29a81f6a3c1) and it’s exciting to see its continued rapid growth and adoption.
 
-Our economic model is built on the foundation laid down by Cosmos. We’ve developed a serverless cloud that is the most interoperable to date. Akash serves as a gateway for developers to leverage and connect with other decentralized services, such as [NuCypher](https://www.nucypher.com/) for key management, [Storj](https://storj.io/) for cloud storage, and [Handshake](https://handshake.org/) for domain name services, with the least amount of friction possible. 
+Our economic model is built on the foundation laid down by Cosmos. We’ve developed a serverless cloud that is the most interoperable to date. Akash serves as a gateway for developers to leverage and connect with other decentralized services, such as [NuCypher](https://www.nucypher.com/) for key management, [Storj](https://storj.io/) for cloud storage, and [Handshake](https://handshake.org/) for domain name services, with the least amount of friction possible.
 
 The way it works is simple:
 
 1.  Developers define their needs in a [simple contract language called SDL](https://github.com/ovrclk/akash/tree/master/sdl).
-    
-2.  They place an order on the marketplace for which the providers bid for workloads, thereby guaranteeing the lowest price possible and this pricing happens using a native token, the AKT. 
-    
+2.  They place an order on the marketplace for which the providers bid for workloads, thereby guaranteeing the lowest price possible and this pricing happens using a native token, the AKT.
 
 Once a lease is created, deployments happen automatically and settlement happens using a multi-token mechanism – we accept different tokens for fee settlement. For example, if you use NuCypher with Akash Network, you can pay using Bitcoin and have it swapped for NU without any effort on your end.
 
@@ -50,11 +49,11 @@ For the Cosmos community, we provide a production-ready [open-source stack](htt
 
 ### **The Akash Token (AKT)** 
 
-The Akash Token (AKT) performs three main functions, _Resolve_, _Reward_, and _Reserve_:
+The Akash Token (AKT) performs three main functions, *Resolve*, *Reward*, and *Reserve*:
 
-The AKT token is used to achieve economic security, incentivize early adoption, and normalize exchange rates.  
+The AKT token is used to achieve economic security, incentivize early adoption, and normalize exchange rates.
 
-**Resolve:** For governance, Akash relies on a blockchain where a set of validators vote on proposals. Each proposal is weighed by the proposer’s voting power, which is the total tokens they staked and the tokens bonded to them (stakers can delegate voting power to validators). 
+**Resolve:** For governance, Akash relies on a blockchain where a set of validators vote on proposals. Each proposal is weighed by the proposer’s voting power, which is the total tokens they staked and the tokens bonded to them (stakers can delegate voting power to validators).
 
 **Reward:** Providers on Akash stake tokens to subsidize operating and capital expenditures. Stakers are rewarded proportional to the number of tokens staked, the length of lockup time, and the overall tokens staked in the system. Lock up times can vary anywhere from one month to one year. Flexibility in lockup encourages stakers that stake for shorter periods (bear markets), in a self-adjusting inflationary system that is designed to optimize for lower price pressure during bear markets.
 
@@ -74,6 +73,6 @@ If you’re a validator, or interested in becoming one, find out how you can ear
 
 **Telegram:** [**https://t.me/AkashNW**](https://t.me/AkashNW)
 
-**Twitter:** [**https://twitter.com/akashnet\_**](https://twitter.com/akashnet)
+**Twitter:** [**https://x.com/akashnet\_**](https://x.com/akashnet)
 
 **Github:** [**https://github.com/ovrclk**](https://github.com/ovrclk)

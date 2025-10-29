@@ -14,53 +14,40 @@ contributors:
 
 bannerImage: ./banner-image.png
 ---
+
 Akash Weekly is our weekly community call hosted on Twitter Spaces. Each week, we cover the latest news and updates from Akash Network with our CEO, Greg Osuri.
 
-[Follow Akash Network (@akashnet\_) on Twitter](https://twitter.com/akashnet) to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT. Tune in next week for the latest from Akash and conversations with special guests!
+[Follow Akash Network (@akashnet\_) on Twitter](https://x.com/akashnet) to get notifications for all future Akash Weekly events. We’re live every Wednesday at 8 AM PT. Tune in next week for the latest from Akash and conversations with special guests!
 
 [Sign up for our newsletter](https://akash.network/?newsletter=true) to stay up to date with everything Akash Network.
 
-**On this Akash Weekly:** 
+**On this Akash Weekly:**
 
-*   Greg Osuri - CEO & Co-Founder of Overclock Labs (creators of Akash Network) \[[Twitter](https://twitter.com/gregosuri)\]
-    
-*   George Jekner, CEO of [Yieldmos](https://www.yieldmos.com/)
-    
-*   Scott “Hewi” Hewitson, Finance Associate at Overclock Labs
-    
+- Greg Osuri - CEO & Co-Founder of Overclock Labs (creators of Akash Network) \[[Twitter](https://twitter.com/gregosuri)\]
+- George Jekner, CEO of [Yieldmos](https://www.yieldmos.com/)
+- Scott “Hewi” Hewitson, Finance Associate at Overclock Labs
 
 **Our topics this week:**
 
-*   Updates on upcoming Akash events and news.
-    
-*   The recent exploits of Slope Finance.
-    
-*   Akash Network's continued growth and adoption, along with Akash's Terraform integrations.
-    
-*   George Jekner gives an overview of Yieldmos, and offers his perspective on web3 adoption and the goal of decentralization.
-    
-*   Our panel discussed DeFi vs CeFi, security vulnerabilities, and more.
-    
+- Updates on upcoming Akash events and news.
+- The recent exploits of Slope Finance.
+- Akash Network's continued growth and adoption, along with Akash's Terraform integrations.
+- George Jekner gives an overview of Yieldmos, and offers his perspective on web3 adoption and the goal of decentralization.
+- Our panel discussed DeFi vs CeFi, security vulnerabilities, and more.
 
-Events & News
--------------
+## Events & News
 
 **Upcoming Events**
 
-*   Discord Quiz - Every Tuesday. This upcoming Tuesday’s quiz will have a 200 AKT prize pool for five winners.
-    
+- Discord Quiz - Every Tuesday. This upcoming Tuesday’s quiz will have a 200 AKT prize pool for five winners.
 
 **News**
 
-*   Akash welcomes our newest Insider, Dimokus! If you are interested in becoming an Akash Insider to get access to the leading edge of the Akash Ecosystem, get more information at [akash.network/community](https://akash.network/community).
-    
-*   Check out our Akash Accelerator program if you have an idea for a project on Akash Network.
-    
-*   [Check out our recent AMA with Citadel.one](https://forum.akash.network/t/citadel-one-ama-recap/4636)
-    
+- Akash welcomes our newest Insider, Dimokus! If you are interested in becoming an Akash Insider to get access to the leading edge of the Akash Ecosystem, get more information at [akash.network/community](https://akash.network/community).
+- Check out our Akash Accelerator program if you have an idea for a project on Akash Network.
+- [Check out our recent AMA with Citadel.one](https://forum.akash.network/t/citadel-one-ama-recap/4636)
 
-Updates from Greg Osuri
------------------------
+## Updates from Greg Osuri
 
 ### Recent Exploit of Slope Finance and The Importance of Open Source
 
@@ -92,8 +79,7 @@ We want to thank our incredible community for their continued development effort
 
 Inter-Blockchain Communication (IBC) protocol on Cosmos works by relaying packets of information between blockchains, without taking custody of user assets. In this way, the security of the transfer is based on the security of the underlying blockchains. Relayers are not vulnerable to the same kinds of attacks and exploits that can happen with bridges.
 
-Our Guest this Week: George Jekner, CEO of Yieldmos
----------------------------------------------------
+## Our Guest this Week: George Jekner, CEO of Yieldmos
 
 George Jekner is the CEO of Yieldmos, primarily responsible for strategy and back-end development. George has been a crypto enthusiast and a full-stack developer in the traditional finance sector for almost a decade. George was previously an IT consultant in the Chicagoland area for seven years.
 
@@ -101,14 +87,13 @@ Yieldmos provides a way for users to earn yield while maintaining custody of the
 
 George offers an analogy to the way that a check works in the traditional finance system. A check grants a person permission to draw an exact amount of money from an account. In the same way, Yieldmos operates with specific permissions which are granted via AuthZ by the user—this way, users can earn yield while maintaining custody of their funds.
 
-Our Panel this Week: Greg Osuri, George Jekner, and Scott “Hewi” Hewitson
--------------------------------------------------------------------------
+## Our Panel this Week: Greg Osuri, George Jekner, and Scott “Hewi” Hewitson
 
 **What is DeFi?**
 
-Hewi offers a definition of Decentralized Finance (DeFi): “Access to financial products without a trusted third-party.” 
+Hewi offers a definition of Decentralized Finance (DeFi): “Access to financial products without a trusted third-party.”
 
-Contrasting DeFi against Centralized Finance (CeFi), the panel notes that DeFi products have continued functioning well despite the recent collapses of multiple centralized entities adjacent to the DeFi space—notably Voyager, Celsius, and 3AC. 
+Contrasting DeFi against Centralized Finance (CeFi), the panel notes that DeFi products have continued functioning well despite the recent collapses of multiple centralized entities adjacent to the DeFi space—notably Voyager, Celsius, and 3AC.
 
 Greg notes that this is a classic example of closed source failing to open source. DeFi protocols offer transparency that CeFi cannot. In DeFi, a user can see how their funds are being transferred. On-chain transactions allow the users and the wider industry to examine how a protocol is functioning. In this way, openness and transparency can put a check on bad actors and help to mitigate the risks of overleverage.
 
@@ -122,8 +107,7 @@ Greg’s perspective is that the primary issue is the overreliance on a single h
 
 Akash offers high security and high flexibility for developers - all within a decentralized environment.
 
-Q&A from the Community
-----------------------
+## Q&A from the Community
 
 ### Is there an ETA on Take Fees?
 
@@ -131,7 +115,7 @@ We are waiting for more regulatory clarity.
 
 ### Does the protocol have a treasury?
 
-Overclock Labs (the creators of Akash Network) does have a treasury. 
+Overclock Labs (the creators of Akash Network) does have a treasury.
 
 ### Will AKT tokenomics change?
 
@@ -151,10 +135,9 @@ Keplr is closed source, so Greg recommends the same best practices for security 
 
 There is no plan for an APR boost.
 
-Connect with Akash
-------------------
+## Connect with Akash
 
-[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://twitter.com/akashnet) _to stay up to date with Akash Network, AKT, and the Akash Community._
+[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://x.com/akashnet) _to stay up to date with Akash Network, AKT, and the Akash Community._
 
 [_**Join our Discord**_](https://discord.com/invite/DxftX67) _to get involved with our community._
 

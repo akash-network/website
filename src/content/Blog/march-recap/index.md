@@ -80,4 +80,4 @@ We host weekly community calls on **Twitter Spaces every Wednesday at 10 AM PST*
 
 We’ll discuss his process for researching a crypto project, interesting things he learned when researching Akash, what people can do to determine signal from the noise, and how to figure out what projects are worth paying attention to. Set your reminder, [here](https://twitter.com/i/spaces/1mrxmagPwNZxy).
 
-Be sure to follow us on [Twitter](https://twitter.com/akashnet) and [Telegram](https://t.me/AkashNW) to stay in the loop on the latest news and updates. For technical support, head to our [Discord](https://discord.com/channels/747885925232672829/747885925878726841) or [Forum](https://forum.akash.network/).
+Be sure to follow us on [Twitter](https://x.com/akashnet) and [Telegram](https://t.me/AkashNW) to stay in the loop on the latest news and updates. For technical support, head to our [Discord](https://discord.com/channels/747885925232672829/747885925878726841) or [Forum](https://forum.akash.network/).

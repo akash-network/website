@@ -154,6 +154,6 @@ For Osmosis updates, join the Osmosis [Discord](https://discord.gg/qwC4yfCw).
 
 ---
 
-For the latest AKT and Akash Network news and promotions, [join our Telegram](https://t.me/AkashNW) & [Twitter](https://twitter.com/akashnet).
+For the latest AKT and Akash Network news and promotions, [join our Telegram](https://t.me/AkashNW) & [Twitter](https://x.com/akashnet).
 
 For developer support, [join our Discord](https://discord.com/invite/DxftX67).
