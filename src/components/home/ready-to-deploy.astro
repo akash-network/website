@@ -1,7 +1,7 @@
 ---
 import TryAkashForm from "@/components/ui/try-akash-form";
 
-const data = [
+const readyToDeploy = [
   {
     title: "85%",
     description: "Average Cost Savings",
@@ -36,7 +36,7 @@ const data = [
     </div>
     <div class="grid w-full grid-cols-2 gap-4 md:gap-5 lg:grid-cols-4">
       {
-        data.map((item) => (
+        readyToDeploy.map((item) => (
           <div class="relative flex flex-col items-center justify-center overflow-hidden rounded-lg border bg-background2 py-4 shadow-xl md:py-14">
             <div class="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2  select-none whitespace-nowrap bg-gradient-to-b from-white/80 to-background2 bg-clip-text text-6xl font-semibold tracking-wide  text-transparent opacity-10 md:text-8xl">
               {item.title}
@@ -57,7 +57,7 @@ const data = [
       client:load
       type="customButton"
       className="rounded-md bg-primary px-12 py-3 text-lg text-white hover:bg-primary/90"
-      linkText="Book Demo"
+      linkText="Get Started"
     />
   </div>
 </section>
