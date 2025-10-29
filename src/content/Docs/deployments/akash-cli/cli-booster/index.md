@@ -15,6 +15,8 @@ linkTitle: "Akash CLI Booster"
 
 ## Getting Started with the CLI Booster
 
+NOTE - the CLI booster is maintained by the community and not the Akash core team.  Provided in docs for possible ease of use.  Only the Akash primary CLI is maintained by the core team.
+
 Our use of the Akash CLI Booster begins by downloading the application.
 
 Ensure the following steps have been completed prior:
@@ -27,7 +29,7 @@ Ensure the following steps have been completed prior:
 <br/>
 
 ```
-git clone https://github.com/andy108369/akash-tools.git
+git clone https://github.com/Mohsen-Mahdavifar/akash-tools.git
 ```
 
 ## Initialize

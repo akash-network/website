@@ -143,7 +143,7 @@ export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
 _**Start the node**_
 
 ```
-akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
+akash genesis init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
 ```
 
 _**Example/Expected Result**_
@@ -156,7 +156,7 @@ _**Example/Expected Result**_
 },"upgrade":{},"vesting":{}},"chain_id":"akashnet-2","gentxs_dir":"","moniker":"chainzero","node_id":"2f4491952df08e69fd988c6f5d6ed21e25318fbc"}
 ```
 
-## STEP5 - Set Minimum Gas Price
+## STEP5 - Set Minimum Gas Price - REQUIRED
 
 Your node keeps unconfirmed transactions in its mempool. In order to protect the node from spam, it is best to set a minimum gas price that the transaction must meet in order to be accepted into the mempool.
 
