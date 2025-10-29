@@ -257,7 +257,7 @@ const Panel = ({
               href="https://console.akash.network/"
               className="flex w-full items-center  justify-center gap-2 rounded-md border bg-gray-50 py-[9px]  text-base font-medium hover:bg-gray-100  dark:bg-background dark:hover:bg-white/10 md:py-2"
             >
-              Sign Up
+              Sign in
             </a>
             <TryAkashForm type="hero" fullWidth />
           </div>
