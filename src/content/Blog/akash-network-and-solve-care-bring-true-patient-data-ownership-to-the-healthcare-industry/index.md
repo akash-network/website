@@ -43,4 +43,4 @@ This partnership between Akash Network and Solve.Care represents a transformativ
 
 In summary, the Akash Network and Solve.Care partnership marks a crucial development in making healthcare more patient-centric, secure, and cost-effective. This initiative sets a new benchmark for the integration of technology in healthcare, making the healthcare industry more open and accessible for all.
 
-To stay informed of the latest developments in this partnership, follow [Akash](https://twitter.com/akashnet) and [Solve.Care](https://twitter.com/Solve_Care) on X. Stay tuned for a comprehensive technical blog post, which will take a deep dive into the technology behind deploying Care.Nodes on Akash, coming soon.
+To stay informed of the latest developments in this partnership, follow [Akash](https://x.com/akashnet) and [Solve.Care](https://twitter.com/Solve_Care) on X. Stay tuned for a comprehensive technical blog post, which will take a deep dive into the technology behind deploying Care.Nodes on Akash, coming soon.

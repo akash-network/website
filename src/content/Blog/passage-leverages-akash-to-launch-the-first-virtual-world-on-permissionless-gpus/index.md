@@ -55,4 +55,4 @@ Passage is building an exciting new platform to power an entirely new way for cr
 
 To hear more about how decentralized compute, the metaverse, and permissionless compute for AI — don’t miss Greg Osuri, Founder of Akash, and Lex Avellino, Founder of Passage, live at [ATOMDenver](https://cosmoverse.org/atomxyz) (during ETHDenver).
 
-For more information and to follow the latest updates — follow [Passage](https://twitter.com/passageio) and [Akash](https://twitter.com/akashnet) on X.
+For more information and to follow the latest updates — follow [Passage](https://twitter.com/passageio) and [Akash](https://x.com/akashnet) on X.

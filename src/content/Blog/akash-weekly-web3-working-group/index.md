@@ -107,7 +107,7 @@ Amy James is the Co-Executive Director of [Web3 Working Group](https://web3wg.or
 - We are reaching a point where we can make a case for the fundamental importance of web3.
 - Web3 can no longer be regarded as trivial as more projects and protocols emerge and as Web2 companies begin adopting web3 technologies.
 
-[Listen to the final 30 minutes of the conversation (along with everything covered already) here.](https://twitter.com/akashnet/status/1597977210341961728?s=20&t=uSg6brBdtetQM2WlSvTPIQ)
+[Listen to the final 30 minutes of the conversation (along with everything covered already) here.](https://x.com/akashnet/status/1597977210341961728?s=20&t=uSg6brBdtetQM2WlSvTPIQ)
 
 ---
 

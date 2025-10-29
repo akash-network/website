@@ -16,7 +16,7 @@ contributors:
 bannerImage: ./banner-image.png
 ---
 
-Akash Weekly Spaces is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. [Follow us on Twitter](https://twitter.com/akashnet) to be notified when Akash Weekly’s are live.
+Akash Weekly Spaces is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. [Follow us on Twitter](https://x.com/akashnet) to be notified when Akash Weekly’s are live.
 
 On this Spaces: CEO of Overclock Labs, Greg Osuri, and Anil Murty, the Head of Product at Overclock Labs go over ecosystem updates, product updates, and the Akash adoption plan, phase by phase.
 

@@ -16,7 +16,7 @@ contributors:
 bannerImage: ./banner-image.png
 ---
 
-Akash Weekly is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. [Follow us on Twitter](https://twitter.com/akashnet) to be notified when Akash Weekly's are live.
+Akash Weekly is a regular effort hosted via Twitter Spaces to update our community about the ins and outs of Akash Network’s developments. [Follow us on Twitter](https://x.com/akashnet) to be notified when Akash Weekly's are live.
 
 On this Spaces: CEO of Overclock Labs, Greg Osuri, and Alani Kuye, Program Manager of Overclock Labs speak with Akash Providers to discuss general ecosystem updates, and share some of our providers’ experiences using Akash Network.
 

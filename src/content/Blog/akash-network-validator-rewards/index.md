@@ -59,6 +59,6 @@ Riot: [https://akash.network/chat](https://akash.network/chat)
 
 Telegram: [https://t.me/AkashNW](https://t.me/AkashNW)
 
-Twitter: [https://twitter.com/akashnet](https://twitter.com/akashnet)
+Twitter: [https://x.com/akashnet](https://x.com/akashnet)
 
 Github: [https://github.com/ovrclk](https://github.com/ovrclk)

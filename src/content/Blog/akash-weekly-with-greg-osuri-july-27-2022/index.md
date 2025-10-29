@@ -15,27 +15,25 @@ contributors:
 
 bannerImage: ./banner-image.png
 ---
+
 Akash Weekly is our weekly community call hosted on Twitter Spaces. Each week, we cover the latest news and updates from Akash Network with our CEO, Greg Osuri.
 
-[Follow Akash Network (@akashnet\_) on Twitter](https://twitter.com/akashnet) to get notifications for all future Akash Weekly events. We’re live every Wednesday morning, and everyone is welcome. We hope to see you next week!
+[Follow Akash Network (@akashnet\_) on Twitter](https://x.com/akashnet) to get notifications for all future Akash Weekly events. We’re live every Wednesday morning, and everyone is welcome. We hope to see you next week!
 
-On this Akash Weekly: 
+On this Akash Weekly:
 
-*   Greg Osuri - Co-Founder & CEO of Overclock Labs & Host of Akash Weekly
-    
-*   Anil Murty - Head of Product, Overclock Labs
-    
+- Greg Osuri - Co-Founder & CEO of Overclock Labs & Host of Akash Weekly
+- Anil Murty - Head of Product, Overclock Labs
 
 This week, we looked back on the progress Akash has made in July, took a look into our progress with IP Leases, and much more.
 
-Akash Ecosystem Updates
------------------------
+## Akash Ecosystem Updates
 
 ### Akash Excels for Incentivized Testnet Participation
 
 Saving money is one of the core utilities of AKT. We have seen users of Akash Network apply our infrastructure to participate in incentivized testnets, which lowers their costs and results in higher earnings.
 
-Akash user Pavlo Dereniuk (@PDereniuk) participated in an incentivized testnet and was able to deploy a node for only $4 using Akash. 
+Akash user Pavlo Dereniuk (@PDereniuk) participated in an incentivized testnet and was able to deploy a node for only $4 using Akash.
 
 ![](https://www.datocms-assets.com/45776/1659123850-screen-shot-2022-07-29-at-3-43-18-pm.png)
 
@@ -57,13 +55,10 @@ We are continuing to expand the Akash team. In July, we welcomed eight new hires
 
 Akash is still searching for two priority roles. If you, or someone you know, are interested in making the jump into web3 – please feel free to take a look at the open roles below:
 
-*   [Sr. Software Engineer](https://jobs.lever.co/AkashNetwork/ffb7576e-b9c4-450b-993e-226565dc236d)
-    
-*   [VP of Marketing](https://jobs.lever.co/AkashNetwork/02a876a8-8732-4e8c-a638-f696aeac027c)
-    
+- [Sr. Software Engineer](https://jobs.lever.co/AkashNetwork/ffb7576e-b9c4-450b-993e-226565dc236d)
+- [VP of Marketing](https://jobs.lever.co/AkashNetwork/02a876a8-8732-4e8c-a638-f696aeac027c)
 
-Looking Forward
----------------
+## Looking Forward
 
 ### GPU Marketplace
 
@@ -83,13 +78,12 @@ The addition of IP leases gives users on Akash Network access to a service typic
 
 IP Leases on Akash are currently live and deployed on a testnet, and we are working to get this service live as soon as possible.
 
-Q&A Highlights
---------------
+## Q&A Highlights
 
 ### Q: Do you plan to implement a system where people can buy AKT with their credit card for deployments so that there is no need to go to an exchange?
 
 > "Yes, we plan to offer credit card payments at some point in the future. We are investigating options and defining the work that would allow for the leasing of resources directly via credit cards, instead of having to purchase AKT."
-> 
+>
 > Anil Murty, Head of Product, Overclock Labs (Creator of Akash Network)
 
 ### Q: What is the difference between Akash Network, Filecoin, and Arweave?
@@ -106,12 +100,11 @@ Cloud computing services like Akash Network and storage solutions like Filecoin 
 
 Potentially! Stay tuned.
 
-Connect with Akash
-------------------
+## Connect with Akash
 
 We invite you to dive deeper into the original audio on our YouTube Channel.
 
-[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://twitter.com/akashnet) _to stay up to date with Akash Network, AKT, and the Akash Community._
+[_**Follow Akash Network (@akashnet\_) on Twitter**_](https://x.com/akashnet) _to stay up to date with Akash Network, AKT, and the Akash Community._
 
 [_**Join our Discord**_](https://discord.com/invite/DxftX67) _to get involved with our community._
 

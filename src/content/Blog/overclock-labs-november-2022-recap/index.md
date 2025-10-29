@@ -42,7 +42,7 @@ Our Akash Weekly series continued into its fifth month. Catch up with our Novemb
 
 ## Greg Osuri spoke at Dcentral Miami
 
-Last week, [Greg Osuri](https://twitter.com/gregosuri) (Founder and CEO of Akash Network) [spoke on the mainstage at Dcentral Miami](https://twitter.com/akashnet/status/1597282620056154113?s=20&t=fNgL56soQr0KRPVOgkO_gwhttps://twitter.com/akashnet/status/1597282620056154113?s=20&t=fNgL56soQr0KRPVOgkO_gw) alongside Joshua Noble, CEO & Co-Founder of [Filebase](https://filebase.com/), on the topic of decentralized cloud and storage in web3.
+Last week, [Greg Osuri](https://twitter.com/gregosuri) (Founder and CEO of Akash Network) [spoke on the mainstage at Dcentral Miami](https://x.com/akashnet/status/1597282620056154113?s=20&t=fNgL56soQr0KRPVOgkO_gwhttps://twitter.com/akashnet/status/1597282620056154113?s=20&t=fNgL56soQr0KRPVOgkO_gw) alongside Joshua Noble, CEO & Co-Founder of [Filebase](https://filebase.com/), on the topic of decentralized cloud and storage in web3.
 
 [Check out the full recording of the panel here](https://www.youtube.com/watch?v=uGlflVLgYjI).
 
@@ -52,4 +52,4 @@ We are getting very close to launching the open beta of Overclock Labs’ flagsh
 
 Console will make it easy to create and manage deployments on Akash with a convenient, web-based tool.
 
-Follow [@akashnet\_](https://twitter.com/akashnet) and [@gregosuri](https://twitter.com/gregosuri) on Twitter, and [subscribe to our newsletter](https://akashnetwork.substack.com/) here to keep up to date with the latest from [Overclock Labs](https://ovrclk.com) and [Akash Network](https://akash.network).
+Follow [@akashnet\_](https://x.com/akashnet) and [@gregosuri](https://twitter.com/gregosuri) on Twitter, and [subscribe to our newsletter](https://akashnetwork.substack.com/) here to keep up to date with the latest from [Overclock Labs](https://ovrclk.com) and [Akash Network](https://akash.network).
