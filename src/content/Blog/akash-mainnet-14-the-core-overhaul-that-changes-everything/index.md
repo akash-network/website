@@ -27,7 +27,7 @@ This upgrade brings major performance and functionality improvements:
 
 ## Full Abstraction: The Path to Usable Decentralization
 
-Akash is removing one of the biggest barriers to decentralized adoption: blockchain friction. With the introduction of [AEP-72: Full API Authentication Abstraction](/roadmap/aep-72/), users and developers will no longer need to create blockchain authentication certificates to interact with the network. Instead, Akash will adopt JWT (JSON Web Tokens), a global standard used across modern web applications, to simplify authentication, improve compatibility, and make user experience seamless. This means developers can build and deploy workloads using familiar Web2-style authentication, without ever touching the blockchain directly.
+Akash is removing one of the biggest barriers to decentralized adoption: blockchain friction. With the introduction of [AEP-63: Full API Authentication Abstraction](/roadmap/aep-63/), users and developers will no longer need to create blockchain authentication certificates to interact with the network. Instead, Akash will adopt JWT (JSON Web Tokens), a global standard used across modern web applications, to simplify authentication, improve compatibility, and make user experience seamless. This means developers can build and deploy workloads using familiar Web2-style authentication, without ever touching the blockchain directly.
 
 ## IAVL Storage Upgrades
 
