@@ -374,7 +374,7 @@ cat $HOME/.akash/config/config.toml
 
 We could let our node catch up to the current block but this would take a very long time. Instead we will download a snapshot of the blockchain before starting our node.
 
-**NOTE** - at the time of this writing the snapshot is 7GB.
+**NOTE** - at the time of this writing the snapshot is 8GB.
 
 ### Remove Existing Data
 
