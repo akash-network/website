@@ -53,4 +53,4 @@ The dramatic reduction in cloud costs has transformed Passage's growth trajector
 "Akash sets us up perfectly for our next phase of growth," says Passage CEO Arel Avellino. "Instead of managing infrastructure costs, we can focus on building the tools our creators need. As we prepare for our closed beta release, we believe the efficiency of Akash's marketplace gives us a competitive edge to take over the digital events space."
 
 ## Learn more about Passage
-To experience Passage, you can hop into their [Discord](https://discord.gg/passage) for weekly community calls hosted in the platform, or sign up for early access at [passage.io/elite-alpha-signup](http://passage.io/elite-alpha-signup). 
+To experience Passage, you can hop into their [Discord](https://discord.gg/passage) for weekly community calls hosted in the platform, or sign up for early access at [passage.io/elite-alpha-signup](https://www.passage.io/post/elite-alpha-launch).

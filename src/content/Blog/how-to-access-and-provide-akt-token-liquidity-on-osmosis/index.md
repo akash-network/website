@@ -46,7 +46,7 @@ You can purchase ATOM from every major exchange in the world. Below are a number
 
 [Binance](https://www.binance.com/en/trade/ATOM_USDT)
 
-**Step 1.2: Install the** [**Keplr Wallet**](https://keplr.xyz/) **browser extension**
+**Step 1.2: Install the** [**Keplr Wallet**](https://www.keplr.app/) **browser extension**
 
 In order to use Osmosis you need to create a Keplr Wallet. Go to the [chrome web store](https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en) and click the “Add to chrome” button at the top right of your screen.
 

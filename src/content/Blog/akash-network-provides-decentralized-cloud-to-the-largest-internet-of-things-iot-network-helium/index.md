@@ -106,7 +106,7 @@ Once you’ve inputted your address, the Faucet will deliver just over 10000 TNT
 
 #### **Step 3. Set Up an Akash Mainnet Wallet**
 
-- [Install the Akash CLI](https://akash.network/docs/guides/install). To installakashusing homebrew just enter:
+- [Install the Akash CLI](https://akash.network/docs/deployments/akash-cli/installation/#install-akash-cli). To install akash using homebrew just enter:
 
   brew tap ovrclk/tap
   brew install akash

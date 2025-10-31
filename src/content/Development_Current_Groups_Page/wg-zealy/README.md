@@ -60,4 +60,4 @@ The working group is created to work on the proposal to see what support is need
 
 ## Related SIGs
 
-- [community/sig-community](sig-community)
+- [community/sig-community](../sig-community/)

@@ -23,7 +23,7 @@ Use the following documentation for sandbox use and depending on your preferred 
 ### Deployment Options
 
 **For GUI Users :**
-- [Akash Console for Sandbox](/docs/deployments/sandbox/sandbox-via-console/) - Web-based interface with easy network switching
+- [Akash Console for Sandbox](/docs/deployments/sandbox/sandbox-console/) - Web-based interface with easy network switching
 
 **For CLI Users :**
 - [Akash CLI for Sandbox Use](/docs/deployments/sandbox/installation/) - Command-line interface for deployment creation and management

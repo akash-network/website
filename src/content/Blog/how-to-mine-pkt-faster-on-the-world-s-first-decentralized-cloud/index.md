@@ -112,7 +112,7 @@ You now have a PKT wallet address and we can move on to step two.
 
 ### Step 2: Create Your Configuration File 
 
-When deploying on Akash, miners define the deployment services, data centers, requirements, and pricing parameters, in a “manifest” - a configuration file that may end in `.yml` or `.yaml`. This configuration file follows the YAML standard and is very similar to Docker Compose files. The file is written in a human-friendly language called [Stack Definition Language (SDL)](https://akash.network/docs/sdl). This SDL file is a form to request resources and declare deployment attributes.
+When deploying on Akash, miners define the deployment services, data centers, requirements, and pricing parameters, in a “manifest” - a configuration file that may end in `.yml` or `.yaml`. This configuration file follows the YAML standard and is very similar to Docker Compose files. The file is written in a human-friendly language called [Stack Definition Language (SDL)](https://akash.network/docs/getting-started/stack-definition-language/). This SDL file is a form to request resources and declare deployment attributes.
 
 Below is an example configuration file written in the Akash stack definition language (SDL). The file has four sections: version, services, profiles, deployment. Just change the wallet address in the **services** section and you are good to go, or modify it to your taste.
 
