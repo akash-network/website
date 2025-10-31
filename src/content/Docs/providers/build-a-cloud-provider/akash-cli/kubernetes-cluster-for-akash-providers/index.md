@@ -110,7 +110,7 @@ cd kubespray
 
 ### Cluster Updates
 
-To update the Kubernetes cluster in the future, review the[ latest Kubespray documentation](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/upgrades.md) to take advantage of recent bug fixes and enhancements.
+To update the Kubernetes cluster in the future, review the[ latest Kubespray documentation](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/operations/upgrades.md) to take advantage of recent bug fixes and enhancements.
 
 ## STEP 2 - Install Ansible
 
@@ -235,7 +235,7 @@ cp -rfp inventory/sample inventory/akash
 - Open the inventory.ini file in VI (Visual Editor) or nano
 - Update the kube_control_plane category if needed with full list of hosts that should be master nodes
 - Ensure you have either 1 or 3 Kubernetes control plane nodes under `kube_control_plane`. If 2 are listed, change that to 1 or 3, depending on whether you want Kubernetes be Highly Available.
-- Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/the-kubernetes-current/etcd-kubernetes-what-you-should-know/).
+- Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/ai-and-cloud-native-blog/etcd-kubernetes-what-you-should-know).
 - For additional details regarding `inventory.ini` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources).
 
 ```
