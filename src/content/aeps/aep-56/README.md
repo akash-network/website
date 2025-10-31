@@ -33,7 +33,7 @@ Investigate and implement chain SDK which supports:
 
 Additionally, this SDK should have:
 * certificates manager and corresponding utils (https://github.com/akash-network/akashjs/blob/main/src/certificates/certificate-manager/CertificateManager.ts)
-* certificate validation logic for provider nodes https://github.com/akash-network/console/blob/main/apps/provider-proxy/src/services/CertificateValidator.ts
+* certificate validation logic for provider nodes https://github.com/akash-network/console/blob/main/apps/provider-proxy/src/services/CertificateValidator/CertificateValidator.ts
 * SDL related logic 
   - move from https://github.com/akash-network/akashjs/blob/main/src/sdl/SDL/SDL.ts
   - move from https://github.com/akash-network/console/tree/main/apps/deploy-web/src/utils/sdl

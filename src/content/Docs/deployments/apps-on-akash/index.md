@@ -36,7 +36,7 @@ Join our [discord](https://discord.com/invite/akash) if you have questions or co
 - [Daila](https://github.com/akash-network/awesome-akash/tree/master/daila)
 - [Faster Whisper CPU](https://github.com/akash-network/awesome-akash/tree/master/faster-whisper-cpu)
 - [Flowise](https://github.com/akash-network/awesome-akash/tree/master/flowise)
-- [Eliza AI Agent](https://github.com/akash-network/awesome-akash/tree/master/elizaos-ai_Agents)
+- [Eliza AI Agent](https://github.com/akash-network/awesome-akash/tree/master/Elizaos-ai_Agents)
 - [InvokeAI CPU](https://github.com/akash-network/awesome-akash/tree/master/invoke-ai-cpu)
 - [Langflow](https://github.com/akash-network/awesome-akash/tree/master/langflow)
 - [Morpheus Lumerin Node](https://github.com/akash-network/awesome-akash/tree/master/morpheus-lumerin-node)
@@ -102,7 +102,7 @@ Join our [discord](https://discord.com/invite/akash) if you have questions or co
 - [vllm](https://github.com/akash-network/awesome-akash/tree/master/vllm)
 - [Whisper ASR GPU](https://github.com/akash-network/awesome-akash/tree/master/whisper-asr-gpu)
 - [Whisper GUI GPU](https://github.com/akash-network/awesome-akash/tree/master/whisper-gui-gpu)
-- [XLM-roBERTa](https://github.com/akash-network/awesome-akash/tree/master/XLM-roBERTa)
+- [XLM-roBERTa](https://github.com/akash-network/awesome-akash/tree/master/XLM-RoBERTa)
 
 ### Blogging
 
@@ -392,7 +392,7 @@ Awesome DeFi apps you can deploy on Akash
 
 ### Wallet
 
-- [MyetherWallet](https://github.com/akash-network/awesome-akash/tree/master/MyetherWallet)
+- [MyetherWallet](https://github.com/akash-network/awesome-akash/tree/master/MyEtherWallet)
 - [tronwallet](https://github.com/akash-network/awesome-akash/tree/master/tronwallet)
 
 ### Web Frameworks

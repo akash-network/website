@@ -31,7 +31,7 @@ Mainnet 4 is now live on Akash Network after a successful upgrade yesterday. For
 
 Updated CLI release notes: [https://akash.network/docs/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes](https://akash.network/docs/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes)
 
-CLI detailed steps: [https://akash.network/docs/guides/cli/detailed-steps](https://akash.network/docs/guides/cli/detailed-steps)
+CLI detailed steps: [https://akash.network/docs/guides/cli/detailed-steps](https://akash.network/docs/deployments/akash-cli/installation/)
 
 ### Overclock Console is coming soon
 

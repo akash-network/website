@@ -37,7 +37,7 @@ To test each image, you can run your blockchain node locally using the docker-co
 
 ### Run your node on Akash Network
 
-When you want to run your node on a cloud provider, you can easily deploy using Akash and the deploy.yml example deployment file in each chain directory which details the minimum configuration required. Follow the [Akash deployment guide](https://akash.network/docs/guides/deploy). You can use the below configuration options to add functionality.
+When you want to run your node on a cloud provider, you can easily deploy using Akash and the deploy.yml example deployment file in each chain directory which details the minimum configuration required. Follow the [Akash deployment guide](https://akash.network/docs/deployments/akash-cli/installation/). You can use the below configuration options to add functionality.
 
 ## **Set your Environment Configuration** 
 

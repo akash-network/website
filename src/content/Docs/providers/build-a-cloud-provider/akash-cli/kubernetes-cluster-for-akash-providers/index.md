@@ -236,8 +236,7 @@ cp -rfp inventory/sample inventory/akash
 - Update the kube_control_plane category if needed with full list of hosts that should be master nodes
 - Ensure you have either 1 or 3 Kubernetes control plane nodes under `kube_control_plane`. If 2 are listed, change that to 1 or 3, depending on whether you want Kubernetes be Highly Available.
 - Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/ai-and-cloud-native-blog/etcd-kubernetes-what-you-should-know).
-- For additional details regarding `inventory.ini` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources).
-
+- For additional details regarding `inventory.ini` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/additional-k8s-resources/).
 ```
 vi ~/kubespray/inventory/akash/inventory.ini
 ```

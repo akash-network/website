@@ -119,7 +119,7 @@ kubectl apply -f metallb-config.yaml
 Based on MetalLB via Kubespray guidance documented [here](https://github.com/kubernetes-sigs/kubespray/blob/v2.20.0/docs/metallb.md)
 
 
-The Kubespray flags provided bellow should go into your Provider's Kubespray inventory file and under the vars section. Our reference Provider Kubespray inventory file - used during initial Provider Kubernetes cluster build - is located [here](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/kubernetes-cluster-for-akash-providers#step-4---ansible-inventory).
+The Kubespray flags provided bellow should go into your Provider's Kubespray inventory file and under the vars section. Our reference Provider Kubespray inventory file - used during initial Provider Kubernetes cluster build - is located [here](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/#step-4---ansible-inventory).
 
 
 ```

@@ -69,7 +69,7 @@ To compete in the challenge, submit your work to the [Akash-Arweave Challenge](h
 
 To help developers get started here are some of the important links:
 
-- Akash Getting Started: [https://akash.network/docs/guides/cli](https://akash.network/docs/guides/cli)
+- Akash Getting Started: [https://akash.network/docs/getting-started/quickstart-guides/akash-cli/](https://akash.network/docs/getting-started/quickstart-guides/akash-cli/)
 - Akash Discord: [http://discord.akash.network/](http://discord.akash.network/)
 - Akash Community Fund: [http://forum.akash.network/](http://forum.akash.network/)
 - ArDrive CLI Docs: [https://github.com/ardriveapp/ardrive-cli](https://github.com/ardriveapp/ardrive-cli)

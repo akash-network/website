@@ -114,7 +114,7 @@ Launch the Akash Console application to complete the sections that follow.
 ![](../../../../assets/akashlyticsCreateDeployment.png)
 
 - In our testing we will use the Hello Akash World simple SDL
-- Note - this SDL does not specify any attributes. If the list of bids received from the deployment is large and you would like to reduce the list to isolate a bid from your provider a bit easier, consider attribute use as detailed in this [SDL reference](/docs/providers/audited-attributes/#auditor-location-within-the-sdl).
+- Note - this SDL does not specify any attributes. If the list of bids received from the deployment is large and you would like to reduce the list to isolate a bid from your provider a bit easier, consider attribute use as detailed in this [SDL reference](/docs/deployments/audited-attributes/#attribute-location-within-the-sdl).
 - Otherwise process with the deployment with no need for change to the Hello Akash World SDL and pause when you reach reach the Create Lease phase of the deployment
 
 ![](../../../../assets/akashlyticsHelloWorldSelect.png)
@@ -333,4 +333,4 @@ Among the topics covered in the troubleshooting guide that should be considered 
 Please contact Akash technical support for any Provider issues not resolved following the review of our [Provider Checkup](./) and [Provider Troubleshooting](/docs/providers/provider-faq-and-guide/#gpu-provider-troubleshooting) guide.
 
 - [Akash Discord Server](https://discord.com/invite/akash) - post questions in the dedicated provider channel where our internal and community experts are ready to assist
-- [Akash Community Discussions](hhttps://github.com/orgs/akash-network/discussions) - post questions in the `🙏Q&A` category for Provider support&#x20;
+- [Akash Community Discussions](https://github.com/orgs/akash-network/discussions) - post questions in the `🙏Q&A` category for Provider support&#x20;

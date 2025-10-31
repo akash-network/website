@@ -25,11 +25,11 @@ For more on the network changes and bug fixes associated with Mainnet 5, see our
 
 **_Validators:_**
 
-[https://akash.network/docs/upgrades/v0.20.0-upgrade-docs](https://akash.network/docs/upgrades/v0.20.0-upgrade-docs)
+[https://akash.network/docs/upgrades/v0.20.0-upgrade-docs](https://akash.network/docs/other-resources/archived-resources/upgrades/v20-upgrade-docs/)
 
 **_Providers:_**
 
-[https://akash.network/docs/mainnet5-upgrade-docs/provider-upgrade](https://akash.network/docs/mainnet5-upgrade-docs/provider-upgrade)
+[https://akash.network/docs/mainnet5-upgrade-docs/provider-upgrade](https://akash.network/docs/other-resources/archived-resources/mainnet5-upgrade-docs/)
 
 ---
 
