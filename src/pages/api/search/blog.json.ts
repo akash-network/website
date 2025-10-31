@@ -19,8 +19,8 @@ async function getBlogPageContent() {
       month: "short",
       day: "numeric",
     }),
-    contributor: content.data.contributors[0],
-    tag: content.data.tags[0],
+    contributor: content.data.contributors?.[0] || null,
+    tag: content.data.tags?.[0] || null,
   }));
 }
 
