@@ -11,10 +11,4 @@ tags:
 description: NetaDAO is the Community Accelerator for $NETA NetaDAO confirmed they're hosting their homepage on Akash according to this tweet from their official account
 
 twitterLink: "https://twitter.com/Neta_DAO"
-websiteLink: "https://netadao.zone/"
-
-ctaButton:
-  label: View Project
-  link: "https://netadao.zone/"
-  enable: true
 ---
