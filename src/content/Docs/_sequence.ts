@@ -129,6 +129,8 @@ export const docsSequence = [
               { label: "Provider Feature Discovery - GPU Configuration Integration Guide"},
             ],
           },
+          { label: "Akash Provider Audit Process",
+          },
         ],
       },
       {
