@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # Rough work file
 broken-links-notes.md
+
+# VS Code
+.vscode/

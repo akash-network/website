@@ -189,6 +189,6 @@ The chart below shows daily network revenue since the network inception, which p
 
 ## Get started with deploying on Akash
 
-For more detailed technical information on the Mainnet 8 upgrade, head over to the [Akash Docs](https://akash.network/docs/akash-mainnet8-upgrade) to see the in-depth provider and node upgrade instructions, along with information to set up an Akash provider and deploy via the CLI.
+For more detailed technical information on the Mainnet 8 upgrade, head over to the [Akash Docs](https://akash.network/docs/other-resources/archived-resources/akash-mainnet8-upgrade/) to see the in-depth provider and node upgrade instructions, along with information to set up an Akash provider and deploy via the CLI.
 
 For a user-friendly deployment experience, head to [Cloudmos Deploy](https://deploy.cloudmos.io/) to see available network resources and to get started with your deployment.
