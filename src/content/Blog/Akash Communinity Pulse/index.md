@@ -1,12 +1,12 @@
 ---
 title: "Akash Community Pulse — September 2025 Edition"
 description: "Your monthly roundup of updates from Akash Network Special Interest Groups (SIGs), Working Groups, Steering Committee, and the broader ecosystem "
+
 pubDate: "2025-09-30"
 draft: false
 archive: false
 categories:
   - Community Pulse
-  - Akash Network
 tags:
   - Akash Network
   - SIG Updates
