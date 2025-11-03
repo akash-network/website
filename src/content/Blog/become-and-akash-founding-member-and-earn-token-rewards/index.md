@@ -26,7 +26,7 @@ We have two genesis rewards programs to share:
 
 2) **Akash Incentivized Staking Testnet Program**
 
-For the Akash Incentivized Staking Testnet Program, we’ll share more information at a later date.  If you are a validator, please check out [our validator rewards overview](https://blog.akash.network/2019/10/31/akash-network-validator-rewards/), and be sure to [sign up](https://akash.network/validators) for updates.
+For the Akash Incentivized Staking Testnet Program, we’ll share more information at a later date.  If you are a validator, please check out [our validator rewards overview](https://akash.network/blog/akash-network-validator-rewards/), and be sure to [sign up](https://akash.network/validators) for updates.
 
 ### **Akash Founding Member Rewards Program**
 
@@ -79,4 +79,4 @@ Although we do not limit anyone from participating, to claim AKT rewards:
 
 ### **Join the conversation**
 
-Subscribe to our [newsletter](https://akash.network/newsletter) and join our community channels on [Matrix](https://akash.network/chat) and [Telegram](https://t.me/AkashNW) to stay up to date and get your questions answered! And make sure to watch out for future badge announcements!
+Subscribe to our [newsletter](https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network) and join our community channels on [Matrix](https://chat.akash.network/) and [Telegram](https://t.me/AkashNW) to stay up to date and get your questions answered! And make sure to watch out for future badge announcements!

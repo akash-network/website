@@ -50,5 +50,5 @@ This working group is responsible for the design, implementation, testing and do
 
 ## Related SIGs
 
-- [sig-clients](sig-clients)
-- [sig-deployments](sig-deployments)
+- [sig-clients](../sig-clients/)
+- [sig-deployments](../sig-deployments/)

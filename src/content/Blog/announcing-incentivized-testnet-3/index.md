@@ -53,19 +53,19 @@ So, let’s talk about the features you can play with.
 
 Persistent storage on Akash allows data to remain available through the lifetime of its lease. A deployment could drop, reinitialize, and move within a provider while retaining access to data stored. The provider allocates a volume on the host that is mounted within the deployment.
 
-This functionality closely mimics storage capabilities in public cloud environments. The ability for data to remain available through the life of its lease is a huge leap forward for many deployment use cases. Future releases will explore the ability to persist data across leases, adding even further capability. Check out the documentation, [here](https://akash.network/docs/testnet-technical-docs/persistent-storage).
+This functionality closely mimics storage capabilities in public cloud environments. The ability for data to remain available through the life of its lease is a huge leap forward for many deployment use cases. Future releases will explore the ability to persist data across leases, adding even further capability. Check out the documentation, [here](https://akash.network/docs/network-features/persistent-storage/).
 
 #### **Fractional uAKT**
 
 Fractional uAKT removes the minimum cost of deployment. In the past, a deployment could not be cheaper than one uAKT per block. This means, extremely light workloads like a crypto wallet, or perhaps a personal blog could end up being more expensive than necessary. The limitation also would have more severe consequences as token price increases. A lightweight deployment could increase from $1 to $5 per month if the token were to double or triple in price.
 
-With fractional uAKT, prices will remain consistent and resource consumption can be accurate to the cost. Check out the documentation, [here](https://akash.network/docs/testnet-technical-docs/fractional-uakt).
+With fractional uAKT, prices will remain consistent and resource consumption can be accurate to the cost. Check out the documentation, [here](https://akash.network/docs/network-features/fractional-uakt/).
 
 #### **Authorized Spend** 
 
 Authorized Spend allows users to authorize their wallet to spend a set number of tokens by another source wallet on deployments. The authorized spend is restricted to Akash deployment activities and the recipient of the tokens would not have access to those tokens for other operations.
 
-This allows large teams to work on deployments together without using shared wallets, thereby reducing security concerns. Additionally, this allows new community members to spin up deployments without access to a faucet. Check out the documentation, [here](https://akash.network/docs/testnet-technical-docs/authorized-spend).
+This allows large teams to work on deployments together without using shared wallets, thereby reducing security concerns. Additionally, this allows new community members to spin up deployments without access to a faucet. Check out the documentation, [here](https://akash.network/docs/network-features/authorized-spend/).
 
 #### **Inflation Decay Curve**
 

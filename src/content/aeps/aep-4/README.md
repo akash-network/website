@@ -12,7 +12,7 @@ roadmap: major
 
 ## Summary
 
-Launch Testnet with a fully functioning spot computing marketplace for containers and serverless deployment platform as proposed in the [AEP-2](/spec/aep-2). Incentivize user adoption of by applying game mechanics.
+Launch Testnet with a fully functioning spot computing marketplace for containers and serverless deployment platform as proposed in the [AEP-2](../aep-2/). Incentivize user adoption of by applying game mechanics.
 
 ## Motivation
 
@@ -28,8 +28,8 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 
 - Codename: Alpha
 - Includes DCSs:
-  - [AEP-2: Decentralized Cloud Exchange](/spec/aep-2)
-  - [AEP-3: Stack Definition Language](/spec/aep-3)
+  - [AEP-2: Decentralized Cloud Exchange](../aep-2)
+  - [AEP-3: Stack Definition Language](../aep-3)
 - Token Allocation: 2,000,000 AKT
 - Limit: 100 Members
 - Program(s): Akash Founder Member Rewards
@@ -54,6 +54,6 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 
 - [Become an Akash Founding Member and Earn Token Rewards](https://akash.network/blog/become-and-akash-founding-member-and-earn-token-rewards/)
 - [Earn 1,000 Tokens and the Akash Founder Level 2 Badge!](https://akash.network/blog/earn-1000-tokens-and-the-akash-founder-level-2-badge/)
-- [Announcing Our Third Founding Member Challenge!](https://akash.network/blog/announcing-our-third-founding-member-challenge-earn-2000-akash-tokens/)
+- [Announcing Our Third Founding Member Challenge!](https://akash.network/blog/announcing-our-third-founding-member-challenge/)
 - [Congratulations to Founding Member Challenge Contributors! Still Time to Join for 5500 Akash Tokens!](https://akash.network/blog/congratulations-to-founding-member-challenge-contributors-still-time-to-join-for-5500-akash-tokens)
 - [Announcing Our Founding Member Challenge Winners & Leaderboard!](https://akash.network/blog/announcing-our-founding-member-challenge-winners-leaderboard)
