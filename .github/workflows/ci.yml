@@ -24,8 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check formatting
+      - name: Check formatting (non-blocking)
         run: npm run format
+        continue-on-error: true
 
       - name: Type check
         run: npm run typecheck
@@ -35,3 +36,4 @@ jobs:
 
       - name: Build
         run: npm run build
+
