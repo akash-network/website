@@ -6,6 +6,16 @@ import { useForm } from "react-hook-form";
 import "react-phone-number-input/style.css";
 import * as z from "zod";
 
+declare global {
+  interface Window {
+    gtag: (
+      command: string,
+      eventName: string,
+      params?: Record<string, any>,
+    ) => void;
+  }
+}
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -141,6 +151,12 @@ export function GpuContactForm() {
   });
 
   const watchedUseCases = form.watch("lead_type");
+
+  const trackEvent = (eventName: string, params?: Record<string, any>) => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", eventName, params);
+    }
+  };
 
   const shouldShowRedirectDialog = () => {
     return redirectUri !== null;
@@ -289,6 +305,14 @@ export function GpuContactForm() {
       if (response.ok) {
         const responseData = await response.json();
 
+        trackEvent("form_submission_success", {
+          event_category: "GPU Contact Form",
+          event_label: "Form Submitted Successfully",
+          lead_type: values.lead_type,
+          has_meeting_link: !!responseData.redirectUri,
+          is_meeting_embedded: isMeetingLink(responseData.redirectUri),
+        });
+
         if (responseData.redirectUri) {
           setRedirectUri(responseData.redirectUri);
 
@@ -310,6 +334,15 @@ export function GpuContactForm() {
       } else {
         const errorData: ApiErrorResponse = await response.json();
 
+        trackEvent("form_submission_error", {
+          event_category: "GPU Contact Form",
+          event_label: "Form Submission Failed",
+          lead_type: values.lead_type,
+          error_type: errorData.errors?.length
+            ? "validation_error"
+            : "general_error",
+        });
+
         if (errorData.errors && errorData.errors.length > 0) {
           setApiErrors(errorData.errors);
         } else {
@@ -322,6 +355,12 @@ export function GpuContactForm() {
         });
       }
     } catch (error) {
+      trackEvent("form_submission_error", {
+        event_category: "GPU Contact Form",
+        event_label: "Unexpected Error",
+        error_type: "exception",
+      });
+
       setGeneralError("An unexpected error occurred. Please try again.");
 
       window.scrollTo({
@@ -358,6 +397,13 @@ export function GpuContactForm() {
     });
 
     if (!hasErrors) {
+      trackEvent("form_step_completed", {
+        event_category: "GPU Contact Form",
+        event_label: "Step 1 Completed",
+        step: 1,
+        lead_type: currentValues.lead_type,
+      });
+
       window.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -401,6 +447,11 @@ export function GpuContactForm() {
 
           <Button
             onClick={() => {
+              trackEvent("continue_to_console_click", {
+                event_category: "GPU Contact Form",
+                event_label: "Continue To Console Button",
+                page_location: window.location.href,
+              });
               window.open("https://console.akash.network", "_blank");
             }}
             className="h-auto w-full rounded-md bg-primary px-8 py-4 text-lg font-semibold text-white hover:bg-primary/90"
@@ -473,6 +524,13 @@ export function GpuContactForm() {
                                     onChange={(e) => {
                                       if (e.target.checked) {
                                         field.onChange(option);
+
+                                        trackEvent("form_started", {
+                                          event_category: "GPU Contact Form",
+                                          event_label: "Lead Type Selected",
+                                          lead_type: option,
+                                        });
+
                                         setTimeout(() => {
                                           window.scrollTo({
                                             top:
@@ -862,7 +920,15 @@ export function GpuContactForm() {
                   <div className="flex gap-4">
                     <Button
                       type="button"
-                      onClick={() => setCurrentStep(1)}
+                      onClick={() => {
+                        trackEvent("form_step_back", {
+                          event_category: "GPU Contact Form",
+                          event_label: "Back to Step 1",
+                          from_step: 2,
+                          lead_type: form.getValues().lead_type,
+                        });
+                        setCurrentStep(1);
+                      }}
                       variant="outline"
                       className="!mt-8 h-auto w-auto rounded-md px-6 py-3"
                     >
