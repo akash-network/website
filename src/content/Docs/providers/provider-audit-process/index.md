@@ -6,8 +6,7 @@ weight: 3 # Adjust weight relative to other sections under Providers
 ---
 
 
-
-This guide explains how to get your Akash provider audited by the core team, allowing you to bid on community deployments and join the trusted provider network.
+This guide explains how to get your Akash provider audited by the core team, allowing you to bid on deployments that request audited providers and join the trusted provider network.
 
 ## Overview
 
@@ -51,6 +50,8 @@ info:
 
 ### 2. DNS Configuration
 
+**Note:** URI (Uniform Resource Identifier) refers to your provider's domain name. In the examples below, replace `yourdomain.com` with your actual domain.
+
 #### Provider URI Resolution
 
 Test that your provider URI resolves correctly:
@@ -59,7 +60,17 @@ Test that your provider URI resolves correctly:
 ping provider.yourdomain.com
 ```
 
-**Expected result:** Successful name-to-IP resolution
+**Expected result:** 
+```
+PING provider.yourdomain.com (203.0.113.10): 56 data bytes
+64 bytes from 203.0.113.10: icmp_seq=0 ttl=54 time=12.345 ms
+```
+
+**Example using a real provider:**
+```bash
+ping provider.hurricane.akash.pub
+# Should resolve to the provider's IP address
+```
 
 #### Ingress URI Resolution
 
@@ -71,7 +82,13 @@ host anything.ingress.yourdomain.com
 
 **Expected result:** 
 ```
-anything.ingress.yourdomain.com has address YOUR_PROVIDER_IP
+anything.ingress.yourdomain.com has address 203.0.113.10
+```
+
+**Example using a real provider:**
+```bash
+host test.ingress.hurricane.akash.pub
+# Output: test.ingress.hurricane.akash.pub has address 147.75.195.10
 ```
 
 ### 3. Network and Port Configuration
@@ -93,15 +110,78 @@ See the [firewall configuration documentation](/docs/providers/build-a-cloud-pro
 curl -sk https://provider.yourdomain.com:8443/status | jq
 ```
 
-**Expected result:** JSON response with resources and leases information
+**Expected result:** JSON response with cluster information, example:
+```json
+{
+  "cluster": {
+    "leases": 15,
+    "inventory": {
+      "active": [
+        {
+          "cpu": 32000,
+          "memory": 67108864000,
+          "storage": [
+            {
+              "class": "default",
+              "quantity": 1099511627776
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "bidengine": {
+    "orders": 42
+  },
+  "manifest": {
+    "deployments": 15
+  }
+}
+```
 
 #### gRPC Status Endpoint
 
 ```bash
-grpcurl -insecure yourdomain.com:8444 akash.provider.v1.ProviderRPC.GetStatus
+grpcurl -insecure provider.yourdomain.com:8444 akash.provider.v1.ProviderRPC.GetStatus
 ```
 
-**Expected result:** Successful gRPC response with provider status
+**Expected result:** JSON response similar to:
+```json
+{
+  "cluster": {
+    "leases": 15,
+    "inventory": {
+      "cluster": {
+        "nodes": 3,
+        "cpu": 96000,
+        "memory": 201326592000,
+        "storage": [
+          {
+            "class": "default",
+            "quantity": 3298534883328
+          }
+        ]
+      },
+      "active": {
+        "cpu": 32000,
+        "memory": 67108864000,
+        "storage": [
+          {
+            "class": "default",
+            "quantity": 1099511627776
+          }
+        ]
+      }
+    }
+  },
+  "bidengine": {
+    "orders": 42
+  },
+  "manifest": {
+    "deployments": 15
+  }
+}
+```
 
 ### 5. Deployment Testing
 
@@ -114,17 +194,149 @@ Deploy a simple application (e.g., speedtest) to verify:
 - Deployments complete successfully
 - Basic functionality works
 
+**Example SDL for basic deployment:**
+
+```yaml
+---
+version: "2.0"
+
+services:
+  web:
+    image: ghcr.io/akash-network/cosmos-omnibus:v0.4.8-akash-v0.26.0
+    expose:
+      - port: 26657
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          size: 1Gi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uakt
+          amount: 1000
+
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+```
+
 #### Ingress Test
 
 Deploy an application that exposes port 80 (e.g., speedtest) to verify:
 - HTTP/HTTPS ingress works
 - Domain routing functions correctly
 
+**Example SDL for ingress testing:**
+
+```yaml
+---
+version: "2.0"
+
+services:
+  speedtest:
+    image: adolfintel/speedtest:latest
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+        accept:
+          - speedtest.yourdomain.com
+
+profiles:
+  compute:
+    speedtest:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          size: 512Mi
+  placement:
+    dcloud:
+      pricing:
+        speedtest:
+          denom: uakt
+          amount: 1000
+
+deployment:
+  speedtest:
+    dcloud:
+      profile: speedtest
+      count: 1
+```
+
 #### NodePort Test
 
 Deploy Ubuntu and test SSH access via NodePort to verify:
 - NodePort range is accessible
 - Port forwarding works correctly
+
+**Example SDL for NodePort testing:**
+
+```yaml
+---
+version: "2.0"
+
+services:
+  ubuntu:
+    image: ubuntu:22.04
+    command:
+      - "sh"
+      - "-c"
+    args:
+      - 'apt-get update && apt-get install -y openssh-server && mkdir /var/run/sshd && echo "root:akash" | chpasswd && sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/" /etc/ssh/sshd_config && /usr/sbin/sshd -D'
+    expose:
+      - port: 22
+        as: 22
+        to:
+          - global: true
+        proto: tcp
+
+profiles:
+  compute:
+    ubuntu:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          size: 1Gi
+  placement:
+    dcloud:
+      pricing:
+        ubuntu:
+          denom: uakt
+          amount: 1000
+
+deployment:
+  ubuntu:
+    dcloud:
+      profile: ubuntu
+      count: 1
+```
+
+**To test SSH access:**
+```bash
+# After deployment, get the NodePort from the lease
+ssh root@provider-ip -p <nodeport>
+# Password: akash
+```
 
 #### Network Connectivity Test
 
@@ -150,11 +362,121 @@ nvidia-smi
 
 **Expected result:** Successful GPU detection and information display
 
+**Example SDL for GPU testing:**
+
+```yaml
+---
+version: "2.0"
+
+services:
+  gpu-test:
+    image: nvidia/cuda:11.8.0-base-ubuntu22.04
+    command:
+      - "sh"
+      - "-c"
+    args:
+      - 'sleep infinity'
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    gpu-test:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 2Gi
+        storage:
+          size: 5Gi
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+  placement:
+    dcloud:
+      attributes:
+        host: akash
+      pricing:
+        gpu-test:
+          denom: uakt
+          amount: 10000
+
+deployment:
+  gpu-test:
+    dcloud:
+      profile: gpu-test
+      count: 1
+```
+
+**To verify GPU:**
+```bash
+# Shell into the deployment and run:
+nvidia-smi
+```
+
 #### Persistent Storage (if applicable)
 
 Deploy speedtest-tracker with persistent storage configured:
 - Adjust the storage class in your SDL to match your provider's configuration
 - Verify data persists across deployment restarts
+
+**Example SDL for persistent storage testing:**
+
+```yaml
+---
+version: "2.0"
+
+services:
+  speedtest-tracker:
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    env:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "DB_CONNECTION=sqlite"
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+        accept:
+          - speedtest-tracker.yourdomain.com
+
+profiles:
+  compute:
+    speedtest-tracker:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          - size: 1Gi
+          - size: 5Gi
+            attributes:
+              persistent: true
+              class: beta3  # Adjust based on your provider's storage class
+  placement:
+    dcloud:
+      attributes:
+        host: akash
+      pricing:
+        speedtest-tracker:
+          denom: uakt
+          amount: 5000
+
+deployment:
+  speedtest-tracker:
+    dcloud:
+      profile: speedtest-tracker
+      count: 1
+```
+
+**Note:** Replace `class: beta3` with your provider's actual storage class name (e.g., `beta1`, `beta2`, `nvme`, etc.)
 
 #### IP Leases (if applicable)
 
@@ -238,7 +560,7 @@ Once your provider passes the audit:
    provider-services query provider get <provider_akash1_address> --node=https://rpc.akashnet.net:443
    ```
    Look for the audit attribute in the output
-3. **Start Accepting Deployments:** Your provider can now bid on community deployments
+3. **Start Accepting Audited Deployments:** Your provider can now bid on deployments that specifically request audited providers
 4. **Join the Community:** Continue engaging with the provider community on [Discord](https://discord.com/invite/akash) in the #providers channel
 
 ## Getting Help
