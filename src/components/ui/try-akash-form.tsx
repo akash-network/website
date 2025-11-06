@@ -1,25 +1,7 @@
-import { PhoneInput } from "@/components/blackwell/phone-number-select";
 import { speakToExpertVariants } from "@/components/pricing-page/SpeakToExpert";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { buttonVariants } from "@/components/ui/button";
 import type { VariantProps } from "class-variance-authority";
 import clsx from "clsx";
-import { Loader2, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
 
 interface TryAkashFormProps extends VariantProps<typeof speakToExpertVariants> {
   type:
@@ -189,19 +171,19 @@ export default function TryAkashForm({
     </button>
   );
 
-  return (
+  return type === "hero" ? (
+    <a href="https://console.akash.network">{heroButton}</a>
+  ) : (
     <a href="/gpus-on-demand">
-      {type === "hero"
-        ? heroButton
-        : type === "speckToExpert"
-          ? speckToExpertButton
-          : type === "speakToExpertHeader"
-            ? speakToExpertHeaderButton
-            : type === "linkButton"
-              ? linkButton
-              : type === "customButton"
-                ? CustomButton
-                : defaultButton}
+      {type === "speckToExpert"
+        ? speckToExpertButton
+        : type === "speakToExpertHeader"
+          ? speakToExpertHeaderButton
+          : type === "linkButton"
+            ? linkButton
+            : type === "customButton"
+              ? CustomButton
+              : defaultButton}
     </a>
   );
 }
