@@ -161,7 +161,7 @@ Click "**I have saved it somewhere safe.**".
 ---
 
 > **Next Step:**
-> Curious to try Akash without a wallet or setup? Check out our [Trial Deployment guide](../trial-deployment.md) to deploy instantly with free credits!
+> Curious to try Akash without a wallet or setup? Check out our [Trial Deployment guide](/docs/getting-started/trial-deployment/) to deploy instantly with free credits!
 
 ## Next Steps
 
