@@ -1,4 +1,5 @@
 import {
+  Backpack,
   BadgeCheck,
   BadgeHelp,
   Calendar,
@@ -34,6 +35,7 @@ export const communityItems: NavItem[] = [
     title: "Akash Insiders",
     link: "/community/akash-insiders/",
   },
+
   {
     customIcon: (
       <svg
@@ -103,6 +105,11 @@ export const communityItems: NavItem[] = [
     ),
     title: "Akash EDU",
     link: "/community/akash-edu/",
+  },
+  {
+    icon: Backpack,
+    title: "Student Ambassadors",
+    link: "/community/student-ambassadors/",
   },
   {
     title: "Swag Shop",
