@@ -1,15 +1,15 @@
 ---
 import clsx from "clsx";
 type Props = {
-  title: string;
+  title?: string;
   description?: string;
-  items: {
+  items?: {
     title: string;
     items?: string[];
   }[];
   image: string;
   reverse?: boolean;
-  type?: "list" | "sublist" | "paragraph";
+  type?: "list" | "sublist" | "paragraph" | "description";
 };
 const {
   title,
@@ -28,28 +28,32 @@ const {
   )}
 >
   <div class="flex flex-1 flex-col gap-4">
-    <h2 class="text-3xl font-semibold">{title}</h2>
+    {title && <h2 class="text-3xl font-semibold">{title}</h2>}
     {
       description && (
-        <p class="text-sm font-semibold text-foreground md:text-base">
-          {description}
-        </p>
+        <p
+          class={clsx(
+            "text-sm  md:text-base",
+            type === "description" ? "" : "font-semibold text-foreground"
+          )}
+          set:html={description}
+        />
       )
     }
 
     {
-      type === "list" && (
+      type === "list" && items && items?.length > 0 && (
         <ul class="list-disc space-y-0.5 pl-5 text-sm text-para md:text-base">
-          {items.map((item) => (
+          {items?.map((item) => (
             <li>{item.title}</li>
           ))}
         </ul>
       )
     }
     {
-      type === "sublist" && (
+      type === "sublist" && items && items?.length > 0 && (
         <ul class="   mt-2 flex flex-col gap-4 text-sm   md:text-base">
-          {items.map((item) => (
+          {items?.map((item) => (
             <li>
               <strong>{item.title}</strong>
               {item.items && (
@@ -65,9 +69,9 @@ const {
       )
     }
     {
-      type === "paragraph" && (
+      type === "paragraph" && items && items?.length > 0 && (
         <div class="mt-2 flex flex-col gap-4 text-sm text-para md:text-base">
-          {items.map((item) => (
+          {items?.map((item) => (
             <p>{item.title}</p>
           ))}
         </div>

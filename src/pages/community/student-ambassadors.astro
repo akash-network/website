@@ -1,0 +1,53 @@
+---
+import PointerSection from "@/components/community-pages/pointer-section.astro";
+import CommunityHero from "@/components/mdx-cards/community-hero.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+
+const title = "The Akash Student<br/> Ambassador Program";
+const description =
+  "The Akash Student Ambassador Program empowers students to become builders, advocates, and community leaders for the decentralized cloud movement.";
+---
+
+<Layout
+  title={title.replace("<br/>", "")}
+  description={description}
+  image="/meta-images/community.png"
+>
+  <TopMargin isNotContainer>
+    <CommunityHero container title={title} description={description} />
+    <div class="flex flex-col gap-20 lg:gap-40">
+      <div class="container-reader flex flex-col gap-20">
+        <div class="flex flex-col gap-20 lg:gap-40">
+          <PointerSection
+            type="description"
+            description="Ambassadors play a key role in expanding awareness of Akash Network by hosting campus events, creating content, and connecting peers to opportunities in decentralized computing. More than a marketing initiative, this program focuses on ecosystem development, equipping students to represent a movement they truly believe in and build community from the ground up."
+            image="/images/student-ambassador/1.png"
+          />
+
+          <PointerSection
+            description="Through hands-on experience, ambassadors gain leadership skills, technical exposure, and real-world collaboration experience while contributing to a project that redefines how cloud infrastructure is built and accessed.<br/><br/>The program is designed around a simple idea: ambassadors succeed when they feel like owners, not just representatives. By connecting through shared values, learning from one another, and co-creating meaningful initiatives, students help shape the future of decentralized cloud computing and the broader Akash ecosystem."
+            image="/images/student-ambassador/2.png"
+            reverse={true}
+            type="description"
+          />
+        </div>
+        <div class="not-prose flex flex-col items-center justify-center gap-10">
+          <h2 class="text-center text-3xl font-semibold">
+            Applications for new ambassadors will <br class="hidden md:block" />
+            open on a rolling basis starting February 2026
+          </h2>
+          <!-- <ButtonLink
+            arrow
+            className="mt-0"
+            link="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
+            variant="secondary"
+            size="lg"
+          >
+            Apply today!
+          </ButtonLink> -->
+        </div>
+      </div>
+    </div>
+  </TopMargin>
+</Layout>
