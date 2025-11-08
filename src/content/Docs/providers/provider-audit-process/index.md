@@ -50,11 +50,11 @@ info:
 
 ### 2. DNS Configuration
 
-**Note:** URI (Uniform Resource Identifier) refers to your provider's domain name. In the examples below, replace `yourdomain.com` with your actual domain.
+**Note:** Provider URL refers to your provider's domain name. In the examples below, replace `yourdomain.com` with your actual domain.
 
-#### Provider URI Resolution
+#### Provider URL Resolution
 
-Test that your provider URI resolves correctly:
+Test that your provider URL resolves correctly:
 
 ```bash
 ping provider.yourdomain.com
@@ -72,7 +72,7 @@ ping provider.hurricane.akash.pub
 # Should resolve to the provider's IP address
 ```
 
-#### Ingress URI Resolution
+#### Ingress URL Resolution
 
 Test wildcard ingress resolution:
 
@@ -182,8 +182,39 @@ grpcurl -insecure provider.yourdomain.com:8444 akash.provider.v1.ProviderRPC.Get
   }
 }
 ```
+### 5. TLS/SSL Certificate Verification
 
-### 5. Deployment Testing
+Verify that your provider's TLS certificates are properly configured with Let's Encrypt.
+
+#### Check Provider Endpoint Certificate
+```bash
+echo | openssl s_client -servername provider.yourdomain.com -connect provider.yourdomain.com:8443 2>/dev/null | openssl x509 -noout -issuer -subject -dates
+```
+
+**Expected result:**
+- issuer=C = US, O = Let's Encrypt, CN = R3
+- subject=CN = provider.yourdomain.com
+- notBefore=Nov  1 12:00:00 2024 GMT
+- notAfter=Jan 30 12:00:00 2025 GMT
+
+**Requirements:**
+- Issuer should be "Let's Encrypt"
+- Subject should match your provider domain
+- Certificate should not be expired (notAfter date should be in the future)
+- Certificate should be valid (notBefore date should be in the past)
+
+#### Check Ingress Certificate
+```bash
+echo | openssl s_client -servername test.ingress.yourdomain.com -connect test.ingress.yourdomain.com:443 2>/dev/null | openssl x509 -noout -issuer -subject -dates
+```
+
+**Expected result:** Similar to above, with:
+- Let's Encrypt as the issuer
+- Valid, non-expired certificate
+- Wildcard certificate (ingress.yourdomain.com) or specific domain match
+
+
+### 6. Deployment Testing
 
 You must successfully test the following on your own provider before requesting an audit:
 
@@ -202,9 +233,9 @@ version: "2.0"
 
 services:
   web:
-    image: ghcr.io/akash-network/cosmos-omnibus:v0.4.8-akash-v0.26.0
+    image: nginx:latest
     expose:
-      - port: 26657
+      - port: 80
         as: 80
         to:
           - global: true
@@ -218,9 +249,11 @@ profiles:
         memory:
           size: 512Mi
         storage:
-          size: 1Gi
+          size: 512Mi
   placement:
     dcloud:
+      attributes:
+        host: akash
       pricing:
         web:
           denom: uakt
@@ -348,22 +381,17 @@ apt update
 
 **Expected result:** Successful connection to package repositories
 
-### 6. Optional Feature Testing
+### 7. Optional Feature Testing
 
 If your provider offers additional features, you must test them:
 
 #### GPU Support (if applicable)
 
-Deploy a GPU-enabled application and verify:
+If your provider advertises GPU support, you must verify it works correctly.
 
-```bash
-nvidia-smi
-```
-
-**Expected result:** Successful GPU detection and information display
+Deploy a GPU-enabled application using the SDL below:
 
 **Example SDL for GPU testing:**
-
 ```yaml
 ---
 version: "2.0"
@@ -413,11 +441,15 @@ deployment:
       count: 1
 ```
 
-**To verify GPU:**
+**To verify GPU functionality:**
+
+1. Shell into the deployment
+2. Run the following command:
 ```bash
-# Shell into the deployment and run:
 nvidia-smi
 ```
+
+**Expected result:** The command should display GPU information including GPU model, driver version, and current utilization.
 
 #### Persistent Storage (if applicable)
 
