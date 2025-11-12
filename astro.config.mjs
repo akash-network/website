@@ -18,9 +18,7 @@ export default defineConfig({
   },
   integrations: [
     tailwind(),
-    sitemap({
-      lastmod: new Date("2024-06-27"),
-    }),
+    sitemap(),
     react(),
     astroExpressiveCode({
       themes: ["light-plus", "dark-plus"],
