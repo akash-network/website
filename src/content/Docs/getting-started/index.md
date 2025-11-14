@@ -1,14 +1,28 @@
 ---
 categories: ["Getting Started"]
-tags: ["Getting Started", "Onboarding", "Tutorial", "Console"]
+tags: ["Getting Started", "Onboarding", "Tutorial", "Console", "Free Trial"]
 title: "Getting Started"
 linkTitle: "Getting Started"
-description: "Get started with Akash Network - deploy your first application using Akash Console"
+description: "Get started with Akash Network - deploy your first application in minutes with $100 free credits"
 ---
 
-**Welcome to Akash Network! Deploy your first application in minutes using Akash Console.**
+**Welcome to Akash Network! Start deploying in minutes with $100 in free credits—no crypto wallet required.**
 
-Akash Console is a web-based platform that makes deploying on Akash Network as easy as using any cloud provider—no command line required!
+Akash Console is a web-based platform that makes deploying on Akash Network as easy as using AWS or GCP—no command line or blockchain experience needed!
+
+---
+
+## 🚀 Start Your Free Trial
+
+**Get $100 in free credits** to deploy applications on Akash Network:
+
+- 💰 **$100 free credits** - No charge during trial
+- ⏱️ **30 days** - Plenty of time to explore
+- 💳 **Credit card required** - For identity verification only (prevents abuse)
+- 🚫 **No automatic charges** - You're in control
+
+### [Quick Start - Free Trial](/docs/getting-started/quick-start)
+**Deploy your first application in under 10 minutes** using the web interface—perfect for beginners!
 
 ---
 
@@ -17,38 +31,50 @@ Akash Console is a web-based platform that makes deploying on Akash Network as e
 ### [What is Akash?](/docs/getting-started/what-is-akash)
 A quick 2-minute introduction to Akash Network and decentralized cloud computing.
 
-### [Quick Start - Akash Console](/docs/getting-started/quick-start)
-Deploy your first application in under 5 minutes using the web interface—perfect for beginners!
+### [Quick Start - Free Trial](/docs/getting-started/quick-start) ⭐ **Start Here**
+Sign up for free trial and deploy your first application with one-click templates.
 
 ### [Core Concepts](/docs/getting-started/core-concepts)
-Learn about deployments, bids, leases, and how Akash works.
+Learn about deployments, providers, and how Akash works.
 
 ---
 
-## Why Akash Console?
+## Why Choose Akash Console?
 
-**90% of users start with Akash Console** because it's:
+**The easiest way to get started with decentralized cloud:**
 
+- ✅ **Free Trial** - $100 in credits, no crypto required
+- ✅ **One-Click Templates** - Deploy popular apps instantly
 - ✅ **No CLI Required** - Everything in your browser
-- ✅ **Visual Interface** - Build deployments with a visual editor
-- ✅ **Beginner Friendly** - Perfect for getting started
-- ✅ **Wallet Integration** - Connect Keplr or Leap wallet
+- ✅ **Visual Interface** - Build and manage deployments visually
+- ✅ **Credit Card Payments** - Pay with Stripe (Visa, Mastercard, etc.)
 - ✅ **Real-time Monitoring** - View logs and status instantly
 
 ---
 
-## Other Ways to Deploy
+## For Developers
 
-### For Developers
-Once you're comfortable with the basics, explore:
+Once you're comfortable with the basics, explore advanced deployment options:
 
-- **[Akash CLI](/docs/for-developers/deployment/cli)** - Command-line deployment for power users and automation
+- **[Akash CLI](/docs/for-developers/deployment/cli)** - Command-line deployment with your own wallet (Keplr/Leap) for automation and full blockchain control
 - **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Programmatic deployments with Go or JavaScript/TypeScript
 
 ### For Providers
-- **[Run a Provider](/docs/for-providers)** - Earn revenue by providing compute resources
+Want to earn revenue by providing compute?
+
+- **[Run a Provider](/docs/for-providers)** - Contribute compute resources to the Akash Network
 
 ---
 
-**Ready to deploy?** Start with [Quick Start - Akash Console](/docs/getting-started/quick-start)
+## What Can You Deploy on Akash?
+
+- **Web Applications** - Blogs, APIs, websites, full-stack apps
+- **Databases** - PostgreSQL, MongoDB, Redis
+- **AI/ML** - Stable Diffusion, LLMs (Llama, Mistral), training workloads
+- **GPU Workloads** - Access affordable GPU compute for rendering, AI, mining
+- **Developer Tools** - CI/CD, testing environments, dev servers
+
+---
+
+**Ready to deploy?** [Start Your Free Trial →](/docs/getting-started/quick-start)
 

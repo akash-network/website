@@ -1,184 +1,213 @@
 ---
 categories: ["Getting Started"]
-tags: ["Quick Start", "Console", "Tutorial", "Beginner"]
+tags: ["Quick Start", "Console", "Tutorial", "Beginner", "Free Trial"]
 weight: 2
-title: "Quick Start - Deploy with Akash Console"
+title: "Quick Start - Deploy with Free Trial"
 linkTitle: "Quick Start"
-description: "Deploy your first application on Akash Network in under 5 minutes using Akash Console"
+description: "Deploy your first application on Akash Network in under 10 minutes with $100 in free credits"
 ---
 
-**Deploy your first application on Akash Network in under 5 minutes using Akash Console—no command line required!**
+**Deploy your first application on Akash Network in under 10 minutes—no crypto wallet or blockchain experience required!**
 
-This guide walks you through deploying a simple web application using Akash Console, the easiest way to get started with Akash.
+This guide walks you through signing up for the free trial and deploying your first application using one-click templates.
 
 ---
 
-## What You'll Deploy
+## What You'll Get
 
-A simple **"Hello Akash World"** web application. Once deployed, you'll have a live URL you can visit.
+- 💰 **$100 in free credits** - No charge during trial
+- ⏱️ **30 days** - Plenty of time to explore Akash
+- 🚀 **One-click deployment** - Use pre-built templates
+- 🌐 **Live URL** - Access your deployed application instantly
 
-**Time:** ~5 minutes  
-**Cost:** ~0.5 AKT deposit + small gas fees  
+**Time:** ~10 minutes  
+**Cost:** $0 (free trial credits)  
 **Difficulty:** Beginner-friendly (no technical knowledge required)
 
 ---
 
 ## Prerequisites
 
-Before you start, you need:
+All you need is:
 
-1. **A Keplr or Leap Wallet**
-   - [Install Keplr](https://www.keplr.app/) (Chrome, Brave, or Edge)
-   - [Install Leap](https://www.leapwallet.io/) (Chrome, Brave, or Edge)
+1. **A valid email address** (for account verification)
+2. **A valid credit card** (for identity verification)
+   - Must have at least $1 available
+   - A temporary $1 charge will be placed and immediately refunded
+   - Used to verify identity and prevent spam/abuse
 
-2. **At least 1 AKT in your wallet**
-   - Need AKT? [Buy on an exchange](https://akash.network/token) or swap from other crypto
-   - You'll need 0.5 AKT for deposit + ~0.1 AKT for gas fees
+**Note:** You won't be charged beyond the refundable $1 verification unless you exceed your $100 free credits or choose to add more funds.
 
-That's it! No installation or setup required.
-
----
-
-## Step 1: Open Akash Console
-
-Visit **[console.akash.network](https://console.akash.network)**
-
-You'll see the Akash Console homepage.
+That's it! No crypto wallet, no blockchain setup, no installation required.
 
 ---
 
-## Step 2: Connect Your Wallet
+## Step 1: Visit Akash Console
 
-1. Click **"Connect Wallet"** in the top right
-2. Choose **Keplr** or **Leap**
-3. Approve the connection in your wallet popup
-4. Your wallet address and AKT balance will appear
+Open your browser and go to **[console.akash.network](https://console.akash.network)**
 
-✅ You're now connected!
+You'll see a banner at the top: **"Credit Card payments are now available!"**
 
 ---
 
-## Step 3: Create a New Deployment
+## Step 2: Start Your Free Trial
 
-1. Click **"Deploy"** or **"Create Deployment"**
-2. You'll see template options:
+1. Click the **"Start Trial"** button in the top right corner (it's the bright red/pink button)
 
-**Choose one of these options:**
+2. You'll see the trial benefits page showing:
+   - ✅ 100$ of free credits
+   - ✅ 30 days of free credits
+   - ✅ Deployments last up to 24 hours
+   - ✅ Keep unused free credits if you purchase credits
 
-### Option A: Use a Template (Easiest)
-
-1. Click **"Hello World"** template
-2. The SDL configuration is pre-filled for you
-3. Review the configuration (it's a simple nginx web server)
-
-### Option B: Start from Scratch
-
-1. Click **"Empty Template"** or **"Build Your Own"**
-2. You'll see a blank SDL editor
-3. Copy and paste this configuration:
-
-```yaml
-version: "2.0"
-
-services:
-  web:
-    image: nginx:latest
-    expose:
-      - port: 80
-        as: 80
-        to:
-          - global: true
-
-profiles:
-  compute:
-    web:
-      resources:
-        cpu:
-          units: 0.5
-        memory:
-          size: 512Mi
-        storage:
-          size: 512Mi
-  placement:
-    dcloud:
-      pricing:
-        web:
-          denom: uakt
-          amount: 10000
-
-deployment:
-  web:
-    dcloud:
-      profile: web
-      count: 1
-```
-
-**What this configuration does:**
-- Deploys an nginx web server
-- Uses 0.5 CPU, 512MB RAM, 512MB storage  
-- Offers to pay 10,000 uAKT per block (~$0.10/month)
-- Makes the site publicly accessible on port 80
+3. Click the **"Start Free Trial"** button to continue
 
 ---
 
-## Step 4: Review and Create Deployment
+## Step 3: Create Your Account
 
-1. Review your configuration in the SDL editor
-2. Click **"Create Deployment"** at the bottom
-3. Set your deposit amount (default 0.5 AKT is fine)
-4. Click **"Deposit & Create Deployment"**
-5. **Approve the transaction** in your wallet popup
+Choose one of three signup options:
 
-⏳ Wait ~30 seconds. Console will show "Creating Deployment..."
+### Option A: Sign up with GitHub (Fastest!)
+1. Click **"Sign up with GitHub"**
+2. Authorize Akash Console in the popup
+3. Done! Skip to Step 4
 
-✅ Success! Your deployment is now on the Akash blockchain.
+### Option B: Sign up with Google (Fastest!)
+1. Click **"Sign up with Google"**
+2. Choose your Google account
+3. Done! Skip to Step 4
 
----
-
-## Step 5: Accept a Bid
-
-After creating your deployment, providers will bid to host it:
-
-1. You'll see **"View Bids"** button—click it
-2. Wait 10-30 seconds for bids to appear
-3. You'll see a list of providers with their prices and details
-
-**Choose a provider:**
-- Providers are sorted by price (lowest first)
-- Check their uptime and reputation if shown
-- For this test, any provider works fine!
-
-4. Click **"Accept"** on your chosen provider
-5. **Approve the transaction** in your wallet popup
-
-⏳ Wait ~20 seconds for the lease to be created.
+### Option C: Sign up with Email
+1. Enter your email address
+2. Create a strong password
+3. Complete the CAPTCHA
+4. (Optional) Uncheck newsletter if you don't want updates
+5. Check "I have read and agree to Terms of Services"
+6. Click **"SIGN UP"**
 
 ---
 
-## Step 6: Send Your Configuration
+## Step 4: Verify Your Email
 
-Once the lease is created:
+1. Check your email inbox for a verification message from Akash
+2. Click the verification link in the email
+3. You'll see: **"Email Verified - Your email has been successfully verified"**
+4. Click **"Continue"**
 
-1. Console will automatically prompt to **"Send Manifest"**
-2. Click **"Send Manifest"**
-3. Wait ~30-60 seconds for your container to start
+---
 
-You'll see the status change to:
-- "Sending Manifest..." 
+## Step 5: Add Payment Method
+
+To prevent abuse, Akash requires a credit card for identity verification. **You won't be charged during the trial.**
+
+1. Fill in the payment form:
+   - **Organization** (optional)
+   - **Billing Address** (Full name, Country, Address)
+   - **Card Information** (Card number, Expiration date, CVV)
+
+2. Your card will show up as saved (e.g., "DISCOVER •••• 9564")
+3. Click **"Start Trial"**
+
+**What happens to your card?**
+- **$1 verification charge** - A temporary $1 charge will be placed and immediately refunded (ensure card is valid)
+- Used for identity verification only
+- No other charges during your $100 trial
+- Only charged if you exceed free credits or choose to add more funds
+- Can be removed anytime after verification
+
+---
+
+## Step 6: Welcome to Akash! 🎉
+
+You're in! You'll see your dashboard with:
+
+- 🎯 **Trial Status Banner** - Shows your $100 credit balance and 30 days remaining
+- ⚠️ **Important:** Deployments last maximum 1 day during trial
+- 📊 **Account Overview** - $100.00 remaining of $100.00
+
+---
+
+## Step 7: Deploy Your First Application
+
+You'll see the welcome screen with **"Choose a template below to launch your first app in seconds."**
+
+**Three featured templates are displayed:**
+
+### Option A: Hello Akash! (Recommended for First Deployment)
+
+Perfect for testing! A simple Next.js web app.
+
+1. Find the **"Hello Akash!"** card (person on surfboard icon)
+2. Read the description: *"A simple web app powered by Next.js, perfect for your first deployment on Akash."*
+3. Click **"Deploy Now"**
+4. Review the pre-filled configuration
+5. Click **"Create Deployment"**
+
+⏳ Wait ~1-2 minutes for deployment to complete
+
+✅ Your first app is live!
+
+### Option B: ComfyUI (AI/Image Generation)
+
+Want to try something more advanced?
+
+1. Find the **"ComfyUI"** card (artist with easel icon)
+2. Read the description: *"A powerful, modular Stable Diffusion tool that lets you build and run advanced image workflows using a visual, node-based interface."*
+3. Click **"Deploy Now"**
+4. Follow the deployment steps
+
+**Note:** This requires more resources and will use more of your trial credits.
+
+### Option C: Llama-3.1-8b (Language Model)
+
+Deploy a cutting-edge AI language model!
+
+1. Find the **"Llama-3.1-8b"** card (basketball player icon)
+2. Read the description: *"A cutting-edge language model built for fast, context-aware text generation. Access a wide range of advanced language tasks."*
+3. Click **"Deploy Now"**
+4. Follow the deployment steps
+
+**Note:** GPU deployments use credits faster but are incredibly powerful!
+
+---
+
+## Step 8: Wait for Deployment
+
+After clicking "Deploy Now" on any template:
+
+1. Console will show **"Creating Deployment..."**
+2. Providers will automatically bid to host your application
+3. The best bid is automatically selected
+4. Your application starts deploying
+
+⏳ **Total time:** 1-3 minutes (depending on the template)
+
+You'll see status updates:
+- "Creating Deployment..." 
+- "Accepting Bid..."
+- "Sending Manifest..."
 - "Starting Services..."
-- "Running" ✅
+- **"Running"** ✅
 
 ---
 
-## Step 7: Access Your Deployment
+## Step 9: Access Your Deployment
 
-Once your deployment is running:
+Once your deployment shows **"Running"** status:
 
-1. Look for the **"URIs"** or **"Access URLs"** section
-2. Click on the URL shown (e.g., `http://provider.example.com:12345`)
+1. Look for the **"URIs"** or **"Access URLs"** section in your deployment details
+2. Click on the URL shown (e.g., `https://your-app.provider.akash.network`)
 3. Your web application will open in a new tab!
 
 **🎉 Congratulations! You just deployed on Akash Network!**
+
+### What You Can Do Now:
+
+- **Visit your deployed app** - Click the URL to see it live
+- **View logs** - Check the "Logs" tab to see what's happening
+- **Monitor resources** - See CPU, memory, and storage usage
+- **Check your balance** - Watch how much of your $100 credit you're using
 
 ---
 
@@ -187,27 +216,31 @@ Once your deployment is running:
 ### View Logs
 
 In the Console deployment page:
-1. Click **"Logs"** tab
-2. Select your service (`web`)
-3. View real-time logs
+1. Click the **"Logs"** tab
+2. Select your service (e.g., `web` or the template name)
+3. View real-time logs from your deployment
 
 ### Update Your Deployment
 
-To change your deployment:
-1. Click **"Update"** on your deployment
-2. Edit the SDL configuration
-3. Click **"Update Deployment"**
-4. Approve the transaction
+To change your deployment configuration:
+1. Click on your active deployment
+2. Click **"Update Deployment"**
+3. Edit the SDL configuration in the editor
+4. Click **"Update"** to apply changes
+
+**Note:** Updates will create a new lease and may briefly interrupt service.
 
 ### Close Your Deployment
 
-When you're done:
-1. Click on your deployment
-2. Click **"Close Deployment"**
-3. Approve the transaction
-4. Your remaining deposit will be refunded!
+**Important:** Remember trial deployments last maximum 1 day!
 
-**💰 Always close deployments when you're done to avoid ongoing charges.**
+When you're done testing:
+1. Go to your **"Deployments"** page
+2. Find your active deployment
+3. Click **"Close Deployment"**
+4. Confirm the closure
+
+**💰 Always close deployments when you're done to conserve your $100 trial credits.**
 
 ---
 
@@ -215,40 +248,66 @@ When you're done:
 
 The Console dashboard shows:
 
-- **Active Deployments** - All your running deployments
-- **Balance** - Your AKT balance
-- **Escrow Account** - Funds locked for deployments
-- **Transaction History** - All your blockchain transactions
+- **Trial Status** - Your $100 credit balance, days remaining, and usage
+- **Active Deployments** - All your currently running deployments (max 1 day each during trial)
+- **Deployment Costs** - Real-time spending from your trial credits
+- **Account Balance** - Visual chart showing credit usage (Balance vs Deployments)
+
+**Pro tip:** Hover over your balance at the top to see detailed credit information!
 
 ---
 
 ## Common Questions
 
-### "No bids received after 2 minutes"
-**Solution:** Your price might be too low. Try:
-1. Close the deployment
-2. Create a new one with higher pricing (e.g., 15000 uAKT instead of 10000)
+### "How long do trial deployments last?"
+**Answer:** Trial deployments last a maximum of **1 day (24 hours)**. After 24 hours, they will automatically shut down. This is a trial limitation - paid accounts can run indefinitely.
 
-### "Insufficient funds"
-**Solution:** You need more AKT. Check your balance and:
-- Buy more AKT from an exchange
-- Transfer AKT from another wallet
+### "What happens after my $100 credits run out?"
+**Answer:** Your deployments will stop, but you can add more funds via credit card:
+1. Click your balance at the top
+2. Click **"Add Funds"**
+3. Enter amount and complete payment via Stripe
+4. Your unused trial credits will be kept!
 
-### "Transaction failed"
-**Solution:** 
-- Check your wallet has enough AKT for gas fees
-- Try again with higher gas settings in your wallet
-- Make sure you're on the right network (Akash mainnet)
+### "Can I use my own crypto wallet instead?"
+**Answer:** Yes! After creating your trial account, you can also connect a Keplr or Leap wallet for direct blockchain access. This gives you more control and removes the 24-hour deployment limit.
+
+### "My deployment is taking a long time to start"
+**Solution:**
+- Wait 2-3 minutes - deployment can take time
+- Check the status updates in Console
+- If stuck for 5+ minutes, close and try a different template
+- Some GPU deployments take longer due to high demand
+
+### "I don't see my deployment URL"
+**Solution:**
+- Wait until status shows **"Running"** (not just "Active")
+- Click on your deployment to see details
+- Look for **"URIs"** or **"Leases"** section
+- The URL will be listed there once the container is fully running
 
 ### "Deployment failed to start"
 **Solution:**
-- Check your SDL syntax (indentation, required fields)
-- Try using a pre-built template first
-- Check provider logs for error messages
+- If using a custom SDL, check your syntax (indentation, required fields)
+- Try using a pre-built template instead (Hello Akash! is most reliable)
+- Check the **"Events"** or **"Logs"** tab for error messages
+- Contact support on Discord if issue persists
+
+### "$1 verification charge didn't refund yet"
+**Answer:** The $1 verification charge typically refunds within 3-7 business days, depending on your bank. This is standard practice for identity verification.
 
 ---
 
 ## What's Next?
+
+### 🎯 Maximize Your Trial
+
+You have $100 in credits and 30 days - here's how to make the most of it:
+
+1. **Try the Templates** - Deploy ComfyUI (Stable Diffusion) or Llama (AI chat)
+2. **Explore the Marketplace** - Browse pre-built solutions in the Templates section
+3. **Test Your Own Apps** - Use the SDL Builder to deploy your projects
+4. **Monitor Costs** - See how much different workloads cost on Akash
 
 ### 🚀 Deploy Real Applications
 
@@ -271,6 +330,12 @@ Ready for more advanced workflows?
 - **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Build deployment tools with Go or JavaScript/TypeScript
 - **[API Reference](/docs/for-developers/blockchain/api-protocols)** - Integrate Akash into your apps
 
+### 💳 Ready to Go Beyond Trial?
+
+**Add Funds:** Click your balance → "Add Funds" → Pay with credit card (keeps your $100 trial credits!)
+
+**Use Your Wallet:** Connect Keplr or Leap to use AKT directly and remove the 24-hour deployment limit
+
 ---
 
 ## Need Help?
@@ -286,11 +351,13 @@ We're here to help you succeed!
 
 ## Tips for Success
 
-- 💡 **Start small** - Use templates for your first few deployments
-- 💰 **Watch your costs** - Close deployments when not in use
-- 🔍 **Monitor logs** - Check logs if something doesn't work
-- 📝 **Save your SDLs** - Keep copies of working configurations
-- 🚀 **Experiment** - Try different providers and configurations
+- 💡 **Start with templates** - Use "Hello Akash!" for your first deployment
+- 💰 **Watch your credits** - Monitor your balance at the top of Console
+- ⏰ **Remember the 24-hour limit** - Trial deployments auto-close after 1 day
+- 🔍 **Check logs first** - If something doesn't work, logs usually tell you why
+- 📝 **Explore the marketplace** - Browse pre-built solutions in Templates section
+- 🚀 **Try different apps** - You have $100 to experiment with web apps, AI models, databases
+- 💳 **Add funds anytime** - Keep your trial credits when you add more via credit card
 
 ---
 

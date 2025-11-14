@@ -15,14 +15,14 @@ This section covers everything you need to deploy applications, including SDKs, 
 
 ## Deployment Methods
 
-### [Akash Console](/docs/for-developers/deployment/akash-console)
-**Easiest way to deploy** - Web-based interface, perfect for beginners and quick deployments.
+### [Akash Console with Wallet](/docs/for-developers/deployment/console)
+**Visual deployment with full control** - Use Console with your own Keplr or Leap wallet for direct blockchain access and no time limits.
 
 ### [Akash SDK](/docs/for-developers/deployment/akash-sdk)
 **Programmatic deployments** - Build applications with Go or JavaScript/TypeScript SDKs.
 
 ### [Akash CLI](/docs/for-developers/deployment/cli)
-**Command-line interface** - Full control, automation, and CI/CD integration.
+**Command-line interface** - Full control, automation, and CI/CD integration for advanced users.
 
 ---
 

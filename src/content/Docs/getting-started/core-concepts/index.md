@@ -40,7 +40,8 @@ A **deployment** is a request for compute resources on Akash Network.
 - Defined using SDL (Stack Definition Language)
 - Specifies your app's container image, resources, and ports
 - Creates an order on the marketplace
-- Requires a 0.5 AKT minimum deposit
+- **With wallet:** Requires a 0.5 AKT minimum deposit
+- **With trial:** Uses managed credits (no direct deposit)
 
 **Example deployment:**
 - Image: `nginx:latest`
@@ -138,7 +139,7 @@ deployment:
 
 **Escrow accounts** hold funds to pay for your deployments.
 
-**How escrow works:**
+**How escrow works (with wallet):**
 - You deposit AKT when creating a deployment (minimum 0.5 AKT)
 - Provider is paid automatically per block from escrow
 - Unused funds returned when you close the deployment
@@ -150,21 +151,29 @@ deployment:
 - Deployment runs for ~5000 blocks
 - Close deployment, get remaining ~4.5 AKT back
 
+**How it works with trial:**
+- Managed by Akash Console (you don't see escrow directly)
+- Credits are deducted from your $100 trial balance
+- 24-hour deployment limit (trial restriction)
+- No manual deposit or refund process
+
 ### Certificates
 
 **Certificates** enable secure communication between you and providers.
 
 **Important points:**
-- Required once per account
+- Required once per account (wallet users only)
 - Valid for one year
 - Stored on the Akash blockchain
 - Free to create (just gas fees)
 - Can be revoked and regenerated
 
 **When you need a certificate:**
-- Before your first deployment
+- Before your first deployment (wallet users)
 - After certificate expires (1 year)
 - If you revoke your old certificate
+
+**Note:** Trial users don't need to manually create certificates - they're managed automatically by Console.
 
 ---
 
@@ -414,12 +423,18 @@ provider-services tx deployment close --dseq $AKASH_DSEQ --from $AKASH_KEY_NAME
 
 ## Next Steps
 
-Now that you understand the core concepts:
+Now that you understand the core concepts, choose your deployment path:
 
-- [**Quick Start**](/docs/getting-started/quick-start) - Deploy your first app
-- [**Installation**](/docs/getting-started/installation) - Set up the CLI
-- [**First Deployment**](/docs/getting-started/first-deployment) - Detailed deployment walkthrough
-- [**SDL Documentation**](/docs/for-developers/akash-sdl) - Deep dive into SDL
+### Start with Trial (Recommended)
+- [**Quick Start - Free Trial**](/docs/getting-started/quick-start) - Deploy your first app with $100 free credits
+
+### Use Your Own Wallet (Advanced)
+- [**Console with Wallet**](/docs/for-developers/deployment/console) - Visual interface, no time limits
+- [**CLI with Wallet**](/docs/for-developers/deployment/cli) - Command-line deployment
+- [**SDK**](/docs/for-developers/deployment/akash-sdk) - Programmatic deployment
+
+### Learn More
+- [**SDL Documentation**](/docs/for-developers/deployment/akash-sdl) - Deep dive into SDL
 
 ---
 

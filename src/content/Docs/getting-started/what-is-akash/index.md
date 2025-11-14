@@ -47,8 +47,8 @@ No single entity can shut down your application. Deploy anywhere, anytime.
 ### 🚀 **High Performance**
 Access to high-end GPUs and compute at fraction of the cost. Perfect for AI/ML workloads.
 
-### 🔓 **Open & Permissionless**
-No credit cards. No KYC. No approval process. Just deploy.
+### 🔓 **Flexible Access**
+Start with our **trial** (credit card, $100 free) or go **permissionless** with your own wallet (no KYC, use AKT directly).
 
 ### 🌐 **Global Network**
 Providers in 85+ countries. Deploy close to your users for better performance.
@@ -114,14 +114,15 @@ The **Stack Definition Language (SDL)** is a YAML format that describes your dep
 
 ## How Akash is Different
 
-| Feature | Traditional Cloud | Akash Network |
-|---------|------------------|---------------|
-| **Cost** | High, fixed pricing | 3-5x cheaper, market-driven |
-| **Access** | Requires credit card, KYC | Permissionless, pay with crypto |
-| **Control** | Vendor lock-in | Choose your provider |
-| **Censorship** | Can be shut down | Censorship-resistant |
-| **Pricing** | Complex, unpredictable | Transparent, competitive |
-| **Setup** | Complicated console | Simple YAML file |
+| Feature | Traditional Cloud | Akash - Trial | Akash - Wallet |
+|---------|------------------|---------------|----------------|
+| **Cost** | High, fixed pricing | $100 free credits | 3-5x cheaper, market-driven |
+| **Access** | Credit card + KYC | Credit card (KYC for verification) | No KYC, permissionless |
+| **Payment** | Credit card monthly | Credit card | Crypto (AKT) |
+| **Setup** | Complicated | Sign up in 10 minutes | Install wallet, buy AKT |
+| **Deployment Limit** | None | 24 hours (trial only) | None |
+| **Control** | Vendor lock-in | Choose your provider | Full blockchain control |
+| **Censorship** | Can be shut down | Censorship-resistant | Censorship-resistant |
 
 ---
 
@@ -160,12 +161,17 @@ Reduce cloud costs significantly while scaling your application.
 
 ## Getting Started
 
-Ready to deploy your first application on Akash? Here's what to do next:
+Ready to deploy your first application on Akash? Choose your path:
 
+### Start with Trial (Easiest)
+1. **[Quick Start - Free Trial](/docs/getting-started/quick-start)** - Deploy in under 10 minutes with $100 free credits
+
+### Use Your Own Wallet (Advanced)
+1. **[Console with Wallet](/docs/for-developers/deployment/console)** - Visual interface, no time limits
+2. **[CLI with Wallet](/docs/for-developers/deployment/cli)** - Command-line power
+
+### Learn More
 1. **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works
-2. **[Quick Start](/docs/getting-started/quick-start)** - Deploy in under 10 minutes
-3. **[Installation](/docs/getting-started/installation)** - Set up the CLI
-4. **[Your First Deployment](/docs/getting-started/first-deployment)** - Step-by-step tutorial
 
 ---
 
