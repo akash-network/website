@@ -70,35 +70,39 @@ const lines = page?.body
           pathname={pathname}
         />
 
-        <MobileTableOfContents
-          client:load
-          toc={generateToc(headings, "Overview")}
-          labels={{
-            onThisPage: "On this page",
-            title: catName,
-          }}
-        />
+        {!page.data.hideTOC && (
+          <MobileTableOfContents
+            client:load
+            toc={generateToc(headings, "Overview")}
+            labels={{
+              onThisPage: "On this page",
+              title: catName,
+            }}
+          />
+        )}
       </div>
     </div>
   </div>
   <div class="-mt-2">
     <div class="grid grid-cols-12 gap-5">
-      <div class="col-span-12 lg:col-span-9">
+      <div class={page.data.hideTOC ? "col-span-12" : "col-span-12 lg:col-span-9"}>
         <h1
           class="text-3xl md:text-4xl md:font-medium lg:text-5xl"
           id="overview"
         >
           {page.data.title}
         </h1>
-        <div class="mt-5 hidden md:block lg:hidden">
-          <MobileTableOfContents
-            client:load
-            toc={generateToc(headings, "Overview")}
-            labels={{
-              onThisPage: "On this page",
-            }}
-          />
-        </div>
+        {!page.data.hideTOC && (
+          <div class="mt-5 hidden md:block lg:hidden">
+            <MobileTableOfContents
+              client:load
+              toc={generateToc(headings, "Overview")}
+              labels={{
+                onThisPage: "On this page",
+              }}
+            />
+          </div>
+        )}
 
         <div class="my-5 border-b md:my-10"></div>
 
@@ -135,23 +139,25 @@ const lines = page?.body
         <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
       </div>
 
-      <aside
-        class="sidebar-scroll sticky top-[150px] hidden h-screen overflow-auto pb-56 lg:col-span-3 lg:block"
-      >
-        <div class="h-fit border-l pl-5">
-          <p class="text-base font-bold">ON THIS PAGE</p>
+      {!page.data.hideTOC && (
+        <aside
+          class="sidebar-scroll sticky top-[150px] hidden h-screen overflow-auto pb-56 lg:col-span-3 lg:block"
+        >
+          <div class="h-fit border-l pl-5">
+            <p class="text-base font-bold">ON THIS PAGE</p>
 
-          <div class="mt-6">
-            <TableOfContents
-              client:load
-              toc={generateToc(headings, "Overview")}
-              labels={{
-                onThisPage: "onThisPage",
-              }}
-            />
+            <div class="mt-6">
+              <TableOfContents
+                client:load
+                toc={generateToc(headings, "Overview")}
+                labels={{
+                  onThisPage: "onThisPage",
+                }}
+              />
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      )}
     </div>
   </div>
 </DocsLayout>

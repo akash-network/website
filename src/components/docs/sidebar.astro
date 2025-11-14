@@ -8,26 +8,133 @@ const pathname = new URL(Astro.request.url).pathname;
 ---
 
 <aside
+  id="docs-sidebar"
   class="sidebar-scroll sticky top-[86px] h-[calc(100dvh-86px)] w-[220px] flex-shrink-0 overflow-y-auto border-r py-6 pr-5 lg:w-[281px]"
+  style="scroll-behavior: auto;"
 >
+  <script is:inline>
+    // Preserve sidebar scroll position across navigation
+    (function() {
+      const SIDEBAR_ID = 'docs-sidebar';
+      const STORAGE_KEY = 'docs-sidebar-scroll';
+      
+      let sidebar = null;
+      let isRestoring = false;
+      let savedPosition = 0;
+
+      function getSidebar() {
+        if (!sidebar) {
+          sidebar = document.getElementById(SIDEBAR_ID);
+        }
+        return sidebar;
+      }
+
+      function saveScroll() {
+        const el = getSidebar();
+        if (el && !isRestoring) {
+          savedPosition = el.scrollTop;
+          sessionStorage.setItem(STORAGE_KEY, savedPosition.toString());
+        }
+      }
+
+      function restoreScroll() {
+        const el = getSidebar();
+        if (!el) return;
+        
+        const saved = sessionStorage.getItem(STORAGE_KEY);
+        if (saved === null) return;
+        
+        const targetPos = parseInt(saved, 10);
+        if (isNaN(targetPos)) return;
+        
+        isRestoring = true;
+        
+        // Force restore multiple times
+        const forceRestore = () => {
+          if (el) {
+            el.scrollTop = targetPos;
+          }
+        };
+        
+        // Immediate
+        forceRestore();
+        
+        // After microtask
+        Promise.resolve().then(forceRestore);
+        
+        // After short delays
+        setTimeout(() => {
+          forceRestore();
+          isRestoring = false;
+        }, 0);
+        
+        setTimeout(forceRestore, 10);
+        setTimeout(forceRestore, 50);
+        setTimeout(() => {
+          forceRestore();
+          isRestoring = false;
+        }, 100);
+        setTimeout(forceRestore, 200);
+      }
+
+      function init() {
+        const el = getSidebar();
+        if (!el) {
+          requestAnimationFrame(init);
+          return;
+        }
+
+        // Restore on load
+        restoreScroll();
+
+        // Save on scroll (throttled)
+        let scrollTimer;
+        el.addEventListener('scroll', () => {
+          if (isRestoring) return;
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(saveScroll, 200);
+        }, { passive: true });
+
+        // Save before navigation
+        const saveBeforeNav = () => {
+          saveScroll();
+        };
+        
+        document.addEventListener('astro:before-preparation', saveBeforeNav);
+        document.addEventListener('astro:before-swap', saveBeforeNav);
+        
+        // Save on link clicks
+        el.addEventListener('click', (e) => {
+          if (e.target.closest('a')) {
+            saveScroll();
+          }
+        }, true);
+
+        // Restore after navigation
+        const handleAfterNav = () => {
+          // Wait a bit for React to finish rendering
+          setTimeout(restoreScroll, 50);
+          setTimeout(restoreScroll, 150);
+          setTimeout(restoreScroll, 300);
+        };
+        
+        document.addEventListener('astro:after-swap', handleAfterNav);
+        document.addEventListener('astro:page-load', handleAfterNav);
+      }
+
+      // Start initialization
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        // Use requestAnimationFrame to ensure DOM is ready
+        requestAnimationFrame(init);
+      }
+    })();
+  </script>
   <div class="flex flex-col">
-    <div>
-      <!-- <a
-        href={`/docs`}
-        class={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
-          dark:hover:text-white dark:hover:bg-background2
-        hover:bg-[#F4F1F1]  ${
-          pathname?.split("/")[3]
-            ? "text-para"
-            : "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-        }`}
-      >
-        Home
-      </a> -->
+    <div class="mb-6">
       <HomeButton pathname={pathname} client:load />
     </div>
-
-    <!-- <div class="border-b"></div> -->
 
     <div>
       <DocsNav

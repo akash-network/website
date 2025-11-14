@@ -1,0 +1,360 @@
+---
+categories: ["For Developers"]
+tags: ["SDK", "API", "Reference", "Go", "JavaScript", "TypeScript"]
+weight: 4
+title: "Akash SDK - API Reference"
+linkTitle: "API Reference"
+---
+
+import CodeTabs from "@/components/docs/CodeTabs";
+
+**Complete API reference for the Akash SDKs.**
+
+Both SDKs follow the same patterns—examples are shown in Go and JavaScript/TypeScript.
+
+---
+
+## Client Initialization
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import "github.com/akash-network/akash-go/client"
+
+akashClient := client.NewClient(client.Config{
+    Network:  "mainnet", // "mainnet" or "testnet"
+    NodeURL:  "https://rpc.akash.forbole.com:443",
+    ChainID:  "akashnet-2", // Optional, auto-detected
+})`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { AkashClient } from '@akashnetwork/chain-sdk';
+
+const client = new AkashClient({
+  network: 'mainnet', // 'mainnet' or 'testnet'
+  nodeUrl: 'https://rpc.akash.forbole.com:443',
+  chainId: 'akashnet-2' // Optional, auto-detected
+});`,
+    }]}
+/>
+
+---
+
+## Deployments
+
+### Create Deployment
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `deployment, err := client.Deployments.Create(
+    ctx,
+    wallet,
+    sdlString,
+    500000, // uAKT (0.5 AKT)
+    "My deployment", // Optional memo
+)
+
+// Returns: Deployment object with dseq, owner, etc.`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `const deployment = await client.deployments.create({
+  wallet,
+  sdl: sdlString,
+  deposit: 500000, // uAKT (0.5 AKT)
+  memo: 'My deployment' // Optional
+});
+
+// Returns: Deployment object with dseq, owner, etc.`,
+    }]}
+/>
+
+### Query Deployments
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `// Get all deployments for an owner
+deployments, err := client.Deployments.Query(ctx, wallet.Address(), "active")
+
+// Get specific deployment
+deployment, err := client.Deployments.Get(ctx, wallet.Address(), 1234567890)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Get all deployments for an owner
+const deployments = await client.deployments.query({
+  owner: wallet.address,
+  state: 'active' // 'active', 'closed', or undefined for all
+});
+
+// Get specific deployment
+const deployment = await client.deployments.get({
+  owner: wallet.address,
+  dseq: 1234567890,
+});`,
+    }]}
+/>
+
+### Update Deployment
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `err := client.Deployments.Update(
+    ctx,
+    wallet,
+    deployment.DSEQ,
+    newSdlString,
+)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `await client.deployments.update({
+  wallet,
+  dseq: deployment.dseq,
+  sdl: newSdlString,
+});`,
+    }]}
+/>
+
+### Close Deployment
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `err := client.Deployments.Close(
+    ctx,
+    wallet,
+    deployment.DSEQ,
+)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `await client.deployments.close({
+  wallet,
+  dseq: deployment.dseq,
+});`,
+    }]}
+/>
+
+---
+
+## Market Operations
+
+### Get Bids
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `bids, err := client.Market.GetBids(
+    ctx,
+    wallet.Address(),
+    deployment.DSEQ,
+    "open",
+)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `const bids = await client.market.getBids({
+  owner: wallet.address,
+  dseq: deployment.dseq,
+  state: 'open' // 'open', 'active', or undefined for all
+});`,
+    }]}
+/>
+
+### Create Lease
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `lease, err := client.Market.CreateLease(
+    ctx,
+    wallet,
+    deployment.DSEQ,
+    "akash1abc123...",
+)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `const lease = await client.market.createLease({
+  wallet,
+  dseq: deployment.dseq,
+  provider: 'akash1abc123...',
+});`,
+    }]}
+/>
+
+---
+
+## Manifest Operations
+
+### Send Manifest
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `err := client.Manifest.Send(
+    ctx,
+    wallet,
+    deployment.DSEQ,
+    lease.Provider,
+    sdlString,
+)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `await client.manifest.send({
+  wallet,
+  dseq: deployment.dseq,
+  provider: lease.provider,
+  sdl: sdlString,
+});`,
+    }]}
+/>
+
+### Get Lease Status
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `status, err := client.Manifest.GetStatus(
+    ctx,
+    wallet,
+    deployment.DSEQ,
+    lease.Provider,
+)
+
+// Returns: Status with services, uris, etc.`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `const status = await client.manifest.getStatus({
+  wallet,
+  dseq: deployment.dseq,
+  provider: lease.provider,
+});
+
+// Returns: Status with services, uris, etc.`,
+    }]}
+/>
+
+---
+
+## Query Operations
+
+### Query Providers
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `// Get all providers
+providers, err := client.Query.Providers(ctx)
+
+// Get specific provider
+provider, err := client.Query.Provider(ctx, "akash1abc123...")`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Get all providers
+const providers = await client.query.providers();
+
+// Get specific provider
+const provider = await client.query.provider('akash1abc123...');`,
+    }]}
+/>
+
+### Query Account Balance
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `balance, err := client.Query.Balance(ctx, wallet.Address())
+// Returns: Balance in uAKT`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `const balance = await client.query.balance(wallet.address);
+// Returns: Balance in uAKT`,
+    }]}
+/>
+
+---
+
+## Error Handling
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import "github.com/akash-network/akash-go/errors"
+
+deployment, err := client.Deployments.Create(...)
+if err != nil {
+    if errors.IsInsufficientFunds(err) {
+        log.Fatal("Not enough funds!")
+    }
+    log.Fatal(err)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { AkashError, InsufficientFundsError } from '@akashnetwork/chain-sdk';
+
+try {
+  const deployment = await client.deployments.create(...);
+} catch (error) {
+  if (error instanceof InsufficientFundsError) {
+    console.error('Not enough funds!');
+  } else if (error instanceof AkashError) {
+    console.error(\`Akash error: \${error.message}\`);
+  }
+}`,
+    }]}
+/>
+
+---
+
+## Next Steps
+
+- **[Getting Started](/docs/for-developers/akash-sdk/getting-started)** - Quick start guide
+- **[Examples](/docs/for-developers/akash-sdk/examples)** - Real-world examples
+- **[SDL Reference](/docs/for-developers/akash-sdl)** - Stack Definition Language docs

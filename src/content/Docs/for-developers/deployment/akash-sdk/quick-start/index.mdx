@@ -1,0 +1,257 @@
+---
+categories: ["For Developers"]
+tags: ["SDK", "Quick Start", "Go", "JavaScript", "TypeScript"]
+title: "SDK Quick Start"
+linkTitle: "Quick Start"
+description: "Get started with Akash SDK in Go or JavaScript/TypeScript"
+weight: 2
+---
+
+import CodeTabs from "@/components/docs/CodeTabs";
+
+**Deploy and manage Akash applications using our official SDKs in Go or JavaScript/TypeScript.**
+
+Both SDKs are generated from the chain-sdk and provide the same core functionality.
+
+---
+
+## Quick Start
+
+### 1. Import and Initialize
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "github.com/akash-network/akash-go/client"
+    "github.com/akash-network/akash-go/wallet"
+)
+
+// Initialize client
+akashClient := client.NewClient(client.Config{
+    Network:  "mainnet", // or "testnet"
+    NodeURL:  "https://rpc.akash.forbole.com:443",
+})
+
+// Load wallet from mnemonic
+wallet, err := wallet.FromMnemonic("your mnemonic phrase here")
+if err != nil {
+    log.Fatal(err)
+}
+// Or from key file
+// wallet, err := wallet.FromKeyFile("path/to/key.json")`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { AkashClient } from '@akashnetwork/chain-sdk';
+import { Wallet } from '@akashnetwork/chain-sdk/wallet';
+
+// Initialize client
+const client = new AkashClient({
+  network: 'mainnet', // or 'testnet'
+  nodeUrl: 'https://rpc.akash.forbole.com:443'
+});
+
+// Load wallet from mnemonic
+const wallet = Wallet.fromMnemonic('your mnemonic phrase here');
+// Or from key file
+// const wallet = Wallet.fromKeyFile('path/to/key.json');`,
+    }]}
+/>
+
+### 2. Create a Deployment
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `// Define your SDL
+sdl := \`
+version: "2.0"
+services:
+  web:
+    image: nginx:1.25.3
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          size: 512Mi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uakt
+          amount: 10000
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+\`
+
+// Create deployment
+deployment, err := client.Deployments.Create(ctx, wallet, sdl, 500000) // 0.5 AKT in uAKT
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Printf("Deployment created: %d\\n", deployment.DSEQ)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Define your SDL
+const sdl = \`
+version: "2.0"
+services:
+  web:
+    image: nginx:1.25.3
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          size: 512Mi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uakt
+          amount: 10000
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+\`;
+
+// Create deployment
+const deployment = await client.deployments.create({
+  wallet,
+  sdl,
+  deposit: 500000, // 0.5 AKT in uAKT
+});
+
+console.log(\`Deployment created: \${deployment.dseq}\`);`,
+    }]}
+/>
+
+### 3. Accept a Bid and Create Lease
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `// Wait for bids (or check existing bids)
+bids, err := client.Market.GetBids(ctx, wallet.Address(), deployment.DSEQ)
+if err != nil {
+    log.Fatal(err)
+}
+
+// Accept the first bid
+if len(bids) > 0 {
+    selectedBid := bids[0]
+    lease, err := client.Market.CreateLease(ctx, wallet, deployment.DSEQ, selectedBid.Provider)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("Lease created with provider: %s\\n", lease.Provider)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Wait for bids (or check existing bids)
+const bids = await client.market.getBids({
+  owner: wallet.address,
+  dseq: deployment.dseq,
+});
+
+// Accept the first bid
+if (bids.length > 0) {
+  const selectedBid = bids[0];
+  const lease = await client.market.createLease({
+    wallet,
+    dseq: deployment.dseq,
+    provider: selectedBid.provider,
+  });
+  console.log(\`Lease created with provider: \${lease.provider}\`);
+}`,
+    }]}
+/>
+
+### 4. Send Manifest
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `// Send manifest to provider
+err = client.Manifest.Send(ctx, wallet, deployment.DSEQ, lease.Provider, sdl)
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Println("Manifest sent! Your deployment is starting...")`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Send manifest to provider
+await client.manifest.send({
+  wallet,
+  dseq: deployment.dseq,
+  provider: lease.provider,
+  sdl,
+});
+
+console.log('Manifest sent! Your deployment is starting...');`,
+    }]}
+/>
+
+---
+
+## Core Features
+
+All SDKs support:
+
+- ✅ **Deployment Management** - Create, update, close deployments
+- ✅ **Market Operations** - View bids, create leases
+- ✅ **Manifest Management** - Send and update manifests
+- ✅ **Query Operations** - Query deployments, leases, providers
+- ✅ **Wallet Management** - Load wallets, sign transactions
+- ✅ **SDL Parsing** - Parse and validate SDL files
+
+---
+
+## Next Steps
+
+- **[Examples](/docs/for-developers/akash-sdk/examples)** - Real-world code examples
+- **[API Reference](/docs/for-developers/akash-sdk/api-reference)** - Complete API documentation
+- **[Deployment Guides](/docs/for-developers/deployment-guides)** - Learn deployment patterns
+

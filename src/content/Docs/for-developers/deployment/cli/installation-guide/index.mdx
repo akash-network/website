@@ -1,0 +1,405 @@
+---
+categories: ["Getting Started"]
+tags: ["Installation", "CLI", "Setup"]
+weight: 4
+title: "Install provider-services CLI"
+linkTitle: "Installation"
+---
+
+**Get set up with the provider-services CLI to deploy on Akash Network.**
+
+This guide walks you through installing the CLI, creating a wallet, and funding your account.
+
+---
+
+## Install provider-services
+
+Select your operating system:
+
+import TabsWrapper, { TabContent } from "@/components/ui/tabs";
+
+<TabsWrapper client:load >
+<TabContent  value="MacOS">
+   #### MacOS
+
+**Option 1: Using Homebrew (Recommended)**
+
+```
+brew tap akash-network/tap
+brew install akash-provider-services
+```
+
+**Option 2: Download Binary**
+
+```
+cd ~/Downloads
+
+# Download the latest release
+curl -sfL https://raw.githubusercontent.com/akash-network/provider/main/install.sh | bash
+```
+
+**Move the Binary**
+
+```
+sudo mv ./bin/provider-services /usr/local/bin
+```
+
+**Verify Installation**
+
+```
+provider-services version
+```
+
+**Expected Output**
+
+```
+v0.10.0
+```
+
+</TabContent>
+
+<TabContent  value="Linux">
+
+**Option 1: Using Homebrew (Recommended)**
+
+```
+brew tap akash-network/tap
+brew install akash-provider-services
+```
+
+**Option 2: Download Binary**
+
+```
+cd ~
+
+apt install jq -y
+
+apt install unzip -y
+
+curl -sfL https://raw.githubusercontent.com/akash-network/provider/main/install.sh | bash
+```
+
+**Add to Path**
+
+```
+vi /etc/environment
+```
+
+Add the following to PATH:
+
+```
+/root/bin
+```
+
+**Make Path Active**
+
+```
+. /etc/environment
+```
+
+**Verify Installation**
+
+```
+provider-services version
+```
+
+**Expected Output**
+
+```
+v0.10.0
+```
+
+  </TabContent>
+  <TabContent value="Windows">
+  #### Windows
+
+**Using WSL2 (Recommended)**
+
+Install Windows Subsystem for Linux 2, then follow the Linux instructions above.
+
+[Install WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+**Native Windows**
+
+1. Download the latest Windows binary from [GitHub Releases](https://github.com/akash-network/provider/releases)
+2. Extract the `.zip` file
+3. Move `provider-services.exe` to a directory in your PATH
+4. Open PowerShell and verify:
+
+```
+provider-services version
+```
+
+  </TabContent>
+  <TabContent value="Source">
+  #### From Source
+
+Installing provider-services from source:
+
+```
+$ go get -d github.com/akash-network/provider
+$ cd $GOPATH/src/github.com/akash-network/provider
+$ AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+$ AKASH_VERSION="$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -r '.tag_name')"
+$ git checkout "$AKASH_VERSION"
+$ make deps-install
+$ make install
+```
+
+**Requirements:**
+
+- [golang 1.21+](https://golang.org/)
+- Properly set `GOPATH`
+- `$GOPATH/bin` present in `$PATH`
+
+Once you have the dependencies setup, download and build using `make install`.
+
+**Verify Installation**
+
+```
+provider-services version
+```
+
+  </TabContent>
+  </TabsWrapper>
+
+---
+
+## Create an Account
+
+Configure the name of your key:
+
+```bash
+AKASH_KEY_NAME=my-wallet
+```
+
+Verify the variable is set:
+
+```bash
+echo $AKASH_KEY_NAME
+```
+
+Set the keyring backend:
+
+```bash
+AKASH_KEYRING_BACKEND=os
+```
+
+Create an Akash account:
+
+```bash
+provider-services keys add $AKASH_KEY_NAME
+```
+
+Read the output and **save your mnemonic phrase** in a safe place.
+
+Set your account address as a variable:
+
+```bash
+export AKASH_ACCOUNT_ADDRESS="$(provider-services keys show $AKASH_KEY_NAME -a)"
+
+echo $AKASH_ACCOUNT_ADDRESS
+```
+
+Note that if you close your Terminal window this variable will not be saved.
+
+---
+
+## Fund your Account
+
+A minimum deposit of 0.5 AKT is required to deploy on Akash. A small transaction fee is also applied to deployment leases.
+
+**Get AKT tokens:**
+
+- [Buying AKT from an exchange / swapping to AKT](https://akash.network/token)
+- [Join the Akash Community](https://discord.com/invite/akash)
+
+---
+
+## Configure your Network
+
+Configure the base URL for the Akash Network:
+
+```bash
+AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+```
+
+### Version
+
+```bash
+AKASH_VERSION="$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -r '.tag_name')"
+```
+
+### Chain ID
+
+```bash
+export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
+```
+
+### Network Node
+
+```bash
+export AKASH_NODE="$(curl -s "$AKASH_NET/rpc-nodes.txt" | shuf -n 1)"
+```
+
+### Confirm Network Variables
+
+```bash
+echo $AKASH_NODE $AKASH_CHAIN_ID $AKASH_KEYRING_BACKEND
+```
+
+You should see something similar to:
+
+`http://135.181.60.250:26657 akashnet-2 os`
+
+### Set Additional Environment Variables
+
+| Variable             | Description                                               | Recommended Value |
+| -------------------- | --------------------------------------------------------- | ----------------- |
+| AKASH_GAS            | Gas limit to set per-transaction                          | `auto`            |
+| AKASH_GAS_ADJUSTMENT | Adjustment factor to be multiplied against the estimate   | `1.25`            |
+| AKASH_GAS_PRICES     | Gas prices in decimal format to determine transaction fee | `0.025uakt`       |
+| AKASH_SIGN_MODE      | Signature mode                                            | `amino-json`      |
+
+```
+export AKASH_GAS=auto
+export AKASH_GAS_ADJUSTMENT=1.25
+export AKASH_GAS_PRICES=0.025uakt
+export AKASH_SIGN_MODE=amino-json
+```
+
+### Check your Account Balance
+
+```bash
+provider-services query bank balances --node $AKASH_NODE $AKASH_ACCOUNT_ADDRESS
+```
+
+You should see a response similar to:
+
+```
+balances:
+- amount: "93000637"
+  denom: uakt
+pagination:
+  next_key: null
+  total: "0"
+```
+
+**Note:** Balance is denominated in uAKT (AKT x 10^-6). In the example above, the account has a balance of _93 AKT_.
+
+Your account must have a minimum balance of 0.5 AKT to create a deployment.
+
+---
+
+## Authentication
+
+Akash provider services support two authentication methods:
+
+### JWT Authentication (Default - Recommended)
+
+**JWT (JSON Web Tokens)** is the default and recommended authentication method for provider-services v0.10.0+.
+
+**Advantages:**
+- No blockchain transactions required
+- No certificate expiration to manage
+- Simpler setup
+- No additional costs
+
+**JWT tokens are automatically generated and managed by provider-services CLI.** No setup required!
+
+When you run deployment commands, the CLI automatically:
+1. Signs requests with your account's private key
+2. Creates JWT tokens
+3. Sends authenticated requests to providers
+
+**You're ready to deploy!** Jump to [Next Steps](#next-steps).
+
+---
+
+### mTLS Certificate Authentication (Optional)
+
+**mTLS (mutual TLS)** certificates are an alternative authentication method.
+
+**When to use mTLS:**
+- You require certificate-based authentication
+- You're integrating with systems that require X.509 certificates
+- You prefer blockchain-stored credentials
+
+#### Generate Certificate
+
+```
+provider-services tx cert generate client --from $AKASH_KEY_NAME
+```
+
+Note: If it errors with `Error: certificate error: cannot overwrite certificate`, add `--overwrite` flag.
+
+#### Publish Certificate to Blockchain
+
+```
+provider-services tx cert publish client --from $AKASH_KEY_NAME
+```
+
+**Certificate Notes:**
+- Certificates cost transaction fees (~0.01 AKT)
+- Valid for one year, then must be renewed
+- Stored on the Akash blockchain
+- Can be revoked and regenerated
+
+---
+
+**Previous:** [← Quick Start](/docs/getting-started/quick-start)
+
+---
+
+## Next Steps
+
+Now that you're set up, you can:
+
+- [**Quick Start**](/docs/getting-started/quick-start) - Deploy your first app in 10 minutes
+- [**First Deployment**](/docs/getting-started/first-deployment) - Detailed deployment tutorial
+
+---
+
+## Troubleshooting
+
+### "command not found: provider-services"
+
+The binary isn't in your PATH. Try:
+
+```bash
+# Find where it's installed
+which provider-services
+
+# Add to PATH (Linux/macOS)
+export PATH=$PATH:/path/to/provider-services
+```
+
+### "account not found"
+
+Your wallet hasn't been created or funded yet. Go back to [Create an Account](#create-an-account) and [Fund your Account](#fund-your-account).
+
+### "insufficient fees"
+
+Increase your gas prices:
+
+```bash
+export AKASH_GAS_PRICES=0.05uakt
+```
+
+### RPC Node Issues
+
+If the default RPC node is down, try an alternative:
+
+```bash
+export AKASH_NODE=https://rpc.akash.forbole.com:443
+# or
+export AKASH_NODE=https://akash-rpc.polkachu.com:443
+```
+
+---
+
+## Need Help?
+
+- [Akash Discord](https://discord.akash.network) - Get help from the community
+- [Akash Forum](https://forum.akash.network) - Ask questions and share ideas
+- [GitHub Issues](https://github.com/akash-network/provider/issues) - Report bugs

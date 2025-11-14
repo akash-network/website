@@ -1,206 +1,465 @@
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { docsSequence as docs } from "@/content/Docs/_sequence";
-import { ChevronDownIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
-
-import { useStorage } from "@/utils/store";
-
-const MAX_DEPTH = 4;
+import React, { useState, useEffect } from "react";
+import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 
 export function DocsNav({ docsNav = [], pathName = [] }: any) {
-  const [$docsLinkTracks, setDocsLinkTracks] = useState<any>({});
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
+  const [currentPath, setCurrentPath] = useState<string>(
+    typeof window !== "undefined" ? window.location.pathname : ""
+  );
+  const [forceUpdate, setForceUpdate] = useState(0);
+
+  // Preserve sidebar scroll position
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    let sidebar: HTMLElement | null = null;
+    let scrollTimeout: NodeJS.Timeout;
+    let isRestoring = false;
+    let isUserScrolling = false;
+    let userScrollTimeout: NodeJS.Timeout;
+    let justNavigated = false;
+
+    const getSidebar = () => {
+      if (!sidebar || !document.contains(sidebar)) {
+        sidebar = document.getElementById('docs-sidebar');
+      }
+      return sidebar;
+    };
+
+    // Save scroll position
+    const saveScroll = () => {
+      const el = getSidebar();
+      if (el && !isRestoring) {
+        const scrollPos = el.scrollTop;
+        sessionStorage.setItem('docs-sidebar-scroll', scrollPos.toString());
+      }
+    };
+
+    // Restore scroll position - very aggressive
+    const restoreScroll = () => {
+      const el = getSidebar();
+      if (!el) {
+        // Retry if sidebar not found
+        setTimeout(restoreScroll, 10);
+        return;
+      }
+
+      const saved = sessionStorage.getItem('docs-sidebar-scroll');
+      if (saved === null) return;
+
+      const targetPos = parseInt(saved, 10);
+      if (isNaN(targetPos)) return;
+
+      isRestoring = true;
+
+      // Immediately set
+      el.scrollTop = targetPos;
+
+      // Use requestAnimationFrame for next frame
+      requestAnimationFrame(() => {
+        if (el) el.scrollTop = targetPos;
+      });
+
+      // Multiple delayed attempts (reduced)
+      const attempts = [0, 10, 50, 100, 200];
+      attempts.forEach((delay) => {
+        setTimeout(() => {
+          const currentEl = getSidebar();
+          if (currentEl && !isUserScrolling) {
+            currentEl.scrollTop = targetPos;
+            if (delay === 200) {
+              isRestoring = false;
+            }
+          }
+        }, delay);
+      });
+    };
+
+    // Initialize
+    const init = () => {
+      const el = getSidebar();
+      if (!el) {
+        setTimeout(init, 50);
+        return;
+      }
+
+      // Restore on mount
+      restoreScroll();
+
+      // Save on scroll (throttled, but update immediately)
+      let lastSavedPosition = el.scrollTop;
+      el.addEventListener('scroll', () => {
+        if (isRestoring) return;
+        lastSavedPosition = el.scrollTop;
+        // Save immediately to prevent monitor from restoring old position
+        sessionStorage.setItem('docs-sidebar-scroll', lastSavedPosition.toString());
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(saveScroll, 250);
+        // Clear navigation flag when user scrolls
+        justNavigated = false;
+      }, { passive: true });
+
+      // Track when user is actively scrolling
+      el.addEventListener('scroll', () => {
+        isUserScrolling = true;
+        clearTimeout(userScrollTimeout);
+        userScrollTimeout = setTimeout(() => {
+          isUserScrolling = false;
+        }, 150);
+      }, { passive: true });
+
+      // Monitor and prevent unexpected scroll resets (only after navigation)
+      const monitorScroll = setInterval(() => {
+        // Don't interfere if user is actively scrolling or we're restoring
+        if (isUserScrolling || isRestoring) return;
+        
+        // Only restore if we just navigated (not if user scrolled)
+        if (!justNavigated) return;
+        
+        const currentEl = getSidebar();
+        if (!currentEl) return;
+        
+        const currentPos = currentEl.scrollTop;
+        const saved = sessionStorage.getItem('docs-sidebar-scroll');
+        
+        // Only restore if scroll was reset to 0 unexpectedly after navigation
+        if (saved !== null && currentPos === 0 && parseInt(saved, 10) > 100) {
+          // Only restore once
+          isRestoring = true;
+          currentEl.scrollTop = parseInt(saved, 10);
+          setTimeout(() => {
+            isRestoring = false;
+            justNavigated = false; // Clear flag after restoration
+          }, 50);
+        } else if (currentPos > 0) {
+          // If we're not at 0, clear the navigation flag
+          justNavigated = false;
+        }
+      }, 200); // Check less frequently
+
+      // Save before navigation
+      document.addEventListener('astro:before-preparation', saveScroll);
+      document.addEventListener('astro:before-swap', saveScroll);
+      
+      // Restore after navigation - with delays for React rendering (reduced)
+      const handleAfterNav = () => {
+        justNavigated = true; // Set flag that we just navigated
+        setTimeout(restoreScroll, 0);
+        setTimeout(restoreScroll, 50);
+        setTimeout(restoreScroll, 150);
+        setTimeout(restoreScroll, 300);
+        // Clear flag after a short time
+        setTimeout(() => {
+          justNavigated = false;
+        }, 1000);
+      };
+      
+      document.addEventListener('astro:after-swap', handleAfterNav);
+      document.addEventListener('astro:page-load', handleAfterNav);
+
+      // Also watch for DOM changes (in case sidebar is recreated)
+      const observer = new MutationObserver(() => {
+        const saved = sessionStorage.getItem('docs-sidebar-scroll');
+        if (saved !== null) {
+          setTimeout(restoreScroll, 0);
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      return () => {
+        clearInterval(monitorScroll);
+        clearTimeout(userScrollTimeout);
+        el?.removeEventListener('scroll', saveScroll);
+        document.removeEventListener('astro:before-preparation', saveScroll);
+        document.removeEventListener('astro:before-swap', saveScroll);
+        document.removeEventListener('astro:after-swap', handleAfterNav);
+        document.removeEventListener('astro:page-load', handleAfterNav);
+        observer.disconnect();
+      };
+    };
+
+    // Start initialization
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      setTimeout(init, 0);
+    }
+  }, []);
 
   const getCurrentLink = (link: string) => {
     if (typeof window === "undefined") {
       return false;
     }
-    const currentLink = window.location.pathname;
-    return link === currentLink;
+    // Normalize both paths by removing trailing slashes for comparison
+    const normalizedLink = link.replace(/\/$/, "");
+    const normalizedCurrent = currentPath.replace(/\/$/, "");
+    const isMatch = normalizedLink === normalizedCurrent;
+    return isMatch;
   };
 
-  const getDefaultLink = (navItem: any, depth: any) => {
-    for (let index = 0; index <= MAX_DEPTH; index += 1) {
-      if (navItem.subItems && navItem.subItems.length > 0) {
-        navItem = navItem.subItems[0];
-      } else {
-        break;
+  // Auto-open sections that contain the current page
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    const updateOpenSections = () => {
+      const newPath = window.location.pathname;
+      if (newPath !== currentPath) {
+        setCurrentPath(newPath);
+        setForceUpdate(prev => prev + 1); // Force re-render
+      }
+      const newOpenSections = new Set<string>();
+
+      // Check if current path is within any section
+      const checkPath = (items: any[], parentPath: string = "") => {
+        items.forEach((item) => {
+          const fullPath = parentPath ? `${parentPath}/${item.label}` : item.label;
+          if (item.link && newPath.startsWith(item.link)) {
+            // Current page matches this item, open all parents
+            newOpenSections.add(fullPath);
+          }
+          if (item.subItems && item.subItems.length > 0) {
+            const hadMatch = checkPath(item.subItems, fullPath);
+            // If a child matched, open this parent too
+            if (item.subItems.some((si: any) => si.link && newPath.startsWith(si.link))) {
+              newOpenSections.add(fullPath);
+            }
+          }
+        });
+      };
+
+      const actualNav = docsNav[0]?.label === "Docs" ? docsNav[0].subItems : docsNav;
+      checkPath(actualNav);
+      
+      // Also restore from sessionStorage
+      try {
+        const stored = sessionStorage.getItem("docs-open-sections");
+        if (stored) {
+          const storedArray = JSON.parse(stored);
+          storedArray.forEach((path: string) => newOpenSections.add(path));
+        }
+      } catch (e) {
+        // Ignore errors
+      }
+      
+      setOpenSections(newOpenSections);
+      sessionStorage.setItem("docs-open-sections", JSON.stringify(Array.from(newOpenSections)));
+    };
+    
+    // Run on mount
+    updateOpenSections();
+    
+    // Listen for Astro navigation events
+    document.addEventListener('astro:page-load', updateOpenSections);
+    document.addEventListener('astro:after-swap', updateOpenSections);
+    
+    // Also listen to popstate for back/forward navigation
+    window.addEventListener('popstate', updateOpenSections);
+    
+    // Poll for changes as a fallback (every 300ms)
+    const interval = setInterval(() => {
+      const newPath = window.location.pathname;
+      if (newPath !== currentPath) {
+        updateOpenSections();
+      }
+    }, 300);
+    
+    return () => {
+      document.removeEventListener('astro:page-load', updateOpenSections);
+      document.removeEventListener('astro:after-swap', updateOpenSections);
+      window.removeEventListener('popstate', updateOpenSections);
+      clearInterval(interval);
+    };
+  }, [docsNav, pathName]);
+
+  const getFirstLink = (item: any): string | null => {
+    // If the item itself has a link (index page), use that
+    if (item.link) {
+      return item.link;
+    }
+    // Otherwise, if item has subItems, get the first sub-item's link
+    if (item.subItems && item.subItems.length > 0) {
+      // Get the first sub-item that has a link
+      for (const subItem of item.subItems) {
+        if (subItem.link) {
+          return subItem.link;
+        }
+        // If sub-item has no link but has subItems, recurse
+        if (subItem.subItems && subItem.subItems.length > 0) {
+          const nestedLink = getFirstLink(subItem);
+          if (nestedLink) {
+            return nestedLink;
+          }
+        }
       }
     }
-    if (navItem.link) return navItem.link;
-    return "";
+    return null;
   };
 
-  const handleCollapsibleTrigger = (navItem: any, depth: any) => {
-    const link = getDefaultLink(navItem, depth) as string;
-    const isOpen = $docsLinkTracks[link];
+  const toggleSection = (sectionPath: string, item: any, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const isOpen = openSections.has(sectionPath);
+    
     if (isOpen) {
-      setDocsLinkTracks({ ...$docsLinkTracks, [link]: !isOpen });
+      // Close the section
+      setOpenSections((prev) => {
+        const next = new Set(prev);
+        next.delete(sectionPath);
+        // Update sessionStorage
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("docs-open-sections", JSON.stringify(Array.from(next)));
+        }
+        return next;
+      });
     } else {
-      setDocsLinkTracks({ ...$docsLinkTracks, [link]: true });
-      window.history.pushState({}, "", link);
-      window.dispatchEvent(new Event("popstate"));
+      // Open the section
+      setOpenSections((prev) => {
+        const next = new Set(prev);
+        next.add(sectionPath);
+        // Save to sessionStorage immediately
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("docs-open-sections", JSON.stringify(Array.from(next)));
+        }
+        return next;
+      });
     }
   };
 
-  useEffect(() => {
-    const newLinkTracks = { ...$docsLinkTracks };
+  // Skip the "Docs" wrapper - get the actual nav items
+  const actualNav = docsNav[0]?.label === "Docs" ? docsNav[0].subItems : docsNav;
+  
+  // Get headers from sequence
+  const { subItems: docsSequence } = docs[0];
+  
+  // Group nav items by headers
+  const sections: Array<{ header?: string; items: any[] }> = [];
+  let currentSection: { header?: string; items: any[] } = { items: [] };
 
-    setDocsLinkTracks({ ...newLinkTracks, [pathName]: true });
-  }, [pathName]);
-
-  const Dropdown = (
-    navItem: any,
-    pathName: any,
-    depth: any,
-    index?: any,
-    docsLength?: any,
-  ) => {
-    const { subItems: docsSequence } = docs[0];
-    return (
-      <div
-        className={
-          index === 0
-            ? ""
-            : depth && index === 0
-              ? ""
-              : depth === 0
-                ? "mt-5"
-                : ""
+  actualNav.forEach((navItem: any, index: number) => {
+    // Check if there's a header before this item in the sequence
+    const itemIndex = docsSequence.findIndex(
+      (seqItem: any) => seqItem.label === navItem.label
+    );
+    
+    if (itemIndex > 0) {
+      const prevItem = docsSequence[itemIndex - 1];
+      if (prevItem.type === "Header") {
+        // Save current section and start new one
+        if (currentSection.items.length > 0) {
+          sections.push(currentSection);
         }
-      >
-        {depth === 0 ? (
-          <div>
-            <p className="pl-2  text-sm font-bold" hidden={index === 0}>
-              {navItem.label}
-            </p>
+        currentSection = {
+          header: prevItem.label,
+          items: [],
+        };
+      }
+    }
 
-            {navItem.subItems && (
-              <div
-                className={`${index < docsLength - 1 ? "mb-4" : ""}  space-y-2`}
-              >
-                {navItem.subItems.map((subItem: any, index: any) => (
-                  <React.Fragment key={subItem.link}>
-                    {subItem.subItems.length > 0 ? (
-                      <div>
-                        {Dropdown(
-                          subItem,
-                          pathName,
-                          depth + 1,
-                          index,
-                          docsLength,
-                        )}
-                      </div>
-                    ) : (
-                      <>
-                        <a
-                          href={subItem.link}
-                          className={`${
-                            pathName.split("/")[2 + depth] ===
-                              subItem.link.split("/")[2 + depth] &&
-                            navItem.link.split("/")[1] ===
-                              pathName.split("/")[1]
-                              ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-                              : ""
-                          } flex w-full cursor-pointer items-center justify-between gap-x-2  rounded-[4px]  px-2 py-1 text-sm font-medium text-para hover:dark:bg-background2 hover:dark:text-white`}
-                        >
-                          {subItem.label}
-                        </a>
-                      </>
-                    )}
-                  </React.Fragment>
-                ))}
+    currentSection.items.push(navItem);
+  });
+
+  // Add the last section
+  if (currentSection.items.length > 0) {
+    sections.push(currentSection);
+  }
+
+  const renderNavItem = (item: any, depth: number = 0, parentPath: string = ""): React.ReactNode => {
+    const sectionPath = parentPath ? `${parentPath}/${item.label}` : item.label;
+    const hasSubItems = item.subItems && item.subItems.length > 0;
+    const isOpen = openSections.has(sectionPath);
+    const isActive = getCurrentLink(item.link || "");
+
+    // Only highlight if this exact item is active (not its children)
+    const isThisPageActive = item.link && getCurrentLink(item.link);
+
+    if (hasSubItems) {
+      // This is a collapsible section
+      return (
+        <div key={item.label || item.link} className={depth === 0 ? "mt-6 first:mt-0" : ""}>
+          {depth === 0 ? (
+            // Top-level section header (like "Getting Started", "For Developers")
+            <>
+              <h3 className="mb-3 text-base font-bold text-foreground">
+                {item.label}
+              </h3>
+              <div className="space-y-1">
+                {item.subItems.map((subItem: any) => renderNavItem(subItem, depth + 1, sectionPath))}
               </div>
-            )}
-          </div>
-        ) : (
-          <>
-            {docsSequence.findIndex((item) => item.label === navItem.label) !==
-              -1 &&
-              docsSequence[
-                docsSequence.findIndex((item) => item.label === navItem.label) -
-                  1
-              ]?.type === "Header" && (
-                <p className="mt-6 border-t py-6 text-xs font-bold uppercase">
-                  {
-                    docsSequence[
-                      docsSequence.findIndex(
-                        (item) => item.label === navItem.label,
-                      ) - 1
-                    ]?.label
-                  }
-                </p>
-              )}
-            <div className={`space-y-2 ${depth > 1 ? "pl-5" : "pl-0"}`}>
-              <Collapsible
-                id={getDefaultLink(navItem, depth)}
-                defaultOpen={
-                  $docsLinkTracks[getDefaultLink(navItem, depth)] ||
-                  pathName
-                    ?.split("/")
-                    ?.includes(
-                      navItem.link.split("/")[
-                        navItem.link.split("/").length - 2
-                      ],
-                    )
-                }
+            </>
+          ) : (
+            // Nested collapsible section (like "Akash Console" with sub-items)
+            <>
+              <div
+                className={`flex w-full items-center rounded-md transition-colors ${
+                  isThisPageActive
+                    ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+                    : "text-para hover:bg-gray-100 hover:text-foreground dark:hover:bg-background2 dark:hover:text-white"
+                }`}
               >
-                <CollapsibleTrigger
-                  className={`group w-full rounded-sm hover:bg-[#F4F1F1] hover:dark:bg-background2 ${
-                    depth > 1 ? "pl-5" : "pl-2"
-                  }`}
-                  onClick={() => handleCollapsibleTrigger(navItem, depth)}
+                <a
+                  href={getFirstLink(item) || "#"}
+                  className="flex-1 px-3 py-2 text-sm font-medium"
                 >
-                  <div
-                    className={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${
-                      depth > 0 ? "pl-0 pr-2" : "px-2"
-                    }   py-1 text-sm font-medium`}
-                  >
-                    <p className="flex-1 text-left group-hover:text-primary group-hover:dark:text-white">
-                      {navItem.label}
-                    </p>
-                    <ChevronDownIcon className=" w-4 text-para" />
-                  </div>
-                </CollapsibleTrigger>
+                  {item.label}
+                </a>
+                <button
+                  type="button"
+                  onClick={(e) => toggleSection(sectionPath, item, e)}
+                  className="px-3 py-2"
+                  aria-label={isOpen ? "Collapse section" : "Expand section"}
+                >
+                  {isOpen ? (
+                    <ChevronDownIcon className="h-4 w-4" />
+                  ) : (
+                    <ChevronRightIcon className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+              {isOpen && (
+                <div className="ml-4 mt-1 space-y-1 border-l border-border pl-4">
+                  {item.subItems.map((subItem: any) => renderNavItem(subItem, depth + 1, sectionPath))}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      );
+    }
 
-                {navItem.subItems && (
-                  <CollapsibleContent className="mt-2 space-y-2">
-                    {navItem.subItems.map((subItem: any, index: any) => (
-                      <React.Fragment key={subItem.link}>
-                        {subItem.subItems.length > 0 ? (
-                          <>{Dropdown(subItem, pathName, depth + 1)}</>
-                        ) : (
-                          <a
-                            href={subItem.link}
-                            className={`${
-                              getCurrentLink(subItem.link)
-                                ? "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-                                : ""
-                            } ml-5 flex w-full cursor-pointer items-center justify-between  gap-x-2  rounded-[4px] py-1 pl-5 pr-2 text-sm font-medium text-para  hover:bg-[#F4F1F1] hover:text-primary hover:dark:bg-background2 hover:dark:text-white`}
-                          >
-                            {subItem.label}
-                          </a>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </CollapsibleContent>
-                )}
-              </Collapsible>
-            </div>
-          </>
-        )}
-      </div>
+    // Leaf node - just a link
+    return (
+      <a
+        key={item.link}
+        href={item.link}
+        className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+          isActive
+            ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+            : "text-para hover:bg-gray-100 hover:text-foreground dark:hover:bg-background2 dark:hover:text-white"
+        }`}
+      >
+        {item.label}
+      </a>
     );
   };
 
   return (
-    <nav>
-      {docsNav?.map((navItem: any, index: any) => (
-        <div key={navItem.link}>
-          {Dropdown(navItem, pathName, 0, index, docsNav.length)}
+    <nav className="space-y-8">
+      {sections.map((section, sectionIndex) => (
+        <div key={sectionIndex}>
+          {section.header && (
+            <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-para border-t pt-6 first:border-t-0 first:pt-0">
+              {section.header}
+            </h2>
+          )}
+          <div className="space-y-6">
+            {section.items.map((item) => renderNavItem(item))}
+          </div>
         </div>
       ))}
     </nav>
@@ -208,19 +467,15 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
 }
 
 export const HomeButton = ({ pathname }: { pathname: string }) => {
-  const setDocsLinkTracks = useStorage((state) => state.setDocsLinkTracks);
-
+  const isActive = pathname === "/docs/" || pathname === "/docs";
   return (
     <a
-      href={`/docs`}
-      className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
-      hover:bg-[#F4F1F1] dark:hover:bg-background2
-    dark:hover:text-white  ${
-      pathname?.split("/")[3]
-        ? "text-para"
-        : "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-    }`}
-      onClick={() => setDocsLinkTracks({})}
+      href="/docs/"
+      className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+        isActive
+          ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+          : "text-para hover:bg-gray-100 hover:text-foreground dark:hover:bg-background2 dark:hover:text-white"
+      }`}
     >
       Home
     </a>

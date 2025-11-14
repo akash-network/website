@@ -1,4 +1,4 @@
-import { buttonVariants } from "@/components/ui/button-link.astro";
+import { buttonVariants } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
