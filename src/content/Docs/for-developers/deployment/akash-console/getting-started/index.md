@@ -1,9 +1,10 @@
 ---
-categories: ["For Developers"]
-tags: ["Akash Console", "GUI", "Web Interface"]
+categories: ["For Developers", "Deployment", "Akash Console"]
+tags: ["Akash Console", "GUI", "Web Interface", "Tutorial"]
 weight: 1
-title: "Akash Console - Getting Started"
+title: "Getting Started with Console"
 linkTitle: "Getting Started"
+description: "Learn the basics of Akash Console - features, interface, and common tasks"
 ---
 
 **Deploy applications on Akash Network using the web-based Akash Console—no CLI required!**

@@ -167,7 +167,7 @@ Ready to deploy your first application on Akash? Choose your path:
 1. **[Quick Start - Free Trial](/docs/getting-started/quick-start)** - Deploy in under 10 minutes with $100 free credits
 
 ### Use Your Own Wallet (Advanced)
-1. **[Console with Wallet](/docs/for-developers/deployment/console)** - Visual interface, no time limits
+1. **[Console with Wallet](/docs/for-developers/deployment/akash-console/with-wallet)** - Visual interface, no time limits
 2. **[CLI with Wallet](/docs/for-developers/deployment/cli)** - Command-line power
 
 ### Learn More

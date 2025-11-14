@@ -1,9 +1,9 @@
 ---
-categories: ["For Developers", "Deployment"]
+categories: ["For Developers", "Deployment", "Akash Console"]
 tags: ["Console", "Wallet", "Keplr", "Leap", "Deployment"]
-weight: 1
-title: "Akash Console with Wallet"
-linkTitle: "Console"
+weight: 2
+title: "Using Console with Your Wallet"
+linkTitle: "With Wallet"
 description: "Deploy on Akash Console using your own Keplr or Leap wallet for direct blockchain access"
 ---
 

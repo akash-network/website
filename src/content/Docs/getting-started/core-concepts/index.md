@@ -429,7 +429,7 @@ Now that you understand the core concepts, choose your deployment path:
 - [**Quick Start - Free Trial**](/docs/getting-started/quick-start) - Deploy your first app with $100 free credits
 
 ### Use Your Own Wallet (Advanced)
-- [**Console with Wallet**](/docs/for-developers/deployment/console) - Visual interface, no time limits
+- [**Console with Wallet**](/docs/for-developers/deployment/akash-console/with-wallet) - Visual interface, no time limits
 - [**CLI with Wallet**](/docs/for-developers/deployment/cli) - Command-line deployment
 - [**SDK**](/docs/for-developers/deployment/akash-sdk) - Programmatic deployment
 
