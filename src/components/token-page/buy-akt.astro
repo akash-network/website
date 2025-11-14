@@ -1,0 +1,35 @@
+---
+import { buyAktIcons } from "./token-icons";
+
+const { buyAktSection } = Astro.props;
+---
+
+<div>
+  <h2 class="text-center text-2xl font-semibold md:text-2xl">
+    {buyAktSection.title}
+  </h2>
+  <p class="mt-4 text-center text-base font-normal md:text-lg">
+    {buyAktSection.description}
+  </p>
+
+  <div
+    class="mx-auto mt-8 grid grid-cols-2 gap-3 md:mt-14 md:grid-cols-4 md:gap-5"
+  >
+    {
+      buyAktSection.items.map(
+        (item: { title: string; link: string; icon: string }) => (
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-defaultBorder bg-background2 px-2 py-6 text-center transition-all duration-200 hover:border-primary hover:bg-background2/80 md:gap-4 md:px-6 "
+          >
+            <div class="h-5 text-foreground transition-colors duration-200 group-hover:text-primary md:h-6">
+              <Fragment set:html={buyAktIcons[item.icon]} />
+            </div>
+          </a>
+        )
+      )
+    }
+  </div>
+</div>

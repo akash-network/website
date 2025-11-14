@@ -3,14 +3,16 @@ const { icon, title, description } = Astro.props;
 ---
 
 <div class="flex flex-col items-start">
-  <div
-    class="rounded-lg border border-paraDark bg-background2 p-3"
-    set:html={icon}
-  />
+  <div class="flex items-center justify-center gap-3">
+    <div
+      class="rounded-lg border border-paraDark bg-background2 p-3"
+      set:html={icon}
+    />
+    <h3 class="text-base font-semibold md:text-xl">
+      {title}
+    </h3>
+  </div>
 
-  <h3 class="mt-5 text-base font-semibold md:mt-6 md:text-xl">
-    {title}
-  </h3>
   <p class="mt-2 text-sm font-normal md:mt-3 md:text-base">
     {description}
   </p>

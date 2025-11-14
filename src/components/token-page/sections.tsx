@@ -5,9 +5,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import AktFeatures from "./aktfeatures";
-import BuyingAkt from "./buying-akt-section";
-import FaqSection from "./faq-section";
+import BuyAktButton from "./buy-akt-modal";
 import TokenMetricsSection from "./token-metrics-section";
 
 interface SectionProps {
@@ -93,22 +91,15 @@ const Query = ({
   }, [currentTime, token]);
 
   return (
-    <>
+    <div className="flex flex-col gap-10">
       <TokenMetricsSection
         data={data}
         isLoading={isLoading}
         isError={isError}
       />
-      <div className="border-b" />
 
-      <AktFeatures aktFeaturesSection={aktFeaturesSection} url={url} />
-      <div className="border-b" />
-
-      <BuyingAkt buyingAKTSection={buyingAKTSection} />
-      <div className="border-b" />
-
-      <FaqSection data={data} isLoading={isLoading} isError={isError} />
-    </>
+      <BuyAktButton className="mx-auto px-20" />
+    </div>
   );
 };
 

@@ -34,6 +34,6 @@ Keeping customers informed about new features being introduced in Akash Console 
 There are a coupld options for how the content can be managed.
 
 1. Use a product that specializes in this type of thing. A few examples include AnnounceKit, Appcues, Amplitude and some open source alternatives.
-2. Use markdown files (like we do for for the website at https://github.com/akash-network/website/tree/main/src/content/Blog)
+2. Use markdown files (like we do for the website at https://github.com/akash-network/website/tree/main/src/content/Blog)
 
 Github Milestone: https://github.com/akash-network/console/milestone/25

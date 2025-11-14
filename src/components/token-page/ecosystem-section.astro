@@ -1,5 +1,5 @@
 ---
-import { ArrowUpCircle } from "lucide-react";
+import { buyAktIcons } from "./token-icons";
 
 const { ecosystemSection } = Astro.props;
 ---
@@ -14,50 +14,36 @@ const { ecosystemSection } = Astro.props;
     </p>
   </div>
 
-  <div class="mt-[20px] md:mt-[40px]">
+  <div class="mt-[40px] space-y-[60px] md:mt-[60px]">
     {
-      ecosystemSection.table.map(
-        (table: { row: { title: string; link: string }[] }, i: number) => {
-          const colsArray = table.row;
+      ecosystemSection.categories.map(
+        (category: {
+          title: string;
+          items: { title: string; link: string; icon: string }[];
+        }) => (
+          <div class="space-y-8">
+            <div class="flex justify-center">
+              <h3 class="inline-flex items-center justify-center rounded-full border border-defaultBorder bg-[#F5F5F5] px-8 py-2 text-base font-medium text-para dark:bg-background2 ">
+                {category.title}
+              </h3>
+            </div>
 
-          if (i === 0) {
-            return (
-              <div class="flex w-full justify-between border-b border-defaultBorder   py-[16px] text-base  md:text-lg  lg:text-2xl">
-                {colsArray.map((col) => (
-                  <h3 class="flex w-full justify-start font-semibold">
-                    {col?.title}
-                  </h3>
-                ))}
-              </div>
-            );
-          } else {
-            return (
-              <div
-                class={`grid w-full grid-cols-3  ${
-                  i === ecosystemSection.table.length - 1
-                    ? ""
-                    : "border-b border-defaultBorder"
-                }   py-[14px] md:py-[16px] `}
-              >
-                {colsArray.map((col, i) => (
-                  <a
-                    target="_blank"
-                    href={col.link}
-                    class="group flex w-full cursor-pointer items-center justify-start gap-x-2 "
-                  >
-                    {col.title !== "" && (
-                      <ArrowUpCircle className="w-4 rotate-45 group-hover:text-primary" />
-                    )}
-
-                    <p class="text-xs font-medium  text-foreground group-hover:text-primary md:text-base  lg:text-xl">
-                      {col.title}
-                    </p>
-                  </a>
-                ))}
-              </div>
-            );
-          }
-        }
+            <div class="grid  grid-cols-2 gap-4 lg:grid-cols-3">
+              {category.items.map((item) => (
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-defaultBorder bg-background2 px-2 py-6 text-center transition-all duration-200 hover:border-primary hover:bg-background2/80 md:gap-4 md:px-6 "
+                >
+                  <div class="h-6 text-foreground transition-colors   duration-200 group-hover:text-primary md:h-7">
+                    <Fragment set:html={buyAktIcons[item.icon]} />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )
       )
     }
   </div>
