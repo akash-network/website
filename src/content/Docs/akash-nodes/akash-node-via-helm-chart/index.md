@@ -134,13 +134,18 @@ NAME                            READY   STATUS    RESTARTS   AGE
 akash-node-1-78954d745c-xgkhx   1/1     Running   0          50s
 ```
 
+You can save the akash-node name to an environment variable for convenience:
+```bash
+export NODE_POD_NAME=akash-node-1-78954d745c-xgkhx # use your value here
+```
+
 ### Verify Akash Node Sync via Logs
 
-* Ensure that the Akash Node pod has errors of concerns in logs and that the blockchain sync is progressing
-* Replace the `name-of-pod` variable with `akash-node` pod name displayed in the previous step
+* Ensure that the Akash Node pod has no errors in the logs and that the blockchain sync is progressing
 
-```
-kubectl logs <name-of-pod> -n akash-services | grep -iv peer | tail
+
+```bash
+kubectl logs $NODE_POD_NAME -n akash-services | grep -iv peer | tail
 ```
 
 #### Expected/Sample Output
@@ -167,7 +172,7 @@ kubectl logs akash-node-1-78954d745c-xgkhx -n akash-services | grep -iv peer | t
 * Access the Kubernetes shell of the Akash Node deployment to view sync status
 
 ```
-kubectl exec --stdin --tty -n akash-services <pod-name> -- /bin/bash
+kubectl exec --stdin --tty -n akash-services $NODE_POD_NAME -- /bin/bash
 ```
 
 #### Verify Node Status
@@ -193,7 +198,7 @@ root@akash-node-1-78954d745c-g46pf:/# akash status
 
 #### STEP 1 - From the K8s Control-Plane Node
 
-```
+```bash
 export AKASH_NODE="http://$(kubectl -n akash-services get ep akash-node-1 -o jsonpath='{.subsets[0].addresses[0].ip}'):26657"
 
 curl -s "$AKASH_NODE/status" | jq -r .
