@@ -18,10 +18,8 @@ The Kubespray inventory.ini file is composed of several key groups:
 - **etcd**: list of servers to compose the etcd server. 
 - **etcd:children**: typically includes kube_control_plane for stacked etcd topology
 
-Please following these links for YAML examples and depending on your preferred topology:
+Please follow these links for YAML examples depending on your preferred topology:
 
-- [Kubespray inventory.ini Examples](#kubespray-inventory-examples)
-  - [Inventory File Overview](#inventory-file-overview)
 - [All-In-One Node](#all-in-one-node)
   - [Topology](#topology)
   - [Pros](#pros)
