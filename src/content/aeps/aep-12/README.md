@@ -38,7 +38,7 @@ TEE is platform-dependent, all major providers have a form for TEE implementatio
 * Intel
   * [SGX Software Guard Extensions](https://01.org/intel-softwareguard-extensions)
 * RISC-V
-  * [MultiZone™ Security Trusted Execution Environment](https://github.com/hex-five/multizone-sdk)
+  * [MultiZone™ Security Trusted Execution Environment](https://hex-five.com/multizone-security-sdk/)
 * IBM
   * [IBM Secure Service Container](https://www.ibm.com/us-en/marketplace/secure-service-container)
 

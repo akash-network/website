@@ -1,4 +1,3 @@
-import DarkModeToggle from "@/components/dark-mode-toggle";
 import { cn } from "@/lib/utils";
 import { Disclosure, Transition } from "@headlessui/react";
 import {
@@ -294,11 +293,11 @@ const Panel = ({
               </a>
             </div>
 
-            {!hideDarkToggle && (
+            {/* {!hideDarkToggle && (
               <div>
                 <DarkModeToggle />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

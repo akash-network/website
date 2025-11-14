@@ -4,7 +4,6 @@ import { socialLinks } from "@/lib/constants";
 import { shouldHideCta } from "@/utils/hideCta";
 import clsx from "clsx";
 
-import DarkModeToggle from "../dark-mode-toggle";
 import {
   DiscordIcon,
   GithubIcon,
@@ -191,7 +190,7 @@ const shouldHide = shouldHideCta(pathname);
     shouldHide && "border-t  mt-20",
     overrideClassName
       ? overrideClassName
-      : "bg-white dark:bg-background container",
+      : "bg-white dark:bg-background container"
   )}
 >
   <div class="border-b pb-6 md:pb-20">
@@ -200,14 +199,14 @@ const shouldHide = shouldHideCta(pathname);
       <div
         class="mb-6 flex items-center justify-center gap-5 border-b py-5 font-[300] md:hidden"
       >
-        {
+        <!-- {
           !hideDarkToggle && (
             <>
               <DarkModeToggle footer client:load />
               <div class="h-7 w-[1.5px] bg-[#3B3B3B]" />
             </>
           )
-        }
+        } -->
         {
           socials.map((social) => (
             <a
@@ -288,14 +287,14 @@ const shouldHide = shouldHideCta(pathname);
         </div>
 
         <div class="flex gap-5 font-[300]">
-          {
+          <!-- {
             !hideDarkToggle && (
               <>
                 <DarkModeToggle footer />
                 <div class="h-7 w-[1.5px] bg-gray-300 dark:bg-[#3B3B3B] " />
               </>
             )
-          }
+          } -->
           {
             socials.map((social) => (
               <a

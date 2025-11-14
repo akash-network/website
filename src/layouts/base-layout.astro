@@ -20,19 +20,41 @@ interface Props {
 const { title, description, image, classname, noIndex } = Astro.props;
 
 const isProd = import.meta.env.PROD;
+
+const onlyDark = true;
+
+const htmlClasses = [
+  "scroll-pt-[137px]",
+  "scroll-smooth",
+  ...(onlyDark ? ["dark"] : []),
+];
+
+const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
 ---
 
 <!doctype html>
 <html
   lang="en"
   style="scrollbar-gutter: stable;"
-  class="scroll-pt-[137px] scroll-smooth"
+  class={htmlClasses.join(" ")}
+  data-only-dark={onlyDark ? "true" : "false"}
+  data-theme={htmlDataTheme}
 >
   <head>
     <script
       is:inline
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-LFRGN2J2RV"></script>
+    <script is:inline>
+      const doc = document.documentElement;
+      if (doc.dataset.onlyDark === "true") {
+        doc.classList.add("dark");
+        doc.setAttribute("data-theme", "dark-plus");
+        try {
+          localStorage.setItem("theme", "dark");
+        } catch {}
+      }
+    </script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -136,7 +158,14 @@ const isProd = import.meta.env.PROD;
     {!isProd && <TailwindIndicator />}
 
     <script>
+      const onlyDark = document.documentElement.dataset.onlyDark === "true";
+
       const getTheme = () => {
+        if (onlyDark) {
+          localStorage.setItem("theme", "dark");
+          return "dark";
+        }
+
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme) return savedTheme;
 
@@ -145,19 +174,31 @@ const isProd = import.meta.env.PROD;
           : "light";
       };
       const setTheme = (theme: string) => {
-        if (theme === "light") {
+        const appliedTheme = onlyDark ? "dark" : theme;
+
+        if (appliedTheme === "light") {
           document.documentElement.classList.remove("dark");
           document.documentElement.setAttribute("data-theme", "light-plus");
         } else {
           document.documentElement.classList.add("dark");
           document.documentElement.setAttribute("data-theme", "dark-plus");
         }
+
+        if (onlyDark) {
+          localStorage.setItem("theme", "dark");
+        } else {
+          localStorage.setItem("theme", appliedTheme);
+        }
       };
 
-      window.addEventListener("DOMContentLoaded", () => setTheme(getTheme()));
-      document.addEventListener("astro:after-swap", () => setTheme(getTheme()));
+      const applyTheme = () => setTheme(getTheme());
+
+      window.addEventListener("DOMContentLoaded", applyTheme);
+      document.addEventListener("astro:after-swap", applyTheme);
 
       const handleHeaderToggleClick = () => {
+        if (onlyDark) return;
+
         const element = document.documentElement;
         element.classList.toggle("dark");
 
@@ -169,18 +210,28 @@ const isProd = import.meta.env.PROD;
         );
       };
 
-      document
-        .querySelectorAll("#header-toggle")
-        .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
+      if (!onlyDark) {
+        document
+          .querySelectorAll("#header-toggle")
+          .forEach((el) =>
+            el.addEventListener("click", handleHeaderToggleClick)
+          );
 
-      document
-        .querySelectorAll("#header-toggle-footer")
-        .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
-      document
-        .querySelectorAll("#header-toggle-nav")
-        .forEach((el) => el.addEventListener("click", handleHeaderToggleClick));
+        document
+          .querySelectorAll("#header-toggle-footer")
+          .forEach((el) =>
+            el.addEventListener("click", handleHeaderToggleClick)
+          );
+        document
+          .querySelectorAll("#header-toggle-nav")
+          .forEach((el) =>
+            el.addEventListener("click", handleHeaderToggleClick)
+          );
+      }
     </script>
     <script>
+      const onlyDark = document.documentElement.dataset.onlyDark === "true";
+
       // Type definitions
       type Theme = any;
       type MermaidConfig = {
@@ -202,6 +253,11 @@ const isProd = import.meta.env.PROD;
       const diagramContents = new Map();
 
       const getTheme = (): Theme => {
+        if (onlyDark) {
+          localStorage.setItem("theme", "dark");
+          return "dark";
+        }
+
         const savedTheme = localStorage.getItem("theme") as Theme | null;
         if (savedTheme) return savedTheme;
 
@@ -217,10 +273,11 @@ const isProd = import.meta.env.PROD;
         const { default: mermaid } = await import("mermaid");
 
         // Reset mermaid with new theme
+        const resolvedTheme = onlyDark ? "dark" : theme || getTheme();
         mermaid.initialize({
           startOnLoad: false,
           fontFamily: "var(--sans-font)",
-          theme: theme || getTheme(),
+          theme: resolvedTheme,
         });
 
         Array.from(graphs).forEach(async (graph) => {
@@ -269,7 +326,8 @@ const isProd = import.meta.env.PROD;
         if (e.key === "theme") {
           const graphs = document.getElementsByClassName("mermaid");
           if (graphs.length > 0) {
-            renderDiagrams(graphs, e.newValue as Theme);
+            const nextTheme = onlyDark ? "dark" : (e.newValue as Theme);
+            renderDiagrams(graphs, nextTheme);
           }
         }
       });
@@ -284,7 +342,12 @@ const isProd = import.meta.env.PROD;
           if (!localStorage.getItem("theme")) {
             const graphs = document.getElementsByClassName("mermaid");
             if (graphs.length > 0) {
-              renderDiagrams(graphs, e.matches ? "dark" : "neutral");
+              const nextTheme = onlyDark
+                ? "dark"
+                : e.matches
+                  ? "dark"
+                  : "neutral";
+              renderDiagrams(graphs, nextTheme);
             }
           }
         }
@@ -294,7 +357,8 @@ const isProd = import.meta.env.PROD;
       function updateMermaidTheme(newTheme: Theme): void {
         const graphs = document.getElementsByClassName("mermaid");
         if (graphs.length > 0) {
-          renderDiagrams(graphs, newTheme);
+          const nextTheme = onlyDark ? "dark" : newTheme;
+          renderDiagrams(graphs, nextTheme);
         }
       }
 
