@@ -43,4 +43,4 @@ By integrating widely across many platforms, Akash can reach new cohorts of user
 
 To start with an Akash GPU deployment via Prime Intellect, head to [primeintellect.ai](http://primeintellect.ai) and look for the Akash logo on the GPU provider selection page of the GPU cluster setup process.
 
-To connect with Akash, follow the network on [X (Twitter)](https://x.com/akashnet_) and [sign up to hear about the latest announcements and updates](https://akt.fyi/3kpRwVM).
+To connect with Akash, follow the network on [X (Twitter)](https://x.com/akashnet) and [sign up to hear about the latest announcements and updates](https://akt.fyi/3kpRwVM).

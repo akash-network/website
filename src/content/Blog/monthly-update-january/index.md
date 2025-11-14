@@ -109,7 +109,7 @@ We’re headed to ETH Denver February 15th - 20th and are excited to work with t
 
 If you’re headed to ETH Denver, click [here](https://ethdenver.sched.com/event/v5P2) to save your spot!
 
-We’ll also be going live with daily recaps on the Akash Twitter via Twitter Spaces (be sure to [follow us here](https://twitter.com/akashnet_) to tune in), and our Director of DevRels will be giving a presentation on Akash Network at the conference itself.
+We’ll also be going live with daily recaps on the Akash Twitter via Twitter Spaces (be sure to [follow us here](https://x.com/akashnet) to tune in), and our Director of DevRels will be giving a presentation on Akash Network at the conference itself.
 
 #### **Testnet**
 

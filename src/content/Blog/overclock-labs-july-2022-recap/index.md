@@ -85,7 +85,7 @@ Greg Osuri reiterated our commitment to our four-phase plan for the adoption of 
 
 ---
 
-We will release a similar recap for the month of August in a few weeks. In the meantime, follow us on Twitter [@akashnet\_](https://twitter.com/akashnet_) along with our CEO, Greg Osuri, [@gregosuri](https://twitter.com/gregosuri).
+We will release a similar recap for the month of August in a few weeks. In the meantime, follow us on Twitter [@akashnet\_](https://x.com/akashnet) along with our CEO, Greg Osuri, [@gregosuri](https://twitter.com/gregosuri).
 
 [Subscribe to our newsletter](https://akash.network/?newsletter=true) to keep up with the latest news and product updates from Akash.
 

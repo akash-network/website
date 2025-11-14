@@ -33,7 +33,7 @@ Under certain network conditions, a validator can earn anywhere between 56% APR 
 
 The implicit value of AKT depends on its earning potential from the below income sources:
 
-**1\. Transaction Fees:** Every transaction on the blockchain is subject to a small fee (gas fee). A typical deployment takes ~10 transactions. See the [design spec](https://akash.network/docs/overview/design#transactions) for details.
+**1\. Transaction Fees:** Every transaction on the blockchain is subject to a small fee (gas fee). A typical deployment takes ~10 transactions. See the [design spec](https://akash.network/docs/architecture/overview/) for details.
 
 **2\. Make (selling compute) and Take (buying computing) Fees:** Every trade on Akash is subject to maker and taker fee. (Sec 5.D in [Economics paper](https://akash.network/static/akash-econ.pdf)).
 
@@ -59,6 +59,6 @@ Riot: [https://akash.network/chat](https://akash.network/chat)
 
 Telegram: [https://t.me/AkashNW](https://t.me/AkashNW)
 
-Twitter: [https://twitter.com/akashnet](https://twitter.com/akashnet_)
+Twitter: [https://x.com/akashnet](https://x.com/akashnet)
 
 Github: [https://github.com/ovrclk](https://github.com/ovrclk)

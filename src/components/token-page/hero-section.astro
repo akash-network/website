@@ -2,18 +2,15 @@
 const { heroSection } = Astro.props;
 ---
 
-<div class="mb-10 flex flex-col items-center gap-10 md:mb-20 md:gap-14">
-  <div class="w-full flex-1">
-    <p class="mb-2 text-center text-base font-medium md:text-base lg:text-xl">
-      The AKT Token
+<div class="flex flex-col items-center gap-10 md:gap-20">
+  <h1 class="text-center text-2xl !leading-[1.2] lg:text-5xl">
+    {heroSection.title}
+  </h1>
+
+  <div class="flex flex-col gap-8">
+    <h2 class="text-center text-2xl font-medium lg:text-3xl">The AKT Token</h2>
+    <p class="max-w-[37rem] text-center text-base">
+      {heroSection.description}
     </p>
-    <h1
-      class="text-center text-2xl !leading-tight md:!leading-10 lg:text-[32px]"
-    >
-      {heroSection.title}
-    </h1>
-  </div>
-  <div class="flex-1 lg:max-w-[575px]">
-    <img alt="Feature illustration" src={"/images/token/hero.webp"} />
   </div>
 </div>

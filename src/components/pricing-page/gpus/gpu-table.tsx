@@ -378,7 +378,7 @@ export const Tables = ({
                         variant: "secondary",
                         size: "sm",
                       }),
-                      "inline-flex justify-center gap-1.5 rounded-md border  py-3.5 text-sm font-medium  ",
+                      "inline-flex w-full justify-center gap-1.5 rounded-md border  py-3.5 text-sm font-medium  ",
                     )}
                   />
                 </div>

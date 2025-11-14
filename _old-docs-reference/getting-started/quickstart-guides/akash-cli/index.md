@@ -40,7 +40,7 @@ If you don't have a balance, please see the [funding guide](/docs/deployments/ak
 **Note:** Your account must have a minimum balance of 0.5 AKT to create a deployment. This 0.5 AKT funds the escrow account associated with the deployment and is used to pay the provider for their services. It is recommended you have more than this minimum balance to pay for transaction fees. For more information on escrow accounts, see [here](/docs/getting-started/intro-to-akash/payments/#escrow-accounts)
 
 
-### STEP 1:- Create your Configuration
+## STEP 1:- Create your Configuration
 
 Create a deployment configuration [deploy.yaml](https://raw.githubusercontent.com/maxmaxlabs/hello-akash-world/master/deploy.yml) to deploy the `akashlytics/hello-akash-world:0.2.0` for [hello-akash-world](https://github.com/maxmaxlabs/hello-akash-world) which is a simple Next.JS "Hello World" application.
 
@@ -52,11 +52,36 @@ curl -s https://raw.githubusercontent.com/maxmaxlabs/hello-akash-world/master/de
 
 The SDL file is the configuration file specifying all the needed resources like cpu, ram, storage etc. Since, this is a simple "Hello World" application so the needed resources will be very less.
 
-## STEP 2:- Create your Deployment
+## STEP 2:- Setup your Client Certificate
+
+Generate and publish a certificate. A certificate will be required to authenticate clients to providers.
+
+### Generating the Certificate
+
+Run the following command:
+
+```bash
+provider-services tx cert generate client --from $AKASH_KEY_NAME
+```
+
+Incase an error like the following is shown, then the certificate already exists: `Error: certificate error: cannot overwrite certificate`.
+If you want to replace it, add the `--overwrite` option.
+
+### Publishing the Certificate
+
+Once the certificate is generated locally, it can be published to the blockchain
+with the following command:
+
+```bash
+provider-services tx cert publish client --from $AKASH_KEY_NAME
+```
+
+
+## STEP 3:- Create your Deployment
 
 To deploy the sdl file that we curled in the previous step, run following command:
 
-```
+```bash
 provider-services tx deployment create deploy.yml --from $AKASH_KEY_NAME
 ```
 
@@ -204,7 +229,7 @@ Verify we have the right values populated by running:
 echo $AKASH_DSEQ $AKASH_OSEQ $AKASH_GSEQ
 ```
 
-## STEP 3:- View your Bids and choose a provider
+## STEP 4:- View your Bids and choose a provider
 
 After a short time, you should see bids from providers for this deployment with the following command:
 
@@ -282,7 +307,7 @@ Verify we have the right value populated by running:
 echo $AKASH_PROVIDER
 ```
 
-## STEP 4:- Create and confirm a Lease
+## STEP 5:- Create and confirm a Lease
 
 Create a lease for the bid from the chosen provider above by running this command:
 
@@ -374,7 +399,7 @@ provider-services lease-logs \
   --from "$AKASH_KEY_NAME"
 ```
 
-## STEP 5:- Close Deployment
+## STEP 6:- Close Deployment
 
 ### Close the Deployment
 

@@ -100,7 +100,7 @@ This section is a step-by-step guide for successfully deploying a [FLock Trainin
 
 Before running FLock.io Validator and/or Training Nodes on Akash, users must have the following:
 
-1. Whitelisted Ethereum address on train.flock.io. Not whitelisted? Complete FLock.io [whitelist form](https://blog.flock.io/news/trainflock)\*.
+1. Whitelisted Ethereum address on train.flock.io. Not whitelisted? Complete FLock.io [whitelist form](https://www.flock.io/blog/trainflock)\*.
 2. Ethereum-supported Web3 wallet, such as MetaMask (used to stake FML, FLock.io’s testnet token on Base Sepolia).
 3. IBC-compatible Web3 wallet, such as Keplr (funded with AKT or USDC used to pay for Akash compute).
 4. `HF_USERNAME` and `HF_TOKEN` from a [HuggingFace](https://huggingface.co/) account.
@@ -284,4 +284,4 @@ To get up and running with your FLock deployment, complete the following steps.
 3. Deploy a [FLock Training Node](https://console.akash.network/templates/akash-network-awesome-akash-FLock-training-node) from Akash Console.
 4. Deploy a [FLock Validator](https://console.akash.network/templates/akash-network-awesome-akash-FLock-validator) from Akash Console.
 
-To connect with [Akash](https://akash.network/), follow the network on [X (Twitter)](https://x.com/akashnet_) and [sign up to hear about the latest announcements and updates](https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network).
+To connect with [Akash](https://akash.network/), follow the network on [X (Twitter)](https://x.com/akashnet) and [sign up to hear about the latest announcements and updates](https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network).

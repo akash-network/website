@@ -151,7 +151,7 @@ Specifically, we believe several trends will evolve over the next year that will
 
 Now that Akash has reached a near-consistent [50% network utilization](https://x.com/gregosuri/status/1731385370757996694?s=20), it is the right time to begin incentivizing providers to increase the supply of compute on the network. Given ~50% utilization, demand should scale proportionally alongside the increase in supply, as the network has achieved product-market fit (PMF).
 
-The Akash Provider Incentives program is still in development and will launch soon. [Follow Akash on X](https://twitter.com/akashnet_) to stay current as provider incentives roll out.
+The Akash Provider Incentives program is still in development and will launch soon. [Follow Akash on X](https://x.com/akashnet) to stay current as provider incentives roll out.
 
 ![Akash reaches consistent ~50% utilization](./akash-utilization.jpeg)
 
@@ -167,4 +167,4 @@ Emerging trends will continue to shape the industry, including the rise of open-
 
 _If you’re interested in contributing to Akash, there are several ways to get involved. To become an open-source contributor, [browse the list of community groups](https://akash.network/community/core-groups/cg-list/) and reach out on Discord or join the next public group meeting. If you’re interested in becoming an Akash Insider, please [feel free to apply](https://akash.network/community/insiders/)._
 
-_To stay updated with the latest news, [follow Akash on X](https://twitter.com/akashnet_) and connect with the network [across social media](https://akash.network/community/).\_
+\_To stay updated with the latest news, [follow Akash on X](https://x.com/akashnet) and connect with the network [across social media](https://akash.network/community/).\_

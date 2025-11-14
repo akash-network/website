@@ -77,4 +77,4 @@ Meetings happen every [First Wednesday of the Month](https://calendar.google.com
 
 The following are projects and work-groups that sig-economics participates in or contributes to:
 
-- [wg-economics-2.0](../wg-economics-2.0)
+- [wg-economics-2.0](../wg-economics-20)

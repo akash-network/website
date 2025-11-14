@@ -21,7 +21,7 @@ linkTitle: "DeTrain"
 
 ## Repositories
 
-DeTrain's different components would later be maintained in seperate repositories, namely:
+DeTrain's different components would later be maintained in separate repositories, namely:
 
 - [DeTrain Python Library](https://github.com/a2nfinance/detrain-python-lib)
 

@@ -1,0 +1,100 @@
+name: Celebrating Contributions
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  comment_on_merged_pull_request:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Environment Variables
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          REPO: ${{ github.event.repository.name }}
+          OWNER: ${{ github.event.repository.owner.login }}
+        run: |
+          echo "AUTHOR=${AUTHOR}" >> $GITHUB_ENV
+          echo "REPO=${REPO}" >> $GITHUB_ENV
+          echo "OWNER=${OWNER}" >> $GITHUB_ENV
+
+      - name: Count Merged Pull Requests
+        id: count_merged_pull_requests
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const author = process.env.AUTHOR;
+            const repo = process.env.REPO;
+            const owner = process.env.OWNER;
+            const { data } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:pr state:closed author:${author}`
+            });
+            const prCount = data.items.filter(pr => pr.pull_request.merged_at).length;
+            core.exportVariable('PR_COUNT', prCount);
+
+      - name: Comment on the Merged Pull Request
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prCount = parseInt(process.env.PR_COUNT);
+            const author = process.env.AUTHOR;
+            const prNumber = context.payload.pull_request.number;
+            const repo = process.env.REPO;
+
+            const discordMsg = "If you have any questions or want to discuss your next contribution, please join the #wg-akash-website channel on the Akash Discord: https://discord.akash.network";
+
+            function getMessage(count) {
+              switch (count) {
+                case 1:
+                  return `Congratulations @${author}. Your first pull request to ${repo} has been merged.\n\n` +
+                         `Welcome to the Akash Network open-source community. Every contribution plays an important role in helping us decentralize the web and make compute accessible to everyone.\n\n${discordMsg}`;
+                case 2:
+                  return `Excellent work @${author}. Two pull requests merged successfully.\n\n` +
+                         `Your consistency shows great initiative. Keep contributing and exploring new areas within ${repo}.\n\n${discordMsg}`;
+                case 10:
+                  return `Outstanding milestone @${author}. Ten pull requests merged into ${repo}.\n\n` +
+                         `Your consistent contributions demonstrate both skill and commitment. You are now a key part of this project’s growth. Consider mentoring new contributors or suggesting new features.\n\n${discordMsg}`;
+                case 25:
+                  return `Remarkable achievement @${author}. Twenty-five pull requests merged.\n\n` +
+                         `Your long-term commitment has significantly shaped ${repo}. The Akash Network community deeply appreciates your continued involvement and dedication.\n\n${discordMsg}`;
+                case 50:
+                  return `Exceptional dedication @${author}. Fifty pull requests merged.\n\n` +
+                         `Your work has become an integral part of ${repo}. Thank you for your leadership, collaboration, and continued drive to improve this project.\n\n${discordMsg}`;
+                case 100:
+                  return `Congratulations @${author} on reaching one hundred merged pull requests.\n\n` +
+                         `Your contributions have defined the direction and quality of ${repo}. You have set a strong example for others in the community to follow.\n\n${discordMsg}`;
+                case 250:
+                  return `Incredible achievement @${author}. Two hundred and fifty pull requests merged.\n\n` +
+                         `Your impact extends far beyond code, you’ve helped shape the culture and stability of ${repo}. Your leadership in open source is deeply valued.\n\n${discordMsg}`;
+                case 500:
+                  return `Remarkable contribution milestone @${author}. Five hundred pull requests merged.\n\n` +
+                         `Your dedication and technical excellence are foundational to the success of ${repo}. Thank you for being a pillar of the Akash Network community.\n\n${discordMsg}`;
+                case 1000:
+                  return `Historic moment @${author}. One thousand pull requests merged.\n\n` +
+                         `Your legacy as a contributor to ${repo} will continue to inspire generations of open-source builders. Thank you for your exceptional commitment and for shaping the future of this project.\n\n${discordMsg}`;
+                default:
+                  return null;
+              }
+            }
+
+            const message = getMessage(prCount);
+
+            if (message) {
+              await github.rest.issues.createComment({
+                owner: process.env.OWNER,
+                repo: process.env.REPO,
+                issue_number: prNumber,
+                body: message
+              });
+            } else {
+              console.log(`No milestone reached for @${author} (Total: ${prCount} PRs). No comment posted.`);
+            }

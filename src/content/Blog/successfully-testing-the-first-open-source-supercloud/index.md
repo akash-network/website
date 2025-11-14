@@ -32,7 +32,7 @@ Setting up GPU providers on Akash is one of the most important network features 
 These were the key achievements from the GPU provider setup task:
 
 - **A wide range of NVIDIA GPU models.** The testnet hosted GPUs from the highest-performing datacenter models (like the H100/A100) to widely-available consumer GPUs. The specific NVIDIA models that were incentivized for the testnet included: H100, A100, V100, P100, A40, A10, P4, K80, T4, 4090, 4080, 3090Ti, 3090, 3080Ti, 3080, 3060Ti.
-- **High performance at both ends of the GPU range.** NVIDIA H100 and A100 models performed well on inference tasks for larger models and apps, while consumer-grade models in the 40-series and 30-series range performed well on compact models like [Falcon-7B](https://twitter.com/akashnet_/status/1668727064411635712?s=20).
+- **High performance at both ends of the GPU range.** NVIDIA H100 and A100 models performed well on inference tasks for larger models and apps, while consumer-grade models in the 40-series and 30-series range performed well on compact models like [Falcon-7B](https://x.com/akashnet/status/1668727064411635712?s=20).
 - **Worldwide coverage.** Providers onboarded permissionlessly from around the world and successfully connected with deployers in many different countries worldwide.
 
 ### Deploying AI Workloads
@@ -50,7 +50,7 @@ The testnet hosted some of the most widely recognized AI models and apps, includ
 
 The Overclock Labs team completed significant preparation before the launch of the testnet to ensure the basic deployment functionality worked as intended. The core of this work involved testing a selection of the leading AI models on NVIDIA H100 and A100 GPUs. An overview of this work, with screenshots of the individual deployments, can be found in this Twitter thread from Akash, which, as of today, has received more than 115,000 impressions.
 
-Many participants also documented the process of deploying AI models on Akash GPU providers. Here are [examples](https://twitter.com/akashnet_/status/1677020245352132609?s=20) of people sharing their experiences and deployments on social media during the testnet.
+Many participants also documented the process of deploying AI models on Akash GPU providers. Here are [examples](https://x.com/akashnet/status/1677020245352132609?s=20) of people sharing their experiences and deployments on social media during the testnet.
 
 - [Deploying TerminalGPT](https://twitter.com/RybnikovYuriy/status/1676698463214485505?s=20) — @RybnikovYuriy
 - [Deploying Alpaca.cpp](http://RybnikovYuriy) — @RybnikovYuriy
@@ -59,7 +59,7 @@ Many participants also documented the process of deploying AI models on Akash GP
 - [Building a sentiment analysis app on Akash](https://twitter.com/clydedev_/status/1676004100176072705?s=20) — @clydedev\_
 - [Step-by-step walkthrough of setting up an Akash GPU provider with a single k3 cluster](https://www.youtube.com/watch?v=0Kl9T_TEu7U)
 
-The testnet also hosted [AIQRArt](https://twitter.com/akashnet_/status/1678862324801871872?s=20), built by [zJ (an Akash Insider)](https://twitter.com/zJu_u). AIQRArt is an easy-to-use application for creating custom QR images using a fine-tuned version of Stable Diffusion. It also features an easy sign-in process that allows users to connect to the app with an Akash wallet address without signing up with an email address or password.
+The testnet also hosted [AIQRArt](https://x.com/akashnet/status/1678862324801871872?s=20), built by [zJ (an Akash Insider)](https://twitter.com/zJu_u). AIQRArt is an easy-to-use application for creating custom QR images using a fine-tuned version of Stable Diffusion. It also features an easy sign-in process that allows users to connect to the app with an Akash wallet address without signing up with an email address or password.
 
 ### Creating Deployment Specifications (SDLs)
 
@@ -122,4 +122,4 @@ The process of benchmarking GPUs on Akash is ongoing and will be actively encour
 
 The successful completion of the testnet provides a strong indication that the features tested will ensure the success of the Akash GPU Mainnet upgrade, which will make the GPU features from the testnet available to everyone. The network is expected to complete the upgrade later this month. As of today, the code is complete, which only leaves a final round of testing before the upgrade proposal is put on-chain, which will allow the Akash community and the general public to vote on the upgrade. Once this proposal passes, the block height for the upgrade will be set, and the Akash core team will begin coordinating with validators to ensure a smooth upgrade on the specified date and time.
 
-Follow [Akash on Twitter](https://twitter.com/akashnet_) for real-time updates on the Akash GPU Mainnet upgrade, the network, and the community. Join the [Akash Discord](https://discord.akash.network) to connect with the community, participate in discussions, and contribute to the growing ecosystem.
+Follow [Akash on Twitter](https://x.com/akashnet) for real-time updates on the Akash GPU Mainnet upgrade, the network, and the community. Join the [Akash Discord](https://discord.akash.network) to connect with the community, participate in discussions, and contribute to the growing ecosystem.

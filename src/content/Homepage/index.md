@@ -152,14 +152,14 @@ testimonialsSection:
     - userName: "@_PradeepGoel"
       useAvatar: "/useravatars/1.png"
       accountLink: "https://twitter.com/_PradeepGoel/status/1755951930067816607"
-      testimonial: "“Solve.Care is migrating Care.Nodes to @akashnet_
+      testimonial: "“Solve.Care is migrating Care.Nodes to @akashnet
       to reduce cost, scale faster, and get rid of #AWS.”"
       companyName: "Solve.Care"
 
     - userName: "@jesseeckel"
       useAvatar: "/useravatars/1.png"
       accountLink: "https://twitter.com/Jesseeckel/status/1741999730110959657"
-      testimonial: “Pretty insane to see the progress @akashnet_ has been making. Mixtral 8x7B is supposed to be on par with GPT 3.5. Would be interesting to see how crypto could bootstrap and incentivize some of this development. Also open source AI + DePIN is something to keep an eye on.”
+      testimonial: “Pretty insane to see the progress @akashnet has been making. Mixtral 8x7B is supposed to be on par with GPT 3.5. Would be interesting to see how crypto could bootstrap and incentivize some of this development. Also open source AI + DePIN is something to keep an eye on.”
       companyName: "Youtube Creator"
 
     - userName: "@milesdeutscher"
@@ -182,37 +182,37 @@ testimonialsSection:
 
     - userName: "@jerallaire"
       useAvatar: "/useravatars/1.png"
-      testimonial: “Decentralized cloud infra as a service with a globally available, programmable settlement currency $USDC. @akashnet_ (open source supercloud).”
+      testimonial: “Decentralized cloud infra as a service with a globally available, programmable settlement currency $USDC. @akashnet (open source supercloud).”
       companyName: "Co-founder @Circle"
       accountLink: "https://twitter.com/jerallaire/status/1689842660142678016"
 
     - userName: "@aeyakovenko"
       useAvatar: "/useravatars/1.png"
-      testimonial: “Friendship ended with @Hetzner_Online now @akashnet_ is my best friend.”
+      testimonial: “Friendship ended with @Hetzner_Online now @akashnet is my best friend.”
       accountLink: "https://twitter.com/aeyakovenko/status/1588027576714510338"
       companyName: "Co-founder @Solana Labs"
 
     - userName: "@zJu_u"
       useAvatar: "/useravatars/1.png"
-      testimonial: “Want to run your own Bittensor $TAO Node? Follow this simple step-by-step guide to get started on @akashnet_ in just 5 minutes for around $10 per month in $AKT.”
+      testimonial: “Want to run your own Bittensor $TAO Node? Follow this simple step-by-step guide to get started on @akashnet in just 5 minutes for around $10 per month in $AKT.”
       accountLink: "https://twitter.com/zJu_u/status/1732444914971984354"
       companyName: "NoDumpNode"
 
     - userName: "@0xBobloblaw"
       useAvatar: "/useravatars/1.png"
-      testimonial: “Just became an @akashnet_ provider and got a lease within the first hour of deploying! Super easy experience using @praetor_app to set it all up. Thanks @Deval_Vora for the help!”
+      testimonial: “Just became an @akashnet provider and got a lease within the first hour of deploying! Super easy experience using @praetor_app to set it all up. Thanks @Deval_Vora for the help!”
       accountLink: "https://twitter.com/0xBobloblaw/status/1544465890313285632"
       companyName: "Dev @White WhaleDefi"
 
     - userName: "@presearchnews"
       useAvatar: "/useravatars/1.png"
-      testimonial: “A Presearch node running on @akashnet_!. The first Presearch searches ever to be processed on the Akash network.One click deployment coming soon”
+      testimonial: “A Presearch node running on @akashnet!. The first Presearch searches ever to be processed on the Akash network.One click deployment coming soon”
       accountLink: "https://twitter.com/presearchnews/status/1537450380979757056"
       companyName: "Decentralized Search Engine"
 
     - userName: "@luna_4_go"
       useAvatar: "/useravatars/1.png"
-      testimonial: “Deploying on @akashnet_ is getting faster and easier by the day! Using the Akash Terraform Provider I can have my infrastructure on Akash in just 22s.”
+      testimonial: “Deploying on @akashnet is getting faster and easier by the day! Using the Akash Terraform Provider I can have my infrastructure on Akash in just 22s.”
       accountLink: "https://twitter.com/luna_4_go/status/1588978684203237376"
       companyName: "Founder Quasarch"
       

@@ -18,7 +18,10 @@ const WhyChooseSwiper = ({ cards }: WhyChooseSwiperProps) => {
         {cards.map((card, index) => (
           <SwiperSlide key={index}>
             <div className="flex h-[14rem] gap-3 rounded-lg border bg-background p-6 shadow-xl">
-              <div dangerouslySetInnerHTML={{ __html: card.icon }} />
+              <div
+                dangerouslySetInnerHTML={{ __html: card.icon }}
+                className="size-10"
+              />
               <div className="flex flex-1 flex-col">
                 <h3
                   className="text-[24px] font-semibold leading-tight"

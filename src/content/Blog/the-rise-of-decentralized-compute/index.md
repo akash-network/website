@@ -13,9 +13,9 @@ contributors:
 bannerImage: ./akash-decentralized-compute.png
 ---
 
-*This is a special guest post from Lachlan Todd, a new community contributor to Akash Network.*
+_This is a special guest post from Lachlan Todd, a new community contributor to Akash Network._
 
-*Lachlan is a freelance technical writer and marketer in the DeFi space. He contributes to projects including Fhenix (FHE), ZeroGravity (parallelized DA), and Babylon (BTC restaking), amongst others. Prior to this, he received his Master's degree in Big Data and began his career as a DeFi Sales Engineer at Stably.*
+_Lachlan is a freelance technical writer and marketer in the DeFi space. He contributes to projects including Fhenix (FHE), ZeroGravity (parallelized DA), and Babylon (BTC restaking), amongst others. Prior to this, he received his Master's degree in Big Data and began his career as a DeFi Sales Engineer at Stably._
 
 ---
 
@@ -26,6 +26,7 @@ Web2 cloud computing is one of the largest and fastest-growing industries, yet r
 The Akash Network is a decentralized marketplace for cloud computing resources that solves the aforementioned issues plaguing the Web2 computing space. This is already seeing market share captured, but we believe that the transition is in its infancy stages and will only accelerate.
 
 In this article, we will cover:
+
 - The 4 issues of Web2 cloud computing
 - The advantages of the Akash Network
 - Key barriers to growth
@@ -37,6 +38,7 @@ By the end, it will become clear that decentralized computing is poised to gain 
 Public cloud end-user spending is estimated to reach $679B in 2024, making it one of the largest industries in existence. Amazon Web Services (AWS) alone generated $91B in 2023, and both the increasingly digitized world and the rise of A.I. mean that this space is only likely to continue growing.
 
 Nearly every company uses cloud services in one way or another, including for:
+
 - Data computing
 - Data storage
 - Databases
@@ -79,6 +81,7 @@ Considering that large enterprise companies spend up to 50% of their revenue on 
 ## Obstacles to Decentralized Computing Adoption
 
 Despite the above, there remain barriers to adoption that are hindering widespread adoption and can be summarized as below:
+
 - **Poor User Experience**: Web3’s user experience still lags behind Web2’s. It is currently hard for the average person to open a Cosmos-supported wallet such as Keplr or Leap, purchase $AKT tokens, and begin using the Akash Network.
 - **Integration Challenges**: Web2’s computing industry is quite mature, and many once-challenging integrations are now simple to handle, while that is not the case for Web3 integrations. For example, certain niche workplace CRMs may have trouble integrating with the Akash Network.
 - **Lack of Web3 Developers**: The number of active developers remains very low compared to Web2. There are currently an estimated 23.3K Web3 developers, compared to 28M Web2 developers (0.007%).
@@ -92,7 +95,6 @@ That being said, adoption is accelerating. Akash has now reached 71 active provi
 
 In the above article, we explained the advantages of decentralized cloud computing over Web2 cloud computing.
 
-We believe that the advantages are significant and represent a naturally superior solution, but that true change takes time and that barriers exist. As the industry matures and more enter the space, this will help to accelerate adoption, and the Akash Network will be leading the way. 
+We believe that the advantages are significant and represent a naturally superior solution, but that true change takes time and that barriers exist. As the industry matures and more enter the space, this will help to accelerate adoption, and the Akash Network will be leading the way.
 
-To learn more and get started with the network, visit [Akash Network](https://akash.network/) and follow Akash on [X (Twitter)](https://twitter.com/akashnet_).
-
+To learn more and get started with the network, visit [Akash Network](https://akash.network/) and follow Akash on [X (Twitter)](https://x.com/akashnet).

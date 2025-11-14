@@ -41,7 +41,7 @@ Download Cloudmos using the links below.
 
 You’ll need at least 5 AKT (~$1.65 at the moment) to escrow for your deployment on Cloudmos. We recommend getting at least 10 AKT, so you have a little extra if needed.
 
-[See instructions and a list of exchanges here.](https://akash.network/docs/tokens-and-wallets/buy)
+[See instructions and a list of exchanges here.](https://akash.network/docs/getting-started/token-and-wallets/#purchasing-akash-tokens)
 
 Once you have AKT in your Keplr wallet, head to the next step.
 
@@ -73,6 +73,6 @@ Deploying on Akash Network is that simple, and this process works with any docke
 
 The possibilities are limitless.
 
-Be sure to share your new deployment on Twitter, tag [@akashnet\_](https://twitter.com/akashnet_), and include the hashtag **#PoweredByAkash** to connect with our community.
+Be sure to share your new deployment on Twitter, tag [@akashnet\_](https://x.com/akashnet), and include the hashtag **#PoweredByAkash** to connect with our community.
 
 _\*prices as of August 2022._

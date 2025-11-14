@@ -1,0 +1,79 @@
+---
+import { GpuContactForm } from "@/components/gpus-on-demand/GpuContactForm";
+
+import Layout from "@/layouts/layout.astro";
+import "@/styles/globals.css";
+
+import { readyToDeploy, whyChooseSection } from "@/lib/constants";
+---
+
+<Layout
+  image="/images/meta-images/gpu-on-demand.PNG"
+  title="Get Access to GPUs On Demand"
+  description="Need affordable, high-performance GPU compute? From training models to running inference or deploying a containerized apps Akash covers all your compute needs."
+>
+  <section
+    class="container flex min-h-screen flex-col items-start gap-12 pt-8 lg:grid lg:grid-cols-2 lg:gap-20 2xl:gap-16 2xl:pt-14"
+  >
+    <div class="flex flex-col gap-8">
+      <div class="flex flex-col gap-4">
+        <h1
+          class="text-3xl !font-semibold leading-[1.3] 2xl:text-5xl 2xl:leading-[1.2]"
+        >
+          Get Access to GPUs<br /> On Demand
+        </h1>
+        <p class="text-para 2xl:text-lg">
+          Need affordable, high-performance GPU compute? From training models to
+          running inference or deploying a containerized apps Akash covers all
+          your compute needs.
+        </p>
+        <p class="text-para 2xl:text-lg">
+          This quick form helps us understand your needs so we can help you get
+          started.
+        </p>
+      </div>
+      <div class="flex w-full lg:hidden">
+        <GpuContactForm client:load />
+      </div>
+      <div class="flex flex-col gap-4 2xl:gap-6">
+        <h2 class="text-2xl font-semibold 2xl:text-3xl">
+          Why Choose Akash Network?
+        </h2>
+        <div class="grid gap-3 md:grid-cols-2 2xl:gap-5">
+          {
+            whyChooseSection.cards.map((card: any) => (
+              <div class="flex items-center gap-3 rounded-md border px-4 py-3">
+                <div set:html={card.icon} class="size-8 2xl:size-10" />
+
+                <h3
+                  class=" font-semibold leading-[1.2] 2xl:text-xl"
+                  set:html={card?.title}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 2xl:gap-6">
+        <h2 class="text-2xl font-semibold 2xl:text-3xl">
+          Ready to deploy on the Supercloud?
+        </h2>
+        <div class="grid gap-3 md:grid-cols-2 2xl:gap-5">
+          {
+            readyToDeploy.map((card: any) => (
+              <div class="flex flex-col   gap-1 rounded-md border px-5 py-3">
+                <h2 class="text-3xl font-semibold leading-[1] 2xl:text-4xl">
+                  {card.title}
+                </h2>
+                <p>{card.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <div class="hidden w-full lg:flex">
+      <GpuContactForm client:load />
+    </div>
+  </section>
+</Layout>

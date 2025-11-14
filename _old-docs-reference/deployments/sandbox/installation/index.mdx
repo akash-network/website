@@ -265,16 +265,13 @@ We will verify that the faucet properly funded the account in an upcoming, later
 
 > _**NOTE**_ - account and funds are only valid for sandbox network use.
 
-- [Sandbox Faucet](https://faucet.sandbox-01.aksh.pw/)
+- [Sandbox Faucet](https://faucet.sandbox-2.aksh.pw/)
 
 ### Expected Result
 
 - The following, example screen will appear if funding from the faucet was successful:
 
-<figure>
-  <img src="../../../.gitbook/assets/txScreenShot.png" alt="" />
-  <figcaption></figcaption>
-</figure>
+![faucet screenshot](../../../assets/testnet_faucet_transaction.png)
 
 ## Configure your Network
 
@@ -329,14 +326,14 @@ Set the below set of environment variables to ensure smooth operations
 | Variable             | Description                                                                               | Recommended Value |
 | -------------------- | ----------------------------------------------------------------------------------------- | ----------------- |
 | AKASH_GAS            | Gas limit to set per-transaction; set to "auto" to calculate sufficient gas automatically | `auto`            |
-| AKASH_GAS_ADJUSTMENT | Adjustment factor to be multiplied against the estimate returned by the tx simulation     | `1.15`            |
-| AKASH_GAS_PRICES     | Gas prices in decimal format to determine the transaction fee                             | `0.0025uakt`       |
+| AKASH_GAS_ADJUSTMENT | Adjustment factor to be multiplied against the estimate returned by the tx simulation     | `1.5`             |
+| AKASH_GAS_PRICES     | Gas prices in decimal format to determine the transaction fee                             | `0.025uakt`       |
 | AKASH_SIGN_MODE      | Signature mode                                                                            | `amino-json`      |
 
-```
+```bash
 export AKASH_GAS=auto
-export AKASH_GAS_ADJUSTMENT=1.25
-export AKASH_GAS_PRICES=0.0025uakt
+export AKASH_GAS_ADJUSTMENT=1.5
+export AKASH_GAS_PRICES=0.025uakt
 export AKASH_SIGN_MODE=amino-json
 ```
 

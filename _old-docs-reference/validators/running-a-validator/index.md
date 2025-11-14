@@ -48,37 +48,75 @@ AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
 export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
 ```
 
-### Validator Creation
+## Validator Creation
 
-Your `akashvalconspub` can be used to create a new validator by staking tokens. You can find your validator pubkey by running:
+Your akashvalconspub can be used to create a new validator by staking tokens. You can find your validator pubkey by running:
 
 ```bash
-provider-services tendermint show-validator
+akash tendermint show-validator
 ```
 
-The file that stores this private key lives at `~/.akash/config/priv_validator_key.json`. To create your validator, just use the following command.
+The file that stores this private key lives at `~/.akash/config/priv_validator_key.json`.
 
-> Note that in the output of this command your \`akashvaloper\` address will be revealed. Note this address for future use including the verification steps later in this guide.
+### Create Validator JSON File
+
+To create your validator, you'll need to prepare a JSON file with your validator configuration. Create a file named `validator.json`:
+
+```json
+{
+  "pubkey": {"@type":"/cosmos.crypto.ed25519.PubKey","key":"YOUR_VALIDATOR_PUBKEY_HERE"},
+  "amount": "1000000uakt",
+  "moniker": "your-moniker",
+  "identity": "",
+  "website": "",
+  "security": "",
+  "details": "",
+  "commission-rate": "0.10",
+  "commission-max-rate": "0.20",
+  "commission-max-change-rate": "0.01",
+  "min-self-delegation": "1"
+}
+```
+
+You can automatically populate the pubkey field by running:
 
 ```bash
-provider-services tx staking create-validator \
-  --amount=1000000uakt \
-  --pubkey="$(akash tendermint show-validator)" \
-  --moniker="$AKASH_MONIKER" \
+PUBKEY=$(akash tendermint show-validator)
+cat > validator.json <<EOF
+{
+  "pubkey": $PUBKEY,
+  "amount": "1000000uakt",
+  "moniker": "$AKASH_MONIKER",
+  "identity": "",
+  "website": "",
+  "security": "",
+  "details": "",
+  "commission-rate": "0.10",
+  "commission-max-rate": "0.20",
+  "commission-max-change-rate": "0.01",
+  "min-self-delegation": "1"
+}
+EOF
+```
+
+### Submit the Create Validator Transaction
+
+Now submit the validator creation transaction using the JSON file:
+
+```bash
+akash tx staking create-validator validator.json \
   --chain-id="$AKASH_CHAIN_ID" \
-  --commission-rate="0.10" \
-  --commission-max-rate="0.20" \
-  --commission-max-change-rate="0.01" \
-  --min-self-delegation="1" \
   --gas="auto" \
   --gas-prices="0.0025uakt" \
   --gas-adjustment=1.5 \
   --from="$AKASH_KEY_NAME"
 ```
 
-::: tip When specifying commission parameters, the `commission-max-change-rate` is used to measure % _point_ change over the `commission-rate`. E.g. 1% to 2% is a 100% rate increase, but only 1 percentage point. :::
+> **Note:** In the output of this command your `akashvaloper` address will be revealed. Note this address for future use including the verification steps later in this guide.
 
-::: tip `min-self-delegation` is a stritly positive integer that represents the minimum amount of self-delegated voting power your validator must always have. A `min-self-delegation` of 1 means your validator will never have a self-delegation lower than `1000000uakt` :::
+> **Tip:** When specifying commission parameters, the `commission-max-change-rate` is used to measure % point change over the `commission-rate`. E.g. 1% to 2% is a 100% rate increase, but only 1 percentage point.
+
+> **Tip:** `min-self-delegation` is a strictly positive integer that represents the minimum amount of self-delegated voting power your validator must always have. A `min-self-delegation` of 1 means your validator will never have a self-delegation lower than 1000000uakt.
 
 You can confirm that you are in the validator set by using a third party explorer for the testnet you are joining.
 

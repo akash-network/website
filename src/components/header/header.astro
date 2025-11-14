@@ -5,7 +5,6 @@ import { getYearToUse } from "@/utils/redirects";
 import { getCollection } from "astro:content";
 import clsx from "clsx";
 
-import DarkModeToggle from "../dark-mode-toggle";
 import ButtonLink from "../ui/button-link.astro";
 import TryAkashForm from "../ui/try-akash-form";
 import HamburgerMenu from "./hamburger-menu";
@@ -128,7 +127,7 @@ const navContainerClass = hideContainer ? "" : "container";
       <div class="hidden items-center gap-x-2 text-para xl:flex">
         <a
           aria-label="Twitter Icon"
-          href="https://twitter.com/akashnet_"
+          href="https://x.com/akashnet"
           target="_blank"
           class="hover:text-primary"
         >
@@ -159,12 +158,12 @@ const navContainerClass = hideContainer ? "" : "container";
           size="sm"
           className="px-[11px] py-[7px] text-xs"
         >
-          Sign Up
+          Sign in
         </ButtonLink>
 
         <TryAkashForm client:load type="header" />
       </div>
-      {!hideDarkToggle && <DarkModeToggle client:load />}
+      <!-- {!hideDarkToggle && <DarkModeToggle client:load />} -->
     </div>
   </nav>
 </header>

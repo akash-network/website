@@ -89,4 +89,4 @@ To validate that the Watchtower setup was successful, check the logs, which shou
 Learn more about Witness Chain
 Explore more detailed instructions and troubleshooting tips in the [official Witness Chain documentation](https://docs.witnesschain.com/depin-coordination-layer/proof-of-location-testnet/run-a-watchtower/for-partner-node-runners/running-on-akash-cloud). To stay up to date with the latest news, announcements, and more — follow [Witness Chain on X](https://x.com/witnesschain) or [join the Discord](https://discord.gg/HwnzU5CYDp).
 
-To keep up with the latest news and updates, follow [Akash on X](https://x.com/akashnet_), and join the official [Akash Discord](https://discord.akash.network).
+To keep up with the latest news and updates, follow [Akash on X](https://x.com/akashnet), and join the official [Akash Discord](https://discord.akash.network).

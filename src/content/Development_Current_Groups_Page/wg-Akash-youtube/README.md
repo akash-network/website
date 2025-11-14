@@ -49,7 +49,7 @@ This working group is responsible for managing and improving the Akash youtube C
 
 ## PRDs and other documentation
 
-- [Code of Conduct](https://github.com/akash-network/website/blob/main/CODE_OF_CONDUCT.md)
+- [Code of Conduct](https://github.com/akash-network/.github/blob/main/CODE_OF_CONDUCT.md)
 -
 
 ## Related SIGs

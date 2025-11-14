@@ -1,4 +1,3 @@
-import DarkModeToggle from "@/components/dark-mode-toggle";
 import { cn } from "@/lib/utils";
 import { Disclosure, Transition } from "@headlessui/react";
 import {
@@ -257,7 +256,7 @@ const Panel = ({
               href="https://console.akash.network/"
               className="flex w-full items-center  justify-center gap-2 rounded-md border bg-gray-50 py-[9px]  text-base font-medium hover:bg-gray-100  dark:bg-background dark:hover:bg-white/10 md:py-2"
             >
-              Sign Up
+              Sign in
             </a>
             <TryAkashForm type="hero" fullWidth />
           </div>
@@ -265,7 +264,7 @@ const Panel = ({
           <div className="flex items-center justify-between border-t border-border py-7 text-para">
             <div className="flex gap-x-[20px] px-2">
               <a
-                href="https://twitter.com/akashnet_"
+                href="https://x.com/akashnet"
                 target="_blank"
                 className="hover:text-primary"
               >
@@ -294,11 +293,11 @@ const Panel = ({
               </a>
             </div>
 
-            {!hideDarkToggle && (
+            {/* {!hideDarkToggle && (
               <div>
                 <DarkModeToggle />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

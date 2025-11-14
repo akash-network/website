@@ -11,7 +11,7 @@ meetings:
     label: Subscribe to Calendar
     link: "https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
 
-githubLink: "https://github.com/akash-network/community/tree/main/wg-provider-monitoring"
+githubLink: "https://github.com/akash-network/community/tree/main/wg-provider-audit"
 
 discordLink: "https://discord.com/invite/akash"
 ---

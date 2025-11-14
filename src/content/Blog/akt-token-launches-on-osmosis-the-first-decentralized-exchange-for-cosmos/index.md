@@ -21,7 +21,7 @@ bannerImage: ./banner-image.png
 >
 > Sunny Aggarwal, Co-founder of Osmosis
 
-It’s been an eventful month at Akash. We announced that [we partnered with Helium Network](https://akash.network/blog/akash-network-provides-decentralized-cloud-to-the-largest-internet-of-things-iot), the largest peer-to-peer wireless internet-of-things (IoT) network, to provide a decentralized, open-source, and low-cost cloud alternative for Helium’s new blockchain validators.
+It’s been an eventful month at Akash. We announced that [we partnered with Helium Network](https://akash.network/blog/akash-network-provides-decentralized-cloud-to-the-largest-internet-of-things-iot-network-helium/), the largest peer-to-peer wireless internet-of-things (IoT) network, to provide a decentralized, open-source, and low-cost cloud alternative for Helium’s new blockchain validators.
 
 We also [welcomed the NBA’s Houston Rockets owner Tilman Fertitta to Akash Network as an investor and validator](https://www.investing.com/news/cryptocurrency-news/nbas-houston-rockets-owner-to-validate-blocks-for-the-akash-network-2527433). Fertitta, an early Bitcoin supporter, has a track record of leveraging emerging technology and is working towards migrating his business empire’s cloud computing needs to Akash DeCloud.
 

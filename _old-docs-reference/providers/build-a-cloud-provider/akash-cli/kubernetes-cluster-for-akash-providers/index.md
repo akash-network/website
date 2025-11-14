@@ -11,7 +11,7 @@ Akash leases are deployed as Kubernetes pods on provider clusters. This guide de
 
 The setup of a Kubernetes cluster is the responsibility of the provider. This guide provides best practices and recommendations for setting up a Kubernetes cluster. This document is not a comprehensive guide and assumes pre-existing Kubernetes knowledge.
 
-The Kubernetes Cluster created is then ready for the Akash Provider build detailed [here](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/).
+Once the Kubernetes cluster is created, it is ready for you to build your Akash Provider as detailed [here](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/).
 
 ## Prerequisites
 
@@ -38,14 +38,22 @@ The Kubernetes instructions in this guide are intended for audiences that have t
 
 ## STEP 1 - Clone the Kubespray Project
 
+> NOTE:
+> - All commands in these instructions should be executed on the Control Plane host. If something should be done on a Worker host, we will tell you explicitly.
+> - For ease of use, we suggest using the root user for the Kubernetes and Akash Provider install. If a non-root user is used instead, minor command adjustments may be necessary such as using `sudo` command prefixes and updating the home directory in command syntaxes.
+
 ### Cluster Recommendations
 
 We recommend using the Kubespray project to deploy a cluster. Kubespray uses Ansible to make the deployment of a Kubernetes cluster easy.
 
-The recommended minimum number of hosts is four for a production Provider Kubernetes cluster. This is meant to allow:
+The recommended minimum number of hosts is four for a production Provider Kubernetes cluster. 
 
-- Three hosts serving as a redundant control plane (aka master)/etcd instances
-- One host to serve as Kubernetes worker node to host provider leases.
+A host, in this context, refers to a physical or virtual server in your network that participates as a node within the Kubernetes cluster.
+
+This configuration is designed to provide:
+
+- Three hosts acting as redundant control plane (also known as master) and etcd instances
+- One host functioning as a Kubernetes worker node to host provider leases
 
 #### Additional Cluster Sizing Considerations
 
@@ -100,8 +108,10 @@ We recommend installing Kubespray on Ubuntu 24.04. Versions prior it Ubuntu 20.X
 
 Obtain Kubespray and navigate into the created local directory:
 
-```
-cd ~
+```bash
+sudo -i # make sure you are under root user
+
+cd ~ 
 
 git clone -b v2.28.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 
@@ -110,18 +120,16 @@ cd kubespray
 
 ### Cluster Updates
 
-To update the Kubernetes cluster in the future, review the[ latest Kubespray documentation](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/upgrades.md) to take advantage of recent bug fixes and enhancements.
+To update the Kubernetes cluster in the future, review the[ latest Kubespray documentation](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/operations/upgrades.md) to take advantage of recent bug fixes and enhancements.
 
 ## STEP 2 - Install Ansible
-
-> _**NOTE**_ - the commands in this section and in all remaining sections of this guide assume that the `root` user is used. For ease we suggest using the `root` user for the Kubernetes and Akash Provider install. If a non-root user is used instead, minor command adjustments may be necessary such as using `sudo` command prefixes and updating the home directory in command syntaxes.
 
 When you launch Kubespray it will use an Ansible playbook to deploy a Kubernetes cluster. In this step we will install Ansible.
 
 Depending on your operating system it may be necessary to install OS patches, pip3, and virtualenv. Example steps for a Ubuntu OS are detailed below.
 
-```
-apt-get update ; apt-get install -y python3-pip virtualenv
+```bash
+apt-get update ; apt-get install -y python3-pip virtualenv ansible-core
 ```
 
 Within the kubespray directory use the following commands for the purpose of:
@@ -130,7 +138,7 @@ Within the kubespray directory use the following commands for the purpose of:
 - Installing Ansible and other necessary packages specified in the requirements.txt file
 - Please remember to `cd kubespray` AND `source venv/bin/activate` - as detailed in the code block below - each time you want to use the `ansible-playbook` commands in upcoming sections. &#x20;
 
-```
+```bash
 cd ~/kubespray
 
 virtualenv --python=python3 venv
@@ -156,7 +164,6 @@ The command sets provided in this section may be copied and pasted into your ter
 
 ```bash
 ssh-keygen -t rsa -C $(hostname) -f "$HOME/.ssh/id_rsa" -P "" ; cat ~/.ssh/id_rsa.pub
-
 ```
 
 #### **Confirm SSH Keys**
@@ -164,33 +171,24 @@ ssh-keygen -t rsa -C $(hostname) -f "$HOME/.ssh/id_rsa" -P "" ; cat ~/.ssh/id_rs
 - The keys will be stored in the user's home directory
 - Use these commands to verify keys
 
-```
+```bash
 cd ~/.ssh ; ls
 ```
 
 ##### **Example files created**
 
-```
+```bash
 authorized_keys  id_rsa  id_rsa.pub
 ```
 
-### **Copy Public Key to the Kubernetes Hosts**
+### **Copy Public Key to the authorized_keys**
 
-#### **Template**
-
-- Replace the username and IP address variables in the template with your own settings. Refer to the Example for further clarification.
-
+Get the content of `id_rsa.pub` from your Control Plane host:
+```bash
+cat ~/.ssh/id_rsa.pub
 ```
-ssh-copy-id -i ~/.ssh/id_rsa.pub <username>@<ip-address>
-```
+You should add this public key to the ~/.ssh/authorized_keys on the Control Plane host and each Worker Node host.
 
-#### **Example**
-
-- Conduct this step for every Kubernetes control plane and worker node in the cluster
-
-```
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@10.88.94.5
-```
 
 ### **Confirm SSH to the Kubernetes Hosts**
 
@@ -198,19 +196,17 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub root@10.88.94.5
 
 #### **Template**
 
-- Replace the username and IP address variables in the template with your own settings. Refer to the Example for further clarification.
+Replace the username and IP address variables in the template with your own settings. 
+
+Conduct this access test for every Kubernetes control plane and worker node in the cluster
 
 ```
 ssh -i ~/.ssh/id_rsa <username>@<ip-address>
+
+# example:
+# ssh -i ~/.ssh/id_rsa root@10.88.94.5
 ```
 
-#### **Example**
-
-- Conduct this access test for every Kubernetes control plane and worker node in the cluster
-
-```
-ssh -i ~/.ssh/id_rsa root@10.88.94.5
-```
 
 ## STEP 4 - Ansible Inventory
 
@@ -224,7 +220,7 @@ Ansible will use an inventory file to determine the hosts Kubernetes should be i
 - NOTE - ensure that you are still within the Python virtual environment when running these commands. Your cursor should have a "(venv)" prefix. If needed - re-enter the virtual environment by issuing:
   - `source venv/bin/activate`
 
-```
+```bash
 cd ~/kubespray
 
 cp -rfp inventory/sample inventory/akash
@@ -235,17 +231,15 @@ cp -rfp inventory/sample inventory/akash
 - Open the inventory.ini file in VI (Visual Editor) or nano
 - Update the kube_control_plane category if needed with full list of hosts that should be master nodes
 - Ensure you have either 1 or 3 Kubernetes control plane nodes under `kube_control_plane`. If 2 are listed, change that to 1 or 3, depending on whether you want Kubernetes be Highly Available.
-- Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/the-kubernetes-current/etcd-kubernetes-what-you-should-know/).
-- For additional details regarding `inventory.ini` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/kubernetes-cluster-for-akash-providers/additional-k8s-resources).
-
+- Ensure you have only control plane nodes listed under `etcd`. If you would like to review additional best practices for etcd, please review this [guide](https://rafay.co/ai-and-cloud-native-blog/etcd-kubernetes-what-you-should-know).
+- For additional details regarding `inventory.ini` best practices and example configurations, review this [guide](/docs/providers/build-a-cloud-provider/akash-cli/additional-k8s-resources/).
 ```
 vi ~/kubespray/inventory/akash/inventory.ini
 ```
 
 ##### **Example inventory.ini File**
-
 ```
-# This inventory describe a HA typology with stacked etcd (== same nodes as control plane)
+# This inventory describe a HA topology with stacked etcd (== same nodes as control plane)
 # and 3 worker nodes
 # See https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
 # for tips on building your # inventory
@@ -267,9 +261,11 @@ kube_control_plane
 # node6 ansible_host=95.54.0.17  # ip=10.3.0.6
 ```
 
+For more examples, you can visit [this](../../../../../../../src/content/Docs/providers/build-a-cloud-provider/akash-cli/additional-k8s-resources/index.md) page
+
 ### Additional Kubespray Documentation
 
-Use these resources for a more through understanding of Kubespray and for troubleshooting purposes
+Use these resources for a more thorough understanding of Kubespray and for troubleshooting purposes
 
 - [Adding/replacing a node](https://github.com/kubernetes-sigs/kubespray/blob/9dfade5641a43c/docs/nodes.md)
 - [Upgrading Kubernetes in Kubespray](https://github.com/kubernetes-sigs/kubespray/blob/e9c89132485989/docs/upgrades.md)
@@ -301,6 +297,7 @@ container_manager: containerd
 ### **gVisor Issue - No system-cgroup v2 Support**
 
 > Skip if you are not using gVisor
+
 
 If you are using a newer systemd version, your container will get stuck in ContainerCreating state on your provider with gVisor enabled. Please reference [this document](/docs/providers/build-a-cloud-provider/akash-cli/gvisor-issue-no-system-cgroup-v2-support/) for details regarding this issue and the recommended workaround.
 
@@ -396,7 +393,7 @@ Events:                   <none>
 
 ### Recommended Steps
 
-#### STEP 1 - Stop and disable `Kubelet` & `containerd`
+#### STEP 7.1 - Stop and disable `Kubelet` & `containerd`
 
 ```
 systemctl stop kubelet
@@ -406,7 +403,7 @@ systemctl stop containerd
 systemctl disable containerd
 ```
 
-#### STEP 2 - Reboot the node
+#### STEP 7.2 - Reboot the node
 
 - Have to reboot the node so it will release the `/var/lib/kubelet` and `/var/lib/containerd`
 
@@ -417,7 +414,7 @@ root@k8s-node-1:~# lsof -Pn 2>/dev/null |grep -E '/var/lib/kubelet|/var/lib/cont
 # should be no response here, this will indicate /var/lib/kubelet and /var/lib/containerd are not used.
 ```
 
-#### STEP 3 - Find 2 free NVME disks
+#### STEP 7.3 - Find 2 free NVME disks
 
 ```
 root@k8s-node-0:~# lsblk
@@ -426,7 +423,7 @@ nvme0n1                                                                         
 nvme1n1                                                                                               259:1    0   1.5T  0 disk
 ```
 
-#### STEP 4 - Create RAID0 over 2 NVME
+#### STEP 7.4 - Create RAID0 over 2 NVME
 
 ```
 root@k8s-node-0:~# mdadm --create /dev/md0 --level=raid0 --metadata=1.2 --raid-devices=2 /dev/nvme0n1 /dev/nvme1n1
@@ -444,19 +441,19 @@ md0 : active raid0 nvme1n1[1] nvme0n1[0]
 unused devices: <none>
 ```
 
-#### STEP 5 - Format /dev/md0
+#### STEP 7.5 - Format /dev/md0
 
 ```
 root@k8s-node-0:~# mkfs.ext4 /dev/md0
 ```
 
-#### STEP 6 - Move old kubelet data
+#### STEP 7.6 - Move old kubelet data
 
 ```
 mv /var/lib/kubelet /var/lib/kubelet-backup
 ```
 
-#### STEP 7 - Update fstab with the new /dev/md0
+#### STEP 7.7 - Update fstab with the new /dev/md0
 
 ##### **Backup fstab**
 
@@ -480,7 +477,7 @@ EOF
 diff -Nur /etc/fstab.1 /etc/fstab
 ```
 
-#### STEP 8- Mount /dev/md0 as /data
+#### STEP 7.8- Mount /dev/md0 as /data
 
 ```
 mkdir /data
@@ -495,7 +492,7 @@ Filesystem      Size  Used Avail Use% Mounted on
 /dev/md0        2.9T   89M  2.8T   1% /data
 ```
 
-#### STEP 9 - Generate mdadm.conf so it gets detected on boot
+#### STEP 7.9 - Generate mdadm.conf so it gets detected on boot
 
 ```
 root@k8s-node-0:~# /usr/share/mdadm/mkconf > /etc/mdadm/mdadm.conf
@@ -514,13 +511,13 @@ MAILADDR root
 ARRAY /dev/md/0  metadata=1.2 UUID=a96501a3:955faf1e:06f8087d:503e8c36 name=k8s-node-0.mainnet-1.ca:0
 ```
 
-#### STEP 10 - Regenerate initramfs so the new mdadm.conf gets there
+#### STEP 7.10 - Regenerate initramfs so the new mdadm.conf gets there
 
 ```
 root@k8s-node-0:~# update-initramfs -c -k all
 ```
 
-#### STEP 11 - Move kubelet data onto RAID0
+#### STEP 7.11 - Move kubelet data onto RAID0
 
 ```
 mv /var/lib/kubelet-backup /data/kubelet
@@ -534,13 +531,13 @@ Filesystem      Size  Used Avail Use% Mounted on
 /dev/md0        2.9T   43G  2.7T   2% /data
 ```
 
-#### STEP 12 - Move the containerd to the new path
+#### STEP 7.12 - Move the containerd to the new path
 
 ```
 mv /var/lib/containerd /data/containerd
 ```
 
-#### STEP 13 - kubespray the cluster with the following config
+#### STEP 7.13 - kubespray the cluster with the following config
 
 - This configuration entry should be made in the file of `group_vars/k8s_cluster/k8s-cluster.yml` on the Kubespray host
 
@@ -550,14 +547,14 @@ kubelet_custom_flags:
   "--root-dir=/data/kubelet"
 ```
 
-#### STEP 14 - Start and enable containerd
+#### STEP 7.14 - Start and enable containerd
 
 ```
 systemctl start containerd
 systemctl enable containerd
 ```
 
-#### STEP 15 - Start and enable kubelet
+#### STEP 7.15 - Start and enable kubelet
 
 ```
 systemctl start kubelet
@@ -570,7 +567,7 @@ systemctl enable kubelet
 journalctl -u kubelet -f
 ```
 
-#### STEP 16 - Wait until all pods are Running
+#### STEP 7.16 - Wait until all pods are Running
 
 ```
 kubectl get pods -A -o wide | grep <your node>
@@ -603,12 +600,16 @@ restic:
 With inventory in place we are ready to build the Kubernetes cluster via Ansible.
 
 - Note - the cluster creation may take several minutes to complete
-- If the Kubespray process fails or is interpreted, run the Ansible playbook again and it will complete any incomplete steps on the subsequent run
+- If the Kubespray process fails or is interrupted, run the Ansible playbook again and it will complete any incomplete steps on the subsequent run
 
 > _**NOTE**_ - if you intend to enable GPU resources on your provider - consider completing this [step](/docs/providers/build-a-cloud-provider/akash-cli/gpu-resource-enablement/#gpu-provider-configuration) now to avoid having to run Kubespray on multiple occasions. Only the `NVIDIA Runtime Configuration` section of the `GPU Resource Enablement` guide should be completed at this time and then return to this guide/step.
 
-```
+```bash
 cd ~/kubespray
+
+virtualenv --python=python3 venv
+
+source venv/bin/activate
 
 ansible-playbook -i inventory/akash/inventory.ini -b -v --private-key=~/.ssh/id_rsa cluster.yml
 ```
@@ -619,11 +620,11 @@ A couple of quick Kubernetes cluster checks are in order before moving into next
 
 ### SSH into Kubernetes Master Node
 
-- The verifications in this section must be completed on a master node with kubectl access to the cluster.
+- The verifications in this section must be completed on a master node with kubectl access to the cluster (likely the Control Plane host).
 
 ### Confirm Kubernetes Nodes
 
-```
+```bash
 kubectl get nodes
 ```
 
@@ -641,13 +642,13 @@ node4   Ready    <none>                 4m7s    v1.22.5
 
 ### **Confirm Kubernetes Pods**
 
-```
+```bash
 kubectl get pods -n kube-system
 ```
 
 #### Example output of the pods that are the brains of the cluster
 
-```
+```bash
 root@node1:/home/ubuntu# kubectl get pods -n kube-system
 
 NAME                                      READY   STATUS    RESTARTS        AGE
@@ -685,26 +686,26 @@ nodelocaldns-n88fj                        1/1     Running   0               4m28
 
 > This is to verify that Kubespray properly set the expected upstream servers in the DNS Configuration previous step
 
-```
+```bash
 kubectl -n kube-system get cm coredns -o yaml | grep forward
 ```
+Verify that you have the output there.
+
 
 #### Verify All DNS Related Pods Are in a Running State
 
-```
+```bash
 kubectl -n kube-system get pods -l k8s-app=kube-dns
+
+# If you have kubespray version < `2.22.x`:
 kubectl -n kube-system get pods -l k8s-app=nodelocaldns
-```
-
-With kubespray version >= `2.22.x`:
-
-```
+# Else if kubespray version >= `2.22.x`:
 kubectl -n kube-system get pods -l k8s-app=node-local-dns
 ```
 
 ### Verify etcd Status and Health
 
-> Commands should be run on the control plane node to ensure health of the Kubernetes `etcd` database
+> Commands should be run on the Control Plane node to ensure health of the Kubernetes `etcd` database
 
 ```
 export $(grep -v '^#' /etc/etcd.env | xargs -d '\n')
@@ -714,15 +715,26 @@ etcdctl endpoint status --cluster -w table
 etcdctl check perf
 ```
 
+Expected output:
+```
+...
+PASS: Throughput is 150 writes/s
+PASS: Slowest request took 0.155139s
+PASS: Stddev is 0.007739s
+PASS
+```
+
 ## STEP 9 - Custom Kernel Parameters
 
 ### Create and apply custom kernel parameters
 
-Apply these settings to ALL Kubernetes worker nodes to guard against `too many open files` errors.
+Apply these settings to ALL Kubernetes Worker Nodes to guard against `too many open files` errors.
 
 #### Create Config
 
-```
+```bash
+# Worker node
+
 cat > /etc/sysctl.d/90-akash.conf << EOF
 # Common: tackle "failed to create fsnotify watcher: too many open files"
 fs.inotify.max_user_instances = 512
