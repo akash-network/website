@@ -42,6 +42,7 @@ If the Console API doesn't fit your use case, explore these alternatives:
 
 - **[Akash Console (Web UI)](/docs/deployments/akash-console/)** - Visual web interface for manual deployments
 - **[Akash CLI](/docs/deployments/akash-cli/)** - Command-line interface for advanced blockchain operations
+- **[akash SDKs](https://github.com/akash-network/chain-sdk)** - Programmatic access via SDK for custom applications
 
 
 ## Prerequisites
@@ -77,17 +78,6 @@ Before using the Console API, ensure you have:
 > _**WARNING**_ - Copy and save your API key immediately. It will only be shown once and cannot be retrieved later.
 
 ![](/src/content/Docs/assets/api_keys_home.png)
-
-## Troubleshooting
-
-#### Can't find API Keys option?
-
-- Ensure you're logged into a managed wallet account. API Keys are not available for standard crypto wallets.
-- Ensure you have chosen USD Payments as your payment method.
-
-#### Can't create API key?
-- Ensure your account has a valid payment method configured.
-- Ensure your account has sufficient balance (minimum $5 USD).
 
 
 ## Troubleshooting
