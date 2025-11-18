@@ -904,24 +904,6 @@ The following firewall rules are applicable to internet-facing Kubernetes compon
 30000-32767/udp - for Kubernetes node port range for deployments
 ```
 
-> **Note:** Firewall configuration varies depending on your system and environment. You may be using `iptables`, `ufw`, `firewalld`, or cloud provider security groups (AWS Security Groups, GCP Firewall Rules, Azure NSG, etc.). Adjust the commands and configuration method based on your specific setup.
-
-For example, to list active firewall rules you can use `iptables -L -n -v` or `ufw status verbose` if using UFW.
-
-You can also quickly check if the required entries exist by running `iptables -L -n -v | grep -E 'dpt:(80|443|31300|8443|8444)'`.
-If there is no output, you may need to add rules like:
-```
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-iptables -A INPUT -p tcp --dport 8443 -j ACCEPT
-iptables -A INPUT -p tcp --dport 8444 -j ACCEPT
-iptables -A INPUT -p tcp --dport 30000:32767 -j ACCEPT
-iptables -A INPUT -p udp --dport 30000:32767 -j ACCEPT
-```
-
-> **Important:** If you're using a cloud provider, you'll typically need to configure security groups or firewall rules through their web console or CLI tools rather than using local firewall commands. Ensure the required ports are open in your cloud provider's firewall/security group configuration.
-
-
 ## Step 12 - Disable Unattended Upgrades
 
 #### Overview
