@@ -70,14 +70,14 @@ Before using the Console API, ensure you have:
 3. Click **Create API Key**, provide a name, and click **Create**.
 4. Copy your API key and store it securely — the key is shown only once and is used in the Authorization header as a Bearer token.
 
-![](/src/content/Docs/assets/console_home_api.png)
+![](../../assets/console_home_api.png)
 
 
 4. From the API Keys page you can view, revoke, or delete keys.
 5. Click **Create Key**, give it a name, and click `Create`. Store the key securely.
 > _**WARNING**_ - Copy and save your API key immediately. It will only be shown once and cannot be retrieved later.
 
-![](/src/content/Docs/assets/api_keys_home.png)
+![](../../assets/api_keys_home.png)
 
 
 ## Troubleshooting
