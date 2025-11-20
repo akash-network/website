@@ -23,7 +23,7 @@ Use the Console API to:
 Before you begin, ensure you have:
 
 1.  **Create an Account**: Sign up at [console.akash.network](https://console.akash.network). If you haven't already, start a **free trial** to explore the platform.
-2.  **Fund Your Account**: Ensure you have at least **$5 USD** in your managed wallet balance. You can add funds via credit card in the Console settings.
+2.  **Fund Your Account**: Ensure you have at least **$5 USD** in your managed wallet balance. You can add funds via credit card in the Console. [Learn more](/docs/getting-started/billing-and-credits)
 3.  **Prepare Your Tools**:
     *   Have your **SDL** (Stack Definition Language) file ready.
     *   Have an API client ready (e.g., `curl`, Postman, or a script in Python/Node.js).
@@ -62,9 +62,8 @@ For detailed endpoint documentation, request schemas, and response types, please
 
 **[Console API Swagger UI](https://console-api.akash.network/v1/swagger)**
 
-
-*   **[Quick Start](quick-start)**: Deploy your first "Hello World" app and see code examples (TypeScript, Python, cURL).
-*   **[Workflows](workflows)**: Step-by-step guides for the complete deployment lifecycle.
+*   **[Quick Start](/docs/deployments/console-api/quick-start)**: Deploy your first "Hello World" app and see code examples (TypeScript, Python, cURL).
+*   **[Workflows](/docs/deployments/console-api/workflows)**: Step-by-step guides for the complete deployment lifecycle.
 
 ## Troubleshooting
 
