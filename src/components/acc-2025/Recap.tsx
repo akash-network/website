@@ -1,5 +1,5 @@
 import { acc2025 } from "@/components/acc-2025/acc-2025";
-import classNames from "classnames";
+import clsx from "clsx";
 import { ArrowUpCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 const Recap = ({ type }: { type: "button" | "image" }) => {
@@ -70,7 +70,7 @@ const Recap = ({ type }: { type: "button" | "image" }) => {
       )}
 
       <div
-        className={classNames(
+        className={clsx(
           "fixed inset-0 z-50 bg-black/50 transition-opacity duration-300",
           isOpen ? "opacity-100" : "pointer-events-none opacity-0",
         )}
@@ -78,7 +78,7 @@ const Recap = ({ type }: { type: "button" | "image" }) => {
       />
 
       <div
-        className={classNames(
+        className={clsx(
           "fixed left-1/2 top-1/2 z-50 w-[90%] max-w-4xl -translate-x-1/2 -translate-y-1/2 transform select-none transition-all duration-300",
           isOpen
             ? "scale-100 opacity-100"
