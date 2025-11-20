@@ -43,8 +43,8 @@ profiles:
     akash:
       pricing:
         web:
-          denom: uakt
-          amount: 1000
+          denom: ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1
+          amount: 10000
 deployment:
   web:
     akash:
@@ -132,7 +132,7 @@ import axios from 'axios';
 import * as fs from 'fs';
 
 // Configuration
-const API_URL = 'https://console-api.akash.network/v1';
+const API_URL = 'https://console-api.akash.network';
 const API_KEY = 'your-api-key-here'; // Replace with your key
 const SDL_PATH = './deploy.yaml'; // Path to your SDL file
 
@@ -169,24 +169,24 @@ async function main() {
 
     // 1. Create Certificate
     console.log("1. Creating Certificate...");
-    const certRes = await api.post<CertificateResponse>('/certificates', {});
-    const { certPem, encryptedKey } = certRes.data.data.data;
+    const certRes = await api.post<CertificateResponse>('/v1/certificates', {});
+    const { certPem, encryptedKey } = certRes.data.data; // Swagger says: { data: { certPem, encryptedKey } }
     console.log("   Certificate created.");
 
     // 2. Create Deployment
     console.log("2. Creating Deployment...");
     const sdlContent = fs.readFileSync(SDL_PATH, 'utf8');
-    const deployRes = await api.post<CreateDeploymentResponse>('/deployments', {
+    const deployRes = await api.post<CreateDeploymentResponse>('/v1/deployments', {
       data: { sdl: sdlContent, deposit: 5 } // $5 deposit
     });
-    const { dseq, manifest } = deployRes.data.data.data;
+    const { dseq, manifest } = deployRes.data.data; // Swagger says: { data: { dseq, manifest, signTx } }
     console.log(`   Deployment created. DSEQ: ${dseq}`);
 
     // 3. Fetch Bids
     console.log("3. Waiting for Bids (15s)...");
     await new Promise(r => setTimeout(r, 15000)); // Wait for network propagation
     
-    const bidsRes = await api.get<BidsResponse>(`/bids?dseq=${dseq}`);
+    const bidsRes = await api.get<BidsResponse>(`/v1/bids?dseq=${dseq}`);
     const bids = bidsRes.data.data;
     
     if (!bids || bids.length === 0) {
@@ -200,7 +200,7 @@ async function main() {
 
     // 4. Create Lease
     console.log("4. Creating Lease...");
-    await api.post('/leases', {
+    await api.post('/v1/leases', {
       manifest: manifest,
       certificate: { certPem, keyPem: encryptedKey },
       leases: [{
