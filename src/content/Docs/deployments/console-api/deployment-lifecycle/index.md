@@ -68,7 +68,7 @@ Accept the bid and start your deployment.
 Stop the deployment and return unused funds.
 
 *   **Endpoint**: `DELETE /v1/deployments/{dseq}`
-*   **Result**: Leases close, deployment stops, unused funds return to your wallet.
+*   **Result**: Leases close, deployment stops, unused funds return to your account.
 
 ## Troubleshooting
 

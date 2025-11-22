@@ -11,7 +11,7 @@ linkTitle: "Prerequisites"
 > _**PLEASE NOTE**_ - The Console API for Managed Wallet users is currently in active development. This documentation will be updated frequently as new features are released. Check the [Swagger documentation](https://console-api.akash.network/v1/swagger) for the most up-to-date API specification.
 
 
-The Console API provides programmatic access to deploy and manage applications on Akash Network for users with managed wallets. Deploy containerized applications and manage their lifecycle using simple REST API calls—no blockchain knowledge or wallet management required.
+The Console API provides programmatic access to deploy and manage applications on Akash Network. Deploy containerized applications and manage their lifecycle using simple REST API calls—no blockchain knowledge required.
 
 **Use cases**: Automate deployments, integrate CI/CD pipelines, and bypass complex blockchain operations.
 
@@ -20,7 +20,7 @@ The Console API provides programmatic access to deploy and manage applications o
 Before you begin, ensure you have:
 
 1.  **Create an Account**: Sign up at [console.akash.network](https://console.akash.network). If you haven't already, start a **free trial** to explore the platform.
-2.  **Fund Your Account**: Ensure you have at least **$5 USD** in your managed wallet balance. You can add funds via credit card in the Console. [Learn more](/docs/getting-started/billing-and-credits)
+2.  **Fund Your Account**: Ensure you have at least **$5 USD** in your account balance. You can add funds via credit card in the Console. [Learn more](/docs/getting-started/billing-and-credits)
 3.  **Prepare Your Tools**:
     *   Have your **SDL** (Stack Definition Language) file ready.
     *   Have an API client ready (e.g., `curl`, Postman, or a script in Python/Node.js).
@@ -29,7 +29,7 @@ Before you begin, ensure you have:
 
 ### Creating Your API Key
 
-1. Log in to your managed wallet at [console.akash.network](https://console.akash.network/).
+1. Log in to your account at [console.akash.network](https://console.akash.network/).
 2. Hover over your profile icon in the top-right corner and select **API Keys**.
 3. Click **Create API Key**, provide a name, and click **Create**.
 4. Copy your API key and store it securely — the key is shown only once and is used in the Authorization header as a Bearer token.
@@ -72,14 +72,14 @@ For detailed endpoint documentation, request schemas, and response types, please
 #### 403 Forbidden
 **Cause**: Valid key, but insufficient permissions or funds.
 **Solution**:
-*   **Check Balance**: Ensure your managed wallet has at least $5 USD.
+*   **Check Balance**: Ensure your account has at least $5 USD.
 *   **Payment Method**: Verify "USD Payments" is enabled in Console Settings.
 *   **Wallet Type**: Ensure you are using a Managed Wallet, not a connected Keplr wallet.
 
 #### Can’t Find API Keys Option?
 **Problem**: API Keys menu option is not visible in the profile dropdown.
 **Solutions**:
-*   Ensure you’re logged into a managed wallet account at [console.akash.network](https://console.akash.network).
+*   Ensure you’re logged into account at [console.akash.network](https://console.akash.network).
 *   API Keys are not available for standard Keplr/Leap wallet connections.
 *   Verify you have selected **USD Payments** as your payment method in Settings.
 *   If the issue persists, contact support on Discord.
