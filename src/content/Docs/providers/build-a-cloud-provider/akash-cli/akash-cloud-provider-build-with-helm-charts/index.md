@@ -503,7 +503,7 @@ export DOMAIN=test.com
 
 4\. Set the Akash RPC node for your provider to use
 
-- If you are going to deploy Akash RPC Node using Helm-Charts then set the node to http://akash-node-1:26657 It is recommended that you install your own Akash RPC node. Follow [this guide](/docs/akash-nodes/akash-node-via-helm-chart/) to do so.
+It is recommended that you install your own Akash RPC node. Follow [this guide](/docs/akash-nodes/akash-node-via-helm-chart/) to set one up. If you deployed your Akash RPC node using Helm Charts as described in the guide, set the node to http://akash-node-1:26657.
 
 > \
 > Ensure that the RPC node utilized is in sync prior to proceeding with the provider build.\
@@ -881,6 +881,9 @@ kubectl label ingressclass akash-ingress-class akash.network=true
 
 ## Step 11 - Firewall Rule Review
 
+> Note:
+> You need to set up the correct firewall rules on the worker node.
+
 #### External/Internet Firewall Rules
 
 The following firewall rules are applicable to internet-facing Kubernetes components.
@@ -889,6 +892,7 @@ The following firewall rules are applicable to internet-facing Kubernetes compon
 
 ```
 8443/tcp - for manifest uploads
+8444/tcp - for GRPC requests from Akash Console
 ```
 
 ##### **Ingress Controller**
@@ -997,13 +1001,67 @@ helm upgrade --install akash-provider akash/provider -n akash-services -f provid
 
 #### Force New ReplicaSet Workaround
 
-A known issue exists which occurs when a deployment update is attempted and fails due to the provider being out of resources. This is happens because K8s won't destroy an old pod instance until it ensures the new one has been created.
+A known issue occurs when a deployment update is attempted and fails due to the provider being out of resources. This happens because Kubernetes won't destroy an old pod instance until it ensures the new one has been created.
 
 Follow the steps in the [Force New ReplicaSet Workaround](/docs/providers/provider-faq-and-guide#force-new-replicaset-workaround) document to address this issue.
 
 #### Kill Zombie Processes
 
-A known issue exists which occurs when a tenant creates a deployment which doesn't handle child processes properly, leaving the defunct (aka zombie) proceses behind.
-These could potentially occupy all available process slots.
+A known issue occurs when a tenant creates a deployment that doesn't handle child processes properly, leaving defunct (zombie) processes behind.
+These processes can potentially occupy all available process slots.
 
 Follow the steps in the [Kill Zombie Processes](/docs/providers/provider-faq-and-guide#kill-zombie-processes) document to address this issue.
+
+
+## Step 15 - Check Your Provider
+
+You can verify your provider:
+- Check `https://provider.$YOUR_DOMAIN:8443/status`, where $YOUR_DOMAIN is your provider domain.
+- View your provider at [Tenant Console](https://console.akash.network/providers). Make sure you uncheck all checkmarks and search for your provider name.
+- If your provider is active, you can also go to the block explorer and check if it bids on orders. Just search for your provider's Akash address.
+- If your provider is not active, the first place to check is the provider logs. Go to the control plane node and check the provider pod logs.
+
+To perform end-to-end testing, you can create a deployment from another Akash account and choose your provider to deploy it. Make sure you don't use the same account as the provider to create a deployment, because the provider will not bid on its own deployments.
+
+You can use the following manifest:
+```yaml
+---
+version: "2.0"
+
+services:
+  dart:
+    image: google/dart-hello
+    expose:
+      - port: 8080
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    dart:
+      resources:
+        cpu:
+          units: 0.1
+        memory:
+          size: 512Mi
+        storage:
+          size: 512Mi
+  placement:
+    akash:
+      attributes:
+        host: akash
+      pricing:
+        dart:
+          denom: uakt
+          amount: 10000
+deployment:
+  dart:
+    akash:
+      profile: dart
+      count: 1
+```
+
+
+
+
+

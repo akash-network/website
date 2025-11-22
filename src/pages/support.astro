@@ -1,14 +1,13 @@
 ---
+import { SupportContactForm } from "@/components/support/support-contact-form";
 import ButtonLink from "@/components/ui/button-link.astro";
 import Layout from "@/layouts/layout.astro";
 ---
 
 <Layout title="Support">
   <div class="pt-[40px] md:pb-[80px] md:pt-[120px]">
-    <div class="container text-center">
-      <h3 class="text-2xl font-bold text-foreground md:text-3lg">
-        Get the support you need
-      </h3>
+    <div class="container mx-auto max-w-[50rem] overflow-hidden">
+      <SupportContactForm client:load />
     </div>
 
     <div class="container py-[40px] md:py-[80px]">

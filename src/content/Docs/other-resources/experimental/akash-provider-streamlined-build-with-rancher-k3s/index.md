@@ -317,7 +317,7 @@ DOMAIN=test.com
 
 4\. Set the Akash RPC node for your provider to use
 
-- If you are going to deploy Akash RPC Node using Helm-Charts then set the node to http://akash-node-1:26657 It is recommended that you install your own Akash RPC node. Follow [this guide](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/) to do so.
+It is recommended that you install your own Akash RPC node. Follow [this guide](/docs/providers/build-a-cloud-provider/akash-cli/akash-cloud-provider-build-with-helm-charts/) to set one up. If you deployed your Akash RPC node using Helm Charts as described in the guide, set the node to http://akash-node-1:26657.
 
 ```
 NODE=http://akash-node-1:26657
@@ -451,7 +451,7 @@ bidpricestoragescale: "0.00016" # storage pricing scale in uakt per megabyte
 
 ### **Install the Provider Helm Chart**
 
-```
+```bash
 helm install akash-provider akash/provider -n akash-services -f provider.yaml
 ```
 
@@ -486,7 +486,7 @@ akash-provider-6d7c455dfb-qkf5z   1/1     Running   0          4m37s
 If your Akash Provider pod status displays `init:0/1` for a prolonged period of time, use the following command to view Init container logs. Often the Provider may have a RPC issue and this should be revealed in these logs. RPC issues may be caused by an incorrect declaration in the NODE variable declaration issued previously in this section. Or possibly your custom RPC node is not in sync.
 
 ```
-kubectl -n akash-services logs -l app=akash-provider -c init --tail 200 -f
+  kubectl -n akash-services logs -l app=akash-provider -c init --tail 200 -f
 ```
 
 ### Helm Chart Uninstall Process
