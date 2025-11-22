@@ -2,8 +2,8 @@
 categories: [Akash Console API]
 tags: ["API"]
 weight: 1
-title: "Akash Console API"
-linkTitle: "Akash Console API"
+title: "Prerequisites"
+linkTitle: "Prerequisites"
 ---
 
 # Console API
@@ -11,12 +11,9 @@ linkTitle: "Akash Console API"
 > _**PLEASE NOTE**_ - The Console API for Managed Wallet users is currently in active development. This documentation will be updated frequently as new features are released. Check the [Swagger documentation](https://console-api.akash.network/v1/swagger) for the most up-to-date API specification.
 
 
-The Console API provides **programmatic access** to deploy and manage applications on the Akash Network for users with managed wallets. It allows you to deploy containerized applications, manage their lifecycle, and monitor workloads using simple REST API calls—no blockchain knowledge or wallet management required.
+The Console API provides programmatic access to deploy and manage applications on Akash Network for users with managed wallets. Deploy containerized applications and manage their lifecycle using simple REST API calls—no blockchain knowledge or wallet management required.
 
-Use the Console API to:
-*   **Automate Deployments**: Scale applications automatically in response to demand or events.
-*   **Integrate CI/CD**: Build Akash deployments directly into your continuous delivery pipelines.
-*   **Simplify Management**: Bypass complex blockchain operations (wallets, mnemonics) and use standard HTTP methods.
+**Use cases**: Automate deployments, integrate CI/CD pipelines, and bypass complex blockchain operations.
 
 ## Prerequisites
 
@@ -28,11 +25,9 @@ Before you begin, ensure you have:
     *   Have your **SDL** (Stack Definition Language) file ready.
     *   Have an API client ready (e.g., `curl`, Postman, or a script in Python/Node.js).
 
-## Authentication
+## API Key Setup
 
-All API requests require an API Key.
-
-### Access Console API
+### Creating Your API Key
 
 1. Log in to your managed wallet at [console.akash.network](https://console.akash.network/).
 2. Hover over your profile icon in the top-right corner and select **API Keys**.
@@ -62,8 +57,8 @@ For detailed endpoint documentation, request schemas, and response types, please
 
 **[Console API Swagger UI](https://console-api.akash.network/v1/swagger)**
 
-*   **[Quick Start](/docs/deployments/console-api/quick-start)**: Deploy your first "Hello World" app and see code examples (TypeScript, Python, cURL).
-*   **[Workflows](/docs/deployments/console-api/workflows)**: Step-by-step guides for the complete deployment lifecycle.
+*   **[Examples](/docs/deployments/console-api/examples)**: Deploy your first "Hello World" app and see code examples (TypeScript, Python, cURL).
+*   **[Deployment Lifecycle](/docs/deployments/console-api/deployment-lifecycle)**: Step-by-step guides for the complete deployment lifecycle.
 
 ## Troubleshooting
 

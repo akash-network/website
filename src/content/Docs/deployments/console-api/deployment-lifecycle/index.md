@@ -1,9 +1,9 @@
 ---
 categories: [Akash Console API]
 tags: ["API", "Workflows"]
-weight: 3
-title: "Workflows"
-linkTitle: "Workflows"
+weight: 2
+title: "Deployment Lifecycle"
+linkTitle: "Deployment Lifecycle"
 ---
 
 # Deployment Workflows
@@ -51,32 +51,24 @@ Once a deployment is created, providers will send bids.
 
 ## 4. Create Lease
 
-Accepting a bid creates a lease and starts your workload.
+Accept the bid and start your deployment.
 
 *   **Endpoint**: `POST /v1/leases`
-*   **Payload**:
-    *   `manifest`: The manifest string returned from step 2.
-    *   `certificate`: The cert/key pair from step 1.
-    *   `leases`: Array containing the `dseq`, `gseq`, `oseq`, and `provider` address from the selected bid.
-*   **Outcome**: The provider pulls your image and starts the container.
+*   **Payload**: `manifest`, `certificate` (certPem + keyPem), `leases` array with bid details
+*   **Result**: Provider starts your container.
 
-## 5. Manage Deployment
+## 5. Management
 
-### Check Status
-*   **Endpoint**: `GET /v1/deployments/{dseq}`
-*   **Info**: Returns current status, lease info, and available service URIs.
+**Check Status**: `GET /v1/deployments/{dseq}` - Returns status and service URIs.
 
-### Add Funds
-*   **Endpoint**: `POST /v1/deployments/deposit/{dseq}`
-*   **Payload**: `{"amount": 5}` (USD)
-*   **Use Case**: Prevent your deployment from closing due to insufficient funds.
+**Add Funds**: `POST /v1/deployments/deposit/{dseq}` with `{"amount": 5}` (USD) to prevent closure.
 
-## 6. Close Deployment
+## 6. Termination
 
-Stop the workload and return remaining funds to your balance.
+Stop the deployment and return unused funds.
 
 *   **Endpoint**: `DELETE /v1/deployments/{dseq}`
-*   **Outcome**: Leases are closed, and the deployment is marked as closed.
+*   **Result**: Leases close, deployment stops, unused funds return to your wallet.
 
 ## Troubleshooting
 

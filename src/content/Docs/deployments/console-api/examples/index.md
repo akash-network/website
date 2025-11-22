@@ -1,18 +1,18 @@
 ---
 categories: [Akash Console API]
 tags: ["API", "Quick Start"]
-weight: 2
-title: "Quick Start"
-linkTitle: "Quick Start"
+weight: 3
+title: "Examples"
+linkTitle: "Examples"
 ---
 
 # Quick Start: Deploy Hello World
 
-This guide will walk you through deploying a simple NGINX server using the Console API. It follows the standard **Lease Flow** but uses a bash script to automate the steps.
+Deploy a simple NGINX server using the Console API. This guide uses a bash script to automate the deployment process.
 
 ## Prerequisites
 
-Ensure you have generated your **API Key** as described in the [Overview](overview#authentication).
+You need an **API Key**. See [API Key Setup](/docs/deployments/console-api/prerequisites#api-key-setup).
 
 ## Step 1: Prepare SDL
 

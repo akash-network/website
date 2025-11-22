@@ -48,19 +48,19 @@ export const docsSequence = [
           {
             label: "Akash Console",
           },
+          {
+            label: "Console API",
+            subItems: [
+              { label: "Prerequisites" },
+              { label: "Deployment Lifecycle" },
+              { label: "Examples" },
+            ],
+          },
           { label: "Sandbox", subItems: [{ label: "Sandbox Introduction" }] },
           { label: "Stable Payment Deployments" },
         ],
       },
 
-      {
-        label: "Console API",
-        subItems: [
-          { label: "Akash Console API" },
-          { label: "Quick Start" },
-          { label: "Workflows" },
-        ],
-      },
       {
         label: "Providers",
         subItems: [
