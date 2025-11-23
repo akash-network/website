@@ -379,6 +379,9 @@ export const docsSequence = [
         label: "Mainnet 14 Upgrade",
       },
       {
+        label: "Mainnet 15 Upgrade",
+      },
+      {
         label: "Other Resources",
         subItems: [
           {

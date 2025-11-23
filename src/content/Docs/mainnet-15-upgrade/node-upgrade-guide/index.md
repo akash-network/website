@@ -1,22 +1,22 @@
 ---
-categories: ["Mainnet 14 Upgrade"]
+categories: ["Mainnet 15 Upgrade"]
 tags: []
 weight: 1
-title: "Akash v1.0.0 Node Upgrade Guide"
-linkTitle: "Akash v1.0.0 Node Upgrade Guide"
+title: "Akash v1.1.0 Node Upgrade Guide"
+linkTitle: "Akash v1.1.0 Node Upgrade Guide"
 ---
 
 ## Upgrade Details
 
-- **Upgrade name**: Mainnet14
-- **Binary version**: `v1.0.0`
-- **Block height**: [23939793](https://www.mintscan.io/akash/block/23939793)
-- **Estimated time**: Tuesday, October 28th, 2025 at 13:23 UTC
-- **Expected duration**: 60-90 minutes of network downtime
-- **Binary release**: Available approximately 48 hours before the upgrade
-- [Binary Links](https://github.com/akash-network/node/releases/tag/v1.0.0)
+- **Upgrade name**: Mainnet15
+- **Binary version**: `v1.1.0`
+- **Block height**: [24332547](https://www.mintscan.io/akash/block/24332547)
+- **Estimated time**: Monday, November 24th, 2025 at 14:10 UTC
+- **Expected duration**: 10-15 minutes of network downtime
+- **Binary release**: Available approximately 10 hours before the upgrade
+- [Binary Links](https://github.com/akash-network/node/releases/tag/v1.1.0)
 
-> ⚠️ **Note:** Block times have high variance. Please monitor the [block countdown](https://www.mintscan.io/akash/block/23939793) for more precise timing estimates.
+> ⚠️ **Note:** Block times have high variance. Please monitor the [block countdown](https://www.mintscan.io/akash/block/24332547) for more precise timing estimates.
 
 ## Validator Expectations
 
@@ -24,7 +24,7 @@ To ensure a network upgrade with minimal downtime, Akash Validators should be av
 
 - **One hour prior to upgrade** - available and monitoring the Akash Discord server's `validator` and `validator-announcement` channels for any late breaking guidance
 
-- **Available throughout the network upgrade window** (expected 60-90 minutes)
+- **Available throughout the network upgrade window** (expected 10-15 minutes)
 
 - **One hour post upgrade** - available and monitoring the Akash Discord server's `validator` and `validator-announcement` channels for any possible revised strategies or updates deemed necessary
 
@@ -34,17 +34,7 @@ In the event of issues during the upgrade, please coordinate via the **validator
 
 ## Hardware Requirements
 
-Due to extensive state migrations, **all validators and node operators must use at least 128GB of RAM** with swap enabled. If you are unable to have 128GB of physical RAM, at a minimum have a total of 128GB of swap set to prevent out of memory errors.
-
-## Configuration Requirements
-
-**`minimum-gas-prices` is now mandatory** and must be set explicitly. The configuration applies a default value of `0.0025uakt` to allow nodes and validators with empty config to restart properly and run the upgrade.
-
-Validators and RPC operators should set this in one of the following ways:
-
-- In `config/app.toml`: Find the `minimum-gas-prices` field and set it to `0.0025uakt`
-- Environment variable: `AKASH_MINIMUM_GAS_PRICES=0.0025uakt`
-- CLI flag: `--minimum-gas-prices=0.0025uakt`
+This upgrade does not carry significant state changes and is relatively light-weight. It is recommended for **all validators to use at least 64GB of RAM** with swap enabled.
 
 ## Upgrade Process
 
@@ -58,7 +48,7 @@ The section that follows will detail the install/configuration of Cosmovisor. If
 
 > _**NOTE**_ - Cosmovisor `1.5.0` or higher is required
 
-Validators and RPCs supervised by Cosmovisor with `DAEMON_ALLOW_DOWNLOAD_BINARIES=true` will automatically download upgrade binaries from the upgrade info file.
+Validators and RPCs supervised by Cosmovisor with `DAEMON_ALLOW_DOWNLOAD_BINARIES=true` will automatically download upgrade binaries from the [upgrade info file](https://raw.githubusercontent.com/akash-network/net/main/mainnet/upgrades/v1.1.0/info.json).
 
 ### Configure Cosmovisor
 
@@ -153,33 +143,33 @@ sudo systemctl enable cosmovisor.service
 
 > _**NOTE -**_ Skip this section if you have enabled `DAEMON_ALLOW_DOWNLOAD_BINARIES=true` in your Cosmovisor configuration. It will automatically create the correct path and download the binary based on the plan info from the governance proposal.
 
-This upgrade includes an `upgrade-info.json` file that references the correct release with pre-built binaries. 
+This upgrade links an `info.json` file that references the correct release with pre-built binaries. 
 
-Download the [Akash binary](https://github.com/akash-network/node/releases/tag/v1.0.0) for your platform from the GitHub releases page.
+Download the [Akash binary](https://github.com/akash-network/node/releases/tag/v1.1.0) for your platform from the GitHub releases page.
 
 > If you need to build the binary from source instead, see the [Build Binary From Sources](#build-binary-from-sources) section in the Appendix.
 
 ### Prepare Upgrade Binary
 
-Create the folder for the upgrade (v1.0.0) and copy the akash binary into the folder:
+Create the folder for the upgrade (v1.1.0) and copy the akash binary into the folder:
 
 ```bash
 # Create the upgrade directory
-mkdir -p $HOME/.akash/cosmovisor/upgrades/v1.0.0/bin
+mkdir -p $HOME/.akash/cosmovisor/upgrades/v1.1.0/bin
 
 # Copy the downloaded binary (adjust path to your download location)
-cp /path/to/downloaded/akash $HOME/.akash/cosmovisor/upgrades/v1.0.0/bin/akash
+cp /path/to/downloaded/akash $HOME/.akash/cosmovisor/upgrades/v1.1.0/bin/akash
 
 # Make it executable
-chmod +x $HOME/.akash/cosmovisor/upgrades/v1.0.0/bin/akash
+chmod +x $HOME/.akash/cosmovisor/upgrades/v1.1.0/bin/akash
 
 # Verify the version
-$HOME/.akash/cosmovisor/upgrades/v1.0.0/bin/akash version
+$HOME/.akash/cosmovisor/upgrades/v1.1.0/bin/akash version
 ```
 
 > If you built from source, the binary will be in `.cache/goreleaser/main/<YOUR_OS_ARCH>/akash` - see [Build Binary From Sources](#build-binary-from-sources) for details.
 
-At the proposed block height (23939793), `cosmovisor` will automatically stop the current binary (v0.38.X), set the upgrade binary as the new current binary (v1.0.0), and then restart the node.
+At the proposed block height (24332547), `cosmovisor` will automatically stop the current binary (v1.0.0), set the upgrade binary as the new current binary (v1.1.0), and then restart the node.
 
 ## Option 2: Manual Upgrade Without Cosmovisor
 
@@ -191,16 +181,16 @@ Node operators also have the option to manually update the `akash` binary at the
 
 ### Manual Upgrade Steps
 
-1. **Wait for the chain to halt** at block height 23939793
+1. **Wait for the chain to halt** at block height 24332547
 
 2. **Stop your node** (if not already stopped)
 
-3. **Install the new binary** - Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v1.0.0) or build from source (see [Build Binary From Sources](#build-binary-from-sources))
+3. **Install the new binary** - Either download the [Akash binary](https://github.com/akash-network/node/releases/tag/v1.1.0) or build from source (see [Build Binary From Sources](#build-binary-from-sources))
 
 4. **Verify the binary version:**
    ```bash
    akash version
-   # Should output: v1.0.0
+   # Should output: v1.1.0
    ```
 
 5. **Restart your node**
@@ -217,7 +207,7 @@ Ensure the following dependencies are installed before building:
 
 | Dependency | Minimum Version | Notes |
 |------------|----------------|-------|
-| `golang` | >= 1.25.0 | Required for compiling Go code |
+| `golang` | >= 1.25.4 | Required for compiling Go code |
 | `direnv` | latest | Environment management - see [direnv.net](https://direnv.net) |
 | `docker` | latest | Required for containerized builds |
 | `make` | latest | Build automation |
@@ -242,14 +232,17 @@ If you don't see this message, `direnv` is likely not hooked to your shell. Visi
 
 #### Build Steps
 
-Follow these steps to build the v1.0.0 binary from source:
+Follow these steps to build the v1.1.0 binary from source:
 
 ```bash
-# Clone the repository at the specific tag
-git clone --depth 1 --branch v1.0.0 https://github.com/akash-network/node
+# Clone the repository
+git clone https://github.com/akash-network/node.git
 
 # Navigate to the directory
 cd node
+
+# Checkout the release tag
+git checkout v1.1.0
 
 # Allow direnv to set up the environment
 direnv allow
@@ -289,7 +282,7 @@ After building, verify the binary version:
 
 ```bash
 .cache/goreleaser/main/<YOUR_OS_ARCH>/akash version
-# Should output: v1.0.0
+# Should output: v1.1.0
 ```
 
 #### Using the Built Binary
@@ -297,9 +290,9 @@ After building, verify the binary version:
 For **Cosmovisor**, copy the built binary to the upgrade directory:
 
 ```bash
-mkdir -p $HOME/.akash/cosmovisor/upgrades/v1.0.0/bin
-cp .cache/goreleaser/main/<YOUR_OS_ARCH>/akash $HOME/.akash/cosmovisor/upgrades/v1.0.0/bin/akash
-chmod +x $HOME/.akash/cosmovisor/upgrades/v1.0.0/bin/akash
+mkdir -p $HOME/.akash/cosmovisor/upgrades/v1.1.0/bin
+cp .cache/goreleaser/main/<YOUR_OS_ARCH>/akash $HOME/.akash/cosmovisor/upgrades/v1.1.0/bin/akash
+chmod +x $HOME/.akash/cosmovisor/upgrades/v1.1.0/bin/akash
 ```
 
 For **manual upgrade**, copy the binary to your system path or use it directly when the upgrade height is reached.
