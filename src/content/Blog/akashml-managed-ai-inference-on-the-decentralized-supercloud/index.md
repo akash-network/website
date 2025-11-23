@@ -23,7 +23,7 @@ AkashML is a high-performance, distributed AI inference platform designed to mak
 
 In the words of Greg Osuri, Founder of Akash and CEO of Overclock Labs:
 
-> "AkashML makes it super simple for ML developers to infer models on Akash with significantly less effort than deploying and maintaining the model. Users reap the benefit of the Decentralized Cloud without the friction of having to learn the system. The SDK being OpenAI compatible means developers can simply change a single line of code to switch their model provider to Akash in their existing AI apps."
+> AkashML makes it super simple for ML developers to infer models on Akash with significantly less effort than deploying and maintaining the model. Users reap the benefit of the Decentralized Cloud without the friction of having to learn the system. The SDK being OpenAI compatible means developers can simply change a single line of code to switch their model provider to Akash in their existing AI apps.
 
 At launch, AkashML delivers managed inference for Llama 3.3-70B, DeepSeek V3, and Qwen3-30B-A3B that are all available instantly and for scaling across 65+ datacenters worldwide.
 
