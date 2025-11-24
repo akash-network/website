@@ -8,7 +8,7 @@ linkTitle: "Prerequisites"
 
 # Console API
 
-> _**PLEASE NOTE**_ - The Console API for Managed Wallet users is currently in active development. This documentation will be updated frequently as new features are released. Check the [Swagger documentation](https://console-api.akash.network/v1/swagger) for the most up-to-date API specification.
+> _**PLEASE NOTE**_ - The Console API for Managed Account users is currently in active development. This documentation will be updated frequently as new features are released. Check the [Swagger documentation](https://console-api.akash.network/v1/swagger) for the most up-to-date API specification.
 
 
 The Console API provides programmatic access to deploy and manage applications on Akash Network. Deploy containerized applications and manage their lifecycle using simple REST API calls—no blockchain knowledge required.
@@ -74,13 +74,13 @@ For detailed endpoint documentation, request schemas, and response types, please
 **Solution**:
 *   **Check Balance**: Ensure your account has at least $5 USD.
 *   **Payment Method**: Verify "USD Payments" is enabled in Console Settings.
-*   **Wallet Type**: Ensure you are using a Managed Wallet, not a connected Keplr wallet.
+*   **Account Type**: Ensure you are using a Managed Account, not a connected Keplr/Leap wallet.
 
 #### Can’t Find API Keys Option?
 **Problem**: API Keys menu option is not visible in the profile dropdown.
 **Solutions**:
 *   Ensure you’re logged into account at [console.akash.network](https://console.akash.network).
-*   API Keys are not available for standard Keplr/Leap wallet connections.
+*   API Keys are not available for standard Keplr/Leap connections.
 *   Verify you have selected **USD Payments** as your payment method in Settings.
 *   If the issue persists, contact support on Discord.
 

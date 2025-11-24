@@ -14,7 +14,7 @@ This guide details the logical steps required to manage the full lifecycle of a 
 
 1.  **Certificate Creation**: Authenticate with providers.
 2.  **Deployment Creation**: Submit SDL and deposit funds.
-3.  **Bid Management**: Receive and select offers from providers.
+3.  **Bid Management**: Receive and select bids from providers.
 4.  **Lease Creation**: Agree to terms and start the workload.
 5.  **Management**: Monitor status and add funds.
 6.  **Termination**: Close the deployment.
