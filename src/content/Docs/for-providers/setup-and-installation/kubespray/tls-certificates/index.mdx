@@ -353,47 +353,6 @@ kubectl -n ingress-nginx rollout restart deployment ingress-nginx-controller
 
 ---
 
-## Optional: Custom Domain Certificates
-
-The steps above enable Let's Encrypt for provider-generated domains (`*.ingress.yourdomain.com`). To enable Let's Encrypt for **custom domains** specified in deployment SDLs (via the `accept` field):
-
-### Pros
-- No API token required (uses HTTP-01 challenge)
-- Users don't share domain credentials with provider
-- Automatic certificate renewal
-- Users get valid SSL for their custom domains
-
-### Cons
-- No wildcard support (HTTP-01 limitation)
-- Requires manual annotation per deployment
-- User must point CNAME to provider
-
-### Steps for Custom Domain
-
-1. **User creates CNAME** pointing their domain to your provider:
-   ```
-   custom.example.com  →  CNAME  →  provider.yourdomain.com
-   ```
-
-2. **Annotate the ingress** (after deployment is created):
-   ```bash
-   kubectl -n <lease-namespace> annotate ingress <ingress-name> \
-     cert-manager.io/cluster-issuer="letsencrypt-prod"
-   
-   kubectl -n <lease-namespace> patch ingress <ingress-name> -p \
-     '{"spec":{"tls":[{"hosts":["custom.example.com"],"secretName":"custom-example-com-tls"}]}}'
-   ```
-
-3. **Verify:**
-   ```bash
-   echo "" | openssl s_client -connect custom.example.com:443 -showcerts 2>&1 | \
-     openssl x509 -issuer -subject -dates -noout
-   ```
-
-> **Note:** This requires manual intervention per custom domain. Most providers don't enable this feature.
-
----
-
 ## Next Steps
 
 Your provider now has automatic SSL certificates for all deployments!

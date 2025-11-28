@@ -424,8 +424,259 @@ This means:
 
 ---
 
-**Status:** Structure is solid. Now we verify and fix content. 🎯
+## 🚀 November 28, 2024 - Provider Documentation Rewrite
 
-**Last Updated:** November 14, 2024  
-**Next Review:** When content testing begins
+**Session Focus:** Complete rewrite of For Providers section with accurate, tested information
+
+### ✅ Major Changes - Getting Started Section
+
+#### Updated Documentation Files
+- ✅ **Should I Run a Provider** - Updated time estimates, AKT requirements, removed quick setup references
+  - Provider Playbook: ~1 hour (was placeholder)
+  - Manual (Kubespray): 1-2 hours (was placeholder)
+  - Provider Console: 15-30 minutes (was placeholder)
+  - AKT deposit: 0.5 AKT minimum, 50 AKT recommended
+  - Added domain name as requirement
+  - Clarified Provider Console is for users with no K8s experience
+
+- ✅ **Hardware Requirements** - Complete accuracy overhaul
+  - Removed specific K8s/container runtime versions (centralized in installation)
+  - Only officially support Ubuntu 24.04 LTS
+  - Clarified GPU requirements:
+    - **One GPU type per node** = REQUIREMENT
+    - **One GPU type per provider** = RECOMMENDATION
+  - Updated storage classes: beta1 (HDD), beta2 (SSD), beta3 (NVMe)
+  - Removed `ram` from storage class list (it's for SHM, not persistent)
+  - Added persistent storage requirements:
+    - Min: 4 SSDs or 2 NVMe SSDs across all nodes
+    - Must be dedicated drives (not shared)
+    - Recommended: distributed across multiple nodes for redundancy
+  - Updated network: 1+ Gbps symmetrical, <10ms latency
+  - Updated firewall: Marked 80, 443, 8443, 8444 + NodePort range as REQUIRED
+  - Added domain name requirement section
+  - Removed "System Configuration" and "Performance Optimization" sections
+
+- ✅ **Removed Redundant Pages**
+  - Deleted `cost-analysis/index.md` - replaced with external calculator link
+  - Deleted `quick-setup/index.md` - redundant with setup-and-installation
+  - Updated all internal references
+
+- ✅ **Updated Getting Started Index**
+  - Reflected all changes from above
+  - Linked to external Provider Earn Calculator
+  - Updated prerequisites and time commitments
+
+### ✅ Setup & Installation Section
+
+#### Provider Playbook (Complete Rewrite)
+- ✅ Based on actual `provider-playbooks` repository analysis
+- ✅ Documented interactive setup process
+- ✅ Detailed playbook selection (Kubespray vs K3s)
+- ✅ Documented optional components (OS, GPU, Provider, Tailscale, Rook-Ceph)
+- ✅ Explained wallet setup options (create, import key/seed, paste)
+- ✅ Documented automated steps (Ansible install, SSH keys, inventory, provider config)
+- ✅ Fixed provider status check (use `kubectl get pods`, not `provider-services status`)
+
+#### Kubespray Installation (Complete Rewrite)
+
+**Overview (`kubespray/index.md`)**
+- ✅ Updated official versions (Kubespray 2.29):
+  - Kubernetes 1.33.5
+  - etcd 3.5.22
+  - containerd 2.1.4
+  - Calico 3.30.3
+- ✅ Updated time estimate: 1-2 hours
+- ✅ Simplified to reference main hardware requirements page
+- ✅ Removed "Information to Prepare" section
+- ✅ Set proper sidebar ordering (weight: 0)
+
+**Kubernetes Setup (`kubernetes-setup/index.md`)**
+- ✅ Complete rewrite for clarity and accuracy
+- ✅ Changed SSH key type from RSA to Ed25519
+- ✅ Changed SSH key distribution to manual copy/paste (password SSH often disabled)
+- ✅ Replaced all `vi` commands with `nano`
+- ✅ Updated etcd verification with actual commands and expected output
+- ✅ Added Step 7: Configure GPU Support (OPTIONAL) for NVIDIA container runtime
+- ✅ Removed ephemeral storage configuration (moved to advanced guide)
+- ✅ Updated firewall rules to include etcd ports (2379-2380/tcp)
+- ✅ Set proper sidebar ordering (weight: 1)
+
+**GPU Support (`gpu-support/index.md`)**
+- ✅ Complete rewrite with modern configuration
+- ✅ Added skip notice at top (optional step)
+- ✅ Recommended NVIDIA driver version 580
+- ✅ Updated to use NVIDIA CDI + NVIDIA Device Plugin v0.18.0
+- ✅ Changed strategy from `nvidia-docker` to `cdi-cri`
+- ✅ Documented CDI setup with `nvidia-ctk`
+- ✅ Removed provider attribute configuration (moved to provider installation)
+- ✅ Set proper sidebar ordering (weight: 2)
+
+**Persistent Storage (`persistent-storage/index.md`)**
+- ✅ Complete rewrite for Rook-Ceph 1.18.7
+- ✅ Added skip notice at top (optional step)
+- ✅ Updated Rook-Ceph version to 1.18.7
+- ✅ Reformatted "Important Configuration" section for readability
+- ✅ Added section for custom Kubernetes data locations
+- ✅ Documented custom `kubeletDirPath` for Rook-Ceph operator
+- ✅ Set proper sidebar ordering (weight: 3)
+
+**Provider Installation (`provider-installation/index.md`)**
+- ✅ Complete rewrite with accurate commands
+- ✅ Added callout for CLI installation and wallet creation
+- ✅ Added Step 4: Create Namespaces (`akash-services`, `lease`) in one command
+- ✅ Added Step 5: Install Akash RPC Node (dedicated step)
+- ✅ Removed "Wait for Node to Sync" section (takes ~10 min, simplified)
+- ✅ Updated DNS configuration:
+  - Stressed DNS occurs at user's DNS provider
+  - Added wildcard record requirement: `*.ingress.yourdomain.com`
+- ✅ Updated `provider.yaml` examples:
+  - Added combined interface/RAM GPU attribute
+  - Updated port descriptions (8443: Provider Endpoint, 8444: Provider gRPC)
+  - Added Rook-Ceph attributes (with note: only one storage class per provider)
+  - Added full-fledged comprehensive example
+  - Clarified `ram` storage class is for SHM
+- ✅ Updated Inventory Operator commands for storage classes
+- ✅ Updated Helm provider upgrade command syntax (inline `bidpricescript`)
+- ✅ Updated expected healthy pod output
+- ✅ Updated firewall verification:
+  - Added Kubernetes NodePort range
+  - Removed 8444 status check
+- ✅ Removed Troubleshooting section
+- ✅ Linked to new Provider Verification placeholder
+- ✅ Set proper sidebar ordering (weight: 4)
+
+**IP Leases (`ip-leases/index.md`)**
+- ✅ Complete rewrite
+- ✅ Set proper sidebar ordering (weight: 5)
+
+**TLS Certificates (`tls-certificates/index.mdx`)**
+- ✅ **NEW FILE** - Converted to MDX for tabs component
+- ✅ Based strictly on old documentation (DNS-01 challenge only)
+- ✅ Implemented code tabs for DNS provider selection:
+  - Cloudflare DNS setup
+  - Google Cloud DNS setup
+- ✅ Updated Cert-Manager Helm version to v1.19.1
+- ✅ Users select DNS provider once, see only relevant instructions
+- ✅ Tabs in multiple sections:
+  - Step 2: Configure DNS Provider
+  - Troubleshooting: DNS-01 Challenge Failing
+- ✅ Removed HTTP-01 challenge documentation
+- ✅ Removed "Optional: Custom Domain Certificates" section
+- ✅ Set proper sidebar ordering (weight: 6)
+
+### ✅ Troubleshooting Section
+
+**Provider Verification (`troubleshooting/provider-verification/index.md`)**
+- ✅ **NEW FILE** - Created placeholder
+- ✅ Set sidebar ordering (weight: 1) to appear first
+- ✅ Linked from provider installation guide
+
+### ✅ Infrastructure Updates
+
+**Official Version Standards Established**
+- ✅ Kubernetes: 1.33.5 (via Kubespray 2.29)
+- ✅ etcd: 3.5.22
+- ✅ containerd: 2.1.4
+- ✅ Calico CNI: 3.30.3
+- ✅ NVIDIA Driver: 580
+- ✅ NVIDIA Device Plugin: 0.18.0
+- ✅ Rook-Ceph: 1.18.7
+- ✅ Cert-Manager: v1.19.1
+- ✅ Ubuntu: 24.04 LTS (only officially supported OS)
+
+**AKT Requirements Standardized**
+- ✅ Minimum deposit: 0.5 AKT
+- ✅ Recommended: 50 AKT per provider
+- ✅ Updated throughout documentation
+
+**Docker Image Published**
+- ✅ Built for linux/amd64
+- ✅ Tagged: `zblocker64/akash-website:0.0.3`
+- ✅ Digest: `sha256:825eb7f0d0569d6a7da6a634fa3ec693c5f2df92567748e0f6ee4374e8e1dd73`
+- ✅ Includes all provider documentation updates
+
+### 📊 Documentation Changes
+
+**Files Deleted**
+- `for-providers/getting-started/cost-analysis/index.md`
+- `for-providers/getting-started/quick-setup/index.md`
+- `for-providers/setup-and-installation/kubespray/tls-certificates/index.md` (renamed to .mdx)
+
+**Files Created**
+- `for-providers/setup-and-installation/kubespray/tls-certificates/index.mdx`
+- `for-providers/troubleshooting/provider-verification/index.md`
+
+**Files Completely Rewritten**
+- `for-providers/getting-started/should-i-run-a-provider/index.md`
+- `for-providers/getting-started/hardware-requirements/index.md`
+- `for-providers/getting-started/index.md`
+- `for-providers/setup-and-installation/index.md`
+- `for-providers/setup-and-installation/provider-playbook/index.md`
+- `for-providers/setup-and-installation/kubespray/index.md`
+- `for-providers/setup-and-installation/kubespray/kubernetes-setup/index.md`
+- `for-providers/setup-and-installation/kubespray/gpu-support/index.md`
+- `for-providers/setup-and-installation/kubespray/persistent-storage/index.md`
+- `for-providers/setup-and-installation/kubespray/provider-installation/index.md`
+- `for-providers/setup-and-installation/kubespray/ip-leases/index.md`
+
+**Total Impact**
+- 13 files rewritten or created
+- 2 files deleted
+- All content verified against actual codebases (`akash-node-sdk50`, `akash-provider-sdk50`)
+- All version numbers confirmed
+- All time estimates confirmed with user
+- All hardware requirements verified
+
+### 🎯 Key Improvements
+
+**Accuracy**
+- ✅ All version numbers verified against Kubespray 2.29
+- ✅ All commands tested or verified against actual repos
+- ✅ No placeholder content in critical paths
+- ✅ Removed redundant/incorrect information
+
+**User Experience**
+- ✅ Clear skip notices for optional steps (GPU, Persistent Storage)
+- ✅ Proper ordering (K8s → GPU → Storage → Provider → IP Leases → TLS)
+- ✅ Code tabs for DNS provider selection (Cloudflare vs Google Cloud)
+- ✅ Consistent command style (nano instead of vi)
+- ✅ Modern security practices (Ed25519 SSH keys)
+
+**Technical Accuracy**
+- ✅ GPU configuration: CDI + NVIDIA Device Plugin (modern approach)
+- ✅ Storage classes correctly documented (beta1/2/3, removed ram)
+- ✅ SHM storage class clarified (ram is for SHM, not persistent)
+- ✅ Only one storage class per provider (limitation documented)
+- ✅ Persistent storage requirements detailed (4 SSDs or 2 NVMe min)
+- ✅ Firewall rules complete (including NodePort range)
+
+**Operational Clarity**
+- ✅ Time estimates realistic (1 hour playbook, 1-2 hours manual)
+- ✅ AKT requirements clear (0.5 min, 50 recommended)
+- ✅ Domain name requirement documented
+- ✅ DNS configuration clearly explained (at DNS provider)
+- ✅ Provider status check corrected (kubectl, not provider-services)
+
+### 📋 What Still Needs Work
+
+**Provider Section**
+- [ ] Build out Provider Console guide (currently basic)
+- [ ] Build out Provider Verification guide (currently placeholder)
+- [ ] Create Provider Attribute Updates guide
+- [ ] Create Additional K8s Resources guide (if needed)
+- [ ] Add troubleshooting scenarios
+- [ ] Add monitoring/alerting guide
+
+**Other Sections** (Not touched today)
+- [ ] For Developers - verify SDK examples
+- [ ] For Node Operators - verify build instructions  
+- [ ] Getting Started - update Console screenshots
+- [ ] Network section - verify accuracy
+
+---
+
+**Status:** Structure is solid. Provider documentation rewritten and verified. 🎯
+
+**Last Updated:** November 28, 2024  
+**Next Review:** After Provider Console and remaining sections complete
 
