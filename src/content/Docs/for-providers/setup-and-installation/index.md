@@ -19,7 +19,7 @@ There are three ways to become an Akash provider, each suited for different use 
 **Automated setup using Ansible playbooks**
 
 ✅ **Best for:** Most users  
-⏱️ **Time:** 2-4 hours  
+⏱️ **Time:** ~1 hour  
 🎯 **Skill level:** Intermediate
 
 **Features:**
@@ -37,17 +37,17 @@ There are three ways to become an Akash provider, each suited for different use 
 **Manual setup with Kubespray and Helm for complete control**
 
 ✅ **Best for:** Advanced users, custom configurations  
-⏱️ **Time:** 4-8 hours  
+⏱️ **Time:** 1-2 hours  
 🎯 **Skill level:** Advanced
 
 **Features:**
 - Full control over every aspect
 - Maximum customization
-- Production-grade setup
+- Production-grade setup with Kubernetes 1.33.5
 - Best for large deployments
 
 **Includes:**
-- Kubernetes cluster setup with Kubespray
+- Kubernetes cluster setup with Kubespray 2.29
 - Provider installation with Helm
 - GPU support configuration
 - Persistent storage setup
@@ -57,21 +57,22 @@ There are three ways to become an Akash provider, each suited for different use 
 
 ---
 
-### 3. [Provider Console](/docs/for-providers/setup-and-installation/provider-console) (Easiest)
+### 3. [Provider Console](/docs/for-providers/setup-and-installation/provider-console) (No K8s Experience Required)
 
 **Web-based setup with visual interface**
 
-✅ **Best for:** Beginners, quick testing  
-⏱️ **Time:** 1-2 hours  
+✅ **Best for:** Users with no Kubernetes experience  
+⏱️ **Time:** 15-30 minutes  
 🎯 **Skill level:** Beginner
 
 **Features:**
 - No command line required
+- No Kubernetes knowledge needed
+- Managed Kubernetes setup
 - Visual setup wizard
 - Real-time monitoring
-- Easy to understand
 
-**Choose this if:** You want the easiest way to get started or test provider operations.
+**Choose this if:** You have no Kubernetes experience and want the easiest way to get started.
 
 ---
 

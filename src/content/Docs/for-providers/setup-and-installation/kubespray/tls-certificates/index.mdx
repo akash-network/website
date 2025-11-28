@@ -1,0 +1,403 @@
+---
+categories: ["For Providers"]
+tags: ["TLS", "SSL", "Certificates", "Let's Encrypt"]
+weight: 6
+title: "TLS/SSL Certificates"
+linkTitle: "TLS Certificates"
+description: "Configure automatic SSL/TLS certificates for your Akash provider using Let's Encrypt"
+---
+
+> **Optional but Recommended:** This guide replaces the default self-signed certificate with a valid Let's Encrypt certificate, eliminating browser security warnings for deployments.
+
+After completing this guide, all deployments receiving Akash Provider hostnames within `*.ingress.<yourdomain>` will automatically have a valid Let's Encrypt certificate.
+
+**Time:** 20-30 minutes
+
+---
+
+## STEP 1 - Install Cert-Manager
+
+### Add Jetstack Helm Repository
+
+```bash
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+```
+
+### Install Cert-Manager
+
+```bash
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.19.1 \
+  --set crds.enabled=true
+```
+
+### Verify Installation
+
+```bash
+kubectl -n cert-manager get pods
+```
+
+**Expected output:**
+
+```
+NAME                                      READY   STATUS    RESTARTS   AGE
+cert-manager-xxx                          1/1     Running   0          2m
+cert-manager-cainjector-xxx               1/1     Running   0          2m
+cert-manager-webhook-xxx                  1/1     Running   0          2m
+```
+
+---
+
+## STEP 2 - Configure DNS Provider
+
+Choose your DNS provider:
+
+import TabsWrapper, { TabContent } from "@/components/ui/tabs";
+
+<TabsWrapper client:load>
+<TabContent value="Cloudflare">
+
+### Create API Token
+
+1. Log into Cloudflare dashboard
+2. Go to "My Profile" → "API Tokens" → "Create Token"
+3. Use "Custom token" template
+4. Set permissions:
+   - **Zone - DNS - Edit**
+   - **Zone - Zone - Read**
+5. Zone Resources: **Include - All Zones**
+6. Copy the generated token
+
+### Create Secret
+
+```bash
+cat > cloudflare-secret.yaml << 'EOF'
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token-secret
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: your-cloudflare-api-token
+EOF
+
+kubectl apply -f cloudflare-secret.yaml
+```
+
+### Create ClusterIssuer
+
+```bash
+cat > letsencrypt-issuer.yaml << 'EOF'
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: contact@example.com  # Replace with your email
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-issuer-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            key: api-token
+            name: cloudflare-api-token-secret
+          email: contact@example.com  # Replace with your email
+      selector:
+        dnsZones:
+          - 'example.com'
+          - 'ingress.example.com'
+EOF
+
+kubectl apply -f letsencrypt-issuer.yaml
+```
+
+</TabContent>
+
+<TabContent value="Google Cloud">
+
+### Create Service Account in GCP
+
+1. **Create Role:**
+   - Name: `DNS Administrator Limited`
+   - ID: `dns.admin.light`
+   - Permissions:
+     - `dns.resourceRecordSets.*`
+     - `dns.changes.*`
+     - `dns.managedZones.list`
+
+2. **Create Service Account:**
+   - Name: `dns01-solver`
+   - Assign the role created above
+
+3. **Download Service Account Key** (JSON format)
+
+### Create Secret
+
+```bash
+# Base64 encode the service account key
+cat your-gcp-service-account-key.json | base64 | tr -d '\n'
+
+# Create the secret
+cat > gcp-dns-secret.yaml << 'EOF'
+apiVersion: v1
+kind: Secret
+metadata:
+  name: clouddns-gcp-dns01-solver-sa
+  namespace: cert-manager
+type: Opaque
+data:
+  key.json: <your-base64-encoded-service-account-key>
+EOF
+
+kubectl apply -f gcp-dns-secret.yaml
+```
+
+### Create ClusterIssuer
+
+```bash
+cat > letsencrypt-issuer.yaml << 'EOF'
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: contact@example.com  # Replace with your email
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-issuer-account-key
+    solvers:
+    - dns01:
+        cloudDNS:
+          project: "your-gcp-project-id"
+          serviceAccountSecretRef:
+            name: clouddns-gcp-dns01-solver-sa
+            key: key.json
+EOF
+
+kubectl apply -f letsencrypt-issuer.yaml
+```
+
+</TabContent>
+</TabsWrapper>
+
+---
+
+## STEP 3 - Request Wildcard Certificate
+
+Create a wildcard certificate for your ingress domain:
+
+```bash
+cat > wildcard-cert.yaml << 'EOF'
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-yourdomain-com
+  namespace: ingress-nginx
+spec:
+  secretName: wildcard-yourdomain-com-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: '*.yourdomain.com'
+  dnsNames:
+  - '*.yourdomain.com'
+  - '*.ingress.yourdomain.com'
+EOF
+
+kubectl apply -f wildcard-cert.yaml
+```
+
+> **Important:** Replace `yourdomain.com` with your actual domain. Keep the `*.ingress.` prefix as-is (wildcards don't work for sub-sub domains per RFC 2818).
+
+### Verify Certificate
+
+```bash
+kubectl -n ingress-nginx get certificate
+kubectl -n ingress-nginx describe certificate wildcard-yourdomain-com
+```
+
+Wait for the certificate to show `Ready: True` (may take 1-2 minutes).
+
+---
+
+## STEP 4 - Configure Ingress Controller
+
+Update your ingress-nginx configuration to use the wildcard certificate:
+
+### Update Configuration
+
+Edit your existing `ingress-nginx-custom.yaml`:
+
+```bash
+nano /root/ingress-nginx-custom.yaml
+```
+
+Add the `extraArgs` section:
+
+```yaml
+controller:
+  extraArgs:
+    enable-ssl-passthrough: true
+    default-ssl-certificate: "ingress-nginx/wildcard-yourdomain-com-tls"  # Add this line
+  service:
+    type: ClusterIP
+  # ... rest of your existing config
+```
+
+### Upgrade Ingress Controller
+
+```bash
+helm upgrade ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx \
+  -f /root/ingress-nginx-custom.yaml
+```
+
+---
+
+## STEP 5 - Verify SSL Certificates
+
+### Test Wildcard Certificate
+
+```bash
+echo "" | openssl s_client -connect test.ingress.yourdomain.com:443 -showcerts 2>&1 | \
+  openssl x509 -issuer -subject -dates -noout -text | \
+  grep -E '(Issuer:|Subject:|Not Before:|Not After :|DNS:)'
+```
+
+**Expected output:**
+
+```
+Issuer: C = US, O = Let's Encrypt, CN = R3
+Not Before: Nov 28 10:40:06 2025 GMT
+Not After : Feb 26 10:40:05 2026 GMT
+Subject: CN = *.yourdomain.com
+DNS:*.ingress.yourdomain.com, DNS:*.yourdomain.com
+```
+
+If you see "Kubernetes Ingress Controller Fake Certificate", the cert hasn't been issued yet or ingress-nginx didn't pick it up.
+
+### Check All Certificates
+
+```bash
+kubectl get certificates,certificaterequests,orders,challenges -A
+```
+
+---
+
+## Troubleshooting
+
+### Certificate Not Issuing
+
+Check cert-manager logs:
+
+```bash
+kubectl -n cert-manager logs -l app=cert-manager
+```
+
+Check certificate status:
+
+```bash
+kubectl -n ingress-nginx describe certificate wildcard-yourdomain-com
+kubectl -n ingress-nginx get certificaterequest
+```
+
+### DNS-01 Challenge Failing
+
+<TabsWrapper client:load>
+<TabContent value="Cloudflare">
+
+Verify API token secret:
+
+```bash
+kubectl -n cert-manager get secret cloudflare-api-token-secret -o yaml
+```
+
+Check token has correct permissions in Cloudflare dashboard:
+- **Zone - DNS - Edit**
+- **Zone - Zone - Read**
+- Zone Resources: All Zones
+
+</TabContent>
+
+<TabContent value="Google Cloud">
+
+Verify service account secret:
+
+```bash
+kubectl -n cert-manager get secret clouddns-gcp-dns01-solver-sa -o yaml
+```
+
+Check service account has DNS admin permissions in GCP:
+- `dns.resourceRecordSets.*`
+- `dns.changes.*`
+- `dns.managedZones.list`
+
+</TabContent>
+</TabsWrapper>
+
+### Still Seeing Fake Certificate
+
+Wait 2-3 minutes for cert-manager to issue the certificate, then restart ingress-nginx:
+
+```bash
+kubectl -n ingress-nginx rollout restart deployment ingress-nginx-controller
+```
+
+---
+
+## Optional: Custom Domain Certificates
+
+The steps above enable Let's Encrypt for provider-generated domains (`*.ingress.yourdomain.com`). To enable Let's Encrypt for **custom domains** specified in deployment SDLs (via the `accept` field):
+
+### Pros
+- No API token required (uses HTTP-01 challenge)
+- Users don't share domain credentials with provider
+- Automatic certificate renewal
+- Users get valid SSL for their custom domains
+
+### Cons
+- No wildcard support (HTTP-01 limitation)
+- Requires manual annotation per deployment
+- User must point CNAME to provider
+
+### Steps for Custom Domain
+
+1. **User creates CNAME** pointing their domain to your provider:
+   ```
+   custom.example.com  →  CNAME  →  provider.yourdomain.com
+   ```
+
+2. **Annotate the ingress** (after deployment is created):
+   ```bash
+   kubectl -n <lease-namespace> annotate ingress <ingress-name> \
+     cert-manager.io/cluster-issuer="letsencrypt-prod"
+   
+   kubectl -n <lease-namespace> patch ingress <ingress-name> -p \
+     '{"spec":{"tls":[{"hosts":["custom.example.com"],"secretName":"custom-example-com-tls"}]}}'
+   ```
+
+3. **Verify:**
+   ```bash
+   echo "" | openssl s_client -connect custom.example.com:443 -showcerts 2>&1 | \
+     openssl x509 -issuer -subject -dates -noout
+   ```
+
+> **Note:** This requires manual intervention per custom domain. Most providers don't enable this feature.
+
+---
+
+## Next Steps
+
+Your provider now has automatic SSL certificates for all deployments!
+
+**Resources:**
+- [Cert-Manager Documentation](https://cert-manager.io/docs/) - Official cert-manager docs
+- [Let's Encrypt](https://letsencrypt.org/) - Free SSL certificate authority

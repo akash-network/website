@@ -66,7 +66,7 @@ Providers can offer:
 - Time for maintenance (2-4 hours/week)
 
 **Financial:**
-- Minimum 5 AKT for initial deposit
+- Minimum 0.5 AKT for initial deposit (50 AKT recommended)
 - Ability to cover electricity/hosting costs
 - Capital for hardware (if needed)
 
@@ -91,25 +91,25 @@ There are three ways to set up an Akash provider:
 - Standardized, repeatable process
 - Handles Kubernetes + Provider setup
 - Less room for error
-- **Time:** 2-4 hours
+- **Time:** ~1 hour
 
-### 2. Manual CLI Setup
+### 2. Kubespray Setup
 **Best for:** Advanced users who want full control
 
 - Complete control over configuration
 - Good for custom setups
 - Requires more Kubernetes knowledge
 - More flexibility
-- **Time:** 4-8 hours
+- **Time:** 1-2 hours
 
 ### 3. Provider Console
-**Best for:** Quick testing and evaluation
+**Best for:** Users with no Kubernetes experience
 
 - Web-based interface
+- No K8s knowledge required
 - Easiest to get started
-- Less customization
-- Great for learning
-- **Time:** 1-2 hours
+- Managed Kubernetes setup
+- **Time:** 15-30 minutes
 
 ---
 
@@ -117,7 +117,7 @@ There are three ways to set up an Akash provider:
 
 ### Initial Costs
 - **Hardware:** $500-$5,000+ (or existing hardware)
-- **AKT Tokens:** 5+ AKT for deposits (~$10-50 depending on market)
+- **AKT Tokens:** 0.5 AKT minimum deposit (50 AKT recommended for operations)
 - **Setup Time:** Your time investment
 
 ### Ongoing Costs
@@ -136,9 +136,9 @@ There are three ways to set up an Akash provider:
 ## Time Investment
 
 ### Initial Setup
-- **Provider Playbook:** 2-4 hours
-- **Manual CLI:** 4-8 hours (first time)
-- **Provider Console:** 1-2 hours
+- **Provider Playbook:** ~1 hour
+- **Kubespray Setup:** 1-2 hours
+- **Provider Console:** 15-30 minutes
 
 ### Ongoing Maintenance
 - **Monitoring:** 30 min/day
@@ -152,8 +152,8 @@ There are three ways to set up an Akash provider:
 ### Ready to Proceed?
 
 1. **[Hardware Requirements →](/docs/for-providers/getting-started/hardware-requirements)** - Review detailed hardware specs
-2. **[Cost Analysis →](/docs/for-providers/getting-started/cost-analysis)** - Calculate your ROI
-3. **[Quick Setup →](/docs/for-providers/getting-started/quick-setup)** - Get started fast
+2. **[Provider Earn Calculator →](https://akash.network/pricing/provider-calculator/)** - Calculate your potential earnings
+3. **[Setup & Installation →](/docs/for-providers/setup-and-installation)** - Choose your setup method
 
 ### Still Deciding?
 

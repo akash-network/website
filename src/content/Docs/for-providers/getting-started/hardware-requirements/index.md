@@ -16,8 +16,7 @@ This guide covers system requirements, hardware specifications, and best practic
 ## System Requirements
 
 ### Operating System
-- **Ubuntu 24.04 LTS Server** (recommended)
-- Ubuntu 22.04 LTS also supported
+- **Ubuntu 24.04 LTS Server** (officially supported)
 - Ensure all nodes are fully updated with latest security patches
 
 ### CPU Architecture
@@ -68,24 +67,22 @@ This guide covers system requirements, hardware specifications, and best practic
 
 ### Supported GPUs
 - **NVIDIA GPUs only** currently supported
-- Popular models: A100, H100, A40, RTX 4090, RTX 3090, T4, V100
 
-### GPU Best Practices
+### GPU Requirements & Best Practices
 
-**One GPU Type Per Node:**
-- Each node should only support **one type of GPU**
-- Mixing different GPU models on the same node is **not recommended**
-- Multiple identical GPUs per node is fine
+**One GPU Type Per Node (Required):**
+- Each node **must** have only **one type of GPU**
+- Mixing different GPU models on the same node is **not supported**
+- Multiple identical GPUs per node is supported and recommended
 
-**Driver Requirements:**
-- Latest NVIDIA drivers installed
-- CUDA toolkit properly configured
-- Container runtime GPU support enabled
+**One GPU Type Per Provider (Recommended):**
+- While technically possible to have different GPU types across nodes, it is **strongly recommended** to standardize on one GPU type per provider
+- Having multiple GPU types in one provider (on different nodes) can complicate operations and pricing
 
 **Example Configurations:**
-- **AI/ML Node:** 4x NVIDIA A100 (all same model)
-- **Rendering Node:** 2x RTX 4090 (all same model)
-- **Mixed Workload:** 8x T4 (all same model)
+- **AI/ML Node:** 4x NVIDIA A100 (all identical)
+- **Rendering Node:** 2x RTX 4090 (all identical)
+- **Mixed Workload:** 8x T4 (all identical)
 
 ---
 
@@ -98,21 +95,26 @@ This guide covers system requirements, hardware specifications, and best practic
 
 ### Persistent Storage (Optional)
 
-**Requirements:**
+**Minimum Requirements:**
+- **Option 1:** 4 SSDs across all nodes (minimum)
+- **Option 2:** 2 NVMe SSDs across all nodes (minimum)
 - All persistent storage must be **same type** across entire cluster
-- **SSD or NVMe required** for optimal performance
-- **Do not mix** storage types (e.g., SSD + HDD)
+- **Do not mix** storage types (e.g., SSD + NVMe, or beta2 + beta3)
 
-**Capacity:**
-- **Minimum:** 1TB per node
-- **Recommended:** 2TB+ per node
-- **Scale based on** expected workload types
+**Dedicated Drives:**
+- These drives must be **dedicated exclusively** to persistent storage
+- Cannot be used for any other purpose (no OS, no ephemeral storage)
+- **Recommended:** Distribute dedicated drives across multiple nodes for redundancy
 
 **Storage Classes:**
-- `beta1` - Standard performance
-- `beta2` - Enhanced performance
-- `beta3` - Premium performance
-- `ram` - In-memory storage
+- `beta1` - HDD (Hard Disk Drive)
+- `beta2` - SSD (Solid State Drive)
+- `beta3` - NVMe (Non-Volatile Memory Express)
+
+**Example Configurations:**
+- **Minimum SSD:** 4x 1TB SSDs across 2-4 nodes (beta2)
+- **Minimum NVMe:** 2x 2TB NVMe drives across 2 nodes (beta3)
+- **Recommended:** 6+ drives distributed across 3+ nodes for better redundancy
 
 ---
 
@@ -122,11 +124,11 @@ This guide covers system requirements, hardware specifications, and best practic
 
 **Bandwidth:**
 - **Minimum:** 100 Mbps symmetrical
-- **Recommended:** 1 Gbps symmetrical
+- **Recommended:** 1+ Gbps symmetrical
 - **Critical:** Upload speed matters as much as download
 
 **Latency:**
-- Low latency preferred (< 50ms to major hubs)
+- Low latency preferred (< 10ms to major hubs)
 - Affects bid competitiveness
 - Important for real-time workloads
 
@@ -141,24 +143,32 @@ This guide covers system requirements, hardware specifications, and best practic
 - /29 subnet or larger
 - Allows providers to offer dedicated IPs to tenants
 
+### Domain Name (Required)
+
+**You must own a domain name for your Akash provider:**
+- A registered domain that you control (e.g., `yourdomain.com`)
+- Used for provider identification and workload routing
+- DNS A records will point to your provider's public IP
+
 ### Firewall Rules
 
 **Required Open Ports:**
+- `80/tcp` - HTTP workloads
+- `443/tcp` - HTTPS workloads
 - `8443/tcp` - Manifest uploads
+- `8444/tcp` - Provider gRPC
 - `30000-32767/tcp` - Kubernetes NodePort range
 - `30000-32767/udp` - Kubernetes NodePort range (UDP services)
 
 **Recommended:**
 - `22/tcp` - SSH (restrict to your IPs)
-- `6443/tcp` - Kubernetes API (control plane only)
-- `80/tcp` and `443/tcp` - HTTP/HTTPS workloads
+- `6443/tcp` - Kubernetes API (control plane only, restrict to cluster nodes)
 
 ### Internal Network
 
 **For Multi-Node Clusters:**
-- Low-latency network between nodes (< 2ms)
+- Low-latency network between nodes (< 1ms)
 - 10 Gbps+ recommended for storage traffic
-- Separate VLANs for management, storage, and tenant traffic (optional but recommended)
 
 ---
 
@@ -207,59 +217,11 @@ This guide covers system requirements, hardware specifications, and best practic
 
 ---
 
-## System Configuration
-
-### DNS Configuration
-- Set up A records for your provider domain
-- Configure reverse DNS (PTR records) if possible
-- Use subdomains for organization (e.g., `provider.yourdomain.com`)
-
-### Time Synchronization
-- NTP properly configured on all nodes
-- Critical for certificate validation
-- Recommended: Use multiple NTP servers
-
-### Security
-- Keep all systems updated
-- Use SSH key authentication (disable password auth)
-- Configure firewall rules properly
-- Regular security audits
-- Monitor for suspicious activity
-
----
-
-## Performance Optimization
-
-### CPU
-- Disable CPU frequency scaling (use "performance" governor)
-- Enable all CPU cores
-- Consider CPU pinning for GPU workloads
-
-### Memory
-- Disable swap (Kubernetes best practice)
-- Use ECC RAM for production environments
-- Monitor memory usage closely
-
-### Storage
-- Use NVMe for best performance
-- Enable TRIM for SSDs
-- Regular disk health monitoring
-- Consider RAID for redundancy
-
-### Network
-- Enable jumbo frames (MTU 9000) if supported
-- Disable network power management
-- Use bonded interfaces for redundancy
-- QoS configuration for priority traffic
-
----
-
 ## Next Steps
 
 **Previous:** [← Should I Run a Provider?](/docs/for-providers/getting-started/should-i-run-a-provider)  
-**Next:** [Cost Analysis →](/docs/for-providers/getting-started/cost-analysis)
+**Next:** [Setup & Installation →](/docs/for-providers/setup-and-installation)
 
-Or jump to:
-- [Quick Setup →](/docs/for-providers/getting-started/quick-setup)
-- [Setup & Installation →](/docs/for-providers/setup-and-installation)
+Calculate earnings:
+- [Provider Earn Calculator →](https://akash.network/pricing/provider-calculator/)
 
