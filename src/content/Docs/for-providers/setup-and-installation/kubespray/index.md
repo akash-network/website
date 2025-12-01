@@ -234,7 +234,7 @@ Not sure Kubespray is right for you?
 
 ### After Setup
 - [Operations Guide →](/docs/for-providers/operations) - Managing your provider
-- [Troubleshooting →](/docs/for-providers/troubleshooting) - Common issues
+- [Provider Verification →](/docs/for-providers/operations/provider-verification) - Verify your setup
 
 ---
 

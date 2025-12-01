@@ -1,364 +1,354 @@
 ---
 categories: ["For Providers"]
-tags: ["Architecture", "Provider"]
-title: "Overview"
-linkTitle: "Overview"
+tags: ["Architecture", "Provider", "Service"]
 weight: 1
-description: >-
+title: "Provider Service Overview"
+linkTitle: "Overview"
+description: "High-level architecture of Akash Provider services"
 ---
 
-## Visualization
+The Akash Provider is a modular service that connects Kubernetes clusters to the Akash Network, enabling providers to bid on deployment orders and serve tenant workloads.
 
-![](../../../assets/akashProviderBidProcess.png)
+## Architecture Components
 
-## Code Review
-
-### 1). Provider Service Calls/Initiates the BidEngine Service
-
-> [Source code reference location](https://github.com/akash-network/provider/blob/e7aa0b5b81957a130f1dc584f335c6f9e41db6b1/service.go#L101)
+The provider service consists of five main components that work together:
 
 ```
-	bidengine, err := bidengine.NewService(ctx, session, cluster, bus, waiter, bidengine.Config{
-		PricingStrategy: cfg.BidPricingStrategy,
-		Deposit:         cfg.BidDeposit,
-		BidTimeout:      cfg.BidTimeout,
-		Attributes:      cfg.Attributes,
-		MaxGroupVolumes: cfg.MaxGroupVolumes,
-	})
+┌─────────────────────────────────────────────────────┐
+│                  Provider Service                    │
+│                                                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────┐ │
+│  │ Bid Engine   │  │   Cluster    │  │ Manifest  │ │
+│  │              │  │   Service    │  │  Service  │ │
+│  │ - Order      │  │              │  │           │ │
+│  │   monitoring │  │ - Resource   │  │ - SDL     │ │
+│  │ - Bidding    │  │   management │  │   parsing │ │
+│  │ - Pricing    │  │ - Deployment │  │ - Deploy  │ │
+│  │              │  │   lifecycle  │  │   submit  │ │
+│  └──────┬───────┘  └──────┬───────┘  └─────┬─────┘ │
+│         │                 │                 │       │
+│         └────────┬────────┴────────┬────────┘       │
+│                  │                 │                │
+│  ┌───────────────▼─────────────────▼──────────────┐ │
+│  │         PubSub Event Bus (Redis)               │ │
+│  └───────────────┬─────────────────┬──────────────┘ │
+│                  │                 │                │
+│  ┌───────────────▼─────┐  ┌────────▼──────────┐    │
+│  │  Balance Checker    │  │    Operators      │    │
+│  │  - Wallet monitor   │  │  - Hostname       │    │
+│  │  - Auto-withdrawal  │  │  - Inventory      │    │
+│  └─────────────────────┘  │  - IP             │    │
+│                           └───────────────────┘    │
+└──────────────────────────────────────────────────────┘
+           │                        │
+           │                        │
+     ┌─────▼──────┐          ┌──────▼────────┐
+     │ Akash Node │          │  Kubernetes   │
+     │  (RPC)     │          │   Cluster     │
+     └────────────┘          └───────────────┘
 ```
 
-### 2). BidEngine Calls/Initiates an Event Bus to Monitor New Orders
+## Core Services
 
-The `NewService` function called from `provider/bidengine/service.go` checks for existing orders and subscribes to a RPC node event bus for new order processing.
+### 1. Bid Engine Service
 
-Eventually the `run` method in this package is called with a service type passed in.
+**Purpose:** Monitors the Akash blockchain for new deployment orders and decides whether to bid.
 
-> [Source code reference location](https://github.com/akash-network/provider/blob/main/bidengine/service.go)
+**Responsibilities:**
+- Subscribes to `EventOrderCreated` events from the blockchain
+- Evaluates orders against provider attributes and available resources
+- Calculates bid prices using the configured pricing strategy
+- Submits bids to the blockchain
+- Manages the lifecycle of active orders
 
-```
-func NewService(ctx context.Context, session session.Session, cluster cluster.Cluster, bus pubsub.Bus, waiter waiter.OperatorWaiter, cfg Config) (Service, error) {
-	session = session.ForModule("bidengine-service")
+**Key Features:**
+- Concurrent order processing
+- Resource reservation before bidding
+- Configurable pricing scripts (shell or scale-based)
+- Provider attribute matching
+- Automatic bid timeout handling
 
-	existingOrders, err := queryExistingOrders(ctx, session)
-	if err != nil {
-		session.Log().Error("finding existing orders", "err", err)
-		return nil, err
-	}
+**Code Location:** `/bidengine/service.go`
 
-	sub, err := bus.Subscribe()
-	if err != nil {
-		return nil, err
-	}
+### 2. Cluster Service
 
-	...
-	s := &service{
-		session:  session,
-		cluster:  cluster,
-		bus:      bus,
-		sub:      sub,
-		statusch: make(chan chan<- *Status),
-		orders:   make(map[string]*order),
-		drainch:  make(chan *order),
-		lc:       lifecycle.New(),
-		cfg:      cfg,
-		pass:     providerAttrService,
-		waiter:   waiter,
-	}
+**Purpose:** Manages Kubernetes cluster resources and deployment lifecycle.
 
-	go s.lc.WatchContext(ctx)
-	go s.run(ctx, existingOrders)
-```
+**Responsibilities:**
+- **Inventory Management** - Tracks available cluster resources (CPU, GPU, memory, storage)
+- **Resource Reservation** - Reserves resources for bids before they're won
+- **Deployment Management** - Creates and manages Kubernetes deployments for active leases
+- **Hostname Service** - Manages custom hostnames and ingress routing
+- **Monitoring** - Tracks deployment health and resource usage
 
-### 3). BidEngine Loop is Created to React to New Order Receipt and Then Process Order
+**Key Features:**
+- Real-time resource inventory tracking
+- Support for GPU resources (NVIDIA)
+- Persistent storage integration (Rook-Ceph)
+- IP lease management (via MetalLB)
+- Auto-scaling and resource adjustment
+- Multi-tenancy isolation
 
-Within the `run` function of `provider/bidengine/service.go` an endless for loop monitors for events placed onto a channel.
+**Code Location:** `/cluster/service.go`
 
-When an event of type `EventOrderCreated` is seen a call to the `newOrder` function - which exists in `provider/bidengine/order.go` - is initiated. The `newOrder` function call creates a new manager for a specific order.
+### 3. Manifest Service
 
-```
-loop:
-	for {
-		select {
-		case <-s.lc.ShutdownRequest():
-			s.lc.ShutdownInitiated(nil)
-			break loop
+**Purpose:** Receives and processes deployment manifests (SDL) from tenants.
 
-		case ev := <-s.sub.Events():
-			switch ev := ev.(type) { // nolint: gocritic
-			case mtypes.EventOrderCreated:
-				// new order
-				key := mquery.OrderPath(ev.ID)
+**Responsibilities:**
+- Accepts manifest submissions via gRPC API
+- Validates SDL syntax and resource requirements
+- Pairs manifests with active leases
+- Emits `ManifestReceived` events for cluster service
+- Manages manifest lifecycle (submit, update, delete)
 
-				s.session.Log().Info("order detected", "order", key)
+**Key Features:**
+- SDL validation and parsing
+- Hostname requirement validation
+- Manifest versioning
+- Watchdog for missing manifests
+- Timeout handling for manifest submission
 
-				if order := s.orders[key]; order != nil {
-					s.session.Log().Debug("existing order", "order", key)
-					break
-				}
+**Code Location:** `/manifest/service.go`
 
-				// create an order object for managing the bid process and order lifecycle
-				order, err := newOrder(s, ev.ID, s.cfg, s.pass, false)
-				if err != nil {
-					s.session.Log().Error("handling order", "order", key, "err", err)
-					break
-				}
+### 4. Operators
 
-				ordersCounter.WithLabelValues("start").Inc()
-				s.orders[key] = order
-```
+**Purpose:** Kubernetes operators that extend cluster functionality.
 
-### 4). Order/Bid Process Manager Uses Perpetual Loop for Event Processing and to Complete Each Step in Bid Process
+#### Hostname Operator
+- Manages custom hostname assignments
+- Creates Kubernetes Ingress resources
+- Integrates with ingress controllers (Ingress-NGINX, Traefik)
+- Handles hostname conflicts and validation
 
-When the `newOrder` function within `order.go` is called in the previous step, an `order` struct is populated and then passed to the `run` method.
+#### Inventory Operator
+- Discovers cluster resources (CPU, GPU, storage)
+- Tracks resource availability in real-time
+- Supports hardware feature discovery
+- Integrates with NVIDIA Device Plugin for GPUs
 
-> [Source code reference location](https://github.com/akash-network/provider/blob/e7aa0b5b81957a130f1dc584f335c6f9e41db6b1/bidengine/order.go#L477)
+#### IP Operator
+- Manages IP address leases
+- Integrates with MetalLB for IP allocation
+- Handles IP assignment and release
+- Supports static IP requirements
 
-```
-	order := &order{
-		cfg:                        cfg,
-		orderID:                    oid,
-		session:                    session,
-		cluster:                    svc.cluster,
-		bus:                        svc.bus,
-		sub:                        sub,
-		log:                        log,
-		lc:                         lifecycle.New(),
-		reservationFulfilledNotify: reservationFulfilledNotify, // Normally nil in production
-		pass:                       pass,
-	}
+**Code Location:** `/operator/`
 
-	...
+### 5. Balance Checker
 
-	// Run main loop in separate thread.
-	go order.run(checkForExistingBid)
-```
+**Purpose:** Monitors provider wallet balance and triggers auto-withdrawals.
 
-#### Run Function
+**Responsibilities:**
+- Periodically checks provider account balance
+- Withdraws accumulated earnings when threshold is met
+- Ensures provider has sufficient funds for transactions
+- Publishes balance events to the event bus
 
-Within the `run` function details of the order are fetched.
+**Code Location:** `/balance_checker.go`
 
-```
-	// Begin fetching group details immediately.
-	groupch = runner.Do(func() runner.Result {
-		res, err := o.session.Client().Query().Group(ctx, &dtypes.QueryGroupRequest{ID: o.orderID.GroupID()})
-		return runner.NewResult(res.GetGroup(), err)
-	})
-```
+## Communication & State Management
 
-#### groupch Channel
+### Event Bus (PubSub)
 
-Still within the `run` function, a perpetual for loop awaits order group details to be sent to a channel named `groupch`. When order/group details are placed onto that channel, the `shouldBid` method is called.
+All services communicate via a Redis-backed publish-subscribe event bus. This enables:
 
-Eventually the result of calling `shouldBid` will be placed onto the `shouldBidCh` provoking further upstream order processing. But prior to review upstream steps we will detail the `shouldBid` function logic.
+- **Loose Coupling** - Services don't directly depend on each other
+- **Event-Driven Architecture** - Services react to events (orders, leases, manifests)
+- **State Synchronization** - Services publish status updates
+- **Scalability** - Services can be scaled independently
 
-```
-		case result := <-groupch:
-			// Group details fetched.
+**Key Event Topics:**
+- `akash.provider.cluster.status` - Cluster resource updates
+- `akash.provider.bidengine.status` - Active order count
+- `akash.provider.manifest.status` - Manifest processing status
+- `akash.provider.inventory.status` - Resource availability
 
-			groupch = nil
-			o.log.Info("group fetched")
+### Blockchain Events
 
-			if result.Error() != nil {
-				o.log.Error("fetching group", "err", result.Error())
-				break loop
-			}
+The provider subscribes to Akash blockchain events:
 
-			res := result.Value().(dtypes.Group)
-			group = &res
+- `EventOrderCreated` - New deployment orders
+- `EventLeaseCreated` - Lease awarded to provider
+- `EventLeaseClosed` - Lease terminated
 
-			shouldBidCh = runner.Do(func() runner.Result {
-				return runner.NewResult(o.shouldBid(group))
-			})
-```
+### Lifecycle Management
 
-#### shouldBidCh Channel
+Each service implements lifecycle management using `go-lifecycle`:
 
-When a result from the prior step is placed onto the `shouldBinCh` channel, the `shouldBid` function - also located within `provider/bidengine/order.go` - processes several validations to determine if the provider should bid on the order.
+- **Initialization** - Service starts and initializes resources
+- **Running** - Service processes events and handles requests
+- **Shutdown** - Graceful shutdown on error or termination signal
+- **Done** - Cleanup complete, service stopped
+
+## Service Flow
+
+### 1. Order Processing Flow
 
 ```
-		case result := <-shouldBidCh:
-			shouldBidCh = nil
+1. Order Created on Chain
+   ↓
+2. Bid Engine Detects Order (EventOrderCreated)
+   ↓
+3. Evaluate Order:
+   - Check provider attributes match
+   - Calculate bid price
+   - Reserve cluster resources
+   ↓
+4. Submit Bid to Chain
+   ↓
+5. Wait for Lease Award (EventLeaseCreated)
 ```
 
-The validations include:
-
-- _**MatchAttributes**_ - return `unable to fulfill` if provider does not possess necessary attributes
-- _**MatchResourcesRequirements**_ - return `unable to fulfill` if provider does not possess required, available resources
-- _**SignedBy**_ - return `attribute signature requirements not met` if provider does not possess required audited attributes&#x20;
+### 2. Deployment Flow
 
 ```
-	if !group.GroupSpec.MatchAttributes(o.session.Provider().Attributes) {
-		o.log.Debug("unable to fulfill: incompatible provider attributes")
-		return false, nil
-	}
-
-	...
-
-	// does provider have required capabilities?
-	if !group.GroupSpec.MatchResourcesRequirements(attr) {
-		o.log.Debug("unable to fulfill: incompatible attributes for resources requirements", "wanted", group.GroupSpec, "have", attr)
-		return false, nil
-	}
-	...
-	signatureRequirements := group.GroupSpec.Requirements.SignedBy
-	if signatureRequirements.Size() != 0 {
-		// Check that the signature requirements are met for each attribute
-		var provAttr []atypes.Provider
-		ownAttrs := atypes.Provider{
-			Owner:      o.session.Provider().Owner,
-			Auditor:    "",
-			Attributes: o.session.Provider().Attributes,
-		...
-		ok := group.GroupSpec.MatchRequirements(provAttr)
-		if !ok {
-			o.log.Debug("attribute signature requirements not met")
-			return false, nil
-		}
-		}
-	...
-
-
+1. Lease Awarded
+   ↓
+2. Cluster Service Creates Deployment Manager
+   ↓
+3. Wait for Tenant to Submit Manifest
+   ↓
+4. Manifest Service Receives SDL
+   ↓
+5. Manifest Service Validates and Emits Event
+   ↓
+6. Cluster Service Creates Kubernetes Resources:
+   - Namespace
+   - Deployments/StatefulSets
+   - Services
+   - Ingress (if custom hostname)
+   - PersistentVolumeClaims (if storage required)
+   ↓
+7. Monitor Deployment Health
 ```
 
-Should either `MatchAttributes`, `MatchResourcesRequirements`, or `SignedBy` evaluations fail to satisfy requirements, a boolean false is returned. If the result evaluates to `false` - meaning one of the validations does not satisfy requirements, `shouldBid` is set to `false`, the loop is exited, and a log message of `decline to bid` on the order is populated.
+### 3. Lease Termination Flow
 
 ```
-			shouldBid := result.Value().(bool)
-			if !shouldBid {
-				shouldBidCounter.WithLabelValues("decline").Inc()
-				o.log.Debug("declined to bid")
-				break loop
-			}
+1. Lease Closed on Chain (EventLeaseClosed)
+   ↓
+2. Cluster Service Detects Event
+   ↓
+3. Delete Kubernetes Resources
+   ↓
+4. Release Cluster Resources
+   ↓
+5. Update Inventory
 ```
 
-The next step will begin the Kubernetes cluster reservation of requested resources.
+## API Interfaces
 
-While the bid process proceeds the reservation of resources in the Provider's Kubernetes cluster occurs via a call to the `cluster.Reserve` method. If the bid is not won the reservation will be cancelled.
+### gRPC API (Port 8444)
 
-If the provider is capable of satisfying all of the requirements of the order the result is placed onto the clusterch channel which provokes the next step of order processing.
+The provider exposes a gRPC API for:
 
-```
-			clusterch = runner.Do(metricsutils.ObserveRunner(func() runner.Result {
-				v := runner.NewResult(o.cluster.Reserve(o.orderID, group))
-				return v
-			}, reservationDuration))
-```
+- **GetStatus** - Provider status and resource availability
+- **ValidateGroupSpec** - Pre-validate deployment requirements
 
-The `Reserve` function called - the result of which is placed onto the `clusterch` channel - is called from `provider.service.go`.
+**Proto Definition:** `pkg.akt.dev/go/provider/v1`
 
-```
-func (s *service) Reserve(order mtypes.OrderID, resources atypes.ResourceGroup) (ctypes.Reservation, error) {
-	return s.inventory.reserve(order, resources)
-}
-```
+### REST API (Port 8443)
 
-#### clusterch Channel
+The provider exposes a REST API for:
 
-When a result from the prior step is placed onto the `clusterch` channel, an analysis is made to ensure no errors were encountered during the Kubernetes cluster reservation. If not error is found a log entry of `Reservation fulfilled` is populated.
+- **Status** - JSON status endpoint
+- **Manifest Submission** - SDL upload endpoint
+- **Lease Management** - Query lease details
 
-```
-		case result := <-clusterch:
-			clusterch = nil
+**Gateway:** `/gateway/rest/`
 
-			if result.Error() != nil {
-				reservationCounter.WithLabelValues(metricsutils.OpenLabel, metricsutils.FailLabel)
-				o.log.Error("reserving resources", "err", result.Error())
-				break loop
-			}
+## Configuration
 
-			reservationCounter.WithLabelValues(metricsutils.OpenLabel, metricsutils.SuccessLabel)
+Provider configuration is managed via:
 
-			o.log.Info("Reservation fulfilled")
-```
+- **Environment Variables** - Basic settings (chain ID, keyring, etc.)
+- **provider.yaml** - Provider attributes, pricing, features
+- **price_script.sh** - Custom pricing logic (shell script)
 
-If the Kubernetes cluster reservation for the order is successful, the result of calling the `CalculatePrice` method (using the order specs as input) is placed onto the `pricech` channel which provokes the next step of order processing.
+**Key Configuration:**
 
-Calling `CalculatePrice` provokes the logic to determine price extended thru bid response.
+```yaml
+# Attributes
+attributes:
+  - key: host
+    value: akash
 
-```
-			pricech = runner.Do(metricsutils.ObserveRunner(func() runner.Result {
-				// Calculate price & bid
-				return runner.NewResult(o.cfg.PricingStrategy.CalculatePrice(ctx, group.GroupID.Owner, &group.GroupSpec))
-			}, pricingDuration))
+# Pricing
+bidpricestoragescale: 1.0
+bidpricecpuscale: 1.0
+bidpricememoryscale: 1.0
+
+# Features
+deployment_ingress_static_hosts: true
+deployment_ingress_domain: provider.example.com
 ```
 
-The `CalculatePrice` function is located in `/bidengine/pricing.go` and will determine the price used in bid response to the order. The price will be dictated by the order specs - I.e. CPU/memory/storage/replicas, etc - and the Provider's pricing script which defines per specification price.
+## Monitoring & Observability
 
-> [Source code reference location](https://github.com/akash-network/provider/blob/e7aa0b5b81957a130f1dc584f335c6f9e41db6b1/bidengine/pricing.go#L127)
+### Prometheus Metrics
 
-```
-func (fp scalePricing) CalculatePrice(_ context.Context, _ string, gspec *dtypes.GroupSpec) (sdk.DecCoin, error) {
-	// Use unlimited precision math here.
-	// Otherwise a correctly crafted order could create a cost of '1' given
-	// a possible configuration
-	cpuTotal := decimal.NewFromInt(0)
-	memoryTotal := decimal.NewFromInt(0)
-	storageTotal := make(Storage)
+The provider exposes Prometheus metrics on port 8443:
 
-	for k := range fp.storageScale {
-		storageTotal[k] = decimal.NewFromInt(0)
-	}
+- `provider_order_manager` - Active orders being tracked
+- `provider_deployment_manager` - Active deployments
+- `provider_manifest_manager` - Manifests being processed
+- `provider_order_handler` - Order processing counters
 
-	endpointTotal := decimal.NewFromInt(0)
-	ipTotal := decimal.NewFromInt(0).Add(fp.ipScale)
-	ipTotal = ipTotal.Mul(decimal.NewFromInt(int64(util.GetEndpointQuantityOfResourceGroup(gspec, atypes.Endpoint_LEASED_IP))))
-	...
-```
+### Logs
 
-#### pricech Channel
+Structured logging with configurable levels:
 
-When a result from the prior step is placed onto the `pricech` channel, an analysis is made to ensure that the bid price is not larger than the max price defined in deployment manifest.
+- `debug` - Detailed service operations
+- `info` - Important events (orders, leases, deployments)
+- `error` - Failures and exceptions
 
-If the order gets past the maxPrice check the logs are populated with the `submitting fulfillment` with specified price message.
+**View Logs:**
 
-```
-case result := <-pricech:
-			pricech = nil
-			if result.Error() != nil {
-				o.log.Error("error calculating price", "err", result.Error())
-				break loop
-			}
-
-			price := result.Value().(sdk.DecCoin)
-			maxPrice := group.GroupSpec.Price()
-
-			if maxPrice.IsLT(price) {
-				o.log.Info("Price too high, not bidding", "price", price.String(), "max-price", maxPrice.String())
-				break loop
-			}
-
-			o.log.Debug("submitting fulfillment", "price", price)
-
+```bash
+kubectl -n akash-services logs -l app=akash-provider --tail=100 -f
 ```
 
-If the bid proceeds we eventually broadcast the bid to the blockchain and write the results of this transaction to the `bidch` channel which provokes additional upstream logic covered in the next section.
+## High Availability
 
-```
-			bidch = runner.Do(func() runner.Result {
-				return runner.NewResult(nil, o.session.Client().Tx().Broadcast(ctx, msg))
-			})
-```
+While the provider service itself runs as a single instance (StatefulSet), the underlying services support HA:
 
-#### bidch Channel
+- **Kubernetes Control Plane** - Can be deployed in HA configuration (3+ nodes)
+- **Redis** - Can be deployed in HA mode with Sentinel
+- **Ingress Controllers** - Run as DaemonSets across all nodes
+- **Storage** - Rook-Ceph provides distributed, redundant storage
 
-When a result from the prior step is placed onto the `bidch` channel, an error check is made to ensure the bid has not failed for any reason. And post this final bid validator a message is written to the provider logs of `bid complete`.
+## Security
 
-The Bid Engine Service logic for single bid processing is now complete. The Bid Engine perpetual loop will continue to monitor for new orders found on the blockchain and repeat reviewed order processing on each receipt.
+### mTLS (Mutual TLS)
 
-```
-		case result := <-bidch:
-			bidch = nil
-			if result.Error() != nil {
-				bidCounter.WithLabelValues(metricsutils.OpenLabel, metricsutils.FailLabel).Inc()
-				o.log.Error("bid failed", "err", result.Error())
-				break loop
-			}
+Provider services communicate with the blockchain using mTLS for authentication:
 
-			o.log.Info("bid complete")
-			bidCounter.WithLabelValues(metricsutils.OpenLabel, metricsutils.SuccessLabel).Inc()
+- Provider certificate stored in Kubernetes secret
+- Automatic certificate rotation before expiry
+- Certificate validation against Akash CA
 
-			// Fulfillment placed.
-			bidPlaced = true
+### Kubernetes RBAC
 
-			bidTimeout = o.getBidTimeout(
-```
+The provider uses service accounts with minimal RBAC permissions:
+
+- Create/delete namespaces
+- Manage deployments, services, ingress
+- Read/write ConfigMaps and Secrets
+- Access to CRDs (manifests, provider hosts)
+
+### Tenant Isolation
+
+Each deployment runs in an isolated namespace with:
+
+- Network policies (optional)
+- Resource limits (CPU, memory, storage)
+- No privileged containers by default
+- Separate service accounts
+
+## Related Documentation
+
+- [Bid Engine](/docs/for-providers/architecture/bid-engine) - Detailed bidding logic
+- [Cluster Service](/docs/for-providers/architecture/cluster-service) - Resource management
+- [Manifest Service](/docs/for-providers/architecture/manifest-service) - SDL processing
+- [Operators](/docs/for-providers/architecture/operators) - Kubernetes operators

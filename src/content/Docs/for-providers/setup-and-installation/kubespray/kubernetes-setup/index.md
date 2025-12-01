@@ -322,7 +322,134 @@ sysctl -p /etc/sysctl.d/90-akash.conf
 
 ---
 
-## STEP 11 - Verify Firewall
+## STEP 11 - Install Zombie Process Killer (Recommended)
+
+Some tenant containers don't properly manage subprocesses, creating zombie processes that accumulate over time. While zombies don't consume CPU/memory, they occupy process table slots. If the process table fills, no new processes can spawn, causing system failures.
+
+**This step installs an automated script to prevent zombie process accumulation.**
+
+### Create the Script
+
+On **all worker nodes**, create `/usr/local/bin/kill_zombie_parents.sh`:
+
+```bash
+cat > /usr/local/bin/kill_zombie_parents.sh <<'EOF'
+#!/bin/bash
+# This script detects zombie processes descended from containerd-shim
+# and attempts to reap them by signaling the parent process.
+
+find_zombie_and_parents() {
+  for pid in /proc/[0-9]*; do
+    if [[ -r $pid/stat ]]; then
+      read -r proc_pid comm state ppid < <(cut -d' ' -f1,2,3,4 "$pid/stat")
+      if [[ $state == "Z" ]]; then
+        echo "$proc_pid $ppid"
+        return 0
+      fi
+    fi
+  done
+  return 1
+}
+
+get_parent_chain() {
+  local pid=$1
+  local chain=""
+  while [[ $pid -ne 1 ]]; do
+    if [[ ! -r /proc/$pid/stat ]]; then
+      break
+    fi
+    read -r ppid cmd < <(awk '{print $4, $2}' /proc/$pid/stat)
+    chain="$pid:$cmd $chain"
+    pid=$ppid
+  done
+  echo "$chain"
+}
+
+is_process_zombie() {
+  local pid=$1
+  if [[ -r /proc/$pid/stat ]]; then
+    read -r state < <(cut -d' ' -f3 /proc/$pid/stat)
+    [[ $state == "Z" ]]
+  else
+    return 1
+  fi
+}
+
+attempt_kill() {
+  local pid=$1
+  local signal=$2
+  local wait_time=$3
+  local signal_name=${4:-$signal}
+
+  echo "Attempting to send $signal_name to parent process $pid"
+  kill $signal $pid
+  sleep $wait_time
+
+  if is_process_zombie $zombie_pid; then
+    echo "Zombie process $zombie_pid still exists after $signal_name"
+    return 1
+  else
+    echo "Zombie process $zombie_pid no longer exists after $signal_name"
+    return 0
+  fi
+}
+
+if zombie_info=$(find_zombie_and_parents); then
+  zombie_pid=$(echo "$zombie_info" | awk '{print $1}')
+  parent_pid=$(echo "$zombie_info" | awk '{print $2}')
+
+  echo "Found zombie process $zombie_pid with immediate parent $parent_pid"
+
+  parent_chain=$(get_parent_chain "$parent_pid")
+  echo "Parent chain: $parent_chain"
+
+  if [[ $parent_chain == *"containerd-shim"* ]]; then
+    echo "Top-level parent is containerd-shim"
+    immediate_parent=$(echo "$parent_chain" | awk -F' ' '{print $1}' | cut -d':' -f1)
+    if [[ $immediate_parent != $parent_pid ]]; then
+      if attempt_kill $parent_pid -SIGCHLD 15 "SIGCHLD"; then
+        echo "Zombie process cleaned up after SIGCHLD"
+      elif attempt_kill $parent_pid -SIGTERM 15 "SIGTERM"; then
+        echo "Zombie process cleaned up after SIGTERM"
+      elif attempt_kill $parent_pid -SIGKILL 5 "SIGKILL"; then
+        echo "Zombie process cleaned up after SIGKILL"
+      else
+        echo "Failed to clean up zombie process after all attempts"
+      fi
+    else
+      echo "Immediate parent is containerd-shim. Not killing."
+    fi
+  else
+    echo "Top-level parent is not containerd-shim. No action taken."
+  fi
+fi
+EOF
+```
+
+### Make Executable
+
+```bash
+chmod +x /usr/local/bin/kill_zombie_parents.sh
+```
+
+### Create Cron Job
+
+Create `/etc/cron.d/kill_zombie_parents`:
+
+```bash
+cat > /etc/cron.d/kill_zombie_parents << 'EOF'
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+SHELL=/bin/bash
+
+*/5 * * * * root /usr/local/bin/kill_zombie_parents.sh | logger -t kill_zombie_parents
+EOF
+```
+
+This runs every 5 minutes and logs output to syslog.
+
+---
+
+## STEP 12 - Verify Firewall
 
 Ensure these ports are open between nodes:
 

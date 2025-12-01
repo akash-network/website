@@ -3,256 +3,451 @@ categories: ["For Providers"]
 tags: ["Architecture", "Provider"]
 title: "Manifest Service"
 linkTitle: "Manifest Service"
-weight: 1
-description: >-
+weight: 4
+description: "Receives, validates, and processes deployment manifests from tenants"
 ---
 
+The Manifest Service handles the receipt and processing of deployment manifests (SDL) from tenants. It pairs lease events with manifests and coordinates deployment creation with the cluster service.
 
-<!-- ## Visualization -->
+## Purpose
 
-## Code Review
+The Manifest Service acts as the manifest processing pipeline by:
 
-### 1). Provider Service Calls/Initiates the Manifest Service
+1. **Receiving Manifests** - Accepts HTTP POST requests with SDL manifests
+2. **Manifest Validation** - Validates manifest syntax and resource requirements
+3. **Lease Pairing** - Matches manifests with won leases
+4. **Hostname Validation** - Verifies hostname availability before deployment
+5. **Event Emission** - Publishes `ManifestReceived` events to trigger deployment
+6. **Watchdog Monitoring** - Closes leases if manifest not received in time
 
+## Architecture
 
+### Service Structure
 
-> [Source code reference location](https://github.com/akash-network/provider/blob/e7aa0b5b81957a130f1dc584f335c6f9e41db6b1/service.go#L101)
+**Implementation**: `manifest/service.go`
 
-```
-	manifest, err := manifest.NewService(ctx, session, bus, cluster.HostnameService(), manifestConfig)
-	if err != nil {
-		session.Log().Error("creating manifest handler", "err", err)
-		cancel()
-		<-cluster.Done()
-		<-bidengine.Done()
-		<-bc.lc.Done()
-		return nil, err
-	}
-```
-
-### 2). Manifest Calls/Initiates an Event Bus to Monitor Lease Won Events
-
-The `NewService` function called from `provider/manifest/service.go` subscribes to a RPC node event bus for new lease won processing.
-
-Eventually the `run` method in this package is called with a service type passed in.
-
-> [Source code reference location](https://github.com/akash-network/provider/blob/e7aa0b5b81957a130f1dc584f335c6f9e41db6b1/manifest/service.go)
-
-```
-func NewService(ctx context.Context, session session.Session, bus pubsub.Bus, hostnameService clustertypes.HostnameServiceClient, cfg ServiceConfig) (Service, error) {
-	session = session.ForModule("provider-manifest")
-
-	sub, err := bus.Subscribe()
-	if err != nil {
-		return nil, err
-	}
-
-	s := &service{
-		session:         session,
-		bus:             bus,
-		sub:             sub,
-		statusch:        make(chan chan<- *Status),
-		mreqch:          make(chan manifestRequest),
-		activeCheckCh:   make(chan isActiveCheck),
-		managers:        make(map[string]*manager),
-		managerch:       make(chan *manager),
-		lc:              lifecycle.New(),
-		hostnameService: hostnameService,
-		config:          cfg,
-
-		watchdogch: make(chan dtypes.DeploymentID),
-		watchdogs:  make(map[dtypes.DeploymentID]*watchdog),
-	}
-
-	go s.lc.WatchContext(ctx)
-	go s.run()
-
-	return s, nil
+```go
+type service struct {
+    ctx     context.Context
+    session session.Session
+    bus     pubsub.Bus
+    sub     pubsub.Subscriber
+    
+    statusch      chan chan<- *Status
+    mreqch        chan manifestRequest
+    activeCheckCh chan isActiveCheck
+    
+    managers  map[string]*manager
+    managerch chan *manager
+    
+    hostnameService HostnameServiceClient
+    
+    watchdogs  map[DeploymentID]*watchdog
+    watchdogch chan DeploymentID
 }
 ```
 
-### 3). Monitor Service Loop is Created to React to New Lease Won Events
+### Key Components
 
-Within the run function of `provider/manifest/service.go` an endless for loop monitors for events placed onto a channel.  When a event is received for the RPC node event bus of type LeaseWon the `handleLease` method is called.
+1. **Manifest Managers** - One per deployment, handles manifest lifecycle
+2. **Watchdogs** - Monitor for missing manifests (close lease if timeout)
+3. **Event Bus** - Receives `LeaseWon` events from blockchain
+4. **HTTP Handler** - Accepts manifest submissions via REST API
+5. **Hostname Service** - Validates hostname availability
 
+## Service Initialization
+
+### Service Creation
+
+The provider service creates the manifest service on startup:
+
+**Source**: `service.go`
+
+```go
+manifest, err := manifest.NewService(
+    ctx,
+    session,
+    bus,
+    cluster.HostnameService(),
+    manifestConfig,
+)
 ```
-	for {
-		select {
 
-		case err := <-s.lc.ShutdownRequest():
-			s.lc.ShutdownInitiated(err)
-			break loop
+### Configuration
 
-		case ev := <-s.sub.Events():
-			switch ev := ev.(type) {
-
-			case event.LeaseWon:
-				if ev.LeaseID.GetProvider() != s.session.Provider().Address().String() {
-					continue
-				}
-				s.session.Log().Info("lease won", "lease", ev.LeaseID)
-				s.handleLease(ev, true)
+```yaml
+# provider.yaml
+manifest-timeout: 5m  # Time to wait for manifest before closing lease
 ```
 
-The `handleLease` method determines if a manager is active for the deployment via the `ensureManager` method.  The manifest manager logic exists in `provider/manifest/manager.go` and handles the validation/application of the manifest when received from the tenant send manifest operation.
+**Configuration Parameters:**
 
+- `manifest-timeout` - Duration to wait for manifest after lease won (default: 5 minutes)
+  - `0` = Disable watchdog (wait forever)
+  - `5m` = Close lease if no manifest received within 5 minutes
+
+## Manifest Lifecycle
+
+### 1. Lease Won Event
+
+When a provider wins a bid, the manifest service receives the event:
+
+```go
+case event.LeaseWon:
+    if ev.LeaseID.GetProvider() != s.session.Provider().Address() {
+        continue  // Not for this provider
+    }
+    
+    s.handleLease(ev, true)
 ```
-func (s *service) handleLease(ev event.LeaseWon, isNew bool) {
-	// Only run this if configured to do so
-	if isNew && s.config.ManifestTimeout > time.Duration(0) {
-		// Create watchdog if it does not exist AND a manifest has not been received yet
-		if watchdog := s.watchdogs[ev.LeaseID.DeploymentID()]; watchdog == nil {
-			watchdog = newWatchdog(s.session, s.lc.ShuttingDown(), s.watchdogch, ev.LeaseID, s.config.ManifestTimeout)
-			s.watchdogs[ev.LeaseID.DeploymentID()] = watchdog
-		}
-	}
 
-	manager := s.ensureManager(ev.LeaseID.DeploymentID())
-	....
+**Process:**
+1. Verify lease is for this provider
+2. Create watchdog if `manifest-timeout` configured
+3. Create or retrieve manifest manager for deployment
+4. Wait for manifest submission
+
+### 2. Watchdog Creation
+
+If `manifest-timeout` is set, a watchdog is created:
+
+**Implementation**: `manifest/watchdog.go`
+
+```go
+type watchdog struct {
+    LeaseID        LeaseID
+    ManifestTimeout time.Duration
+    
+    timer *time.Timer
 }
 ```
 
-New Manifest Manager instance is initiated by calling the `newManager` function in `provider/manifest/manager.go` with the service type and deployment ID (DSEQ) passed in as arguments.
+**Watchdog Behavior:**
+```go
+// Start timer when lease won
+timer := time.NewTimer(manifestTimeout)
 
+// Close lease if manifest not received
+<-timer.C
+bus.Publish(event.ClusterLease{
+    LeaseID: leaseID,
+    Action:  ClusterLeaseActionClose,
+})
 ```
-func (s *service) ensureManager(did dtypes.DeploymentID) (manager *manager) {
-	manager = s.managers[dquery.DeploymentPath(did)]
-	if manager == nil {
-		manager = newManager(s, did)
-		s.managers[dquery.DeploymentPath(did)] = manager
-	}
-	return manager
+
+**Purpose**: Prevent "stuck" leases where tenant wins bid but never submits manifest.
+
+**Best Practice**: Set to 5-10 minutes to give tenants time to submit.
+
+### 3. Manifest Submission
+
+Tenant submits manifest via HTTP POST to provider:
+
+**HTTP Endpoint**: `PUT /deployment/{owner}/{dseq}/manifest`
+
+**Request:**
+```yaml
+# Headers
+Authorization: Bearer <jwt-token>
+Content-Type: application/x-yaml
+
+# Body (SDL manifest)
+version: "2.0"
+services:
+  web:
+    image: nginx:latest
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 1Gi
+        storage:
+          size: 1Gi
+  placement:
+    akash:
+      pricing:
+        web:
+          denom: uakt
+          amount: 1000
+deployment:
+  web:
+    akash:
+      profile: web
+      count: 1
+```
+
+**Handler Implementation**: `gateway/rest/router.go`
+
+```go
+func createManifestHandler(log log.Logger, mclient Client) http.HandlerFunc {
+    return func(w http.ResponseWriter, req *http.Request) {
+        // 1. Parse request
+        deploymentID := requestDeploymentID(req)
+        
+        // 2. Decode manifest
+        var mani manifest.Manifest
+        err := DecodeYAML(req.Body, &mani)
+        
+        // 3. Submit to manifest service
+        err = mclient.Submit(subctx, deploymentID, mani)
+        
+        // 4. Return response
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+            return
+        }
+        
+        w.WriteHeader(http.StatusOK)
+    }
 }
 ```
 
-### 4). Manifest Manager Logic
+### 4. Manifest Validation
 
-> [Source code reference location](https://github.com/akash-network/provider/blob/e7aa0b5b81957a130f1dc584f335c6f9e41db6b1/manifest/manager.go)
+The manifest service validates the submitted manifest:
 
-The  `newManager` function calls the `run` method - passing in the `manager` struct that includes the  `leasech` channel - which invokes a perpetual for loop to await events on various channels.
-
-The manifest manager instance is returned to the `handleLease` method in `service.go`.
-
-```
-func newManager(h *service, daddr dtypes.DeploymentID) *manager {
-	session := h.session.ForModule("manifest-manager")
-
-	...
-
-	go m.lc.WatchChannel(h.lc.ShuttingDown())
-	go m.run(h.managerch)
-
-	return m
+```go
+func (s *service) Submit(ctx context.Context, did DeploymentID, mani Manifest) error {
+    // 1. Validate manifest structure
+    err := mani.Validate()
+    
+    // 2. Check hostname availability
+    for _, service := range mani.Services {
+        for _, expose := range service.Expose {
+            if expose.Global && expose.Hosts != nil {
+                err := s.hostnameService.CanReserveHostnames(
+                    expose.Hosts,
+                    did.Owner,
+                )
+            }
+        }
+    }
+    
+    // 3. Send to manager for processing
+    s.mreqch <- manifestRequest{
+        DeploymentID: did,
+        Manifest:     mani,
+    }
 }
 ```
 
-The `handleLease` method in `service.go` continues and calls another `handleLease` method in `manager.go` passing in lease events received on the bus.
+**Validation Steps:**
+1. **Structure Validation** - Verify YAML syntax and required fields
+2. **Resource Validation** - Ensure resources match lease
+3. **Hostname Validation** - Check hostname availability
+4. **Pricing Validation** - Verify pricing matches lease bid
 
-```
-func (s *service) handleLease(ev event.LeaseWon, isNew bool) {
-	....
+### 5. Manifest Processing
 
-	manager := s.ensureManager(ev.LeaseID.DeploymentID())
+The manifest manager processes the validated manifest:
 
-	manager.handleLease(ev)
+**Implementation**: `manifest/manager.go`
+
+```go
+type manager struct {
+    daddr       DeploymentID
+    
+    config      ServiceConfig
+    session     Session
+    bus         Bus
+    
+    leasech     chan event.LeaseWon
+    runch       <-chan runner.Result
+    manifestch  chan submitRequest
+    
+    hostnameService HostnameServiceClient
 }
 ```
 
-The handleLease method in `manager.go` puts the event onto the `leasech` channel.
+**Process:**
+1. Parse manifest groups
+2. Validate resources against lease
+3. Validate hostnames
+4. Emit `ManifestReceived` event
 
-```
-func (m *manager) handleLease(ev event.LeaseWon) {
-	select {
-	case m.leasech <- ev:
-	case <-m.lc.ShuttingDown():
-		m.log.Error("not running: handle manifest", "lease", ev.LeaseID)
-	}
+```go
+func (m *manager) handleManifest(req submitRequest) error {
+    // 1. Get manifest group for this lease
+    group := req.Manifest.GetGroup(m.lease.GroupSpec.Name)
+    
+    // 2. Validate hostnames
+    hostnames := extractHostnames(group)
+    err := m.hostnameService.CanReserveHostnames(hostnames, m.lease.Owner)
+    
+    // 3. Emit event
+    m.bus.Publish(event.ManifestReceived{
+        LeaseID:        m.lease,
+        Group:          m.lease.Group,
+        ManifestGroup:  group,
+    })
 }
 ```
 
-When the manifest manager `run` method receives an event on the `leasech` channel the `maybeFetchData` method is called and results is placed onto the `runch` channel.
+### 6. Event Emission
 
-```
-func (m *manager) run(donech chan<- *manager) {
-	..
+Once validated, the manifest service publishes a `ManifestReceived` event:
 
-loop:
-	for {
-		....
-		select {
-		....
-		case ev := <-m.leasech:
-			m.log.Info("new lease", "lease", ev.LeaseID)
-			m.clearFetched()
-			m.maybeScheduleStop()
-			runch = m.maybeFetchData(ctx, runch)
-```
-
-The `maybeFetchData` method attempts to fetch deployment and lease data with associated downstream logic.
-
-```
-func (m *manager) maybeFetchData(ctx context.Context, runch <-chan runner.Result) <-chan runner.Result {
-	if runch != nil {
-		return runch
-	}
-
-	if !m.fetched || time.Since(m.fetchedAt) > m.config.CachedResultMaxAge {
-		m.clearFetched()
-		return m.fetchData(ctx)
-	}
-	return runch
+```go
+event.ManifestReceived{
+    LeaseID:        leaseID,
+    Group:          group,
+    ManifestGroup:  manifestGroup,
 }
 ```
 
-### 5). Receipt of Manifest from Tenant Send to Provider
+**Subscribers:**
+- **Cluster Service** - Creates Kubernetes deployment
+- **Bid Engine** - Updates lease tracking
+- **Provider Service** - Logs event
 
-A method of name `Submit` is included in `provider/manifest/service.go` which accepts incoming manifest sends from the deployer/tenant to the provider.  The function is initiated via an incoming HTTP post detailed subsequently.
+### 7. Watchdog Cancellation
 
-```
-func (s *service) Submit(ctx context.Context, did dtypes.DeploymentID, mani manifest.Manifest) error {
-	....
-	select {
-	case <-ctx.Done():
-		return ctx.Err()
-	case s.mreqch <- req:
-	case <-s.lc.ShuttingDown():
-		return ErrNotRunning
-	case <-s.lc.Done():
-		return ErrNotRunning
-	}
+When manifest is received, the watchdog is cancelled:
 
-	...
-}
-```
-
-The `Submit` method is called when a HTTP post - which contains the Akash manifest in the body - is received on an endpoint and handler written/registered in `provider/gateway/rest/router.go`.
-
-_**HTTP Endpoint**_
-
-```
-	drouter.HandleFunc("/manifest",
-		createManifestHandler(log, pclient.Manifest())).
-		Methods(http.MethodPut)
-
-	lrouter := router.PathPrefix(leasePathPrefix).Subrouter()
-	lrouter.Use(
-		requireOwner(),
-		requireLeaseID(),
-	)
+```go
+// Manifest received
+case req := <-m.manifestch:
+    // Stop watchdog
+    if watchdog := s.watchdogs[m.daddr]; watchdog != nil {
+        watchdog.stop()
+        delete(s.watchdogs, m.daddr)
+    }
+    
+    // Process manifest
+    m.handleManifest(req)
 ```
 
-_**Request Handler**_
+## Manifest Managers
 
-Note the call of the `Submit` method which is the provider/manifest/service.go function shown prior.  The Deployment ID and manifest are sent to `Submit` as received in the HTTP post from the tenant's send manifest action following lease creation with a provider.
+Each deployment has a dedicated manifest manager that:
+
+1. **Tracks Lease State** - Monitors which leases are active
+2. **Awaits Manifest** - Waits for tenant to submit manifest
+3. **Fetches On-Chain Data** - Queries deployment and lease info
+4. **Coordinates Submission** - Ensures manifest matches lease
+5. **Handles Updates** - Processes manifest updates
+
+### Manager Lifecycle
 
 ```
-func createManifestHandler(log log.Logger, mclient pmanifest.Client) http.HandlerFunc {
-	....
-		if err := mclient.Submit(subctx, requestDeploymentID(req), mani); err != nil {
-			if errors.Is(err, manifestValidation.ErrInvalidManifest) {
-				http.Error(w, err.Error(), http.StatusUnprocessableEntity)
-				return
-	....
-	}
-}
+Lease Won
+    ↓
+Create Manager
+    ↓
+Wait for Manifest (with timeout)
+    ↓
+Manifest Received
+    ↓
+Validate Manifest
+    ↓
+Emit ManifestReceived Event
+    ↓
+Manager Stays Active (for updates)
+    ↓
+Lease Closed
+    ↓
+Manager Removed
 ```
+
+## Manifest Updates
+
+Tenants can update their deployment by submitting a new manifest:
+
+```bash
+# Tenant sends updated manifest
+akash tx deployment update update.yaml \
+  --from mykey \
+  --node https://rpc.akashnet.net:443
+
+# Then sends manifest to provider again
+akash provider send-manifest update.yaml \
+  --dseq 123456 \
+  --provider <provider-address>
+```
+
+**Update Process:**
+1. Tenant updates on-chain deployment
+2. Tenant submits new manifest to provider
+3. Manifest service validates changes
+4. Emits `ManifestReceived` event
+5. Cluster service performs rolling update
+
+## Watchdog System
+
+The watchdog system prevents abandoned leases by automatically closing leases that never receive a manifest.
+
+### Watchdog Behavior
+
+```go
+// Watchdog created on lease won
+watchdog := newWatchdog(
+    session,
+    shutdownCh,
+    watchdogCh,
+    leaseID,
+    manifestTimeout,
+)
+
+// Timer starts
+timer := time.NewTimer(manifestTimeout)
+
+// If timeout expires
+<-timer.C
+
+// Close lease on-chain
+bus.Publish(event.ClusterLease{
+    LeaseID: leaseID,
+    Action:  ClusterLeaseActionClose,
+})
+
+// Log event
+log.Info("manifest timeout", "lease", leaseID, "timeout", manifestTimeout)
+```
+
+### Design Rationale
+
+The watchdog system solves a resource reservation problem:
+
+**Problem**: Tenant wins lease but never sends manifest
+- Cluster resources remain reserved
+- Inventory shows resources as unavailable
+- Provider cannot bid on other deployments
+
+**Solution**: Watchdog timer closes lease after timeout
+- Resources returned to available inventory
+- Lease closed on-chain
+- Provider can accept new bids
+
+**Configuration**: `manifest-timeout` in `provider.yaml`
+- Set to `5m` for standard timeout
+- Set to `0` to disable (wait indefinitely)
+
+## Source Code Reference
+
+**Primary Implementation**:
+- `manifest/service.go` - Main manifest service
+- `manifest/manager.go` - Per-deployment manager
+- `manifest/watchdog.go` - Timeout monitoring
+- `gateway/rest/router.go` - HTTP endpoints and handlers
+
+**Key Functions**:
+- `NewService()` - Initialize manifest service
+- `Submit()` - Accept manifest from tenant
+- `handleLease()` - Process lease won event
+- `newManager()` - Create deployment manager
+- `newWatchdog()` - Create timeout monitor
+
+## Related Documentation
+
+- [Provider Service Overview](/docs/for-providers/architecture/overview) - High-level architecture
+- [Cluster Service](/docs/for-providers/architecture/cluster-service) - Deployment management
+- [Bid Engine](/docs/for-providers/architecture/bid-engine) - Bidding logic
+- [Hostname Operator](/docs/for-providers/architecture/operators/hostname) - Hostname management

@@ -26,4 +26,4 @@ Cluster service architecture and resource management.
 Manifest service architecture and deployment management.
 
 ### [Operators](/docs/for-providers/architecture/operators)
-Provider operators including hostname operator and ingress controller.
+Kubernetes operators that extend provider functionality (Inventory, IP, Hostname).

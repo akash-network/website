@@ -324,7 +324,7 @@ Your provider now supports IP leases!
 
 **Resources:**
 - [MetalLB Documentation](https://metallb.universe.tf/) - Official MetalLB docs
-- [Provider Troubleshooting](/docs/for-providers/troubleshooting/) - Common issues
+- [Provider Verification](/docs/for-providers/operations/provider-verification/) - Health checks and verification
 
 **Monitor IP usage:**
 

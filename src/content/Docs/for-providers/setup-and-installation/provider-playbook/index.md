@@ -312,7 +312,7 @@ See [Operations](/docs/for-providers/operations) for ongoing management.
   - Ensure at least one storage node is selected
   - Review Ceph operator logs: `kubectl logs -n rook-ceph -l app=rook-ceph-operator`
 
-For more help, see [Troubleshooting](/docs/for-providers/troubleshooting).
+For more help, see [Provider Verification](/docs/for-providers/operations/provider-verification).
 
 ---
 
@@ -362,7 +362,7 @@ You can customize the playbooks by editing:
 
 **After setup:**
 - [Operations →](/docs/for-providers/operations) - Daily provider management
-- [Troubleshooting →](/docs/for-providers/troubleshooting) - Fix common issues
+- [Provider Verification →](/docs/for-providers/operations/provider-verification) - Verify your setup
 
 **Alternative methods:**
 - [Kubespray →](/docs/for-providers/setup-and-installation/kubespray) - Full control with manual setup

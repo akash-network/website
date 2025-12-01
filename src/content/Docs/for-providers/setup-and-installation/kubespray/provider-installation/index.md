@@ -182,11 +182,11 @@ helm install inventory-operator akash/akash-inventory-operator \
   --set inventoryConfig.cluster_storage[2]=ram
 ```
 
-> **Note:** 
-> - Index 0 is always `default` (ephemeral storage)
-> - Index 1 is `ram` (SHM/shared memory) if no persistent storage, or your persistent storage class (`beta1`/`beta2`/`beta3`)
-> - Index 2 is `ram` (SHM/shared memory) if you have persistent storage
-> - All providers should support SHM for deployments requiring shared memory
+**Note:** 
+- Index 0 is always **default** (ephemeral storage)
+- Index 1 is **ram** (SHM/shared memory) if no persistent storage, or your persistent storage class (**beta1**/**beta2**/**beta3**)
+- Index 2 is **ram** (SHM/shared memory) if you have persistent storage
+- All providers should support SHM for deployments requiring shared memory
 
 ### Apply Provider CRDs
 
@@ -635,12 +635,80 @@ curl -k https://provider.example.com:8443/status
 
 ---
 
+## STEP 13 - Install ReplicaSet Cleanup Script (Recommended)
+
+When deployments update but the provider is out of resources, Kubernetes won't destroy old pods until new ones are created. This can cause deployments to get stuck.
+
+**This script automatically removes old ReplicaSets when new ones fail due to insufficient resources.**
+
+See [GitHub Issue #82](https://github.com/akash-network/support/issues/82) for more details.
+
+### Create the Script
+
+On the **control plane node**, create `/usr/local/bin/akash-force-new-replicasets.sh`:
+
+```bash
+cat > /usr/local/bin/akash-force-new-replicasets.sh <<'EOF'
+#!/bin/bash
+#
+# Version: 0.2 - 25 March 2023
+# Files:
+# - /usr/local/bin/akash-force-new-replicasets.sh
+# - /etc/cron.d/akash-force-new-replicasets
+#
+# Description:
+# This workaround identifies deployments stuck due to "insufficient resources"
+# and removes older ReplicaSets, leaving only the newest one.
+
+kubectl get deployment -l akash.network/manifest-service -A -o=jsonpath='{range .items[*]}{.metadata.namespace} {.metadata.name}{"\n"}{end}' |
+  while read ns app; do
+    kubectl -n $ns rollout status --timeout=10s deployment/${app} >/dev/null 2>&1
+    rc=$?
+    if [[ $rc -ne 0 ]]; then
+      if kubectl -n $ns describe pods | grep -q "Insufficient"; then
+        OLD="$(kubectl -n $ns get replicaset -o json -l akash.network/manifest-service --sort-by='{.metadata.creationTimestamp}' | jq -r '(.items | reverse)[1:][] | .metadata.name')"
+        for i in $OLD; do kubectl -n $ns delete replicaset $i; done
+      fi
+    fi
+  done
+EOF
+```
+
+### Make Executable
+
+```bash
+chmod +x /usr/local/bin/akash-force-new-replicasets.sh
+```
+
+### Install JQ (if not already installed)
+
+```bash
+apt -y install jq
+```
+
+### Create Cron Job
+
+Create `/etc/cron.d/akash-force-new-replicasets`:
+
+```bash
+cat > /etc/cron.d/akash-force-new-replicasets << 'EOF'
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+SHELL=/bin/bash
+
+*/5 * * * * root /usr/local/bin/akash-force-new-replicasets.sh
+EOF
+```
+
+The script runs every 5 minutes to clean up stuck ReplicaSets.
+
+---
+
 ## Next Steps
 
 Your provider is now running! 
 
 **Verify your provider:**
-- **→ [Provider Verification](/docs/for-providers/troubleshooting/provider-verification/)** - Verify your provider is working correctly
+- **→ [Provider Verification](/docs/for-providers/operations/provider-verification/)** - Verify your provider is working correctly
 
 **Quick health checks:**
 - Monitor provider status: `kubectl -n akash-services get pods`
@@ -653,7 +721,7 @@ Your provider is now running!
 
 **Provider Resources:**
 - [Provider Calculator](https://akash.network/pricing/provider-calculator/) - Estimate earnings
-- [Troubleshooting](/docs/for-providers/troubleshooting/) - Common issues and solutions
+- [Provider Operations](/docs/for-providers/operations/) - Lease management, monitoring, and maintenance
 - [Akash Discord](https://discord.akash.network) - Join the provider community
 
 ---
