@@ -1,140 +1,249 @@
 ---
 categories: ["For Node Operators"]
 tags: ["Node Build", "Omnibus"]
-weight: 2
+weight: 3
 title: "Akash Node Deployment Via Omnibus"
 linkTitle: "Omnibus"
 ---
 
-In this guide we will cover the deployment of an Akash Node using Cosmos Omnibus. Omnibus will deploy the node onto Akash’s distributed network. Omnibus will greatly simplify the deployment process.
+Deploy an Akash RPC node on the Akash Network itself using Cosmos Omnibus. This method uses a pre-built Docker image and automated sync with blockchain snapshots (updated hourly).
 
-For fine tuning of the Akash Node check the _Additional Information_ section.
+**Time:** 5-10 minutes (deployment) + ~5 minutes (blockchain sync via snapshot)
 
-## Akash Console Deployment of a Node
+**Requirements:**
+- Akash wallet with ~2 AKT (0.5 AKT deposit + usage)
+- Akash Console or CLI
 
-### Akash Console Overview
+---
 
-If you have not used Akash Console previously, please use [this guide](/docs/getting-started/installation/) to get started. The guide includes steps to install the app and to set up a wallet for Akash deployments. Once the Akash Console tool is installed, return to this guide to walk through the Akash Node deployment.
+## Deployment SDL
 
-### Akash Console Walkthrough
+Use this SDL to deploy an Akash node on the network:
 
-- Our Akash Node install begins by creating a new deployment
+```yaml
+---
+version: "2.0"
 
-![](../../../assets/deploymentsHomeScreen.png)
+services:
+  node:
+    image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
+    env:
+      - MONIKER=my-akash-node
+      - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
+      - FASTSYNC_VERSION=v0
+      - P2P_POLKACHU=1
+      - SNAPSHOT_URL=https://snapshots.akash.network/akashnet-2/latest
+      - SNAPSHOT_DATA_PATH=data
+      - ADDRBOOK_POLKACHU=1
+    expose:
+      - port: 26657
+        to:
+          - global: true
+      - port: 26656
+        to:
+          - global: true
+    params:
+      storage:
+        data:
+          mount: /root/.akash
 
-- A number of checks are completed to make sure we are ready to deploy a new app onto Akash
-- Revisit the Akash Console guide for tips if any checks fail
+profiles:
+  compute:
+    node:
+      resources:
+        cpu:
+          units: 4
+        memory:
+          size: 32Gi
+        storage:
+          - size: 10Gi
+          - name: data
+            size: 400Gi
+            attributes:
+              persistent: true
+              class: beta3
+  placement:
+    dcloud:
+      attributes:
+        host: akash
+      signedBy:
+        anyOf:
+          - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
+      pricing:
+        node:
+          denom: uakt
+          amount: 1000
 
-![](<../../../assets/akashlyticsBaseVerify (1).png>)
+deployment:
+  node:
+    dcloud:
+      profile: node
+      count: 1
+```
 
-- To install the Akash Node we will use a custom SDL file
-- Select the “Empty” option so that we can copy/paste the Akash Node SDL in the next step
+---
 
-![](../../../assets/manifestSelectInitial.png)
+## Configuration Options
 
-- Copy and paste the SDL from [this site](https://github.com/akash-network/cosmos-omnibus/blob/master/akash/deploy.yml) into the Akash Console SDL editor window
-- **NOTE -** the SDL within GitHub currently has a storage > size value of 120Gi. Omnibus uses a compressed snapshot of the blockchain and when expanded 120GB of storage for the deployment will not be enough. At the time of this writing adjusting the storage size to 350GB will suffice and allow some growth. Please adjust the storage appropriately and as shown in the screenshot below.
+### Persistent Storage
 
-![](../../../assets/sdlWithStorageAdjustment.png)
+The SDL uses **persistent storage** for blockchain data:
 
-- Accept the initial deposit of 0.5 AKT into the deployment’s escrow account
-- The escrow can be refilled easily within Akash Console at any time
+- **10Gi ephemeral** - For temporary files and logs
+- **400Gi persistent (beta3)** - For blockchain data mounted at `/root/.akash`
 
-![](<../../../assets/acceptDeposit (1) (1) (1) (2).png>)
+**Why persistent storage?**
+- Survives pod restarts
+- Faster redeployment (no re-sync needed)
+- Better for long-running nodes
 
-- Approve the transaction fee to allow the deployment to continue
+**Storage classes:**
+- `beta3` - NVMe (fastest, recommended)
+- `beta2` - SSD
+- `beta1` - HDD
 
-![](../../../assets/transactionFeeDeployAccept.png)
+To adjust storage size:
 
-- Select a provider from the bid list
+```yaml
+storage:
+  - size: 10Gi
+  - name: data
+    size: 400Gi      # Increase for more headroom
+    attributes:
+      persistent: true
+      class: beta3   # Change to beta2 or beta1 if needed
+```
 
-![](<../../../assets/bidSelect (1).png>)
+### Environment Variables
 
-- Accept the transaction fee to create a lease with the provider
+**Pre-configured:**
 
-![](<../../../assets/bidTransactionFee (1).png>)
+```yaml
+env:
+  - MONIKER=my-akash-node                                    # Your node name (change this)
+  - CHAIN_JSON=https://raw.githubusercontent.com/.../meta.json  # Chain config
+  - FASTSYNC_VERSION=v0                                       # Fast sync (v0 recommended)
+  - P2P_POLKACHU=1                                           # Use Polkachu peer nodes
+  - SNAPSHOT_URL=https://snapshots.akash.network/.../latest   # Hourly snapshots
+  - SNAPSHOT_DATA_PATH=data                                   # Snapshot extraction path
+  - ADDRBOOK_POLKACHU=1                                       # Use Polkachu address book
+```
 
-### Akash Console Complete
+**Snapshots:** Updated hourly at [https://snapshots.akash.network/akashnet-2/latest](https://snapshots.akash.network/akashnet-2/latest)
 
-- Once the deployment is complete the lease details are shown
+### Resource Requirements
 
-![](../../../assets/deploymentComplete.png)
+**Current SDL specs:**
+- **CPU:** 4 cores
+- **Memory:** 32 GB
+- **Storage:** 10 GB (ephemeral) + 400 GB (persistent)
 
-- After some time the Available/Ready Replicas fields will update to show the current node count. It may be necessary to refresh the screen for this count to update.
+**To adjust:**
 
-![](<../../../assets/deploymentCounts (1).png>)
+```yaml
+cpu:
+  units: 8         # More cores = faster initial sync
+memory:
+  size: 64Gi       # More RAM for better performance
+storage:
+  - size: 10Gi
+  - name: data
+    size: 1000Gi   # 1TB for long-term operation
+```
 
-## Confirmation of Node Deployment
+### Provider Selection
 
-With the install of the Akash node complete, it must sync with the blockchain. Omnibus will use a snapshot of prior blocks to speed the sync but even so this will take several hours. In the meantime let’s look into monitoring the sync and the running node’s health.
+The SDL includes `signedBy` to ensure deployment on trusted Akash providers:
 
-### Snapshot Download Progress
+```yaml
+signedBy:
+  anyOf:
+    - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63  # Akash validator
+```
 
-- While the blockchain snapshot is downloading, the following logs should be visible within Akash Console
-- We can know that the snapshot download is not yet complete if we see this message in the logs
+This restricts deployment to providers audited by the specified validator, ensuring reliability for critical node infrastructure.
 
-![](../../../assets/snapshotDownloading.png)
+---
 
-### Snapshot Download Completed
+## Deployment
 
-- After the snapshot download completes the logs will begin showing blockchain sync activity
-- Example output shown should look something like this but with the current blocks on the chain
+### Via Akash Console
 
-![](../../../assets/snapshotDownloadComplete.png)
+1. Open [Akash Console](https://console.akash.network)
+2. Create new deployment
+3. Paste the SDL above
+4. **Adjust storage size** to at least 400Gi
+5. Accept .5 AKT deposit
+6. Select a provider from bids
+7. Wait for deployment to start
 
-### Akash Node Verifications
+### Via Akash CLI
 
-- These confirmations can be used after the snapshot has been completed
+```bash
+# Save SDL to deploy.yaml
+akash tx deployment create deploy.yaml \
+  --from mykey \
+  --node https://rpc.akashnet.net:443 \
+  --chain-id akashnet-2 \
+  --deposit 500000uakt \
+  --gas auto \
+  --gas-adjustment 1.5 \
+  --gas-prices 0.025uakt
+```
 
-#### Capture Deployment Address
+---
 
-- Begin by capturing the deployment’s public URI from Akash Console
+## Verification
 
-![](../../../assets/nodeUIR.png)
+### Get Your Node URL
 
-#### Confirm Blockchain Sync
+Your node is accessible via the provider URL and assigned port.
 
-- Open a web browser and enter the Node’s URI as an address
-- If the Node deployed successfully we should view a list of RPC endpoints
-- Click the link to visit the Node’s status page
+**In Akash Console:**
+1. View your deployment
+2. Find the "Leases" section
+3. Look for port 26657 mapping
+4. Note the provider URL and assigned port (e.g., `provider.example.com:12345`)
 
-![](<../../../assets/rpcStatusLink (1) (1) (1) (2) (2).png>)
+**Your node URL format:** `http://provider-url:assigned-port`
 
-- Look for the “latest_block_height” field
+### Check Sync Status
 
-![](../../../assets/rpcStatusVerification.png)
+Access your node via the deployment URL:
 
-- Open [Mintscan](https://www.mintscan.io/akash), a popular blockchain explorer, to compare the captured “latest_block_height” value to the latest block displayed in the explorer
-- The block height from the Akash Node and Mintscan will not be exactly match but should be close to each other
+```bash
+# Replace with your provider URL and assigned port
+curl http://provider.example.com:12345/status | jq '.result.sync_info'
+```
 
-![](../../../assets/mintscanBlockHeight.png)
+**Expected output:**
 
-#### Confirm Peer Nodes
+```json
+{
+  "latest_block_height": "15234567",
+  "catching_up": false
+}
+```
 
-- Navigate back to the home page for your Node
-- Click the link for “net_info”
+**Note:** `catching_up: true` means sync is in progress. With hourly snapshots, this typically takes ~5 minutes.
 
-![](<../../../assets/rpcNetInfoLink (1).png>)
+### Compare Block Height
 
-- Find the section with the name of “peers”
-- Here we can determine what other Akash nodes our node is connected to and the status of these connections
+Check current block height on [Mintscan](https://www.mintscan.io/akash) and compare with your node's `latest_block_height`.
 
-![](<../../../assets/rpcNetInfoData (1).png>)
+### Check Peer Connections
 
-## Additional Information
+```bash
+# Replace with your provider URL and assigned port
+curl http://provider.example.com:12345/net_info | jq '.result.n_peers'
+```
 
-### Cosmos Omnibus Repository
+**Expected:** 10+ connected peers
 
-- The repository for the [Akash Cosmos Omnibus ](https://github.com/akash-network/cosmos-omnibus)project.
+---
 
-### Akash SDL
+## Resources
 
-- The Akash manifest/SDL used in this [guide](https://github.com/akash-network/cosmos-omnibus/blob/master/akash/deploy.yml).
-
-### Chain JSON Config File
-
-- The [config file](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json) used for the genesis URL, seed nodes, etc.
-
-### Cosmos Chain Registry
-
-- This [repo](https://github.com/cosmos/chain-registry) contains a chain.json for a number of cosmos-sdk based chains. A chain.json contains data that makes it easy to start running or interacting with a node.
+- [Cosmos Omnibus GitHub](https://github.com/akash-network/cosmos-omnibus)
+- [Akash Network Configs](https://github.com/akash-network/net)
+- [Chain Registry](https://github.com/cosmos/chain-registry)

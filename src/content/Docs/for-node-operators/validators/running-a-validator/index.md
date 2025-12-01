@@ -4,64 +4,118 @@ tags: ["Validators"]
 weight: 1
 title: "Running a Validator"
 linkTitle: "Running a Validator"
-description: Akash Validator Nodes enables interactions with the network, validation of transactions, and participation in the consensus process.
+description: "Create and manage an Akash validator node on mainnet"
 ---
 
-## What is an Akash Validator?
+This guide shows how to create and manage an Akash validator on mainnet.
 
-Validators are responsible for committing new blocks to the blockchain through voting. A validator's stake is slashed if they become unavailable or sign blocks at the same height. Please read about [Sentry Node Architecture](https://forum.cosmos.network/t/sentry-node-architecture-overview/454) to learn how to protect your node from DDOS attacks and to ensure high-availability on mainnet.
+**Time:** 30-45 minutes
 
-## Akash Validator General Info
+---
 
-### Validator Hardware Requirements and Recommendations
+## Prerequisites
 
-- CPU - 4/8 Core
-- Memory - 8/16GB
-- Disk - SSD or NVMe
-  - Size - 512GB or larger
+Before creating a validator, ensure you have:
 
-### Active Validator Set
+### 1. Full Node Running
 
-- 100 (current) which was extended from 85 recently
-- Tokens to stake to be active = more than last active validator
-- Check with the command `$votingpower` in the Akash Discord server's > validators-status channel for current requirements to get into the active validator set
-- You can stake by yourself or from external wallets within your community
+**Your node must be fully synced before creating a validator.**
 
-### Akash Node Build
+- See [Node Build Guides](/docs/for-node-operators/node-build)
+- Verify sync status: `akash status | jq '.SyncInfo.catching_up'`
+- Should return `false` when fully synced
 
-Before setting up your validator node, make sure you've already gone through the[ Full Node Setup ](/docs/for-node-operators/node-build/cli-build/)guide.
+### 2. Hardware Requirements
 
-## Create Your Validator
+- **CPU:** 8 cores (16 cores recommended)
+- **Memory:** 128 GB required
+- **Storage:** 512 GB SSD/NVMe (1 TB+ recommended)
+- **Network:** 100 Mbps+
+- **Uptime:** 99.9%+ to avoid slashing
 
-### Validator Account and Network Configuration
+### 3. Akash Wallet with Sufficient AKT
 
-#### Validator Account
+- **Minimum:** 2 AKT required (1 AKT for self-delegation + 1 AKT for fees)
+- **Recommended:** 10,000+ AKT to be competitive in the active set
 
-Prior to validator creation we must create an Akash account for validator use. Use the steps covered in this [guide](/docs/getting-started/installation/) to create this account. _**NOTE -**_ only the \`Create an Account\` and \`Fund your Account\` sections of this guide need to be completed for this purpose.
+**Create a wallet:**
 
-#### Network Configuration
-
-Configure settings to communicate with the Akash blockchain as follows:
-
+```bash
+akash keys add <key-name>
 ```
-AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+
+**Fund your wallet** via exchange or [Keplr](https://wallet.keplr.app/).
+
+### 4. Understand Active Validator Set
+
+- **Active Set Size:** 100 validators
+- **Entry Requirement:** More voting power than the 100th validator
+- **Check Requirements:** Use `$votingpower` in Discord #validators-status channel
+
+---
+
+## Step 1 - Set Environment Variables
+
+```bash
+# Network configuration
+export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
 export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
+export AKASH_NODE="https://rpc.akashnet.net:443"
+
+# Your configuration
+export AKASH_KEY_NAME="<your-key-name>"
+export AKASH_MONIKER="<your-validator-name>"
 ```
 
-### Validator Creation
+**Replace:**
+- `<your-key-name>` - Name of your wallet key
+- `<your-validator-name>` - Public name for your validator
 
-Your `akashvalconspub` can be used to create a new validator by staking tokens. You can find your validator pubkey by running:
+---
+
+## Step 2 - Get Your Validator Public Key
 
 ```bash
-provider-services tendermint show-validator
+akash tendermint show-validator
 ```
 
-The file that stores this private key lives at `~/.akash/config/priv_validator_key.json`. To create your validator, just use the following command.
+**Expected output:**
 
-> Note that in the output of this command your \`akashvaloper\` address will be revealed. Note this address for future use including the verification steps later in this guide.
+```json
+{"@type":"/cosmos.crypto.ed25519.PubKey","key":"..."}
+```
+
+**Important:** The private key for this validator lives in `~/.akash/config/priv_validator_key.json`. **Back up this file securely.**
+
+---
+
+## Step 3 - Create Your Validator
+
+### Understand Commission Parameters
+
+Before creating your validator, understand commission structure:
+
+**`--commission-rate`** (e.g., `0.10` = 10%)
+- Your commission on delegator rewards
+- Typical range: 5-10%
+
+**`--commission-max-rate`** (e.g., `0.20` = 20%)
+- Maximum commission you can ever charge
+- **Cannot be changed** after validator creation
+
+**`--commission-max-change-rate`** (e.g., `0.01` = 1%)
+- Maximum % point change per day
+- Example: 10% → 11% = 1 percentage point change
+- Prevents sudden commission spikes
+
+**`--min-self-delegation`** (e.g., `1`)
+- Minimum self-delegated AKT (in uakt)
+- `1` = minimum 1 AKT (1000000 uakt)
+
+### Create Validator Transaction
 
 ```bash
-provider-services tx staking create-validator \
+akash tx staking create-validator \
   --amount=1000000uakt \
   --pubkey="$(akash tendermint show-validator)" \
   --moniker="$AKASH_MONIKER" \
@@ -71,173 +125,332 @@ provider-services tx staking create-validator \
   --commission-max-change-rate="0.01" \
   --min-self-delegation="1" \
   --gas="auto" \
-  --gas-prices="0.0025uakt" \
+  --gas-prices="0.025uakt" \
   --gas-adjustment=1.5 \
   --from="$AKASH_KEY_NAME"
 ```
 
-::: tip When specifying commission parameters, the `commission-max-change-rate` is used to measure % _point_ change over the `commission-rate`. E.g. 1% to 2% is a 100% rate increase, but only 1 percentage point. :::
+**What this does:**
+- Stakes 1 AKT (1000000 uakt) from your wallet
+- Creates validator with 10% commission
+- Sets maximum commission to 20%
+- Allows 1% commission change per day
+- Requires minimum 1 AKT self-delegation
 
-::: tip `min-self-delegation` is a stritly positive integer that represents the minimum amount of self-delegated voting power your validator must always have. A `min-self-delegation` of 1 means your validator will never have a self-delegation lower than `1000000uakt` :::
+**Save your validator address** from the output:
 
-You can confirm that you are in the validator set by using a third party explorer for the testnet you are joining.
+```
+akashvaloper1...
+```
 
-## Edit Validator Description
+---
 
-You can edit your validator's public description. This info is to identify your validator, and will be relied on by delegators to decide which validators to stake to. Make sure to provide input for every flag below. If a flag is not included in the command the field will default to empty (`--moniker` defaults to the machine name) if the field has never been set or remain the same if it has been set in the past.
+## Step 4 - Edit Validator Profile (Optional)
 
-The `$AKASH_KEY_NAME` specifies the key for the validator which you are editing. If you choose to not include certain flags, remember that the `--from` flag must be included to identify the validator to update.
+Add description, website, and logo to your validator profile.
 
-The `--identity` can be used as to verify identity with systems like Keybase or UPort. When using with Keybase `--identity` should be populated with a 16-digit string that is generated with a [keybase.io](https://keybase.io) account. It's a cryptographically secure method of verifying your identity across multiple online networks. The Keybase API allows explorers to retrieve your Keybase avatar. This is how you can add a logo to your validator profile.
+### Get Keybase Identity (for logo)
+
+1. Create account at [keybase.io](https://keybase.io)
+2. Upload your validator logo (recommended: 256x256px)
+3. Get your 16-digit Keybase ID
+
+### Update Validator Profile
 
 ```bash
-provider-services tx staking edit-validator
-  --new-moniker="$AKASH_MONIKER" \
-  --website="https://akash.network" \
-  --identity=6A0D65E29A4CBC8E \
-  --details="The SUPERCLOUD IS HERE!" \
+akash tx staking edit-validator \
+  --new-moniker="My Validator" \
+  --website="https://myvalidator.com" \
+  --identity=<your-16-digit-keybase-id> \
+  --details="Professional Akash validator | 99.9% uptime" \
+  --security-contact="security@myvalidator.com" \
   --chain-id="$AKASH_CHAIN_ID" \
   --gas="auto" \
-  --gas-prices="0.0025uakt" \
+  --gas-prices="0.025uakt" \
   --gas-adjustment=1.5 \
-  --from="$AKASH_KEY_NAME" \
-  --commission-rate="0.10"
+  --from="$AKASH_KEY_NAME"
 ```
 
-**Note**: The `commission-rate` value must adhere to the following invariants:
+### Update Commission Rate (Optional)
 
-- Must be between 0 and the validator's `commission-max-rate`
-- Must not exceed the validator's `commission-max-change-rate` which is maximum
-
-  % point change rate **per day**. In other words, a validator can only change
-
-  its commission once per day and within `commission-max-change-rate` bounds.
-
-## View Validator Description
-
-View the validator's information with this command:
+You can change your commission rate once per day within your `commission-max-change-rate`.
 
 ```bash
-provider-services query staking validator $AKASH_VALIDATOR_ADDRESS
+akash tx staking edit-validator \
+  --commission-rate="0.08" \
+  --chain-id="$AKASH_CHAIN_ID" \
+  --gas="auto" \
+  --gas-prices="0.025uakt" \
+  --gas-adjustment=1.5 \
+  --from="$AKASH_KEY_NAME"
 ```
 
-## Track Validator Signing Information
+**Restrictions:**
+- Must be between 0 and `commission-max-rate`
+- Cannot change more than `commission-max-change-rate` per day
+- Example: If `commission-max-change-rate=0.01`, you can only change by 1% point per day
 
-In order to keep track of a validator's signatures in the past you can do so by using the `signing-info` command:
+---
+
+## Verify Your Validator
+
+### Check Validator Status
 
 ```bash
-provider-services query slashing signing-info $AKASH_VALIDATOR_PUBKEY \
+export AKASH_VALIDATOR_ADDRESS="akashvaloper1..."
+
+akash query staking validator $AKASH_VALIDATOR_ADDRESS
+```
+
+**Expected output:**
+
+```yaml
+commission:
+  commission_rates:
+    rate: "0.100000000000000000"
+    max_rate: "0.200000000000000000"
+    max_change_rate: "0.010000000000000000"
+  update_time: "2024-01-15T10:30:00Z"
+description:
+  moniker: My Validator
+  website: https://myvalidator.com
+  details: Professional Akash validator
+jailed: false
+status: BOND_STATUS_BONDED  # or BOND_STATUS_UNBONDED
+tokens: "1000000"
+```
+
+**Status meanings:**
+- `BOND_STATUS_BONDED` - Active in validator set
+- `BOND_STATUS_UNBONDED` - Not in top 100 (need more stake)
+- `BOND_STATUS_UNBONDING` - Exiting validator set
+
+### Check if in Active Set
+
+```bash
+akash query tendermint-validator-set | grep "$(akash tendermint show-validator)"
+```
+
+**If output is empty:** Your validator is not in the active set (top 100). You need more voting power.
+
+### Check Node Sync Status
+
+```bash
+akash status | jq '.SyncInfo'
+```
+
+**Important fields:**
+- `catching_up: false` - Node is synced
+- `latest_block_height` - Current block (compare with explorer)
+
+---
+
+## Validator Operations
+
+### View Signing Information
+
+Track your validator's signing performance:
+
+```bash
+akash query slashing signing-info \
+  $(akash tendermint show-validator) \
   --chain-id="$AKASH_CHAIN_ID"
 ```
 
-## Unjail Validator
+**Output shows:**
+- Missed blocks
+- Jailed status
+- Tombstone status (permanent jail)
 
-When a validator is "jailed" for downtime, you must submit an `Unjail` transaction from the operator account in order to be able to get block proposer rewards again (depends on the zone fee distribution).
+### Unjail Validator
 
-```bash
-provider-services tx slashing unjail \
-    --from="$AKASH_KEY_NAME" \
-    --chain-id="$AKASH_CHAIN_ID"
-```
+If your validator was jailed for downtime:
 
-## Confirm Your Validator is Running
-
-### Ensure Validator Sync
-
-- Ensure that the field \`catching_up\` is false and that the latest block corresponds to the current block of the blockchain
-
-```
-akash status
-```
-
-#### Example Output when Validator is in Sync
-
-```
-{"NodeInfo":{"protocol_version":{"p2p":"8","block":"11","app":"0"},"id":"136d67725800cb5a8baeb3e97dbdc3923879461e","listen_addr":"tcp://0.0.0.0:26656","network":"akashnet-2","version":"0.34.19","channels":"40202122233038606100","moniker":"cznode","other":{"tx_index":"on","rpc_address":"tcp://0.0.0.0:26657"}},"SyncInfo":{"latest_block_hash":"4441B6D626166822979597F252B333C131C1DCB2F0467FF282EF0EAA3936B8CC","latest_app_hash":"1ED64AE88E5CFD53651CD2B6B4E970292778071C8FBE23289393B4A06F57975F","latest_block_height":"8284780","latest_block_time":"2022-10-31T15:28:17.565762161Z","earliest_block_hash":"E25CE5DD10565D6D63CDA65C8653A15F962A4D2960D5EC45D1DC0A4DE06F8EE3","earliest_app_hash":"19526102DDBCE254BA71CC8E44185721D611635F638624C6F950EF31D3074E2B","earliest_block_height":"5851001","earliest_block_time":"2022-05-12T17:51:58.430492536Z","catching_up":false},"ValidatorInfo":{"Address":"354E7FA2BF8C5B9C0F1C80F1C222818EC992D377","PubKey":{"type":"tendermint/PubKeyEd25519","value":"1+dVHZD7kfqnDU6I+bKbCv4ZE1LPieyMH+mwsOowhqY="},"VotingPower":"0"}}
-```
-
-### Confirm Validator's Staking Status
-
-#### Template
-
-```
-akash query staking validator <akashvaloper-address>
-```
-
-#### Example
-
-```
-akash query staking validator akashvaloper16j3ge9lkpgtdkzntlja08gt6l63fql60xdupxq
-```
-
-#### Example Output
-
-- Status will display as \`BOND_STATUS_UNBONDED\` after initial build
-
-```
-commission:
-  commission_rates:
-    max_change_rate: "0.010000000000000000"
-    max_rate: "0.200000000000000000"
-    rate: "0.100000000000000000"
-  update_time: "2022-10-31T15:24:25.040091667Z"
-consensus_pubkey:
-  '@type': /cosmos.crypto.ed25519.PubKey
-  key: 1+dVHZD7kfqnDU6I+bKbCv4ZE1LPieyMH+mwsOowhqY=
-delegator_shares: "1000000.000000000000000000"
-description:
-  details: ""
-  identity: ""
-  moniker: cznode
-  security_contact: ""
-  website: ""
-jailed: false
-min_self_delegation: "1"
-operator_address: akashvaloper1jy7ej9t6r8q5dyjrst88nt9rjgkdltgx97wfvd
-status: BOND_STATUS_UNBONDED
-tokens: "1000000"
-unbonding_height: "0"
-unbonding_time: "1970-01-01T00:00:00Z"
-```
-
-### Active Set Confirmation
-
-Your validator is active if the following command returns anything
-
-> _**NOTE**_ - this command will only display output of your validator is in the active set
+**Prerequisites:**
+- Your node must be fully synced
+- Wait at least 10 minutes after downtime period
 
 ```bash
-provider-services query tendermint-validator-set | grep "$(provider-services tendermint show-validator)"
+akash tx slashing unjail \
+  --from="$AKASH_KEY_NAME" \
+  --chain-id="$AKASH_CHAIN_ID" \
+  --gas="auto" \
+  --gas-prices="0.025uakt" \
+  --gas-adjustment=1.5
 ```
 
-You should now see your validator in one of the Akash Testnet explorers. You are looking for the `bech32` encoded `address` in the `~/.akash/config/priv_validator.json` file.
+**Note:** You **cannot** unjail if you were tombstoned (double-sign). That's permanent.
 
-## Halting Your Validator
+### Halt Validator for Maintenance
 
-When attempting to perform routine maintenance or planning for an upcoming coordinated upgrade, it can be useful to have your validator systematically and gracefully halt. You can achieve this by either setting the `halt-height` to the height at which you want your node to shutdown or by passing the `--halt-height` flag to `provider-services`. The node will shutdown with a zero exit code at that given height after committing the block.
-
-## Common Problems
-
-### Problem #1: My validator has `voting_power: 0`
-
-Your validator has become jailed. Validators get jailed, i.e. get removed from the active validator set, if they do not vote on `500` of the last `10000` blocks, or if they double sign.
-
-If you got jailed for downtime, you can get your voting power back to your validator. First, if `provider-services` is not running, start it up again. If you are running `systemd` this will be different:
+To gracefully stop your validator at a specific block height:
 
 ```bash
-provider-services start
+# Edit config.toml or use flag
+akash start --halt-height=12345678
 ```
 
-Wait for your full node to catch up to the latest block. Then, you can [unjail your validator](#unjail-validator)
+The node will stop at block `12345678` with exit code 0.
 
-Lastly, check your validator again to see if your voting power is back.
+---
+
+## Monitoring Your Validator
+
+### Check Validator on Explorer
+
+View your validator on a block explorer:
+- [Mintscan](https://www.mintscan.io/akash/validators)
+- [ATOMScan](https://atomscan.com/akash/validators)
+
+Search for your `akashvaloper` address or moniker.
+
+### Monitor Uptime
+
+**Critical:** Validators must sign >95% of blocks to avoid jailing.
+
+**Missed block threshold:** 500 out of 10,000 blocks (~5%)
+
+Set up monitoring with:
+- [PANIC by Simply VC](https://github.com/SimplyVC/panic)
+- [Tenderduty](https://github.com/blockpane/tenderduty)
+
+### Check Voting Power
 
 ```bash
-provider-services status
+akash query staking validator $AKASH_VALIDATOR_ADDRESS | grep "tokens"
 ```
 
-You may notice that your voting power is less than it used to be. That's because you got slashed for downtime!
+**To increase voting power:**
+- Self-delegate more AKT
+- Attract delegators through marketing
+- Maintain high uptime and commission
 
-### Problem #2: My `provider-services` crashes because of `too many open files`
+---
 
-The default number of files Linux can open (per-process) is `1024`. `aprovider-services` is known to open more than `1024` files. This causes the process to crash. A quick fix is to run `ulimit -n 4096` (increase the number of open files allowed) and then restart the process with `provider-services start`. If you are using `systemd` or another process manager to launch `provider-services` this may require some configuration at that level. See the [`systemd` configuration doc](https://github.com/akash-network/docs/tree/1c9232aaec2197efbf4532e8883a247566cf9e28/guides/node/systemd.md) for details on how to configure `systemd` to aleviate this issue.
+## Troubleshooting
+
+### Validator Has Zero Voting Power
+
+**Cause:** Your validator was jailed for downtime or double-signing.
+
+**Solution:**
+
+1. **Check if jailed:**
+
+```bash
+akash query staking validator $AKASH_VALIDATOR_ADDRESS | grep "jailed"
+```
+
+2. **If jailed for downtime:**
+   - Ensure node is synced and running
+   - Wait 10+ minutes
+   - [Unjail your validator](#unjail-validator)
+
+3. **If tombstoned (double-sign):**
+   - **Cannot recover** - this is permanent
+   - You must create a new validator with a new key
+
+### Validator Not in Active Set
+
+**Cause:** Your voting power is less than the 100th validator.
+
+**Solution:**
+
+Check current requirements:
+```bash
+# In Discord #validators-status
+$votingpower
+```
+
+**To join active set:**
+- Self-delegate more AKT
+- Attract delegators
+- Lower commission (temporarily)
+
+### Node Crashes: "Too Many Open Files"
+
+**Cause:** Linux default file descriptor limit (1024) is too low.
+
+**Solution:**
+
+```bash
+# Temporary fix
+ulimit -n 4096
+systemctl restart akash-node
+
+# Permanent fix (add to /etc/security/limits.conf)
+* soft nofile 65536
+* hard nofile 65536
+```
+
+Restart your session for permanent fix to take effect.
+
+### Node Out of Sync
+
+**Symptoms:** `catching_up: true` persists
+
+**Solution:**
+
+1. **Check peers:**
+
+```bash
+akash status | jq '.NodeInfo.peers'
+```
+
+2. **Add more peers** in `~/.akash/config/config.toml`:
+
+Get peers from:
+- [Polkachu Peers](https://polkachu.com/live_peers/akash)
+- [Akash net repo](https://github.com/akash-network/net/blob/main/mainnet/peer-nodes.txt)
+
+3. **Restart node:**
+
+```bash
+systemctl restart akash-node
+```
+
+### Commission Change Rejected
+
+**Error:** `commission cannot be changed more than max change rate`
+
+**Cause:** Trying to change commission by more than `commission-max-change-rate` in 24 hours.
+
+**Solution:** Wait 24 hours between commission changes, or make smaller incremental changes.
+
+---
+
+## Security Best Practices
+
+1. **Backup Private Key**
+   - File: `~/.akash/config/priv_validator_key.json`
+   - Store offline in multiple secure locations
+   - **Never share** this key
+
+2. **Use Sentry Nodes**
+   - Hide validator behind sentry nodes
+   - See [Sentry Node Architecture](https://forum.cosmos.network/t/sentry-node-architecture-overview/454)
+
+3. **Enable Firewall**
+   - Only allow necessary ports
+   - Restrict SSH access
+
+4. **Consider TMKMS**
+   - Hardware Security Module (HSM) integration
+   - See [TMKMS Guide](/docs/for-node-operators/validators/tmkms-stunnel)
+
+5. **Monitor 24/7**
+   - Set up alerting for downtime
+   - Monitor disk space
+   - Track signing performance
+
+---
+
+## Next Steps
+
+- **Community:** Join [#validators on Discord](https://discord.akash.network)
+- **Advanced:** Set up [TMKMS](/docs/for-node-operators/validators/tmkms-stunnel)
+- **Alternative:** Try [Validator via Omnibus](/docs/for-node-operators/validators/omnibus)
+
+---
+
+**Questions?** Join [#validators on Discord](https://discord.com/channels/747885925232672829/771909963946237993)

@@ -76,40 +76,40 @@ Kubernetes operators are applications that extend Kubernetes functionality by:
 ## How Operators Integrate
 
 ```
-┌─────────────────────────────────────────────────┐
-│              Provider Service                    │
-│  ┌───────────────────────────────────────────┐  │
-│  │         Cluster Service                   │  │
-│  │  - Creates CRDs (ProviderHost, etc.)      │  │
-│  │  - Calls operator client interfaces       │  │
-│  └─────────────┬─────────────────────────────┘  │
-└────────────────┼─────────────────────────────────┘
-                 │
-                 │ Creates CRDs
-                 ▼
-        ┌────────────────────┐
-        │   Kubernetes API   │
-        │   (CRD Storage)    │
-        └────────┬───────────┘
-                 │
-                 │ Watch Events
-                 │
-    ┌────────────┼────────────┬──────────────┐
-    │            │            │              │
-    ▼            ▼            ▼              ▼
-┌────────┐  ┌────────┐  ┌────────┐    ┌──────────┐
-│Inventory│  │   IP   │  │Hostname│    │ Other    │
-│Operator │  │Operator│  │Operator│    │ Operators│
-└────────┘  └────────┘  └────────┘    └──────────┘
-    │            │            │              │
-    │            │            │              │
-    ▼            ▼            ▼              ▼
-┌────────────────────────────────────────────────┐
-│         Kubernetes Resources                    │
-│  - Nodes, Pods                                  │
-│  - Services, Ingress                            │
-│  - MetalLB IPAddressPools                       │
-└────────────────────────────────────────────────┘
++--------------------------------------------------+
+|              Provider Service                    |
+|  +-------------------------------------------+   |
+|  |         Cluster Service                   |   |
+|  |  - Creates CRDs (ProviderHost, etc.)      |   |
+|  |  - Calls operator client interfaces       |   |
+|  +-------------------+-----------------------+   |
++--------------------+--------------------------+
+                     |
+                     | Creates CRDs
+                     v
+            +--------------------+
+            |   Kubernetes API   |
+            |   (CRD Storage)    |
+            +---------+----------+
+                      |
+                      | Watch Events
+                      |
+       +--------------+--------------+--------------+
+       |              |              |              |
+       v              v              v              v
++----------+   +----------+   +----------+   +----------+
+|Inventory |   |    IP    |   | Hostname |   |  Other   |
+|Operator  |   | Operator |   | Operator |   |Operators |
++----------+   +----------+   +----------+   +----------+
+       |              |              |              |
+       |              |              |              |
+       v              v              v              v
++-----------------------------------------------------+
+|           Kubernetes Resources                      |
+|  - Nodes, Pods                                      |
+|  - Services, Ingress                                |
+|  - MetalLB IPAddressPools                           |
++-----------------------------------------------------+
 ```
 
 ## Operator Communication

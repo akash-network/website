@@ -7,7 +7,11 @@ linkTitle: "Network Upgrades"
 description: "Upgrade guides for Akash network upgrades"
 ---
 
-**Upgrade guides for Akash network upgrades.**
+Upgrade guides for Akash network upgrades.
 
-This section contains upgrade guides for major network upgrades, including node upgrade instructions and migration steps.
+## Current Network Upgrade
+
+### [Mainnet 14 - Akash v1.0.0](/docs/for-node-operators/network-upgrades/mainnet-14)
+
+Complete upgrade guide including Cosmovisor and manual upgrade instructions.
 

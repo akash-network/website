@@ -1,152 +1,223 @@
 ---
 categories: ["For Node Operators"]
-tags: ["Validators", "TMKMS"]
+tags: ["Validators", "TMKMS", "Security"]
 weight: 3
-title: "Akash Validator with TMKMS and Stunnel"
+title: "Validator with TMKMS"
 linkTitle: "TMKMS and Stunnel"
+description: "Deploy an Akash validator with remote key management using TMKMS and Stunnel"
 ---
 
-In this guide we will create an Akash Validator as a deployment on the Akash network. The Tendermint Key Management System (TMKMS) will be used so that we do not store the validator's private key on the validator server itself.
+Deploy an Akash validator on the network with **Tendermint Key Management System (TMKMS)** for maximum security. Your validator private key is stored on a separate, secured server instead of the validator node itself.
 
-An implementation of Stunnel is included to provide secure peer to peer communication between the Akash validator and the TMKMS server.
+**Time:** 2-3 hours
 
-The Validator deployment will take advantage of statesync for rapid blockchain synchronization.
+---
 
-Sections in this guide:
+## Overview
 
-- [STEP 1 - Validator Topology](#validator-topology)
-- [STEP 2 - Obtain Private Key](#obtain-private-key)
-- [STEP 3 - Akash Validator Deployment](#akash-validator-deployment)
-- [STEP 4 - TMKMS Setup](#tmkms-setup)
-- [STEP 5 - Start and Verify the TMKMS Service](#start-and-verify-the-tmkms-service)
-- [STEP 6 - Stunnel Client](#stunnel-client)
-- [STEP 7 - Verify Validator Status](#verify-validator-status)
-- [Additional Resources](#additional-resources)
+This guide shows how to deploy a validator with:
 
-## Additional Resources
+**Features:**
+- **Remote Key Management** - Validator key stored on separate TMKMS server
+- **Encrypted Communication** - Stunnel provides TLS encryption between validator and TMKMS
+- **Runs on Akash** - Validator deployed on Akash Network
+- **State Sync** - Fast initial synchronization (~5 minutes)
 
-Creation of an Akash Validator with TMKMS and Stunnel via streamlined steps is the focus of this guide. For further information and details, reference the following GitHub repository maintained by the creators of the Omnibus project.
+**Security Benefits:**
+- Validator private key never on validator node
+- Key can be on HSM (Hardware Security Module)
+- Key isolated from internet-facing validator
+- Additional layer against key theft
 
-- [Validator and TMKMS via Omnibus source code](https://github.com/akash-network/cosmos-omnibus/tree/09679171d513586b5e1a9aafe73db55ebdbf5098/_examples/validator-and-tmkms)
+---
 
-## Validator Topology
-
-In this guide we create a Validator within an Akash Deployment.
-
-The topology of the environment will be as follows:
-
-- **Akash Validator** as a deployment and as created in the [Akash Validator Deployment](#akash-validator-deployment) section of this guide
-- **Tendermint Key Management System (TMKMS)** used for storage of the Validators private key on a secured server. The TMKMS instance - configured in the [TMKMS Setup](#tmkms-setup) section of this guide - may be created on any secure server of your choosing. The TMKMS server must have connectivity to the Akash Validator.
-- **Stunnel** provides a secure communication path between the validator and the TMKMS node. A Stunnel server will be co-located with the Validator. A Stunnel client will be co-located with the TMKMS server.
-
-## Obtain Private Key
-
-In the [TMKMS Setup](#tmkms-setup) section of this guide we will import your Validators private key.
-
-If you have a pre-existing Akash Validator the private key from this instance may be used.
-
-If this is a new Akash Validator - create an Akash validator instance for the purpose of private key generation, capture the private key, and then shut down the validator. Use the instructions in [Akash Node Deployment Via Omnibus](/docs/for-node-operators/validators/omnibus/) to easily build an Akash Node for this purpose and to obtain the validator private key as detailed below. It is NOT necessary to complete the additional steps to turn the Node into a Validator. Completing only the Node build will allow the capture of the needed Validator private key.
-
-### Example Validator Private Key Retrieval
-
-- Display contents of key file on the validator
+## Architecture
 
 ```
++-----------------------+         Encrypted         +-----------------------+
+|   Akash Validator     |        (Stunnel)         |    TMKMS Server       |
+|   (Deployment)        | <-------------------->   |   (Your Server)       |
+|                       |                          |                       |
+|  +----------------+   |                          |  +----------------+   |
+|  | Validator Node |   |       Port 26658        |  |    TMKMS       |   |
+|  |  (no priv key) |---|-----(signs blocks)------|--| (has priv key) |   |
+|  +----------------+   |                          |  +----------------+   |
+|                       |                          |                       |
+|  +----------------+   |                          |  +----------------+   |
+|  |    Stunnel     |   |       Port 36658        |  |    Stunnel     |   |
+|  |    Server      |---|-----(TLS tunnel)--------|--| Client (Docker)|   |
+|  +----------------+   |                          |  +----------------+   |
++-----------------------+                          +-----------------------+
+         |                                                   |
+         |                                                   |
+         v                                                   v
+   Akash Network                                    Your Infrastructure
+```
+
+**How it works:**
+1. Validator receives block to sign
+2. Sends signing request to Stunnel server (port 26658)
+3. Stunnel server encrypts and forwards to Stunnel client (port 36658)
+4. Stunnel client decrypts and forwards to TMKMS (port 26658)
+5. TMKMS signs with private key
+6. Signature returns via same encrypted path
+7. Validator broadcasts signed block
+
+---
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+### 1. Akash Wallet
+- Funded with 50+ AKT for deployment deposits
+- See [Akash CLI Installation](/docs/deployments/akash-cli/installation)
+
+### 2. Separate TMKMS Server
+- **OS:** Ubuntu 20.04+ or 22.04 LTS
+- **CPU:** 2 cores minimum
+- **RAM:** 2 GB minimum
+- **Network:** Internet connectivity
+- **Security:** Firewall configured, SSH hardened
+- **Access:** Root or sudo access
+
+### 3. Validator Private Key
+- From existing validator, or
+- Generate new key (we'll cover this)
+
+### 4. Akash Console
+- Familiar with deploying on Akash
+- See [Akash Console Guide](/docs/for-developers/akash-console)
+
+---
+
+## Step 1 - Obtain Validator Private Key
+
+You need a validator private key to import into TMKMS.
+
+### Option A: Use Existing Validator Key
+
+If you have an existing validator:
+
+```bash
 cat ~/.akash/config/priv_validator_key.json
 ```
 
-- Example Output
+Copy this file's contents and save securely.
 
+### Option B: Generate New Key
+
+Deploy a temporary Akash node to generate a key:
+
+1. Follow [Node Build via Omnibus](/docs/for-node-operators/node-build/omnibus)
+2. Once deployed, run in shell:
+
+```bash
+cat ~/.akash/config/priv_validator_key.json
 ```
+
+3. Copy the key contents
+4. Close the deployment
+
+### Key Format
+
+Your private key file should look like:
+
+```json
 {
-  "address": "134FCAC9<redacted>",
+  "address": "134FCAC9E5C...",
   "pub_key": {
     "type": "tendermint/PubKeyEd25519",
-    "value": "BrL0wA8DWiVvm<redacted>"
+    "value": "BrL0wA8DWiVvm..."
   },
   "priv_key": {
     "type": "tendermint/PrivKeyEd25519",
-    "value": "3RphlkX7PucBKSdhFKviFV5TI<redacted>"
+    "value": "3RphlkX7PucBKSdhFKviFV5TI..."
   }
 }
 ```
 
-## Akash Validator Deployment
+**Security:** Save this file securely offline. You'll import it to TMKMS server next.
 
-### Akash Console
+---
 
-- Within this guide we will use the Akash Console application to create the Akash Validator
-- Please review our[ Akash Console ](/docs/for-developers/akash-console/)docs for instructions on how to install and configure the application if this is your first time using it.
+## Step 2 - Deploy Validator on Akash
 
-### Create the Akash Validator Deployment
+Deploy the validator node (without private key) on Akash Network with Stunnel server.
 
-- Use the steps that follow - within Akash Console - to create your Akash Validator deployment
-- The Akash SDL used additionally spins up a Stunnel server to facilitate secure communication with the TMKMS server created in later steps
+### Get SDL Template
 
-#### Create New Deployment
+**Template:** [cosmos-omnibus TMKMS example](https://github.com/akash-network/cosmos-omnibus/blob/master/_examples/validator-and-tmkms/deploy.yml)
 
-- Use the `CREATE DEPLOYMENT` button to launch a new deployment
+### Customize SDL
 
-![](../../../assets/validatorCreateDeployment.png)
+The SDL contains 2 services:
 
-#### Empty Template Option
+1. **node** - Validator node (private key managed by TMKMS)
+2. **proxy** - Stunnel server (encrypts communication)
 
-- Select the `Empty` option as we will be copying a pre-constructed Akash SDL for the deployment
+**Required customizations:**
 
-![](../../../assets/validatorBlankTemplate.png)
-
-#### Copy SDL into Editor
-
-- Copy the following Akash SDL into the Editor pane
-- Reference the [Populated Editor](#populated-editor) section of this guide for further clarity
-- Note that the SDL is using persistent storage to allow data residency should your deployment restart. Data will only persist through the life of the associated Akash lease.
-
-> To ensure the updated SDL is utilized, view the latest version [here](https://github.com/akash-network/cosmos-omnibus/blob/master/_examples/validator-and-tmkms/deploy.yml).
-
-##### SDL Edits
-
-- Consider updating the Pre-Shared Key (PSK) value in the `proxy` service > `env` stanza to your own unique value. The pre-shared key must match that which is defined in the upcoming [Stunnel Client](#stunnel-client) configuration.
-- Update the MONIKER in the `node` service > `env` stanza to your own name/organization name.
-- No additional edits of this SDL are necessary for Akash Validator creation.
-
+```yaml
+services:
+  node:
+    env:
+      - MONIKER=my-validator  # Change this
+  
+  proxy:
+    env:
+      - PSK=<your-unique-psk>  # Generate strong PSK
 ```
+
+**Generate PSK (Pre-Shared Key):**
+
+```bash
+openssl rand -hex 32
+```
+
+Save this PSK - you'll need it for Stunnel client configuration.
+
+### Full SDL (Customized)
+
+```yaml
 ---
 version: "2.0"
 
 services:
   node:
-    image: ghcr.io/akash-network/cosmos-omnibus:v0.3.42-akash-v0.22.7
+    image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
     env:
-      - MONIKER=my-moniker-1
+      - MONIKER=my-validator  # Change this
       - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
-      - MINIMUM_GAS_PRICES=0.0025uakt
+      - MINIMUM_GAS_PRICES=0.025uakt
       - P2P_POLKACHU=1
       - STATESYNC_POLKACHU=1
-      - AKASH_PRIV_VALIDATOR_LADDR=tcp://0.0.0.0:26658 # requires remote signer
+      - AKASH_PRIV_VALIDATOR_LADDR=tcp://0.0.0.0:26658  # Remote signer
     expose:
-      - port: 26657
+      - port: 26657  # RPC (internal to proxy only)
         to:
-          - service: proxy # only exposed to proxy, not globally
-      - port: 26658
+          - service: proxy
+      - port: 26658  # Signing port (internal to proxy only)
         to:
-          - service: proxy # only exposed to proxy, not globally
+          - service: proxy
     params:
       storage:
         data:
           mount: /root/.akash
+  
   proxy:
     image: ghcr.io/ovrclk/stunnel-proxy:v0.0.1
     env:
-      - PSK=DmtaC6N3HOWFkJZpNZs2dkabFT5yQONw # must match PSK in Stunnel client
-      - STUNNEL_SVC_RPC_ACCEPT=36657 # accept 36657
-      - STUNNEL_SVC_RPC_CONNECT=node:26657 # proxy 36657 to node:26657
-      - STUNNEL_SVC_SIGNER_ACCEPT=36658 # accept 36658
-      - STUNNEL_SVC_SIGNER_CONNECT=node:26658 # proxy 36658 to node:26658
+      - PSK=<your-psk-from-above>  # Must match Stunnel client
+      - STUNNEL_SVC_RPC_ACCEPT=36657
+      - STUNNEL_SVC_RPC_CONNECT=node:26657
+      - STUNNEL_SVC_SIGNER_ACCEPT=36658
+      - STUNNEL_SVC_SIGNER_CONNECT=node:26658
     expose:
-      - port: 36657 # expose TLS encrypted 36657 globally through a random port
+      - port: 36657  # Encrypted RPC (global)
         to:
           - global: true
-      - port: 36658 # expose TLS encrypted 36658 globally through a random port
+      - port: 36658  # Encrypted signer (global)
         to:
           - global: true
 
@@ -155,16 +226,16 @@ profiles:
     node:
       resources:
         cpu:
-          units: 4
+          units: 8
         memory:
-          size: 8Gi
+          size: 16Gi
         storage:
-          - size: 512Mi
+          - size: 1Gi
           - name: data
-            size: 120Gi
+            size: 500Gi
             attributes:
               persistent: true
-              class: beta2
+              class: beta3
     proxy:
       resources:
         cpu:
@@ -173,6 +244,7 @@ profiles:
           size: 512Mi
         storage:
           size: 512Mi
+  
   placement:
     dcloud:
       attributes:
@@ -183,7 +255,7 @@ profiles:
       pricing:
         node:
           denom: uakt
-          amount: 10000
+          amount: 100000
         proxy:
           denom: uakt
           amount: 10000
@@ -199,454 +271,510 @@ deployment:
       count: 1
 ```
 
-##### Populated Editor
+### Deploy via Akash Console
 
-> _**NOTE**_- SDL spans past the view in this panel and bottom portion is not displayed
+1. Open [Akash Console](https://console.akash.network)
+2. Click **"Deploy"**
+3. Select **"Empty"** template
+4. Paste your customized SDL
+5. Accept deposit (increase to 50+ AKT for longer runtime)
+6. **Select trusted provider** (validator security is critical!)
+7. Submit deployment
 
-- Select the `CREATE DEPLOYMENT` button to proceed
+### Wait for Deployment
 
-![](../../../assets/validatorSDL.png)
+**Expected behavior:**
+- Deployment will show as running
+- Node container will restart repeatedly with error
+- **This is normal!** Node is waiting for TMKMS connection
 
-#### Deployment Deposit
+### Capture Connection Details
 
-- An escrow account is created for the deployment that is deducted from by the provider for the cost of the workload over time
-- By default 0.5 AKT is specified as the initial escrow deposit
-- If a deployment's escrow runs out of funds (0 AKT), the lease will be closed by the provider. Consider increasing the initial deposit to an amount that will be enough to fund the deployment for some time. And/or consider a strategy to ensure the escrow is re-funded on a periodic basis to ensure no disruption to your validator.
-- When ready select `DEPOSIT` to proceed and `APPROVE` any Transaction/gas fee prompts that follow
+You need 3 pieces of information from the deployment:
 
-![](../../../assets/validatorDeploymentDeposit.png)
+1. Go to **"LEASES"** tab
+2. Find the **"Forwarded Ports"** section
+3. Note:
 
-#### Select Akash Provider
+**Provider URI:** (e.g., `provider.mainnet-1.ca.aksh.pw`)
 
-- A list of Akash Providers that have bid on your deployment is displayed
-- Choose the desired Provider from the list and then select `ACCEPT BID` to proceed
+**Port for 36658 → ???:** (e.g., `31684`) - This is your **Signer Port**
 
-![](../../../assets/validatorSelectProvider.png)
+**Port for 36657 → ???:** (e.g., `32675`) - This is your **RPC Port**
 
-#### Deployment Logs
+Save these - you'll need them for Stunnel client configuration.
 
-- The `LOGS > EVENTS` pane for the new Deployment will display
-- _**NOTE**_ - after a period of time the logs will display a `Back-off restarting failed container` message. This is expected as the container will not start until it has established a connection with the TMKMS server in subsequent steps.
-- Select the `LEASES` tab to proceed into the next step
+---
 
-![](../../../assets/validatorDeploymentLogs.png)
+## Step 3 - Setup TMKMS Server
 
-#### Capture Deployment URI and Port
+**All commands in this step run on your TMKMS server (not the Akash deployment).**
 
-- In upcoming TMKMS configuration sections we will need to specify our Akash Validator deployment's URI and port
-- Capture this info from the `LEASES` tab for later use and specifically in the Stunnel Client section
-- In the example the following values would be captured (these values will be different for your deployment):
+### Install Dependencies
 
-> - **URI** - using the Provider field - `provider.mainnet-1.ca.aksh.pw`
-> - _**Signer Port**_ - using the Forwarded Port field and capturing the port forward to `36658` which in this example is `31684`
-> - _**Proxy/RPC Port**_ -using the Forwarded Port field and capturing the port forward to `36657` which in this example is `32675`
-
-![](../../../assets/akashValdiatorForwardedPorts.png)
-
-## TMKMS Setup
-
-### Considerations
-
-- In a future step in this guide we deploy a Stunnel client which must co-exist on the same machine as the TMKMS server
-- For simplicity we use Docker Compose to build the Stunnel client
-- We do not offer a TMKMS image based on security concerns in using a third party TMKMS image. However you may want to consider using the Linux instructions below for TMKMS server build and create a container image yourself so that both the TKMKS server and the Stunnel client may both be deployed as containers on the single host.
-
-### Prepare TMKMS Dependencies (Ubuntu Instructions)
-
-- All steps in this section should be performed on the TMKMS server unless otherwise noted
-
-#### **Rust Install**
-
-```
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-source $HOME/.cargo/env
-```
-
-#### **GCC**
-
-```
+```bash
+# Update system
 sudo apt update
+sudo apt install -y git build-essential ufw curl jq libusb-1.0-0-dev
 
-sudo apt install git build-essential ufw curl jq snapd --yes
-```
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
 
-#### **Libusb**
-
-```
-apt install libusb-1.0-0-dev
-
+# Set Rust flags for optimization
 export RUSTFLAGS=-Ctarget-feature=+aes,+ssse3
 ```
 
-### Setup TMKMS
+### Install TMKMS
 
-- All steps in this section should be performed on the TMKMS server unless otherwise noted
-
-#### Compiling TMKMS from Source Code
-
-```
+```bash
 cd ~
 git clone https://github.com/iqlusioninc/tmkms.git
 cd ~/tmkms
 cargo install tmkms --features=softsign
-mkdir /etc/tmkms
+```
+
+**This takes 5-10 minutes to compile.**
+
+### Initialize TMKMS
+
+```bash
+mkdir -p /etc/tmkms
 tmkms init /etc/tmkms/
 ```
 
-#### Copy Validator Private Key into TMKMS Config File
+**Created files:**
+- `/etc/tmkms/tmkms.toml` - Configuration file
+- `/etc/tmkms/secrets/` - Directory for keys
 
-- Create the `priv_validator_key.json` file
+### Import Validator Private Key
 
-```
+Create the key file:
+
+```bash
 vi /etc/tmkms/secrets/priv_validator_key.json
 ```
 
-- Copy/paste the validator private key into the `priv_validator_key.json` file
+Paste your validator private key from Step 1:
 
-##### Example `priv_validator_key.json` file
-
-```
+```json
 {
-  "address": "3407CC1<REDACTED>243E2865",
+  "address": "134FCAC9E5C...",
   "pub_key": {
     "type": "tendermint/PubKeyEd25519",
-    "value": "5uAJKqd<REDACTED>mr5LrY6wsRs="
+    "value": "BrL0wA8DWiVvm..."
   },
   "priv_key": {
     "type": "tendermint/PrivKeyEd25519",
-    "value": "d1feQqRc<REDACTED>p1pDs6B6avkutjrCxGw=="
+    "value": "3RphlkX7PucBKSdhFKviFV5TI..."
   }
 }
 ```
 
-#### **Import the Private Validator Key into TMKMS**
+### Convert Key to TMKMS Format
 
-```
-tmkms softsign import /etc/tmkms/secrets/priv_validator_key.json /etc/tmkms/secrets/priv_validator_key.softsign
-```
-
-#### **Delete Private Key File on the Validator**
-
-- Conduct this step on the Akash Validator machine
-- Securely delete the priv_validator_key.json from your validator node and store it safely offline in case of an emergency. The `priv_validator_key` will be what TMKMS will use to sign for your validator.
-- Return to the TMKMS server after this step to complete subsequent steps in this section
-
-```
-shred -uvz ~/.akash/config/priv_validator_key.json
+```bash
+tmkms softsign import \
+  /etc/tmkms/secrets/priv_validator_key.json \
+  /etc/tmkms/secrets/priv_validator_key.softsign
 ```
 
-### **Modify tmkms.toml**
-
-- Begin by deleting the existing `tmkms.toml` file and re-creating anew
-
+**Expected output:**
 ```
-rm /etc/tmkms/tmkms.toml
-
-vi /etc/tmkms/tmkms.toml
+Imported validator key akashvalcons1...
 ```
 
-- Copy the following configuration into the new `tmkms.toml` file
-- No edits to the file syntax below should be necessary
+### Secure Key Permissions
 
+```bash
+chmod 600 /etc/tmkms/secrets/priv_validator_key.softsign
 ```
-# Tendermint KMS configuration file
 
-## Chain Configuration
+### Delete Original Key File
 
-### akashnet-2-dev Network
+```bash
+shred -uvz /etc/tmkms/secrets/priv_validator_key.json
+```
+
+**Important:** The key is now in `.softsign` format. Back up this file securely offline.
+
+---
+
+### Configure TMKMS
+
+Create configuration file:
+
+```bash
+cat > /etc/tmkms/tmkms.toml <<EOF
+# Tendermint KMS configuration
 
 [[chain]]
-id = "akashnet-2-dev"
+id = "akashnet-2"
 key_format = { type = "bech32", account_key_prefix = "akashpub", consensus_key_prefix = "akashvalconspub" }
-state_file = "/etc/tmkms/state/akashnet-2-dev-consensus.json"
-
-## Signing Provider Configuration
-
-### Software-based Signer Configuration
+state_file = "/etc/tmkms/state/akashnet-2-consensus.json"
 
 [[providers.softsign]]
-chain_ids = ["akashnet-2-dev"]
+chain_ids = ["akashnet-2"]
 key_type = "consensus"
 path = "/etc/tmkms/secrets/priv_validator_key.softsign"
 
-## Validator Configuration
-
 [[validator]]
-chain_id = "akashnet-2-dev"
+chain_id = "akashnet-2"
 addr = "tcp://127.0.0.1:36658"
 secret_key = "/etc/tmkms/secrets/kms-identity.key"
 protocol_version = "v0.34"
 reconnect = true
+EOF
 ```
 
-## Start and Verify the TMKMS Service
+**Important settings:**
+- `chain_id` - Must be `akashnet-2` (mainnet)
+- `addr` - Points to Stunnel client (local port 36658)
+- `reconnect` - Automatically reconnects if connection drops
 
-All steps in this section should be performed on the TMKMS server unless otherwise noted
+### Create State Directory
 
-### Start the TMKMS Service
-
-```
-tmkms start -c /etc/tmkms/tmkms.toml
-```
-
-#### Initial Log Messages
-
-- The following connection error messages will initially display after the TMKMS service start
-- Wait approximately 5-10 minutes for the connection to establish and at which time these error messages should cease
-
-```
-2022-03-08T23:42:37.926816Z  INFO tmkms::commands::start: tmkms 0.11.0 starting up...
-2022-03-08T23:42:37.926968Z  INFO tmkms::keyring: [keyring:softsign] added consensus Ed25519 key: osmovalconspub1zcjduepq2qfkp3ahrhaafzuqglme9mares0eluj58xr6cy7c37cdmzq0eecqk0yehr
-2022-03-08T23:42:37.927216Z  INFO tmkms::connection::tcp: KMS node ID: 948f8fee83f7715f99b8b8a53d746ef00e7b0d9e
-2022-03-08T23:42:37.929454Z ERROR tmkms::client: [osmosis-1@tcp://123.456.32.123:26659] I/O error: Connection refused (os error 111)
+```bash
+mkdir -p /etc/tmkms/state
 ```
 
-#### Log Messages Indicating Successful TMKMS Connection
+---
 
-- _**NOTE**_ - these verifications and log entries will not be seen until after the Stunnel Client is created and configured
-- Eventually the following TMKMS log messages should display indicating successful connection between the TMKMS server and the Akash validator
+## Step 4 - Setup Stunnel Client
 
+The Stunnel client provides encrypted connection between TMKMS and your Akash validator.
+
+**Run on TMKMS server (same server as TMKMS).**
+
+### Install Docker and Docker Compose
+
+```bash
+# Install Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+# Install Docker Compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 ```
-2022-09-15T00:08:10.604353Z  INFO tmkms::connection::tcp: KMS node ID: 7a1f7c7f726d94787045cca9fee05c1ec67cd09a
-2022-09-15T00:08:10.899641Z  INFO tmkms::session: [akashnet-2@tcp://127.0.0.1:36658] connected to validator successfully
-2022-09-15T00:08:10.899670Z  WARN tmkms::session: [akashnet-2@tcp://127.0.0.1:36658]: unverified validator peer ID! (aa9cdfb9e1af2d8033168f562941a95c98545372)
-```
 
-## Stunnel Client
+### Clone Stunnel Proxy Repository
 
-### Overview
-
-- The Stunnel client is used to connect to the Stunnel server which was co-located on the Akash Validator server in prior steps
-- We will install the Stunnel client via Docker Compose
-- The Stunnel client must co-exist on the same server as TMKMS which was built in the prior step
-
-### Stunnel Client Source Code
-
-#### Stunnel Repository with Docker Files
-
-- The Stunnel Dockerfile and Docker Compose files used in this section are located [here](https://github.com/akash-network/stunnel-proxy) for your review
-
-#### Pull Down a Copy of the Stunnel Repo
-
-- This step and all subsequent steps should be performed on the server TMKMS was installed on prior
-
-```
-mkdir ~/stunnel
+```bash
+mkdir -p ~/stunnel
 cd ~/stunnel
 git clone https://github.com/akash-network/stunnel-proxy
+cd stunnel-proxy/client
 ```
 
-### Customize the Stunnel Client Docker Compose File
+### Configure Stunnel Client
 
-- Navigate into the `client` directory and make necessary updates to the `docker-compose.yml`file as detailed below
+Edit `docker-compose.yml`:
 
-```
-cd ~/stunnel/stunnel-proxy/client
+```bash
 vi docker-compose.yml
 ```
 
-#### Necessary Docker Compose File Updates
+**Update these variables with your deployment details from Step 2:**
 
-- Use the details captured in the [Akash Validator Deployment](#akash-validator-deployment) section of the guide - within the `Capture Deployment URI and Port` subsection - for the Docker Compose file updates discussed below
-
-#### STUNNEL_SVC_RPC_CONNECT
-
-- Update the `STUNNEL_SVC_RPC_CONNECT` field
-- This field should use the exposed Proxy/RPC port captured during the Akash Validator deployment and within this step
-- Template - update the provider and exposed port variables with your unique Akash deployment values
-
-```
-STUNNEL_SVC_RPC_CONNECT=<akash-provider-url>:<expose-proxy-port>
+```yaml
+environment:
+  - PSK=<your-psk>  # Must match SDL PSK
+  - STUNNEL_SVC_RPC_CONNECT=<provider-uri>:<rpc-port>
+  - STUNNEL_SVC_SIGNER_CONNECT=<provider-uri>:<signer-port>
 ```
 
-- Example of the setting based on the example deployment in this guide
+**Example:**
 
-```
-STUNNEL_SVC_RPC_CONNECT=provider.mainnet-1.ca.aksh.pw:32675
-```
-
-##### STUNNEL_SVC_SIGNER_CONNECT
-
-- Update the `STUNNEL_SVC_SIGNER_CONNECT` field
-- This field should use the exposed Signer port captured during the Akash Validator deployment and within this step
-- Template - update the provider and exposed port variables with your unique Akash deployment values
-
-```
-STUNNEL_SVC_SIGNER_CONNECT=<akash-provider-url>:<signer-port>
+```yaml
+environment:
+  - PSK=a1b2c3d4e5f6789...
+  - STUNNEL_SVC_RPC_CONNECT=provider.mainnet-1.ca.aksh.pw:32675
+  - STUNNEL_SVC_SIGNER_CONNECT=provider.mainnet-1.ca.aksh.pw:31684
 ```
 
-- Example of the setting based on the example deployment in this guide
+### Start Stunnel Client
 
-```
-STUNNEL_SVC_SIGNER_CONNECT=provider.mainnet-1.ca.aksh.pw:31684
-```
-
-##### Network > Server_Default Setting
-
-- Update the Network > Server_Default setting to external: false such as:
-
-```
-networks:
-  server_default:
-    external: false
+```bash
+docker-compose up -d
 ```
 
-##### Pre-Shared Key (PSK)
+### Verify Stunnel Client
 
-- Ensure the PSK field matches the value defined earlier in the [Akash Validator Deployment](#akash-validator-deployment) section
-
-#### Example `docker-compose.yaml` File
-
-```
-version: "3.3"
-services:
-  stunnel:
-    build: ../
-    environment:
-      - PSK=DmtaC6N3HOWFkJZpNZs2dkabFT5yQONw
-      - STUNNEL_SVC_RPC_CLIENT=yes
-      - STUNNEL_SVC_RPC_ACCEPT=0.0.0.0:36657
-      - STUNNEL_SVC_RPC_CONNECT=provider.mainnet-1.ca.aksh.pw:32323
-      - STUNNEL_SVC_SIGNER_CLIENT=yes
-      - STUNNEL_SVC_SIGNER_ACCEPT=0.0.0.0:36658
-      - STUNNEL_SVC_SIGNER_CONNECT=provider.mainnet-1.ca.aksh.pw:32435
-    networks:
-      - server_default
-    ports:
-      - '36657:36657'
-      - '36658:36658'
-networks:
-  server_default:
-    external: false
+```bash
+docker-compose logs -f
 ```
 
-### Docker Compose Up
+**Expected:** Should show successful TLS connection to Stunnel server.
 
-- Create the Stunnel Client Container
+---
 
-```
-cd ~/stunnel/stunnel-proxy/client
-docker compose up -d
-```
+## Step 5 - Start TMKMS
 
-### Stunnel Client Successful Connection Logs
+Run TMKMS service on your TMKMS server.
 
-#### Confirm Name of Container
+### Start in Foreground (Testing)
 
-```
-docker container ls
+```bash
+tmkms start -c /etc/tmkms/tmkms.toml
 ```
 
-##### Example Output
+### Expected Initial Logs
+
+**While waiting for Stunnel connection, you'll see:**
 
 ```
-CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS          PORTS                                                                   NAMES
-a4bd1b21f551   client-stunnel   "/usr/local/configur…"   44 minutes ago   Up 44 minutes   0.0.0.0:36657-36658->36657-36658/tcp, :::36657-36658->36657-36658/tcp   client-stunnel-1
+INFO tmkms::commands::start: tmkms starting...
+INFO tmkms::keyring: [keyring:softsign] added consensus Ed25519 key
+INFO tmkms::connection::tcp: KMS node ID: 948f8fee83f7715f99b8b8a53d746ef00e7b0d9e
+ERROR tmkms::client: [akashnet-2@tcp://127.0.0.1:36658] I/O error: Connection refused (os error 111)
 ```
 
-#### View Stunnel Client Container Logs
+**This is normal!** TMKMS is trying to connect to Stunnel client (port 36658).
+
+### Wait for Connection
+
+After Stunnel client connects (from Step 4), you'll see:
 
 ```
-docker container logs <container-name-obtained-in-last-step>
+INFO tmkms::connection::tcp: KMS node ID: 7a1f7c7f726d94787045cca9fee05c1ec67cd09a
+INFO tmkms::session: [akashnet-2@tcp://127.0.0.1:36658] connected to validator successfully
+WARN tmkms::session: [akashnet-2@tcp://127.0.0.1:36658]: unverified validator peer ID!
 ```
 
-##### Example
+**Success!** TMKMS is now connected and signing blocks.
 
-```
-docker container logs client-stunnel-1
-```
+### Run as Service (Production)
 
-#### &#x20;Example Logs Indicating Successful Connection
+Create systemd service:
 
-```
-client-stunnel-1  | 2022.09.15 00:08:09 LOG6[0]: s_connect: connecting 216.202.234.124:30017
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: s_connect: s_poll_wait 216.202.234.124:30017: waiting 10 seconds
-client-stunnel-1  | 2022.09.15 00:08:09 LOG5[0]: s_connect: connected 216.202.234.124:30017
-client-stunnel-1  | 2022.09.15 00:08:09 LOG5[0]: Service [signer] connected remote server from 172.18.0.2:48336
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: Setting remote socket options (FD=8)
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: Option TCP_NODELAY set on remote socket
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: Remote descriptor (FD=8) initialized
-client-stunnel-1  | 2022.09.15 00:08:09 LOG6[0]: SNI: sending servername: provider.mainnet-1.ca.aksh.pw
-client-stunnel-1  | 2022.09.15 00:08:09 LOG6[0]: Peer certificate not required
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): before SSL initialization
-client-stunnel-1  | 2022.09.15 00:08:09 LOG6[0]: PSK client configured for identity "node"
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS write client hello
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS write client hello
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS read server hello
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS write change cipher spec
-client-stunnel-1  | 2022.09.15 00:08:09 LOG6[0]: PSK client configured for identity "node"
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: Deallocating application specific data for session connect address
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS write client hello
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS write client hello
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: Deallocating application specific data for session connect address
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS read server hello
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): TLSv1.3 read encrypted extensions
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS read finished
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]: TLS state (connect): SSLv3/TLS write finished
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]:      1 client connect(s) requested
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]:      1 client connect(s) succeeded
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]:      0 client renegotiation(s) requested
-client-stunnel-1  | 2022.09.15 00:08:09 LOG7[0]:      1 session reuse(s)
+```bash
+sudo tee /etc/systemd/system/tmkms.service > /dev/null <<EOF
+[Unit]
+Description=Akash TMKMS
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/root/.cargo/bin/tmkms start -c /etc/tmkms/tmkms.toml
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
 ```
 
-## Verify Validator Status
+Enable and start:
 
-### Overview
-
-- In this section we will verify the state of the Akash Validator following successful integration of TMKMS and Stunnel
-- Use Akash Console for the validations in this section
-
-### Verify Stunnel Proxy Service
-
-- Navigate into your Akash Validator deployment within Akash Console
-- Enter the `LOGS` tab of the deployment
-- From the `Services` drop down menu > select `proxy`
-- With Stunnel logs isolated we should see successful TLS connection messages such as the examples below
-
-```
-proxy: 2022.09.15 00:08:10 LOG7[12]: TLS state (accept): SSLv3/TLS write finished
-proxy: 2022.09.15 00:08:10 LOG7[12]: TLS state (accept): TLSv1.3 early data
-proxy: 2022.09.15 00:08:10 LOG7[12]: TLS state (accept): TLSv1.3 early data
-proxy: 2022.09.15 00:08:10 LOG7[12]: TLS state (accept): SSLv3/TLS read finished
-proxy: 2022.09.15 00:08:10 LOG7[12]:      8 server accept(s) requested
-proxy: 2022.09.15 00:08:10 LOG7[12]:      2 server accept(s) succeeded
-proxy: 2022.09.15 00:08:10 LOG7[12]:      0 server renegotiation(s) requested
-proxy: 2022.09.15 00:08:10 LOG7[12]:      4 session reuse(s)
-proxy: 2022.09.15 00:08:10 LOG7[12]:      1 internal session cache item(s)
-proxy: 2022.09.15 00:08:10 LOG7[12]:      0 internal session cache fill-up(s)
-proxy: 2022.09.15 00:08:10 LOG7[12]:      0 internal session cache miss(es)
-proxy: 2022.09.15 00:08:10 LOG7[12]:      0 external session cache hit(s)
-proxy: 2022.09.15 00:08:10 LOG7[12]:      0 expired session(s) retrieved
-proxy: 2022.09.15 00:08:10 LOG7[12]: New session callback
-proxy: 2022.09.15 00:08:10 LOG6[12]: No peer certificate received
-proxy: 2022.09.15 00:08:10 LOG6[12]: Session id: A33315836C947E567A8BBA625BAB4C137F6B26DEAF54142D56E87775A44C26BA
-proxy: 2022.09.15 00:08:10 LOG7[12]: TLS state (accept): SSLv3/TLS write session ticket
-proxy: 2022.09.15 00:08:10 LOG6[12]: TLS accepted: previous session reused
-proxy: 2022.09.15 00:08:10 LOG6[12]: TLSv1.3 ciphersuite: TLS_CHACHA20_POLY1305_SHA256 (256-bit encryption)
-proxy: 2022.09.15 00:08:10 LOG7[12]: Compression: null, expansion: null
-proxy: 2022.09.15 00:08:10 LOG6[12]: Session id: A33315836C947E567A8BBA625BAB4C137F6B26DEAF54142D56E87775A44C26BA
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable tmkms
+sudo systemctl start tmkms
 ```
 
-### Verify Validator Status
+Check status:
 
-- Navigate into your Akash Validator deployment within Akash Console
-- Enter the `LOGS` tab of the deployment
-- From the `Services` drop down menu > select `node`
-- With Validator logs isolated we should see successful `executed block` and `committed state` messages such as those below
+```bash
+sudo systemctl status tmkms
+sudo journalctl -u tmkms -f
+```
 
+---
+
+## Step 6 - Verify Everything is Working
+
+### Check TMKMS Logs
+
+```bash
+sudo journalctl -u tmkms -f --lines 50
 ```
-node: [90m1:19AM[0m [32mINF[0m executed block [36mheight=[0m7627065 [36mmodule=[0mstate [36mnum_invalid_txs=[0m0 [36mnum_valid_txs=[0m3
-node: [90m1:19AM[0m [32mINF[0m commit synced [36mcommit=[0m436F6D6D697449447B5B32362031333220343820373520313930203320343720323238203136372038352031303520323520313533203539203630203234392031343720313236203938203136312032323220313620313336203230322032343220313137203139332032303620313234203830203131322032305D3A3734363133397D
-node: [90m1:19AM[0m [32mINF[0m committed state [36mapp_hash=[0m1A84304BBE032FE4A7556919993B3CF9937E62A1DE1088CAF275C1CE7C507014 [36mheight=[0m7627065 [36mmodule=[0mstate [36mnum_txs=[0m3
-node: [90m1:19AM[0m [32mINF[0m indexed block [36mheight=[0m7627065 [36mmodule=[0mtxindex
-node: [90m1:19AM[0m [32mINF[0m Timed out [36mdur=[0m4875.841288 [36mheight=[0m7627066 [36mmodule=[0mconsensus [36mround=[0m0 [36mstep=[0m1
-node: [90m1:19AM[0m [32mINF[0m received proposal [36mmodule=[0mconsensus [36mproposal=[0m{"Type":32,"block_id":{"hash":"EA1BA91C01F647AC96B855177BE4696FF8B5A470237598A87275B395A1E5C58B","parts":{"hash":"79AF71041EA62A35DA4507A32491F4EF0ADC4E570869E9A5406208A33818EC97","total":1}},"height":7627066,"pol_round":-1,"round":0,"signature":"PBwZZYMEehs/k5jv8RnPSSvYVnMdCHB4UylPnZuxmhL1146okZMaU+huMjJYV8sjAUR6JNoJC8wlwrKHQuUkCA==","timestamp":"2022-09-15T01:20:16.268331046Z"}
-node: [90m1:20AM[0m [32mINF[0m received complete proposal block [36mhash=[0mEA1BA91C01F647AC96B855177BE4696FF8B5A470237598A87275B395A1E5C58B [36mheight=[0m7627066 [36mmodule=[0mconsensus
-node: [90m1:20AM[0m [32mINF[0m finalizing commit of block [36mhash=[0mEA1BA91C01F647AC96B855177BE4696FF8B5A470237598A87275B395A1E5C58B [36mheight=[0m7627066 [36mmodule=[0mconsensus [36mnum_txs=[0m1 [36mroot=[0m1A84304BBE032FE4A7556919993B3CF9937E62A1DE1088CAF275C1CE7C507014
-node: [90m1:20AM[0m [32mINF[0m minted coins from module account [36mamount=[0m4816074uakt [36mfrom=[0mmint [36mmodule=[0mx/bank
-node: [90m1:20AM[0m [32mINF[0m executed block [36mheight=[0m7627066 [36mmodule=[0mstate [36mnum_invalid_txs=[0m0 [36mnum_valid_txs=[0m1
-node: [90m1:20AM[0m [32mINF[0m commit synced [36mcommit=[0m436F6D6D697449447B5B31393520323430203835203130372032382034362035332032303720313735203232322039372031343420383220363720313731203137332031303420323130203135342035382032353420323431203231302032343420323120313431203137392033312034352031343120323438203134385D3A3734363133417D
-node: [90m1:20AM[0m [32mINF[0m committed state [36mapp_hash=[0mC3F0556B1C2E35CFAFDE61905243ABAD68D29A3AFEF1D2F4158DB31F2D8DF894 [36mheight=[0m7627066 [36mmodule=[0mstate [36mnum_txs=[0m1
-node: [90m1:20AM[0m [32mINF[0m indexed block [36mheight=[0m7627066 [36mmodule=[0mtxindex
+
+**Look for:**
+- ✅ `connected to validator successfully`
+- ✅ Signing messages (height increasing)
+
+### Check Akash Validator Logs
+
+In [Akash Console](https://console.akash.network):
+
+1. Go to your deployment
+2. Click **"LOGS"** tab
+3. Select **"node"** service
+
+**Look for:**
+- ✅ `executed block height=...`
+- ✅ `committed state height=...`
+- ✅ Height increasing continuously
+
+### Check Stunnel Proxy Logs
+
+In Akash Console:
+
+1. Select **"proxy"** service from logs
+2. **Look for:** TLS connection success messages
+
+**Example successful logs:**
 ```
+LOG5: Service [signer] connected remote server
+LOG6: TLS accepted: previous session reused
+LOG6: TLSv1.3 ciphersuite: TLS_CHACHA20_POLY1305_SHA256
+```
+
+---
+
+## Step 7 - Create Your Validator
+
+Now that your node is running with TMKMS, create the validator.
+
+### Set Environment Variables
+
+On your local machine (with `akash` CLI):
+
+```bash
+export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
+export AKASH_NODE="$(curl -s "$AKASH_NET/rpc-nodes.txt" | head -1)"
+export AKASH_KEYNAME=<your-key-name>
+export AKASH_GAS=auto
+export AKASH_GAS_ADJUSTMENT=1.25
+export AKASH_GAS_PRICES=0.025uakt
+```
+
+### Get Validator Public Key
+
+You need the validator's **consensus public key**. This is in the TMKMS startup logs.
+
+Look for:
+```
+INFO tmkms::keyring: added consensus Ed25519 key: akashvalconspub1zcjduepq...
+```
+
+Or query your deployment via shell and run:
+```bash
+akash tendermint show-validator
+```
+
+Save this value as `AKASH_VALOPER_PUBKEY`.
+
+### Create Validator Transaction
+
+```bash
+akash tx staking create-validator \
+  --amount=1000000uakt \
+  --pubkey="$AKASH_VALOPER_PUBKEY" \
+  --moniker="<your-moniker>" \
+  --chain-id="$AKASH_CHAIN_ID" \
+  --commission-rate="0.10" \
+  --commission-max-rate="0.20" \
+  --commission-max-change-rate="0.01" \
+  --min-self-delegation="1" \
+  --gas="$AKASH_GAS" \
+  --gas-adjustment="$AKASH_GAS_ADJUSTMENT" \
+  --gas-prices="$AKASH_GAS_PRICES" \
+  --from="$AKASH_KEYNAME"
+```
+
+**Parameters:**
+- `--amount` - Self-delegation amount (e.g., 1000000uakt = 1 AKT)
+- `--moniker` - Your validator's display name
+- `--commission-rate` - Starting commission (e.g., 0.10 = 10%)
+
+### Verify Validator
+
+```bash
+akash query staking validator $(akash keys show $AKASH_KEYNAME --bech val -a)
+```
+
+Check on [Akash Block Explorers](/docs/network/akash):
+- [Mintscan](https://www.mintscan.io/akash/validators)
+- [Ping.pub](https://ping.pub/akash/staking)
+
+---
+
+## Security Best Practices
+
+### TMKMS Server Hardening
+
+**Firewall rules:**
+```bash
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp  # SSH
+sudo ufw enable
+```
+
+**Disable password authentication:**
+```bash
+sudo vi /etc/ssh/sshd_config
+# Set: PasswordAuthentication no
+sudo systemctl restart sshd
+```
+
+### Key Backups
+
+**Critical files to backup securely offline:**
+- `/etc/tmkms/secrets/priv_validator_key.softsign`
+- `/etc/tmkms/secrets/kms-identity.key`
+- Your wallet mnemonic
+
+### Monitoring
+
+Monitor these continuously:
+- TMKMS service status
+- Stunnel connection
+- Validator uptime
+- Disk space on validator deployment
+
+### High Availability
+
+**For production validators:**
+- Use HSM for TMKMS keys
+- Implement Sentry Node Architecture
+- Deploy multiple sentries across providers
+- Monitor with alerts (PagerDuty, etc.)
+
+---
+
+## Troubleshooting
+
+### TMKMS Connection Refused
+
+**Symptom:** `Connection refused (os error 111)`
+
+**Solutions:**
+1. Verify Stunnel client is running: `docker ps`
+2. Check Stunnel client logs: `docker-compose logs -f`
+3. Verify PSK matches in both SDL and docker-compose.yml
+4. Verify ports in tmkms.toml (36658)
+
+### Validator Not Signing
+
+**Symptom:** TMKMS connected but no signing messages
+
+**Solutions:**
+1. Check validator logs for errors
+2. Verify `priv_validator_key.json` deleted from validator
+3. Restart validator deployment
+4. Check state file: `cat /etc/tmkms/state/akashnet-2-consensus.json`
+
+### Stunnel TLS Errors
+
+**Symptom:** `TLS handshake failed`
+
+**Solutions:**
+1. Verify PSK matches exactly
+2. Check provider URI and ports
+3. Verify Akash deployment is running
+4. Check firewall rules
+
+---
+
+## Additional Resources
+
+- [TMKMS GitHub](https://github.com/iqlusioninc/tmkms)
+- [Cosmos Validator Security](https://hub.cosmos.network/main/validators/security.html)
+- [Stunnel Documentation](https://www.stunnel.org/docs.html)
+- [Omnibus TMKMS Example](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples/validator-and-tmkms)

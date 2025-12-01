@@ -21,46 +21,46 @@ The Inventory Operator:
 ## Architecture
 
 ```
-┌────────────────────────────────────────────┐
-│       Inventory Operator                    │
-│                                             │
-│  ┌──────────────────────────────────────┐  │
-│  │    Cluster Nodes Manager              │  │
-│  │  - Watch Kubernetes nodes             │  │
-│  │  - Deploy discovery pods              │  │
-│  │  - Collect hardware info              │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │    Node Discovery Pods                │  │
-│  │  - Run on each node                   │  │
-│  │  - Detect CPUs, GPUs, storage         │  │
-│  │  - Read hardware capabilities         │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │    Storage Queriers                   │  │
-│  │  - Ceph integration                   │  │
-│  │  - Rancher Longhorn integration       │  │
-│  │  - Storage class detection            │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │    Cluster State Aggregator           │  │
-│  │  - Combine node + storage data        │  │
-│  │  - Publish to event bus               │  │
-│  │  - Respond to queries                 │  │
-│  └──────────────────────────────────────┘  │
-└─────────────────────────────────────────────┘
-           │
-           ▼
-   ┌───────────────────┐
-   │  Provider Service │
-   │  (Bid Engine)     │
-   └───────────────────┘
++---------------------------------------------+
+|       Inventory Operator                    |
+|                                             |
+|  +--------------------------------------+   |
+|  |    Cluster Nodes Manager             |   |
+|  |  - Watch Kubernetes nodes            |   |
+|  |  - Deploy discovery pods             |   |
+|  |  - Collect hardware info             |   |
+|  +--------------+-----------------------+   |
+|                 |                           |
+|                 v                           |
+|  +--------------------------------------+   |
+|  |    Node Discovery Pods               |   |
+|  |  - Run on each node                  |   |
+|  |  - Detect CPUs, GPUs, storage        |   |
+|  |  - Read hardware capabilities        |   |
+|  +--------------+-----------------------+   |
+|                 |                           |
+|                 v                           |
+|  +--------------------------------------+   |
+|  |    Storage Queriers                  |   |
+|  |  - Ceph integration                  |   |
+|  |  - Rancher Longhorn integration      |   |
+|  |  - Storage class detection           |   |
+|  +--------------+-----------------------+   |
+|                 |                           |
+|                 v                           |
+|  +--------------------------------------+   |
+|  |    Cluster State Aggregator          |   |
+|  |  - Combine node + storage data       |   |
+|  |  - Publish to event bus              |   |
+|  |  - Respond to queries                |   |
+|  +--------------------------------------+   |
++---------------------------------------------+
+                 |
+                 v
+        +-------------------+
+        |  Provider Service |
+        |  (Bid Engine)     |
+        +-------------------+
 ```
 
 ## Discovery Process

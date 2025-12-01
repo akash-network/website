@@ -14,38 +14,38 @@ The Akash Provider is a modular service that connects Kubernetes clusters to the
 The provider service consists of five main components that work together:
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                  Provider Service                    │
-│                                                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌───────────┐ │
-│  │ Bid Engine   │  │   Cluster    │  │ Manifest  │ │
-│  │              │  │   Service    │  │  Service  │ │
-│  │ - Order      │  │              │  │           │ │
-│  │   monitoring │  │ - Resource   │  │ - SDL     │ │
-│  │ - Bidding    │  │   management │  │   parsing │ │
-│  │ - Pricing    │  │ - Deployment │  │ - Deploy  │ │
-│  │              │  │   lifecycle  │  │   submit  │ │
-│  └──────┬───────┘  └──────┬───────┘  └─────┬─────┘ │
-│         │                 │                 │       │
-│         └────────┬────────┴────────┬────────┘       │
-│                  │                 │                │
-│  ┌───────────────▼─────────────────▼──────────────┐ │
-│  │         PubSub Event Bus (Redis)               │ │
-│  └───────────────┬─────────────────┬──────────────┘ │
-│                  │                 │                │
-│  ┌───────────────▼─────┐  ┌────────▼──────────┐    │
-│  │  Balance Checker    │  │    Operators      │    │
-│  │  - Wallet monitor   │  │  - Hostname       │    │
-│  │  - Auto-withdrawal  │  │  - Inventory      │    │
-│  └─────────────────────┘  │  - IP             │    │
-│                           └───────────────────┘    │
-└──────────────────────────────────────────────────────┘
-           │                        │
-           │                        │
-     ┌─────▼──────┐          ┌──────▼────────┐
-     │ Akash Node │          │  Kubernetes   │
-     │  (RPC)     │          │   Cluster     │
-     └────────────┘          └───────────────┘
++------------------------------------------------------+
+|                  Provider Service                    |
+|                                                      |
+|  +--------------+  +--------------+  +-----------+   |
+|  | Bid Engine   |  |   Cluster    |  | Manifest  |   |
+|  |              |  |   Service    |  |  Service  |   |
+|  | - Order      |  |              |  |           |   |
+|  |   monitoring |  | - Resource   |  | - SDL     |   |
+|  | - Bidding    |  |   management |  |   parsing |   |
+|  | - Pricing    |  | - Deployment |  | - Deploy  |   |
+|  |              |  |   lifecycle  |  |   submit  |   |
+|  +------+-------+  +------+-------+  +-----+-----+   |
+|         |                 |                |         |
+|         +--------+--------+--------+-------+         |
+|                  |                 |                 |
+|  +---------------v-----------------v--------------+  |
+|  |         PubSub Event Bus (Redis)               |  |
+|  +---------------+-----------------+--------------+  |
+|                  |                 |                 |
+|  +---------------v-----+  +--------v----------+      |
+|  |  Balance Checker    |  |    Operators      |      |
+|  |  - Wallet monitor   |  |  - Hostname       |      |
+|  |  - Auto-withdrawal  |  |  - Inventory      |      |
+|  +---------------------+  |  - IP             |      |
+|                           +-------------------+      |
++------------------------------------------------------+
+                  |                 |
+                  |                 |
+           +------v------+   +------v-----------+
+           | Akash Node  |   |   Kubernetes     |
+           |   (RPC)     |   |    Cluster       |
+           +-------------+   +------------------+
 ```
 
 ## Core Services

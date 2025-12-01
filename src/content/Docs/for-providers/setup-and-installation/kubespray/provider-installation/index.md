@@ -102,7 +102,21 @@ ACCOUNT_ADDRESS=$(provider-services keys show <your-key-name> -a)
 
 ---
 
-## STEP 3 - Add Akash Helm Repository
+## STEP 3 - Install Helm and Add Akash Repository
+
+### Install Helm
+
+```bash
+# Download Helm
+wget https://get.helm.sh/helm-v4.0.1-linux-amd64.tar.gz
+tar -zxvf helm-v4.0.1-linux-amd64.tar.gz
+install linux-amd64/helm /usr/local/bin/helm
+
+# Verify installation
+helm version
+```
+
+### Add Akash Helm Repository
 
 ```bash
 helm repo add akash https://akash-network.github.io/helm-charts
@@ -130,6 +144,8 @@ kubectl label namespace lease akash.network=true
 
 ### Install Akash Node via Helm
 
+The default installation uses blockchain snapshots for fast synchronization.
+
 ```bash
 helm install akash-node akash/akash-node \
   -n akash-services
@@ -148,7 +164,7 @@ NAME             READY   STATUS    RESTARTS   AGE
 akash-node-1-0   1/1     Running   0          2m
 ```
 
-The node will sync with the blockchain automatically (typically takes ~10 minutes). You can proceed with the next steps while it syncs.
+**Sync Time:** The node will download and extract a blockchain snapshot, then sync to the latest block. This typically takes ~5 minutes. You can proceed with the next steps while it syncs.
 
 ---
 

@@ -12,46 +12,46 @@ The Bid Engine Service is responsible for monitoring the Akash blockchain for de
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────┐
-│         Bid Engine Service                   │
-│                                              │
-│  ┌──────────────────────────────────────┐  │
-│  │     Order Fetcher                     │  │
-│  │  - Queries chain for open orders     │  │
-│  │  - Pages through results             │  │
-│  │  - Handles catchup on restart        │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │     Event Subscriber                  │  │
-│  │  - Listens for EventOrderCreated     │  │
-│  │  - Receives real-time order events   │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │     Order Manager (Map)               │  │
-│  │  - orders map[orderID]*order          │  │
-│  │  - Tracks active order processing     │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │     Order Instance (per order)        │  │
-│  │  - Order lifecycle FSM               │  │
-│  │  - Resource matching                  │  │
-│  │  - Price calculation                  │  │
-│  │  - Bid submission                     │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │     Pricing Strategy                  │  │
-│  │  - Shell script pricing              │  │
-│  │  - Scale-based pricing                │  │
-│  └──────────────────────────────────────┘  │
-└─────────────────────────────────────────────┘
++----------------------------------------------+
+|         Bid Engine Service                   |
+|                                              |
+|  +---------------------------------------+   |
+|  |     Order Fetcher                     |   |
+|  |  - Queries chain for open orders      |   |
+|  |  - Pages through results              |   |
+|  |  - Handles catchup on restart         |   |
+|  +--------------+------------------------+   |
+|                 |                            |
+|                 v                            |
+|  +---------------------------------------+   |
+|  |     Event Subscriber                  |   |
+|  |  - Listens for EventOrderCreated      |   |
+|  |  - Receives real-time order events    |   |
+|  +--------------+------------------------+   |
+|                 |                            |
+|                 v                            |
+|  +---------------------------------------+   |
+|  |     Order Manager (Map)               |   |
+|  |  - orders map[orderID]*order          |   |
+|  |  - Tracks active order processing     |   |
+|  +--------------+------------------------+   |
+|                 |                            |
+|                 v                            |
+|  +---------------------------------------+   |
+|  |     Order Instance (per order)        |   |
+|  |  - Order lifecycle FSM                |   |
+|  |  - Resource matching                  |   |
+|  |  - Price calculation                  |   |
+|  |  - Bid submission                     |   |
+|  +--------------+------------------------+   |
+|                 |                            |
+|                 v                            |
+|  +---------------------------------------+   |
+|  |     Pricing Strategy                  |   |
+|  |  - Shell script pricing               |   |
+|  |  - Scale-based pricing                |   |
+|  +---------------------------------------+   |
++----------------------------------------------+
 ```
 
 ## Service Initialization

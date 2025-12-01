@@ -21,46 +21,46 @@ The IP Operator:
 ## Architecture
 
 ```
-┌────────────────────────────────────────────┐
-│          IP Operator                        │
-│                                             │
-│  ┌──────────────────────────────────────┐  │
-│  │  CRD Watcher                          │  │
-│  │  - Watch ProviderLeasedIP resources   │  │
-│  │  - Monitor Add/Update/Delete events   │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │  Event Handler                        │  │
-│  │  - Process ADD: allocate IP           │  │
-│  │  - Process UPDATE: update config      │  │
-│  │  - Process DELETE: release IP         │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │  MetalLB Client                       │  │
-│  │  - CreateIPPassthrough()              │  │
-│  │  - UpdateIPPassthrough()              │  │
-│  │  - PurgeIPPassthrough()               │  │
-│  │  - GetIPAddressUsage()                │  │
-│  └────────────┬─────────────────────────┘  │
-│               │                             │
-│               ▼                             │
-│  ┌──────────────────────────────────────┐  │
-│  │  State Manager                        │  │
-│  │  - Track allocated IPs                │  │
-│  │  - Monitor IP pool capacity           │  │
-│  │  - Expose HTTP endpoints              │  │
-│  └──────────────────────────────────────┘  │
-└─────────────────────────────────────────────┘
-           │
-           ▼
-   ┌───────────────────┐
-   │     MetalLB       │
-   │  (IP Allocator)   │
-   └───────────────────┘
++---------------------------------------------+
+|          IP Operator                        |
+|                                             |
+|  +--------------------------------------+   |
+|  |  CRD Watcher                         |   |
+|  |  - Watch ProviderLeasedIP resources  |   |
+|  |  - Monitor Add/Update/Delete events  |   |
+|  +--------------+-----------------------+   |
+|                 |                           |
+|                 v                           |
+|  +--------------------------------------+   |
+|  |  Event Handler                       |   |
+|  |  - Process ADD: allocate IP          |   |
+|  |  - Process UPDATE: update config     |   |
+|  |  - Process DELETE: release IP        |   |
+|  +--------------+-----------------------+   |
+|                 |                           |
+|                 v                           |
+|  +--------------------------------------+   |
+|  |  MetalLB Client                      |   |
+|  |  - CreateIPPassthrough()             |   |
+|  |  - UpdateIPPassthrough()             |   |
+|  |  - PurgeIPPassthrough()              |   |
+|  |  - GetIPAddressUsage()               |   |
+|  +--------------+-----------------------+   |
+|                 |                           |
+|                 v                           |
+|  +--------------------------------------+   |
+|  |  State Manager                       |   |
+|  |  - Track allocated IPs               |   |
+|  |  - Monitor IP pool capacity          |   |
+|  |  - Expose HTTP endpoints             |   |
+|  +--------------------------------------+   |
++---------------------------------------------+
+                 |
+                 v
+        +-------------------+
+        |     MetalLB       |
+        |  (IP Allocator)   |
+        +-------------------+
 ```
 
 ## IP Allocation Flow
