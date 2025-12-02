@@ -158,7 +158,6 @@ There are three ways to set up an Akash provider:
 ### Still Deciding?
 
 - **Ask in Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
-- **Read Provider FAQ:** [forum.akash.network](https://forum.akash.network)
 - **Check Provider Stats:** See active providers and their revenue
 
 ---

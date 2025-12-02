@@ -229,7 +229,6 @@ Not sure Kubespray is right for you?
 
 ### During Setup
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
-- **Forum:** [forum.akash.network](https://forum.akash.network)
 - **Kubespray Docs:** [kubespray.io](https://kubespray.io)
 
 ### After Setup

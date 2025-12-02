@@ -55,7 +55,6 @@ Connect with the Akash community:
 ## Community
 
 - **Discord:** [discord.akash.network](https://discord.akash.network) - Join the conversation
-- **Forum:** [forum.akash.network](https://forum.akash.network) - Ask questions
 - **Blog:** [blog.akash.network](https://blog.akash.network) - Latest updates
 
 ---

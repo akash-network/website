@@ -153,7 +153,6 @@ After setup completes:
 
 - **Provider Console Docs:** [console.akash.network/docs](https://console.akash.network/docs)
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
-- **Forum:** [forum.akash.network](https://forum.akash.network)
 
 ---
 

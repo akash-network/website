@@ -44,11 +44,10 @@ New to Akash? Start here:
 
 ## Need Help?
 
-- **Discord:** [discord.akash.network](https://discord.akash.network) - Get help from the community
-- **Forum:** [forum.akash.network](https://forum.akash.network) - Ask questions and share ideas
+- **[Discord](https://discord.akash.network)** - Get help from the community
 - **GitHub:** [Report issues](https://github.com/akash-network/support)
 
 ---
 
-**Ready to deploy?** Start with [What is Akash?](/docs/getting-started/what-is-akash)!
+**Ready to deploy?** Start with [What is Akash?!](/docs/getting-started/what-is-akash)
 

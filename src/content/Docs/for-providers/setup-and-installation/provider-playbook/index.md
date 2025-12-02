@@ -375,6 +375,5 @@ You can customize the playbooks by editing:
 - **GitHub Repository:** [akash-network/provider-playbooks](https://github.com/akash-network/provider-playbooks)
 - **Report Issues:** [GitHub Issues](https://github.com/akash-network/provider-playbooks/issues)
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
-- **Forum:** [forum.akash.network](https://forum.akash.network)
 - **Documentation:** [docs.akash.network](https://docs.akash.network)
 

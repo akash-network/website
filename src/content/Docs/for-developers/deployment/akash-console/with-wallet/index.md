@@ -356,7 +356,6 @@ When you're done:
 ## Need Help?
 
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #general or #developers
-- **Forum:** [forum.akash.network](https://forum.akash.network) - Detailed discussions
 - **Support:** [support.akash.network](https://support.akash.network) - Official support
 
 ---

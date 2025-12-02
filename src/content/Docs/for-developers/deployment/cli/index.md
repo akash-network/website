@@ -180,7 +180,6 @@ provider-services query provider list
 ### Community
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #developers channel
 - **GitHub:** [github.com/akash-network/provider](https://github.com/akash-network/provider)
-- **Forum:** [forum.akash.network](https://forum.akash.network)
 
 ---
 

@@ -142,7 +142,6 @@ Check current requirements:
 ### Community
 - **Discord:** [#validators channel](https://discord.akash.network)
 - **Telegram:** [Akash Validators](https://t.me/AkashNW)
-- **Forum:** [forum.akash.network](https://forum.akash.network)
 
 ### Tools
 - **Block Explorers:**

@@ -8,7 +8,7 @@ linkTitle: "Core Concepts"
 
 **Understand the key concepts behind Akash Network.**
 
-This guide explains how Akash works and the core components you'll interact with when deploying applications.
+This guide explains how Akash works and the core components of the decentralized cloud marketplace. Whether you're deploying applications, providing compute resources, or just learning about Akash, these concepts form the foundation of the network.
 
 ---
 
@@ -16,17 +16,17 @@ This guide explains how Akash works and the core components you'll interact with
 
 Akash Network is a decentralized marketplace that connects:
 
-- **Deployers** (you) - People who want to run applications
+- **Tenants/Deployers** - People and organizations who want to run applications
 - **Providers** - Data centers offering compute resources
 - **Blockchain** - The Akash blockchain coordinates everything
 
-When you deploy an app:
+When someone deploys an app:
 
-1. You create a **deployment** describing what you need
-2. Providers bid to host your app
-3. You accept a bid and create a **lease**
-4. Your app runs on the provider's infrastructure
-5. Payment happens automatically from your escrow account
+1. A **deployment** is created describing resource needs
+2. Providers bid to host the app
+3. The tenant accepts a bid and creates a **lease**
+4. The app runs on the provider's infrastructure
+5. Payment happens automatically from an escrow account (using AKT or USDC)
 
 ---
 
@@ -34,13 +34,13 @@ When you deploy an app:
 
 ### Deployments
 
-A **deployment** is a request for compute resources on Akash Network.
+A **deployment** is a request for compute resources on Akash Network. When you create a deployment, it generates an **order** on the marketplace that providers can bid on.
 
 **Key Points:**
 - Defined using SDL (Stack Definition Language)
 - Specifies your app's container image, resources, and ports
-- Creates an order on the marketplace
-- **With wallet:** Requires a 0.5 AKT minimum deposit
+- Creates an **order** on the marketplace for providers to bid on
+- **With wallet:** Requires a 0.5 AKT or 0.5 USDC minimum deposit
 - **With trial:** Uses managed credits (no direct deposit)
 
 **Example deployment:**
@@ -73,7 +73,7 @@ A **lease** is an agreement between you and a provider.
 - Locks in pricing for your deployment
 - Provider allocates resources for your app
 - Your escrow account pays the provider per block
-- Continues until you close the deployment or funds run out
+- Continues until you close the deployment, funds run out, or the provider closes it
 
 **Lease lifecycle:**
 1. Deployment created → Order opens
@@ -81,7 +81,7 @@ A **lease** is an agreement between you and a provider.
 3. You accept a bid → Lease created
 4. Provider runs your app
 5. Automatic payments per block
-6. You close deployment → Lease ends
+6. Lease ends when: you close the deployment, escrow runs out, or provider closes it
 
 ### SDL (Stack Definition Language)
 
@@ -133,14 +133,14 @@ deployment:
       count: 1
 ```
 
-**Learn more:** [SDL Documentation](/docs/getting-started/stack-definition-language/)
+**Learn more:** [SDL Documentation](/docs/for-developers/deployment/akash-sdl)
 
 ### Escrow Accounts
 
-**Escrow accounts** hold funds to pay for your deployments.
+**Escrow accounts** hold funds to pay for deployments.
 
 **How escrow works (with wallet):**
-- You deposit AKT when creating a deployment (minimum 0.5 AKT)
+- You deposit AKT or USDC when creating a deployment (minimum 0.5 AKT or 0.5 USDC)
 - Provider is paid automatically per block from escrow
 - Unused funds returned when you close the deployment
 - If escrow runs out, deployment closes automatically
@@ -159,21 +159,24 @@ deployment:
 
 ### Certificates
 
-**Certificates** enable secure communication between you and providers.
+**Certificates** enable secure communication between tenants and providers.
 
-**Important points:**
-- Required once per account (wallet users only)
-- Valid for one year
-- Stored on the Akash blockchain
-- Free to create (just gas fees)
-- Can be revoked and regenerated
+**Authentication Methods:**
+- **JWT (Default):** Token-based authentication, fully automatic, no expiration
+- **mTLS Certificates (Optional):** Traditional certificate-based authentication, can be created and renewed manually if preferred
 
-**When you need a certificate:**
-- Before your first deployment (wallet users)
-- After certificate expires (1 year)
-- If you revoke your old certificate
+**How it works:**
+- **JWT-based authentication** is the default and recommended method
+- Fully automatic - no manual certificate management required
+- No expiration concerns with JWT
+- mTLS certificates can still be used if needed and can be renewed
+- Free to create (just gas fees for blockchain transactions)
 
-**Note:** Trial users don't need to manually create certificates - they're managed automatically by Console.
+**For different deployment methods:**
+- **Trial/Console:** Fully automatic JWT - no manual steps required
+- **CLI/SDK:** Automatic JWT by default, or optional mTLS certificates if preferred
+
+**Note:** You retain full access to your deployments, logs, and SDL indefinitely - there are no time limits or expiration issues.
 
 ---
 
@@ -193,6 +196,7 @@ Understanding how resources are measured on Akash:
 ### Memory
 
 - Measured in **Mi** (Mebibytes) or **Gi** (Gibibytes)
+- Other valid units: Ki, Ti, Pi, Ei, k, M, G, T, P, E
 - Common: 512Mi - 16Gi
 - Examples:
   - `512Mi` = 512 Mebibytes (~537 MB)
@@ -201,6 +205,7 @@ Understanding how resources are measured on Akash:
 ### Storage
 
 - Measured in **Mi** (Mebibytes) or **Gi** (Gibibytes)
+- Other valid units: Ki, Ti, Pi, Ei, k, M, G, T, P, E
 - Persistent or ephemeral
 - Common: 512Mi - 100Gi
 - Examples:
@@ -220,16 +225,11 @@ Understanding how resources are measured on Akash:
 
 ### How Pricing Works
 
-**You set the maximum price you're willing to pay:**
-- Specified in SDL as `amount` in `uakt` (micro-AKT)
+**Tenants set the maximum price they're willing to pay:**
+- Specified in SDL as `amount` in `uakt` (micro-AKT) or USDC
 - Price is per block (~6 seconds on Akash)
-- Providers bid at or below your max price
-
-**Example calculation:**
-- You offer: 10000 uAKT per block
-- Provider bids: 5000 uAKT per block
-- Blocks per day: ~14,400
-- Daily cost: 5000 × 14,400 = 72,000,000 uAKT = 0.072 AKT
+- Providers bid at or below the max price
+- In practice, set a high max price and let providers compete with their bids
 
 ### Typical Costs
 
@@ -261,9 +261,9 @@ Understanding how resources are measured on Akash:
 - Deployments and orders
 - Bids and leases
 - Certificates
-- Payments and escrow
+- Payments and escrow (AKT or USDC)
 
-**You interact with the blockchain to:**
+**Tenants interact with the blockchain to:**
 - Create/update/close deployments
 - Accept provider bids
 - Manage certificates
@@ -277,7 +277,7 @@ Understanding how resources are measured on Akash:
 - Provider runs your containers
 - Provider exposes your services
 
-**You interact with providers to:**
+**Tenants interact with providers to:**
 - Upload manifest
 - Check deployment status
 - View logs
@@ -293,23 +293,10 @@ You can update certain aspects of your deployment without creating a new one:
 
 ✅ **Container image versions** - Change image tags  
 ✅ **Environment variables** - Update env vars  
-✅ **Port configurations** - Modify exposed ports (without resource changes)  
+✅ **Command/Args** - Modify container command and arguments  
 ✅ **SDL version** - Update deployment hash
 
-**To update these:**
-
-```bash
-# Update on-chain (updates SDL hash)
-provider-services tx deployment update deploy.yaml \
-  --dseq $AKASH_DSEQ \
-  --from $AKASH_KEY_NAME
-
-# Send new manifest to provider
-provider-services send-manifest deploy.yaml \
-  --dseq $AKASH_DSEQ \
-  --provider $AKASH_PROVIDER \
-  --from $AKASH_KEY_NAME
-```
+**Note:** In Akash Console, use the "Update Deployment" button. For CLI users (with wallet), see the [CLI documentation](/docs/for-developers/deployment/cli) for update commands.
 
 ### What CANNOT Be Updated
 
@@ -328,47 +315,30 @@ provider-services send-manifest deploy.yaml \
 **Complete flow of an Akash deployment:**
 
 ### 1. Prepare
-- Install provider-services CLI
-- Create and fund wallet
-- Generate certificate
-- Write SDL file
+- **Trial:** Sign up at [console.akash.network](https://console.akash.network)
+- **Wallet:** Install CLI, create wallet, write SDL (certificates are automatic)
 
 ### 2. Create Deployment
-```bash
-provider-services tx deployment create deploy.yaml --from $AKASH_KEY_NAME
-```
 - Deployment posted to blockchain
 - Order opens on marketplace
-- Escrow account funded (0.5 AKT minimum)
+- Escrow account funded (0.5 AKT minimum for wallet users)
 
 ### 3. Review Bids
-```bash
-provider-services query market bid list --owner=$AKASH_ACCOUNT_ADDRESS --dseq $AKASH_DSEQ
-```
 - Providers submit bids
 - Review price, provider attributes
 - Choose preferred provider
 
 ### 4. Create Lease
-```bash
-provider-services tx market lease create --dseq $AKASH_DSEQ --provider $AKASH_PROVIDER --from $AKASH_KEY_NAME
-```
 - Accept provider's bid
 - Lease created on blockchain
 - Provider reserves resources
 
 ### 5. Send Manifest
-```bash
-provider-services send-manifest deploy.yaml --dseq $AKASH_DSEQ --provider $AKASH_PROVIDER --from $AKASH_KEY_NAME
-```
 - Detailed config sent to provider
 - Provider pulls container images
 - Containers start running
 
 ### 6. Access Application
-```bash
-provider-services lease-status --dseq $AKASH_DSEQ --provider $AKASH_PROVIDER --from $AKASH_KEY_NAME
-```
 - Get service URLs
 - Application is live!
 
@@ -379,12 +349,11 @@ provider-services lease-status --dseq $AKASH_DSEQ --provider $AKASH_PROVIDER --f
 - Check escrow balance
 
 ### 8. Close Deployment
-```bash
-provider-services tx deployment close --dseq $AKASH_DSEQ --from $AKASH_KEY_NAME
-```
 - Lease ends
 - Containers stopped
 - Unused escrow funds returned
+
+**For CLI commands:** See the [CLI documentation](/docs/for-developers/deployment/cli)
 
 ---
 
@@ -394,25 +363,19 @@ provider-services tx deployment close --dseq $AKASH_DSEQ --from $AKASH_KEY_NAME
 
 - **Minimum escrow:** 0.5 AKT per deployment
 - **Maximum services:** 50 per deployment
-- **Certificate expiry:** 1 year
 - **Bid timeout:** 5 minutes (bids close automatically)
 
 ### SDL Rules
 
 - **Version:** Must be "2.0"
-- **Image tags:** Must specify version (no `latest` tag)
-- **Resource minimums:** 
-  - CPU: 0.1 units
-  - Memory: 128Mi
-  - Storage: 128Mi
+- **Image tags:** Specify exact versions when possible (avoid `latest` tag)
+- **Resource minimums:** Vary by provider, but typical minimums are very small (as low as 10Mi storage)
 
 ### Best Practices
 
 - **Always specify exact image versions** in SDL
-- **Set reasonable pricing** to get competitive bids
 - **Monitor escrow balance** to avoid unexpected deployment closure
-- **Keep certificates valid** (renew before expiry)
-- **Test deployments** on testnet first for complex setups
+- **Test deployments** with trial or testnet first for complex setups
 
 ---
 
@@ -463,5 +426,5 @@ A: Your deployment will automatically close. Top up escrow before it runs out.
 
 - [Akash Discord](https://discord.akash.network) - Community support
 - [Akash Docs](/docs) - Full documentation
-- [Stack Definition Language](/docs/getting-started/stack-definition-language/) - SDL reference
+- [Stack Definition Language](/docs/for-developers/deployment/akash-sdl) - SDL reference
 

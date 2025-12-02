@@ -228,7 +228,7 @@ To change your deployment configuration:
 3. Edit the SDL configuration in the editor
 4. Click **"Update"** to apply changes
 
-**Note:** Updates will create a new lease and may briefly interrupt service.
+**Note:** Updates modify your existing lease and may briefly interrupt service during the container restart.
 
 ### Close Your Deployment
 
@@ -311,11 +311,11 @@ You have $100 in credits and 30 days - here's how to make the most of it:
 
 ### 🚀 Deploy Real Applications
 
-Now that you know the basics, deploy something useful:
-- **[Web Applications](/docs/for-developers/deployment-guides/web-applications)** - Blogs, APIs, websites
-- **[Databases](/docs/for-developers/deployment-guides/databases)** - PostgreSQL, MongoDB, Redis
-- **[AI/ML](/docs/for-developers/deployment-guides/machine-learning)** - LLMs, stable diffusion, training
-- **[GPU Workloads](/docs/for-developers/deployment-guides/gpus)** - Use Akash's GPU marketplace
+Now that you know the basics, explore templates in Akash Console to deploy:
+- **Web Applications** - Blogs, APIs, websites
+- **Databases** - PostgreSQL, MongoDB, Redis  
+- **AI/ML** - LLMs, stable diffusion, training
+- **GPU Workloads** - Use Akash's GPU marketplace
 
 ### 📚 Learn More
 
@@ -328,7 +328,7 @@ Now that you know the basics, deploy something useful:
 Ready for more advanced workflows?
 - **[Akash CLI](/docs/for-developers/deployment/cli)** - Command-line deployment and automation
 - **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Build deployment tools with Go or JavaScript/TypeScript
-- **[API Reference](/docs/for-developers/blockchain/api-protocols)** - Integrate Akash into your apps
+- **[API Reference](/docs/for-developers/api-protocols)** - Integrate Akash into your apps
 
 ### 💳 Ready to Go Beyond Trial?
 
@@ -342,10 +342,8 @@ Ready for more advanced workflows?
 
 We're here to help you succeed!
 
-- **Discord:** [discord.akash.network](https://discord.akash.network) - Fast, friendly community support
-- **Forum:** [forum.akash.network](https://forum.akash.network) - Detailed discussions  
-- **Support:** [support.akash.network](https://support.akash.network) - Official support
-- **GitHub:** [Report issues](https://github.com/akash-network/support/issues) - Bug reports
+- **[Discord](https://discord.akash.network)** - Fast, friendly community support
+- **[GitHub Issues](https://github.com/akash-network/support/issues)** - Bug reports and support
 
 ---
 
