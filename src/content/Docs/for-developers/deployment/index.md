@@ -16,7 +16,7 @@ This section covers everything you need to deploy applications, including SDKs, 
 ## Deployment Methods
 
 ### [Akash Console](/docs/for-developers/deployment/akash-console)
-**Visual web interface** - Deploy using the browser-based Console with free trial OR your own wallet. No CLI required!
+**Visual web interface** - Deploy using the browser-based Console with free trial OR your own wallet. REST API for programmatic access. No CLI required!
 
 ### [Akash SDK](/docs/for-developers/deployment/akash-sdk)
 **Programmatic deployments** - Build applications with Go or JavaScript/TypeScript SDKs.
@@ -33,11 +33,4 @@ This section covers everything you need to deploy applications, including SDKs, 
 
 ### [AuthZ - Delegated Permissions](/docs/for-developers/deployment/authz)
 **Team collaboration & automation** - Grant deployment permissions securely without sharing private keys.
-
----
-
-## Deployment Guides
-
-### [Deployment Guides](/docs/for-developers/deployment/deployment-guides)
-**Application-specific tutorials** - Learn how to deploy web apps, databases, AI/ML workloads, and more.
 

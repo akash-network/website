@@ -85,6 +85,13 @@ Complete guide to using Console with your own wallet:
 - Managing deployments
 - Full blockchain control
 
+### [Managed Wallet API](/docs/for-developers/deployment/akash-console/api)
+Programmatic deployments using the Console API:
+- REST API for deployments
+- API key authentication
+- No wallet management required
+- Pay with credit card programmatically
+
 ---
 
 ## Key Features
@@ -178,7 +185,7 @@ Manage your funds directly in the console:
 ## Related Resources
 
 - **[SDL Reference](/docs/for-developers/deployment/akash-sdl)** - Learn about Stack Definition Language
-- **[Deployment Guides](/docs/for-developers/deployment/deployment-guides)** - Deploy specific types of applications
+- **[SDL Examples](/docs/for-developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples
 - **[Akash CLI](/docs/for-developers/deployment/cli)** - Command-line deployment
 - **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Programmatic deployment
 

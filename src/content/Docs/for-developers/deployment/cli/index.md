@@ -189,9 +189,9 @@ provider-services query provider list \
 - [Commands Reference →](/docs/for-developers/deployment/cli/commands-reference) - Complete command documentation
 - [Common Tasks →](/docs/for-developers/deployment/cli/common-tasks) - Practical examples
 
-### Deployment Guides
+### Learn More
 - [SDL Reference →](/docs/for-developers/deployment/akash-sdl) - Deployment configuration
-- [Deployment Guides →](/docs/for-developers/deployment/deployment-guides) - Specific use cases
+- [SDL Examples →](/docs/for-developers/deployment/akash-sdl/examples-library) - 290+ deployment examples
 
 ---
 

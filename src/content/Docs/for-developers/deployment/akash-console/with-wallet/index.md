@@ -338,18 +338,20 @@ When you're done:
 ## What's Next?
 
 ### Deploy Real Applications
-- **[Web Applications](/docs/for-developers/deployment-guides/web-applications)** - Blogs, APIs, websites
-- **[Databases](/docs/for-developers/deployment-guides/databases)** - PostgreSQL, MongoDB, Redis
-- **[AI/ML](/docs/for-developers/deployment-guides/machine-learning)** - LLMs, Stable Diffusion
-- **[GPU Workloads](/docs/for-developers/deployment-guides/gpus)** - GPU compute
+- **[SDL Examples Library](/docs/for-developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples
+  - Web Applications - Nginx, WordPress, Ghost
+  - Databases - PostgreSQL, MongoDB, Redis
+  - AI/ML - Ollama, Stable Diffusion, ComfyUI
+  - GPU Workloads - LLMs, image generation, ML training
 
 ### Learn More
 - **[SDL Reference](/docs/for-developers/deployment/akash-sdl)** - Master deployment configurations
 - **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works
 
 ### Advanced Workflows
+- **[Console API](/docs/for-developers/deployment/akash-console/api)** - Programmatic deployments via REST API
 - **[Akash CLI](/docs/for-developers/deployment/cli)** - Command-line automation
-- **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Programmatic deployments
+- **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Native blockchain integration
 
 ---
 

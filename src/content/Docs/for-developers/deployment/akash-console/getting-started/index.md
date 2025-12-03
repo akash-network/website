@@ -174,9 +174,11 @@ Manage your funds directly in the console:
 
 ## Next Steps
 
-- **[Deployment Guides](/docs/for-developers/deployment-guides)** - Learn how to deploy specific types of applications
-- **[SDL Reference](/docs/for-developers/akash-sdl)** - Deep dive into Stack Definition Language
-- **[CLI Documentation](/docs/for-developers/cli)** - Learn command-line deployment
+- **[Using Console with Your Wallet](/docs/for-developers/deployment/akash-console/with-wallet)** - Connect your own wallet for unlimited deployments
+- **[Console API](/docs/for-developers/deployment/akash-console/api)** - Programmatic deployments with REST API
+- **[SDL Examples Library](/docs/for-developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples for all application types
+- **[SDL Reference](/docs/for-developers/deployment/akash-sdl)** - Deep dive into Stack Definition Language
+- **[CLI Documentation](/docs/for-developers/deployment/cli)** - Learn command-line deployment
 
 ---
 

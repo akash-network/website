@@ -107,8 +107,8 @@ Learn the core concepts behind Akash:
 
 ### Documentation
 - [What is Akash?](/docs/getting-started/what-is-akash) - Understand the platform
-- [SDL Reference](/docs/for-developers/akash-sdl) - Stack Definition Language
-- [Deployment Guides](/docs/for-developers/deployment-guides) - Specific use cases
+- [SDL Reference](/docs/for-developers/deployment/akash-sdl) - Stack Definition Language
+- [SDL Examples](/docs/for-developers/deployment/akash-sdl/examples-library) - 290+ deployment examples
 
 ### Community
 - **Discord:** [discord.akash.network](https://discord.akash.network) - Get help from developers

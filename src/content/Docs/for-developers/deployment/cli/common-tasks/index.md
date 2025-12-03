@@ -266,8 +266,8 @@ provider-services query block
 
 ## Next Steps
 
-- **[SDL Reference →](/docs/for-developers/akash-sdl)** - Learn SDL configuration
-- **[Deployment Guides →](/docs/for-developers/deployment-guides)** - Specific use cases
+- **[SDL Reference →](/docs/for-developers/deployment/akash-sdl)** - Learn SDL configuration
+- **[SDL Examples →](/docs/for-developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples
 - **[Quick Start →](/docs/getting-started/quick-start)** - Full tutorial
 
 ---
