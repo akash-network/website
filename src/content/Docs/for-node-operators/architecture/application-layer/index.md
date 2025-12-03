@@ -185,13 +185,13 @@ VestingAccount       // Time-locked tokens
 - Module-to-module transfers
 
 **Message Types:**
-```protobuf
+```proto
 MsgSend              // Send tokens to address
 MsgMultiSend         // Send to multiple addresses
 ```
 
 **Queries:**
-```protobuf
+```proto
 QueryBalance         // Get account balance
 QueryAllBalances     // Get all denoms
 QuerySupply          // Get total supply
@@ -224,7 +224,7 @@ Unbonded → Unbonding → Bonded
 ```
 
 **Message Types:**
-```protobuf
+```proto
 MsgCreateValidator   // Register as validator
 MsgEditValidator     // Update validator info
 MsgDelegate          // Delegate to validator
@@ -262,7 +262,7 @@ Block Rewards + Fees
 ```
 
 **Message Types:**
-```protobuf
+```proto
 MsgWithdrawDelegatorReward      // Claim rewards
 MsgWithdrawValidatorCommission  // Claim commission
 MsgFundCommunityPool            // Donate to pool
@@ -400,7 +400,7 @@ Akash-specific modules that implement decentralized cloud marketplace.
 **Key Entities:**
 
 **Deployment:**
-```protobuf
+```proto
 message Deployment {
   DeploymentID id = 1;
   DeploymentState state = 2;
@@ -415,7 +415,7 @@ Active → Closed
 ```
 
 **Message Types:**
-```protobuf
+```proto
 MsgCreateDeployment   // Create new deployment
 MsgUpdateDeployment   // Update (new manifest version)
 MsgCloseDeployment    // Close deployment
@@ -458,7 +458,7 @@ Create Deployment (with SDL)
 - Escrow payment handling
 
 **Message Types:**
-```protobuf
+```proto
 MsgCreateBid      // Provider bids on order
 MsgCloseBid       // Close bid
 MsgWithdrawLease  // End lease early
@@ -487,7 +487,7 @@ Lease Closed
 **Location:** `x/provider`
 
 **Provider Entity:**
-```protobuf
+```proto
 message Provider {
   string owner = 1;
   string host_uri = 2;
@@ -513,7 +513,7 @@ Providers advertise capabilities:
 ```
 
 **Message Types:**
-```protobuf
+```proto
 MsgCreateProvider   // Register provider
 MsgUpdateProvider   // Update attributes
 MsgDeleteProvider   // Deregister provider
@@ -580,7 +580,7 @@ attributes:
 ```
 
 **Message Types:**
-```protobuf
+```proto
 MsgSignProviderAttributes    // Auditor signs
 MsgDeleteProviderAttributes  // Remove attestation
 ```
@@ -599,7 +599,7 @@ MsgDeleteProviderAttributes  // Remove attestation
 - On-chain certificate storage
 
 **Message Types:**
-```protobuf
+```proto
 MsgCreateCertificate   // Publish certificate
 MsgRevokeCertificate   // Revoke certificate
 ```
@@ -701,7 +701,7 @@ akash query provider get akash1provider...
 
 ### Transaction Structure
 
-```protobuf
+```proto
 message Tx {
   TxBody body = 1;
   AuthInfo auth_info = 2;

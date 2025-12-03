@@ -223,7 +223,7 @@ Once evaluation passes, the bid is submitted:
 
 ### Bid Components
 
-```protobuf
+```proto
 message MsgCreateBid {
   BidID bid_id = 1;
   cosmos.base.v1beta1.DecCoin price = 2;
