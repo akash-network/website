@@ -52,12 +52,14 @@ Help others in the community:
 ### 1. Choose Your Contribution Type
 
 **Code:**
+- [Console & Website Setup](/docs/for-developers/contributing/console-website-setup) - Web development (recommended for beginners)
+- [Node & Provider Setup](/docs/for-developers/contributing/development-environment) - Blockchain development (advanced)
 - [Code Conventions](/docs/for-developers/contributing/code-conventions)
-- [Development Environment](/docs/for-developers/contributing/development-environment)
 - [Pull Request Process](/docs/for-developers/contributing/pull-request-process)
 
 **Documentation:**
 - [Documentation Writing Guide](/docs/for-developers/contributing/documentation-guide)
+- [Console & Website Setup](/docs/for-developers/contributing/console-website-setup)
 - [Pull Request Process](/docs/for-developers/contributing/pull-request-process)
 
 **Community:**
@@ -73,16 +75,23 @@ Help others in the community:
 - Run tests to verify setup
 
 **For documentation contributions:**
-- Clone the [docs repository](https://github.com/akash-network/website)
-- Run `npm install`
-- Run `npm run dev` to preview locally
+- Clone the [website repository](https://github.com/akash-network/website)
+- Follow [Console & Website Setup](/docs/for-developers/contributing/console-website-setup)
+- Run `npm install` and `npm run dev` to preview locally
 
 ### 3. Find Something to Work On
 
+**Browse open issues:**
+- **[Node & Provider Issues](https://github.com/akash-network/support/issues)** - All node and provider issues
+- **[Console Issues](https://github.com/akash-network/console/issues)** - Web UI issues
+- **[Documentation Issues](https://github.com/akash-network/website/issues)** - Docs issues
+- **[Awesome Akash](https://github.com/akash-network/awesome-akash)** - Add deployment examples
+
 **Good first issues:**
-- Check GitHub issues labeled `good first issue`
-- Look for documentation gaps
-- Fix typos or improve clarity
+- Look for issues labeled `good first issue` or `ready-for-community-dev`
+- Documentation improvements (typos, missing info, unclear sections)
+- Simple bug fixes
+- Adding SDL examples to Awesome Akash
 
 **Ask for guidance:**
 - Discord: #developers channel
@@ -226,9 +235,11 @@ Contributing to Akash:
 Ready to contribute?
 
 1. **Pick a section:**
-   - [Code Conventions](/docs/for-developers/contributing/code-conventions)
+   - [Getting Started](/docs/for-developers/contributing/getting-started)
+   - [Console & Website Setup](/docs/for-developers/contributing/console-website-setup) - For web development
+   - [Node & Provider Setup](/docs/for-developers/contributing/development-environment) - For blockchain development
    - [Documentation Guide](/docs/for-developers/contributing/documentation-guide)
-   - [Development Environment](/docs/for-developers/contributing/development-environment)
+   - [Code Conventions](/docs/for-developers/contributing/code-conventions)
    - [Pull Request Process](/docs/for-developers/contributing/pull-request-process)
 
 2. **Join the community:**
