@@ -1,6 +1,7 @@
 ---
 import Logo from "@/components/ui/logo.astro";
 
+import DarkModeToggle from "../dark-mode-toggle";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
 import SpeakToExpert from "../pricing-page/SpeakToExpert";
 import AlgoliaSearch from "./algolia-search.jsx";
@@ -19,7 +20,7 @@ import AlgoliaSearch from "./algolia-search.jsx";
     </div>
     <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
       <div class="hidden items-center gap-x-[14px] text-para md:flex">
-        <!-- <DarkModeToggle client:load /> -->
+        <DarkModeToggle client:load />
         <a
           class="cursor-pointer hover:text-primary"
           href="https://x.com/akashnet"

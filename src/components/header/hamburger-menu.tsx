@@ -20,6 +20,7 @@ import {
 import clsx from "clsx";
 import { ArrowRightCircle, ChevronDown } from "lucide-react";
 import { Fragment } from "react";
+import DarkModeToggle from "../dark-mode-toggle";
 import TryAkashForm from "../ui/try-akash-form";
 import {
   communityItems,
@@ -293,11 +294,11 @@ const Panel = ({
               </a>
             </div>
 
-            {/* {!hideDarkToggle && (
+            {!hideDarkToggle && (
               <div>
                 <DarkModeToggle />
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>

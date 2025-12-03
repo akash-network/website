@@ -1,4 +1,4 @@
-# Akash Network Website Guide
+# Akash Network Website Guide.
 
 - [Akash Network Website Guide](#akash-network-website-guide)
   - [Akash Network Website](#akash-network-website)
