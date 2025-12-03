@@ -143,20 +143,20 @@ Update the `validator` service environment variables:
 ```yaml
 validator:
   image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
-  env:
+    env:
     - MONIKER=my-validator
-    - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
+      - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
     - MINIMUM_GAS_PRICES=0.025uakt
-    - AKASH_MODE=validator
+      - AKASH_MODE=validator
     - AKASH_P2P_PEX=false
     - AKASH_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
-    - AKASH_ADDR_BOOK_STRICT=false
-    - AKASH_DOUBLE_SIGN_CHECK_HEIGHT=10
+      - AKASH_ADDR_BOOK_STRICT=false
+      - AKASH_DOUBLE_SIGN_CHECK_HEIGHT=10
     - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
     - S3_KEY=<your-filebase-access-key>
     - S3_SECRET=<your-filebase-secret-key>
     - KEY_PASSWORD=<strong-password>
-    - KEY_PATH=akashvalidator
+      - KEY_PATH=akashvalidator
 ```
 
 **Important fields:**
@@ -172,23 +172,23 @@ validator:
 Update the `node1` service environment variables:
 
 ```yaml
-node1:
+  node1:
   image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
-  env:
+    env:
     - MONIKER=sentry-node-1
-    - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
+      - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
     - MINIMUM_GAS_PRICES=0.025uakt
-    - AKASH_MODE=full
-    - AKASH_P2P_PEX=true
+      - AKASH_MODE=full
+      - AKASH_P2P_PEX=true
     - AKASH_PRIVATE_PEER_IDS=  # Leave empty for now
     - AKASH_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
-    - AKASH_ADDR_BOOK_STRICT=false
-    - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
-    - STATESYNC_SNAPSHOT_INTERVAL=500
+      - AKASH_ADDR_BOOK_STRICT=false
+      - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
+      - STATESYNC_SNAPSHOT_INTERVAL=500
     - S3_KEY=<your-filebase-access-key>
     - S3_SECRET=<your-filebase-secret-key>
     - KEY_PASSWORD=<strong-password>
-    - KEY_PATH=akashnode1
+      - KEY_PATH=akashnode1
 ```
 
 **Important fields:**
@@ -201,19 +201,19 @@ node1:
 Update the `node2` service environment variables (same as node1 with different path):
 
 ```yaml
-node2:
+  node2:
   image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
-  env:
+    env:
     - MONIKER=sentry-node-2
-    - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
+      - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
     - MINIMUM_GAS_PRICES=0.025uakt
-    - AKASH_MODE=full
-    - AKASH_P2P_PEX=true
+      - AKASH_MODE=full
+      - AKASH_P2P_PEX=true
     - AKASH_PRIVATE_PEER_IDS=  # Leave empty for now
     - AKASH_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
-    - AKASH_ADDR_BOOK_STRICT=false
-    - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
-    - STATESYNC_SNAPSHOT_INTERVAL=500
+      - AKASH_ADDR_BOOK_STRICT=false
+      - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
+      - STATESYNC_SNAPSHOT_INTERVAL=500
     - S3_KEY=<your-filebase-access-key>
     - S3_SECRET=<your-filebase-secret-key>
     - KEY_PASSWORD=<strong-password>
@@ -306,7 +306,7 @@ Add sentry node IDs to validator's `AKASH_UNCONDITIONAL_PEER_IDS`:
 
 **Example:**
 ```yaml
-- AKASH_UNCONDITIONAL_PEER_IDS=c955c77516b4c6fc62406a63303395fc97662c1e,b3035d5dfbfeb359c716bcb714ab383e6b73a5fd
+      - AKASH_UNCONDITIONAL_PEER_IDS=c955c77516b4c6fc62406a63303395fc97662c1e,b3035d5dfbfeb359c716bcb714ab383e6b73a5fd
 ```
 
 ### Update Sentry Services
@@ -320,8 +320,8 @@ Add validator ID to **both** `node1` and `node2` services:
 
 **Example:**
 ```yaml
-- AKASH_PRIVATE_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
-- AKASH_UNCONDITIONAL_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
+      - AKASH_PRIVATE_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
+      - AKASH_UNCONDITIONAL_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
 ```
 
 **Important:** Update this for **BOTH** node1 and node2 with the **same** validator ID.

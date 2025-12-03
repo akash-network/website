@@ -6,9 +6,9 @@ title: "Akash Node Via Helm Chart"
 linkTitle: "Helm Chart"
 ---
 
-Deploy an Akash RPC node to your Kubernetes cluster using Helm. This method uses blockchain snapshots for rapid synchronization (~5 minutes).
+Deploy an Akash RPC node to your Kubernetes cluster using Helm. This method uses blockchain snapshots for rapid synchronization.
 
-**Time:** 5-10 minutes
+**Time:** 20-30 minutes (including snapshot download and sync)
 
 **Requirements:**
 - Existing Kubernetes cluster
@@ -46,7 +46,7 @@ helm repo update akash
 
 ### Install with Default Settings (Recommended)
 
-The default installation uses blockchain snapshots for fast initial sync (~5 minutes).
+The default installation uses blockchain snapshots for fast initial sync (~20 minutes for download and extraction, depending on connection speed).
 
 ```bash
 helm install akash-node akash/akash-node -n akash-services

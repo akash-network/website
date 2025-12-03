@@ -81,7 +81,7 @@ There are three ways to become an Akash provider, each suited for different use 
 | Feature | Provider Playbook | Kubespray | Provider Console |
 |---------|------------------|-----------|------------------|
 | **Ease of Use** | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Setup Time** | 2-4 hrs | 4-8 hrs | 1-2 hrs |
+| **Setup Time** | ~1 hour | 1-2 hours | 15-30 minutes |
 | **Customization** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ |
 | **Skill Required** | Medium | High | Low |
 | **Best For** | Most users | Advanced users | Beginners |

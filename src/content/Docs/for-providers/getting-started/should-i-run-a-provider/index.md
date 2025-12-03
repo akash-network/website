@@ -28,7 +28,7 @@ Providers can offer:
 ## Benefits of Running a Provider
 
 ### 💰 Revenue Opportunities
-- Earn AKT tokens for hosting workloads
+- Earn AKT or USDC tokens for hosting workloads
 - Set your own pricing
 - Higher demand for GPU resources
 - Persistent storage premium pricing
@@ -62,11 +62,12 @@ Providers can offer:
 - Spare compute capacity (physical or cloud)
 - Static IP address or dynamic DNS
 - Reliable internet connection (100+ Mbps)
-- Time for initial setup (4-8 hours)
+- Time for initial setup (15 minutes to 2 hours, method dependent)
 - Time for maintenance (2-4 hours/week)
 
 **Financial:**
-- Minimum 0.5 AKT for initial deposit (50 AKT recommended)
+- Minimum 0.5 AKT per lease for escrow deposits (5 AKT recommended for initial operations)
+- ~0.005 AKT bid fee per bid submission
 - Ability to cover electricity/hosting costs
 - Capital for hardware (if needed)
 
@@ -117,7 +118,8 @@ There are three ways to set up an Akash provider:
 
 ### Initial Costs
 - **Hardware:** $500-$5,000+ (or existing hardware)
-- **AKT Tokens:** 0.5 AKT minimum deposit (50 AKT recommended for operations)
+- **AKT Tokens:** 0.5 AKT per lease for escrow deposits (5 AKT recommended for initial operations)
+- **Bid Fees:** ~0.005 AKT per bid submission
 - **Setup Time:** Your time investment
 
 ### Ongoing Costs
@@ -158,7 +160,8 @@ There are three ways to set up an Akash provider:
 ### Still Deciding?
 
 - **Ask in Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
-- **Check Provider Stats:** See active providers and their revenue
+- **Browse Active Providers:** [Provider Explorer](https://console.akash.network/providers) - See active providers, their resources, and lease counts
+- **Check Pricing:** [Provider Earn Calculator](https://akash.network/pricing/provider-calculator/) - Estimate your earnings
 
 ---
 

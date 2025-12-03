@@ -61,7 +61,7 @@ Deploy an Akash RPC node using one of three methods: CLI build, Helm chart (Kube
 
 **Deploy on Akash Network using a pre-built SDL.**
 
-**Time:** 5-10 minutes (deployment) + ~5 minutes (sync via hourly snapshot)
+**Time:** 5-10 minutes (deployment) + 20-30 minutes (sync via hourly snapshot)
 
 **Requirements:**
 - Akash wallet with ~2 AKT

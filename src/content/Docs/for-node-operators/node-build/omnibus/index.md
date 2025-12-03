@@ -8,7 +8,7 @@ linkTitle: "Omnibus"
 
 Deploy an Akash RPC node on the Akash Network itself using Cosmos Omnibus. This method uses a pre-built Docker image and automated sync with blockchain snapshots (updated hourly).
 
-**Time:** 5-10 minutes (deployment) + ~5 minutes (blockchain sync via snapshot)
+**Time:** 5-10 minutes (deployment) + 20-30 minutes (blockchain sync via snapshot)
 
 **Requirements:**
 - Akash wallet with ~2 AKT (0.5 AKT deposit + usage)
@@ -158,10 +158,10 @@ The SDL includes `signedBy` to ensure deployment on trusted Akash providers:
 ```yaml
 signedBy:
   anyOf:
-    - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63  # Akash validator
+    - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63  # Akash address
 ```
 
-This restricts deployment to providers audited by the specified validator, ensuring reliability for critical node infrastructure.
+This restricts deployment to providers audited by the specified Akash Core Team address, ensuring reliability for critical node infrastructure.
 
 ---
 
@@ -181,7 +181,7 @@ This restricts deployment to providers audited by the specified validator, ensur
 
 ```bash
 # Save SDL to deploy.yaml
-akash tx deployment create deploy.yaml \
+provider-services tx deployment create deploy.yaml \
   --from mykey \
   --node https://rpc.akashnet.net:443 \
   --chain-id akashnet-2 \
@@ -225,7 +225,7 @@ curl http://provider.example.com:12345/status | jq '.result.sync_info'
 }
 ```
 
-**Note:** `catching_up: true` means sync is in progress. With hourly snapshots, this typically takes ~5 minutes.
+**Note:** `catching_up: true` means sync is in progress. With hourly snapshots, this typically takes 20-30 minutes depending on connection speed.
 
 ### Compare Block Height
 

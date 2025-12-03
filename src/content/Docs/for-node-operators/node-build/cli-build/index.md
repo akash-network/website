@@ -8,7 +8,7 @@ linkTitle: "CLI Build"
 
 Build an Akash RPC node manually on a Linux server. This guide provides full control over node configuration and is ideal for validators, providers, and production dApps.
 
-**Time:** 15-30 minutes (setup) + ~5 minutes (sync via snapshot)
+**Time:** 15-30 minutes (setup) + 20-30 minutes (sync via snapshot)
 
 **Requirements:**
 - Ubuntu 24.04 LTS
@@ -267,7 +267,7 @@ lz4 -d akashnet-2_latest.tar.lz4
 tar -xvf akashnet-2_latest.tar
 ```
 
-**Note:** This process takes 5-10 minutes depending on your internet speed.
+**Note:** This process takes 20-30 minutes depending on your internet speed (~15 GB compressed download).
 
 ---
 

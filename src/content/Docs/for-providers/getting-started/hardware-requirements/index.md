@@ -28,7 +28,24 @@ This guide covers system requirements, hardware specifications, and best practic
 
 ## Minimum Hardware Specifications
 
-### Control Plane Node (per node)
+### Single Server (Worker + Control Plane Combined)
+
+**Minimum:**
+- CPU: 8 cores
+- RAM: 16GB
+- Storage: 150GB SSD
+
+**Recommended:**
+- CPU: 12+ cores
+- RAM: 48+ GB
+- Storage: 500GB+ SSD
+
+**Important Considerations:**
+- Reserve ~4 CPU cores for Kubernetes system components (control plane + worker overhead)
+- Single server setup is good for testing or small providers
+- For production, separate control plane and worker nodes are recommended
+
+### Control Plane Node (per node, separate setup)
 
 **Minimum:**
 - CPU: 2 cores
@@ -44,7 +61,7 @@ This guide covers system requirements, hardware specifications, and best practic
 - 3x control plane nodes for high availability
 - Total: 12 CPU cores, 24GB RAM, 120GB storage
 
-### Worker Node (per node)
+### Worker Node (per node, separate setup)
 
 **Minimum:**
 - CPU: 4 cores
