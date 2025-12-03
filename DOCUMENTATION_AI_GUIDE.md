@@ -1432,5 +1432,14 @@ Then provide:
 
 ---
 
+## Community and Support
+
+**IMPORTANT:** Akash Network does **NOT** have a forum. Do not add forum links to documentation.
+
+**Official Support Channels:**
+- **Discord:** [discord.akash.network](https://discord.akash.network) - Primary community support
+- **GitHub:** [github.com/akash-network](https://github.com/akash-network) - Issues and discussions
+- **Documentation:** This website
+
 **Questions?** Contact the documentation team via Discord #docs channel or open an issue on GitHub.
 
