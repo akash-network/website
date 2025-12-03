@@ -1,7 +1,7 @@
 ---
 import MobileNav from "@/components/docs/mobile-sidebar.tsx";
 import MobileTableOfContents from "@/components/docs/mobile-table-of-contents.tsx";
-import NextPrevNav from "@/components/docs/next-prev-nav.astro";
+// import NextPrevNav from "@/components/docs/next-prev-nav.astro";
 import TableOfContents from "@/components/docs/table-of-contents";
 import DocsLayout from "@/layouts/docs-layout.astro";
 import generateToc from "@/lib/generateToc";
@@ -9,7 +9,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 
 import AlgoliaSearch from "@/components/docs/algolia-search";
 import { docsProseClasses } from "@/lib/docs-prose-classes";
-import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
+// import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 
 export async function getStaticPaths() {
@@ -136,7 +136,7 @@ const lines = page?.body
             Edit page on github
           </a>
         </div>
-        <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
+        <!-- <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} /> -->
       </div>
 
       {!page.data.hideTOC && (

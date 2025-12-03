@@ -1,5 +1,5 @@
 ---
-categories: ["For Developers"]
+categories: ["For Developers", "Deployment", "CLI"]
 tags: ["CLI", "Configuration", "Setup"]
 weight: 2
 title: "CLI Configuration"

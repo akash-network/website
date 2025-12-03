@@ -1,21 +1,21 @@
 ---
-categories: ["For Developers"]
+categories: ["For Developers", "Deployment"]
 tags: ["CLI", "Command Line", "Provider Services"]
 weight: 2
-title: "Provider-Services CLI"
+title: "Akash CLI"
 linkTitle: "CLI"
 description: "Deploy and manage Akash applications using the provider-services command-line interface"
 ---
 
-**Deploy and manage Akash applications using the provider-services CLI - the most powerful way to interact with Akash Network.**
+**Deploy and manage Akash applications using the Provider Services CLI - the most powerful way to interact with Akash Network.**
 
-The provider-services CLI gives you complete control over deployments, with support for scripting, automation, and advanced features.
+The Provider Services CLI gives you complete control over deployments, with support for scripting, automation, and advanced features.
 
 ---
 
-## What is provider-services CLI?
+## What is the Provider Services CLI?
 
-The provider-services CLI is the official command-line interface for Akash Network. It provides:
+The Provider Services CLI (`provider-services`) is the official command-line interface for deploying on Akash. It provides:
 
 - **Full Deployment Control** - Create, update, and manage deployments
 - **Scriptable** - Automate workflows with shell scripts
@@ -32,8 +32,8 @@ Get started with the CLI:
 **[Installation Guide →](/docs/for-developers/deployment/cli/installation-guide)**
 
 The installation guide covers:
-- Installing provider-services on macOS, Linux, or Windows
-- Setting up your wallet
+- Installing the Akash CLI on macOS, Linux, or Windows
+- Creating your wallet
 - Configuring the CLI
 - Funding your account
 
@@ -71,7 +71,7 @@ The installation guide covers:
 
 ### 1. Install the CLI
 ```bash
-# Installation covered in the installation guide
+# See installation guide for detailed instructions
 curl -sSfL https://raw.githubusercontent.com/akash-network/provider/main/install.sh | sh
 ```
 
@@ -84,14 +84,18 @@ provider-services keys add my-wallet
 Get AKT tokens and fund your account (minimum 5 AKT recommended)
 
 ### 4. Create SDL File
-Write your deployment configuration (see [SDL Reference](/docs/for-developers/akash-sdl))
+Write your deployment configuration (see [SDL Reference](/docs/for-developers/deployment/akash-sdl))
 
 ### 5. Deploy
 ```bash
-provider-services tx deployment create deploy.yml --from my-wallet
+provider-services tx deployment create deploy.yml \
+  --from my-wallet \
+  --node https://rpc.akash.network:443 \
+  --chain-id akashnet-2 \
+  --gas-prices 0.025uakt \
+  --gas auto \
+  --gas-adjustment 1.5
 ```
-
-**Full tutorial:** [Quick Start Guide →](/docs/getting-started/quick-start)
 
 ---
 
@@ -100,31 +104,54 @@ provider-services tx deployment create deploy.yml --from my-wallet
 ### Deployment Commands
 ```bash
 # Create deployment
-provider-services tx deployment create <sdl-file> --from <wallet>
+provider-services tx deployment create <sdl-file> \
+  --from <wallet> \
+  --node https://rpc.akash.network:443 \
+  --chain-id akashnet-2 \
+  --gas-prices 0.025uakt
 
 # Query deployments
-provider-services query deployment list --owner <address>
+provider-services query deployment list \
+  --owner <address> \
+  --node https://rpc.akash.network:443
 
 # Close deployment
-provider-services tx deployment close --dseq <deployment-id> --from <wallet>
+provider-services tx deployment close \
+  --dseq <deployment-id> \
+  --from <wallet> \
+  --node https://rpc.akash.network:443 \
+  --chain-id akashnet-2 \
+  --gas-prices 0.025uakt
 ```
 
 ### Market Commands
 ```bash
-# View bids
-provider-services query market bid list --owner <address>
+# View bids for your deployment
+provider-services query market bid list \
+  --owner <address> \
+  --node https://rpc.akash.network:443
 
-# Create lease
-provider-services tx market lease create --dseq <deployment-id> --from <wallet>
+# Create lease (accept a bid)
+provider-services tx market lease create \
+  --dseq <deployment-id> \
+  --gseq <group-sequence> \
+  --oseq <order-sequence> \
+  --provider <provider-address> \
+  --from <wallet> \
+  --node https://rpc.akash.network:443 \
+  --chain-id akashnet-2 \
+  --gas-prices 0.025uakt
 ```
 
 ### Query Commands
 ```bash
 # Check balance
-provider-services query bank balances <address>
+provider-services query bank balances <address> \
+  --node https://rpc.akash.network:443
 
 # View providers
-provider-services query provider list
+provider-services query provider list \
+  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -156,17 +183,15 @@ provider-services query provider list
 
 ### Installation & Setup
 - [Installation Guide →](/docs/for-developers/deployment/cli/installation-guide) - Install and configure the CLI
+- [Configuration →](/docs/for-developers/deployment/cli/configuration) - Configure networks and settings
+
+### Reference
+- [Commands Reference →](/docs/for-developers/deployment/cli/commands-reference) - Complete command documentation
+- [Common Tasks →](/docs/for-developers/deployment/cli/common-tasks) - Practical examples
 
 ### Deployment Guides
-- [Quick Start →](/docs/getting-started/quick-start) - Your first deployment with Console
-- [SDL Reference →](/docs/for-developers/akash-sdl) - Deployment configuration
-- [Deployment Guides →](/docs/for-developers/deployment-guides) - Specific use cases
-
-### Advanced Topics
-- Custom configurations
-- Automation scripts
-- CI/CD integration
-- Troubleshooting
+- [SDL Reference →](/docs/for-developers/deployment/akash-sdl) - Deployment configuration
+- [Deployment Guides →](/docs/for-developers/deployment/deployment-guides) - Specific use cases
 
 ---
 
@@ -174,7 +199,7 @@ provider-services query provider list
 
 ### Official Documentation
 - [Installation →](/docs/for-developers/deployment/cli/installation-guide)
-- [Quick Start →](/docs/getting-started/quick-start)
+- [Commands Reference →](/docs/for-developers/deployment/cli/commands-reference)
 - [SDL Reference →](/docs/for-developers/deployment/akash-sdl)
 
 ### Community
@@ -184,4 +209,3 @@ provider-services query provider list
 ---
 
 **Ready to start?** Begin with the [Installation Guide →](/docs/for-developers/deployment/cli/installation-guide)!
-

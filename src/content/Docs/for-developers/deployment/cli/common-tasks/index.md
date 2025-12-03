@@ -1,7 +1,7 @@
 ---
-categories: ["For Developers"]
+categories: ["For Developers", "Deployment", "CLI"]
 tags: ["CLI", "Tasks", "Examples", "Tutorials"]
-weight: 4
+weight: 3
 title: "CLI Common Tasks"
 linkTitle: "Common Tasks"
 description: "Common tasks and workflows using the provider-services CLI"
