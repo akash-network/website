@@ -28,8 +28,8 @@ New to Akash? Start here:
 
 - **[Getting Started](/docs/for-providers/getting-started)** - Should you run a provider? Hardware requirements and cost analysis
 - **[Setup & Installation](/docs/for-providers/setup-and-installation)** - Provider Playbook, Kubespray, and Provider Console
-- **[Operations](/docs/for-providers/operations)** - Monitoring, scaling, security, and maintenance
-- **[Troubleshooting](/docs/for-providers/troubleshooting)** - Common issues, debugging, and getting help
+- **[Operations](/docs/for-providers/operations)** - Lease management, monitoring, maintenance, and provider verification
+- **[Architecture](/docs/for-providers/architecture)** - Provider service architecture (for developers)
 
 ### For Node Operators
 
@@ -40,7 +40,7 @@ New to Akash? Start here:
 
 ### Learn
 
-- Tutorials, use cases, videos, and community resources
+- **[Community Resources](/docs/learn/community-resources)** - Discord, GitHub, blog, support channels, and getting help
 
 ## Need Help?
 
