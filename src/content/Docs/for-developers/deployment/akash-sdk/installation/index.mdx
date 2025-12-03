@@ -1,5 +1,5 @@
 ---
-categories: ["For Developers"]
+categories: ["For Developers", "Deployment", "Akash SDK"]
 tags: ["SDK", "Installation", "Go", "JavaScript", "TypeScript"]
 title: "SDK Installation"
 linkTitle: "Installation"
@@ -11,7 +11,7 @@ import CodeTabs from "@/components/docs/CodeTabs";
 
 **Install the Akash SDK in your preferred language.**
 
-Both SDKs are generated from the [chain-sdk](https://github.com/akash-network/chain-sdk) and provide the same core functionality.
+Both SDKs are generated from the [chain-sdk](https://github.com/akash-network/chain-sdk) repository and provide the same core functionality.
 
 ---
 
@@ -56,10 +56,11 @@ The official Go SDK for Akash Network, generated from chain-sdk protobuf definit
 - **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
 - **Package:** `pkg.akt.dev/go`
 - **Source:** `chain-sdk/go` directory
+- **Go Version:** 1.25.0+
 - **Includes:**
-  - Core blockchain types and clients
-  - SDL parsing and validation
-  - CLI utilities
+  - Core blockchain types and clients (`pkg.akt.dev/go`)
+  - SDL parsing and validation (`pkg.akt.dev/go/sdl`)
+  - CLI utilities (`pkg.akt.dev/go/cli`)
 
 ### JavaScript/TypeScript SDK
 The official JavaScript/TypeScript SDK for Akash Network, generated from chain-sdk protobuf definitions.
@@ -67,13 +68,27 @@ The official JavaScript/TypeScript SDK for Akash Network, generated from chain-s
 - **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
 - **Package:** `@akashnetwork/chain-sdk`
 - **Source:** `chain-sdk/ts` directory
+- **Node Version:** 22.14.0+
 - **Supports:** Node.js and browser environments
+- **Dependencies:** Uses CosmJS for wallet and signing operations
 
 ---
 
-## Next Steps
+## Prerequisites
 
-- **[Quick Start](/docs/for-developers/akash-sdk/quick-start)** - Get started with your first deployment
-- **[Examples](/docs/for-developers/akash-sdk/examples)** - Real-world code examples
-- **[API Reference](/docs/for-developers/akash-sdk/api-reference)** - Complete API documentation
+### Go SDK
+- Go 1.25.0 or higher
+- Basic Go module knowledge
+
+### TypeScript SDK
+- Node.js 22.14.0 or higher
+- npm, yarn, or pnpm
+
+---
+
+## Related Resources
+
+- [Quick Start](/docs/for-developers/deployment/akash-sdk/quick-start) - Get started with your first deployment
+- [Examples](/docs/for-developers/deployment/akash-sdk/examples) - Real-world code examples
+- [API Reference](/docs/for-developers/deployment/akash-sdk/api-reference) - Complete API documentation
 

@@ -1,14 +1,15 @@
 ---
-categories: ["For Developers"]
+categories: ["For Developers", "Deployment", "Akash SDK"]
 tags: ["SDK", "JavaScript", "TypeScript", "Go", "API"]
 weight: 3
 title: "Akash SDK"
 linkTitle: "Akash SDK"
+description: "Official SDKs for deploying and managing applications on Akash Network"
 ---
 
-**Deploy and manage Akash applications using our official SDKs in Go or JavaScript/TypeScript.**
+**Deploy and manage Akash applications programmatically using our official SDKs in Go or JavaScript/TypeScript.**
 
-Both SDKs are generated from the [chain-sdk](https://github.com/akash-network/chain-sdk) repository and provide the same core functionality.
+Both SDKs are generated from the same [chain-sdk](https://github.com/akash-network/chain-sdk) protobuf definitions and provide identical core functionality.
 
 ---
 
@@ -46,10 +47,12 @@ Both SDKs support:
 
 - ✅ **Deployment Management** - Create, update, close deployments
 - ✅ **Market Operations** - View bids, create leases
-- ✅ **Manifest Management** - Send and update manifests
-- ✅ **Query Operations** - Query deployments, leases, providers
-- ✅ **Wallet Management** - Load wallets, sign transactions
+- ✅ **Provider Queries** - Find and evaluate providers
+- ✅ **Query Operations** - Query deployments, leases, balances
+- ✅ **Wallet Management** - Sign transactions securely
 - ✅ **SDL Parsing** - Parse and validate SDL files
+- ✅ **Certificate Management** - Generate and manage certificates
+- ✅ **JWT Authentication** - Authenticate with providers (TypeScript)
 
 ---
 
@@ -76,17 +79,35 @@ Ideal for web applications and Node.js projects.
 
 ---
 
+## SDK Comparison
+
+| Feature | Go SDK | TypeScript SDK |
+|---------|--------|----------------|
+| **Deployment Operations** | ✅ | ✅ |
+| **Query Operations** | ✅ | ✅ |
+| **Transaction Signing** | ✅ | ✅ |
+| **SDL Parsing** | ✅ | ✅ |
+| **Certificate Management** | ✅ | ✅ |
+| **JWT Authentication** | ✅ | ✅ |
+| **Browser Support** | ❌ | ✅ (via Web SDK) |
+| **Node.js Support** | ✅ | ✅ |
+| **Provider API Client** | ✅ | ✅ |
+
+---
+
 ## Next Steps
 
-- **[Getting Started](/docs/for-developers/akash-sdk/getting-started)** - Quick start guide with examples
-- **[API Reference](/docs/for-developers/akash-sdk/api-reference)** - Complete API documentation
-- **[SDL Reference](/docs/for-developers/akash-sdl)** - Stack Definition Language docs
+- **[Installation](/docs/for-developers/deployment/akash-sdk/installation)** - Install the SDK
+- **[Quick Start](/docs/for-developers/deployment/akash-sdk/quick-start)** - Your first deployment
+- **[Examples](/docs/for-developers/deployment/akash-sdk/examples)** - Real-world code examples
+- **[API Reference](/docs/for-developers/deployment/akash-sdk/api-reference)** - Complete API documentation
+- **[SDL Reference](/docs/for-developers/deployment/akash-sdl)** - Stack Definition Language docs
 
 ---
 
 ## Need Help?
 
-- **SDK Issues:** [GitHub Issues](https://github.com/akash-network)
+- **SDK Issues:** [GitHub Issues](https://github.com/akash-network/chain-sdk/issues)
 - **Discord:** [discord.akash.network](https://discord.akash.network)
 - **Documentation:** Browse the [full docs](/docs)
 
