@@ -53,24 +53,29 @@ Before you start, you need:
 
 Open your browser and go to **[console.akash.network](https://console.akash.network)**
 
-You'll see the Console homepage.
+![Connect Wallet Button](/images/docs/console/wallet/1-wallet-connect-button.png)
+*Akash Console homepage - Click "Connect Wallet" in the top right*
 
 ---
 
 ## Step 2: Connect Your Wallet
 
 1. Click **"Connect Wallet"** in the top right corner
-2. Choose your wallet:
-   - **Keplr** (most popular)
-   - **Leap** (alternative)
 
-3. A popup will appear from your wallet extension
-4. **Approve the connection** - Allow Console to:
+2. Choose your wallet provider:
+
+![Wallet Selection](/images/docs/console/wallet/2-wallet-selection.png)
+*Select Keplr or Leap wallet to connect*
+
+3. **Approve the connection** in your wallet extension - Allow Console to:
    - View your Akash address
    - Request transaction approvals
    - Query your balance
 
-5. Your wallet address and AKT balance will appear in the top right
+4. Your wallet address and AKT balance will appear in the top right
+
+![Wallet Connected](/images/docs/console/wallet/4-wallet-connected.png)
+*Successfully connected - your address and AKT balance are now visible*
 
 ✅ You're now connected with your own wallet!
 
@@ -97,6 +102,9 @@ After connecting, you'll see:
 - **Quick Actions** - Deploy button, add funds, settings
 - **Account Overview** - Balance, escrow, and spending
 
+![Deployments Dashboard](/images/docs/console/15-deployments-dashboard.png)
+*Your Console dashboard showing deployments and quick actions*
+
 ---
 
 ## Step 4: Deploy Your First Application
@@ -104,24 +112,29 @@ After connecting, you'll see:
 ### Option A: Use a Template (Recommended)
 
 1. Click **"Templates"** in the sidebar
-2. Browse available templates:
-   - Hello World (simple web app)
-   - Databases (PostgreSQL, MongoDB, Redis)
-   - AI/ML (Stable Diffusion, LLMs)
-   - And more...
 
-3. Click **"Deploy"** on your chosen template
-4. Review the pre-filled SDL configuration
-5. (Optional) Customize CPU, memory, storage
-6. Click **"Create Deployment"**
+![Templates Library](/images/docs/console/5-templates-library.png)
+*Browse 290+ pre-built templates for common applications*
+
+2. Choose a template and click **"Deploy"**
+
+![Template Detail](/images/docs/console/6-template-detail.png)
+*Review template details and deploy with one click*
+
+3. Review the pre-filled SDL configuration
+4. (Optional) Customize CPU, memory, storage
+5. Click **"Create Deployment"**
 
 ### Option B: Custom Deployment
 
 1. Click **"Deploy"** button (top left or center)
 2. Choose **"Empty Template"** or **"SDL Builder"**
+
+![SDL Configuration](/images/docs/console/7-sdl-configuration.png)
+*Build your deployment configuration using the SDL editor*
+
 3. Write or build your SDL configuration
-4. Set your pricing (how much you'll pay per block)
-5. Click **"Create Deployment"**
+4. Click **"Create Deployment"**
 
 ---
 
@@ -129,25 +142,31 @@ After connecting, you'll see:
 
 After clicking "Create Deployment":
 
-1. **Review Deployment Details**
-   - Resources requested (CPU, RAM, storage)
-   - Estimated cost per month
-   - Deposit amount (typically 0.5 AKT minimum)
-
-2. **Set Deposit Amount**
+1. **Set Deposit Amount**
    - Default is usually fine (0.5-5 AKT depending on resources)
    - This is held in escrow, refunded when you close
    - Not a fee—just a security deposit
 
-3. **Approve Transaction in Wallet**
-   - Your wallet (Keplr/Leap) will popup
-   - Review the transaction
-   - Check gas fee (usually < 0.1 AKT)
-   - Click **"Approve"**
+![Deposit Screen](/images/docs/console/wallet/6-deposit-amount-wallet.png)
+*Set your deposit amount - held in escrow and refunded when you close*
+
+2. **Approve Transaction in Wallet**
+   
+Your wallet (Keplr/Leap) will popup requesting approval:
+
+![Deployment Transaction Approval](/images/docs/console/wallet/7-deployment-tx-approval.png)
+*Approve the deployment creation transaction in your wallet*
+
+Review the transaction details:
+   - Deposit amount
+   - Gas fee (usually < 0.1 AKT)
+   - Total cost
+
+Click **"Approve"**
 
 ⏳ Wait ~30 seconds for blockchain confirmation
 
-✅ Deployment created!
+✅ Deployment created! Now waiting for provider bids...
 
 ---
 
@@ -155,24 +174,30 @@ After clicking "Create Deployment":
 
 After creating your deployment, providers will bid to host it:
 
-1. **View Bids** - Click "View Bids" button
-2. **Wait for Bids** - 30-60 seconds for providers to respond
-3. **Review Bids** - You'll see:
-   - Provider name and reputation
-   - Price per block (lower = cheaper)
-   - Available resources
-   - Uptime statistics
+1. **View Bids** - Click "View Bids" button (wait 30-60 seconds for providers to respond)
 
-4. **Select a Provider**
+![Provider Bids](/images/docs/console/wallet/9-bid-selection-wallet.png)
+*Review and compare provider bids - choose based on price, location, and attributes*
+
+2. **Review Bids** - You'll see:
+   - Provider name and reputation
+   - Price per month
+   - Location and attributes
+   - Available resources
+
+3. **Select a Provider**
    - Sorted by price (lowest first)
-   - Check uptime and reviews
+   - Check attributes and location
    - For testing, lowest price is fine
 
-5. **Accept Bid**
+4. **Accept Bid**
    - Click **"Accept"** on your chosen provider
-   - **Approve transaction** in your wallet
+   - **Approve the lease transaction** in your wallet
 
-⏳ Wait ~20 seconds for lease creation
+![Lease Transaction Approval](/images/docs/console/wallet/8-lease-tx-approval.png)
+*Approve the lease creation transaction to accept the provider's bid*
+
+⏳ Wait ~20 seconds for lease creation and manifest to be sent
 
 ---
 
@@ -180,27 +205,29 @@ After creating your deployment, providers will bid to host it:
 
 Once the lease is created:
 
-1. Console will prompt: **"Send Manifest"**
-2. Click **"Send Manifest"**
-3. No wallet approval needed (this is off-chain)
+1. Console automatically sends your manifest to the provider (no wallet approval needed)
 
 ⏳ Wait 30-60 seconds for your container to start
 
 Status will change:
 - "Manifest Received"
 - "Starting Services..."
-- **"Running"** ✅
+- **"Active"** ✅
 
 ---
 
 ## Step 8: Access Your Deployment
 
-Once status shows **"Running"**:
+Once status shows **"Active"** or **"Running"**:
 
-1. Click on your deployment
-2. Look for **"Leases"** or **"URIs"** section
-3. You'll see URLs like: `http://provider.example.com:12345`
-4. Click the URL to visit your deployed application
+![Deployment Active](/images/docs/console/12-deployment-active.png)
+*Your deployment is live with URLs and management controls*
+
+You'll see:
+- ✅ **Live URLs** - Access your application
+- 📊 **Status** - Real-time deployment state
+- 💰 **Cost Tracking** - Current spending and escrow balance
+- ⚙️ **Management Controls** - Logs, update, close
 
 **🎉 Congratulations! Your app is live on Akash!**
 
@@ -210,33 +237,62 @@ Once status shows **"Running"**:
 
 ### View Logs
 
+Monitor your application's output in real-time:
+
 1. Click on your deployment
 2. Select the **"Logs"** tab
-3. Choose your service (e.g., `web`)
-4. View real-time logs
+3. View real-time container logs
+
+![Deployment Logs](/images/docs/console/13-deployment-logs.png)
+*View real-time logs from your running containers*
 
 **Tip:** Logs are essential for debugging!
 
+### Monitor Events and Shell Access
+
+Access deployment events and shell terminal:
+
+![Deployment Events](/images/docs/console/14-deployment-events.png)
+*View deployment events and access shell terminal*
+
 ### Update Deployment
 
-To change your deployment:
+Modify your running deployment:
 
 1. Click on your deployment
 2. Click **"Update Deployment"**
 3. Edit the SDL configuration
-4. Click **"Update"**
-5. **Approve transaction** in wallet
 
-**Note:** Updates create a new deployment sequence.
+![Deployment Update](/images/docs/console/16-deployment-update.png)
+*Update your deployment configuration on the fly*
+
+4. Click **"Update"**
+5. **Approve the update transaction** in your wallet
+
+![Update Transaction Approval](/images/docs/console/wallet/10-update-tx-approval.png)
+*Approve the deployment update transaction in your wallet*
+
+**Note:** Existing containers continue running until the new version is ready.
 
 ### Close Deployment
 
-When you're done:
+Stop your deployment and reclaim your deposit:
 
 1. Go to your deployment
 2. Click **"Close Deployment"**
-3. **Approve transaction** in wallet
+
+![Deployment Close Confirmation](/images/docs/console/17-deployment-close.png)
+*Confirm deployment closure - your deposit will be refunded*
+
+3. **Approve the close transaction** in your wallet
+
+![Close Transaction Approval](/images/docs/console/wallet/11-close-tx-approval.png)
+*Approve the deployment close transaction in your wallet*
+
 4. Your deposit will be refunded to your wallet!
+
+![Deployment Closed](/images/docs/console/wallet/11.1-close-tx-approval.png)
+*Deployment successfully closed - deposit refunded to your wallet*
 
 **💰 Always close deployments to get your deposit back.**
 

@@ -21,7 +21,7 @@ Akash Console is a web-based deployment platform that provides:
 - **One-Click Deployments** - Deploy applications in minutes
 - **Deployment Management** - View, update, and manage all your deployments
 - **Real-Time Monitoring** - Monitor your deployments' status and logs
-- **Wallet Integration** - Connect your wallet and manage funds
+- **Managed Wallet or Bring Your Own** - Start with free trial credits or connect your wallet
 - **No CLI Required** - Everything you need in your browser
 
 ---
@@ -32,21 +32,32 @@ Akash Console is a web-based deployment platform that provides:
 
 Visit [console.akash.network](https://console.akash.network) in your web browser.
 
-### Step 2: Connect Your Wallet
+![Console Homepage](/images/docs/console/1-console-homepage.png)
+*Akash Console homepage - Start with free trial or connect your own wallet*
 
-1. Click **"Connect Wallet"** in the top right
-2. Choose your wallet provider (Keplr or Leap)
-3. Approve the connection
+### Step 2: Sign Up for Free Trial
 
-**Note:** You'll need a funded wallet with at least 0.5 AKT for deposit plus gas fees.
+1. Click **"Start Free Trial"** or **"Get Started"**
+2. Enter your email address
+3. Add a credit card (for verification and pay-as-you-go after trial)
+4. Receive **$100 in free trial credits**
 
-### Step 3: Create Your First Deployment
+![Trial Signup](/images/docs/console/2-trial-signup.png)
+*Sign up with email and credit card to receive $100 in trial credits*
 
-1. Click **"Create Deployment"** or **"New Deployment"**
-2. Use the visual SDL editor or paste your SDL file
-3. Configure your resources (CPU, memory, storage)
-4. Set your pricing preferences
-5. Click **"Deploy"**
+**Note:** Trial deployments have a 24-hour limit. For longer deployments, use your own wallet or add payment method.
+
+### Step 3: Explore Your Dashboard
+
+After signing up, you'll see your Console dashboard with:
+
+- **Trial Status** - $100.00 in credits with 30 days remaining
+- **Setup Progress** - Track completion of onboarding steps
+- **Featured Templates** - Quick-deploy options like Hello Akash, ComfyUI, and Llama-3.1-8b
+- **One-Click Deploy** - Launch your first app in seconds
+
+![Trial Dashboard](/images/docs/console/3-trial-dashboard.png)
+*Console dashboard showing trial credits, setup progress, and featured templates ready to deploy*
 
 ---
 
@@ -54,13 +65,32 @@ Visit [console.akash.network](https://console.akash.network) in your web browser
 
 ### Visual SDL Builder
 
-Build your deployment configuration visually:
+Build your deployment configuration visually without writing YAML:
 
 - **Service Configuration** - Add services, set images, configure ports
 - **Resource Allocation** - Set CPU, memory, and storage requirements
 - **Network Settings** - Configure exposed ports and endpoints
 - **Environment Variables** - Add environment variables to your containers
 - **Pricing** - Set maximum bid prices
+
+![SDL Builder Interface](/images/docs/console/4-sdl-builder-interface.png)
+*Visual SDL Builder - configure your deployment using a form-based interface*
+
+### Pre-Built Templates
+
+Browse 290+ ready-to-deploy application templates:
+
+- **AI/ML Models** - Stable Diffusion, LLMs, Ollama, Open WebUI
+- **Databases** - PostgreSQL, MongoDB, Redis, MySQL
+- **Web Servers** - Nginx, Apache, Caddy
+- **Development Tools** - Jupyter, VS Code Server
+- **And much more...**
+
+![Templates Library](/images/docs/console/5-templates-library.png)
+*Browse pre-built templates for common applications*
+
+![Template Detail](/images/docs/console/6-template-detail.png)
+*View template details and deploy with one click*
 
 ### Deployment Dashboard
 
@@ -69,49 +99,59 @@ Monitor and manage all your deployments:
 - **Active Deployments** - See all running deployments
 - **Deployment Status** - Real-time status updates
 - **Logs** - View container logs directly in the console
-- **Metrics** - Monitor resource usage
+- **Events** - Monitor deployment events and shell access
 - **URLs** - Access your deployed applications
 
-### Wallet Management
-
-Manage your funds directly in the console:
-
-- **Balance** - View your AKT balance
-- **Escrow** - Monitor deployment escrow accounts
-- **Transactions** - View transaction history
-- **Top Up** - Add funds to your wallet
+![Deployments Dashboard](/images/docs/console/15-deployments-dashboard.png)
+*Manage all your deployments from a single dashboard*
 
 ---
 
 ## Quick Example: Deploy a Web App
 
-### Using the Visual Builder
+### Step-by-Step Deployment Flow
 
-1. **Create New Deployment**
-   - Click "Create Deployment" → "Use Visual Builder"
+#### 1. Configure Your Deployment
 
-2. **Add a Service**
-   - Service Name: `web`
-   - Image: `nginx:1.25.3`
-   - Port: `80`
+Use the SDL Builder or choose a template, then customize your configuration:
 
-3. **Set Resources**
-   - CPU: `0.5`
-   - Memory: `512Mi`
-   - Storage: `512Mi`
+![SDL Configuration](/images/docs/console/7-sdl-configuration.png)
+*Configure your deployment with SDL or use the visual builder*
 
-4. **Configure Network**
-   - Expose port `80` to the internet
+#### 2. Set Deposit Amount
 
-5. **Set Pricing**
-   - Maximum bid: `10000 uAKT` per block
+Set the initial deposit for your deployment:
 
-6. **Deploy**
-   - Review your configuration
-   - Click "Deploy"
-   - Wait for provider bids
-   - Accept a bid
-   - Your app will be live!
+![Deployment Review](/images/docs/console/8-deployment-review.png)
+*Set your deposit amount - this is held in escrow and refunded when you close the deployment*
+
+The deposit:
+- Is held in escrow to pay for your deployment
+- Gets refunded when you close the deployment
+- Automatically tops up if running low
+
+#### 3. Select a Provider Bid
+
+After creating the deployment, providers will submit bids. Choose one based on:
+- **Price** - Cost per month
+- **Location** - Geographic region
+- **Attributes** - Features and certifications
+
+![Bid Selection](/images/docs/console/10-bid-selection.png)
+*Review and accept provider bids for your deployment*
+
+#### 4. Access Your Running Deployment
+
+Once the bid is accepted, your deployment will start running:
+
+![Deployment Active](/images/docs/console/12-deployment-active.png)
+*Your deployment is live with URLs and status information*
+
+You'll see:
+- ✅ **Live URLs** - Access your application
+- 📊 **Status** - Real-time deployment state
+- 💰 **Cost Tracking** - Current spending
+- ⚙️ **Management Controls** - Update, logs, close
 
 ---
 
@@ -120,22 +160,24 @@ Manage your funds directly in the console:
 ### When to Use Console
 
 ✅ **Use Console if you:**
-- Prefer visual interfaces
-- Are new to Akash
-- Want quick deployments
-- Need to manage multiple deployments easily
-- Want to avoid command-line tools
+- Prefer visual interfaces over terminal commands
+- Are new to Akash and want guided setup
+- Want quick deployments with pre-built templates
+- Need to manage multiple deployments with a dashboard view
+- Want to try Akash with free trial credits
+- Prefer browsing provider bids visually
 
 ### When to Use CLI
 
 ✅ **Use CLI if you:**
-- Need automation/scripting
-- Want CI/CD integration
+- Need automation and scripting for deployments
+- Want CI/CD pipeline integration
 - Prefer command-line workflows
-- Need advanced features
-- Want full control
+- Need advanced features like AuthZ delegation
+- Want direct blockchain control without GUI
+- Are building tooling on top of Akash
 
-**Both work together!** You can create deployments in Console and manage them via CLI, or vice versa.
+**Both work together!** Deployments created in Console can be managed via CLI, and vice versa. Use whichever tool fits your workflow best.
 
 ---
 
@@ -143,12 +185,26 @@ Manage your funds directly in the console:
 
 ### View Deployment Logs
 
+Monitor your application's output in real-time:
+
 1. Go to **"Deployments"** in the sidebar
 2. Click on your deployment
 3. Navigate to **"Logs"** tab
 4. View real-time container logs
 
+![Deployment Logs](/images/docs/console/13-deployment-logs.png)
+*View real-time logs from your running containers*
+
+### Monitor Events and Shell Access
+
+Access deployment events and shell terminal:
+
+![Deployment Events](/images/docs/console/14-deployment-events.png)
+*View deployment events and access shell terminal*
+
 ### Update a Deployment
+
+Modify your running deployment without downtime:
 
 1. Select your deployment
 2. Click **"Edit"** or **"Update"**
@@ -156,19 +212,38 @@ Manage your funds directly in the console:
 4. Click **"Update Deployment"**
 5. Changes will be applied to your running deployment
 
+![Deployment Update](/images/docs/console/16-deployment-update.png)
+*Update your deployment configuration on the fly*
+
+**Note:** Existing containers continue running until the new version is ready.
+
 ### Close a Deployment
+
+Stop your deployment and reclaim your deposit:
 
 1. Select your deployment
 2. Click **"Close"** or **"Stop"**
 3. Confirm the action
 4. Your deployment will stop and remaining escrow will be refunded
 
-### Monitor Costs
+![Deployment Close Confirmation](/images/docs/console/17-deployment-close.png)
+*Confirm deployment closure and reclaim your deposit*
 
-1. Go to **"Deployments"**
-2. View **"Cost"** column for each deployment
-3. Check **"Escrow Balance"** to see remaining funds
-4. Top up escrow if needed
+![Deployment Closed](/images/docs/console/17.1-deployment-close.png)
+*Deployment successfully closed*
+
+### Manage Billing and Credits
+
+View your trial credits and add payment methods:
+
+![Billing and Credits](/images/docs/console/18-billing-credits.png)
+*Manage your trial credits, payment methods, and billing*
+
+You can:
+- Check remaining trial credits
+- Add or update credit card
+- View spending history
+- Convert to pay-as-you-go after trial expires
 
 ---
 
