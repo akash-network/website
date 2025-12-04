@@ -45,7 +45,7 @@ Provider Console is a web-based application designed to simplify the process of 
 ## Quick Start
 
 ### Step 1: Access Provider Console
-Visit: **[console.akash.network/providers](https://console.akash.network/providers)**
+Visit: **[provider-console.akash.network](https://provider-console.akash.network)**
 
 ### Step 2: Connect Your Wallet
 - Connect your Keplr or Leap wallet
@@ -56,16 +56,6 @@ Visit: **[console.akash.network/providers](https://console.akash.network/provide
 - Configure provider settings
 - Set pricing
 - Deploy!
-
----
-
-## Setup Guide
-
-For detailed setup instructions, see the sub-pages:
-
-- **[Getting Started](/docs/providers/setup-and-installation/provider-console/getting-started)** - First-time setup
-- **[Configuration](/docs/providers/setup-and-installation/provider-console/configuration)** - Provider settings
-- **[Root Sign-In](/docs/providers/setup-and-installation/provider-console/root-sign-in)** - Admin access setup
 
 ---
 
@@ -151,10 +141,9 @@ After setup completes:
 
 ## Support
 
-- **Provider Console Docs:** [console.akash.network/docs](https://console.akash.network/docs)
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
 
 ---
 
-**Ready to start?** Visit [Provider Console →](https://console.akash.network/providers)
+**Ready to start?** Visit [Provider Console →](https://provider-console.akash.network)
 

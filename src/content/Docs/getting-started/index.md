@@ -62,7 +62,7 @@ Once you're comfortable with the basics, explore advanced deployment options:
 ### For Providers
 Want to earn revenue by providing compute?
 
-- **[Run a Provider](/docs/providers)** - Contribute compute resources to the Akash Network
+- **[Run a Provider](/docs/providers/getting-started)** - Contribute compute resources to the Akash Network
 
 ---
 

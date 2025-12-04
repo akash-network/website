@@ -345,7 +345,7 @@ deployment:
 ## Related Topics
 
 - [SDL Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference) - Complete SDL documentation
-- [Environment Variables](/docs/developers/deployment/akash-sdl/syntax-reference#environment-variables) - Managing app configuration
+- [Environment Variables](/docs/developers/deployment/akash-sdl/syntax-reference#env-section) - Managing app configuration
 
 ---
 

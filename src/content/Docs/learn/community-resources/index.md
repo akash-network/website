@@ -118,7 +118,7 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Provider Issues:**
-1. Check the [Provider Documentation](/docs/providers)
+1. Check the [Provider Documentation](/docs/providers/getting-started)
 2. Ask in Discord **#provider** channel
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 

@@ -87,7 +87,7 @@ Before starting, ensure you have:
 
 ### 4. Akash Console
 - Familiar with deploying on Akash
-- See [Akash Console Guide](/docs/developers/akash-console)
+- See [Akash Console Guide](/docs/developers/deployment/akash-console)
 
 ---
 

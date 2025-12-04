@@ -41,7 +41,7 @@ Before starting, ensure you have:
 
 3. **Akash Console**
    - Familiar with deploying on Akash
-   - See [Akash Console Guide](/docs/developers/akash-console)
+   - See [Akash Console Guide](/docs/developers/deployment/akash-console)
 
 4. **Validator Wallet** (separate from deployment wallet)
    - 2+ AKT for validator creation

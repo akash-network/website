@@ -21,7 +21,7 @@ Before starting, ensure you have:
 
 ### Hardware Requirements
 
-See [Hardware Requirements - Persistent Storage](/docs/providers/getting-started/hardware-requirements#persistent-storage) for detailed specifications:
+See [Hardware Requirements - Persistent Storage](/docs/providers/getting-started/hardware-requirements#persistent-storage-optional) for detailed specifications:
 - **Minimum:** 4 SSDs across all nodes, OR 2 NVMe SSDs across all nodes
 - **Drives must be:**
   - Dedicated exclusively to persistent storage
