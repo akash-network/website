@@ -419,9 +419,17 @@ Currently, only IPv4 addresses are supported:
 ### IP Lease Migration
 
 You **can** migrate IP leases between deployments on the same provider:
-- Use `provider-services tx deployment migrate-lease` to transfer the IP to a new deployment
+- Use `provider-services migrate-endpoints <endpoint-name> --dseq <destination-dseq> --gseq <destination-gseq>` to transfer the IP to a new deployment
 - The IP address moves from the old deployment to the new one
-- Useful when you need to update resources that cannot be changed via deployment updates
+- Useful when you need to update resources that cannot be changed via deployment updates (like CPU, memory, or storage)
+
+**Example:**
+```bash
+provider-services migrate-endpoints web-ip \
+  --dseq 123457 \
+  --gseq 1 \
+  --provider <provider-address>
+```
 
 **Note:** You cannot migrate IP leases across different providers - switching providers requires a new IP address.
 
