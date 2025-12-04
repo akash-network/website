@@ -126,7 +126,9 @@ Akash offers three storage classes with different performance characteristics:
 
 ```yaml
 storage:
-  - size: 10Gi
+  - size: 1Gi  # Ephemeral root filesystem
+  - name: data
+    size: 10Gi
     attributes:
       persistent: true
       class: beta3
@@ -146,7 +148,9 @@ storage:
 
 ```yaml
 storage:
-  - size: 10Gi
+  - size: 1Gi  # Ephemeral root filesystem
+  - name: data
+    size: 10Gi
     attributes:
       persistent: true
       class: beta2
@@ -165,7 +169,9 @@ storage:
 
 ```yaml
 storage:
-  - size: 10Gi
+  - size: 1Gi  # Ephemeral root filesystem
+  - name: data
+    size: 10Gi
     attributes:
       persistent: true
       class: beta1  # Default if class is omitted

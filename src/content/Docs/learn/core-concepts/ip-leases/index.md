@@ -32,24 +32,28 @@ An **IP Lease** is a dedicated public IPv4 address assigned to your deployment f
 - **Static IP requirements** - When you need a consistent IP address
 - **Non-HTTP services** - SSH, game servers, custom protocols
 - **Direct database access** - Expose databases with a static IP
-- **Whitelisting** - When clients need to whitelist your IP
 - **Load balancing** - Use your own load balancer pointed at the IP
+
+**Note:** The IP lease address is for incoming connections only. Outbound/egress traffic from your deployment uses a different IP address.
 
 ### ❌ Don't Need IP Leases For:
 
 - **Standard web apps** - Provider hostnames work fine
 - **Cost-sensitive deployments** - IP leases cost extra
-- **Frequently changing services** - IP leases are per-deployment
 
 ---
 
 ## How IP Leases Work
 
-### 1. Request IP in SDL
+### 1. Define IP Endpoint in SDL
 
-Add `ip_lease: true` to your endpoint configuration:
+Define IP endpoints at the top level of your SDL and reference them in your service expose configuration:
 
 ```yaml
+endpoints:
+  myendpoint:
+    kind: ip
+
 services:
   web:
     expose:
@@ -57,7 +61,7 @@ services:
         as: 80
         to:
           - global: true
-            ip_lease: true  # Request IP lease
+            ip: myendpoint  # Reference the endpoint
 ```
 
 ### 2. Provider Assigns IP
@@ -80,6 +84,10 @@ You can now access your service directly via the assigned IP address:
 ```yaml
 version: "2.0"
 
+endpoints:
+  web-endpoint:
+    kind: ip
+
 services:
   web:
     image: nginx:latest
@@ -89,7 +97,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true
+            ip: web-endpoint
 
 profiles:
   compute:
@@ -108,7 +116,7 @@ profiles:
         web:
           denom: uakt
           amount: 10000
-        ip_lease:  # IP lease pricing
+        web-endpoint:  # IP endpoint pricing
           denom: uakt
           amount: 10000  # Additional cost for IP
 
@@ -119,13 +127,17 @@ deployment:
       count: 1
 ```
 
-**Important:** You must include `ip_lease` in your pricing section, as IP leases have additional costs.
+**Important:** You must include pricing for your IP endpoint, as IP leases have additional costs.
 
 ### Multiple Ports
 
 Expose multiple ports on the same IP:
 
 ```yaml
+endpoints:
+  server-ip:
+    kind: ip
+
 services:
   server:
     image: myapp:latest
@@ -135,19 +147,19 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true
+            ip: server-ip
       - port: 443
         as: 443
         proto: tcp
         to:
           - global: true
-            ip_lease: true  # Same IP, different port
+            ip: server-ip  # Same IP, different port
       - port: 22
         as: 22
         proto: tcp
         to:
           - global: true
-            ip_lease: true  # SSH on same IP
+            ip: server-ip  # SSH on same IP
 ```
 
 ### Custom Port Mapping
@@ -155,6 +167,10 @@ services:
 Map container ports to different external ports:
 
 ```yaml
+endpoints:
+  app-ip:
+    kind: ip
+
 services:
   app:
     expose:
@@ -163,7 +179,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true
+            ip: app-ip
 ```
 
 Now your service running on port `8080` inside the container is accessible via port `80` on the public IP.
@@ -175,6 +191,10 @@ Now your service running on port `8080` inside the container is accessible via p
 IP leases work with UDP protocols, essential for game servers and real-time applications:
 
 ```yaml
+endpoints:
+  game-ip:
+    kind: ip
+
 services:
   game-server:
     image: minecraft-server:latest
@@ -184,7 +204,7 @@ services:
         proto: udp
         to:
           - global: true
-            ip_lease: true
+            ip: game-ip
 
 profiles:
   placement:
@@ -193,7 +213,7 @@ profiles:
         game-server:
           denom: uakt
           amount: 15000
-        ip_lease:
+        game-ip:
           denom: uakt
           amount: 10000
 ```
@@ -232,6 +252,10 @@ For HTTPS with custom domains:
 **Option 1: Use Caddy (Automatic HTTPS)**
 
 ```yaml
+endpoints:
+  web-ip:
+    kind: ip
+
 services:
   web:
     image: caddy:latest
@@ -242,12 +266,12 @@ services:
         as: 80
         to:
           - global: true
-            ip_lease: true
+            ip: web-ip
       - port: 443
         as: 443
         to:
           - global: true
-            ip_lease: true
+            ip: web-ip
 ```
 
 **Option 2: Use Traefik with Let's Encrypt**
@@ -284,15 +308,19 @@ Total: $13/month
 In your SDL, set the maximum you're willing to pay:
 
 ```yaml
+endpoints:
+  my-ip:
+    kind: ip
+
 placement:
   akash:
     pricing:
       web:
         denom: uakt
         amount: 10000  # Max for compute
-      ip_lease:
+      my-ip:
         denom: uakt
-        amount: 10000  # Max for IP lease
+        amount: 10000  # Max for IP endpoint
 ```
 
 Providers will bid at or below these amounts.
@@ -306,6 +334,10 @@ You can expose multiple services on the same IP address with different ports:
 ```yaml
 version: "2.0"
 
+endpoints:
+  shared-ip:
+    kind: ip
+
 services:
   frontend:
     image: my-frontend:latest
@@ -315,7 +347,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true
+            ip: shared-ip
 
   backend:
     image: my-backend:latest
@@ -325,7 +357,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true  # Same IP, port 8080
+            ip: shared-ip  # Same IP, port 8080
 
   database:
     image: postgres:15
@@ -335,7 +367,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true  # Same IP, port 5432
+            ip: shared-ip  # Same IP, port 5432
 
 profiles:
   placement:
@@ -350,9 +382,9 @@ profiles:
         database:
           denom: uakt
           amount: 10000
-        ip_lease:
+        shared-ip:
           denom: uakt
-          amount: 10000  # One IP lease for all services
+          amount: 10000  # One IP endpoint for all services
 ```
 
 Access your services:
@@ -384,11 +416,14 @@ Currently, only IPv4 addresses are supported:
 - No IPv6 support yet
 - One IP address per deployment
 
-### Cannot Migrate IP
+### IP Lease Migration
 
-IP addresses are **provider-specific**:
-- Moving to a new provider = new IP address
-- Cannot keep your IP when switching providers
+You **can** migrate IP leases between deployments on the same provider:
+- Use `provider-services tx deployment migrate-lease` to transfer the IP to a new deployment
+- The IP address moves from the old deployment to the new one
+- Useful when you need to update resources that cannot be changed via deployment updates
+
+**Note:** You cannot migrate IP leases across different providers - switching providers requires a new IP address.
 
 ---
 
@@ -397,6 +432,10 @@ IP addresses are **provider-specific**:
 ### Game Server
 
 ```yaml
+endpoints:
+  game-ip:
+    kind: ip
+
 services:
   minecraft:
     image: itzg/minecraft-server:latest
@@ -409,7 +448,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true
+            ip: game-ip
 ```
 
 **Players connect to:** `123.456.789.10:25565`
@@ -417,6 +456,10 @@ services:
 ### SSH Access
 
 ```yaml
+endpoints:
+  ssh-ip:
+    kind: ip
+
 services:
   jumpbox:
     image: ubuntu:22.04
@@ -426,7 +469,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true
+            ip: ssh-ip
 ```
 
 **SSH command:** `ssh user@123.456.789.10`
@@ -434,6 +477,10 @@ services:
 ### API with Custom Domain
 
 ```yaml
+endpoints:
+  api-ip:
+    kind: ip
+
 services:
   api:
     image: myapi:latest
@@ -443,7 +490,7 @@ services:
         proto: tcp
         to:
           - global: true
-            ip_lease: true
+            ip: api-ip
 ```
 
 **After DNS setup:** `https://api.yourdomain.com`

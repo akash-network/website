@@ -45,6 +45,10 @@ Providers register on Akash blockchain:
 
 **Note:** Providers lock up AKT only for the duration of active bids and leases, not as permanent collateral.
 
+### Audited Providers
+
+Some providers have undergone security audits and are marked as "audited" providers. You can restrict your deployments to only audited providers using the `signedBy` field in your SDL for enhanced security and compliance requirements.
+
 ### Bidding Process
 
 When you create a deployment:
