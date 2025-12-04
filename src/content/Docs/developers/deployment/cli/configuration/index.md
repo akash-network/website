@@ -26,9 +26,9 @@ export AKASH_GAS_PRICES="0.025uakt"
 export AKASH_GAS_ADJUSTMENT="1.5"
 ```
 
-### Testnet (Sandbox)
+### Sandbox
 ```bash
-export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/testnet"
+export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/sandbox"
 export AKASH_CHAIN_ID="sandbox-2"
 export AKASH_NODE="https://rpc.sandbox-2.aksh.pw:443"
 export AKASH_GAS_PRICES="0.025uakt"

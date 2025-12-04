@@ -576,7 +576,7 @@ provider-services tx bank send akash1from... akash1to... 1000000uakt \
 --gas-adjustment 1.5
 ```
 
-### Testnet Configuration
+### Sandbox Configuration
 
 ```bash
 --node https://rpc.sandbox.akash.network:443 \

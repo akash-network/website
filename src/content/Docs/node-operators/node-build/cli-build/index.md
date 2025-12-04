@@ -422,7 +422,7 @@ pruning = "default"
 
 ## Other Networks
 
-This guide uses Akash mainnet. For testnet or edgenet:
+This guide uses Akash mainnet. For sandbox or other networks:
 
 - [Akash Network Configurations](https://github.com/akash-network/net)
 
