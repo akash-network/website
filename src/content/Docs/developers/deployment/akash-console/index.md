@@ -28,7 +28,7 @@ Akash Console ([console.akash.network](https://console.akash.network)) is a web-
 
 ## Two Ways to Use Console
 
-### 🎁 Free Trial (Easiest - Recommended for Beginners)
+### 🎁 Free Trial or Credit Card (Easiest - Recommended for Beginners)
 
 **Get started in minutes with $100 free credits:**
 
@@ -128,7 +128,7 @@ Manage your funds directly in the console:
 
 ---
 
-## Console vs CLI
+## Console vs CLI and Other Options
 
 ### Use Console if you:
 - ✅ Prefer visual interfaces
@@ -137,7 +137,7 @@ Manage your funds directly in the console:
 - ✅ Need easy deployment management
 - ✅ Want to avoid command-line tools
 
-### Use CLI if you:
+### Use CLI or SDK if you:
 - ✅ Need automation/scripting
 - ✅ Want CI/CD integration
 - ✅ Prefer command-line workflows

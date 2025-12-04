@@ -27,12 +27,13 @@ This section helps developers understand their options and get started quickly w
 
 ---
 
-### 💻 Akash SDK (Most Powerful)
+### 💻 Akash SDK (Production-Ready)
 **Programmatic deployments with JavaScript/TypeScript or Go**
 
 - Integrate Akash into your applications
 - Automate deployments with code
 - Build custom deployment tools
+- Production-ready for serious workloads
 - CI/CD integration
 
 **Start here:** [Akash SDK →](/docs/developers/deployment/akash-sdk)
@@ -45,7 +46,7 @@ This section helps developers understand their options and get started quickly w
 - Full control over deployments
 - Scriptable workflows
 - Advanced features
-- Production-ready
+- Complete blockchain access
 
 **Start here:** [Installation Guide →](/docs/developers/deployment/cli/installation-guide)
 
@@ -91,14 +92,11 @@ Learn the core concepts behind Akash:
 - **Go SDK** - [Getting Started](/docs/developers/deployment/akash-sdk/quick-start)
 
 ### CLI Tools
-- **provider-services** - Main CLI tool
-- **kubectl** - Kubernetes management
-- **helm** - Package management
+- **provider-services** - Main CLI tool for deployments
 
 ### Web Tools
-- **Akash Console** - Visual deployment interface
-- **Cloudmos** - Alternative web interface
-- **Stats Dashboard** - Network statistics
+- **[Akash Console](https://console.akash.network)** - Visual deployment interface
+- **[Stats Dashboard](https://stats.akash.network)** - Network statistics and metrics
 
 ---
 
@@ -110,8 +108,9 @@ Learn the core concepts behind Akash:
 - [SDL Examples](/docs/developers/deployment/akash-sdl/examples-library) - 290+ deployment examples
 
 ### Community
-- **Discord:** [discord.akash.network](https://discord.akash.network) - Get help from developers
-- **GitHub:** [github.com/akash-network](https://github.com/akash-network) - Contribute
+- **[Discord](https://discord.akash.network)** - Get help from developers in #developers channel
+- **[GitHub](https://github.com/akash-network)** - Contribute to Akash codebase
+- **[Support](https://support.akash.network)** - Get technical support
 
 ---
 

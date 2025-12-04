@@ -9,7 +9,7 @@ description: "Configure the provider-services CLI for your environment"
 
 **Configure the provider-services CLI with networks, wallets, and custom settings.**
 
-> **Prerequisites:** You must have the CLI installed and configured. See the [Installation Guide →](/docs/getting-started/installation)
+> **Prerequisites:** You must have the CLI installed and configured. See the [Installation Guide →](/docs/developers/deployment/cli/installation-guide)
 
 This guide covers all configuration options for the CLI.
 
@@ -29,8 +29,8 @@ export AKASH_GAS_ADJUSTMENT="1.5"
 ### Testnet (Sandbox)
 ```bash
 export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/testnet"
-export AKASH_CHAIN_ID="sandbox-01"
-export AKASH_NODE="https://rpc.sandbox-01.aksh.pw:443"
+export AKASH_CHAIN_ID="sandbox-2"
+export AKASH_NODE="https://rpc.sandbox-2.aksh.pw:443"
 export AKASH_GAS_PRICES="0.025uakt"
 export AKASH_GAS_ADJUSTMENT="1.5"
 ```

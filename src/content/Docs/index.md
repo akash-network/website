@@ -14,40 +14,49 @@ New to Akash? Start here:
 - **[What is Akash Network?](/docs/getting-started/what-is-akash)** - Learn about decentralized cloud computing
 - **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works
 - **[Quick Start](/docs/getting-started/quick-start)** - Deploy your first app in under 10 minutes
-- **[Installation](/docs/getting-started/installation)** - Set up the provider-services CLI
 
 ## Documentation Sections
 
-### For Developers
+### Developers
 
-- **[Deployment](/docs/developers/deployment)** - Console, CLI, SDKs, SDL, AuthZ, and deployment guides
-- **[API Protocols](/docs/developers/api-protocols)** - gRPC, REST, RPC, and WebSocket APIs
-- **[Contributing](/docs/developers/contributing)** - Contribute to Akash codebase
+Deploy applications and build on Akash Network:
 
-### For Providers
+- **[Getting Started](/docs/developers/getting-started)** - Choose your deployment method and get started
+- **[Deployment](/docs/developers/deployment)** - Console, CLI, SDKs, SDL, and AuthZ
+- **[Contributing](/docs/developers/contributing)** - Contribute to Akash codebase and documentation
+
+### Providers
+
+Run compute resources on Akash Network:
 
 - **[Getting Started](/docs/providers/getting-started)** - Should you run a provider? Hardware requirements and cost analysis
 - **[Setup & Installation](/docs/providers/setup-and-installation)** - Provider Playbook, Kubespray, and Provider Console
 - **[Operations](/docs/providers/operations)** - Lease management, monitoring, maintenance, and provider verification
-- **[Architecture](/docs/providers/architecture)** - Provider service architecture (for developers)
+- **[Architecture](/docs/providers/architecture)** - Provider service architecture and components
 
-### For Node Operators
+### Node Operators
 
-- **[Architecture](/docs/node-operators/architecture)** - Node architecture and API endpoints
+Run blockchain nodes and validators:
+
+- **[Getting Started](/docs/node-operators/getting-started)** - Choose between full node and validator
 - **[Node Build](/docs/node-operators/node-build)** - CLI Build, Omnibus, and Helm Chart
 - **[Validators](/docs/node-operators/validators)** - Running validators, Omnibus, and TMKMS
-- **[Network Upgrades](/docs/node-operators/network-upgrades)** - Upgrade guides for network upgrades
+- **[Network Upgrades](/docs/node-operators/network-upgrades)** - Mainnet 15 upgrade guide
+- **[Architecture](/docs/node-operators/architecture)** - Node architecture and API endpoints
 
 ### Learn
 
-- **[Community Resources](/docs/learn/community-resources)** - Discord, GitHub, blog, support channels, and getting help
+Deep dive into Akash concepts and resources:
+
+- **[Core Concepts](/docs/learn/core-concepts)** - Detailed guides for deployments, storage, GPUs, and more
+- **[Community Resources](/docs/learn/community-resources)** - Discord, GitHub, blog, and support channels
 
 ## Need Help?
 
 - **[Discord](https://discord.akash.network)** - Get help from the community
-- **GitHub:** [Report issues](https://github.com/akash-network/support)
+- **[GitHub](https://github.com/akash-network/support)** - Report issues and get support
 
 ---
 
-**Ready to deploy?** Start with [What is Akash?!](/docs/getting-started/what-is-akash)
+**Ready to deploy?** Start with [What is Akash?](/docs/getting-started/what-is-akash)
 

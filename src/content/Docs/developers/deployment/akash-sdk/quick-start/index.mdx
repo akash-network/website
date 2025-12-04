@@ -21,7 +21,7 @@ Before you begin, ensure you have:
 
 - **For TypeScript:** Node.js 22.14.0+ and npm/yarn/pnpm
 - **For Go:** Go 1.25.0+
-- An Akash wallet with AKT tokens (get testnet tokens from the [faucet](https://faucet.sandbox-01.aksh.pw/))
+- An Akash wallet with AKT tokens (get testnet tokens from the [faucet](https://faucet.sandbox-2.aksh.pw/))
 - Basic understanding of blockchain concepts
 
 ---
@@ -70,10 +70,10 @@ console.log("Wallet address:", accounts[0].address);
 // Initialize SDK
 const sdk = createChainNodeSDK({
   query: {
-    baseUrl: "https://grpc.sandbox-01.aksh.pw:443", // Testnet gRPC
+    baseUrl: "https://grpc.sandbox-2.aksh.pw:443", // Testnet gRPC
   },
   tx: {
-    baseUrl: "https://rpc.sandbox-01.aksh.pw:443", // Testnet RPC
+    baseUrl: "https://rpc.sandbox-2.aksh.pw:443", // Testnet RPC
     signer: wallet,
     gasPrice: "0.025uakt"
   }
@@ -99,8 +99,8 @@ func main() {
     
     // Create client context
     cctx := sdkclient.Context{
-        ChainID: "sandbox-01",
-        NodeURI: "https://rpc.sandbox-01.aksh.pw:443",
+        ChainID: "sandbox-2",
+        NodeURI: "https://rpc.sandbox-2.aksh.pw:443",
     }
     
     // Initialize keyring (OS backend stores keys securely)
@@ -606,7 +606,7 @@ All SDKs support:
 
 **"Insufficient funds" error:**
 - Ensure your wallet has enough AKT tokens
-- Testnet tokens: Get from [faucet](https://faucet.sandbox-01.aksh.pw/)
+- Testnet tokens: Get from [faucet](https://faucet.sandbox-2.aksh.pw/)
 
 **No bids received:**
 - Check your SDL syntax is valid

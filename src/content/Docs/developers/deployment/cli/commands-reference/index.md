@@ -580,7 +580,7 @@ provider-services tx bank send akash1from... akash1to... 1000000uakt \
 
 ```bash
 --node https://rpc.sandbox.akash.network:443 \
---chain-id sandbox-01 \
+--chain-id sandbox-2 \
 --gas-prices 0.025uakt \
 --gas auto \
 --gas-adjustment 1.5

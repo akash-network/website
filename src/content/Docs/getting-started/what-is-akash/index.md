@@ -95,16 +95,16 @@ Providers in 85+ countries. Deploy close to your users for better performance.
 ## Key Concepts
 
 ### Deployment
-A **[deployment](/docs/getting-started/core-concepts#deployments)** is your application definition—what resources you need and how your application should run.
+A **[deployment](/docs/learn/core-concepts/deployments)** is your application definition—what resources you need and how your application should run.
 
 ### Provider
-A **[provider](/docs/getting-started/core-concepts#providers)** is an independent cloud operator offering computing resources on Akash.
+A **[provider](/docs/learn/core-concepts/providers-leases)** is an independent cloud operator offering computing resources on Akash.
 
 ### Bid
-A **[bid](/docs/getting-started/core-concepts#leases)** is an offer from a provider to host your deployment at a specific price.
+A **[bid](/docs/learn/core-concepts/providers-leases#understanding-bids)** is an offer from a provider to host your deployment at a specific price.
 
 ### Lease
-A **[lease](/docs/getting-started/core-concepts#leases)** is the active agreement between you and a provider. Once accepted, your deployment runs on their infrastructure.
+A **[lease](/docs/learn/core-concepts/providers-leases#lease-management)** is the active agreement between you and a provider. Once accepted, your deployment runs on their infrastructure.
 
 ### SDL
 The **[Stack Definition Language (SDL)](/docs/developers/deployment/akash-sdl)** is a YAML format that describes your deployment—similar to Docker Compose.
