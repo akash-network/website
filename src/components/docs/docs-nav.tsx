@@ -1,5 +1,5 @@
 import { docsSequence as docs } from "@/content/Docs/_sequence";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 
 export function DocsNav({ docsNav = [], pathName = [] }: any) {
@@ -8,6 +8,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     typeof window !== "undefined" ? window.location.pathname : ""
   );
   const [forceUpdate, setForceUpdate] = useState(0);
+  const currentPathRef = useRef<string>(currentPath);
 
   // Preserve sidebar scroll position
   useEffect(() => {
@@ -206,6 +207,11 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     return isMatch;
   };
 
+  // Keep ref in sync with state
+  useEffect(() => {
+    currentPathRef.current = currentPath;
+  }, [currentPath]);
+
   // Auto-open sections that contain the current page
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -219,21 +225,25 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
       const newOpenSections = new Set<string>();
 
       // Check if current path is within any section
-      const checkPath = (items: any[], parentPath: string = "") => {
+      const checkPath = (items: any[], parentPath: string = ""): boolean => {
+        let foundMatch = false;
         items.forEach((item) => {
           const fullPath = parentPath ? `${parentPath}/${item.label}` : item.label;
           if (item.link && newPath.startsWith(item.link)) {
             // Current page matches this item, open all parents
             newOpenSections.add(fullPath);
+            foundMatch = true;
           }
           if (item.subItems && item.subItems.length > 0) {
             const hadMatch = checkPath(item.subItems, fullPath);
             // If a child matched, open this parent too
-            if (item.subItems.some((si: any) => si.link && newPath.startsWith(si.link))) {
+            if (hadMatch) {
               newOpenSections.add(fullPath);
+              foundMatch = true;
             }
           }
         });
+        return foundMatch;
       };
 
       const actualNav = docsNav[0]?.label === "Docs" ? docsNav[0].subItems : docsNav;
@@ -267,7 +277,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     // Poll for changes as a fallback (every 300ms)
     const interval = setInterval(() => {
       const newPath = window.location.pathname;
-      if (newPath !== currentPath) {
+      if (newPath !== currentPathRef.current) {
         updateOpenSections();
       }
     }, 300);
