@@ -293,9 +293,10 @@ When you're done:
 - Rest for provider payments and gas fees
 
 ### "Can I use trial AND wallet?"
-**Answer:** Yes! You can switch between them:
-- **Trial wallet** for testing (24-hour limit)
-- **Your wallet** for production (no limits)
+**Answer:** 
+- **Trial** - $100 free credits for 30 days, 24-hour deployment limit
+- **Credit Card** - Once you add a credit card, you keep your trial credits but can't go back to trial-only mode
+- **Your Wallet** - Use your own Keplr/Leap wallet for production deployments with no limits
 
 ### "What if I run out of AKT in escrow?"
 **Answer:** Your deployment will close automatically. Monitor your escrow balance and add more AKT if needed (click "Add Funds" on your deployment).
@@ -313,6 +314,7 @@ When you're done:
 - Increase the price in your SDL
 - Wait 2-3 minutes (sometimes takes time)
 - Try deploying during off-peak hours
+- **Last resort:** Join [Discord](https://discord.akash.network) and ask a vanguard to review your SDL in #deployments channel
 
 ### "Deployment closed unexpectedly"
 **Possible causes:**
@@ -331,7 +333,7 @@ When you're done:
 - 📊 **Check provider stats** - Choose providers with high uptime
 - 🔍 **Use logs** - Logs are your best debugging tool
 - 💾 **Save your SDLs** - Keep copies of working configurations
-- 🚀 **Test pricing** - Try different price points to see what gets bids faster
+- 🚀 **Test pricing** - Try different price points to get bids from more providers
 
 ---
 

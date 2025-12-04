@@ -42,7 +42,8 @@ export AKASH_GAS_ADJUSTMENT="1.5"
 ### Set Default Wallet
 ```bash
 export AKASH_KEYRING_BACKEND="os"
-export AKASH_FROM="my-wallet"
+export AKASH_KEY_NAME="my-wallet"  # Replace with your wallet name
+export AKASH_FROM="$AKASH_KEY_NAME"
 ```
 
 ### Keyring Backend Options
@@ -173,7 +174,6 @@ export AKASH_TRACE="true"
 ## Next Steps
 
 - **[Commands Reference →](/docs/developers/deployment/cli/commands-reference)** - Learn all CLI commands
-- **[Common Tasks →](/docs/developers/deployment/cli/common-tasks)** - Practical examples
-- **[Quick Start →](/docs/getting-started/quick-start)** - Deploy your first app
+- **[Common Tasks →](/docs/developers/deployment/cli/common-tasks)** - Practical deployment examples
 
 ---

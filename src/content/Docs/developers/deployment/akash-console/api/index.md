@@ -807,7 +807,7 @@ console.log("Deployment closed:", closeResponse.data.data.message);
 
 - **Never commit API keys** to version control
 - **Use environment variables** for API keys
-- **Rotate keys regularly** if compromised
+- **Rotate keys regularly** as a security best practice
 - **Restrict key permissions** if possible
 
 ```typescript

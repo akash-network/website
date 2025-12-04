@@ -1,7 +1,7 @@
 ---
 categories: ["Developers", "Deployment"]
 tags: ["CLI", "Command Line", "Provider Services"]
-weight: 2
+weight: 0
 title: "Akash CLI"
 linkTitle: "CLI"
 description: "Deploy and manage Akash applications using the provider-services command-line interface"

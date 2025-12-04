@@ -54,9 +54,7 @@ deployment:
 **2. Create deployment:**
 ```bash
 provider-services tx deployment create deploy.yml \
-  --from my-wallet \
-  --gas auto \
-  --gas-adjustment 1.5
+  --from $AKASH_KEY_NAME
 ```
 
 **3. Wait and query bids:**
@@ -73,8 +71,7 @@ provider-services query market bid list --owner $AKASH_ADDRESS
 provider-services tx market lease create \
   --dseq <deployment-seq> \
   --provider <provider-address> \
-  --from my-wallet \
-  --gas auto
+  --from $AKASH_KEY_NAME
 ```
 
 **5. Send manifest:**
@@ -82,7 +79,7 @@ provider-services tx market lease create \
 provider-services send-manifest deploy.yml \
   --dseq <deployment-seq> \
   --provider <provider-address> \
-  --from my-wallet
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -135,7 +132,7 @@ provider-services query market lease list --owner <address>
 provider-services lease-logs \
   --dseq <deployment-seq> \
   --provider <provider-address> \
-  --from my-wallet
+  --from $AKASH_KEY_NAME
 ```
 
 ### Get Service Status
@@ -143,7 +140,7 @@ provider-services lease-logs \
 provider-services lease-status \
   --dseq <deployment-seq> \
   --provider <provider-address> \
-  --from my-wallet
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -158,9 +155,7 @@ nano deploy.yml
 # Send update
 provider-services tx deployment update deploy.yml \
   --dseq <deployment-seq> \
-  --from my-wallet \
-  --gas auto \
-  --gas-adjustment 1.5
+  --from $AKASH_KEY_NAME
 ```
 
 ### Update Manifest Only
@@ -169,7 +164,7 @@ provider-services tx deployment update deploy.yml \
 provider-services send-manifest deploy.yml \
   --dseq <deployment-seq> \
   --provider <provider-address> \
-  --from my-wallet
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -180,9 +175,7 @@ provider-services send-manifest deploy.yml \
 ```bash
 provider-services tx deployment close \
   --dseq <deployment-seq> \
-  --from my-wallet \
-  --gas auto \
-  --gas-adjustment 1.5
+  --from $AKASH_KEY_NAME
 ```
 
 **Note:** This closes the deployment and all associated leases. Funds in escrow are returned.
@@ -217,12 +210,12 @@ provider-services query params
 ```bash
 #!/bin/bash
 
-WALLET="my-wallet"
+# Assumes environment variables are set: AKASH_KEY_NAME, AKASH_GAS, AKASH_GAS_ADJUSTMENT
 SDL_FILE="deploy.yml"
 
 # Create deployment
 echo "Creating deployment..."
-RESULT=$(provider-services tx deployment create $SDL_FILE --from $WALLET --gas auto -y --output json)
+RESULT=$(provider-services tx deployment create $SDL_FILE --from $AKASH_KEY_NAME -y --output json)
 DSEQ=$(echo $RESULT | jq -r '.logs[0].events[] | select(.type=="akash.v1.EventDeploymentCreated") | .attributes[] | select(.key=="dseq") | .value')
 
 echo "Deployment created: $DSEQ"
@@ -230,14 +223,14 @@ echo "Waiting for bids..."
 sleep 30
 
 # Query bids
-BIDS=$(provider-services query market bid list --owner $(provider-services keys show $WALLET -a) --dseq $DSEQ --output json)
+BIDS=$(provider-services query market bid list --owner $(provider-services keys show $AKASH_KEY_NAME -a) --dseq $DSEQ --output json)
 PROVIDER=$(echo $BIDS | jq -r '.bids[0].bid.provider')
 
 echo "Creating lease with provider: $PROVIDER"
-provider-services tx market lease create --dseq $DSEQ --provider $PROVIDER --from $WALLET --gas auto -y
+provider-services tx market lease create --dseq $DSEQ --provider $PROVIDER --from $AKASH_KEY_NAME -y
 
 echo "Sending manifest..."
-provider-services send-manifest $SDL_FILE --dseq $DSEQ --provider $PROVIDER --from $WALLET
+provider-services send-manifest $SDL_FILE --dseq $DSEQ --provider $PROVIDER --from $AKASH_KEY_NAME
 
 echo "Deployment complete!"
 echo "DSEQ: $DSEQ"

@@ -36,13 +36,7 @@ provider-services <command> <subcommand> [arguments] [flags]
 Create a new deployment from an SDL file.
 
 ```bash
-provider-services tx deployment create <sdl-file> \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt \
-  --gas auto \
-  --gas-adjustment 1.5
+provider-services tx deployment create <sdl-file> --from $AKASH_KEY_NAME
 ```
 
 **Flags:**
@@ -51,14 +45,10 @@ provider-services tx deployment create <sdl-file> \
 
 **Example:**
 ```bash
-provider-services tx deployment create deploy.yml \
-  --from my-wallet \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt \
-  --gas auto \
-  --gas-adjustment 1.5
+provider-services tx deployment create deploy.yml --from $AKASH_KEY_NAME
 ```
+
+**Note:** Assumes environment variables `AKASH_NODE`, `AKASH_CHAIN_ID`, `AKASH_GAS`, `AKASH_GAS_PRICES`, and `AKASH_GAS_ADJUSTMENT` are configured.
 
 ---
 
@@ -67,9 +57,7 @@ provider-services tx deployment create deploy.yml \
 List all deployments for an account.
 
 ```bash
-provider-services query deployment list \
-  --owner <address> \
-  --node https://rpc.akash.network:443
+provider-services query deployment list --owner <address>
 ```
 
 **Flags:**
@@ -80,9 +68,7 @@ provider-services query deployment list \
 
 **Example:**
 ```bash
-provider-services query deployment list \
-  --owner akash1... \
-  --node https://rpc.akash.network:443
+provider-services query deployment list --owner akash1...
 ```
 
 ---
@@ -95,7 +81,6 @@ Get details of a specific deployment.
 provider-services query deployment get \
   --owner <address> \
   --dseq <deployment-id> \
-  --node https://rpc.akash.network:443
 ```
 
 **Example:**
@@ -103,7 +88,6 @@ provider-services query deployment get \
 provider-services query deployment get \
   --owner akash1... \
   --dseq 1234567 \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -115,15 +99,12 @@ Update an existing deployment with a new SDL.
 ```bash
 provider-services tx deployment update <sdl-file> \
   --dseq <deployment-id> \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt \
-  --gas auto \
-  --gas-adjustment 1.5
+  --from $AKASH_KEY_NAME
 ```
 
 **Important:** You cannot change resource groups in an update. Only environment variables and image versions can be updated.
+
+**Note:** Assumes environment variables are configured as per the [Configuration Guide](/docs/developers/deployment/cli/configuration).
 
 ---
 
@@ -134,24 +115,14 @@ Close a deployment and reclaim your deposit.
 ```bash
 provider-services tx deployment close \
   --dseq <deployment-id> \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt \
-  --gas auto \
-  --gas-adjustment 1.5
+  --from $AKASH_KEY_NAME
 ```
 
 **Example:**
 ```bash
 provider-services tx deployment close \
   --dseq 1234567 \
-  --from my-wallet \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt \
-  --gas auto \
-  --gas-adjustment 1.5
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -165,7 +136,6 @@ View all bids for your deployment.
 ```bash
 provider-services query market bid list \
   --owner <address> \
-  --node https://rpc.akash.network:443
 ```
 
 **Flags:**
@@ -181,7 +151,6 @@ provider-services query market bid list \
 provider-services query market bid list \
   --owner akash1... \
   --dseq 1234567 \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -197,7 +166,6 @@ provider-services query market bid get \
   --gseq <group-sequence> \
   --oseq <order-sequence> \
   --provider <provider-address> \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -212,10 +180,7 @@ provider-services tx market lease create \
   --gseq <group-sequence> \
   --oseq <order-sequence> \
   --provider <provider-address> \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --from $AKASH_KEY_NAME
 ```
 
 **Example:**
@@ -225,10 +190,7 @@ provider-services tx market lease create \
   --gseq 1 \
   --oseq 1 \
   --provider akash1... \
-  --from my-wallet \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -240,7 +202,6 @@ View all leases for your account.
 ```bash
 provider-services query market lease list \
   --owner <address> \
-  --node https://rpc.akash.network:443
 ```
 
 **Flags:**
@@ -261,10 +222,7 @@ provider-services tx market lease close \
   --gseq <group-sequence> \
   --oseq <order-sequence> \
   --provider <provider-address> \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -277,7 +235,6 @@ View all registered providers on the network.
 
 ```bash
 provider-services query provider list \
-  --node https://rpc.akash.network:443
 ```
 
 **Example output:**
@@ -306,7 +263,6 @@ Get details of a specific provider.
 
 ```bash
 provider-services query provider get <provider-address> \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -319,10 +275,7 @@ Generate a client certificate for sending manifests.
 
 ```bash
 provider-services tx cert generate client \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -333,10 +286,7 @@ Publish your certificate to the blockchain.
 
 ```bash
 provider-services tx cert publish client \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -347,10 +297,7 @@ Revoke a published certificate.
 
 ```bash
 provider-services tx cert revoke \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --from $AKASH_KEY_NAME
 ```
 
 ---
@@ -362,7 +309,6 @@ View all certificates for an account.
 ```bash
 provider-services query cert list \
   --owner <address> \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -470,13 +416,11 @@ Query account balance.
 
 ```bash
 provider-services query bank balances <address> \
-  --node https://rpc.akash.network:443
 ```
 
 **Example:**
 ```bash
 provider-services query bank balances akash1... \
-  --node https://rpc.akash.network:443
 ```
 
 **Example output:**
@@ -501,7 +445,6 @@ Get account information.
 
 ```bash
 provider-services query account <address> \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -512,7 +455,6 @@ Check node sync status.
 
 ```bash
 provider-services status \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -523,7 +465,6 @@ Get block information by height.
 
 ```bash
 provider-services query block <height> \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -534,7 +475,6 @@ Query transaction by hash.
 
 ```bash
 provider-services query tx <hash> \
-  --node https://rpc.akash.network:443
 ```
 
 ---
@@ -547,56 +487,28 @@ Send AKT to another address.
 
 ```bash
 provider-services tx bank send <from-address> <to-address> <amount>uakt \
-  --from <wallet> \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --from $AKASH_KEY_NAME
 ```
 
 **Example:**
 ```bash
 provider-services tx bank send akash1from... akash1to... 1000000uakt \
-  --from my-wallet \
-  --node https://rpc.akash.network:443 \
-  --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
-```
-
----
-
-## Common Flag Combinations
-
-### Mainnet Configuration
-
-```bash
---node https://rpc.akash.network:443 \
---chain-id akashnet-2 \
---gas-prices 0.025uakt \
---gas auto \
---gas-adjustment 1.5
-```
-
-### Sandbox Configuration
-
-```bash
---node https://rpc.sandbox.akash.network:443 \
---chain-id sandbox-2 \
---gas-prices 0.025uakt \
---gas auto \
---gas-adjustment 1.5
+  --from $AKASH_KEY_NAME
 ```
 
 ---
 
 ## Environment Variables
 
-Set these to avoid repeating flags:
+All commands in this reference assume the following environment variables are configured (as described in the [Configuration Guide](/docs/developers/deployment/cli/configuration)):
 
 ```bash
 export AKASH_NODE="https://rpc.akash.network:443"
 export AKASH_CHAIN_ID="akashnet-2"
+export AKASH_GAS="auto"
 export AKASH_GAS_PRICES="0.025uakt"
 export AKASH_GAS_ADJUSTMENT="1.5"
+export AKASH_KEY_NAME="my-wallet"
 export AKASH_KEYRING_BACKEND="os"
 ```
 
