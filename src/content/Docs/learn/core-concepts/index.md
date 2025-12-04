@@ -36,6 +36,9 @@ Access affordable GPU compute for AI, ML, rendering, and more. Model selection, 
 ### [Environment Variables & Secrets](/docs/learn/core-concepts/environment-secrets)
 Managing configuration and sensitive data securely in your Akash deployments.
 
+### [Shell Access](/docs/learn/core-concepts/shell-access)
+Execute commands, access interactive shells, and copy files from running containers for debugging and management.
+
 ---
 
 ## Quick Navigation
@@ -57,6 +60,7 @@ Looking for specific information?
 - **Static IP?** → [IP Leases](/docs/learn/core-concepts/ip-leases)
 - **GPU Workloads?** → [GPU Deployments](/docs/learn/core-concepts/gpu-deployments)
 - **Configuration & Secrets?** → [Environment Variables & Secrets](/docs/learn/core-concepts/environment-secrets)
+- **Debug Containers?** → [Shell Access](/docs/learn/core-concepts/shell-access)
 
 ---
 
