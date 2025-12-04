@@ -477,8 +477,6 @@ Storage is tied to the provider. Moving to a different provider requires data mi
 
 - [SDL Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference) - Storage configuration syntax
 - [Deployments](/docs/learn/core-concepts/deployments) - Understanding the deployment lifecycle
-- [Updates & Migrations](/docs/learn/core-concepts/updates-migrations) - Updating deployments
-- [Resource Specifications](/docs/learn/core-concepts/resources) - Resource planning
 
 ---
 

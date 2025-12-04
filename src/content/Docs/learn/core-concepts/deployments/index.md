@@ -584,9 +584,7 @@ For production services:
 ## Related Topics
 
 - [Providers & Leases](/docs/learn/core-concepts/providers-leases) - Choosing and working with providers
-- [Pricing & Economics](/docs/learn/core-concepts/pricing) - Understanding costs
 - [SDL Reference](/docs/developers/deployment/akash-sdl) - Complete SDL documentation
-- [Updates & Migrations](/docs/learn/core-concepts/updates-migrations) - Managing deployments
 
 ---
 

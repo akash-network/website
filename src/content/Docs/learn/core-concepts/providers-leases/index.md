@@ -631,7 +631,6 @@ Maximize value:
 ## Related Topics
 
 - [Deployments & Lifecycle](/docs/learn/core-concepts/deployments) - Understanding deployments
-- [Pricing & Economics](/docs/learn/core-concepts/pricing) - Cost calculations
 - [IP Leases](/docs/learn/core-concepts/ip-leases) - Dedicated IP addresses
 - [Persistent Storage](/docs/learn/core-concepts/persistent-storage) - Data persistence
 

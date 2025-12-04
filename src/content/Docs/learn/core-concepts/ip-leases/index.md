@@ -532,7 +532,6 @@ For services like SSH or databases:
 ## Related Topics
 
 - [SDL Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference) - Expose and endpoint configuration
-- [Pricing & Economics](/docs/learn/core-concepts/pricing) - Understanding IP lease costs
 - [Deployments](/docs/learn/core-concepts/deployments) - Deployment lifecycle
 - [Providers & Leases](/docs/learn/core-concepts/providers-leases) - Choosing providers
 

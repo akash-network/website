@@ -791,9 +791,7 @@ deployment:
 
 ## Related Topics
 
-- [Resource Specifications](/docs/learn/core-concepts/resources) - Understanding resource units
 - [Persistent Storage](/docs/learn/core-concepts/persistent-storage) - Storing models
-- [Pricing & Economics](/docs/learn/core-concepts/pricing) - Cost calculations
 - [Providers & Leases](/docs/learn/core-concepts/providers-leases) - Choosing GPU providers
 
 ---

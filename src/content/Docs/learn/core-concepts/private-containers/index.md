@@ -346,7 +346,6 @@ deployment:
 
 - [SDL Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference) - Complete SDL documentation
 - [Environment Variables](/docs/developers/deployment/akash-sdl/syntax-reference#environment-variables) - Managing app configuration
-- [Updates & Migrations](/docs/learn/core-concepts/updates-migrations) - Updating credentials without redeploying
 
 ---
 
