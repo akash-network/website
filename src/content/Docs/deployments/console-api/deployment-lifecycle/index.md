@@ -42,7 +42,7 @@ Submit your application definition (SDL) to the network.
 
 Once a deployment is created, providers will send bids.
 
-*   **Endpoint**: `GET /v1/bids/{dseq}`
+*   **Endpoint**: `GET /v1/bids?dseq={dseq}`
 *   **Logic**:
     *   Poll this endpoint every few seconds after deployment creation.
     *   Review `price`, `provider` attributes, and `audit` status.

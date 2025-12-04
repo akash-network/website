@@ -68,10 +68,12 @@ export AKASH_API_KEY="your-api-key-here"
 
 # 1. Create Deployment
 echo "Creating Deployment..."
+# Use jq to properly escape the YAML file for JSON
+SDL_JSON=$(jq -Rs . deploy.yaml)
 DEP_RES=$(curl -s -X POST https://console-api.akash.network/v1/deployments \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
-  -d "{\"data\": {\"sdl\": \"$(cat deploy.yaml | sed 's/"/\\"/g')\", \"deposit\": 5}}")
+  -d "{\"data\": {\"sdl\": $SDL_JSON, \"deposit\": 5}}")
 DSEQ=$(echo $DEP_RES | jq -r '.data.dseq')
 MANIFEST=$(echo $DEP_RES | jq -r '.data.manifest')
 
@@ -80,8 +82,8 @@ sleep 15
 
 # 2. Fetch Bids
 echo "Fetching Bids..."
-BID=$(curl -s -H "x-api-key: $AKASH_API_KEY" https://console-api.akash.network/v1/bids?dseq=$DSEQ | jq -r '.data.data[0]')
-PROVIDER=$(echo $BID | jq -r '.bid.bid_id.provider')
+BID=$(curl -s -H "x-api-key: $AKASH_API_KEY" "https://console-api.akash.network/v1/bids?dseq=$DSEQ" | jq -r '.data[0]')
+PROVIDER=$(echo $BID | jq -r '.bid.id.provider')
 
 if [ -z "$PROVIDER" ] || [ "$PROVIDER" == "null" ]; then
   echo "No bids received yet. Please check status manually."
@@ -105,7 +107,7 @@ echo "Lease created! Check status at: https://console.akash.network/deployments/
 
 ## Next Steps
 
-*   Understand the full [Lease Flow](workflows).
+*   Understand the full [Deployment Lifecycle](/docs/deployments/console-api/deployment-lifecycle).
 
 ## Advanced Examples
 
@@ -179,7 +181,11 @@ async function main() {
     }
     console.log(`   Received ${bids.length} bids.`);
     
-    // Select the first bid (Simple strategy)
+    // Select the first bid (Simple strategy).
+    // You may wish to implement more sophisticated selection logic here, such as:
+    //   - Choosing the lowest price
+    //   - Filtering by provider reputation or reliability
+    //   - Considering geographic location or latency
     const selectedBid = bids[0].bid;
     console.log(`   Selected Provider: ${selectedBid.id.provider} (${selectedBid.price.amount} ${selectedBid.price.denom})`);
 
