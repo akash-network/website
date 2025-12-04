@@ -623,16 +623,18 @@ provider-services query market lease get \
 
 **What shell access CAN'T do:**
 
-- **No persistent changes** - Container changes lost on restart
-- **No package installation** - Install via SDL instead
+- **No persistent changes to container filesystem** - Container filesystem changes lost on restart (however, changes to persistent storage volumes ARE preserved)
+- **No package installation** - Install packages via SDL instead
 - **No privileged operations** - Can't modify kernel, load modules, etc.
 - **No GUI applications** - Terminal only
 - **Limited networking** - Can't expose new ports
 
-**For persistent changes:**
+**For persistent changes to container configuration:**
 1. Update your SDL
 2. Build custom Docker image
 3. Redeploy with new configuration
+
+**Note:** Files written to persistent storage volumes are preserved across container restarts.
 
 ---
 

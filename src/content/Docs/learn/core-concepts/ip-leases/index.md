@@ -399,9 +399,9 @@ Access your services:
 ### Per-Deployment
 
 IP leases are **per-deployment**, not per-account:
-- Each deployment gets its own IP lease
-- Closing a deployment releases the IP
-- New deployment = new IP (even with same provider)
+- IP leases can be migrated between deployments on the same provider (see IP Lease Migration above)
+- Closing a deployment without migration releases the IP
+- Switching providers = new IP (cannot migrate across providers)
 
 ### Provider Availability
 

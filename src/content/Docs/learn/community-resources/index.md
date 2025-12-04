@@ -23,10 +23,8 @@ The main hub for real-time community interaction.
 - **#akash-console** - Console issues and help
 - **#provider** - Provider setup, operations, and discussion
 - **#provider-console** - Provider Console issues and help
-- **#validator** - Validator node operations
+- **#validators** - Validator node operations
 - **#developers** - SDK, API, and development questions
-- **#governance** - Network governance and proposals
-- **#support** - Technical support from the team
 
 **Best for:**
 - Quick questions and answers
