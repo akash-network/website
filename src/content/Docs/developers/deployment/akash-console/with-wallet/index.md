@@ -39,8 +39,8 @@ Before you start, you need:
    - [Install Leap](https://www.leapwallet.io/) (Chrome, Brave, Edge, or mobile)
 
 2. **AKT Tokens in Your Wallet**
-   - Minimum: **5 AKT** (for deposit + gas fees)
-   - Recommended: **10+ AKT** for comfortable testing
+   - Minimum: **1 AKT** (for deposit + gas fees)
+   - Recommended: **5+ AKT** for comfortable testing
    
 3. **Where to Get AKT:**
    - [Osmosis DEX](https://app.osmosis.zone/) - Swap from other Cosmos tokens
@@ -132,10 +132,10 @@ After clicking "Create Deployment":
 1. **Review Deployment Details**
    - Resources requested (CPU, RAM, storage)
    - Estimated cost per month
-   - Deposit amount (usually 5 AKT minimum)
+   - Deposit amount (typically 0.5 AKT minimum)
 
 2. **Set Deposit Amount**
-   - Default is usually fine (5 AKT)
+   - Default is usually fine (0.5-5 AKT depending on resources)
    - This is held in escrow, refunded when you close
    - Not a fee—just a security deposit
 
@@ -249,12 +249,12 @@ When you're done:
 1. **Deposit (Escrow)**
    - Held while deployment runs
    - Fully refunded when you close
-   - Typical: 5 AKT
+   - Typical: 0.5 AKT
 
 2. **Provider Fees**
    - Paid per block from your deposit
    - Varies by resources (CPU, RAM, storage, GPU)
-   - Typical: $5-50/month for web apps
+   - Typical: Often less than $5/month for basic web apps
 
 3. **Gas Fees**
    - Blockchain transaction fees
@@ -264,11 +264,11 @@ When you're done:
 ### Cost Example
 
 **Simple web app (0.5 CPU, 512MB RAM, 512MB storage):**
-- Deposit: 5 AKT (~$10-15)
-- Cost: ~$3-5/month
+- Deposit: 0.5 AKT (~$1-2, refundable)
+- Cost: Often less than $5/month
 - Gas: ~0.1 AKT total
 
-**Your 5 AKT deposit covers ~1-2 months of hosting.**
+**Your 0.5 AKT deposit is held in escrow while hosting runs, and is fully refundable when you close the deployment.**
 
 ---
 
@@ -279,7 +279,7 @@ When you're done:
 | **Setup** | Need wallet + AKT | Just email + credit card |
 | **Deployment Limit** | None (run forever) | 24 hours max |
 | **Cost** | Pay with AKT | Pay with credit card |
-| **Deposit** | 5 AKT (refundable) | Included in credits |
+| **Deposit** | 0.5 AKT (refundable) | Included in credits |
 | **Control** | Full blockchain access | Managed by Console |
 | **Best For** | Crypto users | Beginners |
 
@@ -288,9 +288,9 @@ When you're done:
 ## Common Questions
 
 ### "How much AKT do I need?"
-**Answer:** Start with **10 AKT**:
-- 5 AKT for deposit (refundable)
-- 5 AKT for provider payments and gas fees
+**Answer:** Start with **5 AKT**:
+- 0.5 AKT for deposit (refundable)
+- Rest for provider payments and gas fees
 
 ### "Can I use trial AND wallet?"
 **Answer:** Yes! You can switch between them:

@@ -35,10 +35,10 @@ Visit [console.akash.network](https://console.akash.network) in your web browser
 ### Step 2: Connect Your Wallet
 
 1. Click **"Connect Wallet"** in the top right
-2. Choose your wallet provider (Keplr, Cosmostation, etc.)
+2. Choose your wallet provider (Keplr or Leap)
 3. Approve the connection
 
-**Note:** You'll need a funded wallet with at least 1 AKT to create deployments.
+**Note:** You'll need a funded wallet with at least 0.5 AKT for deposit plus gas fees.
 
 ### Step 3: Create Your First Deployment
 
