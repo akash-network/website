@@ -63,4 +63,4 @@ Programmatic deployments using the Console API:
 → [SDL Examples Library](/docs/developers/deployment/akash-sdl/examples-library) - 290+ deployment templates
 
 **Need Help?**  
-→ [Discord](https://discord.akash.network) (#developers) | [Support](https://support.akash.network)
+→ [Discord](https://discord.akash.network) (#developers) | [Support](https://github.com/akash-network/support/issues)

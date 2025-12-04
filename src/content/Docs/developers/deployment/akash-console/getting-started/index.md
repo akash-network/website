@@ -184,7 +184,7 @@ Manage your funds directly in the console:
 
 ## Need Help?
 
-- **Console Support:** [support.akash.network](https://support.akash.network)
+- **Console Support:** [GitHub Support](https://github.com/akash-network/support/issues)
 - **Discord:** [discord.akash.network](https://discord.akash.network)
 - **Documentation:** Browse the [full docs](/docs)
 

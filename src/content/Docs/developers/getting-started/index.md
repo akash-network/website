@@ -110,7 +110,7 @@ Learn the core concepts behind Akash:
 ### Community
 - **[Discord](https://discord.akash.network)** - Get help from developers in #developers channel
 - **[GitHub](https://github.com/akash-network)** - Contribute to Akash codebase
-- **[Support](https://support.akash.network)** - Get technical support
+- **[Support](https://github.com/akash-network/support/issues)** - Get technical support
 
 ---
 

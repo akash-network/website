@@ -892,5 +892,5 @@ try {
 
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #developers channel
 - **GitHub Issues:** [console/issues](https://github.com/akash-network/console/issues)
-- **Support:** [support.akash.network](https://support.akash.network)
+- **Support:** [GitHub Support](https://github.com/akash-network/support/issues)
 

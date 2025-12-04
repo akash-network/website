@@ -360,7 +360,7 @@ When you're done:
 ## Need Help?
 
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #general or #developers
-- **Support:** [support.akash.network](https://support.akash.network) - Official support
+- **Support:** [GitHub Support](https://github.com/akash-network/support/issues) - Official support
 
 ---
 
