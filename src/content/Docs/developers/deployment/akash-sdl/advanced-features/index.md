@@ -234,7 +234,7 @@ Get a dedicated IP address for your service:
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         to:
@@ -253,7 +253,7 @@ Different services on different IPs:
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         to:
@@ -282,7 +282,7 @@ Multiple ports on the same IP:
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         to:
@@ -315,7 +315,7 @@ Fine-tune HTTP behavior for production workloads:
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         to:
@@ -395,54 +395,6 @@ expose:
 
 ---
 
-## Service Dependencies
-
-### Basic Dependencies
-
-Ensure services start in the correct order:
-
-```yaml
-services:
-  web:
-    image: wordpress
-    depends_on:
-      - database                # Wait for database to start
-    
-  database:
-    image: mysql
-```
-
-### Complex Dependency Chain
-
-Multi-tier application with ordered startup:
-
-```yaml
-services:
-  frontend:
-    image: nginx
-    depends_on:
-      - backend
-  
-  backend:
-    image: api-server
-    depends_on:
-      - database
-      - cache
-  
-  database:
-    image: postgres
-  
-  cache:
-    image: redis
-```
-
-**Startup order:**
-1. `database` and `cache` (no dependencies)
-2. `backend` (waits for database and cache)
-3. `frontend` (waits for backend)
-
----
-
 ## Private Container Registries
 
 ### Basic Authentication
@@ -513,7 +465,7 @@ Services can communicate without public exposure:
 ```yaml
 services:
   frontend:
-    image: nginx
+    image: nginx:1.25.3
     env:
       - BACKEND_URL=http://backend:3000    # Use service name as hostname
     expose:
@@ -536,7 +488,7 @@ Complex microservices architecture:
 ```yaml
 services:
   api-gateway:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         to:
@@ -568,7 +520,7 @@ services:
 **Service discovery:**
 - Services can reach each other using service names as hostnames
 - Example: `http://auth-service:8080`, `postgres://database:5432`
-- No public exposure = no bandwidth costs for internal traffic
+- No public exposure = better security for internal services
 
 ---
 
@@ -672,6 +624,8 @@ services:
 - `tcp` (default)
 - `udp`
 
+**Note:** Port 80 defaults to HTTP/HTTPS protocols and is automatically configured for web traffic.
+
 ---
 
 ## Domain Accept Lists
@@ -683,7 +637,7 @@ Only allow specific domains to access your service:
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         accept:
@@ -751,7 +705,7 @@ Replace the default container command:
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     command:
       - /bin/sh
       - -c
@@ -792,8 +746,6 @@ services:
       host: https://registry.example.com
       username: deploy-user
       password: deploy-token
-    depends_on:
-      - backend
     env:
       - API_URL=http://backend:3000
       - NODE_ENV=production
@@ -823,9 +775,6 @@ services:
       host: https://registry.example.com
       username: deploy-user
       password: deploy-token
-    depends_on:
-      - database
-      - cache
     env:
       - DATABASE_URL=postgres://app:password@database:5432/myapp
       - REDIS_URL=redis://cache:6379

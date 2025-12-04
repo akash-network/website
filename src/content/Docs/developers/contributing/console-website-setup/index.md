@@ -86,8 +86,8 @@ vim .env.local  # or code .env.local
 NEXT_PUBLIC_API_BASE_URL=https://console-api.akash.network
 
 # Network Configuration
-NEXT_PUBLIC_MAINNET_RPC=https://rpc.akash.network:443
-NEXT_PUBLIC_TESTNET_RPC=https://rpc.sandbox.akash.network:443
+NEXT_PUBLIC_MAINNET_RPC=https://rpc.akashnet.net:443
+NEXT_PUBLIC_TESTNET_RPC=https://rpc.sandbox-2.aksh.pw:443
 
 # Feature Flags (optional)
 NEXT_PUBLIC_ENABLE_BETA_FEATURES=false

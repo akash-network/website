@@ -75,7 +75,7 @@ Basic information about your provider.
 
 - **Value**: Your organization name
 - **Purpose**: Provider operator identification
-- **Example**: `cloudmos`, `praetor`, `my-company`
+- **Example**: `my-company`
 
 ```yaml
 - key: organization

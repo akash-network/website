@@ -259,8 +259,8 @@ Use the Akash CLI, SDK, or Console:
 ```bash
 # Using provider-services CLI
 provider-services tx deployment create deploy.yaml \
-  --from wallet \
-  --node https://rpc.akash.network:443 \
+  --from my-wallet \
+  --node https://rpc.akashnet.net:443 \
   --chain-id akashnet-2
 ```
 
@@ -318,7 +318,7 @@ The Awesome Akash repository welcomes contributions from the community!
 
 ### Share Your Deployments
 
-- Post in Discord `#show-and-tell` channel
+- Post in [Discord](https://discord.akash.network) `#deployments` or `#general` channel
 - Submit a tutorial or blog post
 - Create a video walkthrough
 - Add your example to Awesome Akash

@@ -137,6 +137,8 @@ image: nginx:1.25.3
 
 Supports any public registry (Docker Hub, GHCR, GCR, ECR, etc.)
 
+**Best Practice:** Always specify a version tag (e.g., `nginx:1.25.3`) instead of using `:latest` or omitting the tag. This ensures reproducible deployments and prevents unexpected updates.
+
 </div>
 
 <div id="command-section" className="section-marker mt-8">
@@ -174,7 +176,7 @@ env:
 
 ### expose
 
-**Optional.** Port exposure configuration.
+**Required.** Port exposure configuration. At least one port must be globally exposed.
 
 ```yaml
 expose:
@@ -184,7 +186,7 @@ expose:
     accept:               # Accepted hostnames
       - example.com
     to:
-      - global: true      # Expose to internet
+      - global: true      # Expose to internet (at least one required)
     http_options:         # HTTP-specific options
       max_body_size: 1048576
       read_timeout: 60000
@@ -232,10 +234,14 @@ Define resources and provider requirements.
 
 #### cpu
 
+**Required.** CPU units (1000 = 1 core).
+
 ```yaml
 cpu:
   units: 1.0              # Cores (0.1, 0.5, 1.0, etc.)
 ```
+
+**Limits:** Min: 0.01 cores, Max: 384 cores
 
 </div>
 
@@ -243,10 +249,14 @@ cpu:
 
 #### memory
 
+**Required.** Memory allocation.
+
 ```yaml
 memory:
   size: 1Gi               # RAM (Mi or Gi)
 ```
+
+**Limits:** Min: 1Mi, Max: 2Ti
 
 </div>
 
@@ -254,17 +264,19 @@ memory:
 
 #### storage
 
-Single or multiple volumes:
+**Required.** At least one ephemeral storage volume required. Persistent storage is optional.
 
 ```yaml
 storage:
-  - size: 1Gi             # Root ephemeral
-  - name: data
+  - size: 1Gi             # Ephemeral root volume (required)
+  - name: data            # Persistent volume (optional)
     size: 10Gi
     attributes:
       persistent: true    # Survives restarts
       class: beta3        # Performance tier
 ```
+
+**Limits:** Min: 5Mi, Max: 32Ti per volume
 
 **Classes:** `default`, `beta1`, `beta2`, `beta3`, `ram`
 
@@ -274,6 +286,8 @@ storage:
 
 #### gpu
 
+**Optional.** GPU resources.
+
 ```yaml
 gpu:
   units: 1                # Number of GPUs
@@ -281,9 +295,11 @@ gpu:
     vendor:
       nvidia:
         - model: rtx4090
-          ram: 24Gi       # Optional
+          ram: 24Gi       # Optional: filter by VRAM
           interface: pcie # Optional: pcie or sxm
 ```
+
+**Limits:** Max: 24 GPUs per service
 
 **Common models:** `a100`, `a40`, `rtx4090`, `rtx3090`, `t4`, `v100`, `h100`
 
@@ -330,7 +346,7 @@ deployment:
       count: 1            # Number of replicas
 ```
 
-**Note:** `count` cannot be changed after deployment.
+**Note:** `count` cannot be changed after deployment. Max: 50 replicas per service.
 
 </div>
 
@@ -367,7 +383,7 @@ expose:
 version: "2.0"
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         as: 80
@@ -402,12 +418,15 @@ deployment:
 - [Private registries](#credentials-section)
 - [Static IPs](#endpoints-section)
 
-**Limits:**
-- CPU units > 0
-- Memory size > 0
-- Storage size > 0
-- GPU requires attributes
-- Pricing amount > 0
+**Resource Limits (per service):**
+
+| Resource | Minimum | Maximum |
+|----------|---------|---------|
+| CPU | 0.01 cores | 384 cores |
+| Memory | 1Mi | 2Ti |
+| Storage | 5Mi | 32Ti (per volume) |
+| GPU | 0 (optional) | 24 units |
+| Replicas (count) | 1 | 50 |
 
 **See also:**
 - [Quick Start Guide](/docs/getting-started/quick-start)

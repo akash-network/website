@@ -43,7 +43,7 @@ func main() {
     // Create client context
     cctx := sdkclient.Context{
         ChainID: "akashnet-2",
-        NodeURI: "https://rpc.akash.network:443",
+        NodeURI: "https://rpc.akashnet.net:443",
     }
     
     // Initialize keyring
@@ -75,10 +75,10 @@ const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
 // Initialize SDK
 const sdk = createChainNodeSDK({
   query: {
-    baseUrl: "https://grpc.akash.network:443", // gRPC endpoint
+    baseUrl: "https://grpc.akashnet.net:443", // gRPC endpoint
   },
   tx: {
-    baseUrl: "https://rpc.akash.network:443", // RPC endpoint
+    baseUrl: "https://rpc.akashnet.net:443", // RPC endpoint
     signer: wallet,
   },
 });
@@ -141,7 +141,7 @@ const yaml = \`
 version: "2.0"
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         as: 80
@@ -422,7 +422,7 @@ const yaml = \`
 version: "2.0"
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         as: 80
@@ -879,10 +879,10 @@ async function deployToAkash() {
   // 2. Initialize SDK
   const sdk = createChainNodeSDK({
     query: {
-      baseUrl: "https://grpc.akash.network:443",
+      baseUrl: "https://grpc.akashnet.net:443",
     },
     tx: {
-      baseUrl: "https://rpc.akash.network:443",
+      baseUrl: "https://rpc.akashnet.net:443",
       signer: wallet,
     },
   });
@@ -892,7 +892,7 @@ async function deployToAkash() {
 version: "2.0"
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         as: 80
@@ -995,7 +995,7 @@ func main() {
     // 1. Initialize client context
     cctx := sdkclient.Context{
         ChainID: "akashnet-2",
-        NodeURI: "https://rpc.akash.network:443",
+        NodeURI: "https://rpc.akashnet.net:443",
     }
     
     // 2. Initialize keyring

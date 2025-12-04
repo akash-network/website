@@ -314,6 +314,16 @@ provider-services tx cert generate client \
   --from $AKASH_KEY_NAME
 ```
 
+**Flags:**
+- `--override` - Overwrite existing certificate if one exists
+
+**Example with override:**
+```bash
+provider-services tx cert generate client \
+  --from $AKASH_KEY_NAME \
+  --override
+```
+
 ---
 
 ### Publish Certificate
@@ -323,6 +333,16 @@ Publish your certificate to the blockchain.
 ```bash
 provider-services tx cert publish client \
   --from $AKASH_KEY_NAME
+```
+
+**Flags:**
+- `--override` - Overwrite existing certificate if one exists
+
+**Example with override:**
+```bash
+provider-services tx cert publish client \
+  --from $AKASH_KEY_NAME \
+  --override
 ```
 
 ---
@@ -538,9 +558,23 @@ provider-services tx bank send akash1from... akash1to... 1000000uakt \
 
 All commands in this reference assume the following environment variables are configured (as described in the [Configuration Guide](/docs/developers/deployment/cli/configuration)):
 
+### Mainnet Configuration
+
 ```bash
-export AKASH_NODE="https://rpc.akash.network:443"
+export AKASH_NODE="https://rpc.akashnet.net:443"
 export AKASH_CHAIN_ID="akashnet-2"
+export AKASH_GAS="auto"
+export AKASH_GAS_PRICES="0.025uakt"
+export AKASH_GAS_ADJUSTMENT="1.5"
+export AKASH_KEY_NAME="my-wallet"
+export AKASH_KEYRING_BACKEND="os"
+```
+
+### Sandbox Configuration
+
+```bash
+export AKASH_NODE="https://rpc.sandbox-2.aksh.pw:443"
+export AKASH_CHAIN_ID="sandbox-2"
 export AKASH_GAS="auto"
 export AKASH_GAS_PRICES="0.025uakt"
 export AKASH_GAS_ADJUSTMENT="1.5"

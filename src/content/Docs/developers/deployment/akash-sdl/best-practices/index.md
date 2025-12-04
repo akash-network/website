@@ -79,25 +79,6 @@ memory:
 
 ## Cost Management
 
-### Set Competitive Pricing
-
-Research current market rates before setting your bid price:
-
-```yaml
-# Check current market prices on Akash Console or Cloudmos
-placement:
-  akash:
-    pricing:
-      web:
-        denom: uakt
-        amount: 100      # Start low, increase if no bids
-```
-
-**Pricing strategy:**
-1. Start with a low bid (e.g., 50-100 uakt)
-2. If no bids after 5 minutes, increase by 50%
-3. Monitor lease costs and adjust for future deployments
-
 ### Use USDC for Stable Pricing
 
 For predictable costs, use USDC instead of AKT:
@@ -206,21 +187,6 @@ expose:
         - 503
 ```
 
-### Implement Service Dependencies
-
-Ensure services start in the correct order:
-
-```yaml
-services:
-  web:
-    image: wordpress
-    depends_on:
-      - database              # Wait for database to be ready
-    
-  database:
-    image: mysql
-```
-
 ### Use Persistent Storage for Stateful Apps
 
 Never use ephemeral storage for critical data:
@@ -309,7 +275,7 @@ Use internal networking for service communication:
 ```yaml
 services:
   frontend:
-    image: nginx
+    image: nginx:1.25.3
     env:
       - API_URL=http://backend:3000    # Use service name as hostname
     expose:
@@ -328,7 +294,6 @@ services:
 **Internal networking benefits:**
 - No public exposure of internal services
 - Lower latency
-- No bandwidth costs
 - Automatic service discovery
 
 ### Environment Variable Management
@@ -604,13 +569,12 @@ placement:
 Before deploying to production, verify:
 
 - Resources are right-sized (not over-provisioned)
-- Pricing is competitive and reasonable
+- Pricing is set in placement section
 - Image versions are pinned (not `latest`)
 - Sensitive data uses credentials, not hardcoded values
 - Databases use persistent storage with appropriate size
 - Only necessary ports are exposed publicly
 - HTTP options are configured for reliability
-- Service dependencies are properly defined
 - Provider attributes target appropriate infrastructure
 - SDL is tested on sandbox first (or mainnet for GPU/high-resource workloads)
 - Configuration is documented with comments
@@ -624,4 +588,3 @@ Before deploying to production, verify:
 - **[Advanced Features](/docs/developers/deployment/akash-sdl/advanced-features)** - Advanced SDL capabilities
 - **[Examples Library](/docs/developers/deployment/akash-sdl/examples-library)** - Real-world examples
 - **[Akash Console](https://console.akash.network)** - Deploy with a GUI
-- **[Cloudmos](https://cloudmos.io)** - Alternative deployment interface

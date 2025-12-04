@@ -22,7 +22,7 @@ This guide provides real-world examples for frequently performed operations.
 version: "2.0"
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         as: 80

@@ -72,7 +72,7 @@ When a tenant includes an IP endpoint in their SDL:
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         as: 80
@@ -218,7 +218,7 @@ sharingKey := owner.String()  // Bech32 address
 ```yaml
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
     expose:
       - port: 80
         as: 80

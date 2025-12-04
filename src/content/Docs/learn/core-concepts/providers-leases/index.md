@@ -21,7 +21,7 @@ A **provider** is a data center or infrastructure operator that offers compute r
 - CPU and GPU compute
 - Memory (RAM)
 - Storage (persistent and ephemeral)
-- Network bandwidth
+- Network connectivity
 - Optional features (IP leases, persistent storage)
 
 **Providers compete on:**
@@ -493,7 +493,6 @@ Providers earn from:
 
 Providers pay for:
 - Hardware and infrastructure
-- Bandwidth
 - Electricity
 - Maintenance
 - Staff/Operations

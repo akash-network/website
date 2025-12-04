@@ -118,7 +118,7 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Provider Issues:**
-1. Check the [Provider Documentation](/docs/for-providers)
+1. Check the [Provider Documentation](/docs/providers)
 2. Ask in Discord **#provider** channel
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
@@ -133,7 +133,7 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For SDK/API Issues:**
-1. Check the [Developer Documentation](/docs/for-developers)
+1. Check the [Developer Documentation](/docs/developers)
 2. Ask in Discord **#developers** channel
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
@@ -168,7 +168,7 @@ Curated list of deployment examples and community projects:
 ## Stay Updated
 
 ### Events
-Watch for Akash at conferences and community events:
+Watch out for Akash at conferences and community events:
 - [akash.network/community/events](https://akash.network/community/events)
 
 ### Ecosystem & Tools

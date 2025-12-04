@@ -132,17 +132,18 @@ You're in! You'll see your dashboard with:
 
 You'll see the welcome screen with **"Choose a template below to launch your first app in seconds."**
 
-**Three featured templates are displayed:**
+**Several featured templates are displayed:**
 
-### Option A: Hello Akash! (Recommended for First Deployment)
+### Option A: Use a Featured Template (Recommended for First Deployment)
 
-Perfect for testing! A simple Next.js web app.
+Perfect for testing! Choose any featured template to get started.
 
-1. Find the **"Hello Akash!"** card (person on surfboard icon)
-2. Read the description: *"A simple web app powered by Next.js, perfect for your first deployment on Akash."*
-3. Click **"Deploy Now"**
-4. Review the pre-filled configuration
-5. Click **"Create Deployment"**
+1. Browse the available templates on the welcome screen
+2. Select a template that interests you (web apps, databases, etc.)
+3. Read the template description
+4. Click **"Deploy Now"**
+5. Review the pre-filled configuration
+6. Click **"Create Deployment"**
 
 ⏳ Wait ~1-2 minutes for deployment to complete
 
@@ -289,7 +290,7 @@ The Console dashboard shows:
 ### "Deployment failed to start"
 **Solution:**
 - If using a custom SDL, check your syntax (indentation, required fields)
-- Try using a pre-built template instead (Hello Akash! is most reliable)
+- Try using a pre-built template instead (featured templates are most reliable)
 - Check the **"Events"** or **"Logs"** tab for error messages
 - Contact support on Discord if issue persists
 
@@ -349,7 +350,7 @@ We're here to help you succeed!
 
 ## Tips for Success
 
-- 💡 **Start with templates** - Use "Hello Akash!" for your first deployment
+- 💡 **Start with templates** - Use a featured template for your first deployment
 - 💰 **Watch your credits** - Monitor your balance at the top of Console
 - ⏰ **Remember the 24-hour limit** - Trial deployments auto-close after 1 day
 - 🔍 **Check logs first** - If something doesn't work, logs usually tell you why

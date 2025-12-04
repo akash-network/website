@@ -34,7 +34,7 @@ const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
 // Initialize SDK
 const sdk = createChainNodeSDK({
   query: {
-    baseUrl: "https://grpc.akash.network:443", // gRPC endpoint
+    baseUrl: "https://grpc.akashnet.net:443", // gRPC endpoint
     transportOptions: {
       pingIntervalMs: 30000,
       pingTimeoutMs: 10000,
@@ -43,7 +43,7 @@ const sdk = createChainNodeSDK({
     }
   },
   tx: {
-    baseUrl: "https://rpc.akash.network:443", // RPC endpoint
+    baseUrl: "https://rpc.akashnet.net:443", // RPC endpoint
     signer: wallet,
     gasPrice: "0.025uakt"
   }
@@ -73,7 +73,7 @@ func main() {
     // Create client context
     cctx := sdkclient.Context{
         ChainID: "akashnet-2",
-        NodeURI: "https://rpc.akash.network:443",
+        NodeURI: "https://rpc.akashnet.net:443",
     }
     
     // Initialize keyring

@@ -289,7 +289,7 @@ provider-services tx deployment create deploy.yaml
 
 ```typescript
 const sdk = createChainNodeSDK({
-  rpcEndpoint: "https://rpc.akash.network"
+  rpcEndpoint: "https://rpc.akashnet.net:443"
 })
 ```
 
@@ -297,7 +297,7 @@ const sdk = createChainNodeSDK({
 version: "2.0"
 services:
   web:
-    image: nginx
+    image: nginx:1.25.3
 ```
 ````
 
@@ -392,7 +392,7 @@ import { createChainNodeSDK } from "@akashnetwork/chain-sdk"
 
 async function queryDeployments(owner: string) {
   const sdk = createChainNodeSDK({
-    rpcEndpoint: "https://rpc.akash.network"
+    rpcEndpoint: "https://rpc.akashnet.net:443"
   })
   
   const deployments = await sdk.query.deployment.deployments({
@@ -426,7 +426,7 @@ if err != nil {
 ```typescript
 // TypeScript example
 const sdk = createChainNodeSDK({
-  rpcEndpoint: "https://rpc.akash.network"
+  rpcEndpoint: "https://rpc.akashnet.net:443"
 })
 ```
 ````
