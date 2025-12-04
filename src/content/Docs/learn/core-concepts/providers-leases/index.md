@@ -588,8 +588,6 @@ Providers pay for:
 **Resources:**
 - [Akash Stats](https://stats.akash.network) - Provider list and metrics
 - [Discord](https://discord.akash.network) - Provider announcements
-- Provider Console - Direct provider management
-- Community reviews - #providers channel
 
 ---
 
