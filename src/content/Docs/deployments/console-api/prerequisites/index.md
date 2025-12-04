@@ -22,7 +22,7 @@ Before you begin, ensure you have:
 1.  **Create an Account**: Sign up at [console.akash.network](https://console.akash.network). If you haven't already, start a **free trial** to explore the platform.
 2.  **Fund Your Account**: Ensure you have at least **$5 USD** in your account balance. You can add funds via credit card in the Console. [Learn more](/docs/getting-started/billing-and-credits)
 3.  **Prepare Your Tools**:
-    *   Have your **SDL** (Stack Definition Language) file ready.
+    *   Have your **SDL** (Stack Definition Language) file ready. Use [SDL Builder](https://console.akash.network/sdl-builder) to create or debug.
     *   Have an API client ready (e.g., `curl`, Postman, or a script in Python/Node.js).
 
 ## API Key Setup

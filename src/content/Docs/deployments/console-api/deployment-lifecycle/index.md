@@ -12,34 +12,33 @@ This guide details the logical steps required to manage the full lifecycle of a 
 
 ## The Deployment Lifecycle
 
-1.  **Certificate Creation**: Authenticate with providers.
-2.  **Deployment Creation**: Submit SDL and deposit funds.
-3.  **Bid Management**: Receive and select bids from providers.
-4.  **Lease Creation**: Agree to terms and start the workload.
-5.  **Management**: Monitor status and add funds.
-6.  **Termination**: Close the deployment.
+1.  **Deployment Creation**: Submit SDL and deposit funds.
+2.  **Bid Management**: Receive and select bids from providers.
+3.  **Lease Creation**: Agree to terms and start the workload.
+4.  **Management**: Monitor status and add funds.
+5.  **Termination**: Close the deployment.
 
 ---
 
-## 1. Create Certificate
-
-Before interacting with providers, you need a valid certificate.
-
-*   **Endpoint**: `POST /v1/certificates`
-*   **Action**: Generates a new certificate pair (PEM and Encrypted Key).
-*   **Storage**: You must store the returned `certPem` and `encryptedKey`. These are required for creating leases.
-
-## 2. Create Deployment
+## 1. Create Deployment
 
 Submit your application definition (SDL) to the network.
 
 *   **Endpoint**: `POST /v1/deployments`
 *   **Payload**:
-    *   `sdl`: Your YAML Stack Definition Language file (stringified).
+    *   `sdl`: Your YAML Stack Definition Language file (stringified). Use [SDL Builder](https://console.akash.network/sdl-builder) to validate.
     *   `deposit`: Amount in USD (min $5).
 *   **Result**: Returns a `dseq` (Deployment Sequence ID) and a `manifest`. Save both.
+    ```json
+    {
+      "data": {
+        "dseq": "12345678",
+        "manifest": "..."
+      }
+    }
+    ```
 
-## 3. Manage Bids
+## 2. Manage Bids
 
 Once a deployment is created, providers will send bids.
 
@@ -48,22 +47,42 @@ Once a deployment is created, providers will send bids.
     *   Poll this endpoint every few seconds after deployment creation.
     *   Review `price`, `provider` attributes, and `audit` status.
     *   Select the bid that best fits your criteria (price, location, reputation).
+    ```json
+    {
+      "data": [
+        {
+          "bid": {
+            "id": { "provider": "akash1...", "dseq": "12345678", ... },
+            "price": { "amount": "100", "denom": "uakt" }
+          }
+        }
+      ]
+    }
+    ```
 
-## 4. Create Lease
+## 3. Create Lease
 
 Accept the bid and start your deployment.
 
 *   **Endpoint**: `POST /v1/leases`
-*   **Payload**: `manifest`, `certificate` (certPem + keyPem), `leases` array with bid details
+*   **Payload**: `manifest`, `leases` array with bid details
 *   **Result**: Provider starts your container.
+    ```json
+    {
+      "data": {
+        "success": true,
+        "message": "Lease created"
+      }
+    }
+    ```
 
-## 5. Management
+## 4. Management
 
 **Check Status**: `GET /v1/deployments/{dseq}` - Returns status and service URIs.
 
 **Add Funds**: `POST /v1/deployments/deposit/{dseq}` with `{"amount": 5}` (USD) to prevent closure.
 
-## 6. Termination
+## 5. Termination
 
 Stop the deployment and return unused funds.
 
@@ -80,7 +99,6 @@ Stop the deployment and return unused funds.
 *   Ensure your SDL syntax is valid.
 
 ### Lease Creation Fails
-**Cause**: Certificate issues or provider timeout.
+**Cause**: Provider timeout or resource unavailability.
 **Solution**:
-*   Ensure you are sending the correct `certPem` and `encryptedKey` from the *same* certificate pair.
 *   Retry the request; the provider might have been temporarily busy.
