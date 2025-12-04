@@ -358,6 +358,3 @@ We're here to help you succeed!
 - 💳 **Add funds anytime** - Keep your trial credits when you add more via credit card
 
 ---
-
-**Previous:** [← What is Akash?](/docs/getting-started/what-is-akash)  
-**Next:** [Core Concepts →](/docs/getting-started/core-concepts)

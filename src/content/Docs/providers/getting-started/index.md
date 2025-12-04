@@ -51,6 +51,3 @@ By the end of this section, you'll know:
 ✅ How to get started with setup  
 
 ---
-
-**Next:** [Should I Run a Provider? →](/docs/providers/getting-started/should-i-run-a-provider)
-

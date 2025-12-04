@@ -472,11 +472,7 @@ See [Kubernetes port reference](https://kubernetes.io/docs/reference/ports-and-p
 
 ## Next Steps
 
-Your Kubernetes cluster is now ready! 
-
-**Next:**
-- If you have GPUs: **→ [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support)**
-- If you need persistent storage: **→ [Persistent Storage (Rook-Ceph)](/docs/providers/setup-and-installation/kubespray/persistent-storage)**
+Your Kubernetes cluster is now ready!
 - Otherwise: **→ [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)**
 
 **Additional optional features:**

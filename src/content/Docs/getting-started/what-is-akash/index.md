@@ -184,6 +184,3 @@ Ready to deploy your first application on Akash? Choose your path:
 - **[GitHub](https://github.com/akash-network/support)** - Report issues and get support
 
 ---
-
-**Next:** [Core Concepts →](/docs/getting-started/core-concepts)
-

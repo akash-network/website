@@ -177,7 +177,3 @@ export AKASH_TRACE="true"
 - **[Quick Start →](/docs/getting-started/quick-start)** - Deploy your first app
 
 ---
-
-**Previous:** [← Installation](/docs/developers/deployment/cli/installation)  
-**Next:** [Commands Reference →](/docs/developers/deployment/cli/commands-reference)
-

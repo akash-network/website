@@ -236,9 +236,6 @@ This guide covers system requirements, hardware specifications, and best practic
 
 ## Next Steps
 
-**Previous:** [← Should I Run a Provider?](/docs/providers/getting-started/should-i-run-a-provider)  
-**Next:** [Setup & Installation →](/docs/providers/setup-and-installation)
-
 Calculate earnings:
 - [Provider Earn Calculator →](https://akash.network/pricing/provider-calculator/)
 

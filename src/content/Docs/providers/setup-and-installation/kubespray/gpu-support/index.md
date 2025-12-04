@@ -253,11 +253,7 @@ kubectl delete pod gpu-test
 
 ## Next Steps
 
-Your Kubernetes cluster now has GPU support! 
-
-**Next:** 
-- If you need persistent storage: **→ [Persistent Storage (Rook-Ceph)](/docs/providers/setup-and-installation/kubespray/persistent-storage)**
-- Otherwise: **→ [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)**
+Your Kubernetes cluster now has GPU support!
 
 **Optional enhancements:**
 - [TLS Certificates](/docs/providers/setup-and-installation/kubespray/tls-certificates) - Automatic SSL certificates

@@ -276,9 +276,5 @@ provider-services query block
 
 ---
 
-**Previous:** [← Commands Reference](/docs/developers/deployment/cli/commands-reference)
-
----
-
 **Need help?** Join [Discord](https://discord.akash.network) #developers channel!
 
