@@ -40,7 +40,7 @@ Validators must maintain high uptime and security to avoid penalties and earn re
 - **Recommended Initial Stake:** 10,000+ AKT to be competitive
 
 Check current requirements:
-- Discord: `$votingpower` command in #validators-status
+- Discord: `$votingpower` command in #validator-alerts
 - Explorer: [Mintscan Akash Validators](https://www.mintscan.io/akash/validators)
 
 ### Technical Requirements
@@ -147,6 +147,7 @@ Check current requirements:
 - **Block Explorers:**
   - [Mintscan](https://www.mintscan.io/akash)
   - [ATOMScan](https://atomscan.com/akash)
+  - [Arcturian Explorer](https://explorer.arcturian.tech/akash/staking)
 - **Monitoring:**
   - [PANIC by Simply VC](https://github.com/SimplyVC/panic)
   - [Tenderduty](https://github.com/blockpane/tenderduty)

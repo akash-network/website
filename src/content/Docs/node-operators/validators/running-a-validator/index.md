@@ -50,7 +50,7 @@ akash keys add <key-name>
 
 - **Active Set Size:** 100 validators
 - **Entry Requirement:** More voting power than the 100th validator
-- **Check Requirements:** Use `$votingpower` in Discord #validators-status channel
+- **Check Requirements:** Use `$votingpower` in Discord #validator-alerts channel
 
 ---
 
@@ -354,6 +354,7 @@ The node will stop at block `12345678` with exit code 0.
 View your validator on a block explorer:
 - [Mintscan](https://www.mintscan.io/akash/validators)
 - [ATOMScan](https://atomscan.com/akash/validators)
+- [Arcturian Explorer](https://explorer.arcturian.tech/akash/staking)
 
 Search for your `akashvaloper` address or moniker.
 
@@ -411,7 +412,7 @@ akash query staking validator $AKASH_VALIDATOR_ADDRESS | grep "jailed"
 
 Check current requirements:
 ```bash
-# In Discord #validators-status
+# In Discord #validator-alerts
 $votingpower
 ```
 

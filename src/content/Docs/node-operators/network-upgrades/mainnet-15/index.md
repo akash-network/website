@@ -418,7 +418,7 @@ sudo journalctl -u akash -f
 ## Additional Resources
 
 - **GitHub:** [akash-network/node](https://github.com/akash-network/node)
-- **Block Explorer:** [Mintscan](https://www.mintscan.io/akash) | [ATOMScan](https://atomscan.com/akash)
+- **Block Explorer:** [Mintscan](https://www.mintscan.io/akash) | [ATOMScan](https://atomscan.com/akash) | [Arcturian](https://explorer.arcturian.tech/akash/staking)
 - **Discord:** [#validators channel](https://discord.akash.network)
 - **Network Info:** [akash-network/net](https://github.com/akash-network/net)
 

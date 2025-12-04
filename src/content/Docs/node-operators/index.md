@@ -54,8 +54,8 @@ Stay informed about upcoming network upgrades and migration guides.
 **Current Size:** 100 validators
 
 To join the active set, you need more voting power (delegated stake) than the 100th validator. Check current requirements:
-- Discord: `$votingpower` in [#validators-status](https://discord.akash.network)
-- Explorers: [Mintscan](https://www.mintscan.io/akash/validators) | [ATOMScan](https://atomscan.com/akash/validators)
+- Discord: `$votingpower` in [#validator-alerts](https://discord.akash.network)
+- Explorers: [Mintscan](https://www.mintscan.io/akash/validators) | [ATOMScan](https://atomscan.com/akash/validators) | [Arcturian](https://explorer.arcturian.tech/akash/staking)
 
 ---
 
@@ -64,7 +64,7 @@ To join the active set, you need more voting power (delegated stake) than the 10
 Connect with other node operators:
 
 - **Discord:** [#validators](https://discord.akash.network) - Support and announcements
-- **Discord:** [#validators-status](https://discord.akash.network) - Real-time monitoring
+- **Discord:** [#validator-alerts](https://discord.akash.network) - Real-time monitoring
 - **GitHub:** [akash-network/node](https://github.com/akash-network/node) - Source code and issues
 
 ---

@@ -55,8 +55,8 @@ Choose your path: run a full node to interact with the blockchain, or become a v
 To join the active set, you need more voting power than the 100th validator.
 
 **Check Requirements:**
-- Discord: `$votingpower` in [#validators-status](https://discord.akash.network)
-- Explorers: [Mintscan](https://www.mintscan.io/akash/validators) | [ATOMScan](https://atomscan.com/akash/validators)
+- Discord: `$votingpower` in [#validator-alerts](https://discord.akash.network)
+- Explorers: [Mintscan](https://www.mintscan.io/akash/validators) | [ATOMScan](https://atomscan.com/akash/validators) | [Arcturian](https://explorer.arcturian.tech/akash/staking)
 
 ---
 
@@ -76,7 +76,7 @@ To join the active set, you need more voting power than the 100th validator.
 
 **Discord:** [#validators](https://discord.akash.network) - Support and announcements
 
-**Discord:** [#validators-status](https://discord.akash.network) - Real-time monitoring
+**Discord:** [#validator-alerts](https://discord.akash.network) - Real-time monitoring
 
 **GitHub:** [akash-network/node](https://github.com/akash-network/node) - Source code and issues
 

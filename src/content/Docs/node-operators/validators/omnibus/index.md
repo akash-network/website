@@ -377,6 +377,7 @@ akash status | jq '.node_info.other.peers'
 View your validator on:
 - [Mintscan](https://www.mintscan.io/akash/validators)
 - [ATOMScan](https://atomscan.com/akash/validators)
+- [Arcturian Explorer](https://explorer.arcturian.tech/akash/staking)
 
 ---
 
