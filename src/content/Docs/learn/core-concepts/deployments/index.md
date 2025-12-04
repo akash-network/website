@@ -371,7 +371,9 @@ args: ["run", "prod"]
 provider-services tx deployment update deploy-updated.yml \
   --dseq <deployment-id> \
   --from <wallet> \
-  --chain-id akashnet-2
+  --chain-id akashnet-2 \
+  --gas auto \
+  --gas-adjustment 1.5
 ```
 
 **What happens:**

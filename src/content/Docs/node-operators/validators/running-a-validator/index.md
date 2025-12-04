@@ -22,7 +22,7 @@ Before creating a validator, ensure you have:
 **Your node must be fully synced before creating a validator.**
 
 - See [Node Build Guides](/docs/node-operators/node-build)
-- Verify sync status: `akash status | jq '.SyncInfo.catching_up'`
+- Verify sync status: `akash status | jq '.sync_info.catching_up'`
 - Should return `false` when fully synced
 
 ### 2. Hardware Requirements
@@ -289,7 +289,7 @@ akash query tendermint-validator-set | grep "$(akash tendermint show-validator)"
 ### Check Node Sync Status
 
 ```bash
-akash status | jq '.SyncInfo'
+akash status | jq '.sync_info'
 ```
 
 **Important fields:**
@@ -447,7 +447,7 @@ Restart your session for permanent fix to take effect.
 1. **Check peers:**
 
 ```bash
-akash status | jq '.NodeInfo.peers'
+akash status | jq '.node_info.other.peers'
 ```
 
 2. **Add more peers** in `~/.akash/config/config.toml`:

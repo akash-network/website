@@ -137,7 +137,9 @@ provider-services tx deployment close \
   --from <wallet> \
   --node https://rpc.akash.network:443 \
   --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --gas-prices 0.025uakt \
+  --gas auto \
+  --gas-adjustment 1.5
 ```
 
 **Example:**
@@ -147,7 +149,9 @@ provider-services tx deployment close \
   --from my-wallet \
   --node https://rpc.akash.network:443 \
   --chain-id akashnet-2 \
-  --gas-prices 0.025uakt
+  --gas-prices 0.025uakt \
+  --gas auto \
+  --gas-adjustment 1.5
 ```
 
 ---

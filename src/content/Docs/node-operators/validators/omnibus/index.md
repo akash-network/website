@@ -354,7 +354,7 @@ For each service (validator, node1, node2):
 3. Run:
 
 ```bash
-akash status | jq '.SyncInfo.catching_up'
+akash status | jq '.sync_info.catching_up'
 ```
 
 **Expected:** `false` (when synced)
@@ -367,7 +367,7 @@ Verify validator is connected to sentries:
 2. Run:
 
 ```bash
-akash status | jq '.NodeInfo.other.peers'
+akash status | jq '.node_info.other.peers'
 ```
 
 **Expected:** Should show connections to your sentry nodes

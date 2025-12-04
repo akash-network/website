@@ -158,7 +158,9 @@ nano deploy.yml
 # Send update
 provider-services tx deployment update deploy.yml \
   --dseq <deployment-seq> \
-  --from my-wallet
+  --from my-wallet \
+  --gas auto \
+  --gas-adjustment 1.5
 ```
 
 ### Update Manifest Only
@@ -178,7 +180,9 @@ provider-services send-manifest deploy.yml \
 ```bash
 provider-services tx deployment close \
   --dseq <deployment-seq> \
-  --from my-wallet
+  --from my-wallet \
+  --gas auto \
+  --gas-adjustment 1.5
 ```
 
 **Note:** This closes the deployment and all associated leases. Funds in escrow are returned.

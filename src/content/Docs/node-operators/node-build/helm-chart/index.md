@@ -111,7 +111,7 @@ akash-node-1-xxxxx-xxxxx   1/1     Running   0          2m
 POD_NAME=$(kubectl get pods -n akash-services -l app=akash-node -o jsonpath='{.items[0].metadata.name}')
 
 # Check status
-kubectl exec -n akash-services $POD_NAME -- akash status | jq '.SyncInfo.catching_up'
+kubectl exec -n akash-services $POD_NAME -- akash status | jq '.sync_info.catching_up'
 ```
 
 **Expected:**

@@ -61,22 +61,16 @@ v0.10.0
 
 <TabContent  value="Linux">
 
-**Option 1: Using Homebrew (Recommended)**
-
-```
-brew tap akash-network/tap
-brew install akash-provider-services
-```
-
-**Option 2: Download Binary**
+**Download and Install Binary**
 
 ```
 cd ~
 
+# Install dependencies
 apt install jq -y
-
 apt install unzip -y
 
+# Download and install provider-services
 curl -sfL https://raw.githubusercontent.com/akash-network/provider/main/install.sh | bash
 ```
 
