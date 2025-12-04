@@ -1,0 +1,424 @@
+---
+categories: ["Developers"]
+tags: ["SDL", "Syntax", "Reference"]
+title: "SDL Syntax Reference"
+linkTitle: "Syntax Reference"
+description: "Complete SDL syntax reference"
+weight: 1
+---
+
+import ReferenceLayout from "@/components/docs/ReferenceLayout.astro";
+import LiveSDL from "@/components/docs/LiveSDL.tsx";
+
+export const completeSDL = `---
+version: "2.0"
+
+services:
+  web:
+    image: nginx:1.25.3
+    command:
+      - /bin/sh
+      - -c
+    args:
+      - nginx -g 'daemon off;'
+    env:
+      - NODE_ENV=production
+      - PORT=3000
+    expose:
+      - port: 80
+        as: 80
+        proto: tcp
+        accept:
+          - example.com
+        to:
+          - global: true
+        http_options:
+          max_body_size: 1048576
+          read_timeout: 60000
+          send_timeout: 60000
+    credentials:
+      host: https://registry.example.com
+      username: user
+      password: pass
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 1.0
+        memory:
+          size: 1Gi
+        storage:
+          - size: 1Gi
+          - name: data
+            size: 10Gi
+            attributes:
+              persistent: true
+              class: beta3
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+                - model: rtx4090
+  
+  placement:
+    akash:
+      attributes:
+        region: us-west
+      pricing:
+        web:
+          denom: uakt
+          amount: 100
+
+deployment:
+  web:
+    akash:
+      profile: web
+      count: 1
+
+endpoints:
+  myendpoint:
+    kind: ip`;
+
+export const sections = [
+  { id: "version-section", title: "Version", startLine: 2, endLine: 2 },
+  { id: "services-section", title: "Services", startLine: 4, endLine: 31 },
+  { id: "image-section", title: "Image", startLine: 6, endLine: 6 },
+  { id: "command-section", title: "Command & Args", startLine: 7, endLine: 11 },
+  { id: "env-section", title: "Environment Variables", startLine: 12, endLine: 14 },
+  { id: "expose-section", title: "Expose", startLine: 15, endLine: 27 },
+  { id: "credentials-section", title: "Credentials", startLine: 28, endLine: 31 },
+  { id: "profiles-section", title: "Profiles", startLine: 33, endLine: 61 },
+  { id: "cpu-section", title: "CPU", startLine: 38, endLine: 39 },
+  { id: "memory-section", title: "Memory", startLine: 40, endLine: 41 },
+  { id: "storage-section", title: "Storage", startLine: 42, endLine: 49 },
+  { id: "gpu-section", title: "GPU", startLine: 50, endLine: 56 },
+  { id: "placement-section", title: "Placement", startLine: 58, endLine: 65 },
+  { id: "deployment-section", title: "Deployment", startLine: 67, endLine: 71 },
+  { id: "endpoints-section", title: "Endpoints", startLine: 73, endLine: 75 },
+];
+
+<ReferenceLayout>
+  <div slot="content">
+
+<div id="version-section" className="section-marker mb-12">
+
+## Version
+
+**Required.** SDL version identifier.
+
+```yaml
+version: "2.0"
+```
+
+| Value | Description |
+|-------|-------------|
+| `"2.0"` | Current stable version |
+
+</div>
+
+<div id="services-section" className="section-marker mb-12">
+
+## Services
+
+Define containers and networking.
+
+<div id="image-section" className="section-marker mt-8">
+
+### image
+
+**Required.** Docker image to deploy.
+
+```yaml
+image: nginx:1.25.3
+```
+
+Supports any public registry (Docker Hub, GHCR, GCR, ECR, etc.)
+
+</div>
+
+<div id="command-section" className="section-marker mt-8">
+
+### command & args
+
+**Optional.** Override container entrypoint.
+
+```yaml
+command:
+  - /bin/sh
+  - -c
+args:
+  - |
+    npm start
+```
+
+</div>
+
+<div id="env-section" className="section-marker mt-8">
+
+### env
+
+**Optional.** Environment variables as `KEY=value` strings.
+
+```yaml
+env:
+  - NODE_ENV=production
+  - DATABASE_URL=postgresql://db:5432/myapp
+```
+
+</div>
+
+<div id="expose-section" className="section-marker mt-8">
+
+### expose
+
+**Optional.** Port exposure configuration.
+
+```yaml
+expose:
+  - port: 80              # Container port (required)
+    as: 80                # External port (default: same as port)
+    proto: tcp            # Protocol: tcp or udp (default: tcp)
+    accept:               # Accepted hostnames
+      - example.com
+    to:
+      - global: true      # Expose to internet
+    http_options:         # HTTP-specific options
+      max_body_size: 1048576
+      read_timeout: 60000
+      send_timeout: 60000
+```
+
+**HTTP Options:**
+
+| Option | Default | Max | Description |
+|--------|---------|-----|-------------|
+| `max_body_size` | 1048576 | 104857600 | Max request body (bytes) |
+| `read_timeout` | 60000 | 60000 | Read timeout (ms) |
+| `send_timeout` | 60000 | 60000 | Send timeout (ms) |
+| `next_tries` | 3 | - | Retry attempts |
+| `next_cases` | `[error, timeout]` | - | When to retry |
+
+</div>
+
+<div id="credentials-section" className="section-marker mt-8">
+
+### credentials
+
+**Optional.** Private registry authentication.
+
+```yaml
+credentials:
+  host: https://registry.example.com
+  username: user
+  password: pass
+```
+
+</div>
+
+</div>
+
+<div id="profiles-section" className="section-marker mb-12">
+
+## Profiles
+
+Define resources and provider requirements.
+
+### compute
+
+<div id="cpu-section" className="section-marker mt-6">
+
+#### cpu
+
+```yaml
+cpu:
+  units: 1.0              # Cores (0.1, 0.5, 1.0, etc.)
+```
+
+</div>
+
+<div id="memory-section" className="section-marker mt-6">
+
+#### memory
+
+```yaml
+memory:
+  size: 1Gi               # RAM (Mi or Gi)
+```
+
+</div>
+
+<div id="storage-section" className="section-marker mt-6">
+
+#### storage
+
+Single or multiple volumes:
+
+```yaml
+storage:
+  - size: 1Gi             # Root ephemeral
+  - name: data
+    size: 10Gi
+    attributes:
+      persistent: true    # Survives restarts
+      class: beta3        # Performance tier
+```
+
+**Classes:** `default`, `beta1`, `beta2`, `beta3`, `ram`
+
+</div>
+
+<div id="gpu-section" className="section-marker mt-6">
+
+#### gpu
+
+```yaml
+gpu:
+  units: 1                # Number of GPUs
+  attributes:
+    vendor:
+      nvidia:
+        - model: rtx4090
+          ram: 24Gi       # Optional
+          interface: pcie # Optional: pcie or sxm
+```
+
+**Common models:** `a100`, `a40`, `rtx4090`, `rtx3090`, `t4`, `v100`, `h100`
+
+</div>
+
+<div id="placement-section" className="section-marker mt-8">
+
+### placement
+
+Provider selection and pricing.
+
+```yaml
+placement:
+  akash:
+    attributes:           # Optional filters
+      region: us-west
+    pricing:              # Required: max bid per service
+      web:
+        denom: uakt
+        amount: 100       # uakt per block (~6 sec)
+```
+
+**Pricing calculation:**
+```
+Daily cost = (amount × 14,400 blocks) / 1,000,000 AKT
+Example: 100 uakt/block = 1.44 AKT/day = ~43 AKT/month
+```
+
+</div>
+
+</div>
+
+<div id="deployment-section" className="section-marker mb-12">
+
+## Deployment
+
+Map services to profiles.
+
+```yaml
+deployment:
+  web:                    # Service name
+    akash:                # Placement name
+      profile: web        # Compute profile name
+      count: 1            # Number of replicas
+```
+
+**Note:** `count` cannot be changed after deployment.
+
+</div>
+
+<div id="endpoints-section" className="section-marker mb-12">
+
+## Endpoints
+
+**Optional.** Named IP endpoints for static IPs.
+
+```yaml
+endpoints:
+  myendpoint:
+    kind: ip
+```
+
+Use in services:
+```yaml
+expose:
+  - port: 1194
+    to:
+      - global: true
+        ip: myendpoint
+```
+
+</div>
+
+<div className="mt-16 rounded-lg border border-border bg-background2 p-6">
+
+## Quick Reference
+
+**Minimum viable SDL:**
+
+```yaml
+version: "2.0"
+services:
+  web:
+    image: nginx
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          size: 512Mi
+  placement:
+    akash:
+      pricing:
+        web:
+          denom: uakt
+          amount: 100
+deployment:
+  web:
+    akash:
+      profile: web
+      count: 1
+```
+
+**Common patterns:**
+- [GPU deployments](#gpu-section)
+- [Persistent storage](#storage-section)
+- [Private registries](#credentials-section)
+- [Static IPs](#endpoints-section)
+
+**Limits:**
+- CPU units > 0
+- Memory size > 0
+- Storage size > 0
+- GPU requires attributes
+- Pricing amount > 0
+
+**See also:**
+- [Quick Start Guide](/docs/getting-started/quick-start)
+- [CLI Documentation](/docs/developers/deployment/cli)
+
+</div>
+
+  </div>
+  
+  <div slot="code">
+    <LiveSDL client:load code={completeSDL} sections={sections} />
+  </div>
+</ReferenceLayout>
+

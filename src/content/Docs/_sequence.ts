@@ -8,27 +8,31 @@ export const docsSequence = [
       },
       {
         type: "Header",
-        label: "For Developers",
+        label: "Developers",
       },
       {
-        label: "For Developers",
+        label: "Developers",
         subItems: [], // Sub-items sorted by weight automatically
       },
       {
         type: "Header",
-        label: "For Providers",
+        label: "Providers",
       },
       {
-        label: "For Providers",
+        label: "Providers",
         subItems: [], // Sub-items sorted by weight automatically
       },
       {
         type: "Header",
-        label: "For Node Operators",
+        label: "Node Operators",
       },
       {
-        label: "For Node Operators",
+        label: "Node Operators",
         subItems: [], // Sub-items sorted by weight automatically
+      },
+      {
+        type: "Header",
+        label: "Learn",
       },
       {
         label: "Learn",

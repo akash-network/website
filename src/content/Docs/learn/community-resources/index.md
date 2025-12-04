@@ -51,7 +51,7 @@ Contribute to Akash's open-source projects.
 - **[node](https://github.com/akash-network/node)** - Akash blockchain node
 - **[provider](https://github.com/akash-network/provider)** - Provider services
 - **[console](https://github.com/akash-network/console)** - Akash Console (web UI)
-- **[docs](https://github.com/akash-network/docs)** - Documentation (this site!)
+- **[website](https://github.com/akash-network/website)** - Documentation (this site!)
 - **[awesome-akash](https://github.com/akash-network/awesome-akash)** - Community deployment examples
 
 **Best for:**
@@ -113,7 +113,7 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Console Issues:**
-1. Check the [Console Documentation](/docs/for-developers/deployment/akash-console)
+1. Check the [Console Documentation](/docs/developers/deployment/akash-console)
 2. Ask in Discord **#akash-console** channel
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
@@ -123,12 +123,12 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Provider Console Issues:**
-1. Check the [Provider Console Guide](/docs/for-providers/setup-and-installation/provider-console)
+1. Check the [Provider Console Guide](/docs/providers/setup-and-installation/provider-console)
 2. Ask in Discord **#provider-console** channel
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Validator Issues:**
-1. Check the [Validator Documentation](/docs/for-node-operators/validators)
+1. Check the [Validator Documentation](/docs/node-operators/validators)
 2. Ask in Discord **#validator** channel
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
@@ -138,7 +138,7 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Documentation Issues:**
-1. Open a [GitHub issue](https://github.com/akash-network/docs/issues)
+1. Open a [GitHub issue](https://github.com/akash-network/website/issues)
 2. Or submit a pull request with fixes directly
 
 ---
@@ -189,7 +189,7 @@ Akash is an open-source project and welcomes contributions!
 - **Community** - Help others in Discord
 - **Governance** - Participate in proposals
 
-See [Contributing](/docs/for-developers/contributing) for detailed guidelines.
+See [Contributing](/docs/developers/contributing) for detailed guidelines.
 
 ---
 

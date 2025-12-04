@@ -107,7 +107,7 @@ A **[bid](/docs/getting-started/core-concepts#leases)** is an offer from a provi
 A **[lease](/docs/getting-started/core-concepts#leases)** is the active agreement between you and a provider. Once accepted, your deployment runs on their infrastructure.
 
 ### SDL
-The **[Stack Definition Language (SDL)](/docs/for-developers/deployment/akash-sdl)** is a YAML format that describes your deployment—similar to Docker Compose.
+The **[Stack Definition Language (SDL)](/docs/developers/deployment/akash-sdl)** is a YAML format that describes your deployment—similar to Docker Compose.
 
 ### AKT
 **AKT** is Akash's native cryptocurrency used for payments, staking, and governance.
@@ -169,8 +169,8 @@ Ready to deploy your first application on Akash? Choose your path:
 1. **[Quick Start - Free Trial](/docs/getting-started/quick-start)** - Deploy in under 10 minutes with $100 free credits
 
 ### Use Your Own Wallet (Advanced)
-1. **[Console with Wallet](/docs/for-developers/deployment/akash-console/with-wallet)** - Visual interface, no time limits
-2. **[CLI with Wallet](/docs/for-developers/deployment/cli)** - Command-line power
+1. **[Console with Wallet](/docs/developers/deployment/akash-console/with-wallet)** - Visual interface, no time limits
+2. **[CLI with Wallet](/docs/developers/deployment/cli)** - Command-line power
 
 ### Learn More
 1. **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works

@@ -1,0 +1,1020 @@
+---
+categories: ["Developers", "Deployment", "Akash SDK"]
+tags: ["SDK", "API", "Reference", "Go", "JavaScript", "TypeScript"]
+weight: 4
+title: "Akash SDK - API Reference"
+linkTitle: "API Reference"
+description: "Complete API reference for Akash SDKs"
+---
+
+import CodeTabs from "@/components/docs/CodeTabs";
+
+**Complete API reference for the Akash SDKs.**
+
+Both SDKs are generated from the same protobuf definitions and follow similar patterns.
+
+---
+
+## SDK Initialization
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { createChainNodeSDK } from "@akashnetwork/chain-sdk";
+
+// Initialize wallet from mnemonic
+const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { 
+  prefix: "akash" 
+});
+
+// Initialize SDK
+const sdk = createChainNodeSDK({
+  query: {
+    baseUrl: "https://grpc.akash.network:443", // gRPC endpoint
+    transportOptions: {
+      pingIntervalMs: 30000,
+      pingTimeoutMs: 10000,
+      idleConnectionTimeoutMs: 60000,
+      defaultTimeoutMs: 30000
+    }
+  },
+  tx: {
+    baseUrl: "https://rpc.akash.network:443", // RPC endpoint
+    signer: wallet,
+    gasPrice: "0.025uakt"
+  }
+});
+
+// SDK exposes:
+// - sdk.akash.* (Akash-specific modules)
+// - sdk.cosmos.* (Cosmos SDK modules)`
+    },
+    {
+      language: "go",
+      code: `package main
+
+import (
+    "context"
+    
+    sdkclient "github.com/cosmos/cosmos-sdk/client"
+    "github.com/cosmos/cosmos-sdk/crypto/keyring"
+    
+    "pkg.akt.dev/go/node/client/discovery"
+    "pkg.akt.dev/go/node/client/v1beta3"
+)
+
+func main() {
+    ctx := context.Background()
+    
+    // Create client context
+    cctx := sdkclient.Context{
+        ChainID: "akashnet-2",
+        NodeURI: "https://rpc.akash.network:443",
+    }
+    
+    // Initialize keyring
+    kr, _ := keyring.New("akash", keyring.BackendOS, "/path/to/.akash", nil)
+    cctx = cctx.WithKeyring(kr)
+    
+    // Discover and create client
+    client, err := discovery.DiscoverClient(ctx, cctx)
+    if err != nil {
+        panic(err)
+    }
+    
+    // Client exposes:
+    // - client.Query() - Query operations
+    // - client.Tx() - Transaction operations
+    // - client.Node() - Node operations
+}`
+    }
+  ]}
+/>
+
+**TypeScript Options:**
+- `query.baseUrl` (required): gRPC endpoint URL
+- `query.transportOptions` (optional): Connection settings
+- `tx.baseUrl` (required for transactions): RPC endpoint URL
+- `tx.signer` (required for transactions): CosmJS wallet instance
+- `tx.gasPrice` (optional): Gas price (default: "0.025uakt")
+
+---
+
+## SDL Operations
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `import { SDL } from "@akashnetwork/chain-sdk";
+
+// Parse SDL from YAML string
+const sdl = SDL.fromString(yamlString, "beta3", "mainnet");
+
+// Get deployment manifest
+const manifest = sdl.manifest();
+// Returns: Array of deployment groups with service definitions
+
+// Get deployment groups
+const groups = sdl.groups();
+// Returns: Array of GroupSpec objects for blockchain submission`
+    },
+    {
+      language: "go",
+      code: `import "pkg.akt.dev/go/sdl"
+
+// Read SDL from file
+sdlDoc, err := sdl.ReadFile("deploy.yaml")
+
+// Or parse from bytes
+sdlDoc, err := sdl.Read([]byte(yamlString))
+
+// Get deployment groups
+groups, err := sdlDoc.DeploymentGroups()
+// Returns: dtypes.GroupSpecs
+
+// Get manifest
+manifest, err := sdlDoc.Manifest()
+// Returns: manifest.Manifest
+
+// Get SDL version hash
+version, err := sdlDoc.Version()
+// Returns: []byte (hash of SDL content)`
+    }
+  ]}
+/>
+
+**TypeScript Methods:**
+- `SDL.fromString(yaml, version?, networkId?)` - Parse SDL from YAML
+  - `yaml`: YAML string
+  - `version`: "beta2" | "beta3" (default: "beta3")
+  - `networkId`: "mainnet" | "testnet" | "sandbox" (default: "mainnet")
+- `sdl.manifest()` - Get deployment manifest
+- `sdl.groups()` - Get deployment groups for blockchain
+
+**Go Functions:**
+- `sdl.ReadFile(path)` - Read SDL from file
+- `sdl.Read([]byte)` - Parse SDL from bytes
+- `DeploymentGroups()` - Get deployment groups
+- `Manifest()` - Get deployment manifest
+- `Version()` - Get SDL version hash
+
+---
+
+## Deployment Operations
+
+### Query Deployments
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `// Get all deployments for owner
+const result = await sdk.akash.deployment.v1beta4.getDeployments({
+  filters: {
+    owner: "akash1...",
+    state: "active" // "active" | "closed" | undefined
+  },
+  pagination: {
+    limit: 100,
+    offset: 0
+  }
+});
+
+// result.deployments: Array of deployment info
+// result.pagination: Pagination info
+
+// Get specific deployment
+const deployment = await sdk.akash.deployment.v1beta4.getDeployment({
+  id: {
+    owner: "akash1...",
+    dseq: "1234567"
+  }
+});`
+    },
+    {
+      language: "go",
+      code: `import dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+
+// Query all deployments
+res, err := client.Query().Deployment().Deployments(ctx, 
+    &dtypes.QueryDeploymentsRequest{
+        Filters: dtypes.DeploymentFilters{
+            Owner: "akash1...",
+            State: "active",
+        },
+        Pagination: &query.PageRequest{
+            Limit: 100,
+        },
+    },
+)
+
+// Get specific deployment
+dep, err := client.Query().Deployment().Deployment(ctx,
+    &dtypes.QueryDeploymentRequest{
+        ID: dtypes.DeploymentID{
+            Owner: "akash1...",
+            DSeq:  1234567,
+    },
+    },
+)`
+    }
+  ]}
+/>
+
+---
+
+### Create Deployment
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `import { SDL } from "@akashnetwork/chain-sdk";
+
+const sdl = SDL.fromString(yamlString);
+const groups = sdl.groups();
+
+// Get current block height for dseq
+const status = await sdk.cosmos.base.tendermint.v1beta1.getLatestBlock({});
+const dseq = status.block.header.height;
+
+// Get account
+const accounts = await wallet.getAccounts();
+
+// Create deployment
+const result = await sdk.akash.deployment.v1beta4.createDeployment({
+  id: {
+    owner: accounts[0].address,
+    dseq: dseq
+  },
+  groups: groups,
+  deposit: {
+    denom: "uakt",
+    amount: "5000000" // 5 AKT
+  },
+  depositor: accounts[0].address
+});
+
+// Returns transaction result`
+    },
+    {
+      language: "go",
+      code: `import (
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+    "pkg.akt.dev/go/sdl"
+)
+
+// Parse SDL
+sdlDoc, _ := sdl.ReadFile("deploy.yaml")
+groups, _ := sdlDoc.DeploymentGroups()
+version, _ := sdlDoc.Version()
+
+// Get current block height
+syncInfo, _ := client.Node().SyncInfo(ctx)
+
+// Create deployment message
+msg := &dtypes.MsgCreateDeployment{
+    ID: dtypes.DeploymentID{
+        Owner: client.ClientContext().FromAddress.String(),
+        DSeq:  uint64(syncInfo.LatestBlockHeight),
+    },
+    Hash:    version,
+    Groups:  groups,
+    Deposit: sdk.NewCoin("uakt", sdk.NewInt(5000000)),
+}
+
+// Broadcast transaction
+resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})`
+    }
+  ]}
+/>
+
+---
+
+### Update Deployment
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const sdl = SDL.fromString(newYamlString);
+const groups = sdl.groups();
+
+const result = await sdk.akash.deployment.v1beta4.updateDeployment({
+  id: {
+    owner: accounts[0].address,
+    dseq: "1234567"
+  },
+  groups: groups
+});`
+    },
+    {
+      language: "go",
+      code: `msg := &dtypes.MsgUpdateDeployment{
+    ID: dtypes.DeploymentID{
+        Owner: client.ClientContext().FromAddress.String(),
+        DSeq:  1234567,
+    },
+    Hash:   newVersion,
+    Groups: newGroups,
+}
+
+resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})`
+    }
+  ]}
+/>
+
+---
+
+### Close Deployment
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const result = await sdk.akash.deployment.v1beta4.closeDeployment({
+  id: {
+    owner: accounts[0].address,
+    dseq: "1234567"
+  }
+});`
+    },
+    {
+      language: "go",
+      code: `msg := &dtypes.MsgCloseDeployment{
+    ID: dtypes.DeploymentID{
+        Owner: client.ClientContext().FromAddress.String(),
+        DSeq:  1234567,
+    },
+}
+
+resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})`
+    }
+  ]}
+/>
+
+---
+
+## Market Operations
+
+### Query Bids
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const bids = await sdk.akash.market.v1beta5.getBids({
+  filters: {
+    owner: "akash1...",
+    dseq: "1234567",
+    state: "open" // "open" | "active" | "closed"
+  },
+  pagination: {
+    limit: 100
+  }
+});
+
+// bids.bids: Array of bid info`
+    },
+    {
+      language: "go",
+      code: `import mtypes "pkg.akt.dev/go/node/market/v1beta5"
+
+res, err := client.Query().Market().Bids(ctx,
+    &mtypes.QueryBidsRequest{
+        Filters: mtypes.BidFilters{
+            Owner: "akash1...",
+            DSeq:  1234567,
+            State: "open",
+        },
+    },
+)`
+    }
+  ]}
+/>
+
+---
+
+### Create Lease (Accept Bid)
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const result = await sdk.akash.market.v1beta5.createLease({
+  bidId: {
+    owner: accounts[0].address,
+    dseq: "1234567",
+    gseq: 1,
+    oseq: 1,
+    provider: "akash1..."
+  }
+});`
+    },
+    {
+      language: "go",
+      code: `msg := &mtypes.MsgCreateLease{
+    BidID: mtypes.BidID{
+        Owner:    client.ClientContext().FromAddress.String(),
+        DSeq:     1234567,
+        GSeq:     1,
+        OSeq:     1,
+        Provider: "akash1...",
+    },
+}
+
+resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})`
+    }
+  ]}
+/>
+
+---
+
+### Query Leases
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const leases = await sdk.akash.market.v1beta5.getLeases({
+  filters: {
+    owner: "akash1...",
+    state: "active"
+  },
+  pagination: {
+    limit: 100
+  }
+});`
+    },
+    {
+      language: "go",
+      code: `res, err := client.Query().Market().Leases(ctx,
+    &mtypes.QueryLeasesRequest{
+        Filters: mtypes.LeaseFilters{
+            Owner: "akash1...",
+            State: "active",
+        },
+    },
+)`
+    }
+  ]}
+/>
+
+---
+
+## Provider Operations
+
+### Query Providers
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `// Get all providers
+const providers = await sdk.akash.provider.v1beta4.getProviders({
+  pagination: {
+    limit: 100
+  }
+});
+
+// Get specific provider
+const provider = await sdk.akash.provider.v1beta4.getProvider({
+  owner: "akash1..."
+});`
+    },
+    {
+      language: "go",
+      code: `import ptypes "pkg.akt.dev/go/node/provider/v1beta4"
+
+// Get all providers
+res, err := client.Query().Provider().Providers(ctx,
+    &ptypes.QueryProvidersRequest{},
+)
+
+// Get specific provider
+provider, err := client.Query().Provider().Provider(ctx,
+    &ptypes.QueryProviderRequest{
+        Owner: "akash1...",
+    },
+)`
+    }
+  ]}
+/>
+
+---
+
+### Provider Status (Provider API)
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `import { createProviderSDK } from "@akashnetwork/chain-sdk";
+
+const providerSdk = createProviderSDK({
+  baseUrl: "https://provider.example.com:8444"
+});
+
+// Get provider status
+const status = await providerSdk.akash.provider.v1.getStatus();
+
+// status.clusterPublicHostname: string
+// status.availableResources: Resource info
+// status.pendingResources: Resource info
+// status.leasedResources: Resource info`
+    },
+    {
+      language: "go",
+      code: `import (
+    "google.golang.org/grpc"
+    ptypes "pkg.akt.dev/go/provider/v1"
+)
+
+conn, _ := grpc.Dial(providerURL, grpc.WithInsecure())
+defer conn.Close()
+
+client := ptypes.NewProviderRPCClient(conn)
+status, err := client.GetStatus(ctx, &ptypes.GetStatusRequest{})`
+    }
+  ]}
+/>
+
+---
+
+## Certificate Operations
+
+### Query Certificates
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const certs = await sdk.akash.cert.v1.getCertificates({
+  filter: {
+    owner: "akash1...",
+    state: "valid"
+  },
+  pagination: {
+    limit: 100
+  }
+});`
+    },
+    {
+      language: "go",
+      code: `import ctypes "pkg.akt.dev/go/node/cert/v1"
+
+res, err := client.Query().Certs().Certificates(ctx,
+    &ctypes.QueryCertificatesRequest{
+        Filter: ctypes.CertificateFilter{
+            Owner: "akash1...",
+            State: "valid",
+        },
+    },
+)`
+    }
+  ]}
+/>
+
+---
+
+### Create Certificate
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `import { certificateManager } from "@akashnetwork/chain-sdk";
+
+const accounts = await wallet.getAccounts();
+
+// Generate certificate pair
+const certPair = await certificateManager.generatePEM(accounts[0].address);
+
+// Publish to blockchain
+const result = await sdk.akash.cert.v1.createCertificate({
+  owner: accounts[0].address,
+  cert: Buffer.from(certPair.cert, 'utf-8'),
+  pubkey: Buffer.from(certPair.publicKey, 'utf-8')
+});
+
+// Save certPair.cert and certPair.privateKey for later use`
+    },
+    {
+      language: "go",
+      code: `import (
+    ctypes "pkg.akt.dev/go/node/cert/v1"
+    cutils "pkg.akt.dev/go/util/tls"
+)
+
+// Generate certificate
+cert, err := cutils.NewCertificate(address)
+
+// Create message
+msg := &ctypes.MsgCreateCertificate{
+    Owner:  address,
+    Cert:   cert.PEM.Cert,
+    Pubkey: cert.PEM.Pub,
+}
+
+resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})`
+    }
+  ]}
+/>
+
+---
+
+### Revoke Certificate
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const result = await sdk.akash.cert.v1.revokeCertificate({
+  id: {
+    owner: accounts[0].address,
+    serial: "certificate-serial-number"
+  }
+});`
+    },
+    {
+      language: "go",
+      code: `msg := &ctypes.MsgRevokeCertificate{
+    ID: ctypes.CertificateID{
+        Owner:  address,
+        Serial: "certificate-serial-number",
+    },
+}
+
+resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})`
+    }
+  ]}
+/>
+
+---
+
+## Cosmos SDK Operations
+
+### Query Account Balance
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `// Get balance for specific denom
+const balance = await sdk.cosmos.bank.v1beta1.getBalance({
+  address: "akash1...",
+  denom: "uakt"
+});
+
+// balance.balance.amount: string (in uakt)
+// Convert to AKT: parseInt(balance.balance.amount) / 1000000
+
+// Get all balances
+const allBalances = await sdk.cosmos.bank.v1beta1.getAllBalances({
+  address: "akash1...",
+  pagination: {
+    limit: 100
+  }
+});`
+    },
+    {
+      language: "go",
+      code: `import banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+
+// Get balance for specific denom
+res, err := client.Query().Bank().Balance(ctx,
+    &banktypes.QueryBalanceRequest{
+        Address: "akash1...",
+        Denom:   "uakt",
+    },
+)
+
+// Get all balances
+allRes, err := client.Query().Bank().AllBalances(ctx,
+    &banktypes.QueryAllBalancesRequest{
+        Address: "akash1...",
+    },
+)`
+    }
+  ]}
+/>
+
+---
+
+### Send Tokens
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `const result = await sdk.cosmos.bank.v1beta1.send({
+  fromAddress: accounts[0].address,
+  toAddress: "akash1...",
+  amount: [{
+    denom: "uakt",
+    amount: "1000000" // 1 AKT
+  }]
+});`
+    },
+    {
+      language: "go",
+      code: `import (
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+)
+
+msg := &banktypes.MsgSend{
+    FromAddress: fromAddress,
+    ToAddress:   "akash1...",
+    Amount: sdk.NewCoins(
+        sdk.NewCoin("uakt", sdk.NewInt(1000000)),
+    ),
+}
+
+resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})`
+    }
+  ]}
+/>
+
+---
+
+### Query Block Info
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `// Get latest block
+const latest = await sdk.cosmos.base.tendermint.v1beta1.getLatestBlock({});
+
+// latest.block.header.height: string
+// latest.block.header.time: timestamp
+
+// Get block by height
+const block = await sdk.cosmos.base.tendermint.v1beta1.getBlockByHeight({
+  height: "1234567"
+});`
+    },
+    {
+      language: "go",
+      code: `// Get sync info (includes latest block)
+syncInfo, err := client.Node().SyncInfo(ctx)
+
+// syncInfo.LatestBlockHeight: int64
+// syncInfo.LatestBlockTime: time.Time
+
+// Get current block height
+height, err := client.Node().CurrentBlockHeight(ctx)`
+    }
+  ]}
+/>
+
+---
+
+## Authentication
+
+### JWT Token
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `import { Secp256k1HdWallet } from "@cosmjs/amino";
+import { JwtTokenManager } from "@akashnetwork/chain-sdk";
+
+const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, { 
+  prefix: "akash" 
+});
+const accounts = await wallet.getAccounts();
+
+// Initialize token manager
+const tokenManager = new JwtTokenManager(wallet);
+
+// Generate JWT token
+const token = await tokenManager.generateToken({
+  iss: accounts[0].address,
+  exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour
+  iat: Math.floor(Date.now() / 1000),
+  version: "v1",
+  leases: { access: "full" }
+});
+
+// Use token for provider API requests
+const response = await fetch(
+  \`https://provider.example.com:8443/lease/\${dseq}/1/1/status\`,
+  {
+    headers: {
+      Authorization: \`Bearer \${token}\`
+    }
+  }
+);`
+    },
+    {
+      language: "go",
+      code: `import (
+    "time"
+    
+    "github.com/golang-jwt/jwt/v5"
+    jwtutil "pkg.akt.dev/go/util/jwt"
+)
+
+// Create signer from keyring
+signer := jwtutil.NewSigner(keyring, address)
+
+// Create claims
+claims := jwtutil.Claims{
+    RegisteredClaims: jwt.RegisteredClaims{
+        Issuer:    address.String(),
+        IssuedAt:  jwt.NewNumericDate(time.Now()),
+        ExpiresAt: jwt.NewNumericDate(time.Now().Add(1 * time.Hour)),
+        NotBefore: jwt.NewNumericDate(time.Now()),
+    },
+    Version: "v1",
+    Leases: jwtutil.Leases{
+        Access: jwtutil.AccessTypeFull,
+    },
+}
+
+// Generate token
+token := jwt.NewWithClaims(jwtutil.SigningMethodES256K, claims)
+tokenString, err := token.SignedString(signer)
+if err != nil {
+    panic(err)
+}
+
+// Use token for provider API requests
+// Add "Authorization: Bearer {tokenString}" header`
+    }
+  ]}
+/>
+
+**JWT Token Claims:**
+- `iss` (required): Issuer address (your Akash address)
+- `exp` (required): Expiration timestamp (Unix time)
+- `iat` (required): Issued at timestamp (Unix time)
+- `nbf` (required): Not before timestamp (Unix time)
+- `version` (required): Token version ("v1")
+- `leases` (required): Lease access permissions
+
+**Access Types:**
+- `full` - Full access to all leases (TypeScript: `{ access: "full" }`, Go: `AccessTypeFull`)
+- `scoped` - Scoped access with specific permissions (Go: `AccessTypeScoped`)
+- `granular` - Granular access per deployment (Go: `AccessTypeGranular`)
+
+---
+
+## Error Handling
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `import { TxError } from "@akashnetwork/chain-sdk";
+
+try {
+  const result = await sdk.akash.deployment.v1beta4.createDeployment({...});
+} catch (error) {
+  if (error instanceof TxError) {
+    console.error("Transaction failed:", error.message);
+    console.error("Code:", error.code);
+    console.error("Codespace:", error.codespace);
+  } else {
+    console.error("Unknown error:", error);
+  }
+}`
+    },
+    {
+      language: "go",
+      code: `resp, err := client.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
+if err != nil {
+    // Check for specific error types
+    if strings.Contains(err.Error(), "insufficient funds") {
+        log.Fatal("Not enough funds")
+    }
+    log.Fatal(err)
+}
+
+// Check transaction result
+if resp.Code != 0 {
+    log.Fatalf("Transaction failed: %s", resp.RawLog)
+}`
+    }
+  ]}
+/>
+
+---
+
+## Type Definitions
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "typescript",
+      label: "TypeScript",
+      code: `// Deployment ID
+interface DeploymentID {
+  owner: string;
+  dseq: string;
+}
+
+// Bid ID
+interface BidID {
+  owner: string;
+  dseq: string;
+  gseq: number;
+  oseq: number;
+  provider: string;
+}
+
+// Coin
+interface Coin {
+  denom: string;
+  amount: string;
+}
+
+// Pagination
+interface PageRequest {
+  key?: Uint8Array;
+  offset?: number;
+  limit?: number;
+  countTotal?: boolean;
+  reverse?: boolean;
+}`
+    },
+    {
+      language: "go",
+      code: `// Deployment ID
+type DeploymentID struct {
+    Owner string
+    DSeq  uint64
+}
+
+// Bid ID
+type BidID struct {
+    Owner    string
+    DSeq     uint64
+    GSeq     uint32
+    OSeq     uint32
+    Provider string
+}
+
+// Coin
+type Coin struct {
+    Denom  string
+    Amount sdk.Int
+}`
+    }
+  ]}
+/>
+
+---
+
+## Related Resources
+
+- [SDK Installation](/docs/developers/deployment/akash-sdk/installation)
+- [Quick Start](/docs/developers/deployment/akash-sdk/quick-start)
+- [Examples](/docs/developers/deployment/akash-sdk/examples)
+- [SDL Reference](/docs/developers/deployment/akash-sdl)

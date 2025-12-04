@@ -1,0 +1,955 @@
+---
+categories: ["Developers"]
+tags: ["AuthZ", "Authorization", "Permissions", "Deployment", "Fee Grants"]
+weight: 5
+title: "AuthZ & Fee Grants - Delegated Permissions"
+linkTitle: "AuthZ & Fee Grants"
+description: "Use AuthZ and Fee Grants to delegate deployment permissions and pay gas fees for team members on Akash Network"
+---
+
+**Enable secure, delegated deployment management using Cosmos SDK AuthZ and Fee Grants.**
+
+AuthZ (Authorization) allows you to grant other accounts permission to perform actions on your behalf, while Fee Grants let you pay transaction fees for those accounts. Together, they enable frictionless team collaboration, automation, and third-party integrations without sharing private keys or requiring team members to hold AKT.
+
+---
+
+## What are AuthZ and Fee Grants?
+
+### AuthZ (Authorization)
+
+AuthZ is a Cosmos SDK module that enables **permission delegation**. With AuthZ, you can:
+
+- ✅ **Grant deployment permissions** to team members
+- ✅ **Enable automation** without exposing your private key
+- ✅ **Allow third-party services** to deploy on your behalf
+- ✅ **Set spending limits** and expiration dates
+- ✅ **Revoke permissions** at any time
+
+**Key Concept:** The account that grants permission is called the **granter**, and the account that receives permission is called the **grantee**.
+
+### Fee Grants (Fee Allowances)
+
+Fee Grants allow you to **pay transaction fees for other accounts**. With Fee Grants, you can:
+
+- ✅ **Pay gas fees for team members** - They don't need AKT for transactions
+- ✅ **Enable frictionless onboarding** - New users can deploy immediately
+- ✅ **Support automation** - CI/CD pipelines work without funded wallets
+- ✅ **Set spending limits** - Control fee expenditure
+- ✅ **Use time-limited grants** - Fees allowances can expire
+
+**Best Practice:** Combine AuthZ + Fee Grants for complete delegation - grantees can deploy on your behalf, and you pay all costs (deposits + fees).
+
+---
+
+## Common Use Cases
+
+### Team Collaboration
+Allow team members to create and manage deployments on your behalf:
+- DevOps engineers can deploy without accessing your wallet
+- Multiple team members can manage the same deployments
+- Separate billing account from operational accounts
+
+### Automated Deployments
+Enable CI/CD pipelines and automation tools:
+- GitHub Actions can deploy on your behalf
+- Deployment services can manage your infrastructure
+- Scripts can update deployments automatically
+
+### Third-Party Services
+Allow deployment platforms to deploy for you:
+- Akash Console can deploy using your permissions
+- Deployment management tools
+- Multi-cloud orchestration platforms
+
+### Spending Controls
+Set limits on what grantees can do:
+- Maximum AKT spending per deployment
+- Number of deployments allowed
+- Time-limited permissions
+
+---
+
+## How AuthZ Works
+
+### Permission Flow
+
+1. **Granter** (you) grants specific permissions to a **Grantee**
+2. **Grantee** can execute authorized actions on behalf of the **Granter**
+3. Transactions appear on-chain as coming from the **Granter**
+4. **Granter** pays for deposits and fees
+5. **Granter** can revoke permissions at any time
+
+### Permission Types
+
+AuthZ on Akash supports these message types:
+
+- **`/akash.deployment.v1beta3.MsgCreateDeployment`** - Create new deployments
+- **`/akash.deployment.v1beta3.MsgUpdateDeployment`** - Update existing deployments
+- **`/akash.deployment.v1beta3.MsgCloseDeployment`** - Close deployments
+- **`/akash.market.v1beta3.MsgCreateLease`** - Create leases with providers
+- **`/akash.market.v1beta3.MsgWithdrawLease`** - Withdraw from leases
+
+---
+
+## Granting Permissions
+
+### Grant All Deployment Permissions
+
+Allow a grantee to fully manage deployments:
+
+```bash
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+### Grant with Spending Limit
+
+Limit how much AKT the grantee can spend:
+
+```bash
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --spend-limit 100000000uakt \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+**Note:** Spend limit is in uAKT (100000000uakt = 100 AKT)
+
+### Grant with Expiration
+
+Set an expiration time for permissions:
+
+```bash
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --expiration 1704067200 \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+**Note:** Expiration is a Unix timestamp (seconds since epoch)
+
+### Grant Multiple Permissions
+
+To grant multiple permissions, execute multiple grant commands:
+
+```bash
+# Grant deployment creation
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --from <your-wallet> --fees 5000uakt
+
+# Grant deployment updates
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgUpdateDeployment \
+  --from <your-wallet> --fees 5000uakt
+
+# Grant deployment closure
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCloseDeployment \
+  --from <your-wallet> --fees 5000uakt
+
+# Grant lease creation
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.market.v1beta3.MsgCreateLease \
+  --from <your-wallet> --fees 5000uakt
+```
+
+---
+
+## Fee Grants
+
+Fee grants allow you to pay transaction fees on behalf of other accounts. This is especially useful when combined with AuthZ, so grantees don't need their own AKT for gas fees.
+
+### What are Fee Grants?
+
+Fee grants (also called fee allowances) enable:
+
+- ✅ **Pay gas fees for team members** - They don't need AKT for transactions
+- ✅ **Enable frictionless automation** - CI/CD pipelines work without funded wallets
+- ✅ **Onboard users easily** - New users can deploy without buying AKT first
+- ✅ **Set spending limits** - Control how much can be spent on fees
+- ✅ **Time-limited grants** - Fees allowances can expire
+
+**Key Concept:** The account paying fees is the **granter**, and the account using the fee allowance is the **grantee**.
+
+---
+
+### Grant Basic Fee Allowance
+
+Allow an account to use your AKT for gas fees:
+
+```bash
+provider-services tx feegrant grant <granter-address> <grantee-address> \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+This grants **unlimited** fee usage until revoked.
+
+---
+
+### Grant Fee Allowance with Spending Limit
+
+Limit how much AKT can be spent on fees:
+
+```bash
+provider-services tx feegrant grant <granter-address> <grantee-address> \
+  --spend-limit 1000000uakt \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+**Example:** `1000000uakt` = 1 AKT total fee limit
+
+---
+
+### Grant Fee Allowance with Expiration
+
+Set when the fee grant expires:
+
+```bash
+provider-services tx feegrant grant <granter-address> <grantee-address> \
+  --expiration "2025-12-31T23:59:59Z" \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+**Note:** Use ISO 8601 format for expiration dates
+
+---
+
+### Grant Fee Allowance with Periodic Limit
+
+Allow a specific amount per time period (e.g., daily limit):
+
+```bash
+provider-services tx feegrant grant <granter-address> <grantee-address> \
+  --period 86400 \
+  --period-limit 100000uakt \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+**Parameters:**
+- `--period 86400` - 86400 seconds = 24 hours
+- `--period-limit 100000uakt` - 0.1 AKT per day
+
+This resets every 24 hours, allowing the grantee to spend up to 0.1 AKT on fees each day.
+
+---
+
+### Combining Fee Grants with AuthZ
+
+The most powerful pattern: grant both permissions AND fee allowance:
+
+```bash
+# Step 1: Grant fee allowance
+provider-services tx feegrant grant <your-address> <grantee-address> \
+  --spend-limit 10000000uakt \
+  --expiration "2025-12-31T23:59:59Z" \
+  --from <your-wallet> \
+  --fees 5000uakt
+
+# Step 2: Grant deployment permission
+provider-services tx authz grant <grantee-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+**Result:** The grantee can create deployments on your behalf, and you pay for both the deposit AND the gas fees.
+
+---
+
+### Query Fee Grants
+
+**Check fee grants you've given:**
+
+```bash
+provider-services query feegrant grants-by-granter <your-address>
+```
+
+**Check fee grants given to you:**
+
+```bash
+provider-services query feegrant grants-by-grantee <grantee-address>
+```
+
+**Check specific grant:**
+
+```bash
+provider-services query feegrant grant <granter-address> <grantee-address>
+```
+
+---
+
+### Revoke Fee Grant
+
+Remove a fee allowance:
+
+```bash
+provider-services tx feegrant revoke <granter-address> <grantee-address> \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+---
+
+### Using Fee Grants
+
+When a grantee has a fee grant, they specify the granter's address:
+
+```bash
+# Execute transaction using fee grant
+provider-services tx deployment create deploy.yaml \
+  --from <grantee-wallet> \
+  --fee-granter <granter-address>
+```
+
+**Note:** The `--fee-granter` flag tells the network to use the granter's fee allowance.
+
+---
+
+### Fee Grant SDK Integration
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+)
+
+// Grant basic fee allowance
+grantMsg := &feegrant.MsgGrantAllowance{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    Allowance: &feegrant.BasicAllowance{},
+}
+
+// Grant with spending limit
+limitAllowance := &feegrant.BasicAllowance{
+    SpendLimit: sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(1000000))),
+}
+
+grantMsg := &feegrant.MsgGrantAllowance{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    Allowance: limitAllowance,
+}
+
+// Broadcast the grant
+resp, err := client.BroadcastTx(ctx, grantMsg)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgGrantAllowance } from '@akashnetwork/chain-sdk';
+
+// Grant basic fee allowance
+const grantMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  allowance: {
+    typeUrl: '/cosmos.feegrant.v1beta1.BasicAllowance',
+    value: {} // Empty for unlimited
+  }
+};
+
+// Grant with spending limit
+const limitAllowance = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  allowance: {
+    typeUrl: '/cosmos.feegrant.v1beta1.BasicAllowance',
+    value: {
+      spendLimit: [{ denom: 'uakt', amount: '1000000' }]
+    }
+  }
+};
+
+// Broadcast the grant
+const result = await client.signAndBroadcast([grantMsg]);`,
+    },
+  ]}
+/>
+
+---
+
+### Fee Grant Best Practices
+
+**1. Always Set Limits**
+
+Never grant unlimited fee allowances:
+
+```bash
+# ❌ Bad: Unlimited fees
+provider-services tx feegrant grant <granter> <grantee> --from <wallet>
+
+# ✅ Good: Limited fees
+provider-services tx feegrant grant <granter> <grantee> \
+  --spend-limit 5000000uakt \
+  --expiration "2025-12-31T23:59:59Z" \
+  --from <wallet>
+```
+
+**2. Use Periodic Limits for Long-Term Grants**
+
+For ongoing automation:
+
+```bash
+# Grant 1 AKT per week for fees
+provider-services tx feegrant grant <granter> <grantee> \
+  --period 604800 \
+  --period-limit 1000000uakt \
+  --from <wallet>
+```
+
+**3. Monitor Fee Grant Usage**
+
+Regularly check how much has been spent:
+
+```bash
+provider-services query feegrant grant <granter> <grantee>
+```
+
+**4. Revoke Unused Grants**
+
+Remove grants when no longer needed:
+
+```bash
+provider-services tx feegrant revoke <granter> <grantee> --from <wallet>
+```
+
+---
+
+### Common Fee Grant Scenarios
+
+**Scenario 1: CI/CD Pipeline**
+
+Grant your CI/CD bot both permissions and fees:
+
+```bash
+# Grant fee allowance (0.5 AKT per day)
+provider-services tx feegrant grant <your-address> <bot-address> \
+  --period 86400 \
+  --period-limit 500000uakt \
+  --from <your-wallet>
+
+# Grant deployment permissions
+provider-services tx authz grant <bot-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --from <your-wallet>
+```
+
+**Scenario 2: Team Member Onboarding**
+
+New team members can deploy immediately:
+
+```bash
+# Grant fee allowance (10 AKT limit, 30 days)
+provider-services tx feegrant grant <your-address> <new-member> \
+  --spend-limit 10000000uakt \
+  --expiration "2025-01-31T23:59:59Z" \
+  --from <your-wallet>
+
+# Grant full deployment access
+provider-services tx authz grant <new-member> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --from <your-wallet>
+```
+
+**Scenario 3: Temporary Contractor**
+
+Contractor needs limited access for a project:
+
+```bash
+# Grant fee allowance (1 AKT total, expires in 60 days)
+provider-services tx feegrant grant <your-address> <contractor> \
+  --spend-limit 1000000uakt \
+  --expiration "2025-03-01T23:59:59Z" \
+  --from <your-wallet>
+
+# Grant deployment permissions with same expiration
+provider-services tx authz grant <contractor> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --expiration 1740787200 \
+  --from <your-wallet>
+```
+
+---
+
+### Fee Grant Troubleshooting
+
+**"fee payer does not have a fee grant"**
+
+The grantee forgot to specify `--fee-granter`:
+
+```bash
+# ❌ Missing fee-granter flag
+provider-services tx deployment create deploy.yaml --from <grantee>
+
+# ✅ Correct usage
+provider-services tx deployment create deploy.yaml \
+  --from <grantee> \
+  --fee-granter <granter>
+```
+
+**"fee allowance not found"**
+
+The fee grant doesn't exist or was revoked. Check:
+
+```bash
+provider-services query feegrant grant <granter> <grantee>
+```
+
+**"fee allowance limit exceeded"**
+
+The spending limit has been reached. Either:
+- Wait for periodic limit to reset
+- Granter must increase the limit
+- Granter must grant new allowance
+
+**"fee allowance expired"**
+
+The expiration time has passed. Granter must grant a new allowance:
+
+```bash
+provider-services tx feegrant grant <granter> <grantee> \
+  --spend-limit 1000000uakt \
+  --expiration "2025-12-31T23:59:59Z" \
+  --from <wallet>
+```
+
+---
+
+## Using Granted Permissions
+
+### Execute as Grantee
+
+Once granted permission, the grantee can execute transactions on behalf of the granter:
+
+```bash
+# Create deployment as grantee on behalf of granter
+provider-services tx authz exec \
+  provider-services tx deployment create deploy.yaml \
+  --from <grantee-wallet> \
+  --fees 5000uakt
+```
+
+**Important:** The deployment will be owned by the **granter**, not the grantee.
+
+### Check Your Grants
+
+View permissions granted to you:
+
+```bash
+provider-services query authz grants-by-grantee <your-address>
+```
+
+View permissions you've granted to others:
+
+```bash
+provider-services query authz grants-by-granter <your-address>
+```
+
+View specific grant between two addresses:
+
+```bash
+provider-services query authz grants <granter-address> <grantee-address>
+```
+
+---
+
+## Revoking Permissions
+
+### Revoke Specific Permission
+
+Remove a specific permission:
+
+```bash
+provider-services tx authz revoke <grantee-address> \
+  /akash.deployment.v1beta3.MsgCreateDeployment \
+  --from <your-wallet> \
+  --fees 5000uakt
+```
+
+### Revoke All Permissions
+
+To revoke all permissions, revoke each message type individually.
+
+---
+
+## SDK Integration
+
+import CodeTabs from "@/components/docs/CodeTabs";
+
+Use AuthZ programmatically with the Akash SDKs:
+
+### Grant Permissions
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+    "time"
+)
+
+// Grant permission to create deployments
+grantMsg := &authz.MsgGrant{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    Grant: authz.Grant{
+        Authorization: &authz.GenericAuthorization{
+            Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+        },
+        Expiration: &time.Time{}, // Optional expiration
+    },
+}
+
+// Broadcast the grant transaction
+resp, err := client.BroadcastTx(ctx, grantMsg)
+if err != nil {
+    log.Fatal(err)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgGrant } from '@akashnetwork/chain-sdk';
+
+// Grant permission to create deployments
+const grantMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  grant: {
+    authorization: {
+      '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
+      msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+    },
+    expiration: null // Optional expiration date
+  }
+};
+
+// Broadcast the grant transaction
+const resp = await client.signAndBroadcast(grantMsg);
+console.log('Grant transaction hash:', resp.transactionHash);`,
+    }
+  ]}
+/>
+
+### Execute with Granted Permission
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+    "pkg.akt.dev/go/node/deployment/v1beta3"
+)
+
+// Create the deployment message
+deploymentMsg := &deployment.MsgCreateDeployment{
+    ID: deployment.DeploymentID{
+        Owner: granterAddress, // Important: use granter's address
+        DSeq:  dseq,
+    },
+    Groups: groups,
+    // ... other deployment fields
+}
+
+// Wrap in authz exec message
+execMsg := &authz.MsgExec{
+    Grantee: granteeAddress, // Your address
+    Msgs: []*codectypes.Any{
+        codectypes.MustPackAny(deploymentMsg),
+    },
+}
+
+// Broadcast from grantee account
+resp, err := client.BroadcastTx(ctx, execMsg)
+if err != nil {
+    log.Fatal(err)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgExec, MsgCreateDeployment } from '@akashnetwork/chain-sdk';
+
+// Create the deployment message
+const deploymentMsg = {
+  id: {
+    owner: granterAddress, // Important: use granter's address
+    dseq: dseq
+  },
+  groups: groups,
+  // ... other deployment fields
+};
+
+// Wrap in authz exec message
+const execMsg = {
+  grantee: granteeAddress, // Your address
+  msgs: [
+    {
+      typeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment',
+      value: deploymentMsg
+    }
+  ]
+};
+
+// Broadcast from grantee account
+const resp = await client.signAndBroadcast(execMsg);
+console.log('Deployment created:', resp.transactionHash);`,
+    }
+  ]}
+/>
+
+### Query Grants
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+)
+
+// Query grants by granter
+grantsResp, err := client.AuthzClient.Grants(ctx, &authz.QueryGrantsRequest{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+for _, grant := range grantsResp.Grants {
+    fmt.Printf("Grant: %+v\\n", grant)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Query grants by granter
+const grants = await client.authz.grants({
+  granter: granterAddress,
+  grantee: granteeAddress,
+  msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+});
+
+grants.forEach(grant => {
+  console.log('Grant:', grant);
+  console.log('Expiration:', grant.expiration);
+});`,
+    }
+  ]}
+/>
+
+### Revoke Permissions
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+)
+
+// Revoke permission
+revokeMsg := &authz.MsgRevoke{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+}
+
+// Broadcast the revoke transaction
+resp, err := client.BroadcastTx(ctx, revokeMsg)
+if err != nil {
+    log.Fatal(err)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgRevoke } from '@akashnetwork/chain-sdk';
+
+// Revoke permission
+const revokeMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+};
+
+// Broadcast the revoke transaction
+const resp = await client.signAndBroadcast(revokeMsg);
+console.log('Permission revoked:', resp.transactionHash);`,
+    }
+  ]}
+/>
+
+---
+
+## Best Practices
+
+### Security
+
+1. **Grant Minimal Permissions** - Only grant the specific permissions needed
+2. **Use Expiration Dates** - Set expiration times for temporary access
+3. **Set Spending Limits** - Limit potential losses from compromised grantee accounts
+4. **Regular Audits** - Regularly check and revoke unused grants
+5. **Separate Accounts** - Use different accounts for different purposes
+
+### Team Management
+
+1. **Document Grants** - Keep a record of who has what permissions
+2. **Role-Based Access** - Create accounts with specific roles (deployer, admin, etc.)
+3. **Onboarding/Offboarding** - Grant permissions on hire, revoke on departure
+4. **Audit Trail** - Monitor grantee actions via blockchain transactions
+
+### Automation
+
+1. **Dedicated Service Accounts** - Create accounts specifically for automation
+2. **Rotate Keys** - Regularly rotate grantee keys for security
+3. **Monitor Spending** - Track deployment costs from automated systems
+4. **Error Handling** - Handle authorization errors gracefully in scripts
+
+---
+
+## Common Scenarios
+
+### Scenario 1: CI/CD Pipeline
+
+**Goal:** Allow GitHub Actions to deploy on your behalf
+
+**Steps:**
+1. Create a new wallet for GitHub Actions
+2. Fund it with enough AKT for gas fees (0.1 AKT minimum)
+3. Grant deployment permissions:
+
+```bash
+provider-services tx authz grant <github-actions-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --from <your-wallet>
+```
+
+4. In your CI/CD pipeline, use the grantee wallet to deploy
+
+### Scenario 2: Team Deployment Management
+
+**Goal:** Allow DevOps team to manage deployments
+
+**Steps:**
+1. Create or identify team member wallets
+2. Grant comprehensive permissions:
+
+```bash
+# For each team member
+for MSG_TYPE in \
+  /akash.deployment.v1beta3.MsgCreateDeployment \
+  /akash.deployment.v1beta3.MsgUpdateDeployment \
+  /akash.deployment.v1beta3.MsgCloseDeployment \
+  /akash.market.v1beta3.MsgCreateLease
+do
+  provider-services tx authz grant <team-member-address> generic \
+    --msg-type $MSG_TYPE \
+    --from <your-wallet> \
+    --fees 5000uakt
+done
+```
+
+### Scenario 3: Temporary Contractor Access
+
+**Goal:** Give a contractor temporary deployment access
+
+**Steps:**
+1. Grant permissions with expiration:
+
+```bash
+# Set expiration to 30 days from now
+EXPIRATION=$(date -d '+30 days' +%s)
+
+provider-services tx authz grant <contractor-address> generic \
+  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --expiration $EXPIRATION \
+  --spend-limit 50000000uakt \
+  --from <your-wallet>
+```
+
+2. Permissions automatically expire after 30 days
+
+---
+
+## Troubleshooting
+
+### "authorization not found"
+**Cause:** No grant exists between granter and grantee for that message type  
+**Solution:** Check grants with `query authz grants` and create if needed
+
+### "failed to execute message; message index: 0: unauthorized"
+**Cause:** Grant may have expired or been revoked  
+**Solution:** Verify grant still exists and is not expired
+
+### "insufficient fees"
+**Cause:** Grantee account doesn't have enough AKT for gas  
+**Solution:** Fund the grantee account with AKT for transaction fees
+
+### "account sequence mismatch"
+**Cause:** Multiple transactions sent simultaneously  
+**Solution:** Wait for previous transaction to complete or use sequence numbers
+
+---
+
+## Security Considerations
+
+### Risks
+
+1. **Compromised Grantee** - If a grantee's private key is compromised, they can act on your behalf
+2. **No Spending Limit** - Without limits, grantee can spend all your AKT
+3. **Permanent Access** - Grants without expiration last forever
+
+### Mitigations
+
+1. **Use Spending Limits** - Always set reasonable limits
+2. **Set Expirations** - Use time-limited grants when possible
+3. **Monitor Activity** - Watch for unexpected deployments
+4. **Revoke Immediately** - Revoke grants as soon as they're no longer needed
+5. **Separate Funds** - Keep limited funds in accounts that grant permissions
+
+---
+
+## Related Documentation
+
+- **[CLI Reference](/docs/developers/deployment/cli)** - Complete CLI commands
+- **[SDK Documentation](/docs/developers/deployment/akash-sdk)** - Programmatic AuthZ usage
+- **[SDL Examples](/docs/developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples
+
+---
+
+## Additional Resources
+
+- **Cosmos SDK AuthZ Module:** [docs.cosmos.network/authz](https://docs.cosmos.network/main/modules/authz)
+- **Akash GitHub:** [github.com/akash-network/node](https://github.com/akash-network/node)
+- **Discord:** [discord.akash.network](https://discord.akash.network) - #developers channel
+
+---
+
+## Need Help?
+
+- **Discord:** [discord.akash.network](https://discord.akash.network)
+- **Support:** [support.akash.network](https://support.akash.network)
+

@@ -20,23 +20,23 @@ New to Akash? Start here:
 
 ### For Developers
 
-- **[Deployment](/docs/for-developers/deployment)** - Console, CLI, SDKs, SDL, AuthZ, and deployment guides
-- **[API Protocols](/docs/for-developers/api-protocols)** - gRPC, REST, RPC, and WebSocket APIs
-- **[Contributing](/docs/for-developers/contributing)** - Contribute to Akash codebase
+- **[Deployment](/docs/developers/deployment)** - Console, CLI, SDKs, SDL, AuthZ, and deployment guides
+- **[API Protocols](/docs/developers/api-protocols)** - gRPC, REST, RPC, and WebSocket APIs
+- **[Contributing](/docs/developers/contributing)** - Contribute to Akash codebase
 
 ### For Providers
 
-- **[Getting Started](/docs/for-providers/getting-started)** - Should you run a provider? Hardware requirements and cost analysis
-- **[Setup & Installation](/docs/for-providers/setup-and-installation)** - Provider Playbook, Kubespray, and Provider Console
-- **[Operations](/docs/for-providers/operations)** - Lease management, monitoring, maintenance, and provider verification
-- **[Architecture](/docs/for-providers/architecture)** - Provider service architecture (for developers)
+- **[Getting Started](/docs/providers/getting-started)** - Should you run a provider? Hardware requirements and cost analysis
+- **[Setup & Installation](/docs/providers/setup-and-installation)** - Provider Playbook, Kubespray, and Provider Console
+- **[Operations](/docs/providers/operations)** - Lease management, monitoring, maintenance, and provider verification
+- **[Architecture](/docs/providers/architecture)** - Provider service architecture (for developers)
 
 ### For Node Operators
 
-- **[Architecture](/docs/for-node-operators/architecture)** - Node architecture and API endpoints
-- **[Node Build](/docs/for-node-operators/node-build)** - CLI Build, Omnibus, and Helm Chart
-- **[Validators](/docs/for-node-operators/validators)** - Running validators, Omnibus, and TMKMS
-- **[Network Upgrades](/docs/for-node-operators/network-upgrades)** - Upgrade guides for network upgrades
+- **[Architecture](/docs/node-operators/architecture)** - Node architecture and API endpoints
+- **[Node Build](/docs/node-operators/node-build)** - CLI Build, Omnibus, and Helm Chart
+- **[Validators](/docs/node-operators/validators)** - Running validators, Omnibus, and TMKMS
+- **[Network Upgrades](/docs/node-operators/network-upgrades)** - Upgrade guides for network upgrades
 
 ### Learn
 

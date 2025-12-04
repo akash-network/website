@@ -56,8 +56,8 @@ Learn about deployments, providers, and how Akash works.
 
 Once you're comfortable with the basics, explore advanced deployment options:
 
-- **[Akash CLI](/docs/for-developers/deployment/cli)** - Command-line deployment with your own wallet (Keplr/Leap) for automation and full blockchain control
-- **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Programmatic deployments with Go or JavaScript/TypeScript
+- **[Akash CLI](/docs/developers/deployment/cli)** - Command-line deployment with your own wallet (Keplr/Leap) for automation and full blockchain control
+- **[Akash SDK](/docs/developers/deployment/akash-sdk)** - Programmatic deployments with Go or JavaScript/TypeScript
 
 ### For Providers
 Want to earn revenue by providing compute?

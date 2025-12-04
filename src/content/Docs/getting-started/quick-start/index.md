@@ -320,15 +320,15 @@ Now that you know the basics, explore templates in Akash Console to deploy:
 ### 📚 Learn More
 
 - **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works
-- **[SDL Reference](/docs/for-developers/deployment/akash-sdl)** - Master the Stack Definition Language
+- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Master the Stack Definition Language
 - **[What is Akash?](/docs/getting-started/what-is-akash)** - Deep dive into Akash Network
 
 ### 💻 For Developers
 
 Ready for more advanced workflows?
-- **[Akash CLI](/docs/for-developers/deployment/cli)** - Command-line deployment and automation
-- **[Akash SDK](/docs/for-developers/deployment/akash-sdk)** - Build deployment tools with Go or JavaScript/TypeScript
-- **[API Reference](/docs/for-developers/api-protocols)** - Integrate Akash into your apps
+- **[Akash CLI](/docs/developers/deployment/cli)** - Command-line deployment and automation
+- **[Akash SDK](/docs/developers/deployment/akash-sdk)** - Build deployment tools with Go or JavaScript/TypeScript
+- **[API Reference](/docs/developers/api-protocols)** - Integrate Akash into your apps
 
 ### 💳 Ready to Go Beyond Trial?
 
