@@ -22,7 +22,7 @@ A **provider** is a data center or infrastructure operator that offers compute r
 - Memory (RAM)
 - Storage (persistent and ephemeral)
 - Network connectivity
-- Optional features (IP leases, persistent storage)
+- Optional features (IP leases)
 
 **Providers compete on:**
 - Price
@@ -38,11 +38,12 @@ A **provider** is a data center or infrastructure operator that offers compute r
 ### Provider Registration
 
 Providers register on Akash blockchain:
-1. Stake AKT tokens as collateral
-2. Publish their resource capacity
-3. Set pricing models
-4. Define attributes (location, features, certifications)
-5. Run provider software to monitor orders
+1. Publish their resource capacity
+2. Set pricing models
+3. Define attributes (location, features, certifications)
+4. Run provider software to monitor orders
+
+**Note:** Providers lock up AKT only for the duration of active bids and leases, not as permanent collateral.
 
 ### Bidding Process
 
@@ -78,16 +79,19 @@ country: US
 
 ### Capabilities
 
+Providers advertise capabilities through attributes:
+
 ```
-persistent-storage: true
-ip-leases: true
-gpu: true
+feat-persistent-storage: true
+feat-endpoint-ip: true
 ```
 
-**Common capabilities:**
-- `persistent-storage` - Can provide persistent volumes
-- `ip-leases` - Offers dedicated IP addresses
-- `gpu` - Has GPU resources available
+**Common feature attributes:**
+- `feat-persistent-storage` - Can provide persistent volumes
+- `feat-endpoint-ip` - Offers dedicated IP addresses
+- GPU capabilities are advertised via `capabilities/gpu/vendor/<vendor>/model/<model>` attributes
+
+See the [Provider Attributes](/docs/providers/operations/provider-attributes) guide for complete list.
 
 ### Hardware
 
@@ -166,10 +170,10 @@ uptime-guarantee: 99.9%
 #### 4. Features
 
 **Match your needs:**
-- Need persistent storage? → Check `persistent-storage: true`
-- Need dedicated IP? → Check `ip-leases: true`
-- Need GPU? → Check `gpu: true` and specific models
-- Need high bandwidth? → Check network capacity
+- Need persistent storage? → Check `feat-persistent-storage: true`
+- Need dedicated IP? → Check `feat-endpoint-ip: true`
+- Need GPU? → Check `capabilities/gpu/vendor/<vendor>/model/<model>` attributes
+- Need high bandwidth? → Check network capacity attributes
 
 #### 5. Performance
 
@@ -192,9 +196,9 @@ Provider: akash1abc...xyz
 Price: 8,500 uakt/block
 Location: US-West
 Attributes:
-  - persistent-storage: true
-  - region: us-west
-  - tier: premium
+  - feat-persistent-storage: true
+  - location-region: us-west
+  - tier: community
 ```
 
 ### Price Calculation
@@ -207,9 +211,9 @@ Bid: 10,000 uakt/block
 Hourly cost: 10,000 × 600 blocks = 6,000,000 uakt = 0.006 AKT
 Daily cost: 0.006 × 24 = 0.144 AKT
 Monthly cost: 0.144 × 30 = 4.32 AKT
-```
 
-**At $2.50/AKT:** ~$10.80/month
+At $2.50/AKT: ~$10.80/month
+```
 
 ### Comparing Bids
 
@@ -608,11 +612,11 @@ Custom attributes for filtering:
 placement:
   requirements:
     attributes:
-      - key: region
+      - key: location-region
         value: us-west
       - key: tier
-        value: premium
-      - key: persistent-storage
+        value: community
+      - key: feat-persistent-storage
         value: true
 ```
 

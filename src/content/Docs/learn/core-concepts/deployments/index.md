@@ -151,9 +151,11 @@ Deployment #123456
 **What happens:**
 1. Lease created on blockchain
 2. Order closes (no more bids accepted)
-3. Provider reserves resources
+3. Resources are permanently reserved on the provider
 4. Deployment status: `active`
 5. Lease status: `active`
+
+**Note:** When providers submit bids, they temporarily hold the resources. If their bid is not accepted, the resources are released. Once you accept a bid and create a lease, the resources are permanently reserved until the deployment closes.
 
 **Blockchain state:**
 ```
@@ -307,9 +309,10 @@ Recommended escrow: 1.5 AKT (48% buffer)
 - Set reminders to check balance
 
 **Adding funds:**
-- Cannot add to existing escrow
-- Must close and create new deployment
-- Plan initial escrow generously
+- You can deposit additional AKT to existing escrow
+- Use CLI: `provider-services tx deployment deposit` command
+- Use Console: View deployment → Add funds
+- Plan initial escrow generously to minimize need for top-ups
 
 ---
 
@@ -351,9 +354,13 @@ args: ["run", "prod"]
 ### What CANNOT Be Updated
 
 ❌ **Resource requirements** (CPU, memory, storage, GPU)
+
 ❌ **Service count** (replicas)
+
 ❌ **Port configurations**
+
 ❌ **Storage attributes**
+
 ❌ **Provider/Lease** (tied to specific provider)
 
 **To change these:** Close deployment and create new one
@@ -470,6 +477,7 @@ For one-time compute jobs:
 2. **Resources unavailable** - Reduce requirements or change specs
 3. **Invalid SDL** - Check SDL syntax
 4. **Network issues** - Try different network (mainnet vs sandbox)
+5. **Restricted to audited providers** - Remove or adjust `signedBy` field if you're limiting deployment to only audited providers
 
 **Solution:** Close order, adjust SDL, redeploy
 
