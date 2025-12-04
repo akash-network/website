@@ -147,20 +147,37 @@ provider-services lease-status \
 
 ## Updating Deployments
 
-### Update Deployment
+### What Can Be Updated?
+
+**✅ Can update:**
+- Container image versions
+- Environment variables
+- Command and args
+- Some exposed port configurations
+
+**❌ Cannot update (must close and recreate deployment):**
+- CPU, memory, storage, GPU resources
+- Placement criteria (provider attributes)
+- Service names
+
+### Update Deployment (2-Step Process)
+
+Updating a deployment requires two steps:
+
+**Step 1: Update on-chain deployment hash**
 ```bash
 # Modify your SDL file
 nano deploy.yml
 
-# Send update
-provider-services tx deployment update deploy.yml \
+# Update deployment on-chain
+akash tx deployment update deploy.yml \
   --dseq <deployment-seq> \
   --from $AKASH_KEY_NAME
 ```
 
-### Update Manifest Only
+**Step 2: Send updated manifest to provider**
 ```bash
-# Modify manifest (not resources)
+# Send updated manifest to provider
 provider-services send-manifest deploy.yml \
   --dseq <deployment-seq> \
   --provider <provider-address> \
@@ -263,9 +280,9 @@ provider-services query block
 
 ## Next Steps
 
+- **[Commands Reference →](/docs/developers/deployment/cli/commands-reference)** - Complete CLI command reference
 - **[SDL Reference →](/docs/developers/deployment/akash-sdl)** - Learn SDL configuration
 - **[SDL Examples →](/docs/developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples
-- **[Quick Start →](/docs/getting-started/quick-start)** - Full tutorial
 
 ---
 

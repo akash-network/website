@@ -94,17 +94,53 @@ provider-services query deployment get \
 
 ### Update Deployment
 
-Update an existing deployment with a new SDL.
+Update the deployment hash on-chain. After this, you must send the updated manifest to the provider with `send-manifest`.
 
 ```bash
-provider-services tx deployment update <sdl-file> \
+akash tx deployment update <sdl-file> \
   --dseq <deployment-id> \
   --from $AKASH_KEY_NAME
 ```
 
-**Important:** You cannot change resource groups in an update. Only environment variables and image versions can be updated.
+**What can be updated:**
+- Container image versions
+- Environment variables
+- Command and args
 
-**Note:** Assumes environment variables are configured as per the [Configuration Guide](/docs/developers/deployment/cli/configuration).
+**What cannot be updated:**
+- CPU, memory, storage, GPU resources
+- Placement criteria
+- Service names
+
+**Example:**
+```bash
+akash tx deployment update deploy.yml \
+  --dseq 1234567 \
+  --from $AKASH_KEY_NAME
+```
+
+**Note:** This only updates the hash on-chain. You must also run `send-manifest` to send the actual updated manifest to the provider.
+
+---
+
+### Send Manifest
+
+Send the deployment manifest to a provider. Required after creating a lease or updating a deployment.
+
+```bash
+provider-services send-manifest <sdl-file> \
+  --dseq <deployment-id> \
+  --provider <provider-address> \
+  --from $AKASH_KEY_NAME
+```
+
+**Example:**
+```bash
+provider-services send-manifest deploy.yml \
+  --dseq 1234567 \
+  --provider akash1... \
+  --from $AKASH_KEY_NAME
+```
 
 ---
 
