@@ -133,7 +133,7 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For SDK/API Issues:**
-1. Check the [Developer Documentation](/docs/developers)
+1. Check the [Developer Documentation](/docs/developers/getting-started)
 2. Ask in Discord **#developers** channel
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 

@@ -257,7 +257,7 @@ Ready to contribute?
 ## Related Resources
 
 - [Community Resources](/docs/learn/community-resources)
-- [Developer Documentation](/docs/developers)
+- [Developer Documentation](/docs/developers/getting-started)
 - [GitHub Organization](https://github.com/akash-network)
 
 ---
