@@ -175,7 +175,7 @@ export default function CodeTabs({
       {/* Code content */}
       <div className="relative overflow-x-auto bg-background">
         <pre className="m-0 p-4 text-sm text-foreground">
-          <code className="language-{activeExample.language}">
+          <code className={`language-${activeExample.language}`}>
             {activeExample.code}
           </code>
         </pre>

@@ -89,7 +89,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
 
       // Save on scroll (throttled, but update immediately)
       let lastSavedPosition = el.scrollTop;
-      el.addEventListener('scroll', () => {
+      const handleScrollSave = () => {
         if (isRestoring) return;
         lastSavedPosition = el.scrollTop;
         // Save immediately to prevent monitor from restoring old position
@@ -98,16 +98,18 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
         scrollTimeout = setTimeout(saveScroll, 250);
         // Clear navigation flag when user scrolls
         justNavigated = false;
-      }, { passive: true });
+      };
+      el.addEventListener('scroll', handleScrollSave, { passive: true });
 
       // Track when user is actively scrolling
-      el.addEventListener('scroll', () => {
+      const handleUserScroll = () => {
         isUserScrolling = true;
         clearTimeout(userScrollTimeout);
         userScrollTimeout = setTimeout(() => {
           isUserScrolling = false;
         }, 150);
-      }, { passive: true });
+      };
+      el.addEventListener('scroll', handleUserScroll, { passive: true });
 
       // Monitor and prevent unexpected scroll resets (only after navigation)
       const monitorScroll = setInterval(() => {
@@ -173,8 +175,10 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
 
       return () => {
         clearInterval(monitorScroll);
+        clearTimeout(scrollTimeout);
         clearTimeout(userScrollTimeout);
-        el?.removeEventListener('scroll', saveScroll);
+        el?.removeEventListener('scroll', handleScrollSave);
+        el?.removeEventListener('scroll', handleUserScroll);
         document.removeEventListener('astro:before-preparation', saveScroll);
         document.removeEventListener('astro:before-swap', saveScroll);
         document.removeEventListener('astro:after-swap', handleAfterNav);
