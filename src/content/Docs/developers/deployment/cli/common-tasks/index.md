@@ -272,7 +272,7 @@ provider-services query block
 
 ---
 
-**Previous:** [← Commands Reference](/docs/developers/cli/commands-reference)
+**Previous:** [← Commands Reference](/docs/developers/deployment/cli/commands-reference)
 
 ---
 

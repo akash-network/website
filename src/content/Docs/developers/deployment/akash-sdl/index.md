@@ -15,16 +15,16 @@ SDL is a YAML-based configuration format that describes your application's servi
 
 ## In This Section
 
-### [Syntax Reference](/docs/developers/akash-sdl/syntax-reference)
+### [Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference)
 Complete SDL syntax reference with interactive examples.
 
-### [Examples Library](/docs/developers/akash-sdl/examples-library)
+### [Examples Library](/docs/developers/deployment/akash-sdl/examples-library)
 Collection of SDL examples for common use cases.
 
-### [Best Practices](/docs/developers/akash-sdl/best-practices)
+### [Best Practices](/docs/developers/deployment/akash-sdl/best-practices)
 Best practices for writing SDL files.
 
-### [Advanced Features](/docs/developers/akash-sdl/advanced-features)
+### [Advanced Features](/docs/developers/deployment/akash-sdl/advanced-features)
 Advanced SDL features and techniques.
 
 ---
@@ -69,7 +69,7 @@ deployment:
 
 ## Next Steps
 
-- **[Syntax Reference](/docs/developers/akash-sdl/syntax-reference)** - Complete syntax documentation
-- **[Examples Library](/docs/developers/akash-sdl/examples-library)** - Real-world examples
-- **[Best Practices](/docs/developers/akash-sdl/best-practices)** - Learn best practices
+- **[Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference)** - Complete syntax documentation
+- **[Examples Library](/docs/developers/deployment/akash-sdl/examples-library)** - Real-world examples
+- **[Best Practices](/docs/developers/deployment/akash-sdl/best-practices)** - Learn best practices
 

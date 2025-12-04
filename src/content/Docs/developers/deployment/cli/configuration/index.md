@@ -172,12 +172,12 @@ export AKASH_TRACE="true"
 
 ## Next Steps
 
-- **[Commands Reference →](/docs/developers/cli/commands-reference)** - Learn all CLI commands
-- **[Common Tasks →](/docs/developers/cli/common-tasks)** - Practical examples
+- **[Commands Reference →](/docs/developers/deployment/cli/commands-reference)** - Learn all CLI commands
+- **[Common Tasks →](/docs/developers/deployment/cli/common-tasks)** - Practical examples
 - **[Quick Start →](/docs/getting-started/quick-start)** - Deploy your first app
 
 ---
 
-**Previous:** [← Installation](/docs/developers/cli/installation)  
-**Next:** [Commands Reference →](/docs/developers/cli/commands-reference)
+**Previous:** [← Installation](/docs/developers/deployment/cli/installation)  
+**Next:** [Commands Reference →](/docs/developers/deployment/cli/commands-reference)
 
