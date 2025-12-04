@@ -65,6 +65,7 @@ profiles:
           - size: 10Gi
             attributes:
               persistent: true
+              class: beta3  # NVMe storage (recommended)
 ```
 
 ---
@@ -97,6 +98,7 @@ profiles:
           - size: 20Gi
             attributes:
               persistent: true
+              class: beta3  # Use NVMe for databases
 
   placement:
     akash:
@@ -116,33 +118,11 @@ deployment:
 
 ## Storage Classes
 
-### Beta1 (Default)
+Akash offers three storage classes with different performance characteristics:
 
-The standard persistent storage class.
+### Beta3 (Recommended)
 
-```yaml
-storage:
-  - size: 10Gi
-    attributes:
-      persistent: true
-      class: beta1  # Default, can be omitted
-```
-
-### Beta2
-
-Higher performance storage (if available from provider).
-
-```yaml
-storage:
-  - size: 10Gi
-    attributes:
-      persistent: true
-      class: beta2
-```
-
-### Beta3
-
-Premium performance storage (SSD/NVMe, if available).
+**NVMe storage** - Highest performance for databases and I/O-intensive workloads.
 
 ```yaml
 storage:
@@ -152,7 +132,56 @@ storage:
       class: beta3
 ```
 
-**Note:** Storage class availability varies by provider. Most providers support `beta1`, while `beta2` and `beta3` availability is limited.
+**Use for:**
+- Databases (PostgreSQL, MySQL, MongoDB)
+- High-traffic applications
+- Real-time data processing
+- Any I/O-intensive workload
+
+**Availability:** Most providers support beta3
+
+### Beta2
+
+**SSD storage** - Good performance for general workloads.
+
+```yaml
+storage:
+  - size: 10Gi
+    attributes:
+      persistent: true
+      class: beta2
+```
+
+**Use for:**
+- Web applications with moderate traffic
+- File storage
+- General purpose workloads
+
+**Availability:** Supported by some providers
+
+### Beta1 (Default)
+
+**HDD storage** - Standard performance for low-I/O workloads.
+
+```yaml
+storage:
+  - size: 10Gi
+    attributes:
+      persistent: true
+      class: beta1  # Default if class is omitted
+```
+
+**Use for:**
+- Archive storage
+- Backups
+- Low-traffic applications
+- Cost-sensitive deployments
+
+**Note:** If you don't specify a class, beta1 is used by default.
+
+### Choosing a Storage Class
+
+**Best practice:** Use **beta3** for most deployments unless you have specific cost constraints. Most providers support beta3, and the performance difference is significant for databases and I/O-intensive applications.
 
 ---
 
@@ -171,14 +200,14 @@ profiles:
           size: 1Gi
         storage:
           - size: 1Gi  # Ephemeral root filesystem
-          - size: 10Gi  # Persistent data
+          - size: 10Gi  # Persistent data (NVMe)
+            attributes:
+              persistent: true
+              class: beta3
+          - size: 50Gi  # Persistent media (HDD for cost savings)
             attributes:
               persistent: true
               class: beta1
-          - size: 50Gi  # Persistent media
-            attributes:
-              persistent: true
-              class: beta2
 ```
 
 **Important:** The **first** storage entry is always the root filesystem. Additional entries are mounted as separate volumes.
@@ -274,15 +303,21 @@ Implement backup logic in your application code to regularly export data to exte
 ### Storage I/O
 
 Persistent storage performance varies by:
-- **Storage class** - beta3 (SSD) > beta2 > beta1 (HDD)
+- **Storage class** - beta3 (NVMe) > beta2 (SSD) > beta1 (HDD)
 - **Provider infrastructure** - Different providers have different hardware
 - **Provider load** - Performance may degrade under heavy load
+
+**Performance comparison:**
+- **beta3 (NVMe):** 10-50x faster than HDD, ideal for databases
+- **beta2 (SSD):** 5-10x faster than HDD, good for general workloads
+- **beta1 (HDD):** Standard performance, suitable for archives
 
 ### Best Practices
 
 1. **Use appropriate storage class**
-   - beta1 for general use
-   - beta2/beta3 for databases and high-I/O workloads
+   - **beta3 for most deployments** - Databases, high-traffic apps, production workloads
+   - **beta2 for moderate workloads** - General applications, file storage
+   - **beta1 for low-I/O workloads** - Archives, backups, cost-sensitive deployments
 
 2. **Size appropriately**
    - Request only what you need
@@ -327,7 +362,7 @@ profiles:
           - size: 50Gi
             attributes:
               persistent: true
-              class: beta2
+              class: beta3  # NVMe for best database performance
 ```
 
 ### Application with Persistent Uploads
@@ -381,17 +416,18 @@ profiles:
 
 ### Poor Database Performance
 
-**Cause:** Using beta1 (HDD) storage for database.
+**Cause:** Using beta1 (HDD) or beta2 (SSD) storage for database.
 
-**Solution:** Upgrade to beta2 or beta3 storage class.
+**Solution:** Upgrade to beta3 (NVMe) storage class for best database performance. Most providers support beta3.
 
-### Provider Doesn't Support Beta3
+### Provider Doesn't Support Desired Storage Class
 
-**Cause:** Not all providers offer premium storage.
+**Cause:** Some providers may not offer all storage classes.
 
 **Solution:** 
-1. Use beta2 or beta1 instead
-2. Choose a different provider that offers beta3
+1. Choose a different provider - most providers support beta3
+2. Use a lower storage class if beta3 is unavailable
+3. Check provider attributes before bidding to confirm storage class availability
 
 ---
 
@@ -460,16 +496,18 @@ Storage is tied to the provider. Moving to a different provider requires data mi
 
 ✅ **DO:**
 - Use persistent storage for databases and user data
+- **Use beta3 (NVMe) for most deployments**, especially databases
 - Implement regular backups to external services
 - Monitor disk usage and set up alerts
 - Size storage appropriately for growth
-- Use appropriate storage class for workload
+- Choose storage class based on performance needs
 
 ❌ **DON'T:**
 - Rely on persistent storage as your only backup
 - Store critical data without external backups
-- Use beta1 for high-performance databases
+- Use beta1 (HDD) or beta2 (SSD) for high-performance databases
 - Try to resize storage without redeployment
+- Assume all storage classes have the same performance
 
 ---
 
