@@ -27,7 +27,7 @@ const WhyChooseSwiper = ({ cards }: WhyChooseSwiperProps) => {
                   className="text-[24px] font-semibold leading-tight"
                   dangerouslySetInnerHTML={{ __html: card.title }}
                 />
-                <p className="mt-3 flex-grow text-base font-medium leading-[20px] text-paraDark">
+                <p className="mt-3 flex-grow text-base font-medium leading-[20px] dark:text-paraDark">
                   {card.description}
                 </p>
               </div>

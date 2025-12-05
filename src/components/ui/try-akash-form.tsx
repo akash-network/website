@@ -41,7 +41,7 @@ export default function TryAkashForm({
     <button
       type="button"
       className={clsx(
-        " cursor-pointer rounded-md bg-primary px-10 py-2.5  !font-medium  transition-all hover:bg-primary/90 md:px-[60px] md:py-5 lg:text-xl",
+        " cursor-pointer rounded-md bg-primary px-10 py-2.5  !font-medium text-white  transition-all hover:bg-primary/90 md:px-[60px] md:py-5 lg:text-xl",
         fullWidth ? "w-full" : "mx-auto",
       )}
     >
