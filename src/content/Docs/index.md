@@ -44,6 +44,14 @@ Run blockchain nodes and validators:
 - **[Network Upgrades](/docs/node-operators/network-upgrades)** - Mainnet 15 upgrade guide
 - **[Architecture](/docs/node-operators/architecture)** - Node architecture and API endpoints
 
+### Extend
+
+Build on Akash with SDKs, APIs, and architectural insights:
+
+- **[Getting Started](/docs/extend/getting-started)** - Choose your integration method
+- **[SDK](/docs/extend/sdk)** - Official Go and JavaScript/TypeScript SDKs
+- **[API](/docs/extend/api/managed-wallet)** - Console Managed Wallet API
+
 ### Learn
 
 Deep dive into Akash concepts and resources:

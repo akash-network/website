@@ -1,0 +1,886 @@
+---
+categories: ["Extend", "SDK"]
+tags: ["SDK", "AuthZ", "Fee Grant", "Authorization", "API"]
+weight: 3
+title: "AuthZ & Fee Grants SDK"
+linkTitle: "AuthZ & Fee Grants"
+description: "Programmatically manage AuthZ permissions and Fee Grants using the Akash SDK"
+---
+
+import CodeTabs from "@/components/docs/CodeTabs";
+
+**Programmatically grant permissions and manage fee allowances using the Akash SDK.**
+
+This guide covers how to use the Akash SDK (Go and JavaScript/TypeScript) to implement AuthZ and Fee Grants in your applications.
+
+---
+
+## Overview
+
+The Akash SDK provides full support for:
+
+- **AuthZ (Authorization)** - Grant deployment permissions programmatically
+- **Fee Grants** - Pay transaction fees for other accounts via code
+
+**For CLI usage and concepts, see:** [AuthZ & Fee Grants Guide](/docs/developers/deployment/authz)
+
+---
+
+## Installation
+
+Before using AuthZ and Fee Grants, install the Akash SDK:
+
+**→ [SDK Installation Guide](/docs/extend/sdk/installation)**
+
+---
+
+## AuthZ SDK Integration
+
+### Granting Permissions
+
+Grant deployment permissions to another account:
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+    "time"
+)
+
+// Grant permission to create deployments
+grantMsg := &authz.MsgGrant{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    Grant: authz.Grant{
+        Authorization: &authz.GenericAuthorization{
+            Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+        },
+        Expiration: &time.Time{}, // Optional expiration
+    },
+}
+
+// Broadcast the grant transaction
+resp, err := client.BroadcastTx(ctx, grantMsg)
+if err != nil {
+    log.Fatal(err)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgGrant } from '@akashnetwork/chain-sdk';
+
+// Grant permission to create deployments
+const grantMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  grant: {
+    authorization: {
+      '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
+      msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+    },
+    expiration: null // Optional expiration date
+  }
+};
+
+// Broadcast the grant transaction
+const resp = await client.signAndBroadcast(grantMsg);
+console.log('Grant transaction hash:', resp.transactionHash);`,
+    }
+  ]}
+/>
+
+---
+
+### Grant with Expiration and Limits
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    "time"
+)
+
+// Set expiration to 30 days from now
+expiration := time.Now().Add(30 * 24 * time.Hour)
+
+// Grant with spending limit
+grantMsg := &authz.MsgGrant{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    Grant: authz.Grant{
+        Authorization: &authz.GenericAuthorization{
+            Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+        },
+        Expiration: &expiration,
+    },
+}
+
+// Note: Spending limits are set via fee grants (see below)
+resp, err := client.BroadcastTx(ctx, grantMsg)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Set expiration to 30 days from now
+const expiration = new Date();
+expiration.setDate(expiration.getDate() + 30);
+
+const grantMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  grant: {
+    authorization: {
+      '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
+      msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+    },
+    expiration: expiration.toISOString()
+  }
+};
+
+const resp = await client.signAndBroadcast(grantMsg);`,
+    }
+  ]}
+/>
+
+---
+
+### Execute with Granted Permission
+
+Use granted permissions to deploy on behalf of another account:
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+    "pkg.akt.dev/go/node/deployment/v1beta3"
+    "github.com/cosmos/cosmos-sdk/codec/types"
+)
+
+// Create the deployment message
+deploymentMsg := &deployment.MsgCreateDeployment{
+    ID: deployment.DeploymentID{
+        Owner: granterAddress, // Important: use granter's address
+        DSeq:  dseq,
+    },
+    Groups: groups,
+    Version: version,
+    Deposit: deposit,
+}
+
+// Wrap in authz exec message
+execMsg := &authz.MsgExec{
+    Grantee: granteeAddress, // Your address
+    Msgs: []*types.Any{
+        types.MustPackAny(deploymentMsg),
+    },
+}
+
+// Broadcast from grantee account
+resp, err := client.BroadcastTx(ctx, execMsg)
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Printf("Deployment created: %d\\n", dseq)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgExec, MsgCreateDeployment } from '@akashnetwork/chain-sdk';
+
+// Create the deployment message
+const deploymentMsg = {
+  id: {
+    owner: granterAddress, // Important: use granter's address
+    dseq: dseq
+  },
+  groups: groups,
+  version: version,
+  deposit: { denom: 'uakt', amount: '5000000' }
+};
+
+// Wrap in authz exec message
+const execMsg = {
+  grantee: granteeAddress, // Your address
+  msgs: [
+    {
+      typeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment',
+      value: deploymentMsg
+    }
+  ]
+};
+
+// Broadcast from grantee account
+const resp = await client.signAndBroadcast(execMsg);
+console.log('Deployment created:', resp.transactionHash);`,
+    }
+  ]}
+/>
+
+---
+
+### Query Grants
+
+Check existing grants between accounts:
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+)
+
+// Query grants by granter and grantee
+grantsResp, err := client.AuthzClient.Grants(ctx, &authz.QueryGrantsRequest{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+for _, grant := range grantsResp.Grants {
+    fmt.Printf("Grant: %+v\\n", grant)
+    fmt.Printf("Expiration: %s\\n", grant.Expiration)
+}
+
+// Query all grants by granter
+allGrantsResp, err := client.AuthzClient.GranterGrants(ctx, &authz.QueryGranterGrantsRequest{
+    Granter: granterAddress,
+})`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Query grants by granter and grantee
+const grants = await client.authz.grants({
+  granter: granterAddress,
+  grantee: granteeAddress,
+  msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+});
+
+grants.forEach(grant => {
+  console.log('Grant:', grant);
+  console.log('Expiration:', grant.expiration);
+});
+
+// Query all grants by granter
+const allGrants = await client.authz.granterGrants({
+  granter: granterAddress
+});
+
+console.log('Total grants:', allGrants.length);`,
+    }
+  ]}
+/>
+
+---
+
+### Revoke Permissions
+
+Remove granted permissions:
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+)
+
+// Revoke permission
+revokeMsg := &authz.MsgRevoke{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+}
+
+// Broadcast the revoke transaction
+resp, err := client.BroadcastTx(ctx, revokeMsg)
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Println("Permission revoked successfully")`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgRevoke } from '@akashnetwork/chain-sdk';
+
+// Revoke permission
+const revokeMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+};
+
+// Broadcast the revoke transaction
+const resp = await client.signAndBroadcast(revokeMsg);
+console.log('Permission revoked:', resp.transactionHash);`,
+    }
+  ]}
+/>
+
+---
+
+## Fee Grant SDK Integration
+
+### Grant Basic Fee Allowance
+
+Allow another account to use your AKT for transaction fees:
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    "github.com/cosmos/cosmos-sdk/codec/types"
+)
+
+// Grant basic fee allowance (unlimited)
+basicAllowance := &feegrant.BasicAllowance{}
+
+allowanceAny, err := types.NewAnyWithValue(basicAllowance)
+if err != nil {
+    log.Fatal(err)
+}
+
+grantMsg := &feegrant.MsgGrantAllowance{
+    Granter:   granterAddress,
+    Grantee:   granteeAddress,
+    Allowance: allowanceAny,
+}
+
+// Broadcast the grant
+resp, err := client.BroadcastTx(ctx, grantMsg)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgGrantAllowance } from '@akashnetwork/chain-sdk';
+
+// Grant basic fee allowance (unlimited)
+const grantMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  allowance: {
+    typeUrl: '/cosmos.feegrant.v1beta1.BasicAllowance',
+    value: {} // Empty for unlimited
+  }
+};
+
+// Broadcast the grant
+const result = await client.signAndBroadcast([grantMsg]);
+console.log('Fee grant created:', result.transactionHash);`,
+    },
+  ]}
+/>
+
+---
+
+### Grant Fee Allowance with Spending Limit
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    "github.com/cosmos/cosmos-sdk/codec/types"
+)
+
+// Grant with spending limit (1 AKT = 1,000,000 uAKT)
+limitAllowance := &feegrant.BasicAllowance{
+    SpendLimit: sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(1000000))),
+}
+
+allowanceAny, err := types.NewAnyWithValue(limitAllowance)
+if err != nil {
+    log.Fatal(err)
+}
+
+grantMsg := &feegrant.MsgGrantAllowance{
+    Granter:   granterAddress,
+    Grantee:   granteeAddress,
+    Allowance: allowanceAny,
+}
+
+resp, err := client.BroadcastTx(ctx, grantMsg)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Grant with spending limit (1 AKT = 1,000,000 uAKT)
+const limitAllowance = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  allowance: {
+    typeUrl: '/cosmos.feegrant.v1beta1.BasicAllowance',
+    value: {
+      spendLimit: [{ denom: 'uakt', amount: '1000000' }]
+    }
+  }
+};
+
+const result = await client.signAndBroadcast([limitAllowance]);
+console.log('Limited fee grant created');`,
+    },
+  ]}
+/>
+
+---
+
+### Grant Periodic Fee Allowance
+
+Allow a specific amount per time period (e.g., daily limit):
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    "github.com/cosmos/cosmos-sdk/codec/types"
+    "time"
+)
+
+// Grant 0.1 AKT per day
+period := time.Hour * 24
+periodLimit := sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(100000)))
+
+periodicAllowance := &feegrant.PeriodicAllowance{
+    Basic: feegrant.BasicAllowance{
+        SpendLimit: sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10000000))), // Total limit
+    },
+    Period:       period,
+    PeriodLimit:  periodLimit,
+}
+
+allowanceAny, err := types.NewAnyWithValue(periodicAllowance)
+grantMsg := &feegrant.MsgGrantAllowance{
+    Granter:   granterAddress,
+    Grantee:   granteeAddress,
+    Allowance: allowanceAny,
+}
+
+resp, err := client.BroadcastTx(ctx, grantMsg)`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Grant 0.1 AKT per day
+const periodicAllowance = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  allowance: {
+    typeUrl: '/cosmos.feegrant.v1beta1.PeriodicAllowance',
+    value: {
+      basic: {
+        spendLimit: [{ denom: 'uakt', amount: '10000000' }] // Total limit
+      },
+      period: { seconds: 86400, nanos: 0 }, // 24 hours
+      periodSpendLimit: [{ denom: 'uakt', amount: '100000' }] // 0.1 AKT per day
+    }
+  }
+};
+
+const result = await client.signAndBroadcast([periodicAllowance]);`,
+    },
+  ]}
+/>
+
+---
+
+### Query Fee Grants
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/feegrant/v1beta1"
+)
+
+// Query specific fee grant
+grantResp, err := client.FeegrantClient.Allowance(ctx, &feegrant.QueryAllowanceRequest{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Printf("Allowance: %+v\\n", grantResp.Allowance)
+
+// Query all fee grants by granter
+granterResp, err := client.FeegrantClient.AllowancesByGranter(ctx, &feegrant.QueryAllowancesByGranterRequest{
+    Granter: granterAddress,
+})
+
+for _, allowance := range granterResp.Allowances {
+    fmt.Printf("Grantee: %s\\n", allowance.Grantee)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Query specific fee grant
+const grant = await client.feegrant.allowance({
+  granter: granterAddress,
+  grantee: granteeAddress
+});
+
+console.log('Allowance:', grant);
+
+// Query all fee grants by granter
+const grants = await client.feegrant.allowancesByGranter({
+  granter: granterAddress
+});
+
+grants.forEach(allowance => {
+  console.log('Grantee:', allowance.grantee);
+  console.log('Allowance:', allowance.allowance);
+});`,
+    }
+  ]}
+/>
+
+---
+
+### Revoke Fee Grant
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/feegrant/v1beta1"
+)
+
+// Revoke fee grant
+revokeMsg := &feegrant.MsgRevokeAllowance{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+}
+
+resp, err := client.BroadcastTx(ctx, revokeMsg)
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Println("Fee grant revoked")`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgRevokeAllowance } from '@akashnetwork/chain-sdk';
+
+// Revoke fee grant
+const revokeMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress
+};
+
+const resp = await client.signAndBroadcast([revokeMsg]);
+console.log('Fee grant revoked:', resp.transactionHash);`,
+    }
+  ]}
+/>
+
+---
+
+## Combined AuthZ + Fee Grant
+
+The most powerful pattern: grant both permissions AND fee allowance so the grantee can deploy without any AKT:
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `import (
+    "pkg.akt.dev/go/node/authz/v1beta1"
+    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    "github.com/cosmos/cosmos-sdk/codec/types"
+    "time"
+)
+
+// Step 1: Grant fee allowance
+limitAllowance := &feegrant.BasicAllowance{
+    SpendLimit: sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10000000))), // 10 AKT for fees
+}
+allowanceAny, _ := types.NewAnyWithValue(limitAllowance)
+feeGrantMsg := &feegrant.MsgGrantAllowance{
+    Granter:   granterAddress,
+    Grantee:   granteeAddress,
+    Allowance: allowanceAny,
+}
+
+// Step 2: Grant deployment permission
+expiration := time.Now().Add(30 * 24 * time.Hour)
+authzGrantMsg := &authz.MsgGrant{
+    Granter: granterAddress,
+    Grantee: granteeAddress,
+    Grant: authz.Grant{
+        Authorization: &authz.GenericAuthorization{
+            Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+        },
+        Expiration: &expiration,
+    },
+}
+
+// Broadcast both in a single transaction
+resp, err := client.BroadcastTx(ctx, feeGrantMsg, authzGrantMsg)
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Println("Grantee can now deploy on your behalf with no AKT needed!")`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `import { MsgGrantAllowance, MsgGrant } from '@akashnetwork/chain-sdk';
+
+// Step 1: Grant fee allowance (10 AKT for fees)
+const feeGrantMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  allowance: {
+    typeUrl: '/cosmos.feegrant.v1beta1.BasicAllowance',
+    value: {
+      spendLimit: [{ denom: 'uakt', amount: '10000000' }]
+    }
+  }
+};
+
+// Step 2: Grant deployment permission
+const expiration = new Date();
+expiration.setDate(expiration.getDate() + 30);
+
+const authzGrantMsg = {
+  granter: granterAddress,
+  grantee: granteeAddress,
+  grant: {
+    authorization: {
+      '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
+      msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+    },
+    expiration: expiration.toISOString()
+  }
+};
+
+// Broadcast both in a single transaction
+const resp = await client.signAndBroadcast([feeGrantMsg, authzGrantMsg]);
+console.log('Grantee can now deploy on your behalf with no AKT needed!');`,
+    }
+  ]}
+/>
+
+---
+
+## Use Cases
+
+### CI/CD Pipeline Automation
+
+Grant your CI/CD bot permissions and fees for automated deployments:
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `// Setup CI/CD bot with daily fee limit and deployment permissions
+func setupCICDBot(client *AkashClient, botAddress string) error {
+    // Daily fee limit: 0.5 AKT per day
+    period := time.Hour * 24
+    periodicAllowance := &feegrant.PeriodicAllowance{
+        Basic: feegrant.BasicAllowance{
+            SpendLimit: sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(50000000))),
+        },
+        Period:      period,
+        PeriodLimit: sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(500000))),
+    }
+    
+    // Grant full deployment permissions
+    authzGrant := &authz.MsgGrant{
+        Granter: myAddress,
+        Grantee: botAddress,
+        Grant: authz.Grant{
+            Authorization: &authz.GenericAuthorization{
+                Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+            },
+        },
+    }
+    
+    // Broadcast both
+    return client.BroadcastTx(ctx, periodicAllowance, authzGrant)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Setup CI/CD bot with daily fee limit and deployment permissions
+async function setupCICDBot(client, botAddress) {
+  // Daily fee limit: 0.5 AKT per day
+  const periodicAllowance = {
+    granter: myAddress,
+    grantee: botAddress,
+    allowance: {
+      typeUrl: '/cosmos.feegrant.v1beta1.PeriodicAllowance',
+      value: {
+        basic: {
+          spendLimit: [{ denom: 'uakt', amount: '50000000' }]
+        },
+        period: { seconds: 86400, nanos: 0 },
+        periodSpendLimit: [{ denom: 'uakt', amount: '500000' }]
+      }
+    }
+  };
+  
+  // Grant full deployment permissions
+  const authzGrant = {
+    granter: myAddress,
+    grantee: botAddress,
+    grant: {
+      authorization: {
+        '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
+        msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+      }
+    }
+  };
+  
+  return await client.signAndBroadcast([periodicAllowance, authzGrant]);
+}`,
+    }
+  ]}
+/>
+
+---
+
+## Best Practices
+
+### Security
+
+1. **Always set spending limits** - Never grant unlimited fee allowances
+2. **Use expiration dates** - Time-limit permissions when possible
+3. **Monitor grants** - Regularly query and audit active grants
+4. **Revoke promptly** - Remove grants when no longer needed
+5. **Separate accounts** - Use dedicated accounts for different purposes
+
+### Error Handling
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `// Check if grant exists before executing
+func checkAndExecute(client *AkashClient, granterAddr, granteeAddr string) error {
+    // Query grant
+    grantResp, err := client.AuthzClient.Grants(ctx, &authz.QueryGrantsRequest{
+        Granter:    granterAddr,
+        Grantee:    granteeAddr,
+        MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+    })
+    
+    if err != nil {
+        return fmt.Errorf("failed to query grant: %w", err)
+    }
+    
+    if len(grantResp.Grants) == 0 {
+        return fmt.Errorf("no grant found")
+    }
+    
+    // Check expiration
+    grant := grantResp.Grants[0]
+    if grant.Expiration != nil && grant.Expiration.Before(time.Now()) {
+        return fmt.Errorf("grant has expired")
+    }
+    
+    // Execute deployment
+    return executeDeployment(client, granterAddr)
+}`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `// Check if grant exists before executing
+async function checkAndExecute(client, granterAddr, granteeAddr) {
+  try {
+    // Query grant
+    const grants = await client.authz.grants({
+      granter: granterAddr,
+      grantee: granteeAddr,
+      msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+    });
+    
+    if (grants.length === 0) {
+      throw new Error('No grant found');
+    }
+    
+    // Check expiration
+    const grant = grants[0];
+    if (grant.expiration && new Date(grant.expiration) < new Date()) {
+      throw new Error('Grant has expired');
+    }
+    
+    // Execute deployment
+    return await executeDeployment(client, granterAddr);
+    
+  } catch (error) {
+    console.error('Grant check failed:', error);
+    throw error;
+  }
+}`,
+    }
+  ]}
+/>
+
+---
+
+## Related Resources
+
+- **[AuthZ & Fee Grants Guide](/docs/developers/deployment/authz)** - CLI usage and concepts
+- **[SDK Installation](/docs/extend/sdk/installation)** - Get started with the SDK
+- **[SDK Quick Start](/docs/extend/sdk/quick-start)** - Deploy your first app programmatically
+- **[SDK Examples](/docs/extend/sdk/examples)** - More SDK code examples
+
+---
+
+## Additional Resources
+
+- **Cosmos SDK AuthZ:** [docs.cosmos.network/main/modules/authz](https://docs.cosmos.network/main/modules/authz)
+- **Cosmos SDK FeeGrant:** [docs.cosmos.network/main/modules/feegrant](https://docs.cosmos.network/main/modules/feegrant)
+- **Discord:** [discord.akash.network](https://discord.akash.network) - #developers channel
+
+---
+
+**Questions?** Join [Discord](https://discord.akash.network) #developers channel!
+

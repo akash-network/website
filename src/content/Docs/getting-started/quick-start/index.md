@@ -328,7 +328,7 @@ Now that you know the basics, explore templates in Akash Console to deploy:
 
 Ready for more advanced workflows?
 - **[Akash CLI](/docs/developers/deployment/cli)** - Command-line deployment and automation
-- **[Akash SDK](/docs/developers/deployment/akash-sdk)** - Build deployment tools with Go or JavaScript/TypeScript
+- **[Akash SDK](/docs/extend/sdk)** - Build deployment tools with Go or JavaScript/TypeScript
 
 ### 💳 Ready to Go Beyond Trial?
 

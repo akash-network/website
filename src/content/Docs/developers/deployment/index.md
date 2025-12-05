@@ -18,7 +18,7 @@ This section covers everything you need to deploy applications, including SDKs, 
 ### [Akash Console](/docs/developers/deployment/akash-console)
 **Visual web interface** - Deploy using the browser-based Console with free trial OR your own wallet. REST API for programmatic access. No CLI required!
 
-### [Akash SDK](/docs/developers/deployment/akash-sdk)
+### [Akash SDK](/docs/extend/sdk)
 **Programmatic deployments** - Build applications with Go or JavaScript/TypeScript SDKs.
 
 ### [Akash CLI](/docs/developers/deployment/cli)

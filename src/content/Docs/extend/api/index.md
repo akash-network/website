@@ -1,9 +1,9 @@
 ---
-categories: ["Developers", "Deployment", "Akash Console"]
+categories: ["Extend", "API"]
 tags: ["Console", "API", "Managed Wallet", "REST API"]
 weight: 3
 title: "Console Managed Wallet API"
-linkTitle: "API"
+linkTitle: "Managed Wallet API"
 description: "Programmatic deployments using Akash Console's Managed Wallet API"
 ---
 
@@ -875,7 +875,7 @@ try {
 - ⚠️ **Credit card payment only** - Cannot use existing AKT
 - ⚠️ **Managed wallet** - No direct blockchain access
 
-**For production deployments without time limits**, use the [Akash SDK](/docs/developers/deployment/akash-sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
+**For production deployments without time limits**, use the [Akash SDK](/docs/extend/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
 
 ---
 

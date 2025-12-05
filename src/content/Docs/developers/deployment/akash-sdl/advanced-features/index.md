@@ -902,4 +902,4 @@ endpoints:
 - **[SDL Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference)** - Complete syntax documentation
 - **[Best Practices](/docs/developers/deployment/akash-sdl/best-practices)** - Optimization and security tips
 - **[Examples Library](/docs/developers/deployment/akash-sdl/examples-library)** - Real-world examples
-- **[Akash SDK](/docs/developers/deployment/akash-sdk)** - Programmatic deployment
+- **[Akash SDK](/docs/extend/sdk)** - Programmatic deployment

@@ -42,7 +42,7 @@ Deploy using your own Keplr or Leap wallet for full control:
 
 ---
 
-### [Managed Wallet API](/docs/developers/deployment/akash-console/api)
+### [Managed Wallet API](/docs/extend/api/managed-wallet)
 
 Programmatic deployments using the Console API:
 - REST API for automated deployments

@@ -407,9 +407,9 @@ Stop your deployment and reclaim your deposit:
 - **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works
 
 ### Advanced Workflows
-- **[Console API](/docs/developers/deployment/akash-console/api)** - Programmatic deployments via REST API
+- **[Console API](/docs/extend/api/managed-wallet)** - Programmatic deployments via REST API
 - **[Akash CLI](/docs/developers/deployment/cli)** - Command-line automation
-- **[Akash SDK](/docs/developers/deployment/akash-sdk)** - Native blockchain integration
+- **[Akash SDK](/docs/extend/sdk)** - Native blockchain integration
 
 ---
 

@@ -32,6 +32,14 @@ export const docsSequence = [
       },
       {
         type: "Header",
+        label: "Extend",
+      },
+      {
+        label: "Extend",
+        subItems: [], // Sub-items sorted by weight automatically
+      },
+      {
+        type: "Header",
         label: "Learn",
       },
       {

@@ -1,113 +1,88 @@
 ---
-categories: ["Developers", "Deployment", "Akash SDK"]
+categories: ["Developers", "Deployment"]
 tags: ["SDK", "JavaScript", "TypeScript", "Go", "API"]
 weight: 3
 title: "Akash SDK"
 linkTitle: "Akash SDK"
-description: "Official SDKs for deploying and managing applications on Akash Network"
+description: "Deploy on Akash programmatically with official SDKs"
 ---
 
-**Deploy and manage Akash applications programmatically using our official SDKs in Go or JavaScript/TypeScript.**
+**Deploy and manage Akash applications programmatically using our official SDKs.**
 
-Both SDKs are generated from the same [chain-sdk](https://github.com/akash-network/chain-sdk) protobuf definitions and provide identical core functionality.
+The Akash SDK allows you to integrate deployment capabilities directly into your applications, tools, and workflows.
+
+---
+
+## Quick Example
+
+Deploy a simple application using the SDK:
+
+```typescript
+import { AkashClient } from '@akashnetwork/chain-sdk'
+
+// Initialize client
+const client = await AkashClient.create({
+  rpcEndpoint: 'https://rpc.akashnet.net',
+  mnemonic: process.env.AKASH_MNEMONIC
+})
+
+// Create deployment
+const deployment = await client.deployment.create({
+  sdl: mySDLConfig,
+  deposit: '5000000uakt'
+})
+
+console.log('Deployment created:', deployment.dseq)
+```
 
 ---
 
 ## Available SDKs
 
-### Go SDK
-The official Go SDK for Akash Network, generated from chain-sdk protobuf definitions.
+- **Go SDK** - For Go applications and services
+- **JavaScript/TypeScript SDK** - For Node.js, web apps, and serverless functions
 
-- **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
-- **Package:** `pkg.akt.dev/go`
-- **Installation:** See the [installation guide](/docs/developers/deployment/akash-sdk/installation)
-
-### JavaScript/TypeScript SDK
-The official JavaScript/TypeScript SDK for Akash Network, generated from chain-sdk protobuf definitions.
-
-- **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
-- **Package:** `@akashnetwork/chain-sdk`
-- **Installation:** See the [installation guide](/docs/developers/deployment/akash-sdk/installation)
+Both SDKs provide identical functionality and are generated from the same protobuf definitions.
 
 ---
 
-## Quick Start
+## Full Documentation
 
-Get started quickly with either SDK:
+For comprehensive SDK documentation, installation guides, API reference, and examples:
 
-- **[Installation](/docs/developers/deployment/akash-sdk/installation)** - Install the SDK in Go or JavaScript/TypeScript
-- **[Quick Start](/docs/developers/deployment/akash-sdk/quick-start)** - Get started with your first deployment
-- **[API Reference](/docs/developers/deployment/akash-sdk/api-reference)** - Complete API documentation
+**→ [View Full SDK Documentation](/docs/extend/sdk)**
 
----
-
-## Core Features
-
-Both SDKs support:
-
-- ✅ **Deployment Management** - Create, update, close deployments
-- ✅ **Market Operations** - View bids, create leases
-- ✅ **Provider Queries** - Find and evaluate providers
-- ✅ **Query Operations** - Query deployments, leases, balances
-- ✅ **Wallet Management** - Sign transactions securely
-- ✅ **SDL Parsing** - Parse and validate SDL files
-- ✅ **Certificate Management** - Generate and manage certificates
-- ✅ **JWT Authentication** - Authenticate with providers (TypeScript)
+The complete SDK documentation is located in the [Extend section](/docs/extend/getting-started), which covers:
+- **[Installation Guide](/docs/extend/sdk/installation)** - Set up the SDK in your project
+- **[Quick Start](/docs/extend/sdk/quick-start)** - Build your first SDK integration
+- **[API Reference](/docs/extend/sdk/api-reference)** - Complete API documentation
+- **[Examples](/docs/extend/sdk/examples)** - Real-world code examples
 
 ---
 
-## Choose Your Language
+## When to Use the SDK
 
-### Go SDK
-Perfect for Go developers and high-performance applications.
+**Use the SDK when you need to:**
+- Build custom deployment automation
+- Integrate Akash into existing platforms
+- Create provider management tools
+- Build monitoring and analytics dashboards
+- Develop custom CLI tools
 
-**Best for:**
-- Go-based projects
-- High-performance applications
-- System-level integrations
-- CLI tools and automation
-
-### JavaScript/TypeScript SDK
-Ideal for web applications and Node.js projects.
-
-**Best for:**
-- Web applications
-- Node.js projects
-- TypeScript projects
-- Browser-based applications
-- React/Vue/Angular apps
+**Prefer other tools when:**
+- You want a visual interface → Use [Akash Console](/docs/developers/deployment/akash-console)
+- You need pre-built CLI commands → Use [provider-services CLI](/docs/developers/deployment/cli)
+- You want wallet-free deployments → Use [Managed Wallet API](/docs/extend/api/managed-wallet)
 
 ---
 
-## SDK Comparison
+## Related Resources
 
-| Feature | Go SDK | TypeScript SDK |
-|---------|--------|----------------|
-| **Deployment Operations** | ✅ | ✅ |
-| **Query Operations** | ✅ | ✅ |
-| **Transaction Signing** | ✅ | ✅ |
-| **SDL Parsing** | ✅ | ✅ |
-| **Certificate Management** | ✅ | ✅ |
-| **JWT Authentication** | ✅ | ✅ |
-| **Browser Support** | ❌ | ✅ (via Web SDK) |
-| **Node.js Support** | ✅ | ✅ |
-| **Provider API Client** | ✅ | ✅ |
+- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Define your deployments
+- **[AuthZ](/docs/developers/deployment/authz)** - Grant deployment permissions
+- **[Akash Console](/docs/developers/deployment/akash-console)** - Visual deployment interface
 
 ---
 
-## Next Steps
-
-- **[Installation](/docs/developers/deployment/akash-sdk/installation)** - Install the SDK
-- **[Quick Start](/docs/developers/deployment/akash-sdk/quick-start)** - Your first deployment
-- **[Examples](/docs/developers/deployment/akash-sdk/examples)** - Real-world code examples
-- **[API Reference](/docs/developers/deployment/akash-sdk/api-reference)** - Complete API documentation
-- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Stack Definition Language docs
-
----
-
-## Need Help?
-
-- **SDK Issues:** [GitHub Issues](https://github.com/akash-network/chain-sdk/issues)
-- **Discord:** [discord.akash.network](https://discord.akash.network)
-- **Documentation:** Browse the [full docs](/docs)
+**Ready to build?** → [Start with the SDK documentation](/docs/extend/sdk)
 

@@ -340,7 +340,7 @@ The Awesome Akash repository welcomes contributions from the community!
 
 - **[SDL Syntax Reference](/docs/developers/deployment/akash-sdl/syntax-reference)** - Complete SDL syntax
 - **[SDL Best Practices](/docs/developers/deployment/akash-sdl/best-practices)** - Optimization tips
-- **[Akash SDK](/docs/developers/deployment/akash-sdk)** - Programmatic deployment
+- **[Akash SDK](/docs/extend/sdk)** - Programmatic deployment
 - **[Deployment CLI](/docs/developers/deployment/cli)** - Command-line deployment
 
 ---
