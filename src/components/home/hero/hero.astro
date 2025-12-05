@@ -12,8 +12,8 @@ const { heroSection } = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 
-<section class="relative overflow-hidden bg-[#181818]">
-  <div class="glow"></div>
+<section class="relative overflow-hidden dark:bg-[#181818]">
+  <!-- <div class="glow"></div> -->
   <div class="container relative z-[2] py-12 md:py-20">
     {
       pathname.includes("meetingconfirmation") && (
@@ -26,7 +26,7 @@ const pathname = Astro.url.pathname;
     <h1
       class={clsx(
         "mx-auto  text-center font-instrument text-6xl font-normal leading-[1] tracking-[-0.88px] lg:text-[94px]",
-        pathname.includes("meetingconfirmation") ? "mt-7" : "mt-10",
+        pathname.includes("meetingconfirmation") ? "mt-7" : "mt-10"
       )}
       set:html={heroSection.title}
     />

@@ -4,14 +4,14 @@ import TrustedByMarquee from "../TrustedByMarquee";
 import { trustedBySection } from "./trustedby";
 ---
 
-<div class="w-full overflow-hidden bg-[#1c1c1c] py-12 md:py-20">
+<div class="w-full overflow-hidden py-12 dark:bg-[#1c1c1c] md:py-20">
   <div class="container-home relative z-[2] flex flex-col gap-10 md:gap-14">
     <div class="flex flex-col items-center justify-center gap-6">
-      <h2 class="text-gray-300 dark:text-[#8A8F98] md:text-lg">
+      <h2 class="text-gray-500 dark:text-[#8A8F98] md:text-lg">
         Trusted by Leading Innovators
       </h2>
 
-      <div class="hidden lg:flex">
+      <div class="hidden gap-8 lg:flex">
         {
           trustedBySection.map((item) =>
             item?.svg ? (
