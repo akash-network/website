@@ -1,6 +1,6 @@
 import OFilter from "@/components/gpu-table/filter";
 
-import { buttonVariants } from "@/components/ui/button-link.astro";
+import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   HoverCard,

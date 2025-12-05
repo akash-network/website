@@ -54,6 +54,9 @@ export const docsSchema = defineCollection({
       linkTitle: z.string(),
       description: z.string().optional(),
       categories: z.array(z.string()).optional(),
+      tags: z.array(z.string()).optional(),
+      weight: z.number().optional(),
+      hideTOC: z.boolean().optional(),
     });
   },
 });

@@ -47,7 +47,7 @@ By migrating to gRPC, we expect to achieve better performance, efficiency, and m
 Implement `akash.provider.lease.v1.LeaseRPC` with following types and RPC calls
 
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.provider.lease.v1;
 

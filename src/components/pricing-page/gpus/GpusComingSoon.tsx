@@ -1,5 +1,5 @@
 import NvidiaBlackwellForm from "@/components/blackwell/nvidia-blackwell-form";
-import { buttonVariants } from "@/components/ui/button-link.astro";
+import { buttonVariants } from "@/components/ui/button";
 import { ArrowUpCircle } from "lucide-react";
 
 const GpusComingSoon = () => {
