@@ -1,21 +1,22 @@
 ---
 categories: ["API Documentation"]
-tags: ["SDK", "API", "Architecture", "Integration"]
+tags: ["SDK", "API", "Integration", "Documentation"]
 weight: 1
-title: "Getting Started with Extending Akash"
+title: "API Documentation"
 linkTitle: "Getting Started"
-description: "Build on Akash with SDKs, APIs, and architectural insights"
+description: "Integrate Akash Network into your applications with SDKs and APIs"
 ---
 
-**Integrate Akash Network into your applications and infrastructure.**
+**Programmatic access to Akash Network with blockchain SDKs or credit card REST APIs.**
 
-This section provides comprehensive resources for extending Akash Network through SDKs, APIs, and architectural documentation.
+Choose your integration method:
+- **SDK** - Full blockchain integration with AKT/USDC payments
+- **Console API** - Simple REST API with credit card payments
 
 ---
 
-## For Developers
+## SDKs
 
-### SDKs
 Build deployment and provider management capabilities directly into your applications:
 
 - **[Akash SDK](/docs/api-documentation/sdk)** - Official Go and JavaScript/TypeScript SDKs
@@ -24,55 +25,46 @@ Build deployment and provider management capabilities directly into your applica
 - **[API Reference](/docs/api-documentation/sdk/api-reference)** - Complete SDK documentation
 - **[Examples](/docs/api-documentation/sdk/examples)** - Code examples for common tasks
 
-### APIs
-Programmatic access to Akash features:
+## Console API
 
-- **[Managed Wallet API](/docs/api-documentation/console-api)** - Deploy without managing wallets
-- **[Node API Layer](/docs/node-operators/architecture/api-layer)** - gRPC, REST, and RPC endpoints
+Deploy to Akash using credit cards instead of crypto:
+
+- **[Managed Wallet API](/docs/api-documentation/console-api)** - REST API for credit card deployments via Console
+- No wallet management required - Console handles the blockchain layer
+- Pay with credit card instead of AKT or USDC
 
 ---
 
 ## Use Cases
 
 ### When to Use SDKs
+- Full blockchain integration with your own wallet
+- Pay with AKT or USDC cryptocurrency
 - Build deployment automation tools
-- Integrate Akash into existing platforms
 - Create custom deployment workflows
 - Build provider management dashboards
 - Develop monitoring and analytics tools
 
-### When to Use APIs
-- Deploy containers without wallet management
+### When to Use Console API
 - Accept credit card payments for deployments
-- Build SaaS platforms on Akash
-- Automate deployment lifecycles
+- Deploy without managing wallets or crypto
+- Build SaaS platforms that need simple payments
 - Create user-friendly deployment interfaces
-
-### When to Use Architecture Docs
-- Understanding provider internals
-- Contributing to provider codebase
-- Debugging provider issues
-- Building provider management tools
-- Optimizing provider operations
+- Offer Akash deployments to non-crypto users
 
 ---
 
 ## Getting Started
 
-**New to building on Akash?**
+**Choose your integration method:**
 
-1. **Choose your integration method:**
-   - Want full control? → [Start with the SDK](/docs/api-documentation/sdk)
-   - Prefer simplicity? → [Use the Managed Wallet API](/docs/api-documentation/console-api)
+- **Blockchain integration?** → [Use the SDK](/docs/api-documentation/sdk) - Pay with AKT/USDC, manage your own wallet
+- **Credit card payments?** → [Use the Console API](/docs/api-documentation/console-api) - No wallet needed, pay with credit card
 
-2. **Understand the architecture:**
-   - Learn how providers work → [Provider Architecture](/docs/providers/architecture/overview)
-   - Learn how nodes work → [Node Architecture](/docs/node-operators/architecture)
-   - Understand deployment flow → [Getting Started](/docs/getting-started/core-concepts)
+**Need help?**
 
-3. **Join the community:**
-   - Ask questions in [Discord](https://discord.akash.network) #developers
-   - Contribute on [GitHub](https://github.com/akash-network)
+- Ask questions in [Discord](https://discord.akash.network) #developers
+- Contribute on [GitHub](https://github.com/akash-network)
 
 ---
 
