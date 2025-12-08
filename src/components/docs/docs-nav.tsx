@@ -395,11 +395,11 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     if (hasSubItems) {
       // This is a collapsible section
       return (
-        <div key={item.label || item.link} className={depth === 0 ? "mt-6 first:mt-0" : ""}>
+        <div key={item.label || item.link} className={depth === 0 ? "mt-2 first:mt-0" : ""}>
           {depth === 0 ? (
             // Top-level section header (like "Getting Started", "For Developers")
             <>
-              <h3 className="mb-3 text-base font-bold text-foreground">
+              <h3 className="mb-1.5 text-base font-bold text-foreground">
                 {item.label}
               </h3>
               <div className="space-y-1">
@@ -463,15 +463,15 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
   };
 
   return (
-    <nav className="space-y-8">
+    <nav className="space-y-2">
       {sections.map((section, sectionIndex) => (
         <div key={sectionIndex}>
           {section.header && (
-            <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-para border-t pt-6 first:border-t-0 first:pt-0">
+            <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-para border-t pt-3 first:border-t-0 first:pt-0">
               {section.header}
             </h2>
           )}
-          <div className="space-y-6">
+          <div className="space-y-3">
             {section.items.map((item) => renderNavItem(item))}
           </div>
         </div>

@@ -15,10 +15,7 @@ const pathname = new URL(Astro.request.url).pathname;
 ---
 
 <div
-  class={clsx(
-    "sidebar-scroll sticky top-[120px] hidden h-screen overflow-y-auto md:col-span-4 md:block lg:col-span-3",
-    subNav ? "top-[176px]" : "top-[120px]",
-  )}
+  class="sticky top-[120px] hidden h-[calc(100vh-120px)] overflow-y-auto pb-10 md:col-span-4 md:block lg:col-span-3"
 >
   <div class="flex flex-col gap-y-3">
     {

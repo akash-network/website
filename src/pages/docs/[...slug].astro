@@ -84,8 +84,8 @@ const lines = page?.body
     </div>
   </div>
   <div class="-mt-2">
-    <div class="grid grid-cols-12 gap-5">
-      <div class={page.data.hideTOC ? "col-span-12" : "col-span-12 lg:col-span-9"}>
+    <div class="grid grid-cols-12 gap-4">
+      <div class={page.data.hideTOC ? "col-span-12" : "col-span-12 lg:col-span-10"}>
         <h1
           class="text-3xl md:text-4xl md:font-medium lg:text-5xl"
           id="overview"
@@ -141,12 +141,12 @@ const lines = page?.body
 
       {!page.data.hideTOC && (
         <aside
-          class="sidebar-scroll sticky top-[150px] hidden h-screen overflow-auto pb-56 lg:col-span-3 lg:block"
+          class="sticky top-[150px] hidden h-[calc(100vh-150px)] overflow-y-auto lg:col-span-2 lg:block"
         >
-          <div class="h-fit border-l pl-5">
-            <p class="text-base font-bold">ON THIS PAGE</p>
+          <div class="h-fit border-l pl-3 pb-10">
+            <p class="text-sm font-bold">ON THIS PAGE</p>
 
-            <div class="mt-6">
+            <div class="mt-4">
               <TableOfContents
                 client:load
                 toc={generateToc(headings, "Overview")}
