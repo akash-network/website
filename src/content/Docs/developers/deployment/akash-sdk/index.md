@@ -52,7 +52,7 @@ For comprehensive SDK documentation, installation guides, API reference, and exa
 
 **→ [View Full SDK Documentation](/docs/api-documentation/sdk)**
 
-The complete SDK documentation is located in the [Extend section](/docs/api-documentation/getting-started), which covers:
+The complete SDK documentation is located in the [API Documentation section](/docs/api-documentation/getting-started), which covers:
 - **[Installation Guide](/docs/api-documentation/sdk/installation)** - Set up the SDK in your project
 - **[Quick Start](/docs/api-documentation/sdk/quick-start)** - Build your first SDK integration
 - **[API Reference](/docs/api-documentation/sdk/api-reference)** - Complete API documentation

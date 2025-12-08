@@ -44,7 +44,7 @@ Run blockchain nodes and validators:
 - **[Network Upgrades](/docs/node-operators/network-upgrades)** - Mainnet 15 upgrade guide
 - **[Architecture](/docs/node-operators/architecture)** - Node architecture and API endpoints
 
-### Extend
+### API Documentation
 
 Build on Akash with SDKs, APIs, and architectural insights:
 
