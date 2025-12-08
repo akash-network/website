@@ -11,13 +11,13 @@ description: "Get started deploying on Akash with the Console Managed Wallet API
 
 The Managed Wallet API allows you to create and manage deployments programmatically without managing your own wallet or private keys.
 
-** WIP:** This API is under active development and may change frequently.
+**WIP:** This API is under active development and may change frequently.
 
 ---
 
 ## Getting Started
 
-### Step 1: Create an API Key
+### Create an API Key
 
 1. Visit [console.akash.network](https://console.akash.network)
 2. Sign in with your account
@@ -25,28 +25,7 @@ The Managed Wallet API allows you to create and manage deployments programmatica
 4. Click **"Create API Key"**
 5. Copy and save your API key securely
 
-** Important:** API keys grant full access to your Console account. Keep them secret!
-
----
-
-### Step 2: Install Dependencies
-
-```bash
-npm install axios
-# or
-yarn add axios
-# or
-pnpm add axios
-```
-
----
-
-## Next Steps
-
-- **[API Reference](/docs/api-documentation/console-api/api-reference)** - Complete endpoint documentation
-- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Stack Definition Language syntax
-- **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
-- **[Akash SDK](/docs/api-documentation/sdk)** - Alternative programmatic deployment approach
+**Important:** API keys grant full access to your Console account. Keep them secret!
 
 ---
 
@@ -56,51 +35,37 @@ pnpm add axios
 
 All requests require the `x-api-key` header:
 
-```javascript
-const api = axios.create({
-  baseURL: "https://console-api.akash.network",
-  headers: {
-    "Content-Type": "application/json",
-    "x-api-key": "your-api-key-here"
+```typescript
+const API_BASE_URL = "https://console-api.akash.network";
+const API_KEY = "your-api-key-here";
+
+// Helper function for API requests
+async function apiRequest<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+      ...options.headers,
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
   }
-});
+  
+  return response.json();
+}
 ```
 
 ---
 
 ## Complete Deployment Workflow
 
-### 1. Create Certificate
-
-Generate a certificate for secure provider communication:
-
-```typescript
-interface CertificateResponse {
-  data: {
-    data: {
-      certPem: string;      // Certificate in PEM format
-      encryptedKey: string; // Encrypted private key
-    }
-  }
-}
-
-const certResponse = await api.post<CertificateResponse>(
-  "/v1/certificates",
-  {}, // Empty request body
-  {
-    headers: {
-      "x-api-key": apiKey
-    }
-  }
-);
-
-const { certPem, encryptedKey } = certResponse.data.data;
-console.log("Certificate created");
-```
-
----
-
-### 2. Create Deployment
+### 1. Create Deployment
 
 Create a deployment from an SDL file:
 
@@ -125,9 +90,10 @@ const sdl = `
 version: "2.0"
 services:
   web:
-    image: nginx:1.25.3
+    image: baktun/hello-akash-world:1.0.0
     expose:
-      - port: 80
+      - port: 3000
+        as: 80
         to:
           - global: true
 profiles:
@@ -139,42 +105,40 @@ profiles:
         memory:
           size: 512Mi
         storage:
-          size: 512Mi
+          - size: 512Mi
   placement:
-    akash:
+    dcloud:
       pricing:
         web:
-          denom: uakt
-          amount: 1000
+          denom: ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1
+          amount: 10000
 deployment:
   web:
-    akash:
+    dcloud:
       profile: web
       count: 1
 `;
 
-const deployResponse = await api.post<CreateDeploymentResponse>(
+const deployResponse = await apiRequest<CreateDeploymentResponse>(
   "/v1/deployments",
   {
-    data: {
-      sdl: sdl,
-      deposit: 5 // $5 deposit
-    }
-  },
-  {
-    headers: {
-      "x-api-key": apiKey
-    }
+    method: "POST",
+    body: JSON.stringify({
+      data: {
+        sdl: sdl,
+        deposit: 5 // $5 deposit
+      }
+    })
   }
 );
 
-const { dseq, manifest } = deployResponse.data.data;
+const { dseq, manifest } = deployResponse.data;
 console.log("Deployment created with dseq:", dseq);
 ```
 
 ---
 
-### 3. Wait for and Fetch Bids
+### 2. Wait for and Fetch Bids
 
 Poll for provider bids:
 
@@ -185,46 +149,89 @@ interface BidID {
   gseq: number;
   oseq: number;
   provider: string;
+  bseq: number;
+}
+
+interface ResourceAttribute {
+  key: string;
+  value: string;
+}
+
+interface DeploymentResource {
+  cpu: {
+    units: { val: string };
+    attributes: ResourceAttribute[];
+  };
+  gpu: {
+    units: { val: string };
+    attributes: ResourceAttribute[];
+  };
+  memory: {
+    quantity: { val: string };
+    attributes: ResourceAttribute[];
+  };
+  storage: {
+    name: string;
+    quantity: { val: string };
+    attributes: ResourceAttribute[];
+  }[];
+  endpoints: {
+    kind: string;
+    sequence_number: number;
+  }[];
 }
 
 interface Bid {
-  bid_id: BidID;
+  id: BidID;
   state: string;
   price: {
     denom: string;
     amount: string;
   };
   created_at: string;
+  resources_offer: {
+    resources: DeploymentResource;
+    count: number;
+  }[];
+}
+
+interface BidResponse {
+  bid: Bid;
+  escrow_account: {
+    id: { scope: string; xid: string };
+    state: {
+      owner: string;
+      state: string;
+      transferred: { denom: string; amount: string }[];
+      settled_at: string;
+      funds: { denom: string; amount: string }[];
+      deposits: {
+        owner: string;
+        height: string;
+        source: string;
+        balance: { denom: string; amount: string };
+      }[];
+    };
+  };
+  isCertificateRequired: boolean;
 }
 
 interface BidsResponse {
-  data: {
-    data: {
-      bid: Bid;
-    }[];
-  }
+  data: BidResponse[];
 }
 
 async function waitForBids(
-  dseq: string, 
-  apiKey: string, 
+  dseq: string,
   maxAttempts = 10
-): Promise<Bid[]> {
+): Promise<BidResponse[]> {
   for (let i = 0; i < maxAttempts; i++) {
     console.log(`Checking for bids (attempt ${i + 1}/${maxAttempts})...`);
     
-    const response = await api.get<BidsResponse>(
-      `/v1/bids?dseq=${dseq}`,
-      {
-        headers: {
-          "x-api-key": apiKey
-        }
-      }
-    );
+    const response = await apiRequest<BidsResponse>(`/v1/bids?dseq=${dseq}`);
 
-    if (response.data?.data?.length > 0) {
-      console.log(`Found ${response.data.data.length} bid(s)`);
-      return response.data.data.map(b => b.bid);
+    if (response.data?.length > 0) {
+      console.log(`Found ${response.data.length} bid(s)`);
+      return response.data;
     }
     
     // Wait 3 seconds before next attempt
@@ -235,23 +242,24 @@ async function waitForBids(
 }
 
 // Use the function
-const bids = await waitForBids(dseq, apiKey);
+const bids = await waitForBids(dseq);
 const firstBid = bids[0];
 
-console.log("Selected bid from provider:", firstBid.bid_id.provider);
-console.log("Bid price:", firstBid.price.amount, firstBid.price.denom);
+console.log("Selected bid from provider:", firstBid.bid.id.provider);
+console.log("Bid price:", firstBid.bid.price.amount, firstBid.bid.price.denom);
+console.log("Certificate required:", firstBid.isCertificateRequired);
 ```
 
 ---
 
-### 4. Create Lease
+### 3. Create Lease
 
 Accept a bid and create a lease:
 
 ```typescript
 interface CreateLeaseRequest {
   manifest: string;
-  certificate: {
+  certificate?: {  // Optional - for mTLS authentication
     certPem: string;
     keyPem: string;
   };
@@ -263,24 +271,57 @@ interface CreateLeaseRequest {
   }[];
 }
 
+interface ForwardedPort {
+  port: number;
+  externalPort: number;
+  host?: string;
+  available?: number;
+}
+
+interface LeaseIp {
+  IP: string;
+  Port: number;
+  ExternalPort: number;
+  Protocol: string;
+}
+
+interface LeaseServiceStatus {
+  name: string;
+  available: number;
+  total: number;
+  uris: string[];
+  observed_generation: number;
+  replicas: number;
+  updated_replicas: number;
+  ready_replicas: number;
+  available_replicas: number;
+}
+
+interface LeaseStatus {
+  forwarded_ports: Record<string, ForwardedPort[]>;
+  ips: Record<string, LeaseIp[]>;
+  services: Record<string, LeaseServiceStatus>;
+}
+
 interface CreateLeaseResponse {
   data: {
     deployment: {
-      deployment_id: {
+      id: {
         owner: string;
         dseq: string;
       };
       state: string;
-      version: string;
+      hash: string;
       created_at: string;
     };
     leases: {
-      lease_id: {
+      id: {
         owner: string;
         dseq: string;
         gseq: number;
         oseq: number;
         provider: string;
+        bseq: number;
       };
       state: string;
       price: {
@@ -289,63 +330,56 @@ interface CreateLeaseResponse {
       };
       created_at: string;
       closed_on: string;
+      reason?: string;
+      status: LeaseStatus | null;
     }[];
     escrow_account: {
       id: {
         scope: string;
         xid: string;
       };
-      owner: string;
-      state: string;
-      balance: {
-        denom: string;
-        amount: string;
-      };
-      transferred: {
-        denom: string;
-        amount: string;
-      };
-      settled_at: string;
-      depositor: string;
-      funds: {
-        denom: string;
-        amount: string;
+      state: {
+        owner: string;
+        state: string;
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
       };
     };
   }
 }
 
-const leaseResponse = await api.post<CreateLeaseResponse>(
+const leaseResponse = await apiRequest<CreateLeaseResponse>(
   "/v1/leases",
   {
-    manifest: manifest,
-    certificate: {
-      certPem: certPem,
-      keyPem: encryptedKey
-    },
-    leases: [
-      {
-        dseq: dseq,
-        gseq: firstBid.bid_id.gseq,
-        oseq: firstBid.bid_id.oseq,
-        provider: firstBid.bid_id.provider
-      }
-    ]
-  } as CreateLeaseRequest,
-  {
-    headers: {
-      "x-api-key": apiKey
-    }
+    method: "POST",
+    body: JSON.stringify({
+      manifest: manifest,
+      leases: [
+        {
+          dseq: dseq,
+          gseq: firstBid.bid.id.gseq,
+          oseq: firstBid.bid.id.oseq,
+          provider: firstBid.bid.id.provider
+        }
+      ]
+    } as CreateLeaseRequest)
   }
 );
 
-console.log("**Lease created!");
-console.log("Deployment state:", leaseResponse.data.data.deployment.state);
+console.log("✅ Lease created!");
+console.log("Deployment state:", leaseResponse.data.deployment.state);
 ```
 
 ---
 
-### 5. Add Deposit to Deployment
+### 4. Add Deposit to Deployment
 
 Add additional funds to your deployment's escrow:
 
@@ -361,18 +395,16 @@ interface DepositDeploymentResponse {
   data: CreateLeaseResponse; // Same structure as lease creation
 }
 
-const depositResponse = await api.post<DepositDeploymentResponse>(
+const depositResponse = await apiRequest<DepositDeploymentResponse>(
   "/v1/deposit-deployment",
   {
-    data: {
-      dseq: dseq,
-      deposit: 0.5 // Add $0.50 to escrow
-    }
-  },
-  {
-    headers: {
-      "x-api-key": apiKey
-    }
+    method: "POST",
+    body: JSON.stringify({
+      data: {
+        dseq: dseq,
+        deposit: 0.5 // Add $0.50 to escrow
+      }
+    })
   }
 );
 
@@ -381,128 +413,156 @@ console.log("Deposit added to deployment");
 
 ---
 
-### 6. Close Deployment
+### 5. Close Deployment
 
 Close a deployment and recover remaining deposit:
 
 ```typescript
 interface CloseDeploymentResponse {
   data: {
-    data: {
-      status: string;
-      message: string;
-    }
+    success: boolean;
   }
 }
 
-const closeResponse = await api.delete<CloseDeploymentResponse>(
+const closeResponse = await apiRequest<CloseDeploymentResponse>(
   `/v1/deployments/${dseq}`,
   {
-    headers: {
-      "x-api-key": apiKey
-    }
+    method: "DELETE"
   }
 );
 
-console.log("Deployment closed:", closeResponse.data.data.message);
+console.log("Deployment closed:", closeResponse.data.success);
 ```
 
 ---
 
 ## Complete Example Script
 
-Here's a complete working example that ties it all together:
+Here's a complete working example that you can copy-paste and run directly:
 
 ```typescript
-import axios from "axios";
-import * as fs from "fs";
-
-const API_KEY = process.env.CONSOLE_API_KEY;
+// Set your API key here or use environment variable
+const API_KEY = process.env.CONSOLE_API_KEY || "your-api-key-here";
 const API_BASE_URL = "https://console-api.akash.network";
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json"
-  }
-});
+// SDL configuration for a Hello Akash World deployment
+const SDL = `
+version: "2.0"
+services:
+  web:
+    image: baktun/hello-akash-world:1.0.0
+    expose:
+      - port: 3000
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          - size: 512Mi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1
+          amount: 10000
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+`;
 
-async function deployToAkash() {
-  try {
-    // 1. Create certificate
-    console.log("Creating certificate...");
-    const certResponse = await api.post(
-      "/v1/certificates",
-      {},
-      { headers: { "x-api-key": API_KEY } }
-    );
-    const { certPem, encryptedKey } = certResponse.data.data;
-    
-    // 2. Create deployment
-    console.log("Creating deployment...");
-    const sdl = fs.readFileSync("deploy.yaml", "utf-8");
-    const deployResponse = await api.post(
-      "/v1/deployments",
-      { data: { sdl, deposit: 5 } },
-      { headers: { "x-api-key": API_KEY } }
-    );
-    const { dseq, manifest } = deployResponse.data.data;
-    console.log("Deployment created with dseq:", dseq);
-    
-    // 3. Wait for bids
-    console.log("Waiting for bids...");
-    const bids = await waitForBids(dseq, API_KEY);
-    const firstBid = bids[0];
-    console.log("Selected provider:", firstBid.bid_id.provider);
-    
-    // 4. Create lease
-    console.log("Creating lease...");
-    const leaseResponse = await api.post(
-      "/v1/leases",
-      {
-        manifest,
-        certificate: { certPem, keyPem: encryptedKey },
-        leases: [{
-          dseq,
-          gseq: firstBid.bid_id.gseq,
-          oseq: firstBid.bid_id.oseq,
-          provider: firstBid.bid_id.provider
-        }]
-      },
-      { headers: { "x-api-key": API_KEY } }
-    );
-    console.log("**Lease created! Deployment is live.");
-    
-    // 5. (Optional) Add more deposit
-    console.log("Adding additional deposit...");
-    await api.post(
-      "/v1/deposit-deployment",
-      { data: { dseq, deposit: 0.5 } },
-      { headers: { "x-api-key": API_KEY } }
-    );
-    
-    // 6. Keep running or close
-    console.log("Deployment is running!");
-    console.log("To close later, call DELETE /v1/deployments/" + dseq);
-    
-  } catch (error) {
-    console.error("Error:", error.response?.data || error.message);
+async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+      ...options.headers,
+    },
+  });
+  
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`API error ${response.status}: ${error}`);
   }
+  
+  return response.json();
 }
 
-async function waitForBids(dseq: string, apiKey: string, maxAttempts = 10) {
+async function waitForBids(dseq: string, maxAttempts = 10) {
   for (let i = 0; i < maxAttempts; i++) {
-    const response = await api.get(`/v1/bids?dseq=${dseq}`, {
-      headers: { "x-api-key": apiKey }
-    });
+    console.log(`Checking for bids (attempt ${i + 1}/${maxAttempts})...`);
+    const response = await apiRequest<{ data: any[] }>(`/v1/bids?dseq=${dseq}`);
     
-    if (response.data?.data?.length > 0) {
-      return response.data.data.map(b => b.bid);
+    if (response.data?.length > 0) {
+      console.log(`Found ${response.data.length} bid(s)`);
+      return response.data;
     }
     
     await new Promise(resolve => setTimeout(resolve, 3000));
   }
-  throw new Error("No bids received");
+  throw new Error("No bids received after maximum attempts");
+}
+
+async function deployToAkash() {
+  try {
+    // 1. Create deployment
+    console.log("Creating deployment...");
+    const deployResponse = await apiRequest<{ data: { dseq: string; manifest: string } }>(
+      "/v1/deployments",
+      {
+        method: "POST",
+        body: JSON.stringify({ data: { sdl: SDL, deposit: 5 } })
+      }
+    );
+    const { dseq, manifest } = deployResponse.data;
+    console.log("✅ Deployment created with dseq:", dseq);
+    
+    // 2. Wait for bids
+    console.log("\\nWaiting for provider bids...");
+    const bids = await waitForBids(dseq);
+    const firstBid = bids[0];
+    console.log("Selected provider:", firstBid.bid.id.provider);
+    console.log("Price:", firstBid.bid.price.amount, firstBid.bid.price.denom);
+    
+    // 3. Create lease
+    console.log("\\nCreating lease...");
+    await apiRequest(
+      "/v1/leases",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          manifest,
+          leases: [{
+            dseq,
+            gseq: firstBid.bid.id.gseq,
+            oseq: firstBid.bid.id.oseq,
+            provider: firstBid.bid.id.provider
+          }]
+        })
+      }
+    );
+    console.log("**Lease created! Deployment is live.");
+    
+    console.log("\\n========================================");
+    console.log("🚀 Deployment is running!");
+    console.log("   DSEQ:", dseq);
+    console.log("   Provider:", firstBid.bid.id.provider);
+    console.log("========================================");
+    console.log("\\nTo close this deployment later, run:");
+    console.log(`  DELETE /v1/deployments/${dseq}`);
+    
+  } catch (error) {
+    console.error("❌ Error:", error instanceof Error ? error.message : error);
+  }
 }
 
 // Run the deployment
@@ -513,10 +573,14 @@ Save this as `deploy.ts` and run:
 
 ```bash
 export CONSOLE_API_KEY="your-api-key-here"
-npx ts-node deploy.ts
+npx tsx deploy.ts
 ```
 
-**For complete endpoint documentation**, see the **[API Reference →](/docs/api-documentation/console-api/api-reference)**
+Or run directly with Deno:
+
+```bash
+CONSOLE_API_KEY="your-api-key-here" deno run --allow-net --allow-env deploy.ts
+```
 
 ---
 
@@ -543,18 +607,39 @@ Always wrap API calls in try-catch blocks:
 
 ```typescript
 try {
-  const response = await api.post("/v1/deployments", data, {
-    headers: { "x-api-key": apiKey }
+  const response = await apiRequest("/v1/deployments", {
+    method: "POST",
+    body: JSON.stringify(data)
   });
 } catch (error) {
-  if (error.response) {
-    // API error response
-    console.error("API Error:", error.response.data);
-    console.error("Status:", error.response.status);
-  } else {
-    // Network or other error
+  if (error instanceof Error) {
     console.error("Error:", error.message);
   }
+}
+```
+
+For more detailed error handling:
+
+```typescript
+async function apiRequestWithErrorHandling<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+      ...options.headers,
+    },
+  });
+  
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`API error ${response.status}: ${errorBody}`);
+  }
+  
+  return response.json();
 }
 ```
 
@@ -571,6 +656,30 @@ try {
 - **Recommended:** Add 20-30% buffer for price fluctuations
 - **Monitor balance:** Check escrow regularly
 - **Auto-refund:** Remaining deposit refunded on close
+
+---
+
+## Managed Wallet vs SDK
+
+| Feature | Managed Wallet API | Akash SDK |
+|---------|-------------------|-----------|
+| **Wallet Management** | Managed by Console | You manage wallet |
+| **Authentication** | API Key | Private key/mnemonic |
+| **Payment** | Credit card (USD) | Crypto (AKT) |
+| **API Type** | REST API | Native blockchain |
+| **Language** | Any (HTTP) | Go, TypeScript |
+| **Setup** | API key only | Wallet + blockchain setup |
+| **Best For** | SaaS, web apps | Blockchain apps, CLI tools |
+
+---
+
+## Limitations
+
+- ⚠️ **API is in development** - Endpoints may change
+- ⚠️ **Credit card payment only** - Cannot use existing AKT
+- ⚠️ **Managed wallet** - No direct blockchain access
+
+**For production deployments without time limits**, use the [Akash SDK](/docs/extend/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
 
 ---
 

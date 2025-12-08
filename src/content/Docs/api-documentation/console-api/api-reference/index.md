@@ -2,7 +2,7 @@
 categories: ["API Documentation", "Console API"]
 tags: ["Console", "API", "Reference", "REST API", "Endpoints"]
 weight: 2
-title: "Managed Wallet API Reference"
+title: "API Reference"
 linkTitle: "API Reference"
 description: "Complete API reference for Console Managed Wallet API endpoints"
 ---
@@ -20,36 +20,6 @@ headers: {
   "Content-Type": "application/json",
   "x-api-key": "your-api-key-here"
 }
-```
-
----
-
-## POST /v1/certificates
-
-Create a certificate for secure provider communication.
-
-**Request:**
-```typescript
-{} // Empty body
-```
-
-**Response:**
-```typescript
-{
-  data: {
-    data: {
-      certPem: string;      // Certificate in PEM format
-      encryptedKey: string; // Encrypted private key
-    }
-  }
-}
-```
-
-**Example:**
-```typescript
-const certResponse = await api.post("/v1/certificates", {}, {
-  headers: { "x-api-key": apiKey }
-});
 ```
 
 ---
@@ -72,26 +42,28 @@ Create a new deployment.
 ```typescript
 {
   data: {
-    data: {
-      dseq: string;     // Deployment sequence ID
-      manifest: string; // Deployment manifest JSON
-    }
+    dseq: string;     // Deployment sequence ID
+    manifest: string; // Deployment manifest JSON
   }
 }
 ```
 
 **Example:**
 ```typescript
-const deployResponse = await api.post("/v1/deployments", {
-  data: {
-    sdl: sdlContent,
-    deposit: 5 // $5 deposit
+const deployResponse = await apiRequest<{ data: { dseq: string; manifest: string } }>(
+  "/v1/deployments",
+  {
+    method: "POST",
+    body: JSON.stringify({
+      data: {
+        sdl: sdlContent,
+        deposit: 5 // $5 deposit
+      }
+    })
   }
-}, {
-  headers: { "x-api-key": apiKey }
-});
+);
 
-const { dseq, manifest } = deployResponse.data.data;
+const { dseq, manifest } = deployResponse.data;
 ```
 
 ---
@@ -107,47 +79,86 @@ Fetch bids for a deployment.
 ```typescript
 {
   data: {
-    data: {
-      bid: {
-        bid_id: {
-          owner: string;
-          dseq: string;
-          gseq: number;
-          oseq: number;
-          provider: string;
+    bid: {
+      id: {
+        owner: string;
+        dseq: string;
+        gseq: number;
+        oseq: number;
+        provider: string;
+        bseq: number;
+      };
+      state: string;
+      price: {
+        denom: string;
+        amount: string;
+      };
+      created_at: string;
+      resources_offer: {
+        resources: {
+          cpu: {
+            units: { val: string };
+            attributes: { key: string; value: string }[];
+          };
+          gpu: {
+            units: { val: string };
+            attributes: { key: string; value: string }[];
+          };
+          memory: {
+            quantity: { val: string };
+            attributes: { key: string; value: string }[];
+          };
+          storage: {
+            name: string;
+            quantity: { val: string };
+            attributes: { key: string; value: string }[];
+          }[];
+          endpoints: { kind: string; sequence_number: number }[];
         };
+        count: number;
+      }[];
+    };
+    escrow_account: {
+      id: { scope: string; xid: string };
+      state: {
+        owner: string;
         state: string;
-        price: {
-          denom: string;
-          amount: string;
-        };
-        created_at: string;
-      }
-    }[]
-  }
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
+      };
+    };
+    isCertificateRequired: boolean;
+  }[];
 }
 ```
 
 **Example:**
 ```typescript
-const bidsResponse = await api.get(`/v1/bids?dseq=${dseq}`, {
-  headers: { "x-api-key": apiKey }
-});
+const bidsResponse = await apiRequest<{ data: BidResponse[] }>(
+  `/v1/bids?dseq=${dseq}`
+);
 
-const bids = bidsResponse.data.data.map(b => b.bid);
+const bids = bidsResponse.data;
 ```
 
 ---
 
 ## POST /v1/leases
 
-Create a lease by accepting a bid.
+Create a lease by accepting a provider bid.
 
 **Request:**
 ```typescript
 {
   manifest: string;
-  certificate: {
+  certificate?: {  // Optional - for mTLS authentication
     certPem: string;
     keyPem: string;
   };
@@ -165,21 +176,22 @@ Create a lease by accepting a bid.
 {
   data: {
     deployment: {
-      deployment_id: {
+      id: {
         owner: string;
         dseq: string;
       };
       state: string;
-      version: string;
+      hash: string;
       created_at: string;
     };
     leases: {
-      lease_id: {
+      id: {
         owner: string;
         dseq: string;
         gseq: number;
         oseq: number;
         provider: string;
+        bseq: number;
       };
       state: string;
       price: {
@@ -187,16 +199,49 @@ Create a lease by accepting a bid.
         amount: string;
       };
       created_at: string;
+      closed_on: string;
+      reason?: string;
+      status: {
+        forwarded_ports: Record<string, {
+          port: number;
+          externalPort: number;
+          host?: string;
+          available?: number;
+        }[]>;
+        ips: Record<string, {
+          IP: string;
+          Port: number;
+          ExternalPort: number;
+          Protocol: string;
+        }[]>;
+        services: Record<string, {
+          name: string;
+          available: number;
+          total: number;
+          uris: string[];
+          observed_generation: number;
+          replicas: number;
+          updated_replicas: number;
+          ready_replicas: number;
+          available_replicas: number;
+        }>;
+      } | null;
     }[];
     escrow_account: {
-      id: { scope: string; xid: string; };
-      owner: string;
-      state: string;
-      balance: { denom: string; amount: string; };
-      transferred: { denom: string; amount: string; };
-      settled_at: string;
-      depositor: string;
-      funds: { denom: string; amount: string; };
+      id: { scope: string; xid: string };
+      state: {
+        owner: string;
+        state: string;
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
+      };
     };
   }
 }
@@ -204,30 +249,30 @@ Create a lease by accepting a bid.
 
 **Example:**
 ```typescript
-const leaseResponse = await api.post("/v1/leases", {
-  manifest: manifest,
-  certificate: {
-    certPem: certPem,
-    keyPem: encryptedKey
-  },
-  leases: [{
-    dseq: dseq,
-    gseq: firstBid.bid_id.gseq,
-    oseq: firstBid.bid_id.oseq,
-    provider: firstBid.bid_id.provider
-  }]
-}, {
-  headers: { "x-api-key": apiKey }
-});
+const leaseResponse = await apiRequest<CreateLeaseResponse>(
+  "/v1/leases",
+  {
+    method: "POST",
+    body: JSON.stringify({
+      manifest: manifest,
+      leases: [{
+        dseq: dseq,
+        gseq: firstBid.bid.id.gseq,
+        oseq: firstBid.bid.id.oseq,
+        provider: firstBid.bid.id.provider
+      }]
+    })
+  }
+);
 
-console.log("Lease created with state:", leaseResponse.data.data.deployment.state);
+console.log("Lease created with state:", leaseResponse.data.deployment.state);
 ```
 
 ---
 
 ## POST /v1/deposit-deployment
 
-Add additional funds to a deployment's escrow.
+Add additional funds to a deployment's escrow to keep it running.
 
 **Request:**
 ```typescript
@@ -241,14 +286,237 @@ Add additional funds to a deployment's escrow.
 
 **Example:**
 ```typescript
-const depositResponse = await api.post("/v1/deposit-deployment", {
-  data: {
-    dseq: dseq,
-    deposit: 0.5 // Add $0.50
+const depositResponse = await apiRequest<DepositDeploymentResponse>(
+  "/v1/deposit-deployment",
+  {
+    method: "POST",
+    body: JSON.stringify({
+      data: {
+        dseq: dseq,
+        deposit: 0.5 // Add $0.50
+      }
+    })
   }
-}, {
-  headers: { "x-api-key": apiKey }
-});
+);
+```
+
+---
+
+## GET /v1/deployments
+
+List all deployments for the authenticated user.
+
+**Query Parameters:**
+- `skip` (optional) - Number of deployments to skip (default: 0)
+- `limit` (optional) - Maximum number of deployments to return (default: 10)
+
+**Response:**
+```typescript
+{
+  data: {
+    deployments: {
+      deployment: {
+        id: { owner: string; dseq: string };
+        state: string;
+        hash: string;
+        created_at: string;
+      };
+      leases: {
+        id: {
+          owner: string;
+          dseq: string;
+          gseq: number;
+          oseq: number;
+          provider: string;
+          bseq: number;
+        };
+        state: string;
+        price: { denom: string; amount: string };
+        created_at: string;
+        closed_on: string;
+        reason?: string;
+        status: LeaseStatus | null;
+      }[];
+      escrow_account: {
+        id: { scope: string; xid: string };
+        state: {
+          owner: string;
+          state: string;
+          transferred: { denom: string; amount: string }[];
+          settled_at: string;
+          funds: { denom: string; amount: string }[];
+          deposits: {
+            owner: string;
+            height: string;
+            source: string;
+            balance: { denom: string; amount: string };
+          }[];
+        };
+      };
+    }[];
+    pagination: {
+      total: number;
+      skip: number;
+      limit: number;
+    };
+  }
+}
+```
+
+**Example:**
+```typescript
+const deploymentsResponse = await apiRequest<ListDeploymentsResponse>(
+  "/v1/deployments?skip=0&limit=10"
+);
+
+const { deployments, pagination } = deploymentsResponse.data;
+```
+
+---
+
+## GET /v1/deployments/:dseq
+
+Get detailed information about a specific deployment.
+
+**Path Parameters:**
+- `dseq` - Deployment sequence ID
+
+**Response:**
+```typescript
+{
+  data: {
+    deployment: {
+      id: { owner: string; dseq: string };
+      state: string;
+      hash: string;
+      created_at: string;
+    };
+    leases: {
+      id: {
+        owner: string;
+        dseq: string;
+        gseq: number;
+        oseq: number;
+        provider: string;
+        bseq: number;
+      };
+      state: string;
+      price: { denom: string; amount: string };
+      created_at: string;
+      closed_on: string;
+      reason?: string;
+      status: LeaseStatus | null;
+    }[];
+    escrow_account: {
+      id: { scope: string; xid: string };
+      state: {
+        owner: string;
+        state: string;
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
+      };
+    };
+  }
+}
+```
+
+**Example:**
+```typescript
+const deploymentResponse = await apiRequest<GetDeploymentResponse>(
+  `/v1/deployments/${dseq}`
+);
+
+const { deployment, leases, escrow_account } = deploymentResponse.data;
+```
+
+---
+
+## PUT /v1/deployments/:dseq
+
+Update an existing deployment with a new SDL configuration.
+
+**Path Parameters:**
+- `dseq` - Deployment sequence ID
+
+**Request:**
+```typescript
+{
+  data: {
+    sdl: string;     // Updated SDL content as string
+    certificate?: {  // Optional - for mTLS authentication
+      certPem: string;
+      keyPem: string;
+    };
+  }
+}
+```
+
+**Response:**
+```typescript
+{
+  data: {
+    deployment: {
+      id: { owner: string; dseq: string };
+      state: string;
+      hash: string;
+      created_at: string;
+    };
+    leases: {
+      id: {
+        owner: string;
+        dseq: string;
+        gseq: number;
+        oseq: number;
+        provider: string;
+        bseq: number;
+      };
+      state: string;
+      price: { denom: string; amount: string };
+      created_at: string;
+      closed_on: string;
+      reason?: string;
+      status: LeaseStatus | null;
+    }[];
+    escrow_account: {
+      id: { scope: string; xid: string };
+      state: {
+        owner: string;
+        state: string;
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
+      };
+    };
+  }
+}
+```
+
+**Example:**
+```typescript
+const updateResponse = await apiRequest<UpdateDeploymentResponse>(
+  `/v1/deployments/${dseq}`,
+  {
+    method: "PUT",
+    body: JSON.stringify({
+      data: {
+        sdl: updatedSdlContent
+      }
+    })
+  }
+);
 ```
 
 ---
@@ -264,28 +532,87 @@ Close a deployment and recover remaining deposit.
 ```typescript
 {
   data: {
-    data: {
-      status: string;
-      message: string;
-    }
+    success: boolean;
   }
 }
 ```
 
 **Example:**
 ```typescript
-const closeResponse = await api.delete(`/v1/deployments/${dseq}`, {
-  headers: { "x-api-key": apiKey }
-});
+const closeResponse = await apiRequest<CloseDeploymentResponse>(
+  `/v1/deployments/${dseq}`,
+  {
+    method: "DELETE"
+  }
+);
 
-console.log("Deployment closed:", closeResponse.data.data.message);
+console.log("Deployment closed:", closeResponse.data.success);
+```
+
+---
+
+## POST /v1/certificates (Optional)
+
+Create a certificate for secure mTLS provider communication. Certificates are optional but can be used for additional security.
+
+**Request:**
+```typescript
+{} // Empty body
+```
+
+**Response:**
+```typescript
+{
+  data: {
+    certPem: string;      // Certificate in PEM format
+    encryptedKey: string; // Encrypted private key
+  }
+}
+```
+
+**Example:**
+```typescript
+const certResponse = await apiRequest<{ data: { certPem: string; encryptedKey: string } }>(
+  "/v1/certificates",
+  {
+    method: "POST",
+    body: JSON.stringify({})
+  }
+);
+
+const { certPem, encryptedKey } = certResponse.data;
+```
+
+### Using Certificates with Leases
+
+To use a certificate when creating a lease, include the `certificate` field:
+
+```typescript
+const leaseResponse = await apiRequest<CreateLeaseResponse>(
+  "/v1/leases",
+  {
+    method: "POST",
+    body: JSON.stringify({
+      manifest: manifest,
+      certificate: {
+        certPem: certPem,
+        keyPem: encryptedKey
+      },
+      leases: [{
+        dseq: dseq,
+        gseq: firstBid.bid.id.gseq,
+        oseq: firstBid.bid.id.oseq,
+        provider: firstBid.bid.id.provider
+      }]
+    })
+  }
+);
 ```
 
 ---
 
 ## Related Resources
 
-- **[Getting Started](/docs/api-documentation/console-api)** - API setup and first deployment
+- **[Getting Started](/docs/api-documentation/console-api/getting-started)** - API setup and first deployment
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - SDL syntax guide
 - **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
-
