@@ -155,24 +155,75 @@ interface BidID {
   gseq: number;
   oseq: number;
   provider: string;
+  bseq: number;
+}
+
+interface ResourceAttribute {
+  key: string;
+  value: string;
+}
+
+interface DeploymentResource {
+  cpu: {
+    units: { val: string };
+    attributes: ResourceAttribute[];
+  };
+  gpu: {
+    units: { val: string };
+    attributes: ResourceAttribute[];
+  };
+  memory: {
+    quantity: { val: string };
+    attributes: ResourceAttribute[];
+  };
+  storage: {
+    name: string;
+    quantity: { val: string };
+    attributes: ResourceAttribute[];
+  }[];
+  endpoints: {
+    kind: string;
+    sequence_number: number;
+  }[];
 }
 
 interface Bid {
-  bid_id: BidID;
+  id: BidID;
   state: string;
   price: {
     denom: string;
     amount: string;
   };
   created_at: string;
+  resources_offer: {
+    resources: DeploymentResource;
+    count: number;
+  }[];
+}
+
+interface BidResponse {
+  bid: Bid;
+  escrow_account: {
+    id: { scope: string; xid: string };
+    state: {
+      owner: string;
+      state: string;
+      transferred: { denom: string; amount: string }[];
+      settled_at: string;
+      funds: { denom: string; amount: string }[];
+      deposits: {
+        owner: string;
+        height: string;
+        source: string;
+        balance: { denom: string; amount: string };
+      }[];
+    };
+  };
+  isCertificateRequired: boolean;
 }
 
 interface BidsResponse {
-  data: {
-    data: {
-      bid: Bid;
-    }[];
-  }
+  data: BidResponse[];
 }
 
 async function waitForBids(
@@ -208,7 +259,7 @@ async function waitForBids(
 const bids = await waitForBids(dseq, apiKey);
 const firstBid = bids[0];
 
-console.log("Selected bid from provider:", firstBid.bid_id.provider);
+console.log("Selected bid from provider:", firstBid.id.provider);
 console.log("Bid price:", firstBid.price.amount, firstBid.price.denom);
 ```
 
@@ -233,24 +284,57 @@ interface CreateLeaseRequest {
   }[];
 }
 
+interface ForwardedPort {
+  port: number;
+  externalPort: number;
+  host?: string;
+  available?: number;
+}
+
+interface LeaseIp {
+  IP: string;
+  Port: number;
+  ExternalPort: number;
+  Protocol: string;
+}
+
+interface LeaseServiceStatus {
+  name: string;
+  available: number;
+  total: number;
+  uris: string[];
+  observed_generation: number;
+  replicas: number;
+  updated_replicas: number;
+  ready_replicas: number;
+  available_replicas: number;
+}
+
+interface LeaseStatus {
+  forwarded_ports: Record<string, ForwardedPort[]>;
+  ips: Record<string, LeaseIp[]>;
+  services: Record<string, LeaseServiceStatus>;
+}
+
 interface CreateLeaseResponse {
   data: {
     deployment: {
-      deployment_id: {
+      id: {
         owner: string;
         dseq: string;
       };
       state: string;
-      version: string;
+      hash: string;
       created_at: string;
     };
     leases: {
-      lease_id: {
+      id: {
         owner: string;
         dseq: string;
         gseq: number;
         oseq: number;
         provider: string;
+        bseq: number;
       };
       state: string;
       price: {
@@ -259,27 +343,26 @@ interface CreateLeaseResponse {
       };
       created_at: string;
       closed_on: string;
+      reason?: string;
+      status: LeaseStatus | null;
     }[];
     escrow_account: {
       id: {
         scope: string;
         xid: string;
       };
-      owner: string;
-      state: string;
-      balance: {
-        denom: string;
-        amount: string;
-      };
-      transferred: {
-        denom: string;
-        amount: string;
-      };
-      settled_at: string;
-      depositor: string;
-      funds: {
-        denom: string;
-        amount: string;
+      state: {
+        owner: string;
+        state: string;
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
       };
     };
   }
@@ -292,9 +375,9 @@ const leaseResponse = await api.post<CreateLeaseResponse>(
     leases: [
       {
         dseq: dseq,
-        gseq: firstBid.bid_id.gseq,
-        oseq: firstBid.bid_id.oseq,
-        provider: firstBid.bid_id.provider
+        gseq: firstBid.id.gseq,
+        oseq: firstBid.id.oseq,
+        provider: firstBid.id.provider
       }
     ]
   } as CreateLeaseRequest,
@@ -410,7 +493,7 @@ async function deployToAkash() {
     console.log("Waiting for bids...");
     const bids = await waitForBids(dseq, API_KEY);
     const firstBid = bids[0];
-    console.log("Selected provider:", firstBid.bid_id.provider);
+    console.log("Selected provider:", firstBid.id.provider);
     
     // 3. Create lease
     console.log("Creating lease...");
@@ -420,9 +503,9 @@ async function deployToAkash() {
         manifest,
         leases: [{
           dseq,
-          gseq: firstBid.bid_id.gseq,
-          oseq: firstBid.bid_id.oseq,
-          provider: firstBid.bid_id.provider
+          gseq: firstBid.id.gseq,
+          oseq: firstBid.id.oseq,
+          provider: firstBid.id.provider
         }]
       },
       { headers: { "x-api-key": API_KEY } }
@@ -542,24 +625,63 @@ Fetch bids for a deployment.
 ```typescript
 {
   data: {
-    data: {
-      bid: {
-        bid_id: {
-          owner: string;
-          dseq: string;
-          gseq: number;
-          oseq: number;
-          provider: string;
+    bid: {
+      id: {
+        owner: string;
+        dseq: string;
+        gseq: number;
+        oseq: number;
+        provider: string;
+        bseq: number;
+      };
+      state: string;
+      price: {
+        denom: string;
+        amount: string;
+      };
+      created_at: string;
+      resources_offer: {
+        resources: {
+          cpu: {
+            units: { val: string };
+            attributes: { key: string; value: string }[];
+          };
+          gpu: {
+            units: { val: string };
+            attributes: { key: string; value: string }[];
+          };
+          memory: {
+            quantity: { val: string };
+            attributes: { key: string; value: string }[];
+          };
+          storage: {
+            name: string;
+            quantity: { val: string };
+            attributes: { key: string; value: string }[];
+          }[];
+          endpoints: { kind: string; sequence_number: number }[];
         };
+        count: number;
+      }[];
+    };
+    escrow_account: {
+      id: { scope: string; xid: string };
+      state: {
+        owner: string;
         state: string;
-        price: {
-          denom: string;
-          amount: string;
-        };
-        created_at: string;
-      }
-    }[]
-  }
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
+      };
+    };
+    isCertificateRequired: boolean;
+  }[];
 }
 ```
 
@@ -600,21 +722,22 @@ Create a lease by accepting a bid.
 {
   data: {
     deployment: {
-      deployment_id: {
+      id: {
         owner: string;
         dseq: string;
       };
       state: string;
-      version: string;
+      hash: string;
       created_at: string;
     };
     leases: {
-      lease_id: {
+      id: {
         owner: string;
         dseq: string;
         gseq: number;
         oseq: number;
         provider: string;
+        bseq: number;
       };
       state: string;
       price: {
@@ -622,16 +745,49 @@ Create a lease by accepting a bid.
         amount: string;
       };
       created_at: string;
+      closed_on: string;
+      reason?: string;
+      status: {
+        forwarded_ports: Record<string, {
+          port: number;
+          externalPort: number;
+          host?: string;
+          available?: number;
+        }[]>;
+        ips: Record<string, {
+          IP: string;
+          Port: number;
+          ExternalPort: number;
+          Protocol: string;
+        }[]>;
+        services: Record<string, {
+          name: string;
+          available: number;
+          total: number;
+          uris: string[];
+          observed_generation: number;
+          replicas: number;
+          updated_replicas: number;
+          ready_replicas: number;
+          available_replicas: number;
+        }>;
+      } | null;
     }[];
     escrow_account: {
-      id: { scope: string; xid: string; };
-      owner: string;
-      state: string;
-      balance: { denom: string; amount: string; };
-      transferred: { denom: string; amount: string; };
-      settled_at: string;
-      depositor: string;
-      funds: { denom: string; amount: string; };
+      id: { scope: string; xid: string };
+      state: {
+        owner: string;
+        state: string;
+        transferred: { denom: string; amount: string }[];
+        settled_at: string;
+        funds: { denom: string; amount: string }[];
+        deposits: {
+          owner: string;
+          height: string;
+          source: string;
+          balance: { denom: string; amount: string };
+        }[];
+      };
     };
   }
 }
@@ -643,9 +799,9 @@ const leaseResponse = await api.post("/v1/leases", {
   manifest: manifest,
   leases: [{
     dseq: dseq,
-    gseq: firstBid.bid_id.gseq,
-    oseq: firstBid.bid_id.oseq,
-    provider: firstBid.bid_id.provider
+    gseq: firstBid.id.gseq,
+    oseq: firstBid.id.oseq,
+    provider: firstBid.id.provider
   }]
 }, {
   headers: { "x-api-key": apiKey }
@@ -839,9 +995,9 @@ const leaseResponse = await api.post("/v1/leases", {
   },
   leases: [{
     dseq: dseq,
-    gseq: firstBid.bid_id.gseq,
-    oseq: firstBid.bid_id.oseq,
-    provider: firstBid.bid_id.provider
+    gseq: firstBid.id.gseq,
+    oseq: firstBid.id.oseq,
+    provider: firstBid.id.provider
   }]
 }, {
   headers: { "x-api-key": apiKey }
