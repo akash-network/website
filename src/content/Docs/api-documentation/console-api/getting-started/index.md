@@ -70,37 +70,7 @@ const api = axios.create({
 
 ## Complete Deployment Workflow
 
-### 1. Create Certificate
-
-Generate a certificate for secure provider communication:
-
-```typescript
-interface CertificateResponse {
-  data: {
-    data: {
-      certPem: string;      // Certificate in PEM format
-      encryptedKey: string; // Encrypted private key
-    }
-  }
-}
-
-const certResponse = await api.post<CertificateResponse>(
-  "/v1/certificates",
-  {}, // Empty request body
-  {
-    headers: {
-      "x-api-key": apiKey
-    }
-  }
-);
-
-const { certPem, encryptedKey } = certResponse.data.data;
-console.log("Certificate created");
-```
-
----
-
-### 2. Create Deployment
+### 1. Create Deployment
 
 Create a deployment from an SDL file:
 
@@ -174,7 +144,7 @@ console.log("Deployment created with dseq:", dseq);
 
 ---
 
-### 3. Wait for and Fetch Bids
+### 2. Wait for and Fetch Bids
 
 Poll for provider bids:
 
@@ -244,14 +214,14 @@ console.log("Bid price:", firstBid.price.amount, firstBid.price.denom);
 
 ---
 
-### 4. Create Lease
+### 3. Create Lease
 
 Accept a bid and create a lease:
 
 ```typescript
 interface CreateLeaseRequest {
   manifest: string;
-  certificate: {
+  certificate?: {  // Optional - for mTLS authentication
     certPem: string;
     keyPem: string;
   };
@@ -319,10 +289,6 @@ const leaseResponse = await api.post<CreateLeaseResponse>(
   "/v1/leases",
   {
     manifest: manifest,
-    certificate: {
-      certPem: certPem,
-      keyPem: encryptedKey
-    },
     leases: [
       {
         dseq: dseq,
@@ -345,7 +311,7 @@ console.log("Deployment state:", leaseResponse.data.data.deployment.state);
 
 ---
 
-### 5. Add Deposit to Deployment
+### 4. Add Deposit to Deployment
 
 Add additional funds to your deployment's escrow:
 
@@ -381,7 +347,7 @@ console.log("Deposit added to deployment");
 
 ---
 
-### 6. Close Deployment
+### 5. Close Deployment
 
 Close a deployment and recover remaining deposit:
 
@@ -429,16 +395,7 @@ const api = axios.create({
 
 async function deployToAkash() {
   try {
-    // 1. Create certificate
-    console.log("Creating certificate...");
-    const certResponse = await api.post(
-      "/v1/certificates",
-      {},
-      { headers: { "x-api-key": API_KEY } }
-    );
-    const { certPem, encryptedKey } = certResponse.data.data;
-    
-    // 2. Create deployment
+    // 1. Create deployment
     console.log("Creating deployment...");
     const sdl = fs.readFileSync("deploy.yaml", "utf-8");
     const deployResponse = await api.post(
@@ -449,19 +406,18 @@ async function deployToAkash() {
     const { dseq, manifest } = deployResponse.data.data;
     console.log("Deployment created with dseq:", dseq);
     
-    // 3. Wait for bids
+    // 2. Wait for bids
     console.log("Waiting for bids...");
     const bids = await waitForBids(dseq, API_KEY);
     const firstBid = bids[0];
     console.log("Selected provider:", firstBid.bid_id.provider);
     
-    // 4. Create lease
+    // 3. Create lease
     console.log("Creating lease...");
     const leaseResponse = await api.post(
       "/v1/leases",
       {
         manifest,
-        certificate: { certPem, keyPem: encryptedKey },
         leases: [{
           dseq,
           gseq: firstBid.bid_id.gseq,
@@ -473,7 +429,7 @@ async function deployToAkash() {
     );
     console.log("**Lease created! Deployment is live.");
     
-    // 5. (Optional) Add more deposit
+    // 4. (Optional) Add more deposit
     console.log("Adding additional deposit...");
     await api.post(
       "/v1/deposit-deployment",
@@ -481,7 +437,7 @@ async function deployToAkash() {
       { headers: { "x-api-key": API_KEY } }
     );
     
-    // 6. Keep running or close
+    // 5. Keep running or close
     console.log("Deployment is running!");
     console.log("To close later, call DELETE /v1/deployments/" + dseq);
     
@@ -516,7 +472,245 @@ export CONSOLE_API_KEY="your-api-key-here"
 npx ts-node deploy.ts
 ```
 
-**For complete endpoint documentation**, see the **[API Reference →](/docs/api-documentation/console-api/api-reference)**
+---
+
+## API Reference
+
+### Authentication
+
+All API requests require the `x-api-key` header:
+
+```typescript
+headers: {
+  "Content-Type": "application/json",
+  "x-api-key": "your-api-key-here"
+}
+```
+
+---
+
+### POST /v1/deployments
+
+Create a new deployment.
+
+**Request:**
+```typescript
+{
+  data: {
+    sdl: string;     // SDL content as string
+    deposit: number; // Deposit in dollars (minimum $5)
+  }
+}
+```
+
+**Response:**
+```typescript
+{
+  data: {
+    data: {
+      dseq: string;     // Deployment sequence ID
+      manifest: string; // Deployment manifest JSON
+    }
+  }
+}
+```
+
+**Example:**
+```typescript
+const deployResponse = await api.post("/v1/deployments", {
+  data: {
+    sdl: sdlContent,
+    deposit: 5 // $5 deposit
+  }
+}, {
+  headers: { "x-api-key": apiKey }
+});
+
+const { dseq, manifest } = deployResponse.data.data;
+```
+
+---
+
+### GET /v1/bids
+
+Fetch bids for a deployment.
+
+**Query Parameters:**
+- `dseq` (required) - Deployment sequence ID
+
+**Response:**
+```typescript
+{
+  data: {
+    data: {
+      bid: {
+        bid_id: {
+          owner: string;
+          dseq: string;
+          gseq: number;
+          oseq: number;
+          provider: string;
+        };
+        state: string;
+        price: {
+          denom: string;
+          amount: string;
+        };
+        created_at: string;
+      }
+    }[]
+  }
+}
+```
+
+**Example:**
+```typescript
+const bidsResponse = await api.get(`/v1/bids?dseq=${dseq}`, {
+  headers: { "x-api-key": apiKey }
+});
+
+const bids = bidsResponse.data.data.map(b => b.bid);
+```
+
+---
+
+### POST /v1/leases
+
+Create a lease by accepting a bid.
+
+**Request:**
+```typescript
+{
+  manifest: string;
+  certificate?: {  // Optional - for mTLS authentication
+    certPem: string;
+    keyPem: string;
+  };
+  leases: {
+    dseq: string;
+    gseq: number;
+    oseq: number;
+    provider: string;
+  }[];
+}
+```
+
+**Response:**
+```typescript
+{
+  data: {
+    deployment: {
+      deployment_id: {
+        owner: string;
+        dseq: string;
+      };
+      state: string;
+      version: string;
+      created_at: string;
+    };
+    leases: {
+      lease_id: {
+        owner: string;
+        dseq: string;
+        gseq: number;
+        oseq: number;
+        provider: string;
+      };
+      state: string;
+      price: {
+        denom: string;
+        amount: string;
+      };
+      created_at: string;
+    }[];
+    escrow_account: {
+      id: { scope: string; xid: string; };
+      owner: string;
+      state: string;
+      balance: { denom: string; amount: string; };
+      transferred: { denom: string; amount: string; };
+      settled_at: string;
+      depositor: string;
+      funds: { denom: string; amount: string; };
+    };
+  }
+}
+```
+
+**Example:**
+```typescript
+const leaseResponse = await api.post("/v1/leases", {
+  manifest: manifest,
+  leases: [{
+    dseq: dseq,
+    gseq: firstBid.bid_id.gseq,
+    oseq: firstBid.bid_id.oseq,
+    provider: firstBid.bid_id.provider
+  }]
+}, {
+  headers: { "x-api-key": apiKey }
+});
+
+console.log("Lease created with state:", leaseResponse.data.data.deployment.state);
+```
+
+---
+
+### POST /v1/deposit-deployment
+
+Add additional funds to a deployment's escrow.
+
+**Request:**
+```typescript
+{
+  data: {
+    deposit: number; // Amount in dollars
+    dseq: string;
+  }
+}
+```
+
+**Example:**
+```typescript
+const depositResponse = await api.post("/v1/deposit-deployment", {
+  data: {
+    dseq: dseq,
+    deposit: 0.5 // Add $0.50
+  }
+}, {
+  headers: { "x-api-key": apiKey }
+});
+```
+
+---
+
+### DELETE /v1/deployments/:dseq
+
+Close a deployment and recover remaining deposit.
+
+**Path Parameters:**
+- `dseq` - Deployment sequence ID
+
+**Response:**
+```typescript
+{
+  data: {
+    data: {
+      status: string;
+      message: string;
+    }
+  }
+}
+```
+
+**Example:**
+```typescript
+const closeResponse = await api.delete(`/v1/deployments/${dseq}`, {
+  headers: { "x-api-key": apiKey }
+});
+
+console.log("Deployment closed:", closeResponse.data.data.message);
+```
 
 ---
 
@@ -571,6 +765,88 @@ try {
 - **Recommended:** Add 20-30% buffer for price fluctuations
 - **Monitor balance:** Check escrow regularly
 - **Auto-refund:** Remaining deposit refunded on close
+
+---
+
+## Managed Wallet vs SDK
+
+| Feature | Managed Wallet API | Akash SDK |
+|---------|-------------------|-----------|
+| **Wallet Management** | Managed by Console | You manage wallet |
+| **Authentication** | API Key | Private key/mnemonic |
+| **Payment** | Credit card (USD) | Crypto (AKT) |
+| **API Type** | REST API | Native blockchain |
+| **Language** | Any (HTTP) | Go, TypeScript |
+| **Setup** | API key only | Wallet + blockchain setup |
+| **Best For** | SaaS, web apps | Blockchain apps, CLI tools |
+
+---
+
+## Limitations
+
+- ⚠️ **API is in development** - Endpoints may change
+- ⚠️ **Credit card payment only** - Cannot use existing AKT
+- ⚠️ **Managed wallet** - No direct blockchain access
+
+**For production deployments without time limits**, use the [Akash SDK](/docs/extend/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
+
+---
+
+## Optional: Certificate Authentication (mTLS)
+
+Certificates are **optional** but can be used for secure mTLS (mutual TLS) communication with providers. If you need an additional layer of security for provider communication, you can create and use certificates.
+
+### POST /v1/certificates
+
+Create a certificate for secure provider communication.
+
+**Request:**
+```typescript
+{} // Empty body
+```
+
+**Response:**
+```typescript
+{
+  data: {
+    data: {
+      certPem: string;      // Certificate in PEM format
+      encryptedKey: string; // Encrypted private key
+    }
+  }
+}
+```
+
+**Example:**
+```typescript
+const certResponse = await api.post("/v1/certificates", {}, {
+  headers: { "x-api-key": apiKey }
+});
+
+const { certPem, encryptedKey } = certResponse.data.data;
+```
+
+### Using Certificates with Leases
+
+To use a certificate when creating a lease, include the `certificate` field in your lease request:
+
+```typescript
+const leaseResponse = await api.post("/v1/leases", {
+  manifest: manifest,
+  certificate: {
+    certPem: certPem,
+    keyPem: encryptedKey
+  },
+  leases: [{
+    dseq: dseq,
+    gseq: firstBid.bid_id.gseq,
+    oseq: firstBid.bid_id.oseq,
+    provider: firstBid.bid_id.provider
+  }]
+}, {
+  headers: { "x-api-key": apiKey }
+});
+```
 
 ---
 
