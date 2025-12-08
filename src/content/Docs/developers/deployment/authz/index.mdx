@@ -19,11 +19,11 @@ AuthZ (Authorization) allows you to grant other accounts permission to perform a
 
 AuthZ is a Cosmos SDK module that enables **permission delegation**. With AuthZ, you can:
 
-- ✅ **Grant deployment permissions** to team members
-- ✅ **Enable automation** without exposing your private key
-- ✅ **Allow third-party services** to deploy on your behalf
-- ✅ **Set spending limits** and expiration dates
-- ✅ **Revoke permissions** at any time
+- **Grant deployment permissions** to team members
+- **Enable automation** without exposing your private key
+- **Allow third-party services** to deploy on your behalf
+- **Set spending limits** and expiration dates
+- **Revoke permissions** at any time
 
 **Key Concept:** The account that grants permission is called the **granter**, and the account that receives permission is called the **grantee**.
 
@@ -31,11 +31,11 @@ AuthZ is a Cosmos SDK module that enables **permission delegation**. With AuthZ,
 
 Fee Grants allow you to **pay transaction fees for other accounts**. With Fee Grants, you can:
 
-- ✅ **Pay gas fees for team members** - They don't need AKT for transactions
-- ✅ **Enable frictionless onboarding** - New users can deploy immediately
-- ✅ **Support automation** - CI/CD pipelines work without funded wallets
-- ✅ **Set spending limits** - Control fee expenditure
-- ✅ **Use time-limited grants** - Fees allowances can expire
+- **Pay gas fees for team members** - They don't need AKT for transactions
+- **Enable frictionless onboarding** - New users can deploy immediately
+- **Support automation** - CI/CD pipelines work without funded wallets
+- **Set spending limits** - Control fee expenditure
+- **Use time-limited grants** - Fees allowances can expire
 
 **Best Practice:** Combine AuthZ + Fee Grants for complete delegation - grantees can deploy on your behalf, and you pay all costs (deposits + fees).
 
@@ -168,11 +168,11 @@ Fee grants allow you to pay transaction fees on behalf of other accounts. This i
 
 Fee grants (also called fee allowances) enable:
 
-- ✅ **Pay gas fees for team members** - They don't need AKT for transactions
-- ✅ **Enable frictionless automation** - CI/CD pipelines work without funded wallets
-- ✅ **Onboard users easily** - New users can deploy without buying AKT first
-- ✅ **Set spending limits** - Control how much can be spent on fees
-- ✅ **Time-limited grants** - Fees allowances can expire
+- **Pay gas fees for team members** - They don't need AKT for transactions
+- **Enable frictionless automation** - CI/CD pipelines work without funded wallets
+- **Onboard users easily** - New users can deploy without buying AKT first
+- **Set spending limits** - Control how much can be spent on fees
+- **Time-limited grants** - Fees allowances can expire
 
 **Key Concept:** The account paying fees is the **granter**, and the account using the fee allowance is the **grantee**.
 
@@ -325,10 +325,10 @@ See **[AuthZ & Fee Grants SDK](/docs/extend/sdk/authz-feegrant)** for programmat
 Never grant unlimited fee allowances:
 
 ```bash
-# ❌ Bad: Unlimited fees
+# **Bad: Unlimited fees
 provider-services tx feegrant grant <granter> <grantee> --from <wallet>
 
-# ✅ Good: Limited fees
+# **Good: Limited fees
 provider-services tx feegrant grant <granter> <grantee> \
   --spend-limit 5000000uakt \
   --expiration "2025-12-31T23:59:59Z" \
@@ -428,10 +428,10 @@ provider-services tx authz grant <contractor> generic \
 The grantee forgot to specify `--fee-granter`:
 
 ```bash
-# ❌ Missing fee-granter flag
+# **Missing fee-granter flag
 provider-services tx deployment create deploy.yaml --from <grantee>
 
-# ✅ Correct usage
+# **Correct usage
 provider-services tx deployment create deploy.yaml \
   --from <grantee> \
   --fee-granter <granter>

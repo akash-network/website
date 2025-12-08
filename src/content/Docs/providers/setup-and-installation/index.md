@@ -18,9 +18,9 @@ There are three ways to become an Akash provider, each suited for different use 
 
 **Automated setup using Ansible playbooks**
 
-✅ **Best for:** Most users  
-⏱️ **Time:** ~1 hour  
-🎯 **Skill level:** Intermediate
+**Best for:** Most users  
+ **Time:** ~1 hour  
+ **Skill level:** Intermediate
 
 **Features:**
 - Automated Kubernetes installation
@@ -36,9 +36,9 @@ There are three ways to become an Akash provider, each suited for different use 
 
 **Manual setup with Kubespray and Helm for complete control**
 
-✅ **Best for:** Advanced users, custom configurations  
-⏱️ **Time:** 1-2 hours  
-🎯 **Skill level:** Advanced
+**Best for:** Advanced users, custom configurations  
+ **Time:** 1-2 hours  
+ **Skill level:** Advanced
 
 **Features:**
 - Full control over every aspect
@@ -61,9 +61,9 @@ There are three ways to become an Akash provider, each suited for different use 
 
 **Web-based setup with visual interface**
 
-✅ **Best for:** Users with no Kubernetes experience  
-⏱️ **Time:** 15-30 minutes  
-🎯 **Skill level:** Beginner
+**Best for:** Users with no Kubernetes experience  
+ **Time:** 15-30 minutes  
+ **Skill level:** Beginner
 
 **Features:**
 - No command line required
@@ -80,9 +80,9 @@ There are three ways to become an Akash provider, each suited for different use 
 
 | Feature | Provider Playbook | Kubespray | Provider Console |
 |---------|------------------|-----------|------------------|
-| **Ease of Use** | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Ease of Use** |  |  |  |
 | **Setup Time** | ~1 hour | 1-2 hours | 15-30 minutes |
-| **Customization** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ |
+| **Customization** |  |  |  |
 | **Skill Required** | Medium | High | Low |
 | **Best For** | Most users | Advanced users | Beginners |
 | **CLI Required** | Yes | Yes | No |

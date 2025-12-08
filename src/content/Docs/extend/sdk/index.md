@@ -46,14 +46,14 @@ Get started quickly with either SDK:
 
 Both SDKs support:
 
-- ✅ **Deployment Management** - Create, update, close deployments
-- ✅ **Market Operations** - View bids, create leases
-- ✅ **Provider Queries** - Find and evaluate providers
-- ✅ **Query Operations** - Query deployments, leases, balances
-- ✅ **Wallet Management** - Sign transactions securely
-- ✅ **SDL Parsing** - Parse and validate SDL files
-- ✅ **Certificate Management** - Generate and manage certificates
-- ✅ **JWT Authentication** - Authenticate with providers (TypeScript)
+- **Deployment Management** - Create, update, close deployments
+- **Market Operations** - View bids, create leases
+- **Provider Queries** - Find and evaluate providers
+- **Query Operations** - Query deployments, leases, balances
+- **Wallet Management** - Sign transactions securely
+- **SDL Parsing** - Parse and validate SDL files
+- **Certificate Management** - Generate and manage certificates
+- **JWT Authentication** - Authenticate with providers (TypeScript)
 
 ---
 
@@ -84,15 +84,15 @@ Ideal for web applications and Node.js projects.
 
 | Feature | Go SDK | TypeScript SDK |
 |---------|--------|----------------|
-| **Deployment Operations** | ✅ | ✅ |
-| **Query Operations** | ✅ | ✅ |
-| **Transaction Signing** | ✅ | ✅ |
-| **SDL Parsing** | ✅ | ✅ |
-| **Certificate Management** | ✅ | ✅ |
-| **JWT Authentication** | ✅ | ✅ |
-| **Browser Support** | ❌ | ✅ (via Web SDK) |
-| **Node.js Support** | ✅ | ✅ |
-| **Provider API Client** | ✅ | ✅ |
+| **Deployment Operations** | **| **|
+| **Query Operations** | **| **|
+| **Transaction Signing** | **| **|
+| **SDL Parsing** | **| **|
+| **Certificate Management** | **| **|
+| **JWT Authentication** | **| **|
+| **Browser Support** | **| **(via Web SDK) |
+| **Node.js Support** | **| **|
+| **Provider API Client** | **| **|
 
 ---
 

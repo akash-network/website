@@ -593,8 +593,8 @@ sudo journalctl -u tmkms -f --lines 50
 ```
 
 **Look for:**
-- ✅ `connected to validator successfully`
-- ✅ Signing messages (height increasing)
+- **`connected to validator successfully`
+- **Signing messages (height increasing)
 
 ### Check Akash Validator Logs
 
@@ -605,9 +605,9 @@ In [Akash Console](https://console.akash.network):
 3. Select **"node"** service
 
 **Look for:**
-- ✅ `executed block height=...`
-- ✅ `committed state height=...`
-- ✅ Height increasing continuously
+- **`executed block height=...`
+- **`committed state height=...`
+- **Height increasing continuously
 
 ### Check Stunnel Proxy Logs
 

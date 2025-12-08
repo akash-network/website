@@ -27,20 +27,20 @@ Providers can offer:
 
 ## Benefits of Running a Provider
 
-### 💰 Revenue Opportunities
+###  Revenue Opportunities
 - Earn AKT or USDC tokens for hosting workloads
 - Set your own pricing
 - Higher demand for GPU resources
 - Persistent storage premium pricing
 - 24/7 passive income potential
 
-### 🌍 Support Decentralization
+###  Support Decentralization
 - Help build the decentralized cloud
 - Reduce dependence on centralized providers
 - Support censorship-resistant infrastructure
 - Join a global network of providers
 
-### 📈 Flexible Scaling
+###  Flexible Scaling
 - Start small, scale as you grow
 - Add resources incrementally
 - Control what workloads you accept
@@ -50,7 +50,7 @@ Providers can offer:
 
 ## Requirements & Considerations
 
-### ✅ You're a Good Fit If You Have:
+### **You're a Good Fit If You Have:
 
 **Technical Skills:**
 - Linux system administration experience
@@ -71,7 +71,7 @@ Providers can offer:
 - Ability to cover electricity/hosting costs
 - Capital for hardware (if needed)
 
-### ❌ You Might Want to Reconsider If:
+### **You Might Want to Reconsider If:
 
 - No Kubernetes experience and not interested in learning
 - Unreliable internet connection

@@ -286,7 +286,7 @@ npm run dev
 **Expected output:**
 
 ```
-  🚀  astro  v4.x.x started in Xms
+    astro  v4.x.x started in Xms
 
   ┃ Local    http://localhost:4321/
   ┃ Network  use --host to expose
@@ -566,8 +566,8 @@ npm run build
 ls -la public/images/
 
 # Use absolute paths in markdown
-# ✅ ![Alt](/images/pic.png)
-# ❌ ![Alt](./images/pic.png)
+# **![Alt](/images/pic.png)
+# **![Alt](./images/pic.png)
 ```
 
 **MDX parsing errors:**

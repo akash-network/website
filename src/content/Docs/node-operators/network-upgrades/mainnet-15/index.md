@@ -24,7 +24,7 @@ This guide provides step-by-step instructions for upgrading your node to Akash v
 - **Binary Release:** Available approximately 10 hours before the upgrade
 - **Binary Links:** [GitHub Releases](https://github.com/akash-network/node/releases/tag/v1.1.0)
 
-> ⚠️ **Note:** Block times have high variance. Please monitor the block countdown for more precise timing estimates.
+>  **Note:** Block times have high variance. Please monitor the block countdown for more precise timing estimates.
 
 ---
 
@@ -202,7 +202,7 @@ akash status | jq '.sync_info.catching_up'
 
 Using Cosmovisor to perform the upgrade is not mandatory. Node operators can manually update the `akash` binary at the time of the upgrade.
 
-> ⚠️ **Warning:** Do NOT replace the binary before the upgrade height, as this will stop your node.
+>  **Warning:** Do NOT replace the binary before the upgrade height, as this will stop your node.
 
 ### Manual Upgrade Steps
 

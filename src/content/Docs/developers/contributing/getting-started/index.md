@@ -415,7 +415,7 @@ Your contributions matter:
 - Outstanding contributors may join core teams
 - Build your portfolio and reputation
 
-**Thank you for contributing to Akash Network!** 🎉
+**Thank you for contributing to Akash Network!** 
 
 ---
 

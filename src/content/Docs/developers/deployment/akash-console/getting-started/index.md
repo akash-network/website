@@ -148,10 +148,10 @@ Once the bid is accepted, your deployment will start running:
 *Your deployment is live with URLs and status information*
 
 You'll see:
-- ✅ **Live URLs** - Access your application
-- 📊 **Status** - Real-time deployment state
-- 💰 **Cost Tracking** - Current spending
-- ⚙️ **Management Controls** - Update, logs, close
+- **Live URLs** - Access your application
+-  **Status** - Real-time deployment state
+-  **Cost Tracking** - Current spending
+-  **Management Controls** - Update, logs, close
 
 ---
 
@@ -159,7 +159,7 @@ You'll see:
 
 ### When to Use Console
 
-✅ **Use Console if you:**
+**Use Console if you:**
 - Prefer visual interfaces over terminal commands
 - Are new to Akash and want guided setup
 - Want quick deployments with pre-built templates
@@ -169,7 +169,7 @@ You'll see:
 
 ### When to Use CLI
 
-✅ **Use CLI if you:**
+**Use CLI if you:**
 - Need automation and scripting for deployments
 - Want CI/CD pipeline integration
 - Prefer command-line workflows

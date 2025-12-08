@@ -200,39 +200,39 @@ Further reading
 ### Voice and Tone
 
 **Use:**
-- ✅ **Active voice** - "The provider accepts bids" not "Bids are accepted"
-- ✅ **Second person** - "You deploy" not "Users deploy" or "One deploys"
-- ✅ **Present tense** - "The CLI creates" not "The CLI will create"
-- ✅ **Direct language** - "Run this command" not "You might want to consider running"
+- **Active voice** - "The provider accepts bids" not "Bids are accepted"
+- **Second person** - "You deploy" not "Users deploy" or "One deploys"
+- **Present tense** - "The CLI creates" not "The CLI will create"
+- **Direct language** - "Run this command" not "You might want to consider running"
 
 **Examples:**
 
 ```markdown
-✅ Good: "Deploy your application using the CLI"
-❌ Bad: "Applications can be deployed by users via the CLI"
+**Good: "Deploy your application using the CLI"
+**Bad: "Applications can be deployed by users via the CLI"
 
-✅ Good: "Create a deployment with this command"
-❌ Bad: "A deployment may be created using the following command"
+**Good: "Create a deployment with this command"
+**Bad: "A deployment may be created using the following command"
 ```
 
 ### Clarity
 
 **Be specific:**
 ```markdown
-❌ Vague: "Install the required dependencies"
-✅ Specific: "Install Go 1.25.0 or later"
+**Vague: "Install the required dependencies"
+**Specific: "Install Go 1.25.0 or later"
 
-❌ Vague: "Configure your environment"
-✅ Specific: "Set the AKASH_NODE environment variable"
+**Vague: "Configure your environment"
+**Specific: "Set the AKASH_NODE environment variable"
 ```
 
 **Remove unnecessary words:**
 ```markdown
-❌ Wordy: "In order to create a deployment, you will need to..."
-✅ Concise: "To create a deployment..."
+**Wordy: "In order to create a deployment, you will need to..."
+**Concise: "To create a deployment..."
 
-❌ Wordy: "There are three different methods available for..."
-✅ Concise: "Three methods for..."
+**Wordy: "There are three different methods available for..."
+**Concise: "Three methods for..."
 ```
 
 ### Technical Accuracy
@@ -351,9 +351,9 @@ Jump to [Installation](#installation).
 ```markdown
 | Feature | CLI | Console | SDK |
 |---------|-----|---------|-----|
-| Easy to use | ⚠️ | ✅ | ❌ |
-| Automation | ✅ | ❌ | ✅ |
-| GUI | ❌ | ✅ | ❌ |
+| Easy to use |  | **| **|
+| Automation | **| **| **|
+| GUI | **| **| **|
 ```
 
 ### Admonitions
@@ -367,7 +367,7 @@ Use for important information:
 
 **Tip:** Use `--dry-run` to preview changes without applying them.
 
-⚠️ **Important:** Back up your wallet before proceeding.
+ **Important:** Back up your wallet before proceeding.
 ```
 
 ---
@@ -634,7 +634,7 @@ Documentation contributors are valued:
 - Build portfolio with technical writing samples
 - Help thousands of users succeed
 
-**Thank you for improving Akash documentation!** 📚
+**Thank you for improving Akash documentation!** 
 
 ---
 

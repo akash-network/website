@@ -15,7 +15,7 @@ This section helps developers understand their options and get started quickly w
 
 ## Choose Your Development Path
 
-### 🖥️ Akash Console (Easiest)
+###  Akash Console (Easiest)
 **Visual web interface - no CLI required**
 
 - Deploy in minutes with a visual interface
@@ -27,7 +27,7 @@ This section helps developers understand their options and get started quickly w
 
 ---
 
-### 💻 Akash SDK (Production-Ready)
+###  Akash SDK (Production-Ready)
 **Programmatic deployments with JavaScript/TypeScript or Go**
 
 - Integrate Akash into your applications
@@ -40,7 +40,7 @@ This section helps developers understand their options and get started quickly w
 
 ---
 
-### ⚡ Provider-Services CLI (Full Control)
+### Provider-Services CLI (Full Control)
 **Command-line interface for power users**
 
 - Full control over deployments

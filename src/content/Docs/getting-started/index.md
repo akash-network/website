@@ -12,14 +12,14 @@ Akash Console is a web-based platform that makes deploying on Akash Network as e
 
 ---
 
-## 🚀 Start Your Free Trial
+## Start Your Free Trial
 
 **Get $100 in free credits** to deploy applications on Akash Network:
 
-- 💰 **$100 free credits** - No charge during trial
-- ⏱️ **30 days** - Plenty of time to explore
-- 💳 **Credit card required** - For identity verification only (prevents abuse)
-- 🚫 **No automatic charges** - You're in control
+- **$100 free credits** - No charge during trial
+- **30 days** - Plenty of time to explore
+- **Credit card required** - For identity verification only (prevents abuse)
+- **No automatic charges** - You're in control
 
 ### [Quick Start - Free Trial](/docs/getting-started/quick-start)
 **Deploy your first application in under 10 minutes** using the web interface—perfect for beginners!
@@ -31,7 +31,7 @@ Akash Console is a web-based platform that makes deploying on Akash Network as e
 ### [What is Akash?](/docs/getting-started/what-is-akash)
 A quick 2-minute introduction to Akash Network and decentralized cloud computing.
 
-### [Quick Start - Free Trial](/docs/getting-started/quick-start) ⭐ **Start Here**
+### [Quick Start - Free Trial](/docs/getting-started/quick-start) **Start Here**
 Sign up for free trial and deploy your first application with one-click templates.
 
 ### [Core Concepts](/docs/getting-started/core-concepts)
@@ -43,12 +43,12 @@ Learn about deployments, providers, and how Akash works.
 
 **The easiest way to get started with decentralized cloud:**
 
-- ✅ **Free Trial** - $100 in credits, no crypto required
-- ✅ **One-Click Templates** - Deploy popular apps instantly
-- ✅ **No CLI Required** - Everything in your browser
-- ✅ **Visual Interface** - Build and manage deployments visually
-- ✅ **Credit Card Payments** - Pay with Stripe (Visa, Mastercard, etc.)
-- ✅ **Real-time Monitoring** - View logs and status instantly
+- **Free Trial** - $100 in credits, no crypto required
+- **One-Click Templates** - Deploy popular apps instantly
+- **No CLI Required** - Everything in your browser
+- **Visual Interface** - Build and manage deployments visually
+- **Credit Card Payments** - Pay with Stripe (Visa, Mastercard, etc.)
+- **Real-time Monitoring** - View logs and status instantly
 
 ---
 

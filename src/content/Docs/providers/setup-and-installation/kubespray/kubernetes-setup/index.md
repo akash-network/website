@@ -11,7 +11,7 @@ description: "Deploy a production-grade Kubernetes cluster using Kubespray 2.29"
 
 This guide walks through deploying a production-ready Kubernetes cluster that will host your Akash provider. The cluster will run all provider leases as Kubernetes pods.
 
-⏱️ **Time:** 30-45 minutes
+ **Time:** 30-45 minutes
 
 ---
 
@@ -29,10 +29,10 @@ Using Kubespray 2.29, you'll install:
 ## Before You Begin
 
 Ensure you have:
-- ✅ Reviewed [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)
-- ✅ Ubuntu 24.04 LTS installed on all nodes
-- ✅ Root or sudo access to all nodes
-- ✅ Network connectivity between all nodes
+- **Reviewed [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)
+- **Ubuntu 24.04 LTS installed on all nodes
+- **Root or sudo access to all nodes
+- **Network connectivity between all nodes
 
 ---
 

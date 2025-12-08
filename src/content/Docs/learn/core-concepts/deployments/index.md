@@ -320,7 +320,7 @@ Recommended escrow: 1.5 AKT (48% buffer)
 
 ### What CAN Be Updated
 
-✅ **Container image tag:**
+**Container image tag:**
 ```yaml
 # Before
 image: myapp:v1.0
@@ -329,7 +329,7 @@ image: myapp:v1.0
 image: myapp:v1.1
 ```
 
-✅ **Environment variables:**
+**Environment variables:**
 ```yaml
 # Before
 env:
@@ -340,7 +340,7 @@ env:
   - NODE_ENV=production
 ```
 
-✅ **Command and arguments:**
+**Command and arguments:**
 ```yaml
 # Before
 command: ["npm"]
@@ -353,15 +353,15 @@ args: ["run", "prod"]
 
 ### What CANNOT Be Updated
 
-❌ **Resource requirements** (CPU, memory, storage, GPU)
+**Resource requirements** (CPU, memory, storage, GPU)
 
-❌ **Service count** (replicas)
+**Service count** (replicas)
 
-❌ **Port configurations**
+**Port configurations**
 
-❌ **Storage attributes**
+**Storage attributes**
 
-❌ **Provider/Lease** (tied to specific provider)
+**Provider/Lease** (tied to specific provider)
 
 **To change these:** Close deployment and create new one
 
@@ -517,42 +517,42 @@ For one-time compute jobs:
 
 ### Planning
 
-✅ **Calculate escrow needs accurately**
+**Calculate escrow needs accurately**
 - Estimate duration
 - Add 50-100% buffer
 - Account for potential overruns
 
-✅ **Test on sandbox first**
+**Test on sandbox first**
 - Validate SDL
 - Test deployment process
 - Estimate costs
 
-✅ **Document your deployments**
+**Document your deployments**
 - Save SDL files
 - Record DSEQ numbers
 - Note provider addresses
 
 ### Monitoring
 
-✅ **Check regularly:**
+**Check regularly:**
 - Escrow balance
 - Service health
 - Provider uptime
 - Resource usage
 
-✅ **Set up external monitoring:**
+**Set up external monitoring:**
 - Uptime monitoring (UptimeRobot, Pingdom)
 - Log aggregation (if needed)
 - Cost tracking
 
 ### Maintenance
 
-✅ **Update images regularly**
+**Update images regularly**
 - Security patches
 - Bug fixes
 - Feature updates
 
-✅ **Plan for migrations**
+**Plan for migrations**
 - Have backup provider list
 - Document migration process
 - Test recovery procedures

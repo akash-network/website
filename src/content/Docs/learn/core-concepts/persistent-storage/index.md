@@ -244,13 +244,13 @@ services:
 
 ## Storage Persistence Guarantees
 
-### ✅ Survives
+### **Survives
 
 - **Container restarts** - Data persists if container crashes or restarts
 - **Deployment updates** - Data persists when you update image version, env vars, etc.
 - **Provider restarts** - Data persists if provider's infrastructure restarts
 
-### ❌ Does NOT Survive
+### **Does NOT Survive
 
 - **Lease termination** - Data is lost when you close the deployment
 - **Provider migration** - Data is lost if you move to a different provider
@@ -500,7 +500,7 @@ Storage is tied to the provider. Moving to a different provider requires data mi
 
 ## Best Practices Summary
 
-✅ **DO:**
+**DO:**
 - Use persistent storage for databases and user data
 - **Use beta3 (NVMe) for most deployments**, especially databases
 - Implement regular backups to external services
@@ -508,7 +508,7 @@ Storage is tied to the provider. Moving to a different provider requires data mi
 - Size storage appropriately for growth
 - Choose storage class based on performance needs
 
-❌ **DON'T:**
+**DON'T:**
 - Rely on persistent storage as your only backup
 - Store critical data without external backups
 - Use beta1 (HDD) or beta2 (SSD) for high-performance databases

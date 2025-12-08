@@ -15,10 +15,10 @@ This guide walks you through signing up for the free trial and deploying your fi
 
 ## What You'll Get
 
-- 💰 **$100 in free credits** - No charge during trial
-- ⏱️ **30 days** - Plenty of time to explore Akash
-- 🚀 **One-click deployment** - Use pre-built templates
-- 🌐 **Live URL** - Access your deployed application instantly
+- **$100 in free credits** - No charge during trial
+- **30 days** - Plenty of time to explore Akash
+- **One-click deployment** - Use pre-built templates
+- **Live URL** - Access your deployed application instantly
 
 **Time:** ~10 minutes  
 **Cost:** $0 (free trial credits)  
@@ -55,10 +55,10 @@ You'll see a banner at the top: **"Credit Card payments are now available!"**
 1. Click the **"Start Trial"** button in the top right corner (it's the bright red/pink button)
 
 2. You'll see the trial benefits page showing:
-   - ✅ 100$ of free credits
-   - ✅ 30 days of free credits
-   - ✅ Deployments last up to 24 hours
-   - ✅ Keep unused free credits if you purchase credits
+   - 100$ of free credits
+   - 30 days of free credits
+   - Deployments last up to 24 hours
+   - Keep unused free credits if you purchase credits
 
 3. Click the **"Start Free Trial"** button to continue
 
@@ -118,13 +118,13 @@ To prevent abuse, Akash requires a credit card for identity verification. **You 
 
 ---
 
-## Step 6: Welcome to Akash! 🎉
+## Step 6: Welcome to Akash!
 
 You're in! You'll see your dashboard with:
 
-- 🎯 **Trial Status Banner** - Shows your $100 credit balance and 30 days remaining
-- ⚠️ **Important:** Deployments last maximum 1 day during trial
-- 📊 **Account Overview** - $100.00 remaining of $100.00
+- **Trial Status Banner** - Shows your $100 credit balance and 30 days remaining
+- **Important:** Deployments last maximum 1 day during trial
+- **Account Overview** - $100.00 remaining of $100.00
 
 ---
 
@@ -145,9 +145,9 @@ Perfect for testing! Choose any featured template to get started.
 5. Review the pre-filled configuration
 6. Click **"Create Deployment"**
 
-⏳ Wait ~1-2 minutes for deployment to complete
+Wait ~1-2 minutes for deployment to complete
 
-✅ Your first app is live!
+Your first app is live!
 
 ### Option B: ComfyUI (AI/Image Generation)
 
@@ -182,14 +182,14 @@ After clicking "Deploy Now" on any template:
 3. The best bid is automatically selected
 4. Your application starts deploying
 
-⏳ **Total time:** 1-3 minutes (depending on the template)
+**Total time:** 1-3 minutes (depending on the template)
 
 You'll see status updates:
 - "Creating Deployment..." 
 - "Accepting Bid..."
 - "Sending Manifest..."
 - "Starting Services..."
-- **"Running"** ✅
+- **"Running"**
 
 ---
 
@@ -201,7 +201,7 @@ Once your deployment shows **"Running"** status:
 2. Click on the URL shown (e.g., `https://your-app.provider.akash.network`)
 3. Your web application will open in a new tab!
 
-**🎉 Congratulations! You just deployed on Akash Network!**
+**Congratulations! You just deployed on Akash Network!**
 
 ### What You Can Do Now:
 
@@ -241,7 +241,7 @@ When you're done testing:
 3. Click **"Close Deployment"**
 4. Confirm the closure
 
-**💰 Always close deployments when you're done to conserve your $100 trial credits.**
+**Always close deployments when you're done to conserve your $100 trial credits.**
 
 ---
 
@@ -301,7 +301,7 @@ The Console dashboard shows:
 
 ## What's Next?
 
-### 🎯 Maximize Your Trial
+### Maximize Your Trial
 
 You have $100 in credits and 30 days - here's how to make the most of it:
 
@@ -310,7 +310,7 @@ You have $100 in credits and 30 days - here's how to make the most of it:
 3. **Test Your Own Apps** - Use the SDL Builder to deploy your projects
 4. **Monitor Costs** - See how much different workloads cost on Akash
 
-### 🚀 Deploy Real Applications
+### Deploy Real Applications
 
 Now that you know the basics, explore templates in Akash Console to deploy:
 - **Web Applications** - Blogs, APIs, websites
@@ -318,19 +318,19 @@ Now that you know the basics, explore templates in Akash Console to deploy:
 - **AI/ML** - LLMs, stable diffusion, training
 - **GPU Workloads** - Use Akash's GPU marketplace
 
-### 📚 Learn More
+### Learn More
 
 - **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Master the Stack Definition Language
 - **[What is Akash?](/docs/getting-started/what-is-akash)** - Deep dive into Akash Network
 
-### 💻 For Developers
+### For Developers
 
 Ready for more advanced workflows?
 - **[Akash CLI](/docs/developers/deployment/cli)** - Command-line deployment and automation
 - **[Akash SDK](/docs/extend/sdk)** - Build deployment tools with Go or JavaScript/TypeScript
 
-### 💳 Ready to Go Beyond Trial?
+### Ready to Go Beyond Trial?
 
 **Add Funds:** Click your balance → "Add Funds" → Pay with credit card (keeps your $100 trial credits!)
 
@@ -349,12 +349,12 @@ We're here to help you succeed!
 
 ## Tips for Success
 
-- 💡 **Start with templates** - Use a featured template for your first deployment
-- 💰 **Watch your credits** - Monitor your balance at the top of Console
-- ⏰ **Remember the 24-hour limit** - Trial deployments auto-close after 1 day
-- 🔍 **Check logs first** - If something doesn't work, logs usually tell you why
-- 📝 **Explore the marketplace** - Browse pre-built solutions in Templates section
-- 🚀 **Try different apps** - You have $100 to experiment with web apps, AI models, databases
-- 💳 **Add funds anytime** - Keep your trial credits when you add more via credit card
+- **Start with templates** - Use a featured template for your first deployment
+- **Watch your credits** - Monitor your balance at the top of Console
+- **Remember the 24-hour limit** - Trial deployments auto-close after 1 day
+- **Check logs first** - If something doesn't work, logs usually tell you why
+- **Explore the marketplace** - Browse pre-built solutions in Templates section
+- **Try different apps** - You have $100 to experiment with web apps, AI models, databases
+- **Add funds anytime** - Keep your trial credits when you add more via credit card
 
 ---

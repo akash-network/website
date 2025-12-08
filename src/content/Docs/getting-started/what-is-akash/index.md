@@ -38,21 +38,21 @@ Your application runs on the provider's infrastructure. You pay per block, and c
 
 ## Why Use Akash?
 
-### 💰 **Lower Costs**
+### **Lower Costs**
 Save up to 85% compared to AWS, Azure, or Google Cloud. No surprise bills. Pay only for what you use, with resources priced at exact sizes (need 1.36GB RAM? Get exactly that, not just 2GB or 4GB tiers).
 
-### 🌍 **Censorship Resistant**
+### **Censorship Resistant**
 No single entity can shut down your application. Deploy anywhere, anytime.
 
-### 🚀 **High Performance**
+### **High Performance**
 Access to high-end GPUs and compute at fraction of the cost. Perfect for AI/ML workloads.
 
-### 🔓 **Flexible Access**
+### **Flexible Access**
 Start with our **trial** (credit card, $100 free credits, 30 days) or go **permissionless** with your own wallet (no KYC, use AKT or USDC).
 
 **Note:** Trial deployments have a 24-hour maximum duration per deployment, but you can redeploy as many times as you want within your 30-day trial period.
 
-### 🌐 **Global Network**
+### **Global Network**
 Providers in 85+ countries. Deploy close to your users for better performance.
 
 ---
@@ -130,26 +130,26 @@ The **[Stack Definition Language (SDL)](/docs/developers/deployment/akash-sdl)**
 
 ## Common Use Cases
 
-### 🎨 **Developers**
+### **Developers**
 Deploy production applications, side projects, and development environments without breaking the bank.
 
-### 🤖 **AI/ML Engineers**
+### **AI/ML Engineers**
 Train models and run inference on high-end GPUs at a fraction of cloud costs.
 
-### 🎮 **Gamers & Content Creators**
+### **Gamers & Content Creators**
 Host private game servers for friends without expensive VPS bills.
 
-### 🌐 **Web3 Projects**
+### **Web3 Projects**
 Run decentralized infrastructure—nodes, indexers, APIs—on decentralized cloud.
 
-### 💼 **Startups**
+### **Startups**
 Reduce cloud costs significantly while scaling your application.
 
 ---
 
 ## Is Akash Right for You?
 
-### ✅ **Perfect for:**
+### **Perfect for:**
 - Production web applications and APIs
 - GPU-intensive workloads (AI/ML, inference, training)
 - High-performance computing workloads

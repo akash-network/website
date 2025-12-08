@@ -42,12 +42,12 @@ Complete upgrade guide including Cosmovisor and manual upgrade instructions, bui
 ## Best Practices
 
 **Before Every Upgrade:**
-1. ✅ Read the complete upgrade guide
-2. ✅ Backup your validator keys
-3. ✅ Test the upgrade on a non-validator node first
-4. ✅ Monitor Discord channels for announcements
-5. ✅ Verify binary checksums
-6. ✅ Be available during the upgrade window
+1. **Read the complete upgrade guide
+2. **Backup your validator keys
+3. **Test the upgrade on a non-validator node first
+4. **Monitor Discord channels for announcements
+5. **Verify binary checksums
+6. **Be available during the upgrade window
 
 **Recommended Setup:**
 - Use Cosmovisor for automatic upgrades

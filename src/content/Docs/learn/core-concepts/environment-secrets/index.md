@@ -194,18 +194,18 @@ env:
 
 ## Managing Secrets
 
-### ⚠️ Security Warning
+###  Security Warning
 
 **Environment variables in SDL are NOT encrypted.** Anyone with access to your SDL file can read them.
 
 ### Where Secrets Appear
 
-❌ **Visible in:**
+**Visible in:**
 - SDL file (plain text)
 - Provider manifest (sent directly to provider)
 - Container environment (inside running containers)
 
-✅ **NOT on blockchain:**
+**NOT on blockchain:**
 - SDL and manifest are NOT stored on-chain
 - Only deployment metadata (resources, pricing) stored on blockchain
 - Environment variables never touch the blockchain
@@ -401,7 +401,7 @@ services:
 
 ### Store Config in Environment
 
-✅ **DO:**
+**DO:**
 ```yaml
 env:
   - DATABASE_URL=postgres://...
@@ -409,7 +409,7 @@ env:
   - ENABLE_FEATURE_X=true
 ```
 
-❌ **DON'T:**
+**DON'T:**
 ```yaml
 # Hardcoding in app code
 database = Database.connect("postgres://hardcoded...")
@@ -528,22 +528,22 @@ env:
 
 **Problem: Variable with spaces**
 ```yaml
-# ❌ WRONG - will break
+# **WRONG - will break
 env:
   - MESSAGE=Hello World
 
-# ✅ CORRECT - quote the value
+# **CORRECT - quote the value
 env:
   - MESSAGE="Hello World"
 ```
 
 **Problem: Special characters**
 ```yaml
-# ❌ WRONG - special chars may break
+# **WRONG - special chars may break
 env:
   - PASSWORD=p@$$w0rd!
 
-# ✅ CORRECT - escape or quote
+# **CORRECT - escape or quote
 env:
   - PASSWORD="p@$$w0rd!"
 ```
@@ -772,7 +772,7 @@ deployment:
 
 ## Best Practices Summary
 
-✅ **DO:**
+**DO:**
 - Use environment variables for all configuration
 - Keep secrets out of git
 - Use separate SDL files for dev/prod
@@ -781,7 +781,7 @@ deployment:
 - Use least-privilege API keys
 - Fetch secrets from external stores when possible
 
-❌ **DON'T:**
+**DON'T:**
 - Commit secrets to git
 - Hardcode configuration in code
 - Use the same secrets across environments

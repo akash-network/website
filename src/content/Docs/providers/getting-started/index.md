@@ -45,9 +45,9 @@ Before diving into provider operations, you should have:
 
 By the end of this section, you'll know:
 
-✅ If running a provider is right for you  
-✅ What hardware and resources you need  
-✅ How to calculate your potential earnings  
-✅ How to get started with setup  
+**If running a provider is right for you  
+**What hardware and resources you need  
+**How to calculate your potential earnings  
+**How to get started with setup  
 
 ---

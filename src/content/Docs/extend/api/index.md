@@ -11,7 +11,7 @@ description: "Programmatic deployments using Akash Console's Managed Wallet API"
 
 The Managed Wallet API allows you to create and manage deployments programmatically without managing your own wallet or private keys.
 
-**⚠️ WIP:** This API is under active development and may change frequently.
+** WIP:** This API is under active development and may change frequently.
 
 ---
 
@@ -43,7 +43,7 @@ The Managed Wallet API enables programmatic access to Akash Console features:
 4. Click **"Create API Key"**
 5. Copy and save your API key securely
 
-**⚠️ Important:** API keys grant full access to your Console account. Keep them secret!
+** Important:** API keys grant full access to your Console account. Keep them secret!
 
 ---
 
@@ -348,7 +348,7 @@ const leaseResponse = await api.post<CreateLeaseResponse>(
   }
 );
 
-console.log("✅ Lease created!");
+console.log("**Lease created!");
 console.log("Deployment state:", leaseResponse.data.data.deployment.state);
 ```
 
@@ -480,7 +480,7 @@ async function deployToAkash() {
       },
       { headers: { "x-api-key": API_KEY } }
     );
-    console.log("✅ Lease created! Deployment is live.");
+    console.log("**Lease created! Deployment is live.");
     
     // 5. (Optional) Add more deposit
     console.log("Adding additional deposit...");
@@ -811,10 +811,10 @@ console.log("Deployment closed:", closeResponse.data.data.message);
 - **Restrict key permissions** if possible
 
 ```typescript
-// ✅ Good: Use environment variables
+// **Good: Use environment variables
 const API_KEY = process.env.CONSOLE_API_KEY;
 
-// ❌ Bad: Hardcoded key
+// **Bad: Hardcoded key
 const API_KEY = "akt_abc123...";
 ```
 
@@ -871,9 +871,9 @@ try {
 
 ## Limitations
 
-- ⚠️ **API is in development** - Endpoints may change
-- ⚠️ **Credit card payment only** - Cannot use existing AKT
-- ⚠️ **Managed wallet** - No direct blockchain access
+-  **API is in development** - Endpoints may change
+-  **Credit card payment only** - Cannot use existing AKT
+-  **Managed wallet** - No direct blockchain access
 
 **For production deployments without time limits**, use the [Akash SDK](/docs/extend/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
 

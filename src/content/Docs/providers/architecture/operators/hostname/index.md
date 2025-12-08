@@ -158,12 +158,12 @@ func (hs *hostnameService) isHostnameBlocked(hostname string) error {
 
 **Example Scenarios:**
 
-1. **Same Owner, Different Deployment** ✅ Allowed
+1. **Same Owner, Different Deployment** **Allowed
    - Deployment A (owner: akash1abc...) uses `api.example.com`
    - Deployment B (same owner) requests `api.example.com`
    - Result: Hostname transferred from A to B
 
-2. **Different Owner** ❌ Blocked
+2. **Different Owner** **Blocked
    - Deployment A (owner: akash1abc...) uses `api.example.com`
    - Deployment B (owner: akash1xyz...) requests `api.example.com`
    - Result: Error - hostname in use

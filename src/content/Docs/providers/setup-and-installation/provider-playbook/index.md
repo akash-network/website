@@ -11,13 +11,13 @@ description: "Automated provider setup using Ansible playbooks"
 
 The Provider Playbook features an interactive setup script that guides you through the entire process, automating Kubernetes installation, provider deployment, and configuration.
 
-⏱️ **Setup Time:** ~1 hour
+ **Setup Time:** ~1 hour
 
 ---
 
 ## Why Provider Playbook?
 
-### ✅ Advantages
+### **Advantages
 - **Interactive wizard** - Guides you through every step
 - **Automated setup** - Handles all the heavy lifting
 - **Multiple Kubernetes options** - Choose Kubespray (production) or K3s (lightweight)
@@ -25,7 +25,7 @@ The Provider Playbook features an interactive setup script that guides you throu
 - **Standardized deployment** - Consistent, repeatable process
 - **Infrastructure as Code** - All configurations versioned
 
-### ⚠️ Considerations
+###  Considerations
 - Requires command-line comfort
 - SSH access to all nodes required
 - Still requires Linux/networking understanding
@@ -35,15 +35,15 @@ The Provider Playbook features an interactive setup script that guides you throu
 ## What It Automates
 
 The interactive script handles:
-- ✅ Prerequisite installation (Python, Ansible, tools)
-- ✅ Kubernetes cluster deployment (Kubespray or K3s)
-- ✅ Wallet setup (create new or import existing)
-- ✅ GPU detection and NVIDIA driver installation
-- ✅ Storage configuration (Rook-Ceph for persistent storage)
-- ✅ Provider software installation and configuration
-- ✅ OS optimizations and cron jobs
-- ✅ Tailscale VPN setup (optional)
-- ✅ SSH key distribution across nodes
+- **Prerequisite installation (Python, Ansible, tools)
+- **Kubernetes cluster deployment (Kubespray or K3s)
+- **Wallet setup (create new or import existing)
+- **GPU detection and NVIDIA driver installation
+- **Storage configuration (Rook-Ceph for persistent storage)
+- **Provider software installation and configuration
+- **OS optimizations and cron jobs
+- **Tailscale VPN setup (optional)
+- **SSH key distribution across nodes
 
 ---
 

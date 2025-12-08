@@ -167,17 +167,17 @@ uptime-guarantee: 99.9%
 - Backup/DR location diversity
 
 **Example:**
-- US users → US-based provider
-- EU users with GDPR → EU-based provider
-- Global app → Multiple providers in different regions
+- US users   US-based provider
+- EU users with GDPR   EU-based provider
+- Global app   Multiple providers in different regions
 
 #### 4. Features
 
 **Match your needs:**
-- Need persistent storage? → Check `feat-persistent-storage: true`
-- Need dedicated IP? → Check `feat-endpoint-ip: true`
-- Need GPU? → Check `capabilities/gpu/vendor/<vendor>/model/<model>` attributes
-- Need high bandwidth? → Check network capacity attributes
+- Need persistent storage?   Check `feat-persistent-storage: true`
+- Need dedicated IP?   Check `feat-endpoint-ip: true`
+- Need GPU?   Check `capabilities/gpu/vendor/<vendor>/model/<model>` attributes
+- Need high bandwidth?   Check network capacity attributes
 
 #### 5. Performance
 
@@ -386,7 +386,7 @@ https://5g8qj7kl3m-8080.provider.akash.network
 2. Choose closest to users
 3. Consider data residency laws
 
-**Example:** EU app with GDPR → EU-based provider only
+**Example:** EU app with GDPR   EU-based provider only
 
 ### Strategy 4: Feature Requirements
 
@@ -400,7 +400,7 @@ https://5g8qj7kl3m-8080.provider.akash.network
 2. Eliminate providers without needed features
 3. Choose among qualified providers
 
-**Example:** Need NVIDIA A100 GPU → Filter for that specific model
+**Example:** Need NVIDIA A100 GPU   Filter for that specific model
 
 ---
 
@@ -525,14 +525,14 @@ Providers pay for:
 
 ### Selection
 
-✅ **DO:**
+**DO:**
 - Research providers before accepting bids
 - Check community feedback
 - Verify required features are available
 - Test with small deployment first
 - Document your provider choices
 
-❌ **DON'T:**
+**DON'T:**
 - Always choose cheapest bid
 - Ignore provider reputation
 - Skip attribute verification
@@ -540,14 +540,14 @@ Providers pay for:
 
 ### Management
 
-✅ **DO:**
+**DO:**
 - Monitor lease health regularly
 - Keep provider contact info
 - Have backup provider list
 - Plan migration procedures
 - Test failover scenarios
 
-❌ **DON'T:**
+**DON'T:**
 - Ignore provider downtime warnings
 - Let escrow run out unexpectedly
 - Deploy without backup plan
@@ -555,13 +555,13 @@ Providers pay for:
 
 ### Communication
 
-✅ **DO:**
+**DO:**
 - Join provider Discord channels
 - Report issues constructively
 - Provide clear error information
 - Be patient with provider responses
 
-❌ **DON'T:**
+**DON'T:**
 - Expect 24/7 instant support
 - Be hostile or demanding
 - Ignore provider announcements

@@ -33,9 +33,9 @@ kubectl -n akash-services logs -l app=akash-provider --tail=100 -f
 ```
 
 **Look for:**
-- ✅ `"bidding on order"` - Provider is creating bids
-- ✅ `"bid complete"` - Bids are being submitted
-- ❌ `"error"` or `"failed"` - Investigate errors
+- **`"bidding on order"` - Provider is creating bids
+- **`"bid complete"` - Bids are being submitted
+- **`"error"` or `"failed"` - Investigate errors
 
 ### 3. Verify On-Chain Registration
 

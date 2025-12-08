@@ -192,9 +192,9 @@ git clone https://github.com/akash-network/provider.git
 ```
 
 **Supported platforms:**
-- ✅ macOS
-- ✅ Debian-based Linux
-- ❌ Windows (not supported - use WSL2)
+- **macOS
+- **Debian-based Linux
+- **Windows (not supported - use WSL2)
 
 ---
 

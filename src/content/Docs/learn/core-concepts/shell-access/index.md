@@ -520,13 +520,13 @@ provider-services lease-shell \
 
 ### Security
 
-✅ **DO:**
+**DO:**
 - Use environment variables for sensitive values
 - Limit shell access to authorized users
 - Audit shell access commands
 - Rotate wallet keys regularly
 
-❌ **DON'T:**
+**DON'T:**
 - Expose private keys in commands
 - Share shell access credentials
 - Leave interactive sessions open
@@ -534,13 +534,13 @@ provider-services lease-shell \
 
 ### Usage
 
-✅ **DO:**
+**DO:**
 - Exit interactive sessions when done
 - Document debugging steps
 - Use specific commands over interactive shells
 - Test commands on development first
 
-❌ **DON'T:**
+**DON'T:**
 - Make permanent changes via shell (redeploy instead)
 - Run resource-intensive commands
 - Modify critical system files
@@ -548,13 +548,13 @@ provider-services lease-shell \
 
 ### Troubleshooting
 
-✅ **DO:**
+**DO:**
 - Check service name matches SDL
 - Verify provider address is correct
 - Ensure wallet has proper permissions
 - Try different shell paths if one fails
 
-❌ **DON'T:**
+**DON'T:**
 - Assume all containers have same tools
 - Expect GUI applications to work
 - Run commands without understanding impact

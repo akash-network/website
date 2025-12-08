@@ -149,13 +149,13 @@ provider-services lease-status \
 
 ### What Can Be Updated?
 
-**✅ Can update:**
+**Can update:**
 - Container image versions
 - Environment variables
 - Command and args
 - Some exposed port configurations
 
-**❌ Cannot update (must close and recreate deployment):**
+**Cannot update (must close and recreate deployment):**
 - CPU, memory, storage, GPU resources
 - Placement criteria (provider attributes)
 - Service names

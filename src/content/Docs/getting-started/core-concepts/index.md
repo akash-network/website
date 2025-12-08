@@ -107,11 +107,11 @@ Prices vary by provider and demand.
 
 ## What You Can Update
 
-✅ **Container image version**  
-✅ **Environment variables**  
-✅ **Container commands**
+**Container image version**  
+**Environment variables**  
+**Container commands**
 
-❌ **CPU, Memory, Storage amounts** - Must create new deployment
+**Cannot update: CPU, Memory, Storage amounts** - Must create new deployment
 
 ---
 

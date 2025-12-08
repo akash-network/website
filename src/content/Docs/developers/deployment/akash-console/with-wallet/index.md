@@ -16,11 +16,11 @@ If you already have AKT and prefer direct blockchain access, you can connect you
 ## Why Use Console with Your Own Wallet?
 
 ### Benefits:
-- ✅ **No deployment time limits** - Run indefinitely (trial has 24-hour limit)
-- ✅ **Full blockchain control** - Direct access to your AKT and transactions
-- ✅ **No credit card required** - Use your existing AKT holdings
-- ✅ **Lower fees** - Pay network fees directly, no payment processing fees
-- ✅ **Visual interface** - Easier than CLI for most users
+- **No deployment time limits** - Run indefinitely (trial has 24-hour limit)
+- **Full blockchain control** - Direct access to your AKT and transactions
+- **No credit card required** - Use your existing AKT holdings
+- **Lower fees** - Pay network fees directly, no payment processing fees
+- **Visual interface** - Easier than CLI for most users
 
 ### Best For:
 - Users who already own AKT
@@ -77,7 +77,7 @@ Open your browser and go to **[console.akash.network](https://console.akash.netw
 ![Wallet Connected](/images/docs/console/wallet/4-wallet-connected.png)
 *Successfully connected - your address and AKT balance are now visible*
 
-✅ You're now connected with your own wallet!
+**You're now connected with your own wallet!
 
 ---
 
@@ -164,9 +164,9 @@ Review the transaction details:
 
 Click **"Approve"**
 
-⏳ Wait ~30 seconds for blockchain confirmation
+ Wait ~30 seconds for blockchain confirmation
 
-✅ Deployment created! Now waiting for provider bids...
+**Deployment created! Now waiting for provider bids...
 
 ---
 
@@ -197,7 +197,7 @@ After creating your deployment, providers will bid to host it:
 ![Lease Transaction Approval](/images/docs/console/wallet/8-lease-tx-approval.png)
 *Approve the lease creation transaction to accept the provider's bid*
 
-⏳ Wait ~20 seconds for lease creation and manifest to be sent
+ Wait ~20 seconds for lease creation and manifest to be sent
 
 ---
 
@@ -207,12 +207,12 @@ Once the lease is created:
 
 1. Console automatically sends your manifest to the provider (no wallet approval needed)
 
-⏳ Wait 30-60 seconds for your container to start
+ Wait 30-60 seconds for your container to start
 
 Status will change:
 - "Manifest Received"
 - "Starting Services..."
-- **"Active"** ✅
+- **"Active"**
 
 ---
 
@@ -224,12 +224,12 @@ Once status shows **"Active"** or **"Running"**:
 *Your deployment is live with URLs and management controls*
 
 You'll see:
-- ✅ **Live URLs** - Access your application
-- 📊 **Status** - Real-time deployment state
-- 💰 **Cost Tracking** - Current spending and escrow balance
-- ⚙️ **Management Controls** - Logs, update, close
+- **Live URLs** - Access your application
+-  **Status** - Real-time deployment state
+-  **Cost Tracking** - Current spending and escrow balance
+-  **Management Controls** - Logs, update, close
 
-**🎉 Congratulations! Your app is live on Akash!**
+** Congratulations! Your app is live on Akash!**
 
 ---
 
@@ -294,7 +294,7 @@ Stop your deployment and reclaim your deposit:
 ![Deployment Closed](/images/docs/console/wallet/11.1-close-tx-approval.png)
 *Deployment successfully closed - deposit refunded to your wallet*
 
-**💰 Always close deployments to get your deposit back.**
+** Always close deployments to get your deposit back.**
 
 ---
 
@@ -384,12 +384,12 @@ Stop your deployment and reclaim your deposit:
 
 ## Tips for Success
 
-- 💡 **Start with templates** - Use Hello World for your first deployment
-- 💰 **Monitor your escrow** - Keep an eye on your deposit balance
-- 📊 **Check provider stats** - Choose providers with high uptime
-- 🔍 **Use logs** - Logs are your best debugging tool
-- 💾 **Save your SDLs** - Keep copies of working configurations
-- 🚀 **Test pricing** - Try different price points to get bids from more providers
+-  **Start with templates** - Use Hello World for your first deployment
+-  **Monitor your escrow** - Keep an eye on your deposit balance
+-  **Check provider stats** - Choose providers with high uptime
+-  **Use logs** - Logs are your best debugging tool
+-  **Save your SDLs** - Keep copies of working configurations
+-  **Test pricing** - Try different price points to get bids from more providers
 
 ---
 

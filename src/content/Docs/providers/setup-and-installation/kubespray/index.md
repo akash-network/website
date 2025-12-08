@@ -11,7 +11,7 @@ description: "Manual provider setup using Kubespray and Helm for full control"
 
 Kubespray provides a manual, step-by-step approach to deploying an Akash provider, giving you full control and customization over every component. Ideal for advanced users who need specific configurations or want to deeply understand the infrastructure.
 
-⏱️ **Setup Time:** 1-2 hours
+ **Setup Time:** 1-2 hours
 
 ---
 
@@ -29,7 +29,7 @@ Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, 
 
 ## Why Choose Kubespray?
 
-### ✅ Advantages
+### **Advantages
 - **Full control** - Customize every aspect of your setup
 - **Production-grade** - Battle-tested for large deployments
 - **Deep understanding** - Learn exactly how components work together
@@ -37,7 +37,7 @@ Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, 
 - **Custom configurations** - Fine-tune network, storage, and security
 - **Reproducible** - Infrastructure as Code approach
 
-### ⚠️ Considerations
+###  Considerations
 - **Requires Kubernetes knowledge** - Must understand K8s concepts
 - **More manual steps** - Less automated than Provider Playbook
 - **Command-line focused** - Terminal-based setup
@@ -210,13 +210,13 @@ Not sure Kubespray is right for you?
 - Automated Kubespray setup with interactive wizard
 - Same Kubernetes stack, automated configuration
 - Recommended for most users
-- ⏱️ Time: ~1 hour
+-  Time: ~1 hour
 
 **[Provider Console →](/docs/providers/setup-and-installation/provider-console)**
 - Web-based setup with no K8s knowledge required
 - Fully managed Kubernetes
 - Best for beginners
-- ⏱️ Time: 15-30 minutes
+-  Time: 15-30 minutes
 
 ---
 

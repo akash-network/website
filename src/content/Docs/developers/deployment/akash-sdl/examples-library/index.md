@@ -20,10 +20,10 @@ All examples are maintained in the [Awesome Akash](https://github.com/akash-netw
 **391 stars • 257 forks • 148 contributors**
 
 The Awesome Akash repository contains deployment examples for hundreds of applications across 30+ categories. Each example includes:
-- ✅ **Complete SDL configuration** (`deploy.yaml`)
-- ✅ **Deployment instructions** (`README.md`)
-- ✅ **Resource requirements**
-- ✅ **Configuration options**
+- **Complete SDL configuration** (`deploy.yaml`)
+- **Deployment instructions** (`README.md`)
+- **Resource requirements**
+- **Configuration options**
 
 ---
 
@@ -53,7 +53,7 @@ Each folder typically contains:
 
 The repository includes examples across 30+ categories:
 
-### 🤖 AI - CPU (26 examples)
+###  AI - CPU (26 examples)
 Run AI workloads on CPU-only instances.
 
 **Popular examples:**
@@ -65,7 +65,7 @@ Run AI workloads on CPU-only instances.
 
 ---
 
-### 🎨 AI - GPU (80+ examples)
+###  AI - GPU (80+ examples)
 GPU-accelerated AI workloads including LLMs, image generation, and ML training.
 
 **Large Language Models:**
@@ -86,7 +86,7 @@ GPU-accelerated AI workloads including LLMs, image generation, and ML training.
 
 ---
 
-### 💾 Databases (15+ examples)
+###  Databases (15+ examples)
 
 **SQL Databases:**
 - **PostgreSQL** - Popular relational database
@@ -106,7 +106,7 @@ GPU-accelerated AI workloads including LLMs, image generation, and ML training.
 
 ---
 
-### 🌐 Web & Blogging
+###  Web & Blogging
 
 **Blogging Platforms:**
 - **WordPress** - Popular CMS
@@ -121,7 +121,7 @@ GPU-accelerated AI workloads including LLMs, image generation, and ML training.
 
 ---
 
-### 🛠️ Development Tools
+###  Development Tools
 
 **IDEs & Editors:**
 - **Code-Server** - VS Code in browser
@@ -140,7 +140,7 @@ GPU-accelerated AI workloads including LLMs, image generation, and ML training.
 
 ---
 
-### ⛓️ Blockchain Nodes
+###  Blockchain Nodes
 
 **Major Networks:**
 - **Bitcoin** - Bitcoin full node
@@ -155,7 +155,7 @@ GPU-accelerated AI workloads including LLMs, image generation, and ML training.
 
 ---
 
-### 🎮 Gaming
+###  Gaming
 
 **Game Servers:**
 - **Minecraft** - Minecraft server
@@ -170,7 +170,7 @@ GPU-accelerated AI workloads including LLMs, image generation, and ML training.
 
 ---
 
-### 💰 DeFi Applications
+###  DeFi Applications
 
 **DEX Interfaces:**
 - **Uniswap** - Uniswap interface
@@ -297,12 +297,12 @@ The Awesome Akash repository welcomes contributions from the community!
 
 ### Contribution Guidelines
 
-- ✅ Test your SDL before submitting
-- ✅ Include clear, detailed documentation
-- ✅ Specify exact resource requirements
-- ✅ Add troubleshooting tips for common issues
-- ✅ Follow the existing folder structure
-- ✅ Use descriptive commit messages
+- **Test your SDL before submitting
+- **Include clear, detailed documentation
+- **Specify exact resource requirements
+- **Add troubleshooting tips for common issues
+- **Follow the existing folder structure
+- **Use descriptive commit messages
 
 **[View Contributing Guide →](https://github.com/akash-network/awesome-akash/blob/master/CONTRIBUTING.md)**
 
@@ -327,12 +327,12 @@ The Awesome Akash repository welcomes contributions from the community!
 
 ## Quick Stats
 
-- **391 stars** ⭐
-- **257 forks** 🍴
-- **148 contributors** 👥
-- **290+ deployment examples** 📦
-- **30+ categories** 🗂️
-- **Apache 2.0 License** 📄
+- **391 stars** 
+- **257 forks** 
+- **148 contributors** 
+- **290+ deployment examples** 
+- **30+ categories** 
+- **Apache 2.0 License** 
 
 ---
 

@@ -69,12 +69,12 @@ integration/      # Integration tests
 #### Package Names
 
 ```go
-// ✅ Good: Short, lowercase, no underscores
+// **Good: Short, lowercase, no underscores
 package bidengine
 package deployment
 package manifest
 
-// ❌ Bad: Mixed case, underscores
+// **Bad: Mixed case, underscores
 package bidEngine
 package bid_engine
 ```
@@ -82,13 +82,13 @@ package bid_engine
 #### Variables
 
 ```go
-// ✅ Good: CamelCase for exported, camelCase for unexported
+// **Good: CamelCase for exported, camelCase for unexported
 type DeploymentManager struct {
     MaxBids int
     bidders []Bidder
 }
 
-// ❌ Bad: Inconsistent casing
+// **Bad: Inconsistent casing
 type deploymentManager struct {
     max_bids int
 }
@@ -97,12 +97,12 @@ type deploymentManager struct {
 #### Functions
 
 ```go
-// ✅ Good: Descriptive, action-oriented
+// **Good: Descriptive, action-oriented
 func CreateDeployment(ctx context.Context, sdl []byte) (*Deployment, error)
 func ValidateManifest(m *Manifest) error
 func (d *Deployment) Close() error
 
-// ❌ Bad: Vague or inconsistent
+// **Bad: Vague or inconsistent
 func DoStuff() error
 func deployment_create() error
 ```
@@ -110,7 +110,7 @@ func deployment_create() error
 ### Error Handling
 
 ```go
-// ✅ Good: Return errors, don't panic
+// **Good: Return errors, don't panic
 func ProcessBid(bid *Bid) (*Lease, error) {
     if bid == nil {
         return nil, errors.New("bid cannot be nil")
@@ -124,15 +124,15 @@ func ProcessBid(bid *Bid) (*Lease, error) {
     return lease, nil
 }
 
-// ✅ Good: Wrap errors with context
+// **Good: Wrap errors with context
 if err != nil {
     return fmt.Errorf("processing bid %s: %w", bid.ID, err)
 }
 
-// ❌ Bad: Ignoring errors
+// **Bad: Ignoring errors
 lease, _ := createLease(bid)
 
-// ❌ Bad: Panicking in library code
+// **Bad: Panicking in library code
 if err != nil {
     panic(err)
 }
@@ -141,7 +141,7 @@ if err != nil {
 ### Interfaces
 
 ```go
-// ✅ Good: Small, focused interfaces
+// **Good: Small, focused interfaces
 type Bidder interface {
     PlaceBid(ctx context.Context, order Order) (*Bid, error)
 }
@@ -151,10 +151,10 @@ type LeaseManager interface {
     CloseLease(ctx context.Context, leaseID LeaseID) error
 }
 
-// ✅ Good: Accept interfaces, return structs
+// **Good: Accept interfaces, return structs
 func ProcessBids(ctx context.Context, bidder Bidder, orders []Order) ([]*Bid, error)
 
-// ❌ Bad: Large interfaces with many methods
+// **Bad: Large interfaces with many methods
 type Everything interface {
     DoBid()
     DoLease()
@@ -166,7 +166,7 @@ type Everything interface {
 ### Testing
 
 ```go
-// ✅ Good: Table-driven tests
+// **Good: Table-driven tests
 func TestCreateDeployment(t *testing.T) {
     tests := []struct {
         name    string
@@ -206,7 +206,7 @@ func TestCreateDeployment(t *testing.T) {
 #### Goroutine Leak Detection
 
 ```go
-// ✅ Good: Use goleak to detect goroutine leaks
+// **Good: Use goleak to detect goroutine leaks
 import "go.uber.org/goleak"
 
 func TestMyFunction(t *testing.T) {
@@ -219,12 +219,12 @@ func TestMyFunction(t *testing.T) {
 ### Comments
 
 ```go
-// ✅ Good: Package documentation
+// **Good: Package documentation
 // Package bidengine provides bid placement and management for Akash providers.
 // It handles bid evaluation, placement, and lease creation.
 package bidengine
 
-// ✅ Good: Exported function documentation
+// **Good: Exported function documentation
 // CreateDeployment creates a new deployment from the provided SDL.
 // It validates the SDL, creates the deployment transaction, and returns
 // the deployment ID.
@@ -232,13 +232,13 @@ package bidengine
 // Returns an error if the SDL is invalid or the transaction fails.
 func CreateDeployment(ctx context.Context, sdl []byte) (*Deployment, error)
 
-// ✅ Good: Explain complex logic
+// **Good: Explain complex logic
 // Calculate bid price using the formula:
 // price = (cpu * cpuPrice) + (memory * memPrice) + (storage * storagePrice)
 // Prices are in uakt per unit per block.
 price := calculateBidPrice(resources)
 
-// ❌ Bad: Obvious comments
+// **Bad: Obvious comments
 // Increment counter by 1
 counter++
 ```
@@ -246,10 +246,10 @@ counter++
 ### Context Usage
 
 ```go
-// ✅ Good: Pass context as first parameter
+// **Good: Pass context as first parameter
 func CreateDeployment(ctx context.Context, sdl []byte) (*Deployment, error)
 
-// ✅ Good: Check context cancellation
+// **Good: Check context cancellation
 select {
 case <-ctx.Done():
     return ctx.Err()
@@ -257,7 +257,7 @@ case result := <-ch:
     return result, nil
 }
 
-// ❌ Bad: Store context in struct
+// **Bad: Store context in struct
 type Manager struct {
     ctx context.Context  // Don't do this
 }
@@ -284,19 +284,19 @@ npm run lint:fix
 ### Naming Conventions
 
 ```typescript
-// ✅ Good: PascalCase for components and classes
+// **Good: PascalCase for components and classes
 export const DeploymentCard: React.FC<Props> = ({ deployment }) => { }
 export class DeploymentManager { }
 
-// ✅ Good: camelCase for variables and functions
+// **Good: camelCase for variables and functions
 const deploymentId = "123"
 function createDeployment(sdl: string) { }
 
-// ✅ Good: UPPER_SNAKE_CASE for constants
+// **Good: UPPER_SNAKE_CASE for constants
 const MAX_BID_AMOUNT = 1000
 const API_BASE_URL = "https://api.akash.network"
 
-// ❌ Bad: Inconsistent casing
+// **Bad: Inconsistent casing
 const DeploymentId = "123"  // Should be camelCase
 function CreateDeployment() { }  // Should be camelCase
 ```
@@ -304,12 +304,12 @@ function CreateDeployment() { }  // Should be camelCase
 ### TypeScript Best Practices
 
 ```typescript
-// ✅ Good: Explicit types for function parameters and returns
+// **Good: Explicit types for function parameters and returns
 function createDeployment(sdl: string, deposit: number): Promise<Deployment> {
   return api.post<Deployment>("/deployments", { sdl, deposit })
 }
 
-// ✅ Good: Use interfaces for object shapes
+// **Good: Use interfaces for object shapes
 interface Deployment {
   dseq: string
   owner: string
@@ -317,19 +317,19 @@ interface Deployment {
   createdAt: Date
 }
 
-// ✅ Good: Use enums for fixed values
+// **Good: Use enums for fixed values
 enum DeploymentState {
   Active = "active",
   Closed = "closed",
   Paused = "paused"
 }
 
-// ❌ Bad: Using `any`
+// **Bad: Using `any`
 function processDeployment(data: any) {  // Avoid `any`
   return data.something
 }
 
-// ✅ Better: Use proper types or `unknown`
+// **Better: Use proper types or `unknown`
 function processDeployment(data: unknown) {
   if (isDeployment(data)) {
     return data.dseq
@@ -340,7 +340,7 @@ function processDeployment(data: unknown) {
 ### React Component Conventions
 
 ```typescript
-// ✅ Good: Functional components with TypeScript
+// **Good: Functional components with TypeScript
 interface DeploymentCardProps {
   deployment: Deployment
   onClose: (id: string) => void
@@ -362,7 +362,7 @@ export const DeploymentCard: React.FC<DeploymentCardProps> = ({
   )
 }
 
-// ✅ Good: Custom hooks for reusable logic
+// **Good: Custom hooks for reusable logic
 function useDeployments() {
   const [deployments, setDeployments] = useState<Deployment[]>([])
   const [loading, setLoading] = useState(true)
@@ -374,7 +374,7 @@ function useDeployments() {
   return { deployments, loading }
 }
 
-// ❌ Bad: Prop drilling (use Context or state management)
+// **Bad: Prop drilling (use Context or state management)
 <ComponentA deployment={deployment}>
   <ComponentB deployment={deployment}>
     <ComponentC deployment={deployment} />
@@ -385,7 +385,7 @@ function useDeployments() {
 ### Error Handling
 
 ```typescript
-// ✅ Good: Try-catch with proper error handling
+// **Good: Try-catch with proper error handling
 async function createDeployment(sdl: string): Promise<Deployment> {
   try {
     const response = await api.post<Deployment>("/deployments", { sdl })
@@ -398,7 +398,7 @@ async function createDeployment(sdl: string): Promise<Deployment> {
   }
 }
 
-// ✅ Good: Error boundaries for React
+// **Good: Error boundaries for React
 class ErrorBoundary extends React.Component<Props, State> {
   static getDerivedStateFromError(error: Error) {
     return { hasError: true, error }
@@ -420,13 +420,13 @@ class ErrorBoundary extends React.Component<Props, State> {
 ### Async/Await
 
 ```typescript
-// ✅ Good: Use async/await
+// **Good: Use async/await
 async function fetchDeployments(): Promise<Deployment[]> {
   const response = await api.get<Deployment[]>("/deployments")
   return response.data
 }
 
-// ✅ Good: Handle errors
+// **Good: Handle errors
 async function fetchDeployments(): Promise<Deployment[]> {
   try {
     const response = await api.get<Deployment[]>("/deployments")
@@ -437,7 +437,7 @@ async function fetchDeployments(): Promise<Deployment[]> {
   }
 }
 
-// ❌ Bad: Unhandled promise rejections
+// **Bad: Unhandled promise rejections
 function fetchDeployments() {
   return api.get("/deployments")  // What if this fails?
 }
@@ -450,20 +450,20 @@ function fetchDeployments() {
 ### Markdown Style
 
 ```markdown
-<!-- ✅ Good: Clear headings -->
+<!-- **Good: Clear headings -->
 # Main Title
 ## Section
 ### Subsection
 
-<!-- ✅ Good: Code blocks with language -->
+<!-- **Good: Code blocks with language -->
 ```typescript
 const deployment = await createDeployment(sdl)
 ```
 
-<!-- ✅ Good: Inline code for commands and variables -->
+<!-- **Good: Inline code for commands and variables -->
 Use the `provider-services` CLI to create a deployment.
 
-<!-- ❌ Bad: No language specified -->
+<!-- **Bad: No language specified -->
 ```
 code here
 ```
@@ -528,13 +528,13 @@ instead of integers. Update client code accordingly.
 ### Branch Names
 
 ```bash
-# ✅ Good: Descriptive branch names
+# **Good: Descriptive branch names
 feature/gpu-bid-filtering
 fix/escrow-calculation-error
 docs/update-cli-guide
 chore/bump-dependencies
 
-# ❌ Bad: Vague names
+# **Bad: Vague names
 my-changes
 fix-stuff
 update

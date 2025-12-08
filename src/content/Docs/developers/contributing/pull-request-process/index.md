@@ -45,10 +45,10 @@ npm run build
 ```
 
 **Ensure:**
-- ✅ All tests pass
-- ✅ No linter errors
-- ✅ Code builds successfully
-- ✅ No new warnings
+- **All tests pass
+- **No linter errors
+- **Code builds successfully
+- **No new warnings
 
 ### 3. Update Documentation
 
@@ -183,16 +183,16 @@ Use keywords to auto-close issues:
 Your PR will trigger:
 
 **Go Projects:**
-- ✅ Tests (`make test`)
-- ✅ Linting (`make lint`)
-- ✅ Build verification
-- ✅ Coverage report
+- **Tests (`make test`)
+- **Linting (`make lint`)
+- **Build verification
+- **Coverage report
 
 **JavaScript Projects:**
-- ✅ Tests (`npm test`)
-- ✅ Linting (`npm run lint`)
-- ✅ Type checking
-- ✅ Build verification
+- **Tests (`npm test`)
+- **Linting (`npm run lint`)
+- **Type checking
+- **Build verification
 
 **All checks must pass** before merge.
 
@@ -211,19 +211,19 @@ Your PR will trigger:
 **Good responses:**
 
 ```markdown
-✅ "Great catch! Fixed in latest commit."
-✅ "I considered that approach but chose X because Y. Thoughts?"
-✅ "Good point. Changed to use interface instead."
-✅ "Can you clarify what you mean by...?"
+**"Great catch! Fixed in latest commit."
+**"I considered that approach but chose X because Y. Thoughts?"
+**"Good point. Changed to use interface instead."
+**"Can you clarify what you mean by...?"
 ```
 
 **Avoid:**
 
 ```markdown
-❌ "This is fine as-is."
-❌ No response (ignoring feedback)
-❌ "You're wrong."
-❌ Defensive or argumentative responses
+**"This is fine as-is."
+**No response (ignoring feedback)
+**"You're wrong."
+**Defensive or argumentative responses
 ```
 
 #### Making Changes
@@ -418,40 +418,40 @@ feat: complete provider bidengine rewrite (2000 lines)
 ### As a PR Author
 
 **Do:**
-- ✅ Be responsive to feedback
-- ✅ Accept constructive criticism
-- ✅ Learn from suggestions
-- ✅ Thank reviewers
-- ✅ Be patient
+- **Be responsive to feedback
+- **Accept constructive criticism
+- **Learn from suggestions
+- **Thank reviewers
+- **Be patient
 
 **Don't:**
-- ❌ Take feedback personally
-- ❌ Argue with reviewers
-- ❌ Rush reviewers
-- ❌ Ignore comments
-- ❌ Get defensive
+- **Take feedback personally
+- **Argue with reviewers
+- **Rush reviewers
+- **Ignore comments
+- **Get defensive
 
 ### As a Reviewer
 
 **Do:**
-- ✅ Be constructive and kind
-- ✅ Explain why changes are needed
-- ✅ Suggest alternatives
-- ✅ Praise good code
-- ✅ Be thorough but timely
+- **Be constructive and kind
+- **Explain why changes are needed
+- **Suggest alternatives
+- **Praise good code
+- **Be thorough but timely
 
 **Don't:**
-- ❌ Be condescending
-- ❌ Nitpick excessively
-- ❌ Request perfect code
-- ❌ Block without explanation
-- ❌ Ghost the author
+- **Be condescending
+- **Nitpick excessively
+- **Request perfect code
+- **Block without explanation
+- **Ghost the author
 
 ---
 
 ## After Merge
 
-### Celebrate! 🎉
+### Celebrate! 
 
 Your contribution is now part of Akash Network!
 

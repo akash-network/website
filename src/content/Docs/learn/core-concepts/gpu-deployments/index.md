@@ -683,39 +683,39 @@ Reduce GPU memory requirements:
 
 ### Development Workflow
 
-✅ **Test locally first** (if you have GPU)
+**Test locally first** (if you have GPU)
 
-✅ **Start with smallest viable GPU**
+**Start with smallest viable GPU**
 
-✅ **Use persistent storage** for models
+**Use persistent storage** for models
 
-✅ **Monitor GPU utilization**
+**Monitor GPU utilization**
 
-✅ **Close deployments when not in use**
+**Close deployments when not in use**
 
 ### Production Deployments
 
-✅ **Choose reputable providers**
+**Choose reputable providers**
 
-✅ **Use specific GPU models** in SDL
+**Use specific GPU models** in SDL
 
-✅ **Implement health checks**
+**Implement health checks**
 
-✅ **Monitor costs**
+**Monitor costs**
 
-✅ **Have failover plan**
+**Have failover plan**
 
 ### Cost Management
 
-✅ **Use batch processing** when possible
+**Use batch processing** when possible
 
-✅ **Share GPU** across multiple inference requests
+**Share GPU** across multiple inference requests
 
-✅ **Cache models** with persistent storage
+**Cache models** with persistent storage
 
-✅ **Right-size resources**
+**Right-size resources**
 
-✅ **Monitor utilization**
+**Monitor utilization**
 
 ---
 
