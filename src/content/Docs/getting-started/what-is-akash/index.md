@@ -6,7 +6,7 @@ title: "What is Akash Network?"
 linkTitle: "What is Akash?"
 ---
 
-**Akash Network is the world's first decentralized cloud computing marketplace.** Think of it as Airbnb for cloud computing—people with spare computing power can rent it out to those who need it.
+**Akash Network is the world's first decentralized cloud computing marketplace.** A global network of providers compete to provide you with high-performance compute and GPU resources at up to 85% lower cost than traditional cloud providers.
 
 ## In 60 Seconds
 
