@@ -11,7 +11,7 @@ description: "Get started deploying on Akash with the Console Managed Wallet API
 
 The Managed Wallet API allows you to create and manage deployments programmatically without managing your own wallet or private keys.
 
-** WIP:** This API is under active development and may change frequently.
+**WIP:** This API is under active development and may change frequently.
 
 ---
 
@@ -25,7 +25,7 @@ The Managed Wallet API allows you to create and manage deployments programmatica
 4. Click **"Create API Key"**
 5. Copy and save your API key securely
 
-** Important:** API keys grant full access to your Console account. Keep them secret!
+**Important:** API keys grant full access to your Console account. Keep them secret!
 
 ---
 
