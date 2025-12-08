@@ -32,16 +32,6 @@ Programmatic access to Akash features:
 
 ---
 
-## Architecture Documentation
-
-### Provider Architecture
-Deep dive into provider service components:
-
-- **[Provider Architecture](/docs/extend/architecture/provider/overview)** - Provider service components
-- **[Node Architecture](/docs/extend/architecture/node/overview)** - Blockchain node architecture and APIs
-
----
-
 ## Use Cases
 
 ### When to Use SDKs
