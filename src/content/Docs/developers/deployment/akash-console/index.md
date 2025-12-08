@@ -42,7 +42,7 @@ Deploy using your own Keplr or Leap wallet for full control:
 
 ---
 
-### [Managed Wallet API](/docs/extend/api/managed-wallet)
+### [Managed Wallet API](/docs/api-documentation/console-api)
 
 Programmatic deployments using the Console API:
 - REST API for automated deployments

@@ -50,13 +50,13 @@ Both SDKs provide identical functionality and are generated from the same protob
 
 For comprehensive SDK documentation, installation guides, API reference, and examples:
 
-**→ [View Full SDK Documentation](/docs/extend/sdk)**
+**→ [View Full SDK Documentation](/docs/api-documentation/sdk)**
 
-The complete SDK documentation is located in the [Extend section](/docs/extend/getting-started), which covers:
-- **[Installation Guide](/docs/extend/sdk/installation)** - Set up the SDK in your project
-- **[Quick Start](/docs/extend/sdk/quick-start)** - Build your first SDK integration
-- **[API Reference](/docs/extend/sdk/api-reference)** - Complete API documentation
-- **[Examples](/docs/extend/sdk/examples)** - Real-world code examples
+The complete SDK documentation is located in the [Extend section](/docs/api-documentation/getting-started), which covers:
+- **[Installation Guide](/docs/api-documentation/sdk/installation)** - Set up the SDK in your project
+- **[Quick Start](/docs/api-documentation/sdk/quick-start)** - Build your first SDK integration
+- **[API Reference](/docs/api-documentation/sdk/api-reference)** - Complete API documentation
+- **[Examples](/docs/api-documentation/sdk/examples)** - Real-world code examples
 
 ---
 
@@ -72,7 +72,7 @@ The complete SDK documentation is located in the [Extend section](/docs/extend/g
 **Prefer other tools when:**
 - You want a visual interface → Use [Akash Console](/docs/developers/deployment/akash-console)
 - You need pre-built CLI commands → Use [provider-services CLI](/docs/developers/deployment/cli)
-- You want wallet-free deployments → Use [Managed Wallet API](/docs/extend/api/managed-wallet)
+- You want wallet-free deployments → Use [Managed Wallet API](/docs/api-documentation/console-api)
 
 ---
 
@@ -84,5 +84,5 @@ The complete SDK documentation is located in the [Extend section](/docs/extend/g
 
 ---
 
-**Ready to build?** → [Start with the SDK documentation](/docs/extend/sdk)
+**Ready to build?** → [Start with the SDK documentation](/docs/api-documentation/sdk)
 

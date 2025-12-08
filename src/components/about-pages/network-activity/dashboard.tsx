@@ -45,7 +45,7 @@ export default function Index({ initialData }: { initialData: DashboardData }) {
 
 export function Layout({ initialData }: { initialData: DashboardData }) {
   const marketData = useMarketData();
-  const dashboardQuery = useDashboardData({ initialData });
+  const dashboardQuery = useDashboardData();
   // do not remove below line
   dashboardQuery.isFetching;
   marketData.isFetching;

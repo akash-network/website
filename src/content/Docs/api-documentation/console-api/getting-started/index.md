@@ -1,10 +1,10 @@
 ---
-categories: ["Extend", "API"]
-tags: ["Console", "API", "Managed Wallet", "REST API"]
-weight: 3
-title: "Console Managed Wallet API"
-linkTitle: "Managed Wallet API"
-description: "Programmatic deployments using Akash Console's Managed Wallet API"
+categories: ["API Documentation", "Console API"]
+tags: ["Console", "API", "Managed Wallet", "REST API", "Getting Started"]
+weight: 1
+title: "Getting Started with Managed Wallet API"
+linkTitle: "Getting Started"
+description: "Get started deploying on Akash with the Console Managed Wallet API"
 ---
 
 **Deploy on Akash programmatically using the Console Managed Wallet API.**
@@ -12,24 +12,6 @@ description: "Programmatic deployments using Akash Console's Managed Wallet API"
 The Managed Wallet API allows you to create and manage deployments programmatically without managing your own wallet or private keys.
 
 ** WIP:** This API is under active development and may change frequently.
-
----
-
-## What is the Managed Wallet API?
-
-The Managed Wallet API enables programmatic access to Akash Console features:
-
-- **No wallet management** - Console manages the wallet for you
-- **REST API** - Standard HTTP endpoints
-- **API Key authentication** - Secure, simple authentication
-- **Full deployment lifecycle** - Create, manage, and close deployments
-- **Pay with credit card** - No need to buy and hold AKT
-
-**Best for:**
-- Applications that need to deploy containers programmatically
-- SaaS platforms building on Akash
-- Automated deployment workflows
-- Users who prefer not to manage crypto wallets
 
 ---
 
@@ -56,6 +38,15 @@ yarn add axios
 # or
 pnpm add axios
 ```
+
+---
+
+## Next Steps
+
+- **[API Reference](/docs/api-documentation/console-api/api-reference)** - Complete endpoint documentation
+- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Stack Definition Language syntax
+- **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
+- **[Akash SDK](/docs/api-documentation/sdk)** - Alternative programmatic deployment approach
 
 ---
 
@@ -525,279 +516,7 @@ export CONSOLE_API_KEY="your-api-key-here"
 npx ts-node deploy.ts
 ```
 
----
-
-## API Reference
-
-### Authentication
-
-All API requests require the `x-api-key` header:
-
-```typescript
-headers: {
-  "Content-Type": "application/json",
-  "x-api-key": "your-api-key-here"
-}
-```
-
----
-
-### POST /v1/certificates
-
-Create a certificate for secure provider communication.
-
-**Request:**
-```typescript
-{} // Empty body
-```
-
-**Response:**
-```typescript
-{
-  data: {
-    data: {
-      certPem: string;      // Certificate in PEM format
-      encryptedKey: string; // Encrypted private key
-    }
-  }
-}
-```
-
-**Example:**
-```typescript
-const certResponse = await api.post("/v1/certificates", {}, {
-  headers: { "x-api-key": apiKey }
-});
-```
-
----
-
-### POST /v1/deployments
-
-Create a new deployment.
-
-**Request:**
-```typescript
-{
-  data: {
-    sdl: string;     // SDL content as string
-    deposit: number; // Deposit in dollars (minimum $5)
-  }
-}
-```
-
-**Response:**
-```typescript
-{
-  data: {
-    data: {
-      dseq: string;     // Deployment sequence ID
-      manifest: string; // Deployment manifest JSON
-    }
-  }
-}
-```
-
-**Example:**
-```typescript
-const deployResponse = await api.post("/v1/deployments", {
-  data: {
-    sdl: sdlContent,
-    deposit: 5 // $5 deposit
-  }
-}, {
-  headers: { "x-api-key": apiKey }
-});
-
-const { dseq, manifest } = deployResponse.data.data;
-```
-
----
-
-### GET /v1/bids
-
-Fetch bids for a deployment.
-
-**Query Parameters:**
-- `dseq` (required) - Deployment sequence ID
-
-**Response:**
-```typescript
-{
-  data: {
-    data: {
-      bid: {
-        bid_id: {
-          owner: string;
-          dseq: string;
-          gseq: number;
-          oseq: number;
-          provider: string;
-        };
-        state: string;
-        price: {
-          denom: string;
-          amount: string;
-        };
-        created_at: string;
-      }
-    }[]
-  }
-}
-```
-
-**Example:**
-```typescript
-const bidsResponse = await api.get(`/v1/bids?dseq=${dseq}`, {
-  headers: { "x-api-key": apiKey }
-});
-
-const bids = bidsResponse.data.data.map(b => b.bid);
-```
-
----
-
-### POST /v1/leases
-
-Create a lease by accepting a bid.
-
-**Request:**
-```typescript
-{
-  manifest: string;
-  certificate: {
-    certPem: string;
-    keyPem: string;
-  };
-  leases: {
-    dseq: string;
-    gseq: number;
-    oseq: number;
-    provider: string;
-  }[];
-}
-```
-
-**Response:**
-```typescript
-{
-  data: {
-    deployment: {
-      deployment_id: {
-        owner: string;
-        dseq: string;
-      };
-      state: string;
-      version: string;
-      created_at: string;
-    };
-    leases: {
-      lease_id: {
-        owner: string;
-        dseq: string;
-        gseq: number;
-        oseq: number;
-        provider: string;
-      };
-      state: string;
-      price: {
-        denom: string;
-        amount: string;
-      };
-      created_at: string;
-    }[];
-    escrow_account: {
-      id: { scope: string; xid: string; };
-      owner: string;
-      state: string;
-      balance: { denom: string; amount: string; };
-      transferred: { denom: string; amount: string; };
-      settled_at: string;
-      depositor: string;
-      funds: { denom: string; amount: string; };
-    };
-  }
-}
-```
-
-**Example:**
-```typescript
-const leaseResponse = await api.post("/v1/leases", {
-  manifest: manifest,
-  certificate: {
-    certPem: certPem,
-    keyPem: encryptedKey
-  },
-  leases: [{
-    dseq: dseq,
-    gseq: firstBid.bid_id.gseq,
-    oseq: firstBid.bid_id.oseq,
-    provider: firstBid.bid_id.provider
-  }]
-}, {
-  headers: { "x-api-key": apiKey }
-});
-
-console.log("Lease created with state:", leaseResponse.data.data.deployment.state);
-```
-
----
-
-### POST /v1/deposit-deployment
-
-Add additional funds to a deployment's escrow.
-
-**Request:**
-```typescript
-{
-  data: {
-    deposit: number; // Amount in dollars
-    dseq: string;
-  }
-}
-```
-
-**Example:**
-```typescript
-const depositResponse = await api.post("/v1/deposit-deployment", {
-  data: {
-    dseq: dseq,
-    deposit: 0.5 // Add $0.50
-  }
-}, {
-  headers: { "x-api-key": apiKey }
-});
-```
-
----
-
-### DELETE /v1/deployments/:dseq
-
-Close a deployment and recover remaining deposit.
-
-**Path Parameters:**
-- `dseq` - Deployment sequence ID
-
-**Response:**
-```typescript
-{
-  data: {
-    data: {
-      status: string;
-      message: string;
-    }
-  }
-}
-```
-
-**Example:**
-```typescript
-const closeResponse = await api.delete(`/v1/deployments/${dseq}`, {
-  headers: { "x-api-key": apiKey }
-});
-
-console.log("Deployment closed:", closeResponse.data.data.message);
-```
+**For complete endpoint documentation**, see the **[API Reference →](/docs/api-documentation/console-api/api-reference)**
 
 ---
 
@@ -855,32 +574,9 @@ try {
 
 ---
 
-## Managed Wallet vs SDK
-
-| Feature | Managed Wallet API | Akash SDK |
-|---------|-------------------|-----------|
-| **Wallet Management** | Managed by Console | You manage wallet |
-| **Authentication** | API Key | Private key/mnemonic |
-| **Payment** | Credit card (USD) | Crypto (AKT) |
-| **API Type** | REST API | Native blockchain |
-| **Language** | Any (HTTP) | Go, TypeScript |
-| **Setup** | API key only | Wallet + blockchain setup |
-| **Best For** | SaaS, web apps | Blockchain apps, CLI tools |
-
----
-
-## Limitations
-
--  **API is in development** - Endpoints may change
--  **Credit card payment only** - Cannot use existing AKT
--  **Managed wallet** - No direct blockchain access
-
-**For production deployments without time limits**, use the [Akash SDK](/docs/extend/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
-
----
-
 ## Resources
 
+- **[API Reference](/docs/api-documentation/console-api/api-reference)** - Complete endpoint documentation
 - **[Full API Documentation](https://github.com/akash-network/console/wiki/Managed-wallet-API)** - Complete API reference on GitHub
 - **[Example Script](https://github.com/akash-network/console/wiki/Managed-wallet-API)** - Working implementation
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - SDL syntax guide

@@ -36,7 +36,7 @@ This section helps developers understand their options and get started quickly w
 - Production-ready for serious workloads
 - CI/CD integration
 
-**Start here:** [Akash SDK →](/docs/extend/sdk)
+**Start here:** [Akash SDK →](/docs/api-documentation/sdk)
 
 ---
 
@@ -88,8 +88,8 @@ Learn the core concepts behind Akash:
 ## Development Tools
 
 ### SDKs Available
-- **JavaScript/TypeScript SDK** - [Getting Started](/docs/extend/sdk/quick-start)
-- **Go SDK** - [Getting Started](/docs/extend/sdk/quick-start)
+- **JavaScript/TypeScript SDK** - [Getting Started](/docs/api-documentation/sdk/quick-start)
+- **Go SDK** - [Getting Started](/docs/api-documentation/sdk/quick-start)
 
 ### CLI Tools
 - **provider-services** - Main CLI tool for deployments
@@ -119,11 +119,11 @@ Learn the core concepts behind Akash:
 **New to Akash?**
 1. [Understand Core Concepts →](/docs/getting-started/core-concepts)
 2. [Quick Start Guide →](/docs/getting-started/quick-start)
-3. Choose your tool: [Console](/docs/developers/deployment/akash-console), [SDK](/docs/extend/sdk), or [CLI](/docs/developers/deployment/cli/installation-guide)
+3. Choose your tool: [Console](/docs/developers/deployment/akash-console), [SDK](/docs/api-documentation/sdk), or [CLI](/docs/developers/deployment/cli/installation-guide)
 
 **Ready to build?**
 - [Akash Console →](/docs/developers/deployment/akash-console) - Start deploying now
-- [Akash SDK →](/docs/extend/sdk) - Integrate with code
+- [Akash SDK →](/docs/api-documentation/sdk) - Integrate with code
 - [SDL Reference →](/docs/developers/deployment/akash-sdl/syntax-reference) - Learn the deployment language
 
 ---

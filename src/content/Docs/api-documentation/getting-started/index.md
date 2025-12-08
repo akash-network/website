@@ -1,5 +1,5 @@
 ---
-categories: ["Extend"]
+categories: ["API Documentation"]
 tags: ["SDK", "API", "Architecture", "Integration"]
 weight: 1
 title: "Getting Started with Extending Akash"
@@ -18,16 +18,16 @@ This section provides comprehensive resources for extending Akash Network throug
 ### SDKs
 Build deployment and provider management capabilities directly into your applications:
 
-- **[Akash SDK](/docs/extend/sdk)** - Official Go and JavaScript/TypeScript SDKs
-- **[Installation Guide](/docs/extend/sdk/installation)** - Get started with SDK installation
-- **[Quick Start](/docs/extend/sdk/quick-start)** - Deploy your first application programmatically
-- **[API Reference](/docs/extend/sdk/api-reference)** - Complete SDK documentation
-- **[Examples](/docs/extend/sdk/examples)** - Code examples for common tasks
+- **[Akash SDK](/docs/api-documentation/sdk)** - Official Go and JavaScript/TypeScript SDKs
+- **[Installation Guide](/docs/api-documentation/sdk/installation)** - Get started with SDK installation
+- **[Quick Start](/docs/api-documentation/sdk/quick-start)** - Deploy your first application programmatically
+- **[API Reference](/docs/api-documentation/sdk/api-reference)** - Complete SDK documentation
+- **[Examples](/docs/api-documentation/sdk/examples)** - Code examples for common tasks
 
 ### APIs
 Programmatic access to Akash features:
 
-- **[Console Managed Wallet API](/docs/extend/api/managed-wallet)** - Deploy without managing wallets
+- **[Managed Wallet API](/docs/api-documentation/console-api)** - Deploy without managing wallets
 - **[Node API Layer](/docs/node-operators/architecture/api-layer)** - gRPC, REST, and RPC endpoints
 
 ---
@@ -62,12 +62,12 @@ Programmatic access to Akash features:
 **New to building on Akash?**
 
 1. **Choose your integration method:**
-   - Want full control? → [Start with the SDK](/docs/extend/sdk)
-   - Prefer simplicity? → [Use the Managed Wallet API](/docs/extend/api/managed-wallet)
+   - Want full control? → [Start with the SDK](/docs/api-documentation/sdk)
+   - Prefer simplicity? → [Use the Managed Wallet API](/docs/api-documentation/console-api)
 
 2. **Understand the architecture:**
-   - Learn how providers work → [Provider Architecture](/docs/extend/architecture/provider/overview)
-   - Learn how nodes work → [Node Architecture](/docs/extend/architecture/node/overview)
+   - Learn how providers work → [Provider Architecture](/docs/providers/architecture/overview)
+   - Learn how nodes work → [Node Architecture](/docs/node-operators/architecture)
    - Understand deployment flow → [Getting Started](/docs/getting-started/core-concepts)
 
 3. **Join the community:**

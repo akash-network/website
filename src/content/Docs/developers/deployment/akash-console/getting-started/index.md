@@ -250,7 +250,7 @@ You can:
 ## Next Steps
 
 - **[Using Console with Your Wallet](/docs/developers/deployment/akash-console/with-wallet)** - Connect your own wallet for unlimited deployments
-- **[Console API](/docs/extend/api/managed-wallet)** - Programmatic deployments with REST API
+- **[Console API](/docs/api-documentation/console-api)** - Programmatic deployments with REST API
 - **[SDL Examples Library](/docs/developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples for all application types
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Deep dive into Stack Definition Language
 - **[CLI Documentation](/docs/developers/deployment/cli)** - Learn command-line deployment

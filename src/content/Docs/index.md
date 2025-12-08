@@ -48,9 +48,9 @@ Run blockchain nodes and validators:
 
 Build on Akash with SDKs, APIs, and architectural insights:
 
-- **[Getting Started](/docs/extend/getting-started)** - Choose your integration method
-- **[SDK](/docs/extend/sdk)** - Official Go and JavaScript/TypeScript SDKs
-- **[API](/docs/extend/api/managed-wallet)** - Console Managed Wallet API
+- **[Getting Started](/docs/api-documentation/getting-started)** - Choose your integration method
+- **[SDK](/docs/api-documentation/sdk)** - Official Go and JavaScript/TypeScript SDKs
+- **[API](/docs/api-documentation/console-api)** - Console Managed Wallet API
 
 ### Learn
 

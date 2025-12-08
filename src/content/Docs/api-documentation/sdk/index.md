@@ -1,5 +1,5 @@
 ---
-categories: ["Extend", "SDK"]
+categories: ["API Documentation", "SDK"]
 tags: ["SDK", "JavaScript", "TypeScript", "Go", "API"]
 weight: 2
 title: "Akash SDK"
@@ -20,14 +20,14 @@ The official Go SDK for Akash Network, generated from chain-sdk protobuf definit
 
 - **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
 - **Package:** `pkg.akt.dev/go`
-- **Installation:** See the [installation guide](/docs/extend/sdk/installation)
+- **Installation:** See the [installation guide](/docs/api-documentation/sdk/installation)
 
 ### JavaScript/TypeScript SDK
 The official JavaScript/TypeScript SDK for Akash Network, generated from chain-sdk protobuf definitions.
 
 - **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
 - **Package:** `@akashnetwork/chain-sdk`
-- **Installation:** See the [installation guide](/docs/extend/sdk/installation)
+- **Installation:** See the [installation guide](/docs/api-documentation/sdk/installation)
 
 ---
 
@@ -35,10 +35,10 @@ The official JavaScript/TypeScript SDK for Akash Network, generated from chain-s
 
 Get started quickly with either SDK:
 
-- **[Installation](/docs/extend/sdk/installation)** - Install the SDK in Go or JavaScript/TypeScript
-- **[Quick Start](/docs/extend/sdk/quick-start)** - Get started with your first deployment
-- **[AuthZ & Fee Grants](/docs/extend/sdk/authz-feegrant)** - Programmatic permission management
-- **[API Reference](/docs/extend/sdk/api-reference)** - Complete API documentation
+- **[Installation](/docs/api-documentation/sdk/installation)** - Install the SDK in Go or JavaScript/TypeScript
+- **[Quick Start](/docs/api-documentation/sdk/quick-start)** - Get started with your first deployment
+- **[AuthZ & Fee Grants](/docs/api-documentation/sdk/authz-feegrant)** - Programmatic permission management
+- **[API Reference](/docs/api-documentation/sdk/api-reference)** - Complete API documentation
 
 ---
 
@@ -98,11 +98,11 @@ Ideal for web applications and Node.js projects.
 
 ## Next Steps
 
-- **[Installation](/docs/extend/sdk/installation)** - Install the SDK
-- **[Quick Start](/docs/extend/sdk/quick-start)** - Your first deployment
-- **[AuthZ & Fee Grants](/docs/extend/sdk/authz-feegrant)** - Programmatic permission management
-- **[Examples](/docs/extend/sdk/examples)** - Real-world code examples
-- **[API Reference](/docs/extend/sdk/api-reference)** - Complete API documentation
+- **[Installation](/docs/api-documentation/sdk/installation)** - Install the SDK
+- **[Quick Start](/docs/api-documentation/sdk/quick-start)** - Your first deployment
+- **[AuthZ & Fee Grants](/docs/api-documentation/sdk/authz-feegrant)** - Programmatic permission management
+- **[Examples](/docs/api-documentation/sdk/examples)** - Real-world code examples
+- **[API Reference](/docs/api-documentation/sdk/api-reference)** - Complete API documentation
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Stack Definition Language docs
 
 ---

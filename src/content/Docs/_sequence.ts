@@ -32,10 +32,10 @@ export const docsSequence = [
       },
       {
         type: "Header",
-        label: "Extend",
+        label: "API Documentation",
       },
       {
-        label: "Extend",
+        label: "API Documentation",
         subItems: [], // Sub-items sorted by weight automatically
       },
       {
