@@ -1,18 +1,19 @@
 ---
-const { image, title, description, link } = Astro.props;
+const { image, title, description, link, imageShift = 0 } = Astro.props;
 ---
 
 <a
   href={link}
-  class="not-prose group block overflow-hidden rounded-2xl bg-[#1a1a1a] shadow-sm transition-all hover:shadow-md hover:bg-[#F4F1F1] hover:dark:bg-background"
+  class="not-prose group block overflow-hidden rounded-2xl bg-background2 shadow-sm transition-all hover:shadow-md hover:bg-[#F4F1F1] hover:dark:bg-background"
 >
-  <div class="aspect-[16/9] w-full overflow-hidden bg-[#1a1a1a]">
+  <div class="aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-[#1a1a1a]">
     {image ? (
       <img 
         src={image} 
         alt={title} 
         loading="eager"
         class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+        style={imageShift ? `transform: translateX(${imageShift}px);` : ''}
       />
     ) : (
       <div class="flex h-full items-center justify-center">
