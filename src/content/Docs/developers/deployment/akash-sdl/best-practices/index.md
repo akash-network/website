@@ -353,11 +353,6 @@ vendor:
     - model: a100
     - model: rtx4090
     - model: rtx3090
-
-# AMD GPUs (limited availability)
-vendor:
-  amd:
-    - model: mi100
 ```
 
 ---

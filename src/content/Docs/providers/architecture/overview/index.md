@@ -13,40 +13,7 @@ The Akash Provider is a modular service that connects Kubernetes clusters to the
 
 The provider service consists of five main components that work together:
 
-```
-+------------------------------------------------------+
-|                  Provider Service                    |
-|                                                      |
-|  +--------------+  +--------------+  +-----------+   |
-|  | Bid Engine   |  |   Cluster    |  | Manifest  |   |
-|  |              |  |   Service    |  |  Service  |   |
-|  | - Order      |  |              |  |           |   |
-|  |   monitoring |  | - Resource   |  | - SDL     |   |
-|  | - Bidding    |  |   management |  |   parsing |   |
-|  | - Pricing    |  | - Deployment |  | - Deploy  |   |
-|  |              |  |   lifecycle  |  |   submit  |   |
-|  +------+-------+  +------+-------+  +-----+-----+   |
-|         |                 |                |         |
-|         +--------+--------+--------+-------+         |
-|                  |                 |                 |
-|  +---------------v-----------------v--------------+  |
-|  |         PubSub Event Bus (Redis)               |  |
-|  +---------------+-----------------+--------------+  |
-|                  |                 |                 |
-|  +---------------v-----+  +--------v----------+      |
-|  |  Balance Checker    |  |    Operators      |      |
-|  |  - Wallet monitor   |  |  - Hostname       |      |
-|  |  - Auto-withdrawal  |  |  - Inventory      |      |
-|  +---------------------+  |  - IP             |      |
-|                           +-------------------+      |
-+------------------------------------------------------+
-                  |                 |
-                  |                 |
-           +------v------+   +------v-----------+
-           | Akash Node  |   |   Kubernetes     |
-           |   (RPC)     |   |    Cluster       |
-           +-------------+   +------------------+
-```
+![Provider Service Architecture](/images/docs/diagrams/Provider%20Service.png)
 
 ## Core Services
 
@@ -185,57 +152,15 @@ Each service implements lifecycle management using `go-lifecycle`:
 
 ### 1. Order Processing Flow
 
-```
-1. Order Created on Chain
-   ↓
-2. Bid Engine Detects Order (EventOrderCreated)
-   ↓
-3. Evaluate Order:
-   - Check provider attributes match
-   - Calculate bid price
-   - Reserve cluster resources
-   ↓
-4. Submit Bid to Chain
-   ↓
-5. Wait for Lease Award (EventLeaseCreated)
-```
+![Order Processing Flow](/images/docs/diagrams/Order%20Processing%20Flow.png)
 
 ### 2. Deployment Flow
 
-```
-1. Lease Awarded
-   ↓
-2. Cluster Service Creates Deployment Manager
-   ↓
-3. Wait for Tenant to Submit Manifest
-   ↓
-4. Manifest Service Receives SDL
-   ↓
-5. Manifest Service Validates and Emits Event
-   ↓
-6. Cluster Service Creates Kubernetes Resources:
-   - Namespace
-   - Deployments/StatefulSets
-   - Services
-   - Ingress (if custom hostname)
-   - PersistentVolumeClaims (if storage required)
-   ↓
-7. Monitor Deployment Health
-```
+![Deployment Flow](/images/docs/diagrams/Deployment%20Flow.png)
 
 ### 3. Lease Termination Flow
 
-```
-1. Lease Closed on Chain (EventLeaseClosed)
-   ↓
-2. Cluster Service Detects Event
-   ↓
-3. Delete Kubernetes Resources
-   ↓
-4. Release Cluster Resources
-   ↓
-5. Update Inventory
-```
+![Lease Termination Flow](/images/docs/diagrams/Lease%20Termination%20Flow.png)
 
 ## API Interfaces
 

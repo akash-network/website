@@ -210,19 +210,6 @@ gpu:
           interface: sxm
 ```
 
-### AMD GPU Support
-
-Use AMD GPUs (limited availability):
-
-```yaml
-gpu:
-  units: 1
-  attributes:
-    vendor:
-      amd:
-        - model: mi100
-```
-
 ---
 
 ## IP Endpoints (Dedicated IPs)

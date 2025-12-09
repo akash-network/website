@@ -217,7 +217,7 @@ CPU, GPU, storage, and memory specifications.
 
 ### hardware-gpu
 
-- **Values**: `nvidia`, `amd`, `intel`
+- **Values**: `nvidia`
 - **Purpose**: GPU vendor (if GPUs available)
 
 ```yaml
@@ -391,8 +391,6 @@ capabilities/gpu/vendor/<vendor>/model/<model>
 ### GPU Vendors
 
 - `nvidia` - NVIDIA GPUs
-- `amd` - AMD GPUs
-- `intel` - Intel GPUs
 
 ### GPU Interface Types
 

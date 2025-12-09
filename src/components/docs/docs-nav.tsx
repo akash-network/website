@@ -395,14 +395,14 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
     if (hasSubItems) {
       // This is a collapsible section
       return (
-        <div key={item.label || item.link} className={depth === 0 ? "mt-0.5 first:mt-0" : ""}>
+        <div key={item.label || item.link} className={depth === 0 ? "mt-0 first:mt-0" : ""}>
           {depth === 0 ? (
             // Top-level section header (like "Getting Started", "For Developers")
             <>
-              <h3 className="mb-0.5 text-base font-bold text-foreground">
+              <h3 className="mb-0 text-base font-bold text-foreground">
                 {item.label}
               </h3>
-              <div className="space-y-0.5">
+              <div className="space-y-0">
                 {item.subItems.map((subItem: any) => renderNavItem(subItem, depth + 1, sectionPath))}
               </div>
             </>
@@ -418,14 +418,14 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
               >
                 <a
                   href={getFirstLink(item) || "#"}
-                  className="flex-1 px-3 py-2 text-sm font-medium"
+                  className="flex-1 px-3 py-1 text-sm font-medium"
                 >
                   {item.label}
                 </a>
                 <button
                   type="button"
                   onClick={(e) => toggleSection(sectionPath, item, e)}
-                  className="px-3 py-2"
+                  className="px-3 py-1"
                   aria-label={isOpen ? "Collapse section" : "Expand section"}
                 >
                   {isOpen ? (
@@ -436,7 +436,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
                 </button>
               </div>
               {isOpen && (
-                <div className="ml-4 mt-0.5 space-y-0.5 border-l border-border pl-4">
+                <div className="ml-4 mt-0 space-y-0 border-l border-border pl-4">
                   {item.subItems.map((subItem: any) => renderNavItem(subItem, depth + 1, sectionPath))}
                 </div>
               )}
@@ -451,7 +451,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
       <a
         key={item.link}
         href={item.link}
-        className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+        className={`block rounded-md px-3 py-1 text-sm font-medium transition-colors ${
           isActive
             ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
             : "text-para hover:bg-gray-100 hover:text-foreground dark:hover:bg-background2 dark:hover:text-white"
@@ -463,15 +463,15 @@ export function DocsNav({ docsNav = [], pathName = [] }: any) {
   };
 
   return (
-    <nav className="space-y-0.5">
+    <nav className="space-y-0">
       {sections.map((section, sectionIndex) => (
         <div key={sectionIndex}>
           {section.header && (
-            <h2 className="mb-0.5 text-xs font-bold uppercase tracking-wider text-para border-t pt-1.5 first:border-t-0 first:pt-0">
+            <h2 className="mb-0 text-xs font-bold uppercase tracking-wider text-para border-t pt-1.5 first:border-t-0 first:pt-0">
               {section.header}
             </h2>
           )}
-          <div className="space-y-0.5">
+          <div className="space-y-0">
             {section.items.map((item) => renderNavItem(item))}
           </div>
         </div>
@@ -485,7 +485,7 @@ export const HomeButton = ({ pathname }: { pathname: string }) => {
   return (
     <a
       href="/docs/"
-      className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+      className={`block rounded-md px-3 py-1 text-sm font-medium transition-colors ${
         isActive
           ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
           : "text-para hover:bg-gray-100 hover:text-foreground dark:hover:bg-background2 dark:hover:text-white"

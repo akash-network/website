@@ -15,9 +15,7 @@ description: "Quick introduction to key Akash concepts"
 
 Akash is a decentralized marketplace connecting people who need compute resources with data centers that provide them.
 
-```
-You create a deployment → Providers bid → You accept a bid → Your app runs
-```
+![How Akash Works](/images/docs/diagrams/How%20Akash%20Works.png)
 
 ---
 

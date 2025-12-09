@@ -1,0 +1,61 @@
+---
+const { image, title, description, link } = Astro.props;
+---
+
+<a
+  href={link}
+  class="not-prose group block overflow-hidden rounded-2xl bg-[#1a1a1a] shadow-sm transition-all hover:shadow-md hover:bg-[#F4F1F1] hover:dark:bg-background"
+>
+  <div class="aspect-[16/9] w-full overflow-hidden bg-[#1a1a1a]">
+    {image ? (
+      <img 
+        src={image} 
+        alt={title} 
+        loading="eager"
+        class="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+      />
+    ) : (
+      <div class="flex h-full items-center justify-center">
+        <svg
+          width="120"
+          height="120"
+          viewBox="0 0 49 42"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="opacity-20"
+        >
+          <path
+            d="M32.6461 28L40.6323 41.9964H24.5002L16.4297 28H32.6461Z"
+            fill="url(#paint0_linear_2233_35621)"
+          ></path>
+          <path
+            d="M40.628 41.9977L48.6852 28.0014L32.5575 0.00195312H16.4297L40.628 41.9977Z"
+            fill="#FF414C"
+          ></path>
+          <path
+            d="M8.36851 13.9912H24.4963L8.37522 41.9907L0.304688 27.9943L8.36851 13.9912Z"
+            fill="#FF414C"
+          ></path>
+          <defs>
+            <linearGradient
+              id="paint0_linear_2233_35621"
+              x1="24.1078"
+              y1="31.4804"
+              x2="40.5695"
+              y2="42.0771"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#FF414C"></stop>
+              <stop offset="1" stop-color="#FF414C" stop-opacity="0"></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    )}
+  </div>
+  <div class="bg-background2 p-6">
+    <h3 class="text-lg font-semibold text-foreground md:text-xl">{title}</h3>
+    <p class="mt-2 text-sm text-para md:text-base">{description}</p>
+  </div>
+</a>
+

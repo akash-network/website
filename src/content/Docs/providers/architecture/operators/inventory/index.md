@@ -85,7 +85,7 @@ When the operator starts, it:
 3. **Collects Hardware Information**
    - CPU cores and architecture
    - Memory capacity
-   - GPUs (NVIDIA, AMD, Intel)
+   - GPUs (NVIDIA)
    - Storage devices (NVMe, SSD, HDD)
    - Network interfaces
 
