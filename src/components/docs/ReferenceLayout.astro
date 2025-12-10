@@ -1,0 +1,64 @@
+---
+/**
+ * Two-column reference layout (Stripe-style)
+ * Left: Documentation content
+ * Right: Sticky live code example
+ */
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<div class="reference-layout">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="mb-2 text-4xl font-bold text-foreground">{title}</h1>
+    {description && <p class="text-lg text-para">{description}</p>}
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="flex gap-8">
+    <!-- Left column: Documentation -->
+    <div class="reference-content flex-1 min-w-0 max-w-[55%]">
+      <slot name="content" />
+    </div>
+
+    <!-- Right column: Sticky code example -->
+    <div class="reference-code-panel hidden lg:block w-[45%] flex-shrink-0">
+      <div class="sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto">
+        <slot name="code" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .reference-layout {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .reference-content {
+    /* Ensure content doesn't get too wide */
+    max-width: 800px;
+  }
+
+  .reference-code-panel {
+    /* Sticky code panel styling */
+    position: relative;
+  }
+
+  /* Smooth scrolling for better sync */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Style for section markers (invisible but used for scroll detection) */
+  .reference-content :global(.section-marker) {
+    scroll-margin-top: 100px;
+  }
+</style>
+

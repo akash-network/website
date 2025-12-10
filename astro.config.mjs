@@ -25,7 +25,6 @@ export default defineConfig({
     astroExpressiveCode({
       themes: ["light-plus", "dark-plus"],
       useDarkModeMediaQuery: true,
-
       themeCssSelector: (theme) => `[data-theme='${theme.name}']`,
       styleOverrides: {
         terminalTitlebarForeground: "var(--theme-header-bg)",

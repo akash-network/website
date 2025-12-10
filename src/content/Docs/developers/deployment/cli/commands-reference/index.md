@@ -1,0 +1,609 @@
+---
+categories: ["Developers", "Deployment", "CLI"]
+tags: ["CLI", "Commands", "Reference"]
+weight: 4
+title: "CLI Commands Reference"
+linkTitle: "Commands Reference"
+description: "Complete reference of all Provider Services CLI commands"
+---
+
+**Complete reference for all Provider Services CLI commands.**
+
+This guide covers all available commands for managing deployments, wallets, and querying the Akash Network.
+
+---
+
+## Command Structure
+
+```bash
+provider-services <command> <subcommand> [arguments] [flags]
+```
+
+**Global Flags:**
+- `--node` - RPC endpoint (default: `tcp://localhost:26657`)
+- `--chain-id` - Network identifier (e.g., `akashnet-2`)
+- `--from` - Wallet name or address
+- `--gas-prices` - Gas price (e.g., `0.025uakt`)
+- `--gas` - Gas limit (`auto` or specific amount)
+- `--gas-adjustment` - Gas estimation multiplier (e.g., `1.5`)
+
+---
+
+## Deployment Commands
+
+### Create Deployment
+
+Create a new deployment from an SDL file.
+
+```bash
+provider-services tx deployment create <sdl-file> --from $AKASH_KEY_NAME
+```
+
+**Flags:**
+- `--dseq` - Deployment sequence number (optional, defaults to current block height)
+- `--deposit` - Initial deposit amount (optional, auto-calculated if not provided)
+
+**Example:**
+```bash
+provider-services tx deployment create deploy.yml --from $AKASH_KEY_NAME
+```
+
+**Note:** Assumes environment variables `AKASH_NODE`, `AKASH_CHAIN_ID`, `AKASH_GAS`, `AKASH_GAS_PRICES`, and `AKASH_GAS_ADJUSTMENT` are configured.
+
+---
+
+### Query Deployments
+
+List all deployments for an account.
+
+```bash
+provider-services query deployment list --owner <address>
+```
+
+**Flags:**
+- `--owner` - Filter by owner address
+- `--state` - Filter by state (`active`, `closed`)
+- `--page` - Page number for pagination
+- `--limit` - Results per page
+
+**Example:**
+```bash
+provider-services query deployment list --owner akash1...
+```
+
+---
+
+### Get Deployment
+
+Get details of a specific deployment.
+
+```bash
+provider-services query deployment get \
+  --owner <address> \
+  --dseq <deployment-id> \
+```
+
+**Example:**
+```bash
+provider-services query deployment get \
+  --owner akash1... \
+  --dseq 1234567 \
+```
+
+---
+
+### Update Deployment
+
+Update the deployment hash on-chain. After this, you must send the updated manifest to the provider with `send-manifest`.
+
+```bash
+akash tx deployment update <sdl-file> \
+  --dseq <deployment-id> \
+  --from $AKASH_KEY_NAME
+```
+
+**What can be updated:**
+- Container image versions
+- Environment variables
+- Command and args
+
+**What cannot be updated:**
+- CPU, memory, storage, GPU resources
+- Placement criteria
+- Service names
+
+**Example:**
+```bash
+akash tx deployment update deploy.yml \
+  --dseq 1234567 \
+  --from $AKASH_KEY_NAME
+```
+
+**Note:** This only updates the hash on-chain. You must also run `send-manifest` to send the actual updated manifest to the provider.
+
+---
+
+### Send Manifest
+
+Send the deployment manifest to a provider. Required after creating a lease or updating a deployment.
+
+```bash
+provider-services send-manifest <sdl-file> \
+  --dseq <deployment-id> \
+  --provider <provider-address> \
+  --from $AKASH_KEY_NAME
+```
+
+**Example:**
+```bash
+provider-services send-manifest deploy.yml \
+  --dseq 1234567 \
+  --provider akash1... \
+  --from $AKASH_KEY_NAME
+```
+
+---
+
+### Close Deployment
+
+Close a deployment and reclaim your deposit.
+
+```bash
+provider-services tx deployment close \
+  --dseq <deployment-id> \
+  --from $AKASH_KEY_NAME
+```
+
+**Example:**
+```bash
+provider-services tx deployment close \
+  --dseq 1234567 \
+  --from $AKASH_KEY_NAME
+```
+
+---
+
+## Market Commands
+
+### List Bids
+
+View all bids for your deployment.
+
+```bash
+provider-services query market bid list \
+  --owner <address> \
+```
+
+**Flags:**
+- `--owner` - Filter by deployment owner
+- `--dseq` - Filter by deployment sequence
+- `--gseq` - Filter by group sequence
+- `--oseq` - Filter by order sequence
+- `--provider` - Filter by provider address
+- `--state` - Filter by state (`open`, `active`, `closed`)
+
+**Example:**
+```bash
+provider-services query market bid list \
+  --owner akash1... \
+  --dseq 1234567 \
+```
+
+---
+
+### Get Bid
+
+Get details of a specific bid.
+
+```bash
+provider-services query market bid get \
+  --owner <address> \
+  --dseq <deployment-id> \
+  --gseq <group-sequence> \
+  --oseq <order-sequence> \
+  --provider <provider-address> \
+```
+
+---
+
+### Create Lease
+
+Accept a bid and create a lease.
+
+```bash
+provider-services tx market lease create \
+  --dseq <deployment-id> \
+  --gseq <group-sequence> \
+  --oseq <order-sequence> \
+  --provider <provider-address> \
+  --from $AKASH_KEY_NAME
+```
+
+**Example:**
+```bash
+provider-services tx market lease create \
+  --dseq 1234567 \
+  --gseq 1 \
+  --oseq 1 \
+  --provider akash1... \
+  --from $AKASH_KEY_NAME
+```
+
+---
+
+### List Leases
+
+View all leases for your account.
+
+```bash
+provider-services query market lease list \
+  --owner <address> \
+```
+
+**Flags:**
+- `--owner` - Filter by deployment owner
+- `--provider` - Filter by provider
+- `--dseq` - Filter by deployment sequence
+- `--state` - Filter by state (`active`, `closed`)
+
+---
+
+### Close Lease
+
+Close a lease (also closes the deployment).
+
+```bash
+provider-services tx market lease close \
+  --dseq <deployment-id> \
+  --gseq <group-sequence> \
+  --oseq <order-sequence> \
+  --provider <provider-address> \
+  --from $AKASH_KEY_NAME
+```
+
+---
+
+## Provider Commands
+
+### List Providers
+
+View all registered providers on the network.
+
+```bash
+provider-services query provider list \
+```
+
+**Example output:**
+```json
+{
+  "providers": [
+    {
+      "owner": "akash1...",
+      "host_uri": "https://provider.example.com",
+      "attributes": [
+        {
+          "key": "region",
+          "value": "us-west"
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+### Get Provider
+
+Get details of a specific provider.
+
+```bash
+provider-services query provider get <provider-address> \
+```
+
+---
+
+## Certificate Commands
+
+### Generate Certificate
+
+Generate a client certificate for sending manifests.
+
+```bash
+provider-services tx cert generate client \
+  --from $AKASH_KEY_NAME
+```
+
+**Flags:**
+- `--override` - Overwrite existing certificate if one exists
+
+**Example with override:**
+```bash
+provider-services tx cert generate client \
+  --from $AKASH_KEY_NAME \
+  --override
+```
+
+---
+
+### Publish Certificate
+
+Publish your certificate to the blockchain.
+
+```bash
+provider-services tx cert publish client \
+  --from $AKASH_KEY_NAME
+```
+
+**Flags:**
+- `--override` - Overwrite existing certificate if one exists
+
+**Example with override:**
+```bash
+provider-services tx cert publish client \
+  --from $AKASH_KEY_NAME \
+  --override
+```
+
+---
+
+### Revoke Certificate
+
+Revoke a published certificate.
+
+```bash
+provider-services tx cert revoke \
+  --from $AKASH_KEY_NAME
+```
+
+---
+
+### List Certificates
+
+View all certificates for an account.
+
+```bash
+provider-services query cert list \
+  --owner <address> \
+```
+
+---
+
+## Wallet Commands
+
+### Create Wallet
+
+Create a new wallet.
+
+```bash
+provider-services keys add <wallet-name>
+```
+
+**Flags:**
+- `--recover` - Import from mnemonic
+- `--keyring-backend` - Keyring storage (`os`, `file`, `test`)
+
+**Example:**
+```bash
+provider-services keys add my-wallet
+```
+
+---
+
+### Import Wallet
+
+Import an existing wallet from mnemonic.
+
+```bash
+provider-services keys add <wallet-name> --recover
+```
+
+You'll be prompted to enter your 24-word mnemonic phrase.
+
+---
+
+### List Wallets
+
+List all wallets in your keyring.
+
+```bash
+provider-services keys list
+```
+
+---
+
+### Show Wallet
+
+Display wallet address and public key.
+
+```bash
+provider-services keys show <wallet-name>
+```
+
+**Flags:**
+- `-a` - Show address only
+- `-p` - Show public key only
+
+**Example:**
+```bash
+# Show address only
+provider-services keys show my-wallet -a
+```
+
+---
+
+### Delete Wallet
+
+Delete a wallet from your keyring.
+
+```bash
+provider-services keys delete <wallet-name>
+```
+
+**Warning:** This cannot be undone. Make sure you have backed up your mnemonic.
+
+---
+
+### Export Wallet
+
+Export a wallet to a keyfile.
+
+```bash
+provider-services keys export <wallet-name>
+```
+
+---
+
+### Import Keyfile
+
+Import a wallet from an exported keyfile.
+
+```bash
+provider-services keys import <wallet-name> <keyfile>
+```
+
+---
+
+## Query Commands
+
+### Check Balance
+
+Query account balance.
+
+```bash
+provider-services query bank balances <address> \
+```
+
+**Example:**
+```bash
+provider-services query bank balances akash1... \
+```
+
+**Example output:**
+```json
+{
+  "balances": [
+    {
+      "denom": "uakt",
+      "amount": "5000000"
+    }
+  ]
+}
+```
+
+**Note:** Amounts are in `uakt` (micro-AKT). 1 AKT = 1,000,000 uakt.
+
+---
+
+### Query Account
+
+Get account information.
+
+```bash
+provider-services query account <address> \
+```
+
+---
+
+### Node Status
+
+Check node sync status.
+
+```bash
+provider-services status \
+```
+
+---
+
+### Block Information
+
+Get block information by height.
+
+```bash
+provider-services query block <height> \
+```
+
+---
+
+### Transaction
+
+Query transaction by hash.
+
+```bash
+provider-services query tx <hash> \
+```
+
+---
+
+## Transaction Commands
+
+### Send Tokens
+
+Send AKT to another address.
+
+```bash
+provider-services tx bank send <from-address> <to-address> <amount>uakt \
+  --from $AKASH_KEY_NAME
+```
+
+**Example:**
+```bash
+provider-services tx bank send akash1from... akash1to... 1000000uakt \
+  --from $AKASH_KEY_NAME
+```
+
+---
+
+## Environment Variables
+
+All commands in this reference assume the following environment variables are configured (as described in the [Configuration Guide](/docs/developers/deployment/cli/configuration)):
+
+### Mainnet Configuration
+
+```bash
+export AKASH_NODE="https://rpc.akashnet.net:443"
+export AKASH_CHAIN_ID="akashnet-2"
+export AKASH_GAS="auto"
+export AKASH_GAS_PRICES="0.025uakt"
+export AKASH_GAS_ADJUSTMENT="1.5"
+export AKASH_KEY_NAME="my-wallet"
+export AKASH_KEYRING_BACKEND="os"
+```
+
+### Sandbox Configuration
+
+```bash
+export AKASH_NODE="https://rpc.sandbox-2.aksh.pw:443"
+export AKASH_CHAIN_ID="sandbox-2"
+export AKASH_GAS="auto"
+export AKASH_GAS_PRICES="0.025uakt"
+export AKASH_GAS_ADJUSTMENT="1.5"
+export AKASH_KEY_NAME="my-wallet"
+export AKASH_KEYRING_BACKEND="os"
+```
+
+---
+
+## Output Formats
+
+Control output format with `--output`:
+
+```bash
+# JSON (default)
+provider-services query ... --output json
+
+# Text
+provider-services query ... --output text
+
+# YAML
+provider-services query ... --output yaml
+```
+
+---
+
+## Related Resources
+
+- [CLI Installation](/docs/developers/deployment/cli/installation-guide)
+- [Common Tasks](/docs/developers/deployment/cli/common-tasks)
+- [Configuration](/docs/developers/deployment/cli/configuration)
+- [SDL Reference](/docs/developers/deployment/akash-sdl)

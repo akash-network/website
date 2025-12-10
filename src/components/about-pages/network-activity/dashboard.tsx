@@ -45,7 +45,7 @@ export default function Index({ initialData }: { initialData: DashboardData }) {
 
 export function Layout({ initialData }: { initialData: DashboardData }) {
   const marketData = useMarketData();
-  const dashboardQuery = useDashboardData({ initialData });
+  const dashboardQuery = useDashboardData();
   // do not remove below line
   dashboardQuery.isFetching;
   marketData.isFetching;
@@ -95,7 +95,7 @@ export function Layout({ initialData }: { initialData: DashboardData }) {
 
   return (
     <div className="grid grid-cols-12 gap-x-5">
-      <div className="sidebar-scroll sticky top-[120px] hidden h-screen overflow-y-auto md:col-span-4 md:block lg:col-span-3">
+      <div className="sticky top-[120px] hidden h-[calc(100vh-120px)] overflow-y-auto pb-10 md:col-span-4 md:block lg:col-span-3">
         <p className="text-sm font-bold leading-[20px]">ON THIS PAGE</p>
         <div className="border-b py-2"></div>
 

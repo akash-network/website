@@ -8,26 +8,14 @@ const pathname = new URL(Astro.request.url).pathname;
 ---
 
 <aside
-  class="sidebar-scroll sticky top-[86px] h-[calc(100dvh-86px)] w-[220px] flex-shrink-0 overflow-y-auto border-r py-6 pr-5 lg:w-[281px]"
+  id="docs-sidebar"
+  class="sidebar-scroll sticky top-[86px] h-[calc(100dvh-86px)] w-[220px] flex-shrink-0 overflow-y-auto border-r py-3 pr-5 lg:w-[281px]"
+  style="scroll-behavior: auto;"
 >
   <div class="flex flex-col">
-    <div>
-      <!-- <a
-        href={`/docs`}
-        class={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px] 
-          dark:hover:text-white dark:hover:bg-background2
-        hover:bg-[#F4F1F1]  ${
-          pathname?.split("/")[3]
-            ? "text-para"
-            : "bg-[#F4F1F1] text-primary dark:bg-background2 dark:text-white"
-        }`}
-      >
-        Home
-      </a> -->
+    <div class="mb-2">
       <HomeButton pathname={pathname} client:load />
     </div>
-
-    <!-- <div class="border-b"></div> -->
 
     <div>
       <DocsNav

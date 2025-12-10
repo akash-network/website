@@ -16,7 +16,35 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
     text: toc[0].text,
   });
 
-  useEffect(() => {}, [currentHeading]);
+  useEffect(() => {
+    // Auto-scroll the active heading into view only if it's not visible
+    if (currentHeading.slug) {
+      const activeElement = document.querySelector(
+        `aside a[href="#${currentHeading.slug}"]`
+      ) as HTMLElement;
+      
+      if (activeElement) {
+        const sidebar = activeElement.closest('aside');
+        if (sidebar) {
+          const sidebarRect = sidebar.getBoundingClientRect();
+          const elementRect = activeElement.getBoundingClientRect();
+          
+          // Check if element is outside the visible area
+          const isAbove = elementRect.top < sidebarRect.top;
+          const isBelow = elementRect.bottom > sidebarRect.bottom;
+          
+          // Only scroll if the element is not visible
+          if (isAbove || isBelow) {
+            activeElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+              inline: "nearest",
+            });
+          }
+        }
+      }
+    }
+  }, [currentHeading]);
 
   // Define the ID for the "On This Page" heading.
   const onThisPageID = "on-this-page-heading";

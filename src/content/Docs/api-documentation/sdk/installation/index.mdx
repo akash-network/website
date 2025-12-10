@@ -1,0 +1,94 @@
+---
+categories: ["API Documentation", "SDK"]
+tags: ["SDK", "Installation", "Go", "JavaScript", "TypeScript"]
+title: "SDK Installation"
+linkTitle: "Installation"
+description: "Install Akash SDK for Go or JavaScript/TypeScript"
+weight: 1
+---
+
+import CodeTabs from "@/components/docs/CodeTabs";
+
+**Install the Akash SDK in your preferred language.**
+
+Both SDKs are generated from the [chain-sdk](https://github.com/akash-network/chain-sdk) repository and provide the same core functionality.
+
+---
+
+## Prerequisites
+
+### Go SDK
+- Go 1.25.0 or higher
+- Basic Go module knowledge
+
+### TypeScript SDK
+- Node.js 22.14.0 or higher
+- npm, yarn, or pnpm
+
+---
+
+## Installation
+
+<CodeTabs
+  client:load
+  examples={[
+    {
+      language: "go",
+      code: `# Install the Go SDK from chain-sdk
+# Using Go modules (recommended)
+go get pkg.akt.dev/go
+
+# The SDK includes multiple packages:
+# - pkg.akt.dev/go           # Core types and clients
+# - pkg.akt.dev/go/sdl       # SDL parsing and validation
+# - pkg.akt.dev/go/cli       # CLI utilities`,
+    },
+    {
+      language: "javascript",
+      label: "JavaScript/TypeScript",
+      code: `# Install via npm
+npm install @akashnetwork/chain-sdk
+
+# Or with yarn
+yarn add @akashnetwork/chain-sdk
+
+# Or with pnpm
+pnpm add @akashnetwork/chain-sdk`,
+    },
+  ]}
+/>
+
+---
+
+## SDK Details
+
+### Go SDK
+The official Go SDK for Akash Network, generated from chain-sdk protobuf definitions.
+
+- **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
+- **Package:** `pkg.akt.dev/go`
+- **Source:** `chain-sdk/go` directory
+- **Go Version:** 1.25.0+
+- **Includes:**
+  - Core blockchain types and clients (`pkg.akt.dev/go`)
+  - SDL parsing and validation (`pkg.akt.dev/go/sdl`)
+  - CLI utilities (`pkg.akt.dev/go/cli`)
+
+### JavaScript/TypeScript SDK
+The official JavaScript/TypeScript SDK for Akash Network, generated from chain-sdk protobuf definitions.
+
+- **Repository:** [github.com/akash-network/chain-sdk](https://github.com/akash-network/chain-sdk)
+- **Package:** `@akashnetwork/chain-sdk`
+- **Source:** `chain-sdk/ts` directory
+- **Node Version:** 22.14.0+
+- **Supports:** Node.js and browser environments
+- **Dependencies:** Uses CosmJS for wallet and signing operations
+
+---
+
+## Related Resources
+
+- [Quick Start](/docs/api-documentation/sdk/quick-start) - Get started with your first deployment
+- [Examples](/docs/api-documentation/sdk/examples) - Real-world code examples
+- [API Reference](/docs/api-documentation/sdk/api-reference) - Complete API documentation
+

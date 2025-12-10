@@ -1,0 +1,23 @@
+---
+const { icon, title, description, link } = Astro.props;
+---
+
+<a
+  href={link}
+  class="not-prose group block rounded-lg border bg-background p-5 shadow-sm transition-all hover:shadow-md hover:bg-[#F4F1F1] hover:dark:bg-background2"
+>
+  <div class="flex items-start gap-4">
+    <div
+      class="flex-shrink-0 rounded-lg border border-paraDark bg-background2 p-2.5 transition-colors group-hover:border-primary/20 dark:bg-background"
+    >
+      <div set:html={icon} class="h-6 w-6 text-foreground" />
+    </div>
+    <div class="flex-1">
+      <h4 class="text-sm font-semibold text-foreground md:text-base">
+        {title}
+      </h4>
+      <p class="mt-1.5 text-xs text-para md:text-sm">{description}</p>
+    </div>
+  </div>
+</a>
+
