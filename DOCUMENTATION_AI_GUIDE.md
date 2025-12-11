@@ -456,7 +456,7 @@ section:
 **ALWAYS use these current versions. Do not hallucinate or guess.**
 
 #### Kubernetes Infrastructure
-- **Kubernetes:** `1.33.5` (via Kubespray 2.29)
+- **Kubernetes:** `1.33.5` (via Kubespray 2.29.1)
 - **etcd:** `3.5.22`
 - **containerd:** `2.1.4`
 - **Calico CNI:** `3.30.3`

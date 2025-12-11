@@ -47,7 +47,7 @@ There are three ways to become an Akash provider, each suited for different use 
 - Best for large deployments
 
 **Includes:**
-- Kubernetes cluster setup with Kubespray 2.29
+- Kubernetes cluster setup with Kubespray 2.29.1
 - Provider installation with Helm
 - GPU support configuration
 - Persistent storage setup
