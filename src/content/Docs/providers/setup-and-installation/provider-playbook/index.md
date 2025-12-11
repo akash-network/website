@@ -193,7 +193,7 @@ The script will:
 ### Kubernetes Installation
 
 **If using Kubespray:**
-- Clones Kubespray v2.28.0
+- Clones Kubespray v2.29.1
 - Creates Python virtual environment
 - Installs Kubespray requirements
 - Generates inventory files

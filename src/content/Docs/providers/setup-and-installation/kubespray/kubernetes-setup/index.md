@@ -4,7 +4,7 @@ tags: ["Kubernetes", "Cluster Setup", "Infrastructure", "Kubespray"]
 weight: 1
 title: "Kubernetes Cluster Setup with Kubespray"
 linkTitle: "Kubernetes Setup"
-description: "Deploy a production-grade Kubernetes cluster using Kubespray 2.29"
+description: "Deploy a production-grade Kubernetes cluster using Kubespray 2.29.1"
 ---
 
 **Deploy Kubernetes 1.33.5 using Kubespray for your Akash provider.**
@@ -17,7 +17,7 @@ This guide walks through deploying a production-ready Kubernetes cluster that wi
 
 ## What You'll Deploy
 
-Using Kubespray 2.29, you'll install:
+Using Kubespray 2.29.1, you'll install:
 
 - **Kubernetes 1.33.5** - Container orchestration
 - **etcd 3.5.22** - Distributed key-value store
@@ -42,11 +42,11 @@ Clone Kubespray on a control machine (not on the cluster nodes themselves):
 
 ```bash
 cd ~
-git clone -b v2.29.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
+git clone -b v2.29.1 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 cd kubespray
 ```
 
-> **Note:** We use Kubespray 2.29.0 which includes Kubernetes 1.33.5
+> **Note:** We use Kubespray 2.29.1 which includes Kubernetes 1.33.5
 
 ---
 
