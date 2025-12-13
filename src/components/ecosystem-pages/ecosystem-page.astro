@@ -32,7 +32,7 @@ const astroUrl = Astro.url;
 
     <div>
       <div
-        class="mt-4 grid flex-shrink-0 grid-cols-1 gap-y-[24px] sm:grid-cols-2 sm:gap-x-8 md:gap-y-8 lg:grid-cols-3 lg:gap-x-[36px] lg:gap-y-[32px]"
+        class="mt-4 grid flex-shrink-0 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
         {
           projects?.map((project: Project, i: number) => {
@@ -46,6 +46,7 @@ const astroUrl = Astro.url;
                 twitterLink={project.data.twitterLink}
                 websiteLink={project.data.websiteLink}
                 discordLink={project.data.discordLink}
+                isTool={type === "tool"}
               />
             );
           })
