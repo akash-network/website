@@ -1,6 +1,6 @@
 ---
 projectTitle: Akash Chat
-projectImage: "./project-banner.png"
+projectImage: "./akash-chat.png"
 pubDate: "2021-01-19"
 
 tags:

@@ -12,6 +12,7 @@ export const socialLinks = {
   zealy: "https://zealy.io/c/akashnetwork",
   reddit: "https://www.reddit.com/r/AkashNetwork/",
   linkedin: "https://www.linkedin.com/company/akash-network/",
+  instagram: "https://www.instagram.com/akash.network/?hl=en",
 };
 
 export const whyChooseSection = {

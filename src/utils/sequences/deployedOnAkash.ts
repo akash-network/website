@@ -1,4 +1,5 @@
 export const deployedOnAkash = [
+  "AkashML",
   "NVIDIA",
   "Venice.ai",
   "Prime Intellect",
@@ -7,7 +8,6 @@ export const deployedOnAkash = [
   "Eliza",
   "Morpheus",
   "Flock.io",
-  "Akash Chat API",
   "Akash Chat",
   "Auki",
   "Bagel",

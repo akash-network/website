@@ -1,6 +1,6 @@
 ---
 projectTitle: AkashGen
-projectImage: "./project-banner.png"
+projectImage: "./akash-gen.png"
 pubDate: "2021-01-19"
 
 tags:

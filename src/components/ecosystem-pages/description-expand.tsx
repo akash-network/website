@@ -44,7 +44,7 @@ const DescriptionExpand = ({ description }: any) => {
             <HoverCardTrigger>
               <p
                 dangerouslySetInnerHTML={{ __html: description }}
-                className="mt-6 line-clamp-3 cursor-pointer text-sm font-medium leading-[20px] text-cardGray"
+                className="mt-3 line-clamp-3 cursor-pointer text-sm font-medium leading-[20px] text-cardGray"
               ></p>
             </HoverCardTrigger>
             <HoverCardContent className="p-5" align="start" alignOffset={50}>
@@ -57,7 +57,7 @@ const DescriptionExpand = ({ description }: any) => {
         ) : (
           <p
             dangerouslySetInnerHTML={{ __html: description }}
-            className="mt-6 line-clamp-3 cursor-pointer text-sm font-medium leading-[20px] text-cardGray"
+            className="mt-3 line-clamp-3 cursor-pointer text-sm font-medium leading-[20px] text-cardGray"
           ></p>
         )}
       </div>
