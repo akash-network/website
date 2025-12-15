@@ -279,7 +279,7 @@ Mint non-transferable ACT credits by removing AKT from circulation.
 
 ##### Message
 
-```proto
+```protobuf
 MsgMintACT {
   // who provides AKT (tenant or console wallet)
   payer:   Address       
@@ -346,7 +346,7 @@ Tenant burns unused ACT and receives AKT back at **current price**.
 
 ##### Message
 
-```proto
+```protobuf
 MsgBurnACT {
   owner:      Address    // whose ACT to burn
   to:         Address    // who receives AKT (default = owner)
