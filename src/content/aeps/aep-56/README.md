@@ -2,7 +2,7 @@
 aep: 56
 title: "Chain SDK"
 author: Anil Murty (@anilmurty) Artur Troian (@troian) Serhii Stotsky (@baktun14) Maxime Beauchamp (@baktun14)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2025-01-10

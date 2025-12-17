@@ -7,7 +7,7 @@ type: Standard
 category: Core
 created: 2025-08-18
 updated: 2025-09-02
-estimated-completion: 2025-10-21
+completed: 2025-10-21
 roadmap: major
 ---
 
