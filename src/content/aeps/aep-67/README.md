@@ -2,7 +2,7 @@
 aep: 67
 title: "Console Bid PreCheck"
 author: Anil Murty (@anilmurty)
-status: Draft
+status: Final
 type: Standard
 category: Core
 created: 2025-05-16
