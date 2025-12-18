@@ -50,7 +50,7 @@ const Panel = ({ open, nav, pathname }: any) => {
 
   return (
     <Disclosure.Panel className=" z-50 lg:hidden">
-      <div className="container   z-50 flex h-screen flex-col gap-6 overflow-auto pt-10 ">
+      <div className="container   z-50 flex h-screen flex-col  overflow-auto pt-6 ">
         <Disclosure.Button className="  ml-auto flex items-center justify-center  gap-x-1 rounded-full  text-xs leading-none">
           <XMarkIcon />
         </Disclosure.Button>
@@ -71,10 +71,10 @@ function SideNav({ nav, pathname }: any) {
 
       <div className="mt-4 border-b "></div>
 
-      <div className="mt-2 pb-48">
+      <div className="mt-2 pb-6">
         <a
           href="/support"
-          className={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px]  hover:bg-[#F4F1F1] hover:text-primary dark:hover:bg-darkGray dark:hover:text-white   `}
+          className={`flex cursor-pointer items-center gap-x-2 rounded-[4px]  py-1 text-sm font-medium leading-[20px]  hover:bg-[#F4F1F1] hover:text-primary dark:hover:bg-darkGray dark:hover:text-white   `}
         >
           Support
         </a>
