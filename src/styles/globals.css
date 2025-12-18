@@ -86,14 +86,15 @@ html body[data-scroll-locked] {
     --docsearch-searchbox-focus-background: hsl(0 0% 14%) !important;
     --docsearch-hit-shadow: 0 0 0 1px hsl(0 0% 14%) !important;
     --docsearch-modal-background: hsl(0 0% 14%) !important;
-    --docsearch-modal-shadow: inset 1px 1px 0 0 hsla(0, 0%, 26%, 0.5),
-      0 3px 8px 0 #555a64 !important;
+    --docsearch-modal-shadow:
+      inset 1px 1px 0 0 hsla(0, 0%, 26%, 0.5), 0 3px 8px 0 #555a64 !important;
     --docsearch-key-gradient: linear-gradient(
       -225deg,
       #252525,
       #202020
     ) !important;
-    --docsearch-key-shadow: inset 0 -2px 0 0 #383838, inset 0 0 1px 1px #4d4d4d,
+    --docsearch-key-shadow:
+      inset 0 -2px 0 0 #383838, inset 0 0 1px 1px #4d4d4d,
       0 1px 2px 1px rgba(30, 35, 90, 0.4) !important;
     --docsearch-footer-background: hsl(0 0% 11%) !important;
     --docsearch-footer-shadow: 0 -1px 0 0 #181818 0 -3px 6px 0
@@ -283,6 +284,16 @@ html body[data-scroll-locked] {
 
 .hide-arrow {
   -moz-appearance: textfield;
+}
+
+/* Prevent code blocks from overflowing */
+.prose pre {
+  overflow-x: auto !important;
+  max-width: 100% !important;
+}
+
+.prose code {
+  word-break: break-word;
 }
 
 .prose-blog li > p {

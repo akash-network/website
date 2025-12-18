@@ -1,10 +1,10 @@
 ---
-import DocsLayout from "@/layouts/docs-layout.astro";
-import { getCollection, getEntry } from "astro:content";
-import MobileNav from "@/components/docs/mobile-sidebar";
 import AlgoliaSearch from "@/components/docs/algolia-search";
-import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
+import MobileNav from "@/components/docs/mobile-sidebar";
 import SectionCard from "@/components/docs/section-card.astro";
+import DocsLayout from "@/layouts/docs-layout.astro";
+import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
+import { getCollection } from "astro:content";
 
 const pathname = new URL(Astro.request.url).pathname;
 
@@ -26,6 +26,105 @@ const boxIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
 const cliIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>`;
 
 const chartIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>`;
+
+// Choose Your Path Data
+const pathOptions = [
+  {
+    icon: serverIcon,
+    title: "Full Node",
+    description: "Interact with the blockchain, run your own RPC/API endpoints",
+    link: "/docs/node-operators/node-build",
+    linkText: "Node Build Guides →",
+    details: [
+      {
+        label: "Requirements:",
+        items: [
+          "CPU: 4-8 cores",
+          "Memory: 16-32 GB RAM",
+          "Storage: 512 GB SSD (1 TB+ recommended)",
+          "No AKT required",
+        ],
+      },
+    ],
+  },
+  {
+    icon: shieldIcon,
+    title: "Validator",
+    description: "Secure the network and earn staking rewards",
+    link: "/docs/node-operators/validators/running-a-validator",
+    linkText: "Running a Validator →",
+    details: [
+      {
+        label: "Requirements:",
+        items: [
+          "CPU: 8+ cores (16 recommended)",
+          "Memory: 128 GB RAM",
+          "Storage: 1 TB NVMe SSD",
+          "Uptime: 99.9%+ (slashing for downtime)",
+          "AKT: 10,000+ recommended",
+        ],
+      },
+    ],
+  },
+];
+
+// Node Build Methods Cards
+const nodeBuildCards = [
+  {
+    icon: cliIcon,
+    title: "CLI Build",
+    description: "Build and run your node with command-line tools",
+    link: "/docs/node-operators/node-build/cli-build",
+  },
+  {
+    icon: chartIcon,
+    title: "Helm Chart",
+    description: "Deploy your node on Kubernetes with Helm",
+    link: "/docs/node-operators/node-build/helm-chart",
+  },
+  {
+    icon: boxIcon,
+    title: "Omnibus",
+    description: "All-in-one deployment with Omnibus scripts",
+    link: "/docs/node-operators/node-build/omnibus",
+  },
+];
+
+// Additional Resources Cards
+const additionalResourcesCards = [
+  {
+    icon: upgradeIcon,
+    title: "Network Upgrades",
+    description: "Mainnet 15 upgrade guide and procedures",
+    link: "/docs/node-operators/network-upgrades",
+  },
+  {
+    icon: boxIcon,
+    title: "Architecture",
+    description: "Node architecture and API endpoints",
+    link: "/docs/node-operators/architecture",
+  },
+  {
+    icon: shieldIcon,
+    title: "TMKMS",
+    description: "Secure your validator keys with TMKMS",
+    link: "/docs/node-operators/validators/tmkms-stunnel",
+  },
+];
+
+// Help Links
+const helpLinks = [
+  {
+    href: "https://discord.akash.network",
+    icon: `<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"></path></svg>`,
+    text: "Discord - #validators channel",
+  },
+  {
+    href: "https://github.com/akash-network/node",
+    icon: `<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>`,
+    text: "GitHub - Node repository",
+  },
+];
 ---
 
 <DocsLayout
@@ -33,7 +132,9 @@ const chartIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
   description={pageDescription}
   image="/meta-images/docs.png"
 >
-  <div class="sticky top-0 z-10 -mt-4 mb-10 h-[130px] bg-background pt-4 md:hidden">
+  <div
+    class="sticky top-0 z-10 -mt-4 mb-10 h-[130px] bg-background px-5 pt-4 md:hidden"
+  >
     <div>
       <AlgoliaSearch client:only />
     </div>
@@ -50,193 +151,182 @@ const chartIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24
     </div>
   </div>
 
-  <div class="flex flex-col items-start">
-    <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl">
-      {pageTitle}
-    </h1>
-    <p class="mt-6 text-base text-para md:text-lg">{pageDescription}</p>
-  </div>
+  <div class="container-reader px-5 md:mt-10">
+    <div class="flex flex-col items-start">
+      <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl">
+        {pageTitle}
+      </h1>
+      <p class="mt-6 text-base text-para md:text-lg">{pageDescription}</p>
+    </div>
 
-  <!-- Choose Your Path -->
-  <div class="mt-12">
-    <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-      Choose Your Path
-    </h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <div class="rounded-2xl border bg-background2 p-6">
-        <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 rounded-lg border border-paraDark bg-background p-2.5">
-            <div set:html={serverIcon} class="h-6 w-6 text-foreground" />
-          </div>
-          <div class="flex-1">
-            <h3 class="text-xl font-semibold text-foreground">Full Node</h3>
-            <p class="mt-2 text-sm text-para">
-              Interact with the blockchain, run your own RPC/API endpoints
-            </p>
-            <div class="mt-4 space-y-2 text-sm text-para">
-              <p><strong>Requirements:</strong></p>
-              <ul class="ml-4 space-y-1">
-                <li>• CPU: 4-8 cores</li>
-                <li>• Memory: 16-32 GB RAM</li>
-                <li>• Storage: 512 GB SSD (1 TB+ recommended)</li>
-                <li>• No AKT required</li>
-              </ul>
+    <!-- Choose Your Path -->
+    <div class="mt-12">
+      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+        Choose Your Path
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {
+          pathOptions.map((option) => (
+            <div class="group rounded-lg border border-[#e6e8eb] bg-white p-6 transition-all hover:shadow-lg dark:border-[#333] dark:bg-[#1a1a1a]">
+              <div class="flex items-start gap-4">
+                <div class="flex flex-shrink-0 items-center justify-center rounded-lg bg-[#f5f5f5] p-2.5 dark:bg-[#333]">
+                  <div
+                    set:html={option.icon}
+                    class="h-6 w-6 text-[#11181c] dark:text-white"
+                  />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-semibold text-[#11181c] dark:text-white">
+                    {option.title}
+                  </h3>
+                  <p class="mt-2 text-sm text-[#7e868c]">
+                    {option.description}
+                  </p>
+                  {option.details && option.details.length > 0 && (
+                    <div class="mt-4 space-y-2 text-sm text-[#7e868c]">
+                      {option.details.map((detail) => (
+                        <div>
+                          <p class="font-semibold text-[#11181c] dark:text-white">
+                            {detail.label}
+                          </p>
+                          {detail.items && (
+                            <ul class="ml-4 mt-1 space-y-1">
+                              {detail.items.map((item) => (
+                                <li>• {item}</li>
+                              ))}
+                            </ul>
+                          )}
+                          {"text" in detail && detail.text && (
+                            <p class="mt-3 text-[#7e868c]">{detail.text}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {option.link && (
+                    <a
+                      href={option.link}
+                      class="mt-4 inline-block text-[#ff414c] hover:underline"
+                    >
+                      {option.linkText || "Learn More →"}
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
-            <a
-              href="/docs/node-operators/node-build"
-              class="mt-4 inline-block text-primary hover:underline"
-            >
-              Node Build Guides →
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="rounded-2xl border bg-background2 p-6">
-        <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 rounded-lg border border-paraDark bg-background p-2.5">
-            <div set:html={shieldIcon} class="h-6 w-6 text-foreground" />
-          </div>
-          <div class="flex-1">
-            <h3 class="text-xl font-semibold text-foreground">Validator</h3>
-            <p class="mt-2 text-sm text-para">
-              Secure the network and earn staking rewards
-            </p>
-            <div class="mt-4 space-y-2 text-sm text-para">
-              <p><strong>Requirements:</strong></p>
-              <ul class="ml-4 space-y-1">
-                <li>• CPU: 8+ cores (16 recommended)</li>
-                <li>• Memory: 128 GB RAM</li>
-                <li>• Storage: 1 TB NVMe SSD</li>
-                <li>• Uptime: 99.9%+ (slashing for downtime)</li>
-                <li>• AKT: 10,000+ recommended</li>
-              </ul>
-            </div>
-            <a
-              href="/docs/node-operators/validators/running-a-validator"
-              class="mt-4 inline-block text-primary hover:underline"
-            >
-              Running a Validator →
-            </a>
-          </div>
-        </div>
+          ))
+        }
       </div>
     </div>
-  </div>
 
-  <!-- Node Build Methods -->
-  <div class="mt-12">
-    <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-      Node Build Methods
-    </h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <SectionCard
-        icon={cliIcon}
-        title="CLI Build"
-        description="Build and run your node with command-line tools"
-        link="/docs/node-operators/node-build/cli-build"
-      />
-      <SectionCard
-        icon={chartIcon}
-        title="Helm Chart"
-        description="Deploy your node on Kubernetes with Helm"
-        link="/docs/node-operators/node-build/helm-chart"
-      />
-      <SectionCard
-        icon={boxIcon}
-        title="Omnibus"
-        description="All-in-one deployment with Omnibus scripts"
-        link="/docs/node-operators/node-build/omnibus"
-      />
+    <!-- Node Build Methods -->
+    <div class="mt-12">
+      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+        Node Build Methods
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {
+          nodeBuildCards.map((card) => (
+            <SectionCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              link={card.link}
+            />
+          ))
+        }
+      </div>
     </div>
-  </div>
 
-  <!-- Additional Resources -->
-  <div class="mt-12">
-    <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-      Additional Resources
-    </h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <SectionCard
-        icon={upgradeIcon}
-        title="Network Upgrades"
-        description="Mainnet 15 upgrade guide and procedures"
-        link="/docs/node-operators/network-upgrades"
-      />
-      <SectionCard
-        icon={boxIcon}
-        title="Architecture"
-        description="Node architecture and API endpoints"
-        link="/docs/node-operators/architecture"
-      />
-      <SectionCard
-        icon={shieldIcon}
-        title="TMKMS"
-        description="Secure your validator keys with TMKMS"
-        link="/docs/node-operators/validators/tmkms-stunnel"
-      />
+    <!-- Additional Resources -->
+    <div class="mt-12">
+      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+        Additional Resources
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {
+          additionalResourcesCards.map((card) => (
+            <SectionCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              link={card.link}
+            />
+          ))
+        }
+      </div>
     </div>
-  </div>
 
-  <!-- Active Validator Set -->
-  <div class="mt-12 mb-12 rounded-2xl border bg-background2 p-8">
-    <h2 class="mb-4 text-2xl font-bold text-foreground">Active Validator Set</h2>
-    <p class="mb-4 text-para"><strong>Current Size:</strong> 100 validators</p>
-    <p class="mb-4 text-para">
-      To join the active set, you need more voting power than the 100th validator.
-    </p>
-    <p class="text-para"><strong>Check Requirements:</strong></p>
-    <ul class="mt-2 space-y-2 text-para">
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span>Discord: <code>$votingpower</code> in #validator-alerts</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span>Explorers: <a href="https://www.mintscan.io/akash/validators" target="_blank" class="text-primary hover:underline">Mintscan</a> | <a href="https://atomscan.com/akash/validators" target="_blank" class="text-primary hover:underline">ATOMScan</a> | <a href="https://explorer.arcturian.tech/akash/staking" target="_blank" class="text-primary hover:underline">Arcturian</a></span>
-      </li>
-    </ul>
-  </div>
+    <!-- Active Validator Set -->
+    <div
+      class="mb-12 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
+    >
+      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+        Active Validator Set
+      </h2>
+      <p class="mb-4 text-sm text-[#7e868c]">
+        <strong class="text-[#11181c] dark:text-white">Current Size:</strong> 100
+        validators
+      </p>
+      <p class="mb-4 text-sm text-[#7e868c]">
+        To join the active set, you need more voting power than the 100th
+        validator.
+      </p>
+      <p class="text-sm text-[#11181c] dark:text-white">
+        <strong>Check Requirements:</strong>
+      </p>
+      <ul class="mt-2 space-y-2 text-sm text-[#7e868c]">
+        <li class="flex items-start gap-2">
+          <span class="mt-1 text-[#ff414c]">→</span>
+          <span
+            >Discord: <code
+              class="rounded bg-[#f5f5f5] px-1 py-0.5 dark:bg-[#333]"
+              >$votingpower</code
+            > in #validator-alerts</span
+          >
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="mt-1 text-[#ff414c]">→</span>
+          <span
+            >Explorers: <a
+              href="https://www.mintscan.io/akash/validators"
+              target="_blank"
+              class="text-[#ff414c] hover:underline">Mintscan</a
+            > | <a
+              href="https://atomscan.com/akash/validators"
+              target="_blank"
+              class="text-[#ff414c] hover:underline">ATOMScan</a
+            > | <a
+              href="https://explorer.arcturian.tech/akash/staking"
+              target="_blank"
+              class="text-[#ff414c] hover:underline">Arcturian</a
+            ></span
+          >
+        </li>
+      </ul>
+    </div>
 
-  <!-- Need Help Section -->
-  <div class="mt-12 mb-16 rounded-2xl border bg-background2 p-8">
-    <h2 class="mb-4 text-2xl font-bold text-foreground">Need Help?</h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <a
-        href="https://discord.akash.network"
-        target="_blank"
-        class="flex items-center gap-3 text-primary hover:underline"
-      >
-        <svg
-          class="h-5 w-5"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"
-          ></path>
-        </svg>
-        <span class="font-medium">Discord - #validators channel</span>
-      </a>
-      <a
-        href="https://github.com/akash-network/node"
-        target="_blank"
-        class="flex items-center gap-3 text-primary hover:underline"
-      >
-        <svg
-          class="h-5 w-5"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-          ></path>
-        </svg>
-        <span class="font-medium">GitHub - Node repository</span>
-      </a>
+    <!-- Need Help Section -->
+    <div
+      class="mb-16 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
+    >
+      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+        Need Help?
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {
+          helpLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              class="flex items-center gap-3 text-[#ff414c] hover:underline"
+            >
+              <Fragment set:html={link.icon} />
+              <span class="font-medium">{link.text}</span>
+            </a>
+          ))
+        }
+      </div>
     </div>
   </div>
 </DocsLayout>
-
