@@ -40,9 +40,18 @@ let nav = generateDocsNav(pages);
         <Sidebar nav={nav} />
       </div>
 
-      <div class="flex flex-1 flex-col">
-        <main class="flex-1">
-          <div class="mx-auto pb-10">
+      <div
+        class="flex flex-1 flex-col"
+        style="min-width: 0; max-width: 100%; overflow-x: hidden;"
+      >
+        <main
+          class="flex-1"
+          style="min-width: 0; max-width: 100%; overflow-x: hidden;"
+        >
+          <div
+            class="mx-auto pb-10"
+            style="min-width: 0; max-width: 100%; overflow-x: hidden;"
+          >
             <slot />
           </div>
         </main>
