@@ -1,179 +1,55 @@
 ---
 // Import required assets
+
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
+import AkashFooterLogo from "../ui/akash-footer-logo.astro";
 ---
 
-<footer class="mt-10 border-t border-[#e6e8eb] px-6 py-10 dark:border-[#333]">
-  <div
-    class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
-  >
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2">
-      <svg
-        width="127"
-        height="15"
-        viewBox="0 0 127 15"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g clip-path="url(#clip0_1_808)">
-          <path
-            d="M9.67455 8.92175L11.9495 12.923H7.35413L5.05518 8.92175H9.67455Z"
-            fill="url(#paint0_linear_1_808)"></path>
-          <path
-            d="M11.9483 12.9236L14.2434 8.92238L9.64931 0.917969H5.05518L11.9483 12.9236Z"
-            fill="currentColor"></path>
-          <path
-            d="M2.75798 4.91821H7.35211L2.7599 12.9226L0.460938 8.92139L2.75798 4.91821Z"
-            fill="currentColor"></path>
-        </g>
-        <path
-          d="M23.497 4.92146L23.3827 6.15675C22.8928 5.19778 21.7661 4.67766 20.5578 4.67766C18.2881 4.67766 16.7695 6.31929 16.7695 8.83863C16.7695 11.3417 18.1411 13.1621 20.5415 13.1621C21.8478 13.1621 22.8112 12.5282 23.3173 11.6993L23.448 12.9508H25.3094V4.92146H23.497ZM23.2847 8.93615C23.2847 10.3827 22.3866 11.3742 20.9987 11.3742C19.6107 11.3742 18.7616 10.3665 18.7616 8.93615C18.7616 7.50582 19.6271 6.48183 21.015 6.48183C22.4029 6.48183 23.2847 7.48956 23.2847 8.93615Z"
-          fill="currentColor"></path>
-        <path
-          d="M28.6989 12.9508V10.7891L29.8746 9.57005L31.981 12.9508H34.267L31.2625 8.10721L34.3323 4.92146H31.834L28.6989 8.286V1.09448H26.7231V12.9508H28.6989Z"
-          fill="currentColor"></path>
-        <path
-          d="M40.9569 4.92146L40.8426 6.15675C40.3527 5.19778 39.226 4.67766 38.0177 4.67766C35.748 4.67766 34.2295 6.31929 34.2295 8.83863C34.2295 11.3417 35.6011 13.1621 38.0014 13.1621C39.3077 13.1621 40.2711 12.5282 40.7773 11.6993L40.9079 12.9508H42.7694V4.92146H40.9569ZM40.7446 8.93615C40.7446 10.3827 39.8465 11.3742 38.4586 11.3742C37.0707 11.3742 36.2216 10.3665 36.2216 8.93615C36.2216 7.50582 37.087 6.48183 38.4749 6.48183C39.8629 6.48183 40.7446 7.48956 40.7446 8.93615Z"
-          fill="currentColor"></path>
-        <path
-          d="M43.7774 10.5128C43.7774 12.0894 45.0511 13.1621 47.0595 13.1621C49.0516 13.1621 50.4396 12.1544 50.4396 10.529C50.4396 9.29373 49.7537 8.67609 48.3985 8.36727L46.9452 8.02594C46.2594 7.8634 45.9002 7.57083 45.9002 7.11573C45.9002 6.51434 46.3574 6.15675 47.1412 6.15675C47.9086 6.15675 48.3658 6.5956 48.3821 7.27826H50.2763C50.2599 5.7179 49.0353 4.67766 47.2228 4.67766C45.3613 4.67766 44.0224 5.62038 44.0224 7.19699C44.0224 8.48104 44.7245 9.1637 46.1778 9.48878L47.631 9.83011C48.3495 9.99265 48.5618 10.2852 48.5618 10.6916C48.5618 11.2767 48.0556 11.6505 47.1248 11.6505C46.2104 11.6505 45.6879 11.2117 45.6716 10.5128H43.7774Z"
-          fill="currentColor"></path>
-        <path
-          d="M53.5415 12.9508V8.56231C53.5415 7.35953 54.2763 6.48183 55.5336 6.48183C56.5459 6.48183 57.2154 7.13198 57.2154 8.48104V12.9508H59.2075V8.00968C59.2075 5.9292 58.1625 4.67766 56.1704 4.67766C55.011 4.67766 54.064 5.18153 53.5578 5.96171V1.09448H51.5494V12.9508H53.5415Z"
-          fill="currentColor"></path>
-        <path
-          d="M62.431 13.1251C63.1414 13.1251 63.7389 12.5438 63.7389 11.8495C63.7389 11.139 63.1414 10.5577 62.431 10.5577C61.7205 10.5577 61.123 11.139 61.123 11.8495C61.123 12.5438 61.7205 13.1251 62.431 13.1251Z"
-          fill="currentColor"></path>
-        <path
-          d="M67.7267 12.9313V8.63623C67.7267 7.34447 68.4694 6.50483 69.6804 6.50483C70.6977 6.50483 71.3597 7.15071 71.3597 8.49091V12.9313H73.3297V8.02264C73.3297 5.95583 72.2963 4.71251 70.294 4.71251C69.2122 4.71251 68.2434 5.18077 67.7428 5.98812L67.5813 4.95472H65.7567V12.9313H67.7267Z"
-          fill="currentColor"></path>
-        <path
-          d="M78.3742 13.1412C80.4572 13.1412 81.9104 12.0917 82.2495 10.3478H80.4249C80.1988 11.1067 79.4884 11.5265 78.4065 11.5265C77.0986 11.5265 76.3559 10.8161 76.2105 9.41129L82.2172 9.39514V8.7977C82.2172 6.31106 80.6994 4.71251 78.3096 4.71251C75.9683 4.71251 74.3375 6.44024 74.3375 8.94302C74.3375 11.4135 76.0006 13.1412 78.3742 13.1412ZM78.3258 6.32721C79.5045 6.32721 80.2634 7.05383 80.2634 8.15182H76.259C76.4527 6.95694 77.1632 6.32721 78.3258 6.32721Z"
-          fill="currentColor"></path>
-        <path
-          d="M85.9683 12.9313V6.60171H87.5184V4.95472H85.9683V2.46808H83.9983V4.95472H82.4644V6.60171H83.9983V12.9313H85.9683Z"
-          fill="currentColor"></path>
-        <path
-          d="M90.503 12.9313H92.4245L93.5225 9.50817C93.9262 8.20026 94.0715 7.63512 94.1523 7.26374C94.2169 7.66741 94.3945 8.42632 94.7174 9.47587L95.8154 12.9313H97.6562L100.417 4.95472H98.3343L97.2686 8.37788C97.1233 8.87843 96.865 9.83111 96.7358 10.4285C96.6389 9.89569 96.316 8.70082 96.2191 8.37788L95.1534 4.95472H93.1511L92.0532 8.37788C91.7948 9.16908 91.6495 9.66964 91.5042 10.4447C91.3588 9.70193 91.1974 9.00761 91.0197 8.37788L89.9702 4.95472H87.9195L90.503 12.9313Z"
-          fill="currentColor"></path>
-        <path
-          d="M100.288 8.92688C100.288 11.4135 102.081 13.1251 104.551 13.1251C107.022 13.1251 108.814 11.4135 108.814 8.92688C108.814 6.44024 107.022 4.72866 104.551 4.72866C102.081 4.72866 100.288 6.44024 100.288 8.92688ZM102.258 8.92688C102.258 7.47365 103.195 6.48868 104.551 6.48868C105.907 6.48868 106.844 7.47365 106.844 8.92688C106.844 10.3801 105.907 11.3651 104.551 11.3651C103.195 11.3651 102.258 10.3801 102.258 8.92688Z"
-          fill="currentColor"></path>
-        <path
-          d="M114.462 4.92242C114.139 4.84169 113.865 4.80939 113.59 4.80939C112.524 4.80939 111.766 5.34224 111.426 6.13345L111.313 4.97086H109.457V12.9313H111.426V9.05605C111.426 7.50594 112.315 6.74703 113.735 6.74703H114.462V4.92242Z"
-          fill="currentColor"></path>
-        <path
-          d="M117.322 12.9313V10.7838L118.485 9.57275L120.568 12.9313H122.828L119.857 8.11953L122.893 4.95472H120.422L117.322 8.29714V0.917969H115.368V12.9313H117.322Z"
-          fill="currentColor"></path>
-        <defs>
-          <linearGradient
-            id="paint0_linear_1_808"
-            x1="7.66595"
-            y1="10.1425"
-            x2="11.9417"
-            y2="12.9302"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="currentColor"></stop>
-            <stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
-          </linearGradient>
-          <clipPath id="clip0_1_808">
-            <rect width="14.7011" height="14.7011" rx="3.67528" fill="white"
-            ></rect>
-          </clipPath>
-        </defs>
-      </svg>
+<div class="mt-[80px] flex flex-col gap-4 border-t px-6 py-10 md:px-10">
+  <div class="flex items-start justify-between gap-x-2 gap-y-4 md:gap-y-0">
+    <a href="/" class="flex items-center gap-4">
+      <AkashFooterLogo width={127} height={15} />
     </a>
 
-    <!-- Copyright and Links - Desktop -->
-    <div class="hidden flex-wrap items-center gap-2 lg:flex">
-      <span class="text-[10px] text-[#7e868c]">
-        © Akash Network {new Date().getFullYear()} The Akash Network Authors Documentation
-        Distributed under CC BY 4.0
-      </span>
-      <span class="h-4 w-px bg-[#e6e8eb] dark:bg-[#333]"></span>
-      <span class="text-[10px] text-[#7e868c]"
-        >Open-source Apache 2.0 Licensed.</span
-      >
-      <span class="h-4 w-px bg-[#e6e8eb] dark:bg-[#333]"></span>
-      <span class="text-[10px] text-[#7e868c]">GitHub v0.38.2</span>
-      <span class="h-4 w-px bg-[#e6e8eb] dark:bg-[#333]"></span>
-      <a
-        href="/privacy/"
-        class="text-[10px] text-[#7e868c] transition-colors hover:text-[#ff414c]"
-        >Privacy</a
-      >
-    </div>
+    <p class="hidden text-center text-2xs font-medium xl:block">
+      © Akash Network {new Date().getFullYear()} The Akash Network Authors Documentation
+      Distributed under CC BY 4.0 | Open-source Apache 2.0 Licensed. | GitHub v0.38.2
+      | Privacy
+    </p>
 
-    <!-- Social Icons -->
-    <div class="flex items-center gap-2 text-[currentColor] dark:text-[#888]">
+    <div class="flex items-center gap-x-2 text-para">
       <a
         href="https://x.com/akashnet"
         target="_blank"
-        class="transition-colors hover:text-[#ff414c]"
-        aria-label="Twitter"
+        class="flex items-center gap-4 hover:text-primary"
       >
         <TwitterIcon />
       </a>
+      <!-- github -->
       <a
         href="https://github.com/akash-network"
-        target="_blank"
-        class="transition-colors hover:text-[#ff414c]"
-        aria-label="GitHub"
+        class="flex items-center gap-4 hover:text-primary"
       >
         <GithubIcon />
       </a>
+      <!-- youtube -->
       <a
         href="https://discord.com/invite/akash"
-        target="_blank"
-        class="transition-colors hover:text-[#ff414c]"
-        aria-label="Discord"
+        class="flex items-center gap-4 hover:text-primary"
       >
         <DiscordIcon />
       </a>
-      <a
-        href="https://www.youtube.com/@AkashNetwork"
-        target="_blank"
-        class="transition-colors hover:text-[#ff414c]"
-        aria-label="YouTube"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path
-            d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"
-          ></path>
-          <path d="m10 15 5-3-5-3z"></path>
-        </svg>
-      </a>
     </div>
   </div>
-
-  <!-- Mobile Copyright and Links -->
   <div
-    class="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:hidden"
+    class="flex flex-wrap items-center justify-center gap-x-2 gap-y-4 xl:hidden"
   >
-    <span class="text-xs text-[#7e868c]">
-      © Akash Network {new Date().getFullYear()}
-    </span>
-    <span class="h-3 w-px bg-[#e6e8eb] dark:bg-[#333]"></span>
-    <span class="text-xs text-[#7e868c]">Apache 2.0 Licensed</span>
-    <span class="h-3 w-px bg-[#e6e8eb] dark:bg-[#333]"></span>
-    <span class="text-xs text-[#7e868c]">v0.38.2</span>
-    <span class="h-3 w-px bg-[#e6e8eb] dark:bg-[#333]"></span>
-    <a
-      href="/privacy/"
-      class="text-xs text-[#7e868c] transition-colors hover:text-[#ff414c]"
-      >Privacy</a
-    >
+    <p class="border-r pr-2 text-center text-2xs font-medium">
+      © Akash Network {new Date().getFullYear()} The Akash Network Authors Documentation
+      Distributed under CC BY 4.0
+    </p>
+    <p class="text-2xs font-medium">Open-source Apache 2.0 Licensed.</p>
+    <p class="border-l pl-2 text-2xs font-medium">GitHub v0.38.2</p>
+    <p class="border-l pl-2 text-2xs font-medium">Privacy</p>
   </div>
-</footer>
+</div>

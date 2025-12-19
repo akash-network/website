@@ -3,7 +3,7 @@ import { DocSearch } from "@docsearch/react";
 import "../../styles/globals.css";
 const AlgoliaSearch = () => {
   return (
-    <div className="llg:w-[22rem] w-full lg:w-[16rem]">
+    <div className="w-full md:w-[22rem]">
       <DocSearch
         appId="GIAYK50IZ2"
         apiKey="ab27356463ffa13e3d75727cd71bfc69"

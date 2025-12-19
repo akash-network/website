@@ -1,3 +1,4 @@
+import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { TocItem } from "../../lib/generateToc";
 
@@ -19,19 +20,19 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
     // Auto-scroll the active heading into view only if it's not visible
     if (currentHeading.slug) {
       const activeElement = document.querySelector(
-        `aside a[href="#${currentHeading.slug}"]`,
+        `aside a[href="#${currentHeading.slug}"]`
       ) as HTMLElement;
-
+      
       if (activeElement) {
-        const sidebar = activeElement.closest("aside");
+        const sidebar = activeElement.closest('aside');
         if (sidebar) {
           const sidebarRect = sidebar.getBoundingClientRect();
           const elementRect = activeElement.getBoundingClientRect();
-
+          
           // Check if element is outside the visible area
           const isAbove = elementRect.top < sidebarRect.top;
           const isBelow = elementRect.bottom > sidebarRect.bottom;
-
+          
           // Only scroll if the element is not visible
           if (isAbove || isBelow) {
             activeElement.scrollIntoView({
@@ -106,7 +107,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
       <li>
         <a
           className={` flex  items-center text-sm ${
-            depth === 2 ? "" : "font-normal"
+            depth === 2 ? "font-bold" : "font-normal"
           } leading-[24px]  text-[#808080] hover:text-primary  depth-${depth} ${
             currentHeading.slug === slug && "text-primary"
           }`.trim()}
@@ -128,7 +129,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
 
   return (
     <>
-      <ul className="space-y-1 ">
+      <ul className="space-y-3 ">
         {toc.map((heading2) => (
           <TableOfContentsItem key={heading2.slug} heading={heading2} />
         ))}

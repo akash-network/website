@@ -15,7 +15,7 @@ export const speakToExpertVariants = cva(
         primary:
           "border-primary dark:border-primary bg-primary/5 text-primary hover:bg-primary hover:text-white",
         secondary:
-          "bg-background text-para hover:border-primary hover:text-primary",
+          "bg-white text-gray-600 hover:border-primary hover:text-primary",
         ghost:
           "  border bg-gray-50  hover:bg-gray-100 dark:bg-background dark:hover:bg-white/10",
       },
@@ -29,9 +29,8 @@ export const speakToExpertVariants = cva(
 export const speakToExpertLink =
   "https://share.hsforms.com/1gQOaeJXgQ-GMc7MnsTOmsAsaima";
 
-interface SpeakToExpertProps extends VariantProps<
-  typeof speakToExpertVariants
-> {
+interface SpeakToExpertProps
+  extends VariantProps<typeof speakToExpertVariants> {
   className?: string;
 }
 
