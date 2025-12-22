@@ -39,7 +39,10 @@ const TokenMetricsSection = ({
       title: "Price",
       value: data?.market_data?.current_price.usd,
       format: (value: number) =>
-        `$${value?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+        `$${value
+          ?.toFixed(2)
+          ?.toString()
+          ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
     },
     {
       title: "Market Cap",
