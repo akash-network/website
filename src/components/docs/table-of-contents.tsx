@@ -1,5 +1,4 @@
-import { ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { TocItem } from "../../lib/generateToc";
 
 interface Props {
@@ -16,34 +15,85 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
     text: toc[0].text,
   });
 
+  // Track if user is actively scrolling to prevent interference
+  const isUserScrollingRef = useRef(false);
+
+  // Track if user is actively scrolling to prevent interference
   useEffect(() => {
-    // Auto-scroll the active heading into view only if it's not visible
-    if (currentHeading.slug) {
-      const activeElement = document.querySelector(
-        `aside a[href="#${currentHeading.slug}"]`
-      ) as HTMLElement;
-      
-      if (activeElement) {
-        const sidebar = activeElement.closest('aside');
-        if (sidebar) {
-          const sidebarRect = sidebar.getBoundingClientRect();
-          const elementRect = activeElement.getBoundingClientRect();
-          
-          // Check if element is outside the visible area
-          const isAbove = elementRect.top < sidebarRect.top;
-          const isBelow = elementRect.bottom > sidebarRect.bottom;
-          
-          // Only scroll if the element is not visible
-          if (isAbove || isBelow) {
-            activeElement.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-              inline: "nearest",
-            });
+    let scrollTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      isUserScrollingRef.current = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isUserScrollingRef.current = false;
+      }, 200);
+    };
+
+    // Listen to main page scroll
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Don't auto-scroll if user is actively scrolling
+    if (isUserScrollingRef.current) {
+      return;
+    }
+
+    // Use a timeout to debounce and allow scroll detection to settle
+    const timeoutId = setTimeout(() => {
+      // Don't scroll if user started scrolling during the timeout
+      if (isUserScrollingRef.current) {
+        return;
+      }
+
+      // Auto-scroll the active heading into view only if it's not visible
+      if (currentHeading.slug) {
+        const activeElement = document.querySelector(
+          `aside a[href="#${currentHeading.slug}"]`,
+        ) as HTMLElement;
+
+        if (activeElement) {
+          const sidebar = activeElement.closest("aside") as HTMLElement;
+          if (sidebar) {
+            const sidebarRect = sidebar.getBoundingClientRect();
+            const elementRect = activeElement.getBoundingClientRect();
+
+            // Check if element is outside the visible area of the sidebar
+            const isAbove = elementRect.top < sidebarRect.top;
+            const isBelow = elementRect.bottom > sidebarRect.bottom;
+
+            // Only scroll the sidebar, not the main page
+            if (isAbove || isBelow) {
+              // Calculate scroll position using getBoundingClientRect for accuracy
+              const sidebarScrollTop = sidebar.scrollTop;
+              
+              // Calculate the element's position relative to the sidebar's current scroll position
+              const elementRelativeTop = elementRect.top - sidebarRect.top + sidebarScrollTop;
+              const sidebarHeight = sidebar.clientHeight;
+              const elementHeight = activeElement.clientHeight;
+              
+              // Center the element in the visible area
+              const targetScroll = elementRelativeTop - sidebarHeight / 2 + elementHeight / 2;
+
+              // Smoothly scroll the sidebar container, not the element itself
+              // This prevents interfering with main page scroll
+              sidebar.scrollTo({
+                top: Math.max(0, targetScroll),
+                behavior: "smooth",
+              });
+            }
           }
         }
       }
-    }
+    }, 150); // Debounce to avoid too frequent updates
+
+    return () => clearTimeout(timeoutId);
   }, [currentHeading]);
 
   // Define the ID for the "On This Page" heading.
@@ -107,7 +157,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
       <li>
         <a
           className={` flex  items-center text-sm ${
-            depth === 2 ? "font-bold" : "font-normal"
+            depth === 2 ? "" : "font-normal"
           } leading-[24px]  text-[#808080] hover:text-primary  depth-${depth} ${
             currentHeading.slug === slug && "text-primary"
           }`.trim()}
@@ -129,7 +179,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
 
   return (
     <>
-      <ul className="space-y-3 ">
+      <ul className="space-y-1 ">
         {toc.map((heading2) => (
           <TableOfContentsItem key={heading2.slug} heading={heading2} />
         ))}
