@@ -375,10 +375,10 @@ export const Tables = ({
                     linkText="Request More"
                     className={clsx(
                       buttonVariants({
-                        variant: "secondary",
+                        variant: "outline",
                         size: "sm",
                       }),
-                      "inline-flex w-full justify-center gap-1.5 rounded-md border  py-3.5 text-sm font-medium  ",
+                      "inline-flex !h-auto w-full justify-center gap-1.5 rounded-md border  py-[11px] text-sm font-medium  ",
                     )}
                   />
                 </div>
