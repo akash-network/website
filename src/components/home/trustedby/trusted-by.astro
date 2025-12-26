@@ -5,28 +5,20 @@ import { trustedBySection } from "./trustedby";
 ---
 
 <div class="w-full overflow-hidden py-12 dark:bg-[#1c1c1c] md:py-20">
-  <div class="container-home relative z-[2] flex flex-col gap-10 md:gap-14">
-
-    <div class="flex flex-col items-center justify-center gap-6 mb-6">
+  <div class="relative z-[2] flex flex-col gap-10 md:gap-14">
+    <div class="mb-6 flex flex-col items-center justify-center gap-16">
       <h2 class="text-gray-500 dark:text-[#8A8F98] md:text-lg">
         Trusted by Leading Innovators
       </h2>
 
-      <div class="hidden gap-8 lg:flex">
-        {
-          trustedBySection.map((item) =>
-            item?.svg ? (
-              <div set:html={item.svg} class="h-20" />
-            ) : (
-              <img src={item?.image} alt={item.title} class="h-16" />
-            )
-          )
-        }
+      <div
+        class="relative mx-auto w-full max-w-[1400px] md:before:absolute md:before:left-0 md:before:top-0 md:before:z-10 md:before:h-full md:before:w-32 md:before:bg-gradient-to-r md:before:from-white md:before:to-transparent md:before:content-[''] md:after:absolute md:after:right-0 md:after:top-0 md:after:z-10 md:after:h-full md:after:w-32 md:after:bg-gradient-to-l md:after:from-white md:after:to-transparent md:after:content-[''] dark:md:before:from-[#1c1c1c] dark:md:after:from-[#1c1c1c]"
+      >
+        <TrustedByMarquee trustedBySection={trustedBySection} client:only />
       </div>
-
-      <TrustedByMarquee trustedBySection={trustedBySection} client:only />
     </div>
-
-    <ExpandedGpuPricing client:load />
+    <div class="container-home w-full">
+      <ExpandedGpuPricing client:load />
+    </div>
   </div>
 </div>
