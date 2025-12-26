@@ -1,4 +1,7 @@
-import { buttonVariants } from "@/components/ui/button";
+import {
+  buttonVariants,
+  buttonVariantsSecondary,
+} from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -236,8 +239,8 @@ const DesktopTableGpu = ({
                         href="https://console.akash.network/new-deployment"
                         target="_blank"
                         className={cn(
-                          buttonVariants({
-                            variant: "primary",
+                          buttonVariantsSecondary({
+                            variant: "secondary",
                             size: "sm",
                           }),
                           "flex h-auto items-center gap-1.5 rounded-md px-2 py-[2px] text-xs font-medium   md:px-2 lg:px-3",
@@ -256,7 +259,7 @@ const DesktopTableGpu = ({
                             variant: "default",
                             size: "sm",
                           }),
-                          "flex h-auto items-center gap-1.5 rounded-md border px-2 py-[5px] text-xs font-medium   md:px-2 lg:px-3",
+                          "flex h-auto w-full items-center gap-1.5 rounded-md border px-2 py-[5px] text-xs font-medium   md:px-2 lg:px-3",
                         )}
                       />
                     </div>
