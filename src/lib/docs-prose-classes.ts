@@ -22,6 +22,8 @@ const table = [
   "md:prose-thead:text-xs md:prose-thead:font-medium md:prose-th:px-4",
 ].join(" ");
 
+const pre = "prose-pre:overflow-x-auto prose-pre:max-w-full";
+
 export const proseClasses = classNames(
   p,
   h1,
@@ -32,6 +34,7 @@ export const proseClasses = classNames(
   ul,
   ol,
   table,
+  pre,
   "prose max-w-full",
   "prose-a:text-primary prose-a:no-underline prose-img:w-full text-foreground prose-hr:border-defaultBorder",
 );
