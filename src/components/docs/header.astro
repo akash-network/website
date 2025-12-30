@@ -1,58 +1,93 @@
 ---
-import Logo from "@/components/ui/logo.astro";
-
 import DarkModeToggle from "../dark-mode-toggle";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
 import SpeakToExpert from "../pricing-page/SpeakToExpert";
+import Logo from "../ui/logo.astro";
 import AlgoliaSearch from "./algolia-search.jsx";
 ---
 
-<nav class="flex flex-col">
-  <div class="flex items-center justify-between border-b px-4 py-6 md:px-10">
-    <div class="flex items-center gap-8">
-      <div class="flex items-end gap-x-1">
-        <a href="/">
-          <Logo width={100} />
-        </a>
+<nav class="flex flex-col border-b border-[#e6e8eb] dark:border-[#333]">
+  <div class="flex w-full items-center justify-between gap-3 px-5 py-4">
+    <!-- Left side: Logo -->
+    <div class="flex items-center gap-6">
+      <a href="/" class="flex items-center">
+        <Logo width={120} height={20} />
+      </a>
+      <div class="flex items-center gap-8">
+        <AlgoliaSearch client:only />
       </div>
-
-      <AlgoliaSearch client:only />
     </div>
-    <div class="hidden flex-shrink-0 md:flex md:gap-x-[14px]">
-      <div class="hidden items-center gap-x-[14px] text-para md:flex">
-        <DarkModeToggle client:load />
-        <a
-          class="cursor-pointer hover:text-primary"
-          href="https://x.com/akashnet"
-          target="_blank"
-        >
-          <TwitterIcon />
-        </a>
-        <a
-          class="cursor-pointer hover:text-primary"
-          href="https://github.com/akash-network"
-          target="_blank"
-        >
-          <GithubIcon />
-        </a>
-        <a
-          class="cursor-pointer hover:text-primary"
-          href="https://discord.com/invite/akash"
-          target="_blank"
-        >
-          <DiscordIcon />
-        </a>
-      </div>
 
-      <div class="flex items-center md:gap-x-3">
-        <SpeakToExpert size="extra-small" variant="secondary" client:load />
-        <a
-          id="console-header"
-          href="https://console.akash.network/"
-          class="flex items-center justify-center rounded-[4px] bg-primary px-[11px] py-[7px] text-xs font-medium leading-[16px] text-white hover:bg-darkGray"
-        >
-          Console Login
-        </a>
+    <!-- Right side: Search, Social icons and buttons -->
+    <div class="flex flex-1 items-center justify-end gap-5 xl:gap-8">
+      <div class="hidden flex-shrink-0 items-center gap-5 md:flex xl:gap-8">
+        <!-- Social Icons -->
+        <div class="flex items-center gap-3 text-[#687076] dark:text-[#888]">
+          <DarkModeToggle client:load />
+          <a
+            class="cursor-pointer transition-colors hover:text-[#ff414c]"
+            href="https://x.com/akashnet"
+            target="_blank"
+            aria-label="Twitter"
+          >
+            <TwitterIcon />
+          </a>
+          <a
+            class="cursor-pointer transition-colors hover:text-[#ff414c]"
+            href="https://github.com/akash-network"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <GithubIcon />
+          </a>
+          <a
+            class="cursor-pointer transition-colors hover:text-[#ff414c]"
+            href="https://discord.com/invite/akash"
+            target="_blank"
+            aria-label="Discord"
+          >
+            <DiscordIcon />
+          </a>
+          <!-- YouTube -->
+          <a
+            class="cursor-pointer transition-colors hover:text-[#ff414c]"
+            href="https://www.youtube.com/@AkashNetwork"
+            target="_blank"
+            aria-label="YouTube"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"
+              ></path>
+              <path d="m10 15 5-3-5-3z"></path>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3">
+          <!-- Reach Out Button -->
+          <SpeakToExpert size="extra-small" variant="secondary" client:load />
+
+          <!-- Deploy Now Button -->
+          <a
+            id="console-header"
+            href="https://console.akash.network/"
+            class="flex items-center justify-center rounded-md bg-[#ff414c] px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#de2e38]"
+          >
+            Deploy Now
+          </a>
+        </div>
       </div>
     </div>
   </div>
