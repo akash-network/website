@@ -11,6 +11,7 @@ module.exports = {
         "3xl": "1660px",
         slg: "1100px",
         sxl: "1470px",
+        llg: "1154px",
       },
       fontSize: {
         "2xs": ".625rem",

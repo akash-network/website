@@ -1,10 +1,10 @@
 ---
-import DocsLayout from "@/layouts/docs-layout.astro";
-import { getCollection, getEntry } from "astro:content";
-import MobileNav from "@/components/docs/mobile-sidebar";
 import AlgoliaSearch from "@/components/docs/algolia-search";
-import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
+import MobileNav from "@/components/docs/mobile-sidebar";
 import SectionCard from "@/components/docs/section-card.astro";
+import DocsLayout from "@/layouts/docs-layout.astro";
+import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
+import { getCollection } from "astro:content";
 
 const pathname = new URL(Astro.request.url).pathname;
 
@@ -12,7 +12,8 @@ const docsData = await getCollection("Docs");
 const docs = generateDocsNav(docsData);
 
 const pageTitle = "Getting Started as a Provider";
-const pageDescription = "Everything you need to know before running an Akash provider";
+const pageDescription =
+  "Everything you need to know before running an Akash provider";
 
 // Icons
 const questionIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>`;
@@ -26,6 +27,92 @@ const toolIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 const activityIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`;
 
 const boxIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" x2="12" y1="22" y2="12"/></svg>`;
+
+// Evaluate First Cards
+const evaluateFirstCards = [
+  {
+    icon: questionIcon,
+    title: "Should I Run a Provider?",
+    description:
+      "Evaluate if running a provider makes sense for your situation",
+    link: "/docs/providers/getting-started/should-i-run-a-provider",
+  },
+  {
+    icon: serverIcon,
+    title: "Hardware Requirements",
+    description:
+      "Understand what hardware you need to run a successful provider",
+    link: "/docs/providers/getting-started/hardware-requirements",
+  },
+  {
+    icon: dollarIcon,
+    title: "Provider Earn Calculator",
+    description: "Estimate your potential monthly revenue",
+    link: "https://akash.network/pricing/provider-calculator/",
+  },
+];
+
+// Setup Methods Cards
+const setupMethodsCards = [
+  {
+    icon: toolIcon,
+    title: "Provider Playbook",
+    description: "Automated setup with Ansible - recommended for most users",
+    link: "/docs/providers/setup-and-installation/provider-playbook",
+  },
+  {
+    icon: serverIcon,
+    title: "Kubespray",
+    description: "Manual Kubernetes setup for advanced users",
+    link: "/docs/providers/setup-and-installation/kubespray",
+  },
+  {
+    icon: toolIcon,
+    title: "Provider Console",
+    description: "Web-based provider management interface",
+    link: "/docs/providers/setup-and-installation/provider-console",
+  },
+];
+
+// Provider Operations Cards
+const providerOperationsCards = [
+  {
+    icon: activityIcon,
+    title: "Operations",
+    description: "Lease management, monitoring, and maintenance",
+    link: "/docs/providers/operations",
+  },
+  {
+    icon: boxIcon,
+    title: "Architecture",
+    description: "Provider service architecture and components",
+    link: "/docs/providers/architecture",
+  },
+];
+
+// Prerequisites List
+const prerequisites = [
+  "<strong>Linux administration experience</strong> - Comfortable with command line",
+  "<strong>Kubernetes knowledge</strong> - Basic understanding (not required for Provider Console users)",
+  "<strong>Networking skills</strong> - Understand firewalls, routing, DNS",
+  "<strong>Hardware or cloud resources</strong> - Physical servers or VMs",
+  "<strong>Domain name</strong> - A domain you own for your provider",
+  "<strong>Time commitment</strong> - Initial setup: 15 minutes to 2 hours, ongoing: 2-4 hours/week",
+];
+
+// Help Links
+const helpLinks = [
+  {
+    href: "https://discord.akash.network",
+    icon: `<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"></path></svg>`,
+    text: "Discord - Get help in #providers",
+  },
+  {
+    href: "https://github.com/akash-network/provider",
+    icon: `<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>`,
+    text: "GitHub - Provider repository",
+  },
+];
 ---
 
 <DocsLayout
@@ -33,7 +120,9 @@ const boxIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
   description={pageDescription}
   image="/meta-images/docs.png"
 >
-  <div class="sticky top-0 z-10 -mt-4 mb-10 h-[130px] bg-background pt-4 md:hidden">
+  <div
+    class="sticky top-0 z-10 -mt-4 mb-10 h-[130px] bg-background px-5 pt-4 md:hidden"
+  >
     <div>
       <AlgoliaSearch client:only />
     </div>
@@ -50,161 +139,116 @@ const boxIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
     </div>
   </div>
 
-  <div class="flex flex-col items-start">
-    <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl">
-      {pageTitle}
-    </h1>
-    <p class="mt-6 text-base text-para md:text-lg">
-      {pageDescription}
-    </p>
-  </div>
-
-  <!-- Evaluate First -->
-  <div class="mt-12">
-    <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-      Evaluate First
-    </h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <SectionCard
-        icon={questionIcon}
-        title="Should I Run a Provider?"
-        description="Evaluate if running a provider makes sense for your situation"
-        link="/docs/providers/getting-started/should-i-run-a-provider"
-      />
-      <SectionCard
-        icon={serverIcon}
-        title="Hardware Requirements"
-        description="Understand what hardware you need to run a successful provider"
-        link="/docs/providers/getting-started/hardware-requirements"
-      />
-      <SectionCard
-        icon={dollarIcon}
-        title="Provider Earn Calculator"
-        description="Estimate your potential monthly revenue"
-        link="https://akash.network/pricing/provider-calculator/"
-      />
+  <div class="container-reader px-5 md:mt-3">
+    <div class="flex flex-col items-start">
+      <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl">
+        {pageTitle}
+      </h1>
+      <p class="mt-6 text-base text-para md:text-lg">
+        {pageDescription}
+      </p>
     </div>
-  </div>
 
-  <!-- Setup Methods -->
-  <div class="mt-12">
-    <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-      Setup Methods
-    </h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <SectionCard
-        icon={toolIcon}
-        title="Provider Playbook"
-        description="Automated setup with Ansible - recommended for most users"
-        link="/docs/providers/setup-and-installation/provider-playbook"
-      />
-      <SectionCard
-        icon={serverIcon}
-        title="Kubespray"
-        description="Manual Kubernetes setup for advanced users"
-        link="/docs/providers/setup-and-installation/kubespray"
-      />
-      <SectionCard
-        icon={toolIcon}
-        title="Provider Console"
-        description="Web-based provider management interface"
-        link="/docs/providers/setup-and-installation/provider-console"
-      />
+    <!-- Evaluate First -->
+    <div class="mt-12">
+      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+        Evaluate First
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {
+          evaluateFirstCards.map((card) => (
+            <SectionCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              link={card.link}
+            />
+          ))
+        }
+      </div>
     </div>
-  </div>
 
-  <!-- Provider Operations -->
-  <div class="mt-12">
-    <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-      Provider Operations
-    </h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <SectionCard
-        icon={activityIcon}
-        title="Operations"
-        description="Lease management, monitoring, and maintenance"
-        link="/docs/providers/operations"
-      />
-      <SectionCard
-        icon={boxIcon}
-        title="Architecture"
-        description="Provider service architecture and components"
-        link="/docs/providers/architecture"
-      />
+    <!-- Setup Methods -->
+    <div class="mt-12">
+      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+        Setup Methods
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {
+          setupMethodsCards.map((card) => (
+            <SectionCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              link={card.link}
+            />
+          ))
+        }
+      </div>
     </div>
-  </div>
 
-  <!-- Prerequisites -->
-  <div class="mt-12 mb-12 rounded-2xl border bg-background2 p-8">
-    <h2 class="mb-4 text-2xl font-bold text-foreground">Prerequisites</h2>
-    <p class="mb-4 text-para">Before diving into provider operations, you should have:</p>
-    <ul class="space-y-2 text-para">
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span><strong>Linux administration experience</strong> - Comfortable with command line</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span><strong>Kubernetes knowledge</strong> - Basic understanding (not required for Provider Console users)</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span><strong>Networking skills</strong> - Understand firewalls, routing, DNS</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span><strong>Hardware or cloud resources</strong> - Physical servers or VMs</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span><strong>Domain name</strong> - A domain you own for your provider</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-1 text-primary">→</span>
-        <span><strong>Time commitment</strong> - Initial setup: 15 minutes to 2 hours, ongoing: 2-4 hours/week</span>
-      </li>
-    </ul>
-  </div>
+    <!-- Provider Operations -->
+    <div class="mt-12">
+      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+        Provider Operations
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {
+          providerOperationsCards.map((card) => (
+            <SectionCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              link={card.link}
+            />
+          ))
+        }
+      </div>
+    </div>
 
-  <!-- Need Help Section -->
-  <div class="mt-12 mb-16 rounded-2xl border bg-background2 p-8">
-    <h2 class="mb-4 text-2xl font-bold text-foreground">Need Help?</h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <a
-        href="https://discord.akash.network"
-        target="_blank"
-        class="flex items-center gap-3 text-primary hover:underline"
-      >
-        <svg
-          class="h-5 w-5"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"
-          ></path>
-        </svg>
-        <span class="font-medium">Discord - Get help in #providers</span>
-      </a>
-      <a
-        href="https://github.com/akash-network/provider"
-        target="_blank"
-        class="flex items-center gap-3 text-primary hover:underline"
-      >
-        <svg
-          class="h-5 w-5"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-          ></path>
-        </svg>
-        <span class="font-medium">GitHub - Provider repository</span>
-      </a>
+    <!-- Prerequisites -->
+    <div
+      class="mb-12 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
+    >
+      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+        Prerequisites
+      </h2>
+      <p class="mb-4 text-sm text-[#7e868c]">
+        Before diving into provider operations, you should have:
+      </p>
+      <ul class="space-y-2 text-sm text-[#7e868c]">
+        {
+          prerequisites.map((prereq) => (
+            <li class="flex items-start gap-2">
+              <span class="mt-1 text-[#ff414c]">→</span>
+              <span set:html={prereq} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Need Help Section -->
+    <div
+      class="mb-16 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
+    >
+      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+        Need Help?
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {
+          helpLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              class="flex items-center gap-3 text-[#ff414c] hover:underline"
+            >
+              <Fragment set:html={link.icon} />
+              <span class="font-medium">{link.text}</span>
+            </a>
+          ))
+        }
+      </div>
     </div>
   </div>
 </DocsLayout>
-

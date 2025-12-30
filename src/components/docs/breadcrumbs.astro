@@ -1,0 +1,49 @@
+---
+import { findBreadcrumbs } from "@/lib/docs/findBreadcrumbs";
+import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
+import { getCollection } from "astro:content";
+
+interface Props {
+  pathname: string;
+}
+
+const { pathname } = Astro.props;
+
+const pages = await getCollection("Docs");
+const nav = generateDocsNav(pages);
+const breadcrumbs = findBreadcrumbs(nav, pathname);
+
+const chevronIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`;
+---
+
+{
+  breadcrumbs.length > 1 && (
+    <nav class="mb-4 flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+      <ol class="flex flex-wrap items-center gap-2">
+        {breadcrumbs.map((crumb, index) => {
+          const isLast = index === breadcrumbs.length - 1;
+          return (
+            <li class="flex items-center gap-2">
+              {!isLast ? (
+                <>
+                  <a
+                    href={crumb.link}
+                    class="text-[#687076] transition-colors hover:text-[#11181c] dark:text-[#888] dark:hover:text-white"
+                  >
+                    {crumb.label}
+                  </a>
+                  <span
+                    set:html={chevronIcon}
+                    class="text-[#687076] dark:text-[#888]"
+                  />
+                </>
+              ) : (
+                <span class="font-medium text-primary">{crumb.label}</span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  )
+}

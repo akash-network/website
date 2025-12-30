@@ -1,5 +1,4 @@
-import { ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { TocItem } from "../../lib/generateToc";
 
 interface Props {
@@ -16,35 +15,52 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
     text: toc[0].text,
   });
 
-  useEffect(() => {
-    // Auto-scroll the active heading into view only if it's not visible
-    if (currentHeading.slug) {
-      const activeElement = document.querySelector(
-        `aside a[href="#${currentHeading.slug}"]`
-      ) as HTMLElement;
-      
-      if (activeElement) {
-        const sidebar = activeElement.closest('aside');
-        if (sidebar) {
-          const sidebarRect = sidebar.getBoundingClientRect();
-          const elementRect = activeElement.getBoundingClientRect();
-          
-          // Check if element is outside the visible area
-          const isAbove = elementRect.top < sidebarRect.top;
-          const isBelow = elementRect.bottom > sidebarRect.bottom;
-          
-          // Only scroll if the element is not visible
-          if (isAbove || isBelow) {
-            activeElement.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-              inline: "nearest",
-            });
-          }
+  // Reference to the active link element
+  const activeLinkRef = useRef<HTMLAnchorElement | null>(null);
+
+  // Track if user is hovering over the TOC sidebar
+  const isHoveringTocRef = useRef(false);
+
+  // Scroll the active TOC item into view
+  const scrollActiveIntoView = useCallback(() => {
+    if (isHoveringTocRef.current) return;
+
+    if (activeLinkRef.current) {
+      const sidebar = activeLinkRef.current.closest("aside") as HTMLElement;
+      if (sidebar) {
+        const sidebarRect = sidebar.getBoundingClientRect();
+        const elementRect = activeLinkRef.current.getBoundingClientRect();
+
+        // Check if element is outside the visible area of the sidebar
+        const isAbove = elementRect.top < sidebarRect.top + 50;
+        const isBelow = elementRect.bottom > sidebarRect.bottom - 50;
+
+        if (isAbove || isBelow) {
+          const sidebarScrollTop = sidebar.scrollTop;
+          const elementRelativeTop =
+            elementRect.top - sidebarRect.top + sidebarScrollTop;
+          const sidebarHeight = sidebar.clientHeight;
+          const elementHeight = activeLinkRef.current.clientHeight;
+
+          // Center the element in the visible area
+          const targetScroll =
+            elementRelativeTop - sidebarHeight / 2 + elementHeight / 2;
+
+          sidebar.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: "smooth",
+          });
         }
       }
     }
-  }, [currentHeading]);
+  }, []);
+
+  // Scroll active item into view when current heading changes
+  useEffect(() => {
+    // Small delay to ensure the DOM has updated with the new active class
+    const timeoutId = setTimeout(scrollActiveIntoView, 100);
+    return () => clearTimeout(timeoutId);
+  }, [currentHeading, scrollActiveIntoView]);
 
   // Define the ID for the "On This Page" heading.
   const onThisPageID = "on-this-page-heading";
@@ -102,14 +118,16 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
   // Component for rendering individual Table of Contents items.
   const TableOfContentsItem = ({ heading }: { heading: TocItem }) => {
     const { depth, slug, text, children } = heading;
+    const isActive = currentHeading.slug === slug;
 
     return (
       <li>
         <a
+          ref={isActive ? activeLinkRef : null}
           className={` flex  items-center text-sm ${
-            depth === 2 ? "font-bold" : "font-normal"
+            depth === 2 ? "" : "font-normal"
           } leading-[24px]  text-[#808080] hover:text-primary  depth-${depth} ${
-            currentHeading.slug === slug && "text-primary"
+            isActive && "text-primary"
           }`.trim()}
           href={`#${slug}`}
           onClick={onLinkClick}
@@ -117,7 +135,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
           {text}
         </a>
         {children.length > 0 ? (
-          <ul className="ml-7 mt-3  space-y-3 text-sm ">
+          <ul className="ml-2 mt-1  space-y-1 text-sm ">
             {children.map((heading) => (
               <TableOfContentsItem key={heading.slug} heading={heading} />
             ))}
@@ -128,13 +146,20 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
   };
 
   return (
-    <>
-      <ul className="space-y-3 ">
+    <div
+      onMouseEnter={() => {
+        isHoveringTocRef.current = true;
+      }}
+      onMouseLeave={() => {
+        isHoveringTocRef.current = false;
+      }}
+    >
+      <ul className="space-y-1 ">
         {toc.map((heading2) => (
           <TableOfContentsItem key={heading2.slug} heading={heading2} />
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 
