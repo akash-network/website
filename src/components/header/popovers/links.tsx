@@ -129,48 +129,6 @@ export const developmentItems: NavItem[] = [
     customIcon: (
       <svg
         width="24"
-        height="25"
-        viewBox="0 0 24 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M21 19.9516L12 13.3428M12 13.3428L12 3.49999M12 13.3428L3 19.9516"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M20.4375 17.2097L21 19.9516L18.1875 20.5"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9.75 5.69354L12 3.49999L14.25 5.69354"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M5.8125 20.5L3 19.9516L3.5625 17.2097"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    title: "Product Strategy",
-    link: "/development/product-strategy/",
-  },
-  {
-    customIcon: (
-      <svg
-        width="24"
         height="24"
         viewBox="0 0 24 24"
         fill="none"

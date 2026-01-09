@@ -18,12 +18,6 @@ export const nav: any = [
   },
 
   {
-    label: "Product Strategy",
-    link: "/development/product-strategy/",
-    enabled: true,
-  },
-
-  {
     label: "Bounties",
     link: "/development/bounties/",
     enabled: true,
