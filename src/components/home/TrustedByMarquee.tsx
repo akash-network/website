@@ -37,6 +37,7 @@ interface TrustedByItem {
   image?: string;
   title: string;
   svg?: string;
+  height?: number | string;
 }
 
 const TrustedByMarquee = ({
@@ -56,37 +57,72 @@ const TrustedByMarquee = ({
     ...trustedBySection,
   ];
 
+  // Process SVG string to fix height attribute
+  const processSvg = (svgString: string) => {
+    return svgString.replace(/height="100%"/g, "").replace(/width="100%"/g, "");
+  };
+
+  useEffect(() => {
+    // Use a small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      if (trackRef.current) {
+        const svgs = trackRef.current.querySelectorAll("svg");
+        svgs.forEach((svg, index) => {
+          const itemIndex = index % trustedBySection.length;
+          const item = trustedBySection[itemIndex];
+          const height = item.height
+            ? typeof item.height === "number"
+              ? `${item.height}px`
+              : item.height
+            : "34px";
+
+          svg.removeAttribute("width");
+          svg.removeAttribute("height");
+          svg.style.height = height;
+          svg.style.width = "auto";
+          svg.style.display = "block";
+        });
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [trustedBySection, isLoaded]);
+
   return (
     <div
       ref={containerRef}
-      className="w-full overflow-hidden lg:hidden"
+      className="w-full overflow-hidden"
       aria-label="Trusted By Logos Carousel"
     >
-      <div
-        ref={trackRef}
-        className="flex items-center"
-        style={{ gap: `${gap}px` }}
-      >
-        {displayItems.map((item, index) => (
-          <div
-            key={`${item.title}-${index}`}
-            className="flex  min-w-[200px] items-center justify-center"
-          >
-            {item.svg ? (
-              <div
-                dangerouslySetInnerHTML={{ __html: item.svg }}
-                className="max-h-full max-w-full object-contain"
-              />
-            ) : (
-              <img
-                src={item.image}
-                alt={item.title}
-                className="max-h-full max-w-full object-contain"
-                style={{ opacity: isLoaded ? 1 : 0 }}
-              />
-            )}
-          </div>
-        ))}
+      <div ref={trackRef} className="flex items-center gap-24">
+        {displayItems.map((item, index) => {
+          const height = item.height
+            ? typeof item.height === "number"
+              ? `${item.height}px`
+              : item.height
+            : "34px";
+          return (
+            <div
+              key={`${item.title}-${index}`}
+              className="flex shrink-0 items-center justify-center"
+            >
+              {item.svg ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: processSvg(item.svg) }}
+                  className="flex items-center justify-center [&>svg]:block [&>svg]:w-auto"
+                  style={{ height }}
+                />
+              ) : (
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-auto object-contain"
+                  style={{ height, opacity: isLoaded ? 1 : 0 }}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
