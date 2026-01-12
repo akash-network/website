@@ -176,8 +176,8 @@ env:
 
 ### expose
 
-**Required.** Port exposure configuration. At least one port must be globally exposed.
-
+**Required** for individual services. And at least one service in the deployment must have `global: true` in its expose configuration.
+Services with only internal endpoints (e.g., database backends) are accessible only to other services within the deployment.
 ```yaml
 expose:
   - port: 80              # Container port (required)

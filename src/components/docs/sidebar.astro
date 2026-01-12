@@ -2,65 +2,72 @@
 import { ChevronDownIcon } from "lucide-react";
 import { DocsNav, HomeButton } from "./docs-nav";
 
-const { nav, providersNav } = Astro.props;
+const { nav } = Astro.props;
 
 const pathname = new URL(Astro.request.url).pathname;
+
+const supportIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>`;
 ---
 
 <aside
   id="docs-sidebar"
-  class="sidebar-scroll sticky top-[86px] h-[calc(100dvh-86px)] w-[220px] flex-shrink-0 overflow-y-auto border-r py-3 pr-5 lg:w-[281px]"
-  style="scroll-behavior: auto;"
+  class="sidebar-scroll sticky top-0 h-[100dvh] w-[260px] flex-shrink-0 self-start overflow-y-auto border-r border-[#e6e8eb] pb-2 pl-4 pr-6 pt-2 dark:border-[#333] lg:top-[73px] lg:h-[calc(100vh-73px)] lg:w-[280px]"
 >
-  <div class="flex flex-col">
-    <div class="mb-2">
-      <HomeButton pathname={pathname} client:load />
-    </div>
+  <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6">
+      <div class="flex flex-col">
+        <div class="flex flex-col gap-1">
+          <div>
+            <HomeButton pathname={pathname} client:load />
+          </div>
 
-    <div>
-      <DocsNav
-        client:only
-        docsNav={nav}
-        providersNav={providersNav}
-        pathName={pathname}
-      >
-        <div class="hidden flex-col gap-2 md:flex" slot="fallback">
-          {
-            nav?.[0]?.subItems?.map((navItem: any, i: any) => (
-              <>
-                {i === 0 && (
-                  <p class="mt-6 border-t py-6 text-xs font-bold uppercase">
-                    User Docs
-                  </p>
-                )}
-                <div
-                  class={`flex w-full cursor-pointer items-center justify-between gap-x-2   ${"px-2"}   py-1 text-sm font-medium`}
-                >
-                  <p class="flex-1 text-left group-hover:text-primary group-hover:dark:text-white">
-                    {navItem.label}
-                  </p>
-                  <ChevronDownIcon className=" w-4 text-para" />
-                </div>
-              </>
-            ))
-          }
+          <div class="h-px w-full bg-[#e6e8eb] dark:bg-[#333]"></div>
         </div>
-      </DocsNav>
-    </div>
 
-    <div class="my-6 border-b"></div>
+        <div>
+          <DocsNav client:only docsNav={nav} pathName={[]}>
+            <div class="hidden flex-col gap-2 md:flex" slot="fallback">
+              {
+                nav?.[0]?.subItems?.map((navItem: any, i: any) => (
+                  <>
+                    {i === 0 && (
+                      <p class="mt-6 border-t border-[#e6e8eb] py-6 text-xs font-bold uppercase tracking-wider text-[#11181c] dark:border-[#333] dark:text-white">
+                        User Docs
+                      </p>
+                    )}
+                    <div
+                      class={`flex w-full cursor-pointer items-center justify-between gap-x-2 px-2 py-1 text-sm font-medium`}
+                    >
+                      <p class="flex-1 text-left text-[#687076] group-hover:text-[#ff414c] dark:text-[#888]">
+                        {navItem.label}
+                      </p>
+                      <ChevronDownIcon className="w-4 text-[#687076]" />
+                    </div>
+                  </>
+                ))
+              }
+            </div>
+          </DocsNav>
+        </div>
 
-    <div>
-      <a
-        href="/support/"
-        class={`flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm font-medium leading-[20px]  hover:bg-primary/10  ${
-          pathname === "/support/"
-            ? "bg-primary/10 text-foreground"
-            : "text-para"
-        }`}
-      >
-        Support</a
-      >
+        <!-- Divider -->
+        <div class="h-px w-full bg-[#e6e8eb] dark:bg-[#333]"></div>
+
+        <!-- Support Link -->
+        <div>
+          <a
+            href="/support/"
+            class={`flex cursor-pointer items-center gap-x-2 rounded-md  my-3 text-sm font-medium leading-[20px] transition-colors  dark:hover:bg-[#333] ${
+              pathname === "/support/"
+                ? "text-primary dark:bg-[#3a1d1f]"
+                : "text-para dark:text-[#888]"
+            }`}
+          >
+            <span set:html={supportIcon} />
+            Support
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </aside>

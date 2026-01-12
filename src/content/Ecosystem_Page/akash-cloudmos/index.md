@@ -8,7 +8,7 @@ tags:
 
 category: tool
 
-description: Tailored for Web3 users, offering a powerful platform to deploy applications on the Akash network with enhanced capabilities.
+description: Everything you need to deploy and scale on the Akash Network. Clean interface, powerful controls, and full ownership of your infrastructure.
 
 ctaButton:
   label: View Project

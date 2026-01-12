@@ -1,6 +1,6 @@
 import OFilter from "@/components/gpu-table/filter";
 
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariantsSecondary } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   HoverCard,
@@ -374,11 +374,11 @@ export const Tables = ({
                     type="customButton"
                     linkText="Request More"
                     className={clsx(
-                      buttonVariants({
+                      buttonVariantsSecondary({
                         variant: "secondary",
                         size: "sm",
                       }),
-                      "inline-flex w-full justify-center gap-1.5 rounded-md border  py-3.5 text-sm font-medium  ",
+                      "inline-flex !h-auto w-full justify-center gap-1.5 rounded-md border  py-3.5 text-sm font-medium  ",
                     )}
                   />
                 </div>

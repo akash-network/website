@@ -14,12 +14,19 @@ export async function getStaticPaths({
 }: {
   paginate: PaginateFunction;
 }) {
-  const posts: BlogPost[] = (await getCollection("Blog")).sort((a, b) => {
-    const dateA = new Date(a.data.pubDate);
-    const dateB = new Date(b.data.pubDate);
+  const posts: BlogPost[] = (await getCollection("Blog"))
+    .filter((post) => {
+      // Filter out posts with "Case Studies" category
+      return !post.data.categories.some(
+        (category: string) => category.toLowerCase() === "case studies",
+      );
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.data.pubDate);
+      const dateB = new Date(b.data.pubDate);
 
-    return dateB.getTime() - dateA.getTime();
-  });
+      return dateB.getTime() - dateA.getTime();
+    });
 
   const categories: string[] = [];
 
@@ -27,7 +34,11 @@ export async function getStaticPaths({
     post.data.categories.forEach((category) => {
       const lowerCasedCategory = category;
 
-      if (!categories.includes(lowerCasedCategory)) {
+      // Filter out "Case Studies" from blog categories
+      if (
+        !categories.includes(lowerCasedCategory) &&
+        category.toLowerCase() !== "case studies"
+      ) {
         categories.push(lowerCasedCategory);
       }
     });

@@ -49,7 +49,7 @@ const PopOverNavItemEcosystem = ({
             <div className="flex gap-2.5 p-5 ">
               <div className="flex w-full flex-1 flex-col">
                 {ecosystemNavItems
-                  .filter((item) => !item.external)
+                  .filter((item) => !item.external && !item.internal)
                   .map((item, i) => {
                     return (
                       <Menu.Item key={i}>
@@ -92,7 +92,7 @@ const PopOverNavItemEcosystem = ({
 
               <div className="flex w-full flex-1 flex-col border-l pl-2.5">
                 <a
-                  href="/blog/case-studies/1"
+                  href="/case-studies"
                   className="flex items-center gap-1.5 px-8 py-1.5 text-sm font-medium text-[#939393] transition-all hover:text-foreground dark:text-para"
                 >
                   Case Studies{" "}
@@ -113,14 +113,17 @@ const PopOverNavItemEcosystem = ({
                 </a>
                 {posts
                   ?.filter(({ data }) =>
-                    data.categories.includes("Case Studies"),
+                    data.categories.some(
+                      (category: string) =>
+                        category.toLowerCase() === "case studies",
+                    ),
                   )
                   ?.slice(0, 2)
                   ?.map(({ data, slug }, i) => {
                     return (
                       <a
                         key={i}
-                        href={`/blog/${slug}`}
+                        href={`/case-studies/${slug}`}
                         className="group  flex cursor-pointer flex-col gap-0.5 rounded-lg px-8  py-1.5 text-sm transition-all hover:bg-gray-50 dark:hover:bg-black/10    "
                       >
                         <p className="line-clamp-1 font-medium group-hover:text-foreground ">

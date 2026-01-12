@@ -18,6 +18,9 @@ interface Props {
   pubDate: Date;
   type?: "compact" | "large";
   description?: string;
+  hideTag?: boolean;
+  hideDate?: boolean;
+  hideAuthor?: boolean;
 }
 
 const {
@@ -28,6 +31,9 @@ const {
   tag,
   pubDate,
   description,
+  hideTag = false,
+  hideDate = false,
+  hideAuthor = false,
 } = Astro.props;
 ---
 
@@ -47,16 +53,28 @@ const {
       </div>
 
       <div class="mt-4">
-        <div class="flex items-center gap-x-4">
-          <p class=" text-2xs font-medium  text-linkText md:text-sm">
-            By {contributor}
-          </p>
+        {
+          (!hideAuthor || !hideTag) && (
+            <div class="flex items-center gap-x-4">
+              {
+                !hideAuthor && (
+                  <p class=" text-2xs font-medium  text-linkText md:text-sm">
+                    By {contributor}
+                  </p>
+                )
+              }
 
-          <span class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText">
-            {" "}
-            {tag}
-          </span>
-        </div>
+              {
+                !hideTag && (
+                  <span class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText">
+                    {" "}
+                    {tag}
+                  </span>
+                )
+              }
+            </div>
+          )
+        }
 
         <h3 class="mt-2 line-clamp-2 text-base font-semibold  md:mt-4 md:text-xl ">
           {title}
@@ -66,13 +84,17 @@ const {
           {description}
         </p>
 
-        <div class="mt-4 flex items-center gap-x-2 text-linkText">
-          <p class="text-2xs font-medium  md:text-sm ">5 Min. Read</p>
-          <div class="size-1 rounded-full bg-linkText" />
-          <p class=" text-2xs  font-medium md:text-sm">
-            <FormattedDate date={pubDate} />
-          </p>
-        </div>
+        {
+          !hideDate && (
+            <div class="mt-4 flex items-center gap-x-2 text-linkText">
+              <p class="text-2xs font-medium  md:text-sm ">5 Min. Read</p>
+              <div class="size-1 rounded-full bg-linkText" />
+              <p class=" text-2xs  font-medium md:text-sm">
+                <FormattedDate date={pubDate} />
+              </p>
+            </div>
+          )
+        }
       </div>
     </div>
   ) : (
@@ -90,16 +112,28 @@ const {
       </div>
 
       <div class="mt-5 flex w-full flex-shrink flex-col justify-start lg:mt-0 lg:pl-12">
-        <div class="flex items-center gap-x-3 md:gap-x-4">
-          <p class=" text-2xs font-medium text-linkText  md:text-base">
-            By {contributor}
-          </p>
+        {
+          (!hideAuthor || !hideTag) && (
+            <div class="flex items-center gap-x-3 md:gap-x-4">
+              {
+                !hideAuthor && (
+                  <p class=" text-2xs font-medium text-linkText  md:text-base">
+                    By {contributor}
+                  </p>
+                )
+              }
 
-          <span class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
-            {" "}
-            {tag}
-          </span>
-        </div>
+              {
+                !hideTag && (
+                  <span class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
+                    {" "}
+                    {tag}
+                  </span>
+                )
+              }
+            </div>
+          )
+        }
 
         <div class="mt-4">
           <h2 class=" text-lg font-semibold md:mb-6 lg:text-3xl xl:text-2lg">
@@ -111,14 +145,18 @@ const {
           </p>
         </div>
 
-        <div class="mt-6 flex items-center gap-x-1.5">
-          <p class="text-2xs font-medium text-linkText md:text-base">
-            5 Min. Read
-          </p>
-          <p class=" text-2xs font-medium text-linkText md:text-base">
-            <FormattedDate date={pubDate} />
-          </p>
-        </div>
+        {
+          !hideDate && (
+            <div class="mt-6 flex items-center gap-x-1.5">
+              <p class="text-2xs font-medium text-linkText md:text-base">
+                5 Min. Read
+              </p>
+              <p class=" text-2xs font-medium text-linkText md:text-base">
+                <FormattedDate date={pubDate} />
+              </p>
+            </div>
+          )
+        }
       </div>
     </div>
   )

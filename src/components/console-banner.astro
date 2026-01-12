@@ -1,0 +1,32 @@
+---
+import ButtonLink from "@/components/ui/button-link.astro";
+
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<div
+  class={`flex flex-col items-center justify-center gap-10 rounded-lg bg-black px-5 py-10 text-white ${className}`}
+>
+  <img
+    src="/logos/akash-console.svg"
+    alt="Akash Console Logo"
+    class="h-6 w-auto"
+  />
+  <p class="text-center text-lg text-foreground text-white">
+    See how Akash cut<br class="hidden lg:block" /> costs by 60%. Start with<br
+      class="hidden lg:block"
+    /> $100 Free Credits.
+  </p>
+  <ButtonLink
+    link="https://console.akash.network"
+    variant="primary"
+    size="md"
+    className="px-4 py-2"
+  >
+    Deploy on Console
+  </ButtonLink>
+</div>

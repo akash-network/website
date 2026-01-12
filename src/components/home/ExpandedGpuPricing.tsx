@@ -201,13 +201,13 @@ const ExpandedGpu = () => {
     if (result) {
       const a100Price = result?.data?.models?.find((model) =>
         model?.model?.includes("a100"),
-      )?.price?.avg;
+      )?.price?.weightedAverage;
       const h100Price = result?.data?.models?.find((model) =>
         model?.model?.includes("h100"),
-      )?.price?.avg;
+      )?.price?.weightedAverage;
       const h200Price = result?.data?.models?.find((model) =>
         model?.model?.includes("h200"),
-      )?.price?.avg;
+      )?.price?.weightedAverage;
 
       if (h100Price) {
         data[1][1] = `$${h100Price?.toFixed(2)?.toString()}`;
