@@ -148,13 +148,13 @@ export const SubNavbar = ({
             ? pricingItems
             : networkItems.map((item) => ({ ...item, external: false }));
 
-  const external = items.find((item) => item?.external);
+  const external = items.find((item) => item?.external && !item?.internal);
   return (
     <div className=" border-y">
       <div className="container flex items-center gap-2 overflow-x-auto  md:justify-between">
         <div className="flex">
           {items
-            .filter((item) => !item?.external)
+            .filter((item) => !item?.external && !item?.internal)
             .map((item, i) => {
               return (
                 <a
@@ -170,7 +170,9 @@ export const SubNavbar = ({
                     pathname === item.link ||
                       (item.link === "roadmap" &&
                         pathname?.split("/")[1] === "roadmap") ||
-                      pathname?.split("/")[2] === item.link?.split("/")[2]
+                      pathname?.split("/")[2] === item.link?.split("/")[2] ||
+                      (pathname?.split("/")[1] === item.link?.split("/")[1] &&
+                        pathname.includes("case-studies"))
                       ? " border-foreground "
                       : "border-transparent",
                   )}
@@ -190,19 +192,41 @@ export const SubNavbar = ({
         {type === "development" ? (
           <CalendarModal />
         ) : (
-          external && (
-            <a
-              href={external.link}
-              target="_blank"
-              className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
-            >
-              {external.title}
-              <ArrowRightCircle
-                className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
-                size={16}
-              />
-            </a>
-          )
+          (() => {
+            const internal = items.find((item) => item?.internal);
+            return (
+              <>
+                {internal && (
+                  <a
+                    href={internal.link}
+                    target={
+                      internal.link.startsWith("http") ? "_blank" : "_self"
+                    }
+                    className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
+                  >
+                    {internal.title}
+                    <ArrowRightCircle
+                      className="ml-1 inline-block stroke-[1.5px]"
+                      size={16}
+                    />
+                  </a>
+                )}
+                {external && (
+                  <a
+                    href={external.link}
+                    target="_blank"
+                    className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
+                  >
+                    {external.title}
+                    <ArrowRightCircle
+                      className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
+                      size={16}
+                    />
+                  </a>
+                )}
+              </>
+            );
+          })()
         )}
       </div>
     </div>

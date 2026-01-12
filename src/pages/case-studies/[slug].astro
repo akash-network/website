@@ -8,58 +8,41 @@ import BlogLayout from "@/layouts/blog-layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import { Image } from "astro:assets";
 import { getCollection, type CollectionEntry } from "astro:content";
+import clsx from "clsx";
 import { Facebook, Linkedin } from "lucide-react";
 
 type BlogPost = CollectionEntry<"Blog">;
 export async function getStaticPaths() {
-  const posts = await getCollection("Blog");
+  const allPosts = await getCollection("Blog");
+  const caseStudyPosts = allPosts.filter((post) =>
+    post.data.categories.some(
+      (category: string) => category.toLowerCase() === "case studies"
+    )
+  );
 
-  const categories: string[] = [];
-
-  posts.forEach((post) => {
-    post.data.categories.forEach((category: string) => {
-      const lowerCasedCategory = category;
-
-      // Filter out "Case Studies" from blog categories
-      if (
-        !categories.includes(lowerCasedCategory) &&
-        category.toLowerCase() !== "case studies"
-      ) {
-        categories.push(lowerCasedCategory);
-      }
-    });
-  });
-
-  return posts.map((post) => {
-    const searchCategory = post.data.categories[0].toLowerCase();
-
-    const relatedArticles = posts
-      .filter((post) =>
-        post.data.categories.some(
-          (category: string) => category.toLowerCase() === searchCategory
-        )
-      )
+  return caseStudyPosts.map((post) => {
+    const otherCaseStudies = caseStudyPosts
+      .filter((p) => p.slug !== post.slug)
       .filter((post) => {
         return post.data.archive !== true;
       })
-      .filter((post) => {
-        return !post.data.categories.some(
-          (category: string) => category.toLowerCase() === "case studies"
-        );
+      .sort((a, b) => {
+        const dateA = new Date(a.data.pubDate);
+        const dateB = new Date(b.data.pubDate);
+        return dateB.getTime() - dateA.getTime();
       });
 
     return {
       params: { slug: post.slug },
       props: {
         post: post,
-        categories: categories,
-        relatedArticles: relatedArticles,
+        otherCaseStudies: otherCaseStudies,
       },
     };
   });
 }
 
-const { post, categories, relatedArticles } = Astro.props;
+const { post, otherCaseStudies } = Astro.props;
 
 const { Content } = await post.render();
 ---
@@ -70,8 +53,10 @@ const { Content } = await post.render();
   description={post.data.metaDescription
     ? post.data.metaDescription
     : post.data.description}
-  tags={categories}
-  relatedArticles={relatedArticles}
+  tags={[]}
+  relatedArticles={[]}
+  showCaseStudies={true}
+  caseStudies={otherCaseStudies}
 >
   <div class="grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
     <div class="col-span-12 md:col-span-8">
@@ -122,7 +107,7 @@ const { Content } = await post.render();
         <p
           class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
         >
-          Insight
+          Case Study
         </p>
       </div>
     </div>
@@ -162,65 +147,45 @@ const { Content } = await post.render();
       class="sticky top-28 col-span-4 hidden h-screen space-y-[56px] md:block"
     >
       <div>
-        <p class="font-bold leading-none text-foreground">Explore Topics</p>
-
-        <div class="mt-6 flex flex-wrap gap-2">
-          {
-            categories
-              .sort(() => Math.random() - 0.5)
-              .map((category: string) => (
-                <a
-                  class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-darkText"
-                  href={`/blog/${category.toLowerCase()?.replaceAll(" ", "-")}/1`}
-                >
-                  {category}
-                </a>
-              ))
-          }
-        </div>
-      </div>
-
-      <div>
-        <p class="font-bold text-foreground">Related Articles</p>
+        <p class="font-bold text-foreground">Other Case Studies</p>
         <div class="mt-3 flex flex-col space-y-2">
           {
-            relatedArticles
-              .sort(() => Math.random() - 0.5)
-              .slice(0, 4)
-              .map((post: BlogPost) => {
-                return (
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="line-clamp-2 cursor-pointer  text-darkText hover:text-primary hover:no-underline"
-                  >
-                    {post.data.title}
-                  </a>
-                );
-              })
+            otherCaseStudies.slice(0, 4).map((caseStudy: BlogPost) => {
+              return (
+                <a
+                  href={`/case-studies/${caseStudy.slug}`}
+                  class="line-clamp-2 cursor-pointer  text-darkText hover:text-primary hover:no-underline"
+                >
+                  {caseStudy.data.title}
+                </a>
+              );
+            })
           }
         </div>
       </div>
 
       <div>
-        <p class="font-bold leading-none text-foreground">Share this blog</p>
+        <p class="font-bold leading-none text-foreground">
+          Share this case study
+        </p>
 
         <div class="mt-5 flex space-x-4 text-para">
           <a
-            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/blog/${post.slug}`}
+            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.slug}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <TwitterIcon />
           </a>
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/blog/${post.slug}`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.slug}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Facebook className="h-5 w-5" />
           </a>
           <a
-            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/blog/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -237,26 +202,26 @@ const { Content } = await post.render();
   <div class="block md:hidden">
     <div class="flex items-center justify-between pt-10 md:hidden">
       <p class="text-center text-base font-bold text-foreground">
-        Share this Blog
+        Share this Case Study
       </p>
       <!-- Social Media Links  -->
       <div class="mt-4 flex items-center justify-center space-x-2.5">
         <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/blog/${post.slug}`}
+          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.slug}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <TwitterIcon />
         </a>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/blog/${post.slug}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.slug}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Facebook className="h-5 w-5" />
         </a>
         <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/blog/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -264,45 +229,23 @@ const { Content } = await post.render();
         </a>
       </div>
     </div>
-    <div class="mt-10 space-y-10 md:hidden">
-      <div>
-        <p class="text-xs font-bold text-foreground">Explore Topics</p>
-        <div class="mt-3 flex flex-wrap gap-x-2 gap-y-2">
-          {
-            categories
-              .sort(() => Math.random() - 0.5)
-              .map((category: string) => (
-                <a
-                  class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText"
-                  href={`/blog/${category.toLowerCase()}/1`}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </a>
-              ))
-          }
-        </div>
-      </div>
-    </div>
 
-    <!-- Related Articles Section -->
+    <!-- Other Case Studies Section -->
     <div class="mb-10 mt-10 space-y-10 md:mb-0 md:hidden">
       <div>
-        <p class="text-xs font-bold text-foreground">Related Articles</p>
+        <p class="text-xs font-bold text-foreground">Other Case Studies</p>
         <div class="mt-3 flex flex-col space-y-2">
           {
-            relatedArticles
-              .sort(() => Math.random() - 0.5)
-              .slice(0, 4)
-              .map((post: BlogPost) => {
-                return (
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="line-clamp-2 cursor-pointer  text-xs text-darkText hover:text-primary hover:no-underline"
-                  >
-                    {post.data.title}
-                  </a>
-                );
-              })
+            otherCaseStudies.slice(0, 4).map((caseStudy: BlogPost) => {
+              return (
+                <a
+                  href={`/case-studies/${caseStudy.slug}`}
+                  class="line-clamp-2 cursor-pointer  text-xs text-darkText hover:text-primary hover:no-underline"
+                >
+                  {caseStudy.data.title}
+                </a>
+              );
+            })
           }
         </div>
       </div>
@@ -313,28 +256,75 @@ const { Content } = await post.render();
       <ConsoleBanner />
     </div>
 
+    <!-- Mobile CTA Banner for Deploy on Console (after Other Case Studies) -->
+    <div class="mb-10 mt-10 md:hidden">
+      <section
+        class={clsx(
+          "flex flex-col items-center justify-around",
+          "bg-white dark:bg-background2",
+          "border-y",
+          "px-[30px] py-[80px] lg:py-[160px]",
+          "text-center"
+        )}
+      >
+        <h2
+          class={clsx(
+            "max-w-[1000px] font-instrument text-foreground",
+            "text-3xl md:text-5xl xl:text-6xl 2xl:text-[80px]",
+            "md:leading-snug"
+          )}
+        >
+          Experience the Supercloud.
+        </h2>
+
+        <div class="mt-6 md:mt-10">
+          <div class="hidden md:block">
+            <ButtonLink
+              link="https://console.akash.network/"
+              size="xl"
+              className="bg-primary text-white hover:bg-darkGray"
+              id="console-case-study"
+            >
+              Console Login
+            </ButtonLink>
+          </div>
+
+          <div class="block md:hidden">
+            <ButtonLink
+              link="https://console.akash.network/"
+              size="md"
+              className="bg-primary text-white hover:bg-darkGray"
+              id="console-case-study-mobile"
+            >
+              Console Login
+            </ButtonLink>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <div class="hidden items-center justify-between py-10 md:flex">
       <p class="text-center text-base font-bold text-foreground">
-        Share this Blog
+        Share this Case Study
       </p>
       <!-- Social Media Links  -->
       <div class="mt-4 flex items-center justify-center space-x-2.5">
         <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/blog/${post.slug}`}
+          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.slug}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <TwitterIcon />
         </a>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/blog/${post.slug}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.slug}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Facebook className="h-5 w-5" />
         </a>
         <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/blog/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
           target="_blank"
           rel="noopener noreferrer"
         >

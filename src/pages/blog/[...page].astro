@@ -16,7 +16,12 @@ export async function getStaticPaths({
 }) {
   const posts = (await getCollection("Blog"))
     .filter((post) => {
-      return post.data.archive !== true;
+      return (
+        post.data.archive !== true &&
+        !post.data.categories.some(
+          (category: string) => category.toLowerCase() === "case studies",
+        )
+      );
     })
     .sort((a, b) => {
       const dateA = new Date(a.data.pubDate);
@@ -30,7 +35,11 @@ export async function getStaticPaths({
   posts.forEach((post) => {
     post.data.categories.forEach((category: string) => {
       const lowerCasedCategory = category.toLowerCase();
-      if (!categories.includes(category)) {
+      // Filter out "Case Studies" from blog categories
+      if (
+        !categories.includes(category) &&
+        category.toLowerCase() !== "case studies"
+      ) {
         categories.push(category);
       }
     });

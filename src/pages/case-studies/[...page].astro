@@ -1,0 +1,89 @@
+---
+import PostCard from "@/components/cards/post-card.astro";
+import Pagination from "@/components/pagination.astro";
+import Layout from "@/layouts/layout.astro";
+import type { PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+type BlogPost = CollectionEntry<"Blog">;
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) {
+  const posts = (await getCollection("Blog"))
+    .filter((post) => {
+      return (
+        post.data.archive !== true &&
+        post.data.categories.some(
+          (category: string) => category.toLowerCase() === "case studies"
+        )
+      );
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.data.pubDate);
+      const dateB = new Date(b.data.pubDate);
+
+      return dateB.getTime() - dateA.getTime();
+    });
+
+  return paginate(posts, {
+    pageSize: 12,
+  });
+}
+
+const { page } = Astro.props;
+---
+
+<Layout
+  title="Case Studies - Akash Network"
+  description="The future of DePIN is sovereign, distributed, and builder-owned. See how the world's most resilient projects deploy on a global GPU grid that can't be shut down."
+  image="/meta-images/home.png"
+>
+  <div class="container mt-[120px]">
+    <!-- Centered Headline and Subheadline -->
+    <div class="mb-[80px] text-center">
+      <h1
+        class="font-sans text-4xl font-bold text-foreground md:text-5xl lg:text-6xl"
+      >
+        Case Studies
+      </h1>
+      <p class="mx-auto mt-6 max-w-3xl text-lg text-para md:text-xl">
+        The future of DePIN is sovereign, distributed, and builder-owned. See
+        how the world's most resilient projects deploy on a global GPU grid that
+        can't be shut down.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="container gap-10 md:mt-[120px]">
+    <!-- Posts grid -->
+    <div
+      class="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-[80px] lg:grid-cols-3 lg:gap-16"
+    >
+      {
+        page.data.map((post: BlogPost, i: number) => {
+          return (
+            <a class="flex cursor-pointer " href={`/case-studies/${post.slug}`}>
+              <PostCard
+                title={post.data.title}
+                image={post.data.bannerImage}
+                tag={post.data.categories[0]}
+                contributor={post.data.contributors[0]}
+                pubDate={post.data.pubDate}
+                description={post.data.description}
+                hideTag={true}
+                hideDate={true}
+                hideAuthor={true}
+              />
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <Pagination page={page} />
+  </div>
+</Layout>

@@ -5,8 +5,8 @@ import Footer from "@/components/footer/footer.astro";
 import Header from "@/components/header/header.astro";
 import "@/styles/globals.css";
 import type { CollectionEntry } from "astro:content";
-import BaseLayout from "./base-layout.astro";
 import { getCollection } from "astro:content";
+import BaseLayout from "./base-layout.astro";
 
 type BlogPost = CollectionEntry<"Blog">;
 
@@ -16,22 +16,41 @@ interface Props {
   image?: string;
   tags?: string[];
   relatedArticles?: BlogPost[];
+  showCaseStudies?: boolean;
+  caseStudies?: BlogPost[];
 }
 
-const { title, description, image, tags = [] } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  tags = [],
+  showCaseStudies = false,
+  caseStudies = [],
+} = Astro.props;
 
 const slug = Astro.url.pathname.split("/")[2];
+const isCaseStudyPage = Astro.url.pathname.startsWith("/case-studies/");
+
 const relatedArticles = (
   await getCollection("Blog")
     .then((posts) =>
-      posts.filter((post) => !post.data.archive && post.slug !== slug),
+      posts.filter((post) => !post.data.archive && post.slug !== slug)
+    )
+    .then((posts) =>
+      posts.filter((post) => {
+        // Filter out case studies from blog posts
+        return !post.data.categories.some(
+          (category: string) => category.toLowerCase() === "case studies"
+        );
+      })
     )
     .then((posts) =>
       posts.sort((a, b) => {
         const dateA = new Date(a.data.pubDate);
         const dateB = new Date(b.data.pubDate);
         return dateB.getTime() - dateA.getTime();
-      }),
+      })
     )
 ).slice(0, 3);
 ---
@@ -43,30 +62,59 @@ const relatedArticles = (
     <slot />
   </main>
 
-  <div class="mx-auto max-w-[1100px] px-4 md:mt-32">
-    <h2 class="text-xl font-medium md:text-2xl">
-      Discover what's happening on Akash
-    </h2>
+  {
+    (isCaseStudyPage || showCaseStudies) && caseStudies.length > 0 ? (
+      <div class="mx-auto max-w-[1100px] px-4 md:mt-32">
+        <h2 class="text-xl font-medium md:text-2xl">Other Case Studies</h2>
 
-    <div class="md mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        relatedArticles.map((post: BlogPost) => {
-          return (
-            <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
-              <PostCard
-                title={post.data.title}
-                image={post.data.bannerImage}
-                tag={post.data.tags[0]}
-                contributor={post.data.contributors[0]}
-                pubDate={post.data.pubDate}
-                description={post.data.description}
-              />
-            </a>
-          );
-        })
-      }
-    </div>
-  </div>
+        <div class="md mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {caseStudies.slice(0, 3).map((post: BlogPost) => {
+            return (
+              <a
+                href={`/case-studies/${post.slug}`}
+                class=" flex cursor-pointer"
+              >
+                <PostCard
+                  title={post.data.title}
+                  image={post.data.bannerImage}
+                  tag={post.data.tags[0]}
+                  contributor={post.data.contributors[0]}
+                  pubDate={post.data.pubDate}
+                  description={post.data.description}
+                  hideTag={true}
+                  hideDate={true}
+                  hideAuthor={true}
+                />
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    ) : (
+      <div class="mx-auto max-w-[1100px] px-4 md:mt-32">
+        <h2 class="text-xl font-medium md:text-2xl">
+          Discover what's happening on Akash
+        </h2>
+
+        <div class="md mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {relatedArticles.map((post: BlogPost) => {
+            return (
+              <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
+                <PostCard
+                  title={post.data.title}
+                  image={post.data.bannerImage}
+                  tag={post.data.tags[0]}
+                  contributor={post.data.contributors[0]}
+                  pubDate={post.data.pubDate}
+                  description={post.data.description}
+                />
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    )
+  }
 
   <div class="mt-32">
     <CTA />
