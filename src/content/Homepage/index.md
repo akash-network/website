@@ -107,11 +107,11 @@ aiModelsAndAppsSection:
   subtitle1: "AI & ML"
   subtitle2: "Deployed on Akash"
   cards1:
-    - title: "Run Inference Instantly"
-      image: "./assets/tools/chat-api.svg"
-      description: "Tap into a curated catalog of open‑source models through a single, unified API. Simply request, receive results, and scale automatically on Akash's decentralized GPU network—no model deployment or setup needed."
-      link: "https://chatapi.akash.network/"
-      button: "Get Your Free API Key"
+    - title: "AkashML"
+      image: "./assets/tools/akashML.png"
+      description: "High-performance, low latency AI inference service built on Akash Network"
+      link: "https://akashml.com/"
+      button: "Get Started"
       
     - title: "Chat with Multiple Models"
       image:  "./assets/tools/akash-chat.svg"

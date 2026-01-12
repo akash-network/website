@@ -3,13 +3,28 @@ import ButtonLink from "@/components/ui/button-link.astro";
 import { Image } from "astro:assets";
 import { ArrowUpRight } from "lucide-react";
 const { card } = Astro.props;
+const isPNG = card.image.src.includes(".png");
 ---
 
 <div class="flex flex-col overflow-hidden rounded-lg border bg-background2">
   <div
-    class="flex items-center justify-center border-b bg-black py-12 dark:bg-transparent md:py-16"
+    class="flex h-44 items-center justify-center border-b bg-black dark:bg-transparent"
   >
-    <Image src={card.image} alt={card.title} class={"h-10 object-contain"} />
+    {
+      isPNG ? (
+        <Image
+          src={card.image}
+          alt={card.title}
+          class={"h-full w-full object-cover"}
+        />
+      ) : (
+        <Image
+          src={card.image}
+          alt={card.title}
+          class={"h-10 object-contain"}
+        />
+      )
+    }
   </div>
   <div class="flex flex-1 flex-col gap-2 px-4 py-5 md:gap-4 md:px-5">
     <div class="flex flex-1 flex-col gap-2">
