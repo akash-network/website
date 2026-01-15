@@ -55,6 +55,17 @@ To run the repository locally and explore the website on your machine, follow th
 5. **Open Your Browser:**
    Visit [http://localhost:4321](http://localhost:4321) to view the Akash Network website locally.
 
+### Developer Scripts
+
+The following scripts are available for development and quality checks:
+
+- **`npm run check`** - Run Astro type and content checks
+- **`npm run typecheck`** - Run TypeScript type checking (no emit)
+- **`npm run format`** - Check code formatting with Prettier
+- **`npm run format:write`** - Format code with Prettier (writes changes)
+
+These scripts are also run automatically in CI on pull requests and pushes to main.
+
 ## Contribution Guidelines
 
 Before contributing to the project, please adhere to the following guidelines to ensure the project's integrity and maintainability.
@@ -122,6 +133,19 @@ Each commit message should carry a meaningful structure, commencing with a type 
 - Keep commit messages concise and to the point.
 - Utilize the imperative mood (e.g., "add," "fix," "update") in the description.
 - Provide context in the description when necessary..
+
+### Developer Scripts
+
+Run local checks and formatting:
+
+```bash
+npm run check         # Astro type and content validation
+npm run typecheck     # TypeScript type checks (no emit)
+npm run format        # Prettier format check (read-only)
+npm run format:write  # Prettier format and fix files
+```
+
+These scripts are automatically run in CI on pull requests. Always run `npm run format:write` before committing to ensure consistent code style.
 
 ### How to Contribute to the Akash Website
 
