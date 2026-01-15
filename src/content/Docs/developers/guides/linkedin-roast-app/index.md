@@ -1,6 +1,6 @@
 ---
 categories: ["Developers"]
-tags: ["Tutorial", "AkashML", "DeepSeek", "React", "Bun"]
+tags: ["Tutorial", "AkashML", "DeepSeek", "React", "Vite"]
 weight: 1
 title: "Build a LinkedIn Profile Roaster with AkashML"
 linkTitle: "LinkedIn Roast App"
@@ -14,8 +14,8 @@ In this tutorial, you'll build a fun web application that generates AI-powered r
 **What you'll learn:**
 - How to integrate AkashML's API with DeepSeek-V3
 - Using AI to extract structured data from unstructured text
-- Building a full-stack app with Bun, React, and TypeScript
-- Deploying to Akash Network
+- Client-side PDF parsing with pdf.js
+- Deploying static sites to Akash Network with Build & Deploy
 
 **Source Code:** [github.com/baktun14/linkedin-roast](https://github.com/baktun14/linkedin-roast)
 
@@ -23,14 +23,32 @@ In this tutorial, you'll build a fun web application that generates AI-powered r
 
 ![LinkedIn Roast App - Roast Result](./assets/linkedin-roast-result.png)
 
+## Architecture Overview
+
+This app runs entirely in the browser - no backend server required. This makes deployment simple and keeps costs low.
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    Browser                          │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │
+│  │   pdf.js    │→ │   AkashML   │→ │   AkashML   │ │
+│  │  (parsing)  │  │ (extraction)│  │   (roast)   │ │
+│  └─────────────┘  └─────────────┘  └─────────────┘ │
+└─────────────────────────────────────────────────────┘
+                          ↓
+              ┌───────────────────────┐
+              │   api.akashml.com     │
+              │   (DeepSeek-V3.2)     │
+              └───────────────────────┘
+```
+
 ## Tech Stack
 
-- **Runtime:** [Bun](https://bun.sh/) - Fast JavaScript runtime
 - **Frontend:** React + TypeScript + Vite
 - **Styling:** Tailwind CSS
-- **AI:** [AkashML](https://akashml.com) (DeepSeek-V3)
-- **PDF Parsing:** pdf-parse
-- **Deployment:** Akash Network
+- **AI:** [AkashML](https://akashml.com) (DeepSeek-V3.2)
+- **PDF Parsing:** [pdfjs-dist](https://mozilla.github.io/pdf.js/) (client-side)
+- **Deployment:** Akash Network (Build & Deploy)
 
 ---
 
@@ -38,7 +56,7 @@ In this tutorial, you'll build a fun web application that generates AI-powered r
 
 Before starting, make sure you have:
 
-1. **Bun v1.0+** installed ([install guide](https://bun.sh/docs/installation))
+1. **Bun v1.0+** or Node.js installed
 2. **AkashML API Key** - Get one at [akashml.com](https://akashml.com)
 3. Basic knowledge of React and TypeScript
 
@@ -46,46 +64,56 @@ Before starting, make sure you have:
 
 ## Step 1: Project Setup
 
-### Initialize the Project
-
 ```bash
-# Create a new Vite + React + TypeScript project
-bun create vite linkedin-roast --template react-ts
+# Clone the repository
+git clone https://github.com/baktun14/linkedin-roast.git
 cd linkedin-roast
 
 # Install dependencies
-bun add pdf-parse react react-dom
-bun add -d @types/react @types/react-dom tailwindcss postcss autoprefixer typescript vite @vitejs/plugin-react
+bun install
+
+# Set up environment
+cp .env.example .env
+# Add your AkashML API key to .env
+
+# Start dev server
+bun run dev:frontend
 ```
 
-### Configure Environment Variables
-
-Create a `.env` file in your project root:
+### Environment Variables
 
 ```env
-VITE_AKASHML_API_KEY=your-akashml-api-key-here
+VITE_AKASHML_API_KEY=your-api-key-here
 ```
 
-> **Important:** Never commit your API key to version control. Add `.env` to your `.gitignore`.
+> **Security Notice:** The `VITE_` prefix means the API key is bundled into the frontend JavaScript and visible to users. This is acceptable for demos or keys with usage limits. For production apps with sensitive keys, consider a backend proxy.
 
 ---
 
 ## Step 2: Integrating AkashML
 
-AkashML provides an OpenAI-compatible API, making integration straightforward. Here's the core pattern for making API calls:
+AkashML provides an OpenAI-compatible API, making integration straightforward. The app makes two AI calls:
+
+1. **Profile Extraction** - Parse structured data from PDF text (low temperature)
+2. **Roast Generation** - Create a witty roast (high temperature)
 
 ### API Configuration
 
 ```typescript
-const AKASH_API_BASE = 'https://api.akashml.com/v1'
-const akashApiKey = process.env.VITE_AKASHML_API_KEY
+const AKASH_API_URL = 'https://api.akashml.com/v1/chat/completions';
+const API_KEY = import.meta.env.VITE_AKASHML_API_KEY;
 
-async function callAkashML(systemPrompt: string, userPrompt: string, temperature = 0.7) {
-  const response = await fetch(`${AKASH_API_BASE}/chat/completions`, {
+async function callAkashML(
+  systemPrompt: string,
+  userPrompt: string,
+  temperature: number,
+  maxTokens: number
+) {
+  const response = await fetch(AKASH_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${akashApiKey}`,
+      Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
       model: 'deepseek-ai/DeepSeek-V3.2',
@@ -94,67 +122,35 @@ async function callAkashML(systemPrompt: string, userPrompt: string, temperature
         { role: 'user', content: userPrompt },
       ],
       temperature,
-      max_tokens: 1000,
+      max_tokens: maxTokens,
     }),
-  })
+  });
 
-  if (!response.ok) {
-    throw new Error(`API Error: ${response.status}`)
-  }
-
-  const data = await response.json()
-  return data.choices?.[0]?.message?.content?.trim()
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content?.trim();
 }
 ```
 
 ### Key Parameters
 
-| Parameter | Value | Purpose |
-|-----------|-------|---------|
-| `model` | `deepseek-ai/DeepSeek-V3.2` | High-quality reasoning model |
-| `temperature` | `0.1` for extraction, `0.9` for creative | Controls randomness |
-| `max_tokens` | `300-1000` | Limits response length |
+| Parameter | Extraction | Roast Generation |
+|-----------|------------|------------------|
+| `model` | `deepseek-ai/DeepSeek-V3.2` | `deepseek-ai/DeepSeek-V3.2` |
+| `temperature` | `0.1` (precise) | `0.8` (creative) |
+| `max_tokens` | `1000` | `100` |
 
 ---
 
-## Step 3: Building the Backend API
+## Step 3: AI-Powered Profile Extraction
 
-Create `api-server.ts` in your project root. This server handles PDF parsing and roast generation.
+The first AI call extracts structured profile data from messy PDF text. We use low temperature (0.1) for accurate, consistent extraction.
 
-### Define the Profile Type
+### System Prompt
 
-```typescript
-interface LinkedInProfile {
-  name: string;
-  headline: string;
-  about: string;
-  linkedinUrl?: string;
-  experience: string[];
-  education: string[];
-  skills: string[];
-}
 ```
-
-### AI-Powered Profile Extraction
-
-The magic happens here - we use AI to extract structured data from messy PDF text:
-
-```typescript
-const pdf = require('pdf-parse')
-
-async function extractProfileWithAI(pdfText: string): Promise<LinkedInProfile> {
-  const response = await fetch(`${AKASH_API_BASE}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${akashApiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'deepseek-ai/DeepSeek-V3.2',
-      messages: [
-        {
-          role: 'system',
-          content: `You are a data extraction assistant. Extract LinkedIn profile information from the provided PDF text and return it as valid JSON only.
+You are a data extraction assistant. Extract LinkedIn profile information
+from the provided PDF text and return it as valid JSON only, with no
+additional text or markdown formatting.
 
 Return ONLY a JSON object with these fields:
 {
@@ -166,239 +162,137 @@ Return ONLY a JSON object with these fields:
   "skills": ["Skill 1", "Skill 2", "Skill 3"]
 }
 
-Return ONLY the JSON, no markdown or explanations.`,
-        },
-        {
-          role: 'user',
-          content: `Extract the LinkedIn profile data from this PDF text:\n\n${pdfText.slice(0, 8000)}`,
-        },
-      ],
-      temperature: 0.1, // Low temperature for accurate extraction
-      max_tokens: 1000,
-    }),
-  })
+Important:
+- The name is usually a person's full name (like "John Smith"),
+  NOT a section header like "Contact" or "Summary"
+- Return ONLY the JSON, no markdown code blocks or explanations
+```
 
-  const data = await response.json()
-  const content = data.choices?.[0]?.message?.content?.trim()
+### User Prompt
 
-  // Parse JSON response (handle potential markdown code blocks)
-  let jsonStr = content
-  if (jsonStr.startsWith('```')) {
-    jsonStr = jsonStr.replace(/```json?\n?/g, '').replace(/```\n?/g, '')
+```
+Extract the LinkedIn profile data from this PDF text:
+
+[First 8000 characters of PDF text]
+```
+
+### Why AI Beats Regex
+
+LinkedIn PDFs have inconsistent formatting. Traditional regex approaches break constantly. AI handles:
+- Different PDF export formats
+- Varying section orders
+- Multiple languages
+- Messy text extraction artifacts
+
+---
+
+## Step 4: Roast Generation
+
+The second AI call generates the actual roast. We use higher temperature (0.8) for creativity while keeping output constrained.
+
+### System Prompt
+
+```
+You write brutal LinkedIn roasts. Rules:
+1. Aim for 200-240 characters (for Twitter, max 280) - THIS IS THE MOST IMPORTANT RULE
+2. NO intro like "Here's a roast" - just the roast itself
+3. Write in 3rd person using their name (never "you" or "this guy")
+4. Mock corporate jargon, buzzwords, inflated titles
+5. Be savage but clever, like a Comedy Central roast
+6. One punchy line or two, end with a mic-drop
+
+Output ONLY the roast text, nothing else.
+```
+
+### User Prompt
+
+```
+Roast [Name]'s LinkedIn profile.
+Headline: "[Their headline]"
+About: "[Their about section]"
+Experience: [Job 1]; [Job 2]; [Job 3]
+Skills they're proud of: [Skill 1], [Skill 2], [Skill 3]
+```
+
+### Prompt Engineering Tips
+
+| Technique | Purpose |
+|-----------|---------|
+| Numbered rules | Clear priority (character limit is #1) |
+| Explicit negatives | "NO intro", "never 'you'" prevents common issues |
+| Specific range | "200-240 characters" better than "short" |
+| Style reference | "Comedy Central roast" gives clear tone |
+| Output constraint | "ONLY the roast text" prevents preamble |
+
+---
+
+## Step 5: Client-Side PDF Parsing
+
+We use pdf.js to parse PDFs entirely in the browser - no server upload needed.
+
+### Setup
+
+```typescript
+import * as pdfjsLib from 'pdfjs-dist';
+
+// Configure the worker (runs PDF parsing in a web worker)
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+```
+
+### Extracting Text
+
+```typescript
+async function extractTextFromPDF(file: File): Promise<string> {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+  let fullText = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const textContent = await page.getTextContent();
+    const pageText = textContent.items
+      .map((item) => ('str' in item ? item.str : ''))
+      .join(' ');
+    fullText += pageText + '\n';
   }
 
-  return JSON.parse(jsonStr)
-}
-```
-
-### Roast Generation
-
-```typescript
-function generateRoastPrompt(profile: LinkedInProfile): string {
-  const parts = [
-    `Roast ${profile.name}'s LinkedIn profile.`,
-    profile.headline && `Headline: "${profile.headline}"`,
-    profile.about && `About: "${profile.about}"`,
-    profile.experience.length && `Experience: ${profile.experience.join('; ')}`,
-    profile.skills.length && `Skills they're proud of: ${profile.skills.join(', ')}`,
-  ].filter(Boolean)
-
-  return parts.join('\n') + '\n\nCreate a brutal but clever roast under 280 characters. Start with their name for personalization. Mock the corporate jargon, not the person.'
-}
-
-async function generateRoast(profile: LinkedInProfile): Promise<string> {
-  const response = await fetch(`${AKASH_API_BASE}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${akashApiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'deepseek-ai/DeepSeek-V3.2',
-      messages: [
-        {
-          role: 'system',
-          content: `You are a professional comedy roast writer specializing in LinkedIn profiles. Create brutally funny roasts under 280 characters. Be savage but clever - mock corporate jargon and LinkedIn culture, not the person themselves.`,
-        },
-        {
-          role: 'user',
-          content: generateRoastPrompt(profile),
-        },
-      ],
-      temperature: 0.9, // High temperature for creativity
-      max_tokens: 300,
-    }),
-  })
-
-  const data = await response.json()
-  return data.choices?.[0]?.message?.content?.trim()
-}
-```
-
-### Complete API Server
-
-```typescript
-const server = Bun.serve({
-  port: 8787,
-  async fetch(req) {
-    const url = new URL(req.url)
-
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    }
-
-    if (req.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders })
-    }
-
-    // PDF parsing endpoint
-    if (url.pathname === '/api/parse-pdf' && req.method === 'POST') {
-      const formData = await req.formData()
-      const pdfFile = formData.get('pdf') as File
-
-      const arrayBuffer = await pdfFile.arrayBuffer()
-      const buffer = Buffer.from(arrayBuffer)
-      const pdfData = await pdf(buffer)
-
-      const profile = await extractProfileWithAI(pdfData.text)
-      return Response.json({ profile }, { headers: corsHeaders })
-    }
-
-    // Roast generation endpoint
-    if (url.pathname === '/api/roast' && req.method === 'POST') {
-      const { profile, bioText } = await req.json()
-      const roast = await generateRoast(profile)
-      return Response.json({ roast, name: profile?.name }, { headers: corsHeaders })
-    }
-
-    return new Response('Not Found', { status: 404 })
-  },
-})
-
-console.log(`API server running at http://localhost:${server.port}`)
-```
-
----
-
-## Step 4: Building the Frontend
-
-### RoastForm Component
-
-Create a form that supports both PDF upload and text paste:
-
-```tsx
-// src/components/RoastForm.tsx
-import { useState, useRef } from 'react';
-
-function isMobileDevice(): boolean {
-  if (typeof window === 'undefined') return false;
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth < 768;
-}
-
-export function RoastForm({ onSubmitPDF, onSubmitText, isLoading }) {
-  // Auto-detect mobile and show text input by default
-  const [mode, setMode] = useState(() => isMobileDevice() ? 'text' : 'pdf');
-  const [pdfFile, setPdfFile] = useState(null);
-  const [text, setText] = useState('');
-  const fileInputRef = useRef(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (mode === 'pdf' && pdfFile) {
-      onSubmitPDF(pdfFile);
-    } else if (mode === 'text' && text.length >= 50) {
-      onSubmitText(text);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      {/* Mode Toggle */}
-      <div className="flex mb-6 bg-gray-900 rounded-lg p-1">
-        <button
-          type="button"
-          onClick={() => setMode('pdf')}
-          className={`flex-1 py-2 px-4 rounded-md ${
-            mode === 'pdf' ? 'bg-orange-500 text-white' : 'text-gray-400'
-          }`}
-        >
-          Upload PDF
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('text')}
-          className={`flex-1 py-2 px-4 rounded-md ${
-            mode === 'text' ? 'bg-orange-500 text-white' : 'text-gray-400'
-          }`}
-        >
-          Paste Text
-        </button>
-      </div>
-
-      {/* PDF Upload or Text Input based on mode */}
-      {mode === 'pdf' ? (
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".pdf"
-          onChange={(e) => setPdfFile(e.target.files?.[0])}
-        />
-      ) : (
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Paste your LinkedIn profile text here..."
-          className="w-full h-48 p-4 bg-gray-900 rounded-xl"
-        />
-      )}
-
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Generating Roast...' : 'Roast Me!'}
-      </button>
-    </form>
-  );
+  return fullText;
 }
 ```
 
 ---
 
-## Step 5: Deploying on Akash Network
+## Step 6: Deploying on Akash Network
 
-### Create a Dockerfile
+The easiest way to deploy is using Akash Console's **Build & Deploy** feature, which automatically builds and serves your static site.
 
-```dockerfile
-FROM oven/bun:1 as builder
-WORKDIR /app
-COPY package.json bun.lockb ./
-RUN bun install
-COPY . .
-RUN bun run build
+### Option A: Build & Deploy (Recommended)
 
-FROM oven/bun:1
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/api-server.ts .
-COPY --from=builder /app/node_modules ./node_modules
-EXPOSE 80 8787
-CMD ["bun", "run", "start"]
-```
+1. Go to [console.akash.network](https://console.akash.network)
+2. Click **"Build and Deploy"**
+3. Connect your GitHub repository
+4. Set environment variable: `VITE_AKASHML_API_KEY`
+5. Deploy!
 
-### Create the SDL File (deploy.yaml)
+That's it - Akash Console handles the build process and static file serving.
+
+### Option B: Docker Deployment
+
+For more control, use the included Dockerfile:
 
 ```yaml
+# deploy.yaml
 ---
 version: "2.0"
 
 services:
   web:
-    image: your-docker-image:latest
+    image: ghcr.io/baktun14/linkedin-roast:latest
     env:
-      - VITE_AKASHML_API_KEY=<your-api-key>
+      - VITE_AKASHML_API_KEY=${VITE_AKASHML_API_KEY}
     expose:
-      - port: 80
+      - port: 3000
         as: 80
         to:
           - global: true
@@ -434,52 +328,46 @@ deployment:
       count: 1
 ```
 
-### Deploy via Akash Console
-
-1. Go to [console.akash.network](https://console.akash.network)
-2. Connect your wallet with at least 5 AKT
-3. Create a new deployment
-4. Upload your `deploy.yaml`
-5. Set your `VITE_AKASHML_API_KEY` environment variable
-6. Select a provider and deploy
-
 ---
 
-## Running Locally
+## The Complete Flow
 
-```bash
-# Terminal 1: Start the API server
-bun run api-server.ts
+1. **User uploads PDF** → pdf.js extracts text in browser
+2. **Text sent to AkashML** → AI extracts structured profile (name, headline, skills)
+3. **Profile sent to AkashML** → AI generates personalized roast
+4. **Roast displayed** → User can share on Twitter or copy to clipboard
 
-# Terminal 2: Start the frontend
-bun run dev
 ```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+PDF Upload → pdf.js → AkashML (extract) → AkashML (roast) → Display
+```
 
 ---
 
 ## Conclusion
 
-You've built a complete AI-powered application that:
+You've learned how to:
 
-1. **Parses PDFs** using pdf-parse
-2. **Extracts structured data** using AkashML's DeepSeek-V3
-3. **Generates creative content** with high-temperature prompts
-4. **Deploys to decentralized cloud** on Akash Network
+1. **Integrate AkashML** with the OpenAI-compatible API
+2. **Use AI for data extraction** with low temperature for accuracy
+3. **Generate creative content** with high temperature and constrained prompts
+4. **Parse PDFs client-side** with pdf.js
+5. **Deploy to Akash Network** with Build & Deploy
 
 ### Key Takeaways
 
-- **Use low temperature (0.1)** for data extraction tasks
-- **Use high temperature (0.9)** for creative generation
-- **AI beats regex** for extracting data from unstructured text
-- **Akash Network** provides cost-effective, decentralized hosting
+| Task | Temperature | Why |
+|------|-------------|-----|
+| Data extraction | 0.1 | Consistent, accurate JSON output |
+| Creative generation | 0.8 | Varied, entertaining results |
+
+- **AI beats regex** for unstructured data extraction
+- **Client-side architecture** simplifies deployment
+- **Specific prompts** with numbered rules and explicit constraints work better than vague instructions
 
 ### Resources
 
 - [AkashML](https://akashml.com) - Get your API key
 - [Akash Console](https://console.akash.network) - Deploy your apps
-- [Akash Network](https://akash.network) - Learn more about decentralized cloud
 - [Source Code](https://github.com/baktun14/linkedin-roast) - Full project repository
 
 ---
