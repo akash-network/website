@@ -3,6 +3,8 @@ export const hiddenPaths = [
   "/pricing/gpus",
   "/akash-accelerate-2024",
   "/gpus-on-demand",
+  "/case-studies/",
+  "/blog/",
 ];
 
 export const shouldHideCta = (pathname: string) => {

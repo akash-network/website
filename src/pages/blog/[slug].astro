@@ -284,30 +284,6 @@ const { Content } = await post.render();
       </div>
     </div>
 
-    <!-- Related Articles Section -->
-    <div class="mb-10 mt-10 space-y-10 md:mb-0 md:hidden">
-      <div>
-        <p class="text-xs font-bold text-foreground">Related Articles</p>
-        <div class="mt-3 flex flex-col space-y-2">
-          {
-            relatedArticles
-              .sort(() => Math.random() - 0.5)
-              .slice(0, 4)
-              .map((post: BlogPost) => {
-                return (
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="line-clamp-2 cursor-pointer  text-xs text-darkText hover:text-primary hover:no-underline"
-                  >
-                    {post.data.title}
-                  </a>
-                );
-              })
-          }
-        </div>
-      </div>
-    </div>
-
     <!-- Console Banner Mobile -->
     <div class="mb-10 mt-10 md:hidden">
       <ConsoleBanner />

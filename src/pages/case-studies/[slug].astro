@@ -8,7 +8,6 @@ import BlogLayout from "@/layouts/blog-layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import { Image } from "astro:assets";
 import { getCollection, type CollectionEntry } from "astro:content";
-import clsx from "clsx";
 import { Facebook, Linkedin } from "lucide-react";
 
 type BlogPost = CollectionEntry<"Blog">;
@@ -230,77 +229,9 @@ const { Content } = await post.render();
       </div>
     </div>
 
-    <!-- Other Case Studies Section -->
-    <div class="mb-10 mt-10 space-y-10 md:mb-0 md:hidden">
-      <div>
-        <p class="text-xs font-bold text-foreground">Other Case Studies</p>
-        <div class="mt-3 flex flex-col space-y-2">
-          {
-            otherCaseStudies.slice(0, 4).map((caseStudy: BlogPost) => {
-              return (
-                <a
-                  href={`/case-studies/${caseStudy.slug}`}
-                  class="line-clamp-2 cursor-pointer  text-xs text-darkText hover:text-primary hover:no-underline"
-                >
-                  {caseStudy.data.title}
-                </a>
-              );
-            })
-          }
-        </div>
-      </div>
-    </div>
-
     <!-- Console Banner Mobile -->
     <div class="mb-10 mt-10 md:hidden">
       <ConsoleBanner />
-    </div>
-
-    <!-- Mobile CTA Banner for Deploy on Console (after Other Case Studies) -->
-    <div class="mb-10 mt-10 md:hidden">
-      <section
-        class={clsx(
-          "flex flex-col items-center justify-around",
-          "bg-white dark:bg-background2",
-          "border-y",
-          "px-[30px] py-[80px] lg:py-[160px]",
-          "text-center"
-        )}
-      >
-        <h2
-          class={clsx(
-            "max-w-[1000px] font-instrument text-foreground",
-            "text-3xl md:text-5xl xl:text-6xl 2xl:text-[80px]",
-            "md:leading-snug"
-          )}
-        >
-          Experience the Supercloud.
-        </h2>
-
-        <div class="mt-6 md:mt-10">
-          <div class="hidden md:block">
-            <ButtonLink
-              link="https://console.akash.network/"
-              size="xl"
-              className="bg-primary text-white hover:bg-darkGray"
-              id="console-case-study"
-            >
-              Console Login
-            </ButtonLink>
-          </div>
-
-          <div class="block md:hidden">
-            <ButtonLink
-              link="https://console.akash.network/"
-              size="md"
-              className="bg-primary text-white hover:bg-darkGray"
-              id="console-case-study-mobile"
-            >
-              Console Login
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
     </div>
 
     <div class="hidden items-center justify-between py-10 md:flex">
