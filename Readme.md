@@ -11,7 +11,6 @@
   - [How to write a blog](#how-to-write-a-blog)
   - [Community](#community)
     - [How to add to the Events](#how-to-add-to-the-events)
-    - [How to contribute to the Akash Edu](#how-to-contribute-to-the-akash-edu)
     - [How to contribute to the Community Contributions](#how-to-contribute-to-the-community-contributions)
   - [Ecosystem](#ecosystem)
     - [How to contribute a project to the Ecosystem](#how-to-contribute-a-project-to-the-ecosystem)
@@ -179,31 +178,6 @@ description: ​TOKEN2049 brings together the global Web3 industry, uniting entr
 5. Add the banner image to the same folder as the markdown file. For example, `src/content/Community_Akash_Events_Page/ai-world-congress/project-banner.png`
 
 6. Commit and push the changes to the repository. The event will be published automatically.
-
-### How to contribute to the [Akash Edu](https://akash.network/community/community-akash-edu/)
-
-1. Create a new folder under `src/content/Community_Akash_Edu_Page/` with the name of the contribution. . For example, `src/content/Community_Akash_Edu_Page/console-101/`
-
-2. Create a new file called `index.md` under the new folder. For example, `src/content/Community_Akash_Edu_Page/console-101/index.md`
-
-3. Copy the following template into the new file and fill in the details.
-
-```md
----
-title: Akash EDU - Console 101 # <--- This is the title of the contribution
-image: "./project-banner.png" # <--- This is the banner image of the contribution
-pubDate: "2020-01-19" # <--- This is the date of the contribution in the format of "YYYY-MM-DD"
-tags: # <--- This is the tags of the contribution
-  - Upcoming
-description: In this course, you will learn how to deploy your project onto the Akash Network using Console — a simple, point and click deployment tool.
-link: "https://akash-edu.ctlabs.in/" # <--- This is the link of the contribution
----
-```
-
-4. Add the banner image to the same folder as the markdown file. For example, `src/content/Community_Akash_Edu_Page/console-101/project-banner.png`
-
-5. Commit and push the changes to the repository. The event will be published automatically.
-<!-- add Community Contributions Card -->
 
 ### How to contribute to the [Community Contributions](https://akash.network/community/community-contributions/)
 

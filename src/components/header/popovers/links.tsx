@@ -87,27 +87,6 @@ export const communityItems: NavItem[] = [
     link: "/community/akash-validators/",
   },
   {
-    customIcon: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M22 10V16M22 10L12 5L2 10L12 15L22 10ZM6 12V17C9 20 15 20 18 17V12"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    title: "Akash EDU",
-    link: "/community/akash-edu/",
-  },
-  {
     icon: Backpack,
     title: "Student Ambassadors",
     link: "/community/student-ambassadors/",
