@@ -38,4 +38,7 @@ export const redirects = {
   "/akash-accelerate-2025": "/akash-accelerate-2025-livestream/",
   "/development/current-groups/": "/development/community-groups/",
   "/development/product-strategy/": "/",
+  "/blog/case-studies/":"/case-studies/",
+  "/blog/case-studies/1":"/case-studies/",
+  "/blog/case-studies/2":"/case-studies/",
 };
