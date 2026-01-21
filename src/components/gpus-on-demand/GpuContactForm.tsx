@@ -17,7 +17,6 @@ declare global {
 }
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -34,79 +33,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { CheckCircle2, ExternalLink, X } from "lucide-react";
 
-const formSchema = z
-  .object({
-    firstname: z.string().min(1, "First name is required*"),
-    lastname: z.string().min(1, "Last name is required*"),
-    phone: z.string().optional(),
-    email: z
-      .string()
-      .email("Invalid business email")
-      .min(1, "Business email is required*"),
-    company: z.string().min(1, "Company name is required*"),
-    website: z.string().optional(),
-    project_details: z
-      .string()
-      .min(10, "Please provide at least 10 characters about your project"),
-    lead_type: z.string().min(1, "Please select an option"),
-    current_amount_spent_on_computer: z.string().optional().nullable(),
-    provider_gpu_type: z.array(z.string()).optional().nullable(),
-    gpu_quantity_available: z.string().optional().nullable(),
-    support_request_info: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      // If user wants to provide GPUs, provider_gpu_type is required
-      if (data.lead_type === "Provide GPUs") {
-        return data.provider_gpu_type && data.provider_gpu_type.length > 0;
-      }
-      return true;
-    },
-    {
-      message: "Please select at least one GPU type",
-      path: ["provider_gpu_type"],
-    },
-  )
-  .refine(
-    (data) => {
-      // If user wants to provide GPUs, gpu_quantity_available is required
-      if (data.lead_type === "Provide GPUs") {
-        return (
-          data.gpu_quantity_available &&
-          data.gpu_quantity_available.trim() !== ""
-        );
-      }
-      return true;
-    },
-    {
-      message: "Please select GPU quantity",
-      path: ["gpu_quantity_available"],
-    },
-  )
-  .refine(
-    (data) => {
-      // If user wants technical support, support_request_info is required
-      if (data.lead_type === "Get technical support") {
-        return (
-          data.support_request_info && data.support_request_info.trim() !== ""
-        );
-      }
-      return true;
-    },
-    {
-      message: "Please describe your support request",
-      path: ["support_request_info"],
-    },
-  );
+const formSchema = z.object({
+  firstname: z.string().min(1, "First name is required*"),
+  lastname: z.string().min(1, "Last name is required*"),
+  phone: z.string().optional(),
+  email: z
+    .string()
+    .email("Invalid business email")
+    .min(1, "Business email is required*"),
+  company: z.string().min(1, "Company name is required*"),
+  website: z.string().optional(),
+  project_details: z
+    .string()
+    .min(10, "Please provide at least 10 characters about your project"),
+  lead_type: z.string().optional(),
+});
 
 interface ApiError {
   message: string;
@@ -125,8 +68,6 @@ export function GpuContactForm() {
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [redirectUri, setRedirectUri] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [showMeetingSuccess, setShowMeetingSuccess] = useState(false);
   const [showMeetingDialog, setShowMeetingDialog] = useState(false);
   const [showEmbeddedMeeting, setShowEmbeddedMeeting] = useState(false);
   const [apiErrors, setApiErrors] = useState<ApiError[]>([]);
@@ -142,15 +83,9 @@ export function GpuContactForm() {
       company: "",
       website: "",
       project_details: "",
-      lead_type: "",
-      current_amount_spent_on_computer: null,
-      provider_gpu_type: [],
-      gpu_quantity_available: null,
-      support_request_info: "",
+      lead_type: "Rent GPUs",
     },
   });
-
-  const watchedUseCases = form.watch("lead_type");
 
   const trackEvent = (eventName: string, params?: Record<string, any>) => {
     if (typeof window !== "undefined" && window.gtag) {
@@ -263,33 +198,25 @@ export function GpuContactForm() {
           { name: "lastname", value: values.lastname },
           { name: "email", value: values.email },
           { name: "company", value: values.company },
-          { name: "website", value: values.website },
+          { name: "website", value: values.website || "" },
           { name: "project_details", value: values.project_details },
           {
             name: "lead_type",
-            value: values.lead_type,
+            value: values.lead_type || "Rent GPUs",
           },
           {
             name: "current_amount_spent_on_computer",
-            value: values.current_amount_spent_on_computer || "null",
+            value: "null",
           },
           {
             name: "provider_gpu_type",
-            value:
-              Array.isArray(values.provider_gpu_type) &&
-              values.provider_gpu_type.length > 0
-                ? values.provider_gpu_type.join(", ")
-                : "null",
+            value: "null",
           },
           {
             name: "gpu_quantity_available",
-            value: values.gpu_quantity_available || "null",
+            value: "null",
           },
-          {
-            name: "support_request_info",
-            value: values.support_request_info,
-          },
-          { name: "phone", value: values.phone },
+          { name: "phone", value: values.phone || "" },
         ],
         context: buildHSContext(),
       };
@@ -372,48 +299,6 @@ export function GpuContactForm() {
     }
   }
 
-  const handleNextStep = () => {
-    const currentValues = form.getValues();
-
-    setApiErrors([]);
-    setGeneralError("");
-
-    const requiredFields = ["lead_type"];
-    if (currentValues.lead_type === "Rent GPUs") {
-      requiredFields.push(
-        "firstname",
-        "lastname",
-        "email",
-        "company",
-        "current_amount_spent_on_computer",
-      );
-    } else {
-      requiredFields.push("firstname", "lastname", "email", "company");
-    }
-
-    const hasErrors = requiredFields.some((field) => {
-      const value = currentValues[field as keyof typeof currentValues];
-      return !value || value === "";
-    });
-
-    if (!hasErrors) {
-      trackEvent("form_step_completed", {
-        event_category: "GPU Contact Form",
-        event_label: "Step 1 Completed",
-        step: 1,
-        lead_type: currentValues.lead_type,
-      });
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-      setCurrentStep(2);
-    } else {
-      form.trigger(requiredFields as any);
-    }
-  };
-
   return (
     <>
       {showEmbeddedMeeting ? (
@@ -461,7 +346,7 @@ export function GpuContactForm() {
         </div>
       ) : (
         <div className=" flex w-full flex-col gap-8 rounded-lg border p-6 md:p-14">
-          <h2 className="text-2xl font-medium">Tell Us What You Need</h2>
+          <h2 className="text-2xl font-medium">Get Your Custom Quote</h2>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
@@ -492,458 +377,146 @@ export function GpuContactForm() {
                 </div>
               )}
 
-              {currentStep === 1 && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="lead_type"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          What would you like to do on Akash?
-                          <span className="text-red-500">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <div className="flex flex-col gap-3">
-                            {[
-                              "Rent GPUs",
-                              "Provide GPUs",
-                              "Get technical support",
-                              "Other",
-                            ].map((option) => (
-                              <label
-                                key={option}
-                                className="group relative flex cursor-pointer items-center gap-3 rounded-lg border bg-background p-4 transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:shadow-sm"
-                              >
-                                <div className="relative hidden h-5 w-5 items-center justify-center">
-                                  <input
-                                    type="radio"
-                                    name="lead_type"
-                                    value={option}
-                                    checked={field.value === option}
-                                    onChange={(e) => {
-                                      if (e.target.checked) {
-                                        field.onChange(option);
-
-                                        trackEvent("form_started", {
-                                          event_category: "GPU Contact Form",
-                                          event_label: "Lead Type Selected",
-                                          lead_type: option,
-                                        });
-
-                                        setTimeout(() => {
-                                          window.scrollTo({
-                                            top:
-                                              (document.getElementById("step-1")
-                                                ?.offsetTop ?? 0) - 95,
-                                            behavior: "smooth",
-                                          });
-                                        }, 100);
-                                      }
-                                    }}
-                                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-300 transition-all duration-200 checked:border-primary hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                                  />
-                                  <div className="pointer-events-none absolute h-2 w-2 rounded-full bg-white opacity-0 transition-opacity duration-200 peer-checked:opacity-100" />
-                                </div>
-                                <span className="text-sm font-medium transition-colors duration-200 group-hover:text-primary">
-                                  {option}
-                                </span>
-                                {field.value === option && (
-                                  <div className="ml-auto">
-                                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                                  </div>
-                                )}
-                              </label>
-                            ))}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {watchedUseCases && (
-                    <>
-                      <div
-                        className="grid  grid-cols-1 gap-4 md:grid-cols-2"
-                        id="step-1"
-                      >
-                        <FormField
-                          control={form.control}
-                          name="firstname"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>
-                                First Name
-                                <span className="text-red-500">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <Input placeholder="John" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="lastname"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>
-                                Last Name{" "}
-                                <span className="text-red-500">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <Input placeholder="Doe" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Email <span className="text-red-500">*</span>
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="business@example.com"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="company"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Company / Project Name{" "}
-                              <span className="text-red-500">*</span>
-                            </FormLabel>
-                            <FormControl>
-                              <Input placeholder="Acme Inc." {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      {watchedUseCases === "Rent GPUs" && (
-                        <FormField
-                          control={form.control}
-                          name="current_amount_spent_on_computer"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>
-                                How much are you currently spending on compute?
-                                <span className="text-red-500">*</span>
-                              </FormLabel>
-                              <Select
-                                onValueChange={field.onChange}
-                                value={field.value || ""}
-                              >
-                                <FormControl>
-                                  <SelectTrigger className="cursor-pointer transition-colors duration-200 hover:text-primary">
-                                    <SelectValue placeholder="Select your current spending" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem
-                                    value="<$1000/mo"
-                                    className="hover:text-primary"
-                                  >
-                                    &lt;$1000/mo
-                                  </SelectItem>
-                                  <SelectItem
-                                    value="$1,000-$5,000"
-                                    className="hover:text-primary"
-                                  >
-                                    $1,000-$5,000
-                                  </SelectItem>
-                                  <SelectItem
-                                    value="$5,000-$25,000"
-                                    className="hover:text-primary"
-                                  >
-                                    $5,000-$25,000
-                                  </SelectItem>
-                                  <SelectItem
-                                    value="$25,000+"
-                                    className="hover:text-primary"
-                                  >
-                                    $25,000+
-                                  </SelectItem>
-                                  <SelectItem
-                                    value="No Spend Currently"
-                                    className="hover:text-primary"
-                                  >
-                                    No Spend Currently
-                                  </SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      )}
-
-                      <Button
-                        type="button"
-                        onClick={handleNextStep}
-                        className="!mt-8 h-auto w-auto rounded-md px-6 py-3"
-                      >
-                        Next
-                      </Button>
-                    </>
+              <div
+                className="grid  grid-cols-1 gap-4 md:grid-cols-2"
+                id="step-1"
+              >
+                <FormField
+                  control={form.control}
+                  name="firstname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        First Name
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="John" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                </>
-              )}
-
-              {currentStep === 2 && (
-                <>
-                  <div className="mb-6">
-                    <h3 className="mb-2 text-lg font-semibold">
-                      Share any additional details about your project
-                    </h3>
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="website"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Website URL</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="project_details"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Project Details{" "}
-                          <span className="text-red-500">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <textarea
-                            placeholder="Tell us about your project (minimum 10 characters)"
-                            rows={4}
-                            className="w-full rounded border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {watchedUseCases === "Provide GPUs" && (
-                    <>
-                      <FormField
-                        control={form.control}
-                        name="provider_gpu_type"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              What type of GPUs do you want to provide?
-                              <span className="text-red-500">*</span>
-                            </FormLabel>
-                            <FormControl>
-                              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                                {[
-                                  "H200",
-                                  "H100",
-                                  "A100",
-                                  "RTX4090",
-                                  "A6000",
-                                  "Other",
-                                ].map((gpuType) => (
-                                  <div
-                                    key={gpuType}
-                                    className="flex items-center space-x-3"
-                                  >
-                                    <Checkbox
-                                      checked={
-                                        field.value?.includes(gpuType) || false
-                                      }
-                                      onCheckedChange={(checked) => {
-                                        const currentValues = field.value || [];
-                                        if (checked) {
-                                          field.onChange([
-                                            ...currentValues,
-                                            gpuType,
-                                          ]);
-                                        } else {
-                                          field.onChange(
-                                            currentValues.filter(
-                                              (value) => value !== gpuType,
-                                            ),
-                                          );
-                                        }
-                                      }}
-                                      id={`gpu-${gpuType}`}
-                                    />
-                                    <label
-                                      htmlFor={`gpu-${gpuType}`}
-                                      className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                      {gpuType}
-                                    </label>
-                                  </div>
-                                ))}
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="gpu_quantity_available"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              How many total GPUs do you want to provide?
-                              <span className="text-red-500">*</span>
-                            </FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value || ""}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="cursor-pointer transition-colors duration-200 hover:text-primary">
-                                  <SelectValue placeholder="Select quantity" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem
-                                  value="1"
-                                  className="hover:text-primary"
-                                >
-                                  1
-                                </SelectItem>
-                                <SelectItem
-                                  value="2-5"
-                                  className="hover:text-primary"
-                                >
-                                  2-5
-                                </SelectItem>
-                                <SelectItem
-                                  value="5-10"
-                                  className="hover:text-primary"
-                                >
-                                  5-10
-                                </SelectItem>
-                                <SelectItem
-                                  value="10+"
-                                  className="hover:text-primary"
-                                >
-                                  10+
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </>
+                />
+                <FormField
+                  control={form.control}
+                  name="lastname"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Last Name <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )}
+                />
+              </div>
 
-                  {watchedUseCases === "Get technical support" && (
-                    <FormField
-                      control={form.control}
-                      name="support_request_info"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Support Request Info
-                            <span className="text-red-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <textarea
-                              placeholder="Describe your support request"
-                              rows={3}
-                              className="w-full rounded border bg-background2 px-3 py-2 text-sm focus:outline-none"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Email <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="business@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col items-start">
-                        <FormLabel>Phone Number</FormLabel>
-                        <FormControl className="w-full">
-                          <PhoneInput placeholder="+1" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              <FormField
+                control={form.control}
+                name="company"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Company / Project Name{" "}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Acme Inc." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                  <p className="!mt-8 text-xs text-para md:text-sm">
-                    By clicking submit below, you consent to allow Akash Network
-                    to store and process the personal information submitted
-                    above to provide you the content requested. Please review
-                    our{" "}
-                    <a
-                      target="_blank"
-                      href="/privacy"
-                      className="text-primary underline"
-                    >
-                      privacy policy
-                    </a>{" "}
-                    for more information.
-                  </p>
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                  <div className="flex gap-4">
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        trackEvent("form_step_back", {
-                          event_category: "GPU Contact Form",
-                          event_label: "Back to Step 1",
-                          from_step: 2,
-                          lead_type: form.getValues().lead_type,
-                        });
-                        setCurrentStep(1);
-                      }}
-                      variant="outline"
-                      className="!mt-8 h-auto w-auto rounded-md px-6 py-3"
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="!mt-8 h-auto w-auto rounded-md px-6 py-3"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Sending..." : "Submit"}
-                    </Button>
-                  </div>
-                </>
-              )}
+              <FormField
+                control={form.control}
+                name="project_details"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Project Details <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <textarea
+                        placeholder="Tell us about your project (minimum 10 characters)"
+                        rows={4}
+                        className="w-full rounded border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col items-start">
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl className="w-full">
+                      <PhoneInput placeholder="+1" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <p className="!mt-8 text-xs text-para md:text-sm">
+                By clicking submit below, you consent to allow Akash Network to
+                store and process the personal information submitted above to
+                provide you the content requested. Please review our{" "}
+                <a
+                  target="_blank"
+                  href="/privacy"
+                  className="text-primary underline"
+                >
+                  privacy policy
+                </a>{" "}
+                for more information.
+              </p>
+
+              <Button
+                type="submit"
+                className="!mt-8 h-auto w-auto rounded-md px-6 py-3"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Sending..." : "Submit"}
+              </Button>
             </form>
           </Form>
         </div>
@@ -953,9 +526,6 @@ export function GpuContactForm() {
         open={showSuccessDialog}
         onOpenChange={(open) => {
           setShowSuccessDialog(open);
-          if (!open) {
-            setCurrentStep(1);
-          }
         }}
       >
         <DialogContent
@@ -965,7 +535,6 @@ export function GpuContactForm() {
           <button
             onClick={() => {
               setShowSuccessDialog(false);
-              setCurrentStep(1);
             }}
             className="absolute right-2 top-2 rounded-full border  p-2  backdrop-blur-sm hover:bg-gray-50 dark:bg-background2 hover:dark:bg-background2/50"
           >
@@ -1015,7 +584,6 @@ export function GpuContactForm() {
                           window.open(redirectUri!, "_blank");
                           setShowSuccessDialog(false);
                           setRedirectUri(null);
-                          setCurrentStep(1);
                         }}
                       >
                         <span className="flex items-center justify-center gap-2">
@@ -1036,9 +604,6 @@ export function GpuContactForm() {
         open={showMeetingDialog}
         onOpenChange={(open) => {
           setShowMeetingDialog(open);
-          if (!open) {
-            setCurrentStep(1);
-          }
         }}
       >
         <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto border-none p-0">

@@ -44,7 +44,7 @@ const navigation = [
   { name: "Community", subCategories: communityItems },
   { name: "Blog", href: "/blog" },
   { name: "Docs", href: "/docs" },
-  { name: "Pricing & Earnings", href: "/pricing/gpus" },
+  { name: "Pricing", href: "/pricing/gpus" },
 ];
 
 export default function HamburgerMenu({
