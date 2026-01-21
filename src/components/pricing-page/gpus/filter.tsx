@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/select";
 import { Check, X } from "lucide-react";
 import React from "react";
+import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import { modifyModel, type Gpus } from "./gpu-table";
 import { onTop } from "./sort";
 
@@ -97,6 +98,42 @@ export default function Filter({
     ]);
   }, [res]);
 
+  // Priority models after B300/B200 (imported from gpu-priority.ts)
+  const priorityModels = GPU_PRIORITY_MODELS;
+
+  // Helper to sort models with priority (H200, H100, A100 at top, rest by availability)
+  const sortWithPriority = (models: Gpus["models"]) => {
+    const priorityGpus: Gpus["models"] = [];
+    const otherGpus: Gpus["models"] = [];
+
+    models.forEach((model) => {
+      const modelLower = model?.model?.toLowerCase();
+      if (priorityModels.includes(modelLower)) {
+        priorityGpus.push(model);
+      } else {
+        otherGpus.push(model);
+      }
+    });
+
+    // Sort priority GPUs by their defined order, then by RAM (80Gi preferred for A100)
+    priorityGpus.sort((a, b) => {
+      const aIndex = priorityModels.indexOf(a?.model?.toLowerCase());
+      const bIndex = priorityModels.indexOf(b?.model?.toLowerCase());
+      if (aIndex !== bIndex) return aIndex - bIndex;
+      // For same model (like multiple A100 variants), prefer 80Gi RAM
+      if (a?.ram === "80Gi" && b?.ram !== "80Gi") return -1;
+      if (b?.ram === "80Gi" && a?.ram !== "80Gi") return 1;
+      return b?.availability?.available - a?.availability?.available;
+    });
+
+    // Sort other GPUs by availability
+    otherGpus.sort(
+      (a, b) => b?.availability?.available - a?.availability?.available,
+    );
+
+    return [...priorityGpus, ...otherGpus];
+  };
+
   React.useEffect(() => {
     if (
       filters.modal.length > 0 ||
@@ -115,32 +152,34 @@ export default function Filter({
         .sort(
           (a, b) => b?.availability?.available - a?.availability?.available,
         );
-      // Keep B200 and B300 at the top
-      const b200Models = (filtered || []).filter(
-        (model) => model?.model?.toLowerCase() === "b200",
-      );
+      // Keep B300 and B200 at the top
       const b300Models = (filtered || []).filter(
         (model) => model?.model?.toLowerCase() === "b300",
+      );
+      const b200Models = (filtered || []).filter(
+        (model) => model?.model?.toLowerCase() === "b200",
       );
       const otherModels = (filtered || []).filter((model) => {
         const modelLower = model?.model?.toLowerCase();
         return modelLower !== "b200" && modelLower !== "b300";
       });
-      setFilteredData([...b200Models, ...b300Models, ...otherModels]);
+      // Apply priority sorting to other models (H200, H100, A100 at top)
+      setFilteredData([...b300Models, ...b200Models, ...sortWithPriority(otherModels)]);
     } else {
-      // Keep B200 and B300 at the top even when no filters
+      // Keep B300 and B200 at the top even when no filters
       const allModels = res?.models || [];
-      const b200Models = allModels.filter(
-        (model) => model?.model?.toLowerCase() === "b200",
-      );
       const b300Models = allModels.filter(
         (model) => model?.model?.toLowerCase() === "b300",
+      );
+      const b200Models = allModels.filter(
+        (model) => model?.model?.toLowerCase() === "b200",
       );
       const otherModels = allModels.filter((model) => {
         const modelLower = model?.model?.toLowerCase();
         return modelLower !== "b200" && modelLower !== "b300";
       });
-      setFilteredData([...b200Models, ...b300Models, ...otherModels]);
+      // Apply priority sorting to other models (H200, H100, A100 at top)
+      setFilteredData([...b300Models, ...b200Models, ...sortWithPriority(otherModels)]);
     }
   }, [filters, res]);
 

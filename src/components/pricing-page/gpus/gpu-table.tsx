@@ -12,6 +12,7 @@ import React from "react";
 import DesktopTableGpu from "./desktop-table-gpu";
 import { DUMMY_GPU_DATA } from "./dummy-gpu-data";
 import Filter, { defaultFilters, type Filters } from "./filter";
+import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import GpuTableRow from "./gpu-table-row";
 import GpuTableRowSkeleton from "./gpu-table-row-skeleton";
 export interface Gpus {
@@ -128,7 +129,7 @@ const formatText = (model: string) => {
 };
 export const modifyModel = (model: string) => {
   if (model === "rtxa6000") return "A6000";
-  if (model === "pro6000we") return "RTX PRO 6000";
+  if (model === "pro6000se") return "Pro 6000 SE";
   return formatText(model);
 };
 
@@ -181,26 +182,53 @@ export const Tables = ({
   const [filteredData, setFilteredData] = React.useState<Gpus["models"]>([]);
   const [filters, setFilters] = React.useState<Filters>(defaultFilters);
 
-  // Wrapper to always keep B200 and B300 at top
+  // Priority models after B300/B200 (imported from gpu-priority.ts)
+  const priorityModels = GPU_PRIORITY_MODELS;
+
+  // Wrapper to always keep B300, B200 at top, then H200, H100, A100
   const setFilteredDataWithB200First = React.useCallback(
     (newData: Gpus["models"] | ((prev: Gpus["models"]) => Gpus["models"])) => {
       setFilteredData((prev) => {
         const dataToProcess =
           typeof newData === "function" ? newData(prev) : newData;
-        const b200Models = dataToProcess.filter(
-          (model) => model?.model?.toLowerCase() === "b200",
-        );
         const b300Models = dataToProcess.filter(
           (model) => model?.model?.toLowerCase() === "b300",
         );
+        const b200Models = dataToProcess.filter(
+          (model) => model?.model?.toLowerCase() === "b200",
+        );
+        const priorityGpus = dataToProcess.filter((model) => {
+          const modelLower = model?.model?.toLowerCase();
+          return (
+            priorityModels.includes(modelLower) &&
+            modelLower !== "b200" &&
+            modelLower !== "b300"
+          );
+        });
         const otherModels = dataToProcess.filter((model) => {
           const modelLower = model?.model?.toLowerCase();
-          return modelLower !== "b200" && modelLower !== "b300";
+          return (
+            modelLower !== "b200" &&
+            modelLower !== "b300" &&
+            !priorityModels.includes(modelLower)
+          );
         });
-        return [...b200Models, ...b300Models, ...otherModels];
+
+        // Sort priority GPUs by their defined order
+        priorityGpus.sort((a, b) => {
+          const aIndex = priorityModels.indexOf(a?.model?.toLowerCase());
+          const bIndex = priorityModels.indexOf(b?.model?.toLowerCase());
+          if (aIndex !== bIndex) return aIndex - bIndex;
+          // For same model, prefer 80Gi RAM
+          if (a?.ram === "80Gi" && b?.ram !== "80Gi") return -1;
+          if (b?.ram === "80Gi" && a?.ram !== "80Gi") return 1;
+          return 0;
+        });
+
+        return [...b300Models, ...b200Models, ...priorityGpus, ...otherModels];
       });
     },
-    [],
+    [priorityModels],
   );
   const totalGpus =
     filteredData?.length > 0
@@ -221,20 +249,45 @@ export const Tables = ({
   const normalizedData = React.useMemo(() => {
     const normalized =
       filteredData?.map((model) => normalizeGpuModel(model)) ?? [];
-    // Hardcode B200 and B300 at the top - separate from others
-    const b200Models = normalized.filter(
-      (model) => model?.model?.toLowerCase() === "b200",
-    );
+    // Hardcode B300 and B200 at the top - separate from others
     const b300Models = normalized.filter(
       (model) => model?.model?.toLowerCase() === "b300",
     );
+    const b200Models = normalized.filter(
+      (model) => model?.model?.toLowerCase() === "b200",
+    );
+    // Priority GPUs: H200, H100, A100
+    const priorityGpus = normalized.filter((model) => {
+      const modelLower = model?.model?.toLowerCase();
+      return (
+        priorityModels.includes(modelLower) &&
+        modelLower !== "b200" &&
+        modelLower !== "b300"
+      );
+    });
     const otherModels = normalized.filter((model) => {
       const modelLower = model?.model?.toLowerCase();
-      return modelLower !== "b200" && modelLower !== "b300";
+      return (
+        modelLower !== "b200" &&
+        modelLower !== "b300" &&
+        !priorityModels.includes(modelLower)
+      );
     });
-    // Always return B200 first, then B300, then others
-    return [...b200Models, ...b300Models, ...otherModels];
-  }, [filteredData]);
+
+    // Sort priority GPUs by their defined order
+    priorityGpus.sort((a, b) => {
+      const aIndex = priorityModels.indexOf(a?.model?.toLowerCase());
+      const bIndex = priorityModels.indexOf(b?.model?.toLowerCase());
+      if (aIndex !== bIndex) return aIndex - bIndex;
+      // For same model, prefer 80Gi RAM
+      if (a?.ram === "80Gi" && b?.ram !== "80Gi") return -1;
+      if (b?.ram === "80Gi" && a?.ram !== "80Gi") return 1;
+      return 0;
+    });
+
+    // Always return B300 first, then B200, then priority GPUs, then others
+    return [...b300Models, ...b200Models, ...priorityGpus, ...otherModels];
+  }, [filteredData, priorityModels]);
 
   const HeaderSection = () => (
     <div className="flex flex-col gap-2 xl:gap-[18px]">
@@ -251,7 +304,7 @@ export const Tables = ({
   const CtaSection = ({ className }: { className?: string }) => (
     <div className={clsx("flex flex-col gap-4 xl:gap-5", className)}>
       <h2 className="text-lg font-semibold leading-snug text-foreground xl:leading-[28px]">
-        Looking for NVIDIA B200s, Bulk Orders, or Custom Configurations?
+        Looking for Bulk Orders, or Custom Configurations?
       </h2>
       <TryAkashForm
         type="customButton"
@@ -338,19 +391,6 @@ export const Tables = ({
           <>
 
             <GpuTableRow
-              model="B200"
-              ram="180GB"
-              interface="HBM3e"
-              minPrice={5}
-              maxPrice={5}
-              avgPrice={5}
-              providerCount={1}
-              isB200={true}
-              id="b200-(gpu-rent)-mobile"
-              href="/gpus-on-demand"
-            />
-
-            <GpuTableRow
               model="B300"
               ram="180GB"
               interface="HBM3e"
@@ -360,6 +400,19 @@ export const Tables = ({
               providerCount={1}
               isB200={true}
               id="b300-(gpu-rent)-mobile"
+              href="/gpus-on-demand"
+            />
+
+            <GpuTableRow
+              model="B200"
+              ram="180GB"
+              interface="HBM3e"
+              minPrice={5}
+              maxPrice={5}
+              avgPrice={5}
+              providerCount={1}
+              isB200={true}
+              id="b200-(gpu-rent)-mobile"
               href="/gpus-on-demand"
             />
 

@@ -3,18 +3,17 @@ import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { clsx as classNames } from "clsx";
 import { Fragment, useEffect, useState } from "react";
 import type { Filters } from "./filter";
+import {
+  GPU_MODEL_PRIORITIES,
+  GPU_PRIORITY_MODELS,
+  type ModelPriority,
+} from "./gpu-priority";
 import type { Gpus } from "./gpu-table";
 const publishingOptions = [
   { title: "Availability" },
   { title: "Lowest Price" },
   { title: "Highest Price" },
 ];
-
-type ModelPriority = {
-  model: string;
-  ramPreference?: string[];
-  interfacePreference?: string[];
-};
 
 export const onTop = (res?: Gpus): Gpus["models"] => {
   try {
@@ -56,19 +55,7 @@ export const onTop = (res?: Gpus): Gpus["models"] => {
       },
     );
 
-    const modelPriorities: ModelPriority[] = [
-      {
-        model: "h200",
-      },
-      {
-        model: "h100",
-      },
-      {
-        model: "a100",
-        ramPreference: ["80Gi"],
-        interfacePreference: ["SXM4"],
-      },
-    ];
+    const modelPriorities = GPU_MODEL_PRIORITIES;
 
     const getPriorityScore = (
       gpu: Gpus["models"][0],
@@ -169,37 +156,64 @@ export default function Sort({
   const [selected, setSelected] = useState(publishingOptions[0]);
 
   useEffect(() => {
+    // Priority models after B300/B200 (imported from gpu-priority.ts)
+    const priorityModels = GPU_PRIORITY_MODELS;
+
     const sortData = (sortType: string) => {
-      // Helper function to keep B200 and B300 at top
-      const keepB200AtTop = (sorted: Gpus["models"]) => {
-        const b200Models = sorted.filter(
-          (model) => model?.model?.toLowerCase() === "b200",
-        );
+      // Helper function to keep B300, B200 at top, then H200, H100, A100
+      const keepPriorityAtTop = (sorted: Gpus["models"]) => {
         const b300Models = sorted.filter(
           (model) => model?.model?.toLowerCase() === "b300",
         );
+        const b200Models = sorted.filter(
+          (model) => model?.model?.toLowerCase() === "b200",
+        );
+        const priorityGpus = sorted.filter((model) => {
+          const modelLower = model?.model?.toLowerCase();
+          return (
+            priorityModels.includes(modelLower) &&
+            modelLower !== "b200" &&
+            modelLower !== "b300"
+          );
+        });
         const otherModels = sorted.filter((model) => {
           const modelLower = model?.model?.toLowerCase();
-          return modelLower !== "b200" && modelLower !== "b300";
+          return (
+            modelLower !== "b200" &&
+            modelLower !== "b300" &&
+            !priorityModels.includes(modelLower)
+          );
         });
-        return [...b200Models, ...b300Models, ...otherModels];
+
+        // Sort priority GPUs by their defined order
+        priorityGpus.sort((a, b) => {
+          const aIndex = priorityModels.indexOf(a?.model?.toLowerCase());
+          const bIndex = priorityModels.indexOf(b?.model?.toLowerCase());
+          if (aIndex !== bIndex) return aIndex - bIndex;
+          // For same model, prefer 80Gi RAM
+          if (a?.ram === "80Gi" && b?.ram !== "80Gi") return -1;
+          if (b?.ram === "80Gi" && a?.ram !== "80Gi") return 1;
+          return 0;
+        });
+
+        return [...b300Models, ...b200Models, ...priorityGpus, ...otherModels];
       };
 
       switch (sortType) {
         case "Availability":
           filters.modal.length > 0 ||
-          filters.ram.length > 0 ||
-          filters.interface.length > 0
+            filters.ram.length > 0 ||
+            filters.interface.length > 0
             ? setFilteredData((prev) => {
-                const sorted = [...prev].sort(
-                  (a, b) => b.availability.available - a.availability.available,
-                );
-                return keepB200AtTop(sorted);
-              })
+              const sorted = [...prev].sort(
+                (a, b) => b.availability.available - a.availability.available,
+              );
+              return keepPriorityAtTop(sorted);
+            })
             : setFilteredData((prev) => {
-                const sorted = onTop(res);
-                return keepB200AtTop(sorted);
-              });
+              const sorted = onTop(res);
+              return keepPriorityAtTop(sorted);
+            });
           break;
         case "Lowest Price":
           setFilteredData((prev) => {
@@ -208,7 +222,7 @@ export default function Sort({
               const bMed = b.price ? b.price.med : 0;
               return aMed - bMed;
             });
-            return keepB200AtTop(sorted);
+            return keepPriorityAtTop(sorted);
           });
           break;
         case "Highest Price":
@@ -218,7 +232,7 @@ export default function Sort({
               const bMed = b.price ? b.price.med : 0;
               return bMed - aMed;
             });
-            return keepB200AtTop(sorted);
+            return keepPriorityAtTop(sorted);
           });
           break;
         default:
