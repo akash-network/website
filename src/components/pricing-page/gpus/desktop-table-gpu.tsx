@@ -31,18 +31,6 @@ const DesktopTableGpu = ({
         {!isLoading && (
           <>
             <GpuTableRow
-              model="B200"
-              ram="180GB"
-              interface="HBM3e"
-              minPrice={5}
-              maxPrice={5}
-              avgPrice={5}
-              providerCount={1}
-              isB200={true}
-              id="b200-(gpu-rent)"
-              href="/gpus-on-demand"
-            />
-            <GpuTableRow
               model="B300"
               ram="180GB"
               interface="HBM3e"
@@ -52,6 +40,18 @@ const DesktopTableGpu = ({
               providerCount={1}
               isB200={true}
               id="b300-(gpu-rent)"
+              href="/gpus-on-demand"
+            />
+            <GpuTableRow
+              model="B200"
+              ram="180GB"
+              interface="HBM3e"
+              minPrice={5}
+              maxPrice={5}
+              avgPrice={5}
+              providerCount={1}
+              isB200={true}
+              id="b200-(gpu-rent)"
               href="/gpus-on-demand"
             />
           </>
