@@ -191,8 +191,8 @@ export default function Filter({
             %
           </div>
         )}
-        <div className="flex  flex-col w-full ">
-          <div className=" flex flex-1 flex-wrap gap-2 md:gap-3">
+        <div className="flex  flex-col  w-full md:w-auto">
+          <div className=" flex flex-wrap gap-2 md:gap-3">
             {options?.map((item) => (
               <div key={item.name} className="">
                 <Select>
