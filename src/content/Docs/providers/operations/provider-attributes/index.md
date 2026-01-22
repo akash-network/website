@@ -335,10 +335,97 @@ Advertise support for advanced features.
 - **Values**: `beta1`, `beta2`, `beta3` (storage classes)
 - **Purpose**: Advertise available storage types
 
+
 ```yaml
 - key: feat-persistent-storage-type
   value: beta2
 ```
+
+### capabilities/storage/1/class
+
+- **Values**: `beta1`, `beta2`, `beta3` (your storage class name)
+- **Purpose**: Advertise the storage class name for persistent storage
+- **Required**: Yes (if you have persistent storage)
+
+```yaml
+- key: capabilities/storage/1/class
+  value: beta3
+```
+
+**Note:** Replace `beta3` with your actual storage class name:
+- `beta1` for HDD storage class
+- `beta2` for SSD storage class
+- `beta3` for NVMe storage class
+
+### capabilities/storage/1/persistent
+
+- **Values**: `"true"`, `"false"`
+- **Purpose**: Indicate that the storage class provides persistent storage
+- **Required**: Yes (if you have persistent storage)
+
+```yaml
+- key: capabilities/storage/1/persistent
+  value: "true"
+```
+
+**Complete persistent storage example:**
+
+```yaml
+# Legacy attributes (optional)
+- key: feat-persistent-storage
+  value: true
+- key: feat-persistent-storage-type
+  value: beta3
+
+# Required attributes (must include)
+- key: capabilities/storage/1/class
+  value: beta3
+- key: capabilities/storage/1/persistent
+  value: "true"
+```
+
+> **Important:** You can only advertise **one persistent storage class** per provider. Choose either beta1 (HDD), beta2 (SSD), or beta3 (NVMe) based on what you configured in Rook-Ceph.
+
+### capabilities/storage/2/class (SHM/Shared Memory)
+
+- **Value**: `ram`
+- **Purpose**: Advertise SHM (shared memory) storage class support
+- **Required**: Recommended (all providers should support SHM)
+- **Note**: This is separate from persistent storage and should be advertised as storage index 2
+
+```yaml
+- key: capabilities/storage/2/class
+  value: ram
+```
+
+### capabilities/storage/2/persistent (SHM)
+
+- **Value**: `"false"`
+- **Purpose**: Indicate that the SHM storage class is non-persistent
+- **Required**: Yes (if advertising SHM storage)
+
+```yaml
+- key: capabilities/storage/2/persistent
+  value: "false"
+```
+
+**Complete storage example with persistent storage and SHM:**
+
+```yaml
+# Persistent storage (index 1)
+- key: capabilities/storage/1/class
+  value: beta3
+- key: capabilities/storage/1/persistent
+  value: "true"
+
+# SHM/Shared Memory (index 2) - recommended for all providers
+- key: capabilities/storage/2/class
+  value: ram
+- key: capabilities/storage/2/persistent
+  value: "false"
+```
+
+> **Note:** All providers should support SHM for deployments requiring shared memory. This is configured in the inventory operator during provider installation.
 
 ### feat-endpoint-ip
 
@@ -497,6 +584,18 @@ attributes:
     value: true
   - key: feat-endpoint-custom-domain
     value: true
+  
+  # Persistent Storage (required if you have Rook-Ceph)
+  - key: capabilities/storage/1/class
+    value: beta2
+  - key: capabilities/storage/1/persistent
+    value: "true"
+  
+  # SHM/Shared Memory (recommended for all providers)
+  - key: capabilities/storage/2/class
+    value: ram
+  - key: capabilities/storage/2/persistent
+    value: "false"
   
   # GPU Capabilities
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090

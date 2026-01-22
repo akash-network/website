@@ -310,6 +310,30 @@ NAME                 PROVISIONER                  RECLAIMPOLICY   VOLUMEBINDINGM
 beta2 (default)      rook-ceph.rbd.csi.ceph.com   Delete          Immediate           5m
 ```
 
+### Label Storage Class for Akash
+
+Label your storage class so Akash can recognize it. Replace `<storage-class-name>` with the actual name of your storage class (e.g., `beta1` for HDD, `beta2` for SSD, or `beta3` for NVMe):
+
+```bash
+kubectl label sc <storage-class-name> akash.network=true
+```
+
+**Example:**
+
+If you configured an SSD storage class named `beta2`:
+
+```bash
+kubectl label sc beta2 akash.network=true
+```
+
+Verify the label was applied:
+
+```bash
+kubectl get sc <storage-class-name> --show-labels
+```
+
+You should see `akash.network=true` in the labels.
+
 ---
 
 ## STEP 5 - Test Persistent Storage
