@@ -34,18 +34,42 @@ Reboot the node after this step.
 ### Add NVIDIA Repository
 
 ```bash
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub
-apt-key add 3bf863cc.pub
-echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/ /" | tee /etc/apt/sources.list.d/cuda-repo.list
+# Create keyrings directory if it doesn't exist
+mkdir -p /etc/apt/keyrings
+
+# Download and add NVIDIA GPG key using modern method
+wget -qO- https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub | gpg --dearmor -o /etc/apt/keyrings/nvidia-cuda.gpg
+
+# Add NVIDIA repository with signed-by reference
+echo "deb [signed-by=/etc/apt/keyrings/nvidia-cuda.gpg] https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/ /" | tee /etc/apt/sources.list.d/cuda-repo.list
+
 apt update
 ```
 
 ### Install Driver
 
-Install the recommended NVIDIA driver version 580:
+Choose the installation method based on your GPU type:
+
+#### Consumer GPUs (RTX 4090, RTX 5090, etc.)
+
+For consumer-grade GPUs, install the standard driver:
 
 ```bash
 DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nvidia-driver-580
+apt -y autoremove
+```
+
+Reboot the node.
+
+#### Data Center GPUs (H100, H200, etc.)
+
+For data center GPUs (including SXM form factor), install the server driver and Fabric Manager:
+
+```bash
+DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nvidia-driver-580-server
+apt-get install nvidia-fabricmanager-580
+systemctl start nvidia-fabricmanager
+systemctl enable nvidia-fabricmanager
 apt -y autoremove
 ```
 
@@ -59,16 +83,6 @@ nvidia-smi
 
 You should see your GPUs listed with driver information.
 
-### SXM GPUs Only
-
-If you have non-PCIe GPUs (SXM form factor), also install Fabric Manager:
-
-```bash
-apt-get install nvidia-fabricmanager-580
-systemctl start nvidia-fabricmanager
-systemctl enable nvidia-fabricmanager
-```
-
 ---
 
 ## STEP 2 - Install NVIDIA Container Toolkit
@@ -76,8 +90,14 @@ systemctl enable nvidia-fabricmanager
 Run on **each GPU node**:
 
 ```bash
-curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | apt-key add -
-curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | tee /etc/apt/sources.list.d/libnvidia-container.list
+# Create keyrings directory if it doesn't exist
+mkdir -p /etc/apt/keyrings
+
+# Download and add NVIDIA Container Toolkit GPG key using modern method
+curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /etc/apt/keyrings/nvidia-container-toolkit.gpg
+
+# Add NVIDIA Container Toolkit repository with signed-by reference
+echo "deb [signed-by=/etc/apt/keyrings/nvidia-container-toolkit.gpg] https://nvidia.github.io/libnvidia-container/stable/deb/amd64 /" | tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
 apt-get update
 apt-get install -y nvidia-container-toolkit nvidia-container-runtime
