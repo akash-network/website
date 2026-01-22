@@ -268,8 +268,6 @@ async function extractTextFromPDF(file: File): Promise<string> {
 
 The easiest way to deploy is using Akash Console's **Build & Deploy** feature, which automatically builds and serves your static site.
 
-### Option A: Build & Deploy (Recommended)
-
 1. Go to [console.akash.network](https://console.akash.network)
 2. Click **"Build and Deploy"**
 3. Connect your GitHub repository
@@ -277,57 +275,6 @@ The easiest way to deploy is using Akash Console's **Build & Deploy** feature, w
 5. Deploy!
 
 That's it - Akash Console handles the build process and static file serving.
-
-### Option B: Docker Deployment
-
-For more control, use the included Dockerfile:
-
-```yaml
-# deploy.yaml
----
-version: "2.0"
-
-services:
-  web:
-    image: ghcr.io/baktun14/linkedin-roast:latest
-    env:
-      - VITE_AKASHML_API_KEY=${VITE_AKASHML_API_KEY}
-    expose:
-      - port: 3000
-        as: 80
-        to:
-          - global: true
-
-profiles:
-  compute:
-    web:
-      resources:
-        cpu:
-          units: 0.5
-        memory:
-          size: 512Mi
-        storage:
-          size: 1Gi
-
-  placement:
-    dcloud:
-      attributes:
-        host: akash
-      signedBy:
-        anyOf:
-          - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
-          - akash18qa2a2ltfyvkyj0ggj3hkvuj6twzyumuaru9s4
-      pricing:
-        web:
-          denom: uakt
-          amount: 10000
-
-deployment:
-  web:
-    dcloud:
-      profile: web
-      count: 1
-```
 
 ---
 
