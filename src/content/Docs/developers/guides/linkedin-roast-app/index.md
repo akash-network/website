@@ -5,6 +5,7 @@ weight: 1
 title: "Build a LinkedIn Profile Roaster with AkashML"
 linkTitle: "LinkedIn Roast App"
 description: "Learn how to build a fun AI-powered app that roasts LinkedIn profiles using AkashML (DeepSeek-V3) and deploy it on Akash Network"
+hideFromNav: true
 ---
 
 # Build a LinkedIn Profile Roaster with AkashML

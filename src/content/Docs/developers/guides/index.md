@@ -13,14 +13,6 @@ This section contains practical, step-by-step guides that walk you through build
 
 ---
 
-## Available Guides
-
-### AI & Machine Learning
-
-- **[LinkedIn Profile Roaster](/docs/developers/guides/linkedin-roast-app)** - Build an AI-powered app using AkashML (DeepSeek-V3) that roasts LinkedIn profiles
-
----
-
 ## What You'll Learn
 
 Our guides cover:

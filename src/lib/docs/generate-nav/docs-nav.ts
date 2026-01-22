@@ -96,9 +96,12 @@ export function processPage(
 export const generateDocsNav = (pages: any) => {
   const nav: any = [];
 
+  // Filter out pages that should be hidden from navigation
+  const visiblePages = pages.filter((item: any) => !item.data.hideFromNav);
+
   // Create a map of folder paths to their index file linkTitles
   const indexLinkTitles = new Map<string, string>();
-  pages.forEach((item: any) => {
+  visiblePages.forEach((item: any) => {
     const idParts = item.id.split("/");
     // If this is an index file, store its linkTitle for the parent folder
     if (idParts[idParts.length - 1] === "index" && item.data.linkTitle) {
@@ -110,7 +113,7 @@ export const generateDocsNav = (pages: any) => {
     }
   });
 
-  pages.forEach((item: any) => {
+  visiblePages.forEach((item: any) => {
     const idParts = item.id.split("/");
     const linkPrefix = "/docs";
     const linkTitle = item.data.linkTitle;
