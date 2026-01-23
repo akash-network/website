@@ -1,13 +1,54 @@
 ---
-import PointerSection from "@/components/community-pages/pointer-section.astro";
 import CommunityHero from "@/components/mdx-cards/community-hero.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
+import { ArrowUpRight } from "lucide-react";
 
 const title = "The Akash Student<br/> Ambassador Program";
 const description =
   "The Akash Student Ambassador Program empowers students to become builders, advocates, and community leaders for the decentralized cloud movement.";
+
+const articles = [
+  {
+    title:
+      "Why Decentralized Cloud Startups Have Weaker Early Moats but Stronger Long-Term Ones",
+    link: "https://www.linkedin.com/pulse/why-decentralized-cloud-startups-have-weaker-early-moats-helen-hui-zef1e",
+    author: "Helen Hui",
+    date: "30th December, 2025",
+  },
+  {
+    title:
+      "Why Blockchain Will Reshape Modern AI Training — and How You Can Get Ahead!",
+    link: "https://www.linkedin.com/pulse/why-blockchain-reshape-modern-ai-training-how-you-can-helen-hui-dzqhe?trk=public_post_feed-article-content",
+    author: "Helen Hui",
+    date: "2nd December, 2025",
+  },
+  {
+    title: "Why Decentralized Cloud Matters",
+    link: "https://www.linkedin.com/posts/ayeshasatpathy_akashambassadors-activity-7399512011249868800-c6mA?utm_source=share&utm_medium=member_desktop&rcm=ACoAADl2CroBVl3Y--ZsrolprCV-0LJDfi1uJXU",
+    author: "Ayesha Satpathy",
+    date: "December, 2025",
+  },
+  {
+    title: "How to self-host the cheapest n8n server",
+    link: "https://x.com/BotbolLucas/status/2005386440545538217",
+    author: "Lucas Botbol",
+    date: "29th December, 2025",
+  },
+  {
+    title: "Akash Network: The Open Cloud for Builders",
+    link: "https://www.linkedin.com/posts/lucasbotbolagusti_akash-network-the-open-cloud-for-builders-activity-7398834097013387264-wSLR?utm_source=share&utm_medium=member_desktop&rcm=ACoAADLQn6EBUFig-TCMsUdoD9X4oLZPqNgnrBM",
+    author: "Lucas Botbol",
+    date: "December, 2025",
+  },
+  {
+    title: "Akash Network X USC Build Night",
+    link: "https://x.com/0xBlockchainSC/status/1998533122133209567?s=20",
+    author: "USC Blockchain",
+    date: "10th December, 2025",
+  },
+];
 ---
 
 <Layout
@@ -17,26 +58,116 @@ const description =
 >
   <TopMargin isNotContainer>
     <CommunityHero container title={title} description={description} />
-    <div class="flex flex-col gap-20 lg:gap-40">
-      <div class="container-reader flex flex-col gap-20">
-        <div class="flex flex-col gap-20 lg:gap-40">
-          <PointerSection
-            type="description"
-            description="Ambassadors play a key role in expanding awareness of Akash Network by hosting campus events, creating content, and connecting peers to opportunities in decentralized computing. More than a marketing initiative, this program focuses on ecosystem development, equipping students to represent a movement they truly believe in and build community from the ground up."
-            image="/images/student-ambassador/1.png"
+
+    <div class="container mx-auto max-w-5xl px-4">
+      <!-- Two Cards Section -->
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
+        <!-- Card 1 -->
+        <div class="flex flex-col">
+          <img
+            src="/images/student-ambassador/1.png"
+            alt="Growing the Open Cloud on Campus"
+            class="h-auto w-full rounded-lg object-cover"
           />
 
-          <PointerSection
-            description="Through hands-on experience, ambassadors gain leadership skills, technical exposure, and real-world collaboration experience while contributing to a project that redefines how cloud infrastructure is built and accessed.<br/><br/>The program is designed around a simple idea: ambassadors succeed when they feel like owners, not just representatives. By connecting through shared values, learning from one another, and co-creating meaningful initiatives, students help shape the future of decentralized cloud computing and the broader Akash ecosystem."
-            image="/images/student-ambassador/2.png"
-            reverse={true}
-            type="description"
-          />
+          <div class="mt-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold text-foreground">
+              Growing the Open Cloud on Campus
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Ambassadors play a key role in expanding awareness of Akash
+              Network by hosting campus events, creating content, and connecting
+              peers to opportunities in decentralized computing. More than a
+              marketing initiative, this program focuses on ecosystem
+              development, equipping students to represent a movement they truly
+              believe in and build community from the ground up.
+            </p>
+          </div>
         </div>
-        <div class="not-prose flex flex-col items-center justify-center gap-10">
+
+        <!-- Card 2 -->
+        <div class="flex flex-col">
+          <img
+            src="/images/student-ambassador/2.png"
+            alt="From Participation to Ownership"
+            class="h-auto w-full rounded-lg object-cover"
+          />
+
+          <div class="mt-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold text-foreground">
+              From Participation to Ownership
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Through hands-on experience, ambassadors gain leadership skills,
+              technical exposure, and real-world collaboration experience while
+              contributing to a project that redefines how cloud infrastructure
+              is built and accessed.
+            </p>
+            <p class="text-sm leading-relaxed text-para">
+              The program is designed around a simple idea: ambassadors succeed
+              when they feel like owners, not just representatives. By
+              connecting through shared values, learning from one another, and
+              co-creating meaningful initiatives, students help shape the future
+              of decentralized cloud computing and the broader Akash ecosystem.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Voices Section -->
+      <div class="mt-20 lg:mt-32">
+        <div class="mb-8 flex flex-col gap-4">
+          <h2 class="text-2xl font-semibold text-foreground md:text-3xl">
+            Student Voices on the Future of the Open Cloud
+          </h2>
+          <div class="flex items-start gap-4">
+            <!-- Avatar Icon -->
+
+            <p
+              class="max-w-[700px] text-sm leading-relaxed text-para md:text-base"
+            >
+              Student builders and thinkers explore how decentralization, AI,
+              and open infrastructure are reshaping technology, and what it
+              means for the next generation of innovators.
+            </p>
+          </div>
+        </div>
+
+        <!-- Articles Table -->
+        <div class="overflow-hidden">
+          <table class="w-full">
+            <tbody class="divide-y divide-border">
+              {
+                articles.map((article) => (
+                  <tr
+                    class="group relative cursor-pointer transition-colors hover:bg-[#F7F7F7] dark:hover:bg-[#18181B]"
+                    data-link={article.link}
+                  >
+                    <td class="py-4 align-top">
+                      <div class="text-param inline-flex items-start gap-1.5 px-4 text-sm text-para no-underline transition-all group-hover:text-foreground group-hover:underline group-hover:decoration-foreground group-hover:underline-offset-2 md:text-base">
+                        <span class="max-w-[470px] ">{article.title}</span>
+                        <ArrowUpRight className="w-4 h-4 mt-1 flex-shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
+                      </div>
+                    </td>
+                    <td class="hidden whitespace-nowrap px-4 py-4 align-top text-sm text-para md:table-cell md:px-6 md:text-base">
+                      {article.author}
+                    </td>
+                    <td class="whitespace-nowrap py-4 pr-4 text-right align-top text-sm text-para md:px-6 md:text-base">
+                      {article.date}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="not-prose flex flex-col items-center justify-center gap-10 pb-[180px] pt-[200px]"
+        >
           <h2 class="text-center text-3xl font-semibold">
             Join the Akash Ambassador Program.<br /> Submit your application for Spring
-            2026!
+            Cohort 2026!
           </h2>
           <ButtonLink
             arrow
@@ -52,3 +183,14 @@ const description =
     </div>
   </TopMargin>
 </Layout>
+
+<script>
+  document.querySelectorAll("tr[data-link]").forEach((row) => {
+    row.addEventListener("click", (e) => {
+      const link = row.getAttribute("data-link");
+      if (link) {
+        window.open(link, "_blank", "noopener,noreferrer");
+      }
+    });
+  });
+</script>
