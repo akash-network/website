@@ -222,9 +222,9 @@ export default function Filter({
         {isLoading ? (
           <div className="h-9 w-[185px] rounded-full border  bg-transparent" />
         ) : (
-          <div className="inline-flex items-center gap-1 rounded-full border bg-transparent px-[14px] py-1.5  text-sm md:text-[15px] font-normal text-para">
+          <div className="inline-flex items-center gap-1 rounded-full border bg-transparent px-[14px] py-1.5  text-sm md:text-base font-normal text-para">
             GPU Utilization:
-            {totalGpus && totalAvailableGpus && totalGpus > 0
+            {" "}{totalGpus && totalAvailableGpus && totalGpus > 0
               ? Math.round(((totalGpus - totalAvailableGpus) / totalGpus) * 100)
               : 0}
             %
