@@ -442,7 +442,7 @@ export const Tables = ({
             return (
               <React.Fragment key={groupName}>
                 {/* VRAM Group Header */}
-                <div className="bg-[#F5F5F5] dark:bg-background2 w-fit px-4 py-0.5 md:py-1 font-medium mt-4 !mb-3 md:!mb-5 rounded-full md:!mt-6">
+                <div className="bg-[#F5F5F5] dark:bg-background2 w-fit px-4 py-0.5 md:py-1 font-medium mt-3 mb-1 md:!mb-0 rounded-full md:mt-3">
                   <h3 className="text-para text-sm">
                     {groupName} VRAM
                   </h3>
@@ -484,7 +484,7 @@ export const Tables = ({
       <div className="w-full overflow-x-auto">
         <div className="flex flex-col">
           {/* Header row - visible on both desktop and mobile */}
-          <div className="flex items-center justify-between border-b border-defaultBorder xl:px-4 pb-3 pt-3 text-sm font-light text-para xl:px-0 xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal xl:text-[#71717A] dark:xl:text-[#A1A1AA]">
+          <div className="flex items-center justify-between border-b border-defaultBorder xl:px-4 pb-3 pt-3 text-sm font-light text-para  xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal xl:text-[#71717A] dark:xl:text-[#A1A1AA]">
             <span className="md:text-foreground text-[15px] md:text-xl md:font-medium">GPU</span>
             <span className="text-[15px]">Price (Starting at)</span>
           </div>
@@ -505,7 +505,7 @@ export const Tables = ({
     >
       {/* Desktop Layout */}
       <div className="hidden flex-row gap-16 xl:flex">
-        <div className="flex w-[289px] flex-shrink-0 flex-col gap-[70px]">
+        <div className="flex w-[289px] flex-shrink-0 flex-col gap-6">
           <HeaderSection />
           <CtaSection />
         </div>
