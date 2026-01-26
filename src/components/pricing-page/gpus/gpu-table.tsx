@@ -9,7 +9,6 @@ import {
 import axios from "axios";
 import clsx from "clsx";
 import React from "react";
-import DesktopTableGpu from "./desktop-table-gpu";
 import { DUMMY_GPU_DATA } from "./dummy-gpu-data";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import { GPU_PRIORITY_MODELS } from "./gpu-priority";
@@ -166,6 +165,42 @@ export const normalizeGpuModel = (model: Gpus["models"][number]) => {
   };
 };
 
+// Helper function to parse RAM value and convert to GB
+const parseRamToGB = (ram: string): number => {
+  if (!ram) return 0;
+  // Handle formats like "80Gi", "180GB", "48Gi", etc.
+  const match = ram.match(/(\d+(?:\.\d+)?)\s*(Gi|GB|gb|gi)/i);
+  if (!match) return 0;
+  const value = parseFloat(match[1]);
+  const unit = match[2].toLowerCase();
+  // Convert Gi to GB (1 GiB ≈ 1.074 GB, but we'll use 1:1 for simplicity)
+  return unit === "gi" ? value : value;
+};
+
+// Categorize VRAM into groups (matching RunPod.io structure)
+const getVramCategory = (ram: string): string => {
+  const ramGB = parseRamToGB(ram);
+  // >80GB group: greater than 80GB (e.g., B200 180GB, B300 180GB, H200 141GB, H100 NVL 94GB, etc.)
+  if (ramGB > 80) return ">80GB";
+  // 80GB group: exactly 80GB
+  if (ramGB === 80) return "80GB";
+  // 48GB group: exactly 48GB
+  if (ramGB === 48) return "48GB";
+  // 32GB group: exactly 32GB
+  if (ramGB === 32) return "32GB";
+  // 24GB group: exactly 24GB
+  if (ramGB === 24) return "24GB";
+  // 12GB group: 12GB or less
+  if (ramGB <= 12) return "12GB";
+  // For values between categories, assign to the nearest lower category
+  if (ramGB > 48 && ramGB < 80) return "48GB"; // Between 48 and 80, group with 48GB
+  if (ramGB > 32 && ramGB < 48) return "32GB"; // Between 32 and 48, group with 32GB
+  if (ramGB > 24 && ramGB < 32) return "24GB"; // Between 24 and 32, group with 24GB
+  if (ramGB > 12 && ramGB < 24) return "12GB"; // Between 12 and 24, group with 12GB
+  // Fallback (shouldn't happen, but just in case)
+  return "12GB";
+};
+
 export const Tables = ({
   data,
   pathName,
@@ -247,22 +282,71 @@ export const Tables = ({
       : 0;
 
   const normalizedData = React.useMemo(() => {
-    const normalized =
+    let normalized =
       filteredData?.map((model) => normalizeGpuModel(model)) ?? [];
-    // Hardcode B300 and B200 at the top - separate from others
+
+    // Ensure B300 and B200 are in the data (add if missing)
+    const hasB300 = normalized.some((m) => m?.model?.toLowerCase() === "b300");
+    const hasB200 = normalized.some((m) => m?.model?.toLowerCase() === "b200");
+
+    if (!hasB300) {
+      normalized.push({
+        vendor: "nvidia",
+        model: "b300",
+        ram: "180GB",
+        interface: "HBM3e",
+        availability: { total: 1, available: 1 },
+        providerAvailability: { total: 1, available: 1 },
+        price: {
+          min: 6,
+          max: 6,
+          avg: 6,
+          med: 6,
+          weightedAverage: 6,
+        },
+      } as Gpus["models"][number]);
+    }
+
+    if (!hasB200) {
+      normalized.push({
+        vendor: "nvidia",
+        model: "b200",
+        ram: "180GB",
+        interface: "HBM3e",
+        availability: { total: 1, available: 1 },
+        providerAvailability: { total: 1, available: 1 },
+        price: {
+          min: 5,
+          max: 5,
+          avg: 5,
+          med: 5,
+          weightedAverage: 5,
+        },
+      } as Gpus["models"][number]);
+    }
+
+    // Normalize all models including newly added ones
+    normalized = normalized.map((model) => normalizeGpuModel(model));
+
+    // Get B300, B200, and H200 models
     const b300Models = normalized.filter(
       (model) => model?.model?.toLowerCase() === "b300",
     );
     const b200Models = normalized.filter(
       (model) => model?.model?.toLowerCase() === "b200",
     );
-    // Priority GPUs: H200, H100, A100
+    const h200Models = normalized.filter(
+      (model) => model?.model?.toLowerCase() === "h200",
+    );
+
+    // Priority GPUs: H100, A100 (excluding B200, B300, H200)
     const priorityGpus = normalized.filter((model) => {
       const modelLower = model?.model?.toLowerCase();
       return (
         priorityModels.includes(modelLower) &&
         modelLower !== "b200" &&
-        modelLower !== "b300"
+        modelLower !== "b300" &&
+        modelLower !== "h200"
       );
     });
     const otherModels = normalized.filter((model) => {
@@ -270,6 +354,7 @@ export const Tables = ({
       return (
         modelLower !== "b200" &&
         modelLower !== "b300" &&
+        modelLower !== "h200" &&
         !priorityModels.includes(modelLower)
       );
     });
@@ -285,8 +370,28 @@ export const Tables = ({
       return 0;
     });
 
-    // Always return B300 first, then B200, then priority GPUs, then others
-    return [...b300Models, ...b200Models, ...priorityGpus, ...otherModels];
+    // Combine all models including B300, B200, H200, then group by VRAM
+    const allModels = [...b300Models, ...b200Models, ...h200Models, ...priorityGpus, ...otherModels];
+
+    // Group by VRAM category while maintaining current order within each group
+    const groupedByVram: Record<string, typeof allModels> = {
+      ">80GB": [],
+      "80GB": [],
+      "48GB": [],
+      "32GB": [],
+      "24GB": [],
+      "12GB": [],
+    };
+
+    allModels.forEach((model) => {
+      const category = getVramCategory(model?.ram || "");
+      groupedByVram[category]?.push(model);
+    });
+
+    // Return grouped models
+    return {
+      groupedByVram,
+    };
   }, [filteredData, priorityModels]);
 
   const HeaderSection = () => (
@@ -304,7 +409,7 @@ export const Tables = ({
   const CtaSection = ({ className }: { className?: string }) => (
     <div className={clsx("flex flex-col gap-4 xl:gap-5", className)}>
       <h2 className="text-lg font-semibold leading-snug text-foreground xl:leading-[28px]">
-        Looking for Bulk Orders, or Custom Configurations?
+        Looking for Bulk Orders or Custom Configurations?
       </h2>
       <TryAkashForm
         type="customButton"
@@ -314,6 +419,83 @@ export const Tables = ({
     </div>
   );
 
+  // Unified table component that works for both desktop and mobile
+  const UnifiedTable = () => {
+    const renderRows = () => {
+      if (isLoading) {
+        return new Array(10)
+          .fill(0)
+          .map((_, index) => (
+            <GpuTableRowSkeleton key={index} isB200={index < 2} />
+          ));
+      }
+
+      const vramGroups = [">80GB", "80GB", "48GB", "32GB", "24GB", "12GB"];
+
+      return (
+        <>
+          {/* Render grouped VRAM sections */}
+          {vramGroups.map((groupName) => {
+            const groupModels = normalizedData?.groupedByVram?.[groupName] || [];
+            if (groupModels.length === 0) return null;
+
+            return (
+              <React.Fragment key={groupName}>
+                {/* VRAM Group Header */}
+                <div className="bg-[#F5F5F5] dark:bg-background2 w-fit px-4 py-0.5 md:py-1 font-medium mt-4 !mb-3 md:!mb-5 rounded-full md:!mt-6">
+                  <h3 className="text-para text-sm">
+                    {groupName} VRAM
+                  </h3>
+                </div>
+
+                {/* Group Models */}
+                {groupModels.map((rawModel, index) => {
+                  const model = normalizeGpuModel(rawModel);
+                  const modelLower = model?.model?.toLowerCase();
+                  const isB200 = modelLower === "b200";
+                  const isB300 = modelLower === "b300";
+                  const isSpecialModel = isB200 || isB300;
+                  const providerCount =
+                    model?.providerAvailability?.available || 0;
+
+                  return (
+                    <GpuTableRow
+                      key={`${groupName}-${index}`}
+                      model={modifyModel(model?.model) || ""}
+                      ram={model?.ram.replace("Gi", "GB") || ""}
+                      interface={model?.interface || ""}
+                      minPrice={model?.price?.min || 0}
+                      maxPrice={model?.price?.max || 0}
+                      avgPrice={model?.price?.weightedAverage || 0}
+                      providerCount={providerCount}
+                      isB200={isSpecialModel}
+                      id={`${model?.model}-(gpu-rent)`}
+                    />
+                  );
+                })}
+              </React.Fragment>
+            );
+          })}
+        </>
+      );
+    };
+
+    return (
+      <div className="w-full overflow-x-auto">
+        <div className="flex flex-col">
+          {/* Header row - visible on both desktop and mobile */}
+          <div className="flex items-center justify-between border-b border-defaultBorder xl:px-4 pb-3 pt-3 text-sm font-light text-para xl:px-0 xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal xl:text-[#71717A] dark:xl:text-[#A1A1AA]">
+            <span className="md:text-foreground text-[15px] md:text-xl md:font-medium">GPU</span>
+            <span className="text-[15px]">Price (Starting at)</span>
+          </div>
+
+          {/* GPU Rows */}
+          <div className="flex flex-col">{renderRows()}</div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section
       className={clsx(
@@ -321,6 +503,7 @@ export const Tables = ({
         subCom ? "" : "md:container",
       )}
     >
+      {/* Desktop Layout */}
       <div className="hidden flex-row gap-16 xl:flex">
         <div className="flex w-[289px] flex-shrink-0 flex-col gap-[70px]">
           <HeaderSection />
@@ -339,23 +522,17 @@ export const Tables = ({
           />
 
           <div className="h-px w-full bg-defaultBorder md:hidden" />
-          <DesktopTableGpu
-            subCom={subCom || false}
-            isLoading={isLoading || false}
-            filteredData={normalizedData}
-            counts={counts}
-          />
+          <UnifiedTable />
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 px-4 xl:hidden">
-        {/* Mobile Header */}
+      {/* Mobile Layout */}
+      <div className="flex flex-col gap-4 px-1 md:px-4 xl:hidden">
         <div className="flex flex-col gap-6">
           <HeaderSection />
           <CtaSection />
         </div>
 
-        {/* Mobile Filters */}
         <div className="mt-8 flex flex-wrap gap-2">
           <Filter
             filters={filters}
@@ -368,86 +545,7 @@ export const Tables = ({
           />
         </div>
 
-        <div className="flex items-center justify-between border-b border-defaultBorder pb-3 pt-3 text-sm font-light text-para">
-          <span>GPU Model</span>
-          <span>Price (Starting at)</span>
-        </div>
-      </div>
-
-      <div
-        className={clsx(
-          "flex w-full flex-col px-4 xl:hidden",
-
-        )}
-      >
-        {/* Mobile GPU List - Using same GpuTableRow component as desktop */}
-        {isLoading ? (
-          new Array(10)
-            .fill(0)
-            .map((_, index) => (
-              <GpuTableRowSkeleton key={index} isB200={index < 2} />
-            ))
-        ) : (
-          <>
-
-            <GpuTableRow
-              model="B300"
-              ram="180GB"
-              interface="HBM3e"
-              minPrice={6}
-              maxPrice={6}
-              avgPrice={6}
-              providerCount={1}
-              isB200={true}
-              id="b300-(gpu-rent)-mobile"
-              href="/gpus-on-demand"
-            />
-
-            <GpuTableRow
-              model="B200"
-              ram="180GB"
-              interface="HBM3e"
-              minPrice={5}
-              maxPrice={5}
-              avgPrice={5}
-              providerCount={1}
-              isB200={true}
-              id="b200-(gpu-rent)-mobile"
-              href="/gpus-on-demand"
-            />
-
-            {normalizedData
-              ?.filter(
-                (model) =>
-                  model?.model?.toLowerCase() !== "b200" &&
-                  model?.model?.toLowerCase() !== "b300",
-              )
-              ?.map((rawModel, index) => {
-                const model = normalizeGpuModel(rawModel);
-                const modelLower = model?.model?.toLowerCase();
-                const isB200 = modelLower === "b200";
-                const isB300 = modelLower === "b300";
-                const isSpecialModel = isB200 || isB300;
-                const providerCount =
-                  model?.providerAvailability?.available || 0;
-
-                return (
-                  <GpuTableRow
-                    key={index}
-                    model={modifyModel(model?.model) || ""}
-                    ram={model?.ram || ""}
-                    interface={model?.interface || ""}
-                    minPrice={model?.price?.min || 0}
-                    maxPrice={model?.price?.max || 0}
-                    avgPrice={model?.price?.weightedAverage || 0}
-                    providerCount={providerCount}
-                    isB200={isSpecialModel}
-                    id={`${model?.model}-(gpu-rent)-mobile`}
-                  />
-                );
-              })}
-          </>
-        )}
+        <UnifiedTable />
       </div>
     </section>
   );
