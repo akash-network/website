@@ -1,6 +1,6 @@
 ---
 aep: 30
-title: "Cosmos SDK v0.47 Migration"
+title: "Cosmos SDK v0.53 Migration"
 author: Cheng Wang (@lechenghiskhan) Artur Troian (@atroian) Scott Carrutthers (@chainzero)
 status: Final
 type: Standard
