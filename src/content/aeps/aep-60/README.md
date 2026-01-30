@@ -1,12 +1,12 @@
 ---
 aep: 60
-title: "Akash at Home - MVP"
+title: "Akash HomeNode - MVP"
 author: Anil Murty (@anilmurty) Damir Simpovic (@shimpa1) Jigar Patel (@jigar-arc10) Deval Patel (@devalpatel67) Greg Osuri (@gosuri)
 status: Draft
 type: Meta
 created: 2024-12-01
 updated: 2025-07-24
-estimated-completion: 2025-12-31
+estimated-completion: 2026-03-31
 roadmap: major
 ---
 
