@@ -7,7 +7,7 @@ type: Standard
 category: Interface
 created: 2025-01-10
 updated: 2025-07-30
-estimated-completion: 2025-09-15
+estimated-completion: 2025-10-30
 roadmap: major
 ---
 
@@ -19,14 +19,14 @@ Integrations are a key part of Akash's ecosystem growth strategy. In order for i
 
 Right now interacting with the blockchain and the provider is arduous for someone who is not deeply involved with the core team. The reasons for this are primarily because there are a mix of different implementations for various things as noted here:
 
-- Blockchain nodes are built using CosmosSDK. 
+- Blockchain nodes are built using CosmosSDK.
 - Queries are done via a pure grpc service on top of protobuf.
 - Transactions are done via RPC servers but the wire encoding also uses protobuf
 - Provider nodes currently have a mix of GRPC server + protobuf and REST handlers for some of the mutations which are going to be rewritten to GRPC methods as well (see akash-network/support#191)
 
 ## Scope of Work
 
-Investigate and implement chain SDK which supports: 
+Investigate and implement chain SDK which supports:
 * blockchain nodes API
 * provider nodes API
 * cosmosSDK built-in function (e.g., getting last block)
@@ -34,7 +34,7 @@ Investigate and implement chain SDK which supports:
 Additionally, this SDK should have:
 * certificates manager and corresponding utils (https://github.com/akash-network/akashjs/blob/main/src/certificates/certificate-manager/CertificateManager.ts)
 * certificate validation logic for provider nodes https://github.com/akash-network/console/blob/main/apps/provider-proxy/src/services/CertificateValidator.ts
-* SDL related logic 
+* SDL related logic
   - move from https://github.com/akash-network/akashjs/blob/main/src/sdl/SDL/SDL.ts
   - move from https://github.com/akash-network/console/tree/main/apps/deploy-web/src/utils/sdl
   - we implemented SDL import from yaml and generator from object to yaml. The generator will have to be re-designed because it currently received an object of the type of the SDL builder form, which is not technically 1:1 with the SDL spec.
