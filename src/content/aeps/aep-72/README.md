@@ -8,7 +8,8 @@ type: Standard
 category: Interface
 created: 2025-07-31
 updated: 2025-07-31
-completed: 2025-09-24
+completed: 2025-11-07
+resolution: https://github.com/akash-network/console/milestone/18?closed=1
 roadmap: major
 ---
 
@@ -37,4 +38,4 @@ With those in mind, we've enbarked on a project to build a new onboarding flow t
 6. Limit trials to last 30 days
 7. Plug the onboarding flow into the email notification system built as part of the Alert & Notification work in [AEP-33](https://akash.network/roadmap/aep-33/)
 
-Github Milestone: https://github.com/akash-network/console/milestone/23
+Github Milestone: https://github.com/akash-network/console/milestone/18?closed=1

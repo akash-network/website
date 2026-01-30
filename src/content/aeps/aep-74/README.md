@@ -8,7 +8,8 @@ type: Standard
 category: Interface
 created: 2025-07-31
 updated: 2025-08-01
-estimated-completion: 2025-09-30
+completed: 2025-12-31
+resolution: https://github.com/akash-network/console/milestone/27?closed=1
 roadmap: minor
 ---
 
@@ -35,4 +36,4 @@ Customers that have a valid credit card saved in the system (saving of credit ca
 5. The user will have an option to be notified (via email) when the Auto Credit Reload is performed. 
 6. If the Auto Reload fails (due to an invalid credit card or other issue) the user will be notified. Not addressing the issue may result in the balance going to $0 0 - which will over time cause deployments to run out of funds and shut down.
 
-Github Milestone: https://github.com/akash-network/console/milestone/27
+Github Milestone: https://github.com/akash-network/console/milestone/27?closed=1
