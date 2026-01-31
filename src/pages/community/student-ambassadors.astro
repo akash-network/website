@@ -58,7 +58,23 @@ const articles = [
 >
   <TopMargin isNotContainer>
     <CommunityHero container title={title} description={description} />
-
+    <div
+      class="not-prose flex flex-col items-center justify-center gap-10 pb-[120px]"
+    >
+      <h2 class="text-center text-3xl font-semibold">
+        Join the Akash Ambassador Program.<br /> Submit your application for Spring
+        Cohort 2026!
+      </h2>
+      <ButtonLink
+        arrow
+        className="mt-0"
+        link="https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform"
+        variant="secondary"
+        size="lg"
+      >
+        Apply today!
+      </ButtonLink>
+    </div>
     <div class="container mx-auto max-w-5xl px-4">
       <!-- Two Cards Section -->
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
@@ -160,24 +176,6 @@ const articles = [
               }
             </tbody>
           </table>
-        </div>
-
-        <div
-          class="not-prose flex flex-col items-center justify-center gap-10 pb-[180px] pt-[200px]"
-        >
-          <h2 class="text-center text-3xl font-semibold">
-            Join the Akash Ambassador Program.<br /> Submit your application for Spring
-            Cohort 2026!
-          </h2>
-          <ButtonLink
-            arrow
-            className="mt-0"
-            link="https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform"
-            variant="secondary"
-            size="lg"
-          >
-            Apply today!
-          </ButtonLink>
         </div>
       </div>
     </div>
