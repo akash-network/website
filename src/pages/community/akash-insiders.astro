@@ -1,6 +1,5 @@
 ---
 import { Carousel } from "@/components/community-pages/custom-carousel/Carousel";
-import PointerSection from "@/components/community-pages/pointer-section.astro";
 import CommunityHero from "@/components/mdx-cards/community-hero.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
@@ -15,9 +14,70 @@ const images = [
   { src: "/images/slides/slide7.webp", alt: "Slide 7" },
   { src: "/images/slides/slide8.webp", alt: "Slide 8" },
 ];
-const title = "DePIN, AI and Crypto Pioneers";
+const title = "Become an Akash Insider";
 const description =
-  "Akash Insiders are community leaders driving network growth, breakthrough innovation, and strategic support across the Akash Network ecosystem.";
+  "Join the action as an inside contributor. Gain access to paid bounty opportunities making content, building apps, and solving open issues on Akash's GitHub.";
+
+const contributionPaths = [
+  {
+    icon: "✍️",
+    title: "Craft Content",
+    description:
+      "Create guides, explain Akash concepts, and help spread the mission of the open source & permissionless Supercloud.",
+  },
+  {
+    icon: "💻",
+    title: "Build Apps",
+    description:
+      "Code or vibe code the next generation of successful apps using open source AI models to showcase Akash's capabilities and support network demand.",
+  },
+  {
+    icon: "✅",
+    title: "Close Tickets",
+    description:
+      "Augment team by checking off open issues on Akash's GitHub, open source contributions needed.",
+  },
+  {
+    icon: "💡",
+    title: "Assist the Club",
+    description: "Run workshops, hackathons, and more for Akash Club.",
+  },
+  {
+    icon: "🎤",
+    title: "Get Social",
+    description:
+      "Join in on social objectives to spread awareness of the open source, permissionless cloud.",
+  },
+];
+
+const insiderPerks = [
+  {
+    title: "The Bounty Board",
+    description:
+      "Every month, Akash Club releases a fresh list of bounties Insiders can apply to. Bounties range in difficulty allowing a wide range of contributors to flex their skills.",
+    image: "/images/insiders/bounty.png",
+    imageAlt: "The Bounty Board",
+    borderRadius: "20px",
+    opacity: 100,
+  },
+  {
+    title: "Exclusive Poker Nights",
+    description:
+      "Compete with other Insiders to win $AKT prizes in our monthly poker game. Network with various core team members over cards and bluffs.",
+    image: "/images/insiders/image%203.png",
+    imageAlt: "Exclusive Poker Nights",
+    borderRadius: "20px",
+    opacity: 50,
+  },
+  {
+    title: "Auto-entry to Raffles",
+    description: "Insiders get a free entry to our monthly community raffle.",
+    image: "/images/insiders/raffles.png",
+    imageAlt: "Auto-entry to Raffles",
+    borderRadius: "10px",
+    opacity: 100,
+  },
+];
 ---
 
 <Layout
@@ -31,81 +91,139 @@ const description =
       subTitle="Akash Insiders:"
       title={title}
       description={description}
-      buttonLabel="Akash Insider Application"
+      buttonLabel="Sign Up"
       buttonLink="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
     />
-    <div class="flex flex-col gap-20 lg:gap-40">
-      <div>
-        <Carousel client:only images={images} speed={100} gap={0} />
-      </div>
-      <div class="container-reader flex flex-col gap-20 lg:gap-40">
-        <PointerSection
-          title="What do Akash Insiders do?"
-          items={[
-            {
-              title: "Contribute to the development of the Akash ecosystem",
-            },
-            {
-              title: "Test new features and products within the Akash Network",
-            },
-            {
-              title:
-                "Create and maintain technical documentation and tutorials",
-            },
-            {
-              title:
-                "Support community members and foster collaborative learning",
-            },
-            {
-              title: "Educate the community through workshops and webinars",
-            },
-            {
-              title: "Represent the Akash Network online and in person",
-            },
-          ]}
-          image="/images/insiders/akash-image.png"
-        />
-
-        <PointerSection
-          title="Why Become an Insider?"
-          items={[
-            {
-              title:
-                "Connect with like-minded AI, crypto and DePIN advocates from around the world.",
-            },
-            {
-              title: "Gain early access to Akash ecosystem features",
-            },
-            {
-              title: "Learn cutting-edge AI, crypto, and DePIN technologies",
-            },
-            {
-              title:
-                "Interact directly with Overclock Labs team, the creators of the Akash Network",
-            },
-            {
-              title:
-                "Opportunities to attend in-person events around the world",
-            },
-          ]}
-          image="/images/insiders/become-insider.png"
-          reverse={true}
-        />
-
-        <div class="not-prose flex flex-col items-center justify-center gap-10">
-          <h2 class="text-center text-3xl font-semibold">
-            Interested in becoming an Akash Insider?
-          </h2>
-          <ButtonLink
-            arrow
-            className="mt-0"
-            link="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
-            variant="secondary"
-            size="lg"
+    <div class="mb-8 md:mb-12 lg:mb-0">
+      <Carousel client:only images={images} speed={100} gap={0} />
+    </div>
+    <div
+      class="mt-12 flex w-full flex-col gap-12 md:mt-16 md:gap-16 lg:mt-[120px] lg:gap-40"
+    >
+      <!-- Many Paths to Contribute Section -->
+      <section
+        class="border border-y bg-[#fafafa] py-12 dark:bg-background2 md:py-16 lg:py-[120px]"
+      >
+        <div class="mx-auto w-full max-w-[1260px] px-4 md:px-6 lg:px-8">
+          <div
+            class="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2 lg:gap-[60px]"
           >
-            Apply today!
-          </ButtonLink>
+            <!-- Left Column: Heading and Description -->
+            <div class="flex flex-col gap-4">
+              <h2
+                class="text-3xl font-semibold leading-tight md:text-4xl md:leading-tight lg:text-[48px] lg:leading-[56px]"
+              >
+                Many Paths to Contribute
+              </h2>
+              <p class="text-sm leading-relaxed md:text-base">
+                Our community comes from different walks of life with all
+                manners of lived experiences and skillset they've developed. As
+                an open source community, we find this diversity to be our
+                strength. The Insiders program harnesses our collective skills
+                to push Akash Network forward.
+              </p>
+            </div>
+
+            <!-- Right Column: Contribution Cards -->
+            <div class="flex flex-col gap-4 md:gap-5">
+              {
+                contributionPaths.map((path) => (
+                  <div class="rounded-[6px] border bg-background p-4 md:p-6 lg:p-8">
+                    <div class="flex flex-col gap-3 md:gap-4">
+                      <div class="flex items-center gap-3 md:gap-4">
+                        <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-[#e4e4e7] p-3 md:h-12 md:w-12 md:p-4">
+                          <span class="text-xl leading-6 md:text-2xl md:leading-8">
+                            {path.icon}
+                          </span>
+                        </div>
+                        <h3 class="text-lg font-semibold leading-6 text-[#11181c] md:text-xl md:leading-7 lg:text-2xl lg:leading-8">
+                          {path.title}
+                        </h3>
+                      </div>
+                      <p class="text-sm leading-5 md:text-base">
+                        {path.description}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
         </div>
+      </section>
+
+      <!-- Insider Perks Section -->
+      <section class="py-12 md:py-16 lg:py-0">
+        <div class="flex flex-col gap-8 md:gap-10 lg:gap-[48px]">
+          <h2
+            class="text-center text-3xl font-semibold leading-tight text-[#111827] md:text-4xl md:leading-tight lg:text-[48px] lg:leading-[56px]"
+          >
+            Insider Perks
+          </h2>
+          <div class="mx-auto w-full max-w-[1260px] px-4 md:px-6 lg:px-8">
+            <div
+              class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-3 lg:gap-[40px]"
+            >
+              {
+                insiderPerks.map((perk) => (
+                  <div class="flex flex-col gap-6 md:gap-8">
+                    <div
+                      class="h-[240px] w-full overflow-hidden  md:h-[300px] lg:h-[361.6px]"
+                      style={`border-radius: ${perk.borderRadius};`}
+                    >
+                      <img
+                        src={perk.image}
+                        alt={perk.imageAlt}
+                        class="h-full w-full object-cover"
+                      />
+                      <div
+                        class="flex h-full w-full items-center justify-center text-gray-400"
+                        style="display: none;"
+                      >
+                        Image placeholder
+                      </div>
+                    </div>
+                    <div class="flex flex-col gap-3 md:gap-4">
+                      <h3 class="text-xl font-semibold leading-7 md:text-2xl md:leading-8 lg:text-[32px] lg:leading-[40px]">
+                        {perk.title}
+                      </h3>
+                      <p class="text-sm leading-relaxed md:text-base">
+                        {perk.description}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div
+        class="not-prose flex flex-col items-center justify-center gap-6 border-y bg-[#fafafa] px-4 py-16 dark:bg-background2 md:gap-8 md:px-6 md:py-24 lg:gap-10 lg:px-8 lg:py-[240px]"
+      >
+        <div class="flex flex-col gap-4 md:gap-6">
+          <h2
+            class="text-center text-3xl font-semibold md:text-4xl lg:text-5xl"
+          >
+            Hey I'm Sold! What's Next?
+          </h2>
+          <p
+            class="max-w-[503px] text-center text-sm leading-relaxed md:text-base"
+          >
+            Introduce yourself to the Akash Club team and we'll place you into
+            one of our quarterly cohorts if you're the right fit.
+          </p>
+        </div>
+        <ButtonLink
+          arrow
+          className="mt-0"
+          link="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
+          variant="secondary"
+          size="lg"
+        >
+          Sign Up
+        </ButtonLink>
       </div>
     </div>
   </TopMargin>
