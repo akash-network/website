@@ -1,8 +1,8 @@
 import React from "react";
-import { CarouselItem } from "./CarouselItem";
-import { useCarousel } from "./useCarousel";
-import type { CarouselProps } from "./types";
 import "./Carousel.css";
+import { CarouselItem } from "./CarouselItem";
+import type { CarouselProps } from "./types";
+import { useCarousel } from "./useCarousel";
 
 export const Carousel: React.FC<CarouselProps> = ({
   images,
