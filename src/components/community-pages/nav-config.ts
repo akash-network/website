@@ -1,4 +1,6 @@
-export const nav: any = [
+import type { SimpleNavItem } from "@/types/navigation";
+
+export const nav: SimpleNavItem[] = [
   {
     label: "Akash Insiders",
     link: "/community/akash-insiders/",

@@ -9,10 +9,10 @@ type Roadmap = CollectionEntry<"aeps">;
 type Props = {
   year: number;
   quarters: {
-    Q1: any[];
-    Q2: any[];
-    Q3: any[];
-    Q4: any[];
+    Q1: Roadmap[];
+    Q2: Roadmap[];
+    Q3: Roadmap[];
+    Q4: Roadmap[];
   };
   years: number[];
 };

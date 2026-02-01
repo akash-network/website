@@ -1,8 +1,9 @@
 // use-lock-body.js
 
 import { useEffect } from "react";
+import type { DisclosureState } from "@/types/components";
 
-export function useLockBody(open: any) {
+export function useLockBody(open: DisclosureState) {
   useEffect(() => {
     if (open) {
       // Disable scrolling on the body element when the mobile menu is open

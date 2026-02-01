@@ -1,12 +1,15 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import type { CollectionEntry } from "astro:content";
+
+type RoadmapItem = CollectionEntry<"aeps">;
 
 interface QuarterNavigationProps {
   quarters: {
-    Q1: any[];
-    Q2: any[];
-    Q3: any[];
-    Q4: any[];
+    Q1: RoadmapItem[];
+    Q2: RoadmapItem[];
+    Q3: RoadmapItem[];
+    Q4: RoadmapItem[];
   };
 }
 

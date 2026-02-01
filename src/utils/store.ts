@@ -1,14 +1,8 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import type { StoreState } from "@/types/store";
 
-export interface IStore {
-  token: any;
-  setToken: (token: string) => void;
-  gpu: any;
-  setGpu: (gpu: string) => void;
-  docsLinkTracks: { [link: string]: boolean };
-  setDocsLinkTracks: (data: { [link: string]: boolean }) => void;
-}
+export interface IStore extends StoreState {}
 
 export const useStorage = create<IStore>()(
   devtools(

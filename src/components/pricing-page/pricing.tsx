@@ -109,7 +109,7 @@ function Pricing() {
             breakdown.
           </p>
         </div>
-        <UsageTable initialData={null} />
+        <UsageTable initialData={undefined} />
       </TabsContent>
       <TabsContent value="provider">
         <div className="my-8 md:m-[4.5rem]">
@@ -129,7 +129,7 @@ function Pricing() {
             providing resources to the Akash Network.
           </p>
         </div>
-        <ProviderTable initialData={null} />
+        <ProviderTable initialData={undefined} />
       </TabsContent>
     </Tabs>
   );

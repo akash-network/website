@@ -2,6 +2,8 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "lucide-react";
 import { XMarkIcon } from "../header/icons";
 import { useLockBody } from "../use-lock-body";
+import type { NavItem } from "@/types/navigation";
+import type { DisclosureState } from "@/types/components";
 
 const navigation = [
   { name: "Development", href: "#" },
@@ -41,7 +43,7 @@ export default function MobileNav({
   link,
 }: {
   currentPath: string;
-  nav: any;
+  nav: NavItem[];
   pageName: string;
   link?: string;
 }) {
@@ -98,8 +100,8 @@ const Panel = ({
   link,
 }: {
   currentPath: string;
-  open: any;
-  nav: any;
+  open: DisclosureState;
+  nav: NavItem[];
   link?: string;
 }) => {
   useLockBody(open);
@@ -122,13 +124,13 @@ function SideNav({
   link,
 }: {
   currentPath: string;
-  nav: any;
+  nav: NavItem[];
   link?: string;
 }) {
   return (
     <div className="w-full space-y-2   px-4 py-2">
       <>
-        {nav.map((navItem: any, index: number) => (
+        {nav.map((navItem: NavItem, index: number) => (
           <div className="flex flex-col gap-y-3 " key={navItem.link}>
             <a
               className={`${
@@ -143,7 +145,7 @@ function SideNav({
 
             {navItem.subItems &&
               currentPath === navItem.link &&
-              navItem.subItems.map((subItem: any) => (
+              navItem.subItems.map((subItem) => (
                 <a
                   className={`${
                     currentPath === subItem.link

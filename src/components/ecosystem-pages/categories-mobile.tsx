@@ -1,8 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
+import type { ClassNamesParams } from "@/types/components";
 
-function classNames(...classes: any) {
+function classNames(...classes: ClassNamesParams) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -11,7 +12,7 @@ const Categories = ({
   className,
   page,
 }: {
-  tags: any;
+  tags: string[];
   page: string;
   className?: string;
 }) => {

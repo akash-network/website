@@ -25,7 +25,7 @@ export interface ValidatorDetail {
   website: string;
 }
 
-export interface IValidatorAddess {
+export interface IValidatorAddress {
   address: string;
   operatorAddress: string;
   moniker: string;

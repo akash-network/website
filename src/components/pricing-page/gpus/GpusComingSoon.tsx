@@ -47,7 +47,7 @@ const GpusComingSoon = () => {
         <NvidiaBlackwellForm>
           <button
             className={buttonVariants({
-              variant: "primary",
+              variant: "default",
               className:
                 "flex w-fit items-center gap-2 whitespace-nowrap !px-4 !py-3",
             })}

@@ -1,0 +1,636 @@
+diff --git a/node_modules/@astrojs/sitemap/dist/config-defaults.d.ts b/node_modules/@astrojs/sitemap/dist/config-defaults.d.ts
+index 2ff364a..ff745fa 100644
+--- a/node_modules/@astrojs/sitemap/dist/config-defaults.d.ts
++++ b/node_modules/@astrojs/sitemap/dist/config-defaults.d.ts
+@@ -1,3 +1,10 @@
+ export declare const SITEMAP_CONFIG_DEFAULTS: {
++    filenameBase: string;
+     entryLimit: number;
++    namespaces: {
++        news: true;
++        xhtml: true;
++        image: true;
++        video: true;
++    };
+ };
+diff --git a/node_modules/@astrojs/sitemap/dist/config-defaults.js b/node_modules/@astrojs/sitemap/dist/config-defaults.js
+index 0ed93f4..bfa2f5c 100644
+--- a/node_modules/@astrojs/sitemap/dist/config-defaults.js
++++ b/node_modules/@astrojs/sitemap/dist/config-defaults.js
+@@ -1,5 +1,12 @@
+ const SITEMAP_CONFIG_DEFAULTS = {
+-  entryLimit: 45e3
++  filenameBase: "sitemap",
++  entryLimit: 45e3,
++  namespaces: {
++    news: true,
++    xhtml: true,
++    image: true,
++    video: true
++  }
+ };
+ export {
+   SITEMAP_CONFIG_DEFAULTS
+diff --git a/node_modules/@astrojs/sitemap/dist/index.d.ts b/node_modules/@astrojs/sitemap/dist/index.d.ts
+index 3aacdf0..1c295e6 100644
+--- a/node_modules/@astrojs/sitemap/dist/index.d.ts
++++ b/node_modules/@astrojs/sitemap/dist/index.d.ts
+@@ -5,7 +5,9 @@ export type ChangeFreq = `${EnumChangefreq}`;
+ export type SitemapItem = Pick<SitemapItemLoose, 'url' | 'lastmod' | 'changefreq' | 'priority' | 'links'>;
+ export type LinkItem = LinkItemBase;
+ export type SitemapOptions = {
++    filenameBase?: string;
+     filter?(page: string): boolean;
++    customSitemaps?: string[];
+     customPages?: string[];
+     i18n?: {
+         defaultLocale: string;
+@@ -16,6 +18,14 @@ export type SitemapOptions = {
+     lastmod?: Date;
+     priority?: number;
+     serialize?(item: SitemapItem): SitemapItem | Promise<SitemapItem | undefined> | undefined;
++    xslURL?: string;
++    chunks?: Record<string, (item: SitemapItem) => SitemapItem | Promise<SitemapItem | undefined> | undefined>;
++    namespaces?: {
++        news?: boolean;
++        xhtml?: boolean;
++        image?: boolean;
++        video?: boolean;
++    };
+ } | undefined;
+ declare const createPlugin: (options?: SitemapOptions) => AstroIntegration;
+ export default createPlugin;
+diff --git a/node_modules/@astrojs/sitemap/dist/index.js b/node_modules/@astrojs/sitemap/dist/index.js
+index 430b821..1b84bdf 100644
+--- a/node_modules/@astrojs/sitemap/dist/index.js
++++ b/node_modules/@astrojs/sitemap/dist/index.js
+@@ -4,13 +4,13 @@ import { ZodError } from "zod";
+ import { generateSitemap } from "./generate-sitemap.js";
+ import { validateOptions } from "./validate-options.js";
+ import { writeSitemap } from "./write-sitemap.js";
++import { writeSitemapChunk } from "./write-sitemap-chunk.js";
+ import { EnumChangefreq } from "sitemap";
+ function formatConfigErrorMessage(err) {
+   const errorList = err.issues.map((issue) => ` ${issue.path.join(".")}  ${issue.message + "."}`);
+   return errorList.join("\n");
+ }
+ const PKG_NAME = "@astrojs/sitemap";
+-const OUTFILE = "sitemap-index.xml";
+ const STATUS_CODE_PAGES = /* @__PURE__ */ new Set(["404", "500"]);
+ const isStatusCodePage = (locales) => {
+   const statusPathNames = new Set(
+@@ -27,14 +27,18 @@ const isStatusCodePage = (locales) => {
+   };
+ };
+ const createPlugin = (options) => {
++  let _routes;
+   let config;
+   return {
+     name: PKG_NAME,
+     hooks: {
++      "astro:routes:resolved": ({ routes }) => {
++        _routes = routes;
++      },
+       "astro:config:done": async ({ config: cfg }) => {
+         config = cfg;
+       },
+-      "astro:build:done": async ({ dir, routes, pages, logger }) => {
++      "astro:build:done": async ({ dir, pages, logger }) => {
+         try {
+           if (!config.site) {
+             logger.warn(
+@@ -43,8 +47,17 @@ const createPlugin = (options) => {
+             return;
+           }
+           const opts = validateOptions(config.site, options);
+-          const { filter, customPages, serialize, entryLimit } = opts;
+-          let finalSiteUrl = new URL(config.base, config.site);
++          const {
++            filenameBase,
++            filter,
++            customPages,
++            customSitemaps,
++            serialize,
++            entryLimit,
++            chunks
++          } = opts;
++          const outFile = `${filenameBase}-index.xml`;
++          const finalSiteUrl = new URL(config.base, config.site);
+           const shouldIgnoreStatus = isStatusCodePage(Object.keys(opts.i18n?.locales ?? {}));
+           let pageUrls = pages.filter((p) => !shouldIgnoreStatus(p.pathname)).map((p) => {
+             if (p.pathname !== "" && !finalSiteUrl.pathname.endsWith("/"))
+@@ -53,14 +66,14 @@ const createPlugin = (options) => {
+             const fullPath = finalSiteUrl.pathname + p.pathname;
+             return new URL(fullPath, finalSiteUrl).href;
+           });
+-          let routeUrls = routes.reduce((urls, r) => {
++          const routeUrls = (_routes ?? []).reduce((urls, r) => {
+             if (r.type !== "page") return urls;
+             if (r.pathname) {
+-              if (shouldIgnoreStatus(r.pathname ?? r.route)) return urls;
++              if (shouldIgnoreStatus(r.pathname ?? r.pattern)) return urls;
+               let fullPath = finalSiteUrl.pathname;
+               if (fullPath.endsWith("/")) fullPath += r.generate(r.pathname).substring(1);
+               else fullPath += r.generate(r.pathname);
+-              let newUrl = new URL(fullPath, finalSiteUrl).href;
++              const newUrl = new URL(fullPath, finalSiteUrl).href;
+               if (config.trailingSlash === "never") {
+                 urls.push(newUrl);
+               } else if (config.build.format === "directory" && !newUrl.endsWith("/")) {
+@@ -72,18 +85,12 @@ const createPlugin = (options) => {
+             return urls;
+           }, []);
+           pageUrls = Array.from(/* @__PURE__ */ new Set([...pageUrls, ...routeUrls, ...customPages ?? []]));
+-          try {
+-            if (filter) {
+-              pageUrls = pageUrls.filter(filter);
+-            }
+-          } catch (err) {
+-            logger.error(`Error filtering pages
+-${err.toString()}`);
+-            return;
++          if (filter) {
++            pageUrls = pageUrls.filter(filter);
+           }
+           if (pageUrls.length === 0) {
+             logger.warn(`No pages found!
+-\`${OUTFILE}\` not created.`);
++\`${outFile}\` not created.`);
+             return;
+           }
+           let urlData = generateSitemap(pageUrls, finalSiteUrl.href, opts);
+@@ -108,17 +115,69 @@ ${err.toString()}`);
+             }
+           }
+           const destDir = fileURLToPath(dir);
++          const lastmod = opts.lastmod?.toISOString();
++          const xslURL = opts.xslURL ? new URL(opts.xslURL, finalSiteUrl).href : void 0;
++          if (chunks) {
++            try {
++              let groupedUrlCollection = [];
++              const chunksItem = {};
++              for (const [key, cb] of Object.entries(chunks)) {
++                const collection = [];
++                for (const item of urlData) {
++                  const collect = await Promise.resolve(cb(item));
++                  if (collect) {
++                    collection.push(collect);
++                  }
++                }
++                chunksItem[key] = collection;
++                groupedUrlCollection = [
++                  ...groupedUrlCollection,
++                  ...collection.map((coll) => coll.url)
++                ];
++              }
++              chunksItem["pages"] = urlData.filter(
++                (urlDataItem) => !groupedUrlCollection.includes(urlDataItem.url)
++              );
++              await writeSitemapChunk(
++                {
++                  filenameBase,
++                  hostname: finalSiteUrl.href,
++                  sitemapHostname: finalSiteUrl.href,
++                  sourceData: chunksItem,
++                  destinationDir: destDir,
++                  publicBasePath: config.base,
++                  customSitemaps,
++                  limit: entryLimit,
++                  xslURL,
++                  lastmod,
++                  namespaces: opts.namespaces
++                },
++                config
++              );
++              logger.info(`\`${outFile}\` created at \`${path.relative(process.cwd(), destDir)}\``);
++              return;
++            } catch (err) {
++              logger.error(`Error chunking sitemaps
++${err.toString()}`);
++              return;
++            }
++          }
+           await writeSitemap(
+             {
++              filenameBase,
+               hostname: finalSiteUrl.href,
+               destinationDir: destDir,
+               publicBasePath: config.base,
+               sourceData: urlData,
+-              limit: entryLimit
++              limit: entryLimit,
++              customSitemaps,
++              xslURL,
++              lastmod,
++              namespaces: opts.namespaces
+             },
+             config
+           );
+-          logger.info(`\`${OUTFILE}\` created at \`${path.relative(process.cwd(), destDir)}\``);
++          logger.info(`\`${outFile}\` created at \`${path.relative(process.cwd(), destDir)}\``);
+         } catch (err) {
+           if (err instanceof ZodError) {
+             logger.warn(formatConfigErrorMessage(err));
+@@ -130,8 +189,8 @@ ${err.toString()}`);
+     }
+   };
+ };
+-var src_default = createPlugin;
++var index_default = createPlugin;
+ export {
+   EnumChangefreq as ChangeFreqEnum,
+-  src_default as default
++  index_default as default
+ };
+diff --git a/node_modules/@astrojs/sitemap/dist/schema.d.ts b/node_modules/@astrojs/sitemap/dist/schema.d.ts
+index 97705af..2778a8e 100644
+--- a/node_modules/@astrojs/sitemap/dist/schema.d.ts
++++ b/node_modules/@astrojs/sitemap/dist/schema.d.ts
+@@ -1,9 +1,12 @@
+ import { EnumChangefreq as ChangeFreq } from 'sitemap';
+ import { z } from 'zod';
+ export declare const SitemapOptionsSchema: z.ZodDefault<z.ZodObject<{
++    filenameBase: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+     filter: z.ZodOptional<z.ZodFunction<z.ZodTuple<[z.ZodString], z.ZodUnknown>, z.ZodBoolean>>;
++    customSitemaps: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
+     customPages: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
+     canonicalURL: z.ZodOptional<z.ZodString>;
++    xslURL: z.ZodOptional<z.ZodString>;
+     i18n: z.ZodOptional<z.ZodEffects<z.ZodObject<{
+         defaultLocale: z.ZodString;
+         locales: z.ZodRecord<z.ZodString, z.ZodString>;
+@@ -25,8 +28,32 @@ export declare const SitemapOptionsSchema: z.ZodDefault<z.ZodObject<{
+     changefreq: z.ZodOptional<z.ZodNativeEnum<typeof ChangeFreq>>;
+     lastmod: z.ZodOptional<z.ZodDate>;
+     priority: z.ZodOptional<z.ZodNumber>;
++    namespaces: z.ZodDefault<z.ZodOptional<z.ZodObject<{
++        news: z.ZodOptional<z.ZodBoolean>;
++        xhtml: z.ZodOptional<z.ZodBoolean>;
++        image: z.ZodOptional<z.ZodBoolean>;
++        video: z.ZodOptional<z.ZodBoolean>;
++    }, "strip", z.ZodTypeAny, {
++        news?: boolean | undefined;
++        xhtml?: boolean | undefined;
++        image?: boolean | undefined;
++        video?: boolean | undefined;
++    }, {
++        news?: boolean | undefined;
++        xhtml?: boolean | undefined;
++        image?: boolean | undefined;
++        video?: boolean | undefined;
++    }>>>;
++    chunks: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodFunction<z.ZodTuple<[z.ZodAny], z.ZodUnknown>, z.ZodAny>>>;
+ }, "strict", z.ZodTypeAny, {
++    filenameBase: string;
+     entryLimit: number;
++    namespaces: {
++        news?: boolean | undefined;
++        xhtml?: boolean | undefined;
++        image?: boolean | undefined;
++        video?: boolean | undefined;
++    };
+     changefreq?: ChangeFreq | undefined;
+     priority?: number | undefined;
+     lastmod?: Date | undefined;
+@@ -34,10 +61,13 @@ export declare const SitemapOptionsSchema: z.ZodDefault<z.ZodObject<{
+         defaultLocale: string;
+         locales: Record<string, string>;
+     } | undefined;
+-    filter?: ((args_0: string, ...args_1: unknown[]) => boolean) | undefined;
++    filter?: ((args_0: string, ...args: unknown[]) => boolean) | undefined;
++    customSitemaps?: string[] | undefined;
+     customPages?: string[] | undefined;
+     canonicalURL?: string | undefined;
+-    serialize?: ((args_0: any, ...args_1: unknown[]) => any) | undefined;
++    xslURL?: string | undefined;
++    serialize?: ((args_0: any, ...args: unknown[]) => any) | undefined;
++    chunks?: Record<string, (args_0: any, ...args: unknown[]) => any> | undefined;
+ }, {
+     changefreq?: ChangeFreq | undefined;
+     priority?: number | undefined;
+@@ -46,9 +76,19 @@ export declare const SitemapOptionsSchema: z.ZodDefault<z.ZodObject<{
+         defaultLocale: string;
+         locales: Record<string, string>;
+     } | undefined;
+-    filter?: ((args_0: string, ...args_1: unknown[]) => boolean) | undefined;
++    filter?: ((args_0: string, ...args: unknown[]) => boolean) | undefined;
++    filenameBase?: string | undefined;
++    entryLimit?: number | undefined;
++    customSitemaps?: string[] | undefined;
+     customPages?: string[] | undefined;
+     canonicalURL?: string | undefined;
+-    entryLimit?: number | undefined;
+-    serialize?: ((args_0: any, ...args_1: unknown[]) => any) | undefined;
++    xslURL?: string | undefined;
++    serialize?: ((args_0: any, ...args: unknown[]) => any) | undefined;
++    namespaces?: {
++        news?: boolean | undefined;
++        xhtml?: boolean | undefined;
++        image?: boolean | undefined;
++        video?: boolean | undefined;
++    } | undefined;
++    chunks?: Record<string, (args_0: any, ...args: unknown[]) => any> | undefined;
+ }>>;
+diff --git a/node_modules/@astrojs/sitemap/dist/schema.js b/node_modules/@astrojs/sitemap/dist/schema.js
+index 8f2305b..f6c7050 100644
+--- a/node_modules/@astrojs/sitemap/dist/schema.js
++++ b/node_modules/@astrojs/sitemap/dist/schema.js
+@@ -3,9 +3,12 @@ import { z } from "zod";
+ import { SITEMAP_CONFIG_DEFAULTS } from "./config-defaults.js";
+ const localeKeySchema = z.string().min(1);
+ const SitemapOptionsSchema = z.object({
++  filenameBase: z.string().optional().default(SITEMAP_CONFIG_DEFAULTS.filenameBase),
+   filter: z.function().args(z.string()).returns(z.boolean()).optional(),
++  customSitemaps: z.string().url().array().optional(),
+   customPages: z.string().url().array().optional(),
+   canonicalURL: z.string().url().optional(),
++  xslURL: z.string().optional(),
+   i18n: z.object({
+     defaultLocale: localeKeySchema,
+     locales: z.record(
+@@ -21,7 +24,14 @@ const SitemapOptionsSchema = z.object({
+   serialize: z.function().args(z.any()).returns(z.any()).optional(),
+   changefreq: z.nativeEnum(ChangeFreq).optional(),
+   lastmod: z.date().optional(),
+-  priority: z.number().min(0).max(1).optional()
++  priority: z.number().min(0).max(1).optional(),
++  namespaces: z.object({
++    news: z.boolean().optional(),
++    xhtml: z.boolean().optional(),
++    image: z.boolean().optional(),
++    video: z.boolean().optional()
++  }).optional().default(SITEMAP_CONFIG_DEFAULTS.namespaces),
++  chunks: z.record(z.function().args(z.any()).returns(z.any())).optional()
+ }).strict().default(SITEMAP_CONFIG_DEFAULTS);
+ export {
+   SitemapOptionsSchema
+diff --git a/node_modules/@astrojs/sitemap/dist/utils/is-object-empty.d.ts b/node_modules/@astrojs/sitemap/dist/utils/is-object-empty.d.ts
+deleted file mode 100644
+index cb0ff5c..0000000
+--- a/node_modules/@astrojs/sitemap/dist/utils/is-object-empty.d.ts
++++ /dev/null
+@@ -1 +0,0 @@
+-export {};
+diff --git a/node_modules/@astrojs/sitemap/dist/utils/is-object-empty.js b/node_modules/@astrojs/sitemap/dist/utils/is-object-empty.js
+deleted file mode 100644
+index 96f96a8..0000000
+--- a/node_modules/@astrojs/sitemap/dist/utils/is-object-empty.js
++++ /dev/null
+@@ -1,12 +0,0 @@
+-const isObjectEmpty = (o) => {
+-  if (!o) {
+-    return true;
+-  }
+-  if (Array.isArray(o)) {
+-    return o.length === 0;
+-  }
+-  return Object.keys(o).length === 0 && Object.getPrototypeOf(o) === Object.prototype;
+-};
+-export {
+-  isObjectEmpty
+-};
+diff --git a/node_modules/@astrojs/sitemap/dist/utils/is-valid-url.d.ts b/node_modules/@astrojs/sitemap/dist/utils/is-valid-url.d.ts
+deleted file mode 100644
+index cb0ff5c..0000000
+--- a/node_modules/@astrojs/sitemap/dist/utils/is-valid-url.d.ts
++++ /dev/null
+@@ -1 +0,0 @@
+-export {};
+diff --git a/node_modules/@astrojs/sitemap/dist/utils/is-valid-url.js b/node_modules/@astrojs/sitemap/dist/utils/is-valid-url.js
+deleted file mode 100644
+index 03c40d3..0000000
+--- a/node_modules/@astrojs/sitemap/dist/utils/is-valid-url.js
++++ /dev/null
+@@ -1,14 +0,0 @@
+-const isValidUrl = (s) => {
+-  if (typeof s !== "string" || !s) {
+-    return false;
+-  }
+-  try {
+-    const dummy = new URL(s);
+-    return true;
+-  } catch {
+-    return false;
+-  }
+-};
+-export {
+-  isValidUrl
+-};
+diff --git a/node_modules/@astrojs/sitemap/dist/write-sitemap-chunk.d.ts b/node_modules/@astrojs/sitemap/dist/write-sitemap-chunk.d.ts
+new file mode 100644
+index 0000000..645f66a
+--- /dev/null
++++ b/node_modules/@astrojs/sitemap/dist/write-sitemap-chunk.d.ts
+@@ -0,0 +1,22 @@
++import type { AstroConfig } from 'astro';
++import type { SitemapItem } from './index.js';
++type WriteSitemapChunkConfig = {
++    filenameBase: string;
++    hostname: string;
++    sitemapHostname?: string;
++    sourceData: Record<string, SitemapItem[]>;
++    destinationDir: string;
++    customSitemaps?: string[];
++    publicBasePath?: string;
++    limit?: number;
++    xslURL?: string;
++    lastmod?: string;
++    namespaces?: {
++        news?: boolean;
++        xhtml?: boolean;
++        image?: boolean;
++        video?: boolean;
++    };
++};
++export declare function writeSitemapChunk({ filenameBase, hostname, sitemapHostname, sourceData, destinationDir, limit, customSitemaps, publicBasePath, xslURL: xslUrl, lastmod, namespaces, }: WriteSitemapChunkConfig, astroConfig: AstroConfig): Promise<void>;
++export {};
+diff --git a/node_modules/@astrojs/sitemap/dist/write-sitemap-chunk.js b/node_modules/@astrojs/sitemap/dist/write-sitemap-chunk.js
+new file mode 100644
+index 0000000..e498f66
+--- /dev/null
++++ b/node_modules/@astrojs/sitemap/dist/write-sitemap-chunk.js
+@@ -0,0 +1,77 @@
++import { createWriteStream } from "node:fs";
++import { mkdir } from "node:fs/promises";
++import { normalize, resolve } from "node:path";
++import { pipeline, Readable } from "node:stream";
++import { promisify } from "node:util";
++import { SitemapAndIndexStream, SitemapIndexStream, SitemapStream } from "sitemap";
++import replace from "stream-replace-string";
++async function writeSitemapChunk({
++  filenameBase,
++  hostname,
++  sitemapHostname = hostname,
++  sourceData,
++  destinationDir,
++  limit = 5e4,
++  customSitemaps = [],
++  publicBasePath = "./",
++  xslURL: xslUrl,
++  lastmod,
++  namespaces = { news: true, xhtml: true, image: true, video: true }
++}, astroConfig) {
++  await mkdir(destinationDir, { recursive: true });
++  let normalizedPublicBasePath = publicBasePath;
++  if (!normalizedPublicBasePath.endsWith("/")) {
++    normalizedPublicBasePath += "/";
++  }
++  const sitemapUrls = [];
++  for (const [chunkName, items] of Object.entries(sourceData)) {
++    const sitemapAndIndexStream = new SitemapAndIndexStream({
++      limit,
++      xslUrl,
++      getSitemapStream: (i) => {
++        const sitemapStream = new SitemapStream({
++          hostname,
++          xslUrl,
++          // Custom namespace handling
++          xmlns: {
++            news: namespaces?.news !== false,
++            xhtml: namespaces?.xhtml !== false,
++            image: namespaces?.image !== false,
++            video: namespaces?.video !== false
++          }
++        });
++        const path = `./${filenameBase}-${chunkName}-${i}.xml`;
++        const writePath = resolve(destinationDir, path);
++        const publicPath = normalize(normalizedPublicBasePath + path);
++        let stream;
++        if (astroConfig.trailingSlash === "never" || astroConfig.build.format === "file") {
++          const host = hostname.endsWith("/") ? hostname.slice(0, -1) : hostname;
++          const searchStr = `<loc>${host}/</loc>`;
++          const replaceStr = `<loc>${host}</loc>`;
++          stream = sitemapStream.pipe(replace(searchStr, replaceStr)).pipe(createWriteStream(writePath));
++        } else {
++          stream = sitemapStream.pipe(createWriteStream(writePath));
++        }
++        const url = new URL(publicPath, sitemapHostname).toString();
++        sitemapUrls.push({ url, lastmod });
++        return [{ url, lastmod }, sitemapStream, stream];
++      }
++    });
++    const dataStream = Readable.from(items);
++    await promisify(pipeline)(dataStream, sitemapAndIndexStream);
++  }
++  const indexStream = new SitemapIndexStream({ xslUrl });
++  const indexPath = resolve(destinationDir, `./${filenameBase}-index.xml`);
++  const indexWriteStream = createWriteStream(indexPath);
++  for (const url of customSitemaps) {
++    indexStream.write({ url, lastmod });
++  }
++  for (const sitemapUrl of sitemapUrls) {
++    indexStream.write(sitemapUrl);
++  }
++  indexStream.end();
++  return await promisify(pipeline)(indexStream, indexWriteStream);
++}
++export {
++  writeSitemapChunk
++};
+diff --git a/node_modules/@astrojs/sitemap/dist/write-sitemap.d.ts b/node_modules/@astrojs/sitemap/dist/write-sitemap.d.ts
+index 5d4e234..cde1384 100644
+--- a/node_modules/@astrojs/sitemap/dist/write-sitemap.d.ts
++++ b/node_modules/@astrojs/sitemap/dist/write-sitemap.d.ts
+@@ -1,12 +1,22 @@
+ import type { AstroConfig } from 'astro';
+ import type { SitemapItem } from './index.js';
+ type WriteSitemapConfig = {
++    filenameBase: string;
+     hostname: string;
+     sitemapHostname?: string;
++    customSitemaps?: string[];
+     sourceData: SitemapItem[];
+     destinationDir: string;
+     publicBasePath?: string;
+     limit?: number;
++    xslURL?: string;
++    lastmod?: string;
++    namespaces?: {
++        news?: boolean;
++        xhtml?: boolean;
++        image?: boolean;
++        video?: boolean;
++    };
+ };
+-export declare function writeSitemap({ hostname, sitemapHostname, sourceData, destinationDir, limit, publicBasePath, }: WriteSitemapConfig, astroConfig: AstroConfig): Promise<void>;
++export declare function writeSitemap({ filenameBase, hostname, sitemapHostname, sourceData, destinationDir, limit, customSitemaps, publicBasePath, xslURL: xslUrl, lastmod, namespaces, }: WriteSitemapConfig, astroConfig: AstroConfig): Promise<void>;
+ export {};
+diff --git a/node_modules/@astrojs/sitemap/dist/write-sitemap.js b/node_modules/@astrojs/sitemap/dist/write-sitemap.js
+index 0e022f5..58299d8 100644
+--- a/node_modules/@astrojs/sitemap/dist/write-sitemap.js
++++ b/node_modules/@astrojs/sitemap/dist/write-sitemap.js
+@@ -1,26 +1,40 @@
+-import { createWriteStream } from "fs";
+-import { normalize, resolve } from "path";
+-import { Readable, pipeline } from "stream";
+-import { promisify } from "util";
+-import { mkdir } from "fs/promises";
++import { createWriteStream } from "node:fs";
++import { mkdir } from "node:fs/promises";
++import { normalize, resolve } from "node:path";
++import { pipeline, Readable } from "node:stream";
++import { promisify } from "node:util";
++import { SitemapAndIndexStream, SitemapIndexStream, SitemapStream } from "sitemap";
+ import replace from "stream-replace-string";
+-import { SitemapAndIndexStream, SitemapStream } from "sitemap";
+ async function writeSitemap({
++  filenameBase,
+   hostname,
+   sitemapHostname = hostname,
+   sourceData,
+   destinationDir,
+   limit = 5e4,
+-  publicBasePath = "./"
++  customSitemaps = [],
++  publicBasePath = "./",
++  xslURL: xslUrl,
++  lastmod,
++  namespaces = { news: true, xhtml: true, image: true, video: true }
+ }, astroConfig) {
+   await mkdir(destinationDir, { recursive: true });
+   const sitemapAndIndexStream = new SitemapAndIndexStream({
+     limit,
++    xslUrl,
+     getSitemapStream: (i) => {
+       const sitemapStream = new SitemapStream({
+-        hostname
++        hostname,
++        xslUrl,
++        // Custom namespace handling
++        xmlns: {
++          news: namespaces?.news !== false,
++          xhtml: namespaces?.xhtml !== false,
++          image: namespaces?.image !== false,
++          video: namespaces?.video !== false
++        }
+       });
+-      const path = `./sitemap-${i}.xml`;
++      const path = `./${filenameBase}-${i}.xml`;
+       const writePath = resolve(destinationDir, path);
+       if (!publicBasePath.endsWith("/")) {
+         publicBasePath += "/";
+@@ -35,11 +49,21 @@ async function writeSitemap({
+       } else {
+         stream = sitemapStream.pipe(createWriteStream(writePath));
+       }
+-      return [new URL(publicPath, sitemapHostname).toString(), sitemapStream, stream];
++      const url = new URL(publicPath, sitemapHostname).toString();
++      return [{ url, lastmod }, sitemapStream, stream];
+     }
+   });
+-  let src = Readable.from(sourceData);
+-  const indexPath = resolve(destinationDir, `./sitemap-index.xml`);
++  const src = Readable.from(sourceData);
++  const indexPath = resolve(destinationDir, `./${filenameBase}-index.xml`);
++  for (const url of customSitemaps) {
++    SitemapIndexStream.prototype._transform.call(
++      sitemapAndIndexStream,
++      { url, lastmod },
++      "utf8",
++      () => {
++      }
++    );
++  }
+   return promisify(pipeline)(src, sitemapAndIndexStream, createWriteStream(indexPath));
+ }
+ export {

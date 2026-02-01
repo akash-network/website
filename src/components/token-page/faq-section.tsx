@@ -6,6 +6,8 @@ import {
 } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FAQ } from "./faq";
+import type { StoreState } from "@/types/store";
+import type { TokenMarketData } from "@/types/token";
 export const FaqsToken = () => {
   const queryClient = new QueryClient();
 
@@ -17,8 +19,8 @@ export const FaqsToken = () => {
 };
 
 const Query = () => {
-  const token = useStorage((state: any) => state?.token);
-  const setToken = useStorage((state: any) => state?.setToken);
+  const token = useStorage((state: StoreState) => state.token);
+  const setToken = useStorage((state: StoreState) => state.setToken);
 
   const [enabled, setEnabled] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
@@ -74,7 +76,7 @@ const FaqSection = ({
   isLoading,
   isError,
 }: {
-  data: any;
+  data: TokenMarketData | undefined;
   isLoading: boolean;
   isError: boolean;
 }) => {

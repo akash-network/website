@@ -7,11 +7,13 @@ import {
 import { useEffect, useState } from "react";
 import BuyAktButton from "./buy-akt-modal";
 import TokenMetricsSection from "./token-metrics-section";
+import type { SectionData } from "@/types/token";
+import type { StoreState } from "@/types/store";
 
 interface SectionProps {
-  aktFeaturesSection: any;
-  buyingAKTSection: any;
-  faqsSection: any;
+  aktFeaturesSection: SectionData;
+  buyingAKTSection: SectionData;
+  faqsSection: SectionData;
   url: string;
 }
 
@@ -41,8 +43,8 @@ const Query = ({
   faqsSection,
   url,
 }: SectionProps) => {
-  const token = useStorage((state: any) => state?.token);
-  const setToken = useStorage((state: any) => state?.setToken);
+  const token = useStorage((state: StoreState) => state.token);
+  const setToken = useStorage((state: StoreState) => state.setToken);
 
   const [enabled, setEnabled] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date().getTime());

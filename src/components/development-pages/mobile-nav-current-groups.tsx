@@ -2,84 +2,68 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "../header/icons";
 import { useLockBody } from "../use-lock-body";
 
-const navigation = [
-  { name: "Development", href: "#" },
-  { name: "Community", href: "#" },
-  { name: "Ecosystem", href: "/ecosystem" },
-  { name: "Token", href: "/token" },
-  { name: "Blog", href: "/blog" },
-  { name: "Docs", href: "#" },
-  {
-    name: "Discussions",
-    href: "#",
-    current: false,
-    icon: (
-      <svg
-        width="17"
-        height="16"
-        viewBox="0 0 17 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M5.80469 10.6569L11.4615 5M11.4615 5H6.5118M11.4615 5V9.94978"
-          stroke="#272540"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-];
+/* ===================== TYPES ===================== */
+
+type Meeting = {
+  title: string;
+  link: string;
+};
+
+type SubItem = {
+  label: string;
+  link: string;
+  meetings?: Meeting[];
+};
+
+type NavItem = {
+  label: string;
+  link: string;
+  subItems: SubItem[];
+};
+
+type MobileNavProps = {
+  currentPath: string;
+  nav: NavItem[];
+  pageName: string;
+  link?: string;
+};
+
+/* ===================== HELPERS ===================== */
+
+const withDate = (meeting: Meeting) => {
+  const dateString = meeting.title.split("-").slice(1).join("-");
+  return { ...meeting, date: new Date(dateString) };
+};
+
+/* ===================== COMPONENT ===================== */
 
 export default function MobileNav({
   currentPath,
   nav,
-  pageName = "pageName",
-  link = "",
-}: {
-  currentPath: string;
-  nav: any;
-  pageName: string;
-  link?: string;
-}) {
+  pageName,
+  link,
+}: MobileNavProps) {
   return (
-    <Disclosure as="nav" className=" overflow-hidden">
+    <Disclosure as="nav" className="overflow-hidden">
       {({ open }) => (
         <>
-          <Disclosure.Button className="flex items-center gap-x-1 rounded-full border bg-background2 px-3 py-2 text-xs leading-none ">
+          <Disclosure.Button className="flex items-center gap-x-1 rounded-full border bg-background2 px-3 py-2 text-xs">
             {pageName}
-
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              className="text-foreground"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M6 2.5L9.5 6L6 9.5"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
+            <ChevronIcon />
           </Disclosure.Button>
 
           <Transition
-            enter="transition ease duration-500 transform"
-            enterFrom="opacity-100 -translate-x-full"
-            enterTo="opacity-100 translate-x-0"
-            leave="transition ease duration-300 transform"
-            leaveFrom="opacity-100 translate-x-0"
-            leaveTo="opacity-100 -translate-x-full"
-            className="fixed  inset-0  z-40  w-full overflow-y-auto  bg-background   lg:hidden"
+            enter="transition duration-500 transform"
+            enterFrom="-translate-x-full"
+            enterTo="translate-x-0"
+            leave="transition duration-300 transform"
+            leaveFrom="translate-x-0"
+            leaveTo="-translate-x-full"
+            className="fixed inset-0 z-40 w-full bg-background lg:hidden"
           >
             <Panel
-              currentPath={currentPath}
               open={open}
+              currentPath={currentPath}
               nav={nav}
               link={link}
             />
@@ -90,115 +74,82 @@ export default function MobileNav({
   );
 }
 
-const Panel = ({
-  currentPath,
-  open,
-  nav,
-  link,
-}: {
+/* ===================== PANEL ===================== */
+
+type PanelProps = {
+  open: boolean;
   currentPath: string;
-  open: any;
-  nav: any;
+  nav: NavItem[];
   link?: string;
-}) => {
+};
+
+const Panel = ({ open, currentPath, nav, link }: PanelProps) => {
   useLockBody(open);
 
   return (
-    <Disclosure.Panel className=" z-50 lg:hidden">
-      <div className="container   z-50 flex h-full flex-col gap-6 py-10  ">
-        <Disclosure.Button className="  ml-auto flex items-center justify-center  gap-x-1 rounded-full  text-xs leading-none">
+    <Disclosure.Panel className="z-50 lg:hidden">
+      <div className="container flex h-full flex-col gap-6 py-10">
+        <Disclosure.Button className="ml-auto">
           <XMarkIcon />
         </Disclosure.Button>
+
         <SideNav currentPath={currentPath} nav={nav} link={link} />
       </div>
     </Disclosure.Panel>
   );
 };
 
-function SideNav({
-  currentPath,
-  nav,
+/* ===================== SIDENAV ===================== */
 
-  link,
-}: {
+type SideNavProps = {
   currentPath: string;
-  nav: any;
-
+  nav: NavItem[];
   link?: string;
-}) {
+};
+
+function SideNav({ currentPath, nav, link }: SideNavProps) {
   return (
-    <div className="flex w-full flex-col  gap-y-3 overflow-auto">
+    <div className="flex flex-col gap-y-3 overflow-auto">
       <a
         href="/development/community-groups/"
-        className={`flex cursor-pointer items-center gap-x-1 rounded-lg  py-[6px] text-base font-medium leading-[24px] text-para hover:bg-[#F4F1F1] hover:text-primary`}
+        className="flex items-center gap-x-1 rounded-lg py-1.5 text-base font-medium text-para hover:bg-[#F4F1F1] hover:text-primary"
       >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className="text-para"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M12.7071 5.29289C13.0976 5.68342 13.0976 6.31658 12.7071 6.70711L9.41421 10L12.7071 13.2929C13.0976 13.6834 13.0976 14.3166 12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L7.29289 10.7071C6.90237 10.3166 6.90237 9.68342 7.29289 9.29289L11.2929 5.29289C11.6834 4.90237 12.3166 4.90237 12.7071 5.29289Z"
-            fill="currentColor"
-          ></path>
-        </svg>
+        <BackIcon />
         Back
       </a>
-      {nav.map((navItem: any) => (
-        <div className="flex flex-col gap-y-3">
-          <a
-            href={`${navItem.link}${navItem.subItems[0].link.split("/")[3]}/`}
-            className={`
-                   
-              border-b  pb-3 pt-[8px] text-base font-medium leading-[24px]  `}
-          >
+
+      {nav.map((navItem) => (
+        <div key={navItem.label} className="flex flex-col gap-y-3">
+          <a className="border-b pb-3 pt-2 text-base font-medium">
             {navItem.label}
           </a>
 
-          {navItem.subItems &&
-            currentPath.split("/")[2] === navItem.link.split("/")[2] &&
-            navItem.subItems.map((subItem: any) => (
-              <div className="flex flex-col gap-y-3">
+          {currentPath.includes(navItem.link) &&
+            navItem.subItems.map((subItem) => (
+              <div key={subItem.link} className="flex flex-col gap-y-2">
                 <a
-                  className={`${
-                    currentPath === subItem.link ? " text-primary" : "text-para"
-                  }  ml-3 rounded-lg py-1.5   text-base font-medium leading-[24px] `}
-                  href={`${subItem.link}`}
+                  href={subItem.link}
+                  className={`ml-3 text-base font-medium ${
+                    currentPath === subItem.link
+                      ? "text-primary"
+                      : "text-para"
+                  }`}
                 >
                   {subItem.label}
                 </a>
 
                 {subItem.meetings &&
-                  currentPath.split("/")[3] === subItem.link.split("/")[3] &&
+                  currentPath.includes(subItem.link) &&
                   subItem.meetings
-                    .map((meeting) => {
-                      // Extract the date part from the title (assuming the format is '001-2023-01-25')
-                      const dateString = meeting.title
-                        .split("-")
-                        .slice(1)
-                        .join("-");
-
-                      // Create a Date object from the formatted date string
-                      const dateObject = new Date(dateString);
-
-                      // Add the date object to the meeting object
-                      return {
-                        ...meeting,
-                        date: dateObject,
-                      };
-                    })
-                    .sort((a, b) => b.date - a.date)
-                    .map((meeting: any) => (
+                    .map(withDate)
+                    .sort(
+                      (a, b) => b.date.getTime() - a.date.getTime()
+                    )
+                    .map((meeting) => (
                       <a
+                        key={meeting.link}
                         href={`/current-groups/meetings/${meeting.link}`}
-                        className={`${
-                          currentPath === meeting.link ? "" : "text-para"
-                        }  ml-6   py-[6px] text-base font-medium leading-[24px] `}
+                        className="ml-6 py-1 text-base text-para"
                       >
                         {meeting.title.split("-").slice(1).join("-")}
                       </a>
@@ -207,35 +158,15 @@ function SideNav({
             ))}
         </div>
       ))}
-      <div className="mt-3 flex flex-col justify-center rounded-[8px] border  bg-background2 p-4">
+
+      <div className="mt-3 rounded-lg border bg-background2 p-4">
         <a
           href={link}
-          className="inline-flex cursor-pointer items-center justify-center gap-x-2 text-xs font-medium hover:text-primary"
+          className="flex items-center justify-center gap-x-2 text-xs font-medium hover:text-primary"
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            className="text-foreground"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2 14L8 14L14 14"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-            <path
-              d="M8.15049 3.88559L10.0361 1.99997L13.3359 5.2998L11.4503 7.18542M8.15049 3.88559L4.51039 7.52569C4.32285 7.71323 4.21749 7.96758 4.21749 8.2328L4.21749 11.1184L7.10311 11.1184C7.36833 11.1184 7.62268 11.0131 7.81022 10.8255L11.4503 7.18542M8.15049 3.88559L11.4503 7.18542"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-          </svg>
+          <EditIcon />
           Edit page on github
         </a>
-
         <p className="mt-2 text-center text-2xs">
           Last modified on April 18, 2023
         </p>
@@ -243,3 +174,42 @@ function SideNav({
     </div>
   );
 }
+
+/* ===================== ICONS ===================== */
+
+const ChevronIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12">
+    <path
+      d="M6 2.5L9.5 6L6 9.5"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const BackIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20">
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12.7071 5.29289C13.0976 5.68342 13.0976 6.31658 12.7071 6.70711L9.41421 10L12.7071 13.2929C13.0976 13.6834 13.0976 14.3166 12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L7.29289 10.7071C6.90237 10.3166 6.90237 9.68342 7.29289 9.29289L11.2929 5.29289C11.6834 4.90237 12.3166 4.90237 12.7071 5.29289Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const EditIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16">
+    <path
+      d="M2 14H14"
+      stroke="currentColor"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8.15 3.89L10.04 2L13.34 5.3L11.45 7.19"
+      stroke="currentColor"
+      strokeLinecap="round"
+    />
+  </svg>
+);

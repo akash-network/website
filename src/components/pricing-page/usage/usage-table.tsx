@@ -41,8 +41,8 @@ const UsageTable = ({
   pathName,
   subCom,
 }: {
-  initialData?: any;
-  pathName?: any;
+  initialData?: PricingTableData;
+  pathName?: PathName;
   subCom?: boolean;
 }) => {
   const queryClient = new QueryClient();
@@ -50,9 +50,9 @@ const UsageTable = ({
   return (
     <QueryClientProvider client={queryClient}>
       <Table
-        initialData={{
+        initialData={initialData ? {
           data: initialData,
-        }}
+        } : undefined}
         pathName={pathName}
         subCom={subCom}
       />
@@ -62,15 +62,17 @@ const UsageTable = ({
 
 export default UsageTable;
 
+import type { PricingTableData, PathName } from "@/types/pricing";
+
 const Table = ({
   initialData,
   pathName,
   subCom,
 }: {
   initialData?: {
-    data: any;
+    data: PricingTableData;
   };
-  pathName?: any;
+  pathName?: PathName;
   subCom?: boolean;
 }) => {
   const fetchInterval = 1000 * 60;
@@ -89,8 +91,8 @@ const Table = ({
     queryKey: ["GPU_TABLE"],
     queryFn: () => axios.get(gpus),
     refetchIntervalInBackground: true,
-
     refetchInterval: fetchInterval,
+    initialData: initialData as { data: Gpus } | undefined,
   });
 
   const data = result?.data;
@@ -153,7 +155,7 @@ export const Tables = ({
   isLoading,
 }: {
   data?: Gpus;
-  pathName?: any;
+  pathName?: PathName;
   subCom?: boolean;
   isLoading?: boolean;
 }) => {

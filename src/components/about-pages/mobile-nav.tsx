@@ -1,6 +1,8 @@
 import { Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "../header/icons";
 import { useLockBody } from "../use-lock-body";
+import type { SimpleNavItem } from "@/types/navigation";
+import type { DisclosureState } from "@/types/components";
 
 export default function MobileNav({
   currentPath,
@@ -9,7 +11,7 @@ export default function MobileNav({
   link,
 }: {
   currentPath: string;
-  nav: any;
+  nav: SimpleNavItem[];
   pageName: string;
   link: string;
 }) {
@@ -65,8 +67,8 @@ const Panel = ({
   link,
 }: {
   currentPath: string;
-  open: any;
-  nav: any;
+  open: DisclosureState;
+  nav: SimpleNavItem[];
   link: string;
 }) => {
   useLockBody(open);
@@ -89,12 +91,12 @@ function SideNav({
   link,
 }: {
   currentPath: string;
-  nav: any;
+  nav: SimpleNavItem[];
   link: string;
 }) {
   return (
     <div className="flex w-full flex-col gap-y-3">
-      {nav.map((navItem: any) => (
+      {nav.map((navItem: SimpleNavItem) => (
         <a
           key={navItem.label}
           className={`${

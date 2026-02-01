@@ -1,8 +1,16 @@
 ---
 import clsx from "clsx";
+import type { NavItem } from "@/types/navigation";
+
 const pathname = new URL(Astro.request.url).pathname;
 
-const { nav, link, subNav } = Astro.props;
+interface Props {
+  nav: NavItem[];
+  link?: string;
+  subNav?: unknown;
+}
+
+const { nav, link, subNav } = Astro.props as Props;
 ---
 
 <div
@@ -10,7 +18,7 @@ const { nav, link, subNav } = Astro.props;
 >
   <div class="flex flex-col gap-y-3">
     {
-      nav.map((navItem: any) => (
+      nav.map((navItem: NavItem) => (
         <div class="flex flex-col gap-y-3">
           <a
             class={`${
@@ -25,7 +33,7 @@ const { nav, link, subNav } = Astro.props;
 
           {navItem.subItems &&
             pathname === navItem.link &&
-            navItem.subItems.map((subItem: any) => (
+            navItem.subItems?.map((subItem) => (
               <a
                 class={`${
                   pathname === subItem.link
@@ -59,12 +67,12 @@ const { nav, link, subNav } = Astro.props;
         class="text-foreground"
         stroke="currentColor"
       >
-        <path d="M2 14L8 14L14 14" strokeLinecap="round" strokeLinejoin="round"
+        <path d="M2 14L8 14L14 14" stroke-linecap="round" stroke-linejoin="round"
         ></path>
         <path
           d="M8.15049 3.88559L10.0361 1.99997L13.3359 5.2998L11.4503 7.18542M8.15049 3.88559L4.51039 7.52569C4.32285 7.71323 4.21749 7.96758 4.21749 8.2328L4.21749 11.1184L7.10311 11.1184C7.36833 11.1184 7.62268 11.0131 7.81022 10.8255L11.4503 7.18542M8.15049 3.88559L11.4503 7.18542"
-          strokeLinecap="round"
-          strokeLinejoin="round"></path>
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
       </svg>
       Edit page on github</a
     >

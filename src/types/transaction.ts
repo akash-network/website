@@ -16,7 +16,7 @@ export interface TransactionDetail {
 export interface TransactionMessage {
   id: string;
   type: string;
-  data?: any;
+  data?: Record<string, unknown>;
   isReceiver?: boolean;
   amount?: number;
 }

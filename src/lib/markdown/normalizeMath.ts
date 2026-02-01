@@ -1,5 +1,6 @@
 import type { RemarkPlugin } from "@astrojs/markdown-remark";
 import { visit } from "unist-util-visit";
+ import type { Node, Parent } from "unist";
 
 const stripBalancedTicks = (value: string) => {
   const trimmed = value.trim();
@@ -50,23 +51,41 @@ const asMathHtml = (value: string, display: boolean) => {
     : `<span class="math-inline">\\(${escaped}\\)</span>`;
 };
 
+interface CodeNode extends Node {
+  type: "code";
+  lang?: string;
+  value?: string;
+}
+
+interface MathNode extends Node {
+  type: "inlineMath" | "math";
+  value?: string;
+}
+
+type MathNodeType = CodeNode | MathNode;
+
 export const normalizeMath: RemarkPlugin<[]> = () => (tree) => {
-  visit(tree, (node: any, index: number | null, parent: any) => {
+  visit(tree, (node: Node, index: number | undefined, parent: Parent | null | undefined) => {
     if (!parent || typeof index !== "number") return;
 
-    const language = typeof node.lang === "string" ? node.lang.toLowerCase() : undefined;
-
-    if (node.type === "code" && typeof node.value === "string" && language === "math") {
-      const html = asMathHtml(node.value, true);
-      parent.children[index] = { type: "html", value: html };
-      return;
+    // Handle code blocks with math language
+    if (node.type === "code") {
+      const codeNode = node as CodeNode;
+      const language = typeof codeNode.lang === "string" ? codeNode.lang.toLowerCase() : undefined;
+      if (typeof codeNode.value === "string" && language === "math") {
+        const html = asMathHtml(codeNode.value, true);
+        parent.children[index] = { type: "html", value: html } as Node;
+        return;
+      }
     }
 
-    if ((node.type !== "inlineMath" && node.type !== "math") || typeof node.value !== "string") {
-      return;
+    // Handle inline math and math nodes
+    if (node.type === "inlineMath" || node.type === "math") {
+      const mathNode = node as MathNode;
+      if (typeof mathNode.value === "string") {
+        const html = asMathHtml(mathNode.value, node.type === "math");
+        parent.children[index] = { type: "html", value: html } as Node;
+      }
     }
-
-    const html = asMathHtml(node.value, node.type === "math");
-    parent.children[index] = { type: "html", value: html };
   });
 };

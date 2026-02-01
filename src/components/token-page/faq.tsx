@@ -22,7 +22,7 @@ export function FAQ({ faqs }: { faqs: FAQs[] }) {
       onValueChange={() => setValue("")}
       className="w-full "
     >
-      {faqs.map((faq: any, index: number) => (
+      {faqs.map((faq: FAQs, index: number) => (
         <AccordionItem
           key={index}
           value={`item-${index}`}

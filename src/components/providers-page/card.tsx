@@ -9,12 +9,22 @@ type Image = {
   src: string;
 };
 
+interface Link {
+  label: string;
+  link: string;
+}
+
+interface Button {
+  label: string;
+  link: string;
+}
+
 interface FeatureComponentProps {
   images: Image[];
   title: string;
   description: string;
-  button: any;
-  links: string[];
+  button: Button;
+  links: Link[];
 }
 
 const FeatureComponent: React.FC<FeatureComponentProps> = ({
@@ -220,7 +230,7 @@ const FeatureComponent: React.FC<FeatureComponentProps> = ({
           </button>
         </div>
         <div className="mt-4 flex flex-col space-y-1 md:mt-[23px] md:space-y-[11px]">
-          {links.map((link: any) => (
+          {links.map((link: Link) => (
             <a
               key={link.label}
               className="inline-flex cursor-pointer items-center gap-x-2 font-bold leading-normal hover:text-primary"

@@ -1,9 +1,11 @@
+import type { TokenMarketData } from "@/types/token";
+
 const TokenMetricsSection = ({
   data,
   isLoading,
   isError,
 }: {
-  data: any;
+  data: TokenMarketData | undefined;
   isLoading: boolean;
   isError: boolean;
 }) => {
@@ -89,7 +91,7 @@ const TokenMetricsSection = ({
               </p>
               <Skeleton
                 isError={isError}
-                number={data && metric.format(metric.value)}
+                number={data && metric.value !== undefined ? metric.format(metric.value) : undefined}
                 isLoading={isLoading}
                 isNumber={metric.value}
               />
