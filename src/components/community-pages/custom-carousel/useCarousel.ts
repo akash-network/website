@@ -31,9 +31,11 @@ export const useCarousel = (speed = 50) => {
     if (!track) return;
 
     const totalWidth = track.scrollWidth;
-    const duration = totalWidth / speed;
+    // Scroll by 1/3 of total width (one set of images) for seamless loop
+    const scrollWidth = totalWidth / 3;
+    const duration = scrollWidth / speed;
 
-    track.style.setProperty("--scroll-width", `${totalWidth}px`);
+    track.style.setProperty("--scroll-width", `${scrollWidth}px`);
     track.style.setProperty("--animation-duration", `${duration}s`);
     track.classList.add("animate-scroll");
 

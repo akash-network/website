@@ -7,7 +7,7 @@ interface CarouselItemProps {
 }
 
 export const CarouselItem: React.FC<CarouselItemProps> = ({ src, alt, isLoaded }) => (
-  <div className="carousel-item mx-3 flex-shrink-0 md:mx-5 lg:mx-[28px]">
+  <div className="carousel-item flex-shrink-0">
     <img
       src={src}
       alt={alt}
