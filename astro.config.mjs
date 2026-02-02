@@ -10,6 +10,10 @@ import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
+import { getLastmodMap } from "./src/utils/sitemap-lastmod";
+
+// Build the lastmod map at config load time
+const lastmodMapPromise = getLastmodMap();
 
 export default defineConfig({
   redirects: redirects,
@@ -19,7 +23,27 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap({
-      lastmod: new Date("2024-06-27"),
+      serialize: async (item) => {
+        try {
+          const lastmodMap = await lastmodMapPromise;
+          const urlPath = new URL(item.url).pathname;
+          // Try both with and without trailing slash for robust matching
+          const normalizedPath = urlPath.endsWith("/") ? urlPath : `${urlPath}/`;
+          const pathWithoutSlash = urlPath.endsWith("/") ? urlPath.slice(0, -1) : urlPath;
+          
+          // Check both variations
+          const customLastmod = lastmodMap.get(normalizedPath) || lastmodMap.get(pathWithoutSlash);
+          
+          return {
+            ...item,
+            lastmod: customLastmod || item.lastmod,
+          };
+        } catch (error) {
+          // Fallback to default behavior if there's an error
+          console.warn("Error in sitemap serialize:", error);
+          return item;
+        }
+      },
     }),
     react(),
     astroExpressiveCode({
