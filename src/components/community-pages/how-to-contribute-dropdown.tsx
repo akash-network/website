@@ -4,14 +4,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
+import type { HowToContributeDropdownProps } from "@/types/components";
 
 export function HowToContributeDropdown({
   heading,
   children,
-}: {
-  heading: string;
-  children: any;
-}) {
+}: HowToContributeDropdownProps) {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem

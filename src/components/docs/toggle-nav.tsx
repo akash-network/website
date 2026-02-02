@@ -1,10 +1,11 @@
 import React from "react";
+import type { NavItem } from "@/types/navigation";
 
-const ToggleNav = ({ nav, pathname }: { nav: any; pathname: any }) => {
+const ToggleNav = ({ nav, pathname }: { nav: NavItem[] | undefined; pathname: string | undefined }) => {
   return (
     <div className="mb-3 flex items-center justify-between border-b">
       <div className="flex gap-6">
-        {nav?.map((item: any, index: any) => {
+        {nav?.map((item: NavItem, index: number) => {
           return (
             <a
               key={index}

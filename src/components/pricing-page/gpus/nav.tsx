@@ -1,6 +1,7 @@
 import Tag from "./tag";
+import type { NavProps } from "@/types/components";
 
-const Nav = ({ pathName }: any) => {
+const Nav = ({ pathName }: NavProps) => {
   return (
     <>
       <div className="sidebar-scroll flex items-center gap-[10px] overflow-x-auto py-2 md:gap-[10px] md:overflow-x-hidden lg:justify-center">

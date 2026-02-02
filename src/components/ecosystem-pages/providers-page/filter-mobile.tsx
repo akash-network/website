@@ -1,8 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
+import type { ClassNamesFunction } from "@/types/components";
 
-function classNames(...classes: any) {
+function classNames(...classes: Array<string | boolean | undefined | null>) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -13,8 +14,8 @@ const FilterMobile = ({
   isFilteringAudited,
   className,
 }: {
-  onIsFilteringActiveClick: any;
-  onIsFilteringAuditedClick: any;
+  onIsFilteringActiveClick: (value: boolean) => void;
+  onIsFilteringAuditedClick: (value: boolean) => void;
   isFilteringActive: boolean;
   isFilteringAudited: boolean;
   className?: string;

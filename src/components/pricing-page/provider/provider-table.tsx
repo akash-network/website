@@ -19,6 +19,7 @@ import StorageBrand from "../../../assets/storage-brand.svg";
 import SpeakToExpert from "../SpeakToExpert";
 import MonthEarning from "./month-earning";
 import PricingUnit from "./pricing-unit";
+import type { ProviderTableInitialData } from "@/types/pricing";
 
 export interface Gpus {
   availability: { total: number; available: number };
@@ -45,8 +46,8 @@ const ProviderTable = ({
   pathName,
   subCom,
 }: {
-  initialData?: any;
-  pathName?: any;
+  initialData?: Gpus;
+  pathName?: string;
   subCom?: boolean;
 }) => {
   const queryClient = new QueryClient();
@@ -54,9 +55,7 @@ const ProviderTable = ({
   return (
     <QueryClientProvider client={queryClient}>
       <Table
-        initialData={{
-          data: initialData,
-        }}
+        initialData={initialData ? { data: initialData } : undefined}
         pathName={pathName}
         subCom={subCom}
       />
@@ -71,10 +70,8 @@ const Table = ({
   pathName,
   subCom,
 }: {
-  initialData?: {
-    data: any;
-  };
-  pathName?: any;
+  initialData?: ProviderTableInitialData;
+  pathName?: string;
   subCom?: boolean;
 }) => {
   const fetchInterval = 1000 * 60;
@@ -115,7 +112,7 @@ export const Tables = ({
   isLoading,
 }: {
   data?: Gpus;
-  pathName?: any;
+  pathName?: string;
   subCom?: boolean;
   isLoading?: boolean;
 }) => {
@@ -272,7 +269,7 @@ export const Tables = ({
     leasePercentInput,
   ]);
 
-  const calculateAKTPrice = (usdValue: any) => {
+  const calculateAKTPrice = (usdValue: number) => {
     return (
       aktAverage ? usdValue / monthlyAverage : usdValue / usdPrice
     ).toFixed(2);

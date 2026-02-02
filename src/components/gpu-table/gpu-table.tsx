@@ -16,6 +16,7 @@ import React from "react";
 import { Skeleton } from "../ui/skeleton";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import Sort from "./sort";
+import type { GpuTableInitialData } from "@/types/pricing";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -40,7 +41,7 @@ const GpuTable = ({
   initialData,
   subCom,
 }: {
-  initialData?: any;
+  initialData?: Gpus;
   subCom?: boolean;
 }) => {
   const queryClient = new QueryClient();
@@ -48,9 +49,7 @@ const GpuTable = ({
   return (
     <QueryClientProvider client={queryClient}>
       <Table
-        initialData={{
-          data: initialData,
-        }}
+        initialData={initialData ? { data: initialData } : undefined}
         subCom={subCom}
       />
     </QueryClientProvider>
@@ -63,9 +62,7 @@ const Table = ({
   initialData,
   subCom,
 }: {
-  initialData?: {
-    data: any;
-  };
+  initialData?: GpuTableInitialData;
   subCom?: boolean;
 }) => {
   const fetchInterval = 1000 * 60;

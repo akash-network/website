@@ -1,19 +1,12 @@
 import QuarterNavigation from "@/components/QuarterNavigation";
 import RoadmapCard from "@/components/roadmap/roadmap-card";
 import YearSelector from "@/components/roadmap/YearSelector";
-import type { CollectionEntry } from "astro:content";
+import type { RoadmapEntry, RoadmapQuarters } from "@/types/content";
 import { useMemo, useState } from "react";
-
-type Roadmap = CollectionEntry<"aeps">;
 
 type Props = {
   year: number;
-  quarters: {
-    Q1: any[];
-    Q2: any[];
-    Q3: any[];
-    Q4: any[];
-  };
+  quarters: RoadmapQuarters;
   years: number[];
 };
 
@@ -28,18 +21,18 @@ export default function Roadmap({ year, quarters, years }: Props) {
       return quarters;
     }
 
-    const filtered = {
+    const filtered: RoadmapQuarters = {
       Q1: quarters.Q1.filter(
-        (roadmap: Roadmap) => roadmap.data.roadmap === "major",
+        (roadmap) => roadmap.data.roadmap === "major",
       ),
       Q2: quarters.Q2.filter(
-        (roadmap: Roadmap) => roadmap.data.roadmap === "major",
+        (roadmap) => roadmap.data.roadmap === "major",
       ),
       Q3: quarters.Q3.filter(
-        (roadmap: Roadmap) => roadmap.data.roadmap === "major",
+        (roadmap) => roadmap.data.roadmap === "major",
       ),
       Q4: quarters.Q4.filter(
-        (roadmap: Roadmap) => roadmap.data.roadmap === "major",
+        (roadmap) => roadmap.data.roadmap === "major",
       ),
     };
     return filtered;
@@ -97,7 +90,7 @@ export default function Roadmap({ year, quarters, years }: Props) {
                     data-quarter={quarter}
                   >
                     <div className="flex w-full flex-col gap-10">
-                      {roadmaps.map((roadmap: Roadmap) => (
+                      {roadmaps.map((roadmap: any) => (       //proper type roadmapentry please check
                         <div
                           key={roadmap.slug}
                           className="flex flex-col items-start gap-4 md:flex-row md:gap-10"

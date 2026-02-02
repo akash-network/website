@@ -32,11 +32,11 @@ const {
 } = Astro.props;
 
 const visibility = {
-  network: ["/about", "/token"],
+  network: ["/about/general-information/", "/token"],
   community: ["/community"],
   development: ["/development", "/roadmap"],
-  ecosystem: ["/ecosystem", "/case-studies"],
-  pricing: ["/pricing"],
+  ecosystem: ["/ecosystem/akash-tools/latest/", "/case-studies"],
+  pricing: ["/pricing/gpus", "/pricing/usage-calculator", "/pricing/provider-calculator"],
 };
 
 const pathnames = Object.values(visibility).flat();

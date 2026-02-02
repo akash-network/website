@@ -1,4 +1,6 @@
-export const nav: any = [
+import type { NavConfig } from "@/types/navigation";
+
+export const nav: NavConfig = [
   {
     label: "General Information",
     link: "/about/general-information/",

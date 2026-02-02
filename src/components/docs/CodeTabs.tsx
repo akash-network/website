@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Copy, Check } from "lucide-react";
+import type { LanguageChangeEvent } from "@/types/events";
 
 // Language configuration
 const LANGUAGES = {
@@ -41,7 +42,8 @@ export default function CodeTabs({
     
     // Parse MDX children to extract code blocks
     const parsed: CodeExample[] = [];
-    React.Children.forEach(children, (child: any) => {
+    React.Children.forEach(children, (child) => {
+      if (!React.isValidElement(child)) return;
       if (child?.props?.className?.includes('language-')) {
         const match = child.props.className.match(/language-(\w+)/);
         const language = match ? match[1] as LanguageKey : 'bash';
@@ -87,8 +89,9 @@ export default function CodeTabs({
 
   // Listen for language changes from other CodeTabs
   useEffect(() => {
-    const handleGlobalLanguageChange = (event: any) => {
-      const newLanguage = event.detail.language as LanguageKey;
+    const handleGlobalLanguageChange = (event: Event) => {
+      const customEvent = event as LanguageChangeEvent;
+      const newLanguage = customEvent.detail.language as LanguageKey;
       // Only update if this CodeTabs has an example in that language
       if (examples.some((ex) => ex.language === newLanguage)) {
         setActiveLanguage(newLanguage);

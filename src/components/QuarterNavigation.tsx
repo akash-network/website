@@ -1,13 +1,9 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import type { RoadmapQuarters } from "@/types/content";
 
 interface QuarterNavigationProps {
-  quarters: {
-    Q1: any[];
-    Q2: any[];
-    Q3: any[];
-    Q4: any[];
-  };
+  quarters: RoadmapQuarters;
 }
 
 export default function QuarterNavigation({

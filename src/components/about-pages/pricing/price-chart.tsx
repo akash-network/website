@@ -399,7 +399,9 @@ export default function PriceChart() {
   );
 }
 
-function Column({ children }: any) {
+import type { ColumnProps } from "@/types/components";
+
+function Column({ children }: ColumnProps) {
   return (
     <p className="flex items-center  justify-center rounded-lg border border-[#808080] bg-white px-2 py-[6px]  text-xs  font-bold text-foreground md:text-xs">
       {children}

@@ -190,7 +190,7 @@ const ProjectCard = ({
   image,
   author,
   date,
-}: any) => {
+}: { title: string; description: string; image?: string; author?: string[]; date?: string; link: string; tag: string }) => {
   return (
     <a href={link}>
       <div className="border-md flex w-full">

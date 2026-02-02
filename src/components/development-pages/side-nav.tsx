@@ -1,11 +1,12 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "lucide-react";
 import { nav } from "./nav-config.ts";
+import type { NavItem } from "@/types/navigation";
 
 export function SideNav({ currentPath }: { currentPath: string }) {
   return (
     <div className="space-y-2 rounded-lg border border-[#D9D9D9] px-4 py-2">
-      {nav.map((navitem, index) => {
+      {nav.map((navitem: NavItem, index: number) => {
         return (
           <Disclosure key={index} defaultOpen>
             {({ open }) => (
@@ -19,7 +20,7 @@ export function SideNav({ currentPath }: { currentPath: string }) {
                   />
                 </Disclosure.Button>
 
-                {navitem.items.map((item, index) => {
+                {navitem.subItems?.map((item: NavItem, index: number) => {
                   return (
                     <Disclosure.Panel key={index}>
                       <a

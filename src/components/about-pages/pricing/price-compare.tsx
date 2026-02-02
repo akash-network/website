@@ -21,7 +21,9 @@ const mockData = {
   azure: 43.26,
 };
 
-export default function PriceCompare({ initialData }: any) {
+import type { PriceCompareProps } from "@/types/pricing";
+
+export default function PriceCompare({ initialData }: PriceCompareProps) {
   const [selectedCPU, setSelectedCPU] = useState<number>(1);
   const [selectedMemory, setSelectedMemory] = useState<number>(1);
   const [selectedStorage, setSelectedStorage] = useState<number>(1);

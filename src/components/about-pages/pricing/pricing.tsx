@@ -10,11 +10,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FormattedNumber } from "react-intl";
+import type { PricingProps } from "@/types/pricing";
+import type React from "react";
 import { useCustomPricing } from "./CustomPricingContext";
 import PriceChart from "./price-chart";
 import PriceCompare from "./price-compare";
 
-export function Pricing({ page, pathName, initialData }: any) {
+export function Pricing({ page, pathName, initialData }: PricingProps) {
   const { customPricing } = useCustomPricing();
   const [discount, setDiscount] = useState<number>();
 
@@ -181,7 +183,7 @@ export function Pricing({ page, pathName, initialData }: any) {
                   <HoverCard openDelay={2} closeDelay={2}>
                     <HoverCardTrigger>
                       <PriceCard
-                        price={customPricing?.aws}
+                        price={customPricing?.aws ?? 0}
                         provider="AWS"
                         providerIcon={<AwsIcon />}
                       />
@@ -196,7 +198,7 @@ export function Pricing({ page, pathName, initialData }: any) {
                   <HoverCard openDelay={2} closeDelay={2}>
                     <HoverCardTrigger>
                       <PriceCard
-                        price={customPricing?.gcp}
+                        price={customPricing?.gcp ?? 0}
                         provider="GCP"
                         providerIcon={<GCPIcon />}
                       />
@@ -211,7 +213,7 @@ export function Pricing({ page, pathName, initialData }: any) {
                   <HoverCard openDelay={2} closeDelay={2}>
                     <HoverCardTrigger>
                       <PriceCard
-                        price={customPricing?.azure}
+                        price={customPricing?.azure ?? 0}
                         provider="Azure"
                         providerIcon={<AzureIcon />}
                       />
@@ -279,8 +281,8 @@ function PriceCard({
   providerIcon,
 }: {
   provider: string;
-  price: string;
-  providerIcon: any;
+  price: number | string;
+  providerIcon: React.ReactElement;
 }) {
   return (
     <div className="h-fit min-w-full  overflow-hidden  rounded-lg border   bg-background2 shadow-sm dark:bg-background md:min-w-[195px] ">
@@ -298,7 +300,7 @@ function PriceCard({
           >
             $
             <FormattedNumber
-              value={parseFloat(price)}
+              value={parseFloat(price.toString())}
               notation="compact"
               maximumFractionDigits={2}
             />

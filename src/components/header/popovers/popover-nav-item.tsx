@@ -43,7 +43,7 @@ const PopOverNavItemNetwork = () => {
         <Menu.Items className="absolute left-1/2 z-[35] w-[387px]  origin-top-right translate-x-[-40%]    pt-4  focus:outline-none ">
           <div className="flex flex-col overflow-hidden rounded-3xl  border bg-background2  shadow-lg">
             <div className="p-5">
-              {networkItems.map((item, i: any) => {
+              {networkItems.map((item, i: number) => {
                 return (
                   <Menu.Item key={i}>
                     {({ active }) => (

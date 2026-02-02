@@ -51,22 +51,28 @@ const asMathHtml = (value: string, display: boolean) => {
 };
 
 export const normalizeMath: RemarkPlugin<[]> = () => (tree) => {
-  visit(tree, (node: any, index: number | null, parent: any) => {
+  visit(tree, (node, index, parent) => {
     if (!parent || typeof index !== "number") return;
 
-    const language = typeof node.lang === "string" ? node.lang.toLowerCase() : undefined;
+    // Handle code blocks with language="math"
+    if (node.type === "code" && "lang" in node && "value" in node) {
+      const codeNode = node as { type: string; lang?: string | null; value: string };
+      const language = typeof codeNode.lang === "string" ? codeNode.lang.toLowerCase() : undefined;
 
-    if (node.type === "code" && typeof node.value === "string" && language === "math") {
-      const html = asMathHtml(node.value, true);
-      parent.children[index] = { type: "html", value: html };
-      return;
+      if (language === "math" && typeof codeNode.value === "string") {
+        const html = asMathHtml(codeNode.value, true);
+        parent.children[index] = { type: "html", value: html } as unknown as typeof node;
+        return;
+      }
     }
 
-    if ((node.type !== "inlineMath" && node.type !== "math") || typeof node.value !== "string") {
-      return;
+    // Handle inline math and display math nodes
+    if ((node.type === "inlineMath" || node.type === "math") && "value" in node) {
+      const mathNode = node as { type: string; value: string };
+      if (typeof mathNode.value === "string") {
+        const html = asMathHtml(mathNode.value, mathNode.type === "math");
+        parent.children[index] = { type: "html", value: html } as unknown as typeof node;
+      }
     }
-
-    const html = asMathHtml(node.value, node.type === "math");
-    parent.children[index] = { type: "html", value: html };
   });
 };

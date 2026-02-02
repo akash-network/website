@@ -62,7 +62,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
   }, []);
 
   // Function to handle link clicks and update the current heading.
-  const onLinkClick = (e: any) => {
+  const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     setCurrentHeading({
       slug: e.currentTarget.getAttribute("href")!.replace("#", ""),
       text: e.currentTarget.textContent || "",

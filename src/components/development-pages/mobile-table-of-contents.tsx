@@ -16,7 +16,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
     text: toc[0].text,
   });
 
-  const onLinkClick = (e: any) => {
+  const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     setCurrentHeading({
       slug: e.currentTarget.getAttribute("href")!.replace("#", ""),
       text: e.currentTarget.textContent || "",

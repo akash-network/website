@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import type { TokenData, GpuData } from "@/types/store";
 
 export interface IStore {
-  token: any;
-  setToken: (token: string) => void;
-  gpu: any;
-  setGpu: (gpu: string) => void;
+  token: TokenData;
+  setToken: (token: TokenData) => void;
+  gpu: GpuData;
+  setGpu: (gpu: GpuData) => void;
   docsLinkTracks: { [link: string]: boolean };
   setDocsLinkTracks: (data: { [link: string]: boolean }) => void;
 }

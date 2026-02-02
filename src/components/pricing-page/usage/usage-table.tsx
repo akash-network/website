@@ -16,6 +16,7 @@ import SpeakToExpert from "../SpeakToExpert";
 import CompareItem from "./compare-item";
 import Disclaimer from "./disclaimer";
 import UsageAmount from "./usage-amount";
+import type { UsageTableInitialData } from "@/types/pricing";
 export interface Gpus {
   availability: { total: number; available: number };
   models: Array<{
@@ -41,8 +42,8 @@ const UsageTable = ({
   pathName,
   subCom,
 }: {
-  initialData?: any;
-  pathName?: any;
+  initialData?: Gpus;
+  pathName?: string;
   subCom?: boolean;
 }) => {
   const queryClient = new QueryClient();
@@ -50,9 +51,7 @@ const UsageTable = ({
   return (
     <QueryClientProvider client={queryClient}>
       <Table
-        initialData={{
-          data: initialData,
-        }}
+        initialData={initialData ? { data: initialData } : undefined}
         pathName={pathName}
         subCom={subCom}
       />
@@ -67,10 +66,8 @@ const Table = ({
   pathName,
   subCom,
 }: {
-  initialData?: {
-    data: any;
-  };
-  pathName?: any;
+  initialData?: UsageTableInitialData;
+  pathName?: string;
   subCom?: boolean;
 }) => {
   const fetchInterval = 1000 * 60;
@@ -153,7 +150,7 @@ export const Tables = ({
   isLoading,
 }: {
   data?: Gpus;
-  pathName?: any;
+  pathName?: string;
   subCom?: boolean;
   isLoading?: boolean;
 }) => {

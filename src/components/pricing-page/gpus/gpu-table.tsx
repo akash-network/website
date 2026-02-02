@@ -39,7 +39,7 @@ const GpuTable = ({
   subCom,
   counts,
 }: {
-  initialData?: any;
+  initialData?: Gpus;
   subCom?: boolean;
   counts?: boolean;
 }) => {
@@ -48,9 +48,7 @@ const GpuTable = ({
   return (
     <QueryClientProvider client={queryClient}>
       <Table
-        initialData={{
-          data: initialData,
-        }}
+        initialData={initialData ? { data: initialData } : undefined}
         subCom={subCom}
         counts={counts}
       />
@@ -65,9 +63,7 @@ const Table = ({
   subCom,
   counts,
 }: {
-  initialData?: {
-    data: any;
-  };
+  initialData?: { data: Gpus };
   subCom?: boolean;
   counts?: boolean;
 }) => {
@@ -209,7 +205,7 @@ export const Tables = ({
   counts,
 }: {
   data?: Gpus;
-  pathName?: any;
+  pathName?: string;
   subCom?: boolean;
   isLoading?: boolean;
   counts?: boolean;

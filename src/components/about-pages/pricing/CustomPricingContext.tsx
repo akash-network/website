@@ -5,17 +5,13 @@ import React, {
   useState,
   type ReactNode,
 } from "react";
-
-interface CustomPricingContextProps {
-  customPricing: any;
-  setCustomPricing: React.Dispatch<React.SetStateAction<any>>;
-}
+import type { CustomPricingData, CustomPricingContextProps } from "@/types/components";
 
 const CustomPricingContext = createContext<
   CustomPricingContextProps | undefined
 >(undefined);
 
-const mockData = {
+const mockData: CustomPricingData = {
   spec: {
     cpu: 1000,
     memory: 2000000000,
@@ -34,7 +30,7 @@ interface CustomPricingProviderProps {
 export const CustomPricingProvider: React.FC<CustomPricingProviderProps> = ({
   children,
 }) => {
-  const [customPricing, setCustomPricing] = useState(mockData);
+  const [customPricing, setCustomPricing] = useState<CustomPricingData>(mockData);
 
   useEffect(() => {}, [customPricing]);
 

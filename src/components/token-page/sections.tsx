@@ -5,22 +5,17 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import type { TokenSectionsProps, CoinGeckoTokenData } from "@/types/components";
+import type { TokenData } from "@/types/store";
 import BuyAktButton from "./buy-akt-modal";
 import TokenMetricsSection from "./token-metrics-section";
-
-interface SectionProps {
-  aktFeaturesSection: any;
-  buyingAKTSection: any;
-  faqsSection: any;
-  url: string;
-}
 
 const Sections = ({
   url,
   aktFeaturesSection,
   buyingAKTSection,
   faqsSection,
-}: SectionProps) => {
+}: TokenSectionsProps) => {
   const queryClient = new QueryClient();
 
   return (
@@ -40,42 +35,42 @@ const Query = ({
   buyingAKTSection,
   faqsSection,
   url,
-}: SectionProps) => {
-  const token = useStorage((state: any) => state?.token);
-  const setToken = useStorage((state: any) => state?.setToken);
+}: TokenSectionsProps) => {
+  const token = useStorage((state) => state.token);
+  const setToken = useStorage((state) => state.setToken);
 
   const [enabled, setEnabled] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
 
   const fetchInterval = 1000 * 60 * 20; // 20 minutes
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<CoinGeckoTokenData>({
     queryKey: ["tokenMetrics"],
     queryFn: async () => {
       const response = await fetch(
         "https://api.coingecko.com/api/v3/coins/akash-network?tickers=true&market_data=true",
       );
-      return response.json();
+      return response.json() as Promise<CoinGeckoTokenData>;
     },
     refetchInterval: fetchInterval,
     keepPreviousData: true,
     retry: true,
     enabled: enabled,
-    initialData: token,
+    initialData: token as CoinGeckoTokenData | undefined,
   });
 
   useEffect(() => {
-    if (data?.time !== token?.time && data) {
-      setToken({
-        ...data,
+    if (data && data.time !== token?.time) {
+      const tokenData: TokenData = {
         time: new Date().getTime(),
-      });
+      };
+      setToken(tokenData);
     }
 
-    if (token === null) {
+    if (!token) {
       setToken({ time: 0 });
     }
-  }, [data]);
+  }, [data, token, setToken]);
 
   useEffect(() => {
     const timer = setInterval(() => {

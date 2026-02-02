@@ -1,6 +1,7 @@
 import { Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "../header/icons";
 import { useLockBody } from "../use-lock-body";
+import type { NavItem } from "@/types/navigation";
 
 const navigation = [
   { name: "Development", href: "#" },
@@ -40,7 +41,7 @@ export default function MobileNav({
   link = "",
 }: {
   currentPath: string;
-  nav: any;
+  nav: NavItem[];
   pageName: string;
   link?: string;
 }) {
@@ -96,8 +97,8 @@ const Panel = ({
   link,
 }: {
   currentPath: string;
-  open: any;
-  nav: any;
+  open: boolean;
+  nav: NavItem[];
   link?: string;
 }) => {
   useLockBody(open);
@@ -120,7 +121,7 @@ function SideNav({
   link,
 }: {
   currentPath: string;
-  nav: any;
+  nav: NavItem[];
 
   link?: string;
 }) {
@@ -147,10 +148,10 @@ function SideNav({
           </svg>
           Back
         </a>
-        {nav.map((navItem: any) => (
+        {nav.map((navItem: NavItem) => (
           <div className="flex flex-col gap-y-3">
             <a
-              href={`${navItem.link}${navItem.subItems[0].link.split("/")[3]}/`}
+              href={`${navItem.link}${navItem.subItems?.[0]?.link.split("/")[3]}/`}
               className={`
                    
               border-b  pb-3 pt-[8px] text-base font-medium leading-[24px]  `}
@@ -160,7 +161,7 @@ function SideNav({
 
             {navItem.subItems &&
               currentPath.split("/")[3] === navItem.link.split("/")[2] &&
-              navItem.subItems.map((subItem: any) => (
+              navItem.subItems?.map((subItem: NavItem) => (
                 <div className="flex flex-col gap-y-3">
                   <a
                     className={`${
@@ -191,8 +192,8 @@ function SideNav({
                           date: dateObject,
                         };
                       })
-                      .sort((a, b) => b.date - a.date)
-                      .map((meeting: any) => (
+                      .sort((a: { date: Date }, b: { date: Date }) => b.date.getTime() - a.date.getTime() as number)
+                      .map((meeting: { label: string; link: string; date: Date, title: string }) => (
                         <a
                           href={`${meeting.link}`}
                           className={`${

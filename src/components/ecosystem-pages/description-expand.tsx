@@ -11,7 +11,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover-card";
 
-const DescriptionExpand = ({ description }: any) => {
+import type { DescriptionExpandProps } from "@/types/components";
+
+const DescriptionExpand = ({ description }: DescriptionExpandProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [linesGreater, setLinesGreater] = useState(false);
 

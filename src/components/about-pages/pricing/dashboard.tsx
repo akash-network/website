@@ -7,7 +7,9 @@ import PriceCompare from "./price-compare";
 import { Pricing } from "./pricing";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export default function Index({ page, pathName, initialData }: any) {
+import type { PricingDashboardProps } from "@/types/pricing";
+
+export default function Index({ page, pathName, initialData }: PricingDashboardProps) {
   const [locale, setLocale] = useState("en-US");
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function Index({ page, pathName, initialData }: any) {
   );
 }
 
-function Layout({ page, pathName, initialData }: any) {
+function Layout({ page, pathName, initialData }: PricingDashboardProps) {
   const [locale, setLocale] = useState("en-US");
   const queryClient = new QueryClient();
   useEffect(() => {

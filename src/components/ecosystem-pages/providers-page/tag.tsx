@@ -1,4 +1,6 @@
-const Tag = ({ children, className, href, active }: any) => {
+import type { TagProps } from "@/types/components";
+
+const Tag = ({ children, className, href, active }: TagProps) => {
   return (
     <a
       href={href}

@@ -17,8 +17,8 @@ export const FaqsToken = () => {
 };
 
 const Query = () => {
-  const token = useStorage((state: any) => state?.token);
-  const setToken = useStorage((state: any) => state?.setToken);
+  const token = useStorage((state) => state.token);
+  const setToken = useStorage((state) => state.setToken);
 
   const [enabled, setEnabled] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
@@ -69,12 +69,14 @@ const Query = () => {
   return <FaqSection data={data} isLoading={isLoading} isError={isError} />;
 };
 
+import type { CoinGeckoTokenData } from "@/types/components";
+
 const FaqSection = ({
   data,
   isLoading,
   isError,
 }: {
-  data: any;
+  data: CoinGeckoTokenData | undefined;
   isLoading: boolean;
   isError: boolean;
 }) => {

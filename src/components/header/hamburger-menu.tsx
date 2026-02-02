@@ -104,7 +104,7 @@ const Panel = ({
   hideDarkToggle,
 }: {
   currentPath: string;
-  open: any;
+  open: boolean;
   latestRoadmapYear: number;
   hideDarkToggle?: boolean;
 }) => {

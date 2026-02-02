@@ -1,12 +1,16 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { NavItem } from "@/types/navigation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function findPrevAndNextPages(nav: any, pathname: any) {
-  const currentIndex = nav.findIndex((item: any) => item.link === pathname);
+export function findPrevAndNextPages(
+  nav: NavItem[],
+  pathname: string,
+): { prevPage: NavItem | null; nextPage: NavItem | null } {
+  const currentIndex = nav.findIndex((item: NavItem) => item.link === pathname);
 
   const prevIndex = currentIndex - 1;
   const nextIndex = currentIndex + 1;

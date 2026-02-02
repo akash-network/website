@@ -7,7 +7,8 @@ import {
   getShortText,
   useFriendlyMessageType,
 } from "@/lib/utils";
-import type { DashboardData } from "@/types/dashboard";
+import type { DashboardData, MarketData } from "@/types/dashboard";
+import type { NavItem } from "@/types/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect, useState } from "react";
@@ -100,14 +101,11 @@ export function Layout({ initialData }: { initialData: DashboardData }) {
         <div className="border-b py-2"></div>
 
         <div className="mt-4 flex flex-col gap-y-4">
-          {nav?.map((subItem: any) => (
+
+          {nav?.map((subItem: NavItem) => (
             <a
               key={subItem.label}
               href={subItem.link}
-              style={{
-                paddingLeft:
-                  subItem.depth > 2 ? `${subItem.depth * 5}px` : "0px",
-              }}
               className="inline-flex cursor-pointer text-base font-medium text-para hover:text-primary"
             >
               {subItem.label}
@@ -224,7 +222,7 @@ export function Dashboard({
   marketData,
 }: {
   dashboardData: DashboardData;
-  marketData: any;
+  marketData: MarketData;
 }) {
   const memoryDiff = bytesToShrink(
     dashboardData.now.activeMemory - dashboardData.compare.activeMemory,

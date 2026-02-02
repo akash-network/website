@@ -2,8 +2,9 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "../header/icons";
 import { useLockBody } from "../use-lock-body";
 import { DocsNav, HomeButton } from "./docs-nav";
+import type { NavItem } from "@/types/navigation";
 
-export default function MobileNav({ catName, docsNav, pathname }: any) {
+export default function MobileNav({ catName, docsNav, pathname }: { catName: string; docsNav: NavItem[] | undefined; pathname: string }) {
   return (
     <Disclosure as="nav" className=" overflow-hidden">
       {({ open }) => (
@@ -45,7 +46,7 @@ export default function MobileNav({ catName, docsNav, pathname }: any) {
   );
 }
 
-const Panel = ({ open, nav, pathname }: any) => {
+const Panel = ({ open, nav, pathname }: { open: boolean; nav: NavItem[] | undefined; pathname: string }) => {
   useLockBody(open);
 
   return (
@@ -60,13 +61,13 @@ const Panel = ({ open, nav, pathname }: any) => {
   );
 };
 
-function SideNav({ nav, pathname }: any) {
+function SideNav({ nav, pathname }: { nav: NavItem[] | undefined; pathname: string }) {
   return (
     <div className="w-full px-4 py-2">
       <HomeButton pathname={pathname} />
 
       <div className="mt-4">
-        <DocsNav docsNav={nav} pathName={pathname} />
+        <DocsNav docsNav={nav} pathName={[pathname]} />
       </div>
 
       <div className="mt-4 border-b "></div>

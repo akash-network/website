@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 // Define a TypeScript interface for the project data
 interface Docs {
   title: string;
-  body: any;
+  body: string;
   description?: string;
   slug: string;
 }
@@ -219,12 +219,12 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
   );
 }
 
-const HighlightedText = ({ text, query }: any) => {
+const HighlightedText = ({ text, query }: { text: string; query: string }) => {
   const parts = text.split(new RegExp(`(${query})`, "gi"));
 
   return (
     <>
-      {parts.map((part: any, index: any) =>
+      {parts.map((part: string, index: number) =>
         index % 2 === 0 ? (
           <span key={index}>{part}</span>
         ) : (

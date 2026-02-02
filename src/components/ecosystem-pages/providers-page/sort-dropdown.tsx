@@ -2,9 +2,14 @@ import { Menu, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 
-function getSortTitle(currentSort: string, sortOptions: any) {
+interface SortOption {
+  id: string;
+  title: string;
+}
+
+function getSortTitle(currentSort: string, sortOptions: SortOption[]): string {
   const matchingOption = sortOptions.find(
-    (option: any) => option.id === currentSort,
+    (option: SortOption) => option.id === currentSort,
   );
 
   if (matchingOption) {
@@ -20,8 +25,8 @@ export default function SortDropDown({
   setSort,
 }: {
   currentSort: string;
-  sortOptions: any;
-  setSort: any;
+  sortOptions: SortOption[];
+  setSort: (sortId: string) => void;
 }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -46,7 +51,7 @@ export default function SortDropDown({
       >
         <Menu.Items className="absolute right-0 z-10 mt-4 w-56 origin-top-right divide-y divide-gray-100 rounded-lg border  bg-background2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="space-y-1 px-2 py-3">
-            {sortOptions.map((sort: any) => {
+            {sortOptions.map((sort: SortOption) => {
               return (
                 <Menu.Item key={sort.id}>
                   {({ active }) => (

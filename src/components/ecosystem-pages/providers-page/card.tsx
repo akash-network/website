@@ -9,7 +9,9 @@ import { getSplitText } from "@/lib/utils";
 import { useIntl } from "react-intl";
 import { Uptime } from "./uptime";
 
-export default function ProvidersCard({ provider }: any) {
+import type { ProviderCardProps } from "@/types/components";
+
+export default function ProvidersCard({ provider }: ProviderCardProps) {
   const activeCPU = provider.isOnline ? provider.activeStats.cpu / 1000 : 0;
   const pendingCPU = provider.isOnline ? provider.pendingStats.cpu / 1000 : 0;
   const totalCPU = provider.isOnline
@@ -19,7 +21,7 @@ export default function ProvidersCard({ provider }: any) {
       1000
     : 0;
 
-  const gpuModels = provider.hardwareGpuModels.map((gpu: any) =>
+  const gpuModels = provider.hardwareGpuModels.map((gpu: string) =>
     gpu.substring(gpu.lastIndexOf(" ") + 1, gpu.length),
   );
 
@@ -108,7 +110,7 @@ export default function ProvidersCard({ provider }: any) {
           <p className=" text-xs font-medium">GPU:</p>
 
           <div className="flex items-center justify-center gap-x-1">
-            {gpuModels.slice(0, 1).map((gpu: any, i: any) => (
+            {gpuModels.slice(0, 1).map((gpu: string, i: number) => (
               <p
                 key={i}
                 className="rounded-full  border   bg-[#F4F4F4] px-2 text-2xs   font-bold  text-cardGray dark:bg-darkGray dark:text-para"
@@ -126,7 +128,7 @@ export default function ProvidersCard({ provider }: any) {
                 </HoverCardTrigger>
                 <HoverCardContent>
                   <div className="flex w-52 flex-wrap gap-x-2 gap-y-2 rounded-lg bg-background2 p-2">
-                    {gpuModels.slice(1).map((gpu: any, i: any) => (
+                    {gpuModels.slice(1).map((gpu: string, i: number) => (
                       <p
                         key={i}
                         className="rounded-full  border  bg-[#F4F4F4] px-2   text-xs  font-bold text-cardGray"
@@ -182,7 +184,9 @@ export default function ProvidersCard({ provider }: any) {
   );
 }
 
-function Stats({ componentName, value, isOver60Percent }: any) {
+import type { StatsProps } from "@/types/components";
+
+function Stats({ componentName, value, isOver60Percent }: StatsProps) {
   return (
     <div className="flex w-full items-center   justify-between rounded-sm border border-[#E6E8EB]   p-[9px] text-cardGray">
       <p className="  text-xs   font-medium">{componentName}</p>

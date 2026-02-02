@@ -1,12 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
+import type { OnThisPageDropdownProps, ClassNamesFunction } from "@/types/components";
+import type { NavItem } from "@/types/navigation";
 
-function classNames(...classes: any) {
+function classNames(...classes: Array<string | boolean | undefined | null>) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function OnThisPageDropdown({ nav }: { nav: any }) {
+export default function OnThisPageDropdown({ nav }: OnThisPageDropdownProps) {
   return (
     <Menu as="div" className="relative inline-block text-left md:hidden">
       <div>
@@ -27,7 +29,7 @@ export default function OnThisPageDropdown({ nav }: { nav: any }) {
       >
         <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-background2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="space-y-1 px-2 py-3">
-            {nav?.map((item: any, index: number) => (
+            {nav?.map((item: NavItem, index: number) => (
               <Menu.Item key={index}>
                 {({ active }) => (
                   <a

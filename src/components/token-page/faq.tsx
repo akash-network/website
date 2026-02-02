@@ -1,4 +1,5 @@
 import React from "react";
+import type { FAQItem } from "@/types/components";
 import ReactMarkdown from "react-markdown";
 
 import {
@@ -22,7 +23,8 @@ export function FAQ({ faqs }: { faqs: FAQs[] }) {
       onValueChange={() => setValue("")}
       className="w-full "
     >
-      {faqs.map((faq: any, index: number) => (
+
+      {faqs.map((faq: FAQItem, index: number) => (
         <AccordionItem
           key={index}
           value={`item-${index}`}

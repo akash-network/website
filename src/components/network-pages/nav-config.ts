@@ -1,5 +1,7 @@
+import type { NavConfig } from "@/types/navigation";
+
 // Define an array named 'nav' that represents a navigation menu.
-export const nav = [
+export const nav: NavConfig = [
   // Create an item for 'Product Strategy' with sub-items.
   {
     label: "General Information", // Label for the main menu item.

@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from "react";
+import type { ReactChildren, ClassNamesFunction } from "@/types/components";
 
-function classNames(...classes: any) {
+function classNames(...classes: Array<string | boolean | undefined | null>) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -9,9 +10,9 @@ export default function TabsWrapper({
   children,
 }: {
   defaultTab?: string;
-  children: any;
+  children: ReactChildren;
 }) {
-  const [currentTab, setCurrentTab] = useState<any>(defaultTab);
+  const [currentTab, setCurrentTab] = useState<string | undefined>(defaultTab);
   const [alltabs, setAllTabs] = useState<string[]>([]);
   const mainId = useId();
 
@@ -73,7 +74,7 @@ export const TabContent = ({
   children,
   value,
 }: {
-  children: any;
+  children: ReactChildren;
   value: string;
 }) => {
   return (

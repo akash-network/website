@@ -2,7 +2,9 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 
-function classNames(...classes: any) {
+import type { ClassNamesFunction } from "@/types/components";
+
+function classNames(...classes: Array<string | boolean | undefined | null>) {
   return classes.filter(Boolean).join(" ");
 }
 

@@ -1,9 +1,11 @@
+import type { CoinGeckoTokenData } from "@/types/components";
+
 const TokenMetricsSection = ({
   data,
   isLoading,
   isError,
 }: {
-  data: any;
+  data: CoinGeckoTokenData | undefined;
   isLoading: boolean;
   isError: boolean;
 }) => {
@@ -37,7 +39,7 @@ const TokenMetricsSection = ({
     },
     {
       title: "Price",
-      value: data?.market_data?.current_price.usd,
+      value: data?.market_data?.current_price?.usd,
       format: (value: number) =>
         `$${value
           ?.toFixed(2)
@@ -46,7 +48,7 @@ const TokenMetricsSection = ({
     },
     {
       title: "Market Cap",
-      value: data?.market_data?.market_cap.usd,
+      value: data?.market_data?.market_cap?.usd,
       format: (value: number) =>
         `$${value
           ?.toString()
@@ -55,7 +57,7 @@ const TokenMetricsSection = ({
     },
     {
       title: "24h Trading Volume",
-      value: data?.market_data?.total_volume.usd,
+      value: data?.market_data?.total_volume?.usd,
       format: (value: number) =>
         `$${value?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
     },
@@ -69,8 +71,8 @@ const TokenMetricsSection = ({
         </h2>
         <p className="mt-4 text-center text-sm leading-[20px] md:text-base lg:text-lg lg:leading-[32px]">
           As of{" "}
-          {data
-            ? new Date(data?.market_data?.last_updated).toUTCString()
+          {data?.market_data?.last_updated
+            ? new Date(data.market_data.last_updated).toUTCString()
             : "Sat Jan 7 07:57:36 UTC"}
           {", "}
           the following are the AKT metrics, as reported by Coingecko.
@@ -89,7 +91,7 @@ const TokenMetricsSection = ({
               </p>
               <Skeleton
                 isError={isError}
-                number={data && metric.format(metric.value)}
+                number={data && metric.value !== undefined ? metric.format(metric.value as number) : "0"}
                 isLoading={isLoading}
                 isNumber={metric.value}
               />

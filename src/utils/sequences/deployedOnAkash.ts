@@ -20,7 +20,7 @@ export const deployedOnAkash = [
   "Saga",
 ];
 
-export function getPriorityIndex(title: any) {
+export function getPriorityIndex(title: string): number {
   const index = deployedOnAkash.indexOf(title);
   return index === -1 ? deployedOnAkash.length : index;
 }
