@@ -222,13 +222,16 @@ export default function Filter({
         {isLoading ? (
           <div className="h-9 w-[185px] rounded-full border  bg-transparent" />
         ) : (
-          <div className="inline-flex items-center gap-1 rounded-full border bg-transparent px-[14px] py-1.5  text-sm md:text-base font-normal text-para">
-            GPU Utilization:
-            {" "}{totalGpus && totalAvailableGpus && totalGpus > 0
-              ? Math.round(((totalGpus - totalAvailableGpus) / totalGpus) * 100)
-              : 0}
-            %
-          </div>
+          <>
+            <h2 className="lg:block hidden text-xl font-medium">GPU Instance Pricing</h2>
+
+            <div className="inline-flex lg:hidden items-center gap-1 rounded-full border bg-transparent px-[14px] py-1.5  text-sm md:text-base font-normal text-para">
+              GPU Utilization:
+              {" "}{totalGpus && totalAvailableGpus && totalGpus > 0
+                ? Math.round(((totalGpus - totalAvailableGpus) / totalGpus) * 100)
+                : 0}
+              %
+            </div></>
         )}
         <div className="flex  flex-col  w-full md:w-auto">
           <div className=" flex flex-wrap gap-2 md:gap-3">
