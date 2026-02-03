@@ -129,6 +129,7 @@ const formatText = (model: string) => {
 export const modifyModel = (model: string) => {
   if (model === "rtxa6000") return "A6000";
   if (model === "pro6000se") return "Pro 6000 SE";
+  if (model === "pro6000we") return "Pro 6000 WE";
   return formatText(model);
 };
 
