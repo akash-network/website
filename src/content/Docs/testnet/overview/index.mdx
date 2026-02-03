@@ -1,0 +1,216 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Burn-Mint Equilibrium", "ACT", "AKT"]
+title: "BME Testnet Overview"
+linkTitle: "Overview"
+description: "Overview of the Burn-Mint Equilibrium (BME) testnet and ACT compute token"
+weight: 1
+---
+
+## What is BME?
+
+The **Burn-Mint Equilibrium (BME)** is a new economic mechanism for the Akash Network that introduces a stable compute credit token called **ACT** (Akash Compute Token). ACT is designed to be pegged to ~$1 USD, providing stable pricing for cloud deployments while AKT remains the staking and governance token.
+
+**Key changes with BME:**
+- Deployments are now priced and paid in **ACT** (not AKT)
+- Users mint ACT by depositing AKT into the vault
+- Providers receive ACT for compute, then burn ACT to receive AKT
+- A circuit breaker protects the system during extreme market conditions
+
+---
+
+## Testnet Participation
+
+### Prize Eligibility
+
+To be eligible for prizes, testers must submit **proof of testing** for each completed test:
+
+| Test Type | Required Proof |
+|-----------|----------------|
+| Query/Read operations | Full query output showing results |
+| Transactions (mint, burn, deploy, etc.) | Transaction hash (txhash) |
+| State changes | Before AND after query outputs |
+| Deployment tests | DSEQ, lease info, and deployment status |
+
+**Example proof for a mint operation:**
+```bash
+# Transaction hash from mint
+akash tx bme mint-act 10000000uakt --from mywallet -y
+# Output: {"txhash":"ABC123..."}
+
+# Query showing ACT received
+akash query bank balances <your-address>
+```
+
+### Submission Form
+
+Submit your completed tests and proof here:
+
+**https://forms.gle/6q7uiSN8j7WTe3p8A**
+
+---
+
+## Network Details
+
+Full network configuration (RPC endpoints, chain ID, genesis, etc.) is available at:
+
+**https://github.com/akash-network/net**
+
+### Quick Reference
+
+| Parameter | Value |
+|-----------|-------|
+| Chain ID | `testnet-8` |
+| RPC | `https://testnetrpc.akashnet.net:443` |
+| Faucet | https://faucet.dev.akash.pub/ |
+
+---
+
+## Test Guidance
+
+Detailed test steps, expected results, and validation procedures are available here:
+
+**[BME Testnet Test Plan](/docs/testnet/testplan)**
+
+---
+
+## Getting Started
+
+### 1. Set Up Your Environment
+
+```bash
+# Configure for testnet-8
+export AKASH_CHAIN_ID=testnet-8
+export AKASH_NODE=https://testnetrpc.akashnet.net:443
+export AKASH_KEYRING_BACKEND=test
+export AKASH_GAS=auto
+export AKASH_GAS_ADJUSTMENT=1.5
+export AKASH_GAS_PRICES=0.025uakt
+```
+
+### 2. Get Testnet Tokens
+
+Obtain testnet AKT from the faucet: https://faucet.dev.akash.pub/
+
+### 3. Mint ACT (Required Before Deploying)
+
+```bash
+# Mint ACT from AKT
+akash tx bme mint-act 10000000uakt --from <wallet> -y
+
+# Wait ~1 minute for epoch processing
+sleep 60
+
+# Verify ACT in your balance
+akash query bank balances <your-address>
+```
+
+### 4. Create a Deployment
+
+```bash
+# Ensure your SDL uses uact for pricing
+# Example: denom: uact (not uakt)
+
+# Create deployment with ACT deposit
+akash tx deployment create deploy.yml --deposit 5000000uact --from <wallet> -y
+```
+
+---
+
+## Key BME Commands
+
+### Query Commands
+
+```bash
+# Check BME system status
+akash query bme status
+
+# Check vault state
+akash query bme vault-state
+
+# Check BME parameters
+akash query bme params
+
+# Check your token balances
+akash query bank balances <your-address>
+
+# Check oracle prices
+akash query oracle prices
+```
+
+### Transaction Commands
+
+```bash
+# Mint ACT from AKT
+akash tx bme mint-act <amount>uakt --from <wallet> -y
+
+# Burn ACT to receive AKT
+akash tx bme burn-act <amount>uact --from <wallet> -y
+
+# Create deployment (with ACT)
+akash tx deployment create <sdl-file> --deposit <amount>uact --from <wallet> -y
+
+# Top up deployment escrow
+akash tx escrow deposit deployment <amount>uact --dseq <dseq> --from <wallet> -y
+
+# Close deployment
+akash tx deployment close --dseq <dseq> --from <wallet> -y
+```
+
+---
+
+## Important Notes for Testers
+
+1. **Epoch Delays:** ACT minting is epoch-based (~1 minute / 10 blocks). After `mint-act`, wait before checking your balance.
+
+2. **SDL Changes:** Your SDL files must use `uact` for pricing, not `uakt`:
+   ```yaml
+   profiles:
+     compute:
+       myservice:
+         resources:
+           # ...
+     placement:
+       myplacement:
+         pricing:
+           myservice:
+             denom: uact    # <-- Must be uact, not uakt
+             amount: 1000
+   ```
+
+3. **Provider Settlement:** Providers receive ACT from deployments, then call `burn-act` to convert to AKT. This is a two-step process.
+
+4. **Circuit Breaker:** If BME status shows `mint_status_halt_cr`, minting new ACT is temporarily blocked. Existing ACT can still be used for deployments.
+
+5. **Document Everything:** For prize eligibility, capture full command outputs including transaction hashes and query results.
+
+---
+
+## Troubleshooting
+
+### "ACT not appearing after mint"
+Wait for epoch (~1 minute), then query again. ACT minting is not instant.
+
+### "denom not supported: uact" from provider
+The provider's pricing script needs to be updated to support ACT. Report to testnet admins.
+
+### "insufficient funds" when deploying
+Ensure you have ACT (not just AKT). Run `akash query bank balances <address>` to check.
+
+### BME status shows "halt_oracle" or "halt_cr"
+The system is in a protected state. Check `akash query bme status` for details. During `halt_cr`, you cannot mint new ACT but can still use existing ACT.
+
+---
+
+## Resources
+
+- **Network Config:** https://github.com/akash-network/net
+- **Test Guide:** [BME Testnet Test Plan](/docs/testnet/testplan)
+- **Prize Submission:** https://forms.gle/6q7uiSN8j7WTe3p8A
+- **Discord:** Join the Akash Network Discord for support
+
+---
+
+## Questions?
+
+For testnet support, reach out in the Akash Network Discord or open an issue in the appropriate GitHub repository.

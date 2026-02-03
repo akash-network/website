@@ -1,0 +1,169 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Epochs"]
+title: "Epoch-Based Processing"
+linkTitle: "Epoch Processing"
+description: "Test epoch-based mint/burn processing"
+weight: 5
+---
+
+**Understanding Pending Operations:**
+
+The BME module processes mint/burn requests in epochs (batches of ~10 blocks / ~1 minute), not immediately. There is no CLI command to directly view pending operations waiting in the queue.
+
+**However, pending operations can be inferred from vault-state:**
+- **Pending mints:** When you mint ACT, `balances.uakt` increases immediately (AKT received by vault), but `remint_credits` only updates after the epoch completes. The difference indicates pending mints.
+- **Pending burns:** Similar pattern - ACT is received but AKT isn't released until epoch processes.
+
+**To detect pending operations:**
+```bash
+# Check vault state
+akash query bme vault-state
+
+# If balances.uakt > remint_credits, there are pending mint operations
+# The difference = amount of AKT awaiting ACT minting
+```
+
+Tests in this category verify epoch behavior through vault-state and bank balance changes before and after waiting for epoch completion.
+
+**Available BME query commands:**
+- `akash query bme params`
+- `akash query bme status`
+- `akash query bme vault-state`
+
+### Test 4.1: Verify Epoch-Based Processing
+
+**Objective:** Confirm mint requests are processed in epochs, not immediately
+
+**User Actions:**
+1. Record initial vault-state:
+   ```bash
+   akash query bme vault-state
+   ```
+2. Submit mint-act request:
+   ```bash
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   ```
+3. Immediately query vault-state again:
+   ```bash
+   akash query bme vault-state
+   ```
+   Note: AKT should be in vault, but ACT may not yet be minted
+4. Wait for epoch (~1 minute / 10 blocks)
+5. Query vault-state again and bank balance:
+   ```bash
+   akash query bme vault-state
+   akash query bank balances <wallet>
+   ```
+
+**Expected Results:**
+- Immediately after tx: `vault-state.balances.uakt` increases
+- After epoch: 
+  - `vault-state.balances.uact` increases
+  - `vault-state.total_minted.uact` increases
+  - User's bank balance shows ACT
+
+---
+
+### Test 4.2: Multiple Requests Before Epoch
+
+**Objective:** Verify multiple requests submitted before epoch are all processed
+
+**User Actions:**
+1. Record initial state
+2. Submit multiple mint-act requests in rapid succession:
+   ```bash
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   ```
+3. Wait for epoch processing (~1 minute)
+4. Verify all requests processed:
+   ```bash
+   akash query bme vault-state
+   akash query bank balances <wallet>
+   ```
+
+**Expected Results:**
+- All AKT transfers to vault complete
+- After epoch: Total ACT minted reflects all three requests
+- Final state is consistent (no lost requests)
+
+---
+
+### Test 4.3: Request During Circuit Breaker
+
+**Objective:** Verify mint requests fail when circuit breaker is active
+
+**Preconditions:**
+- **[Testnet Admin] Trigger circuit breaker (mint_status_halt_cr state)**
+
+**User Actions:**
+1. Verify circuit breaker is active:
+   ```bash
+   akash query bme status
+   ```
+   Confirm: `status: mint_status_halt_cr` and `mints_allowed: false`
+
+2. Attempt to mint ACT:
+   ```bash
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   ```
+
+3. Observe result
+
+**Expected Results:**
+- Transaction fails with circuit breaker error
+- No AKT transferred to vault
+- `refunds_allowed` should still be `true` (users can exit via burn-act)
+
+---
+
+### Test 4.4: Detect Pending Operations via Vault-State
+
+**Objective:** Verify pending mint operations can be detected before epoch processing
+
+**Background:** While there's no `pending-records` CLI command, pending operations can be detected by comparing `balances.uakt` (updates immediately) with `remint_credits` (updates after epoch).
+
+**User Actions:**
+
+1. **Record baseline** (should be equal if no pending):
+   ```bash
+   akash query bme vault-state
+   ```
+   Note: `balances.uakt` and `remint_credits.uakt` values
+
+2. **Submit mint request:**
+   ```bash
+   akash tx bme mint-act 25000000uakt --from <wallet> -y
+   ```
+
+3. **Immediately check vault-state** (within 10 seconds):
+   ```bash
+   akash query bme vault-state
+   ```
+
+4. **Calculate pending amount:**
+   ```
+   Pending = balances.uakt - remint_credits.uakt
+   ```
+
+5. **Wait for epoch** (~1-2 minutes):
+   ```bash
+   sleep 90
+   akash query bme vault-state
+   ```
+
+**Expected Results:**
+
+| Metric | Baseline | Immediately After | After Epoch |
+|--------|----------|-------------------|-------------|
+| `balances.uakt` | X | X + 25M (immediate) | X + 25M |
+| `remint_credits` | X | X (unchanged) | X + 25M (caught up) |
+| `balances.uact` | Y | Y (unchanged) | Y + (25M × price) |
+| `total_minted.uact` | Y | Y (unchanged) | Y + (25M × price) |
+
+**Key Insight:**
+- `balances.uakt > remint_credits` indicates pending operations
+- Difference equals the AKT amount awaiting epoch processing
+- After epoch: `remint_credits` catches up to `balances.uakt`

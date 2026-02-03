@@ -1,0 +1,123 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Refunds"]
+title: "Deployment Closure & Refunds"
+linkTitle: "Deployment Closure"
+description: "Test ACT → AKT conversion on deployment close"
+weight: 3
+---
+
+### Test 2.1: Close Deployment - Price Unchanged - Remint Credits Sufficient
+
+**Objective:** Verify closing deployment uses remint credits (no new AKT minted)
+
+**User Actions:**
+1. Create new wallet, fund with 1000 AKT
+2. Record oracle price (P_initial)
+3. Create deployment with 500 AKT deposit
+4. Record RemintCredits after deposit
+5. Let deployment run briefly (1-2 settlement periods)
+6. Confirm oracle price is still ~P_initial
+7. Close deployment:
+   ```
+   akash tx deployment close --owner <addr> --dseq <seq> --from <wallet>
+   ```
+8. Query final state
+
+**Expected Results:**
+- User receives AKT refund for unused portion
+- Refund amount = (Unused ACT) / P_current
+- Since price unchanged: AKT out ≈ AKT in (minus compute used)
+- **RemintCredits decreased** by refund amount
+- **TotalMinted unchanged** (no inflationary mint occurred)
+- VaultAKT decreased
+- OutstandingACT decreased
+
+**Critical Verification:**
+- Check that `TotalMinted` did NOT increase
+- Confirm refund came from remint credits, not new minting
+
+---
+
+### Test 2.2: Close Deployment - AKT Price Increased - Remint Credits Sufficient
+
+**Objective:** Verify user receives fewer AKT back when price rose, using only remint credits
+
+**User Actions:**
+1. Create new wallet, fund with 1000 AKT
+2. Record oracle price: P_initial = $1.00
+3. Create deployment with 500 AKT deposit (user gets 500 ACT worth of credits)
+4. Record RemintCredits (should be ~500 AKT)
+5. Let deployment run minimally (avoid significant compute charges)
+6. **[Testnet Admin] Adjust oracle price to P_final = $2.00**
+7. Close deployment
+8. Query final user AKT balance and BME state
+
+**Expected Results:**
+- User deposited: 500 AKT at $1.00 = $500 worth
+- User had ~500 ACT credits (minus minimal usage, say 490 ACT remaining)
+- At withdrawal: 490 ACT / $2.00 = **245 AKT returned**
+- User started with 1000 AKT, ends with ~745 AKT
+- RemintCredits decreased by 245 AKT (not 500 AKT)
+- **255 AKT remains in RemintCredits as surplus**
+- TotalMinted unchanged (no inflation)
+
+**Critical Observations:**
+- This confirms USD exposure, not AKT exposure
+- The "deflationary" effect: remint credits surplus remains in system
+
+---
+
+### Test 2.3: Close Deployment - AKT Price Decreased - Remint Credits Insufficient (Inflationary Path)
+
+**Objective:** Verify system mints new AKT when remint credits are insufficient
+
+**User Actions:**
+1. Create new wallet, fund with 1000 AKT
+2. Record oracle price: P_initial = $1.00
+3. Create deployment with 500 AKT deposit
+4. Record:
+   - RemintCredits (should be ~500 AKT)
+   - TotalMinted (baseline)
+   - Total AKT supply
+5. Let deployment run minimally
+6. **[Testnet Admin] Adjust oracle price to P_final = $0.50**
+7. Close deployment
+8. Query final state
+
+**Expected Results:**
+- User deposited: 500 AKT at $1.00 = $500 worth
+- User had ~490 ACT remaining
+- At withdrawal: 490 ACT / $0.50 = **980 AKT needed**
+- RemintCredits only has 500 AKT
+- **Shortfall: 480 AKT must be newly minted**
+- RemintCredits reduced to 0
+- **TotalMinted increased by 480 AKT**
+- Total AKT supply increased by 480 AKT
+- User receives full 980 AKT
+
+**Critical Verification:**
+- Confirm `TotalMinted` increased (inflationary event)
+- Verify total AKT supply increased
+- This is the inflationary path we discussed earlier
+
+---
+
+### Test 2.4: Close Deployment - Partial Remint Credit Usage
+
+**Objective:** Verify system uses all available remint credits before minting
+
+**User Actions:**
+1. Create scenario where RemintCredits = 300 AKT
+2. Create situation requiring 400 AKT payout
+3. Verify:
+   - 300 AKT comes from remint credits
+   - 100 AKT is newly minted
+4. Query ledger record for this transaction
+
+**Expected Results:**
+- RemintCredits reduced by 300 (to 0)
+- TotalMinted increased by 100
+- Ledger record shows:
+   - `RemintCreditIssued`: 300 AKT
+   - `Minted`: 100 AKT
