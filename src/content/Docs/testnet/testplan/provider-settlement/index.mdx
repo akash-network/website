@@ -1,0 +1,168 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Provider"]
+title: "Provider Settlement"
+linkTitle: "Provider Settlement"
+description: "Verify providers receive ACT and can burn to AKT"
+weight: 4
+---
+
+**Important Clarification on Settlement Flow:**
+
+Provider settlement is a **two-step process**:
+
+1. **Step 1 - Settlement:** When deployment closes or settles, provider receives **ACT** (not AKT directly)
+2. **Step 2 - Provider Burn:** Provider calls `akash tx bme burn-act` to convert ACT → AKT
+
+The burn is **provider-initiated**, not automatic at settlement time. This allows providers to:
+- Accumulate ACT and burn in batches
+- Time their conversions strategically
+- Potentially hold ACT if desired
+
+**Note:** Provider software will eventually automate the `burn-act` transaction, but currently it must be done manually.
+
+**Provider Burn Command:**
+```bash
+akash tx bme burn-act <amount>uact --from <provider-wallet> -y
+```
+
+**After Provider Burns ACT:**
+- Provider's ACT balance decreases
+- Provider receives AKT (from vault's remint_credits if sufficient, or newly minted)
+- `vault-state.total_burned.uact` increases
+- `vault-state.remint_credits` decreases (non-inflationary) or `total_minted.uakt` increases (inflationary)
+
+---
+
+### Test 3.1: Verify Provider Receives ACT at Settlement
+
+**Objective:** Confirm providers receive ACT (not AKT) when deployment settles/closes
+
+**Preconditions:**
+- Active deployment with provider
+- Provider has known ACT/AKT balance
+
+**User Actions:**
+1. Record provider's balances before close:
+   ```bash
+   akash query bank balances <provider-address>
+   ```
+2. Close deployment (or wait for settlement)
+3. Record provider's balances after:
+   ```bash
+   akash query bank balances <provider-address>
+   ```
+
+**Expected Results:**
+- Provider **ACT balance increases** (receives ACT for compute)
+- Provider AKT may increase slightly (bid deposit return)
+- BME vault-state **unchanged** at this step (no burn yet)
+
+---
+
+### Test 3.2: Provider Burns ACT to Receive AKT (Non-Inflationary)
+
+**Objective:** Verify provider can convert ACT to AKT using burn-act, paid from remint credits
+
+**Preconditions:**
+- Provider has ACT balance (from settlement)
+- Vault has sufficient remint_credits
+
+**User Actions:**
+1. Record pre-burn state:
+   ```bash
+   # Provider balances
+   akash query bank balances <provider-address>
+   
+   # BME vault state
+   akash query bme vault-state
+   ```
+
+2. Provider burns ACT:
+   ```bash
+   akash tx bme burn-act <amount>uact --from <provider-wallet> -y
+   ```
+
+3. Wait for epoch (~1 minute)
+
+4. Record post-burn state:
+   ```bash
+   akash query bank balances <provider-address>
+   akash query bme vault-state
+   ```
+
+**Expected Results:**
+- Provider ACT balance decreased by burn amount
+- Provider AKT balance increased (ACT amount / oracle price)
+- `vault-state.total_burned.uact` increased
+- `vault-state.remint_credits` decreased
+- `vault-state.total_minted.uakt` unchanged (non-inflationary)
+
+---
+
+### Test 3.3: Provider Burns ACT When AKT Price Rose
+
+**Objective:** Verify provider receives fewer AKT when price increased (same USD value)
+
+**User Actions:**
+1. Record provider's initial AKT balance
+2. Record RemintCredits and TotalMinted
+3. Record oracle price: P_start = $1.00
+4. Create deployment, let it run for known compute cost (e.g., $100 USD worth)
+5. **[Testnet Admin] Adjust oracle price to P_settle = $1.25**
+6. Wait for settlement epoch
+7. Query provider's AKT balance and BME state
+
+**Expected Results:**
+- Compute cost: $100 USD
+- At $1.25: Provider receives 100 / 1.25 = **80 AKT**
+- RemintCredits decreased by 80 AKT
+- TotalMinted unchanged
+- Provider received correct USD value in AKT terms
+
+---
+
+### Test 3.4: Provider Payment When AKT Price Dropped (Inflationary Path)
+
+**Objective:** Verify settlement mints new AKT when remint credits insufficient
+
+**User Actions:**
+1. Record:
+   - Provider's initial AKT balance
+   - RemintCredits (note the amount)
+   - TotalMinted
+   - Total AKT supply
+2. Record oracle price: P_start = $1.00
+3. Create deployment with deposit that results in known remint credits
+4. Let it run for compute cost exceeding remint credits at dropped price
+5. **[Testnet Admin] Adjust oracle price to P_settle = $0.50**
+6. Wait for settlement epoch
+7. Query all metrics
+
+**Expected Results:**
+- Provider should receive full AKT amount owed
+- RemintCredits depleted (reduced to 0 or near 0)
+- TotalMinted increased by shortfall amount
+- Total AKT supply increased
+
+**Critical Verification:**
+- This confirms the inflationary path works correctly
+- Compare total supply before/after
+
+---
+
+### Test 3.5: Multiple Settlements - Remint Credit Depletion Over Time
+
+**Objective:** Verify system behavior as remint credits deplete across multiple settlements
+
+**User Actions:**
+1. Create deployment with 1000 AKT deposit (1000 remint credits)
+2. **[Testnet Admin] Drop price so settlements require more AKT than accrued**
+3. Let multiple settlement epochs occur
+4. Track RemintCredits and TotalMinted after each epoch
+
+**Expected Results:**
+- First settlements use remint credits only
+- Eventually remint credits deplete
+- Later settlements require new minting
+- Clear transition visible in metrics

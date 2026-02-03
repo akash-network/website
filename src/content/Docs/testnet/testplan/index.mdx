@@ -1,0 +1,158 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Test Plan"]
+title: "BME Testnet Test Plan"
+linkTitle: "Test Plan"
+description: "Comprehensive test plan for BME (Burn Mint Equilibrium) module testing"
+weight: 2
+---
+
+## Overview
+
+This test plan validates BME functionality through real user workflows on testnet. Tests are triggered by user actions (creating deployments, closing deployments, funding wallets) rather than direct message invocation. BME mechanics are verified by observing state changes after user actions complete.
+
+## Prerequisites
+
+- Testnet deployed with BME-enabled node version (branch: `bme`)
+- Oracle module configured with price feeds
+- Testnet faucet available for funding test wallets
+- Akash CLI (`akash` or `provider-services`) configured for testnet
+- Console access (if testing credit card / UI flows)
+- Access to query BME state (via CLI or API)
+- Provider(s) running on testnet to accept deployments
+- Ability to manipulate oracle prices for price movement scenarios (testnet admin)
+- Ability to stop/start oracle feeds (for oracle halt testing)
+
+## Key Metrics to Monitor
+
+These should be queried before and after each test:
+
+| Metric | Query Method | Description |
+|--------|--------------|-------------|
+| `OutstandingACT` | `akash query bme vault-state` | Total ACT supply (system liabilities) |
+| `VaultAKT` | `akash query bme vault-state` | AKT held in BME module account |
+| `RemintCredits` | `akash query bme vault-state` | Available AKT credits before new minting required |
+| `TotalBurned` | `akash query bme vault-state` | Cumulative ACT burned |
+| `TotalMinted` | `akash query bme vault-state` | Cumulative AKT minted (inflationary) |
+| `collateral_ratio` | `akash query bme status` | Collateral Ratio (decimal, e.g., 0.99) |
+| `status` | `akash query bme status` | Current status (mint_status_healthy/warning/halt_cr/halt_oracle) |
+| User AKT Balance | `akash query bank balances <addr>` | User's AKT and ACT |
+| Oracle Price | `akash query oracle prices --asset-denom uakt` | Current AKT/USD price |
+
+---
+
+## Test Categories
+
+### [Category 0: Pre-Flight Health Checks](/docs/testnet/testplan/pre-flight)
+Verify BME module and dependencies are healthy before testing. **Run these first!**
+- Node connectivity
+- BME module enabled
+- Oracle health
+- Vault state baseline
+- Test wallet setup
+- Provider availability
+
+### [Category 1: Deployment Creation](/docs/testnet/testplan/deployment-creation)
+Test AKT → ACT conversion through deployment lifecycle.
+- ACT minting
+- Creating deployments with ACT
+- Multiple deployments
+- Top-up existing deployments
+
+### [Category 2: Deployment Closure & Refunds](/docs/testnet/testplan/deployment-closure)
+Test ACT → AKT conversion on deployment close.
+- Price unchanged scenarios
+- Price increase scenarios (deflationary)
+- Price decrease scenarios (inflationary)
+- Partial remint credit usage
+
+### [Category 3: Provider Settlement](/docs/testnet/testplan/provider-settlement)
+Verify providers receive ACT and can burn to AKT.
+- Provider receives ACT at settlement
+- Provider burns ACT (non-inflationary)
+- Price movement scenarios
+- Multiple settlements
+
+### [Category 4: Epoch-Based Processing](/docs/testnet/testplan/epoch-processing)
+Test epoch-based mint/burn processing.
+- Verify epoch delays
+- Multiple requests before epoch
+- Circuit breaker during epochs
+- Pending operations detection
+
+### [Category 5: Direct Message Operations](/docs/testnet/testplan/direct-messages)
+Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
+- Direct AKT → ACT conversion
+- Direct ACT → AKT conversion
+- Different recipient addresses
+- Input validation
+- Circuit breaker behavior
+
+### [Category 6: Circuit Breaker & Mint Status](/docs/testnet/testplan/circuit-breaker)
+**⚠️ Requires Akash Core Team Member** - Oracle price manipulation needed.
+- MintStatusHealthy
+- MintStatusWarning
+- MintStatusHaltCR (collateral ratio)
+- MintStatusHaltOracle
+- State transitions
+- Recovery scenarios
+
+### [Category 7: Observability & State Verification](/docs/testnet/testplan/observability)
+Verify BME state queries and event emissions.
+- Vault state changes
+- Query commands
+- Event emissions
+- Ledger records
+
+### [Category 8: Edge Cases & Error Handling](/docs/testnet/testplan/edge-cases)
+Test error conditions and edge cases.
+- Insufficient funds
+- Invalid swap routes
+- Concurrent operations
+- SDL pricing validation
+
+### [Category 9: End-to-End Scenarios](/docs/testnet/testplan/end-to-end)
+Complete user journeys combining multiple operations.
+- Full deployment lifecycle
+- Price volatility scenarios
+- Circuit breaker stress testing
+- Multi-user concurrent activity
+
+---
+
+## Summary Checklist
+
+| Category | Tests | Priority |
+|----------|-------|----------|
+| Pre-Flight Health Checks | 0.1-0.12 | Critical (Run First) |
+| Deployment Creation | 1.1-1.4 | Critical |
+| Deployment Closure/Refunds | 2.1-2.4 | Critical |
+| Provider Settlement | 3.1-3.4 | Critical |
+| Epoch-Based Processing | 4.1-4.4 | High |
+| Direct Message Operations | 5.1-5.16 | Critical |
+| Circuit Breaker/Mint Status | 6.1-6.7 | ⚠️ Requires Akash Core Team |
+| Observability/State Verification | 7.1-7.6 | Medium |
+| Edge Cases | 8.1-8.6 | High |
+| End-to-End | 9.1-9.4 | Critical |
+
+---
+
+## Testnet Admin Requirements
+
+Several tests require testnet administrator actions:
+
+| Action | Tests Requiring |
+|--------|-----------------|
+| Adjust oracle price | 2.2, 2.3, 3.3, 3.4, 6.2, 6.3, 9.2, 9.3 |
+| Stop oracle updates | 6.4 |
+| Trigger specific mint status | 4.3, 5.13, 5.14, 6.3, 6.4, 6.5, 6.6, 9.3 |
+
+---
+
+## Key Implementation Notes
+
+1. **Remint Credits are active** - System tracks credits and uses them before minting new AKT
+2. **Two-phase execution** - RequestBurnMint queues operations, executeBurnMint processes them
+3. **Four mint statuses** - Healthy, Warning, HaltCR, HaltOracle
+4. **Dynamic epoch timing** - Adjusts based on Collateralization Ratio
+5. **Asymmetric circuit breaker** - AKT→ACT blocked during halt, ACT→AKT still works

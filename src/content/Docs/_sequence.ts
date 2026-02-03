@@ -46,6 +46,14 @@ export const docsSequence = [
         label: "Learn",
         subItems: [], // Sub-items sorted by weight automatically
       },
+      {
+        type: "Header",
+        label: "Testnet",
+      },
+      {
+        label: "Testnet",
+        subItems: [], // Sub-items sorted by weight automatically
+      },
     ],
   },
 ];

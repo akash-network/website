@@ -1,0 +1,96 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "End-to-End"]
+title: "End-to-End Scenarios"
+linkTitle: "End-to-End"
+description: "Complete user journeys combining multiple operations"
+weight: 10
+---
+
+### Test 9.1: Full Deployment Lifecycle - Happy Path
+
+**Objective:** Complete end-to-end test of typical user journey
+
+**User Actions:**
+1. Create new wallet
+2. Fund with 2000 AKT from faucet
+3. Record all initial BME state
+4. Create deployment (500 AKT deposit)
+5. Verify deployment running
+6. Top up deployment (200 AKT)
+7. Let deployment run for 1 hour
+8. Query provider payments occurred
+9. Close deployment
+10. Verify refund received
+11. Reconcile all accounting
+
+**Expected Results:**
+- All steps complete successfully
+- RemintCredits accrued on deposits
+- RemintCredits used on settlements/refund
+- TotalMinted unchanged (if no price drop)
+- Final AKT balance = Initial - compute_used (at varying prices)
+- All ledger records present and accurate
+
+---
+
+### Test 9.2: Full Lifecycle with Price Volatility
+
+**Objective:** End-to-end test with price movements
+
+**User Actions:**
+1. Create deployment at P = $1.00
+2. Let run, price rises to $1.50 (settlement at high price)
+3. Price drops to $0.80
+4. Close deployment (refund at low price)
+5. Reconcile all accounting
+
+**Expected Results:**
+- Settlements during high price: fewer AKT paid, remint credits surplus
+- Refund during low price: may require new minting if surplus insufficient
+- TotalMinted reflects any inflationary events
+- User's final AKT reflects USD exposure, not AKT exposure
+
+---
+
+### Test 9.3: Stress Test - Circuit Breaker Engagement
+
+**Objective:** Verify system stability during stress
+
+**User Actions:**
+1. Create multiple active deployments
+2. **[Testnet Admin] Gradually drop price toward halt threshold**
+3. Observe:
+   - Mint status transitions
+   - Epoch timing changes
+   - Settlement behavior
+4. Trigger HaltCR
+5. Verify existing deployments continue
+6. Verify new deployments blocked
+7. **[Testnet Admin] Recover price**
+8. Verify system resumes
+
+**Expected Results:**
+- Graceful degradation as Collateralization Ratio drops
+- No data loss or corruption
+- Clean recovery when Collateralization Ratio improves
+
+---
+
+### Test 9.4: Multi-User Concurrent Activity
+
+**Objective:** Verify system handles realistic multi-user load
+
+**User Actions:**
+1. Create 10 test wallets
+2. Fund each with AKT
+3. Each wallet creates 2-3 deployments
+4. Let all run concurrently
+5. Randomly close deployments over time
+6. Verify all accounting correct
+
+**Expected Results:**
+- All operations succeed
+- No cross-user contamination
+- BME state accurate across all users
+- RemintCredits properly shared/consumed

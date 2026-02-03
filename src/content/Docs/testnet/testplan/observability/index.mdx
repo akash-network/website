@@ -1,0 +1,125 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Observability"]
+title: "Observability & State Verification"
+linkTitle: "Observability"
+description: "Verify BME state queries and event emissions"
+weight: 8
+---
+
+**Note:** Direct ledger record queries are not available via CLI. These tests verify BME state changes through available queries (vault-state, status, bank balances) and transaction events.
+
+**Available BME query commands:**
+- `akash query bme params`
+- `akash query bme status`  
+- `akash query bme vault-state`
+
+### Test 7.1: Verify State Changes - AKT→ACT (Deposit)
+
+**Objective:** Confirm vault-state reflects deposit operations
+
+**User Actions:**
+1. Record initial vault-state:
+   ```bash
+   akash query bme vault-state
+   ```
+2. Create deployment or mint ACT directly
+3. Wait for epoch, then query vault-state again
+
+**Expected Results:**
+After epoch, vault-state shows:
+- `balances.uakt` increased (AKT in vault)
+- `balances.uact` increased (ACT minted)
+- `remint_credits` increased (AKT escrowed for future settlements)
+- `total_minted.uact` increased
+
+---
+
+### Test 7.2: Verify State Changes - ACT→AKT (Refund with Remint)
+
+**Objective:** Confirm vault-state reflects refund/burn operations using remint credits
+
+**User Actions:**
+1. Start with ACT balance from previous minting
+2. Record initial vault-state
+3. Burn ACT:
+   ```bash
+   akash tx bme burn-act 50000000uact --from <wallet> -y
+   ```
+4. Wait for epoch, then query vault-state
+
+**Expected Results:**
+After epoch, vault-state shows:
+- `balances.uact` decreased (ACT burned)
+- `remint_credits` decreased (used for AKT payout)
+- `total_minted.uakt` unchanged (no new AKT minted - non-inflationary)
+- User's AKT balance increased
+
+---
+
+### Test 7.3: Verify State Changes - ACT→AKT (Inflationary Path)
+
+**Objective:** Confirm vault-state shows inflationary minting when remint credits insufficient
+
+**Preconditions:**
+- Low remint credits relative to ACT burn amount
+- Or price drop making remint credits insufficient
+
+**User Actions:**
+1. Record initial vault-state
+2. Trigger refund/burn that exceeds remint credits
+3. Wait for epoch, then query vault-state
+
+**Expected Results:**
+After epoch, vault-state shows:
+- `remint_credits` decreased (possibly to 0)
+- `total_minted.uakt` INCREASED (new AKT minted - **INFLATIONARY**)
+- Total AKT supply increased
+
+---
+
+### Test 7.4: Query BME Vault State
+
+**Objective:** Verify all BME metrics queryable
+
+**User Actions:**
+1. Execute BME queries via CLI:
+   ```bash
+   akash query bme vault-state
+   akash query bme status
+   akash query bme params
+   ```
+2. Verify all queries return valid data
+
+**Expected Results:**
+- `vault-state` returns: Balances, TotalBurned, TotalMinted, RemintCredits
+- `status` returns: status enum, EpochHeightDiff, PreviousStatus
+- `params` returns: thresholds, epoch settings
+
+---
+
+### Test 7.5: Event Emission - Mint Status Change
+
+**Objective:** Verify EventMintStatusChange emitted on transitions
+
+**User Actions:**
+1. Trigger mint status change (e.g., Healthy → Warning)
+2. Query transaction events
+
+**Expected Results:**
+- `EventMintStatusChange` emitted
+- Contains: `PreviousStatus`, `NewStatus`, `CollateralRatio`
+
+---
+
+### Test 7.6: Event Emission - Ledger Record Executed
+
+**Objective:** Verify EventLedgerRecordExecuted emitted on completion
+
+**User Actions:**
+1. Create deployment (triggers burn/mint)
+2. Query transaction events
+
+**Expected Results:**
+- `EventLedgerRecordExecuted` emitted
+- Contains: `ID` (LedgerRecordID)

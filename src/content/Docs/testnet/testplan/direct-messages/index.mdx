@@ -1,0 +1,349 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Direct Operations"]
+title: "Direct Message Operations"
+linkTitle: "Direct Messages"
+description: "Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint)"
+weight: 6
+---
+
+These tests cover direct user invocation of BME conversion messages, independent of the deployment lifecycle.
+
+**Important Notes:**
+- ACT minting is **epoch-based** (default: every 10 blocks / ~1 minute)
+- After `mint-act` tx succeeds, ACT will NOT appear in bank balance immediately
+- Check `akash query bme vault-state` to see pending state changes
+- Wait for epoch, then check `akash query bank balances` for ACT
+
+**Command Reference:**
+```bash
+# Mint ACT (AKT → ACT)
+akash tx bme mint-act <amount>uakt --from <wallet> -y
+
+# Burn ACT (ACT → AKT)
+akash tx bme burn-act <amount>uact --from <wallet> -y
+
+# Check status
+akash query bme status
+akash query bme vault-state
+```
+
+### Test 5.1: MsgMintACT - Direct AKT to ACT Conversion
+
+**Objective:** Verify user can directly convert AKT to ACT without creating a deployment
+
+**User Actions:**
+1. Create new wallet, fund with 1000 AKT
+2. Record initial state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   akash query oracle prices --asset-denom uakt --limit 1
+   ```
+3. Execute direct MsgMintACT:
+   ```bash
+   akash tx bme mint-act 500000000uakt --from <wallet> -y
+   ```
+4. Check vault state immediately (AKT should be there):
+   ```bash
+   akash query bme vault-state
+   ```
+5. Wait for epoch (~1 minute), then check bank balance:
+   ```bash
+   sleep 60
+   akash query bank balances <user-address>
+   ```
+
+**Expected Results:**
+- Immediately: AKT transferred to vault, `vault-state.balances.uakt` ↑
+- After epoch: 
+  - User AKT balance decreased by 500 AKT
+  - User ACT balance increased by (500 × oracle_price) ACT
+  - `vault-state.balances.uact` ↑
+  - `vault-state.remint_credits` ↑ by 500 AKT
+  - `vault-state.total_minted.uact` ↑
+
+---
+
+### Test 5.2: MsgMintACT - Convert to Different Recipient
+
+**Objective:** Verify AKT can be converted to ACT for a different address
+
+**User Actions:**
+1. Create Wallet A with 1000 AKT
+2. Create Wallet B (empty)
+3. Check if `--to` flag is supported:
+   ```bash
+   akash tx bme mint-act -h
+   ```
+4. If supported, execute MsgMintACT from A with `--to` pointing to B:
+   ```bash
+   akash tx bme mint-act 300000000uakt --from <wallet-A> --to <wallet-B> -y
+   ```
+5. Wait for epoch, then query both wallets
+
+**Expected Results:**
+- Wallet A: AKT decreased by 300
+- Wallet A: ACT unchanged (still 0)
+- Wallet B: ACT balance = (300 × oracle_price) ACT
+- BME state updated correctly
+
+**Note:** If `--to` flag not available, ACT goes to sender's address only.
+
+---
+
+### Test 5.3: MsgBurnACT - Direct ACT to AKT Conversion
+
+**Objective:** Verify user can directly convert ACT back to AKT
+
+**User Actions:**
+1. Start with wallet that has ACT balance (from Test 5.1 or deployment refund)
+2. Record initial state:
+   - User AKT balance
+   - User ACT balance
+   - RemintCredits
+   - TotalMinted
+   - Oracle price
+3. Execute direct MsgBurnACT:
+   ```bash
+   akash tx bme burn-act --from <wallet> --coins 200uact --to <same-wallet>
+   ```
+4. Query post-transaction state
+
+**Expected Results:**
+- User ACT balance decreased by 200 ACT
+- User AKT balance increased by (200 / P_current) AKT
+- OutstandingACT decreased by 200 ACT
+- RemintCredits decreased (if sufficient) OR TotalMinted increased (if shortfall)
+- Response contains valid `LedgerRecordID`
+
+---
+
+### Test 5.4: MsgBurnACT - Convert to Different Recipient
+
+**Objective:** Verify ACT can be converted to AKT for a different address
+
+**User Actions:**
+1. Wallet A has 500 ACT, 0 AKT
+2. Wallet B has 0 ACT, 0 AKT
+3. Execute MsgBurnACT from A with `--to` pointing to B:
+   ```bash
+   akash tx bme burn-act --from <wallet-A> --coins 500uact --to <wallet-B>
+   ```
+4. Query both wallets
+
+**Expected Results:**
+- Wallet A: ACT decreased by 500, AKT unchanged
+- Wallet B: AKT balance = (500 / P_current) AKT
+- BME state updated correctly
+
+---
+
+### Test 5.5: MsgBurnMint - Generic Swap AKT to ACT
+
+**Objective:** Verify generic BurnMint message works for AKT→ACT
+
+**User Actions:**
+1. Wallet with 1000 AKT
+2. Execute MsgBurnMint specifying both denoms:
+   ```bash
+   akash tx bme burn-mint --from <wallet> --coins 400uakt --denom-to-mint uact --to <wallet>
+   ```
+3. Verify same behavior as MsgMintACT
+
+**Expected Results:**
+- Functionally identical to MsgMintACT
+- ACT minted = 400 × P_mint
+- Response contains `LedgerRecordID`
+
+---
+
+### Test 5.6: MsgBurnMint - Generic Swap ACT to AKT
+
+**Objective:** Verify generic BurnMint message works for ACT→AKT
+
+**User Actions:**
+1. Wallet with ACT balance
+2. Execute MsgBurnMint specifying both denoms:
+   ```bash
+   akash tx bme burn-mint --from <wallet> --coins 200uact --denom-to-mint uakt --to <wallet>
+   ```
+3. Verify same behavior as MsgBurnACT
+
+**Expected Results:**
+- Functionally identical to MsgBurnACT
+- AKT received = 200 / P_current
+- Response contains `LedgerRecordID`
+
+---
+
+### Test 5.7: Pre-Fund ACT Then Create Deployment
+
+**Objective:** Verify user can pre-fund ACT balance and later use it for deployment
+
+**User Actions:**
+1. Create wallet with 2000 AKT
+2. Convert 1000 AKT → ACT via MsgMintACT
+3. Verify user has ~1000 AKT and ~(1000 × P) ACT
+4. Create deployment using the pre-funded ACT
+5. Verify deployment uses existing ACT balance
+
+**Expected Results:**
+- Deployment creation draws from existing ACT
+- No additional AKT→ACT conversion at deployment time (or reduced amount)
+- Two-step funding workflow works correctly
+
+**Note:** This test validates a new user workflow enabled by direct messages.
+
+---
+
+### Test 5.8: Partial ACT Withdrawal Without Closing Deployment
+
+**Objective:** Verify user can withdraw excess ACT while deployment runs
+
+**User Actions:**
+1. Create deployment with large ACT balance
+2. While deployment is running, execute MsgBurnACT for portion of unused ACT
+3. Verify:
+   - Deployment continues running
+   - User receives AKT
+   - Remaining ACT still available for deployment
+
+**Expected Results:**
+- Deployment unaffected
+- User can manage ACT balance independently
+- Partial withdrawal successful
+
+---
+
+### Test 5.9: Input Validation - Invalid Owner Address
+
+**Objective:** Verify proper error on invalid owner address
+
+**User Actions:**
+1. Attempt MsgMintACT with malformed owner address
+2. Observe failure
+
+**Expected Results:**
+- Error: `ErrInvalidAddress: invalid owner address`
+- No state changes
+- Transaction rejected at validation
+
+---
+
+### Test 5.10: Input Validation - Invalid To Address
+
+**Objective:** Verify proper error on invalid recipient address
+
+**User Actions:**
+1. Attempt MsgMintACT with valid owner but malformed `to` address
+2. Observe failure
+
+**Expected Results:**
+- Error: `ErrInvalidAddress: invalid to address`
+- No state changes
+
+---
+
+### Test 5.11: Input Validation - Invalid Coins
+
+**Objective:** Verify proper error on invalid coin specification
+
+**User Actions:**
+1. Attempt MsgMintACT with invalid coins (negative, zero, malformed denom)
+2. Observe failure
+
+**Expected Results:**
+- Error: `ErrInvalidCoins: invalid coins`
+- No state changes
+
+---
+
+### Test 5.12: Input Validation - Invalid Swap Route
+
+**Objective:** Verify rejection of unsupported token pairs
+
+**User Actions:**
+1. Attempt MsgBurnMint with unsupported denom combination (e.g., USDC → ACT)
+2. Observe failure
+
+**Expected Results:**
+- Error: `ErrInvalidDenom: invalid swap route`
+- Only AKT↔ACT swaps allowed
+
+---
+
+### Test 5.13: MsgMintACT During Circuit Breaker Halt
+
+**Objective:** Verify direct AKT→ACT blocked during circuit breaker
+
+**User Actions:**
+1. **[Testnet Admin] Trigger circuit breaker (HaltCR)**
+2. Attempt MsgMintACT
+3. Observe failure
+
+**Expected Results:**
+- Error: `ErrCircuitBreakerActive`
+- AKT→ACT blocked (same as deployment flow)
+- User's AKT unchanged
+
+---
+
+### Test 5.14: MsgBurnACT During Circuit Breaker Halt
+
+**Objective:** Verify ACT→AKT still works during circuit breaker (settlements must continue)
+
+**User Actions:**
+1. User has ACT balance
+2. **[Testnet Admin] Trigger circuit breaker (HaltCR)**
+3. Attempt MsgBurnACT
+4. Observe result
+
+**Expected Results:**
+- MsgBurnACT **should succeed** (ACT→AKT must continue for settlements)
+- User receives AKT
+- Only new ACT minting is blocked, not ACT burning
+
+**Critical Verification:**
+- This confirms asymmetric circuit breaker behavior
+- Providers/users can still exit ACT positions during halt
+
+---
+
+### Test 5.15: LedgerRecordID Verification
+
+**Objective:** Verify response contains valid, queryable LedgerRecordID
+
+**User Actions:**
+1. Execute MsgMintACT:
+   ```bash
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   ```
+2. Examine transaction response/events for LedgerRecordID
+
+**Expected Results:**
+- Transaction succeeds
+- Response or events may include record tracking information
+- Vault-state reflects the operation after epoch
+
+**Note:** Direct ledger record queries are not available via CLI. Verify operation through vault-state changes and bank balance updates.
+
+---
+
+### Test 5.16: Consecutive Direct Operations
+
+**Objective:** Verify multiple direct operations work correctly in sequence
+
+**User Actions:**
+1. Start with 2000 AKT
+2. MsgMintACT: 500 AKT → ACT
+3. MsgMintACT: 300 AKT → ACT
+4. MsgBurnACT: 200 ACT → AKT
+5. MsgMintACT: 100 AKT → ACT
+6. Reconcile all balances and BME state
+
+**Expected Results:**
+- Each operation independent and correct
+- Running totals accurate
+- All LedgerRecordIDs unique
+- Final state fully reconciled
