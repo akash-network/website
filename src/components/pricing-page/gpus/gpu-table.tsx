@@ -435,14 +435,19 @@ export const Tables = ({
       return (
         <>
           {/* Render grouped VRAM sections */}
-          {vramGroups.map((groupName) => {
+          {vramGroups.map((groupName, i) => {
             const groupModels = normalizedData?.groupedByVram?.[groupName] || [];
             if (groupModels.length === 0) return null;
 
             return (
               <React.Fragment key={groupName}>
                 {/* VRAM Group Header */}
-                <div className="bg-[#F5F5F5] dark:bg-background2 w-fit px-4 py-0.5 md:py-1 font-medium mt-[14px] mb-1 md:!mb-0 rounded-full md:mt-6">
+                <div className={
+                  clsx(
+                    "bg-[#F5F5F5] dark:bg-background2 w-fit px-4 py-0.5 md:py-1 font-medium  mb-1 md:!mb-0 rounded-full ",
+                    i === 0 ? "mt-[14px] md:mt-4" : "mt-10"
+                  )
+                }>
                   <h3 className="text-para text-sm">
                     {groupName} VRAM
                   </h3>
@@ -484,8 +489,9 @@ export const Tables = ({
       <div className="w-full overflow-x-auto">
         <div className="flex flex-col">
           {/* Header row - visible on both desktop and mobile */}
-          <div className="flex items-center justify-between border-b border-defaultBorder xl:px-4 pb-3 pt-3 text-sm font-light text-para  xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal xl:text-[#71717A] dark:xl:text-[#A1A1AA]">
-            <span className="md:text-foreground text-[15px] md:text-xl md:font-medium">GPU</span>
+          <div className="flex items-center justify-between border-b border-defaultBorder  pb-3 pt-3 text-sm font-light text-para  xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal xl:text-[#71717A] dark:xl:text-[#A1A1AA]">
+
+            <span className="md:text-foreground text-[15px] md:text-base md:font-medium">GPU Model</span>
             <span className="text-[15px]">Price (Starting at)</span>
           </div>
 
