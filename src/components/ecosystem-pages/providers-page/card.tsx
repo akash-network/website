@@ -10,27 +10,34 @@ import { useIntl } from "react-intl";
 import { Uptime } from "./uptime";
 
 export default function ProvidersCard({ provider }: any) {
-  const activeCPU = provider.isOnline ? provider.activeStats.cpu / 1000 : 0;
-  const pendingCPU = provider.isOnline ? provider.pendingStats.cpu / 1000 : 0;
-  const totalCPU = provider.isOnline
-    ? (provider.availableStats.cpu +
-        provider.pendingStats.cpu +
-        provider.activeStats.cpu) /
+  // Safely access stats with defaults
+  const activeStats = provider.activeStats || { cpu: 0, memory: 0, gpu: 0, storage: 0 };
+  const pendingStats = provider.pendingStats || { cpu: 0, memory: 0, gpu: 0, storage: 0 };
+  const availableStats = provider.availableStats || { cpu: 0, memory: 0, gpu: 0, storage: 0 };
+  
+  const isOnline = provider.isOnline ?? false;
+  
+  const activeCPU = isOnline ? (activeStats.cpu || 0) / 1000 : 0;
+  const pendingCPU = isOnline ? (pendingStats.cpu || 0) / 1000 : 0;
+  const totalCPU = isOnline
+    ? ((availableStats.cpu || 0) +
+        (pendingStats.cpu || 0) +
+        (activeStats.cpu || 0)) /
       1000
     : 0;
 
-  const gpuModels = provider.hardwareGpuModels.map((gpu: any) =>
+  const gpuModels = (provider.hardwareGpuModels || []).map((gpu: any) =>
     gpu.substring(gpu.lastIndexOf(" ") + 1, gpu.length),
   );
 
-  const _activeMemory = provider.isOnline
-    ? bytesToShrink(provider.activeStats.memory + provider.pendingStats.memory)
+  const _activeMemory = isOnline && (activeStats.memory || pendingStats.memory)
+    ? bytesToShrink((activeStats.memory || 0) + (pendingStats.memory || 0))
     : null;
-  const _totalMemory = provider.isOnline
+  const _totalMemory = isOnline && (availableStats.memory || pendingStats.memory || activeStats.memory)
     ? bytesToShrink(
-        provider.availableStats.memory +
-          provider.pendingStats.memory +
-          provider.activeStats.memory,
+        (availableStats.memory || 0) +
+          (pendingStats.memory || 0) +
+          (activeStats.memory || 0),
       )
     : null;
 
@@ -42,23 +49,23 @@ export default function ProvidersCard({ provider }: any) {
     <div className="flex w-full flex-col overflow-hidden rounded-lg border   bg-background2 p-4">
       <div className="flex gap-x-[10px]">
         <div className="flex h-12 w-12 items-center justify-center rounded border   bg-background  text-xl font-extrabold uppercase">
-          {name?.[0]}
-          {name?.[1]}
+          {name?.[0] || provider.owner?.[5] || "?"}
+          {name?.[1] || provider.owner?.[6] || ""}
         </div>
 
         <div>
           <p className="break-words  text-base font-semibold text-foreground">
-            {provider.name?.length > 20 ? (
+            {provider.name && provider.name.length > 20 ? (
               <span>{getSplitText(provider.name, 4, 13)}</span>
             ) : (
-              <span>{provider.name}</span>
+              <span>{provider.name || provider.owner || "Unknown Provider"}</span>
             )}
           </p>
           <p className="break-words  text-xs text-cardGray">
-            {provider.hostUri?.length > 20 ? (
+            {provider.hostUri && provider.hostUri.length > 20 ? (
               <span>{getSplitText(provider.hostUri, 4, 13)}</span>
             ) : (
-              <span>{provider.hostUri}</span>
+              <span>{provider.hostUri || provider.owner || ""}</span>
             )}
           </p>
         </div>
@@ -76,89 +83,99 @@ export default function ProvidersCard({ provider }: any) {
         </p>
       </div>
 
-      <div className="mt-3 flex flex-col items-center justify-between ">
-        <div className="flex w-full items-center justify-between">
-          <p className="text-xs font-medium">{`Uptime: ${intl.formatNumber(
-            provider.uptime7d,
-            {
-              style: "percent",
-              maximumFractionDigits: 0,
-            },
-          )}`}</p>
-          <p className="text-xs font-medium text-foreground">7 D</p>
-        </div>
+      {provider.uptime7d !== undefined && (
+        <div className="mt-3 flex flex-col items-center justify-between ">
+          <div className="flex w-full items-center justify-between">
+            <p className="text-xs font-medium">{`Uptime: ${intl.formatNumber(
+              provider.uptime7d || 0,
+              {
+                style: "percent",
+                maximumFractionDigits: 0,
+              },
+            )}`}</p>
+            <p className="text-xs font-medium text-foreground">7 D</p>
+          </div>
 
-        <div className=" mt-3  w-full">
-          <Uptime value={provider.uptime7d} />
-        </div>
-      </div>
-
-      <div className="  mt-3  flex flex-col gap-y-[6px]">
-        <Stats
-          componentName="CPU:"
-          isOver60Percent={
-            Math.round(((activeCPU + pendingCPU) / totalCPU) * 100) > 60
-          }
-          value={`${Math.round(activeCPU + pendingCPU)} / ${Math.round(
-            totalCPU,
-          )}`}
-        />
-
-        <div className="flex w-full items-center   justify-between rounded-sm border  p-2">
-          <p className=" text-xs font-medium">GPU:</p>
-
-          <div className="flex items-center justify-center gap-x-1">
-            {gpuModels.slice(0, 1).map((gpu: any, i: any) => (
-              <p
-                key={i}
-                className="rounded-full  border   bg-[#F4F4F4] px-2 text-2xs   font-bold  text-cardGray dark:bg-darkGray dark:text-para"
-              >
-                {gpu}
-              </p>
-            ))}
-
-            {gpuModels.length > 2 && (
-              <HoverCard>
-                <HoverCardTrigger>
-                  <p className="rounded-full  border   bg-[#F4F4F4] px-2 text-xs   font-bold  text-cardGray dark:bg-darkGray dark:text-para">
-                    {`+${gpuModels.length - 1}`}
-                  </p>
-                </HoverCardTrigger>
-                <HoverCardContent>
-                  <div className="flex w-52 flex-wrap gap-x-2 gap-y-2 rounded-lg bg-background2 p-2">
-                    {gpuModels.slice(1).map((gpu: any, i: any) => (
-                      <p
-                        key={i}
-                        className="rounded-full  border  bg-[#F4F4F4] px-2   text-xs  font-bold text-cardGray"
-                      >
-                        {gpu}
-                      </p>
-                    ))}
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
-            )}
+          <div className=" mt-3  w-full">
+            <Uptime value={provider.uptime7d || 0} />
           </div>
         </div>
+      )}
 
-        <Stats
-          componentName="Memory:"
-          value={`${roundDecimal(
-            _activeMemory?.value as number,
-            0,
-          )} ${_activeMemory?.unit} /  ${roundDecimal(
-            _totalMemory?.value as number,
-            0,
-          )} ${_totalMemory?.unit} `}
-          isOver60Percent={
-            (provider.activeStats.memory + provider.pendingStats.memory) /
-              (provider.availableStats.memory +
-                provider.pendingStats.memory +
-                provider.activeStats.memory) >
-            0.64
-          }
-        />
-        <Stats componentName="Active Leases:" value={provider.leaseCount} />
+      <div className="  mt-3  flex flex-col gap-y-[6px]">
+        {totalCPU > 0 && (
+          <Stats
+            componentName="CPU:"
+            isOver60Percent={
+              totalCPU > 0 && Math.round(((activeCPU + pendingCPU) / totalCPU) * 100) > 60
+            }
+            value={`${Math.round(activeCPU + pendingCPU)} / ${Math.round(
+              totalCPU,
+            )}`}
+          />
+        )}
+
+        {gpuModels.length > 0 && (
+          <div className="flex w-full items-center   justify-between rounded-sm border  p-2">
+            <p className=" text-xs font-medium">GPU:</p>
+
+            <div className="flex items-center justify-center gap-x-1">
+              {gpuModels.slice(0, 1).map((gpu: any, i: any) => (
+                <p
+                  key={i}
+                  className="rounded-full  border   bg-[#F4F4F4] px-2 text-2xs   font-bold  text-cardGray dark:bg-darkGray dark:text-para"
+                >
+                  {gpu}
+                </p>
+              ))}
+
+              {gpuModels.length > 2 && (
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <p className="rounded-full  border   bg-[#F4F4F4] px-2 text-xs   font-bold  text-cardGray dark:bg-darkGray dark:text-para">
+                      {`+${gpuModels.length - 1}`}
+                    </p>
+                  </HoverCardTrigger>
+                  <HoverCardContent>
+                    <div className="flex w-52 flex-wrap gap-x-2 gap-y-2 rounded-lg bg-background2 p-2">
+                      {gpuModels.slice(1).map((gpu: any, i: any) => (
+                        <p
+                          key={i}
+                          className="rounded-full  border  bg-[#F4F4F4] px-2   text-xs  font-bold text-cardGray"
+                        >
+                          {gpu}
+                        </p>
+                      ))}
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+              )}
+            </div>
+          </div>
+        )}
+
+        {_activeMemory && _totalMemory && (
+          <Stats
+            componentName="Memory:"
+            value={`${roundDecimal(
+              _activeMemory?.value as number,
+              0,
+            )} ${_activeMemory?.unit} /  ${roundDecimal(
+              _totalMemory?.value as number,
+              0,
+            )} ${_totalMemory?.unit} `}
+            isOver60Percent={
+              ((activeStats.memory || 0) + (pendingStats.memory || 0)) /
+                ((availableStats.memory || 0) +
+                  (pendingStats.memory || 0) +
+                  (activeStats.memory || 0)) >
+              0.64
+            }
+          />
+        )}
+        {provider.leaseCount !== undefined && (
+          <Stats componentName="Active Leases:" value={provider.leaseCount || 0} />
+        )}
 
         {provider.ipRegion && provider.ipCountry && (
           <Stats

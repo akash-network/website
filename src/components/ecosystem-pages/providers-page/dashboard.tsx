@@ -41,7 +41,7 @@ export default function ProvidersList({ pathName }: ProviderListProps) {
 }
 
 function ProviderListContent({ pathName }: ProviderListProps) {
-  const { data: providers, isLoading: isLoadingProviders } = useProviderList();
+  const { data: providers, isLoading: isLoadingProviders, error } = useProviderList();
 
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<string>("active-leases-desc");
@@ -56,7 +56,10 @@ function ProviderListContent({ pathName }: ProviderListProps) {
   const pageCount = Math.ceil(filteredProviders.length / ROWS_PER_PAGE);
 
   useEffect(() => {
-    if (!providers) return;
+    if (!providers || !Array.isArray(providers)) {
+      setFilteredProviders([]);
+      return;
+    }
 
     let filtered = [...providers];
 
@@ -65,31 +68,41 @@ function ProviderListContent({ pathName }: ProviderListProps) {
       filtered = filtered.filter(
         (provider) =>
           provider.hostUri?.toLowerCase().includes(searchLower) ||
-          provider.owner?.toLowerCase().includes(searchLower),
+          provider.owner?.toLowerCase().includes(searchLower) ||
+          provider.name?.toLowerCase().includes(searchLower),
       );
     }
 
     if (isFilteringActive) {
-      filtered = filtered.filter((provider) => provider.isOnline);
+      // Only filter by isOnline if it exists, otherwise include all
+      filtered = filtered.filter((provider) => 
+        provider.isOnline !== undefined ? provider.isOnline : true
+      );
     }
 
     if (isFilteringAudited) {
       filtered = filtered.filter(
-        (provider) => provider.isAudited && provider.isOnline,
+        (provider) => 
+          provider.isAudited && 
+          (provider.isOnline !== undefined ? provider.isOnline : true),
       );
     }
 
     filtered.sort((a, b) => {
       switch (sort) {
         case "active-leases-desc":
-          return b.leaseCount - a.leaseCount;
+          return (b.leaseCount || 0) - (a.leaseCount || 0);
         case "active-leases-asc":
-          return a.leaseCount - b.leaseCount;
+          return (a.leaseCount || 0) - (b.leaseCount || 0);
         case "gpu-available-desc":
           const totalGpuB =
-            b.availableStats.gpu + b.pendingStats.gpu + b.activeStats.gpu;
+            (b.availableStats?.gpu || 0) + 
+            (b.pendingStats?.gpu || 0) + 
+            (b.activeStats?.gpu || 0);
           const totalGpuA =
-            a.availableStats.gpu + a.pendingStats.gpu + a.activeStats.gpu;
+            (a.availableStats?.gpu || 0) + 
+            (a.pendingStats?.gpu || 0) + 
+            (a.activeStats?.gpu || 0);
           return totalGpuB - totalGpuA;
         default:
           return 0;
@@ -122,6 +135,16 @@ function ProviderListContent({ pathName }: ProviderListProps) {
     );
   }
 
+  if (error) {
+    return (
+      <div className="container mx-auto px-4">
+        <div className="py-6 text-center text-red-500">
+          Error loading providers: {error.message}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4">
       <div className="mb-6 flex flex-col items-center justify-between md:flex-row">
@@ -139,7 +162,11 @@ function ProviderListContent({ pathName }: ProviderListProps) {
       </div>
 
       {currentPageProviders.length === 0 ? (
-        <p className="py-6 text-center text-gray-500">No providers found</p>
+        <p className="py-6 text-center text-gray-500">
+          {providers && providers.length > 0 
+            ? "No providers match the current filters" 
+            : "No providers found"}
+        </p>
       ) : (
         <>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
