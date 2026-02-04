@@ -10,16 +10,29 @@ import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
+import { getLastModForUrl } from "./src/utils/sitemap-lastmod";
 
 export default defineConfig({
   redirects: redirects,
   markdown: {
-    remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin],
+    remarkPlugins: [
+      remarkMath,
+      normalizeMath,
+      remarkDirective,
+      mermaid,
+      customAsidePlugin,
+    ],
   },
   integrations: [
     tailwind(),
     sitemap({
-      lastmod: new Date("2024-06-27"),
+      async serialize(item) {
+        const lastmod = await getLastModForUrl(item.url);
+        return {
+          ...item,
+          ...(lastmod && { lastmod: lastmod.toISOString() }),
+        };
+      },
     }),
     react(),
     astroExpressiveCode({
