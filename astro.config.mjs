@@ -26,8 +26,8 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap({
-      async serialize(item) {
-        const lastmod = await getLastModForUrl(item.url);
+      serialize(item) {
+        const lastmod = getLastModForUrl(item.url);
         return {
           ...item,
           ...(lastmod && { lastmod: lastmod.toISOString() }),

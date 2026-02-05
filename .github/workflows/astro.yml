@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full git history for lastmod cache generation
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -67,6 +69,9 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+        working-directory: ${{ env.BUILD_PATH }}
+      - name: Generate lastmod cache
+        run: ${{ steps.detect-package-manager.outputs.manager }} run generate:lastmod
         working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
         run: |

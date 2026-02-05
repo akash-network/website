@@ -1,100 +1,161 @@
-import { execSync } from "child_process";
-import { statSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 
 // Get project root directory
 const projectRoot = process.cwd();
+const cacheFile = join(projectRoot, ".lastmod-cache.json");
 
-// GitHub repo info
-const GITHUB_REPO = "akash-network/website";
-const GITHUB_API_BASE = "https://api.github.com/repos";
+interface LastModCache {
+  [filePath: string]: string; // ISO date string
+}
 
-// Cache for GitHub API responses to avoid rate limiting
-const githubCache = new Map<string, Date | null>();
+// Load cache file once
+let cache: LastModCache | null = null;
 
 /**
- * Gets the last modification time for a file using GitHub API
- * Falls back to git, then filesystem
+ * Load the lastmod cache from file
  */
-async function getFileModTime(filePath: string): Promise<Date | null> {
-  const fullPath = join(projectRoot, filePath);
-
-  // Check cache first
-  if (githubCache.has(filePath)) {
-    return githubCache.get(filePath) || null;
+function loadCache(): LastModCache {
+  if (cache !== null) {
+    return cache;
   }
 
-  // Try GitHub API first (most reliable, works in CI/CD)
-  try {
-    const apiUrl = `${GITHUB_API_BASE}/${GITHUB_REPO}/commits?path=${encodeURIComponent(filePath)}&per_page=1`;
-
-    // Add timeout to avoid hanging during build
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
-
+  if (existsSync(cacheFile)) {
     try {
-      const response = await fetch(apiUrl, {
-        signal: controller.signal,
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-          // Optional: Add token if available for higher rate limits
-          ...(process.env.GITHUB_TOKEN && {
-            Authorization: `token ${process.env.GITHUB_TOKEN}`,
-          }),
-        },
-      });
-
-      clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const commits = await response.json();
-        if (Array.isArray(commits) && commits.length > 0) {
-          const commitDate = new Date(commits[0].commit.committer.date);
-          githubCache.set(filePath, commitDate);
-          return commitDate;
-        }
-      }
-    } catch (fetchError) {
-      clearTimeout(timeoutId);
-      throw fetchError;
+      const content = readFileSync(cacheFile, "utf-8");
+      cache = JSON.parse(content);
+      return cache || {};
+    } catch (error) {
+      console.warn(`Failed to load lastmod cache: ${error}`);
+      cache = {};
+      return {};
     }
-  } catch (error) {
-    // GitHub API failed (network error, timeout, etc.), continue to fallback methods
   }
 
-  // Fallback to local git
-  try {
-    const result = execSync(
-      `git log -1 --pretty="format:%cI" -- "${fullPath}" 2>/dev/null || echo ""`,
-      { encoding: "utf-8", cwd: projectRoot },
-    ).trim();
+  cache = {};
+  return {};
+}
 
-    if (result) {
-      const date = new Date(result);
-      githubCache.set(filePath, date);
-      return date;
-    }
-  } catch (error) {
-    // Git not available, continue to filesystem
+/**
+ * Gets the last modification time for a file from the cache
+ */
+function getFileModTime(filePath: string): Date | null {
+  const cacheData = loadCache();
+  const lastModString = cacheData[filePath];
+  if (lastModString) {
+    return new Date(lastModString);
   }
+  return null;
+}
 
-  // Final fallback to filesystem modification time
-  try {
-    const stats = statSync(fullPath);
-    const date = stats.mtime;
-    githubCache.set(filePath, date);
-    return date;
-  } catch (error) {
-    // File doesn't exist or can't be accessed
-    githubCache.set(filePath, null);
+/**
+ * Gets the most recent modification time from a list of file paths
+ */
+function getMostRecentModTime(filePaths: string[]): Date | null {
+  const dates: Date[] = [];
+  for (const filePath of filePaths) {
+    const modTime = getFileModTime(filePath);
+    if (modTime) {
+      dates.push(modTime);
+    }
+  }
+  if (dates.length === 0) {
     return null;
   }
+  return new Date(Math.max(...dates.map((d) => d.getTime())));
+}
+
+/**
+ * Gets related component paths for a given route
+ */
+function getRelatedComponentPaths(route: string): string[] {
+  const componentPaths: string[] = [];
+  const routeParts = route.split("/").filter(Boolean);
+  const baseRoute = routeParts[0] || "";
+
+  // Common/shared components that affect all pages
+  const commonComponents = [
+    "src/components/base-head.astro",
+    "src/components/header",
+    "src/components/footer",
+    "src/components/dark-mode-toggle.astro",
+    "src/components/dark-mode-toggle.tsx",
+  ];
+
+  // Route-specific component directories
+  const routeComponentMap: Record<string, string[]> = {
+    blog: ["src/components/blog"],
+    docs: ["src/components/docs"],
+    "case-studies": ["src/components/blog"], // case studies use blog components
+    roadmap: ["src/components/roadmap"],
+    community: ["src/components/community-pages"],
+    ecosystem: ["src/components/ecosystem-pages"],
+    about: ["src/components/about-pages"],
+    pricing: ["src/components/pricing-page"],
+    providers: ["src/components/providers-page"],
+    token: ["src/components/token-page"],
+    deploy: ["src/components/deploy-page"],
+    development: ["src/components/development-pages"],
+    brand: ["src/components/brand-pages"],
+    home: ["src/components/home"],
+    accelerate: ["src/components/accelerate"],
+    "akash-accelerate-2024": ["src/components/acc-2025"],
+    "akash-accelerate-2025": ["src/components/acc-2025"],
+    neurips: ["src/components/neurips"],
+    "gpus-on-demand": ["src/components/gpus-on-demand"],
+    "nvidia-blackwell-gpus": ["src/components/blackwell"],
+  };
+
+  // Add common components
+  componentPaths.push(...commonComponents);
+
+  // Add route-specific components
+  if (baseRoute && routeComponentMap[baseRoute]) {
+    componentPaths.push(...routeComponentMap[baseRoute]);
+  }
+
+  return componentPaths;
+}
+
+/**
+ * Gets the lastmod for a page, considering both the page file and related components
+ */
+function getPageLastModWithComponents(
+  pagePaths: string[],
+  route: string,
+): Date | null {
+  const allPaths: string[] = [...pagePaths];
+
+  // Get related component paths
+  const componentPaths = getRelatedComponentPaths(route);
+
+  // For component directories, we need to check all files in the cache that match
+  const cacheData = loadCache();
+  for (const componentPath of componentPaths) {
+    // If it's a directory path (doesn't have a file extension), find all matching component files
+    if (!componentPath.includes(".") || componentPath.endsWith("/")) {
+      // Find all component files that start with this path
+      const normalizedPath = componentPath.endsWith("/")
+        ? componentPath
+        : `${componentPath}/`;
+      for (const cachedPath of Object.keys(cacheData)) {
+        if (cachedPath.startsWith(normalizedPath)) {
+          allPaths.push(cachedPath);
+        }
+      }
+    } else {
+      // It's a specific file
+      allPaths.push(componentPath);
+    }
+  }
+
+  return getMostRecentModTime(allPaths);
 }
 
 /**
  * Gets the lastmod date for a sitemap entry based on its URL
  */
-export async function getLastModForUrl(url: string): Promise<Date | undefined> {
+export function getLastModForUrl(url: string): Date | undefined {
   // Parse URL - handle both full URLs and pathname strings
   let pathname: string;
   try {
@@ -108,7 +169,7 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
   // Handle root
   if (pathname === "/" || pathname === "") {
     const indexPath = "src/pages/index.astro";
-    const modTime = await getFileModTime(indexPath);
+    const modTime = getPageLastModWithComponents([indexPath], "");
     return modTime || undefined;
   }
 
@@ -123,11 +184,10 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
     `src/pages/${cleanPath.replace(/\/$/, "")}.astro`,
   ];
 
-  for (const pagePath of possiblePaths) {
-    const modTime = await getFileModTime(pagePath);
-    if (modTime) {
-      return modTime;
-    }
+  // Check page files and related components
+  const pageModTime = getPageLastModWithComponents(possiblePaths, cleanPath);
+  if (pageModTime) {
+    return pageModTime;
   }
 
   // Handle content collection pages (blog, docs, etc.)
@@ -142,11 +202,13 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
         `src/content/Blog/${slug}.md`,
         `src/content/Blog/${slug}.mdx`,
       ];
-      for (const blogPath of possibleBlogPaths) {
-        const modTime = await getFileModTime(blogPath);
-        if (modTime) {
-          return modTime;
-        }
+      // Check blog content files and related components
+      const blogModTime = getPageLastModWithComponents(
+        possibleBlogPaths,
+        cleanPath,
+      );
+      if (blogModTime) {
+        return blogModTime;
       }
     }
   }
@@ -165,11 +227,13 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
         `src/content/Docs/${slug.replace(/\//g, "/")}/index.md`,
         `src/content/Docs/${slug.replace(/\//g, "/")}/index.mdx`,
       ];
-      for (const docPath of possibleDocPaths) {
-        const modTime = await getFileModTime(docPath);
-        if (modTime) {
-          return modTime;
-        }
+      // Check doc content files and related components
+      const docModTime = getPageLastModWithComponents(
+        possibleDocPaths,
+        cleanPath,
+      );
+      if (docModTime) {
+        return docModTime;
       }
     }
   }
@@ -186,11 +250,13 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
         `src/content/Blog/${slug}.md`,
         `src/content/Blog/${slug}.mdx`,
       ];
-      for (const caseStudyPath of possibleCaseStudyPaths) {
-        const modTime = await getFileModTime(caseStudyPath);
-        if (modTime) {
-          return modTime;
-        }
+      // Check case study content files and related components
+      const caseStudyModTime = getPageLastModWithComponents(
+        possibleCaseStudyPaths,
+        cleanPath,
+      );
+      if (caseStudyModTime) {
+        return caseStudyModTime;
       }
     }
   }
@@ -203,7 +269,7 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
       // Year pages are generated by src/pages/roadmap/[year]/index.astro
       if (/^\d{4}$/.test(slug)) {
         const yearPagePath = `src/pages/roadmap/[year]/index.astro`;
-        const modTime = await getFileModTime(yearPagePath);
+        const modTime = getPageLastModWithComponents([yearPagePath], cleanPath);
         if (modTime) {
           return modTime;
         }
@@ -216,17 +282,14 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
           `src/content/aeps/${slug}.md`,
           `src/content/aeps/${slug}.mdx`,
         ];
-        for (const roadmapPath of possibleRoadmapPaths) {
-          const modTime = await getFileModTime(roadmapPath);
-          if (modTime) {
-            return modTime;
-          }
-        }
         // Also check the page file that generates AEP pages
         const aepPagePath = `src/pages/roadmap/[slug]/index.astro`;
-        const pageModTime = await getFileModTime(aepPagePath);
-        if (pageModTime) {
-          return pageModTime;
+        const roadmapModTime = getPageLastModWithComponents(
+          [...possibleRoadmapPaths, aepPagePath],
+          cleanPath,
+        );
+        if (roadmapModTime) {
+          return roadmapModTime;
         }
       }
     }
@@ -242,7 +305,7 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
     if (/^\d+$/.test(lastPart)) {
       // It's a pagination page, use the parent page file
       const pagePath = `src/pages/${baseRoute}/[...page].astro`;
-      const modTime = await getFileModTime(pagePath);
+      const modTime = getPageLastModWithComponents([pagePath], cleanPath);
       if (modTime) {
         return modTime;
       }
@@ -258,11 +321,12 @@ export async function getLastModForUrl(url: string): Promise<Date | undefined> {
       `src/pages/${baseRoute}/[...page].astro`,
       `src/pages/${baseRoute}/index.astro`,
     ];
-    for (const pagePath of possiblePagePaths) {
-      const modTime = await getFileModTime(pagePath);
-      if (modTime) {
-        return modTime;
-      }
+    const defaultModTime = getPageLastModWithComponents(
+      possiblePagePaths,
+      cleanPath,
+    );
+    if (defaultModTime) {
+      return defaultModTime;
     }
   }
 

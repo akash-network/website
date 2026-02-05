@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "npm run generate:lastmod && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate:lastmod": "npx tsx scripts/generate-lastmod-cache.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -85,6 +86,7 @@
     "@types/react-simple-maps": "^3.0.4",
     "prettier": "^3.0.3",
     "prettier-plugin-astro": "^0.12.0",
-    "prettier-plugin-tailwindcss": "^0.5.4"
+    "prettier-plugin-tailwindcss": "^0.5.4",
+    "tsx": "^4.7.0"
   }
 }
