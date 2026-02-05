@@ -45,9 +45,9 @@ This "shakeout" served as a definitive catalyst for [AEP-76](/roadmap/aep-76/) (
 
 The community has approved the BME model, which is slated for an early Q1 2026 launch. Once live, BME will ensure that tenants can budget in USD-pegged ACT tokens, permanently insulating the Supercloud from market volatility while linking network revenue to AKT scarcity.
 
-## Update on BME & [WASM Smart Contracts](https://x.com/akashnet/status/1999235048000659870)
+## Update on BME & WASM Smart Contracts
 
-The core team has completed the key infrastructure components needed for BME, which are currently deployed in the Sandbox and open-sourced. Another major breakthrough this quarter is the introduction of WASM Smart Contracts:
+The core team has completed the key infrastructure components needed for BME, which are currently deployed in the Sandbox and open-sourced. Another major breakthrough this quarter is the introduction of [WASM Smart Contracts](https://x.com/akashnet/status/1999235048000659870):
 
 - **Modular Upgrades**: Akash now features permissioned smart contracts based on WASM. This allows us to update the network faster in "packets" rather than requiring weeks of coordination for monolithic chain upgrades.
 
@@ -71,13 +71,13 @@ By late November, the core team launched [AkashML](https://akashml.com), the net
 
 The Provider Incentives Pilot (PIP) framework reached a major milestone this quarter. By design, the PIP mandates that unused capital from the program must return to the community pool to ensure every token is working toward active growth.
 
-- **AKT Reclaimed**: In Q4 alone, 2.1 million AKT was [returned](https://x.com/akashnet/status/2004620727971184872) to the community pool.
+- **AKT Reclaimed**: In Q4 alone, 1.6 million AKT was [returned](https://x.com/akashnet/status/2004620727971184872) to the community pool.
 
-- **Yearly Total**: This brings the total 2025 refund to 3,826,854 AKT, demonstrating a level of fiscal accountability that allows the DAO to scale aggressively into NVIDIA Blackwell B200/B300 systems in 2026.
+- **Yearly Total**: This brings the total 2025 refund to 3,370,484 AKT, demonstrating a level of fiscal accountability that allows the DAO to scale aggressively into NVIDIA Blackwell B200/B300 systems in 2026.
 
 ## Expansion of The Student Ambassador Program
 
-Following a successful pilot cohort with scholars from Princeton, Cornell, USC, and UT Austin–the Akash Student Ambassador Program is expanding its reach. The program is cultivating the future CTOs and engineers who will define the architecture of the decentralized cloud era.
+Following a successful pilot cohort with scholars from Princeton, Cornell, USC, and UT Austin - the Akash Student Ambassador Program is expanding its reach. The program is cultivating the future CTOs and engineers who will define the architecture of the decentralized cloud era.
 
 The mission to bring the Supercloud to the world's leading research institutions continues as [applications for the Spring 2026 Cohort are now open!](https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform)
 
