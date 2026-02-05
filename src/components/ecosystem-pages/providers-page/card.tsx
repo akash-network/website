@@ -14,16 +14,16 @@ export default function ProvidersCard({ provider }: any) {
   const activeStats = provider.activeStats || { cpu: 0, memory: 0, gpu: 0, storage: 0 };
   const pendingStats = provider.pendingStats || { cpu: 0, memory: 0, gpu: 0, storage: 0 };
   const availableStats = provider.availableStats || { cpu: 0, memory: 0, gpu: 0, storage: 0 };
-  
+
   const isOnline = provider.isOnline ?? false;
-  
+
   const activeCPU = isOnline ? (activeStats.cpu || 0) / 1000 : 0;
   const pendingCPU = isOnline ? (pendingStats.cpu || 0) / 1000 : 0;
   const totalCPU = isOnline
     ? ((availableStats.cpu || 0) +
-        (pendingStats.cpu || 0) +
-        (activeStats.cpu || 0)) /
-      1000
+      (pendingStats.cpu || 0) +
+      (activeStats.cpu || 0)) /
+    1000
     : 0;
 
   const gpuModels = (provider.hardwareGpuModels || []).map((gpu: any) =>
@@ -35,10 +35,10 @@ export default function ProvidersCard({ provider }: any) {
     : null;
   const _totalMemory = isOnline && (availableStats.memory || pendingStats.memory || activeStats.memory)
     ? bytesToShrink(
-        (availableStats.memory || 0) +
-          (pendingStats.memory || 0) +
-          (activeStats.memory || 0),
-      )
+      (availableStats.memory || 0) +
+      (pendingStats.memory || 0) +
+      (activeStats.memory || 0),
+    )
     : null;
 
   const intl = useIntl();
@@ -73,11 +73,10 @@ export default function ProvidersCard({ provider }: any) {
 
       <div className=" mt-[10px] border-b   pb-3">
         <p
-          className={`inline-flex items-center  rounded-full px-2      py-1 text-xs font-medium  ${
-            provider.isAudited
-              ? "bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20  dark:bg-green-600/20 dark:text-green-500 "
-              : "bg-yellow-50 text-yellow-800 ring-1 ring-inset ring-yellow-600/20 dark:bg-yellow-600/20 dark:text-yellow-500"
-          }`}
+          className={`inline-flex items-center  rounded-full px-2      py-1 text-xs font-medium  ${provider.isAudited
+            ? "bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20  dark:bg-green-600/20 dark:text-green-500 "
+            : "bg-yellow-50 text-yellow-800 ring-1 ring-inset ring-yellow-600/20 dark:bg-yellow-600/20 dark:text-yellow-500"
+            }`}
         >
           {provider.isAudited ? "Audited" : "Pending"}
         </p>
@@ -166,9 +165,9 @@ export default function ProvidersCard({ provider }: any) {
             )} ${_totalMemory?.unit} `}
             isOver60Percent={
               ((activeStats.memory || 0) + (pendingStats.memory || 0)) /
-                ((availableStats.memory || 0) +
-                  (pendingStats.memory || 0) +
-                  (activeStats.memory || 0)) >
+              ((availableStats.memory || 0) +
+                (pendingStats.memory || 0) +
+                (activeStats.memory || 0)) >
               0.64
             }
           />
@@ -185,7 +184,7 @@ export default function ProvidersCard({ provider }: any) {
         )}
       </div>
 
-      <div className="mt-3">
+      <div className="mt-auto pt-3">
         <a
           target="_blank"
           href={`https://console.akash.network/providers/${provider.owner}`}
@@ -204,9 +203,8 @@ function Stats({ componentName, value, isOver60Percent }: any) {
     <div className="flex w-full items-center   justify-between rounded-sm border border-[#E6E8EB]   p-[9px] text-cardGray">
       <p className="  text-xs   font-medium">{componentName}</p>
       <p
-        className={` text-xs font-medium text-foreground ${
-          isOver60Percent ? "text-primary" : ""
-        }`}
+        className={` text-xs font-medium text-foreground ${isOver60Percent ? "text-primary" : ""
+          }`}
       >
         {value}
       </p>
