@@ -342,7 +342,7 @@ Treasury management in 2025 was defined by a fundamental shift toward "lean oper
 
 **The Provider Incentives Pilot (PIP) Framework:** The success of the PIP framework became visible in 2025 treasury data. By design, the PIP mandates that unused capital from incentive programs returns to the community pool, preventing capital from getting trapped in inactive programs or poorly-performing providers.
 
-**Treasury Impact:** In 2025, this discipline resulted in a total return of **3,826,854 AKT** to the treasury, with **2.1 million AKT returned in Q4 alone**.
+**Treasury Impact:** In 2025, this discipline resulted in a total return of **3,370,484 AKT** to the treasury, with **1.6 million AKT returned in Q4 alone**.
 
 This "recycling" of capital demonstrates that the Akash DAO is moving away from permanent token "burns" or one-way capital deployment toward a model where capital is only deployed for verified performance.
 

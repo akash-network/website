@@ -17,8 +17,6 @@ bannerImage: ./banner-image.png
 
 If the state of Akash in Q3 2025 was defined by [Messari](https://messari.io/report/state-of-akash-q3-2025) as a period of "steady growth and technical preparation," Q4 became the forge in which the Akash Network was truly tested and redefined.
 
-The quarter began under the shadow of October 10th, [described by](https://x.com/akashnet/status/1976862045774467471) founder Greg Osuri as "the worst single-day event in crypto history," seeing $19 billion in liquidations across the market.
-
 Rather than retreating, Akash chose momentum over caution, successfully deploying three pivotal infrastructure upgrades designed to enhance the network's high performance capabilities.
 
 1. **Chain Refactor (Mainnet 14)**: Upgraded to Cosmos SDK v0.53, paying down eight years of technical debt.
