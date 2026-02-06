@@ -166,6 +166,50 @@ export function getLastModForUrl(url: string): Date | undefined {
     pathname = url.startsWith("/") ? url : `/${url}`;
   }
 
+  // Strip base path if present (e.g., /akashnetworkwebsite/ -> /)
+  // This handles GitHub Pages deployments with repository name as base path
+  // Common base paths: /akashnetworkwebsite/, /repository-name/, etc.
+  // We detect this by checking if the first path segment doesn't match known route patterns
+  const pathSegments = pathname.split("/").filter(Boolean);
+  if (pathSegments.length > 0) {
+    const firstSegment = pathSegments[0];
+    // Known route patterns that should NOT be stripped
+    const knownRoutes = [
+      "blog",
+      "docs",
+      "roadmap",
+      "about",
+      "pricing",
+      "providers",
+      "token",
+      "deploy",
+      "development",
+      "brand",
+      "community",
+      "ecosystem",
+      "support",
+      "whitepaper",
+      "case-studies",
+      "gpus",
+      "gpus-on-demand",
+      "nvidia-blackwell-gpus",
+      "akash-accelerate-2024",
+      "akash-accelerate-2025",
+      "akash-accelerate-2025-livestream",
+      "akash-accelerate-2025-livestream-confirm",
+      "neurips",
+      "testnet",
+      "network",
+      "economics",
+    ];
+    
+    // If first segment is not a known route, it's likely a base path (e.g., repository name)
+    if (!knownRoutes.includes(firstSegment.toLowerCase())) {
+      // Strip the base path
+      pathname = "/" + pathSegments.slice(1).join("/");
+    }
+  }
+
   // Handle root
   if (pathname === "/" || pathname === "") {
     const indexPath = "src/pages/index.astro";
