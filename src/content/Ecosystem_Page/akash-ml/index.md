@@ -15,6 +15,7 @@ description: High-performance, low latency AI inference service built on Akash N
 showcase: true
 
 websiteLink: "https://akashml.com/"
+twitterLink: "https://x.com/AkashnetAI"
 
 featured: true
 ---
