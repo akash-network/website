@@ -28,21 +28,23 @@ akash query bme status
 akash query bme vault-state
 ```
 
+---
+
 ### Test 5.1: MsgMintACT - Direct AKT to ACT Conversion
 
 **Objective:** Verify user can directly convert AKT to ACT without creating a deployment
 
 **User Actions:**
-1. Create new wallet, fund with 1000 AKT
+1. Create new wallet, fund with 500 AKT (from faucet: https://faucet.dev.akash.pub)
 2. Record initial state:
    ```bash
    akash query bank balances <user-address>
    akash query bme vault-state
-   akash query oracle prices --asset-denom uakt --limit 1
+   akash query oracle prices | head -n 15
    ```
 3. Execute direct MsgMintACT:
    ```bash
-   akash tx bme mint-act 500000000uakt --from <wallet> -y
+   akash tx bme mint-act 250000000uakt --from <wallet> -y
    ```
 4. Check vault state immediately (AKT should be there):
    ```bash
@@ -57,10 +59,10 @@ akash query bme vault-state
 **Expected Results:**
 - Immediately: AKT transferred to vault, `vault-state.balances.uakt` ↑
 - After epoch: 
-  - User AKT balance decreased by 500 AKT
-  - User ACT balance increased by (500 × oracle_price) ACT
+  - User AKT balance decreased by 250 AKT
+  - User ACT balance increased by (250 × oracle_price) ACT
   - `vault-state.balances.uact` ↑
-  - `vault-state.remint_credits` ↑ by 500 AKT
+  - `vault-state.remint_credits` ↑ by 250 AKT
   - `vault-state.total_minted.uact` ↑
 
 ---
@@ -70,7 +72,7 @@ akash query bme vault-state
 **Objective:** Verify AKT can be converted to ACT for a different address
 
 **User Actions:**
-1. Create Wallet A with 1000 AKT
+1. Create Wallet A with AKT (from faucet)
 2. Create Wallet B (empty)
 3. Check if `--to` flag is supported:
    ```bash
@@ -78,14 +80,22 @@ akash query bme vault-state
    ```
 4. If supported, execute MsgMintACT from A with `--to` pointing to B:
    ```bash
-   akash tx bme mint-act 300000000uakt --from <wallet-A> --to <wallet-B> -y
+   akash tx bme mint-act 150000000uakt --from <wallet-A> --to <wallet-B> -y
    ```
-5. Wait for epoch, then query both wallets
+5. Wait for epoch (~1 minute):
+   ```bash
+   sleep 60
+   ```
+6. Query both wallets:
+   ```bash
+   akash query bank balances <wallet-A>
+   akash query bank balances <wallet-B>
+   ```
 
 **Expected Results:**
-- Wallet A: AKT decreased by 300
+- Wallet A: AKT decreased by 150
 - Wallet A: ACT unchanged (still 0)
-- Wallet B: ACT balance = (300 × oracle_price) ACT
+- Wallet B: ACT balance = (150 × oracle_price) ACT
 - BME state updated correctly
 
 **Note:** If `--to` flag not available, ACT goes to sender's address only.
@@ -99,23 +109,32 @@ akash query bme vault-state
 **User Actions:**
 1. Start with wallet that has ACT balance (from Test 5.1 or deployment refund)
 2. Record initial state:
-   - User AKT balance
-   - User ACT balance
-   - RemintCredits
-   - TotalMinted
-   - Oracle price
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   akash query oracle prices | head -n 15
+   ```
+   Note: User AKT/ACT balance, RemintCredits, total_minted, Oracle price
+
 3. Execute direct MsgBurnACT:
    ```bash
-   akash tx bme burn-act --from <wallet> --coins 200uact --to <same-wallet>
+   akash tx bme burn-act 100000000uact --from <wallet> -y
    ```
-4. Query post-transaction state
+4. Wait for epoch (~1 minute):
+   ```bash
+   sleep 60
+   ```
+5. Query post-transaction state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
-- User ACT balance decreased by 200 ACT
-- User AKT balance increased by (200 / P_current) AKT
-- OutstandingACT decreased by 200 ACT
-- RemintCredits decreased (if sufficient) OR TotalMinted increased (if shortfall)
-- Response contains valid `LedgerRecordID`
+- User ACT balance decreased by 100 ACT
+- User AKT balance increased by (100 / P_current) AKT
+- OutstandingACT decreased by 100 ACT
+- RemintCredits decreased (if sufficient) OR total_minted.uakt increased (if shortfall)
 
 ---
 
@@ -124,17 +143,25 @@ akash query bme vault-state
 **Objective:** Verify ACT can be converted to AKT for a different address
 
 **User Actions:**
-1. Wallet A has 500 ACT, 0 AKT
+1. Wallet A has ACT balance, minimal AKT
 2. Wallet B has 0 ACT, 0 AKT
 3. Execute MsgBurnACT from A with `--to` pointing to B:
    ```bash
-   akash tx bme burn-act --from <wallet-A> --coins 500uact --to <wallet-B>
+   akash tx bme burn-act 50000000uact --from <wallet-A> --to <wallet-B> -y
    ```
-4. Query both wallets
+4. Wait for epoch (~1 minute):
+   ```bash
+   sleep 60
+   ```
+5. Query both wallets:
+   ```bash
+   akash query bank balances <wallet-A>
+   akash query bank balances <wallet-B>
+   ```
 
 **Expected Results:**
-- Wallet A: ACT decreased by 500, AKT unchanged
-- Wallet B: AKT balance = (500 / P_current) AKT
+- Wallet A: ACT decreased by 50, AKT unchanged
+- Wallet B: AKT balance = (50 / P_current) AKT
 - BME state updated correctly
 
 ---
@@ -144,17 +171,25 @@ akash query bme vault-state
 **Objective:** Verify generic BurnMint message works for AKT→ACT
 
 **User Actions:**
-1. Wallet with 1000 AKT
+1. Wallet with AKT balance
 2. Execute MsgBurnMint specifying both denoms:
    ```bash
-   akash tx bme burn-mint --from <wallet> --coins 400uakt --denom-to-mint uact --to <wallet>
+   akash tx bme burn-mint 200000000uakt --denom-to-mint uact --from <wallet> -y
    ```
-3. Verify same behavior as MsgMintACT
+3. Wait for epoch (~1 minute):
+   ```bash
+   sleep 60
+   ```
+4. Verify same behavior as MsgMintACT:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
 - Functionally identical to MsgMintACT
-- ACT minted = 400 × P_mint
-- Response contains `LedgerRecordID`
+- ACT minted = 200 AKT × oracle_price
+- Vault state updated correctly
 
 ---
 
@@ -166,14 +201,22 @@ akash query bme vault-state
 1. Wallet with ACT balance
 2. Execute MsgBurnMint specifying both denoms:
    ```bash
-   akash tx bme burn-mint --from <wallet> --coins 200uact --denom-to-mint uakt --to <wallet>
+   akash tx bme burn-mint 100000000uact --denom-to-mint uakt --from <wallet> -y
    ```
-3. Verify same behavior as MsgBurnACT
+3. Wait for epoch (~1 minute):
+   ```bash
+   sleep 60
+   ```
+4. Verify same behavior as MsgBurnACT:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
 - Functionally identical to MsgBurnACT
-- AKT received = 200 / P_current
-- Response contains `LedgerRecordID`
+- AKT received = 100 ACT / oracle_price
+- Vault state updated correctly
 
 ---
 
@@ -182,15 +225,25 @@ akash query bme vault-state
 **Objective:** Verify user can pre-fund ACT balance and later use it for deployment
 
 **User Actions:**
-1. Create wallet with 2000 AKT
-2. Convert 1000 AKT → ACT via MsgMintACT
-3. Verify user has ~1000 AKT and ~(1000 × P) ACT
-4. Create deployment using the pre-funded ACT
+1. Create wallet with AKT (500 AKT from faucet)
+2. Convert 250 AKT → ACT via MsgMintACT:
+   ```bash
+   akash tx bme mint-act 250000000uakt --from <wallet> -y
+   sleep 60
+   ```
+3. Verify user has ~250 AKT and ACT balance:
+   ```bash
+   akash query bank balances <user-address>
+   ```
+4. Create deployment using the pre-funded ACT (see Category 1 for full workflow):
+   ```bash
+   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
+   ```
 5. Verify deployment uses existing ACT balance
 
 **Expected Results:**
 - Deployment creation draws from existing ACT
-- No additional AKT→ACT conversion at deployment time (or reduced amount)
+- No additional AKT→ACT conversion at deployment time
 - Two-step funding workflow works correctly
 
 **Note:** This test validates a new user workflow enabled by direct messages.
@@ -203,15 +256,24 @@ akash query bme vault-state
 
 **User Actions:**
 1. Create deployment with large ACT balance
-2. While deployment is running, execute MsgBurnACT for portion of unused ACT
-3. Verify:
-   - Deployment continues running
-   - User receives AKT
-   - Remaining ACT still available for deployment
+2. While deployment is running, execute MsgBurnACT for portion of unused ACT:
+   ```bash
+   akash tx bme burn-act 25000000uact --from <wallet> -y
+   ```
+3. Wait for epoch:
+   ```bash
+   sleep 60
+   ```
+4. Verify:
+   ```bash
+   akash query bank balances <user-address>
+   akash query market lease list --owner <user-address>
+   ```
 
 **Expected Results:**
-- Deployment unaffected
-- User can manage ACT balance independently
+- Deployment continues running
+- User receives AKT
+- Remaining ACT still available for deployment
 - Partial withdrawal successful
 
 ---
@@ -221,11 +283,14 @@ akash query bme vault-state
 **Objective:** Verify proper error on invalid owner address
 
 **User Actions:**
-1. Attempt MsgMintACT with malformed owner address
+1. Attempt MsgMintACT with malformed owner address:
+   ```bash
+   akash tx bme mint-act 100000000uakt --from invalid_address -y
+   ```
 2. Observe failure
 
 **Expected Results:**
-- Error: `ErrInvalidAddress: invalid owner address`
+- Error: `ErrInvalidAddress: invalid owner address` (or similar)
 - No state changes
 - Transaction rejected at validation
 
@@ -236,11 +301,14 @@ akash query bme vault-state
 **Objective:** Verify proper error on invalid recipient address
 
 **User Actions:**
-1. Attempt MsgMintACT with valid owner but malformed `to` address
+1. Attempt MsgMintACT with valid owner but malformed `to` address:
+   ```bash
+   akash tx bme mint-act 100000000uakt --from <wallet> --to invalid_address -y
+   ```
 2. Observe failure
 
 **Expected Results:**
-- Error: `ErrInvalidAddress: invalid to address`
+- Error: `ErrInvalidAddress: invalid to address` (or similar)
 - No state changes
 
 ---
@@ -250,11 +318,15 @@ akash query bme vault-state
 **Objective:** Verify proper error on invalid coin specification
 
 **User Actions:**
-1. Attempt MsgMintACT with invalid coins (negative, zero, malformed denom)
+1. Attempt MsgMintACT with invalid coins (negative, zero, malformed denom):
+   ```bash
+   akash tx bme mint-act 0uakt --from <wallet> -y
+   akash tx bme mint-act -100uakt --from <wallet> -y
+   ```
 2. Observe failure
 
 **Expected Results:**
-- Error: `ErrInvalidCoins: invalid coins`
+- Error: `ErrInvalidCoins: invalid coins` (or similar)
 - No state changes
 
 ---
@@ -264,11 +336,14 @@ akash query bme vault-state
 **Objective:** Verify rejection of unsupported token pairs
 
 **User Actions:**
-1. Attempt MsgBurnMint with unsupported denom combination (e.g., USDC → ACT)
+1. Attempt MsgBurnMint with unsupported denom combination:
+   ```bash
+   akash tx bme burn-mint 100000000uusdc --denom-to-mint uact --from <wallet> -y
+   ```
 2. Observe failure
 
 **Expected Results:**
-- Error: `ErrInvalidDenom: invalid swap route`
+- Error: `ErrInvalidDenom: invalid swap route` (or similar)
 - Only AKT↔ACT swaps allowed
 
 ---
@@ -277,13 +352,23 @@ akash query bme vault-state
 
 **Objective:** Verify direct AKT→ACT blocked during circuit breaker
 
+**Precondition:** Circuit breaker states must be initiated by Akash Core team. Coordinate with the team before running this test.
+
 **User Actions:**
-1. **[Testnet Admin] Trigger circuit breaker (HaltCR)**
-2. Attempt MsgMintACT
+1. Verify circuit breaker is active:
+   ```bash
+   akash query bme status
+   ```
+   Confirm: `status: mint_status_halt_cr` and `mints_allowed: false`
+
+2. Attempt MsgMintACT:
+   ```bash
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   ```
 3. Observe failure
 
 **Expected Results:**
-- Error: `ErrCircuitBreakerActive`
+- Error: `ErrCircuitBreakerActive` (or similar)
 - AKT→ACT blocked (same as deployment flow)
 - User's AKT unchanged
 
@@ -293,11 +378,28 @@ akash query bme vault-state
 
 **Objective:** Verify ACT→AKT still works during circuit breaker (settlements must continue)
 
+**Precondition:** Circuit breaker states must be initiated by Akash Core team. Coordinate with the team before running this test.
+
 **User Actions:**
-1. User has ACT balance
-2. **[Testnet Admin] Trigger circuit breaker (HaltCR)**
-3. Attempt MsgBurnACT
-4. Observe result
+1. Ensure user has ACT balance (from prior testing)
+2. Verify circuit breaker is active:
+   ```bash
+   akash query bme status
+   ```
+   Confirm: `status: mint_status_halt_cr` and `mints_allowed: false` but `refunds_allowed: true`
+
+3. Attempt MsgBurnACT:
+   ```bash
+   akash tx bme burn-act 50000000uact --from <wallet> -y
+   ```
+4. Wait for epoch:
+   ```bash
+   sleep 60
+   ```
+5. Observe result:
+   ```bash
+   akash query bank balances <user-address>
+   ```
 
 **Expected Results:**
 - MsgBurnACT **should succeed** (ACT→AKT must continue for settlements)
@@ -312,19 +414,32 @@ akash query bme vault-state
 
 ### Test 5.15: LedgerRecordID Verification
 
-**Objective:** Verify response contains valid, queryable LedgerRecordID
+**Objective:** Verify operations are tracked and can be verified through vault-state
 
 **User Actions:**
-1. Execute MsgMintACT:
+1. Record initial vault state:
+   ```bash
+   akash query bme vault-state
+   ```
+2. Execute MsgMintACT:
    ```bash
    akash tx bme mint-act 100000000uakt --from <wallet> -y
    ```
-2. Examine transaction response/events for LedgerRecordID
+3. Wait for epoch:
+   ```bash
+   sleep 60
+   ```
+4. Verify operation through vault-state changes:
+   ```bash
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
 - Transaction succeeds
-- Response or events may include record tracking information
 - Vault-state reflects the operation after epoch
+- `total_minted.uact` increased
+- `remint_credits` increased
+- Bank balance shows new ACT
 
 **Note:** Direct ledger record queries are not available via CLI. Verify operation through vault-state changes and bank balance updates.
 
@@ -335,15 +450,39 @@ akash query bme vault-state
 **Objective:** Verify multiple direct operations work correctly in sequence
 
 **User Actions:**
-1. Start with 2000 AKT
-2. MsgMintACT: 500 AKT → ACT
-3. MsgMintACT: 300 AKT → ACT
-4. MsgBurnACT: 200 ACT → AKT
-5. MsgMintACT: 100 AKT → ACT
-6. Reconcile all balances and BME state
+1. Start with wallet funded with AKT (500 AKT from faucet)
+2. Execute operations in sequence, waiting for epoch between each:
+   ```bash
+   # Operation 1: MsgMintACT 200 AKT → ACT
+   akash tx bme mint-act 200000000uakt --from <wallet> -y
+   sleep 60
+   akash query bank balances <user-address>
+   
+   # Operation 2: MsgMintACT 100 AKT → ACT
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   sleep 60
+   akash query bank balances <user-address>
+   
+   # Operation 3: MsgBurnACT 50 ACT → AKT
+   akash tx bme burn-act 50000000uact --from <wallet> -y
+   sleep 60
+   akash query bank balances <user-address>
+   
+   # Operation 4: MsgMintACT 50 AKT → ACT
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   sleep 60
+   akash query bank balances <user-address>
+   ```
+3. Record final state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
 - Each operation independent and correct
 - Running totals accurate
-- All LedgerRecordIDs unique
-- Final state fully reconciled
+- Final state fully reconciled:
+  - AKT decreased by net minted amount (200 + 100 + 50 - burn_return)
+  - ACT balance reflects net: minted ACT - 50 ACT burned
+  - Vault state reflects cumulative operations
