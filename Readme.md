@@ -21,7 +21,7 @@
 
 ## Akash Network Website
 
-Explore the repository for the Akash Network website, skillfully developed by [Hooman Digital](https://twitter.com/hooman_digital). The website serves as a dynamic showcase, illustrating the prowess and capabilities of Akash Network—a decentralized cloud computing marketplace revolutionizing the digital landscape.
+Explore the repository for the Akash Network website, skillfully developed by [Hooman Digital](https://twitter.com/hooman_digital). The website serves as a dynamic showcase, illustrating the prowess and capabilities of Akash Network—a decentralized cloud computing marketplace revolutionizing the digital landscape..
 
 ## Getting Started Locally
 

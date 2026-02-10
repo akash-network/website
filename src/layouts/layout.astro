@@ -6,7 +6,7 @@ import Footer from "@/components/footer/footer.astro";
 import Header from "@/components/header/header.astro";
 import { getEntry } from "astro:content";
 
-import { NVIDIAB200SoonForm } from "@/components/pricing-page/gpus/GpusComingSoon";
+// import { NVIDIAB200SoonForm } from "@/components/pricing-page/gpus/GpusComingSoon";
 import clsx from "clsx";
 import BaseLayout from "./base-layout.astro";
 
@@ -45,7 +45,7 @@ const pathname = Astro.url.pathname;
   noIndex={noIndex}
   classname={classname}
 >
-  {
+  <!-- {
     advert && !pathname.includes("neurips") && (
       // <div class="flex items-center justify-center bg-primary px-3 py-2">
       //   <a
@@ -64,7 +64,7 @@ const pathname = Astro.url.pathname;
       // </div>
       <NVIDIAB200SoonForm client:load externalButton />
     )
-  }
+  } -->
 
   <Header overrideClassName={headerClassName} hideDarkToggle={hideDarkToggle} />
 
