@@ -35,29 +35,39 @@ profiles:
 ```
 
 **ACT Minting Delay**
-ACT mints are processed in epochs (default: every 10 blocks). After `akash tx bme mint-act`, the ACT will not appear in your bank balance immediately. Wait ~1 minute (10 blocks × ~6 sec/block) then check balance.
+ACT mints are processed in epochs (default: every 10 blocks). After `akash tx bme mint-act`, the ACT will NOT appear in your bank balance immediately. Wait ~1 minute (10 blocks × ~6 sec/block) then check balance.
 
-### Test 1.1: Create Deployment with AKT Wallet (Full Lifecycle)
+**Required Tools**
+- `akash` CLI configured for testnet
+- `provider-services` binary (required for sending manifests) — download from: https://github.com/akash-network/provider/releases
+
+**CLI Deployment Guide:** For detailed deployment instructions, see: https://akash.network/docs/developers/deployment/cli/
+
+**⚠️ Important:** Close all test deployments when Category 1 testing is complete to avoid unnecessary escrow drain.
+
+---
+
+### Test 1.1: Create Standard Deployment
 
 **Objective:** Verify complete deployment lifecycle from ACT minting through active lease, validating BME state at each step
 
 **Preconditions:**
 - Provider is online and bidding
-- Market params allow AKT bid deposits (Test 0.11 passed)
 - User has AKT balance (from faucet)
+- `provider-services` binary installed
 
 ---
 
-#### Step 1.1.0: Mint ACT (Required Before Deployment)
+#### Step 1.1.1: Mint ACT (Required Before Deployment)
 
 **Background:** With BME, deployments require ACT for escrow deposits. Users must first convert AKT to ACT.
 
 **User Actions:**
 1. Mint ACT from AKT:
    ```bash
-   akash tx bme mint-act 10000000uakt --from <wallet> -y
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
    ```
-   (This converts 10 AKT to ACT)
+   (This converts 100 AKT to ACT)
 
 2. Wait for epoch processing (~1 minute):
    ```bash
@@ -70,29 +80,20 @@ ACT mints are processed in epochs (default: every 10 blocks). After `akash tx bm
    ```
 
 **Expected Results:**
-- AKT balance decreased by ~10 AKT
-- ACT balance appears (amount = 10 × oracle_price)
-- Example: 10 AKT @ $0.46 = ~4.6 ACT (4600000 uact)
-
-**Note:** If no ACT in balance after 1 minute, wait longer or check `bme vault-state` for pending detection.
+- AKT balance decreased by ~100 AKT
+- ACT balance appears (amount = 100 × oracle_price)
 
 ---
 
-#### Step 1.1.1: Pre-Deployment Baseline
+#### Step 1.1.2: Record Pre-Deployment Baseline
 
 **User Actions:**
-1. After Step 1.1.0 (ACT minting), record baseline state:
-
-```bash
-# Record wallet AKT and ACT balance
-akash query bank balances <user-address>
-
-# Record BME vault state
-akash query bme vault-state
-
-# Record oracle price
-akash query oracle prices | head -n 15
-```
+1. Record baseline state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   akash query oracle prices | head -n 15
+   ```
 
 **Record These Values:**
 | Metric | Baseline Value |
@@ -100,15 +101,13 @@ akash query oracle prices | head -n 15
 | User AKT Balance | _______ |
 | User ACT Balance | _______ |
 | VaultAKT | _______ |
-| OutstandingACT (vault balances.uact) | _______ |
+| OutstandingACT | _______ |
 | RemintCredits | _______ |
 | Oracle Price (AKT/USD) | _______ |
 
-**Important:** Ensure ACT balance is sufficient for deployment deposit (at least 5 ACT / 5000000 uact).
-
 ---
 
-#### Step 1.1.2: Create Deployment
+#### Step 1.1.3: Create Deployment
 
 **User Actions:**
 1. Ensure SDL file (`deploy.yml`) has `uact` pricing:
@@ -122,22 +121,19 @@ akash query oracle prices | head -n 15
    ```
 
 2. Submit deployment transaction with **uact deposit**:
-
-```bash
-akash tx deployment create deploy.yml \
-  --from <wallet> \
-  --deposit 5000000uact \
-  -y
-```
-
-**Note:** Deposit MUST be in `uact`, not `uakt`. User must have ACT balance from Step 1.1.0.
+   ```bash
+   akash tx deployment create deploy.yml \
+     --from <wallet> \
+     --deposit 5000000uact \
+     -y
+   ```
 
 3. Note the DSEQ (deployment sequence) from output
-4. Verify deployment created:
 
-```bash
-akash query deployment get --owner <user-address> --dseq <dseq>
-```
+4. Verify deployment created:
+   ```bash
+   akash query deployment get --owner <user-address> --dseq <dseq>
+   ```
 
 **Expected Results:**
 - Transaction succeeds
@@ -146,334 +142,228 @@ akash query deployment get --owner <user-address> --dseq <dseq>
 
 ---
 
-#### Step 1.1.3: Verify Provider Bid Received
+#### Step 1.1.4: Accept Bid and Create Lease
 
 **User Actions:**
-1. Wait 10-30 seconds for provider to bid
-2. Query bids:
+1. Wait 10-30 seconds for provider to bid, then query bids:
+   ```bash
+   akash query market bid list --owner <user-address> --dseq <dseq>
+   ```
 
-```bash
-akash query market bid list --owner <user-address> --dseq <dseq>
-```
+2. Accept the bid (creates lease):
+   ```bash
+   akash tx market lease create \
+     --dseq <dseq> \
+     --provider <provider-address> \
+     --from <wallet> \
+     -y
+   ```
+
+3. Verify lease created:
+   ```bash
+   akash query market lease list --owner <user-address> --dseq <dseq>
+   ```
 
 **Expected Results:**
 - At least one bid appears
-- Bid is in `open` state
-- **No provider errors** about `uact` deposit (confirms Test 0.11 fix)
-
-**If No Bids:**
-- Check provider logs for errors
-- Verify provider is running and connected
-- Confirm market params are correct (Test 0.11)
+- Lease state shows `active`
 
 ---
 
-#### Step 1.1.4: Accept Bid, Create Lease, and Send Manifest
+#### Step 1.1.5: Send Manifest
+
+**Note:** This step requires the `provider-services` binary. Download from: https://github.com/akash-network/provider/releases
 
 **User Actions:**
-1. Accept the bid (creates lease):
+1. Send manifest to provider:
+   ```bash
+   provider-services send-manifest deploy.yml \
+     --dseq <dseq> \
+     --provider <provider-address> \
+     --from <wallet>
+   ```
 
-```bash
-akash tx market lease create \
-  --dseq <dseq> \
-  --provider <provider-address> \
-  --from <wallet> \
-  -y
-```
-
-2. Verify lease created:
-
-```bash
-akash query market lease list --owner <user-address> --dseq <dseq>
-```
-
-3. **Send manifest to provider** (required to keep lease active):
-
-```bash
-provider-services send-manifest deploy.yml \
-  --from <wallet> \
-  --provider <provider-address>
-```
+2. Verify deployment is running:
+   ```bash
+   akash query deployment get --owner <user-address> --dseq <dseq>
+   ```
 
 **Expected Results:**
-- Lease state shows `active`
-- Provider address matches accepted bid
 - Manifest send shows `status: PASS`
+- Deployment is active and running
 
 ---
 
-#### Step 1.1.5: Post-Lease Validation
+#### Step 1.1.6: Post-Deployment Validation
 
 **User Actions:**
 1. Query updated state:
-
-```bash
-# Check wallet AKT and ACT balance
-akash query bank balances <user-address>
-
-# Check BME vault state
-akash query bme vault-state
-
-# Check deployment escrow
-akash query deployment get --owner <user-address> --dseq <dseq>
-```
-
-**Record Post-Lease Values:**
-| Metric | Baseline (from 1.1.1) | Post-Lease | Change |
-|--------|----------------------|------------|--------|
-| User AKT Balance | _______ | _______ | Minimal (gas only) |
-| User ACT Balance | _______ | _______ | ↓ ~5 ACT |
-| VaultAKT | _______ | _______ | No change |
-| OutstandingACT | _______ | _______ | No change |
-| RemintCredits | _______ | _______ | No change |
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
-- User **ACT** balance decreased by ~5 ACT (escrow deposit)
+- User **ACT** balance decreased by deposit amount (~5 ACT)
 - User AKT balance unchanged (minus gas fees)
-- **BME vault-state should NOT change** at deployment time
-  - ACT was already minted in Step 1.1.0
-  - Deployment just transfers existing ACT to escrow
 - Deployment escrow shows funded balance in ACT
 
 **Key Insight:** 
-BME conversion (AKT → ACT) happens at **mint time** (Step 1.1.0), not at deployment time. Deployment simply uses the user's existing ACT balance.
+BME conversion (AKT → ACT) happens at **mint time** (Step 1.1.1), not at deployment time. Deployment simply uses the user's existing ACT balance.
 
----
-
-#### Step 1.1.6: While Lease Active - Periodic Validation (Optional)
-
-**User Actions:**
-1. While lease runs, periodically check state:
-
+**⚠️ Important:** Close this deployment when testing is complete:
 ```bash
-# Check vault state 
-akash query bme vault-state
-
-# Check BME status (should remain Healthy)
-akash query bme status
-
-# Verify lease still active
-akash query market lease list --owner <user-address> --dseq <dseq>
+akash tx deployment close --dseq <dseq> --from <wallet> -y
 ```
 
-2. If running for extended period, note any settlement events in provider logs
-
-**Expected Results:**
-- MintStatus remains `mint_status_healthy`
-- Vault state may change during **provider settlements** (ACT burned, AKT released)
-- RemintCredits may decrease as provider settlements use them
-- Lease remains active
-
 ---
 
-#### Step 1.1.7: Deployment Summary Verification
+### Test 1.2: Create Deployment - Insufficient Funds
 
-**Final Checklist:**
-- [ ] ACT minted successfully (Step 1.1.0)
-- [ ] User has ACT balance after epoch
-- [ ] Deployment created with `uact` deposit
-- [ ] Provider bid received (no errors)
-- [ ] Lease created and active
-- [ ] Manifest sent successfully
-- [ ] User ACT balance decreased by deposit amount
-- [ ] Deployment escrow funded with ACT
-- [ ] BME MintStatus is `mint_status_healthy`
-
-**Note:** BME vault-state changes at **mint time** (1.1.0), not at deployment time.
-
----
-
-### Test 1.2: Create Deployment via Console with Credit Card
-
-**⚠️ STATUS: PENDING - Console not yet BME-ready**
-
-**Objective:** Verify credit card payment triggers AKT market buy → ACT mint flow with proper remint credit accrual
-
-**Preconditions:**
-- Console configured for testnet with BME support
-- Test credit card or payment sandbox available
+**Objective:** Verify deployment fails gracefully with insufficient ACT balance
 
 **User Actions:**
-1. Log into Console with new account
-2. Record initial BME state:
+1. Check current ACT balance:
    ```bash
-   akash query bme vault-state
+   akash query bank balances <user-address>
    ```
-3. Create deployment via Console UI
-4. Select credit card payment option
-5. Pay $50 USD for compute credits
-6. Wait for provider bid and accept via Console
-7. Verify lease is active in Console
-8. Query post-deployment BME state:
+   Note the ACT balance (or confirm it's 0)
+
+2. Attempt deployment with deposit exceeding ACT balance:
    ```bash
-   akash query bme vault-state
+   akash tx deployment create deploy.yml \
+     --from <wallet> \
+     --deposit 999999999999uact \
+     -y
+   ```
+
+3. Observe error
+
+**Expected Results:**
+- Transaction fails with insufficient funds error
+- No ACT leaves wallet
+- BME vault state unchanged
+- No deployment created
+
+---
+
+### Test 1.3: Create Deployment - Minimum Deposit
+
+**Objective:** Verify deployment works with minimum viable deposit amount
+
+**User Actions:**
+1. Ensure wallet has ACT balance (mint if needed):
+   ```bash
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   sleep 60
+   ```
+
+2. Create deployment with minimum deposit:
+   ```bash
+   akash tx deployment create deploy.yml \
+     --from <wallet> \
+     --deposit 1000000uact \
+     -y
+   ```
+
+3. Complete lease creation and manifest send (see Test 1.1 for full workflow)
+
+4. Verify deployment is active:
+   ```bash
+   akash query deployment get --owner <user-address> --dseq <dseq>
    ```
 
 **Expected Results:**
-- User sees ~$50 in compute credits (ACT) in Console
-- VaultAKT increased by ($50 / P_mint) AKT
-- OutstandingACT increased by ~50 ACT
-- RemintCredits increased by ($50 / P_mint) AKT
-- Deployment and lease are active
+- Deployment created successfully with minimal deposit
+- Lease created (if provider bids)
+- Deployment may close quickly if escrow depletes rapidly
 
-**Notes:**
-- This tests the card → AKT buy → ACT mint pipeline
-- User should have no direct exposure to AKT mechanics
-- **Test blocked until Console BME integration complete**
+**Note:** Minimum deposit depends on provider pricing. Very low deposits may result in immediate escrow depletion.
 
----
-
-### Test 1.3: Top Up Existing Deployment
-
-**Objective:** Verify adding funds to running deployment triggers additional AKT → ACT conversion and remint credit accrual
-
-**Preconditions:**
-- Active deployment from Test 1.1 with running lease
-
----
-
-#### Step 1.3.1: Record Pre-Top-Up State
-
-**User Actions:**
+**⚠️ Important:** Close deployment when done:
 ```bash
-# Record current balances (AKT and ACT)
-akash query bank balances <user-address>
-
-# Record BME state
-akash query bme vault-state
-
-# Record deployment escrow
-akash query deployment get --owner <user-address> --dseq <dseq>
+akash tx deployment close --dseq <dseq> --from <wallet> -y
 ```
 
-**Record Values:**
-| Metric | Pre-Top-Up Value |
-|--------|------------------|
-| User AKT Balance | _______ |
-| User ACT Balance | _______ |
-| VaultAKT | _______ |
-| OutstandingACT | _______ |
-| RemintCredits | _______ |
-| Deployment Escrow (funds) | _______ |
-
 ---
 
-#### Step 1.3.2: Top Up Deployment
+### Test 1.4: Multiple Deployments from Single Wallet
 
-**User Actions:**
-```bash
-akash tx escrow deposit deployment 2000000uact \
-  --owner <user-address> \
-  --from <wallet> \
-  -y
-```
-
-**Note:** 
-- Command is `escrow deposit deployment`, not `deployment deposit`
-- Deposit must be in `uact` (user needs ACT balance)
-
----
-
-#### Step 1.3.3: Verify Post-Top-Up State
-
-**User Actions:**
-```bash
-# Check updated balances
-akash query bank balances <user-address>
-
-# Check BME state
-akash query bme vault-state
-
-# Check deployment escrow increased
-akash query deployment get --owner <user-address> --dseq <dseq>
-```
-
-**Record Post-Top-Up Values:**
-| Metric | Pre-Top-Up | Post-Top-Up | Change |
-|--------|------------|-------------|--------|
-| User ACT Balance | _______ | _______ | ↓ ~2 ACT |
-| Deployment Escrow | _______ | _______ | ↑ ~2 ACT |
-
-**Expected Results:**
-- User ACT balance decreased by ~2 ACT
-- Deployment escrow increased (verify via `escrow_account.state.funds`)
-- Lease remains active
-- BME vault-state should NOT change (ACT already exists, just transferred to escrow)
-
----
-
-### Test 1.4: Create Multiple Deployments from Single Wallet
-
-**Objective:** Verify account-level ACT pool funds multiple deployments with cumulative remint credit accrual
+**Objective:** Verify account-level ACT pool funds multiple deployments correctly
 
 ---
 
 #### Step 1.4.1: Setup and Baseline
 
 **User Actions:**
-1. Ensure wallet has at least 50 AKT (may require multiple faucet requests)
-2. Record initial state:
+1. Ensure wallet has sufficient AKT (500 AKT from faucet)
+2. Mint ACT for all deployments:
+   ```bash
+   akash tx bme mint-act 200000000uakt --from <wallet> -y
+   ```
+   (This converts 200 AKT to ACT — enough for multiple deployments)
 
-```bash
-akash query bank balances <user-address>
-akash query bme vault-state
-```
+3. Wait for epoch processing (~1 minute):
+   ```bash
+   sleep 60
+   ```
 
-**Record Baseline:**
-| Metric | Baseline Value |
-|--------|----------------|
-| User AKT Balance | ~50 AKT |
-| VaultAKT | _______ |
-| OutstandingACT | _______ |
-| RemintCredits | _______ |
+4. Record initial state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
 
 ---
 
 #### Step 1.4.2: Create Deployment A
 
 **User Actions:**
-```bash
-akash tx deployment create deploy.yml \
-  --from <wallet> \
-  --deposit 10000000uakt \
-  -y
-```
+1. Create first deployment:
+   ```bash
+   akash tx deployment create deploy.yml \
+     --from <wallet> \
+     --deposit 5000000uact \
+     -y
+   ```
 
-Wait for bid, create lease, send manifest, verify active.
+2. Complete lease creation and manifest send (see Test 1.1)
 
-Record DSEQ-A: _______
+3. Record DSEQ-A: _______
 
 ---
 
 #### Step 1.4.3: Create Deployment B
 
 **User Actions:**
-```bash
-akash tx deployment create deploy.yml \
-  --from <wallet> \
-  --deposit 10000000uakt \
-  -y
-```
+1. Create second deployment:
+   ```bash
+   akash tx deployment create deploy.yml \
+     --from <wallet> \
+     --deposit 5000000uact \
+     -y
+   ```
 
-Wait for bid, create lease, send manifest, verify active.
+2. Complete lease creation and manifest send
 
-Record DSEQ-B: _______
+3. Record DSEQ-B: _______
 
 ---
 
 #### Step 1.4.4: Create Deployment C
 
 **User Actions:**
-```bash
-akash tx deployment create deploy.yml \
-  --from <wallet> \
-  --deposit 10000000uakt \
-  -y
-```
+1. Create third deployment:
+   ```bash
+   akash tx deployment create deploy.yml \
+     --from <wallet> \
+     --deposit 5000000uact \
+     -y
+   ```
 
-Wait for bid, create lease, send manifest, verify active.
+2. Complete lease creation and manifest send
 
-Record DSEQ-C: _______
+3. Record DSEQ-C: _______
 
 ---
 
@@ -481,37 +371,21 @@ Record DSEQ-C: _______
 
 **User Actions:**
 ```bash
-# Check final wallet balance
 akash query bank balances <user-address>
-
-# Check cumulative BME state
 akash query bme vault-state
-
-# Verify all deployments active
 akash query deployment list --owner <user-address>
-
-# Verify all leases active
 akash query market lease list --owner <user-address>
 ```
 
-**Record Final Values:**
-| Metric | Baseline | Final | Change |
-|--------|----------|-------|--------|
-| User AKT Balance | ~50 | _______ | ↓ ~30 AKT |
-| VaultAKT | _______ | _______ | ↑ ~30 AKT (if BME active) |
-| OutstandingACT | _______ | _______ | ↑ (30 × price) |
-| RemintCredits | _______ | _______ | ↑ ~30 AKT |
-
-**Expected Results (if BME deployment integration active):**
-- User AKT balance: ~20 AKT remaining (minus fees)
-- VaultAKT increased by ~30 AKT total
-- OutstandingACT reflects all three deployments
-- RemintCredits increased by ~30 AKT total
+**Expected Results:**
+- User ACT balance decreased by ~15 ACT (3 × 5 ACT deposits)
 - All three deployments active with leases
+- Each deployment independently accounted
+- Cumulative vault state reflects the initial mint operation
 
-**Final Checklist:**
-- [ ] Deployment A active with lease
-- [ ] Deployment B active with lease
-- [ ] Deployment C active with lease
-- [ ] Cumulative VaultAKT reflects all deposits (if BME active)
-- [ ] Cumulative RemintCredits reflects all deposits (if BME active)
+**⚠️ Important:** Close all deployments when testing is complete:
+```bash
+akash tx deployment close --dseq <dseq-a> --from <wallet> -y
+akash tx deployment close --dseq <dseq-b> --from <wallet> -y
+akash tx deployment close --dseq <dseq-c> --from <wallet> -y
+```

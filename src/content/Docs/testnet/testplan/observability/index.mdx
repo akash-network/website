@@ -1,125 +1,250 @@
 ---
 categories: ["Testnet"]
 tags: ["Testnet", "BME", "Testing", "Observability"]
-title: "Observability & State Verification"
+title: "Ledger Records & Observability"
 linkTitle: "Observability"
-description: "Verify BME state queries and event emissions"
-weight: 8
+description: "Verify BME ledger records and event emissions"
+weight: 9
 ---
 
-**Note:** Direct ledger record queries are not available via CLI. These tests verify BME state changes through available queries (vault-state, status, bank balances) and transaction events.
+**Note on Ledger Records:**
+
+The BME module maintains ledger records for all mint/burn operations. However, **direct ledger record queries are not currently available via CLI**. Tests 8.1-8.3 verify ledger record behavior through:
+- Transaction events and logs
+- Vault-state changes that reflect recorded operations
+- Block explorer or indexer queries (if available)
 
 **Available BME query commands:**
 - `akash query bme params`
-- `akash query bme status`  
+- `akash query bme status`
 - `akash query bme vault-state`
 
-### Test 7.1: Verify State Changes - AKT→ACT (Deposit)
+**Viewing Transaction Events:**
+```bash
+# Query transaction by hash to see events
+akash query tx <tx-hash> --output json | jq '.events'
+```
 
-**Objective:** Confirm vault-state reflects deposit operations
+---
+
+### Test 8.1: Query Ledger Records by Height
+
+**Objective:** Verify ledger records can be queried by block height
+
+**Note:** Direct CLI queries for ledger records by height are not available. This test verifies the behavior through transaction logs and vault-state changes.
 
 **User Actions:**
-1. Record initial vault-state:
+1. Record current block height:
+   ```bash
+   akash status | jq '.SyncInfo.latest_block_height'
+   ```
+
+2. Execute a mint operation:
+   ```bash
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   ```
+   Note the transaction hash from output.
+
+3. Query the transaction to see events:
+   ```bash
+   akash query tx <tx-hash> --output json | jq '.events'
+   ```
+
+4. Wait for epoch processing:
+   ```bash
+   sleep 60
+   ```
+
+5. Query vault-state to confirm operation recorded:
    ```bash
    akash query bme vault-state
    ```
-2. Create deployment or mint ACT directly
-3. Wait for epoch, then query vault-state again
 
 **Expected Results:**
-After epoch, vault-state shows:
-- `balances.uakt` increased (AKT in vault)
-- `balances.uact` increased (ACT minted)
-- `remint_credits` increased (AKT escrowed for future settlements)
-- `total_minted.uact` increased
+- Transaction events show BME-related events
+- Vault-state reflects the mint operation
+- Operation is tied to specific block height range
+
+**Future Enhancement:** When ledger record queries become available via CLI, this test can be updated to use `akash query bme ledger-records --height <block>`.
 
 ---
 
-### Test 7.2: Verify State Changes - ACT→AKT (Refund with Remint)
+### Test 8.2: Query Ledger Records by Account
 
-**Objective:** Confirm vault-state reflects refund/burn operations using remint credits
+**Objective:** Verify ledger records can be queried by account address
+
+**Note:** Direct CLI queries for ledger records by account are not available. This test verifies account-specific operations through bank balance changes and transaction history.
 
 **User Actions:**
-1. Start with ACT balance from previous minting
-2. Record initial vault-state
-3. Burn ACT:
+1. Record initial balances for test account:
    ```bash
-   akash tx bme burn-act 50000000uact --from <wallet> -y
+   akash query bank balances <user-address>
    ```
-4. Wait for epoch, then query vault-state
 
-**Expected Results:**
-After epoch, vault-state shows:
-- `balances.uact` decreased (ACT burned)
-- `remint_credits` decreased (used for AKT payout)
-- `total_minted.uakt` unchanged (no new AKT minted - non-inflationary)
-- User's AKT balance increased
-
----
-
-### Test 7.3: Verify State Changes - ACT→AKT (Inflationary Path)
-
-**Objective:** Confirm vault-state shows inflationary minting when remint credits insufficient
-
-**Preconditions:**
-- Low remint credits relative to ACT burn amount
-- Or price drop making remint credits insufficient
-
-**User Actions:**
-1. Record initial vault-state
-2. Trigger refund/burn that exceeds remint credits
-3. Wait for epoch, then query vault-state
-
-**Expected Results:**
-After epoch, vault-state shows:
-- `remint_credits` decreased (possibly to 0)
-- `total_minted.uakt` INCREASED (new AKT minted - **INFLATIONARY**)
-- Total AKT supply increased
-
----
-
-### Test 7.4: Query BME Vault State
-
-**Objective:** Verify all BME metrics queryable
-
-**User Actions:**
-1. Execute BME queries via CLI:
+2. Execute operations from the test account:
    ```bash
+   akash tx bme mint-act 25000000uakt --from <wallet> -y
+   sleep 60
+   akash tx bme burn-act 10000000uact --from <wallet> -y
+   sleep 60
+   ```
+
+3. Query account's transaction history:
+   ```bash
+   akash query txs --events 'message.sender=<user-address>' --limit 10
+   ```
+
+4. Verify final balances:
+   ```bash
+   akash query bank balances <user-address>
+   ```
+
+**Expected Results:**
+- Transaction history shows all BME operations from this account
+- Balance changes match expected mint/burn amounts
+- Each transaction tied to the account address
+
+**Future Enhancement:** When ledger record queries become available via CLI, this test can be updated to use `akash query bme ledger-records --account <address>`.
+
+---
+
+### Test 8.3: Ledger Record Contains All Required Fields
+
+**Objective:** Verify ledger records contain complete operation details
+
+**Note:** This test verifies required fields through transaction events and vault-state changes.
+
+**User Actions:**
+1. Execute a mint operation:
+   ```bash
+   akash tx bme mint-act 30000000uakt --from <wallet> -y
+   ```
+   Note the transaction hash.
+
+2. Query transaction events:
+   ```bash
+   akash query tx <tx-hash> --output json | jq '.events[] | select(.type | contains("bme"))'
+   ```
+
+3. Wait for epoch and check vault-state:
+   ```bash
+   sleep 60
    akash query bme vault-state
-   akash query bme status
-   akash query bme params
    ```
-2. Verify all queries return valid data
+
+**Expected Fields in Ledger Records:**
+
+| Field | Description | Verification |
+|-------|-------------|--------------|
+| ID | Unique record identifier | Check events for record ID |
+| Type | MintACT, BurnACT, or Settlement | Check event type |
+| Amount | Token amount involved | Compare vault-state changes |
+| Account | User/provider address | Check message.sender in events |
+| Height | Block height of operation | Check tx inclusion height |
+| Timestamp | Time of operation | Check block timestamp |
 
 **Expected Results:**
-- `vault-state` returns: Balances, TotalBurned, TotalMinted, RemintCredits
-- `status` returns: status enum, EpochHeightDiff, PreviousStatus
-- `params` returns: thresholds, epoch settings
+- Transaction events contain operation type and amounts
+- Vault-state changes match operation
+- All required metadata present in transaction
 
 ---
 
-### Test 7.5: Event Emission - Mint Status Change
+### Test 8.4: Event Emission - MintACT
 
-**Objective:** Verify EventMintStatusChange emitted on transitions
+**Objective:** Verify EventMintACT emitted when minting ACT
 
 **User Actions:**
-1. Trigger mint status change (e.g., Healthy → Warning)
-2. Query transaction events
+1. Execute mint operation:
+   ```bash
+   akash tx bme mint-act 20000000uakt --from <wallet> -y
+   ```
+   Note the transaction hash.
+
+2. Query transaction events:
+   ```bash
+   akash query tx <tx-hash> --output json | jq '.events'
+   ```
+
+3. Look for BME mint events in the output
 
 **Expected Results:**
-- `EventMintStatusChange` emitted
-- Contains: `PreviousStatus`, `NewStatus`, `CollateralRatio`
+- Event emitted with type containing "mint" or "MintACT"
+- Event contains:
+  - `sender`: User address
+  - `amount`: AKT amount minted
+  - Additional fields: oracle price, ACT amount
 
 ---
 
-### Test 7.6: Event Emission - Ledger Record Executed
+### Test 8.5: Event Emission - BurnACT
 
-**Objective:** Verify EventLedgerRecordExecuted emitted on completion
+**Objective:** Verify EventBurnACT emitted when burning ACT
 
 **User Actions:**
-1. Create deployment (triggers burn/mint)
-2. Query transaction events
+1. Ensure wallet has ACT balance (from previous minting)
+
+2. Execute burn operation:
+   ```bash
+   akash tx bme burn-act 15000000uact --from <wallet> -y
+   ```
+   Note the transaction hash.
+
+3. Query transaction events:
+   ```bash
+   akash query tx <tx-hash> --output json | jq '.events'
+   ```
+
+4. Look for BME burn events in the output
 
 **Expected Results:**
-- `EventLedgerRecordExecuted` emitted
-- Contains: `ID` (LedgerRecordID)
+- Event emitted with type containing "burn" or "BurnACT"
+- Event contains:
+  - `sender`: User address
+  - `amount`: ACT amount burned
+  - Additional fields: AKT received, oracle price
+
+---
+
+### Test 8.6: Event Emission - Settlement
+
+**Objective:** Verify settlement events emitted during deployment lifecycle
+
+**User Actions:**
+1. Create a deployment (see Category 1 for full workflow):
+   ```bash
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   sleep 60
+   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
+   # Complete lease creation...
+   ```
+
+2. Let deployment run for at least one settlement epoch (~1-2 minutes)
+
+3. Query recent blocks for settlement events:
+   ```bash
+   # Get recent block heights
+   akash status | jq '.SyncInfo.latest_block_height'
+   
+   # Query block results for events (if available)
+   akash query block-results <height> 2>/dev/null | jq '.end_block_events' || echo "Block results query may not be available"
+   ```
+
+4. Close deployment and check events:
+   ```bash
+   akash tx deployment close --dseq <dseq> --from <wallet> -y
+   ```
+   Note the transaction hash.
+
+5. Query close transaction events:
+   ```bash
+   akash query tx <tx-hash> --output json | jq '.events'
+   ```
+
+**Expected Results:**
+- Settlement events emitted during deployment lifecycle
+- Close transaction includes escrow/settlement events
+- Events contain:
+  - Provider address
+  - ACT amount settled
+  - Related deployment/lease identifiers

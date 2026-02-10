@@ -9,6 +9,8 @@ weight: 1
 
 Before running functional tests, verify the BME module and dependencies are healthy. These checks establish a baseline and confirm the testnet is ready for testing.
 
+---
+
 ### Test 0.1: Node and Network Connectivity
 
 **Objective:** Verify testnet node is accessible and synced
@@ -47,28 +49,37 @@ Before running functional tests, verify the BME module and dependencies are heal
 
 ### Test 0.3: Oracle Health Check
 
-**Objective:** Verify oracle is providing price feeds
+**Objective:** Verify oracle is providing AKT/USD price feeds with recent timestamps
+
+**Important Note:** The oracle module stores prices using the **base denom** `akt`, not the micro-denom `uakt`. The `--asset-denom` flag, if used, must specify `akt` — using `uakt` or `uact` will return empty results.
 
 **User Actions:**
-1. Query oracle prices:
+1. Query oracle prices (pipe through `head` to limit verbose output):
    ```bash
-   akash query oracle prices
+   akash query oracle prices | head -n 50
    ```
-2. Filter for specific denoms if needed:
+2. Examine the output — confirm price entries exist for `denom: akt` with `base_denom: usd`
+3. Check the `timestamp` field on the most recent price entry (first entry in output)
+4. Compare the timestamp against current time — it should be within 60 seconds:
    ```bash
-   akash query oracle prices --asset-denom uakt
-   akash query oracle prices --asset-denom uact
+   date -u +"%Y-%m-%dT%H:%M:%S"
    ```
-3. Verify prices are reasonable and recent
+5. Verify the price value is reasonable (e.g., AKT ~$0.30-$5.00 range depending on market)
 
 **Expected Results:**
-- AKT price returns valid USD value (e.g., ~0.45 in example)
-- ACT price returns ~$1.00 (pegged)
-- Timestamps are recent (not stale)
+- Oracle returns price entries (prices list is NOT empty)
+- Entries show `denom: akt` and `base_denom: usd`
+- Price value is a reasonable AKT/USD value (non-zero, non-negative)
+- Most recent timestamp is within 60 seconds of current UTC time
+
+**If This Test Fails:**
+- Empty results → Oracle price feeder may not be running
+- Stale timestamps (>60s old) → Price feeder may have stopped submitting
+- Unreasonable prices → Check Pyth feed ID configuration
 
 ---
 
-### Test 0.4: BME Vault State Baseline
+### Test 0.4: BME State Baseline
 
 **Objective:** Record initial BME vault state for comparison during testing
 
@@ -90,18 +101,45 @@ Before running functional tests, verify the BME module and dependencies are heal
 
 ---
 
-### Test 0.5: Collateral Ratio and Status Check
+### Test 0.5: Collateral Ratio Check
 
-**Objective:** Verify BME status query returns collateral ratio and system health
+**Objective:** Verify collateral ratio calculation is working
+
+**User Actions:**
+1. Query BME status (collateral ratio is included in output):
+   ```bash
+   akash query bme status
+   ```
+2. Locate the `collateral_ratio` field in the response
+
+**Expected Results:**
+- `collateral_ratio` field is present with a decimal value
+- On fresh testnet with no activity, may return `0.000000000000000000`
+- Non-error response confirms module is calculating correctly
+
+**Example output:**
+```yaml
+collateral_ratio: "0.950000000000000000"
+halt_threshold: "0.900000000000000000"
+mints_allowed: true
+...
+```
+
+---
+
+### Test 0.6: Mint Status Check
+
+**Objective:** Verify BME mint status is Healthy (required for most testing)
 
 **User Actions:**
 1. Query BME status:
    ```bash
    akash query bme status
    ```
+2. Check the `status` field and related flags
 
 **Example Output:**
-```
+```yaml
 collateral_ratio: "0.999328857700195767"
 halt_threshold: "0.900000000000000000"
 mints_allowed: true
@@ -111,7 +149,6 @@ warn_threshold: "0.950000000000000000"
 ```
 
 **Expected Results:**
-- `collateral_ratio`: Decimal value (e.g., ~0.99 means 99% collateralized)
 - `status`: `mint_status_healthy` (required to proceed with most tests)
 - `mints_allowed`: `true`
 - `refunds_allowed`: `true`
@@ -119,25 +156,9 @@ warn_threshold: "0.950000000000000000"
 - `halt_threshold`: `0.90` (mints halt below this)
 
 **If status is NOT `mint_status_healthy`:**
-- `mint_status_warning`: Collateralization Ratio dropped below 0.95 - investigate
-- `mint_status_halt_cr`: Collateralization Ratio dropped below 0.90 - mints blocked, investigate before proceeding
-- `mint_status_halt_oracle`: Oracle failure - investigate oracle health (Test 0.3)
-
----
-
-### Test 0.6: BME Params Check
-
-**Objective:** Verify BME module parameters are configured
-
-**User Actions:**
-1. Query BME params:
-   ```bash
-   akash query bme params
-   ```
-
-**Expected Results:**
-- Query succeeds
-- Returns epoch settings, thresholds, and other BME configuration
+- `mint_status_warning`: Collateralization Ratio dropped below 0.95 — investigate
+- `mint_status_halt_cr`: Collateralization Ratio dropped below 0.90 — mints blocked, investigate before proceeding
+- `mint_status_halt_oracle`: Oracle failure — investigate oracle health (Test 0.3)
 
 ---
 
@@ -162,23 +183,28 @@ warn_threshold: "0.950000000000000000"
 
 ---
 
-### Test 0.8: ACT Supply Baseline
+### Test 0.8: Vault State Baseline (Pending Operations Check)
 
-**Objective:** Record initial ACT supply for tracking during tests
+**Objective:** Record vault state baseline and verify no unexpected pending operations
+
+**Note:** There is no direct `pending-records` CLI query. Pending operations are inferred by comparing vault-state before and after operations, and by observing state changes across epoch boundaries.
 
 **User Actions:**
-1. Query total ACT supply:
+1. Query current vault state:
    ```bash
-   akash query bank total --denom uact
+   akash query bme vault-state
    ```
-2. Record the value for comparison during testing
+2. Record the current values as a baseline
+3. Query again after ~1-2 minutes (one epoch) to verify state is stable:
+   ```bash
+   sleep 90
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
-- Query succeeds
-- Returns total ACT in circulation (may be 0 on fresh testnet)
-- Document baseline for later comparison
-
-**Note:** This helps track inflationary events during testing. Compare with `vault-state.total_minted.uact`.
+- Vault state query succeeds
+- If vault state is changing unexpectedly between queries (without you initiating operations), there may be stale operations from prior testing — investigate before proceeding
+- Stable state indicates clean baseline for testing
 
 ---
 
@@ -195,7 +221,9 @@ warn_threshold: "0.950000000000000000"
 
 2. Note the wallet address from output
 
-3. Fund from faucet (testnet faucet provides 100 AKT per request)
+3. Fund from faucet:
+   - Visit: https://faucet.dev.akash.pub
+   - Testnet faucet provides **500 AKT** per request
 
 4. Verify balance:
    ```bash
@@ -204,16 +232,12 @@ warn_threshold: "0.950000000000000000"
 
 **Expected Results:**
 - Wallet created successfully
-- After faucet: balance shows `100000000uakt` (100 AKT)
+- After faucet: balance shows `500000000uakt` (500 AKT)
 - No ACT balance initially (`uact` not listed)
-
-**Note:** Faucet provides 100 AKT per request. For tests requiring more AKT, either:
-- Request from faucet multiple times (if allowed)
-- Transfer from another funded account
 
 ---
 
-### Test 0.10: Provider Availability (If Testing Deployments)
+### Test 0.10: Provider Availability
 
 **Objective:** Verify at least one provider is available for deployment tests
 
@@ -228,153 +252,3 @@ warn_threshold: "0.950000000000000000"
 - At least one provider listed
 - Provider status indicates availability
 - If no providers, deployment tests (Category 1-3) cannot proceed
-
----
-
-### Test 0.11: Market Params Check (Bid Deposit Denom)
-
-**Objective:** Verify market module accepts AKT for bid deposits (not ACT)
-
-**User Actions:**
-1. Query current market params via REST API (CLI not available for this query):
-   ```bash
-   curl -s https://testnetapi.akashnet.net/akash/market/v1beta5/params | jq
-   ```
-2. Check `bid_min_deposit` denom - should be `uakt`
-
-**Expected Results:**
-- Response shows `bid_min_deposit.denom` is `uakt`
-- If denom is `uact`, providers cannot bid - requires governance fix (see below)
-
-**Example Response (problematic - needs fix):**
-```json
-{
-  "params": {
-    "bid_min_deposit": {
-      "denom": "uact",   // <-- PROBLEM: should be "uakt"
-      "amount": "500000"
-    },
-    "order_max_bids": 20
-  }
-}
-```
-
-**If Fix Required - Update Market Params via Governance:**
-
-1. **Get gov module authority address:**
-   ```bash
-   akash query auth module-account gov
-   ```
-   For BME testnet: `akash10d07y265gmmuvt4z0w9aw880jnsr700jhe7z0f`
-
-2. **Create proposal JSON file** (`market-params-fix.json`):
-   ```bash
-   cat > market-params-fix.json << 'EOF'
-   {
-     "messages": [
-       {
-         "@type": "/akash.market.v1beta5.MsgUpdateParams",
-         "authority": "akash10d07y265gmmuvt4z0w9aw880jnsr700jhe7z0f",
-         "params": {
-           "bid_min_deposit": {
-             "denom": "uakt",
-             "amount": "500000"
-           },
-           "order_max_bids": 20
-         }
-       }
-     ],
-     "metadata": "ipfs://CID",
-     "deposit": "50000000uakt",
-     "title": "Fix Market Params - Bid Deposit Denom",
-     "summary": "Update bid_min_deposit to use uakt instead of uact. Providers must deposit in AKT, not ACT.",
-     "expedited": true
-   }
-   EOF
-   ```
-   
-   **Important:** 
-   - Type URL must be `/akash.market.v1beta5.MsgUpdateParams` (not v1)
-   - Deposit must be 50000000uakt (50 AKT) to enter voting period
-
-3. **Submit expedited proposal:**
-   ```bash
-   akash tx gov submit-proposal market-params-fix.json \
-     --from default \
-     --gas auto \
-     --gas-adjustment 1.5 \
-     --gas-prices 0.025uakt \
-     -y
-   ```
-
-4. **Get proposal ID from tx result, then vote:**
-   ```bash
-   # Find proposal ID
-   akash query gov proposals --status voting_period
-   
-   # Vote yes (as validator)
-   akash tx gov vote <proposal-id> yes \
-     --from default \
-     --gas auto \
-     --gas-adjustment 1.5 \
-     --gas-prices 0.025uakt \
-     -y
-   ```
-
-5. **Monitor proposal status (expedited = ~5 min):**
-   ```bash
-   # Check proposal status
-   akash query gov proposal <proposal-id>
-   
-   # Watch for status change to PROPOSAL_STATUS_PASSED
-   watch -n 10 "akash query gov proposal <proposal-id> | grep status"
-   ```
-
-6. **Verify params updated after proposal passes:**
-   ```bash
-   curl -s https://testnetapi.akashnet.net/akash/market/v1beta5/params | jq
-   ```
-   Confirm `bid_min_deposit.denom` is now `uakt`
-
-**Note:** CLI `akash query market params` is not implemented. Use REST API for this query.
-
----
-
-### Test 0.12: ACT Minting Verification
-
-**Objective:** Verify ACT can be minted from AKT and appears in wallet after epoch processing
-
-**User Actions:**
-1. Check initial balance:
-   ```bash
-   akash query bank balances <user-address>
-   ```
-
-2. Mint ACT from AKT:
-   ```bash
-   akash tx bme mint-act 100000000uakt --from <wallet> -y
-   ```
-
-3. Check BME vault state immediately:
-   ```bash
-   akash query bme vault-state
-   ```
-   Note: AKT should appear in vault immediately
-
-4. Wait for epoch processing (~1 minute / 10 blocks):
-   ```bash
-   # Check BME status for epoch info
-   akash query bme status
-   
-   # Wait, then check balance again
-   sleep 60
-   akash query bank balances <user-address>
-   ```
-
-**Expected Results:**
-- AKT transferred to vault immediately
-- After epoch: ACT appears in user's bank balance
-- ACT amount = AKT deposited × oracle price
-- `vault-state` shows: balances.uakt ↑, balances.uact ↑, remint_credits ↑, total_minted.uact ↑
-
-**Note:** ACT minting is epoch-based. Default `min_epoch_blocks` = 10 blocks. If Collateralization Ratio drops below 0.95, epoch period increases.

@@ -7,22 +7,72 @@ description: "Test ACT → AKT conversion on deployment close"
 weight: 3
 ---
 
+**Note on balances:** When checking balances before/after closure, you're checking **AKT** balances — this is correct. Users hold AKT in their wallets. The BME module handles the ACT→AKT conversion automatically during closure. The user receives AKT back (not ACT).
+
+**Refund Flow:**
+1. User closes deployment
+2. Remaining ACT escrow is calculated
+3. BME converts ACT → AKT at current oracle price
+4. AKT is returned to user's wallet
+5. RemintCredits are used first; if insufficient, new AKT is minted (inflationary)
+
+---
+
 ### Test 2.1: Close Deployment - Price Unchanged - Remint Credits Sufficient
 
 **Objective:** Verify closing deployment uses remint credits (no new AKT minted)
 
 **User Actions:**
-1. Create new wallet, fund with 1000 AKT
-2. Record oracle price (P_initial)
-3. Create deployment with 500 AKT deposit
-4. Record RemintCredits after deposit
-5. Let deployment run briefly (1-2 settlement periods)
-6. Confirm oracle price is still ~P_initial
-7. Close deployment:
+1. Create new wallet, fund with AKT (500 AKT from faucet: https://faucet.dev.akash.pub)
+
+2. Record oracle price (P_initial):
+   ```bash
+   akash query oracle prices | head -n 15
    ```
-   akash tx deployment close --owner <addr> --dseq <seq> --from <wallet>
+
+3. Mint ACT and create deployment (see Category 1 for full workflow):
+   ```bash
+   # Mint ACT
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   
+   # Wait for epoch
+   sleep 60
+   
+   # Create deployment with ACT deposit
+   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
+   
+   # Complete lease creation and send manifest...
    ```
-8. Query final state
+
+4. Record vault state after deployment:
+   ```bash
+   akash query bme vault-state
+   ```
+   Note the RemintCredits value.
+
+5. Let deployment run briefly (1-2 settlement periods, ~2-5 minutes)
+
+6. Confirm oracle price is still approximately P_initial:
+   ```bash
+   akash query oracle prices | head -n 15
+   ```
+
+7. Record pre-close state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
+
+8. Close deployment:
+   ```bash
+   akash tx deployment close --dseq <seq> --from <wallet> -y
+   ```
+
+9. Query final state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   ```
 
 **Expected Results:**
 - User receives AKT refund for unused portion
@@ -34,7 +84,7 @@ weight: 3
 - OutstandingACT decreased
 
 **Critical Verification:**
-- Check that `TotalMinted` did NOT increase
+- Check that `total_minted.uakt` did NOT increase
 - Confirm refund came from remint credits, not new minting
 
 ---
@@ -43,23 +93,68 @@ weight: 3
 
 **Objective:** Verify user receives fewer AKT back when price rose, using only remint credits
 
+**Precondition:** This test requires oracle price manipulation. Coordinate with Akash Core team to adjust the oracle price, or wait for natural market price movement.
+
 **User Actions:**
-1. Create new wallet, fund with 1000 AKT
-2. Record oracle price: P_initial = $1.00
-3. Create deployment with 500 AKT deposit (user gets 500 ACT worth of credits)
-4. Record RemintCredits (should be ~500 AKT)
+1. Create new wallet, fund with AKT (500 AKT from faucet)
+
+2. Record oracle price (P_initial):
+   ```bash
+   akash query oracle prices | head -n 15
+   ```
+   Example: P_initial = $0.30
+
+3. Mint ACT and create deployment:
+   ```bash
+   # Mint ACT (100 AKT worth)
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   
+   # Wait for epoch
+   sleep 60
+   
+   # Create deployment with ACT deposit
+   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
+   
+   # Complete lease creation and send manifest...
+   ```
+
+4. Record vault state (note RemintCredits):
+   ```bash
+   akash query bme vault-state
+   ```
+
 5. Let deployment run minimally (avoid significant compute charges)
-6. **[Testnet Admin] Adjust oracle price to P_final = $2.00**
-7. Close deployment
-8. Query final user AKT balance and BME state
+
+6. **[Coordinate with Akash Core team]** Wait for or trigger oracle price increase
+   Example: P_final = $0.60 (price doubled)
+
+7. Verify price increased:
+   ```bash
+   akash query oracle prices | head -n 15
+   ```
+
+8. Record pre-close AKT balance:
+   ```bash
+   akash query bank balances <user-address>
+   ```
+
+9. Close deployment:
+   ```bash
+   akash tx deployment close --dseq <seq> --from <wallet> -y
+   ```
+
+10. Query final state:
+    ```bash
+    akash query bank balances <user-address>
+    akash query bme vault-state
+    ```
 
 **Expected Results:**
-- User deposited: 500 AKT at $1.00 = $500 worth
-- User had ~500 ACT credits (minus minimal usage, say 490 ACT remaining)
-- At withdrawal: 490 ACT / $2.00 = **245 AKT returned**
-- User started with 1000 AKT, ends with ~745 AKT
-- RemintCredits decreased by 245 AKT (not 500 AKT)
-- **255 AKT remains in RemintCredits as surplus**
+- User deposited AKT at lower price, withdrawing at higher price
+- User receives **FEWER AKT back** (same USD value, but AKT is worth more)
+- Example: 50 ACT remaining / $0.60 = ~83 AKT returned (vs ~167 AKT if price unchanged at $0.30)
+- RemintCredits decreased by refund amount
+- **Surplus AKT remains in RemintCredits** (deflationary effect)
 - TotalMinted unchanged (no inflation)
 
 **Critical Observations:**
@@ -72,52 +167,149 @@ weight: 3
 
 **Objective:** Verify system mints new AKT when remint credits are insufficient
 
+**Precondition:** This test requires oracle price manipulation. Coordinate with Akash Core team to adjust the oracle price, or wait for natural market price movement.
+
 **User Actions:**
-1. Create new wallet, fund with 1000 AKT
-2. Record oracle price: P_initial = $1.00
-3. Create deployment with 500 AKT deposit
-4. Record:
-   - RemintCredits (should be ~500 AKT)
-   - TotalMinted (baseline)
-   - Total AKT supply
-5. Let deployment run minimally
-6. **[Testnet Admin] Adjust oracle price to P_final = $0.50**
-7. Close deployment
-8. Query final state
+1. Create new wallet, fund with AKT (500 AKT from faucet)
+
+2. Record oracle price (P_initial):
+   ```bash
+   akash query oracle prices | head -n 15
+   ```
+   Example: P_initial = $0.50
+
+3. Record baseline total AKT supply:
+   ```bash
+   akash query bank total --denom uakt
+   ```
+
+4. Mint ACT and create deployment:
+   ```bash
+   # Mint ACT (100 AKT worth)
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   
+   # Wait for epoch
+   sleep 60
+   
+   # Create deployment with ACT deposit
+   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
+   
+   # Complete lease creation and send manifest...
+   ```
+
+5. Record vault state:
+   ```bash
+   akash query bme vault-state
+   ```
+   Note:
+   - RemintCredits (baseline)
+   - total_minted.uakt (baseline)
+
+6. Let deployment run minimally
+
+7. **[Coordinate with Akash Core team]** Wait for or trigger oracle price decrease
+   Example: P_final = $0.25 (price halved)
+
+8. Verify price decreased:
+   ```bash
+   akash query oracle prices | head -n 15
+   ```
+
+9. Record pre-close state:
+   ```bash
+   akash query bank balances <user-address>
+   akash query bme vault-state
+   akash query bank total --denom uakt
+   ```
+
+10. Close deployment:
+    ```bash
+    akash tx deployment close --dseq <seq> --from <wallet> -y
+    ```
+
+11. Query final state:
+    ```bash
+    akash query bank balances <user-address>
+    akash query bme vault-state
+    akash query bank total --denom uakt
+    ```
 
 **Expected Results:**
-- User deposited: 500 AKT at $1.00 = $500 worth
-- User had ~490 ACT remaining
-- At withdrawal: 490 ACT / $0.50 = **980 AKT needed**
-- RemintCredits only has 500 AKT
-- **Shortfall: 480 AKT must be newly minted**
-- RemintCredits reduced to 0
-- **TotalMinted increased by 480 AKT**
-- Total AKT supply increased by 480 AKT
-- User receives full 980 AKT
+- User deposited AKT at higher price, withdrawing at lower price
+- User receives **MORE AKT back** (same USD value, but AKT is worth less)
+- Example: 50 ACT remaining / $0.25 = 200 AKT needed
+- RemintCredits may be insufficient → shortfall must be newly minted
+- RemintCredits reduced (possibly to 0)
+- **total_minted.uakt increased** (inflationary event!)
+- **Total AKT supply increased**
+- User receives full AKT amount owed
 
 **Critical Verification:**
-- Confirm `TotalMinted` increased (inflationary event)
-- Verify total AKT supply increased
-- This is the inflationary path we discussed earlier
+- Confirm `total_minted.uakt` increased (inflationary event)
+- Verify total AKT supply increased (`akash query bank total --denom uakt`)
+- This is the inflationary path — new AKT was created
 
 ---
 
 ### Test 2.4: Close Deployment - Partial Remint Credit Usage
 
-**Objective:** Verify system uses all available remint credits before minting
+**Objective:** Verify system uses all available remint credits before minting new AKT
+
+**Precondition:** This test requires specific conditions where remint credits partially (but not fully) cover the refund. May require Akash Core team coordination to set up price conditions.
 
 **User Actions:**
-1. Create scenario where RemintCredits = 300 AKT
-2. Create situation requiring 400 AKT payout
-3. Verify:
-   - 300 AKT comes from remint credits
-   - 100 AKT is newly minted
-4. Query ledger record for this transaction
+1. Check current remint credits in vault state:
+   ```bash
+   akash query bme vault-state
+   ```
+   Note the `remint_credits` value.
+
+2. Create a scenario where:
+   - RemintCredits = X AKT
+   - Required payout = X + Y AKT (greater than available credits)
+   
+   This may require:
+   - Creating a deployment at a certain price
+   - Waiting for price to drop significantly
+   - Closing deployment when refund exceeds available remint credits
+
+3. Record pre-close state:
+   ```bash
+   akash query bme vault-state
+   akash query bank total --denom uakt
+   ```
+   Note:
+   - remint_credits (e.g., 300 AKT)
+   - total_minted.uakt (baseline)
+   - Total AKT supply (baseline)
+
+4. Close deployment:
+   ```bash
+   akash tx deployment close --dseq <seq> --from <wallet> -y
+   ```
+
+5. Query final state:
+   ```bash
+   akash query bme vault-state
+   akash query bank total --denom uakt
+   ```
 
 **Expected Results:**
-- RemintCredits reduced by 300 (to 0)
-- TotalMinted increased by 100
-- Ledger record shows:
-   - `RemintCreditIssued`: 300 AKT
-   - `Minted`: 100 AKT
+Example: RemintCredits = 300 AKT, Required payout = 400 AKT
+
+- RemintCredits reduced by 300 (to 0 or near 0)
+- total_minted.uakt increased by 100 (the shortfall)
+- Total AKT supply increased by 100
+- User receives full 400 AKT
+
+**Verification:**
+| Metric | Before | After | Change |
+|--------|--------|-------|--------|
+| remint_credits | 300 AKT | 0 | ↓ 300 |
+| total_minted.uakt | X | X + 100 | ↑ 100 |
+| Total AKT Supply | Y | Y + 100 | ↑ 100 |
+
+**Key Insight:**
+- Remint credits are always used first (non-inflationary)
+- Only the shortfall triggers new AKT minting (inflationary)
+- This is the hybrid path — partial remint, partial mint

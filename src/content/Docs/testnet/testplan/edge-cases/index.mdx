@@ -3,128 +3,189 @@ categories: ["Testnet"]
 tags: ["Testnet", "BME", "Testing", "Edge Cases"]
 title: "Edge Cases & Error Handling"
 linkTitle: "Edge Cases"
-description: "Test error conditions and edge cases"
-weight: 9
+description: "Test boundary conditions and edge cases"
+weight: 10
 ---
 
-### Test 8.1: Deployment with Insufficient AKT
-
-**Objective:** Verify graceful failure when user lacks funds
-
-**User Actions:**
-1. Create wallet with 10 AKT
-2. Attempt deployment requiring 100 AKT deposit
-3. Observe failure
-
-**Expected Results:**
-- Transaction fails with insufficient funds error
-- No BME state changes
-- No pending record created
-- User's 10 AKT untouched
+These tests verify BME behavior at boundary conditions and edge cases.
 
 ---
 
-### Test 8.2: Invalid Swap Route
+### Test 9.1: Zero Amount Operations
 
-**Objective:** Verify rejection of unsupported token conversions
+**Objective:** Verify system rejects zero-amount mint/burn operations
 
 **User Actions:**
-1. Attempt to swap tokens other than AKT↔ACT (if possible via direct tx)
+1. Attempt to mint zero AKT:
+   ```bash
+   akash tx bme mint-act 0uakt --from <wallet> -y
+   ```
+
+2. Attempt to burn zero ACT (if wallet has ACT):
+   ```bash
+   akash tx bme burn-act 0uact --from <wallet> -y
+   ```
+
+3. Observe results
 
 **Expected Results:**
-- Error: `ErrInvalidDenom: invalid swap route`
+- Both operations **fail** with validation error
+- Error message indicates invalid/zero amount
 - No state changes
+- No vault-state modifications
 
 ---
 
-### Test 8.3: Insufficient ACT Supply for Burn
+### Test 9.2: Dust Amount Operations
 
-**Objective:** Verify error when burning more ACT than exists
+**Objective:** Verify system handles very small (dust) amounts correctly
 
 **User Actions:**
-1. Attempt scenario where ACT burn requested > total ACT supply
+1. Attempt to mint minimal amount (1 uakt = 0.000001 AKT):
+   ```bash
+   akash tx bme mint-act 1uakt --from <wallet> -y
+   ```
+
+2. If successful, wait for epoch and check balance:
+   ```bash
+   sleep 60
+   akash query bank balances <wallet>
+   ```
+
+3. Attempt to burn minimal ACT amount:
+   ```bash
+   akash tx bme burn-act 1uact --from <wallet> -y
+   ```
 
 **Expected Results:**
-- Error: `ErrInsufficientVaultFunds`
-- No partial execution
+- Either:
+  - Operations succeed with dust amounts (system handles micro-amounts)
+  - Operations fail with minimum amount error (system enforces minimums)
+- If successful, vault-state reflects the tiny changes
+- No precision loss or rounding errors that corrupt state
 
 ---
 
-### Test 8.4: Concurrent Operations - Queue Integrity
+### Test 9.3: Maximum Amount Operations
 
-**Objective:** Verify system handles concurrent requests correctly
+**Objective:** Verify system handles very large amounts correctly
 
 **User Actions:**
-1. Create wallet with 5000 AKT
-2. Submit multiple operations simultaneously:
-   - Create Deployment A
-   - Create Deployment B
-   - Top up existing deployment
-3. Verify all operations complete correctly
+1. Check wallet's full AKT balance:
+   ```bash
+   akash query bank balances <wallet>
+   ```
+
+2. Attempt to mint entire balance (or very large amount):
+   ```bash
+   akash tx bme mint-act <full-balance>uakt --from <wallet> -y
+   ```
+   Note: Leave enough for gas fees
+
+3. Wait for epoch and verify:
+   ```bash
+   sleep 60
+   akash query bank balances <wallet>
+   akash query bme vault-state
+   ```
+
+4. If successful, attempt to burn all ACT:
+   ```bash
+   akash tx bme burn-act <full-act-balance>uact --from <wallet> -y
+   ```
 
 **Expected Results:**
-- Each operation gets unique LedgerRecordID
-- Sequence numbers increment correctly within block
-- No race conditions
-- Final state consistent
+- Large operations complete successfully (no overflow errors)
+- Vault-state handles large numbers correctly
+- ACT amount calculated correctly at oracle price
+- No precision loss with large values
 
 ---
 
-### Test 8.5: Ledger Record ID Uniqueness
+### Test 9.4: Rapid Sequential Operations
 
-**Objective:** Verify LedgerRecordID is unique across all records
+**Objective:** Verify system handles rapid consecutive operations correctly
 
 **User Actions:**
-1. Perform multiple operations across multiple blocks
-2. Query all ledger records
-3. Verify all IDs unique
+1. Fund wallet with sufficient AKT (500 AKT from faucet)
+
+2. Submit multiple operations in rapid succession (same block if possible):
+   ```bash
+   akash tx bme mint-act 50000000uakt --from <wallet> -y &
+   akash tx bme mint-act 50000000uakt --from <wallet> -y &
+   akash tx bme mint-act 50000000uakt --from <wallet> -y &
+   wait
+   ```
+
+3. Wait for epoch:
+   ```bash
+   sleep 60
+   ```
+
+4. Check final state:
+   ```bash
+   akash query bank balances <wallet>
+   akash query bme vault-state
+   ```
+
+5. Verify all operations were processed:
+   ```bash
+   # Total minted should be ~150 AKT worth of ACT
+   ```
 
 **Expected Results:**
-- Each record has unique combination: (Denom, ToDenom, Source, Height, Sequence)
-- Sequence resets each block (per BeginBlocker)
-- No duplicate IDs
+- All operations complete (no dropped transactions)
+- Each operation gets unique sequence number
+- Final balances reflect all operations
+- No race conditions or state corruption
+- Vault-state is consistent
 
 ---
 
-### Test 8.6: SDL Pricing Denom Validation - Reject uakt
+### Test 9.5: SDL with uakt Pricing (Known Validation Gap)
 
-**Objective:** Verify deployment creation rejects SDL with `uakt` pricing (must use `uact`)
+**Objective:** Document behavior when SDL incorrectly uses `uakt` instead of `uact` pricing
 
-**Background:** With BME enabled, ACT is the only compute payment token. SDL pricing must specify `uact`. Using `uakt` should be rejected.
+**Background:** With BME enabled, ACT is the compute payment token. SDL pricing should specify `uact`. Using `uakt` may bypass BME entirely.
 
 **User Actions:**
-1. Create SDL with `uakt` pricing:
+1. Create SDL with **incorrect** `uakt` pricing:
    ```yaml
    profiles:
      placement:
        akash:
          pricing:
            web:
-             denom: uakt    # <-- INVALID, should be uact
+             denom: uakt    # <-- Should be uact
              amount: 100000
    ```
 
-2. Attempt to create deployment:
+2. Attempt to create deployment with `uakt` deposit:
    ```bash
    akash tx deployment create deploy-uakt.yml --deposit 5000000uakt --from <wallet> -y
    ```
 
 3. Observe result
 
-**Expected Results:**
+**Expected Results (Ideal):**
 - Transaction **fails** with denom validation error
-- Error message indicates `uact` required (not `uakt`)
+- Error message indicates `uact` required
 - No deployment created
-- No state changes
-- User's AKT balance unchanged (except gas if tx submitted)
 
-**⚠️ Current Status (as of testing):**
-- Deployment with `uakt` pricing is **incorrectly accepted**
-- This bypasses BME entirely (AKT goes to escrow directly, no ACT conversion)
-- Bug reported - validation check to be added
+**Current Behavior (Known Gap):**
+- ⚠️ Deployment with `uakt` pricing is **incorrectly accepted**
+- This bypasses BME entirely:
+  - AKT goes directly to escrow (no ACT conversion)
+  - No remint credits accrued
+  - Provider settlements may behave unexpectedly
+- **Bug reported** — validation check to be added
 
 **Why This Matters:**
 - Using `uakt` bypasses the entire BME mechanism
-- No ACT minted, no remint credits accrued
-- Provider settlements would fail or behave unexpectedly
 - Defeats purpose of BME price stability
+- Provider may receive AKT instead of ACT
+- Creates inconsistent system state
+
+**Test Outcome:**
+- If deployment is **rejected**: ✅ PASS (validation working)
+- If deployment is **accepted**: ❌ FAIL (known gap, document behavior)

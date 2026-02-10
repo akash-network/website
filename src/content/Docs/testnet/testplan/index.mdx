@@ -13,15 +13,18 @@ This test plan validates BME functionality through real user workflows on testne
 
 ## Prerequisites
 
-- Testnet deployed with BME-enabled node version (branch: `bme`)
+- Healthy testnet-8 network running with BME module enabled
 - Oracle module configured with price feeds
-- Testnet faucet available for funding test wallets
-- Akash CLI (`akash` or `provider-services`) configured for testnet
-- Console access (if testing credit card / UI flows)
+- Testnet faucet available for funding test wallets (https://faucet.dev.akash.pub — 500 AKT per request)
+- Akash CLI (`akash`) configured for testnet
+- `provider-services` binary for sending manifests — download from: https://github.com/akash-network/provider/releases
+- CLI deployment guide: https://akash.network/docs/developers/deployment/cli/
 - Access to query BME state (via CLI or API)
 - Provider(s) running on testnet to accept deployments
-- Ability to manipulate oracle prices for price movement scenarios (testnet admin)
+- Ability to manipulate oracle prices for price movement scenarios (Akash Core team)
 - Ability to stop/start oracle feeds (for oracle halt testing)
+
+**Note:** All prerequisites are validated in Category 0 pre-flight checks.
 
 ## Key Metrics to Monitor
 
@@ -37,7 +40,7 @@ These should be queried before and after each test:
 | `collateral_ratio` | `akash query bme status` | Collateral Ratio (decimal, e.g., 0.99) |
 | `status` | `akash query bme status` | Current status (mint_status_healthy/warning/halt_cr/halt_oracle) |
 | User AKT Balance | `akash query bank balances <addr>` | User's AKT and ACT |
-| Oracle Price | `akash query oracle prices --asset-denom uakt` | Current AKT/USD price |
+| Oracle Price | `akash query oracle prices \| head -n 15` | Current AKT/USD price |
 
 ---
 
@@ -49,15 +52,16 @@ Verify BME module and dependencies are healthy before testing. **Run these first
 - BME module enabled
 - Oracle health
 - Vault state baseline
+- Collateral ratio and mint status
 - Test wallet setup
 - Provider availability
 
 ### [Category 1: Deployment Creation](/docs/testnet/testplan/deployment-creation)
 Test AKT → ACT conversion through deployment lifecycle.
-- ACT minting
-- Creating deployments with ACT
-- Multiple deployments
-- Top-up existing deployments
+- ACT minting and standard deployment
+- Insufficient funds handling
+- Minimum deposit testing
+- Multiple deployments from single wallet
 
 ### [Category 2: Deployment Closure & Refunds](/docs/testnet/testplan/deployment-closure)
 Test ACT → AKT conversion on deployment close.
@@ -68,17 +72,16 @@ Test ACT → AKT conversion on deployment close.
 
 ### [Category 3: Provider Settlement](/docs/testnet/testplan/provider-settlement)
 Verify providers receive ACT and can burn to AKT.
-- Provider receives ACT at settlement
-- Provider burns ACT (non-inflationary)
-- Price movement scenarios
-- Multiple settlements
+- Provider receives AKT from remint credits
+- Price movement scenarios (rose/dropped)
+- Inflationary path testing
+- Multiple settlements and remint credit depletion
 
 ### [Category 4: Epoch-Based Processing](/docs/testnet/testplan/epoch-processing)
 Test epoch-based mint/burn processing.
-- Verify epoch delays
-- Multiple requests before epoch
-- Circuit breaker during epochs
-- Pending operations detection
+- Verify request queuing
+- Multiple queued requests
+- Queue behavior during circuit breaker
 
 ### [Category 5: Direct Message Operations](/docs/testnet/testplan/direct-messages)
 Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
@@ -87,6 +90,7 @@ Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
 - Different recipient addresses
 - Input validation
 - Circuit breaker behavior
+- Consecutive operations
 
 ### [Category 6: Circuit Breaker & Mint Status](/docs/testnet/testplan/circuit-breaker)
 **⚠️ Requires Akash Core Team Member** - Oracle price manipulation needed.
@@ -94,26 +98,34 @@ Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
 - MintStatusWarning
 - MintStatusHaltCR (collateral ratio)
 - MintStatusHaltOracle
-- State transitions
+- Existing deployments during halt
 - Recovery scenarios
+- State transitions
 
-### [Category 7: Observability & State Verification](/docs/testnet/testplan/observability)
-Verify BME state queries and event emissions.
-- Vault state changes
-- Query commands
-- Event emissions
-- Ledger records
+### [Category 7: Dynamic Epoch Timing](/docs/testnet/testplan/epoch-timing)
+Test dynamic epoch timing adjustments based on system state.
+- Normal epoch timing
+- Epoch backoff during Warning state
+- Epoch timing recovery
 
-### [Category 8: Edge Cases & Error Handling](/docs/testnet/testplan/edge-cases)
-Test error conditions and edge cases.
-- Insufficient funds
-- Invalid swap routes
-- Concurrent operations
-- SDL pricing validation
+### [Category 8: Ledger Records & Observability](/docs/testnet/testplan/observability)
+Verify BME ledger records and event emissions.
+- Query ledger records by height
+- Query ledger records by account
+- Ledger record field verification
+- Event emissions (MintACT, BurnACT, Settlement)
 
-### [Category 9: End-to-End Scenarios](/docs/testnet/testplan/end-to-end)
+### [Category 9: Edge Cases & Error Handling](/docs/testnet/testplan/edge-cases)
+Test boundary conditions and edge cases.
+- Zero amount operations
+- Dust amount operations
+- Maximum amount operations
+- Rapid sequential operations
+- SDL with uakt pricing (known validation gap)
+
+### [Category 10: End-to-End Scenarios](/docs/testnet/testplan/end-to-end)
 Complete user journeys combining multiple operations.
-- Full deployment lifecycle
+- Full deployment lifecycle (happy path)
 - Price volatility scenarios
 - Circuit breaker stress testing
 - Multi-user concurrent activity
@@ -124,28 +136,31 @@ Complete user journeys combining multiple operations.
 
 | Category | Tests | Priority |
 |----------|-------|----------|
-| Pre-Flight Health Checks | 0.1-0.12 | Critical (Run First) |
+| Pre-Flight Health Checks | 0.1-0.10 | Critical (Run First) |
 | Deployment Creation | 1.1-1.4 | Critical |
 | Deployment Closure/Refunds | 2.1-2.4 | Critical |
 | Provider Settlement | 3.1-3.4 | Critical |
-| Epoch-Based Processing | 4.1-4.4 | High |
+| Epoch-Based Processing | 4.1-4.3 | High |
 | Direct Message Operations | 5.1-5.16 | Critical |
 | Circuit Breaker/Mint Status | 6.1-6.7 | ⚠️ Requires Akash Core Team |
-| Observability/State Verification | 7.1-7.6 | Medium |
-| Edge Cases | 8.1-8.6 | High |
-| End-to-End | 9.1-9.4 | Critical |
+| Dynamic Epoch Timing | 7.1-7.3 | Medium |
+| Ledger Records/Observability | 8.1-8.6 | Medium |
+| Edge Cases | 9.1-9.5 | High |
+| End-to-End | 10.1-10.4 | Critical |
+
+**Total: 66 tests across 11 categories**
 
 ---
 
-## Testnet Admin Requirements
+## Akash Core Team Requirements
 
-Several tests require testnet administrator actions:
+Several tests require Akash Core team coordination for oracle/price manipulation:
 
 | Action | Tests Requiring |
 |--------|-----------------|
-| Adjust oracle price | 2.2, 2.3, 3.3, 3.4, 6.2, 6.3, 9.2, 9.3 |
+| Adjust oracle price | 2.2, 2.3, 3.2, 3.3, 3.4, 6.2, 6.3, 7.2, 7.3, 10.2, 10.3 |
 | Stop oracle updates | 6.4 |
-| Trigger specific mint status | 4.3, 5.13, 5.14, 6.3, 6.4, 6.5, 6.6, 9.3 |
+| Trigger specific mint status | 4.3, 5.13, 5.14, 6.3, 6.4, 6.5, 6.6, 10.3 |
 
 ---
 
@@ -156,3 +171,5 @@ Several tests require testnet administrator actions:
 3. **Four mint statuses** - Healthy, Warning, HaltCR, HaltOracle
 4. **Dynamic epoch timing** - Adjusts based on Collateralization Ratio
 5. **Asymmetric circuit breaker** - AKT→ACT blocked during halt, ACT→AKT still works
+6. **Provider settlement is two-step** - Provider receives ACT, then burns to AKT
+7. **SDL pricing must use uact** - Using uakt bypasses BME (known validation gap)

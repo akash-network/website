@@ -1,0 +1,159 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Epochs"]
+title: "Dynamic Epoch Timing"
+linkTitle: "Epoch Timing"
+description: "Test dynamic epoch timing adjustments based on system state"
+weight: 8
+---
+
+**Background - Dynamic Epoch Timing:**
+
+The BME module adjusts epoch timing based on the mint status:
+
+- **Healthy:** Epochs run at minimum interval (e.g., every 10 blocks / ~1 minute)
+- **Warning:** Epoch interval increases (backoff) to slow down settlements
+- **Halt:** Epochs continue but with extended intervals
+
+This mechanism helps protect the system during stress by reducing settlement frequency.
+
+**Relevant BME Params:**
+```bash
+akash query bme params
+```
+Look for: `min_epoch_blocks`, `epoch_blocks_backoff`
+
+---
+
+### Test 7.1: Normal Epoch Timing
+
+**Objective:** Verify epochs run at minimum interval during healthy operation
+
+**User Actions:**
+1. Confirm system is healthy:
+   ```bash
+   akash query bme status
+   ```
+   Verify: `status: mint_status_healthy`
+
+2. Query BME params to note minimum epoch blocks:
+   ```bash
+   akash query bme params
+   ```
+   Note the `min_epoch_blocks` value (e.g., 10 blocks)
+
+3. Submit a mint-act request:
+   ```bash
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   ```
+
+4. Monitor vault-state changes to observe epoch processing:
+   ```bash
+   # Check immediately
+   akash query bme vault-state
+   
+   # Wait ~1 minute (10 blocks × 6 sec/block)
+   sleep 60
+   
+   # Check again - should show ACT minted
+   akash query bme vault-state
+   akash query bank balances <wallet>
+   ```
+
+**Expected Results:**
+- Epoch processes within ~1 minute (minimum interval)
+- ACT appears in balance after epoch completes
+- No unusual delays during healthy operation
+
+---
+
+### Test 7.2: Epoch Backoff During Warning
+
+**Objective:** Verify epoch interval increases when system enters warning state
+
+**Precondition:** Coordinate with Akash Core team to trigger warning state.
+
+**User Actions:**
+1. **[Coordinate with Akash Core team]** Adjust oracle price to trigger warning state (CR between 0.90 and 0.95)
+
+2. Verify warning state:
+   ```bash
+   akash query bme status
+   ```
+   Confirm: `status: mint_status_warning`
+
+3. Query current epoch timing from status:
+   ```bash
+   akash query bme status
+   ```
+   Note any epoch-related fields (e.g., `epoch_height_diff`)
+
+4. Submit a mint-act request (if still allowed):
+   ```bash
+   akash tx bme mint-act 25000000uakt --from <wallet> -y
+   ```
+
+5. Monitor how long epoch takes to process:
+   ```bash
+   # Check immediately
+   akash query bme vault-state
+   
+   # Wait longer than normal (~2-3 minutes or more)
+   sleep 120
+   
+   # Check for processing
+   akash query bme vault-state
+   akash query bank balances <wallet>
+   ```
+
+**Expected Results:**
+- Epoch takes **longer** than during healthy operation
+- `epoch_blocks_backoff` parameter influences the delay
+- Settlements slow down to reduce system stress
+- Operations still complete, just with longer intervals
+
+---
+
+### Test 7.3: Epoch Timing Recovery
+
+**Objective:** Verify epoch timing returns to normal when system recovers to healthy
+
+**Precondition:** System is currently in warning state with extended epoch timing.
+
+**User Actions:**
+1. Confirm system is in warning state:
+   ```bash
+   akash query bme status
+   ```
+
+2. **[Coordinate with Akash Core team]** Restore oracle price to healthy levels (CR > 0.95)
+
+3. Verify recovery to healthy state:
+   ```bash
+   akash query bme status
+   ```
+   Confirm: `status: mint_status_healthy`
+
+4. Submit a mint-act request:
+   ```bash
+   akash tx bme mint-act 25000000uakt --from <wallet> -y
+   ```
+
+5. Monitor epoch timing — should return to normal:
+   ```bash
+   # Check immediately
+   akash query bme vault-state
+   
+   # Wait ~1 minute (normal timing)
+   sleep 60
+   
+   # Should be processed
+   akash query bme vault-state
+   akash query bank balances <wallet>
+   ```
+
+**Expected Results:**
+- Status returns to `mint_status_healthy`
+- Epoch interval returns to minimum (`min_epoch_blocks`)
+- Processing time back to ~1 minute
+- No lingering effects from warning state

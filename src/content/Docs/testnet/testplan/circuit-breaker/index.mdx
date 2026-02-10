@@ -7,9 +7,9 @@ description: "Test circuit breaker and mint status transitions - Requires Core T
 weight: 7
 ---
 
-**⚠️ REQUIRES AKASH CORE TEAM MEMBER**
+**⚠️ NOTE: Circuit breaker states (Warning, HaltCR, HaltOracle) must be initiated by the Akash Core team prior to testing. Coordinate with the team before running tests 6.2-6.7.**
 
-Circuit breaker testing requires manipulation of the oracle price feed, which can only be done by an Akash core team member with access to the testnet price feeder infrastructure.
+---
 
 **Background - Circuit Breaker Mechanics:**
 
@@ -26,142 +26,14 @@ Where:
 
 When AKT price drops dramatically, the vault's USD value drops below the outstanding ACT liability, triggering the circuit breaker.
 
-**Current Testnet State Example:**
-```
-VaultAKT: 205 AKT
-OutstandingACT: 95 ACT (~$95 USD)
-Current Price: $0.46
-Current CR = (205 × $0.46) / 95 = $94.30 / $95 ≈ 0.99 (99%)
-```
+**Threshold Summary:**
 
-**Threshold Trigger Prices (based on current testnet state):**
-
-| Status | Threshold | Required Price | Price Drop |
-|--------|-----------|----------------|------------|
-| Healthy | > 0.95 | > $0.44 | - |
-| Warning | < 0.95 | < $0.44 | ~4% drop |
-| Halt | < 0.90 | < $0.42 | ~9% drop |
-| Severe Halt | < 0.50 | < $0.23 | ~50% drop |
-
-**Recommended test price: $0.20** → CR ≈ 0.43 (43%) - clearly in halt territory
-
----
-
-## Circuit Breaker Testing Phases
-
-**Phase 1: Stop Production Price Feeder**
-
-When the legitimate price feeder is stopped:
-```bash
-systemctl stop akash-price-feeder
-```
-
-Expected behavior:
-- Oracle stops receiving new prices
-- After staleness threshold, system enters `mint_status_halt_oracle`
-- This is **different** from `mint_status_halt_cr`
-
-Verification:
-```bash
-akash query bme status
-# Expected: status: mint_status_halt_oracle, mints_allowed: false
-```
-
-**Phase 2: Start Circuit Breaker Simulator (Recovery)**
-
-The simulator initially submits **real** prices to recover from oracle halt:
-
-Expected behavior:
-- Oracle receives fresh prices
-- Status transitions: `mint_status_halt_oracle` → `mint_status_healthy`
-- Mints become allowed again
-- System runs healthy for verification window (~3 minutes)
-
-Verification:
-```bash
-akash query bme status
-# Expected: status: mint_status_healthy, mints_allowed: true
-
-akash tx bme mint-act 1000000uakt --from test-account -y
-# Expected: SUCCESS
-```
-
-**Phase 3: Circuit Breaker Active (Price Manipulation)**
-
-The simulator submits manipulated low price (e.g., $0.20):
-
-| Aspect | Expected Behavior |
-|--------|-------------------|
-| BME Status | `mint_status_halt_cr` |
-| `mints_allowed` | `false` |
-| `refunds_allowed` | `true` |
-| New `mint-act` | **FAILS** - circuit breaker blocks AKT→ACT |
-| Existing `burn-act` | **WORKS** - providers can still convert ACT→AKT |
-| New deployments with existing ACT | **WORKS** - ACT already minted |
-| Existing deployments | **CONTINUE** running normally |
-| Provider settlements | **CONTINUE** - providers receive ACT |
-
-Verification during circuit breaker:
-```bash
-# Status shows halt
-akash query bme status
-# Expected: status: mint_status_halt_cr, mints_allowed: false, refunds_allowed: true
-
-# Minting FAILS
-akash tx bme mint-act 1000000uakt --from test-account -y
-# Expected: ERROR - circuit breaker active
-
-# Burning WORKS (if user has ACT)
-akash tx bme burn-act 100000uact --from test-account -y
-# Expected: SUCCESS
-
-# Deployment with existing ACT WORKS
-akash tx deployment create deploy.yml --deposit 1000000uact --from test-account -y
-# Expected: SUCCESS
-
-# Existing deployments continue
-akash query deployment list --owner <address>
-# Expected: state: active
-```
-
-**Phase 4: Recovery (Real Prices Restored)**
-
-The simulator returns to real prices (or is stopped and production feeder restarted):
-
-Expected behavior:
-- Collateralization Ratio recalculates to healthy level
-- Status transitions: `mint_status_halt_cr` → `mint_status_warning` → `mint_status_healthy`
-- Mints become allowed again
-- No lasting damage to vault state
-
-Verification:
-```bash
-akash query bme status
-# Expected: status: mint_status_healthy, mints_allowed: true
-
-akash tx bme mint-act 1000000uakt --from test-account -y
-# Expected: SUCCESS
-
-akash query bme vault-state
-# Expected: consistent values, no corruption
-```
-
----
-
-## Circuit Breaker Simulator Script
-
-The simulator script runs through these phases automatically:
-
-1. **Recovery Phase** (3 minutes): Submit real Pyth prices
-2. **Circuit Breaker Phase** (30 minutes): Submit manipulated prices ($0.20)
-3. **Recovery Phase** (5 minutes): Return to real prices, verify recovery
-4. **Shutdown**: Log completion
-
-**Safety features:**
-- Refuses to run on mainnet chain IDs
-- Auto-recovery after timeout (doesn't leave system in broken state)
-- Clear logging of current phase
-- Graceful shutdown handling
+| Status | Threshold | Behavior |
+|--------|-----------|----------|
+| Healthy | CR > 0.95 | All operations allowed |
+| Warning | 0.90 < CR < 0.95 | Operations allowed, epoch timing increases |
+| HaltCR | CR < 0.90 | New mints blocked, burns/refunds allowed |
+| HaltOracle | Oracle stale | All BME operations blocked |
 
 ---
 
@@ -178,9 +50,10 @@ The simulator script runs through these phases automatically:
 3. Perform normal operations (mint-act, create deployment)
 
 **Expected Results:**
-- MintStatus: `mint_status_healthy`
+- `status`: `mint_status_healthy`
+- `mints_allowed`: `true`
+- `refunds_allowed`: `true`
 - All operations proceed normally
-- `epoch_blocks` at minimum value
 
 ---
 
@@ -188,21 +61,29 @@ The simulator script runs through these phases automatically:
 
 **Objective:** Verify warning status when Collateralization Ratio approaches threshold
 
-**Precondition:** Akash core team member adjusts oracle price to trigger warning state
+**Precondition:** Coordinate with Akash Core team to adjust oracle price to trigger warning state.
 
 **User Actions:**
 1. Query current status:
    ```bash
    akash query bme status
    ```
-2. **[Akash Core Team] Adjust oracle price until Collateralization Ratio between warn and halt thresholds**
-3. Query mint status again
-4. Attempt to mint ACT and create new deployment
+2. **[Coordinate with Akash Core team]** Adjust oracle price until Collateralization Ratio between warn (0.95) and halt (0.90) thresholds
+3. Query mint status again:
+   ```bash
+   akash query bme status
+   ```
+4. Attempt to mint ACT and create new deployment:
+   ```bash
+   akash tx bme mint-act 10000000uakt --from <wallet> -y
+   ```
 
 **Expected Results:**
-- MintStatus: `mint_status_warning`
-- New mints and deployments still allowed
-- `epoch_blocks` increases (settlements slow down)
+- `status`: `mint_status_warning`
+- `mints_allowed`: `true` (still allowed)
+- `refunds_allowed`: `true`
+- New mints and deployments still work
+- Epoch timing may increase (settlements slow down)
 
 ---
 
@@ -210,24 +91,28 @@ The simulator script runs through these phases automatically:
 
 **Objective:** Verify new AKT→ACT conversions blocked when Collateralization Ratio below halt threshold
 
-**Precondition:** Akash core team member triggers circuit breaker
+**Precondition:** Coordinate with Akash Core team to trigger circuit breaker.
 
 **User Actions:**
-1. **[Akash Core Team] Adjust oracle price until Collateralization Ratio < halt threshold**
+1. **[Coordinate with Akash Core team]** Adjust oracle price until Collateralization Ratio < 0.90 (halt threshold)
 2. Query mint status:
    ```bash
    akash query bme status
    ```
+   Confirm: `status: mint_status_halt_cr` and `mints_allowed: false`
+
 3. Attempt to mint ACT:
    ```bash
-   akash tx bme mint-act 1000000uakt --from test-account -y
+   akash tx bme mint-act 10000000uakt --from <wallet> -y
    ```
 4. Observe failure
 
 **Expected Results:**
-- MintStatus: `mint_status_halt_cr`
-- Mint-act transaction fails
-- Error indicates circuit breaker active
+- `status`: `mint_status_halt_cr`
+- `mints_allowed`: `false`
+- `refunds_allowed`: `true`
+- Mint-act transaction **fails** with circuit breaker error
+- Burn-act still works (users can exit positions)
 
 ---
 
@@ -235,21 +120,25 @@ The simulator script runs through these phases automatically:
 
 **Objective:** Verify system halts when oracle unavailable (separate from Collateralization Ratio halt)
 
-**Precondition:** Akash core team member stops price feeder entirely
+**Precondition:** Coordinate with Akash Core team to stop price feeder entirely.
 
 **User Actions:**
-1. **[Akash Core Team] Stop oracle price feeder completely (no price updates)**
+1. **[Coordinate with Akash Core team]** Stop oracle price feeder completely (no price updates)
 2. Wait for oracle staleness threshold
 3. Query mint status:
    ```bash
    akash query bme status
    ```
-4. Attempt operations
+4. Attempt operations:
+   ```bash
+   akash tx bme mint-act 10000000uakt --from <wallet> -y
+   ```
 
 **Expected Results:**
-- MintStatus: `mint_status_halt_oracle`
+- `status`: `mint_status_halt_oracle`
+- `mints_allowed`: `false`
 - Operations fail with oracle error
-- Distinct from `mint_status_halt_cr`
+- Distinct from `mint_status_halt_cr` (different root cause)
 
 ---
 
@@ -257,19 +146,38 @@ The simulator script runs through these phases automatically:
 
 **Objective:** Verify running deployments unaffected by circuit breaker
 
+**Precondition:** Have an active deployment running before circuit breaker is triggered.
+
 **User Actions:**
-1. Create deployment while system is healthy
-2. Confirm deployment running and provider bidding
-3. **[Akash Core Team] Trigger circuit breaker (HaltCR)**
-4. Verify existing deployment continues running
-5. Verify provider still receives ACT settlement payments
-6. Monitor for multiple settlement epochs
+1. Create deployment while system is healthy (see Category 1 for full workflow):
+   ```bash
+   akash tx bme mint-act 100000000uakt --from <wallet> -y
+   sleep 60
+   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
+   # Complete lease creation and send manifest...
+   ```
+
+2. Confirm deployment running:
+   ```bash
+   akash query market lease list --owner <user-address>
+   ```
+
+3. **[Coordinate with Akash Core team]** Trigger circuit breaker (HaltCR)
+
+4. Verify existing deployment continues running:
+   ```bash
+   akash query market lease list --owner <user-address>
+   akash query deployment get --owner <user-address> --dseq <dseq>
+   ```
+
+5. Monitor for multiple settlement epochs — provider should continue receiving ACT
 
 **Expected Results:**
-- Existing deployments unaffected
+- Existing deployments **unaffected**
+- Lease remains active
 - Providers continue receiving ACT payments
 - Only new ACT minting (AKT→ACT) is blocked
-- Existing ACT can still be used for deployments
+- Existing ACT can still be used for new deployments
 - Provider burn-act still works
 
 ---
@@ -280,35 +188,62 @@ The simulator script runs through these phases automatically:
 
 **User Actions:**
 1. Start with circuit breaker in HaltCR state
-2. Confirm new mint-act fails
-3. **[Akash Core Team] Restore legitimate price feeder**
+2. Confirm new mint-act fails:
+   ```bash
+   akash query bme status
+   akash tx bme mint-act 10000000uakt --from <wallet> -y
+   # Expected: FAIL
+   ```
+
+3. **[Coordinate with Akash Core team]** Restore legitimate price feeder / adjust price upward
+
 4. Wait for price to update and Collateralization Ratio to recover
-5. Query mint status
-6. Attempt to mint ACT
+
+5. Query mint status:
+   ```bash
+   akash query bme status
+   ```
+
+6. Attempt to mint ACT:
+   ```bash
+   akash tx bme mint-act 10000000uakt --from <wallet> -y
+   ```
 
 **Expected Results:**
-- MintStatus transitions: `mint_status_halt_cr` → `mint_status_warning` or `mint_status_healthy`
-- New mints allowed again
+- Status transitions: `mint_status_halt_cr` → `mint_status_warning` → `mint_status_healthy`
+- `mints_allowed` becomes `true` again
+- New mints succeed
 - No manual intervention required beyond restoring price feed
+- Vault state remains consistent (no corruption)
 
 ---
 
 ### Test 6.7: Mint Status State Transitions
 
-**Objective:** Verify all valid state transitions
+**Objective:** Verify all valid state transitions occur correctly
 
 **Test Matrix:**
 
 | From | To | Trigger |
 |------|-----|---------|
-| Healthy | Warning | Collateralization Ratio drops below warn threshold |
-| Warning | Healthy | Collateralization Ratio rises above warn threshold |
-| Warning | HaltCR | Collateralization Ratio drops below halt threshold |
-| HaltCR | Warning | Collateralization Ratio rises above halt threshold |
+| Healthy | Warning | CR drops below 0.95 |
+| Warning | Healthy | CR rises above 0.95 |
+| Warning | HaltCR | CR drops below 0.90 |
+| HaltCR | Warning | CR rises above 0.90 |
 | Any | HaltOracle | Oracle becomes unavailable/stale |
 | HaltOracle | Previous | Oracle recovers |
 
 **User Actions:**
-- Coordinate with Akash core team to walk through each transition
-- Query status after each change
-- Verify state transitions are logged/emitted
+1. Coordinate with Akash Core team to walk through each transition
+2. Query status after each change:
+   ```bash
+   akash query bme status
+   ```
+3. Verify state transitions match expected behavior
+4. Confirm operations allowed/blocked appropriately at each state
+
+**Expected Results:**
+- All transitions occur as documented
+- No invalid state combinations
+- System recovers cleanly from each halt state
+- Vault state remains consistent throughout
