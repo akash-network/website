@@ -1,12 +1,61 @@
 ---
 import JoinUs from "@/components/community-pages/join-us.astro";
 import Socials from "@/components/community-pages/socials.astro";
+import CommunityHero from "@/components/mdx-cards/community-hero.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
+import TabsComp from "@/components/welcome-pages/tabs-comp";
 import Layout from "@/layouts/layout.astro";
-const title = "Help shape the Future of Akash";
+import { Icon } from "@radix-ui/react-select";
+import { GraduationCap, Check, Hand } from "lucide-react";
+
+
+const title = "Building the People’s Supercloud";
 const description =
-  " A global community collaborating and contributing to the development of the Akash Network.";
+  "A global community collaboratively managing the future of decentralized cloud computing from code to culture. Whether you are here to learn, deploy, or govern, you belong here.";
+
+const communityCards = [
+  {
+    title: "Connect",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 9H20C20.5304 9 21.0391 9.21071 21.4142 9.58579C21.7893 9.96086 22 10.4696 22 11V22L18 18H12C11.4696 18 10.9609 17.7893 10.5858 17.4142C10.2107 17.0391 10 16.5304 10 16V15M14 9C14 9.53043 13.7893 10.0391 13.4142 10.4142C13.0391 10.7893 12.5304 11 12 11H6L2 15V4C2 2.9 2.9 2 4 2H12C12.5304 2 13.0391 2.21071 13.4142 2.58579C13.7893 2.96086 14 3.46957 14 4V9Z" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          `,
+    description:
+      "Join a global network of peers to shape decentralized infrastructure.",
+  },
+  {
+    title: "Contribute",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.99995 12.0001L10.9999 14.0001L14.9999 10.0001M3.84995 8.6201C3.70399 7.96262 3.7264 7.27894 3.91511 6.63244C4.10381 5.98593 4.4527 5.39754 4.92942 4.92182C5.40614 4.4461 5.99526 4.09844 6.64216 3.91109C7.28905 3.72374 7.97278 3.70276 8.62995 3.8501C8.99166 3.2844 9.48995 2.81886 10.0789 2.49638C10.6678 2.17391 11.3285 2.00488 11.9999 2.00488C12.6714 2.00488 13.332 2.17391 13.921 2.49638C14.5099 2.81886 15.0082 3.2844 15.3699 3.8501C16.0281 3.70212 16.713 3.72301 17.3609 3.91081C18.0089 4.09862 18.5988 4.44724 19.0758 4.92425C19.5528 5.40126 19.9014 5.99117 20.0892 6.6391C20.277 7.28703 20.2979 7.97193 20.1499 8.6301C20.7156 8.99181 21.1812 9.4901 21.5037 10.079C21.8261 10.668 21.9952 11.3286 21.9952 12.0001C21.9952 12.6715 21.8261 13.3322 21.5037 13.9211C21.1812 14.5101 20.7156 15.0084 20.1499 15.3701C20.2973 16.0273 20.2763 16.711 20.089 17.3579C19.9016 18.0048 19.554 18.5939 19.0782 19.0706C18.6025 19.5473 18.0141 19.8962 17.3676 20.0849C16.7211 20.2736 16.0374 20.2961 15.3799 20.1501C15.0187 20.718 14.52 21.1855 13.9301 21.5094C13.3401 21.8333 12.678 22.0032 12.0049 22.0032C11.3319 22.0032 10.6698 21.8333 10.0798 21.5094C9.48987 21.1855 8.99119 20.718 8.62995 20.1501C7.97278 20.2974 7.28905 20.2765 6.64216 20.0891C5.99526 19.9018 5.40614 19.5541 4.92942 19.0784C4.4527 18.6027 4.10381 18.0143 3.91511 17.3678C3.7264 16.7213 3.70399 16.0376 3.84995 15.3801C3.27991 15.0193 2.81036 14.5203 2.485 13.9293C2.15963 13.3384 1.98901 12.6747 1.98901 12.0001C1.98901 11.3255 2.15963 10.6618 2.485 10.0709C2.81036 9.47992 3.27991 8.98085 3.84995 8.6201Z" stroke="#09090B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          `,
+    description:
+      "Your unique skills move the needle for code, content, and support.",
+  },
+  {
+    title: "Attend",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 2V6M16 2V6M3 10H21M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4Z" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          `,
+    description:
+      "Join virtual sessions or global events to stay at the cutting edge.",
+  },
+  {
+    title: "Impact",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.1488 9.47163V3.61153C14.1488 2.72151 13.4273 2 12.5373 2C11.6473 2 10.9258 2.72151 10.9258 3.61153V8.44611" stroke="#09090B" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16.346 12.841L18.5217 5.58862C18.7755 4.74265 18.2886 3.85248 17.4394 3.60984C16.5943 3.3684 15.7142 3.8609 15.4779 4.70743L14.1484 9.47149" stroke="#09090B" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M7.61935 9.24985L8.67489 11.5913C9.03961 12.4003 8.68159 13.352 7.87404 13.72C7.06183 14.0901 6.10347 13.7296 5.73663 12.9159L4.68109 10.5745C4.31637 9.76542 4.67439 8.81376 5.48193 8.44574C6.29415 8.07559 7.25251 8.43614 7.61935 9.24985Z" stroke="#09090B" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M11.7192 12.2615C11.9239 11.694 11.8998 11.0692 11.6518 10.5192L10.5787 8.13874C10.2181 7.33892 9.27613 6.98454 8.4778 7.34836C7.66469 7.71892 7.31885 8.68832 7.71382 9.48986L7.84946 9.76511" stroke="#09090B" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M13.8566 17.6767L14.3487 16.6927C14.3976 16.5947 14.3461 16.4763 14.241 16.4454L10.6903 15.4011C9.97853 15.1918 9.51797 14.5038 9.59563 13.766C9.68372 12.9292 10.4284 12.3188 11.2662 12.3968L16.0542 12.8422C16.0542 12.8422 19.8632 13.4282 18.5447 17.2372C17.2262 21.0463 16.7867 22.3648 13.8566 22.3648C11.9521 22.3648 9.16855 22.3648 9.16855 22.3648H8.87555C6.52912 22.3648 4.62697 20.4627 4.62697 18.1163L4.48047 9.91211" stroke="#09090B" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          `,
+    description:
+      "Help us build a permissionless alternative to cloud giants.",
+  },
+];
 ---
 
 <Layout
@@ -14,47 +63,50 @@ const description =
   description={description}
   image="/meta-images/community.png"
 >
-  <TopMargin isNotContainer>
-    <div
-      class={`not-prose mb-[66px]  lg:px-0 flex flex-col items-center justify-between gap-x-10 gap-y-6 text-center md:mb-[96px] `}
-    >
-      <div class="flex w-full flex-1 flex-col">
-        <div class="flex flex-col items-center justify-center px-6">
-          <h1
-            class="text-3xl !font-semibold md:text-4xl md:leading-snug lg:text-5xl"
-          >
-            Akash Network Community:<br /> Help shape the Future <br
-              class="md:hidden"
-            /> of Akash
-          </h1>
-
-          <p class="mx-auto max-w-3xl pt-6 !leading-relaxed lg:text-lg">
-            A global community collaborating and contributing to the development
-            of the Akash Network.
-          </p>
-          <div class="mt-6 flex justify-center gap-4">
-            <ButtonLink link={"#join-us"} variant="secondary" size="lg">
-              Get Involved
-            </ButtonLink>
-            <ButtonLink link={"#socials"} variant="secondary" size="lg">
-              Akash Socials
-            </ButtonLink>
-          </div>
-        </div>
-        <div class="mt-12">
-          <div class="flex justify-center border border-black bg-[#f6f5f3]">
-            <img
-              src="/images/akash-community-head.png"
-              class="aspect-[16/10] w-full max-w-[1700px] object-cover md:aspect-[16/5] md:object-contain lg:aspect-auto"
-            />
-          </div>
-          <div class="w-full border-x border-b border-black bg-[#DDDADA] pt-3">
-          </div>
-        </div>
+  <!-- Hero Section -->
+  <section class="mx-auto max-w-[1240px] space-y-14 pt-[100px] pb-14">
+    <div class="flex w-full flex-col items-center justify-center gap-[20px]">
+      <h1
+        class="text-3xl !font-semibold md:text-4xl md:leading-snug lg:text-[56px]"
+      >
+        {title}
+      </h1>
+      <p class="leading-relaxed text-center max-w-4xl">{description}</p>
+    </div>
+    <!-- communityCards -->
+    <div class="space-y-5">
+      <h5 class="text-lg text-center">Join the Movement</h5>
+      <div class="w-full grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {
+          communityCards.map((card) => (
+            <div class="space-y-4 rounded-lg border bg-white p-6 ">
+              <div class="flex items-center gap-2">
+                <div set:html={card.icon} />
+                <h3 class="text-base font-semibold text-gray-900">
+                  {card.title}
+                </h3>
+              </div>
+              <p class="text-sm leading-relaxed text-gray-600">
+                {card.description}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
+  </section>
+  <!-- Tabs section -->
+  <TabsComp client:load/>
+  <!-- About text -->
+  <section class="w-full flex flex-col items-center justify-center space-y-[60px] py-[120px] pb-14 bg-[#fafafa]">
+    <h1 class="max-w-[1080px] text-5xl font-instrument text-center">
+      “Bull market, bear market, it doesn't matter. 495 open-source contributors averaging 67 commits per week build Akash regardless of market conditions. Akash is the People's Supercloud and I'm credibly proud of the $AKT community.”
+    </h1>
+    <div class="flex flex-col items-center gap-2">
+      <p class="font-semibold text-black/70 text-lg">Greg Osuri</p>
+      <p class="text-[#71717a] text-center">Founder of Akash<br/>
+Overclock Labs CEO</p>
+    </div>
+  </section>
 
-    <JoinUs />
-    <Socials />
-  </TopMargin>
 </Layout>
