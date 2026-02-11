@@ -74,20 +74,32 @@ These tests verify complete user journeys that combine multiple BME operations. 
 - Final AKT balance = Initial - compute_used (at current prices)
 - Clean end state with no orphaned resources
 
+**Proof to Submit:**
+- Initial and final wallet balances
+- Initial and final vault-state
+- Deployment create and close tx hashes
+- Lease list showing deployment was active
+
 ---
 
 ### Test 10.2: Full Lifecycle with Price Volatility
 
 **Objective:** End-to-end test with price movements affecting settlements
 
-**Precondition:** Coordinate with Akash Core team for price adjustments during test.
+**How to Encounter This Scenario:**
+This test validates BME behavior across natural price fluctuations. Simply:
+1. Create a deployment and note the starting price
+2. Let it run for an extended period (hours to days)
+3. Close when price has moved in either direction
+4. Document what happened — the specific scenario depends on price movement
 
 **User Actions:**
-1. Record initial oracle price:
+1. Record initial oracle price and timestamp:
    ```bash
    akash query oracle prices | head -n 15
+   date -u +"%Y-%m-%dT%H:%M:%S"
    ```
-   Example: P_start = $0.40
+   **Write down P_start.**
 
 2. Create deployment:
    ```bash
@@ -102,21 +114,20 @@ These tests verify complete user journeys that combine multiple BME operations. 
    akash query bme vault-state
    ```
 
-4. Let deployment run, then **[Coordinate with Akash Core team]** price rises:
-   Example: P_high = $0.60
+4. Let deployment run for extended period — monitor price periodically:
+   ```bash
+   akash query oracle prices | head -n 15
+   ```
+   
+5. Observe settlements occurring (vault-state changes over time)
 
-5. Let settlements occur at high price (observe remint credits)
-
-6. **[Coordinate with Akash Core team]** price drops:
-   Example: P_low = $0.30
-
-7. Close deployment (refund at low price):
+6. After significant time and price movement, close deployment:
    ```bash
    akash tx deployment close --dseq <dseq> --from <wallet> -y
    sleep 60
    ```
 
-8. Reconcile all accounting:
+7. Reconcile all accounting:
    ```bash
    akash query bank balances <wallet>
    akash query bme vault-state
@@ -124,11 +135,30 @@ These tests verify complete user journeys that combine multiple BME operations. 
    ```
 
 **Expected Results:**
-- Settlements during high price: fewer AKT paid out, remint credits surplus builds
-- Refund during low price: may require new minting if surplus insufficient
-- If TotalMinted increased → inflationary event occurred
-- User's final AKT reflects USD exposure, not AKT exposure
+Document what you observe based on actual price movement:
+
+**If price increased during deployment:**
+- Settlements used fewer AKT (higher price = less AKT per ACT)
+- Remint credits may have surplus
+- Refund returns fewer AKT (but same USD value)
+- TotalMinted likely unchanged (deflationary scenario)
+
+**If price decreased during deployment:**
+- Settlements required more AKT
+- Remint credits may be depleted
+- Refund returns more AKT (but same USD value)
+- TotalMinted may have increased (inflationary scenario)
+
+**Key Insight:**
+- User's final AKT reflects **USD exposure**, not AKT exposure
+- The BME mechanism absorbed the price volatility
 - System handled price volatility gracefully
+
+**Proof to Submit:**
+- P_start and P_end oracle prices
+- Initial and final vault-state
+- Initial and final wallet balances
+- Summary of observed behavior (price up or down scenario)
 
 ---
 
@@ -136,7 +166,7 @@ These tests verify complete user journeys that combine multiple BME operations. 
 
 **Objective:** Verify system stability during stress conditions
 
-**Precondition:** Coordinate with Akash Core team for controlled circuit breaker testing.
+**Precondition:** Run during the announced 24-hour circuit breaker testing window — see Category 6 for details.
 
 **User Actions:**
 1. Create multiple active deployments (2-3):
@@ -154,7 +184,7 @@ These tests verify complete user journeys that combine multiple BME operations. 
    akash query market lease list --owner <wallet>
    ```
 
-3. **[Coordinate with Akash Core team]** Gradually drop price toward halt threshold
+3. Wait for price to drop toward halt threshold during the testing window
 
 4. Monitor status transitions:
    ```bash
@@ -179,7 +209,7 @@ These tests verify complete user journeys that combine multiple BME operations. 
      # Expected: SUCCESS
      ```
 
-6. **[Coordinate with Akash Core team]** Recover price above thresholds
+6. Wait for price to recover above thresholds
 
 7. Verify system resumes:
    ```bash
@@ -203,6 +233,13 @@ These tests verify complete user journeys that combine multiple BME operations. 
 - No data loss or corruption
 - Clean recovery when Collateralization Ratio improves
 - All deployments can be closed normally
+
+**Proof to Submit:**
+- BME status at each state (Healthy → Warning → HaltCR → Recovery)
+- Lease list showing deployments continued during halt
+- Failed mint-act error during halt
+- Successful mint-act after recovery
+- All deployment close tx hashes
 
 ---
 
@@ -261,3 +298,9 @@ These tests verify complete user journeys that combine multiple BME operations. 
 - RemintCredits properly shared/consumed
 - No deadlocks or race conditions
 - System scales with concurrent users
+
+**Proof to Submit:**
+- List of test wallet addresses
+- Final balances for each wallet
+- Final vault-state
+- Summary confirming no cross-user issues

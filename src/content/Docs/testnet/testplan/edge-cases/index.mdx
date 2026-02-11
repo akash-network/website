@@ -34,6 +34,10 @@ These tests verify BME behavior at boundary conditions and edge cases.
 - No state changes
 - No vault-state modifications
 
+**Proof to Submit:**
+- Error message from zero mint-act attempt
+- Error message from zero burn-act attempt
+
 ---
 
 ### Test 9.2: Dust Amount Operations
@@ -63,6 +67,10 @@ These tests verify BME behavior at boundary conditions and edge cases.
   - Operations fail with minimum amount error (system enforces minimums)
 - If successful, vault-state reflects the tiny changes
 - No precision loss or rounding errors that corrupt state
+
+**Proof to Submit:**
+- Result of 1 uakt mint attempt (success or error message)
+- If successful, post-epoch balance showing dust ACT amount
 
 ---
 
@@ -99,6 +107,10 @@ These tests verify BME behavior at boundary conditions and edge cases.
 - Vault-state handles large numbers correctly
 - ACT amount calculated correctly at oracle price
 - No precision loss with large values
+
+**Proof to Submit:**
+- Pre/post balances showing large amount processed
+- Vault-state showing correct handling of large values
 
 ---
 
@@ -139,6 +151,11 @@ These tests verify BME behavior at boundary conditions and edge cases.
 - Final balances reflect all operations
 - No race conditions or state corruption
 - Vault-state is consistent
+
+**Proof to Submit:**
+- All tx hashes from rapid operations
+- Final balance showing all operations processed
+- Vault-state showing consistent totals
 
 ---
 
@@ -189,3 +206,8 @@ These tests verify BME behavior at boundary conditions and edge cases.
 **Test Outcome:**
 - If deployment is **rejected**: ✅ PASS (validation working)
 - If deployment is **accepted**: ❌ FAIL (known gap, document behavior)
+
+**Proof to Submit:**
+- SDL file showing uakt pricing
+- Result of deployment create attempt (rejection error or deployment created)
+- If accepted, note this as validation gap

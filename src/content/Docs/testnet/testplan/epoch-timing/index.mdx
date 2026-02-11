@@ -7,6 +7,8 @@ description: "Test dynamic epoch timing adjustments based on system state"
 weight: 8
 ---
 
+**⚠️ NOTE: Tests 7.2 and 7.3 require the system to be in warning state, which is part of the circuit breaker testing window. Run these tests during the announced 24-hour circuit breaker testing window — see Category 6 for details.**
+
 **Background - Dynamic Epoch Timing:**
 
 The BME module adjusts epoch timing based on the mint status:
@@ -65,16 +67,21 @@ Look for: `min_epoch_blocks`, `epoch_blocks_backoff`
 - ACT appears in balance after epoch completes
 - No unusual delays during healthy operation
 
+**Proof to Submit:**
+- BME status showing `mint_status_healthy`
+- BME params showing `min_epoch_blocks`
+- Pre/post vault-state showing epoch processed within expected time
+
 ---
 
 ### Test 7.2: Epoch Backoff During Warning
 
 **Objective:** Verify epoch interval increases when system enters warning state
 
-**Precondition:** Coordinate with Akash Core team to trigger warning state.
+**Precondition:** Run during the announced circuit breaker testing window when system is in warning state.
 
 **User Actions:**
-1. **[Coordinate with Akash Core team]** Adjust oracle price to trigger warning state (CR between 0.90 and 0.95)
+1. Wait for oracle price adjustment to trigger warning state (CR between 0.90 and 0.95)
 
 2. Verify warning state:
    ```bash
@@ -112,6 +119,10 @@ Look for: `min_epoch_blocks`, `epoch_blocks_backoff`
 - Settlements slow down to reduce system stress
 - Operations still complete, just with longer intervals
 
+**Proof to Submit:**
+- BME status showing `mint_status_warning`
+- Timestamps showing epoch processing took longer than normal (~2+ minutes vs ~1 minute)
+
 ---
 
 ### Test 7.3: Epoch Timing Recovery
@@ -126,7 +137,7 @@ Look for: `min_epoch_blocks`, `epoch_blocks_backoff`
    akash query bme status
    ```
 
-2. **[Coordinate with Akash Core team]** Restore oracle price to healthy levels (CR > 0.95)
+2. Wait for oracle price to be restored to healthy levels (CR > 0.95)
 
 3. Verify recovery to healthy state:
    ```bash
@@ -157,3 +168,7 @@ Look for: `min_epoch_blocks`, `epoch_blocks_backoff`
 - Epoch interval returns to minimum (`min_epoch_blocks`)
 - Processing time back to ~1 minute
 - No lingering effects from warning state
+
+**Proof to Submit:**
+- BME status showing recovery to `mint_status_healthy`
+- Timestamps showing epoch processing returned to normal (~1 minute)
