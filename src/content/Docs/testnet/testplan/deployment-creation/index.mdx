@@ -216,6 +216,15 @@ BME conversion (AKT → ACT) happens at **mint time** (Step 1.1.1), not at deplo
 akash tx deployment close --dseq <dseq> --from <wallet> -y
 ```
 
+**Proof to Submit:**
+- Pre-deployment ACT balance
+- Deployment create tx hash and DSEQ (from tx output)
+- Lease status showing service ready:
+  ```bash
+  provider-services lease-status --dseq <dseq> --provider <provider> --from <wallet>
+  ```
+- Post-deployment ACT balance (confirming escrow deducted)
+
 ---
 
 ### Test 1.2: Create Deployment - Insufficient Funds
@@ -244,6 +253,10 @@ akash tx deployment close --dseq <dseq> --from <wallet> -y
 - No ACT leaves wallet
 - BME vault state unchanged
 - No deployment created
+
+**Proof to Submit:**
+- Current ACT balance (showing amount is less than attempted deposit)
+- Error message from deployment attempt: `deposit invalid: insufficient balance`
 
 ---
 
@@ -284,6 +297,17 @@ akash tx deployment close --dseq <dseq> --from <wallet> -y
 ```bash
 akash tx deployment close --dseq <dseq> --from <wallet> -y
 ```
+
+**Proof to Submit:**
+- Deployment create tx hash with minimum deposit amount (e.g., 1000000uact)
+- Deployment state showing active:
+  ```bash
+  akash query deployment get --owner <user-address> --dseq <dseq> | head -n 10
+  ```
+- Bid received (showing provider address and price):
+  ```bash
+  akash query market bid list --owner <user-address> --dseq <dseq> | head -n 20
+  ```
 
 ---
 
@@ -389,3 +413,12 @@ akash tx deployment close --dseq <dseq-a> --from <wallet> -y
 akash tx deployment close --dseq <dseq-b> --from <wallet> -y
 akash tx deployment close --dseq <dseq-c> --from <wallet> -y
 ```
+
+**Proof to Submit:**
+- Pre-test ACT balance
+- Both deployments showing active (query each individually):
+  ```bash
+  akash query deployment get --owner <user-address> --dseq <dseq-a> | head -n 10
+  akash query deployment get --owner <user-address> --dseq <dseq-b> | head -n 10
+  ```
+- Post-test ACT balance (confirming multiple escrow deposits deducted)
