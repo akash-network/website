@@ -65,6 +65,11 @@ akash query bme vault-state
   - `vault-state.remint_credits` ↑ by 250 AKT
   - `vault-state.total_minted.uact` ↑
 
+**Proof to Submit:**
+- Pre-mint AKT/ACT balances
+- mint-act tx hash
+- Post-epoch ACT balance (showing ACT received)
+
 ---
 
 ### Test 5.2: MsgMintACT - Convert to Different Recipient
@@ -99,6 +104,11 @@ akash query bme vault-state
 - BME state updated correctly
 
 **Note:** If `--to` flag not available, ACT goes to sender's address only.
+
+**Proof to Submit:**
+- Wallet A and B addresses
+- mint-act tx hash
+- Post-epoch balances for both wallets
 
 ---
 
@@ -136,6 +146,11 @@ akash query bme vault-state
 - OutstandingACT decreased by 100 ACT
 - RemintCredits decreased (if sufficient) OR total_minted.uakt increased (if shortfall)
 
+**Proof to Submit:**
+- Pre-burn ACT/AKT balances
+- burn-act tx hash
+- Post-epoch AKT balance (showing AKT received)
+
 ---
 
 ### Test 5.4: MsgBurnACT - Convert to Different Recipient
@@ -164,6 +179,11 @@ akash query bme vault-state
 - Wallet B: AKT balance = (50 / P_current) AKT
 - BME state updated correctly
 
+**Proof to Submit:**
+- Wallet A and B addresses
+- burn-act tx hash
+- Post-epoch balances for both wallets
+
 ---
 
 ### Test 5.5: MsgBurnMint - Generic Swap AKT to ACT
@@ -191,6 +211,11 @@ akash query bme vault-state
 - ACT minted = 200 AKT × oracle_price
 - Vault state updated correctly
 
+**Proof to Submit:**
+- Pre/post balances
+- burn-mint tx hash
+- Confirmation behavior matches mint-act
+
 ---
 
 ### Test 5.6: MsgBurnMint - Generic Swap ACT to AKT
@@ -217,6 +242,11 @@ akash query bme vault-state
 - Functionally identical to MsgBurnACT
 - AKT received = 100 ACT / oracle_price
 - Vault state updated correctly
+
+**Proof to Submit:**
+- Pre/post balances
+- burn-mint tx hash
+- Confirmation behavior matches burn-act
 
 ---
 
@@ -248,6 +278,11 @@ akash query bme vault-state
 
 **Note:** This test validates a new user workflow enabled by direct messages.
 
+**Proof to Submit:**
+- Post-mint ACT balance
+- Deployment create tx hash
+- Confirmation ACT balance decreased by deposit amount
+
 ---
 
 ### Test 5.8: Partial ACT Withdrawal Without Closing Deployment
@@ -276,6 +311,11 @@ akash query bme vault-state
 - Remaining ACT still available for deployment
 - Partial withdrawal successful
 
+**Proof to Submit:**
+- Lease list showing deployment still active
+- burn-act tx hash
+- Post-burn AKT balance (showing AKT received)
+
 ---
 
 ### Test 5.9: Input Validation - Invalid Owner Address
@@ -294,6 +334,9 @@ akash query bme vault-state
 - No state changes
 - Transaction rejected at validation
 
+**Proof to Submit:**
+- Error message received
+
 ---
 
 ### Test 5.10: Input Validation - Invalid To Address
@@ -310,6 +353,9 @@ akash query bme vault-state
 **Expected Results:**
 - Error: `ErrInvalidAddress: invalid to address` (or similar)
 - No state changes
+
+**Proof to Submit:**
+- Error message received
 
 ---
 
@@ -329,6 +375,9 @@ akash query bme vault-state
 - Error: `ErrInvalidCoins: invalid coins` (or similar)
 - No state changes
 
+**Proof to Submit:**
+- Error message(s) received for each invalid input
+
 ---
 
 ### Test 5.12: Input Validation - Invalid Swap Route
@@ -346,73 +395,12 @@ akash query bme vault-state
 - Error: `ErrInvalidDenom: invalid swap route` (or similar)
 - Only AKT↔ACT swaps allowed
 
----
-
-### Test 5.13: MsgMintACT During Circuit Breaker Halt
-
-**Objective:** Verify direct AKT→ACT blocked during circuit breaker
-
-**Precondition:** Circuit breaker states must be initiated by Akash Core team. Coordinate with the team before running this test.
-
-**User Actions:**
-1. Verify circuit breaker is active:
-   ```bash
-   akash query bme status
-   ```
-   Confirm: `status: mint_status_halt_cr` and `mints_allowed: false`
-
-2. Attempt MsgMintACT:
-   ```bash
-   akash tx bme mint-act 100000000uakt --from <wallet> -y
-   ```
-3. Observe failure
-
-**Expected Results:**
-- Error: `ErrCircuitBreakerActive` (or similar)
-- AKT→ACT blocked (same as deployment flow)
-- User's AKT unchanged
+**Proof to Submit:**
+- Error message received
 
 ---
 
-### Test 5.14: MsgBurnACT During Circuit Breaker Halt
-
-**Objective:** Verify ACT→AKT still works during circuit breaker (settlements must continue)
-
-**Precondition:** Circuit breaker states must be initiated by Akash Core team. Coordinate with the team before running this test.
-
-**User Actions:**
-1. Ensure user has ACT balance (from prior testing)
-2. Verify circuit breaker is active:
-   ```bash
-   akash query bme status
-   ```
-   Confirm: `status: mint_status_halt_cr` and `mints_allowed: false` but `refunds_allowed: true`
-
-3. Attempt MsgBurnACT:
-   ```bash
-   akash tx bme burn-act 50000000uact --from <wallet> -y
-   ```
-4. Wait for epoch:
-   ```bash
-   sleep 60
-   ```
-5. Observe result:
-   ```bash
-   akash query bank balances <user-address>
-   ```
-
-**Expected Results:**
-- MsgBurnACT **should succeed** (ACT→AKT must continue for settlements)
-- User receives AKT
-- Only new ACT minting is blocked, not ACT burning
-
-**Critical Verification:**
-- This confirms asymmetric circuit breaker behavior
-- Providers/users can still exit ACT positions during halt
-
----
-
-### Test 5.15: LedgerRecordID Verification
+### Test 5.13: LedgerRecordID Verification
 
 **Objective:** Verify operations are tracked and can be verified through vault-state
 
@@ -443,9 +431,14 @@ akash query bme vault-state
 
 **Note:** Direct ledger record queries are not available via CLI. Verify operation through vault-state changes and bank balance updates.
 
+**Proof to Submit:**
+- Pre/post vault-state showing changes
+- mint-act tx hash
+- Post-epoch bank balance
+
 ---
 
-### Test 5.16: Consecutive Direct Operations
+### Test 5.14: Consecutive Direct Operations
 
 **Objective:** Verify multiple direct operations work correctly in sequence
 
@@ -486,3 +479,8 @@ akash query bme vault-state
   - AKT decreased by net minted amount (200 + 100 + 50 - burn_return)
   - ACT balance reflects net: minted ACT - 50 ACT burned
   - Vault state reflects cumulative operations
+
+**Proof to Submit:**
+- Balance after each operation (4 snapshots)
+- Final vault-state
+- All tx hashes

@@ -3,7 +3,7 @@ categories: ["Testnet"]
 tags: ["Testnet", "BME", "Testing", "Provider"]
 title: "Provider Settlement"
 linkTitle: "Provider Settlement"
-description: "Verify providers receive AKT through BME settlement process"
+description: "Test provider ACT receipt from settlement and ACT → AKT conversion via burn"
 weight: 4
 ---
 
@@ -87,13 +87,22 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
 - `vault-state.remint_credits` decreased
 - `vault-state.total_minted.uakt` **unchanged** (non-inflationary — AKT came from remint credits)
 
+**Proof to Submit:**
+- Provider ACT balance before and after settlement (showing ACT received)
+- Deployment close tx hash
+
 ---
 
 ### Test 3.2: Provider Payment When AKT Price Rose
 
 **Objective:** Verify provider receives fewer AKT when price increased (same USD value)
 
-**Precondition:** This test requires oracle price manipulation. Coordinate with Akash Core team to adjust the oracle price, or wait for natural market price movement.
+**How to Encounter This Scenario:**
+The oracle uses real Pyth price feeds. To test this:
+1. Create a deployment and note the oracle price
+2. Let deployment run and accrue provider earnings
+3. Monitor price — when it has **increased**, close the deployment
+4. Provider burns received ACT and receives fewer AKT (same USD value)
 
 **User Actions:**
 1. Record provider's initial AKT balance:
@@ -101,11 +110,12 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    akash query bank balances <provider-address>
    ```
 
-2. Record oracle price (P_start):
+2. Record oracle price at deployment creation (P_start):
    ```bash
    akash query oracle prices | head -n 15
+   date -u +"%Y-%m-%dT%H:%M:%S"
    ```
-   Example: P_start = $0.30
+   **Write down the price.**
 
 3. Create deployment and let it run (see Category 1 for full workflow):
    ```bash
@@ -115,28 +125,27 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    # Complete lease creation and send manifest...
    ```
 
-4. Let deployment run for known compute cost
+4. Let deployment run for compute cost to accrue
 
-5. **[Coordinate with Akash Core team]** Wait for or trigger oracle price increase
-   Example: P_final = $0.50 (price increased)
-
-6. Verify price increased:
+5. **Wait for price to increase** — check periodically:
    ```bash
    akash query oracle prices | head -n 15
    ```
+   Continue when current price > P_start
+   Example: P_final = $0.50 (price increased)
 
-7. Close deployment:
+6. Close deployment:
    ```bash
    akash tx deployment close --dseq <seq> --from <wallet> -y
    ```
 
-8. Provider burns received ACT:
+7. Provider burns received ACT:
    ```bash
    akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    sleep 60
    ```
 
-9. Record final provider balance:
+8. Record final provider balance:
    ```bash
    akash query bank balances <provider-address>
    ```
@@ -148,13 +157,23 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
 - `remint_credits` decreased
 - `total_minted.uakt` unchanged (non-inflationary)
 
+**Proof to Submit:**
+- P_start and P_final oracle prices (showing increase)
+- Provider ACT balance after settlement
+- Provider AKT balance before and after burn (showing fewer AKT received)
+
 ---
 
 ### Test 3.3: Provider Payment When AKT Price Dropped (Inflationary)
 
 **Objective:** Verify settlement mints new AKT when remint credits insufficient due to price drop
 
-**Precondition:** This test requires oracle price manipulation. Coordinate with Akash Core team to adjust the oracle price.
+**How to Encounter This Scenario:**
+The oracle uses real Pyth price feeds. To test this:
+1. Create a deployment and note the oracle price
+2. Let deployment run and accrue provider earnings
+3. Monitor price — when it has **decreased significantly**, close the deployment
+4. Provider burns received ACT and receives more AKT (same USD value, but may trigger inflation)
 
 **User Actions:**
 1. Record baseline state:
@@ -165,11 +184,12 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    ```
    Note: remint_credits, total_minted.uakt, and Total AKT supply
 
-2. Record oracle price (P_start):
+2. Record oracle price at deployment creation (P_start):
    ```bash
    akash query oracle prices | head -n 15
+   date -u +"%Y-%m-%dT%H:%M:%S"
    ```
-   Example: P_start = $0.50
+   **Write down the price.**
 
 3. Create deployment:
    ```bash
@@ -179,28 +199,26 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    # Complete lease creation and send manifest...
    ```
 
-4. Let deployment run for compute cost
+4. Let deployment run for compute cost to accrue
 
-5. **[Coordinate with Akash Core team]** Trigger oracle price decrease
-   Example: P_final = $0.25 (price halved)
-
-6. Verify price decreased:
+5. **Wait for price to decrease** — check periodically:
    ```bash
    akash query oracle prices | head -n 15
    ```
+   Continue when current price < P_start (ideally significant drop)
 
-7. Close deployment:
+6. Close deployment:
    ```bash
    akash tx deployment close --dseq <seq> --from <wallet> -y
    ```
 
-8. Provider burns received ACT:
+7. Provider burns received ACT:
    ```bash
    akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    sleep 60
    ```
 
-9. Record final state:
+8. Record final state:
    ```bash
    akash query bank balances <provider-address>
    akash query bme vault-state
@@ -218,13 +236,24 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
 - Compare total AKT supply before/after using `akash query bank total --denom uakt`
 - This confirms the inflationary path works correctly
 
+**Proof to Submit:**
+- P_start and P_final oracle prices (showing decrease)
+- Pre/post vault state showing total_minted.uakt increase
+- Pre/post total AKT supply (showing increase)
+
 ---
 
 ### Test 3.4: Multiple Settlements - Remint Credit Depletion
 
 **Objective:** Verify system behavior as remint credits deplete across multiple settlements
 
-**Precondition:** This test requires oracle price manipulation and multiple settlement cycles. Coordinate with Akash Core team.
+**How to Encounter This Scenario:**
+This test observes remint credit depletion over time. It works best when:
+1. You have a long-running deployment accruing significant provider earnings
+2. The price drops during the deployment lifetime
+3. Multiple settlement epochs occur at the lower price
+
+You can let this happen naturally over hours/days as price fluctuates.
 
 **User Actions:**
 1. Create deployment with significant AKT deposit:
@@ -235,24 +264,24 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    # Complete lease creation and send manifest...
    ```
 
-2. Record initial vault state:
+2. Record initial vault state and oracle price:
    ```bash
    akash query bme vault-state
+   akash query oracle prices | head -n 15
    ```
-   Note: remint_credits and total_minted.uakt
+   Note: remint_credits, total_minted.uakt, and starting price
 
-3. **[Coordinate with Akash Core team]** Drop price so settlements require more AKT than accrued
-   Example: Drop from $0.50 to $0.25
+3. Let deployment run for extended period (hours or longer)
+   - Monitor price periodically
+   - Price drops will cause provider burn to require more AKT per ACT
 
-4. Let multiple settlement epochs occur (several minutes)
-
-5. Track remint_credits and total_minted.uakt after each epoch:
+4. Track remint_credits and total_minted.uakt periodically:
    ```bash
    # Run periodically
    akash query bme vault-state
    ```
 
-6. After each settlement, have provider burn ACT:
+5. After settlements occur, have provider burn accumulated ACT:
    ```bash
    akash tx bme burn-act <amount>uact --from <provider-wallet> -y
    sleep 60
@@ -280,3 +309,8 @@ akash tx bme burn-act <amount>uact --from <provider-wallet> -y
 ```bash
 akash tx deployment close --dseq <dseq> --from <wallet> -y
 ```
+
+**Proof to Submit:**
+- Initial vault state (remint_credits, total_minted.uakt)
+- Periodic vault state snapshots showing remint_credits decreasing
+- Evidence of transition to inflationary minting (total_minted.uakt increase)

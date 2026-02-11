@@ -80,6 +80,12 @@ Tests in this category verify epoch behavior through vault-state and bank balanc
 - Difference equals the AKT amount awaiting epoch processing
 - After epoch: `remint_credits` catches up to `balances.uakt`
 
+**Proof to Submit:**
+- Initial vault-state
+- Vault-state immediately after mint (showing `balances.uakt` increased)
+- Vault-state after epoch (showing `remint_credits` caught up)
+- User balance showing ACT received
+
 ---
 
 ### Test 4.2: Multiple Queued Requests
@@ -117,42 +123,7 @@ Tests in this category verify epoch behavior through vault-state and bank balanc
 - User ACT balance = 150 AKT × oracle_price
 - Final state is consistent (no lost requests)
 
----
-
-### Test 4.3: Queue Behavior During Circuit Breaker
-
-**Objective:** Verify mint requests fail when circuit breaker is active
-
-**Precondition:** Circuit breaker states must be initiated by Akash Core team. Coordinate with the team before running this test.
-
-**User Actions:**
-1. Verify circuit breaker is active:
-   ```bash
-   akash query bme status
-   ```
-   Confirm: `status: mint_status_halt_cr` and `mints_allowed: false`
-
-2. Record vault state before:
-   ```bash
-   akash query bme vault-state
-   ```
-
-3. Attempt to mint ACT:
-   ```bash
-   akash tx bme mint-act 100000000uakt --from <wallet> -y
-   ```
-
-4. Observe result and check vault state:
-   ```bash
-   akash query bme vault-state
-   ```
-
-**Expected Results:**
-- Transaction fails with circuit breaker error
-- No AKT transferred to vault
-- Vault state unchanged
-- `refunds_allowed` should still be `true` (users can exit via burn-act)
-
-**Note:** This confirms that during circuit breaker halt:
-- New ACT minting is blocked
-- Existing ACT can still be burned (providers/users can exit positions)
+**Proof to Submit:**
+- Initial vault-state and user balance
+- All three mint tx hashes
+- Final vault-state and user balance (showing all 150 AKT processed)

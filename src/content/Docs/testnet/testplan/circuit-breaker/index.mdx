@@ -7,7 +7,7 @@ description: "Test circuit breaker and mint status transitions - Requires Core T
 weight: 7
 ---
 
-**⚠️ NOTE: Circuit breaker states (Warning, HaltCR, HaltOracle) must be initiated by the Akash Core team prior to testing. Coordinate with the team before running tests 6.2-6.7.**
+**⚠️ NOTE: Circuit breaker states (Warning, HaltCR, HaltOracle) require the Akash Core team to intentionally adjust the price feeder to simulate severe AKT price movements. The Core team will announce a dedicated 24-hour circuit breaker testing window — the date and a schedule of state transitions will be announced in the testnet Discord channel. The schedule will specify time windows for each state (Warning, HaltCR, HaltOracle, Recovery) so testers know when to run each test. Tests 6.2-6.7 should only be run during this window.**
 
 ---
 
@@ -55,20 +55,24 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 - `refunds_allowed`: `true`
 - All operations proceed normally
 
+**Proof to Submit:**
+- BME status output showing `mint_status_healthy`
+- Successful mint-act or deployment tx hash
+
 ---
 
 ### Test 6.2: Observe MintStatusWarning
 
 **Objective:** Verify warning status when Collateralization Ratio approaches threshold
 
-**Precondition:** Coordinate with Akash Core team to adjust oracle price to trigger warning state.
+**Precondition:** Run during the announced circuit breaker testing window when CR is between warning and halt thresholds.
 
 **User Actions:**
 1. Query current status:
    ```bash
    akash query bme status
    ```
-2. **[Coordinate with Akash Core team]** Adjust oracle price until Collateralization Ratio between warn (0.95) and halt (0.90) thresholds
+2. Wait for oracle price adjustment until Collateralization Ratio is between warn (0.95) and halt (0.90) thresholds
 3. Query mint status again:
    ```bash
    akash query bme status
@@ -85,16 +89,20 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 - New mints and deployments still work
 - Epoch timing may increase (settlements slow down)
 
+**Proof to Submit:**
+- BME status output showing `mint_status_warning`
+- Successful mint-act tx hash (operations still allowed)
+
 ---
 
 ### Test 6.3: MintStatusHaltCR - New Mints Blocked
 
 **Objective:** Verify new AKT→ACT conversions blocked when Collateralization Ratio below halt threshold
 
-**Precondition:** Coordinate with Akash Core team to trigger circuit breaker.
+**Precondition:** Run during the announced circuit breaker testing window when CR is below halt threshold.
 
 **User Actions:**
-1. **[Coordinate with Akash Core team]** Adjust oracle price until Collateralization Ratio < 0.90 (halt threshold)
+1. Wait for oracle price adjustment until Collateralization Ratio < 0.90 (halt threshold)
 2. Query mint status:
    ```bash
    akash query bme status
@@ -114,16 +122,21 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 - Mint-act transaction **fails** with circuit breaker error
 - Burn-act still works (users can exit positions)
 
+**Proof to Submit:**
+- BME status output showing `mint_status_halt_cr` and `mints_allowed: false`
+- Error message from failed mint-act attempt
+- Successful burn-act tx hash (showing exits still work)
+
 ---
 
 ### Test 6.4: MintStatusHaltOracle - Oracle Failure
 
 **Objective:** Verify system halts when oracle unavailable (separate from Collateralization Ratio halt)
 
-**Precondition:** Coordinate with Akash Core team to stop price feeder entirely.
+**Precondition:** Run during the announced circuit breaker testing window when oracle staleness is being tested.
 
 **User Actions:**
-1. **[Coordinate with Akash Core team]** Stop oracle price feeder completely (no price updates)
+1. Wait for oracle price feeder to be stopped (no price updates)
 2. Wait for oracle staleness threshold
 3. Query mint status:
    ```bash
@@ -139,6 +152,10 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 - `mints_allowed`: `false`
 - Operations fail with oracle error
 - Distinct from `mint_status_halt_cr` (different root cause)
+
+**Proof to Submit:**
+- BME status output showing `mint_status_halt_oracle`
+- Error message from failed operation
 
 ---
 
@@ -162,7 +179,7 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
    akash query market lease list --owner <user-address>
    ```
 
-3. **[Coordinate with Akash Core team]** Trigger circuit breaker (HaltCR)
+3. Wait for circuit breaker to be triggered (HaltCR)
 
 4. Verify existing deployment continues running:
    ```bash
@@ -180,6 +197,11 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 - Existing ACT can still be used for new deployments
 - Provider burn-act still works
 
+**Proof to Submit:**
+- Lease list before and after circuit breaker trigger (showing still active)
+- BME status showing halt state
+- Provider balance showing continued ACT receipt
+
 ---
 
 ### Test 6.6: Circuit Breaker Recovery
@@ -195,7 +217,7 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
    # Expected: FAIL
    ```
 
-3. **[Coordinate with Akash Core team]** Restore legitimate price feeder / adjust price upward
+3. Wait for price feeder to be restored / price adjusted upward
 
 4. Wait for price to update and Collateralization Ratio to recover
 
@@ -216,6 +238,11 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 - No manual intervention required beyond restoring price feed
 - Vault state remains consistent (no corruption)
 
+**Proof to Submit:**
+- BME status showing halt state before recovery
+- BME status showing healthy state after recovery
+- Successful mint-act tx hash after recovery
+
 ---
 
 ### Test 6.7: Mint Status State Transitions
@@ -234,7 +261,7 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 | HaltOracle | Previous | Oracle recovers |
 
 **User Actions:**
-1. Coordinate with Akash Core team to walk through each transition
+1. During the testing window, observe each transition as Core team adjusts price feeder
 2. Query status after each change:
    ```bash
    akash query bme status
@@ -247,3 +274,7 @@ When AKT price drops dramatically, the vault's USD value drops below the outstan
 - No invalid state combinations
 - System recovers cleanly from each halt state
 - Vault state remains consistent throughout
+
+**Proof to Submit:**
+- BME status output at each state transition
+- Summary table of observed transitions matching test matrix
