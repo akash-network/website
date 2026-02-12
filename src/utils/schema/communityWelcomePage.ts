@@ -12,6 +12,12 @@ export const communityWelcomePageSchema = defineCollection({
           description: z.string(),
         }),
       ),
+      faqItems: z.array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        }),
+      ),
       quote: z.object({
         text: z.string(),
         author: z.string(),
