@@ -13,16 +13,24 @@ This test plan validates BME functionality through real user workflows on testne
 
 ## Prerequisites
 
+### Network Health (Verified in Category 0)
+
+The following are validated during Category 0 pre-flight checks. If any issues are found, report them to the Akash Core team via the testnet Discord channel — network health is not the tester's responsibility to fix.
+
 - Healthy testnet-8 network running with BME module enabled
 - Oracle module configured with price feeds
-- Testnet faucet available for funding test wallets (https://faucet.dev.akash.pub — 500 AKT per request)
-- Akash CLI (`akash`) configured for testnet
-- `provider-services` binary for sending manifests — download from: https://github.com/akash-network/provider/releases
-- CLI deployment guide: https://akash.network/docs/developers/deployment/cli/
-- Access to query BME state (via CLI or API)
 - Provider(s) running on testnet to accept deployments
-- Ability to manipulate oracle prices for price movement scenarios (Akash Core team)
-- Ability to stop/start oracle feeds (for oracle halt testing)
+
+### Tester Requirements
+
+The following are your responsibility to set up before testing:
+
+- **Akash CLI** (`akash`) configured for testnet
+  - CLI deployment guide: https://akash.network/docs/developers/deployment/cli/
+  - Ensure MTLS certs are installed as covered here: https://akash.network/docs/developers/deployment/cli/installation-guide/#mtls-certificate-authentication-optional
+- **Provider Services binary** (`provider-services`) for sending manifests
+  - Download from: https://github.com/akash-network/provider/releases
+- **Funded test wallet** — use the testnet faucet (https://faucet.dev.akash.pub — 500 AKT per request)
 
 **Note:** All prerequisites are validated in Category 0 pre-flight checks.
 
@@ -93,7 +101,7 @@ Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
 - Consecutive operations
 
 ### [Category 6: Circuit Breaker & Mint Status](/docs/testnet/testplan/circuit-breaker)
-**⚠️ Requires Akash Core Team Member** - Oracle price manipulation needed.
+**⚠️ Requires 24-hour testing window** — The Core team will announce a dedicated circuit breaker testing window in the testnet Discord channel.
 - MintStatusHealthy
 - MintStatusWarning
 - MintStatusHaltCR (collateral ratio)
@@ -140,27 +148,28 @@ Complete user journeys combining multiple operations.
 | Deployment Creation | 1.1-1.4 | Critical |
 | Deployment Closure/Refunds | 2.1-2.4 | Critical |
 | Provider Settlement | 3.1-3.4 | Critical |
-| Epoch-Based Processing | 4.1-4.3 | High |
-| Direct Message Operations | 5.1-5.16 | Critical |
-| Circuit Breaker/Mint Status | 6.1-6.7 | ⚠️ Requires Akash Core Team |
+| Epoch-Based Processing | 4.1-4.2 | High |
+| Direct Message Operations | 5.1-5.14 | Critical |
+| Circuit Breaker/Mint Status | 6.1-6.7 | ⚠️ Requires Testing Window |
 | Dynamic Epoch Timing | 7.1-7.3 | Medium |
-| Ledger Records/Observability | 8.1-8.6 | Medium |
+| Ledger Records/Observability | 8.1-8.3 | Medium |
 | Edge Cases | 9.1-9.5 | High |
 | End-to-End | 10.1-10.4 | Critical |
 
-**Total: 66 tests across 11 categories**
+**Total: 60 tests across 11 categories**
 
 ---
 
-## Akash Core Team Requirements
+## Circuit Breaker Testing Window
 
-Several tests require Akash Core team coordination for oracle/price manipulation:
+Several tests require the Akash Core team to simulate price movements by adjusting the oracle price feeder. These tests cannot be run during normal testnet operation.
 
-| Action | Tests Requiring |
-|--------|-----------------|
-| Adjust oracle price | 2.2, 2.3, 3.2, 3.3, 3.4, 6.2, 6.3, 7.2, 7.3, 10.2, 10.3 |
-| Stop oracle updates | 6.4 |
-| Trigger specific mint status | 4.3, 5.13, 5.14, 6.3, 6.4, 6.5, 6.6, 10.3 |
+The Core team will announce a **dedicated 24-hour circuit breaker testing window** in the testnet Discord channel. The schedule will specify time windows for each state (Warning, HaltCR, HaltOracle, Recovery) so testers know when to run each test.
+
+**Tests requiring the circuit breaker window:**
+- Category 6: Circuit Breaker (6.2-6.7)
+- Category 7: Dynamic Epoch Timing (7.2-7.3)
+- Category 10: End-to-End stress test (10.3)
 
 ---
 
