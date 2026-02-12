@@ -10,6 +10,7 @@ import {
 } from "@/utils/schema/communityContributions";
 import { communityGroupsSchema } from "@/utils/schema/communityGroups";
 import { communityPagesSchema } from "@/utils/schema/communityPages";
+import { communityWelcomePageSchema } from "@/utils/schema/communityWelcomePage";
 import { deployPage } from "@/utils/schema/deploy_page";
 import { developmentSchema } from "@/utils/schema/development";
 import { docsSchema } from "@/utils/schema/docsSchema";
@@ -54,6 +55,7 @@ export const collections = {
   Brand_Resources_Homepage: brandResourcesSchema,
   Brand_Releases_Insights_Homepage: brandReleasesInsightsSchema,
   Community_Page: communityPagesSchema,
+  Community_Welcome_Page: communityWelcomePageSchema,
   Privacy_Homepage: privacySchema,
   Community_Contributions_Page: communityContributionsSchema,
   Community_Akash_Edu_Page: communityAkashEduSchema,
