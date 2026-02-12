@@ -42,65 +42,55 @@ akash tx bme mint-act 10000000uakt --from mywallet -y
 akash query bank balances <your-address>
 ```
 
----
-
 ### Submission Form
 
 Submit your completed tests and proof here:
 
 TBD
 
----
-
 ### Prizes
 
 There are up to **\$10,000 in total prizes**, paid in **\$AKT**, for Akash BME Incentivized Testnet testers.
 
-- Testers are **not required** to complete all categories to be eligible.
+- Testers are **not required** to complete all categories to be eligible for rewards.
 - Testers **must complete all tasks within a category** to qualify for rewards in that category.
-- Submissions must be correct to qualify.
+- Submission(s) must be correct for the tester to be eligible for rewards.
 - Additional rewards will be given to the **top 3 testers** with the most correct submissions.
 - All prizes are paid in **\$AKT**.
-
----
 
 #### Prizes by Category
 
 | Category | Total Prize Pool | Reward per Correct Submission | Max Rewarded Submissions | Limit per Tester |
 |----------|------------------|------------------------------|--------------------------|------------------|
-| Category 0 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 1 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 2 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 3 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 4 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 5 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 6 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 7 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 8 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 9 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-| Category 10 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
-
----
+| Category 0 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 1 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 2 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 3 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 4 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 5 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 6 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 7 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 8 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 9 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
+| Category 10 | `$800 in $AKT` | `$40 in $AKT` | 20 | 1 |
 
 #### Top Performer Bonuses (paid in \$AKT)
 
 | Placement | Bonus |
 |-----------|-------|
-| 1st Place | &#36;200 in &#36;AKT |
-| 2nd Place | &#36;100 in &#36;AKT |
-| 3rd Place | &#36;50 in &#36;AKT |
-
----
+| 1st Place | `$200 in $AKT` |
+| 2nd Place | `$100 in $AKT` |
+| 3rd Place | `$50 in $AKT` |
 
 #### Bug Bounty (paid in \$AKT)
 
-A bug bounty is available for verified bugs (**Sev0, Sev1, Sev2**) that fall outside the defined BME Testnet task categories. The Akash core team will determine triage classification and severity.
+A bug bounty is available for verified bugs (**Sev0, Sev1, Sev2**) that fall outside the tasks in the Akash Network BME Testnet categories above. The Akash core team will determine the triage and severity for potential bugs.
 
 | Severity | Reward |
 |----------|--------|
-| Sev0 — Critical | &#36;500 in &#36;AKT |
-| Sev1 — High | &#36;200 in &#36;AKT |
-| Sev2 — Medium | &#36;100 in &#36;AKT |
+| Sev0 — Critical | `$500 in $AKT` |
+| Sev1 — High | `$200 in $AKT` |
+| Sev2 — Medium | `$100 in $AKT` |
 
 ---
 
@@ -152,8 +142,10 @@ https://faucet.dev.akash.pub/
 ```bash
 akash tx bme mint-act 10000000uakt --from <wallet> -y
 
+# Wait ~1 minute for epoch processing
 sleep 60
 
+# Verify ACT in your balance
 akash query bank balances <your-address>
 ```
 
@@ -162,10 +154,7 @@ akash query bank balances <your-address>
 Ensure your SDL uses `uact` for pricing (not `uakt`).
 
 ```bash
-akash tx deployment create deploy.yml \
-  --deposit 5000000uact \
-  --from <wallet> \
-  -y
+akash tx deployment create deploy.yml   --deposit 5000000uact   --from <wallet>   -y
 ```
 
 ---
@@ -196,40 +185,40 @@ akash tx deployment close --dseq <dseq> --from <wallet> -y
 
 ## Important Notes for Testers
 
-1. **Epoch Delays:** ACT minting is epoch-based (~1 minute / 10 blocks).
-2. **SDL Changes:** Pricing must use `uact`.
-3. **Provider Settlement:** Providers receive ACT and must call `burn-act` to convert ACT → AKT.
-4. **Circuit Breaker:** If BME status shows `mint_status_halt_cr`, minting new ACT is temporarily blocked.
-5. **Document Everything:** Capture full command output for prize eligibility.
+1. **Epoch Delays:** ACT minting is epoch-based (~1 minute / 10 blocks). After `mint-act`, wait before checking your balance.
+2. **SDL Changes:** Your SDL files must use `uact` for pricing, not `uakt`.
+3. **Provider Settlement:** Providers receive ACT for compute, then call `burn-act` to convert to AKT. This is a two-step process.
+4. **Circuit Breaker:** If BME status shows `mint_status_halt_cr`, minting new ACT is temporarily blocked. Existing ACT can still be used for deployments.
+5. **Document Everything:** For prize eligibility, capture full command outputs including transaction hashes and query results.
 
 ---
 
 ## Troubleshooting
 
-### ACT not appearing after mint
-Wait for the next epoch (~1 minute), then query balances again.
+### "ACT not appearing after mint"
 
-### "denom not supported: uact"
-The provider pricing script must be updated to support ACT.
+Wait for epoch (~1 minute), then query again. ACT minting is not instant.
 
-### "insufficient funds"
-Ensure you have ACT, not just AKT.
+### "denom not supported: uact" from provider
 
-### System halt states
-Check:
+The provider's pricing script needs to be updated to support ACT. Report to testnet admins.
 
-```bash
-akash query bme status
-```
+### "insufficient funds" when deploying
+
+Ensure you have ACT (not just AKT). Run `akash query bank balances <address>` to check.
+
+### BME status shows "halt_oracle" or "halt_cr"
+
+The system is in a protected state. Check `akash query bme status` for details. During `halt_cr`, you cannot mint new ACT but can still use existing ACT.
 
 ---
 
 ## Resources
 
-- Network Config: https://github.com/akash-network/net
-- Test Guide: [BME Testnet Test Plan](/docs/testnet/testplan)
-- Prize Submission: TBD
-- Discord: Join the Akash Network Discord
+- **Network Config:** https://github.com/akash-network/net
+- **Test Guide:** [BME Testnet Test Plan](/docs/testnet/testplan)
+- **Prize Submission:** TBD
+- **Discord:** Join the Akash Network Discord for support
 
 ---
 
