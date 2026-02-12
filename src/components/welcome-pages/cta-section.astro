@@ -1,0 +1,44 @@
+---
+import { socialLinks } from "@/lib/constants";
+import { ArrowUpRight } from "lucide-react";
+---
+
+<section
+  class="flex w-full flex-col items-center justify-center px-4 py-20 text-center md:py-[180px] md:pb-[100px]"
+>
+  <div class="flex max-w-[800px] flex-col items-center gap-6">
+    <div class="space-y-6">
+      <h2 class="text-5xl font-semibold tracking-tight text-foreground">
+        The Supercloud is waiting.
+      </h2>
+      <p class="text-base text-[#71717A]">Where will you start?</p>
+
+      <div class="flex flex-col gap-4 sm:flex-row sm:gap-6 items-center justify-center mt-8">
+        <a
+          href={socialLinks.discord}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-lg bg-[#f5f5f5] px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[#f5f5f5]/80"
+        >
+          Join the Akash Club
+          <ArrowUpRight className="size-4" />
+        </a>
+        <a
+          href="/community/akash-insiders/"
+          class="inline-flex items-center justify-center gap-2 rounded-lg bg-[#f5f5f5] px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[#f5f5f5]/80"
+        >
+          Apply to Insiders
+          <ArrowUpRight className="size-4" />
+        </a>
+      </div>
+    </div>
+    <div class="mt-8 max-w-[600px] text-center">
+      <p class="text-sm text-[#71717A]">
+        Note: Technical contributions on GitHub are always open to everyone.
+        <br />
+        However, access to paid content bounties and official training is
+        reserved for the Insider program.
+      </p>
+    </div>
+  </div>
+</section>

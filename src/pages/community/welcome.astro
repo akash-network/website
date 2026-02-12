@@ -1,6 +1,6 @@
 ---
 import JoinUs from "@/components/community-pages/join-us.astro";
-import Socials from "@/components/community-pages/socials.astro";
+import Socials from "@/components/welcome-pages/new-social-page.astro";
 import CommunityHero from "@/components/mdx-cards/community-hero.astro";
 import ButtonLink from "@/components/ui/button-link.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
@@ -8,7 +8,9 @@ import TabsComp from "@/components/welcome-pages/tabs-comp";
 import Layout from "@/layouts/layout.astro";
 import { Icon } from "@radix-ui/react-select";
 import { GraduationCap, Check, Hand } from "lucide-react";
-
+import TokenMetricsSection from "@/components/token-page/token-metrics-section";
+import FAQ from "@/components/welcome-pages/faq-section";
+import CTA from "@/components/welcome-pages/cta-section.astro";
 
 const title = "Building the People’s Supercloud";
 const description =
@@ -52,8 +54,35 @@ const communityCards = [
           <path d="M13.8566 17.6767L14.3487 16.6927C14.3976 16.5947 14.3461 16.4763 14.241 16.4454L10.6903 15.4011C9.97853 15.1918 9.51797 14.5038 9.59563 13.766C9.68372 12.9292 10.4284 12.3188 11.2662 12.3968L16.0542 12.8422C16.0542 12.8422 19.8632 13.4282 18.5447 17.2372C17.2262 21.0463 16.7867 22.3648 13.8566 22.3648C11.9521 22.3648 9.16855 22.3648 9.16855 22.3648H8.87555C6.52912 22.3648 4.62697 20.4627 4.62697 18.1163L4.48047 9.91211" stroke="#09090B" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
           `,
-    description:
-      "Help us build a permissionless alternative to cloud giants.",
+    description: "Help us build a permissionless alternative to cloud giants.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Do I have to contribute to join Akash Club?",
+    answer:
+      "No. We'd love every member to contribute, but we understand not everyone has the time. Everyone is welcome to join our events, learn alongside us, and connect with the core community without completing contribution missions.",
+  },
+  {
+    question: "What if I'm not technical?",
+    answer:
+      "Perfect. We need content creators, community advocates, social media voices, and people who can explain Akash to non-technical audiences. Technical contributions are important, but so is everything else that drives adoption.",
+  },
+  {
+    question: "Can I contribute if I'm not part of Akash Club?",
+    answer:
+      "A regular license grants you the right to use our components on a single website or project. It includes access to all basic features, documentation, and standard support. This license is perfect for individual developers or small businesses working on a single project.",
+  },
+  {
+    question: "What is extended license?",
+    answer: `Content contributions are reserved for Akash Insiders, who receive proper training before creating materials for the network. We induct new Insiders four times a year.
+      Click here to join our start-list.
+
+      Technical contributions are open to all developers. We provide optional training modules to help you get up to speed and fill in any gaps you may have missed surrounding the Akash ecosystem.
+
+      Social campaigns (rewarded with Club Points) are open to all Club members through Discord. 
+      Points can be redeemed to purchase additional raffle tickets, and/or cool Akash swag from the official shop.`,
   },
 ];
 ---
@@ -64,19 +93,19 @@ const communityCards = [
   image="/meta-images/community.png"
 >
   <!-- Hero Section -->
-  <section class="mx-auto max-w-[1240px] space-y-14 pt-[100px] pb-14">
+  <section class="mx-auto max-w-[1240px] space-y-14 pb-14 pt-[100px]">
     <div class="flex w-full flex-col items-center justify-center gap-[20px]">
       <h1
         class="text-3xl !font-semibold md:text-4xl md:leading-snug lg:text-[56px]"
       >
         {title}
       </h1>
-      <p class="leading-relaxed text-center max-w-4xl">{description}</p>
+      <p class="max-w-4xl text-center leading-relaxed">{description}</p>
     </div>
     <!-- communityCards -->
     <div class="space-y-5">
-      <h5 class="text-lg text-center">Join the Movement</h5>
-      <div class="w-full grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <h5 class="text-center text-lg">Join the Movement</h5>
+      <div class="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
         {
           communityCards.map((card) => (
             <div class="space-y-4 rounded-lg border bg-white p-6 ">
@@ -96,17 +125,29 @@ const communityCards = [
     </div>
   </section>
   <!-- Tabs section -->
-  <TabsComp client:load/>
+  <TabsComp client:load />
   <!-- About text -->
-  <section class="w-full flex flex-col items-center justify-center space-y-[60px] py-[120px] pb-14 bg-[#fafafa]">
-    <h1 class="max-w-[1080px] text-5xl font-instrument text-center">
-      “Bull market, bear market, it doesn't matter. 495 open-source contributors averaging 67 commits per week build Akash regardless of market conditions. Akash is the People's Supercloud and I'm credibly proud of the $AKT community.”
+  <section
+    class="flex w-full flex-col items-center justify-center space-y-[60px] bg-[#fafafa] py-[120px] pb-14"
+  >
+    <h1 class="max-w-[1080px] text-center font-instrument text-5xl">
+      “Bull market, bear market, it doesn't matter. 495 open-source contributors
+      averaging 67 commits per week build Akash regardless of market conditions.
+      Akash is the People's Supercloud and I'm credibly proud of the $AKT
+      community.”
     </h1>
     <div class="flex flex-col items-center gap-2">
-      <p class="font-semibold text-black/70 text-lg">Greg Osuri</p>
-      <p class="text-[#71717a] text-center">Founder of Akash<br/>
-Overclock Labs CEO</p>
+      <p class="text-lg font-semibold text-black/70">Greg Osuri</p>
+      <p class="text-center text-[#71717a]">
+        Founder of Akash<br />
+        Overclock Labs CEO
+      </p>
     </div>
   </section>
+  <Socials />
+  <div class="h-px w-full border-t border-gray-200"></div>
+  <FAQ client:load faqItems={faqItems} />
+  <div class="h-px w-full border-t border-gray-200"></div>
 
+  <CTA />
 </Layout>
