@@ -7,17 +7,13 @@ description: "Overview of the Burn-Mint Equilibrium (BME) testnet and ACT comput
 weight: 1
 ---
 
-# BME Testnet Overview
-
 ## What is BME?
 
-The **Burn-Mint Equilibrium (BME)** introduces a stable compute credit token called **ACT (Akash Compute Token)**.
+The **Burn-Mint Equilibrium (BME)** is a new economic mechanism for the Akash Network that introduces a stable compute credit token called **ACT** (Akash Compute Token). ACT is designed to be pegged to ~\$1 USD, providing stable pricing for cloud deployments while AKT remains the staking and governance token.
 
-ACT is designed to be pegged to approximately **\$1 USD**, providing stable pricing for cloud deployments, while **AKT** remains the staking and governance token.
+**Key changes with BME:**
 
-### Key Changes with BME
-
-- Deployments are priced and paid in **ACT** (not AKT)
+- Deployments are now priced and paid in **ACT** (not AKT)
 - Users mint ACT by depositing AKT into the vault
 - Providers receive ACT for compute, then burn ACT to receive AKT
 - A circuit breaker protects the system during extreme market conditions
@@ -28,25 +24,21 @@ ACT is designed to be pegged to approximately **\$1 USD**, providing stable pric
 
 ### Prize Eligibility
 
-To be eligible for prizes, testers must submit **proof of testing** for each completed test.
+To be eligible for prizes, testers must submit **proof of testing** for each completed test:
 
 | Test Type | Required Proof |
-|------------|----------------|
-| Query / Read operations | Full query output showing results |
+|-----------|----------------|
+| Query/Read operations | Full query output showing results |
 | Transactions (mint, burn, deploy, etc.) | Transaction hash (`txhash`) |
 | State changes | Before **and** after query outputs |
 | Deployment tests | DSEQ, lease info, and deployment status |
 
-#### Example Proof for a Mint Operation
+**Example proof for a mint operation:**
 
 ```bash
-# Transaction hash from mint
 akash tx bme mint-act 10000000uakt --from mywallet -y
+# Output: {"txhash":"ABC123..."}
 
-# Output:
-# {"txhash":"ABC123..."}
-
-# Query showing ACT received
 akash query bank balances <your-address>
 ```
 
@@ -56,7 +48,7 @@ akash query bank balances <your-address>
 
 Submit your completed tests and proof here:
 
-**TBD**
+TBD
 
 ---
 
@@ -76,39 +68,39 @@ There are up to **\$10,000 in total prizes**, paid in **\$AKT**, for Akash BME I
 
 | Category | Total Prize Pool | Reward per Correct Submission | Max Rewarded Submissions | Limit per Tester |
 |----------|------------------|------------------------------|--------------------------|------------------|
-| Category 0 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 1 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 2 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 3 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 4 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 5 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 6 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 7 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 8 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 9 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
-| Category 10 | \$800 in \$AKT | \$40 in \$AKT | 20 | 1 |
+| Category 0 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 1 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 2 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 3 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 4 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 5 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 6 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 7 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 8 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 9 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
+| Category 10 | &#36;800 in &#36;AKT | &#36;40 in &#36;AKT | 20 | 1 |
 
 ---
 
-#### Top Performer Bonuses (Paid in \$AKT)
+#### Top Performer Bonuses (paid in \$AKT)
 
 | Placement | Bonus |
-|------------|--------|
-| 1st Place | \$200 in \$AKT |
-| 2nd Place | \$100 in \$AKT |
-| 3rd Place | \$50 in \$AKT |
+|-----------|-------|
+| 1st Place | &#36;200 in &#36;AKT |
+| 2nd Place | &#36;100 in &#36;AKT |
+| 3rd Place | &#36;50 in &#36;AKT |
 
 ---
 
-#### Bug Bounty (Paid in \$AKT)
+#### Bug Bounty (paid in \$AKT)
 
 A bug bounty is available for verified bugs (**Sev0, Sev1, Sev2**) that fall outside the defined BME Testnet task categories. The Akash core team will determine triage classification and severity.
 
 | Severity | Reward |
 |----------|--------|
-| Sev0 — Critical | \$500 in \$AKT |
-| Sev1 — High | \$200 in \$AKT |
-| Sev2 — Medium | \$100 in \$AKT |
+| Sev0 — Critical | &#36;500 in &#36;AKT |
+| Sev1 — High | &#36;200 in &#36;AKT |
+| Sev2 — Medium | &#36;100 in &#36;AKT |
 
 ---
 
@@ -121,7 +113,7 @@ https://github.com/akash-network/net
 ### Quick Reference
 
 | Parameter | Value |
-|------------|--------|
+|-----------|-------|
 | Chain ID | `testnet-8` |
 | RPC | `https://testnetrpc.akashnet.net:443` |
 | Faucet | https://faucet.dev.akash.pub/ |
@@ -130,7 +122,7 @@ https://github.com/akash-network/net
 
 ## Test Guidance
 
-Detailed test steps, expected results, and validation procedures:
+Detailed test steps, expected results, and validation procedures are available here:
 
 [BME Testnet Test Plan](/docs/testnet/testplan)
 
@@ -149,28 +141,21 @@ export AKASH_GAS_ADJUSTMENT=1.5
 export AKASH_GAS_PRICES=0.025uakt
 ```
 
----
-
 ### 2. Get Testnet Tokens
 
-Request testnet AKT from:
+Obtain testnet AKT from the faucet:
 
 https://faucet.dev.akash.pub/
-
----
 
 ### 3. Mint ACT (Required Before Deploying)
 
 ```bash
 akash tx bme mint-act 10000000uakt --from <wallet> -y
 
-# Wait for epoch (~1 minute)
 sleep 60
 
 akash query bank balances <your-address>
 ```
-
----
 
 ### 4. Create a Deployment
 
@@ -211,17 +196,17 @@ akash tx deployment close --dseq <dseq> --from <wallet> -y
 
 ## Important Notes for Testers
 
-1. **Epoch Delays:** ACT minting occurs on epoch boundaries (~1 minute / 10 blocks).
-2. **SDL Updates Required:** Pricing must use `uact`.
-3. **Provider Settlement:** Providers must call `burn-act` to convert ACT → AKT.
-4. **Circuit Breaker:** If status shows `mint_status_halt_cr`, new ACT minting is paused.
+1. **Epoch Delays:** ACT minting is epoch-based (~1 minute / 10 blocks).
+2. **SDL Changes:** Pricing must use `uact`.
+3. **Provider Settlement:** Providers receive ACT and must call `burn-act` to convert ACT → AKT.
+4. **Circuit Breaker:** If BME status shows `mint_status_halt_cr`, minting new ACT is temporarily blocked.
 5. **Document Everything:** Capture full command output for prize eligibility.
 
 ---
 
 ## Troubleshooting
 
-### ACT Not Appearing After Mint
+### ACT not appearing after mint
 Wait for the next epoch (~1 minute), then query balances again.
 
 ### "denom not supported: uact"
@@ -230,7 +215,7 @@ The provider pricing script must be updated to support ACT.
 ### "insufficient funds"
 Ensure you have ACT, not just AKT.
 
-### System Halt States
+### System halt states
 Check:
 
 ```bash
@@ -250,4 +235,4 @@ akash query bme status
 
 ## Questions?
 
-For support, reach out in Discord!
+For testnet support, reach out in the Akash Network Discord!
