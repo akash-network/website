@@ -121,17 +121,18 @@ These tests verify BME behavior at boundary conditions and edge cases.
 **User Actions:**
 1. Fund wallet with sufficient AKT (500 AKT from faucet)
 
-2. Submit multiple operations in rapid succession (same block if possible):
+2. Submit multiple operations in rapid succession:
    ```bash
-   akash tx bme mint-act 50000000uakt --from <wallet> -y &
-   akash tx bme mint-act 50000000uakt --from <wallet> -y &
-   akash tx bme mint-act 50000000uakt --from <wallet> -y &
-   wait
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
+   akash tx bme mint-act 50000000uakt --from <wallet> -y
    ```
+   
+   **Note:** Submit sequentially (not in parallel with `&`). Parallel submissions from the same account will fail with sequence number mismatch errors (code 32) — this is expected Cosmos SDK behavior.
 
 3. Wait for epoch:
    ```bash
-   sleep 60
+   sleep 90
    ```
 
 4. Check final state:
@@ -146,11 +147,14 @@ These tests verify BME behavior at boundary conditions and edge cases.
    ```
 
 **Expected Results:**
-- All operations complete (no dropped transactions)
+- All sequential operations complete successfully
 - Each operation gets unique sequence number
 - Final balances reflect all operations
-- No race conditions or state corruption
+- No state corruption
 - Vault-state is consistent
+
+**Note on Parallel Transactions:**
+Submitting transactions in parallel (using `&`) from the same account will cause most to fail with `code: 32` (sequence mismatch). This is normal Cosmos SDK behavior — not a BME issue.
 
 **Proof to Submit:**
 - All tx hashes from rapid operations
@@ -189,23 +193,13 @@ These tests verify BME behavior at boundary conditions and edge cases.
 - Error message indicates `uact` required
 - No deployment created
 
-**Current Behavior (Known Gap):**
-- ⚠️ Deployment with `uakt` pricing is **incorrectly accepted**
-- This bypasses BME entirely:
-  - AKT goes directly to escrow (no ACT conversion)
-  - No remint credits accrued
-  - Provider settlements may behave unexpectedly
-- **Bug reported** — validation check to be added
-
-**Why This Matters:**
-- Using `uakt` bypasses the entire BME mechanism
-- Defeats purpose of BME price stability
-- Provider may receive AKT instead of ACT
-- Creates inconsistent system state
+**Current Behavior:**
+- ✅ Deployment with `uakt` pricing is **correctly rejected**
+- Error: `unsupported denomination uakt: invalid price`
+- Validation enforces `uact` as required denomination for BME
 
 **Test Outcome:**
-- If deployment is **rejected**: ✅ PASS (validation working)
-- If deployment is **accepted**: ❌ FAIL (known gap, document behavior)
+- Deployment is **rejected** with clear error message: ✅ PASS
 
 **Proof to Submit:**
 - SDL file showing uakt pricing

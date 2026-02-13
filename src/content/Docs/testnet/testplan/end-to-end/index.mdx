@@ -1,306 +1,141 @@
 ---
 categories: ["Testnet"]
-tags: ["Testnet", "BME", "Testing", "End-to-End"]
+tags: ["Testnet", "BME", "Testing", "E2E"]
 title: "End-to-End Scenarios"
 linkTitle: "End-to-End"
-description: "Complete user journeys combining multiple operations"
+description: "Comprehensive end-to-end BME testing scenarios"
 weight: 11
 ---
 
-These tests verify complete user journeys that combine multiple BME operations. They simulate realistic usage patterns and validate end-to-end system behavior.
+These tests validate complete BME workflows across multiple components.
+
+**Note:** Many E2E scenarios are already validated through earlier categories. These tests serve as summary validations.
 
 ---
 
-### Test 10.1: Full Deployment Lifecycle - Happy Path
+### Test 10.1: Full Deployment Lifecycle
 
-**Objective:** Complete end-to-end test of typical user journey
+**Objective:** Validate complete BME flow from mint to burn
 
-**User Actions:**
-1. Create new wallet:
-   ```bash
-   akash keys add e2e-test-wallet
-   ```
-
-2. Fund with AKT from faucet (https://faucet.dev.akash.pub)
-
-3. Record all initial BME state:
-   ```bash
-   akash query bank balances <wallet>
-   akash query bme vault-state
-   akash query bme status
-   ```
-
-4. Mint ACT and create deployment (see Category 1 for full workflow):
-   ```bash
-   akash tx bme mint-act 200000000uakt --from e2e-test-wallet -y
-   sleep 60
-   akash tx deployment create deploy.yml --deposit 100000000uact --from e2e-test-wallet -y
-   # Complete lease creation and send manifest...
-   ```
-
-5. Verify deployment running:
-   ```bash
-   akash query market lease list --owner <wallet>
-   ```
-
-6. Let deployment run for extended period (30-60 minutes)
-
-7. Check vault-state periodically to observe settlements:
-   ```bash
-   akash query bme vault-state
-   ```
-
-8. Close deployment:
-   ```bash
-   akash tx deployment close --dseq <dseq> --from e2e-test-wallet -y
-   ```
-
-9. Wait for epoch and verify refund received:
-   ```bash
-   sleep 60
-   akash query bank balances <wallet>
-   ```
-
-10. Reconcile all accounting:
-    ```bash
-    akash query bme vault-state
-    ```
-
-**Expected Results:**
-- All steps complete successfully
-- RemintCredits accrued on deposits
-- RemintCredits used on settlements/refund
-- TotalMinted unchanged (if no price drop during test)
-- Final AKT balance = Initial - compute_used (at current prices)
-- Clean end state with no orphaned resources
-
-**Proof to Submit:**
-- Initial and final wallet balances
-- Initial and final vault-state
-- Deployment create and close tx hashes
-- Lease list showing deployment was active
-
----
-
-### Test 10.2: Full Lifecycle with Price Volatility
-
-**Objective:** End-to-end test with price movements affecting settlements
-
-**How to Encounter This Scenario:**
-This test validates BME behavior across natural price fluctuations. Simply:
-1. Create a deployment and note the starting price
-2. Let it run for an extended period (hours to days)
-3. Close when price has moved in either direction
-4. Document what happened — the specific scenario depends on price movement
+**Reference:** This test validates the integration of:
+- Category 1: Deployment creation with ACT
+- Category 2: Deployment closure and ACT burns
+- Category 3: Provider settlement
 
 **User Actions:**
-1. Record initial oracle price and timestamp:
-   ```bash
-   akash query oracle prices | head -n 15
-   date -u +"%Y-%m-%dT%H:%M:%S"
-   ```
-   **Write down P_start.**
+1. Start with fresh wallet funded with AKT (500 AKT from faucet)
 
-2. Create deployment:
+2. Mint ACT:
    ```bash
    akash tx bme mint-act 200000000uakt --from <wallet> -y
-   sleep 60
-   akash tx deployment create deploy.yml --deposit 100000000uact --from <wallet> -y
-   # Complete lease creation...
+   sleep 90
+   akash query bank balances <wallet>
    ```
 
-3. Record initial vault-state:
+3. Create deployment with ACT:
    ```bash
-   akash query bme vault-state
+   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
+   # Complete lease creation and send manifest
    ```
 
-4. Let deployment run for extended period — monitor price periodically:
-   ```bash
-   akash query oracle prices | head -n 15
-   ```
-   
-5. Observe settlements occurring (vault-state changes over time)
+4. Let deployment run (~2-3 minutes)
 
-6. After significant time and price movement, close deployment:
+5. Close deployment:
    ```bash
    akash tx deployment close --dseq <dseq> --from <wallet> -y
-   sleep 60
    ```
 
-7. Reconcile all accounting:
+6. Burn remaining ACT:
    ```bash
+   akash query bank balances <wallet>  # Note ACT balance
+   akash tx bme burn-act <act-balance>uact --from <wallet> -y
+   sleep 90
    akash query bank balances <wallet>
-   akash query bme vault-state
-   akash query bank total --denom uakt
    ```
 
-**Expected Results:**
-Document what you observe based on actual price movement:
-
-**If price increased during deployment:**
-- Settlements used fewer AKT (higher price = less AKT per ACT)
-- Remint credits may have surplus
-- Refund returns fewer AKT (but same USD value)
-- TotalMinted likely unchanged (deflationary scenario)
-
-**If price decreased during deployment:**
-- Settlements required more AKT
-- Remint credits may be depleted
-- Refund returns more AKT (but same USD value)
-- TotalMinted may have increased (inflationary scenario)
-
-**Key Insight:**
-- User's final AKT reflects **USD exposure**, not AKT exposure
-- The BME mechanism absorbed the price volatility
-- System handled price volatility gracefully
-
-**Proof to Submit:**
-- P_start and P_end oracle prices
-- Initial and final vault-state
-- Initial and final wallet balances
-- Summary of observed behavior (price up or down scenario)
-
----
-
-### Test 10.3: Stress Test - Circuit Breaker Engagement
-
-**Objective:** Verify system stability during stress conditions
-
-**Precondition:** Run during the announced 24-hour circuit breaker testing window — see Category 6 for details.
-
-**User Actions:**
-1. Create multiple active deployments (2-3):
-   ```bash
-   akash tx bme mint-act 300000000uakt --from <wallet> -y
-   sleep 60
-   akash tx deployment create deploy-1.yml --deposit 50000000uact --from <wallet> -y
-   # Complete lease...
-   akash tx deployment create deploy-2.yml --deposit 50000000uact --from <wallet> -y
-   # Complete lease...
-   ```
-
-2. Verify all deployments running:
-   ```bash
-   akash query market lease list --owner <wallet>
-   ```
-
-3. Wait for price to drop toward halt threshold during the testing window
-
-4. Monitor status transitions:
-   ```bash
-   # Run periodically
-   akash query bme status
-   ```
-   Observe: Healthy → Warning → HaltCR
-
-5. When HaltCR triggered, verify:
-   - Existing deployments continue:
-     ```bash
-     akash query market lease list --owner <wallet>
-     ```
-   - New mints blocked:
-     ```bash
-     akash tx bme mint-act 10000000uakt --from <wallet> -y
-     # Expected: FAIL
-     ```
-   - Burns still work (if you have ACT):
-     ```bash
-     akash tx bme burn-act 10000000uact --from <wallet> -y
-     # Expected: SUCCESS
-     ```
-
-6. Wait for price to recover above thresholds
-
-7. Verify system resumes:
-   ```bash
-   akash query bme status
-   # Expected: mint_status_healthy
-   
-   akash tx bme mint-act 10000000uakt --from <wallet> -y
-   # Expected: SUCCESS
-   ```
-
-8. Close all deployments:
-   ```bash
-   akash tx deployment close --dseq <dseq-1> --from <wallet> -y
-   akash tx deployment close --dseq <dseq-2> --from <wallet> -y
-   ```
-
-**Expected Results:**
-- Graceful degradation as Collateralization Ratio drops
-- Mint status transitions logged correctly
-- Existing deployments unaffected during halt
-- No data loss or corruption
-- Clean recovery when Collateralization Ratio improves
-- All deployments can be closed normally
-
-**Proof to Submit:**
-- BME status at each state (Healthy → Warning → HaltCR → Recovery)
-- Lease list showing deployments continued during halt
-- Failed mint-act error during halt
-- Successful mint-act after recovery
-- All deployment close tx hashes
-
----
-
-### Test 10.4: Multi-User Concurrent Activity
-
-**Objective:** Verify system handles realistic multi-user load
-
-**User Actions:**
-1. Create multiple test wallets (5-10):
-   ```bash
-   for i in {1..5}; do
-     akash keys add test-user-$i
-   done
-   ```
-
-2. Fund each wallet from faucet
-
-3. Each wallet creates deployments:
-   ```bash
-   # For each wallet:
-   akash tx bme mint-act 100000000uakt --from test-user-$i -y
-   sleep 60
-   akash tx deployment create deploy.yml --deposit 25000000uact --from test-user-$i -y
-   # Complete lease creation...
-   ```
-
-4. Let all deployments run concurrently (15-30 minutes)
-
-5. Monitor vault-state during concurrent activity:
+7. Verify final state:
    ```bash
    akash query bme vault-state
    ```
 
-6. Randomly close deployments over time:
-   ```bash
-   akash tx deployment close --dseq <dseq> --from test-user-3 -y
-   # ... close others at intervals
-   ```
-
-7. Verify all accounting correct:
-   ```bash
-   # Check each wallet
-   for i in {1..5}; do
-     echo "=== User $i ==="
-     akash query bank balances $(akash keys show test-user-$i -a)
-   done
-   
-   # Check final vault state
-   akash query bme vault-state
-   ```
-
 **Expected Results:**
-- All operations succeed without errors
-- No cross-user contamination (each user's balances independent)
-- BME vault-state accurate across all users
-- RemintCredits properly shared/consumed
-- No deadlocks or race conditions
-- System scales with concurrent users
+- Full cycle completes without errors
+- ACT minted → used for deployment → returned on close → burned to AKT
+- Vault state reflects all operations
+- Provider received ACT payment
 
 **Proof to Submit:**
-- List of test wallet addresses
-- Final balances for each wallet
+- Initial and final AKT balances
+- All transaction hashes
 - Final vault-state
-- Summary confirming no cross-user issues
+
+**Note:** If you've completed Categories 1-3, this test is largely validated. This serves as an integration summary.
+
+---
+
+### Test 10.2: Multi-User Concurrent Activity
+
+**Objective:** Verify BME handles multiple users operating simultaneously
+
+**User Actions:**
+
+1. Create 2-3 test wallets:
+   ```bash
+   akash keys add user-a
+   akash keys add user-b
+   akash keys add user-c
+   ```
+
+2. Fund all wallets via faucet (500 AKT each)
+
+3. From separate terminals (or sequentially with short delays), each user mints ACT:
+   ```bash
+   # Terminal A
+   akash tx bme mint-act 100000000uakt --from user-a -y
+   
+   # Terminal B
+   akash tx bme mint-act 100000000uakt --from user-b -y
+   
+   # Terminal C
+   akash tx bme mint-act 100000000uakt --from user-c -y
+   ```
+
+4. Wait for epoch:
+   ```bash
+   sleep 90
+   ```
+
+5. Verify all users received ACT:
+   ```bash
+   akash query bank balances $(akash keys show user-a -a)
+   akash query bank balances $(akash keys show user-b -a)
+   akash query bank balances $(akash keys show user-c -a)
+   ```
+
+6. Check vault state reflects all operations:
+   ```bash
+   akash query bme vault-state
+   ```
+
+**Expected Results:**
+- All users successfully mint ACT
+- No cross-user interference
+- Each user's balance is correct and independent
+- Vault state reflects total of all operations (300 AKT minted)
+- BME handles concurrent activity correctly
+
+**Proof to Submit:**
+- All 3 mint tx hashes
+- All 3 user balances showing ACT received
+- Vault state showing cumulative 300 AKT in balances.uakt
+
+---
+
+## Summary
+
+| Test | Objective | Key Verification |
+|------|-----------|------------------|
+| 10.1 | Full lifecycle | Complete mint→deploy→close→burn cycle |
+| 10.2 | Multi-user | Concurrent operations don't interfere |
+
+**Note:** Circuit breaker testing is covered in Category 6. Price volatility scenarios are covered in Category 2 (tests 2.3, 2.4).
