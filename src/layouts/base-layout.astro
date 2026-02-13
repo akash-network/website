@@ -104,14 +104,8 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
 
       window.MathJax = {
         tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"],
-          ],
-          displayMath: [
-            ["$$", "$$"],
-            ["\\[", "\\]"],
-          ],
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
           processEscapes: true,
         },
         options: {
