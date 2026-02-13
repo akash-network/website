@@ -23,6 +23,9 @@ akash tx bme mint-act <amount>uakt --from <wallet> -y
 # Burn ACT (ACT → AKT)
 akash tx bme burn-act <amount>uact --from <wallet> -y
 
+# Generic swap (works both directions)
+akash tx bme burn-mint <coins-to-burn> <denom-to-mint> --from <wallet> -y
+
 # Check status
 akash query bme status
 akash query bme vault-state
@@ -72,47 +75,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.2: MsgMintACT - Convert to Different Recipient
-
-**Objective:** Verify AKT can be converted to ACT for a different address
-
-**User Actions:**
-1. Create Wallet A with AKT (from faucet)
-2. Create Wallet B (empty)
-3. Check if `--to` flag is supported:
-   ```bash
-   akash tx bme mint-act -h
-   ```
-4. If supported, execute MsgMintACT from A with `--to` pointing to B:
-   ```bash
-   akash tx bme mint-act 150000000uakt --from <wallet-A> --to <wallet-B> -y
-   ```
-5. Wait for epoch (~1 minute):
-   ```bash
-   sleep 60
-   ```
-6. Query both wallets:
-   ```bash
-   akash query bank balances <wallet-A>
-   akash query bank balances <wallet-B>
-   ```
-
-**Expected Results:**
-- Wallet A: AKT decreased by 150
-- Wallet A: ACT unchanged (still 0)
-- Wallet B: ACT balance = (150 × oracle_price) ACT
-- BME state updated correctly
-
-**Note:** If `--to` flag not available, ACT goes to sender's address only.
-
-**Proof to Submit:**
-- Wallet A and B addresses
-- mint-act tx hash
-- Post-epoch balances for both wallets
-
----
-
-### Test 5.3: MsgBurnACT - Direct ACT to AKT Conversion
+### Test 5.2: MsgBurnACT - Direct ACT to AKT Conversion
 
 **Objective:** Verify user can directly convert ACT back to AKT
 
@@ -153,40 +116,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.4: MsgBurnACT - Convert to Different Recipient
-
-**Objective:** Verify ACT can be converted to AKT for a different address
-
-**User Actions:**
-1. Wallet A has ACT balance, minimal AKT
-2. Wallet B has 0 ACT, 0 AKT
-3. Execute MsgBurnACT from A with `--to` pointing to B:
-   ```bash
-   akash tx bme burn-act 50000000uact --from <wallet-A> --to <wallet-B> -y
-   ```
-4. Wait for epoch (~1 minute):
-   ```bash
-   sleep 60
-   ```
-5. Query both wallets:
-   ```bash
-   akash query bank balances <wallet-A>
-   akash query bank balances <wallet-B>
-   ```
-
-**Expected Results:**
-- Wallet A: ACT decreased by 50, AKT unchanged
-- Wallet B: AKT balance = (50 / P_current) AKT
-- BME state updated correctly
-
-**Proof to Submit:**
-- Wallet A and B addresses
-- burn-act tx hash
-- Post-epoch balances for both wallets
-
----
-
-### Test 5.5: MsgBurnMint - Generic Swap AKT to ACT
+### Test 5.3: MsgBurnMint - Generic Swap AKT to ACT
 
 **Objective:** Verify generic BurnMint message works for AKT→ACT
 
@@ -194,7 +124,7 @@ akash query bme vault-state
 1. Wallet with AKT balance
 2. Execute MsgBurnMint specifying both denoms:
    ```bash
-   akash tx bme burn-mint 200000000uakt --denom-to-mint uact --from <wallet> -y
+   akash tx bme burn-mint 200000000uakt uact --from <wallet> -y
    ```
 3. Wait for epoch (~1 minute):
    ```bash
@@ -218,7 +148,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.6: MsgBurnMint - Generic Swap ACT to AKT
+### Test 5.4: MsgBurnMint - Generic Swap ACT to AKT
 
 **Objective:** Verify generic BurnMint message works for ACT→AKT
 
@@ -226,7 +156,7 @@ akash query bme vault-state
 1. Wallet with ACT balance
 2. Execute MsgBurnMint specifying both denoms:
    ```bash
-   akash tx bme burn-mint 100000000uact --denom-to-mint uakt --from <wallet> -y
+   akash tx bme burn-mint 100000000uact uakt --from <wallet> -y
    ```
 3. Wait for epoch (~1 minute):
    ```bash
@@ -250,7 +180,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.7: Pre-Fund ACT Then Create Deployment
+### Test 5.5: Pre-Fund ACT Then Create Deployment
 
 **Objective:** Verify user can pre-fund ACT balance and later use it for deployment
 
@@ -285,7 +215,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.8: Partial ACT Withdrawal Without Closing Deployment
+### Test 5.6: Partial ACT Withdrawal Without Closing Deployment
 
 **Objective:** Verify user can withdraw excess ACT while deployment runs
 
@@ -318,7 +248,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.9: Input Validation - Invalid Owner Address
+### Test 5.7: Input Validation - Invalid Owner Address
 
 **Objective:** Verify proper error on invalid owner address
 
@@ -339,27 +269,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.10: Input Validation - Invalid To Address
-
-**Objective:** Verify proper error on invalid recipient address
-
-**User Actions:**
-1. Attempt MsgMintACT with valid owner but malformed `to` address:
-   ```bash
-   akash tx bme mint-act 100000000uakt --from <wallet> --to invalid_address -y
-   ```
-2. Observe failure
-
-**Expected Results:**
-- Error: `ErrInvalidAddress: invalid to address` (or similar)
-- No state changes
-
-**Proof to Submit:**
-- Error message received
-
----
-
-### Test 5.11: Input Validation - Invalid Coins
+### Test 5.8: Input Validation - Invalid Coins
 
 **Objective:** Verify proper error on invalid coin specification
 
@@ -380,14 +290,14 @@ akash query bme vault-state
 
 ---
 
-### Test 5.12: Input Validation - Invalid Swap Route
+### Test 5.9: Input Validation - Invalid Swap Route
 
 **Objective:** Verify rejection of unsupported token pairs
 
 **User Actions:**
 1. Attempt MsgBurnMint with unsupported denom combination:
    ```bash
-   akash tx bme burn-mint 100000000uusdc --denom-to-mint uact --from <wallet> -y
+   akash tx bme burn-mint 100000000uusdc uact --from <wallet> -y
    ```
 2. Observe failure
 
@@ -400,7 +310,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.13: LedgerRecordID Verification
+### Test 5.10: LedgerRecordID Verification
 
 **Objective:** Verify operations are tracked and can be verified through vault-state
 
@@ -438,7 +348,7 @@ akash query bme vault-state
 
 ---
 
-### Test 5.14: Consecutive Direct Operations
+### Test 5.11: Consecutive Direct Operations
 
 **Objective:** Verify multiple direct operations work correctly in sequence
 
@@ -484,3 +394,21 @@ akash query bme vault-state
 - Balance after each operation (4 snapshots)
 - Final vault-state
 - All tx hashes
+
+---
+
+## Summary
+
+| Test | Objective | Key Verification |
+|------|-----------|------------------|
+| 5.1 | MsgMintACT (AKT → ACT) | User receives ACT after epoch |
+| 5.2 | MsgBurnACT (ACT → AKT) | User receives AKT after epoch |
+| 5.3 | MsgBurnMint (AKT → ACT) | Same as MsgMintACT |
+| 5.4 | MsgBurnMint (ACT → AKT) | Same as MsgBurnACT |
+| 5.5 | Pre-fund ACT workflow | Two-step funding works |
+| 5.6 | Partial withdrawal | Burn ACT while deployment runs |
+| 5.7 | Invalid owner address | Error returned, no state change |
+| 5.8 | Invalid coins | Error returned, no state change |
+| 5.9 | Invalid swap route | Error returned, only AKT↔ACT |
+| 5.10 | Ledger verification | Vault-state reflects operation |
+| 5.11 | Consecutive operations | All ops independent and correct |

@@ -3,314 +3,243 @@ categories: ["Testnet"]
 tags: ["Testnet", "BME", "Testing", "Provider"]
 title: "Provider Settlement"
 linkTitle: "Provider Settlement"
-description: "Test provider ACT receipt from settlement and ACT → AKT conversion via burn"
+description: "Test provider ACT receipt from settlement"
 weight: 4
 ---
 
-**Important Clarification on Settlement Flow:**
+**Provider Settlement Flow:**
 
-Provider settlement is a **two-step process**:
+When a deployment runs on Akash, the provider earns compute payment in **ACT**. This happens automatically during settlement epochs — no user action required beyond running a deployment.
 
-1. **Step 1 - Settlement:** When deployment closes or settles, provider receives **ACT** (not AKT directly)
-2. **Step 2 - Provider Burn:** Provider calls `akash tx bme burn-act` to convert ACT → AKT
+**What testers can verify:**
+- Provider receives ACT from settlement (observable via balance queries)
+- Lease price matches SDL pricing
+- Provider ACT balance increases over time during active deployment
 
-The burn is **provider-initiated**, not automatic at settlement time. This allows providers to:
-- Accumulate ACT and burn in batches
-- Time their conversions strategically
-- Potentially hold ACT if desired
-
-**Note:** Provider software will eventually automate the `burn-act` transaction, but currently it must be done manually.
-
-**Provider Burn Command:**
-```bash
-akash tx bme burn-act <amount>uact --from <provider-wallet> -y
-```
-
-**After Provider Burns ACT:**
-- Provider's ACT balance decreases
-- Provider receives AKT (from vault's remint_credits if sufficient, or newly minted)
-- `vault-state.total_burned.uact` increases
-- `vault-state.remint_credits` decreases (non-inflationary) or `total_minted.uakt` increases (inflationary)
+**Note:** Provider conversion of ACT → AKT (burn-act) is the same mechanism tested in Category 2. Since a provider account is functionally identical to any other account, there is no need to duplicate those tests here.
 
 ---
 
-### Test 3.1: Provider Receives AKT from Remint Credits
+### Test 3.1: Provider Receives ACT from Settlement
 
-**Objective:** Verify provider receives AKT through the full settlement flow (ACT → burn → AKT) using remint credits (non-inflationary)
-
-**Preconditions:**
-- Active deployment with provider
-- Vault has sufficient remint_credits
+**Objective:** Verify provider receives ACT when deployment runs and settles
 
 **User Actions:**
-1. Record provider's initial balances:
+
+1. Identify the testnet provider address:
+   ```bash
+   akash query provider list | head -n 20
+   ```
+   Note a provider address (e.g., `akash1...`)
+
+2. Record provider's initial ACT balance:
+   ```bash
+   akash query bank balances <provider-address>
+   ```
+   Note the `uact` amount (may be 0 or existing balance).
+
+3. Create deployment with ACT deposit:
+   ```bash
+   akash tx deployment create deploy.yml --deposit 20000000uact --from <wallet> -y
+   ```
+
+4. Complete lease creation with the provider:
+   ```bash
+   # Wait for bids
+   sleep 10
+   akash query market bid list --owner <user-address> --dseq <dseq>
+   
+   # Create lease
+   akash tx market lease create --dseq <dseq> --gseq 1 --oseq 1 \
+     --provider <provider-address> --from <wallet> -y
+   ```
+
+5. Send manifest and let deployment run (~2-3 minutes for settlement to occur):
+   ```bash
+   provider-services send-manifest deploy.yml --dseq <dseq> --from <wallet>
+   sleep 180
+   ```
+
+6. Check provider's ACT balance again:
    ```bash
    akash query bank balances <provider-address>
    ```
 
-2. Record vault state:
+7. Close deployment:
    ```bash
-   akash query bme vault-state
-   ```
-   Note: remint_credits and total_minted.uakt
-
-3. Close deployment (or wait for settlement):
-   ```bash
-   akash tx deployment close --dseq <seq> --from <wallet> -y
+   akash tx deployment close --dseq <dseq> --from <wallet> -y
    ```
 
-4. Check provider received ACT:
+8. Final provider balance check:
    ```bash
    akash query bank balances <provider-address>
-   ```
-
-5. Provider burns ACT to receive AKT:
-   ```bash
-   akash tx bme burn-act <amount>uact --from <provider-wallet> -y
-   ```
-
-6. Wait for epoch (~1 minute):
-   ```bash
-   sleep 60
-   ```
-
-7. Record final state:
-   ```bash
-   akash query bank balances <provider-address>
-   akash query bme vault-state
    ```
 
 **Expected Results:**
-- Provider ACT balance increased after settlement, then decreased after burn
-- Provider AKT balance increased (from burn)
-- `vault-state.total_burned.uact` increased
-- `vault-state.remint_credits` decreased
-- `vault-state.total_minted.uakt` **unchanged** (non-inflationary — AKT came from remint credits)
+- Provider ACT balance increased (received payment for compute)
+- User's escrowed ACT decreased (paid for compute)
+- Settlement happened automatically during deployment lifecycle
 
 **Proof to Submit:**
-- Provider ACT balance before and after settlement (showing ACT received)
+- Provider address used
+- Provider ACT balance before deployment
+- Provider ACT balance after deployment ran (showing increase)
 - Deployment close tx hash
 
 ---
 
-### Test 3.2: Provider Payment When AKT Price Rose
+### Test 3.2: Verify Lease Price Matches SDL Pricing
 
-**Objective:** Verify provider receives fewer AKT when price increased (same USD value)
-
-**How to Encounter This Scenario:**
-The oracle uses real Pyth price feeds. To test this:
-1. Create a deployment and note the oracle price
-2. Let deployment run and accrue provider earnings
-3. Monitor price — when it has **increased**, close the deployment
-4. Provider burns received ACT and receives fewer AKT (same USD value)
+**Objective:** Confirm the lease is created with pricing that matches SDL specification
 
 **User Actions:**
-1. Record provider's initial AKT balance:
+
+1. Review your SDL pricing section:
+   ```yaml
+   profiles:
+     placement:
+       akash:
+         pricing:
+           web:
+             denom: uact
+             amount: 10000
+   ```
+   Note the `amount` value — this is price per block in uact.
+
+2. Create deployment:
    ```bash
-   akash query bank balances <provider-address>
+   akash tx deployment create deploy.yml --deposit 20000000uact --from <wallet> -y
    ```
 
-2. Record oracle price at deployment creation (P_start):
+3. Wait for bids and query them:
    ```bash
-   akash query oracle prices | head -n 15
-   date -u +"%Y-%m-%dT%H:%M:%S"
+   sleep 10
+   akash query market bid list --owner <user-address> --dseq <dseq>
    ```
-   **Write down the price.**
+   Note the bid price from the provider.
 
-3. Create deployment and let it run (see Category 1 for full workflow):
+4. Create lease:
    ```bash
-   akash tx bme mint-act 100000000uakt --from <wallet> -y
-   sleep 60
-   akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
-   # Complete lease creation and send manifest...
+   akash tx market lease create --dseq <dseq> --gseq 1 --oseq 1 \
+     --provider <provider-address> --from <wallet> -y
    ```
 
-4. Let deployment run for compute cost to accrue
-
-5. **Wait for price to increase** — check periodically:
+5. Query lease details:
    ```bash
-   akash query oracle prices | head -n 15
-   ```
-   Continue when current price > P_start
-   Example: P_final = $0.50 (price increased)
-
-6. Close deployment:
-   ```bash
-   akash tx deployment close --dseq <seq> --from <wallet> -y
+   akash query market lease get --owner <user-address> --dseq <dseq> --gseq 1 --oseq 1 --provider <provider-address>
    ```
 
-7. Provider burns received ACT:
+6. Verify lease price:
    ```bash
-   akash tx bme burn-act <amount>uact --from <provider-wallet> -y
-   sleep 60
+   akash query market lease get --owner <user-address> --dseq <dseq> --gseq 1 --oseq 1 --provider <provider-address> -o json | jq '.lease.price'
    ```
 
-8. Record final provider balance:
+7. Close deployment when done:
    ```bash
-   akash query bank balances <provider-address>
+   akash tx deployment close --dseq <dseq> --from <wallet> -y
    ```
 
 **Expected Results:**
-- Provider receives **fewer AKT** for same USD value (price increased)
-- Example: $10 compute at $0.50 = 20 AKT (vs 33 AKT at $0.30)
-- Provider received correct USD value in AKT terms
-- `remint_credits` decreased
-- `total_minted.uakt` unchanged (non-inflationary)
+- Lease price denom is `uact` (not `uakt`)
+- Lease price amount is ≤ SDL specified price (provider bid at or below your max)
+- BME is being used for compute payments
 
 **Proof to Submit:**
-- P_start and P_final oracle prices (showing increase)
-- Provider ACT balance after settlement
-- Provider AKT balance before and after burn (showing fewer AKT received)
+- SDL pricing section showing uact denom and amount
+- Lease query output showing matching denom (uact) and price ≤ SDL max
 
 ---
 
-### Test 3.3: Provider Payment When AKT Price Dropped (Inflationary)
+### Test 3.3: Verify Provider Payment on Deployment Close
 
-**Objective:** Verify settlement mints new AKT when remint credits insufficient due to price drop
+**Objective:** Verify provider receives correct ACT payment based on lease rate and duration
 
-**How to Encounter This Scenario:**
-The oracle uses real Pyth price feeds. To test this:
-1. Create a deployment and note the oracle price
-2. Let deployment run and accrue provider earnings
-3. Monitor price — when it has **decreased significantly**, close the deployment
-4. Provider burns received ACT and receives more AKT (same USD value, but may trigger inflation)
+**Note:** Providers have a configurable withdrawal period (default 12 hours) before settlement funds transfer to their wallet. Instead of waiting for this, we verify the `withdrawn` amount in the lease state after closing, which shows the payment calculated for the provider.
 
 **User Actions:**
-1. Record baseline state:
-   ```bash
-   akash query bank balances <provider-address>
-   akash query bme vault-state
-   akash query bank total --denom uakt
-   ```
-   Note: remint_credits, total_minted.uakt, and Total AKT supply
 
-2. Record oracle price at deployment creation (P_start):
+1. Create deployment:
    ```bash
-   akash query oracle prices | head -n 15
-   date -u +"%Y-%m-%dT%H:%M:%S"
-   ```
-   **Write down the price.**
-
-3. Create deployment:
-   ```bash
-   akash tx bme mint-act 100000000uakt --from <wallet> -y
-   sleep 60
    akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
-   # Complete lease creation and send manifest...
    ```
+   Note the DSEQ from the output.
 
-4. Let deployment run for compute cost to accrue
-
-5. **Wait for price to decrease** — check periodically:
+2. Create lease and note the `created_at` block:
    ```bash
-   akash query oracle prices | head -n 15
+   sleep 10
+   akash query market bid list --owner <user-address> --dseq <dseq>
+   
+   akash tx market lease create --dseq <dseq> --gseq 1 --oseq 1 \
+     --provider <provider-address> --from <wallet> -y
    ```
-   Continue when current price < P_start (ideally significant drop)
 
-6. Close deployment:
+3. Query lease to get `created_at` and `rate`:
    ```bash
-   akash tx deployment close --dseq <seq> --from <wallet> -y
+   akash query market lease get --owner <user-address> --dseq <dseq> \
+     --gseq 1 --oseq 1 --provider <provider-address>
    ```
+   **Write down:**
+   - `lease.created_at` (block number)
+   - `escrow_payment.state.rate.amount` (uact per block)
 
-7. Provider burns received ACT:
+4. Send manifest and let deployment run briefly (~2-5 minutes):
    ```bash
-   akash tx bme burn-act <amount>uact --from <provider-wallet> -y
-   sleep 60
+   provider-services send-manifest deploy.yml --dseq <dseq> --from <wallet>
+   sleep 180
    ```
 
-8. Record final state:
+5. Close deployment:
    ```bash
-   akash query bank balances <provider-address>
-   akash query bme vault-state
-   akash query bank total --denom uakt
+   akash tx deployment close --dseq <dseq> --from <wallet> -y
    ```
 
-**Expected Results:**
-- Provider receives **more AKT** for same USD value (price decreased)
-- Provider receives full AKT amount owed
-- `remint_credits` depleted (reduced to 0 or near 0)
-- **`total_minted.uakt` increased** (inflationary — new AKT was minted)
-- **Total AKT supply increased**
-
-**Critical Verification:**
-- Compare total AKT supply before/after using `akash query bank total --denom uakt`
-- This confirms the inflationary path works correctly
-
-**Proof to Submit:**
-- P_start and P_final oracle prices (showing decrease)
-- Pre/post vault state showing total_minted.uakt increase
-- Pre/post total AKT supply (showing increase)
-
----
-
-### Test 3.4: Multiple Settlements - Remint Credit Depletion
-
-**Objective:** Verify system behavior as remint credits deplete across multiple settlements
-
-**How to Encounter This Scenario:**
-This test observes remint credit depletion over time. It works best when:
-1. You have a long-running deployment accruing significant provider earnings
-2. The price drops during the deployment lifetime
-3. Multiple settlement epochs occur at the lower price
-
-You can let this happen naturally over hours/days as price fluctuates.
-
-**User Actions:**
-1. Create deployment with significant AKT deposit:
+6. Query lease state after close:
    ```bash
-   akash tx bme mint-act 300000000uakt --from <wallet> -y
-   sleep 60
-   akash tx deployment create deploy.yml --deposit 150000000uact --from <wallet> -y
-   # Complete lease creation and send manifest...
+   akash query market lease get --owner <user-address> --dseq <dseq> \
+     --gseq 1 --oseq 1 --provider <provider-address>
    ```
+   Note the `escrow_payment.state.withdrawn.amount` value.
 
-2. Record initial vault state and oracle price:
+7. Get current block height (approximate close block):
    ```bash
-   akash query bme vault-state
-   akash query oracle prices | head -n 15
-   ```
-   Note: remint_credits, total_minted.uakt, and starting price
-
-3. Let deployment run for extended period (hours or longer)
-   - Monitor price periodically
-   - Price drops will cause provider burn to require more AKT per ACT
-
-4. Track remint_credits and total_minted.uakt periodically:
-   ```bash
-   # Run periodically
-   akash query bme vault-state
+   akash status 2>&1 | jq '.sync_info.latest_block_height'
    ```
 
-5. After settlements occur, have provider burn accumulated ACT:
-   ```bash
-   akash tx bme burn-act <amount>uact --from <provider-wallet> -y
-   sleep 60
-   akash query bme vault-state
-   ```
-
-**Expected Results:**
-
-| Phase | remint_credits | total_minted.uakt | Notes |
-|-------|----------------|-------------------|-------|
-| Initial | ~300 AKT | X | Baseline |
-| Settlement 1 | ↓ | X (unchanged) | Using remint credits |
-| Settlement 2 | ↓ | X (unchanged) | Using remint credits |
-| ... | ↓ | X (unchanged) | Using remint credits |
-| Credits depleted | 0 | X (unchanged) | Credits exhausted |
-| Next settlement | 0 | ↑ | **Inflationary minting begins** |
-
-**Key Observations:**
-- First settlements use remint credits only (non-inflationary)
-- Eventually remint credits deplete to 0
-- Later settlements require new AKT minting (inflationary)
-- Clear transition visible when total_minted.uakt starts increasing
-
-**⚠️ Important:** Close deployment when testing is complete:
-```bash
-akash tx deployment close --dseq <dseq> --from <wallet> -y
+**Verification Math:**
+```
+blocks_run = close_block - created_at
+expected_payment = blocks_run × rate
 ```
 
+Compare `expected_payment` to `withdrawn` amount — they should be approximately equal.
+
+**Example:**
+- created_at: 62100
+- close_block: ~62430
+- blocks_run: 330
+- rate: 0.674561 uact/block
+- expected: 330 × 0.674561 = ~222.6 uact
+- withdrawn: 223 uact ✅
+
+**Expected Results:**
+- Lease state shows `state: closed`
+- `withdrawn` amount is > 0
+- `withdrawn` ≈ blocks_run × rate (within rounding)
+
 **Proof to Submit:**
-- Initial vault state (remint_credits, total_minted.uakt)
-- Periodic vault state snapshots showing remint_credits decreasing
-- Evidence of transition to inflationary minting (total_minted.uakt increase)
+- Lease `created_at` block
+- Lease `rate`
+- Lease state after close showing `withdrawn` amount
+- Calculation showing withdrawn ≈ expected
+
+---
+
+## Summary
+
+| Test | Objective | Key Verification |
+|------|-----------|------------------|
+| 3.1 | Provider receives ACT | Provider ACT balance increased after deployment |
+| 3.2 | Lease pricing correct | Lease shows uact denom, price ≤ SDL max |
+| 3.3 | Provider payment correct | withdrawn ≈ blocks_run × rate |
+
+**Note:** Provider burn-act (ACT → AKT conversion) is functionally identical to user burn-act tested in Category 2. Since provider accounts are standard Cosmos accounts, no additional burn testing is required here.

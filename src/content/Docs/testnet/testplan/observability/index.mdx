@@ -16,11 +16,11 @@ These tests verify that BME operations emit proper events that can be observed i
 
 **Viewing Transaction Events:**
 ```bash
-# Query transaction by hash to see events
+# Query transaction by hash to see all events
 akash query tx <tx-hash> --output json | jq '.events'
 
-# Filter for BME-related events
-akash query tx <tx-hash> --output json | jq '.events[] | select(.type | contains("bme"))'
+# Filter for message events (includes BME actions)
+akash query tx <tx-hash> --output json | jq '.events[] | select(.type == "message")'
 ```
 
 ---
@@ -38,21 +38,33 @@ akash query tx <tx-hash> --output json | jq '.events[] | select(.type | contains
 
 2. Query transaction events:
    ```bash
-   akash query tx <tx-hash> --output json | jq '.events'
+   akash query tx <tx-hash> --output json | jq '.events[] | select(.type == "message")'
    ```
 
-3. Look for BME mint events in the output
+3. Look for BME mint event in the output
 
 **Expected Results:**
-- Event emitted with type containing "mint" or "MintACT"
-- Event contains:
-  - `sender`: User address
-  - `amount`: AKT amount minted
-  - Additional fields: oracle price, ACT amount
+- Event with `type: "message"` containing:
+  - `action: "/akash.bme.v1.MsgMintACT"`
+  - `sender: <user-address>`
+  - `module: "bme"`
+
+**Example Output:**
+```json
+{
+  "type": "message",
+  "attributes": [
+    { "key": "action", "value": "/akash.bme.v1.MsgMintACT" },
+    { "key": "sender", "value": "akash1..." },
+    { "key": "module", "value": "bme" },
+    { "key": "msg_index", "value": "0" }
+  ]
+}
+```
 
 **Proof to Submit:**
 - Transaction hash
-- Event output showing mint event with correct fields
+- Event output showing `action: "/akash.bme.v1.MsgMintACT"` and `module: "bme"`
 
 ---
 
@@ -71,38 +83,48 @@ akash query tx <tx-hash> --output json | jq '.events[] | select(.type | contains
 
 3. Query transaction events:
    ```bash
-   akash query tx <tx-hash> --output json | jq '.events'
+   akash query tx <tx-hash> --output json | jq '.events[] | select(.type == "message")'
    ```
 
-4. Look for BME burn events in the output
+4. Look for BME burn event in the output
 
 **Expected Results:**
-- Event emitted with type containing "burn" or "BurnACT"
-- Event contains:
-  - `sender`: User address
-  - `amount`: ACT amount burned
-  - Additional fields: AKT received, oracle price
+- Event with `type: "message"` containing:
+  - `action: "/akash.bme.v1.MsgBurnACT"`
+  - `sender: <user-address>`
+  - `module: "bme"`
+
+**Example Output:**
+```json
+{
+  "type": "message",
+  "attributes": [
+    { "key": "action", "value": "/akash.bme.v1.MsgBurnACT" },
+    { "key": "sender", "value": "akash1..." },
+    { "key": "module", "value": "bme" },
+    { "key": "msg_index", "value": "0" }
+  ]
+}
+```
 
 **Proof to Submit:**
 - Transaction hash
-- Event output showing burn event with correct fields
+- Event output showing `action: "/akash.bme.v1.MsgBurnACT"` and `module: "bme"`
 
 ---
 
-### Test 8.3: Event Emission - Settlement
+### Test 8.3: Event Emission - Deployment Close
 
-**Objective:** Verify settlement events are emitted during deployment lifecycle
+**Objective:** Verify deployment lifecycle events are emitted during close
 
 **User Actions:**
 1. Create a deployment (see Category 1 for full workflow):
    ```bash
-   akash tx bme mint-act 100000000uakt --from <wallet> -y
-   sleep 60
    akash tx deployment create deploy.yml --deposit 50000000uact --from <wallet> -y
    # Complete lease creation...
    ```
 
-2. Let deployment run for at least one settlement epoch (~1-2 minutes)
+2. Let deployment run briefly (~1-2 minutes)
 
 3. Close deployment and capture transaction hash:
    ```bash
@@ -112,19 +134,43 @@ akash query tx <tx-hash> --output json | jq '.events[] | select(.type | contains
 
 4. Query close transaction events:
    ```bash
-   akash query tx <tx-hash> --output json | jq '.events'
+   akash query tx <tx-hash> --output json | jq '.events[] | select(.type | contains("deployment") or contains("lease"))'
    ```
 
 **Expected Results:**
-- Settlement/escrow events emitted during deployment lifecycle
-- Close transaction includes escrow/settlement events
-- Events contain:
-  - Provider address
-  - ACT amount settled
-  - Related deployment/lease identifiers
+- `akash.deployment.v1.EventDeploymentClosed` event containing:
+  - `id` with owner address and dseq
+- `akash.deployment.v1.EventGroupClosed` event containing:
+  - `id` with owner, dseq, and gseq
+
+**Example Output:**
+```json
+{
+  "type": "akash.deployment.v1.EventDeploymentClosed",
+  "attributes": [
+    { "key": "id", "value": "{\"owner\":\"akash1...\",\"dseq\":\"12345\"}" }
+  ]
+}
+{
+  "type": "akash.deployment.v1.EventGroupClosed",
+  "attributes": [
+    { "key": "id", "value": "{\"owner\":\"akash1...\",\"dseq\":\"12345\",\"gseq\":1}" }
+  ]
+}
+```
 
 **Proof to Submit:**
 - Transaction hash for deployment close
-- Event output showing settlement-related events
+- Event output showing `EventDeploymentClosed` and `EventGroupClosed` events
 
 **⚠️ Important:** Close deployment when testing is complete.
+
+---
+
+## Summary
+
+| Test | Event Type | Key Attributes |
+|------|------------|----------------|
+| 8.1 | `message` | `action: /akash.bme.v1.MsgMintACT`, `module: bme` |
+| 8.2 | `message` | `action: /akash.bme.v1.MsgBurnACT`, `module: bme` |
+| 8.3 | `EventDeploymentClosed`, `EventGroupClosed` | `id` with owner/dseq |
