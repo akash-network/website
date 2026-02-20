@@ -1,0 +1,77 @@
+---
+import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
+import { ArrowUpRightIcon } from "../header/icons";
+
+interface Props {
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  className?: string;
+  link?: string;
+  isActive?: boolean;
+  target?: "_self" | "_blank";
+  "aria-label"?: string;
+  download?: string;
+  id?: string;
+}
+
+const {
+  variant,
+  size,
+  className,
+  link,
+  isActive = false,
+  target = "_self",
+  "aria-label": ariaLabel,
+  download,
+  id,
+  ...props
+} = Astro.props;
+
+export const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-lg font-medium gap-x-1.5 leading-none not-prose transition-opacity",
+  {
+    variants: {
+      variant: {
+        primary:
+          "bg-[#171717] text-[#fafafa] hover:opacity-90",
+        secondary:
+          "bg-[#fafafa] text-[#171717] hover:opacity-90",
+        ghost:
+          "bg-transparent border-none text-[#171717] dark:text-[#fafafa] underline underline-offset-2 hover:opacity-80",
+      },
+      size: {
+        xs: "px-2 py-1 text-xs rounded",
+        sm: "px-2 py-1 text-sm rounded",
+        md: "px-2 py-1 lg:px-2.5 lg:py-1.5 text-sm rounded-md",
+        lg: "px-2.5 py-1.5 lg:px-3 lg:py-2 text-sm rounded-md",
+        xl: "px-3 py-2 lg:px-3.5 lg:py-2.5 text-sm rounded-md",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+    },
+  },
+);
+
+// Arrow icon — a simple diagonal arrow (↗ style)
+---
+
+<a
+  id={id}
+  aria-label={ariaLabel ?? ""}
+  href={link}
+  download={download}
+  target={link ? (link.startsWith("http") ? "_blank" : "_self") : "_self"}
+  rel="noopener noreferrer"
+>
+  <button
+    aria-label={ariaLabel}
+    {...props}
+    class={cn(buttonVariants({ variant, size, className }))}
+  >
+    <slot />
+    <ArrowUpRightIcon className="h-4 w-4" />
+  </button>
+</a>

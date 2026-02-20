@@ -37,4 +37,7 @@ export default defineConfig({
     mdx(),
   ],
   site: "https://akash.network",
+  server: {
+    host: true,
+  },
 });

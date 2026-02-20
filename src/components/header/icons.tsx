@@ -1,5 +1,5 @@
 // Social media icons
-export const GithubIcon = ({ className }: { className?: string }) => {
+export const GithubIcon = ({ className = "size-6" }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -19,6 +19,13 @@ export const GithubIcon = ({ className }: { className?: string }) => {
     </svg>
   );
 };
+
+// export const GithubIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+//     <svg className={className} viewBox="0 0 33 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+//         <path d="M14.2708 23.6145C9.19786 25.1364 9.19786 21.0781 7.1687 20.5708M21.3728 26.6583V22.7319C21.4109 22.2481 21.3455 21.7617 21.1811 21.3052C21.0166 20.8486 20.7569 20.4322 20.4191 20.0838C23.6049 19.7287 26.953 18.5214 26.953 12.9818C26.9527 11.5652 26.4078 10.203 25.4311 9.1771C25.8936 7.93779 25.8609 6.56795 25.3398 5.35213C25.3398 5.35213 24.1426 4.99703 21.3728 6.85371C19.0474 6.22348 16.5962 6.22348 14.2708 6.85371C11.501 4.99703 10.3037 5.35213 10.3037 5.35213C9.78264 6.56795 9.74994 7.93779 10.2124 9.1771C9.22842 10.2106 8.68298 11.5852 8.69057 13.0122C8.69057 18.5112 12.0387 19.7186 15.2245 20.1143C14.8907 20.4592 14.6332 20.8705 14.4689 21.3215C14.3046 21.7725 14.2371 22.253 14.2708 22.7319V26.6583" />
+//     </svg>
+// );
+
 export const RightArrowIcon = ({ className }: { className?: string }) => {
   return (
     <svg
@@ -90,7 +97,7 @@ export const CalenderIcon = ({ className }: { className?: string }) => {
   );
 };
 
-export const TwitterIcon = ({ className }: { className?: string }) => {
+export const TwitterIcon = ({ className = "size-6" }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -120,7 +127,23 @@ export const TwitterIcon = ({ className }: { className?: string }) => {
     </svg>
   );
 };
-export const TelegramIcon = ({ className }: { className?: string }) => {
+
+// export const TwitterIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+//   <svg className={className} viewBox="0 0 33 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+//     <path d="M11.6862 6.40002H6.6438L22.4014 27.2H27.4438L11.6862 6.40002Z" />
+//     <path d="M27.9898 6.91418C28.2737 6.61261 28.2594 6.13795 27.9579 5.854C27.6563 5.57004 27.1817 5.58431 26.8977 5.88587L27.9898 6.91418ZM26.8977 5.88587L18.3288 14.986L19.4209 16.0143L27.9898 6.91418L26.8977 5.88587Z" fill="currentColor" />
+//     <path d="M15.3749 18.4998L7.44373 27.2" strokeLinecap="round" />
+//   </svg>
+// );
+
+export const ArrowUpRightIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M7 7h10v10" />
+    <path d="M7 17 17 7" />
+  </svg>
+);
+
+export const TelegramIcon = ({ className = "size-6" }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -138,7 +161,19 @@ export const TelegramIcon = ({ className }: { className?: string }) => {
   );
 };
 
-export const DiscordIcon = ({ className }: { className?: string }) => {
+// export const TelegramIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+//   <svg className={className} viewBox="0 0 33 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+//     <path d="M28.5 6.66663L3.16663 16.6666L12.5 18M28.5 6.66663L25.1666 26.6666L12.5 18M28.5 6.66663L12.5 18M12.5 18V25.3333L16.8317 20.9638" />
+//   </svg>
+// );
+
+export const ZealyIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 33 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+    <path fillRule="evenodd" clipRule="evenodd" d="M25.3394 16.4159C25.7351 16.0242 26.1342 15.6241 26.525 15.2208C26.525 14.7497 26.5283 10.2864 26.5283 10.2864L22.3237 6C17.2328 7.73737 11.8016 8.1341 6.46865 7.84812C6.46865 7.84812 6.46537 8.46141 6.46537 13.814L7.95521 15.3299C7.26835 15.7812 6.57658 16.2225 5.87827 16.6556L5.875 21.5834L10.0828 25.8748C15.7282 26.25 21.4962 25.8318 26.875 23.939V17.9781L25.3394 16.4126V16.4159ZM24.1133 21.6968C19.5964 23.0275 15.135 23.3763 10.5756 23.1912V20.8008C13.1987 19.1015 15.8235 17.2236 18.4434 15.0713C16.0165 15.3904 13.5945 15.4714 11.1627 15.3986V12.7554C15.3967 12.881 19.5588 12.5388 23.7617 11.3453V13.7356C21.1385 16.2847 18.5138 18.508 15.8939 20.4934C18.6364 20.3049 21.3724 19.8619 24.115 19.0535L24.6773 21.442L24.1133 21.6968Z" />
+  </svg>
+);
+
+export const DiscordIcon = ({ className = "size-6" }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -187,7 +222,17 @@ export const DiscordIcon = ({ className }: { className?: string }) => {
   );
 };
 
-export const YoutubeIcon = ({ className }: { className?: string }) => {
+// export const DiscordIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+//   <svg className={className} viewBox="0 0 33 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+//     <path d="M8.72498 20.75C14.7074 23.7412 18.2969 23.7412 24.2793 20.75" />
+//     <path d="M20.6877 22.5526L21.8842 24.9456C21.8842 24.9456 26.8752 23.3563 28.4649 20.7579C28.4649 19.5614 29.0991 11.0106 24.8754 8.19476C23.0807 6.99827 20.0895 6.40002 20.0895 6.40002L18.893 8.793H16.5" />
+//     <path d="M12.3498 22.5526L11.1533 24.9456C11.1533 24.9456 6.16232 23.3563 4.57258 20.7579C4.57258 19.5614 3.93834 11.0106 8.16205 8.19476C9.95679 6.99827 12.948 6.40002 12.948 6.40002L14.1445 8.793H16.5375" />
+//     <path d="M12.3115 18.3609C11.3203 18.3609 10.5167 17.2895 10.5167 15.9679C10.5167 14.6463 11.3203 13.575 12.3115 13.575C13.3027 13.575 14.1062 14.6463 14.1062 15.9679C14.1062 17.2895 13.3027 18.3609 12.3115 18.3609Z" />
+//     <path d="M20.6928 18.3609C19.7016 18.3609 18.8981 17.2895 18.8981 15.9679C18.8981 14.6463 19.7016 13.575 20.6928 13.575C21.684 13.575 22.4875 14.6463 22.4875 15.9679C22.4875 17.2895 21.684 18.3609 20.6928 18.3609Z" />
+//   </svg>
+// );
+
+export const YoutubeIcon = ({ className = "size-5" }: { className?: string }) => {
   return (
     <svg
       width="16"
@@ -213,6 +258,14 @@ export const YoutubeIcon = ({ className }: { className?: string }) => {
     </svg>
   );
 };
+
+// export const YoutubeIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+//   <svg className={className} viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+//     <path d="M30.372 9.28719C30.21 8.64254 29.8801 8.05188 29.4156 7.57487C28.9512 7.09787 28.3686 6.75142 27.7267 6.5705C25.3813 6 16 6 16 6C16 6 6.61867 6 4.27334 6.62484C3.63143 6.80575 3.04882 7.1522 2.58435 7.62921C2.11988 8.10621 1.79 8.69687 1.62802 9.34153C1.19879 11.7126 0.988829 14.1179 1.00078 16.5272C0.985479 18.9546 1.19545 21.3782 1.62802 23.7671C1.80659 24.3918 2.14387 24.96 2.60726 25.4168C3.07065 25.8737 3.64449 26.2038 4.27334 26.3752C6.61867 27 16 27 16 27C16 27 25.3813 27 27.7267 26.3752C28.3686 26.1943 28.9512 25.8478 29.4156 25.3708C29.8801 24.8938 30.21 24.3031 30.372 23.6585C30.7979 21.3053 31.0078 18.9183 30.9992 16.5272C31.0145 14.0997 30.8045 11.6761 30.372 9.28719Z" />
+//     <path d="M12.932 20.969L20.7725 16.5272L12.932 12.0854V20.969Z" />
+//   </svg>
+// );
+
 export const DarkModeToggle = () => {
   return (
     <svg
@@ -463,12 +516,10 @@ export const AkashLogo = () => {
   );
 };
 
-export const InstagramIcon = ({ className }: { className?: string }) => {
+export const InstagramIcon = ({ className = "size-4" }: { className?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
       fill="currentColor"
       className={className}
       viewBox="0 0 16 16"
@@ -478,17 +529,37 @@ export const InstagramIcon = ({ className }: { className?: string }) => {
   );
 };
 
-export const LinkedInIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      className={className}
-      viewBox="0 0 16 16"
-    >
-      <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z" />
-    </svg>
-  );
-};
+export const ChevronRightIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m9 18 6-6-6-6" />
+  </svg>
+);
+
+// export const LinkedInIcon = ({ className }: { className?: string }) => {
+//   return (
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       width="16"
+//       height="16"
+//       fill="currentColor"
+//       className={className}
+//       viewBox="0 0 16 16"
+//     >
+//       <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z" />
+//     </svg>
+//   );
+// };
+
+export const LinkedInIcon = ({ className = "size-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20.925 11.2632C22.8346 11.2632 24.6659 12.0284 26.0162 13.3905C27.3664 14.7526 28.125 16.6 28.125 18.5263V27H23.325V18.5263C23.325 17.8842 23.0721 17.2684 22.6221 16.8144C22.172 16.3603 21.5615 16.1053 20.925 16.1053C20.2885 16.1053 19.678 16.3603 19.2279 16.8144C18.7779 17.2684 18.525 17.8842 18.525 18.5263V27H13.725V18.5263C13.725 16.6 14.4836 14.7526 15.8338 13.3905C17.1841 12.0284 19.0154 11.2632 20.925 11.2632Z" />
+    <path d="M8.925 12.4737H4.125V27H8.925V12.4737Z" />
+    <path d="M6.525 8.84211C7.85048 8.84211 8.925 7.75816 8.925 6.42105C8.925 5.08394 7.85048 4 6.525 4C5.19952 4 4.125 5.08394 4.125 6.42105C4.125 7.75816 5.19952 8.84211 6.525 8.84211Z" />
+  </svg>
+);
+
+export const RedditIcon = ({ className = "size-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 33 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M21.7868 7.15716C21.7868 7.15716 21.1667 7.63922 21.1667 8.53677C21.1667 9.5345 21.9502 10.3433 22.9167 10.3433C23.8832 10.3433 24.6667 9.5345 24.6667 8.53677C24.6667 7.53905 23.8832 6.73023 22.9167 6.73023C22.486 6.73023 22.0917 6.89082 21.7868 7.15716ZM21.7868 7.15716L17.2422 6L15.5997 12.7825C13.4146 12.9309 11.4495 13.614 9.96702 14.6453C9.54611 14.2192 8.96945 13.9564 8.33333 13.9564C7.04467 13.9564 6 15.0348 6 16.3651C6 17.2909 6.50593 18.0947 7.24795 18.4979C7.19434 18.7852 7.16667 19.0783 7.16667 19.376C7.16667 23.0343 11.3453 26 16.5 26C21.6547 26 25.8333 23.0343 25.8333 19.376C25.8333 19.0783 25.8057 18.7852 25.752 18.4979C26.4941 18.0947 27 17.2909 27 16.3651C27 15.0348 25.9553 13.9564 24.6667 13.9564C24.0306 13.9564 23.4539 14.2192 23.033 14.6453C21.4179 13.5217 19.375 12.7556 15.6062 12.7556M12.0931 22.1896C13.3625 23.0632 14.9313 23.5 16.5 23.5C18.0687 23.5 19.6375 23.0632 20.9069 22.1896M14.1667 18.1717C14.1667 19.1694 13.3832 19.9782 12.4167 19.9782C11.4502 19.9782 10.6667 19.1694 10.6667 18.1717C10.6667 17.1739 11.4502 16.3651 12.4167 16.3651C13.3832 16.3651 14.1667 17.1739 14.1667 18.1717ZM22.3333 18.1717C22.3333 19.1694 21.5498 19.9782 20.5833 19.9782C19.6168 19.9782 18.8333 19.1694 18.8333 18.1717C18.8333 17.1739 19.6168 16.3651 20.5833 16.3651C21.5498 16.3651 22.3333 17.1739 22.3333 18.1717Z" />
+  </svg>
+);

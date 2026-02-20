@@ -6,6 +6,7 @@ html body[data-scroll-locked] {
   --removed-body-scroll-bar-size: 0 !important;
   margin-right: 0 !important;
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -78,7 +79,8 @@ html body[data-scroll-locked] {
     --link-text: 0 0% 49%;
     --dark-gray-text: #5e5e5e;
     --dark-gray-border: #515151;
-    --dark-text: #ffffff; /* code */
+    --dark-text: #ffffff;
+    /* code */
     --theme-header-bg: #3c3c3c;
     --three-dots-bg: #515151;
     --default-border: 0 0% 18%;
@@ -88,17 +90,14 @@ html body[data-scroll-locked] {
     --docsearch-modal-background: hsl(0 0% 14%) !important;
     --docsearch-modal-shadow:
       inset 1px 1px 0 0 hsla(0, 0%, 26%, 0.5), 0 3px 8px 0 #555a64 !important;
-    --docsearch-key-gradient: linear-gradient(
-      -225deg,
-      #252525,
-      #202020
-    ) !important;
+    --docsearch-key-gradient: linear-gradient(-225deg,
+        #252525,
+        #202020) !important;
     --docsearch-key-shadow:
       inset 0 -2px 0 0 #383838, inset 0 0 1px 1px #4d4d4d,
       0 1px 2px 1px rgba(30, 35, 90, 0.4) !important;
     --docsearch-footer-background: hsl(0 0% 11%) !important;
-    --docsearch-footer-shadow: 0 -1px 0 0 #181818 0 -3px 6px 0
-      rgba(69, 98, 155, 0.12) !important;
+    --docsearch-footer-shadow: 0 -1px 0 0 #181818 0 -3px 6px 0 rgba(69, 98, 155, 0.12) !important;
     --docsearch-hit-background: hsl(0 0% 11%) !important;
     --docsearch-hit-color: hsl(0, 0%, 93%) !important;
     --docsearch-text-color: hsl(0, 0%, 93%) !important;
@@ -107,18 +106,19 @@ html body[data-scroll-locked] {
 
 @layer components {
   .darkline {
-    @apply h-[2px]  w-full max-w-24 bg-foreground;
+    @apply h-[2px] w-full max-w-24 bg-foreground;
   }
 
   .container {
-    @apply mx-auto max-w-[1280px] self-center  px-[16px] md:px-[20px] lg:px-[40px] 2xl:max-w-[1440px] 2xl:px-[20px] 3xl:max-w-[1600px] 3xl:px-[30px];
+    @apply mx-auto max-w-[1280px] self-center px-[16px] md:px-[20px] lg:px-[40px] 2xl:max-w-[1440px] 2xl:px-[20px] 3xl:max-w-[1600px] 3xl:px-[30px];
   }
+
   .container-nav {
     @apply mx-auto max-w-[1800px] px-[16px] md:px-[20px];
   }
 
   .container-home {
-    @apply mx-auto max-w-[1391px] px-5  xl:px-10;
+    @apply mx-auto max-w-[1391px] px-5 xl:px-10;
   }
 
   .container-nav-2 {
@@ -132,9 +132,11 @@ html body[data-scroll-locked] {
   .container-reader {
     @apply mx-auto max-w-[1150px] px-5;
   }
+
   .container-small {
-    @apply mx-auto max-w-[1440px] px-5  xl:px-[40px];
+    @apply mx-auto max-w-[1440px] px-5 xl:px-[40px];
   }
+
   .border,
   .border-r,
   .border-l,
@@ -142,6 +144,7 @@ html body[data-scroll-locked] {
   .border-b,
   .border-x,
   .border-y {
+    /* prettier-ignore */
     @apply border-[hsl(216,11%,91%)] dark:border-[hsl(0,0%,18%)];
   }
 
@@ -171,17 +174,21 @@ html body[data-scroll-locked] {
 
 @layer base {
   body {
-    @apply overflow-x-hidden bg-background    text-foreground subpixel-antialiased;
+    @apply overflow-x-hidden bg-background text-foreground subpixel-antialiased;
   }
+
   p {
     @apply text-para;
   }
+
   h1 {
     @apply !font-medium;
   }
+
   h2 {
     @apply text-foreground dark:text-foreground;
   }
+
   h3 {
     @apply text-foreground dark:text-foreground;
   }
@@ -208,6 +215,7 @@ html body[data-scroll-locked] {
   position: absolute;
   background: #000;
 }
+
 .dark .button--bestia .button__bg::before,
 .dark .button--bestia .button__bg::after {
   background: white;
@@ -302,10 +310,11 @@ html body[data-scroll-locked] {
   word-break: break-word;
 }
 
-.prose-blog li > p {
+.prose-blog li>p {
   margin-bottom: 10px !important;
 }
-.prose-blog li > ul {
+
+.prose-blog li>ul {
   margin-block: 10px !important;
 }
 
@@ -339,4 +348,21 @@ html body[data-scroll-locked] {
   background-color: white;
   filter: blur(100px);
   border-radius: 50%;
+}
+
+/* globals.css */
+@keyframes tab-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-tab-fade {
+  animation: tab-fade 0.25s ease-out forwards;
 }

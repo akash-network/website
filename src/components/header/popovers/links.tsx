@@ -1,12 +1,11 @@
 import {
   Backpack,
-  BadgeCheck,
   BadgeHelp,
   Calendar,
   CalendarHeart,
   Codesandbox,
   FileStack,
-  HeartHandshake,
+  HeartHandshake
 } from "lucide-react";
 
 type NavItem = {
@@ -31,11 +30,7 @@ export const communityItems: NavItem[] = [
     title: "Events",
     link: "/community/events/",
   },
-  {
-    icon: BadgeCheck,
-    title: "Akash Insiders",
-    link: "/community/akash-insiders/",
-  },
+
 
   {
     customIcon: (
