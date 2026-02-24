@@ -7,7 +7,9 @@ description: "Test BME behavior during circuit breaker halt state (CR < 90%)"
 weight: 7
 ---
 
-**⚠️ This category requires the circuit breaker HALT state to be active (CR < 90%).** The Akash Core team will announce a 24-hour testing window when the circuit breaker is intentionally triggered. Complete these tests when the BME status shows `mint_status_halt_cr`.
+**⚠️ This category requires the circuit breaker HALT state to be active (CR < 90%).** The Akash Core team will announce a dedicated **24-hour CB Halt testing window** when the halt state is intentionally triggered. Complete these tests during that window when the BME status shows `mint_status_halt_cr`.
+
+**Note:** This is a separate window from the CB Warning testing window (Category 7).
 
 **Circuit Breaker Halt Overview:**
 When the Collateralization Ratio (CR) drops below the halt threshold (90%), BME enters protective halt state:
@@ -84,6 +86,18 @@ When the Collateralization Ratio (CR) drops below the halt threshold (90%), BME 
 ---
 
 ### Test 6.3: Verify Burns Work During Halt
+
+---
+
+### ⚠️⚠️⚠️ KNOWN BUG ⚠️⚠️⚠️
+
+**There is currently a bug impacting the ability to burn ACT in halt state.**
+
+Despite `refunds_allowed: true`, burn-act transactions fail with "circuit breaker is active" error.
+
+**Please submit the error message received as your form submission for this task.**
+
+---
 
 **Objective:** Confirm ACT→AKT conversions (burns) still work during halt, allowing users to exit positions
 
