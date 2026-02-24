@@ -154,21 +154,20 @@ Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
 - Input validation
 - Consecutive operations
 
-### [Category 6: Circuit Breaker & Mint Status](/docs/testnet/testplan/circuit-breaker)
-**⚠️ Requires Akash Core Team Member** - Oracle price manipulation needed.
-- MintStatusHealthy
-- MintStatusWarning
-- MintStatusHaltCR (collateral ratio)
-- MintStatusHaltOracle
-- Existing deployments during halt
-- Recovery scenarios
-- State transitions
+### [Category 6: Circuit Breaker HALT State](/docs/testnet/testplan/cb-halt)
+**⚠️ Requires 24-hour CB Halt Testing Window** - Tests BME behavior when CR < 90% (halt state).
+- Verify halt state active (status: `mint_status_halt_cr`)
+- Verify mints **BLOCKED** during halt
+- Verify burns still work (users can exit positions)
+- Verify deployment closure works during halt
+- Verify existing deployments continue running
 
-### [Category 7: Dynamic Epoch Timing](/docs/testnet/testplan/epoch-timing)
-Test dynamic epoch timing adjustments based on system state.
-- Normal epoch timing
-- Epoch backoff during Warning state
-- Epoch timing recovery
+### [Category 7: Circuit Breaker WARNING State](/docs/testnet/testplan/cb-warning)
+**⚠️ Requires 24-hour CB Warning Testing Window** - Tests BME behavior when 90% ≤ CR < 95% (warning state).
+- Verify warning state active (status: `mint_status_warning`)
+- Verify mints **WORK** during warning (still allowed)
+- Verify burns work
+- Verify deployment creation works during warning
 
 ### [Category 8: Event Emissions & Observability](/docs/testnet/testplan/observability)
 Verify BME event emissions during operations.
@@ -191,38 +190,80 @@ Complete user journeys combining multiple operations.
 
 ---
 
-## Summary Checklist
+## Circuit Breaker State Comparison
 
-| Category | Tests | Priority |
-|----------|-------|----------|
-| Pre-Flight Health Checks | 0.1-0.10 | Critical (Run First) |
-| Deployment Creation | 1.1-1.4 | Critical |
-| Deployment Closure/Refunds | 2.1-2.3 | Critical |
-| Provider Settlement | 3.1-3.3 | Critical |
-| Epoch-Based Processing | 4.1-4.2 | High |
-| Direct Message Operations | 5.1-5.11 | Critical |
-| Circuit Breaker/Mint Status | 6.1-6.7 | ⚠️ Requires Akash Core Team |
-| Dynamic Epoch Timing | 7.1-7.3 | Medium |
-| Event Emissions/Observability | 8.1-8.3 | Medium |
-| Edge Cases | 9.1-9.5 | High |
-| End-to-End | 10.1-10.2 | Critical |
+Categories 6 and 7 test different circuit breaker states. Here's how they differ:
 
-**Total: 53 tests across 11 categories**
+| State | CR Range | `mints_allowed` | `refunds_allowed` | Key Behavior |
+|-------|----------|-----------------|-------------------|--------------|
+| **Healthy** | ≥ 95% | `true` | `true` | Normal operation |
+| **Warning** (Cat 7) | 90% - 95% | `true` | `true` | All operations work, system signaling risk |
+| **Halt** (Cat 6) | < 90% | `false` | `true` | Mints blocked, burns always allowed |
+
+**Key Principle:** The circuit breaker is asymmetric — it protects the system by blocking new ACT creation during stress, but **always** allows users to exit their positions via burns.
 
 ---
 
-## Akash Core Team Requirements
+## Summary Checklist
 
-The following tests require Akash Core team coordination to trigger circuit breaker states (Warning, HaltCR, HaltOracle). These states cannot be triggered naturally without manipulating the oracle price or stopping the price feeder:
+| Category | Tests | Priority | When to Run |
+|----------|-------|----------|-------------|
+| Pre-Flight Health Checks | 0.1-0.10 | Critical | Run First |
+| Deployment Creation | 1.1-1.4 | Critical | Anytime (healthy state) |
+| Deployment Closure/Refunds | 2.1-2.3 | Critical | Anytime (healthy state) |
+| Provider Settlement | 3.1-3.3 | Critical | Anytime (healthy state) |
+| Epoch-Based Processing | 4.1-4.2 | High | Anytime (healthy state) |
+| Direct Message Operations | 5.1-5.11 | Critical | Anytime (healthy state) |
+| CB Halt State (CR < 90%) | 6.1-6.5 | Critical | ⚠️ During 24hr CB Halt Window |
+| CB Warning State (90-95%) | 7.1-7.4 | Critical | ⚠️ During 24hr CB Warning Window |
+| Event Emissions/Observability | 8.1-8.3 | Medium | Anytime (healthy state) |
+| Edge Cases | 9.1-9.5 | High | Anytime (healthy state) |
+| End-to-End | 10.1-10.2 | Critical | Anytime (healthy state) |
 
-| Action | Tests Requiring |
-|--------|-----------------|
-| Trigger Warning state (CR < 0.95) | 6.2, 7.2, 7.3 |
-| Trigger HaltCR state (CR < 0.90) | 6.3, 6.5, 6.6 |
-| Stop oracle updates (HaltOracle) | 6.4 |
-| Recovery from halt states | 6.6, 6.7, 7.3 |
+**Total: 52 tests across 11 categories**
 
-**Note:** Tests involving natural price movement (2.3) do NOT require admin coordination — testers can work with normal market price fluctuations.
+---
+
+## Circuit Breaker Testing Windows
+
+Categories 6 and 7 require the Akash Core team to manipulate oracle prices to trigger circuit breaker states. There will be **two separate 24-hour testing windows**:
+
+### CB Halt Testing Window (Category 6)
+
+The Akash Core team will announce a **24-hour window** when the circuit breaker halt state is active (CR < 90%).
+
+**During this window:**
+- BME status will show `mint_status_halt_cr`
+- `mints_allowed: false`
+- Complete all **Category 6** tests
+
+**Preparation before the window:**
+- Mint ACT before the window starts (you'll need ACT for burn tests — mints are blocked during halt)
+- Create deployments before the window (for closure tests during halt)
+
+**Monitor status:**
+```bash
+akash query bme status
+# Look for: status: mint_status_halt_cr
+```
+
+### CB Warning Testing Window (Category 7)
+
+The Akash Core team will announce a separate **24-hour window** when the circuit breaker warning state is active (90% ≤ CR < 95%).
+
+**During this window:**
+- BME status will show `mint_status_warning`
+- `mints_allowed: true` (mints still work in warning state)
+- Complete all **Category 7** tests
+
+**Preparation before the window:**
+- No special preparation required — mints still work during warning state
+
+**Monitor status:**
+```bash
+akash query bme status
+# Look for: status: mint_status_warning
+```
 
 ---
 
@@ -232,6 +273,6 @@ The following tests require Akash Core team coordination to trigger circuit brea
 2. **Two-phase execution** - RequestBurnMint queues operations, executeBurnMint processes them
 3. **Four mint statuses** - Healthy, Warning, HaltCR, HaltOracle
 4. **Dynamic epoch timing** - Adjusts based on Collateralization Ratio
-5. **Asymmetric circuit breaker** - AKT→ACT blocked during halt, ACT→AKT still works
+5. **Asymmetric circuit breaker** - AKT→ACT blocked during halt, ACT→AKT always works
 6. **Provider settlement is two-step** - Provider receives ACT, then burns to AKT
 7. **SDL pricing must use uact** - Using uakt is rejected with validation error

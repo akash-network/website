@@ -1,0 +1,193 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Circuit Breaker", "Warning"]
+title: "Circuit Breaker Warning State Testing"
+linkTitle: "CB Warning Testing"
+description: "Test BME behavior during circuit breaker warning state (90% ≤ CR < 95%)"
+weight: 8
+---
+
+**⚠️ This category requires the circuit breaker WARNING state to be active (90% ≤ CR < 95%).** The Akash Core team will announce a 24-hour testing window when the circuit breaker is intentionally triggered. Complete these tests when the BME status shows `mint_status_warning`.
+
+**Circuit Breaker Warning Overview:**
+When the Collateralization Ratio (CR) drops below the warning threshold (95%) but remains above halt (90%), BME enters warning state:
+- **Warning (90% ≤ CR < 95%):** System operational but approaching risk
+- `mints_allowed: true` — AKT→ACT conversions still work
+- `refunds_allowed: true` — ACT→AKT conversions always allowed
+- Epoch timing may slow down (backoff behavior)
+
+**Key Principle:** Warning state is a soft alert — all operations still work, but the system is signaling elevated risk.
+
+---
+
+### Test 7.1: Verify Circuit Breaker Warning State Active
+
+**Objective:** Confirm BME is in circuit breaker WARNING state with appropriate status indicators
+
+**User Actions:**
+
+1. Query BME status:
+   ```bash
+   akash query bme status
+   ```
+
+2. Note the key fields:
+   - `status` — should show `mint_status_warning`
+   - `collateral_ratio` — should be between 0.90 and 0.95
+   - `mints_allowed` — should be `true` (still allowed in warning)
+   - `refunds_allowed` — should be `true`
+
+3. Query vault state for context:
+   ```bash
+   akash query bme vault-state
+   ```
+
+**Expected Results:**
+- `status: mint_status_warning`
+- `collateral_ratio` ≥ 0.90 AND < 0.95
+- `mints_allowed: true`
+- `refunds_allowed: true`
+
+**Proof to Submit:**
+- BME status output showing `mint_status_warning`
+- Collateral ratio value (must be between 0.90 and 0.95)
+- mints_allowed: true and refunds_allowed: true
+
+---
+
+### Test 7.2: Verify Mints Work During Warning
+
+**Objective:** Confirm AKT→ACT conversions still WORK during warning state
+
+**User Actions:**
+
+1. Record pre-mint balances:
+   ```bash
+   akash query bank balances <your-address>
+   ```
+
+2. Mint ACT:
+   ```bash
+   akash tx bme mint-act 10000000uakt --from <wallet> -y
+   ```
+
+3. Wait for epoch processing (~90 seconds or longer if backoff active):
+   ```bash
+   sleep 120
+   ```
+
+4. Check post-mint balances:
+   ```bash
+   akash query bank balances <your-address>
+   ```
+
+**Expected Results:**
+- Transaction SUCCEEDS
+- AKT balance decreased
+- ACT balance increased
+- Mints still work during warning (unlike halt)
+
+**Proof to Submit:**
+- BME status showing `mint_status_warning` and `mints_allowed: true`
+- Successful mint-act transaction hash
+- Balance changes showing AKT decreased, ACT increased
+
+---
+
+### Test 7.3: Verify Burns Work During Warning
+
+**Objective:** Confirm ACT→AKT conversions work during warning state
+
+**User Actions:**
+
+1. Verify you have ACT to burn:
+   ```bash
+   akash query bank balances <your-address>
+   ```
+
+2. Record pre-burn balances
+
+3. Burn ACT:
+   ```bash
+   akash tx bme burn-act 1000000uact --from <wallet> -y
+   ```
+
+4. Wait for epoch processing (~90-120 seconds):
+   ```bash
+   sleep 120
+   ```
+
+5. Check post-burn balances:
+   ```bash
+   akash query bank balances <your-address>
+   ```
+
+**Expected Results:**
+- Transaction SUCCEEDS
+- ACT balance decreased
+- AKT balance increased
+
+**Proof to Submit:**
+- BME status showing `refunds_allowed: true`
+- Successful burn-act transaction hash
+- Balance changes showing ACT decreased, AKT increased
+
+---
+
+### Test 7.4: Verify Deployment Creation Works During Warning
+
+**Objective:** Confirm new deployments can still be created during warning state
+
+**User Actions:**
+
+1. Ensure you have ACT balance
+
+2. Record pre-deployment balances:
+   ```bash
+   akash query bank balances <your-address>
+   ```
+
+3. Create deployment:
+   ```bash
+   akash tx deployment create deploy.yml --deposit 5000000uact --from <wallet> -y
+   ```
+
+4. Verify deployment created:
+   ```bash
+   akash query deployment list --owner <your-address>
+   ```
+
+**Expected Results:**
+- Deployment creation SUCCEEDS
+- ACT balance decreased by deposit amount
+- New deployments allowed during warning (unlike halt)
+
+**Proof to Submit:**
+- Successful deployment creation transaction output
+- Deployment list showing new deployment
+
+---
+
+## Summary
+
+| Test | Objective | Key Verification |
+|------|-----------|------------------|
+| 7.1 | Warning state active | status: warning, 90% ≤ CR < 95%, mints_allowed: true |
+| 7.2 | Mints work | mint-act SUCCEEDS (unlike halt) |
+| 7.3 | Burns work | burn-act succeeds |
+| 7.4 | Deployment creation works | new deployment can be created (unlike halt) |
+
+**Important Notes:**
+- All tests require `mint_status_warning` state (90% ≤ CR < 95%)
+- Warning state may occur during price recovery from halt
+- Epoch timing may be slower than healthy state (backoff behavior)
+- Compare results with Category 6 (Halt state) to validate threshold behavior:
+  - **Halt (CR < 90%):** Mints BLOCKED
+  - **Warning (90% ≤ CR < 95%):** Mints ALLOWED
+
+**Timing During CB Window:**
+The 24-hour CB window will cycle through states. Warning state typically occurs:
+1. As price drops from healthy → warning (before hitting halt)
+2. As price recovers from halt → warning (before returning to healthy)
+
+Coordinate with the test plan timeline to capture warning state tests.
