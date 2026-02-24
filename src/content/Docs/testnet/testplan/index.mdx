@@ -154,7 +154,7 @@ Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
 - Input validation
 - Consecutive operations
 
-### [Category 6: Circuit Breaker HALT State](/docs/testnet/testplan/cb-halt)
+### [Category 6: Circuit Breaker HALT State](/docs/testnet/testplan/cb-halt-testing)
 **⚠️ Requires 24-hour CB Halt Testing Window** - Tests BME behavior when CR < 90% (halt state).
 - Verify halt state active (status: `mint_status_halt_cr`)
 - Verify mints **BLOCKED** during halt
@@ -162,7 +162,7 @@ Test direct mint/burn commands (MsgMintACT, MsgBurnACT, MsgBurnMint).
 - Verify deployment closure works during halt
 - Verify existing deployments continue running
 
-### [Category 7: Circuit Breaker WARNING State](/docs/testnet/testplan/cb-warning)
+### [Category 7: Circuit Breaker WARNING State](/docs/testnet/testplan/cb-warning-testing)
 **⚠️ Requires 24-hour CB Warning Testing Window** - Tests BME behavior when 90% ≤ CR < 95% (warning state).
 - Verify warning state active (status: `mint_status_warning`)
 - Verify mints **WORK** during warning (still allowed)
