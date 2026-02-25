@@ -1,10 +1,64 @@
 ---
-import { subscribeLink } from "@/lib/constants";
-import { ArrowUpCircle } from "lucide-react";
+import { ArrowUpCircle, X } from "lucide-react";
+import { SubscribeForm } from "@/components/footer/SubscribeForm";
 ---
 
-<a
-  href={subscribeLink}
+<button
+  id="open-hubspot-form"
   class="flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary/5 px-[13px] py-2 text-sm font-medium text-primary transition-all duration-300 hover:bg-primary hover:text-white dark:border-primary"
-  ><ArrowUpCircle className="mr-2 h-4 w-4 rotate-45" />Subscribe Now</a
 >
+  <ArrowUpCircle className="mr-2 h-4 w-4 rotate-45" />
+  Subscribe Now
+</button>
+
+<div
+  id="subscribe-modal"
+  class="fixed inset-0 hidden items-center justify-center bg-black/60 z-50 p-4 backdrop-blur-sm"
+>
+  <div class="bg-background2 border border-border rounded-2xl w-full max-w-md relative shadow-2xl p-8 transform transition-all">
+    <button
+      id="close-subscribe-modal"
+      class="absolute top-4 right-4 text-para hover:text-primary transition-colors p-1 rounded-full hover:bg-primary/5"
+      aria-label="Close"
+    >
+      <X className="h-5 w-5" />
+    </button>
+
+    <SubscribeForm client:only="react" />
+  </div>
+</div>
+
+<script>
+  function setupSubscribeModal() {
+    const openBtn = document.getElementById("open-hubspot-form");
+    const closeBtn = document.getElementById("close-subscribe-modal");
+    const modal = document.getElementById("subscribe-modal");
+
+    if (openBtn && modal) {
+      openBtn.addEventListener("click", () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      });
+    }
+
+    if (closeBtn && modal) {
+      closeBtn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      });
+    }
+
+    // Close on backdrop click
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        }
+      });
+    }
+  }
+
+  setupSubscribeModal();
+  document.addEventListener("astro:page-load", setupSubscribeModal);
+</script>
