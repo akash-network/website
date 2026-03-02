@@ -7,6 +7,7 @@ interface TryAkashFormProps extends VariantProps<typeof speakToExpertVariants> {
   type:
     | "hero"
     | "header"
+    | "headerDeploy"
     | "speckToExpert"
     | "speakToExpertHeader"
     | "linkButton"
@@ -37,15 +38,28 @@ export default function TryAkashForm({
     </button>
   );
 
+  const headerDeployButton = (
+    <button
+      type="button"
+      className={buttonVariants({
+        variant: "default",
+        size: "sm",
+        className: "!h-auto !rounded px-[11px] py-[7px] text-xs",
+      })}
+    >
+      Deploy Now
+    </button>
+  );
+
   const heroButton = (
     <button
       type="button"
       className={clsx(
-        " cursor-pointer rounded-md bg-primary px-10 py-2.5  !font-medium text-white  transition-all hover:bg-primary/90 md:px-[60px] md:py-5 lg:text-xl",
+        " cursor-pointer rounded-md bg-primary px-4 md:px-6 py-2.5 md:py-3 text-white transition-all hover:bg-primary/90 text-sm md:text-base",
         fullWidth ? "w-full" : "mx-auto",
       )}
     >
-      Get Started
+      Deploy On Console
     </button>
   );
 
@@ -171,8 +185,10 @@ export default function TryAkashForm({
     </button>
   );
 
-  return type === "hero" ? (
-    <a href="https://console.akash.network">{heroButton}</a>
+  return type === "hero" || type === "headerDeploy" ? (
+    <a href="https://console.akash.network/">
+      {type === "hero" ? heroButton : headerDeployButton}
+    </a>
   ) : (
     <a href="/gpus-on-demand">
       {type === "speckToExpert"

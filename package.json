@@ -39,6 +39,8 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.1.0",
+    "@react-three/fiber": "^8.18.0",
+    "@react-three/postprocessing": "^2.19.1",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-query-devtools": "^4.32.6",
@@ -58,6 +60,7 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.279.0",
     "mermaid": "^11.4.1",
+    "postprocessing": "^6.38.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-google-charts": "^4.0.1",
@@ -75,6 +78,7 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.0.24",
     "tailwindcss-animate": "^1.0.7",
+    "three": "^0.169.0",
     "typescript": "^5.9.2",
     "unist-util-remove": "^4.0.0",
     "unist-util-visit": "^5.0.0",
@@ -83,6 +87,7 @@
   },
   "devDependencies": {
     "@types/react-simple-maps": "^3.0.4",
+    "@types/three": "^0.183.1",
     "prettier": "^3.0.3",
     "prettier-plugin-astro": "^0.12.0",
     "prettier-plugin-tailwindcss": "^0.5.4"

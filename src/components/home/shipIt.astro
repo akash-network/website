@@ -1,0 +1,54 @@
+---
+import Dither from "@/components/backgrounds/Dither";
+---
+
+<section class="relative w-full h-fit overflow-hidden">
+  <div class="absolute inset-0 z-0 opacity-15">
+    <Dither
+      client:load
+      waveColor={[0.5,0.5,0.5]}
+      colorNum={3}
+      disableAnimation={false}
+      waveAmplitude={0.25}
+      waveFrequency={2}
+      waveSpeed={0.07}
+      enableMouseInteraction
+      mouseRadius={0.6}
+      pixelSize={2}
+    />
+  </div>
+
+  <div
+    class="relative z-10 flex h-full flex-col items-center justify-center py-52 text-center"
+  >
+    <div class="flex flex-col gap-2 px-6 md:gap-4">
+      <h2
+        class="mb-4 text-[40px] font-semibold leading-[50px] text-white md:text-[80px]"
+      >
+        Just Ship It.
+      </h2>
+
+      <p class="text-sm text-[#8A8F98]">
+        <span class="text-white">Your Cloud. Your Choice.</span> True sovereignty
+        means total flexibility. <br /> Log in with GitHub,
+        Email, or Wallet. Pay with Credit Card, USDC, or AKT.
+      </p>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-2">
+      <a
+        href="https://console.akash.network/"
+        class="flex items-center rounded-lg bg-[#E5E5E5] px-4 py-2 text-[#171717] transition-all duration-300 hover:brightness-110"
+      >
+        Deploy Now
+      </a>
+
+      <a
+        href="/gpus-on-demand"
+        class="flex items-center rounded-lg bg-[#333336] px-4 py-2 text-white transition-all duration-300 hover:brightness-110"
+      >
+        Get In Touch
+      </a>
+    </div>
+  </div>
+</section>
