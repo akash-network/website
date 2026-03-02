@@ -1,0 +1,46 @@
+---
+interface Props {
+  tileIndex: number;
+  title: string;
+  description: string;
+  url: string;
+}
+
+const { tileIndex, title, description, url } = Astro.props;
+---
+
+<button
+  class="hero-tile group w-full flex-1 cursor-pointer rounded-lg border border-[#E3E3E3] dark:border-white/10 bg-[#F1F1F1] dark:bg-[#1b1b1d] p-4 text-left transition-all duration-500 ease-out md:mt-3"
+  data-tile={tileIndex}
+  data-url={url}
+  data-active=""
+  onclick={`window.open('${url}', '_blank')`}
+>
+  <div class="flex flex-col gap-3">
+    <div class="flex items-start justify-between gap-2">
+      <span
+        class="hero-tile-title text-sm font-medium leading-snug text-[#86868b] transition-colors duration-300"
+        set:html={title}
+      />
+      <svg
+        class="hero-icon-arrow opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-4 w-4 shrink-0"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="7" y1="17" x2="17" y2="7"></line>
+        <polyline points="7 7 17 7 17 17"></polyline>
+      </svg>
+    </div>
+    <p class="text-sm leading-snug text-[#86868b]" set:html={description} />
+  </div>
+</button>
+
+<style>
+  .hero-tile {
+    box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  }
+</style>

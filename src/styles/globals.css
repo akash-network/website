@@ -118,7 +118,7 @@ html body[data-scroll-locked] {
   }
 
   .container-home {
-    @apply mx-auto max-w-[1391px] px-5 xl:px-10;
+    @apply mx-auto max-w-[1391px] lg:px-10;
   }
 
   .container-nav-2 {
@@ -126,7 +126,7 @@ html body[data-scroll-locked] {
   }
 
   .container-nav-3 {
-    @apply mx-auto max-w-[1510px];
+    @apply mx-auto max-w-[1510px] px-6 xl:px-12;
   }
 
   .container-reader {

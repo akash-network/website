@@ -3,6 +3,7 @@ import TryAkashForm from "@/components/ui/try-akash-form";
 import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
 import { ArrowRight, Award, Info } from "lucide-react";
+import Slider from "./slider.astro";
 
 interface Props {
   heroSection: CollectionEntry<"Homepage">["data"]["heroSection"];
@@ -10,11 +11,37 @@ interface Props {
 
 const { heroSection } = Astro.props;
 const pathname = Astro.url.pathname;
+
+const tiles = [
+  {
+    title: "Deploy AI models<br />on AkashML",
+    description: "Run AI Inference models on a high-performance managed API.",
+    image: "/images/heroNew1.png",
+    url: "https://akashml.com",
+    buttonText: "Explore AkashML Playground",
+  },
+  {
+    title: "Browse Templates on<br />Akash Console",
+    description:
+      "Explore pre-configured environments for Llama-3, DeepSeek, and more.",
+    image: "/images/heroNew2.png",
+    url: "https://console.akash.network/templates",
+    buttonText: "Explore Templates",
+  },
+  {
+    title: "Become an<br />Akash Provider",
+    description: "Monetize your servers by joining the network.",
+    image: "/images/heroNew3.png",
+    url: "https://provider-console.akash.network",
+    buttonText: "Become an Akash Provider",
+  },
+];
+
 ---
 
-<section class="relative overflow-hidden dark:bg-[#181818]">
+<section class="relative overflow-hidden bg-[#FCFCFC] dark:bg-[#030303]">
   <!-- <div class="glow"></div> -->
-  <div class="container relative z-[2] py-12 md:py-20">
+  <div class="container relative z-[2] pt-16 md:pt-20">
     {
       pathname.includes("meetingconfirmation") && (
         <div class="relative mx-auto mt-10 flex w-fit items-center justify-center gap-2  rounded-lg border !border-primary px-4 py-3 text-sm text-primary">
@@ -25,70 +52,357 @@ const pathname = Astro.url.pathname;
     }
     <h1
       class={clsx(
-        "mx-auto  text-center font-instrument text-6xl font-normal leading-[1] tracking-[-0.88px] lg:text-[94px]",
+        "mx-auto text-center font-instrument text-[54px] italic leading-[1] tracking-[-0.88px] lg:text-[88px]",
         pathname.includes("meetingconfirmation") ? "mt-7" : "mt-10"
       )}
       set:html={heroSection.title}
     />
 
     <p
-      class="mx-auto mt-4 text-center text-lg md:text-xl lg:text-2xl"
+      class="mx-auto mt-4 text-center text-base md:text-xl"
       set:html={heroSection.description}
     />
 
     <div class="mt-12 flex flex-col justify-center gap-4">
       <div
-        class="mx-auto flex items-center gap-2 rounded-full border bg-background2 px-6 py-2.5 text-center text-sm dark:bg-[#18181B] md:py-3 md:text-base"
+        class="mx-auto flex items-center gap-2 rounded-full border bg-background2 px-6 py-2.5 text-center text-sm dark:bg-[#242429]/45 md:py-3 md:text-base"
       >
-        <Award className="size-5 text-primary" />
-        <p class="text-foreground">Get up to $500 in GPU credits</p>
+        <span>💸</span>
+        <p class="text-[#8C8E91]">Get up to $500 in GPU credits</p>
       </div>
       <div class="flex justify-center">
         <TryAkashForm client:load type="hero" />
       </div>
-      <div
-        class="mt-8 flex flex-col items-center justify-center gap-5 md:flex-row md:gap-6"
-      >
-        <a
-          href="/providers"
-          class="flex items-center gap-1.5 font-medium text-foreground transition-all hover:text-primary"
-        >
-          Become a GPU Provider <ArrowRight className="size-4" />
-        </a>
-        <div class="hidden h-6 w-px bg-defaultBorder md:block"></div>
-        <a
-          href="/pricing/gpus"
-          class="flex items-center gap-1.5 font-medium text-foreground transition-all hover:text-primary"
-        >
-          See GPU Availability
-          <ArrowRight className="size-4" />
-        </a>
-      </div>
     </div>
 
-    <!-- <div
-      class="mx-auto mt-20 grid w-fit gap-6 sm:grid-cols-2 md:mt-24 lg:grid-cols-3"
-    >
-      {
-        heroSection.cards.map((card) => (
-          <div class="flex flex-col gap-2 rounded-lg border bg-background2 p-6 md:rounded-xl">
-            <h3 class="font-semibold">{card.title}</h3>
-            <p class="text-sm">{card.description}</p>
-            <div class="mt-auto flex flex-wrap gap-2 pt-2">
-              {card.buttons.map((button) => (
-                <Button
-                  aria-label={button.label}
-                  link={button.link}
-                  variant={button.type}
-                  size="lg"
-                >
-                  {button.label}
-                </Button>
-              ))}
-            </div>
+    <div class="mt-12 md:mt-16">
+      <div class="mx-auto max-w-[1440px] xl:px-0">
+        <div class="mx-auto max-w-[960px] pb-6 pt-6 md:pt-8">
+          <div
+            class="flex flex-col gap-5 md:flex-row md:items-start"
+            id="hero-product-tiles"
+          >
+            {
+              tiles.map((tile, i) => (
+                <div class="flex flex-1 flex-col">
+                  <div class="w-full px-5 md:px-0">
+                    <Slider
+                      tileIndex={i}
+                      title={tile.title}
+                      description={tile.description}
+                      url={tile.url}
+                    />
+                  </div>
+
+                  {/* Mobile: progress bar + image below each card (only visible when active) */}
+                  <div class="hero-mobile-block pl-5 md:hidden">
+                    <div class="min-h-0">
+                      <div class="hero-mobile-line relative">
+                        <div class="h-px w-full bg-white/20" />
+                        <div
+                          class="hero-progress hero-progress-mobile absolute left-0 top-0 h-px bg-primary w-0"
+                          data-tile={i}
+                        />
+                      </div>
+                      <div
+                        class="hero-mobile-image relative group overflow-hidden pl-4 pt-4"
+                        data-tile={i}
+                      >
+                        <img
+                          src={tile.image}
+                          alt=""
+                          class="h-[350px] w-full block rounded-tl-2xl object-cover object-left-top"
+                        />
+                        <div class="hero-image-overlay opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                          <a
+                            href={tile.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="hero-visit-btn"
+                          >
+                            {tile.buttonText}
+                            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0.665039 0.665039H7.33171M7.33171 0.665039V7.33171M7.33171 0.665039L0.665039 7.33171" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
           </div>
-        ))
-      }
-    </div> -->
+
+          {/* Desktop: progress bars */}
+          <div class="mt-5 hidden gap-5 px-1 md:flex">
+            {
+              tiles.map((_, i) => (
+                <div class="relative flex-1">
+                  <div class="h-px w-full bg-white/20" />
+                  <div
+                    class="hero-progress hero-progress-desktop absolute left-0 top-0 h-px bg-primary w-0"
+                    data-tile={i}
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop: image container */}
+      <div class="hidden md:block">
+        <div class="mx-auto max-w-[1136px] px-4 pb-0 pt-4">
+          <div class="relative group">
+            {
+              tiles.map((tile, i) => (
+                <div
+                  class={`hero-desktop-image-container relative overflow-hidden rounded-t-[20px] ${i > 0 ? "hidden" : ""}`}
+                  data-tile={i}
+                >
+                  <img
+                    src={tile.image}
+                    alt=""
+                    class="w-full block"
+                  />
+                  <div class="hero-image-overlay opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                    <a
+                      href={tile.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="hero-visit-btn"
+                    >
+                      {tile.buttonText}
+                      <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.665039 0.665039H7.33171M7.33171 0.665039V7.33171M7.33171 0.665039L0.665039 7.33171" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </section>
+
+<style>
+  @keyframes heroProgressFill {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  .hero-progress.active {
+    animation: heroProgressFill 5s linear forwards;
+  }
+
+  .hero-progress.completed {
+    width: 100%;
+    animation: none;
+  }
+
+  /* Mobile block: hidden by default, shown when active */
+  @media (max-width: 767px) {
+    .hero-mobile-block {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      margin-top: 0;
+      overflow: hidden;
+      transition:
+        grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s ease,
+        margin-top 0.3s ease;
+    }
+
+    .hero-mobile-block.active {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      margin-top: 0.75rem;
+    }
+  }
+
+  .hero-mobile-image {
+    margin-top: 1rem;
+  }
+
+  .hero-image-overlay {
+    background: rgba(20, 20, 22, 0.85);
+    border: 1.12708px solid rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    border-radius: 16px 16px 0px 0px;
+    z-index: 10;
+    position: absolute;
+    bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .hero-image-overlay {
+      top: 16px;
+      left: 16px;
+      right: 16px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-image-overlay {
+      top: 16px;
+      left: 16px;
+      right: 0;
+    }
+  }
+
+  .hero-visit-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 32px;
+    gap: 8px;
+    width: fit-content;
+    min-width: 264px;
+    height: 40px;
+    background: #E5E5E5;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    color: #171717;
+    font-size: 14px;
+    font-weight: 500;
+    transition: filter 0.2s ease;
+  }
+
+  .hero-visit-btn:hover {
+    filter: brightness(0.9);
+  }
+</style>
+
+<script>
+  function setupHeroTiles() {
+    const TILE_COUNT = 3;
+    let current = 0;
+
+
+    const tiles = document.querySelectorAll<HTMLButtonElement>(".hero-tile");
+    const desktopBars = document.querySelectorAll<HTMLElement>(
+      ".hero-progress-desktop",
+    );
+    const mobileBars = document.querySelectorAll<HTMLElement>(
+      ".hero-progress-mobile",
+    );
+    const desktopImages = document.querySelectorAll<HTMLElement>(
+      ".hero-desktop-image-container",
+    );
+    const mobileBlocks =
+      document.querySelectorAll<HTMLElement>(".hero-mobile-block");
+
+    if (tiles.length === 0) return;
+
+    function activate(index: number) {
+      current = index;
+
+      tiles.forEach((tile, i) => {
+        const isActive = i === index;
+        tile.dataset.active = isActive ? "true" : "";
+
+        // Style updates
+        const title = tile.querySelector(".hero-tile-title");
+        if (isActive) {
+          tile.classList.add("dark:border-white/20", "dark:bg-[#29292b]");
+          tile.classList.remove("dark:border-white/10", "dark:bg-[#1b1b1d]", "md:mt-3");
+          
+          if (title) {
+            title.classList.add("text-[#171717]", "dark:text-white");
+            title.classList.remove("text-[#86868b]");
+          }
+        } else {
+          tile.classList.add("dark:border-white/10", "dark:bg-[#1b1b1d]", "md:mt-3");
+          tile.classList.remove("dark:border-white/20", "dark:bg-[#29292b]");
+          
+          if (title) {
+            title.classList.add("text-[#86868b]");
+            title.classList.remove("text-[#171717]", "dark:text-white");
+          }
+        }
+      });
+
+      // Desktop progress bars
+      desktopBars.forEach((bar, i) => {
+        bar.classList.remove("active", "completed");
+        bar.style.width = "";
+        bar.style.animationPlayState = "running";
+
+        if (i < index) {
+          bar.classList.add("completed");
+        } else if (i === index) {
+          void bar.offsetWidth;
+          bar.classList.add("active");
+        } else {
+          bar.style.width = "0%";
+        }
+      });
+
+      // Mobile progress bars
+      mobileBars.forEach((bar, i) => {
+        bar.classList.remove("active", "completed");
+        bar.style.width = "";
+        bar.style.animationPlayState = "running";
+
+        if (i < index) {
+          bar.classList.add("completed");
+        } else if (i === index) {
+          void bar.offsetWidth;
+          bar.classList.add("active");
+        } else {
+          bar.style.width = "0%";
+        }
+      });
+
+      // Desktop images
+      desktopImages.forEach((img, i) => {
+        img.classList.toggle("hidden", i !== index);
+      });
+
+      // Mobile blocks
+      mobileBlocks.forEach((block, i) => {
+        block.classList.toggle("active", i === index);
+      });
+    }
+
+    // Event Listeners
+    [...desktopBars, ...mobileBars].forEach((bar) => {
+      bar.addEventListener("animationend", () => {
+        if (bar.offsetParent !== null) {
+          activate((current + 1) % TILE_COUNT);
+        }
+      });
+    });
+
+    let resizeTimer: number;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        activate(current);
+      }, 200);
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Initial activation
+    activate(0);
+
+    // Cleanup for View Transitions
+    document.addEventListener("astro:before-swap", () => {
+      window.removeEventListener("resize", handleResize);
+    }, { once: true });
+  }
+
+  // Initialize on every page load (View Transitions compatible)
+  document.addEventListener("astro:page-load", setupHeroTiles);
+</script>

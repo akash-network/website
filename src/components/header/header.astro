@@ -154,15 +154,15 @@ const navContainerClass = hideContainer ? "" : "container";
 
       <div class="flex items-center gap-2">
         <ButtonLink
-          link="https://console.akash.network/"
+          link="/gpus-on-demand"
           variant="secondary"
           size="sm"
           className="px-[11px] py-[7px] text-xs"
         >
-          Sign in
+          Get in Touch
         </ButtonLink>
 
-        <TryAkashForm client:load type="header" />
+        <TryAkashForm client:load type="headerDeploy" />
       </div>
       {!hideDarkToggle && <DarkModeToggle client:load />}
     </div>

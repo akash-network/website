@@ -254,10 +254,10 @@ const Panel = ({
           <div className="flex flex-col gap-3">
             <a
               id="console-header"
-              href="https://console.akash.network/"
+              href="/gpus-on-demand"
               className="flex w-full items-center  justify-center gap-2 rounded-md border bg-gray-50 py-[9px]  text-base font-medium hover:bg-gray-100  dark:bg-background dark:hover:bg-white/10 md:py-2"
             >
-              Sign in
+              Get in Touch
             </a>
             <TryAkashForm type="hero" fullWidth />
           </div>

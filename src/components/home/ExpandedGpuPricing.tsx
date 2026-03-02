@@ -223,118 +223,135 @@ const ExpandedGpu = () => {
   }, [result]);
 
   return (
-    <div className="flex flex-col justify-center gap-8 md:gap-16">
+    <div className="flex flex-col">
+
+      {/* TITLE */}
       <div className="flex flex-col gap-1 md:gap-3">
-        <h2 className="text-center text-2xl font-semibold md:text-[40px]">
+        <h2 className="text-center text-xl font-semibold md:text-[28px] mb-8">
           GPU's at Costs That Scale
         </h2>
       </div>
-      <div className="shadow">
-        <div className="grid w-full grid-cols-5 rounded-t-lg border">
-          {gpuTypes.map((item, index) => (
-            <div
+
+      {/* ================= GRID ================= */}
+      <div className="grid w-full grid-cols-5 rounded-t-xl border border-[#D1D1D1] dark:border-[#2E2E2E]">
+
+        {/* HEADER ROW */}
+        {gpuTypes.map((item, index) => {
+          const isActive = item.selected;
+
+          return (
+            <h3
+              key={`header-${index}`}
               className={clsx(
-                "flex flex-col",
-                item.selected && " -mt-1 md:-mt-2",
-                index !== gpuTypes.length - 1 && index !== 1 && "border-r",
+                "relative flex items-center text-[10px] md:text-sm lg:text-lg",
+                index === 0
+                  ? "justify-center lg:justify-start lg:pl-6"
+                  : "justify-center",
+                "py-2.5 md:py-5",
+                "border-r border-[#D1D1D1] dark:border-[#2E2E2E]",
+                index === gpuTypes.length - 1 && "border-r-0",
+
+                // 👇 Rounded corners only on outer cells
+                index === 0 && "rounded-tl-xl",
+                index === gpuTypes.length - 1 && "rounded-tr-xl",
+
+                isActive
+                  ? "bg-[#FF414C] text-white"
+                  : "bg-[#F7F7F7] dark:bg-[#080808] text-[#8A8F98] dark:text-[#8A8F9D]"
               )}
             >
-              <h3
-                className={clsx(
-                  "flex w-full items-center  justify-center gap-1 py-2.5  text-[10px] md:gap-1.5  md:py-4  md:text-sm lg:text-lg",
-                  index === 0 && "rounded-tl-md md:rounded-tl-lg",
-                  index === gpuTypes.length - 1 &&
-                    "rounded-tr-md md:rounded-tr-lg",
-                  item.selected
-                    ? "rounded-t-md border-b !border-[#DC1D28] bg-primary py-3 text-white md:rounded-t-lg  md:py-5"
-                    : "border-b dark:bg-black dark:text-[#8A8F9D]",
-                )}
-              >
-                {item?.svg && (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: item.svg }}
-                    className={clsx(
-                      !item.selected && " hidden lg:block",
-                      " size-4 md:size-6",
-                    )}
-                  />
-                )}
-                <span className="hidden md:block">{item.name}</span>
-                <span className="block md:hidden">
-                  {item.mobileName ?? item.name}
-                </span>
-              </h3>
-              <h4
-                // style={
-                //   item.selected && !expanded
-                //     ? {
-                //         background:
-                //           "linear-gradient(180deg, #FF414C 19.3%, #C4262F 100%)",
-                //       }
-                //     : {}
-                // }
-                className={clsx(
-                  "bg-background py-2.5 text-center  text-sm font-semibold md:py-4 md:text-xl  ",
-                  item.selected && " text-white ",
-                  item.selected && "bg-primary",
-                )}
-              >
-                {prices[0][index]}
-                {index !== 0 && (
-                  <span className="inline-flex text-xs  md:text-xl">/hr</span>
-                )}
-              </h4>
-            </div>
-          ))}
-          {expanded && (
-            <div className="col-span-5 flex flex-col">
-              {prices.slice(1).map((item, index) => (
-                <div className="grid grid-cols-5" key={index}>
-                  {item.map((item, i) => (
-                    <h4
-                      // style={
-                      //   index === 1 && i === 1
-                      //     ? {
-                      //         background:
-                      //           "linear-gradient(180deg, #FF414C 19.3%, #C4262F 100%)",
-                      //       }
-                      //     : {}
-                      // }
-                      key={i}
-                      className={clsx(
-                        " py-2.5 text-center text-sm font-semibold md:py-4 md:text-xl ",
-                        i === 1
-                          ? " border-t !border-[#DC1D28] text-white"
-                          : "border-t",
-                        i === 1
-                          ? "text-currentColor  bg-primary"
-                          : "bg-background",
-                        i !== item.length - 1 && i !== 1 && "border-r",
-                      )}
-                    >
-                      {item}
-                      {i !== 0 && (
-                        <span className="inline-flex text-xs md:text-xl">
-                          /hr
-                        </span>
-                      )}
-                    </h4>
-                  ))}
+              {isActive && (
+                <div className="absolute top-0 left-0 right-0 h-[6px] md:h-[8px] bg-[#FF414C] rounded-t-xl -translate-y-full" />
+              )}
+
+              {item?.svg && (
+                <div
+                  dangerouslySetInnerHTML={{ __html: item.svg }}
+                  className={clsx(
+                    "size-4 md:size-6 mr-1.5",
+                    !isActive && "hidden lg:block"
+                  )}
+                />
+              )}
+
+              <span className="hidden md:block">{item.name}</span>
+              <span className="block md:hidden">
+                {item.mobileName ?? item.name}
+              </span>
+            </h3>
+          );
+        })}
+
+        {/* TOP PRICE ROW */}
+        {gpuTypes.map((item, index) => {
+          const isActive = item.selected;
+
+          return (
+            <h4
+              key={`price-${index}`}
+              className={clsx(
+                "text-center font-semibold text-[10px] md:text-[21px]",
+                "py-2.5 md:py-5",
+                "border-t border-r border-[#D1D1D1] dark:border-[#2E2E2E]",
+                index === gpuTypes.length - 1 && "border-r-0",
+                isActive
+                  ? "bg-[linear-gradient(180deg,#FF414C_36.11%,#DA2832_100%)] text-white border-t-[#DC1D28]"
+                  : "bg-[#EAEAEA] dark:bg-[linear-gradient(16.2deg,#121212_16.73%,#191818_88.7%)] text-black dark:text-white"
+              )}
+            >
+              {prices[0][index]}
+              {index !== 0 && (
+                <span className="ml-1 text-[10px] md:text-[21px]">/hr</span>
+              )}
+            </h4>
+          );
+        })}
+
+        {/* EXPANDED ROWS */}
+        {expanded &&
+          prices.slice(1).map((row, rowIndex) =>
+            row.map((cell, colIndex) => {
+              const isActiveCol = colIndex === 1;
+
+              return (
+                <div
+                  key={`row-${rowIndex}-col-${colIndex}`}
+                  className={clsx(
+                    "text-center font-semibold text-[10px] md:text-[21px]",
+                    "py-2.5 md:py-5",
+                    "border-t border-r border-[#D1D1D1] dark:border-[#2E2E2E]",
+                    colIndex === gpuTypes.length - 1 && "border-r-0",
+                    isActiveCol
+                      ? "bg-[linear-gradient(180deg,#FF414C_36.11%,#DA2832_100%)] text-white border-t-[#DC1D28]"
+                      : "bg-[#EAEAEA] dark:bg-[linear-gradient(16.2deg,#121212_16.73%,#191818_88.7%)] text-black dark:text-white"
+                  )}
+                >
+                  {cell}
+                  {colIndex !== 0 && (
+                    <span className="ml-1 text-[10px] md:text-[21px]">/hr</span>
+                  )}
                 </div>
-              ))}
-            </div>
+              );
+            })
           )}
-        </div>
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex  w-full items-center justify-center gap-1 rounded-b-md border-x border-b bg-background py-2.5 font-medium md:rounded-b-lg md:py-4"
-        >
-          <p className="text-currentColor text-xs md:text-base">
-            View more GPU pricing
-          </p>
-          <ChevronDown className={clsx("h-4 w-4", expanded && "rotate-180")} />
-        </button>
       </div>
+
+      {/* ================= BUTTON (SEPARATE DIV) ================= */}
+      <div
+        onClick={() => setExpanded(!expanded)}
+        className="cursor-pointer rounded-b-xl border border-t-0 border-[#D1D1D1] dark:border-[#2E2E2E] bg-[#EAEAEA] dark:bg-[#191818] py-2.5 md:py-4 flex items-center justify-center gap-1"
+      >
+        <p className="text-[10px] md:text-base">
+          View more GPU pricing
+        </p>
+        <ChevronDown
+          className={clsx(
+            "h-4 w-4 transition-transform",
+            expanded && "rotate-180"
+          )}
+        />
+      </div>
+
     </div>
   );
 };

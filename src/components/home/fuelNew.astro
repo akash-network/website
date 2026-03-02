@@ -1,0 +1,51 @@
+---
+import Dither from "@/components/backgrounds/Dither";
+---
+
+<div class="container-nav-3 lg:pb-20">
+  <section
+    class="relative w-full h-fit overflow-hidden rounded-2xl bg-[#171717]"
+  >
+  <div class="absolute inset-0 z-0 opacity-15">
+    <Dither
+      client:load
+      waveColor={[0.5,0.5,0.5]}
+      colorNum={3}
+      disableAnimation={false}
+      waveAmplitude={0.25}
+      waveFrequency={2}
+      waveSpeed={0.07}
+      enableMouseInteraction
+      mouseRadius={0.6}
+      pixelSize={2}
+    />
+  </div>
+
+  <div class="relative z-10 flex h-full flex-col items-center justify-center py-40 text-center">
+
+    <img
+      src="/images/akashstar.svg"
+      alt="Akash Star"
+      class="h-12 select-none pointer-events-none"
+    />
+
+    <div class="my-10 flex flex-col gap-2 md:gap-4 px-6">
+      <h2 class="text-[40px] font-semibold leading-[50px] text-white lg:text-[64px]">
+        AKT: The Fuel <br class="block lg:hidden" /> Behind Akash
+      </h2>
+
+      <p class="text-[#8A8F98] text-base md:text-lg">
+        AKT is the utility token that powers <br class="block lg:hidden" /> every GPU transaction on the
+        Akash <br class="block lg:hidden" /> decentralized cloud.
+      </p>
+    </div>
+
+    <a
+      href="/token/"
+      class="flex text-sm items-center rounded-lg bg-[#333336] px-4 py-2 text-white transition-all duration-300 hover:brightness-110"
+    >
+      Learn How AKT Works
+    </a>
+
+  </div>
+</section>
