@@ -15,14 +15,14 @@ This section contains comprehensive upgrade guides for node operators and valida
 
 ## Current Network Upgrade
 
-### [Mainnet 15 - Akash v1.1.0](/docs/node-operators/network-upgrades/mainnet-15)
+### [Mainnet 16 - Akash v1.2.0](/docs/node-operators/network-upgrades/mainnet-16)
 
 **Status:** Upcoming  
-**Upgrade Height:** 24,332,547  
-**Estimated Time:** Monday, November 24th, 2025 at 14:10 UTC  
-**Binary Version:** v1.1.0
+**Upgrade Height:** 25,789,395  
+**Estimated Time:** Wednesday, March 4th, 2025 at 14:00 UTC  
+**Binary Version:** v1.2.0
 
-Complete upgrade guide including Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting.
+Complete upgrade guide including Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. This upgrade includes store migrations for the deployment and market modules; 128GB RAM with swap is recommended.
 
 ---
 
@@ -42,12 +42,11 @@ Complete upgrade guide including Cosmovisor and manual upgrade instructions, bui
 ## Best Practices
 
 **Before Every Upgrade:**
-1. **Read the complete upgrade guide
-2. **Backup your validator keys
-3. **Test the upgrade on a non-validator node first
-4. **Monitor Discord channels for announcements
-5. **Verify binary checksums
-6. **Be available during the upgrade window
+1. **Read the complete upgrade guide**
+2. **Backup your validator keys**
+3. **Monitor Discord channels for announcements**
+4. **Verify binary checksums**
+5. **Be available during the upgrade window**
 
 **Recommended Setup:**
 - Use Cosmovisor for automatic upgrades
