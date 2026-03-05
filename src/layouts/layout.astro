@@ -45,26 +45,26 @@ const pathname = Astro.url.pathname;
   noIndex={noIndex}
   classname={classname}
 >
-  {
-    advert && !pathname.includes("neurips") && (
-      <div class="flex items-center justify-center bg-primary px-3 py-2">
-        <a
-          id="advert-to-gpus"
-          href={advert?.link}
-          target={
-            advert?.link.startsWith("/") || advert?.link.startsWith("#")
-              ? "_self"
-              : "_blank"
-          }
-        >
-          <p
-            class="text-center text-sm font-semibold text-white underline"
-            set:html={advert?.title}
-          />
-        </a>
-      </div>
-    )
-  }
+  <!-- { -->
+  <!--   advert && !pathname.includes("neurips") && ( -->
+  <!--     <div class="flex items-center justify-center bg-primary px-3 py-2"> -->
+  <!--       <a -->
+  <!--         id="advert-to-gpus" -->
+  <!--         href={advert?.link} -->
+  <!--         target={ -->
+  <!--           advert?.link.startsWith("/") || advert?.link.startsWith("#") -->
+  <!--             ? "_self" -->
+  <!--             : "_blank" -->
+  <!--         } -->
+  <!--       > -->
+  <!--         <p -->
+  <!--           class="text-center text-sm font-semibold text-white underline" -->
+  <!--           set:html={advert?.title} -->
+  <!--         /> -->
+  <!--       </a> -->
+  <!--     </div> -->
+  <!--   ) -->
+  <!-- } -->
 
   <Header overrideClassName={headerClassName} hideDarkToggle={hideDarkToggle} />
 
@@ -77,7 +77,7 @@ const pathname = Astro.url.pathname;
       pathname.includes("akash-accelerate-2024") ||
         pathname.includes("akash-accelerate-2025")
         ? "hidden"
-        : "block"
+        : "block",
     )}
   >
     <CTA />
