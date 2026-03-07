@@ -2,12 +2,12 @@
 aep: 78
 title: Enable CosmWasm Smart Contracts on Akash Network
 author: Artur Troian (@troian)
-status: Draft
+status: Final
 type: Standard
 category: Core
 roadmap: major
 created: 2025-11-14
-estimated-completion: 2026-03-30
+estimated-completion: 2026-03-23
 ---
 
 ## Summary
