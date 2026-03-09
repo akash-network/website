@@ -188,6 +188,14 @@ Complete user journeys combining multiple operations.
 - Full deployment lifecycle
 - Multi-user concurrent activity
 
+### [Category 11: Security Testing](/docs/testnet/testplan/security)
+Validate cryptographic protections and access control enforcement across the BME oracle price pipeline and token transfer restrictions.
+- ACT token transfer restriction (bank send disabled between accounts)
+- VAA tampering rejection — modified price in existing VAA
+- VAA tampering rejection — completely fabricated VAA
+- Unauthorized oracle source rejection
+- Replay attack rejection — stale VAA resubmission
+
 ---
 
 ## Circuit Breaker State Comparison
@@ -219,8 +227,9 @@ Categories 6 and 7 test different circuit breaker states. Here's how they differ
 | Event Emissions/Observability | 8.1-8.3 | Medium | Anytime (healthy state) |
 | Edge Cases | 9.1-9.5 | High | Anytime (healthy state) |
 | End-to-End | 10.1-10.2 | Critical | Anytime (healthy state) |
+| Security Testing | 11.1-11.5 | High | testnet-oracle (11.2-11.5); next build (11.1) |
 
-**Total: 52 tests across 11 categories**
+**Total: 57 tests across 12 categories**
 
 ---
 
@@ -276,3 +285,4 @@ akash query bme status
 5. **Asymmetric circuit breaker** - AKT→ACT blocked during halt, ACT→AKT always works
 6. **Provider settlement is two-step** - Provider receives ACT, then burns to AKT
 7. **SDL pricing must use uact** - Using uakt is rejected with validation error
+8. **ACT transfers disabled** - Bank sends of `uact` between accounts are blocked; ACT enters and exits only via BME mint/burn operations

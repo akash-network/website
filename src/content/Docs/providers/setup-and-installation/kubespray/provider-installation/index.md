@@ -35,9 +35,9 @@ Before starting, ensure you have:
 ## STEP 1 - Prepare Provider Wallet
 
 > **Don't have an Akash wallet yet?**
-> - [Install Akash CLI](/docs/deployments/akash-cli/installation/)
-> - [Create an Account](/docs/deployments/sandbox/installation/)
-> - [Fund Your Account](/docs/deployments/akash-cli/installation/#fund-your-account)
+> - [Install Akash CLI](/docs/developers/deployment/cli/installation-guide/)
+> - [Create an Account](/docs/developers/deployment/cli/installation-guide/#create-an-account/)
+> - [Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account/)
 
 ### Export Wallet Key
 
