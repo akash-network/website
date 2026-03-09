@@ -2,7 +2,7 @@
 aep: 76
 title: "Burn Mint Equilibrium On Akash"
 author: Greg Osuri (@gosuri)
-status: Draft
+status: Final
 type: Standard
 category: Economics
 created: 2025-09-21
