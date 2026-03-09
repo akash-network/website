@@ -1,0 +1,332 @@
+---
+categories: ["Testnet"]
+tags: ["Testnet", "BME", "Testing", "Security"]
+title: "Security Testing"
+linkTitle: "Security"
+description: "Validate cryptographic and access control protections in the BME oracle price pipeline and token transfer restrictions"
+weight: 12
+---
+
+These tests validate that security controls are properly enforced across the BME system — specifically token transfer restrictions and tamper-proof oracle price integrity via Wormhole VAA verification.
+
+---
+
+### Test 11.1: ACT Token Transfer Restriction
+
+**Objective:** Verify that ACT (`uact`) bank sends between user accounts are disabled, ensuring ACT can only enter or leave the system through the BME module (mint and burn operations), not through direct peer-to-peer transfers.
+
+**Background:** ACT is designed to be minted via `mint-act` and burned via `burn-act`. Direct transfers between accounts are disabled in genesis as a network upgrade enforcement measure to preserve BME accounting integrity.
+
+**User Actions:**
+
+1. Ensure both a source and destination wallet exist and are funded:
+   ```bash
+   # Verify source wallet has ACT (mint some if needed)
+   akash query bank balances $(akash keys show <source-wallet> -a)
+
+   # Destination wallet (can be any second wallet)
+   akash query bank balances $(akash keys show <dest-wallet> -a)
+   ```
+
+2. If source wallet has no ACT, mint a small amount:
+   ```bash
+   akash tx bme mint-act 10000000uakt --from <source-wallet> -y
+   sleep 60
+   akash query bank balances $(akash keys show <source-wallet> -a)
+   ```
+
+3. Attempt to send ACT from source to destination via standard bank send:
+   ```bash
+   akash tx bank send <source-wallet> $(akash keys show <dest-wallet> -a) 1000000uact \
+     --from <source-wallet> \
+     -y
+   ```
+
+4. Observe the transaction result and record the error.
+
+5. Confirm destination wallet ACT balance is unchanged:
+   ```bash
+   akash query bank balances $(akash keys show <dest-wallet> -a)
+   ```
+
+**Expected Results:**
+- Transaction is **rejected** by the chain — the send should fail with a non-zero code
+- Expected error message should contain text similar to: `send is disabled for denom uact` or `transfers not allowed`
+- Destination wallet ACT balance remains `0` or unchanged
+- Source wallet ACT balance is unchanged
+
+**What This Confirms:**
+- ACT can only be minted and burned through the BME module
+- No peer-to-peer ACT distribution is possible outside of intended pathways
+- BME accounting integrity is enforced at the chain level
+
+**Proof to Submit:**
+- Failed transaction error message (full error text)
+- Source and destination wallet ACT balances before and after the attempt
+
+---
+
+### Test 11.2: VAA Tampering Rejection — Modified Price in Existing VAA
+
+**Objective:** Verify that the Wormhole contract rejects a real VAA that has been tampered with to contain a different price, confirming that guardian signatures cannot be reused to authorize fabricated price data.
+
+**Background:** Each VAA from Pyth Network is signed by Wormhole guardians (13 of 19 required for quorum). Modifying any byte of the VAA payload — including the price field — invalidates the guardian signatures. The Wormhole contract will reject the tampered VAA during signature verification.
+
+**Prerequisites:**
+- Access to the testnet-oracle environment
+- `akash` CLI configured for `testnet-oracle` chain
+- Wormhole and Pyth contract addresses available
+- `jq`, `python3`, and `base64` utilities available
+
+**User Actions:**
+
+1. Fetch a legitimate, current VAA from Pyth's Hermes API:
+   ```bash
+   # Fetch latest VAA for AKT/USD feed
+   VAA_RESPONSE=$(curl -s "https://hermes.pyth.network/v2/updates/price/latest?ids[]=0x4ea5bb4d2f5900cc2e97ba534240950740b4d3b89fe712a94a7304fd2fd92702&encoding=base64")
+   
+   # Extract the base64-encoded VAA
+   REAL_VAA=$(echo "$VAA_RESPONSE" | jq -r '.binary.data[0]')
+   echo "Real VAA (first 80 chars): ${REAL_VAA:0:80}..."
+   ```
+
+2. Decode the VAA, modify a byte in the price payload, and re-encode:
+   ```bash
+   # Decode VAA to binary, flip some bytes in the middle (price region), re-encode
+   echo "$REAL_VAA" | base64 -d | python3 -c "
+   import sys
+   data = bytearray(sys.stdin.buffer.read())
+   # Modify bytes ~200-210 (in the price payload region, after header/signatures)
+   for i in range(200, 210):
+       data[i] = (data[i] + 1) % 256
+   sys.stdout.buffer.write(bytes(data))
+   " | base64 -w0 > /tmp/tampered_vaa.txt
+   
+   TAMPERED_VAA=$(cat /tmp/tampered_vaa.txt)
+   echo "Tampered VAA (first 80 chars): ${TAMPERED_VAA:0:80}..."
+   ```
+
+3. Attempt to submit the tampered VAA to the Pyth contract:
+   ```bash
+   PYTH_CONTRACT="akash1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqyagled"
+   
+   akash tx wasm execute "$PYTH_CONTRACT" \
+     "{\"update_price_feeds\":{\"data\":[\"$TAMPERED_VAA\"]}}" \
+     --from <wallet> \
+     --chain-id testnet-oracle \
+     --gas auto \
+     --gas-adjustment 1.5 \
+     --gas-prices 0.025uakt \
+     --amount 1000000uakt \
+     -y
+   ```
+
+4. Record the full error message from the failed transaction.
+
+5. Confirm the on-chain AKT/USD price was **not** updated by querying oracle prices:
+   ```bash
+   akash query oracle prices | head -n 20
+   ```
+
+**Expected Results:**
+- Transaction is **rejected** with a non-zero error code
+- Error message should contain text similar to one of:
+  - `VAA signature invalid`
+  - `failed to verify VAA`
+  - `invalid guardian signature`
+  - `execute wasm contract failed`
+- The oracle price remains at the last legitimately submitted value — the tampered submission does not alter on-chain state
+
+**What This Confirms:**
+- Guardian signatures cannot be stripped and reattached to a modified payload
+- Any byte-level modification of a VAA invalidates the quorum signatures
+- The Wormhole contract correctly rejects tampered data at the contract layer
+
+**Proof to Submit:**
+- Failed transaction error message (full text)
+- Oracle price query output confirming price was not altered
+
+---
+
+### Test 11.3: VAA Tampering Rejection — Completely Fabricated VAA
+
+**Objective:** Verify that a fully fabricated VAA — one constructed from scratch with an arbitrary price and no valid guardian signatures — is rejected by the Wormhole contract.
+
+**Background:** This tests a more aggressive attack vector than Test 11.2: rather than modifying a real VAA, an attacker constructs an entirely fake one. The Wormhole contract must reject it because no valid guardian signatures are present.
+
+**Prerequisites:** Same as Test 11.2.
+
+**User Actions:**
+
+1. Construct a minimal but structurally valid-looking fake VAA with an arbitrary price:
+   ```bash
+   # Generate a fake VAA: 32 bytes of version header + 500 bytes of zeros (no valid signatures)
+   python3 -c "
+   import base64
+   # Fake VAA: version byte + random-looking but invalid payload (no guardian sigs)
+   # Real VAAs are ~1748 bytes; this is obviously invalid but tests rejection path
+   fake_payload = bytes([1, 0, 0, 0, 0]) + b'\\x00' * 500
+   print(base64.b64encode(fake_payload).decode())
+   " > /tmp/fake_vaa.txt
+   
+   FAKE_VAA=$(cat /tmp/fake_vaa.txt)
+   ```
+
+2. Attempt to submit the fabricated VAA to the Pyth contract:
+   ```bash
+   PYTH_CONTRACT="akash1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqyagled"
+   
+   akash tx wasm execute "$PYTH_CONTRACT" \
+     "{\"update_price_feeds\":{\"data\":[\"$FAKE_VAA\"]}}" \
+     --from <wallet> \
+     --chain-id testnet-oracle \
+     --gas auto \
+     --gas-adjustment 1.5 \
+     --gas-prices 0.025uakt \
+     --amount 1000000uakt \
+     -y
+   ```
+
+3. Record the full error message.
+
+4. Confirm oracle price was not updated:
+   ```bash
+   akash query oracle prices | head -n 20
+   ```
+
+**Expected Results:**
+- Transaction is **rejected** with a non-zero error code
+- Error should reference VAA invalidity, missing signatures, or guardian quorum failure — expected text includes phrases like:
+  - `VAA is invalid`
+  - `no guardian signatures`
+  - `failed to parse VAA`
+  - `execute wasm contract failed`
+- Oracle price is unchanged
+
+**What This Confirms:**
+- The system cannot be fed arbitrary price data without valid Wormhole guardian quorum
+- There is no path to inject a price update without the cryptographic backing of the 19-guardian network
+- Attack surface for price manipulation is limited exclusively to the Wormhole guardian set itself
+
+**Proof to Submit:**
+- Failed transaction error message (full text)
+- Oracle price query confirming no change
+
+---
+
+### Test 11.4: Unauthorized Oracle Source Rejection
+
+**Objective:** Verify that a wallet not registered as an authorized oracle source cannot submit price updates to the `x/oracle` module, even if the transaction is well-formed.
+
+**Background:** The `x/oracle` module maintains a `sources` list. Only addresses registered as authorized sources (via governance) can submit price data. All other submitters are rejected.
+
+**User Actions:**
+
+1. Verify the authorized oracle sources:
+   ```bash
+   akash query oracle params -o json | jq '.params.sources'
+   ```
+
+2. Identify or create a wallet that is **not** in the sources list:
+   ```bash
+   # Use any test wallet that is not the Pyth contract or authorized feeder
+   UNAUTHORIZED_WALLET=$(akash keys show <test-wallet> -a)
+   echo "Unauthorized wallet: $UNAUTHORIZED_WALLET"
+   ```
+
+3. Attempt to submit a price feed directly from the unauthorized wallet:
+   ```bash
+   akash tx oracle feed akt usd 0.30 $(date +%s) \
+     --from <test-wallet> \
+     --chain-id testnet-oracle \
+     -y
+   ```
+
+4. Record the error message.
+
+**Expected Results:**
+- Transaction is **rejected**
+- Error should contain text similar to:
+  - `unauthorized oracle provider`
+  - `address is not an authorized source`
+  - `unauthorized: unauthorized`
+- Oracle price is unaffected
+
+**What This Confirms:**
+- Price feed submissions are restricted to whitelisted sources
+- Governance proposals are required to add new oracle sources
+- Arbitrary wallets cannot inject prices into the oracle module
+
+**Proof to Submit:**
+- Error message from rejected transaction
+- Oracle params showing the authorized sources list (confirming test wallet is not present)
+
+---
+
+### Test 11.5: Replay Attack Rejection — Stale VAA Resubmission
+
+**Objective:** Verify that a legitimately signed VAA from a previous update interval cannot be resubmitted to move the price back to an older value (replay attack).
+
+**Background:** The Pyth contract enforces that a new price update must have a `publish_time` greater than the currently stored price. Attempting to replay an old VAA — even one with valid guardian signatures — should be rejected because its timestamp is older than the current on-chain price.
+
+**User Actions:**
+
+1. Record the current on-chain price and its timestamp:
+   ```bash
+   akash query oracle prices | head -n 15
+   ```
+
+2. Fetch a legitimate VAA from Pyth and note its `publish_time`:
+   ```bash
+   VAA_RESPONSE=$(curl -s "https://hermes.pyth.network/v2/updates/price/latest?ids[]=0x4ea5bb4d2f5900cc2e97ba534240950740b4d3b89fe712a94a7304fd2fd92702&encoding=base64")
+   echo "$VAA_RESPONSE" | jq '.parsed[0].price.publish_time'
+   CURRENT_VAA=$(echo "$VAA_RESPONSE" | jq -r '.binary.data[0]')
+   ```
+
+3. Submit the VAA once successfully (baseline):
+   ```bash
+   PYTH_CONTRACT="akash1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqyagled"
+   
+   akash tx wasm execute "$PYTH_CONTRACT" \
+     "{\"update_price_feeds\":{\"data\":[\"$CURRENT_VAA\"]}}" \
+     --from <wallet> \
+     --chain-id testnet-oracle \
+     --gas auto \
+     --gas-adjustment 1.5 \
+     --gas-prices 0.025uakt \
+     --amount 1000000uakt \
+     -y
+   ```
+
+4. Wait 2-3 minutes for the Hermes relayer to submit a newer price update.
+
+5. Attempt to resubmit the same original VAA again:
+   ```bash
+   # Same VAA as step 3 — now stale relative to current on-chain price
+   akash tx wasm execute "$PYTH_CONTRACT" \
+     "{\"update_price_feeds\":{\"data\":[\"$CURRENT_VAA\"]}}" \
+     --from <wallet> \
+     --chain-id testnet-oracle \
+     --gas auto \
+     --gas-adjustment 1.5 \
+     --gas-prices 0.025uakt \
+     --amount 1000000uakt \
+     -y
+   ```
+
+6. Observe the result and check whether the on-chain price was altered.
+
+**Expected Results:**
+- The resubmission is either **rejected** or **silently ignored** (no state change)
+- If rejected, the error typically contains: `price is not newer than current` or `publish_time not newer`
+- If the Pyth contract accepts it without error (some implementations return success but skip the update), the oracle price must not have moved backward to the old value
+- In all cases: the oracle price reflects the **most recent** valid update, not the replayed stale one
+
+**What This Confirms:**
+- The price pipeline enforces temporal ordering of updates
+- Valid but outdated VAAs cannot be used to manipulate prices downward (or to any stale value)
+- Time-based oracle manipulation is not possible via replay of old signed messages
+
+**Proof to Submit:**
+- Oracle price timestamp before and after resubmission attempt
+- Transaction result (error message or success with unchanged price)
