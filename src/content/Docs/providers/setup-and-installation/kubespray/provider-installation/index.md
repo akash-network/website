@@ -23,7 +23,7 @@ Before starting, ensure you have:
 - **Domain name** that you control (e.g., `provider.example.com`)
 - **Akash wallet** with:
   - Minimum 50 AKT recommended (0.5 AKT deposit per bid)
-  - Funded account ([Fund Your Account](/docs/deployments/akash-cli/installation/#fund-your-account))
+  - Funded account ([Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account))
 
 ### Optional (if configured)
 
@@ -36,8 +36,8 @@ Before starting, ensure you have:
 
 > **Don't have an Akash wallet yet?**
 > - [Install Akash CLI](/docs/developers/deployment/cli/installation-guide/)
-> - [Create an Account](/docs/developers/deployment/cli/installation-guide/#create-an-account/)
-> - [Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account/)
+> - [Create an Account](/docs/developers/deployment/cli/installation-guide/#create-an-account)
+> - [Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account)
 
 ### Export Wallet Key
 

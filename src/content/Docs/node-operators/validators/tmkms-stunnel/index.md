@@ -71,7 +71,7 @@ Before starting, ensure you have:
 
 ### 1. Akash Wallet
 - Funded with 50+ AKT for deployment deposits
-- See [Akash CLI Installation](/docs/deployments/akash-cli/installation)
+- See [Akash CLI Installation](/docs/developers/deployment/cli/installation-guide)
 
 ### 2. Separate TMKMS Server
 - **OS:** Ubuntu 20.04+ or 22.04 LTS
@@ -688,7 +688,7 @@ akash tx staking create-validator \
 akash query staking validator $(akash keys show $AKASH_KEYNAME --bech val -a)
 ```
 
-Check on [Akash Block Explorers](/docs/network/akash):
+Check on [Akash Block Explorers](/docs/node-operators/validators/):
 - [Mintscan](https://www.mintscan.io/akash/validators)
 - [Ping.pub](https://ping.pub/akash/staking)
 

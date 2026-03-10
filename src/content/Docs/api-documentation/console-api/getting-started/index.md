@@ -673,7 +673,7 @@ async function apiRequestWithErrorHandling<T>(
 - ⚠️ **Credit card payment only** - Cannot use existing AKT
 - ⚠️ **Managed wallet** - No direct blockchain access
 
-**For production deployments without time limits**, use the [Akash SDK](/docs/extend/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
+**For production deployments without time limits**, use the [Akash SDK](/docs/api-documentation/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
 
 ---
 
