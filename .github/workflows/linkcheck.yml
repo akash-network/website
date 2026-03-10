@@ -38,8 +38,8 @@ jobs:
             sleep 2
           done
 
-      # Use @master so the action runs as composite on the runner (not Docker). @3.0.0 runs in Docker and can't reach localhost.
+      # Lychee is actively maintained; its action runs on the runner (composite) so localhost works.
       - name: Check links
-        uses: filiph/linkcheck@master
+        uses: lycheeverse/lychee-action@v2
         with:
-          arguments: :4321
+          args: --verbose --no-progress http://localhost:4321
