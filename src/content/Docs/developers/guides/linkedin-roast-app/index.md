@@ -20,9 +20,9 @@ In this tutorial, you'll build a fun web application that generates AI-powered r
 
 **Source Code:** [github.com/baktun14/linkedin-roast](https://github.com/baktun14/linkedin-roast)
 
-![LinkedIn Roast App - Upload Form](/docs/developers/guides/linkedin-roast-app/assets/linkedin-roast-upload.png)
+![LinkedIn Roast App - Upload Form](./assets/linkedin-roast-upload.png)
 
-![LinkedIn Roast App - Roast Result](/docs/developers/guides/linkedin-roast-app/assets/linkedin-roast-result.png)
+![LinkedIn Roast App - Roast Result](./assets/linkedin-roast-result.png)
 
 ## Architecture Overview
 
