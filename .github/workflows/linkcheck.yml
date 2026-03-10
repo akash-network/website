@@ -37,4 +37,4 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           format: "markdown"
-          args: ". --verbose --base http://localhost:4321"
+          args: "./src/content/Docs/ --verbose --base http://localhost:4321"
