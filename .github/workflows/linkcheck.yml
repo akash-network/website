@@ -27,6 +27,18 @@ jobs:
       - name: Build with Astro
         run: npx astro build --site "http://localhost:4321"
 
+      # Extract URLs from the sitemap generated in dist/ (no server needed).
+      - name: Collect URLs from sitemap
+        id: collect
+        run: |
+          grep -ohE '<loc>[^<]+</loc>' dist/sitemap*.xml | sed 's|<loc>||;s|</loc>||' > urls.txt
+          echo "count=$(wc -l < urls.txt)" >> "$GITHUB_OUTPUT"
+          echo "url_list<<URLLIST_END" >> "$GITHUB_OUTPUT"
+          tr '\n' ' ' < urls.txt >> "$GITHUB_OUTPUT"
+          echo "" >> "$GITHUB_OUTPUT"
+          echo "URLLIST_END" >> "$GITHUB_OUTPUT"
+          echo "Collected $(wc -l < urls.txt) URLs"
+
       - name: Start preview server
         run: npx astro preview --port 4321 &
 
@@ -38,8 +50,7 @@ jobs:
             sleep 2
           done
 
-      # Lychee is actively maintained; its action runs on the runner (composite) so localhost works.
       - name: Check links
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@v2.8.0
         with:
-          args: --verbose --no-progress http://localhost:4321
+          args: --verbose --no-progress ${{ steps.collect.outputs.url_list }}
