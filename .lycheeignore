@@ -1,0 +1,13 @@
+# gRPC servers (return 415 Unsupported Media Type for HTTP GET)
+https?://grpc\.akashnet\.net.*
+https?://grpc\.sandbox[^/]*\.aksh\.pw.*
+# Localhost example URLs in code (NOT port 4321 — that's our preview server for the check)
+https?://localhost:1317.*
+https?://localhost:26657.*
+https?://localhost:9090.*
+https?://127\.0\.0\.1:(1317|26657|9090).*
+# Docker Hub redirects (302)
+https?://hub\.docker\.com.*
+# Guide assets that may not be at same path in built output
+linkedin-roast-upload\.png
+linkedin-roast-result\.png
