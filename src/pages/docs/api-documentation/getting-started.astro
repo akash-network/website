@@ -30,14 +30,16 @@ const creditCardIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" heigh
 
 const walletIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>`;
 
+const globeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`;
+
 // Integration Options Data
 const integrationOptions = [
   {
     icon: walletIcon,
-    title: "Akash SDK",
+    title: "Akash Blockchain SDK",
     description: "Full blockchain integration with your own wallet",
     link: "/docs/api-documentation/sdk",
-    linkText: "Explore SDK →",
+    linkText: "Explore Blockchain SDK →",
     details: [
       {
         label: "Best for:",
@@ -56,10 +58,10 @@ const integrationOptions = [
   },
   {
     icon: creditCardIcon,
-    title: "Console API",
+    title: "Akash Deployment REST API",
     description: "Deploy to Akash using credit cards via REST API",
     link: "/docs/api-documentation/console-api",
-    linkText: "Explore Console API →",
+    linkText: "Explore Deployment API →",
     details: [
       {
         label: "Best for:",
@@ -73,6 +75,28 @@ const integrationOptions = [
       {
         label: "Payment:",
         text: "Credit card (Console handles blockchain)",
+      },
+    ],
+  },
+  {
+    icon: globeIcon,
+    title: "Akash REST API",
+    description: "Query Akash Network data including providers, GPU availability, and network statistics",
+    link: "/docs/api-documentation/rest-api",
+    linkText: "Explore REST API →",
+    details: [
+      {
+        label: "Best for:",
+        items: [
+          "Querying provider availability and specs",
+          "Finding GPU resources on the network",
+          "Building dashboards and analytics",
+          "Network monitoring tools",
+        ],
+      },
+      {
+        label: "Authentication:",
+        text: "No authentication required (public endpoints)",
       },
     ],
   },
@@ -109,6 +133,28 @@ const sdkDocsCards = [
     title: "AuthZ & Fee Grants",
     description: "Manage permissions and sponsored transactions",
     link: "/docs/api-documentation/sdk/authz-feegrant",
+  },
+];
+
+// Akash REST API Documentation Cards
+const restApiCards = [
+  {
+    icon: globeIcon,
+    title: "REST API Overview",
+    description: "Public endpoints for querying Akash Network data",
+    link: "/docs/api-documentation/rest-api",
+  },
+  {
+    icon: bookIcon,
+    title: "Providers API",
+    description: "Query provider details, specs, and availability",
+    link: "/docs/api-documentation/rest-api/providers-api",
+  },
+  {
+    icon: rocketIcon,
+    title: "GPU Availability Guide",
+    description: "Find and filter GPU resources across providers",
+    link: "/docs/api-documentation/rest-api/gpu-availability-guide",
   },
 ];
 
@@ -186,7 +232,7 @@ const helpLinks = [
       <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
         Integration Options
       </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {
           integrationOptions.map((option) => (
             <div class="group rounded-lg border border-[#e6e8eb] bg-white p-6 transition-all hover:shadow-lg dark:border-[#333] dark:bg-[#1a1a1a]">
@@ -244,7 +290,7 @@ const helpLinks = [
     <!-- SDK Documentation -->
     <div class="mt-12">
       <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-        SDK Documentation
+        Blockchain SDK Documentation
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {
@@ -263,11 +309,30 @@ const helpLinks = [
     <!-- Console API Documentation -->
     <div class="mt-12">
       <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-        Console API Documentation
+        Deployment REST API Documentation
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {
           consoleApiCards.map((card) => (
+            <SectionCard
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              link={card.link}
+            />
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Akash REST API Documentation -->
+    <div class="mt-12">
+      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+        Akash REST API Documentation
+      </h2>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {
+          restApiCards.map((card) => (
             <SectionCard
               icon={card.icon}
               title={card.title}
