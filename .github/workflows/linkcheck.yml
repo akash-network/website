@@ -33,10 +33,6 @@ jobs:
         run: |
           grep -ohE '<loc>[^<]+</loc>' dist/sitemap*.xml | sed 's|<loc>||;s|</loc>||' > urls.txt
           echo "count=$(wc -l < urls.txt)" >> "$GITHUB_OUTPUT"
-          echo "url_list<<URLLIST_END" >> "$GITHUB_OUTPUT"
-          tr '\n' ' ' < urls.txt >> "$GITHUB_OUTPUT"
-          echo "" >> "$GITHUB_OUTPUT"
-          echo "URLLIST_END" >> "$GITHUB_OUTPUT"
           echo "Collected $(wc -l < urls.txt) URLs"
 
       - name: Start preview server
@@ -50,7 +46,16 @@ jobs:
             sleep 2
           done
 
+      # Install lychee and run via stdin so URLs with "&" aren't interpreted by the shell (action's args break on &).
+      # --offline: only check links to our origin (localhost:4321), skip external links to avoid flaky 404/509/network errors.
+      - name: Install lychee
+        run: |
+          ARCH=$(uname -m)
+          curl -sSLo lychee.tar.gz "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.23.0/lychee-${ARCH}-unknown-linux-gnu.tar.gz"
+          tar -xzf lychee.tar.gz
+          mv lychee 2>/dev/null || mv lychee-*/lychee .
+          chmod +x lychee
+          echo "$(pwd)" >> "$GITHUB_PATH"
+
       - name: Check links
-        uses: lycheeverse/lychee-action@v2.8.0
-        with:
-          args: --verbose --no-progress ${{ steps.collect.outputs.url_list }}
+        run: cat urls.txt | lychee - --verbose --no-progress --offline
