@@ -46,16 +46,9 @@ jobs:
             sleep 2
           done
 
-      # Install lychee and run via stdin so URLs with "&" aren't interpreted by the shell (action's args break on &).
       # --offline: only check links to our origin (localhost:4321), skip external links to avoid flaky 404/509/network errors.
       - name: Install lychee
-        run: |
-          ARCH=$(uname -m)
-          curl -sSLo lychee.tar.gz "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.23.0/lychee-${ARCH}-unknown-linux-gnu.tar.gz"
-          tar -xzf lychee.tar.gz
-          mv lychee 2>/dev/null || mv lychee-*/lychee .
-          chmod +x lychee
-          echo "$(pwd)" >> "$GITHUB_PATH"
+        run: sudo snap install lychee
 
       - name: Check links
         run: cat urls.txt | lychee - --verbose --no-progress --offline
