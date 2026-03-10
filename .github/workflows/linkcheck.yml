@@ -46,9 +46,22 @@ jobs:
             sleep 2
           done
 
-      # --offline: only check links to our origin (localhost:4321), skip external links to avoid flaky 404/509/network errors.
+      # Only check links to our origin (localhost:4321); exclude external links so we don't fail on 404/509 from other sites.
+      # (--offline blocks all HTTP requests and marks everything EXCLUDED; use --include instead so we actually verify internal links.)
       - name: Install lychee
         run: sudo snap install lychee
 
       - name: Check links
-        run: cat urls.txt | lychee - --verbose --no-progress --offline
+        run: cat urls.txt | lychee - --cache --verbose --no-progress --exclude '.*' --include 'http://localhost:4321'
+
+  # Check links in source Markdown/HTML (no build). Runs in parallel with linkcheck.
+  linkcheck-source:
+    name: Link Check (source files)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Link Checker
+        uses: lycheeverse/lychee-action@v2
+        with:
+          format: "markdown"
+          args: ". --verbose"
