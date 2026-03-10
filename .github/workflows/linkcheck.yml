@@ -1,0 +1,44 @@
+name: Link Check
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  linkcheck:
+    name: Link Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Astro
+        run: npx astro build --site "http://localhost:4321"
+
+      - name: Start preview server
+        run: npx astro preview --port 4321 &
+
+      - name: Wait for server to be ready
+        run: |
+          for i in $(seq 1 15); do
+            curl -s http://localhost:4321 > /dev/null && echo "Server ready" && break
+            echo "Waiting... ($i)"
+            sleep 2
+          done
+
+      - name: Check links
+        uses: filiph/linkcheck@3.0.0
+        with:
+          arguments: :4321
