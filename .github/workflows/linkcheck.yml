@@ -38,7 +38,8 @@ jobs:
             sleep 2
           done
 
+      # Use @master so the action runs as composite on the runner (not Docker). @3.0.0 runs in Docker and can't reach localhost.
       - name: Check links
-        uses: filiph/linkcheck@3.0.0
+        uses: filiph/linkcheck@master
         with:
           arguments: :4321
