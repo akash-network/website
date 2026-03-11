@@ -9,7 +9,7 @@ description: "Configure automatic SSL/TLS certificates for your Akash provider u
 
 > **Optional but Recommended:** This guide replaces the default self-signed certificate with a valid Let's Encrypt certificate, eliminating browser security warnings for deployments.
 
-This guide is for providers using the **Gateway API** stack (NGINX Gateway Fabric and the akash-gateway chart) as installed in [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation) STEP 6. After completing this guide, all deployments receiving Akash Provider hostnames within `*.ingress.<yourdomain>` will automatically have a valid Let's Encrypt certificate.
+This guide is for providers using the **Gateway API** stack (NGINX Gateway Fabric and the akash-gateway chart) as installed in [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation) STEP 6. After completing this guide, all deployments receiving Akash Provider hostnames within `*.ingress.<yourdomain>` will automatically have a valid Let's Encrypt certificate. If you previously had TLS with ingress-nginx and already completed the [Gateway API migration](/docs/providers/operations/gateway-api-migration), use [TLS Migration to Gateway API](/docs/providers/operations/tls-gateway-api-migration) instead to restore HTTPS with minimal steps.
 
 **Time:** 20-30 minutes
 
@@ -371,5 +371,6 @@ Wait a minute, then test HTTPS again.
 Your provider now has automatic SSL certificates for all deployments!
 
 **Resources:**
+- [TLS Migration to Gateway API](/docs/providers/operations/tls-gateway-api-migration) - Restore HTTPS after migrating from ingress-nginx
 - [Cert-Manager Documentation](https://cert-manager.io/docs/) - Official cert-manager docs
 - [Let's Encrypt](https://letsencrypt.org/) - Free SSL certificate authority

@@ -397,6 +397,7 @@ helm uninstall ingress-nginx -n ingress-nginx
 
 ## Related Resources
 
+- [TLS Migration to Gateway API](/docs/providers/operations/tls-gateway-api-migration) – restore HTTPS for `*.ingress.<domain>` after migrating (if you had TLS with ingress-nginx)
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
 - [Updates & Maintenance](/docs/providers/operations/updates-maintenance)
 - [Provider Verification](/docs/providers/operations/provider-verification)
