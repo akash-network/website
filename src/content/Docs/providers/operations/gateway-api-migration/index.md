@@ -9,8 +9,6 @@ description: "Migrate your Akash provider from ingress-nginx TCP proxying to NGI
 
 This guide walks through migrating an existing Akash provider from ingress-nginx TCP pass-through to [NGINX Gateway Fabric (NGF)](https://github.com/nginx/nginx-gateway-fabric) using the Kubernetes Gateway API. This migration improves traffic routing for provider endpoints by replacing ad-hoc TCP ConfigMap entries with first-class `TCPRoute` resources.
 
-**Important:** Install the Gateway API CRDs and NGINX Gateway Fabric **before** upgrading your provider to a version that requires them. Performing the migration in the order described here prevents downtime.
-
 ---
 
 ## Prerequisites
