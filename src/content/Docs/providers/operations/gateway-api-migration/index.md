@@ -21,7 +21,7 @@ Before starting, ensure you have:
 - `kubectl` configured with access to your cluster
 - `helm` v3 installed
 - `ingress-nginx` currently handling TCP ports 8443 and 8444
-- Cluster nodes with host port availability on ports 80, 8443, and 8444
+- Cluster nodes with host port availability on ports 80, 8443, 8444, and 5002
 
 **Time Estimate:** 20-30 minutes
 
@@ -102,6 +102,8 @@ nginx:
         containerPort: 8443
       - port: 8444
         containerPort: 8444
+      - port: 5002
+        containerPort: 5002
 
     resources:
       requests:
@@ -256,7 +258,7 @@ All provider, hostname-operator, and inventory-operator images should reference 
 
 ## STEP 5: Uninstall ingress-nginx
 
-With the provider upgraded and NGINX Gateway Fabric handling all traffic on ports 80, 8443, and 8444, ingress-nginx is no longer needed and can be removed.
+With the provider upgraded and NGINX Gateway Fabric handling all traffic on ports 80, 8443, 8444, and 5002, ingress-nginx is no longer needed and can be removed.
 
 ```bash
 helm uninstall ingress-nginx -n ingress-nginx
@@ -308,7 +310,7 @@ Confirm no two processes are bound to the same host ports:
 
 ```bash
 # Run on each node in your cluster
-ss -tlnp | grep -E ':(80|8443|8444)\s'
+ss -tlnp | grep -E ':(80|8443|8444|5002)\s'
 ```
 
 Each port should appear only once, owned by the NGINX Gateway Fabric process.
@@ -376,7 +378,7 @@ The service must have ports 8443 and 8444 defined.
 Check which process holds the port on the affected node:
 
 ```bash
-ss -tlnp | grep -E ':(80|8443|8444)\s'
+ss -tlnp | grep -E ':(80|8443|8444|5002)\s'
 ```
 
 If ingress-nginx still holds the ports, ensure it was fully uninstalled in Step 6:
