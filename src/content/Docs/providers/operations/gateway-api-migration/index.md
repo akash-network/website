@@ -140,134 +140,34 @@ ngf-nginx-gateway-fabric-xxxxxxxxxx-xxxxx    2/2     Running   0          60s
 
 ---
 
-## STEP 3: Create the Gateway Resource
+## STEP 3: Install the Akash Gateway (Gateway + TCPRoutes)
 
-Create the `akash-gateway` namespace and apply the Gateway resource. This defines the listeners for HTTP and TCP traffic.
-
-```bash
-kubectl create namespace akash-gateway
-```
-
-Save the following as `/root/provider/gateway.yaml`:
-
-```yaml
-# gateway.yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: akash-gateway
-  namespace: akash-gateway
-spec:
-  gatewayClassName: nginx
-  listeners:
-  - name: http
-    port: 80
-    protocol: HTTP
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: tcp-8443
-    port: 8443
-    protocol: TCP
-    allowedRoutes:
-      kinds:
-      - group: gateway.networking.k8s.io
-        kind: TCPRoute
-      namespaces:
-        from: All
-  - name: tcp-8444
-    port: 8444
-    protocol: TCP
-    allowedRoutes:
-      kinds:
-      - group: gateway.networking.k8s.io
-        kind: TCPRoute
-      namespaces:
-        from: All
-  - name: tcp-5002
-    port: 5002
-    protocol: TCP
-    allowedRoutes:
-      kinds:
-      - group: gateway.networking.k8s.io
-        kind: TCPRoute
-      namespaces:
-        from: All
-```
-
-Apply the Gateway:
+The [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) Helm chart creates the Gateway resource and TCPRoutes in one step. Install it after the Gateway API CRDs and NGINX Gateway Fabric are in place.
 
 ```bash
-kubectl apply -f /root/provider/gateway.yaml
+helm repo add akash https://akash-network.github.io/helm-charts
+helm repo update akash
+
+helm install akash-gateway akash/akash-gateway \
+  -n akash-gateway \
+  --create-namespace
 ```
 
-Verify the Gateway is accepted:
+### Verify
 
 ```bash
 kubectl -n akash-gateway get gateway akash-gateway
-```
-
-**Expected output:**
-
-```
-NAME             CLASS   ADDRESS   PROGRAMMED   AGE
-akash-gateway    nginx             True         30s
-```
-
----
-
-## STEP 4: Apply TCPRoutes
-
-Apply the TCPRoutes to forward provider ports through the gateway. Save the following as `/root/provider/tcproutes.yaml`:
-
-```yaml
-# tcproutes.yaml
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TCPRoute
-metadata:
-  name: akash-provider-8443
-  namespace: akash-services
-spec:
-  parentRefs:
-    - name: akash-gateway
-      namespace: akash-gateway
-      sectionName: tcp-8443
-  rules:
-    - backendRefs:
-        - name: akash-provider
-          port: 8443
----
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TCPRoute
-metadata:
-  name: akash-provider-8444
-  namespace: akash-services
-spec:
-  parentRefs:
-    - name: akash-gateway
-      namespace: akash-gateway
-      sectionName: tcp-8444
-  rules:
-    - backendRefs:
-        - name: akash-provider
-          port: 8444
-```
-
-Apply the TCPRoutes:
-
-```bash
-kubectl apply -f /root/provider/tcproutes.yaml
-```
-
-Verify the TCPRoutes are accepted:
-
-```bash
 kubectl -n akash-services get tcproutes
 ```
 
 **Expected output:**
 
 ```
+# Gateway
+NAME             CLASS   ADDRESS   PROGRAMMED   AGE
+akash-gateway    nginx             True         30s
+
+# TCPRoutes
 NAME                    AGE
 akash-provider-8443     15s
 akash-provider-8444     15s
@@ -275,7 +175,7 @@ akash-provider-8444     15s
 
 ---
 
-## STEP 5: Upgrade Provider to v0.11.0
+## STEP 4: Upgrade Provider to v0.11.0
 
 With the Gateway resources in place, upgrade the Akash provider Helm charts to v0.11.0.
 
@@ -354,7 +254,7 @@ All provider, hostname-operator, and inventory-operator images should reference 
 
 ---
 
-## STEP 6: Uninstall ingress-nginx
+## STEP 5: Uninstall ingress-nginx
 
 With the provider upgraded and NGINX Gateway Fabric handling all traffic on ports 80, 8443, and 8444, ingress-nginx is no longer needed and can be removed.
 
