@@ -9,7 +9,7 @@ description: "Configure automatic SSL/TLS certificates for your Akash provider u
 
 > **Optional but Recommended:** This guide replaces the default self-signed certificate with a valid Let's Encrypt certificate, eliminating browser security warnings for deployments.
 
-After completing this guide, all deployments receiving Akash Provider hostnames within `*.ingress.<yourdomain>` will automatically have a valid Let's Encrypt certificate.
+This guide is for providers using the **Gateway API** stack (NGINX Gateway Fabric and the akash-gateway chart) as installed in [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation) STEP 6. After completing this guide, all deployments receiving Akash Provider hostnames within `*.ingress.<yourdomain>` will automatically have a valid Let's Encrypt certificate.
 
 **Time:** 20-30 minutes
 
@@ -192,7 +192,7 @@ kubectl apply -f letsencrypt-issuer.yaml
 
 ## STEP 3 - Request Wildcard Certificate
 
-Create a wildcard certificate for your ingress domain:
+Create a wildcard certificate in the **akash-gateway** namespace so the Gateway can use it for HTTPS. cert-manager will create a TLS Secret in the same namespace.
 
 ```bash
 cat > wildcard-cert.yaml << 'EOF'
@@ -200,7 +200,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-yourdomain-com
-  namespace: ingress-nginx
+  namespace: akash-gateway
 spec:
   secretName: wildcard-yourdomain-com-tls
   issuerRef:
@@ -220,49 +220,60 @@ kubectl apply -f wildcard-cert.yaml
 ### Verify Certificate
 
 ```bash
-kubectl -n ingress-nginx get certificate
-kubectl -n ingress-nginx describe certificate wildcard-yourdomain-com
+kubectl -n akash-gateway get certificate
+kubectl -n akash-gateway describe certificate wildcard-yourdomain-com
 ```
 
 Wait for the certificate to show `Ready: True` (may take 1-2 minutes).
 
 ---
 
-## STEP 4 - Configure Ingress Controller
+## STEP 4 - Expose Port 443 on NGINX Gateway Fabric
 
-Update your ingress-nginx configuration to use the wildcard certificate:
+The Gateway will terminate HTTPS on port 443. Ensure NGF is bound to host port 443.
 
-### Update Configuration
-
-Edit your existing `ingress-nginx-custom.yaml`:
-
-```bash
-nano /root/ingress-nginx-custom.yaml
-```
-
-Add the `extraArgs` section:
+If your NGF values do not already include port 443, add it to the `hostPorts` section in `/root/provider/values-nginx-gateway-fabric.yaml`:
 
 ```yaml
-controller:
-  extraArgs:
-    enable-ssl-passthrough: true
-    default-ssl-certificate: "ingress-nginx/wildcard-yourdomain-com-tls"  # Add this line
-  service:
-    type: ClusterIP
-  # ... rest of your existing config
+container:
+  hostPorts:
+    # ... existing ports (80, 8443, 8444, 5002) ...
+    - port: 443
+      containerPort: 443
 ```
 
-### Upgrade Ingress Controller
+Then upgrade NGF:
 
 ```bash
-helm upgrade ingress-nginx ingress-nginx/ingress-nginx \
-  --namespace ingress-nginx \
-  -f /root/ingress-nginx-custom.yaml
+cd /root/provider
+helm upgrade ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric -n nginx-gateway -f values-nginx-gateway-fabric.yaml
+```
+
+Ensure your firewall allows inbound **443/tcp**.
+
+---
+
+## STEP 5 - Enable HTTPS on the Gateway
+
+Add an HTTPS listener by setting the chart's TLS domain. The chart uses hostname `*.ingress.<domain>` and expects a Secret named `wildcard-<domain-with-dashes>-tls` (e.g. `example.com` → `wildcard-example-com-tls`). Use that same `secretName` in STEP 3 when creating the Certificate.
+
+Upgrade with TLS enabled (one flag; replace with your domain):
+
+```bash
+helm upgrade akash-gateway akash/akash-gateway -n akash-gateway --set "gateway.https.domain=yourdomain.com"
+```
+
+If you use a different Helm repo (e.g. `akash-dev`), use that repo name instead of `akash`. Re-run the same `helm upgrade` with this `--set` whenever you upgrade so TLS stays enabled.
+
+Verify the Gateway accepted the new listener:
+
+```bash
+kubectl -n akash-gateway get gateway akash-gateway -o yaml | grep -A 20 "name: https"
 ```
 
 ---
 
-## STEP 5 - Verify SSL Certificates
+## STEP 6 - Verify SSL Certificates
 
 ### Test Wildcard Certificate
 
@@ -282,7 +293,7 @@ Subject: CN = *.yourdomain.com
 DNS:*.ingress.yourdomain.com, DNS:*.yourdomain.com
 ```
 
-If you see "Kubernetes Ingress Controller Fake Certificate", the cert hasn't been issued yet or ingress-nginx didn't pick it up.
+If you see a self-signed or unexpected certificate, the cert may not be issued yet or NGINX Gateway Fabric may not have picked it up yet. Wait a few minutes and, if needed, restart the NGF data plane (see Troubleshooting).
 
 ### Check All Certificates
 
@@ -305,8 +316,8 @@ kubectl -n cert-manager logs -l app=cert-manager
 Check certificate status:
 
 ```bash
-kubectl -n ingress-nginx describe certificate wildcard-yourdomain-com
-kubectl -n ingress-nginx get certificaterequest
+kubectl -n akash-gateway describe certificate wildcard-yourdomain-com
+kubectl -n akash-gateway get certificaterequest
 ```
 
 ### DNS-01 Challenge Failing
@@ -343,13 +354,15 @@ Check service account has DNS admin permissions in GCP:
 </TabContent>
 </TabsWrapper>
 
-### Still Seeing Fake Certificate
+### Certificate Not Picked Up by Gateway
 
-Wait 2-3 minutes for cert-manager to issue the certificate, then restart ingress-nginx:
+After cert-manager has issued the certificate (`Ready: True`), NGINX Gateway Fabric may need to reload. Restart the NGF data plane so it picks up the new Secret:
 
 ```bash
-kubectl -n ingress-nginx rollout restart deployment ingress-nginx-controller
+kubectl -n nginx-gateway rollout restart deployment -l app.kubernetes.io/name=nginx-gateway-fabric
 ```
+
+Wait a minute, then test HTTPS again.
 
 ---
 
