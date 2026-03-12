@@ -135,9 +135,9 @@ func main() {
     {
       language: "typescript",
       label: "TypeScript",
-      code: `import { SDL } from "@akashnetwork/chain-sdk";
+      code: `import { generateManifest, generateManifestVersion, yaml, type SDLInput } from "@akashnetwork/chain-sdk";
 
-const yaml = \`
+const sdl: SDLInput = yaml\`
 version: "2.0"
 services:
   web:
@@ -170,16 +170,22 @@ deployment:
       count: 1
 \`;
 
-// Parse SDL from YAML string
-const sdl = SDL.fromString(yaml, "beta3", "mainnet");
+// Generate manifest and deployment groups
+const result = generateManifest(sdl);
 
-// Get deployment manifest
-const manifest = sdl.manifest();
-console.log("Manifest:", manifest);
+if (!result.ok) {
+  console.error("Validation errors:", result.value);
+} else {
+  // Deployment manifest
+  console.log("Manifest:", result.value.groups);
 
-// Get deployment groups
-const groups = sdl.groups();
-console.log("Groups:", groups);`
+  // Deployment groups for blockchain submission
+  console.log("Group Specs:", result.value.groupSpecs);
+
+  // Get SDL version hash (SHA-256)
+  const version = await generateManifestVersion(result.value.groups);
+  console.log("Version:", version);
+}`
     }
   ]}
 />
@@ -415,10 +421,10 @@ func createDeployment(ctx context.Context, client v1beta3.Client, sdlPath string
     {
       language: "typescript",
       label: "TypeScript",
-      code: `import { SDL } from "@akashnetwork/chain-sdk";
+      code: `import { generateManifest, yaml, type SDLInput } from "@akashnetwork/chain-sdk";
 
-// Parse SDL
-const yaml = \`
+// Define SDL
+const sdl: SDLInput = yaml\`
 version: "2.0"
 services:
   web:
@@ -451,8 +457,13 @@ deployment:
       count: 1
 \`;
 
-const sdl = SDL.fromString(yaml, "beta3", "mainnet");
-const groups = sdl.groups();
+const result = generateManifest(sdl);
+
+if (!result.ok) {
+  throw new Error("SDL validation failed: " + JSON.stringify(result.value));
+}
+
+const { groupSpecs } = result.value;
 
 // Get current block height for dseq
 const status = await sdk.cosmos.base.tendermint.v1beta1.getLatestBlock({});
@@ -462,12 +473,12 @@ const dseq = status.block.header.height;
 const accounts = await wallet.getAccounts();
 
 // Create deployment
-const result = await sdk.akash.deployment.v1beta4.createDeployment({
+const deployResult = await sdk.akash.deployment.v1beta4.createDeployment({
   id: {
     owner: accounts[0].address,
     dseq: dseq
   },
-  groups: groups,
+  groups: groupSpecs,
   deposit: {
     denom: "uakt",
     amount: "5000000" // 5 AKT
@@ -475,7 +486,7 @@ const result = await sdk.akash.deployment.v1beta4.createDeployment({
   depositor: accounts[0].address
 });
 
-console.log("Deployment created:", result);`
+console.log("Deployment created:", deployResult);`
     }
   ]}
 />
@@ -866,16 +877,16 @@ func useJWT(token string, dseq uint64) {
       language: "typescript",
       label: "TypeScript",
       code: `import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { createChainNodeSDK, SDL } from "@akashnetwork/chain-sdk";
+import { createChainNodeSDK, generateManifest, yaml, type SDLInput } from "@akashnetwork/chain-sdk";
 
 async function deployToAkash() {
   // 1. Initialize wallet
   const mnemonic = "your mnemonic phrase here";
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { 
-    prefix: "akash" 
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    prefix: "akash"
   });
   const accounts = await wallet.getAccounts();
-  
+
   // 2. Initialize SDK
   const sdk = createChainNodeSDK({
     query: {
@@ -886,9 +897,9 @@ async function deployToAkash() {
       signer: wallet,
     },
   });
-  
-  // 3. Parse SDL
-  const yaml = \`
+
+  // 3. Define and generate manifest from SDL
+  const sdl: SDLInput = yaml\`
 version: "2.0"
 services:
   web:
@@ -920,21 +931,26 @@ deployment:
       profile: web
       count: 1
 \`;
-  
-  const sdl = SDL.fromString(yaml, "beta3", "mainnet");
-  const groups = sdl.groups();
-  
+
+  const result = generateManifest(sdl);
+
+  if (!result.ok) {
+    throw new Error("SDL validation failed: " + JSON.stringify(result.value));
+  }
+
+  const { groupSpecs } = result.value;
+
   // 4. Get current block height
   const status = await sdk.cosmos.base.tendermint.v1beta1.getLatestBlock({});
   const dseq = status.block.header.height;
-  
+
   // 5. Create deployment
   const deployment = await sdk.akash.deployment.v1beta4.createDeployment({
     id: {
       owner: accounts[0].address,
       dseq: dseq
     },
-    groups: groups,
+    groups: groupSpecs,
     deposit: {
       denom: "uakt",
       amount: "5000000"
