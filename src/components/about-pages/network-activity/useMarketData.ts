@@ -23,7 +23,7 @@ const mockData: MarketData = {
 
 async function getMarketData(): Promise<MarketData> {
   if (isProd) {
-    const response = await axios.get(`${BASE_API_URL}/marketdata`);
+    const response = await axios.get(`${BASE_API_URL}/v1/market-data`);
     return response.data;
   } else {
     return mockData;
