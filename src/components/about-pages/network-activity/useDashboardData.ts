@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export async function getDashboardData(): Promise<DashboardData> {
-  const response = await axios.get(`${BASE_API_URL}/dashboardData`);
+  const response = await axios.get(`${BASE_API_URL}/v1/dashboard-data`);
   return response.data;
 }
 
 export async function getProviderDetail() {
-  const response = await axios.get(`${BASE_API_URL}/providers`);
+  const response = await axios.get(`${BASE_API_URL}/v1/providers`);
 
   return response.data;
 }

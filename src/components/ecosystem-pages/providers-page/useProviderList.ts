@@ -7,7 +7,7 @@ const isProd = import.meta.env.PROD;
 
 export async function getProviderList(): Promise<ApiProviderList[]> {
   try {
-    const response = await axios.get(`${BASE_API_URL}/providers`);
+    const response = await axios.get(`${BASE_API_URL}/v1/providers`);
     
     // Handle case where response.data might be an array directly or wrapped
     const data = Array.isArray(response.data) ? response.data : response.data?.data || response.data?.providers || [];
