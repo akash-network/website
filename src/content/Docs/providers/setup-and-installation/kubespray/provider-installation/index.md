@@ -168,7 +168,108 @@ akash-node-1-0   1/1     Running   0          2m
 
 ---
 
-## STEP 6 - Install Akash Operators
+## STEP 6 - Install Gateway API and Akash Gateway
+
+Install the Kubernetes Gateway API stack so the provider can receive traffic on ports 80, 8443, 8444, and 5002. Do this **before** installing the hostname operator and provider.
+
+### Install Gateway API CRDs
+
+```bash
+# Standard Gateway API CRDs (NGINX Gateway Fabric)
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.4.2" | kubectl apply -f -
+
+# Experimental bundle (includes TCPRoute)
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/experimental-install.yaml
+```
+
+Verify:
+
+```bash
+kubectl get crd | grep gateway.networking.k8s.io
+```
+
+### Install NGINX Gateway Fabric
+
+Save the following as `/root/provider/values-nginx-gateway-fabric.yaml`:
+
+```yaml
+# values-nginx-gateway-fabric.yaml
+nginxGateway:
+  gatewayClassName: nginx
+  gwAPIExperimentalFeatures:
+    enable: true
+  leaderElection:
+    enable: true
+  config:
+    logging:
+      level: info
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+nginx:
+  kind: daemonSet
+  service:
+    type: ClusterIP
+  container:
+    hostPorts:
+      - port: 80
+        containerPort: 80
+      - port: 8443
+        containerPort: 8443
+      - port: 8444
+        containerPort: 8444
+      - port: 5002
+        containerPort: 5002
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+```
+
+Install NGF (from `/root/provider`):
+
+```bash
+cd /root/provider
+
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+  --create-namespace \
+  -n nginx-gateway \
+  -f values-nginx-gateway-fabric.yaml
+```
+
+Verify:
+
+```bash
+kubectl -n nginx-gateway get pods
+```
+
+### Install Akash Gateway (Gateway + TCPRoutes)
+
+The [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart creates the Gateway and TCPRoutes for the provider:
+
+```bash
+helm install akash-gateway akash/akash-gateway -n akash-gateway --create-namespace
+```
+
+Verify:
+
+```bash
+kubectl -n akash-gateway get gateway akash-gateway
+```
+
+The chart creates the TCPRoutes immediately; they will route traffic to the provider once the provider is installed in STEP 10.
+
+---
+
+## STEP 7 - Install Akash Operators
 
 ### Install Hostname Operator
 
@@ -212,7 +313,7 @@ kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/main/p
 
 ---
 
-## STEP 7 - Configure DNS
+## STEP 8 - Configure DNS
 
 ### Configure at Your DNS Provider
 
@@ -258,7 +359,7 @@ Both should return your provider's public IP.
 
 ---
 
-## STEP 8 - Create Provider Configuration
+## STEP 9 - Create Provider Configuration
 
 ### Download Price Script
 
@@ -494,7 +595,7 @@ price_target_gpu_mappings: "h100=840,*=840"
 
 ---
 
-## STEP 9 - Install Provider
+## STEP 10 - Install Provider
 
 ```bash
 cd /root/provider
@@ -526,73 +627,22 @@ All pods should show `Running` status and `1/1` ready.
 
 ---
 
-## STEP 10 - Install Ingress Controller
+## STEP 11 - Verify Gateway and Ingress
 
-### Create Ingress Configuration
+Traffic for the provider is handled by the Gateway API stack installed in STEP 6 (NGINX Gateway Fabric and akash-gateway). No separate ingress controller is required.
 
-```bash
-cat > /root/ingress-nginx-custom.yaml << 'EOF'
-controller:
-  service:
-    type: ClusterIP
-  ingressClassResource:
-    name: "akash-ingress-class"
-  kind: DaemonSet
-  hostPort:
-    enabled: true
-  admissionWebhooks:
-    port: 7443
-  config:
-    allow-snippet-annotations: false
-    compute-full-forwarded-for: true
-    proxy-buffer-size: "16k"
-  metrics:
-    enabled: true
-  extraArgs:
-    enable-ssl-passthrough: true
-
-tcp:
-  "8443": "akash-services/akash-provider:8443"
-  "8444": "akash-services/akash-provider:8444"
-EOF
-```
-
-### Install Ingress-NGINX
+After the provider is running, verify the Gateway and TCPRoutes:
 
 ```bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-
-helm install ingress-nginx ingress-nginx/ingress-nginx \
-  --namespace ingress-nginx \
-  --create-namespace \
-  --version 4.12.1 \
-  -f /root/ingress-nginx-custom.yaml
+kubectl -n akash-gateway get gateway akash-gateway
+kubectl -n akash-services get tcproutes
 ```
 
-### Label Ingress Resources
-
-```bash
-kubectl label namespace ingress-nginx app.kubernetes.io/name=ingress-nginx app.kubernetes.io/instance=ingress-nginx
-kubectl label ingressclass akash-ingress-class akash.network=true
-```
-
-### Verify Ingress
-
-```bash
-kubectl -n ingress-nginx get pods
-```
-
-**Expected output:**
-
-```
-NAME                             READY   STATUS    RESTARTS   AGE
-ingress-nginx-controller-xxx     1/1     Running   0          2m
-```
+The Gateway should show `PROGRAMMED: True`. TCPRoutes `akash-provider-8443`, `akash-provider-8444`, and `akash-provider-5002` should be listed and will route traffic to the provider once it is installed.
 
 ---
 
-## STEP 11 - Verify Provider On-Chain
+## STEP 12 - Verify Provider On-Chain
 
 ### Check Provider Status
 
@@ -628,15 +678,16 @@ Look for messages indicating the provider is bidding on deployments.
 
 ---
 
-## STEP 12 - Verify Firewall
+## STEP 13 - Verify Firewall
 
 Ensure these ports are open on your provider's public IP:
 
 **Required:**
 - `80/tcp` - HTTP
 - `443/tcp` - HTTPS
-- `8443/tcp` - Provider Endpoint
-- `8444/tcp` - Provider GRPC
+- `8443/tcp` - Provider endpoint
+- `8444/tcp` - Provider gRPC
+- `5002/tcp` - Provider Let's Encrypt
 - `30000-32767/tcp` - Kubernetes NodePort range
 
 **Optional (if using external access):**
@@ -651,7 +702,7 @@ curl -k https://provider.example.com:8443/status
 
 ---
 
-## STEP 13 - Install ReplicaSet Cleanup Script (Recommended)
+## STEP 14 - Install ReplicaSet Cleanup Script (Recommended)
 
 When deployments update but the provider is out of resources, Kubernetes won't destroy old pods until new ones are created. This can cause deployments to get stuck.
 
