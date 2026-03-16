@@ -56,7 +56,7 @@ Before you begin, ensure you have:
       language: "typescript",
       label: "TypeScript",
       code: `import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { createChainNodeSDK, SDL } from "@akashnetwork/chain-sdk";
+import { createChainNodeSDK, generateManifest, yaml, type SDLInput } from "@akashnetwork/chain-sdk";
 
 // Initialize wallet from mnemonic
 const mnemonic = "your mnemonic phrase here";
@@ -192,10 +192,10 @@ deployment:
     {
       language: "typescript",
       label: "TypeScript",
-      code: `import { SDL } from "@akashnetwork/chain-sdk";
+      code: `import { generateManifest, yaml, type SDLInput } from "@akashnetwork/chain-sdk";
 
-// Read SDL file (or use string directly)
-const yamlContent = \`
+// Define SDL using the yaml template tag
+const sdl: SDLInput = yaml\`
 version: "2.0"
 services:
   web:
@@ -228,9 +228,14 @@ deployment:
       count: 1
 \`;
 
-// Parse SDL
-const sdl = SDL.fromString(yamlContent, "beta3", "sandbox");
-const groups = sdl.groups();
+// Generate manifest and deployment groups
+const result = generateManifest(sdl, "sandbox");
+
+if (!result.ok) {
+  throw new Error("SDL validation failed: " + JSON.stringify(result.value));
+}
+
+const { groups, groupSpecs } = result.value;
 
 console.log("SDL parsed successfully");
 
@@ -246,7 +251,7 @@ const deployment = await sdk.akash.deployment.v1beta4.createDeployment({
     owner: accounts[0].address,
     dseq: dseq
   },
-  groups: groups,
+  groups: groupSpecs,
   deposit: {
     denom: "uakt",
     amount: "5000000" // 5 AKT deposit
@@ -472,8 +477,8 @@ const token = await tokenManager.generateToken({
   leases: { access: "full" }
 });
 
-// Get manifest from SDL
-const manifest = sdl.manifest();
+// Use manifest from earlier generateManifest result (groups = manifest)
+const manifest = groups;
 
 // Send manifest to provider
 const providerUrl = selectedBid.bidId.provider; // Get provider URL from chain
