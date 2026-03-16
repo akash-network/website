@@ -53,8 +53,6 @@ In the event of issues during the upgrade, coordinate via the **#validators chan
 - **CPU:** 8+ cores minimum
 - **Storage:** Sufficient space for blockchain data (1 TB+ recommended)
 
-See [Hardware Requirements](/docs/node-operators/getting-started/hardware-requirements/) for full node operator specifications.
-
 ---
 
 ## Upgrade Process
