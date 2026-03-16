@@ -18,7 +18,7 @@ This guide provides step-by-step instructions for upgrading your node to Akash v
 **Upgrade Information:**
 - **Upgrade Name:** Mainnet17
 - **Binary Version:** `v2.0.0`
-- **Block Height:** 26,063,777
+- **Block Height:** [26,063,777](https://www.mintscan.io/akash/block/26063777)
 - **Binary Release:** Binaries will be released approximately **24 hours before** the upgrade height
 - **Binary Links:** [GitHub Releases](https://github.com/akash-network/node/releases/tag/v2.0.0) (once published)
 
