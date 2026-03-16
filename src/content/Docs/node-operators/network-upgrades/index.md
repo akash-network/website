@@ -15,14 +15,14 @@ This section contains comprehensive upgrade guides for node operators and valida
 
 ## Current Network Upgrade
 
-### [Mainnet 16 - Akash v1.2.0](/docs/node-operators/network-upgrades/mainnet-16)
+### [Mainnet 17 - Akash v2.0.0](/docs/node-operators/network-upgrades/mainnet-17/)
 
 **Status:** Upcoming  
-**Upgrade Height:** 25,789,395  
-**Estimated Time:** Wednesday, March 4th, 2025 at 14:00 UTC  
-**Binary Version:** v1.2.0
+**Upgrade Height:** 26,063,777  
+**Binary Version:** v2.0.0  
+**Binary Release:** Binaries will be released approximately 24 hours after the upgrade height.
 
-Complete upgrade guide including Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. This upgrade includes store migrations for the deployment and market modules; 128GB RAM with swap is recommended.
+Complete upgrade guide including Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. Monitor block height and Discord for timing; prepare your node before the upgrade.
 
 ---
 
