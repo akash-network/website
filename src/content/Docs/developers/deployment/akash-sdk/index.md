@@ -29,7 +29,7 @@ const client = await AkashClient.create({
 // Create deployment
 const deployment = await client.deployment.create({
   sdl: mySDLConfig,
-  deposit: '5000000uakt'
+  deposit: '5000000uact'
 })
 
 console.log('Deployment created:', deployment.dseq)

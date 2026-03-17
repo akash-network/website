@@ -100,7 +100,7 @@ After connecting, you'll see:
 ### Main Dashboard
 - **Active Deployments** - Running deployments and status
 - **Quick Actions** - Deploy button, add funds, settings
-- **Account Overview** - Balance, escrow, and spending
+- **Account Overview** - Balance, escrow (ACT), and spending
 
 ![Deployments Dashboard](/images/docs/console/15-deployments-dashboard.png)
 *Your Console dashboard showing deployments and quick actions*
@@ -143,12 +143,12 @@ After connecting, you'll see:
 After clicking "Create Deployment":
 
 1. **Set Deposit Amount**
-   - Default is usually fine (0.5-5 AKT depending on resources)
-   - This is held in escrow, refunded when you close
-   - Not a fee—just a security deposit
+   - Default is usually fine (in **ACT** depending on resources)
+   - This is held in escrow (ACT), refunded when you close
+   - Not a fee—just a security deposit. Use ACT only unless circuit breaker is in effect.
 
 ![Deposit Screen](/images/docs/console/wallet/6-deposit-amount-wallet.png)
-*Set your deposit amount - held in escrow and refunded when you close*
+*Set your deposit amount (ACT) - held in escrow and refunded when you close*
 
 2. **Approve Transaction in Wallet**
    
@@ -305,7 +305,7 @@ Stop your deployment and reclaim your deposit:
 1. **Deposit (Escrow)**
    - Held while deployment runs
    - Fully refunded when you close
-   - Typical: 0.5 AKT
+   - Typical: deposit in ACT (e.g. ~5 ACT); gas in AKT
 
 2. **Provider Fees**
    - Paid per block from your deposit
@@ -320,11 +320,11 @@ Stop your deployment and reclaim your deposit:
 ### Cost Example
 
 **Simple web app (0.5 CPU, 512MB RAM, 512MB storage):**
-- Deposit: 0.5 AKT (~$1-2, refundable)
-- Cost: Often less than $5/month
-- Gas: ~0.1 AKT total
+- Deposit: in **ACT** (~$1-2 equivalent, refundable)
+- Cost: Often less than $5/month (paid from ACT escrow)
+- Gas: ~0.1 AKT total (network fees in AKT)
 
-**Your 0.5 AKT deposit is held in escrow while hosting runs, and is fully refundable when you close the deployment.**
+**Your deposit (ACT) is held in escrow while hosting runs and is fully refundable when you close the deployment. Use ACT only unless the circuit breaker is in effect.**
 
 ---
 
@@ -332,10 +332,10 @@ Stop your deployment and reclaim your deposit:
 
 | Feature | Console with Wallet | Trial (Managed Wallet) |
 |---------|-------------------|----------------------|
-| **Setup** | Need wallet + AKT | Just email + credit card |
+| **Setup** | Need wallet + ACT (and AKT for gas) | Just email + credit card |
 | **Deployment Limit** | None (run forever) | 24 hours max |
-| **Cost** | Pay with AKT | Pay with credit card |
-| **Deposit** | 0.5 AKT (refundable) | Included in credits |
+| **Cost** | Pay with ACT (mint from AKT or buy) | Pay with credit card (funds ACT) |
+| **Deposit** | ACT (refundable) | Included in credits (ACT) |
 | **Control** | Full blockchain access | Managed by Console |
 | **Best For** | Crypto users | Beginners |
 
@@ -343,10 +343,8 @@ Stop your deployment and reclaim your deposit:
 
 ## Common Questions
 
-### "How much AKT do I need?"
-**Answer:** Start with **5 AKT**:
-- 0.5 AKT for deposit (refundable)
-- Rest for provider payments and gas fees
+### "How much do I need?"
+**Answer:** Fund your deployment with **ACT** (deposit is in ACT, refundable). Keep some **AKT** for gas fees. You can get ACT by burning AKT or via credit card in Console.
 
 ### "Can I use trial AND wallet?"
 **Answer:** 
@@ -354,8 +352,8 @@ Stop your deployment and reclaim your deposit:
 - **Credit Card** - Once you add a credit card, you keep your trial credits but can't go back to trial-only mode
 - **Your Wallet** - Use your own Keplr/Leap wallet for production deployments with no limits
 
-### "What if I run out of AKT in escrow?"
-**Answer:** Your deployment will close automatically. Monitor your escrow balance and add more AKT if needed (click "Add Funds" on your deployment).
+### "What if I run out of ACT in escrow?"
+**Answer:** Your deployment will close automatically. Monitor your escrow balance and add more **ACT** if needed (click "Add Funds" on your deployment). When the circuit breaker is in effect, you can top up with **AKT** to keep deployments running; otherwise use ACT only.
 
 ### "My wallet isn't connecting"
 **Solution:**
@@ -374,7 +372,7 @@ Stop your deployment and reclaim your deposit:
 
 ### "Deployment closed unexpectedly"
 **Possible causes:**
-- Ran out of funds in escrow
+- Ran out of ACT (or AKT when CB) in escrow
 - Provider went offline
 - Deployment configuration error
 
@@ -385,7 +383,7 @@ Stop your deployment and reclaim your deposit:
 ## Tips for Success
 
 -  **Start with templates** - Use Hello World for your first deployment
--  **Monitor your escrow** - Keep an eye on your deposit balance
+-  **Monitor your escrow** - Keep an eye on your ACT deposit balance
 -  **Check provider stats** - Choose providers with high uptime
 -  **Use logs** - Logs are your best debugging tool
 -  **Save your SDLs** - Keep copies of working configurations

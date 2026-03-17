@@ -523,26 +523,30 @@ MsgDeleteProvider   // Deregister provider
 
 ### Escrow Module
 
-**Purpose:** Payment escrow for leases
+**Purpose:** Payment escrow for leases (ACT funding and provider payouts)
 
 **Location:** `x/escrow`
 
-**How It Works:**
+**How it works:**
+
+- **Deposit at creation:** Tenants fund escrow with **ACT** (USD-pegged compute credit). Deployment minimum deposit is in `uact`.
+- **Settlement:** Providers are paid in **ACT**; escrow sends earnings in the payment denom (uact) to the provider on withdraw.
+- **Circuit breaker:** When mint is halted (low collateral ratio), tenants can deposit **AKT** and the module settles overdrawn payments from AKT funds (`settleFromAktFallback`), sending uakt to the provider. Otherwise use ACT.
 
 ```
 Deployment Created
   ↓
 Escrow Account Created
   ↓
-Tenant Deposits Funds
+Tenant Deposits ACT (or AKT when circuit breaker active)
   ↓
 Lease Created
   ↓
-Funds Locked in Escrow
+Funds Locked in Escrow (uact)
   ↓
-Block-by-Block Payment
+Block-by-Block Payment (ACT)
   ↓
-Provider Withdraws Earnings
+Provider Withdraws Earnings (ACT)
   ↓
 Lease Closed → Refund Balance
 ```
@@ -550,14 +554,40 @@ Lease Closed → Refund Balance
 **Account Types:**
 ```
 DeploymentAccount    // Per deployment
-LeaseAccount         // Per lease
+LeaseAccount         // Per lease (payment per lease)
 ```
 
 **Settlement:**
-- Payments calculated per block
-- Provider can withdraw anytime
-- Tenant can top up escrow
+- Payments calculated per block in ACT (uact)
+- Provider can withdraw anytime; receives ACT
+- Tenant can top up escrow (ACT preferred; AKT when circuit breaker in effect)
 - Refund on lease close
+
+---
+
+### BME Module
+
+**Purpose:** Burn-Mint-Equilibrium (ACT/AKT vault, ledger, circuit breakers)
+
+**Location:** `x/bme`
+
+**Responsibilities:**
+- **Vault and ledger:** Tracks burned AKT (remint credits), processes ACT↔AKT burn/mint via pending ledger records.
+- **EndBlocker:** Settles ACT→AKT (e.g. for provider payouts from escrow-driven burn) and AKT→ACT (mint ACT when circuit breaker allows) each block.
+- **Circuit breakers:** Mint status (e.g. warning/halt) based on collateral ratio; when halted, new ACT mints pause and escrow can use AKT fallback.
+
+**Integrations:** Escrow keeper uses BME for `GetMintStatus` only; settlement payouts in ACT are handled by escrow (payment denom uact).
+
+---
+
+### Oracle Module
+
+**Purpose:** Price feeds (e.g. AKT/USD) for escrow and remint
+
+**Location:** `x/oracle`
+
+**Responsibilities:**
+- Aggregated price for denoms (e.g. `uakt`, `uact`) used by escrow and the vault for conversions and circuit-breaker fallback (AKT price for uact→uakt).
 
 ---
 
@@ -608,20 +638,11 @@ MsgRevokeCertificate   // Revoke certificate
 
 ### Take Module
 
-**Purpose:** Network income distribution
+**Purpose:** Legacy network income distribution; no take-rate on lease settlements.
 
 **Location:** `x/take`
 
-**Take Parameters:**
-```go
-DefaultTakeRate: 0.0          // 0% network fee
-DenomTakeRates: map[denom]rate
-```
-
-**Purpose:**
-- Collect fees from marketplace
-- Fund community pool
-- Sustainable network economics
+Lease settlements are in ACT and providers are paid in ACT. The take module may remain in the codebase for legacy or future use but does not apply to escrow payouts.
 
 ---
 
@@ -656,6 +677,9 @@ Root (AppHash)
 │   ├── orders/
 │   ├── bids/
 │   └── leases/
+├── escrow/          # Escrow accounts (ACT)
+├── bme/              # Vault, ledger, remint credits
+├── oracle/           # Price feed state
 └── ...
 ```
 
@@ -762,31 +786,11 @@ TotalGas = sum(message.Gas) + SignatureGas + TxSizeGas
 
 ### BeginBlock Order
 
-```go
-[]string{
-  upgradetypes.ModuleName,      // upgrades
-  minttypes.ModuleName,          // inflation
-  distrtypes.ModuleName,         // distribute rewards
-  slashingtypes.ModuleName,      // slash validators
-  evidencetypes.ModuleName,      // process evidence
-  stakingtypes.ModuleName,       // update validators
-  ibchost.ModuleName,            // IBC
-  authtypes.ModuleName,          // auth
-  banktypes.ModuleName,          // bank
-  govtypes.ModuleName,           // gov
-  escrow.ModuleName,             // escrow payments
-  deployment.ModuleName,         // deployments
-  market.ModuleName,             // market
-  provider.ModuleName,           // providers
-  audit.ModuleName,              // audits
-  cert.ModuleName,               // certificates
-  take.ModuleName,               // take
-}
-```
+BeginBlock and EndBlock ordering include (among others) Cosmos SDK modules plus Akash modules such as **epochs**, **escrow**, **deployment**, **market**, **provider**, **audit**, **cert**, **oracle**, **bme**, and **wasm**. Order is defined via partial ordering in the node app (e.g. `orderBeginBlockers` / `orderEndBlockers`). The **take** module is not in the execution path for lease settlements.
 
 ### EndBlock Order
 
-Similar order for end-block processing.
+EndBlock runs module end-block logic (e.g. **bme** processes ACT↔AKT ledger pending records each block). Similar partial ordering as BeginBlock.
 
 ---
 

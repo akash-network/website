@@ -13,7 +13,7 @@ Choose the right API for your use case:
 
 - **Blockchain REST/RPC** — Query data from the chain directly (gRPC, REST, RPC on an Akash node). Use this when your app needs to read chain state or submit transactions to the blockchain.
 - **Console API** — Query indexed data (stats, deployments, providers) and manage deployments for Console managed wallets. This is **not** a node: it serves aggregated/indexed data and managed-wallet flows, not raw chain queries.
-- **Chain SDK** — Integrate with Akash in Go or TypeScript/JavaScript. Use your own wallet (AKT/USDC) or custodial flows.
+- **Chain SDK** — Integrate with Akash in Go or TypeScript/JavaScript. Use your own wallet; deployment funding is in **ACT** (credit card or AKT→ACT); top-up with AKT when circuit breaker is in effect.
 
 ---
 
@@ -26,7 +26,7 @@ Query blockchain state and submit transactions via an Akash node. Use this when 
 
 ## Akash Blockchain SDK
 
-Build deployment and provider management into your app with the official chain SDK (Go and TypeScript/JavaScript). Integrate with the blockchain using your own wallet or custodial wallets; pay with AKT or USDC.
+Build deployment and provider management into your app with the official chain SDK (Go and TypeScript/JavaScript). Integrate with the blockchain using your own wallet or custodial wallets; fund deployments with **ACT** (mint from AKT or via credit card); keep AKT for gas.
 
 - **[Akash SDK](/docs/api-documentation/sdk)** - Official Go and JavaScript/TypeScript SDKs
 - **[Installation Guide](/docs/api-documentation/sdk/installation)** - Get started with SDK installation
@@ -59,7 +59,7 @@ The Console API serves **indexed data** (providers, stats, deployments) and **ma
 
 ### When to use the Akash Blockchain SDK
 - Full blockchain integration with your own wallet
-- Pay with AKT or USDC cryptocurrency
+- Fund deployments with ACT (USD-pegged); use AKT for gas and for ACT top-up when circuit breaker in effect
 - Build deployment automation tools
 - Create custom deployment workflows
 - Build provider management dashboards
@@ -86,7 +86,7 @@ The Console API serves **indexed data** (providers, stats, deployments) and **ma
 **Choose your integration method:**
 
 - **Query the chain directly (node)?** → [Node API Layer](/docs/node-operators/architecture/api-layer) - gRPC, REST, RPC on an Akash node
-- **Blockchain integration in code?** → [Use the Blockchain SDK](/docs/api-documentation/sdk) - Pay with AKT/USDC, manage your own wallet
+- **Blockchain integration in code?** → [Use the Blockchain SDK](/docs/api-documentation/sdk) - Fund with ACT (or AKT when circuit breaker), manage your own wallet
 - **Credit card deployments?** → [Managed Wallet API](/docs/api-documentation/console-api) - No wallet needed, pay with credit card via Console
 - **Indexed network data (providers, GPU, stats)?** → [Console API — Network Data](/docs/api-documentation/rest-api) - Public endpoints, not a node
 

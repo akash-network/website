@@ -123,12 +123,12 @@ Use the SDL Builder or choose a template, then customize your configuration:
 Set the initial deposit for your deployment:
 
 ![Deployment Review](/images/docs/console/8-deployment-review.png)
-*Set your deposit amount - this is held in escrow and refunded when you close the deployment*
+*Set your deposit amount - this is held in escrow (ACT) and refunded when you close the deployment*
 
-The deposit:
-- Is held in escrow to pay for your deployment
+The deposit (in **ACT**):
+- Is held in escrow to pay for your deployment; create deployments with ACT only (or AKT when circuit breaker is in effect)
 - Gets refunded when you close the deployment
-- Automatically tops up if running low
+- You can top up with ACT (or AKT when circuit breaker is active) if running low
 
 #### 3. Select a Provider Bid
 
@@ -224,7 +224,7 @@ Stop your deployment and reclaim your deposit:
 1. Select your deployment
 2. Click **"Close"** or **"Stop"**
 3. Confirm the action
-4. Your deployment will stop and remaining escrow will be refunded
+4. Your deployment will stop and remaining escrow (ACT) will be refunded
 
 ![Deployment Close Confirmation](/images/docs/console/17-deployment-close.png)
 *Confirm deployment closure and reclaim your deposit*
@@ -234,14 +234,14 @@ Stop your deployment and reclaim your deposit:
 
 ### Manage Billing and Credits
 
-View your trial credits and add payment methods:
+View your trial credits and add payment methods (credits are in **ACT**):
 
 ![Billing and Credits](/images/docs/console/18-billing-credits.png)
 *Manage your trial credits, payment methods, and billing*
 
 You can:
-- Check remaining trial credits
-- Add or update credit card
+- Check remaining trial credits (ACT)
+- Add or update credit card (funds ACT)
 - View spending history
 - Convert to pay-as-you-go after trial expires
 

@@ -116,7 +116,7 @@ profiles:
     akash:
       pricing:
         gpu-app:
-          denom: uakt
+          denom: uact
           amount: 100000  # Price for compute + GPU
 
 deployment:
@@ -782,10 +782,10 @@ profiles:
     akash:
       pricing:
         ollama:
-          denom: uakt
+          denom: uact
           amount: 100000
         webui:
-          denom: uakt
+          denom: uact
           amount: 10000
 
 deployment:

@@ -42,7 +42,7 @@ profiles:
     akash:
       pricing:
         web:
-          denom: uakt
+          denom: uact
           amount: 100
 deployment:
   web:
@@ -195,7 +195,7 @@ provider-services tx deployment close \
   --from $AKASH_KEY_NAME
 ```
 
-**Note:** This closes the deployment and all associated leases. Funds in escrow are returned.
+**Note:** This closes the deployment and all associated leases. Funds in escrow (ACT) are returned. Recommend funding deployments with ACT unless the circuit breaker is in effect.
 
 ---
 

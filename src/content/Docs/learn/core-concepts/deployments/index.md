@@ -91,7 +91,7 @@ The **manifest** is the detailed deployment specification sent to the provider:
 
 **What you do:**
 - Write SDL file describing your application
-- Ensure wallet has sufficient AKT/USDC (minimum 0.5 + gas fees)
+- Ensure you have sufficient **ACT** (USD-pegged compute credit) to fund the deployment deposit (minimum ~5 ACT / 5,000,000 uact + gas fees in AKT). You can get ACT by burning AKT or via credit card in Console.
 - Choose network (mainnet or sandbox)
 
 **What happens:**
@@ -137,9 +137,9 @@ Deployment #123456 (DSEQ)
 Deployment #123456
   └─ Order #1
        Status: OPEN
-       ├─ Bid from Provider A: 9000 uakt/block
-       ├─ Bid from Provider B: 8500 uakt/block
-       └─ Bid from Provider C: 9200 uakt/block
+       ├─ Bid from Provider A: 9000 uact/block
+       ├─ Bid from Provider B: 8500 uact/block
+       └─ Bid from Provider C: 9200 uact/block
 ```
 
 ### Stage 4: Accept Bid & Create Lease
@@ -162,7 +162,7 @@ Deployment #123456
 Deployment #123456
   Status: ACTIVE
   └─ Lease with Provider B
-       Price: 8500 uakt/block
+       Price: 8500 uact/block
        Status: ACTIVE
 ```
 
@@ -193,9 +193,10 @@ Deployment #123456
 - Monitor escrow balance
 
 **Escrow payment:**
+- Escrow is funded in **ACT** (uact). Providers are paid in **ACT** per block from your escrow.
+- When the circuit breaker is active (new ACT mints paused), you can top up escrow with **AKT** to keep deployments running. Otherwise, use **ACT only** (recommended).
 ```
-Block 1: Escrow 5.0 AKT → Pay 0.00085 AKT → Remaining 4.99915 AKT
-Block 2: Escrow 4.99915 AKT → Pay 0.00085 AKT → Remaining 4.99830 AKT
+Block 1: Escrow 5.0 ACT → Pay 0.00085 ACT → Remaining 4.99915 ACT
 ...continues until deployment closed or escrow depleted
 ```
 
@@ -226,8 +227,8 @@ Deployment #123456
   └─ Lease with Provider B
        Status: CLOSED
        Duration: 5000 blocks (~8.3 hours)
-       Total cost: 4.25 AKT
-       Refunded: 0.75 AKT
+       Total cost: 4.25 ACT
+       Refunded: 0.75 ACT
 ```
 
 ---
@@ -265,17 +266,17 @@ Deployment #123456
 
 ### How Escrow Works
 
-When you create a deployment, you fund an escrow account:
+When you create a deployment, you fund an escrow account with **ACT only** (USD-pegged compute credit):
 
-1. **Deposit:** You transfer AKT/USDC to escrow (minimum 0.5)
-2. **Payments:** Provider automatically paid per block from escrow
-3. **Refund:** When you close, unused escrow returned to your wallet
+1. **Deposit:** You fund escrow with **ACT** (minimum ~5 ACT). Get ACT by burning AKT or via credit card in Console. When the circuit breaker is active, you can also top up with **AKT** to keep deployments alive—otherwise use **ACT only** (recommended).
+2. **Payments:** Provider is automatically paid per block from escrow **in ACT**.
+3. **Refund:** When you close, unused escrow (ACT) is returned to your wallet. Unused ACT can be refunded (burned back to AKT at current price) if you no longer need it.
 
 ### Escrow Calculations
 
-**Formula:**
+**Formula (amounts in ACT):**
 ```
-Cost per block = (bid_price) uakt
+Cost per block = (bid_price) uact
 Blocks per hour = 600 (at 6 seconds per block)
 Blocks per day = 14,400
 Blocks per month ≈ 432,000
@@ -283,18 +284,18 @@ Blocks per month ≈ 432,000
 
 **Example:**
 ```
-Bid price: 10,000 uakt per block
-Cost per hour: 10,000 × 600 = 6,000,000 uakt = 0.006 AKT
-Cost per day: 0.006 × 24 = 0.144 AKT
-Cost per month: 0.144 × 30 = 4.32 AKT
+Bid price: 10,000 uact per block (1 ACT ≈ $1)
+Cost per hour: 10,000 × 600 = 6,000,000 uact = 6 ACT
+Cost per day: 6 × 24 = 144 ACT
+Cost per month: 144 × 30 ≈ 4,320 ACT
 ```
 
 **Escrow planning:**
 ```
 Deployment duration: 7 days
-Cost per day: 0.144 AKT
-Total needed: 0.144 × 7 = 1.008 AKT
-Recommended escrow: 1.5 AKT (48% buffer)
+Cost per day: 144 ACT
+Total needed: 144 × 7 = 1,008 ACT
+Recommended escrow: ~1,500 ACT (buffer); fund with ACT unless circuit breaker in effect.
 ```
 
 ### Monitoring Escrow
@@ -309,10 +310,10 @@ Recommended escrow: 1.5 AKT (48% buffer)
 - Set reminders to check balance
 
 **Adding funds:**
-- You can deposit additional AKT to existing escrow
-- Use CLI: `provider-services tx deployment deposit` command
+- You can top up escrow with **ACT** (recommended). When the circuit breaker is in effect, you can also add **AKT** to keep deployments running.
+- Use CLI: `provider-services tx deployment deposit` (or equivalent for ACT)
 - Use Console: View deployment → Add funds
-- Plan initial escrow generously to minimize need for top-ups
+- Plan initial escrow generously; use **ACT only** unless the circuit breaker requires AKT top-up.
 
 ---
 

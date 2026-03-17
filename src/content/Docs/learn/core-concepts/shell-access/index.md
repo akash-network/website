@@ -365,10 +365,10 @@ profiles:
     akash:
       pricing:
         web:
-          denom: uakt
+          denom: uact
           amount: 1000
         api:
-          denom: uakt
+          denom: uact
           amount: 2000
 
 deployment:
