@@ -9,7 +9,7 @@ description: "Deploy on Akash programmatically without managing wallets or priva
 
 **Deploy on Akash programmatically using the Console Managed Wallet API.**
 
-The Managed Wallet API allows you to create and manage deployments programmatically without managing your own wallet or private keys.
+The Managed Wallet API is part of the **Console API**: it lets you create and manage deployments with Console-managed wallets (no private keys). For querying the blockchain directly, use [Node API Layer](/docs/node-operators/architecture/api-layer)—the Console API is not an Akash node.
 
 ---
 

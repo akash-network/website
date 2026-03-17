@@ -33,7 +33,7 @@ Before starting, ensure you have:
 
 1. **Akash Wallet**
    - Funded with 50+ AKT for deployment deposits
-   - See [Akash CLI Installation](/docs/deployments/akash-cli/installation)
+   - See [Akash CLI Installation](/docs/developers/deployment/cli/installation-guide)
 
 2. **S3 Storage Account**
    - FileBase account (free tier available)

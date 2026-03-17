@@ -52,11 +52,11 @@ async function apiRequest<T>(
       ...options.headers,
     },
   });
-  
+
   if (!response.ok) {
     throw new Error(`API error: ${response.status}`);
   }
-  
+
   return response.json();
 }
 ```
@@ -213,7 +213,6 @@ interface BidResponse {
       }[];
     };
   };
-  isCertificateRequired: boolean;
 }
 
 interface BidsResponse {
@@ -226,18 +225,18 @@ async function waitForBids(
 ): Promise<BidResponse[]> {
   for (let i = 0; i < maxAttempts; i++) {
     console.log(`Checking for bids (attempt ${i + 1}/${maxAttempts})...`);
-    
+
     const response = await apiRequest<BidsResponse>(`/v1/bids?dseq=${dseq}`);
 
     if (response.data?.length > 0) {
       console.log(`Found ${response.data.length} bid(s)`);
       return response.data;
     }
-    
+
     // Wait 3 seconds before next attempt
     await new Promise(resolve => setTimeout(resolve, 3000));
   }
-  
+
   throw new Error("No bids received after maximum attempts");
 }
 
@@ -247,7 +246,6 @@ const firstBid = bids[0];
 
 console.log("Selected bid from provider:", firstBid.bid.id.provider);
 console.log("Bid price:", firstBid.bid.price.amount, firstBid.bid.price.denom);
-console.log("Certificate required:", firstBid.isCertificateRequired);
 ```
 
 ---
@@ -259,10 +257,6 @@ Accept a bid and create a lease:
 ```typescript
 interface CreateLeaseRequest {
   manifest: string;
-  certificate?: {  // Optional - for mTLS authentication
-    certPem: string;
-    keyPem: string;
-  };
   leases: {
     dseq: string;
     gseq: number;
@@ -488,12 +482,12 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
       ...options.headers,
     },
   });
-  
+
   if (!response.ok) {
     const error = await response.text();
     throw new Error(`API error ${response.status}: ${error}`);
   }
-  
+
   return response.json();
 }
 
@@ -501,12 +495,12 @@ async function waitForBids(dseq: string, maxAttempts = 10) {
   for (let i = 0; i < maxAttempts; i++) {
     console.log(`Checking for bids (attempt ${i + 1}/${maxAttempts})...`);
     const response = await apiRequest<{ data: any[] }>(`/v1/bids?dseq=${dseq}`);
-    
+
     if (response.data?.length > 0) {
       console.log(`Found ${response.data.length} bid(s)`);
       return response.data;
     }
-    
+
     await new Promise(resolve => setTimeout(resolve, 3000));
   }
   throw new Error("No bids received after maximum attempts");
@@ -525,14 +519,14 @@ async function deployToAkash() {
     );
     const { dseq, manifest } = deployResponse.data;
     console.log("✅ Deployment created with dseq:", dseq);
-    
+
     // 2. Wait for bids
     console.log("\\nWaiting for provider bids...");
     const bids = await waitForBids(dseq);
     const firstBid = bids[0];
     console.log("Selected provider:", firstBid.bid.id.provider);
     console.log("Price:", firstBid.bid.price.amount, firstBid.bid.price.denom);
-    
+
     // 3. Create lease
     console.log("\\nCreating lease...");
     await apiRequest(
@@ -551,7 +545,7 @@ async function deployToAkash() {
       }
     );
     console.log("**Lease created! Deployment is live.");
-    
+
     console.log("\\n========================================");
     console.log("🚀 Deployment is running!");
     console.log("   DSEQ:", dseq);
@@ -559,7 +553,7 @@ async function deployToAkash() {
     console.log("========================================");
     console.log("\\nTo close this deployment later, run:");
     console.log(`  DELETE /v1/deployments/${dseq}`);
-    
+
   } catch (error) {
     console.error("❌ Error:", error instanceof Error ? error.message : error);
   }
@@ -633,12 +627,12 @@ async function apiRequestWithErrorHandling<T>(
       ...options.headers,
     },
   });
-  
+
   if (!response.ok) {
     const errorBody = await response.text();
     throw new Error(`API error ${response.status}: ${errorBody}`);
   }
-  
+
   return response.json();
 }
 ```
@@ -679,7 +673,7 @@ async function apiRequestWithErrorHandling<T>(
 - ⚠️ **Credit card payment only** - Cannot use existing AKT
 - ⚠️ **Managed wallet** - No direct blockchain access
 
-**For production deployments without time limits**, use the [Akash SDK](/docs/extend/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
+**For production deployments without time limits**, use the [Akash SDK](/docs/api-documentation/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
 
 ---
 
@@ -698,4 +692,3 @@ async function apiRequestWithErrorHandling<T>(
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #developers channel
 - **GitHub Issues:** [console/issues](https://github.com/akash-network/console/issues)
 - **Support:** [GitHub Support](https://github.com/akash-network/support/issues)
-

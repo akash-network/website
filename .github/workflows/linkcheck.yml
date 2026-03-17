@@ -1,0 +1,40 @@
+name: Link Check
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  linkcheck:
+    name: Link Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Start preview server
+        run: npm run preview &
+        env:
+          HOST: 0.0.0.0
+
+      - name: Wait for server
+        run: sleep 15
+
+      - name: Link Checker
+        uses: lycheeverse/lychee-action@v2
+        with:
+          format: "markdown"
+          args: "./src/content/Docs/ --verbose --base http://localhost:4321 --accept 200,301,302"

@@ -7,8 +7,8 @@ weight: 1
 description: >-
 ---
 
-- [Provider Service Calls/Initiates the Manifest Service](/docs/akash-provider-service-and-associated-sub-services/manifest-service#1-provider-service-callsinitiates-the-manifest-service)
-- [Manifest Initiates an Event Bus to Monitor Lease Won Events](/docs/akash-provider-service-and-associated-sub-services/manifest-service#2-manifest-callsinitiates-an-event-bus-to-monitor-lease-won-events)
-- [Monitor Service Loop is Created to React to New Lease Won Events](/docs/akash-provider-service-and-associated-sub-services/manifest-service#3-monitor-service-loop-is-created-to-react-to-new-lease-won-events)
-- [Manifest Manager Logic](/docs/akash-provider-service-and-associated-sub-services/manifest-service#4-manifest-manager-logic)
-- [Receipt of Manifest from Tenant Send to Provider](/docs/akash-provider-service-and-associated-sub-services/manifest-service#5-receipt-of-manifest-from-tenant-send-to-provider)
+- [Provider Service Calls/Initiates the Manifest Service](/docs/providers/architecture/manifest-service/#service-creation)
+- [Manifest Initiates an Event Bus to Monitor Lease Won Events](/docs/providers/architecture/manifest-service/#1-lease-won-event)
+- [Monitor Service Loop is Created to React to New Lease Won Events](/docs/providers/architecture/manifest-service/#2-watchdog-creation)
+- [Manifest Manager Logic](/docs/providers/architecture/manifest-service/#5-manifest-processing)
+- [Receipt of Manifest from Tenant Send to Provider](/docs/providers/architecture/manifest-service/#3-manifest-submission)

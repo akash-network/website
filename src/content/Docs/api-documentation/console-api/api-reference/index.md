@@ -134,7 +134,6 @@ Fetch bids for a deployment.
         }[];
       };
     };
-    isCertificateRequired: boolean;
   }[];
 }
 ```
@@ -158,10 +157,6 @@ Create a lease by accepting a provider bid.
 ```typescript
 {
   manifest: string;
-  certificate?: {  // Optional - for mTLS authentication
-    certPem: string;
-    keyPem: string;
-  };
   leases: {
     dseq: string;
     gseq: number;
@@ -450,10 +445,6 @@ Update an existing deployment with a new SDL configuration.
 {
   data: {
     sdl: string;     // Updated SDL content as string
-    certificate?: {  // Optional - for mTLS authentication
-      certPem: string;
-      keyPem: string;
-    };
   }
 }
 ```
@@ -547,66 +538,6 @@ const closeResponse = await apiRequest<CloseDeploymentResponse>(
 );
 
 console.log("Deployment closed:", closeResponse.data.success);
-```
-
----
-
-## POST /v1/certificates (Optional)
-
-Create a certificate for secure mTLS provider communication. Certificates are optional but can be used for additional security.
-
-**Request:**
-```typescript
-{} // Empty body
-```
-
-**Response:**
-```typescript
-{
-  data: {
-    certPem: string;      // Certificate in PEM format
-    encryptedKey: string; // Encrypted private key
-  }
-}
-```
-
-**Example:**
-```typescript
-const certResponse = await apiRequest<{ data: { certPem: string; encryptedKey: string } }>(
-  "/v1/certificates",
-  {
-    method: "POST",
-    body: JSON.stringify({})
-  }
-);
-
-const { certPem, encryptedKey } = certResponse.data;
-```
-
-### Using Certificates with Leases
-
-To use a certificate when creating a lease, include the `certificate` field:
-
-```typescript
-const leaseResponse = await apiRequest<CreateLeaseResponse>(
-  "/v1/leases",
-  {
-    method: "POST",
-    body: JSON.stringify({
-      manifest: manifest,
-      certificate: {
-        certPem: certPem,
-        keyPem: encryptedKey
-      },
-      leases: [{
-        dseq: dseq,
-        gseq: firstBid.bid.id.gseq,
-        oseq: firstBid.bid.id.oseq,
-        provider: firstBid.bid.id.provider
-      }]
-    })
-  }
-);
 ```
 
 ---

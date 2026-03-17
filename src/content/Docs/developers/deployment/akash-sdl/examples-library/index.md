@@ -314,7 +314,7 @@ The Awesome Akash repository welcomes contributions from the community!
 
 - **Discord:** [discord.akash.network](https://discord.akash.network) - `#deployments` channel
 - **GitHub Issues:** [Report problems](https://github.com/akash-network/awesome-akash/issues)
-- **GitHub Discussions:** [Ask questions](https://github.com/akash-network/awesome-akash/discussions)
+- **Discord:** [Ask questions](https://discord.akash.network) (#developers)
 
 ### Share Your Deployments
 
