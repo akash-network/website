@@ -375,7 +375,7 @@ console.log("Deployment state:", leaseResponse.data.deployment.state);
 
 ### 4. Add Deposit to Deployment
 
-Add additional funds to your deployment's escrow (ACT; or AKT when circuit breaker in effect):
+Add additional funds to your deployment's escrow:
 
 ```typescript
 interface DepositDeploymentRequest {
@@ -396,7 +396,7 @@ const depositResponse = await apiRequest<DepositDeploymentResponse>(
     body: JSON.stringify({
       data: {
         dseq: dseq,
-        deposit: 0.5 // Add 0.5 ACT (or equivalent) to escrow
+        deposit: 0.5 // Add $0.50 to escrow
       }
     })
   }
@@ -659,7 +659,7 @@ async function apiRequestWithErrorHandling<T>(
 |---------|-------------------|-----------|
 | **Wallet Management** | Managed by Console | You manage wallet |
 | **Authentication** | API Key | Private key/mnemonic |
-| **Payment** | Credit card (funds ACT) | Crypto (ACT; or AKT when CB) |
+| **Payment** | Credit card (USD) | Crypto (AKT) |
 | **API Type** | REST API | Native blockchain |
 | **Language** | Any (HTTP) | Go, TypeScript |
 | **Setup** | API key only | Wallet + blockchain setup |
@@ -670,7 +670,7 @@ async function apiRequestWithErrorHandling<T>(
 ## Limitations
 
 - ⚠️ **API is in development** - Endpoints may change
-- Credit card payments fund **ACT**; you can also fund with ACT from your wallet (or AKT when circuit breaker is in effect)
+- ⚠️ **Credit card payment only** - Cannot use existing AKT
 - ⚠️ **Managed wallet** - No direct blockchain access
 
 **For production deployments without time limits**, use the [Akash SDK](/docs/api-documentation/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.

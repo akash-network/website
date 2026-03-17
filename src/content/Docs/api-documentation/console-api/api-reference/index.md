@@ -267,7 +267,7 @@ console.log("Lease created with state:", leaseResponse.data.deployment.state);
 
 ## POST /v1/deposit-deployment
 
-Add additional funds (ACT, or AKT when circuit breaker in effect) to a deployment's escrow to keep it running.
+Add additional funds to a deployment's escrow to keep it running.
 
 **Request:**
 ```typescript
