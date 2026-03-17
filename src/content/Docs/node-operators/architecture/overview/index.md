@@ -43,7 +43,8 @@ For detailed information about each layer:
 |  |  | - Gov                 |  | - Escrow                |  | |
 |  |  | - Distribution        |  | - BME                    |  | |
 |  |  | - Slashing            |  | - Oracle                 |  | |
-|  |  | - IBC                 |  | - Audit, Cert, Take      |  | |
+|  |  | - IBC, Wasm           |  | - Wormhole, Pyth (oracle)|  | |
+|  |  |                       |  | - Audit, Cert, Take      |  | |
 |  |  +-----------------------+  +-------------------------+  | |
 |  |                                                          | |
 |  |  +----------------------------------------------------+  | |
@@ -152,6 +153,7 @@ Akash uses a modular architecture where each module handles specific functionali
 | **escrow** | Escrow for leases; ACT funding and provider payouts | `x/escrow` |
 | **bme** | ACT/AKT vault, ledger, circuit breakers | `x/bme` |
 | **oracle** | Price feeds (e.g. AKT/USD) for escrow and remint | `x/oracle` |
+| **wasm** | CosmWasm host; Wormhole and Pyth contracts for oracle price pipeline | wasmd |
 | **audit** | Provider auditing and attestations | `x/audit` |
 | **cert** | TLS certificate management | `x/cert` |
 | **take** | Legacy income distribution; no take-rate on lease settlements | `x/take` |
@@ -179,6 +181,7 @@ provider/       - Provider registrations
 escrow/         - Escrow account balances (ACT)
 bme/            - Vault, ledger, remint credits
 oracle/         - Price feed state
+wasm/           - CosmWasm contract code and instance state (Wormhole, Pyth)
 audit/          - Audit attributes
 cert/           - TLS certificates
 take/           - Fee parameters (legacy; unused for lease settlements)

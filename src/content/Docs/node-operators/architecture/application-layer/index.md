@@ -589,6 +589,66 @@ LeaseAccount         // Per lease (payment per lease)
 **Responsibilities:**
 - Aggregated price for denoms (e.g. `uakt`, `uact`) used by escrow and the vault for conversions and circuit-breaker fallback (AKT price for uact→uakt).
 
+Prices are supplied by an off-chain relayer (Hermes) that submits signed price data to CosmWasm contracts (Pyth, Wormhole); the Pyth contract then pushes updates into `x/oracle`. See **Oracle price pipeline** below.
+
+---
+
+### Oracle Price Pipeline: Hermes and CosmWasm Contracts
+
+The oracle uses a **Hermes** relayer and two **CosmWasm** contracts (**Wormhole** and **Pyth**) to bring attested price feeds on-chain. These contracts are deployed at chain upgrade; uploading or updating contract code is only allowed via **governance proposal** (see Wasm module below).
+
+**Flow:** Hermes (off-chain) → Pyth contract (verifies VAA via Wormhole, parses price) → `x/oracle`
+
+#### Hermes (Price Relayer)
+
+**Purpose:** Off-chain service that fetches Pyth price attestations and submits them to the chain.
+
+**How it works:**
+- **Hermes** runs as a separate process (e.g. container `ghcr.io/akash-network/hermes`). It is not part of the node binary.
+- It pulls price data and **Verified Action Approvals (VAAs)** from the Pyth Hermes API (`https://hermes.pyth.network`).
+- It sends transactions to the **Pyth** CosmWasm contract on Akash (VAA payload, base64-encoded).
+- Configuration typically includes: `RPC_ENDPOINT` (node RPC), `HERMES_ENDPOINT` (Pyth API), `CONTRACT_ADDRESS` (Pyth contract), `UPDATE_INTERVAL_MS`, and gas/denom for fees.
+
+**Operational note:** Validators or third parties run Hermes so that the chain receives continuous price updates. Without Hermes (or an equivalent relayer), oracle prices do not update. See [Hermes Relayer Setup](/docs/node-operators/hermes-relayer) for installation and configuration.
+
+#### Wormhole Contract (CosmWasm)
+
+**Purpose:** Verify **Wormhole VAAs** (multi-guardian signatures) on-chain so that Pyth price payloads are trusted.
+
+**Location:** Stored and instantiated via the **Wasm** module (CosmWasm/wasmd). Instantiated at Mainnet v2.0.0 upgrade; admin is the governance module.
+
+**Responsibilities:**
+- **VAA verification:** Any account can submit a VAA with `SubmitVAA`. The contract checks signatures against the current **guardian set** (e.g. Wormhole mainnet guardian set). Parsed payloads are then available for other contracts.
+- **Guardian set updates:** Updates come from Wormhole governance VAAs (signed by 2/3+1 guardians). The contract stores the guardian set and expiration; no Akash governance proposal is required to apply a valid Wormhole governance VAA.
+
+**Key messages:**
+- `submit_vaa` – Submit a base64-encoded VAA for verification and processing.
+- Queries: `guardian_set_info`, `get_state`, `verify_vaa`, etc.
+
+#### Pyth Contract (CosmWasm)
+
+**Purpose:** Consume VAAs (delivered by Hermes), verify them via the **Wormhole** contract, parse Pyth price payloads, and relay prices to **x/oracle**.
+
+**Location:** CosmWasm contract; instantiated after Wormhole at v2.0.0 upgrade. Admin is the governance module. Instantiation requires the Wormhole contract address.
+
+**Responsibilities:**
+- Receive execute messages containing VAA data (from Hermes).
+- Use the **Wormhole** contract to verify the VAA.
+- Parse the Pyth price feed payload (e.g. AKT/USD feed ID).
+- Call into **x/oracle** to store/update the aggregated price.
+
+**Configuration:** Stored in contract state (e.g. price feed ID, Wormhole contract address, data sources). Governance can update config via `UpdateConfig` (e.g. price feed ID, `wormhole_contract`, `data_sources`).
+
+#### Wasm Module (CosmWasm Host)
+
+**Purpose:** Host for CosmWasm smart contracts, including Wormhole and Pyth.
+
+**Location:** Provided by **wasmd** (CosmWasm integration in the node). State lives under the wasm store (code and contract instances).
+
+**Code upload:** Contract code (**StoreCode**) can only be uploaded via **governance proposal**. The node sets `CodeUploadAccess` to `Nobody` (Mainnet v2.0.0 upgrade); only the governance module is authorized to submit `MsgStoreCode`, so new or updated contract binaries must be proposed and voted on. Instantiation and migration of contracts can still be performed by the contract admin (e.g. governance).
+
+**Relevance to oracle:** Wormhole and Pyth are stored and instantiated here; they execute in the Wasm VM and interact with `x/oracle` via the node’s module wiring. Governance (admin) can upgrade or migrate these contracts via standard CosmWasm messages.
+
 ---
 
 ### Audit Module
@@ -680,6 +740,7 @@ Root (AppHash)
 ├── escrow/          # Escrow accounts (ACT)
 ├── bme/              # Vault, ledger, remint credits
 ├── oracle/           # Price feed state
+├── wasm/             # CosmWasm code and instances (Wormhole, Pyth)
 └── ...
 ```
 

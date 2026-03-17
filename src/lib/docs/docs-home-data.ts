@@ -203,6 +203,12 @@ export const nodeOperatorsSection: Section = {
       title: "Network Upgrades",
       description: "Mainnet 15 upgrade guide",
     },
+    {
+      href: "/docs/node-operators/hermes-relayer",
+      icon: "server",
+      title: "Hermes Relayer",
+      description: "Run the oracle price relayer (Pyth → Wormhole → oracle)",
+    },
   ],
 };
 
