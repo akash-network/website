@@ -24,6 +24,18 @@ export const homePageSchema = defineCollection({
           }),
         ),
       }),
+      gpuPricing: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+
+        ctaText: z.string(),
+        ctaLink: z.string(),
+
+        savePercent: z.number(),
+        deployText: z.string(),
+
+        description: z.string(),
+      }),
       infrastructureSection: z.object({
         title: z.string(),
         description: z.string(),
