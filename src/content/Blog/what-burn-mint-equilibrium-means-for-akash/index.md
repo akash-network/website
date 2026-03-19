@@ -61,7 +61,7 @@ This is where the deflationary pressure comes from. If AKT moved from $1.14 to $
 
 Every dollar spent on Akash infrastructure creates direct AKT demand and permanent supply reduction.
 
-![][./bme-diagram-1.png]
+![image1][./bme-diagram-1.png]
 
 **The Vault and Circuit Breakers**
 
@@ -79,7 +79,7 @@ When AKT declines, the vault absorbs the impact. Circuit breakers activate at de
 
 The system self-corrects through arbitrage. Price movements create opportunities that naturally restore equilibrium without manual intervention.
 
-![][./bme-diagram-2.png]
+![image2][./bme-diagram-2.png]
 
 **BME Incentivized Testnet**
 
