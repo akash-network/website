@@ -281,6 +281,7 @@ provider-services query block
 ## Next Steps
 
 - **[Commands Reference →](/docs/developers/deployment/cli/commands-reference)** - Complete CLI command reference
+- **[Mint & Burn ACT →](/docs/developers/deployment/cli/act-mint-burn)** - Convert between AKT and ACT
 - **[SDL Reference →](/docs/developers/deployment/akash-sdl)** - Learn SDL configuration
 - **[SDL Examples →](/docs/developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples
 
