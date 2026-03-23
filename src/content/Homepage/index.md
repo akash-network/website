@@ -1,7 +1,7 @@
 ---
-advert: 
-  title: "The BME Incentivized Testnet is live - earn up to $10k in bounties."
-  link: "https://akash.network/docs/testnet/testplan/"
+advert:
+  title: "The Akash Mainnet 17 Upgrade starts today at 13:15 UTC."
+  link: "/"
 
 # hero section content
 heroSection:
