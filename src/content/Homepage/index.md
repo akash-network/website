@@ -1,6 +1,6 @@
 ---
 advert:
-  title: "The Akash Mainnet 17 Upgrade starts today at 13:15 UTC."
+  title: "BME and WASM Smart Contracts are Now Live."
   link: "/"
 
 # hero section content
