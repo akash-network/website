@@ -1,7 +1,6 @@
 ---
 import { getEntry } from "astro:content";
-import axios from "axios";
-import { gpus } from "@/utils/api";
+import { BASE_API_URL } from '@/lib/constants'
 
 const content = await getEntry("Homepage", "index");
 const data = content.data.gpuPricing;
@@ -14,30 +13,18 @@ const staticPrices = {
   A100: { aws: 3.43, gcp: 4.03, coreweave: 2.70 }
 };
 
-let akashPrices = {
-  H200: 0,
-  H100: 0,
-  A100: 0
+const backupAkashPrices  = {
+  H200: 2.59,
+  H100: 1.34,
+  A100: 1.06
 };
 
-try {
+// const backupAkashPrices  = {
+//   H200: 0,
+//   H100: 0,
+//   A100: 0
+// };
 
-  const res = await axios.get(gpus);
-  const models = res?.data?.models || [];
-
-  const findPrice = (name: string) =>
-    models.find((m: any) => m?.model?.toLowerCase().includes(name))
-      ?.price?.weightedAverage;
-
-  const h200 = findPrice("h200");
-  const h100 = findPrice("h100");
-  const a100 = findPrice("a100");
-
-  if (h200) akashPrices.H200 = Number(h200.toFixed(2));
-  if (h100) akashPrices.H100 = Number(h100.toFixed(2));
-  if (a100) akashPrices.A100 = Number(a100.toFixed(2));
-
-} catch {}
 ---
 
 <section>
@@ -421,7 +408,46 @@ color: black;
 
 </style>
 
-<script is:inline type="module" define:vars={{ akashPrices, staticPrices }}>
+<script is:inline type="module" define:vars={{ backupAkashPrices, staticPrices, BASE_API_URL }}>
+
+let akashPrices = { ...backupAkashPrices };
+
+const CACHE_KEY = "akash-gpu-prices";
+const CACHE_TTL = 1000 * 60 * 30; // 30 minutes
+
+function loadCachedPrices() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw);
+    if (!parsed?.data || !parsed?.timestamp) return null;
+
+    const isExpired = Date.now() - parsed.timestamp > CACHE_TTL;
+    if (isExpired) return null;
+
+    return parsed.data;
+  } catch {
+    return null;
+  }
+}
+
+function saveCachedPrices(prices) {
+  try {
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        data: prices,
+        timestamp: Date.now(),
+      })
+    );
+  } catch {}
+}
+
+const cachedPrices = loadCachedPrices();
+if (cachedPrices) {
+  akashPrices = { ...backupAkashPrices, ...cachedPrices };
+}
 
 let gpu="H200"
 let gpuCount=1
@@ -664,6 +690,45 @@ requestAnimationFrame(adjustMobileArrow)
 }
 
 
+async function fetchRealtimePrices() {
+  try {
+    const res = await fetch(`${BASE_API_URL}/v1/gpu-prices`);
+    if (!res.ok) throw new Error("API failed");
+
+    const data = await res.json();
+    const models = data?.models || [];
+
+    const findPrice = (name) =>
+      models.find((m) => m?.model?.toLowerCase().includes(name))
+        ?.price?.weightedAverage;
+
+    const nextPrices = { ...backupAkashPrices };
+
+    const h200 = findPrice("h200");
+    const h100 = findPrice("h100");
+    const a100 = findPrice("a100");
+
+    if (h200 != null) nextPrices.H200 = Number(h200.toFixed(2));
+    if (h100 != null) nextPrices.H100 = Number(h100.toFixed(2));
+    if (a100 != null) nextPrices.A100 = Number(a100.toFixed(2));
+
+    akashPrices = nextPrices;
+    saveCachedPrices(nextPrices);
+    update();
+  } catch (error) {
+    console.warn("Failed to fetch real-time prices:", error);
+
+    const cached = loadCachedPrices();
+    if (cached) {
+      akashPrices = { ...backupAkashPrices, ...cached };
+    } else {
+      akashPrices = { ...backupAkashPrices };
+    }
+
+    update();
+  }
+}
+
 function adjustMobileArrow(){
 
 const text=document.getElementById("mobile-deploy-text")
@@ -687,5 +752,6 @@ arrow.classList.add("h-3.5","w-3.5")
 update()
 adjustMobileArrow()
 renderCounters()
+fetchRealtimePrices()
 
 </script>
