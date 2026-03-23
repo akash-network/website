@@ -63,7 +63,7 @@ profiles:
     akash:
       pricing:
         app:
-          denom: uakt
+          denom: uact
           amount: 10000
 
 deployment:
@@ -323,10 +323,10 @@ profiles:
     akash:
       pricing:
         web:
-          denom: uakt
+          denom: uact
           amount: 10000
         redis:
-          denom: uakt
+          denom: uact
           amount: 5000
 
 deployment:

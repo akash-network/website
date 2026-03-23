@@ -79,17 +79,9 @@ memory:
 
 ## Cost Management
 
-### Use USDC for Stable Pricing
+### Fund with ACT (Stable USD-Pegged Pricing)
 
-For predictable costs, use USDC instead of AKT:
-
-```yaml
-pricing:
-  web:
-    denom: ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1
-    amount: 100
-```
-
+Deployment funding uses **ACT** (USD-pegged compute credit). Fund your deployment with ACT (via Console credit card or by burning AKT to mint ACT). Use ACT for escrow unless the circuit breaker is in effect, in which case you can top up with AKT to keep deployments running. The network uses ACT (denom `uact`) for escrow and provider payouts.
 
 ---
 
@@ -372,7 +364,7 @@ placement:
       datacenter: equinix          # Specific datacenter
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 100
 ```
 
@@ -396,7 +388,7 @@ placement:
         - akash1...          # Required auditor
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 150          # May cost more for audited providers
 ```
 
@@ -448,7 +440,7 @@ placement:
   test:
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 10        # Sandbox tokens are free from faucet
 ```
 

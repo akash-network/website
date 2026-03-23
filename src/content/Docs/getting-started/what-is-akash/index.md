@@ -48,7 +48,7 @@ No single entity can shut down your application. Deploy anywhere, anytime.
 Access to high-end GPUs and compute at fraction of the cost. Perfect for AI/ML workloads.
 
 ### **Flexible Access**
-Start with our **trial** (credit card, $100 free credits, 30 days) or go **permissionless** with your own wallet (no KYC, use AKT or USDC).
+Start with our **trial** (credit card, $100 free credits in ACT, 30 days) or go **permissionless** with your own wallet (no KYC; fund deployments with **ACT**, or with AKT when the circuit breaker is in effect).
 
 **Note:** Trial deployments have a 24-hour maximum duration per deployment, but you can redeploy as many times as you want within your 30-day trial period.
 
@@ -109,8 +109,8 @@ A **[lease](/docs/learn/core-concepts/providers-leases#lease-management)** is th
 ### SDL
 The **[Stack Definition Language (SDL)](/docs/developers/deployment/akash-sdl)** is a YAML format that describes your deployment—similar to Docker Compose.
 
-### AKT
-**AKT** is Akash's native cryptocurrency used for payments, staking, and governance.
+### AKT and ACT
+**AKT** is Akash's native token used for staking, governance, and gas. **ACT** is the USD-pegged compute credit used to fund deployments and pay providers; you get ACT by burning AKT or via credit card in Console.
 
 ---
 
@@ -120,8 +120,8 @@ The **[Stack Definition Language (SDL)](/docs/developers/deployment/akash-sdl)**
 |---------|------------------|---------------|----------------|
 | **Cost** | High, fixed pricing | $100 free credits | Up to 85% cheaper, market-driven |
 | **Access** | Credit card + KYC | Credit card (KYC for verification) | No KYC, permissionless |
-| **Payment** | Credit card monthly | Credit card | Crypto (AKT or USDC) |
-| **Setup** | Complicated | Sign up in 10 minutes | Install wallet, buy AKT |
+| **Payment** | Credit card monthly | Credit card (funds ACT) | Crypto (ACT; or AKT when circuit breaker) |
+| **Setup** | Complicated | Sign up in 10 minutes | Install wallet, fund with ACT (or AKT when CB) |
 | **Deployment Limit** | None | 24 hours per deployment | None |
 | **Control** | Vendor lock-in | Choose your provider | Full blockchain control |
 | **Censorship** | Can be shut down | Censorship-resistant | Censorship-resistant |
