@@ -1,10 +1,10 @@
 ---
-import ExpandedGpuPricing from "../ExpandedGpuPricing";
+import GpuPricing from "../gpu-pricing.astro";
 import TrustedByMarquee from "../TrustedByMarquee";
 import { trustedBySection } from "./trustedby";
 ---
 
-<div class="w-full overflow-hidden py-16 dark:bg-[#101010] md:py-20 lg:pb-[120px]">
+<div class="w-full overflow-hidden py-16 bg-[#f1f1f1] dark:bg-[#101010] md:py-20 lg:pb-[120px]">
   <div class="relative z-[2] flex flex-col gap-16 lg:gap-[120px]">
     <div class="mb-6 flex flex-col items-center justify-center gap-8">
       <h2 class="text-[#8C8E91] md:text-lg">
@@ -17,8 +17,8 @@ import { trustedBySection } from "./trustedby";
         <TrustedByMarquee trustedBySection={trustedBySection} client:only />
       </div>
     </div>
-    <div class="container-nav-3 w-full">
-      <ExpandedGpuPricing client:load />
+    <div class="mx-auto max-w-[1510px] w-full">
+      <GpuPricing />
     </div>
   </div>
 </div>

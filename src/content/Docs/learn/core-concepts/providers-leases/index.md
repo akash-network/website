@@ -197,7 +197,7 @@ When you receive a bid, it includes:
 
 ```
 Provider: akash1abc...xyz
-Price: 8,500 uakt/block
+Price: 8,500 uact/block
 Location: US-West
 Attributes:
   - feat-persistent-storage: true
@@ -210,9 +210,9 @@ Attributes:
 **Bid price is per block (~6 seconds):**
 
 ```
-Bid: 10,000 uakt/block
+Bid: 10,000 uact/block
 
-Hourly cost: 10,000 × 600 blocks = 6,000,000 uakt = 0.006 AKT
+Hourly cost: 10,000 × 600 blocks = 6,000,000 uact = 0.006 ACT
 Daily cost: 0.006 × 24 = 0.144 AKT
 Monthly cost: 0.144 × 30 = 4.32 AKT
 
@@ -271,7 +271,7 @@ Once lease is active:
 - Run your containers
 - Maintain uptime
 - Process manifest updates
-- Accept escrow payments
+- Receive **ACT** (compute credit) at settlement from escrow
 
 ### Lease States
 

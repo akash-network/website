@@ -1,7 +1,7 @@
 ---
-advert: 
-  title: "The BME Incentivized Testnet is live - earn up to $10k in bounties."
-  link: "https://akash.network/docs/testnet/testplan/"
+advert:
+  title: "BME and WASM Smart Contracts are Now Live."
+  link: "/"
 
 # hero section content
 heroSection:
@@ -31,6 +31,21 @@ heroSection:
         - label: "Deploy now"
           link: "/deploy"
           type: secondary
+
+gpuPricing:
+  title: "The Efficiency Gap"
+  subtitle: "The price of centralization vs. the open market."
+
+  ctaText: "View Pricing Page"
+  ctaLink: "/pricing/gpus"
+
+  savePercent: 80
+  deployText: "Deploy Now"
+
+  description: >
+    Why the gap? Hyperscalers set prices in a boardroom to maximize margin.
+    Akash prices are set by a global reverse auction to maximize utilization.
+    You are paying for the silicon, not the overhead.
 
 # infrastructure section content
 infrastructureSection:

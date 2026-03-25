@@ -542,6 +542,95 @@ console.log("Deployment closed:", closeResponse.data.success);
 
 ---
 
+## GET /v2/deployment-settings/{dseq}
+
+Get deployment settings for a specific deployment. If no settings exist, they are automatically created with auto top-up **enabled** by default.
+
+**Path Parameters:**
+- `dseq` (required) - Deployment sequence number
+
+**Query Parameters:**
+- `userId` (optional) - User ID. Defaults to the current authenticated user if not provided
+
+**Response:**
+```typescript
+{
+  data: {
+    id: string;                  // UUID
+    userId: string;              // User ID
+    dseq: string;                // Deployment sequence number
+    autoTopUpEnabled: boolean;   // Whether auto top-up is enabled
+    estimatedTopUpAmount: number; // Estimated top-up amount
+    topUpFrequencyMs: number;    // Top-up frequency in milliseconds
+    createdAt: string;           // ISO 8601 datetime
+    updatedAt: string;           // ISO 8601 datetime
+  }
+}
+```
+
+**Example:**
+```typescript
+const settingsResponse = await apiRequest<DeploymentSettingResponse>(
+  `/v2/deployment-settings/${dseq}`
+);
+
+const settings = settingsResponse.data;
+console.log("Auto top-up enabled:", settings.autoTopUpEnabled);
+```
+
+---
+
+## POST /v2/deployment-settings
+
+Create deployment settings for a deployment.
+
+**Request:**
+```typescript
+{
+  data: {
+    dseq: string;                    // Deployment sequence number
+    autoTopUpEnabled?: boolean;      // Whether auto top-up is enabled (default: false)
+    userId?: string;                 // User ID. Defaults to the current authenticated user if not provided
+  }
+}
+```
+
+**Response (201):**
+```typescript
+{
+  data: {
+    id: string;                  // UUID
+    userId: string;              // User ID
+    dseq: string;                // Deployment sequence number
+    autoTopUpEnabled: boolean;   // Whether auto top-up is enabled
+    estimatedTopUpAmount: number; // Estimated top-up amount
+    topUpFrequencyMs: number;    // Top-up frequency in milliseconds
+    createdAt: string;           // ISO 8601 datetime
+    updatedAt: string;           // ISO 8601 datetime
+  }
+}
+```
+
+**Example:**
+```typescript
+const createResponse = await apiRequest<DeploymentSettingResponse>(
+  "/v2/deployment-settings",
+  {
+    method: "POST",
+    body: JSON.stringify({
+      data: {
+        dseq: "12345",
+        autoTopUpEnabled: true
+      }
+    })
+  }
+);
+
+console.log("Settings created:", createResponse.data.id);
+```
+
+---
+
 ## Related Resources
 
 - **[Getting Started](/docs/api-documentation/console-api/getting-started)** - API setup and first deployment

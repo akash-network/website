@@ -235,7 +235,7 @@ We need to deploy once to capture node IDs, then re-deploy with those IDs config
 3. **Click "Deploy"**
 4. **Select "Empty" template**
 5. **Paste your SDL** (from Step 3)
-6. **Review and accept** deposit (5 AKT)
+6. **Review and accept** deposit (in ACT, e.g. ~5 ACT)
 7. **Select provider** (choose a trusted one for validator!)
 8. **Submit deployment**
 

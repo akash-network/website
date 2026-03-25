@@ -235,7 +235,7 @@ func CreateDeployment(ctx context.Context, sdl []byte) (*Deployment, error)
 // **Good: Explain complex logic
 // Calculate bid price using the formula:
 // price = (cpu * cpuPrice) + (memory * memPrice) + (storage * storagePrice)
-// Prices are in uakt per unit per block.
+// Prices are in uact per unit per block (ACT is the deployment/payment denom).
 price := calculateBidPrice(resources)
 
 // **Bad: Obvious comments

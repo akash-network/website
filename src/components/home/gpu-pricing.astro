@@ -1,0 +1,757 @@
+---
+import { getEntry } from "astro:content";
+import { BASE_API_URL } from '@/lib/constants'
+
+const content = await getEntry("Homepage", "index");
+const data = content.data.gpuPricing;
+
+const gpuModels = ["H200", "H100", "A100"];
+
+const staticPrices = {
+  H200: { aws: 7.91, gcp: 10.44, coreweave: 6.31 },
+  H100: { aws: 6.88, gcp: 14.19, coreweave: 6.16 },
+  A100: { aws: 3.43, gcp: 4.03, coreweave: 2.70 }
+};
+
+const backupAkashPrices  = {
+  H200: 2.59,
+  H100: 1.34,
+  A100: 1.06
+};
+
+// const backupAkashPrices  = {
+//   H200: 0,
+//   H100: 0,
+//   A100: 0
+// };
+
+---
+
+<section>
+<div class="container-nav-3">
+
+<!-- HEADER -->
+
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+<div>
+
+<h2 class="text-[32px] md:text-4xl lg:text-5xl font-semibold">
+{data.title}
+</h2>
+
+<p class="text-[#86868B] mt-2 md:mt-3 text-sm md:text-base">
+{data.subtitle}
+</p>
+
+</div>
+
+<a
+href={data.ctaLink}
+class="md:inline-flex hidden items-center gap-2 rounded-full border border-black/20 dark:border-white/20 px-8 py-2 text-sm text-[#171717] dark:text-white transition-all duration-300 hover:bg-white/30 dark:hover:bg-white/5 w-fit mt-auto"
+>
+
+{data.ctaText}
+
+<svg width="20" height="20" viewBox="0 0 24 24">
+<path d="M9 6L15 12L9 18" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>
+
+</a>
+
+</div>
+
+<hr class="border-black/10 dark:border-white/10 border-t my-8"/>
+
+<p class="text-[#86868B] mb-2 text-sm md:text-base">
+Choose a GPU Model
+</p>
+
+
+<!-- DESKTOP CONTROLS -->
+
+<div class="hidden md:flex flex-wrap items-center gap-4 mb-10">
+
+<!-- GPU COUNT -->
+
+<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
+
+<button id="gpu-dec" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<span id="gpu-count" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">
+1
+</span>
+
+<button id="gpu-inc" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+</div>
+
+<!-- GPU SELECTOR -->
+
+<div id="gpu-selector-desktop"
+class="relative flex items-center h-[54px] p-[6px] gap-[12px] bg-[#F5F5F7] border border-[#F0F0F0] gpu-tab-shadow rounded-full">
+
+<div id="tab-slider"
+class="absolute top-[6px] left-0 h-[42px] w-[72px] bg-white gpu-tab-shadow rounded-[20px] transition-all duration-500 ease-out"></div>
+
+{gpuModels.map((gpu)=>(
+<button
+class="gpu-tab relative z-10 w-[72px] h-[42px] flex items-center justify-center pl-1 rounded-[20px] text-[18px] font-medium transition-all duration-300 text-[#86868B]"
+data-gpu={gpu}
+>
+{gpu}
+</button>
+))}
+
+</div>
+
+<!-- HOURS -->
+
+<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
+
+<button id="hour-dec" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<span id="hour-count" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">
+1h
+</span>
+
+<button id="hour-inc" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+</div>
+
+</div>
+
+
+<!-- MOBILE CONTROLS -->
+
+<div class="md:hidden mb-10 flex flex-col gap-4">
+
+<!-- GPU SELECTOR -->
+
+<div id="gpu-selector-mobile"
+class="relative flex items-center w-full h-[54px] p-[6px] gap-[12px] bg-[#F5F5F7] border border-[#F0F0F0] gpu-tab-shadow rounded-full">
+
+<div id="tab-slider-mobile"
+class="absolute top-[6px] left-0 h-[42px] bg-white gpu-tab-shadow rounded-[20px] transition-all duration-500 ease-out"></div>
+
+{gpuModels.map((gpu)=>(
+<button
+class="gpu-tab-mobile relative z-10 flex-1 h-[42px] flex items-center justify-center pl-1 rounded-[20px] text-[18px] font-medium transition-all duration-300 text-[#86868B]"
+data-gpu={gpu}
+>
+{gpu}
+</button>
+))}
+
+</div>
+
+<div class="flex justify-between gap-4">
+
+<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
+<button id="gpu-dec-mobile" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+<span id="gpu-count-mobile" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">1</span>
+<button id="gpu-inc-mobile" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+</div>
+
+<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
+<button id="hour-dec-mobile" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+<span id="hour-count-mobile" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">1h</span>
+<button id="hour-inc-mobile" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- BARS -->
+
+<div id="pricing-bars" class="space-y-3 md:space-y-4">
+
+<!-- AKASH -->
+
+<div id="row-akash" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2 group/akash">
+
+<div class="w-44 text-black dark:text-[#A6FA99] flex gap-2 items-center font-medium text-base">
+<svg width="40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22.714 21.8882L26.6378 26.2634L28.0054 28.831H20.0029L15.9995 21.8882H22.714Z" fill="currentColor"/>
+  <path d="M28.0032 28.8317L32 21.8889L23.9998 8H15.9995L28.0032 28.8317Z" fill="currentColor"/>
+  <path d="M12.0001 14.9414H20.0004L12.0034 28.8303L8 21.8875L12.0001 14.9414Z" fill="currentColor"/>
+</svg>
+Akash
+</div>
+
+<div class="flex items-center w-full bg-transparent border border-black/10 dark:border-white/10 h-[40px] md:h-[44px] rounded group-hover/akash:bg-black/5 group-hover/akash:dark:bg-white/5 transition-colors duration-300">
+
+<div id="bar-akash"
+class="bg-[#8BFE79] dark:bg-[#A6FA99] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 text-black transition-[width] duration-700 ease-out w-fit min-w-fit text-lg md:text-xl font-semibold">
+
+<span id="emoji-akash"></span>
+<span id="price-akash"></span>
+
+</div>
+
+<div class="w-full flex justify-between px-2 gap-2">
+<span id="save-percent"
+class="inline-flex bg-[#8BFE79] dark:bg-[#A6FA99] text-[#0C3205] px-4 py-2 rounded-full text-xs md:text-sm whitespace-nowrap font-medium">
+Save %
+</span>
+
+<a href="https://console.akash.network/"
+class="hidden sm:group-hover/akash:inline-flex transition-all duration-300 bg-black dark:bg-white text-white dark:text-[#171717] hover:scale-110 px-4 py-2 rounded-full text-sm whitespace-nowrap items-center gap-1">
+<span class="font-medium">{data.deployText}</span>
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.25 10.5L8.75 7L5.25 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</a>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- AWS -->
+
+<div id="row-aws" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2">
+
+<div class="w-44 text-[#8A8F98] flex gap-2 items-center font-medium text-base">
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_596_932)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15.6518 18.6899C15.6518 18.9486 15.6798 19.1583 15.7287 19.3121C15.7846 19.4659 15.8545 19.6337 15.9524 19.8154C15.9874 19.8714 16.0014 19.9273 16.0014 19.9762C16.0014 20.0462 15.9594 20.116 15.8685 20.186L15.4281 20.4796C15.3652 20.5215 15.3023 20.5425 15.2464 20.5425C15.1764 20.5425 15.1066 20.5076 15.0366 20.4447C14.9388 20.3398 14.8549 20.2279 14.785 20.1161C14.715 19.9972 14.6452 19.8644 14.5682 19.7036C14.0229 20.3468 13.3378 20.6683 12.5129 20.6683C11.9257 20.6683 11.4573 20.5005 11.1147 20.165C10.7722 19.8294 10.5974 19.382 10.5974 18.8227C10.5974 18.2285 10.8071 17.7461 11.2336 17.3826C11.6601 17.0191 12.2264 16.8373 12.9464 16.8373C13.184 16.8373 13.4288 16.8583 13.6874 16.8932C13.9461 16.9282 14.2118 16.9841 14.4914 17.047V16.5367C14.4914 16.0054 14.3795 15.6349 14.1628 15.4182C13.939 15.2014 13.5616 15.0966 13.0232 15.0966C12.7786 15.0966 12.5269 15.1245 12.2682 15.1874C12.0096 15.2504 11.7579 15.3272 11.5132 15.4251C11.4013 15.474 11.3175 15.502 11.2686 15.516C11.2196 15.53 11.1847 15.5369 11.1567 15.5369C11.0588 15.5369 11.0099 15.467 11.0099 15.3202V14.9776C11.0099 14.8658 11.0239 14.7819 11.0588 14.733C11.0938 14.684 11.1567 14.6351 11.2546 14.5862C11.4992 14.4603 11.7929 14.3555 12.1354 14.2716C12.478 14.1807 12.8415 14.1388 13.226 14.1388C14.0579 14.1388 14.6662 14.3275 15.0576 14.705C15.4421 15.0826 15.6379 15.6558 15.6379 16.4248V18.6898H15.6519L15.6518 18.6899H15.6518ZM12.8135 19.7525C13.0442 19.7525 13.2819 19.7106 13.5335 19.6267C13.7852 19.5428 14.0089 19.389 14.1977 19.1793C14.3095 19.0465 14.3934 18.8996 14.4354 18.7319C14.4773 18.5641 14.5053 18.3613 14.5053 18.1237V17.83C14.3025 17.7811 14.0858 17.7392 13.8621 17.7112C13.6384 17.6832 13.4217 17.6692 13.205 17.6692C12.7366 17.6692 12.394 17.7601 12.1633 17.9489C11.9326 18.1376 11.8208 18.4033 11.8208 18.7528C11.8208 19.0814 11.9046 19.3261 12.0794 19.4938C12.2472 19.6686 12.4919 19.7525 12.8135 19.7525L12.8134 19.7524L12.8135 19.7525ZM18.4271 20.5075C18.3013 20.5075 18.2174 20.4866 18.1615 20.4376C18.1055 20.3957 18.0566 20.2978 18.0147 20.1649L16.3718 14.761C16.3299 14.6212 16.3089 14.5303 16.3089 14.4814C16.3089 14.3695 16.3648 14.3066 16.4767 14.3066H17.1618C17.2946 14.3066 17.3856 14.3276 17.4345 14.3765C17.4904 14.4184 17.5324 14.5163 17.5743 14.6492L18.7488 19.2771L19.8394 14.6492C19.8743 14.5094 19.9162 14.4184 19.9722 14.3765C20.0281 14.3345 20.126 14.3066 20.2518 14.3066H20.8111C20.9439 14.3066 21.0348 14.3276 21.0907 14.3765C21.1467 14.4184 21.1956 14.5163 21.2235 14.6492L22.3281 19.333L23.5375 14.6492C23.5795 14.5094 23.6284 14.4184 23.6773 14.3765C23.7333 14.3346 23.8241 14.3066 23.95 14.3066H24.6001C24.712 14.3066 24.7749 14.3625 24.7749 14.4814C24.7749 14.5163 24.7679 14.5513 24.7609 14.5932C24.7539 14.6352 24.7399 14.6911 24.712 14.768L23.0272 20.172C22.9853 20.3118 22.9363 20.4026 22.8804 20.4446C22.8245 20.4866 22.7336 20.5146 22.6147 20.5146H22.0135C21.8807 20.5146 21.7898 20.4936 21.7339 20.4446C21.678 20.3957 21.629 20.3049 21.6011 20.165L20.5175 15.6559L19.4409 20.158C19.4059 20.2978 19.3639 20.3887 19.308 20.4376C19.2521 20.4865 19.1542 20.5075 19.0284 20.5075H18.4271ZM27.4104 20.6962C27.0469 20.6962 26.6833 20.6543 26.3338 20.5704C25.9842 20.4866 25.7116 20.3957 25.5299 20.2908C25.418 20.2279 25.3411 20.158 25.3131 20.0951C25.2852 20.0321 25.2712 19.9623 25.2712 19.8993V19.5428C25.2712 19.396 25.3271 19.3261 25.432 19.3261C25.4739 19.3261 25.5159 19.3331 25.5578 19.3471C25.5997 19.361 25.6627 19.389 25.7326 19.417C25.9703 19.5219 26.2289 19.6057 26.5016 19.6616C26.7812 19.7176 27.0539 19.7455 27.3335 19.7455C27.7739 19.7455 28.1165 19.6686 28.3542 19.5148C28.5919 19.361 28.7177 19.1373 28.7177 18.8507C28.7177 18.6549 28.6548 18.4941 28.529 18.3613C28.4031 18.2285 28.1654 18.1097 27.8229 17.9978L26.8092 17.6832C26.2989 17.5224 25.9214 17.2847 25.6907 16.9701C25.46 16.6626 25.3412 16.32 25.3412 15.9565C25.3412 15.6629 25.4041 15.4042 25.5299 15.1805C25.6557 14.9568 25.8235 14.761 26.0333 14.6072C26.243 14.4464 26.4807 14.3276 26.7603 14.2437C27.04 14.1598 27.3336 14.1248 27.6412 14.1248C27.795 14.1248 27.9558 14.1318 28.1096 14.1527C28.2704 14.1737 28.4172 14.2016 28.564 14.2296C28.7038 14.2645 28.8367 14.2995 28.9625 14.3414C29.0883 14.3834 29.1862 14.4253 29.2561 14.4673C29.3539 14.5232 29.4239 14.5792 29.4658 14.642C29.5077 14.698 29.5288 14.7749 29.5288 14.8728V15.2014C29.5288 15.3482 29.4728 15.4251 29.368 15.4251C29.312 15.4251 29.2212 15.3971 29.1023 15.3412C28.7038 15.1594 28.2563 15.0685 27.76 15.0685C27.3616 15.0685 27.047 15.1314 26.8302 15.2642C26.6135 15.397 26.5016 15.5998 26.5016 15.8864C26.5016 16.0822 26.5715 16.25 26.7114 16.3828C26.8512 16.5156 27.1098 16.6484 27.4804 16.7672L28.4731 17.0818C28.9764 17.2426 29.34 17.4664 29.5567 17.753C29.7734 18.0396 29.8783 18.3682 29.8783 18.7317C29.8783 19.0323 29.8153 19.305 29.6965 19.5426C29.5707 19.7804 29.4029 19.99 29.1862 20.1578C28.9695 20.3326 28.7108 20.4584 28.4102 20.5493C28.0956 20.6472 27.7671 20.6961 27.4105 20.6961L27.4104 20.6962L27.4104 20.6962Z" fill="#8A8F98"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M28.7337 24.0936C26.4337 25.7924 23.092 26.6942 20.2188 26.6942C16.192 26.6942 12.5638 25.2051 9.82335 22.7304C9.60661 22.5346 9.80241 22.269 10.0611 22.4228C13.0252 24.1425 16.6815 25.1842 20.4635 25.1842C23.0152 25.1842 25.8185 24.6528 28.3981 23.5622C28.7826 23.3875 29.1112 23.8139 28.7337 24.0936V24.0936Z" fill="#8A8F98"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M29.6895 23.003C29.3959 22.6254 27.7461 22.8212 26.9981 22.9121C26.7743 22.9401 26.7394 22.7443 26.9421 22.5975C28.2564 21.6747 30.4166 21.9404 30.6682 22.248C30.9199 22.5626 30.5983 24.7228 29.368 25.7574C29.1792 25.9182 28.9974 25.8343 29.0814 25.6246C29.361 24.9325 29.9832 23.3735 29.6896 23.003H29.6895V23.003Z" fill="#8A8F98"/>
+</g>
+<defs>
+<clipPath id="clip0_596_932">
+<rect width="21.0195" height="12.5697" fill="white" transform="translate(9.73047 14.125)"/>
+</clipPath>
+</defs>
+</svg>
+
+AWS
+</div>
+
+<div class="flex items-center w-full border border-black/10 dark:border-white/10 h-[40px] md:h-[44px] rounded">
+
+<div id="bar-aws"
+class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out w-fit min-w-fit text-white dark:text-[#1D1D1F] text-lg md:text-xl font-semibold">
+
+<span id="emoji-aws"></span>
+<span id="price-aws"></span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- GCP -->
+
+<div id="row-gcp" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2">
+
+<div class="w-44 text-[#8A8F98] flex gap-2 items-center font-medium text-base">
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_596_947)">
+<path d="M22.6839 16.6058L23.3474 16.6155L25.1502 14.8127L25.2376 14.0488C23.807 12.7768 21.92 12 19.855 12C16.1199 12 12.9673 14.5408 12.0352 17.9846C12.2326 17.8487 12.6534 17.949 12.6534 17.949L16.2558 17.3567C16.2558 17.3567 16.4403 17.0492 16.5342 17.0654C17.3854 16.13 18.5927 15.596 19.8582 15.596C20.9264 15.596 21.9103 15.9747 22.6839 16.5993V16.6058Z" fill="#8A8F98"/>
+<path d="M27.6792 17.9911C27.2617 16.4472 26.3975 15.0846 25.2323 14.0488L22.6785 16.6026C23.7013 17.4279 24.3584 18.6902 24.3584 20.1047V20.5546C25.6013 20.5546 26.6079 21.5644 26.6079 22.8041C26.6079 24.0437 25.598 25.0536 24.3584 25.0536H19.8562L19.4062 25.5067V28.2094L19.8562 28.656H24.3584C27.5886 28.6528 30.2071 26.0343 30.2103 22.8041C30.2103 20.8135 29.207 19.0495 27.676 17.9879L27.6792 17.9911Z" fill="#8A8F98"/>
+<path d="M15.3502 28.6638H19.8492V25.0581H15.3502C15.0298 25.0581 14.7158 24.9901 14.4245 24.8574L13.7739 25.0581L11.9711 26.8609L11.8125 27.4694C12.8288 28.243 14.0717 28.6638 15.3502 28.6638Z" fill="#8A8F98"/>
+<path d="M15.3519 16.9572C12.1217 16.9604 9.50324 19.5789 9.5 22.8091C9.5 24.709 10.4095 26.4018 11.8207 27.4699L14.4295 24.8612C13.6235 24.4986 13.1024 23.6959 13.1024 22.8091C13.1024 21.5662 14.1123 20.5596 15.3519 20.5596C16.2647 20.5596 17.048 21.1098 17.404 21.8866L20.0128 19.2779C18.9414 17.8699 17.2519 16.9572 15.3519 16.9572Z" fill="#8A8F98"/>
+</g>
+<defs>
+<clipPath id="clip0_596_947">
+<rect width="20.7148" height="16.6625" fill="white" transform="translate(9.5 12)"/>
+</clipPath>
+</defs>
+</svg>
+
+Google Cloud
+</div>
+
+<div class="flex items-center w-full border border-black/10 dark:border-white/10 h-[40px] md:h-[44px] rounded">
+
+<div id="bar-gcp"
+class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out w-fit min-w-fit text-white dark:text-[#1D1D1F] text-lg md:text-xl font-semibold">
+
+<span id="emoji-gcp"></span>
+<span id="price-gcp"></span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- COREWEAVE -->
+
+<div id="row-core" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2">
+
+<div class="w-44 text-[#8A8F98] flex gap-2 items-center font-medium text-base">
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_596_961)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17.4713 23.5622H14.0186C13.8124 23.5622 13.5984 23.4319 13.4728 23.2167L11.8728 20.3C11.7922 20.0849 11.7922 19.8697 11.8728 19.7L13.4728 16.7834C13.5984 16.5682 13.8124 16.4379 14.0186 16.4379H15.9984C16.2124 16.4379 16.4186 16.3076 16.5519 16.0925L17.9783 13.4819C18.1054 13.2667 17.9379 13.0061 17.7317 13.0061H12.4186C11.9597 13.0061 11.5798 13.2667 11.3255 13.6516L8.1674 19.4016C8.11779 19.4965 8.07955 19.596 8.05268 19.7C8.02684 19.8041 8.01392 19.9106 8.01392 20.0197C8.01392 20.1278 8.02684 20.2339 8.05268 20.3379C8.07955 20.443 8.11779 20.543 8.1674 20.6379L11.3255 26.3485C11.3793 26.4445 11.446 26.5314 11.5255 26.6091C11.601 26.6869 11.6878 26.7566 11.786 26.8182C11.879 26.8748 11.9814 26.9157 12.093 26.941C12.1994 26.9713 12.308 26.9864 12.4186 26.9864H19.2046C19.4573 26.9864 19.5845 26.7334 19.4573 26.5182L17.9783 23.8622C17.9379 23.647 17.7317 23.5561 17.479 23.5561L17.4713 23.5622Z" fill="#8A8F98"/>
+<path d="M26.8233 15.5395L25.4776 13.2213C25.3505 13.0061 25.0575 13.0061 24.9303 13.2213L19.245 23.5168C19.1582 23.7319 19.1582 23.9455 19.245 24.1152L20.7179 26.8183C20.845 27.0319 21.1381 27.0319 21.2637 26.8183L26.8233 16.7834C26.8771 16.6875 26.9169 16.5854 26.9427 16.4774C26.9696 16.3733 26.983 16.2668 26.983 16.1577C26.983 16.0496 26.9696 15.9435 26.9427 15.8395C26.9169 15.7354 26.8771 15.6354 26.8233 15.5395Z" fill="#8A8F98"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.9581 20.2546L21.6433 17.2137C21.7302 17.0379 21.7302 16.7833 21.6433 16.5682L19.7038 13.1818C19.5782 12.9682 19.2852 12.9682 19.1581 13.1818L17.5178 16.1379C17.4309 16.3076 17.4309 16.5682 17.5178 16.7379L19.4108 20.2152C19.5379 20.4682 19.8712 20.4682 19.9581 20.2546Z" fill="#8A8F98"/>
+<path d="M31.7892 15.5395L30.4419 13.2213C30.3163 13.0061 30.0233 13.0061 29.8961 13.2213L24.2109 23.5168C24.1302 23.7319 24.1302 23.9455 24.2109 24.1152L25.7302 26.8183C25.8574 27.0319 26.1504 27.0319 26.276 26.8183L31.8357 16.7834C32.0419 16.3925 32.0419 15.9243 31.7892 15.5395Z" fill="#8A8F98"/>
+</g>
+<defs>
+<clipPath id="clip0_596_961">
+<rect width="24" height="14" fill="white" transform="translate(8 13)"/>
+</clipPath>
+</defs>
+</svg>
+
+Coreweave
+</div>
+
+<div class="flex items-center w-full border border-black/10 dark:border-white/10 h-[40px] md:h-[44px] rounded">
+
+<div id="bar-core"
+class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out text-lg md:text-xl font-semibold w-fit min-w-fit text-white dark:text-[#1D1D1F]">
+
+<span id="emoji-core"></span>
+<span id="price-core"></span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<hr class="border-black/10 dark:border-white/10 border-t my-8"/>
+
+
+<!-- MOBILE PRICING BUTTON -->
+
+<div class="md:hidden mb-6">
+
+<a
+href={data.ctaLink}
+class="inline-flex md:hidden items-center justify-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-8 py-2 text-sm text-[#171717] dark:text-white transition-all duration-300 hover:bg-white/30 dark:hover:bg-white/5 w-full"
+>
+
+{data.ctaText}
+
+<svg width="20" height="20" viewBox="0 0 24 24">
+<path d="M9 6L15 12L9 18" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>
+
+</a>
+
+</div>
+
+
+<p class="text-xs md:text-base text-[#8A8F98] max-w-[980px]">
+{data.description}
+</p>
+
+</div>
+</section>
+
+
+<style>
+
+.counter-shadow {
+box-shadow:0px 1px 3px rgba(0,0,0,0.1),0px 1px 2px -1px rgba(0,0,0,0.1);
+}
+
+.gpu-tab-shadow {
+box-shadow:0px 1px 5px rgba(0,0,0,0.06);
+}
+
+.gpu-tab:hover,
+.gpu-tab-mobile:hover{
+color: black;
+}
+
+.gpu-tab.active,
+.gpu-tab-mobile.active{
+color: black;
+}
+
+</style>
+
+<script is:inline type="module" define:vars={{ backupAkashPrices, staticPrices, BASE_API_URL }}>
+
+let akashPrices = { ...backupAkashPrices };
+
+const CACHE_KEY = "akash-gpu-prices";
+const CACHE_TTL = 1000 * 60 * 30; // 30 minutes
+
+function loadCachedPrices() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw);
+    if (!parsed?.data || !parsed?.timestamp) return null;
+
+    const isExpired = Date.now() - parsed.timestamp > CACHE_TTL;
+    if (isExpired) return null;
+
+    return parsed.data;
+  } catch {
+    return null;
+  }
+}
+
+function saveCachedPrices(prices) {
+  try {
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        data: prices,
+        timestamp: Date.now(),
+      })
+    );
+  } catch {}
+}
+
+const cachedPrices = loadCachedPrices();
+if (cachedPrices) {
+  akashPrices = { ...backupAkashPrices, ...cachedPrices };
+}
+
+let gpu="H200"
+let gpuCount=1
+let hours=1
+
+const $=id=>document.getElementById(id)
+
+const tabs=document.querySelectorAll(".gpu-tab")
+const tabsMobile=document.querySelectorAll(".gpu-tab-mobile")
+
+const slider=$("tab-slider")
+const sliderMobile=$("tab-slider-mobile")
+
+const gpuCountEl=$("gpu-count")
+const gpuCountMobileEl=$("gpu-count-mobile")
+
+const hourCountEl=$("hour-count")
+const hourCountMobileEl=$("hour-count-mobile")
+
+const gpuInc=$("gpu-inc")
+const gpuDec=$("gpu-dec")
+const gpuIncMobile=$("gpu-inc-mobile")
+const gpuDecMobile=$("gpu-dec-mobile")
+
+const hourInc=$("hour-inc")
+const hourDec=$("hour-dec")
+const hourIncMobile=$("hour-inc-mobile")
+const hourDecMobile=$("hour-dec-mobile")
+
+let activeDesktopTab=tabs[0]
+let activeMobileTab=tabsMobile[0]
+
+tabs[0].classList.add("active")
+tabsMobile[0].classList.add("active")
+
+function moveSlider(tab,slider){
+
+const container=slider.parentElement
+const offset=tab.getBoundingClientRect().left-container.getBoundingClientRect().left
+
+slider.style.width=tab.offsetWidth+"px"
+slider.style.transform=`translateX(${offset}px)`
+
+}
+
+function initSliders(){
+
+if(slider)moveSlider(activeDesktopTab,slider)
+if(sliderMobile)moveSlider(activeMobileTab,sliderMobile)
+
+}
+
+setTimeout(initSliders,50)
+
+tabs.forEach(tab=>{
+tab.onclick=()=>{
+
+tabs.forEach(t=>t.classList.remove("active"))
+tab.classList.add("active")
+
+gpu=tab.dataset.gpu
+activeDesktopTab=tab
+
+moveSlider(tab,slider)
+update()
+
+}
+})
+
+tabsMobile.forEach(tab=>{
+tab.onclick=()=>{
+
+tabsMobile.forEach(t=>t.classList.remove("active"))
+tab.classList.add("active")
+
+gpu=tab.dataset.gpu
+activeMobileTab=tab
+
+moveSlider(tab,sliderMobile)
+update()
+
+}
+})
+
+window.addEventListener("resize",initSliders)
+
+function renderCounters(){
+
+gpuCountEl.textContent=gpuCount
+gpuCountMobileEl.textContent=gpuCount
+
+hourCountEl.textContent=`${hours}h`
+hourCountMobileEl.textContent=`${hours}h`
+
+}
+
+gpuInc.onclick=()=>{
+gpuCount++
+renderCounters()
+update()
+}
+
+gpuDec.onclick=()=>{
+if(gpuCount>1){
+gpuCount--
+renderCounters()
+update()
+}
+}
+
+gpuIncMobile.onclick=gpuInc.onclick
+gpuDecMobile.onclick=gpuDec.onclick
+
+hourInc.onclick=()=>{
+hours++
+renderCounters()
+update()
+}
+
+hourDec.onclick=()=>{
+if(hours>1){
+hours--
+renderCounters()
+update()
+}
+}
+
+hourIncMobile.onclick=hourInc.onclick
+hourDecMobile.onclick=hourDec.onclick
+
+
+function update(){
+
+const akash=akashPrices[gpu]||0
+const aws=staticPrices[gpu].aws
+const gcp=staticPrices[gpu].gcp
+const core=staticPrices[gpu].coreweave
+
+const prices={
+akash:akash*gpuCount*hours,
+aws:aws*gpuCount*hours,
+gcp:gcp*gpuCount*hours,
+core:core*gpuCount*hours
+}
+
+const unit=hours===1?'hr':`${hours}hrs`
+
+const values=Object.values(prices)
+
+const min=Math.min(...values)
+const max=Math.max(...values)
+
+const isMobile=window.innerWidth<768
+const isTablet=window.innerWidth>=768 && window.innerWidth<1024
+
+let maxWidth=70
+
+if(isMobile)maxWidth=95
+else if(isTablet)maxWidth=80
+
+function width(val){
+
+if(max===min)return maxWidth
+
+const ratio=(val-min)/(max-min)
+
+return 25+ratio*(maxWidth-25)
+
+}
+
+$("bar-akash").style.width=width(prices.akash)+"%"
+$("bar-aws").style.width=width(prices.aws)+"%"
+$("bar-gcp").style.width=width(prices.gcp)+"%"
+$("bar-core").style.width=width(prices.core)+"%"
+
+$("price-akash").textContent=`$${prices.akash.toFixed(2)}/${unit}`
+$("price-aws").textContent=`$${prices.aws.toFixed(2)}/${unit}`
+$("price-gcp").textContent=`$${prices.gcp.toFixed(2)}/${unit}`
+$("price-core").textContent=`$${prices.core.toFixed(2)}/${unit}`
+
+
+/* ---------- DYNAMIC ORDERING ---------- */
+
+const entries = Object.entries(prices).sort((a,b)=>a[1]-b[1])
+
+setTimeout(()=>{
+
+  const container=$("pricing-bars")
+
+  entries.forEach(([provider])=>{
+    const row=document.getElementById(`row-${provider}`)
+    if(row)container.appendChild(row)
+  })
+
+},700)
+
+
+/* ---------- RESET EMOJIS ---------- */
+
+$("emoji-akash").textContent=""
+$("emoji-aws").textContent=""
+$("emoji-gcp").textContent=""
+$("emoji-core").textContent=""
+
+const cheapest=entries[0][0]
+
+$(`emoji-${cheapest}`).textContent="🔥 "
+
+
+/* ---------- COLOR LOGIC ---------- */
+
+document.querySelectorAll("#bar-akash,#bar-aws,#bar-gcp,#bar-core").forEach(bar=>{
+bar.classList.remove("bg-[#8BFE79]","dark:bg-[#A6FA99]")
+bar.classList.add("bg-[#1D1D1F]","dark:bg-[#F5F5F7]")
+})
+
+const cheapestBar=document.getElementById(`bar-${cheapest}`)
+
+if(cheapestBar){
+cheapestBar.classList.remove("bg-[#1D1D1F]","dark:bg-[#F5F5F7]")
+cheapestBar.classList.add("bg-[#8BFE79]","dark:bg-[#A6FA99]")
+}
+
+
+/* ---------- SAVE PERCENT ---------- */
+
+let save=0
+
+const others=[prices.aws,prices.gcp,prices.core]
+const minOther=Math.min(...others)
+
+if(minOther>0 && prices.akash<minOther){
+save=((minOther-prices.akash)/minOther)*100
+}
+
+$("save-percent").textContent=`Save ${save.toFixed(0)}%`
+
+requestAnimationFrame(adjustMobileArrow)
+
+}
+
+
+async function fetchRealtimePrices() {
+  try {
+    const res = await fetch(`${BASE_API_URL}/v1/gpu-prices`);
+    if (!res.ok) throw new Error("API failed");
+
+    const data = await res.json();
+    const models = data?.models || [];
+
+    const findPrice = (name) =>
+      models.find((m) => m?.model?.toLowerCase().includes(name))
+        ?.price?.weightedAverage;
+
+    const nextPrices = { ...backupAkashPrices };
+
+    const h200 = findPrice("h200");
+    const h100 = findPrice("h100");
+    const a100 = findPrice("a100");
+
+    if (h200 != null) nextPrices.H200 = Number(h200.toFixed(2));
+    if (h100 != null) nextPrices.H100 = Number(h100.toFixed(2));
+    if (a100 != null) nextPrices.A100 = Number(a100.toFixed(2));
+
+    akashPrices = nextPrices;
+    saveCachedPrices(nextPrices);
+    update();
+  } catch (error) {
+    console.warn("Failed to fetch real-time prices:", error);
+
+    const cached = loadCachedPrices();
+    if (cached) {
+      akashPrices = { ...backupAkashPrices, ...cached };
+    } else {
+      akashPrices = { ...backupAkashPrices };
+    }
+
+    update();
+  }
+}
+
+function adjustMobileArrow(){
+
+const text=document.getElementById("mobile-deploy-text")
+const arrow=document.getElementById("mobile-deploy-arrow")
+
+if(!text||!arrow)return
+
+const lineHeight=parseFloat(getComputedStyle(text).lineHeight)
+const lines=Math.round(text.offsetHeight/lineHeight)
+
+arrow.classList.remove("h-3.5","w-3.5","h-5","w-5")
+
+if(lines>1){
+arrow.classList.add("h-5","w-5")
+}else{
+arrow.classList.add("h-3.5","w-3.5")
+}
+
+}
+
+update()
+adjustMobileArrow()
+renderCounters()
+fetchRealtimePrices()
+
+</script>

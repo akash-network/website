@@ -114,10 +114,10 @@ profiles:
     akash:
       pricing:
         web:
-          denom: uakt
+          denom: uact
           amount: 10000
         web-endpoint:  # IP endpoint pricing
-          denom: uakt
+          denom: uact
           amount: 10000  # Additional cost for IP
 
 deployment:
@@ -211,10 +211,10 @@ profiles:
     akash:
       pricing:
         game-server:
-          denom: uakt
+          denom: uact
           amount: 15000
         game-ip:
-          denom: uakt
+          denom: uact
           amount: 10000
 ```
 
@@ -293,7 +293,7 @@ IP leases have **additional costs** beyond compute resources:
 - IP lease costs vary by provider
 - Typically ~$5-15/month additional
 - Specified in SDL under `ip_lease` pricing
-- Paid from your escrow account like other resources
+- Paid from your ACT escrow like other resources (providers are paid in ACT)
 
 ### Example Cost Calculation
 
@@ -316,10 +316,10 @@ placement:
   akash:
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 10000  # Max for compute
       my-ip:
-        denom: uakt
+        denom: uact
         amount: 10000  # Max for IP endpoint
 ```
 
@@ -374,16 +374,16 @@ profiles:
     akash:
       pricing:
         frontend:
-          denom: uakt
+          denom: uact
           amount: 10000
         backend:
-          denom: uakt
+          denom: uact
           amount: 10000
         database:
-          denom: uakt
+          denom: uact
           amount: 10000
         shared-ip:
-          denom: uakt
+          denom: uact
           amount: 10000  # One IP endpoint for all services
 ```
 

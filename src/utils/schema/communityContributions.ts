@@ -3,13 +3,15 @@ import { defineCollection, z } from "astro:content";
 const baseSchema = defineCollection({
   schema: ({ image }) => {
     return z.object({
-      image: image(),
       title: z.string(),
-      readTime: z.string(),
-      pubDate: z.coerce.date(),
-      tags: z.array(z.string()),
-      author: z.string(),
       description: z.string(),
+      pubDate: z.coerce.date(),
+      draft: z.boolean().optional(),
+      categories: z.array(z.string()),
+      tags: z.array(z.string()),
+      contributors: z.array(z.string()),
+      bannerImage: image().optional(),
+      readTime: z.string().optional(),
       link: z.string().optional(),
     });
   },

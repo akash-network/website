@@ -46,7 +46,7 @@ That's it! No crypto wallet, no blockchain setup, no installation required.
 
 Open your browser and go to **[console.akash.network](https://console.akash.network)**
 
-You'll see a banner at the top: **"Credit Card payments are now available!"**
+You'll see a banner at the top: **"Credit Card payments are now available!"** (credit card funds **ACT** for deployments.)
 
 ---
 
@@ -101,7 +101,7 @@ Choose one of three signup options:
 
 To prevent abuse, Akash requires a credit card for identity verification. **You won't be charged during the trial.**
 
-1. Fill in the payment form:
+1. Fill in the payment form (used to fund **ACT** for deployments):
    - **Organization** (optional)
    - **Billing Address** (Full name, Country, Address)
    - **Card Information** (Card number, Expiration date, CVV)
@@ -267,7 +267,7 @@ The Console dashboard shows:
 **Answer:** Your deployments will stop, but you can add more funds via credit card:
 1. Click your balance at the top
 2. Click **"Add Funds"**
-3. Enter amount and complete payment via Stripe
+3. Enter amount and complete payment via Stripe (funds **ACT**)
 4. Your unused trial credits will be kept!
 
 ### "Can I use my own crypto wallet instead?"

@@ -126,7 +126,7 @@ provider-services query market lease list \
   --state active
 ```
 
-### Example Output
+### Example Output (payment denom uact / ACT)
 
 ```yaml
 leases:
@@ -136,11 +136,11 @@ leases:
       xid: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28/5903794
     balance:
       amount: "0.455120000000000000"
-      denom: uakt
+      denom: uact
     owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
     rate:
       amount: "24.780240000000000000"
-      denom: uakt
+      denom: uact
     state: open
   lease:
     closed_on: "0"
@@ -153,9 +153,11 @@ leases:
       provider: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
     price:
       amount: "24.780240000000000000"
-      denom: uakt
+      denom: uact
     state: active
 ```
+
+Providers are paid in **ACT** (uact); balance and rate above are in ACT.
 
 ## List Active Leases from Kubernetes
 
@@ -182,8 +184,8 @@ Providers can close bids to terminate deployments and recover provider escrow.
 **What happens when you close a lease:**
 - Closes the lease (payment channel) immediately
 - Terminates the workload running on the provider
-- Returns provider escrow to the provider
-- Tenant must close their deployment separately to recover their escrow (5 AKT by default)
+- Returns provider escrow to the provider (in ACT)
+- Tenant must close their deployment separately to recover their escrow (default deposit in ACT)
 
 ### Command Template
 
