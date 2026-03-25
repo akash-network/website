@@ -104,7 +104,7 @@ profiles:
     akash:
       pricing:
         postgres:
-          denom: uakt
+          denom: uact
           amount: 10000
 
 deployment:

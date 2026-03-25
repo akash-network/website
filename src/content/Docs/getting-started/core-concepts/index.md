@@ -38,7 +38,7 @@ Stack Definition Language - a YAML file that describes your deployment:
 - How much you're willing to pay
 
 ### Escrow
-Funds held to pay for your deployment. Provider is paid automatically per block from your escrow account.
+Funds held to pay for your deployment. You fund escrow with **ACT** (USD-pegged compute credit; required when creating a deployment). You can top up with AKT when the circuit breaker is in effect. The provider is paid automatically per block from your escrow **in ACT**.
 
 ---
 
@@ -57,7 +57,7 @@ Create a lease with the selected provider.
 Provider pulls your container image and starts your app.
 
 ### 5. Automatic Payment
-Your escrow pays the provider per block (~6 seconds).
+Your escrow pays the provider per block (~6 seconds) in **ACT**.
 
 ---
 

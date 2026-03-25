@@ -1,7 +1,7 @@
 ---
-advert: 
-  title: "The BME Incentivized Testnet is live - earn up to $10k in bounties."
-  link: "https://akash.network/docs/testnet/testplan/"
+advert:
+  title: "BME and WASM Smart Contracts are Now Live."
+  link: "/"
 
 # hero section content
 heroSection:

@@ -20,7 +20,7 @@ Provider Console is a web-based application designed to simplify the process of 
 - **Visual Setup Wizard** - Step-by-step guided configuration
 - **No CLI Required** - Everything through the browser
 - **Automated Installation** - Handles Kubernetes and provider setup
-- **Real-Time Monitoring** - View provider status and earnings
+- **Real-Time Monitoring** - View provider status and earnings (in ACT)
 - **Web-Based Management** - Manage your provider from anywhere
 
 ---

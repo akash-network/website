@@ -22,7 +22,7 @@ Before starting, ensure you have:
 - **Kubernetes cluster** deployed and verified
 - **Domain name** that you control (e.g., `provider.example.com`)
 - **Akash wallet** with:
-  - Minimum 50 AKT recommended (0.5 AKT deposit per bid)
+  - **Provider bid deposit** is in **AKT** (0.5 AKT); keep AKT for gas. Recommended balance for multiple bids.
   - Funded account ([Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account))
 
 ### Optional (if configured)
@@ -312,7 +312,7 @@ email: contact@example.com
 website: https://example.com
 organization: Your Organization
 
-# Pricing (in uakt per unit)
+# Pricing (in uact per unit)
 price_target_cpu: 1.60
 price_target_memory: 0.30
 price_target_hd_ephemeral: 0.02
@@ -736,7 +736,7 @@ Your provider is now running!
 - [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) - Enable static IPs for deployments
 
 **Provider Resources:**
-- [Provider Calculator](https://akash.network/pricing/provider-calculator/) - Estimate earnings
+- [Provider Calculator](https://akash.network/pricing/provider-calculator/) - Estimate earnings (provider payouts are in ACT)
 - [Provider Operations](/docs/providers/operations/) - Lease management, monitoring, and maintenance
 - [Akash Discord](https://discord.akash.network) - Join the provider community
 

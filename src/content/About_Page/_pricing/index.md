@@ -8,4 +8,4 @@ disableTableOfContents: true
 contentWidth: "full"
 ---
 
-Akash employs a unique "Reverse Auction" system. Network deployers specify the preferred price for their desired resources, and providers compete to fulfill the request. This approach consistently yields substantially lower costs and greater choice while maintaining self-sovereign control. Akash operates as an open-source, community-driven platform, powered by a L1 blockchain and the AKT utility token.
+Akash employs a unique "Reverse Auction" system. Network deployers specify the preferred price for their desired resources, and providers compete to fulfill the request. This approach consistently yields substantially lower costs and greater choice while maintaining self-sovereign control. Akash operates as an open-source, community-driven platform, powered by a L1 blockchain and the AKT utility token. With BME, deployment pricing and provider payouts use ACT (USD-pegged compute credit); AKT is used for staking, governance, and gas.

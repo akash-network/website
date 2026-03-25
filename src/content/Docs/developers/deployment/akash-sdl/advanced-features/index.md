@@ -524,7 +524,7 @@ placement:
       region: us-west
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 100
   
   eu-central:
@@ -532,7 +532,7 @@ placement:
       region: eu-central
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 120
 ```
 
@@ -553,7 +553,7 @@ placement:
         - akash1...                                        # Required auditor
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 150
 ```
 
@@ -576,7 +576,7 @@ placement:
       ssd: true
     pricing:
       web:
-        denom: uakt
+        denom: uact
         amount: 200
 ```
 
@@ -847,16 +847,16 @@ profiles:
           - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
       pricing:
         frontend:
-          denom: uakt
+          denom: uact
           amount: 150
         backend:
-          denom: uakt
+          denom: uact
           amount: 200
         database:
-          denom: uakt
+          denom: uact
           amount: 250
         cache:
-          denom: uakt
+          denom: uact
           amount: 100
 
 deployment:

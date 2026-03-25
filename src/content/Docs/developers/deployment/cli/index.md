@@ -27,6 +27,9 @@ Complete reference of all provider-services commands.
 ### [Common Tasks](/docs/developers/deployment/cli/common-tasks)
 Practical examples for deployment, lease management, and troubleshooting.
 
+### [Mint & Burn ACT](/docs/developers/deployment/cli/act-mint-burn)
+Use `akash tx bme` commands to convert between AKT and ACT.
+
 ---
 
 ## Quick Links

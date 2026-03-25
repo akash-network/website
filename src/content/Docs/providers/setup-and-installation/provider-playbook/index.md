@@ -296,7 +296,7 @@ See [Operations](/docs/providers/operations) for ongoing management.
 
 ### Provider Service Issues
 - **Wallet errors**:
-  - Verify wallet has sufficient AKT (minimum 0.5 AKT, recommended 50 AKT)
+  - Deployment deposit is in **ACT** (tenant escrow); provider bid deposit is in **AKT**. Ensure sufficient ACT for escrow and AKT for bid deposits and gas.
   - Check key password was entered correctly
   - Ensure key is properly base64 encoded
 
