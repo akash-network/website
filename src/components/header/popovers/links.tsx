@@ -5,7 +5,8 @@ import {
   CalendarHeart,
   Codesandbox,
   FileStack,
-  HeartHandshake
+  HeartHandshake,
+  Newspaper
 } from "lucide-react";
 
 type NavItem = {
@@ -80,6 +81,11 @@ export const communityItems: NavItem[] = [
     ),
     title: "Akash Validators",
     link: "/community/akash-validators/",
+  },
+  {
+    icon: Newspaper,
+    title: "Community Contributions",
+    link: "/community/contributions/",
   },
   {
     icon: Backpack,
