@@ -13,7 +13,6 @@ tags:
   - CLOUD Act
   - GDPR
   - SecNumCloud
-  - Laws
 contributors:
   - Hugo DAVID
 bannerImage: ./cloud-war-banner.png
