@@ -169,7 +169,7 @@ const navContainerClass = hideContainer ? "" : "container";
   </nav>
 </header>
 
-<div class={clsx(navContainerBaseClass, navContainerVisibility)}>
+<div id="sub-nav-container" class={clsx(navContainerBaseClass, navContainerVisibility)}>
   {
     visibility.network.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
@@ -196,3 +196,37 @@ const navContainerClass = hideContainer ? "" : "container";
     )
   }
 </div>
+
+{isPathInNavigation && (
+  <style>
+    #sub-nav-container {
+      transition: box-shadow 0.3s ease;
+    }
+    #sub-nav-container.header-away {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+  </style>
+  <script is:inline>
+    (function() {
+      function setupSubNavObserver() {
+        var header = document.querySelector("header");
+        var subNav = document.getElementById("sub-nav-container");
+        if (!header || !subNav) return;
+
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              subNav.classList.remove("header-away");
+            } else {
+              subNav.classList.add("header-away");
+            }
+          });
+        }, { threshold: 0 });
+
+        observer.observe(header);
+      }
+      document.addEventListener("astro:page-load", setupSubNavObserver);
+      if (document.readyState !== "loading") setupSubNavObserver();
+    })();
+  </script>
+)}
