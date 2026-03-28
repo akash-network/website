@@ -45,6 +45,7 @@ const pathname = Astro.url.pathname;
   noIndex={noIndex}
   classname={classname}
 >
+  <slot name="head" slot="head" />
   {
     advert && !pathname.includes("neurips") && (
       <div class="flex items-center justify-center bg-primary px-3 py-2">
