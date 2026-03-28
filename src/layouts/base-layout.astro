@@ -95,9 +95,9 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
       noIndex={noIndex}
     />
     <script is:inline>
-      const queueMathTypeset = () => {
-        if (window.MathJax?.typesetPromise) {
-          window.MathJax.typesetClear?.();
+      var queueMathTypeset = function () {
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetClear && window.MathJax.typesetClear();
           window.MathJax.typesetPromise();
         }
       };
@@ -119,20 +119,34 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
           ],
         },
         startup: {
-          ready: () => {
-            const { MathJax } = window;
-            MathJax.startup.defaultReady();
+          ready: function () {
+            window.MathJax.startup.defaultReady();
             queueMathTypeset();
           },
         },
       };
 
-      document.addEventListener("astro:after-swap", queueMathTypeset);
+      function loadMathJaxIfNeeded() {
+        if (document.getElementById("mathjax-script")) {
+          queueMathTypeset();
+          return;
+        }
+        if (
+          document.querySelector(".math-inline") ||
+          document.querySelector(".math-display") ||
+          document.querySelector(".mermaid")
+        ) {
+          var s = document.createElement("script");
+          s.id = "mathjax-script";
+          s.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js";
+          document.head.appendChild(s);
+        }
+      }
+
+      window.addEventListener("load", loadMathJaxIfNeeded);
+      document.addEventListener("astro:page-load", loadMathJaxIfNeeded);
+      document.addEventListener("astro:after-swap", loadMathJaxIfNeeded);
     </script>
-    <script
-      defer
-      id="mathjax"
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <ViewTransitions />
     <slot name="head" />
   </head>

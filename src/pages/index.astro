@@ -43,14 +43,21 @@ const {
   footerClassName="dark:bg-[#000000] container-nav-3 border-t dark:border-[#282828]"
   description="Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 >
-  <script is:inline slot="head" src="https://t.contentsquare.net/uxa/f3d653170e755.js"></script>
+  <script is:inline slot="head">
+    (function(){
+      var s=document.createElement("script");
+      s.src="https://t.contentsquare.net/uxa/f3d653170e755.js";
+      s.async=true;
+      document.head.appendChild(s);
+    })();
+  </script>
   <div>
     <Hero heroSection={heroSection} />
     <div class="bg-[#F1F1F1] dark:bg-[#101010] w-full h-fit"><TrustedBy /></div>
     <div class="bg-[#E3E3E3] dark:bg-[#0D0D0E] w-full h-fit"><InfrastructureNew /></div>
     <div class="bg-[#E3E3E3] dark:bg-[#0D0D0E] w-full h-fit"><FuelNew /></div>
     <div class="bg-[#EAEAEA] dark:bg-[#0D0D0E] w-full h-fit"><Permissionless /></div>
-    <div class="bg-[#EEEEEE] dark:bg-[#101010]"><CaseStudies /></div>
+    <div class="bg-[#EEEEEE] dark:bg-[#0D0D0E]"><CaseStudies /></div>
     <div class="bg-[#171717]"><ShipIt /></div>
   </div>
 </Layout>

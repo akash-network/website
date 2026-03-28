@@ -17,6 +17,7 @@ const tiles = [
     title: "Deploy AI models<br />on AkashML",
     description: "Run AI Inference models on a high-performance managed API.",
     image: "/images/heroNew1.png",
+    imageWebp: "/images/heroNew1.webp",
     url: "https://akashml.com",
     buttonText: "Explore AkashML Playground",
   },
@@ -25,6 +26,7 @@ const tiles = [
     description:
       "Explore pre-configured environments for Llama-3, DeepSeek, and more.",
     image: "/images/heroNew2.png",
+    imageWebp: "/images/heroNew2.webp",
     url: "https://console.akash.network/templates",
     buttonText: "Explore Templates",
   },
@@ -32,6 +34,7 @@ const tiles = [
     title: "Become an<br />Akash Provider",
     description: "Monetize your servers by joining the network.",
     image: "/images/heroNew3.png",
+    imageWebp: "/images/heroNew3.webp",
     url: "https://provider-console.akash.network",
     buttonText: "Become an Akash Provider",
   },
@@ -108,11 +111,15 @@ const tiles = [
                         class="hero-mobile-image relative group overflow-hidden pl-4 pt-4"
                         data-tile={i}
                       >
-                        <img
-                          src={tile.image}
-                          alt=""
-                          class="h-[350px] w-full block rounded-tl-2xl object-cover object-left-top"
-                        />
+                        <picture>
+                          <source srcset={tile.imageWebp} type="image/webp" />
+                          <img
+                            src={tile.image}
+                            alt=""
+                            loading="eager"
+                            class="h-[350px] w-full block rounded-tl-2xl object-cover object-left-top"
+                          />
+                        </picture>
                         <div class="hero-image-overlay opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                           <a
                             href={tile.url}
@@ -154,18 +161,23 @@ const tiles = [
       {/* Desktop: image container */}
       <div class="hidden md:block">
         <div class="mx-auto max-w-[1136px] px-4 pb-0 pt-4">
-          <div class="relative group">
+          <div class="relative group" style="aspect-ratio: 2274/962;">
             {
               tiles.map((tile, i) => (
                 <div
-                  class={`hero-desktop-image-container relative overflow-hidden rounded-t-[20px] ${i > 0 ? "hidden" : ""}`}
+                  class={`hero-desktop-image-container absolute inset-0 overflow-hidden rounded-t-[20px] transition-opacity duration-500 ease-in-out ${i === 0 ? "opacity-100" : "opacity-0"}`}
                   data-tile={i}
                 >
-                  <img
-                    src={tile.image}
-                    alt=""
-                    class="w-full block"
-                  />
+                  <picture>
+                    <source srcset={tile.imageWebp} type="image/webp" />
+                    <img
+                      src={tile.image}
+                      alt=""
+                      loading="eager"
+                      fetchpriority={i === 0 ? "high" : "auto"}
+                      class="w-full block"
+                    />
+                  </picture>
                   <div class="hero-image-overlay opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                     <a
                       href={tile.url}
@@ -365,9 +377,15 @@ const tiles = [
         }
       });
 
-      // Desktop images
+      // Desktop images — crossfade via opacity only (no layout changes)
       desktopImages.forEach((img, i) => {
-        img.classList.toggle("hidden", i !== index);
+        if (i === index) {
+          img.classList.remove("opacity-0");
+          img.classList.add("opacity-100");
+        } else {
+          img.classList.remove("opacity-100");
+          img.classList.add("opacity-0");
+        }
       });
 
       // Mobile blocks
