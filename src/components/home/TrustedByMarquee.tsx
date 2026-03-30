@@ -1,106 +1,66 @@
 import React, { useEffect, useRef } from "react";
 
-const useAutoScroll = (speed: number = 50) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-
-  useEffect(() => {
-    if (!containerRef.current || !trackRef.current) return;
-
-    const container = containerRef.current;
-    const track = trackRef.current;
-    let animationFrameId: number;
-    let position = 0;
-
-    const animate = () => {
-      position -= speed / 80;
-      if (position <= -track.scrollWidth / 3) {
-        position = 0;
-      }
-      track.style.transform = `translateX(${position}px)`;
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    setIsLoaded(true);
-    animationFrameId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [speed]);
-
-  return { containerRef, trackRef, isLoaded };
-};
-
 interface TrustedByItem {
   image?: string;
-  title: string;
   svg?: string;
+  title: string;
   height?: number | string;
 }
 
+const processSvg = (svgString: string) => {
+  return svgString.replace(/height="100%"/g, "").replace(/width="100%"/g, "");
+};
+
+// Fixed speed: pixels moved per animation frame (~60fps)
+// Matches original: speed(50) / 80 = 0.625px per frame
+const PX_PER_FRAME = 0.625;
+
 const TrustedByMarquee = ({
   trustedBySection,
-  speed = 50,
-  gap = 0,
 }: {
   trustedBySection: TrustedByItem[];
-  speed?: number;
-  gap?: number;
 }) => {
-  const { containerRef, trackRef, isLoaded } = useAutoScroll(speed);
+  const trackRef = useRef<HTMLDivElement>(null);
 
-  const displayItems = [
-    ...trustedBySection,
-    ...trustedBySection,
-    ...trustedBySection,
-  ];
-
-  // Process SVG string to fix height attribute
-  const processSvg = (svgString: string) => {
-    return svgString.replace(/height="100%"/g, "").replace(/width="100%"/g, "");
-  };
+  // Triple items for seamless loop
+  const displayItems = [...trustedBySection, ...trustedBySection, ...trustedBySection];
 
   useEffect(() => {
-    // Use a small delay to ensure DOM is ready
-    const timer = setTimeout(() => {
-      if (trackRef.current) {
-        const svgs = trackRef.current.querySelectorAll("svg");
-        svgs.forEach((svg, index) => {
-          const itemIndex = index % trustedBySection.length;
-          const item = trustedBySection[itemIndex];
-          const height = item.height
-            ? typeof item.height === "number"
-              ? `${item.height}px`
-              : item.height
-            : "34px";
+    const track = trackRef.current;
+    if (!track) return;
 
-          svg.removeAttribute("width");
-          svg.removeAttribute("height");
-          svg.style.height = height;
-          svg.style.width = "auto";
-          svg.style.display = "block";
-        });
+    let position = 0;
+    let rafId: number;
+
+    const animate = () => {
+      position -= PX_PER_FRAME;
+      // Reset when one-third (one full set) has scrolled past
+      const oneSetWidth = track.scrollWidth / 3;
+      if (Math.abs(position) >= oneSetWidth) {
+        position += oneSetWidth;
       }
-    }, 100);
+      track.style.transform = `translateX(${position}px)`;
+      rafId = requestAnimationFrame(animate);
+    };
 
-    return () => clearTimeout(timer);
-  }, [trustedBySection, isLoaded]);
+    rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
+  }, [trustedBySection.length]);
 
   return (
     <div
-      ref={containerRef}
-      className="w-full overflow-hidden"
+      className="marquee-container w-full overflow-hidden"
+      role="marquee"
       aria-label="Trusted By Logos Carousel"
     >
-      <div ref={trackRef} className="flex items-center gap-24">
+      <div ref={trackRef} className="marquee-track flex items-center gap-24" style={{ willChange: "transform" }}>
         {displayItems.map((item, index) => {
           const height = item.height
             ? typeof item.height === "number"
               ? `${item.height}px`
               : item.height
             : "34px";
+          const isFirstSet = index < trustedBySection.length;
           return (
             <div
               key={`${item.title}-${index}`}
@@ -109,15 +69,19 @@ const TrustedByMarquee = ({
               {item.svg ? (
                 <div
                   dangerouslySetInnerHTML={{ __html: processSvg(item.svg) }}
-                  className="flex items-center justify-center [&>svg]:block [&>svg]:w-auto"
-                  style={{ height }}
+                  className="flex items-center justify-center [&>svg]:block [&>svg]:w-auto [&>svg]:h-[var(--logo-h)]"
+                  style={{ height, "--logo-h": height } as React.CSSProperties}
                 />
               ) : (
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-auto object-contain"
-                  style={{ height, opacity: isLoaded ? 1 : 0 }}
+                  width="120"
+                  height="34"
+                  loading={isFirstSet ? "eager" : "lazy"}
+                  decoding="async"
+                  className="w-auto object-contain dark:invert"
+                  style={{ height }}
                 />
               )}
             </div>

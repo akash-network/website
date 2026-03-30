@@ -2,7 +2,6 @@
 import NavLink from "@/components/header/nav-link.astro";
 import Logo from "@/components/ui/logo.astro";
 import { getYearToUse } from "@/utils/redirects";
-import { getCollection } from "astro:content";
 import clsx from "clsx";
 
 import DarkModeToggle from "../dark-mode-toggle";
@@ -41,15 +40,6 @@ const visibility = {
 
 const pathnames = Object.values(visibility).flat();
 
-const posts = (await getCollection("Blog"))
-  .filter((post) => {
-    return post.data.archive !== true;
-  })
-  .sort((a, b) => {
-    const dateA = new Date(a.data.pubDate);
-    const dateB = new Date(b.data.pubDate);
-    return dateB.getTime() - dateA.getTime();
-  });
 
 const latestRoadmapYear = getYearToUse();
 
@@ -91,14 +81,14 @@ const navContainerClass = hideContainer ? "" : "container";
       <div
         class="mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] slg:flex xl:gap-x-[24px]"
       >
-        <PopOverNavItemNetwork client:load />
-        <PopOverCommunity client:load type="community" />
+        <PopOverNavItemNetwork client:idle />
+        <PopOverCommunity client:idle type="community" />
         <PopOverCommunity
-          client:load
+          client:idle
           type="development"
           latestRoadmapYear={latestRoadmapYear}
         />
-        <PopOverNavItemEcosystem client:load posts={posts} />
+        <PopOverNavItemEcosystem client:idle />
         <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
         <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
         <NavLink href="/pricing/gpus" currentPath={pathname}>
@@ -117,7 +107,7 @@ const navContainerClass = hideContainer ? "" : "container";
 
     <div class="block overflow-hidden slg:hidden">
       <HamburgerMenu
-        client:load
+        client:media="(max-width: 1099px)"
         currentPath={pathname}
         latestRoadmapYear={latestRoadmapYear}
         hideDarkToggle={hideDarkToggle}
@@ -162,9 +152,9 @@ const navContainerClass = hideContainer ? "" : "container";
           Get in Touch
         </ButtonLink>
 
-        <TryAkashForm client:load type="headerDeploy" />
+        <TryAkashForm client:idle type="headerDeploy" />
       </div>
-      {!hideDarkToggle && <DarkModeToggle client:load />}
+      {!hideDarkToggle && <DarkModeToggle client:idle />}
     </div>
   </nav>
 </header>
@@ -199,34 +189,9 @@ const navContainerClass = hideContainer ? "" : "container";
 
 {isPathInNavigation && (
   <style>
+    /* Prevent layout shift before SubNavbar island hydrates */
     #sub-nav-container {
-      transition: box-shadow 0.3s ease;
-    }
-    #sub-nav-container.header-away {
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      min-height: 57px;
     }
   </style>
-  <script is:inline>
-    (function() {
-      function setupSubNavObserver() {
-        var header = document.querySelector("header");
-        var subNav = document.getElementById("sub-nav-container");
-        if (!header || !subNav) return;
-
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              subNav.classList.remove("header-away");
-            } else {
-              subNav.classList.add("header-away");
-            }
-          });
-        }, { threshold: 0 });
-
-        observer.observe(header);
-      }
-      document.addEventListener("astro:page-load", setupSubNavObserver);
-      if (document.readyState !== "loading") setupSubNavObserver();
-    })();
-  </script>
 )}

@@ -14,7 +14,9 @@ import { trustedBySection } from "./trustedby";
       <div
         class="relative mx-auto w-full max-w-[1400px] md:before:absolute md:before:left-0 md:before:top-0 md:before:z-10 md:before:h-full md:before:w-32 md:before:bg-gradient-to-r md:before:from-[#F1F1F1] md:before:to-transparent md:before:content-[''] md:after:absolute md:after:right-0 md:after:top-0 md:after:z-10 md:after:h-full md:after:w-32 md:after:bg-gradient-to-l md:after:from-[#F1F1F1] md:after:to-transparent md:after:content-[''] dark:md:before:from-[#101010] dark:md:after:from-[#101010]"
       >
-        <TrustedByMarquee trustedBySection={trustedBySection} client:only />
+        <div style="min-height:34px;">
+          <TrustedByMarquee trustedBySection={trustedBySection} client:only="react" />
+        </div>
       </div>
     </div>
     <div class="mx-auto max-w-[1510px] w-full">

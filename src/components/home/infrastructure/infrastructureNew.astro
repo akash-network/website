@@ -7,6 +7,7 @@ interface Feature {
   };
   image: string;
   imageWebp: string;
+  imageWebpSmall: string;
   mobileImage: string;
   mobileImageWebp: string;
 }
@@ -22,6 +23,7 @@ const features: Feature[] = [
     },
     image: "/images/infrastructure/feat1.png",
     imageWebp: "/images/infrastructure/feat1.webp",
+    imageWebpSmall: "/images/infrastructure/feat1-800w.webp",
     mobileImage: "/images/infrastructure/feat1sm.png",
     mobileImageWebp: "/images/infrastructure/feat1sm.webp",
   },
@@ -35,6 +37,7 @@ const features: Feature[] = [
     },
     image: "/images/infrastructure/feat2.png",
     imageWebp: "/images/infrastructure/feat2.webp",
+    imageWebpSmall: "/images/infrastructure/feat2-800w.webp",
     mobileImage: "/images/infrastructure/feat2sm.png",
     mobileImageWebp: "/images/infrastructure/feat2sm.webp",
   },
@@ -48,6 +51,7 @@ const features: Feature[] = [
     },
     image: "/images/infrastructure/feat3.png",
     imageWebp: "/images/infrastructure/feat3.webp",
+    imageWebpSmall: "/images/infrastructure/feat3-800w.webp",
     mobileImage: "/images/infrastructure/feat3sm.png",
     mobileImageWebp: "/images/infrastructure/feat3sm.webp",
   },
@@ -61,6 +65,7 @@ const features: Feature[] = [
     },
     image: "/images/infrastructure/feat4.png",
     imageWebp: "/images/infrastructure/feat4.webp",
+    imageWebpSmall: "/images/infrastructure/feat4-800w.webp",
     mobileImage: "/images/infrastructure/feat4sm.png",
     mobileImageWebp: "/images/infrastructure/feat4sm.webp",
   },
@@ -85,7 +90,11 @@ const features: Feature[] = [
 
           <!-- Desktop / Tablet -->
           <picture class="feature-img-desktop">
-            <source srcset={feature.imageWebp} type="image/webp" />
+            <source
+              srcset={`${feature.imageWebpSmall} 800w, ${feature.imageWebp} 1437w`}
+              sizes="(max-width: 1023px) 100vw, 50vw"
+              type="image/webp"
+            />
             <img
               src={feature.image}
               alt={feature.title}
