@@ -47,7 +47,7 @@ const shouldHide = shouldHideCta(pathname);
 <section
   class={clsx(
     shouldHide && "hidden",
-    pathname === "/" && "hidden",
+    (pathname === "/" || pathname.startsWith("/meetingconfirmation")) && "hidden",
     "flex flex-col items-center justify-around",
     "bg-white dark:bg-background2",
     "border-y",
