@@ -50,7 +50,7 @@ The core team and Akash Insiders are running rigorous testing before the alpha r
 
 Early access is live at [homenode.akash.network](https://homenode.akash.network).
 
-**Greg Osuri Discusses the AI Infra Crisis at NEARCON SF**
+## Greg Osuri Discusses the AI Infra Crisis at NEARCON SF
 
 Akash founder Greg Osuri [took the stage](https://www.youtube.com/watch?v=Mvb2iQI7luQ) at NEARCON SF this quarter to make a case the industry tends to avoid: AI has a physical ceiling, and we are closer to it than most roadmaps acknowledge.
 
