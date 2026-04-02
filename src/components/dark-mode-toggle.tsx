@@ -25,6 +25,7 @@ const DarkModeToggle = ({ footer }: { footer?: boolean }) => {
     <button
       onClick={toggleTheme}
       id={footer ? "header-toggle-footer" : "header-toggle"}
+      aria-label="Toggle dark mode"
     >
       <Sun className="h-5 w-5 text-para hover:text-primary dark:hidden" />
       <SunMoon className="hidden h-5 w-5 text-para hover:text-primary dark:block" />

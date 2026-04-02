@@ -363,7 +363,7 @@ Use for important information:
 ```markdown
 **Note:** This feature requires provider-services v0.10.0 or later.
 
-**Warning:** This command will close your deployment and refund remaining escrow.
+**Warning:** This command will close your deployment and refund remaining escrow (ACT).
 
 **Tip:** Use `--dry-run` to preview changes without applying them.
 
@@ -534,7 +534,7 @@ Content...
 
 Before you begin, ensure you have:
 - Go 1.25.0 or later installed
-- An Akash wallet with at least 5 AKT
+- An Akash wallet with ACT for deployment (and AKT for gas); e.g. at least 5 ACT + some AKT
 - Basic command-line knowledge
 
 **Not set up yet?** See [Development Environment](/docs/developers/contributing/development-environment)

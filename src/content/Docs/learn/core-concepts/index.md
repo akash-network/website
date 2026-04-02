@@ -16,7 +16,7 @@ This section provides detailed explanations of how Akash works, from basic deplo
 ## In This Section
 
 ### [Deployments & Lifecycle](/docs/learn/core-concepts/deployments)
-Understanding deployments, orders, the marketplace flow, escrow accounts, and the complete deployment lifecycle.
+Understanding deployments, orders, the marketplace flow, escrow (ACT funding and provider payouts; AKT top-up when circuit breaker in effect), and the complete deployment lifecycle.
 
 ### [Providers & Leases](/docs/learn/core-concepts/providers-leases)
 How providers work, bidding mechanics, lease creation and management, and choosing the right provider.

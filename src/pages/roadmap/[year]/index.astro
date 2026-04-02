@@ -38,7 +38,7 @@ const { year } = Astro.params;
 ---
 
 <Layout title={`${title} - ${year}`}>
-  <TopMargin className="flex flex-col" isNotContainer>
+  <TopMargin className="flex flex-col min-h-screen" isNotContainer>
     <Roadmap
       year={Number(year)}
       quarters={quarters}

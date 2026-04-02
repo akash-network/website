@@ -177,7 +177,7 @@ Custom pricing logic in `price_script.sh`:
 #!/bin/bash
 # Custom pricing logic
 # Input: JSON with order details
-# Output: Price in uakt/block
+# Output: Price in uact/block (ACT)
 
 CPU_PRICE=100
 MEMORY_PRICE=50
@@ -233,8 +233,8 @@ message MsgCreateBid {
 
 **Fields:**
 - `bid_id` - Unique identifier (order ID + provider address)
-- `price` - Bid price in uakt per block
-- `deposit` - Bid deposit (typically 5 AKT)
+- `price` - Bid price in uact per block (ACT)
+- `deposit` - Bid deposit in **AKT** (0.5 AKT / 500000 uakt)
 
 ### Transaction Broadcast
 
@@ -350,8 +350,8 @@ type Config struct {
 **From provider.yaml:**
 
 ```yaml
-# Bid deposit (escrow)
-biddeposit: 5000000uakt  # 5 AKT
+# Bid deposit (in AKT; provider puts this up when placing a bid)
+biddeposit: 500000uakt   # 0.5 AKT
 
 # Bid timeout
 bidtimeout: 5m

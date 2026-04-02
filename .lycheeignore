@@ -11,3 +11,5 @@ https?://hub\.docker\.com.*
 # Guide assets that may not be at same path in built output
 linkedin-roast-upload\.png
 linkedin-roast-result\.png
+# Polkachu returns 403 for automated requests
+https?://polkachu\.com.*
