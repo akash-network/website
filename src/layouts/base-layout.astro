@@ -39,6 +39,10 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
   data-theme={htmlDataTheme}
 >
   <head>
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-LFRGN2J2RV"></script>
     <script is:inline>
       const doc = document.documentElement;
       if (doc.dataset.onlyDark === "true") {
@@ -55,48 +59,31 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
+
       gtag("config", "G-LFRGN2J2RV");
     </script>
 
-    <!-- GA & GTM & HubSpot - deferred until after page load -->
+    <!-- Start of HubSpot Embed Code -->
+    <script
+      is:inline
+      type="text/javascript"
+      id="hs-script-loader"
+      async
+      defer
+      src="//js.hs-scripts.com/47519938.js"
+    ></script><!-- End of HubSpot Embed Code -->
+
     <script is:inline>
-      function _loadAnalytics() {
-        if (window._analyticsLoaded) return;
-        window._analyticsLoaded = true;
-
-        // Google Analytics
-        var ga = document.createElement('script');
-        ga.async = true;
-        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-LFRGN2J2RV';
-        document.head.appendChild(ga);
-
-        // GTM (GTM-573RDG5H)
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != "dataLayer" ? "&l=" + l : "";
-          j.async = true;
-          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-          f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-573RDG5H");
-
-        // HubSpot
-        var hs = document.createElement('script');
-        hs.async = true;
-        hs.id = 'hs-script-loader';
-        hs.src = '//js.hs-scripts.com/47519938.js';
-        document.head.appendChild(hs);
-      }
-
-      if (document.readyState === 'complete') {
-        setTimeout(_loadAnalytics, 0);
-      } else {
-        window.addEventListener('load', function() {
-          setTimeout(_loadAnalytics, 100);
-        });
-      }
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-573RDG5H");
     </script>
 
     <BaseHead
