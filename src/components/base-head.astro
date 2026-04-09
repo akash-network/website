@@ -18,10 +18,7 @@ const {
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1"
-/>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 <meta name="generator" content={Astro.generator} />
 
@@ -48,11 +45,11 @@ const {
   function _loadHubSpotForms() {
     if (window._hubSpotFormsLoaded) return;
     window._hubSpotFormsLoaded = true;
-    var s = document.createElement('script');
-    s.src = 'https://js.hsforms.net/forms/embed/47519938.js';
+    var s = document.createElement("script");
+    s.src = "https://js.hsforms.net/forms/embed/47519938.js";
     document.head.appendChild(s);
   }
-  if ('requestIdleCallback' in window) {
+  if ("requestIdleCallback" in window) {
     requestIdleCallback(_loadHubSpotForms);
   } else {
     setTimeout(_loadHubSpotForms, 2000);
@@ -68,14 +65,24 @@ const {
   href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
   onload="this.rel='stylesheet'"
 />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" /></noscript>
+<noscript
+  ><link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+  /></noscript
+>
 <link
   rel="preload"
   as="style"
   href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
   onload="this.rel='stylesheet'"
 />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" /></noscript>
+<noscript
+  ><link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+  /></noscript
+>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -108,75 +115,68 @@ const {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<!-- Third-party tracking scripts - deferred until after page load -->
+<!-- Facebook Pixel Code -->
 <script is:inline>
-  function _loadThirdPartyTrackers() {
-    if (window._thirdPartyTrackersLoaded) return;
-    window._thirdPartyTrackersLoaded = true;
-
-    // Facebook Pixel
-    !(function (f, b, e, v, n, t, s) {
-      if (f.fbq) return;
-      n = f.fbq = function () {
-        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = "2.0";
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s);
-    })(
-      window,
-      document,
-      "script",
-      "https://connect.facebook.net/en_US/fbevents.js"
-    );
-    fbq("init", "654184647412382");
-    fbq("track", "PageView");
-
-    // Twitter conversion tracking
-    !(function (e, t, n, s, u, a) {
-      e.twq ||
-        ((s = e.twq =
-          function () {
-            s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
-          }),
-        (s.version = "1.1"),
-        (s.queue = []),
-        (u = t.createElement(n)),
-        (u.async = !0),
-        (u.src = "https://static.ads-twitter.com/uwt.js"),
-        (a = t.getElementsByTagName(n)[0]),
-        a.parentNode.insertBefore(u, a));
-    })(window, document, "script");
-    twq("config", "o2glx");
-
-    // Google Tag Manager (GTM-WT4KSXNQ)
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || [];
-      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != "dataLayer" ? "&l=" + l : "";
-      j.async = true;
-      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, "script", "dataLayer", "GTM-WT4KSXNQ");
-  }
-
-  if (document.readyState === 'complete') {
-    setTimeout(_loadThirdPartyTrackers, 0);
-  } else {
-    window.addEventListener('load', function() {
-      setTimeout(_loadThirdPartyTrackers, 100);
-    });
-  }
+  !(function (f, b, e, v, n, t, s) {
+    if (f.fbq) return;
+    n = f.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = "2.0";
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s);
+  })(
+    window,
+    document,
+    "script",
+    "https://connect.facebook.net/en_US/fbevents.js",
+  );
+  fbq("init", "654184647412382");
+  fbq("track", "PageView");
 </script>
+<!-- End Facebook Pixel Code -->
+
+<!-- Twitter conversion tracking base code -->
+<script is:inline>
+  !(function (e, t, n, s, u, a) {
+    e.twq ||
+      ((s = e.twq =
+        function () {
+          s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
+        }),
+      (s.version = "1.1"),
+      (s.queue = []),
+      (u = t.createElement(n)),
+      (u.async = !0),
+      (u.src = "https://static.ads-twitter.com/uwt.js"),
+      (a = t.getElementsByTagName(n)[0]),
+      a.parentNode.insertBefore(u, a));
+  })(window, document, "script");
+  twq("config", "o2glx");
+</script>
+<!-- End Twitter conversion tracking base code -->
+
+<!-- Google Tag Manager -->
+<script is:inline>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-MSF384N3");
+</script>
+
 <noscript>
   <img
     height="1"
@@ -185,3 +185,37 @@ const {
     src="https://www.facebook.com/tr?id=654184647412382&ev=PageView&noscript=1"
   />
 </noscript>
+
+<script is:inline>
+  let isFirstLoad = true;
+
+  document.addEventListener("astro:page-load", () => {
+    if (isFirstLoad) {
+      isFirstLoad = false;
+      return; // dont touch the initial page load since gtm script will handle it
+    }
+
+    // ga4 via gtm
+    if (typeof window.dataLayer !== "undefined") {
+      window.dataLayer.push({
+        event: "page_view",
+        page_path: window.location.pathname + window.location.search,
+        page_title: document.title,
+        page_location: window.location.href,
+      });
+    }
+
+    // facebook pixel
+    if (typeof fbq !== "undefined") {
+      fbq("track", "PageView");
+    }
+
+    // twitter conversion tracking
+    if (typeof twq !== "undefined") {
+      twq("event", "page_view", {
+        page_path: window.location.pathname + window.location.search,
+        page_title: document.title,
+      });
+    }
+  });
+</script>
