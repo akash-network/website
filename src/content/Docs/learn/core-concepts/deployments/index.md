@@ -324,10 +324,10 @@ profiles:
     dcloud:
       pricing:
         web:
-          denom: uakt
+          denom: uact
           amount: 10000
         log-collector:
-          denom: uakt
+          denom: uact
           amount: 5000
 
 deployment:
