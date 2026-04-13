@@ -262,6 +262,89 @@ Deployment #123456
 
 ---
 
+## Deployment Permissions
+
+Akash allows you to grant a service read access to **logs** and **events** from all services within the same deployment group. This is useful when you have a sidecar or utility service — such as a log collector or monitoring agent — that needs to programmatically read logs from your other services or watch for deployment events.
+
+By default, services have no special access. Permissions must be explicitly declared in the SDL.
+
+### Supported Permissions
+
+Only `read` permissions are currently supported. The valid resources are:
+
+| Resource | Description |
+|----------|-------------|
+| `logs` | Read container logs from all services in the deployment group |
+| `events` | Read runtime events from all services in the deployment group |
+
+### SDL Example
+
+The following SDL deploys a web application alongside a `log-collector` service that has permission to read logs and events from all services in the group — including the `web` service:
+
+```yaml
+services:
+  web:
+    image: my-web-app:latest
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+  log-collector:
+    image: my-log-collector:latest
+    expose:
+      - port: 8080
+        to:
+          - global: true
+    params:
+      permissions:
+        read:
+          - logs
+          - events
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 2
+        memory:
+          size: 1Gi
+        storage:
+          size: 2Gi
+    log-collector:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 256Mi
+        storage:
+          size: 512Mi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uact
+          amount: 10000
+        log-collector:
+          denom: uact
+          amount: 5000
+
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+  log-collector:
+    dcloud:
+      profile: log-collector
+      count: 1
+```
+
+In this example, `log-collector` can read logs and events from both itself and the `web` service. The `web` service has no special permissions — it runs with default access only.
+
+---
+
 ## Escrow Accounts
 
 ### How Escrow Works
