@@ -130,6 +130,8 @@ export const modifyModel = (model: string) => {
   if (model === "rtxa6000") return "A6000";
   if (model === "pro6000se") return "Pro 6000 SE";
   if (model === "pro6000we") return "Pro 6000 WE";
+  if (model === "rtxpro6000blackwellmaxqworkstationedition")
+    return "RTX Pro 6000 Blackwell Max-Q";
   return formatText(model);
 };
 

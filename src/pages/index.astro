@@ -10,30 +10,15 @@ import ReadyToDeploy from "@/components/home/ready-to-deploy.astro";
 import Permissionless from "@/components/home/permissionless.astro";
 import TrustedBy from "@/components/home/trustedby/trusted-by.astro";
 import Layout from "@/layouts/layout.astro";
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
 
 const homepage = await getEntry("Homepage", "index");
 
-type BlogPost = CollectionEntry<"Blog">;
-
-const posts = (await getCollection("Blog"))
-  .filter((post) => {
-    return post.data.archive !== true;
-  })
-  .sort((a, b) => {
-    const dateA = new Date(a.data.pubDate);
-    const dateB = new Date(b.data.pubDate);
-    return dateB.getTime() - dateA.getTime();
-  });
 const {
-  advert,
   heroSection,
-  infrastructureSection,
-  featureSection,
-  aiModelsAndAppsSection,
-  testimonialsSection,
 } = homepage?.data;
 ---
+
 
 <Layout
   classname=" bg-[#FCFCFC] dark:bg-[#030303] "
@@ -42,13 +27,26 @@ const {
   footerClassName="dark:bg-[#000000] container-nav-3 border-t dark:border-[#282828]"
   description="Akash is an open network that lets users buy and sell computing resources securely and efficiently. Purpose-built for public utility."
 >
+  <!-- Preload LCP hero image -->
+  <link rel="preload" as="image" type="image/webp" imagesrcset="/images/heroNew1-1200w.webp 1200w, /images/heroNew1.webp 2274w" imagesizes="(max-width: 1136px) 100vw, 1136px" slot="head" />
+  <!-- ContentSquare - deferred -->
+  <script is:inline slot="head">
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var s = document.createElement('script');
+        s.src = 'https://t.contentsquare.net/uxa/f3d653170e755.js';
+        s.async = true;
+        document.head.appendChild(s);
+      }, 200);
+    });
+  </script>
   <div>
     <Hero heroSection={heroSection} />
     <div class="bg-[#F1F1F1] dark:bg-[#101010] w-full h-fit"><TrustedBy /></div>
     <div class="bg-[#E3E3E3] dark:bg-[#0D0D0E] w-full h-fit"><InfrastructureNew /></div>
     <div class="bg-[#E3E3E3] dark:bg-[#0D0D0E] w-full h-fit"><FuelNew /></div>
     <div class="bg-[#EAEAEA] dark:bg-[#0D0D0E] w-full h-fit"><Permissionless /></div>
-    <div class="bg-[#EEEEEE] dark:bg-[#101010]"><CaseStudies /></div>
+    <div class="bg-[#EEEEEE] dark:bg-[#0D0D0E]"><CaseStudies /></div>
     <div class="bg-[#171717]"><ShipIt /></div>
   </div>
 </Layout>

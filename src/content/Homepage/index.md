@@ -123,7 +123,7 @@ aiModelsAndAppsSection:
   subtitle2: "Deployed on Akash"
   cards1:
     - title: "AkashML"
-      image: "./assets/tools/akashML.png"
+      image: "./assets/tools/akashML.webp"
       description: "High-performance, low latency AI inference service built on Akash Network"
       link: "https://akashml.com/"
       button: "Get Started"
