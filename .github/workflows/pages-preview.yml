@@ -1,0 +1,136 @@
+# Build and deploy a GitHub Pages preview for each pull request (same-repo only).
+# Uses actions/deploy-pages with preview: true; the deployment URL is posted on the PR.
+#
+# Requires GitHub Pages source "GitHub Actions" (see .github/workflows/astro.yml).
+#
+# Note: GitHub documents PR preview deployments as not universally available. If the
+# deploy job fails with 4xx from the Pages API, check actions/deploy-pages releases and
+# GitHub Pages settings. The Astro --base path uses the common pr-preview/pr-<n> segment;
+# if the live preview_url path differs, update the "Preview base path" step accordingly.
+name: Pages preview (PR)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: pages-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  BUILD_PATH: "."
+
+jobs:
+  build:
+    name: Build (preview)
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+      - name: Preview base path
+        id: preview
+        run: |
+          root='${{ steps.pages.outputs.base_path }}'
+          pr='${{ github.event.pull_request.number }}'
+          if [ -n "$root" ]; then
+            printf 'path=%s/pr-preview/pr-%s\n' "$root" "$pr" >> "$GITHUB_OUTPUT"
+          else
+            printf 'path=/pr-preview/pr-%s\n' "$pr" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+        working-directory: ${{ env.BUILD_PATH }}
+      - name: Build with Astro
+        run: |
+          ${{ steps.detect-package-manager.outputs.runner }} astro build \
+            --site "${{ steps.pages.outputs.origin }}" \
+            --base "${{ steps.preview.outputs.path }}"
+        working-directory: ${{ env.BUILD_PATH }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.BUILD_PATH }}/dist
+
+  deploy:
+    name: Deploy (preview)
+    needs: build
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages-preview
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          preview: true
+
+  comment:
+    name: Comment preview URL
+    needs: deploy
+    if: success() && needs.deploy.outputs.page_url != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- github-pages-preview -->';
+            const url = '${{ needs.deploy.outputs.page_url }}';
+            const body = `${marker}\n### GitHub Pages preview\n\n**Preview:** ${url}\n\n_Updated for commit ${context.sha.slice(0, 7)}._\n`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((c) => c.user?.type === 'Bot' && c.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
