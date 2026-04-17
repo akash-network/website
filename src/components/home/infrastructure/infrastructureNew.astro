@@ -6,7 +6,10 @@ interface Feature {
     secondary: string;
   };
   image: string;
+  imageWebp: string;
+  imageWebpSmall: string;
   mobileImage: string;
+  mobileImageWebp: string;
 }
 
 const features: Feature[] = [
@@ -19,7 +22,10 @@ const features: Feature[] = [
         "Get nearly 3 hours of compute for the price of 1. Transparent pricing, no hidden fees.",
     },
     image: "/images/infrastructure/feat1.png",
+    imageWebp: "/images/infrastructure/feat1.webp",
+    imageWebpSmall: "/images/infrastructure/feat1-800w.webp",
     mobileImage: "/images/infrastructure/feat1sm.png",
+    mobileImageWebp: "/images/infrastructure/feat1sm.webp",
   },
   {
     title: "Ray Distributed Clusters",
@@ -30,7 +36,10 @@ const features: Feature[] = [
         "Spin up multi-node Ray clusters to train and fine-tune massive models without DevOps overhead.",
     },
     image: "/images/infrastructure/feat2.png",
+    imageWebp: "/images/infrastructure/feat2.webp",
+    imageWebpSmall: "/images/infrastructure/feat2-800w.webp",
     mobileImage: "/images/infrastructure/feat2sm.png",
+    mobileImageWebp: "/images/infrastructure/feat2sm.webp",
   },
   {
     title: "1-Click Templates",
@@ -41,7 +50,10 @@ const features: Feature[] = [
         "Launch pre-configured environments for Llama, Mistral, and Stable Diffusion in seconds.",
     },
     image: "/images/infrastructure/feat3.png",
+    imageWebp: "/images/infrastructure/feat3.webp",
+    imageWebpSmall: "/images/infrastructure/feat3-800w.webp",
     mobileImage: "/images/infrastructure/feat3sm.png",
+    mobileImageWebp: "/images/infrastructure/feat3sm.webp",
   },
   {
     title: "Docker Native",
@@ -52,7 +64,10 @@ const features: Feature[] = [
         "If it runs in a container, it runs here. Full Kubernetes support with zero vendor lock-in.",
     },
     image: "/images/infrastructure/feat4.png",
+    imageWebp: "/images/infrastructure/feat4.webp",
+    imageWebpSmall: "/images/infrastructure/feat4-800w.webp",
     mobileImage: "/images/infrastructure/feat4sm.png",
+    mobileImageWebp: "/images/infrastructure/feat4sm.webp",
   },
 ];
 ---
@@ -71,21 +86,39 @@ const features: Feature[] = [
     <!-- Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 -mx-4">
       {features.map((feature) => (
-        <div class="relative overflow-hidden">
+        <div class="feature-card relative overflow-hidden">
 
           <!-- Desktop / Tablet -->
-          <img
-            src={feature.image}
-            alt={feature.title}
-            class="feature-img-desktop w-full h-auto select-none pointer-events-none max-w-2xs md:max-w-full"
-          />
+          <picture class="feature-img-desktop">
+            <source
+              srcset={`${feature.imageWebpSmall} 800w, ${feature.imageWebp} 1437w`}
+              sizes="(max-width: 1023px) 100vw, 50vw"
+              type="image/webp"
+            />
+            <img
+              src={feature.image}
+              alt={feature.title}
+              width="1437"
+              height="892"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto select-none pointer-events-none max-w-2xs md:max-w-full"
+            />
+          </picture>
 
           <!-- Mobile -->
-          <img
-            src={feature.mobileImage}
-            alt={feature.title}
-            class="feature-img-mobile w-full h-full object-cover select-none pointer-events-none"
-          />
+          <picture class="feature-img-mobile">
+            <source srcset={feature.mobileImageWebp} type="image/webp" />
+            <img
+              src={feature.mobileImage}
+              alt={feature.title}
+              width="770"
+              height="800"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto object-cover select-none pointer-events-none"
+            />
+          </picture>
 
           <!-- Content -->
           <div class="feature-content absolute bottom-[15%] space-y-2 max-w-[80%]">
@@ -104,25 +137,33 @@ const features: Feature[] = [
 </section>
 
 <style>
-  .feature-img-mobile {
+  picture.feature-img-mobile {
     display: none;
   }
-  .feature-img-desktop {
+  picture.feature-img-desktop {
     display: block;
   }
   .feature-content {
     left: 7%;
   }
 
+  /* Reserve space for images before they load to prevent layout shift */
+  .feature-card {
+    aspect-ratio: 1437 / 892;
+  }
+
   @media (max-width: 450px) {
-    .feature-img-mobile {
+    picture.feature-img-mobile {
       display: block;
     }
-    .feature-img-desktop {
+    picture.feature-img-desktop {
       display: none;
     }
     .feature-content {
       left: 10%;
+    }
+    .feature-card {
+      aspect-ratio: 770 / 800;
     }
   }
 </style>

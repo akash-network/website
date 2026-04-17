@@ -67,7 +67,7 @@ profiles:
     akash:
       pricing:
         web:
-          denom: uakt
+          denom: uact
           amount: 10000
 
 deployment:
@@ -731,16 +731,16 @@ profiles:
     akash:
       pricing:
         frontend:
-          denom: uakt
+          denom: uact
           amount: 10000
         backend:
-          denom: uakt
+          denom: uact
           amount: 15000
         database:
-          denom: uakt
+          denom: uact
           amount: 20000
         cache:
-          denom: uakt
+          denom: uact
           amount: 5000
 
 deployment:

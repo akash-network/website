@@ -1,10 +1,10 @@
 ---
-import ExpandedGpuPricing from "../ExpandedGpuPricing";
+import GpuPricing from "../gpu-pricing.astro";
 import TrustedByMarquee from "../TrustedByMarquee";
 import { trustedBySection } from "./trustedby";
 ---
 
-<div class="w-full overflow-hidden py-16 dark:bg-[#101010] md:py-20 lg:pb-[120px]">
+<div class="w-full overflow-hidden py-16 bg-[#f1f1f1] dark:bg-[#101010] md:py-20 lg:pb-[120px]">
   <div class="relative z-[2] flex flex-col gap-16 lg:gap-[120px]">
     <div class="mb-6 flex flex-col items-center justify-center gap-8">
       <h2 class="text-[#8C8E91] md:text-lg">
@@ -14,11 +14,13 @@ import { trustedBySection } from "./trustedby";
       <div
         class="relative mx-auto w-full max-w-[1400px] md:before:absolute md:before:left-0 md:before:top-0 md:before:z-10 md:before:h-full md:before:w-32 md:before:bg-gradient-to-r md:before:from-[#F1F1F1] md:before:to-transparent md:before:content-[''] md:after:absolute md:after:right-0 md:after:top-0 md:after:z-10 md:after:h-full md:after:w-32 md:after:bg-gradient-to-l md:after:from-[#F1F1F1] md:after:to-transparent md:after:content-[''] dark:md:before:from-[#101010] dark:md:after:from-[#101010]"
       >
-        <TrustedByMarquee trustedBySection={trustedBySection} client:only />
+        <div style="min-height:34px;">
+          <TrustedByMarquee trustedBySection={trustedBySection} client:only="react" />
+        </div>
       </div>
     </div>
-    <div class="container-nav-3 w-full">
-      <ExpandedGpuPricing client:load />
+    <div class="mx-auto max-w-[1510px] w-full">
+      <GpuPricing />
     </div>
   </div>
 </div>

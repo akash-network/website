@@ -11,7 +11,7 @@ Deploy an Akash RPC node on the Akash Network itself using Cosmos Omnibus. This 
 **Time:** 5-10 minutes (deployment) + 20-30 minutes (blockchain sync via snapshot)
 
 **Requirements:**
-- Akash wallet with ~2 AKT (0.5 AKT deposit + usage)
+- Akash wallet with ACT for deployment deposit (and some AKT for gas)
 - Akash Console or CLI
 
 ---
@@ -71,7 +71,7 @@ profiles:
           - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
       pricing:
         node:
-          denom: uakt
+          denom: uact
           amount: 1000
 
 deployment:
@@ -173,7 +173,7 @@ This restricts deployment to providers audited by the specified Akash Core Team 
 2. Create new deployment
 3. Paste the SDL above
 4. **Adjust storage size** to at least 400Gi
-5. Accept .5 AKT deposit
+5. Accept deposit (in ACT)
 6. Select a provider from bids
 7. Wait for deployment to start
 

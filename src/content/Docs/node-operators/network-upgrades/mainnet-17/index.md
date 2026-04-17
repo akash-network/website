@@ -26,6 +26,17 @@ This guide provides step-by-step instructions for upgrading your node to Akash v
 
 ---
 
+## Tokenomics (BME)
+
+Mainnet 17 enables **Burn-Mint-Equilibrium (BME)** tokenomics ([AEP-76](https://akash.network/roadmap/aep-76/)), supported by CosmWasm and oracle infrastructure ([AEP-78](https://akash.network/roadmap/aep-78/)).
+
+- **Deployment funding:** Deposits when creating deployments are **ACT only** (USD-pegged compute credit). Tenants get ACT by burning AKT or via credit card in Console.
+- **Provider payouts:** Providers are paid in **ACT** (lease settlement in ACT).
+- **Escrow top-up:** You can fund escrow after creation with **AKT** when the circuit breaker is in effect (e.g. new ACT mints paused). Otherwise, use **ACT only** (recommended).
+- **Take-rate:** AEP-23 take-rates on stable settlements are removed; no take-rate on BME payouts.
+
+---
+
 ## Validator Expectations
 
 To ensure a network upgrade with minimal downtime, Akash Validators should be available as follows:

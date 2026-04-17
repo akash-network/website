@@ -2,15 +2,10 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import type { CollectionEntry } from "astro:content";
 import { ArrowRightCircle } from "lucide-react";
 import { ecosystemNavItems } from "./links";
 
-const PopOverNavItemEcosystem = ({
-  posts,
-}: {
-  posts: CollectionEntry<"Blog">[];
-}) => {
+const PopOverNavItemEcosystem = () => {
   const [open2, setOpen] = useState(false);
   return (
     <Menu

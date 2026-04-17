@@ -19,9 +19,9 @@ async function getCommunityContributionsContent() {
       day: "numeric",
     }),
     tags: content.data.tags,
-    projectImage: content.data.image,
+    projectImage: content.data.bannerImage,
     projectDescription: content.data.description,
-    author: content.data.author,
+    author: content.data.contributors[0],
   }));
 }
 

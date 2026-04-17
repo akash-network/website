@@ -28,7 +28,7 @@ Providers can offer:
 ## Benefits of Running a Provider
 
 ###  Revenue Opportunities
-- Earn AKT or USDC tokens for hosting workloads
+- Earn **ACT** (compute credit) for hosting workloads; all lease settlements pay providers in ACT
 - Set your own pricing
 - Higher demand for GPU resources
 - Persistent storage premium pricing
@@ -66,7 +66,7 @@ Providers can offer:
 - Time for maintenance (2-4 hours/week)
 
 **Financial:**
-- Minimum 0.5 AKT per lease for escrow deposits (5 AKT recommended for initial operations)
+- **AKT** for bid escrow (0.5 AKT per bid) and gas
 - ~0.005 AKT bid fee per bid submission
 - Ability to cover electricity/hosting costs
 - Capital for hardware (if needed)
@@ -118,7 +118,7 @@ There are three ways to set up an Akash provider:
 
 ### Initial Costs
 - **Hardware:** $500-$5,000+ (or existing hardware)
-- **AKT Tokens:** 0.5 AKT per lease for escrow deposits (5 AKT recommended for initial operations)
+- **ACT:** Minimum per-lease escrow deposit in ACT (e.g. ~5 ACT); have some AKT for gas and bid fees
 - **Bid Fees:** ~0.005 AKT per bid submission
 - **Setup Time:** Your time investment
 

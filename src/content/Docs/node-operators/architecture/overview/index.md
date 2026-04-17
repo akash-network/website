@@ -41,9 +41,10 @@ For detailed information about each layer:
 |  |  | - Bank                |  | - Market                |  | |
 |  |  | - Staking             |  | - Provider              |  | |
 |  |  | - Gov                 |  | - Escrow                |  | |
-|  |  | - Distribution        |  | - Audit                 |  | |
-|  |  | - Slashing            |  | - Cert                  |  | |
-|  |  | - IBC                 |  | - Take                  |  | |
+|  |  | - Distribution        |  | - BME                    |  | |
+|  |  | - Slashing            |  | - Oracle                 |  | |
+|  |  | - IBC, Wasm           |  | - Wormhole, Pyth (oracle)|  | |
+|  |  |                       |  | - Audit, Cert, Take      |  | |
 |  |  +-----------------------+  +-------------------------+  | |
 |  |                                                          | |
 |  |  +----------------------------------------------------+  | |
@@ -149,10 +150,13 @@ Akash uses a modular architecture where each module handles specific functionali
 | **deployment** | Deployment creation and management | `x/deployment` |
 | **market** | Order and bid matching | `x/market` |
 | **provider** | Provider registration and attributes | `x/provider` |
-| **escrow** | Escrow accounts for leases | `x/escrow` |
+| **escrow** | Escrow for leases; ACT funding and provider payouts | `x/escrow` |
+| **bme** | ACT/AKT vault, ledger, circuit breakers | `x/bme` |
+| **oracle** | Price feeds (e.g. AKT/USD) for escrow and remint | `x/oracle` |
+| **wasm** | CosmWasm host; Wormhole and Pyth contracts for oracle price pipeline | wasmd |
 | **audit** | Provider auditing and attestations | `x/audit` |
 | **cert** | TLS certificate management | `x/cert` |
-| **take** | Income distribution/fees | `x/take` |
+| **take** | Legacy income distribution; no take-rate on lease settlements | `x/take` |
 
 ---
 
@@ -174,10 +178,13 @@ Each module has its own prefixed key space in the store:
 deployment/     - Deployment state
 market/         - Orders, bids, leases
 provider/       - Provider registrations
-escrow/         - Escrow account balances
+escrow/         - Escrow account balances (ACT)
+bme/            - Vault, ledger, remint credits
+oracle/         - Price feed state
+wasm/           - CosmWasm contract code and instance state (Wormhole, Pyth)
 audit/          - Audit attributes
 cert/           - TLS certificates
-take/           - Fee parameters
+take/           - Fee parameters (legacy; unused for lease settlements)
 ```
 
 #### State Transitions
