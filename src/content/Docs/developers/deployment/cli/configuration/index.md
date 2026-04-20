@@ -18,19 +18,25 @@ This guide covers all configuration options for the CLI.
 ## Network Configuration
 
 ### Mainnet (Production)
+
+Values below match [mainnet `meta.json`](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json); override **`AKASH_META_URL`** to point at another network’s `meta.json` when needed.
+
 ```bash
-export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
-export AKASH_CHAIN_ID="akashnet-2"
-export AKASH_NODE="https://rpc.akashnet.net:443"
+export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json"
+export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
+export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[0].address')"
 export AKASH_GAS_PRICES="0.025uakt"
 export AKASH_GAS_ADJUSTMENT="1.5"
 ```
 
 ### Sandbox
+
+Use [sandbox-2 `meta.json`](https://raw.githubusercontent.com/akash-network/net/main/sandbox-2/meta.json).
+
 ```bash
-export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/sandbox"
-export AKASH_CHAIN_ID="sandbox-2"
-export AKASH_NODE="https://rpc.sandbox-2.aksh.pw:443"
+export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/sandbox-2/meta.json"
+export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
+export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[0].address')"
 export AKASH_GAS_PRICES="0.025uakt"
 export AKASH_GAS_ADJUSTMENT="1.5"
 ```
@@ -77,11 +83,17 @@ export AKASH_GAS="auto"
 ## Custom RPC/API Endpoints
 
 ### RPC Node
+
+From `meta.json` (same pattern as above), or set a URL explicitly:
+
 ```bash
 export AKASH_NODE="https://rpc.akashnet.net:443"
 ```
 
 ### API Endpoint
+
+REST / LCD URL from `meta.json`: `jq -r '.apis.rest[0].address'` against `AKASH_META_URL`, or:
+
 ```bash
 export AKASH_API="https://api.akashnet.net:443"
 ```
@@ -98,19 +110,21 @@ export AKASH_API="http://your-node-ip:1317"
 
 ### Add to Shell Profile
 
-**Bash (~/.bashrc):**
+**Bash (~/.bashrc):** (`jq` must be installed for the subshells.)
+
 ```bash
-echo 'export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"' >> ~/.bashrc
-echo 'export AKASH_CHAIN_ID="akashnet-2"' >> ~/.bashrc
-echo 'export AKASH_NODE="https://rpc.akashnet.net:443"' >> ~/.bashrc
+echo 'export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json"' >> ~/.bashrc
+echo 'export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r ".chain_id")"' >> ~/.bashrc
+echo 'export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r ".apis.rpc[0].address")"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
 **Zsh (~/.zshrc):**
+
 ```bash
-echo 'export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"' >> ~/.zshrc
-echo 'export AKASH_CHAIN_ID="akashnet-2"' >> ~/.zshrc
-echo 'export AKASH_NODE="https://rpc.akashnet.net:443"' >> ~/.zshrc
+echo 'export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json"' >> ~/.zshrc
+echo 'export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r ".chain_id")"' >> ~/.zshrc
+echo 'export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r ".apis.rpc[0].address")"' >> ~/.zshrc
 source ~/.zshrc
 ```
 

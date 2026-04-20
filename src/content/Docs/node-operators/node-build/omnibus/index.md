@@ -6,7 +6,7 @@ title: "Akash Node Deployment Via Omnibus"
 linkTitle: "Omnibus"
 ---
 
-Deploy an Akash RPC node on the Akash Network itself using Cosmos Omnibus. This method uses a pre-built Docker image and automated sync with blockchain snapshots (updated hourly).
+Deploy an Akash RPC node on the Akash Network itself using Cosmos Omnibus. This method uses a pre-built Docker image and automated sync with blockchain snapshots (updated hourly). **`CHAIN_JSON`** must point to the network **`meta.json`** in [akash-network/net](https://github.com/akash-network/net) (same file as the [CLI build](/docs/node-operators/node-build/cli-build) guide).
 
 **Time:** 5-10 minutes (deployment) + 20-30 minutes (blockchain sync via snapshot)
 
