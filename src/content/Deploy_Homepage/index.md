@@ -54,10 +54,10 @@ additionalDeploymentSection:
   resources:
     - title: Akash CLI
       content: Deploy and manage your applications on Akash with ease using the Command Line Interface
-      link: "/docs/deployments/akash-cli/overview/"
+      link: "/docs/developers/deployment/"
     - title: CLI Booster
       content: The Akash CLI Booster was created to make the use of the current command line tooling much simpler for deployments and related activities. In this guide we will review the primary capabilities of this exciting new tool.
-      link: /docs/deployments/akash-cli/cli-booster/
+      link: /docs/developers/deployment/
     - title: Terraform Cloud Integration
       content: Effortless integration with the Akash Network using Terraform Cloud
       link: /docs/other-resources/experimental/akash-deployments-via-terraform/
