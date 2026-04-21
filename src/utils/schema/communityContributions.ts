@@ -52,6 +52,7 @@ export const communityEventSchema = defineCollection({
           }),
         )
         .optional(),
+      lumaEventId: z.string().optional(),
     });
   },
 });
