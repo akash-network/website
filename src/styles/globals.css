@@ -329,6 +329,22 @@ html body[data-scroll-locked] {
   word-break: break-word;
 }
 
+/* Inline `code` in docs: match body line height; fenced `pre > code` resets below. */
+.prose p code,
+.prose li code,
+.prose th code,
+.prose td code {
+  vertical-align: baseline;
+}
+
+.prose pre code {
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  border-radius: 0;
+  vertical-align: baseline;
+}
+
 .prose-blog li>p {
   margin-bottom: 10px !important;
 }

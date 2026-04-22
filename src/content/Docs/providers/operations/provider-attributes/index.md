@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
 tags: ["Operations", "Configuration", "Attributes"]
-weight: 4
+weight: 7
 title: "Provider Attributes"
 linkTitle: "Provider Attributes"
 description: "Configure provider attributes to advertise your capabilities to tenants"
