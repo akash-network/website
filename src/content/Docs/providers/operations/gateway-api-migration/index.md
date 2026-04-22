@@ -22,7 +22,7 @@ This migration moves provider TCP from ingress-nginx to the Kubernetes Gateway A
 
 ## Requirements (both)
 
-Provider **v0.10.7** before **v0.11.0**, Helm 3, ingress-nginx on 8443/8444, host ports 80, 443, 8443, 8444, and 5002 free, and a public DNS zone. DNS-01 options are in [STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) and the [cert-manager DNS-01 docs](https://cert-manager.io/docs/configuration/acme/dns01/).
+Provider **v0.11.2** before upgrading to **v0.12.0**, Helm 3, ingress-nginx on 8443/8444, host ports 80, 443, 8443, 8444, and 5002 free, and a public DNS zone. DNS-01 options are in [STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) and the [cert-manager DNS-01 docs](https://cert-manager.io/docs/configuration/acme/dns01/).
 
 ---
 

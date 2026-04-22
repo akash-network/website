@@ -9,7 +9,7 @@ description: "Migrate from ingress-nginx to NGINX Gateway Fabric and akash-gatew
 
 **Migrate from ingress-nginx to NGINX Gateway Fabric and the [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart.**
 
-You already use cert-manager and a `ClusterIssuer` for Let’s Encrypt. The chart only uses TLS secrets in the `akash-gateway` namespace, so certificates that exist only for `ingress-nginx` are not enough. Install the Gateway stack in the steps below, then complete [Re-bind TLS](#re-bind-tls-to-akash-gateway) so cert-manager issues (or you copy) the right secrets there.
+You already use cert-manager and a `ClusterIssuer` for Let’s Encrypt. For the wildcard, you mainly **recreate the same `Certificate` request** with three changes: **`metadata.namespace: akash-gateway`**, **`metadata.name: wildcard-ingress`**, and **`spec.secretName: wildcard-ingress-tls`** (chart defaults for `https-wildcard`). Keep your **DNS names** and **`issuerRef`** the same as before. Install the Gateway stack in the steps below, then apply that `Certificate` in [Re-bind TLS](#re-bind-tls-to-akash-gateway).
 
 If cert-manager is not on the cluster yet, use the [without cert-manager](/docs/providers/operations/gateway-api-migration/without-cert-manager) path and [prep STEP 9](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) first. [Back to overview](/docs/providers/operations/gateway-api-migration).
 
@@ -28,7 +28,7 @@ If cert-manager is not on the cluster yet, use the [without cert-manager](/docs/
 
 ## Before you begin
 
-- Provider on v0.10.7 before upgrading to v0.11.0
+- Provider on v0.11.2 before upgrading to v0.12.0
 - `kubectl` and Helm 3
 - `ingress-nginx` on TCP 8443 and 8444 today
 - Host ports 80, 443, 8443, 8444, and 5002 available on your nodes
@@ -211,9 +211,15 @@ If [STEP 2](#step-2-install-nginx-gateway-fabric) already opens port 443 on NGF,
 
 #### Wildcard cert (https-wildcard)
 
-Certificates you only use for `ingress-nginx` are not read by the [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart. In the `akash-gateway` namespace, create a cert-manager `Certificate` with `spec.secretName: wildcard-ingress-tls` for the `https-wildcard` listener (the manifest below matches chart defaults). Reuse the same `issuerRef` as before (for example `letsencrypt-prod`). After cutover, delete the old `Certificate` in `ingress-nginx` so you are not renewing the same hostnames twice.
+Point the wildcard `Certificate` at the Gateway by setting:
 
-Edit `yourdomain.com` and the issuer if needed, then apply:
+| Field | Value |
+|-------|--------|
+| `metadata.namespace` | `akash-gateway` |
+| `metadata.name` | `wildcard-ingress` |
+| `spec.secretName` | `wildcard-ingress-tls` |
+
+Copy **`spec.dnsNames`** (and **`spec.commonName`** if you use it) and **`spec.issuerRef`** from your existing ingress-nginx `Certificate`; only the namespace, resource name, and secret name change. Then apply:
 
 ```yaml
 # /root/provider/wildcard-ingress-tls.yaml
@@ -236,6 +242,8 @@ spec:
 ```bash
 kubectl apply -f /root/provider/wildcard-ingress-tls.yaml
 ```
+
+**Note:** After cutover, delete the old `Certificate` in `ingress-nginx` if you no longer need it, so you are not renewing the same hostnames twice.
 
 #### Default listener secret (https-custom)
 
@@ -290,9 +298,9 @@ For another pass on verification, use the [end-to-end HTTPS test in prep](/docs/
 
 ---
 
-## STEP 4: Upgrade Provider to v0.11.0
+## STEP 4: Upgrade Provider to v0.12.0
 
-With the Gateway resources in place, upgrade the Akash provider Helm charts to v0.11.0.
+With the Gateway resources in place, upgrade the Akash provider Helm charts to v0.12.0.
 
 ### Update Helm Repo
 
@@ -310,18 +318,18 @@ helm search repo akash
 
 ```
 NAME                              CHART VERSION    APP VERSION
-akash/akash-hostname-operator     15.0.0           0.11.0
-akash/akash-inventory-operator    15.0.0           0.11.0
-akash/akash-ip-operator           15.0.0           0.11.0
-akash/akash-node                  16.0.1           1.2.1
-akash/provider                    15.0.0           0.11.0
+akash/akash-hostname-operator     16.0.0           0.12.0
+akash/akash-inventory-operator    16.0.0           0.12.0
+akash/akash-ip-operator           16.0.0           0.12.0
+akash/akash-node                  17.1.1           2.0.1
+akash/provider                    16.0.0           0.12.0
 ```
 
 ### Backup Current Chart Values
 
 ```bash
 cd /root/provider
-for i in $(helm list -n akash-services -q | grep -vw akash-node); do helm -n akash-services get values $i > ${i}.pre-v0.11.0.values; done
+for i in $(helm list -n akash-services -q | grep -vw akash-node); do helm -n akash-services get values $i > ${i}.pre-v0.12.0.values; done
 ```
 
 ### Upgrade Operators
@@ -359,13 +367,13 @@ helm upgrade akash-provider akash/provider \
 
 ### Verify Pod Versions
 
-Allow a minute or two for Kubernetes to apply the changes, then confirm all pods are running v0.11.0:
+Allow a minute or two for Kubernetes to apply the changes, then confirm all pods are running v0.12.0:
 
 ```bash
 kubectl -n akash-services get pods -o custom-columns='NAME:.metadata.name,IMAGE:.spec.containers[*].image'
 ```
 
-All provider, hostname-operator, and inventory-operator images should reference `0.11.0`.
+All provider, hostname-operator, and inventory-operator images should reference `0.12.0`.
 
 ---
 

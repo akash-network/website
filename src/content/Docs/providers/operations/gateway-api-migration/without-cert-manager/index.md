@@ -33,7 +33,7 @@ Open [Gateway API migration (with cert-manager)](/docs/providers/operations/gate
 
 ## Requirements
 
-Same as the [overview](/docs/providers/operations/gateway-api-migration#requirements-both): provider **v0.10.7** before **v0.11.0**, Helm 3, ingress-nginx on 8443/8444, host ports 80, 443, 8443, 8444, 5002, and a DNS zone you control.
+Same as the [overview](/docs/providers/operations/gateway-api-migration#requirements-both): provider **v0.11.2** before upgrading to **v0.12.0**, Helm 3, ingress-nginx on 8443/8444, host ports 80, 443, 8443, 8444, 5002, and a DNS zone you control.
 
 ---
 
