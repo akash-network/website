@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
 tags: ["Operations", "Verification", "Monitoring"]
-weight: 5
+weight: 8
 title: "Provider Verification"
 linkTitle: "Provider Verification"
 description: "Verify your provider is running correctly and bidding on deployments"
