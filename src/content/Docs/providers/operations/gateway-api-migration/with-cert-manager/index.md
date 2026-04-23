@@ -95,7 +95,7 @@ nginxGateway:
       memory: 128Mi
     limits:
       cpu: 500m
-      memory: 256Mi
+      memory: 1Gi
 
 nginx:
   kind: daemonSet
@@ -122,7 +122,7 @@ nginx:
         memory: 128Mi
       limits:
         cpu: 1000m
-        memory: 512Mi
+        memory: 1Gi
 ```
 
 **Note:** `gwAPIExperimentalFeatures.enable: true` is required for `TCPRoute` support. `nginx.kind: daemonSet` with `ClusterIP` service type means NGINX binds directly to host ports on each node rather than using a LoadBalancer. **Include port 443** so deployers can reach HTTPS on the Gateway without a second NGF upgrade.
