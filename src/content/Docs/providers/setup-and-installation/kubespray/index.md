@@ -70,11 +70,10 @@ The Kubespray setup is divided into distinct steps:
 - Deploy Kubernetes cluster with Ansible
 - Verify cluster health
 
-**2. [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)**
-- Install Helm and required operators
-- Deploy Akash provider using Helm charts
-- Configure provider settings (domain, region, pricing)
-- Verify provider is running
+**2. Provider installation (two parts)**
+- **[Provider installation (prep)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep)** — wallet, `provider.yaml`, **DNS**, **NGF**, and **Let's Encrypt** (steps 1–9)
+- **[Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation)** — `akash-gateway`, operators, and `helm install` for the [Akash provider](https://github.com/akash-network/helm-charts/tree/main/charts/akash-provider)
+- Verify the provider is running
 
 ### Phase 2: Optional Features
 
