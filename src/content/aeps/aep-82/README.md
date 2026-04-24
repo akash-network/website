@@ -1,119 +1,345 @@
 ---
 aep: 82
-title: "Console Split: Managed Platform and Self-Custodial Air"
-description: "Split Akash Console into a fully-managed platform (console.akash.network) and a dedicated self-custodial app (Console Air)"
-author: Maxime Beauchamp (@baktun14) Greg Osuri (@gosuri)
-status: Draft
+title: "Resource Reclamation"
+author: Artur Troian (@troian)
+status: Last Call
 type: Standard
-category: Interface
-created: 2026-04-24
-estimated-completion: 2026-05-31
-roadmap: major
+category: Core
+created: 2026-04-22
 ---
 
 ## Motivation
 
-Akash Console today tries to serve two fundamentally different users through a single application:
+Akash providers currently have two options when they need to terminate a lease: close it immediately (via
+`MsgCloseBid`) or wait for the tenant to close it. Immediate closure is disruptive – the tenant's workloads
+are terminated without warning, potentially causing data loss and downtime. There is no on-chain mechanism for
+providers to give tenants advance notice of an upcoming termination.
 
-1. **Self-custodial users** who connect a Keplr wallet, sign their own transactions, and own their on-chain identity.
-2. **Fully managed users** who pay with a credit card and never need to create or manage a crypto wallet.
+This is a problem for several real-world provider scenarios:
 
-Console started as a wallet-only product. Credit card support was added because requiring a wallet created an enormous amount of friction for mainstream developers, and offering both paths has genuinely helped users who spread workloads across multiple platforms.
+- **Planned maintenance** – hardware upgrades, firmware updates, or data center moves require workload evacuation.
+- **Decommissioning** – a provider retiring capacity needs to wind down active leases gracefully.
+- **Resource rebalancing** – a provider may need to reclaim specific resources while continuing to serve others.
 
-However, blending both experiences in a single application has become a liability:
-
-- **User confusion.** The two paths imply different identities, different recovery models, different billing surfaces, and different trust assumptions. New users routinely struggle to understand which path applies to them, and existing users are forced to reason about concepts (wallets, credits, escrow, credit cards) that are only relevant to half of the audience.
-- **Product complexity.** Almost every new feature has to be designed, implemented, tested, and documented twice — once for the wallet identity model and once for the managed identity model. This has significantly slowed feature velocity and widened the surface area for bugs.
-- **Misaligned usage.** Over 85% of spend on Console today comes from credit card users. Keeping the wallet option inside the managed experience optimizes the product for a small fraction of actual spend while burdening the majority.
-
-At the same time, the self-custodial, permissionless nature of Akash is a core property of the network that must be preserved. The answer is not to remove the wallet path — it is to give it a home where it can be treated as a first-class experience rather than an alternate mode inside a managed product.
+Without a grace period mechanism, providers either accept the reputational cost of abrupt termination or
+indefinitely delay necessary infrastructure changes. Tenants, in turn, cannot distinguish between a provider
+that will give them time to migrate and one that will cut them off without warning.
 
 ## Summary
 
-We propose splitting Akash Console into two dedicated applications, each optimized for a single identity model:
+This AEP introduces **Resource Reclamation**, a marketplace extension that provides a negotiated grace period
+before provider-initiated lease termination.
 
-1. **console.akash.network** — the fully managed platform. No wallet. Credit card billing. Optimized for the lowest possible friction and the broadest possible developer audience.
-2. **Console Air** — the fully self-custodial application. Wallet-only (Keplr and compatible wallets). No managed billing. Optimized for users who want to own their keys, sign their own transactions, and interact with Akash permissionlessly.
+1. **Tenant opt-in** - A tenant may specify a minimum reclamation window as a requirement in
+   `MsgCreateDeployment`. Providers that do not support reclamation must not bid on such deployments.
 
-Each application has a single identity model, a single billing model, and a single mental model for the user. Features are designed once, for the audience that actually uses them.
+2. **Provider opt-in** - A provider may offer a reclamation window in their bid, even for deployments that
+   do not require it. If the deployment requires reclamation, the provider's offered window must meet or
+   exceed the tenant's minimum.
 
-## Proposed Solution
+3. **Negotiated window** – The reclamation window is a wall-clock duration negotiated between tenant and
+   provider at bid time and stored on the lease when it is created.
 
-### console.akash.network (Managed Platform)
+4. **Reclamation initiation** – A provider initiates reclamation by sending `MsgLeaseStartReclaim`, which
+   transitions the lease from `Active` to `Reclaiming` and sets a deadline.
 
-- **Identity:** email + password (and/or SSO), backed by the existing managed-wallet infrastructure established in [AEP-63](../aep-63).
-- **Payments:** credit card only, including the credit and auto-reload features from [AEP-31](../aep-31), [AEP-72](../aep-72), and [AEP-74](../aep-74).
-- **Scope removed:** Keplr connect, manual AKT balance, wallet-signed transactions, wallet-based deployment history.
-- **Scope preserved and expanded:** trial credits, auto credit reload, billing & usage, alerts, custom domains, and all other managed features currently on Console's roadmap.
-- **Evolution:** continues to evolve as a fully managed, opinionated platform — the front door for developers who want Akash's price/performance without Akash's crypto surface area.
+5. **Window enforcement** – During the reclamation window, the provider cannot close the lease. The tenant
+   can close at any time. Payments continue at the full lease rate. After the window elapses, either party
+   may close the lease.
 
-### Console Air (Self-Custodial)
+6. **Governance bounds** – Module parameters enforce minimum and maximum allowed reclamation window durations.
 
-- **Identity:** Keplr (and compatible Cosmos wallets) only. Users sign every transaction.
-- **Payments:** AKT (and any future on-chain denominations) paid directly from the user's wallet to on-chain escrow. No credit card, no managed balance, no off-chain billing.
-- **Scope removed:** email sign-up, credit card payments, managed trial credits, server-side account state that isn't derivable from on-chain data.
-- **Scope preserved:** full deployment lifecycle (SDL, bid, lease, manifest, logs, shell, updates, close), provider selection, certificates, multi-depositor escrow ([AEP-75](../aep-75)), and any future on-chain features that require direct wallet signing.
-- **Positioning:** the canonical reference client for permissionless Akash usage. Open to any wallet and any provider, with no gatekeeping layer between the user and the chain.
+## Specification
 
-### Migration
+This specification targets the current active proto versions: `market/v1beta5` for marketplace
+messages and `deployment/v1beta4` for deployment messages. The `deployment/v1beta5` proto (not yet
+active in the node) is not addressed and can be updated separately when it is adopted.
 
-- Existing managed (credit card) users continue on console.akash.network with no action required. The domain and account system stay the same.
-- Existing self-custodial users on console.akash.network are guided to Console Air. For a transition period, console.akash.network will display a clear banner for any user arriving with a connected Keplr wallet, directing them to Console Air with a one-click handoff that preserves the connected address.
-- The wallet-connect code path in console.akash.network is removed after the transition period ends.
-- Documentation, tutorials, and all external links are updated to point to the appropriate application based on audience.
+### Reclamation Configuration
 
-### Shared Infrastructure
+#### Tenant Requirements
 
-Both applications continue to be built in the same [akash-network/console](https://github.com/akash-network/console) monorepo and share:
+A tenant specifies reclamation requirements at the deployment level via a new field on `MsgCreateDeployment`:
 
-- The underlying SDL editor, deployment lifecycle UI components, and provider selection logic.
-- Common design system and component library.
-- The Console API layer ([AEP-63](../aep-63), [AEP-69](../aep-69), [AEP-70](../aep-70)) for features that apply to both audiences (e.g., provider data, pricing).
+```
+DeploymentReclamation {
+  min_window: Duration    // minimum reclamation window the tenant requires
+}
+```
 
-What is *not* shared is the identity, billing, and account management surface. Those diverge cleanly between the two apps and are no longer forced into a single abstraction.
+This is a deployment-wide setting. All groups within the deployment share the same reclamation requirement.
+The configuration is persisted on the `Deployment` on-chain record so that it survives group restarts
+(`MsgStartGroup` must propagate the reclamation requirement to newly created orders).
 
-## Rationale
+When set, the requirement is propagated to every `Order` created for the deployment's groups.
 
-### Why split rather than hide
+When not set (nil), the deployment does not require reclamation. Providers may still voluntarily offer it.
 
-We considered keeping a single application and hiding the wallet path behind a feature flag or a hidden route. This fails the core goal: a single app still forces every feature designer, PM, and engineer to reason about both identity models when making changes, even if one is rarely surfaced in the UI. A clean split aligns the codebase, the surface area, and the team with the audience.
+#### Provider Offers
 
-### Why keep Console Air rather than deprecate it
+A provider includes a reclamation window in their bid via a new field on `MsgCreateBid`:
 
-The self-custodial path is a defining property of Akash. Removing it from Console entirely — without an obvious replacement — would signal that Akash is retreating from its permissionless roots. Console Air preserves and in fact strengthens that path by giving it a dedicated, uncompromised home.
+```
+reclamation_window: Duration    // optional; nil means provider does not offer reclamation
+```
 
-### Why not a third-party wallet-only client
+The offered window is stored on the `Bid` and, upon lease creation, on the `Lease`.
 
-A first-party, open-source self-custodial client ensures that self-custodial usage of Akash remains practical and well-supported regardless of third-party interest. Existing wallet users on Console already depend on us for this experience; they deserve a smooth transition rather than a hand-off to an unmaintained alternative.
+#### Matching Rules
 
-### Naming
+During bid validation (`CreateBid` handler):
 
-"Console Air" signals a lightweight, no-overhead, pure self-custodial experience, in contrast to the full managed platform at console.akash.network.
+1. If the order requires reclamation (`order.Reclamation != nil`) and the bid does not offer it
+   (`msg.ReclamationWindow == nil`), the bid is rejected with `ErrReclamationRequired`.
 
-## Backward Compatibility
+2. If the order requires reclamation and the bid's window is shorter than the order's minimum
+   (`msg.ReclamationWindow < order.Reclamation.MinWindow`), the bid is rejected with
+   `ErrReclamationWindowTooShort`.
 
-- Credit card / managed users: no change. Same URL, same accounts, same billing.
-- Wallet users on console.akash.network: temporarily supported with a redirect/handoff flow to Console Air, then removed after the transition period. No on-chain state is affected; users retain full access to their deployments via their wallet in Console Air, the Akash CLI, or any other self-custodial client.
-- API consumers: unchanged. The Console API ([AEP-69](../aep-69), [AEP-70](../aep-70)) continues to serve both applications.
+3. If the bid offers reclamation, the window must be within governance bounds
+   (`params.MinReclamationWindow <= window <= params.MaxReclamationWindow`), regardless of whether the
+   order requires it.
 
-## Security Considerations
+4. If the order does not require reclamation and the bid does not offer it, no reclamation checks apply
+   (existing behavior, unchanged).
 
-- **Reduced attack surface on the managed side.** Removing wallet-signing code paths from console.akash.network eliminates an entire class of phishing and transaction-injection risks for the managed audience, which today has no reason to sign on-chain transactions.
-- **Reduced attack surface on the self-custodial side.** Removing managed-billing code paths from Console Air removes server-side account, session, and payment logic from the self-custodial audience, shrinking the trust surface of the application they rely on for signing.
-- **Clear trust model per app.** Each application has a single, documented trust model, which makes security review and user education substantially simpler.
-- **Transition redirect.** The handoff from console.akash.network to Console Air for wallet users must only redirect to a verified, first-party domain to avoid being used as a phishing vector.
+#### Deployment Validation
 
-## Implementations
+When `MsgCreateDeployment` includes a `reclamation` field, the `min_window` is validated:
 
-- Akash Console: [github.com/akash-network/console](https://github.com/akash-network/console)
+- `min_window` must be > 0
+- `min_window` must be >= `params.MinReclamationWindow`
+- `min_window` must be <= `params.MaxReclamationWindow`
 
-## References
+This validation occurs in the `CreateDeployment` handler (not `ValidateBasic`, since governance
+parameters are not available during basic validation). If the `min_window` fails validation, the
+deployment creation is rejected.
 
-- [AEP-31: Credit Card Payments In Console](../aep-31)
-- [AEP-63: Console API for Managed Wallet Users](../aep-63)
-- [AEP-72: Console - Improved User Onboarding](../aep-72)
-- [AEP-74: Console - Auto Credit Reload](../aep-74)
+#### Lease Creation
 
-## Copyright
+When `MsgCreateLease` is processed and the winning bid offers a reclamation window:
 
-Copyright and related rights waived via [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+- The lease is created with a `Reclamation` record containing the negotiated window duration.
+- The `Reclamation.StartedAt`, `Reclamation.Deadline`, and `Reclamation.Reason` fields are zero/empty
+  until the provider initiates reclamation.
+
+When the winning bid does not offer a reclamation window, the lease has no `Reclamation` record (nil),
+and all existing lease lifecycle behavior is unchanged.
+
+### Lease State Machine
+
+A new lease state `LeaseReclaiming` (value `4`) is added to the `Lease.State` enum:
+
+```
+LeaseStateInvalid       = 0
+LeaseActive             = 1
+LeaseInsufficientFunds  = 2
+LeaseClosed             = 3
+LeaseReclaiming         = 4    // NEW
+```
+
+#### State Transitions
+
+```
+                      MsgCreateLease
+                           |
+                           v
+                     +-----------+
+                     | Active(1) |
+                     +-----+-----+
+                           |
+        +------------------+------------------------+
+        |                  |                        |
+  MsgLeaseStartReclaim  MsgCloseLease          Escrow cascade /
+  (provider only)        (tenant only)          MsgCloseDeployment /
+        |                  |                    InsufficientFunds
+        v                  v                        |
+  +--------------+   +----------+     +--------------------+
+  |Reclaiming(4) |   | Closed(3)|     |InsufficientFunds(2)|
+  +------+-------+   +----------+     +--------------------+
+         |
+    +----+------------------+-------------------+
+    |                       |                   |
+  MsgCloseLease          MsgCloseBid          Escrow cascade /
+  (tenant, anytime)      (provider,           MsgCloseDeployment /
+                          after window)       InsufficientFunds
+    |                       |                   |
+    v                       v                   v
+  +----------+        +----------+   +--------------------+
+  | Closed(3)|        | Closed(3)|   |InsufficientFunds(2)|
+  +----------+        +----------+   +--------------------+
+```
+
+### MsgLeaseStartReclaim
+
+A new transaction message sent by the provider to initiate reclamation on an active lease.
+
+```
+MsgLeaseStartReclaim {
+  id:     LeaseID              // the lease to reclaim
+  reason: LeaseClosedReason    // must be in provider range (10000-19999)
+}
+```
+
+**Signer:** `id.Provider`
+
+**Validation:**
+- Lease must exist
+- Lease must be in `LeaseActive` state
+- Lease must have a `Reclamation` record (non-nil) -- otherwise `ErrLeaseNotReclamable`
+- Reclamation must not have been started already (`Reclamation.StartedAt == 0`) -- otherwise
+  `ErrLeaseAlreadyReclaiming`
+- Reason must be in provider range (10000-19999)
+
+**Effects:**
+1. `Lease.State` transitions from `LeaseActive` to `LeaseReclaiming`
+2. `Lease.Reclamation.StartedAt` is set to the current block height
+3. `Lease.Reclamation.Deadline` is set to `block_time + Reclamation.Window` (unix timestamp)
+4. `Lease.Reclamation.Reason` is set to the provided reason
+5. `EventLeaseReclaimStarted` is emitted
+
+### Window Enforcement
+
+#### Provider Close During Reclamation
+
+When a provider sends `MsgCloseBid` on a lease with reclamation:
+
+- If the lease is in `LeaseActive` state and has reclamation configured, the close is rejected with
+  `ErrReclamationNotStarted`. The provider must first send `MsgLeaseStartReclaim`.
+
+- If the lease is in `LeaseReclaiming` state and the current block time is before the reclamation
+  deadline, the close is rejected with `ErrReclamationWindowNotElapsed`.
+
+- If the lease is in `LeaseReclaiming` state and the current block time is at or past the reclamation
+  deadline, the close proceeds normally (existing `CloseBid` cascade: group paused, order closed,
+  bid closed, lease closed, escrow payment closed).
+
+#### Tenant Close During Reclamation
+
+The tenant can always close the lease via `MsgCloseLease`, regardless of the reclamation state. If the
+lease is in `LeaseReclaiming`, it transitions directly to `LeaseClosed`.
+
+The existing `CloseLease` auto-re-order behavior applies: the deployment group remains open and a new
+order is automatically created (with the reclamation requirement inherited from the original order).
+This differs from provider-initiated close (see [After Reclamation Close](#after-reclamation-close)),
+which pauses the group and does not auto-re-order.
+
+#### Escrow-Initiated Close During Reclamation
+
+If the deployment's escrow account is closed (insufficient funds or `MsgCloseDeployment`) while a lease
+is in `LeaseReclaiming`, the lease is closed immediately, bypassing the reclamation window. This is
+intentional: if funds run out or the tenant voluntarily closes their deployment, reclamation is moot.
+
+#### Payments During Reclamation
+
+The provider continues serving workloads and receiving payment at the full lease rate throughout the
+reclamation window. The escrow payment stream is not modified. The provider can still call
+`MsgWithdrawLease` to withdraw accrued funds during reclamation.
+
+### After Reclamation Close
+
+When the provider closes a lease after the reclamation window via `MsgCloseBid`, the existing `CloseBid`
+cascade applies:
+
+1. `Deployment.OnBidClosed` is called, which **pauses** the deployment group
+2. The lease, bid, and order are closed
+3. The escrow payment is closed
+
+This is identical to the current `MsgCloseBid` behavior. No automatic re-ordering occurs. The tenant
+must manually call `MsgStartGroup` to re-open bidding for the group.
+
+Note: After a reclamation-initiated close, the lease carries two reason fields:
+- `Lease.Reclamation.Reason` -- the reason the provider gave when starting reclamation
+  (set by `MsgLeaseStartReclaim`)
+- `Lease.Reason` -- the reason attached to the final close (set by `MsgCloseBid`, passed through
+  `OnLeaseClosed`)
+
+These serve different purposes. The reclamation reason explains *why the provider initiated the
+grace period*. The close reason explains *why the bid was ultimately closed*. They may differ
+(e.g., reclamation started for maintenance, bid closed for decommissioning).
+
+### Governance Parameters
+
+Two new parameters are added to the market module's `Params`:
+
+| Parameter                | Type       | Default          | Description                                 |
+|--------------------------|------------|------------------|---------------------------------------------|
+| `min_reclamation_window` | `Duration` | `1h`             | Minimum reclamation window duration allowed |
+| `max_reclamation_window` | `Duration` | `720h` (30 days) | Maximum reclamation window duration allowed |
+
+Constraints:
+- `min_reclamation_window` must be > 0
+- `max_reclamation_window` must be > `min_reclamation_window`
+
+Both the tenant's `min_window` requirement (validated at deployment creation) and the provider's
+offered `reclamation_window` (validated at bid creation) must fall within these bounds.
+
+### Events
+
+A new event type is introduced:
+
+```
+EventLeaseReclaimStarted {
+  id:       LeaseID
+  reason:   LeaseClosedReason
+  deadline: int64              // unix timestamp when the reclamation window expires
+}
+```
+
+### Query Support
+
+The new `LeaseReclaiming` state is automatically queryable through the existing lease query infrastructure:
+
+- The lease state index (secondary index on `int32(state)`) automatically includes the new state value
+- `LeaseFilters.State` accepts the new enum value to filter for leases in reclamation (the exact
+  string representation depends on proto enum registration -- typically the proto field name
+  `"reclaiming"` or the numeric value `4`)
+- The "all leases" query (no state filter) includes reclaiming leases
+
+### Reclamation Data Model
+
+#### Deployment-Level Configuration
+
+```
+DeploymentReclamation {
+  min_window: Duration    // minimum reclamation window the tenant requires
+}
+```
+
+Stored on:
+- `MsgCreateDeployment.reclamation` (input)
+- `Deployment.reclamation` (persisted for `StartGroup` re-order)
+- `Order.reclamation` (propagated for bid validation)
+
+#### Lease-Level State
+
+```
+Reclamation {
+  window:     Duration           // negotiated window duration (from winning bid)
+  started_at: int64              // block height when reclamation started (0 = not started)
+  deadline:   int64              // unix timestamp when window expires (0 = not started)
+  reason:     LeaseClosedReason  // provider's stated reason
+}
+```
+
+Stored on `Lease.reclamation` (nullable; nil means no reclamation configured).
+
+### Error Codes
+
+#### Market Module (`x/market`)
+
+| Error                            | Description                                                   |
+|----------------------------------|---------------------------------------------------------------|
+| `ErrLeaseNotReclamable`          | Lease does not have reclamation configured                    |
+| `ErrLeaseAlreadyReclaiming`      | Reclamation has already been started on this lease            |
+| `ErrReclamationNotStarted`       | Provider must call `MsgLeaseStartReclaim` before closing      |
+| `ErrReclamationWindowNotElapsed` | Reclamation window has not yet expired                        |
+| `ErrReclamationWindowInvalid`    | Window duration outside governance bounds                     |
+| `ErrReclamationRequired`         | Order requires reclamation but bid does not offer it          |
+| `ErrReclamationWindowTooShort`   | Provider's offered window is shorter than the order's minimum |
+
+#### Deployment Module (`x/deployment`)
+
+| Error                   | Description                                                                          |
+|-------------------------|--------------------------------------------------------------------------------------|
+| `ErrInvalidReclamation` | Reclamation `min_window` is invalid (zero, below min, or above max governance bound) |

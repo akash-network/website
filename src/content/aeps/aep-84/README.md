@@ -64,13 +64,14 @@ Each application has a single identity model, a single billing model, and a sing
 
 ### Shared Infrastructure
 
-Both applications continue to be built in the same [akash-network/console](https://github.com/akash-network/console) monorepo and share:
+The two applications live in separate repositories — [akash-network/console](https://github.com/akash-network/console) for the managed platform and [akash-network/console-air](https://github.com/akash-network/console-air) for the self-custodial app — and share code through published `@akashnetwork/*` packages:
 
-- The underlying SDL editor, deployment lifecycle UI components, and provider selection logic.
-- Common design system and component library.
+- SDL editor, deployment lifecycle UI components, and provider selection logic via shared UI packages.
+- Common design system and component library (`@akashnetwork/ui`).
 - The Console API layer ([AEP-63](../aep-63), [AEP-69](../aep-69), [AEP-70](../aep-70)) for features that apply to both audiences (e.g., provider data, pricing).
+- Chain SDK, network utilities, and HTTP clients for talking to Akash.
 
-What is *not* shared is the identity, billing, and account management surface. Those diverge cleanly between the two apps and are no longer forced into a single abstraction.
+What is *not* shared is the identity, billing, and account management surface. Those diverge cleanly between the two apps and are no longer forced into a single abstraction. Splitting at the repository boundary (rather than within a monorepo) reinforces the separation: each app's dependencies, CI, release cadence, and contributor model can evolve independently of the other.
 
 ## Rationale
 
@@ -106,6 +107,7 @@ A first-party, open-source self-custodial client ensures that self-custodial usa
 ## Implementations
 
 - Akash Console: [github.com/akash-network/console](https://github.com/akash-network/console)
+- Console Air: [github.com/akash-network/console-air](https://github.com/akash-network/console-air)
 
 ## References
 
