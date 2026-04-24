@@ -91,10 +91,10 @@ nginxGateway:
 
   resources:
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 1000m
+      memory: 1Gi
     limits:
-      cpu: 500m
+      cpu: 1000m
       memory: 1Gi
 
 nginx:
@@ -118,8 +118,8 @@ nginx:
 
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 1000m
+        memory: 1Gi
       limits:
         cpu: 1000m
         memory: 1Gi

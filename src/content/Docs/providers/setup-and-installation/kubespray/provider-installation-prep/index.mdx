@@ -493,10 +493,10 @@ nginxGateway:
       level: info
   resources:
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 1000m
+      memory: 1Gi
     limits:
-      cpu: 500m
+      cpu: 1000m
       memory: 1Gi
 
 nginx:
@@ -517,8 +517,8 @@ nginx:
         containerPort: 5002
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 1000m
+        memory: 1Gi
       limits:
         cpu: 1000m
         memory: 1Gi
