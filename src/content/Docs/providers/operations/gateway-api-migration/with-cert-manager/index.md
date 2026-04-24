@@ -9,7 +9,7 @@ description: "Migrate from ingress-nginx to NGINX Gateway Fabric and akash-gatew
 
 **Migrate from ingress-nginx to NGINX Gateway Fabric and the [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart.**
 
-You already use cert-manager and a `ClusterIssuer` for Let’s Encrypt. For the wildcard, you mainly **recreate the same `Certificate` request** with three changes: **`metadata.namespace: akash-gateway`**, **`metadata.name: wildcard-ingress`**, and **`spec.secretName: wildcard-ingress-tls`** (chart defaults for `https-wildcard`). Keep your **DNS names** and **`issuerRef`** the same as before. Install the Gateway stack in the steps below, then apply that `Certificate` in [Re-bind TLS](#re-bind-tls-to-akash-gateway).
+You already use cert-manager and a `ClusterIssuer` for Let’s Encrypt. After the Gateway stack is in place, [re-bind TLS](#re-bind-tls-to-akash-gateway) by **deleting any old Let’s Encrypt `Certificate` resources (and their TLS `Secret`s if you want a full cutover) from the previous Akash/ingress install**, then **creating the new `Certificate` objects in `akash-gateway`**. That avoids two renewals for the same hostnames. Work through the steps below, then follow that section.
 
 If cert-manager is not on the cluster yet, use the [without cert-manager](/docs/providers/operations/gateway-api-migration/without-cert-manager) path and [prep STEP 9](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) first. [Back to overview](/docs/providers/operations/gateway-api-migration).
 
@@ -19,7 +19,7 @@ If cert-manager is not on the cluster yet, use the [without cert-manager](/docs/
 
 ## What you'll install
 
-- Gateway API CRDs (standard + experimental, includes `TCPRoute`)
+- Gateway API CRDs (experimental, includes `TCPRoute`)
 - NGINX Gateway Fabric with host ports 80, 443, 8443, 8444, 5002
 - The `akash-gateway` Helm release (`Gateway`, `TCPRoute`s, HTTPS for deployers)
 - TLS for the Gateway in the `akash-gateway` namespace (secret names and listeners are set in the [re-bind](#re-bind-tls-to-akash-gateway) section)
@@ -38,18 +38,10 @@ If cert-manager is not on the cluster yet, use the [without cert-manager](/docs/
 
 ## STEP 1: Install Gateway API CRDs
 
-Install the standard Gateway API CRDs. These are required before deploying NGINX Gateway Fabric.
+Install the Gateway API CRDs (experimental channel, includes `TCPRoute`) from NGINX Gateway Fabric. These are required before deploying NGINX Gateway Fabric.
 
 ```bash
-# Install NGINX Gateway Fabric CRDs (standard channel)
-kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.4.2" | kubectl apply -f -
-```
-
-Then install the full experimental Gateway API bundle, which includes `TCPRoute` support:
-
-```bash
-# Install experimental Gateway API resources (includes TCPRoute)
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/experimental-install.yaml
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.5.1" | kubectl apply --server-side -f -
 ```
 
 Verify the CRDs are installed:
@@ -161,7 +153,7 @@ The [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/chart
 
 **New clusters:** the recommended order is to finish **cert-manager, ClusterIssuer, and both Secrets** in [Provider installation (prep) – STEP 9](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) **before** `helm install akash-gateway` (then continue with [Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation)).
 
-**In-place migration (this guide):** you will install the chart below, then follow [re-bind TLS to akash-gateway](#re-bind-tls-to-akash-gateway) to attach the same (or a new) Let’s Encrypt certificate to the new listeners. If you **do not** have cert-manager yet, stop and use [Gateway API migration (without cert-manager)](/docs/providers/operations/gateway-api-migration/without-cert-manager) instead.
+**In-place migration (this guide):** you will install the chart below, then follow [re-bind TLS to akash-gateway](#re-bind-tls-to-akash-gateway): remove old `Certificate` resources from the previous install, then add the new Let’s Encrypt `Certificate` objects in `akash-gateway`. If you **do not** have cert-manager yet, stop and use [Gateway API migration (without cert-manager)](/docs/providers/operations/gateway-api-migration/without-cert-manager) instead.
 
 Pass the same **`domain`** you use for the provider (for example with `-f /root/provider/provider.yaml`) so the wildcard host `*.ingress.<domain>` matches your DNS; only keys this chart uses are read from the file.
 
@@ -209,17 +201,19 @@ akash-provider-8444     15s
 
 If [STEP 2](#step-2-install-nginx-gateway-fabric) already opens port 443 on NGF, you do not need another NGF upgrade. Keep **443/tcp** open on the firewall.
 
-#### Wildcard cert (https-wildcard)
+**1. Remove old Let’s Encrypt resources**
 
-Point the wildcard `Certificate` at the Gateway by setting:
+From the **previous** install (commonly the `ingress-nginx` namespace or wherever the old stack stored certs), **delete** any `Certificate` that was issuing the provider/ingress hostnames, so cert-manager is not renewing the same names in two places. To see what is on the cluster:
 
-| Field | Value |
-|-------|--------|
-| `metadata.namespace` | `akash-gateway` |
-| `metadata.name` | `wildcard-ingress` |
-| `spec.secretName` | `wildcard-ingress-tls` |
+```bash
+kubectl get certificate -A
+```
 
-Copy **`spec.dnsNames`** (and **`spec.commonName`** if you use it) and **`spec.issuerRef`** from your existing ingress-nginx `Certificate`; only the namespace, resource name, and secret name change. Then apply:
+Delete the old resources (for example, `kubectl delete certificate <name> -n ingress-nginx`). Delete the old TLS `Secret` too if you no longer need it and you want a clean handoff; cert-manager will create new Secrets when the new `Certificate` resources become Ready.
+
+**2. Wildcard cert (`https-wildcard`) in `akash-gateway`**
+
+The chart’s **`https-wildcard`** listener expects a TLS Secret named **`wildcard-ingress-tls`**, from a `Certificate` named **`wildcard-ingress`** in **`akash-gateway`**. Create that using your real domain, DNS names, and `ClusterIssuer` (see [prep STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) for DNS-01 and issuer setup).
 
 ```yaml
 # /root/provider/wildcard-ingress-tls.yaml
@@ -243,7 +237,7 @@ spec:
 kubectl apply -f /root/provider/wildcard-ingress-tls.yaml
 ```
 
-**Note:** After cutover, delete the old `Certificate` in `ingress-nginx` if you no longer need it, so you are not renewing the same hostnames twice.
+Adjust `issuerRef.name` and `dnsNames` to match your environment.
 
 #### Default listener secret (https-custom)
 
