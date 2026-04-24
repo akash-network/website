@@ -14,10 +14,9 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "../header/icons";
-import SpeakToExpert from "../pricing-page/SpeakToExpert";
+import Logo from "../ui/logo.astro";
 import FooterYear from "./footer-year";
-import SubscribeButton from "./subscribe-button.astro";
-import Superclound from "./superclound.astro";
+import { FooterInlineNewsletter } from "./FooterInlineNewsletter";
 
 type Props = {
   overrideClassName?: string;
@@ -66,104 +65,8 @@ const socials = [
 
 const links = [
   {
-    title: "Tools",
-    links: [
-      {
-        title: "Akash Console",
-        link: "https://console.akash.network/",
-      },
-      {
-        title: "Akash Provider Console",
-        link: "https://provider-console.akash.network/",
-      },
-      {
-        title: "Akash Chat",
-        link: "https://chat.akash.network",
-      },
-      {
-        title: "Akash ChatAPI",
-        link: "https://chatapi.akash.network",
-      },
-      {
-        title: "Akash Gen",
-        link: "https://gen.akash.network",
-      },
-    ],
-  },
-  {
-    title: "Network",
-    links: [
-      {
-        title: "Akash Stats",
-        link: "https://stats.akash.network/",
-      },
-      {
-        title: "Akash Ecosystem",
-        link: "/ecosystem/akash-tools/latest",
-      },
-      {
-        title: "About Akash",
-        link: "/about/general-information/",
-      },
-      {
-        title: "AKT Token",
-        link: "/token",
-      },
-      {
-        title: "Providers",
-        link: "/providers",
-      },
-    ],
-  },
-  {
-    title: "Development",
-    links: [
-      {
-        title: "Get Involved",
-        link: "/development/welcome/",
-      },
-      {
-        title: "Product Strategy",
-        link: "/development/product-strategy/",
-      },
-      {
-        title: "Community Groups",
-        link: "/development/community-groups/",
-      },
-      {
-        title: "Current Projects",
-        link: "/development/current-projects/",
-      },
-    ],
-  },
-  {
-    title: "Community",
-    links: [
-      {
-        title: "Welcome",
-        link: "/community/welcome/",
-      },
-      {
-        title: "Akash Insiders",
-        link: "/community/akash-insiders/",
-      },
-      {
-        title: "Akash Validators",
-        link: "/community/akash-validators/",
-      },
-      {
-        title: "Events",
-        link: "/community/events",
-      },
-    ],
-  },
-  {
     title: "Resources",
     links: [
-      {
-        title: "Documentation",
-        link: "/docs",
-      },
       {
         title: "Economics Paper",
         link: "/economics",
@@ -177,16 +80,96 @@ const links = [
         link: "/blog",
       },
       {
-        title: "Support",
-        link: "/support",
-      },
-      {
         title: "Brand & Press",
         link: "/brand/resources/",
+      },
+    ],
+  },
+  {
+    title: "Network",
+    links: [
+      {
+        title: "About Akash",
+        link: "/about/general-information/",
+      },
+      {
+        title: "AKT Token",
+        link: "/token",
+      },
+      {
+        title: "Compute Providers",
+        link: "/ecosystem/providers/",
+      },
+      {
+        title: "Akash Validators",
+        link: "/network/akash-validators/",
+      },
+    ],
+  },
+  {
+    title: "Community",
+    links: [
+      {
+        title: "Join the Movement",
+        link: "/community/welcome/",
+      },
+      {
+        title: "Community Contributions",
+        link: "/community/contributions/",
+      },
+      {
+        title: "Events & Meetups",
+        link: "/community/events",
+      },
+      {
+        title: "Student Ambassadors",
+        link: "/community/student-ambassadors/",
+      },
+    ],
+  },
+  {
+    title: "Development",
+    links: [
+      {
+        title: "Documentation",
+        link: "/docs",
+      },
+      {
+        title: "Developer Portal",
+        link: "/development/welcome/",
+      },
+      {
+        title: "Roadmap",
+        link: "/roadmap/",
+      },
+      {
+        title: "Community Groups",
+        link: "/development/community-groups/",
       },
       {
         title: "Discussions",
         link: "https://github.com/orgs/akash-network/discussions",
+      },
+    ],
+  },
+  {
+    title: "Product Suite",
+    links: [
+      {
+        title: "Akash Console",
+        link: "https://console.akash.network/",
+      },
+      {
+        title: "AkashML",
+        link: "https://akashml.com/",
+      },
+      {
+        title: "Akash Provider Console",
+        link: "https://provider-console.akash.network/",
+      },
+      {
+        title: "Akash Chat",
+        link: "https://chat.akash.network/",
       },
     ],
   },
@@ -199,166 +182,72 @@ const shouldHide = shouldHideCta(pathname);
 
 <footer
   class={clsx(
-    " w-full  py-12  md:pt-20 pb-10 text-white ",
+    " w-full pb-10 text-white ",
     shouldHide && "border-t  mt-20",
     overrideClassName
       ? overrideClassName
       : "bg-white dark:bg-background container"
   )}
 >
-  <div class="border-b pb-6 md:pb-20">
-    <div class="justify-between md:mx-auto lg:flex lg:gap-5">
-      <Superclound className="flex border-b pb-6 md:hidden" />
-      <div
-        class="mb-6 flex items-center justify-center gap-5 border-b py-5 font-[300] md:hidden"
-      >
-        {
-          !hideDarkToggle && (
-            <>
-              <DarkModeToggle footer client:load />
-              <div class="h-7 w-[1.5px] bg-gray-200 dark:bg-[#3B3B3B] " />
-            </>
-          )
-        }
+  <div class="border-b pb-10 md:pb-20 flex flex-col gap-10">
+
+    <div class="flex items-center justify-between border-b border-zinc-200 dark:border-white/10 py-10">
+      <a href="/">
+        <Logo width={95} />
+      </a>
+      <div class="flex flex-wrap items-center justify-end gap-3 md:gap-4">
         {
           socials.map((social) => (
             <a
               aria-label={`Akash Network ${social.name}`}
               href={social.link}
               target="_blank"
-              class="flex items-center gap-4 text-linkText hover:text-primary"
+              class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
             >
               <social.icon />
             </a>
           ))
         }
-      </div>
-      <div
-        class="hidden flex-col gap-8 pb-[40px] text-left text-base font-[300] md:flex px-4 sm:px-0"
-      >
-        <div class="flex flex-col">
-          <svg
-            width="105"
-            height="27"
-            viewBox="0 0 105 27"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M17.1542 16.4897L21.1887 23.5858H13.039L8.96191 16.4897H17.1542Z"
-              class="fill-foreground"
-              fill="url(#paint0_linear_125_570)"></path>
-            <path
-              d="M21.1865 23.5869L25.2568 16.4909L17.1094 2.29541H8.96191L21.1865 23.5869Z"
-              class="fill-foreground"
-              fill="currentColor"></path>
-            <path
-              d="M4.88828 9.38965H13.0358L4.89167 23.5851L0.814575 16.4891L4.88828 9.38965Z"
-              class="fill-foreground"
-              fill="currentColor"></path>
-            <path
-              d="M41.669 9.39684L41.4662 11.5876C40.5975 9.88687 38.5994 8.96447 36.4565 8.96447C32.4313 8.96447 29.7382 11.8758 29.7382 16.3438C29.7382 20.7829 32.1707 24.0113 36.4275 24.0113C38.7442 24.0113 40.4527 22.8871 41.3504 21.417L41.5821 23.6366H44.8833V9.39684H41.669ZM41.2925 16.5167C41.2925 19.0822 39.6998 20.8405 37.2383 20.8405C34.7769 20.8405 33.2711 19.0533 33.2711 16.5167C33.2711 13.9801 34.8059 12.1641 37.2673 12.1641C39.7288 12.1641 41.2925 13.9512 41.2925 16.5167Z"
-              class="fill-foreground"
-              fill="currentColor"></path>
-            <path
-              d="M50.8944 23.6366V19.8028L52.9794 17.6409L56.715 23.6366H60.7691L55.4408 15.0466L60.885 9.39684H56.4544L50.8944 15.3637V2.60986H47.3904V23.6366H50.8944Z"
-              class="fill-foreground"
-              fill="currentColor"></path>
-            <path
-              d="M72.6334 9.39684L72.4307 11.5876C71.5619 9.88687 69.5638 8.96447 67.4209 8.96447C63.3957 8.96447 60.7026 11.8758 60.7026 16.3438C60.7026 20.7829 63.1351 24.0113 67.3919 24.0113C69.7086 24.0113 71.4171 22.8871 72.3148 21.417L72.5465 23.6366H75.8477V9.39684H72.6334ZM72.2569 16.5167C72.2569 19.0822 70.6642 20.8405 68.2028 20.8405C65.7413 20.8405 64.2355 19.0533 64.2355 16.5167C64.2355 13.9801 65.7703 12.1641 68.2317 12.1641C70.6932 12.1641 72.2569 13.9512 72.2569 16.5167Z"
-              class="fill-foreground"
-              fill="currentColor"></path>
-            <path
-              d="M77.6355 19.3128C77.6355 22.1088 79.8942 24.0113 83.4561 24.0113C86.989 24.0113 89.4504 22.2241 89.4504 19.3416C89.4504 17.1509 88.2342 16.0555 85.8307 15.5078L83.2534 14.9025C82.0371 14.6142 81.4001 14.0954 81.4001 13.2883C81.4001 12.2217 82.2109 11.5876 83.6009 11.5876C84.9619 11.5876 85.7727 12.3659 85.8017 13.5765H89.1609C89.1319 10.8093 86.96 8.96447 83.7457 8.96447C80.4444 8.96447 78.0699 10.6363 78.0699 13.4324C78.0699 15.7096 79.3151 16.9203 81.8923 17.4968L84.4696 18.1021C85.7438 18.3904 86.1202 18.9092 86.1202 19.6298C86.1202 20.6676 85.2225 21.3305 83.5719 21.3305C81.9503 21.3305 81.0236 20.5523 80.9946 19.3128H77.6355Z"
-              class="fill-foreground"
-              fill="currentColor"></path>
-            <path
-              d="M94.9515 23.6366V15.8537C94.9515 13.7206 96.2547 12.1641 98.4844 12.1641C100.28 12.1641 101.467 13.3171 101.467 15.7096V23.6366H105V14.8737C105 11.184 103.147 8.96447 99.6138 8.96447C97.5578 8.96447 95.8782 9.85805 94.9805 11.2417V2.60986H91.4186V23.6366H94.9515Z"
-              class="fill-foreground"
-              fill="currentColor"></path>
-            <defs>
-              <linearGradient
-                id="paint0_linear_125_570"
-                x1="15.2499"
-                y1="19.5356"
-                x2="18.5702"
-                y2="16.2255"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="currentColor"></stop>
-                <stop
-                  offset="1"
-                  stop-color="currentColor"
-                  stop-opacity="0.127613"></stop>
-              </linearGradient>
-            </defs>
-          </svg>
-          <p class="mt-2 max-w-[20rem] text-linkText">
-            The world's first distributed peer-to-peer marketplace for cloud
-            compute.
-          </p>
-        </div>
-
-        <div class="flex gap-5 font-[300]">
-          {
-            !hideDarkToggle && (
-              <>
-                <DarkModeToggle footer client:load />
-                <div class="h-7 w-[1.5px] bg-gray-300 dark:bg-[#3B3B3B] " />
-              </>
-            )
-          }
-          {
-            socials.map((social) => (
-              <a
-                aria-label={`Akash Network ${social.name}`}
-                href={social.link}
-                target="_blank"
-                class="flex items-center gap-4 text-linkText hover:text-primary"
-              >
-                <social.icon />
-              </a>
-            ))
-          }
-        </div>
-      </div>
-      <div
-        class="grid grid-cols-2 justify-between gap-y-10 md:grid-cols-5 md:gap-x-5"
-      >
         {
-          links.map((link) => (
-            <div>
-              <p class="text-xs font-medium text-foreground md:text-sm">
-                {link.title}
-              </p>
-              {link.links.map((item) => (
-                <FooterLink aria-label={item.title} link={item.link}>
-                  {item.title}
-                </FooterLink>
-              ))}
-            </div>
-          ))
+          !hideDarkToggle && (
+            <>
+              <div class="h-5 w-px bg-zinc-200 dark:bg-zinc-700" />
+              <DarkModeToggle footer client:load />
+            </>
+          )
         }
       </div>
     </div>
-  </div>
-  <div
-    class="flex flex-col justify-between border-b py-6 md:flex-row md:items-center md:py-8"
-  >
-    <div
-      class="flex flex-col items-center gap-3 border-b pb-6 md:items-start md:border-b-0 md:pb-0"
-    >
-      <p class="text-sm text-linkText">Not sure where to start?</p>
-      <SpeakToExpert size="small" client:load />
-    </div>
-    <div class="flex flex-col items-center gap-3 pt-6 md:items-end md:pt-0">
-      <p class="text-sm text-linkText">Stay up to date with Akash Newsletter</p>
-      <SubscribeButton />
-    </div>
-  </div>
 
-  <div class="relative flex flex-col justify-center pt-6 text-center md:pt-14">
-    <Superclound className="mb-4 hidden md:flex" />
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between border-b border-zinc-200 dark:border-white/10 pb-10">
+      <div class="flex flex-col gap-1">
+        <p class="text-sm font-medium text-foreground">Subscribe to our newsletter</p>
+        <p class="text-[13px] text-zinc-500">Get the latest news and updates.</p>
+      </div>
+      <div class="md:max-w-sm w-full">
+        <FooterInlineNewsletter client:load />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 justify-between gap-y-10 md:grid-cols-5 md:gap-x-5">
+      {
+        links.map((link) => (
+          <div>
+            <p class="text-sm font-medium text-foreground">
+              {link.title}
+            </p>
+            {link.links.map((item) => (
+              <FooterLink aria-label={item.title} link={item.link}>
+                {item.title}
+              </FooterLink>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+
+  </div>
+  <div class="relative flex flex-col justify-center pt-6 text-center">
     <div
       class="flex w-full flex-col items-center justify-center gap-y-[16px] lg:flex-row lg:items-center"
     >
