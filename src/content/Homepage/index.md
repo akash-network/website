@@ -5,7 +5,7 @@ advert:
 
 # hero section content
 heroSection:
-  title: The <span class="text-[#8C8E91] not-italic">Decentralized<br class="md:hidden" /> Cloud <br class="md:block hidden" />Built for </span><br class="md:hidden"/> AI's Next Frontier
+  title: The Decentralized<br class="md:hidden" /> Cloud<br class="md:block hidden" /> Built for<br class="md:hidden"/> AI's Next Frontier
   description: "Tap into global GPU power at a fraction of <br class='md:hidden'/>the cost."
   cards: 
     - title: "Explore network resources and pricing"

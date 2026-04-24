@@ -1,0 +1,139 @@
+---
+interface Props {
+  lines: string[];
+  class?: string;
+}
+
+const { lines, class: className } = Astro.props;
+---
+
+<h1
+  id="hero-letter-headline"
+  class={className}
+  aria-label={lines.join(" ")}
+>
+  {
+    lines.map((line) => (
+      <span class="hero-hl-line">
+        {[...line].map((char) =>
+          char === " " ? (
+            <span class="hero-hl-space"> </span>
+          ) : (
+            <span class="hero-hl-letter">{char}</span>
+          ),
+        )}
+      </span>
+    ))
+  }
+</h1>
+
+<style is:global>
+  .hero-hl-line {
+    display: block;
+  }
+
+  .hero-hl-space {
+    display: inline-block;
+    white-space: pre;
+    width: 0.28em;
+  }
+
+  .hero-hl-letter {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: default;
+    user-select: none;
+    transform-origin: center center;
+    transition:
+      margin    0.4s cubic-bezier(0.25, 1, 0.5, 1),
+      transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+      color     0.2s ease-out;
+  }
+
+  .hero-hl-letter.active {
+    color: transparent;
+    transform: scale(1.2);
+    margin: 0 0.3em;
+  }
+
+  @media (hover: none) {
+    .hero-hl-letter:active {
+      margin: 0 !important;
+      transform: none !important;
+      color: inherit;
+    }
+  }
+
+  .hero-hl-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 1.1em;
+    max-width: none;
+    object-fit: cover;
+    pointer-events: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    animation: heroLetterPopIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    z-index: 10;
+  }
+
+  @keyframes heroLetterPopIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+</style>
+
+<script>
+  const IMAGES = Array.from(
+    { length: 23 },
+    (_, i) => `/images/hero-letters/${i + 1}.webp`,
+  );
+
+  const SHAPES = [
+    { borderRadius: "50%",  width: "1.1em" },
+    { borderRadius: "20px", width: "1.0em" },
+    { borderRadius: "10px", width: "1.0em" },
+    { borderRadius: "16px", width: "1.0em" },
+    { borderRadius: "6px",  width: "1.0em" },
+  ];
+
+  function setupHeroLetterEffect() {
+    const headline = document.getElementById("hero-letter-headline");
+    if (!headline) return;
+
+    headline.querySelectorAll<HTMLElement>(".hero-hl-letter").forEach((span) => {
+      let exitTimer: ReturnType<typeof setTimeout> | undefined;
+
+      span.addEventListener("mouseenter", function (this: HTMLElement) {
+        if (exitTimer) { clearTimeout(exitTimer); exitTimer = undefined; }
+
+        this.classList.add("active");
+
+        if (!this.querySelector(".hero-hl-img")) {
+          const img = document.createElement("img");
+          img.src   = IMAGES[Math.floor(Math.random() * IMAGES.length)];
+          img.className = "hero-hl-img";
+          img.alt   = "";
+
+          const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+          img.style.borderRadius = shape.borderRadius;
+          img.style.width        = shape.width;
+
+          this.appendChild(img);
+        }
+      });
+
+      span.addEventListener("mouseleave", function (this: HTMLElement) {
+        exitTimer = setTimeout(() => {
+          exitTimer = undefined;
+          this.classList.remove("active");
+          this.querySelector(".hero-hl-img")?.remove();
+        }, 200);
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupHeroLetterEffect);
+</script>

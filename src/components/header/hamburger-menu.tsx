@@ -17,8 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion-arrow";
-import clsx from "clsx";
-import { ArrowRightCircle, ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { Fragment } from "react";
 import DarkModeToggle from "../dark-mode-toggle";
 import TryAkashForm from "../ui/try-akash-form";
@@ -30,18 +29,10 @@ import {
 } from "./popovers/links";
 
 const navigation = [
-  {
-    name: "Network",
-
-    subCategories: networkItems,
-  },
-
-  {
-    name: "Development",
-    subCategories: developmentItems,
-  },
+  { name: "Development", subCategories: developmentItems },
   { name: "Ecosystem", subCategories: ecosystemNavItems },
   { name: "Community", subCategories: communityItems },
+  { name: "Network", subCategories: networkItems },
   { name: "Blog", href: "/blog" },
   { name: "Docs", href: "/docs" },
   { name: "Pricing", href: "/pricing/gpus" },
@@ -104,7 +95,7 @@ const Panel = ({
   hideDarkToggle,
 }: {
   currentPath: string;
-  open: any;
+  open: boolean;
   latestRoadmapYear: number;
   hideDarkToggle?: boolean;
 }) => {
@@ -170,62 +161,61 @@ const Panel = ({
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className2="!pb-0">
-                        <div className="my-2.5 flex flex-col gap-2.5">
+                        <div className="mt-1 flex flex-col">
                           {item.subCategories.map(
                             (
                               subItem: (typeof item.subCategories)[0] & {
                                 external?: boolean;
                               },
                               i,
-                            ) => (
-                              <a
-                                key={i}
-                                href={
-                                  subItem.link === "roadmap"
-                                    ? `/roadmap/${latestRoadmapYear}`
-                                    : subItem.link
-                                }
-                                target={
-                                  subItem.link.startsWith("http")
-                                    ? "_blank"
-                                    : "_self"
-                                }
-                                className={clsx(
-                                  subItem?.external
-                                    ? subItem?.primary
-                                      ? "flex w-full items-center justify-center gap-2 rounded-full border border-primary bg-primary/5 p-3  text-primary hover:bg-primary/10 dark:border-primary/10"
-                                      : "flex w-full items-center justify-center rounded-full bg-[#F2F2F2] p-3 text-base dark:bg-background2"
-                                    : "flex cursor-pointer items-center gap-2 p-2 text-base text-para     ",
-                                )}
-                              >
-                                {(subItem.primary || !subItem?.external) &&
-                                  (subItem.icon ? (
-                                    <subItem.icon
-                                      size={subItem?.external ? 18 : 24}
-                                      strokeWidth={subItem?.primary ? 1.5 : 1.2}
-                                    />
-                                  ) : (
-                                    subItem.customIcon
-                                  ))}
-                                <p
-                                  className={clsx(
-                                    " whitespace-nowrap  font-medium ",
-                                    subItem?.external && "text-center",
-                                    subItem?.primary
-                                      ? " text-primary"
-                                      : "text-foreground",
-                                  )}
+                            ) => {
+                              const href =
+                                subItem.link === "roadmap"
+                                  ? `/roadmap/${latestRoadmapYear}`
+                                  : subItem.link;
+                              const target = subItem.link.startsWith("http")
+                                ? "_blank"
+                                : "_self";
+
+                              // External items (e.g. Community Calendar, Swag Shop, Akash Stats)
+                              if (subItem.external) {
+                                return (
+                                  <a
+                                    key={i}
+                                    href={href}
+                                    target={target}
+                                    className="group flex items-center justify-between border-t border-zinc-200 px-3 py-2.5 transition-colors hover:bg-zinc-100 dark:border-white/10 dark:hover:bg-white/5"
+                                  >
+                                    <p className="text-sm text-foreground">
+                                      {subItem.title}
+                                    </p>
+                                    <ChevronRight className="h-4 w-4 shrink-0 text-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                                  </a>
+                                );
+                              }
+
+                              // Regular items
+                              return (
+                                <a
+                                  key={i}
+                                  href={href}
+                                  target={target}
+                                  className="group flex items-center justify-between rounded-sm px-3 py-2.5 transition-colors hover:bg-zinc-100 dark:hover:bg-white/5"
                                 >
-                                  {subItem.title}
-                                  {subItem.external && !subItem.primary && (
-                                    <ArrowRightCircle
-                                      className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
-                                      size={16}
-                                    />
-                                  )}
-                                </p>
-                              </a>
-                            ),
+                                  <div className="flex flex-col gap-0.5">
+                                    <p className="text-sm font-normal text-foreground">
+                                      {subItem.title}
+                                    </p>
+                                    {subItem.description && (
+                                      <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                                        {subItem.description}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <ChevronRight className="ml-4 h-4 w-4 shrink-0 text-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                                </a>
+                              );
+                            },
                           )}
                         </div>
                       </AccordionContent>
