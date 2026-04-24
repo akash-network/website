@@ -497,7 +497,7 @@ nginxGateway:
       memory: 128Mi
     limits:
       cpu: 500m
-      memory: 256Mi
+      memory: 1Gi
 
 nginx:
   kind: daemonSet
@@ -521,7 +521,7 @@ nginx:
         memory: 128Mi
       limits:
         cpu: 1000m
-        memory: 512Mi
+        memory: 1Gi
 ```
 
 Install NGF (from `/root/provider`):
