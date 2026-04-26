@@ -3,10 +3,12 @@ import { defineCollection, z } from "astro:content";
 export const homePageSchema = defineCollection({
   schema: ({ image }) => {
     return z.object({
-      advert: z.object({
-        title: z.string(),
-        link: z.string(),
-      }),
+      advert: z
+        .object({
+          title: z.string(),
+          link: z.string(),
+        })
+        .optional(),
       heroSection: z.object({
         title: z.string(),
         description: z.string(),
