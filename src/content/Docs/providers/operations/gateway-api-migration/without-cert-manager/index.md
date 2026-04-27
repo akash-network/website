@@ -29,7 +29,7 @@ Stop when your `Certificate` objects show Ready and the Gateway stack can be ins
 
 ## Then: Gateway migration
 
-Open [Gateway API migration (with cert-manager)](/docs/providers/operations/gateway-api-migration/with-cert-manager) and run it from the top. Skip re-explaining your issuer in [re-bind TLS](/docs/providers/operations/gateway-api-migration/with-cert-manager#re-bind-tls-to-akash-gateway) if STEP 9 already created the right Secrets; otherwise adjust the Certificate manifests there to match your issuer.
+Open [Gateway API migration (with cert-manager)](/docs/providers/operations/gateway-api-migration/with-cert-manager) and run it from the top. In [re-bind TLS](/docs/providers/operations/gateway-api-migration/with-cert-manager#re-bind-tls-to-akash-gateway), if [prep STEP 9](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) already created the `Certificate` and Secrets in `akash-gateway`, focus on **deleting** old `Certificate` resources from the previous install; otherwise use the new manifests there with your `issuerRef` and DNS names.
 
 ## Requirements
 

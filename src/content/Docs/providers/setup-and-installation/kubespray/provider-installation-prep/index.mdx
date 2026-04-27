@@ -463,11 +463,7 @@ Install the Kubernetes Gateway API and NGINX Gateway Fabric (NGF) with **port 44
 ### Install Gateway API CRDs
 
 ```bash
-# Standard Gateway API CRDs (NGINX Gateway Fabric)
-kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.4.2" | kubectl apply -f -
-
-# Experimental bundle (includes TCPRoute)
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/experimental-install.yaml
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.5.1" | kubectl apply --server-side -f -
 ```
 
 Verify:
@@ -493,10 +489,10 @@ nginxGateway:
       level: info
   resources:
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 1000m
+      memory: 1Gi
     limits:
-      cpu: 500m
+      cpu: 1000m
       memory: 1Gi
 
 nginx:
@@ -517,8 +513,8 @@ nginx:
         containerPort: 5002
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 1000m
+        memory: 1Gi
       limits:
         cpu: 1000m
         memory: 1Gi
@@ -548,7 +544,7 @@ kubectl -n nginx-gateway get pods
 > **Required for all providers:** The [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart terminates HTTPS for deployment traffic. You must run **cert-manager** and supply TLS Secrets **`wildcard-ingress-tls`** and **`akash-default-tls`**.
 
 - **NGF in [STEP 8](#step-8---install-gateway-api-and-nginx-gateway-fabric) already includes 443** in `hostPorts`.
-- **Do not** `helm install` the [Akash provider](#step-12---install-provider) until after [STEP 11 (operators)](#step-11---install-akash-operators).
+- **Do not** `helm install` the provider chart until you finish [Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation) **STEP 1** (`akash-gateway`) and **STEP 2** (operators); the provider is **STEP 3** there.
 
 If you are migrating from ingress-nginx, see [TLS migration to Gateway API](/docs/providers/operations/tls-gateway-api-migration).
 
@@ -786,22 +782,26 @@ kubectl create secret tls akash-default-tls \
   -n akash-gateway
 ```
 
-### Confirm cert-manager and namespaces
+### Ready for the install guide
 
-If `kubectl create namespace akash-gateway` failed because the namespace already exists, that is expected when re-running the guide.
+If creating `akash-gateway` failed with “namespace already exists,” that is expected when you re-run the guide.
+
+**Check cert-manager and TLS Secrets:**
 
 ```bash
 kubectl -n cert-manager get pods
 kubectl -n akash-gateway get secret wildcard-ingress-tls akash-default-tls
 ```
 
-When `describe certificate` shows `Ready: True` and both Secrets exist, **Let’s Encrypt is ready** for the next step in the main install: [**Provider installation (install)** — `helm install akash-gateway`](/docs/providers/setup-and-installation/kubespray/provider-installation#step-1---install-akash-gateway). Do not install the `akash/provider` **provider** chart until after that and the [operators step in the install guide](/docs/providers/setup-and-installation/kubespray/provider-installation#step-2---install-akash-operators).
+Continue when `kubectl -n akash-gateway describe certificate wildcard-ingress` shows `Ready: True` and both Secrets exist.
+
+**Install order** — Follow [Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation) in sequence: `akash-gateway` (STEP 1), operators (STEP 2), then the `akash/provider` chart (STEP 3). Do not install the provider before STEP 1 and STEP 2.
 
 <a id="end-to-end-https-test-after-helm-install-akash-gateway"></a>
 
-#### End-to-end HTTPS test (after `helm install akash-gateway`)
+### End-to-end HTTPS test (after `helm install akash-gateway`)
 
-`openssl` to `test.ingress.<domain>:443` only checks the right certificate once the **Gateway** and listeners exist, which is **after** you run `helm install akash-gateway`. After [**Provider installation (install) — STEP 1**](/docs/providers/setup-and-installation/kubespray/provider-installation#step-1---install-akash-gateway) there:
+Run this **after** you complete **STEP 1** in [Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation#step-1---install-akash-gateway) (so the Gateway and listeners exist). Replace `yourdomain.com` with your domain:
 
 ```bash
 echo "" | openssl s_client -connect test.ingress.yourdomain.com:443 -showcerts 2>&1 | \
@@ -809,7 +809,7 @@ echo "" | openssl s_client -connect test.ingress.yourdomain.com:443 -showcerts 2
   grep -E '(Issuer:|Subject:|Not Before:|Not After :|DNS:)'
 ```
 
-**Expected (Let's Encrypt on the wire):**
+**Example output (Let’s Encrypt):**
 
 ```
 Issuer: C = US, O = Let's Encrypt, CN = R3
