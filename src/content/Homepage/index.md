@@ -2,6 +2,7 @@
 advert:
   title: "BME and WASM Smart Contracts are Now Live."
   link: "/"
+  hidden: true
 
 # hero section content
 heroSection:
