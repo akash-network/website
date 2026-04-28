@@ -15,13 +15,14 @@ const { lines, class: className } = Astro.props;
   {
     lines.map((line) => (
       <span class="hero-hl-line">
-        {[...line].map((char) =>
-          char === " " ? (
-            <span class="hero-hl-space"> </span>
-          ) : (
-            <span class="hero-hl-letter">{char}</span>
-          ),
-        )}
+        {line.split(" ").map((word, wi) => [
+          wi > 0 ? <span class="hero-hl-space"> </span> : null,
+          <span class="hero-hl-word">
+            {[...word].map((char) => (
+              <span class="hero-hl-letter">{char}</span>
+            ))}
+          </span>,
+        ])}
       </span>
     ))
   }
@@ -30,6 +31,11 @@ const { lines, class: className } = Astro.props;
 <style is:global>
   .hero-hl-line {
     display: block;
+  }
+
+  .hero-hl-word {
+    display: inline-block;
+    white-space: nowrap;
   }
 
   .hero-hl-space {
