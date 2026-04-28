@@ -30,7 +30,7 @@ const {
 } = Astro.props;
 
 const visibility = {
-  network: ["/about", "/token"],
+  network: ["/about", "/token", "/network"],
   community: ["/community"],
   development: ["/development", "/roadmap"],
   ecosystem: ["/ecosystem", "/case-studies"],
@@ -160,6 +160,9 @@ const navContainerClass = hideContainer ? "" : "container";
     const isSticky = window.getComputedStyle(header).position === "sticky";
     if (!isSticky) return;
 
+    const subNav = document.getElementById("sub-nav-container");
+    const hasSubNav = subNav && !subNav.classList.contains("hidden");
+
     let lastY = window.scrollY;
     let rafId: number;
 
@@ -169,8 +172,10 @@ const navContainerClass = hideContainer ? "" : "container";
         const y = window.scrollY;
         if (y > lastY && y > 80) {
           header.style.transform = "translateY(-100%)";
-        } else {
-          header.style.transform = "";
+        } else if (y < lastY) {
+          if (!hasSubNav || y < 80) {
+            header.style.transform = "";
+          }
         }
         lastY = y;
       });

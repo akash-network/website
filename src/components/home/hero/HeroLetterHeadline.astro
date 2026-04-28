@@ -57,11 +57,17 @@ const { lines, class: className } = Astro.props;
     margin: 0 0.3em;
   }
 
-  @media (hover: none) {
-    .hero-hl-letter:active {
-      margin: 0 !important;
+  @media (hover: none), (max-width: 767px) {
+    .hero-hl-letter {
+      cursor: default;
+    }
+    .hero-hl-letter.active {
+      color: inherit !important;
       transform: none !important;
-      color: inherit;
+      margin: 0 !important;
+    }
+    .hero-hl-img {
+      display: none !important;
     }
   }
 
@@ -100,6 +106,9 @@ const { lines, class: className } = Astro.props;
   ];
 
   function setupHeroLetterEffect() {
+    if (window.matchMedia("(hover: none)").matches) return;
+    if (window.innerWidth < 768) return;
+
     const headline = document.getElementById("hero-letter-headline");
     if (!headline) return;
 
