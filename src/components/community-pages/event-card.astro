@@ -64,12 +64,18 @@ const { card } = Astro.props;
         card?.lumaEventId ? (
           <a
             href={`https://luma.com/event/${card.lumaEventId}`}
-            class="luma-checkout--button inline-flex items-center gap-1 rounded-[4px] border px-2 py-1 text-xs font-medium text-foreground hover:bg-background2"
+            class="luma-checkout--button"
             data-luma-action="checkout"
             data-luma-event-id={card.lumaEventId}
+            style="display: contents;"
           >
-            <ArrowUpCircle className="w-4 rotate-45 text-para" />
-            Register Now
+            <button
+              type="button"
+              class="inline-flex cursor-pointer items-center justify-center gap-x-1.5 rounded border border-border bg-background2 px-2 py-1 text-xs font-medium leading-none text-textGray shadow-sm hover:bg-gray-50 dark:hover:bg-darkGray"
+            >
+              <ArrowUpCircle className="w-4 rotate-45 text-para" />
+              Register Now
+            </button>
           </a>
         ) : (
           card?.cta?.map((cta) => (
