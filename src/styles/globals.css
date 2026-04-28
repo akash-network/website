@@ -81,9 +81,9 @@ html body[data-scroll-locked] {
   }
 
   .dark {
-    --background: 0, 0%, 11%;
+    --background: 0 0% 4%;
     --foreground: 0, 0%, 93%;
-    --background2: 0 0% 14%;
+    --background2: 0 0% 9%;
     --light-foreground: 15, 33%, 98%;
     --para: 0 0% 73%;
     --para-dark: 0 0% 50%;
@@ -129,31 +129,20 @@ html body[data-scroll-locked] {
   }
 
   .container {
-    @apply mx-auto max-w-[1280px] self-center px-[16px] md:px-[20px] lg:px-[40px] 2xl:max-w-[1440px] 2xl:px-[20px] 3xl:max-w-[1600px] 3xl:px-[30px];
+    @apply mx-auto w-full max-w-[1280px] px-6;
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-[1380px] px-6 max-md:px-8;
   }
 
   .container-nav {
     @apply mx-auto max-w-[1800px] px-[16px] md:px-[20px];
   }
 
-  .container-home {
-    @apply mx-auto max-w-[1391px] lg:px-10;
-  }
-
-  .container-nav-2 {
-    @apply px-[16px] md:px-[40px];
-  }
-
-  .container-nav-3 {
-    @apply mx-auto max-w-[1510px] px-6 xl:px-12;
-  }
-
+  /* Kept for docs/blog pages — do not remove */
   .container-reader {
     @apply mx-auto max-w-[1150px] px-5;
-  }
-
-  .container-small {
-    @apply mx-auto max-w-[1440px] px-5 xl:px-[40px];
   }
 
   .border,
@@ -400,4 +389,62 @@ html body[data-scroll-locked] {
 
 .animate-tab-fade {
   animation: tab-fade 0.25s ease-out forwards;
+}
+
+@keyframes navSlideFromRight {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes navSlideFromLeft {
+  from {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes snakeSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.hero-snake-line {
+  background: conic-gradient(
+    transparent 0deg,
+    transparent 220deg,
+    rgba(255, 59, 48, 0.15) 240deg,
+    rgba(255, 59, 48, 0.9) 270deg,
+    rgba(255, 59, 48, 0.9) 285deg,
+    rgba(255, 59, 48, 0.2) 310deg,
+    transparent 340deg
+  );
+}
+
+.dark .hero-snake-line {
+  background: conic-gradient(
+    transparent 0deg,
+    transparent 220deg,
+    rgba(255, 59, 48, 0.15) 240deg,
+    rgba(255, 59, 48, 0.9) 270deg,
+    rgba(255, 59, 48, 0.9) 285deg,
+    rgba(255, 59, 48, 0.2) 310deg,
+    transparent 340deg
+  );
+}
+@keyframes mobileMenuSlideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+.mobile-menu-panel {
+  animation: mobileMenuSlideIn 0.3s ease-out;
 }

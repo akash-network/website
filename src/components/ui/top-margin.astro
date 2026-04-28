@@ -13,7 +13,7 @@ const { readable, className, isNotContainer } = Astro.props;
   class={clsx(
     " mt-10 md:mt-[60px] lg:mt-20",
 
-    isNotContainer ? "" : readable ? "container-reader " : "container",
+    isNotContainer ? "" : "container",
     className
   )}
 >

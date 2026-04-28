@@ -4,15 +4,14 @@ import Logo from "@/components/ui/logo.astro";
 import { getYearToUse } from "@/utils/redirects";
 import clsx from "clsx";
 
-import DarkModeToggle from "../dark-mode-toggle";
-import ButtonLink from "../ui/button-link.astro";
 import TryAkashForm from "../ui/try-akash-form";
 import HamburgerMenu from "./hamburger-menu";
-import { DiscordIcon, GithubIcon, TwitterIcon } from "./icons";
-import PopOverCommunity, { SubNavbar } from "./popovers/popover-nav-community";
-import PopOverNavItemNetwork from "./popovers/popover-nav-item";
-import PopOverNavItemEcosystem from "./popovers/popover-nav-item-ecosystem";
+import NavMenu from "./nav-menu";
+import { SubNavbar } from "./popovers/popover-nav-community";
+
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
+const isValidatorsPage = Astro.url.pathname.startsWith("/network/akash-validators");
+const isProvidersPage = Astro.url.pathname.startsWith("/ecosystem/providers");
 
 interface Props {
   disableSticky?: boolean;
@@ -31,7 +30,7 @@ const {
 } = Astro.props;
 
 const visibility = {
-  network: ["/about", "/token"],
+  network: ["/about", "/token", "/network"],
   community: ["/community"],
   development: ["/development", "/roadmap"],
   ecosystem: ["/ecosystem", "/case-studies"],
@@ -39,134 +38,91 @@ const visibility = {
 };
 
 const pathnames = Object.values(visibility).flat();
-
-
 const latestRoadmapYear = getYearToUse();
+const isPathInNavigation = pathnames.includes(pathname) || isValidatorsPage || isProvidersPage;
 
-// Determine header styling based on props and current path
-const isDevPath = visibility.development.includes(pathname);
-const isPathInNavigation = pathnames.includes(pathname);
-const needsBorder = !isDevPath ? "border-b border-defaultBorder" : "";
-const stickyClass =
-  !disableSticky && !isPathInNavigation ? "top-0 sticky z-[30]" : "";
-const headerBaseClass = "bg-white dark:bg-[#242424]";
+// Header is sticky on ALL pages (not just non-nav pages)
+const stickyClass = !disableSticky ? "top-0 sticky z-[40]" : "";
+const headerBaseClass = "pt-4 pb-2.5 px-4 transition-transform duration-300";
+const headerClass = overrideClassName
+  ? clsx(overrideClassName, "transition-transform duration-300")
+  : clsx(headerBaseClass, stickyClass);
 
-const headerClass =
-  overrideClassName || clsx(headerBaseClass, needsBorder, stickyClass);
-
-// Navigation container styling
-const navContainerBaseClass = "bg-white dark:bg-[#242424]";
+// Sub-nav container is sticky; breadcrumb is rendered separately above it
 const navContainerVisibility = disableSticky
   ? "hidden"
   : pathnames.includes(pathname)
     ? "top-0 sticky z-[30]"
     : "hidden";
 
-// Navigation styling
-const navBaseClass =
-  "mx-auto flex h-[56px] items-center justify-between space-x-2 md:h-[84px]";
 const navContainerClass = hideContainer ? "" : "container";
+
 ---
 
-<header class={headerClass}>
+<header class={headerClass} id="main-header">
   <nav
-    class={clsx(navBaseClass, navContainerClass, navClassName)}
+    class={clsx(
+      "relative z-[40] bg-background mx-auto flex h-[56px] items-center rounded-xl border border-zinc-200 dark:border-white/10 px-4 md:px-6",
+      navContainerClass,
+      navClassName,
+    )}
     id="page-top"
   >
-    <div class="hidden flex-shrink-0 items-center md:flex md:gap-x-6">
+    <!-- Logo -->
+    <div class="flex flex-shrink-0 items-center">
       <a href="/">
-        <Logo width={128} />
-      </a>
-
-      <div
-        class="mt-1 hidden lg:w-full lg:justify-center lg:gap-x-[20px] slg:flex xl:gap-x-[24px]"
-      >
-        <PopOverNavItemNetwork client:idle />
-        <PopOverCommunity client:idle type="community" />
-        <PopOverCommunity
-          client:idle
-          type="development"
-          latestRoadmapYear={latestRoadmapYear}
-        />
-        <PopOverNavItemEcosystem client:idle />
-        <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
-        <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
-        <NavLink href="/pricing/gpus" currentPath={pathname}>
-          <div class="flex items-center gap-1">
-            <span class="text-sm font-medium">Pricing</span>
-          </div>
-        </NavLink>
-      </div>
-    </div>
-
-    <div class="block flex-shrink-0 md:hidden">
-      <a href="/">
-        <Logo width={118} height={24} />
+        <span class="hidden md:block"><Logo width={95} /></span>
+        <span class="block md:hidden"><Logo width={85} height={18} /></span>
       </a>
     </div>
 
-    <div class="block overflow-hidden slg:hidden">
-      <HamburgerMenu
-        client:media="(max-width: 1099px)"
-        currentPath={pathname}
+    <!-- Center: desktop nav links -->
+    <div class="absolute left-1/2 hidden h-full -translate-x-1/2 items-center gap-x-[20px] slg:flex xl:gap-x-[24px]">
+      <NavMenu
+        client:idle
         latestRoadmapYear={latestRoadmapYear}
-        hideDarkToggle={hideDarkToggle}
+        pathname={pathname}
       />
+      <NavLink href="/blog/" currentPath={pathname}>Blog</NavLink>
+      <NavLink href="/docs/" currentPath={pathname}>Docs</NavLink>
+      <NavLink href="/pricing/gpus" currentPath={pathname}>Pricing</NavLink>
     </div>
 
-    <div class="hidden flex-shrink-0 slg:flex slg:gap-x-5">
-      <div class="hidden items-center gap-x-2 text-para xl:flex">
-        <a
-          aria-label="Twitter Icon"
-          href="https://x.com/akashnet"
-          target="_blank"
-          class="hover:text-primary"
-        >
-          <TwitterIcon />
-        </a>
-        <a
-          aria-label="Github Icon"
-          href="https://github.com/akash-network"
-          target="_blank"
-          class="hover:text-primary"
-        >
-          <GithubIcon />
-        </a>
-        <a
-          aria-label="Discord Icon"
-          href="https://discord.com/invite/akash"
-          target="_blank"
-          class="hover:text-primary"
-        >
-          <DiscordIcon />
-        </a>
+    <!-- Right: hamburger (mobile) + buttons (desktop) -->
+    <div class="ml-auto flex flex-shrink-0 items-center gap-2">
+      <div class="block overflow-hidden slg:hidden">
+        <HamburgerMenu
+          client:media="(max-width: 1099px)"
+          currentPath={pathname}
+          latestRoadmapYear={latestRoadmapYear}
+          hideDarkToggle={hideDarkToggle}
+        />
       </div>
 
-      <div class="flex items-center gap-2">
-        <ButtonLink
-          link="/gpus-on-demand"
-          variant="secondary"
-          size="sm"
-          className="px-[11px] py-[7px] text-xs"
+      <div class="hidden slg:flex items-center gap-2">
+        <a
+          href="/gpus-on-demand"
+          class="inline-flex items-center justify-center rounded-md bg-zinc-100 dark:bg-zinc-800 px-[11px] py-[7px] text-xs font-medium text-zinc-700 dark:text-zinc-300 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700"
         >
           Get in Touch
-        </ButtonLink>
-
+        </a>
         <TryAkashForm client:idle type="headerDeploy" />
       </div>
-      {!hideDarkToggle && <DarkModeToggle client:idle />}
     </div>
   </nav>
 </header>
 
-<div id="sub-nav-container" class={clsx(navContainerBaseClass, navContainerVisibility)}>
+{isPathInNavigation && <div class="h-[60px]" />}
+
+<!-- Sub-nav items bar: sticky -->
+<div id="sub-nav-container" class={navContainerVisibility}>
   {
-    visibility.network.includes(pathname) && (
+    (visibility.network.includes(pathname) || isValidatorsPage) && !isProvidersPage && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
     )
   }
   {
-    visibility.community.includes(pathname) && (
+    (visibility.community.includes(pathname) && !isValidatorsPage) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="community" />
     )
   }
@@ -176,7 +132,7 @@ const navContainerClass = hideContainer ? "" : "container";
     )
   }
   {
-    visibility.ecosystem.includes(pathname) && (
+    (visibility.ecosystem.includes(pathname) || isProvidersPage) && (
       <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
     )
   }
@@ -191,7 +147,50 @@ const navContainerClass = hideContainer ? "" : "container";
   <style>
     /* Prevent layout shift before SubNavbar island hydrates */
     #sub-nav-container {
-      min-height: 57px;
+      min-height: 44px;
     }
   </style>
 )}
+
+<script>
+  function setupNavScroll() {
+    const header = document.getElementById("main-header");
+    if (!header) return;
+
+    const isSticky = window.getComputedStyle(header).position === "sticky";
+    if (!isSticky) return;
+
+    const subNav = document.getElementById("sub-nav-container");
+    const hasSubNav = subNav && !subNav.classList.contains("hidden");
+
+    let lastY = window.scrollY;
+    let rafId: number;
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y > lastY && y > 80) {
+          header.style.transform = "translateY(-100%)";
+        } else if (y < lastY) {
+          if (!hasSubNav || y < 80) {
+            header.style.transform = "";
+          }
+        }
+        lastY = y;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        window.removeEventListener("scroll", onScroll);
+        cancelAnimationFrame(rafId);
+      },
+      { once: true },
+    );
+  }
+
+  document.addEventListener("astro:page-load", setupNavScroll);
+</script>

@@ -224,7 +224,7 @@ export const Tables = ({
   return (
     <section
       className={clsx(
-        "mx-auto flex w-full max-w-[1380px] flex-col-reverse gap-10 md:flex-row",
+        "container-wide flex flex-col-reverse gap-10 md:flex-row",
         subCom ? "" : "",
       )}
     >

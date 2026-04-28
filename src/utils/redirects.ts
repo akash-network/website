@@ -6,6 +6,10 @@ export const getYearToUse = () => {
 };
 
 export const redirects = {
+  "/community/akash-validators/": "/network/akash-validators/",
+  "/community/akash-validators": "/network/akash-validators/",
+  "/about/providers/": "/ecosystem/providers/",
+  "/about/providers": "/ecosystem/providers/",
   "/development/current-projects": "/roadmap/",
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",
