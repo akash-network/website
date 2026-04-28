@@ -28,7 +28,7 @@ const featuredItems: Record<MenuId, FeaturedItemData> = {
   development: {
     href: "/development/welcome/",
     title: "Developer Portal",
-    description: "Home base for building on Akash",
+    description: "Homebase for building on Akash.",
     imageSrc: "/nav/development_featured.webp",
   },
   ecosystem: {

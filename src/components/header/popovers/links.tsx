@@ -59,7 +59,7 @@ export const developmentItems: NavItem[] = [
   {
     icon: HeartHandshake,
     title: "Developer Portal",
-    description: "Contribute to the protocol",
+    description: "Homebase for building on Akash.",
     link: "/development/welcome/",
   },
   {
@@ -254,7 +254,7 @@ export const ecosystemNavItems: NavItem[] = [
       </svg>
     ),
     title: "Product Suite",
-    description: "Dev and provider utilities.",
+    description: "Tools to deploy, serve, and provide compute.",
     link: "/ecosystem/akash-tools/",
   },
   {
@@ -318,7 +318,7 @@ export const ecosystemNavItems: NavItem[] = [
     icon: Codesandbox,
     title: "Compute Providers",
     description: "Global hardware competing for your workloads.",
-    link: "/about/providers/",
+    link: "/ecosystem/providers/",
   },
 ];
 

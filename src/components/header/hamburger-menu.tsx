@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Disclosure, Transition } from "@headlessui/react";
+import akashLogoDark from "../../assets/akash-logo-dark.svg";
+import akashLogoLight from "../../assets/akash-logo.svg";
 import {
-  AkashLogo,
   DiscordIcon,
   GithubIcon,
   HamburgerIcon,
@@ -125,7 +126,8 @@ const Panel = ({
         <div className="flex flex-col gap-10">
           <div className="flex justify-between pb-4 pt-4 md:pt-6">
             <a href="/">
-              <AkashLogo />
+              <img src={akashLogoDark.src} width={132} height={26} alt="Akash Network" className="dark:hidden" />
+              <img src={akashLogoLight.src} width={132} height={26} alt="Akash Network" className="hidden dark:block" />
             </a>
 
             <div className="flex items-center gap-5">
