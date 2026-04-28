@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
 tags: ["Operations", "Monitoring"]
-weight: 3
+weight: 6
 title: "Monitoring"
 linkTitle: "Monitoring"
 description: "Monitor your provider and track performance"

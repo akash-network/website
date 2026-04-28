@@ -1,0 +1,903 @@
+---
+categories: ["Providers"]
+tags: ["Provider", "Installation", "Helm", "Setup"]
+weight: 3
+title: "Provider installation (preparation)"
+linkTitle: "Provider installation (prep)"
+description: "Prepare your wallet, provider.yaml, DNS, NGF, and Let’s Encrypt before installing the provider"
+---
+
+import TabsWrapper, { TabContent } from "@/components/ui/tabs";
+
+This is **Part 1** — preparation (configuration files, cluster plumbing, and TLS) before you [install the provider](/docs/providers/setup-and-installation/kubespray/provider-installation).
+
+**Time:** about 1–2 hours, depending on DNS and certificate issuance
+
+---
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+### Required
+
+- **Kubernetes cluster** deployed and verified
+- **Domain name** that you control (e.g., `provider.example.com`)
+- **Akash wallet** with:
+  - **Provider bid deposit** is in **AKT** (0.5 AKT); keep AKT for gas. Recommended balance for multiple bids.
+  - Funded account ([Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account))
+
+### Optional (if configured)
+
+- GPU support enabled
+- Persistent storage (Rook-Ceph) deployed
+
+---
+
+## STEP 1 - Prepare Provider Wallet
+
+> **Don't have an Akash wallet yet?**
+> - [Install Akash CLI](/docs/developers/deployment/cli/installation-guide/)
+> - [Create an Account](/docs/developers/deployment/cli/installation-guide/#create-an-account)
+> - [Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account)
+
+### Export Wallet Key
+
+On your local machine (where you created your Akash wallet):
+
+```bash
+# Export your private key
+provider-services keys export <your-key-name>
+```
+
+You'll be prompted for your keyring passphrase. The output will look like:
+
+```
+-----BEGIN TENDERMINT PRIVATE KEY-----
+kdf: bcrypt
+salt: <salt-value>
+type: secp256k1
+
+<base64-encoded-key>
+-----END TENDERMINT PRIVATE KEY-----
+```
+
+Save this output to a file called `key.pem`.
+
+### Create Key Secret
+
+Create a password for your key:
+
+```bash
+echo "your-secure-password" > key-pass.txt
+```
+
+---
+
+## STEP 2 - Setup on Control Plane Node
+
+SSH into your Kubernetes control plane node and create the provider directory:
+
+```bash
+mkdir -p /root/provider
+cd /root/provider
+```
+
+### Upload Files
+
+Upload the following files to `/root/provider/`:
+- `key.pem` (your private key)
+- `key-pass.txt` (your key password)
+
+### Encode Secrets
+
+```bash
+# Base64 encode the key
+KEY_SECRET=$(cat /root/provider/key.pem | openssl base64 -A)
+
+# Base64 encode the password
+KEY_PASSWORD=$(cat /root/provider/key-pass.txt | openssl base64 -A)
+
+# Get your provider address
+ACCOUNT_ADDRESS=$(provider-services keys show <your-key-name> -a)
+```
+
+---
+
+## STEP 3 - Install Helm and Add Akash Repository
+
+### Install Helm
+
+```bash
+# Download Helm
+wget https://get.helm.sh/helm-v4.0.1-linux-amd64.tar.gz
+tar -zxvf helm-v4.0.1-linux-amd64.tar.gz
+install linux-amd64/helm /usr/local/bin/helm
+
+# Verify installation
+helm version
+```
+
+### Add Akash Helm Repository
+
+```bash
+helm repo add akash https://akash-network.github.io/helm-charts
+helm repo update
+```
+
+---
+
+## STEP 4 - Create Namespaces
+
+Create all required namespaces:
+
+```bash
+kubectl create namespace akash-services
+kubectl create namespace lease
+kubectl label namespace akash-services akash.network=true
+kubectl label namespace lease akash.network=true
+```
+
+---
+
+## STEP 5 - Install Akash RPC Node
+
+> **Important:** Running your own RPC node is a **strict requirement** for Akash providers. This removes dependence on public nodes and ensures reliable access to the blockchain.
+
+### Install Akash Node via Helm
+
+The default installation uses blockchain snapshots for fast synchronization.
+
+```bash
+helm install akash-node akash/akash-node \
+  -n akash-services
+```
+
+### Verify Node is Running
+
+```bash
+kubectl -n akash-services get pods -l app=akash-node
+```
+
+**Expected output:**
+
+```
+NAME             READY   STATUS    RESTARTS   AGE
+akash-node-1-0   1/1     Running   0          2m
+```
+
+**Sync Time:** The node will download and extract a blockchain snapshot, then sync to the latest block. This typically takes ~5 minutes. You can proceed with the next steps while it syncs.
+
+---
+
+<a id="provider-yaml-full"></a>
+
+## STEP 6 - Create full provider configuration
+
+### Download Price Script
+
+```bash
+cd /root/provider
+curl -s https://raw.githubusercontent.com/akash-network/helm-charts/main/charts/akash-provider/scripts/price_script_generic.sh > price_script.sh
+chmod +x price_script.sh
+```
+
+### Create provider.yaml
+
+Replace the values with your actual configuration:
+
+```bash
+cat > /root/provider/provider.yaml << 'EOF'
+---
+from: "$ACCOUNT_ADDRESS"
+key: "$KEY_SECRET"
+keysecret: "$KEY_PASSWORD"
+domain: "provider.example.com"
+node: "http://akash-node-1:26657"
+withdrawalperiod: 12h
+chainid: "akashnet-2"
+attributes:
+  - key: region
+    value: us-west
+  - key: host
+    value: akash
+  - key: tier
+    value: community
+  - key: organization
+    value: "Your Organization"
+  - key: country
+    value: US
+  - key: city
+    value: "San Francisco"
+  - key: location-type
+    value: datacenter
+  - key: capabilities/cpu
+    value: intel
+  - key: capabilities/cpu/arch
+    value: x86-64
+  - key: capabilities/memory
+    value: ddr4
+  - key: network-speed-up
+    value: 1000
+  - key: network-speed-down
+    value: 1000
+
+email: contact@example.com
+website: https://example.com
+organization: Your Organization
+
+# Pricing (in uact per unit)
+price_target_cpu: 1.60
+price_target_memory: 0.30
+price_target_hd_ephemeral: 0.02
+price_target_hd_pers_hdd: 0.01
+price_target_hd_pers_ssd: 0.03
+price_target_hd_pers_nvme: 0.10
+price_target_endpoint: 0.05
+price_target_ip: 5.00
+EOF
+```
+
+---
+
+### Add Persistent Storage Attributes (if you have Rook-Ceph)
+
+If you configured persistent storage with Rook-Ceph, add the storage attributes to your `provider.yaml`:
+
+```yaml
+attributes:
+  # ... existing attributes ...
+  - key: capabilities/storage/1/class
+    value: <storage-class>
+  - key: capabilities/storage/1/persistent
+    value: "true"
+```
+
+**Example for beta3 (NVMe) storage class:**
+
+```yaml
+  - key: capabilities/storage/1/class
+    value: beta3
+  - key: capabilities/storage/1/persistent
+    value: "true"
+```
+
+**Example for beta2 (SSD) storage class:**
+
+```yaml
+  - key: capabilities/storage/1/class
+    value: beta2
+  - key: capabilities/storage/1/persistent
+    value: "true"
+```
+
+> **Important:** You can only advertise **one storage class** per provider. Choose either beta1 (HDD), beta2 (SSD), or beta3 (NVMe) based on what you configured in Rook-Ceph.
+
+---
+
+### Add GPU Attributes (if you have GPUs)
+
+If you configured GPU support, add GPU attributes to your `provider.yaml`:
+
+```yaml
+attributes:
+  # ... existing attributes ...
+  - key: capabilities/gpu/vendor/nvidia/model/<model>
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/<model>/ram/<ram>
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/<model>/interface/<interface>
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/<model>/interface/<interface>/ram/<ram>
+    value: "true"
+```
+
+**Example for NVIDIA RTX 4090:**
+
+```yaml
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
+    value: "true"
+```
+
+> **Note:** Model names should be lowercase with no spaces. List each GPU model you're offering.
+
+---
+
+### Complete Example with All Features
+
+Here's a full example showing GPU, persistent storage, and all optional attributes:
+
+```yaml
+---
+from: "akash1..."
+key: "LS0tLS1CRUdJTi..."
+keysecret: "eHJiajdSS..."
+domain: "provider.example.com"
+node: "http://akash-node-1:26657"
+withdrawalperiod: 12h
+chainid: "akashnet-2"
+
+attributes:
+  # Location
+  - key: region
+    value: us-west
+  - key: country
+    value: US
+  - key: city
+    value: "San Francisco"
+  - key: location-type
+    value: datacenter
+  - key: datacenter
+    value: us-west-dc-1
+  
+  # Required
+  - key: host
+    value: akash
+  - key: tier
+    value: community
+  - key: organization
+    value: "Your Organization"
+
+  # CPU
+  - key: capabilities/cpu
+    value: intel
+  - key: capabilities/cpu/arch
+    value: x86-64
+  
+  # Memory
+  - key: capabilities/memory
+    value: ddr5ecc
+  
+  # Network
+  - key: network-speed-up
+    value: 10000
+  - key: network-speed-down
+    value: 10000
+  
+  # GPU (if you have GPUs)
+  - key: capabilities/gpu
+    value: nvidia
+  - key: capabilities/gpu/vendor/nvidia/model/h100
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/h100/ram/80Gi
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/h100/interface/sxm
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/h100/interface/sxm/ram/80Gi
+    value: "true"
+  - key: cuda
+    value: "13.0"
+  
+  # Persistent Storage (if you have Rook-Ceph)
+  - key: capabilities/storage/1/class
+    value: beta3
+  - key: capabilities/storage/1/persistent
+    value: "true"
+  
+  # SHM (Shared Memory) storage class (optional)
+  - key: capabilities/storage/2/class
+    value: ram
+  - key: capabilities/storage/2/persistent
+    value: "false"
+
+email: contact@example.com
+website: https://example.com
+organization: Your Organization
+
+# Pricing
+price_target_cpu: 1.60
+price_target_memory: 0.30
+price_target_hd_ephemeral: 0.02
+price_target_hd_pers_hdd: 0.01
+price_target_hd_pers_ssd: 0.03
+price_target_hd_pers_nvme: 0.10
+price_target_endpoint: 0.05
+price_target_ip: 5.00
+
+# GPU pricing (format: "model=price,model=price" or "*=price" for all)
+price_target_gpu_mappings: "h100=840,*=840"
+```
+
+> **Note:** This example shows all possible configurations. Only include the sections relevant to your provider setup.
+
+---
+
+
+## STEP 7 - Configure DNS
+
+### Configure at Your DNS Provider
+
+Log into your DNS provider (Cloudflare, GoDaddy, Route53, etc.) and create the following DNS records:
+
+**1. Provider A Record:**
+```
+Type: A
+Name: provider (or your subdomain)
+Value: <your-provider-public-ip>
+TTL: 3600 (or Auto)
+```
+
+**2. Wildcard Ingress A Record:**
+```
+Type: A
+Name: *.ingress.provider (or *.ingress.your-subdomain)
+Value: <your-provider-public-ip>
+TTL: 3600 (or Auto)
+```
+
+**Example:**
+```
+provider.example.com           →  203.0.113.45
+*.ingress.provider.example.com →  203.0.113.45
+```
+
+### Verify DNS Propagation
+
+After configuring DNS, verify both records resolve correctly:
+
+```bash
+# Check provider domain
+dig provider.example.com +short
+
+# Check wildcard ingress domain
+dig test.ingress.provider.example.com +short
+```
+
+Both should return your provider's public IP.
+
+> **Note:** DNS propagation can take a few minutes. Wait until both records resolve before proceeding.
+
+---
+
+
+## STEP 8 - Install Gateway API and NGINX Gateway Fabric
+
+Install the Kubernetes Gateway API and NGINX Gateway Fabric (NGF) with **port 443** in `hostPorts` so the data plane is ready to terminate HTTPS **after** you install the Akash Gateway chart. Next, complete [**STEP 9** – Let's Encrypt and cert-manager](#step-9---lets-encrypt-cert-manager-and-tls-secrets) to create TLS **Secrets** before you [`helm install akash-gateway` in the install guide](/docs/providers/setup-and-installation/kubespray/provider-installation#step-1---install-akash-gateway).
+
+### Install Gateway API CRDs
+
+```bash
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.5.1" | kubectl apply --server-side -f -
+```
+
+Verify:
+
+```bash
+kubectl get crd | grep gateway.networking.k8s.io
+```
+
+### Install NGINX Gateway Fabric
+
+Save the following as `/root/provider/values-nginx-gateway-fabric.yaml`:
+
+```yaml
+# values-nginx-gateway-fabric.yaml
+nginxGateway:
+  gatewayClassName: nginx
+  gwAPIExperimentalFeatures:
+    enable: true
+  leaderElection:
+    enable: true
+  config:
+    logging:
+      level: info
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+nginx:
+  kind: daemonSet
+  service:
+    type: ClusterIP
+  container:
+    hostPorts:
+      - port: 80
+        containerPort: 80
+      - port: 443
+        containerPort: 443
+      - port: 8443
+        containerPort: 8443
+      - port: 8444
+        containerPort: 8444
+      - port: 5002
+        containerPort: 5002
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 1Gi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+```
+
+Install NGF (from `/root/provider`):
+
+```bash
+cd /root/provider
+
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+  --create-namespace \
+  -n nginx-gateway \
+  -f values-nginx-gateway-fabric.yaml
+```
+
+Verify:
+
+```bash
+kubectl -n nginx-gateway get pods
+```
+
+---
+
+## STEP 9 - Let's Encrypt (cert-manager) and TLS Secrets
+
+> **Required for all providers:** The [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart terminates HTTPS for deployment traffic. You must run **cert-manager** and supply TLS Secrets **`wildcard-ingress-tls`** and **`akash-default-tls`**.
+
+- **NGF in [STEP 8](#step-8---install-gateway-api-and-nginx-gateway-fabric) already includes 443** in `hostPorts`.
+- **Do not** `helm install` the provider chart until you finish [Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation) **STEP 1** (`akash-gateway`) and **STEP 2** (operators); the provider is **STEP 3** there.
+
+If you are migrating from ingress-nginx, see [TLS migration to Gateway API](/docs/providers/operations/tls-gateway-api-migration).
+
+### STEP 1 - Install Cert-Manager
+
+### Add Jetstack Helm Repository
+
+```bash
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+```
+
+### Install Cert-Manager
+
+```bash
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.19.1 \
+  --set crds.enabled=true
+```
+
+### Verify Installation
+
+```bash
+kubectl -n cert-manager get pods
+```
+
+**Expected output:**
+
+```
+NAME                                      READY   STATUS    RESTARTS   AGE
+cert-manager-xxx                          1/1     Running   0          2m
+cert-manager-cainjector-xxx               1/1     Running   0          2m
+cert-manager-webhook-xxx                  1/1     Running   0          2m
+```
+
+---
+
+### STEP 2 - Configure DNS Provider
+
+The examples below use **Cloudflare** or **Google Cloud DNS**. If your public DNS is hosted elsewhere, you can still use **Let's Encrypt DNS-01** as long as cert-manager has a matching solver. See the full list of supported providers and configuration options in the [cert-manager DNS-01 documentation](https://cert-manager.io/docs/configuration/acme/dns01/).
+
+Choose your DNS provider:
+
+<TabsWrapper client:load>
+<TabContent value="Cloudflare">
+
+### Create API Token
+
+1. Log into Cloudflare dashboard
+2. Go to "My Profile" → "API Tokens" → "Create Token"
+3. Use "Custom token" template
+4. Set permissions:
+   - **Zone - DNS - Edit**
+   - **Zone - Zone - Read**
+5. Zone Resources: **Include - All Zones**
+6. Copy the generated token
+
+### Create Secret
+
+```bash
+cat > cloudflare-secret.yaml << 'EOF'
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token-secret
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: your-cloudflare-api-token
+EOF
+
+kubectl apply -f cloudflare-secret.yaml
+```
+
+### Create ClusterIssuer
+
+```bash
+cat > letsencrypt-issuer.yaml << 'EOF'
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: contact@example.com  # Replace with your email
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-issuer-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            key: api-token
+            name: cloudflare-api-token-secret
+          email: contact@example.com  # Replace with your email
+      selector:
+        dnsZones:
+          - 'example.com'
+          - 'ingress.example.com'
+EOF
+
+kubectl apply -f letsencrypt-issuer.yaml
+```
+
+</TabContent>
+
+<TabContent value="Google Cloud">
+
+### Create Service Account in GCP
+
+1. **Create Role:**
+   - Name: `DNS Administrator Limited`
+   - ID: `dns.admin.light`
+   - Permissions:
+     - `dns.resourceRecordSets.*`
+     - `dns.changes.*`
+     - `dns.managedZones.list`
+
+2. **Create Service Account:**
+   - Name: `dns01-solver`
+   - Assign the role created above
+
+3. **Download Service Account Key** (JSON format)
+
+### Create Secret
+
+```bash
+# Base64 encode the service account key
+cat your-gcp-service-account-key.json | base64 | tr -d '
+'
+
+# Create the secret
+cat > gcp-dns-secret.yaml << 'EOF'
+apiVersion: v1
+kind: Secret
+metadata:
+  name: clouddns-gcp-dns01-solver-sa
+  namespace: cert-manager
+type: Opaque
+data:
+  key.json: <your-base64-encoded-service-account-key>
+EOF
+
+kubectl apply -f gcp-dns-secret.yaml
+```
+
+### Create ClusterIssuer
+
+```bash
+cat > letsencrypt-issuer.yaml << 'EOF'
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: contact@example.com  # Replace with your email
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-issuer-account-key
+    solvers:
+    - dns01:
+        cloudDNS:
+          project: "your-gcp-project-id"
+          serviceAccountSecretRef:
+            name: clouddns-gcp-dns01-solver-sa
+            key: key.json
+EOF
+
+kubectl apply -f letsencrypt-issuer.yaml
+```
+
+</TabContent>
+</TabsWrapper>
+
+---
+
+### STEP 3 - Request Wildcard Certificate
+
+Create the namespace now so cert-manager can issue the `Certificate` into it. The same namespace is also created if you `helm install akash-gateway` first, but this order issues certificates **before** that chart.
+
+```bash
+kubectl create namespace akash-gateway
+```
+
+Create a wildcard certificate in the **akash-gateway** namespace. cert-manager will create a TLS Secret named **`wildcard-ingress-tls`**, which matches the [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart default for the `https-wildcard` listener.
+
+```bash
+cat > wildcard-cert.yaml << 'EOF'
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-ingress
+  namespace: akash-gateway
+spec:
+  secretName: wildcard-ingress-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: '*.yourdomain.com'
+  dnsNames:
+  - '*.yourdomain.com'
+  - '*.ingress.yourdomain.com'
+EOF
+
+kubectl apply -f wildcard-cert.yaml
+```
+
+> **Important:** Replace `yourdomain.com` with your actual domain. Keep the `*.ingress.` entry as a separate `dnsName` (wildcards do not cover an extra label under RFC 2818).
+
+### Verify Certificate
+
+```bash
+kubectl -n akash-gateway get certificate
+kubectl -n akash-gateway describe certificate wildcard-ingress
+```
+
+Wait for the certificate to show `Ready: True` (may take 1-2 minutes).
+
+### Default TLS secret for the catch‑all HTTPS listener
+
+The chart also mounts **`akash-default-tls`** for the `https-custom` listener (other hostnames on port 443). For production, a short‑lived self‑signed cert is only to satisfy the reference until you replace it; point your issuer at this Secret name in a `Certificate` if you prefer a real cert there too. Minimal placeholder:
+
+```bash
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+  -keyout /tmp/default.key \
+  -out /tmp/default.crt \
+  -subj "/CN=default"
+
+kubectl create secret tls akash-default-tls \
+  --cert=/tmp/default.crt \
+  --key=/tmp/default.key \
+  -n akash-gateway
+```
+
+### Ready for the install guide
+
+If creating `akash-gateway` failed with “namespace already exists,” that is expected when you re-run the guide.
+
+**Check cert-manager and TLS Secrets:**
+
+```bash
+kubectl -n cert-manager get pods
+kubectl -n akash-gateway get secret wildcard-ingress-tls akash-default-tls
+```
+
+Continue when `kubectl -n akash-gateway describe certificate wildcard-ingress` shows `Ready: True` and both Secrets exist.
+
+**Install order** — Follow [Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation) in sequence: `akash-gateway` (STEP 1), operators (STEP 2), then the `akash/provider` chart (STEP 3). Do not install the provider before STEP 1 and STEP 2.
+
+<a id="end-to-end-https-test-after-helm-install-akash-gateway"></a>
+
+### End-to-end HTTPS test (after `helm install akash-gateway`)
+
+Run this **after** you complete **STEP 1** in [Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation#step-1---install-akash-gateway) (so the Gateway and listeners exist). Replace `yourdomain.com` with your domain:
+
+```bash
+echo "" | openssl s_client -connect test.ingress.yourdomain.com:443 -showcerts 2>&1 | \
+  openssl x509 -issuer -subject -dates -noout -text | \
+  grep -E '(Issuer:|Subject:|Not Before:|Not After :|DNS:)'
+```
+
+**Example output (Let’s Encrypt):**
+
+```
+Issuer: C = US, O = Let's Encrypt, CN = R3
+Not Before: Nov 28 10:40:06 2025 GMT
+Not After : Feb 26 10:40:05 2026 GMT
+Subject: CN = *.yourdomain.com
+DNS:*.ingress.yourdomain.com, DNS:*.yourdomain.com
+```
+
+### Check all cert-manager objects
+
+```bash
+kubectl get certificates,certificaterequests,orders,challenges -A
+```
+
+---
+
+### Troubleshooting
+
+### Certificate Not Issuing
+
+Check cert-manager logs:
+
+```bash
+kubectl -n cert-manager logs -l app=cert-manager
+```
+
+Check certificate status:
+
+```bash
+kubectl -n akash-gateway describe certificate wildcard-ingress
+kubectl -n akash-gateway get certificaterequest
+```
+
+### DNS-01 Challenge Failing
+
+<TabsWrapper client:load>
+<TabContent value="Cloudflare">
+
+Verify API token secret:
+
+```bash
+kubectl -n cert-manager get secret cloudflare-api-token-secret -o yaml
+```
+
+Check token has correct permissions in Cloudflare dashboard:
+- **Zone - DNS - Edit**
+- **Zone - Zone - Read**
+- Zone Resources: All Zones
+
+</TabContent>
+
+<TabContent value="Google Cloud">
+
+Verify service account secret:
+
+```bash
+kubectl -n cert-manager get secret clouddns-gcp-dns01-solver-sa -o yaml
+```
+
+Check service account has DNS admin permissions in GCP:
+- `dns.resourceRecordSets.*`
+- `dns.changes.*`
+- `dns.managedZones.list`
+
+</TabContent>
+</TabsWrapper>
+
+### Certificate Not Picked Up by Gateway
+
+After cert-manager has issued the certificate (`Ready: True`), NGINX Gateway Fabric may need to reload. Restart the NGF data plane so it picks up the new Secret:
+
+```bash
+kubectl -n nginx-gateway rollout restart deployment -l app.kubernetes.io/name=nginx-gateway-fabric
+```
+
+Wait a minute, then test HTTPS again.
+
+---
+
+#### External links
+
+- [Cert-manager](https://cert-manager.io/docs/)
+- [Let's Encrypt](https://letsencrypt.org/)
+
+
+---
+
+## Next — install the provider
+
+When TLS Secrets are **Ready** and the steps above are complete, continue to [**Provider installation (install)**](/docs/providers/setup-and-installation/kubespray/provider-installation) to deploy `akash-gateway`, operators, and the [akash/provider](https://github.com/akash-network/helm-charts/tree/main/charts/akash-provider) release.

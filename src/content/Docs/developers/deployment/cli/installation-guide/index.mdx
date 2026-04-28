@@ -134,7 +134,7 @@ Installing provider-services from source:
 ```
 $ go get -d github.com/akash-network/provider
 $ cd $GOPATH/src/github.com/akash-network/provider
-$ AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+$ export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json"
 $ AKASH_VERSION="$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -r '.tag_name')"
 $ git checkout "$AKASH_VERSION"
 $ make deps-install
@@ -213,10 +213,10 @@ A minimum deposit of 0.5 AKT is required to deploy on Akash. A small transaction
 
 ## Configure your Network
 
-Configure the base URL for the Akash Network:
+Use **[mainnet `meta.json`](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json)** as the source for chain ID and RPC endpoints (`curl` and **`jq`** required).
 
 ```bash
-AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
+export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json"
 ```
 
 ### Version
@@ -228,13 +228,15 @@ AKASH_VERSION="$(curl -s https://api.github.com/repos/akash-network/provider/rel
 ### Chain ID
 
 ```bash
-export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
+export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
 ```
 
 ### Network Node
 
+Pick a random public RPC from `meta.json` (or use `.apis.rpc[0].address` for the first entry):
+
 ```bash
-export AKASH_NODE="$(curl -s "$AKASH_NET/rpc-nodes.txt" | shuf -n 1)"
+export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[].address' | shuf -n 1)"
 ```
 
 ### Confirm Network Variables
