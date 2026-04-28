@@ -60,32 +60,6 @@ const { card } = Astro.props;
         <ArrowUpCircle className="w-4 rotate-45 text-para" />
         Read More
       </ButtonLink>
-      {
-        card?.lumaEventId ? (
-          <a
-            href={`https://luma.com/event/${card.lumaEventId}`}
-            class="luma-checkout--button"
-            data-luma-action="checkout"
-            data-luma-event-id={card.lumaEventId}
-            style="display: contents;"
-          >
-            <button
-              type="button"
-              class="inline-flex cursor-pointer items-center justify-center gap-x-1.5 rounded border border-border bg-background2 px-2 py-1 text-xs font-medium leading-none text-textGray shadow-sm hover:bg-gray-50 dark:hover:bg-darkGray"
-            >
-              <ArrowUpCircle className="w-4 rotate-45 text-para" />
-              Register Now
-            </button>
-          </a>
-        ) : (
-          card?.cta?.map((cta) => (
-            <ButtonLink variant="secondary" size="xs" link={cta.link}>
-              <ArrowUpCircle className="w-4 rotate-45 text-para" />
-              {cta.text}
-            </ButtonLink>
-          ))
-        )
-      }
     </div>
   </div>
 </div>
