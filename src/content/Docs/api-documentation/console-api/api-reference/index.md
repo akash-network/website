@@ -13,7 +13,7 @@ Complete reference for all Console API endpoints.
 
 ## Authentication
 
-Every request must include the `x-api-key` header. Create and manage keys in Console Settings -> API Keys ([https://console.akash.network/settings/api-keys](https://console.akash.network/settings/api-keys)).
+Every request must include the `x-api-key` header. Create and manage keys in [Console](https://console.akash.network) from your profile menu -> API Keys.
 
 Example HTTP request:
 
