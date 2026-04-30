@@ -97,610 +97,419 @@ async function* getAllDeployments() {
 ```
 
 ---
-
 ## POST /v1/deployments
 
-Create a new deployment.
+Create a new deployment from an SDL manifest and fund its escrow.
 
-**Request:**
-```typescript
-{
-  data: {
-    sdl: string;     // SDL content as string
-    deposit: number; // Deposit in dollars (minimum $5)
-  }
-}
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| sdl | body | string | yes | Deployment manifest in SDL (YAML) format, as a JSON string |
+| deposit | body | string | no | Initial escrow deposit in USD, for example `"5.00"` |
+
+```bash
+curl -X POST https://console-api.akash.network/v1/deployments \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"sdl": "version: \"2.0\"\n..."}'
 ```
 
-**Response:**
-```typescript
-{
-  data: {
-    dseq: string;     // Deployment sequence ID
-    manifest: string; // Deployment manifest JSON
-  }
-}
+```javascript
+const res = await fetch("https://console-api.akash.network/v1/deployments", {
+  method: "POST",
+  headers: {
+    "x-api-key": process.env.AKASH_API_KEY,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ sdl: sdlString }),
+});
+const { dseq } = await res.json();
 ```
 
-**Example:**
-```typescript
-const deployResponse = await apiRequest<{ data: { dseq: string; manifest: string } }>(
-  "/v1/deployments",
-  {
-    method: "POST",
-    body: JSON.stringify({
-      data: {
-        sdl: sdlContent,
-        deposit: 5 // $5 deposit
-      }
-    })
-  }
-);
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence ID |
+| status | string | Deployment status |
+| createdAt | string | ISO-8601 creation time |
 
-const { dseq, manifest } = deployResponse.data;
+```json
+{ "dseq": "1234567", "status": "active", "createdAt": "2024-01-15T10:30:00Z" }
 ```
 
 ---
 
 ## GET /v1/bids
 
-Fetch bids for a deployment.
+List provider bids for a deployment. Poll until bids arrive.
 
-**Query Parameters:**
-- `dseq` (required) - Deployment sequence ID
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | query | string | yes | Deployment sequence ID returned by create deployment |
 
-**Response:**
-```typescript
-{
-  data: {
-    bid: {
-      id: {
-        owner: string;
-        dseq: string;
-        gseq: number;
-        oseq: number;
-        provider: string;
-        bseq: number;
-      };
-      state: string;
-      price: {
-        denom: string;
-        amount: string;
-      };
-      created_at: string;
-      resources_offer: {
-        resources: {
-          cpu: {
-            units: { val: string };
-            attributes: { key: string; value: string }[];
-          };
-          gpu: {
-            units: { val: string };
-            attributes: { key: string; value: string }[];
-          };
-          memory: {
-            quantity: { val: string };
-            attributes: { key: string; value: string }[];
-          };
-          storage: {
-            name: string;
-            quantity: { val: string };
-            attributes: { key: string; value: string }[];
-          }[];
-          endpoints: { kind: string; sequence_number: number }[];
-        };
-        count: number;
-      }[];
-    };
-    escrow_account: {
-      id: { scope: string; xid: string };
-      state: {
-        owner: string;
-        state: string;
-        transferred: { denom: string; amount: string }[];
-        settled_at: string;
-        funds: { denom: string; amount: string }[];
-        deposits: {
-          owner: string;
-          height: string;
-          source: string;
-          balance: { denom: string; amount: string };
-        }[];
-      };
-    };
-  }[];
-}
+```bash
+curl "https://console-api.akash.network/v1/bids?dseq=1234567" \
+  -H "x-api-key: $AKASH_API_KEY"
 ```
 
-**Example:**
-```typescript
-const bidsResponse = await apiRequest<{ data: BidResponse[] }>(
-  `/v1/bids?dseq=${dseq}`
-);
-
-const bids = bidsResponse.data;
+```javascript
+const res = await fetch(`https://console-api.akash.network/v1/bids?dseq=${dseq}`, {
+  headers: { "x-api-key": process.env.AKASH_API_KEY },
+});
+const bids = await res.json();
 ```
+
+| Field | Type | Description |
+|---|---|---|
+| id | string | Bid ID |
+| provider | string | Provider address |
+| price | string | Bid price amount |
+| denom | string | Price denomination |
+| status | string | Bid status |
+
+```json
+[
+  { "id": "bid_abc123", "provider": "akash1abc...xyz", "price": "0.50", "denom": "usd", "status": "open" }
+]
+```
+
+> Note: This endpoint returns `[]` while bids are pending.
 
 ---
 
 ## POST /v1/leases
 
-Create a lease by accepting a provider bid.
+Accept a provider bid and activate the deployment lease.
 
-**Request:**
-```typescript
-{
-  manifest: string;
-  leases: {
-    dseq: string;
-    gseq: number;
-    oseq: number;
-    provider: string;
-  }[];
-}
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | body | string | yes | Deployment sequence ID |
+| bidId | body | string | yes | Bid ID from `GET /v1/bids` |
+
+```bash
+curl -X POST https://console-api.akash.network/v1/leases \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"dseq": "1234567", "bidId": "bid_abc123"}'
 ```
 
-**Response:**
-```typescript
-{
-  data: {
-    deployment: {
-      id: {
-        owner: string;
-        dseq: string;
-      };
-      state: string;
-      hash: string;
-      created_at: string;
-    };
-    leases: {
-      id: {
-        owner: string;
-        dseq: string;
-        gseq: number;
-        oseq: number;
-        provider: string;
-        bseq: number;
-      };
-      state: string;
-      price: {
-        denom: string;
-        amount: string;
-      };
-      created_at: string;
-      closed_on: string;
-      reason?: string;
-      status: {
-        forwarded_ports: Record<string, {
-          port: number;
-          externalPort: number;
-          host?: string;
-          available?: number;
-        }[]>;
-        ips: Record<string, {
-          IP: string;
-          Port: number;
-          ExternalPort: number;
-          Protocol: string;
-        }[]>;
-        services: Record<string, {
-          name: string;
-          available: number;
-          total: number;
-          uris: string[];
-          observed_generation: number;
-          replicas: number;
-          updated_replicas: number;
-          ready_replicas: number;
-          available_replicas: number;
-        }>;
-      } | null;
-    }[];
-    escrow_account: {
-      id: { scope: string; xid: string };
-      state: {
-        owner: string;
-        state: string;
-        transferred: { denom: string; amount: string }[];
-        settled_at: string;
-        funds: { denom: string; amount: string }[];
-        deposits: {
-          owner: string;
-          height: string;
-          source: string;
-          balance: { denom: string; amount: string };
-        }[];
-      };
-    };
-  }
-}
+```javascript
+const res = await fetch("https://console-api.akash.network/v1/leases", {
+  method: "POST",
+  headers: {
+    "x-api-key": process.env.AKASH_API_KEY,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ dseq, bidId }),
+});
+const lease = await res.json();
 ```
 
-**Example:**
-```typescript
-const leaseResponse = await apiRequest<CreateLeaseResponse>(
-  "/v1/leases",
-  {
-    method: "POST",
-    body: JSON.stringify({
-      manifest: manifest,
-      leases: [{
-        dseq: dseq,
-        gseq: firstBid.bid.id.gseq,
-        oseq: firstBid.bid.id.oseq,
-        provider: firstBid.bid.id.provider
-      }]
-    })
-  }
-);
+| Field | Type | Description |
+|---|---|---|
+| leaseId | string | Lease ID |
+| dseq | string | Deployment sequence ID |
+| provider | string | Selected provider |
+| status | string | Lease status |
 
-console.log("Lease created with state:", leaseResponse.data.deployment.state);
+```json
+{ "leaseId": "lease_xyz789", "dseq": "1234567", "provider": "akash1abc...xyz", "status": "active" }
 ```
 
 ---
 
 ## POST /v1/deposit-deployment
 
-Add additional funds to a deployment's escrow to keep it running.
+Add funds to a deployment's escrow to extend its runtime.
 
-**Request:**
-```typescript
-{
-  data: {
-    deposit: number; // Amount in dollars
-    dseq: string;
-  }
-}
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | body | string | yes | Deployment sequence ID |
+| amount | body | string | yes | Deposit amount in USD, for example `"10.00"` |
+
+```bash
+curl -X POST https://console-api.akash.network/v1/deposit-deployment \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"dseq": "1234567", "amount": "10.00"}'
 ```
 
-**Example:**
-```typescript
-const depositResponse = await apiRequest<DepositDeploymentResponse>(
-  "/v1/deposit-deployment",
-  {
-    method: "POST",
-    body: JSON.stringify({
-      data: {
-        dseq: dseq,
-        deposit: 0.5 // Add $0.50
-      }
-    })
-  }
-);
+```javascript
+const res = await fetch("https://console-api.akash.network/v1/deposit-deployment", {
+  method: "POST",
+  headers: {
+    "x-api-key": process.env.AKASH_API_KEY,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ dseq, amount: "10.00" }),
+});
+const data = await res.json();
+```
+
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence ID |
+| depositedAmount | string | Amount deposited |
+| newBalance | string | New escrow balance |
+
+```json
+{ "dseq": "1234567", "depositedAmount": "10.00", "newBalance": "14.73" }
 ```
 
 ---
 
 ## GET /v1/deployments
 
-List all deployments for the authenticated user.
+List all deployments for the authenticated user, with pagination.
 
-**Query Parameters:**
-- `skip` (optional) - Number of deployments to skip (default: 0)
-- `limit` (optional) - Maximum number of deployments to return (default: 10)
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| skip | query | integer | no | Offset. Default `0` |
+| limit | query | integer | no | Max records. Default `10`, max `100` |
 
-**Response:**
-```typescript
-{
-  data: {
-    deployments: {
-      deployment: {
-        id: { owner: string; dseq: string };
-        state: string;
-        hash: string;
-        created_at: string;
-      };
-      leases: {
-        id: {
-          owner: string;
-          dseq: string;
-          gseq: number;
-          oseq: number;
-          provider: string;
-          bseq: number;
-        };
-        state: string;
-        price: { denom: string; amount: string };
-        created_at: string;
-        closed_on: string;
-        reason?: string;
-        status: LeaseStatus | null;
-      }[];
-      escrow_account: {
-        id: { scope: string; xid: string };
-        state: {
-          owner: string;
-          state: string;
-          transferred: { denom: string; amount: string }[];
-          settled_at: string;
-          funds: { denom: string; amount: string }[];
-          deposits: {
-            owner: string;
-            height: string;
-            source: string;
-            balance: { denom: string; amount: string };
-          }[];
-        };
-      };
-    }[];
-    pagination: {
-      total: number;
-      skip: number;
-      limit: number;
-    };
-  }
-}
+```bash
+curl "https://console-api.akash.network/v1/deployments?skip=0&limit=10" \
+  -H "x-api-key: $AKASH_API_KEY"
 ```
 
-**Example:**
-```typescript
-const deploymentsResponse = await apiRequest<ListDeploymentsResponse>(
-  "/v1/deployments?skip=0&limit=10"
-);
+```javascript
+const res = await fetch("https://console-api.akash.network/v1/deployments?skip=0&limit=10", {
+  headers: { "x-api-key": process.env.AKASH_API_KEY },
+});
+const deployments = await res.json();
+```
 
-const { deployments, pagination } = deploymentsResponse.data;
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence ID |
+| status | string | Deployment status |
+| createdAt | string | ISO-8601 creation time |
+| balance | string | Current escrow balance in USD |
+
+```json
+[
+  { "dseq": "1234567", "status": "active", "createdAt": "2024-01-15T10:30:00Z", "balance": "9.23" },
+  { "dseq": "1234568", "status": "closed", "createdAt": "2024-01-10T08:00:00Z", "balance": "0.00" }
+]
 ```
 
 ---
 
-## GET /v1/deployments/:dseq
+## GET /v1/deployments/{dseq}
 
-Get detailed information about a specific deployment.
+Retrieve full details for a single deployment by its sequence ID.
 
-**Path Parameters:**
-- `dseq` - Deployment sequence ID
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | path | string | yes | Deployment sequence ID |
 
-**Response:**
-```typescript
-{
-  data: {
-    deployment: {
-      id: { owner: string; dseq: string };
-      state: string;
-      hash: string;
-      created_at: string;
-    };
-    leases: {
-      id: {
-        owner: string;
-        dseq: string;
-        gseq: number;
-        oseq: number;
-        provider: string;
-        bseq: number;
-      };
-      state: string;
-      price: { denom: string; amount: string };
-      created_at: string;
-      closed_on: string;
-      reason?: string;
-      status: LeaseStatus | null;
-    }[];
-    escrow_account: {
-      id: { scope: string; xid: string };
-      state: {
-        owner: string;
-        state: string;
-        transferred: { denom: string; amount: string }[];
-        settled_at: string;
-        funds: { denom: string; amount: string }[];
-        deposits: {
-          owner: string;
-          height: string;
-          source: string;
-          balance: { denom: string; amount: string };
-        }[];
-      };
-    };
-  }
-}
+```bash
+curl "https://console-api.akash.network/v1/deployments/1234567" \
+  -H "x-api-key: $AKASH_API_KEY"
 ```
 
-**Example:**
-```typescript
-const deploymentResponse = await apiRequest<GetDeploymentResponse>(
-  `/v1/deployments/${dseq}`
-);
+```javascript
+const res = await fetch(`https://console-api.akash.network/v1/deployments/${dseq}`, {
+  headers: { "x-api-key": process.env.AKASH_API_KEY },
+});
+const deployment = await res.json();
+```
 
-const { deployment, leases, escrow_account } = deploymentResponse.data;
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence ID |
+| status | string | Deployment status |
+| sdl | string | SDL used for deployment |
+| provider | string | Provider address |
+| balance | string | Current balance |
+| leaseId | string | Active lease ID |
+
+```json
+{
+  "dseq": "1234567",
+  "status": "active",
+  "sdl": "version: \"2.0\"...",
+  "provider": "akash1abc...xyz",
+  "balance": "9.23",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "leaseId": "lease_xyz789"
+}
 ```
 
 ---
 
-## PUT /v1/deployments/:dseq
+## PUT /v1/deployments/{dseq}
 
-Update an existing deployment with a new SDL configuration.
+Update an active deployment with a revised SDL.
 
-**Path Parameters:**
-- `dseq` - Deployment sequence ID
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | path | string | yes | Deployment sequence ID |
+| sdl | body | string | yes | Updated SDL in YAML format, passed as a JSON string |
 
-**Request:**
-```typescript
-{
-  data: {
-    sdl: string;     // Updated SDL content as string
-  }
-}
+```bash
+curl -X PUT "https://console-api.akash.network/v1/deployments/1234567" \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"sdl": "version: \"2.0\"\n..."}'
 ```
 
-**Response:**
-```typescript
-{
-  data: {
-    deployment: {
-      id: { owner: string; dseq: string };
-      state: string;
-      hash: string;
-      created_at: string;
-    };
-    leases: {
-      id: {
-        owner: string;
-        dseq: string;
-        gseq: number;
-        oseq: number;
-        provider: string;
-        bseq: number;
-      };
-      state: string;
-      price: { denom: string; amount: string };
-      created_at: string;
-      closed_on: string;
-      reason?: string;
-      status: LeaseStatus | null;
-    }[];
-    escrow_account: {
-      id: { scope: string; xid: string };
-      state: {
-        owner: string;
-        state: string;
-        transferred: { denom: string; amount: string }[];
-        settled_at: string;
-        funds: { denom: string; amount: string }[];
-        deposits: {
-          owner: string;
-          height: string;
-          source: string;
-          balance: { denom: string; amount: string };
-        }[];
-      };
-    };
-  }
-}
+```javascript
+const res = await fetch(`https://console-api.akash.network/v1/deployments/${dseq}`, {
+  method: "PUT",
+  headers: {
+    "x-api-key": process.env.AKASH_API_KEY,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ sdl: updatedSdl }),
+});
+const updated = await res.json();
 ```
 
-**Example:**
-```typescript
-const updateResponse = await apiRequest<UpdateDeploymentResponse>(
-  `/v1/deployments/${dseq}`,
-  {
-    method: "PUT",
-    body: JSON.stringify({
-      data: {
-        sdl: updatedSdlContent
-      }
-    })
-  }
-);
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence ID |
+| status | string | Deployment status |
+| updatedAt | string | ISO-8601 update time |
+
+```json
+{ "dseq": "1234567", "status": "active", "updatedAt": "2024-01-16T09:00:00Z" }
 ```
 
 ---
 
-## DELETE /v1/deployments/:dseq
+## DELETE /v1/deployments/{dseq}
 
-Close a deployment and recover remaining deposit.
+Close a deployment and return remaining escrow funds to your account.
 
-**Path Parameters:**
-- `dseq` - Deployment sequence ID
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | path | string | yes | Deployment sequence ID to close |
 
-**Response:**
-```typescript
-{
-  data: {
-    success: boolean;
-  }
-}
+```bash
+curl -X DELETE "https://console-api.akash.network/v1/deployments/1234567" \
+  -H "x-api-key: $AKASH_API_KEY"
 ```
 
-**Example:**
-```typescript
-const closeResponse = await apiRequest<CloseDeploymentResponse>(
-  `/v1/deployments/${dseq}`,
-  {
-    method: "DELETE"
-  }
-);
+```javascript
+const res = await fetch(`https://console-api.akash.network/v1/deployments/${dseq}`, {
+  method: "DELETE",
+  headers: { "x-api-key": process.env.AKASH_API_KEY },
+});
+const closed = await res.json();
+```
 
-console.log("Deployment closed:", closeResponse.data.success);
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence ID |
+| status | string | Deployment status |
+| refundedAmount | string | Refunded escrow amount |
+| closedAt | string | ISO-8601 close time |
+
+```json
+{ "dseq": "1234567", "status": "closed", "refundedAmount": "4.50", "closedAt": "2024-01-16T12:00:00Z" }
 ```
 
 ---
 
 ## GET /v2/deployment-settings/{dseq}
 
-Get deployment settings for a specific deployment. If no settings exist, they are automatically created with auto top-up **enabled** by default.
+Get auto top-up and other settings for a specific deployment.
 
-**Path Parameters:**
-- `dseq` (required) - Deployment sequence number
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | path | string | yes | Deployment sequence number |
+| userId | query | string | no | Defaults to authenticated user |
 
-**Query Parameters:**
-- `userId` (optional) - User ID. Defaults to the current authenticated user if not provided
-
-**Response:**
-```typescript
-{
-  data: {
-    id: string;                  // UUID
-    userId: string;              // User ID
-    dseq: string;                // Deployment sequence number
-    autoTopUpEnabled: boolean;   // Whether auto top-up is enabled
-    estimatedTopUpAmount: number; // Estimated top-up amount
-    topUpFrequencyMs: number;    // Top-up frequency in milliseconds
-    createdAt: string;           // ISO 8601 datetime
-    updatedAt: string;           // ISO 8601 datetime
-  }
-}
+```bash
+curl "https://console-api.akash.network/v2/deployment-settings/1234567" \
+  -H "x-api-key: $AKASH_API_KEY"
 ```
 
-**Example:**
-```typescript
-const settingsResponse = await apiRequest<DeploymentSettingResponse>(
-  `/v2/deployment-settings/${dseq}`
-);
+```javascript
+const res = await fetch(`https://console-api.akash.network/v2/deployment-settings/${dseq}`, {
+  headers: { "x-api-key": process.env.AKASH_API_KEY },
+});
+const settings = await res.json();
+```
 
-const settings = settingsResponse.data;
-console.log("Auto top-up enabled:", settings.autoTopUpEnabled);
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence number |
+| autoTopUp | boolean | Auto top-up enabled state |
+| topUpThreshold | string | Threshold in USD |
+| topUpAmount | string | Top-up amount in USD |
+
+```json
+{ "dseq": "1234567", "autoTopUp": true, "topUpThreshold": "2.00", "topUpAmount": "5.00" }
 ```
 
 ---
 
 ## POST /v2/deployment-settings
 
-Create deployment settings for a deployment.
+Create or update auto top-up settings for a deployment.
 
-**Request:**
-```typescript
-{
-  data: {
-    dseq: string;                    // Deployment sequence number
-    autoTopUpEnabled?: boolean;      // Whether auto top-up is enabled (default: false)
-    userId?: string;                 // User ID. Defaults to the current authenticated user if not provided
-  }
-}
+| Field | Location | Type | Required | Description |
+|---|---|---|---|---|
+| x-api-key | header | string | yes | Your API key |
+| dseq | body | string | yes | Deployment sequence number |
+| autoTopUp | body | boolean | yes | Enable or disable automatic top-up |
+| topUpThreshold | body | string | conditional | Required when `autoTopUp` is `true` |
+| topUpAmount | body | string | conditional | Required when `autoTopUp` is `true` |
+
+```bash
+curl -X POST https://console-api.akash.network/v2/deployment-settings \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "dseq": "1234567",
+    "autoTopUp": true,
+    "topUpThreshold": "2.00",
+    "topUpAmount": "5.00"
+  }'
 ```
 
-**Response (201):**
-```typescript
-{
-  data: {
-    id: string;                  // UUID
-    userId: string;              // User ID
-    dseq: string;                // Deployment sequence number
-    autoTopUpEnabled: boolean;   // Whether auto top-up is enabled
-    estimatedTopUpAmount: number; // Estimated top-up amount
-    topUpFrequencyMs: number;    // Top-up frequency in milliseconds
-    createdAt: string;           // ISO 8601 datetime
-    updatedAt: string;           // ISO 8601 datetime
-  }
-}
+```javascript
+const res = await fetch("https://console-api.akash.network/v2/deployment-settings", {
+  method: "POST",
+  headers: {
+    "x-api-key": process.env.AKASH_API_KEY,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    dseq,
+    autoTopUp: true,
+    topUpThreshold: "2.00",
+    topUpAmount: "5.00",
+  }),
+});
+const created = await res.json();
 ```
 
-**Example:**
-```typescript
-const createResponse = await apiRequest<DeploymentSettingResponse>(
-  "/v2/deployment-settings",
-  {
-    method: "POST",
-    body: JSON.stringify({
-      data: {
-        dseq: "12345",
-        autoTopUpEnabled: true
-      }
-    })
-  }
-);
+| Field | Type | Description |
+|---|---|---|
+| dseq | string | Deployment sequence number |
+| autoTopUp | boolean | Auto top-up state |
+| topUpThreshold | string | Threshold in USD |
+| topUpAmount | string | Top-up amount in USD |
+| createdAt | string | ISO-8601 creation time |
 
-console.log("Settings created:", createResponse.data.id);
+```json
+{
+  "dseq": "1234567",
+  "autoTopUp": true,
+  "topUpThreshold": "2.00",
+  "topUpAmount": "5.00",
+  "createdAt": "2024-01-15T10:30:00Z"
+}
 ```
 
 ---
