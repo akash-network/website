@@ -9,7 +9,7 @@ description: "Deploy an nginx container to Akash in five API calls"
 
 Deploy an nginx container to Akash in five API calls.
 
-Prerequisites: an API key from Console Settings ([https://console.akash.network/settings/api-keys](https://console.akash.network/settings/api-keys)).
+Prerequisites: an API key from [Console](https://console.akash.network) via your profile menu -> API Keys.
 
 ```bash
 # 1. Create a deployment
