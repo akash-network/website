@@ -631,8 +631,10 @@ console.log("Settings created:", createResponse.data.id);
 
 ---
 
-## Related Resources
+## See Also
 
-- **[Getting Started](/docs/api-documentation/console-api/getting-started)** - API setup and first deployment
-- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - SDL syntax guide
-- **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
+- **[Getting Started](/docs/api-documentation/console-api/getting-started)** - Full workflow with examples
+- **[SDL Reference](https://docs.akash.network/docs/getting-started/stack-definition-language/)** - SDL syntax and options
+- **[Akash CLI](https://docs.akash.network/docs/deployments/akash-cli/installation/)** - Wallet-based deployments
+- **[Console](https://console.akash.network)** - Visual interface for managing deployments
+- **[GitHub: akash-network/console](https://github.com/akash-network/console)** - Source and issues

@@ -26,6 +26,18 @@ The Managed Wallet API is part of the **Console API**: it lets you create and ma
 
 - **[Getting Started](/docs/api-documentation/console-api/getting-started)** - Complete guide with examples and best practices
 - **[API Reference](/docs/api-documentation/console-api/api-reference)** - Endpoint documentation with schemas
+- **[Quickstart](/docs/api-documentation/console-api/quickstart)** - End-to-end deployment in five API calls
+
+---
+
+## Changelog
+
+| Date | Version | Change |
+|---|---|---|
+| 2024-01-01 | v2 | Added `/v2/deployment-settings` with auto top-up support |
+| 2023-xx-xx | v1 | Initial release of `/v1/deployments`, bids, leases |
+
+[Full GitHub releases](https://github.com/akash-network/console/releases)
 
 ---
 
