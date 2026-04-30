@@ -1,5 +1,6 @@
 export const deployedOnAkash = [
   "AkashML",
+  "R Λ Z Ξ R",
   "NVIDIA",
   "Venice.ai",
   "Prime Intellect",
