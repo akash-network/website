@@ -26,7 +26,7 @@ headers: {
 
 ## POST /v1/deployments
 
-Create a new deployment.
+Create a new deployment from an SDL manifest and fund its escrow.
 
 **Request:**
 ```typescript
@@ -70,7 +70,7 @@ const { dseq, manifest } = deployResponse.data;
 
 ## GET /v1/bids
 
-Fetch bids for a deployment.
+List provider bids for a deployment. Poll until bids arrive.
 
 **Query Parameters:**
 - `dseq` (required) - Deployment sequence ID
@@ -151,7 +151,7 @@ const bids = bidsResponse.data;
 
 ## POST /v1/leases
 
-Create a lease by accepting a provider bid.
+Accept a provider bid and activate the deployment lease.
 
 **Request:**
 ```typescript
@@ -267,7 +267,7 @@ console.log("Lease created with state:", leaseResponse.data.deployment.state);
 
 ## POST /v1/deposit-deployment
 
-Add additional funds to a deployment's escrow to keep it running.
+Add funds to a deployment's escrow to extend its runtime.
 
 **Request:**
 ```typescript
@@ -299,7 +299,7 @@ const depositResponse = await apiRequest<DepositDeploymentResponse>(
 
 ## GET /v1/deployments
 
-List all deployments for the authenticated user.
+List all deployments for the authenticated user, with pagination.
 
 **Query Parameters:**
 - `skip` (optional) - Number of deployments to skip (default: 0)
@@ -369,9 +369,9 @@ const { deployments, pagination } = deploymentsResponse.data;
 
 ---
 
-## GET /v1/deployments/:dseq
+## GET /v1/deployments/{dseq}
 
-Get detailed information about a specific deployment.
+Retrieve full details for a single deployment by its sequence ID.
 
 **Path Parameters:**
 - `dseq` - Deployment sequence ID
@@ -433,9 +433,9 @@ const { deployment, leases, escrow_account } = deploymentResponse.data;
 
 ---
 
-## PUT /v1/deployments/:dseq
+## PUT /v1/deployments/{dseq}
 
-Update an existing deployment with a new SDL configuration.
+Update an active deployment with a revised SDL.
 
 **Path Parameters:**
 - `dseq` - Deployment sequence ID
@@ -512,9 +512,9 @@ const updateResponse = await apiRequest<UpdateDeploymentResponse>(
 
 ---
 
-## DELETE /v1/deployments/:dseq
+## DELETE /v1/deployments/{dseq}
 
-Close a deployment and recover remaining deposit.
+Close a deployment and return remaining escrow funds to your account.
 
 **Path Parameters:**
 - `dseq` - Deployment sequence ID
@@ -544,7 +544,7 @@ console.log("Deployment closed:", closeResponse.data.success);
 
 ## GET /v2/deployment-settings/{dseq}
 
-Get deployment settings for a specific deployment. If no settings exist, they are automatically created with auto top-up **enabled** by default.
+Get auto top-up and other settings for a specific deployment.
 
 **Path Parameters:**
 - `dseq` (required) - Deployment sequence number
@@ -582,7 +582,7 @@ console.log("Auto top-up enabled:", settings.autoTopUpEnabled);
 
 ## POST /v2/deployment-settings
 
-Create deployment settings for a deployment.
+Create or update auto top-up settings for a deployment.
 
 **Request:**
 ```typescript
