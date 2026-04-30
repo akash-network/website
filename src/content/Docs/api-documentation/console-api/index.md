@@ -42,5 +42,5 @@ Authentication: pass your API key in every request with `x-api-key: YOUR_API_KEY
 
 ## Need Help?
 
-- **Discord:** [#developers channel](https://discord.akash.network)
+- **Discord:** [discord.akash.network](https://discord.akash.network)
 - **GitHub Issues:** [https://github.com/akash-network/console/issues](https://github.com/akash-network/console/issues)
