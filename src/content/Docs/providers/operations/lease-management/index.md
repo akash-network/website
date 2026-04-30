@@ -256,21 +256,21 @@ kubectl -n lease get manifest <namespace> -o yaml
 kubectl -n lease get manifest moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk -o yaml
 ```
 
-## Ingress Controller Verification
+## Deployment Routing Verification
 
-Verify ingress resources for active deployments.
+Verify that deployment hostnames are routed correctly. With the Gateway API stack, the hostname operator creates **HTTPRoute** resources for each deployment.
 
-### Command
+### Command (Gateway API)
 
 ```bash
-kubectl get ingress -A
+kubectl get httproute -A
 ```
 
-### Example Output
+### Example Output (Gateway API)
 
 ```
-NAMESPACE                                       NAME                                      CLASS                 HOSTS                                     ADDRESS          PORTS   AGE
-moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk   5n0vp4dmbtced00smdvb84ftu4.ingress.example.com   akash-ingress-class   5n0vp4dmbtced00smdvb84ftu4.ingress.example.com   10.0.10.122      80      70s
+NAMESPACE                                       NAME                                      HOSTNAMES                                          AGE
+moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk   5n0vp4dmbtced00smdvb84ftu4.ingress.example.com   5n0vp4dmbtced00smdvb84ftu4.ingress.example.com   70s
 ```
 
 ## Terminate Workload from Provider (CLI Method)

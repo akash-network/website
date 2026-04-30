@@ -39,7 +39,7 @@ const Recap = ({ type }: { type: "button" | "image" }) => {
             className="relative z-[1] h-full w-full object-cover object-top"
           />
           <div className="absolute inset-0 z-[2] flex items-end py-10 transition-all group-hover:bg-black/10">
-            <div className="container-nav-2 flex flex-col gap-2">
+            <div className="container-wide flex flex-col gap-2">
               <svg
                 className="w-12 md:w-[68px]"
                 viewBox="0 0 68 69"

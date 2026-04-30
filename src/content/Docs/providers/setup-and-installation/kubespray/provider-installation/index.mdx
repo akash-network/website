@@ -1,0 +1,306 @@
+---
+categories: ["Providers"]
+tags: ["Provider", "Installation", "Helm", "Setup"]
+weight: 4
+title: "Provider installation (install)"
+linkTitle: "Provider installation (install)"
+description: "Install akash-gateway, operators, and the Akash provider after completing prep"
+---
+
+**Part 2** — run this after you finish [**Provider installation (preparation)**](/docs/providers/setup-and-installation/kubespray/provider-installation-prep) (keys, `provider.yaml`, DNS, NGF, and Let’s Encrypt).
+
+**Time:** 15–30 minutes (plus image pulls)
+
+---
+
+## STEP 1 - Install `akash-gateway`
+
+The [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/charts/akash-gateway) chart creates the `Gateway` resource, TCPRoutes, and HTTPS listeners. Install it with your **complete** [`provider.yaml` from prep, STEP 6](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#provider-yaml-full) (Helm only uses the values this chart needs, including **`domain`**).
+
+```bash
+cd /root/provider
+helm install akash-gateway akash/akash-gateway -n akash-gateway --create-namespace -f provider.yaml
+```
+
+If you are not using a file yet, you can use `--set "domain=yourdomain.com"` once; a single `provider.yaml` is **recommended** so the domain is identical for the [provider install (STEP 3)](#step-3---install-provider).
+
+### Verify the Gateway and TCP routes
+
+```bash
+kubectl -n akash-gateway get gateway akash-gateway
+kubectl -n akash-services get tcproutes
+```
+
+`PROGRAMMED` should become `True` and TCP route names for the provider should appear. For end-to-end HTTPS, see the [End-to-end HTTPS test](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#end-to-end-https-test-after-helm-install-akash-gateway) in prep (STEP 9) to confirm Let's Encrypt on the wire.
+
+---
+
+## STEP 2 - Install Akash Operators
+
+### Install Hostname Operator
+
+```bash
+helm install akash-hostname-operator akash/akash-hostname-operator \
+  -n akash-services
+```
+
+### Install Inventory Operator
+
+**Without persistent storage:**
+
+```bash
+helm install inventory-operator akash/akash-inventory-operator \
+  -n akash-services \
+  --set inventoryConfig.cluster_storage[0]=default \
+  --set inventoryConfig.cluster_storage[1]=ram
+```
+
+**With persistent storage (adjust beta3 to your storage class):**
+
+```bash
+helm install inventory-operator akash/akash-inventory-operator \
+  -n akash-services \
+  --set inventoryConfig.cluster_storage[0]=default \
+  --set inventoryConfig.cluster_storage[1]=beta3 \
+  --set inventoryConfig.cluster_storage[2]=ram
+```
+
+**Note:** 
+- Index 0 is always **default** (ephemeral storage)
+- Index 1 is **ram** (SHM/shared memory) if no persistent storage, or your persistent storage class (**beta1**/**beta2**/**beta3**)
+- Index 2 is **ram** (SHM/shared memory) if you have persistent storage
+- All providers should support SHM for deployments requiring shared memory
+
+### Apply Provider CRDs
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/main/pkg/apis/akash.network/crd.yaml
+```
+
+---
+
+
+## STEP 3 - Install Provider
+
+```bash
+cd /root/provider
+
+helm install akash-provider akash/provider \
+  -n akash-services \
+  -f provider.yaml \
+  --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
+```
+
+### Verify Provider
+
+```bash
+kubectl -n akash-services get pods
+```
+
+**Expected output:**
+
+```
+NAMESPACE        NAME                                              READY   STATUS    RESTARTS   AGE
+akash-services   akash-node-1-0                                    1/1     Running   0          4d1h
+akash-services   akash-provider-0                                  1/1     Running   0          47h
+akash-services   operator-hostname-79fbbffbb7-xxxxx                1/1     Running   0          47h
+akash-services   operator-inventory-7bb766f7bb-xxxxx               1/1     Running   0          39m
+akash-services   operator-inventory-hardware-discovery-node1       1/1     Running   0          38m
+```
+
+All pods should show `Running` status and `1/1` ready.
+
+---
+
+## STEP 4 - Verify Gateway and Ingress
+
+Traffic for the provider is handled by the Gateway API stack from [prep, STEP 8 (NGF)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-8---install-gateway-api-and-nginx-gateway-fabric) and from [STEP 1 – `akash-gateway`](#step-1---install-akash-gateway) in this guide. No separate ingress controller is required.
+
+After the provider is running, verify the Gateway and TCPRoutes:
+
+```bash
+kubectl -n akash-gateway get gateway akash-gateway
+kubectl -n akash-services get tcproutes
+```
+
+The Gateway should show `PROGRAMMED: True`. TCPRoutes `akash-provider-8443`, `akash-provider-8444`, and `akash-provider-5002` should be listed and will route traffic to the provider once it is installed.
+
+---
+
+## STEP 5 - Verify Provider On-Chain
+
+### Check Provider Status
+
+```bash
+provider-services query provider get $ACCOUNT_ADDRESS \
+  --node https://rpc.akashnet.net:443
+```
+
+**Expected output:**
+
+```
+attributes:
+- key: region
+  value: us-west
+- key: host
+  value: akash
+- key: tier
+  value: community
+host_uri: https://provider.example.com:8443
+info:
+  email: ""
+  website: ""
+owner: akash1...
+```
+
+### Check Provider Logs
+
+```bash
+kubectl -n akash-services logs -f akash-provider-0
+```
+
+Look for messages indicating the provider is bidding on deployments.
+
+---
+
+## STEP 6 - Verify Firewall
+
+Ensure these ports are open on your provider's public IP:
+
+**Required:**
+- `80/tcp` - HTTP
+- `443/tcp` - HTTPS
+- `8443/tcp` - Provider endpoint
+- `8444/tcp` - Provider gRPC
+- `5002/tcp` - Provider Let's Encrypt
+- `30000-32767/tcp` - Kubernetes NodePort range
+
+**Optional (if using external access):**
+- `6443/tcp` - Kubernetes API
+
+Test connectivity:
+
+```bash
+# From an external machine
+curl -k https://provider.example.com:8443/status
+```
+
+---
+
+## STEP 7 - Install ReplicaSet Cleanup Script (Recommended)
+
+When deployments update but the provider is out of resources, Kubernetes won't destroy old pods until new ones are created. This can cause deployments to get stuck.
+
+**This script automatically removes old ReplicaSets when new ones fail due to insufficient resources.**
+
+See [GitHub Issue #82](https://github.com/akash-network/support/issues/82) for more details.
+
+### Create the Script
+
+On the **control plane node**, create `/usr/local/bin/akash-force-new-replicasets.sh`:
+
+```bash
+cat > /usr/local/bin/akash-force-new-replicasets.sh <<'EOF'
+#!/bin/bash
+#
+# Version: 0.2 - 25 March 2023
+# Files:
+# - /usr/local/bin/akash-force-new-replicasets.sh
+# - /etc/cron.d/akash-force-new-replicasets
+#
+# Description:
+# This workaround identifies deployments stuck due to "insufficient resources"
+# and removes older ReplicaSets, leaving only the newest one.
+
+kubectl get deployment -l akash.network/manifest-service -A -o=jsonpath='{range .items[*]}{.metadata.namespace} {.metadata.name}{"\n"}{end}' |
+  while read ns app; do
+    kubectl -n $ns rollout status --timeout=10s deployment/${app} >/dev/null 2>&1
+    rc=$?
+    if [[ $rc -ne 0 ]]; then
+      if kubectl -n $ns describe pods | grep -q "Insufficient"; then
+        OLD="$(kubectl -n $ns get replicaset -o json -l akash.network/manifest-service --sort-by='{.metadata.creationTimestamp}' | jq -r '(.items | reverse)[1:][] | .metadata.name')"
+        for i in $OLD; do kubectl -n $ns delete replicaset $i; done
+      fi
+    fi
+  done
+EOF
+```
+
+### Make Executable
+
+```bash
+chmod +x /usr/local/bin/akash-force-new-replicasets.sh
+```
+
+### Install JQ (if not already installed)
+
+```bash
+apt -y install jq
+```
+
+### Create Cron Job
+
+Create `/etc/cron.d/akash-force-new-replicasets`:
+
+```bash
+cat > /etc/cron.d/akash-force-new-replicasets << 'EOF'
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+SHELL=/bin/bash
+
+*/5 * * * * root /usr/local/bin/akash-force-new-replicasets.sh
+EOF
+```
+
+The script runs every 5 minutes to clean up stuck ReplicaSets.
+
+---
+
+## Next Steps
+
+Your provider is now running! 
+
+**Verify your provider:**
+- **→ [Provider Verification](/docs/providers/operations/provider-verification/)** - Verify your provider is working correctly
+
+**Quick health checks:**
+- Monitor provider status: `kubectl -n akash-services get pods`
+- Check bids: `kubectl -n akash-services logs akash-provider-0 | grep bid`
+- Watch for leases: `kubectl -n lease get pods`
+
+**Optional follow-ups:**
+- [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) — static IPs for deployments
+
+**Provider Resources:**
+- [Provider Calculator](https://akash.network/pricing/provider-calculator/) - Estimate earnings (provider payouts are in ACT)
+- [Provider Operations](/docs/providers/operations/) - Lease management, monitoring, and maintenance
+- [Akash Discord](https://discord.akash.network) - Join the provider community
+
+---
+
+## Additional Configuration
+
+### Update Provider Attributes
+
+To update your provider attributes:
+
+1. Edit `/root/provider/provider.yaml`
+2. Upgrade the Helm release:
+
+```bash
+cd /root/provider
+
+helm upgrade akash-provider akash/provider \
+  -n akash-services \
+  -f provider.yaml \
+  --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
+```
+
+### Update Pricing
+
+Edit the `price_target_*` values in `provider.yaml` and run the upgrade command above.
+
+### Check Provider Version
+
+```bash
+kubectl -n akash-services get pod akash-provider-0 -o yaml | grep image:
+```
