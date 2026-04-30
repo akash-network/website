@@ -9,7 +9,7 @@ description: "Get started deploying on Akash with the Console Managed Wallet API
 
 Deploy on Akash programmatically using the Console API with a managed wallet.
 
-Note: The Console API is actively developed. Breaking changes are communicated in the changelog ([https://github.com/akash-network/console/releases](https://github.com/akash-network/console/releases)) before taking effect. Pin to the `v1` or `v2` path prefix to isolate your integration from unrelated changes.
+Note: The Console API is actively developed. See the changelog ([https://github.com/akash-network/console/releases](https://github.com/akash-network/console/releases)) for upcoming breaking changes.
 
 ---
 
@@ -27,7 +27,7 @@ Note: The Console API is actively developed. Breaking changes are communicated i
 
 ### Authentication
 
-All requests must include the `x-api-key` header. There is no Bearer token scheme. Pass the key directly as a header value.
+All requests must include the `x-api-key` header. Pass your API key directly in this header.
 
 cURL example:
 
@@ -45,7 +45,7 @@ If the key is missing or invalid, the API returns `401 Unauthorized`:
 Security practices:
 
 - Store the key in an environment variable (`AKASH_API_KEY`), never in source code.
-- Rotate keys in Console under Settings -> API Keys if a key is compromised.
+- Rotate keys in Console under Settings -> API Keys to keep your workflows safe in case of key compromise.
 - Keys grant full access to your Console account, so treat them like passwords.
 
 ---
@@ -321,9 +321,9 @@ Poll every 3 seconds for 30-60 seconds, then back off or return a timeout error.
 
 ## Limitations
 
-- Payment method: Credit card only. Existing AKT wallets cannot be linked to a Managed Wallet account at this time.
-- Wallet access: The Console manages the underlying wallet. You cannot export the private key or sign arbitrary transactions.
-- API stability: The API is under active development. See the changelog ([https://github.com/akash-network/console/releases](https://github.com/akash-network/console/releases)) for breaking change notices. The `v1` and `v2` path prefixes are versioned independently.
+- Payment method: Credit card only. Existing wallets cannot be linked to a Managed Wallet account at this time.
+- Wallet access: Console manages the wallet. You cannot export private keys or sign arbitrary transactions.
+- API stability: Pin integrations to `v1` or `v2`. Versions are independent, and breaking changes are announced in the changelog ([https://github.com/akash-network/console/releases](https://github.com/akash-network/console/releases)).
 - For production workloads without managed wallet constraints: use the [Akash SDK](/docs/api-documentation/sdk) or CLI with your own wallet.
 
 ---
@@ -342,6 +342,6 @@ Poll every 3 seconds for 30-60 seconds, then back off or return a timeout error.
 
 ## Need Help?
 
-- **Discord:** [discord.akash.network](https://discord.akash.network) - #developers channel
+- **Discord:** [discord.akash.network](https://discord.akash.network)
 - **GitHub Issues:** [console/issues](https://github.com/akash-network/console/issues)
 - **Support:** [GitHub Support](https://github.com/akash-network/support/issues)
