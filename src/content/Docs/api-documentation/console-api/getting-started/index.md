@@ -258,6 +258,118 @@ Response:
 
 ---
 
+## Complete Example Script
+
+This example runs the full managed-wallet deployment flow in one script.
+
+```javascript
+const API_BASE_URL = "https://console-api.akash.network";
+const API_KEY = process.env.AKASH_API_KEY;
+
+if (!API_KEY) {
+  throw new Error("Set AKASH_API_KEY before running this script.");
+}
+
+const SDL = `version: "2.0"
+services:
+  web:
+    image: nginx:stable
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          - size: 512Mi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uakt
+          amount: 10000
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1`;
+
+async function apiRequest(path, options = {}) {
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers: {
+      "x-api-key": API_KEY,
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`HTTP ${res.status}: ${body}`);
+  }
+  return res.json();
+}
+
+async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
+  for (let i = 0; i < maxAttempts; i++) {
+    const response = await apiRequest(`/v1/bids?dseq=${dseq}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    // Current API shape returns bids under response.data.
+    if (response.data?.length > 0) return response.data;
+    await new Promise((resolve) => setTimeout(resolve, pollMs));
+  }
+  throw new Error("No bids received within timeout");
+}
+
+async function main() {
+  const created = await apiRequest("/v1/deployments", {
+    method: "POST",
+    body: JSON.stringify({ sdl: SDL }),
+  });
+  const dseq = created.dseq || created.data?.dseq;
+  if (!dseq) throw new Error("Missing dseq in create deployment response");
+
+  const bids = await waitForBids(dseq);
+  const firstBid = bids[0];
+  const bidId = firstBid?.id || firstBid?.bid?.id;
+  if (!bidId) throw new Error("Missing bid identifier in bids response");
+
+  await apiRequest("/v1/leases", {
+    method: "POST",
+    body: JSON.stringify({ dseq, bidId }),
+  });
+
+  await apiRequest("/v1/deposit-deployment", {
+    method: "POST",
+    body: JSON.stringify({ dseq, amount: "10.00" }),
+  });
+
+  const status = await apiRequest(`/v1/deployments/${dseq}`, { method: "GET" });
+  console.log("Deployment status:", status);
+
+  const closed = await apiRequest(`/v1/deployments/${dseq}`, { method: "DELETE" });
+  console.log("Closed deployment:", closed);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+```
+
+---
+
 ## Best Practices
 
 ### Security
