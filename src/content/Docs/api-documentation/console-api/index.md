@@ -7,7 +7,7 @@ linkTitle: "Managed Wallet API"
 description: "Deploy on Akash programmatically without managing wallets or private keys"
 ---
 
-Deploy on Akash programmatically using the Console API. It handles the wallet for you, so there are no private keys, no blockchain setup, just an API key.
+Deploy on Akash programmatically using the Console API. It lets you create and manage deployments with Console-managed wallets, so you do not have to manage private keys.
 
 Base URL: `https://console-api.akash.network`
 
