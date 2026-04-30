@@ -11,11 +11,17 @@ This guide shows how to create and manage an Akash validator on mainnet.
 
 **Time:** 30-45 minutes
 
+The examples load **chain ID** and a default **RPC URL** from [mainnet `meta.json`](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json) using `curl` and `jq` (same metadata as [CLI node setup](/docs/node-operators/node-build/cli-build)).
+
 ---
 
 ## Prerequisites
 
 Before creating a validator, ensure you have:
+
+### 0. CLI tools
+
+For the environment commands below, install **`curl`** and **`jq`** (e.g. `apt install jq` on Ubuntu).
 
 ### 1. Full Node Running
 
@@ -56,11 +62,13 @@ akash keys add <key-name>
 
 ## Step 1 - Set Environment Variables
 
+Chain ID and a default public RPC URL come from **[mainnet `meta.json`](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json)**. Override `AKASH_META_URL` for another network’s `meta.json` if needed.
+
 ```bash
-# Network configuration
-export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
-export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
-export AKASH_NODE="https://rpc.akashnet.net:443"
+# Network configuration (meta.json is the single source for chain ID + API endpoints)
+export AKASH_META_URL="${AKASH_META_URL:-https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json}"
+export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
+export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[0].address')"
 
 # Your configuration
 export AKASH_KEY_NAME="<your-key-name>"
@@ -455,7 +463,7 @@ akash status | jq '.node_info.other.peers'
 
 Get peers from:
 - [Polkachu Peers](https://polkachu.com/live_peers/akash)
-- [Akash net repo](https://github.com/akash-network/net/blob/main/mainnet/peer-nodes.txt)
+- [Akash net repo — `meta.json` (`persistent_peers`)](https://github.com/akash-network/net/blob/main/mainnet/meta.json)
 
 3. **Restart node:**
 
