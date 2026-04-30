@@ -511,6 +511,103 @@ services:
 
 ---
 
+## Log Forwarding
+
+Run the Akash log collector as a sidecar to ship a service's container logs and Kubernetes events to an external monitoring provider. This is the same mechanism the Console SDL builder enables when you toggle **Log Forwarding** — see the [Console guide](/docs/developers/deployment/akash-console/log-forwarding) for the visual workflow. Below is the manual pattern for CLI and automation users.
+
+### How It Works
+
+Add a second service running [`ghcr.io/akash-network/log-collector`](https://github.com/akash-network/console/tree/main/apps/log-collector) that:
+
+- Watches pods of the target service via a Kubernetes label selector
+- Tails container stdout/stderr and Kubernetes events for those pods
+- Forwards everything to your provider through Fluent Bit
+
+Place the collector in the **same placement group** as the service it monitors so they land on the same provider.
+
+### Datadog Sidecar Example
+
+```yaml
+services:
+  web:
+    image: nginx:1.25.3
+    expose:
+      - port: 80
+        to:
+          - global: true
+
+  web-log-collector:
+    image: ghcr.io/akash-network/log-collector:2.20.1
+    env:
+      - PROVIDER=DATADOG
+      - POD_LABEL_SELECTOR=akash.network/manifest-service=web
+      - DD_API_KEY=your-datadog-api-key
+      - DD_SITE=datadoghq.eu
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 1.0
+        memory:
+          size: 1Gi
+        storage:
+          - size: 512Mi
+
+    web-log-collector:
+      resources:
+        cpu:
+          units: 0.1
+        memory:
+          size: 256Mi
+        storage:
+          - size: 512Mi
+            attributes:
+              persistent: true
+
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uakt
+          amount: 1000
+        web-log-collector:
+          denom: uakt
+          amount: 100
+
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+  web-log-collector:
+    dcloud:
+      profile: web-log-collector
+      count: 1
+```
+
+### Collector Environment Variables
+
+| Variable                  | Required | Description                                                                                            |
+| ------------------------- | -------- | ------------------------------------------------------------------------------------------------------ |
+| `PROVIDER`                | yes      | Output destination. Currently `DATADOG`.                                                               |
+| `POD_LABEL_SELECTOR`      | yes      | Kubernetes label selector identifying the target service's pods. Use `akash.network/manifest-service=<service-name>`. |
+| `DD_API_KEY`              | Datadog  | Datadog API key with log ingestion permissions.                                                        |
+| `DD_SITE`                 | Datadog  | Datadog regional endpoint (`datadoghq.com`, `datadoghq.eu`, `us3.datadoghq.com`, ...).                |
+| `STDOUT`                  | no       | Set to `true` to also print collected logs to the collector's own stdout (useful for debugging).       |
+| `LOG_MAX_FILE_SIZE_BYTES` | no       | Per-pod log file rotation size. Default: `10485760` (10 MB).                                          |
+| `LOG_MAX_ROTATED_FILES`   | no       | Number of rotated files retained per pod. Default: `5`.                                               |
+
+### Notes
+
+- **Always tag the selector to the service name** — `akash.network/manifest-service=<service-name>` is the label Akash applies to every pod, so this selector matches all replicas of a single service.
+- **One collector per service** is the simplest model. You can target multiple services with a more permissive selector, but then you lose the ability to scale collector resources independently.
+- **Persistent ephemeral storage** is recommended (`persistent: true`) so log buffers survive container restarts during high traffic.
+- **Logs in Datadog** appear with `source: akash.network` and include pod, container, and namespace tags.
+
+---
+
 ## Provider Selection
 
 ### Geographic Targeting

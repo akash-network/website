@@ -6,6 +6,10 @@ export const getYearToUse = () => {
 };
 
 export const redirects = {
+  "/community/akash-validators/": "/network/akash-validators/",
+  "/community/akash-validators": "/network/akash-validators/",
+  "/about/providers/": "/ecosystem/providers/",
+  "/about/providers": "/ecosystem/providers/",
   "/development/current-projects": "/roadmap/",
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",
@@ -41,4 +45,8 @@ export const redirects = {
   "/blog/case-studies/":"/case-studies/",
   "/blog/case-studies/1":"/case-studies/",
   "/blog/case-studies/2":"/case-studies/",
+  "/docs/deployments/": "/docs/developers/deployment/",
+  "/docs/deployments/akash-cli/overview/": "/docs/developers/deployment/",
+  "/docs/deployments/akash-cli/cli-booster/": "/docs/developers/deployment/",
+  "/docs/deployments/akash-cli/installation/": "/docs/developers/deployment/",
 };

@@ -16,6 +16,14 @@ Deploy an Akash RPC node using one of three methods: CLI build, Helm chart (Kube
 
 ---
 
+## Network metadata (`meta.json`)
+
+Published networks in the [akash-network/net](https://github.com/akash-network/net) repo expose a single **`meta.json`** per network (for example [mainnet/meta.json](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json)). It is the source of truth for **chain ID**, **genesis URL**, **seed and persistent peer** `node_id@host:port` entries, and public **RPC / REST / gRPC** endpoints.
+
+The [CLI build](/docs/node-operators/node-build/cli-build) guide uses `curl` and `jq` to read this file. Omnibus and Helm examples that set **`CHAIN_JSON`** to the same URL use the equivalent data for containerized nodes.
+
+---
+
 ## Deployment Methods
 
 ### [CLI Build](/docs/node-operators/node-build/cli-build)

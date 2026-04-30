@@ -276,7 +276,7 @@ kubectl delete pod gpu-test
 Your Kubernetes cluster now has GPU support!
 
 **Optional enhancements:**
-- [TLS Certificates](/docs/providers/setup-and-installation/kubespray/tls-certificates) - Automatic SSL certificates
+- [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) - **Required** for all providers: cert-manager and Gateway TLS
 - [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) - Enable static IPs
 
 > **Note:** After installing the provider, you'll need to add GPU attributes to your `provider.yaml` to advertise GPU capabilities. This is covered in the Provider Installation guide.

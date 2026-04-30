@@ -77,7 +77,16 @@ Open your browser and go to **[console.akash.network](https://console.akash.netw
 ![Wallet Connected](/images/docs/console/wallet/4-wallet-connected.png)
 *Successfully connected - your address and AKT balance are now visible*
 
-**You're now connected with your own wallet!
+5. **Swap AKT for ACT**
+   - Hover over your wallet in the top right of the screen and click on Wallet Actions -> Mint ACT
+   - Select how many AKT you would like to swap for ACT (keeping in mind the minimum swap is for 10 ACT or more)
+   - Note: remember to leave some AKT for transaction fees
+   - Click Mint ACT and approve transaction
+
+![Mint ACT](/images/docs/console/wallet/5-mint-act.png)
+*Mint ACT*
+
+**You're now connected with your own wallet with both AKT and ACT!
 
 ---
 
