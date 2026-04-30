@@ -317,16 +317,12 @@ Poll every 3 seconds for 30-60 seconds, then back off or return a timeout error.
 | **Setup** | API key only | Wallet + blockchain setup |
 | **Best For** | SaaS, web apps | Blockchain apps, CLI tools |
 
----
-
 ## Limitations
 
 - Payment method: Credit card only. Existing wallets cannot be linked to a Managed Wallet account at this time.
 - Wallet access: Console manages the wallet. You cannot export private keys or sign arbitrary transactions.
 - API stability: Pin integrations to `v1` or `v2`. Versions are independent, and breaking changes are announced in the changelog ([https://github.com/akash-network/console/releases](https://github.com/akash-network/console/releases)).
 - For production workloads without managed wallet constraints: use the [Akash SDK](/docs/api-documentation/sdk) or CLI with your own wallet.
-
----
 
 ---
 
