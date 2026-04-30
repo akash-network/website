@@ -87,17 +87,15 @@ On your control plane node, save the following as `/root/provider/values-nginx-g
 # values-nginx-gateway-fabric.yaml
 nginxGateway:
   gatewayClassName: nginx
-
   gwAPIExperimentalFeatures:
     enable: true
-
   leaderElection:
     enable: true
-
   config:
     logging:
       level: info
-
+  snippets:
+    enable: true
   resources:
     requests:
       cpu: 1000m
@@ -108,10 +106,8 @@ nginxGateway:
 
 nginx:
   kind: daemonSet
-
   service:
     type: ClusterIP
-
   container:
     hostPorts:
       - port: 80
@@ -124,7 +120,6 @@ nginx:
         containerPort: 8444
       - port: 5002
         containerPort: 5002
-
     resources:
       requests:
         cpu: 1000m
