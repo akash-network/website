@@ -1,7 +1,7 @@
 import {
+  Activity,
   Backpack,
   BadgeHelp,
-  Calendar,
   CalendarHeart,
   Codesandbox,
   FileStack,
@@ -22,74 +22,29 @@ type NavItem = {
 
 export const communityItems: NavItem[] = [
   {
-    title: "Welcome",
+    title: "Join the Movement",
+    description: "Help us build the People's Supercloud.",
     link: "/community/welcome/",
     icon: HeartHandshake,
   },
   {
     icon: CalendarHeart,
-    title: "Events",
+    title: "Events & Meetups",
+    description: "Connect with the community worldwide.",
     link: "/community/events/",
   },
 
 
   {
-    customIcon: (
-      <svg
-        width="24"
-        height="25"
-        viewBox="0 0 24 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M9 3.5H4C3.44772 3.5 3 3.94772 3 4.5V9.5C3 10.0523 3.44772 10.5 4 10.5H9C9.55228 10.5 10 10.0523 10 9.5V4.5C10 3.94772 9.55228 3.5 9 3.5Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M20 3.5H15C14.4477 3.5 14 3.94772 14 4.5V9.5C14 10.0523 14.4477 10.5 15 10.5H20C20.5523 10.5 21 10.0523 21 9.5V4.5C21 3.94772 20.5523 3.5 20 3.5Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M20 14.5H15C14.4477 14.5 14 14.9477 14 15.5V20.5C14 21.0523 14.4477 21.5 15 21.5H20C20.5523 21.5 21 21.0523 21 20.5V15.5C21 14.9477 20.5523 14.5 20 14.5Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9 14.5H4C3.44772 14.5 3 14.9477 3 15.5V20.5C3 21.0523 3.44772 21.5 4 21.5H9C9.55228 21.5 10 21.0523 10 20.5V15.5C10 14.9477 9.55228 14.5 9 14.5Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle
-          cx="12"
-          cy="12.5"
-          r="7"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-      </svg>
-    ),
-    title: "Akash Validators",
-    link: "/community/akash-validators/",
-  },
-  {
     icon: Newspaper,
     title: "Community Contributions",
+    description: "Earn rewards for your work",
     link: "/community/contributions/",
   },
   {
     icon: Backpack,
     title: "Student Ambassadors",
+    description: "Empowering future cloud leaders.",
     link: "/community/student-ambassadors/",
   },
   {
@@ -103,7 +58,8 @@ export const communityItems: NavItem[] = [
 export const developmentItems: NavItem[] = [
   {
     icon: HeartHandshake,
-    title: "Get Involved",
+    title: "Developer Portal",
+    description: "Homebase for building on Akash.",
     link: "/development/welcome/",
   },
   {
@@ -125,7 +81,7 @@ export const developmentItems: NavItem[] = [
       </svg>
     ),
     title: "Roadmap",
-    description: "Explore development milestones",
+    description: "See what's shipping next.",
     link: "roadmap",
   },
   {
@@ -160,7 +116,8 @@ export const developmentItems: NavItem[] = [
         />
       </svg>
     ),
-    title: "Community Groups",
+    title: "Engineering Syncs",
+    description: "Join live dev calls and technical groups.",
     link: "/development/community-groups/",
   },
   {
@@ -186,15 +143,9 @@ export const developmentItems: NavItem[] = [
         <path d="M3 11.5H21" stroke="currentColor" strokeWidth="1.5" />
       </svg>
     ),
-    title: "Funding Programs",
+    title: "Funding & Grants",
+    description: "Get funded to build on the open cloud.",
     link: "/development/funding-program/",
-  },
-  {
-    title: "Community Calendar",
-    icon: Calendar,
-    link: "/development/welcome/#calendar",
-    external: true,
-    primary: true,
   },
 ];
 
@@ -202,16 +153,9 @@ export const networkItems: NavItem[] = [
   {
     icon: BadgeHelp,
     title: "About Akash",
-    description: "Discover how Akash works",
+    description: "The story and tech of the Supercloud.",
     link: "/about/general-information/",
   },
-  {
-    icon: Codesandbox,
-    title: "Providers",
-    description: "Explore network providers and capacity",
-    link: "/about/providers/",
-  },
-
   {
     customIcon: (
       <svg
@@ -231,61 +175,33 @@ export const networkItems: NavItem[] = [
       </svg>
     ),
     title: "AKT Token",
-    description: "Learn more about the utility of AKT",
+    description: "Protocol utility and ecosystem economics.",
     link: "/token/",
+  },
+  {
+    customIcon: (
+      <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 3.5H4C3.44772 3.5 3 3.94772 3 4.5V9.5C3 10.0523 3.44772 10.5 4 10.5H9C9.55228 10.5 10 10.0523 10 9.5V4.5C10 3.94772 9.55228 3.5 9 3.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M20 3.5H15C14.4477 3.5 14 3.94772 14 4.5V9.5C14 10.0523 14.4477 10.5 15 10.5H20C20.5523 10.5 21 10.0523 21 9.5V4.5C21 3.94772 20.5523 3.5 20 3.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M20 14.5H15C14.4477 14.5 14 14.9477 14 15.5V20.5C14 21.0523 14.4477 21.5 15 21.5H20C20.5523 21.5 21 21.0523 21 20.5V15.5C21 14.9477 20.5523 14.5 20 14.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 14.5H4C3.44772 14.5 3 14.9477 3 15.5V20.5C3 21.0523 3.44772 21.5 4 21.5H9C9.55228 21.5 10 21.0523 10 20.5V15.5C10 14.9477 9.55228 14.5 9 14.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="12.5" r="7" stroke="currentColor" strokeWidth="1.5" />
+      </svg>
+    ),
+    title: "Akash Validators",
+    description: "Secure the network and earn rewards.",
+    link: "/network/akash-validators/",
+  },
+  {
+    icon: Activity,
+    title: "Network Stats",
+    description: "Live metrics and deployment data.",
+    link: "https://stats.akash.network/",
+    external: true,
   },
 ];
 
 export const ecosystemNavItems: NavItem[] = [
-  {
-    customIcon: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M16.0614 10.4037L14 17L10 17L7.93865 10.4037C7.35085 8.52273 7.72417 6.47307 8.93738 4.92015L11.5272 1.6052C11.7674 1.29772 12.2326 1.29772 12.4728 1.6052L15.0626 4.92015C16.2758 6.47307 16.6491 8.52273 16.0614 10.4037Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M10 20C10 22 12 23 12 23C12 23 14 22 14 20"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.5 12.5C5 15 7 19 7 19L10 17"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M15.9316 12.5C19.4316 15 17.4316 19 17.4316 19L14.4316 17"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9C14 10.1046 13.1046 11 12 11Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    title: "Deployed on Akash",
-    link: "/ecosystem/deployed-on-akash/",
-  },
   {
     customIcon: (
       <svg
@@ -337,13 +253,72 @@ export const ecosystemNavItems: NavItem[] = [
         />
       </svg>
     ),
-    title: "Tools",
+    title: "Product Suite",
+    description: "Tools to deploy, serve, and provide compute.",
     link: "/ecosystem/akash-tools/",
+  },
+  {
+    description: "Apps and services built on Akash",
+    customIcon: (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16.0614 10.4037L14 17L10 17L7.93865 10.4037C7.35085 8.52273 7.72417 6.47307 8.93738 4.92015L11.5272 1.6052C11.7674 1.29772 12.2326 1.29772 12.4728 1.6052L15.0626 4.92015C16.2758 6.47307 16.6491 8.52273 16.0614 10.4037Z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 20C10 22 12 23 12 23C12 23 14 22 14 20"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 12.5C5 15 7 19 7 19L10 17"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M15.9316 12.5C19.4316 15 17.4316 19 17.4316 19L14.4316 17"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9C14 10.1046 13.1046 11 12 11Z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    title: "Powered by Akash",
+    description: "Discover the projects scaling on Akash.",
+    link: "/ecosystem/deployed-on-akash/",
   },
   {
     icon: FileStack,
     title: "Case Studies",
+    description: "Real-world Akash success stories.",
     link: "/case-studies",
+  },
+  {
+    icon: Codesandbox,
+    title: "Compute Providers",
+    description: "Global hardware competing for your workloads.",
+    link: "/ecosystem/providers/",
   },
 ];
 
