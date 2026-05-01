@@ -6,6 +6,8 @@ status: Draft
 type: Standard
 category: Core
 created: 2026-04-14
+updated: 2026-05-01
+estimated-completion: 2026-07-31
 requires: 29, 65
 roadmap: major
 ---
@@ -271,9 +273,13 @@ The composite token is a JWT with two sub-objects:
 
 For AMD SEV-SNP, GPU attestation can be performed independently via NRAS while composite attestation matures to GA.
 
-#### Guest Pre-Start Hook
+#### Guest Pre-Start Hook (Local Attestation)
 
-The NVIDIA GPU Operator supports running attestation as a **container guest pre-start hook** within the Kata initrd. This means the GPU can be attested automatically before the tenant's container starts, providing a "fail-closed" model where the container never runs if attestation fails. Providers should enable this hook for confidential GPU workloads.
+The NVIDIA GPU Operator runs a **local GPU verifier** as a container guest pre-start hook within the Kata initrd. This verifier checks GPU measurements against RIM files fetched from NVIDIA's RIM service before the tenant's containers start.
+
+This is **local attestation only**, it does not perform remote composite attestation and does not communicate with Intel Trust Authority. On failure, containers still start, but the GPU is not set to a "Ready" state. CUDA applications will fail at runtime with a "system not initialized" error. This is fail-open at the container level but fail-closed at the CUDA level.
+
+For **remote composite attestation** (which produces a cryptographically verifiable JWT the tenant can present to relying parties), the tenant must run the Intel Trust Authority client from inside the container using the `trustauthority-client-for-python` or `trustauthority-client-for-go` SDK. The remote flow requires an ITA API key and network connectivity to ITA endpoints. See the attestation flow described above for details.
 
 ## Rationale
 
@@ -319,7 +325,7 @@ This proposal is fully backward compatible:
 
 ## Security Considerations
 
-- **Attestation is critical**: Deploying with `confidential-compute: true` without performing attestation only guarantees Kata VM isolation, not that the workload is running inside a genuine TEE. Tenants must always attest from within the VM. For GPU workloads, the guest pre-start hook should be used for fail-closed attestation before the container starts.
+- **Attestation is critical**: Deploying with `confidential-compute: true` without performing attestation only guarantees Kata VM isolation, not that the workload is running inside a genuine TEE. Tenants must perform remote composite attestation from within the VM to obtain a verifiable JWT. The GPU Operator's local pre-start hook provides a baseline check (CUDA fails if local attestation fails), but it is not a substitute for remote attestation via Intel Trust Authority.
 - **Provider attribute trust**: The `confidential-compute` attribute should be verified by auditors or set automatically by the inventory service ([AEP-41](../aep-41)) rather than self-reported by providers, to prevent false capability claims.
 - **CC-on mode enforcement**: Providers must not run GPUs in `devtools` mode for confidential workloads. The `devtools` mode enables performance counters that could leak information via side channels.
 - **Bounce buffer overhead**: On Hopper GPUs (H100/H200), the CPU-GPU secure channel uses a software bounce buffer with ~4 GB/sec throughput. Tenants with high-bandwidth CPU-GPU transfer needs should be aware of this limitation. Future Blackwell GPUs with TDISP/PCIe IDE will remove this bottleneck.
