@@ -293,7 +293,7 @@ profiles:
     dcloud:
       pricing:
         web:
-          denom: uakt
+          denom: uact
           amount: 10000
 deployment:
   web:
