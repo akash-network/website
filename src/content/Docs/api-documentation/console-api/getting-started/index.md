@@ -11,7 +11,7 @@ description: "Get started deploying on Akash with the Console Managed Wallet API
 
 The Managed Wallet API allows you to create and manage deployments programmatically without managing your own wallet or private keys.
 
-**WIP:** This API is under active development and may change frequently.
+Note: The Console API is actively developed. Breaking changes will be communicated in the changelog (https://github.com/akash-network/console/releases) before taking effect. Pin to the `v1` or `v2` path prefix to isolate your integration from unrelated changes.
 
 ---
 
@@ -25,7 +25,7 @@ The Managed Wallet API allows you to create and manage deployments programmatica
 4. Click **"Create API Key"**
 5. Copy and save your API key securely
 
-**Important:** API keys grant full access to your Console account. Keep them secret!
+> Warning: API keys grant full access to your Console account. Keep them secret.
 
 ---
 
@@ -669,9 +669,9 @@ async function apiRequestWithErrorHandling<T>(
 
 ## Limitations
 
-- ⚠️ **API is in development** - Endpoints may change
-- ⚠️ **Credit card payment only** - Cannot use existing AKT
-- ⚠️ **Managed wallet** - No direct blockchain access
+- Payment method: Credit card only. Existing AKT wallets cannot be linked to a Managed Wallet account at this time.
+- Wallet access: The Console manages the underlying wallet. You cannot export the private key or sign arbitrary transactions.
+- API stability: The Console API is actively developed. See the changelog (https://github.com/akash-network/console/releases) for breaking change notices. The `v1` and `v2` path prefixes are versioned independently.
 
 **For production deployments without time limits**, use the [Akash SDK](/docs/api-documentation/sdk) or [CLI](/docs/developers/deployment/cli) with your own wallet.
 
