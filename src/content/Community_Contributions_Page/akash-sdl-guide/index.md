@@ -1,17 +1,20 @@
 ---
-title: "Akash Network SDL Guide"
-description: "A beginner explainer on how to navigate an SDL file for deployment on Akash."
-pubDate: "2026-4-4"
+title: Akash Network SDL Guide
+description: A beginner explainer on how to navigate an SDL file for deployment on Akash.
+pubDate: 2026-04-04
 draft: false
 categories:
   - Guides
 tags:
   - Guides
+  - SDL
+  - Deployment
 contributors:
   - Rodri
 link: ""
 bannerImage: ./project-banner.png
 ---
+
 # Akash SDL: The Practical Guide
 
 **What You Actually Need to Know to Deploy Anything**
@@ -394,8 +397,8 @@ deployment:
 
 ## What's Template vs What's Custom: Quick Reference
 
-| **SDL Section** | **Template?** | **Notes** |
-|---|---|---|
+| SDL Section | Template? | Notes |
+|-------------|-----------|-------|
 | version | **Template** | Always "2.0" |
 | image | **Custom** | Your Docker image, ALWAYS different |
 | expose > port | **Custom** | What port your app uses |
