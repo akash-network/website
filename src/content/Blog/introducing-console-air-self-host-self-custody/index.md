@@ -20,6 +20,8 @@ The console you know at [console.akash.network](https://console.akash.network) i
 
 The self-custody features — connecting your own Keplr wallet, signing your own transactions, running the console against your own nodes — are not going away. They're moving to a new home: **Console Air**. Console Air is open source, self-hostable, and preserves the full self-custodial experience for the users who want it.
 
+This split is formalized in [AEP-84](https://akash.network/roadmap/aep-84/), the Akash Enhancement Proposal that outlines the rationale, scope, and migration path.
+
 ## Why split the product?
 
 Akash Console has been trying to be two things at once:
