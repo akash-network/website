@@ -57,7 +57,7 @@ In **Akash Console** → **App Settings** → **General**, click **Export Local 
 
 In **Console Air**, go to the same settings page and click **Import Local Data**. Pick the file you exported. Done. Your deployments and certificates are right where you left them.
 
-This works because Console Air is the same codebase, minus the managed-wallet flows. Local storage formats are identical, so the export/import is a straight one-to-one transfer.
+This works because Console Air is the same codebase, minus the managed-wallet flows. Local storage formats are identical, so the export/import is a straight one-to-one transfer. The export is a full snapshot of everything Console stores in your browser, so nothing is left behind.
 
 For the full step-by-step walkthrough, see the [migration guide](https://github.com/akash-network/console-air/blob/main/docs/migrating-from-akash-console.md).
 
