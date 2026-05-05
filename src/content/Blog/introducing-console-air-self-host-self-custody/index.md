@@ -59,11 +59,21 @@ In **Console Air**, go to the same settings page and click **Import Local Data**
 
 This works because Console Air is the same codebase, minus the managed-wallet flows. Local storage formats are identical, so the export/import is a straight one-to-one transfer.
 
+For the full step-by-step walkthrough, see the [migration guide](https://github.com/akash-network/console-air/blob/main/docs/migrating-from-akash-console.md).
+
 ## Timeline
 
-Console Air is the new home for self-custody. The managed-wallet console at [console.akash.network](https://console.akash.network) will gradually remove the self-custody flows over the next few releases. We'll surface deprecation notices in-app well before any flow is removed, and we'll keep the export tool working so you always have a clean migration path.
+Console Air is the new home for self-custody. **Self-custody flows will be removed from [console.akash.network](https://console.akash.network) on May 18, 2026 (00:00 UTC).** Until then, deprecation notices will appear in-app and the export tool will keep working so you always have a clean migration path.
 
-You'll start seeing an in-app banner pointing here and to Console Air over the coming weeks. Once you've migrated (or confirmed you don't need to), dismiss the banner and it stays dismissed.
+You'll start seeing an in-app banner pointing here and to Console Air in the lead-up to the cutoff. Once you've migrated (or confirmed you don't need to), dismiss the banner and it stays dismissed.
+
+### What happens after May 18, 2026
+
+- **Existing deployments keep running on-chain.** The split is a UI change, not a chain change. Your leases, providers, and escrow accounts are unaffected.
+- **You won't be able to manage self-custody deployments from [console.akash.network](https://console.akash.network) anymore.** Close, update, redeploy, and certificate management for self-custody wallets move to Console Air.
+- **Managed-wallet users are not affected.** If you signed in with email or social login, nothing about your experience changes.
+
+If you have a self-custody deployment you want to keep managing through a UI, export your local data and import it into Console Air before May 18.
 
 ## Try Console Air
 
