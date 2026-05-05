@@ -1,7 +1,7 @@
 ---
 title: "Introducing Console Air: Self-Host, Self-Custody Akash"
 description: "Akash Console is splitting in two. Console keeps the fastest path to deploy with managed wallets and credit-card billing. Console Air preserves the full self-custody, self-hostable experience for users who want to run their own keys and their own UI."
-pubDate: "2026-05-15"
+pubDate: "2026-05-05"
 
 categories:
   - Product
