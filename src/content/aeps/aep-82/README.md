@@ -77,6 +77,39 @@ When set, the requirement is propagated to every `Order` created for the deploym
 
 When not set (nil), the deployment does not require reclamation. Providers may still voluntarily offer it.
 
+#### SDL Representation
+
+Tenants specify reclamation requirements in the SDL using an optional top-level `reclamation` block:
+
+```yaml
+version: "2.1"
+reclamation:
+  min_window: "24h"
+services:
+  web:
+    image: nginx
+    ...
+```
+
+| Field        | Type   | Required | Description                                              |
+|--------------|--------|----------|----------------------------------------------------------|
+| `min_window` | string | yes      | Minimum reclamation window duration in Go duration format |
+
+The `reclamation` block is optional. When present, `min_window` is required and must be a valid Go
+duration string (e.g. `"1h"`, `"24h"`, `"720h"`). The value must be positive.
+
+The SDL parser converts `min_window` to `DeploymentReclamation.MinWindow` and populates
+`MsgCreateDeployment.Reclamation`. When the `reclamation` block is absent, the field is nil and
+no reclamation requirement is set.
+
+This is a deployment-wide setting. It applies to all groups within the deployment. The value is
+validated against governance bounds (`params.MinReclamationWindow` and `params.MaxReclamationWindow`)
+at deployment creation time on-chain.
+
+**SDL schema validation:** The JSON schema (`sdl-input.schema.yaml`) validates the structural
+correctness of the `reclamation` block (correct types, no unknown fields, `min_window` present).
+Duration parsing and range validation are performed by the Go parser.
+
 #### Provider Offers
 
 A provider includes a reclamation window in their bid via a new field on `MsgCreateBid`:

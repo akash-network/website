@@ -687,7 +687,117 @@ All locations that call `CreateOrder` and must be updated to pass the `reclamati
 
 ---
 
-## 6. Upgrade Handler
+## 6. SDL Changes
+
+### 6.1 New File: `go/sdl/reclamation.go`
+
+SDL type for parsing the `reclamation` YAML block:
+
+```go
+type v2Reclamation struct {
+    MinWindow string `yaml:"min_window"`
+}
+
+func (r *v2Reclamation) toDeploymentReclamation() (*dv1.DeploymentReclamation, error)
+```
+
+The `toDeploymentReclamation()` method parses the duration string via `time.ParseDuration`,
+validates it is positive, and returns `*dv1.DeploymentReclamation`. Returns `nil, nil` when
+the receiver is nil (no reclamation block in SDL).
+
+### 6.2 SDL Interface Extension: `go/sdl/sdl.go`
+
+A new method is added to the `SDL` interface:
+
+```go
+type SDL interface {
+    DeploymentGroups() (dtypes.GroupSpecs, error)
+    Manifest() (manifest.Manifest, error)
+    Version() ([]byte, error)
+    Reclamation() (*dv1.DeploymentReclamation, error)  // NEW
+    validate() error
+}
+```
+
+Implemented on `v2`, `v2_1`, and the `sdl` wrapper.
+
+### 6.3 Modified: `go/sdl/v2.go` and `go/sdl/v2_1.go`
+
+Both SDL version structs gain:
+
+1. A `ReclaimCfg *v2Reclamation` field (with `yaml:"-"` tag since decoding is manual)
+2. A `"reclamation"` case in the `UnmarshalYAML` switch
+3. A `Reclamation()` method delegating to `ReclaimCfg.toDeploymentReclamation()`
+4. Validation in `validate()` that calls `toDeploymentReclamation()` when `ReclaimCfg != nil`,
+   ensuring invalid durations are caught at `sdl.Read()` time
+
+### 6.4 Modified: `go/sdl/sdl-input.schema.yaml`
+
+A new optional property is added to the top-level schema:
+
+```yaml
+reclamation:
+  description: Deployment-level reclamation requirements (optional)
+  additionalProperties: false
+  properties:
+    min_window:
+      type: string
+      minLength: 1
+  required:
+    - min_window
+  type: object
+```
+
+Not added to the top-level `required` list -- the field is optional.
+
+### 6.5 Modified: `go/cli/deployment_tx.go`
+
+The `GetTxDeploymentCreateCmd` function calls `sdlManifest.Reclamation()` after parsing the SDL
+and sets the result on `MsgCreateDeployment.Reclamation` before calling `ValidateBasic()`.
+
+---
+
+## 7. CLI Changes
+
+### 7.1 New Flag: `--reclamation-window` on `tx market bid create`
+
+**Flag definition** (`go/cli/flags/market.go`):
+
+```go
+func AddReclamationWindowFlag(flags *pflag.FlagSet) {
+    flags.String(FlagReclamationWindow, "", "Reclamation window duration the provider offers (e.g. 24h, 720h). Optional.")
+}
+
+func ReclamationWindowFromFlags(flags *pflag.FlagSet) (*time.Duration, error)
+```
+
+Returns `nil` when the flag is empty (not specified). The `MsgCreateBid.ReclamationWindow` field
+is set to the parsed value.
+
+### 7.2 New Command: `tx market bid start-reclaim`
+
+A new CLI command for providers to initiate reclamation on an active lease:
+
+```
+akash tx market bid start-reclaim \
+  --from <provider-key> \
+  --owner <owner> --dseq <dseq> --gseq <gseq> --oseq <oseq> \
+  --reason <10000-19999>
+```
+
+The provider address is derived from the `--from` flag (the transaction signer), matching the
+pattern used by `bid close`. The `--provider` flag is registered by the shared `LeaseIDFlags`
+helper but is not needed when `--from` is specified.
+
+Constructs and broadcasts `MsgLeaseStartReclaim`. Uses `LeaseIDFromFlags` (with
+`WithProvider(cctx.FromAddress)`) for identifying the lease and `BidClosedReasonFromFlags`
+for the reason (same `--reason` flag as `bid close`, validated to provider range 10000-19999).
+
+Registered under `GetTxMarketBidCmds()` alongside `create` and `close`.
+
+---
+
+## 8. Upgrade Handler
 
 The upgrade handler for this chain version must:
 
@@ -708,7 +818,7 @@ marketKeeper.SetParams(ctx, params)
 
 ---
 
-## 7. Testing Strategy
+## 9. Testing Strategy
 
 ### Unit Tests (keeper_test.go)
 
