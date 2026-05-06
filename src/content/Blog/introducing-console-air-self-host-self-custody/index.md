@@ -25,8 +25,8 @@ This split is formalized in [AEP-84](https://akash.network/roadmap/aep-84/), the
 
 Akash Console has been trying to be two things at once:
 
-1. **The fastest on-ramp to decentralized compute**, for people who don't already hold ACT, don't run a Cosmos wallet, and just want to deploy something. For these users, every wallet pop-up, every "go fund this address," every "sign this transaction" is a paper cut.
-2. **A first-class self-custody UI**, for the developers, builders, and providers who already live in the Cosmos ecosystem, hold ACT, and want full control over keys, RPC nodes, and signing.
+1. **The fastest on-ramp to decentralized compute**, for people who don't already hold AKT, don't run a Cosmos wallet, and just want to deploy something. For these users, every wallet pop-up, every "go fund this address," every "sign this transaction" is a paper cut.
+2. **A first-class self-custody UI**, for the developers, builders, and providers who already live in the Cosmos ecosystem, hold AKT, and want full control over keys, RPC nodes, and signing.
 
 Optimizing for both at the same time means doing neither of them as well as we could. Every product decision was a compromise: do we surface the credit-card flow, or the Keplr flow? Do we hide gas details, or expose them? Do we route through our managed signer, or your local one?
 
