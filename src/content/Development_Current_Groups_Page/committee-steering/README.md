@@ -16,6 +16,7 @@ githubLink: "https://github.com/akash-network/community/blob/main/committee-stee
 
 discordLink: "https://discord.com/invite/akash"
 ---
+<img width="2000" height="500" alt="steering-committee" src="https://github.com/user-attachments/assets/078d98c1-5499-4302-8ebe-914876ea37c7" />
 
 # Akash Network - Steering Committee (SC)
 
@@ -25,8 +26,6 @@ The Akash Steering Committee serves as a key advisory body, regularly engaging w
 
 ### These are open community meetings, that usually happen [on the last Thursday of each Month at 11am Pacific Time / 7pm UTC](https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20)
 
-### Next Meeting: March 6th, 2025
-
 | Time                                                    | Notes                                                                                                      | Transcript                                                                                                            | Recording                                                                                                                    |
 | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Thursday, January 28, 2023 11:00 AM PT (Pacific Time)   | [Link](meetings/001-2023-01-26.md)                                                                         | [Link](meetings/001-2023-01-26.md#transcript)                                                                         | [Link](https://2enqenxqycj4n5z5x5rcir63jecu4gi3bwlznldrswzemmqnanrq.arweave.net/0RsCNvDAk8b3Pb9iJEfbSQVOGRsNl5ascZWyRjINA2M) |
@@ -34,7 +33,7 @@ The Akash Steering Committee serves as a key advisory body, regularly engaging w
 | Tuesday, March 28, 2023 11:00 AM PT (Pacific Time)      | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/003-2023-03-28.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/003-2023-03-28.md#transcript) | [Link](https://hnikzwcoj3nzztkcpgmllozmwxt5wl62h7cswhzzylm7ozoiy4za.arweave.net/O1Cs2E5O25zNQnmYtbsstefbL9o_xSsfOcLZ92XIxzI) |
 | Thursday, May 04, 2023 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/004-2023-05-04.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/004-2023-05-04.md#transcript) | [Link](https://mxbrl3erpoqav3rftxthzdsonor7b5k25zd3askk3fk5ke26fida.arweave.net/ZcMV7JF7oAruJZ3mfI5Oa6Pw9VruR7BJStlV1RNeKgY) |
 | Thursday, May 25, 2023 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/005-2023-05-25.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/005-2023-05-25.md#transcript) | [Link](https://gx6ojxwsudf2y42om4rpsotbbyd2iluasgkfrudrr4b6ktdirxvq.arweave.net/Nfzk3tKgy6xzTmci-TphDgekLoCRlFjQcY8D5Uxojes) |
-| Thursday, June 29, 2023 11:00 AM PT (Pacific Time)      | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/006-2023-06-29.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/006-2023-06-29.md#transcript) | [Link](https://n6o6hg3bmrlh53cz6ykmpokamvnzgusa3vycwvbr4vxmamusuh5q.arweave.net/b53jm2FkVn7sWfYUx7lAZVuTUkDdcCtUMeVuwDKSofs) |
+| Thursday, June 29, 2023 11:00 AM PT (Pacific Time)      | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/006-2023-06-25.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/006-2023-06-29.md#transcript) | [Link](https://n6o6hg3bmrlh53cz6ykmpokamvnzgusa3vycwvbr4vxmamusuh5q.arweave.net/b53jm2FkVn7sWfYUx7lAZVuTUkDdcCtUMeVuwDKSofs) |
 | Thursday, July 27, 2023 11:00 AM PT (Pacific Time)      | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/007-2023-07-27.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/007-2023-07-27.md#transcript) | [Link](https://2uw2d6ylfq3v2btiav5izgx4kvsgcc2s72bb5vvymb5byck4jsca.arweave.net/1S2h-wssN10GaAV6jJr8VWRhC1L-gh7WuGB6HAlcTIQ) |
 | Wednesday, August 30, 2023 11:00 AM PT (Pacific Time)   | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/008-2023-08-30.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/008-2023-08-30.md#transcript) | [Link](https://6bmxztaobmi5ox6n3nv5f6hgz7cwn7y7qxkp7ureegcbxswq4yxa.arweave.net/8Fl8zA4LEddfzdtr0vjmz8Vm_x-F1P_SJCGEG8rQ5i4) |
 | Thursday, September 28, 2023 11:00 AM PT (Pacific Time) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/009-2023-09-28.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/009-2023-09-28.md#transcript) | [Link](https://bw2dirmu4darmwcx74o24hzfkjzs7f33grrc5rdihgysff4kxyta.arweave.net/DbQ0RZTgwRZYV_8drh8lUnMvl3s0Yi7EaDmxIpeKviY) |
@@ -57,8 +56,20 @@ The Akash Steering Committee serves as a key advisory body, regularly engaging w
 | Thursday, March 27, 2025 11:00 AM PT (Pacific Time)     | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/026-2025-03-27.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/026-2025-03-27.md#transcript) | [Link](https://gv732dkiwyuvvdzwwof2cpippkom722pvzbhd334r4b55eyhnhra.arweave.net/NX-9DUi2KVqPNrOLoT0PepzP60-uQnHvfI8D3pMHaeI) |
 | Thursday, April 24, 2025 11:00 AM PT (Pacific Time)     | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/027-2025-04-24.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/027-2025-04-24.md#transcript) | [Link](https://2xkpkzs4tytpvwgh7tzkc5spywwk3kxcgvkydlcbmikynnxgg7ka.arweave.net/1dT1ZlyeJvrYx_zyoXZPxaytquI1VYGsQWIVhrbmN9Q) |
 | Thursday, May 29, 2025 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/028-2025-05-29.md)  | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/028-2025-05-29.md#transcript)  |[Link](https://zfwjpacw6ynl4nfxmak7mifijp7jiqr7bjywnztyaej7ygo6ppca.arweave.net/yWyXgFb2Gr40t2AV9iCoS_6UQj8KcWbmeAET_Bnee8Q) 
-| Thursday, July 3rd 2025, 2025 11:00 AM PT (Pacific Time)       | | |
-| Thursday, July 31st, 2025 11:00 AM PT (Pacific Time)       |  |  |
+| Thursday, July 3rd 2025, 2025 11:00 AM PT (Pacific Time)       |[Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/029-2025-07-03.md) |[Link](https://ro4537s2pzt7fqlsjs3gkrbzzwrosdsapju7pq2xeffsduufxs6q.arweave.net/i7nd_lp-Z_LBcky2ZUQ5zaLpDkB6affDVyFLIdKFvL0) |[Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/029-2025-07-03.md#transcript)
+| Thursday, July 31st, 2025 11:00 AM PT (Pacific Time)       |[Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/030-2025-07-31.md)  |[Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/030-2025-07-31.md#transcript)  | Coming Soon
+| Thursday, September 4th, 2025 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/031-2025-09-04.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/031-2025-09-04.md#transcript)  |[Link](https://jmfbdtbfma772wkshnr37y4ydp5bqqv5kdrcxahzw7kfuiyagiiq.arweave.net/SwoRzCVgP_1ZUjtjv-OYG_oYQr1Q4iuA-bfUWiMAMhE) 
+| Thursday, September 25th, 2025 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/032-2025-09-25.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/032-2025-09-25.md#transcript)  |[Link](https://egpzre5lyyvv3t6zccybepnfsozyrlwsl4gaco4xzkaqkqdelmnq.arweave.net/IZ-Yk6vGK13P2RCwEj2lk7OIrtJfDAE7l8qBBUBkWxs) 
+| Thursday, October 30th, 2025 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/033-2025-10-30.md)  | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/033-2025-10-30.md#transcript)  |[Link](https://3fwjrrguifcnzncsrlwpzdjee3z7h43z63bhpedjbkljgigrx25q.arweave.net/2WyYxNRBRNy0Uors_I0kJvPz83n2wneQaQqWkyDRvrs) 
+| Thursday, December 4th, 2025 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/034-2025-12-04.md) |  [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/034-2025-12-04.md#transcript) |[Link](https://3da6tx65aum66ig4b4vm2zyprkectuzbxw7567ksn4dlxhx34jyq.arweave.net/2MHp390FGe8g3A8qzWcPiogp0yG9v999Um8Gu5774nE) 
+| Thursday, January 8th, 2026 11:00 AM PT (Pacific Time)       |[Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/035-2026-01-08.md) | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/035-2026-01-08.md#transcript)  | [Link](https://bei2mvuhrfy7ywyp7dkrmzvo2tw52ame3ukhd4pkx22zwddpcp4q.arweave.net/CRGmVoeJcfxbD_jVFmau1O3dAYTdFHHx6r61mwxvE_k)
+| Thursday, January 29th, 2026 11:00 AM PT (Pacific Time)       |[Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/036-2026-01-29.md)  | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/036-2026-01-29.md#transcript) |[Link](https://iwwi4gddwnj6zlohxn3aiwad4nl6rhgleq4bxpkurmn6luyluawq.arweave.net/RayOGGOzU-ytx7t2BFgD41fonMskOBu9VIsb5dMLoC0)
+| Thursday, February 26th, 2026 11:00 AM PT (Pacific Time)       | [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/037-2026-02-26.md) |  [Link](https://github.com/akash-network/community/blob/main/committee-steering/meetings/037-2026-02-26.md#transcript) | [Link](https://ned3qb33v265bnwylnnw5lzusntaa6snjdzwhu6ia7l45odtm5fq.arweave.net/aQe4B3uuvdC22Ftbbq80k2YAek1I82PTyAfXzrhzZ0s) 
+| Thursday, March 26th, 2026 11:00 AM PT (Pacific Time)       |  |  |
+| Thursday, April 30th, 2026 11:00 AM PT (Pacific Time)       |  |  |
+| Thursday, May, 2026 11:00 AM PT (Pacific Time)       |  |  |
+| Thursday, June, 2026 11:00 AM PT (Pacific Time)       |  |  |
+| Thursday, July 2026 11:00 AM PT (Pacific Time)       |  |  |
 
 ### Typical Akash Steering Committeee Meeting Agenda
 
@@ -78,7 +89,6 @@ The Akash Steering Committee serves as a key advisory body, regularly engaging w
 
 The Steering Commitee is initially comprised of the following members who have the most familiarity with Akash Network.
 
-- Anil Murty, Overclock Labs
 - Artur Troian, Overclock Labs
 - Greg Osuri, Overclock Labs
 - Scott Caruthers, Overclock Labs

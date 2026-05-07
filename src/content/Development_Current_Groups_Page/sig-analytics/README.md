@@ -15,6 +15,7 @@ githubLink: "https://github.com/akash-network/community/tree/main/sig-analytics"
 
 discordLink: "https://discord.com/invite/akash"
 ---
+<img width="2000" height="500" alt="sig-analytics" src="https://github.com/user-attachments/assets/c14d8a26-183e-4d94-8d20-6bd48849266b" />
 
 # Akash Network - Analytics Special Interest Group (SIG)
 
@@ -46,11 +47,10 @@ Analytics Special Interest Group is dedicated to defining and building tools tha
 | #14     | August 15, 2024 09:00 AM PT (Pacific Time)              | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/014-2024-08-15.md) | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/014-2024-08-15.md#transcript) | [Link](https://j3ac6jsjcqd3hmfii6dophi4gunxiuqqxdeslkehhz6fpnvvgkta.arweave.net/TsAvJkkUB7OwqEeG550cNRt0UhC4ySWohz58V7a1MqY) |
 | #15     | October 17th, 2024 09:00 AM PT (Pacific Time)           | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/015-2024-10-17.md) | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/015-2024-10-17.md#transcript) | [Link](https://r42dbtac4ccmnthbcyiziw5brtbvhu3bprmx4kbzgimwxti5af3q.arweave.net/jzQwzALghMbM4RYRlFuhjMNT02F8WX4oOTIZa80dAXc) |
 | #16     | February 20, 2025 09:00 AM PT (Pacific Time)            | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/016-2025-02-20.md) | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/016-2025-02-20.md#transcript) | [Link](https://y6ufaqhiuerd5c5c644hmnos5zmfcpxexf6l5eekonmbjwas5pga.arweave.net/x6hQQOihIj6Lovc4djXS7lhRPuS5fL6QinNYFNgS68w) |
-| #17     | July 02, 2025 09:00 AM PT (Pacific Time)   | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/017-2025-07-02.md) | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/017-2025-07-02.md#transcript) | [Link](https://st4fnop5yf5ejint2crddyd2ja52lppl4pxpgoriukncslqyjfwq.arweave.net/lPhWuf3BekShs9CiMeB6SDulvevj7vM6KKKaKS4YSW0) 
-| #18     | September, 2025 09:00 AM PT (Pacific Time)              |                                                                                                       |                                                                                                                  |
-| #26     | October, 2025 09:00 AM PT (Pacific Time)                |                                                                                                       |                                                                                                                  |
-| #27     | November, 2025 09:00 AM PT (Pacific Time)               |                                                                                                       |                                                                                                                  |
-| #27     | December, 2025 09:00 AM PT (Pacific Time)               |                                                                                                       |                                                                                                                  |
+| #17     | July 02, 2025 09:00 AM PT (Pacific Time)   | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/017-2025-02-20.md) | [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/017-2025-02-20.md#transcript) | [Link](https://st4fnop5yf5ejint2crddyd2ja52lppl4pxpgoriukncslqyjfwq.arweave.net/lPhWuf3BekShs9CiMeB6SDulvevj7vM6KKKaKS4YSW0) 
+| #18     | February 26th, 2026 09:00 AM PT (Pacific Time)                |  [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/018-2026-02-26.md)   |  [Link](https://github.com/akash-network/community/blob/main/sig-analytics/meetings/018-2026-02-26.md#transcript)        | [Link](https://ds62p245lwbfjwgnog6wqy5atpruvwtkaw4swehwwbptaumudolq.arweave.net/HL2n651dglTYzXG9aGOgm-NK2moFuSsQ9rBfMFGUG5c) 
+| #19     | June, 2026 09:00 AM PT (Pacific Time)               |                                                                                                       |                                                                                                                  |
+| #20     | November, 2026 09:00 AM PT (Pacific Time)               |                                                                                                       |                                                                                                                  |
 
 ## Leadership
 
