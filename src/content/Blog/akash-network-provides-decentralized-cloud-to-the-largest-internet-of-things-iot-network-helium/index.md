@@ -112,21 +112,21 @@ Once you’ve inputted your address, the Faucet will deliver just over 10000 TNT
   brew install akash
   brew link akash --force
 
-- Set the variable AKASH_NET to the URL of the Akash MainNet. [You can also choose to deploy on Testnet or Edgenet.](https://akash.network/docs/guides/version) Enter the following command on your command prompt to set the variable.
+- Point at **mainnet** [network metadata (`meta.json`)](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json). [You can also choose to deploy on Testnet or Edgenet.](https://akash.network/docs/guides/version) You need `curl` and `jq` installed.
 
-  AKASH_NET="https://raw.githubusercontent.com/ovrclk/net/master/mainnet"
+  export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json"
 
-- Set the variable AKASH_VERSION to the URL of the Akash MainNet
+- Recommended **node / binary version** (from metadata):
 
-  AKASH_VERSION="$(curl -s "$AKASH_NET/version.txt")"
+  AKASH_VERSION="$(curl -sSf "$AKASH_META_URL" | jq -r '.codebase.recommended_version')"
 
-- Set the variable AKASH_CHAIN_ID environment variable:
+- **Chain ID:**
 
-  AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
+  AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
 
-- Set the variable AKASH_NODE environment variable:
+- **RPC endpoint** (random public RPC from metadata):
 
-  AKASH_NODE="$(curl -s "$AKASH_NET/rpc-nodes.txt" | shuf -n 1)"
+  AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[].address' | shuf -n 1)"
 
 - Set the variable AKASH_KEY_NAME to the Key name of your choosing. This documentation uses a value of “alice”.
 - Set the variableAKASH_KEYRING_BACKEND Keyring backend to use for local keys. This should be os (default), file, ortest.

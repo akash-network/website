@@ -15,9 +15,9 @@ const { arrowIcon = false, currentPath, href, ...props } = Astro.props;
   {...props}
   href={href}
   class={cn(
-    "inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm ",
+    "inline-flex cursor-pointer items-center justify-center text-[13.4px] leading-[18.6px] font-normal text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors ",
     href?.startsWith(currentPath as string) && currentPath !== "/"
-      ? "text-primary"
+      ? "text-foreground"
       : "",
   )}
 >
@@ -34,9 +34,9 @@ const { arrowIcon = false, currentPath, href, ...props } = Astro.props;
         <path
           d="M5.30469 10.6569L10.9615 5M10.9615 5H6.0118M10.9615 5V9.94978"
           stroke="#272540"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         />
       </svg>
     )

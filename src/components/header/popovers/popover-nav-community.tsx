@@ -1,9 +1,5 @@
-import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-
 import { CalendarModal } from "@/components/development-pages/calendar-modal";
 import { getYearToUse } from "@/utils/redirects";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { ArrowRightCircle } from "lucide-react";
 import {
@@ -14,122 +10,6 @@ import {
   pricingItems,
 } from "./links";
 
-const PopOverSmall = ({
-  type,
-  latestRoadmapYear,
-}: {
-  type: "community" | "development";
-  latestRoadmapYear?: number;
-}) => {
-  const items = type === "community" ? communityItems : developmentItems;
-  const external = items.find((item) => item.external);
-  const [open2, setOpen] = useState(false);
-
-  return (
-    <Menu
-      as="div"
-      className="relative inline-block text-left"
-      onMouseLeave={() => setOpen(false)}
-    >
-      <a
-        href={
-          type === "community"
-            ? communityItems[0].link
-            : developmentItems[0].link
-        }
-        onMouseEnter={() => {
-          setOpen(true);
-        }}
-        className="group inline-flex cursor-pointer items-center justify-center text-sm font-medium capitalize leading-normal hover:text-primary xl:text-sm "
-      >
-        {type}
-        <ChevronDownIcon
-          className="text-gra -mr-1 ml-1 h-4 w-4 transition-all group-hover:rotate-180"
-          aria-hidden="true"
-        />
-      </a>
-
-      <Transition
-        show={open2}
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute left-1/2 z-[35] w-[303px]   origin-top-right -translate-x-1/2     pt-4  focus:outline-none">
-          <div className="flex flex-col overflow-hidden  rounded-3xl border  bg-background2 shadow-lg">
-            <div className="  p-5 ">
-              {items
-                .filter((item) => !item.external)
-                .map((item, i) => {
-                  return (
-                    <Menu.Item key={i}>
-                      {({ active }) => (
-                        <a
-                          href={
-                            item.link === "roadmap"
-                              ? `/roadmap/${latestRoadmapYear}`
-                              : item.link
-                          }
-                          target={
-                            item.link.startsWith("http") ? "_blank" : "_self"
-                          }
-                          className="dark:hover:bg- group flex  cursor-pointer items-center gap-6 rounded-lg px-4 py-3 transition-all hover:bg-gray-50 dark:hover:bg-black/10"
-                        >
-                          <div className="text-[#9CA3AF] transition-all group-hover:text-primary dark:text-para">
-                            {item.icon ? (
-                              <item.icon size={24} strokeWidth={1.5} />
-                            ) : (
-                              item.customIcon
-                            )}
-                          </div>
-                          <div className="font-semibold">
-                            <p className="flex items-center text-sm font-semibold text-foreground ">
-                              {item.title}
-                              {item.link.startsWith("http") ? (
-                                <ArrowRightCircle
-                                  className="ml-1 inline-block"
-                                  size={16}
-                                />
-                              ) : (
-                                ""
-                              )}
-                            </p>
-                          </div>
-                        </a>
-                      )}
-                    </Menu.Item>
-                  );
-                })}
-            </div>
-            <a
-              href={external?.link}
-              target={external?.link.startsWith("http") ? "_blank" : "_self"}
-              className="border-t bg-gray-50 px-7 py-3 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
-            >
-              <p className="inline-flex items-center text-sm font-semibold text-foreground ">
-                {external?.title}
-                <ArrowRightCircle
-                  className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
-                  size={16}
-                />
-              </p>
-              <p className="mt-1 text-sm font-normal text-para">
-                {external?.description}
-              </p>
-            </a>
-          </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
-  );
-};
-
-export default PopOverSmall;
-
 export const SubNavbar = ({
   pathname,
   type,
@@ -137,6 +17,8 @@ export const SubNavbar = ({
   pathname: string;
   type: "community" | "development" | "network" | "ecosystem" | "pricing";
 }) => {
+  const latestRoadmapYear = getYearToUse();
+
   const items =
     type === "community"
       ? communityItems
@@ -146,88 +28,72 @@ export const SubNavbar = ({
           ? ecosystemNavItems
           : type === "pricing"
             ? pricingItems
-            : networkItems.map((item) => ({ ...item, external: false }));
+            : networkItems;
 
+  const navItems = items.filter((item) => !item?.external && !item?.internal);
   const external = items.find((item) => item?.external && !item?.internal);
+
+  const isActive = (item: (typeof items)[0]) =>
+    pathname === item.link ||
+    (item.link === "roadmap" && pathname?.split("/")[1] === "roadmap") ||
+    pathname?.split("/")[2] === item.link?.split("/")[2] ||
+    (pathname?.split("/")[1] === item.link?.split("/")[1] &&
+      pathname.includes("case-studies"));
+
   return (
-    <div className=" border-y">
-      <div className="container flex items-center gap-2 overflow-x-auto  md:justify-between">
-        <div className="flex">
-          {items
-            .filter((item) => !item?.external && !item?.internal)
-            .map((item, i) => {
+    <div className="border-b border-zinc-200 bg-background dark:border-white/10">
+      <div className="container">
+        <div className="flex items-center justify-between overflow-x-auto py-3">
+          <div className="flex items-center -mx-3">
+            {navItems.map((item, i) => (
+              <a
+                key={i}
+                href={item.link === "roadmap" ? `/roadmap/${latestRoadmapYear}` : item.link}
+                target={item.link.startsWith("http") ? "_blank" : "_self"}
+                className={clsx(
+                  "whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal transition-colors",
+                  isActive(item)
+                    ? "text-zinc-900 dark:text-white"
+                    : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white",
+                )}
+              >
+                {item.title}
+              </a>
+            ))}
+          </div>
+
+          {type === "development" ? (
+            <CalendarModal />
+          ) : (
+            (() => {
+              const internal = items.find((item) => item?.internal);
               return (
-                <a
-                  key={i}
-                  href={
-                    item.link === "roadmap"
-                      ? `/roadmap/${getYearToUse()}`
-                      : item.link
-                  }
-                  target={item.link.startsWith("http") ? "_blank" : "_self"}
-                  className={clsx(
-                    "flex cursor-pointer items-center gap-2  border-b-2   p-4 text-para    ",
-                    pathname === item.link ||
-                      (item.link === "roadmap" &&
-                        pathname?.split("/")[1] === "roadmap") ||
-                      pathname?.split("/")[2] === item.link?.split("/")[2] ||
-                      (pathname?.split("/")[1] === item.link?.split("/")[1] &&
-                        pathname.includes("case-studies"))
-                      ? " border-foreground "
-                      : "border-transparent",
+                <>
+                  {internal && (
+                    <a
+                      href={internal.link}
+                      target={internal.link.startsWith("http") ? "_blank" : "_self"}
+                      className="flex shrink-0 items-center whitespace-nowrap rounded-full border bg-background px-3 py-1.5 text-sm font-semibold"
+                    >
+                      {internal.title}
+                      <ArrowRightCircle className="ml-1 inline-block stroke-[1.5px]" size={16} />
+                    </a>
                   )}
-                >
-                  {item.icon ? (
-                    <item.icon size={24} strokeWidth={1.5} />
-                  ) : (
-                    item.customIcon
+                  {external && (
+                    <a
+                      href={external.link}
+                      target="_blank"
+                      className="flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                    >
+                      {external.title}
+                      <ArrowRightCircle className="h-[13px] w-[13px] shrink-0 -rotate-45 stroke-[1.5px]" />
+                    </a>
                   )}
-                  <p className="flex-1 whitespace-nowrap text-sm font-medium text-foreground">
-                    {item.title}
-                  </p>
-                </a>
+                </>
               );
-            })}
+            })()
+          )}
         </div>
-        {type === "development" ? (
-          <CalendarModal />
-        ) : (
-          (() => {
-            const internal = items.find((item) => item?.internal);
-            return (
-              <>
-                {internal && (
-                  <a
-                    href={internal.link}
-                    target={
-                      internal.link.startsWith("http") ? "_blank" : "_self"
-                    }
-                    className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
-                  >
-                    {internal.title}
-                    <ArrowRightCircle
-                      className="ml-1 inline-block stroke-[1.5px]"
-                      size={16}
-                    />
-                  </a>
-                )}
-                {external && (
-                  <a
-                    href={external.link}
-                    target="_blank"
-                    className=" flex items-center whitespace-nowrap rounded-full  border bg-background px-3 py-1.5 text-sm font-semibold  "
-                  >
-                    {external.title}
-                    <ArrowRightCircle
-                      className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
-                      size={16}
-                    />
-                  </a>
-                )}
-              </>
-            );
-          })()
-        )}
       </div>
     </div>
   );

@@ -7,18 +7,92 @@ linkTitle: "API Reference"
 description: "Complete API reference for Console Managed Wallet API endpoints"
 ---
 
-**Complete reference for all Managed Wallet API endpoints.**
+Complete reference for all Console API endpoints.
 
 ---
 
 ## Authentication
 
-All API requests require the `x-api-key` header:
+Every request must include the `x-api-key` header. Create and manage keys in [Console](https://console.akash.network) from your profile menu -> API Keys.
 
-```typescript
-headers: {
-  "Content-Type": "application/json",
-  "x-api-key": "your-api-key-here"
+Example HTTP request:
+
+```http
+GET /v1/deployments HTTP/1.1
+Host: console-api.akash.network
+x-api-key: YOUR_API_KEY
+```
+
+Authentication errors return `401 Unauthorized`:
+
+```json
+{ "error": "Unauthorized", "message": "Missing or invalid API key" }
+```
+
+---
+
+## Errors
+
+The API uses standard HTTP status codes. All error responses share the same JSON shape.
+
+| HTTP Status | Code string | Description |
+|---|---|---|
+| 400 | BadRequest | The request body or query parameters are invalid. Check `message` for details. |
+| 401 | Unauthorized | `x-api-key` is missing, expired, or invalid. |
+| 404 | NotFound | The resource (`dseq`) does not exist or is not owned by the authenticated user. |
+| 409 | Conflict | Action conflicts with current resource state (for example, lease already exists). |
+| 429 | TooManyRequests | Request rate exceeded. Wait before retrying. |
+| 500 | InternalServerError | Unexpected server error. Retry with exponential backoff. |
+
+Error response schema:
+
+```json
+{
+  "error": "string",
+  "message": "string"
+}
+```
+
+---
+
+## API Versioning
+
+Endpoints are prefixed with a version number (`/v1/` or `/v2/`). Versions are independent. Upgrading one endpoint version does not affect others.
+
+| Version | Status | Endpoints |
+|---|---|---|
+| v1 | Stable | Deployments, bids, leases, deposit |
+| v2 | Stable | Deployment settings |
+
+Path-level versioning means you can adopt `/v2/deployment-settings` without changing existing `/v1/deployments` calls. Future breaking changes are introduced as a new version prefix, and prior versions remain available for a deprecation period announced in the changelog ([https://github.com/akash-network/console/releases](https://github.com/akash-network/console/releases)).
+
+---
+
+## Pagination
+
+`GET /v1/deployments` uses offset-based pagination via `skip` and `limit`.
+
+| Parameter | Type | Default | Maximum | Description |
+|---|---|---|---|---|
+| skip | integer | 0 | - | Number of records to skip (offset) |
+| limit | integer | 10 | 100 | Maximum records to return per page |
+
+Fetching all deployments (JavaScript generator):
+
+```javascript
+async function* getAllDeployments() {
+  let skip = 0;
+  const limit = 100;
+  while (true) {
+    const res = await fetch(
+      `https://console-api.akash.network/v1/deployments?skip=${skip}&limit=${limit}`,
+      { headers: { "x-api-key": process.env.AKASH_API_KEY } }
+    );
+    const page = await res.json();
+    yield* page;
+    if (page.length < limit) break;
+    skip += limit;
+  }
 }
 ```
 
@@ -631,8 +705,10 @@ console.log("Settings created:", createResponse.data.id);
 
 ---
 
-## Related Resources
+## See Also
 
-- **[Getting Started](/docs/api-documentation/console-api/getting-started)** - API setup and first deployment
-- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - SDL syntax guide
-- **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
+- **[Getting Started](/docs/api-documentation/console-api/getting-started)** - Full workflow with examples
+- **[SDL Reference](https://docs.akash.network/docs/getting-started/stack-definition-language/)** - SDL syntax and options
+- **[Akash CLI](https://docs.akash.network/docs/deployments/akash-cli/installation/)** - Wallet-based deployments
+- **[Console](https://console.akash.network)** - Visual interface for managing deployments
+- **[GitHub: akash-network/console](https://github.com/akash-network/console)** - Source and issues

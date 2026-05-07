@@ -6,6 +6,7 @@ export const homePageSchema = defineCollection({
       advert: z.object({
         title: z.string(),
         link: z.string(),
+        hidden: z.boolean().optional(),
       }),
       heroSection: z.object({
         title: z.string(),

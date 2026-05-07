@@ -15,9 +15,4 @@ export const nav: any = [
     link: "/community/community-contributions/",
     enabled: true,
   },
-  {
-    label: "Akash Validators",
-    link: "/community/akash-validators/",
-    enabled: true,
-  },
 ];

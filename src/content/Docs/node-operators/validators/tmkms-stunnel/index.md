@@ -631,13 +631,13 @@ Now that your node is running with TMKMS, create the validator.
 
 ### Set Environment Variables
 
-On your local machine (with `akash` CLI):
+On your local machine (with `akash` CLI). Ensure **`jq`** is installed (`curl` is usually available).
 
 ```bash
-export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
-export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
-export AKASH_NODE="$(curl -s "$AKASH_NET/rpc-nodes.txt" | head -1)"
-export AKASH_KEYNAME=<your-key-name>
+export AKASH_META_URL="${AKASH_META_URL:-https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json}"
+export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
+export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[0].address')"
+so export AKASH_KEYNAME=<your-key-name>
 export AKASH_GAS=auto
 export AKASH_GAS_ADJUSTMENT=1.25
 export AKASH_GAS_PRICES=0.025uakt

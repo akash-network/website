@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
 tags: ["Operations", "Verification", "Monitoring"]
-weight: 5
+weight: 8
 title: "Provider Verification"
 linkTitle: "Provider Verification"
 description: "Verify your provider is running correctly and bidding on deployments"
@@ -133,8 +133,9 @@ grpcurl -insecure <provider-domain>:8444 akash.provider.v1.ProviderRPC.GetStatus
 
 **If it fails:**
 - Verify DNS points to your provider IP
-- Check firewall allows ports 8443 (HTTP) and 8444 (gRPC)
+- Check firewall allows ports 80, 8443, 8444, and 5002
 - Ensure provider domain is in certificate
+- Verify Gateway and TCPRoutes: `kubectl -n akash-gateway get gateway` and `kubectl -n akash-services get tcproutes`
 
 ### Deployment Pods Failing
 
@@ -160,10 +161,11 @@ After provider installation, verify:
 - Provider status endpoint is accessible (`curl https://provider:8443/status`)
 - Provider gRPC endpoint is accessible (`grpcurl provider:8444 akash.provider.v1.ProviderRPC.GetStatus`)
 - Provider is bidding on orders (check logs)
-- Ingress controller is running (`kubectl -n ingress-nginx get pods`)
+- Gateway API stack is running (Gateway + TCPRoutes): `kubectl -n akash-gateway get gateway` and `kubectl -n akash-services get tcproutes`
+- NGINX Gateway Fabric pods are running: `kubectl -n nginx-gateway get pods`
 - GPU device plugin is running (GPU providers only)
 - Wallet has sufficient balance
-- Firewall allows required ports (8443, 8444)
+- Firewall allows required ports (80, 8443, 8444, 5002)
 - Domain DNS is configured
 
 ## Related Resources

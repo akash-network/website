@@ -1,5 +1,5 @@
 import { speakToExpertVariants } from "@/components/pricing-page/SpeakToExpert";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 
@@ -39,28 +39,37 @@ export default function TryAkashForm({
   );
 
   const headerDeployButton = (
-    <button
+    <Button
       type="button"
-      className={buttonVariants({
-        variant: "default",
-        size: "sm",
-        className: "!h-auto !rounded px-[11px] py-[7px] text-xs",
-      })}
+      size="sm"
+      className="!h-auto px-[11px] py-[7px] text-xs bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
     >
       Deploy Now
-    </button>
+    </Button>
   );
 
   const heroButton = (
-    <button
-      type="button"
+    <div
       className={clsx(
-        " cursor-pointer rounded-md bg-primary px-4 md:px-6 py-2.5 md:py-3 text-white transition-all hover:bg-primary/90 text-sm md:text-base",
-        fullWidth ? "w-full" : "mx-auto",
+        "relative overflow-hidden rounded-md bg-black/10 dark:bg-white/10 p-[1.5px]",
+        fullWidth ? "flex w-full" : "inline-flex",
       )}
     >
-      Deploy On Console
-    </button>
+      {/* Snake gradient line */}
+      <span
+        className="hero-snake-line pointer-events-none absolute animate-[snakeSpin_3s_linear_infinite]"
+        style={{ inset: "-100%" }}
+      />
+      <Button
+        type="button"
+        className={clsx(
+          "relative z-10 !h-auto cursor-pointer rounded-[5px] bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 px-4 md:px-6 py-2.5 md:py-3 text-sm md:text-base",
+          fullWidth ? "w-full" : "",
+        )}
+      >
+        Deploy On Console
+      </Button>
+    </div>
   );
 
   const linkButton = (

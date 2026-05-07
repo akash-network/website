@@ -1302,7 +1302,7 @@ ufw allow from 1.2.3.4 to any port 1317
 
 ## Public RPC Nodes
 
-**Trusted community RPC nodes:**
+**Examples of community RPC endpoints** (for illustration; the canonical list lives in repo metadata):
 
 ```
 https://rpc.akashnet.net:443
@@ -1312,10 +1312,12 @@ https://akash-rpc.polkachu.com:443
 https://akash.c29r3.xyz:443/rpc
 ```
 
-**Latest list:**
+**Current RPC URLs (from `meta.json`):**
 ```bash
-curl https://raw.githubusercontent.com/akash-network/net/main/mainnet/rpc-nodes.txt
+curl -sSf https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json | jq -r '.apis.rpc[].address'
 ```
+
+(Public RPC endpoints are listed under `apis.rpc` in `meta.json`.)
 
 ---
 

@@ -2,7 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { ArrowRightCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { networkItems } from "./links";
 
 const PopOverNavItemNetwork = () => {
@@ -17,7 +17,7 @@ const PopOverNavItemNetwork = () => {
       <div>
         <a
           href={networkItems[0].link}
-          className="group  inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-normal hover:text-primary xl:text-sm "
+          className="group inline-flex cursor-pointer items-center justify-center text-[13.4px] leading-[18.6px] font-normal text-zinc-400 hover:text-white transition-colors "
           onMouseEnter={() => {
             setOpen(true);
           }}
@@ -40,9 +40,9 @@ const PopOverNavItemNetwork = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute left-1/2 z-[35] w-[387px]  origin-top-right translate-x-[-40%]    pt-4  focus:outline-none ">
-          <div className="flex flex-col overflow-hidden rounded-3xl  border bg-background2  shadow-lg">
-            <div className="p-5">
+        <Menu.Items className="absolute left-1/2 z-[35] w-[300px] origin-top-right translate-x-[-40%] pt-4 focus:outline-none">
+          <div className="flex flex-col overflow-hidden rounded-md border border-white/10 bg-[#0d0d0f] shadow-xl">
+            <div className="p-2">
               {networkItems.map((item, i: any) => {
                 return (
                   <Menu.Item key={i}>
@@ -52,33 +52,17 @@ const PopOverNavItemNetwork = () => {
                         target={
                           item.link.startsWith("http") ? "_blank" : "_self"
                         }
-                        className={`group flex cursor-pointer  items-center gap-3 p-3 transition-all hover:rounded-lg hover:bg-gray-50 dark:hover:bg-black/10   ${
-                          active ? "" : ""
-                        } `}
+                        className="group flex cursor-pointer select-none items-center justify-between rounded-sm px-3 py-2.5 outline-none transition-colors hover:bg-white/5"
                       >
-                        <div className="flex size-11 items-center justify-center rounded-lg bg-[#F9FAFB] text-[#4B5563] transition-all group-hover:bg-background2 group-hover:text-primary dark:bg-background dark:text-para">
-                          {item.icon ? (
-                            <item.icon size={24} strokeWidth={1.5} />
-                          ) : (
-                            item.customIcon
-                          )}
-                        </div>
-                        <div className="font-semibold">
-                          <p className="flex items-center text-sm font-semibold text-foreground ">
+                        <div className="flex flex-col gap-0.5">
+                          <p className="text-sm font-normal text-foreground">
                             {item.title}
-                            {item.link.startsWith("http") ? (
-                              <ArrowRightCircle
-                                className="ml-1 inline-block"
-                                size={16}
-                              />
-                            ) : (
-                              ""
-                            )}
                           </p>
-                          <p className="text-sm font-normal text-para">
+                          <p className="text-xs font-normal text-zinc-500 whitespace-nowrap">
                             {item.description}
                           </p>
                         </div>
+                        <ArrowRight className="ml-4 h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
                       </a>
                     )}
                   </Menu.Item>
@@ -88,18 +72,10 @@ const PopOverNavItemNetwork = () => {
             <a
               href="https://stats.akash.network/"
               target="_blank"
-              className="border-t bg-gray-50 px-8 py-4 font-semibold transition-all hover:bg-gray-100 dark:bg-background hover:dark:bg-darkGray"
+              className="group flex cursor-pointer items-center justify-between border-t border-white/10 px-5 py-3 transition-colors hover:bg-white/5"
             >
-              <p className="flex items-center text-sm font-semibold text-foreground ">
-                Akash Stats
-                <ArrowRightCircle
-                  className="ml-1 inline-block -rotate-45 stroke-[1.5px]"
-                  size={16}
-                />
-              </p>
-              <p className="mt-1 text-sm font-normal text-textGray">
-                Insights into the latest statistics about the Akash
-              </p>
+              <p className="text-sm font-normal text-foreground">Akash Stats</p>
+              <ArrowRight className="h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
             </a>
           </div>
         </Menu.Items>

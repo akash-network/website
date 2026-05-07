@@ -22,4 +22,5 @@ export const trustedBySection: trustedBy[] = [
   { title: "Passage", image: "/images/trusted-by/passage.svg" },
   { title: "Nodeshift", image: "/images/trusted-by/nodeshift.svg" },
   { title: "Cornell University", image: "/images/trusted-by/cornell-university.svg", height: 25 },
+  { title: "Razer", image: "/images/trusted-by/razer.svg", height: 20 },
 ];

@@ -29,7 +29,7 @@ This guide covers:
 4. [Initialize Node](#step-4---initialize-node)
 5. [Set Minimum Gas Price](#step-5---set-minimum-gas-price)
 6. [Copy Genesis File](#step-6---copy-genesis-file)
-7. [Add Seed and Peer Nodes](#step-7---add-seed-and-peer-nodes)
+7. [Configure P2P Peers](#step-7---configure-p2p-peers)
 8. [Configure Fast Sync](#step-8---configure-fast-sync)
 9. [Download Blockchain Snapshot](#step-9---download-blockchain-snapshot)
 10. [Start the Node](#step-10---start-the-node)
@@ -123,9 +123,11 @@ Initialize your Akash node with the mainnet chain ID.
 
 ### Set Network Variables
 
+Network parameters come from **[mainnet `meta.json`](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json)**.
+
 ```bash
-export AKASH_NET="https://raw.githubusercontent.com/akash-network/net/main/mainnet"
-export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
+export AKASH_META_URL="${AKASH_META_URL:-https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json}"
+export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
 ```
 
 ### Initialize Node
@@ -160,25 +162,27 @@ Save and exit.
 
 ## Step 6 - Copy Genesis File
 
-Download the genesis file for the Akash mainnet.
+Download the genesis file for the Akash mainnet (URL is taken from `meta.json`).
 
 ```bash
-curl -s "$AKASH_NET/genesis.json" > $HOME/.akash/config/genesis.json
+curl -sSf "$(curl -sSf "$AKASH_META_URL" | jq -r '.codebase.genesis.genesis_url')" > "$HOME/.akash/config/genesis.json"
 ```
 
 ---
-## Step 7 - Add Seed and Peer Nodes
+## Step 7 - Configure P2P Peers
 
-Configure seed and peer nodes to connect your node to the network.
+Configure Tendermint **seeds** and **persistent peers** to connect your node to the network (values are read from `meta.json`).
 
 ### Download and Configure Automatically
 
-```bash
-# Get seed nodes
-SEED_NODES=$(curl -s "$AKASH_NET/seed-nodes.txt" | paste -d, -s)
+Build comma-separated `node_id@host:port` lists from `meta.json` (`peers.seeds` and `peers.persistent_peers`).
 
-# Get peer nodes
-PEER_NODES=$(curl -s "$AKASH_NET/peer-nodes.txt" | paste -d, -s)
+```bash
+# Seed nodes (empty string if none are published)
+SEED_NODES="$(curl -sSf "$AKASH_META_URL" | jq -r '(.peers.seeds // []) | map("\(.id)@\(.address)") | join(",")')"
+
+# Persistent peers
+PEER_NODES="$(curl -sSf "$AKASH_META_URL" | jq -r '(.peers.persistent_peers // []) | map("\(.id)@\(.address)") | join(",")')"
 
 # Update config.toml with seed nodes
 sed -i.bak "s|^seeds = \"\"|seeds = \"$SEED_NODES\"|" ~/.akash/config/config.toml
@@ -191,7 +195,7 @@ sed -i.bak 's|laddr = "tcp://127.0.0.1:26657"|laddr = "tcp://0.0.0.0:26657"|' ~/
 ```
 
 **What this does:**
-- Downloads current seed and peer node lists
+- Reads current seed and persistent peer lists from `meta.json`
 - Automatically updates `config.toml` with the nodes
 - Configures RPC to accept external connections
 - Creates backup files (`.bak`) before modifications

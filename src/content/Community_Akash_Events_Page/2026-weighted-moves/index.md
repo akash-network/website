@@ -9,6 +9,7 @@ tags:
   - AI
   - Mixer
   - Community Event
+lumaEventId: "evt-cUdGIwHGJCIFIQ5"
 cta:
   - text: "Register Now"
     link: "https://lu.ma/weightedmoves"

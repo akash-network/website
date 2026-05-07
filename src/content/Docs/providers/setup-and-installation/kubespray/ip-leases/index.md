@@ -320,7 +320,7 @@ Common issues:
 Your provider now supports IP leases!
 
 **Optional enhancements:**
-- [TLS Certificates](/docs/providers/setup-and-installation/kubespray/tls-certificates) - Automatic SSL certificates for deployments
+- [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) - **Required** for all providers: cert-manager and Gateway TLS
 
 **Resources:**
 - [MetalLB Documentation](https://metallb.universe.tf/) - Official MetalLB docs

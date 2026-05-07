@@ -2,7 +2,8 @@
 import TryAkashForm from "@/components/ui/try-akash-form";
 import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
-import { ArrowRight, Award, Info } from "lucide-react";
+import { Info } from "lucide-react";
+import HeroLetterHeadline from "./HeroLetterHeadline.astro";
 import Slider from "./slider.astro";
 
 interface Props {
@@ -47,7 +48,7 @@ const tiles = [
 
 <section class="relative overflow-hidden bg-[#FCFCFC] dark:bg-[#030303]">
   <!-- <div class="glow"></div> -->
-  <div class="container relative z-[2] pt-16 md:pt-20">
+  <div class="container relative z-[2] pt-7 md:pt-[50px]">
     {
       pathname.includes("meetingconfirmation") && (
         <div class="relative mx-auto mt-10 flex w-fit items-center justify-center gap-2  rounded-lg border !border-primary px-4 py-3 text-sm text-primary">
@@ -56,28 +57,28 @@ const tiles = [
         </div>
       )
     }
-    <h1
+    <HeroLetterHeadline
+      lines={["Decentralized Cloud", "for AI's Next Frontier"]}
       class={clsx(
-        "mx-auto text-center font-instrument text-[54px] italic leading-[1] tracking-[-0.88px] lg:text-[88px]",
-        pathname.includes("meetingconfirmation") ? "mt-7" : "mt-10"
+        "mx-auto text-center font-sans font-semibold text-foreground tracking-tight md:[letter-spacing:-2.4px] [font-size:clamp(2.25rem,6vw,4.5rem)] [line-height:1.1] md:[line-height:1.0]",
+        pathname.includes("meetingconfirmation") ? "mt-7" : "mt-10",
       )}
-      set:html={heroSection.title}
     />
 
     <p
-      class="mx-auto mt-4 text-center text-base md:text-xl"
+      class="mx-auto mt-4 text-center text-sm text-para/75"
       set:html={heroSection.description}
     />
 
-    <div class="mt-12 flex flex-col justify-center gap-4">
-      <div
-        class="mx-auto flex items-center gap-2 rounded-full border bg-background2 px-6 py-2.5 text-center text-sm dark:bg-[#242429]/45 md:py-3 md:text-base"
-      >
-        <span>💸</span>
-        <p class="text-[#8C8E91]">Get up to $100 in GPU credits</p>
-      </div>
+    <div class="mt-12 flex flex-col justify-center gap-3">
       <div class="flex justify-center" style="min-height:48px;">
         <TryAkashForm client:load type="hero" />
+      </div>
+      <div
+        class="mx-auto flex items-center gap-2 rounded-full border bg-background2 px-4 py-2 text-center text-xs dark:bg-[#242429]/45"
+      >
+        <span>💸</span>
+        <p class="text-[12.4px] text-[#8C8E91]">Get up to $100 in GPU credits</p>
       </div>
     </div>
 
@@ -104,9 +105,9 @@ const tiles = [
                   <div class="hero-mobile-block pl-5 md:hidden">
                     <div class="min-h-0">
                       <div class="hero-mobile-line relative">
-                        <div class="h-px w-full bg-white/20" />
+                        <div class="h-px w-full bg-black/20 dark:bg-white/20" />
                         <div
-                          class="hero-progress hero-progress-mobile absolute left-0 top-0 h-px bg-primary w-0"
+                          class="hero-progress hero-progress-mobile absolute left-0 top-0 h-px bg-black dark:bg-white w-0"
                           data-tile={i}
                         />
                       </div>
@@ -156,9 +157,9 @@ const tiles = [
             {
               tiles.map((_, i) => (
                 <div class="relative flex-1">
-                  <div class="h-px w-full bg-white/20" />
+                  <div class="h-px w-full bg-black/20 dark:bg-white/20" />
                   <div
-                    class="hero-progress hero-progress-desktop absolute left-0 top-0 h-px bg-primary w-0"
+                    class="hero-progress hero-progress-desktop absolute left-0 top-0 h-px bg-black dark:bg-white w-0"
                     data-tile={i}
                   />
                 </div>

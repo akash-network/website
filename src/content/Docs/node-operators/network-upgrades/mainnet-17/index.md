@@ -403,7 +403,7 @@ akash status | jq '.node_info.other.peers'
 
 If low peer count, add peers from:
 - [Polkachu Peers](https://polkachu.com/live_peers/akash)
-- [Akash Network net repo](https://github.com/akash-network/net/blob/main/mainnet/peer-nodes.txt)
+- [Akash Network net repo — `meta.json` (`persistent_peers`)](https://github.com/akash-network/net/blob/main/mainnet/meta.json)
 
 ### Cosmovisor Not Upgrading
 

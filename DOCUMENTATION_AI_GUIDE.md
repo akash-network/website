@@ -565,6 +565,7 @@ Use bold text for callouts (NOT HTML, NOT admonitions):
 - NO `index.md` in path
 - NO relative paths (`../`)
 - Use absolute paths from docs root
+- **Provider docs** in this repo use the `/docs/providers/...` path (e.g. `/docs/providers/setup-and-installation/kubespray/provider-installation`). Older examples may show `/docs/for-providers/...`; prefer `/docs/providers/...` for new and updated pages.
 
 **External Links:**
 ```markdown
@@ -573,7 +574,7 @@ Use bold text for callouts (NOT HTML, NOT admonitions):
 
 **Examples:**
 ```markdown
-✅ GOOD: [Provider Installation](/docs/for-providers/setup-and-installation/kubespray/provider-installation)
+✅ GOOD: [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
 ❌ BAD:  [Provider Installation](../provider-installation)
 ❌ BAD:  [Provider Installation](/for-providers/.../provider-installation/index.md)
 ```
@@ -1082,9 +1083,9 @@ curl -I https://github.com
 
 ## Related Resources
 
-- [GPU Support](/docs/for-providers/setup-and-installation/kubespray/gpu-support)
-- [Provider Installation](/docs/for-providers/setup-and-installation/kubespray/provider-installation)
-- [Hardware Requirements](/docs/for-providers/getting-started/hardware-requirements)
+- [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support)
+- [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
+- [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)
 ```
 
 ### Example 2: Architecture Document
@@ -1188,9 +1189,9 @@ func (b *deploymentBuilder) create() (*appsv1.Deployment, error) {
 
 ## Related Resources
 
-- [Manifest Service Architecture](/docs/for-providers/architecture/manifest-service)
-- [Inventory Operator](/docs/for-providers/architecture/operators/inventory)
-- [Provider Service Overview](/docs/for-providers/architecture)
+- [Manifest Service Architecture](/docs/providers/architecture/manifest-service)
+- [Inventory Operator](/docs/providers/architecture/operators/inventory)
+- [Provider Service Overview](/docs/providers/architecture)
 ```
 
 ### Example 3: API Example with CodeTabs

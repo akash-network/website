@@ -476,5 +476,5 @@ Your Kubernetes cluster is now ready!
 - Otherwise: **→ [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)**
 
 **Additional optional features:**
-- [TLS Certificates](/docs/providers/setup-and-installation/kubespray/tls-certificates) - Automatic SSL certificates
+- [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) - **Required** for all providers: cert-manager and Gateway TLS
 - [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) - Enable static IPs for deployments

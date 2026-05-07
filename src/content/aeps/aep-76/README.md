@@ -6,8 +6,8 @@ status: Final
 type: Standard
 category: Economics
 created: 2025-09-21
-updated: 2026-03-06
-estimated-completion: 2026-03-23
+updated: 2026-03-23
+completed: 2026-03-23
 roadmap: major
 replaces: 55
 ---

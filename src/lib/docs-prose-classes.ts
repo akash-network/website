@@ -23,6 +23,11 @@ const table = [
 ].join(" ");
 
 const pre = "prose-pre:overflow-x-auto prose-pre:max-w-full";
+/** Inline `code` pills: keep line height close to body copy (avoids tall gray boxes) */
+const code = [
+  "prose-code:rounded-sm prose-code:px-1 prose-code:py-0 prose-code:font-mono",
+  "prose-code:text-[0.9em] prose-code:leading-none prose-code:align-baseline",
+].join(" ");
 
 export const proseClasses = classNames(
   p,
@@ -35,6 +40,7 @@ export const proseClasses = classNames(
   ol,
   table,
   pre,
+  code,
   "prose max-w-full",
   "prose-a:text-primary prose-a:no-underline prose-img:w-full text-foreground prose-hr:border-defaultBorder",
 );

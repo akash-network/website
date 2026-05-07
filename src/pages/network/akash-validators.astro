@@ -1,0 +1,21 @@
+---
+import { getEntry } from "astro:content";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import { proseClasses } from "@/lib/prose-classes";
+
+const page = await getEntry("Community_Page", "akash-validators");
+const { Content } = await page.render();
+---
+
+<Layout
+  title="Akash Network - Validators"
+  description="Connect with like-minded individuals in the Akash Network community. Engage in discussions, share experiences, and contribute to the growth of decentralized cloud computing."
+  image="/meta-images/community.png"
+>
+  <TopMargin readable>
+    <div class={proseClasses}>
+      <Content />
+    </div>
+  </TopMargin>
+</Layout>

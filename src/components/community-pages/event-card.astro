@@ -12,6 +12,7 @@ interface Props {
     description: string;
     link: string;
     tbd: boolean;
+    lumaEventId?: string;
     cta?: {
       text: string;
       link: string;
@@ -59,14 +60,6 @@ const { card } = Astro.props;
         <ArrowUpCircle className="w-4 rotate-45 text-para" />
         Read More
       </ButtonLink>
-      {
-        card?.cta?.map((cta) => (
-          <ButtonLink variant="secondary" size="xs" link={cta.link}>
-            <ArrowUpCircle className="w-4 rotate-45 text-para" />
-            {cta.text}
-          </ButtonLink>
-        ))
-      }
     </div>
   </div>
 </div>
