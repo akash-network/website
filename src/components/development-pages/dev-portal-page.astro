@@ -1,0 +1,461 @@
+---
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
+import TimeZoneCalendar from "@/components/development-pages/time-zone-calendar";
+
+const tools = [
+  {
+    name: "Professional-grade control",
+    tagline:
+      "Deploy clusters and ship containers in sixty seconds. No hidden abstractions. You have full control over every lease and bid.",
+    cta: "Launch Console",
+    href: "https://console.akash.network",
+    image: "/development/portal-console.png",
+  },
+  {
+    name: "Dedicated Inference",
+    tagline:
+      "Serve Llama, DeepSeek, and Qwen via OpenAI-compatible endpoints. Change one base_url to save 85% on production inference.",
+    cta: "Try AkashML",
+    href: "https://chatapi.akash.network",
+    image: "/development/portal-akashml.png",
+  },
+  {
+    name: "Put your silicon to work",
+    tagline:
+      "Turn your idle GPUs into an income stream. Join the supply side and earn from a global marketplace of AI builders.",
+    cta: "Become a Provider",
+    href: "https://provider-console.akash.network/",
+    image: "/development/portal-provider.png",
+  },
+];
+
+const repos = [
+  {
+    repo: "akash-network/console",
+    desc: "The deployment dashboard. If you see something missing, build it.",
+    href: "https://github.com/akash-network/console",
+  },
+  {
+    repo: "akash-network/website",
+    desc: "The digital home of the network. If you see something broken, fix it.",
+    href: "https://github.com/akash-network/website",
+  },
+  {
+    repo: "akash-network/akash-js",
+    desc: "Libraries for integrating Akash into any JavaScript project.",
+    href: "https://github.com/akash-network/akash-js",
+  },
+  {
+    repo: "akash-network/awesome-akash",
+    desc: "Curated templates, tools, and resources from the community.",
+    href: "https://github.com/akash-network/awesome-akash",
+  },
+];
+
+
+
+const waysBottom = [
+  {
+    title: "Docs",
+    desc: "The network is only as good as its knowledge base. Help us keep it current.",
+    href: "/docs",
+  },
+  {
+    title: "Providers",
+    desc: "Power the decentralized cloud with your hardware. Supply makes the marketplace real.",
+    href: "/ecosystem/providers",
+  },
+  {
+    title: "Community Groups",
+    desc: "Join SIGs and Working Groups. Show up, listen, and find where you fit.",
+    href: "/development/community-groups/",
+  },
+  {
+    title: "Get Support",
+    desc: "Stuck on a deployment? The community has your back.",
+    href: "https://akash.network/support",
+  },
+  {
+    title: "GitHub Discussions",
+    desc: "Open conversations on protocol direction, tooling, and the future of the network.",
+    href: "https://github.com/orgs/akash-network/discussions",
+  },
+  {
+    title: "How to Contribute",
+    desc: "A guide to contributing code, content, and ideas to the Akash ecosystem.",
+    href: "https://github.com/akash-network/community#getting-started-with-contributing",
+  },
+  {
+    title: "Code of Conduct",
+    desc: "The standards that keep the community open, respectful, and collaborative.",
+    href: "https://github.com/akash-network/community/blob/main/CODE_OF_CONDUCT.md",
+  },
+];
+
+const programs = [
+  {
+    tag: "Founders & Startups",
+    name: "Founder-ready compute",
+    tagline: "Your GPU bill shouldn't eat your seed round. Access H100s from $1.45/hr with zero sales calls or waitlists.",
+    cta: "Learn More",
+    href: "/development/startups/",
+    image: "/development/portal-startups.png",
+    grayscale: true,
+  },
+  {
+    tag: "Researchers & Academics",
+    name: "Academic-grade silicon",
+    tagline: "If the models are open, the compute must be too. Power your next breakthrough on the marketplace built for researchers.",
+    cta: "Learn More",
+    href: "/development/universities/",
+    image: "/development/portal-universities.png",
+    grayscale: true,
+  },
+  {
+    tag: "Developers & Contributors",
+    name: "Fund your open-source tool",
+    tagline: "We invest in the people who build the roads. Developing tools for the open cloud? We fund that.",
+    cta: "Learn More",
+    href: "/development/funding-program/",
+    image: "/development/portal-grants.png",
+    grayscale: false,
+  },
+];
+
+const integrations = [
+  {
+    title: "Akash SDK",
+    desc: "Native wallet integration for custom automation.",
+  },
+  {
+    title: "Deployment API",
+    desc: "Credit card enabled REST API for SaaS platforms.",
+  },
+  {
+    title: "Node RPC",
+    desc: "Direct gRPC/REST access to raw protocol state.",
+  },
+];
+
+const govGroups = [
+  {
+    abbr: "SIG",
+    name: "Special Interest Groups",
+    desc: "Focused, persistent groups working on specific features, products, and foundational tools. SIGs exist as long as the work does.",
+  },
+  {
+    abbr: "WG",
+    name: "Working Groups",
+    desc: "Large-scale initiatives that span multiple SIGs. They form around a mission and dissolve once the work ships. The work outlasts the group.",
+  },
+  {
+    abbr: "SC",
+    name: "Steering Committee",
+    desc: "Oversees the project list, resolves conflicts, and ensures the community keeps improving how it operates.",
+  },
+];
+---
+
+
+<div class="not-prose space-y-20 pb-28 md:space-y-44">
+
+  <!-- HERO -->
+  <section class="space-y-8 pt-4">
+    <div class="space-y-5">
+      <h1
+        class="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl"
+      >
+        Akash is open.<br />So is the door.
+      </h1>
+      <p class="max-w-xl text-base font-normal text-para">
+        Build on the open compute marketplace. Everything here, from the codebase to the governance, is owned by the builders who ship it.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <a
+        href="https://github.com/akash-network"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+      >
+        View on GitHub
+      </a>
+      <a
+        href="https://akash.network/docs"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+      >
+        Read the Docs
+      </a>
+    </div>
+    <div class="group mt-10 overflow-hidden rounded-xl">
+      <img src="/development/portal-hero.png" alt="" class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="space-y-8">
+    <div class="space-y-4">
+      <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Tools</span>
+      <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+        The builder's command center
+      </h2>
+      <p class="max-w-2xl text-base font-normal text-para">
+        Whether you are shipping containers, serving inference, or powering the network, the Akash ecosystem provides the specialized tools to move at the speed of the open cloud.
+      </p>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3">
+      {
+        tools.map((tool) => (
+          <a href={tool.href} class="block" target={tool.href.startsWith('http') ? '_blank' : undefined} rel={tool.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+            <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
+              <div class="flex h-full flex-col gap-5 p-6">
+                <div class="overflow-hidden rounded-lg">
+                  <img src={tool.image} alt={tool.name} class="h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+                </div>
+                <h3 class="text-xl font-semibold text-foreground">{tool.name}</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">{tool.tagline}</p>
+                <div class="mt-auto pt-1">
+                  <div class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
+                    {tool.cta}<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- INTEGRATIONS -->
+  <section class="space-y-8">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="order-2 space-y-6 md:order-1">
+        <div class="space-y-4">
+          <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Integrations</span>
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Your stack. Global supply.
+          </h2>
+          <p class="max-w-xl text-base font-normal text-para">
+            If it runs in a container, it runs on Akash. Build without lock-in or proprietary SDKs.
+          </p>
+        </div>
+        <div class="space-y-5">
+          {
+            integrations.map((item) => (
+              <div>
+                <p class="text-sm font-semibold text-foreground">{item.title}</p>
+                <p class="mt-1 text-sm font-normal text-para">{item.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+        <a
+          href="/development/integrations/"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >Explore Integrations<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+      <div class="group order-1 overflow-hidden rounded-xl md:order-2">
+        <img src="/development/portal-integrations.png" alt="" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section class="space-y-8">
+    <div class="space-y-4">
+      <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Programs</span>
+      <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+        Fuel for the builders
+      </h2>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3">
+      {
+        programs.map((p) => (
+          <a href={p.href} class="block">
+            <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
+              <div class="flex h-full flex-col gap-5 p-6">
+                <div class="overflow-hidden rounded-lg">
+                  <img src={p.image} alt={p.tag} class={`h-44 w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105${p.grayscale ? " grayscale group-hover:grayscale-0" : ""}`} />
+                </div>
+                <div class="space-y-3">
+                  <p class="text-xs font-normal text-para">{p.tag}</p>
+                  <h3 class="text-xl font-semibold text-foreground">{p.name}</h3>
+                </div>
+                <p class="text-sm font-normal leading-relaxed text-para">{p.tagline}</p>
+                <div class="mt-auto pt-1">
+                  <div class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
+                    {p.cta}<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="space-y-8">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="group overflow-hidden rounded-xl">
+        <img src="/development/portal-roadmap.png" alt="Akash Roadmap" class="aspect-square w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            See what's shipping next
+          </h3>
+          <p class="text-base font-normal text-para">
+            The Akash roadmap is built in public. Track what's planned, monitor active progress, and start the conversation if you see a gap in the network.
+          </p>
+        </div>
+        <a
+          href="/roadmap"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >View Roadmap<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOVERNANCE -->
+  <section class="space-y-8">
+    <div class="space-y-4">
+      <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Community Engineering Syncs</span>
+      <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+        Build in the open
+      </h2>
+      <p class="mt-2 max-w-2xl text-base font-normal text-para">
+        Akash is run by the people who build it. From persistent domain groups to mission-specific initiatives, our work happens in public meetings that anyone can join.
+      </p>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3">
+      {
+        govGroups.map((g) => (
+          <a href="/development/community-groups/" class="block h-full">
+            <Card className="group flex h-full cursor-pointer flex-col transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
+              <CardHeader>
+                <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border text-xs font-medium text-iconText">
+                  {g.abbr}
+                </span>
+                <CardTitle className="text-lg font-semibold">{g.name}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-1 flex-col gap-4">
+                <CardDescription className="text-sm font-normal leading-relaxed">
+                  {g.desc}
+                </CardDescription>
+                <div class="mt-auto flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
+                  Learn More<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                </div>
+              </CardContent>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Community Calendar embed -->
+    <p class="mt-24 text-base font-medium text-foreground">Community Engineering Syncs Calendar</p>
+    <div class="!mt-3 overflow-hidden rounded-xl border bg-card p-4 md:p-6">
+      <TimeZoneCalendar
+        calendarId="c_25e5e3748e4c4ab7a55f41fbc5ebebcc0a03b40fb028785f14159bfaebea12e2@group.calendar.google.com"
+        client:idle
+      />
+    </div>
+    <div class="flex justify-center">
+      <a
+        href="https://calendar.google.com/calendar/u/0?cid=Y29tbXVuaXR5QGFrYXNoLm5ldHdvcms"
+        class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+      >Subscribe to Community Calendar<ChevronRight size={14} className="ml-1.5" /></a>
+    </div>
+
+  </section>
+
+  <!-- CONTRIBUTE -->
+  <section class="space-y-12">
+    <div class="space-y-4">
+      <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Contribute</span>
+      <h2 class="max-w-xl font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+        The world's compute belongs to the people who build it
+      </h2>
+      <p class="mt-2 max-w-2xl text-base font-normal text-para">
+        Akash is open source. Every repository is a road you can help build.
+      </p>
+    </div>
+
+    <!-- Repositories -->
+    <div>
+      <!-- Column headers -->
+      <div class="flex items-center gap-8 pb-3">
+        <span class="w-72 shrink-0 text-sm font-medium text-para">Repositories</span>
+        <span class="hidden flex-1 text-sm font-medium text-para sm:block">Description</span>
+      </div>
+      <!-- Rows -->
+      <div class="border-t">
+        {
+          repos.map((r) => (
+            <div class="flex flex-col gap-3 border-b py-5 sm:flex-row sm:items-center sm:gap-8">
+              <div class="flex w-full flex-col gap-1 sm:w-72 sm:shrink-0">
+                <a
+                  href={r.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-base font-medium text-foreground hover:underline"
+                >
+                  {r.repo}
+                </a>
+                <p class="text-sm text-para sm:hidden">{r.desc}</p>
+              </div>
+              <p class="hidden flex-1 text-sm text-para sm:block">{r.desc}</p>
+              <a
+                href={r.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-fit shrink-0 inline-flex items-center rounded-md border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+                aria-label={`Open ${r.repo} on GitHub`}
+              >
+                View<ChevronRight size={14} className="ml-1" />
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <a
+        href="https://github.com/akash-network"
+        class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+      >View All on GitHub<ChevronRight size={14} className="ml-1.5" /></a>
+    </div>
+  </section>
+
+  <!-- WAYS TO GET INVOLVED (bottom, image right) -->
+  <section class="space-y-8">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="space-y-6">
+        <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">Ways to Get Involved</h3>
+        <ul class="space-y-5">
+          {
+            waysBottom.map((w) => (
+              <li>
+                <a href={w.href} class="inline-flex items-center gap-1 font-semibold text-foreground hover:underline">
+                  {w.title}
+                  <ChevronRight size={14} className="shrink-0" />
+                </a>
+                <p class="mt-0.5 text-sm font-normal leading-relaxed text-para">{w.desc}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="group overflow-hidden rounded-xl">
+        <img src="/development/portal-involvement.png" alt="" class="aspect-square w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+    </div>
+  </section>
+
+</div>

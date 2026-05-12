@@ -1,0 +1,226 @@
+---
+import { Card } from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
+import TrustedByMarquee from "@/components/home/TrustedByMarquee";
+import { trustedBySection } from "@/components/home/trustedby/trustedby";
+import QuoteReveal from "@/components/development-pages/QuoteReveal";
+
+const getStarted = [
+  {
+    title: "Akash Deployment API",
+    taglineLabel: "The Managed Path",
+    taglineDesc: "Build platforms that accept credit cards. This layer handles the blockchain complexity for you.",
+    bestFor: "SaaS platforms and apps for non-crypto users.",
+    keyAdvantage: "No wallet management overhead.",
+    metaLabel: "Payment",
+    metaText: "Credit Card.",
+    cta: "Explore Deployment API",
+    href: "https://akash.network/docs/api-documentation/console-api/",
+    image: "/development/integrations-api.png",
+  },
+  {
+    title: "Akash Blockchain SDK",
+    taglineLabel: "The Sovereign Path",
+    taglineDesc: "Full protocol integration for self-custody wallets and custom bidding engines.",
+    bestFor: "Custom automation and provider dashboards.",
+    keyAdvantage: "Direct on-chain sovereignty.",
+    metaLabel: "Payment",
+    metaText: "AKT or USDC.",
+    cta: "Explore Blockchain SDK",
+    href: "https://akash.network/docs/api-documentation/sdk/",
+    image: "/development/integrations-sdk.png",
+  },
+  {
+    title: "Blockchain REST/RPC",
+    taglineLabel: "The Data Path",
+    taglineDesc: "Query raw network state via gRPC, REST, or RPC for real-time monitoring.",
+    bestFor: "Real-time analytics and transaction monitoring.",
+    keyAdvantage: "Direct access to non-indexed protocol data.",
+    metaLabel: "Note",
+    metaText: "Use a node endpoint; Console API is indexed data.",
+    cta: "Access Node Layer",
+    href: "https://akash.network/docs/api-documentation/sdk/",
+    image: "/development/integrations-rpc.png",
+  },
+];
+
+const caseStudy = {
+  name: "Prime Intellect Integrates Permissionless Akash GPUs",
+  desc: "Prime Intellect is on a mission to democratize AI development. By gathering a wide range of the best compute providers on the same platform, it's now easier than ever for AI developers to find the compute necessary to train, fine-tune, and run inference on AI models. This greatly improves the user experience of accessing compute, and especially permissionless compute from the Akash Supercloud.",
+  href: "https://akash.network/blog/prime-intellect-integrates-permissionless-akash-gpus/",
+};
+
+const docSections = [
+  {
+    title: "Blockchain SDK Documentation",
+    rows: [
+      { name: "SDK Overview", desc: "Official Go and JavaScript/TypeScript SDKs", href: "https://akash.network/docs/api-documentation/sdk/" },
+      { name: "Quick Start", desc: "Deploy your first application programmatically", href: "https://akash.network/docs/api-documentation/sdk/quick-start/" },
+      { name: "API Reference", desc: "Complete SDK documentation and methods", href: "https://akash.network/docs/api-documentation/sdk/api-reference/" },
+      { name: "SDK Examples", desc: "Code examples for common tasks", href: "https://akash.network/docs/api-documentation/sdk/examples/" },
+      { name: "AuthZ & Fee Grants", desc: "Manage permissions and sponsored transactions", href: "https://akash.network/docs/api-documentation/sdk/authz-feegrant/" },
+    ],
+  },
+  {
+    title: "Deployment REST API Documentation",
+    rows: [
+      { name: "API Overview", desc: "REST API for credit card deployments via Console", href: "https://akash.network/docs/api-documentation/console-api/" },
+      { name: "Getting Started", desc: "Set up authentication and make your first API call", href: "https://akash.network/docs/api-documentation/console-api/getting-started/" },
+      { name: "API Reference", desc: "Complete endpoint documentation", href: "https://akash.network/docs/api-documentation/console-api/api-reference/" },
+    ],
+  },
+  {
+    title: "Console API — Network Data",
+    rows: [
+      { name: "Console API — Network Data", desc: "Indexed data: providers, GPU, stats. Not a node.", href: "https://akash.network/docs/api-documentation/rest-api/" },
+      { name: "Providers API", desc: "Query provider details, specs, and availability", href: "https://akash.network/docs/api-documentation/rest-api/providers-api/" },
+      { name: "GPU Availability Guide", desc: "Find and filter GPU resources across providers", href: "https://akash.network/docs/api-documentation/rest-api/gpu-availability-guide/" },
+    ],
+  },
+];
+---
+
+<div class="not-prose pb-28">
+
+  <!-- HERO -->
+  <section class="space-y-8 pt-4">
+    <div class="space-y-5">
+      <h1 class="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+        Build on the Open Supercloud
+      </h1>
+      <p class="max-w-xl text-base font-normal text-para">
+        Connect your tools to a global marketplace of distributed GPUs.<br />No sales calls. No waitlists. No Cloud Tax.
+      </p>
+    </div>
+    <div class="group mt-10 overflow-hidden rounded-xl">
+      <img src="/development/integrations-hero.png" alt="" class="h-[240px] w-full object-cover md:h-[380px] transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+    </div>
+  </section>
+
+  <!-- TRUSTED BY LOGOS -->
+  <section class="mt-16 space-y-8 pb-12 md:mt-32">
+    <p class="text-center text-sm font-normal text-para/75">Trusted by Leading Innovators</p>
+    <div class="relative mx-auto w-full overflow-hidden" style="min-height:34px;">
+      <TrustedByMarquee trustedBySection={trustedBySection} client:only="react" />
+    </div>
+  </section>
+
+  <!-- GET STARTED -->
+  <section class="mt-20 space-y-8">
+    <div class="space-y-4">
+      <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Get Started</span>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3">
+      {getStarted.map((tile) => (
+        <a href={tile.href} class="block" target={tile.href.startsWith('http') ? '_blank' : undefined} rel={tile.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+          <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
+            <div class="flex h-full flex-col gap-5 p-6">
+              <div class="overflow-hidden rounded-lg">
+                <img src={tile.image} alt={tile.title} class="h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-foreground">{tile.title}</h3>
+              </div>
+              <p class="text-sm font-normal leading-relaxed text-para">{tile.taglineDesc}</p>
+              <div class="mt-auto pt-1">
+                <div class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
+                  {tile.cta}<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                </div>
+              </div>
+            </div>
+          </Card>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- CASE STUDY -->
+  <section class="mt-20 space-y-10 md:mt-44">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="group overflow-hidden rounded-xl">
+        <img src="/development/integrations-prime-intellect.png" alt="Prime Intellect" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+      <div class="space-y-6">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">{caseStudy.name}</h2>
+        <p class="text-sm font-normal leading-relaxed text-para">{caseStudy.desc}</p>
+        <a
+          href={caseStudy.href}
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >Read Case Study<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOCK.IO CASE STUDY -->
+  <section class="mt-20 md:mt-44">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="group order-1 overflow-hidden rounded-xl md:order-2">
+        <img src="/development/integrations-flock.png" alt="FLock.io" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+      <div class="order-2 space-y-6 md:order-1">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">Decentralized AI Model Training on Akash With FLock.io</h2>
+        <p class="text-sm font-normal leading-relaxed text-para">Developing truly open and decentralized AI is one of society's most critical challenges. The networks, platforms, and clients we build will help guide this development, from open compute networks like Akash to platforms like FLock.io that make it easy to train and fine-tune AI models. Integrating these projects simplifies the user experience, enabling greater access that puts AI development directly in the hands of people around the world.</p>
+        <a
+          href="https://akash.network/blog/decentralized-ai-model-training-on-akash-with-flockio/"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >Read Case Study<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOCK.IO QUOTE -->
+  <section class="mt-20 md:mt-44">
+    <QuoteReveal
+      client:load
+      lines={[
+        "\"Our partnership with Akash is a significant milestone for FLock.io.",
+        "By integrating Akash's decentralized compute resources, we are empowering our community with enhanced access to permissionless, scalable, and cost-effective computing power.",
+        "This collaboration not only strengthens our platform but also aligns with our mission to democratize AI development and ensure data privacy. Together, we are pushing the boundaries of what decentralized AI training can achieve.\""
+      ]}
+      author="FLOCK"
+      authorDetails={["Jiahao Sun,", "Founder and CEO of Flock"]}
+    />
+  </section>
+
+  <!-- DOC TABLES -->
+  <section class="mt-20 space-y-16 md:mt-44">
+    <h2 class="max-w-xl font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">Integrate Akash into your applications with SDKs and APIs</h2>
+    {docSections.map((section) => (
+      <div>
+        <!-- Column headers -->
+        <div class="flex items-center gap-8 pb-3">
+          <span class="w-72 shrink-0 text-sm font-medium text-para">{section.title}</span>
+          <span class="hidden flex-1 text-sm font-medium text-para sm:block">Description</span>
+        </div>
+        <!-- Rows -->
+        <div class="border-t">
+          {section.rows.map((r) => (
+            <div class="flex flex-col gap-3 border-b py-5 sm:flex-row sm:items-center sm:gap-8">
+              <div class="flex w-full flex-col gap-1 sm:w-72 sm:shrink-0">
+                <a
+                  href={r.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-base font-medium text-foreground hover:underline"
+                >
+                  {r.name}
+                </a>
+                <p class="text-sm text-para sm:hidden">{r.desc}</p>
+              </div>
+              <p class="hidden flex-1 text-sm text-para sm:block">{r.desc}</p>
+              <a
+                href={r.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-fit shrink-0 inline-flex items-center rounded-md border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+              >
+                View Docs<ChevronRight size={14} className="ml-1" />
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+</div>

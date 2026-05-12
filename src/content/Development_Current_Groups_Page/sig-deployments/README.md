@@ -24,7 +24,7 @@ No future meetings scheduled (updated 2023-02-02)
 
 | Meeting | Time                                                  | Notes                                                                                                   | Transcript                                                                                                         | Recording                                                                                                                    |
 | ------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| #1      | Wednesday, February 1, 2023 9:00 AM PT (Pacific Time) | [Link](https://github.com/akash-network/community/blob/main/sig-deployments/meetings/001-2023-02-01.md) | [Link](https://github.com/akash-network/community/blob/main/sig-deployments/meetings/001-2023-02-01.md#transcript) | [Link](https://jsitfjpyvqbpsmu4fwchbhyemroay5utmlespz5cg36rugktcb7q.arweave.net/TJEypfisAvkynC2EcJ8EZFwMdpNiySfnojb9GhlTEH8) |
+| #1      | Wednesday, February 1, 2023 9:00 AM PT (Pacific Time) | [View](https://github.com/akash-network/community/blob/main/sig-deployments/meetings/001-2023-02-01.md) | [View](https://github.com/akash-network/community/blob/main/sig-deployments/meetings/001-2023-02-01.md#transcript) | [View](https://jsitfjpyvqbpsmu4fwchbhyemroay5utmlespz5cg36rugktcb7q.arweave.net/TJEypfisAvkynC2EcJ8EZFwMdpNiySfnojb9GhlTEH8) |
 
 ## Leadership
 

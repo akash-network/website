@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import CommunityGroupsTabs from "./CommunityGroupsTabs";
+
+const pages = await getCollection("Development_Current_Groups_Page");
+
+const groups = pages.map((page) => ({
+  slug: page.slug,
+  category: page.data.category,
+  title: page.data.title,
+  description: page.data.description,
+  dateLabel: page.data.meetings?.dateLabel ?? "",
+  meetingsLinkLabel: page.data.meetings?.link?.label ?? "",
+  meetingsLink: page.data.meetings?.link?.link ?? "",
+  githubLink: page.data.githubLink ?? "",
+  discordLink: page.data.discordLink ?? "",
+}));
+---
+
+<div class="not-prose pb-28">
+
+  <!-- HERO -->
+  <section class="space-y-8 pt-4">
+    <div class="space-y-5">
+      <h1 class="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+        Network Coordination
+      </h1>
+      <p class="max-w-xl text-base font-normal text-para">
+        Akash community groups (CGs) provide a structured framework for transparent collaboration. Modeled after the Kubernetes project, these groups are where the protocol is built, debated, and governed in public.
+      </p>
+    </div>
+  </section>
+
+  <!-- TABS + CARDS -->
+  <section class="mt-14 md:mt-20">
+    <CommunityGroupsTabs client:load groups={groups} />
+  </section>
+
+</div>

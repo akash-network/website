@@ -1,0 +1,201 @@
+---
+import TrustedByMarquee from "@/components/home/TrustedByMarquee";
+import { LogosSection } from "@/components/student-ambassador/logos.ts";
+import { Carousel } from "@/components/community-pages/custom-carousel/Carousel";
+import { ChevronRight } from "lucide-react";
+import QuoteReveal from "@/components/development-pages/QuoteReveal";
+
+const pillars = [
+  {
+    number: "01",
+    title: "Research Sovereignty",
+    desc: "Eliminate dependency on single-provider pricing or availability. Access high-density NVIDIA H100s and A100s on a global marketplace where access is always permissionless.",
+  },
+  {
+    number: "02",
+    title: "Zero Cloud Tax",
+    desc: "Allocate more budget to research and less to infrastructure overhead. By utilizing idle global capacity, institutions scale simulations and training at a fraction of legacy costs.",
+  },
+  {
+    number: "03",
+    title: "Verifiable Science",
+    desc: "Align your stack with the values of open science. Every deployment is transparent, verifiable, and runs on standard container architecture with no proprietary lock-in.",
+  },
+  {
+    number: "04",
+    title: "Protocol Experience",
+    desc: "Teach students infrastructure as code and market-based resource allocation. Move beyond basic dashboards to provide hands-on experience with real-world distributed systems.",
+  },
+];
+
+const programPillars = [
+  {
+    title: "Student Ambassadors",
+    desc: "Lead the movement on your campus. As an ambassador, you host local events, publish technical content, and bridge the gap between your university and the open marketplace. You don't just represent the network; you help build the ecosystem from the ground up.",
+  },
+  {
+    title: "Technical Exposure",
+    desc: "Get direct experience with high-density GPU infrastructure and decentralized protocols. Access the tools and mentorship required to move beyond classroom theory into real-world distributed systems engineering.",
+  },
+];
+
+const programs = [
+  {
+    title: "Research Grants",
+    desc: "We fund the builders and researchers pushing the boundaries of decentralized AI and open-source infrastructure. Claim the compute required for your breakthrough.",
+  },
+  {
+    title: "Curriculum Integration",
+    desc: "Bring the open cloud into the classroom. We provide the tools and technical support to integrate decentralized computing into engineering and computer science courses.",
+  },
+  {
+    title: "Student Hackathons",
+    desc: "Host workshops and challenges that give students direct access to high-performance GPUs to build, test, and ship their own models.",
+  },
+];
+
+const carouselImages = [
+  { src: "/images/slides/student/s1.png", alt: "Slide 1" },
+  { src: "/images/slides/student/s2.png", alt: "Slide 2" },
+  { src: "/images/slides/student/s3.png", alt: "Slide 3" },
+  { src: "/images/slides/student/s4.png", alt: "Slide 4" },
+  { src: "/images/slides/student/s5.png", alt: "Slide 5" },
+  { src: "/images/slides/student/s6.png", alt: "Slide 6" },
+  { src: "/images/slides/student/s7.png", alt: "Slide 7" },
+  { src: "/images/slides/student/s8.png", alt: "Slide 8" },
+];
+---
+
+<div class="not-prose pb-28">
+
+  <!-- HERO -->
+  <section class="space-y-8 pt-4">
+    <div class="space-y-5">
+      <h1 class="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+        Open research needs open compute
+      </h1>
+      <p class="max-w-xl text-base font-normal text-para">
+        Proprietary clouds gatekeep progress behind high costs and black-box infrastructure. Akash provides universities with the raw GPU power required for the next breakthrough on a protocol built for transparency.
+      </p>
+    </div>
+    <div class="group mt-10 overflow-hidden rounded-xl">
+      <img src="/development/universities-hero.png" alt="" class="h-[240px] w-full object-cover md:h-[380px] transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+    </div>
+  </section>
+
+  <!-- UNIVERSITY LOGOS -->
+  <section class="mt-14 md:mt-28">
+    <div class="relative mx-auto w-full overflow-hidden" style="min-height:40px;">
+      <TrustedByMarquee trustedBySection={LogosSection} client:only="react" />
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="mt-44 space-y-8">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {pillars.map((item) => (
+        <div class="space-y-3">
+          <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+          <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- SRIRAM QUOTE -->
+  <section class="mt-20 md:mt-44">
+    <QuoteReveal
+      client:load
+      lines={[
+        "\"Akash is poised to be the decentralized AI solution for the world.",
+        "I'm working to team with Akash to bring the world's best AI startups to Akash away from centralized providers.\""
+      ]}
+      author="SRIRAM VISHWANATH"
+      authorDetails={["Professor, University of Texas at Austin"]}
+    />
+  </section>
+
+  <!-- VIDEO — image left, copy right -->
+  <section class="mt-20 md:mt-44">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="group overflow-hidden rounded-xl">
+        <img src="/development/universities-video.png" alt="Decentralized AI talk" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+      <div class="space-y-6">
+        <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Decentralized AI, Privacy Preserving Learning &amp; Applications to Healthcare
+        </h3>
+        <p class="text-sm font-normal leading-relaxed text-para">
+          Speaker Spotlight Akash Accelerate 2024: Sriram Vishwanath, Professor at the University of Texas at Austin.
+        </p>
+        <a
+          href="https://www.youtube.com/@akashnetwork"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >View on Youtube<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AKASH UNIVERSITY PROGRAM — content left, image right -->
+  <section class="mt-20 md:mt-44">
+    <div class="grid items-start gap-8 md:gap-16 md:grid-cols-2">
+      <div class="order-2 space-y-8 md:order-1">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Akash University Program
+          </h2>
+          <p class="text-base font-normal text-para">
+            Move beyond the classroom. Join the Akash University Program to lead campus initiatives and access professional-grade GPU infrastructure.
+          </p>
+        </div>
+        <div class="space-y-6">
+          {programPillars.map((item) => (
+            <div class="space-y-2">
+              <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+              <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://proximal-liver-375.notion.site/Akash-Student-Ambassador-Program-2dc7e695758c80d9a1f8f9749e063b51"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >Explore the Program Index<ChevronRight size={14} className="ml-1.5" /></a>
+        </div>
+      </div>
+      <div class="group order-1 overflow-hidden rounded-xl md:order-2">
+        <img src="/development/universities-program.png" alt="Akash University Program" class="aspect-square w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ACADEMIC COLLABORATION -->
+  <section class="mt-20 space-y-10 md:mt-44">
+    <div class="space-y-4">
+      <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+        Academic Collaboration
+      </h2>
+      <p class="max-w-2xl text-base font-normal text-para">
+        Empowering institutions and students to lead the transition to the open cloud.
+      </p>
+    </div>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {programs.map((item) => (
+        <div class="space-y-3">
+          <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+          <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- GALLERY CAROUSEL -->
+  <section class="mt-20 -mx-4 md:mt-44 md:-mx-6 lg:-mx-8">
+    <Carousel client:only images={carouselImages} speed={100} gap={50} />
+  </section>
+
+</div>

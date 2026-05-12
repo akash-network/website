@@ -1,17 +1,19 @@
 ---
 import clsx from "clsx";
+
 const links = [
   {
-    title: "Network Capacity",
-    link: "/about/network-capacity/",
+    title: "Compute Providers",
+    link: "/ecosystem/providers/",
   },
   {
-    title: "Akash Providers",
-    link: "/about/providers/",
+    title: "Network Capacity",
+    link: "/ecosystem/network-capacity/",
   },
 ];
 
 const pathname = Astro.url.pathname;
+const normalised = pathname.replace(/\/$/, "");
 ---
 
 <div class="my-10 flex items-center justify-center md:my-16">
@@ -21,10 +23,10 @@ const pathname = Astro.url.pathname;
         <a
           href={link.link}
           class={clsx(
-            " rounded-[4px] px-3 py-1.5 text-sm font-medium",
-            pathname === link.link
+            "rounded-[4px] px-3 py-1.5 text-sm font-medium",
+            normalised === link.link.replace(/\/$/, "")
               ? "bg-background text-foreground shadow-sm"
-              : "text-para",
+              : "text-para hover:text-foreground",
           )}
         >
           {link.title}
