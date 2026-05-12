@@ -34,7 +34,7 @@ const featuredItems: Record<MenuId, FeaturedItemData> = {
   ecosystem: {
     href: "/ecosystem/akash-tools/",
     title: "Product Suite",
-    description: "Tools to deploy, serve, and provide compute.",
+    description: "Tools to deploy, serve & provide compute.",
     imageSrc: "/nav/ecosystem_featured.webp",
   },
   community: {
@@ -71,20 +71,25 @@ function DropdownItem({
   target,
   title,
   description,
+  isActive = false,
 }: {
   href: string;
   target: string;
   title: string;
   description?: string;
+  isActive?: boolean;
 }) {
   return (
     <a
       href={href}
       target={target}
-      className="group flex cursor-pointer select-none items-center justify-between rounded-sm px-3 py-2.5 outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-white/5"
+      className={clsx(
+        "group flex cursor-pointer select-none items-center justify-between rounded-sm px-3 py-2.5 outline-none transition-colors hover:bg-zinc-100 dark:hover:bg-white/5",
+        isActive && "bg-zinc-200 dark:bg-white/10",
+      )}
     >
       <div className="flex flex-col gap-0.5">
-        <p className="text-sm font-normal text-foreground">{title}</p>
+        <p className={clsx("text-sm text-foreground", isActive ? "font-medium" : "font-normal")}>{title}</p>
         {description && (
           <p className="whitespace-nowrap text-xs font-normal text-zinc-400 dark:text-zinc-500">
             {description}
@@ -259,15 +264,24 @@ export default function NavMenu({
       case "ecosystem":
         return ecosystemNavItems
           .filter((i) => !i.external && !i.internal && i.link !== featured.href)
-          .map((item) => (
-            <DropdownItem
-              key={item.link}
-              href={item.link}
-              target={item.link.startsWith("http") ? "_blank" : "_self"}
-              title={item.title}
-              description={item.description}
-            />
-          ));
+          .map((item) => {
+            const base = item.link.replace(/\/$/, "");
+            const isActive =
+              pathname === item.link ||
+              pathname.startsWith(base + "/") ||
+              (item.link === "/ecosystem/providers/" &&
+                pathname.startsWith("/ecosystem/network-capacity"));
+            return (
+              <DropdownItem
+                key={item.link}
+                href={item.link}
+                target={item.link.startsWith("http") ? "_blank" : "_self"}
+                title={item.title}
+                description={item.description}
+                isActive={isActive}
+              />
+            );
+          });
     }
   }
 
@@ -346,7 +360,13 @@ export default function NavMenu({
           onMouseEnter={cancelClose}
           onMouseLeave={scheduleClose}
         >
-          <div className="w-[600px] rounded-md border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0d0d0f] shadow-xl">
+          <div
+            className="rounded-md border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0d0d0f] shadow-xl overflow-hidden"
+            style={{
+              width: activeMenu === "development" ? "900px" : "660px",
+              transition: "width 0.45s cubic-bezier(0.34, 1.3, 0.64, 1)",
+            }}
+          >
             <div
               key={`${activeMenu}-${contentKey}`}
               className="overflow-hidden rounded-md"
@@ -354,18 +374,55 @@ export default function NavMenu({
                 animation: `${slideDir === "right" ? "navSlideFromRight" : "navSlideFromLeft"} 0.22s ease-out both`,
               }}
             >
-              {/* Two equal columns — left featured card, right items */}
-              <div className="flex items-stretch">
-                {/* Left: featured card — half panel */}
-                <div className="w-1/2 p-2 flex flex-col">
-                  <FeaturedCard featured={featuredItems[activeMenu]} />
+              {activeMenu === "development" ? (
+                /* 3-column development layout */
+                <div className="flex items-stretch">
+                  {/* Col 1: featured card */}
+                  <div className="w-[300px] shrink-0 p-2 flex flex-col">
+                    <FeaturedCard featured={featuredItems.development} />
+                  </div>
+                  {/* Col 2: Roadmap, Integrations, Engineering Syncs */}
+                  <div className="flex-1 border-l border-zinc-100 dark:border-white/5 p-2">
+                    {developmentItems
+                      .filter(i => i.link !== featuredItems.development.href)
+                      .slice(0, 3)
+                      .map((item) => (
+                        <DropdownItem
+                          key={item.link}
+                          href={item.link === "roadmap" ? `/roadmap/${latestRoadmapYear}` : item.link}
+                          target={item.link.startsWith("http") ? "_blank" : "_self"}
+                          title={item.title}
+                          description={item.description}
+                        />
+                      ))}
+                  </div>
+                  {/* Col 3: Startups, Universities, Grants */}
+                  <div className="flex-1 border-l border-zinc-100 dark:border-white/5 p-2">
+                    {developmentItems
+                      .filter(i => i.link !== featuredItems.development.href)
+                      .slice(3)
+                      .map((item) => (
+                        <DropdownItem
+                          key={item.link}
+                          href={item.link}
+                          target={item.link.startsWith("http") ? "_blank" : "_self"}
+                          title={item.title}
+                          description={item.description}
+                        />
+                      ))}
+                  </div>
                 </div>
-
-                {/* Right: list items — half panel */}
-                <div className="w-1/2 p-2">
-                  {renderMainItems(activeMenu)}
+              ) : (
+                /* Standard 2-column layout for other menus */
+                <div className="flex items-stretch">
+                  <div className="w-1/2 p-2 flex flex-col">
+                    <FeaturedCard featured={featuredItems[activeMenu]} />
+                  </div>
+                  <div className="w-1/2 p-2">
+                    {renderMainItems(activeMenu)}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Footer spans full width */}
               {renderFooter(activeMenu)}

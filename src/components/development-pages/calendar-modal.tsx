@@ -1,5 +1,6 @@
 import { Fragment, useState, useEffect, useCallback } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { ChevronRight } from "lucide-react";
 import { CalendarButton } from "./calendar-button";
 import TimeZoneCalendar from "./time-zone-calendar";
 import { buttonVariants } from "../ui/button";
@@ -117,8 +118,7 @@ export function CalendarModal() {
                   >
                     <div className="flex items-center justify-between rounded-t">
                       <h3 className="font-semibold md:text-2xl">
-                        Akash Community <br className="md:hidden" /> Groups
-                        Calendar
+                        Community Engineering Syncs Calendar
                       </h3>
                       <button
                         type="button"
@@ -130,53 +130,17 @@ export function CalendarModal() {
                       </button>
                     </div>
                   </Dialog.Title>
-                  <div className="mt-5 flex h-full max-h-[75vh] flex-col gap-4 rounded-md border bg-background2 p-3 md:max-h-[60vh] md:p-5">
+                  <div className="mt-5 flex h-full max-h-[80vh] flex-col gap-4 rounded-md border bg-background2 p-3 md:max-h-[80vh] md:p-5">
                     <TimeZoneCalendar calendarId={DEFAULT_CALENDAR_ID} />
                     <a
                       href={calendarUrl}
-                      className="not-prose flex items-center justify-center gap-3 rounded-md bg-[#FFDEDE] py-3 text-sm font-medium text-primary dark:bg-background md:text-base"
+                      className="not-prose inline-flex items-center self-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label="Subscribe to SIG & WG calendar"
+                      aria-label="Subscribe to Community Calendar"
                     >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M12.5 3.33366V1.66699M12.5 3.33366V5.00033M12.5 3.33366H8.75M2.5 8.33366V15.8337C2.5 16.7542 3.24619 17.5003 4.16667 17.5003H15.8333C16.7538 17.5003 17.5 16.7542 17.5 15.8337V8.33366H2.5Z"
-                          stroke="#FF414C"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M2.5 8.33301V4.99967C2.5 4.0792 3.24619 3.33301 4.16667 3.33301H5.83333"
-                          stroke="#FF414C"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M5.83594 1.66699V5.00033"
-                          stroke="#FF414C"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M17.4974 8.33301V4.99967C17.4974 4.0792 16.7512 3.33301 15.8307 3.33301H15.4141"
-                          stroke="#FF414C"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                      Subscribe to SIG & WG calendar
+                      Subscribe to Community Calendar
+                      <ChevronRight className="ml-1.5 shrink-0" size={14} />
                     </a>
                   </div>
                 </Dialog.Panel>

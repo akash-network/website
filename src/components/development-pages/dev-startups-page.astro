@@ -1,0 +1,220 @@
+---
+import { Card } from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
+import QuoteReveal from "@/components/development-pages/QuoteReveal";
+
+const advantages = [
+  {
+    number: "01",
+    title: "Dynamic Pricing",
+    desc: "Save up to 80% compared to legacy providers. Providers compete for your bid in real-time. You pay for the silicon, not the corporate markup.",
+  },
+  {
+    number: "02",
+    title: "Zero Waitlists",
+    desc: 'Access H100s on demand. No "Capacity Request" emails or multi-year contracts. If the hardware is idle, it is yours to claim.',
+  },
+  {
+    number: "03",
+    title: "No Egress Fees",
+    desc: "Move workloads without proprietary lock-in. If it runs in Docker, it runs on Akash. You own the deployment; the market handles the supply.",
+  },
+  {
+    number: "04",
+    title: "Open Access",
+    desc: "Akash is a protocol. There is no sales team to gatekeep your growth. Small seed rounds have the same priority as enterprise giants.",
+  },
+];
+
+const logos = [
+  { title: "Prime Intellect", image: "/images/trusted-by/primeintellect.svg" },
+  { title: "Flock.io", image: "/images/trusted-by/flock.svg" },
+  { title: "Morpheus", image: "/images/trusted-by/morpheus.svg" },
+  { title: "Venice AI", image: "/images/trusted-by/venice.svg" },
+  { title: "Nous Research", image: "/images/trusted-by/nous.svg" },
+];
+
+const toolkit = [
+  {
+    title: "Akash Console",
+    desc: "The deployment dashboard. Manage clusters and monitor bids in one place.",
+    href: "https://console.akash.network",
+  },
+  {
+    title: "AkashML",
+    desc: "Serve Llama, DeepSeek, and Qwen via OpenAI-compatible endpoints. One base_url swap, 85% lower inference cost.",
+    href: "https://chatapi.akash.network",
+  },
+  {
+    title: "GPU Pricing",
+    desc: "Live market rates for H100s, A100s, and high-end consumer silicon.",
+    href: "/pricing/gpus",
+  },
+  {
+    title: "Akash Docs",
+    desc: "Detailed guides and APIs. If it runs in Docker, it runs on Akash.",
+    href: "/docs",
+  },
+];
+---
+
+<div class="not-prose pb-28">
+
+  <!-- HERO -->
+  <section class="space-y-8 pt-4">
+    <div class="space-y-5">
+      <h1 class="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+        Stop overpaying for the legacy cloud
+      </h1>
+      <p class="max-w-2xl text-base font-normal text-para">
+        The centralized providers gatekeep high-end silicon behind sales calls and waitlists. Akash gives you direct access to the world's GPU supply at the cost of silicon.
+      </p>
+    </div>
+    <div class="group mt-10 overflow-hidden rounded-xl">
+      <img src="/development/startups-hero.png" alt="" class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+    </div>
+  </section>
+
+  <!-- STARTUP ADVANTAGES -->
+  <section class="mt-20 space-y-8 pb-16 md:mt-44">
+    <div class="space-y-4">
+      <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+        The marketplace advantage
+      </h2>
+      <p class="max-w-2xl text-base font-normal text-para">
+        Founders choose Akash to escape the legacy cloud cartel and build on a protocol designed for speed and sovereignty.
+      </p>
+    </div>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {advantages.map((item) => (
+        <div class="space-y-3">
+          <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+          <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- AGORA LABS CASE STUDY — image left, copy right -->
+  <section class="mt-20">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="group overflow-hidden rounded-xl">
+        <img src="/development/startups-agora.png" alt="Agora Labs" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+      <div class="space-y-6">
+        <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Agora Labs: From Akash Innovator to NVIDIA Acquisition
+        </h3>
+        <p class="text-sm font-normal leading-relaxed text-para">
+          Agora Labs started as a group of students who couldn't find GPUs. They built on the Akash protocol, scaled their interface for AI developers, and were eventually acquired by Brev.dev and subsequently NVIDIA.
+        </p>
+        <a
+          href="https://www.linkedin.com/posts/brevdev_today-brevdev-is-acquiring-agora-labs-acq-activity-7181415122534375425-XFRp"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >Read the Story<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGORA LABS QUOTE -->
+  <section class="mt-20 md:mt-44">
+    <QuoteReveal
+      client:load
+      outlined
+      href="https://x.com/agora_io/status/1765902564824899817"
+      lines={[
+        "\"We were a group of students who couldn't find any GPUs anywhere we looked. One day, we stumbled upon Akash and after doing some initial reading, began asking numerous questions in the Discord. That's when we found an opportunity to contribute by creating a better interface for AI/ML developers to access Akash's permissionless compute. If you're questioning whether to build on akashnet, the answer is yes. Don't wait for anyone to give you a handout or tell you what to do...\""
+      ]}
+      preRevealChars={0}
+      startProgress={0.35}
+      author="AGORA LABS"
+      authorDetails={["Ishan, Anish & Tom"]}
+    />
+  </section>
+
+  <!-- PASSAGE CASE STUDY — copy left, image right -->
+  <section class="mt-20 md:mt-44">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="space-y-6">
+        <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Passage:<br />50% lower cloud costs.<br />Zero performance loss.
+        </h3>
+        <p class="text-sm font-normal leading-relaxed text-para">
+          Passage moved their 3D world-building infrastructure to the open marketplace to escape the "Cloud Tax." By leveraging competitive GPU bidding, they cut infrastructure expenses in half while maintaining the high-performance requirements of real-time rendering.
+        </p>
+        <a
+          href="https://akash.network/blog/passage-reduces-cloud-spend-by-50-with-akash/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >View Case Study<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+      <div class="group overflow-hidden rounded-xl">
+        <img src="/development/startups-passage.png" alt="Passage" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGOS SECTION -->
+  <section class="mt-44 space-y-10 text-center">
+    <p class="text-base font-normal text-para">
+      The next generation of AI is being trained on the Open Cloud.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-10 md:gap-14">
+      {logos.map((logo) => (
+        <img
+          src={logo.image}
+          alt={logo.title}
+          class="h-6 w-auto opacity-60 dark:invert dark:opacity-70"
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- BUILDER'S TOOLKIT -->
+  <section class="mt-44 space-y-8">
+    <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+      Builder's Toolkit
+    </h2>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {toolkit.map((item) => (
+        <a href={item.href} class="block" target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+          <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
+            <div class="flex h-full flex-col gap-4 p-6">
+              <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+              <p class="flex-1 text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+              <div class="mt-auto pt-1">
+                <div class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
+                  Explore<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                </div>
+              </div>
+            </div>
+          </Card>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- FREE CREDITS CTA -->
+  <section class="mt-44 flex flex-col items-center space-y-8 text-center">
+    <div class="space-y-5">
+      <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+        Free Credits.
+      </h2>
+      <p class="max-w-2xl text-base font-normal text-para">
+        Kickstart your deployment with free compute credits.<br />Test, build, and ship on the Open Cloud with zero upfront commitment.
+      </p>
+    </div>
+    <a
+      href="https://console.akash.network"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+    >
+      Get Your Credits<ChevronRight size={14} className="ml-1.5" />
+    </a>
+  </section>
+
+</div>

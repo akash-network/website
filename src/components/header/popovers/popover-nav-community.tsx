@@ -38,7 +38,9 @@ export const SubNavbar = ({
     (item.link === "roadmap" && pathname?.split("/")[1] === "roadmap") ||
     pathname?.split("/")[2] === item.link?.split("/")[2] ||
     (pathname?.split("/")[1] === item.link?.split("/")[1] &&
-      pathname.includes("case-studies"));
+      pathname.includes("case-studies")) ||
+    (item.link === "/ecosystem/providers/" &&
+      pathname.startsWith("/ecosystem/network-capacity"));
 
   return (
     <div className="border-b border-zinc-200 bg-background dark:border-white/10">

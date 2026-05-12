@@ -1,0 +1,99 @@
+---
+import { ChevronRight } from "lucide-react";
+import image1 from "../../content/Development_Page/funding-program/card1.png";
+import image2 from "../../content/Development_Page/funding-program/card2.png";
+
+import image4 from "../../content/Development_Page/funding-program/card4.png";
+---
+
+<div class="not-prose pb-28">
+
+  <!-- HERO -->
+  <section class="space-y-5 pt-4">
+    <h1 class="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+      Ecosystem Grants
+    </h1>
+    <p class="max-w-xl text-base font-normal text-para">
+      We invest in the people who build the roads. If you are developing open-source tools, infrastructure, or specialized interfaces for the Akash Network, the grant program provides the capital to fund your development.
+    </p>
+  </section>
+
+  <!-- COMMUNITY CONTRIBUTIONS — image left, copy right -->
+  <section class="mt-10 md:mt-20">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="group overflow-hidden rounded-xl">
+        <img src={image1.src} alt="Community Contributions" class="aspect-square w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Community Contributions
+          </h3>
+          <p class="text-base font-normal text-para">
+            Smaller contributions drive the network's daily momentum. Through community-governed funding, AKT is available for developers and creators helping build documentation, manage testnets, or develop content.
+          </p>
+          <p class="text-base font-normal text-para">
+            Whether you are fixing a bug in the Akash Console or launching a pilot program, the community matches network needs with your specific skill set. Show up, contribute, and earn as the protocol matures.
+          </p>
+        </div>
+        <a
+          href="https://github.com/orgs/akash-network/discussions/811"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >View Contribution Guide<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY POOL — copy left, image right -->
+  <section class="mt-20 md:mt-44">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="order-2 space-y-6 md:order-1">
+        <div class="space-y-4">
+          <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Community Pool Proposals
+          </h3>
+          <p class="text-base font-normal text-para">
+            The Akash community pool is a permissionless funding source for the network. Any individual or team can request capital for any project, at any scale, provided the proposal passes on-chain governance.
+          </p>
+          <p class="text-base font-normal text-para">
+            While other programs are structured and reviewed, this path is entirely decentralized. Your project is funded only when the network votes to release the capital.
+          </p>
+        </div>
+        <a
+          href="https://github.com/orgs/akash-network/discussions/170"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >Review Governance Best Practices<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+      <div class="group order-1 overflow-hidden rounded-xl md:order-2">
+        <img src={image2.src} alt="Community Pool Proposals" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE CONTRIBUTOR GRANTS — image left, copy right -->
+  <section class="mt-20 md:mt-44">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="group overflow-hidden rounded-xl">
+        <img src={image4.src} alt="Core Contributor Grants" class="aspect-square w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+      </div>
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Core Contributor Grants
+          </h3>
+          <p class="text-base font-normal text-para">
+            As the creators of Akash Network, Overclock Labs provides direct funding for projects that drive network usage and utility. We look for teams and builders whose vision aligns with the long-term goals of the protocol.
+          </p>
+          <p class="text-base font-normal text-para">
+            If you are working on high-impact infrastructure or services that accelerate the open cloud, you may be eligible for a direct grant or specialized funding arrangement.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

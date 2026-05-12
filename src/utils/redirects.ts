@@ -10,6 +10,8 @@ export const redirects = {
   "/community/akash-validators": "/network/akash-validators/",
   "/about/providers/": "/ecosystem/providers/",
   "/about/providers": "/ecosystem/providers/",
+  "/about/network-capacity/": "/ecosystem/network-capacity/",
+  "/about/network-capacity": "/ecosystem/network-capacity/",
   "/development/current-projects": "/roadmap/",
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",

@@ -33,6 +33,7 @@ html body[data-scroll-locked] {
     --para: 206 6% 44%;
     --para-dark: 216 11% 91%;
     --card-gray: 206 6% 52%;
+    --card: 0 0% 96%;
     --background2: 0 0% 100%;
     --light-foreground: 0 0% 50%;
     --sort-text: 206 6% 56%;
@@ -83,6 +84,7 @@ html body[data-scroll-locked] {
   .dark {
     --background: 0 0% 4%;
     --foreground: 0, 0%, 93%;
+    --card: 0 0% 9%;
     --background2: 0 0% 9%;
     --light-foreground: 15, 33%, 98%;
     --para: 0 0% 73%;

@@ -180,10 +180,10 @@ const pathname = Astro.url.pathname;
 const shouldHide = shouldHideCta(pathname);
 ---
 
+{shouldHide && <div class="mt-20 border-t" />}
 <footer
   class={clsx(
     " w-full pb-10 text-white ",
-    shouldHide && "border-t  mt-20",
     overrideClassName
       ? overrideClassName
       : "bg-white dark:bg-background container"

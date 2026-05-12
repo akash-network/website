@@ -1,14 +1,13 @@
 ---
 import { shouldHideCta } from "@/utils/hideCta";
 import clsx from "clsx";
-import ButtonLink from "./ui/button-link.astro";
 
 const pathname = Astro.url.pathname;
 const disableMargin = ["/deploy", "/providers"];
 const defaultContent = {
   title: "Experience the Supercloud.",
   button: {
-    label: "Console Login",
+    label: "Deploy Now",
     link: "https://console.akash.network/",
     id: "console-home",
   },
@@ -49,7 +48,7 @@ const shouldHide = shouldHideCta(pathname);
     shouldHide && "hidden",
     (pathname === "/" || pathname.startsWith("/meetingconfirmation")) && "hidden",
     "flex flex-col items-center justify-around",
-    "bg-white dark:bg-background2",
+    "bg-gray-50 dark:bg-background2",
     "border-y",
     "px-[30px] py-[80px] lg:py-[160px]",
     disableMargin.includes(pathname) ? "mt-0" : "mt-20",
@@ -58,8 +57,8 @@ const shouldHide = shouldHideCta(pathname);
 >
   <h2
     class={clsx(
-      "max-w-[1000px] font-instrument text-foreground",
-      "text-3xl md:text-5xl xl:text-6xl 2xl:text-[80px]",
+      "max-w-[1000px] font-sans font-semibold tracking-tight text-foreground",
+      "text-3xl md:text-5xl xl:text-6xl",
       "md:leading-snug",
     )}
   >
@@ -67,26 +66,14 @@ const shouldHide = shouldHideCta(pathname);
   </h2>
 
   <div class="mt-6 md:mt-10">
-    <div class="hidden md:block">
-      <ButtonLink
-        link={button.link}
-        size="xl"
-        className="bg-primary text-white hover:bg-darkGray"
-        id={button.id}
-      >
-        {button.label}
-      </ButtonLink>
-    </div>
-
-    <div class="block md:hidden">
-      <ButtonLink
-        link={button.link}
-        size="md"
-        className="bg-primary text-white hover:bg-darkGray"
-        id={button.id}
-      >
-        {button.label}
-      </ButtonLink>
-    </div>
+    <a
+      href={button.link}
+      id={button.id}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center rounded-md bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+    >
+      {button.label}
+    </a>
   </div>
 </section>
