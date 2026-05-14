@@ -67,6 +67,7 @@ profiles:
     akash:
       attributes:
         region: us-west
+        confidential-compute: true
       pricing:
         web:
           denom: uact
@@ -95,9 +96,10 @@ export const sections = [
   { id: "memory-section", title: "Memory", startLine: 40, endLine: 41 },
   { id: "storage-section", title: "Storage", startLine: 42, endLine: 49 },
   { id: "gpu-section", title: "GPU", startLine: 50, endLine: 56 },
-  { id: "placement-section", title: "Placement", startLine: 58, endLine: 65 },
-  { id: "deployment-section", title: "Deployment", startLine: 67, endLine: 71 },
-  { id: "endpoints-section", title: "Endpoints", startLine: 73, endLine: 75 },
+  { id: "placement-section", title: "Placement", startLine: 58, endLine: 66 },
+  { id: "confidential-compute-section", title: "Confidential Compute", startLine: 60, endLine: 60 },
+  { id: "deployment-section", title: "Deployment", startLine: 68, endLine: 72 },
+  { id: "endpoints-section", title: "Endpoints", startLine: 74, endLine: 76 },
 ];
 
 <ReferenceLayout>
@@ -327,6 +329,27 @@ placement:
 Daily cost = (amount × 14,400 blocks) / 1,000,000 AKT
 Example: 100 uakt/block = 1.44 AKT/day = ~43 AKT/month
 ```
+
+<div id="confidential-compute-section" className="section-marker mt-8">
+
+#### confidential-compute
+
+**Optional.** Request a TEE-protected micro-VM (Kata Containers) for this placement. Only providers that advertise `confidential-compute: true` will bid on the order.
+
+```yaml
+attributes:
+  confidential-compute: true            # required to opt in
+  confidential-compute-tee: intel-tdx   # optional: intel-tdx | amd-sev-snp
+```
+
+| Attribute | Values | Notes |
+|-----------|--------|-------|
+| `confidential-compute` | `true` | Routes the workload to a Kata micro-VM with CPU TEE. |
+| `confidential-compute-tee` | `intel-tdx`, `amd-sev-snp` | Specify when your attestation logic targets one vendor. |
+
+When the compute profile also requests a GPU (e.g. `nvidia h100`), the provider automatically selects the combined Kata runtime class (`kata-qemu-nvidia-gpu-snp`, etc.) and ensures NVIDIA CC-on mode. There is no separate GPU attribute — a GPU TEE is meaningless without a CPU TEE.
+
+</div>
 
 </div>
 
