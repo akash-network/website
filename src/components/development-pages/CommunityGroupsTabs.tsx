@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type GroupItem = {
   slug: string;
@@ -189,8 +189,25 @@ function GroupCard({ item }: { item: GroupItem }) {
 }
 
 export default function CommunityGroupsTabs({ groups }: Props) {
+  const validValues = TABS.map((t) => t.value);
+  const hashTab = typeof window !== "undefined"
+    ? window.location.hash.replace("#", "")
+    : "";
+  const initialTab = validValues.includes(hashTab as (typeof TABS)[number]["value"])
+    ? (hashTab as (typeof TABS)[number]["value"])
+    : "special-interest-groups";
+
   const [activeTab, setActiveTab] =
-    useState<(typeof TABS)[number]["value"]>("special-interest-groups");
+    useState<(typeof TABS)[number]["value"]>(initialTab);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.replace("#", "") as (typeof TABS)[number]["value"];
+      if (validValues.includes(hash)) setActiveTab(hash);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   const filtered = groups.filter((g) => g.category === activeTab);
 

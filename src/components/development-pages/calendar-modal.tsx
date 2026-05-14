@@ -118,7 +118,7 @@ export function CalendarModal() {
                   >
                     <div className="flex items-center justify-between rounded-t">
                       <h3 className="font-semibold md:text-2xl">
-                        Community Engineering Syncs Calendar
+                        Community Syncs Calendar
                       </h3>
                       <button
                         type="button"

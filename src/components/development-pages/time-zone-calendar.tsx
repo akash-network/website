@@ -4,12 +4,14 @@ interface TimeZoneCalendarProps {
   calendarId: string;
   timeZone?: string;
   mode?: "AGENDA" | "DAY" | "WEEK" | "MONTH";
+  height?: number;
 }
 
 const TimeZoneCalendar: React.FC<TimeZoneCalendarProps> = ({
   calendarId,
   timeZone,
   mode = "AGENDA",
+  height = 600,
 }) => {
   const [currentTimeZone, setCurrentTimeZone] = useState("America/Los_Angeles");
 
@@ -31,7 +33,7 @@ const TimeZoneCalendar: React.FC<TimeZoneCalendarProps> = ({
         src={src}
         style={{ border: 0 }}
         width="800"
-        height="600"
+        height={height}
         frameBorder="0"
         scrolling="no"
       ></iframe>

@@ -28,6 +28,22 @@ const tools = [
     href: "https://provider-console.akash.network/",
     image: "/development/portal-provider.png",
   },
+  {
+    name: "Provide from home, no ops required",
+    tagline:
+      "Offer compute on Akash Network without needing to be a Kubernetes expert or an advanced Linux admin.",
+    cta: "Try Homenode",
+    href: "https://homenode.akash.network/",
+    image: "/development/portal-homenode.png",
+  },
+  {
+    name: "Deploy with full self-custody",
+    tagline:
+      "Self-hostable, self-custody crypto wallet UI for deploying on Akash.",
+    cta: "View on GitHub",
+    href: "https://github.com/akash-network/console-air",
+    image: "/development/portal-console-air.png",
+  },
 ];
 
 const repos = [
@@ -40,11 +56,6 @@ const repos = [
     repo: "akash-network/website",
     desc: "The digital home of the network. If you see something broken, fix it.",
     href: "https://github.com/akash-network/website",
-  },
-  {
-    repo: "akash-network/akash-js",
-    desc: "Libraries for integrating Akash into any JavaScript project.",
-    href: "https://github.com/akash-network/akash-js",
   },
   {
     repo: "akash-network/awesome-akash",
@@ -143,16 +154,19 @@ const govGroups = [
     abbr: "SIG",
     name: "Special Interest Groups",
     desc: "Focused, persistent groups working on specific features, products, and foundational tools. SIGs exist as long as the work does.",
+    href: "/development/community-groups/#special-interest-groups",
   },
   {
     abbr: "WG",
     name: "Working Groups",
     desc: "Large-scale initiatives that span multiple SIGs. They form around a mission and dissolve once the work ships. The work outlasts the group.",
+    href: "/development/community-groups/#working-groups",
   },
   {
     abbr: "SC",
     name: "Steering Committee",
     desc: "Oversees the project list, resolves conflicts, and ensures the community keeps improving how it operates.",
+    href: "/development/community-groups/#steering-committee",
   },
 ];
 ---
@@ -325,7 +339,7 @@ const govGroups = [
   <!-- GOVERNANCE -->
   <section class="space-y-8">
     <div class="space-y-4">
-      <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Community Engineering Syncs</span>
+      <span class="mb-2 inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Community Syncs</span>
       <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
         Build in the open
       </h2>
@@ -336,7 +350,7 @@ const govGroups = [
     <div class="grid gap-5 md:grid-cols-3">
       {
         govGroups.map((g) => (
-          <a href="/development/community-groups/" class="block h-full">
+          <a href={g.href} class="block h-full">
             <Card className="group flex h-full cursor-pointer flex-col transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
               <CardHeader>
                 <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border text-xs font-medium text-iconText">
@@ -359,7 +373,7 @@ const govGroups = [
     </div>
 
     <!-- Community Calendar embed -->
-    <p class="mt-24 text-base font-medium text-foreground">Community Engineering Syncs Calendar</p>
+    <p class="mt-24 text-base font-medium text-foreground">Community Syncs Calendar</p>
     <div class="!mt-3 overflow-hidden rounded-xl border bg-card p-4 md:p-6">
       <TimeZoneCalendar
         calendarId="c_25e5e3748e4c4ab7a55f41fbc5ebebcc0a03b40fb028785f14159bfaebea12e2@group.calendar.google.com"
@@ -368,7 +382,9 @@ const govGroups = [
     </div>
     <div class="flex justify-center">
       <a
-        href="https://calendar.google.com/calendar/u/0?cid=Y29tbXVuaXR5QGFrYXNoLm5ldHdvcms"
+        href="https://calendar.google.com/calendar/u/0?cid=Y18yNWU1ZTM3NDhlNGM0YWI3YTU1ZjQxZmJjNWViZWJjYzBhMDNiNDBmYjAyODc4NWYxNDE1OWJmYWViZWExMmUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
+        target="_blank"
+        rel="noopener noreferrer"
         class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
       >Subscribe to Community Calendar<ChevronRight size={14} className="ml-1.5" /></a>
     </div>
