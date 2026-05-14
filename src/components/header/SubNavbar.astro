@@ -1,0 +1,92 @@
+---
+import { CalendarModal } from "@/components/development-pages/calendar-modal";
+import {
+  communityItems,
+  developmentItems,
+  ecosystemNavItems,
+  networkItems,
+  pricingItems,
+} from "./popovers/links";
+import { getYearToUse } from "@/utils/redirects";
+
+const { pathname, type } = Astro.props as {
+  pathname: string;
+  type: "community" | "development" | "network" | "ecosystem" | "pricing";
+};
+
+const latestRoadmapYear = getYearToUse();
+
+const items =
+  type === "community"
+    ? communityItems
+    : type === "development"
+      ? developmentItems
+      : type === "ecosystem"
+        ? ecosystemNavItems
+        : type === "pricing"
+          ? pricingItems
+          : networkItems;
+
+const navItems = items.filter((item) => !item?.external && !item?.internal);
+const external = items.find((item) => item?.external && !item?.internal);
+const internal = items.find((item) => item?.internal);
+
+const isActive = (item: (typeof items)[0]) =>
+  pathname === item.link ||
+  (item.link === "roadmap" && pathname?.split("/")[1] === "roadmap") ||
+  pathname?.split("/")[2] === item.link?.split("/")[2] ||
+  (pathname?.split("/")[1] === item.link?.split("/")[1] &&
+    pathname.includes("case-studies")) ||
+  (item.link === "/ecosystem/providers/" &&
+    pathname.startsWith("/ecosystem/network-capacity"));
+---
+
+<div class="border-b border-zinc-200 bg-background dark:border-white/10">
+  <div class="container">
+    <div class="flex items-center justify-between overflow-x-auto py-3">
+      <div class="flex items-center -mx-3">
+        {navItems.map((item) => (
+          <a
+            href={item.link === "roadmap" ? `/roadmap/${latestRoadmapYear}` : item.link}
+            target={item.link.startsWith("http") ? "_blank" : "_self"}
+            class={`whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal transition-colors ${
+              isActive(item)
+                ? "text-zinc-900 dark:text-white"
+                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+            }`}
+          >
+            {item.title}
+          </a>
+        ))}
+      </div>
+
+      {type === "development" ? (
+        <CalendarModal client:load />
+      ) : (
+        <>
+          {internal && (
+            <a
+              href={internal.link}
+              target={internal.link.startsWith("http") ? "_blank" : "_self"}
+              class="flex shrink-0 items-center whitespace-nowrap rounded-full border bg-background px-3 py-1.5 text-sm font-semibold"
+            >
+              {internal.title}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="ml-1 inline-block"><circle cx="12" cy="12" r="10"/><path d="m12 8 4 4-4 4"/><path d="M8 12h8"/></svg>
+            </a>
+          )}
+          {external && (
+            <a
+              href={external.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+            >
+              {external.title}
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 -rotate-45"><circle cx="12" cy="12" r="10"/><path d="m12 8 4 4-4 4"/><path d="M8 12h8"/></svg>
+            </a>
+          )}
+        </>
+      )}
+    </div>
+  </div>
+</div>

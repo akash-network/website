@@ -7,7 +7,7 @@ import clsx from "clsx";
 import TryAkashForm from "../ui/try-akash-form";
 import HamburgerMenu from "./hamburger-menu";
 import NavMenu from "./nav-menu";
-import { SubNavbar } from "./popovers/popover-nav-community";
+import SubNavbar from "./SubNavbar.astro";
 
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
 const isValidatorsPage = Astro.url.pathname.startsWith("/network/akash-validators");
@@ -120,27 +120,27 @@ const navContainerClass = hideContainer ? "" : "container";
 <div id="sub-nav-container" class={navContainerVisibility}>
   {
     (visibility.network.includes(pathname) || isValidatorsPage) && !isProvidersPage && (
-      <SubNavbar pathname={Astro.url.pathname} client:load type="network" />
+      <SubNavbar pathname={Astro.url.pathname} type="network" />
     )
   }
   {
     (visibility.community.includes(pathname) && !isValidatorsPage) && (
-      <SubNavbar pathname={Astro.url.pathname} client:load type="community" />
+      <SubNavbar pathname={Astro.url.pathname} type="community" />
     )
   }
   {
     visibility.development.includes(pathname) && (
-      <SubNavbar pathname={Astro.url.pathname} client:load type="development" />
+      <SubNavbar pathname={Astro.url.pathname} type="development" />
     )
   }
   {
     (visibility.ecosystem.includes(pathname) || isProvidersPage) && (
-      <SubNavbar pathname={Astro.url.pathname} client:load type="ecosystem" />
+      <SubNavbar pathname={Astro.url.pathname} type="ecosystem" />
     )
   }
   {
     visibility.pricing.includes(pathname) && (
-      <SubNavbar pathname={Astro.url.pathname} client:load type="pricing" />
+      <SubNavbar pathname={Astro.url.pathname} type="pricing" />
     )
   }
 </div>
