@@ -40,6 +40,11 @@ services:
       host: https://registry.example.com
       username: user
       password: pass
+    params:
+      permissions:
+        read:
+          - logs
+          - events
 
 profiles:
   compute:
@@ -84,20 +89,22 @@ endpoints:
 
 export const sections = [
   { id: "version-section", title: "Version", startLine: 2, endLine: 2 },
-  { id: "services-section", title: "Services", startLine: 4, endLine: 31 },
+  { id: "services-section", title: "Services", startLine: 4, endLine: 36 },
   { id: "image-section", title: "Image", startLine: 6, endLine: 6 },
   { id: "command-section", title: "Command & Args", startLine: 7, endLine: 11 },
   { id: "env-section", title: "Environment Variables", startLine: 12, endLine: 14 },
   { id: "expose-section", title: "Expose", startLine: 15, endLine: 27 },
   { id: "credentials-section", title: "Credentials", startLine: 28, endLine: 31 },
-  { id: "profiles-section", title: "Profiles", startLine: 33, endLine: 61 },
-  { id: "cpu-section", title: "CPU", startLine: 38, endLine: 39 },
-  { id: "memory-section", title: "Memory", startLine: 40, endLine: 41 },
-  { id: "storage-section", title: "Storage", startLine: 42, endLine: 49 },
-  { id: "gpu-section", title: "GPU", startLine: 50, endLine: 56 },
-  { id: "placement-section", title: "Placement", startLine: 58, endLine: 65 },
-  { id: "deployment-section", title: "Deployment", startLine: 67, endLine: 71 },
-  { id: "endpoints-section", title: "Endpoints", startLine: 73, endLine: 75 },
+  { id: "params-section", title: "Params", startLine: 32, endLine: 36 },
+  { id: "permissions-section", title: "Permissions", startLine: 33, endLine: 36 },
+  { id: "profiles-section", title: "Profiles", startLine: 38, endLine: 66 },
+  { id: "cpu-section", title: "CPU", startLine: 43, endLine: 44 },
+  { id: "memory-section", title: "Memory", startLine: 45, endLine: 46 },
+  { id: "storage-section", title: "Storage", startLine: 47, endLine: 54 },
+  { id: "gpu-section", title: "GPU", startLine: 55, endLine: 61 },
+  { id: "placement-section", title: "Placement", startLine: 63, endLine: 70 },
+  { id: "deployment-section", title: "Deployment", startLine: 72, endLine: 76 },
+  { id: "endpoints-section", title: "Endpoints", startLine: 78, endLine: 80 },
 ];
 
 <ReferenceLayout>
@@ -217,6 +224,47 @@ credentials:
   username: user
   password: pass
 ```
+
+</div>
+
+<div id="params-section" className="section-marker mt-8">
+
+### params
+
+**Optional.** Service-level runtime parameters. Groups storage mounts and inter-service RBAC permissions.
+
+```yaml
+params:
+  permissions:
+    read:
+      - logs
+      - events
+```
+
+`params.storage` covers persistent-volume mounts and is documented under [advanced features](/docs/developers/deployment/akash-sdl/advanced-features#persistent-storage).
+
+<div id="permissions-section" className="section-marker mt-6">
+
+#### permissions
+
+**Optional.** Grant a sibling service in the same deployment RBAC access to read this service's runtime data. Used by log-collector and observability sidecars so they can tail logs and events from the target service's pods.
+
+```yaml
+params:
+  permissions:
+    read:
+      - logs        # pods, pods/log, deployments — read-only
+      - events      # kubernetes events — read-only
+```
+
+| Scope | RBAC granted |
+|-------|--------------|
+| `logs` | `get/list/watch` on `pods`, `get` on `pods/log`, `get/list/watch` on `apps/deployments` |
+| `events` | `get/list/watch` on `events` |
+
+The collector pod authenticates against the Kubernetes API using a ServiceAccount the provider mounts into every container. When the target service declares `permissions.read`, the provider attaches a matching `Role` and `RoleBinding` so collectors in the same deployment can call the API server. See [Log Forwarding](/docs/developers/deployment/akash-sdl/advanced-features#log-forwarding) for the full sidecar pattern.
+
+</div>
 
 </div>
 
