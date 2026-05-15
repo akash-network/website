@@ -68,7 +68,7 @@ const buttonLabel = isTool ? button?.label ?? "Visit" : "View project";
     <div class="flex h-full flex-col rounded-lg border bg-card px-5 pb-5 pt-5 shadow-sm">
       <div class="overflow-hidden rounded-md">
         <Image
-          class="aspect-[12/7] w-full transform object-contain"
+          class="aspect-[12/7] w-full transform object-contain grayscale transition-all duration-500 ease-in-out group-hover:scale-[1.03] group-hover:brightness-105 group-hover:grayscale-0"
           src={image}
           alt={`banner image for ${title}`}
           width={1200}
