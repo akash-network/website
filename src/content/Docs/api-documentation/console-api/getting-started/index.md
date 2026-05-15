@@ -60,7 +60,7 @@ All examples in this guide show the full response body — extract the value you
 
 ### Money fields
 
-The Managed Wallet bills your Console account in **USD** (credit card). The `deposit` field on `POST /v1/deployments` and `POST /v1/deposit-deployment` is a number in dollars (for example `5.5` = $5.50).
+The Managed Wallet bills your Console account in **USD** (credit card). The `deposit` field on `POST /v1/deployments` and `POST /v1/deposit-deployment` is a number in dollars. The minimum accepted value is `0.5` ($0.50); pass a larger value to top up by more.
 
 The blockchain itself works in raw on-chain denoms (`uact`, `uusdc`, …). Wherever you see `price.denom` / `price.amount` in a bid response or an `escrow_account.state.funds` entry, those are raw chain values in micro-units (1 ACT = 1 000 000 uact). The SDL `pricing` block also uses chain denoms — the managed wallet handles the USD ↔ chain conversion for you.
 
@@ -81,7 +81,7 @@ curl -X POST https://console-api.akash.network/v1/deployments \
   -d '{
     "data": {
       "sdl": "<YOUR_SDL_YAML_AS_STRING>",
-      "deposit": 5.5
+      "deposit": 0.5
     }
   }'
 ```
@@ -95,7 +95,7 @@ const res = await fetch("https://console-api.akash.network/v1/deployments", {
     "x-api-key": process.env.AKASH_API_KEY,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ data: { sdl: YOUR_SDL_STRING, deposit: 5.5 } }),
+  body: JSON.stringify({ data: { sdl: YOUR_SDL_STRING, deposit: 0.5 } }),
 });
 const { data } = await res.json();
 const dseq = data.dseq;
@@ -305,7 +305,7 @@ cURL:
 curl -X POST https://console-api.akash.network/v1/deposit-deployment \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "data": { "dseq": "1234567", "deposit": 10 } }'
+  -d '{ "data": { "dseq": "1234567", "deposit": 0.5 } }'
 ```
 
 JavaScript (fetch):
@@ -319,7 +319,7 @@ const res = await fetch(
       "x-api-key": process.env.AKASH_API_KEY,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ data: { dseq, deposit: 10 } }),
+    body: JSON.stringify({ data: { dseq, deposit: 0.5 } }),
   },
 );
 const { data } = await res.json();
@@ -445,7 +445,7 @@ async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
 async function main() {
   const create = await apiRequest("/v1/deployments", {
     method: "POST",
-    body: JSON.stringify({ data: { sdl: SDL, deposit: 5.5 } }),
+    body: JSON.stringify({ data: { sdl: SDL, deposit: 0.5 } }),
   });
   const { dseq, manifest } = create.data;
 
@@ -469,7 +469,7 @@ async function main() {
 
   await apiRequest("/v1/deposit-deployment", {
     method: "POST",
-    body: JSON.stringify({ data: { dseq, deposit: 10 } }),
+    body: JSON.stringify({ data: { dseq, deposit: 0.5 } }),
   });
 
   const status = await apiRequest(`/v1/deployments/${dseq}`);

@@ -114,13 +114,13 @@ Create a new deployment from an SDL manifest and fund its escrow.
 | ------------ | -------- | ------ | -------- | ---------------------------------------------------------- |
 | x-api-key    | header   | string | yes      | Your API key                                               |
 | data.sdl     | body     | string | yes      | Deployment manifest in SDL (YAML) format, as a JSON string |
-| data.deposit | body     | number | yes      | Initial escrow deposit in USD, for example `5.5`           |
+| data.deposit | body     | number | yes      | Initial escrow deposit in USD. Minimum `0.5`               |
 
 ```bash
 curl -X POST https://console-api.akash.network/v1/deployments \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "data": { "sdl": "version: \"2.0\"\n...", "deposit": 5.5 } }'
+  -d '{ "data": { "sdl": "version: \"2.0\"\n...", "deposit": 0.5 } }'
 ```
 
 ```javascript
@@ -130,7 +130,7 @@ const res = await fetch("https://console-api.akash.network/v1/deployments", {
     "x-api-key": process.env.AKASH_API_KEY,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ data: { sdl: sdlString, deposit: 5.5 } }),
+  body: JSON.stringify({ data: { sdl: sdlString, deposit: 0.5 } }),
 });
 const { data } = await res.json();
 ```
@@ -282,17 +282,17 @@ Response `200 OK` is the same shape as `GET /v1/deployments/{dseq}` — see belo
 
 Add USD funds to a deployment's escrow to extend its runtime.
 
-| Field        | Location | Type   | Required | Description                             |
-| ------------ | -------- | ------ | -------- | --------------------------------------- |
-| x-api-key    | header   | string | yes      | Your API key                            |
-| data.dseq    | body     | string | yes      | Deployment sequence ID                  |
-| data.deposit | body     | number | yes      | Deposit amount in USD, for example `10` |
+| Field        | Location | Type   | Required | Description                          |
+| ------------ | -------- | ------ | -------- | ------------------------------------ |
+| x-api-key    | header   | string | yes      | Your API key                         |
+| data.dseq    | body     | string | yes      | Deployment sequence ID               |
+| data.deposit | body     | number | yes      | Deposit amount in USD. Minimum `0.5` |
 
 ```bash
 curl -X POST https://console-api.akash.network/v1/deposit-deployment \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "data": { "dseq": "1234567", "deposit": 10 } }'
+  -d '{ "data": { "dseq": "1234567", "deposit": 0.5 } }'
 ```
 
 ```javascript
@@ -304,7 +304,7 @@ const res = await fetch(
       "x-api-key": process.env.AKASH_API_KEY,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ data: { dseq, deposit: 10 } }),
+    body: JSON.stringify({ data: { dseq, deposit: 0.5 } }),
   },
 );
 const { data } = await res.json();
