@@ -4,27 +4,25 @@ import SearchDialog from "./search-dialog";
 const astroUrl = Astro.url;
 const pathName = astroUrl.pathname.split("/");
 
-const { tags, title = "Explore the Akash Ecosystem" } = Astro.props;
+const { tags, title = "Explore the Akash Ecosystem", description, hideFilters = false } = Astro.props;
 ---
 
-<h1 class="w-full text-center text-3xl md:text-4xl lg:text-5xl">
-  {title}
-</h1>
+<div class="space-y-5 mb-10 md:mb-[60px] lg:mb-20">
+  <h1 class="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+    {title}
+  </h1>
+  {description && (
+    <p class="max-w-2xl text-base font-normal text-para">{description}</p>
+  )}
+</div>
 
-<div
-  class="mt-6 flex flex-col justify-between gap-x-6 pb-6 md:mt-8 md:pb-8 lg:mt-10 lg:flex-row lg:border-b lg:pb-10"
->
-  <div class="my-5 border-b lg:hidden"></div>
-
-  <div class="flex items-center justify-between">
+{!hideFilters && (
+  <div class="flex items-center justify-between pb-6 md:hidden">
     <Categories
       client:load
       tags={tags}
-      className=" md:hidden"
       page={pathName?.[2]}
     />
-    <div class="block md:hidden">
-      <SearchDialog client:load currentPath={astroUrl.pathname} />
-    </div>
+    <SearchDialog client:load currentPath={astroUrl.pathname} />
   </div>
-</div>
+)}
