@@ -1,142 +1,1065 @@
 ---
-import CommunityHero from "@/components/mdx-cards/community-hero.astro";
 import ButtonLink from "@/components/ui/button-link-ambassador.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
-import { Carousel } from "@/components/community-pages/custom-carousel/Carousel";
-import TrustedByMarquee from "@/components/home/TrustedByMarquee.tsx";
-import { LogosSection } from "@/components/student-ambassador/logos.ts";
 
-const images = [
-  { src: "/images/slides/student/s1.png", alt: "Slide 1" },
-  { src: "/images/slides/student/s2.png", alt: "Slide 2" },
-  { src: "/images/slides/student/s3.png", alt: "Slide 3" },
-  { src: "/images/slides/student/s4.png", alt: "Slide 4" },
-  { src: "/images/slides/student/s5.png", alt: "Slide 5" },
-  { src: "/images/slides/student/s6.png", alt: "Slide 6" },
-  { src: "/images/slides/student/s7.png", alt: "Slide 7" },
-  { src: "/images/slides/student/s8.png", alt: "Slide 8" },
+type Path = "technical" | "events" | "content" | "community";
+
+interface Contribution {
+  path: Path;
+  title: string;
+  description: string;
+  ambassador: string;
+  university: string;
+  month: string;
+  link: string;
+  pr?: boolean;
+  featured?: boolean;
+  images?: string[];
+}
+
+interface Ambassador {
+  src: string;
+  name: string;
+  university: string;
+}
+
+interface Testimonial {
+  initial: string;
+  name: string;
+  handle: string;
+  body: string;
+}
+
+interface SchoolLogo {
+  src: string;
+  alt: string;
+}
+
+const SHOWCASE = "/images/student-ambassador/showcase";
+
+const schoolLogos: SchoolLogo[] = [
+  { src: `${SHOWCASE}/logos/babson.png`, alt: "Babson College" },
+  { src: `${SHOWCASE}/logos/cornell.png`, alt: "Cornell University" },
+  { src: `${SHOWCASE}/logos/indiana.png`, alt: "Indiana University" },
+  { src: `${SHOWCASE}/logos/michigan.png`, alt: "University of Michigan" },
+  { src: `${SHOWCASE}/logos/princeton.png`, alt: "Princeton University" },
+  { src: `${SHOWCASE}/logos/stony-brook.png`, alt: "Stony Brook University" },
+  { src: `${SHOWCASE}/logos/umass-amherst.png`, alt: "UMass Amherst" },
+  { src: `${SHOWCASE}/logos/usc.png`, alt: "USC" },
+  { src: `${SHOWCASE}/logos/ut-austin.png`, alt: "UT Austin" },
+  { src: `${SHOWCASE}/logos/usw.svg`, alt: "University of South Wales" },
 ];
 
-const title = "The Akash Student<br/> Ambassador Program";
+const ambassadors: Ambassador[] = [
+  { src: `${SHOWCASE}/ambassadors/rachel.jpg`, name: "Rachel Turner", university: "Cornell University" },
+  { src: `${SHOWCASE}/ambassadors/nick.jpg`, name: "Nick Hardy", university: "Indiana University" },
+  { src: `${SHOWCASE}/ambassadors/kien.jpg`, name: "Kien Nguyen", university: "UMass Amherst" },
+  { src: `${SHOWCASE}/ambassadors/hrishabh.jpg`, name: "Hrishabh Ayush", university: "Cornell University" },
+  { src: `${SHOWCASE}/ambassadors/ensar.jpg`, name: "Ensar Burrja", university: "Stony Brook University" },
+  { src: `${SHOWCASE}/ambassadors/Andy.jpg`, name: "Andy Huynh", university: "UMass Amherst" },
+  { src: `${SHOWCASE}/ambassadors/asad.jpg`, name: "Asad Rizvi", university: "Cornell University" },
+  { src: `${SHOWCASE}/ambassadors/lucas.jpg`, name: "Lucas Botbol", university: "UT Austin" },
+  { src: `${SHOWCASE}/ambassadors/ayesha.jpg`, name: "Ayesha Satpathy", university: "UT Austin" },
+  { src: `${SHOWCASE}/ambassadors/alex.jpg`, name: "Alex Diaz", university: "USC" },
+  { src: `${SHOWCASE}/ambassadors/michael.jpg`, name: "Michael Abril", university: "Babson College" },
+  { src: `${SHOWCASE}/ambassadors/hersh.jpg`, name: "Hersh Joshi", university: "USC" },
+  { src: `${SHOWCASE}/ambassadors/ayati.jpg`, name: "Ayati Ogochukwu", university: "Cornell University" },
+];
+
+const contributions: Contribution[] = [
+  {
+    path: "technical",
+    title: "First PR Merged: Fixing a Critical Gap in the Quick Start Guide",
+    description:
+      "First PR merged to the Akash Console repo, adding a missing npm install step in the Quick Start guide. This removes a blocker that was causing errors for new users trying to run the project locally.",
+    ambassador: "Hrishabh Ayush",
+    university: "Cornell University",
+    month: "February 2026",
+    link: "https://github.com/akash-network/console/tree/main?tab=readme-ov-file#quick-start",
+    pr: true,
+  },
+  {
+    path: "technical",
+    title: "Deployed Karpathy's Autoresearch on Akash",
+    description:
+      "Added a one-click deploy template for Autoresearch, Andrej Karpathy's autonomous AI research framework, to the awesome-akash repository. The template lets anyone run self-directed LLM training experiments on a single GPU — the agent modifies code, trains in 5-minute bursts, evaluates, and repeats without human input. Makes GPU-powered autonomous research accessible through Akash's decentralized compute.",
+    ambassador: "Hrishabh Ayush",
+    university: "Cornell University",
+    month: "March 2026",
+    link: "https://github.com/hrishabhayush/awesome-akash/tree/templates/autoresearch/autoresearch",
+    pr: true,
+  },
+  {
+    path: "technical",
+    title: "Second PR Merged: Fixing Env Setup in Quick Start",
+    description:
+      "Submitted another PR to improve the README by adding the missing .env.local setup step. Without it, the app would crash on startup due to missing environment variables. This fix makes the Quick Start actually runnable and prevents early setup errors for new users.",
+    ambassador: "Hrishabh Ayush",
+    university: "Cornell University",
+    month: "March 2026",
+    link: "https://github.com/akash-network/console/tree/main?tab=readme-ov-file#quick-start",
+    pr: true,
+  },
+  {
+    path: "content",
+    title: "Exploring Akash's Role in the Machine Economy",
+    description:
+      "Analyzed Akash network activity and shared a thesis on where it's heading, highlighting how permissionless compute marketplaces enable AI agents to autonomously access and pay for infrastructure. Framed Akash as a potential foundation for the emerging machine economy.",
+    ambassador: "Alon Mutter",
+    university: "University of Southern California",
+    month: "January 2026",
+    link: "https://x.com/mutter88126/status/2008071052061225451?s=20",
+  },
+  {
+    path: "technical",
+    title: "AkashTrainer: One-Message ML Training Agent on Akash GPUs",
+    description:
+      "Built and submitted a PR for AkashTrainer, an OpenClaw-powered agent that automates end-to-end ML model training on Akash. Users simply send a GitHub repo link and the agent handles everything — spinning up a GPU deployment, running the training job, and reporting results. No manual configuration or SDL writing required. A major step toward making decentralized compute as easy as a single message.",
+    ambassador: "Huy Huynh & Kien Nguyen",
+    university: "University of Massachusetts Amherst",
+    month: "April 2026",
+    link: "https://github.com/akash-network/awesome-akash/tree/master/akash-trainer",
+    featured: true,
+    images: [`${SHOWCASE}/events/akash-trainer.jpg`],
+  },
+  {
+    path: "content",
+    title: "Stress Testing Trust in Decentralized AI (Ongoing Experiment)",
+    description:
+      "Building on Asad's article questioning the security of decentralized AI, this contribution highlights his follow-up experiments testing Byzantine-resilient defenses under real conditions. Across multiple attack types and non-IID data, the results show that widely cited defenses consistently fail, reinforcing the core issue: the infrastructure may work, but trust in the system is still unproven.",
+    ambassador: "Asad Rizvi",
+    university: "Cornell University",
+    month: "March 2026",
+    link: "https://x.com/carne_asado/status/2038917326511251918?s=46",
+  },
+  {
+    path: "technical",
+    title: "Gradio on Akash: ML Demos Made Deployable",
+    description:
+      "Contributed a PR to awesome-akash adding a Gradio demo, making it easier to deploy and showcase machine learning interfaces on Akash. Bridges simple Python-based ML apps with decentralized compute, helping builders quickly go from local demos to live, shareable endpoints.",
+    ambassador: "Ensar Burrja",
+    university: "Stony Brook University",
+    month: "March 2026",
+    link: "https://github.com/akash-network/awesome-akash/tree/master/gradio-demo",
+    pr: true,
+  },
+  {
+    path: "technical",
+    title: "1st Place at UPenn Blockchain Conference: On-Chain Analytics Pipeline on Akash",
+    description:
+      "Won 1st place at the UPenn Blockchain Conference research competition by building a full-stack on-chain analytics pipeline for Cronos, from raw RPC data ingestion to investment-grade research reports. Powered entirely by compute on Akash Network, showcasing how decentralized infrastructure can support real-world blockchain research workflows.",
+    ambassador: "Nick Hardy & Tharun Ekambaram",
+    university: "Indiana University",
+    month: "March 2026",
+    link: "https://github.com/tharune/cronos-research",
+    featured: true,
+    images: [`${SHOWCASE}/events/upenn-1.jpg`, `${SHOWCASE}/events/upenn-2.jpg`],
+  },
+  {
+    path: "community",
+    title: "From Onboarding to Bittensor Miner on Akash",
+    description:
+      "Successfully onboarded a peer (Nathan) to Akash, walking through the console, Akash ML, and key community channels in Discord. He's now actively running a Bittensor miner on Akash. Strong example of students enabling students and driving real adoption of the decentralized cloud.",
+    ambassador: "Lucas Botbol",
+    university: "UT Austin",
+    month: "February 2026",
+    link: "https://x.com/BotbolLucas/status/2036658487921402046?s=20",
+  },
+  {
+    path: "community",
+    title: "From Idea to Deployment: Onboarding Builders to Akash",
+    description:
+      "Onboarded two peers to Akash by helping them deploy their own multi-agent workflows. One built a system that scrapes top TikTok Shop products and generates UGC-style AI videos at scale, accessible via Telegram. The other deployed a workflow that scans Reddit communities and automates posting referral links (Acorns) to drive signups. Both moved from idea to live deployment on Akash.",
+    ambassador: "Michael Abril",
+    university: "Babson University",
+    month: "March 2026",
+    link: "",
+  },
+  {
+    path: "events",
+    title: "Deploy to the Supercloud: Akash Build Night @ USC",
+    description:
+      "A hands-on build night where students deployed real GitHub projects to Akash, including OpenClaw and a Monte Carlo simulation. Strong engagement carried the session past its scheduled time, with multiple students continuing to actively build on Akash afterward.",
+    ambassador: "Alex Diaz",
+    university: "University of Southern California",
+    month: "March 2026",
+    link: "",
+  },
+  {
+    path: "technical",
+    title: "Bittensor Miner Setup on Akash",
+    description:
+      "Step-by-step guide to launching a Bittensor miner on Akash Network, from wallet setup to deployment.",
+    ambassador: "Lucas Botbol",
+    university: "UT Austin",
+    month: "March 2026",
+    link: "https://x.com/BotbolLucas/status/2036658487921402046?s=20",
+  },
+  {
+    path: "technical",
+    title: "Autoresearch-at-Home Template Contribution",
+    description:
+      "Built and contributed an autoresearch-at-home template, enabling collaborative AI research workflows on Akash.",
+    ambassador: "Asad Rizvi",
+    university: "Cornell University",
+    month: "March 2026",
+    link: "https://github.com/akash-network/awesome-akash/pull/782",
+    pr: true,
+  },
+  {
+    path: "content",
+    title: "The Backdoor in the Machine: Why Decentralized AI Isn't Secure (Yet)",
+    description:
+      "This article explores the emerging trust gap in decentralized AI training — highlighting how large-scale models can now be trained across distributed nodes, but lack reliable ways to verify the integrity of contributions. Proposes real-world experimentation on Akash to test gradient poisoning and detection methods.",
+    ambassador: "Asad Rizvi",
+    university: "Cornell University",
+    month: "March 2026",
+    link: "https://x.com/carne_asado/status/2037748594980110750?s=20",
+    featured: true,
+  },
+  {
+    path: "content",
+    title: "The Permissionless Shortcut: Why Ambassador Programs are the New Web3 Internship",
+    description:
+      "This article explores how ambassador programs are replacing traditional Web3 internships by prioritizing real contributions over resumes. It highlights how building in public, shipping work, and engaging directly with ecosystems like Akash creates faster, more direct paths into the industry.",
+    ambassador: "Shelby Peris",
+    university: "Program Lead",
+    month: "February 2026",
+    link: "https://akash.network/blog/the-permissionless-shortcut-why-ambassador-program-are-the-new-web3-internship/",
+  },
+  {
+    path: "content",
+    title: "Thoughts on Startup: Horizontal, Vertical, or Something in Between",
+    description:
+      "This article explores how the line between horizontal and vertical startups is blurring, with many companies adopting a more composable approach. It highlights how platforms like Akash serve as foundational infrastructure, enabling startups to build faster and focus on domain-specific value.",
+    ambassador: "Helen Hui",
+    university: "Princeton University",
+    month: "February 2026",
+    link: "https://x.com/AkashStudents/status/2020934825843257826",
+  },
+  {
+    path: "events",
+    title: "Intro to Akash with ColorStack @ USC",
+    description:
+      "Led an Intro to Akash session with ColorStack at USC, an incredible community supporting Black, Indigenous, and Latinx CS students, driving strong engagement and demand for a follow-up next semester.",
+    ambassador: "Alex Diaz",
+    university: "University of Southern California",
+    month: "December 2025",
+    link: "",
+  },
+  {
+    path: "events",
+    title: "Blockchain @ USC Mixer feat. Akash",
+    description:
+      "Hosted a blockchain meetup introducing students to decentralized cloud computing and the Akash Network, with a strong turnout from the community. The event combined learning, conversation, and community-building over pizza and refreshments.",
+    ambassador: "Alex Diaz & Alon Mutter",
+    university: "University of Southern California",
+    month: "January 2026",
+    link: "https://x.com/AkashStudents/status/2014779402601779470?s=20",
+  },
+  {
+    path: "events",
+    title: "Cloud Deployment Workshop with AI @ Princeton",
+    description:
+      "Hosted a Cloud Deployment Workshop with AI@Princeton, where students were introduced to Akash for the first time. The session included a live deployment demo followed by an interactive Q&A, helping students understand how to get started building on decentralized cloud infrastructure.",
+    ambassador: "Helen Hui",
+    university: "Princeton University",
+    month: "February 2026",
+    link: "https://x.com/AkashStudents/status/2026782629736100162?s=20",
+  },
+  {
+    path: "technical",
+    title: "How to Self-Host Clawdbot for Free",
+    description:
+      "Built a guide for deploying Clawdbot on Akash, covering setup, configuration, and dashboard access — enabling a low-cost, customizable AI assistant without relying on traditional cloud providers.",
+    ambassador: "Lucas Botbol",
+    university: "UT Austin",
+    month: "January 2026",
+    link: "https://x.com/BotbolLucas/status/2017733501987033395?s=20",
+  },
+  {
+    path: "technical",
+    title: "How to Self-Host the Cheapest n8n Server",
+    description:
+      "Built a guide for deploying a low-cost, self-hosted n8n server on Akash, covering template setup, configuration, and deployment — showing how to run automation infrastructure without expensive cloud providers.",
+    ambassador: "Lucas Botbol",
+    university: "UT Austin",
+    month: "December 2025",
+    link: "https://x.com/BotbolLucas/status/2005386440545538217",
+  },
+  {
+    path: "technical",
+    title: "Zcash x Akash: Open-Source Node Deployment",
+    description:
+      "Built and deployed an open-source project connecting Zcash infrastructure to Akash's decentralized cloud, enabling node deployment without relying on traditional providers like AWS or GCP. This contribution demonstrates how decentralized compute can support real blockchain infrastructure while strengthening collaboration between the Akash and Zcash ecosystems.",
+    ambassador: "Alex Diaz",
+    university: "University of Southern California",
+    month: "February 2026",
+    link: "https://github.com/akash-network/awesome-akash/tree/master/zcash-zebra",
+    featured: true,
+  },
+  {
+    path: "technical",
+    title: "From Video to Content: AI-Powered Post Generation on Akash",
+    description:
+      "Built an AI tool that converts short-form videos into strategic content for X, LinkedIn, and blogs. Developed using Akash ML and deployed via the Akash Console, gaining hands-on experience building and shipping on decentralized infrastructure.",
+    ambassador: "Ayati Ogochukwu",
+    university: "University of Southwales Cardiff",
+    month: "February 2026",
+    link: "https://t.me/ayati_vid_bot",
+  },
+  {
+    path: "events",
+    title: "UT Austin x Akash: Live OpenClaw Deployment",
+    description:
+      "This event brought together 30 UT Austin students for a hands-on introduction to Akash, including a live OpenClaw deployment. The session moved students from awareness to real confidence, with 5 builders preparing to deploy at upcoming hackathons. It highlights how in-person builder events drive ecosystem growth, from learning to active participation.",
+    ambassador: "Ayesha Satpathy & Lucas Botbol",
+    university: "UT Austin",
+    month: "February 2026",
+    link: "https://x.com/AkashStudents/status/2024979453240377674?s=20",
+    featured: true,
+  },
+  {
+    path: "content",
+    title: "Cloud Laws vs. Innovation: Why Decentralized Infrastructure Wins",
+    description:
+      "This blog post explores how differences in cloud regulations across Europe and the U.S. create friction for global builders. It shows how centralized infrastructure struggles with data sovereignty constraints, and how Akash's decentralized network enables borderless, lower-cost deployment without those tradeoffs.",
+    ambassador: "Hugo David",
+    university: "Ecole 42 (Marseille)",
+    month: "March 2026",
+    link: "https://akash.network/community/contributions/cloud-war/",
+    featured: true,
+  },
+  {
+    path: "content",
+    title: "Introduction to Akash Network + Console (French Tutorial)",
+    description:
+      "This video introduces the Akash Network and walks through how to use the Akash Console, with a focus on helping new users get started quickly. Created in French, it expands accessibility for non-English-speaking builders and lowers the barrier to entry for engaging with decentralized cloud infrastructure. The tutorial covers core concepts, basic navigation, and how to begin deploying on Akash.",
+    ambassador: "Hugo David",
+    university: "Ecole 42 (Marseille)",
+    month: "March 2026",
+    link: "https://www.youtube.com/watch?v=qrrjuLhv9So",
+    featured: true,
+  },
+  {
+    path: "content",
+    title: "Who Really Wins the AI Compute War?",
+    description:
+      "This LinkedIn post explores how control over AI compute is concentrated among a few centralized providers, and what that means for builders. It introduces Akash as a decentralized alternative, unlocking unused global compute and enabling more open, scalable infrastructure for AI. The piece also points to a shift toward agent-driven systems that can autonomously deploy and manage compute on-chain.",
+    ambassador: "Ayesha Satpathy",
+    university: "UT Austin",
+    month: "March 2026",
+    link: "https://www.linkedin.com/posts/ayeshasatpathy_akashnetwork-akashambassadors-activity-7441903228780441600-_kIy?utm_medium=ios_app&rcm=ACoAADl2CroBVl3Y--ZsrolprCV-0LJDfi1uJXU&utm_source=social_share_send&utm_campaign=copy_link",
+  },
+];
+
+const testimonials: Testimonial[] = [
+  {
+    initial: "C",
+    name: "CRYPTONIC",
+    handle: "@cryptonhic",
+    body: "Nice to see more local content. Breakdowns like this help onboard new users and make the ecosystem easier to understand. For $AKT, that kind of grassroots growth matters, and on #MGBX, it's the kind of signal traders keep an eye on.",
+  },
+  {
+    initial: "K",
+    name: "Kings1wealth",
+    handle: "@kings1wealth",
+    body: "This is another proof that @akashnet $AKT is underrated!! 🔥",
+  },
+  {
+    initial: "x",
+    name: "x1k",
+    handle: "@x1knet",
+    body: "@AkashStudents is a small unnoticed group that is shipping. These students Rock 🤘 $AKT @akashnet",
+  },
+  {
+    initial: "J",
+    name: "Jokee",
+    handle: "@Jokee_web3",
+    body: "Impressive win for IU ambassadors at UPenn! 🏆",
+  },
+  {
+    initial: "H",
+    name: "HighTower RPC Service",
+    handle: "@htwtech_RPC",
+    body: "this is impressive, congrats to the team!",
+  },
+  {
+    initial: "S",
+    name: "Spice Trader",
+    handle: "@Go1diLocks",
+    body: "Akash Ambassadors is a breath of fresh air",
+  },
+];
+
+const totalContributions = contributions.length;
+const ambassadorSet = new Set<string>();
+contributions.forEach((c) => {
+  c.ambassador.split(/\s*&\s*/).forEach((name) => ambassadorSet.add(name.trim()));
+});
+const totalAmbassadors = ambassadorSet.size;
+const totalUniversities = new Set(contributions.map((c) => c.university)).size;
+
+const pathLabels: Record<Path, string> = {
+  technical: "Technical",
+  events: "Events",
+  content: "Content Creation",
+  community: "Community Building",
+};
+
+const sortedContributions = [...contributions].sort((a, b) => {
+  if (a.featured && !b.featured) return -1;
+  if (!a.featured && b.featured) return 1;
+  return 0;
+});
+
+const title = "The Akash Student Ambassador Program";
 const description =
-  "The Akash Student Ambassador Program empowers students to become builders, advocates, and community leaders for the decentralized cloud movement.";
+  "Real work, real impact — highlighting what our student ambassadors are building, writing, hosting, and growing across the globe.";
 ---
 
 <Layout
-  title={title.replace("<br/>", "")}
+  title={title}
   description={description}
   image="/meta-images/community.png"
 >
   <TopMargin isNotContainer>
-    <CommunityHero container title={title} description={description} />
-    <div
-      class="not-prose flex flex-col items-center justify-center gap-10 pb-20"
+    {/* HERO */}
+    <section
+      class="not-prose relative overflow-hidden border-b border-defaultBorder bg-background"
     >
-      <h2 class="text-center text-3xl font-semibold">
-        Join the Akash Ambassador Program.<br /> Submit your application for the Fall
-        Cohort 2026!
-      </h2>
-      <div class="flex flex-col items-center justify-center gap-2 md:flex-row">
-        <ButtonLink
-          className="mt-0"
-          link="https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform"
-          variant="primary"
-          size="lg"
-        >
-          Submit your application
-        </ButtonLink>
-        <ButtonLink
-          className="mt-0"
-          link="https://x.com/AkashStudents"
-          variant="secondary"
-          size="lg"
-        >
-          Akash Students on X.com
-        </ButtonLink>
-      </div>
-      <ButtonLink
-        className="mt-0"
-        link="https://proximal-liver-375.notion.site/Akash-Student-Ambassador-Program-2dc7e695758c80d9a1f8f9749e063b51"
-        variant="ghost"
-        size="lg"
+      <div
+        class="pointer-events-none absolute inset-0 opacity-60 dark:opacity-40"
+        style="background: radial-gradient(ellipse at 20% 50%, rgba(255,65,76,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(255,65,76,0.12) 0%, transparent 50%);"
       >
-        Learn More About University Program
-      </ButtonLink>
-    </div>
-
-    <div
-      class="relative mx-auto w-full max-w-[1400px] py-24 md:pb-32 md:pt-0 md:before:absolute md:before:left-0 md:before:top-0 md:before:z-10 md:before:h-full md:before:w-32 md:before:bg-gradient-to-r md:before:from-white md:before:to-transparent md:before:content-[''] md:after:absolute md:after:right-0 md:after:top-0 md:after:z-10 md:after:h-full md:after:w-32 md:after:bg-gradient-to-l md:after:from-white md:after:to-transparent md:after:content-[''] dark:md:before:from-[#0a0a0a] dark:md:after:from-[#0a0a0a]"
-    >
-      <TrustedByMarquee trustedBySection={LogosSection} client:only="react" />
-    </div>
-    <!-- <div class="flex flex-row items-center justify-between max-w-7xl mx-auto py-24 md:py-32">
-      {Logos.map((logo) => (
-        <img
-          src={logo.src}
-          alt={logo.alt}
-          class="h-6 w-auto md:h-10 dark:brightness-0 dark:invert pointer-events-none select-none"
-        />
-      ))}
-    </div> -->
-    <div class="container mx-auto max-w-5xl px-4">
-      <!-- Two Cards Section -->
-      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
-        <!-- Card 1 -->
-        <div class="flex flex-col">
+      </div>
+      <div
+        class="container relative mx-auto flex flex-col items-center px-4 py-16 text-center md:py-20"
+      >
+        <div class="mb-8 flex items-center justify-center">
           <img
-            src="/images/student-ambassador/1.png"
-            alt="Growing the Open Cloud on Campus"
-            class="h-auto w-full rounded-lg object-cover"
+            src={`${SHOWCASE}/akash-uni-pro-d.svg`}
+            alt="Akash University Pro"
+            class="block h-16 w-auto md:h-20 dark:hidden"
           />
+          <img
+            src={`${SHOWCASE}/akash-uni-pro-w.svg`}
+            alt="Akash University Pro"
+            class="hidden h-16 w-auto md:h-20 dark:block"
+          />
+        </div>
+        <h1
+          class="max-w-3xl text-4xl !font-semibold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-6xl"
+        >
+          Ambassador
+          <span class="font-instrument italic font-normal text-primary">
+            Contributions
+          </span>
+          Showcase
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-para md:text-lg">
+          Real work, real impact — highlighting what our student ambassadors are
+          building, writing, hosting, and growing across the globe.
+        </p>
+        <div
+          class="mt-10 flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row"
+        >
+          <ButtonLink
+            className="mt-0"
+            link="https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform"
+            variant="primary"
+            size="lg"
+          >
+            Submit your application
+          </ButtonLink>
+          <ButtonLink
+            className="mt-0"
+            link="https://x.com/AkashStudents"
+            variant="secondary"
+            size="lg"
+          >
+            Akash Students on X.com
+          </ButtonLink>
+          <ButtonLink
+            className="mt-0"
+            link="https://proximal-liver-375.notion.site/Akash-Student-Ambassador-Program-2dc7e695758c80d9a1f8f9749e063b51"
+            variant="ghost"
+            size="lg"
+          >
+            Learn More About University Program
+          </ButtonLink>
+        </div>
+      </div>
+    </section>
 
-          <div class="mt-6 flex flex-col gap-3">
-            <h3 class="text-xl font-semibold text-foreground">
-              Growing the Open Cloud on Campus
-            </h3>
-            <p class="text-sm leading-relaxed text-para">
-              Ambassadors play a key role in expanding awareness of Akash
-              Network by hosting campus events, creating content, and connecting
-              peers to opportunities in decentralized computing. More than a
-              marketing initiative, this program focuses on ecosystem
-              development, equipping students to represent a movement they truly
-              believe in and build community from the ground up.
-            </p>
-          </div>
+    {/* STATS */}
+    <section
+      class="not-prose border-b border-defaultBorder bg-background"
+      data-stats-root
+    >
+      <div
+        class="container mx-auto grid grid-cols-1 divide-y divide-defaultBorder px-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+      >
+        <div class="flex flex-col items-center gap-2 py-10 md:py-14">
+          <span
+            class="text-5xl font-bold tracking-tight text-foreground md:text-6xl"
+            data-stat-target={totalContributions}
+            data-stat
+          >
+            0
+          </span>
+          <span class="text-sm font-medium uppercase tracking-wider text-para">
+            Total Contributions
+          </span>
+        </div>
+        <div class="flex flex-col items-center gap-2 py-10 md:py-14">
+          <span
+            class="text-5xl font-bold tracking-tight text-foreground md:text-6xl"
+            data-stat-target={totalAmbassadors}
+            data-stat
+          >
+            0
+          </span>
+          <span class="text-sm font-medium uppercase tracking-wider text-para">
+            Active Ambassadors
+          </span>
+        </div>
+        <div class="flex flex-col items-center gap-2 py-10 md:py-14">
+          <span
+            class="text-5xl font-bold tracking-tight text-foreground md:text-6xl"
+            data-stat-target={totalUniversities}
+            data-stat
+          >
+            0
+          </span>
+          <span class="text-sm font-medium uppercase tracking-wider text-para">
+            Universities
+          </span>
+        </div>
+      </div>
+    </section>
+
+    {/* LOGO TICKER */}
+    <section class="not-prose border-b border-defaultBorder bg-background py-12">
+      <div class="logo-ticker-mask relative mx-auto w-full max-w-[1400px] overflow-hidden">
+        <div class="logo-ticker-track flex items-center gap-16 whitespace-nowrap">
+          {[...schoolLogos, ...schoolLogos].map((logo) => (
+            <img
+              src={logo.src}
+              alt={logo.alt}
+              class="h-10 w-auto flex-none object-contain opacity-70 grayscale dark:invert"
+              loading="lazy"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* FILTERS + SEARCH */}
+    <section class="not-prose bg-background pt-12">
+      <div class="container mx-auto px-4">
+        <div class="mb-3 text-sm font-medium uppercase tracking-wider text-para">
+          Filter by path
+        </div>
+        <div
+          class="mb-6 flex flex-wrap gap-2"
+          role="tablist"
+          aria-label="Filter contributions"
+          data-filters
+        >
+          <button
+            type="button"
+            class="filter-btn rounded-full border border-defaultBorder px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-cardGray data-[active=true]:bg-foreground data-[active=true]:text-background"
+            data-path="all"
+            data-active="true"
+            aria-pressed="true"
+          >
+            All Contributions
+          </button>
+          {(Object.keys(pathLabels) as Path[]).map((p) => (
+            <button
+              type="button"
+              class="filter-btn inline-flex items-center gap-2 rounded-full border border-defaultBorder px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-cardGray data-[active=true]:bg-foreground data-[active=true]:text-background"
+              data-path={p}
+              data-active="false"
+              aria-pressed="false"
+            >
+              <span class={`path-dot path-dot--${p} h-2 w-2 rounded-full`}></span>
+              {pathLabels[p]}
+            </button>
+          ))}
+          <button
+            type="button"
+            class="filter-btn inline-flex items-center gap-2 rounded-full border border-primary px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10 data-[active=true]:bg-primary data-[active=true]:text-white"
+            data-path="standout"
+            data-active="false"
+            aria-pressed="false"
+          >
+            ★ Standout
+          </button>
         </div>
 
-        <!-- Card 2 -->
-        <div class="flex flex-col">
-          <img
-            src="/images/student-ambassador/2.png"
-            alt="From Participation to Ownership"
-            class="h-auto w-full rounded-lg object-cover"
-          />
-
-          <div class="mt-6 flex flex-col gap-3">
-            <h3 class="text-xl font-semibold text-foreground">
-              From Participation to Ownership
-            </h3>
-            <p class="text-sm leading-relaxed text-para">
-              Through hands-on experience, ambassadors gain leadership skills,
-              technical exposure, and real-world collaboration experience while
-              contributing to a project that redefines how cloud infrastructure
-              is built and accessed.
-            </p>
-            <p class="text-sm leading-relaxed text-para">
-              The program is designed around a simple idea: ambassadors succeed
-              when they feel like owners, not just representatives. By
-              connecting through shared values, learning from one another, and
-              co-creating meaningful initiatives, students help shape the future
-              of decentralized cloud computing and the broader Akash ecosystem.
-            </p>
+        <div class="mb-10 max-w-xl">
+          <label class="sr-only" for="ambassador-search">Search</label>
+          <div
+            class="flex items-center gap-2 rounded-full border border-defaultBorder bg-background2 px-4 py-2.5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-para"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              id="ambassador-search"
+              type="text"
+              placeholder="Search by name, keyword, or university"
+              class="w-full bg-transparent text-sm text-foreground placeholder:text-para focus:outline-none"
+              data-search
+            />
           </div>
         </div>
       </div>
+    </section>
 
-    </div>
-    <div class="mt-20">
-      <Carousel client:only images={images} speed={100} gap={50} />
-    </div>
+    {/* CONTRIBUTION GRID */}
+    <section class="not-prose bg-background pb-20">
+      <div class="container mx-auto px-4">
+        <div
+          class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          data-grid
+        >
+          {sortedContributions.map((c) => (
+            <article
+              class="contribution-card group flex flex-col overflow-hidden rounded-xl border border-defaultBorder bg-background2 transition-shadow hover:shadow-lg"
+              data-path={c.path}
+              data-featured={c.featured ? "true" : "false"}
+              data-search-blob={`${c.title} ${c.description} ${c.ambassador} ${c.university}`.toLowerCase()}
+            >
+              {c.images && c.images.length > 0 && (
+                <div class="aspect-[16/9] w-full overflow-hidden bg-cardGray">
+                  <img
+                    src={c.images[0]}
+                    alt={c.title}
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="flex flex-1 flex-col gap-3 p-6">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span
+                    class={`path-badge path-badge--${c.path} inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium`}
+                  >
+                    <span class={`path-dot path-dot--${c.path} h-1.5 w-1.5 rounded-full`}></span>
+                    {pathLabels[c.path]}
+                  </span>
+                  {c.featured && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                      ★ Standout
+                    </span>
+                  )}
+                  {c.pr && (
+                    <span class="inline-flex items-center gap-1 rounded-full bg-cardGray px-2.5 py-1 text-xs font-medium text-foreground">
+                      PR Merged
+                    </span>
+                  )}
+                  <span class="ml-auto text-xs text-para">{c.month}</span>
+                </div>
+                <h3 class="text-lg font-semibold leading-snug text-foreground">
+                  {c.title}
+                </h3>
+                <p class="text-sm leading-relaxed text-para">{c.description}</p>
+                <div class="mt-auto flex flex-col gap-1 border-t border-defaultBorder pt-4 text-sm">
+                  <span class="font-medium text-foreground">{c.ambassador}</span>
+                  <span class="text-para">{c.university}</span>
+                </div>
+                {c.link && (
+                  <a
+                    href={c.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                  >
+                    View contribution
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 8 8"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M0.664062 0.664062H7.33073M7.33073 0.664062V7.33073M7.33073 0.664062L0.664062 7.33073"
+                        stroke="currentColor"
+                        stroke-width="1.33"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+        <p class="mt-10 hidden text-center text-sm text-para" data-no-results>
+          No contributions found for this filter.
+        </p>
+      </div>
+    </section>
+
+    {/* AMBASSADOR CAROUSEL */}
+    <section
+      class="not-prose border-y border-defaultBorder bg-background2 py-16"
+      aria-label="Meet the ambassadors"
+    >
+      <div class="container mx-auto px-4">
+        <div class="mb-8 flex items-end justify-between gap-4">
+          <h2 class="text-3xl font-semibold text-foreground md:text-4xl">
+            Meet the
+            <span class="font-instrument italic font-normal text-primary">
+              Ambassadors
+            </span>
+          </h2>
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-defaultBorder text-foreground transition-colors hover:bg-cardGray"
+              aria-label="Previous ambassador"
+              data-carousel-prev
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-defaultBorder text-foreground transition-colors hover:bg-cardGray"
+              aria-label="Next ambassador"
+              data-carousel-next
+            >
+              →
+            </button>
+          </div>
+        </div>
+        <div class="relative overflow-hidden" data-carousel>
+          <div
+            class="flex gap-5 transition-transform duration-500 ease-out"
+            data-carousel-track
+          >
+            {ambassadors.map((a) => (
+              <figure class="w-60 flex-none md:w-72">
+                <div class="aspect-[3/4] overflow-hidden rounded-xl bg-cardGray">
+                  <img
+                    src={a.src}
+                    alt={`${a.name} — ${a.university}`}
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption class="mt-3 flex flex-col">
+                  <span class="text-base font-semibold text-foreground">
+                    {a.name}
+                  </span>
+                  <span class="text-sm text-para">{a.university}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* TESTIMONIALS */}
+    <section class="not-prose bg-background py-20">
+      <div class="container mx-auto px-4">
+        <div class="mb-3 text-sm font-medium uppercase tracking-wider text-para">
+          What people are saying
+        </div>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t) => (
+            <article
+              class="flex flex-col gap-4 rounded-xl border border-defaultBorder bg-background2 p-6"
+            >
+              <header class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-base font-semibold text-primary"
+                  >
+                    {t.initial}
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-sm font-semibold text-foreground">
+                      {t.name}
+                    </span>
+                    <span class="text-xs text-para">{t.handle}</span>
+                  </div>
+                </div>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="text-foreground"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                  ></path>
+                </svg>
+              </header>
+              <p class="text-sm leading-relaxed text-foreground">{t.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* BOTTOM CTA */}
+    <section
+      class="not-prose relative overflow-hidden border-t border-defaultBorder bg-background py-20"
+    >
+      <div
+        class="pointer-events-none absolute inset-0 opacity-50 dark:opacity-30"
+        style="background: radial-gradient(ellipse at 50% 50%, rgba(255,65,76,0.16) 0%, transparent 60%);"
+      >
+      </div>
+      <div class="container relative mx-auto flex flex-col items-center gap-6 px-4 text-center">
+        <h2 class="text-3xl font-semibold text-foreground md:text-4xl">
+          Join the Akash
+          <span class="font-instrument italic font-normal text-primary">
+            Ambassador
+          </span>
+          Program
+        </h2>
+        <p class="max-w-xl text-base leading-relaxed text-para md:text-lg">
+          For students building in AI, Web3, and decentralized infrastructure.
+          Submit your application for the Fall Cohort 2026.
+        </p>
+        <div class="flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row">
+          <ButtonLink
+            className="mt-0"
+            link="https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform"
+            variant="primary"
+            size="lg"
+          >
+            Submit your application
+          </ButtonLink>
+          <ButtonLink
+            className="mt-0"
+            link="https://x.com/AkashStudents"
+            variant="secondary"
+            size="lg"
+          >
+            Akash Students on X.com
+          </ButtonLink>
+        </div>
+      </div>
+    </section>
   </TopMargin>
 </Layout>
+
+<style>
+  /* Path color dots — supporting neutral slate scale (Akash brand allows neutrals) */
+  .path-dot--technical {
+    background-color: #1e293b;
+  }
+  .path-dot--events {
+    background-color: #475569;
+  }
+  .path-dot--content {
+    background-color: #64748b;
+  }
+  .path-dot--community {
+    background-color: #94a3b8;
+  }
+
+  .path-badge--technical {
+    background-color: rgba(30, 41, 59, 0.08);
+    color: #1e293b;
+  }
+  .path-badge--events {
+    background-color: rgba(71, 85, 105, 0.08);
+    color: #475569;
+  }
+  .path-badge--content {
+    background-color: rgba(100, 116, 139, 0.08);
+    color: #475569;
+  }
+  .path-badge--community {
+    background-color: rgba(148, 163, 184, 0.12);
+    color: #475569;
+  }
+
+  :global(.dark) .path-badge--technical,
+  :global(.dark) .path-badge--events,
+  :global(.dark) .path-badge--content,
+  :global(.dark) .path-badge--community {
+    background-color: rgba(148, 163, 184, 0.12);
+    color: #cbd5e1;
+  }
+
+  /* Logo ticker — infinite horizontal scroll */
+  .logo-ticker-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .logo-ticker-track {
+    width: max-content;
+    animation: logo-ticker 40s linear infinite;
+  }
+
+  @keyframes logo-ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-ticker-track {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  /* Stats counters — animate on first scroll into view */
+  function initStats(): void {
+    const stats = document.querySelectorAll<HTMLElement>("[data-stat]");
+    if (stats.length === 0) return;
+    const animate = (el: HTMLElement): void => {
+      const target = Number(el.dataset.statTarget ?? "0");
+      const duration = 1200;
+      const start = performance.now();
+      const tick = (now: number): void => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target as HTMLElement);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+    stats.forEach((el) => observer.observe(el));
+  }
+
+  /* Filter + search */
+  function initFilters(): void {
+    const filterContainer = document.querySelector<HTMLElement>("[data-filters]");
+    const searchInput = document.querySelector<HTMLInputElement>("[data-search]");
+    const cards = document.querySelectorAll<HTMLElement>(".contribution-card");
+    const noResults = document.querySelector<HTMLElement>("[data-no-results]");
+    if (!filterContainer) return;
+
+    let activePath = "all";
+
+    const applyFilters = (): void => {
+      const query = (searchInput?.value ?? "").trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const matchesPath =
+          activePath === "all"
+            ? true
+            : activePath === "standout"
+              ? card.dataset.featured === "true"
+              : card.dataset.path === activePath;
+        const blob = card.dataset.searchBlob ?? "";
+        const matchesQuery = query === "" ? true : blob.includes(query);
+        const show = matchesPath && matchesQuery;
+        card.style.display = show ? "" : "none";
+        if (show) visible += 1;
+      });
+      if (noResults) noResults.style.display = visible === 0 ? "" : "none";
+    };
+
+    filterContainer.addEventListener("click", (e: Event) => {
+      const target = (e.target as HTMLElement).closest<HTMLButtonElement>(
+        ".filter-btn",
+      );
+      if (!target) return;
+      const path = target.dataset.path ?? "all";
+      activePath = path;
+      filterContainer.querySelectorAll<HTMLElement>(".filter-btn").forEach((btn) => {
+        const isActive = btn === target;
+        btn.dataset.active = String(isActive);
+        btn.setAttribute("aria-pressed", String(isActive));
+      });
+      applyFilters();
+    });
+
+    searchInput?.addEventListener("input", applyFilters);
+  }
+
+  /* Ambassador carousel */
+  function initCarousel(): void {
+    const root = document.querySelector<HTMLElement>("[data-carousel]");
+    const track = document.querySelector<HTMLElement>("[data-carousel-track]");
+    const prev = document.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = document.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    if (!root || !track || !prev || !next) return;
+
+    let offset = 0;
+    const step = (): number => {
+      const first = track.firstElementChild as HTMLElement | null;
+      if (!first) return 0;
+      const gap = 20;
+      return first.offsetWidth + gap;
+    };
+    const maxOffset = (): number =>
+      Math.max(0, track.scrollWidth - root.clientWidth);
+
+    const update = (): void => {
+      offset = Math.max(0, Math.min(offset, maxOffset()));
+      track.style.transform = `translateX(-${offset}px)`;
+    };
+
+    prev.addEventListener("click", () => {
+      offset -= step() * 2;
+      update();
+    });
+    next.addEventListener("click", () => {
+      offset += step() * 2;
+      update();
+    });
+    window.addEventListener("resize", update);
+  }
+
+  initStats();
+  initFilters();
+  initCarousel();
+</script>
