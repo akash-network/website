@@ -39,14 +39,30 @@ curl https://console-api.akash.network/v1/deployments \
 If the key is missing or invalid, the API returns `401 Unauthorized`:
 
 ```json
-{ "error": "Unauthorized", "message": "Missing or invalid API key" }
+{ "error": "Unauthorized", "message": "Invalid API key" }
 ```
 
 Security practices:
 
 - Store the key in an environment variable (`AKASH_API_KEY`), never in source code.
-- Rotate keys in Console under Settings -> API Keys to keep your workflows safe in case of key compromise.
+- Rotate keys in Console under Settings → API Keys to keep your workflows safe in case of key compromise.
 - Keys grant full access to your Console account, so treat them like passwords.
+
+### Response envelope
+
+Every JSON response from the Console API is wrapped in a top-level `data` field, for example:
+
+```json
+{ "data": { "dseq": "1234567", "manifest": "...", "signTx": { ... } } }
+```
+
+All examples in this guide show the full response body — extract the value you need from `response.data`.
+
+### Money fields
+
+The Managed Wallet bills your Console account in **USD** (credit card). The `deposit` field on `POST /v1/deployments` and `POST /v1/deposit-deployment` is a number in dollars (for example `5.5` = $5.50).
+
+The blockchain itself works in raw on-chain denoms (`uact`, `uusdc`, …). Wherever you see `price.denom` / `price.amount` in a bid response or an `escrow_account.state.funds` entry, those are raw chain values in micro-units (1 ACT = 1 000 000 uact). The SDL `pricing` block also uses chain denoms — the managed wallet handles the USD ↔ chain conversion for you.
 
 ---
 
@@ -54,7 +70,7 @@ Security practices:
 
 ### 1. Create Deployment
 
-POST your SDL to create a deployment. The API returns a `dseq` (deployment sequence number) that identifies the deployment in all subsequent calls.
+POST your SDL plus an initial USD `deposit` to create a deployment. The API returns a `dseq` (deployment sequence number) that identifies the deployment in all subsequent calls. The response also returns the broadcast transaction hash for the on-chain `MsgCreateDeployment`.
 
 cURL:
 
@@ -62,7 +78,12 @@ cURL:
 curl -X POST https://console-api.akash.network/v1/deployments \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"sdl": "<YOUR_SDL_YAML_AS_STRING>"}'
+  -d '{
+    "data": {
+      "sdl": "<YOUR_SDL_YAML_AS_STRING>",
+      "deposit": 5.5
+    }
+  }'
 ```
 
 JavaScript (fetch):
@@ -74,18 +95,25 @@ const res = await fetch("https://console-api.akash.network/v1/deployments", {
     "x-api-key": process.env.AKASH_API_KEY,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ sdl: YOUR_SDL_STRING }),
+  body: JSON.stringify({ data: { sdl: YOUR_SDL_STRING, deposit: 5.5 } }),
 });
-const { dseq } = await res.json();
+const { data } = await res.json();
+const dseq = data.dseq;
 ```
 
-Response:
+Response (`201 Created`):
 
 ```json
 {
-  "dseq": "1234567",
-  "status": "active",
-  "createdAt": "2024-01-15T10:30:00Z"
+  "data": {
+    "dseq": "1234567",
+    "manifest": "<computed manifest hash + manifest blob>",
+    "signTx": {
+      "code": 0,
+      "transactionHash": "ABCDEF...",
+      "rawLog": "[...]"
+    }
+  }
 }
 ```
 
@@ -93,7 +121,7 @@ Response:
 
 ### 2. Wait for and Fetch Bids
 
-List bids for your deployment. Bids typically arrive within 30-60 seconds.
+List bids for your deployment. Bids typically arrive within 30–60 seconds. The response is wrapped in `data` and each bid is identified by a **composite id** (`owner`/`dseq`/`gseq`/`oseq`/`provider`/`bseq`), not a single opaque string.
 
 cURL:
 
@@ -107,23 +135,55 @@ JavaScript (fetch):
 ```javascript
 const res = await fetch(
   `https://console-api.akash.network/v1/bids?dseq=${dseq}`,
-  { headers: { "x-api-key": process.env.AKASH_API_KEY } }
+  { headers: { "x-api-key": process.env.AKASH_API_KEY } },
 );
-const bids = await res.json();
+const { data: bids } = await res.json();
 ```
 
 Response:
 
 ```json
-[
-  {
-    "id": "bid_abc123",
-    "provider": "akash1abc...xyz",
-    "price": "0.50",
-    "denom": "usd",
-    "status": "open"
-  }
-]
+{
+  "data": [
+    {
+      "bid": {
+        "id": {
+          "owner": "akash1ownerxxx...",
+          "dseq": "1234567",
+          "gseq": 1,
+          "oseq": 1,
+          "provider": "akash1providerxxx...",
+          "bseq": 92
+        },
+        "state": "open",
+        "price": { "denom": "uact", "amount": "10000" },
+        "created_at": "92",
+        "resources_offer": [
+          {
+            "resources": {
+              "cpu": { "units": { "val": "500" } },
+              "memory": { "quantity": { "val": "536870912" } },
+              "storage": [],
+              "endpoints": []
+            },
+            "count": 1
+          }
+        ]
+      },
+      "escrow_account": {
+        "id": { "scope": "bid", "xid": "..." },
+        "state": {
+          "owner": "akash1providerxxx...",
+          "state": "open",
+          "transferred": [],
+          "settled_at": "...",
+          "funds": [],
+          "deposits": []
+        }
+      }
+    }
+  ]
+}
 ```
 
 Polling example:
@@ -133,10 +193,10 @@ async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
   for (let i = 0; i < maxAttempts; i++) {
     const res = await fetch(
       `https://console-api.akash.network/v1/bids?dseq=${dseq}`,
-      { headers: { "x-api-key": process.env.AKASH_API_KEY } }
+      { headers: { "x-api-key": process.env.AKASH_API_KEY } },
     );
-    const bids = await res.json();
-    if (bids.length > 0) return bids;
+    const { data } = await res.json();
+    if (data.length > 0) return data;
     await new Promise((r) => setTimeout(r, pollMs));
   }
   throw new Error("No bids received within timeout");
@@ -147,7 +207,9 @@ async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
 
 ### 3. Create Lease
 
-Accept a bid to activate the deployment lease.
+Accept one or more bids to activate the deployment lease(s) and send the manifest to the chosen provider(s) in a single call.
+
+Pick the bid(s) you want, then build the `leases[]` array from the bid id (omitting `owner` and `bseq`). The `manifest` field is the rendered manifest produced by the SDL — you can re-use the manifest hash returned by `POST /v1/deployments` if you cached it.
 
 cURL:
 
@@ -155,31 +217,79 @@ cURL:
 curl -X POST https://console-api.akash.network/v1/leases \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"dseq": "1234567", "bidId": "bid_abc123"}'
+  -d '{
+    "manifest": "<MANIFEST_FROM_CREATE_DEPLOYMENT>",
+    "leases": [
+      { "dseq": "1234567", "gseq": 1, "oseq": 1, "provider": "akash1providerxxx..." }
+    ]
+  }'
 ```
 
 JavaScript (fetch):
 
 ```javascript
+const chosen = bids[0].bid.id;
 const res = await fetch("https://console-api.akash.network/v1/leases", {
   method: "POST",
   headers: {
     "x-api-key": process.env.AKASH_API_KEY,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ dseq, bidId }),
+  body: JSON.stringify({
+    manifest,
+    leases: [
+      {
+        dseq: chosen.dseq,
+        gseq: chosen.gseq,
+        oseq: chosen.oseq,
+        provider: chosen.provider,
+      },
+    ],
+  }),
 });
-const lease = await res.json();
+const { data } = await res.json();
 ```
 
-Response:
+Response (`200 OK`) is the same shape as `GET /v1/deployments/{dseq}` — the full deployment object including its now-active lease(s):
 
 ```json
 {
-  "leaseId": "lease_xyz789",
-  "dseq": "1234567",
-  "provider": "akash1abc...xyz",
-  "status": "active"
+  "data": {
+    "deployment": {
+      "id": { "owner": "akash1ownerxxx...", "dseq": "1234567" },
+      "state": "active",
+      "hash": "...",
+      "created_at": "92"
+    },
+    "leases": [
+      {
+        "id": {
+          "owner": "akash1ownerxxx...",
+          "dseq": "1234567",
+          "gseq": 1,
+          "oseq": 1,
+          "provider": "akash1providerxxx...",
+          "bseq": 92
+        },
+        "state": "active",
+        "price": { "denom": "uact", "amount": "10000" },
+        "created_at": "92",
+        "closed_on": "",
+        "status": null
+      }
+    ],
+    "escrow_account": {
+      "id": { "scope": "deployment", "xid": "..." },
+      "state": {
+        "owner": "akash1ownerxxx...",
+        "state": "open",
+        "transferred": [],
+        "settled_at": "...",
+        "funds": [{ "denom": "uact", "amount": "5500000" }],
+        "deposits": []
+      }
+    }
+  }
 }
 ```
 
@@ -187,7 +297,7 @@ Response:
 
 ### 4. Add Deposit to Deployment
 
-Add funds to extend deployment runtime.
+Add USD funds to extend deployment runtime.
 
 cURL:
 
@@ -195,30 +305,35 @@ cURL:
 curl -X POST https://console-api.akash.network/v1/deposit-deployment \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"dseq": "1234567", "amount": "10.00"}'
+  -d '{ "data": { "dseq": "1234567", "deposit": 10 } }'
 ```
 
 JavaScript (fetch):
 
 ```javascript
-const res = await fetch("https://console-api.akash.network/v1/deposit-deployment", {
-  method: "POST",
-  headers: {
-    "x-api-key": process.env.AKASH_API_KEY,
-    "Content-Type": "application/json",
+const res = await fetch(
+  "https://console-api.akash.network/v1/deposit-deployment",
+  {
+    method: "POST",
+    headers: {
+      "x-api-key": process.env.AKASH_API_KEY,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ data: { dseq, deposit: 10 } }),
   },
-  body: JSON.stringify({ dseq, amount: "10.00" }),
-});
-const depositResult = await res.json();
+);
+const { data } = await res.json();
 ```
 
-Response:
+Response (`200 OK`): the full deployment object after the top-up; the new balance is visible under `data.escrow_account.state.funds[].amount` (raw chain micro-units).
 
 ```json
 {
-  "dseq": "1234567",
-  "depositedAmount": "10.00",
-  "newBalance": "14.73"
+  "data": {
+    "deployment": { "...": "..." },
+    "leases": [],
+    "escrow_account": { "...": "..." }
+  }
 }
 ```
 
@@ -238,23 +353,23 @@ curl -X DELETE "https://console-api.akash.network/v1/deployments/1234567" \
 JavaScript (fetch):
 
 ```javascript
-const res = await fetch(`https://console-api.akash.network/v1/deployments/${dseq}`, {
-  method: "DELETE",
-  headers: { "x-api-key": process.env.AKASH_API_KEY },
-});
-const closeResult = await res.json();
+const res = await fetch(
+  `https://console-api.akash.network/v1/deployments/${dseq}`,
+  {
+    method: "DELETE",
+    headers: { "x-api-key": process.env.AKASH_API_KEY },
+  },
+);
+const { data } = await res.json();
 ```
 
-Response:
+Response (`200 OK`):
 
 ```json
-{
-  "dseq": "1234567",
-  "status": "closed",
-  "refundedAmount": "4.50",
-  "closedAt": "2024-01-16T12:00:00Z"
-}
+{ "data": { "success": true } }
 ```
+
+Any unspent escrow is returned to your Console balance asynchronously by the chain — call `GET /v1/deployments/{dseq}` afterward to inspect the final state, or check the [Console](https://console.akash.network) UI for the credited amount.
 
 ---
 
@@ -320,45 +435,49 @@ async function apiRequest(path, options = {}) {
 
 async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
   for (let i = 0; i < maxAttempts; i++) {
-    const response = await apiRequest(`/v1/bids?dseq=${dseq}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    // Current API shape returns bids under response.data.
-    if (response.data?.length > 0) return response.data;
+    const { data } = await apiRequest(`/v1/bids?dseq=${dseq}`);
+    if (data.length > 0) return data;
     await new Promise((resolve) => setTimeout(resolve, pollMs));
   }
   throw new Error("No bids received within timeout");
 }
 
 async function main() {
-  const created = await apiRequest("/v1/deployments", {
+  const create = await apiRequest("/v1/deployments", {
     method: "POST",
-    body: JSON.stringify({ sdl: SDL }),
+    body: JSON.stringify({ data: { sdl: SDL, deposit: 5.5 } }),
   });
-  const dseq = created.dseq || created.data?.dseq;
-  if (!dseq) throw new Error("Missing dseq in create deployment response");
+  const { dseq, manifest } = create.data;
 
   const bids = await waitForBids(dseq);
-  const firstBid = bids[0];
-  const bidId = firstBid?.id || firstBid?.bid?.id;
-  if (!bidId) throw new Error("Missing bid identifier in bids response");
+  const chosenId = bids[0].bid.id;
 
   await apiRequest("/v1/leases", {
     method: "POST",
-    body: JSON.stringify({ dseq, bidId }),
+    body: JSON.stringify({
+      manifest,
+      leases: [
+        {
+          dseq: chosenId.dseq,
+          gseq: chosenId.gseq,
+          oseq: chosenId.oseq,
+          provider: chosenId.provider,
+        },
+      ],
+    }),
   });
 
   await apiRequest("/v1/deposit-deployment", {
     method: "POST",
-    body: JSON.stringify({ dseq, amount: "10.00" }),
+    body: JSON.stringify({ data: { dseq, deposit: 10 } }),
   });
 
-  const status = await apiRequest(`/v1/deployments/${dseq}`, { method: "GET" });
+  const status = await apiRequest(`/v1/deployments/${dseq}`);
   console.log("Deployment status:", status);
 
-  const closed = await apiRequest(`/v1/deployments/${dseq}`, { method: "DELETE" });
+  const closed = await apiRequest(`/v1/deployments/${dseq}`, {
+    method: "DELETE",
+  });
   console.log("Closed deployment:", closed);
 }
 
@@ -380,27 +499,26 @@ main().catch((err) => {
 - **Restrict key permissions** if possible
 
 ```typescript
-// **Good: Use environment variables
-const API_KEY = process.env.CONSOLE_API_KEY;
+// Good: use environment variables
+const API_KEY = process.env.AKASH_API_KEY;
 
-// **Bad: Hardcoded key
-const API_KEY = "akt_abc123...";
+// Bad: hardcoded key
+const API_KEY = "ac.sk.mainnet.xxx...";
 ```
 
 ### Error Handling
 
 Use HTTP status codes to determine recovery behavior.
 
-| Status | Meaning | Common cause |
-|---|---|---|
-| 200 OK | Request succeeded | - |
-| 201 Created | Resource created | POST to `/v1/deployments`, `/v1/leases`, `/v2/deployment-settings` |
-| 400 Bad Request | Invalid input | Malformed SDL, missing required field |
-| 401 Unauthorized | Auth failed | Missing or invalid `x-api-key` |
-| 404 Not Found | Resource not found | `dseq` does not exist or belongs to another user |
-| 409 Conflict | State conflict | Lease already exists for this deployment |
-| 429 Rate Limited | Rate limited | Polling interval too fast or burst of requests |
-| 500 Internal Server Error | Server error | Retry with exponential backoff |
+| Status                    | Meaning            | Common cause                                           |
+| ------------------------- | ------------------ | ------------------------------------------------------ |
+| 200 OK                    | Request succeeded  | -                                                      |
+| 201 Created               | Resource created   | `POST /v1/deployments`, `POST /v2/deployment-settings` |
+| 400 Bad Request           | Invalid input      | Malformed SDL, missing required field                  |
+| 401 Unauthorized          | Auth failed        | Missing or invalid `x-api-key`                         |
+| 404 Not Found             | Resource not found | `dseq` does not exist or belongs to another user       |
+| 429 Rate Limited          | Rate limited       | Polling interval too fast or burst of requests         |
+| 500 Internal Server Error | Server error       | Retry with exponential backoff                         |
 
 Error response shape:
 
@@ -413,21 +531,21 @@ Error response shape:
 
 ### Polling for Bids
 
-Poll every 3 seconds for 30-60 seconds, then back off or return a timeout error.
+Poll every 3 seconds for 30–60 seconds, then back off or return a timeout error.
 
 ---
 
 ## Managed Wallet vs SDK
 
-| Feature | Managed Wallet API | Akash SDK |
-|---------|-------------------|-----------|
-| **Wallet Management** | Managed by Console | You manage wallet |
-| **Authentication** | API Key | Private key/mnemonic |
-| **Payment** | Credit card (USD) | Crypto (AKT) |
-| **API Type** | REST API | Native blockchain |
-| **Language** | Any (HTTP) | Go, TypeScript |
-| **Setup** | API key only | Wallet + blockchain setup |
-| **Best For** | SaaS, web apps | Blockchain apps, CLI tools |
+| Feature               | Managed Wallet API | Akash SDK                  |
+| --------------------- | ------------------ | -------------------------- |
+| **Wallet Management** | Managed by Console | You manage wallet          |
+| **Authentication**    | API Key            | Private key/mnemonic       |
+| **Payment**           | Credit card (USD)  | Crypto (AKT)               |
+| **API Type**          | REST API           | Native blockchain          |
+| **Language**          | Any (HTTP)         | Go, TypeScript             |
+| **Setup**             | API key only       | Wallet + blockchain setup  |
+| **Best For**          | SaaS, web apps     | Blockchain apps, CLI tools |
 
 ## Limitations
 
@@ -441,8 +559,7 @@ Poll every 3 seconds for 30-60 seconds, then back off or return a timeout error.
 ## Resources
 
 - **[API Reference](/docs/api-documentation/console-api/api-reference)** - Complete endpoint documentation
-- **[Full API Documentation](https://github.com/akash-network/console/wiki/Managed-wallet-API)** - Complete API reference on GitHub
-- **[Example Script](https://github.com/akash-network/console/wiki/Managed-wallet-API)** - Working implementation
+- **[Quickstart](/docs/api-documentation/console-api/quickstart)** - End-to-end deployment in five API calls
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - SDL syntax guide
 - **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
 
