@@ -16,7 +16,7 @@ tags:
 contributors:
   - Michelle Javed
 
-bannerImage: ./banner.png
+bannerImage: ./banner.webp
 ---
 
 **By Michelle Javed**

@@ -16,7 +16,7 @@ tags:
 contributors:
   - Michelle Javed
 
-bannerImage: ./banner.png
+bannerImage: ./banner.webp
 ---
 
 Memory is the architecture of our identities. Every photograph, every conversation, every moment lived shapes who we are, and who we'll be remembered as.

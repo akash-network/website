@@ -16,7 +16,7 @@ tags:
 contributors:
   - Michelle Javed
 
-bannerImage: ./banner.png
+bannerImage: ./banner.webp
 ---
 
 ## The Demand for Truly Autonomous AI
