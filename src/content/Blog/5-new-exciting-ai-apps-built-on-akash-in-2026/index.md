@@ -39,8 +39,6 @@ They used Akash to train their custom TCN (Temporal Convolutional Network) model
 
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/pJZUeKDYaQk" title="HandFlow demo video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-![HandFlow demo](./handflow-demo.png)
-
 ## ElderShield: Autonomous Scam Protection for Older Adults
 
 ElderShield is an autonomous AI agent that monitors a family's inbox, opens every suspicious link in a real remote browser, and classifies scam risk before a human ever has to click. It won Best Use of Akash at the Ship to Prod Agentic Engineering Hackathon, and the project was motivated by a personal story: the developer's grandmother lost $14,000 to a fake Medicare call that used a website convincing enough to fool someone who was sharp and careful.
