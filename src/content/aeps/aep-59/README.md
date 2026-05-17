@@ -18,4 +18,4 @@ Akash users would like to be notified when a provider intends to go offline for 
 
 ## Summary
 
-Akash Provider Console should allow configuration of notification messages. Akash (Deployment)Console should allow users (tenants) to be able to subscribe to nofications from specific providers.
+Akash Provider Console should allow configuration of notification messages. Akash (Deployment)Console should allow users (tenants) to be able to subscribe to notifications from specific providers.
