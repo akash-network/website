@@ -84,15 +84,15 @@ Ideal for web applications and Node.js projects.
 
 | Feature | Go SDK | TypeScript SDK |
 |---------|--------|----------------|
-| **Deployment Operations** | **| **|
-| **Query Operations** | **| **|
-| **Transaction Signing** | **| **|
-| **SDL Parsing** | **| **|
-| **Certificate Management** | **| **|
-| **JWT Authentication** | **| **|
-| **Browser Support** | **| **(via Web SDK) |
-| **Node.js Support** | **| **|
-| **Provider API Client** | **| **|
+| **Deployment Operations** | Supported | Supported |
+| **Query Operations** | Supported | Supported |
+| **Transaction Signing** | Supported | Supported |
+| **SDL Parsing** | Supported | Supported |
+| **Certificate Management** | Supported | Supported |
+| **JWT Authentication** | Supported | Supported |
+| **Browser Support** | Not applicable | Supported (via Web SDK) |
+| **Node.js Support** | Not applicable | Supported |
+| **Provider API Client** | Supported | Supported |
 
 ---
 
@@ -112,4 +112,3 @@ Ideal for web applications and Node.js projects.
 - **SDK Issues:** [GitHub Issues](https://github.com/akash-network/chain-sdk/issues)
 - **Discord:** [discord.akash.network](https://discord.akash.network)
 - **Documentation:** Browse the [full docs](/docs)
-
