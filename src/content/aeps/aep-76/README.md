@@ -153,7 +153,7 @@ When an invoice for A ACT is due, the protocol:
 #### `x/market` Leases & settlement
 * Quotes remain **USD‑first** in the UI; on chain, settlement pays providers **in AKT** by consuming ACT.  
 * Providers optionally auto‑stake a % of payouts (off by default).
-* AEP‑23 brought [stable payments](https://akash.network/docs/deployments/stable-payment-deployments) and take‑rates; with BME we keep the stable UX but remove take‑rates and settle AKT‑only.*
+* AEP‑23 brought [stable payments](/roadmap/aep-23/) and take‑rates; with BME we keep the stable UX but remove take‑rates and settle AKT‑only.*
 
 ##### Settlement loop (system flow)
 
