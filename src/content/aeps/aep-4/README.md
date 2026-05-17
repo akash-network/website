@@ -33,7 +33,7 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 - Token Allocation: 2,000,000 AKT
 - Limit: 100 Members
 - Program(s): Akash Founder Member Rewards
-- Support: [Akash Techinical Chat](https://akash.network/chat)
+- Support: [Akash Technical Chat](https://discord.akash.network)
 
 ### Akash Founder Member Challenge
 
