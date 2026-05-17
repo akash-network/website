@@ -56,7 +56,7 @@ A total of **3 million AKT (3% of AKT)** is allocated for rewards that include:
 *   **Phase 1:** April 30, 2020
 
 
-## Annoucements
+## Announcements
 
 * [Announcing The Akashian Challenge: Incentivized Testnet](https://akash.network/blog/announcing-the-akashian-challenge-incentivized-testnet/)
 * [The Akashian Challenge: Token Rewards, Prizes, and Schedule](https://akash.network/blog/the-akashian-challenge-token-rewards-prizes-schedule/)

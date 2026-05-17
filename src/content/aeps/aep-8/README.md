@@ -41,7 +41,7 @@ Token distribution is critical to the success of Akash, propose the [genesis.jso
 
 Liquidity is critical to Proof-of-Stake (PoS) chains, as the security of the blockchain relies on the economic value staked to secure the chain. We propose using an exchange to bootstrap liquidity.
 
-## Annoucements
+## Announcements
 
 - [Announcing Akash Mainnet Live and Bitmax IEO](https://akash.network/blog/announcing-akash-mainnet-live-and-bitmax-ieo/)
 - [Akash DeCloud Mainnet Overview](https://akash.network/blog/akash-decloud-mainnet-overview/)
