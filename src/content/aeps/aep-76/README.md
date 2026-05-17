@@ -438,7 +438,7 @@ MsgBurnACT {
 
 * `RemintCredits >= 0` except during a price‑crash path when circuit breaker logic governs shortfall; if `RemintCredits < 0`, only inflationary mint covers the difference (visible metric).
 
-*(Cosmos SDK’s [bank/mint](https://docs.cosmos.network/v0.46/modules/bank/) facilities support this pattern cleanly)*
+*(Cosmos SDK’s [bank/mint](https://docs.cosmos.network/sdk/latest/modules/bank/README) facilities support this pattern cleanly)*
 
 ### Provider & Tenant UX
 
@@ -469,7 +469,7 @@ MsgBurnACT {
 
 * **Oracle manipulation:** use multi‑feed medianization with [TWAP](https://docs.osmosis.zone/overview/features/concentrated-liquidity); cap per‑block price move; pausable by governance multisig in emergencies. 
 * **Liquidity stress:** perform console buys via RFQ/aggregator (Osmosis primary) with max slippage. (Osmosis as Cosmos liquidity hub. 
-* **Module integrity:** [bank](https://docs.cosmos.network/v0.46/modules/bank) burn/mint auditing with supply invariants in end blockers. 
+* **Module integrity:** [bank](https://docs.cosmos.network/sdk/latest/modules/bank/README) burn/mint auditing with supply invariants in end blockers.
 
 ### Rollout plan
 

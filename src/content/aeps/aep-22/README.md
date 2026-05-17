@@ -117,7 +117,7 @@ The fees on the order offered to the Provider is $F_p = \digamma_0 - F_t$ , or:
 $F_p = \digamma_0 \cdot (1 - R_t \cdot (1 - R_d))$
 
 [akt-economics-1]: https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B
-[cosmos-sdk-x-mint]: https://docs.cosmos.network/main/modules/mint
+[cosmos-sdk-x-mint]: https://docs.cosmos.network/sdk/latest/modules/mint/README
 [osmosis]: https://osmosis.zone/
 [streeing-committee]: https://github.com/akash-network/community/tree/main/committee-steering
 [sig-economics]: https://github.com/akash-network/community/tree/main/sig-economics
@@ -126,4 +126,4 @@ $F_p = \digamma_0 \cdot (1 - R_t \cdot (1 - R_d))$
 
 ## Copyright
 
-All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). 
+All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).

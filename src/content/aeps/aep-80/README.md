@@ -502,7 +502,7 @@ This is a new module with no existing state to migrate. It does not modify any e
 ## References
 
 - [AEP-76: Burn Mint Equilibrium](../aep-76)
-- [Cosmos SDK Bank Module](https://docs.cosmos.network/v0.46/modules/bank/)
+- [Cosmos SDK Bank Module](https://docs.cosmos.network/sdk/latest/modules/bank/README)
 - [CosmWasm Documentation](https://docs.cosmwasm.com/)
 
 ## Copyright
