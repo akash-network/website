@@ -57,7 +57,7 @@ By voting YES on this proposal, you approve the following changes:
 
 A detailed list of features, fixes, and improvements can be found in the changelog (https://github.com/akash-network/node/releases/tag/v0.24.0).
 
-Upgrade instructions are available in the upgrade docs (https://docs.akash.network/akash-v0.24.0-network-upgrade/v0.24.0-upgrade-docs).
+Upgrade instructions are available in the upgrade docs (https://github.com/akash-network/docs/blob/master/other-resources/archived-resources/akash-v0.24.0-network-upgrade/v0.24.0-upgrade-docs.md).
 
 Validators and RPCs supervised by **cosmovisor** with **DAEMON\_ALLOW\_DOWNLOAD\_BINARIES=true** will pick up upgrade binaries from upgrade info (https://raw.githubusercontent.com/akash-network/net/main/mainnet/upgrades/v0.24.0/info.json).
 
@@ -68,4 +68,3 @@ Validators and RPCs supervised by **cosmovisor** with **DAEMON\_ALLOW\_DOWNLOAD\
 # Copyright
 
 All content herein is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). 
-
