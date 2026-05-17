@@ -72,7 +72,7 @@ There are numerous ways to subsidize providers, some considerations are:
 
 We propose a portion of the Tokens from the `Incentive Distribution Pool` be allocated to the Public Goods Fund to incentivize the growth of the Akash Network. The Public Goods Fund is a pool of AKT that is distributed to developers who build applications that grow the Akash Network and its adoption. The Developer Fund is distributed through on-chain governance.
 
-The mechanism for distributing the Developer Fund will be determined by the [Steering Committee][streeing-committee].
+The mechanism for distributing the Developer Fund will be determined by the [Steering Committee][steering-committee].
 
 ### Stakers
 
@@ -119,7 +119,7 @@ $F_p = \digamma_0 \cdot (1 - R_t \cdot (1 - R_d))$
 [akt-economics-1]: https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B
 [cosmos-sdk-x-mint]: https://docs.cosmos.network/sdk/latest/modules/mint/README
 [osmosis]: https://osmosis.zone/
-[streeing-committee]: https://github.com/akash-network/community/tree/main/committee-steering
+[steering-committee]: https://github.com/akash-network/community/tree/main/committee-steering
 [sig-economics]: https://github.com/akash-network/community/tree/main/sig-economics
 [akt-evolution]: https://akash.network/blog/an-evolution-of-akash-network-token-economics/
 [filecoin-plus]: https://docs.filecoin.io/store/filecoin-plus/overview/
