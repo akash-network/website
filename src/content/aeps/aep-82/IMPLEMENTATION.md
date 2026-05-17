@@ -127,7 +127,7 @@ if lease.State != mv1.LeaseActive && lease.State != mv1.LeaseReclaiming {
 
 ### 2.1 New File: `proto/node/akash/market/v1/reclamation.proto`
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.market.v1;
 
@@ -185,7 +185,7 @@ message Reclamation {
 
 Add to `Lease.State` enum:
 
-```protobuf
+```proto
 // LeaseReclaiming denotes a lease in reclamation (grace period before closure).
 reclaiming = 4 [
     (gogoproto.enumvalue_customname) = "LeaseReclaiming"
@@ -194,7 +194,7 @@ reclaiming = 4 [
 
 Add field to `Lease` message:
 
-```protobuf
+```proto
 // Reclamation holds reclamation configuration and state, if applicable.
 // Nil if reclamation is not configured for this lease.
 Reclamation reclamation = 7 [
@@ -208,7 +208,7 @@ Reclamation reclamation = 7 [
 
 Add:
 
-```protobuf
+```proto
 // EventLeaseReclaimStarted is triggered when a provider initiates reclamation.
 message EventLeaseReclaimStarted {
   option (gogoproto.equal) = true;
@@ -237,7 +237,7 @@ message EventLeaseReclaimStarted {
 
 Add:
 
-```protobuf
+```proto
 // MsgLeaseStartReclaim is sent by the provider to initiate reclamation on an active lease.
 message MsgLeaseStartReclaim {
   option (gogoproto.equal) = false;
@@ -263,7 +263,7 @@ message MsgLeaseStartReclaimResponse {}
 
 Add RPC to `service Msg`:
 
-```protobuf
+```proto
 // LeaseStartReclaim initiates the reclamation window on an active lease.
 rpc LeaseStartReclaim(MsgLeaseStartReclaim) returns (MsgLeaseStartReclaimResponse);
 ```
@@ -272,7 +272,7 @@ rpc LeaseStartReclaim(MsgLeaseStartReclaim) returns (MsgLeaseStartReclaimRespons
 
 Add to `MsgCreateBid`:
 
-```protobuf
+```proto
 // reclamation_window is the reclamation window duration the provider offers.
 // If the order requires reclamation, this must be >= the order's min_window.
 // Nil means the provider does not offer reclamation on this bid.
@@ -288,7 +288,7 @@ google.protobuf.Duration reclamation_window = 5 [
 
 Add to `Bid`:
 
-```protobuf
+```proto
 // reclamation_window is the reclamation window offered by this provider.
 google.protobuf.Duration reclamation_window = 6 [
   (gogoproto.nullable)    = true,
@@ -302,7 +302,7 @@ google.protobuf.Duration reclamation_window = 6 [
 
 Add to `Order`:
 
-```protobuf
+```proto
 // reclamation is the deployment-level reclamation requirement, propagated to the order.
 // Nil means the deployment does not require reclamation.
 akash.market.v1.DeploymentReclamation reclamation = 5 [
@@ -316,7 +316,7 @@ akash.market.v1.DeploymentReclamation reclamation = 5 [
 
 Add:
 
-```protobuf
+```proto
 // min_reclamation_window is the minimum reclamation window duration allowed.
 google.protobuf.Duration min_reclamation_window = 4 [
   (gogoproto.nullable)    = false,
@@ -338,7 +338,7 @@ google.protobuf.Duration max_reclamation_window = 5 [
 
 Add to `MsgCreateDeployment`:
 
-```protobuf
+```proto
 // reclamation specifies the deployment-level reclamation requirements.
 // Nil means the tenant does not require reclamation.
 akash.market.v1.DeploymentReclamation reclamation = 5 [
@@ -352,7 +352,7 @@ akash.market.v1.DeploymentReclamation reclamation = 5 [
 
 Add to `Deployment`:
 
-```protobuf
+```proto
 // reclamation stores the deployment's reclamation requirements for persistence.
 // Needed so that StartGroup can propagate reclamation to newly created orders.
 akash.market.v1.DeploymentReclamation reclamation = 5 [

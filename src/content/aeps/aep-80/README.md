@@ -44,7 +44,7 @@ No existing Cosmos SDK module provides this combination. The `x/oracle` module f
 
 Uniquely identifies a price pair.
 
-```protobuf
+```proto
 message DataID {
   string denom = 1;       // Asset denomination (e.g., "uakt")
   string base_denom = 2;  // Base denomination (e.g., "usd")
@@ -55,7 +55,7 @@ message DataID {
 
 Identifies a price from a specific source.
 
-```protobuf
+```proto
 message PriceDataID {
   uint32 source = 1;      // Oracle provider index (assigned sequentially)
   string denom = 2;
@@ -67,7 +67,7 @@ message PriceDataID {
 
 Complete price record identifier including block height, enabling range queries.
 
-```protobuf
+```proto
 message PriceDataRecordID {
   uint32 source = 1;
   string denom = 2;
@@ -80,7 +80,7 @@ message PriceDataRecordID {
 
 The price value and its publish timestamp.
 
-```protobuf
+```proto
 message PriceDataState {
   string                    price = 1;     // cosmos.Dec (must be positive)
   google.protobuf.Timestamp timestamp = 2; // Publisher timestamp
@@ -91,7 +91,7 @@ message PriceDataState {
 
 The computed aggregate output stored per `DataID` at the end of each block.
 
-```protobuf
+```proto
 message AggregatedPrice {
   string                    denom = 1;
   string                    twap = 2;           // Time-weighted average price
@@ -108,7 +108,7 @@ message AggregatedPrice {
 
 Health status computed alongside aggregation.
 
-```protobuf
+```proto
 message PriceHealth {
   string          denom = 1;
   bool            is_healthy = 2;           // has_min_sources AND deviation_ok
@@ -138,7 +138,7 @@ Custom codecs encode composite keys with length-prefixed strings and big-endian 
 
 ### Parameters
 
-```protobuf
+```proto
 message Params {
   repeated string              sources = 1;                    // Authorized source addresses
   uint32                       min_price_sources = 2;          // Min sources for valid price
@@ -163,7 +163,7 @@ message Params {
 
 The `feed_contracts_params` field uses `google.protobuf.Any` to store typed configuration for different oracle integrations:
 
-```protobuf
+```proto
 message PythContractParams {
   string akt_price_feed_id = 1;  // Pyth price feed ID for AKT/USD
 }
@@ -181,7 +181,7 @@ These are read by the custom CosmWasm querier (see [CosmWasm Integration](#cosmw
 
 Submits a new price from an authorized source.
 
-```protobuf
+```proto
 service Msg {
   rpc AddPriceEntry(MsgAddPriceEntry) returns (MsgAddPriceEntryResponse);
   rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
@@ -208,7 +208,7 @@ On success, the price is stored with a `PriceDataRecordID` keyed to the current 
 
 Governance-only message to update module parameters.
 
-```protobuf
+```proto
 message MsgUpdateParams {
   string authority = 1;  // x/gov module account
   Params params = 2;
@@ -258,7 +258,7 @@ At the end of every block, the module runs aggregation:
 
 ### Queries
 
-```protobuf
+```proto
 service Query {
   // Historical price data with pagination
   rpc Prices(QueryPricesRequest) returns (QueryPricesResponse);
@@ -291,7 +291,7 @@ service Query {
 
 ### Events
 
-```protobuf
+```proto
 // Emitted on successful price submission
 message EventPriceData {
   string         source = 1;  // Source address
@@ -400,7 +400,7 @@ Returns guardian addresses as base64
 
 ### Genesis State
 
-```protobuf
+```proto
 message GenesisState {
   Params                params = 1;
   repeated PriceData    prices = 2;

@@ -234,7 +234,7 @@ if len(verReq.RequiredAuditors) > 0 {
 
 The `PlacementRequirements` in the deployment module gains a new field:
 
-```protobuf
+```proto
 // In deployment proto -- PlacementRequirements
 message PlacementRequirements {
     // ... existing attribute fields ...
@@ -260,7 +260,7 @@ Complete proto file specifications for `akash.verification.v1`. All files are pl
 
 ### 4.1 types.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -391,7 +391,7 @@ enum CapabilityFlag {
 
 ### 4.2 state.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -489,7 +489,7 @@ message ProviderSnapshotRecord {
 
 ### 4.3 params.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -603,7 +603,7 @@ message Params {
 
 ### 4.4 msg.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -783,7 +783,7 @@ message MsgUpdateParamsResponse {}
 
 ### 4.5 service.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -817,7 +817,7 @@ service Msg {
 
 ### 4.6 query.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -948,7 +948,7 @@ message QueryParamsResponse {
 
 ### 4.7 events.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -1099,7 +1099,7 @@ message EventFeeReturnedToProvider {
 
 ### 4.8 genesis.proto
 
-```protobuf
+```proto
 syntax = "proto3";
 package akash.verification.v1;
 
@@ -1209,7 +1209,7 @@ AMD ROCm SMI), the binary may dynamically load them at runtime:
 
 The Inventory Service is exposed as a gRPC service on the existing provider daemon endpoint:
 
-```protobuf
+```proto
 service InventoryService {
     rpc GetInventorySnapshot(GetInventorySnapshotRequest) returns (GetInventorySnapshotResponse);
 }
