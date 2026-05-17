@@ -98,13 +98,13 @@ akash query oracle params -o json \
   --node <rpc-endpoint> | jq '.params.sources'
 ```
 
-The first address in the `sources` array is the Pyth contract address to use as `CONTRACT_ADDRESS`. For testnet, the RPC endpoint is typically `https://testnetrpc.akashnet.net:443`.
+The first address in the `sources` array is the Pyth contract address to use as `CONTRACT_ADDRESS`. For the sandbox-2 testnet, use the RPC endpoint listed in the Akash network metadata: `https://rpc.sandbox-2.aksh.pw:443`.
 
 Create the env file on the Hermes VM:
 
 ```bash
 cat > /root/hermes.env << 'EOF'
-RPC_ENDPOINT=https://testnetrpc.akashnet.net:443
+RPC_ENDPOINT=https://rpc.sandbox-2.aksh.pw:443
 CONTRACT_ADDRESS=<PYTH_CONTRACT_ADDRESS>
 HERMES_ENDPOINT=https://hermes.pyth.network
 UPDATE_INTERVAL_MS=60000
