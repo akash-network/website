@@ -602,9 +602,8 @@ consequences apply:
 1. The provider's `ProviderSnapshotRecord.suspended` is set to `true` by the
    [EndBlocker](./README.md#endblocker-design)
 2. An `EventSnapshotSuspended` event is emitted
-3. **Effect on attestations**: Suspended providers' attestations at Level 2 and above are treated as **inactive for
-   bid matching purposes**. The attestations themselves are NOT voided -- they remain valid in state and their TTLs
-   continue running. However, the `x/market` module checks snapshot compliance as an additional filter and rejects
+3. **Effect on attestations**: Suspended providers' attestations at Level 2 and above are treated as **inactive for bid matching purposes**.
+   The attestations themselves are NOT voided -- they remain valid in state and their TTLs continue running. However, the `x/market` module checks snapshot compliance as an additional filter and rejects
    bids from suspended providers for orders that require Level 2+ verification (see
    [Market Module Integration](./README.md#market-module-integration)).
 4. **Effect on new attestations**: `MsgSubmitAttestation` at Level 2 or above is rejected for snapshot-suspended

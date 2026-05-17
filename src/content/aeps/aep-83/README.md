@@ -26,7 +26,7 @@ This AEP defines how tenants request confidential computing workloads on Akash N
 4. How GPU confidential computing (NVIDIA CC-on mode) integrates with the Kata VM model.
 5. How composite attestation works when both CPU and GPU TEEs are involved.
 
-This AEP addresses all five, with the vision of **minimal SDL and UX changes.
+This AEP addresses all five, with the vision of **minimal SDL and UX changes**.
 
 ## Design Principles
 

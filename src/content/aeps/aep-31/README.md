@@ -266,7 +266,7 @@ $137,291.78</p>
   </tr>
 </table>
 
-**AKT volatility buffer* 
+**AKT volatility buffer**
 *This buffer accounts for the historical daily volatility of AKT measured over the last 30 days leading up to September 30, 2024. By providing a more substantial buffer against potential downswings in AKT, we mitigate the need to request any budget shortfalls through subsequent proposals. In the event of excess funds above the US dollar amount of labor, taxes, and overage, all remaining AKT will be returned to the community promptly after completing the proposal.*
 
 ## Limited Market Impact & Transparent Reporting
