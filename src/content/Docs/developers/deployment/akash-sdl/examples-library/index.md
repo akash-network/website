@@ -297,12 +297,12 @@ The Awesome Akash repository welcomes contributions from the community!
 
 ### Contribution Guidelines
 
-- **Test your SDL before submitting
-- **Include clear, detailed documentation
-- **Specify exact resource requirements
-- **Add troubleshooting tips for common issues
-- **Follow the existing folder structure
-- **Use descriptive commit messages
+- Test your SDL before submitting
+- Include clear, detailed documentation
+- Specify exact resource requirements
+- Add troubleshooting tips for common issues
+- Follow the existing folder structure
+- Use descriptive commit messages
 
 **[View Contributing Guide →](https://github.com/akash-network/awesome-akash/blob/master/CONTRIBUTING.md)**
 
