@@ -64,6 +64,6 @@ The upgrade to Cosmos SDK v0.53 isn't just another version step, it's the archit
 
 ## Upgrade Resources
 
-If you're an operator, validator, or contributor, please review the upgrade guide here:
+If you're an operator, validator, or contributor, please review the on-chain upgrade proposal:
 
-👉 [Akash Mainnet 14 Node Upgrade Guide](/docs/mainnet-14-upgrade/node-upgrade-guide/)
+👉 [Akash Mainnet 14 Proposal #308](https://www.mintscan.io/akash/proposals/308/)
