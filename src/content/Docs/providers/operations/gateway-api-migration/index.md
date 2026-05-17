@@ -222,7 +222,7 @@ NAME                              CHART VERSION    APP VERSION
 akash/akash-hostname-operator     16.0.0           0.12.0
 akash/akash-inventory-operator    16.0.0           0.12.0
 akash/akash-ip-operator           16.0.0           0.12.0
-akash/akash-node                  17.1.1           2.0.1
+akash/akash-node                  17.0.0           2.0.1
 akash/provider                    16.0.0           0.12.0
 ```
 
