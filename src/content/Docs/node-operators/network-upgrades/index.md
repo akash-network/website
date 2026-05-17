@@ -17,10 +17,10 @@ This section contains comprehensive upgrade guides for node operators and valida
 
 ### [Mainnet 17 - Akash v2.0.0](/docs/node-operators/network-upgrades/mainnet-17/)
 
-**Status:** Upcoming  
+**Status:** Completed<br />
 **Upgrade Height:** 26,063,777  
 **Binary Version:** v2.0.0  
-**Binary Release:** Binaries will be released approximately 24 hours after the upgrade height.
+**Binary Release:** v2.0.0 binaries are available on GitHub Releases.
 
 Complete upgrade guide including Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. Monitor block height and Discord for timing; prepare your node before the upgrade.
 

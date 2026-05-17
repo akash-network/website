@@ -19,10 +19,10 @@ This guide provides step-by-step instructions for upgrading your node to Akash v
 - **Upgrade Name:** Mainnet17
 - **Binary Version:** `v2.0.0`
 - **Block Height:** [26,063,777](https://www.mintscan.io/akash/block/26063777)
-- **Binary Release:** Binaries will be released approximately **24 hours before** the upgrade height
-- **Binary Links:** [GitHub Releases](https://github.com/akash-network/node/releases/tag/v2.0.0) (once published)
+- **Binary Release:** v2.0.0 binaries are available on GitHub Releases
+- **Binary Links:** [GitHub Releases](https://github.com/akash-network/node/releases/tag/v2.0.0)
 
-> **Note:** Block times have high variance. Monitor the chain or block explorer for the upgrade. Prepare your node to halt at the upgrade height; install the v2.0.0 binary once it is released (~24 hours after the chain halts).
+> **Note:** Block times have high variance. Monitor the chain or block explorer for the upgrade. Prepare your node to halt at the upgrade height, then install the v2.0.0 binary from the GitHub release.
 
 ---
 
@@ -44,7 +44,7 @@ To ensure a network upgrade with minimal downtime, Akash Validators should be av
 **Timeline:**
 - **One hour prior to upgrade** - Available and monitoring the Akash Discord server's `#validators` and `#validator-announcements` channels for any late-breaking guidance
 - **During upgrade window** – Available throughout the expected downtime
-- **After binary release** – Install v2.0.0 binary and restart once released (~24 hours after upgrade height)
+- **After binary release** – Install the v2.0.0 binary from GitHub Releases and restart
 - **One hour post upgrade** - Available and monitoring Discord channels for any possible revised strategies or updates deemed necessary
 
 ### Emergency Coordination
@@ -82,7 +82,7 @@ The following instructions assume the `akash` and `cosmovisor` binaries are alre
 
 > **Note:** Cosmovisor v1.5.0 or higher is required.
 
-Validators and RPCs supervised by Cosmovisor with `DAEMON_ALLOW_DOWNLOAD_BINARIES=true` will automatically download upgrade binaries from the upgrade info file (info.json) once available. Because binaries are released ~24 hours after the upgrade height, ensure your Cosmovisor setup can obtain the binary when released, or place the binary manually after download.
+Validators and RPCs supervised by Cosmovisor with `DAEMON_ALLOW_DOWNLOAD_BINARIES=true` can automatically download upgrade binaries from the upgrade info file (info.json). Ensure your Cosmovisor setup can obtain the binary from the release, or place the binary manually after download.
 
 ### Step 1: Configure Cosmovisor
 
@@ -135,7 +135,7 @@ WantedBy=multi-user.target
 
 **Important Environment Variables:**
 
-- `DAEMON_ALLOW_DOWNLOAD_BINARIES=false` – It's recommended to manually place the binary (set to `true` for auto-download from upgrade info once available)
+- `DAEMON_ALLOW_DOWNLOAD_BINARIES=false` – It's recommended to manually place the binary (set to `true` for auto-download from upgrade info)
 - `UNSAFE_SKIP_BACKUP=true` - Set to `false` if you want automatic backup before upgrade
 - `DAEMON_SHUTDOWN_GRACE=15s` - Grace period for cleanup before shutdown
 
@@ -159,7 +159,7 @@ sudo systemctl status akash
 
 > **Note:** Skip this step if you have enabled `DAEMON_ALLOW_DOWNLOAD_BINARIES=true` in your Cosmovisor configuration.
 
-This upgrade uses an info.json file that references the correct release with pre-built binaries. **Binaries will be released approximately 24 hours after the upgrade height.** Once released, download the Akash v2.0.0 binary for your platform from the [GitHub releases page](https://github.com/akash-network/node/releases/tag/v2.0.0).
+This upgrade uses an info.json file that references the correct release with pre-built binaries. Download the Akash v2.0.0 binary for your platform from the [GitHub releases page](https://github.com/akash-network/node/releases/tag/v2.0.0).
 
 **Select your platform:**
 - Linux AMD64
@@ -224,7 +224,7 @@ Using Cosmovisor to perform the upgrade is not mandatory. Node operators can man
 sudo systemctl stop akash
 ```
 
-**3. Wait for the v2.0.0 binary release** (approximately 24 hours after the upgrade height), then install the new binary:
+**3. Install the v2.0.0 binary:**
 
 Either download the precompiled binary from [GitHub releases](https://github.com/akash-network/node/releases/tag/v2.0.0) or build from source (see [Build Binary From Source](#build-binary-from-source)).
 
@@ -391,7 +391,7 @@ sudo journalctl -u akash -n 100 --no-pager
 - Binary not executable: `chmod +x /path/to/akash`
 - Wrong binary version: Verify with `akash version`
 - Permission issues: Check user/group settings in systemd service
-- Binary not yet released: v2.0.0 is expected ~24 hours after the upgrade height
+- Binary missing from the upgrade directory: download v2.0.0 from GitHub Releases and place it under the Cosmovisor upgrade path
 
 ### Node Out of Sync
 
@@ -420,7 +420,7 @@ sudo journalctl -u akash -f
 ```
 
 **Common issues:**
-- Upgrade binary not in correct location (ensure v2.0.0 is placed after it is released)
+- Upgrade binary not in correct location
 - Binary not executable
 - `DAEMON_ALLOW_DOWNLOAD_BINARIES` set incorrectly
 
