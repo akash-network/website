@@ -76,7 +76,7 @@ Each status change is requested by the AEP author and reviewed by the AEP editor
 * **Draft** -- Once the first Draft has been merged, you may submit follow-up pull requests with further changes to your Draft until you believe the AEP to be mature and ready to proceed to the next status. An AEP in draft status must be implemented to be considered for promotion to the next status (ignore this requirement for core AEPs).
   * :arrow_right: Last Call -- If agreeable, the AEP editor will assign Last Call status and set a review end date (`review-period-end`), normally 14 days later.
   * :x: Last Call -- A request for Last Call status will be denied if material changes are still expected to be made to the Draft. We hope that AEPs only enter Last Call once, so as to avoid unnecessary noise on the RSS feed.
-* **Last Call** -- This AEP will be listed prominently on the https://aeps.akash.network/ website (subscribe via RSS at [last-call.xml](/last-call.xml)).
+* **Last Call** -- This AEP will be listed prominently on the [Akash roadmap](/roadmap/).
   * :x: -- The Last Call, which results in material changes or substantial unaddressed technical complaints, will cause the AEP to revert to Draft.
   * :arrow_right: Accepted (Core AEPs only) -- A successful Last Call without material changes or unaddressed technical complaints will become Accepted.
   * :arrow_right: Final (Non-Core AEPs) -- A successful Last Call without material changes or unaddressed technical complaints will become Final.

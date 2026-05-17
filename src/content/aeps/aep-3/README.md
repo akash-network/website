@@ -26,7 +26,7 @@ A complete deployment has the following sections:
 - [profiles](#profiles)
 - [deployment](#deployment)
 
-A full example deployment configuration can be found [here](deployment.yml).
+Current deployment examples can be found in the [SDL examples library](/docs/developers/deployment/akash-sdl/examples-library).
 
 ### version
 

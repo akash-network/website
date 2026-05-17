@@ -12,7 +12,7 @@ roadmap: major
 
 ## Summary
 
-Launch Testnet with a fully functioning spot computing marketplace for containers and serverless deployment platform as proposed in the [AEP-2](/spec/aep-2). Incentivize user adoption of by applying game mechanics.
+Launch Testnet with a fully functioning spot computing marketplace for containers and serverless deployment platform as proposed in [AEP-2](/roadmap/aep-2/). Incentivize user adoption of by applying game mechanics.
 
 ## Motivation
 
@@ -28,8 +28,8 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 
 - Codename: Alpha
 - Includes DCSs:
-  - [AEP-2: Decentralized Cloud Exchange](/spec/aep-2)
-  - [AEP-3: Stack Definition Language](/spec/aep-3)
+  - [AEP-2: Decentralized Cloud Exchange](/roadmap/aep-2/)
+  - [AEP-3: Stack Definition Language](/roadmap/aep-3/)
 - Token Allocation: 2,000,000 AKT
 - Limit: 100 Members
 - Program(s): Akash Founder Member Rewards
