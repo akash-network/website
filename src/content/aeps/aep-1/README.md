@@ -4,7 +4,7 @@ title: AEP Purpose and Guidelines
 status: Final
 type: Meta
 author: Greg Osuri (@gosuri) Adam Bozanich (@boz)
-discussions-to: https://github.com/ovrclk/aep/issues/1
+discussions-to: https://github.com/akash-network/AEP/issues/1
 created: 2020-03-09
 updated: 2020-03-17
 ---
@@ -99,7 +99,7 @@ Other exceptional statuses include:
 
 Each AEP should have the following parts:
 
-- Preamble - RFC 822 style headers containing metadata about the AEP, including the AEP number, a short descriptive title (limited to a maximum of 44 characters), and the author details. See [below](https://github.com/ovrclk/AEPs/blob/master/AEPSS/aep-1.md#aep-header-preamble) for details.
+- Preamble - RFC 822 style headers containing metadata about the AEP, including the AEP number, a short descriptive title (limited to a maximum of 44 characters), and the author details. See [below](https://github.com/akash-network/AEP/blob/main/spec/aep-1/README.md#aep-header-preamble) for details.
 - Abstract - A short (~200 word) description of the technical issue being addressed.
 - Motivation (*optional*) - The motivation is critical for AEPs that want to change the Akash protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the AEP solves. AEP submissions without sufficient motivation may be rejected outright.
 - Specification - The technical specification should describe the syntax and semantics of any new feature. The specification should be detailed enough to allow competing, interoperable implementations Akash platform.
@@ -262,7 +262,7 @@ This document was derived heavily from [Ethereum's EIP-1] written by Martin Becz
 [Ethereum's EIP-1]: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1.md
 [Bitcoin's BIP-0001]: https://github.com/bitcoin/bips
 [Akash Technical Chat]: https://discord.akash.network/
-[Pull request]: https://github.com/ovrclk/AEPs/pulls
+[Pull request]: https://github.com/akash-network/AEP/pulls
 
 ## Copyright
 
