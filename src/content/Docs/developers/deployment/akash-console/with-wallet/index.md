@@ -86,7 +86,7 @@ Open your browser and go to **[console.akash.network](https://console.akash.netw
 ![Mint ACT](/images/docs/console/wallet/5-mint-act.png)
 *Mint ACT*
 
-**You're now connected with your own wallet with both AKT and ACT!
+**You're now connected with your own wallet with both AKT and ACT!**
 
 ---
 
@@ -175,7 +175,7 @@ Click **"Approve"**
 
  Wait ~30 seconds for blockchain confirmation
 
-**Deployment created! Now waiting for provider bids...
+**Deployment created! Now waiting for provider bids...**
 
 ---
 
