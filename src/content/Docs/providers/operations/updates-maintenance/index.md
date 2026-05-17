@@ -41,7 +41,6 @@ kubectl -n akash-services scale statefulsets akash-provider --replicas=1
 
 **References:**
 - [Kubernetes Certificate Management](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/)
-- [Manual Certificate Renewal Guide](https://www.txconsole.com/posts/how-to-renew-certificate-manually-in-kubernetes)
 
 When Kubernetes certificates expire, cluster access will fail with `Unauthorized` errors. Rotate certificates proactively to avoid downtime.
 
@@ -141,4 +140,3 @@ If you have a HA cluster, repeat Steps 1-4 on each additional control plane node
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
 - [Kubernetes Setup](/docs/providers/setup-and-installation/kubespray/kubernetes-setup)
 - [Provider Verification](/docs/providers/operations/provider-verification)
-
