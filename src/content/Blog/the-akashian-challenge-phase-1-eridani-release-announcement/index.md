@@ -48,9 +48,9 @@ Eridani, the third release of The Akashian Challenge: Phase 1, starts with the p
 
 **Proposal ID:** 3
 
-**Proposal Title:** [Eridani Network Upgrade release (v0.6.5)
+**Proposal Title:** [Eridani Network Upgrade release (v0.6.5)](https://github.com/ovrclk/akash/releases/tag/v0.6.5)
 
-](https://github.com/ovrclk/akash/releases/tag/v0.6.5)**Description:\*\* Software upgrades are critical and determine the future of the network. In a PoS network, validators are responsible for deciding on upgrades. Every node operator needs to validate upgrades for the health of the ecosystem. Securing the network with decision-making is vital to the governance process.
+**Description:** Software upgrades are critical and determine the future of the network. In a PoS network, validators are responsible for deciding on upgrades. Every node operator needs to validate upgrades for the health of the ecosystem. Securing the network with decision-making is vital to the governance process.
 
 **Changelog:**
 
