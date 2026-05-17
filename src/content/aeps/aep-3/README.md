@@ -17,7 +17,7 @@ Stack Definition Language
 
 ## Specification
 
-Deployment services, datacenters, pricing, etc.. are described by a [YAML](http://www.yaml.org/start.html) configuration file. Configuration files may end in `.yml` or `.yaml`.
+Deployment services, datacenters, pricing, etc.. are described by a [YAML](https://yaml.org/spec/) configuration file. Configuration files may end in `.yml` or `.yaml`.
 
 A complete deployment has the following sections:
 
