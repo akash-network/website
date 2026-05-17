@@ -83,7 +83,7 @@ bun run dev:frontend
 
 ### Environment Variables
 
-```env
+```bash
 VITE_AKASHML_API_KEY=your-api-key-here
 ```
 
