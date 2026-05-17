@@ -50,7 +50,7 @@ Decentralized Computing is a novel concept that mandates user behavior change to
 - Developers: 68. [Proof](https://github.com/ovrclk/ecosystem/graphs/contributors).
 - Providers: 144. [Proof](https://akash.vitwit.com).
 
-## Annoucements
+## Announcements
 
 - [Become an Akash Founding Member and Earn Token Rewards](https://akash.network/blog/become-and-akash-founding-member-and-earn-token-rewards/)
 - [Earn 1,000 Tokens and the Akash Founder Level 2 Badge!](https://akash.network/blog/earn-1000-tokens-and-the-akash-founder-level-2-badge/)
