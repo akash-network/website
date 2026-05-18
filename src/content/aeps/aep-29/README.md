@@ -38,7 +38,7 @@ The system gathers cryptographic measurements from the hardware platform — inc
 
 The collected evidence is sent to a remote verifier — either a vendor-provided service (e.g., [Intel Trust Authority](https://www.intel.com/content/www/us/en/security/trust-authority.html), [AMD Attestation Service](https://www.amd.com/content/dam/amd/en/documents/developer/lss-snp-attestation.pdf), NVIDIA [NVTrust CA](https://docs.nvidia.com/attestation/#overview)) or a custom verifier (sometime called a “local verifier”). 
 
-The verifier perfoms the following functions:
+The verifier performs the following functions:
   - Authenticates the hardware’s cryptographic identity
   - Compares measurements against a set of trusted baseline values (aka “golden measurements”)
   - Validates integrity and authenticity of the platform state
