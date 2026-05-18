@@ -101,13 +101,13 @@ Currently, there is an enormous and intricate set of steps that a provider needs
 
 A provider onboarding framework is to ease new providers selling compute on Akash, planned to be released in Q4 of 2021 is now delayed.
 
-The automation for bootstrapping a node is code-complete and tested internally for Testnet and Devnets; the documentation is, however, still pending, so we’re moving this deliverable to next quarter. The helm charts for installing various components are available at [ovrclk/helm-charts](https://github.com/ovrclk/helm-charts).
+The automation for bootstrapping a node is code-complete and tested internally for Testnet and Devnets; the documentation is, however, still pending, so we’re moving this deliverable to next quarter. The helm charts for installing various components are available at [akash-network/helm-charts](https://github.com/akash-network/helm-charts).
 
 **Status**: Incomplete
 
 **Related Repositories:**
 
-- [ovrclk/helm-charts](https://github.com/ovrclk/helm-charts)
+- [akash-network/helm-charts](https://github.com/akash-network/helm-charts)
 
 ### **Developer Hub** 
 
