@@ -67,11 +67,11 @@ BIOS configuration changes need to be made to enable TDX/ SGX (for intel) and SE
 
 ##### Intel
 
-To Enable memory encryption, TDX and SGX for Intel, consult [this document](https://github.com/canonical/tdx/blob/1.2/README.md ). 
+To enable memory encryption, TDX and SGX for Intel, consult [this document](https://github.com/canonical/tdx/blob/1.2/README.md).
 
 ##### AMD
 
-To Enable AMD SEV, consult [this document](https://github.com/AMDESE/AMDSEV/blob/master/README.md).
+To enable AMD SEV, consult [this document](https://github.com/AMDESE/AMDSEV/blob/master/README.md).
 
 
 #### Access to Device Nodes for Attestation
@@ -119,7 +119,7 @@ This would (at least in theory) achieve all the objectives for the near term whi
 The ideal user experience should be one where Akash users (aka “tenants”) should barely notice any difference in the deployment experience, relative to what it is for regular (non confidential) deployments. When requesting bids, they should be able to select an option (in the UI, the CLI or API) and be able to get bids only from providers that are capable of executing the tenant container within a secure enclave.
 And once the deployment is done (container is running), the tenants should be able to make a set of simple, high level API calls from within the container to perform attestation, apply a policy and then seal an unseal subsequent requests for the duration of the container’s life.
 
-In order to achieve that, the following need to be done (this assumed that the prerequisites from the previous section are satisfied)
+In order to achieve that, the following need to be done (this assumes that the prerequisites from the previous section are satisfied)
 
 1. Changes to provider attributes to allow providers to advertise that they are TEE/ CCE capable. 
 
