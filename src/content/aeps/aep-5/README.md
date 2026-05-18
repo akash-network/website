@@ -20,7 +20,7 @@ Akash is a marketplace for cloud compute resources which is designed to reduce w
 
 ## Detailed Proposal
 
-Detailed proposal is publised in the [paper](https://github.com/akash-network/AEP/blob/main/spec/aep-2/economics.pdf)
+Detailed proposal is published in the [paper](./economics.pdf)
 
 ## References
 
