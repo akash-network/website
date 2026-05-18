@@ -17,7 +17,7 @@ contributors:
 bannerImage: ./banner-image.png
 ---
 
-The recently released [Cosmos Omnibus](https://github.com/tombeynon/cosmos-omnibus/tree/install-and-config) helps to decentralize blockchain hosting by providing a simple way to set up and run any blockchain in the Cosmos ecosystem on the cloud provider of your choice. The Omnibus package includes all of the Docker images configuration to make deploying onto [Akash Network](https://github.com/ovrclk/akash) easy and standardized for any Cosmos SDK-based blockchain.
+The recently released [Cosmos Omnibus](https://github.com/akash-network/cosmos-omnibus) helps to decentralize blockchain hosting by providing a simple way to set up and run any blockchain in the Cosmos ecosystem on the cloud provider of your choice. The Omnibus package includes all of the Docker images configuration to make deploying onto [Akash Network](https://github.com/ovrclk/akash) easy and standardized for any Cosmos SDK-based blockchain.
 
 All blockchains share a common architecture, the software that they develop has no centralized hardware. Blockchains have many connected nodes running software hosted across many machines. A blockchain is only considered decentralized if the hardware hosting the nodes is spread out across many locations, running in independently owned data centers or on home computers. Blockchains require decentralization for security, in order to prevent an individual or small group from taking control of the network.
 
@@ -25,11 +25,11 @@ Many blockchains have a major problem today, the hardware that they use to host 
 
 # Run Your Own Node with Cosmos Omnibus on Akash Network
 
-When setting up a validator there are countless ways to configure your setup. The Cosmos Omnibus provides examples for some of the most common configurations. The Cosmos Omnibus software package includes Docker images for [cosmos-sdk](https://github.com/cosmos-cosmos-sdk)\-based blockchains that are pre-configured to run on [Akash](https://github.com/ovrclk/akash). Configuration is achieved using environment variables, with shortcuts available for common setups. Every aspect of the node configuration can be achieved in this way.
+When setting up a validator there are countless ways to configure your setup. The Cosmos Omnibus provides examples for some of the most common configurations. The Cosmos Omnibus software package includes Docker images for [cosmos-sdk](https://github.com/cosmos/cosmos-sdk)\-based blockchains that are pre-configured to run on [Akash](https://github.com/ovrclk/akash). Configuration is achieved using environment variables, with shortcuts available for common setups. Every aspect of the node configuration can be achieved in this way.
 
 ### **Supported Networks**
 
-The networks supported by the Cosmos Omnibus include Akash Network, Sentinel VPN, Gaia, Kava, Osmosis, and Persistence One. The Omnibus package includes the docker images and full configuration to run the nodes. The available docker images below can be found on the [cosmos-omnibus repository](https://github.com/ovrclk/cosmos-omnibus/pkgs/container/cosmos-omnibus). The full configuration for each of the supported chains can be found in the example deployment files linked below for each project.
+The networks supported by the Cosmos Omnibus include Akash Network, Sentinel VPN, Gaia, Kava, Osmosis, and Persistence One. The Omnibus package includes the docker images and full configuration to run the nodes. The available docker images below can be found on the [cosmos-omnibus repository](https://github.com/akash-network/cosmos-omnibus/pkgs/container/cosmos-omnibus). The full configuration for each of the supported chains can be found in the example deployment files linked below for each project.
 
 ### Run your node locally
 
@@ -71,7 +71,7 @@ Once a few nodes in a network have taken state sync snapshots, new nodes can joi
 
 Statesync requires running twice as many nodes and requires that snapshots are enabled. Fortunately, it’s simple to enable State Sync and Snapshots with the Cosmos Omnibus! Just use the environment variables below.
 
-### [Example Statesync Configuration](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/_examples/statesync)
+### [Example Statesync Configuration](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples/statesync)
 
 This example uses the `STATESYNC_RPC_SERVERS` option which automatically configures statesync from the first node's RPC server. This example includes 2 deployment files:
 
@@ -94,27 +94,27 @@ The sentry node solution provides a way to hide the IP address of the validator 
 
 All sentry nodes connect to the validator using a private connection. The validator does not have a public IP address to provide its services.
 
-### [Example: Validator with Public Sentries](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/_examples/validator-and-public-sentries)
+### [Example: Validator with Public Sentries](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples/validator-and-public-sentries)
 
-This example shows 2 sentry nodes [state-synced from other nodes](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/_examples/statesync), with a single private validator node which only connects to the sentries. Note that you should wait for the sentries to get up to date before running the validator, as it will statesync from those sentries. You can expand the sentry setup to as many nodes as required.  This example includes 2 deployment files:
+This example shows 2 sentry nodes [state-synced from other nodes](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples/statesync), with a single private validator node which only connects to the sentries. Note that you should wait for the sentries to get up to date before running the validator, as it will statesync from those sentries. You can expand the sentry setup to as many nodes as required.  This example includes 2 deployment files:
 
 - `sentries-deploy.yml` to configure the sentry nodes
 - `validator-deploy.yml` to configure the validator node
 
-### [Example: Validator with Private Sentries](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/_examples/validator-and-private-sentries)
+### [Example: Validator with Private Sentries](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples/validator-and-private-sentries)
 
-This example is identical to the [public sentries](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/_examples/validator-and-public-sentries) example, but shown with the sentries as part of the same deployment to create a private network. The validator will only talk to the sentries that are provided, the sentry nodes will communicate to the validator via a secret connection and the rest of the network through a normal connection. This example includes a single deployment file:
+This example is identical to the [public sentries](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples/validator-and-public-sentries) example, but shown with the sentries as part of the same deployment to create a private network. The validator will only talk to the sentries that are provided, the sentry nodes will communicate to the validator via a secret connection and the rest of the network through a normal connection. This example includes a single deployment file:
 
 - `deploy.yml` to configure the sentry nodes and validator node
 
 # Load Balancing your Nodes 
 
-### [Example: Load Balanced RPC Nodes](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/_examples/load-balanced-rpc-nodes)
+### [Example: Load Balanced RPC Nodes](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples/load-balanced-rpc-nodes)
 
-This example details two or more deployments of RPC nodes, and an NGINX deployment to load balance them. The deployment is configured to run multiple RPC containers under a single domain. You can add and remove nodes, but remember to update the load balancer deployment when you do. Ideally your RPC nodes would be configured to sync with statesync nodes as covered in this blog and the [documentation](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/README.md#statesync).
+This example details two or more deployments of RPC nodes, and an NGINX deployment to load balance them. The deployment is configured to run multiple RPC containers under a single domain. You can add and remove nodes, but remember to update the load balancer deployment when you do. Ideally your RPC nodes would be configured to sync with statesync nodes as covered in this blog and the [documentation](https://github.com/akash-network/cosmos-omnibus/blob/master/README.md#statesync).
 
 # Best Practices
 
-Now that you’ve read all about handling your private keys, configuring state sync, restoring from snapshots, sentry node design, and load balancing, you might think there is a lot more work than you realized to run a blockchain node - rather multiple nodes. Fortunately, the Cosmos Omnibus package provides a [directory of examples](https://github.com/tombeynon/cosmos-omnibus/blob/install-and-config/_examples) for all of these common setups. Alternatively you can configure statesync manually using the options we just covered in this blog.
+Now that you’ve read all about handling your private keys, configuring state sync, restoring from snapshots, sentry node design, and load balancing, you might think there is a lot more work than you realized to run a blockchain node - rather multiple nodes. Fortunately, the Cosmos Omnibus package provides a [directory of examples](https://github.com/akash-network/cosmos-omnibus/tree/master/_examples) for all of these common setups. Alternatively you can configure statesync manually using the options we just covered in this blog.
 
 It’s important to remember that a best practice in node operations is not to rely on any single cloud provider, and that includes the Akash Network. Ideally your deployment is not entirely dependent on the Akash network. You should be prepared to run your validator on another cloud, and you should also set up monitoring to detect if your nodes are operating correctly.
