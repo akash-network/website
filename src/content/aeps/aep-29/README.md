@@ -58,7 +58,7 @@ The outcome is a binary verdict (e.g., Attestation OK or Rejected) which can be 
 
 #### NVTrust SDK
 
-Nvidia provides the [NVTRUST SDK](https://github.com/NVIDIA/nvtrust) that abstracts a lot of the complexity involved in attesting Nvidia GPUs (primarily H100s and NVSwitches) for trusted execution. This SDK provides abstractions for gathering evidence (aka measurements) as well as a verifier (NRAS) that plugs into Nvidia’s internal build pipeline (to obtain “golden measurements” through the RIM service). For reference see NRAS [documention](https://nras.attestation.nvidia.com/) and [API](https://docs.nvidia.com/attestation/api-docs-nras/latest/nras_api.html).
+Nvidia provides the [NVTRUST SDK](https://github.com/NVIDIA/nvtrust) that abstracts a lot of the complexity involved in attesting Nvidia GPUs (primarily H100s and NVSwitches) for trusted execution. This SDK provides abstractions for gathering evidence (aka measurements) as well as a verifier (NRAS) that plugs into Nvidia’s internal build pipeline (to obtain “golden measurements” through the RIM service). For reference see NRAS [documentation](https://nras.attestation.nvidia.com/) and [API](https://docs.nvidia.com/attestation/cloud-services/latest/nras/nras_api.html).
 
 This is what attestation with the Nvidia SDK looks like at a high level
 
@@ -66,7 +66,7 @@ This is what attestation with the Nvidia SDK looks like at a high level
 
 ### Intel Trusted Authority SDK
 
-Since GPUs do not operte standalone - they typically are part of a server that includes a CPU (and memory, storage and other things) which is where the application is typically executed (with the AI model then getting loaded into GPU memory for inference or training or fine-tuning), the attestation must encompass the CPU, GPU and the interface between them. To make this easy for customers, Intel has an SDK of its own that plugs into the NVTrust SDK and enables performing attestation for the whole system with SDKs available in  [python](https://github.com/intel/trustauthority-client-for-python) and [golang](https://github.com/intel/trustauthority-client-for-go).
+Since GPUs do not operate standalone - they typically are part of a server that includes a CPU (and memory, storage and other things) which is where the application is typically executed (with the AI model then getting loaded into GPU memory for inference or training or fine-tuning), the attestation must encompass the CPU, GPU and the interface between them. To make this easy for customers, Intel has an SDK of its own that plugs into the NVTrust SDK and enables performing attestation for the whole system with SDKs available in  [python](https://github.com/intel/trustauthority-client-for-python) and [golang](https://github.com/intel/trustauthority-client-for-go).
 
 ![Intel Attestation](intel-ita-attestation.png)
 
