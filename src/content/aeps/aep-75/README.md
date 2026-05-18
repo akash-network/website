@@ -335,26 +335,26 @@ Deposits are processed and settled in the order they are received:
 
 #### x/deployment
 
-Following requirements apply for both `MsgCreateDeployment` and `MsgDepositDeployment`.
+The following requirements apply for both `MsgCreateDeployment` and `MsgDepositDeployment`.
 
 On message receive:
-1. Process deposit autorizations in the order they are specified in the message
+1. Process deposit authorizations in the order they are specified in the message
   - deduct funds from source up to the `deposit` value
   - if deposit amount not satisfied, try next source until either
-    - deposit amount is satisfies - transaction is successul
+    - deposit amount is satisfied - transaction is successful
     - total amount available via all sources is below requested deposit amount - transaction fails
 2. Build list of depositor addresses and amounts to be deducted and transfer list to the `escrow.AccountCreate` or `escrow.AccountDeposit`
 
 #### x/escrow
 
-Following requirements apply for both `AccountCreate` and `AccountDeposit`.
+The following requirements apply for both `AccountCreate` and `AccountDeposit`.
 
 1. Order of deposits must be preserved
-2. Each if deposit from same address already exists, then funds shall be combined
+2. If a deposit from the same address already exists, then funds shall be combined
 
 ##### Account settlement
 
-Balance settlemnt proceeds in the order of deposits have been received
+Balance settlement proceeds in the order of deposits have been received
 
 #### x/authz
 
