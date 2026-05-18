@@ -384,15 +384,15 @@ A _deployment_ represents the _current state_ of a stack as fulfilled by the Aka
 | container   | Docker container                                     |
 | compute     | [resources](#computeunit) needed for each instance   |
 | count       | number of instances to run                           |
-| connections | List of allowed incomming [connections](#connection) |
+| connections | List of allowed incoming [connections](#connection) |
 
 #### Connection
 
 | Field      | Description                                                                |
 | ---------- | -------------------------------------------------------------------------- |
 | port       | TCP port                                                                   |
-| workload   | [Workload](#workload) name to allow incomming connection from              |
-| datacenter | [Datacenter](#deploymentinfrastructure) to allow incomming connection from |
+| workload   | [Workload](#workload) name to allow incoming connection from               |
+| datacenter | [Datacenter](#deploymentinfrastructure) to allow incoming connection from  |
 | global     | If `true`, allow all connections, regardless of source                     |
 
 #### LeasedWorkload
