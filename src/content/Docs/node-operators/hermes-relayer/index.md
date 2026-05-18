@@ -237,8 +237,11 @@ The Wormhole contract's guardian set is behind the current mainnet guardian set.
 
 To check the current mainnet guardian set index:
 ```bash
-curl -s https://raw.githubusercontent.com/wormhole-foundation/wormhole/main/guardianset/mainnetv2/ \
-  | grep -o 'v[0-9]*\.prototxt' | sort -V | tail -1
+curl -s "https://api.github.com/repos/wormhole-foundation/wormhole/contents/guardianset/mainnetv2/canonical_sets?ref=main" \
+  | grep -o '"name": "v[0-9]*\.prototxt"' \
+  | grep -o 'v[0-9]*\.prototxt' \
+  | sort -V \
+  | tail -1
 ```
 
 ### source ... is not authorized oracle provider
