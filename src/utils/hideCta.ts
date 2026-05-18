@@ -11,6 +11,7 @@ export const hiddenPaths = [
   "/development/universities",
   "/development/funding-program",
   "/development/community-groups",
+  "/ecosystem/akash-tools",
 ];
 
 export const shouldHideCta = (pathname: string) => {

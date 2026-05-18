@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import AkashClubContent from "./akash-club-content";
 import AkashInsidersContent from "./akash-insiders-content";
-import DevelopersContent from "./developers-content";
+import CommunitySyncsContent from "./community-syncs-content";
 
 // ─── Icon Components ───────────────────────────────────────────────────────────
 
@@ -54,12 +54,13 @@ const BadgeCheckLargeIcon = ({ className = "w-8 h-8" }: { className?: string }) 
   </svg>
 );
 
-const SearchCodeIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+const CalendarSyncIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="m9 9-2 2 2 2" />
-    <path d="m13 13 2-2-2-2" />
-    <circle cx="11" cy="11" r="8" />
-    <path d="m21 21-4.3-4.3" />
+    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+    <line x1="16" x2="16" y1="2" y2="6" />
+    <line x1="8" x2="8" y1="2" y2="6" />
+    <line x1="3" x2="21" y1="10" y2="10" />
+    <path d="m9 16 2 2 4-4" />
   </svg>
 );
 
@@ -80,61 +81,16 @@ function HeroSection({
   setActiveTab: (tab: TabKey) => void;
 }) {
   return (
-    <section className=" px-6 py-16 md:px-10 md:pt-[100px] pb-10 sm:pb-20 lg:px-[240px]">
+    <section className="px-6 pt-10 pb-14 md:px-10 md:pt-[60px] sm:pb-20 lg:pt-20">
       <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-14">
         {/* Title Block */}
-        <div className="flex flex-col items-center gap-5">
-          <h1 className="text-center text-[40px] font-semibold md:text-4xl lg:text-[56px] leading-[48px] lg:leading-[1.15]">
-            Building the People's Supercloud
+        <div className="flex w-full flex-col items-start gap-5 pb-6 md:pb-10">
+          <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            The Open Cloud Community
           </h1>
-          <p className="max-w-[800px] text-center text-sm leading-6 text-[#71717a] dark:text-para md:text-lg">
-            A global community collaboratively managing the future of decentralized cloud computing from code to culture.
-            Whether you are here to learn, deploy, or govern, you belong here.
+          <p className="max-w-2xl text-base font-normal text-para">
+            Akash is built and governed by a global collective of engineers, creators, and operators. Whether you are here to build infrastructure, develop open-source tools, or influence protocol governance, this is the home of the open cloud.
           </p>
-        </div>
-
-        {/* Join the Movement */}
-        <div className="flex w-full flex-col items-center gap-5">
-          <h2 className="text-center text-lg font-medium ">
-            Join the Movement
-          </h2>
-          <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                icon: MessagesSquareIcon,
-                title: "Connect",
-                desc: "Join a global network of peers to shape decentralized infrastructure.",
-              },
-              {
-                icon: BadgeCheckIcon,
-                title: "Contribute",
-                desc: "Your unique skills move the needle for code, content, and support.",
-              },
-              {
-                icon: CalendarIcon,
-                title: "Attend",
-                desc: "Join virtual sessions or global events to stay at the cutting edge.",
-              },
-              {
-                icon: PeaceHandIcon,
-                title: "Impact",
-                desc: "Help us build a permissionless alternative to cloud giants.",
-              },
-            ].map((card, i) => (
-              <div
-                key={i}
-                className="flex flex-col gap-4 rounded-lg border border-[#e4e4e7] dark:border-defaultBorder p-4 md:p-6"
-              >
-                <div className="flex items-center gap-2">
-                  <card.icon className="h-6 w-6 " />
-                  <span className="text-base font-semibold ">
-                    {card.title}
-                  </span>
-                </div>
-                <p className="text-sm leading-5 text-[#71717a] dark:text-para">{card.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* How do you want to build? - Tab Switcher */}
@@ -151,7 +107,7 @@ type TabKey = "akash-club" | "akash-insiders" | "developers";
 const tabs: { key: TabKey; icon: React.FC<{ className?: string }>; label: string; sub: string }[] = [
   { key: "akash-club", icon: HeartHandshakeLargeIcon, label: "Akash Club", sub: "For Enthusiast" },
   { key: "akash-insiders", icon: BadgeCheckLargeIcon, label: "Akash Insiders", sub: "For Experts" },
-  { key: "developers", icon: SearchCodeIcon, label: "Developers", sub: "For Builders" },
+  { key: "developers", icon: CalendarSyncIcon, label: "Community Syncs", sub: "For Everyone" },
 ];
 
 function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setActiveTab: (tab: TabKey) => void }) {
@@ -198,17 +154,17 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
 
   return (
     <div className="flex w-full flex-col items-center gap-5">
-      <h2 className="text-center text-lg font-medium text-[#737373] dark:text-para">
+      <h2 className="text-center text-lg font-medium text-para">
         How do you want to build?
       </h2>
       <div
         ref={scrollContainerRef}
-        className="w-full overflow-x-auto rounded-full bg-[#f5f5f7] dark:bg-background2 p-2 scrollbar-hide"
+        className="w-full overflow-x-auto rounded-full bg-[#F4F4F5] dark:bg-background2 p-2 scrollbar-hide"
       >
         <div ref={containerRef} className="relative flex min-w-max sm:min-w-0 sm:w-full items-center">
 
           <div
-            className="absolute top-0 h-full rounded-full bg-white dark:bg-[#1c1c1c] shadow transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            className="absolute top-0 h-full rounded-full bg-background shadow transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
             style={{ width: pillStyle.width, transform: pillStyle.transform }}
           />
 
@@ -220,14 +176,14 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
                 ref={(el) => { buttonRefs.current[i] = el; }}
                 onClick={() => setActiveTab(tab.key)}
                 // shrink-0 on mobile → flex-1 on sm+
-                className={`relative z-10 shrink-0 sm:flex-1 flex items-center justify-start gap-2 md:gap-4 rounded-full px-7 py-3 md:py-4 md:px-10 transition-colors duration-200 ${isActive ? "text-[#111111] dark:text-foreground" : "text-[#86868b] dark:text-para hover:text-[#111111] dark:hover:text-foreground"}`}
+                className={`relative z-10 shrink-0 sm:flex-1 flex items-center justify-start gap-2 md:gap-4 rounded-full px-7 py-3 md:py-4 md:px-10 transition-colors duration-200 ${isActive ? "text-foreground" : "text-para hover:text-foreground"}`}
               >
                 <tab.icon className="h-8 w-8 transition-colors duration-200" />
                 <div className="flex flex-col items-start">
                   <span className="font-medium text-2xl whitespace-nowrap transition-colors duration-200">
                     {tab.label}
                   </span>
-                  <span className={`font-normal text-sm whitespace-nowrap transition-colors duration-200 ${isActive ? "text-[#737373] dark:text-foreground" : ""}`}>
+                  <span className={`font-normal text-sm whitespace-nowrap transition-colors duration-200 ${isActive ? "text-para" : ""}`}>
                     {tab.sub}
                   </span>
                 </div>
@@ -372,7 +328,7 @@ function CTASection() {
       <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-8 md:gap-[60px]">
         <div className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-3">
-            <h2 className="text-center text-3xl font-bold text-[#111827] dark:text-foreground md:text-[48px] md:leading-[1.15]">
+            <h2 className="text-center text-3xl font-semibold text-[#111827] dark:text-foreground md:text-[48px] md:leading-[1.15]">
               The Supercloud is waiting.
             </h2>
             <p className="text-center text-lg text-[#71717a] dark:text-para">
@@ -417,7 +373,7 @@ function TabContent({ activeTab }: { activeTab: TabKey }) {
     switch (activeTab) {
       case "akash-club": return <AkashClubContent />;
       case "akash-insiders": return <AkashInsidersContent />;
-      case "developers": return <DevelopersContent />;
+      case "developers": return <CommunitySyncsContent />;
       default: return <AkashClubContent />;
     }
   };

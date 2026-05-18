@@ -381,7 +381,7 @@ export default function NavMenu({
                   <div className="w-[300px] shrink-0 p-2 flex flex-col">
                     <FeaturedCard featured={featuredItems.development} />
                   </div>
-                  {/* Col 2: Roadmap, Integrations, Engineering Syncs */}
+                  {/* Col 2: Roadmap, Integrations, Community Syncs */}
                   <div className="flex-1 border-l border-zinc-100 dark:border-white/5 p-2">
                     {developmentItems
                       .filter(i => i.link !== featuredItems.development.href)

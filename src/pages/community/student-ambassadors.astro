@@ -1,6 +1,4 @@
 ---
-import CommunityHero from "@/components/mdx-cards/community-hero.astro";
-import ButtonLink from "@/components/ui/button-link-ambassador.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { Carousel } from "@/components/community-pages/custom-carousel/Carousel";
@@ -8,19 +6,61 @@ import TrustedByMarquee from "@/components/home/TrustedByMarquee.tsx";
 import { LogosSection } from "@/components/student-ambassador/logos.ts";
 
 const images = [
-  { src: "/images/slides/student/s1.png", alt: "Slide 1" },
-  { src: "/images/slides/student/s2.png", alt: "Slide 2" },
-  { src: "/images/slides/student/s3.png", alt: "Slide 3" },
-  { src: "/images/slides/student/s4.png", alt: "Slide 4" },
-  { src: "/images/slides/student/s5.png", alt: "Slide 5" },
-  { src: "/images/slides/student/s6.png", alt: "Slide 6" },
-  { src: "/images/slides/student/s7.png", alt: "Slide 7" },
-  { src: "/images/slides/student/s8.png", alt: "Slide 8" },
+  { src: "/images/slides/student/s1.webp", alt: "Slide 1" },
+  { src: "/images/slides/student/s2.webp", alt: "Slide 2" },
+  { src: "/images/slides/student/s3.webp", alt: "Slide 3" },
+  { src: "/images/slides/student/s4.webp", alt: "Slide 4" },
+  { src: "/images/slides/student/s5.webp", alt: "Slide 5" },
+  { src: "/images/slides/student/s6.webp", alt: "Slide 6" },
+  { src: "/images/slides/student/s7.webp", alt: "Slide 7" },
+  { src: "/images/slides/student/s8.webp", alt: "Slide 8" },
 ];
 
 const title = "The Akash Student<br/> Ambassador Program";
 const description =
-  "The Akash Student Ambassador Program empowers students to become builders, advocates, and community leaders for the decentralized cloud movement.";
+  "The legacy cloud gatekeeps high-end silicon. The Akash Student Ambassador Program provides the tools to bypass waitlists and build on the world's largest open marketplace for compute.";
+
+const whyReasons = [
+  {
+    title: "Deploy on Open Infrastructure",
+    desc: "Run real workloads on Akash. Understand how compute works under the hood without the abstraction of centralized providers.",
+  },
+  {
+    title: "Master Open Compute",
+    desc: "Gain experience in the mechanics of a global marketplace. Learn to deploy and scale applications on high-performance GPU supply.",
+  },
+  {
+    title: "Establish a Technical Identity",
+    desc: "Publish tutorials, demos, and walkthroughs shared across the Akash builder ecosystem. Shift from consumer to contributor.",
+  },
+  {
+    title: "Lead Technical Sessions",
+    desc: "Influence your campus by running workshops and hack nights with AI, CS, and engineering clubs. No prior blockchain experience is required.",
+  },
+];
+
+const hardBenefits = [
+  {
+    title: "Compute Credits",
+    desc: "Access NVIDIA H100 and A100 infrastructure at no cost for experimentation.",
+  },
+  {
+    title: "Shippable Portfolio",
+    desc: "Build public, verifiable work that demonstrates infrastructure mastery.",
+  },
+  {
+    title: "Technical Mentorship",
+    desc: "Direct guidance from the engineering teams building the protocol.",
+  },
+  {
+    title: "Bounties and Incentives",
+    desc: "Earn rewards for technical contributions and protocol improvements.",
+  },
+  {
+    title: "Akash Accelerate",
+    desc: "Top contributors receive full sponsorship to attend Akash Accelerate in San Francisco.",
+  },
+];
 ---
 
 <Layout
@@ -29,114 +69,160 @@ const description =
   image="/meta-images/community.png"
 >
   <TopMargin isNotContainer>
-    <CommunityHero container title={title} description={description} />
-    <div
-      class="not-prose flex flex-col items-center justify-center gap-10 pb-20"
-    >
-      <h2 class="text-center text-3xl font-semibold">
-        Join the Akash Ambassador Program.<br /> Submit your application for the Fall
-        Cohort 2026!
-      </h2>
-      <div class="flex flex-col items-center justify-center gap-2 md:flex-row">
-        <ButtonLink
-          className="mt-0"
-          link="https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform"
-          variant="primary"
-          size="lg"
-        >
-          Submit your application
-        </ButtonLink>
-        <ButtonLink
-          className="mt-0"
-          link="https://x.com/AkashStudents"
-          variant="secondary"
-          size="lg"
-        >
-          Akash Students on X.com
-        </ButtonLink>
-      </div>
-      <ButtonLink
-        className="mt-0"
-        link="https://proximal-liver-375.notion.site/Akash-Student-Ambassador-Program-2dc7e695758c80d9a1f8f9749e063b51"
-        variant="ghost"
-        size="lg"
-      >
-        Learn More About University Program
-      </ButtonLink>
+
+    <!-- HERO -->
+    <div class="container mb-10 space-y-5 md:mb-[60px] lg:mb-20">
+      <h1
+        class="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl"
+        set:html={title}
+      />
+      <p class="max-w-2xl text-base font-normal text-para">{description}</p>
     </div>
 
+    <!-- MARQUEE -->
     <div
-      class="relative mx-auto w-full max-w-[1400px] py-24 md:pb-32 md:pt-0 md:before:absolute md:before:left-0 md:before:top-0 md:before:z-10 md:before:h-full md:before:w-32 md:before:bg-gradient-to-r md:before:from-white md:before:to-transparent md:before:content-[''] md:after:absolute md:after:right-0 md:after:top-0 md:after:z-10 md:after:h-full md:after:w-32 md:after:bg-gradient-to-l md:after:from-white md:after:to-transparent md:after:content-[''] dark:md:before:from-[#0a0a0a] dark:md:after:from-[#0a0a0a]"
+      class="relative mx-auto w-full max-w-[1400px] py-20 md:pb-32 md:pt-10 md:before:absolute md:before:left-0 md:before:top-0 md:before:z-10 md:before:h-full md:before:w-32 md:before:bg-gradient-to-r md:before:from-white md:before:to-transparent md:before:content-[''] md:after:absolute md:after:right-0 md:after:top-0 md:after:z-10 md:after:h-full md:after:w-32 md:after:bg-gradient-to-l md:after:from-white md:after:to-transparent md:after:content-[''] dark:md:before:from-[#0a0a0a] dark:md:after:from-[#0a0a0a]"
     >
-      <TrustedByMarquee trustedBySection={LogosSection} client:only="react" />
+      <TrustedByMarquee trustedBySection={LogosSection} client:load />
     </div>
-    <!-- <div class="flex flex-row items-center justify-between max-w-7xl mx-auto py-24 md:py-32">
-      {Logos.map((logo) => (
-        <img
-          src={logo.src}
-          alt={logo.alt}
-          class="h-6 w-auto md:h-10 dark:brightness-0 dark:invert pointer-events-none select-none"
-        />
-      ))}
-    </div> -->
-    <div class="container mx-auto max-w-5xl px-4">
-      <!-- Two Cards Section -->
-      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
-        <!-- Card 1 -->
-        <div class="flex flex-col">
-          <img
-            src="/images/student-ambassador/1.png"
-            alt="Growing the Open Cloud on Campus"
-            class="h-auto w-full rounded-lg object-cover"
-          />
 
-          <div class="mt-6 flex flex-col gap-3">
-            <h3 class="text-xl font-semibold text-foreground">
-              Growing the Open Cloud on Campus
-            </h3>
-            <p class="text-sm leading-relaxed text-para">
-              Ambassadors play a key role in expanding awareness of Akash
-              Network by hosting campus events, creating content, and connecting
-              peers to opportunities in decentralized computing. More than a
-              marketing initiative, this program focuses on ecosystem
-              development, equipping students to represent a movement they truly
-              believe in and build community from the ground up.
-            </p>
+    <!-- CONTENT SECTIONS -->
+    <div class="container not-prose space-y-20 pb-28 md:space-y-44">
+
+      <!-- ABOUT THE PROGRAM (text left, image right) -->
+      <section class="space-y-8">
+        <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+          <div class="order-2 space-y-6 md:order-1">
+            <div class="space-y-4">
+              <span class="inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">About the Program</span>
+              <h2 class="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+                A technical gateway for student builders
+              </h2>
+              <p class="max-w-xl text-base font-normal text-para">
+                The Akash Student Ambassador Program is a technical gateway for students to move beyond proprietary dashboards and closed systems. Since its 2025 pilot with students from Cornell, USC, UT Austin, and Princeton, the program has evolved into a structured path for builders to contribute to open-source infrastructure.
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLScprUXYrjp9HdwUW_DdTu1UnOvmw2bMfJ0wVKZ1J653uuJsxQ/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex w-fit items-center gap-2 rounded-md bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+              >
+                Submit your application
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0.664062 0.664062H7.33073M7.33073 0.664062V7.33073M7.33073 0.664062L0.664062 7.33073" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a
+                href="https://x.com/AkashStudents"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline-offset-4 hover:underline"
+              >
+                Akash Students on X
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0.664062 0.664062H7.33073M7.33073 0.664062V7.33073M7.33073 0.664062L0.664062 7.33073" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="group order-1 overflow-hidden rounded-xl md:order-2">
+            <img src="/images/student-ambassador/about.webp" alt="About the Program" class="aspect-square w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
           </div>
         </div>
+      </section>
 
-        <!-- Card 2 -->
-        <div class="flex flex-col">
-          <img
-            src="/images/student-ambassador/2.png"
-            alt="From Participation to Ownership"
-            class="h-auto w-full rounded-lg object-cover"
-          />
+      <!-- WHY BECOME AN AMBASSADOR (4 cols) -->
+      <section class="space-y-8">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Why Become an Ambassador?
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            This role is for students who want hands-on experience with raw hardware and the professional visibility that comes from building in public.
+          </p>
+        </div>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {whyReasons.map((item) => (
+            <div class="space-y-3">
+              <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+              <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          <div class="mt-6 flex flex-col gap-3">
-            <h3 class="text-xl font-semibold text-foreground">
-              From Participation to Ownership
-            </h3>
-            <p class="text-sm leading-relaxed text-para">
-              Through hands-on experience, ambassadors gain leadership skills,
-              technical exposure, and real-world collaboration experience while
-              contributing to a project that redefines how cloud infrastructure
-              is built and accessed.
-            </p>
-            <p class="text-sm leading-relaxed text-para">
-              The program is designed around a simple idea: ambassadors succeed
-              when they feel like owners, not just representatives. By
-              connecting through shared values, learning from one another, and
-              co-creating meaningful initiatives, students help shape the future
-              of decentralized cloud computing and the broader Akash ecosystem.
-            </p>
+      <!-- PROGRAM STRUCTURE (text right, image left) -->
+      <section class="space-y-8">
+        <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+          <div class="group overflow-hidden rounded-xl">
+            <img src="/images/student-ambassador/structure.webp" alt="Program Structure" class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+          </div>
+          <div class="space-y-6">
+            <div class="space-y-4">
+              <span class="inline-flex items-center rounded-full border border-border px-3 py-[3px] text-sm font-normal text-foreground">Program Structure</span>
+              <h2 class="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+                What the commitment looks like
+              </h2>
+            </div>
+            <div class="space-y-5 text-sm font-normal leading-relaxed text-para">
+              <div class="space-y-1">
+                <p><span class="font-semibold text-foreground">Commitment:</span> 4 to 6 hours per month.</p>
+                <p><span class="font-semibold text-foreground">Duration:</span> One academic semester with an option to extend.</p>
+              </div>
+              <div class="space-y-3">
+                <p class="font-semibold text-foreground">Monthly Contributions:</p>
+                <ul class="list-disc space-y-2 pl-5">
+                  <li><span class="font-medium text-foreground">Protocol Contribution:</span> Deploy an application, improve documentation, or contribute to open-source repos.</li>
+                  <li><span class="font-medium text-foreground">Ecosystem Growth:</span> Introduce student builders to the network and its resources.</li>
+                  <li><span class="font-medium text-foreground">Technical Content:</span> Publish one tutorial, blog post, or demo video.</li>
+                  <li><span class="font-medium text-foreground">Campus Activation:</span> Host or support two technical events per semester.</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- HARD BENEFITS (5 cols) -->
+      <section class="space-y-8">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Program Benefits
+          </h2>
+        </div>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+          {hardBenefits.map((item) => (
+            <div class="space-y-3">
+              <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+              <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- THE PATH FORWARD (content left, image right) -->
+      <section class="space-y-8">
+        <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+          <div class="space-y-8">
+            <div class="space-y-5">
+              <h2 class="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+                The Path Forward
+              </h2>
+              <p class="text-base font-normal text-para">
+                The program is a pipeline into the open cloud industry. Ambassadors who demonstrate technical excellence move into deeper roles within the ecosystem. By the end of the program, you will have a portfolio of deployed projects and public content tied to a real open-source infrastructure network.
+              </p>
+            </div>
+          </div>
+          <div class="group overflow-hidden rounded-xl">
+            <img src="/images/student-ambassador/path-forward.webp" alt="The Path Forward" class="aspect-square w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105" />
+          </div>
+        </div>
+      </section>
 
     </div>
-    <div class="mt-20">
-      <Carousel client:only images={images} speed={100} gap={50} />
+
+    <!-- CAROUSEL -->
+    <div class="container mt-20">
+      <Carousel client:load images={images} speed={40} gap={50} />
     </div>
+
   </TopMargin>
 </Layout>

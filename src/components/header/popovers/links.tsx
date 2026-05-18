@@ -122,7 +122,7 @@ export const developmentItems: NavItem[] = [
         />
       </svg>
     ),
-    title: "Engineering Syncs",
+    title: "Community Syncs",
     description: "Join live dev calls and technical groups.",
     link: "/development/community-groups/",
   },

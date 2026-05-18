@@ -1,10 +1,9 @@
 ---
-// Import the Image component from "astro:assets".
 import { Image } from "astro:assets";
 import { DiscordIcon, GithubIcon, TwitterIcon } from "../header/icons";
+import { ChevronRight } from "lucide-react";
 import DescriptionExpand from "./description-expand";
 
-// Destructure props for easier access.
 const {
   description,
   title,
@@ -16,150 +15,95 @@ const {
   websiteLink,
   isTool = false,
 } = Astro.props;
+
+const isClickable = !!websiteLink;
+const buttonLabel = isTool ? button?.label ?? "Visit" : "View project";
 ---
 
-<div class="md:px-0">
-  {
-    isTool && websiteLink ? (
-      <a
-        href={websiteLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group block h-full"
-      >
-        <div class="flex h-full flex-col rounded-[8px] border bg-background2 px-5 pb-5 pt-5 shadow-sm transition-colors ">
-          <div class="overflow-hidden rounded-[4px]">
-            <Image
-              class="group  w-full transform  object-contain transition-all duration-500 ease-in-out group-hover:scale-105"
-              src={image}
-              alt={`banner image for the post`}
-              width={1200}
-              height={1200}
-              format="webp"
-              loading="lazy"
-            />
-          </div>
+<div class="group h-full md:px-0">
+  {isClickable ? (
+    <div class="flex h-full flex-col rounded-lg border bg-card px-5 pb-5 pt-5 shadow-sm transition-shadow hover:shadow-md">
+      <div class="overflow-hidden rounded-md">
+        <Image
+          class="w-full transform object-contain grayscale transition-all duration-500 ease-in-out group-hover:scale-[1.03] group-hover:brightness-105 group-hover:grayscale-0"
+          src={image}
+          alt={`banner image for ${title}`}
+          width={1200}
+          height={1200}
+          format="webp"
+          loading="lazy"
+        />
+      </div>
 
-          <div class="mt-4">
-            <h4 class="text-base font-bold leading-normal transition-colors group-hover:text-primary">
-              {title}
-            </h4>
-
-            <DescriptionExpand description={description} client:load />
-          </div>
+      <div class="mt-4 flex flex-1 flex-col">
+        <div class="flex items-center justify-between gap-2">
+          <h4 class="text-base font-semibold leading-tight tracking-tight text-foreground">
+            {title}
+          </h4>
+          <a
+            href={websiteLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-para transition-colors hover:bg-badgeColor hover:text-foreground"
+          >
+            <TwitterIcon className="size-4 shrink-0" />
+          </a>
         </div>
-      </a>
-    ) : (
-      <div class="flex h-full flex-col rounded-[8px] border bg-background2 px-5 pb-5 pt-5 shadow-sm">
-        <div class="overflow-hidden rounded-[4px]">
-          <Image
-            class="aspect-[12/7] w-full transform object-contain"
-            src={image}
-            alt={`banner image for the post`}
-            width={1200}
-            height={1200}
-            format="webp"
-            loading="lazy"
-          />
-        </div>
-
-        <div class="mt-4">
-          <h4 class="text-base font-bold leading-normal">{title}</h4>
-
-          {(twitterLink || discordLink || githubLink || websiteLink) && (
-            <div class="mt-4 flex items-center gap-x-4">
-              {twitterLink && (
-                <a
-                  href={twitterLink}
-                  target="_blank"
-                  class="block cursor-pointer text-lightForeground"
-                >
-                  <TwitterIcon />
-                </a>
-              )}
-              {discordLink && (
-                <a
-                  href={discordLink}
-                  target="_blank"
-                  class="block cursor-pointer  text-lightForeground"
-                >
-                  <DiscordIcon />
-                </a>
-              )}
-              {githubLink && (
-                <a
-                  href={githubLink}
-                  target="_blank"
-                  class="block cursor-pointer  text-lightForeground"
-                >
-                  <GithubIcon />
-                </a>
-              )}
-              {websiteLink && (
-                <a
-                  href={websiteLink}
-                  target="_blank"
-                  class="block cursor-pointer  text-lightForeground"
-                >
-                  <svg
-                    width="20"
-                    height="21"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    stroke="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clip-path="url(#clip0_2861_7799)">
-                      <path
-                        d="M18.3307 10C18.3307 5.39765 14.5998 1.66669 9.9974 1.66669C5.39502 1.66669 1.66406 5.39765 1.66406 10C1.66406 14.6024 5.39502 18.3334 9.9974 18.3334"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M10.8359 1.70776C10.8359 1.70776 13.3359 4.99995 13.3359 9.99995"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M9.16406 18.2921C9.16406 18.2921 6.66406 15 6.66406 9.99995C6.66406 4.99995 9.16406 1.70776 9.16406 1.70776"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M2.1875 12.9167H9.99616"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M2.1875 7.08331H17.8048"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M18.2326 14.9311C18.6441 15.1843 18.6188 15.8004 18.195 15.8484L16.0561 16.0909L15.0968 18.0178C14.9067 18.3996 14.3191 18.2127 14.222 17.7394L13.1759 12.6427C13.0938 12.2428 13.4533 11.9911 13.8011 12.205L18.2326 14.9311Z"
-                        strokeWidth="1.5"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_2861_7799">
-                        <rect width="20" height="20" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </a>
-              )}
-            </div>
-          )}
+        <div class="flex-1">
           <DescriptionExpand description={description} client:load />
         </div>
+        <div class="mt-auto pt-4">
+          <a
+            href={websiteLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-neutral-200 dark:hover:bg-badgeColor"
+          >
+            {buttonLabel}<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </a>
+        </div>
       </div>
-    )
-  }
+    </div>
+  ) : (
+    <div class="flex h-full flex-col rounded-lg border bg-card px-5 pb-5 pt-5 shadow-sm">
+      <div class="overflow-hidden rounded-md">
+        <Image
+          class="aspect-[12/7] w-full transform object-contain grayscale transition-all duration-500 ease-in-out group-hover:scale-[1.03] group-hover:brightness-105 group-hover:grayscale-0"
+          src={image}
+          alt={`banner image for ${title}`}
+          width={1200}
+          height={1200}
+          format="webp"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="mt-4">
+        <h4 class="text-base font-semibold leading-tight tracking-tight text-foreground">
+          {title}
+        </h4>
+
+        {(twitterLink || discordLink || githubLink) && (
+          <div class="mt-4 flex items-center gap-x-4">
+            {twitterLink && (
+              <a href={twitterLink} target="_blank" class="block cursor-pointer text-lightForeground transition-colors hover:text-foreground">
+                <TwitterIcon />
+              </a>
+            )}
+            {discordLink && (
+              <a href={discordLink} target="_blank" class="block cursor-pointer text-lightForeground transition-colors hover:text-foreground">
+                <DiscordIcon />
+              </a>
+            )}
+            {githubLink && (
+              <a href={githubLink} target="_blank" class="block cursor-pointer text-lightForeground transition-colors hover:text-foreground">
+                <GithubIcon />
+              </a>
+            )}
+          </div>
+        )}
+        <DescriptionExpand description={description} client:load />
+      </div>
+    </div>
+  )}
 </div>

@@ -11,7 +11,7 @@ tags:
   - Case Studies
 contributors:
   - Zach Horn
-bannerImage: ./passage-on-akash.png
+bannerImage: ./passage-on-akash.webp
 ---
 
 The demand for decentralized compute is growing fast as total global cloud spending is projected to surpass [$1 trillion](https://www.forbes.com/sites/bernardmarr/2023/10/09/the-10-biggest-cloud-computing-trends-in-2024-everyone-must-be-ready-for-now/) this year and as developers continue to grapple with cloud lock-in. As Passage scales its platform, which allows creators to build virtual worlds, it will utilize Akash compute to achieve three key objectives: Greatly reducing the costs of hosting Passage Worlds, unlocking the ability to scale with permissionless compute, and preserving sovereignty and privacy for creators.

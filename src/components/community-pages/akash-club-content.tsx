@@ -12,7 +12,7 @@ const ArrowUpRightIcon = ({ className = "w-4 h-4" }: { className?: string }) => 
 export default function AkashClubContent() {
     return (
         <>
-        <section className="px-6 py-4 md:px-10 md:py-10 lg:px-[240px] lg:py-10">
+        <section className="px-6 pb-4 pt-0 md:px-10 md:pb-10 md:pt-3 lg:pb-10 lg:pt-3">
             <div className="mx-auto flex max-w-[1240px] flex-col gap-12 lg:flex-row lg:gap-20">
                 {/* Left: Image + Button */}
                 <div className="flex flex-col items-center lg:w-1/2">
@@ -25,7 +25,7 @@ export default function AkashClubContent() {
                                 href="https://discord.com/invite/akash"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-8 py-2.5 text-sm font-medium text-[#171717] dark:text-foreground transition-colors hover:bg-[#ebebeb]"
+                                className="inline-flex items-center gap-2 rounded-md bg-foreground px-8 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
                             >
                                 Join the Club &amp; Start Building
                                 <ArrowUpRightIcon className="h-4 w-4" />
@@ -39,7 +39,7 @@ export default function AkashClubContent() {
                     {/* Intro */}
                     <div className="flex flex-col gap-4">
                         <p className="text-base text-para">The Official Community Hub</p>
-                        <h2 className="text-[28px] font-semibold  md:text-[32px] md:leading-10">
+                        <h2 className="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
                             Shape the Supercloud with Akash Club
                         </h2>
                         <p className="text-sm md:text-base leading-6 text-para font-normal">

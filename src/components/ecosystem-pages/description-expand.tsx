@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import {
   HoverCard,
   HoverCardContent,
@@ -10,6 +11,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover-card";
+
+const descClass = "text-sm font-normal leading-relaxed text-para";
 
 const DescriptionExpand = ({ description }: any) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -35,29 +38,31 @@ const DescriptionExpand = ({ description }: any) => {
     <div className="relative">
       <p
         ref={ref}
-        className="pointer-events-none absolute w-full text-sm font-medium leading-[20px] opacity-0"
+        className={`pointer-events-none absolute w-full opacity-0 ${descClass}`}
         dangerouslySetInnerHTML={{ __html: description }}
       ></p>
+
+      {/* desktop */}
       <div className="hidden lg:block">
         {linesGreater ? (
           <HoverCard openDelay={500}>
             <HoverCardTrigger>
               <p
                 dangerouslySetInnerHTML={{ __html: description }}
-                className="mt-3 line-clamp-3 cursor-pointer text-sm font-medium leading-[20px] text-cardGray"
+                className={`mt-3 line-clamp-3 cursor-pointer ${descClass}`}
               ></p>
             </HoverCardTrigger>
             <HoverCardContent className="p-5" align="start" alignOffset={50}>
               <p
                 dangerouslySetInnerHTML={{ __html: description }}
-                className=" max-w-[16rem] text-sm font-medium leading-[20px] text-cardGray"
+                className={`max-w-[16rem] ${descClass}`}
               ></p>
             </HoverCardContent>
           </HoverCard>
         ) : (
           <p
             dangerouslySetInnerHTML={{ __html: description }}
-            className="mt-3 line-clamp-3 cursor-pointer text-sm font-medium leading-[20px] text-cardGray"
+            className={`mt-3 line-clamp-3 ${descClass}`}
           ></p>
         )}
       </div>
@@ -65,46 +70,44 @@ const DescriptionExpand = ({ description }: any) => {
       {/* tablet */}
       <div className="hidden md:block lg:hidden">
         {linesGreater ? (
-          <>
-            <Popover>
-              <PopoverTrigger>
-                <p
-                  dangerouslySetInnerHTML={{ __html: description }}
-                  className="mt-6 line-clamp-3  cursor-pointer text-left text-sm font-medium leading-[20px] text-cardGray"
-                ></p>
-                <p className="mt-2 text-left text-sm font-medium text-primary">
-                  Show more
-                </p>
-              </PopoverTrigger>
-              <PopoverContent className="max-w-[25rem]  bg-background2">
-                <p
-                  dangerouslySetInnerHTML={{ __html: description }}
-                  className=" text-sm font-medium leading-[20px] text-cardGray"
-                ></p>
-              </PopoverContent>
-            </Popover>
-          </>
+          <Popover>
+            <PopoverTrigger>
+              <p
+                dangerouslySetInnerHTML={{ __html: description }}
+                className={`mt-6 line-clamp-3 cursor-pointer text-left ${descClass}`}
+              ></p>
+              <p className="mt-2 text-left text-sm font-medium text-primary">
+                Show more
+              </p>
+            </PopoverTrigger>
+            <PopoverContent className="max-w-[25rem] bg-card">
+              <p
+                dangerouslySetInnerHTML={{ __html: description }}
+                className={descClass}
+              ></p>
+            </PopoverContent>
+          </Popover>
         ) : (
           <p
             dangerouslySetInnerHTML={{ __html: description }}
-            className="mt-6 line-clamp-3 cursor-pointer text-sm font-medium leading-[20px] text-cardGray"
+            className={`mt-6 line-clamp-3 ${descClass}`}
           ></p>
         )}
       </div>
 
+      {/* mobile */}
       <div className="md:hidden">
         <p
           dangerouslySetInnerHTML={{ __html: description }}
-          className={`mt-6 text-sm font-medium leading-[20px] text-cardGray ${
-            isExpanded ? "line-clamp-none" : "line-clamp-3"
-          }`}
+          className={`mt-6 ${isExpanded ? "line-clamp-none" : "line-clamp-3"} ${descClass}`}
         ></p>
         {linesGreater && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="mt-2 text-sm font-medium text-primary"
+            className="mt-2 inline-flex items-center gap-1 rounded-md border bg-transparent px-2.5 py-1 text-xs font-medium text-para transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
-            {isExpanded ? "Show less" : "Show more"}
+            {isExpanded ? "Show less" : "Show more"}
+            {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
           </button>
         )}
       </div>

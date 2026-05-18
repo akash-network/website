@@ -15,7 +15,7 @@ export const redirects = {
   "/development/current-projects": "/roadmap/",
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",
-  "/community": "/community/akash-insiders/",
+  "/community": "/community/welcome/",
   "/about": "/about/general-information/",
   "/blog/a/acc-akash-accelerationism": "/blog/a-acc-akash-accelerationism/",
   "/community/events/upcoming": "/community/events/",

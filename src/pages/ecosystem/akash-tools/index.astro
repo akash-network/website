@@ -3,11 +3,14 @@ import { getCollection } from "astro:content";
 
 import EcosystemPage from "@/components/ecosystem-pages/ecosystem-page.astro";
 
+const excluded = ["AkashML", "Akash Provider Console", "Akash Console", "Akash Chat", "AkashGen", "Awesome Akash templates"];
+
 const projects = (await getCollection("Ecosystem_Page"))
   .filter(
     (project) =>
-      project.data.category === "tool" ||
-      project.data.category.includes("tool"),
+      (project.data.category === "tool" ||
+        project.data.category.includes("tool")) &&
+      !excluded.includes(project.data.projectTitle),
   )
   .sort((a, b) => {
     const dateA = new Date(a.data.pubDate);
@@ -30,7 +33,8 @@ projects.forEach((project) => {
 ---
 
 <EcosystemPage
-  title="Explore the Akash Toolset"
+  title="The open cloud stack"
+  description="Whether you are shipping containers, serving inference, or powering the network, the Akash ecosystem provides the specialized tools to move at the speed of the open cloud."
   tags={tags}
   projects={projects}
   type="tool"

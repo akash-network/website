@@ -18,7 +18,7 @@ tags:
 contributors:
   - Zach Horn
 
-bannerImage: ./passage-on-akash.png
+bannerImage: ./passage-on-akash.webp
 ---
 
 [Passage](https://www.passage.io/) empowers brands and creators to host engaging, immersive virtual events that captivate audiences and foster real connection. 
