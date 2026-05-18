@@ -18,7 +18,7 @@ GPU providers using provider Console need to pull data into their own dashboards
 
 ## Summary
 
-Provider Console currently displays the follownig stats in the dashboard:
+Provider Console currently displays the following stats in the dashboard:
 
 - Total (cumulative) revenue
 - Daily earnings (most recent 24 hours)
@@ -28,10 +28,10 @@ Providers require more granular, structured access to:
 - Daily, weekly, and monthly revenue/utilization metrics
 - Net revenue/earnings after Akash fees (take rate)
 
-While showing these additional things in the UI would also be great - Providers that we have spoken with, typically want to pull this data via an API, ir order to:
+While showing these additional things in the UI would also be great - Providers that we have spoken with, typically want to pull this data via an API, in order to:
 
 - Integrate with their internal dashboards
-- Geneate financing reports for their stakeholders
+- Generate financing reports for their stakeholders
 - Automated revenue tracking and forecasting
 
 ## Proposed Solution
