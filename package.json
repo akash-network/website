@@ -54,6 +54,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^1.0.4",
+    "cobe": "^2.0.1",
     "firebase": "^11.0.2",
     "fuse.js": "^6.6.2",
     "hastscript": "^8.0.0",
