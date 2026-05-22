@@ -261,7 +261,7 @@ Ensure the following dependencies are installed before building:
 
 | Dependency | Minimum Version | Notes |
 |------------|-----------------|-------|
-| golang | >= 1.26 | Required for compiling Go code |
+| Go | >= 1.25.5 | Required for compiling Go code |
 | direnv | latest | Environment management - [direnv.net](https://direnv.net) |
 | docker | latest | Required for containerized builds |
 | make | latest | Build automation |
