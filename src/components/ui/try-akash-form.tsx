@@ -67,7 +67,7 @@ export default function TryAkashForm({
           fullWidth ? "w-full" : "",
         )}
       >
-        Deploy On Console
+        Deploy Now
       </Button>
     </div>
   );

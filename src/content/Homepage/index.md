@@ -35,7 +35,7 @@ heroSection:
 
 gpuPricing:
   title: "The Efficiency Gap"
-  subtitle: "The price of centralization vs. the open market."
+  subtitle: "Market-driven pricing vs. legacy markups."
 
   ctaText: "View Pricing Page"
   ctaLink: "/pricing/gpus"
@@ -44,9 +44,7 @@ gpuPricing:
   deployText: "Deploy Now"
 
   description: >
-    Why the gap? Hyperscalers set prices in a boardroom to maximize margin.
-    Akash prices are set by a global reverse auction to maximize utilization.
-    You are paying for the silicon, not the overhead.
+    Why the gap? Legacy providers set static rates to protect corporate margins. Akash prices are determined by a global reverse auction to maximize hardware utilization. You pay for the silicon, not the provider's overhead.
 
 # infrastructure section content
 infrastructureSection:

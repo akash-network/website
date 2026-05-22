@@ -1,0 +1,59 @@
+---
+import { NetworkGlobe, type InitialStats } from './NetworkGlobe'
+
+// Server-side fetch bypasses browser CORS restrictions so this works on
+// localhost and in production without needing a client-side API call.
+const BASE = 'https://console-api.akash.network'
+
+interface ProviderRaw { isOnline: boolean; ipLat: string; ipLon: string }
+interface DashRaw {
+  now: { activeLeaseCount: number }
+  networkCapacity: {
+    activeProviderCount: number
+    totalCPU: number; totalGPU: number
+    totalMemory: number; totalStorage: number
+  }
+}
+
+let initialStats: InitialStats | null = null
+let initialMarkers: [number, number][] = []
+
+try {
+  const [dashRes, provRes] = await Promise.all([
+    fetch(`${BASE}/v1/dashboard-data`),
+    fetch(`${BASE}/v1/providers`),
+  ])
+  const [dash, providers]: [DashRaw, ProviderRaw[]] = await Promise.all([
+    dashRes.json(),
+    provRes.json(),
+  ])
+
+  initialStats = {
+    activeLeaseCount:   dash.now.activeLeaseCount,
+    activeProviderCount: dash.networkCapacity.activeProviderCount,
+    totalCPU:    dash.networkCapacity.totalCPU,
+    totalGPU:    dash.networkCapacity.totalGPU,
+    totalMemory: dash.networkCapacity.totalMemory,
+    totalStorage: dash.networkCapacity.totalStorage,
+  }
+
+  initialMarkers = providers
+    .filter(p =>
+      p.isOnline &&
+      p.ipLat && p.ipLon &&
+      parseFloat(p.ipLat) !== 0 &&
+      parseFloat(p.ipLon) !== 0,
+    )
+    .map(p => [parseFloat(p.ipLat), parseFloat(p.ipLon)])
+} catch (e) {
+  // fall through — component uses placeholder text
+}
+---
+
+<section class="dark w-full py-16 md:py-20 container">
+  <NetworkGlobe
+    initialStats={initialStats}
+    initialMarkers={initialMarkers}
+    client:visible
+  />
+</section>

@@ -80,6 +80,11 @@ module.exports = {
         iconText: "hsl(var(--icon-text))",
         linkText: "hsl(var(--link-text))",
         defaultBorder: "hsl(var(--default-border))",
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        input: "hsl(var(--input))",
         primary: {
           DEFAULT: "#ff414c",
           foreground: "hsl(var(--primary-foreground))",

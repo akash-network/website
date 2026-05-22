@@ -69,6 +69,9 @@ html body[data-scroll-locked] {
     --gray-700: 0 0% 24%;
     --dark-gray: 0 0% 23%;
     --default-border: 216, 11%, 91%;
+    --accent: 0 0% 93%;
+    --accent-foreground: 202 24% 9%;
+    --input: 216 12% 84%;
 
     /* code */
 
@@ -83,15 +86,15 @@ html body[data-scroll-locked] {
 
   .dark {
     --background: 0 0% 4%;
-    --foreground: 0, 0%, 93%;
+    --foreground: 0 0% 93%;
     --card: 0 0% 9%;
     --background2: 0 0% 9%;
-    --light-foreground: 15, 33%, 98%;
+    --light-foreground: 15 33% 98%;
     --para: 0 0% 73%;
     --para-dark: 0 0% 50%;
     --primary: #ff414c;
     --light-gray: #3a3a3a;
-    --primary-foreground: 0, 0%, 100%;
+    --primary-foreground: 0 0% 100%;
     --text-gray: 30 17% 98%;
     --border: 0 0% 50%;
     --sort-text: 30 17% 98%;
@@ -105,6 +108,9 @@ html body[data-scroll-locked] {
     --theme-header-bg: #3c3c3c;
     --three-dots-bg: #515151;
     --default-border: 0 0% 18%;
+    --accent: 0 0% 16%;
+    --accent-foreground: 0 0% 93%;
+    --input: 0 0% 50%;
     --docsearch-searchbox-background: hsl(0, 0%, 14%) !important;
     --docsearch-searchbox-focus-background: hsl(0 0% 14%) !important;
     --docsearch-hit-shadow: 0 0 0 1px hsl(0 0% 14%) !important;

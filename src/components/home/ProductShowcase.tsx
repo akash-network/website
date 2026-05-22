@@ -1,0 +1,206 @@
+import { useEffect, useRef, useState } from 'react'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { ChevronRight, Play, Pause } from 'lucide-react'
+
+const DUR = 5000
+
+const PRODUCTS = [
+  {
+    title: 'Accelerate AI on AkashML',
+    description: 'Rent high-performance GPUs instantly for machine learning workloads. Launch pre-configured environments for model training, fine-tuning, and inference without the complex infrastructure setup.',
+    image: '/images/get-started-akashML.webp',
+    imageSmall: '/images/get-started-akashML.webp',
+    url: 'https://akashml.com',
+    buttonLabel: 'Launch AkashML',
+  },
+  {
+    title: 'Deploy on Akash Console',
+    description: 'Migrate your Docker containers to an independent cloud network. Use pre-built templates or supply an SDL configuration file to spin up raw compute directly on sovereign infrastructure.',
+    image: '/images/get-started-console.webp',
+    imageSmall: '/images/get-started-console.webp',
+    url: 'https://console.akash.network',
+    buttonLabel: 'Deploy Now',
+  },
+  {
+    title: 'Become a Compute Provider',
+    description: 'Monetize your idle server capacity. Run our provider software to list your GPU and CPU hardware on the global network and automatically earn revenue from enterprise deployments.',
+    image: '/images/get-started-provider.webp',
+    imageSmall: '/images/get-started-provider.webp',
+    url: 'https://provider-console.akash.network',
+    buttonLabel: 'Become a Provider',
+  },
+]
+
+export function ProductShowcase() {
+  const [cur, setCur]       = useState(0)
+  const [playing, setPlaying] = useState(true)
+  const [fillPct, setFillPct] = useState(0)
+
+  const rafRef     = useRef<number | null>(null)
+  const startRef   = useRef<number>(performance.now())
+  const playingRef = useRef(true)
+  const curRef     = useRef(0)
+
+  const startTimer = () => {
+    startRef.current = performance.now()
+
+    const tick = () => {
+      if (!playingRef.current) return
+      const el = performance.now() - startRef.current
+      if (el >= DUR) {
+        setFillPct(100)
+        setTimeout(() => {
+          const next = (curRef.current + 1) % PRODUCTS.length
+          curRef.current = next
+          setCur(next)
+          setFillPct(0)
+          startRef.current = performance.now()
+          rafRef.current = requestAnimationFrame(tick)
+        }, 80)
+        return
+      }
+      setFillPct((el / DUR) * 100)
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    rafRef.current = requestAnimationFrame(tick)
+  }
+
+  useEffect(() => {
+    startTimer()
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const goTo = (n: number) => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    curRef.current = n
+    setCur(n)
+    setFillPct(0)
+    if (playingRef.current) startTimer()
+  }
+
+  const togglePlay = () => {
+    const next = !playing
+    setPlaying(next)
+    playingRef.current = next
+    if (next) {
+      startTimer()
+    } else {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }
+
+  return (
+    <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
+
+      {/* Items column — left on desktop, bottom on mobile */}
+      <div className="flex flex-col lg:order-1">
+
+        {/* Section headline */}
+        <div className="mb-4 md:mb-8">
+          <h2 className="text-[28px] font-semibold leading-tight text-foreground md:text-[40px]">
+            Get Started
+          </h2>
+        </div>
+
+        {PRODUCTS.map((product, i) => (
+          <div key={i} className="cursor-pointer" onClick={() => goTo(i)}>
+            <div className="py-7">
+              <div className="flex items-center gap-3">
+                <div className={cn(
+                  'h-1.5 w-1.5 shrink-0 rounded-full transition-all duration-300',
+                  cur === i ? 'bg-foreground' : 'bg-transparent',
+                )} />
+                <p
+                  className={cn(
+                    'text-lg leading-snug transition-colors md:text-xl lg:text-2xl',
+                    cur === i ? 'font-semibold text-foreground' : 'text-para',
+                  )}
+                >
+                  {product.title}
+                </p>
+              </div>
+              {cur === i && (
+                <div className="pl-[18px]">
+                  <p className="mt-2 text-sm leading-relaxed text-para">
+                    {product.description}
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="mt-5 h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                  >
+                    <a href={product.url} target="_blank" rel="noopener noreferrer">
+                      {product.buttonLabel}
+                      <ChevronRight className="h-3 w-3" />
+                    </a>
+                  </Button>
+                </div>
+              )}
+            </div>
+            {/* Mobile: image only for the active item */}
+            {cur === i && (
+              <div className="mb-4 overflow-hidden rounded-xl border border-border lg:hidden" style={{ aspectRatio: '1 / 1' }}>
+                <img
+                  src={product.image}
+                  srcSet={`${product.imageSmall} 1200w, ${product.image} 1600w`}
+                  sizes="100vw"
+                  alt={product.title}
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
+            )}
+            <div className="h-px bg-border/40" />
+          </div>
+        ))}
+
+        {/* Progress bar + play/pause */}
+        <div className="mt-6 flex items-center gap-2">
+          <div className="flex h-[28px] w-36 items-center rounded-md border border-black/10 dark:border-white/15 bg-background px-2.5 dark:bg-card">
+            <div className="h-px w-full overflow-hidden rounded-full bg-border/40 dark:bg-defaultBorder">
+              <div
+                className="h-full rounded-full bg-foreground"
+                style={{ width: `${fillPct}%`, transition: 'none' }}
+              />
+            </div>
+          </div>
+          <Button
+            onClick={togglePlay}
+            variant="ghost"
+            size="icon"
+            aria-label={playing ? 'Pause' : 'Play'}
+            className="h-[28px] w-[28px] shrink-0 rounded-md border border-black/10 dark:border-white/15 bg-background hover:bg-accent dark:bg-card"
+          >
+            {playing
+              ? <Pause className="h-3 w-3" />
+              : <Play className="h-3 w-3" />
+            }
+          </Button>
+        </div>
+      </div>
+
+      {/* Image column — desktop only */}
+      <div className="relative hidden overflow-hidden rounded-xl border border-border lg:block lg:order-2" style={{ aspectRatio: '1 / 1' }}>
+        {PRODUCTS.map((product, i) => (
+          <img
+            key={i}
+            src={product.image}
+            srcSet={`${product.imageSmall} 1200w, ${product.image} 1600w`}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt={product.title}
+            className={cn(
+              'absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500',
+              cur === i ? 'opacity-100' : 'opacity-0',
+            )}
+          />
+        ))}
+      </div>
+
+    </div>
+  )
+}
