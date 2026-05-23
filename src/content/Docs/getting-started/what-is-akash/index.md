@@ -165,12 +165,15 @@ Reduce cloud costs significantly while scaling your application.
 
 Ready to deploy your first application on Akash? Choose your path:
 
-### Start with Trial (Easiest)
-1. **[Quick Start - Free Trial](/docs/getting-started/quick-start)** - Deploy in under 10 minutes with $100 free credits
+### Managed (no wallet, pay with credit card)
+1. **[Akash Console](https://console.akash.network)** - Visual web interface with managed wallets; start with the [Quick Start free trial](/docs/getting-started/quick-start) and get $100 in credits
+2. **[Console API](/docs/api-documentation/console-api)** - REST API for programmatic deployments with managed wallets
 
-### Use Your Own Wallet (Advanced)
-1. **[Console with Wallet](/docs/developers/deployment/akash-console/with-wallet)** - Visual interface, no time limits
-2. **[CLI with Wallet](/docs/developers/deployment/cli)** - Command-line power
+### Self-Custody (bring your own wallet)
+1. **[Console Air](https://github.com/akash-network/console-air)** - Self-hostable visual interface for Keplr wallet users, no time limits
+2. **[Akash CLI](/docs/developers/deployment/cli)** - Command-line power for automation and scripting
+
+Not sure which path is right for you? See [Choosing Your Console](/docs/getting-started/choosing-your-console).
 
 ### Learn More
 1. **[Core Concepts](/docs/getting-started/core-concepts)** - Understand how Akash works

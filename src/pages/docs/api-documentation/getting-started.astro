@@ -33,7 +33,44 @@ const walletIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2
 const globeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`;
 
 // Integration Options Data
+// Order is intentional: Console API (managed, credit-card, no-crypto) leads —
+// it is the recommended default for new integrations so end users never have
+// to touch a wallet. SDK and direct chain access follow for advanced cases.
 const integrationOptions = [
+  {
+    icon: apiIcon,
+    title: "Console API",
+    description:
+      "Deploy via REST API with managed wallets and credit-card billing — no crypto, no blockchain node, no key management for your end users. Also serves public indexed network data.",
+    wide: true,
+    recommended: true,
+    sections: [
+      {
+        heading: "Managed Deployments",
+        meta: "API key required",
+        items: [
+          "Building SaaS platforms",
+          "Offering deployments to non-crypto users",
+          "User-friendly deployment interfaces",
+          "No wallet management overhead",
+        ],
+        link: "/docs/api-documentation/console-api",
+        linkText: "Deployment API →",
+      },
+      {
+        heading: "Network Data",
+        meta: "Public — no auth",
+        items: [
+          "Querying provider availability and specs",
+          "Finding GPU resources on the network",
+          "Building dashboards and analytics",
+          "Network monitoring tools",
+        ],
+        link: "/docs/api-documentation/rest-api",
+        linkText: "Network Data API →",
+      },
+    ],
+  },
   {
     icon: walletIcon,
     title: "Akash Blockchain SDK",
@@ -57,28 +94,6 @@ const integrationOptions = [
     ],
   },
   {
-    icon: creditCardIcon,
-    title: "Akash Deployment REST API",
-    description: "Deploy to Akash using credit cards via REST API",
-    link: "/docs/api-documentation/console-api",
-    linkText: "Explore Deployment API →",
-    details: [
-      {
-        label: "Best for:",
-        items: [
-          "Building SaaS platforms",
-          "Offering deployments to non-crypto users",
-          "User-friendly deployment interfaces",
-          "No wallet management overhead",
-        ],
-      },
-      {
-        label: "Payment:",
-        text: "Credit card (Console handles blockchain)",
-      },
-    ],
-  },
-  {
     icon: codeIcon,
     title: "Blockchain REST/RPC",
     description: "Query the chain directly via an Akash node (gRPC, REST, RPC). For chain state and transactions.",
@@ -96,28 +111,6 @@ const integrationOptions = [
       {
         label: "Note:",
         text: "Use a node endpoint; Console API is indexed data, not a node.",
-      },
-    ],
-  },
-  {
-    icon: globeIcon,
-    title: "Console API — Network Data",
-    description: "Indexed data only: providers, GPU availability, stats. Not a node — do not use for chain queries.",
-    link: "/docs/api-documentation/rest-api",
-    linkText: "Explore Console API (network data) →",
-    details: [
-      {
-        label: "Best for:",
-        items: [
-          "Querying provider availability and specs (indexed)",
-          "Finding GPU resources on the network",
-          "Building dashboards and analytics",
-          "Network monitoring tools",
-        ],
-      },
-      {
-        label: "Authentication:",
-        text: "No authentication required (public endpoints)",
       },
     ],
   },
@@ -253,10 +246,15 @@ const helpLinks = [
       <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
         Integration Options
       </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {
           integrationOptions.map((option) => (
-            <div class="group rounded-lg border border-[#e6e8eb] bg-white p-6 transition-all hover:shadow-lg dark:border-[#333] dark:bg-[#1a1a1a]">
+            <div
+              class:list={[
+                "group rounded-lg border border-[#e6e8eb] bg-white p-6 transition-all hover:shadow-lg dark:border-[#333] dark:bg-[#1a1a1a]",
+                option.wide && "lg:col-span-2",
+              ]}
+            >
               <div class="flex items-start gap-4">
                 <div class="flex flex-shrink-0 items-center justify-center rounded-lg bg-[#f5f5f5] p-2.5 dark:bg-[#333]">
                   <div
@@ -265,9 +263,16 @@ const helpLinks = [
                   />
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-xl font-semibold text-[#11181c] dark:text-white">
-                    {option.title}
-                  </h3>
+                  <div class="flex items-center gap-3">
+                    <h3 class="text-xl font-semibold text-[#11181c] dark:text-white">
+                      {option.title}
+                    </h3>
+                    {option.recommended && (
+                      <span class="rounded-full bg-[#ff414c]/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[#ff414c]">
+                        Recommended
+                      </span>
+                    )}
+                  </div>
                   <p class="mt-2 text-sm text-[#7e868c]">
                     {option.description}
                   </p>
@@ -288,6 +293,33 @@ const helpLinks = [
                           {"text" in detail && detail.text && (
                             <p class="mt-3 text-[#7e868c]">{detail.text}</p>
                           )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {option.sections && option.sections.length > 0 && (
+                    <div class="mt-5 grid gap-5 md:grid-cols-2 md:gap-6">
+                      {option.sections.map((section) => (
+                        <div class="rounded-md border border-[#e6e8eb] bg-[#fafafa] p-4 dark:border-[#2a2a2a] dark:bg-[#141414]">
+                          <div class="flex items-baseline justify-between gap-3">
+                            <h4 class="text-base font-semibold text-[#11181c] dark:text-white">
+                              {section.heading}
+                            </h4>
+                            <span class="rounded-full bg-[#f0f0f0] px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-[#7e868c] dark:bg-[#2a2a2a]">
+                              {section.meta}
+                            </span>
+                          </div>
+                          <ul class="mt-3 space-y-1 text-sm text-[#7e868c]">
+                            {section.items.map((item) => (
+                              <li>• {item}</li>
+                            ))}
+                          </ul>
+                          <a
+                            href={section.link}
+                            class="mt-4 inline-block text-sm text-[#ff414c] hover:underline"
+                          >
+                            {section.linkText}
+                          </a>
                         </div>
                       ))}
                     </div>

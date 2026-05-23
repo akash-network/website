@@ -31,6 +31,9 @@ Akash Console is a web-based platform that makes deploying on Akash Network as e
 ### [What is Akash?](/docs/getting-started/what-is-akash)
 A quick 2-minute introduction to Akash Network and decentralized cloud computing.
 
+### [Choosing Your Console](/docs/getting-started/choosing-your-console)
+Compare the managed Akash Console with the self-custody Console Air and pick the right one for your workflow.
+
 ### [Quick Start - Free Trial](/docs/getting-started/quick-start) **Start Here**
 Sign up for free trial and deploy your first application with one-click templates.
 
@@ -56,7 +59,7 @@ Learn about deployments, providers, and how Akash works.
 
 Once you're comfortable with the basics, explore advanced deployment options:
 
-- **[Akash CLI](/docs/developers/deployment/cli)** - Command-line deployment with your own wallet (Keplr/Leap) for automation and full blockchain control
+- **[Akash CLI](/docs/developers/deployment/cli)** - Command-line deployment with your own Keplr wallet (self-custody — separate from the managed Akash Console)
 - **[Akash SDK](/docs/api-documentation/sdk)** - Programmatic deployments with Go or JavaScript/TypeScript
 
 ### For Providers
