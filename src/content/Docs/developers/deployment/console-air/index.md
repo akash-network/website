@@ -53,7 +53,7 @@ Open your Console Air instance in the browser (typically `http://localhost:3000`
 2. Pick your wallet provider:
 
 ![Wallet Selection](/images/docs/console/wallet/2-wallet-selection.png)
-*Select your Keplr wallet to connect (Console Air uses [Cosmos Kit](https://cosmoskit.com/), so any compatible wallet works)*
+*Select your Keplr wallet to connect (Console Air uses [Cosmos Kit](https://github.com/cosmology-tech/cosmos-kit), so any compatible wallet works)*
 
 3. **Approve the connection** in your wallet extension — allow Console Air to:
    - View your Akash address
