@@ -83,7 +83,7 @@ As I’ve mentioned before, we couldn’t have achieved our Mainnet 1 and BitMax
 
 I’m grateful for your belief in our vision, and for your patience and understanding as we improve our communications efforts.  
 
-I invite you to [join our Telegram](http://t.me/AkashNW(opens in a new tab)) and continue to give us feedback so we can improve our communications, product, and community.
+I invite you to [join our Telegram](https://t.me/AkashNW) and continue to give us feedback so we can improve our communications, product, and community.
 
 ####   
   
