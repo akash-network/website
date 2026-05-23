@@ -11,6 +11,12 @@ description: "Web-based provider setup using the Provider Console application"
 
 The Provider Console is a user-friendly web application that guides you through provider setup with a visual interface.
 
+<div class="my-8 rounded-md border border-border bg-background2 px-5 py-4 text-base text-foreground">
+  <p class="m-0">
+    <strong>Provider Console is a different product from Akash Console.</strong> Provider Console is a self-custody tool for <strong>operating</strong> an Akash provider — it connects to your Keplr wallet. The deployer-facing Akash Console at <a href="https://console.akash.network" target="_blank" rel="noopener noreferrer" class="font-medium text-primary hover:underline">console.akash.network</a> is a managed product without wallet connection, and self-custody deployers use <a href="https://github.com/akash-network/console-air" target="_blank" rel="noopener noreferrer" class="font-medium text-primary hover:underline">Console Air</a> instead. See <a href="/docs/getting-started/choosing-your-console" class="font-medium text-primary hover:underline">Choosing Your Console</a> if you're picking the right tool to deploy with.
+  </p>
+</div>
+
 ---
 
 ## What is Provider Console?
@@ -48,7 +54,7 @@ Provider Console is a web-based application designed to simplify the process of 
 Visit: **[provider-console.akash.network](https://provider-console.akash.network)**
 
 ### Step 2: Connect Your Wallet
-- Connect your Keplr or Leap wallet
+- Connect your Keplr wallet
 - Ensure you have 5+ AKT for deposits
 
 ### Step 3: Follow the Setup Wizard

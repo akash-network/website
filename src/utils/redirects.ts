@@ -51,4 +51,8 @@ export const redirects = {
   "/docs/deployments/akash-cli/overview/": "/docs/developers/deployment/",
   "/docs/deployments/akash-cli/cli-booster/": "/docs/developers/deployment/",
   "/docs/deployments/akash-cli/installation/": "/docs/developers/deployment/",
+  "/docs/developers/deployment/akash-console/with-wallet":
+    "/docs/developers/deployment/console-air/",
+  "/docs/developers/deployment/akash-console/with-wallet/":
+    "/docs/developers/deployment/console-air/",
 };

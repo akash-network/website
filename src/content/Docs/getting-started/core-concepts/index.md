@@ -1,7 +1,7 @@
 ---
 categories: ["Getting Started"]
 tags: ["Concepts", "Basics"]
-weight: 2
+weight: 5
 title: "Core Concepts"
 linkTitle: "Core Concepts"
 description: "Quick introduction to key Akash concepts"

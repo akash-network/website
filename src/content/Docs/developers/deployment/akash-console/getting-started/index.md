@@ -21,7 +21,7 @@ Akash Console is a web-based deployment platform that provides:
 - **One-Click Deployments** - Deploy applications in minutes
 - **Deployment Management** - View, update, and manage all your deployments
 - **Real-Time Monitoring** - Monitor your deployments' status and logs
-- **Managed Wallet or Bring Your Own** - Start with free trial credits or connect your wallet
+- **Managed Billing** - Start with free trial credits, then pay-as-you-go by credit card
 - **No CLI Required** - Everything you need in your browser
 
 ---
@@ -33,7 +33,7 @@ Akash Console is a web-based deployment platform that provides:
 Visit [console.akash.network](https://console.akash.network) in your web browser.
 
 ![Console Homepage](/images/docs/console/1-console-homepage.png)
-*Akash Console homepage - Start with free trial or connect your own wallet*
+*Akash Console homepage - Start with the free trial in a few clicks*
 
 ### Step 2: Sign Up for Free Trial
 
@@ -45,7 +45,12 @@ Visit [console.akash.network](https://console.akash.network) in your web browser
 ![Trial Signup](/images/docs/console/2-trial-signup.png)
 *Sign up with email and credit card to receive $100 in trial credits*
 
-**Note:** Trial deployments have a 24-hour limit. For longer deployments, use your own wallet or add payment method.
+**Free trial limits:**
+
+- **24-hour deployments** — trial deployments auto-close after 24 hours.
+- **No high-end GPUs** — H100, H200, A100, RTX 4090, and RTX 5090 are not available on the free trial.
+
+Add a payment method to switch to pay-as-you-go for longer deployments and access to all GPU types on the network.
 
 ### Step 3: Explore Your Dashboard
 
@@ -249,7 +254,7 @@ You can:
 
 ## Next Steps
 
-- **[Using Console with Your Wallet](/docs/developers/deployment/akash-console/with-wallet)** - Connect your own wallet for unlimited deployments
+- **[Console Air](https://github.com/akash-network/console-air)** - Self-custody alternative — bring your own Keplr wallet and run the UI yourself
 - **[Console API](/docs/api-documentation/console-api)** - Programmatic deployments with REST API
 - **[SDL Examples Library](/docs/developers/deployment/akash-sdl/examples-library)** - 290+ deployment examples for all application types
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Deep dive into Stack Definition Language

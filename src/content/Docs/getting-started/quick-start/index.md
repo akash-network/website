@@ -1,7 +1,7 @@
 ---
 categories: ["Getting Started"]
 tags: ["Quick Start", "Console", "Tutorial", "Beginner", "Free Trial"]
-weight: 2
+weight: 4
 title: "Quick Start - Deploy with Free Trial"
 linkTitle: "Quick Start"
 description: "Deploy your first application on Akash Network in under 10 minutes with $100 in free credits"
@@ -263,6 +263,9 @@ The Console dashboard shows:
 ### "How long do trial deployments last?"
 **Answer:** Trial deployments last a maximum of **1 day (24 hours)**. After 24 hours, they will automatically shut down. This is a trial limitation - paid accounts can run indefinitely.
 
+### "Can I use H100, H200, A100, RTX 4090, or RTX 5090 GPUs?"
+**Answer:** High-end GPUs (**H100**, **H200**, **A100**, **RTX 4090**, **RTX 5090**) are not available during the free trial. Add a payment method to switch to pay-as-you-go and unlock access to every GPU type on the network.
+
 ### "What happens after my $100 credits run out?"
 **Answer:** Your deployments will stop, but you can add more funds via credit card:
 1. Click your balance at the top
@@ -271,7 +274,7 @@ The Console dashboard shows:
 4. Your unused trial credits will be kept!
 
 ### "Can I use my own crypto wallet instead?"
-**Answer:** Yes! After creating your trial account, you can also connect a Keplr or Leap wallet for direct blockchain access. This gives you more control and removes the 24-hour deployment limit.
+**Answer:** Akash Console is the managed product and no longer accepts wallet connections. For self-custody — bring your own Keplr wallet, sign your own transactions, no time limits — use **[Console Air](https://github.com/akash-network/console-air)**, the self-hostable companion app. See [Choosing Your Console](/docs/getting-started/choosing-your-console) for a side-by-side comparison.
 
 ### "My deployment is taking a long time to start"
 **Solution:**
@@ -334,7 +337,9 @@ Ready for more advanced workflows?
 
 **Add Funds:** Click your balance → "Add Funds" → Pay with credit card (keeps your $100 trial credits!)
 
-**Use Your Wallet:** Connect Keplr or Leap to use AKT directly and remove the 24-hour deployment limit
+**Want self-custody?** Use **[Console Air](https://github.com/akash-network/console-air)** — bring your own Keplr wallet, sign your own transactions, and remove the 24-hour limit.
+
+**Prefer the command line?** Use the **[Akash CLI](/docs/developers/deployment/cli)** — self-custody with your Keplr wallet, perfect for automation and CI/CD.
 
 ---
 

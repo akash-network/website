@@ -49,9 +49,6 @@ ecosystemSection:
   categories:
     - title: Wallets
       items:
-        - title: Leap Wallet
-          link: "https://www.leapwallet.io/"
-          icon: leap
         - title: Keplr
           link: "https://wallet.keplr.app/#/akash"
           icon: keplr
