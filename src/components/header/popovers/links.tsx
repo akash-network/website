@@ -275,7 +275,6 @@ export const ecosystemNavItems: NavItem[] = [
     link: "/ecosystem/akash-tools/",
   },
   {
-    description: "Apps and services built on Akash",
     customIcon: (
       <svg
         width="24"
