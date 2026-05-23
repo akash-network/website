@@ -64,10 +64,9 @@ Following are helpful links and guides from Cosmostation for leveraging Cosmosta
 
 [**Cosmostation Wallet iOS App**](https://apps.apple.com/app/cosmostation/id1459830339) **|** [**Cosmostation Wallet Android App**](https://play.google.com/store/apps/details?id=wannabit.io.cosmostaion&hl)
 
-- [Akash Mobile](<https://medium.com/cosmostation/how-to-create-your-personal-akash-network-akt-account-on-cosmostation-wallet-ios-android-web-16e51b568400%20(edited)>) [Wallet User Guide](https://medium.com/cosmostation/how-to-create-your-personal-akash-network-akt-account-on-cosmostation-wallet-ios-android-web-16e51b568400)
+- [Akash Mobile Wallet User Guide](https://medium.com/cosmostation/how-to-create-your-personal-akash-network-akt-account-on-cosmostation-wallet-ios-android-web-16e51b568400)
 - [How HD Wallets & Mnemonic Phrases Work](https://medium.com/cosmostation/the-magic-behind-a-mnemonic-phrase-and-hd-wallets-let-us-explain-43d9c97f6098)
 - [How Redelegation for Cosmos SDK Based Networks Work](https://medium.com/cosmostation/what-you-need-to-know-about-cosmos-atom-redelegation-e45ca7da6fdf)
-- [Top 10 Selection of Websites](https://casinoofthekings.com/top-10-canadian-online-casinos/)
 - [Introduction to Keystation, an End-to-end Encrypted Key Manager](https://medium.com/cosmostation/introducing-keystation-end-to-end-encrypted-key-manager-for-dapps-built-with-the-cosmos-sdk-37dac753feb5)
 
 ####
