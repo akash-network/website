@@ -1,7 +1,7 @@
 ---
 categories: ["API Documentation", "SDK"]
 tags: ["SDK", "JavaScript", "TypeScript", "Go", "API"]
-weight: 2
+weight: 3
 title: "Akash SDK"
 linkTitle: "SDK"
 description: "Official SDKs for deploying and managing applications on Akash Network"

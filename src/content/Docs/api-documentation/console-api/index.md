@@ -1,7 +1,7 @@
 ---
 categories: ["API Documentation", "Console API"]
 tags: ["Console", "API", "Managed Wallet", "REST API"]
-weight: 3
+weight: 2
 title: "Managed Wallet API"
 linkTitle: "Managed Wallet API"
 description: "Deploy on Akash programmatically without managing wallets or private keys"
