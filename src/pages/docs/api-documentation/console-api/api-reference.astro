@@ -314,10 +314,18 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
     <Breadcrumbs pathname={pathname} />
 
     <h1
-      class="text-3xl font-bold text-foreground md:text-4xl lg:text-5xl"
+      class="group/heading text-3xl font-bold text-foreground md:text-4xl lg:text-5xl"
       id="overview"
     >
-      {pageTitle}
+      <a
+        href="#overview"
+        class="heading-anchor"
+        data-anchor-link
+        aria-label={`Link to ${pageTitle}`}
+      >
+        {pageTitle}
+        <span class="heading-anchor-icon" aria-hidden="true">#</span>
+      </a>
     </h1>
 
     <p class="mt-4 max-w-3xl text-base text-para md:text-lg">
@@ -358,9 +366,17 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
               {group !== "core" && (
                 <h2
                   id={`group-${group}`}
-                  class="mb-4 mt-12 border-b border-defaultBorder pb-2 text-xs font-semibold uppercase tracking-widest text-para"
+                  class="group/heading mb-4 mt-12 border-b border-defaultBorder pb-2 text-xs font-semibold uppercase tracking-widest text-para"
                 >
-                  {GROUP_LABELS[group]}
+                  <a
+                    href={`#group-${group}`}
+                    class="heading-anchor"
+                    data-anchor-link
+                    aria-label={`Link to ${GROUP_LABELS[group]}`}
+                  >
+                    {GROUP_LABELS[group]}
+                    <span class="heading-anchor-icon" aria-hidden="true">#</span>
+                  </a>
                 </h2>
               )}
               {groupedSections[group].map((section) => (
@@ -370,7 +386,7 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
                   class="scroll-mt-28 mb-14"
                 >
                   {section.kind === "endpoint" ? (
-                    <h2 class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xl font-semibold text-foreground md:text-2xl">
+                    <h2 class="group/heading flex flex-wrap items-center gap-x-2 gap-y-1 text-xl font-semibold text-foreground md:text-2xl">
                       <MethodBadge method={section.method!} />
                       <code class="min-w-0 break-all font-mono text-base md:text-xl">
                         {section.path}
@@ -380,10 +396,26 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
                           Provider
                         </span>
                       )}
+                      <a
+                        href={`#${section.id}`}
+                        class="heading-anchor heading-anchor--inline"
+                        data-anchor-link
+                        aria-label={`Link to ${section.title}`}
+                      >
+                        <span class="heading-anchor-icon" aria-hidden="true">#</span>
+                      </a>
                     </h2>
                   ) : (
-                    <h2 class="text-2xl font-semibold text-foreground md:text-3xl">
-                      {section.title}
+                    <h2 class="group/heading text-2xl font-semibold text-foreground md:text-3xl">
+                      <a
+                        href={`#${section.id}`}
+                        class="heading-anchor"
+                        data-anchor-link
+                        aria-label={`Link to ${section.title}`}
+                      >
+                        {section.title}
+                        <span class="heading-anchor-icon" aria-hidden="true">#</span>
+                      </a>
                     </h2>
                   )}
 
@@ -444,7 +476,20 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
 
         <!-- See also -->
         <section class="mt-16 border-t border-defaultBorder pt-8">
-          <h2 class="text-xl font-semibold text-foreground">See also</h2>
+          <h2
+            id="see-also"
+            class="group/heading text-xl font-semibold text-foreground"
+          >
+            <a
+              href="#see-also"
+              class="heading-anchor"
+              data-anchor-link
+              aria-label="Link to See also"
+            >
+              See also
+              <span class="heading-anchor-icon" aria-hidden="true">#</span>
+            </a>
+          </h2>
           <ul class="mt-4 list-disc space-y-2 pl-6 text-sm text-para">
             <li>
               <a
