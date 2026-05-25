@@ -9,6 +9,7 @@ import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
+import { apiDocsOnly } from "./src/lib/markdown/apiDocsOnly";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
@@ -18,9 +19,9 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin],
     rehypePlugins: [
-      rehypeSlug,
+      apiDocsOnly(rehypeSlug),
       [
-        rehypeAutolinkHeadings,
+        apiDocsOnly(rehypeAutolinkHeadings),
         {
           behavior: "append",
           properties: {
