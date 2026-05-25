@@ -4,6 +4,8 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import astroExpressiveCode from "astro-expressive-code";
 import { defineConfig } from "astro/config";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
@@ -15,6 +17,29 @@ export default defineConfig({
   redirects: redirects,
   markdown: {
     remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin],
+    rehypePlugins: [
+      rehypeSlug,
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: "append",
+          properties: {
+            className: ["heading-anchor"],
+            "data-anchor-link": true,
+            ariaLabel: "Link to section",
+          },
+          content: {
+            type: "element",
+            tagName: "span",
+            properties: {
+              className: ["heading-anchor-icon"],
+              ariaHidden: "true",
+            },
+            children: [{ type: "text", value: "#" }],
+          },
+        },
+      ],
+    ],
   },
   integrations: [
     tailwind(),

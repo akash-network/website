@@ -235,16 +235,35 @@ const helpLinks = [
 
   <div class="container-reader px-5 md:mt-10">
     <div class="flex flex-col items-start">
-      <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl">
-        {pageTitle}
+      <h1 id="overview" class="text-3xl font-bold md:text-4xl lg:text-5xl">
+        <a
+          href="#overview"
+          class="heading-anchor"
+          data-anchor-link
+          aria-label={`Link to ${pageTitle}`}
+        >
+          {pageTitle}
+          <span class="heading-anchor-icon" aria-hidden="true">#</span>
+        </a>
       </h1>
       <p class="mt-6 text-base text-para md:text-lg">{pageDescription}</p>
     </div>
 
     <!-- Integration Options -->
     <div class="mt-12">
-      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-        Integration Options
+      <h2
+        id="integration-options"
+        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+      >
+        <a
+          href="#integration-options"
+          class="heading-anchor"
+          data-anchor-link
+          aria-label="Link to Integration Options"
+        >
+          Integration Options
+          <span class="heading-anchor-icon" aria-hidden="true">#</span>
+        </a>
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {
@@ -342,8 +361,19 @@ const helpLinks = [
 
     <!-- SDK Documentation -->
     <div class="mt-12">
-      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-        Blockchain SDK Documentation
+      <h2
+        id="blockchain-sdk-documentation"
+        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+      >
+        <a
+          href="#blockchain-sdk-documentation"
+          class="heading-anchor"
+          data-anchor-link
+          aria-label="Link to Blockchain SDK Documentation"
+        >
+          Blockchain SDK Documentation
+          <span class="heading-anchor-icon" aria-hidden="true">#</span>
+        </a>
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {
@@ -361,8 +391,19 @@ const helpLinks = [
 
     <!-- Console API Documentation -->
     <div class="mt-12">
-      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-        Deployment REST API Documentation
+      <h2
+        id="deployment-rest-api-documentation"
+        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+      >
+        <a
+          href="#deployment-rest-api-documentation"
+          class="heading-anchor"
+          data-anchor-link
+          aria-label="Link to Deployment REST API Documentation"
+        >
+          Deployment REST API Documentation
+          <span class="heading-anchor-icon" aria-hidden="true">#</span>
+        </a>
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {
@@ -380,8 +421,19 @@ const helpLinks = [
 
     <!-- Console API — Network Data (indexed) -->
     <div class="mt-12">
-      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
-        Console API — Network Data (indexed)
+      <h2
+        id="console-api-network-data"
+        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+      >
+        <a
+          href="#console-api-network-data"
+          class="heading-anchor"
+          data-anchor-link
+          aria-label="Link to Console API — Network Data (indexed)"
+        >
+          Console API — Network Data (indexed)
+          <span class="heading-anchor-icon" aria-hidden="true">#</span>
+        </a>
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {
@@ -401,8 +453,19 @@ const helpLinks = [
     <div
       class="mb-16 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
     >
-      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
-        Need Help?
+      <h2
+        id="need-help"
+        class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white"
+      >
+        <a
+          href="#need-help"
+          class="heading-anchor"
+          data-anchor-link
+          aria-label="Link to Need Help"
+        >
+          Need Help?
+          <span class="heading-anchor-icon" aria-hidden="true">#</span>
+        </a>
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {
