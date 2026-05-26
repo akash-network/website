@@ -1,10 +1,6 @@
 ---
-// Styles + clipboard/scroll behaviour for shareable heading anchors on API
-// documentation pages. Loaded by docs-layout.astro only when the request is
-// under /docs/api-documentation/. Kept in its own component so Astro can
-// process the raw <style>/<script> tags directly — wrapping them inside a JSX
-// `{cond && (...)}` expression with template-literal bodies silently breaks
-// Astro's CSS/JS pipeline (see PR fixing the regression from #1228).
+// Heading-anchor styles + clipboard/scroll JS. Loaded by docs-layout.astro
+// only on /docs/api-documentation/ pages.
 ---
 
 <style is:global>
