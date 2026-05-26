@@ -826,7 +826,7 @@ const { data } = await res.json();`,
       "The Console API and the provider share a JWT-based access model for lease-scoped operations (logs, events, status, shell). Mint a short-lived token from the Console API, then call the provider directly with it.",
     bodyMd: `**TTL**: tokens are short-lived (default 1800 s in the Console UI). There is no refresh endpoint — re-call \`POST /v1/create-jwt-token\` to extend lifetime.
 
-**Scope**: grant the narrowest set you need. Missing scope → \`401\` from the provider. Valid values: \`send-manifest\`, \`get-manifest\`, \`logs\`, \`shell\`, \`events\`, \`status\`, \`restart\`.
+**Scope**: grant the narrowest set you need. Missing scope → \`401\` from the provider. Valid values: \`send-manifest\`, \`get-manifest\`, \`logs\`, \`shell\`, \`events\`, \`status\`, \`restart\`, \`hostname-migrate\`, \`ip-migrate\`.
 
 **Spec**: JWT payload follows [AEP-64](https://akash.network/roadmap/aep-64/). The provider validates it the same way regardless of who minted it.
 
@@ -848,10 +848,10 @@ const { data } = await res.json();`,
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "data.ttl", location: "body", type: "number", required: true, description: "Token TTL in seconds (Console UI default: `1800`)" },
       { field: "data.leases.access", location: "body", type: "enum", required: true, description: "One of `full`, `scoped`, or `granular`" },
-      { field: "data.leases.scope", location: "body", type: "array<string>", required: false, description: "Required when `access` is `scoped`. Any of `send-manifest`, `get-manifest`, `logs`, `shell`, `events`, `status`, `restart`" },
+      { field: "data.leases.scope", location: "body", type: "array<string>", required: false, description: "Required when `access` is `scoped`. Any of `send-manifest`, `get-manifest`, `logs`, `shell`, `events`, `status`, `restart`, `hostname-migrate`, `ip-migrate`" },
       { field: "data.leases.permissions", location: "body", type: "array<object>", required: false, description: "Required when `access` is `granular`. Per-provider, per-deployment rules" },
     ],
-    responseStatus: "200 OK",
+    responseStatus: "201 Created",
     responseFields: [
       { field: "data.token", type: "string (JWT)", description: "Bearer token to send to provider endpoints as `Authorization: Bearer <token>`" },
     ],
@@ -913,7 +913,7 @@ const jwt = jwtResp.data.token;`,
     title: "Provider-side lease endpoints",
     description:
       "These endpoints are served by the **provider**, not by `console-api.akash.network`. Resolve the provider's `hostUri` via `GET /v1/providers/{address}` (network-data API), then call the provider directly with the JWT in `Authorization: Bearer <token>`.",
-    bodyMd: `**TLS / cert pinning**: provider certificates are self-signed against the provider's on-chain wallet address — browsers will reject them. Server-side, use a custom HTTPS agent that pins the leaf cert against the provider's address (\`@akashnetwork/chain-sdk\`'s \`CertificateValidator\` does this). In a browser, route through a provider-proxy service.
+    bodyMd: `**TLS / cert pinning**: provider certificates are self-signed against the provider's on-chain wallet address — browsers will reject them. Server-side, you have to look the cert up on-chain: the CN must be the provider's bech32 wallet address, and the chain's \`MsgCreateCertificate\` record for that \`(address, serial number)\` must match the leaf cert's fingerprint. That lookup is a chain query, so it has to happen **after** the TLS handshake — Node's \`checkServerIdentity\` is synchronous and can't \`await\`. The canonical pattern (used by Console) is to disable Node's default verification, then validate the peer cert asynchronously against the chain. See the [provider-proxy \`CertificateValidator\`](https://github.com/akash-network/console/tree/main/apps/provider-proxy/src/services/CertificateValidator) for a reference implementation. In a browser, route through a provider-proxy service.
 
 **\`events\` vs \`kubeevents\` gotcha**: Console UI accepts \`events\` as a path component and rewrites it to \`kubeevents\` client-side. The wire path on the provider is **always \`kubeevents\`** — use that directly to avoid surprises.
 
@@ -944,20 +944,32 @@ const jwt = jwtResp.data.token;`,
     responseStatus: "200 OK",
     responseFields: [
       { field: "services.<name>.ready_replicas", type: "number", description: "Replicas currently passing readiness checks" },
-      { field: "services.<name>.total_replicas", type: "number", description: "Replicas desired" },
-      { field: "services.<name>.forwarded_ports", type: "array", description: "Provider-side port forwards" },
-      { field: "services.<name>.ips", type: "array<string>", description: "Public IPs (when leasing IP endpoints)" },
-      { field: "services.<name>.restart_count", type: "number", description: "Aggregate restart count for the service" },
+      { field: "services.<name>.available_replicas", type: "number", description: "Replicas marked available by the Kubernetes controller" },
+      { field: "services.<name>.replicas", type: "number", description: "Current replicas" },
+      { field: "services.<name>.total", type: "number", description: "Desired replicas" },
+      { field: "services.<name>.uris", type: "array<string>", description: "Accessible URIs for the service (when leasing endpoints)" },
+      { field: "forwarded_ports.<name>", type: "array<object>", description: "Provider-side port forwards, keyed by service name (top-level — not nested under `services`)" },
+      { field: "ips.<name>", type: "array<object>", description: "Public IPs assigned to the service, keyed by service name (top-level, when leasing IP endpoints)" },
     ],
     responseExample: `{
   "services": {
     "web": {
+      "name": "web",
+      "available": 1,
+      "total": 1,
+      "uris": ["example.com"],
+      "observed_generation": 1,
+      "replicas": 1,
+      "updated_replicas": 1,
       "ready_replicas": 1,
-      "total_replicas": 1,
-      "forwarded_ports": [],
-      "ips": [],
-      "restart_count": 0
+      "available_replicas": 1
     }
+  },
+  "forwarded_ports": {
+    "web": [{ "host": "example.com", "port": 80, "externalPort": 30000, "available": 1 }]
+  },
+  "ips": {
+    "web": [{ "IP": "1.2.3.4", "Port": 80, "ExternalPort": 30000, "Protocol": "tcp" }]
   }
 }`,
     notes: [
@@ -974,13 +986,12 @@ curl "https://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/status" \\
       {
         language: "javascript",
         code: `import https from "https";
-import { CertificateValidator } from "@akashnetwork/chain-sdk";
 
-const agent = new https.Agent({
-  rejectUnauthorized: false,
-  checkServerIdentity: (_host, cert) =>
-    CertificateValidator.validateProviderCert(cert, providerAddress),
-});
+// \`rejectUnauthorized: false\` skips Node's hostname check (provider certs
+// are self-signed against the provider's on-chain wallet). For production,
+// validate the peer cert against the chain asynchronously — see the
+// provider-endpoints preface.
+const agent = new https.Agent({ rejectUnauthorized: false });
 
 const res = await fetch(
   \`\${hostUri}/lease/\${dseq}/\${gseq}/\${oseq}/status\`,
@@ -1031,18 +1042,13 @@ websocat "wss://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/logs?follo
         language: "javascript",
         code: `import WebSocket from "ws";
 import https from "https";
-import { CertificateValidator } from "@akashnetwork/chain-sdk";
+
+// \`rejectUnauthorized: false\` skips Node's hostname check; see preface.
+const agent = new https.Agent({ rejectUnauthorized: false });
 
 const ws = new WebSocket(
   \`wss://\${hostUri.replace(/^https?:\\/\\//, "")}/lease/\${dseq}/\${gseq}/\${oseq}/logs?follow=true\`,
-  {
-    headers: { Authorization: \`Bearer \${jwt}\` },
-    agent: new https.Agent({
-      rejectUnauthorized: false,
-      checkServerIdentity: (_host, cert) =>
-        CertificateValidator.validateProviderCert(cert, providerAddress),
-    }),
-  },
+  { headers: { Authorization: \`Bearer \${jwt}\` }, agent },
 );
 ws.on("message", (chunk) => process.stdout.write(chunk));`,
       },
@@ -1089,18 +1095,13 @@ ws.on("message", (chunk) => process.stdout.write(chunk));`,
         language: "javascript",
         code: `import WebSocket from "ws";
 import https from "https";
-import { CertificateValidator } from "@akashnetwork/chain-sdk";
+
+// \`rejectUnauthorized: false\` skips Node's hostname check; see preface.
+const agent = new https.Agent({ rejectUnauthorized: false });
 
 const ws = new WebSocket(
   \`wss://\${hostUri.replace(/^https?:\\/\\//, "")}/lease/\${dseq}/\${gseq}/\${oseq}/kubeevents\`,
-  {
-    headers: { Authorization: \`Bearer \${jwt}\` },
-    agent: new https.Agent({
-      rejectUnauthorized: false,
-      checkServerIdentity: (_host, cert) =>
-        CertificateValidator.validateProviderCert(cert, providerAddress),
-    }),
-  },
+  { headers: { Authorization: \`Bearer \${jwt}\` }, agent },
 );
 ws.on("message", (chunk) => console.log(JSON.parse(chunk.toString())));`,
       },
@@ -1139,7 +1140,9 @@ ws.on("message", (chunk) => console.log(JSON.parse(chunk.toString())));`,
         language: "javascript",
         code: `import WebSocket from "ws";
 import https from "https";
-import { CertificateValidator } from "@akashnetwork/chain-sdk";
+
+// \`rejectUnauthorized: false\` skips Node's hostname check; see preface.
+const agent = new https.Agent({ rejectUnauthorized: false });
 
 const cmd = Buffer.from(JSON.stringify(["/bin/sh"])).toString("base64");
 const url =
@@ -1148,11 +1151,7 @@ const url =
 
 const ws = new WebSocket(url, {
   headers: { Authorization: \`Bearer \${jwt}\` },
-  agent: new https.Agent({
-    rejectUnauthorized: false,
-    checkServerIdentity: (_host, cert) =>
-      CertificateValidator.validateProviderCert(cert, providerAddress),
-  }),
+  agent,
 });
 ws.on("message", (frame) => process.stdout.write(frame));`,
       },
