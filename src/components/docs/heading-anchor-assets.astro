@@ -1,0 +1,94 @@
+---
+// Styles + clipboard/scroll behaviour for shareable heading anchors on API
+// documentation pages. Loaded by docs-layout.astro only when the request is
+// under /docs/api-documentation/. Kept in its own component so Astro can
+// process the raw <style>/<script> tags directly — wrapping them inside a JSX
+// `{cond && (...)}` expression with template-literal bodies silently breaks
+// Astro's CSS/JS pipeline (see PR fixing the regression from #1228).
+---
+
+<style is:global>
+  .heading-anchor {
+    color: inherit;
+    text-decoration: none;
+  }
+  .heading-anchor:hover,
+  .heading-anchor:focus {
+    text-decoration: none;
+  }
+  .heading-anchor-icon {
+    display: inline-block;
+    margin-left: 0.4em;
+    font-weight: 400;
+    color: currentColor;
+    opacity: 0;
+    transition:
+      opacity 150ms ease,
+      color 150ms ease;
+    user-select: none;
+  }
+  :where(h1, h2, h3, h4, h5, h6):hover .heading-anchor-icon,
+  .heading-anchor:focus-visible .heading-anchor-icon {
+    opacity: 0.45;
+  }
+  .heading-anchor:hover .heading-anchor-icon {
+    opacity: 0.85;
+  }
+  .heading-anchor[data-copied="true"] .heading-anchor-icon {
+    opacity: 1;
+    color: #16a34a;
+  }
+  html.dark .heading-anchor[data-copied="true"] .heading-anchor-icon {
+    color: #4ade80;
+  }
+  /* Offset sticky-header height when scrolling to any in-page heading via
+     URL hash. Mirrors the per-section scroll-mt-28 used on the API reference
+     page so other docs land below the docs header on refresh. */
+  :where(h1, h2, h3, h4, h5, h6)[id] {
+    scroll-margin-top: 7rem;
+  }
+</style>
+
+<script>
+  // Heading anchor links: native <a href="#id"> handles scroll + URL hash.
+  // We additionally copy the full deep-link URL to the clipboard and show a
+  // brief green-checkmark state so users can paste directly into Slack/etc.
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement | null;
+    const link = target?.closest<HTMLAnchorElement>("[data-anchor-link]");
+    if (!link) return;
+    const href = link.getAttribute("href");
+    if (!href?.startsWith("#")) return;
+    const url = `${window.location.origin}${window.location.pathname}${href}`;
+    navigator.clipboard
+      ?.writeText(url)
+      .then(() => {
+        link.setAttribute("data-copied", "true");
+        window.setTimeout(() => link.removeAttribute("data-copied"), 1500);
+      })
+      .catch(() => {});
+  });
+
+  // On initial page load with a hash, the browser's native scroll-to-anchor
+  // sometimes lands before late layout (font loading, hydration of fixed
+  // panels) settles — leaving the target behind the sticky header. Re-run
+  // the scroll after `load` and on any hashchange.
+  function scrollToHash() {
+    const hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    let id: string;
+    try {
+      id = decodeURIComponent(hash.slice(1));
+    } catch {
+      id = hash.slice(1);
+    }
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ block: "start" });
+  }
+  if (document.readyState === "complete") {
+    scrollToHash();
+  } else {
+    window.addEventListener("load", scrollToHash, { once: true });
+  }
+  window.addEventListener("hashchange", scrollToHash);
+</script>

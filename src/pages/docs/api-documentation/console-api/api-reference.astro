@@ -314,18 +314,10 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
     <Breadcrumbs pathname={pathname} />
 
     <h1
-      class="group/heading text-3xl font-bold text-foreground md:text-4xl lg:text-5xl"
+      class="text-3xl font-bold text-foreground md:text-4xl lg:text-5xl"
       id="overview"
     >
-      <a
-        href="#overview"
-        class="heading-anchor"
-        data-anchor-link
-        aria-label={`Link to ${pageTitle}`}
-      >
-        {pageTitle}
-        <span class="heading-anchor-icon" aria-hidden="true">#</span>
-      </a>
+      {pageTitle}
     </h1>
 
     <p class="mt-4 max-w-3xl text-base text-para md:text-lg">
