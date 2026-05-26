@@ -24,6 +24,9 @@ export default defineConfig({
         apiDocsOnly(rehypeAutolinkHeadings),
         {
           behavior: "append",
+          // Only h2+ get anchors. The page's <h1> is its title and getting a
+          // link to it is meaningless — the page URL already points there.
+          test: ["h2", "h3", "h4", "h5", "h6"],
           properties: {
             className: ["heading-anchor"],
             "data-anchor-link": true,
