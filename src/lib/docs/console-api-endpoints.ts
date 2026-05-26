@@ -979,23 +979,26 @@ const jwt = jwtResp.data.token;`,
     codeSnippets: [
       {
         language: "bash",
-        code: `# --cacert / -k handling omitted — see provider preface for cert pinning.
-curl "https://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/status" \\
+        code: `# -k skips TLS verification (provider certs are self-signed against the
+# on-chain wallet). For production, validate the cert against the chain
+# out-of-band — see the provider-endpoints preface.
+curl -k "https://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/status" \\
   -H "Authorization: Bearer $JWT"`,
       },
       {
         language: "javascript",
-        code: `import https from "https";
+        code: `// Node's global \`fetch\` is built on undici and ignores \`https.Agent\` —
+// you have to pass an undici \`dispatcher\` to control TLS verification.
+import { fetch, Agent } from "undici";
 
-// \`rejectUnauthorized: false\` skips Node's hostname check (provider certs
-// are self-signed against the provider's on-chain wallet). For production,
-// validate the peer cert against the chain asynchronously — see the
-// provider-endpoints preface.
-const agent = new https.Agent({ rejectUnauthorized: false });
+// \`connect.rejectUnauthorized: false\` lets the request complete past the
+// self-signed provider cert. For production, validate the peer cert against
+// the chain asynchronously — see the provider-endpoints preface.
+const dispatcher = new Agent({ connect: { rejectUnauthorized: false } });
 
 const res = await fetch(
   \`\${hostUri}/lease/\${dseq}/\${gseq}/\${oseq}/status\`,
-  { headers: { Authorization: \`Bearer \${jwt}\` }, agent },
+  { headers: { Authorization: \`Bearer \${jwt}\` }, dispatcher },
 );
 const status = await res.json();`,
       },
@@ -1034,8 +1037,10 @@ const status = await res.json();`,
     codeSnippets: [
       {
         language: "bash",
-        code: `# websocat 1.13+ supports --insecure for self-signed certs.
-websocat "wss://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/logs?follow=true&tail=200" \\
+        code: `# --insecure skips TLS verification (provider certs are self-signed).
+# Requires websocat 1.13+. See provider-endpoints preface for production
+# cert validation.
+websocat --insecure "wss://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/logs?follow=true&tail=200" \\
   -H "Authorization: Bearer $JWT"`,
       },
       {
@@ -1088,7 +1093,8 @@ ws.on("message", (chunk) => process.stdout.write(chunk));`,
     codeSnippets: [
       {
         language: "bash",
-        code: `websocat "wss://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/kubeevents" \\
+        code: `# --insecure skips TLS verification (provider certs are self-signed).
+websocat --insecure "wss://\${HOSTURI#https://}/lease/\${DSEQ}/\${GSEQ}/\${OSEQ}/kubeevents" \\
   -H "Authorization: Bearer $JWT"`,
       },
       {
