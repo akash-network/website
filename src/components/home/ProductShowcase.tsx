@@ -44,6 +44,7 @@ export function ProductShowcase() {
   const dragStartX    = useRef(0)
   const dragOffsetRef = useRef(0)
   const [dragOffset, setDragOffset] = useState(0)
+  const carouselRef   = useRef<HTMLDivElement>(null)
 
   const startTimer = () => {
     startRef.current = performance.now()
@@ -78,6 +79,22 @@ export function ProductShowcase() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const el = carouselRef.current
+    if (!el) return
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging.current) return
+      e.preventDefault()
+      let offset = e.touches[0].clientX - dragStartX.current
+      if (curRef.current === 0) offset = Math.min(0, offset)
+      if (curRef.current === PRODUCTS.length - 1) offset = Math.max(0, offset)
+      dragOffsetRef.current = offset
+      setDragOffset(offset)
+    }
+    el.addEventListener('touchmove', handleTouchMove, { passive: false })
+    return () => el.removeEventListener('touchmove', handleTouchMove)
+  }, [])
+
   const goTo = (n: number) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current)
     curRef.current = n
@@ -106,7 +123,9 @@ export function ProductShowcase() {
 
   const onDragMove = (clientX: number) => {
     if (!isDragging.current) return
-    const offset = clientX - dragStartX.current
+    let offset = clientX - dragStartX.current
+    if (curRef.current === 0) offset = Math.min(0, offset)
+    if (curRef.current === PRODUCTS.length - 1) offset = Math.max(0, offset)
     dragOffsetRef.current = offset
     setDragOffset(offset)
   }
@@ -174,9 +193,9 @@ export function ProductShowcase() {
         </div>
 
         <div
+          ref={carouselRef}
           className="overflow-hidden cursor-grab active:cursor-grabbing select-none"
           onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
-          onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
           onTouchEnd={onDragEnd}
           onTouchCancel={onDragEnd}
           onMouseDown={(e) => onDragStart(e.clientX)}
@@ -230,23 +249,25 @@ export function ProductShowcase() {
         </div>
 
         <div className="mt-5 flex justify-center">
-          <div className="flex h-[28px] items-center gap-2 rounded-md border border-black/10 dark:border-white/15 bg-background px-2.5 dark:bg-card">
+          <div className="flex h-[28px] items-stretch rounded-md border border-black/10 dark:border-white/15 bg-background px-1 dark:bg-card">
             {PRODUCTS.map((_, i) => (
               <button
                 key={i}
                 onClick={() => goTo(i)}
                 aria-label={`Go to slide ${i + 1}`}
-                className={cn(
+                className="flex items-center px-1.5"
+              >
+                <div className={cn(
                   'relative h-1.5 overflow-hidden rounded-full transition-all duration-300',
                   cur === i ? 'w-16 bg-border/40 dark:bg-defaultBorder' : 'w-1.5 bg-border',
-                )}
-              >
-                {cur === i && (
-                  <div
-                    className="absolute inset-y-0 left-0 rounded-full bg-foreground"
-                    style={{ width: `${fillPct}%`, transition: 'none' }}
-                  />
-                )}
+                )}>
+                  {cur === i && (
+                    <div
+                      className="absolute inset-y-0 left-0 rounded-full bg-foreground"
+                      style={{ width: `${fillPct}%`, transition: 'none' }}
+                    />
+                  )}
+                </div>
               </button>
             ))}
           </div>

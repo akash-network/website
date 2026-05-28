@@ -391,6 +391,7 @@ export function HowItWorks() {
   const dragStartX    = useRef(0)
   const dragOffsetRef = useRef(0)
   const [dragOffset, setDragOffset] = useState(0)
+  const carouselRef   = useRef<HTMLDivElement>(null)
 
   const clearBidTimers = () => {
     bidTimers.current.forEach(clearTimeout)
@@ -498,6 +499,22 @@ export function HowItWorks() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const el = carouselRef.current
+    if (!el) return
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging.current) return
+      e.preventDefault()
+      let offset = e.touches[0].clientX - dragStartX.current
+      if (curRef.current === 0) offset = Math.min(0, offset)
+      if (curRef.current === STEPS.length - 1) offset = Math.max(0, offset)
+      dragOffsetRef.current = offset
+      setDragOffset(offset)
+    }
+    el.addEventListener('touchmove', handleTouchMove, { passive: false })
+    return () => el.removeEventListener('touchmove', handleTouchMove)
+  }, [])
+
   const goTo = (n: number) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current)
     curRef.current = n
@@ -530,7 +547,9 @@ export function HowItWorks() {
 
   const onDragMove = (clientX: number) => {
     if (!isDragging.current) return
-    const offset = clientX - dragStartX.current
+    let offset = clientX - dragStartX.current
+    if (curRef.current === 0) offset = Math.min(0, offset)
+    if (curRef.current === STEPS.length - 1) offset = Math.max(0, offset)
     dragOffsetRef.current = offset
     setDragOffset(offset)
   }
@@ -609,19 +628,19 @@ export function HowItWorks() {
 
   const stepRow = (step: typeof STEPS[0], i: number, withDivider = true) => (
     <div key={i} className="cursor-pointer" onClick={() => goTo(i)}>
-      <div className="flex items-start gap-4 py-7">
-        <div className={cn(
-          'mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-sm transition-all',
-          cur === i ? 'border-foreground bg-foreground font-semibold text-background' : 'border-border text-para',
-        )}>
-          {i + 1}
-        </div>
-        <div className="min-w-0 flex-1">
+      <div className="py-7">
+        <div className="flex items-center gap-4">
+          <div className={cn(
+            'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-sm transition-all',
+            cur === i ? 'border-foreground bg-foreground font-semibold text-background' : 'border-border text-para',
+          )}>
+            {i + 1}
+          </div>
           <p className={cn('text-lg leading-snug transition-colors md:text-xl', cur === i ? 'font-semibold text-foreground' : 'text-para')}>
             {step.title}
           </p>
-          {cur === i && <p className="mt-2 text-sm leading-relaxed text-para">{step.body}</p>}
         </div>
+        {cur === i && <p className="mt-2 pl-12 text-sm leading-relaxed text-para">{step.body}</p>}
       </div>
       {withDivider && <div className="h-px bg-border/40" />}
     </div>
@@ -642,9 +661,9 @@ export function HowItWorks() {
         {heading}
 
         <div
+          ref={carouselRef}
           className="overflow-hidden cursor-grab active:cursor-grabbing select-none"
           onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
-          onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
           onTouchEnd={onDragEnd}
           onTouchCancel={onDragEnd}
           onMouseDown={(e) => onDragStart(e.clientX)}
@@ -661,14 +680,14 @@ export function HowItWorks() {
           >
             {STEPS.map((step, i) => (
               <div key={i} className="w-full shrink-0">
-                <div className="mb-5 flex items-start gap-4">
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-foreground bg-foreground text-sm font-semibold text-background">
-                    {i + 1}
-                  </div>
-                  <div>
+                <div className="mb-5">
+                  <div className="mb-2 flex items-center gap-4">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-foreground bg-foreground text-sm font-semibold text-background">
+                      {i + 1}
+                    </div>
                     <p className="text-lg font-semibold leading-snug text-foreground">{step.title}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-para">{step.body}</p>
                   </div>
+                  <p className="pl-12 text-sm leading-relaxed text-para">{step.body}</p>
                 </div>
                 <div className="dark flex h-[400px] flex-col overflow-hidden rounded-xl border border-border bg-background">
                   {windowChrome}
@@ -693,23 +712,25 @@ export function HowItWorks() {
         </div>
 
         <div className="mt-5 flex justify-center">
-          <div className="flex h-[28px] items-center gap-2 rounded-md border border-black/10 dark:border-white/15 bg-background px-2.5 dark:bg-card">
+          <div className="flex h-[28px] items-stretch rounded-md border border-black/10 dark:border-white/15 bg-background px-1 dark:bg-card">
             {STEPS.map((_, i) => (
               <button
                 key={i}
                 onClick={() => goTo(i)}
                 aria-label={`Go to step ${i + 1}`}
-                className={cn(
+                className="flex items-center px-1.5"
+              >
+                <div className={cn(
                   'relative h-1.5 overflow-hidden rounded-full transition-all duration-300',
                   cur === i ? 'w-16 bg-border/40 dark:bg-defaultBorder' : 'w-1.5 bg-border',
-                )}
-              >
-                {cur === i && (
-                  <div
-                    className="absolute inset-y-0 left-0 rounded-full bg-foreground"
-                    style={{ width: `${fillPct}%`, transition: 'none' }}
-                  />
-                )}
+                )}>
+                  {cur === i && (
+                    <div
+                      className="absolute inset-y-0 left-0 rounded-full bg-foreground"
+                      style={{ width: `${fillPct}%`, transition: 'none' }}
+                    />
+                  )}
+                </div>
               </button>
             ))}
           </div>

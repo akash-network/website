@@ -728,7 +728,7 @@ renderCounters()
 fetchRealtimePrices()
 
 $("row-akash").addEventListener('click', (e) => {
-  if (!e.target.closest('a')) {
+  if (!e.target.closest('a') && window.innerWidth >= 768) {
     window.open("https://console.akash.network/", "_blank", "noopener,noreferrer")
   }
 })
