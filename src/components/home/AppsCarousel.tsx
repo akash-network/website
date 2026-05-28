@@ -90,12 +90,35 @@ export function AppsCarousel() {
   const [isMobileView, setIsMobileView] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 1024
   )
+  const dragging = useRef(false)
+  const didDrag = useRef(false)
+  const dragStartX = useRef(0)
+  const dragScrollStart = useRef(0)
 
   useEffect(() => {
     const check = () => setIsMobileView(window.innerWidth < 1024)
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
   }, [])
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    dragging.current = true
+    didDrag.current = false
+    dragStartX.current = e.clientX
+    dragScrollStart.current = scrollRef.current?.scrollLeft ?? 0
+    ;(e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId)
+  }
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragging.current || !scrollRef.current) return
+    const dx = e.clientX - dragStartX.current
+    if (Math.abs(dx) > 4) didDrag.current = true
+    scrollRef.current.scrollLeft = dragScrollStart.current - dx
+  }
+  const onPointerUp = () => { dragging.current = false }
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (didDrag.current) { e.preventDefault(); e.stopPropagation() }
+  }
 
   const maxStep = isMobileView ? TOTAL_CARDS - 1 : SCROLL_TARGETS.length
   const canLeft = step > 0
@@ -146,8 +169,13 @@ export function AppsCarousel() {
       {/* Carousel — full bleed */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pt-2 -mt-2 pb-10 -mb-10 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-6 overflow-x-auto pt-2 -mt-2 pb-10 -mb-10 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
         style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerLeave={onPointerUp}
+        onClickCapture={onClickCapture}
       >
         {APPS.map((app) => (
           <a
@@ -164,6 +192,7 @@ export function AppsCarousel() {
                     <img
                       src={app.image}
                       alt={app.title}
+                      draggable={false}
                       className="h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
                     />
                   ) : (
@@ -195,7 +224,7 @@ export function AppsCarousel() {
           <Card className="group h-full cursor-pointer bg-background transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:bg-card dark:hover:shadow-black/20">
             <div className="flex h-full flex-col gap-5 p-6">
               <div className="overflow-hidden rounded-lg">
-                <img src="/images/apps-stats.webp" alt="Akash Stats" className="block h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+                <img src="/images/apps-stats.webp" alt="Akash Stats" draggable={false} className="block h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
               </div>
               <h3 className="text-xl font-semibold text-foreground">Akash Stats</h3>
               <p className="text-sm font-normal leading-relaxed text-para">

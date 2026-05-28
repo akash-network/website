@@ -67,12 +67,32 @@ export function InfraCarousel() {
   const [isMobileView, setIsMobileView] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 1024
   )
+  const dragging = useRef(false)
+  const dragStartX = useRef(0)
+  const dragScrollStart = useRef(0)
 
   useEffect(() => {
     const check = () => setIsMobileView(window.innerWidth < 1024)
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
   }, [])
+
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollLeft = 0
+  }, [])
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    dragging.current = true
+    dragStartX.current = e.clientX
+    dragScrollStart.current = scrollRef.current?.scrollLeft ?? 0
+    ;(e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId)
+  }
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragging.current || !scrollRef.current) return
+    scrollRef.current.scrollLeft = dragScrollStart.current - (e.clientX - dragStartX.current)
+  }
+  const onPointerUp = () => { dragging.current = false }
 
   const maxStep = isMobileView ? TOTAL_CARDS - 1 : SCROLL_TARGETS.length
   const canLeft = step > 0
@@ -108,7 +128,7 @@ export function InfraCarousel() {
       {/* Header — contained */}
       <div className="mb-10" style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING, maxWidth: 'calc(1280px + 2 * max(1.5rem, (100vw - 1280px) / 2 + 1.5rem))', marginLeft: 'auto', marginRight: 'auto' }}>
         <h2 className="text-[28px] font-semibold leading-tight text-foreground md:text-[40px]">
-          The Open Supercloud for AI
+          The Open Supercloud for&nbsp;AI
         </h2>
         <p className="mt-3 max-w-lg text-sm text-para">
           Stop overpaying for gated compute. Deploy on a global marketplace of high-density GPUs
@@ -119,8 +139,12 @@ export function InfraCarousel() {
       {/* Carousel — full bleed, left-padded to container edge */}
       <div
         ref={scrollRef}
-        className="flex gap-6 lg:gap-8 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-6 lg:gap-8 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
         style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerLeave={onPointerUp}
       >
         {CARDS.map((card) => (
           <div
@@ -142,6 +166,7 @@ export function InfraCarousel() {
                 <img
                   src={card.image}
                   alt={card.title}
+                  draggable={false}
                   className="block h-full w-full object-cover object-center"
                 />
               )}

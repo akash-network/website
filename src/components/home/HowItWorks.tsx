@@ -43,6 +43,13 @@ const PROVIDERS_MOBILE = [
   { id: 'akash1...5f7d', gpu: '2x A100 80G',  bid: '$1.74', trust: 'L1', delay: 0 }, // cheapest — selected
 ]
 
+const PROVIDERS_MOBILE_SHORT = [
+  { id: 'akash1...4f2a', gpu: '4x A100 80G',  bid: '$3.98', trust: 'L3', delay: 0 },
+  { id: 'akash1...2e1f', gpu: '8x A100 40G',  bid: '$4.21', trust: 'L2', delay: 0 },
+  { id: 'akash1...5f7d', gpu: '2x A100 80G',  bid: '$1.74', trust: 'L1', delay: 0 },
+]
+const SELECTED_MOBILE_SHORT_IDX = 2
+
 // Index of the provider that gets "selected" (cheapest)
 const SELECTED_PROVIDER_IDX = 7
 const SELECTED_MOBILE_IDX   = 4
@@ -99,7 +106,7 @@ function DeployFrame() {
     <div className="flex flex-1 flex-col overflow-hidden p-5 lg:p-8">
 
       {/* 1. Template card — visible immediately */}
-      <div className="mb-4 overflow-hidden rounded-lg border border-defaultBorder bg-card">
+      <div className="hidden lg:block mb-4 overflow-hidden rounded-lg border border-defaultBorder bg-card">
         <div className="h-32 w-full overflow-hidden border-b border-defaultBorder">
           <img src="/images/llama-template.webp" alt="Llama 3.1 70B" className="block h-full w-full object-cover" />
         </div>
@@ -309,7 +316,7 @@ function RunningFrame({ uptime, cost }: { uptime: number; cost: number }) {
       <div className={cn('flex flex-1 flex-col transition-opacity duration-700', detailsVisible ? 'opacity-100' : 'opacity-0')}>
 
         {/* Template card with llama image */}
-        <div className="mb-3 shrink-0 overflow-hidden rounded-lg border border-defaultBorder bg-card">
+        <div className="hidden lg:block mb-3 shrink-0 overflow-hidden rounded-lg border border-defaultBorder bg-card">
           <div className="h-24 w-full overflow-hidden border-b border-defaultBorder">
             <img src="/images/llama-template.webp" alt="Llama 3.1 70B" className="block h-full w-full object-cover" />
           </div>
@@ -372,15 +379,18 @@ export function HowItWorks() {
   const [selectedProviderIdx, setSelectedProviderIdx] = useState<number | null>(null)
   const [uptime, setUptime]                 = useState(3)
   const [cost, setCost]                     = useState(0.0003)
-
-  const rafRef        = useRef<number | null>(null)
-  const startRef      = useRef<number>(performance.now())
-  const playingRef    = useRef(true)
-  const curRef        = useRef(0)
-  const bidTimers     = useRef<ReturnType<typeof setTimeout>[]>([])
-  const uptimeTimer   = useRef<ReturnType<typeof setInterval> | null>(null)
-  const selectTimer   = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const rafRef       = useRef<number | null>(null)
+  const startRef     = useRef<number>(performance.now())
+  const playingRef   = useRef(true)
+  const curRef       = useRef(0)
+  const bidTimers    = useRef<ReturnType<typeof setTimeout>[]>([])
+  const uptimeTimer  = useRef<ReturnType<typeof setInterval> | null>(null)
+  const selectTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
   const advanceTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isDragging    = useRef(false)
+  const dragStartX    = useRef(0)
+  const dragOffsetRef = useRef(0)
+  const [dragOffset, setDragOffset] = useState(0)
 
   const clearBidTimers = () => {
     bidTimers.current.forEach(clearTimeout)
@@ -511,24 +521,72 @@ export function HowItWorks() {
     }
   }
 
+  const onDragStart = (clientX: number) => {
+    isDragging.current = true
+    dragStartX.current = clientX
+    dragOffsetRef.current = 0
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+  }
+
+  const onDragMove = (clientX: number) => {
+    if (!isDragging.current) return
+    const offset = clientX - dragStartX.current
+    dragOffsetRef.current = offset
+    setDragOffset(offset)
+  }
+
+  const onDragEnd = () => {
+    if (!isDragging.current) return
+    isDragging.current = false
+    const offset = dragOffsetRef.current
+    setDragOffset(0)
+    dragOffsetRef.current = 0
+    if (offset > 50 && curRef.current > 0) {
+      goTo(curRef.current - 1)
+    } else if (offset < -50 && curRef.current < STEPS.length - 1) {
+      goTo(curRef.current + 1)
+    } else if (playingRef.current) {
+      startTimer()
+    }
+  }
+
+  const progressControls = (
+    <div className="flex items-center gap-2">
+      <div className="flex h-[28px] items-center gap-2 rounded-md border border-black/10 dark:border-white/15 bg-background px-2.5 dark:bg-card">
+        {STEPS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            aria-label={`Go to step ${i + 1}`}
+            className={cn(
+              'relative h-1.5 overflow-hidden rounded-full transition-all duration-300',
+              cur === i ? 'w-16 bg-border/40 dark:bg-defaultBorder' : 'w-1.5 bg-border',
+            )}
+          >
+            {cur === i && (
+              <div
+                className="absolute inset-y-0 left-0 rounded-full bg-foreground"
+                style={{ width: `${fillPct}%`, transition: 'none' }}
+              />
+            )}
+          </button>
+        ))}
+      </div>
+      <Button
+        onClick={togglePlay}
+        variant="ghost"
+        size="icon"
+        aria-label={playing ? 'Pause' : 'Play'}
+        className="h-[28px] w-[28px] shrink-0 rounded-md border border-black/10 dark:border-white/15 bg-background hover:bg-accent dark:bg-card dark:hover:bg-accent"
+      >
+        {playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
+      </Button>
+    </div>
+  )
+
   const progressBar = (
     <div className="mt-6 flex items-center justify-between gap-2">
-      <div className="flex items-center gap-2">
-        <div className="flex h-[28px] w-36 items-center rounded-md border border-defaultBorder bg-background px-2.5 dark:bg-card">
-          <div className="h-px w-full overflow-hidden rounded-full bg-border/40 dark:bg-defaultBorder">
-            <div className="h-full rounded-full bg-foreground" style={{ width: `${fillPct}%`, transition: 'none' }} />
-          </div>
-        </div>
-        <Button
-          onClick={togglePlay}
-          variant="ghost"
-          size="icon"
-          aria-label={playing ? 'Pause' : 'Play'}
-          className="h-[28px] w-[28px] shrink-0 rounded-md border border-black/10 dark:border-white/15 bg-background hover:bg-accent dark:bg-card dark:hover:bg-accent"
-        >
-          {playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
-        </Button>
-      </div>
+      {progressControls}
       <a
         href="https://console.akash.network"
         target="_blank"
@@ -549,7 +607,7 @@ export function HowItWorks() {
     </div>
   )
 
-  const stepRow = (step: typeof STEPS[0], i: number) => (
+  const stepRow = (step: typeof STEPS[0], i: number, withDivider = true) => (
     <div key={i} className="cursor-pointer" onClick={() => goTo(i)}>
       <div className="flex items-start gap-4 py-7">
         <div className={cn(
@@ -565,7 +623,7 @@ export function HowItWorks() {
           {cur === i && <p className="mt-2 text-sm leading-relaxed text-para">{step.body}</p>}
         </div>
       </div>
-      <div className="h-px bg-border/40" />
+      {withDivider && <div className="h-px bg-border/40" />}
     </div>
   )
 
@@ -579,42 +637,83 @@ export function HowItWorks() {
 
   return (
     <>
-      {/* ── Mobile ── */}
+      {/* ── Mobile carousel ── */}
       <div className="flex flex-col lg:hidden">
         {heading}
-        {STEPS.map((step, i) => (
-          <div key={i}>
-            {stepRow(step, i)}
-            <div className={cn(
-              'overflow-hidden transition-all duration-300 ease-in-out',
-              cur === i
-                ? cn('mb-4 pt-4', i === 2 ? 'max-h-[556px]' : 'max-h-[480px]')
-                : 'max-h-0',
-            )}>
-              <div className={cn(
-                'dark flex flex-col overflow-hidden rounded-xl border border-border bg-background',
-                i === 2 ? 'h-[520px]' : 'h-[460px]',
-              )}>
-                {windowChrome}
-                {cur === i && (
-                  <>
-                    {i === 0 && <DeployFrame />}
-                    {i === 1 && (
-                      <ProvidersFrame
-                        providers={PROVIDERS_MOBILE}
-                        visibleRows={PROVIDERS_MOBILE.map((_, j) => j)}
-                        revealedBids={PROVIDERS_MOBILE.map((_, j) => j)}
-                        selectedIdx={SELECTED_MOBILE_IDX}
-                      />
-                    )}
-                    {i === 2 && <RunningFrame uptime={uptime} cost={cost} />}
-                  </>
-                )}
+
+        <div
+          className="overflow-hidden cursor-grab active:cursor-grabbing select-none"
+          onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+          onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
+          onTouchEnd={onDragEnd}
+          onTouchCancel={onDragEnd}
+          onMouseDown={(e) => onDragStart(e.clientX)}
+          onMouseMove={(e) => onDragMove(e.clientX)}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragEnd}
+        >
+          <div
+            className="flex gap-6"
+            style={{
+              transform: `translateX(calc(${cur} * (-100% - 1.5rem) + ${dragOffset}px))`,
+              transition: isDragging.current ? 'none' : 'transform 300ms ease-in-out',
+            }}
+          >
+            {STEPS.map((step, i) => (
+              <div key={i} className="w-full shrink-0">
+                <div className="mb-5 flex items-start gap-4">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-foreground bg-foreground text-sm font-semibold text-background">
+                    {i + 1}
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold leading-snug text-foreground">{step.title}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-para">{step.body}</p>
+                  </div>
+                </div>
+                <div className="dark flex h-[400px] flex-col overflow-hidden rounded-xl border border-border bg-background">
+                  {windowChrome}
+                  {cur === i && (
+                    <>
+                      {i === 0 && <DeployFrame />}
+                      {i === 1 && (
+                        <ProvidersFrame
+                          providers={PROVIDERS_MOBILE_SHORT}
+                          visibleRows={PROVIDERS_MOBILE_SHORT.map((_, j) => j)}
+                          revealedBids={PROVIDERS_MOBILE_SHORT.map((_, j) => j)}
+                          selectedIdx={SELECTED_MOBILE_SHORT_IDX}
+                        />
+                      )}
+                      {i === 2 && <RunningFrame uptime={uptime} cost={cost} />}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-        {progressBar}
+        </div>
+
+        <div className="mt-5 flex justify-center">
+          <div className="flex h-[28px] items-center gap-2 rounded-md border border-black/10 dark:border-white/15 bg-background px-2.5 dark:bg-card">
+            {STEPS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                aria-label={`Go to step ${i + 1}`}
+                className={cn(
+                  'relative h-1.5 overflow-hidden rounded-full transition-all duration-300',
+                  cur === i ? 'w-16 bg-border/40 dark:bg-defaultBorder' : 'w-1.5 bg-border',
+                )}
+              >
+                {cur === i && (
+                  <div
+                    className="absolute inset-y-0 left-0 rounded-full bg-foreground"
+                    style={{ width: `${fillPct}%`, transition: 'none' }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* ── Desktop ── */}

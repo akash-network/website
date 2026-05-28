@@ -97,7 +97,7 @@ Choose a GPU Model
 class="relative flex items-center h-10 p-[3px] gap-[6px] bg-zinc-100 dark:bg-card border border-input rounded-md">
 
 <div id="tab-slider"
-class="absolute top-[3px] left-0 h-8 w-[72px] bg-white dark:bg-[#2a2a2e] shadow-sm rounded transition-all duration-500 ease-out"></div>
+class="absolute top-[3px] left-0 h-8 w-[72px] bg-white dark:bg-[#2a2a2e] shadow-sm rounded transition-[left,width] duration-500 ease-out"></div>
 
 {gpuModels.map((gpu)=>(
 <button
@@ -142,10 +142,10 @@ data-gpu={gpu}
 <!-- GPU SELECTOR -->
 
 <div id="gpu-selector-mobile"
-class="relative flex items-center w-full h-10 p-[3px] gap-[6px] bg-zinc-100 dark:bg-card border border-input rounded-md">
+class="relative flex items-center w-full h-10 p-1 gap-1 bg-zinc-100 dark:bg-card border border-input rounded-md">
 
 <div id="tab-slider-mobile"
-class="absolute top-[3px] left-0 h-8 bg-white dark:bg-[#2a2a2e] shadow-sm rounded transition-all duration-500 ease-out"></div>
+class="absolute top-[3px] left-0 h-8 bg-white dark:bg-[#2a2a2e] shadow-sm rounded transition-[left,width] duration-500 ease-out"></div>
 
 {gpuModels.map((gpu)=>(
 <button
@@ -470,11 +470,8 @@ tabsMobile[0].classList.add("active")
 
 function moveSlider(tab,slider){
 
-const container=slider.parentElement
-const offset=tab.getBoundingClientRect().left-container.getBoundingClientRect().left
-
+slider.style.left=tab.offsetLeft+"px"
 slider.style.width=tab.offsetWidth+"px"
-slider.style.transform=`translateX(${offset}px)`
 
 }
 
