@@ -119,7 +119,9 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
   }
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragging.current) return
-    phiRef.current += (e.clientX - lastX.current) * 0.005
+    const displayed = (e.currentTarget as HTMLDivElement).offsetWidth || CANVAS_PX
+    const sensitivity = 0.005 * (CANVAS_PX / displayed)
+    phiRef.current += (e.clientX - lastX.current) * sensitivity
     lastX.current   = e.clientX
   }
   const onPointerUp = () => { dragging.current = false; setGrabbing(false) }
@@ -179,6 +181,7 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
             maxWidth: '100%',
             aspectRatio: '1 / 1',
             cursor: grabbing ? 'grabbing' : 'grab',
+            touchAction: 'none',
           }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
