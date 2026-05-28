@@ -4,6 +4,7 @@ import {
   communityItems,
   developmentItems,
   ecosystemNavItems,
+  exploreItems,
   networkItems,
   pricingItems,
 } from "./popovers/links";
@@ -11,7 +12,7 @@ import { getYearToUse } from "@/utils/redirects";
 
 const { pathname, type } = Astro.props as {
   pathname: string;
-  type: "community" | "development" | "network" | "ecosystem" | "pricing";
+  type: "community" | "development" | "network" | "ecosystem" | "pricing" | "explore";
 };
 
 const latestRoadmapYear = getYearToUse();
@@ -25,7 +26,9 @@ const items =
         ? ecosystemNavItems
         : type === "pricing"
           ? pricingItems
-          : networkItems;
+          : type === "explore"
+            ? exploreItems
+            : networkItems;
 
 const navItems = items.filter((item) => !item?.external && !item?.internal);
 const external = items.find((item) => item?.external && !item?.internal);

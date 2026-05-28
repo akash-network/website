@@ -1,34 +1,38 @@
 import { useState } from "react";
 import { buyAktIcons } from "./token-icons";
 
-interface BuyingAKTSection {
+interface Category {
   title: string;
-  description: string;
-  categories: {
-    title: string;
-    items: { title: string; link: string; icon: string }[];
-  }[];
+  items: { title: string; link: string; icon: string }[];
 }
 
-const BuyingAkt = ({ buyingAKTSection }: { buyingAKTSection: BuyingAKTSection }) => {
+interface EcosystemSectionProps {
+  ecosystemSection: {
+    title: string;
+    description: string;
+    categories: Category[];
+  };
+}
+
+const EcosystemSection = ({ ecosystemSection }: EcosystemSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const activeCategory = buyingAKTSection.categories[activeIndex];
+  const activeCategory = ecosystemSection.categories[activeIndex];
 
   return (
     <div className="space-y-8 text-center">
       <div className="space-y-4">
         <h2 className="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
-          {buyingAKTSection.title}
+          {ecosystemSection.title}
         </h2>
         <p className="text-base font-normal text-para">
-          {buyingAKTSection.description}
+          {ecosystemSection.description}
         </p>
       </div>
 
       <div className="flex justify-center">
         <div className="inline-flex items-center rounded-lg bg-gray-100 p-1.5 dark:bg-background2">
-          {buyingAKTSection.categories.map((category, i) => (
+          {ecosystemSection.categories.map((category, i) => (
             <button
               key={category.title}
               onClick={() => setActiveIndex(i)}
@@ -78,4 +82,4 @@ const BuyingAkt = ({ buyingAKTSection }: { buyingAKTSection: BuyingAKTSection })
   );
 };
 
-export default BuyingAkt;
+export default EcosystemSection;

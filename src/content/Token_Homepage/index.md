@@ -1,12 +1,12 @@
 ---
 heroSection:
-  title: The Currency of the Supercloud
+  title: The Currency of Compute
   description: Akash Network Token (AKT) is the native utility token of the Akash Network, used as the primary means to govern, secure the blockchain, incentivize participants, and provide a default mechanism to store and exchange value.
   image: /images/token/hero.webp
 
 buyAktSection:
-  title: Buy AKT
-  description: Own a token that's backed by real world utility powering the future of AI.
+  title: Acquire AKT
+  description: AKT is available on major global platforms.
   items:
     - title: Coinbase
       link: "https://www.coinbase.com/how-to-buy/akash-network"
@@ -22,29 +22,29 @@ buyAktSection:
       icon: cryptocom
 
 howItWorksSection:
-  title: How Its Used
+  title: How it Works
   cards:
-    - title: Security
-      description: Akash Network is secured by a Proof-of-Stake (PoS) blockchain, and AKT is used to secure the network by staking. Staking AKT provides a yield for stakers, in exchange for securing the network.
+    - title: Security & Integrity
+      description: The computing ledger relies on a global network of validators to maintain absolute state integrity. Staking AKT secures the underlying infrastructure, verifies host provider configurations, and guarantees strict workload tenant isolation across the grid.
       icon: |
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M9 12.8125L11 14.8125L15 10.8125M12 22.8125C12 22.8125 20 18.8125 20 12.8125V5.8125L12 2.8125L4 5.8125V12.8125C4 18.8125 12 22.8125 12 22.8125Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-    - title: Governance
-      description: Akash Network is community-owned and all aspects of the network are governed by AKT holders. AKT holders can vote on proposals to improve the network and manage critical parameters such as inflation rate (BME removes take-rates on lease settlements).
+    - title: Decentralized Governance
+      description: Akash is an open, community-owned platform where critical protocol parameters are managed by the network. AKT holders participate in on-chain voting to approve software upgrades, manage parameter shifts, and guide strategic resource allocation.
       icon: |
         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M9.25 12.8125L11.25 14.8125L15.25 10.8125M22.25 19.8125H2.25M5.25 7.8125C5.25 6.7125 6.15 5.8125 7.25 5.8125H17.25C17.7804 5.8125 18.2891 6.02321 18.6642 6.39829C19.0393 6.77336 19.25 7.28207 19.25 7.8125V19.8125H5.25V7.8125Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-    - title: Value Exchange
-      description: AKT provides a default mechanism to store and exchange value. Compute is funded with ACT (USD-pegged credit), which is minted by burning AKT or via credit card; providers are paid in ACT. When the circuit breaker is in effect, you can top up with AKT to keep deployments running.
+    - title: The Burn-Mint Engine
+      description: Under AEP-76, deployments mint stable internal credits by burning AKT. The system automatically executes these token burns to settle provider payments, linking token scarcity directly to infrastructure demand while safeguarding the grid with built-in circuit breakers.
       icon: |
         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M16.5 3.8125L20.5 7.8125M20.5 7.8125L16.5 11.8125M20.5 7.8125H4.5M8.5 21.8125L4.5 17.8125M4.5 17.8125L8.5 13.8125M4.5 17.8125H20.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
 
 ecosystemSection:
-  title: Ecosystem Tools
+  title: Network Utility
   description: AKT is available on the following exchanges.
   categories:
     - title: Wallets
@@ -89,7 +89,7 @@ aktFeaturesSection:
   description: AKT 2.0 is an ongoing effort to bring new token features and utility to Akash and the AKT token. These features will generate value for the network by funding critical incentive pools that will support network growth and development, a wide range of currency options for lease settlement, and much more.
 
 buyingAKTSection:
-  title: Buying AKT
+  title: Acquire AKT
   description: AKT is available on the following exchanges.
   categories:
     - title: Centralized

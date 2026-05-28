@@ -37,6 +37,7 @@ const visibility = {
   development: ["/development", "/roadmap"],
   ecosystem: ["/ecosystem", "/case-studies"],
   pricing: ["/pricing"],
+  explore: ["/explore"],
 };
 
 const pathnames = Object.values(visibility).flat();
@@ -141,6 +142,11 @@ const navContainerClass = hideContainer ? "" : "container";
   {
     visibility.pricing.includes(pathname) && (
       <SubNavbar pathname={Astro.url.pathname} type="pricing" />
+    )
+  }
+  {
+    visibility.explore.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} type="explore" />
     )
   }
 </div>

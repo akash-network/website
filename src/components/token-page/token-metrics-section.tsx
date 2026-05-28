@@ -1,3 +1,5 @@
+import { Card, CardContent } from "@/components/ui/card";
+
 const TokenMetricsSection = ({
   data,
   isLoading,
@@ -62,29 +64,18 @@ const TokenMetricsSection = ({
   ];
 
   return (
-    <div className="">
-      <div>
-        <h2 className="text-center text-2xl font-semibold leading-9 md:text-2lg md:leading-10">
+    <div className="space-y-8">
+      <div className="text-center">
+        <h2 className="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
           Token Metrics
         </h2>
-        <p className="mt-4 text-center text-sm leading-[20px] md:text-base lg:text-lg lg:leading-[32px]">
-          As of{" "}
-          {data
-            ? new Date(data?.market_data?.last_updated).toUTCString()
-            : "Sat Jan 7 07:57:36 UTC"}
-          {", "}
-          the following are the AKT metrics, as reported by Coingecko.
-        </p>
       </div>
 
-      <div className="mt-10 space-y-[29px] md:space-y-[40px]">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {metrics.map((metric, index) => (
-            <div
-              key={index}
-              className="flex w-full flex-col justify-start rounded-lg border bg-background2 p-6 shadow"
-            >
-              <p className="text-sm font-medium leading-[20px] md:leading-tight">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {metrics.map((metric, index) => (
+          <Card key={index}>
+            <CardContent className="p-6">
+              <p className="text-sm font-medium leading-none text-muted-foreground">
                 {metric.title}
               </p>
               <Skeleton
@@ -93,19 +84,35 @@ const TokenMetricsSection = ({
                 isLoading={isLoading}
                 isNumber={metric.value}
               />
-            </div>
-          ))}
-        </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
+      <p className="text-center text-xs text-muted-foreground">
+        As of{" "}
+        {data
+          ? new Date(data?.market_data?.last_updated).toUTCString()
+          : "Sat Jan 7 07:57:36 UTC"}
+        {", "}
+        the following are the AKT metrics, as reported by{" "}
+        <a
+          href="https://www.coingecko.com/en/coins/akash-network"
+          className="underline-offset-2 hover:underline"
+        >
+          Coingecko
+        </a>
+        .
+      </p>
+
       {isError && (
-        <p className="mt-10 text-center">
-          Failed to get live data please visit
+        <p className="text-center text-xs text-muted-foreground">
+          Failed to get live data — visit{" "}
           <a
             href="https://www.coingecko.com/en/coins/akash-network"
-            className="ml-1.5 text-primary hover:text-primary/90"
+            className="underline-offset-2 hover:underline"
           >
-            coingecko
+            Coingecko
           </a>
         </p>
       )}
@@ -127,7 +134,7 @@ const Skeleton = ({
   isNumber?: number;
 }) => {
   return (
-    <h4 className="mt-2 text-2xl font-medium leading-none md:text-3xl md:font-medium">
+    <h4 className="mt-3 text-2xl font-medium leading-none md:text-3xl">
       {isLoading || isError ? (
         <span className="block h-8 animate-pulse rounded bg-gray-300"></span>
       ) : isNumber ? (

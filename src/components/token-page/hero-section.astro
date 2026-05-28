@@ -2,15 +2,17 @@
 const { heroSection } = Astro.props;
 ---
 
-<div class="flex flex-col items-center gap-10 md:gap-20">
-  <h1 class="text-center text-2xl !leading-[1.2] lg:text-5xl">
+<div class="space-y-10">
+  <h1 class="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
     {heroSection.title}
   </h1>
 
-  <div class="flex flex-col gap-8">
-    <h2 class="text-center text-2xl font-medium lg:text-3xl">The AKT Token</h2>
-    <p class="max-w-[37rem] text-center text-base">
-      {heroSection.description}
+  <div class="grid gap-8 md:grid-cols-2">
+    <p class="text-sm font-normal leading-relaxed text-para">
+      The Akash Network Token (AKT) acts as the programmatic clearing mechanism that drives the network's decentralized cloud economics. By handling protocol-level transaction logic natively, the system completely bypasses traditional cloud provider markups to deliver direct, frictionless, market-driven pricing straight to your infrastructure layer.
+    </p>
+    <p class="text-sm font-normal leading-relaxed text-para">
+      For enterprise engineering teams, the underlying complexity is entirely abstracted away. While the open marketplace settles high-velocity computing auctions via AKT in the background, your organization deploys workloads seamlessly using standard corporate billing. This marries enterprise-grade compliance with raw commodity infrastructure rates.
     </p>
   </div>
 </div>

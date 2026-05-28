@@ -126,52 +126,38 @@ export const developmentItems: NavItem[] = [
     description: "Join live dev calls and technical groups.",
     link: "/development/community-groups/",
   },
-  // Column 3
+];
+
+export const exploreItems: NavItem[] = [
   {
-    title: "Startups",
-    description: "Scale without the cloud tax.",
-    link: "/development/startups/",
+    title: "Use Cases",
+    description: "How startups and universities deploy on Akash.",
+    link: "/explore/use-cases/",
   },
   {
-    title: "Universities",
-    description: "Open compute for open research.",
-    link: "/development/universities/",
+    title: "AKT Token",
+    description: "Protocol utility and ecosystem economics.",
+    link: "/token/",
   },
   {
-    customIcon: (
-      <svg
-        width="24"
-        height="25"
-        viewBox="0 0 24 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M19 21.5H5C3.89543 21.5 3 20.6046 3 19.5V5.5C3 4.39543 3.89543 3.5 5 3.5H19C20.1046 3.5 21 4.39543 21 5.5V19.5C21 20.6046 20.1046 21.5 19 21.5Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-        <path
-          d="M3 15.5H9.4C9.73137 15.5 10.0053 15.7783 10.1504 16.0762C10.3564 16.4991 10.8442 17 12 17C13.1558 17 13.6436 16.4991 13.8496 16.0762C13.9947 15.7783 14.2686 15.5 14.6 15.5H21"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-        <path d="M3 7.5H21" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 11.5H21" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
     title: "Grants",
     description: "Get funded to build on the open cloud.",
-    link: "/development/funding-program/",
+    link: "/explore/grants/",
+  },
+  {
+    title: "Network Stats",
+    description: "Live metrics and deployment data.",
+    link: "https://stats.akash.network/",
+    external: true,
   },
 ];
 
 export const networkItems: NavItem[] = [
   {
     icon: BadgeHelp,
-    title: "About Akash",
-    description: "The story and tech of the Supercloud.",
-    link: "/about/general-information/",
+    title: "Use Cases",
+    description: "How startups and universities deploy on Akash.",
+    link: "/explore/use-cases/",
   },
   {
     customIcon: (
@@ -198,16 +184,15 @@ export const networkItems: NavItem[] = [
   {
     customIcon: (
       <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 3.5H4C3.44772 3.5 3 3.94772 3 4.5V9.5C3 10.0523 3.44772 10.5 4 10.5H9C9.55228 10.5 10 10.0523 10 9.5V4.5C10 3.94772 9.55228 3.5 9 3.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M20 3.5H15C14.4477 3.5 14 3.94772 14 4.5V9.5C14 10.0523 14.4477 10.5 15 10.5H20C20.5523 10.5 21 10.0523 21 9.5V4.5C21 3.94772 20.5523 3.5 20 3.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M20 14.5H15C14.4477 14.5 14 14.9477 14 15.5V20.5C14 21.0523 14.4477 21.5 15 21.5H20C20.5523 21.5 21 21.0523 21 20.5V15.5C21 14.9477 20.5523 14.5 20 14.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M9 14.5H4C3.44772 14.5 3 14.9477 3 15.5V20.5C3 21.0523 3.44772 21.5 4 21.5H9C9.55228 21.5 10 21.0523 10 20.5V15.5C10 14.9477 9.55228 14.5 9 14.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="12" cy="12.5" r="7" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M19 21.5H5C3.89543 21.5 3 20.6046 3 19.5V5.5C3 4.39543 3.89543 3.5 5 3.5H19C20.1046 3.5 21 4.39543 21 5.5V19.5C21 20.6046 20.1046 21.5 19 21.5Z" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M3 15.5H9.4C9.73137 15.5 10.0053 15.7783 10.1504 16.0762C10.3564 16.4991 10.8442 17 12 17C13.1558 17 13.6436 16.4991 13.8496 16.0762C13.9947 15.7783 14.2686 15.5 14.6 15.5H21" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M3 7.5H21" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M3 11.5H21" stroke="currentColor" strokeWidth="1.5" />
       </svg>
     ),
-    title: "Akash Validators",
-    description: "Secure the network and earn rewards.",
-    link: "/network/akash-validators/",
+    title: "Grants",
+    description: "Get funded to build on the open cloud.",
+    link: "/explore/grants/",
   },
   {
     icon: Activity,

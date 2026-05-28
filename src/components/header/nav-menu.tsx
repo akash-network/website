@@ -44,9 +44,9 @@ const featuredItems: Record<MenuId, FeaturedItemData> = {
     imageSrc: "/nav/community_featured.webp",
   },
   network: {
-    href: "/about/general-information/",
-    title: "About Akash",
-    description: "The story and tech of the Supercloud.",
+    href: "/explore/use-cases/",
+    title: "Use Cases",
+    description: "How startups and universities deploy on Akash.",
     imageSrc: "/nav/network_featured.webp",
   },
 };
@@ -203,7 +203,7 @@ export default function NavMenu({
   const isCurrentPath = (menu: MenuId) => {
     if (pathname === "/") return false;
     const paths: Record<MenuId, string[]> = {
-      network: ["/about", "/token"],
+      network: ["/about", "/token", "/explore"],
       community: ["/community"],
       development: ["/development", "/roadmap"],
       ecosystem: ["/ecosystem", "/case-studies"],
@@ -315,7 +315,7 @@ export default function NavMenu({
   }
 
   const triggerLabels: Record<MenuId, string> = {
-    network: "Network",
+    network: "Explore",
     community: "Community",
     development: "Development",
     ecosystem: "Ecosystem",
@@ -363,7 +363,7 @@ export default function NavMenu({
           <div
             className="rounded-md border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0d0d0f] shadow-xl overflow-hidden"
             style={{
-              width: activeMenu === "development" ? "900px" : "660px",
+              width: "660px",
               transition: "width 0.45s cubic-bezier(0.34, 1.3, 0.64, 1)",
             }}
           >
@@ -375,36 +375,18 @@ export default function NavMenu({
               }}
             >
               {activeMenu === "development" ? (
-                /* 3-column development layout */
+                /* 2-column development layout */
                 <div className="flex items-stretch">
-                  {/* Col 1: featured card */}
-                  <div className="w-[300px] shrink-0 p-2 flex flex-col">
+                  <div className="w-1/2 p-2 flex flex-col">
                     <FeaturedCard featured={featuredItems.development} />
                   </div>
-                  {/* Col 2: Roadmap, Integrations, Community Syncs */}
-                  <div className="flex-1 border-l border-zinc-100 dark:border-white/5 p-2">
+                  <div className="w-1/2 p-2">
                     {developmentItems
                       .filter(i => i.link !== featuredItems.development.href)
-                      .slice(0, 3)
                       .map((item) => (
                         <DropdownItem
                           key={item.link}
                           href={item.link === "roadmap" ? `/roadmap/${latestRoadmapYear}` : item.link}
-                          target={item.link.startsWith("http") ? "_blank" : "_self"}
-                          title={item.title}
-                          description={item.description}
-                        />
-                      ))}
-                  </div>
-                  {/* Col 3: Startups, Universities, Grants */}
-                  <div className="flex-1 border-l border-zinc-100 dark:border-white/5 p-2">
-                    {developmentItems
-                      .filter(i => i.link !== featuredItems.development.href)
-                      .slice(3)
-                      .map((item) => (
-                        <DropdownItem
-                          key={item.link}
-                          href={item.link}
                           target={item.link.startsWith("http") ? "_blank" : "_self"}
                           title={item.title}
                           description={item.description}
