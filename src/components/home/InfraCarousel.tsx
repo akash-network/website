@@ -61,12 +61,16 @@ const CONTAINER_PADDING = 'max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem))'
 const SCROLL_TARGETS = [4, 5]
 const TOTAL_CARDS = CARDS.length  // 6
 
+type AnimPhase = 'hidden' | 'animating' | 'done'
+
 export function InfraCarousel() {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollRef  = useRef<HTMLDivElement>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const [step, setStep] = useState(0)
   const [isMobileView, setIsMobileView] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 1024
   )
+  const [animPhase, setAnimPhase] = useState<AnimPhase>('hidden')
   const dragging = useRef(false)
   const dragStartX = useRef(0)
   const dragScrollStart = useRef(0)
@@ -78,8 +82,44 @@ export function InfraCarousel() {
   }, [])
 
   useEffect(() => {
-    if (scrollRef.current) scrollRef.current.scrollLeft = 0
+    const el = wrapperRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Two RAF cycles ensure the hidden state is painted before transition starts
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            setAnimPhase('animating')
+            setTimeout(() => setAnimPhase('done'), CARDS.length * 70 + 800)
+          }))
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.3 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [])
+
+  // Sync active dot with scroll position on mobile
+  useEffect(() => {
+    if (!isMobileView || animPhase !== 'done') return
+    const el = scrollRef.current
+    if (!el) return
+    const onScroll = () => {
+      const children = Array.from(el.children) as HTMLElement[]
+      const containerMid = el.getBoundingClientRect().left + el.offsetWidth / 2
+      let closest = 0
+      let minDist = Infinity
+      children.forEach((child, i) => {
+        const dist = Math.abs(child.getBoundingClientRect().left + child.offsetWidth / 2 - containerMid)
+        if (dist < minDist) { minDist = dist; closest = i }
+      })
+      setStep(closest)
+    }
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [isMobileView, animPhase])
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.preventDefault()
@@ -108,6 +148,21 @@ export function InfraCarousel() {
     el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' })
   }
 
+  const scrollToCardLeft = (cardIndex: number) => {
+    const el = scrollRef.current
+    if (!el) return
+    const card = (Array.from(el.children) as HTMLElement[])[cardIndex]
+    if (!card) return
+    const paddingLeft = parseFloat(getComputedStyle(el).paddingLeft)
+    el.scrollTo({ left: card.offsetLeft - paddingLeft, behavior: 'smooth' })
+  }
+
+  const goToCard = (i: number) => {
+    setStep(i)
+    if (i === 0) scrollRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
+    else scrollToCardLeft(i)
+  }
+
   const scroll = (dir: 'left' | 'right') => {
     if (dir === 'right' && step < maxStep) {
       const next = step + 1
@@ -124,29 +179,59 @@ export function InfraCarousel() {
   }
 
   return (
-    <div className="w-full">
+    <div ref={wrapperRef} className="w-full">
       {/* Header — contained */}
-      <div className="mb-10" style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING, maxWidth: 'calc(1280px + 2 * max(1.5rem, (100vw - 1280px) / 2 + 1.5rem))', marginLeft: 'auto', marginRight: 'auto' }}>
-        <h2 className="text-[28px] font-semibold leading-tight text-foreground md:text-[40px]">
-          The Open Supercloud for&nbsp;AI
-        </h2>
-        <p className="mt-3 max-w-lg text-sm text-para">
-          Stop overpaying for gated compute. Deploy on a global marketplace of high-density GPUs
-          to maximize your engineering runway.
-        </p>
+      <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between" style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING, maxWidth: 'calc(1280px + 2 * max(1.5rem, (100vw - 1280px) / 2 + 1.5rem))', marginLeft: 'auto', marginRight: 'auto' }}>
+        <div>
+          <h2 className="text-[28px] font-semibold leading-tight text-foreground md:text-[40px]">
+            Supercloud for AI
+          </h2>
+          <p className="mt-3 max-w-lg text-sm text-para">
+            Stop overpaying for gated compute. Deploy on a global marketplace of high-density GPUs
+            to maximize your engineering runway.
+          </p>
+        </div>
+        {/* Buttons — desktop only */}
+        <div className="hidden shrink-0 gap-2 lg:flex">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => scroll('left')}
+            disabled={!canLeft}
+            aria-label="Scroll left"
+            className="h-9 w-9"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => scroll('right')}
+            disabled={!canRight}
+            aria-label="Scroll right"
+            className="h-9 w-9"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Carousel — full bleed, left-padded to container edge */}
       <div
         ref={scrollRef}
-        className="flex gap-6 lg:gap-8 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing"
+        className={cn(
+          'flex gap-6 lg:gap-8 pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
+          animPhase === 'done'
+            ? 'overflow-x-auto cursor-grab active:cursor-grabbing'
+            : 'overflow-x-hidden',
+        )}
         style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING }}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
+        onPointerDown={animPhase === 'done' ? onPointerDown : undefined}
+        onPointerMove={animPhase === 'done' ? onPointerMove : undefined}
+        onPointerUp={animPhase === 'done' ? onPointerUp : undefined}
+        onPointerLeave={animPhase === 'done' ? onPointerUp : undefined}
       >
-        {CARDS.map((card) => (
+        {CARDS.map((card, i) => (
           <div
             key={card.title}
             className={cn(
@@ -155,6 +240,17 @@ export function InfraCarousel() {
                 ? 'w-[280px] sm:w-[420px] lg:w-[620px]'
                 : 'w-[220px] sm:w-[270px] lg:w-[350px]',
             )}
+            style={
+              animPhase === 'hidden'
+                ? { opacity: 0, transform: 'translateX(80px)' }
+                : animPhase === 'animating'
+                ? {
+                    opacity: 1,
+                    transform: 'translateX(0)',
+                    transition: `transform 0.75s cubic-bezier(0.34,1.2,0.64,1) ${i * 70}ms, opacity 0.5s ease-out ${i * 60}ms`,
+                  }
+                : undefined
+            }
           >
             <div
               className={cn(
@@ -185,32 +281,23 @@ export function InfraCarousel() {
         ))}
       </div>
 
-      {/* Arrows — contained */}
-      <div
-        className="mt-6 flex justify-end gap-2"
-        style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING, maxWidth: 'calc(1280px + 2 * max(1.5rem, (100vw - 1280px) / 2 + 1.5rem))', marginLeft: 'auto', marginRight: 'auto' }}
-      >
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => scroll('left')}
-          disabled={!canLeft}
-          aria-label="Scroll left"
-          className="h-9 w-9"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => scroll('right')}
-          disabled={!canRight}
-          aria-label="Scroll right"
-          className="h-9 w-9"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
+      {/* Dots — mobile only, below carousel */}
+      <div className="mt-8 flex justify-center lg:hidden" style={{ paddingLeft: CONTAINER_PADDING, paddingRight: CONTAINER_PADDING }}>
+        <div className="flex items-center gap-2">
+          {CARDS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goToCard(i)}
+              aria-label={`Go to card ${i + 1}`}
+              className={cn(
+                'h-1.5 rounded-full transition-all duration-300',
+                step === i ? 'w-6 bg-foreground' : 'w-1.5 bg-border',
+              )}
+            />
+          ))}
+        </div>
       </div>
+
     </div>
   )
 }

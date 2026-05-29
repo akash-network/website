@@ -504,8 +504,9 @@ export function HowItWorks() {
     if (!el) return
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging.current) return
-      e.preventDefault()
-      let offset = e.touches[0].clientX - dragStartX.current
+      const dx = e.touches[0].clientX - dragStartX.current
+      if (Math.abs(dx) > 10) e.preventDefault()
+      let offset = dx
       if (curRef.current === 0) offset = Math.min(0, offset)
       if (curRef.current === STEPS.length - 1) offset = Math.max(0, offset)
       dragOffsetRef.current = offset
@@ -618,7 +619,7 @@ export function HowItWorks() {
   )
 
   const heading = (
-    <div className="mb-10">
+    <div className="mb-12 lg:mb-10">
       <h2 className="text-[28px] font-semibold leading-tight md:text-[40px]">How It Works</h2>
       <p className="mt-3 max-w-sm text-base text-para md:text-lg">
         Go from configuration to an active workload in seconds.
@@ -711,7 +712,7 @@ export function HowItWorks() {
           </div>
         </div>
 
-        <div className="mt-5 flex justify-center">
+        <div className="mt-8 flex justify-center">
           <div className="flex h-[28px] items-stretch rounded-md border border-black/10 dark:border-white/15 bg-background px-1 dark:bg-card">
             {STEPS.map((_, i) => (
               <button
@@ -735,6 +736,7 @@ export function HowItWorks() {
             ))}
           </div>
         </div>
+
       </div>
 
       {/* ── Desktop ── */}

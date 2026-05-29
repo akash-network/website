@@ -80,20 +80,34 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
     const canvas = canvasRef.current
     if (!canvas) return
 
+    const getIsDark = () => document.documentElement.classList.contains('dark')
+
+    const themeConfig = (dark: boolean) => ({
+      dark:          dark ? 1 : 0,
+      mapBrightness: dark ? 2.5 : 6,
+      baseColor:     (dark ? [0.3, 0.3, 0.3] : [0.85, 0.85, 0.85]) as [number, number, number],
+      glowColor:     (dark ? [0.07, 0.07, 0.07] : [1, 1, 1]) as [number, number, number],
+    })
+
     const globe = createGlobe(canvas, {
       devicePixelRatio: Math.min(window.devicePixelRatio, 2),
       width:  CANVAS_PX,
       height: CANVAS_PX,
       phi:   phiRef.current,
       theta: THETA,
-      dark:  1,
-      diffuse:       1.2,
-      mapSamples:    32000,
-      mapBrightness: 2.2,
-      baseColor:     [0.3, 0.3, 0.3],
-      markerColor:   [1.0, 0.255, 0.298],
-      glowColor:     [0.07, 0.07, 0.07],
+      diffuse:     1.2,
+      mapSamples:  32000,
+      markerColor: [1.0, 0.255, 0.298],
+      ...themeConfig(getIsDark()),
       markers: markers.map(loc => ({ location: loc, size: 0.030 })),
+    })
+
+    const themeObserver = new MutationObserver(() => {
+      globe.update(themeConfig(getIsDark()))
+    })
+    themeObserver.observe(document.documentElement, {
+      attributes:      true,
+      attributeFilter: ['class'],
     })
 
     function animate() {
@@ -107,6 +121,7 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
     return () => {
       cancelAnimationFrame(rafRef.current)
       globe.destroy()
+      themeObserver.disconnect()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -131,10 +146,10 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
       {/* Header */}
       <div className="flex items-end justify-between gap-8 mb-6">
         <div>
-          <h2 className="text-[28px] font-semibold leading-tight text-white md:text-[40px]">
+          <h2 className="text-[28px] font-semibold leading-tight text-foreground md:text-[40px]">
             Global Grid. No Off Switch.
           </h2>
-          <p className="mt-3 max-w-lg text-sm leading-relaxed text-[#a1a1aa]">
+          <p className="mt-3 max-w-lg text-sm leading-relaxed text-para">
             Access a global network engineered for high availability. While centralized clouds
             rely on single points of failure, Akash uses a distributed protocol to keep your
             workloads independent and resilient against system-wide failure.
@@ -142,7 +157,7 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
         </div>
         <div className="hidden md:flex gap-2 shrink-0">
           <Button asChild size="sm"
-            className="h-9 gap-1.5 border border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">
+            className="h-9 gap-1.5 border border-border bg-transparent text-foreground hover:bg-accent">
             <a href="/ecosystem/providers">
               View All Providers <ChevronRight className="h-3.5 w-3.5" />
             </a>
@@ -161,10 +176,10 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
         <div className="border-t border-border py-6 grid grid-cols-3 sm:grid-cols-5 gap-y-6">
           {stats.map(s => (
             <div key={s.label}>
-              <p className="text-xl font-semibold text-white sm:text-2xl tabular-nums">
+              <p className="text-xl font-semibold text-foreground sm:text-2xl tabular-nums">
                 {s.value}
               </p>
-              <p className="mt-0.5 text-xs text-[#a1a1aa]">{s.label}</p>
+              <p className="mt-0.5 text-xs text-para">{s.label}</p>
             </div>
           ))}
         </div>
@@ -172,7 +187,7 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
 
       <div className="md:hidden mb-4">
         <Button asChild size="sm"
-          className="w-full h-9 gap-1.5 border border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">
+          className="w-full h-9 gap-1.5 border border-border bg-transparent text-foreground hover:bg-accent">
           <a href="/ecosystem/providers">
             View All Providers <ChevronRight className="h-3.5 w-3.5" />
           </a>
@@ -181,7 +196,7 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
 
       {/* Globe */}
       <div
-        className="relative mt-2 rounded-2xl border border-border bg-black overflow-hidden flex items-center justify-center py-8"
+        className="relative mt-2 rounded-2xl border border-border bg-zinc-100 dark:bg-black overflow-hidden flex items-center justify-center py-8"
       >
         <div
           className="relative select-none"

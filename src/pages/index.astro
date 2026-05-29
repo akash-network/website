@@ -1,10 +1,8 @@
 ---
-import FuelNew from "@/components/home/fuelNew.astro";
 import Hero from "@/components/home/hero/hero.astro";
 import ProductShowcaseSection from "@/components/home/product-showcase.astro";
 import InfraCarouselSection from "@/components/home/infra-carousel.astro";
 import HowItWorksSection from "@/components/home/how-it-works.astro";
-import AppsCarouselSection from "@/components/home/apps-carousel.astro";
 import NetworkGlobeSection from "@/components/home/network-globe.astro";
 import RazerCaseStudySection from "@/components/home/razer-case-study.astro";
 import TrustedBy from "@/components/home/trustedby/trusted-by.astro";
@@ -48,8 +46,6 @@ const {
     <div class="bg-background dark:bg-[#0D0D0E] w-full h-fit"><HowItWorksSection /></div>
     <div class="bg-background dark:bg-[#0D0D0E] w-full h-fit"><InfraCarouselSection /></div>
     <div class="bg-background dark:bg-[#0D0D0E] w-full h-fit"><RazerCaseStudySection /></div>
-    <div class="bg-zinc-50 dark:bg-background w-full h-fit"><AppsCarouselSection /></div>
-    <div class="bg-black w-full h-fit"><NetworkGlobeSection /></div>
-    <div class="bg-background w-full h-fit"><FuelNew /></div>
+    <div class="bg-zinc-50 dark:bg-black w-full h-fit"><NetworkGlobeSection /></div>
   </div>
 </Layout>

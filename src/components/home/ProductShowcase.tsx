@@ -84,8 +84,9 @@ export function ProductShowcase() {
     if (!el) return
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging.current) return
-      e.preventDefault()
-      let offset = e.touches[0].clientX - dragStartX.current
+      const dx = e.touches[0].clientX - dragStartX.current
+      if (Math.abs(dx) > 10) e.preventDefault()
+      let offset = dx
       if (curRef.current === 0) offset = Math.min(0, offset)
       if (curRef.current === PRODUCTS.length - 1) offset = Math.max(0, offset)
       dragOffsetRef.current = offset
@@ -186,7 +187,7 @@ export function ProductShowcase() {
     <>
       {/* ── Mobile carousel ── */}
       <div className="flex flex-col lg:hidden">
-        <div className="mb-8">
+        <div className="mb-12">
           <h2 className="text-[28px] font-semibold leading-tight text-foreground">
             Get Started
           </h2>
@@ -213,26 +214,21 @@ export function ProductShowcase() {
             {PRODUCTS.map((product, i) => (
               <div key={i} className="w-full shrink-0">
                 <div className="mb-5">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-foreground" />
-                    <p className="text-lg font-semibold leading-snug text-foreground">
-                      {product.title}
-                    </p>
-                  </div>
-                  <div className="pl-[18px]">
-                    <p className="text-sm leading-relaxed text-para">{product.description}</p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      asChild
-                      className="mt-5 h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                    >
-                      <a href={product.url} target="_blank" rel="noopener noreferrer">
-                        {product.buttonLabel}
-                        <ChevronRight className="h-3 w-3" />
-                      </a>
-                    </Button>
-                  </div>
+                  <p className="mb-3 text-lg font-semibold leading-snug text-foreground">
+                    {product.title}
+                  </p>
+                  <p className="text-sm leading-relaxed text-para">{product.description}</p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="mt-5 h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                  >
+                    <a href={product.url} target="_blank" rel="noopener noreferrer">
+                      {product.buttonLabel}
+                      <ChevronRight className="h-3 w-3" />
+                    </a>
+                  </Button>
                 </div>
                 <div className="overflow-hidden rounded-xl border border-border" style={{ aspectRatio: '1 / 1' }}>
                   <img
@@ -248,7 +244,7 @@ export function ProductShowcase() {
           </div>
         </div>
 
-        <div className="mt-5 flex justify-center">
+        <div className="mt-8 flex justify-center">
           <div className="flex h-[28px] items-stretch rounded-md border border-black/10 dark:border-white/15 bg-background px-1 dark:bg-card">
             {PRODUCTS.map((_, i) => (
               <button
@@ -272,6 +268,7 @@ export function ProductShowcase() {
             ))}
           </div>
         </div>
+
       </div>
 
       {/* ── Desktop ── */}
