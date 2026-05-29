@@ -67,6 +67,8 @@ export function InfraCarousel() {
   const scrollRef  = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [step, setStep] = useState(0)
+  const [atStart, setAtStart] = useState(true)
+  const [atEnd, setAtEnd] = useState(false)
   const [isMobileView, setIsMobileView] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 1024
   )
@@ -101,21 +103,33 @@ export function InfraCarousel() {
     return () => observer.disconnect()
   }, [])
 
-  // Sync active dot with scroll position on mobile
+  // Sync button state and dots with actual scroll position
   useEffect(() => {
-    if (!isMobileView || animPhase !== 'done') return
+    if (animPhase !== 'done') return
     const el = scrollRef.current
     if (!el) return
     const onScroll = () => {
-      const children = Array.from(el.children) as HTMLElement[]
-      const containerMid = el.getBoundingClientRect().left + el.offsetWidth / 2
-      let closest = 0
-      let minDist = Infinity
-      children.forEach((child, i) => {
-        const dist = Math.abs(child.getBoundingClientRect().left + child.offsetWidth / 2 - containerMid)
-        if (dist < minDist) { minDist = dist; closest = i }
-      })
-      setStep(closest)
+      const maxScroll = el.scrollWidth - el.clientWidth
+      const isAtStart = el.scrollLeft < 5
+      const isAtEnd = el.scrollLeft >= maxScroll - 5
+      setAtStart(isAtStart)
+      setAtEnd(isAtEnd)
+      if (isMobileView) {
+        const children = Array.from(el.children) as HTMLElement[]
+        const containerMid = el.getBoundingClientRect().left + el.offsetWidth / 2
+        let closest = 0
+        let minDist = Infinity
+        children.forEach((child, i) => {
+          const dist = Math.abs(child.getBoundingClientRect().left + child.offsetWidth / 2 - containerMid)
+          if (dist < minDist) { minDist = dist; closest = i }
+        })
+        setStep(closest)
+      } else {
+        // Keep step in sync on desktop so button-driven scroll targets stay correct after dragging
+        if (isAtStart) setStep(0)
+        else if (isAtEnd) setStep(SCROLL_TARGETS.length)
+        else setStep(1)
+      }
     }
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
@@ -135,8 +149,8 @@ export function InfraCarousel() {
   const onPointerUp = () => { dragging.current = false }
 
   const maxStep = isMobileView ? TOTAL_CARDS - 1 : SCROLL_TARGETS.length
-  const canLeft = step > 0
-  const canRight = step < maxStep
+  const canLeft = !atStart
+  const canRight = !atEnd
 
   const scrollToCardRight = (cardIndex: number) => {
     const el = scrollRef.current
@@ -164,13 +178,13 @@ export function InfraCarousel() {
   }
 
   const scroll = (dir: 'left' | 'right') => {
-    if (dir === 'right' && step < maxStep) {
-      const next = step + 1
+    if (dir === 'right' && canRight) {
+      const next = Math.min(step + 1, maxStep)
       setStep(next)
       if (isMobileView) scrollToCardRight(next)
       else scrollToCardRight(SCROLL_TARGETS[next - 1])
-    } else if (dir === 'left' && step > 0) {
-      const next = step - 1
+    } else if (dir === 'left' && canLeft) {
+      const next = Math.max(step - 1, 0)
       setStep(next)
       if (next === 0) scrollRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
       else if (isMobileView) scrollToCardRight(next)

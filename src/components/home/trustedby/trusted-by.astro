@@ -4,16 +4,74 @@ import { trustedBySection } from "./trustedby";
 ---
 
 <div class="w-full overflow-hidden pt-16 pb-10 bg-background dark:bg-[#030303] md:py-20">
-  <!-- Marquee — full bleed on mobile, edge fades on md+ -->
-  <div
-    class="relative mb-10 w-full md:container md:mx-auto md:before:absolute md:before:left-0 md:before:top-0 md:before:z-10 md:before:h-full md:before:w-24 md:before:bg-gradient-to-r md:before:from-white md:before:to-transparent md:before:content-[''] md:after:absolute md:after:right-0 md:after:top-0 md:after:z-10 md:after:h-full md:after:w-24 md:after:bg-gradient-to-l md:after:from-white md:after:to-transparent md:after:content-[''] dark:md:before:from-[#030303] dark:md:after:from-[#030303]"
-  >
+<style>
+  @media (min-width: 768px) {
+    .marquee-wrapper::before,
+    .marquee-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      z-index: 10;
+      height: 100%;
+      width: 180px;
+      pointer-events: none;
+    }
+    .marquee-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right,
+        white 0%,
+        white 25%,
+        rgba(255,255,255,0.85) 45%,
+        rgba(255,255,255,0.6) 60%,
+        rgba(255,255,255,0.3) 75%,
+        rgba(255,255,255,0.08) 90%,
+        transparent 100%
+      );
+    }
+    .marquee-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left,
+        white 0%,
+        white 25%,
+        rgba(255,255,255,0.85) 45%,
+        rgba(255,255,255,0.6) 60%,
+        rgba(255,255,255,0.3) 75%,
+        rgba(255,255,255,0.08) 90%,
+        transparent 100%
+      );
+    }
+    :global(.dark) .marquee-wrapper::before {
+      background: linear-gradient(to right,
+        #030303 0%,
+        #030303 25%,
+        rgba(3,3,3,0.85) 45%,
+        rgba(3,3,3,0.6) 60%,
+        rgba(3,3,3,0.3) 75%,
+        rgba(3,3,3,0.08) 90%,
+        transparent 100%
+      );
+    }
+    :global(.dark) .marquee-wrapper::after {
+      background: linear-gradient(to left,
+        #030303 0%,
+        #030303 25%,
+        rgba(3,3,3,0.85) 45%,
+        rgba(3,3,3,0.6) 60%,
+        rgba(3,3,3,0.3) 75%,
+        rgba(3,3,3,0.08) 90%,
+        transparent 100%
+      );
+    }
+  }
+</style>
+  <!-- Marquee — full bleed on mobile, edge fades aligned to container on desktop -->
+  <div class="marquee-wrapper relative mb-10 w-full md:container md:mx-auto">
     <div style="min-height:34px;">
       <TrustedByMarquee trustedBySection={trustedBySection} client:only="react" />
     </div>
   </div>
 
-  <div class="container flex justify-center">
+  <div class="container flex justify-center" style="position:relative;z-index:1;">
     <a
       href="https://www.razer.ai/aikit-akash-avamini/"
       target="_blank"

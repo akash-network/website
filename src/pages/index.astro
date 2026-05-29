@@ -4,6 +4,7 @@ import ProductShowcaseSection from "@/components/home/product-showcase.astro";
 import InfraCarouselSection from "@/components/home/infra-carousel.astro";
 import HowItWorksSection from "@/components/home/how-it-works.astro";
 import NetworkGlobeSection from "@/components/home/network-globe.astro";
+import HomeCta from "@/components/home/HomeCta.astro";
 import RazerCaseStudySection from "@/components/home/razer-case-study.astro";
 import TrustedBy from "@/components/home/trustedby/trusted-by.astro";
 import GpuPricingSection from "@/components/home/gpu-pricing-section.astro";
@@ -47,5 +48,6 @@ const {
     <div class="bg-background dark:bg-[#0D0D0E] w-full h-fit"><InfraCarouselSection /></div>
     <div class="bg-background dark:bg-[#0D0D0E] w-full h-fit"><RazerCaseStudySection /></div>
     <div class="bg-zinc-50 dark:bg-black w-full h-fit"><NetworkGlobeSection /></div>
+    <HomeCta />
   </div>
 </Layout>
