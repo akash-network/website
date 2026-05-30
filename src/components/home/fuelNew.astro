@@ -1,53 +1,42 @@
 ---
-import Dither from "@/components/backgrounds/Dither";
 ---
 
-<div class="container lg:pb-20">
+<div class="container my-8 md:my-16">
   <section
-    class="relative w-full h-fit overflow-hidden rounded-2xl bg-[#171717]"
+    class="w-full rounded-xl border border-border bg-card px-4 py-8 md:px-8 md:py-12 shadow-sm"
   >
-  <div class="absolute inset-0 z-0 opacity-15">
-    <Dither
-      client:visible
-      waveColor={[0.5,0.5,0.5]}
-      colorNum={3}
-      disableAnimation={false}
-      waveAmplitude={0.25}
-      waveFrequency={2}
-      waveSpeed={0.07}
-      enableMouseInteraction
-      mouseRadius={0.6}
-      pixelSize={2}
-    />
-  </div>
 
-  <div class="relative z-10 flex h-full flex-col items-center justify-center py-40 text-center">
+  <div class="flex h-full flex-col items-center justify-center text-center">
 
-    <img
-      src="/images/akashstar.svg"
-      alt="Akash Star"
-      width="48"
-      height="48"
-      class="h-12 select-none pointer-events-none"
-    />
+    <picture>
+      <source srcset="/images/akash-3d.webp" type="image/webp" />
+      <img
+        src="/images/akash-3d.png"
+        alt="Akash"
+        width="100"
+        height="88"
+        class="select-none pointer-events-none"
+      />
+    </picture>
 
-    <div class="my-10 flex flex-col gap-2 md:gap-4 px-6">
-      <h2 class="text-[40px] font-semibold leading-[50px] text-white lg:text-[64px]">
-        AKT: The Fuel <br class="block lg:hidden" /> Behind Akash
+    <div class="my-5 flex flex-col items-center gap-4 px-2 md:my-8 md:gap-6 md:px-6">
+      <h2 class="text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+        The Economic Layer <br class="hidden md:block" /> of the Open Cloud
       </h2>
 
-      <p class="text-[#8A8F98] text-base md:text-lg">
-        AKT is the utility token that powers <br class="block lg:hidden" /> every GPU transaction on the
-        Akash <br class="block lg:hidden" /> decentralized cloud.
+      <p class="mx-auto max-w-xl text-center text-sm font-normal leading-relaxed text-para md:text-base">
+        Powered by the native AKT utility token, our automated settlement layer manages transaction logic in the background. Your teams deploy via standard credit card billing while securing raw market rates.
       </p>
     </div>
 
     <a
       href="/token/"
-      class="flex text-sm items-center rounded-lg bg-[#333336] px-4 py-2 text-white transition-all duration-300 hover:brightness-110"
+      class="inline-flex items-center gap-1.5 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
     >
-      Learn How AKT Works
+      Learn more about AKT
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
     </a>
 
   </div>
-</section>
+  </section>
+</div>

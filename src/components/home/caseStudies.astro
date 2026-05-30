@@ -1,48 +1,11 @@
 ---
-interface CaseStudy {
-  icon: string;
-  title: string;
-  description: string;
-  link: string;
-  alt: string;
-}
-
-const caseStudies: CaseStudy[] = [
-  {
-    icon: "/images/case-studies/sigea.svg",
-    title:
-      "Eliminating Cloud Cost Opacity: How Sigea Cloud Labs Rebuilt Enterprise Storage on Akash",
-    description:
-      "Sigea Cloud Labs deployed privacy-first cloud storage on Akash Network's decentralized GPU infrastructure.",
-    link: "/blog/eliminating-cloud-cost-opacity-how-sigea-cloud-labs-rebuilt-enterprise-storage-on-decentralized-infrastructure",
-    alt: "Sigea Cloud Labs",
-  },
-  {
-    icon: "/images/case-studies/levangie.svg",
-    title:
-      "Why Levangie Labs Chose Akash to Power the First Semi-Autonomous AI Organization",
-    description:
-      "Levangie Laboratories built cognitive architecture that enables AI agents to operate independently.",
-    link: "/blog/why-levangie-labs-chose-akash-to-power-the-first-semi-autonomous-ai-organization",
-    alt: "Levangie Labs",
-  },
-  {
-    icon: "/images/case-studies/flashback.svg",
-    title:
-      "How Flashback Labs Scaled Privacy-First AI on Akash",
-    description:
-      "Flashback Labs built a privacy-first AI platform that lets users create lifelike AI twins trained entirely on their own data.",
-    link: "/blog/how-flashback-labs-scaled-privacy-first-ai-on-akash/",
-    alt: "Flashback Labs",
-  },
-];
 ---
 
 <section class="w-full text-white py-20 lg:py-[120px]">
   <div class="container">
 
     <!-- Header -->
-    <div class="text-center mb-16">
+    <div class="text-center">
       <h2 class="text-[26px] font-semibold">
         Case Studies
       </h2>
@@ -53,66 +16,6 @@ const caseStudies: CaseStudy[] = [
       </p>
     </div>
 
-    <!-- Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      {caseStudies.map((study) => (
-        <div class="rounded-[20px] border border-black/10 dark:border-white/10 p-6 flex flex-col h-full">
-
-          <!-- Icon -->
-          <div
-            class="flex items-center justify-center aspect-square w-[48px] rounded-[10px] bg-[#EEEEEE] dark:bg-[#101010] border border-[#e3e3e3] dark:border-white/10"
-          >
-            <img
-              src={study.icon}
-              alt={study.alt}
-              width="24"
-              height="24"
-              loading="lazy"
-              decoding="async"
-              class="w-6 h-6 object-contain"
-            />
-          </div>
-
-          <!-- Content -->
-          <div class="my-4 md:my-8 space-y-2 flex-grow">
-            <h3 class="text-lg font-semibold leading-snug line-clamp-2">
-              {study.title}
-            </h3>
-
-            <p class="text-sm text-[#7E868C] leading-relaxed line-clamp-2">
-              {study.description}
-            </p>
-          </div>
-
-          <a
-            href={study.link}
-            class="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-4 py-2 text-sm text-[#171717] dark:text-white transition-all duration-300 hover:bg-white/30 dark:hover:bg-white/5 w-fit mt-auto"
-          >
-            <span class="font-medium">Read More</span>
-
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="transition-transform duration-300 group-hover:translate-x-1"
-            >
-              <path
-                d="M9 6L15 12L9 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
-
-        </div>
-      ))}
-
-    </div>
 
   </div>
 </section>
