@@ -6,8 +6,14 @@ export const getYearToUse = () => {
 };
 
 export const redirects = {
-  "/community/akash-validators/": "/network/akash-validators/",
-  "/community/akash-validators": "/network/akash-validators/",
+  "/akt": "/token",
+  "/akt-token": "/token",
+  "/akt/": "/token",
+  "/akt-token/": "/token",
+  "/community/akash-validators/": "/akash-validators/",
+  "/community/akash-validators": "/akash-validators/",
+  "/network/akash-validators/": "/akash-validators/",
+  "/network/akash-validators": "/akash-validators/",
   "/about/providers/": "/ecosystem/providers/",
   "/about/providers": "/ecosystem/providers/",
   "/about/network-capacity/": "/ecosystem/network-capacity/",

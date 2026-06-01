@@ -10,7 +10,7 @@ import NavMenu from "./nav-menu";
 import SubNavbar from "./SubNavbar.astro";
 
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
-const isValidatorsPage = Astro.url.pathname.startsWith("/network/akash-validators");
+const isValidatorsPage = Astro.url.pathname.startsWith("/akash-validators");
 const isProvidersPage =
   Astro.url.pathname.startsWith("/ecosystem/providers") ||
   Astro.url.pathname.startsWith("/ecosystem/network-capacity");
