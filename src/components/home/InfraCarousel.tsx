@@ -77,6 +77,12 @@ export function InfraCarousel() {
   const dragStartX = useRef(0)
   const dragScrollStart = useRef(0)
 
+  // Ref bundle keeps wheel handler free of stale closures
+  const scrollStateRef = useRef({ step: 0, atStart: true, atEnd: false, isMobile: false, animDone: false })
+  useEffect(() => {
+    scrollStateRef.current = { step, atStart, atEnd, isMobile: isMobileView, animDone: animPhase === 'done' }
+  }, [step, atStart, atEnd, isMobileView, animPhase])
+
   useEffect(() => {
     const check = () => setIsMobileView(window.innerWidth < 1024)
     window.addEventListener('resize', check)
@@ -134,6 +140,81 @@ export function InfraCarousel() {
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
   }, [isMobileView, animPhase])
+
+  // Hijack vertical wheel → advance carousel horizontally (desktop only)
+  useEffect(() => {
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+
+    let cooldown = false
+
+    const handleWheel = (e: WheelEvent) => {
+      const { isMobile, atStart: _atStart, atEnd: _atEnd, step: _step, animDone } = scrollStateRef.current
+      if (isMobile || !animDone) return
+
+      const rect = wrapper.getBoundingClientRect()
+      const goingDown = e.deltaY > 0
+      const goingUp = e.deltaY < 0
+
+      // wrapperRef top (= headline top) should sit this many px below viewport top when locked
+      const TARGET = 60
+
+      // Going down: engage when section top is within 40px of the lock position
+      // Going up: wider ±150px window so coarse trackpad events can't skip past re-engagement
+      const inFocusDown = goingDown && rect.top <= TARGET + 40 && rect.bottom > 100
+      const inFocusUp = goingUp && rect.top >= TARGET - 150 && rect.top <= TARGET + 5 && rect.bottom > 0
+      if (!inFocusDown && !inFocusUp) return
+
+      // Release vertical scroll at the carousel boundaries
+      if (goingDown && _atEnd) return
+      if (goingUp && _atStart) return
+
+      e.preventDefault()
+      if (cooldown) return
+      cooldown = true
+      setTimeout(() => { cooldown = false }, 700)
+
+      // Snap wrapper to TARGET — only in the matching direction so we never emit a scroll-up
+      // event during downward traversal (which would trigger the navbar's show-on-scroll-up)
+      if (goingDown && rect.top > TARGET + 2) {
+        window.scrollTo({ top: window.scrollY + (rect.top - TARGET), behavior: 'instant' })
+      } else if (goingUp && rect.top < TARGET - 2) {
+        window.scrollTo({ top: window.scrollY + (rect.top - TARGET), behavior: 'instant' })
+      }
+
+      const el = scrollRef.current
+      if (!el) return
+
+      if (goingDown) {
+        const next = Math.min(_step + 1, SCROLL_TARGETS.length)
+        scrollStateRef.current.step = next
+        setStep(next)
+        const card = (Array.from(el.children) as HTMLElement[])[SCROLL_TARGETS[next - 1]]
+        if (card) {
+          const paddingRight = parseFloat(getComputedStyle(el).paddingRight)
+          const delta = card.getBoundingClientRect().right - (el.getBoundingClientRect().right - paddingRight)
+          el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' })
+        }
+      } else {
+        const next = Math.max(_step - 1, 0)
+        scrollStateRef.current.step = next
+        setStep(next)
+        if (next === 0) {
+          el.scrollTo({ left: 0, behavior: 'smooth' })
+        } else {
+          const card = (Array.from(el.children) as HTMLElement[])[SCROLL_TARGETS[next - 1]]
+          if (card) {
+            const paddingRight = parseFloat(getComputedStyle(el).paddingRight)
+            const delta = card.getBoundingClientRect().right - (el.getBoundingClientRect().right - paddingRight)
+            el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' })
+          }
+        }
+      }
+    }
+
+    window.addEventListener('wheel', handleWheel, { passive: false })
+    return () => window.removeEventListener('wheel', handleWheel)
+  }, []) // empty deps — all live state read from scrollStateRef
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.preventDefault()
