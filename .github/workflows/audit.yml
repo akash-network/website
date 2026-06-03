@@ -1,0 +1,29 @@
+name: Dependency Audit
+
+on:
+  pull_request:
+    branches: ["main"]
+  schedule:
+    # Weekly, Mondays at 09:00 UTC
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
