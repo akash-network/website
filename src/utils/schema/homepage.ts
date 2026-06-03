@@ -1,6 +1,8 @@
 import { defineCollection, z } from "astro:content";
+import { contentLoader } from "@/utils/schema/contentLoader";
 
 export const homePageSchema = defineCollection({
+  loader: contentLoader("Homepage"),
   schema: ({ image }) => {
     return z.object({
       advert: z.object({

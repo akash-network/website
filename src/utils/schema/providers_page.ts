@@ -1,6 +1,8 @@
 import { defineCollection, z } from "astro:content";
+import { contentLoader } from "@/utils/schema/contentLoader";
 
 export const providersPage = defineCollection({
+  loader: contentLoader("Providers_Homepage"),
   schema: ({ image }) => {
     return z.object({
       heroSection: z.object({

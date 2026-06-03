@@ -13,7 +13,7 @@ async function getBlogPageContent() {
     bannerImage: content.data.bannerImage,
     title: content.data.title,
     description: content.data.description,
-    link: content.slug,
+    link: content.id,
     pubDate: content.data.pubDate.toLocaleDateString("en-us", {
       year: "numeric",
       month: "short",

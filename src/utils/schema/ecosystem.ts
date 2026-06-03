@@ -1,6 +1,8 @@
 import { defineCollection, z } from "astro:content";
+import { contentLoader } from "@/utils/schema/contentLoader";
 
 const baseSchema = defineCollection({
+  loader: contentLoader("Ecosystem_Page"),
   schema: ({ image }) => {
     return z.object({
       projectImage: image(),

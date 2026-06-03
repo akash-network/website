@@ -99,7 +99,7 @@ export default function Roadmap({ year, quarters, years }: Props) {
                     <div className="flex w-full flex-col gap-10">
                       {roadmaps.map((roadmap: Roadmap) => (
                         <div
-                          key={roadmap.slug}
+                          key={roadmap.id}
                           className="flex flex-col items-start gap-4 md:flex-row md:gap-10"
                         >
                           <div className="-ml-3 flex items-center gap-3 md:ml-0 md:pt-6">
@@ -107,7 +107,7 @@ export default function Roadmap({ year, quarters, years }: Props) {
                               <div className="size-1.5 rounded-full bg-black dark:bg-white" />
                             </div>
                             <p className="whitespace-nowrap text-sm font-medium text-[#7E868C99] dark:text-para">
-                              {roadmap.slug.split("/")[0]}
+                              {roadmap.id.split("/")[0]}
                             </p>
                           </div>
 

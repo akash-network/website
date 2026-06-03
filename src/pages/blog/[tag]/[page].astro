@@ -133,7 +133,7 @@ const pathName = Astro.url.pathname.split("/");
       {
         page.data.map((post: BlogPost, i: number) => {
           return (
-            <a class="flex cursor-pointer " href={`/blog/${post.slug}`}>
+            <a class="flex cursor-pointer " href={`/blog/${post.id}`}>
               <PostCard
                 title={post.data.title}
                 image={post.data.bannerImage}

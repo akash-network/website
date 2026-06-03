@@ -16,8 +16,10 @@ type Props = {
 
 const { tags, page } = Astro.props;
 const astroUrl = Astro.url;
-const communityPage = await Astro.glob(
-  "../../content/Community_Page/_community-contributions/*.mdx",
+const communityPage = Object.values(
+  import.meta.glob("../../content/Community_Page/_community-contributions/*.mdx", {
+    eager: true,
+  }),
 );
 
 const PageContent = communityPage[0].Content;

@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 
 import Layout from "@/layouts/layout.astro";
 
@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   const pages = await getCollection("Community_Page");
 
   return pages.map((page: CollectionEntry<"Community_Page">) => ({
-    params: { slug: page.slug },
+    params: { slug: page.id },
     props: page,
   }));
 }
@@ -19,7 +19,7 @@ type Props = CollectionEntry<"Community_Page">;
 
 const page: Props = Astro.props;
 
-const { Content } = await page.render();
+const { Content } = await render(page);
 ---
 
 <Layout

@@ -57,13 +57,12 @@ const { page } = Astro.props;
     <div class="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
       {
         page.data.map((post: BlogPost) => (
-          <a class="group block" href={`/case-studies/${post.slug}`}>
+          <a class="group block" href={`/case-studies/${post.id}`}>
             <div class="overflow-hidden rounded-lg">
               <Image
                 src={post.data.bannerImage}
                 alt={`banner image for ${post.data.title}`}
                 width={1200}
-                height={630}
                 format="webp"
                 class="aspect-video w-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:scale-[1.03] group-hover:brightness-105 group-hover:grayscale-0"
                 loading="lazy"
