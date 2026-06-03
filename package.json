@@ -58,7 +58,7 @@
     "firebase": "^11.0.2",
     "fuse.js": "^6.6.2",
     "hastscript": "^8.0.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "lucide-react": "^0.279.0",
     "mermaid": "^11.4.1",
     "postprocessing": "^6.38.3",
@@ -94,5 +94,9 @@
     "prettier": "^3.0.3",
     "prettier-plugin-astro": "^0.12.0",
     "prettier-plugin-tailwindcss": "^0.5.4"
+  },
+  "overrides": {
+    "d3-color": "^3.1.0",
+    "postcss": "^8.5.15"
   }
 }
