@@ -10,6 +10,7 @@ import {
 } from "@/utils/schema/communityContributions";
 import { communityGroupsSchema } from "@/utils/schema/communityGroups";
 import { communityPagesSchema } from "@/utils/schema/communityPages";
+import { contentLoader } from "@/utils/schema/contentLoader";
 import { deployPage } from "@/utils/schema/deploy_page";
 import { developmentSchema } from "@/utils/schema/development";
 import { docsSchema } from "@/utils/schema/docsSchema";
@@ -22,12 +23,13 @@ import { tokenPage } from "@/utils/schema/token_page";
 import { defineCollection, z } from "astro:content";
 
 const blog = defineCollection({
+  loader: contentLoader("Blog"),
   schema: ({ image }) => {
     return z.object({
       title: z.string(),
       description: z.string(),
       pubDate: z.coerce.date(),
-      draft: z.coerce.boolean(),
+      draft: z.coerce.boolean().default(false),
       categories: z.array(z.string()),
       tags: z.array(z.string()),
       contributors: z.array(z.string()),

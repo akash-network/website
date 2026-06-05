@@ -9,18 +9,24 @@ import {
   getRoadmapYear,
   sortRoadmapsByDate,
 } from "@/utils/roadmap-helpers";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { ChevronRight } from "lucide-react";
 export async function getStaticPaths() {
   const roadmaps = await getCollection("aeps");
-  const sortedRoadmaps = sortRoadmapsByDate(roadmaps);
+  // Each AEP lives in `aep-N/README.md`, with a few folders also containing
+  // supporting docs (e.g. aep-86/IMPLEMENTATION.md). The /roadmap/<aep> route
+  // renders the README; the supporting docs share the same `aep-N` slug, so we
+  // keep only the README entry to avoid duplicate route params.
+  const sortedRoadmaps = sortRoadmapsByDate(roadmaps).filter(
+    (roadmap) => roadmap.id.split("/").pop()?.toLowerCase() === "readme",
+  );
   return sortedRoadmaps.map((roadmap) => {
     const nextIndex = sortedRoadmaps.findIndex((r) => r.id === roadmap.id);
     const nextRoadmap = sortedRoadmaps[nextIndex + 1];
 
     return {
       params: {
-        slug: roadmap.slug?.split("/")[0],
+        slug: roadmap.id?.split("/")[0],
       },
       props: { roadmap, nextRoadmap },
     };
@@ -28,7 +34,7 @@ export async function getStaticPaths() {
 }
 
 const { roadmap, nextRoadmap } = Astro.props;
-const { Content } = await roadmap.render();
+const { Content } = await render(roadmap);
 const year = getRoadmapYear(roadmap);
 
 const quarter = Math.floor(getRelevantDate(roadmap).getMonth() / 3) + 1;
@@ -85,7 +91,7 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
       <ChevronRight size={16} />
       <a href={`/roadmap/${year}`}>Q{quarter}</a>
       <ChevronRight size={16} />
-      <p class="text-foreground">{roadmap.slug.split("/")[0]}</p>
+      <p class="text-foreground">{roadmap.id.split("/")[0]}</p>
     </div>
     <div
       class="grid min-w-0 grid-cols-1 gap-8 rounded-lg border p-6 md:grid-cols-[minmax(0,75%)_minmax(0,25%)] md:gap-14 md:p-8"
@@ -164,7 +170,7 @@ const completionDate = roadmap.data["completed"]?.toLocaleDateString();
         }
         <div class="h-px w-full border-b"></div>
         <ButtonLink
-          link={`https://github.com/akash-network/AEP/tree/main/spec/${roadmap.slug.split("/")[0]}`}
+          link={`https://github.com/akash-network/AEP/tree/main/spec/${roadmap.id.split("/")[0]}`}
           variant="secondary"
         >
           View on GitHub
