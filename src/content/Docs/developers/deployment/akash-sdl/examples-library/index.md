@@ -241,7 +241,7 @@ Use the [Table of Contents](https://github.com/akash-network/awesome-akash#table
 git clone https://github.com/akash-network/awesome-akash.git
 
 # Or download a specific example
-wget https://raw.githubusercontent.com/akash-network/awesome-akash/master/nginx/deploy.yaml
+wget https://raw.githubusercontent.com/akash-network/awesome-akash/master/gitea/deploy.yaml
 ```
 
 ### 4. Read the Instructions
