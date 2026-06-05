@@ -15,14 +15,15 @@ This section contains comprehensive upgrade guides for node operators and valida
 
 ## Current Network Upgrade
 
-### [Mainnet 17 - Akash v2.0.0](/docs/node-operators/network-upgrades/mainnet-17/)
+### [Mainnet 18 - Akash v2.1.0](/docs/node-operators/network-upgrades/mainnet-18/)
 
 **Status:** Upcoming  
-**Upgrade Height:** 26,063,777  
-**Binary Version:** v2.0.0  
-**Binary Release:** Binaries will be released approximately 24 hours after the upgrade height.
+**Governance Proposal:** [#328](https://www.mintscan.io/akash/proposals/328)  
+**Upgrade Height:** 27,230,465  
+**Estimated Time:** June 11th, 2026 at ~14:00 UTC  
+**Binary Version:** v2.1.0  
 
-Complete upgrade guide including Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. Monitor block height and Discord for timing; prepare your node before the upgrade.
+Complete upgrade guide including Oracle v2, Resource Reclamation (AEP-82), Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. Monitor block height and Discord for timing; prepare your node before the upgrade.
 
 ---
 
