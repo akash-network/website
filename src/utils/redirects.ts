@@ -6,6 +6,8 @@ export const getYearToUse = () => {
 };
 
 export const redirects = {
+  "/compare": "/explore/compare",
+  "/compare/": "/explore/compare",
   "/akt": "/token",
   "/akt-token": "/token",
   "/akt/": "/token",
@@ -22,7 +24,9 @@ export const redirects = {
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",
   "/community": "/community/welcome/",
-  "/about": "/about/general-information/",
+  "/about": "/architectural-overview",
+  "/about/general-information": "/architectural-overview",
+  "/about/general-information/": "/architectural-overview",
   "/blog/a/acc-akash-accelerationism": "/blog/a-acc-akash-accelerationism/",
   "/community/events/upcoming": "/community/events/",
   "/careers": "/",

@@ -1,0 +1,233 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+import NetworkGlobeSection from "@/components/home/network-globe.astro";
+
+const hardware = [
+  {
+    tier: "GPU Silicon Nodes",
+    spec: "NVIDIA GPU configurations with identical models per node (e.g., RTX 4090, A100, H100).",
+    workloads: "Deep learning training, LLM inference API clusters, and parallel rendering pipelines.",
+    orchestration: "Managed via GPU-enabled worker nodes utilizing official NVIDIA container runtime drivers.",
+  },
+  {
+    tier: "High-Density Compute",
+    spec: "12+ x86_64 or ARM64 CPU cores, 48 GB+ RAM, 500 GB+ dedicated NVMe storage.",
+    workloads: "Production web applications, high-availability database replicas, and CI/CD worker pools.",
+    orchestration: "Orchestrated automatically via native Ansible execution blocks using the official Provider Playbook.",
+  },
+  {
+    tier: "Stateful Storage Blocks",
+    spec: "Dedicated high-throughput NVMe SSD enterprise storage arrays.",
+    workloads: "Persistent container databases, distributed model weight repositories, and long-term state data.",
+    orchestration: "Provisioned via dedicated storage controllers integrated directly into the cluster fabric.",
+  },
+];
+
+const faqs = [
+  {
+    title: "What technical stack is required to run a secure provider node?",
+    description: "The officially supported operating system is Ubuntu Server LTS running on x86_64 or ARM64 architecture processors. Workload isolation and resource scheduling are managed natively via an automated Kubernetes cluster control plane. For teams without extensive Kubernetes administration experience, the environment setup can be completed using the graphical Provider Console client.",
+  },
+  {
+    title: "Are tenants isolated securely enough to run safely on my hardware?",
+    description: "Yes. Every tenant lease executes inside an isolated, multi-tenant Kubernetes pod structure utilizing native Linux kernel namespaces and resource control groups (cgroups). Tenants have zero access to the host file system, neighboring pods, or administrative cluster networks, ensuring your underlying bare-metal server integrity remains entirely secure.",
+  },
+  {
+    title: "What happens to my provider reputation if a tenant workload causes an error?",
+    description: "Workload failures caused by internal application faults, runtime errors, or container crashes within a tenant software stack do not impact your provider score. Your network reputation ranking is tied exclusively to verifiable infrastructure performance metrics, including public network uptime, latency stability, and full delivery of the hardware capacity declared in your active marketplace bids.",
+  },
+];
+---
+
+<Layout
+  title="Compute Providers — Akash Network"
+  description="Connect your datacenter hardware or high-density GPU racks directly to a global, programmatic compute marketplace. Automate infrastructure monetization by letting global tenants bid on your available silicon, memory, and storage capacity."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Monetize Your Compute Infrastructure
+          </h1>
+          <p class="max-w-2xl text-sm leading-relaxed text-para">
+            Connect your data center hardware directly to a global, programmatic marketplace and supply compute power on your own terms. Automate infrastructure monetization by allowing global tenants to bid on your available silicon, memory, and storage capacity via a competitive, programmatic auction layer. By routing tenant workloads natively through standard container configurations, your organization retains complete operational sovereignty over your physical clusters while maximizing hardware utilization margins.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Become a Provider <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/provider-calculator/"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Calculate Earnings <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/development/portal-provider.webp"
+            alt="Become an Akash Compute Provider"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- CORE ECONOMICS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            The Core Economics
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Traditional infrastructure monetization requires building expensive direct sales channels, managing complex multi-tenant billing systems, and navigating long enterprise procurement cycles. Akash removes this operational overhead. By configuring your nodes to listen directly to the open marketplace ledger, your hardware automatically responds to inbound resource requests with competitive pricing bids to host active container workloads, instantly matching your available supply with global developer demand.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Component</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Traditional Private Resale</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash Open Market Provider</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Customer Acquisition</td>
+                <td class="px-6 py-4 text-sm text-para">High cost overhead driven by direct enterprise sales teams and marketing campaigns.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Zero acquisition friction because the automated matching engine routes active container leases directly to your nodes.</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Operational Friction</td>
+                <td class="px-6 py-4 text-sm text-para">Manual hardware provisioning, custom billing integrations, and complex contractual negotiations.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Programmatic settlement via the ledger paired with automated Kubernetes runtimes for instant setup.</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Resource Utilization</td>
+                <td class="px-6 py-4 text-sm text-para">Typical 15% to 30% baseline capacity utilization resulting in high wasted power and hardware depreciation.</td>
+                <td class="px-6 py-4 text-sm font-semibold text-foreground">Optimized cluster capacity driven by automated Kubernetes scheduling to maximize hardware utilization based on market demand.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- GLOBAL GRID -->
+      <div class="mt-20 md:mt-44">
+        <NetworkGlobeSection />
+      </div>
+
+      <!-- STRUCTURAL BOTTLENECKS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Provider Bottlenecks Defeated
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <p class="text-xs font-medium uppercase tracking-widest text-para">Pricing Autonomy</p>
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Absolute Pricing Sovereignty
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Unlike rigid centralized reseller programs that dictate margins and force steep discount structures, you retain full operational control over your hardware pricing. You establish your exact baseline execution floor for CPU cores, RAM gigabytes, NVMe storage, and specific GPU models directly inside your cluster initialization files. The network matching engine only submits bids that meet or exceed your operational profitability requirements.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <p class="text-xs font-medium uppercase tracking-widest text-para">Automated Settlement</p>
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Zero Billing Overhead
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Managing international cross-border invoicing, tracking client resource usage, and dealing with payment defaults creates a massive administrative bottleneck for infrastructure teams. The platform automates the entire billing layer natively. Tenant leases are validated and funded upfront via streaming escrow accounts, ensuring continuous, automated payment distribution directly to your provider configurations without collections delays.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- HARDWARE PROFILE INDEX -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Hardware Profile Index
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            The marketplace natively supports standard x86_64 and ARM64 server architectures running Linux environments. This allows data centers to seamlessly categorize existing bare-metal inventory into optimized, high-yield resource profiles to capture targeted tenant workloads.
+          </p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Capacity Tier</th>
+                <th class="w-[22%] pb-3 pl-6 text-left text-sm font-medium text-para">Minimum System Specification</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">Primary Target Workloads</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">Deployment Orchestration</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hardware.map((row) => (
+                <tr class="border-b border-border">
+                  <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.spec}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.workloads}</td>
+                  <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.orchestration}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start Earning.
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Onboard your hardware infrastructure to an open compute network. Turn unallocated server racks and high-density silicon into predictable, programmatic revenue streams.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Become a Provider <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/provider-calculator/"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Calculate Earnings <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

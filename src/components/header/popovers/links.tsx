@@ -1,7 +1,6 @@
 import {
   Activity,
   Backpack,
-  BadgeHelp,
   CalendarHeart,
   Codesandbox,
   FileStack,
@@ -18,6 +17,7 @@ type NavItem = {
   external?: boolean;
   primary?: boolean;
   internal?: boolean;
+  subnavOnly?: boolean;
 };
 
 export const communityItems: NavItem[] = [
@@ -52,6 +52,7 @@ export const communityItems: NavItem[] = [
     description: "A selection of Akash Network apparel and accessories",
     link: "https://shop.akash.network/",
     external: true,
+    subnavOnly: true,
   },
 ];
 
@@ -131,18 +132,18 @@ export const developmentItems: NavItem[] = [
 export const exploreItems: NavItem[] = [
   {
     title: "Use Cases",
-    description: "How startups and universities deploy on Akash.",
+    description: "Production runtime paths for developers and data centers.",
     link: "/explore/use-cases/",
   },
   {
-    title: "AKT Token",
-    description: "Protocol utility and ecosystem economics.",
-    link: "/token/",
+    title: "Compare",
+    description: "Akash vs. the legacy cloud.",
+    link: "/explore/compare",
   },
   {
-    title: "Grants",
-    description: "Get funded to build on the open cloud.",
-    link: "/explore/grants/",
+    title: "Partner Program",
+    description: "Build, supply, or consult on the network.",
+    link: "/explore/partner-program/",
   },
   {
     title: "Network Stats",
@@ -154,45 +155,19 @@ export const exploreItems: NavItem[] = [
 
 export const networkItems: NavItem[] = [
   {
-    icon: BadgeHelp,
     title: "Use Cases",
-    description: "How startups and universities deploy on Akash.",
+    description: "Real-world deployment blueprints for engineering teams and compute providers.",
     link: "/explore/use-cases/",
   },
   {
-    customIcon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-      >
-        <path
-          d="M18.09 13.63C19.0353 13.2776 19.8765 12.6925 20.5358 11.9288C21.195 11.1651 21.6511 10.2476 21.8617 9.26093C22.0724 8.2743 22.0309 7.25048 21.741 6.28415C21.4512 5.31782 20.9223 4.44018 20.2034 3.73239C19.4845 3.0246 18.5987 2.50951 17.628 2.23477C16.6572 1.96003 15.6329 1.9345 14.6497 2.16054C13.6665 2.38658 12.7561 2.8569 12.0028 3.528C11.2495 4.1991 10.6776 5.04931 10.34 6M14 16C14 12.6863 11.3137 10 8 10C4.68629 10 2 12.6863 2 16C2 19.3137 4.68629 22 8 22C11.3137 22 14 19.3137 14 16Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-    title: "AKT Token",
-    description: "Protocol utility and ecosystem economics.",
-    link: "/token/",
+    title: "Compare",
+    description: "Performance, price, and stack architecture.",
+    link: "/explore/compare",
   },
   {
-    customIcon: (
-      <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M19 21.5H5C3.89543 21.5 3 20.6046 3 19.5V5.5C3 4.39543 3.89543 3.5 5 3.5H19C20.1046 3.5 21 4.39543 21 5.5V19.5C21 20.6046 20.1046 21.5 19 21.5Z" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 15.5H9.4C9.73137 15.5 10.0053 15.7783 10.1504 16.0762C10.3564 16.4991 10.8442 17 12 17C13.1558 17 13.6436 16.4991 13.8496 16.0762C13.9947 15.7783 14.2686 15.5 14.6 15.5H21" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 7.5H21" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 11.5H21" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-    title: "Grants",
-    description: "Get funded to build on the open cloud.",
-    link: "/explore/grants/",
+    title: "Partner Program",
+    description: "Build, supply, or consult on the network.",
+    link: "/explore/partner-program/",
   },
   {
     icon: Activity,

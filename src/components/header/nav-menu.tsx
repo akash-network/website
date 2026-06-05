@@ -211,7 +211,7 @@ export default function NavMenu({
     return paths[menu].some((p) => pathname.startsWith(p));
   };
 
-  const communityExternal = communityItems.find((i) => i.external);
+  const communityExternal = communityItems.find((i) => i.external && !i.subnavOnly);
   const developmentExternal = developmentItems.find((i) => i.external);
 
   function renderMainItems(menu: MenuId) {
@@ -233,7 +233,7 @@ export default function NavMenu({
 
       case "community":
         return communityItems
-          .filter((i) => !i.external && i.link !== featured.href)
+          .filter((i) => !i.external && !i.subnavOnly && i.link !== featured.href)
           .map((item) => (
             <DropdownItem
               key={item.link}

@@ -1,0 +1,207 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import AkashArchitectureSimulator from "@/components/architectural-overview/AkashArchitectureSimulator";
+import { HyperscaleIsolationDiagram } from "@/components/architectural-overview/HyperscaleIsolationDiagram";
+import { P2PCoordinationDiagram } from "@/components/architectural-overview/P2PCoordinationDiagram";
+import { FAQ } from "@/components/token-page/faq";
+
+const faqs = [
+  {
+    title: "How does the on-chain marketplace prevent providers from colluding on bid pricing?",
+    description: "Every bid is cryptographically signed and written to the Akash chain as a public transaction. The ledger is fully transparent — any tenant, auditor, or external observer can query the full bid history for any deployment order. Because bids are settled via open reverse auction against a visible public ledger, coordinated price-fixing produces no strategic advantage: the lowest conforming bid always wins, and the settlement price is visible on-chain before the lease is signed.",
+  },
+  {
+    title: "What happens to a running container if a provider node goes offline?",
+    description: "An active lease is tied to a specific provider address. If that provider goes offline or stops responding to heartbeat checks, the lease transitions to a closed state on-chain and the escrow balance is released back to the tenant wallet. The tenant can immediately resubmit the deployment manifest — the marketplace opens a new auction round and a replacement provider bid can be accepted within seconds. For production workloads requiring zero-downtime, the recommended pattern is to run parallel leases across geographically distinct providers behind an application-layer load balancer.",
+  },
+  {
+    title: "Can tenants independently verify that their containers are running on the hardware specified in the winning bid?",
+    description: "Yes. Providers in the Akash ecosystem go through an auditing process where their declared hardware inventory — GPU model, VRAM, CPU architecture, and datacenter location — is verified by third-party auditor wallets and written as on-chain attributes. When a tenant specifies hardware constraints in their SDL manifest (such as a minimum GPU model), the matching engine only surfaces bids from providers whose on-chain audit certificate satisfies those constraints. Tenants can query the provider's audit record directly from the chain before accepting any bid.",
+  },
+];
+---
+
+<Layout
+  title="Architectural Overview — Akash Network"
+  description="Akash matches infrastructure supply with developer demand via an on-chain, programmatic reverse-auction marketplace. The protocol detaches container deployment logic from physical hardware providers, standardizing cloud resource access."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-6 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Architectural Overview
+          </h1>
+          <p class="max-w-2xl text-base font-normal leading-relaxed text-para">
+            Akash matches infrastructure supply with developer demand via an open, programmatic request-for-quote routing engine. The protocol decouples container deployment logic from physical hardware providers, standardizing secure cloud resource access.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- INTERACTIVE SIMULATOR -->
+      <section class="mt-14">
+        <AkashArchitectureSimulator client:load />
+      </section>
+
+      <!-- THREE-STEP LIFECYCLE -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Core Technical Pillars
+        </h2>
+        <div class="grid gap-8 md:grid-cols-3">
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Declarative Infrastructure (SDL)</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Instead of manually clicking through cloud consoles, configurations are defined entirely via Stack Definition Language (SDL). This YAML-based format contains the absolute, machine-readable state of your application—specifying OCI images, environment variables, network routing rules, and strict hardware constraints like isolated GPU profiles or minimum VRAM thresholds.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Programmatic Request Routing</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              The network replaces manual human procurement with a real-time, automated matching engine. When an SDL manifest is broadcast, matching criteria are cross-referenced instantly by available providers. Compatible data centers automatically generate real-time hosting bids, establishing a highly transparent, market-driven pricing ecosystem for compute resources.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Automated Escrow Settlements</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Workloads are secured by automated network leases that pull from a streaming escrow account. Funded seamlessly via standard credit card billing or cloud credits, the settlement engine streams payments continuously on a per-block basis. This ensures predictability for both parties: billing stops instantly if a container is torn down, and remaining escrow funds are automatically returned to your balance.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- STRUCTURAL LAYER BREAKDOWN -->
+      <section class="mt-20 space-y-8 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Structural Layer Breakdown
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            The protocol is divided into three discrete functional layers. Each layer has a defined execution boundary, a native technology stack, and a specific system responsibility within the deployment lifecycle.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Architectural Tier</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Execution Component</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Native Technology Stack</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">System Responsibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Control Plane</td>
+                <td class="px-6 py-4 text-sm text-para">Network Consensus Layer</td>
+                <td class="px-6 py-4 text-sm text-para">Distributed State Machine (Tendermint/Cosmos Engine)</td>
+                <td class="px-6 py-4 text-sm text-para">Manages secure, immutable registration of manifests, provider bids, active leases, and settlement finality.</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Ingestion Layer</td>
+                <td class="px-6 py-4 text-sm text-para">Network Gateway Module</td>
+                <td class="px-6 py-4 text-sm text-para">Core Orchestration APIs</td>
+                <td class="px-6 py-4 text-sm text-para">Executes real-time matching logic, routing inbound deployment requests directly to compatible provider nodes.</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Runtime Engine</td>
+                <td class="px-6 py-4 text-sm text-para">Provider Node Software</td>
+                <td class="px-6 py-4 text-sm text-para">Native Kubernetes + Open-Source Operator</td>
+                <td class="px-6 py-4 text-sm text-para">Pulls approved container manifests and orchestrates the complete workload lifecycle on verified physical hardware.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TRADITIONAL HYPERSCALE ISOLATION -->
+      <section class="mt-20 md:mt-44">
+        <div class="grid items-start gap-12 md:gap-16 md:grid-cols-2">
+          <HyperscaleIsolationDiagram client:visible />
+          <div class="space-y-8">
+            <div class="space-y-4">
+              <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+                Traditional Hyperscale Isolation
+              </h2>
+              <p class="text-base font-normal text-para">
+                Legacy cloud platforms impose three structural constraints that have no technical justification. They exist solely because of the centralized ownership model.
+              </p>
+            </div>
+            <div class="space-y-6">
+              <div class="space-y-2">
+                <h3 class="text-base font-semibold text-foreground">Single-vendor pricing opacity</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">
+                  Hyperscaler on-demand GPU prices are set by internal revenue teams, not by competitive market forces. There is no public bid history, no settlement transparency, and no mechanism for tenants to compare real costs across providers in real time. The list price is the only signal, and it includes an unspecified markup layer on top of actual hardware cost.
+                </p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-base font-semibold text-foreground">Forced regional concentration</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">
+                  Traditional architectures bind workloads to a small number of fixed datacenter regions owned and operated by a single entity. Hardware availability, regional outages, and capacity constraints are all determined by that entity's infrastructure roadmap rather than market supply. When a region is constrained, tenants queue or pay premium spot pricing with no alternative routing path.
+                </p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-base font-semibold text-foreground">Contractual lock-in by design</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">
+                  Reserved instance discounts, committed use contracts, and proprietary networking primitives are designed to increase the switching cost over time instead of passing efficiency gains to customers. The longer a workload runs on a hyperscaler, the more entangled it becomes with vendor-specific APIs, private networking topologies, and billing structures that have no open-standard equivalent.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PEER-TO-PEER COORDINATION GAP -->
+      <section class="mt-20 md:mt-44">
+        <div class="grid items-start gap-12 md:gap-16 md:grid-cols-2">
+          <div class="space-y-8">
+            <div class="space-y-4">
+              <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+                The Peer-to-Peer Coordination Gap
+              </h2>
+              <p class="text-base font-normal text-para">
+                Decentralized compute is not a new idea. What has historically blocked it is the coordination problem: how do two parties with no pre-existing trust relationship safely exchange hardware resources for payment without a centralized intermediary absorbing counterparty risk? Akash solves this at three layers.
+              </p>
+            </div>
+            <div class="space-y-6">
+              <div class="space-y-2">
+                <h3 class="text-base font-semibold text-foreground">Manifest-level transparency</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">
+                  The deployment manifest is a public, cryptographically signed document on the blockchain. Every constraint the tenant specifies (including hardware minimums, region preferences, and maximum price) is verifiable by any party before a lease is created. Providers cannot selectively fulfill partial specs without the on-chain record reflecting the deviation.
+                </p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-base font-semibold text-foreground">Automated Economic Settlement</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">
+                  Billing is completely programmatic and eliminates manual, post-paid invoicing. When a workload is authorized via standard credit cards or cloud credits, an automated gateway initializes a streaming network escrow block. Behind the scenes, the protocol utilizes a Burn-Mint Equilibrium (BME) engine to programmatically convert settlement value into the network's native utility asset. Funds are drawn down continuously on a per-block basis at the exact hourly rate locked during the provider bid, providing fixed, transparent infrastructure pricing with zero trailing charges. If a container is torn down or a provider drops offline, any unspent balance is instantly released back to your account.
+                </p>
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-base font-semibold text-foreground">Provider permissioning via on-chain audit</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">
+                  Hardware claims are not self-reported. Independent auditor wallets verify provider hardware inventories and write signed attestations to the chain. Tenants can filter bids exclusively to providers whose hardware has been third-party verified, eliminating the trust gap that has historically made peer-to-peer compute markets unworkable for production workloads.
+                </p>
+              </div>
+            </div>
+          </div>
+          <P2PCoordinationDiagram client:visible />
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

@@ -1,0 +1,238 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+import RazerCaseStudy from "@/components/home/razer-case-study.astro";
+
+const faqs = [
+  {
+    title: "Are consumer-class GPUs stable enough to sustain persistent API traffic?",
+    description: "Yes. While individual consumer nodes operate independently, the orchestration layer automatically mitigates hardware instability. The system handles real-time load balancing, health monitoring, and automated failovers. If a provider hosting your instance goes offline, the network immediately drops the lease and routes traffic to an alternate active node without interrupting the end user.",
+  },
+  {
+    title: "Can we restrict our deployment to specific GPU architectures?",
+    description: "Yes. You maintain full control over your container environment requirements. You define explicit hardware constraints, target specific silicon architectures like the RTX 4090, RTX 5090, or dedicated H100 pools, and set minimum VRAM allocations directly inside your Stack Definition Language YAML template. The bidding engine automatically filters out any provider that does not fulfill your exact criteria.",
+  },
+  {
+    title: "How complicated is it to port a standard vLLM or PyTorch pipeline?",
+    description: "The platform is built completely on open industry standards. If your application logic, model weights, or inference frameworks are already containerized inside a standard Docker file, they will execute across the marketplace with zero code modifications. You only need to declare your environment variables, port configurations, and hardware parameters inside a manifest template to deploy.",
+  },
+];
+---
+
+<Layout
+  title="AI Product Engineering — Akash Network"
+  description="Deploy omni-modal AI containers across a global marketplace of on-demand consumer and enterprise silicon. Handle massive public traffic spikes and sustained request concurrency without high-margin hyperscaler APIs or restrictive rate limits."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            AI Product Engineering
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Deploy omni-modal AI containers across a global marketplace of on-demand consumer and enterprise silicon. Handle massive public traffic spikes and sustained request concurrency without high-margin hyperscaler middleman APIs or restrictive rate limits.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://akashml.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Launch AkashML <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            View Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/development/integrations-prime-intellect.png"
+            alt="High-Concurrency AI Inference on Akash"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- CORE ECONOMICS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            The Core Economics
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Legacy cloud platforms and centralized inference APIs impose massive operational markups on compute resources. While manageable for initial prototyping, these fixed cost structures scale poorly for high-volume production applications, making large-scale generative tools economically unviable. AkashML bypasses these centralized middleman margins by tapping directly into an open, competitive marketplace of high-density hardware pools. Providers bid in real time to host your workloads, driving execution costs down to the raw utility expense of power, network bandwidth, and server depreciation.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Component</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Legacy Centralized API</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">AkashML Architecture</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Infrastructure Layer</td>
+                <td class="px-6 py-4 text-sm text-para">Closed, single-provider data centers with locked hardware margins.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Global marketplace of pooled enterprise nodes and high-density silicon.</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Pricing Engine</td>
+                <td class="px-6 py-4 text-sm text-para">Static, vendor-controlled pricing models per individual request.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Automated reverse-auction bidding behind a single unified endpoint.</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Operational Scaling</td>
+                <td class="px-6 py-4 text-sm text-para">High-margin markups that scale linearly with user traffic.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Commodity-grade pricing that maximizes margins at high request volume.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- AKASHML CTA -->
+      <section class="mt-20 md:mt-44">
+        <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+          <div class="overflow-hidden rounded-xl border border-border order-1">
+            <img
+              src="/images/get-started-akashML.webp"
+              alt="Accelerate AI on AkashML"
+              class="aspect-square w-full object-cover object-top"
+            />
+          </div>
+          <div class="order-2 space-y-5">
+            <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+              Accelerate AI on AkashML
+            </h2>
+            <p class="text-sm leading-relaxed text-para">
+              Rent high-performance GPUs instantly for machine learning workloads. Launch pre-configured environments for model training, fine-tuning, and inference without the complex infrastructure setup.
+            </p>
+            <a
+              href="https://akashml.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-md bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+            >
+              Launch AkashML
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- INFRASTRUCTURE BOTTLENECKS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Infrastructure Bottlenecks Defeated
+        </h2>
+        <div class="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2">
+          <div class="rounded-xl border border-border bg-background2 p-8 space-y-4">
+            <p class="text-xs font-medium uppercase tracking-widest text-para">Request Concurrency</p>
+            <h3 class="font-sans text-xl !font-medium leading-snug tracking-tight text-foreground">
+              High-Throughput Concurrency
+            </h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Centralized inference APIs impose rigid rate limits and artificial concurrency thresholds that trigger sudden frontend request dropouts during traffic spikes. Akash solves this by deploying your workloads behind a unified load-balancing layer. As request volume grows, traffic is automatically distributed across a resilient network of identical container instances, sustaining high throughput without manual server scaling or capacity caps.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-background2 p-8 space-y-4">
+            <p class="text-xs font-medium uppercase tracking-widest text-para">Geographic Distribution</p>
+            <h3 class="font-sans text-xl !font-medium leading-snug tracking-tight text-foreground">
+              Global Capacity Routing
+            </h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Traditional cloud providers lock your application instances to specific, isolated data center regions, exposing your product to localized hardware shortages and latency bottlenecks. By distributing inference tasks across an open marketplace of global providers, you tap into a continuous supply of compute. Workloads scale seamlessly across multiple geographic regions simultaneously, ensuring high availability.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RAZER CASE STUDY -->
+      <section class="mt-20 md:mt-44">
+        <RazerCaseStudy />
+      </section>
+
+      <!-- PRODUCTION VALIDATION -->
+      <section class="mt-10 space-y-10 md:mt-16">
+        <div class="space-y-3">
+          <h2 class="text-[28px] font-semibold leading-tight text-foreground md:text-[40px]">
+            Production Validation
+          </h2>
+          <p class="max-w-xl text-sm leading-relaxed text-para">
+            Real-world performance verification at scale in partnership with Razer.
+          </p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-base font-semibold text-foreground">The Deployment</h3>
+            <p class="text-sm leading-relaxed text-para">Razer packaged their omni-modal AIKit runtime software into standard OCI-compliant containers, hosting them across a public marketplace pool of independent consumer and enterprise-grade GPU hardware providers distributed globally.</p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-base font-semibold text-foreground">The Scale Architecture</h3>
+            <p class="text-sm leading-relaxed text-para">AkashML served as the unified control plane, dynamically load-balancing request concurrency across geographically distributed network nodes to ensure persistent availability behind a singular, low-latency API gateway.</p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-base font-semibold text-foreground">The Validation Metrics</h3>
+            <p class="text-sm leading-relaxed text-para">Operating continuously across a live, public launch window, the decentralized network sustained concurrent, real-time image generations with zero downtime, maintaining a stable 3.24-second average end-to-end request turnaround under peak load.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start Building.
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Migrate your generative applications to a competitive hardware marketplace. Maintain absolute control over your deployment scaling without legacy vendor markup.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Launch Your Workload <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="https://github.com/akash-network/awesome-akash"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Explore Open-Source Templates <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

@@ -65,23 +65,23 @@ const socials = [
 
 const links = [
   {
-    title: "Resources",
+    title: "Development",
     links: [
       {
-        title: "Economics Paper",
-        link: "/economics",
+        title: "Developer Portal",
+        link: "/development/welcome/",
       },
       {
-        title: "White Paper",
-        link: "/whitepaper",
+        title: "Roadmap",
+        link: "/roadmap/",
       },
       {
-        title: "Blog",
-        link: "/blog",
+        title: "Community Syncs",
+        link: "/development/community-groups/",
       },
       {
-        title: "Brand & Press",
-        link: "/brand/resources/",
+        title: "Integrations",
+        link: "/ecosystem/akash-tools/",
       },
     ],
   },
@@ -89,24 +89,33 @@ const links = [
     title: "Network",
     links: [
       {
-        title: "Use Cases",
-        link: "/explore/use-cases/",
-      },
-      {
-        title: "About Akash",
-        link: "/about/general-information/",
+        title: "Architectural Overview",
+        link: "/architectural-overview",
       },
       {
         title: "AKT Token",
         link: "/token",
       },
       {
-        title: "Compute Providers",
-        link: "/ecosystem/providers/",
-      },
-      {
         title: "Akash Validators",
         link: "/akash-validators/",
+      },
+    ],
+  },
+  {
+    title: "Ecosystem",
+    links: [
+      {
+        title: "Powered by Akash",
+        link: "/ecosystem/deployed-on-akash/showcase/",
+      },
+      {
+        title: "Case Studies",
+        link: "/case-studies/",
+      },
+      {
+        title: "Compute Providers",
+        link: "/ecosystem/providers/",
       },
     ],
   },
@@ -125,55 +134,47 @@ const links = [
         title: "Events & Meetups",
         link: "/community/events",
       },
+    ],
+  },
+  {
+    title: "Explore",
+    links: [
       {
-        title: "Student Ambassadors",
-        link: "/community/student-ambassadors/",
+        title: "Blog",
+        link: "/blog",
+      },
+      {
+        title: "Use Cases",
+        link: "/explore/use-cases/",
+      },
+      {
+        title: "Compare",
+        link: "/explore/compare",
+      },
+      {
+        title: "Grants",
+        link: "/grants/",
       },
     ],
   },
   {
-    title: "Development",
+    title: "Resources",
     links: [
       {
         title: "Documentation",
         link: "/docs",
       },
       {
-        title: "Developer Portal",
-        link: "/development/welcome/",
+        title: "Economics Paper",
+        link: "/economics",
       },
       {
-        title: "Roadmap",
-        link: "/roadmap/",
+        title: "White Paper",
+        link: "/whitepaper",
       },
       {
-        title: "Community Groups",
-        link: "/development/community-groups/",
-      },
-      {
-        title: "Discussions",
-        link: "https://github.com/orgs/akash-network/discussions",
-      },
-    ],
-  },
-  {
-    title: "Product Suite",
-    links: [
-      {
-        title: "Akash Console",
-        link: "https://console.akash.network/",
-      },
-      {
-        title: "AkashML",
-        link: "https://akashml.com/",
-      },
-      {
-        title: "Akash Provider Console",
-        link: "https://provider-console.akash.network/",
-      },
-      {
-        title: "Akash Chat",
-        link: "https://chat.akash.network/",
+        title: "Brand & Press",
+        link: "/brand/resources/",
       },
     ],
   },
@@ -233,7 +234,7 @@ const shouldHide = shouldHideCta(pathname);
       </div>
     </div>
 
-    <div class="grid grid-cols-2 justify-between gap-y-10 md:grid-cols-5 md:gap-x-5">
+    <div class="grid grid-cols-2 justify-between gap-y-10 md:grid-cols-6 md:gap-x-5">
       {
         links.map((link) => (
           <div>

@@ -4,18 +4,32 @@ import TopMargin from "@/components/ui/top-margin.astro";
 
 const tiles = [
   {
+    title: "AI Product Engineering",
+    description:
+      "Deploy production-grade AI workloads across a global marketplace of distributed GPU infrastructure. Handle massive public traffic spikes and sustain high request concurrency without hyperscaler middleman APIs or restrictive platform rate limits.",
+    href: "/use-cases/ai-product-engineering/",
+    image: "/use-cases/use-cases-ai-engineering.png",
+  },
+  {
+    title: "Academic & Institutional Research",
+    description:
+      "Open research needs open compute. Akash provides academic institutions with cost-effective, permissionless access to high-performance compute for AI and scientific workloads.",
+    href: "/explore/use-cases/universities/",
+    image: "/development/universities-hero.png",
+  },
+  {
+    title: "Compute Providers",
+    description:
+      "Monetize your enterprise data center hardware directly through a programmatic marketplace layer. Automate idle capacity allocation by letting global tenants bid on your available silicon, memory, and storage in open auctions.",
+    href: "/explore/use-cases/providers/",
+    image: "/use-cases/use-cases-providers.png",
+  },
+  {
     title: "Startups",
     description:
       "Skip the sales calls and waitlists. Akash gives early-stage teams direct access to the world's GPU supply at the cost of silicon — no markups, no lock-in.",
     href: "/explore/use-cases/startups/",
     image: "/development/startups-hero.png",
-  },
-  {
-    title: "Universities",
-    description:
-      "Open research needs open compute. Akash provides academic institutions with cost-effective, permissionless access to high-performance compute for AI and scientific workloads.",
-    href: "/explore/use-cases/universities/",
-    image: "/development/universities-hero.png",
   },
 ];
 ---
@@ -25,13 +39,13 @@ const tiles = [
   description="Discover how startups and universities are deploying on Akash — decentralized, cost-efficient compute for builders and researchers."
 >
   <TopMargin readable>
-    <div class="flex flex-col gap-16 md:gap-24">
+    <div class="flex flex-col gap-16 pt-4 pb-28 md:gap-24">
       <div class="space-y-4">
         <h1 class="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
           Use Cases
         </h1>
         <p class="max-w-2xl text-base font-normal leading-relaxed text-para">
-          From seed-stage startups to research universities, teams are choosing Akash for permissionless access to decentralized compute.
+          From high-growth AI startups to global data centers, teams use Akash to deploy scalable container workloads and monetize enterprise compute.
         </p>
       </div>
 
