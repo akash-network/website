@@ -179,7 +179,7 @@ akash tx cert create client --chain-id $AKASH_CHAIN_ID --keyring-backend os --fr
 If you see an error adding your certificate to the blockchain, try again! Now to deploy on Akash, run:
 
 ```sh
-akash tx deployment create deploy.yml --from` `**<your_wallet_name>**` `--node https://rpc.akash.forbole.com:443 --chain-id akashnet-2 --fees 5000uakt -y
+akash tx deployment create deploy.yml --from <your_wallet_name> --node https://rpc.akt.dev/rpc --chain-id akashnet-2 --fees 5000uakt -y
 ```
 
 After that command, a string of JSON will appear in your terminal/command prompt.
@@ -287,13 +287,13 @@ akash query deployment get --owner <your_akash_wallet_address> --node=https://rp
 Create a market order.
 
 ```sh
-akash query market order get --node=https://rpc.akash.forbole.com:443 --owner <your_akash_wallet> --dseq <your_dseq> --oseq 1 --gseq 1
+akash query market order get --node=https://rpc.akt.dev/rpc --owner <your_akash_wallet> --dseq <your_dseq> --oseq 1 --gseq 1
 ```
 
 Acquire a list of bids.
 
 ```sh
-akash query market bid list --owner=<your_wallet_address> --node=https://rpc.akash.forbole.com:443 --dseq <your_dseq>
+akash query market bid list --owner=<your_wallet_address> --node=https://rpc.akt.dev/rpc --dseq <your_dseq>
 ```
 
 Select a bid from a provider.
