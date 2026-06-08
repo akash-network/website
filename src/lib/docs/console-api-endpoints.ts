@@ -1141,7 +1141,7 @@ ws.on("message", (chunk) => console.log(JSON.parse(chunk.toString())));`,
     notes: [
       "JWT scope must include `shell`.",
       "Command and arguments are passed as separate numbered query params (`cmd0`, `cmd1`, …) — there is no single base64-encoded `cmd` param. `tty` and `stdin` are required.",
-      "The example above is a one-shot command (`tty=0&stdin=0`). For an interactive session, set `tty=1&stdin=1`, stream keystrokes as `104`-prefixed binary frames, and send terminal resizes as `105` frames. Most users should use the Akash CLI (`provider-services lease-shell --tty`) or SDK helpers instead of driving this directly.",
+      "The example above is a one-shot command (`tty=0&stdin=0`). For an interactive session, set `tty=1&stdin=1`, stream keystrokes as `104`-prefixed binary frames, and send terminal resizes as `105` frames. Most users should use the Akash CLI (`provider-services lease-shell --tty`) or SDK helpers instead of driving this directly — see [Shell Access](/docs/learn/core-concepts/shell-access/).",
       "Console UI uses `xterm.js` on the client side to render the stream.",
       "For programmatic shells, use the provider's `kubectl exec`-style protocol via the SDK helpers rather than constructing this WebSocket by hand.",
     ],
