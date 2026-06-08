@@ -3,7 +3,6 @@ import Layout from "@/layouts/layout.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import { ChevronRight } from "lucide-react";
 import grantsImage from "../../content/Development_Page/funding-program/card1.png";
-import cloudmosImage from "../../content/Development_Page/funding-program/card2.png";
 
 const docSections = [
   {
@@ -116,7 +115,7 @@ const docSections = [
           <!-- Right: Image -->
           <div class="group overflow-hidden rounded-xl">
             <img
-              src={cloudmosImage.src}
+              src="/images/partners-story.webp"
               alt="Cloudmos — Ecosystem Partner Story"
               class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
             />
@@ -237,9 +236,7 @@ const docSections = [
         </div>
         <div class="flex flex-wrap justify-center gap-3">
           <a
-            href="https://akash.network/ecosystem-partner-application"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/gpus-on-demand"
             class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
           >
             Apply Now

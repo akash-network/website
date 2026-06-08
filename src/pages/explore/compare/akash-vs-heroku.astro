@@ -72,18 +72,18 @@ const faqs = [
             href="/pricing/gpus"
             class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
           >
-            Compare Live Compute Rates <ChevronRight size={14} className="ml-1.5" />
+            See Compute Pricing <ChevronRight size={14} className="ml-1.5" />
           </a>
           <a
-            href="/docs/getting-started/intro-to-akash/"
+            href="/docs/developers/getting-started/"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
           >
-            View Deployment Guides <ChevronRight size={14} className="ml-1.5" />
+            View Docs <ChevronRight size={14} className="ml-1.5" />
           </a>
         </div>
         <div class="group mt-2 overflow-hidden rounded-xl">
           <img
-            src="/compare/hero-vs-heroku.png"
+            src="/compare/hero-vs-heroku.webp"
             alt="Akash vs Heroku"
             class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
           />
@@ -199,7 +199,9 @@ const faqs = [
             Akash does not use black-box onboarding wizards or automated migration tools. You control your environment directly through an open configuration template.
           </p>
         </div>
-        <HowItWorks hideHeading={true} client:visible />
+        <div class="mt-10">
+          <HowItWorks hideHeading={true} client:visible />
+        </div>
       </section>
 
       <!-- FAQ -->
@@ -229,7 +231,7 @@ const faqs = [
             rel="noopener noreferrer"
             class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
           >
-            Launch Your Workload <ChevronRight size={14} className="ml-1.5" />
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
           </a>
           <a
             href="https://github.com/akash-network/awesome-akash"
