@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
 tags: ["Operations", "Verification", "Monitoring"]
-weight: 8
+weight: 9
 title: "Provider Verification"
 linkTitle: "Provider Verification"
 description: "Verify your provider is running correctly and bidding on deployments"
@@ -170,6 +170,7 @@ After provider installation, verify:
 
 ## Related Resources
 
+- [Provider Audit](/docs/providers/operations/provider-audit) - Official audit process
 - [Monitoring](/docs/providers/operations/monitoring) - Provider logs and GPU troubleshooting
 - [Lease Management](/docs/providers/operations/lease-management) - Managing active deployments
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
