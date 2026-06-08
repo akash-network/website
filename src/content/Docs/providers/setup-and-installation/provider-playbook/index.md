@@ -63,7 +63,7 @@ Have this ready before starting:
 
 **1. Provider Details:**
 - Provider domain name (e.g., `provider.example.com`)
-- Provider region (e.g., `us-west`)
+- `location-region` — UN geoscheme region (e.g., `na-us-west`)
 - Organization name
 - Contact email
 - Organization website
@@ -143,7 +143,7 @@ The script will ask you to select which components to install:
 ### Configuration Collection
 
 The script will interactively collect:
-- Provider domain and region
+- Provider domain and `location-region`
 - Organization details
 - Node IP addresses and SSH credentials
 - Wallet setup (create or import)

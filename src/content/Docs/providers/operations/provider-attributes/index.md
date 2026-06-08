@@ -86,18 +86,31 @@ Basic information about your provider.
 
 - **Value**: Contact email address
 - **Purpose**: Support and communication
-- **Recommended**: Yes
+- **Required**: Yes
 
 ```yaml
 - key: email
   value: support@example.com
 ```
 
+### discord-username
+
+- **Value**: Your Discord username (without `@`)
+- **Purpose**: Contact for audit and provider support
+- **Required for audit**: Yes — audited providers must be in the [Akash Discord](https://discord.gg/akash) with the Provider role
+
+```yaml
+- key: discord-username
+  value: your_discord_username
+```
+
+See [Provider Audit](/docs/providers/operations/provider-audit) for full audit attribute requirements.
+
 ### website
 
 - **Value**: Provider website URL
 - **Purpose**: Marketing and information
-- **Recommended**: Yes
+- **Required for audit**: Yes
 
 ```yaml
 - key: website
@@ -146,17 +159,21 @@ Geographic and facility information.
 
 ### location-region
 
-- **Value**: UN geoscheme region
-- **Purpose**: Regional classification
+- **Value**: [UN geoscheme](https://en.wikipedia.org/wiki/United_Nations_geoscheme) region code
+- **Purpose**: Regional classification for deployment matching
+- **Required**: Yes
+- **Note**: Use the key `location-region`. The legacy `region` key is not supported.
 - **Examples**:
-  - `us-west`, `us-east`, `us-central`
-  - `eu-west`, `eu-east`
-  - `ap-southeast`, `ap-northeast`
+  - `na-us-west`, `na-us-northeast`, `na-us-midwest`
+  - `eu-west`, `eu-central`, `eu-north`
+  - `as-east`, `as-southeast`, `oc-aus`
 
 ```yaml
 - key: location-region
-  value: us-west
+  value: na-us-west
 ```
+
+See the [provider attributes schema](https://github.com/akash-network/console/blob/main/config/provider-attributes.json) for the full list of accepted region values.
 
 ### timezone
 
@@ -195,64 +212,70 @@ Geographic and facility information.
 
 CPU, GPU, storage, and memory specifications.
 
-### hardware-cpu
+### capabilities/cpu
 
-- **Values**: `intel`, `amd`, `apple`
+- **Values**: `intel`, `amd`, `arm`
 - **Purpose**: CPU vendor identification
+- **Required**: Yes
 
 ```yaml
-- key: hardware-cpu
+- key: capabilities/cpu
   value: amd
 ```
 
-### hardware-cpu-arch
+### capabilities/cpu/arch
 
-- **Values**: `x86-64`, `arm64`, `arm`
+- **Values**: `x86`, `x86-64`, `arm`, `arm-64`
 - **Purpose**: CPU architecture
 
 ```yaml
-- key: hardware-cpu-arch
+- key: capabilities/cpu/arch
   value: x86-64
 ```
 
-### hardware-gpu
+### capabilities/gpu
 
-- **Values**: `nvidia`
+- **Values**: `nvidia`, `amd`, `intel`, `xilinx`
 - **Purpose**: GPU vendor (if GPUs available)
 
 ```yaml
-- key: hardware-gpu
+- key: capabilities/gpu
   value: nvidia
 ```
 
-### hardware-gpu-model
+### GPU models (capabilities/gpu/vendor/...)
 
-- **Value**: Comma-separated GPU models
 - **Purpose**: Advertise available GPU models
-- **Examples**: `rtx4090`, `a100`, `h100`, `rtx3090`
+- **Format**: One attribute per model, synced from [provider-configs](https://github.com/akash-network/provider-configs/blob/main/devices/pcie/gpus.json)
+- **Examples**: `rtx4090`, `a100`, `h100`, `gtx1050` (lowercase, no spaces)
 
 ```yaml
-- key: hardware-gpu-model
-  value: rtx4090,rtx3090
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/a100
+  value: "true"
 ```
 
-### hardware-disk
+See [GPU Capabilities](#gpu-capabilities) below for RAM and interface sub-keys.
 
-- **Values**: `ssd`, `nvme`, `hdd`, `mix`
-- **Purpose**: Storage type classification
+### cuda
+
+- **Value**: CUDA version string (for example `12.7`, `13.0`)
+- **Purpose**: Advertise the CUDA version available on GPU nodes
 
 ```yaml
-- key: hardware-disk
-  value: nvme
+- key: cuda
+  value: "12.7"
 ```
 
-### hardware-memory
+### capabilities/memory
 
-- **Values**: `ddr4`, `ddr5`, `ecc`, `mix`
+- **Values**: `ddr2`, `ddr3`, `ddr3ecc`, `ddr4`, `ddr4ecc`, `ddr5`, `ddr5ecc`
 - **Purpose**: RAM type
+- **Required**: Yes
 
 ```yaml
-- key: hardware-memory
+- key: capabilities/memory
   value: ddr5
 ```
 
@@ -323,28 +346,18 @@ Advertise support for advanced features.
 
 - **Values**: `true`, `false`
 - **Purpose**: Advertise persistent storage availability
-- **Note**: Requires Rook-Ceph or similar
+- **Required**: Yes
+- **Note**: Requires Rook-Ceph or similar. Also set the storage class capability keys below when `true`.
 
 ```yaml
 - key: feat-persistent-storage
   value: true
 ```
 
-### feat-persistent-storage-type
-
-- **Values**: `beta1`, `beta2`, `beta3` (storage classes)
-- **Purpose**: Advertise available storage types
-
-
-```yaml
-- key: feat-persistent-storage-type
-  value: beta2
-```
-
 ### capabilities/storage/1/class
 
-- **Values**: `beta1`, `beta2`, `beta3` (your storage class name)
-- **Purpose**: Advertise the storage class name for persistent storage
+- **Values**: `beta1`, `beta2`, `beta3`
+- **Purpose**: Primary persistent storage class
 - **Required**: Yes (if you have persistent storage)
 
 ```yaml
@@ -352,15 +365,16 @@ Advertise support for advanced features.
   value: beta3
 ```
 
-**Note:** Replace `beta3` with your actual storage class name:
-- `beta1` for HDD storage class
-- `beta2` for SSD storage class
-- `beta3` for NVMe storage class
+| Value   | Storage type |
+| ------- | ------------ |
+| `beta1` | HDD          |
+| `beta2` | SSD          |
+| `beta3` | NVMe         |
 
 ### capabilities/storage/1/persistent
 
 - **Values**: `"true"`, `"false"`
-- **Purpose**: Indicate that the storage class provides persistent storage
+- **Purpose**: Indicate that storage class 1 provides persistent storage
 - **Required**: Yes (if you have persistent storage)
 
 ```yaml
@@ -371,13 +385,8 @@ Advertise support for advanced features.
 **Complete persistent storage example:**
 
 ```yaml
-# Legacy attributes (optional)
 - key: feat-persistent-storage
   value: true
-- key: feat-persistent-storage-type
-  value: beta3
-
-# Required attributes (must include)
 - key: capabilities/storage/1/class
   value: beta3
 - key: capabilities/storage/1/persistent
@@ -386,12 +395,22 @@ Advertise support for advanced features.
 
 > **Important:** You can only advertise **one persistent storage class** per provider. Choose either beta1 (HDD), beta2 (SSD), or beta3 (NVMe) based on what you configured in Rook-Ceph.
 
+### feat-shm
+
+- **Values**: `true`, `false`
+- **Purpose**: Advertise shared memory (SHM) support via the `ram` storage class
+- **Recommended**: Yes (all providers should support SHM)
+
+```yaml
+- key: feat-shm
+  value: true
+```
+
 ### capabilities/storage/2/class (SHM/Shared Memory)
 
 - **Value**: `ram`
-- **Purpose**: Advertise SHM (shared memory) storage class support
-- **Required**: Recommended (all providers should support SHM)
-- **Note**: This is separate from persistent storage and should be advertised as storage index 2
+- **Purpose**: SHM storage class (separate from persistent storage at index 1)
+- **Required**: Yes (if advertising SHM)
 
 ```yaml
 - key: capabilities/storage/2/class
@@ -401,8 +420,8 @@ Advertise support for advanced features.
 ### capabilities/storage/2/persistent (SHM)
 
 - **Value**: `"false"`
-- **Purpose**: Indicate that the SHM storage class is non-persistent
-- **Required**: Yes (if advertising SHM storage)
+- **Purpose**: SHM is non-persistent
+- **Required**: Yes (if advertising SHM)
 
 ```yaml
 - key: capabilities/storage/2/persistent
@@ -413,12 +432,16 @@ Advertise support for advanced features.
 
 ```yaml
 # Persistent storage (index 1)
+- key: feat-persistent-storage
+  value: true
 - key: capabilities/storage/1/class
   value: beta3
 - key: capabilities/storage/1/persistent
   value: "true"
 
-# SHM/Shared Memory (index 2) - recommended for all providers
+# SHM/Shared Memory (index 2)
+- key: feat-shm
+  value: true
 - key: capabilities/storage/2/class
   value: ram
 - key: capabilities/storage/2/persistent
@@ -451,39 +474,40 @@ Advertise support for advanced features.
 
 ## GPU Capabilities
 
-For GPU providers, use the standardized GPU attribute format.
+For GPU providers, advertise models and their RAM/interface variants using the standardized capability key format. Valid keys are synced from the [provider-configs](https://github.com/akash-network/provider-configs) GPU database.
 
 ### GPU Attribute Format
 
 ```
 capabilities/gpu/vendor/<vendor>/model/<model>
+capabilities/gpu/vendor/<vendor>/model/<model>/ram/<size>
+capabilities/gpu/vendor/<vendor>/model/<model>/interface/<iface>
+capabilities/gpu/vendor/<vendor>/model/<model>/interface/<iface>/ram/<size>
 ```
 
-**Examples:**
+**Example for NVIDIA RTX 4090 (PCIe, 24Gi):**
 
 ```yaml
-# Basic GPU model
 - key: capabilities/gpu/vendor/nvidia/model/rtx4090
-  value: true
-
-# GPU with RAM specification
+  value: "true"
 - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi
-  value: true
-
-# GPU with interface type
-- key: capabilities/gpu/vendor/nvidia/model/a100/interface/sxm
-  value: true
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
+  value: "true"
 ```
 
 ### GPU Vendors
 
-- `nvidia` - NVIDIA GPUs
+- `nvidia` — NVIDIA GPUs
+- `amd` — AMD GPUs (for example `mi100`, `mi60`)
 
 ### GPU Interface Types
 
-- `pcie` - PCIe connected (most common)
-- `sxm` - SXM form factor (data center)
-- `mig` - Multi-Instance GPU
+- `pcie` — PCIe connected (most common)
+- `sxm` — SXM form factor (data center)
+- `mig` — Multi-Instance GPU
 
 ### RAM Sizes
 
@@ -491,21 +515,29 @@ Common values: `8Gi`, `12Gi`, `16Gi`, `24Gi`, `32Gi`, `40Gi`, `48Gi`, `80Gi`
 
 ### Multiple GPU Models
 
-If you have different GPU models across nodes:
+If you have different GPU models across nodes, list each model with its RAM and interface keys:
 
 ```yaml
 attributes:
   # RTX 4090
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090
-    value: true
+    value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi
-    value: true
-  
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
+    value: "true"
+
   # RTX 3090
   - key: capabilities/gpu/vendor/nvidia/model/rtx3090
-    value: true
+    value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/rtx3090/ram/24Gi
-    value: true
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx3090/interface/pcie
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx3090/interface/pcie/ram/24Gi
+    value: "true"
 ```
 
 **Important:** Each node should only have one GPU model. Don't mix GPU types on a single node.
@@ -514,10 +546,10 @@ attributes:
 
 If your GPU isn't in the [provider-configs database](https://github.com/akash-network/provider-configs), submit it:
 
-1. Visit [provider-configs repository](https://github.com/akash-network/provider-configs)
+1. Visit the [provider-configs repository](https://github.com/akash-network/provider-configs)
 2. Follow the GPU submission process in the README
-3. Wait for approval (typically 1-3 business days)
-4. Update your provider attributes
+3. Wait for approval (typically 1–3 business days)
+4. Update your provider attributes with the approved capability keys
 
 ---
 
@@ -536,12 +568,14 @@ attributes:
     value: my-gpu-provider
   - key: email
     value: support@mygpuprovider.com
+  - key: discord-username
+    value: mygpuprovider
   - key: website
     value: https://mygpuprovider.com
-  
+
   # Location
   - key: location-region
-    value: us-west
+    value: na-us-west
   - key: country
     value: US
   - key: city
@@ -552,21 +586,17 @@ attributes:
     value: datacenter
   - key: hosting-provider
     value: equinix
-  
+
   # Hardware
-  - key: hardware-cpu
+  - key: capabilities/cpu
     value: amd
-  - key: hardware-cpu-arch
+  - key: capabilities/cpu/arch
     value: x86-64
-  - key: hardware-gpu
+  - key: capabilities/gpu
     value: nvidia
-  - key: hardware-gpu-model
-    value: rtx4090
-  - key: hardware-disk
-    value: nvme
-  - key: hardware-memory
+  - key: capabilities/memory
     value: ddr5
-  
+
   # Network
   - key: network-provider
     value: level3
@@ -574,36 +604,40 @@ attributes:
     value: 10000
   - key: network-speed-down
     value: 10000
-  
+
   # Features
   - key: feat-persistent-storage
     value: true
-  - key: feat-persistent-storage-type
-    value: beta2
+  - key: feat-shm
+    value: true
   - key: feat-endpoint-ip
     value: true
   - key: feat-endpoint-custom-domain
     value: true
-  
+
   # Persistent Storage (required if you have Rook-Ceph)
   - key: capabilities/storage/1/class
     value: beta2
   - key: capabilities/storage/1/persistent
     value: "true"
-  
+
   # SHM/Shared Memory (recommended for all providers)
   - key: capabilities/storage/2/class
     value: ram
   - key: capabilities/storage/2/persistent
     value: "false"
-  
+
   # GPU Capabilities
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090
-    value: true
+    value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi
-    value: true
+    value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
-    value: true
+    value: "true"
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
+    value: "true"
+  - key: cuda
+    value: "12.7"
 ```
 
 ---
@@ -624,4 +658,6 @@ Look for your attributes in the `attributes` section of the output.
 
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
 - [GPU Support Setup](/docs/providers/setup-and-installation/kubespray/gpu-support)
+- [Provider Audit](/docs/providers/operations/provider-audit) — Official audit process and attribute checklist
+- [Provider Attributes Schema](https://github.com/akash-network/console/blob/main/config/provider-attributes.json) (canonical key list)
 - [Provider Configs Repository](https://github.com/akash-network/provider-configs)
