@@ -1131,13 +1131,16 @@ ws.on("message", (chunk) => console.log(JSON.parse(chunk.toString())));`,
       { field: "oseq", location: "path", type: "number", required: true, description: "Order sequence" },
       { field: "service", location: "query", type: "string", required: true, description: "Service name to exec into" },
       { field: "podIndex", location: "query", type: "number", required: true, description: "Pod index (zero-based)" },
-      { field: "cmd", location: "query", type: "string", required: false, description: "Base64-encoded command to run (omit for default shell)" },
+      { field: "tty", location: "query", type: "number", required: true, description: "`1` to allocate a TTY, `0` otherwise" },
+      { field: "stdin", location: "query", type: "number", required: true, description: "`1` to attach stdin, `0` otherwise" },
+      { field: "cmd0, cmd1, …", location: "query", type: "string", required: true, description: "Command and each argument as separate numbered params, e.g. `cmd0=/bin/sh&cmd1=-c&cmd2=ls`. There is no single (or base64) `cmd` param." },
     ],
     responseFields: [
-      { field: "(stream)", type: "binary", description: "Multiplexed stdin/stdout/stderr/resize frames" },
+      { field: "(stream)", type: "binary", description: "Multiplexed binary frames; the first byte is the stream code — 100=stdout, 101=stderr, 102=result (JSON, e.g. {\\\"exit_code\\\":0}), 103=failure. Client→server uses 104=stdin, 105=terminal-resize." },
     ],
     notes: [
       "JWT scope must include `shell`.",
+      "Command and arguments are passed as separate numbered query params (`cmd0`, `cmd1`, …) — there is no single base64-encoded `cmd` param. `tty` and `stdin` are required.",
       "Console UI uses `xterm.js` on the client side to render the stream.",
       "For programmatic shells, use the provider's `kubectl exec`-style protocol via the SDK helpers rather than constructing this WebSocket by hand.",
     ],
@@ -1147,19 +1150,41 @@ ws.on("message", (chunk) => console.log(JSON.parse(chunk.toString())));`,
         code: `import WebSocket from "ws";
 import https from "https";
 
-// \`rejectUnauthorized: false\` skips Node's hostname check; see preface.
+// \`rejectUnauthorized: false\` skips Node's CA check — the provider cert is
+// pinned to the on-chain wallet address, not a public CA; see preface.
 const agent = new https.Agent({ rejectUnauthorized: false });
 
-const cmd = Buffer.from(JSON.stringify(["/bin/sh"])).toString("base64");
+// Command + args go in SEPARATE numbered params (cmd0, cmd1, …); there is no
+// base64 \`cmd\` param. \`tty\` and \`stdin\` are required.
+const params = new URLSearchParams();
+["/bin/sh", "-c", "echo hello && hostname"].forEach((arg, i) =>
+  params.append(\`cmd\${i}\`, arg)
+);
+params.append("tty", "0");
+params.append("stdin", "0");
+params.append("service", service);
+params.append("podIndex", "0");
+
 const url =
-  \`wss://\${hostUri.replace(/^https?:\\/\\//, "")}/lease/\${dseq}/\${gseq}/\${oseq}/shell\` +
-  \`?service=\${service}&podIndex=0&cmd=\${cmd}\`;
+  \`wss://\${hostUri.replace(/^https?:\\/\\//, "")}/lease/\${dseq}/\${gseq}/\${oseq}/shell?\${params}\`;
 
 const ws = new WebSocket(url, {
   headers: { Authorization: \`Bearer \${jwt}\` },
   agent,
 });
-ws.on("message", (frame) => process.stdout.write(frame));`,
+
+// Frames are binary: the first byte is the stream code.
+ws.on("message", (frame) => {
+  const code = frame[0];
+  const data = frame.subarray(1);
+  if (code === 100) process.stdout.write(data); // stdout
+  else if (code === 101) process.stderr.write(data); // stderr
+  else if (code === 102) {
+    // result frame, e.g. {"exit_code":0}
+    console.log("result:", data.toString());
+    ws.close();
+  }
+});`,
       },
     ],
   },
