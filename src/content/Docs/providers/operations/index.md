@@ -76,6 +76,20 @@ Once your provider is running, these guides help you manage leases, monitor heal
 
 ---
 
+### [Provider Audit](/docs/providers/operations/provider-audit)
+
+**Get your provider officially audited**
+
+**Covers:**
+- Complete on-chain attribute requirements for audit pass
+- Discord membership and `discord-username` attribute
+- Deploying the audit benchmark SDL
+- Submitting a [Provider Audit] GitHub issue
+
+**Use when:** You are ready for official audit and need the attribute checklist or benchmark steps.
+
+---
+
 ### [Provider Verification](/docs/providers/operations/provider-verification)
 
 **Verify your provider is running correctly**

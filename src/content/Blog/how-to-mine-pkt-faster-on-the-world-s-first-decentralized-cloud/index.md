@@ -179,7 +179,7 @@ akash tx cert create client --chain-id $AKASH_CHAIN_ID --keyring-backend os --fr
 If you see an error adding your certificate to the blockchain, try again! Now to deploy on Akash, run:
 
 ```sh
-akash tx deployment create deploy.yml --from` `**<your_wallet_name>**` `--node https://rpc.akash.forbole.com:443 --chain-id akashnet-2 --fees 5000uakt -y
+akash tx deployment create deploy.yml --from <your_wallet_name> --node https://rpc.akt.dev/rpc --chain-id akashnet-2 --fees 5000uakt -y
 ```
 
 After that command, a string of JSON will appear in your terminal/command prompt.
@@ -281,43 +281,43 @@ Note, if you just followed the Quick Start Guide, you might run into an error su
 Next, run:
 
 ```sh
-akash query deployment get --owner <your_akash_wallet_address> --node=tcp://135.181.60.250:26657 --dseq <your_dseq>
+akash query deployment get --owner <your_akash_wallet_address> --node=https://rpc.akt.dev/rpc --dseq <your_dseq>
 ```
 
 Create a market order.
 
 ```sh
-akash query market order get --node=https://rpc.akash.forbole.com:443 --owner <your_akash_wallet> --dseq <your_dseq> --oseq 1 --gseq 1
+akash query market order get --node=https://rpc.akt.dev/rpc --owner <your_akash_wallet> --dseq <your_dseq> --oseq 1 --gseq 1
 ```
 
 Acquire a list of bids.
 
 ```sh
-akash query market bid list --owner=<your_wallet_address> --node=https://rpc.akash.forbole.com:443 --dseq <your_dseq>
+akash query market bid list --owner=<your_wallet_address> --node=https://rpc.akt.dev/rpc --dseq <your_dseq>
 ```
 
 Select a bid from a provider.
 
 ```sh
-akash tx market lease create --chain-id akashnet-2 --node=tcp://135.181.60.250:26657 --owner <your_wallet_address> --dseq <your_dseq> --gseq 1 --oseq 1 --provider <select_a_provider_from_the_list> --from <your_wallet_name> --fees 5000uakt
+akash tx market lease create --chain-id akashnet-2 --node=https://rpc.akt.dev/rpc --owner <your_wallet_address> --dseq <your_dseq> --gseq 1 --oseq 1 --provider <select_a_provider_from_the_list> --from <your_wallet_name> --fees 5000uakt
 ```
 
 Confirm your lease is open.
 
 ```sh
-akash query market lease list --owner <your_wallet_address> --node=tcp://135.181.60.250:26657 --dseq <your_dseq>
+akash query market lease list --owner <your_wallet_address> --node=https://rpc.akt.dev/rpc --dseq <your_dseq>
 ```
 
 Send the manifest.
 
 ```sh
-akash provider send-manifest deploy.yml --node=tcp://135.181.60.250:26657 --dseq <your_dseq> --provider <the_provider_you_selected> --home ~/.akash --from <your_wallet_address>
+akash provider send-manifest deploy.yml --node=https://rpc.akt.dev/rpc --dseq <your_dseq> --provider <the_provider_you_selected> --home ~/.akash --from <your_wallet_address>
 ```
 
 Ensure the miner is running by looking at your logs.
 
 ```sh
-akash provider lease-logs --node=tcp://135.181.60.250:26657  --dseq <your_dseq> --gseq 1 --oseq 1 --provider <the_provider_you_selected> --from <your_wallet_address>
+akash provider lease-logs --node=https://rpc.akt.dev/rpc --dseq <your_dseq> --gseq 1 --oseq 1 --provider <the_provider_you_selected> --from <your_wallet_address>
 ```
 
 Another great way to see how much PKT you are mining is by visiting the [block explorer](https://explorer.pkt.cash) and inputting your PKT wallet address.

@@ -8,7 +8,7 @@ async function getAkashTools_PageContent() {
     title: content.data.title,
     body: content.body,
     description: content.data.description || null,
-    slug: content.slug,
+    slug: content.id,
   }));
 }
 

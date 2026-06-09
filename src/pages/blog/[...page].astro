@@ -66,7 +66,7 @@ const pathName = Astro.url.pathname.split("/");
   <div class="container mt-[120px]">
     {
       page.currentPage === 1 && (
-        <a class="flex cursor-pointer" href={`/blog/${pinnedPost.slug}`}>
+        <a class="flex cursor-pointer" href={`/blog/${pinnedPost.id}`}>
           <PostCard
             type="large"
             title={pinnedPost.data.title}
@@ -135,7 +135,7 @@ const pathName = Astro.url.pathname.split("/");
       {
         page.data.map((post: BlogPost, i: number) => {
           return (
-            <a class="flex cursor-pointer " href={`/blog/${post.slug}`}>
+            <a class="flex cursor-pointer " href={`/blog/${post.id}`}>
               <PostCard
                 title={post.data.title}
                 image={post.data.bannerImage}

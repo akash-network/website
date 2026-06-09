@@ -259,7 +259,7 @@ const deployment = await sdk.akash.deployment.v1beta4.createDeployment({
   depositor: accounts[0].address
 });
 
-console.log("**Deployment created with dseq:", dseq);`
+console.log("Deployment created with dseq:", dseq);`
     },
     {
       language: "go",
@@ -315,7 +315,7 @@ if err != nil {
     panic(err)
 }
 
-fmt.Printf("**Deployment created with dseq: %d\\n", dseq)`
+fmt.Printf("Deployment created with dseq: %d\\n", dseq)`
     }
   ]}
 />
@@ -415,7 +415,7 @@ const lease = await sdk.akash.market.v1beta5.createLease({
   bidId: selectedBid.bidId
 });
 
-console.log("**Lease created!");
+console.log("Lease created!");
 console.log(\`Provider: \${selectedBid.bidId.provider}\`);`
     },
     {
@@ -441,7 +441,7 @@ if err != nil {
     panic(err)
 }
 
-fmt.Println("**Lease created!")
+fmt.Println("Lease created!")
 fmt.Printf("Provider: %s\\n", selectedBid.BidID.Provider)`
     }
   ]}
@@ -495,7 +495,7 @@ const response = await fetch(
 );
 
 if (response.ok) {
-  console.log("**Manifest sent successfully!");
+  console.log("Manifest sent successfully!");
   console.log("Your deployment is now starting...");
 } else {
   console.error("Failed to send manifest:", await response.text());
@@ -520,7 +520,7 @@ if err != nil {
 // 2. Generate JWT token or use mTLS certificate
 // 3. Send manifest via HTTP PUT request to provider
 
-fmt.Println("**Manifest ready to send!")
+fmt.Println("Manifest ready to send!")
 fmt.Println("Your deployment is now starting...")
 
 // For full manifest sending implementation, see the Examples page`

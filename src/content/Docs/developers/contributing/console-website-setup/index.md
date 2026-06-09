@@ -566,8 +566,8 @@ npm run build
 ls -la public/images/
 
 # Use absolute paths in markdown
-# **![Alt](/images/pic.png)
-# **![Alt](./images/pic.png)
+# Correct: ![Alt](/images/pic.png)
+# Incorrect: ![Alt](./images/pic.png)
 ```
 
 **MDX parsing errors:**
@@ -694,4 +694,3 @@ Ready to contribute?
 ---
 
 **Questions?** Ask in [Discord #developers](https://discord.akash.network)!
-

@@ -5,7 +5,7 @@ import TailwindIndicator from "@/components/tailwind-indicator.astro";
 import BaseHead from "@/components/base-head.astro";
 import Header from "@/components/header/header.astro";
 import Footer from "@/components/footer/footer.astro";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import AsideTailwindClasses from "@/lib/aside/aside-tailwind-classes.astro";
 
 interface Props {
@@ -167,7 +167,7 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
         }
       });
     </script>
-    <ViewTransitions />
+    <ClientRouter />
     <slot name="head" />
   </head>
   <body class="bg-background" class:list={classname}>

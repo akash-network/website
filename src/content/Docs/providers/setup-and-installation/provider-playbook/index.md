@@ -17,7 +17,7 @@ The Provider Playbook features an interactive setup script that guides you throu
 
 ## Why Provider Playbook?
 
-### **Advantages
+### **Advantages**
 - **Interactive wizard** - Guides you through every step
 - **Automated setup** - Handles all the heavy lifting
 - **Multiple Kubernetes options** - Choose Kubespray (production) or K3s (lightweight)
@@ -35,15 +35,15 @@ The Provider Playbook features an interactive setup script that guides you throu
 ## What It Automates
 
 The interactive script handles:
-- **Prerequisite installation (Python, Ansible, tools)
-- **Kubernetes cluster deployment (Kubespray or K3s)
-- **Wallet setup (create new or import existing)
-- **GPU detection and NVIDIA driver installation
-- **Storage configuration (Rook-Ceph for persistent storage)
-- **Provider software installation and configuration
-- **OS optimizations and cron jobs
-- **Tailscale VPN setup (optional)
-- **SSH key distribution across nodes
+- **Prerequisite installation (Python, Ansible, tools)**
+- **Kubernetes cluster deployment (Kubespray or K3s)**
+- **Wallet setup (create new or import existing)**
+- **GPU detection and NVIDIA driver installation**
+- **Storage configuration (Rook-Ceph for persistent storage)**
+- **Provider software installation and configuration**
+- **OS optimizations and cron jobs**
+- **Tailscale VPN setup (optional)**
+- **SSH key distribution across nodes**
 
 ---
 
@@ -63,7 +63,7 @@ Have this ready before starting:
 
 **1. Provider Details:**
 - Provider domain name (e.g., `provider.example.com`)
-- Provider region (e.g., `us-west`)
+- `location-region` — UN geoscheme region (e.g., `na-us-west`)
 - Organization name
 - Contact email
 - Organization website
@@ -143,7 +143,7 @@ The script will ask you to select which components to install:
 ### Configuration Collection
 
 The script will interactively collect:
-- Provider domain and region
+- Provider domain and `location-region`
 - Organization details
 - Node IP addresses and SSH credentials
 - Wallet setup (create or import)

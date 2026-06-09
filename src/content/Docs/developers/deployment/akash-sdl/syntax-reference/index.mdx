@@ -262,6 +262,8 @@ params:
 | `logs` | `get/list/watch` on `pods`, `get` on `pods/log`, `get/list/watch` on `apps/deployments` |
 | `events` | `get/list/watch` on `events` |
 
+**Typical use:** log-forwarding sidecars that ship stdout/stderr to an external destination (Datadog, Loki, Fluent Bit, the Akash log-collector image), or monitoring agents that observe pod restarts, OOM kills, scheduling failures, and other lifecycle transitions.
+
 The collector pod authenticates against the Kubernetes API using a ServiceAccount the provider mounts into every container. When the target service declares `permissions.read`, the provider attaches a matching `Role` and `RoleBinding` so collectors in the same deployment can call the API server. See [Log Forwarding](/docs/developers/deployment/akash-sdl/advanced-features#log-forwarding) for the full sidecar pattern.
 
 </div>

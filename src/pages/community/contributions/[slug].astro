@@ -4,7 +4,7 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import { ArrowUpRight, ArrowLeft } from "lucide-react";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 
 type Contribution = CollectionEntry<"Community_Contributions_Page">;
@@ -12,13 +12,13 @@ type Contribution = CollectionEntry<"Community_Contributions_Page">;
 export async function getStaticPaths() {
   const contributions = await getCollection("Community_Contributions_Page");
   return contributions.map((contribution) => ({
-    params: { slug: contribution.slug },
+    params: { slug: contribution.id },
     props: { contribution },
   }));
 }
 
 const { contribution } = Astro.props as { contribution: Contribution };
-const { Content } = await contribution.render();
+const { Content } = await render(contribution);
 ---
 
 <Layout

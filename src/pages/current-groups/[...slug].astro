@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 
 import NextPrevNav from "@/components/development-pages/next-prev-nav.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
@@ -9,7 +9,7 @@ import { proseClasses } from "@/lib/prose-classes";
 export async function getStaticPaths() {
   const pages = await getCollection("Development_Current_Groups_Page");
   return pages.map((page) => ({
-    params: { slug: page?.slug?.split("/")?.[0] },
+    params: { slug: page?.id?.split("/")?.[0] },
     props: page,
   }));
 }
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"Development_Current_Groups_Page">;
 
 const page = Astro.props;
-const { Content, headings } = await page.render();
+const { Content, headings } = await render(page);
 const pages = await getCollection("Development_Current_Groups_Page");
 
 const nav: any = [];
@@ -33,18 +33,18 @@ pages.forEach((item) => {
   if (existingItem) {
     existingItem.subItems.push({
       label: item.data.title,
-      link: `/current-groups/${item.slug?.split("/")[0]}/`,
+      link: `/current-groups/${item.id?.split("/")[0]}/`,
       enabled: true,
     });
   } else {
     nav.push({
       label: mainLabel,
-      link: `/current-groups/${item?.slug?.split("/")[0]}/`,
+      link: `/current-groups/${item?.id?.split("/")[0]}/`,
       enabled: true,
       subItems: [
         {
           label: item.data.title,
-          link: `/current-groups/${item.slug?.split("/")[0]}/`,
+          link: `/current-groups/${item.id?.split("/")[0]}/`,
           enabled: true,
         },
       ],

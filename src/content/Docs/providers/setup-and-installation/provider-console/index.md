@@ -33,7 +33,7 @@ Provider Console is a web-based application designed to simplify the process of 
 
 ## Why Provider Console?
 
-### **Advantages
+### **Advantages**
 - **Easiest to use** - No command line experience needed
 - **Fastest setup** - 1-2 hours to get online
 - **Guided process** - Step-by-step wizard
@@ -68,12 +68,12 @@ Visit: **[provider-console.akash.network](https://provider-console.akash.network
 ## What It Handles
 
 The Provider Console automates:
-- **Server preparation
-- **Kubernetes installation
-- **Provider software deployment
-- **Certificate management
-- **Network configuration
-- **Initial pricing setup
+- **Server preparation**
+- **Kubernetes installation**
+- **Provider software deployment**
+- **Certificate management**
+- **Network configuration**
+- **Initial pricing setup**
 
 ---
 
@@ -97,10 +97,10 @@ Before starting:
 ## Supported Features
 
 ### Included
-- **Basic provider setup
-- **Pricing configuration
-- **Provider monitoring
-- **Deployment management
+- **Basic provider setup**
+- **Pricing configuration**
+- **Provider monitoring**
+- **Deployment management**
 
 ### Advanced Features
 For GPU support, persistent storage, or IP leases, you may need to use:
