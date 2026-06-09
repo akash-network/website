@@ -325,10 +325,10 @@ See **[AuthZ & Fee Grants SDK](/docs/api-documentation/sdk/authz-feegrant)** for
 Never grant unlimited fee allowances:
 
 ```bash
-# **Bad: Unlimited fees
+# Bad: Unlimited fees
 provider-services tx feegrant grant <granter> <grantee> --from <wallet>
 
-# **Good: Limited fees
+# Good: Limited fees
 provider-services tx feegrant grant <granter> <grantee> \
   --spend-limit 5000000uakt \
   --expiration "2025-12-31T23:59:59Z" \
@@ -428,10 +428,10 @@ provider-services tx authz grant <contractor> generic \
 The grantee forgot to specify `--fee-granter`:
 
 ```bash
-# **Missing fee-granter flag
+# Missing fee-granter flag
 provider-services tx deployment create deploy.yaml --from <grantee>
 
-# **Correct usage
+# Correct usage
 provider-services tx deployment create deploy.yaml \
   --from <grantee> \
   --fee-granter <granter>
@@ -687,4 +687,3 @@ provider-services tx authz grant <contractor-address> generic \
 
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #developers channel
 - **GitHub Support:** [github.com/akash-network/support/issues](https://github.com/akash-network/support/issues)
-
