@@ -2,6 +2,10 @@
 import { InfraCarousel } from './InfraCarousel'
 ---
 
-<section class="w-full py-12 md:py-20 overflow-hidden">
-  <InfraCarousel client:visible />
-</section>
+<!-- infra-scroll-outer: grows tall enough for sticky section to pin during full carousel traversal -->
+<div id="infra-scroll-outer" class="relative">
+  <!-- lg:sticky keeps the section pinned at 60px while outer scrolls; React sets outer height -->
+  <section id="infra-scroll-inner" class="w-full py-12 md:py-20 overflow-hidden lg:sticky lg:top-4">
+    <InfraCarousel client:visible />
+  </section>
+</div>
