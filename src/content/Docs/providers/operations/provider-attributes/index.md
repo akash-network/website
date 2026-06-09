@@ -482,7 +482,7 @@ For GPU providers, advertise models and their RAM/interface variants using the s
 capabilities/gpu/vendor/<vendor>/model/<model>
 capabilities/gpu/vendor/<vendor>/model/<model>/ram/<size>
 capabilities/gpu/vendor/<vendor>/model/<model>/interface/<iface>
-capabilities/gpu/vendor/<vendor>/model/<model>/interface/<iface>/ram/<size>
+capabilities/gpu/vendor/<vendor>/model/<model>/ram/<size>/interface/<iface>
 ```
 
 **Example for NVIDIA RTX 4090 (PCIe, 24Gi):**
@@ -494,7 +494,7 @@ capabilities/gpu/vendor/<vendor>/model/<model>/interface/<iface>/ram/<size>
   value: "true"
 - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
   value: "true"
-- key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi/interface/pcie
   value: "true"
 ```
 
@@ -526,7 +526,7 @@ attributes:
     value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
     value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi/interface/pcie
     value: "true"
 
   # RTX 3090
@@ -536,7 +536,7 @@ attributes:
     value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/rtx3090/interface/pcie
     value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/rtx3090/interface/pcie/ram/24Gi
+  - key: capabilities/gpu/vendor/nvidia/model/rtx3090/ram/24Gi/interface/pcie
     value: "true"
 ```
 
@@ -634,7 +634,7 @@ attributes:
     value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
     value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
+  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi/interface/pcie
     value: "true"
   - key: cuda
     value: "12.7"
