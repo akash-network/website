@@ -50,7 +50,7 @@ Providers can offer:
 
 ## Requirements & Considerations
 
-### **You're a Good Fit If You Have:
+### **You're a Good Fit If You Have:**
 
 **Technical Skills:**
 - Linux system administration experience
@@ -71,7 +71,7 @@ Providers can offer:
 - Ability to cover electricity/hosting costs
 - Capital for hardware (if needed)
 
-### **You Might Want to Reconsider If:
+### **You Might Want to Reconsider If:**
 
 - No Kubernetes experience and not interested in learning
 - Unreliable internet connection

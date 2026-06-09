@@ -51,7 +51,7 @@ For the small slice of the population that's building a brand new home with Pult
 
 Homenode takes the opposite path.
 
-Instead of shipping new hardware to new homes, Homenode is software. If you already own a capable GPU - an RTX 30,40,50 series, or Quadro RTX 6000 Ada - you download an ISO image, plug into the Akash Network, and your machine starts earning from real compute demand on a permissionless marketplace.
+Instead of shipping new hardware to new homes, Homenode is software. If you already own a capable GPU - an RTX 30,40,50 series, or RTX Pro 6000 - you download an ISO image, plug into the Akash Network, and your machine starts earning from real compute demand on a permissionless marketplace.
 
 Here's what that unlocks:
 

@@ -55,7 +55,7 @@ const categories = ["All Posts", "News", "Guides", "Articles"];
         {
           contributions.map((contribution) => (
             <div class="article-card h-full" data-category={contribution.data.categories[0]}>
-              <a href={`/community/contributions/${contribution.slug}`} class="block h-full">
+              <a href={`/community/contributions/${contribution.id}`} class="block h-full">
                 <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
                   <div class="flex h-full flex-col gap-5 p-6">
                     <div class="overflow-hidden rounded-lg">

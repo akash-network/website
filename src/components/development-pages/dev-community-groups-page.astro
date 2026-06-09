@@ -5,7 +5,7 @@ import CommunityGroupsTabs from "./CommunityGroupsTabs";
 const pages = await getCollection("Development_Current_Groups_Page");
 
 const groups = pages.map((page) => ({
-  slug: page.slug,
+  slug: page.id,
   category: page.data.category,
   title: page.data.title,
   description: page.data.description,

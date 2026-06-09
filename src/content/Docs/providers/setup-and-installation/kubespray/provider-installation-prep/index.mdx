@@ -197,26 +197,38 @@ node: "http://akash-node-1:26657"
 withdrawalperiod: 12h
 chainid: "akashnet-2"
 attributes:
-  - key: region
-    value: us-west
+  - key: location-region
+    value: na-us-west
   - key: host
     value: akash
   - key: tier
     value: community
   - key: organization
     value: "Your Organization"
+  - key: email
+    value: contact@example.com
+  - key: discord-username
+    value: your_discord_username
   - key: country
     value: US
   - key: city
     value: "San Francisco"
   - key: location-type
     value: datacenter
+  - key: feat-persistent-storage
+    value: false
+  - key: feat-shm
+    value: true
   - key: capabilities/cpu
     value: intel
   - key: capabilities/cpu/arch
     value: x86-64
   - key: capabilities/memory
     value: ddr4
+  - key: capabilities/storage/2/class
+    value: ram
+  - key: capabilities/storage/2/persistent
+    value: "false"
   - key: network-speed-up
     value: 1000
   - key: network-speed-down
@@ -247,6 +259,8 @@ If you configured persistent storage with Rook-Ceph, add the storage attributes 
 ```yaml
 attributes:
   # ... existing attributes ...
+  - key: feat-persistent-storage
+    value: true
   - key: capabilities/storage/1/class
     value: <storage-class>
   - key: capabilities/storage/1/persistent
@@ -325,17 +339,15 @@ chainid: "akashnet-2"
 
 attributes:
   # Location
-  - key: region
-    value: us-west
+  - key: location-region
+    value: na-us-west
   - key: country
     value: US
   - key: city
     value: "San Francisco"
   - key: location-type
     value: datacenter
-  - key: datacenter
-    value: us-west-dc-1
-  
+
   # Required
   - key: host
     value: akash
@@ -343,23 +355,25 @@ attributes:
     value: community
   - key: organization
     value: "Your Organization"
+  - key: email
+    value: contact@example.com
+  - key: discord-username
+    value: your_discord_username
 
-  # CPU
+  # CPU & memory
   - key: capabilities/cpu
     value: intel
   - key: capabilities/cpu/arch
     value: x86-64
-  
-  # Memory
   - key: capabilities/memory
     value: ddr5ecc
-  
+
   # Network
   - key: network-speed-up
     value: 10000
   - key: network-speed-down
     value: 10000
-  
+
   # GPU (if you have GPUs)
   - key: capabilities/gpu
     value: nvidia
@@ -373,14 +387,18 @@ attributes:
     value: "true"
   - key: cuda
     value: "13.0"
-  
+
   # Persistent Storage (if you have Rook-Ceph)
+  - key: feat-persistent-storage
+    value: true
   - key: capabilities/storage/1/class
     value: beta3
   - key: capabilities/storage/1/persistent
     value: "true"
-  
-  # SHM (Shared Memory) storage class (optional)
+
+  # SHM (Shared Memory) — recommended for all providers
+  - key: feat-shm
+    value: true
   - key: capabilities/storage/2/class
     value: ram
   - key: capabilities/storage/2/persistent

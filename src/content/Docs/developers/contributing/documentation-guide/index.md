@@ -208,31 +208,31 @@ Further reading
 **Examples:**
 
 ```markdown
-**Good: "Deploy your application using the CLI"
-**Bad: "Applications can be deployed by users via the CLI"
+**Good:** "Deploy your application using the CLI"
+**Bad:** "Applications can be deployed by users via the CLI"
 
-**Good: "Create a deployment with this command"
-**Bad: "A deployment may be created using the following command"
+**Good:** "Create a deployment with this command"
+**Bad:** "A deployment may be created using the following command"
 ```
 
 ### Clarity
 
 **Be specific:**
 ```markdown
-**Vague: "Install the required dependencies"
-**Specific: "Install Go 1.25.0 or later"
+**Vague:** "Install the required dependencies"
+**Specific:** "Install Go 1.25.0 or later"
 
-**Vague: "Configure your environment"
-**Specific: "Set the AKASH_NODE environment variable"
+**Vague:** "Configure your environment"
+**Specific:** "Set the AKASH_NODE environment variable"
 ```
 
 **Remove unnecessary words:**
 ```markdown
-**Wordy: "In order to create a deployment, you will need to..."
-**Concise: "To create a deployment..."
+**Wordy:** "In order to create a deployment, you will need to..."
+**Concise:** "To create a deployment..."
 
-**Wordy: "There are three different methods available for..."
-**Concise: "Three methods for..."
+**Wordy:** "There are three different methods available for..."
+**Concise:** "Three methods for..."
 ```
 
 ### Technical Accuracy
@@ -351,9 +351,9 @@ Jump to [Installation](#installation).
 ```markdown
 | Feature | CLI | Console | SDK |
 |---------|-----|---------|-----|
-| Easy to use |  | **| **|
-| Automation | **| **| **|
-| GUI | **| **| **|
+| Easy to use | Moderate | High | Moderate |
+| Automation | High | Low | High |
+| GUI | No | Yes | No |
 ```
 
 ### Admonitions
@@ -639,4 +639,3 @@ Documentation contributors are valued:
 ---
 
 **Questions?** Ask in [Discord #developers](https://discord.akash.network)!
-

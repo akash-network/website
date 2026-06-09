@@ -27,7 +27,7 @@ export async function getStaticPaths() {
     const quarters = categorizeRoadmapsByQuarter(yearRoadmaps);
 
     return {
-      params: { year },
+      params: { year: String(year) },
       props: { quarters, years },
     };
   });

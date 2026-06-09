@@ -1083,7 +1083,7 @@ func main() {
         panic(err)
     }
     
-    fmt.Printf("**Deployment created with dseq: %d\\n", dseq)
+    fmt.Printf("Deployment created with dseq: %d\\n", dseq)
     
     // 7. Wait for bids
     fmt.Println("Waiting for bids...")
@@ -1120,7 +1120,7 @@ func main() {
             panic(err)
         }
         
-        fmt.Println("**Lease created!")
+        fmt.Println("Lease created!")
         fmt.Printf("Provider: %s\\n", selectedBid.BidID.Provider)
         fmt.Printf("Deployment: %d-%d-%d\\n", 
             selectedBid.BidID.DSeq, 
@@ -1142,4 +1142,3 @@ func main() {
 - [Quick Start](/docs/api-documentation/sdk/quick-start)
 - [API Reference](/docs/api-documentation/sdk/api-reference)
 - [SDL Reference](/docs/developers/deployment/akash-sdl)
-

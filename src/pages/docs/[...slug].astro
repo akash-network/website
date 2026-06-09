@@ -10,14 +10,14 @@ import { docsProseClasses } from "@/lib/docs-prose-classes";
 import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 import generateToc from "@/lib/generateToc";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import classNames from "clsx";
 
 export async function getStaticPaths() {
   const pages = await getCollection("Docs");
 
   return pages.map((page: CollectionEntry<"Docs">) => ({
-    params: { slug: page.slug },
+    params: { slug: page.id },
     props: page,
   }));
 }
@@ -26,7 +26,7 @@ type Props = CollectionEntry<"Docs">;
 
 const page: Props = Astro.props;
 
-const { Content, headings } = await page.render();
+const { Content, headings } = await render(page);
 
 const pathname = new URL(Astro.request.url).pathname;
 
@@ -114,7 +114,7 @@ const lines = page?.body
             <a
               target="_blank"
               class="flex items-center gap-2 text-xs font-medium hover:text-primary"
-              href={`https://github.com/akash-network/website-revamp/tree/main/src/content/Docs/${page.slug}`}
+              href={`https://github.com/akash-network/website-revamp/tree/main/src/content/Docs/${page.id}`}
             >
               <svg
                 width="16"

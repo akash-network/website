@@ -343,6 +343,8 @@ deployment:
 
 In this example, `log-collector` can read logs and events from both itself and the `web` service. The `web` service has no special permissions — it runs with default access only.
 
+For the formal field syntax, see the [`params.permissions`](/docs/developers/deployment/akash-sdl/syntax-reference#permissions-section) section of the SDL Syntax Reference.
+
 ---
 
 ## Escrow Accounts

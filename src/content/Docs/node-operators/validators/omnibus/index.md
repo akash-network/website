@@ -142,27 +142,27 @@ Update the `validator` service environment variables:
 
 ```yaml
 validator:
-  image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
-    env:
+  image: ghcr.io/akash-network/cosmos-omnibus:v1.2.43-akash-v2.0.1
+  env:
     - MONIKER=my-validator
-      - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
+    - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
     - MINIMUM_GAS_PRICES=0.025uakt
-      - AKASH_MODE=validator
+    - AKASH_MODE=validator
     - AKASH_P2P_PEX=false
-    - AKASH_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
-      - AKASH_ADDR_BOOK_STRICT=false
-      - AKASH_DOUBLE_SIGN_CHECK_HEIGHT=10
+    - AKASH_P2P_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
+    - AKASH_P2P_ADDR_BOOK_STRICT=false
+    - AKASH_CONSENSUS_DOUBLE_SIGN_CHECK_HEIGHT=10
     - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
     - S3_KEY=<your-filebase-access-key>
     - S3_SECRET=<your-filebase-secret-key>
     - KEY_PASSWORD=<strong-password>
-      - KEY_PATH=akashvalidator
+    - KEY_PATH=akashvalidator
 ```
 
 **Important fields:**
 - `MONIKER` - Your validator name
 - `AKASH_P2P_PEX` - Set to `false` for validator (no peer exchange)
-- `AKASH_UNCONDITIONAL_PEER_IDS` - Leave empty for now (add sentry IDs later)
+- `AKASH_P2P_UNCONDITIONAL_PEER_IDS` - Leave empty for now (add sentry IDs later)
 - `S3_KEY` / `S3_SECRET` - Your FileBase credentials
 - `KEY_PASSWORD` - Strong password for key encryption
 - `KEY_PATH` - S3 bucket name (`akashvalidator`)
@@ -172,48 +172,48 @@ validator:
 Update the `node1` service environment variables:
 
 ```yaml
-  node1:
-  image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
-    env:
+node1:
+  image: ghcr.io/akash-network/cosmos-omnibus:v1.2.43-akash-v2.0.1
+  env:
     - MONIKER=sentry-node-1
-      - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
+    - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
     - MINIMUM_GAS_PRICES=0.025uakt
-      - AKASH_MODE=full
-      - AKASH_P2P_PEX=true
-    - AKASH_PRIVATE_PEER_IDS=  # Leave empty for now
-    - AKASH_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
-      - AKASH_ADDR_BOOK_STRICT=false
-      - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
-      - STATESYNC_SNAPSHOT_INTERVAL=500
+    - AKASH_MODE=full
+    - AKASH_P2P_PEX=true
+    - AKASH_P2P_PRIVATE_PEER_IDS=  # Leave empty for now
+    - AKASH_P2P_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
+    - AKASH_P2P_ADDR_BOOK_STRICT=false
+    - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
+    - STATESYNC_SNAPSHOT_INTERVAL=500
     - S3_KEY=<your-filebase-access-key>
     - S3_SECRET=<your-filebase-secret-key>
     - KEY_PASSWORD=<strong-password>
-      - KEY_PATH=akashnode1
+    - KEY_PATH=akashnode1
 ```
 
 **Important fields:**
 - `AKASH_MODE` - Set to `full` (not `validator`)
 - `AKASH_P2P_PEX` - Set to `true` for sentry (allows peer exchange)
-- `AKASH_PRIVATE_PEER_IDS` / `AKASH_UNCONDITIONAL_PEER_IDS` - Leave empty for now (add validator ID later)
+- `AKASH_P2P_PRIVATE_PEER_IDS` / `AKASH_P2P_UNCONDITIONAL_PEER_IDS` - Leave empty for now (add validator ID later)
 
 ### Sentry Node 2
 
 Update the `node2` service environment variables (same as node1 with different path):
 
 ```yaml
-  node2:
-  image: ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0
-    env:
+node2:
+  image: ghcr.io/akash-network/cosmos-omnibus:v1.2.43-akash-v2.0.1
+  env:
     - MONIKER=sentry-node-2
-      - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
+    - CHAIN_JSON=https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json
     - MINIMUM_GAS_PRICES=0.025uakt
-      - AKASH_MODE=full
-      - AKASH_P2P_PEX=true
-    - AKASH_PRIVATE_PEER_IDS=  # Leave empty for now
-    - AKASH_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
-      - AKASH_ADDR_BOOK_STRICT=false
-      - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
-      - STATESYNC_SNAPSHOT_INTERVAL=500
+    - AKASH_MODE=full
+    - AKASH_P2P_PEX=true
+    - AKASH_P2P_PRIVATE_PEER_IDS=  # Leave empty for now
+    - AKASH_P2P_UNCONDITIONAL_PEER_IDS=  # Leave empty for now
+    - AKASH_P2P_ADDR_BOOK_STRICT=false
+    - STATESYNC_RPC_SERVERS=https://akash-rpc.polkachu.com:443,https://akash-rpc.polkachu.com:443
+    - STATESYNC_SNAPSHOT_INTERVAL=500
     - S3_KEY=<your-filebase-access-key>
     - S3_SECRET=<your-filebase-secret-key>
     - KEY_PASSWORD=<strong-password>
@@ -298,15 +298,15 @@ Edit your SDL with the captured node IDs.
 
 ### Update Validator Service
 
-Add sentry node IDs to validator's `AKASH_UNCONDITIONAL_PEER_IDS`:
+Add sentry node IDs to validator's `AKASH_P2P_UNCONDITIONAL_PEER_IDS`:
 
 ```yaml
-- AKASH_UNCONDITIONAL_PEER_IDS=<node1-id>,<node2-id>
+- AKASH_P2P_UNCONDITIONAL_PEER_IDS=<node1-id>,<node2-id>
 ```
 
 **Example:**
 ```yaml
-      - AKASH_UNCONDITIONAL_PEER_IDS=c955c77516b4c6fc62406a63303395fc97662c1e,b3035d5dfbfeb359c716bcb714ab383e6b73a5fd
+      - AKASH_P2P_UNCONDITIONAL_PEER_IDS=c955c77516b4c6fc62406a63303395fc97662c1e,b3035d5dfbfeb359c716bcb714ab383e6b73a5fd
 ```
 
 ### Update Sentry Services
@@ -314,14 +314,14 @@ Add sentry node IDs to validator's `AKASH_UNCONDITIONAL_PEER_IDS`:
 Add validator ID to **both** `node1` and `node2` services:
 
 ```yaml
-- AKASH_PRIVATE_PEER_IDS=<validator-id>
-- AKASH_UNCONDITIONAL_PEER_IDS=<validator-id>
+- AKASH_P2P_PRIVATE_PEER_IDS=<validator-id>
+- AKASH_P2P_UNCONDITIONAL_PEER_IDS=<validator-id>
 ```
 
 **Example:**
 ```yaml
-      - AKASH_PRIVATE_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
-      - AKASH_UNCONDITIONAL_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
+      - AKASH_P2P_PRIVATE_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
+      - AKASH_P2P_UNCONDITIONAL_PEER_IDS=2d76800f5a149510229aadf480f8ec02ac6e5297
 ```
 
 **Important:** Update this for **BOTH** node1 and node2 with the **same** validator ID.

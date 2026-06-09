@@ -23,7 +23,7 @@ const filteredGroups = filterGroupsByCategory(pages, group);
     filteredGroups.map((item: any) => (
       <CgCard
         parentGroup={group}
-        tag={item?.slug?.split("/")[0]}
+        tag={item?.id?.split("/")[0]}
         title={item?.data?.title}
         description={item?.data?.description}
         meetingslinkLabel={item?.data?.meetings?.link?.label}
@@ -31,7 +31,7 @@ const filteredGroups = filterGroupsByCategory(pages, group);
         githubLink={item?.data?.githubLink}
         discordLink={item?.data?.discordLink}
         dateLabel={item?.data?.meetings?.dateLabel}
-        slug={item?.slug}
+        slug={item?.id}
       />
     ))
   }

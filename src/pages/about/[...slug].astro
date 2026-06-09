@@ -1,6 +1,6 @@
 ---
 import { nav } from "@/components/about-pages/nav-config.ts";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   const pages = await getCollection("About_Page");
 
   return pages.map((page) => ({
-    params: { slug: page.slug },
+    params: { slug: page.id },
     props: page,
   }));
 }
@@ -19,10 +19,10 @@ type Props = CollectionEntry<"Development_Page">;
 
 const page = Astro.props;
 
-const { Content, headings } = await page.render();
+const { Content, headings } = await render(page);
 
 const pageIndex = nav.findIndex(
-  (item: any) => item.link === `/about/${page.slug}/`,
+  (item: any) => item.link === `/about/${page.id}/`,
 );
 
 if (pageIndex !== -1) {

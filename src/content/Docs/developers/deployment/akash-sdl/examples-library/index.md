@@ -241,7 +241,7 @@ Use the [Table of Contents](https://github.com/akash-network/awesome-akash#table
 git clone https://github.com/akash-network/awesome-akash.git
 
 # Or download a specific example
-wget https://raw.githubusercontent.com/akash-network/awesome-akash/master/nginx/deploy.yaml
+wget https://raw.githubusercontent.com/akash-network/awesome-akash/master/gitea/deploy.yaml
 ```
 
 ### 4. Read the Instructions
@@ -297,12 +297,12 @@ The Awesome Akash repository welcomes contributions from the community!
 
 ### Contribution Guidelines
 
-- **Test your SDL before submitting
-- **Include clear, detailed documentation
-- **Specify exact resource requirements
-- **Add troubleshooting tips for common issues
-- **Follow the existing folder structure
-- **Use descriptive commit messages
+- **Test your SDL before submitting**
+- **Include clear, detailed documentation**
+- **Specify exact resource requirements**
+- **Add troubleshooting tips for common issues**
+- **Follow the existing folder structure**
+- **Use descriptive commit messages**
 
 **[View Contributing Guide →](https://github.com/akash-network/awesome-akash/blob/master/CONTRIBUTING.md)**
 
