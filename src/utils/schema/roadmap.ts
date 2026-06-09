@@ -1,6 +1,8 @@
 import { defineCollection, z } from "astro:content";
+import { contentLoader } from "@/utils/schema/contentLoader";
 
 export const roadmapSchema = defineCollection({
+  loader: contentLoader("aeps"),
   schema: z.object({
     aep: z.number().optional(),
     title: z.string().optional(),

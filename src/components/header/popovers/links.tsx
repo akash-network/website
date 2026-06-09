@@ -122,7 +122,7 @@ export const developmentItems: NavItem[] = [
         />
       </svg>
     ),
-    title: "Engineering Syncs",
+    title: "Community Syncs",
     description: "Join live dev calls and technical groups.",
     link: "/development/community-groups/",
   },
@@ -275,7 +275,6 @@ export const ecosystemNavItems: NavItem[] = [
     link: "/ecosystem/akash-tools/",
   },
   {
-    description: "Apps and services built on Akash",
     customIcon: (
       <svg
         width="24"

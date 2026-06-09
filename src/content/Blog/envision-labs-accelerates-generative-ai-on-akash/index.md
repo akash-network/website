@@ -16,7 +16,7 @@ tags:
 contributors:
   - Zach Horn
 
-bannerImage: ./envision-akash-x.png
+bannerImage: ./envision-akash-x.webp
 ---
 In early 2024, [Envision Labs](https://envisionlabs.io/), a DeAI project reimagining media distribution, faced a pivotal challenge. Envision empowers creators with generative AI tools to produce stunning visual content, but it requires significant GPU power to run AI models across its product suite. Traditional cloud providers proved too expensive to meet surging user demand. Envision’s mission to create a decentralized, creator-centric platform called the Envision DeAI Network required an equally innovative infrastructure solution.
 

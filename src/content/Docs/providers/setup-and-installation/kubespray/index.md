@@ -29,7 +29,7 @@ Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, 
 
 ## Why Choose Kubespray?
 
-### **Advantages
+### **Advantages**
 - **Full control** - Customize every aspect of your setup
 - **Production-grade** - Battle-tested for large deployments
 - **Deep understanding** - Learn exactly how components work together

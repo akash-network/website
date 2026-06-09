@@ -83,6 +83,6 @@ Rather than trying to pull that volume of chain data on individual laptops, they
 
 Want to be featured in the next list?
 
-Stay up to date with upcoming hackathons on our [events page](https://akash.network/community/events/) or follow our event manager, Amanda Keay on [X](http://@vakaytion).
+Stay up to date with upcoming hackathons on our [events page](https://akash.network/community/events/).
 
 If you're a university student, apply for the [Akash Student Ambassador program](https://docs.google.com/forms/d/e/1FAIpQLScyLLN4ubVjmxPxWUAgsN5ZuvxImmiOj5fCXQ103z8S-X9J4g/viewform) and have your hackathon projects shared with over 127k followers on our [X](https://x.com/akashnet).

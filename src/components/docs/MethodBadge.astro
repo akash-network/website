@@ -1,0 +1,32 @@
+---
+interface Props {
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "WSS";
+  size?: "sm" | "md";
+}
+
+const { method, size = "md" } = Astro.props;
+
+const colorClasses: Record<Props["method"], string> = {
+  GET: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 ring-emerald-500/30",
+  POST: "bg-blue-500/15 text-blue-700 dark:text-blue-300 ring-blue-500/30",
+  PUT: "bg-amber-500/15 text-amber-700 dark:text-amber-300 ring-amber-500/30",
+  PATCH: "bg-orange-500/15 text-orange-700 dark:text-orange-300 ring-orange-500/30",
+  DELETE: "bg-red-500/15 text-red-700 dark:text-red-300 ring-red-500/30",
+  WSS: "bg-purple-500/15 text-purple-700 dark:text-purple-300 ring-purple-500/30",
+};
+
+const sizeClasses =
+  size === "sm"
+    ? "px-1.5 py-0.5 text-[10px]"
+    : "px-2 py-0.5 text-xs";
+---
+
+<span
+  class:list={[
+    "inline-flex items-center rounded-md font-mono font-semibold uppercase tracking-wide ring-1 ring-inset",
+    sizeClasses,
+    colorClasses[method],
+  ]}
+>
+  {method}
+</span>

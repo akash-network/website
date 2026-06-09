@@ -1,5 +1,21 @@
 import { docsSequence } from "@/content/Docs/_sequence";
 
+// The Content Layer `glob()` loader collapses `foo/index.md` to the clean id
+// `foo`, dropping the trailing `index` segment this nav builder relies on to
+// detect pages. Reconstruct the path segments from `filePath` (e.g.
+// `src/content/Docs/foo/index.md` -> ["foo", "index"]) so the original
+// folder/index structure is preserved.
+function getNavIdParts(item: any): string[] {
+  const filePath: string | undefined = item.filePath;
+  if (filePath) {
+    return filePath
+      .replace(/^.*?\/content\/Docs\//, "")
+      .replace(/\.(md|mdx)$/i, "")
+      .split("/");
+  }
+  return item.id.split("/");
+}
+
 const abriviations:
   | {
       [key: string]: string;
@@ -102,7 +118,7 @@ export const generateDocsNav = (pages: any) => {
   // Create a map of folder paths to their index file linkTitles
   const indexLinkTitles = new Map<string, string>();
   visiblePages.forEach((item: any) => {
-    const idParts = item.id.split("/");
+    const idParts = getNavIdParts(item);
     // If this is an index file, store its linkTitle for the parent folder
     if (idParts[idParts.length - 1] === "index" && item.data.linkTitle) {
       const folderPath = idParts.slice(0, -1).join("/");
@@ -114,7 +130,7 @@ export const generateDocsNav = (pages: any) => {
   });
 
   visiblePages.forEach((item: any) => {
-    const idParts = item.id.split("/");
+    const idParts = getNavIdParts(item);
     const linkPrefix = "/docs";
     const linkTitle = item.data.linkTitle;
     const weight = item.data.weight;

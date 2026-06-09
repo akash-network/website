@@ -1,7 +1,7 @@
 ---
 categories: ["Providers"]
 tags: ["Operations", "Verification", "Monitoring"]
-weight: 8
+weight: 9
 title: "Provider Verification"
 linkTitle: "Provider Verification"
 description: "Verify your provider is running correctly and bidding on deployments"
@@ -33,9 +33,9 @@ kubectl -n akash-services logs -l app=akash-provider --tail=100 -f
 ```
 
 **Look for:**
-- **`"bidding on order"` - Provider is creating bids
-- **`"bid complete"` - Bids are being submitted
-- **`"error"` or `"failed"` - Investigate errors
+- **`"bidding on order"`** - Provider is creating bids
+- **`"bid complete"`** - Bids are being submitted
+- **`"error"` or `"failed"`** - Investigate errors
 
 ### 3. Verify On-Chain Registration
 
@@ -170,6 +170,7 @@ After provider installation, verify:
 
 ## Related Resources
 
+- [Provider Audit](/docs/providers/operations/provider-audit) - Official audit process
 - [Monitoring](/docs/providers/operations/monitoring) - Provider logs and GPU troubleshooting
 - [Lease Management](/docs/providers/operations/lease-management) - Managing active deployments
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)

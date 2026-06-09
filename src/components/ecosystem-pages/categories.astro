@@ -20,24 +20,21 @@ const sortedTags = [
 const getCategoryLink = (category?: string) => {
   return `/ecosystem/${pathName[2]}${category ? `/${category}` : "/"}`;
 };
-
-const isActiveLink = (path: string) => {
-  return path === astroUrl.pathname ? "text-primary" : "text-para";
-};
 ---
 
-<aside class="hidden w-[200px] flex-shrink-0 pt-5 lg:block">
-  <header>
-    <h2 class="text-sm font-medium leading-[20px] text-cardGray">Categories</h2>
-    <div class="border-b pb-2"></div>
-  </header>
+<aside class="hidden w-[180px] flex-shrink-0 self-start sticky top-[72px] lg:block">
+  <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-cardGray">
+    Categories
+  </p>
 
-  <nav class="mt-4 flex flex-col gap-y-4">
+  <nav class="flex flex-col gap-y-0.5">
     <a
       href={getCategoryLink()}
       class:list={[
-        "inline-flex cursor-pointer text-base hover:text-primary",
-        isActiveLink(getCategoryLink()),
+        "rounded-lg px-4 py-2 text-sm leading-normal transition-colors hover:bg-background2 hover:text-foreground",
+        astroUrl.pathname === getCategoryLink()
+          ? "bg-background2 font-medium text-foreground"
+          : "font-normal text-para",
       ]}
     >
       All
@@ -48,10 +45,10 @@ const isActiveLink = (path: string) => {
         <a
           href={getCategoryLink("showcase")}
           class:list={[
-            "inline-flex cursor-pointer text-base hover:text-primary",
+            "rounded-lg px-4 py-2 text-sm leading-normal transition-colors hover:bg-background2 hover:text-foreground",
             astroUrl.pathname?.includes("showcase")
-              ? "text-primary"
-              : "text-para",
+              ? "bg-background2 font-medium text-foreground"
+              : "font-normal text-para",
           ]}
         >
           Showcase
@@ -64,10 +61,10 @@ const isActiveLink = (path: string) => {
         <a
           href={getCategoryLink(tag.toLowerCase())}
           class:list={[
-            "inline-flex cursor-pointer text-base hover:text-primary",
+            "rounded-lg px-4 py-2 text-sm leading-normal transition-colors hover:bg-background2 hover:text-foreground",
             currentCategory === tag.toLowerCase()
-              ? "text-primary"
-              : "text-para",
+              ? "bg-background2 font-medium text-foreground"
+              : "font-normal text-para",
           ]}
         >
           {tag}
@@ -78,15 +75,13 @@ const isActiveLink = (path: string) => {
 
   {
     isDeployedOnAkash && (
-      <section class="mt-10">
-        <div class="border-b" />
-        <p class="pt-8 text-sm font-medium text-para">
+      <section class="mt-6">
+        <p class="text-xs text-para">
           Are you using Akash Network for your project?
         </p>
-
         <ButtonLink
           link="https://github.com/akash-network/website-revamp?tab=readme-ov-file#how-to-contribute-a-project-to-the-ecosystem"
-          className="mt-4"
+          className="mt-3"
           variant="secondary"
         >
           <ArrowUpCircle className="w-4 rotate-45" />

@@ -45,7 +45,7 @@ const isPathInNavigation = pathnames.includes(pathname) || isValidatorsPage || i
 
 // Header is sticky on ALL pages (not just non-nav pages)
 const stickyClass = !disableSticky ? "top-0 sticky z-[40]" : "";
-const headerBaseClass = "pt-4 pb-2.5 px-4 transition-transform duration-300";
+const headerBaseClass = "pt-4 pb-0 md:pb-2.5 px-4 transition-transform duration-300";
 const headerClass = overrideClassName
   ? clsx(overrideClassName, "transition-transform duration-300")
   : clsx(headerBaseClass, stickyClass);
@@ -114,7 +114,7 @@ const navContainerClass = hideContainer ? "" : "container";
   </nav>
 </header>
 
-{isPathInNavigation && <div class="h-[60px]" />}
+{isPathInNavigation && <div class="h-[2px] md:h-[60px]" />}
 
 <!-- Sub-nav items bar: sticky -->
 <div id="sub-nav-container" class={navContainerVisibility}>

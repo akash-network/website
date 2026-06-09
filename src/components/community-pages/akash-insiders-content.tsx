@@ -12,7 +12,7 @@ const ArrowUpRightIcon = ({ className = "w-4 h-4" }: { className?: string }) => 
 export default function AkashInsidersContent() {
     return (
         <>
-        <section className="px-6 py-4 md:px-10 md:py-10 lg:px-[240px] lg:py-10">
+        <section className="px-6 pb-4 pt-0 md:px-10 md:pb-10 md:pt-3 lg:pb-10 lg:pt-3">
             <div className="mx-auto flex max-w-[1240px] flex-col-reverse gap-12 lg:flex-row lg:gap-20">
                 {/* Left: Content */}
                 <div className="flex flex-col gap-12 lg:w-1/2">
@@ -20,7 +20,7 @@ export default function AkashInsidersContent() {
                     <div className="flex flex-col gap-6">
                         <div className="flex flex-col gap-3">
                             <p className="text-base text-[#71717a] dark:text-para">Step Into Leadership</p>
-                            <h2 className="text-2xl font-semibold text-[#09090b] dark:text-foreground md:text-[32px] md:leading-10">
+                            <h2 className="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
                                 Step Into a Leadership Role as an Akash Insider
                             </h2>
                         </div>
@@ -124,7 +124,7 @@ export default function AkashInsidersContent() {
                                 href="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-8 py-2.5 text-sm font-medium text-[#171717] dark:text-foreground transition-colors hover:bg-[#ebebeb]"
+                                className="inline-flex items-center gap-2 rounded-md bg-foreground px-8 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
                             >
                                 Apply to Insiders
                                 <ArrowUpRightIcon className="h-4 w-4" />

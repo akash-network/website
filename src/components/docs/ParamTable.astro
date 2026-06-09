@@ -1,0 +1,67 @@
+---
+import type { ParamRow, ResponseFieldRow } from "@/lib/docs/console-api-endpoints";
+
+interface Props {
+  rows: ParamRow[] | ResponseFieldRow[];
+  variant?: "request" | "response";
+}
+
+const { rows, variant = "request" } = Astro.props;
+
+const isRequest = variant === "request";
+const isResponse = variant === "response";
+
+function isParamRow(row: ParamRow | ResponseFieldRow): row is ParamRow {
+  return (row as ParamRow).location !== undefined;
+}
+
+const locationClasses: Record<string, string> = {
+  header: "bg-slate-500/10 text-slate-700 dark:text-slate-300",
+  body: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-300",
+  query: "bg-teal-500/10 text-teal-700 dark:text-teal-300",
+  path: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300",
+};
+---
+
+<div class="not-prose my-4 overflow-x-auto rounded-lg border border-defaultBorder">
+  <table class="w-full text-sm">
+    <thead class="bg-background2">
+      <tr class="border-b border-defaultBorder text-left text-xs font-semibold uppercase tracking-wider text-para">
+        <th class="px-4 py-2.5">{isResponse ? "Field" : "Parameter"}</th>
+        <th class="px-4 py-2.5">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr class="border-b border-defaultBorder last:border-0 align-top">
+            <td class="px-4 py-3 font-mono text-xs">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <code class="font-semibold text-foreground">{row.field}</code>
+                {isParamRow(row) && (
+                  <span
+                    class:list={[
+                      "inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide",
+                      locationClasses[row.location] ?? locationClasses.body,
+                    ]}
+                  >
+                    {row.location}
+                  </span>
+                )}
+                <span class="inline-flex items-center rounded bg-background2 px-1.5 py-0.5 text-[10px] font-medium text-para">
+                  {row.type}
+                </span>
+                {isParamRow(row) && row.required && (
+                  <span class="inline-flex items-center rounded bg-red-500/10 px-1.5 py-0.5 text-[10px] font-medium uppercase text-red-700 dark:text-red-300">
+                    required
+                  </span>
+                )}
+              </div>
+            </td>
+            <td class="px-4 py-3 text-sm text-para" set:html={row.description.replace(/`([^`]+)`/g, '<code class="rounded bg-background2 px-1 py-0.5 text-xs">$1</code>')} />
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

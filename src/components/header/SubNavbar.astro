@@ -43,12 +43,13 @@ const isActive = (item: (typeof items)[0]) =>
 
 <div class="border-b border-zinc-200 bg-background dark:border-white/10">
   <div class="container">
-    <div class="flex items-center justify-between overflow-x-auto py-3">
+    <div class="flex items-center justify-between overflow-x-auto py-3" data-subnav-scroll>
       <div class="flex items-center -mx-3">
         {navItems.map((item) => (
           <a
             href={item.link === "roadmap" ? `/roadmap/${latestRoadmapYear}` : item.link}
             target={item.link.startsWith("http") ? "_blank" : "_self"}
+            data-active={isActive(item) ? "true" : undefined}
             class={`whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal transition-colors ${
               isActive(item)
                 ? "text-zinc-900 dark:text-white"
@@ -90,3 +91,15 @@ const isActive = (item: (typeof items)[0]) =>
     </div>
   </div>
 </div>
+
+<script>
+  function scrollActiveIntoView() {
+    const scroll = document.querySelector<HTMLElement>("[data-subnav-scroll]");
+    if (!scroll) return;
+    const active = scroll.querySelector<HTMLElement>('[data-active="true"]');
+    if (active) {
+      active.scrollIntoView({ behavior: "instant", inline: "nearest", block: "nearest" });
+    }
+  }
+  document.addEventListener("astro:page-load", scrollActiveIntoView);
+</script>

@@ -2,19 +2,97 @@
 import ProjectCard from "@/components/ecosystem-pages/project-card.astro";
 import Layout from "@/layouts/layout.astro";
 import { type CollectionEntry } from "astro:content";
-
+import { Card } from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
 import Categories from "@/components/ecosystem-pages/categories.astro";
 import TopHeader from "@/components/ecosystem-pages/top-header.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
+import AkashChatLogo from "@/components/ecosystem-pages/logos/akash-chat-logo.astro";
+import AkashGenLogo from "@/components/ecosystem-pages/logos/akash-gen-logo.astro";
 type Project = CollectionEntry<"Ecosystem_Page">;
 type Props = {
   projects: Project[];
   tags: string[];
   title: string;
+  description?: string;
   type?: "tool" | "deployed";
 };
-const { projects, tags, title, type = "deployed" } = Astro.props;
+const { projects, tags, title, description, type = "deployed" } = Astro.props;
 const astroUrl = Astro.url;
+
+const refApps = [
+  {
+    name: "Akash Chat",
+    desc: "A privacy-first interface for high-performance Large Language Models. Built to demonstrate the latency and cost-efficiency of open compute, Akash Chat runs the latest open-weights models on high-density GPU clusters.",
+    href: "https://chat.akash.network/",
+  },
+  {
+    name: "Akash Gen",
+    desc: "Image generation at the speed of the open cloud. This showcase demonstrates how to orchestrate complex diffusion models across the global GPU grid, providing professional-grade creative tools without proprietary lock-in.",
+    href: "https://gen.akash.network/",
+  },
+];
+
+const repos = [
+  {
+    repo: "akash-network/console",
+    desc: "The deployment dashboard. If you see something missing, build it.",
+    href: "https://github.com/akash-network/console",
+  },
+  {
+    repo: "akash-network/website",
+    desc: "The digital home of the network. If you see something broken, fix it.",
+    href: "https://github.com/akash-network/website",
+  },
+  {
+    repo: "akash-network/awesome-akash",
+    desc: "Curated templates, tools, and resources from the community.",
+    href: "https://github.com/akash-network/awesome-akash",
+  },
+];
+
+const tools = [
+  {
+    name: "Professional-grade control",
+    tagline:
+      "Deploy clusters and ship containers in sixty seconds. No hidden abstractions. You have full control over every lease and bid.",
+    cta: "Launch Console",
+    href: "https://console.akash.network",
+    image: "/development/portal-console.webp",
+  },
+  {
+    name: "Dedicated Inference",
+    tagline:
+      "Serve Llama, DeepSeek, and Qwen via OpenAI-compatible endpoints. Change one base_url to save 85% on production inference.",
+    cta: "Try AkashML",
+    href: "https://chatapi.akash.network",
+    image: "/development/portal-akashml.webp",
+  },
+  {
+    name: "Put your silicon to work",
+    tagline:
+      "Turn your idle GPUs into an income stream. Join the supply side and earn from a global marketplace of AI builders.",
+    cta: "Become a Provider",
+    href: "https://provider-console.akash.network/",
+    image: "/development/portal-provider.webp",
+  },
+  {
+    name: "Provide from home, no ops required",
+    tagline:
+      "Offer compute on Akash Network without needing to be a Kubernetes expert or an advanced Linux admin.",
+    cta: "Try Homenode",
+    href: "https://homenode.akash.network/",
+    image: "/development/portal-homenode.webp",
+  },
+  {
+    name: "Deploy with full self-custody",
+    tagline:
+      "Self-hostable, self-custody crypto wallet UI for deploying on Akash.",
+    cta: "View on GitHub",
+    href: "https://github.com/akash-network/console-air",
+    image: "/development/portal-console-air.webp",
+  },
+];
 ---
 
 <Layout
@@ -22,11 +100,119 @@ const astroUrl = Astro.url;
   image="/meta-images/ecosystem.png"
 >
   <TopMargin>
-    <TopHeader tags={tags} title={title} />
+    <TopHeader tags={tags} title={title} description={description} hideFilters={type === "tool"} />
   </TopMargin>
 
+  {type === "tool" && (
+    <div class="container">
+      <div class="grid gap-5 md:grid-cols-3">
+        {tools.map((tool) => (
+          <a href={tool.href} class="block" target="_blank" rel="noopener noreferrer">
+            <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
+              <div class="flex h-full flex-col gap-5 p-6">
+                <div class="overflow-hidden rounded-lg">
+                  <img src={tool.image} alt={tool.name} class="h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105" />
+                </div>
+                <h3 class="text-xl font-semibold text-foreground">{tool.name}</h3>
+                <p class="text-sm font-normal leading-relaxed text-para">{tool.tagline}</p>
+                <div class="mt-auto pt-1">
+                  <div class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
+                    {tool.cta}<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {type === "tool" && (
+    <div class="container mt-20 md:mt-28">
+      <section class="space-y-12">
+        <div class="space-y-4">
+          <h2 class="max-w-xl font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Reference applications
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            High-performance deployments and experimental tools running on the open cloud. Try the latest in open-source AI, powered by the global GPU grid.
+          </p>
+        </div>
+        <div>
+          <div class="flex items-center gap-8 pb-3">
+            <span class="w-72 shrink-0 text-sm font-medium text-para">Application</span>
+            <span class="hidden flex-1 text-sm font-medium text-para sm:block">Description</span>
+          </div>
+          <div class="border-t">
+            {refApps.map((app) => (
+              <div class="flex flex-col gap-7 border-b py-6 sm:flex-row sm:items-center sm:gap-8 sm:py-5">
+                <div class="flex w-full flex-col gap-3 sm:w-72 sm:shrink-0">
+                  {(app.name === "Akash Chat" || app.name === "Akash Gen") ? (
+                    <a
+                      href={app.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="group/logo inline-flex items-center gap-1.5 w-fit text-foreground/80 transition-colors duration-200 hover:text-foreground"
+                      aria-label={app.name}
+                    >
+                      {app.name === "Akash Chat" ? <AkashChatLogo /> : <AkashGenLogo />}
+                      <ChevronRight size={13} className="opacity-0 -translate-x-1 transition-all duration-200 group-hover/logo:opacity-100 group-hover/logo:translate-x-0 shrink-0" />
+                    </a>
+                  ) : (
+                    <span class="text-base font-medium text-foreground">{app.name}</span>
+                  )}
+                  <p class="text-sm text-para sm:hidden">{app.desc}</p>
+                </div>
+                <p class="hidden flex-1 max-w-prose text-sm text-para sm:block">{app.desc}</p>
+                <a href={app.href} target="_blank" rel="noopener noreferrer" class="sm:ml-auto w-fit shrink-0 inline-flex items-center rounded-md border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor" aria-label={`Open ${app.name}`}>
+                  Try it<ChevronRight size={14} className="ml-1" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-20 space-y-12 md:mt-28">
+        <div class="space-y-4">
+          <h2 class="max-w-xl font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Akash is open source. Every repository is a road you can help build.
+          </h2>
+        </div>
+        <div>
+          <div class="flex items-center gap-8 pb-3">
+            <span class="w-72 shrink-0 text-sm font-medium text-para">Repositories</span>
+            <span class="hidden flex-1 text-sm font-medium text-para sm:block">Description</span>
+          </div>
+          <div class="border-t">
+            {repos.map((r) => (
+              <div class="flex flex-col gap-3 border-b py-5 sm:flex-row sm:items-center sm:gap-8">
+                <div class="flex w-full flex-col gap-1 sm:w-72 sm:shrink-0">
+                  <a href={r.href} target="_blank" rel="noopener noreferrer" class="text-base font-medium text-foreground hover:underline">
+                    {r.repo}
+                  </a>
+                  <p class="text-sm text-para sm:hidden">{r.desc}</p>
+                </div>
+                <p class="hidden flex-1 text-sm text-para sm:block">{r.desc}</p>
+                <a href={r.href} target="_blank" rel="noopener noreferrer" class="w-fit shrink-0 inline-flex items-center rounded-md border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor" aria-label={`Open ${r.repo} on GitHub`}>
+                  View<ChevronRight size={14} className="ml-1" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <a href="https://github.com/akash-network" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor">
+            View All on GitHub<ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+    </div>
+  )}
+
   <div
-    class="container mt-4 flex justify-between md:mt-10 lg:gap-x-[20px] xl:gap-x-[48px]"
+    class="container flex justify-between lg:gap-x-[20px] xl:gap-x-[48px]"
   >
     {type !== "tool" && <Categories tags={tags} />}
 

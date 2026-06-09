@@ -48,15 +48,12 @@ const backupAkashPrices  = {
 
 <a
 href={data.ctaLink}
-class="md:inline-flex hidden items-center gap-2 rounded-full border border-black/20 dark:border-white/20 px-8 py-2 text-sm text-[#171717] dark:text-white transition-all duration-300 hover:bg-white/30 dark:hover:bg-white/5 w-fit mt-auto"
+class="md:inline-flex hidden h-9 items-center gap-1.5 rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm font-medium text-foreground transition-colors hover:bg-accent w-fit mt-auto"
 >
-
 {data.ctaText}
-
-<svg width="20" height="20" viewBox="0 0 24 24">
+<svg width="16" height="16" viewBox="0 0 24 24">
 <path d="M9 6L15 12L9 18" fill="none" stroke="currentColor" stroke-width="2"/>
 </svg>
-
 </a>
 
 </div>
@@ -74,21 +71,21 @@ Choose a GPU Model
 
 <!-- GPU COUNT -->
 
-<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
+<div class="flex items-center justify-center gap-2 h-10 px-3 bg-zinc-100 dark:bg-card border border-input rounded-md">
 
-<button id="gpu-dec" aria-label="Decrease GPU count" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<button id="gpu-dec" aria-label="Decrease GPU count" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
 
-<span id="gpu-count" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">
+<span id="gpu-count" class="text-sm font-medium text-foreground w-8 text-center">
 1
 </span>
 
-<button id="gpu-inc" aria-label="Increase GPU count" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<button id="gpu-inc" aria-label="Increase GPU count" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
 
@@ -97,14 +94,14 @@ Choose a GPU Model
 <!-- GPU SELECTOR -->
 
 <div id="gpu-selector-desktop"
-class="relative flex items-center h-[54px] p-[6px] gap-[12px] bg-[#F5F5F7] border border-[#F0F0F0] gpu-tab-shadow rounded-full">
+class="relative flex items-center h-10 p-[3px] gap-[6px] bg-zinc-100 dark:bg-card border border-input rounded-md">
 
 <div id="tab-slider"
-class="absolute top-[6px] left-0 h-[42px] w-[72px] bg-white gpu-tab-shadow rounded-[20px] transition-all duration-500 ease-out"></div>
+class="absolute top-[3px] left-0 h-8 w-[72px] bg-white dark:bg-[#2a2a2e] shadow-sm rounded transition-[left,width] duration-500 ease-out"></div>
 
 {gpuModels.map((gpu)=>(
 <button
-class="gpu-tab relative z-10 w-[72px] h-[42px] flex items-center justify-center pl-1 rounded-[20px] text-[18px] font-medium transition-all duration-300 text-[#86868B]"
+class="gpu-tab relative z-10 w-[72px] h-8 flex items-center justify-center rounded text-sm font-medium transition-all duration-300 text-para"
 data-gpu={gpu}
 >
 {gpu}
@@ -115,21 +112,21 @@ data-gpu={gpu}
 
 <!-- HOURS -->
 
-<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
+<div class="flex items-center justify-center gap-2 h-10 px-3 bg-zinc-100 dark:bg-card border border-input rounded-md">
 
-<button id="hour-dec" aria-label="Decrease hours" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<button id="hour-dec" aria-label="Decrease hours" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
 
-<span id="hour-count" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">
+<span id="hour-count" class="text-sm font-medium text-foreground w-8 text-center">
 1h
 </span>
 
-<button id="hour-inc" aria-label="Increase hours" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<button id="hour-inc" aria-label="Increase hours" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
 
@@ -145,14 +142,14 @@ data-gpu={gpu}
 <!-- GPU SELECTOR -->
 
 <div id="gpu-selector-mobile"
-class="relative flex items-center w-full h-[54px] p-[6px] gap-[12px] bg-[#F5F5F7] border border-[#F0F0F0] gpu-tab-shadow rounded-full">
+class="relative flex items-center w-full h-10 p-1 gap-1 bg-zinc-100 dark:bg-card border border-input rounded-md">
 
 <div id="tab-slider-mobile"
-class="absolute top-[6px] left-0 h-[42px] bg-white gpu-tab-shadow rounded-[20px] transition-all duration-500 ease-out"></div>
+class="absolute top-[3px] left-0 h-8 bg-white dark:bg-[#2a2a2e] shadow-sm rounded transition-[left,width] duration-500 ease-out"></div>
 
 {gpuModels.map((gpu)=>(
 <button
-class="gpu-tab-mobile relative z-10 flex-1 h-[42px] flex items-center justify-center pl-1 rounded-[20px] text-[18px] font-medium transition-all duration-300 text-[#86868B]"
+class="gpu-tab-mobile relative z-10 flex-1 h-8 flex items-center justify-center rounded text-sm font-medium transition-all duration-300 text-para"
 data-gpu={gpu}
 >
 {gpu}
@@ -163,30 +160,30 @@ data-gpu={gpu}
 
 <div class="flex justify-between gap-4">
 
-<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
-<button id="gpu-dec-mobile" aria-label="Decrease GPU count" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<div class="flex items-center justify-center gap-2 h-10 px-3 bg-zinc-100 dark:bg-card border border-input rounded-md">
+<button id="gpu-dec-mobile" aria-label="Decrease GPU count" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
-<span id="gpu-count-mobile" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">1</span>
-<button id="gpu-inc-mobile" aria-label="Increase GPU count" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<span id="gpu-count-mobile" class="text-sm font-medium text-foreground w-8 text-center">1</span>
+<button id="gpu-inc-mobile" aria-label="Increase GPU count" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
 </div>
 
-<div class="flex items-center justify-center gap-3 h-[52px] px-4 bg-white counter-shadow rounded-full">
-<button id="hour-dec-mobile" aria-label="Decrease hours" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8H12.6666" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<div class="flex items-center justify-center gap-2 h-10 px-3 bg-zinc-100 dark:bg-card border border-input rounded-md">
+<button id="hour-dec-mobile" aria-label="Decrease hours" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8H12.6666" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
-<span id="hour-count-mobile" class="text-[18px] font-medium text-[#1D1D1F] w-8 text-center">1h</span>
-<button id="hour-inc-mobile" aria-label="Increase hours" class="w-7 h-7 bg-white rounded-full flex items-center justify-center counter-shadow">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="#86868B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<span id="hour-count-mobile" class="text-sm font-medium text-foreground w-8 text-center">1h</span>
+<button id="hour-inc-mobile" aria-label="Increase hours" class="h-6 w-6 rounded flex items-center justify-center text-para hover:text-foreground transition-colors">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.33325 8.00004H12.6666M7.99992 3.33337V12.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
 </div>
@@ -203,9 +200,9 @@ data-gpu={gpu}
 
 <!-- AKASH -->
 
-<div id="row-akash" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2 group/akash">
+<div id="row-akash" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2 group/akash cursor-pointer">
 
-<div class="w-44 text-black dark:text-[#A6FA99] flex gap-2 items-center font-medium text-base">
+<div class="w-44 text-black dark:text-[#A6FA99] flex gap-1.5 items-center font-semibold text-base">
 <svg width="40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M22.714 21.8882L26.6378 26.2634L28.0054 28.831H20.0029L15.9995 21.8882H22.714Z" fill="currentColor"/>
   <path d="M28.0032 28.8317L32 21.8889L23.9998 8H15.9995L28.0032 28.8317Z" fill="currentColor"/>
@@ -219,21 +216,20 @@ Akash
 <div id="bar-akash"
 class="bg-[#8BFE79] dark:bg-[#A6FA99] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 text-black transition-[width] duration-700 ease-out w-fit min-w-fit text-lg md:text-xl font-semibold">
 
-<span id="emoji-akash"></span>
 <span id="price-akash"></span>
 
 </div>
 
-<div class="w-full flex justify-between px-2 gap-2">
+<div class="w-full flex justify-between pl-2 pr-1 gap-2">
 <span id="save-percent"
 class="inline-flex bg-[#8BFE79] dark:bg-[#A6FA99] text-[#0C3205] px-4 py-2 rounded-full text-xs md:text-sm whitespace-nowrap font-medium">
 Save %
 </span>
 
-<a href="https://console.akash.network/"
-class="hidden sm:group-hover/akash:inline-flex transition-all duration-300 bg-black dark:bg-white text-white dark:text-[#171717] hover:scale-110 px-4 py-2 rounded-full text-sm whitespace-nowrap items-center gap-1">
-<span class="font-medium">{data.deployText}</span>
-<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<a href="https://console.akash.network/" target="_blank" rel="noopener noreferrer"
+class="hidden sm:inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm font-medium whitespace-nowrap transition-all duration-200 bg-[#8BFE79] dark:bg-[#A6FA99] text-[#0C3205] hover:bg-[#6be55c] dark:hover:bg-[#8deb84]">
+{data.deployText}
+<svg class="transition-transform duration-200 group-hover/akash:translate-x-0.5" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.25 10.5L8.75 7L5.25 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 </a>
@@ -248,7 +244,7 @@ class="hidden sm:group-hover/akash:inline-flex transition-all duration-300 bg-bl
 
 <div id="row-aws" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2">
 
-<div class="w-44 text-[#8A8F98] flex gap-2 items-center font-medium text-base">
+<div class="w-44 text-[#8A8F98] flex gap-1.5 items-center font-normal text-base">
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_596_932)">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.6518 18.6899C15.6518 18.9486 15.6798 19.1583 15.7287 19.3121C15.7846 19.4659 15.8545 19.6337 15.9524 19.8154C15.9874 19.8714 16.0014 19.9273 16.0014 19.9762C16.0014 20.0462 15.9594 20.116 15.8685 20.186L15.4281 20.4796C15.3652 20.5215 15.3023 20.5425 15.2464 20.5425C15.1764 20.5425 15.1066 20.5076 15.0366 20.4447C14.9388 20.3398 14.8549 20.2279 14.785 20.1161C14.715 19.9972 14.6452 19.8644 14.5682 19.7036C14.0229 20.3468 13.3378 20.6683 12.5129 20.6683C11.9257 20.6683 11.4573 20.5005 11.1147 20.165C10.7722 19.8294 10.5974 19.382 10.5974 18.8227C10.5974 18.2285 10.8071 17.7461 11.2336 17.3826C11.6601 17.0191 12.2264 16.8373 12.9464 16.8373C13.184 16.8373 13.4288 16.8583 13.6874 16.8932C13.9461 16.9282 14.2118 16.9841 14.4914 17.047V16.5367C14.4914 16.0054 14.3795 15.6349 14.1628 15.4182C13.939 15.2014 13.5616 15.0966 13.0232 15.0966C12.7786 15.0966 12.5269 15.1245 12.2682 15.1874C12.0096 15.2504 11.7579 15.3272 11.5132 15.4251C11.4013 15.474 11.3175 15.502 11.2686 15.516C11.2196 15.53 11.1847 15.5369 11.1567 15.5369C11.0588 15.5369 11.0099 15.467 11.0099 15.3202V14.9776C11.0099 14.8658 11.0239 14.7819 11.0588 14.733C11.0938 14.684 11.1567 14.6351 11.2546 14.5862C11.4992 14.4603 11.7929 14.3555 12.1354 14.2716C12.478 14.1807 12.8415 14.1388 13.226 14.1388C14.0579 14.1388 14.6662 14.3275 15.0576 14.705C15.4421 15.0826 15.6379 15.6558 15.6379 16.4248V18.6898H15.6519L15.6518 18.6899H15.6518ZM12.8135 19.7525C13.0442 19.7525 13.2819 19.7106 13.5335 19.6267C13.7852 19.5428 14.0089 19.389 14.1977 19.1793C14.3095 19.0465 14.3934 18.8996 14.4354 18.7319C14.4773 18.5641 14.5053 18.3613 14.5053 18.1237V17.83C14.3025 17.7811 14.0858 17.7392 13.8621 17.7112C13.6384 17.6832 13.4217 17.6692 13.205 17.6692C12.7366 17.6692 12.394 17.7601 12.1633 17.9489C11.9326 18.1376 11.8208 18.4033 11.8208 18.7528C11.8208 19.0814 11.9046 19.3261 12.0794 19.4938C12.2472 19.6686 12.4919 19.7525 12.8135 19.7525L12.8134 19.7524L12.8135 19.7525ZM18.4271 20.5075C18.3013 20.5075 18.2174 20.4866 18.1615 20.4376C18.1055 20.3957 18.0566 20.2978 18.0147 20.1649L16.3718 14.761C16.3299 14.6212 16.3089 14.5303 16.3089 14.4814C16.3089 14.3695 16.3648 14.3066 16.4767 14.3066H17.1618C17.2946 14.3066 17.3856 14.3276 17.4345 14.3765C17.4904 14.4184 17.5324 14.5163 17.5743 14.6492L18.7488 19.2771L19.8394 14.6492C19.8743 14.5094 19.9162 14.4184 19.9722 14.3765C20.0281 14.3345 20.126 14.3066 20.2518 14.3066H20.8111C20.9439 14.3066 21.0348 14.3276 21.0907 14.3765C21.1467 14.4184 21.1956 14.5163 21.2235 14.6492L22.3281 19.333L23.5375 14.6492C23.5795 14.5094 23.6284 14.4184 23.6773 14.3765C23.7333 14.3346 23.8241 14.3066 23.95 14.3066H24.6001C24.712 14.3066 24.7749 14.3625 24.7749 14.4814C24.7749 14.5163 24.7679 14.5513 24.7609 14.5932C24.7539 14.6352 24.7399 14.6911 24.712 14.768L23.0272 20.172C22.9853 20.3118 22.9363 20.4026 22.8804 20.4446C22.8245 20.4866 22.7336 20.5146 22.6147 20.5146H22.0135C21.8807 20.5146 21.7898 20.4936 21.7339 20.4446C21.678 20.3957 21.629 20.3049 21.6011 20.165L20.5175 15.6559L19.4409 20.158C19.4059 20.2978 19.3639 20.3887 19.308 20.4376C19.2521 20.4865 19.1542 20.5075 19.0284 20.5075H18.4271ZM27.4104 20.6962C27.0469 20.6962 26.6833 20.6543 26.3338 20.5704C25.9842 20.4866 25.7116 20.3957 25.5299 20.2908C25.418 20.2279 25.3411 20.158 25.3131 20.0951C25.2852 20.0321 25.2712 19.9623 25.2712 19.8993V19.5428C25.2712 19.396 25.3271 19.3261 25.432 19.3261C25.4739 19.3261 25.5159 19.3331 25.5578 19.3471C25.5997 19.361 25.6627 19.389 25.7326 19.417C25.9703 19.5219 26.2289 19.6057 26.5016 19.6616C26.7812 19.7176 27.0539 19.7455 27.3335 19.7455C27.7739 19.7455 28.1165 19.6686 28.3542 19.5148C28.5919 19.361 28.7177 19.1373 28.7177 18.8507C28.7177 18.6549 28.6548 18.4941 28.529 18.3613C28.4031 18.2285 28.1654 18.1097 27.8229 17.9978L26.8092 17.6832C26.2989 17.5224 25.9214 17.2847 25.6907 16.9701C25.46 16.6626 25.3412 16.32 25.3412 15.9565C25.3412 15.6629 25.4041 15.4042 25.5299 15.1805C25.6557 14.9568 25.8235 14.761 26.0333 14.6072C26.243 14.4464 26.4807 14.3276 26.7603 14.2437C27.04 14.1598 27.3336 14.1248 27.6412 14.1248C27.795 14.1248 27.9558 14.1318 28.1096 14.1527C28.2704 14.1737 28.4172 14.2016 28.564 14.2296C28.7038 14.2645 28.8367 14.2995 28.9625 14.3414C29.0883 14.3834 29.1862 14.4253 29.2561 14.4673C29.3539 14.5232 29.4239 14.5792 29.4658 14.642C29.5077 14.698 29.5288 14.7749 29.5288 14.8728V15.2014C29.5288 15.3482 29.4728 15.4251 29.368 15.4251C29.312 15.4251 29.2212 15.3971 29.1023 15.3412C28.7038 15.1594 28.2563 15.0685 27.76 15.0685C27.3616 15.0685 27.047 15.1314 26.8302 15.2642C26.6135 15.397 26.5016 15.5998 26.5016 15.8864C26.5016 16.0822 26.5715 16.25 26.7114 16.3828C26.8512 16.5156 27.1098 16.6484 27.4804 16.7672L28.4731 17.0818C28.9764 17.2426 29.34 17.4664 29.5567 17.753C29.7734 18.0396 29.8783 18.3682 29.8783 18.7317C29.8783 19.0323 29.8153 19.305 29.6965 19.5426C29.5707 19.7804 29.4029 19.99 29.1862 20.1578C28.9695 20.3326 28.7108 20.4584 28.4102 20.5493C28.0956 20.6472 27.7671 20.6961 27.4105 20.6961L27.4104 20.6962L27.4104 20.6962Z" fill="#8A8F98"/>
@@ -268,9 +264,8 @@ AWS
 <div class="flex items-center w-full border border-black/10 dark:border-white/10 h-[40px] md:h-[44px] rounded">
 
 <div id="bar-aws"
-class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out w-fit min-w-fit text-white dark:text-[#1D1D1F] text-lg md:text-xl font-semibold">
+class="bg-neutral-200 dark:bg-[#2a2a2e] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out w-fit min-w-fit text-foreground text-lg md:text-xl font-semibold">
 
-<span id="emoji-aws"></span>
 <span id="price-aws"></span>
 
 </div>
@@ -284,7 +279,7 @@ class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-ce
 
 <div id="row-gcp" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2">
 
-<div class="w-44 text-[#8A8F98] flex gap-2 items-center font-medium text-base">
+<div class="w-44 text-[#8A8F98] flex gap-1.5 items-center font-normal text-base">
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_596_947)">
 <path d="M22.6839 16.6058L23.3474 16.6155L25.1502 14.8127L25.2376 14.0488C23.807 12.7768 21.92 12 19.855 12C16.1199 12 12.9673 14.5408 12.0352 17.9846C12.2326 17.8487 12.6534 17.949 12.6534 17.949L16.2558 17.3567C16.2558 17.3567 16.4403 17.0492 16.5342 17.0654C17.3854 16.13 18.5927 15.596 19.8582 15.596C20.9264 15.596 21.9103 15.9747 22.6839 16.5993V16.6058Z" fill="#8A8F98"/>
@@ -305,9 +300,8 @@ Google Cloud
 <div class="flex items-center w-full border border-black/10 dark:border-white/10 h-[40px] md:h-[44px] rounded">
 
 <div id="bar-gcp"
-class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out w-fit min-w-fit text-white dark:text-[#1D1D1F] text-lg md:text-xl font-semibold">
+class="bg-neutral-200 dark:bg-[#2a2a2e] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out w-fit min-w-fit text-foreground text-lg md:text-xl font-semibold">
 
-<span id="emoji-gcp"></span>
 <span id="price-gcp"></span>
 
 </div>
@@ -321,7 +315,7 @@ class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-ce
 
 <div id="row-core" class="provider-row flex flex-col md:flex-row md:items-center md:gap-2">
 
-<div class="w-44 text-[#8A8F98] flex gap-2 items-center font-medium text-base">
+<div class="w-44 text-[#8A8F98] flex gap-1.5 items-center font-normal text-base">
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_596_961)">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M17.4713 23.5622H14.0186C13.8124 23.5622 13.5984 23.4319 13.4728 23.2167L11.8728 20.3C11.7922 20.0849 11.7922 19.8697 11.8728 19.7L13.4728 16.7834C13.5984 16.5682 13.8124 16.4379 14.0186 16.4379H15.9984C16.2124 16.4379 16.4186 16.3076 16.5519 16.0925L17.9783 13.4819C18.1054 13.2667 17.9379 13.0061 17.7317 13.0061H12.4186C11.9597 13.0061 11.5798 13.2667 11.3255 13.6516L8.1674 19.4016C8.11779 19.4965 8.07955 19.596 8.05268 19.7C8.02684 19.8041 8.01392 19.9106 8.01392 20.0197C8.01392 20.1278 8.02684 20.2339 8.05268 20.3379C8.07955 20.443 8.11779 20.543 8.1674 20.6379L11.3255 26.3485C11.3793 26.4445 11.446 26.5314 11.5255 26.6091C11.601 26.6869 11.6878 26.7566 11.786 26.8182C11.879 26.8748 11.9814 26.9157 12.093 26.941C12.1994 26.9713 12.308 26.9864 12.4186 26.9864H19.2046C19.4573 26.9864 19.5845 26.7334 19.4573 26.5182L17.9783 23.8622C17.9379 23.647 17.7317 23.5561 17.479 23.5561L17.4713 23.5622Z" fill="#8A8F98"/>
@@ -342,9 +336,8 @@ Coreweave
 <div class="flex items-center w-full border border-black/10 dark:border-white/10 h-[40px] md:h-[44px] rounded">
 
 <div id="bar-core"
-class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out text-lg md:text-xl font-semibold w-fit min-w-fit text-white dark:text-[#1D1D1F]">
+class="bg-neutral-200 dark:bg-[#2a2a2e] h-[39px] md:h-[43px] rounded flex items-center justify-end px-4 transition-[width] duration-700 ease-out text-lg md:text-xl font-semibold w-fit min-w-fit text-foreground">
 
-<span id="emoji-core"></span>
 <span id="price-core"></span>
 
 </div>
@@ -364,7 +357,7 @@ class="bg-[#1D1D1F] dark:bg-[#F5F5F7] h-[39px] md:h-[43px] rounded flex items-ce
 
 <a
 href={data.ctaLink}
-class="inline-flex md:hidden items-center justify-center gap-2 rounded-full border border-black/10 dark:border-white/10 px-8 py-2 text-sm text-[#171717] dark:text-white transition-all duration-300 hover:bg-white/30 dark:hover:bg-white/5 w-full"
+class="inline-flex md:hidden h-9 items-center justify-center gap-1.5 rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm font-medium text-foreground transition-colors hover:bg-accent w-full"
 >
 
 {data.ctaText}
@@ -378,7 +371,7 @@ class="inline-flex md:hidden items-center justify-center gap-2 rounded-full bord
 </div>
 
 
-<p class="text-xs md:text-base text-[#8A8F98] max-w-[980px]">
+<p class="text-xs md:text-base text-[#86868B] max-w-[980px]">
 {data.description}
 </p>
 
@@ -388,22 +381,14 @@ class="inline-flex md:hidden items-center justify-center gap-2 rounded-full bord
 
 <style>
 
-.counter-shadow {
-box-shadow:0px 1px 3px rgba(0,0,0,0.1),0px 1px 2px -1px rgba(0,0,0,0.1);
-}
-
-.gpu-tab-shadow {
-box-shadow:0px 1px 5px rgba(0,0,0,0.06);
-}
-
 .gpu-tab:hover,
 .gpu-tab-mobile:hover{
-color: black;
+color: hsl(var(--foreground));
 }
 
 .gpu-tab.active,
 .gpu-tab-mobile.active{
-color: black;
+color: hsl(var(--foreground));
 }
 
 </style>
@@ -485,11 +470,8 @@ tabsMobile[0].classList.add("active")
 
 function moveSlider(tab,slider){
 
-const container=slider.parentElement
-const offset=tab.getBoundingClientRect().left-container.getBoundingClientRect().left
-
+slider.style.left=tab.offsetLeft+"px"
 slider.style.width=tab.offsetWidth+"px"
-slider.style.transform=`translateX(${offset}px)`
 
 }
 
@@ -645,30 +627,21 @@ setTimeout(()=>{
 },700)
 
 
-/* ---------- RESET EMOJIS ---------- */
-
-$("emoji-akash").textContent=""
-$("emoji-aws").textContent=""
-$("emoji-gcp").textContent=""
-$("emoji-core").textContent=""
-
 const cheapest=entries[0][0]
-
-$(`emoji-${cheapest}`).textContent="🔥 "
 
 
 /* ---------- COLOR LOGIC ---------- */
 
 document.querySelectorAll("#bar-akash,#bar-aws,#bar-gcp,#bar-core").forEach(bar=>{
-bar.classList.remove("bg-[#8BFE79]","dark:bg-[#A6FA99]")
-bar.classList.add("bg-[#1D1D1F]","dark:bg-[#F5F5F7]")
+bar.classList.remove("bg-[#8BFE79]","dark:bg-[#A6FA99]","text-black")
+bar.classList.add("bg-neutral-200","dark:bg-[#2a2a2e]","text-foreground")
 })
 
 const cheapestBar=document.getElementById(`bar-${cheapest}`)
 
 if(cheapestBar){
-cheapestBar.classList.remove("bg-[#1D1D1F]","dark:bg-[#F5F5F7]")
-cheapestBar.classList.add("bg-[#8BFE79]","dark:bg-[#A6FA99]")
+cheapestBar.classList.remove("bg-neutral-200","dark:bg-[#2a2a2e]","text-foreground")
+cheapestBar.classList.add("bg-[#8BFE79]","dark:bg-[#A6FA99]","text-black")
 }
 
 
@@ -753,5 +726,11 @@ update()
 adjustMobileArrow()
 renderCounters()
 fetchRealtimePrices()
+
+$("row-akash").addEventListener('click', (e) => {
+  if (!e.target.closest('a') && window.innerWidth >= 768) {
+    window.open("https://console.akash.network/", "_blank", "noopener,noreferrer")
+  }
+})
 
 </script>

@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { contentLoader } from "@/utils/schema/contentLoader";
 
 export const docsHomePage = defineCollection({
   schema: ({ image }) => {
@@ -47,6 +48,7 @@ export const docsHomePage = defineCollection({
 });
 
 export const docsSchema = defineCollection({
+  loader: contentLoader("Docs"),
   // Type-check frontmatter using a schema
   schema: ({ image }) => {
     return z.object({

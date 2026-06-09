@@ -18,7 +18,7 @@ tags:
 contributors:
   - Zach Horn
 
-bannerImage: ./witnesschain-akash-x.png
+bannerImage: ./witnesschain-akash-x.webp
 ---
 [Witness Chain](https://www.witnesschain.com/) is transforming blockchains by bridging the cyber-physical divide by introducing a verifiable observation layer that captures and authenticates real-world attributes. Through a network of "Watchtowers," which are nodes that actively witness and validate real-time data from the physical world, Witness Chain ensures that essential attributes like location, connectivity, and compute are not only recorded but verifiably accurate.
 

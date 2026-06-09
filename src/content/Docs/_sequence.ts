@@ -16,6 +16,14 @@ export const docsSequence = [
       },
       {
         type: "Header",
+        label: "API Documentation",
+      },
+      {
+        label: "API Documentation",
+        subItems: [], // Sub-items sorted by weight automatically
+      },
+      {
+        type: "Header",
         label: "Providers",
       },
       {
@@ -28,14 +36,6 @@ export const docsSequence = [
       },
       {
         label: "Node Operators",
-        subItems: [], // Sub-items sorted by weight automatically
-      },
-      {
-        type: "Header",
-        label: "API Documentation",
-      },
-      {
-        label: "API Documentation",
         subItems: [], // Sub-items sorted by weight automatically
       },
       {

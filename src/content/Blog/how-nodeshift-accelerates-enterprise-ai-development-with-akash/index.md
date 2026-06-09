@@ -16,7 +16,7 @@ tags:
 contributors:
   - Zach Horn
 
-bannerImage: ./nodeshift-akash-x.png
+bannerImage: ./nodeshift-akash-x.webp
 ---
 Akash Network provides cost-effective, secure, decentralized cloud computing at scale. When NodeShift, a streamlined AI model and agent deployment platform, needed reliable customer GPU access, Akash’s GPU marketplace emerged as an ideal solution. This case study examines how NodeShift leveraged Akash GPUs to simplify AI deployment and LLM training without requiring users to navigate blockchain complexities.
 

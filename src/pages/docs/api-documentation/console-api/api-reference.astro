@@ -1,0 +1,661 @@
+---
+import AlgoliaSearch from "@/components/docs/algolia-search";
+import Breadcrumbs from "@/components/docs/breadcrumbs.astro";
+import MethodBadge from "@/components/docs/MethodBadge.astro";
+import MobileNav from "@/components/docs/mobile-sidebar.tsx";
+import ParamTable from "@/components/docs/ParamTable.astro";
+import ApiReferencePanel from "@/components/docs/ApiReferencePanel.tsx";
+import DocsLayout from "@/layouts/docs-layout.astro";
+import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
+import {
+  AUTHORED_LANGUAGES,
+  GROUP_LABELS,
+  LANGUAGE_GROUPS,
+  LANGUAGE_LABELS,
+  META,
+  type LanguageKey,
+  type Section,
+  type SectionGroup,
+  sections,
+} from "@/lib/docs/console-api-endpoints";
+import { getCollection } from "astro:content";
+import { getHighlighter } from "shiki";
+
+const pathname = new URL(Astro.request.url).pathname;
+
+const docsData = await getCollection("Docs");
+const docsNav = generateDocsNav(docsData);
+
+const pageTitle = "Console API reference";
+const pageDescription =
+  "The Akash Console API is a thin, REST-ish layer over the underlying chain. Every endpoint takes JSON in, returns JSON out, and authenticates with an x-api-key header. Pick a language on the right — every sample on this page updates to match.";
+
+// ──────────────────────────────────────────────────────────────────────────
+// Shiki at build time — one continuous, per-language HTML block.
+// Each section is wrapped in <div data-section-marker="...">.
+// ──────────────────────────────────────────────────────────────────────────
+
+const SHIKI_LANG_MAP: Record<LanguageKey, string> = {
+  bash: "bash",
+  javascript: "javascript",
+  python: "python",
+  go: "go",
+  ruby: "ruby",
+  php: "php",
+};
+
+const highlighter = await getHighlighter({
+  themes: ["github-light", "github-dark"],
+  langs: ["bash", "javascript", "python", "go", "ruby", "php", "json"],
+});
+
+function bannerComment(language: LanguageKey, title: string, host: string) {
+  const prefix = host === "provider" ? "[Provider] " : "";
+  const text = `── ${prefix}${title}`;
+  switch (language) {
+    case "bash":
+    case "python":
+    case "ruby":
+      return `# ${text}`;
+    case "go":
+    case "javascript":
+    case "php":
+      return `// ${text}`;
+    default:
+      return `// ${text}`;
+  }
+}
+
+function highlightOne(code: string, language: LanguageKey, theme: "github-light" | "github-dark"): string {
+  if (!code.trim()) return "";
+  try {
+    return highlighter.codeToHtml(code, {
+      lang: SHIKI_LANG_MAP[language],
+      theme,
+    });
+  } catch {
+    const escaped = code
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    return `<pre><code>${escaped}</code></pre>`;
+  }
+}
+
+function highlightOrEmpty(code: string, language: LanguageKey): string {
+  // Render BOTH themes; CSS picks which to show based on `html.dark`.
+  const light = highlightOne(code, language, "github-light");
+  const dark = highlightOne(code, language, "github-dark");
+  if (!light && !dark) return "";
+  return `<div class="shiki-light-wrap">${light}</div><div class="shiki-dark-wrap">${dark}</div>`;
+}
+
+function composeSectionCode(section: Section, language: LanguageKey): string {
+  const snippet = section.codeSnippets.find(
+    (s) => s.language === language,
+  )?.code;
+  const banner = bannerComment(language, section.title, section.host);
+  const commentPrefix = banner.startsWith("#") ? "#" : "//";
+  const parts: string[] = [banner];
+  parts.push(
+    snippet ??
+      `${commentPrefix} (no ${LANGUAGE_LABELS[language]} sample for this section)`,
+  );
+  if (section.responseExample) {
+    parts.push(
+      "",
+      `${commentPrefix} Response${
+        section.responseStatus ? ` ${section.responseStatus}` : ""
+      }:`,
+      section.responseExample,
+    );
+  }
+  return parts.join("\n");
+}
+
+function buildLanguageHtml(language: LanguageKey): string {
+  const blocks: string[] = [];
+  for (const section of sections) {
+    const composed = composeSectionCode(section, language);
+    const html = highlightOrEmpty(composed, language);
+    // Per-section copy button: rendered statically; React component delegates
+    // click handling and looks up the raw code by `data-copy-section`.
+    const copyBtn = `<button type="button" class="api-section-copy" data-copy-section="${section.id}" aria-label="Copy code for ${section.title}"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span>Copy</span></button>`;
+    blocks.push(
+      `<div data-section-marker="${section.id}" class="api-section-block">${copyBtn}${html}</div>`,
+    );
+  }
+  return blocks.join("\n");
+}
+
+const htmlByLanguage: Partial<Record<LanguageKey, string>> = {};
+const rawByLanguage: Partial<Record<LanguageKey, string>> = {};
+const rawBySectionAndLanguage: Record<string, Partial<Record<LanguageKey, string>>> = {};
+for (const section of sections) rawBySectionAndLanguage[section.id] = {};
+for (const language of AUTHORED_LANGUAGES) {
+  htmlByLanguage[language] = buildLanguageHtml(language);
+  const perSection = sections.map((section) => {
+    const code = composeSectionCode(section, language);
+    rawBySectionAndLanguage[section.id]![language] = code;
+    return code;
+  });
+  rawByLanguage[language] = perSection.join("\n\n");
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Minimal Markdown helper for preface bodyMd (tables, inline code, links,
+// paragraphs, lists, bold, blockquotes). Server-rendered at build time only;
+// content is authored in-repo so trust boundary is fine.
+// ──────────────────────────────────────────────────────────────────────────
+
+function renderInline(text: string): string {
+  let out = text;
+  // Escape & < > first
+  out = out
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  // Restore inline code first (so the rest of the regex doesn't touch its content)
+  const codePlaceholders: string[] = [];
+  out = out.replace(/`([^`]+)`/g, (_, code) => {
+    codePlaceholders.push(
+      `<code class="rounded bg-background2 px-1 py-0.5 text-[0.85em]">${code}</code>`,
+    );
+    return `@@CODE${codePlaceholders.length - 1}@@`;
+  });
+  // Links [text](url)
+  out = out.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    (_, label, href) =>
+      `<a href="${href}" class="text-primary underline-offset-4 hover:underline">${label}</a>`,
+  );
+  // Bold **x** and __x__
+  out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  out = out.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+  // Italic *x*
+  out = out.replace(/(^|[^*])\*([^*\s][^*]*?)\*/g, "$1<em>$2</em>");
+  // Restore code
+  out = out.replace(/@@CODE(\d+)@@/g, (_, i) => codePlaceholders[+i]);
+  return out;
+}
+
+function renderMarkdown(md: string): string {
+  const lines = md.split("\n");
+  const html: string[] = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    // Table
+    if (
+      line.trim().startsWith("|") &&
+      lines[i + 1]?.trim().startsWith("|") &&
+      /^\s*\|[-:|\s]+\|\s*$/.test(lines[i + 1])
+    ) {
+      const headerCells = line
+        .trim()
+        .replace(/^\||\|$/g, "")
+        .split("|")
+        .map((c) => c.trim());
+      i += 2;
+      const rows: string[][] = [];
+      while (i < lines.length && lines[i].trim().startsWith("|")) {
+        rows.push(
+          lines[i]
+            .trim()
+            .replace(/^\||\|$/g, "")
+            .split("|")
+            .map((c) => c.trim()),
+        );
+        i += 1;
+      }
+      html.push(
+        `<div class="my-4 overflow-x-auto rounded-lg border border-defaultBorder">`,
+        `<table class="w-full text-sm">`,
+        `<thead class="bg-background2"><tr class="border-b border-defaultBorder text-left text-xs font-semibold uppercase tracking-wider text-para">`,
+        ...headerCells.map((c) => `<th class="px-4 py-2.5">${renderInline(c)}</th>`),
+        `</tr></thead>`,
+        `<tbody>`,
+        ...rows.map(
+          (row) =>
+            `<tr class="border-b border-defaultBorder last:border-0 align-top">${row
+              .map((c) => `<td class="px-4 py-3 text-para">${renderInline(c)}</td>`)
+              .join("")}</tr>`,
+        ),
+        `</tbody></table></div>`,
+      );
+      continue;
+    }
+    // Blockquote
+    if (line.startsWith("> ")) {
+      const buf: string[] = [];
+      while (i < lines.length && lines[i].startsWith("> ")) {
+        buf.push(lines[i].slice(2));
+        i += 1;
+      }
+      html.push(
+        `<blockquote class="my-4 border-l-4 border-primary/40 bg-background2 px-4 py-2 text-sm text-para">${renderInline(buf.join(" "))}</blockquote>`,
+      );
+      continue;
+    }
+    // Unordered list
+    if (/^\s*-\s+/.test(line)) {
+      const items: string[] = [];
+      while (i < lines.length && /^\s*-\s+/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*-\s+/, ""));
+        i += 1;
+      }
+      html.push(
+        `<ul class="my-3 list-disc space-y-1 pl-6 text-sm text-para">${items
+          .map((it) => `<li>${renderInline(it)}</li>`)
+          .join("")}</ul>`,
+      );
+      continue;
+    }
+    // Blank line
+    if (line.trim() === "") {
+      i += 1;
+      continue;
+    }
+    // Paragraph
+    const buf: string[] = [line];
+    i += 1;
+    while (i < lines.length && lines[i].trim() !== "" && !lines[i].startsWith("|") && !lines[i].startsWith("> ") && !/^\s*-\s+/.test(lines[i])) {
+      buf.push(lines[i]);
+      i += 1;
+    }
+    html.push(
+      `<p class="my-3 text-sm text-para md:text-base">${renderInline(buf.join(" "))}</p>`,
+    );
+  }
+  return html.join("");
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Sections grouped for left-prose rendering.
+// ──────────────────────────────────────────────────────────────────────────
+
+const groupedSections: Record<SectionGroup, Section[]> = {
+  core: [],
+  jwt: [],
+  "lease-ops": [],
+};
+for (const section of sections) groupedSections[section.group].push(section);
+
+const groupOrder: SectionGroup[] = ["core", "jwt", "lease-ops"];
+
+const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
+---
+
+<DocsLayout
+  title={`${pageTitle} | Akash Network Documentation`}
+  description={pageDescription}
+  image="/meta-images/docs.png"
+>
+  <!-- Mobile search + nav -->
+  <div
+    class="sticky top-0 z-10 -mt-4 mb-6 h-[100px] bg-background px-5 pt-4 md:hidden"
+  >
+    <div><AlgoliaSearch client:only /></div>
+    <div class="my-4 border-b"></div>
+    <div class="flex items-center gap-x-3">
+      <MobileNav
+        client:load
+        catName={"Console API reference"}
+        docsNav={docsNav}
+        pathname={pathname}
+      />
+    </div>
+  </div>
+
+  <!-- On lg+, reserve right gutter for the FIXED code panel that sits pinned to
+       the viewport from header-bottom (top-[73px]) to bottom-0. The panel is
+       its own scroll surface; the article column scrolls with the page. -->
+  <div class="px-5 md:pt-10 lg:pl-10 lg:pr-[calc(34vw+1.5rem)] xl:pr-[calc(36vw+1.5rem)]">
+    <Breadcrumbs pathname={pathname} />
+
+    <h1
+      class="text-3xl font-bold text-foreground md:text-4xl lg:text-5xl"
+      id="overview"
+    >
+      {pageTitle}
+    </h1>
+
+    <p class="mt-4 max-w-3xl text-base text-para md:text-lg">
+      The Akash Console API is a thin, REST-ish layer over the underlying chain. Every endpoint takes JSON in, returns JSON out, and authenticates with an <code class="rounded bg-background2 px-1 py-0.5 text-sm">x-api-key</code> header. Pick a language on the right — every sample on this page updates to match.
+    </p>
+
+    <!-- Meta strip -->
+    <dl
+      class="mt-6 flex flex-wrap gap-x-8 gap-y-2 border-y border-defaultBorder py-4 text-sm"
+    >
+      <div class="flex items-baseline gap-2">
+        <dt class="font-semibold text-foreground">Base URL</dt>
+        <dd>
+          <code class="rounded bg-background2 px-1.5 py-0.5 text-xs">{META.baseUrl}</code>
+        </dd>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <dt class="font-semibold text-foreground">Version</dt>
+        <dd>
+          <code class="rounded bg-background2 px-1.5 py-0.5 text-xs">{META.version}</code>
+        </dd>
+      </div>
+      <div class="flex items-baseline gap-2">
+        <dt class="font-semibold text-foreground">Auth</dt>
+        <dd>
+          <code class="rounded bg-background2 px-1.5 py-0.5 text-xs">{META.auth}</code>
+        </dd>
+      </div>
+    </dl>
+
+    <!-- Article column. Right gutter on lg+ is reserved by parent's `lg:pr-[...]`
+         to make room for the FIXED panel rendered as a sibling below. -->
+    <div class="mt-10">
+      <article class="min-w-0">
+        {
+          groupOrder.map((group) => (
+            <div class="mb-8">
+              {group !== "core" && (
+                <h2
+                  id={`group-${group}`}
+                  class="group/heading mb-4 mt-12 border-b border-defaultBorder pb-2 text-xs font-semibold uppercase tracking-widest text-para"
+                >
+                  <a
+                    href={`#group-${group}`}
+                    class="heading-anchor"
+                    data-anchor-link
+                    aria-label={`Link to ${GROUP_LABELS[group]}`}
+                  >
+                    {GROUP_LABELS[group]}
+                    <span class="heading-anchor-icon" aria-hidden="true">#</span>
+                  </a>
+                </h2>
+              )}
+              {groupedSections[group].map((section) => (
+                <section
+                  id={section.id}
+                  data-section-id={section.id}
+                  class="scroll-mt-28 mb-14"
+                >
+                  {section.kind === "endpoint" ? (
+                    <h2 class="group/heading flex flex-wrap items-center gap-x-2 gap-y-1 text-xl font-semibold text-foreground md:text-2xl">
+                      <MethodBadge method={section.method!} />
+                      <code class="min-w-0 break-all font-mono text-base md:text-xl">
+                        {section.path}
+                      </code>
+                      {section.host === "provider" && (
+                        <span class="rounded-full bg-purple-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-purple-700 dark:text-purple-300">
+                          Provider
+                        </span>
+                      )}
+                      <a
+                        href={`#${section.id}`}
+                        class="heading-anchor heading-anchor--inline"
+                        data-anchor-link
+                        aria-label={`Link to ${section.title}`}
+                      >
+                        <span class="heading-anchor-icon" aria-hidden="true">#</span>
+                      </a>
+                    </h2>
+                  ) : (
+                    <h2 class="group/heading text-2xl font-semibold text-foreground md:text-3xl">
+                      <a
+                        href={`#${section.id}`}
+                        class="heading-anchor"
+                        data-anchor-link
+                        aria-label={`Link to ${section.title}`}
+                      >
+                        {section.title}
+                        <span class="heading-anchor-icon" aria-hidden="true">#</span>
+                      </a>
+                    </h2>
+                  )}
+
+                  <p
+                    class="mt-3 text-base text-para"
+                    set:html={renderInline(section.description)}
+                  />
+
+                  {section.bodyMd && (
+                    <div set:html={renderMarkdown(section.bodyMd)} />
+                  )}
+
+                  {section.requestParams && section.requestParams.length > 0 && (
+                    <ParamTable rows={section.requestParams} variant="request" />
+                  )}
+
+                  {section.responseStatus && (
+                    <h3 class="mt-6 text-lg font-medium text-foreground">
+                      Response <code class="font-mono text-base">{section.responseStatus}</code>
+                    </h3>
+                  )}
+
+                  {section.responseFields &&
+                    section.responseFields.length > 0 && (
+                      <ParamTable
+                        rows={section.responseFields}
+                        variant="response"
+                      />
+                    )}
+
+                  {section.notes &&
+                    section.notes.map((note) => (
+                      <blockquote
+                        class="my-4 border-l-4 border-primary/40 bg-background2 px-4 py-2 text-sm text-para"
+                        set:html={renderInline(note)}
+                      />
+                    ))}
+
+                  <!-- Mobile inline code (right panel is hidden < lg) -->
+                  {section.codeSnippets.find((s) => s.language === "bash") && (
+                    <div class="mt-4 lg:hidden">
+                      <div
+                        class="api-reference-html overflow-x-auto rounded-lg"
+                        set:html={highlightOrEmpty(
+                          section.codeSnippets.find(
+                            (s) => s.language === "bash",
+                          )!.code,
+                          "bash",
+                        )}
+                      />
+                    </div>
+                  )}
+                </section>
+              ))}
+            </div>
+          ))
+        }
+
+        <!-- See also -->
+        <section class="mt-16 border-t border-defaultBorder pt-8">
+          <h2
+            id="see-also"
+            class="group/heading text-xl font-semibold text-foreground"
+          >
+            <a
+              href="#see-also"
+              class="heading-anchor"
+              data-anchor-link
+              aria-label="Link to See also"
+            >
+              See also
+              <span class="heading-anchor-icon" aria-hidden="true">#</span>
+            </a>
+          </h2>
+          <ul class="mt-4 list-disc space-y-2 pl-6 text-sm text-para">
+            <li>
+              <a
+                href="/docs/api-documentation/console-api/getting-started"
+                class="text-primary underline-offset-4 hover:underline"
+                >Getting Started</a
+              > — full workflow with examples
+            </li>
+            <li>
+              <a
+                href="/docs/api-documentation/console-api/quickstart"
+                class="text-primary underline-offset-4 hover:underline"
+                >Quickstart</a
+              > — end-to-end deployment in five API calls
+            </li>
+            <li>
+              <a
+                href="/docs/developers/deployment/akash-sdl"
+                class="text-primary underline-offset-4 hover:underline"
+                >SDL Reference</a
+              > — SDL syntax and options
+            </li>
+            <li>
+              <a
+                href="https://console.akash.network"
+                class="text-primary underline-offset-4 hover:underline"
+                >Console</a
+              > — visual interface for managing deployments
+            </li>
+            <li>
+              <a
+                href="https://github.com/akash-network/console"
+                class="text-primary underline-offset-4 hover:underline"
+                >GitHub: akash-network/console</a
+              > — source and issues
+            </li>
+          </ul>
+        </section>
+      </article>
+    </div>
+  </div>
+
+  <!-- FIXED right code panel. Pinned to the viewport from below the sticky
+       header (top-[73px]) to the bottom. The panel is its own scroll container;
+       the article column to its left scrolls with the page. Hidden < lg. -->
+  <aside
+    class="api-reference-aside fixed bottom-0 right-0 top-[70px] z-10 hidden w-[34vw] border-l border-t border-defaultBorder bg-[#f6f8fa] dark:bg-[#0d1117] lg:block xl:w-[36vw]"
+  >
+    <ApiReferencePanel
+      client:load
+      sections={sectionsLite}
+      htmlByLanguage={htmlByLanguage}
+      rawByLanguage={rawByLanguage}
+      rawBySectionAndLanguage={rawBySectionAndLanguage}
+      availableLanguages={AUTHORED_LANGUAGES}
+      languageGroups={LANGUAGE_GROUPS}
+      languageLabels={LANGUAGE_LABELS}
+    />
+  </aside>
+</DocsLayout>
+
+<style is:global>
+  /* Shiki dual-theme output — each section renders BOTH a light and a dark
+     wrapper; CSS shows only the one that matches the active site theme. */
+  .api-reference-html pre {
+    background-color: transparent !important;
+    margin: 0;
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+  .api-reference-html code {
+    font-family:
+      "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  /* Default = light site theme: show light Shiki, hide dark. */
+  .api-reference-html .shiki-light-wrap {
+    display: block;
+  }
+  .api-reference-html .shiki-dark-wrap {
+    display: none;
+  }
+  /* `.dark` on <html> = dark site theme: swap. */
+  html.dark .api-reference-html .shiki-light-wrap {
+    display: none;
+  }
+  html.dark .api-reference-html .shiki-dark-wrap {
+    display: block;
+  }
+
+  /* Section block dividers — subtle in both themes. */
+  .api-reference-html .api-section-block {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    position: relative;
+    transition: background-color 200ms ease;
+  }
+  html.dark .api-reference-html .api-section-block {
+    border-top-color: rgba(255, 255, 255, 0.06);
+  }
+  .api-reference-html .api-section-block:first-child {
+    border-top: none;
+  }
+
+  /* Active section: accent stripe + subtle red-tinted background. */
+  .api-reference-html .api-section-block[data-active="true"] {
+    background-color: rgba(255, 65, 76, 0.07);
+  }
+  html.dark .api-reference-html .api-section-block[data-active="true"] {
+    background-color: rgba(255, 65, 76, 0.08);
+  }
+  .api-reference-html .api-section-block[data-active="true"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: #ff414c;
+  }
+
+  /* Per-section copy button — hidden by default, visible only on the
+     currently-active section. */
+  .api-reference-html .api-section-copy {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.75rem;
+    z-index: 1;
+    display: none;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0.375rem;
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(31, 35, 40, 0.75);
+    font-size: 0.7rem;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+  .api-reference-html .api-section-copy:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+    color: #1f2328;
+  }
+  html.dark .api-reference-html .api-section-copy {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgba(230, 237, 243, 0.85);
+  }
+  html.dark .api-reference-html .api-section-copy:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+  }
+  .api-reference-html .api-section-block[data-active="true"] .api-section-copy {
+    display: inline-flex;
+  }
+  .api-reference-html .api-section-copy[data-copied="true"] {
+    background-color: rgba(34, 197, 94, 0.18);
+    color: #15803d;
+  }
+  html.dark .api-reference-html .api-section-copy[data-copied="true"] {
+    color: #4ade80;
+  }
+
+  /* Mobile inline code block (under each endpoint when right panel is hidden) */
+  .lg\:hidden .api-reference-html pre {
+    background-color: #f6f8fa !important;
+    color: #1f2328;
+    border-radius: 0.5rem;
+  }
+  html.dark .lg\:hidden .api-reference-html pre {
+    background-color: #0d1117 !important;
+    color: #e6edf3;
+  }
+</style>

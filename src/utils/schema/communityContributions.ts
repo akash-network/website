@@ -1,6 +1,8 @@
 import { defineCollection, z } from "astro:content";
+import { contentLoader } from "@/utils/schema/contentLoader";
 
 const baseSchema = defineCollection({
+  loader: contentLoader("Community_Contributions_Page"),
   schema: ({ image }) => {
     return z.object({
       title: z.string(),
@@ -19,6 +21,7 @@ const baseSchema = defineCollection({
 
 export const communityContributionsSchema = baseSchema;
 export const communityAkashEduSchema = defineCollection({
+  loader: contentLoader("Community_Akash_Edu_Page"),
   schema: ({ image }) => {
     return z.object({
       image: image(),
@@ -34,6 +37,7 @@ export const communityAkashEduSchema = defineCollection({
 });
 
 export const communityEventSchema = defineCollection({
+  loader: contentLoader("Community_Akash_Events_Page"),
   schema: ({ image }) => {
     return z.object({
       image: image(),

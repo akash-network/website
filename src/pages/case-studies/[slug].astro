@@ -7,7 +7,7 @@ import ButtonLink from "@/components/ui/button-link.astro";
 import BlogLayout from "@/layouts/blog-layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
 import { Image } from "astro:assets";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import { Facebook, Linkedin } from "lucide-react";
 
 type BlogPost = CollectionEntry<"Blog">;
@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 
   return caseStudyPosts.map((post) => {
     const otherCaseStudies = caseStudyPosts
-      .filter((p) => p.slug !== post.slug)
+      .filter((p) => p.id !== post.id)
       .filter((post) => {
         return post.data.archive !== true;
       })
@@ -32,7 +32,7 @@ export async function getStaticPaths() {
       });
 
     return {
-      params: { slug: post.slug },
+      params: { slug: post.id },
       props: {
         post: post,
         otherCaseStudies: otherCaseStudies,
@@ -43,7 +43,7 @@ export async function getStaticPaths() {
 
 const { post, otherCaseStudies } = Astro.props;
 
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <BlogLayout
@@ -119,7 +119,6 @@ const { Content } = await post.render();
           src={post.data.bannerImage}
           alt={`banner image for the post ${post.data.title}`}
           width={1200}
-          height={1200}
           format="webp"
           class="inset-0 aspect-video bg-gray-200 object-cover"
           loading="lazy"
@@ -133,7 +132,7 @@ const { Content } = await post.render();
 
       <div class="mt-10 flex">
         <ButtonLink
-          link={`https://github.com/akash-network/website-revamp/tree/main/src/content/Blog/${post.slug}/index.md`}
+          link={`https://github.com/akash-network/website-revamp/tree/main/src/content/Blog/${post.id}/index.md`}
           variant="secondary"
           size="xl"
         >
@@ -152,7 +151,7 @@ const { Content } = await post.render();
             otherCaseStudies.slice(0, 4).map((caseStudy: BlogPost) => {
               return (
                 <a
-                  href={`/case-studies/${caseStudy.slug}`}
+                  href={`/case-studies/${caseStudy.id}`}
                   class="line-clamp-2 cursor-pointer  text-darkText hover:text-primary hover:no-underline"
                 >
                   {caseStudy.data.title}
@@ -170,21 +169,21 @@ const { Content } = await post.render();
 
         <div class="mt-5 flex space-x-4 text-para">
           <a
-            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.slug}`}
+            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.id}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <TwitterIcon />
           </a>
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.slug}`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.id}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Facebook className="h-5 w-5" />
           </a>
           <a
-            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -206,21 +205,21 @@ const { Content } = await post.render();
       <!-- Social Media Links  -->
       <div class="mt-4 flex items-center justify-center space-x-2.5">
         <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.slug}`}
+          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <TwitterIcon />
         </a>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.slug}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Facebook className="h-5 w-5" />
         </a>
         <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -241,21 +240,21 @@ const { Content } = await post.render();
       <!-- Social Media Links  -->
       <div class="mt-4 flex items-center justify-center space-x-2.5">
         <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.slug}`}
+          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/case-studies/${post.id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <TwitterIcon />
         </a>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.slug}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/case-studies/${post.id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Facebook className="h-5 w-5" />
         </a>
         <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/case-studies/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
           target="_blank"
           rel="noopener noreferrer"
         >
