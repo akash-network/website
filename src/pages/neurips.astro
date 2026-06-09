@@ -12,7 +12,7 @@ const showBlogs = [
   "running-vllm-on-akash",
 ];
 const blogs = await getCollection("Blog").then((blogs) =>
-  blogs.filter((blog) => showBlogs.includes(blog.slug)),
+  blogs.filter((blog) => showBlogs.includes(blog.id)),
 );
 
 type BlogPost = CollectionEntry<"Blog">;
@@ -36,7 +36,7 @@ type BlogPost = CollectionEntry<"Blog">;
       {
         blogs.map((post: BlogPost) => {
           return (
-            <a href={`/blog/${post.slug}`} class=" flex cursor-pointer">
+            <a href={`/blog/${post.id}`} class=" flex cursor-pointer">
               <PostCard
                 title={post.data.title}
                 image={post.data.bannerImage}

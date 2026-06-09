@@ -528,22 +528,22 @@ env:
 
 **Problem: Variable with spaces**
 ```yaml
-# **WRONG - will break
+# WRONG - will break
 env:
   - MESSAGE=Hello World
 
-# **CORRECT - quote the value
+# CORRECT - quote the value
 env:
   - MESSAGE="Hello World"
 ```
 
 **Problem: Special characters**
 ```yaml
-# **WRONG - special chars may break
+# WRONG - special chars may break
 env:
   - PASSWORD=p@$$w0rd!
 
-# **CORRECT - escape or quote
+# CORRECT - escape or quote
 env:
   - PASSWORD="p@$$w0rd!"
 ```

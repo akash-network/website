@@ -20,7 +20,7 @@ Follow these best practices to optimize your deployments on Akash Network.
 **Don't over-provision** - Start small and scale up based on actual usage.
 
 ```yaml
-# **Bad: Over-provisioned
+# Bad: Over-provisioned
 profiles:
   compute:
     web:
@@ -32,7 +32,7 @@ profiles:
         storage:
           size: 500Gi       # Way more than needed
 
-# **Good: Right-sized
+# Good: Right-sized
 profiles:
   compute:
     web:
@@ -112,7 +112,7 @@ services:
 Only expose ports that need to be publicly accessible:
 
 ```yaml
-# **Bad: Exposing everything
+# Bad: Exposing everything
 services:
   web:
     expose:
@@ -121,9 +121,9 @@ services:
           - global: true      # Public
       - port: 3306            # Database port
         to:
-          - global: true      # **Don't expose databases publicly!
+          - global: true      # Don't expose databases publicly!
 
-# **Good: Selective exposure
+# Good: Selective exposure
 services:
   web:
     expose:
@@ -135,7 +135,7 @@ services:
     expose:
       - port: 3306
         to:
-          - service: web      # **Only accessible to web service
+          - service: web      # Only accessible to web service
 ```
 
 ### Use Accept Lists for Custom Domains
@@ -184,17 +184,17 @@ expose:
 Never use ephemeral storage for critical data:
 
 ```yaml
-# **Bad: Using ephemeral storage for database
+# Bad: Using ephemeral storage for database
 storage:
   - size: 10Gi              # Lost on restart!
 
-# **Good: Using persistent storage
+# Good: Using persistent storage
 storage:
   - size: 1Gi               # Ephemeral for temp files
   - name: db-data
     size: 10Gi
     attributes:
-      persistent: true      # **Survives restarts
+      persistent: true      # Survives restarts
       class: beta3          # Storage class
 ```
 
@@ -484,13 +484,13 @@ services:
 Use specific image tags instead of `latest`:
 
 ```yaml
-# **Bad: Unpredictable updates
+# Bad: Unpredictable updates
 image: nginx:latest
 
-# **Good: Predictable, reproducible
+# Good: Predictable, reproducible
 image: nginx:1.25.3
 
-# **Also good: Digest for immutability
+# Also good: Digest for immutability
 image: nginx@sha256:abc123...
 ```
 
@@ -529,7 +529,7 @@ services:
     expose:
       - port: 5432
         to:
-          - global: true      # **Never do this
+          - global: true      # Never do this
 ```
 
 ### **Don't Use Ephemeral Storage for Databases
@@ -537,7 +537,7 @@ services:
 ```yaml
 # Data loss on restart!
 storage:
-  - size: 10Gi              # **Not persistent
+  - size: 10Gi              # Not persistent
 ```
 
 ### **Don't Forget to Set Pricing
@@ -546,7 +546,7 @@ storage:
 # Will fail to deploy without pricing
 placement:
   akash:
-    # **Missing pricing section
+    # Missing pricing section
 ```
 
 ---

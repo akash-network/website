@@ -26,7 +26,7 @@ An **IP Lease** is a dedicated public IPv4 address assigned to your deployment f
 
 ## When to Use IP Leases
 
-### **Use IP Leases For:
+### **Use IP Leases For:**
 
 - **Custom domains** - Point your own domain directly to your deployment
 - **Static IP requirements** - When you need a consistent IP address
@@ -36,7 +36,7 @@ An **IP Lease** is a dedicated public IPv4 address assigned to your deployment f
 
 **Note:** The IP lease address is for incoming connections only. Outbound/egress traffic from your deployment uses a different IP address.
 
-### **Don't Need IP Leases For:
+### **Don't Need IP Leases For:**
 
 - **Standard web apps** - Provider hostnames work fine
 - **Cost-sensitive deployments** - IP leases cost extra

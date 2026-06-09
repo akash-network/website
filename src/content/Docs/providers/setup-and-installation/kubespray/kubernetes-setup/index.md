@@ -29,10 +29,10 @@ Using Kubespray 2.31.0, you'll install:
 ## Before You Begin
 
 Ensure you have:
-- **Reviewed [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)
-- **Ubuntu 24.04 LTS installed on all nodes
-- **Root or sudo access to all nodes
-- **Network connectivity between all nodes
+- **Reviewed [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)**
+- **Ubuntu 24.04 LTS installed on all nodes**
+- **Root or sudo access to all nodes**
+- **Network connectivity between all nodes**
 
 ---
 

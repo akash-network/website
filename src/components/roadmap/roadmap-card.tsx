@@ -21,7 +21,7 @@ export default function RoadmapCard({ roadmap, className }: Props) {
 
   return (
     <a
-      href={`/roadmap/${roadmap?.slug?.split("/")?.[0]}`}
+      href={`/roadmap/${roadmap?.id?.split("/")?.[0]}`}
       className={clsx(
         "ml-5 flex flex-col gap-4 rounded-lg border bg-background p-6 shadow transition-all duration-300 hover:shadow-md dark:bg-background2 md:ml-0",
         className ?? "md:w-full",

@@ -244,13 +244,13 @@ services:
 
 ## Storage Persistence Guarantees
 
-### **Survives
+### **Survives**
 
 - **Container restarts** - Data persists if container crashes or restarts
 - **Deployment updates** - Data persists when you update image version, env vars, etc.
 - **Provider restarts** - Data persists if provider's infrastructure restarts
 
-### **Does NOT Survive
+### **Does NOT Survive**
 
 - **Lease termination** - Data is lost when you close the deployment
 - **Provider migration** - Data is lost if you move to a different provider
