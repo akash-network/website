@@ -211,19 +211,19 @@ Your PR will trigger:
 **Good responses:**
 
 ```markdown
-**"Great catch! Fixed in latest commit."
-**"I considered that approach but chose X because Y. Thoughts?"
-**"Good point. Changed to use interface instead."
-**"Can you clarify what you mean by...?"
+- "Great catch! Fixed in latest commit."
+- "I considered that approach but chose X because Y. Thoughts?"
+- "Good point. Changed to use interface instead."
+- "Can you clarify what you mean by...?"
 ```
 
 **Avoid:**
 
 ```markdown
-**"This is fine as-is."
-**No response (ignoring feedback)
-**"You're wrong."
-**Defensive or argumentative responses
+- "This is fine as-is."
+- No response (ignoring feedback)
+- "You're wrong."
+- Defensive or argumentative responses
 ```
 
 #### Making Changes
