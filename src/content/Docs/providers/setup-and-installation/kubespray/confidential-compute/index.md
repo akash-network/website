@@ -504,7 +504,8 @@ Common causes:
 
 ## Related Topics
 
-- [Confidential Compute Overview](/docs/learn/core-concepts/confidential-compute) - Tenant-facing guide for deploying confidential workloads
-- [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support) - Enable GPU resources on your provider
-- [Provider Attributes](/docs/providers/operations/provider-attributes) - Advertise provider capabilities
+- [Confidential Compute Overview](/docs/learn/core-concepts/confidential-compute) — Tenant-facing guide for deploying confidential workloads
+- [SDL Advanced Features](/docs/developers/deployment/akash-sdl/advanced-features) — SDL reference for TEE configuration
+- [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support) — Enable GPU resources on your provider
+- [Provider Attributes](/docs/providers/operations/provider-attributes) — Advertise provider capabilities
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation) - Base provider setup
