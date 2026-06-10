@@ -212,6 +212,80 @@ gpu:
 
 ---
 
+## Confidential Compute (TEE)
+
+Request hardware-isolated Trusted Execution Environments (TEE) to fully secure your workloads during processing. Akash supports AMD SEV-SNP and Intel TDX with optional NVIDIA GPU Confidential Computing.
+
+### Basic TEE Request
+
+Add a `params.tee` block to any service:
+
+```yaml
+services:
+  web:
+    image: nginx
+    expose:
+      - port: 80
+        to:
+          - global: true
+    params:
+      tee:
+        type: sev-snp
+```
+
+Use `tdx` for Intel TDX instead of `sev-snp`.
+
+### GPU + TEE
+
+Combine GPU workloads with Confidential Compute:
+
+```yaml
+services:
+  inference:
+    image: my-model:latest
+    expose:
+      - port: 8080
+        to:
+          - global: true
+    params:
+      tee:
+        type: tdx-gpu
+
+profiles:
+  compute:
+    inference:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 256Mi
+        storage:
+          size: 128Mi
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+```
+
+Use `sev-snp-gpu` instead of `tdx-gpu` for AMD hardware.
+
+### TEE Type Reference
+
+| Value | Runtime Class | Hardware |
+|-------|---------------|----------|
+| `sev-snp` | `kata-qemu-snp` | AMD with SEV-SNP |
+| `sev-snp-gpu` | `kata-qemu-nvidia-gpu-snp` | AMD SEV-SNP + NVIDIA CC GPU |
+| `tdx` | `kata-qemu-tdx` | Intel with TDX |
+| `tdx-gpu` | `kata-qemu-nvidia-gpu-tdx` | Intel TDX + NVIDIA CC GPU |
+
+For attestation, security model details, and provider setup, see:
+
+- [Confidential Compute (TEE) Core Concepts](/docs/learn/core-concepts/confidential-compute)
+- [Provider Confidential Compute Setup](/docs/providers/setup-and-installation/kubespray/confidential-compute)
+
+---
+
 ## IP Endpoints (Dedicated IPs)
 
 ### Basic IP Endpoint
