@@ -273,12 +273,17 @@ Response:
   "cert_chain": "<base64-certificate-chain>",
   "tee_type": "snp",
   "auxblob": "<base64-auxiliary-blob>",
-  "gpu_report": "<base64-gpu-attestation (present for GPU TEE types)>",
+  "gpu_reports": [
+    {
+      "device_index": 0,
+      "report": "<base64-gpu-attestation>"
+    }
+  ],
   "tls_bound": false
 }
 ```
 
-The `report` field contains the raw hardware-signed attestation evidence (an SNP report or TDX quote). Verify it using AMD's or Intel's published root certificates to confirm authenticity.
+The `report` field contains the raw hardware-signed attestation evidence (an SNP report or TDX quote). For GPU TEE types, `gpu_reports` contains a per-device entry for every GPU in the workload, each with its own hardware-signed attestation evidence. Verify GPU reports against NVIDIA's published root certificates.
 
 ### TLS Channel Binding
 
