@@ -212,6 +212,50 @@ gpu:
 
 ---
 
+## Resource Reclamation
+
+Negotiate a grace period before a provider can terminate a lease. When a provider initiates reclamation, the lease continues running and being paid through the negotiated window, giving the tenant time to migrate.
+
+### Basic Reclamation
+
+Declare the minimum grace period required from any matching provider:
+
+```yaml
+version: "2.0"
+
+reclamation:
+  min_window: "24h"
+
+services:
+  web:
+    image: nginx:1.25.3
+```
+
+Only providers offering a reclamation window equal to or longer than `min_window` will match this deployment.
+
+### Field Reference
+
+**min_window** (duration string)
+- Minimum reclamation window the tenant requires
+- Accepts Go-style duration: `30m`, `1h`, `24h`, `720h`
+- Must fall within the network's `min_reclamation_window` and `max_reclamation_window` governance bounds (query with `akash query market params`)
+
+If the `reclamation` block is omitted, reclamation is not required and any provider may bid.
+
+### Behavior
+
+- **At bid time** - providers offering ≥ `min_window` may match; others are rejected by the chain
+- **On the lease** - the lease records the actual negotiated window (the bid's offered value, which may exceed `min_window`)
+- **Provider-initiated reclamation** - the lease enters a `reclaiming` state, workload continues, payments continue, and the provider cannot close the lease until the window elapses
+- **Tenant-initiated close** - the tenant can close at any time during the window; a new order is automatically created preserving the original `min_window` so the tenant can match to another provider
+
+### See Also
+
+- [Provider Reclamation configuration](/docs/providers/setup-and-installation/kubespray/reclamation) - operator-side setup
+- [AEP-82: Resource Reclamation](https://akash.network/roadmap/aep-82/) - protocol specification
+
+---
+
 ## Confidential Compute (TEE)
 
 Request hardware-isolated Trusted Execution Environments (TEE) to fully secure your workloads during processing. Akash supports AMD SEV-SNP and Intel TDX with optional NVIDIA GPU Confidential Computing.
