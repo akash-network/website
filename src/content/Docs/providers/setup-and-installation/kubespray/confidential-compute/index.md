@@ -308,8 +308,6 @@ The Akash provider automatically injectw an attestation sidecar into every confi
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--attestation-expected-measurement` | Hex-encoded expected AMD SEV-SNP launch measurement. Returned as an **advisory hint only** by the provider's directory endpoint. The provider does not verify this value against hardware, tenants must independently fetch the hardware-signed SNP report from the sidecar and compare the `MEASUREMENT` field themselves. Do not treat this as a trust signal. | Empty |
-| `--attestation-expected-image-digest` | Expected digest of the Kata VM image. Like the measurement flag, this is an **untrusted advisory hint** surfaced in the directory response for tenant convenience. Tenants should verify the actual image digest through their own trusted channels. | Empty |
 | `--attestation-mock` | Run the sidecar in mock mode with synthetic (fake) attestation reports instead of real TEE hardware evidence. Also switches the webhook registration to a `host.docker.internal` URL for local clusters. **For local development only, never enable in production.** | `false` |
 
 ### Example: Helm Values
@@ -323,8 +321,6 @@ attestation:
   sidecarImage: "ghcr.io/akash-network/attestation-sidecar:latest"
   webhookPort: 9443
   # Optional advisory hints
-  # expectedMeasurement: "<hex-encoded-measurement>"
-  # expectedImageDigest: "<kata-vm-image-digest>"
 ```
 
 ### Example: CLI Flags
