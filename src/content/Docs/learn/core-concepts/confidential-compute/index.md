@@ -227,28 +227,7 @@ provider-services lease-attestation \
 
 ### API Reference
 
-For programmatic verification, the attestation API has two endpoints.
-
-#### Discovery (Directory)
-
-Returns routing hints to locate the attestation sidecar. This endpoint is unauthenticated.
-
-```
-GET /attestation/directory/{dseq}/{gseq}/{oseq}
-```
-
-```json
-{
-  "endpoint": "https://<sidecar-url>/quote",
-  "tee_type": "amd-sev-snp",
-  "runtime_class": "kata-qemu-snp",
-  "protocol_version": "2",
-  "expected_launch_measurement": "<hex>",
-  "expected_image_digest": "<digest>"
-}
-```
-
-> **Important:** The directory response is **untrusted**. All values are advisory routing hints only. You must verify claims against the hardware-signed attestation report.
+For programmatic verification, the attestation API has the following endpoints.
 
 #### Quote (Challenge-Response)
 
