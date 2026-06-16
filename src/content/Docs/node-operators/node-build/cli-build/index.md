@@ -405,7 +405,7 @@ Control how much blockchain history your node stores.
 
 **Pruning Strategies:**
 
-1. **`default`** - Keep last 100 states + every 500th state (recommended)
+1. **`default`** - Keep the last 362,880 states (~3.5 weeks), pruning every 10 blocks (recommended)
 2. **`nothing`** - Keep all history (archival node, requires >1TB storage)
 3. **`everything`** - Keep only current state (not for validators!)
 4. **`custom`** - Manual configuration
@@ -413,7 +413,6 @@ Control how much blockchain history your node stores.
 **Configuration:** `~/.akash/config/app.toml`
 
 ```toml
-[pruning]
 pruning = "default"
 ```
 

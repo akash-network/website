@@ -46,7 +46,7 @@ Grant deployment permissions to another account:
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/authz/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/authz"
     "time"
 )
 
@@ -56,7 +56,7 @@ grantMsg := &authz.MsgGrant{
     Grantee: granteeAddress,
     Grant: authz.Grant{
         Authorization: &authz.GenericAuthorization{
-            Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+            Msg: "/akash.deployment.v1beta4.MsgCreateDeployment",
         },
         Expiration: &time.Time{}, // Optional expiration
     },
@@ -80,7 +80,7 @@ const grantMsg = {
   grant: {
     authorization: {
       '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
-      msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+      msg: '/akash.deployment.v1beta4.MsgCreateDeployment'
     },
     expiration: null // Optional expiration date
   }
@@ -103,7 +103,7 @@ console.log('Grant transaction hash:', resp.transactionHash);`,
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/authz/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/authz"
     sdk "github.com/cosmos/cosmos-sdk/types"
     "time"
 )
@@ -117,7 +117,7 @@ grantMsg := &authz.MsgGrant{
     Grantee: granteeAddress,
     Grant: authz.Grant{
         Authorization: &authz.GenericAuthorization{
-            Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+            Msg: "/akash.deployment.v1beta4.MsgCreateDeployment",
         },
         Expiration: &expiration,
     },
@@ -139,7 +139,7 @@ const grantMsg = {
   grant: {
     authorization: {
       '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
-      msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+      msg: '/akash.deployment.v1beta4.MsgCreateDeployment'
     },
     expiration: expiration.toISOString()
   }
@@ -162,8 +162,8 @@ Use granted permissions to deploy on behalf of another account:
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/authz/v1beta1"
-    "pkg.akt.dev/go/node/deployment/v1beta3"
+    "github.com/cosmos/cosmos-sdk/x/authz"
+    "pkg.akt.dev/go/node/deployment/v1beta4"
     "github.com/cosmos/cosmos-sdk/codec/types"
 )
 
@@ -215,7 +215,7 @@ const execMsg = {
   grantee: granteeAddress, // Your address
   msgs: [
     {
-      typeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment',
+      typeUrl: '/akash.deployment.v1beta4.MsgCreateDeployment',
       value: deploymentMsg
     }
   ]
@@ -240,14 +240,14 @@ Check existing grants between accounts:
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/authz/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/authz"
 )
 
 // Query grants by granter and grantee
 grantsResp, err := client.AuthzClient.Grants(ctx, &authz.QueryGrantsRequest{
     Granter: granterAddress,
     Grantee: granteeAddress,
-    MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+    MsgTypeUrl: "/akash.deployment.v1beta4.MsgCreateDeployment",
 })
 if err != nil {
     log.Fatal(err)
@@ -270,7 +270,7 @@ allGrantsResp, err := client.AuthzClient.GranterGrants(ctx, &authz.QueryGranterG
 const grants = await client.authz.grants({
   granter: granterAddress,
   grantee: granteeAddress,
-  msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+  msgTypeUrl: '/akash.deployment.v1beta4.MsgCreateDeployment'
 });
 
 grants.forEach(grant => {
@@ -300,14 +300,14 @@ Remove granted permissions:
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/authz/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/authz"
 )
 
 // Revoke permission
 revokeMsg := &authz.MsgRevoke{
     Granter: granterAddress,
     Grantee: granteeAddress,
-    MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+    MsgTypeUrl: "/akash.deployment.v1beta4.MsgCreateDeployment",
 }
 
 // Broadcast the revoke transaction
@@ -327,7 +327,7 @@ fmt.Println("Permission revoked successfully")`,
 const revokeMsg = {
   granter: granterAddress,
   grantee: granteeAddress,
-  msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+  msgTypeUrl: '/akash.deployment.v1beta4.MsgCreateDeployment'
 };
 
 // Broadcast the revoke transaction
@@ -351,7 +351,7 @@ Allow another account to use your AKT for transaction fees:
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/feegrant"
     sdk "github.com/cosmos/cosmos-sdk/types"
     "github.com/cosmos/cosmos-sdk/codec/types"
 )
@@ -405,7 +405,7 @@ console.log('Fee grant created:', result.transactionHash);`,
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/feegrant"
     sdk "github.com/cosmos/cosmos-sdk/types"
     "github.com/cosmos/cosmos-sdk/codec/types"
 )
@@ -461,7 +461,7 @@ Allow a specific amount per time period (e.g., daily limit):
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/feegrant"
     sdk "github.com/cosmos/cosmos-sdk/types"
     "github.com/cosmos/cosmos-sdk/codec/types"
     "time"
@@ -522,7 +522,7 @@ const result = await client.signAndBroadcast([periodicAllowance]);`,
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/feegrant"
 )
 
 // Query specific fee grant
@@ -579,7 +579,7 @@ grants.forEach(allowance => {
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/feegrant"
 )
 
 // Revoke fee grant
@@ -624,8 +624,8 @@ The most powerful pattern: grant both permissions AND fee allowance so the grant
     {
       language: "go",
       code: `import (
-    "pkg.akt.dev/go/node/authz/v1beta1"
-    "pkg.akt.dev/go/node/feegrant/v1beta1"
+    "github.com/cosmos/cosmos-sdk/x/authz"
+    "github.com/cosmos/cosmos-sdk/x/feegrant"
     sdk "github.com/cosmos/cosmos-sdk/types"
     "github.com/cosmos/cosmos-sdk/codec/types"
     "time"
@@ -649,7 +649,7 @@ authzGrantMsg := &authz.MsgGrant{
     Grantee: granteeAddress,
     Grant: authz.Grant{
         Authorization: &authz.GenericAuthorization{
-            Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+            Msg: "/akash.deployment.v1beta4.MsgCreateDeployment",
         },
         Expiration: &expiration,
     },
@@ -690,7 +690,7 @@ const authzGrantMsg = {
   grant: {
     authorization: {
       '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
-      msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+      msg: '/akash.deployment.v1beta4.MsgCreateDeployment'
     },
     expiration: expiration.toISOString()
   }
@@ -734,7 +734,7 @@ func setupCICDBot(client *AkashClient, botAddress string) error {
         Grantee: botAddress,
         Grant: authz.Grant{
             Authorization: &authz.GenericAuthorization{
-                Msg: "/akash.deployment.v1beta3.MsgCreateDeployment",
+                Msg: "/akash.deployment.v1beta4.MsgCreateDeployment",
             },
         },
     }
@@ -771,7 +771,7 @@ async function setupCICDBot(client, botAddress) {
     grant: {
       authorization: {
         '@type': '/cosmos.authz.v1beta1.GenericAuthorization',
-        msg: '/akash.deployment.v1beta3.MsgCreateDeployment'
+        msg: '/akash.deployment.v1beta4.MsgCreateDeployment'
       }
     }
   };
@@ -807,7 +807,7 @@ func checkAndExecute(client *AkashClient, granterAddr, granteeAddr string) error
     grantResp, err := client.AuthzClient.Grants(ctx, &authz.QueryGrantsRequest{
         Granter:    granterAddr,
         Grantee:    granteeAddr,
-        MsgTypeUrl: "/akash.deployment.v1beta3.MsgCreateDeployment",
+        MsgTypeUrl: "/akash.deployment.v1beta4.MsgCreateDeployment",
     })
     
     if err != nil {
@@ -838,7 +838,7 @@ async function checkAndExecute(client, granterAddr, granteeAddr) {
     const grants = await client.authz.grants({
       granter: granterAddr,
       grantee: granteeAddr,
-      msgTypeUrl: '/akash.deployment.v1beta3.MsgCreateDeployment'
+      msgTypeUrl: '/akash.deployment.v1beta4.MsgCreateDeployment'
     });
     
     if (grants.length === 0) {
