@@ -9,9 +9,9 @@ description: "Deploy workloads inside hardware-backed Trusted Execution Environm
 
 **Deploy workloads inside hardware-isolated Trusted Execution Environments (TEEs) where neither the provider nor any other party can access your data or code in memory.**
 
-Standard cloud deployments require trusting the infrastructure operator. Confidential Compute eliminates that requirement. Containers run inside encrypted virtual machines where the CPU hardware enforces isolation, the provider's OS, hypervisor and administrators cannot inspect the workload's memory.
+Standard cloud deployments require trusting the infrastructure operator. Confidential Compute eliminates that requirement. Containers run inside encrypted virtual machines where the CPU hardware enforces isolation, so the provider's OS, hypervisor, and administrators cannot inspect the workload's memory.
 
-Akash supports AMD SEV-SNP and Intel TDX, with optional NVIDIA GPU Confidential Computing for GPU-accelerated workloads.
+Akash supports AMD SEV-SNP and Intel TDX. Tenants specify a TEE *capability* (`cpu` or `cpu-gpu`) in their SDL, and the provider resolves the actual hardware *platform* (`snp` or `tdx`) at deployment time based on its cluster nodes. NVIDIA GPU Confidential Computing is available with the `cpu-gpu` capability.
 
 ---
 
@@ -44,29 +44,37 @@ In a standard deployment, the provider's operating system has full access to con
 
 ## Supported TEE Types
 
-Akash currently supports four TEE configurations:
+Akash uses capability-based TEE types. You choose the workload type; the provider resolves the hardware platform.
 
-| TEE Type | SDL Value | Description |
-|----------|-----------|-------------|
-| AMD SEV-SNP | `sev-snp` | CPU-only confidential VM on AMD hardware |
-| AMD SEV-SNP + GPU | `sev-snp-gpu` | SEV-SNP with NVIDIA GPU Confidential Computing |
-| Intel TDX | `tdx` | CPU-only confidential VM on Intel hardware |
-| Intel TDX + GPU | `tdx-gpu` | TDX with NVIDIA GPU Confidential Computing |
+| Capability | SDL Value | Description |
+|------------|-----------|-------------|
+| CPU-only TEE | `cpu` | Confidential VM with CPU memory encryption |
+| CPU + GPU TEE | `cpu-gpu` | Confidential VM with CPU memory encryption plus NVIDIA GPU Confidential Computing |
 
-Both `sev-snp` and `tdx` provide equivalent security guarantees. The choice depends on the provider's hardware. Use the `-gpu` variants when your workload requires GPU acceleration (e.g., AI inference or training).
+The provider selects the actual runtime class based on its detected hardware platform:
+
+| Capability | Platform | Runtime Class |
+|------------|----------|---------------|
+| `cpu` | Intel TDX (`tdx`) | `kata-qemu-tdx` |
+| `cpu` | AMD SEV-SNP (`snp`) | `kata-qemu-snp` |
+| `cpu-gpu` | Intel TDX (`tdx`) | `kata-qemu-nvidia-gpu-tdx` |
+| `cpu-gpu` | AMD SEV-SNP (`snp`) | `kata-qemu-nvidia-gpu-snp` |
+
+Both Intel TDX and AMD SEV-SNP provide equivalent security guarantees. The actual platform used depends on the provider's hardware. Use `cpu-gpu` when your workload requires GPU acceleration (e.g., AI inference or training).
 
 ---
 
 ## How It Works
 
-Deploying a confidential workload requires only a `params.tee` block in your SDL. The platform handles the rest:
+Deploying a confidential workload requires only a `params.tee` value in your SDL. The platform handles the rest:
 
-1. **Your SDL specifies the TEE type** via `params.tee.type`
-2. **The provider schedules the workload** on a TEE-capable node
-3. **A Kata Container VM launches inside the hardware TEE** (AMD SEV-SNP or Intel TDX)
-4. **Your container runs inside the encrypted VM** and all memory is hardware-encrypted
-5. **Bring your own attestation stack or Akash injects its own** alongside your workload
-6. **You can verify the TEE** by requesting to the provider a hardware-signed attestation report at any time
+1. **Your SDL specifies the TEE capability** via `params.tee` (`cpu` or `cpu-gpu`)
+2. **The chain-SDK projects `tee/type=<value>`** as a placement requirement so only capable providers can bid
+3. **The provider matches the bid** using its advertised `tee/type` attribute and resolves the RuntimeClass from the requested capability plus its detected hardware platform (`tdx` or `snp`)
+4. **A Kata Container VM launches inside the hardware TEE** (AMD SEV-SNP or Intel TDX)
+5. **Your container runs inside the encrypted VM** and all memory is hardware-encrypted
+6. **The Akash attestation sidecar is injected by default** (unless disabled by the tenant)
+7. **You can verify the TEE** at any time by requesting a hardware-signed attestation report from the provider
 
 Everything inside the VM boundary is encrypted. The provider's OS and administrators cannot access it.
 
@@ -74,9 +82,9 @@ Everything inside the VM boundary is encrypted. The provider's OS and administra
 
 ## SDL Configuration
 
-Add a `params.tee` block to your service definition. The rest of the SDL remains unchanged.
+Set `params.tee` to the desired capability in your service definition. The rest of the SDL remains unchanged.
 
-### Basic Example — AMD SEV-SNP
+### Basic Example — CPU-only TEE
 
 ```yaml
 ---
@@ -91,8 +99,7 @@ services:
         to:
           - global: true
     params:
-      tee:
-        type: sev-snp
+      tee: cpu
 
 profiles:
   compute:
@@ -118,27 +125,9 @@ deployment:
       count: 1
 ```
 
-### Basic Example — Intel TDX
-
-The only change is the TEE type:
-
-```yaml
-services:
-  web:
-    image: nginx
-    expose:
-      - port: 80
-        as: 80
-        to:
-          - global: true
-    params:
-      tee:
-        type: tdx
-```
-
 ### GPU + TEE Example
 
-To combine GPU workloads with Confidential Compute, use a GPU TEE type and add GPU resources:
+To combine GPU workloads with Confidential Compute, use `cpu-gpu` and add GPU resources:
 
 ```yaml
 ---
@@ -153,8 +142,7 @@ services:
         to:
           - global: true
     params:
-      tee:
-        type: tdx-gpu
+      tee: cpu-gpu
 
 profiles:
   compute:
@@ -185,18 +173,16 @@ deployment:
       count: 1
 ```
 
-> You can also use `sev-snp-gpu` instead of `tdx-gpu` depending on which TEE hardware the provider offers.
-
 ### TEE Type Reference
 
-The `params.tee.type` field accepts the following values:
+The `params.tee` field accepts the following values:
 
-| Value | Runtime Class | Hardware Required |
-|-------|---------------|-------------------|
-| `sev-snp` | `kata-qemu-snp` | AMD with SEV-SNP |
-| `sev-snp-gpu` | `kata-qemu-nvidia-gpu-snp` | AMD with SEV-SNP + NVIDIA CC GPU |
-| `tdx` | `kata-qemu-tdx` | Intel with TDX |
-| `tdx-gpu` | `kata-qemu-nvidia-gpu-tdx` | Intel with TDX + NVIDIA CC GPU |
+| Value | Runtime Class (Intel TDX) | Runtime Class (AMD SEV-SNP) | Description |
+|-------|---------------------------|-----------------------------|-------------|
+| `cpu` | `kata-qemu-tdx` | `kata-qemu-snp` | CPU-only confidential VM |
+| `cpu-gpu` | `kata-qemu-nvidia-gpu-tdx` | `kata-qemu-nvidia-gpu-snp` | Confidential VM with NVIDIA GPU CC |
+
+`cpu-gpu` must be paired with GPU resources in the compute profile. GPU CC workloads request the `nvidia.com/pgpu` Kubernetes resource for VFIO passthrough.
 
 ---
 
@@ -206,11 +192,10 @@ Attestation is how you verify that your workload is genuinely running inside a h
 
 ### Overview
 
-The attestation flow has three stages:
+The attestation flow has two stages:
 
-1. **Discovery**: Query the provider's directory API to locate the attestation component for your lease
-2. **Challenge**: Send a random 64-byte nonce (your challenge) to the provider. The nonce ensures the report is fresh and was generated for your specific request
-3. **Verification**: The attestation component returns a hardware-signed report. Verify it against AMD or Intel root-of-trust certificates to confirm the TEE is genuine
+1. **Challenge**: Send a random 64-byte nonce (your challenge) to the provider's attestation quote endpoint. The nonce ensures the report is fresh and was generated for your specific request
+2. **Verification**: The provider proxies your request to the in-pod attestation sidecar, which returns a hardware-signed report. Verify it against AMD's, Intel's, or NVIDIA's published root-of-trust certificates to confirm the TEE is genuine
 
 ### Using the CLI
 
@@ -227,7 +212,7 @@ provider-services lease-attestation \
 
 ### API Reference
 
-For programmatic verification, the attestation API has the following endpoints.
+The attestation API exposes a single quote endpoint. The provider forwards your nonce to the attestation sidecar running inside the TEE and returns the hardware-signed response verbatim.
 
 #### Quote (Challenge-Response)
 
@@ -273,7 +258,6 @@ Setting `bind_tls: true` binds the attestation report to the current TLS session
 The attestation design enforces these properties:
 
 - **Provider cannot modify evidence** — the nonce and hardware report are passed through verbatim
-- **Directory hints are untrusted** — they are routing aids only; always verify against the hardware-signed report
 - **Nonce proves freshness** — the hardware includes your nonce in `REPORT_DATA`, proving the report was generated for your request
 - **Channel binding is optional but recommended** — for sensitive workloads, use `bind_tls: true` to prevent attestation relay
 
@@ -290,6 +274,7 @@ The attestation design enforces these properties:
 
 ## Related Topics
 
+- [CC Hardware Compatibility](/docs/providers/operations/confidential-compute-hardware) — Which CPUs and GPUs support Confidential Compute
 - [Provider Confidential Compute Setup](/docs/providers/setup-and-installation/kubespray/confidential-compute) — How providers enable TEE support
 - [GPU Deployments](/docs/learn/core-concepts/gpu-deployments) — General GPU deployment guide
 - [Provider Attributes](/docs/providers/operations/provider-attributes) — How providers advertise TEE capabilities

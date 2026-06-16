@@ -258,11 +258,11 @@ If the `reclamation` block is omitted, reclamation is not required and any provi
 
 ## Confidential Compute (TEE)
 
-Request hardware-isolated Trusted Execution Environments (TEE) to fully secure your workloads during processing. Akash supports AMD SEV-SNP and Intel TDX with optional NVIDIA GPU Confidential Computing.
+Request hardware-isolated Trusted Execution Environments (TEE) to fully secure your workloads during processing. Akash supports AMD SEV-SNP and Intel TDX with optional NVIDIA GPU Confidential Computing. You specify a TEE *capability* in SDL; the provider resolves the actual hardware *platform* at deployment time.
 
 ### Basic TEE Request
 
-Add a `params.tee` block to any service:
+Set `params.tee` to `cpu` for a CPU-only confidential VM:
 
 ```yaml
 services:
@@ -273,15 +273,12 @@ services:
         to:
           - global: true
     params:
-      tee:
-        type: sev-snp
+      tee: cpu
 ```
-
-Use `tdx` for Intel TDX instead of `sev-snp`.
 
 ### GPU + TEE
 
-Combine GPU workloads with Confidential Compute:
+Use `cpu-gpu` to combine Confidential Compute with GPU acceleration. This must be paired with GPU resources in the compute profile:
 
 ```yaml
 services:
@@ -292,8 +289,7 @@ services:
         to:
           - global: true
     params:
-      tee:
-        type: tdx-gpu
+      tee: cpu-gpu
 
 profiles:
   compute:
@@ -312,16 +308,14 @@ profiles:
               nvidia:
 ```
 
-Use `sev-snp-gpu` instead of `tdx-gpu` for AMD hardware.
-
 ### TEE Type Reference
 
-| Value | Runtime Class | Hardware |
-|-------|---------------|----------|
-| `sev-snp` | `kata-qemu-snp` | AMD with SEV-SNP |
-| `sev-snp-gpu` | `kata-qemu-nvidia-gpu-snp` | AMD SEV-SNP + NVIDIA CC GPU |
-| `tdx` | `kata-qemu-tdx` | Intel with TDX |
-| `tdx-gpu` | `kata-qemu-nvidia-gpu-tdx` | Intel TDX + NVIDIA CC GPU |
+The `params.tee` field accepts the following values:
+
+| Value | Runtime Class (Intel TDX) | Runtime Class (AMD SEV-SNP) | Description |
+|-------|---------------------------|-----------------------------|-------------|
+| `cpu` | `kata-qemu-tdx` | `kata-qemu-snp` | CPU-only confidential VM |
+| `cpu-gpu` | `kata-qemu-nvidia-gpu-tdx` | `kata-qemu-nvidia-gpu-snp` | Confidential VM with NVIDIA GPU CC |
 
 For attestation, security model details, and provider setup, see:
 
