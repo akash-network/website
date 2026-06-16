@@ -203,7 +203,7 @@ Add the following attributes:
 ```yaml
 attributes:
   # ... existing attributes ...
-  - key: ip-lease
+  - key: feat-endpoint-ip
     value: "true"
 ```
 
