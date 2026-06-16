@@ -637,7 +637,7 @@ On your local machine (with `akash` CLI). Ensure **`jq`** is installed (`curl` i
 export AKASH_META_URL="${AKASH_META_URL:-https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json}"
 export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
 export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[0].address')"
-so export AKASH_KEYNAME=<your-key-name>
+export AKASH_KEYNAME=<your-key-name>
 export AKASH_GAS=auto
 export AKASH_GAS_ADJUSTMENT=1.25
 export AKASH_GAS_PRICES=0.025uakt
@@ -690,7 +690,7 @@ akash query staking validator $(akash keys show $AKASH_KEYNAME --bech val -a)
 
 Check on [Akash Block Explorers](/docs/node-operators/validators/):
 - [Mintscan](https://www.mintscan.io/akash/validators)
-- [Ping.pub](https://ping.pub/akash/staking)
+- [Ping.pub](https://www.mintscan.io/akash/validators)
 
 ---
 
