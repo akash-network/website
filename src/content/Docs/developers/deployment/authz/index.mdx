@@ -83,11 +83,11 @@ Set limits on what grantees can do:
 
 AuthZ on Akash supports these message types:
 
-- **`/akash.deployment.v1beta3.MsgCreateDeployment`** - Create new deployments
-- **`/akash.deployment.v1beta3.MsgUpdateDeployment`** - Update existing deployments
-- **`/akash.deployment.v1beta3.MsgCloseDeployment`** - Close deployments
-- **`/akash.market.v1beta3.MsgCreateLease`** - Create leases with providers
-- **`/akash.market.v1beta3.MsgWithdrawLease`** - Withdraw from leases
+- **`/akash.deployment.v1beta4.MsgCreateDeployment`** - Create new deployments
+- **`/akash.deployment.v1beta4.MsgUpdateDeployment`** - Update existing deployments
+- **`/akash.deployment.v1beta4.MsgCloseDeployment`** - Close deployments
+- **`/akash.market.v1beta5.MsgCreateLease`** - Create leases with providers
+- **`/akash.market.v1beta5.MsgWithdrawLease`** - Withdraw from leases
 
 ---
 
@@ -99,7 +99,7 @@ Allow a grantee to fully manage deployments:
 
 ```bash
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --from <your-wallet> \
   --fees 5000uakt
 ```
@@ -110,7 +110,7 @@ Limit how much AKT the grantee can spend:
 
 ```bash
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --spend-limit 100000000uakt \
   --from <your-wallet> \
   --fees 5000uakt
@@ -124,7 +124,7 @@ Set an expiration time for permissions:
 
 ```bash
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --expiration 1704067200 \
   --from <your-wallet> \
   --fees 5000uakt
@@ -139,22 +139,22 @@ To grant multiple permissions, execute multiple grant commands:
 ```bash
 # Grant deployment creation
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --from <your-wallet> --fees 5000uakt
 
 # Grant deployment updates
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgUpdateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgUpdateDeployment \
   --from <your-wallet> --fees 5000uakt
 
 # Grant deployment closure
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCloseDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCloseDeployment \
   --from <your-wallet> --fees 5000uakt
 
 # Grant lease creation
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.market.v1beta3.MsgCreateLease \
+  --msg-type /akash.market.v1beta5.MsgCreateLease \
   --from <your-wallet> --fees 5000uakt
 ```
 
@@ -256,7 +256,7 @@ provider-services tx feegrant grant <grantee-address> \
 
 # Step 2: Grant deployment permission
 provider-services tx authz grant <grantee-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --from <your-wallet> \
   --fees 5000uakt
 ```
@@ -380,7 +380,7 @@ provider-services tx feegrant grant <bot-address> \
 
 # Grant deployment permissions
 provider-services tx authz grant <bot-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --from <your-wallet>
 ```
 
@@ -397,7 +397,7 @@ provider-services tx feegrant grant <new-member> \
 
 # Grant full deployment access
 provider-services tx authz grant <new-member> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --from <your-wallet>
 ```
 
@@ -414,7 +414,7 @@ provider-services tx feegrant grant <contractor> \
 
 # Grant deployment permissions with same expiration
 provider-services tx authz grant <contractor> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --expiration 1740787200 \
   --from <your-wallet>
 ```
@@ -513,7 +513,7 @@ Remove a specific permission:
 
 ```bash
 provider-services tx authz revoke <grantee-address> \
-  /akash.deployment.v1beta3.MsgCreateDeployment \
+  /akash.deployment.v1beta4.MsgCreateDeployment \
   --from <your-wallet> \
   --fees 5000uakt
 ```
@@ -579,7 +579,7 @@ The SDK guide covers:
 
 ```bash
 provider-services tx authz grant <github-actions-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --from <your-wallet>
 ```
 
@@ -596,10 +596,10 @@ provider-services tx authz grant <github-actions-address> generic \
 ```bash
 # For each team member
 for MSG_TYPE in \
-  /akash.deployment.v1beta3.MsgCreateDeployment \
-  /akash.deployment.v1beta3.MsgUpdateDeployment \
-  /akash.deployment.v1beta3.MsgCloseDeployment \
-  /akash.market.v1beta3.MsgCreateLease
+  /akash.deployment.v1beta4.MsgCreateDeployment \
+  /akash.deployment.v1beta4.MsgUpdateDeployment \
+  /akash.deployment.v1beta4.MsgCloseDeployment \
+  /akash.market.v1beta5.MsgCreateLease
 do
   provider-services tx authz grant <team-member-address> generic \
     --msg-type $MSG_TYPE \
@@ -620,7 +620,7 @@ done
 EXPIRATION=$(date -d '+30 days' +%s)
 
 provider-services tx authz grant <contractor-address> generic \
-  --msg-type /akash.deployment.v1beta3.MsgCreateDeployment \
+  --msg-type /akash.deployment.v1beta4.MsgCreateDeployment \
   --expiration $EXPIRATION \
   --spend-limit 50000000uakt \
   --from <your-wallet>
