@@ -399,7 +399,7 @@ Access your services:
 ### Per-Deployment
 
 IP leases are **per-deployment**, not per-account:
-- IP leases can be migrated between deployments on the same provider (see IP Lease Migration above)
+- IP leases can be migrated between deployments on the same provider (see IP Lease Migration below)
 - Closing a deployment without migration releases the IP
 - Switching providers = new IP (cannot migrate across providers)
 

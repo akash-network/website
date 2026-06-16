@@ -30,7 +30,7 @@ This guide covers:
 5. [Set Minimum Gas Price](#step-5---set-minimum-gas-price)
 6. [Copy Genesis File](#step-6---copy-genesis-file)
 7. [Configure P2P Peers](#step-7---configure-p2p-peers)
-8. [Configure Fast Sync](#step-8---configure-fast-sync)
+8. [Configure Block Sync](#step-8---configure-block-sync)
 9. [Download Blockchain Snapshot](#step-9---download-blockchain-snapshot)
 10. [Start the Node](#step-10---start-the-node)
 
@@ -100,7 +100,7 @@ akash version
 
 **Expected output:**
 ```
-v1.1.0
+v2.1.0
 ```
 
 ---
@@ -218,9 +218,9 @@ laddr = "tcp://0.0.0.0:26657"
 ---
 
 
-## Step 8 - Configure Fast Sync
+## Step 8 - Configure Block Sync
 
-Verify Fast Sync is enabled (it should be by default).
+Verify Block Sync is configured with the default v0 implementation.
 
 ```bash
 nano ~/.akash/config/config.toml
@@ -229,11 +229,8 @@ nano ~/.akash/config/config.toml
 Confirm these settings:
 
 ```toml
-# Fast Sync enabled
-fast_sync = true
-
-# Fast Sync version (v0 recommended)
-[fastsync]
+# Block Sync version (v0 recommended)
+[blocksync]
 version = "v0"
 ```
 
