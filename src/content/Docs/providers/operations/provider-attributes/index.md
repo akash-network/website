@@ -472,20 +472,20 @@ Advertise support for advanced features.
 
 ### tee/type
 
-- **Values**: `sev-snp`, `sev-snp-gpu`, `tdx`, `tdx-gpu`
+- **Values**: `cpu`, `cpu-gpu`
 - **Purpose**: Advertise Trusted Execution Environment (Confidential Compute) support
 - **Required**: Only if your provider supports TEE workloads
 
 | Value | Description |
 |-------|-------------|
-| `sev-snp` | AMD SEV-SNP (CPU-only confidential VMs) |
-| `sev-snp-gpu` | AMD SEV-SNP with NVIDIA GPU Confidential Computing |
-| `tdx` | Intel TDX (CPU-only confidential VMs) |
-| `tdx-gpu` | Intel TDX with NVIDIA GPU Confidential Computing |
+| `cpu` | CPU-only confidential VMs (AMD SEV-SNP or Intel TDX) |
+| `cpu-gpu` | Confidential VMs with NVIDIA GPU Confidential Computing (AMD SEV-SNP or Intel TDX) |
+
+The actual hardware platform (`snp` or `tdx`) is detected by the provider from Kubernetes node labels at runtime and is not advertised as a provider attribute.
 
 ```yaml
 - key: tee/type
-  value: sev-snp
+  value: cpu
 ```
 
 > See [Confidential Compute Setup](/docs/providers/setup-and-installation/kubespray/confidential-compute) for full TEE configuration instructions.
@@ -661,7 +661,7 @@ attributes:
 
   # Confidential Compute (if TEE hardware is available)
   # - key: tee/type
-  #   value: sev-snp
+  #   value: cpu
 ```
 
 ---
