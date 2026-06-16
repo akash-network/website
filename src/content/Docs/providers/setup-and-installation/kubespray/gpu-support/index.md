@@ -258,7 +258,7 @@ Done
 Create an interactive test:
 
 ```bash
-kubectl run gpu-shell --rm -it --restart=Never --image=nvidia/cuda:11.6.0-base-ubuntu20.04 -- nvidia-smi
+kubectl run gpu-shell --rm -it --restart=Never --image=nvidia/cuda:11.6.2-base-ubuntu20.04 -- nvidia-smi
 ```
 
 You should see GPU information displayed.
