@@ -133,7 +133,7 @@ export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
 ### Initialize Node
 
 ```bash
-akash genesis init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
+akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
 ```
 
 This creates the node configuration in `~/.akash/`.
