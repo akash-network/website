@@ -465,9 +465,8 @@ prometheus_listen_addr = ":26660"
 **Configure logging:**
 
 ```toml
-[log]
-level = "info"  # trace, debug, info, warn, error
-format = "plain"  # plain or json
+log_level = "info"   # trace, debug, info, warn, error
+log_format = "plain" # plain or json
 ```
 
 ---
