@@ -89,7 +89,7 @@ version: "2.0"
 
 services:
   gpu-app:
-    image: nvidia/cuda:12.0-runtime-ubuntu22.04
+    image: nvidia/cuda:12.0.0-runtime-ubuntu22.04
     expose:
       - port: 8080
         as: 80

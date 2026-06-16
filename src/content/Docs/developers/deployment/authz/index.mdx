@@ -183,7 +183,7 @@ Fee grants (also called fee allowances) enable:
 Allow an account to use your AKT for gas fees:
 
 ```bash
-provider-services tx feegrant grant <granter-address> <grantee-address> \
+provider-services tx feegrant grant <grantee-address> \
   --from <your-wallet> \
   --fees 5000uakt
 ```
@@ -197,7 +197,7 @@ This grants **unlimited** fee usage until revoked.
 Limit how much AKT can be spent on fees:
 
 ```bash
-provider-services tx feegrant grant <granter-address> <grantee-address> \
+provider-services tx feegrant grant <grantee-address> \
   --spend-limit 1000000uakt \
   --from <your-wallet> \
   --fees 5000uakt
@@ -212,7 +212,7 @@ provider-services tx feegrant grant <granter-address> <grantee-address> \
 Set when the fee grant expires:
 
 ```bash
-provider-services tx feegrant grant <granter-address> <grantee-address> \
+provider-services tx feegrant grant <grantee-address> \
   --expiration "2025-12-31T23:59:59Z" \
   --from <your-wallet> \
   --fees 5000uakt
@@ -227,7 +227,7 @@ provider-services tx feegrant grant <granter-address> <grantee-address> \
 Allow a specific amount per time period (e.g., daily limit):
 
 ```bash
-provider-services tx feegrant grant <granter-address> <grantee-address> \
+provider-services tx feegrant grant <grantee-address> \
   --period 86400 \
   --period-limit 100000uakt \
   --from <your-wallet> \
@@ -248,7 +248,7 @@ The most powerful pattern: grant both permissions AND fee allowance:
 
 ```bash
 # Step 1: Grant fee allowance
-provider-services tx feegrant grant <your-address> <grantee-address> \
+provider-services tx feegrant grant <grantee-address> \
   --spend-limit 10000000uakt \
   --expiration "2025-12-31T23:59:59Z" \
   --from <your-wallet> \
@@ -326,10 +326,10 @@ Never grant unlimited fee allowances:
 
 ```bash
 # Bad: Unlimited fees
-provider-services tx feegrant grant <granter> <grantee> --from <wallet>
+provider-services tx feegrant grant <grantee> --from <wallet>
 
 # Good: Limited fees
-provider-services tx feegrant grant <granter> <grantee> \
+provider-services tx feegrant grant <grantee> \
   --spend-limit 5000000uakt \
   --expiration "2025-12-31T23:59:59Z" \
   --from <wallet>
@@ -341,7 +341,7 @@ For ongoing automation:
 
 ```bash
 # Grant 1 AKT per week for fees
-provider-services tx feegrant grant <granter> <grantee> \
+provider-services tx feegrant grant <grantee> \
   --period 604800 \
   --period-limit 1000000uakt \
   --from <wallet>
@@ -373,7 +373,7 @@ Grant your CI/CD bot both permissions and fees:
 
 ```bash
 # Grant fee allowance (0.5 AKT per day)
-provider-services tx feegrant grant <your-address> <bot-address> \
+provider-services tx feegrant grant <bot-address> \
   --period 86400 \
   --period-limit 500000uakt \
   --from <your-wallet>
@@ -390,7 +390,7 @@ New team members can deploy immediately:
 
 ```bash
 # Grant fee allowance (10 AKT limit, 30 days)
-provider-services tx feegrant grant <your-address> <new-member> \
+provider-services tx feegrant grant <new-member> \
   --spend-limit 10000000uakt \
   --expiration "2025-01-31T23:59:59Z" \
   --from <your-wallet>
@@ -407,7 +407,7 @@ Contractor needs limited access for a project:
 
 ```bash
 # Grant fee allowance (1 AKT total, expires in 60 days)
-provider-services tx feegrant grant <your-address> <contractor> \
+provider-services tx feegrant grant <contractor> \
   --spend-limit 1000000uakt \
   --expiration "2025-03-01T23:59:59Z" \
   --from <your-wallet>
@@ -457,7 +457,7 @@ The spending limit has been reached. Either:
 The expiration time has passed. Granter must grant a new allowance:
 
 ```bash
-provider-services tx feegrant grant <granter> <grantee> \
+provider-services tx feegrant grant <grantee> \
   --spend-limit 1000000uakt \
   --expiration "2025-12-31T23:59:59Z" \
   --from <wallet>
@@ -473,8 +473,10 @@ Once granted permission, the grantee can execute transactions on behalf of the g
 
 ```bash
 # Create deployment as grantee on behalf of granter
-provider-services tx authz exec \
-  provider-services tx deployment create deploy.yaml \
+# First generate the tx JSON as the granter:
+provider-services tx deployment create deploy.yaml --from <granter> --generate-only > tx.json
+# Then execute it as the grantee:
+provider-services tx authz exec tx.json \
   --from <grantee-wallet> \
   --fees 5000uakt
 ```
