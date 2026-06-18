@@ -6,7 +6,7 @@ status: Draft
 type: Standard
 category: Core
 created: 2026-04-14
-updated: 2026-05-01
+updated: 2026-06-16
 estimated-completion: 2026-07-31
 requires: 29, 65
 roadmap: major
@@ -14,7 +14,7 @@ roadmap: major
 
 ## Summary
 
-This AEP defines how tenants request confidential computing workloads on Akash Network and how providers advertise confidential compute capabilities. It introduces minimal SDL changes, leveraging the existing placement attributes mechanism to match tenants with TEE-capable providers that run workloads inside Kata Containers (micro-VMs). It covers both CPU-only and GPU confidential computing, including NVIDIA GPU passthrough to Kata VMs and composite attestation of CPU + GPU TEEs.
+This AEP defines how tenants request confidential computing workloads on Akash Network and how providers advertise confidential compute capabilities. Tenants set `params.tee` in their SDL to either `cpu` or `cpu-gpu` to request confidential compute. The provider determines the actual TEE platform (AMD SEV-SNP or Intel TDX) at deployment time based on its hardware. Workloads run inside Kata Containers (micro-VMs) on TEE-capable providers. The spec covers CPU-only and GPU confidential computing, NVIDIA GPU passthrough to Kata VMs, attestation sidecars, and combined CPU+GPU attestation.
 
 ## Motivation
 
@@ -24,35 +24,78 @@ This AEP defines how tenants request confidential computing workloads on Akash N
 2. How providers advertise Kata/TEE capability so the marketplace can match bids.
 3. How the provider runtime selects Kata Containers for those workloads.
 4. How GPU confidential computing (NVIDIA CC-on mode) integrates with the Kata VM model.
-5. How composite attestation works when both CPU and GPU TEEs are involved.
+5. How attestation evidence is collected and returned to the tenant.
 
-This AEP addresses all five, with the vision of **minimal SDL and UX changes.
+This AEP addresses all five.
 
 ## Design Principles
 
-- **Minimal SDL surface**: Reuse existing SDL constructs (placement attributes) rather than inventing new top-level sections.
+- **Capability-based TEE selection**: Tenants specify what they need (`cpu` or `cpu-gpu`) rather than a specific hardware platform. The provider determines the actual TEE platform (SNP or TDX) at deployment time based on its hardware.
 - **Opt-in**: Only workloads that explicitly request confidential compute run in Kata. All other workloads are unaffected.
-- **Provider-side transparency**: Providers advertise capability; the runtime class selection (default vs kata) is handled automatically by the provider software.
-- **GPU as a first-class concern**: GPU confidential computing is not an afterthought. The spec addresses GPU passthrough, CC-on mode, and composite attestation as core components.
+- **Provider-side transparency**: Providers advertise capability; the runtime class selection and TEE platform detection are handled automatically by the provider software.
+- **GPU as a first-class concern**: GPU confidential computing is expressed via the `cpu-gpu` TEE type, which encodes both CPU TEE and GPU CC requirements.
+- **Attestation by default**: The provider injects an attestation sidecar into every CC workload.
 
 ## Specification
 
 ### 1. SDL Changes
 
-A tenant requests confidential compute by adding a single attribute to their placement profile:
+A tenant requests confidential compute by setting `tee` in the service `params`:
 
 ```yaml
-attributes:
-  confidential-compute: true
+services:
+  web:
+    image: nginx
+    expose:
+      - port: 80
+        to:
+          - global: true
+    params:
+      tee: cpu
 ```
 
-This is the **only change** compared to a regular deployment. The attribute acts as a filter: only providers that advertise `confidential-compute: true` will bid on the order. No new SDL keywords, sections, or schema versions are required.
+The `tee` field is a string that selects the confidential compute capability. The supported values are:
 
-Whether the workload gets CPU-only or CPU+GPU confidential computing is determined by the compute profile: if the profile includes GPU resources, the provider automatically uses a CC-on GPU and the combined Kata runtime class. No separate GPU attribute is needed — a GPU TEE is meaningless without a CPU TEE (the GPU relies on the CPU TEE as its trust anchor), so the two are inseparable.
+| TEE Type | Description |
+|---|---|
+| `cpu` | CPU-only confidential compute. The provider selects the appropriate TEE platform (AMD SEV-SNP or Intel TDX) and runtime class. |
+| `cpu-gpu` | CPU + GPU confidential compute. Requires GPU resources in the compute profile. The provider uses VFIO GPU passthrough with CC-on mode. |
+
+The provider determines the actual TEE platform and Kubernetes `RuntimeClass` at deployment time:
+
+| SDL `tee` | TEE Platform | RuntimeClass |
+|---|---|---|
+| `cpu` | AMD SEV-SNP | `kata-qemu-snp` |
+| `cpu` | Intel TDX | `kata-qemu-tdx` |
+| `cpu-gpu` | AMD SEV-SNP | `kata-qemu-nvidia-gpu-snp` |
+| `cpu-gpu` | Intel TDX | `kata-qemu-nvidia-gpu-tdx` |
+
+#### SDL Schema
+
+```yaml
+tee:
+  type: string
+  enum:
+    - cpu
+    - cpu-gpu
+```
+
+The `tee` field lives under `services.<name>.params`, alongside existing params like `storage`.
 
 #### CPU-Only Confidential Compute
 
 ```yaml
+version: "2.1"
+services:
+  web:
+    image: nginx
+    expose:
+      - port: 80
+        to:
+          - global: true
+    params:
+      tee: cpu
+
 profiles:
   compute:
     web:
@@ -65,11 +108,6 @@ profiles:
           - size: "10Gi"
   placement:
     confidential:
-      attributes:
-        confidential-compute: true
-      signedBy:
-        anyOf:
-          - akash1<auditor-address>
       pricing:
         web:
           denom: uakt
@@ -84,9 +122,20 @@ deployment:
 
 #### GPU Confidential Compute
 
-The only difference from the CPU-only case is that the compute profile includes GPU resources. The same `confidential-compute: true` attribute is used.
+GPU confidential compute uses the `cpu-gpu` TEE type. This requires GPU resources to be defined in the compute profile:
 
 ```yaml
+version: "2.1"
+services:
+  inference:
+    image: nvidia-app
+    expose:
+      - port: 8080
+        to:
+          - global: true
+    params:
+      tee: cpu-gpu
+
 profiles:
   compute:
     inference:
@@ -105,11 +154,6 @@ profiles:
                 - model: h100
   placement:
     confidential-gpu:
-      attributes:
-        confidential-compute: true
-      signedBy:
-        anyOf:
-          - akash1<auditor-address>
       pricing:
         inference:
           denom: uakt
@@ -122,67 +166,139 @@ deployment:
       count: 1
 ```
 
-Tenants that need a specific CPU TEE technology can add a finer-grained attribute:
+#### Validation Rules
 
-```yaml
-attributes:
-  confidential-compute: true
-  confidential-compute-tee: intel-tdx   # or amd-sev-snp
+1. `tee` must be one of the two allowed values (`cpu`, `cpu-gpu`).
+2. The `cpu-gpu` TEE type requires GPU resources in the compute profile. The SDL parser rejects deployments that specify `cpu-gpu` without GPU resources.
+3. All services within the same deployment group must use the same TEE type or none at all. Mixed TEE types in a single group are rejected.
+
+#### Placement Attribute Projection
+
+The SDL builder automatically adds the TEE type as a placement requirement attribute:
+
+```
+tee/type = <type>
 ```
 
-Since attestation is vendor-specific (different device nodes, quote formats, and verification flows for TDX vs SEV-SNP), tenants running their own attestation logic will typically need to specify the CPU TEE technology.
+The marketplace uses this attribute to match orders with providers that support the requested TEE capability.
 
 ### 2. Provider Attributes
 
-Providers that support confidential compute must advertise the following attributes:
+Providers that support confidential compute advertise TEE capability as:
 
 | Attribute | Value | When to Advertise |
 |---|---|---|
-| `confidential-compute` | `true` | Kata Containers runtime installed + TEE-capable CPU detected |
-| `confidential-compute-tee` | `intel-tdx` or `amd-sev-snp` | Always (specific CPU TEE technology available) |
+| `tee/type` | `cpu` | CPU TEE available (AMD SEV-SNP or Intel TDX) |
+| `tee/type` | `cpu-gpu` | CPU TEE + GPU CC available |
 
-These attributes should be set automatically by the provider's inventory service (per [AEP-41](../aep-41)) when it detects the relevant hardware and runtime configuration. The inventory service must verify:
+These attributes are set automatically by the provider's inventory service when it detects the right hardware and runtime setup. The inventory service checks that:
 
 1. Kata Containers runtime is installed and registered as a Kubernetes `RuntimeClass`.
-2. CPU TEE is enabled (TDX or SEV-SNP active in BIOS and kernel).
-3. For GPU nodes: NVIDIA GPU(s) are in CC-on mode and VFIO passthrough is configured.
+2. A CPU TEE is enabled (TDX or SEV-SNP active in BIOS and kernel).
+3. For `cpu-gpu`: NVIDIA GPU(s) are in CC-on mode and VFIO passthrough is set up.
 
-GPU confidential capability is not advertised as a separate attribute. Instead, the provider's inventory already advertises GPU models (e.g., `nvidia-h100`). When a tenant's order combines `confidential-compute: true` with a GPU compute profile, the marketplace matches against providers that have both `confidential-compute: true` and the requested GPU model. The provider is responsible for ensuring its advertised GPUs are in CC-on mode when `confidential-compute: true` is set.
+The provider detects the TEE platform (SNP or TDX) from Kubernetes node labels at startup:
+- `amd.feature.node.kubernetes.io/snp=true` for AMD SEV-SNP
+- `intel.feature.node.kubernetes.io/tdx=true` for Intel TDX
 
 ### 3. Provider Runtime Selection
 
-When a provider receives a lease for an order with `confidential-compute: true`, the provider software must select the appropriate Kata runtime class based on whether the order includes GPU resources.
+When a provider receives a lease with a `tee` parameter, it combines the SDL TEE type with the detected TEE platform to select a Kubernetes `RuntimeClass`:
 
-The Confidential Containers Operator and NVIDIA GPU Operator provide pre-built runtime classes for TEE combinations:
-
-| RuntimeClass | CPU TEE | GPU | Source | Status |
-|---|---|---|---|---|
-| `kata-qemu-tdx` | Intel TDX | No | CoCo Operator | Available |
-| `kata-qemu-snp` | AMD SEV-SNP | No | CoCo Operator | Available |
-| `kata-qemu-nvidia-gpu` | None | Yes | GPU Operator | Available |
-| `kata-qemu-nvidia-gpu-snp` | AMD SEV-SNP | Yes | GPU Operator | Available |
-| `kata-qemu-nvidia-gpu-tdx` | Intel TDX | Yes | GPU Operator | Not yet shipped (as of GPU Operator v25.3.1) |
-
-Intel TDX + GPU passthrough is technically feasible — the SPDM/bounce buffer mechanism is identical to the SEV-SNP path, and NVIDIA documents TDX GPU confidential computing in their standalone SecureAI deployment guide. However, the NVIDIA GPU Operator does not yet ship the `kata-qemu-nvidia-gpu-tdx` runtime class. Some NVIDIA documentation references it by name, suggesting it is in progress. Until it ships, providers with Intel TDX + GPU hardware would need to configure the runtime class manually.
-
-The provider software selects the runtime class based on the lease:
-
-1. `confidential-compute: true` + no GPU in compute profile: use the CPU-only class (`kata-qemu-tdx` or `kata-qemu-snp`).
-2. `confidential-compute: true` + GPU in compute profile: use the combined class (`kata-qemu-nvidia-gpu-snp`, or `kata-qemu-nvidia-gpu-tdx` when available).
+| SDL `tee` | Detected Platform | RuntimeClass |
+|---|---|---|
+| `cpu` | SNP | `kata-qemu-snp` |
+| `cpu` | TDX | `kata-qemu-tdx` |
+| `cpu-gpu` | SNP | `kata-qemu-nvidia-gpu-snp` |
+| `cpu-gpu` | TDX | `kata-qemu-nvidia-gpu-tdx` |
 
 The provider injects the `runtimeClassName` into the pod spec:
 
 ```yaml
 spec:
-  runtimeClassName: kata-qemu-nvidia-gpu-snp
+  runtimeClassName: kata-qemu-snp
   containers:
-    - name: inference
+    - name: web
       image: <tenant-image>
 ```
 
+For CC workloads, the provider also adds node affinity selectors to ensure scheduling on TEE-capable nodes:
+
+| Node Selector | Applied When |
+|---|---|
+| `katacontainers.io/kata-runtime: true` | All CC workloads |
+| `amd.feature.node.kubernetes.io/snp: true` | SNP platform detected |
+| `intel.feature.node.kubernetes.io/tdx: true` | TDX platform detected |
+| `nvidia.com/cc.ready.state: true` | `cpu-gpu` workloads |
+
 No tenant-side container image changes are required.
 
-### 4. NVIDIA GPU Passthrough to Kata VMs
+### 4. Attestation Sidecar
+
+The provider adds an attestation sidecar container to every CC workload pod. The sidecar runs inside the Kata micro-VM alongside the tenant's containers and exposes endpoints for collecting hardware attestation evidence.
+
+#### Sidecar Injection
+
+A mutating admission webhook (`attestation-sidecar-injector.akash.network`) watches for pod creation in Akash-managed namespaces. It adds the sidecar when:
+
+1. The pod has a CC runtime class (any `kata-qemu-*` class), AND
+2. The pod has the `akash.network=true` label, AND
+3. The pod does NOT have the `akash.network/attestation-disabled` annotation.
+
+The sidecar container:
+
+| Property | Value |
+|---|---|
+| Name | `akash-attestation-sidecar` |
+| Port | 8790 (TCP) |
+| Privileged | Yes (required for configfs/device access) |
+| CPU | 10m request / 100m limit |
+| Memory | 32Mi request / 64Mi limit (128Mi for GPU) |
+
+The sidecar's resources come out of the tenant's requested allocation. The provider adjusts the primary container's limits to make room for the sidecar while keeping total pod resources within the lease budget.
+
+#### Sidecar Endpoints
+
+The sidecar exposes three HTTP endpoints on port 8790:
+
+**POST /quote** - Collects hardware-signed attestation evidence.
+
+Request:
+```json
+{
+  "nonce": "<base64-encoded, must decode to exactly 64 bytes>",
+  "bind_tls": false
+}
+```
+
+Response:
+```json
+{
+  "report": "<base64 raw attestation report>",
+  "cert_chain": "<base64 certificate chain>",
+  "tee_platform": "snp|tdx|snp-gpu|tdx-gpu",
+  "auxblob": "<base64, may be empty>",
+  "gpu_reports": [
+    {"device_index": 0, "report": "<base64>"},
+    {"device_index": 1, "report": "<base64>"}
+  ],
+  "tls_bound": false
+}
+```
+
+The `report` field contains the raw hardware-signed attestation report:
+- SEV-SNP: ~1184 bytes, nonce at offset 0x50 (REPORT_DATA field)
+- TDX: 1024 bytes, nonce in report_data field
+
+### 5. Gateway Attestation Endpoints
+
+The provider gateway exposes an endpoint for tenants to interact with the attestation sidecar:
+
+**POST /lease/{dseq}/{gseq}/{oseq}/attestation/quote** (Authenticated)
+
+Forwards the tenant's nonce to the attestation sidecar and returns the hardware-signed evidence unchanged. The provider does not look at or change the payload. Authentication uses the standard Akash lease authentication (mTLS with the lease owner's key).
+
+### 6. NVIDIA GPU Passthrough to Kata VMs
 
 For GPU confidential workloads, the NVIDIA GPU is passed through to the Kata micro-VM via VFIO. This is a provider-side concern managed by the NVIDIA GPU Operator, which provides three components for Kata support:
 
@@ -203,7 +319,7 @@ Note: the NVIDIA GPU Operator's Sandbox Device Plugin currently limits allocatio
 - vGPU (virtual GPU) is not supported. Only full physical GPU passthrough.
 - The host must have IOMMU enabled and PCI Access Control Services (ACS) configured.
 
-### 5. NVIDIA CC-On Mode
+### 7. NVIDIA CC-On Mode
 
 For GPU memory and computation to be protected, the NVIDIA GPU must be running in **Confidential Computing mode (CC-on)**. This is a provider-side hardware configuration.
 
@@ -231,7 +347,7 @@ NVIDIA defines three modes:
 | `on` | Full CC: bus encryption active, performance counters disabled, all firewalls active. |
 | `devtools` | Encryption enabled but performance counters accessible for profiling/debugging. |
 
-Providers advertising `confidential-compute: true` with GPUs must have those GPUs in `on` mode (not `devtools`).
+Providers advertising TEE capability with GPUs must have those GPUs in `on` mode (not `devtools`).
 
 #### CPU-GPU Secure Channel
 
@@ -246,63 +362,63 @@ This bounce buffer approach has a throughput ceiling of approximately 4 GB/sec d
 
 Future Blackwell GPUs will eliminate this bottleneck using **TDISP (TEE Device Interface Security Protocol)** and **PCIe IDE (Integrity and Data Encryption)**, which provide hardware-level inline encryption on the PCIe bus. This requires Intel TDX Connect (Xeon 6) or AMD SEV-TIO on the CPU side.
 
-### 6. Composite Attestation (CPU + GPU)
+### 8. Composite Attestation (CPU + GPU)
 
-When a workload runs with both CPU and GPU TEEs, the tenant must verify **both** TEEs. This is achieved through composite attestation, where the CPU TEE serves as the trust anchor for the GPU. The GPU is not a standalone TEE — it relies on the CPU TEE to establish the secure channel (SPDM session) and to orchestrate the attestation flow.
+When a workload runs with the `cpu-gpu` TEE type, the attestation sidecar collects **both** CPU and GPU attestation evidence in a single `/quote` response.
 
-#### Attestation Flow
+The CPU TEE acts as the trust anchor for the GPU. The GPU is not a standalone TEE, it depends on the CPU TEE to set up the secure channel (SPDM session) and to drive the attestation flow.
 
-1. From within the Kata VM, the tenant collects CPU TEE evidence (TDX quote via `/dev/tdx-attest` or SEV-SNP report via `/dev/sev-guest`).
-2. The NVIDIA in-guest driver collects GPU attestation evidence via the NVTrust SDK.
-3. Both pieces of evidence are sent to **Intel Trust Authority** as a single composite attestation request.
-4. Intel Trust Authority verifies the CPU quote independently.
-5. Intel Trust Authority forwards the GPU evidence to **NVIDIA Remote Attestation Service (NRAS)**.
-6. NRAS verifies the GPU evidence against golden measurements from NVIDIA's Reference Integrity Manifest (RIM) service and returns a signed JWT.
-7. Intel Trust Authority validates the NRAS JWT and returns a **composite attestation token** containing claims for both TEEs.
+#### Attestation Evidence Collection
 
-The composite token is a JWT with two sub-objects:
-- `intel_tee`: TDX attestation claims (or `amd_sev_snp` for AMD).
-- `nvidia_gpu`: GPU attestation claims (the verified NRAS result).
+The sidecar's composite provider:
+1. Collects the CPU attestation report (SNP or TDX) with the tenant's nonce in the report_data field.
+2. Collects per-GPU attestation reports through the NVIDIA driver inside the Kata VM.
+3. Returns everything in a single `QuoteResponse`:
+   - `report`: CPU TEE attestation report
+   - `gpu_reports[]`: per-GPU attestation evidence with device indices
 
-#### Platform Support for Composite Attestation
+#### Verification
 
-| CPU TEE | GPU TEE | Composite Attestation Status |
-|---|---|---|
-| Intel TDX | NVIDIA NVTrust | Generally Available (Intel Trust Authority) |
-| AMD SEV-SNP | NVIDIA NVTrust | Preview (Intel Trust Authority Pilot environment) |
+The tenant verifies the composite evidence:
 
-For AMD SEV-SNP, GPU attestation can be performed independently via NRAS while composite attestation matures to GA.
+1. **CPU verification**: Check the SNP/TDX report against expected measurements (launch measurement, firmware version, etc.) and confirm the nonce in report_data matches.
+2. **GPU verification**: Check each GPU report against NVIDIA's Reference Integrity Manifest (RIM) service. GPU evidence can be verified through:
+   - **NVIDIA Remote Attestation Service (NRAS)**: Send GPU evidence for verification and get back a signed JWT.
+   - **Intel Trust Authority**: For combined CPU + GPU verification in a single request (Intel TDX + NVIDIA GPU).
+   - **Local verification**: Using NVIDIA's NVTrust SDK with RIM files from NVIDIA's RIM service.
 
 #### Guest Pre-Start Hook (Local Attestation)
 
 The NVIDIA GPU Operator runs a **local GPU verifier** as a container guest pre-start hook within the Kata initrd. This verifier checks GPU measurements against RIM files fetched from NVIDIA's RIM service before the tenant's containers start.
 
-This is **local attestation only**, it does not perform remote composite attestation and does not communicate with Intel Trust Authority. On failure, containers still start, but the GPU is not set to a "Ready" state. CUDA applications will fail at runtime with a "system not initialized" error. This is fail-open at the container level but fail-closed at the CUDA level.
+This is **local attestation only**, it does not talk to any external verification services. If local attestation fails, the containers still start, but the GPU is not marked as "Ready". CUDA applications will fail at runtime with a "system not initialized" error. In other words, it's fail-open at the container level but fail-closed at the CUDA level.
 
-For **remote composite attestation** (which produces a cryptographically verifiable JWT the tenant can present to relying parties), the tenant must run the Intel Trust Authority client from inside the container using the `trustauthority-client-for-python` or `trustauthority-client-for-go` SDK. The remote flow requires an ITA API key and network connectivity to ITA endpoints. See the attestation flow described above for details.
+For **remote attestation** that produces a cryptographically verifiable JWT, the tenant should use the attestation sidecar endpoints or run verification from inside the container using the appropriate SDK (Intel Trust Authority client, NVIDIA NVTrust SDK, or AMD SEV-SNP verification tools).
 
 ## Rationale
 
-### Why placement attributes instead of a new SDL field?
+### Why `params.tee` instead of a placement attribute?
 
-The SDL already has a well-understood mechanism for matching tenant requirements to provider capabilities: placement attributes. Adding a dedicated `confidential: true` field to compute profiles or services would require:
+The initial design used a single `confidential-compute: true` placement attribute. During implementation this was changed to a service-level `params.tee` field for several reasons:
 
-- SDL schema changes and version bump
-- Client library updates (akashjs, chain SDK)
-- Console UI changes to parse the new field
+1. **GPU CC is a distinct requirement**: The `cpu-gpu` type needs a different runtime class, different node selectors, and produces extra attestation evidence (GPU reports). Encoding this in the TEE type makes the requirement explicit rather than guessing it from the compute profile.
+2. **Proto compatibility**: Putting TEE configuration in `ServiceParams` alongside storage and credentials follows the existing pattern for service-level config. It maps cleanly to protobuf (`TEEParams` message in `ServiceParams`).
 
-Using placement attributes avoids all of this. It works with the existing SDL parser, marketplace matching logic, and provider bid filtering, with zero code changes to core SDL handling.
+The TEE type is still added as a placement attribute (`tee/type`) for marketplace matching, so providers only bid on orders they can actually serve.
 
-### Why a single `confidential-compute` attribute for both CPU and GPU?
+### Why capability-based types (`cpu`, `cpu-gpu`) instead of platform-specific types?
 
-A GPU TEE is not a standalone security boundary. The NVIDIA GPU relies on the CPU TEE (TDX TD or SEV-SNP VM) as its trust anchor: the SPDM session is established from the CPU TEE, the attestation flow originates inside the confidential VM, and the bounce buffer encryption keys are negotiated by the CPU-side driver running within the TEE. There is no valid configuration where GPU confidential computing operates without CPU confidential computing.
+An earlier design used platform-specific types (`sev-snp`, `tdx`, `sev-snp-gpu`, `tdx-gpu`) that required tenants to choose a specific TEE platform upfront. This was changed to capability-based types for several reasons:
 
-Separating them into two attributes (`confidential-compute` + `confidential-compute-gpu`) would:
-- Allow tenants to express an invalid state (GPU CC without CPU CC).
-- Require validation rules to enforce that GPU implies CPU.
-- Add marketplace complexity for no functional benefit.
+1. **Tenants care about capability, not platform**: A tenant wants confidential compute, not a specific CPU vendor's TEE. Whether the workload runs on AMD SEV-SNP or Intel TDX is a provider-side concern.
+2. **Broader marketplace matching**: With platform-specific types, a tenant requesting `sev-snp` could not be matched with a TDX provider, even though both offer equivalent confidentiality guarantees. Capability-based types let the marketplace match on what matters.
+3. **Simpler SDL**: `tee: cpu` is simpler than `tee: { type: sev-snp }`. The SDL went from a nested object to a plain string.
+4. **Attestation handles platform specifics**: The actual TEE platform is reported in the attestation response (`tee_platform` field), so the tenant learns the platform when they verify the attestation evidence.
 
-Instead, `confidential-compute: true` means "run in a Kata VM with CPU TEE." When the compute profile also includes GPU resources, the provider automatically selects the combined runtime class and ensures the GPU is in CC-on mode. The GPU path is an implicit consequence of requesting confidential compute with GPU resources, not a separate opt-in.
+The `cpu-gpu` type still makes GPU CC explicit:
+
+- `cpu-gpu` means: CPU TEE VM + VFIO GPU passthrough + CC-on mode + composite attestation.
+- `cpu` with a GPU in the compute profile means: CPU TEE VM + standard GPU (no CC guarantees on the GPU).
 
 ### Why Kata Containers?
 
@@ -316,21 +432,21 @@ As discussed in [AEP-65](../aep-65), Kata Containers provide the best balance of
 
 ## Backward Compatibility
 
-This proposal is fully backward compatible:
+This proposal is backward compatible:
 
-- Existing SDLs without the `confidential-compute` attribute continue to work unchanged.
-- Existing providers without Kata support simply will not bid on confidential compute orders.
-- No SDL version bump is required.
+- Existing SDLs without `params.tee` continue to work unchanged.
+- Existing providers without Kata support simply will not bid on TEE orders.
+- The `tee` field in `ServiceParams` is optional and nullable in protobuf.
 - No on-chain parameter changes are required.
 
 ## Security Considerations
 
-- **Attestation is critical**: Deploying with `confidential-compute: true` without performing attestation only guarantees Kata VM isolation, not that the workload is running inside a genuine TEE. Tenants must perform remote composite attestation from within the VM to obtain a verifiable JWT. The GPU Operator's local pre-start hook provides a baseline check (CUDA fails if local attestation fails), but it is not a substitute for remote attestation via Intel Trust Authority.
-- **Provider attribute trust**: The `confidential-compute` attribute should be verified by auditors or set automatically by the inventory service ([AEP-41](../aep-41)) rather than self-reported by providers, to prevent false capability claims.
-- **CC-on mode enforcement**: Providers must not run GPUs in `devtools` mode for confidential workloads. The `devtools` mode enables performance counters that could leak information via side channels.
-- **Bounce buffer overhead**: On Hopper GPUs (H100/H200), the CPU-GPU secure channel uses a software bounce buffer with ~4 GB/sec throughput. Tenants with high-bandwidth CPU-GPU transfer needs should be aware of this limitation. Future Blackwell GPUs with TDISP/PCIe IDE will remove this bottleneck.
-- **Device passthrough scope**: TEE device nodes and GPUs are passed through to the Kata VM boundary, not directly to the host. This maintains host isolation while enabling attestation and GPU compute within the enclave.
-- **NVLink**: On Hopper GPUs, data transmitted over NVLink between GPUs is not encrypted. Multi-GPU confidential workloads on NVLink-connected systems should consider this. NVLink encryption is introduced with Blackwell.
+- **Attestation by default**: The provider injects an attestation sidecar into every CC workload. This lowers the barrier to performing attestation, but tenants must still actively verify the returned evidence. The sidecar is not a security guarantee, it is a tool.
+- **TLS channel binding**: The sidecar's TLS binding prevents man-in-the-middle attacks from the host. Tenants should use `bind_tls: true` in production to make sure the TLS endpoint they're talking to is inside the attested TEE.
+- **Bounce buffer overhead**: On Hopper GPUs (H100/H200), the CPU-GPU secure channel uses a software bounce buffer capped at about 4 GB/sec. Tenants with heavy CPU-GPU data transfer should be aware of this. Future Blackwell GPUs with TDISP/PCIe IDE will remove this bottleneck.
+- **Device passthrough scope**: TEE device nodes and GPUs are passed through to the Kata VM, not exposed to the host. This keeps host isolation intact while enabling attestation and GPU compute inside the enclave.
+- **NVLink**: On Hopper GPUs, data sent over NVLink between GPUs is not encrypted. Multi-GPU confidential workloads on NVLink-connected systems should keep this in mind. NVLink encryption is introduced with Blackwell.
+- **Sidecar privileges**: The attestation sidecar runs as privileged (root) to access TEE device nodes and configfs. This is inside the Kata VM, not on the host, so the impact is limited to the tenant's own enclave.
 
 ---
 
