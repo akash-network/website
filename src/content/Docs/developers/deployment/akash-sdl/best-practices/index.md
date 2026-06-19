@@ -510,7 +510,7 @@ deployments/
 
 ## Common Pitfalls to Avoid
 
-### **Don't Use Excessive Resources
+### Don't Use Excessive Resources
 
 ```yaml
 # Wastes money and reduces available providers
@@ -520,7 +520,7 @@ memory:
   size: 128Gi
 ```
 
-### **Don't Expose Databases Publicly
+### Don't Expose Databases Publicly
 
 ```yaml
 # Security risk!
@@ -532,7 +532,7 @@ services:
           - global: true      # Never do this
 ```
 
-### **Don't Use Ephemeral Storage for Databases
+### Don't Use Ephemeral Storage for Databases
 
 ```yaml
 # Data loss on restart!
@@ -540,7 +540,7 @@ storage:
   - size: 10Gi              # Not persistent
 ```
 
-### **Don't Forget to Set Pricing
+### Don't Forget to Set Pricing
 
 ```yaml
 # Will fail to deploy without pricing

@@ -212,11 +212,11 @@ Attributes:
 ```
 Bid: 10,000 uact/block
 
-Hourly cost: 10,000 × 600 blocks = 6,000,000 uact = 0.006 ACT
-Daily cost: 0.006 × 24 = 0.144 AKT
-Monthly cost: 0.144 × 30 = 4.32 AKT
+Hourly cost: 10,000 × 600 blocks = 6,000,000 uact = 6 ACT
+Daily cost: 6 × 24 = 144 ACT
+Monthly cost: 144 × 30 = 4,320 ACT
 
-At $2.50/AKT: ~$10.80/month
+At ~$1/ACT: ~$4,320/month
 ```
 
 ### Comparing Bids

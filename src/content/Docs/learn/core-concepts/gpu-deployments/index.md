@@ -89,7 +89,7 @@ version: "2.0"
 
 services:
   gpu-app:
-    image: nvidia/cuda:12.0-runtime-ubuntu22.04
+    image: nvidia/cuda:12.0.0-runtime-ubuntu22.04
     expose:
       - port: 8080
         as: 80
@@ -298,9 +298,9 @@ gpu:
 Your container must support NVIDIA Docker:
 
 **Base images:**
-- `nvidia/cuda:12.0-runtime-ubuntu22.04` - Minimal CUDA runtime
-- `nvidia/cuda:12.0-devel-ubuntu22.04` - CUDA development tools
-- `nvidia/cuda:11.8-runtime-ubuntu22.04` - Older CUDA version
+- `nvidia/cuda:12.0.0-runtime-ubuntu22.04` - Minimal CUDA runtime
+- `nvidia/cuda:12.0.0-devel-ubuntu22.04` - CUDA development tools
+- `nvidia/cuda:11.8.0-runtime-ubuntu22.04` - Older CUDA version
 - `pytorch/pytorch:latest` - PyTorch with CUDA
 - `tensorflow/tensorflow:latest-gpu` - TensorFlow with GPU
 

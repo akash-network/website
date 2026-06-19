@@ -187,7 +187,7 @@ Block:
 **Evidence Parameters:**
 ```go
 Evidence:
-  MaxAgeNumBlocks: 302400     // ~3 weeks at 5s blocks
+  MaxAgeNumBlocks: 302400     // ~3 weeks at 6s blocks
   MaxAgeDuration: 504h        // 3 weeks
   MaxBytes: 10000             // Max evidence size
 ```

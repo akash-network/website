@@ -653,7 +653,7 @@ Web-based shell access:
 
 For read-only debugging:
 ```bash
-provider-services query logs \
+provider-services lease-logs \
   --dseq <dseq> \
   --provider <provider-address> \
   --service <service-name>
@@ -665,7 +665,7 @@ provider-services query logs \
 
 Check deployment events:
 ```bash
-provider-services query market lease status \
+provider-services lease-status \
   --dseq <dseq> \
   --provider <provider-address>
 ```

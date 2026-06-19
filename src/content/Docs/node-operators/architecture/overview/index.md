@@ -85,7 +85,7 @@ For detailed information about each layer:
 **Key Features:**
 - Instant finality (no forks)
 - Byzantine fault tolerance (up to 1/3 malicious validators)
-- High performance (~1-2 second block times)
+- High performance (~5-6 second block times)
 
 **→ [Learn more about Consensus Layer](/docs/node-operators/architecture/consensus-layer)**
 
@@ -465,9 +465,8 @@ prometheus_listen_addr = ":26660"
 **Configure logging:**
 
 ```toml
-[log]
-level = "info"  # trace, debug, info, warn, error
-format = "plain"  # plain or json
+log_level = "info"   # trace, debug, info, warn, error
+log_format = "plain" # plain or json
 ```
 
 ---
