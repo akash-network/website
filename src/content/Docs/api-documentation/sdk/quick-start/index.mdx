@@ -229,7 +229,7 @@ deployment:
 \`;
 
 // Generate manifest and deployment groups
-const result = generateManifest(sdl);
+const result = generateManifest(sdl, "sandbox");
 
 if (!result.ok) {
   throw new Error("SDL validation failed: " + JSON.stringify(result.value));

@@ -169,8 +169,9 @@ version, err := sdlDoc.Version()
 />
 
 **TypeScript Functions:**
-- `generateManifest(sdl)` - Generate manifest and deployment groups
+- `generateManifest(sdl, networkId?)` - Generate manifest and deployment groups
   - `sdl`: `SDLInput` - Parsed SDL object (use the `yaml` template tag)
+  - `networkId`: "mainnet" | "testnet" | "sandbox" (default: "mainnet")
   - Returns `{ ok: true, value: { groups, groupSpecs } }` on success
   - Returns `{ ok: false, value: ValidationError[] }` on validation failure
 - `generateManifestVersion(manifest)` - Get SHA-256 hash of manifest

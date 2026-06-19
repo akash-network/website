@@ -30,7 +30,7 @@ This guide covers:
 5. [Set Minimum Gas Price](#step-5---set-minimum-gas-price)
 6. [Copy Genesis File](#step-6---copy-genesis-file)
 7. [Configure P2P Peers](#step-7---configure-p2p-peers)
-8. [Configure Block Sync](#step-8---configure-block-sync)
+8. [Configure Fast Sync](#step-8---configure-fast-sync)
 9. [Download Blockchain Snapshot](#step-9---download-blockchain-snapshot)
 10. [Start the Node](#step-10---start-the-node)
 
@@ -100,7 +100,7 @@ akash version
 
 **Expected output:**
 ```
-v2.1.0
+v1.1.0
 ```
 
 ---
@@ -133,7 +133,7 @@ export AKASH_CHAIN_ID="$(curl -sSf "$AKASH_META_URL" | jq -r '.chain_id')"
 ### Initialize Node
 
 ```bash
-akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
+akash genesis init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
 ```
 
 This creates the node configuration in `~/.akash/`.
@@ -218,9 +218,9 @@ laddr = "tcp://0.0.0.0:26657"
 ---
 
 
-## Step 8 - Configure Block Sync
+## Step 8 - Configure Fast Sync
 
-Verify Block Sync is configured with the default v0 implementation.
+Verify Fast Sync is enabled (it should be by default).
 
 ```bash
 nano ~/.akash/config/config.toml
@@ -229,8 +229,11 @@ nano ~/.akash/config/config.toml
 Confirm these settings:
 
 ```toml
-# Block Sync version (v0 recommended)
-[blocksync]
+# Fast Sync enabled
+fast_sync = true
+
+# Fast Sync version (v0 recommended)
+[fastsync]
 version = "v0"
 ```
 
@@ -405,7 +408,7 @@ Control how much blockchain history your node stores.
 
 **Pruning Strategies:**
 
-1. **`default`** - Keep the last 362,880 states (~3.5 weeks), pruning every 10 blocks (recommended)
+1. **`default`** - Keep last 100 states + every 500th state (recommended)
 2. **`nothing`** - Keep all history (archival node, requires >1TB storage)
 3. **`everything`** - Keep only current state (not for validators!)
 4. **`custom`** - Manual configuration
@@ -413,6 +416,7 @@ Control how much blockchain history your node stores.
 **Configuration:** `~/.akash/config/app.toml`
 
 ```toml
+[pruning]
 pruning = "default"
 ```
 
