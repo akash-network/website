@@ -247,7 +247,25 @@ Response:
 }
 ```
 
-The `report` field contains the raw hardware-signed attestation evidence (an SNP report or TDX quote). For GPU TEE types, `gpu_reports` contains a per-device entry for every GPU in the workload, each with its own hardware-signed attestation evidence. Verify GPU reports against NVIDIA's published root certificates.
+The `report` field contains the raw hardware-signed attestation evidence (an SNP report or TDX quote). For GPU TEE types, `gpu_reports` contains a per-device entry for every GPU in the workload.
+
+### GPU Report Format
+
+Each `gpu_reports[].report` value is a base64-encoded blob that contains two concatenated parts:
+
+```
+[SPDM evidence (variable length)][PEM certificate chain (variable length)]
+```
+
+Split on the first `-----BEGIN CERTIFICATE-----` marker to separate them:
+
+- **Before the marker** — SPDM measurement records and signature (the GPU attestation evidence)
+- **From the marker onward** — PEM-encoded certificate chain, 5 certificates in order:
+  1. Device certificate (leaf)
+  2. GSP BROM certificate
+  3. Provisioner ICA
+  4. Identity CA
+  5. NVIDIA Device Identity CA (self-signed root)
 
 ### TLS Channel Binding
 
