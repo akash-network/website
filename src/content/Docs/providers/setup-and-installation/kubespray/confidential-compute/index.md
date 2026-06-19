@@ -298,7 +298,7 @@ kata-qemu-nvidia-gpu-tdx     kata-qemu-nvidia-gpu-tdx     1m
 
 ## STEP 5 — Configure Provider Flags
 
-The Akash provider automatically injectw an attestation sidecar into every confidential workload if requested by the user. This sidecar runs inside the TEE and serves hardware-signed attestation reports to tenants. Enable it with the following flags.
+The Akash provider automatically injects an attestation sidecar into every confidential workload if requested by the user. This sidecar runs inside the TEE and serves hardware-signed attestation reports to tenants. Enable it with the following flags.
 
 ### Required Flags
 
