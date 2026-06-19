@@ -11,4 +11,4 @@ description: >-
 - [Manifest Initiates an Event Bus to Monitor Lease Won Events](/docs/providers/architecture/manifest-service/#1-lease-won-event)
 - [Monitor Service Loop is Created to React to New Lease Won Events](/docs/providers/architecture/manifest-service/#2-watchdog-creation)
 - [Manifest Manager Logic](/docs/providers/architecture/manifest-service/#5-manifest-processing)
-- [Receipt of Manifest from Tenant Send to Provider](/docs/providers/architecture/manifest-service/#3-manifest-submission)
+- [Receipt of Manifest from Tenant Sent to Provider](/docs/providers/architecture/manifest-service/#3-manifest-submission)

@@ -23,7 +23,7 @@ This guide covers coding conventions for Go (node, provider) and JavaScript/Type
 - **Test your code** - Write tests for new functionality
 - **Document complexity** - Add comments for non-obvious logic
 
-###YAGNI Principle
+### YAGNI Principle
 
 "You Aren't Gonna Need It" - Don't add functionality until it's needed.
 
@@ -210,7 +210,7 @@ func TestCreateDeployment(t *testing.T) {
 import "go.uber.org/goleak"
 
 func TestMyFunction(t *testing.T) {
-    defer goleak.VerifyNoLeaks(t)
+    defer goleak.VerifyNone(t)
     
     // Your test code that uses goroutines
 }

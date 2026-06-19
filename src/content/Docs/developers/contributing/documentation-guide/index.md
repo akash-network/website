@@ -141,7 +141,7 @@ Common issues and solutions
 Links to related guides
 ```
 
-**Example:** [Update a Deployment](/docs/developers/deployment/cli/common-tasks#update-a-deployment)
+**Example:** [Update a Deployment](/docs/developers/deployment/cli/common-tasks#update-deployment-2-step-process)
 
 ### 3. Reference Documentation
 
@@ -556,7 +556,7 @@ Before you begin, ensure you have:
 
 **Solution:**
 Always include working examples:
-```markdown
+````markdown
 ## Theory
 Deployments are created from SDL files...
 
@@ -571,7 +571,7 @@ Use it like this:
 ```bash
 provider-services tx deployment create deploy.yaml
 ```
-```
+````
 
 ---
 
