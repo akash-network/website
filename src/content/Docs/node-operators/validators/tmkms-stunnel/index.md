@@ -690,7 +690,7 @@ akash query staking validator $(akash keys show $AKASH_KEYNAME --bech val -a)
 
 Check on [Akash Block Explorers](/docs/node-operators/validators/):
 - [Mintscan](https://www.mintscan.io/akash/validators)
-- [Ping.pub](https://www.mintscan.io/akash/validators)
+- [Ping.pub](https://ping.pub/akash/staking)
 
 ---
 
