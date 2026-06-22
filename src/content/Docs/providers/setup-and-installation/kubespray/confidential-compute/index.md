@@ -21,26 +21,22 @@ This guide shows how to enable Confidential Compute (TEE) support on your Akash 
 
 Confidential Compute on Akash uses [Kata Containers](https://katacontainers.io/) to run tenant workloads inside hardware-encrypted virtual machines. The provider automatically:
 
-1. Detects the TEE platform (`tdx` or `snp`) from Kubernetes node labels
-2. Matches tenant `tee/type` placement requirements against advertised provider attributes
-3. Resolves the correct Kata RuntimeClass from the requested capability and detected platform
-4. Injects an attestation sidecar into each confidential workload
-5. Proxies attestation requests from tenants to the sidecar inside the TEE
+1. Schedules TEE workloads onto nodes with the correct runtime class
+2. Injects an attestation sidecar into each confidential workload
+3. Proxies attestation requests from tenants to the sidecar inside the TEE
 
 ### Supported Configurations
 
-| TEE Capability | Detected Platform | Runtime Class | Hardware |
-|----------------|-------------------|---------------|----------|
-| `cpu` | `snp` | `kata-qemu-snp` | AMD with SEV-SNP enabled in BIOS |
-| `cpu-gpu` | `snp` | `kata-qemu-nvidia-gpu-snp` | Above + NVIDIA CC-capable GPU |
-| `cpu` | `tdx` | `kata-qemu-tdx` | Intel with TDX enabled in BIOS |
-| `cpu-gpu` | `tdx` | `kata-qemu-nvidia-gpu-tdx` | Above + NVIDIA CC-capable GPU |
+| TEE Type | Runtime Class | Hardware |
+|----------|---------------|----------|
+| AMD SEV-SNP | `kata-qemu-snp` | AMD with SEV-SNP enabled in BIOS |
+| AMD SEV-SNP + GPU | `kata-qemu-nvidia-gpu-snp` | Above + NVIDIA CC-capable GPU |
+| Intel TDX | `kata-qemu-tdx` | Intel with TDX enabled in BIOS |
+| Intel TDX + GPU | `kata-qemu-nvidia-gpu-tdx` | Above + NVIDIA CC-capable GPU |
 
 ---
 
 ## STEP 1 — Verify Hardware Support
-
-Before proceeding, confirm your hardware is on the [supported hardware list](/docs/providers/operations/confidential-compute-hardware). Not all processors in a product family support TEE, so check your specific model.
 
 ### AMD SEV-SNP
 
@@ -48,22 +44,19 @@ Run on each TEE node:
 
 ```bash
 # Check CPU supports SEV-SNP
-dmesg | grep -i sev
+dmesg | grep -i snp
 ```
 
 You should see output indicating SEV-SNP is enabled:
 
 ```
-ccp 0000:22:00.1: sev enabled
-ccp 0000:22:00.1: SEV-SNP API:1.51 build:3
-SEV supported: 410 ASIDs
-SEV-ES and SEV-SNP supported: 99 ASIDs
+SEV-SNP enabled
 ```
 
 Verify the device exists:
 
 ```bash
-ls -la /dev/sev-guest
+ls -la /dev/sev
 ```
 
 > **If SEV-SNP is not showing:** Enable it in your BIOS/UEFI under AMD CBS > CPU Configuration > SEV-SNP. Ensure your firmware is up to date.
@@ -305,7 +298,7 @@ The Akash provider automatically injects an attestation sidecar into every confi
 | Flag | Description | Required |
 |------|-------------|----------|
 | `--attestation-webhook-enabled` | Enables the Kubernetes mutating admission webhook. When active, the provider intercepts pod creation requests for confidential compute workloads and automatically injects the attestation sidecar container before scheduling. | Yes |
-| `--attestation-sidecar-image` | Docker image reference for the attestation sidecar (e.g. `ghcr.io/akash-network/attestation-sidecar:latest`). Required when the webhook is enabled, because the provider passes this image to the webhook for injection into every confidential workload. | Yes |
+| `--attestation-sidecar-image` | Docker image reference for the attestation sidecar (e.g. `ghcr.io/akash-network/attestation-sidecar:latest`). Required when the webhook is enabled — the provider passes this image to the webhook for injection into every confidential workload. | Yes |
 | `--attestation-webhook-port` | HTTPS port for the webhook server that handles Kubernetes API callbacks. In production, pair this with `--gateway-tls-cert` and `--gateway-tls-key` using a certificate whose SAN includes the provider's K8s service DNS name. Defaults to `9443` and auto-generates a self-signed cert if TLS files are omitted. | No |
 
 ### Optional Flags
@@ -339,36 +332,39 @@ provider-services run \
 
 ## STEP 6 — Configure Provider Attributes
 
-Tenants discover TEE-capable providers through on-chain attributes. Add the `tee/type` attribute to your `provider.yaml` so your provider appears in TEE-filtered searches. The value is the capability you offer; the actual hardware platform is detected from Kubernetes node labels at runtime.
+Tenants discover TEE-capable providers through on-chain attributes. Add the `tee/type` attribute to your `provider.yaml` so your provider appears in TEE-filtered searches. Set the value to the most capable TEE type your hardware supports:
 
-### CPU-only Confidential Compute
-
-```yaml
-attributes:
-  - key: tee/type
-    value: cpu
-```
-
-### Confidential Compute with GPU
+### AMD SEV-SNP (CPU only)
 
 ```yaml
 attributes:
   - key: tee/type
-    value: cpu-gpu
+    value: sev-snp
 ```
 
-### Node Labels for Platform Detection
+### AMD SEV-SNP + GPU
 
-The provider determines whether it runs on Intel TDX or AMD SEV-SNP by reading Kubernetes node labels:
+```yaml
+attributes:
+  - key: tee/type
+    value: sev-snp-gpu
+```
 
-- `intel.feature.node.kubernetes.io/tdx=true` — Intel TDX
-- `amd.feature.node.kubernetes.io/snp=true` — AMD SEV-SNP
+### Intel TDX (CPU only)
 
-These labels are set by the Kubernetes node-feature-discovery (NFD) component and do **not** need to be advertised as provider attributes.
+```yaml
+attributes:
+  - key: tee/type
+    value: tdx
+```
 
-### GPU Resources
+### Intel TDX + GPU
 
-For `cpu-gpu` workloads, the provider schedules NVIDIA GPUs using the VFIO-passthrough resource `nvidia.com/pgpu`. This resource is exposed by the kata-sandbox-device-plugin and is separate from the standard `nvidia.com/gpu` resource used for non-CC GPU workloads.
+```yaml
+attributes:
+  - key: tee/type
+    value: tdx-gpu
+```
 
 After updating attributes, restart your provider:
 
@@ -401,7 +397,8 @@ services:
         to:
           - global: true
     params:
-      tee: cpu
+      tee:
+        type: sev-snp
 
 profiles:
   compute:
@@ -412,7 +409,7 @@ profiles:
         memory:
           size: 256Mi
         storage:
-          size: 256Mi
+          size: 128Mi
   placement:
     akash:
       pricing:
@@ -435,7 +432,7 @@ provider-services tx deployment create test-cc.yaml --from <your-key>
 
 # After lease is created, check that the pod has the correct runtime class
 kubectl get pods -n <lease-namespace> -o jsonpath='{.items[0].spec.runtimeClassName}'
-# Expected: kata-qemu-snp or kata-qemu-tdx, depending on provider hardware
+# Expected: kata-qemu-snp
 
 # Check the attestation sidecar was injected
 kubectl get pods -n <lease-namespace> -o jsonpath='{.items[0].spec.containers[*].name}'
@@ -499,8 +496,8 @@ Common causes:
 
 ## Related Topics
 
-- [CC Hardware Compatibility](/docs/providers/operations/confidential-compute-hardware) — Supported CPUs and GPUs for Confidential Compute
 - [Confidential Compute Overview](/docs/learn/core-concepts/confidential-compute) — Tenant-facing guide for deploying confidential workloads
+- [SDL Advanced Features](/docs/developers/deployment/akash-sdl/advanced-features) — SDL reference for TEE configuration
 - [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support) — Enable GPU resources on your provider
 - [Provider Attributes](/docs/providers/operations/provider-attributes) — Advertise provider capabilities
-- [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation) — Base provider setup
+- [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation) - Base provider setup
