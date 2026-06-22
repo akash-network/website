@@ -213,38 +213,49 @@ provider-services run \
 
 ## STEP 5 — Configure Provider Attributes
 
-Tenants discover TEE-capable providers through on-chain attributes. Add the `tee/type` attribute to your `provider.yaml` so your provider appears in TEE-filtered searches. Set the value to the most capable TEE type your hardware supports:
+Tenants discover TEE-capable providers through on-chain attributes. Add both `tee/platform` and `tee/type` to your `provider.yaml`:
 
-### AMD SEV-SNP (CPU only)
+- **`tee/platform`** — the hardware TEE platform: `snp` (AMD SEV-SNP) or `tdx` (Intel TDX)
+- **`tee/type`** — the capability offered: `cpu` (CPU-only) or `cpu-gpu` (CPU + GPU Confidential Computing)
+
+### AMD SEV-SNP, CPU only
 
 ```yaml
 attributes:
+  - key: tee/platform
+    value: snp
   - key: tee/type
-    value: sev-snp
+    value: cpu
 ```
 
-### AMD SEV-SNP + GPU
+### AMD SEV-SNP with GPU
 
 ```yaml
 attributes:
+  - key: tee/platform
+    value: snp
   - key: tee/type
-    value: sev-snp-gpu
+    value: cpu-gpu
 ```
 
-### Intel TDX (CPU only)
+### Intel TDX, CPU only
 
 ```yaml
 attributes:
-  - key: tee/type
+  - key: tee/platform
     value: tdx
+  - key: tee/type
+    value: cpu
 ```
 
-### Intel TDX + GPU
+### Intel TDX with GPU
 
 ```yaml
 attributes:
+  - key: tee/platform
+    value: tdx
   - key: tee/type
-    value: tdx-gpu
+    value: cpu-gpu
 ```
 
 After updating attributes, restart your provider:

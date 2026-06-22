@@ -660,6 +660,8 @@ attributes:
     value: "12.7"
 
   # Confidential Compute (if TEE hardware is available)
+  # - key: tee/platform
+  #   value: snp
   # - key: tee/type
   #   value: cpu
 ```
