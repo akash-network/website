@@ -87,209 +87,90 @@ ls -la /dev/tdx_guest  # or /dev/tdx-attest on older kernels
 
 ---
 
-## STEP 2 — Install Kata Containers
+## STEP 2 — Install Kata Containers via kata-deploy
 
-Once hardware support is confirmed, install the [Kata Containers](https://katacontainers.io/) runtime. Kata runs each confidential workload inside a lightweight VM with hardware-encrypted memory. Install it on **each TEE node**.
+[Kata Containers](https://katacontainers.io/) provides the confidential VM runtime. Install it using the `kata-deploy` Helm chart, which configures containerd runtime classes, RuntimeClass resources, and all Kata binaries automatically.
 
-### Install Kata Packages
-
-```bash
-# Add Kata Containers repository
-sudo mkdir -p /etc/apt/keyrings
-wget -qO- https://packagecloud.io/kata-containers/stable/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kata-containers.gpg
-echo "deb [signed-by=/etc/apt/keyrings/kata-containers.gpg] https://packagecloud.io/kata-containers/stable/ubuntu/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/kata-containers.list
-
-sudo apt update
-sudo apt install -y kata-containers
-```
-
-### Configure Kata for Your TEE Type
-
-#### AMD SEV-SNP Configuration
-
-Create the Kata configuration for SNP at `/etc/kata-containers/configuration-qemu-snp.toml`:
-
-```toml
-[hypervisor.qemu]
-path = "/usr/bin/qemu-system-x86_64"
-kernel = "/usr/share/kata-containers/vmlinuz-snp.container"
-image = "/usr/share/kata-containers/kata-containers-snp.img"
-machine_type = "q35"
-firmware = "/usr/share/OVMF/OVMF_CODE.fd"
-confidential_guest = true
-sev_snp_guest = true
-
-default_memory = 256
-default_vcpus = 1
-
-[runtime]
-enable_annotations = ["io.katacontainers.*"]
-sandbox_cgroup_only = true
-```
-
-#### Intel TDX Configuration
-
-Create the Kata configuration for TDX at `/etc/kata-containers/configuration-qemu-tdx.toml`:
-
-```toml
-[hypervisor.qemu]
-path = "/usr/bin/qemu-system-x86_64"
-kernel = "/usr/share/kata-containers/vmlinuz-tdx.container"
-image = "/usr/share/kata-containers/kata-containers-tdx.img"
-machine_type = "q35"
-firmware = "/usr/share/OVMF/OVMF_CODE.fd"
-confidential_guest = true
-tdx_guest = true
-
-default_memory = 256
-default_vcpus = 1
-
-[runtime]
-enable_annotations = ["io.katacontainers.*"]
-sandbox_cgroup_only = true
-```
-
----
-
-## STEP 3 — Configure Containerd Runtime Classes
-
-Containerd needs to know about the Kata runtime classes so it can launch confidential VMs. Add the entries below to `/etc/containerd/config.toml` on **each TEE node**. Only add the runtime classes that match your hardware.
-
-### AMD SEV-SNP
-
-```toml
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-snp]
-  runtime_type = "io.containerd.kata-qemu-snp.v2"
-  privileged_without_host_devices = true
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-snp.options]
-    ConfigPath = "/etc/kata-containers/configuration-qemu-snp.toml"
-```
-
-For SNP with GPU support, add:
-
-```toml
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-nvidia-gpu-snp]
-  runtime_type = "io.containerd.kata-qemu-nvidia-gpu-snp.v2"
-  privileged_without_host_devices = true
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-nvidia-gpu-snp.options]
-    ConfigPath = "/etc/kata-containers/configuration-qemu-nvidia-gpu-snp.toml"
-```
-
-### Intel TDX
-
-```toml
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-tdx]
-  runtime_type = "io.containerd.kata-qemu-tdx.v2"
-  privileged_without_host_devices = true
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-tdx.options]
-    ConfigPath = "/etc/kata-containers/configuration-qemu-tdx.toml"
-```
-
-For TDX with GPU support, add:
-
-```toml
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-nvidia-gpu-tdx]
-  runtime_type = "io.containerd.kata-qemu-nvidia-gpu-tdx.v2"
-  privileged_without_host_devices = true
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-nvidia-gpu-tdx.options]
-    ConfigPath = "/etc/kata-containers/configuration-qemu-nvidia-gpu-tdx.toml"
-```
-
-Restart containerd after configuration changes:
+> **Do not install** QEMU, KVM userspace, libvirt, or OVMF packages on the host. Kata ships its own NVIDIA-patched versions of these components. Pre-installing them creates silent conflicts.
 
 ```bash
-sudo systemctl restart containerd
+helm install kata-deploy \
+  oci://ghcr.io/kata-containers/kata-deploy-charts/kata-deploy \
+  --namespace kata-system --create-namespace \
+  --set nfd.enabled=false \
+  --wait --timeout 10m \
+  --version 3.29.0
 ```
 
----
+> If running K3s instead of standard Kubernetes, add `--set k8sDistribution=k3s`. Without this flag, kata-deploy will fail searching for containerd config at the wrong path.
 
-## STEP 4 — Create Kubernetes RuntimeClasses
-
-Kubernetes uses [RuntimeClass](https://kubernetes.io/docs/concepts/containers/runtime-class/) resources to map workloads to specific container runtimes. Create one for each TEE type your provider supports. Only create the ones that match your hardware, you do not need all four.
-
-### AMD SEV-SNP
+Verify the installation:
 
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: node.k8s.io/v1
-kind: RuntimeClass
-metadata:
-  name: kata-qemu-snp
-handler: kata-qemu-snp
-overhead:
-  podFixed:
-    memory: "160Mi"
-    cpu: "250m"
-EOF
+# kata-deploy pod should be Running
+kubectl get pods -n kata-system
+
+# RuntimeClasses should be created automatically
+kubectl get runtimeclass | grep kata-qemu
 ```
 
-For SNP with GPU:
+You should see runtime classes including `kata-qemu-snp`, `kata-qemu-tdx`, and their GPU variants (`kata-qemu-nvidia-gpu-snp`, `kata-qemu-nvidia-gpu-tdx`).
+
+## STEP 3 — Install NVIDIA GPU Operator (GPU providers only)
+
+> Skip this step if your provider does not offer GPU Confidential Computing.
+
+The NVIDIA GPU Operator handles GPU VFIO binding, CC mode toggling, and device plugin registration. Do **not** install NVIDIA GPU drivers on the host — the operator manages everything.
 
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: node.k8s.io/v1
-kind: RuntimeClass
-metadata:
-  name: kata-qemu-nvidia-gpu-snp
-handler: kata-qemu-nvidia-gpu-snp
-overhead:
-  podFixed:
-    memory: "160Mi"
-    cpu: "250m"
-EOF
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+helm repo update
+
+helm install gpu-operator nvidia/gpu-operator \
+  --namespace gpu-operator --create-namespace \
+  --version v26.3.1 \
+  --set sandboxWorkloads.enabled=true \
+  --set sandboxWorkloads.mode=kata \
+  --set nfd.enabled=true \
+  --set nfd.nodefeaturerules=true \
+  --wait --timeout 10m
 ```
 
-### Intel TDX
+Label each GPU node for operand activation:
 
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: node.k8s.io/v1
-kind: RuntimeClass
-metadata:
-  name: kata-qemu-tdx
-handler: kata-qemu-tdx
-overhead:
-  podFixed:
-    memory: "160Mi"
-    cpu: "250m"
-EOF
+kubectl label node <node-name> nvidia.com/gpu.workload.config=vm-passthrough
 ```
 
-For TDX with GPU:
+Verify the installation:
 
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: node.k8s.io/v1
-kind: RuntimeClass
-metadata:
-  name: kata-qemu-nvidia-gpu-tdx
-handler: kata-qemu-nvidia-gpu-tdx
-overhead:
-  podFixed:
-    memory: "160Mi"
-    cpu: "250m"
-EOF
+# All operand pods should be Running
+kubectl get pods -n gpu-operator
+
+# GPU should be bound to vfio-pci (not nvidia driver)
+lspci -nnk -d 10de: | grep "Kernel driver in use"
+# Expected: vfio-pci
+
+# CC mode should be enabled
+kubectl get node <node-name> -o json | \
+  jq '.metadata.labels | with_entries(select(.key | startswith("nvidia.com/cc")))'
+# Expected: "nvidia.com/cc.mode.state": "on", "nvidia.com/cc.ready.state": "true"
+
+# Passthrough GPU resource should be advertised
+kubectl get node <node-name> -o json | \
+  jq '.status.allocatable | with_entries(select(.key | startswith("nvidia.com")))'
+# Expected: "nvidia.com/pgpu": "1" (or more, depending on GPU count)
 ```
 
-### Verify RuntimeClasses
+The operator deploys several components:
+- **nvidia-vfio-manager** — binds GPUs to the `vfio-pci` driver for passthrough
+- **nvidia-cc-manager** — toggles GPU Confidential Computing mode (default: on)
+- **nvidia-kata-sandbox-device-plugin** — advertises `nvidia.com/pgpu` resources
+- **nvidia-sandbox-validator** — node-level CC readiness validation
+- **NFD components** — detects CPU TEE capabilities and GPU presence via node labels
 
-```bash
-kubectl get runtimeclass
-```
-
-Expected output (depending on which TEE types you configured):
-
-```
-NAME                         HANDLER                      AGE
-kata-qemu-snp                kata-qemu-snp                1m
-kata-qemu-nvidia-gpu-snp     kata-qemu-nvidia-gpu-snp     1m
-kata-qemu-tdx                kata-qemu-tdx                1m
-kata-qemu-nvidia-gpu-tdx     kata-qemu-nvidia-gpu-tdx     1m
-```
-
----
-
-## STEP 5 — Configure Provider Flags
+## STEP 4 — Configure Provider Flags
 
 The Akash provider automatically injects an attestation sidecar into every confidential workload if requested by the user. This sidecar runs inside the TEE and serves hardware-signed attestation reports to tenants. Enable it with the following flags.
 
@@ -330,7 +211,7 @@ provider-services run \
 
 ---
 
-## STEP 6 — Configure Provider Attributes
+## STEP 5 — Configure Provider Attributes
 
 Tenants discover TEE-capable providers through on-chain attributes. Add the `tee/type` attribute to your `provider.yaml` so your provider appears in TEE-filtered searches. Set the value to the most capable TEE type your hardware supports:
 
@@ -378,7 +259,7 @@ helm upgrade akash-provider akash/provider \
 
 ---
 
-## STEP 7 — Verify Setup
+## STEP 6 — Verify Setup
 
 ### Test with a Confidential Deployment
 
