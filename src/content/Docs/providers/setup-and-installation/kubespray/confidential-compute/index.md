@@ -170,6 +170,34 @@ The operator deploys several components:
 - **nvidia-sandbox-validator** — node-level CC readiness validation
 - **NFD components** — detects CPU TEE capabilities and GPU presence via node labels
 
+## STEP 3b — Label Nodes for TEE Platform Detection
+
+The Akash provider detects the TEE platform at startup by scanning Kubernetes node labels. Standard NFD (Node Feature Discovery) labels like `feature.node.kubernetes.io/cpu-security.sev.snp.enabled` are **not** sufficient. The provider looks for platform-specific labels in a dedicated namespace.
+
+Apply the appropriate label to every TEE-capable node:
+
+### AMD SEV-SNP
+
+```bash
+kubectl label node <node-name> amd.feature.node.kubernetes.io/snp=true
+```
+
+### Intel TDX
+
+```bash
+kubectl label node <node-name> intel.feature.node.kubernetes.io/tdx=true
+```
+
+> **Why not use standard NFD labels?** The provider needs a single, unambiguous signal per platform. NFD exposes many granular CPU feature labels (`SEV`, `SEV_ES`, `SEV_SNP`, `SME`, etc.) but none in the format the provider expects. These dedicated labels act as a provider-level opt-in that confirms the node is fully configured for CC workloads, not just that the CPU has the capability.
+
+Verify the labels were applied:
+
+```bash
+kubectl get nodes --show-labels | grep -E "amd.feature|intel.feature"
+```
+
+---
+
 ## STEP 4 — Configure Provider Flags
 
 The Akash provider automatically injects an attestation sidecar into every confidential workload if requested by the user. This sidecar runs inside the TEE and serves hardware-signed attestation reports to tenants. Enable it with the following flags.
@@ -348,6 +376,16 @@ A successful response contains a hardware-signed attestation report, confirming 
 
 ## Troubleshooting
 
+### Provider not bidding on CC workloads
+
+The provider won't bid on TEE deployments if it can't detect the TEE platform at startup. Check the provider logs for `detected TEE platform`:
+
+```bash
+kubectl logs akash-provider-0 -n akash-services | grep -i "tee platform"
+```
+
+If you see no output or `TEEPlatformNone`, the node labels are missing. Apply them per [Step 3b](#step-3b--label-nodes-for-tee-platform-detection) and restart the provider pod.
+
 ### Pod stuck in Pending
 
 ```bash
@@ -358,6 +396,7 @@ Common causes:
 - **RuntimeClass not found**: Verify the RuntimeClass exists with `kubectl get runtimeclass`
 - **No TEE-capable nodes**: Ensure nodes with TEE hardware are labeled and schedulable
 - **Kata not installed**: Check that Kata is properly installed on the target node
+- **`Insufficient nvidia.com/gpu`**: The provider set `nvidia.com/gpu` instead of `nvidia.com/pgpu`. This means TEE platform detection failed, see the section above
 
 ### Attestation sidecar not injected
 
