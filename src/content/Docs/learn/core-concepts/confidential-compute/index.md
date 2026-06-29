@@ -287,6 +287,7 @@ The attestation design enforces these properties:
 - **Performance**: Memory encryption adds a small overhead (~1-5%). GPU Confidential Computing may add further overhead depending on the workload.
 - **Sidecar resources**: The attestation sidecar consumes modest resources (10m CPU, 32-64Mi memory) which are automatically included in resource accounting.
 - **Runtime environment**: TEE workloads run inside Kata VMs rather than standard containers. Most workloads are unaffected, but features that depend on direct host kernel access may behave differently.
+- **Distroless and scratch-based images are not supported.** Kata Containers uses a guest agent inside the VM to set up and manage the container filesystem. Images built `FROM scratch` or from `gcr.io/distroless/...` lack the minimal filesystem structure (e.g. `/dev`, `/proc`, `/sys`) that the guest agent requires to initialize the container. Use a minimal but complete base image such as `alpine` or `ubuntu` instead.
 
 ---
 
