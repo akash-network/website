@@ -326,6 +326,36 @@ html body[data-scroll-locked] {
   word-break: break-word;
 }
 
+.prose table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.prose td:first-child,
+.prose th:first-child {
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.prose td:last-child,
+.prose th:last-child {
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.prose td:first-child code,
+.prose th:first-child code {
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.prose td:last-child code,
+.prose th:last-child code {
+  white-space: nowrap;
+  word-break: normal;
+}
+
 /* Inline `code` in docs: match body line height; fenced `pre > code` resets below. */
 .prose p code,
 .prose li code,
