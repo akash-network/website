@@ -351,13 +351,13 @@ provider-services tx cert generate client \
 ```
 
 **Flags:**
-- `--override` - Overwrite existing certificate if one exists
+- `--overwrite` - Overwrite existing certificate if one exists
 
-**Example with override:**
+**Example with overwrite:**
 ```bash
 provider-services tx cert generate client \
   --from $AKASH_KEY_NAME \
-  --override
+  --overwrite
 ```
 
 ---
@@ -369,16 +369,6 @@ Publish your certificate to the blockchain.
 ```bash
 provider-services tx cert publish client \
   --from $AKASH_KEY_NAME
-```
-
-**Flags:**
-- `--override` - Overwrite existing certificate if one exists
-
-**Example with override:**
-```bash
-provider-services tx cert publish client \
-  --from $AKASH_KEY_NAME \
-  --override
 ```
 
 ---
@@ -536,7 +526,7 @@ provider-services query bank balances akash1... \
 Get account information.
 
 ```bash
-provider-services query account <address> \
+provider-services query auth account <address> \
 ```
 
 ---

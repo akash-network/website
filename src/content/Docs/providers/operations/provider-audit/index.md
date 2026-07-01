@@ -23,8 +23,8 @@ The **provider audit** is the only path to an official audited badge on Akash. R
 Reference guides:
 
 - [Provider Attributes](/docs/providers/operations/provider-attributes) — how to set each key
-- [Provider Installation — Configure DNS](/docs/providers/setup-and-installation/kubespray/provider-installation/#step-7---configure-dns)
-- [Provider Installation — Verify firewall](/docs/providers/setup-and-installation/kubespray/provider-installation/#step-12---verify-firewall)
+- [Provider Installation — Configure DNS](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-7---configure-dns)
+- [Provider Installation — Verify firewall](/docs/providers/setup-and-installation/kubespray/provider-installation/#step-6---verify-firewall)
 
 ---
 

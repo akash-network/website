@@ -203,7 +203,7 @@ Add the following attributes:
 ```yaml
 attributes:
   # ... existing attributes ...
-  - key: ip-lease
+  - key: feat-endpoint-ip
     value: "true"
 ```
 
@@ -238,6 +238,10 @@ Deploy a test workload that requests an IP:
 ---
 version: "2.0"
 
+endpoints:
+  myip:
+    kind: ip
+
 services:
   web:
     image: nginx:1.25.3
@@ -246,7 +250,7 @@ services:
         as: 80
         to:
           - global: true
-        ip_name: myip
+            ip: myip
 
 profiles:
   compute:
