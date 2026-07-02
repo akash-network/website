@@ -82,6 +82,21 @@ export const gettingStartedCards: FeaturedCard[] = [
   },
 ];
 
+// AI Agents section
+export const aiAgentsSection: Section = {
+  title: "AI Agents",
+  description: "Deploy to Akash with AI coding agents",
+  cards: [
+    {
+      href: "/docs/getting-started/ai-agents",
+      icon: "code",
+      title: "Setup & Deploy",
+      description:
+        "Install the Akash skill and deploy from natural-language prompts",
+    },
+  ],
+};
+
 // Developers section
 export const developersSection: Section = {
   title: "Developers",
@@ -250,6 +265,7 @@ export const helpLinks: HelpLink[] = [
 
 // All sections for easy iteration
 export const docsSections: Section[] = [
+  aiAgentsSection,
   developersSection,
   providersSection,
   apiSection,
