@@ -1,282 +1,456 @@
 ---
 categories: ["Providers"]
-tags: ["GPU", "Advanced Features", "Configuration"]
+tags: ["GPU", "InfiniBand", "RDMA", "NVIDIA Operators", "Configuration"]
 weight: 2
-title: "GPU Support"
+title: "GPU & InfiniBand Support"
 linkTitle: "GPU Support"
-description: "Enable NVIDIA GPU resources on your Akash provider"
+description: "Enable NVIDIA GPUs — and optional InfiniBand RDMA — on your Akash provider using the NVIDIA GPU Operator and Network Operator"
 ---
 
-This guide shows how to enable NVIDIA GPU support on your Akash provider after Kubernetes is deployed.
+This guide enables NVIDIA GPU support on your Akash provider using the **NVIDIA GPU Operator**, which manages the driver, container toolkit, device plugin, and validation entirely in containers — no driver installs on the host.
+
+It also covers an **optional** InfiniBand / RDMA section ([Part 2](#part-2--infiniband--rdma-optional)) for providers whose GPU nodes have Mellanox/NVIDIA ConnectX HCAs and need a high-speed fabric for multi-node GPU workloads (NCCL). InfiniBand is **not** required to run a GPU provider — skip Part 2 if your nodes have no IB hardware.
 
 > **Don't have GPUs?** Skip to [Persistent Storage (Rook-Ceph)](/docs/providers/setup-and-installation/kubespray/persistent-storage) or [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation).
 
-> **Prerequisites:** You must have already configured the NVIDIA runtime in Kubespray **before** deploying your cluster. See [Kubernetes Setup - Step 7](/docs/providers/setup-and-installation/kubespray/kubernetes-setup#step-7---configure-gpu-support-optional).
-
-**Time:** 30-45 minutes
+**Time:** 30–45 minutes for GPU (add 30–60 minutes for the optional InfiniBand section, including the MOFED kernel-module compile).
 
 ---
 
-## STEP 1 - Install NVIDIA Drivers
+## Prerequisites
 
-Run these commands on **each GPU node**:
+- Kubernetes cluster deployed via [Kubespray](/docs/providers/setup-and-installation/kubespray/kubernetes-setup) (kubeadm + Calico CNI + containerd)
+- **Clean GPU nodes** — no pre-installed NVIDIA drivers, CUDA, or MOFED/OFED on the host. The operators manage all drivers in containers, and a host driver will conflict.
 
-### Update System
+For the optional InfiniBand section, additionally:
 
-```bash
-apt update
-DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade
-apt autoremove
-```
+- Mellanox/NVIDIA ConnectX InfiniBand HCAs in the GPU nodes
+- InfiniBand fabric cabled and managed (a switch running a Subnet Manager, or OpenSM on a node)
+- All IB ports showing `State: Active` (`ibstat` on the host)
 
-Reboot the node after this step.
-
-### Add NVIDIA Repository
-
-```bash
-# Create keyrings directory if it doesn't exist
-mkdir -p /etc/apt/keyrings
-
-# Download and add NVIDIA GPG key using modern method
-wget -qO- https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub | gpg --dearmor -o /etc/apt/keyrings/nvidia-cuda.gpg
-
-# Add NVIDIA repository with signed-by reference
-echo "deb [signed-by=/etc/apt/keyrings/nvidia-cuda.gpg] https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/ /" | tee /etc/apt/sources.list.d/cuda-repo.list
-
-apt update
-```
-
-### Install Driver
-
-Choose the installation method based on your GPU type:
-
-#### Consumer GPUs (RTX 4090, RTX 5090, etc.)
-
-For consumer-grade GPUs, install the standard driver:
-
-```bash
-DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nvidia-driver-580
-apt -y autoremove
-```
-
-Reboot the node.
-
-#### Data Center GPUs (H100, H200, etc.)
-
-For data center GPUs (including SXM form factor), install the server driver and Fabric Manager:
-
-```bash
-DEBIAN_FRONTEND=noninteractive apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nvidia-driver-580-server
-apt-get install nvidia-fabricmanager-580
-systemctl start nvidia-fabricmanager
-systemctl enable nvidia-fabricmanager
-apt -y autoremove
-```
-
-Reboot the node.
-
-### Verify Installation
-
-```bash
-nvidia-smi
-```
-
-You should see your GPUs listed with driver information.
+> **Note:** The GPU Operator replaces the older manual host-driver workflow. The hard requirement is that **no NVIDIA driver, CUDA, or MOFED/OFED is installed on the host** — remove any before starting. The GPU Operator manages the container toolkit and containerd runtime for you, so the optional NVIDIA-runtime step in [Kubernetes Setup – Step 7](/docs/providers/setup-and-installation/kubespray/kubernetes-setup#step-7---configure-gpu-support-optional) is not required for this path (it is harmless if already applied).
 
 ---
 
-## STEP 2 - Install NVIDIA Container Toolkit
+# Part 1 — GPU Operator
+
+Every GPU provider uses this path.
+
+## Step 1 — Verify Clean Nodes
 
 Run on **each GPU node**:
 
 ```bash
-# Create keyrings directory if it doesn't exist
-mkdir -p /etc/apt/keyrings
+# Confirm no host NVIDIA driver is installed
+dpkg -l | grep -E "nvidia|cuda" | grep -v lib
+lsmod | grep nvidia
+which nvidia-smi
+# All should return empty. If a host driver is present:
+#   sudo apt purge --autoremove 'nvidia-*' 'cuda-drivers*' -y && sudo reboot
 
-# Download and add NVIDIA Container Toolkit GPG key using modern method
-curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /etc/apt/keyrings/nvidia-container-toolkit.gpg
-
-# Add NVIDIA Container Toolkit repository with signed-by reference
-echo "deb [signed-by=/etc/apt/keyrings/nvidia-container-toolkit.gpg] https://nvidia.github.io/libnvidia-container/stable/deb/amd64 /" | tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-
-apt-get update
-apt-get install -y nvidia-container-toolkit nvidia-container-runtime
+# Identify GPU hardware
+lspci | grep -i nvidia
 ```
 
----
+### Fabric Manager Decision
 
-## STEP 3 - Configure NVIDIA CDI
+SXM (HGX/DGX) boards use NVLink/NVSwitch and require the Fabric Manager; PCIe cards do not.
 
-Run on **each GPU node**:
+| GPU form factor | Fabric Manager |
+| --- | --- |
+| Any SXM (HGX/DGX) — A100, H100, H200, B200, B300 | Required (`fabricManager.enabled: true`) |
+| Any PCIe — A100-PCIe, L40S, A6000, RTX, etc. | Not needed (`fabricManager.enabled: false`) |
 
-### Generate CDI Specification
+Check the form factor:
 
 ```bash
-sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+lspci -v | grep -A5 -i nvidia | grep -i "subsystem"
+# "SXM" in the output → needs Fabric Manager
+# No "SXM"           → PCIe, no Fabric Manager needed
 ```
 
-### Configure NVIDIA Runtime
+## Step 2 — Install the GPU Operator
 
-Edit `/etc/nvidia-container-runtime/config.toml` and ensure these lines are **uncommented** and set to:
-
-```toml
-accept-nvidia-visible-devices-as-volume-mounts = false
-accept-nvidia-visible-devices-envvar-when-unprivileged = true
-```
-
-> **Note:** This setup uses **CDI (Container Device Interface)** for device enumeration, which provides better security and device management.
-
----
-
-## STEP 4 - Create NVIDIA RuntimeClass
-
-Run from a **control plane node**:
+Add the NVIDIA Helm repo:
 
 ```bash
-cat > nvidia-runtime-class.yaml << 'EOF'
-kind: RuntimeClass
-apiVersion: node.k8s.io/v1
-metadata:
-  name: nvidia
-handler: nvidia
-EOF
-
-kubectl apply -f nvidia-runtime-class.yaml
-```
-
----
-
-## STEP 5 - Label GPU Nodes
-
-Label each GPU node (replace `<node-name>` with actual node name):
-
-```bash
-kubectl label nodes <node-name> allow-nvdp=true
-```
-
-### Verify Labels
-
-```bash
-kubectl describe node <node-name> | grep -A5 Labels
-```
-
-You should see `allow-nvdp=true`.
-
----
-
-## STEP 6 - Install NVIDIA Device Plugin
-
-Run from a **control plane node**:
-
-```bash
-helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
+```
 
-helm upgrade -i nvdp nvdp/nvidia-device-plugin \
-  --namespace nvidia-device-plugin \
+Create `gpu-operator-values.yaml`:
+
+```yaml
+operator:
+  defaultRuntime: containerd
+
+driver:
+  enabled: true
+  rdma:
+    enabled: false       # ← Leave false unless you are doing Part 2 (InfiniBand)
+    useHostMofed: false
+
+fabricManager:
+  enabled: false         # ← Set true for SXM GPUs (see table above)
+
+migManager:
+  enabled: false
+
+dcgmExporter:
+  enabled: true
+
+nodeStatusExporter:
+  enabled: true
+```
+
+> **Why `driver.rdma.enabled: false` by default?** With RDMA enabled, the GPU driver pod's init container waits for MOFED (from the Network Operator) and will sit in `Init:0/1` forever if the Network Operator is not installed. Enable it only in [Part 2](#part-2--infiniband--rdma-optional).
+
+Deploy:
+
+```bash
+helm upgrade -i gpu-operator nvidia/gpu-operator \
+  --namespace gpu-operator \
   --create-namespace \
-  --version 0.18.0 \
-  --set runtimeClassName="nvidia" \
-  --set deviceListStrategy=cdi-cri \
-  --set nvidiaDriverRoot="/" \
-  --set-string nodeSelector.allow-nvdp="true"
+  -f gpu-operator-values.yaml
 ```
 
-### Verify Installation
+Watch the rollout until every pod is `Running` and `nvidia-operator-validator` completes:
 
 ```bash
-kubectl -n nvidia-device-plugin get pods -o wide
+kubectl -n gpu-operator get pods -w
 ```
 
-You should see `nvdp-nvidia-device-plugin` pods running on your GPU nodes.
+## Step 3 — Verify GPUs
 
-### Check Logs
+Check allocatable GPUs per node:
 
 ```bash
-kubectl -n nvidia-device-plugin logs -l app.kubernetes.io/instance=nvdp
+kubectl get nodes -o custom-columns=\
+NAME:.metadata.name,\
+GPUs:.status.allocatable.nvidia\\.com/gpu
 ```
 
-**Expected output:**
+Expected:
 
 ```
-Detected NVML platform: found NVML library
-Starting GRPC server for 'nvidia.com/gpu'
-Registered device plugin for 'nvidia.com/gpu' with Kubelet
+NAME    GPUs
+node1   8
+node2   8
+```
+
+Run a GPU test:
+
+```bash
+kubectl run gpu-test --rm -it --restart=Never \
+  --image=nvidia/cuda:12.4.0-base-ubuntu22.04 \
+  --limits=nvidia.com/gpu=1 \
+  -- nvidia-smi
+```
+
+You should see the GPUs listed with driver information. If your nodes have no InfiniBand hardware, you're done — continue to [Next Steps](#next-steps).
+
+---
+
+# Part 2 — InfiniBand / RDMA (optional)
+
+> **Only for GPU nodes with Mellanox/NVIDIA ConnectX InfiniBand HCAs.** This section adds the NVIDIA Network Operator (MOFED + the RDMA shared device plugin) and re-enables RDMA in the GPU Operator so multi-node GPU workloads can use the IB fabric for NCCL. If your nodes have no IB hardware, skip this section entirely.
+
+## Step 4 — Verify IB Hardware
+
+Run on **each GPU+IB node**:
+
+```bash
+# Confirm no host MOFED is installed (the Network Operator provides its own)
+dpkg -l | grep mlnx-ofed
+# Should be empty. In-kernel mlx5_core / ib_core modules are fine — the
+# Network Operator replaces them with its MOFED versions.
+
+# Identify IB hardware
+lspci | grep -i mellanox
+# e.g. 1b:00.0 Infiniband controller: Mellanox Technologies MT28908 [ConnectX-6]
+
+# Get the PCI device ID (needed for the NicClusterPolicy)
+lspci -n | grep 15b3
+# e.g. 1b:00.0 0207: 15b3:101b   ← "101b" is the device ID
+
+# Confirm IB ports are Active
+ibstat | grep -E "State|Link layer|Rate"
+# Must show: State: Active, Link layer: InfiniBand
+```
+
+### ConnectX Device ID Reference
+
+| Card | PCI device ID |
+| --- | --- |
+| ConnectX-4 | `1013` |
+| ConnectX-5 | `1017` |
+| ConnectX-5 Ex | `1019` |
+| ConnectX-6 | `101b` |
+| ConnectX-6 Dx | `101d` |
+| ConnectX-7 | `1021` |
+| BlueField-2 | `a2d6` |
+| BlueField-3 | `a2dc` |
+
+> **Verify against your own hardware** with `lspci -n | grep 15b3` — the device ID in the `15b3:XXXX` pair is what goes into the NicClusterPolicy `deviceIDs` selector.
+
+## Step 5 — Install the Network Operator
+
+```bash
+helm upgrade -i network-operator nvidia/network-operator \
+  --namespace nvidia-network-operator \
+  --create-namespace \
+  --set deployCR=false
+```
+
+`deployCR=false` lets us apply the `NicClusterPolicy` separately in the next step.
+
+## Step 6 — Apply the NicClusterPolicy
+
+Create `nic-cluster-policy.yaml`. Replace `<DEVICE_ID>` with the ConnectX device ID from Step 4:
+
+```yaml
+apiVersion: mellanox.com/v1alpha1
+kind: NicClusterPolicy
+metadata:
+  name: nic-cluster-policy
+spec:
+  ofedDriver:
+    image: doca-driver
+    repository: nvcr.io/nvidia/mellanox
+    version: "doca3.3.0-26.01-1.0.0.0-0"
+    upgradePolicy:
+      autoUpgrade: true
+      maxParallelUpgrades: 1
+      safeLoad: false
+      drain:
+        enable: true
+        force: true
+        timeoutSeconds: 300
+        deleteEmptyDir: true
+
+  rdmaSharedDevicePlugin:
+    image: k8s-rdma-shared-dev-plugin
+    repository: nvcr.io/nvidia/mellanox
+    version: "network-operator-v26.1.1"
+    config: |
+      {
+        "configList": [
+          {
+            "resourceName": "rdma_shared_device_ib",
+            "rdmaHcaMax": 63,
+            "selectors": {
+              "vendors": ["15b3"],
+              "deviceIDs": ["<DEVICE_ID>"]
+            }
+          }
+        ]
+      }
+
+  secondaryNetwork:
+    cniPlugins:
+      image: plugins
+      repository: nvcr.io/nvidia/mellanox
+      version: "network-operator-v26.1.1"
+    multus:
+      image: multus-cni
+      repository: nvcr.io/nvidia/mellanox
+      version: "network-operator-v26.1.1"
+    ipoib:
+      image: ipoib-cni
+      repository: nvcr.io/nvidia/mellanox
+      version: "network-operator-v26.1.1"
+
+  nvIpam:
+    image: nvidia-k8s-ipam
+    repository: nvcr.io/nvidia/mellanox
+    version: "network-operator-v26.1.1"
+    enableWebhook: false
+```
+
+> **Version tags:** the `doca-driver` and `network-operator-v26.1.1` tags above match a specific Network Operator release. Confirm the exact tags for your release in the [NGC catalog](https://catalog.ngc.nvidia.com/) / [Network Operator release notes](https://docs.nvidia.com/networking/display/kubernetes/network-operator) before applying.
+
+**CRD schema notes (Network Operator v26.1.x):**
+
+- `rdmaSharedDevicePlugin` takes a `config` field (a JSON string), **not** a `resources` array.
+- `nvIpam` is a **top-level** `spec` field, **not** nested under `secondaryNetwork`.
+- `secondaryNetwork` accepts only `cniPlugins`, `multus`, and `ipoib`.
+- Component versions should match the operator version (`network-operator-v26.1.1`).
+
+Apply it:
+
+```bash
+kubectl apply -f nic-cluster-policy.yaml
+```
+
+Wait for MOFED to compile (5–10 minutes on first deploy) and all pods to reach `Running`:
+
+```bash
+kubectl -n nvidia-network-operator get pods -w
+
+# MOFED compile progress
+kubectl -n nvidia-network-operator logs -l app=mofed-ubuntu24.04 -f --tail=10
+```
+
+Expected pods when complete:
+
+```
+mofed-ubuntu24.04-*     1/1  Running   ← one per node, MOFED loaded
+rdma-shared-dp-ds-*     1/1  Running   ← RDMA device plugin per node
+kube-multus-ds-*        1/1  Running
+cni-plugins-ds-*        1/1  Running
+kube-ipoib-cni-ds-*     1/1  Running
+nv-ipam-controller-*    1/1  Running
+nv-ipam-node-*          1/1  Running
+network-operator-*      1/1  Running
+```
+
+## Step 7 — Enable RDMA in the GPU Operator
+
+Now that MOFED is available, re-enable RDMA in the GPU Operator so the driver loads `nvidia-peermem` for GPUDirect RDMA. Edit `gpu-operator-values.yaml`:
+
+```yaml
+driver:
+  enabled: true
+  rdma:
+    enabled: true        # ← Now true; MOFED is present
+    useHostMofed: false
+```
+
+Re-apply:
+
+```bash
+helm upgrade -i gpu-operator nvidia/gpu-operator \
+  --namespace gpu-operator \
+  -f gpu-operator-values.yaml
+```
+
+The GPU driver daemonset rolls; the driver init container detects MOFED and loads `nvidia-peermem`. Wait for the driver pods and `nvidia-operator-validator` to return to `Running`/complete:
+
+```bash
+kubectl -n gpu-operator get pods -w
+```
+
+## Step 8 — Verify RDMA
+
+Check allocatable RDMA devices per node (`rdmaHcaMax` was `63`):
+
+```bash
+kubectl get nodes -o json | \
+  jq -r '.items[] | "\(.metadata.name) rdma=\(.status.allocatable["rdma/rdma_shared_device_ib"] // "none")"'
+```
+
+Expected:
+
+```
+node1 rdma=63
+node2 rdma=63
+```
+
+### Cross-Node Bandwidth Test
+
+Server on `node1`:
+
+```bash
+kubectl run ib-server --image=mellanox/rping-test --restart=Never \
+  --overrides='{
+    "spec": {
+      "nodeName": "node1",
+      "containers": [{
+        "name": "s",
+        "image": "mellanox/rping-test",
+        "command": ["ib_write_bw", "-d", "mlx5_0", "--report_gbits"],
+        "resources": {"limits": {"rdma/rdma_shared_device_ib": "1"}},
+        "securityContext": {"capabilities": {"add": ["IPC_LOCK"]}}
+      }]
+    }
+  }'
+```
+
+Client on `node2`:
+
+```bash
+SERVER_IP=$(kubectl get pod ib-server -o jsonpath='{.status.podIP}')
+
+kubectl run ib-client --image=mellanox/rping-test --restart=Never \
+  --overrides="{
+    \"spec\": {
+      \"nodeName\": \"node2\",
+      \"containers\": [{
+        \"name\": \"c\",
+        \"image\": \"mellanox/rping-test\",
+        \"command\": [\"ib_write_bw\", \"-d\", \"mlx5_0\", \"$SERVER_IP\", \"--report_gbits\"],
+        \"resources\": {\"limits\": {\"rdma/rdma_shared_device_ib\": \"1\"}},
+        \"securityContext\": {\"capabilities\": {\"add\": [\"IPC_LOCK\"]}}
+      }]
+    }
+  }"
+
+kubectl logs ib-client
+# Approximate full-port line rates: ~197 Gb/s (HDR), ~100 Gb/s (HDR100 / EDR)
+
+kubectl delete pod ib-server ib-client
+```
+
+> **NCCL configuration is handled by the Akash provider.** You do not configure NCCL on the cluster. When a tenant requests GPU interconnect in the SDL, the provider auto-injects the NCCL environment (`NCCL_IB_DISABLE=0`, `NCCL_IB_HCA` from the node's discovered HCA families, `NCCL_IB_GID_INDEX=3` on RoCE) and requests one `rdma/rdma_shared_device_ib` handle per GPU. Provider setup ends once the node advertises the GPU and RDMA resources verified above.
+
+---
+
+## Deployment Order Summary
+
+```
+GPU-only provider:
+  1. Kubespray (kubeadm + Calico + containerd)
+  2. GPU Operator (driver.rdma.enabled: false)
+  3. Nodes report nvidia.com/gpu
+
+Adding InfiniBand:
+  4. Network Operator (helm)
+  5. NicClusterPolicy → MOFED compile + RDMA device plugin
+        ↓ wait for MOFED pods Running
+  6. GPU Operator helm upgrade (driver.rdma.enabled: true)
+        ↓ driver reloads, loads nvidia-peermem
+  7. Nodes report nvidia.com/gpu AND rdma/rdma_shared_device_ib
 ```
 
 ---
 
-## STEP 7 - Test GPU Functionality
+## Troubleshooting
 
-Create a test pod:
-
-```bash
-cat > gpu-test-pod.yaml << 'EOF'
-apiVersion: v1
-kind: Pod
-metadata:
-  name: gpu-test
-spec:
-  restartPolicy: Never
-  runtimeClassName: nvidia
-  containers:
-    - name: cuda-container
-      image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.6.0
-      resources:
-        limits:
-          nvidia.com/gpu: 1
-  tolerations:
-  - key: nvidia.com/gpu
-    operator: Exists
-    effect: NoSchedule
-EOF
-
-kubectl apply -f gpu-test-pod.yaml
-```
-
-### Verify Test
-
-Wait for the pod to complete, then check logs:
+**GPU driver pod stuck in `Init:0/1`** — the driver init container is waiting for MOFED. This happens when `driver.rdma.enabled: true` but the Network Operator/MOFED is not ready. Either finish Part 2 or set `driver.rdma.enabled: false`.
 
 ```bash
-kubectl logs gpu-test
+kubectl -n nvidia-network-operator get pods | grep mofed
+kubectl -n nvidia-network-operator logs -l app=mofed-ubuntu24.04 --tail=20
 ```
 
-**Expected output:**
-
-```
-[Vector addition of 50000 elements]
-Copy input data from the host memory to the CUDA device
-CUDA kernel launch with 196 blocks of 256 threads
-Copy output data from the CUDA device to the host memory
-Test PASSED
-Done
-```
-
-### Test nvidia-smi
-
-Create an interactive test:
+**NicClusterPolicy rejected with schema errors** — the CRD schema changes between operator versions. Inspect what your version accepts:
 
 ```bash
-kubectl run gpu-shell --rm -it --restart=Never --image=nvidia/cuda:11.6.2-base-ubuntu20.04 -- nvidia-smi
+# Top-level spec fields
+kubectl get crd nicclusterpolicies.mellanox.com -o json | \
+  jq '.spec.versions[0].schema.openAPIV3Schema.properties.spec.properties | keys'
+
+# secondaryNetwork sub-fields
+kubectl get crd nicclusterpolicies.mellanox.com -o json | \
+  jq '.spec.versions[0].schema.openAPIV3Schema.properties.spec.properties.secondaryNetwork.properties | keys'
 ```
 
-You should see GPU information displayed.
-
-### Cleanup
+**RDMA resources show 0** — check the device plugin logs and confirm `deviceIDs` matches your hardware:
 
 ```bash
-kubectl delete pod gpu-test
+kubectl -n nvidia-network-operator logs -l app=rdma-shared-dp --tail=20
+lspci -n | grep 15b3
 ```
+
+**IPoIB CNI errors during bring-up** — the NicClusterPolicy deploys an IPoIB CNI, but RDMA verbs traffic does not use it — it goes directly over the HCA, bypassing the kernel network stack. IPoIB errors in `dmesg` do not affect RDMA and won't show up in the `ib_write_bw` verification above.
 
 ---
 
 ## Next Steps
 
-Your Kubernetes cluster now has GPU support!
+Your cluster now has GPU support (and optionally InfiniBand RDMA).
 
-**Optional enhancements:**
-- [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) - **Required** for all providers: cert-manager and Gateway TLS
-- [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) - Enable static IPs
+- [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) — **required** for all providers: cert-manager and Gateway TLS
+- [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) — enable static IPs
 
-> **Note:** After installing the provider, you'll need to add GPU attributes to your `provider.yaml` to advertise GPU capabilities. This is covered in the Provider Installation guide.
+> **Note:** After installing the provider, add GPU attributes to your `provider.yaml` to advertise GPU capabilities (and `capabilities/gpu-interconnect` for InfiniBand). This is covered in the Provider Installation guide.
