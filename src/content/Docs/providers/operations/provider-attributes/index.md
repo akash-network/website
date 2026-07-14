@@ -450,16 +450,19 @@ Advertise support for advanced features.
 
 > **Note:** All providers should support SHM for deployments requiring shared memory. This is configured in the inventory operator during provider installation.
 
-### feat-endpoint-ip
+### capabilities/ip-lease
 
-- **Values**: `true`, `false`
-- **Purpose**: Advertise IP lease support
+- **Values**: `"true"`, `"false"`
+- **Purpose**: Advertise IP lease support (requires MetalLB + `akash-ip-operator`, and `ipoperator: true` in `provider.yaml`)
 
 ```yaml
+- key: capabilities/ip-lease
+  value: "true"
 - key: feat-endpoint-ip
-  value: true
+  value: "true"
 ```
 
+Both `capabilities/ip-lease` and `feat-endpoint-ip` should be set when offering IP leases.
 ### feat-endpoint-custom-domain
 
 - **Values**: `true`, `false`
@@ -610,8 +613,10 @@ attributes:
     value: true
   - key: feat-shm
     value: true
+  - key: capabilities/ip-lease
+    value: "true"
   - key: feat-endpoint-ip
-    value: true
+    value: "true"
   - key: feat-endpoint-custom-domain
     value: true
 

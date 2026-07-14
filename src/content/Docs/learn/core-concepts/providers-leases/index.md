@@ -87,12 +87,13 @@ Providers advertise capabilities through attributes:
 
 ```
 feat-persistent-storage: true
+capabilities/ip-lease: true
 feat-endpoint-ip: true
 ```
 
 **Common feature attributes:**
 - `feat-persistent-storage` - Can provide persistent volumes
-- `feat-endpoint-ip` - Offers dedicated IP addresses
+- `capabilities/ip-lease` / `feat-endpoint-ip` - Offers dedicated IP addresses
 - GPU capabilities are advertised via `capabilities/gpu/vendor/<vendor>/model/<model>` attributes
 
 See the [Provider Attributes](/docs/providers/operations/provider-attributes) guide for complete list.
@@ -175,7 +176,7 @@ uptime-guarantee: 99.9%
 
 **Match your needs:**
 - Need persistent storage?   Check `feat-persistent-storage: true`
-- Need dedicated IP?   Check `feat-endpoint-ip: true`
+- Need dedicated IP?   Check `capabilities/ip-lease: true` / `feat-endpoint-ip: true`
 - Need GPU?   Check `capabilities/gpu/vendor/<vendor>/model/<model>` attributes
 - Need high bandwidth?   Check network capacity attributes
 
