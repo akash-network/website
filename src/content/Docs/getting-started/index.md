@@ -3,10 +3,10 @@ categories: ["Getting Started"]
 tags: ["Getting Started", "Onboarding", "Tutorial", "Console", "Free Trial"]
 title: "Getting Started"
 linkTitle: "Getting Started"
-description: "Get started with Akash Network - deploy your first application in minutes with $100 free credits"
+description: "Get started with Akash Network - deploy your first application in minutes with $1 in free trial credits"
 ---
 
-**Welcome to Akash Network! Start deploying in minutes with $100 in free credits—no crypto wallet required.**
+**Welcome to Akash Network! Start deploying in minutes with $1 in free trial credits—no crypto wallet or credit card required.**
 
 Akash Console is a web-based platform that makes deploying on Akash Network as easy as using AWS or GCP—no command line or blockchain experience needed!
 
@@ -14,12 +14,12 @@ Akash Console is a web-based platform that makes deploying on Akash Network as e
 
 ## Start Your Free Trial
 
-**Get $100 in free credits** to deploy applications on Akash Network:
+**Get $1 in free trial credits** to deploy applications on Akash Network:
 
-- **$100 free credits** - No charge during trial
+- **$1 free trial credits** - Deploy your first container, no charge
 - **30 days** - Plenty of time to explore
-- **Credit card required** - For identity verification only (prevents abuse)
-- **No automatic charges** - You're in control
+- **No credit card required to start** - Add a card only when you want to add credits
+- **10% first-purchase bonus** - On your first purchase of $100 or more, get 10% in bonus credits (up to $100)
 
 ### [Quick Start - Free Trial](/docs/getting-started/quick-start)
 **Deploy your first application in under 10 minutes** using the web interface—perfect for beginners!
@@ -46,7 +46,7 @@ Learn about deployments, providers, and how Akash works.
 
 **The easiest way to get started with decentralized cloud:**
 
-- **Free Trial** - $100 in credits, no crypto required
+- **Free Trial** - $1 in credits, no crypto or credit card required
 - **One-Click Templates** - Deploy popular apps instantly
 - **No CLI Required** - Everything in your browser
 - **Visual Interface** - Build and manage deployments visually

@@ -21,7 +21,7 @@ description: "Akash ships two web apps for deploying — Console (managed) and C
 
 **Do you want to hold your own keys?**
 
-- **No** → [Akash Console](https://console.akash.network). Sign up with email, add a credit card, start deploying. Begin with the [Quick Start](/docs/getting-started/quick-start).
+- **No** → [Akash Console](https://console.akash.network). Sign up with Google, GitHub, or a passwordless email code—no credit card required to start deploying. Begin with the [Quick Start](/docs/getting-started/quick-start).
 - **Yes** → [Console Air](https://github.com/akash-network/console-air). Clone the repo, run it locally, connect your wallet. New here? Walk through your first deploy in [Deploy with Console Air](/docs/developers/deployment/console-air). Already have deployments on `console.akash.network`? Follow the [migration guide](https://github.com/akash-network/console-air/blob/main/docs/migrating-from-akash-console.md).
 
 For programmatic access — CLI, SDK, REST API — see the [API Documentation](/docs/api-documentation/getting-started).

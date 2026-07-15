@@ -51,7 +51,7 @@ Programmatic deployments using the Console API:
 ## Quick Links
 
 **New to Akash?**  
-→ [Free Trial Quick Start](/docs/getting-started/quick-start) - Deploy in 10 minutes with $100 free credits
+→ [Free Trial Quick Start](/docs/getting-started/quick-start) - Deploy in 10 minutes with $1 in free trial credits
 
 **Need Examples?**  
 → [SDL Examples Library](/docs/developers/deployment/akash-sdl/examples-library) - 290+ deployment templates

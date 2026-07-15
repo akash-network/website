@@ -4,7 +4,7 @@ tags: ["Quick Start", "Console", "Tutorial", "Beginner", "Free Trial"]
 weight: 4
 title: "Quick Start - Deploy with Free Trial"
 linkTitle: "Quick Start"
-description: "Deploy your first application on Akash Network in under 10 minutes with $100 in free credits"
+description: "Deploy your first application on Akash Network in under 10 minutes with $1 in free trial credits"
 ---
 
 **Deploy your first application on Akash Network in under 10 minutes—no crypto wallet or blockchain experience required!**
@@ -15,7 +15,7 @@ This guide walks you through signing up for the free trial and deploying your fi
 
 ## What You'll Get
 
-- **$100 in free credits** - No charge during trial
+- **$1 in free trial credits** - Deploy your first container, no card required
 - **30 days** - Plenty of time to explore Akash
 - **One-click deployment** - Use pre-built templates
 - **Live URL** - Access your deployed application instantly
@@ -30,172 +30,91 @@ This guide walks you through signing up for the free trial and deploying your fi
 
 All you need is:
 
-1. **A valid email address** (for account verification)
-2. **A valid credit card** (for identity verification)
-   - Must have at least $1 available
-   - A temporary $1 charge will be placed and immediately refunded
-   - Used to verify identity and prevent spam/abuse
+1. **A valid email address** — or a Google or GitHub account
 
-**Note:** You won't be charged beyond the refundable $1 verification unless you exceed your $100 free credits or choose to add more funds.
-
-That's it! No crypto wallet, no blockchain setup, no installation required.
+That's it! **No credit card, no crypto wallet, no blockchain setup, no installation required.** You add a card later only if you decide to add credits, unlock high-end GPUs, or move to pay-as-you-go.
 
 ---
 
 ## Step 1: Visit Akash Console
 
-Open your browser and go to **[console.akash.network](https://console.akash.network)**
-
-You'll see a banner at the top: **"Credit Card payments are now available!"** (credit card funds **ACT** for deployments.)
+Open your browser and go to **[console.akash.network](https://console.akash.network)** and click **"Start deploying"**.
 
 ---
 
-## Step 2: Start Your Free Trial
+## Step 2: Create Your Account
 
-1. Click the **"Start Trial"** button in the top right corner (it's the bright red/pink button)
+Choose one of three sign-up options. There's no password to create and no credit card to enter.
 
-2. You'll see the trial benefits page showing:
-   - 100$ of free credits
-   - 30 days of free credits
-   - Deployments last up to 24 hours
-   - Keep unused free credits if you purchase credits
-
-3. Click the **"Start Free Trial"** button to continue
-
----
-
-## Step 3: Create Your Account
-
-Choose one of three signup options:
-
-### Option A: Sign up with GitHub (Fastest!)
-1. Click **"Sign up with GitHub"**
+### Option A: Continue with GitHub (Fastest!)
+1. Click **"Continue with GitHub"**
 2. Authorize Akash Console in the popup
 3. Done! Skip to Step 4
 
-### Option B: Sign up with Google (Fastest!)
-1. Click **"Sign up with Google"**
+### Option B: Continue with Google (Fastest!)
+1. Click **"Continue with Google"**
 2. Choose your Google account
 3. Done! Skip to Step 4
 
-### Option C: Sign up with Email
+### Option C: Continue with Email
 1. Enter your email address
-2. Create a strong password
-3. Complete the CAPTCHA
-4. (Optional) Uncheck newsletter if you don't want updates
-5. Check "I have read and agree to Terms of Services"
-6. Click **"SIGN UP"**
+2. Click continue — we'll email you a 6-digit code (no password to remember)
 
 ---
 
-## Step 4: Verify Your Email
+## Step 3: Enter Your Email Code
 
-1. Check your email inbox for a verification message from Akash
-2. Click the verification link in the email
-3. You'll see: **"Email Verified - Your email has been successfully verified"**
-4. Click **"Continue"**
+If you signed up with email:
 
----
-
-## Step 5: Add Payment Method
-
-To prevent abuse, Akash requires a credit card for identity verification. **You won't be charged during the trial.**
-
-1. Fill in the payment form (used to fund **ACT** for deployments):
-   - **Organization** (optional)
-   - **Billing Address** (Full name, Country, Address)
-   - **Card Information** (Card number, Expiration date, CVV)
-
-2. Your card will show up as saved (e.g., "DISCOVER •••• 9564")
-3. Click **"Start Trial"**
-
-**What happens to your card?**
-- **$1 verification charge** - A temporary $1 charge will be placed and immediately refunded (ensure card is valid)
-- Used for identity verification only
-- No other charges during your $100 trial
-- Only charged if you exceed free credits or choose to add more funds
-- Can be removed anytime after verification
+1. Check your inbox for a 6-digit code from Akash
+2. Enter the code in Console
+3. You're in — with **$1 in free trial credits** ready to deploy
 
 ---
 
-## Step 6: Welcome to Akash!
+## Step 4: Choose How to Get Started
 
-You're in! You'll see your dashboard with:
+Console opens straight into **"Let's deploy your first app."** The rest of the app stays gated until your first deployment is live, so you can focus on getting something running.
 
-- **Trial Status Banner** - Shows your $100 credit balance and 30 days remaining
-- **Important:** Deployments last maximum 1 day during trial
-- **Account Overview** - $100.00 remaining of $100.00
+You'll see a set of ready-to-go templates plus an option to deploy your own image. Your trial gives you:
 
----
+- **$1 in free trial credits** to deploy right away
+- **10% in bonus credits on your first purchase, up to $100** (when you're ready to add funds)
 
-## Step 7: Deploy Your First Application
-
-You'll see the welcome screen with **"Choose a template below to launch your first app in seconds."**
-
-**Several featured templates are displayed:**
+Some templates (such as high-end GPU apps) require adding a card to unlock.
 
 ### Option A: Use a Featured Template (Recommended for First Deployment)
 
-Perfect for testing! Choose any featured template to get started.
+Perfect for testing! Pick any template to get a live URL in about 30 seconds.
 
-1. Browse the available templates on the welcome screen
-2. Select a template that interests you (web apps, databases, etc.)
+1. Browse the templates on the welcome screen
+2. Select one that interests you (web apps, databases, AI models, etc.)
 3. Read the template description
-4. Click **"Deploy Now"**
-5. Review the pre-filled configuration
-6. Click **"Create Deployment"**
+4. Click **Deploy**
 
-Wait ~1-2 minutes for deployment to complete
+### Option B: Deploy an AI Model
 
-Your first app is live!
+Want to try something more advanced? Pick an AI/image-generation or language-model template (for example, a Stable Diffusion or Llama template).
 
-### Option B: ComfyUI (AI/Image Generation)
-
-Want to try something more advanced?
-
-1. Find the **"ComfyUI"** card (artist with easel icon)
-2. Read the description: *"A powerful, modular Stable Diffusion tool that lets you build and run advanced image workflows using a visual, node-based interface."*
-3. Click **"Deploy Now"**
-4. Follow the deployment steps
-
-**Note:** This requires more resources and will use more of your trial credits.
-
-### Option C: Llama-3.1-8b (Language Model)
-
-Deploy a cutting-edge AI language model!
-
-1. Find the **"Llama-3.1-8b"** card (basketball player icon)
-2. Read the description: *"A cutting-edge language model built for fast, context-aware text generation. Access a wide range of advanced language tasks."*
-3. Click **"Deploy Now"**
-4. Follow the deployment steps
-
-**Note:** GPU deployments use credits faster but are incredibly powerful!
+**Note:** AI and GPU workloads use more of your trial credits, and high-end GPUs require adding credits to unlock.
 
 ---
 
-## Step 8: Wait for Deployment
+## Step 5: Watch Your Deployment Go Live
 
-After clicking "Deploy Now" on any template:
+After you pick a template, Console handles the rest—no deposit to set and no provider bids to compare. You'll see the deploy funnel move through:
 
-1. Console will show **"Creating Deployment..."**
-2. Providers will automatically bid to host your application
-3. The best bid is automatically selected
-4. Your application starts deploying
+1. **Creating deployment**
+2. **Matching with providers** — Console automatically picks the best host for you
+3. **Preparing deployment**
 
-**Total time:** 1-3 minutes (depending on the template)
-
-You'll see status updates:
-- "Creating Deployment..." 
-- "Accepting Bid..."
-- "Sending Manifest..."
-- "Starting Services..."
-- **"Running"**
+**Total time:** typically 15–30 seconds. When your deployment is ready, Console automatically redirects you to it.
 
 ---
 
-## Step 9: Access Your Deployment
+## Step 6: Access Your Deployment
 
-Once your deployment shows **"Running"** status:
+Once your deployment is live:
 
 1. Look for the **"URIs"** or **"Access URLs"** section in your deployment details
 2. Click on the URL shown (e.g., `https://your-app.provider.akash.network`)
@@ -208,7 +127,7 @@ Once your deployment shows **"Running"** status:
 - **Visit your deployed app** - Click the URL to see it live
 - **View logs** - Check the "Logs" tab to see what's happening
 - **Monitor resources** - See CPU, memory, and storage usage
-- **Check your balance** - Watch how much of your $100 credit you're using
+- **Check your balance** - Watch how much of your credit you're using
 
 ---
 
@@ -225,23 +144,23 @@ In the Console deployment page:
 
 To change your deployment configuration:
 1. Click on your active deployment
-2. Click **"Update Deployment"**
+2. Click **"Update"**
 3. Edit the SDL configuration in the editor
-4. Click **"Update"** to apply changes
+4. Click **"Update Deployment"** to apply changes
 
 **Note:** Updates modify your existing lease and may briefly interrupt service during the container restart.
 
 ### Close Your Deployment
 
-**Important:** Remember trial deployments last maximum 1 day!
+**Important:** Remember trial deployments last a maximum of 1 day!
 
 When you're done testing:
-1. Go to your **"Deployments"** page
+1. Go to your **"Leases"** page
 2. Find your active deployment
-3. Click **"Close Deployment"**
+3. Click **"Close"**
 4. Confirm the closure
 
-**Always close deployments when you're done to conserve your $100 trial credits.**
+Closing a deployment returns its automatic deposit to your credit balance. **Always close deployments when you're done to conserve your trial credits.**
 
 ---
 
@@ -249,10 +168,10 @@ When you're done testing:
 
 The Console dashboard shows:
 
-- **Trial Status** - Your $100 credit balance, days remaining, and usage
-- **Active Deployments** - All your currently running deployments (max 1 day each during trial)
-- **Deployment Costs** - Real-time spending from your trial credits
-- **Account Balance** - Visual chart showing credit usage (Balance vs Deployments)
+- **Credit Balance** - Your remaining credits, days left in the trial, and usage
+- **Active Leases** - All your currently running deployments (max 1 day each during trial)
+- **Cost** - Real-time spending from your credits
+- **Balance** - Visual chart showing credit usage over time
 
 **Pro tip:** Hover over your balance at the top to see detailed credit information!
 
@@ -261,31 +180,40 @@ The Console dashboard shows:
 ## Common Questions
 
 ### "How long do trial deployments last?"
-**Answer:** Trial deployments last a maximum of **1 day (24 hours)**. After 24 hours, they will automatically shut down. This is a trial limitation - paid accounts can run indefinitely.
+**Answer:** Trial deployments last a maximum of **1 day (24 hours)**. After 24 hours, they automatically shut down—but you can redeploy as many times as you like within your 30-day trial. Adding credits removes the 24-hour limit.
 
-### "Can I use H100, H200, A100, RTX 4090, or RTX 5090 GPUs?"
-**Answer:** High-end GPUs (**H100**, **H200**, **A100**, **RTX 4090**, **RTX 5090**) are not available during the free trial. Add a payment method to switch to pay-as-you-go and unlock access to every GPU type on the network.
+### "Can I use high-end GPUs like the H100, H200, A100, or RTX 5090/4090?"
+**Answer:** High-end GPUs (such as the NVIDIA H100, H200, B200, A100, and RTX 5090/4090) aren't included in the free trial. Add credits to unlock them, along with longer runtimes and the full Console.
 
-### "What happens after my $100 credits run out?"
-**Answer:** Your deployments will stop, but you can add more funds via credit card:
+### "Do I need a credit card to start?"
+**Answer:** No. You get $1 in free trial credits with no card. You only add a card if you want to add credits, unlock high-end GPUs, or move to pay-as-you-go.
+
+### "Is there a bonus for adding credits?"
+**Answer:** Yes. On your first purchase of $100 or more, you get **10% in bonus credits, up to $100**. The minimum top-up is $20.
+
+### "How do I skip the trial and unlock the full Console?"
+**Answer:** Choose **"Skip the trial - unlock Console"** (or **"Add funds"** once you're in the app), add credits with a card, and you're on pay-as-you-go with longer runtimes and high-end GPU access.
+
+### "What happens after my trial credits run out?"
+**Answer:** Your deployments will stop, but you can add more funds anytime:
 1. Click your balance at the top
-2. Click **"Add Funds"**
-3. Enter amount and complete payment via Stripe (funds **ACT**)
-4. Your unused trial credits will be kept!
+2. Click **"Add funds"**
+3. Enter an amount and complete payment
+4. Your unused trial credits are kept!
 
 ### "Can I use my own crypto wallet instead?"
 **Answer:** Akash Console is the managed product and no longer accepts wallet connections. For self-custody — bring your own Keplr wallet, sign your own transactions, no time limits — use **[Console Air](https://github.com/akash-network/console-air)**, the self-hostable companion app. See [Choosing Your Console](/docs/getting-started/choosing-your-console) for a side-by-side comparison.
 
 ### "My deployment is taking a long time to start"
 **Solution:**
-- Wait 2-3 minutes - deployment can take time
+- Wait 1-2 minutes - deployment can take time
 - Check the status updates in Console
-- If stuck for 5+ minutes, close and try a different template
+- If stuck for several minutes, close and try a different template
 - Some GPU deployments take longer due to high demand
 
 ### "I don't see my deployment URL"
 **Solution:**
-- Wait until status shows **"Running"** (not just "Active")
+- Wait until your deployment is fully **running**
 - Click on your deployment to see details
 - Look for **"URIs"** or **"Leases"** section
 - The URL will be listed there once the container is fully running
@@ -297,20 +225,17 @@ The Console dashboard shows:
 - Check the **"Events"** or **"Logs"** tab for error messages
 - Contact support on Discord if issue persists
 
-### "$1 verification charge didn't refund yet"
-**Answer:** The $1 verification charge typically refunds within 3-7 business days, depending on your bank. This is standard practice for identity verification.
-
 ---
 
 ## What's Next?
 
 ### Maximize Your Trial
 
-You have $100 in credits and 30 days - here's how to make the most of it:
+You have free trial credits and 30 days - here's how to make the most of it:
 
-1. **Try the Templates** - Deploy ComfyUI (Stable Diffusion) or Llama (AI chat)
+1. **Try the Templates** - Deploy an image-generation or LLM template
 2. **Explore the Marketplace** - Browse pre-built solutions in the Templates section
-3. **Test Your Own Apps** - Use the SDL Builder to deploy your projects
+3. **Test Your Own Apps** - Deploy your own Docker image with the SDL Builder
 4. **Monitor Costs** - See how much different workloads cost on Akash
 
 ### Deploy Real Applications
@@ -335,7 +260,7 @@ Ready for more advanced workflows?
 
 ### Ready to Go Beyond Trial?
 
-**Add Funds:** Click your balance → "Add Funds" → Pay with credit card (keeps your $100 trial credits!)
+**Add Funds:** Click your balance → "Add funds" → Pay with a credit card (keeps your trial credits, and your first $100+ purchase earns a 10% bonus).
 
 **Want self-custody?** Use **[Console Air](https://github.com/akash-network/console-air)** — bring your own Keplr wallet, sign your own transactions, and remove the 24-hour limit.
 
@@ -356,10 +281,9 @@ We're here to help you succeed!
 
 - **Start with templates** - Use a featured template for your first deployment
 - **Watch your credits** - Monitor your balance at the top of Console
-- **Remember the 24-hour limit** - Trial deployments auto-close after 1 day
+- **Remember the 24-hour limit** - Trial deployments auto-close after 1 day (redeploy freely)
 - **Check logs first** - If something doesn't work, logs usually tell you why
-- **Explore the marketplace** - Browse pre-built solutions in Templates section
-- **Try different apps** - You have $100 to experiment with web apps, AI models, databases
-- **Add funds anytime** - Keep your trial credits when you add more via credit card
+- **Explore the marketplace** - Browse pre-built solutions in the Templates section
+- **Add funds anytime** - Keep your trial credits when you add more, and earn a 10% first-purchase bonus
 
 ---

@@ -16,7 +16,7 @@ This section covers everything you need to deploy applications, including Akash 
 ## Deployment Methods
 
 ### [Akash Console](/docs/developers/deployment/akash-console)
-**Visual web interface (managed)** - Deploy using the browser-based Console with free trial OR your own wallet. No CLI required.
+**Visual web interface (managed)** - Deploy using the browser-based Console with a free trial or pay-as-you-go credit-card billing. No CLI required.
 
 ### [Console Air](/docs/developers/deployment/console-air)
 **Visual web interface (self-custody)** - Self-hostable counterpart to Akash Console. Connect your own Keplr wallet and sign every transaction yourself — no managed billing, no time limits.
