@@ -75,7 +75,7 @@ export default function Filter({
     setOptions((prev) => [
       {
         ...prev[0],
-        options: [...new Set(modal)]?.map((modal) => ({
+        options: [...new Set(modal)]?.filter(Boolean)?.map((modal) => ({
           name:
             modifyModel(modal).charAt(0).toUpperCase() +
             modifyModel(modal).slice(1),
@@ -85,12 +85,13 @@ export default function Filter({
       {
         ...prev[1],
         options: [...new Set(ram)]
+          ?.filter(Boolean)
           ?.map((ram) => ({ name: ram, value: ram }))
           ?.sort((a, b) => parseInt(b.name) - parseInt(a.name)),
       },
       {
         ...prev[2],
-        options: [...new Set(interfaceTypes)]?.map((interfaceType) => ({
+        options: [...new Set(interfaceTypes)]?.filter(Boolean)?.map((interfaceType) => ({
           name: interfaceType,
           value: interfaceType,
         })),
@@ -245,6 +246,8 @@ export default function Filter({
                   </SelectTrigger>
                   <SelectContent>
                     {item.options.map((option) => {
+                      // Radix <SelectItem> forbids an empty value; skip blanks defensively
+                      if (!option.value) return null;
                       const isSelected = filters[item.value].includes(
                         option.value,
                       );
