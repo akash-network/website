@@ -285,7 +285,7 @@ attributes:
     value: "true"
 ```
 
-> **Important:** You can only advertise **one storage class** per provider. Choose either beta1 (HDD), beta2 (SSD), or beta3 (NVMe) based on what you configured in Rook-Ceph.
+> **Important:** You can only advertise **one storage class** per provider. Match Rook-Ceph: **`beta3` (NVMe) is the default** in the Persistent Storage guide; use `beta2` (SSD) or `beta1` (HDD) only if you configured that instead.
 
 ---
 

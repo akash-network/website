@@ -122,15 +122,17 @@ After reboot, `nvidia-smi` on the host should report **"command not found"** or 
 
 ## Step 4 — Install the GPU Operator
 
-Once your GPU nodes are clean, install the Operator cluster-wide. Use the same values as a fresh setup — see [GPU & InfiniBand Support → Step 2](/docs/providers/setup-and-installation/kubespray/gpu-support#step-2--install-the-gpu-operator) for the full file and the Fabric Manager guidance:
+Once your GPU nodes are clean, install the Operator cluster-wide. Use the same values as a fresh setup — see [GPU & InfiniBand Support → Step 2](/docs/providers/setup-and-installation/kubespray/gpu-support#step-2--install-the-gpu-operator) for the full file, Fabric Manager guidance, CRD notes, and pinned chart version (`v26.3.3`).
 
 ```bash
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
 
-helm upgrade -i gpu-operator nvidia/gpu-operator \
+# First deploy: helm install (not upgrade -i) so chart CRDs are applied
+helm install gpu-operator nvidia/gpu-operator \
   --namespace gpu-operator \
   --create-namespace \
+  --version v26.3.3 \
   -f gpu-operator-values.yaml
 ```
 
@@ -145,12 +147,13 @@ fabricManager:
   enabled: false         # Set true for SXM GPUs
 ```
 
-Watch the rollout until every pod is `Running` and `nvidia-operator-validator` completes:
+Watch the rollout until every pod is `Running` and validators succeed (`nvidia-cuda-validator` = `Completed`, `nvidia-operator-validator` = `Running`):
 
 ```bash
 kubectl -n gpu-operator get pods -w
 ```
 
+Brief driver crashloops during first bring-up often self-heal — wait for the validators before rolling back.
 The Operator's driver daemonset only schedules on nodes it can manage — cleaned, uncordoned nodes. Uncordon each node after its driver pod is ready (Step 5).
 
 ## Step 5 — Uncordon and verify

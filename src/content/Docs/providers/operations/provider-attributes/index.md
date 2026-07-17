@@ -406,7 +406,7 @@ Advertise support for advanced features.
   value: "true"
 ```
 
-> **Important:** You can only advertise **one persistent storage class** per provider. Choose either beta1 (HDD), beta2 (SSD), or beta3 (NVMe) based on what you configured in Rook-Ceph.
+> **Important:** You can only advertise **one persistent storage class** per provider. Match Rook-Ceph: **`beta3` (NVMe) is the default** in the Persistent Storage guide; use `beta2` (SSD) or `beta1` (HDD) only if you configured that instead.
 
 ### feat-shm
 
@@ -671,9 +671,9 @@ attributes:
   - key: feat-endpoint-custom-domain
     value: true
 
-  # Persistent Storage (required if you have Rook-Ceph)
+  # Persistent Storage (required if you have Rook-Ceph; beta3 = NVMe default)
   - key: capabilities/storage/1/class
-    value: beta2
+    value: beta3
   - key: capabilities/storage/1/persistent
     value: "true"
 

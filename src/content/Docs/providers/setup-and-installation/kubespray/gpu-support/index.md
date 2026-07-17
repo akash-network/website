@@ -78,6 +78,8 @@ helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
 ```
 
+Pin the chart to the current stable patch (**`v26.3.3`**). NVIDIA GPU Operator charts use CalVer (`vYY.MM.PP`).
+
 Create `gpu-operator-values.yaml`:
 
 ```yaml
@@ -105,21 +107,34 @@ nodeStatusExporter:
 
 > **Why `driver.rdma.enabled: false` by default?** With RDMA enabled, the GPU driver pod's init container waits for MOFED (from the Network Operator) and will sit in `Init:0/1` forever if the Network Operator is not installed. Enable it only in [Part 2](#part-2--infiniband--rdma-optional).
 
-Deploy:
+### First deploy — CRDs
+
+`helm upgrade --install` **skips** a chart's `crds/` directory. On a first deploy that causes failures like `no matches for kind "ClusterPolicy"`. Use `helm install` for the initial release (or pre-apply CRDs — see [Troubleshooting](#troubleshooting)).
+
+Deploy (first install):
 
 ```bash
-helm upgrade -i gpu-operator nvidia/gpu-operator \
+helm install gpu-operator nvidia/gpu-operator \
   --namespace gpu-operator \
   --create-namespace \
+  --version v26.3.3 \
   -f gpu-operator-values.yaml
 ```
 
-Watch the rollout until every pod is `Running` and `nvidia-operator-validator` completes:
+Later upgrades can use `helm upgrade` with the same `--version` and values file.
+
+Watch the rollout until every pod is `Running` and validators succeed:
 
 ```bash
 kubectl -n gpu-operator get pods -w
+
+# Healthy end state
+kubectl -n gpu-operator get pods | grep -E 'cuda-validator|operator-validator'
+# nvidia-cuda-validator-*     Completed
+# nvidia-operator-validator-* Running
 ```
 
+> **Note:** Driver pods may crashloop briefly during the first bring-up while dependencies start, then self-heal. Wait for the validators above before treating it as a failure.
 ## Step 3 — Verify GPUs
 
 Check allocatable GPUs per node:
@@ -195,18 +210,29 @@ ibstat | grep -E "State|Link layer|Rate"
 
 ## Step 5 — Install the Network Operator
 
+Pin the chart to **`26.1.1`** (CalVer `YY.MM.PP`). Unpinned installs can pull a newer chart (for example `26.4.0`) whose CRDs/images do not match the NicClusterPolicy below.
+
+Same CRD rule as the GPU Operator: use `helm install` on first deploy (or pre-apply CRDs). `helm upgrade --install` skips `crds/` and fails with `no matches for kind "NodeFeatureRule"`.
+
 ```bash
-helm upgrade -i network-operator nvidia/network-operator \
+helm install network-operator nvidia/network-operator \
   --namespace nvidia-network-operator \
   --create-namespace \
-  --set deployCR=false
+  --version 26.1.1 \
+  --set deployCR=false \
+  --set nfd.enabled=true
 ```
 
-`deployCR=false` lets us apply the `NicClusterPolicy` separately in the next step.
+- `deployCR=false` — apply the `NicClusterPolicy` yourself in the next step.
+- `nfd.enabled=true` — Node Feature Discovery (required; the chart registers `NodeFeatureRule` CRDs).
+
+Later upgrades: `helm upgrade network-operator nvidia/network-operator --version 26.1.1 ...` with the same flags.
 
 ## Step 6 — Apply the NicClusterPolicy
 
-Create `nic-cluster-policy.yaml`. Replace `<DEVICE_ID>` with the ConnectX device ID from Step 4:
+Create `nic-cluster-policy.yaml`. Set `deviceIDs` from Step 4 (`lspci -n | grep 15b3`). Example below uses **`101b`** (ConnectX-6); change it if your cards differ.
+
+Component image tags are pinned to **Network Operator v26.1.1** (`network-operator-v26.1.1` and DOCA driver `doca3.3.0-26.01-1.0.0.0-0`). Keep them aligned with the chart version from Step 5.
 
 ```yaml
 apiVersion: mellanox.com/v1alpha1
@@ -240,7 +266,7 @@ spec:
             "rdmaHcaMax": 63,
             "selectors": {
               "vendors": ["15b3"],
-              "deviceIDs": ["<DEVICE_ID>"]
+              "deviceIDs": ["101b"]
             }
           }
         ]
@@ -267,11 +293,12 @@ spec:
     enableWebhook: false
 ```
 
-> **Version tags:** the `doca-driver` and `network-operator-v26.1.1` tags above match a specific Network Operator release. Confirm the exact tags for your release in the [NGC catalog](https://catalog.ngc.nvidia.com/) / [Network Operator release notes](https://docs.nvidia.com/networking/display/kubernetes/network-operator) before applying.
+> **Version tags:** the `doca-driver` and `network-operator-v26.1.1` tags above match Network Operator chart `26.1.1`. If you change the chart version, update these tags from the [NGC catalog](https://catalog.ngc.nvidia.com/) / [Network Operator release notes](https://docs.nvidia.com/networking/display/kubernetes/network-operator).
 
 **CRD schema notes (Network Operator v26.1.x):**
 
 - `rdmaSharedDevicePlugin` takes a `config` field (a JSON string), **not** a `resources` array.
+- Resource name must be `rdma_shared_device_ib` with `rdmaHcaMax: 63` (Akash interconnect expects this resource).
 - `nvIpam` is a **top-level** `spec` field, **not** nested under `secondaryNetwork`.
 - `secondaryNetwork` accepts only `cniPlugins`, `multus`, and `ipoib`.
 - Component versions should match the operator version (`network-operator-v26.1.1`).
@@ -316,11 +343,12 @@ driver:
     useHostMofed: false
 ```
 
-Re-apply:
+Re-apply (chart already installed — `helm upgrade` is correct here; CRDs are already present):
 
 ```bash
-helm upgrade -i gpu-operator nvidia/gpu-operator \
+helm upgrade gpu-operator nvidia/gpu-operator \
   --namespace gpu-operator \
+  --version v26.3.3 \
   -f gpu-operator-values.yaml
 ```
 
@@ -416,12 +444,32 @@ Adding InfiniBand:
 
 ## Troubleshooting
 
+**`no matches for kind "ClusterPolicy"` or `"NodeFeatureRule"`** — Helm skipped CRDs because the release was created with `helm upgrade --install`. On first deploy use `helm install`, **or** pre-apply CRDs then upgrade:
+
+```bash
+# GPU Operator CRDs
+helm pull nvidia/gpu-operator --version v26.3.3 --untar
+kubectl create -f gpu-operator/crds/
+helm upgrade -i gpu-operator nvidia/gpu-operator \
+  --namespace gpu-operator --create-namespace \
+  --version v26.3.3 -f gpu-operator-values.yaml
+
+# Network Operator CRDs
+helm pull nvidia/network-operator --version 26.1.1 --untar
+kubectl create -f network-operator/crds/
+helm upgrade -i network-operator nvidia/network-operator \
+  --namespace nvidia-network-operator --create-namespace \
+  --version 26.1.1 --set deployCR=false --set nfd.enabled=true
+```
+
 **GPU driver pod stuck in `Init:0/1`** — the driver init container is waiting for MOFED. This happens when `driver.rdma.enabled: true` but the Network Operator/MOFED is not ready. Either finish Part 2 or set `driver.rdma.enabled: false`.
 
 ```bash
 kubectl -n nvidia-network-operator get pods | grep mofed
 kubectl -n nvidia-network-operator logs -l app=mofed-ubuntu24.04 --tail=20
 ```
+
+**Driver pods crashloop then recover** — common during first bring-up while the toolkit / device plugin / MOFED ordering settles. Wait for `nvidia-cuda-validator` = `Completed` and `nvidia-operator-validator` = `Running` before debugging further.
 
 **NicClusterPolicy rejected with schema errors** — the CRD schema changes between operator versions. Inspect what your version accepts:
 
