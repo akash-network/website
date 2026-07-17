@@ -100,7 +100,8 @@ Canonical key names and allowed values: [provider-attributes.json](https://githu
 | `feat-shm` | Must be `true` |
 | `capabilities/storage/2/class` | Must be `ram` |
 | `capabilities/storage/2/persistent` | Must be `"false"` |
-| `feat-endpoint-ip` | `true` or `false` — declare explicitly |
+| `capabilities/ip-lease` | `"true"` or `"false"` — declare explicitly |
+| `feat-endpoint-ip` | `"true"` or `"false"` — declare explicitly |
 | `feat-endpoint-custom-domain` | `true` or `false` — declare explicitly |
 | `feat-persistent-storage` | `true` or `false` — declare explicitly |
 

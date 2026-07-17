@@ -256,6 +256,74 @@ If the `reclamation` block is omitted, reclamation is not required and any provi
 
 ---
 
+## Confidential Compute (TEE)
+
+Request hardware-isolated Trusted Execution Environments (TEE) to fully secure your workloads during processing. Akash supports AMD SEV-SNP and Intel TDX with optional NVIDIA GPU Confidential Computing. You specify a TEE *capability* in SDL; the provider resolves the actual hardware *platform* at deployment time.
+
+### Basic TEE Request
+
+Set `params.tee` to `cpu` for a CPU-only confidential VM:
+
+```yaml
+services:
+  web:
+    image: nginx
+    expose:
+      - port: 80
+        to:
+          - global: true
+    params:
+      tee: cpu
+```
+
+### GPU + TEE
+
+Use `cpu-gpu` to combine Confidential Compute with GPU acceleration. This must be paired with GPU resources in the compute profile:
+
+```yaml
+services:
+  inference:
+    image: my-model:latest
+    expose:
+      - port: 8080
+        to:
+          - global: true
+    params:
+      tee: cpu-gpu
+
+profiles:
+  compute:
+    inference:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 256Mi
+        storage:
+          size: 128Mi
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+```
+
+### TEE Type Reference
+
+The `params.tee` field accepts the following values:
+
+| Value | Runtime Class (Intel TDX) | Runtime Class (AMD SEV-SNP) | Description |
+|-------|---------------------------|-----------------------------|-------------|
+| `cpu` | `kata-qemu-tdx` | `kata-qemu-snp` | CPU-only confidential VM |
+| `cpu-gpu` | `kata-qemu-nvidia-gpu-tdx` | `kata-qemu-nvidia-gpu-snp` | Confidential VM with NVIDIA GPU CC |
+
+For attestation, security model details, and provider setup, see:
+
+- [Confidential Compute (TEE) Core Concepts](/docs/learn/core-concepts/confidential-compute)
+- [Provider Confidential Compute Setup](/docs/providers/setup-and-installation/kubespray/confidential-compute)
+
+---
+
 ## IP Endpoints (Dedicated IPs)
 
 ### Basic IP Endpoint
