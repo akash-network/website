@@ -473,6 +473,26 @@ Both `capabilities/ip-lease` and `feat-endpoint-ip` should be set when offering 
   value: true
 ```
 
+### tee/type
+
+- **Values**: `cpu`, `cpu-gpu`
+- **Purpose**: Advertise Trusted Execution Environment (Confidential Compute) support
+- **Required**: Only if your provider supports TEE workloads
+
+| Value | Description |
+|-------|-------------|
+| `cpu` | CPU-only confidential VMs (AMD SEV-SNP or Intel TDX) |
+| `cpu-gpu` | Confidential VMs with NVIDIA GPU Confidential Computing (AMD SEV-SNP or Intel TDX) |
+
+The actual hardware platform (`snp` or `tdx`) is detected by the provider from Kubernetes node labels at runtime and is not advertised as a provider attribute.
+
+```yaml
+- key: tee/type
+  value: cpu
+```
+
+> See [Confidential Compute Setup](/docs/providers/setup-and-installation/kubespray/confidential-compute) for full TEE configuration instructions.
+
 ---
 
 ## GPU Capabilities
@@ -643,6 +663,12 @@ attributes:
     value: "true"
   - key: cuda
     value: "12.7"
+
+  # Confidential Compute (if TEE hardware is available)
+  # - key: tee/platform
+  #   value: snp
+  # - key: tee/type
+  #   value: cpu
 ```
 
 ---
@@ -663,6 +689,7 @@ Look for your attributes in the `attributes` section of the output.
 
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
 - [GPU Support Setup](/docs/providers/setup-and-installation/kubespray/gpu-support)
+- [Confidential Compute Setup](/docs/providers/setup-and-installation/kubespray/confidential-compute) — TEE configuration guide
 - [Provider Audit](/docs/providers/operations/provider-audit) — Official audit process and attribute checklist
 - [Provider Attributes Schema](https://github.com/akash-network/console/blob/main/config/provider-attributes.json) (canonical key list)
 - [Provider Configs Repository](https://github.com/akash-network/provider-configs)
