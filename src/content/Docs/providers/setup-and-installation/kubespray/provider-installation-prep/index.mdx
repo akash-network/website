@@ -321,6 +321,22 @@ attributes:
 
 > **Note:** Model names should be lowercase with no spaces. List each GPU model you're offering.
 
+### Add GPU Interconnect Attributes (if you have InfiniBand / RoCE)
+
+If you completed [Part 2 — InfiniBand / RDMA](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional), advertise interconnect so tenants can match multi-node NCCL jobs:
+
+```yaml
+  - key: capabilities/gpu-interconnect
+    value: "true"
+  - key: capabilities/gpu-interconnect/fabric/infiniband
+    value: "true"
+  # Or RoCE instead of (or in addition to) InfiniBand:
+  # - key: capabilities/gpu-interconnect/fabric/roce
+  #   value: "true"
+```
+
+Omit these keys if your nodes have no InfiniBand/RoCE hardware. Full details: [Provider Attributes — GPU Interconnect](/docs/providers/operations/provider-attributes/#gpu-interconnect-infiniband--roce).
+
 ---
 
 ### Complete Example with All Features

@@ -453,4 +453,5 @@ Your cluster now has GPU support (and optionally InfiniBand RDMA).
 - [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) — **required** for all providers: cert-manager and Gateway TLS
 - [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) — enable static IPs
 
-> **Note:** After installing the provider, add GPU attributes to your `provider.yaml` to advertise GPU capabilities (and `capabilities/gpu-interconnect` for InfiniBand). This is covered in the Provider Installation guide.
+> **Note:** After installing the provider, add GPU attributes to your `provider.yaml` to advertise GPU capabilities — and `capabilities/gpu-interconnect` plus `capabilities/gpu-interconnect/fabric/infiniband` (or `.../fabric/roce`) if you completed Part 2. See [Provider Attributes — GPU Interconnect](/docs/providers/operations/provider-attributes/#gpu-interconnect-infiniband--roce).
+

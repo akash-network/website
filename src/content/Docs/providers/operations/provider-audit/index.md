@@ -141,9 +141,21 @@ See [Provider Attributes — GPU Capabilities](/docs/providers/operations/provid
 
 If you **do not** run GPUs, omit all `capabilities/gpu/*` keys and `cuda`.
 
+### Required if you offer GPU interconnect (InfiniBand / RoCE)
+
+If you advertise multi-node RDMA, include:
+
+| On-chain key | Notes |
+| ------------ | ----- |
+| `capabilities/gpu-interconnect` | `"true"` |
+| `capabilities/gpu-interconnect/fabric/infiniband` | If you offer InfiniBand |
+| `capabilities/gpu-interconnect/fabric/roce` | If you offer RoCE |
+
+See [Provider Attributes — GPU Interconnect](/docs/providers/operations/provider-attributes/#gpu-interconnect-infiniband--roce). Omit these keys if you have no InfiniBand/RoCE fabric.
+
 ### Attributes must match what you offer
 
-On-chain attributes must match **every capability you advertise** — GPU models, SHM, persistent storage, IP leases, custom domains, and network speeds. Reviewers compare your attributes to the audit deployment and your live inventory.
+On-chain attributes must match **every capability you advertise** — GPU models, GPU interconnect, SHM, persistent storage, IP leases, custom domains, and network speeds. Reviewers compare your attributes to the audit deployment and your live inventory.
 
 ---
 
