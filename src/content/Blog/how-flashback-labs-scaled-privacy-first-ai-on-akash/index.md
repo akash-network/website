@@ -12,12 +12,25 @@ categories:
 
 tags:
   - Case Studies
+  - Flashback Labs
+  - AI twin
+  - privacy-first AI
+  - decentralized cloud
+  - zero-knowledge
+  - TEE
+  - memory preservation
+  - generative AI
+  - GPU rental
+  - case study
 
 contributors:
   - Michelle Javed
 
 bannerImage: ./banner.webp
 ---
+
+> **TL;DR:** Flashback Labs deployed its privacy-first AI twin platform on Akash, dramatically reducing infrastructure costs vs traditional cloud providers. Akash's decentralized architecture aligns with their zero-knowledge, user-owned data model — and their mobile app for iOS and Android is coming soon.
+
 
 Memory is the architecture of our identities. Every photograph, every conversation, every moment lived shapes who we are, and who we'll be remembered as.
 
@@ -74,3 +87,27 @@ The Akash and Flashback Labs partnership demonstrates the viability of decentral
 Flashback Labs shows how innovative companies are leveraging Akash Network to build the future of AI. One that prioritizes user privacy, data sovereignty, and accessibility over corporate data harvesting and monopolistic infrastructure control.
 
 **Explore how Akash Network can power your AI workloads with cost-effective, decentralized GPU compute. Get started at [akash.network](https://akash.network).**
+
+## Frequently Asked Questions
+
+**What does Flashback Labs build?**
+A privacy-first AI platform where users create personalized AI twins trained on their own memories, photos, and life stories — supporting families dealing with Alzheimer's and preserving legacies across generations.
+
+**Why did Flashback Labs choose Akash over AWS or Google Cloud?**
+Akash's decentralized architecture aligns with Flashback's zero-knowledge, user-owned data model — centralized providers can technically access customer data, fundamentally conflicting with Flashback's privacy guarantees.
+
+**What AI workloads does Flashback Labs run on Akash?**
+GPT-class LLMs for memory capture and narrative generation, conversational inference for AI twin interactions, long-context processing pipelines, and real-time AI training — all compute-intensive generative AI tasks.
+
+**What cost savings did Flashback Labs achieve with Akash?**
+Flashback Labs launched their web experience at a fraction of traditional cloud infrastructure costs — with validated competitive pricing that makes consumer-facing AI economically sustainable at scale.
+
+**What is an AI twin on Flashback Labs?**
+A deeply personal AI companion that preserves a person's voice, stories, and personality — trained on their own data, not scraped internet content. Used for legacy preservation and supporting families with loved ones experiencing memory loss.
+
+**What is Flashback Labs building next?**
+A mobile application for Android and iOS enabling users to train their own AI twins directly from mobile devices — bringing privacy-first AI memory preservation to millions of users worldwide.
+
+**Does Akash support Trusted Execution Environments for privacy?**
+Yes — Flashback Labs uses TEEs (Trusted Execution Environments) to ensure all user data remains encrypted and user-owned. Akash's roadmap includes expanded confidential computing support (AEP-65).
+

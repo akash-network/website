@@ -9,11 +9,23 @@ categories:
 tags:
   - Insights
   - Case Studies
+  - Ray
+  - distributed ML
+  - GPU cluster
+  - machine learning
+  - AI training
+  - NVIDIA A100
+  - Akash SDL
+  - distributed computing
+  - open source AI
 contributors:
   - Anil Murty
 
 bannerImage: ./ray-cluster-on-akash-network-diagram.png
 ---
+
+> **TL;DR:** Ray is an open-source distributed computing framework that lets AI/ML developers scale workloads across multiple GPUs without rewriting code. This guide shows how to run a Ray cluster on Akash's decentralized GPU network using pre-built Docker images and SDL templates from the awesome-akash repository.
+
 
 By [Anil Murty](https://twitter.com/_anil_murty_) and [Logan Cerkovnik](https://www.linkedin.com/in/logancerkovnik/)
 
@@ -166,3 +178,27 @@ Stay tuned for a set of blog posts in the coming weeks, which will delve into th
 ## Getting started with Ray on Akash
 
 Do you use Ray for your inference, training, or fine-tuning workloads today? If so, the Akash core team would love to help you leverage Akash's GPU infrastructure for your needs — [reach out to the Akash core team to continue the conversation](https://akashnet.typeform.com/to/rhR4cWxQ).
+
+## Frequently Asked Questions
+
+**What is Ray and why use it for ML on Akash?**
+Ray is an open-source framework that abstracts distributed computing, letting developers scale ML workloads across a GPU cluster without needing expertise in distributed systems. It's Docker-native and works naturally with Akash.
+
+**How many nodes does the Ray on Akash template deploy?**
+One head node and six worker nodes by default. You can modify the SDL YAML to change the worker count for your specific workload.
+
+**Where is the Ray on Akash template?**
+In the awesome-akash repository at github.com/akash-network/awesome-akash/tree/master/ray — includes Dockerfiles, SDL templates, and a README with setup instructions.
+
+**What storage options work with Ray on Akash?**
+AWS S3, MinIO deployments on Akash, and Backblaze B2 are all supported via environment variables (AWS_ACCESS_KEY_ID, MINIO_ACCESS_KEY, B2_APPLICATION_KEY_ID).
+
+**What Python and CUDA versions does the reference image use?**
+Python 3.10 and CUDA 11.8. You can update the Dockerfile to use a different Ray image from the official registry and rebuild your container.
+
+**What is AT-1 and how does it relate to Ray on Akash?**
+AT-1 (Akash-Thumper-1) is a foundation AI image model trained by Overclock Labs and ThumperAI using Ray clusters on Akash GPUs — a real-world proof of concept for distributed training on decentralized compute.
+
+**What is SHM and why does it matter for Ray on Akash?**
+Shared memory (SHM) is used by Ray's plasma object store. Docker containers default to ~2MB SHM which is too low for ML training — coordinate with your Akash provider on Discord to enable increased SHM before deploying.
+

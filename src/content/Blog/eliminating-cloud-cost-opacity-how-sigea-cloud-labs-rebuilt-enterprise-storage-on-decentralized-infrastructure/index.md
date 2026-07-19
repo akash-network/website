@@ -12,12 +12,25 @@ categories:
 
 tags:
   - Case Studies
+  - Sigea Cloud
+  - zero-knowledge storage
+  - privacy
+  - decentralized storage
+  - encrypted storage
+  - cloud cost savings
+  - enterprise storage
+  - data sovereignty
+  - permissionless compute
+  - case study
 
 contributors:
   - Michelle Javed
 
 bannerImage: ./banner.webp
 ---
+
+> **TL;DR:** Sigea Cloud Labs deployed privacy-first zero-knowledge cloud storage on Akash — achieving cost efficiency, operational resilience, and enterprise-grade performance while proving decentralized infrastructure supports complex encrypted file storage without vendor lock-in or centralized data custody.
+
 
 **By Michelle Javed**
 
@@ -127,3 +140,27 @@ The next phase focuses on expanding platform capabilities and scaling adoption. 
 ## GET IN TOUCH
 
 Learn more about deploying privacy-first infrastructure on decentralized compute at [akash.network](http://akash.network)
+
+## Frequently Asked Questions
+
+**What does Sigea Cloud build?**
+A privacy-first, zero-knowledge cloud storage and file transfer solution — all files encrypted client-side so only the user controls decryption, with no file size limits and cross-platform support on Android and iOS.
+
+**What is zero-knowledge storage?**
+A model where files are encrypted before they leave the user's device — the storage provider has no technical ability to access, scan, or monetize the content stored on their infrastructure.
+
+**Why does Sigea Cloud use Akash instead of AWS or Google Cloud?**
+Centralized providers can technically access customer data, fundamentally conflicting with zero-knowledge architecture. Akash's decentralized model is structurally aligned with user data sovereignty.
+
+**What workloads does Sigea Cloud run on Akash?**
+Storage orchestration, encryption and access-control services, indexing and retrieval coordination, high-throughput encrypted file handling, application gateways, monitoring, and scaling components.
+
+**How does Akash's reverse-auction pricing help Sigea?**
+Akash eliminates opaque pricing tiers and surprise egress fees — turning storage into a predictable utility where organizations pay for actual usage without penalties for moving their own data.
+
+**What was the key technical validation from Sigea's Akash deployment?**
+Successfully migrating core backend services to decentralized infrastructure while maintaining performance and reliability at scale — including consistent throughput for large encrypted file transfers.
+
+**Does Sigea Cloud have an SDK?**
+Intentionally no — Sigea is designed without a traditional SDK to remove complexity. The focus is on making secure storage simple and composable at the system level rather than adding programmatic integration layers.
+

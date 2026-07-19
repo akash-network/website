@@ -11,10 +11,23 @@ tags:
   - Insights
   - Updates
   - Case Studies
+  - AI model training
+  - foundation model
+  - NVIDIA A100
+  - RTX8000
+  - Ray cluster
+  - distributed training
+  - HuggingFace
+  - open source AI
+  - image generation
+  - GPU cluster
 contributors:
   - Anil Murty
 bannerImage: ./foundation-ai-model-akash-6.png
 ---
+
+> **TL;DR:** Overclock Labs and ThumperAI trained AT-1, a foundation image-generation AI model, on 48 Akash GPUs (32x A100 80GB + 16x RTX8000) using Ray clusters. This proved distributed foundation model training is feasible on decentralized compute — model weights are open-source on HuggingFace.
+
 
 [Anil Murty](https://twitter.com/_Anil_Murty_) & [Logan Cerkovnik](https://www.linkedin.com/in/logancerkovnik/)
 
@@ -161,3 +174,27 @@ There are two potential next projects that the two teams will consider leveragin
 
 - While the The AT-1 model training exercise was a great first step it is clear that the current performance is not good enough to be competitive with text-to-image models today. Further, while the goal was noble, there doesn’t appear to be a viable path to improving the model on purely creative commons datasets at this point in time. Thumper has decided to pivot away from creative commons models and will consider training and releasing a model merge or further fine tuned version of AT-1 at a future date that would include non-creative commons data/models.
 - The Thumper team will look into migrating [https://loratrainer.com/](https://loratrainer.com/) to run on Akash Network as they look to scale that service, so as to take advantage of the lower costs (relative to their current centralized provider) and variety of GPUs available on the network. One of the features needed before they can do this is the ability to [request a max SHM size](https://github.com/akash-network/support/issues/179) through the Akash SDL. That feature is about to be made available on the network through an upgrade.
+
+## Frequently Asked Questions
+
+**What is AT-1?**
+Akash-Thumper-1, the first foundation AI model trained on Akash's decentralized GPU network. It's an image generation model released open-source on HuggingFace at huggingface.co/thumperai/akash-thumper-v1.
+
+**What hardware was used to train AT-1?**
+32x A100 80GB PCIe GPUs from the Europlots provider and 16x RTX8000 GPUs from FoundryStaking — 48 GPUs total across two Akash providers.
+
+**Why train an image generation model instead of an LLM?**
+Image models are cheaper to train than LLMs, and using creative commons datasets avoids the copyright infringement issues affecting models trained on Getty Images and similar proprietary data.
+
+**What dataset was used for AT-1?**
+Creative commons images filtered from YFCC100M and LAION-5B datasets (CC0 or CC-SA licenses), plus 2M AI-generated images under MS-PL license for fine-tuning.
+
+**What distributed training framework did AT-1 use?**
+Ray clusters deployed across Akash GPUs. See the companion post on running Ray on Akash for full setup instructions and SDL templates.
+
+**What were the key learnings for foundation model training on Akash?**
+Enable increased SHM with your provider before deploying Ray clusters; use streaming dataloaders and cached latent images to improve training efficiency; Backblaze or MinIO work well for checkpoint storage.
+
+**Where is the AT-1 source code?**
+Training and inference code is open-source at github.com/thumper-ai/at1 and model weights are on HuggingFace at huggingface.co/thumperai/akash-thumper-v1.
+

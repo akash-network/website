@@ -9,10 +9,23 @@ tags:
   - Homenode
   - AI Infrastructure
   - Decentralized Cloud
+  - home GPU
+  - NVIDIA Blackwell
+  - RTX 4090
+  - distributed compute
+  - AI energy
+  - decentralized cloud
+  - GPU rental income
+  - Span
+  - PulteGroup
+  - edge compute
 contributors:
   - Michelle Javed
 bannerImage: ./banner-image.jpeg
 ---
+
+> **TL;DR:** NVIDIA's partnership with Span and PulteGroup installs GPU cabinets on new-construction homes. Akash Homenode takes the opposite approach — software only, works with GPUs you already own, no new construction or homeownership required. Both validate the same thesis: distributed home compute is the solution to centralized AI's energy wall.
+
 
 For the last decade, scaling AI meant one thing: build bigger datacenters. Pour billions into hyperscale facilities. Negotiate with utility companies for hundreds of megawatts. Quietly hope the local grid can handle it.
 
@@ -85,3 +98,27 @@ The home is the new data center. The only real question for anyone reading this 
 If you're building a new house with PulteGroup, the NVIDIA/Span option may be worth a look in the years ahead.
 
 If you have a gaming rig sitting in your office right now, Homenode is the path that's available to you today. Sign up for the Akash Homenode Pilot Testing, and start earning.
+
+## Frequently Asked Questions
+
+**What is the NVIDIA + Span home data center initiative?**
+A partnership installing company-owned liquid-cooled RTX PRO 6000 Blackwell GPU cabinets on the exterior of new PulteGroup-built homes — homeowners receive a utility bill credit in exchange for providing space and electrical capacity.
+
+**What is Akash Homenode?**
+A software platform for existing GPU owners (RTX 30/40/50 series, RTX Pro 6000) to connect their hardware to the Akash Network and earn from real compute demand — no new hardware purchase, no new construction, no homeownership required.
+
+**What GPUs does Akash Homenode currently support?**
+RTX 4090, RTX 5090, and Quadro RTX 6000 Ada at launch — with expansion based on what the community brings to the program. Sign up at homenode.akash.network regardless of GPU model.
+
+**Why is the NVIDIA/Span approach limited in scale?**
+It requires new PulteGroup construction, homeownership, sufficient electrical capacity for up to 16 GPUs, exterior space and ventilation, and multi-year rollout timelines — excluding renters, existing homeowners, and most of the global GPU owner population.
+
+**How does Akash Homenode compare to NVIDIA/Span for existing GPU owners?**
+Homenode works with hardware you already own, in any home or apartment, with no construction, no homeownership requirement, and is available now — while NVIDIA/Span requires new home construction and is years from mass rollout.
+
+**Why is distributed home compute the answer to AI's energy crisis?**
+Centralized data centers require years of new power infrastructure to build. Home compute uses existing electrical capacity distributed across millions of locations — AI workloads come to where energy already exists, not the other way around.
+
+**How do I sign up for Akash Homenode?**
+Sign up for the Akash Homenode Pilot at homenode.akash.network — early access is live with rigorous testing underway before the full alpha release.
+

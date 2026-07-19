@@ -7,11 +7,24 @@ categories:
   - Product
 tags:
   - Product
+  - Console Air
+  - Akash Console
+  - self-custody
+  - Keplr wallet
+  - open source
+  - self-hosted
+  - AEP-84
+  - decentralized cloud
+  - migration
+  - product update
 contributors:
   - Maxime Beauchamp
 
 bannerImage: ./banner.png
 ---
+
+> **TL;DR:** Akash Console is splitting into two products: the managed-wallet Console at console.akash.network (credit card, no-wallet users), and Console Air — an open-source, self-hostable console for self-custody users with Keplr wallet, custom RPC nodes, and full transaction signing. Self-custody features migrate to Console Air on May 18, 2026.
+
 
 We're splitting Akash Console into two products.
 
@@ -80,3 +93,27 @@ If you have a self-custody deployment you want to keep managing through a UI, ex
 The repository is at [github.com/akash-network/console-air](https://github.com/akash-network/console-air). Clone it, run it locally, or deploy your own instance. The README walks through both. Issues, PRs, and feedback welcome.
 
 If you have questions about the split or the migration, find us in [the Akash Discord](https://discord.gg/akash) or open an issue on the Console Air repo. This is the start of a more focused product on both sides, and we want to hear how it lands.
+
+## Frequently Asked Questions
+
+**What is Console Air?**
+An open-source, self-hostable Akash Console for self-custody users — supporting Keplr wallet connections, self-signed transactions, custom RPC/API endpoints, and deployment certificate management.
+
+**Why is Akash splitting Console into two products?**
+To optimize each experience independently — the main Console becomes the fastest managed-wallet on-ramp (no crypto knowledge needed), while Console Air becomes a serious tool for self-custodial power users and developers.
+
+**What happens to self-custody features on May 18, 2026?**
+Self-custody flows (Keplr wallet, manual transaction signing) are removed from console.akash.network. Self-custody users must migrate to Console Air to continue managing their deployments.
+
+**How do I migrate my data from Console to Console Air?**
+In Akash Console → App Settings → General, click 'Export Local Data.' In Console Air, import the JSON file. All saved deployments, certificates, and preferences transfer directly — same data format.
+
+**Do existing deployments keep running during the migration?**
+Yes — the split is a UI change only, not a chain change. On-chain leases, providers, and escrow accounts are unaffected. Existing workloads continue running regardless of which console you use.
+
+**Where is Console Air's repository?**
+At github.com/akash-network/console-air — clone it, run locally, or self-host behind your own domain. The README covers both setup paths.
+
+**Are managed-wallet (credit card) users affected by this change?**
+No — if you use email or social login, nothing about your Akash Console experience changes. The split only affects users with self-custody Keplr wallet connections.
+

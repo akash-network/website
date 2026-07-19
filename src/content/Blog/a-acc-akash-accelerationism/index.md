@@ -9,6 +9,15 @@ categories:
 tags:
   - Updates
   - Insights
+  - GPU rental
+  - decentralized compute
+  - open source AI
+  - NVIDIA H100
+  - A100
+  - provider incentives
+  - DePIN
+  - Akash community
+  - e/acc
 contributors:
   - Zach Horn
 pinned: false
@@ -16,6 +25,9 @@ homepage: false
 bannerImage: ./akash-accelerationism.png
 description: How strategic progress in 2023 laid the foundation for rapid acceleration in 2024 and beyond.
 ---
+
+> **TL;DR:** Akash closed 2023 by open-sourcing its full codebase, launching GPU support (NVIDIA H100, A100, AMD), and beginning foundation model training. In 2024, the focus shifts to scaling compute supply through provider incentives and expanding the open contributor community.
+
 
 _How strategic progress in 2023 laid the foundation for rapid acceleration in 2024 and beyond._
 
@@ -168,3 +180,27 @@ Emerging trends will continue to shape the industry, including the rise of open-
 _If you’re interested in contributing to Akash, there are several ways to get involved. To become an open-source contributor, [browse the list of community groups](https://akash.network/community/core-groups/cg-list/) and reach out on Discord or join the next public group meeting. If you’re interested in becoming an Akash Insider, please [feel free to apply](https://akash.network/community/insiders/)._
 
 \_To stay updated with the latest news, [follow Akash on X](https://x.com/akashnet) and connect with the network [across social media](https://akash.network/community/).\_
+
+## Frequently Asked Questions
+
+**What is Akash Accelerationism (a/acc)?**
+Akash's alignment with the e/acc and d/acc movements — accelerating open, decentralized access to compute to prevent power concentration in a few cloud corporations like AWS, Azure, and Google Cloud.
+
+**What GPUs are available on Akash Network?**
+NVIDIA H100, A100, and a wide range of consumer GPUs (RTX 30-series and above), plus AMD models added in late 2023. Providers list hardware on the open marketplace.
+
+**What is the Akash DAO community structure?**
+Special Interest Groups (SIGs) and Working Groups (WGs) organized around specific objectives, overseen by a Steering Committee — modeled after Kubernetes open governance.
+
+**What are Akash provider incentives?**
+A program rewarding compute providers for listing GPUs on the network, designed to scale supply once the network reached ~50% utilization — proving product-market fit.
+
+**What is the Repurposed ETH Miner thesis?**
+Former Ethereum proof-of-work miners (like Foundry) repurposing GPU capacity for AI workloads on Akash after Ethereum switched to proof-of-stake, bringing datacenter-grade GPUs to the network.
+
+**What is Akash Chat?**
+A free, permissionless chat interface running open-source AI models (Mixtral-8x7B, Mistral-7B) on Akash GPUs — an alternative to ChatGPT without centralized moderation restrictions.
+
+**How can I contribute to Akash Network?**
+Browse community groups at akash.network/community, join via Discord, or attend public SIG and WG meetings. Apply to become an Akash Insider at akash.network/community/insiders/.
+

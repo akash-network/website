@@ -14,12 +14,25 @@ categories:
 
 tags:
   - Updates
+  - Akash Accelerate
+  - decentralized AI
+  - permissionless AI
+  - federated learning
+  - GPU compute
+  - DeAI
+  - DePIN
+  - 6G networks
+  - UT Austin
+  - conference
   
 contributors:
   - Zach Horn
 
 bannerImage: ./akash-acc-24.png
 ---
+
+> **TL;DR:** Akash Accelerate '24 was a full-day summit in Austin on May 28, 2024, bringing hundreds of decentralized AI builders together. Key themes: permissionless AI, federated learning for privacy and 6G networks, and builder showcases from Passage (70% cost savings), Brev.dev, and FLock.io.
+
 On Tuesday, May 28th, the Akash core team and community held the network’s [first-ever full-day summit](https://akash.network/akash-accelerate-2024/) focused on the growth of permissionless compute and Decentralized AI (DeAI). Hundreds of the brightest minds in the decentralized compute space gathered in Austin, TX to connect, share ideas, and explore the potential of decentralized compute and Decentralized Physical Infrastructure Networks (DePIN) to address the most pressing problems facing our society today.
 
 The presentations and panels focused on critical areas of development for DePIN and Decentralized AI.
@@ -134,3 +147,27 @@ Watch the [full recording of Akash Accelerate '24](https://youtu.be/fVYeAVvuNLI?
 <iframe width="100%" height="315" src="https://www.youtube.com/embed/fVYeAVvuNLI?si=-oxtTIokJHq_GOUg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 To connect with [Akash](https://akash.network/), follow the network on [X (Twitter)](https://x.com/akashnet) and [sign up to hear about the latest announcements and updates](https://akt.fyi/3kpRwVM).
+
+## Frequently Asked Questions
+
+**What was Akash Accelerate '24?**
+Akash's first full-day summit focused on permissionless compute and Decentralized AI, held May 28, 2024 in Austin, TX with hundreds of attendees from the decentralized compute space.
+
+**What is Permissionless AI?**
+AI development and deployment without centralized control or approval — freely creating, training, and sharing models without permission from any central authority, enabled by open compute networks like Akash.
+
+**Who spoke at Akash Accelerate '24?**
+Greg Osuri (Akash), Erik Voorhees, Professor Sriram Vishwanath (UT Austin), David Johnston (Morpheus), Teana Baker-Taylor (Venice AI), Cameron Fairchild (Bittensor), and builders from Passage, Brev.dev, and FLock.io.
+
+**What did Greg Osuri and Erik Voorhees discuss?**
+How decentralized permissionless systems reduce overreliance on centralized companies' goodwill, and the risk to open-source AI if large tech firms stop releasing powerful open models.
+
+**Why is decentralized AI important for 6G networks?**
+Professor Vishwanath from UT Austin explained that edge AI and Federated AI are the only viable architectures for 6G networks — both require decentralized systems and cannot scale with centralized AI infrastructure.
+
+**How much did Passage save with Akash compute?**
+Up to 70% cost reduction compared to AWS or Google Cloud, hosting full virtual worlds on high-density GPUs through the Akash Supercloud.
+
+**Where can I watch Akash Accelerate '24?**
+The full recording is on YouTube — search 'Akash Accelerate 2024' or find the link with timestamps for all panels at akash.network/akash-accelerate-2024.
+

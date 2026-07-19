@@ -13,12 +13,24 @@ categories:
 tags:
   - Updates
   - News
+  - Akash Provider Console
+  - GPU provider
+  - datacenter
+  - Kubernetes
+  - provider onboarding
+  - GPU rental income
+  - decentralized cloud
+  - NVIDIA GPU
+  - provider management
 
 contributors:
   - Anil Murty
 
 bannerImage: ./pc-main.png
 ---
+
+> **TL;DR:** Akash Provider Console is now generally available — the easiest way for datacenter operators to become Akash providers with automated Kubernetes installation, a dashboard for earnings and leases, pricing management, and persistent storage configuration. No Kubernetes expertise required. Start at provider-console.akash.network.
+
 by [Jigar Patel](https://x.com/pateljigar053), [Deval Patel](https://x.com/Deval_Vora), and [Anil Murty](https://x.com/_Anil_Murty_)
 
 The Akash core team is excited to announce the general availability of Akash Provider Console. Akash Provider Console aims to be the easiest and most elegant way for compute providers (including datacenter operators) of all sizes to become Akash Providers, as well as the primary way that existing Akash Providers view and manage resources on the network.
@@ -95,3 +107,27 @@ Get started with Akash Provider Console here: [provider-console.akash.network](h
 [Explore the Akash Roadmap](https://akash.network/roadmap/2025/) to learn more about upcoming features and initiatives, and [sign up for the newsletter](https://akashnet.typeform.com/to/awKX5bPw) to stay up to date with the latest from Akash.
 
 If you are interested in becoming an Akash provider or interested in deploying on Akash, [reach out to the core team.](https://share.hsforms.com/1gQOaeJXgQ-GMc7MnsTOmsAsaima)
+
+## Frequently Asked Questions
+
+**What is Akash Provider Console?**
+A web interface that lets datacenter operators become Akash providers without needing Kubernetes expertise — automating cluster setup, provider configuration, and ongoing management.
+
+**Does Provider Console install Kubernetes automatically?**
+Yes — Provider Console installs Kubernetes on your VMs automatically, deciding control node and worker node distribution based on your server count. No manual Kubernetes setup required.
+
+**What does the Provider Console dashboard show?**
+Revenue earned, active leases, used vs available resources (GPU, CPU, memory, storage), utilization metrics, and an activity log of all provider changes.
+
+**How does Provider Console help with pricing?**
+The Pricing Management page shows your current rates by resource type, estimated monthly earnings at 80% utilization, and benchmark comparisons with similar providers on the network.
+
+**Why was Provider Console built?**
+To solve a key barrier: many datacenter operators wanted to join Akash but lacked Kubernetes expertise or internal resources to set up and maintain a provider. The PraetorApp team merger in 2024 led directly to this product.
+
+**What happened to GPU capacity after Provider Console launched?**
+GPU capacity on Akash grew over 600% and CPU capacity grew ~250% — with Provider Console making onboarding accessible to a much larger pool of datacenter operators.
+
+**How do I get started as an Akash provider?**
+Go to provider-console.akash.network, click 'Create Provider,' and follow the step-by-step setup. The process guides you through server count, Kubernetes install, network config, pricing, and going live.
+

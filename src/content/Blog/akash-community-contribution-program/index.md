@@ -9,11 +9,23 @@ categories:
   - Community
 tags:
   - Community
+  - Akash community
+  - open source
+  - contributor program
+  - Akash VPN
+  - transaction explorer
+  - DePIN
+  - community development
+  - decentralized cloud
+  - Web3 careers
 contributors:
   - Marissa Hudson
 
 bannerImage: ./banner-image.png
 ---
+
+> **TL;DR:** Akash's Community Contribution Program creates a rewarding pathway for users to become high-impact contributors — building complete community-owned projects like Akash VPN and a new Transaction Explorer, with weekly collaborative sessions, small rewards for contributions, and a pathway to grant funding.
+
 
 The Akash Community Contribution Program is one of Akash's newest initiatives to expand upon what a community can build together. Its core idea is simple: create a clear, rewarding pathway for everyday users to become high-impact contributors. The network has already proven the value of coordinated community labor through its Vanguards. These community members work across different time zones to provide faster, more comprehensive technical support than any individual could alone. That success raises an important question:
 
@@ -82,3 +94,27 @@ Gain real-world experience contributing to a live, revenue-generating open sourc
 ## The People's Cloud
 
 The Community Contribution Program is more than just a way to get involved; it's an invitation to help shape the future of open-source collaboration. It's where builders, designers, and explorers come together to prove that a decentralized community can move faster, smarter, and stronger than traditional walled gardens. This is your chance to make a measurable impact within Akash and showcase what community-built really means. So what are you waiting for? [Get started today!](https://github.com/orgs/akash-network/discussions/811)
+
+## Frequently Asked Questions
+
+**What is the Akash Community Contribution Program?**
+A structured program creating a clear pathway for community members to become high-impact contributors — focused on building complete community-owned projects rather than one-off fixes.
+
+**What is the first project of the program?**
+Akash VPN — a SaaS platform for affordable decentralized VPN services powered by Akash Network, currently free in MVP stage, available as MIT-licensed open source on GitHub.
+
+**What is the Akash Transaction Explorer?**
+A community-built Akash-first block explorer with native Provider support — showing transactions, blocks, and on-chain events (leases, deployments, provider updates) in a single interface.
+
+**How do I get involved in the program?**
+Complete Akash EDU at akashedu.thinkific.com, join the Discord community at discord.com/invite/akash, and sign up via the form at github.com/akash-network/community/discussions/811.
+
+**Are there paid opportunities in the program?**
+Yes — contributors can receive small rewards for code, design, content, and active participation. Approved scoped features earn compensation, and consistent contributors can propose funded projects.
+
+**What roles are available for contributors?**
+Developers (frontend, backend, deployment scripts), Designers (UI/UX, branding), Content Creators (documentation, tutorials), and Testers (bug reports, usability feedback).
+
+**How does the program's leadership pathway work?**
+Consistent high-quality contributors can propose projects — with enough peer interest, they become project leads. This track record also supports successful applications to the Akash grant program.
+
