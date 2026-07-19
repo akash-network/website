@@ -19,7 +19,7 @@ tags:
   - autonomous AI
   - decentralized cloud
   - community builds
-  - 2026
+  - "2026"
 contributors:
   - Michelle Javed
 
