@@ -13,6 +13,8 @@ Standard cloud deployments require trusting the infrastructure operator. Confide
 
 Akash supports AMD SEV-SNP and Intel TDX. Tenants specify a TEE *capability* (`cpu` or `cpu-gpu`) in their SDL, and the provider resolves the actual hardware *platform* (`snp` or `tdx`) at deployment time based on its cluster nodes. NVIDIA GPU Confidential Computing is available with the `cpu-gpu` capability.
 
+> **Important: Private container registries are not supported yet.** Confidential Compute workloads can only pull images from **public** registries. If your SDL references an image that requires registry credentials to pull, the deployment will fail. See [Limitations and Considerations](#limitations-and-considerations) for details.
+
 ---
 
 ## Why Confidential Compute?
@@ -83,6 +85,8 @@ Everything inside the VM boundary is encrypted. The provider's OS and administra
 ## SDL Configuration
 
 Set `params.tee` to the desired capability in your service definition. The rest of the SDL remains unchanged.
+
+> **Important: Images must come from a public registry.** Private container registries are not supported yet for Confidential Compute. Every `image` referenced by a TEE service must be publicly pullable, images requiring pull credentials will cause the deployment to fail.
 
 ### Basic Example — CPU-only TEE
 
@@ -283,6 +287,7 @@ The attestation design enforces these properties:
 
 ## Limitations and Considerations
 
+- **Private container registries are not supported yet.** Confidential Compute workloads can only pull images from **public** registries. Images that require authentication (pull credentials/`imagePullSecrets`) cannot be used with a TEE deployment, and the deployment will fail if it references one. Support for private registries is planned but not yet available. For now, ensure any image used in a confidential workload is publicly pullable.
 - **Provider availability**: Only providers with TEE-capable hardware can accept confidential workloads. Look for the `tee/type` attribute when selecting a provider.
 - **Performance**: Memory encryption adds a small overhead (~1-5%). GPU Confidential Computing may add further overhead depending on the workload.
 - **Sidecar resources**: The attestation sidecar consumes modest resources (10m CPU, 32-64Mi memory) which are automatically included in resource accounting.
