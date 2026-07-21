@@ -1,0 +1,72 @@
+# Akash Network
+
+> Akash Network is an open source cloud compute marketplace where teams rent GPU and CPU compute through a reverse auction, typically priced 60 to 85 percent below hyperscale clouds. Workloads run as standard containers, deployed via web console, CLI, SDKs or REST API
+
+## Products
+
+- [Akash Console](https://console.akash.network/): Web console for deploying Docker containers to the Akash marketplace — define resource needs, compare live provider bids, and launch in minutes.
+- [AkashML](https://akashml.com/): Managed GPU inference for open models (Llama, DeepSeek, Qwen, and GLM 5.2) with pay-per-token pricing and OpenAI-compatible APIs — no infrastructure setup required.
+- [GPU Pricing](https://akash.network/pricing/gpus): Live marketplace pricing for NVIDIA B300, B200, H200, H100, and A100 GPUs, updated in real time.
+- [Enterprise & Reserved Capacity](https://akash.network/gpus-on-demand): Reserved GPU capacity with guaranteed availability, dedicated support, and USD invoice billing for enterprise teams — talk to the Akash team.
+- [Akash Provider Console](https://provider-console.akash.network/): Turn idle GPU and CPU servers into revenue — list hardware capacity on the Akash marketplace and start accepting deployments.
+- [Akash Chat](https://chat.akash.network/): Free public chat app running open models hosted on Akash.
+
+## Guides
+
+- [Docs Home](https://akash.network/docs/): Full documentation index for developers and providers.
+- [What is Akash?](https://akash.network/docs/getting-started/what-is-akash): How the compute marketplace works, what you can deploy, and how it compares to AWS, GCP, and Azure — up to 85% lower cost.
+- [Core Concepts](https://akash.network/docs/getting-started/core-concepts): How deployments, providers, leases, bids, and SDL work — plus real cost examples (a basic web app runs about $1-3/month).
+- [Quick Start](https://akash.network/docs/getting-started/quick-start): Sign up and deploy your first app in under 10 minutes with $100 in free trial credits — no crypto wallet needed.
+- [Deploy with AI Agents](https://akash.network/docs/getting-started/ai-agents/): Install the open-source Akash skill so Claude Code, Codex, or OpenCode can write SDL and deploy workloads from a plain-language prompt.
+- [Akash Skill](https://github.com/akash-network/akash-skill): Source for the AI-agent skill bundle — deployer, provider, and node/validator skills in one repo.
+- [Developer Getting Started](https://akash.network/docs/developers/getting-started): Pick a deployment path — visual Console, CLI, or the Go/JS SDK — and jump to a 290+ example SDL library.
+- [SDL Syntax Reference](https://akash.network/docs/developers/deployment/akash-sdl/syntax-reference): Complete SDL field-by-field reference — services, resources, pricing, placement, and expose blocks.
+- [SDL Best Practices](https://akash.network/docs/developers/deployment/akash-sdl/best-practices/): Right-sizing CPU/memory, securing private registries, health-check retries, and a pre-production checklist.
+- [SDL Advanced Features](https://akash.network/docs/developers/deployment/akash-sdl/advanced-features/): Dedicated IP endpoints, multi-GPU requests, service-to-service networking, Datadog log forwarding, and resource-reclamation grace periods.
+- [SDL Examples Library](https://akash.network/docs/developers/deployment/akash-sdl/examples-library): 290+ ready-to-deploy SDL examples for web apps, databases, AI/ML, and game servers.
+- [GPU Deployments](https://akash.network/docs/learn/core-concepts/gpu-deployments/): Deploy H200, H100, A100, or RTX 4090 workloads by SDL model name, with a full Ollama LLM inference example.
+- [Persistent Storage](https://akash.network/docs/learn/core-concepts/persistent-storage/): Add persistent storage to any deployment — three performance tiers (NVMe, SSD, HDD).
+- [Environment Variables & Secrets](https://akash.network/docs/learn/core-concepts/environment-secrets/): Configure containers with env vars and manage secrets securely.
+- [Private Containers](https://akash.network/docs/learn/core-concepts/private-containers/): Pull images from Docker Hub, GHCR, GCR, ECR, or any private registry using credentials.
+- [IP Leases](https://akash.network/docs/learn/core-concepts/ip-leases/): Get a dedicated static IPv4 address for custom domains, SSH, game servers, or non-HTTP protocols.
+
+## API & SDK Integration
+
+- [API Getting Started](https://akash.network/docs/api-documentation/getting-started): Choose an integration method for building on Akash programmatically.
+- [SDKs](https://akash.network/docs/api-documentation/sdk/): Official Go and JavaScript/TypeScript SDKs for managing deployments and leases.
+- [Console API Getting Started](https://akash.network/docs/api-documentation/console-api/getting-started/): A REST API for deploying and managing workloads programmatically — authenticate with an API key and go from deployment to running lease in a few HTTP calls.
+- [Providers API Reference](https://akash.network/docs/api-documentation/rest-api/providers-api/): Query provider data, attributes, and status over REST — returns uptime, GPU models, and live resource availability as JSON.
+- [GPU Availability Guide](https://akash.network/docs/api-documentation/rest-api/gpu-availability-guide/): Programmatically check live GPU models, availability, and pricing.
+
+## Running a Provider
+
+- [Provider Getting Started](https://akash.network/docs/providers/getting-started): Overview of running compute on the Akash marketplace.
+- [Should I Run a Provider?](https://akash.network/docs/providers/getting-started/should-i-run-a-provider/): Decision guide covering economics and suitability.
+- [Hardware Requirements](https://akash.network/docs/providers/getting-started/hardware-requirements/): Minimum and recommended hardware for running a provider.
+- [Provider Setup](https://akash.network/docs/providers/setup-and-installation): Provider Playbook, Kubespray, and Provider Console installation paths.
+- [Provider Operations](https://akash.network/docs/providers/operations): Lease management, monitoring, maintenance, and provider verification.
+- [Compute Providers](https://akash.network/ecosystem/providers/): Directory of active providers on the network.
+
+## About
+
+- [About Akash](https://akash.network/about/general-information/): Organization background and mission.
+- [Roadmap](https://akash.network/roadmap/): The 2026 Akash Network roadmap — upcoming features and network development, updated as plans progress.
+- [Community Welcome](https://akash.network/community/welcome/): Join the global collective of engineers, creators, and operators building Akash — events, contribution paths, and swag.
+- [GitHub](https://github.com/akash-network): Source code for all repositories, Apache 2.0 licensed.
+- [Discord](https://discord.com/invite/akash): Community and support.
+
+## Network & Protocol
+
+- [Whitepaper](https://akash.network/whitepaper): Core protocol and marketplace design.
+- [Economics Paper](https://akash.network/economics): Reverse-auction market design and network economics.
+- [AKT Token](https://akash.network/token): How settlement, staking, and governance work on the network.
+- [Node Operators](https://akash.network/docs/node-operators/getting-started): Choose between running a full node and a validator.
+- [Validators](https://akash.network/docs/node-operators/validators): Running validators, Omnibus, and TMKMS.
+- [Discussions](https://github.com/orgs/akash-network/discussions): Governance and proposal discussion.
+
+## Optional
+
+- [Blog](https://akash.network/blog/): News and updates.
+- [Support](https://akash.network/support/): Help and troubleshooting.
+- [Brand and Press](https://akash.network/brand/resources/): Logos and brand assets.
+- [Student Ambassadors](https://akash.network/community/student-ambassadors/): Campus program.
