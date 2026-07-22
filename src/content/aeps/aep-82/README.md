@@ -2,11 +2,12 @@
 aep: 82
 title: "Resource Reclamation"
 author: Artur Troian (@troian)
-status: Last Call
+status: Final
 type: Standard
 category: Core
 estimated-completion: 2026-05-31
 created: 2026-04-22
+completed: 2026-07-21
 roadmap: major
 ---
 
