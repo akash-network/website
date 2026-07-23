@@ -1,0 +1,284 @@
+---
+import CalloutsClasses from "@/components/callouts-classes.astro";
+import ConsoleBanner from "@/components/console-banner.astro";
+import FormattedDate from "@/components/formatted-date.astro";
+import { TwitterIcon } from "@/components/header/icons";
+import BitsLayout from "@/layouts/bits-layout.astro";
+import { bitsProseClasses } from "@/lib/prose-classes";
+import { Image } from "astro:assets";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Facebook, Linkedin } from "lucide-react";
+
+type BitsPost = CollectionEntry<"Bits">;
+
+export async function getStaticPaths() {
+  const posts = await getCollection("Bits");
+
+  const allTags: string[] = [];
+  posts.forEach((post) => {
+    post.data.tags.forEach((tag: string) => {
+      if (!allTags.includes(tag)) allTags.push(tag);
+    });
+  });
+
+  return posts.map((post) => {
+    const relatedPosts = posts
+      .filter((p) => !p.data.draft && p.slug !== post.slug)
+      .filter((p) =>
+        p.data.tags.some((t: string) =>
+          post.data.tags.some(
+            (pt: string) => pt.toLowerCase() === t.toLowerCase(),
+          ),
+        ),
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.data.pubDate).getTime() -
+          new Date(a.data.pubDate).getTime(),
+      );
+
+    return {
+      params: { slug: post.slug },
+      props: { post, allTags, relatedPosts },
+    };
+  });
+}
+
+const { post, allTags, relatedPosts } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BitsLayout
+  image={post.data.bannerImage?.src}
+  title={post.data.metaTitle ?? post.data.title}
+  description={post.data.metaDescription ?? post.data.description}
+>
+  <!-- Back breadcrumb -->
+  <a
+    href="/bits"
+    class="mb-14 inline-flex items-center gap-x-2 text-sm font-medium text-para transition-colors hover:text-foreground"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M19 12H5" />
+      <path d="m12 19-7-7 7-7" />
+    </svg>
+    Back to Akash Bits
+  </a>
+
+  <div class="grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
+    <div class="col-span-12 md:col-span-8">
+      <div class="mt-4 hidden items-center gap-x-4 md:mt-0 md:flex">
+        <p class="text-xs font-medium leading-none text-para md:text-sm">
+          by {post.data.author}
+        </p>
+        {
+          post.data.tags[0] && (
+            <a class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
+              {post.data.tags[0].charAt(0).toUpperCase() +
+                post.data.tags[0].slice(1)}
+            </a>
+          )
+        }
+      </div>
+
+      <p
+        class="mt-6 inline-flex items-center text-xs font-medium text-para md:mt-4 md:hidden md:text-base"
+      >
+        5 Min. Read
+        <span class="ml-2 text-xs text-para md:text-base">
+          <FormattedDate date={post.data.pubDate} />
+        </span>
+      </p>
+
+      <h1 class="mt-4 font-sans text-3xl md:mt-[18px] md:text-4xl lg:text-5xl">
+        {post.data.title}
+      </h1>
+
+      <p
+        class="mt-6 hidden items-center text-xs font-medium text-para md:mt-4 md:inline-flex md:text-sm"
+      >
+        5 Min. Read
+        <span class="ml-2 text-xs text-para md:text-sm">
+          <FormattedDate date={post.data.pubDate} />
+        </span>
+      </p>
+
+      <div class="mt-4 flex items-center gap-x-4 md:mt-0 md:hidden">
+        <p
+          class="text-xs font-medium leading-none text-para"
+        >
+          by {post.data.author}
+        </p>
+        {
+          post.data.tags[0] && (
+            <p class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
+              {post.data.tags[0]}
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 grid grid-cols-12 md:gap-x-10">
+    <article class="col-span-12 md:col-span-8">
+      {
+        post.data.bannerImage && (
+          <div>
+            <Image
+              src={post.data.bannerImage}
+              alt={`Banner image for the post ${post.data.title}`}
+              width={1200}
+              height={1200}
+              format="webp"
+              class="inset-0 aspect-video bg-gray-200 object-cover"
+              loading="lazy"
+              quality="max"
+            />
+          </div>
+        )
+      }
+
+      <article class={bitsProseClasses}>
+        <Content />
+      </article>
+    </article>
+
+    <aside
+      class="sticky top-28 col-span-4 hidden h-screen space-y-[56px] md:block"
+    >
+      <div>
+        <p class="font-bold leading-none text-foreground">Explore Topics</p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {
+            allTags
+              .sort(() => Math.random() - 0.5)
+              .map((tag: string) => (
+                <a
+                  class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-darkText"
+                  href={`/bits/${tag.toLowerCase().replaceAll(" ", "-")}/1`}
+                >
+                  {tag}
+                </a>
+              ))
+          }
+        </div>
+      </div>
+
+      {
+        relatedPosts.length > 0 && (
+          <div>
+            <p class="font-bold text-foreground">Related Articles</p>
+            <div class="mt-3 flex flex-col space-y-2">
+              {relatedPosts.slice(0, 4).map((p: BitsPost) => (
+                <a
+                  href={`/bits/${p.slug}`}
+                  class="line-clamp-2 cursor-pointer text-darkText hover:text-primary hover:no-underline"
+                >
+                  {p.data.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      <div>
+        <p class="font-bold leading-none text-foreground">Share this post</p>
+        <div class="mt-5 flex space-x-4 text-para">
+          <a
+            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/bits/${post.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <TwitterIcon />
+          </a>
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/bits/${post.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Facebook className="h-5 w-5" />
+          </a>
+          <a
+            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/bits/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Linkedin className="h-5 w-5" />
+          </a>
+        </div>
+      </div>
+
+      <ConsoleBanner />
+    </aside>
+  </div>
+
+  <!-- Mobile share + topics -->
+  <div class="block md:hidden">
+    <div class="flex items-center justify-between pt-10">
+      <p class="text-center text-base font-bold text-foreground">
+        Share this Post
+      </p>
+      <div class="mt-4 flex items-center justify-center space-x-2.5">
+        <a
+          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/bits/${post.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <TwitterIcon />
+        </a>
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/bits/${post.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Facebook className="h-5 w-5" />
+        </a>
+        <a
+          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/bits/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Linkedin className="h-5 w-5" />
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-10 space-y-10">
+      <div>
+        <p class="text-xs font-bold text-foreground">Explore Topics</p>
+        <div class="mt-3 flex flex-wrap gap-x-2 gap-y-2">
+          {
+            allTags
+              .sort(() => Math.random() - 0.5)
+              .map((tag: string) => (
+                <a
+                  class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
+                  href={`/bits/${tag.toLowerCase().replaceAll(" ", "-")}/1`}
+                >
+                  {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                </a>
+              ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-10 mt-10">
+      <ConsoleBanner />
+    </div>
+  </div>
+
+  <CalloutsClasses />
+</BitsLayout>
