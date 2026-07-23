@@ -31,6 +31,9 @@ export default defineConfig({
             "data-anchor-link": true,
             ariaLabel: "Link to section",
           },
+          // The "#" glyph is rendered via CSS (`.heading-anchor-icon::before`)
+          // rather than a text node, so it does NOT leak into Astro's extracted
+          // heading text and pollute the "On this page" table of contents.
           content: {
             type: "element",
             tagName: "span",
@@ -38,7 +41,7 @@ export default defineConfig({
               className: ["heading-anchor-icon"],
               ariaHidden: "true",
             },
-            children: [{ type: "text", value: "#" }],
+            children: [],
           },
         },
       ],

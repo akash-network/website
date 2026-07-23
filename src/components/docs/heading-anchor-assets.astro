@@ -23,6 +23,11 @@
       color 150ms ease;
     user-select: none;
   }
+  /* The "#" is rendered here (not as a text node in the markup) so it stays out
+     of Astro's extracted heading text and the table of contents. */
+  .heading-anchor-icon::before {
+    content: "#";
+  }
   :where(h1, h2, h3, h4, h5, h6):hover .heading-anchor-icon,
   .heading-anchor:focus-visible .heading-anchor-icon {
     opacity: 0.45;
