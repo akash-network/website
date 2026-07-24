@@ -16,6 +16,16 @@ tags:
   - Akash
   - Tokenomics
   - Burn-Mint
+  - Burn-Mint Equilibrium
+  - BME
+  - AKT tokenomics
+  - ACT
+  - DePIN economics
+  - Mainnet 17
+  - decentralized cloud
+  - AKT burn
+  - stablecoin compute
+  - AEP-76
 
 contributors:
   - Michelle Javed
@@ -146,3 +156,27 @@ The incentivized testnet confirmed the mechanism works. The mainnet implementati
 [Proposal \#318](https://www.mintscan.io/akash/proposals/318) has been approved on-chain, and is scheduled to go live on **March 23rd, 2026 at approximately 14:00 UTC** at block height 26063777\.
 
 This Akash Mainnet 17 upgrade will be the largest single upgrade in Akash's history.
+
+## Frequently Asked Questions
+
+**What is Burn-Mint Equilibrium (BME) on Akash?**
+An economic model where users burn AKT at the current oracle price to mint ACT (a non-transferable USD-pegged compute credit) for deployments — creating direct AKT demand and deflationary supply reduction with every compute transaction.
+
+**What is ACT?**
+Akash Compute Token — a non-transferable, USD-pegged compute credit minted by burning AKT. Tenants use ACT to pay for compute; providers burn received ACT to receive AKT at the current market price.
+
+**How does BME create deflationary pressure on AKT?**
+If AKT appreciates between when a tenant burns AKT to mint ACT and when the provider collects payment, fewer AKT are minted for the provider than were burned by the tenant — the difference is permanently removed from supply.
+
+**What are BME circuit breakers?**
+Safety mechanisms that activate if the vault's collateral ratio drops below thresholds: at 0.95 ratio, enhanced monitoring triggers; at 0.90, new ACT minting throttles while existing provider settlements continue uninterrupted.
+
+**What did the BME incentivized testnet find?**
+One warning-state bug: the system was jumping directly to halt mode instead of the less-restrictive warning state (0.90–0.95 ratio range). The bug was identified, patched, and all subsequent testing passed cleanly.
+
+**When did BME go live on Akash mainnet?**
+March 23, 2026 at approximately 14:00 UTC at block height 26063777 — Akash Mainnet 17, approved via on-chain Proposal #318.
+
+**Why does BME matter for DePIN networks?**
+BME solves the classic DePIN dilemma: stable pricing drives adoption but weakens the native token. BME delivers both — tenants and providers get USD-stable pricing while AKT becomes structurally essential to every transaction.
+

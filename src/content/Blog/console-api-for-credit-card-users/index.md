@@ -9,11 +9,24 @@ categories:
   - Product
 tags:
   - Product
+  - Akash Console
+  - REST API
+  - credit card
+  - deployment automation
+  - AEP-63
+  - managed wallets
+  - CI/CD
+  - DevOps
+  - decentralized cloud
+  - no crypto required
 contributors:
   - Anil Murty
 
 bannerImage: ./banner.png
 ---
+
+> **TL;DR:** The Akash Console Managed Wallets API (AEP-63) lets credit card users programmatically deploy and manage workloads via standard REST endpoints — no blockchain knowledge, no private keys, no Cosmos SDK. Full Swagger docs at console-api.akash.network/v1/swagger.
+
 
 You shouldn’t have to be a crypto expert to deploy on the decentralized cloud. The [Credit Card payments functionality](/blog/introducing-credit-card-payments-in-akash-console/), introduced last year solved that problem. Earlier this year, the Akash core team took that one step further by allowing credit‑card users to programmatically manage workloads without worrying about crypto or blockchain specific parameters or functions.
 
@@ -53,3 +66,27 @@ In the spirit of continuous improvement, [AEP-70](/roadmap/aep-70/) on the Akash
 - Retrieving Events & Logs associated with a deployment
 
 For technical support or any questions about the new Console API, please head over to the [Akash Discord](https://discord.akash.network/) server, where technical members of the Akash community are available around the clock and ready to assist.
+
+## Frequently Asked Questions
+
+**What is the Akash Console API for credit card users?**
+A set of REST endpoints (Managed Wallets API v1) that let non-crypto users programmatically create, manage, fund, and close Akash deployments without wallets, mnemonics, or Cosmos SDK knowledge.
+
+**How do I get started with the Console API?**
+Generate an API key from the Console at console.akash.network/user/api-keys, then use standard HTTP calls to manage your deployments. Full docs at console-api.akash.network/v1/swagger.
+
+**What operations does the API cover?**
+API key management, TLS certificate management, full deployment lifecycle (create, list, fetch, close), escrow balance checking and funding, and more.
+
+**Do I need to understand blockchain to use the API?**
+No — the API abstracts all blockchain complexity. Use familiar HTTP patterns identical to any other cloud API, with API key authentication instead of cryptographic keys.
+
+**What is AEP-63?**
+The Akash Enhancement Proposal that identified the gap for credit card users needing programmatic access — leading to the Managed Wallets API v1 as the solution.
+
+**What is coming in AEP-70 for the Console API?**
+JWT authentication (eliminating certificate management) and the ability to retrieve events and logs associated with deployments — making the API even simpler for CI/CD integration.
+
+**Can crypto wallet users use this API too?**
+This API is specifically designed for managed wallet (credit card) users. Crypto users have AkashJS SDK available at github.com/akash-network/akashjs for programmatic access.
+

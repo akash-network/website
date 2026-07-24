@@ -15,12 +15,25 @@ tags:
   - Insights
   - Updates
   - News
+  - Akash 2024
+  - network growth
+  - GPU rental
+  - NVIDIA H100
+  - A100
+  - AkashChat API
+  - credit card payments
+  - decentralized cloud
+  - AI inference
+  - Supercloud
 
 contributors:
   - Zach Horn
 
 bannerImage: ./scaling-the-supercloud-main.png
 ---
+
+> **TL;DR:** 2024 was Akash's breakout year: daily network spend grew 749% (from $1,299 to $11,038/day), credit card payments drove a 391% surge in new leases, and the AkashChat API processed over 15 billion tokens. Key integrations with Brev.dev, Venice.ai, Passage, and Prime Intellect expanded the Supercloud ecosystem.
+
 
 _A year of growth and adoption for Akash in 2024 and the vision for 2025 and beyond_
 
@@ -254,3 +267,27 @@ _For community members:_
 - [_Join the community on Discord_](https://discord.akash.network)_._
 - [_Apply to join the Akash Insiders_](https://akash.network/community/akash-insiders/)_, a community group of the most involved Akash community members._
 - [_Follow @akashnet\_ on X_](https://x.com/akashnet) _to stay updated with the latest news and announcements._
+
+## Frequently Asked Questions
+
+**How much did Akash network spend grow in 2024?**
+Daily spend grew 749% — from $1,299/day on January 1 to $11,038/day on December 31, 2024. Cumulative network spend surpassed $1 million in October and reached $1.62 million by year-end.
+
+**What impact did credit card payments have on Akash growth?**
+After launching credit card payments in October 2024, average daily new leases increased 391% in the following two months — the single biggest driver of user acquisition in Akash's history.
+
+**How many tokens did the AkashChat API process in 2024?**
+Over 15 billion tokens processed through the AkashChat API — which offers free access to Llama 3.1 (8B, 70B, 405B), Llama 3.2, Llama 3.3 70B, and DeepSeek-V3.
+
+**What is AkashGen?**
+A free image generation interface powered by Stable Diffusion 3.5, launched by the Akash core team — the launch announcement achieved over 250,000 social media impressions.
+
+**What new GPU hardware is coming to Akash in 2025?**
+NVIDIA's Blackwell architecture (next-gen beyond H100) is planned for Akash — ensuring users can access the most advanced compute as it becomes available.
+
+**How many H100 and A100 GPUs were on Akash by end of 2024?**
+Over 700 high-performance NVIDIA GPUs total — including 388 H100s and 123 A100s — after provider incentive programs PIP-01 and PIP-02 drove significant supply growth.
+
+**What is the DeAI Space in Austin?**
+A physical community space opened by Akash in collaboration with UT Austin Professor Sriram Vishwanath and Manifold Labs — bringing decentralized AI builders together for compute access and in-person collaboration.
+

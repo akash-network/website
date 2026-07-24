@@ -11,10 +11,20 @@ tags:
   - AkashML
   - AI
   - Tokenomics
+  - Q1 2026
+  - Akash report
+  - OpenRouter
+  - AI agents
+  - decentralized cloud
+  - NVIDIA GPU
+  - AKT tokenomics
 contributors:
   - Michelle Javed
 bannerImage: ./banner.png
 ---
+
+> **TL;DR:** Q1 2026: Akash crossed $5 million in all-time compute spend, BME went live on mainnet (March 23), Homenode Beta launched for consumer GPU owners, AkashML hit 1.7 billion tokens/day on OpenRouter, and Akash student ambassadors won first place at two separate hackathons in the same weekend.
+
 
 In the first 90 days of 2026, Akash crossed an all-time high of [$5 million in compute](https://stats.akash.network/graph/total-usd-spent) spend. A major tokenomics upgrade went from testnet to mainnet, a new product category came online with Homenode, the agent meta arrived on decentralized compute, and the community kept building applications that met the demand of our users.
 
@@ -109,3 +119,27 @@ BME rewired the relationship between compute demand and AKT at the protocol leve
 The community matched the pace. Student ambassadors won first place at two separate hackathons in the same weekend. Builders at the Open Agents Hackathon shipped production-grade healthcare AI and self-healing infrastructure on Akash under time pressure. Contributors built and launched platforms that became core product surfaces.
 
 Q1 2026 demonstrated that while hyperscalers are rationing capacity and building waiting lists, Akash is already running.
+
+## Frequently Asked Questions
+
+**What was Akash's biggest milestone in Q1 2026?**
+Crossing $5 million in all-time compute spend — combined with BME going live on March 23, linking every compute dollar to AKT demand for the first time in Akash's history.
+
+**What is Akash Homenode?**
+A program enabling consumer GPU owners (RTX 4090, RTX 5090, Quadro RTX 6000 Ada) to earn from idle compute by connecting to the Akash Network — extending supply beyond traditional datacenters into a global mesh.
+
+**What is Akash Agents?**
+A community-built platform at agents.akash.network for one-click deployment of AI agent frameworks (Hermes by Nous Research, OpenClaw) on Akash compute — powered by AkashML inference with no infrastructure overhead.
+
+**How many tokens per day does AkashML process on OpenRouter?**
+1.7 billion tokens per day — outpacing Cloudflare in daily token usage as one of the fastest-growing inference providers listed on OpenRouter.
+
+**What is Greg Osuri's argument about AI and energy?**
+AI moves in months, energy infrastructure moves in years. Transformers take 4 years to procure, nuclear permits 10–15 years. Decentralized local inference (Homenode) solves this by moving AI to where energy already exists, rather than building new centralized power infrastructure.
+
+**What did student ambassadors win at hackathons in Q1 2026?**
+Indiana University students won first place in the research competition at Penn Blockchain Conference. UMass Amherst students won Best First Hack at YHack 2026 at Yale — both in the same weekend using Akash for their projects.
+
+**What is OpenClaw?**
+A viral open-source AI assistant (145,000 GitHub stars) that connects to WhatsApp, Telegram, Slack, and Discord to execute tasks and automate workflows — deployable in one click from Akash Console.
+

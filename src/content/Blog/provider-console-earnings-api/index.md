@@ -9,11 +9,23 @@ categories:
   - Product
 tags:
   - Product
+  - Akash Provider Console
+  - Earnings API
+  - GPU provider
+  - revenue tracking
+  - AEP-69
+  - datacenter
+  - provider earnings
+  - decentralized cloud
+  - GPU rental income
 contributors:
   - Anil Murty
 
 bannerImage: ./banner.png
 ---
+
+> **TL;DR:** The Akash Provider Console Earnings API (AEP-69) lets GPU providers query daily, weekly, and monthly revenue with from/to timestamps — integrating earnings data into dashboards, accounting systems, and financial reports without manual tracking.
+
 
 Providers who manage their clusters with Akash Provider Console requested an API to be able to query earnings data for the infrastructure they list on Akash Network. [AEP‑69](/roadmap/aep-69/) spelled out these requirements, calling for daily, weekly and monthly revenue metrics and insight into net earnings after Akash’s take rate. It also highlighted the need for providers to integrate earnings data into internal tools for forecasting and reporting. The core team took that feedback and built the **Provider Console Earnings API (v1)**.
 
@@ -40,3 +52,27 @@ Whether you’re a single GPU provider or a large data‑center operator, the Ea
 If you are a datacenter operator, new to Akash Network and interested in becoming a provider, get started with [Akash Provider Console](https://provider-console.akash.network/)
 
 For technical support or any questions about Akash Provider Console or the Provider Console API, please head over to the [Akash Discord](https://discord.akash.network/) server, where technical members of the Akash community are available around the clock and ready to assist.
+
+## Frequently Asked Questions
+
+**What is the Provider Console Earnings API?**
+A REST API (v1) for Akash GPU providers to programmatically query earnings data — specifying from/to timestamps to get total revenue for any period with blockchain-verified accuracy.
+
+**How do I get API access as a provider?**
+Generate and manage API keys at provider-console.akash.network/api-keys — each key is scoped to provider-specific actions with rate limiting and can be revoked at any time.
+
+**What metrics does the Earnings API return?**
+Total earnings for a specified time range, verified against blockchain records. Future versions will add GPU utilization metrics (GPU hours by model) and take-rate breakdowns.
+
+**What is AEP-69?**
+The Akash Enhancement Proposal that identified provider demand for revenue metrics — daily, weekly, and monthly earnings data with net earnings after Akash's take rate for internal forecasting and reporting.
+
+**Can I integrate earnings data into my own dashboards?**
+Yes — the API is designed for exactly this use case: automate payouts, create financial reports, or display real-time revenue on monitoring screens within your existing infrastructure.
+
+**Is the Earnings API available to small GPU providers?**
+Yes — whether you're a single GPU homenode operator or a large datacenter, the Earnings API gives you the same programmatic revenue visibility.
+
+**How do I become an Akash GPU provider?**
+Get started at provider-console.akash.network — Akash Provider Console guides you through Kubernetes setup, resource configuration, pricing, and going live on the network.
+
