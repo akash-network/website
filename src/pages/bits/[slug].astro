@@ -6,7 +6,7 @@ import { TwitterIcon } from "@/components/header/icons";
 import BitsLayout from "@/layouts/bits-layout.astro";
 import { bitsProseClasses } from "@/lib/prose-classes";
 import { Image } from "astro:assets";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import { Facebook, Linkedin } from "lucide-react";
 
 type BitsPost = CollectionEntry<"Bits">;
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 
   return posts.map((post) => {
     const relatedPosts = posts
-      .filter((p) => !p.data.draft && p.slug !== post.slug)
+      .filter((p) => !p.data.draft && p.id !== post.id)
       .filter((p) =>
         p.data.tags.some((t: string) =>
           post.data.tags.some(
@@ -38,14 +38,14 @@ export async function getStaticPaths() {
       );
 
     return {
-      params: { slug: post.slug },
+      params: { slug: post.id },
       props: { post, allTags, relatedPosts },
     };
   });
 }
 
 const { post, allTags, relatedPosts } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <BitsLayout
@@ -182,7 +182,7 @@ const { Content } = await post.render();
             <div class="mt-3 flex flex-col space-y-2">
               {relatedPosts.slice(0, 4).map((p: BitsPost) => (
                 <a
-                  href={`/bits/${p.slug}`}
+                  href={`/bits/${p.id}`}
                   class="line-clamp-2 cursor-pointer text-darkText hover:text-primary hover:no-underline"
                 >
                   {p.data.title}
@@ -197,21 +197,21 @@ const { Content } = await post.render();
         <p class="font-bold leading-none text-foreground">Share this post</p>
         <div class="mt-5 flex space-x-4 text-para">
           <a
-            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/bits/${post.slug}`}
+            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/bits/${post.id}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <TwitterIcon />
           </a>
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/bits/${post.slug}`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/bits/${post.id}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Facebook className="h-5 w-5" />
           </a>
           <a
-            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/bits/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/bits/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -232,21 +232,21 @@ const { Content } = await post.render();
       </p>
       <div class="mt-4 flex items-center justify-center space-x-2.5">
         <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/bits/${post.slug}`}
+          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/bits/${post.id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <TwitterIcon />
         </a>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/bits/${post.slug}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/bits/${post.id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Facebook className="h-5 w-5" />
         </a>
         <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/bits/${post.slug}&title=${post.data.title}&summary=${post.data.description}&source=`}
+          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/bits/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
           target="_blank"
           rel="noopener noreferrer"
         >

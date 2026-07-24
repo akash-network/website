@@ -46,6 +46,7 @@ const blog = defineCollection({
 });
 
 const bits = defineCollection({
+  loader: contentLoader("Bits"),
   schema: ({ image }) => {
     return z.object({
       title: z.string(),

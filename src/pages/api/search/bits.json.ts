@@ -14,7 +14,7 @@ async function getBitsPageContent() {
     bannerImage: content.data.bannerImage ?? null,
     title: content.data.title,
     description: content.data.description,
-    link: content.slug,
+    link: content.id,
     pubDate: content.data.pubDate.toLocaleDateString("en-us", {
       year: "numeric",
       month: "short",

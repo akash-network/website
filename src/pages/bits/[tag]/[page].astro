@@ -105,7 +105,7 @@ const pathName = Astro.url.pathname.split("/");
       >
         {
           page.data.map((post: BitsPost) => (
-            <a class="flex cursor-pointer" href={`/bits/${post.slug}`}>
+            <a class="flex cursor-pointer" href={`/bits/${post.id}`}>
               <div class="group flex flex-col duration-100 ease-in">
                 <div class="aspect-video overflow-hidden rounded-lg bg-badgeColor">
                   {post.data.bannerImage ? (
