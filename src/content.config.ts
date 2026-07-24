@@ -45,8 +45,27 @@ const blog = defineCollection({
   },
 });
 
+const bits = defineCollection({
+  loader: contentLoader("Bits"),
+  schema: ({ image }) => {
+    return z.object({
+      title: z.string(),
+      description: z.string(),
+      pubDate: z.coerce.date(),
+      lastUpdated: z.coerce.date().optional(),
+      author: z.string(),
+      tags: z.array(z.string()),
+      bannerImage: image().optional(),
+      draft: z.coerce.boolean().optional().default(false),
+      metaTitle: z.string().optional(),
+      metaDescription: z.string().optional(),
+    });
+  },
+});
+
 export const collections = {
   Blog: blog,
+  Bits: bits,
   Homepage: homePageSchema,
   Token_Homepage: tokenPage,
   Deploy_Homepage: deployPage,
