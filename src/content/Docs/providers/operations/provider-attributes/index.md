@@ -268,6 +268,19 @@ See [GPU Capabilities](#gpu-capabilities) below for RAM and interface sub-keys.
   value: "12.7"
 ```
 
+### capabilities/gpu-interconnect
+
+- **Value**: `"true"`
+- **Purpose**: Advertise multi-node GPU interconnect (RDMA over InfiniBand or RoCE) for NCCL workloads
+- **Required**: Only if you completed [InfiniBand / RDMA setup](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional)
+
+```yaml
+- key: capabilities/gpu-interconnect
+  value: "true"
+```
+
+Also advertise the fabric you offer — see [GPU Interconnect](#gpu-interconnect-infiniband--roce) below.
+
 ### capabilities/memory
 
 - **Values**: `ddr2`, `ddr3`, `ddr3ecc`, `ddr4`, `ddr4ecc`, `ddr5`, `ddr5ecc`
@@ -393,7 +406,7 @@ Advertise support for advanced features.
   value: "true"
 ```
 
-> **Important:** You can only advertise **one persistent storage class** per provider. Choose either beta1 (HDD), beta2 (SSD), or beta3 (NVMe) based on what you configured in Rook-Ceph.
+> **Important:** You can only advertise **one persistent storage class** per provider. Match Rook-Ceph: **`beta3` (NVMe) is the default** in the Persistent Storage guide; use `beta2` (SSD) or `beta1` (HDD) only if you configured that instead.
 
 ### feat-shm
 
@@ -574,6 +587,49 @@ If your GPU isn't in the [provider-configs database](https://github.com/akash-ne
 3. Wait for approval (typically 1–3 business days)
 4. Update your provider attributes with the approved capability keys
 
+### GPU Interconnect (InfiniBand / RoCE)
+
+Advertise these attributes only after you have completed [Part 2 — InfiniBand / RDMA](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional) and verified RDMA on the cluster. Tenants request interconnect in the SDL with `gpu.attributes.interconnect` and match on these placement attributes.
+
+| On-chain key | When to set |
+| ------------ | ----------- |
+| `capabilities/gpu-interconnect` | Always, if you offer multi-node RDMA |
+| `capabilities/gpu-interconnect/fabric/infiniband` | If nodes use InfiniBand HCAs |
+| `capabilities/gpu-interconnect/fabric/roce` | If nodes use RoCE |
+
+Advertise every fabric you actually support. Omit all interconnect keys if you have no InfiniBand/RoCE hardware.
+
+**InfiniBand example:**
+
+```yaml
+- key: capabilities/gpu-interconnect
+  value: "true"
+- key: capabilities/gpu-interconnect/fabric/infiniband
+  value: "true"
+```
+
+**RoCE example:**
+
+```yaml
+- key: capabilities/gpu-interconnect
+  value: "true"
+- key: capabilities/gpu-interconnect/fabric/roce
+  value: "true"
+```
+
+**Both fabrics:**
+
+```yaml
+- key: capabilities/gpu-interconnect
+  value: "true"
+- key: capabilities/gpu-interconnect/fabric/infiniband
+  value: "true"
+- key: capabilities/gpu-interconnect/fabric/roce
+  value: "true"
+```
+
+> **Note:** Tenants can pin InfiniBand or RoCE with `capabilities/gpu-interconnect/fabric/infiniband` or `.../fabric/roce` in the placement attributes. Without a fabric pin, any provider advertising `capabilities/gpu-interconnect` can bid. See [GPU Interconnect (multi-node RDMA)](/docs/learn/core-concepts/gpu-deployments/#gpu-interconnect-multi-node-rdma).
+
 ---
 
 ## Complete Example
@@ -640,9 +696,9 @@ attributes:
   - key: feat-endpoint-custom-domain
     value: true
 
-  # Persistent Storage (required if you have Rook-Ceph)
+  # Persistent Storage (required if you have Rook-Ceph; beta3 = NVMe default)
   - key: capabilities/storage/1/class
-    value: beta2
+    value: beta3
   - key: capabilities/storage/1/persistent
     value: "true"
 
@@ -663,6 +719,12 @@ attributes:
     value: "true"
   - key: cuda
     value: "12.7"
+
+  # GPU Interconnect (only if you completed InfiniBand / RDMA setup)
+  # - key: capabilities/gpu-interconnect
+  #   value: "true"
+  # - key: capabilities/gpu-interconnect/fabric/infiniband
+  #   value: "true"
 
   # Confidential Compute (if TEE hardware is available)
   # - key: tee/platform

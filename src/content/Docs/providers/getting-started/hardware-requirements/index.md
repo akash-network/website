@@ -113,8 +113,8 @@ This guide covers system requirements, hardware specifications, and best practic
 ### Persistent Storage (Optional)
 
 **Minimum Requirements:**
-- **Option 1:** 4 SSDs across all nodes (minimum)
-- **Option 2:** 2 NVMe SSDs across all nodes (minimum)
+- **Recommended (default in [Persistent Storage](/docs/providers/setup-and-installation/kubespray/persistent-storage)):** 2+ NVMe SSDs across all nodes (`beta3`)
+- **Alternative:** 4 SATA/SAS SSDs across all nodes (`beta2`)
 - All persistent storage must be **same type** across entire cluster
 - **Do not mix** storage types (e.g., SSD + NVMe, or beta2 + beta3)
 
@@ -124,14 +124,14 @@ This guide covers system requirements, hardware specifications, and best practic
 - **Recommended:** Distribute dedicated drives across multiple nodes for redundancy
 
 **Storage Classes:**
-- `beta1` - HDD (Hard Disk Drive)
+- `beta3` - NVMe (Non-Volatile Memory Express) — **default**
 - `beta2` - SSD (Solid State Drive)
-- `beta3` - NVMe (Non-Volatile Memory Express)
+- `beta1` - HDD (Hard Disk Drive)
 
 **Example Configurations:**
-- **Minimum SSD:** 4x 1TB SSDs across 2-4 nodes (beta2)
-- **Minimum NVMe:** 2x 2TB NVMe drives across 2 nodes (beta3)
-- **Recommended:** 6+ drives distributed across 3+ nodes for better redundancy
+- **Minimum NVMe (recommended):** 2x 2TB NVMe drives across 2 nodes (`beta3`)
+- **Minimum SSD:** 4x 1TB SSDs across 2-4 nodes (`beta2`)
+- **Recommended:** 6+ NVMe drives distributed across 3+ nodes for better redundancy
 
 ---
 

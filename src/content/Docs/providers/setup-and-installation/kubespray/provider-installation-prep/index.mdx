@@ -285,7 +285,7 @@ attributes:
     value: "true"
 ```
 
-> **Important:** You can only advertise **one storage class** per provider. Choose either beta1 (HDD), beta2 (SSD), or beta3 (NVMe) based on what you configured in Rook-Ceph.
+> **Important:** You can only advertise **one storage class** per provider. Match Rook-Ceph: **`beta3` (NVMe) is the default** in the Persistent Storage guide; use `beta2` (SSD) or `beta1` (HDD) only if you configured that instead.
 
 ---
 
@@ -320,6 +320,22 @@ attributes:
 ```
 
 > **Note:** Model names should be lowercase with no spaces. List each GPU model you're offering.
+
+### Add GPU Interconnect Attributes (if you have InfiniBand / RoCE)
+
+If you completed [Part 2 — InfiniBand / RDMA](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional), advertise interconnect so tenants can match multi-node NCCL jobs:
+
+```yaml
+  - key: capabilities/gpu-interconnect
+    value: "true"
+  - key: capabilities/gpu-interconnect/fabric/infiniband
+    value: "true"
+  # Or RoCE instead of (or in addition to) InfiniBand:
+  # - key: capabilities/gpu-interconnect/fabric/roce
+  #   value: "true"
+```
+
+Omit these keys if your nodes have no InfiniBand/RoCE hardware. Full details: [Provider Attributes — GPU Interconnect](/docs/providers/operations/provider-attributes/#gpu-interconnect-infiniband--roce).
 
 ---
 
@@ -481,7 +497,7 @@ Install the Kubernetes Gateway API and NGINX Gateway Fabric (NGF) with **port 44
 ### Install Gateway API CRDs
 
 ```bash
-kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.5.1" | kubectl apply --server-side -f -
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.6.7" | kubectl apply --server-side -f -
 ```
 
 Verify:
@@ -546,6 +562,7 @@ Install NGF (from `/root/provider`):
 cd /root/provider
 
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+  --version 2.6.7 \
   --create-namespace \
   -n nginx-gateway \
   -f values-nginx-gateway-fabric.yaml
