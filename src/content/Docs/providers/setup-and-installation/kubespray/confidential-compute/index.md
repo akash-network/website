@@ -7,6 +7,8 @@ linkTitle: "Confidential Compute"
 description: "Enable Trusted Execution Environment support on your Akash provider"
 ---
 
+> **Experimental feature.** Confidential Compute (TEE) is experimental and under active development. Its SDL syntax, attestation API, and runtime behavior may change without notice. We encourage you to try it and share feedback, but plan for breaking changes.
+
 This guide shows how to enable Confidential Compute (TEE) support on your Akash provider, allowing tenants to deploy workloads inside hardware-backed Trusted Execution Environments.
 
 > **Prerequisites:** You must have a working Akash provider with Kubernetes already deployed. See [Kubernetes Setup](/docs/providers/setup-and-installation/kubespray/kubernetes-setup) and [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation).

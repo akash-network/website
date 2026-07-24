@@ -7,6 +7,8 @@ linkTitle: "CC Hardware Compatibility"
 description: "Supported CPUs and GPUs for Trusted Execution Environment workloads on Akash"
 ---
 
+> **Experimental feature.** Confidential Compute (TEE) is experimental and under active development. Its SDL syntax, attestation API, and runtime behavior may change without notice. We encourage you to try it and share feedback, but plan for breaking changes.
+
 Supported hardware for Akash Confidential Compute. Use this page to verify compatibility or plan hardware purchases.
 
 ## AMD CPUs (SEV-SNP)
