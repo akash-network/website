@@ -475,6 +475,8 @@ Both `capabilities/ip-lease` and `feat-endpoint-ip` should be set when offering 
 
 ### tee/type
 
+> **Experimental feature.** Confidential Compute (TEE) is experimental and under active development. Its SDL syntax, attestation API, and runtime behavior may change without notice. We encourage you to try it and share feedback, but plan for breaking changes.
+
 - **Values**: `cpu`, `cpu-gpu`
 - **Purpose**: Advertise Trusted Execution Environment (Confidential Compute) support
 - **Required**: Only if your provider supports TEE workloads

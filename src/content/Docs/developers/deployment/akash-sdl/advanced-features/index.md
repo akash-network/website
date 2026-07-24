@@ -258,6 +258,8 @@ If the `reclamation` block is omitted, reclamation is not required and any provi
 
 ## Confidential Compute (TEE)
 
+> **Experimental feature.** Confidential Compute (TEE) is experimental and under active development. Its SDL syntax, attestation API, and runtime behavior may change without notice. We encourage you to try it and share feedback, but plan for breaking changes.
+
 Request hardware-isolated Trusted Execution Environments (TEE) to fully secure your workloads during processing. Akash supports AMD SEV-SNP and Intel TDX with optional NVIDIA GPU Confidential Computing. You specify a TEE *capability* in SDL; the provider resolves the actual hardware *platform* at deployment time.
 
 > **Important: Private container registries are not supported yet with Confidential Compute.** TEE services can only pull images from **public** registries. The [`credentials`](#private-container-registries) field is not honored for TEE workloads, and a deployment referencing a private image will fail. Make sure every `image` in a TEE service is publicly pullable.

@@ -7,6 +7,8 @@ linkTitle: "Confidential Compute"
 description: "Deploy workloads inside hardware-backed Trusted Execution Environments on Akash Network"
 ---
 
+> **Experimental feature.** Confidential Compute (TEE) is experimental and under active development. Its SDL syntax, attestation API, and runtime behavior may change without notice. We encourage you to try it and share feedback, but plan for breaking changes.
+
 **Deploy workloads inside hardware-isolated Trusted Execution Environments (TEEs) where neither the provider nor any other party can access your data or code in memory.**
 
 Standard cloud deployments require trusting the infrastructure operator. Confidential Compute eliminates that requirement. Containers run inside encrypted virtual machines where the CPU hardware enforces isolation, so the provider's OS, hypervisor, and administrators cannot inspect the workload's memory.
