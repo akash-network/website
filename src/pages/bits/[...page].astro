@@ -4,17 +4,12 @@ import Pagination from "@/components/pagination.astro";
 import BitsTag from "@/components/ui/bits-tag.astro";
 import FormattedDate from "@/components/formatted-date.astro";
 import Layout from "@/layouts/layout.astro";
-import type { PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 
 type BitsPost = CollectionEntry<"Bits">;
 
-export async function getStaticPaths({
-  paginate,
-}: {
-  paginate: PaginateFunction;
-}) {
+export async function getStaticPaths({ paginate }: { paginate: any }) {
   const posts = (await getCollection("Bits"))
     .filter((post) => !post.data.draft)
     .sort((a, b) => {
@@ -99,7 +94,7 @@ const pathName = Astro.url.pathname.split("/");
                     src={post.data.bannerImage}
                     alt={`Banner image for ${post.data.title}`}
                     width={1200}
-                    height={1200}
+                    height={675}
                     format="webp"
                     class="h-full w-full object-cover shadow-sm transition-all duration-500 ease-in-out group-hover:scale-105"
                     loading="lazy"
