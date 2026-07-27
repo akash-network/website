@@ -76,7 +76,7 @@ const className = clsx(
 export { className as proseClasses };
 
 const bitsClassName = clsx(
-  "prose prose-blog max-w-full",
+  "prose prose-blog max-w-full bits-prose",
 
   // Headings — shadcn: semibold, tracking-tight, no aggressive scaling
   "prose-headings:text-foreground prose-headings:font-semibold prose-headings:tracking-tight prose-headings:mb-3",

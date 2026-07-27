@@ -24,7 +24,7 @@ const slug = Astro.url.pathname.split("/")[2];
 
 const relatedPosts = (
   await getCollection("Bits")
-    .then((posts) => posts.filter((p) => !p.data.draft && p.slug !== slug))
+    .then((posts) => posts.filter((p) => !p.data.draft && p.id !== slug))
     .then((posts) =>
       posts.sort(
         (a, b) =>
@@ -49,7 +49,7 @@ const relatedPosts = (
 
         <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {relatedPosts.map((post: BitsPost) => (
-            <a href={`/bits/${post.slug}`} class="flex cursor-pointer">
+            <a href={`/bits/${post.id}`} class="flex cursor-pointer">
               <div class="group flex flex-col duration-100 ease-in">
                 <div class="aspect-video overflow-hidden rounded-lg bg-badgeColor">
                   {post.data.bannerImage ? (
@@ -57,7 +57,7 @@ const relatedPosts = (
                       src={post.data.bannerImage}
                       alt={`Banner image for ${post.data.title}`}
                       width={600}
-                      height={600}
+                      height={338}
                       format="webp"
                       class="h-full w-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
                       loading="lazy"

@@ -119,31 +119,27 @@ const pathName = Astro.url.pathname.split("/");
                 </div>
 
                 <div class="mt-4">
-                  <div class="flex items-center gap-x-4">
-                    <p class="text-2xs font-medium text-linkText md:text-sm">
-                      By {post.data.author}
-                    </p>
-                    {post.data.tags[0] && (
-                      <span class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
-                        {post.data.tags[0]}
-                      </span>
-                    )}
-                  </div>
+                  <p class="text-2xs font-medium text-linkText md:text-sm">
+                    By {post.data.author}
+                  </p>
 
                   <h3 class="mt-2 line-clamp-2 text-base font-semibold md:mt-4 md:text-xl">
                     {post.data.title}
                   </h3>
 
-                  <p class="mt-3 line-clamp-2 text-sm text-linkText md:mt-6 md:text-base">
+                  <p class="mt-3 line-clamp-2 text-xs text-linkText md:mt-3 md:text-sm">
                     {post.data.description}
                   </p>
 
-                  <div class="mt-4 flex items-center gap-x-2 text-linkText">
-                    <p class="text-2xs font-medium md:text-sm">5 Min. Read</p>
-                    <div class="size-1 rounded-full bg-linkText" />
-                    <p class="text-2xs font-medium md:text-sm">
+                  <div class="mt-4 flex items-center justify-between">
+                    <p class="text-2xs font-medium text-linkText md:text-sm">
                       <FormattedDate date={post.data.pubDate} />
                     </p>
+                    {post.data.tags[0] && (
+                      <span class="inline-flex items-center rounded-full bg-[hsl(0,0%,94%)] px-2.5 py-0.5 text-xs font-medium text-[hsl(0,0%,20%)] dark:bg-[hsl(0,0%,22%)] dark:text-[hsl(0,0%,88%)]">
+                        {post.data.tags[0]}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>

@@ -94,10 +94,7 @@ const { Content } = await render(post);
       <p
         class="mt-6 inline-flex items-center text-xs font-medium text-para md:mt-4 md:hidden md:text-base"
       >
-        5 Min. Read
-        <span class="ml-2 text-xs text-para md:text-base">
-          <FormattedDate date={post.data.pubDate} />
-        </span>
+        <FormattedDate date={post.data.pubDate} />
       </p>
 
       <h1 class="mt-4 font-sans text-3xl md:mt-[18px] md:text-4xl lg:text-5xl">
@@ -107,10 +104,7 @@ const { Content } = await render(post);
       <p
         class="mt-6 hidden items-center text-xs font-medium text-para md:mt-4 md:inline-flex md:text-sm"
       >
-        5 Min. Read
-        <span class="ml-2 text-xs text-para md:text-sm">
-          <FormattedDate date={post.data.pubDate} />
-        </span>
+        <FormattedDate date={post.data.pubDate} />
       </p>
 
       <div class="mt-4 flex items-center gap-x-4 md:mt-0 md:hidden">
@@ -139,9 +133,9 @@ const { Content } = await render(post);
               src={post.data.bannerImage}
               alt={`Banner image for the post ${post.data.title}`}
               width={1200}
-              height={1200}
+              height={675}
               format="webp"
-              class="inset-0 aspect-video bg-gray-200 object-cover"
+              class="w-full h-auto rounded-lg"
               loading="lazy"
               quality="max"
             />

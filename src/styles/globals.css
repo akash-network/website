@@ -486,3 +486,25 @@ html body[data-scroll-locked] {
 .mobile-menu-panel {
   animation: mobileMenuSlideIn 0.3s ease-out;
 }
+
+/* bits-prose table: undo display:block from .prose table, then fix column widths */
+.bits-prose table {
+  display: table !important;
+  table-layout: fixed !important;
+  width: 100%;
+  overflow-x: auto;
+}
+.bits-prose table th,
+.bits-prose table td {
+  white-space: normal !important;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.bits-prose table th:first-child,
+.bits-prose table td:first-child {
+  width: 28%;
+}
+.bits-prose table th:nth-child(2),
+.bits-prose table td:nth-child(2) {
+  width: 36%;
+}
