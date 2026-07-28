@@ -801,10 +801,409 @@ deployment:
 
 ---
 
+## GPU Interconnect (Multi-Node RDMA)
+
+Large models that don't fit on a single node need **multiple GPU nodes working as one job**, exchanging gradients or activations over a high-speed fabric. Akash exposes this as **GPU interconnect** — RDMA over InfiniBand or RoCE — through one SDL attribute: `gpu.attributes.interconnect`.
+
+When you opt in, the provider:
+
+- Schedules the peer services/replicas on **distinct nodes** (so each gets its own GPUs and RDMA devices).
+- Attaches one RDMA device handle per GPU. These handles are shared from the node's physical HCA(s) — the device plugin exposes a pool (up to 63 per node), so a service with `gpu.units: 8` requests 8 handles, not 8 physical cards.
+- **Auto-injects the NCCL environment** (`NCCL_IB_DISABLE=0`, `NCCL_IB_HCA`, and `NCCL_IB_GID_INDEX=3` on RoCE). You do **not** set these in your SDL — the provider fills them from the node's discovered hardware.
+
+You choose *whether* to use interconnect and *how peers are grouped*; the provider chooses the fabric (InfiniBand vs RoCE) unless you pin it.
+
+### The two forms
+
+```yaml
+# Form A — implicit group. Every service/replica that writes `[]` under the
+# same placement joins one shared group (named "auto") and is spread across
+# distinct nodes. This is what most multi-node jobs want.
+gpu:
+  units: 8
+  attributes:
+    vendor:
+      nvidia:
+        - model: h100
+    interconnect: []
+
+# Form B — explicit named group. Use when you need several independent
+# groups in one deployment (e.g. two separate training pairs). The name
+# "auto" is reserved and cannot be used here.
+gpu:
+  units: 8
+  attributes:
+    vendor:
+      nvidia:
+        - model: h100
+    interconnect:
+      group: pair0
+```
+
+### Rules
+
+- Any service using `interconnect` **requires** the placement to request `capabilities/gpu-interconnect: "true"`. Without it the deployment is rejected.
+- `gpu.units` must be greater than `0` — interconnect needs a GPU to attach a device to. It works with **any** count `≥ 1`; you are **not** required to request a full 8-GPU node. The 8-GPU examples below are just the common full-node training shape — see [Example 5](#example-5--small-footprint-single-gpu-services-in-groups) for a 1-GPU-per-service layout.
+- Within one placement, don't mix the implicit (`[]`) and explicit (`{ group: ... }`) forms — pick one.
+- `auto` is reserved for the implicit form; you can't write `group: auto`.
+
+### Example 1 — Minimal two-node job (implicit group)
+
+Two services on two nodes, both opting into the shared `auto` group. The worker reaches the head over Akash service DNS (`head`).
+
+```yaml
+version: "2.0"
+
+services:
+  head:
+    image: my-registry/trainer:latest
+    env:
+      - RANK=0
+      - WORLD_SIZE=2
+      - MASTER_ADDR=head
+      - MASTER_PORT=29500
+    expose:
+      - port: 29500
+        to:
+          - service: worker
+  worker:
+    image: my-registry/trainer:latest
+    env:
+      - RANK=1
+      - WORLD_SIZE=2
+      - MASTER_ADDR=head
+      - MASTER_PORT=29500
+
+profiles:
+  compute:
+    trainer:
+      resources:
+        cpu:
+          units: 32
+        memory:
+          size: 128Gi
+        storage:
+          - size: 100Gi
+        gpu:
+          units: 8
+          attributes:
+            vendor:
+              nvidia:
+                - model: h100
+            interconnect: []          # implicit "auto" group
+  placement:
+    dcloud:
+      attributes:
+        capabilities/gpu-interconnect: "true"   # required for interconnect
+      pricing:
+        trainer:
+          denom: uact
+          amount: 1000000
+
+deployment:
+  head:
+    dcloud:
+      profile: trainer
+      count: 1
+  worker:
+    dcloud:
+      profile: trainer
+      count: 1
+```
+
+### Example 2 — Replicas as a group (single service, `count > 1`)
+
+A single service with `count: 2` and `interconnect: []`. Both replicas share the `auto` group, so the provider places them on distinct nodes. Use this when your launcher (e.g. `torchrun` with a rendezvous backend) handles rank assignment across identical replicas.
+
+```yaml
+version: "2.0"
+
+services:
+  train:
+    image: my-registry/trainer:latest
+    env:
+      - WORLD_SIZE=2
+
+profiles:
+  compute:
+    train:
+      resources:
+        cpu:
+          units: 32
+        memory:
+          size: 128Gi
+        storage:
+          - size: 100Gi
+        gpu:
+          units: 8
+          attributes:
+            vendor:
+              nvidia:
+                - model: h100
+            interconnect: []
+  placement:
+    dcloud:
+      attributes:
+        capabilities/gpu-interconnect: "true"
+      pricing:
+        train:
+          denom: uact
+          amount: 1000000
+
+deployment:
+  train:
+    dcloud:
+      profile: train
+      count: 2          # two replicas → two distinct nodes, one "auto" group
+```
+
+### Example 3 — Explicit named group
+
+Functionally the same two-node pair as Example 1, but with an explicit group label. Prefer this when a deployment contains **more than one** interconnect group.
+
+```yaml
+        gpu:
+          units: 8
+          attributes:
+            vendor:
+              nvidia:
+                - model: h100
+            interconnect:
+              group: pair0
+```
+
+### Example 4 — Multiple independent groups in one deployment
+
+Two separate GPU pairs (`pair0` and `pair1`) in the same placement. Peers within a group are spread across distinct nodes; the two groups are independent and may share nodes with each other.
+
+```yaml
+version: "2.0"
+
+services:
+  a-head:
+    image: my-registry/trainer:latest
+  a-worker:
+    image: my-registry/trainer:latest
+  b-head:
+    image: my-registry/trainer:latest
+  b-worker:
+    image: my-registry/trainer:latest
+
+profiles:
+  compute:
+    group-a:
+      resources:
+        cpu: { units: 32 }
+        memory: { size: 128Gi }
+        storage:
+          - size: 100Gi
+        gpu:
+          units: 8
+          attributes:
+            vendor:
+              nvidia:
+                - model: h100
+            interconnect:
+              group: pair0
+    group-b:
+      resources:
+        cpu: { units: 32 }
+        memory: { size: 128Gi }
+        storage:
+          - size: 100Gi
+        gpu:
+          units: 8
+          attributes:
+            vendor:
+              nvidia:
+                - model: h100
+            interconnect:
+              group: pair1
+  placement:
+    dcloud:
+      attributes:
+        capabilities/gpu-interconnect: "true"
+      pricing:
+        group-a: { denom: uact, amount: 1000000 }
+        group-b: { denom: uact, amount: 1000000 }
+
+deployment:
+  a-head:   { dcloud: { profile: group-a, count: 1 } }
+  a-worker: { dcloud: { profile: group-a, count: 1 } }
+  b-head:   { dcloud: { profile: group-b, count: 1 } }
+  b-worker: { dcloud: { profile: group-b, count: 1 } }
+```
+
+### Example 5 — Small footprint: single-GPU services in groups
+
+Interconnect scales **down** as well as up. Here four single-GPU services form two independent pairs — `pair0` (`a-0`, `a-1`) and `pair1` (`b-0`, `b-1`) — for **4 GPUs total, one per service**. Each pair is spread across distinct nodes; the two pairs are independent. No 8-GPU node required.
+
+```yaml
+version: "2.0"
+
+services:
+  a-0:
+    image: my-registry/trainer:latest
+  a-1:
+    image: my-registry/trainer:latest
+  b-0:
+    image: my-registry/trainer:latest
+  b-1:
+    image: my-registry/trainer:latest
+
+profiles:
+  compute:
+    single-gpu-a:
+      resources:
+        cpu: { units: 8 }
+        memory: { size: 32Gi }
+        storage:
+          - size: 50Gi
+        gpu:
+          units: 1                 # one GPU per service instance
+          attributes:
+            vendor:
+              nvidia:
+                - model: a100
+            interconnect:
+              group: pair0
+    single-gpu-b:
+      resources:
+        cpu: { units: 8 }
+        memory: { size: 32Gi }
+        storage:
+          - size: 50Gi
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+                - model: a100
+            interconnect:
+              group: pair1
+  placement:
+    dcloud:
+      attributes:
+        capabilities/gpu-interconnect: "true"
+      pricing:
+        single-gpu-a: { denom: uact, amount: 200000 }
+        single-gpu-b: { denom: uact, amount: 200000 }
+
+deployment:
+  a-0: { dcloud: { profile: single-gpu-a, count: 1 } }
+  a-1: { dcloud: { profile: single-gpu-a, count: 1 } }
+  b-0: { dcloud: { profile: single-gpu-b, count: 1 } }
+  b-1: { dcloud: { profile: single-gpu-b, count: 1 } }
+```
+
+### Example 6 — Require a specific fabric (InfiniBand)
+
+By default the provider serves whichever fabric it has. If your workload specifically needs InfiniBand (or RoCE), pin it with an extra placement attribute — only providers advertising that fabric will bid.
+
+```yaml
+  placement:
+    dcloud:
+      attributes:
+        capabilities/gpu-interconnect: "true"
+        capabilities/gpu-interconnect/fabric/infiniband: "true"   # or .../fabric/roce
+      pricing:
+        trainer:
+          denom: uact
+          amount: 1000000
+```
+
+### Example 7 — Full multi-node LLM training (2 × 8× H100)
+
+A complete, deployable two-node job pinned to InfiniBand. Note there are **no `NCCL_IB_*` variables** — the provider injects them.
+
+```yaml
+version: "2.0"
+
+services:
+  head:
+    image: my-registry/megatron:latest
+    args:
+      - torchrun
+      - --nnodes=2
+      - --node_rank=0
+      - --master_addr=head
+      - --master_port=29500
+      - train.py
+    env:
+      - NCCL_DEBUG=INFO        # app-level logging only; IB env is provider-injected
+    expose:
+      - port: 29500
+        to:
+          - service: worker
+  worker:
+    image: my-registry/megatron:latest
+    args:
+      - torchrun
+      - --nnodes=2
+      - --node_rank=1
+      - --master_addr=head
+      - --master_port=29500
+      - train.py
+
+profiles:
+  compute:
+    node:
+      resources:
+        cpu:
+          units: 64
+        memory:
+          size: 512Gi
+        storage:
+          - size: 500Gi
+            attributes:
+              persistent: true
+              class: beta3
+        gpu:
+          units: 8
+          attributes:
+            vendor:
+              nvidia:
+                - model: h100
+                  interface: sxm
+            interconnect: []
+  placement:
+    dcloud:
+      attributes:
+        capabilities/gpu-interconnect: "true"
+        capabilities/gpu-interconnect/fabric/infiniband: "true"
+      pricing:
+        node:
+          denom: uact
+          amount: 5000000
+
+deployment:
+  head:
+    dcloud:
+      profile: node
+      count: 1
+  worker:
+    dcloud:
+      profile: node
+      count: 1
+```
+
+### What you still handle in your container
+
+The provider wires the **fabric** (RDMA devices + NCCL IB env). Your image still handles the **application-level** distributed setup:
+
+- Rank / world-size / master-address wiring (`RANK`, `WORLD_SIZE`, `MASTER_ADDR`, `MASTER_PORT`, or a `torchrun` rendezvous).
+- Reaching peers by Akash **service name** (`head`, `worker`, …) via an `expose … to: - service: <name>` rule.
+- Enough shared memory for your framework (set `/dev/shm` sizing in your container/launcher as usual).
+
+> **Verifying a provider supports interconnect:** it advertises `capabilities/gpu-interconnect` (and a `capabilities/gpu-interconnect/fabric/...` value) in its on-chain attributes. Providers set this up following [GPU & InfiniBand Support](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional).
+
+---
+
 ## Related Topics
 
 - [Persistent Storage](/docs/learn/core-concepts/persistent-storage) - Storing models
 - [Providers & Leases](/docs/learn/core-concepts/providers-leases) - Choosing GPU providers
+- [SDL syntax reference — GPU](/docs/developers/deployment/akash-sdl/syntax-reference/#gpu-section) - The `interconnect` attribute
 
 ---
 

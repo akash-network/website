@@ -347,11 +347,19 @@ gpu:
         - model: rtx4090
           ram: 24Gi       # Optional: filter by VRAM
           interface: pcie # Optional: pcie or sxm
+    interconnect: []       # Optional: opt into GPU interconnect (RDMA)
 ```
 
 **Limits:** Max: 24 GPUs per service
 
 **Common models:** `a100`, `a40`, `rtx4090`, `rtx3090`, `t4`, `v100`, `h100`
+
+**`interconnect`** — **Optional.** Opts the service into GPU interconnect (RDMA over InfiniBand or RoCE) for high-bandwidth multi-node GPU communication (NCCL). Two forms:
+
+- `interconnect: []` — implicit group. All services (and replicas) that use `[]` under the same placement form one peer group and are scheduled on distinct nodes.
+- `interconnect: { group: <name> }` — explicit named group, for running multiple independent groups in one deployment. The name `auto` is reserved.
+
+Any service using `interconnect` requires the placement to request `capabilities/gpu-interconnect: "true"` (see [placement](#placement-section)). The provider chooses the fabric and auto-injects the NCCL environment. See [GPU Interconnect (multi-node RDMA)](/docs/learn/core-concepts/gpu-deployments/#gpu-interconnect-multi-node-rdma) for full examples.
 
 </div>
 
@@ -366,6 +374,8 @@ placement:
   akash:
     attributes:           # Optional filters
       region: us-west
+      capabilities/gpu-interconnect: "true"                  # Required if any service uses gpu.attributes.interconnect
+      capabilities/gpu-interconnect/fabric/infiniband: "true" # Optional: require InfiniBand specifically (or .../fabric/roce)
     pricing:              # Required: max bid per service
       web:
         denom: uact
