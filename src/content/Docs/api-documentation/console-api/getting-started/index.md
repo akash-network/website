@@ -489,6 +489,111 @@ main().catch((err) => {
 
 ---
 
+## Confidential Compute (TEE)
+
+Run your workload inside a hardware-isolated Trusted Execution Environment (TEE) by adding a single `params.tee` field to a service in your SDL. Set it to `cpu` for a CPU-only confidential VM, or `cpu-gpu` to combine confidential compute with GPU acceleration. The provider selects the underlying hardware platform (AMD SEV-SNP or Intel TDX) and handles attestation automatically — you only choose the TEE option, nothing else.
+
+Confidential Compute is requested entirely through the SDL, so there are no extra API parameters: pass the SDL below as `data.sdl` on `POST /v1/deployments` exactly as in [Step 1](#1-create-deployment).
+
+### CPU-only Confidential Compute
+
+```yaml
+version: "2.1"
+services:
+  web:
+    image: nginx:stable
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+    params:
+      tee: cpu
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          - size: 512Mi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uact
+          amount: 10000
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+```
+
+### GPU + Confidential Compute
+
+The `cpu-gpu` option **requires GPU resources** in the compute profile — a `cpu-gpu` deployment without a `gpu` block is rejected.
+
+```yaml
+version: "2.1"
+services:
+  inference:
+    image: my-model:latest
+    expose:
+      - port: 8080
+        as: 8080
+        to:
+          - global: true
+    params:
+      tee: cpu-gpu
+profiles:
+  compute:
+    inference:
+      resources:
+        cpu:
+          units: 8
+        memory:
+          size: 32Gi
+        storage:
+          - size: 100Gi
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+                - model: h100
+  placement:
+    dcloud:
+      pricing:
+        inference:
+          denom: uact
+          amount: 100000
+deployment:
+  inference:
+    dcloud:
+      profile: inference
+      count: 1
+```
+
+> Warning: TEE services can only pull images from **public** registries. The `credentials` field is not honored for confidential workloads, and a deployment that references a private image will fail. Make sure every `image` in a TEE service is publicly pullable.
+
+### TEE type reference
+
+| Value     | Description                                    |
+| --------- | ---------------------------------------------- |
+| `cpu`     | CPU-only confidential VM                       |
+| `cpu-gpu` | Confidential VM with NVIDIA GPU CC (requires GPU resources) |
+
+The provider selects the actual hardware platform (AMD SEV-SNP or Intel TDX) and the runtime automatically at deployment time — you do not choose or configure it.
+
+All services within the same deployment group must use the same TEE type (or none at all); mixing TEE types in a single group is rejected.
+
+For attestation, the security model, and supported hardware, see the [Confidential Compute (TEE) core concepts](/docs/learn/core-concepts/confidential-compute) and the [SDL advanced features reference](/docs/developers/deployment/akash-sdl/advanced-features).
+
+---
+
 ## Best Practices
 
 ### Security
@@ -562,6 +667,7 @@ Poll every 3 seconds for 30–60 seconds, then back off or return a timeout erro
 - **[Quickstart](/docs/api-documentation/console-api/quickstart)** - End-to-end deployment in five API calls
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - SDL syntax guide
 - **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
+- **[Confidential Compute (TEE)](/docs/learn/core-concepts/confidential-compute)** - Attestation and security model
 
 ---
 
