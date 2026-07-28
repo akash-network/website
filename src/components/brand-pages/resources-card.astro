@@ -13,6 +13,7 @@ const { title, description, buttons, image, type } = Astro.props;
       src={image}
       alt={`banner image for the post`}
       width={1200}
+      height={1200}
       format="webp"
       class="aspect-video rounded-lg object-cover"
       loading="lazy"
@@ -41,7 +42,7 @@ const { title, description, buttons, image, type } = Astro.props;
               variant="secondary"
               size="xl"
               link={button.link}
-              download={`${title?.toLowerCase()?.replace(/\s+/g, "-")}.zip`}
+              download={button.link?.split("/").pop() ?? `${title?.toLowerCase()?.replace(/\s+/g, "-")}`}
             >
               {button.label}
               <svg
