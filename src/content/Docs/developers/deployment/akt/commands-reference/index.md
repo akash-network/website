@@ -764,7 +764,15 @@ akt mcp
 
 # With write tools enabled
 akt mcp --enable-writes
+
+# Console tools only, no context needed
+akt mcp --console-api-key <key>
 ```
+
+**Flags:**
+
+- `--enable-writes` - Enable write tools (on-chain transactions and provider mutations)
+- `--console-api-key` - Console API key; overrides the context credential and `AKT_CONSOLE_API_KEY`
 
 ---
 

@@ -9,7 +9,7 @@ description: "Expose Akash Network tools to AI assistants with the akt MCP serve
 
 **Expose Akash Network tools to AI assistants over the Model Context Protocol.**
 
-`akt mcp` starts an MCP (Model Context Protocol) server over stdio transport. Configuration is resolved from the active `akt` context (network, keyring, default account), so anything you can query with `akt`, a connected AI assistant can query too.
+`akt mcp` starts an MCP (Model Context Protocol) server over stdio transport. It serves two tool sets: chain tools, resolved from the active `akt` context (network, keyring, default account), and Console tools, registered whenever a Console API key resolves. Either rail alone is enough; the server only refuses to start when neither is available.
 
 ---
 
@@ -21,13 +21,27 @@ akt mcp
 
 # With write tools enabled
 akt mcp --enable-writes
+
+# Managed setup: Console tools only, no context or wallet needed
+akt mcp --console-api-key <key>
 ```
 
-By default, only read-only query tools are available (21 tools). Write tools (on-chain transactions and provider mutations) require explicit opt-in via `--enable-writes` to prevent AI agents from sending unapproved transactions.
+**Flags:**
 
-**Read-only tools include:** node status, account balances, deployments, orders, bids, leases, providers, audited attributes, and certificates.
+- `--enable-writes` - Enable write tools (on-chain transactions and provider mutations)
+- `--console-api-key` - Console API key; overrides the context credential and `AKT_CONSOLE_API_KEY`
 
-**Write tools (with `--enable-writes`):** close deployment, create lease, close lease, and submit manifest.
+By default, only read-only query tools are available. Write tools require explicit opt-in via `--enable-writes` to prevent AI agents from sending unapproved transactions. Read tools are annotated as read-only, so MCP clients can safely auto-approve them; write tools are marked destructive.
+
+---
+
+## Available Tools
+
+**Chain read tools** (require a network with an RPC endpoint): node status, account balances, deployments, orders, bids, leases, providers, audited attributes, and certificates.
+
+**Console read tools** (require a resolvable Console API key): deployments, bids, providers, GPU pricing, wallet balance, and usage history.
+
+**Write tools (with `--enable-writes`):** close deployment, create lease, close lease, and submit manifest on the chain rail; close deployment and deposit into escrow on the Console rail.
 
 ---
 
@@ -52,12 +66,13 @@ For clients configured with JSON (e.g., Claude Desktop):
 }
 ```
 
-**Important:** Only add `--enable-writes` to the client configuration if you want the assistant to be able to close deployments, create and close leases, and submit manifests on your behalf.
+**Important:** Only add `--enable-writes` to the client configuration if you want the assistant to be able to close deployments, create and close leases, submit manifests, and deposit into escrow on your behalf.
 
 ---
 
 ## Related Resources
 
 - [Contexts & Configuration](/docs/developers/deployment/akt/configuration) - The context the server resolves its settings from
+- [Console Integration](/docs/developers/deployment/akt/console) - Setting up the Console API key the Console tools use
 - [Model Context Protocol](https://modelcontextprotocol.io) - Protocol documentation
 - [Commands Reference](/docs/developers/deployment/akt/commands-reference) - Complete `akt` command reference

@@ -75,6 +75,8 @@ akt console lease create 12345 akash1prov...
 
 `akt console lease create` defaults to the manifest cached per context by `deployment create`, so the provider argument is the only decision left.
 
+**Note:** The `--manifest` flag takes the manifest the Console renders, not the SDL file. The Console returns that manifest exactly once, at `deployment create`; when it cannot be cached (for example, with no active context), the create result includes it so you can pass it to `lease create` later. Passing the SDL by mistake fails locally with a message naming the cause.
+
 ---
 
 ## Deployment Lifecycle
@@ -128,6 +130,8 @@ akt console shell 12345 web
 akt console shell 12345 web -- ls -la
 ```
 
+**Note:** The service filter and `--tail` are applied client-side. The filter matches the service name as a pod-name prefix (the provider reports pod names like `web-5cfc6c7b4b-4cl7z`), and `--tail` bounds a one-shot read; it does not combine with `--follow`.
+
 ---
 
 ## Wallet and Usage
@@ -144,6 +148,8 @@ akt console wallet cost
 # Spend history for an explicit range (positional dates)
 akt console usage 2026-01-01 2026-01-31
 ```
+
+**Note:** An account that has never configured auto-reload reports the unconfigured default (`"configured": false`) instead of an error. Running `akt console wallet settings true` creates the settings record and enables auto-reload, which authorizes automatic credit purchases against your payment method.
 
 ---
 
