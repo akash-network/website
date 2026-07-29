@@ -11,6 +11,7 @@ import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 import generateToc from "@/lib/generateToc";
 import { getCollection, render, type CollectionEntry } from "astro:content";
+import { Code } from "astro-expressive-code/components";
 import classNames from "clsx";
 
 export async function getStaticPaths() {
@@ -94,7 +95,7 @@ const lines = page?.body
             page.data.hideTOC
               ? "w-full min-w-0"
               : "w-full min-w-0 px-5 lg:flex-1",
-            "md:pt-12"
+            "md:pt-12",
           )}
         >
           <Breadcrumbs pathname={pathname} />
@@ -107,6 +108,13 @@ const lines = page?.body
 
           <div class="my-5 border-b md:my-10"></div>
 
+          {
+            /* expressive-code attaches its stylesheet to the first code block
+            on a page; when that block sits inside a client: island the link is
+            stripped during serialization. This hidden block guarantees the
+            assets on every docs page. */
+          }
+          <div hidden aria-hidden="true"><Code code="#" lang="text" /></div>
           <article class={docsProseClasses}>
             <Content />
           </article>
