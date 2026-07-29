@@ -192,6 +192,114 @@ The `params.tee` field accepts the following values:
 
 ---
 
+## Preparing Images for Confidential Compute
+
+A TEE workload runs inside a Kata VM, and its image is pulled and unpacked **inside the encrypted guest** ("guest pull") rather than on the host. A few image properties that don't matter for a normal deployment become important here. Following these keeps you on the happy path.
+
+### Run as a numeric user, not a named one
+
+The image must run as a **numeric UID/GID**, not a username. Because the image is mounted inside the guest, the host cannot read the image's `/etc/passwd` / `/etc/group` to translate a name into an ID. An image whose config sets, for example, `USER appuser:appgroup` fails at container creation with:
+
+```
+failed to create containerd container: mount callback failed on ...: openat etc/passwd: no such file or directory
+```
+
+Fix it in the image by using numeric IDs (or root):
+
+```dockerfile
+# Instead of: USER appuser:appgroup
+USER 1000:1000
+```
+
+If you don't control the image, re-publish it with only a numeric-user change — the image contents are unchanged, so this is fast and safe:
+
+```bash
+# Find the numeric IDs the named user maps to
+docker run --rm <image> id <username>
+
+# Re-tag with a numeric user (config-only change) to a PUBLIC registry
+crane mutate <image> --user "1000:1000" -t <public-registry>/<image>:<tag>
+```
+
+(Publish to a public registry — private registries are not supported yet, see below.)
+
+### Keep images small and size memory accordingly
+
+The image is decompressed and unpacked **into the guest's memory** (`shared_fs` is disabled, so there is no host-shared filesystem). This has two consequences:
+
+- **The extracted image must fit in the guest.** Request enough `memory` to hold the *extracted* image plus your application's working set, with headroom. A ~10 GB compressed image can expand to 20-30 GB; if it doesn't fit, container creation fails with `Failed to unpack layer to destination`.
+- **Very large images can time out.** The image is fetched during container creation inside the guest rather than by the normal host image pull, so very large images may exceed the request timeout and fail with `context deadline exceeded`. You cannot change this from the SDL; providers can raise the timeout, but the reliable fix is a smaller image.
+
+**Prefer smaller images.** For AI inference, a lightweight server that downloads the model at runtime (for example [Ollama](https://ollama.com)) is far easier to run confidentially than a multi-gigabyte all-in-one CUDA image.
+
+### Known-good example — confidential GPU inference with Ollama
+
+This small, root-user, public image serves a Llama model under `cpu-gpu` with none of the pitfalls above:
+
+```yaml
+---
+version: "2.1"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    expose:
+      - port: 11434
+        as: 11434
+        to:
+          - global: true
+    command:
+      - bash
+      - "-lc"
+    args:
+      - |
+        /bin/ollama serve &
+        until /bin/ollama ps >/dev/null 2>&1; do sleep 1; done
+        /bin/ollama pull llama3.2:3b
+        wait
+    params:
+      tee: cpu-gpu
+
+profiles:
+  compute:
+    ollama:
+      resources:
+        cpu:
+          units: 4
+        memory:
+          size: 16Gi
+        storage:
+          size: 20Gi
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+  placement:
+    dcloud:
+      pricing:
+        ollama:
+          denom: uact
+          amount: 100000
+
+deployment:
+  ollama:
+    dcloud:
+      profile: ollama
+      count: 1
+```
+
+Once the lease is running, test inference against the forwarded port:
+
+```bash
+curl http://<lease-host>:<port>/api/generate \
+  -d '{"model":"llama3.2:3b","prompt":"Hello from a confidential GPU","stream":false}'
+```
+
+Swap `llama3.2:3b` for `llama3.2:1b` for an even lighter demo.
+
+---
+
 ## Attestation
 
 Attestation is how you verify that your workload is genuinely running inside a hardware TEE. The attestation report is signed by the CPU hardware itself and the provider cannot forge or tamper with it.
@@ -295,6 +403,9 @@ The attestation design enforces these properties:
 - **Sidecar resources**: The attestation sidecar consumes modest resources (10m CPU, 32-64Mi memory) which are automatically included in resource accounting.
 - **Runtime environment**: TEE workloads run inside Kata VMs rather than standard containers. Most workloads are unaffected, but features that depend on direct host kernel access may behave differently.
 - **Distroless and scratch-based images are not supported.** Kata Containers uses a guest agent inside the VM to set up and manage the container filesystem. Images built `FROM scratch` or from `gcr.io/distroless/...` lack the minimal filesystem structure (e.g. `/dev`, `/proc`, `/sys`) that the guest agent requires to initialize the container. Use a minimal but complete base image such as `alpine` or `ubuntu` instead.
+- **Images must run as a numeric user, not a named one.** A named `USER` in the image (e.g. `USER appuser`) fails at container creation (`openat etc/passwd: no such file or directory`) because the host cannot resolve the name against the in-guest filesystem. Use a numeric `UID:GID` (or root). See [Preparing Images for Confidential Compute](#preparing-images-for-confidential-compute).
+- **Image size is bounded by guest memory.** The image is unpacked into guest RAM (there is no host-shared filesystem), so large images need a correspondingly large `memory` request and can otherwise fail to unpack (`Failed to unpack layer to destination`) or time out during creation (`context deadline exceeded`). Prefer small images and size `memory` for the *extracted* image plus your working set.
+- **Ephemeral `storage` is not a real disk (and not extra RAM).** With `shared_fs` disabled, the container's writable layer lives in the guest's RAM. A `storage` request is neither turned into a disk of that size nor into that much RAM (RAM comes from `memory`); usable writable space is bounded by the VM's memory, and writing past it fails with an out-of-space error. Size `memory` for what your workload writes. See [Preparing Images for Confidential Compute](#preparing-images-for-confidential-compute).
 
 ---
 
