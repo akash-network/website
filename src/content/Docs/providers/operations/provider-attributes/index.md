@@ -591,15 +591,15 @@ If your GPU isn't in the [provider-configs database](https://github.com/akash-ne
 
 ### GPU Interconnect (InfiniBand / RoCE)
 
-Advertise these attributes only after you have completed [Part 2 — InfiniBand / RDMA](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional) and verified RDMA on the cluster. Tenants request interconnect in the SDL with `gpu.attributes.interconnect` and match on these placement attributes.
+Advertise these attributes only after you have completed [Part 2 — InfiniBand / RDMA](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional) — and, for RoCE, [Part 3 — RoCE Rail Networks](/docs/providers/setup-and-installation/kubespray/gpu-support#part-3--roce-rail-networks-optional) — and verified RDMA on the cluster. Tenants request interconnect in the SDL with `gpu.attributes.interconnect` and match on these placement attributes.
 
 | On-chain key | When to set |
 | ------------ | ----------- |
 | `capabilities/gpu-interconnect` | Always, if you offer multi-node RDMA |
 | `capabilities/gpu-interconnect/fabric/infiniband` | If nodes use InfiniBand HCAs |
-| `capabilities/gpu-interconnect/fabric/roce` | If nodes use RoCE |
+| `capabilities/gpu-interconnect/fabric/roce` | If nodes use RoCE (requires [Part 3 rail networks](/docs/providers/setup-and-installation/kubespray/gpu-support#part-3--roce-rail-networks-optional) and provider ≥ 0.16.2) |
 
-Advertise every fabric you actually support. Omit all interconnect keys if you have no InfiniBand/RoCE hardware.
+Advertise every fabric you actually support. Omit all interconnect keys if you have no InfiniBand/RoCE hardware. Do **not** advertise `fabric/roce` without the rail networks in place — tenant workloads would receive RDMA devices but be unable to reach the fabric.
 
 **InfiniBand example:**
 

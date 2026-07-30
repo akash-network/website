@@ -809,7 +809,8 @@ When you opt in, the provider:
 
 - Schedules the peer services/replicas on **distinct nodes** (so each gets its own GPUs and RDMA devices).
 - Attaches one RDMA device handle per GPU. These handles are shared from the node's physical HCA(s) — the device plugin exposes a pool (up to 63 per node), so a service with `gpu.units: 8` requests 8 handles, not 8 physical cards.
-- **Auto-injects the NCCL environment** (`NCCL_IB_DISABLE=0`, `NCCL_IB_HCA`, and `NCCL_IB_GID_INDEX=3` on RoCE). You do **not** set these in your SDL — the provider fills them from the node's discovered hardware.
+- **Auto-injects the NCCL environment** (`NCCL_IB_DISABLE=0`, `NCCL_IB_HCA`). You do **not** set these in your SDL — the provider fills them from the node's discovered hardware.
+- On **RoCE** fabrics, additionally attaches the provider's rail networks to your pods so NCCL can reach the fabric over RoCEv2 — also fully automatic.
 
 You choose *whether* to use interconnect and *how peers are grouped*; the provider chooses the fabric (InfiniBand vs RoCE) unless you pin it.
 
