@@ -1,9 +1,7 @@
 import { defineCollection, z } from "astro:content";
-import { contentLoader } from "@/utils/schema/contentLoader";
 
 export const brandResourcesSchema = defineCollection({
-  loader: contentLoader("Brand_Resources_Homepage"),
-  schema: ({ image }) => {
+  schema: () => {
     return z.object({
       title: z.string(),
       description: z.string(),
@@ -11,7 +9,7 @@ export const brandResourcesSchema = defineCollection({
         z.object({
           title: z.string(),
           description: z.string(),
-          image: image(),
+          image: z.string(),
           button: z.array(
             z.object({
               label: z.string(),
@@ -27,7 +25,6 @@ export const brandResourcesSchema = defineCollection({
 });
 
 export const brandReleasesInsightsSchema = defineCollection({
-  loader: contentLoader("Brand_Releases_Insights_Homepage"),
   schema: ({ image }) => {
     return z.object({
       title: z.string(),
