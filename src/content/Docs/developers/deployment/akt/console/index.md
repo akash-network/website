@@ -11,6 +11,8 @@ description: "Deploy with the Akash Console managed wallet from akt with no loca
 
 Contexts with the `console-api` auth method route deployment operations through the [Akash Console Managed Wallet API](/docs/api-documentation/console-api). The Console backend handles signing and broadcasting, deposits are in USD, and no local keys are needed.
 
+The Console API key is the identity for this context. A local keyring and `default-account` are intentionally optional.
+
 ---
 
 ## Set Up a Console Context
@@ -41,25 +43,27 @@ akt console whoami
 
 ## Deploy with the Managed Wallet
 
-On a `console-api` context, the familiar deployment commands route through the Console automatically. Deposits and amounts are USD (minimum $0.50), accepted as `5`, `5usd`, or `$5`:
+On a `console-api` context, the top-level workflow commands route through the Console automatically. Deposits and amounts are USD (minimum $0.50), accepted as `5`, `5usd`, or `$5`:
 
 ```bash
 # Deploy using the Console managed wallet
-akt tx deployment create deploy.yaml --deposit 5
+akt deploy deploy.yaml --deposit 5
 
 # List your deployments
-akt query deployment
+akt console deployment list
 
 # Update a deployment
-akt tx deployment update deploy.yaml 12345
+akt update deploy.yaml 12345
 
 # Close a deployment
-akt tx deployment close 12345
+akt close 12345
 ```
 
-The workflow commands work on the same rail: `akt deploy deploy.yaml` creates the deployment, waits for bids, and creates the lease through the Console (manifest submission is handled internally by the Console).
+`akt deploy` creates the deployment, waits for bids, and creates the lease through the Console. The Console handles manifest submission internally.
 
-**Note:** Managed deployments are priced in `uact` (micro-ACT, 1:1 USD). `akt sdl validate` warns when an SDL prices in `uakt` for this reason. Commands that require local signing (e.g., `akt tx bank send`, `akt tx gov vote`) are not supported with `console-api` auth; use a `keyring` context for those.
+**Note:** Managed deployments are priced in `uact` (micro-ACT, 1:1 USD). `akt sdl validate` warns when an SDL prices in `uakt` for this reason. Direct chain transactions such as `akt tx bank send` and `akt tx gov vote` require a `keyring` context. Use the top-level workflows or the matching `akt console` command for managed-wallet deployment operations.
+
+Because the context has no local default account, bare owner-scoped chain queries refuse instead of widening to every network record. Use `akt console deployment list` for the managed account, or pass an explicit Akash owner address to a chain query.
 
 ---
 
@@ -131,6 +135,8 @@ akt console shell 12345 web -- ls -la
 ```
 
 **Note:** The service filter and `--tail` are applied client-side. The filter matches the service name as a pod-name prefix (the provider reports pod names like `web-5cfc6c7b4b-4cl7z`), and `--tail` bounds a one-shot read; it does not combine with `--follow`.
+
+An explicit command launched from a terminal does not attach stdin, so it exits when the remote command finishes. Piped input attaches automatically; add `--stdin` to force attachment. JSON and YAML shell output require an explicit command and return separate `stdout` and `stderr` fields.
 
 ---
 

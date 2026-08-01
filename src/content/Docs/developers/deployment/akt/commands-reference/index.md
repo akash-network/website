@@ -25,7 +25,7 @@ akt <command> <subcommand> [arguments] [flags]
 - `--context` - Active context name (overrides `current-context` in config)
 - `-o, --output` - Output format: `pretty` (default), `json`, `yaml`
 - `-v, --verbose` - Increase output verbosity (`-v` verbose, `-vv` debug)
-- `-q, --quiet` - Suppress all output except errors
+- `-q, --quiet` - Suppress informational output while keeping results and errors
 
 Commands take their primary values **positionally**, following the Akash resource hierarchy (`owner/dseq/gseq/oseq/provider`). Defaults for the node, chain ID, gas settings, and signing account come from the active context.
 
@@ -53,6 +53,8 @@ akt context create <name> --network <network>
 ```bash
 akt context create prod --network mainnet --default-account alice --set-current
 ```
+
+`console-api` contexts do not require a keyring or default account. Their API key identifies the Console account and managed wallet. Owner-scoped chain queries still require an explicit owner when no default account is set.
 
 ---
 
@@ -364,6 +366,8 @@ akt query deployment akash1abc...
 akt query deployment akash1abc.../12345
 ```
 
+Owner-scoped lists refuse when neither the command nor the context supplies an owner. Paginated deployment queries support `--limit`, `--offset`, `--page`, `--page-key`, `--reverse`, and `--count-total`.
+
 ---
 
 ### Market (Bids and Leases)
@@ -443,7 +447,7 @@ akt tx deployment update deployment.yaml 12345
 akt tx deployment close 12345
 ```
 
-**Note:** On `console-api` contexts these commands route through the Console managed wallet, and `--deposit` takes USD amounts (`5`, `5usd`, `$5`).
+**Note:** These direct chain transaction commands require a keyring signing account. For a managed wallet, use `akt deploy`, `akt update`, and `akt close`, or the matching `akt console deployment` command.
 
 ---
 
@@ -593,6 +597,8 @@ akt console shell <dseq> <service>
 akt console shell <dseq> <service> -- ls -la
 ```
 
+Explicit commands launched from a terminal detach stdin by default. Piped input attaches automatically; use `--stdin` to force attachment. JSON and YAML output require an explicit command and return `stdout` and `stderr` fields.
+
 ---
 
 ### Marketplace (No API Key Required)
@@ -634,7 +640,7 @@ akt console jwt create
 
 ## Provider Commands
 
-Direct provider gateway operations for `keyring` contexts. All lease commands accept `--provider` and `--provider-url` to pin a specific provider, and `--auth-type` to select `jwt` (default) or `mtls` authentication.
+Direct provider gateway operations for `keyring` contexts. A provider address resolves its gateway URL from the provider's on-chain record. `--provider-url` optionally overrides that gateway URL; it is not a chain RPC endpoint. Protected lease operations use `jwt` (default) or `mtls` authentication from the context.
 
 ### Provider Status
 
@@ -642,12 +648,14 @@ Direct provider gateway operations for `keyring` contexts. All lease commands ac
 akt provider status [provider-addr]
 ```
 
+Provider status is public and does not require a wallet or default account.
+
 ---
 
 ### Lease Status
 
 ```bash
-akt provider lease-status [dseq]
+akt provider lease-status [dseq] --provider <provider>
 ```
 
 ---
@@ -655,7 +663,7 @@ akt provider lease-status [dseq]
 ### Lease Logs
 
 ```bash
-akt provider lease-logs [dseq]
+akt provider lease-logs [dseq] --provider <provider>
 ```
 
 **Flags:**
@@ -669,7 +677,7 @@ akt provider lease-logs [dseq]
 ### Lease Events
 
 ```bash
-akt provider lease-events [dseq] --follow
+akt provider lease-events [dseq] --provider <provider> --follow
 ```
 
 ---
@@ -686,7 +694,10 @@ akt provider lease-shell --dseq <dseq> --provider <provider> --service <service>
 
 - `--dseq` - Deployment sequence number
 - `--service` - Service name (required)
+- `--stdin` - Force stdin attachment for an explicit terminal command
 - `-t, --tty` - Allocate a TTY (default: true)
+
+Explicit commands launched from a terminal detach stdin by default. Piped input attaches automatically. Structured output requires an explicit command and returns separate `stdout` and `stderr` fields.
 
 ---
 
@@ -697,7 +708,7 @@ akt provider lease-shell --dseq <dseq> --provider <provider> --service <service>
 akt provider send-manifest deploy.yaml --dseq 12345 --provider akash1prov...
 
 # Retrieve the current manifest
-akt provider get-manifest [dseq]
+akt provider get-manifest [dseq] --provider <provider>
 ```
 
 ---
@@ -746,6 +757,8 @@ akt monitor oracle
 akt monitor bme
 ```
 
+Inside the Network dashboard, `1` opens Overview, `2` Validators, `3` Governance proposals, and `4` Governance parameters. `Tab` and `Shift-Tab` switch dashboards.
+
 **Flags:**
 
 - `--rpc` - RPC endpoint (also accepted as a positional argument)
@@ -773,6 +786,8 @@ akt mcp --console-api-key <key>
 
 - `--enable-writes` - Enable write tools (on-chain transactions and provider mutations)
 - `--console-api-key` - Console API key; overrides the context credential and `AKT_CONSOLE_API_KEY`
+
+With both rails configured, read-only mode exposes 27 tools and write-enabled mode exposes 33. Ctrl-C and closed stdin both stop the server cleanly.
 
 ---
 

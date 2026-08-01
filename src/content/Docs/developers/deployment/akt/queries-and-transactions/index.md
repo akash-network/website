@@ -61,6 +61,32 @@ akt query market lease --by provider akash1prov...
 
 **Note:** The identity and filter flags from older Akash CLIs (`--owner`, `--dseq`, `--gseq`, `--oseq`, `--state`, `--provider`) are not available; use the positional form.
 
+If the context has no `default-account`, owner-scoped commands require an explicit owner. They refuse locally instead of returning every account's records. This is normal for `console-api` and monitoring-only contexts:
+
+```bash
+# Explicit owner works without a default account
+akt query deployment akash1abc...
+
+# Console-owned deployments come from the Console API identity
+akt console deployment list
+```
+
+---
+
+## Pagination
+
+Paginated queries accept `--limit`, `--offset`, `--page`, `--page-key`, and `--reverse` where the underlying query supports them:
+
+```bash
+# Second page, 25 deployments per page
+akt query deployment akash1abc... --limit 25 --page 2
+
+# Most recent records first
+akt query deployment akash1abc... --limit 25 --reverse
+```
+
+Use `--count-total` when you also need the total number of matching records. Unsupported pagination flags are refused rather than ignored.
+
 ---
 
 ## Common Queries
@@ -117,6 +143,8 @@ akt tx bme burn-act 500000uact
 ```
 
 **Note:** Amounts are in `uakt` (micro-AKT). 1 AKT = 1,000,000 uakt.
+
+Direct `akt tx` commands require a keyring signing account. In a `console-api` context, use `akt deploy`, `akt update`, and `akt close`, or the matching `akt console` deployment command.
 
 ---
 

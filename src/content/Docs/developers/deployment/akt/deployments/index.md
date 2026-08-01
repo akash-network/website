@@ -76,7 +76,7 @@ In interactive mode (the default), `akt` shows a per-step progress display and p
 
 **Flags:**
 
-- `--deposit` - Initial deposit: `5000000uakt` (coin, `keyring` contexts), `5usd` or `$5` (USD, `console-api` contexts), or `auto` for the chain minimum (default)
+- `--deposit` - Initial deposit: `5000000uakt` (coin, `keyring` contexts), `5`, `5usd`, or `$5` (USD, `console-api` contexts), or `auto` for the chain minimum (default)
 - `--bid-timeout` - Maximum time to wait for bids (default: `5m`)
 - `--bid-select` - Bid selection mode: `interactive` (default), `cheapest`, or `provider=<addr>`
 - `--yes` (`-y`) - Skip confirmation prompts
@@ -90,6 +90,8 @@ akt deploy deploy.yaml --bid-select cheapest --yes
 ```
 
 **Note:** On `console-api` contexts, provider manifest steps are skipped; the Console submits manifests internally.
+
+If a deploy fails after creating paid chain state, `akt` prints the dseq, provider, escrow risk, and exact retry and close commands. It does not automatically close the deployment. Retry the failed step, or run the printed `akt close <dseq>` command if you are abandoning it.
 
 ---
 
@@ -125,19 +127,9 @@ Update the deployment on-chain from a modified SDL file:
 akt update deploy.yaml 12345
 ```
 
-**What can be updated:**
+Image and environment changes usually keep the current leases. Changing the resource profile can close leases and reopen bidding, so review the effect before confirming.
 
-- Container image versions
-- Environment variables
-- Command and args
-
-**What cannot be updated:**
-
-- CPU, memory, storage, GPU resources
-- Placement criteria
-- Service names
-
-To change resources or placement, close the deployment and create a new one.
+On the chain rail, `akt update` submits the update and sends the revised manifest to every provider with an active lease. It attempts every provider before reporting an error, and the manifest step is safe to retry. On the Console rail, the Console API handles the manifest update.
 
 ---
 
@@ -170,17 +162,19 @@ Reach the provider gateway for live status, logs, and a shell:
 
 ```bash
 # Live lease deployment status
-akt provider lease-status 12345
+akt provider lease-status 12345 --provider akash1prov...
 
 # Stream container logs
-akt provider lease-logs 12345 --follow
+akt provider lease-logs 12345 --provider akash1prov... --follow
 
 # Stream Kubernetes events
-akt provider lease-events 12345 --follow
+akt provider lease-events 12345 --provider akash1prov... --follow
 
 # Open an interactive shell in a container
 akt provider lease-shell --dseq 12345 --provider akash1... --service web -- /bin/sh
 ```
+
+`akt` resolves the provider gateway URL from the provider's on-chain record. `--provider-url` is an optional gateway override, not a blockchain RPC URL.
 
 **Note:** On `console-api` contexts, use the equivalent `akt console logs`, `akt console events`, `akt console status`, and `akt console shell` commands. See [Console Integration](/docs/developers/deployment/akt/console).
 

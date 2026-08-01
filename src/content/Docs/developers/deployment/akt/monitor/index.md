@@ -9,7 +9,7 @@ description: "Watch Akash consensus, provider fleet health, and Oracle/BME state
 
 **Watch network state, provider fleet health, and Oracle/BME state in real time.**
 
-`akt monitor` is a hub-based monitoring tool with three dashboards. It connects directly to an RPC endpoint via WebSocket for real-time vote streaming, which makes it especially useful during coordinated chain upgrades when online block explorers become unreliable.
+`akt monitor` is a hub-based monitoring tool with three dashboards. It connects directly to an RPC endpoint via WebSocket for real-time vote streaming, which makes it useful during coordinated chain upgrades when online block explorers become unreliable.
 
 No keyring or default account is needed, just an RPC endpoint.
 
@@ -46,13 +46,16 @@ akt monitor --clean-cache
 
 ### Network
 
-The default dashboard: consensus state, validator voting, and governance parameters.
+The default dashboard shows consensus state, validator voting, governance proposals, and governance parameters.
 
 Sub-tabs:
 
 - `1` **Overview** - Dual progress bar and block history
 - `2` **Validators** - Per-validator signing history
-- `3` **Governance** - Module parameters
+- `3` **Governance** - Recent and active proposals, deadlines, status, and vote tallies
+- `4` **Parameters** - Module-by-module governance parameters
+
+The Governance tab includes recent completed proposals even when no vote is active. Voting-period proposals show the current tally; completed proposals show the final tally. Use `j` and `k` to scroll and `r` to refresh.
 
 ### Provider
 
@@ -67,7 +70,8 @@ Oracle aggregated prices plus BME vault state, mint status, and ledger.
 ## Navigation
 
 - `Tab` / `Shift-Tab` - Cycle between the Network, Provider, and Oracle/BME dashboards
-- `1` / `2` / `3` - Switch sub-tabs within the Network dashboard
+- `1` / `2` / `3` / `4` - Switch sub-tabs within the Network dashboard
+- `q` / `Ctrl-C` - Save monitor cache state and quit
 
 ---
 

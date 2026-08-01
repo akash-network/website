@@ -33,15 +33,21 @@ akt mcp --console-api-key <key>
 
 By default, only read-only query tools are available. Write tools require explicit opt-in via `--enable-writes` to prevent AI agents from sending unapproved transactions. Read tools are annotated as read-only, so MCP clients can safely auto-approve them; write tools are marked destructive.
 
+Stop the stdio server with Ctrl-C. `akt` cancels in-flight work, releases the blocked input loop, and exits cleanly. Closing stdin also performs a clean shutdown.
+
 ---
 
 ## Available Tools
+
+With both rails configured, read-only mode registers 27 tools and `--enable-writes` registers 33.
 
 **Chain read tools** (require a network with an RPC endpoint): node status, account balances, deployments, orders, bids, leases, providers, audited attributes, and certificates.
 
 **Console read tools** (require a resolvable Console API key): deployments, bids, providers, GPU pricing, wallet balance, and usage history.
 
 **Write tools (with `--enable-writes`):** close deployment, create lease, close lease, and submit manifest on the chain rail; close deployment and deposit into escrow on the Console rail.
+
+Owner-scoped chain tools default to the context's `default-account`. If the context has no account, the tool requires an explicit `owner`; it never broadens the request to every account on the network. Console tools use the Console API identity and do not need a local account.
 
 ---
 

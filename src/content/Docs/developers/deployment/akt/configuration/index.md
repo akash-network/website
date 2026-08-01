@@ -20,7 +20,7 @@ description: "Configure akt contexts, networks, keys, and environment variables"
 `akt` stores its configuration in a YAML file at `~/.config/akt/config.yaml`, built from three building blocks:
 
 - **Contexts** - A named combination of a network, an authentication method, and a default account. One context is active at a time, and every command runs against it.
-- **Networks** - Shared network definitions (chain ID, RPC endpoints, gas settings). Built-in templates exist for `mainnet`, `testnet`, and `sandbox`, and multiple contexts can reference the same network.
+- **Networks** - Shared network definitions (chain ID, RPC endpoints, gas settings). Built-in templates exist for `mainnet`, `testnet`, and `sandbox`; the sandbox template targets the live `sandbox-2` network. Multiple contexts can reference the same network.
 - **Keyrings** - Shared key stores referenced by contexts.
 
 Contexts use one of two authentication methods:
@@ -59,6 +59,30 @@ akt context create console --network mainnet --auth-method console-api --set-cur
 akt context rename prod production
 akt context delete staging --yes
 ```
+
+---
+
+## Accounts and Account-Free Contexts
+
+Set a default account when you create a keyring context, or add one later:
+
+```bash
+akt context edit mainnet --default-account alice
+akt context show
+```
+
+The value can be a key name or an Akash address. When it is a key name, `akt` resolves it to the full address before running owner-scoped queries.
+
+A `console-api` context intentionally does not need a keyring or `default-account`. The API key identifies the Console account, and the Console managed wallet signs and pays for `akt deploy`, `akt update`, `akt close`, and `akt console` operations.
+
+If that context also has a network, account-independent chain queries such as `akt query staking pool` still work. An owner-scoped query cannot guess an owner, so a bare command such as `akt query deployment` refuses instead of returning every deployment on the network. Use the Console-owned view or provide an address explicitly:
+
+```bash
+akt console deployment list
+akt query deployment akash1abc...
+```
+
+A network-less `console-api` context can run Console commands only. Attach a network before using chain queries, the monitor, or public provider discovery. Direct `akt tx` commands need a keyring context and local signing account.
 
 ---
 
