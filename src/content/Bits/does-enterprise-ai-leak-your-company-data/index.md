@@ -4,7 +4,7 @@ pubDate: 2026-07-22
 lastUpdated: 2026-07-22
 author: "Joe, Community Manager"
 description: "Microsoft CEO Satya Nadella's Reverse Information Paradox explains how enterprises leak proprietary know-how to AI vendors. Here is why it happens and how open models on compute you control fix it."
-tags: ["Enterprise AI", "Open Source AI", "AI Privacy", "AkashML"]
+tags: ["Explainers", "Open Source AI"]
 bannerImage: ./banner.webp
 draft: false
 ---
@@ -67,4 +67,4 @@ Less than the boundary around it, for most enterprise work. Open-weight models h
 
 **How is an open-source model more private than a closed one?** Privacy comes from where the model runs, not just its license. An open-weight model hosted on compute you control keeps your prompts, traces, and corrections inside your own boundary, so they never enter a vendor's learning loop. A closed model sends that same data to infrastructure the vendor operates.
 
-**How much cheaper is open-model inference?** Akash reports AkashML inference from around $0.15 per million tokens, with up to 85% savings versus centralized AI inference providers, as of July 2026. Actual savings depend on model, throughput, and whether you use managed inference or your own container.
+**How much cheaper is open-model inference?** Akash reports AkashML inference from around \$0.15 per million tokens, with up to 85% savings versus centralized AI inference providers, as of July 2026. Actual savings depend on model, throughput, and whether you use managed inference or your own container.

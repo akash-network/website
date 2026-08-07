@@ -9,6 +9,7 @@ import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { apiDocsOnly } from "./src/lib/markdown/apiDocsOnly";
+import { autoFaqAccordion } from "./src/lib/markdown/autoFaqAccordion";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
@@ -16,7 +17,7 @@ import { redirects } from "./src/utils/redirects";
 export default defineConfig({
   redirects: redirects,
   markdown: {
-    remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin],
+    remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin, autoFaqAccordion],
     rehypePlugins: [
       apiDocsOnly(rehypeSlug),
       [
