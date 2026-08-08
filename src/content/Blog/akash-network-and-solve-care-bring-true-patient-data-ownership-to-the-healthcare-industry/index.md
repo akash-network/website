@@ -9,10 +9,21 @@ categories:
 tags:
   - Partners
   - Case Studies
+  - healthcare
+  - patient data
+  - Solve.Care
+  - Care.Node
+  - blockchain healthcare
+  - permissionless compute
+  - decentralized storage
+  - data sovereignty
 contributors:
   - Zach Horn
 bannerImage: ./solve-care-akash.png
 ---
+
+> **TL;DR:** Akash and Solve.Care are partnering to decentralize patient healthcare data via Care.Nodes — personal health data nodes deployed on permissionless Akash compute. This gives patients true data sovereignty and could cut healthcare administrative overhead by an order of magnitude.
+
 
 Healthcare is a [$7.98 trillion industry](https://finance.yahoo.com/news/healthcare-services-global-market-report-134400283.html?guccounter=1) that impacts every one of us worldwide. Because of its sheer size, it’s slow, expensive, and resistant to change. Improving the core aspects of the industry — cost and access to care, patient data ownership, and the cost of administrative overhead — creates the best opportunity for real impact to change the lives of billions of patients around the world.
 
@@ -44,3 +55,27 @@ This partnership between Akash Network and Solve.Care represents a transformativ
 In summary, the Akash Network and Solve.Care partnership marks a crucial development in making healthcare more patient-centric, secure, and cost-effective. This initiative sets a new benchmark for the integration of technology in healthcare, making the healthcare industry more open and accessible for all.
 
 To stay informed of the latest developments in this partnership, follow [Akash](https://x.com/akashnet) and [Solve.Care](https://twitter.com/Solve_Care) on X. Stay tuned for a comprehensive technical blog post, which will take a deep dive into the technology behind deploying Care.Nodes on Akash, coming soon.
+
+## Frequently Asked Questions
+
+**What is Solve.Care?**
+A blockchain-based healthcare relationship management platform that enables creation and deployment of digital health networks via personal patient nodes called Care.Nodes.
+
+**What is a Care.Node?**
+A personal healthcare data node deployed on Akash compute that stores a patient's medical records in their own custody, in the region where they live and receive care.
+
+**Why does patient data need decentralization?**
+Current regulations require patient data to be stored for 7 years, typically in centralized hyperscalers like AWS or GCP where patients have no sovereignty over it and data can be lost if backups fail.
+
+**How does Akash reduce healthcare administrative costs?**
+Patients access Explanation of Benefits (EOB) documents via their Care.Node instead of receiving costly paper mail — potentially saving healthcare organizations hundreds of millions of dollars annually.
+
+**Who controls patient data on Akash?**
+The patient. Data is stored in their personal Care.Node deployed in their region, reducing centralized liability for healthcare providers and giving patients full sovereignty over their records.
+
+**What blockchain does Solve.Care use?**
+Solve.Care uses blockchain for patient data sovereignty, enabling data to persist indefinitely and remain verifiably owned by the patient — unlike centralized cloud storage.
+
+**How does permissionless compute help healthcare providers?**
+Akash's global provider network allows Solve.Care to deploy Care.Nodes in any region where enterprise clients and patients are located, without needing approval from a centralized cloud vendor.
+

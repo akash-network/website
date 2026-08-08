@@ -14,12 +14,25 @@ categories:
 
 tags:
   - Updates
+  - Akash Console
+  - deployment workflows
+  - Build and Deploy
+  - Container VM
+  - DevOps
+  - SDL
+  - AI model deployment
+  - Llama
+  - Stable Diffusion
+  - developer tools
 
 contributors:
   - Anil Murty
 
 bannerImage: ./dw-header.png
 ---
+
+> **TL;DR:** Akash Console now offers four deployment workflows matched to different developer types: Build & Deploy (web devs), Container VM (ops engineers), Custom Container (DevOps), and Upload SDL (Akash Champions) — plus community templates for one-click AI model deployments.
+
 In December last year, Akash [launched credit card payments in Akash Console](https://akash.network/blog/introducing-credit-card-payments-in-akash-console/). This eliminates one of the most significant barriers faced by (mainstream) developers trying to use Akash Network. The next hurdle many developers face is the challenge of having to containerize their applications and knowing how to create a [Stack Definition Language (SDL)](https://akash.network/docs/getting-started/stack-definition-language/) file for deployment onto Akash Network. To this end, Akash Network has also added a new user experience within [Akash Console](https://console.akash.network/) that features workflows for four distinct user types who make up the primary user groups for Akash Network.
 
 ![Developer workflows in Akash Console](./dw-1.png)
@@ -133,3 +146,27 @@ All these templates are powered by community contributions to [https://github.co
 
 ## Looking Ahead
 While there is still a lot more to build to improve the lifecycle of an Akash user (explore the [Akash Roadmap for 2025 and beyond](https://akash.network/blog/roadmap-2025/)), the Akash core team thinks that these new features, coupled with credit card payments, should eliminate a lot of the toil that users of Akash face before for getting started. If you have feedback about any of these features or ideas on how we can make things even easier, please [reach out to the Akash community on Discord](https://discord.com/invite/akash).
+
+## Frequently Asked Questions
+
+**What are the four deployment workflows in Akash Console?**
+Build & Deploy (for web developers using PaaS-style tools like Vercel), Container VM (for ops engineers who prefer SSH access), Custom Container (for DevOps engineers with Docker images), and Upload SDL (for Akash power users).
+
+**What is the Build & Deploy workflow?**
+A workflow that builds and deploys NodeJS/React apps directly from a GitHub, GitLab, or Bitbucket repository — with Auto Deploy on PR merge and rollback to previous versions.
+
+**What is the Container VM workflow?**
+A workflow for users who prefer virtual machine access — choose a base Linux image, provide an SSH public key (or Console generates one), and SSH into your container like a traditional VM.
+
+**Do I need to write an SDL to deploy on Akash?**
+Not necessarily — Build & Deploy, Container VM, and Custom Container workflows handle SDL generation automatically. Upload SDL is available for advanced users with existing configuration files.
+
+**What AI models are available in Akash Console templates?**
+Meta's Llama models, Falcon-7B, ComfyUI, Stable Diffusion, Google's BERT, and many more — browse the full library by clicking 'View All Templates' in Akash Console.
+
+**Does Auto Deploy work for continuous integration?**
+Yes — when checked, Auto Deploy automatically rebuilds and redeploys your app whenever a change is merged to the connected repository branch.
+
+**Where can I find community-contributed deployment templates?**
+In the awesome-akash repository at github.com/akash-network/awesome-akash — submit a PR to add your own template to the library.
+
