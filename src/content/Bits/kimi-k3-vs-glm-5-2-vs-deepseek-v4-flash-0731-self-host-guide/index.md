@@ -7,6 +7,7 @@ description: "Kimi K3 needs 1.56TB on disk, GLM-5.2 needs 755.6GB at FP8, and De
 tags: ["Comparisons", "Alternatives", "Guides"]
 bannerImage: ./banner.webp
 draft: false
+faqAccordion: true
 ---
 
 *Last updated: August 2026*

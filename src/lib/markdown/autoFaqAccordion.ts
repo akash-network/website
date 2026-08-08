@@ -3,13 +3,21 @@ import type { RemarkPlugin } from "@astrojs/markdown-remark";
 /**
  * Auto-converts plain "**Question?** Answer." paragraphs under an "FAQ"
  * heading into native <details>/<summary> accordions — no raw HTML needed
- * in content files. Write FAQs exactly as before:
+ * in content files. Opt in per post with frontmatter:
+ *
+ *   ---
+ *   faqAccordion: true
+ *   ---
  *
  *   ## FAQ
  *
  *   **Question one?** Answer text, can include [links](/foo) and **bold**.
  *
  *   **Question two?** Another answer.
+ *
+ * Opt-in (rather than applying to every post automatically) so existing
+ * posts that already have a plain-text FAQ keep rendering exactly as
+ * written, unaffected by this plugin, unless they explicitly ask for it.
  *
  * Only paragraphs whose first child is a bold run are transformed, and only
  * within an "FAQ" section (a depth-2 heading whose text is exactly "FAQ",
@@ -38,7 +46,9 @@ const isQuestionParagraph = (node: any) =>
   node.children?.length > 0 &&
   node.children[0]?.type === "strong";
 
-export const autoFaqAccordion: RemarkPlugin<[]> = () => (tree: any) => {
+export const autoFaqAccordion: RemarkPlugin<[]> = () => (tree: any, file: any) => {
+  if (!file?.data?.astro?.frontmatter?.faqAccordion) return;
+
   const root = tree.children as any[];
 
   for (let i = 0; i < root.length; i++) {
