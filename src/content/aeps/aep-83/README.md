@@ -2,12 +2,12 @@
 aep: 83
 title: "Confidential Compute via Kata Containers"
 author: Joao Luna (@cloud-j-luna)
-status: Draft
+status: Final
 type: Standard
 category: Core
 created: 2026-04-14
 updated: 2026-06-16
-estimated-completion: 2026-07-31
+completed: 2026-07-17
 requires: 29, 65
 roadmap: major
 ---
