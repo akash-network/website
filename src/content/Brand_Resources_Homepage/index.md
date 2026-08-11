@@ -8,7 +8,7 @@ cards:
     image: "./guidelines.png"
     button:
       - label: Download Akash Brand Guidelines
-        link: "/brand-resources/akash-brand-identity-manual.zip"
+        link: "/brand-resources/akash-brand-book.pdf"
         enable: true
         icon: "download"
   - title: Akash Network logos

@@ -487,7 +487,9 @@ html body[data-scroll-locked] {
   animation: mobileMenuSlideIn 0.3s ease-out;
 }
 
-/* bits-prose table: undo display:block from .prose table, then fix column widths */
+/* bits-prose table: undo display:block from .prose table, then fix column widths.
+   table-layout:fixed with no explicit per-column widths splits columns evenly,
+   which scales to any column count (2-col comparison tables and wider data tables alike). */
 .bits-prose table {
   display: table !important;
   table-layout: fixed !important;
@@ -499,12 +501,4 @@ html body[data-scroll-locked] {
   white-space: normal !important;
   word-break: break-word;
   overflow-wrap: break-word;
-}
-.bits-prose table th:first-child,
-.bits-prose table td:first-child {
-  width: 28%;
-}
-.bits-prose table th:nth-child(2),
-.bits-prose table td:nth-child(2) {
-  width: 36%;
 }
