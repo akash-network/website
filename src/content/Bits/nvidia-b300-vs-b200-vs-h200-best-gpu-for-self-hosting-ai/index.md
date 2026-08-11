@@ -1,10 +1,10 @@
 ---
-title: "NVIDIA B300 vs B200 vs H200: Best GPU for Self-Hosting AI"
-pubDate: 2026-08-11
-lastUpdated: 2026-08-11
+title: "NVIDIA B300 vs B200 vs H200: Best GPU for Self-Hosting AI Models in 2026"
+pubDate: 2026-08-12
+lastUpdated: 2026-08-12
 author: "Sandeep Narahari, Contributor"
 description: "Compare NVIDIA B300 vs B200 vs H200 for self-hosting AI models. See VRAM, performance, GPU requirements, pricing, model compatibility, and which GPU to choose."
-tags: ["Comparisons", "Guides"]
+tags: ["Comparisons"]
 bannerImage: ./banner.webp
 draft: false
 faqAccordion: true
