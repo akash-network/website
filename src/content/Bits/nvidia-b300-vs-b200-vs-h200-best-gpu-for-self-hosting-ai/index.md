@@ -23,7 +23,7 @@ The H200 is the best-value choice for self-hosting AI models when the model fits
 - Model fit decides node count. DeepSeek V4 Flash 0731 (156.4GB) fits one B300, GLM-5.2 FP8 (755.6GB) fits 8x H200 or 4x B300, and Kimi K3 (1.56TB) fits only 8x B300 among these three.
 - The H200 has no FP4 hardware. If your serving stack leans on NVFP4 quantization for throughput, only the B200 (9 PFLOPS dense FP4) and B300 (15 PFLOPS dense FP4) qualify.
 
-Deploy **B300**, **B200**, or **H200** on the [Akash marketplace](/pricing/gpus/), or use the [GPUs on demand](/gpus-on-demand/) request form for large clusters or reserved capacity in any quantity.
+Need bare-metal GPU access, or affordable, high-performance GPU compute? From training models to running inference to deploying containerized apps, [Akash](/pricing/gpus/) covers all your compute needs — see the [GPUs on demand](/gpus-on-demand/) form for large clusters or reserved capacity in any quantity.
 
 ## What are the spec differences between the NVIDIA B300, B200, and H200?
 
@@ -111,11 +111,11 @@ One trend worth tracking: H200 median on-demand pricing across the market has [r
 
 Choose the cheapest GPU configuration that holds your model's weights plus KV cache headroom, checking memory first and price last. Five steps:
 
-1. Size the checkpoint. Use the actual repository size at the precision the model ships in, not parameter count times an assumed precision. Kimi K3 is 1.56TB, not the 5.6TB a BF16 assumption produces.
-2. Add headroom. Budget 20% to 40% extra VRAM for KV cache at moderate context, substantially more for long-context or high-batch serving.
-3. Check precision support. FP4-quantized serving requires Blackwell (B200 or B300). FP8 runs on all three.
-4. Cost the whole node, not the GPU. A cheaper GPU that needs twice as many units usually loses on the monthly bill.
-5. Confirm real capacity. A listed price is not available inventory. Confirm how many units a provider can place for your term before committing to an architecture.
+1. **Size the checkpoint.** Use the actual repository size at the precision the model ships in, not parameter count times an assumed precision. Kimi K3 is 1.56TB, not the 5.6TB a BF16 assumption produces.
+2. **Add headroom.** Budget 20% to 40% extra VRAM for KV cache at moderate context, substantially more for long-context or high-batch serving.
+3. **Check precision support.** FP4-quantized serving requires Blackwell (B200 or B300). FP8 runs on all three.
+4. **Cost the whole node, not the GPU.** A cheaper GPU that needs twice as many units usually loses on the monthly bill.
+5. **Confirm real capacity.** A listed price is not available inventory. Confirm how many units a provider can place for your term before committing to an architecture.
 
 Applied to the workloads in this comparison, that process lands here:
 
@@ -129,7 +129,7 @@ Applied to the workloads in this comparison, that process lands here:
 | FP4-quantized high-traffic inference | B200 or B300 | 9 to 15 PFLOPS dense FP4; H200 has none |
 | Power- or cooling-constrained colocation | H200 or B200 | 700W and 1,000W TDP vs the B300's 1,400W |
 
-One consideration sits outside the table: whether to self-host at all. A node bills whether requests arrive or not, so for variable traffic a managed endpoint on [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) serving the same open weights often costs less than an idle GPU. Self-hosting wins on data residency, guaranteed capacity, and control.
+One consideration sits outside the table: whether to self-host at all. A node bills whether requests arrive or not, so for variable traffic a managed endpoint on [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) serving the same open weights often costs less than an idle GPU, and AkashML doesn't retain any data sent through it. Self-hosting wins on data residency, guaranteed capacity, and control.
 
 ## How do you get B300, B200, or H200 capacity on Akash?
 
