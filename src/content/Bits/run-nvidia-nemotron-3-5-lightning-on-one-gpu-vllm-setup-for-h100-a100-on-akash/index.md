@@ -1,9 +1,9 @@
 ---
-title: "Run NVIDIA Nemotron 3.5 Lightning on One GPU: vLLM Setup for H100 & A100 (2026)"
+title: "Run NVIDIA Nemotron 3.5 Lightning on One GPU: vLLM Setup for H100 & A100 on Akash (2026)"
 pubDate: 2026-08-13
 lastUpdated: 2026-08-13
 author: "Sandeep Narahari, Contributor"
-description: "How to run NVIDIA Nemotron 3.5 Lightning with vLLM on a single H100 or A100. GPU and VRAM requirements, benchmarks, and a ready-to-deploy on Akash."
+description: "Run NVIDIA Nemotron 3.5 Lightning with vLLM on a single H100 or A100 (August 2026). GPU and VRAM requirements, benchmarks, and a ready-to-deploy on Akash."
 tags: ["Guides"]
 bannerImage: ./banner.png
 draft: false
