@@ -5,7 +5,7 @@ lastUpdated: 2026-08-13
 author: "Sandeep Narahari, Contributor"
 description: "Run NVIDIA Nemotron 3.5 Lightning with vLLM on a single H100 or A100 (August 2026). GPU and VRAM requirements, benchmarks, and a ready-to-deploy on Akash."
 tags: ["Guides"]
-bannerImage: ./banner.png
+bannerImage: ./banner.webp
 draft: false
 faqAccordion: true
 ---
