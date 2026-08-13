@@ -9,6 +9,7 @@ import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { apiDocsOnly } from "./src/lib/markdown/apiDocsOnly";
+import { autoFaqAccordion } from "./src/lib/markdown/autoFaqAccordion";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
@@ -16,7 +17,7 @@ import { redirects } from "./src/utils/redirects";
 export default defineConfig({
   redirects: redirects,
   markdown: {
-    remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin],
+    remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin, autoFaqAccordion],
     rehypePlugins: [
       apiDocsOnly(rehypeSlug),
       [
@@ -31,6 +32,9 @@ export default defineConfig({
             "data-anchor-link": true,
             ariaLabel: "Link to section",
           },
+          // The "#" glyph is rendered via CSS (`.heading-anchor-icon::before`)
+          // rather than a text node, so it does NOT leak into Astro's extracted
+          // heading text and pollute the "On this page" table of contents.
           content: {
             type: "element",
             tagName: "span",
@@ -38,7 +42,7 @@ export default defineConfig({
               className: ["heading-anchor-icon"],
               ariaHidden: "true",
             },
-            children: [{ type: "text", value: "#" }],
+            children: [],
           },
         },
       ],

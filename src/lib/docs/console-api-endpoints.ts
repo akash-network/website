@@ -238,7 +238,7 @@ done`,
       "Create a new deployment from an SDL manifest and fund its escrow.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
-      { field: "data.sdl", location: "body", type: "string", required: true, description: "Deployment manifest in SDL (YAML) format, as a JSON string" },
+      { field: "data.sdl", location: "body", type: "string", required: true, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute" },
       { field: "data.deposit", location: "body", type: "number", required: true, description: "Initial escrow deposit in USD. Minimum `0.5`" },
     ],
     responseStatus: "201 Created",
@@ -276,6 +276,9 @@ done`,
 });
 const { data } = await res.json();`,
       },
+    ],
+    notes: [
+      "Request **Confidential Compute (TEE)** by adding a `params.tee` field (`cpu` or `cpu-gpu`) to a service in the SDL — `cpu-gpu` requires GPU resources. See [Confidential Compute (TEE)](/docs/api-documentation/console-api/getting-started#confidential-compute-tee).",
     ],
   },
   {

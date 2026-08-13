@@ -9,7 +9,7 @@ description: "Enable persistent storage on your Akash provider using Rook-Ceph"
 
 > **Don't need persistent storage?** Skip to [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation).
 
-This guide shows how to enable persistent storage on your Akash provider using Rook-Ceph.
+This guide shows how to enable persistent storage on your Akash provider using Rook-Ceph. The default configuration targets **NVMe** drives and the **`beta3`** storage class.
 
 **Time:** 45-60 minutes
 
@@ -22,7 +22,8 @@ Before starting, ensure you have:
 ### Hardware Requirements
 
 See [Hardware Requirements - Persistent Storage](/docs/providers/getting-started/hardware-requirements#persistent-storage-optional) for detailed specifications:
-- **Minimum:** 4 SSDs across all nodes, OR 2 NVMe SSDs across all nodes
+- **Recommended (default in this guide):** NVMe drives — minimum 2 NVMe SSDs across all nodes
+- **Alternative:** 4 SATA/SAS SSDs across all nodes (use `beta2` / `osdsPerDevice: "1"` instead)
 - **Drives must be:**
   - Dedicated exclusively to persistent storage
   - Unformatted (no partitions or filesystems)
@@ -45,7 +46,7 @@ For production use:
 **OSDs per drive:**
 - HDD: 1 OSD max
 - SSD: 1 OSD max
-- NVMe: 2 OSDs max
+- NVMe: 2 OSDs max (default in this guide)
 
 > **Important:** Do NOT run multiple OSDs on a single SAS/SATA drive. NVMe drives can achieve improved performance with 2 OSDs per drive.
 
@@ -67,16 +68,17 @@ SSH into each potential storage node and list unformatted drives:
 lsblk -f
 ```
 
-Look for drives with no `FSTYPE` (unformatted). Example output:
+Look for drives with no `FSTYPE` (unformatted). Example NVMe output:
 
 ```
-NAME   FSTYPE LABEL UUID                                 MOUNTPOINT
-sda                                                       
-sdb                                                       
-sdc    ext4         a1b2c3d4-5678-90ab-cdef-1234567890ab /
+NAME        FSTYPE LABEL UUID                                 MOUNTPOINT
+nvme0n1
+nvme1n1
+nvme2n1
+nvme0n2   ext4         a1b2c3d4-5678-90ab-cdef-1234567890ab /
 ```
 
-In this example, `sda` and `sdb` are unformatted and can be used for Ceph.
+In this example, `nvme0n1`, `nvme1n1`, and `nvme2n1` are unformatted and can be used for Ceph. Do not use the OS disk (here `nvme0n2`).
 
 ### Wipe Drives (if needed)
 
@@ -84,8 +86,8 @@ If drives have existing partitions or filesystems, wipe them:
 
 ```bash
 # WARNING: This destroys all data on the drive!
-sudo wipefs -a /dev/sda
-sudo wipefs -a /dev/sdb
+sudo wipefs -a /dev/nvme0n1
+sudo wipefs -a /dev/nvme1n1
 ```
 
 ---
@@ -153,7 +155,7 @@ rook-discover-yyy                    1/1     Running   0          2m
 
 ### Create Cluster Configuration
 
-Create a file with your storage node and device information:
+Create a file with your storage node and device information. The defaults below are for **NVMe** (`beta3`):
 
 ```bash
 cat > rook-ceph-cluster.values.yml << 'EOF'
@@ -177,11 +179,11 @@ cephClusterSpec:
   storage:
     useAllNodes: false
     useAllDevices: false
-    deviceFilter: "^sd[ab]"  # Adjust to match your devices
+    deviceFilter: "^nvme[0-9]+n1$"  # All NVMe namespaces nvme0n1, nvme1n1, …
     config:
-      osdsPerDevice: "1"     # Set to "2" for NVMe drives
+      osdsPerDevice: "2"            # NVMe default; use "1" for SATA/SAS SSD or HDD
     nodes:
-    - name: "node1"          # Replace with your actual node names
+    - name: "node1"                 # Replace with your actual node names
     - name: "node2"
     - name: "node3"
 
@@ -196,7 +198,7 @@ cephBlockPools:
         bulk: "true"
     storageClass:
       enabled: true
-      name: beta2                # SSD storage class
+      name: beta3                # NVMe storage class (default)
       isDefault: true
       reclaimPolicy: Delete
       allowVolumeExpansion: true
@@ -226,17 +228,18 @@ EOF
 - **dataDirHostPath:** Default is `/var/lib/rook`
   - If using a custom mount point (e.g., RAID array at `/data`), change to `/data/rook`
   - This directory stores Ceph monitor and manager data (not OSD data)
-- **deviceFilter:** Adjust to match your drives
-  - SATA/SAS drives: `"^sd[ab]"`
-  - NVMe drives: `"^nvme[01]n1"`
-- **osdsPerDevice:** 
-  - NVMe drives: `"2"`
-  - HDD/SSD drives: `"1"`
+- **deviceFilter:** Must match your data drives only (never the OS disk)
+  - **NVMe (default):** `"^nvme[0-9]+n1$"` — matches `nvme0n1`, `nvme1n1`, `nvme10n1`, etc.
+  - Do **not** use `"^nvme[01]n1"` — that is a single-character class (`0` or `1` only), so drives like `nvme2n1` are skipped and you get far fewer OSDs than expected
+  - SATA/SAS SSD or HDD: `"^sd[a-z]+$"` (adjust to your device names)
+- **osdsPerDevice:**
+  - NVMe (default): `"2"`
+  - HDD/SSD: `"1"`
 - **nodes:** Replace with your actual storage node names from `kubectl get nodes`
-- **storageClass name:** 
-  - HDD: `beta1`
+- **storageClass name:**
+  - NVMe (default): `beta3`
   - SSD: `beta2`
-  - NVMe: `beta3`
+  - HDD: `beta1`
 
 ### Install Cluster
 
@@ -274,7 +277,7 @@ Wait until `PHASE` is `Ready` and `HEALTH` is `HEALTH_OK`.
 kubectl -n rook-ceph get pods -l app=rook-ceph-osd
 ```
 
-You should see OSD pods running on your storage nodes.
+You should see OSD pods running on your storage nodes. With `osdsPerDevice: "2"`, expect **two OSDs per NVMe drive** matched by `deviceFilter`.
 
 ### Check Ceph Status
 
@@ -297,6 +300,8 @@ kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- ceph status
     osd: 6 osds: 6 up, 6 in
 ```
 
+(OSD count depends on how many NVMe drives match the filter × `osdsPerDevice`.)
+
 ### Check Storage Class
 
 ```bash
@@ -307,29 +312,23 @@ kubectl get storageclass
 
 ```
 NAME                 PROVISIONER                  RECLAIMPOLICY   VOLUMEBINDINGMODE   AGE
-beta2 (default)      rook-ceph.rbd.csi.ceph.com   Delete          Immediate           5m
+beta3 (default)      rook-ceph.rbd.csi.ceph.com   Delete          Immediate           5m
 ```
 
 ### Label Storage Class for Akash
 
-Label your storage class so Akash can recognize it. Replace `<storage-class-name>` with the actual name of your storage class (e.g., `beta1` for HDD, `beta2` for SSD, or `beta3` for NVMe):
+Label your storage class so Akash can recognize it. With the defaults in this guide that is `beta3`:
 
 ```bash
-kubectl label sc <storage-class-name> akash.network=true
+kubectl label sc beta3 akash.network=true
 ```
 
-**Example:**
-
-If you configured an SSD storage class named `beta2`:
-
-```bash
-kubectl label sc beta2 akash.network=true
-```
+If you used `beta1` or `beta2` instead, label that class name.
 
 Verify the label was applied:
 
 ```bash
-kubectl get sc <storage-class-name> --show-labels
+kubectl get sc beta3 --show-labels
 ```
 
 You should see `akash.network=true` in the labels.
@@ -352,7 +351,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: beta2
+  storageClassName: beta3
 EOF
 
 kubectl apply -f test-pvc.yaml
@@ -368,7 +367,7 @@ kubectl get pvc test-pvc
 
 ```
 NAME       STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-test-pvc   Bound    pvc-a1b2c3d4-5678-90ab-cdef-1234567890ab   1Gi        RWO            beta2          10s
+test-pvc   Bound    pvc-a1b2c3d4-5678-90ab-cdef-1234567890ab   1Gi        RWO            beta3          10s
 ```
 
 Status should be `Bound`.
@@ -399,6 +398,10 @@ kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- ceph osd status
 
 ### Common Issues
 
+**Fewer OSDs than expected (e.g. only ~6 when you have more NVMe drives):**
+- Check `deviceFilter`. `"^nvme[01]n1"` only matches `nvme0n1` and `nvme1n1`. Use `"^nvme[0-9]+n1$"` for all `nvmeXn1` data namespaces.
+- Confirm with `lsblk -f` which devices should be claimed, then `ceph osd tree` for what Ceph actually took.
+
 **OSDs not starting:**
 - Verify drives are unformatted: `lsblk -f`
 - Check deviceFilter matches your drives
@@ -424,7 +427,7 @@ Your persistent storage is now ready!
 - [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) - **Required** for all providers: cert-manager and Gateway TLS
 - [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) - Enable static IPs
 
-> **Note:** You'll need to configure storage classes in the inventory operator during provider installation to advertise persistent storage capabilities. This is covered in the Provider Installation guide.
+> **Note:** You'll need to configure storage classes in the inventory operator during provider installation to advertise persistent storage capabilities (`beta3` for this default NVMe setup). This is covered in the Provider Installation guide.
 
 ---
 
