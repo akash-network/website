@@ -9,10 +9,22 @@ categories:
 tags:
   - Updates
   - Case Studies
+  - Passage
+  - virtual worlds
+  - metaverse
+  - GPU rendering
+  - cloud cost savings
+  - Unreal Engine 5
+  - RTX 3090
+  - P100
+  - permissionless GPU
 contributors:
   - Zach Horn
 bannerImage: ./passage-on-akash.webp
 ---
+
+> **TL;DR:** Passage, a virtual worlds platform built on Unreal Engine 5, launched its first world on Akash compute — cutting hosting costs 50–70% vs AWS and Google Cloud while maintaining full browser accessibility. A new AKT/PASG liquidity pool launched simultaneously on Osmosis.
+
 
 The demand for decentralized compute is growing fast as total global cloud spending is projected to surpass [$1 trillion](https://www.forbes.com/sites/bernardmarr/2023/10/09/the-10-biggest-cloud-computing-trends-in-2024-everyone-must-be-ready-for-now/) this year and as developers continue to grapple with cloud lock-in. As Passage scales its platform, which allows creators to build virtual worlds, it will utilize Akash compute to achieve three key objectives: Greatly reducing the costs of hosting Passage Worlds, unlocking the ability to scale with permissionless compute, and preserving sovereignty and privacy for creators.
 
@@ -56,3 +68,27 @@ Passage is building an exciting new platform to power an entirely new way for cr
 To hear more about how decentralized compute, the metaverse, and permissionless compute for AI — don’t miss Greg Osuri, Founder of Akash, and Lex Avellino, Founder of Passage, live at [ATOMDenver](https://cosmoverse.org/atomxyz) (during ETHDenver).
 
 For more information and to follow the latest updates — follow [Passage](https://twitter.com/passageio) and [Akash](https://x.com/akashnet) on X.
+
+## Frequently Asked Questions
+
+**What is Passage?**
+A platform that lets creators build immersive virtual worlds accessible from any browser without downloads, powered by Unreal Engine 5 rendering on cloud GPUs.
+
+**How much did Passage save by switching to Akash?**
+Up to 70% cost reduction compared to AWS or Google Cloud with comparable hardware (high-density P100s and RTX 3090s), with an average reduction of 50%.
+
+**What GPUs does Passage use on Akash?**
+High-density P100s and RTX 3090s for rendering virtual worlds. Akash's open marketplace allows Passage to access these at significantly lower cost than traditional reserved instances.
+
+**Why did Passage choose Akash over other cloud providers?**
+Permissionless access to GPUs at 50–70% lower cost without long-term contracts or reserved instances — matching or exceeding performance of AWS and Google Cloud.
+
+**What is the AKT/PASG pool on Osmosis?**
+A new liquidity pool launched with $200,000 from Passage and Overclock Labs on the Osmosis DEX, giving community members exposure to both AKT and PASG tokens.
+
+**Is Passage open source?**
+Yes — Passage launched an open-source initiative inspired by Akash's community model, with a Steering Committee guiding priorities including NFT staking, auctions, and native USDC sales.
+
+**Can any virtual world creator use Akash GPUs?**
+Yes — Akash's permissionless marketplace is open to any developer or platform needing GPU rendering without the restrictions and costs of traditional cloud providers.
+

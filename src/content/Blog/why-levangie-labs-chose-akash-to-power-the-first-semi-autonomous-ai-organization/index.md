@@ -12,12 +12,25 @@ categories:
 
 tags:
   - Case Studies
+  - Levangie Labs
+  - autonomous AI
+  - AI agents
+  - Akash API
+  - decentralized cloud
+  - cognitive architecture
+  - agent-native compute
+  - GPU rental
+  - semi-autonomous AI
+  - case study
 
 contributors:
   - Michelle Javed
 
 bannerImage: ./banner.webp
 ---
+
+> **TL;DR:** Levangie Labs (LLABS) built cognitive AI architecture for truly autonomous business operations on Akash — achieving 'agents scaling agents' by letting AI systems programmatically provision compute via the Akash API, eliminating the single-point-of-failure risk of centralized cloud providers.
+
 
 ## The Demand for Truly Autonomous AI
 
@@ -146,3 +159,27 @@ Robert Scoble, prominent technology evangelist, highlighted Levangie Labs' work 
 **F50 Physical AI Summit:**
 
 - [Cognitive Architecture Demo](https://www.youtube.com/watch?v=XnqDwTBB7Ss)
+
+## Frequently Asked Questions
+
+**What does Levangie Labs build?**
+Cognitive AI architecture enabling truly autonomous AI agents to operate businesses, manage critical systems, and make decisions without human intervention — serving healthcare, legal, real estate, supply chain, and finance verticals.
+
+**What is 'agents scaling agents' on Akash?**
+LLABS's AI agents detect increased workload demand and automatically call the Akash API to provision additional compute — then scale down when demand decreases, without any human involvement.
+
+**Why did LLABS choose Akash over AWS or Google Cloud?**
+Centralized cloud creates single points of failure incompatible with truly autonomous AI. Akash's distributed architecture across multiple independent providers means no single outage can take down LLABS's infrastructure.
+
+**What is the Akash API and how does LLABS use it?**
+Akash's REST API allows programmatic deployment management — LLABS uses it to let their AI agents autonomously provision, scale, and deprovision compute resources without human operators.
+
+**What were the three infrastructure challenges LLABS faced before Akash?**
+Cost and scalability mismatch (reserved capacity didn't match variable AI workloads), vendor lock-in constraints (provider-specific services created technical debt), and single points of failure (centralized outages risked full downtime).
+
+**How does Akash's market-based pricing benefit autonomous AI workloads?**
+Infrastructure costs align with actual usage through open marketplace competition — autonomous agents pay for what they use rather than pre-purchased capacity commitments designed to benefit the provider.
+
+**Where can I follow Levangie Labs' work?**
+Follow LLABS on X at @LevangieLabs — Robert Scoble has highlighted their autonomous AI work, and they presented their cognitive architecture at the F50 Physical AI Summit.
+

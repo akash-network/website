@@ -9,11 +9,24 @@ categories:
   - Product
 tags:
   - Product
+  - Mainnet 14
+  - Cosmos SDK
+  - JWT authentication
+  - IAVL
+  - AEP-63
+  - AEP-75
+  - network upgrade
+  - decentralized cloud
+  - Akash governance
+  - technical upgrade
 contributors:
   - Anil Murty
 
 bannerImage: ./banner-image.png
 ---
+
+> **TL;DR:** Akash Mainnet 14 (October 28, 2025) upgraded the network from Cosmos SDK v0.45 to v0.53 — eliminating eight years of technical debt. Key features: JWT authentication replacing blockchain certs, major IAVL storage speed improvements, expedited governance, multi-depositor escrow, and lease termination reasons.
+
 
 The Akash core codebase is getting a massive overhaul.
 
@@ -67,3 +80,27 @@ The upgrade to Cosmos SDK v0.53 isn't just another version step, it's the archit
 If you're an operator, validator, or contributor, please review the on-chain upgrade proposal:
 
 👉 [Akash Mainnet 14 Proposal #308](https://www.mintscan.io/akash/proposals/308/)
+
+## Frequently Asked Questions
+
+**What is Akash Mainnet 14?**
+The most significant technical upgrade in Akash's history — jumping from Cosmos SDK v0.45 to v0.53, paying down eight years of technical debt and enabling faster feature development going forward.
+
+**What is JWT authentication on Akash (AEP-63)?**
+Developers can now sign into Akash with GitHub or Google using JSON Web Tokens (JWTs) — no more blockchain authentication certificates, private keys, or gas fees required for deployment access.
+
+**What are the IAVL storage improvements in Mainnet 14?**
+Significant database optimizations resulting in dramatically faster queries and block execution — improving validator efficiency, API responsiveness, and network throughput during high load.
+
+**What is Multi-Depositor Escrow (AEP-75)?**
+Any funded account can now contribute to deployment escrow — enabling DAOs, grant programs, and enterprise procurement teams to sponsor infrastructure without controlling the workload.
+
+**What is AEP-39 (Lease Termination Reason)?**
+Providers can now specify exactly why a lease ended — improving transparency, strengthening provider reputation systems, and simplifying debugging for developers with unexpectedly closed deployments.
+
+**What does Mainnet 14 enable for future development?**
+Faster feature rollouts (near-monthly), enhanced governance agility, enterprise-grade capabilities, and advanced features like Virtual Machines, Confidential Computing, and Resource Verification.
+
+**When did Mainnet 14 go live?**
+October 28, 2025 at 13:23 UTC at block #23939793 on the Akash Network — view the upgrade proposal at Proposal #308 on Mintscan.
+

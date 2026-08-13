@@ -15,12 +15,25 @@ categories:
 tags:
   - Insights
   - Case Studies
+  - FLock.io
+  - federated learning
+  - AI training
+  - NVIDIA H100
+  - A100
+  - decentralized AI
+  - machine learning
+  - GPU rental
+  - Akash Console
+  - on-chain rewards
 
 contributors:
   - Zach Horn
 
 bannerImage: ./flock-io-on-akash.png
 ---
+
+> **TL;DR:** FLock.io enables federated AI model training on Akash GPUs via 1-click Console templates. Stake FML tokens on AI Arena tasks, deploy FLock Training Nodes or Validators on Akash H100s and A100s, and earn on-chain rewards for model contributions — all without centralizing training data.
+
 
 by [Zach Horn](https://x.com/zacharyhorn/) and [Matt Burke](https://linkedin.com/in/mattburkej/)
 
@@ -285,3 +298,27 @@ To get up and running with your FLock deployment, complete the following steps.
 4. Deploy a [FLock Validator](https://console.akash.network/templates/akash-network-awesome-akash-FLock-validator) from Akash Console.
 
 To connect with [Akash](https://akash.network/), follow the network on [X (Twitter)](https://x.com/akashnet) and [sign up to hear about the latest announcements and updates](https://akashnet.typeform.com/to/awKX5bPw?typeform-source=akash.network).
+
+## Frequently Asked Questions
+
+**What is FLock.io?**
+A decentralized federated machine learning platform where participants train, validate, and govern AI models collaboratively in exchange for on-chain FML token rewards.
+
+**What is federated learning?**
+A distributed AI training approach where data stays decentralized across multiple devices — models improve without centralizing sensitive data, preserving privacy while enabling collaborative learning.
+
+**How do I run a FLock Training Node on Akash?**
+Deploy the FLock-Training-Node template from Akash Console, add your FLOCK_API_KEY, HF_USERNAME, HF_TOKEN, and TASK_ID from train.flock.io — the script automates training and submits up to 6 models per day.
+
+**What GPUs does the FLock template support on Akash?**
+H100, A100, RTX3090, RTX4090, RTX8000, RTX A6000, A40, and P40 — most training tasks complete on a GPU with 16GB vRAM minimum, 24GB recommended.
+
+**What is AI Arena on FLock.io?**
+A Kaggle-style competition where ML engineers compete to fine-tune the best models for a given dataset by staking FML tokens — winners earn rewards based on model quality scores.
+
+**What is the difference between a Training Node and a Validator?**
+Training Nodes develop or fine-tune models submitted to AI Arena tasks. Validators evaluate the quality of submitted models and require minimal compute — any lower-spec GPU works.
+
+**What are the prerequisites to run FLock on Akash?**
+A whitelisted Ethereum address on train.flock.io, a MetaMask wallet with FML tokens on Base Sepolia, an IBC wallet (Keplr) with AKT or USDC for compute, and a HuggingFace account with HF_TOKEN.
+

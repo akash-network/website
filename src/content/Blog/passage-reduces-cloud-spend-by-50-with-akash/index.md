@@ -14,12 +14,24 @@ categories:
 
 tags:
   - Case Studies
+  - Passage
+  - virtual events
+  - GPU rendering
+  - cloud cost savings
+  - Unreal Engine 5
+  - AWS alternative
+  - metaverse
+  - decentralized cloud
+  - NVIDIA GPU
 
 contributors:
   - Zach Horn
 
 bannerImage: ./passage-on-akash.webp
 ---
+
+> **TL;DR:** Passage, a browser-based virtual events platform powered by Unreal Engine 5, reduced GPU cloud costs by an average of 50% (up to 70%) by migrating to Akash — outperforming AWS annual reserved instances on cost while maintaining full rendering quality and uptime.
+
 
 [Passage](https://www.passage.io/) empowers brands and creators to host engaging, immersive virtual events that captivate audiences and foster real connection. 
 
@@ -54,3 +66,27 @@ The dramatic reduction in cloud costs has transformed Passage's growth trajector
 
 ## Learn more about Passage
 To experience Passage, you can hop into their [Discord](https://discord.gg/passage) for weekly community calls hosted in the platform, or sign up for early access at [passage.io/elite-alpha-signup](https://www.passage.io/post/elite-alpha-launch).
+
+## Frequently Asked Questions
+
+**How much did Passage save on GPU costs with Akash?**
+An average of 50% cost reduction, with savings up to 70% in some cases — outperforming AWS annual reserved instances at every price point.
+
+**What does Passage build?**
+Browser-accessible immersive virtual events and worlds powered by Unreal Engine 5, requiring no downloads or apps — accessible instantly from any device.
+
+**Why does Passage bear the GPU compute cost rather than users?**
+Passage's thesis is zero-compromise on accessibility — users join instantly from any browser with no hardware requirements. The platform absorbs the rendering cost, making GPU pricing a critical business constraint.
+
+**How did Passage migrate workloads to Akash?**
+Using Akash's deployment tools, the engineering team transferred existing GPU workloads and implemented automated scaling to handle demand fluctuations — fully operational within weeks.
+
+**Did AWS annual reserved instances beat Akash pricing?**
+No — Arel Avellino (co-founder) confirmed that even reserving AWS GPUs for an entire year did not match the cost savings Akash provides through its open marketplace competition.
+
+**What is Passage's broader vision for GPU compute?**
+GPU compute will become a commodity like video bandwidth on the web — once prohibitively expensive and now ubiquitous. Passage is positioning for that future using Akash's decentralized marketplace.
+
+**What did Greg Osuri say about Passage's Akash results?**
+"Passage proves what's possible with decentralized cloud infrastructure. They were able to reduce their cloud spend by up to 70%... This is exactly why Akash was built."
+
