@@ -174,7 +174,7 @@ const { Content } = await render(post);
           <div>
             <p class="font-bold text-foreground">Related Articles</p>
             <div class="mt-3 flex flex-col space-y-2">
-              {relatedPosts.slice(0, 4).map((p: BitsPost) => (
+              {relatedPosts.slice(0, 2).map((p: BitsPost) => (
                 <a
                   href={`/bits/${p.id}`}
                   class="line-clamp-2 cursor-pointer text-darkText hover:text-primary hover:no-underline"
