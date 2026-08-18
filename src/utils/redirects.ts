@@ -44,9 +44,9 @@ export const redirects = {
   "/akash-accelerate-2025": "/akash-accelerate-2025-livestream/",
   "/development/current-groups/": "/development/community-groups/",
   "/development/product-strategy/": "/",
-  "/blog/case-studies/":"/case-studies/",
-  "/blog/case-studies/1":"/case-studies/",
-  "/blog/case-studies/2":"/case-studies/",
+  "/blog/case-studies/": "/case-studies/",
+  "/blog/case-studies/1": "/case-studies/",
+  "/blog/case-studies/2": "/case-studies/",
   "/docs/deployments/": "/docs/developers/deployment/",
   "/docs/deployments/akash-cli/overview/": "/docs/developers/deployment/",
   "/docs/deployments/akash-cli/cli-booster/": "/docs/developers/deployment/",
@@ -55,4 +55,9 @@ export const redirects = {
     "/docs/developers/deployment/console-air/",
   "/docs/developers/deployment/akash-console/with-wallet/":
     "/docs/developers/deployment/console-air/",
+  "/bits": "/the-bid",
+  "/bits/": "/the-bid",
+  "/bits/[...page]": "/the-bid/[...page]",
+  "/bits/[slug]": "/the-bid/[slug]",
+  "/bits/[tag]/[page]": "/the-bid/[tag]/[page]",
 };

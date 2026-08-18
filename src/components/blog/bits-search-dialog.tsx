@@ -128,7 +128,7 @@ export default function BitsSearchDialog() {
                   <div className="relative">
                     <input
                       className="block w-full rounded-lg border bg-background2 py-3 pl-4 pr-12 text-base text-textGray placeholder:text-para focus:outline-none sm:text-sm sm:leading-6"
-                      placeholder="Search Bits..."
+                      placeholder="Search The Bid..."
                       value={searchQuery}
                       onChange={handleSearchInput}
                     />
@@ -201,7 +201,7 @@ const BitsCard = ({
   pubDate: string;
 }) => {
   return (
-    <a href={`/bits/${link}`}>
+    <a href={`/the-bid/${link}`}>
       <div className="border-md flex w-full">
         {bannerImage && (
           <div className="hidden max-w-[180px] flex-shrink-0 overflow-hidden rounded-l-[8px] sm:flex md:max-w-[257px]">

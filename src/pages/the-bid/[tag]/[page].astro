@@ -45,13 +45,16 @@ const pathName = Astro.url.pathname.split("/");
 ---
 
 <Layout
-  title={`${currentTag} — Bits by Akash Network`}
-  description="Short-form insights on AI, compute, and the open cloud from the Akash Network team."
+  title={`${currentTag} — The Bid by Akash Network`}
+  description="Quick-read technical insights on the AI Space by Akash."
 >
   <div class="container mt-[72px] md:mt-[96px]">
-    <h1 class="mb-10 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-      Akash Bits
+    <h1 class="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+      The Bid
     </h1>
+    <p class="mb-10 mt-4 text-base text-linkText md:text-lg">
+      Quick-read technical insights on the AI Space by Akash
+    </p>
 
     <div
       class="flex flex-col items-start justify-between gap-x-5 border-b pb-5 lg:flex-row lg:border-none"
@@ -60,8 +63,8 @@ const pathName = Astro.url.pathname.split("/");
         class="sidebar-scroll flex max-w-full items-center justify-start gap-2 overflow-auto pb-1"
       >
         <BitsTag
-          active={pathName[1]?.toLowerCase() === "bits" && !pathName[2]}
-          href="/bits"
+          active={pathName[1]?.toLowerCase() === "the-bid" && !pathName[2]}
+          href="/the-bid"
         >
           All Posts
         </BitsTag>
@@ -69,7 +72,7 @@ const pathName = Astro.url.pathname.split("/");
         {
           allTags.map((tag: string) => (
             <BitsTag
-              href={`/bits/${tag.toLowerCase().replaceAll(" ", "-")}/1`}
+              href={`/the-bid/${tag.toLowerCase().replaceAll(" ", "-")}/1`}
               active={
                 pathName[2]?.toLowerCase() ===
                 tag.toLowerCase().replaceAll(" ", "-")
@@ -96,7 +99,7 @@ const pathName = Astro.url.pathname.split("/");
       >
         {
           page.data.map((post: BitsPost) => (
-            <a class="flex cursor-pointer" href={`/bits/${post.id}`}>
+            <a class="flex cursor-pointer" href={`/the-bid/${post.id}`}>
               <div class="group flex flex-col duration-100 ease-in">
                 <div class="aspect-video overflow-hidden rounded-lg bg-badgeColor">
                   {post.data.bannerImage ? (
