@@ -45,11 +45,11 @@ const relatedPosts = (
   {
     relatedPosts.length > 0 && (
       <div class="mx-auto max-w-[1100px] px-4 md:mt-32">
-        <h2 class="text-xl font-medium md:text-2xl">More from Bits</h2>
+        <h2 class="text-xl font-medium md:text-2xl">More from The Bid</h2>
 
         <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {relatedPosts.map((post: BitsPost) => (
-            <a href={`/bits/${post.id}`} class="flex cursor-pointer">
+            <a href={`/the-bid/${post.id}`} class="flex cursor-pointer">
               <div class="group flex flex-col duration-100 ease-in">
                 <div class="aspect-video overflow-hidden rounded-lg bg-badgeColor">
                   {post.data.bannerImage ? (
