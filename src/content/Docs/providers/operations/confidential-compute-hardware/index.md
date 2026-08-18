@@ -52,6 +52,8 @@ GPU CC requires a supported GPU **and** a CC-capable CPU (SEV-SNP or TDX). Drive
 
 > Some early H100 boards shipped with vBIOS that does not support CC. Check with your vendor for a CC-enabled vBIOS update if needed.
 
+**Attestation mode.** The provider's Trustee can verify Hopper and Blackwell GPU evidence **locally**, with no round-trip to NVIDIA's Remote Attestation Service (NRAS). It checks the GPU's signed measurements against operator-supplied reference values, taken from authenticated NVIDIA RIMs. Some data-center parts still require remote verification.
+
 ## Compatibility Matrix
 
 | CPU | GPU | TEE Capability (SDL) | Platform | Runtime Class |
