@@ -1,7 +1,7 @@
 ---
 title: "H100 Rental Price in August 2026: How Much Does an H100 Cost Per Hour by GPU Provider?"
 pubDate: 2026-08-19
-lastUpdated: 2026-08-20
+lastUpdated: 2026-08-19
 author: "Sandeep Narahari, Contributor"
 description: "How much does an NVIDIA H100 cost to rent in August 2026? Compare H100 prices from Akash, GPU clouds, and hyperscalers, with rates ranging from about $2 to $12 per GPU-hour."
 tags: ["Guides"]
@@ -45,7 +45,7 @@ Prices checked August 19, 2026, in US regions. Rates elsewhere can differ by 5% 
 | [Google Cloud](https://cloud.google.com/compute/gpus-pricing) | a3-highgpu-8g (8x) | SXM5 | On-demand | ~\$11.06 |
 | Azure | ND96isr H100 v5 (8x) | SXM5 | On-demand | ~\$12.29 |
 
-Source: [GetDeploying H100 index](https://getdeploying.com/gpus/nvidia-h100), cross-checked against each provider's own pricing page, all checked August 19, 2026. Akash figure checked August 20, 2026, on the [Akash GPU pricing page](/pricing/gpus/), where the live rate varies with marketplace supply — check the current number before deploying.
+Source: [GetDeploying H100 index](https://getdeploying.com/gpus/nvidia-h100), cross-checked against each provider's own pricing page, all checked August 19, 2026. Akash figure checked August 19, 2026, on the [Akash GPU pricing page](/pricing/gpus/), where the live rate varies with marketplace supply — check the current number before deploying.
 
 Two cautions on reading this table. First, these are different products: a marketplace host, a single-GPU PCIe instance, and an 8-GPU SXM node carry different performance, interconnect, and reliability, so a like-for-like comparison means matching form factor and node size, not just the dollar figure. Second, the AWS, Azure, and Google rates are standard on-demand list prices; the same providers sell the identical hardware for materially less through spot and multi-year commitments, covered next. For a worked example of what an Akash H100 rate means for a real workload's monthly bill, see the [Qwen self-hosting cost breakdown](/the-bid/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/).
 
