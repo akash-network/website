@@ -123,40 +123,29 @@ Use the SDL Builder or choose a template, then customize your configuration:
 ![SDL Configuration](/images/docs/console/7-sdl-configuration.png)
 *Configure your deployment with SDL or use the visual builder*
 
-#### 2. Set Deposit Amount
+#### 2. Select a Provider
 
-Set the initial deposit for your deployment:
-
-![Deployment Review](/images/docs/console/8-deployment-review.png)
-*Set your deposit amount - this is held in escrow (ACT) and refunded when you close the deployment*
-
-The deposit (in **ACT**):
-- Is held in escrow to pay for your deployment; create deployments with ACT only (or AKT when circuit breaker is in effect)
-- Gets refunded when you close the deployment
-- You can top up with ACT (or AKT when circuit breaker is active) if running low
-
-#### 3. Select a Provider Bid
-
-After creating the deployment, providers will submit bids. Choose one based on:
+After requesting quotes, providers will appear in the Compute Marketplace with pricing and uptime stats. Choose one based on:
 - **Price** - Cost per month
-- **Location** - Geographic region
-- **Attributes** - Features and certifications
+- **Region** - Geographic location
+- **Uptime** - Provider reliability over 7 days
 
 ![Bid Selection](/images/docs/console/10-bid-selection.png)
-*Review and accept provider bids for your deployment*
+*Browse and select a provider from the Compute Marketplace*
+
+#### 3. Review and Deploy
+
+A summary modal shows your selected provider and total deployment cost. Click **"Confirm and deploy"** to launch:
+
+![Deployment Review](/images/docs/console/8-deployment-review.png)
+*Review your provider selection and confirm deployment*
 
 #### 4. Access Your Running Deployment
 
-Once the bid is accepted, your deployment will start running:
+Once deployed, you'll see your deployment dashboard with live URIs, balance, cost, and status:
 
 ![Deployment Active](/images/docs/console/12-deployment-active.png)
-*Your deployment is live with URLs and status information*
-
-You'll see:
-- **Live URLs** - Access your application
--  **Status** - Real-time deployment state
--  **Cost Tracking** - Current spending
--  **Management Controls** - Update, logs, close
+*Your deployment is live with URIs, status, and management controls*
 
 ---
 
@@ -236,6 +225,9 @@ Stop your deployment and reclaim your deposit:
 
 ![Deployment Closed](/images/docs/console/17.1-deployment-close.png)
 *Deployment successfully closed*
+
+![Deployment Closed](/images/docs/console/17.2-deployment-close.png)
+*Deployment closed confirmation*
 
 ### Manage Billing and Credits
 
