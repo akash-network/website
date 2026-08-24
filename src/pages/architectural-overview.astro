@@ -4,22 +4,6 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import AkashArchitectureSimulator from "@/components/architectural-overview/AkashArchitectureSimulator";
 import { HyperscaleIsolationDiagram } from "@/components/architectural-overview/HyperscaleIsolationDiagram";
 import { P2PCoordinationDiagram } from "@/components/architectural-overview/P2PCoordinationDiagram";
-import { FAQ } from "@/components/token-page/faq";
-
-const faqs = [
-  {
-    title: "How does the on-chain marketplace prevent providers from colluding on bid pricing?",
-    description: "Every bid is cryptographically signed and written to the Akash chain as a public transaction. The ledger is fully transparent — any tenant, auditor, or external observer can query the full bid history for any deployment order. Because bids are settled via open reverse auction against a visible public ledger, coordinated price-fixing produces no strategic advantage: the lowest conforming bid always wins, and the settlement price is visible on-chain before the lease is signed.",
-  },
-  {
-    title: "What happens to a running container if a provider node goes offline?",
-    description: "An active lease is tied to a specific provider address. If that provider goes offline or stops responding to heartbeat checks, the lease transitions to a closed state on-chain and the escrow balance is released back to the tenant wallet. The tenant can immediately resubmit the deployment manifest — the marketplace opens a new auction round and a replacement provider bid can be accepted within seconds. For production workloads requiring zero-downtime, the recommended pattern is to run parallel leases across geographically distinct providers behind an application-layer load balancer.",
-  },
-  {
-    title: "Can tenants independently verify that their containers are running on the hardware specified in the winning bid?",
-    description: "Yes. Providers in the Akash ecosystem go through an auditing process where their declared hardware inventory — GPU model, VRAM, CPU architecture, and datacenter location — is verified by third-party auditor wallets and written as on-chain attributes. When a tenant specifies hardware constraints in their SDL manifest (such as a minimum GPU model), the matching engine only surfaces bids from providers whose on-chain audit certificate satisfies those constraints. Tenants can query the provider's audit record directly from the chain before accepting any bid.",
-  },
-];
 ---
 
 <Layout
@@ -192,15 +176,6 @@ const faqs = [
         </div>
       </section>
 
-      <!-- FAQ -->
-      <section class="mt-20 md:mt-44">
-        <div class="pb-4">
-          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
-            FAQs
-          </h2>
-        </div>
-        <FAQ faqs={faqs} client:load />
-      </section>
 
     </div>
   </TopMargin>

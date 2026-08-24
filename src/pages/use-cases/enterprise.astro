@@ -1,0 +1,366 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+import { buttonVariantsSecondary } from "@/components/ui/button";
+import QuoteReveal from "@/components/development-pages/QuoteReveal";
+
+const faqs = [
+  {
+    title: "Does our data get used to train anyone's models?",
+    description:
+      "No. You run open models on infrastructure you control, so your prompts, outputs, and proprietary data never enter a vendor's training loop. Unlike commercial LLM APIs, whose terms often allow training on your content, nothing you send leaves your boundary.",
+  },
+  {
+    title: "What uptime does Akash guarantee?",
+    description:
+      "Uptime commitments are set per engagement. Akash works with you to define the availability target your workload requires, then matches you with providers and a deployment architecture that can meet it. Reserved capacity agreements can include contractual uptime terms defined in the SLA.",
+  },
+  {
+    title: "How do we pay?",
+    description:
+      "By invoice, in USD. Terms are set per customer, with standard net terms as the default.",
+  },
+  {
+    title: "What can we run on Akash?",
+    description:
+      "Any containerized workload. Deploy open models such as GLM, Kimi, Qwen, and DeepSeek (or your own models) using standard Docker, with any framework, language, or runtime. Common workloads include inference, training and fine-tuning, RAG, rendering, and batch compute.",
+  },
+  {
+    title: "Are Akash providers SOC 2 or HIPAA compliant?",
+    description:
+      "Enterprise customers are matched with SOC 2 compliant providers. HIPAA and other certifications are handled case by case, since requirements vary by industry and workload. Bring your compliance requirements to the conversation and Akash will scope provider selection, deployment architecture, and controls against them.",
+  },
+  {
+    title: "Does Akash support multi-GPU and multi-node AI workloads?",
+    description:
+      "Yes. Akash supports multi-GPU and multi-node workloads, including distributed AI training and inference. InfiniBand networking and NCCL can be used for high-performance GPU-to-GPU communication where supported by the deployment configuration.",
+  },
+  {
+    title: "Which regions is GPU capacity available in?",
+    description:
+      "GPU capacity is available across multiple regions through Akash's global provider network. Enterprise customers can discuss preferred regions, GPU types, capacity requirements, and deployment locations with the Akash team.",
+  },
+  {
+    title: "Can we start small before committing?",
+    description:
+      "Yes. Teams can validate on the open marketplace at on-demand GPU pricing first, then move steady workloads to reserved capacity. The console.akash.network is self-serve; no contract is needed to evaluate.",
+  },
+];
+
+const capabilities = [
+  {
+    label: "Reserved GPU Capacity",
+    title: "Guaranteed capacity for your term",
+    description:
+      "Reserved B300, B200, H200, H100, and A100 — committed for your term, bare metal available, SLA-backed. No multi-year lock-in.",
+  },
+  {
+    label: "Confidential Computing",
+    title: "Hardware-level data protection",
+    description:
+      "Protect sensitive AI workloads with hardware-based Trusted Execution Environments (TEEs), keeping data, model inputs, outputs, and model weights protected.",
+  },
+  {
+    label: "InfiniBand GPU Networking",
+    title: "High-bandwidth interconnect",
+    description:
+      "Deploy high-bandwidth GPU-to-GPU interconnect for multi-node distributed training, including NCCL workloads.",
+  },
+  {
+    label: "Bare Metal GPU Access",
+    title: "Full hardware control",
+    description:
+      "Dedicated physical GPU servers with no virtualization layer — full hardware control, near-native performance, and no shared tenancy. Available under reserved arrangements.",
+  },
+  {
+    label: "Dedicated Enterprise Support",
+    title: "Direct access to the technical team",
+    description:
+      "Direct access to the technical team for AI infrastructure onboarding, architecture guidance, deployment support, and defined response times.",
+  },
+  {
+    label: "Transparent Pricing",
+    title: "No hidden fees",
+    description:
+      "Simple, upfront pricing for GPU compute with no hidden fees or unexpected infrastructure costs. No egress fees.",
+  },
+];
+
+const trustedBy = [
+  { title: "Razer", image: "/images/trusted-by/razer.svg", height: 20 },
+  { title: "Princeton University", image: "/images/trusted-by/princeton.svg", height: 35 },
+  { title: "Nous Research", image: "/images/trusted-by/nous.svg", height: 34 },
+  { title: "Venice", image: "/images/trusted-by/venice.svg", height: 34 },
+  { title: "Prime Intellect", image: "/images/trusted-by/primeintellect.svg", height: 34 },
+];
+
+const passageQuoteLines = [
+  `"Akash gave us exactly what we needed: high-performance GPUs at 50% lower cost... Even if we were to reserve GPUs on AWS for an entire year, we would not see the same cost savings as Akash provides."`,
+];
+---
+
+<Layout
+  title="Enterprise GPU Infrastructure & AI Compute | Akash"
+  description="Enterprise GPU infrastructure with reserved NVIDIA B300, B200, H200, H100 & A100 GPUs, confidential computing, InfiniBand, bare metal, and dedicated support."
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://akash.network/#organization",
+          "name": "Akash Network",
+          "url": "https://akash.network",
+          "logo": "https://akash.network/favicon.png",
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://akash.network/use-cases/enterprise/",
+          "url": "https://akash.network/use-cases/enterprise/",
+          "name": "Enterprise GPU Infrastructure & AI Compute | Akash",
+          "description": "Enterprise GPU infrastructure with reserved NVIDIA B300, B200, H200, H100 & A100 GPUs, confidential computing, InfiniBand, bare metal, and dedicated support.",
+          "isPartOf": { "@id": "https://akash.network/#organization" },
+          "breadcrumb": { "@id": "https://akash.network/use-cases/enterprise/#breadcrumb" },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://akash.network/use-cases/enterprise/#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://akash.network/" },
+            { "@type": "ListItem", "position": 2, "name": "Use Cases", "item": "https://akash.network/explore/use-cases/" },
+            { "@type": "ListItem", "position": 3, "name": "Enterprise", "item": "https://akash.network/use-cases/enterprise/" },
+          ],
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": faqs.map((faq) => ({
+            "@type": "Question",
+            "name": faq.title,
+            "acceptedAnswer": { "@type": "Answer", "text": faq.description },
+          })),
+        },
+      ],
+    })} />
+  </Fragment>
+
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            High-Performance Compute for Enterprise AI
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Reserved NVIDIA B300, B200, H200, H100, and A100 GPU capacity for enterprise AI workloads. Run training, inference, and production AI workloads with{" "}
+            <a
+              href="https://akash.network/blog/confidential-compute-comes-to-akash/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline underline-offset-2 text-foreground hover:opacity-70 transition-opacity"
+            >
+              confidential computing
+            </a>{" "}
+            and flexible infrastructure.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/gpus-on-demand"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Talk to Sales <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Try Self-Serve <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/use-cases/use-cases-enterprise.webp"
+            alt="Enterprise GPU Infrastructure on Akash"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- TRUSTED BY -->
+      <section class="mt-20 md:mt-28">
+        <p class="mb-8 text-center text-xs font-medium uppercase tracking-widest text-para">
+          Trusted by leading AI teams
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+          {trustedBy.map((item) => (
+            <img
+              src={item.image}
+              alt={item.title}
+              style={`height: ${item.height}px`}
+              class="opacity-50 grayscale transition-opacity duration-300 hover:opacity-100 dark:invert"
+            />
+          ))}
+        </div>
+      </section>
+
+      <!-- CAPABILITIES -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Built for enterprise AI at scale
+        </h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {capabilities.map((cap) => (
+            <div class="rounded-xl border border-border bg-background2 p-7 space-y-3">
+              <p class="text-xs font-medium uppercase tracking-widest text-para">{cap.label}</p>
+              <h3 class="font-sans text-lg !font-medium leading-snug tracking-tight text-foreground">
+                {cap.title}
+              </h3>
+              <p class="text-sm font-normal leading-relaxed text-para">{cap.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="text-center font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Results from teams running production on Akash
+        </h2>
+
+        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+
+          <!-- Razer -->
+          <div class="flex flex-col gap-4 rounded-xl border border-border bg-background2 p-7">
+            <h3 class="text-2xl font-semibold text-foreground">Razer</h3>
+            <span class="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-para w-fit">
+              $0.01 per image · 3.24s avg response · 15× lower inference cost
+            </span>
+            <p class="text-sm leading-relaxed text-para">
+              Production AI image generation for the AVA Mini campaign — running across distributed GPU infrastructure at commodity pricing.
+            </p>
+          </div>
+
+          <!-- Venice -->
+          <div class="flex flex-col gap-4 rounded-xl border border-border bg-background2 p-7">
+            <h3 class="text-2xl font-semibold text-foreground">Venice</h3>
+            <span class="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-para w-fit">
+              H100 GPUs · strict data retention · no prompt or output logging
+            </span>
+            <p class="text-sm leading-relaxed text-para">
+              Venice runs its image generation models on H100 GPUs rented through Akash. Built around user privacy, with no prompt or output retention — dedicated GPU capacity with strict data retention policies is a structural requirement.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Razer QuoteReveal — between row 1 and row 2 -->
+        <div class="py-16 md:py-28">
+          <QuoteReveal
+            client:load
+            lines={[`"The future of AI isn't just better models, it's efficient infrastructure. With Akash Network, we extend into a decentralised cloud to scale efficiently."`]}
+            preRevealChars={0}
+            author="QUYEN QUACH"
+            authorDetails={["Vice President of Software, Razer"]}
+          />
+        </div>
+
+        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+
+          <!-- Astria -->
+          <div class="flex flex-col gap-4 rounded-xl border border-border bg-background2 p-7">
+            <h3 class="text-2xl font-semibold text-foreground">Astria</h3>
+            <span class="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-para w-fit">
+              Docker startup dropped from 40–60 min to seconds
+            </span>
+            <p class="text-sm leading-relaxed text-para">
+              Astria runs production image generation on Akash GPUs, fine-tuning on their own product shots and generating on-brand campaign assets. After more than a year in production, Docker image startup dropped from as long as 40–60 minutes on a prior provider to seconds on Akash.
+            </p>
+          </div>
+
+          <!-- Passage -->
+          <div class="flex flex-col gap-4 rounded-xl border border-border bg-background2 p-7">
+            <h3 class="text-2xl font-semibold text-foreground">Passage</h3>
+            <span class="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-para w-fit">
+              50% lower GPU cost vs. reserved AWS pricing
+            </span>
+            <p class="text-sm leading-relaxed text-para">
+              Passage powers immersive virtual events for brands and creators with high-performance GPUs at a fraction of hyperscaler pricing.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Passage QuoteReveal -->
+        <div class="mt-28 mb-20 md:mt-44 md:mb-28">
+          <QuoteReveal
+            client:load
+            lines={passageQuoteLines}
+            preRevealChars={0}
+            author="AREL AVELLINO"
+            authorDetails={["CEO of Passage"]}
+          />
+        </div>
+
+        <!-- Case studies CTA -->
+        <div class="flex justify-center pt-4">
+          <a
+            href="/case-studies"
+            class={buttonVariantsSecondary({ variant: "secondary", size: "xl" }) + " gap-1.5"}
+          >
+            Read the case studies
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Talk to an enterprise specialist.
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Scope capacity, terms, and onboarding for your workloads. We typically respond within 3 business days.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="/gpus-on-demand"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Talk to Sales <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Try Self-Serve <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>
