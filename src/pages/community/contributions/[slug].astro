@@ -11,10 +11,12 @@ type Contribution = CollectionEntry<"Community_Contributions_Page">;
 
 export async function getStaticPaths() {
   const contributions = await getCollection("Community_Contributions_Page");
-  return contributions.map((contribution) => ({
-    params: { slug: contribution.id },
-    props: { contribution },
-  }));
+  return contributions
+    .filter((contribution) => !contribution.data.external)
+    .map((contribution) => ({
+      params: { slug: contribution.id },
+      props: { contribution },
+    }));
 }
 
 const { contribution } = Astro.props as { contribution: Contribution };
@@ -23,7 +25,7 @@ const { Content } = await render(contribution);
 
 <Layout
   title={contribution.data.title}
-  description={contribution.data.description}
+  description={contribution.data.description ?? contribution.data.title}
   image="/meta-images/community.png"
 >
   <TopMargin isNotContainer>
