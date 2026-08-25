@@ -4,7 +4,7 @@ pubDate: 2026-08-18
 lastUpdated: 2026-08-18
 author: "Sandeep Narahari, Contributor"
 description: "The A100 PCIe and A100 SXM deliver near-identical single-GPU speed, but SXM's NVLink and NVSwitch pull ahead across multiple GPUs. What differs between the two form factors, a benchmark where SXM runs about 4.4x faster at 4 GPUs, and when to pick each."
-tags: ["A100", "A100 PCIe vs SXM", "NVLink", "NVSwitch", "multi-GPU training", "GPU cloud", "HGX A100", "GPU rental"]
+tags: ["Guides"]
 bannerImage: ./banner.webp
 draft: false
 faqAccordion: true
