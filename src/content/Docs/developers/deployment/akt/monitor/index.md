@@ -57,15 +57,27 @@ Sub-tabs:
 
 The Governance tab includes recent completed proposals even when no vote is active. Voting-period proposals show the current tally; completed proposals show the final tally. Use `j` and `k` to scroll and `r` to refresh.
 
+![akt monitor Network dashboard showing consensus pre-vote and pre-commit progress with recent block history](./monitor-network.png)
+
+_The Network dashboard tracks consensus progress and recent blocks. Values update in real time._
+
 ### Provider
 
 Provider fleet health, version distribution, and per-provider resource utilization.
 
 Provider REST and gRPC certificates are verified by default. Use `--insecure` only for a diagnostic session against endpoints you trust.
 
+![akt monitor Provider dashboard showing scan progress, version distribution, and provider resources](./monitor-provider.png)
+
+_The Provider dashboard groups online providers by version and shows their available resources._
+
 ### Oracle/BME
 
 Oracle aggregated prices plus BME vault state, mint status, and ledger.
+
+![akt monitor Oracle and BME dashboard showing AKT price data, vault health, and route ledger entries](./monitor-oracle-bme.png)
+
+_The Oracle/BME dashboard combines price health, mint controls, collateral thresholds, and recent routes._
 
 ---
 
