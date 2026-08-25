@@ -6,7 +6,7 @@ const baseSchema = defineCollection({
   schema: ({ image }) => {
     return z.object({
       title: z.string(),
-      description: z.string(),
+      description: z.string().optional(),
       pubDate: z.coerce.date(),
       draft: z.boolean().optional(),
       categories: z.array(z.string()),
@@ -15,6 +15,7 @@ const baseSchema = defineCollection({
       bannerImage: image().optional(),
       readTime: z.string().optional(),
       link: z.string().optional(),
+      external: z.boolean().optional(),
     });
   },
 });
