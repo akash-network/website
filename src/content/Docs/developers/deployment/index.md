@@ -16,18 +16,27 @@ This section covers everything you need to deploy applications, including Akash 
 ## Deployment Methods
 
 ### [Akash Console](/docs/developers/deployment/akash-console)
+
 **Visual web interface (managed)** - Deploy using the browser-based Console with free trial OR your own wallet. No CLI required.
 
 ### [Console Air](/docs/developers/deployment/console-air)
-**Visual web interface (self-custody)** - Self-hostable counterpart to Akash Console. Connect your own Keplr wallet and sign every transaction yourself — no managed billing, no time limits.
+
+**Visual web interface (self-custody)** - Self-hostable counterpart to Akash Console. Connect your own Keplr wallet and sign every transaction yourself, with no managed billing or time limits.
 
 ### [Console API](/docs/api-documentation/console-api)
+
 **Managed REST API** - Deploy programmatically via REST with managed wallets and credit-card billing. No private keys, crypto, or blockchain client required.
 
 ### [Akash SDK](/docs/api-documentation/sdk)
+
 **Programmatic deployments** - Build applications with Go or JavaScript/TypeScript SDKs.
 
+### [akt CLI](/docs/developers/deployment/akt)
+
+**Unified command-line interface** - Deploy through local keys or the Console managed wallet, query the chain, operate leases, and monitor the network from one binary.
+
 ### [Akash CLI](/docs/developers/deployment/cli)
+
 **Command-line interface** - Full control, automation, and CI/CD integration for advanced users.
 
 ---
@@ -35,8 +44,9 @@ This section covers everything you need to deploy applications, including Akash 
 ## Configuration & Permissions
 
 ### [Akash SDL](/docs/developers/deployment/akash-sdl)
+
 **Stack Definition Language** - Define your deployment configuration, resources, and pricing.
 
 ### [AuthZ - Delegated Permissions](/docs/developers/deployment/authz)
-**Team collaboration & automation** - Grant deployment permissions securely without sharing private keys.
 
+**Team collaboration & automation** - Grant deployment permissions securely without sharing private keys.

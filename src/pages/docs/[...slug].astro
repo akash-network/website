@@ -12,6 +12,7 @@ import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 import generateToc from "@/lib/generateToc";
 import { getCollection, render, type CollectionEntry } from "astro:content";
+import { Code } from "astro-expressive-code/components";
 import classNames from "clsx";
 
 export async function getStaticPaths() {
@@ -45,7 +46,7 @@ const lines = page?.body
   ?.split("\n")
   ?.filter((line: string) => line.trim() !== "" && !line.includes("##"));
 
-const fileExt = page.filePath?.endsWith('.mdx') ? 'mdx' : 'md';
+const fileExt = page.filePath?.endsWith(".mdx") ? "mdx" : "md";
 ---
 
 <!-- replace [name](link) with name -->
@@ -97,7 +98,7 @@ const fileExt = page.filePath?.endsWith('.mdx') ? 'mdx' : 'md';
             page.data.hideTOC
               ? "w-full min-w-0"
               : "w-full min-w-0 px-5 lg:flex-1",
-            "md:pt-12"
+            "md:pt-12",
           )}
         >
           <Breadcrumbs pathname={pathname} />
@@ -110,6 +111,12 @@ const fileExt = page.filePath?.endsWith('.mdx') ? 'mdx' : 'md';
 
           <div class="my-5 border-b md:my-10"></div>
 
+          <!--
+            Expressive Code attaches its stylesheet to the first code block.
+            An MDX code block inside a client island cannot carry that link,
+            so load it once outside the island for tabbed installation pages.
+          -->
+          <div hidden aria-hidden="true"><Code code="#" lang="text" /></div>
           <article class={docsProseClasses}>
             <Content />
           </article>
@@ -148,12 +155,12 @@ const fileExt = page.filePath?.endsWith('.mdx') ? 'mdx' : 'md';
             <aside class="sidebar-scroll toc-sticky z-10 hidden h-[calc(100vh-73px)] w-[18rem] shrink-0 self-start overflow-y-auto  bg-background lg:block">
               <div class="h-fit  pb-6 pl-3 pt-5">
                 <h4 class="text-xs font-semibold tracking-widest">
-                    ON THIS PAGE
+                  ON THIS PAGE
                 </h4>
 
                 <AiActionsDropdown
-                client:load
-                rawUrl={`https://raw.githubusercontent.com/akash-network/website/main/src/content/Docs/${page.id}/index.${fileExt}`}
+                  client:load
+                  rawUrl={`https://raw.githubusercontent.com/akash-network/website/main/src/content/Docs/${page.id}/index.${fileExt}`}
                 />
 
                 <div class="mt-4">
