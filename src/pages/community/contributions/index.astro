@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
 import { Card } from "@/components/ui/card";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ArrowUpRight } from "lucide-react";
 
 const title = "Community Contributions";
 const description =
@@ -15,7 +15,7 @@ const contributions = allContributions.sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 
-const categories = ["All Posts", "News", "Guides", "Articles"];
+const categories = ["All Posts", "News", "Guides", "Articles", "Student Ambassadors"];
 ---
 
 <Layout title={title} description={description} image="/meta-images/community.png">
@@ -53,9 +53,20 @@ const categories = ["All Posts", "News", "Guides", "Articles"];
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
-          contributions.map((contribution) => (
+          contributions.map((contribution) => {
+            const isExternal = Boolean(contribution.data.external && contribution.data.link);
+            const href = isExternal
+              ? contribution.data.link!
+              : `/community/contributions/${contribution.id}`;
+
+            return (
             <div class="article-card h-full" data-category={contribution.data.categories[0]}>
-              <a href={`/community/contributions/${contribution.id}`} class="block h-full">
+              <a
+                href={href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                class="block h-full"
+              >
                 <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
                   <div class="flex h-full flex-col gap-5 p-6">
                     <div class="overflow-hidden rounded-lg">
@@ -81,14 +92,20 @@ const categories = ["All Posts", "News", "Guides", "Articles"];
                     </h3>
                     <div class="mt-auto pt-1">
                       <div class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
-                        Read More<ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                        Read More
+                        {isExternal ? (
+                          <ArrowUpRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        ) : (
+                          <ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                        )}
                       </div>
                     </div>
                   </div>
                 </Card>
               </a>
             </div>
-          ))
+            );
+          })
         }
       </div>
     </div>

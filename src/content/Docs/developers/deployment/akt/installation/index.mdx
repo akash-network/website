@@ -1,0 +1,249 @@
+---
+categories: ["Developers", "Deployment", "akt CLI"]
+tags: ["akt", "Installation", "CLI", "Setup"]
+weight: 1
+title: "Install akt CLI"
+linkTitle: "Installation"
+description: "Install the akt binary, run the first-time setup, and enable shell completion"
+---
+
+Install the latest `akt` release, verify the binary, and create your first context.
+
+This guide walks you through installing the binary, running the first-time setup, and enabling shell completion.
+
+---
+
+## Install akt
+
+Select your operating system:
+
+import TabsWrapper, { TabContent } from "@/components/ui/tabs";
+
+<TabsWrapper client:load>
+<TabContent value="MacOS">
+   #### MacOS
+
+**Option 1: Homebrew (recommended)**
+
+```bash
+brew tap akash-network/tap
+brew install akt
+```
+
+**Option 2: release archive**
+
+Releases ship a universal binary that runs on both Apple Silicon and Intel Macs (`curl`, `jq`, and `unzip` required):
+
+```bash
+# Get the latest release tag and version
+AKT_TAG="$(curl -s https://api.github.com/repos/akash-network/akt/releases/latest | jq -r '.tag_name')"
+AKT_VERSION="${AKT_TAG#v}"
+
+# Download and verify the universal macOS archive
+AKT_ARCHIVE="akt_${AKT_VERSION}_darwin_all.zip"
+curl -sfLO "https://github.com/akash-network/akt/releases/download/${AKT_TAG}/${AKT_ARCHIVE}"
+curl -sfLO "https://github.com/akash-network/akt/releases/download/${AKT_TAG}/akt_${AKT_VERSION}_checksums.txt"
+grep " ${AKT_ARCHIVE}$" "akt_${AKT_VERSION}_checksums.txt" | shasum -a 256 -c -
+
+# Extract the binary
+unzip "${AKT_ARCHIVE}" akt
+```
+
+**Move the binary**
+
+```bash
+sudo mv ./akt /usr/local/bin/
+```
+
+**Verify the installation**
+
+```bash
+akt version
+```
+
+The command prints the version, commit, and build date. Add `--long` for the Go version, platform, and build tags.
+
+</TabContent>
+
+<TabContent value="Linux">
+   #### Linux
+
+**Download the release archive**
+
+Releases ship `amd64` and `arm64` binaries (`curl`, `jq`, and `unzip` required):
+
+```bash
+# Get the latest release tag and version
+AKT_TAG="$(curl -s https://api.github.com/repos/akash-network/akt/releases/latest | jq -r '.tag_name')"
+AKT_VERSION="${AKT_TAG#v}"
+
+# Map machine type to release architecture
+AKT_ARCH="$(uname -m | sed 's/x86_64/amd64/; s/aarch64/arm64/')"
+
+# Download and verify
+AKT_ARCHIVE="akt_${AKT_VERSION}_linux_${AKT_ARCH}.zip"
+curl -sfLO "https://github.com/akash-network/akt/releases/download/${AKT_TAG}/${AKT_ARCHIVE}"
+curl -sfLO "https://github.com/akash-network/akt/releases/download/${AKT_TAG}/akt_${AKT_VERSION}_checksums.txt"
+grep " ${AKT_ARCHIVE}$" "akt_${AKT_VERSION}_checksums.txt" | sha256sum --check
+
+# Extract the binary
+unzip "${AKT_ARCHIVE}" akt
+```
+
+**Move the binary**
+
+```bash
+sudo mv ./akt /usr/local/bin/
+```
+
+**Option: native package**
+
+Releases also include `.deb` and `.rpm` packages. Set `AKT_TAG`, `AKT_VERSION`, and `AKT_ARCH` as shown above, then install the package for your distribution:
+
+```bash
+# Debian / Ubuntu
+curl -sfLO "https://github.com/akash-network/akt/releases/download/${AKT_TAG}/akt_${AKT_VERSION}_linux_${AKT_ARCH}.deb"
+sudo dpkg -i akt_${AKT_VERSION}_linux_${AKT_ARCH}.deb
+
+# Fedora / RHEL
+curl -sfLO "https://github.com/akash-network/akt/releases/download/${AKT_TAG}/akt_${AKT_VERSION}_linux_${AKT_ARCH}.rpm"
+sudo rpm -i akt_${AKT_VERSION}_linux_${AKT_ARCH}.rpm
+```
+
+**Verify the installation**
+
+```bash
+akt version
+```
+
+The command prints the version, commit, and build date. Add `--long` for the Go version, platform, and build tags.
+
+</TabContent>
+
+<TabContent value="Windows">
+   #### Windows
+
+**Using WSL2 (recommended)**
+
+Windows binaries are not published. Install Windows Subsystem for Linux 2, then follow the Linux instructions above.
+
+[Install WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+</TabContent>
+
+<TabContent value="Source">
+   #### From Source
+
+The Go module resolves its Akash chain SDK dependency from `go.mod`. You only need the `akt` repository:
+
+```bash
+# Clone akt
+git clone https://github.com/akash-network/akt
+
+# Build
+cd akt
+GOWORK=off make akt
+```
+
+The binary is placed in `.cache/bin/akt`. Move it somewhere in your `PATH`:
+
+```bash
+sudo mv .cache/bin/akt /usr/local/bin/
+```
+
+**Requirements:**
+
+- [Go 1.26+](https://go.dev/dl/)
+- `make`
+
+**Verify Installation**
+
+```bash
+akt version
+```
+
+</TabContent>
+</TabsWrapper>
+
+---
+
+## First Run
+
+On the first interactive launch, `akt` fetches available networks from [akash-network/net](https://github.com/akash-network/net) and asks which ones to configure:
+
+```bash
+akt version
+```
+
+If no config exists, the bootstrap wizard runs before the command. It creates `~/.config/akt/config.yaml`, sets up the first context, and offers Akash Console onboarding. The selected network's current high gas price becomes the transaction fee floor.
+
+Everything `akt` stores, including config, context credentials, keyrings, and deployment state, lives under `~/.config/akt` by default. Set `AKT_HOME` to move it.
+
+---
+
+## Shell Completion
+
+Generate a completion script for your shell:
+
+```bash
+# Bash
+akt completion bash > /etc/bash_completion.d/akt
+
+# Zsh
+akt completion zsh > "${fpath[1]}/_akt"
+
+# Fish
+akt completion fish > ~/.config/fish/completions/akt.fish
+```
+
+Restart your shell for completion to take effect.
+
+---
+
+## Next Steps
+
+Now that you're set up, you can:
+
+- [**Contexts & Configuration**](/docs/developers/deployment/akt/configuration) - Configure contexts, networks, and keys
+- [**Deployments**](/docs/developers/deployment/akt/deployments) - Deploy your first application with `akt deploy`
+- [**Commands Reference**](/docs/developers/deployment/akt/commands-reference) - Learn all available commands
+
+---
+
+## Troubleshooting
+
+### `akt` is not found
+
+The binary isn't in your PATH. Try:
+
+```bash
+# Find where it's installed
+which akt
+
+# Add to PATH (Linux/macOS)
+export PATH=$PATH:/path/to/akt
+```
+
+### macOS blocks the binary
+
+If macOS Gatekeeper refuses to run the downloaded binary, remove the quarantine attribute:
+
+```bash
+xattr -d com.apple.quarantine /usr/local/bin/akt
+```
+
+### Bootstrap cannot fetch networks
+
+The first-run wizard needs network access to fetch network definitions. If you are offline or behind a restrictive proxy, create a network manually instead:
+
+```bash
+akt context network create local --chain-id localnet-1 --rpc http://localhost:26657
+```
+
+---
+
+## Need Help?
+
+- [Release notes](https://github.com/akash-network/akt/releases) - Published versions and checksums
+- [Akash Discord](https://discord.akash.network) - Get help from the community
+- [GitHub Issues](https://github.com/akash-network/akt/issues) - Report bugs
