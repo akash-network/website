@@ -241,6 +241,57 @@ provider-services run \
 
 ---
 
+## STEP 4b - Configure Confidential Secrets and Storage (optional)
+
+Confidential workloads can pull private images, attach encrypted persistent volumes, and receive sealed secrets. Each of these relies on a Key Broker Service (KBS), part of [Trustee](https://github.com/confidential-containers/trustee), which releases a secret to a guest only after the guest passes hardware attestation. The provider brokers the request but never sees the secret material.
+
+There are two ways a tenant's workload can reach a KBS:
+
+- **Tenant KBS mode**: the tenant runs their own Trustee/KBS and declares it in their SDL. This needs **no provider configuration**; it works as soon as attestation (STEP 4) is enabled.
+- **Provider KBS mode**: the provider operates a shared Trustee/KBS and advertises it as the default. Tenants opt in with `kbs: { mode: provider }` in their SDL. Configure it with the flags below.
+
+> **Skip this step** if you only intend to support tenant-run KBS instances. Tenant KBS mode requires nothing here.
+
+### Provider KBS Flags
+
+Point the provider at your Trustee/KBS deployment. These values are all **public**: an HTTPS origin, a certificate chain, and content-addressed policy references. None of them carry secret material.
+
+> **Managed Trustee (Overclock Labs).** You don't have to run Trustee yourself to offer provider KBS mode. Overclock Labs, the team behind Akash, runs a managed Trustee instance; point `--cc-kbs-url` and the matching certificate and policy flags at it instead of standing up your own.
+
+| Flag | Description |
+|------|-------------|
+| `--cc-kbs-url` | HTTPS origin of the provider-managed Trustee KBS, used when an SDL selects provider KBS mode. |
+| `--cc-kbs-cert-file` | Path to the public Trustee KBS certificate chain. |
+| `--cc-image-security-policy-uri` | Content-addressed `kbs:///` image security policy URI for provider KBS mode. |
+| `--cc-agent-policy-file` | Path to the measured Kata agent policy for provider KBS mode. |
+
+The provider folds these into a deterministic, measured Kata `initdata` bundle for each confidential pod. Because the bundle is measured, only the public configuration above may go into it, tenant keys and credentials never do.
+
+### Confidential Persistent Storage
+
+| Flag | Description |
+|------|-------------|
+| `--cc-persistent-storage-classes` | Comma-separated block storage classes qualified for confidential persistent storage. Empty (the default) disables the feature. |
+
+Only list **block-mode** storage classes here. The guest encrypts each confidential volume with LUKS and cannot fall back to a host-shared filesystem, so a class that only supports shared filesystems will not work. Tenants can request any class in this list for a persistent confidential volume. The provider rejects anything else at deploy time.
+
+> **Provider KBS flags are all-or-nothing.** If you set a storage allowlist or advertise provider KBS mode, you must supply a complete Trustee configuration (`--cc-kbs-url`, `--cc-kbs-cert-file`, `--cc-image-security-policy-uri`, and `--cc-agent-policy-file`). The provider fails at startup on an incomplete configuration rather than accepting deployments it cannot serve.
+
+### Example: CLI Flags
+
+```bash
+provider-services run \
+  --attestation-webhook-enabled \
+  --attestation-sidecar-image "ghcr.io/akash-network/attestation-sidecar:latest" \
+  --cc-kbs-url "https://kbs.provider.example:8443" \
+  --cc-kbs-cert-file /etc/akash/cc/kbs-cert.pem \
+  --cc-image-security-policy-uri "kbs:///default/security-policy/sha256-<64-hex-digest>" \
+  --cc-agent-policy-file /etc/akash/cc/agent-policy.rego \
+  --cc-persistent-storage-classes beta3
+```
+
+---
+
 ## STEP 5 — Configure Provider Attributes
 
 Tenants discover TEE-capable providers through on-chain attributes. Add both `tee/platform` and `tee/type` to your `provider.yaml`:
@@ -319,8 +370,7 @@ services:
         to:
           - global: true
     params:
-      tee:
-        type: sev-snp
+      tee: cpu
 
 profiles:
   compute:
