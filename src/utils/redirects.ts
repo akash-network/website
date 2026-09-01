@@ -65,6 +65,8 @@ export const redirects = {
     "/docs/developers/deployment/console-air/",
   "/docs/developers/deployment/akash-console/with-wallet/":
     "/docs/developers/deployment/console-air/",
+  "/docs/getting-started/intro-to-akash/payments/":
+    "/docs/getting-started/how-funding-works/",
   "/bits": "/the-bid",
   "/bits/": "/the-bid",
   "/bits/[...page]": "/the-bid/[...page]",

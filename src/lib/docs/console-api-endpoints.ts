@@ -169,10 +169,10 @@ const res = await fetch("https://console-api.akash.network/v1/deployments", {
     title: "API Versioning",
     description:
       "Endpoints are prefixed with a version number (`/v1/` or `/v2/`). Versions are independent — upgrading one endpoint version does not affect others.",
-    bodyMd: `| Version | Status | Endpoints                          |
-| ------- | ------ | ---------------------------------- |
-| v1      | Stable | Deployments, bids, leases, deposit |
-| v2      | Stable | Deployment settings (auto top-up)  |
+    bodyMd: `| Version | Status | Endpoints                           |
+| ------- | ------ | ----------------------------------- |
+| v1      | Stable | Deployments, bids, leases           |
+| v2      | Stable | Deployment settings (runtime limit) |
 
 Future breaking changes are introduced as a new version prefix; prior versions remain available for a deprecation period announced in the [changelog](https://github.com/akash-network/console/releases).`,
     codeSnippets: [],
@@ -235,11 +235,11 @@ done`,
     path: "/v1/deployments",
     title: "POST /v1/deployments",
     description:
-      "Create a new deployment from an SDL manifest and fund its escrow.",
+      "Create a new deployment from an SDL manifest. Console funds it automatically from your account credits — no deposit is required.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "data.sdl", location: "body", type: "string", required: true, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute" },
-      { field: "data.deposit", location: "body", type: "number", required: true, description: "Initial escrow deposit in USD. Minimum `0.5`" },
+      { field: "data.runtimeLimitHours", location: "body", type: "number", required: false, description: "Close the deployment after this many hours of runtime, counted from lease start. Omit for always-on funding" },
     ],
     responseStatus: "201 Created",
     responseFields: [
@@ -262,7 +262,7 @@ done`,
         code: `curl -X POST https://console-api.akash.network/v1/deployments \\
   -H "x-api-key: $AKASH_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{ "data": { "sdl": "version: \\"2.0\\"\\n...", "deposit": 0.5 } }'`,
+  -d '{ "data": { "sdl": "version: \\"2.0\\"\\n..." } }'`,
       },
       {
         language: "javascript",
@@ -272,7 +272,7 @@ done`,
     "x-api-key": process.env.AKASH_API_KEY,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ data: { sdl: sdlString, deposit: 0.5 } }),
+  body: JSON.stringify({ data: { sdl: sdlString } }),
 });
 const { data } = await res.json();`,
       },
@@ -425,16 +425,18 @@ const { data } = await res.json();`,
     path: "/v1/deposit-deployment",
     title: "POST /v1/deposit-deployment",
     description:
-      "Add USD funds to a deployment's escrow to extend its runtime.",
+      "**Deprecated.** Console funds every deployment automatically for as long as your account has credits, so there is nothing for this endpoint to do. It still accepts requests so existing integrations keep working, and will be removed in a future release.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "data.dseq", location: "body", type: "string", required: true, description: "Deployment sequence ID" },
-      { field: "data.deposit", location: "body", type: "number", required: true, description: "Deposit amount in USD. Minimum `0.5`" },
+      { field: "data.deposit", location: "body", type: "number", required: true, description: "Deposit amount in USD. Minimum `0.5`. Accepted but no longer needed" },
     ],
     responseStatus: "200 OK",
     responseFields: [],
-    responseExample: `// Full deployment object after the top-up; see GET /v1/deployments/{dseq}.
-// New escrow balance: data.escrow_account.state.funds[].amount (raw chain micro-units).`,
+    responseExample: `// Full deployment object after the top-up; see GET /v1/deployments/{dseq}.`,
+    notes: [
+      "Replaced by automatic funding. Add credits to your account instead — see [How Funding Works](/docs/getting-started/how-funding-works).",
+    ],
     codeSnippets: [
       {
         language: "bash",
@@ -644,7 +646,7 @@ const { data } = await res.json();`,
     path: "/v1/deployments/{dseq}",
     title: "DELETE /v1/deployments/{dseq}",
     description:
-      "Close a deployment. Remaining escrow is returned asynchronously by the chain to your Console balance.",
+      "Close a deployment. Whatever it has not yet spent returns to your Console account balance once the chain settles.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID to close" },
@@ -681,7 +683,7 @@ const { data } = await res.json();`,
     path: "/v2/deployment-settings/{dseq}",
     title: "GET /v2/deployment-settings/{dseq}",
     description:
-      "Get auto top-up settings for a specific deployment. Settings are auto-created on first read.",
+      "Get the funding settings for a specific deployment, including its runtime limit. Settings are auto-created on first read.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence number" },
@@ -692,9 +694,11 @@ const { data } = await res.json();`,
       { field: "data.id", type: "string (uuid)", description: "Setting record id" },
       { field: "data.userId", type: "string", description: "Owning user id" },
       { field: "data.dseq", type: "string", description: "Deployment sequence number" },
-      { field: "data.autoTopUpEnabled", type: "boolean", description: "Whether auto top-up is enabled" },
+      { field: "data.autoTopUpEnabled", type: "boolean", description: "Always `true`. Automatic funding cannot be turned off" },
       { field: "data.estimatedTopUpAmount", type: "number", description: "Estimated top-up amount per cycle (USD)" },
       { field: "data.topUpFrequencyMs", type: "number", description: "Top-up cadence in milliseconds" },
+      { field: "data.runtimeLimitHours", type: "number \\| null", description: "Runtime limit in hours chosen at creation, or `null` for always-on funding" },
+      { field: "data.runtimeEndsAt", type: "string \\| null", description: "When the runtime limit is reached, anchored at lease start; `null` until the lease starts or when no limit is set" },
       { field: "data.createdAt", type: "string", description: "ISO-8601 creation time" },
       { field: "data.updatedAt", type: "string", description: "ISO-8601 last update time" },
     ],
@@ -706,6 +710,8 @@ const { data } = await res.json();`,
     "autoTopUpEnabled": true,
     "estimatedTopUpAmount": 5,
     "topUpFrequencyMs": 86400000,
+    "runtimeLimitHours": null,
+    "runtimeEndsAt": null,
     "createdAt": "2024-01-15T10:30:00Z",
     "updatedAt": "2024-01-15T10:30:00Z"
   }
@@ -736,11 +742,11 @@ const { data } = await res.json();`,
     path: "/v2/deployment-settings",
     title: "POST /v2/deployment-settings",
     description:
-      "Create deployment settings (typically used to enable auto top-up when the settings row does not yet exist).",
+      "Create the settings row for a deployment when it does not yet exist. Automatic funding is on by default and cannot be turned off.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "data.dseq", location: "body", type: "string", required: true, description: "Deployment sequence number" },
-      { field: "data.autoTopUpEnabled", location: "body", type: "boolean", required: true, description: "Enable or disable automatic top-up" },
+      { field: "data.autoTopUpEnabled", location: "body", type: "boolean", required: false, description: "Defaults to `true` when omitted. An explicit `false` is rejected" },
       { field: "data.userId", location: "body", type: "string (uuid)", required: false, description: "Defaults to authenticated user" },
     ],
     responseStatus: "201 Created",
@@ -780,12 +786,13 @@ const { data } = await res.json();`,
     method: "PATCH",
     path: "/v2/deployment-settings/{dseq}",
     title: "PATCH /v2/deployment-settings/{dseq}",
-    description: "Update an existing settings row.",
+    description: "Update an existing settings row. Use this to set, extend, or remove a deployment's runtime limit.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence number" },
       { field: "userId", location: "query", type: "string (uuid)", required: false, description: "Defaults to authenticated user" },
-      { field: "data.autoTopUpEnabled", location: "body", type: "boolean", required: true, description: "Enable or disable automatic top-up" },
+      { field: "data.autoTopUpEnabled", location: "body", type: "boolean", required: false, description: "An explicit `false` is rejected" },
+      { field: "data.runtimeLimitHours", location: "body", type: "number \\| null", required: false, description: "New total runtime limit in hours, counted from lease start. Send `null` to remove the limit and return the deployment to always-on funding. Lowering a limit is not supported" },
     ],
     responseStatus: "200 OK",
     responseFields: [],
@@ -796,7 +803,7 @@ const { data } = await res.json();`,
         code: `curl -X PATCH https://console-api.akash.network/v2/deployment-settings/1234567 \\
   -H "x-api-key: $AKASH_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{ "data": { "autoTopUpEnabled": false } }'`,
+  -d '{ "data": { "runtimeLimitHours": 48 } }'`,
       },
       {
         language: "javascript",
@@ -808,7 +815,7 @@ const { data } = await res.json();`,
       "x-api-key": process.env.AKASH_API_KEY,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ data: { autoTopUpEnabled: false } }),
+    body: JSON.stringify({ data: { runtimeLimitHours: 48 } }),
   },
 );
 const { data } = await res.json();`,
