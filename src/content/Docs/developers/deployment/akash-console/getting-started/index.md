@@ -39,11 +39,11 @@ Visit [console.akash.network](https://console.akash.network) in your web browser
 
 1. Click **"Start Free Trial"** or **"Get Started"**
 2. Enter your email address
-3. Add a credit card (for verification and pay-as-you-go after trial)
-4. Receive **$1 in free trial credits**
+3. Verify your email
+4. Receive **$1 in free trial credits** — no card required
 
 ![Trial Signup](/images/docs/console/2-trial-signup.png)
-*Sign up with email and credit card to receive $1 in trial credits*
+*Sign up with your email to receive $1 in trial credits*
 
 **Free trial limits:**
 
