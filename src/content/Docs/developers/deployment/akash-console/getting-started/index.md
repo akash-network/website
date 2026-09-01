@@ -135,7 +135,7 @@ After requesting quotes, providers will appear in the Compute Marketplace with p
 
 #### 3. Review and Deploy
 
-A summary modal shows your selected provider, the total deployment cost, and how much of your available balance the deployment will reserve. There is no deposit to pick — Console funds the deployment from your account credits. Click **"Confirm and deploy"** to launch.
+A summary modal shows your selected provider, the total deployment cost, and how much of your available balance goes into escrow. There is no deposit to pick — Console funds the deployment from your account credits, and the escrow is held rather than charged. Click **"Confirm and deploy"** to launch.
 
 #### 4. Access Your Running Deployment
 
@@ -228,11 +228,11 @@ Stop your deployment and get your unspent credits back:
 
 ### Manage Billing and Credits
 
-The billing page shows your account balance split into **available** credits and credits **reserved** to keep your running deployments online, along with how long the balance will last at your current spend rate.
+The billing page shows your account balance split into **available** credits and credits held in **escrow** to keep your running deployments online, along with how long the balance will last at your current spend rate.
 
 From here you can:
 - Add credits with a card or a coupon code
-- See which deployments your reserved credits are held against
+- See which deployments your escrowed credits are held against
 - Turn on Auto Top-Up so your card is charged before you run out
 - Review your spending history
 

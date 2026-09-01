@@ -4,7 +4,7 @@ tags: ["Console", "Billing", "Credits", "Funding", "Auto Top-Up"]
 weight: 5
 title: "How Funding Works"
 linkTitle: "How Funding Works"
-description: "How Akash Console credits, automatic deployment funding, Auto Top-Up, and the available vs. reserved balance work"
+description: "How Akash Console credits, automatic deployment funding, Auto Top-Up, and the available vs. escrow balance work"
 ---
 
 **You add credits to your Akash Console account, and Console keeps your deployments funded from that balance.** There is no deposit to choose and no per-deployment balance to watch.
@@ -21,15 +21,17 @@ Credits are denominated in US dollars. You get them three ways:
 
 Credits are spent as your deployments run. Console converts them to the network's ACT token behind the scenes, so nothing you do involves buying or holding crypto.
 
-## Available and reserved
+## Available and escrow
 
 Your billing page splits the account balance in two.
 
-**Reserved** is what your running deployments are holding to stay online. Each one keeps roughly two days of its own cost in reserve, so a deployment that costs $1/day reserves about $2. Reserved credits are not gone — they are committed. Whatever a deployment does not spend comes back to available when it closes.
+**Escrow** is what your running deployments hold to stay online. Each deployment has its own escrow account on-chain, and Console keeps roughly two days of that deployment's cost in it — so a deployment costing $1/day holds about $2. Escrowed credits are not spent, only held: whatever a deployment does not use returns to available when it closes.
 
 **Available** is everything else: what you can spend on a new deployment right now.
 
-The billing page also shows how long your whole balance will last at your current spend rate, and which deployments the reserved amount is split across.
+The billing page also shows how long your whole balance will last at your current spend rate, and which deployments the escrow is split across.
+
+What has changed is that you no longer manage escrow yourself. You do not choose a deposit, and you do not top a deployment up — Console does both. If you deploy with your own wallet instead, you fund each escrow account directly; see [Deployments and Escrow](/docs/learn/core-concepts/deployments) for the chain-level mechanics.
 
 ## Automatic funding
 
@@ -37,13 +39,13 @@ Console funds every deployment for you.
 
 A new deployment is funded the moment it is created, so it can take a lease immediately rather than waiting for a background job. From then on, Console tops it up to keep it ahead of its own burn rate for as long as your account has credits. You do not enable this, and there is no per-deployment setting to get wrong.
 
-Automatic funding also leaves some of your available balance untouched, so topping up a running deployment can never eat the headroom you need to start a new one.
+Automatic funding also leaves some of your available balance untouched, so topping up a running deployment's escrow can never eat the headroom you need to start a new one.
 
 **Note:** The exact figures Console funds against — the runway it targets, the headroom it leaves, the amount a deployment starts with — are platform constants, and API callers can read the current values from `GET /v1/deployment-funding-config`.
 
 ## Auto Top-Up
 
-Automatic funding moves credits from your balance to your deployments. Auto Top-Up is the layer above it: charging your card so that balance never hits zero. It is off until you turn it on from the billing page, and it needs a default payment method.
+Automatic funding moves credits from your available balance into your deployments' escrow. Auto Top-Up is the layer above it: charging your card so that balance never hits zero. It is off until you turn it on from the billing page, and it needs a default payment method.
 
 There are two modes:
 
@@ -60,11 +62,11 @@ A limit is not a lock. You can extend it, or lift it entirely and go back to alw
 
 Console emails you before your credits run out, so you have time to add more. If you have Auto Top-Up on, your card is charged instead and you get no warning email, because there is nothing to act on.
 
-If the balance does reach zero, automatic funding has nothing left to top up with. Your running deployments spend down what they already hold and then close. Adding credits before that point keeps them alive with no further action from you: funding picks them up on its next pass.
+If the balance does reach zero, automatic funding has nothing left to top up with. Your running deployments spend down the escrow they already hold and then close. Adding credits before that point keeps them alive with no further action from you: funding picks them up on its next pass.
 
 ## Closing a deployment
 
-Closing a deployment stops its services and returns whatever it had not yet spent to your account balance. Settlement happens on-chain, so the credited amount can take a short while to appear.
+Closing a deployment stops its services and returns whatever is left in its escrow to your available balance. Settlement happens on-chain, so the credited amount can take a short while to appear.
 
 ## Related Resources
 
