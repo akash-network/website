@@ -1,16 +1,30 @@
 ---
+import { Image } from "astro:assets";
 import { ArrowUpRight, Download } from "lucide-react";
 const { title, description, buttons, image } = Astro.props;
+
+const imageClass =
+  "aspect-video w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105";
 ---
 
-<div class="group flex h-full flex-col overflow-hidden rounded-xl border bg-background transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
+<div
+  class="group flex h-full flex-col overflow-hidden rounded-xl border bg-background transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20"
+>
   <div class="overflow-hidden">
-    <img
-      src={typeof image === "string" ? image : image.src}
-      alt={title}
-      class="aspect-video w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105"
-      loading="lazy"
-    />
+    {
+      typeof image === "string" ? (
+        <img src={image} alt={title} class={imageClass} loading="lazy" />
+      ) : (
+        <Image
+          src={image}
+          alt={title}
+          width={800}
+          format="webp"
+          class={imageClass}
+          loading="lazy"
+        />
+      )
+    }
   </div>
 
   <div class="flex flex-1 flex-col gap-4 p-6">
@@ -21,22 +35,27 @@ const { title, description, buttons, image } = Astro.props;
 
     <div class="mt-auto flex flex-col gap-2 pt-1">
       {
-        buttons.map((button: any) => (
-          <a
-            href={button.link === "#" ? undefined : button.link}
-            target={button.link.startsWith("http") ? "_blank" : "_self"}
-            rel="noopener noreferrer"
-            download={button.icon === "download" && button.link !== "#" ? button.link.split("/").pop() : undefined}
-            class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-neutral-100 dark:hover:bg-badgeColor"
-          >
-            {button.label}
-            {button.icon === "link" ? (
-              <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
-            ) : (
-              <Download className="h-3.5 w-3.5 shrink-0" />
-            )}
-          </a>
-        ))
+        buttons.map((button: any) => {
+          const isDownload = button.icon === "download";
+          const isExternal = button.link.startsWith("http");
+
+          return (
+            <a
+              href={button.link}
+              target={isExternal ? "_blank" : "_self"}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+              download={isDownload ? button.link.split("/").pop() : undefined}
+              class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-neutral-100 dark:hover:bg-badgeColor"
+            >
+              {button.label}
+              {isDownload ? (
+                <Download className="h-3.5 w-3.5 shrink-0" />
+              ) : (
+                <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+              )}
+            </a>
+          );
+        })
       }
     </div>
   </div>
