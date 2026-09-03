@@ -10,7 +10,7 @@ import NavMenu from "./nav-menu";
 import SubNavbar from "./SubNavbar.astro";
 
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
-const isValidatorsPage = Astro.url.pathname.startsWith("/network/akash-validators");
+const isValidatorsPage = Astro.url.pathname.startsWith("/akash-validators");
 const isProvidersPage =
   Astro.url.pathname.startsWith("/ecosystem/providers") ||
   Astro.url.pathname.startsWith("/ecosystem/network-capacity");
@@ -37,6 +37,7 @@ const visibility = {
   development: ["/development", "/roadmap"],
   ecosystem: ["/ecosystem", "/case-studies"],
   pricing: ["/pricing"],
+  explore: ["/explore"],
 };
 
 const pathnames = Object.values(visibility).flat();
@@ -119,7 +120,7 @@ const navContainerClass = hideContainer ? "" : "container";
 <!-- Sub-nav items bar: sticky -->
 <div id="sub-nav-container" class={navContainerVisibility}>
   {
-    (visibility.network.includes(pathname) || isValidatorsPage) && !isProvidersPage && (
+    (visibility.network.includes(pathname) || isValidatorsPage) && !isProvidersPage && pathname !== "/token" && (
       <SubNavbar pathname={Astro.url.pathname} type="network" />
     )
   }
@@ -143,6 +144,11 @@ const navContainerClass = hideContainer ? "" : "container";
       <SubNavbar pathname={Astro.url.pathname} type="pricing" />
     )
   }
+  {
+    visibility.explore.includes(pathname) && (
+      <SubNavbar pathname={Astro.url.pathname} type="explore" />
+    )
+  }
 </div>
 
 {isPathInNavigation && (
@@ -163,7 +169,7 @@ const navContainerClass = hideContainer ? "" : "container";
     if (!isSticky) return;
 
     const subNav = document.getElementById("sub-nav-container");
-    const hasSubNav = subNav && !subNav.classList.contains("hidden");
+    const hasSubNav = subNav && !subNav.classList.contains("hidden") && subNav.childElementCount > 0;
 
     let lastY = window.scrollY;
     let rafId: number;

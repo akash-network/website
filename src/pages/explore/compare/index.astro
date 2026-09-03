@@ -1,0 +1,89 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+
+const comparisons = [
+  {
+    title: "Akash vs RunPod",
+    description:
+      "Deploy on-demand GPU instances across an open marketplace network. Provision high-density NVIDIA clusters via a decentralized reverse-auction ledger, eliminating localized inventory shortages and artificial provider-enforced capacity bottlenecks.",
+    href: "/explore/compare/akash-vs-runpod",
+    image: "/compare/compare-vs-runpod.webp",
+  },
+  {
+    title: "Akash vs Lambda Labs",
+    description:
+      "Access highly scalable AI computing clusters natively without long-term contract negotiations. Provision production-grade silicon without enterprise sales team approvals, structural waitlists, or platform-enforced lock-in commitments.",
+    href: "/explore/compare/akash-vs-lambda-labs",
+    image: "/compare/compare-vs-lambda.webp",
+  },
+  {
+    title: "Akash vs AWS",
+    description:
+      "Secure compute infrastructure pricing determined exclusively by market demand instead of legacy corporate boardrooms. Run your intensive application containers on globally distributed hardware layers free from excessive hyperscaler markups.",
+    href: "/explore/compare/akash-vs-aws",
+    image: "/compare/compare-vs-aws.webp",
+  },
+  {
+    title: "Akash vs Heroku",
+    description:
+      "Experience streamlined platform-as-a-service container deployments without paying premium proprietary markups. Easily scale OCI-compliant application instances across an open infrastructure grid while eliminating restrictive buildpack constraints.",
+    href: "/explore/compare/akash-vs-heroku",
+    image: "/compare/compare-vs-heroku.webp",
+  },
+];
+---
+
+<Layout
+  title="Compare — Akash Network"
+  description="See how Akash stacks up against legacy cloud providers on price, portability, and performance."
+>
+  <TopMargin>
+    <div class="flex flex-col gap-16 pt-4 pb-28 md:gap-24">
+      <div class="space-y-4">
+        <h1 class="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          Compare
+        </h1>
+        <p class="max-w-2xl text-base font-normal leading-relaxed text-para">
+          Akash vs alternative cloud platforms. Side-by-side technical breakdowns on pricing, container portability, and infrastructure architecture.
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2">
+        {comparisons.map((tile) => (
+          <a
+            href={tile.href}
+            class="group flex flex-col overflow-hidden rounded-xl border border-input bg-background transition-colors hover:bg-accent"
+          >
+            <div class="overflow-hidden">
+              <img
+                src={tile.image}
+                alt={tile.title}
+                class="h-[220px] w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+              />
+            </div>
+            <div class="flex flex-1 flex-col gap-3 p-6">
+              <h2 class="text-xl font-semibold text-foreground">{tile.title}</h2>
+              <p class="text-sm font-normal leading-relaxed text-para">{tile.description}</p>
+              <div class="mt-auto flex items-center gap-1 pt-4 text-sm font-medium text-foreground">
+                Read comparison
+                <svg
+                  class="h-4 w-4 translate-x-0 transition-transform duration-200 group-hover:translate-x-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </TopMargin>
+</Layout>

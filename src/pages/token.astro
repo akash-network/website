@@ -1,5 +1,5 @@
 ---
-import EcosystemSection from "@/components/token-page/ecosystem-section.astro";
+import EcosystemSection from "@/components/token-page/ecosystem-section";
 import HeroSection from "@/components/token-page/hero-section.astro";
 import HowItWorksSection from "@/components/token-page/how-it-works-section.astro";
 import Layout from "@/layouts/layout.astro";
@@ -8,6 +8,7 @@ import BuyAkt from "@/components/token-page/buy-akt.astro";
 import BuyingAkt from "@/components/token-page/buying-akt-section";
 import { FaqsToken } from "@/components/token-page/faq-section";
 import Sections from "@/components/token-page/sections";
+import StickyBuyBar from "@/components/token-page/sticky-buy-bar";
 import TopMargin from "@/components/ui/top-margin.astro";
 import { getEntry } from "astro:content";
 
@@ -36,9 +37,6 @@ const url = Astro.site;
       <HeroSection heroSection={heroSection} />
 
       <BuyAkt buyAktSection={buyAktSection} />
-      <div class="mx-auto flex-1 lg:max-w-[575px]">
-        <img alt="Feature illustration" src={heroSection.image} />
-      </div>
 
       <Sections
         client:only
@@ -47,11 +45,23 @@ const url = Astro.site;
         faqsSection={faqsSection}
         url={url?.toString() ?? ""}
       />
+      <div class="overflow-hidden rounded-xl">
+        <img
+          src="/token/token-how-it-works.webp"
+          alt=""
+          class="h-[240px] w-full object-cover md:h-[380px]"
+          width="2560"
+          height="760"
+        />
+      </div>
+
       <HowItWorksSection howItWorksSection={howItWorksSection} />
-      <EcosystemSection ecosystemSection={ecosystemSection} />
-      <BuyingAkt buyingAKTSection={buyingAKTSection} />
+      <EcosystemSection client:only ecosystemSection={ecosystemSection} />
+      <BuyingAkt client:only buyingAKTSection={buyingAKTSection} />
 
       <FaqsToken client:only />
     </div>
   </TopMargin>
+
+  <StickyBuyBar client:only />
 </Layout>

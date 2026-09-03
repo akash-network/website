@@ -1,28 +1,21 @@
 ---
-import Card from "./card.astro";
-
 const { howItWorksSection } = Astro.props;
 ---
 
-<div id="how-it-works">
-  <h2 class="text-center text-2xl font-semibold md:text-2lg">
-    {howItWorksSection.title}
-  </h2>
+<div id="how-it-works" class="space-y-10">
+  <div class="space-y-4">
+    <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+      {howItWorksSection.title}
+    </h2>
+  </div>
 
-  <div
-    class="mx-auto mt-[40px] grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3"
-  >
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
     {
-      howItWorksSection.cards.map((card: {
-        title: string;
-        description: string;
-        icon: string;
-      }) => (
-        <Card
-          icon={card.icon}
-          title={card.title}
-          description={card.description}
-        />
+      howItWorksSection.cards.map((card: { title: string; description: string }) => (
+        <div class="space-y-3">
+          <h3 class="text-base font-semibold text-foreground">{card.title}</h3>
+          <p class="text-sm font-normal leading-relaxed text-para">{card.description}</p>
+        </div>
       ))
     }
   </div>

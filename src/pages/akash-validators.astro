@@ -1,0 +1,148 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+
+const responsibilities = [
+  {
+    title: "Block Validation",
+    desc: "Validators actively validate transactions and create new blocks as part of Akash's robust, secure, and attack-resistant consensus algorithm.",
+  },
+  {
+    title: "Network Security",
+    desc: "Validators are central to maintaining the overall security of the network, preventing malicious activities like double-spending and ensuring blockchain integrity.",
+  },
+  {
+    title: "Staking",
+    desc: "Validators must stake a specific amount of $AKT to join the consensus process. Staking incentivizes honesty by aligning validators' interests with the network's success.",
+  },
+  {
+    title: "Governance",
+    desc: "Validators may participate in the governance process, contributing to decisions affecting the protocol and the network's development trajectory.",
+  },
+  {
+    title: "Reliability",
+    desc: "Validators ensure the network's reliability and availability by managing stable, well-connected nodes that keep it operational.",
+  },
+];
+
+const nodeInfraItems = [
+  {
+    title: "Server Infrastructure:",
+    items: [
+      "Validators operate robust servers capable of handling the computational demands of block validation.",
+      "The quality and reliability of server infrastructure significantly influence the overall performance of Akash.",
+    ],
+  },
+  {
+    title: "Software:",
+    items: [
+      "Validators run specialized software enabling them to participate in the consensus process.",
+      "Regular updates and maintenance are essential to keep the software secure and up to date.",
+    ],
+  },
+  {
+    title: "Network Connectivity:",
+    items: [
+      "A stable and high-speed internet connection is crucial for maintaining a reliable node.",
+      "Validators ensure their nodes are well-connected to the Akash.",
+    ],
+  },
+];
+---
+
+<Layout
+  title="Akash - Validators"
+  description="Secure the Akash and earn rewards by validating transactions on the decentralized cloud computing platform."
+  image="/meta-images/community.png"
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Secure the Supercloud
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            An Akash Validator plays a pivotal role in the decentralized cloud computing platform. Operating on blockchain technology, Akash establishes a marketplace for cloud resources, enabling the peer-to-peer exchange of computing power. Validators are instrumental in upholding the network's security, contributing to the validation and consensus process.
+          </p>
+        </div>
+      </section>
+
+      <!-- RESPONSIBILITIES -->
+      <section class="mt-20 space-y-8 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Responsibilities
+          </h2>
+        </div>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {responsibilities.map((item) => (
+            <div class="space-y-3">
+              <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
+              <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- NODE INFRASTRUCTURE -->
+      <section class="mt-20 md:mt-44">
+        <div class="grid items-start gap-8 md:gap-16 md:grid-cols-2">
+          <div class="order-2 space-y-6 md:order-1">
+            <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+              Node Infrastructure
+            </h2>
+            <p class="text-base font-semibold text-foreground">
+              To become a validator on Akash, entities must set up and maintain a node, which typically includes:
+            </p>
+            <ul class="mt-2 flex flex-col gap-4 text-sm md:text-base">
+              {nodeInfraItems.map((item) => (
+                <li>
+                  <strong>{item.title}</strong>
+                  <ul class="list-disc pl-5 text-para">
+                    {item.items.map((i) => (
+                      <li>{i}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="group order-1 overflow-hidden rounded-xl md:order-2">
+            <img
+              src="/validators/validators-node.webp"
+              alt="Node Infrastructure"
+              class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- REWARDS AND PENALTIES -->
+      <section class="mt-20 md:mt-44">
+        <div class="grid items-start gap-8 md:gap-16 md:grid-cols-2">
+          <div class="group overflow-hidden rounded-xl">
+            <img
+              src="/validators/validators-rewards.webp"
+              alt="Rewards and Penalties"
+              class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+            />
+          </div>
+          <div class="space-y-6">
+            <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+              Rewards and Penalties
+            </h2>
+            <div class="flex flex-col gap-4 text-sm text-para md:text-base">
+              <p>Validators are rewarded for their participation in block validation and maintaining a secure network. Rewards are often in the form of $AKT, influenced by factors like the validator's stake and performance.</p>
+              <p>On the other hand, validators may face penalties for malicious behavior or network disruptions. Penalties discourage harmful activities, promoting validators to act in the network's best interest.</p>
+              <p>In conclusion, an Akash Validator is a key participant in the decentralized cloud computing ecosystem, contributing to the security, reliability, and governance of the network. Validators play a vital role in ensuring the proper functioning of Akash and are rewarded with $AKT for their efforts in maintaining a robust and decentralized infrastructure.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

@@ -99,7 +99,7 @@ const FaqSection = ({
 
   return (
     <div>
-      <h2 className="text-center text-2xl font-semibold md:text-2lg">FAQs</h2>
+      <h2 className="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">FAQs</h2>
 
       <div>
         <FAQ
