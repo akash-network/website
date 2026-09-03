@@ -10,12 +10,25 @@ tags:
   - News
   - Decentralized Cloud
   - AI Infrastructure
+  - AI infrastructure
+  - data center
+  - energy crisis
+  - decentralized cloud
+  - DePIN
+  - Homenode
+  - AI energy
+  - distributed compute
+  - Greg Osuri
+  - Akash 2026
 contributors:
   - Michelle Javed
 pinned: false
 homepage: false
 bannerImage: ./banner.png
 ---
+
+> **TL;DR:** Nearly half of U.S. data centers planned for 2026 face delays or cancellations due to land resistance, community opposition, regulatory bans (Maine), and energy constraints requiring 7-year infrastructure lead times. Decentralized distributed compute — moving AI to where energy exists — is emerging as the structural solution.
+
 
 According to [Bloomberg](https://www.bloomberg.com/news/newsletters/2026-04-01/us-data-center-boom-relies-on-hard-to-find-electrical-equipment), nearly half of U.S. data centers planned for 2026 are now expected to be delayed or canceled. While this may initially look like a market adjustment, the underlying causes point to something far more structural, and less easily resolved.
 
@@ -98,3 +111,27 @@ Stay up-to-date with the latest updates on product updates and launches on [**X*
 
 - [Documentation](https://akash.network/docs/)
 - [White Paper](https://ipfs.io/ipfs/QmVwsi5kTrg7UcUEGi5UfdheVLBWoHjze2pHy4tLqYvLYv)
+
+## Frequently Asked Questions
+
+**Why are U.S. data center buildouts stalling in 2026?**
+According to Bloomberg, nearly half of planned 2026 data centers face delays or cancellations due to land acquisition complexity, state restrictions, energy access gaps, and growing community resistance to centralized AI infrastructure.
+
+**What is the energy infrastructure bottleneck for AI?**
+Gas turbines needed as interim power solutions have 7-year wait times per IEEE Spectrum. AI electricity demand is growing faster than grid expansions can be planned, approved, and built.
+
+**How are communities resisting data center development?**
+A Pennsylvania farmer rejected a $15M offer to preserve farmland. A Kentucky family rejected $26M (10x market value). Oklahoma firefighters rejected a $250K Google donation tied to a data center. Missouri residents voted out half a city council that supported a data center project.
+
+**What is Maine's data center moratorium?**
+Maine implemented a moratorium on new data center construction, citing energy demand, environmental impact, and the pace of infrastructure scaling relative to oversight — a first-of-its-kind state-level policy intervention.
+
+**What is Greg Osuri's solution to the AI energy crisis?**
+'Move AI to where the energy is, instead of moving the energy to where AI is.' Decentralized local inference using existing underutilized hardware (like Akash Homenode) sidesteps the centralized buildout bottleneck entirely.
+
+**What is Starcluster and how does it relate to distributed AI?**
+An Akash program cited by IEEE Spectrum as an example of tapping underutilized compute in existing locations rather than building new energy-hungry centralized infrastructure.
+
+**How does decentralized compute solve the infrastructure crisis?**
+Distributing AI workloads across geographically dispersed nodes — homes, edge devices, existing data centers — uses available energy capacity rather than concentrating demand into new facilities requiring years of grid expansion.
+

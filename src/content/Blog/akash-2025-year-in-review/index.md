@@ -9,11 +9,24 @@ categories:
   - News
 tags:
   - News
+  - Akash 2025
+  - year in review
+  - Mainnet 14
+  - AkashML
+  - Burn-Mint Equilibrium
+  - NVIDIA H100
+  - AI inference
+  - decentralized cloud
+  - AKT tokenomics
+  - Supercloud
 contributors:
   - Michelle Javed
 
 bannerImage: ./banner.png
 ---
+
+> **TL;DR:** 2025 was Akash's defining year: deployments grew 466% to 3.1 million, daily fees hit $13,000+ all-time highs, Mainnet 14 eliminated eight years of technical debt, and AkashML launched managed inference at 70–85% lower cost than AWS. Grayscale named AKT a Top 20 asset for three consecutive quarters.
+
 
 2025 marks the year Akash evolved from a promising decentralized compute marketplace into a production-ready Supercloud platform capable of competing with centralized cloud giants. The network executed the most comprehensive infrastructure transformation in its history: [Mainnet 14](https://akash.network/blog/akash-mainnet-14-the-core-overhaul-that-changes-everything/) eliminated eight years of technical debt in a single upgrade while the network maintained a consistent 60% utilization rate for accelerated compute.
 
@@ -405,3 +418,27 @@ Join the Conversation on [Discord](https://discord.com/invite/akash) to collabor
 Watch the Supercloud scale in real-time via [Akash Stats](https://stats.akash.network).
 
 The demand for sovereign, high-performance compute is accelerating. The question is no longer if the world will move to the Supercloud, but when. We'll see you on the network.
+
+## Frequently Asked Questions
+
+**How much did Akash grow in 2025?**
+Deployments grew 466% to over 3.1 million created. Total USD network spend grew 128% to $3.15 million. Daily fees hit all-time highs above $13,000. Average fee per lease grew 127% to $25.03.
+
+**What was the biggest technical milestone of 2025?**
+Mainnet 14 (October 28, 2025) — upgrading from Cosmos SDK v0.45 to v0.53, eliminating eight years of technical debt and enabling JWT authentication, IAVL storage improvements, and modular WASM upgrades.
+
+**What is AkashML?**
+Akash's fully managed AI inference service launched November 2025 — serving Llama 3.3-70B, DeepSeek V3, and Qwen3-30B-A3B at 70–85% lower cost than AWS SageMaker via an OpenAI-compatible API.
+
+**What is the shift toward agentic AI on Akash?**
+Deployments shifted toward shorter-duration, high-frequency AI inference workloads — AI agents spinning up compute for specific tasks then releasing resources, driving 466% deployment volume growth with fewer concurrent active deployments.
+
+**What is the Burn-Mint Equilibrium (BME)?**
+A tokenomics upgrade approved in Q4 2025 linking every compute transaction to AKT demand — users burn AKT to mint ACT (a USD-pegged compute credit), making AKT essential to the network's economic model.
+
+**What is Akash Homenode?**
+A program enabling individual GPU owners (RTX 4090, RTX 5090, Quadro RTX 6000 Ada) to earn from idle compute by connecting their hardware to the Akash Network — extending supply beyond traditional datacenters.
+
+**What is the Shared Security Migration (AEP-79)?**
+Akash's planned move from a sovereign Cosmos SDK chain to a shared security model — reducing AKT liquidity burden, freeing engineering resources for product innovation, while maintaining IBC interoperability. Estimated Q4 2026.
+

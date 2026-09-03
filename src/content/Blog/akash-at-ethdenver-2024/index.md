@@ -8,10 +8,22 @@ categories:
   - Updates
 tags:
   - Updates
+  - ETHDenver
+  - ETHDenver 2024
+  - DePIN
+  - decentralized AI
+  - GPU access
+  - Greg Osuri
+  - Cosmos
+  - events
+  - conference
 contributors:
   - Zach Horn
 bannerImage: ./akash-ethdenver.png
 ---
+
+> **TL;DR:** The Akash core team attended ETHDenver 2024 with a sponsored booth (Section 14, Booth 246), multiple speaking slots by CEO Greg Osuri, and panels covering decentralized AI, DePIN, and GPU access — running February 27 through March 3, 2024 in Denver.
+
 
 The Akash Core Team heads to Denver to connect with builders in the decentralized and permissionless infrastructure space.
 
@@ -118,3 +130,27 @@ To stay up to date with the latest updates, follow [Akash](https://x.com/akashne
 - [Maxime Beauchamp](https://twitter.com/thereisnomax), Founder of Cloudmos
 - [Scott Hewitson](https://twitter.com/HeyHewi), Director of Finance
 - [Thomas Greco](https://twitter.com/tgrecojs), Akash Insider
+
+## Frequently Asked Questions
+
+**Where was the Akash booth at ETHDenver 2024?**
+Section 14, Booth 246 at the National Western Complex, running February 29 through March 3. The full core team was present throughout the event.
+
+**Did Greg Osuri speak at ETHDenver 2024?**
+Yes — Greg spoke at Decentralize AI Day, ATOMDenver (two panels on AI x Crypto and DePIN), Stanford Blockchain BASS Summit, and the Atlantis Main Stage on GPU access for AI workloads.
+
+**What topics did Akash cover at ETHDenver?**
+How Crypto Benefits from AI, DePIN Updates, AI and Decentralized Compute, and Revolutionizing GPU Access for AI Workloads — across multiple stages and side events.
+
+**Who attended from the Akash team?**
+Greg Osuri (CEO), Adam Wozney (Head of Community), Zach Horn (Head of Marketing), Maxime Beauchamp (Founder of Cloudmos), Scott Hewitson (Director of Finance), Ty Wright (Head of Operations), and Akash Insiders Zeke and Thomas Greco.
+
+**What is ATOMDenver?**
+A Cosmos ecosystem event co-organized alongside ETHDenver featuring panels on IBC, DePIN, and AI x crypto — Akash was a sponsor with Greg Osuri speaking on two panels.
+
+**Did Passage attend ETHDenver with Akash?**
+Yes — Lex Avellino and the Passage team took over the Akash booth on Saturday March 2 to meet attendees and discuss their Akash-powered virtual world launch.
+
+**Was there an X Spaces from ETHDenver?**
+Yes — hosted live from ETHDenver on Friday March 1 at 12PM MST with Adam Wozney, Zach Horn, and special guests from the Akash ecosystem.
+

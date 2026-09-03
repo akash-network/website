@@ -6,10 +6,12 @@ status: Final
 type: Standard
 category: Core
 created: 2025-12-15
-updated: 2025-12-15
+updated: 2026-08-11
 estimated-completion: 2026-12-31
 roadmap: major
 ---
+
+> **Migration documentation:** For details about the migration and the current process, see [doc/README.md](./doc/README.md) — the Akash Chain Migration Program document set, which specifies the migration to execution depth and supersedes this RFP where the two conflict.
 
 ## Abstract
 

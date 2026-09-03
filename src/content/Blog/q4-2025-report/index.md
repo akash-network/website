@@ -9,11 +9,24 @@ categories:
   - News
 tags:
   - News
+  - Q4 2025
+  - Mainnet 14
+  - AkashML
+  - WASM
+  - Burn-Mint Equilibrium
+  - BME
+  - AKT tokenomics
+  - DeepSeek
+  - Llama
+  - Akash report
 contributors:
   - Michelle Javed
 
 bannerImage: ./banner-image.png
 ---
+
+> **TL;DR:** In Q4 2025, Akash deployed Mainnet 14 (Cosmos SDK v0.53 upgrade), launched AkashML managed inference, introduced WASM smart contracts, and returned 1.6 million AKT to the community treasury from unused provider incentives — while expanding the Student Ambassador Program to Spring 2026.
+
 
 If the state of Akash in Q3 2025 was defined by [Messari](https://messari.io/report/state-of-akash-q3-2025) as a period of "steady growth and technical preparation," Q4 became the forge in which the Akash Network was truly tested and redefined.
 
@@ -118,3 +131,27 @@ Stay up-to-date with upcoming events on [X](https://x.com/akashnet).
 
 - [Documentation](/docs/)
 - [White Paper](https://ipfs.io/ipfs/QmVwsi5kTrg7UcUEGi5UfdheVLBWoHjze2pHy4tLqYvLYv)
+
+## Frequently Asked Questions
+
+**What were Akash's three major Q4 2025 upgrades?**
+Mainnet 14 (Cosmos SDK v0.53 upgrade eliminating 8 years of technical debt), AkashML (fully managed AI inference service), and WASM Smart Contracts (enabling modular network upgrades without full chain coordination).
+
+**What is the Burn-Mint Equilibrium (BME)?**
+An economic model (AEP-76) approved by the community in Q4 — users burn AKT to mint ACT (a USD-pegged compute credit), providers receive stable payments, creating direct demand for AKT with every compute transaction.
+
+**What are WASM Smart Contracts on Akash?**
+Permissioned smart contracts that allow the network to update in modular 'packets' rather than requiring weeks of validator coordination for monolithic chain upgrades — enabling faster security patches and feature releases.
+
+**What is the Pyth Price Oracle on Akash?**
+A real-time AKT/USD price feed implemented via WASM contracts — a critical component for calculating the BME mint price accurately and enabling the USD-pegged ACT token system.
+
+**How much AKT was returned to the community treasury in Q4?**
+1.6 million AKT in Q4 alone — bringing the full 2025 total to 3,370,484 AKT returned from unused provider incentive programs, demonstrating fiscal accountability.
+
+**What AI models launched on AkashML in Q4 2025?**
+Llama 3.3-70B, DeepSeek V3, Qwen3-30B-A3B at launch — with DeepSeek V3.2 added in December 2025 featuring new sparse attention (DSA) and GRPO architectural innovations.
+
+**When does the Spring 2026 Student Ambassador cohort open?**
+Applications for the Spring 2026 Cohort are now open — apply at the Google Form linked in the blog post. The program is expanding beyond the initial Princeton, Cornell, USC, and UT Austin cohort.
+

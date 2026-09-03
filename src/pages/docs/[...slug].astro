@@ -5,12 +5,14 @@ import MobileNav from "@/components/docs/mobile-sidebar.tsx";
 import MobileTableOfContents from "@/components/docs/mobile-table-of-contents.tsx";
 import NextPrevNav from "@/components/docs/next-prev-nav.astro";
 import TableOfContents from "@/components/docs/table-of-contents";
+import AiActionsDropdown from "@/components/docs/ai-actions-dropdown";
 import DocsLayout from "@/layouts/docs-layout.astro";
 import { docsProseClasses } from "@/lib/docs-prose-classes";
 import { findPrevAndNextPages } from "@/lib/docs/findPrevAndNextPages";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 import generateToc from "@/lib/generateToc";
 import { getCollection, render, type CollectionEntry } from "astro:content";
+import { Code } from "astro-expressive-code/components";
 import classNames from "clsx";
 
 export async function getStaticPaths() {
@@ -43,6 +45,8 @@ const nav = generateDocsNav(pages);
 const lines = page?.body
   ?.split("\n")
   ?.filter((line: string) => line.trim() !== "" && !line.includes("##"));
+
+const fileExt = page.filePath?.endsWith(".mdx") ? "mdx" : "md";
 ---
 
 <!-- replace [name](link) with name -->
@@ -94,7 +98,7 @@ const lines = page?.body
             page.data.hideTOC
               ? "w-full min-w-0"
               : "w-full min-w-0 px-5 lg:flex-1",
-            "md:pt-12"
+            "md:pt-12",
           )}
         >
           <Breadcrumbs pathname={pathname} />
@@ -107,6 +111,12 @@ const lines = page?.body
 
           <div class="my-5 border-b md:my-10"></div>
 
+          <!--
+            Expressive Code attaches its stylesheet to the first code block.
+            An MDX code block inside a client island cannot carry that link,
+            so load it once outside the island for tabbed installation pages.
+          -->
+          <div hidden aria-hidden="true"><Code code="#" lang="text" /></div>
           <article class={docsProseClasses}>
             <Content />
           </article>
@@ -147,6 +157,11 @@ const lines = page?.body
                 <h4 class="text-xs font-semibold tracking-widest">
                   ON THIS PAGE
                 </h4>
+
+                <AiActionsDropdown
+                  client:load
+                  rawUrl={`https://raw.githubusercontent.com/akash-network/website/main/src/content/Docs/${page.id}/index.${fileExt}`}
+                />
 
                 <div class="mt-4">
                   <TableOfContents

@@ -9,11 +9,24 @@ categories:
   - Product
 tags:
   - Product
+  - AkashML
+  - AI inference
+  - Llama 3.3
+  - DeepSeek V3
+  - Qwen
+  - managed inference
+  - OpenAI alternative
+  - GPU rental
+  - LLM API
+  - decentralized AI
 contributors:
   - Anil Murty
 
 bannerImage: ./banner-image.png
 ---
+
+> **TL;DR:** AkashML is a fully managed AI inference service on decentralized GPUs — serving Llama 3.3-70B, DeepSeek V3, and Qwen3-30B-A3B at 70–85% lower cost than AWS SageMaker via an OpenAI-compatible API. New accounts get $100 in free credits. Start at akashml.com.
+
 
 AkashML is live.
 
@@ -111,3 +124,27 @@ Businesses and developers ready to reduce inference costs by up to 80% can begin
 **Start free:** [https://akashml.com](https://akashml.com)
 
 **Instant Playground:** [https://playground.akashml.com](https://playground.akashml.com)
+
+## Frequently Asked Questions
+
+**What is AkashML?**
+A fully managed AI inference service built on Akash's decentralized GPU network — serving leading open-source models via an OpenAI-compatible API at 70–85% lower cost than centralized providers.
+
+**What models does AkashML support at launch?**
+Llama 3.3-70B, DeepSeek V3, and Qwen3-30B-A3B — with additional models requestable via the 'Request Model' button at akashml.com/models.
+
+**How much does AkashML cost compared to AWS?**
+AkashML charges $0.13 input and $0.40 output per million tokens for Llama 3.3-70B — a 70–85% reduction compared to reserved AWS SageMaker instances which can exceed $50,000/month.
+
+**Is AkashML compatible with existing OpenAI code?**
+Yes — AkashML is OpenAI API compatible. Change one line of code (the API base URL) to switch your existing OpenAI application to AkashML with zero other code changes.
+
+**How do I get started with AkashML?**
+Create a free account at playground.akashml.com (under 2 minutes), browse the model library, test in the Playground or via curl — new accounts receive $100 in AI token credits.
+
+**What latency can I expect from AkashML?**
+Sub-200ms response times for real-time applications — AkashML routes traffic to the nearest of 80+ global datacenters, minimizing the latency caused by centralized regional data centers.
+
+**What happens when I need a model AkashML doesn't offer?**
+Request additional models directly from the model page at akashml.com/models using the 'Request Model' button — the team evaluates requests based on community demand.
+

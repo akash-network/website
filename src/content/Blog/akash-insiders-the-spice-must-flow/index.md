@@ -9,11 +9,22 @@ categories:
   - Community
 tags:
   - community
+  - Akash Insiders
+  - Navigators
+  - Ringmasters
+  - Alchemists
+  - Vanguards
+  - DePIN community
+  - decentralized cloud
+  - contributor program
 contributors:
   - Adam Wozney
 
 bannerImage: ./banner-image.png
 ---
+
+> **TL;DR:** The Akash Insiders program, launched in late 2021, has grown to 61 contributors across 18 countries. Four specialized tracks — Navigators (technical onboarding), Ringmasters (events), Alchemists (education), and Vanguards (community moderation) — power Akash's global ecosystem growth. Applications are open.
+
 
 > A community of trusted contributors supporting the Akash Network across development, education, and adoption.
 
@@ -89,3 +100,27 @@ If you believe in open infrastructure, want to shape the future of decentralized
 Applications are now open.
 
 **Start here →** [Apply Link](/community/akash-insiders/)
+
+## Frequently Asked Questions
+
+**What is the Akash Insiders program?**
+A global community of 61 trusted contributors across 18 countries who build APIs, ship integrations, host meetups, publish content, and provide hands-on support across the Akash ecosystem.
+
+**What are the four Insider tracks?**
+Navigators (technical onboarding and integration), Ringmasters (events and community activation), Alchemists (education and content creation), and Vanguards (community moderation and mentorship).
+
+**When was the Akash Insiders program founded?**
+Fall 2021, launched after an audit of the Akash community revealed active builders, educators, organizers, and advocates already in motion — the program formalized and amplified that existing energy.
+
+**How many programs have Insiders initiated?**
+Four independent, community-led initiatives have grown from the Insiders program — each designed to match the evolving needs of the network at different stages of growth.
+
+**How can I apply to become an Akash Insider?**
+Apply at akash.network/community/akash-insiders/ — the program is open to anyone ready to contribute meaningfully to building and growing the Akash Network.
+
+**What does a Vanguard do?**
+Vanguards keep Akash's community spaces active and trustworthy — moderating conversations, answering technical questions, and guiding both new and experienced builders on Discord and other channels.
+
+**What does a Navigator do?**
+Navigators work directly with developers to architect, onboard, and launch projects on Akash — bringing deep technical knowledge and real-world deployment experience to help teams integrate Akash.
+

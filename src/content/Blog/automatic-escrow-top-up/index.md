@@ -9,11 +9,23 @@ categories:
   - Product
 tags:
   - Product
+  - Akash Console
+  - escrow
+  - auto top-up
+  - deployment management
+  - AEP-57
+  - credit card payments
+  - uptime
+  - decentralized cloud
+  - GPU rental
 contributors:
   - Anil Murty
 
 bannerImage: ./banner.png
 ---
+
+> **TL;DR:** Akash Console's Automatic Escrow Top-Up (AEP-57) keeps your deployments running by automatically topping up escrow balances before they hit zero — no more manual monitoring or unexpected downtime. Available now for credit card users via a simple toggle per deployment.
+
 
 Keeping your applications online should be effortless. In the early days of Akash, if a deployment’s escrow account ran dry, the lease was closed and your app went dark, often without warning. That manual chore of watching balances and topping up funds became a thing of the past earlier this year with the introduction of Automatic Escrow Top Up functionality.
 
@@ -43,3 +55,27 @@ Automatic escrow top-up keeps your deployments running as long as you have enoug
 Soon you will not need to do that with [AEP-74](/roadmap/aep-74/) on the near-term roadmap.
 
 For technical support or any questions about the escrow top-up, please head over to the [Akash Discord](https://discord.akash.network) server, where technical members of the Akash community are available around the clock and ready to assist.
+
+## Frequently Asked Questions
+
+**What is Automatic Escrow Top-Up on Akash?**
+A feature that continuously monitors your deployment's escrow balance and automatically adds funds before it runs out — preventing lease termination and unexpected downtime without manual intervention.
+
+**How do I enable Automatic Escrow Top-Up?**
+Go to Deployments → Specific Deployment in Akash Console and flip the Auto-Top-Up switch. The system handles the rest as long as your account has available funds.
+
+**Is Auto-Top-Up available for crypto wallet users?**
+Currently only available for credit card users. Crypto wallet support is planned for a future release.
+
+**What is AEP-57?**
+The Akash Enhancement Proposal that identified the two key components for automatic escrow top-ups: a per-deployment settings control and a backend worker that monitors balances and initiates top-ups before expiry.
+
+**Can I control which deployments auto-fund?**
+Yes — the feature uses per-deployment settings, giving you fine-grained control over which deployments auto-fund and how long each top-up duration should last.
+
+**Is there an API for managing auto-top-up programmatically?**
+Yes — a /v1/deployments REST endpoint lets your own tools read and update auto-top-up settings without using the Akash Console UI.
+
+**What happens when my account runs out of funds?**
+Auto-top-up only works while your account has available credit. The upcoming AEP-74 will add credit card auto-reload to keep your account funded automatically as well.
+

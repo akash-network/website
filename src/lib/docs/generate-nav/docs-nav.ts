@@ -25,9 +25,16 @@ const abriviations:
   api: "API",
   sdk: "SDK",
   sdl: "SDL",
+  akt: "akt CLI",
 };
 
-export function addNavItem(nav: any, label: any, link: any, isLastLevel: any, weight?: number) {
+export function addNavItem(
+  nav: any,
+  label: any,
+  link: any,
+  isLastLevel: any,
+  weight?: number,
+) {
   const existingItem = nav.find((navItem: any) => navItem.link === link);
   if (existingItem) {
     // Update weight if provided (replace default 999 with actual weight)
@@ -65,12 +72,11 @@ export function processPage(
   const label = idParts[currentIndex];
   const link = `${linkPrefix}/${label}`;
   const isLastLevel = currentIndex === idParts.length - 2;
-  
+
   // Check if this is an actual page - last part should be "index" (without extension)
   // or contain "index." (with extension like index.md, index.mdx)
   const lastPart = idParts[idParts.length - 1];
   const isActualPage = lastPart === "index" || lastPart.startsWith("index.");
-  
 
   // Check if this folder has an index file with a linkTitle
   const folderPath = idParts.slice(0, currentIndex + 1).join("/");
@@ -98,15 +104,29 @@ export function processPage(
   }
 
   // Use weight for actual pages (files with index), not for folder containers
-  const itemWeight = (isLastLevel && isActualPage) ? weight : undefined;
-  const currentItem = addNavItem(nav, capitalizedLabel, link, isLastLevel, itemWeight);
-  
+  const itemWeight = isLastLevel && isActualPage ? weight : undefined;
+  const currentItem = addNavItem(
+    nav,
+    capitalizedLabel,
+    link,
+    isLastLevel,
+    itemWeight,
+  );
+
   // Always update the label if we have an indexLinkTitle (in case item was created earlier with wrong label)
   if (indexLinkTitle && !isLastLevel) {
     currentItem.label = indexLinkTitle;
   }
 
-  processPage(currentItem.subItems, idParts, currentIndex + 1, link, linkTitle, weight, indexLinkTitles);
+  processPage(
+    currentItem.subItems,
+    idParts,
+    currentIndex + 1,
+    link,
+    linkTitle,
+    weight,
+    indexLinkTitles,
+  );
 }
 
 export const generateDocsNav = (pages: any) => {
@@ -135,7 +155,15 @@ export const generateDocsNav = (pages: any) => {
     const linkTitle = item.data.linkTitle;
     const weight = item.data.weight;
 
-    processPage(nav, idParts, 0, linkPrefix, linkTitle, weight, indexLinkTitles);
+    processPage(
+      nav,
+      idParts,
+      0,
+      linkPrefix,
+      linkTitle,
+      weight,
+      indexLinkTitles,
+    );
   });
 
   function updateLinks(navArray: any) {
@@ -154,49 +182,51 @@ export const generateDocsNav = (pages: any) => {
       if (!item.link) {
         return item;
       }
-      
+
       // Try multiple path formats to match
       const linkPath1 = item.link.replace("/docs/", "").replace(/\/$/, "");
       const linkPath2 = item.link.replace("/docs/", "");
       const linkPath3 = item.link;
-      
+
       // Check if we have an indexLinkTitle for any of these paths
-      const indexLinkTitle = indexLinkTitles.get(linkPath1) || 
-                            indexLinkTitles.get(linkPath2) || 
-                            indexLinkTitles.get(linkPath3);
-      
+      const indexLinkTitle =
+        indexLinkTitles.get(linkPath1) ||
+        indexLinkTitles.get(linkPath2) ||
+        indexLinkTitles.get(linkPath3);
+
       // Only update label if we found a matching indexLinkTitle for a folder
       if (indexLinkTitle && item.subItems && item.subItems.length > 0) {
         item.label = indexLinkTitle;
       }
-      
+
       // Recursively update sub-items
       if (item.subItems && item.subItems.length > 0) {
         item.subItems = updateLabelsFromIndex(item.subItems);
       }
-      
+
       return item;
     });
   }
 
   function sortByWeight(navItem: any): any {
     if (!navItem || navItem.length === 0) return navItem;
-    
+
     // First recursively sort all subItems
     const withSortedSubItems = navItem.map((item: any) => ({
       ...item,
-      subItems: item.subItems && item.subItems.length > 0 
-        ? sortByWeight(item.subItems) 
-        : item.subItems,
+      subItems:
+        item.subItems && item.subItems.length > 0
+          ? sortByWeight(item.subItems)
+          : item.subItems,
     }));
-    
+
     // Then sort the current level by weight
     const sorted = withSortedSubItems.sort((a: any, b: any) => {
       const aWeight = a.weight ?? 999;
       const bWeight = b.weight ?? 999;
       return aWeight - bWeight;
     });
-    
+
     return sorted;
   }
 
@@ -210,7 +240,7 @@ export const generateDocsNav = (pages: any) => {
         if (seqItem.type === "Header") {
           return null;
         }
-        
+
         if (navMap.has(seqItem.label)) {
           const item = navMap.get(seqItem.label);
           navMap.delete(seqItem.label);
@@ -246,18 +276,19 @@ export const generateDocsNav = (pages: any) => {
   // First, sort all sub-items by weight (recursively)
   const navWithSortedSubItems = newNav.map((item: any) => ({
     ...item,
-    subItems: item.subItems && item.subItems.length > 0 
-      ? sortByWeight(item.subItems) 
-      : item.subItems,
+    subItems:
+      item.subItems && item.subItems.length > 0
+        ? sortByWeight(item.subItems)
+        : item.subItems,
   }));
-  
+
   // Then order top-level items by sequence
   const navMap = new Map();
   navWithSortedSubItems.forEach((item: any) => navMap.set(item.label, item));
-  
+
   const orderedTopLevel: any[] = [];
   const { subItems: docsSeq } = docsSequence[0];
-  
+
   // Add items in sequence order
   docsSeq.forEach((seqItem: any) => {
     if (seqItem.type === "Header") return; // Skip headers
@@ -266,12 +297,12 @@ export const generateDocsNav = (pages: any) => {
       navMap.delete(seqItem.label);
     }
   });
-  
+
   // Add any remaining items (sorted by weight)
   const remaining = Array.from(navMap.values());
   const sortedRemaining = sortByWeight(remaining);
   orderedTopLevel.push(...sortedRemaining);
-  
+
   // Update labels AFTER ordering
   const navWithLabels = updateLabelsFromIndex(orderedTopLevel);
 

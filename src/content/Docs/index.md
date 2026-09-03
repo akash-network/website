@@ -22,7 +22,7 @@ New to Akash? Start here:
 Deploy applications and build on Akash Network:
 
 - **[Getting Started](/docs/developers/getting-started)** - Choose your deployment method and get started
-- **[Deployment](/docs/developers/deployment)** - Console, CLI, SDKs, SDL, and AuthZ
+- **[Deployment](/docs/developers/deployment)** - Console, akt CLI, SDKs, SDL, and AuthZ
 - **[Contributing](/docs/developers/contributing)** - Contribute to Akash codebase and documentation
 
 ### Providers
@@ -67,4 +67,3 @@ Deep dive into Akash concepts and resources:
 ---
 
 **Ready to deploy?** Start with [What is Akash?](/docs/getting-started/what-is-akash)
-

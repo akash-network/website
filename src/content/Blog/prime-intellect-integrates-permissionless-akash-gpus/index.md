@@ -15,12 +15,24 @@ categories:
 tags:
   - Updates
   - Case Studies
+  - Prime Intellect
+  - GPU marketplace
+  - NVIDIA H100
+  - A100
+  - GPU rental
+  - AI inference
+  - decentralized compute
+  - credit card GPU
+  - AI training
 
 contributors:
   - Zach Horn
 
 bannerImage: ./prime-akash-header.png
 ---
+
+> **TL;DR:** Prime Intellect now offers Akash Supercloud GPUs — including NVIDIA H100 and A100 — through its platform, letting AI developers configure GPU clusters and pay with credit cards via a familiar interface, with no crypto wallet required.
+
 
 Today, high-performance GPUs from the Akash Supercloud, including NVIDIA H100, A100, and more, have been added to the [Prime Intellect](https://www.primeintellect.ai/) platform. This creates an entirely new way to access GPUs from the Akash Supercloud and allows Akash’s unique permissionless and peer-to-peer marketplace to reach a new cohort of AI developers in need of high-performance GPUs.
 
@@ -44,3 +56,27 @@ By integrating widely across many platforms, Akash can reach new cohorts of user
 To start with an Akash GPU deployment via Prime Intellect, head to [primeintellect.ai](http://primeintellect.ai) and look for the Akash logo on the GPU provider selection page of the GPU cluster setup process.
 
 To connect with Akash, follow the network on [X (Twitter)](https://x.com/akashnet) and [sign up to hear about the latest announcements and updates](https://akt.fyi/3kpRwVM).
+
+## Frequently Asked Questions
+
+**What is Prime Intellect?**
+A GPU marketplace platform aggregating compute providers including Akash, Brev.dev, FLock.io, and Morpheus — making it easier for AI developers to find and deploy on high-performance GPUs.
+
+**How do I access Akash GPUs on Prime Intellect?**
+Go to primeintellect.ai, look for the Akash logo on the GPU provider selection page during cluster setup, and configure your deployment through Prime Intellect's familiar interface.
+
+**Can I pay with a credit card for Akash GPUs on Prime Intellect?**
+Yes — Prime Intellect accepts credit card payments for platform credits, abstracting away the need for AKT tokens or a crypto wallet.
+
+**What Akash GPU models are available on Prime Intellect?**
+NVIDIA H100, A100, A6000, and more — the same high-performance GPUs available directly through Akash Console, accessible through Prime Intellect's interface.
+
+**Why does Akash integrate with multiple platforms like Prime Intellect?**
+To reach developers wherever they prefer to work — expanding the Supercloud's reach without requiring users to switch to the Akash Console or manage blockchain accounts.
+
+**What other platforms integrate Akash GPUs?**
+Brev.dev (acquired by NVIDIA), FLock.io, Morpheus, and Prime Intellect — each bringing Akash compute to a different developer audience.
+
+**Does Prime Intellect require blockchain knowledge?**
+No — Prime Intellect abstracts the blockchain and crypto layer entirely, so users interact with Akash compute through a standard cloud platform interface.
+

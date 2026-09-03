@@ -20,12 +20,25 @@ tags:
   - Updates
   - News
   - Case Studies
+  - vLLM
+  - LLM inference
+  - NVIDIA H100
+  - A100
+  - RTX4090
+  - open source LLM
+  - GPU rental
+  - AI inference
+  - OpenAI API
+  - PagedAttention
 
 contributors:
   - Logan Cerkovnik
 
 bannerImage: ./banner-image2.png
 ---
+
+> **TL;DR:** vLLM is an open-source LLM server that delivers 2–4x the throughput of Ollama for concurrent users, using PagedAttention to maximize GPU memory efficiency. This guide shows how to deploy vLLM on Akash with pre-built SDL templates supporting H100, A100, RTX4090, and more.
+
 
 By [Logan Cerkovnik](https://www.twitter.com/ThumperAI) & [Anil Murty](https://twitter.com/_Anil_Murty_)
 
@@ -152,3 +165,27 @@ Steps to Troubleshoot
 ## Wrapping Up
 
 vLLM may be one of the best open source LLM servers available today,for most applications with multiple users. We hope this blog makes it easier for people to use vLLM in their applications on Akash. If you have any questions or are looking for some assistance feel free to reach out to logan@thumper.ai.
+
+## Frequently Asked Questions
+
+**What is vLLM and how does it differ from Ollama?**
+vLLM is an LLM server using PagedAttention to serve multiple concurrent users natively — delivering 2–4x higher throughput than Ollama, which is designed for single-user local inference.
+
+**What is PagedAttention in vLLM?**
+A memory management technique that reduces KV cache memory overhead by up to 55%, increasing throughput by up to 2.2x for parallel sampling and beam search operations.
+
+**What GPU models does vLLM support on Akash?**
+H100, A100, RTX3090, RTX4090, RTX8000, RTX A6000, A40, and P40 — choose based on your model size. Ensure model files fit within 90% of the GPU's total VRAM.
+
+**Does vLLM support GGUF model files?**
+No — vLLM does not support GGUF format. Use GPTQ, AWQ, GGML, or standard PyTorch safetensors files. Check supported models at docs.vllm.ai before deploying.
+
+**Is vLLM compatible with the OpenAI API?**
+Yes — vLLM is designed as a drop-in OpenAI API replacement. Set OPENAI_API_BASE to your vLLM endpoint URL and use your existing OpenAI-compatible code without changes.
+
+**Where are the vLLM SDL templates for Akash?**
+In the awesome-akash repository at github.com/akash-network/awesome-akash/tree/master/vllm — includes templates with and without OpenWebUI for models like WizardLM2 and Dolphin2.
+
+**How many concurrent users can one A100 handle with vLLM?**
+Approximately 10–20 concurrent users for a 7B parameter model with AWQ quantization on a single NVIDIA A100 — performance scales with additional GPUs with significant gains from 1 to 2 GPUs.
+

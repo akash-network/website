@@ -18,12 +18,24 @@ tags:
   - Insights
   - Updates
   - News
+  - Akash roadmap 2025
+  - AI agents
+  - confidential computing
+  - provider incentives
+  - Managed Service Market
+  - Akash at Home
+  - sovereign compute
+  - DePIN
+  - decentralized cloud
 
 contributors:
   - Greg Osuri
 
 bannerImage: ./banner-image.png
 ---
+
+> **TL;DR:** Akash's 2025 roadmap transitions the network from a resource marketplace to a full services network — adding sovereign AI agent hosting, on-chain provider incentives, a Managed Service Market, confidential computing, and 'Akash at Home' for residential GPU compute. Full roadmap at akash.network/roadmap.
+
 
 *Introducing Akash's [Roadmap for 2025](https://akash.network/roadmap) and Beyond as the Network Expands to Agent-Centric Infrastructure*
 
@@ -73,3 +85,27 @@ With generative AI, we see AI being helpful in making us smarter. With AI agents
 **Akash at Home**: We believe personal AI will run on home servers for privacy and security. [Akash at Home](/roadmap/aep-60/) aims to use spare computing power in homes to host AI workloads and bring Akash to home users.
 
 **Access Akash's roadmap at [akash.network/roadmap](https://akash.network/roadmap)**
+
+## Frequently Asked Questions
+
+**What is Akash's biggest 2025 priority?**
+Transitioning from a compute resource network to a services network — enabling AI agents to operate with full sovereignty at scale, with confidential computing and on-chain provider incentives driving the shift.
+
+**What is the Managed Service Market (MSM)?**
+AEP-11 — a marketplace enabling software creators to offer services on Akash and earn meaningful income, rebalancing value away from cloud service providers toward open-source creators and contributors.
+
+**What is Akash at Home?**
+AEP-60 — a program enabling individuals to contribute spare home GPU compute to host AI workloads on the Akash network, earning income from otherwise idle hardware.
+
+**What are Sovereign AI Agents on Akash?**
+AI agents that operate autonomously at scale on Akash's permissionless network — with upcoming confidential computing (AEP-12) ensuring agent data and operations remain private and censorship-resistant.
+
+**What are on-chain Provider Incentives?**
+AEP-53 — bringing provider incentives on-chain to unlock network-effects-driven GPU supply growth, building on 2024 pilot programs that showed demand scales linearly with supply increases.
+
+**Why did Greg Osuri and Adam Wozney found Overclock Labs?**
+In 2015, to democratize cloud computing infrastructure — believing access to compute should be a public good, inspired by Bitcoin's decentralization of money applied to cloud infrastructure.
+
+**Where can I see the full Akash 2025 roadmap?**
+At akash.network/roadmap — includes all AEPs (Akash Enhancement Proposals) with status, timelines, and technical details for each planned feature.
+

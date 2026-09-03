@@ -12,12 +12,25 @@ categories:
 
 tags:
   - Case Studies
+  - Envision Labs
+  - generative AI
+  - GPU rental
+  - NVIDIA H100
+  - A100
+  - AI image generation
+  - decentralized AI
+  - creator tools
+  - DeAI
+  - case study
 
 contributors:
   - Zach Horn
 
 bannerImage: ./envision-akash-x.webp
 ---
+
+> **TL;DR:** Envision Labs, a DeAI generative AI platform for creators, reduced GPU spend by up to 30% by integrating Akash — training 35+ custom AI models and generating 100,000 images in the first month while maintaining decentralization across multiple providers.
+
 In early 2024, [Envision Labs](https://envisionlabs.io/), a DeAI project reimagining media distribution, faced a pivotal challenge. Envision empowers creators with generative AI tools to produce stunning visual content, but it requires significant GPU power to run AI models across its product suite. Traditional cloud providers proved too expensive to meet surging user demand. Envision’s mission to create a decentralized, creator-centric platform called the Envision DeAI Network required an equally innovative infrastructure solution.
 
 Enter Akash, the world’s first decentralized cloud computing marketplace. By tapping into underutilized GPUs across a global network of providers, Akash offers on-demand scalability at significantly lower costs. This case study explores how Envision Labs integrated the Akash Supercloud to fuel its generative AI platform, overcoming growth hurdles, cutting costs, and accelerating its mission to democratize creative content generation. **After integrating Akash, Envision Labs reduced GPU spend by up to 30%.**
@@ -71,4 +84,28 @@ Akash will continue to be integral to Envision's strategy well into the future. 
 
 Envision’s experience exemplifies how Akash can fuel demanding generative AI workloads as decentralized compute evolves. This will pave the way for innovation in emerging domains, from digital avatars to large-scale video generation. The work accomplished so far demonstrates that, with the proper infrastructure, the future of AI is both globally scalable and open to all.
 
-[Learn more about Envision here](https://envisionlabs.io/), and join the Envision community on [Twitter (X)](https://x.com/envisionlabs_io) and [Telegram](https://t.me/EnvisionLabs)**.**  
+[Learn more about Envision here](https://envisionlabs.io/), and join the Envision community on [Twitter (X)](https://x.com/envisionlabs_io) and [Telegram](https://t.me/EnvisionLabs)**.**
+
+## Frequently Asked Questions
+
+**What does Envision Labs build?**
+A decentralized AI platform for creators offering generative AI tools (2D/3D images, custom characters, video), interactive mascots, on-chain IP protection, and built-in content monetization.
+
+**How much did Envision Labs save with Akash?**
+Up to 30% reduction in GPU spend compared to traditional cloud providers — which previously cost tens of thousands of dollars monthly for their scale of AI model training and inference.
+
+**What GPU types does Envision Labs use on Akash?**
+H100 and A100 GPUs for their AI generation workloads — they use autoscaling to spin up additional Akash instances during usage spikes and release them as activity tapers off.
+
+**How does Envision Labs integrate with Akash technically?**
+They use the Akash CLI with a hot wallet for direct management, plus an autoscaling mechanism that programmatically provisions and releases GPU instances based on real-time demand.
+
+**How many images did Envision generate in their first month on Akash?**
+Around 100,000 images from over 35 custom trained AI models — validating Akash's capacity to handle diverse, high-volume generative AI workloads.
+
+**Why does decentralization matter for Envision's platform?**
+Envision's DeAI Network is designed to avoid single-provider dependency — Akash has been their top platform by usage, proving decentralized infrastructure can be both reliable and permissionless.
+
+**What is Envision's future roadmap on Akash?**
+Advanced AI development including autonomous agents and deeper content creation — requiring even more GPU capacity that Akash's open marketplace can scale to meet.
+
