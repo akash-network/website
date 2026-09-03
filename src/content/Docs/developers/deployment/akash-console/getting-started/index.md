@@ -39,11 +39,11 @@ Visit [console.akash.network](https://console.akash.network) in your web browser
 
 1. Click **"Start Free Trial"** or **"Get Started"**
 2. Enter your email address
-3. Add a credit card (for verification and pay-as-you-go after trial)
-4. Receive **$100 in free trial credits**
+3. Verify your email
+4. Receive **$1 in free trial credits**, with no card required
 
 ![Trial Signup](/images/docs/console/2-trial-signup.png)
-*Sign up with email and credit card to receive $100 in trial credits*
+*Sign up with your email to receive $1 in trial credits*
 
 **Free trial limits:**
 
@@ -56,7 +56,7 @@ Add a payment method to switch to pay-as-you-go for longer deployments and acces
 
 After signing up, you'll see your Console dashboard with:
 
-- **Trial Status** - $100.00 in credits with 30 days remaining
+- **Trial Status** - your remaining credits and days left in the trial
 - **Setup Progress** - Track completion of onboarding steps
 - **Featured Templates** - Quick-deploy options like Hello Akash, ComfyUI, and Llama-3.1-8b
 - **One-Click Deploy** - Launch your first app in seconds
@@ -135,10 +135,7 @@ After requesting quotes, providers will appear in the Compute Marketplace with p
 
 #### 3. Review and Deploy
 
-A summary modal shows your selected provider and total deployment cost. Click **"Confirm and deploy"** to launch:
-
-![Deployment Review](/images/docs/console/8-deployment-review.png)
-*Review your provider selection and confirm deployment*
+A summary modal shows your selected provider, the total deployment cost, and how much of your available balance goes into escrow. There is no deposit to pick. Console funds the deployment from your account credits, and the escrow is held rather than charged. Click **"Confirm and deploy"** to launch.
 
 #### 4. Access Your Running Deployment
 
@@ -213,15 +210,15 @@ Modify your running deployment without downtime:
 
 ### Close a Deployment
 
-Stop your deployment and reclaim your deposit:
+Stop your deployment and get your unspent credits back:
 
 1. Select your deployment
 2. Click **"Close"** or **"Stop"**
 3. Confirm the action
-4. Your deployment will stop and remaining escrow (ACT) will be refunded
+4. Your deployment stops, and whatever it had not spent returns to your account balance
 
 ![Deployment Close Confirmation](/images/docs/console/17-deployment-close.png)
-*Confirm deployment closure and reclaim your deposit*
+*Confirm deployment closure*
 
 ![Deployment Closed](/images/docs/console/17.1-deployment-close.png)
 *Deployment successfully closed*
@@ -231,16 +228,15 @@ Stop your deployment and reclaim your deposit:
 
 ### Manage Billing and Credits
 
-View your trial credits and add payment methods (credits are in **ACT**):
+The billing page shows your account balance split into **available** credits and credits held in **escrow** to keep your running deployments online, along with how long the balance will last at your current spend rate.
 
-![Billing and Credits](/images/docs/console/18-billing-credits.png)
-*Manage your trial credits, payment methods, and billing*
+From here you can:
+- Add credits with a card or a coupon code
+- See which deployments your escrowed credits are held against
+- Turn on Auto Top-Up so your card is charged before you run out
+- Review your spending history
 
-You can:
-- Check remaining trial credits (ACT)
-- Add or update credit card (funds ACT)
-- View spending history
-- Convert to pay-as-you-go after trial expires
+See [How Funding Works](/docs/getting-started/how-funding-works) for the full picture.
 
 ---
 

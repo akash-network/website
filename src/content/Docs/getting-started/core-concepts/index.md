@@ -38,7 +38,9 @@ Stack Definition Language - a YAML file that describes your deployment:
 - How much you're willing to pay
 
 ### Escrow
-Funds held to pay for your deployment. You fund escrow with **ACT** (USD-pegged compute credit; required when creating a deployment). You can top up with AKT when the circuit breaker is in effect. The provider is paid automatically per block from your escrow **in ACT**.
+Funds held to pay for your deployment, in **ACT** (a USD-pegged compute credit). The provider is paid automatically per block from that escrow.
+
+Who fills it depends on how you deploy. With your own wallet, through Console Air or the CLI, you fund escrow yourself and top it up with ACT (or AKT when the circuit breaker is in effect). On the managed [Akash Console](https://console.akash.network) you never touch it: you add credits to your account and Console funds each deployment for you. See [How Funding Works](/docs/getting-started/how-funding-works).
 
 ---
 
@@ -65,7 +67,7 @@ Your escrow pays the provider per block (~6 seconds) in **ACT**.
 
 ### Akash Console (Easiest)
 - Visual web interface
-- $100 free trial (no wallet needed)
+- $1 free trial (no wallet needed)
 - Perfect for beginners
 
 ### CLI (Most Control)

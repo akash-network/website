@@ -29,7 +29,7 @@ Authentication: pass your API key in every request with `x-api-key: YOUR_API_KEY
 
 1. Create a deployment: POST your SDL (deployment manifest) to `/v1/deployments`.
 2. Accept a bid: wait around 30 seconds, GET bids from `/v1/bids?dseq=...`, then POST to `/v1/leases` to accept one.
-3. Manage and fund: add deposits, update the SDL, or DELETE to close the deployment and recover remaining funds.
+3. Manage: update the SDL, or DELETE to close the deployment. Funding is automatic. Console keeps the deployment running from your account credits and returns whatever it did not spend when you close it.
 
 ---
 

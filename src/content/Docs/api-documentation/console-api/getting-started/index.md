@@ -60,7 +60,7 @@ All examples in this guide show the full response body — extract the value you
 
 ### Money fields
 
-The Managed Wallet bills your Console account in **USD** (credit card). The `deposit` field on `POST /v1/deployments` and `POST /v1/deposit-deployment` is a number in dollars. The minimum accepted value is `0.5` ($0.50); pass a larger value to top up by more.
+The Managed Wallet bills your Console account in **USD** (credit card). You add credits to the account, and Console funds your deployments from that balance on its own. Creating a deployment takes no deposit, and keeping one running takes no top-up call. See [How Funding Works](/docs/getting-started/how-funding-works) for the full model, or read the current platform figures from `GET /v1/deployment-funding-config`.
 
 The blockchain itself works in raw on-chain denoms (`uact`, `uusdc`, …). Wherever you see `price.denom` / `price.amount` in a bid response or an `escrow_account.state.funds` entry, those are raw chain values in micro-units (1 ACT = 1 000 000 uact). The SDL `pricing` block also uses chain denoms — the managed wallet handles the USD ↔ chain conversion for you.
 
@@ -70,7 +70,7 @@ The blockchain itself works in raw on-chain denoms (`uact`, `uusdc`, …). Where
 
 ### 1. Create Deployment
 
-POST your SDL plus an initial USD `deposit` to create a deployment. The API returns a `dseq` (deployment sequence number) that identifies the deployment in all subsequent calls. The response also returns the broadcast transaction hash for the on-chain `MsgCreateDeployment`.
+POST your SDL to create a deployment. Console funds it automatically from your account balance, so the request carries no deposit. The API returns a `dseq` (deployment sequence number) that identifies the deployment in all subsequent calls. The response also returns the broadcast transaction hash for the on-chain `MsgCreateDeployment`.
 
 cURL:
 
@@ -80,8 +80,7 @@ curl -X POST https://console-api.akash.network/v1/deployments \
   -H "Content-Type: application/json" \
   -d '{
     "data": {
-      "sdl": "<YOUR_SDL_YAML_AS_STRING>",
-      "deposit": 0.5
+      "sdl": "<YOUR_SDL_YAML_AS_STRING>"
     }
   }'
 ```
@@ -95,7 +94,7 @@ const res = await fetch("https://console-api.akash.network/v1/deployments", {
     "x-api-key": process.env.AKASH_API_KEY,
     "Content-Type": "application/json",
   },
-  body: JSON.stringify({ data: { sdl: YOUR_SDL_STRING, deposit: 0.5 } }),
+  body: JSON.stringify({ data: { sdl: YOUR_SDL_STRING } }),
 });
 const { data } = await res.json();
 const dseq = data.dseq;
@@ -295,9 +294,9 @@ Response (`200 OK`) is the same shape as `GET /v1/deployments/{dseq}` — the fu
 
 ---
 
-### 4. Add Deposit to Deployment
+### 4. Add Deposit to Deployment (Deprecated)
 
-Add USD funds to extend deployment runtime.
+**Deprecated:** Console tops your deployments up automatically for as long as your account has credits, so there is nothing for this endpoint to do. It still accepts requests for existing integrations and will be removed in a future release. Add credits to your account instead. See [How Funding Works](/docs/getting-started/how-funding-works).
 
 cURL:
 
@@ -325,7 +324,7 @@ const res = await fetch(
 const { data } = await res.json();
 ```
 
-Response (`200 OK`): the full deployment object after the top-up; the new balance is visible under `data.escrow_account.state.funds[].amount` (raw chain micro-units).
+Response (`200 OK`): the full deployment object after the top-up.
 
 ```json
 {
@@ -341,7 +340,7 @@ Response (`200 OK`): the full deployment object after the top-up; the new balanc
 
 ### 5. Close Deployment
 
-Close a deployment and recover remaining escrow funds.
+Close a deployment. Whatever it has not yet spent returns to your Console account balance.
 
 cURL:
 
@@ -369,7 +368,7 @@ Response (`200 OK`):
 { "data": { "success": true } }
 ```
 
-Any unspent escrow is returned to your Console balance asynchronously by the chain — call `GET /v1/deployments/{dseq}` afterward to inspect the final state, or check the [Console](https://console.akash.network) UI for the credited amount.
+Settlement happens on-chain, so the credited amount takes a short while to appear. Call `GET /v1/deployments/{dseq}` afterward to inspect the final state, or check your balance in the [Console](https://console.akash.network) UI.
 
 ---
 
@@ -445,7 +444,7 @@ async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
 async function main() {
   const create = await apiRequest("/v1/deployments", {
     method: "POST",
-    body: JSON.stringify({ data: { sdl: SDL, deposit: 0.5 } }),
+    body: JSON.stringify({ data: { sdl: SDL } }),
   });
   const { dseq, manifest } = create.data;
 
@@ -465,11 +464,6 @@ async function main() {
         },
       ],
     }),
-  });
-
-  await apiRequest("/v1/deposit-deployment", {
-    method: "POST",
-    body: JSON.stringify({ data: { dseq, deposit: 0.5 } }),
   });
 
   const status = await apiRequest(`/v1/deployments/${dseq}`);
