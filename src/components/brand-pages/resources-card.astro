@@ -1,76 +1,61 @@
 ---
 import { Image } from "astro:assets";
-import { ArrowUpCircle } from "lucide-react";
-import ButtonLink from "../ui/button-link.astro";
-const { title, description, buttons, image, type } = Astro.props;
+import { ArrowUpRight, Download } from "lucide-react";
+const { title, description, buttons, image } = Astro.props;
+
+const imageClass =
+  "aspect-video w-full object-cover transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-105";
 ---
 
 <div
-  class="flex w-full flex-col items-start gap-x-5 py-10 md:justify-between lg:flex-row lg:gap-x-20 lg:py-20"
+  class="group flex h-full flex-col overflow-hidden rounded-xl border bg-background transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20"
 >
-  <div class="w-full flex-1 flex-shrink-0">
-    <Image
-      src={image}
-      alt={`banner image for the post`}
-      width={1200}
-      height={1200}
-      format="webp"
-      class="aspect-video rounded-lg object-cover"
-      loading="lazy"
-    />
+  <div class="overflow-hidden">
+    {
+      typeof image === "string" ? (
+        <img src={image} alt={title} class={imageClass} loading="lazy" />
+      ) : (
+        <Image
+          src={image}
+          alt={title}
+          width={800}
+          format="webp"
+          class={imageClass}
+          loading="lazy"
+        />
+      )
+    }
   </div>
 
-  <div class="mt-10 w-full flex-1 px-2 md:px-0 lg:mt-4">
-    <h3 class="text-xl font-bold md:text-2xl">{title}</h3>
-    <p class="mt-5 text-xs md:mt-6 md:text-lg">{description}</p>
-    <div class="mt-5 flex flex-col gap-3 md:mt-6 md:flex-row">
-      {
-        buttons.map((button: any) =>
-          button.icon === "link" ? (
-            <ButtonLink
-              variant="secondary"
-              size="xl"
-              link={button.link}
-              target={button.link.includes("http") ? "_blank" : "_self"}
-            >
-              {button.label}
+  <div class="flex flex-1 flex-col gap-4 p-6">
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold text-foreground">{title}</h3>
+      <p class="text-sm font-normal leading-relaxed text-para">{description}</p>
+    </div>
 
-              <ArrowUpCircle className="h-4 w-4 rotate-45" />
-            </ButtonLink>
-          ) : (
-            <ButtonLink
-              variant="secondary"
-              size="xl"
-              link={button.link}
-              download={button.link?.split("/").pop() ?? `${title?.toLowerCase()?.replace(/\s+/g, "-")}`}
+    <div class="mt-auto flex flex-col gap-2 pt-1">
+      {
+        buttons.map((button: any) => {
+          const isDownload = button.icon === "download";
+          const isExternal = button.link.startsWith("http");
+
+          return (
+            <a
+              href={button.link}
+              target={isExternal ? "_blank" : "_self"}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+              download={isDownload ? button.link.split("/").pop() : undefined}
+              class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-neutral-100 dark:hover:bg-badgeColor"
             >
               {button.label}
-              <svg
-                width="10"
-                height="11"
-                viewBox="0 0 10 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 text-foreground md:h-5 md:w-5"
-              >
-                <path
-                  d="M2.5 9.20508L7.5 9.20508"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M4.9974 2.53711V7.53711M4.9974 7.53711L6.45573 6.07878M4.9974 7.53711L3.53906 6.07878"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </ButtonLink>
-          )
-        )
+              {isDownload ? (
+                <Download className="h-3.5 w-3.5 shrink-0" />
+              ) : (
+                <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+              )}
+            </a>
+          );
+        })
       }
     </div>
   </div>
