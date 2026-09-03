@@ -1,0 +1,238 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+
+const parity = [
+  {
+    tier: "GPU Pod Execution",
+    runpod: "On-Demand Pods / Templates",
+    equivalent: "Native OCI Containers",
+    execution: "Runs training or inference workloads directly on provider hardware using standard Docker-compliant engine images.",
+  },
+  {
+    tier: "Cluster Scaling",
+    runpod: "Managed GPU Clusters",
+    equivalent: "Native Kubernetes",
+    execution: "Schedules large-scale multi-node tasks directly across verified, high-bandwidth provider data center pools.",
+  },
+  {
+    tier: "Data Persistence",
+    runpod: "Volume Disks / Network Storage",
+    equivalent: "Stateful NVMe Volumes",
+    execution: "Mounts persistent physical storage structures straight to the runtime container, preserving checkpoints across lease updates.",
+  },
+  {
+    tier: "Pipeline Definition",
+    runpod: "Web Console Forms",
+    equivalent: "Stack Definition Language (SDL)",
+    execution: "Consolidates your entire infrastructure configuration (GPU specs, CPU cores, RAM, storage, env keys) inside a portable YAML template.",
+  },
+];
+
+const faqs = [
+  {
+    title: "Is the network stable enough for production LLM inference APIs?",
+    description: "Yes. Tenants control exactly where workloads execute by specifying cryptographic attributes in their deployment configuration. You can restrict deployments exclusively to enterprise-grade, tier-3 data centers with verified uptimes. For large-scale setups, traffic can be load-balanced across multiple independent providers to establish geographical redundancy.",
+  },
+  {
+    title: "Do we have to buy and hold volatile crypto assets to secure our hardware leases?",
+    description: "No. While the settlement engine handles transactions via AKT, developers do not need to hold volatile assets. The marketplace natively supports funding deployments using standard stablecoins pegged 1:1 with the US Dollar. The protocol handles necessary conversions automatically to ensure compute costs remain predictable.",
+  },
+  {
+    title: "What happens to a running model pipeline if a host drops offline?",
+    description: "Deployments operate under on-chain lease agreements. If a host node encounters a hardware outage or stops broadcasting uptime verifications, the lease terminates and billing stops instantly. Because your complete configuration parameters are saved in a portable template file, you can re-submit the manifest to the marketplace to spin up an identical node on an alternative host within minutes.",
+  },
+];
+---
+
+<Layout
+  title="Akash vs RunPod — Compare"
+  description="Provision dedicated NVIDIA H100, A100, and RTX silicon instances via a decentralized reverse-auction ledger. Eliminate centralized inventory bottlenecks, fixed provider data caps, and rigid account resource limits."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            On-demand GPU cluster infrastructure.
+          </h1>
+          <p class="max-w-2xl text-lg font-normal text-foreground">
+            Deploy containers directly to a globally distributed, provider-verified open network.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Provision dedicated NVIDIA H100, A100, and RTX hardware without centralized platform caps, fixed resource limits, or proprietary API lock-in. Scale workloads on demand through a secure, competitive reverse-auction marketplace engineered for maximum compute availability.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            See Compute Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/docs/developers/getting-started/"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            View Docs <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/compare/hero-vs-runpod.webp"
+            alt="Akash vs RunPod"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- CORE ECONOMICS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            The Core Economics
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            RunPod operates a centralized, dual-tier cloud model split between partner data centers and individual community hosts. While their baseline pricing is lower than legacy hyperscalers, their fixed rates include platform margins and markup fees.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash operates as an open marketplace ledger. Independent hardware owners globally bid down against one another to secure your specific container deployment manifest, dropping execution costs directly to localized spot market rates.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">RunPod (H100 PCIe On-Demand)</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">GPU Allocation</td>
+                <td class="px-6 py-4 text-sm text-para">1x NVIDIA H100 PCIe (80 GB VRAM)</td>
+                <td class="px-6 py-4 text-sm text-foreground">1x NVIDIA H100 PCIe (80 GB VRAM)</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Network Storage</td>
+                <td class="px-6 py-4 text-sm text-para">Extra fixed monthly volume disk fees ($0.10/GB/mo)</td>
+                <td class="px-6 py-4 text-sm text-foreground">Persistent storage allocations bundled into host bids</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Hourly Rate</td>
+                <td class="px-6 py-4 text-sm text-para">~$2.89 / hour</td>
+                <td class="px-6 py-4 text-sm font-semibold text-foreground">~$2.10 average marketplace settlement</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- STRUCTURAL BOTTLENECKS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Architectural Distinctions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              On-Demand GPU Availability
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Because RunPod manages inventory via a centralized control plane, users frequently encounter account quotas or localized resource limits when trying to spin up clusters dynamically. Akash exposes the global supply layer directly on-chain. When an independent provider registers unallocated hardware, it is visible on the ledger instantly, allowing teams to scale pipelines via configuration files without requesting manual quota increases.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Multi-Provider Workload Redundancy
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Deploying production workloads to a single centralized platform exposes system checkpoints and runtime instances to localized infrastructure outages. Akash operates as a decentralized provider marketplace. If a specific provider hosting your container encounters a hardware or network fault, the deployment manifest can be automatically re-submitted to the market, provisioning an alternative node within minutes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICE PARITY INDEX -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Service Parity Index
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            You do not need to modify PyTorch pipelines or rewrite runtime execution templates. The marketplace utilizes standard OCI container configurations that run existing infrastructure setups natively.
+          </p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Compute Requirement</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">RunPod Architecture</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">Marketplace Equivalent</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">Technical Execution</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parity.map((row) => (
+                <tr class="border-b border-border">
+                  <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.runpod}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.equivalent}</td>
+                  <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.execution}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start Building
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Migrate workloads to an open, competitive compute marketplace. Retain complete configuration control over your hardware allocations without centralized cloud restrictions.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="https://github.com/akash-network/awesome-akash"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Explore SDL Templates
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1.5"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

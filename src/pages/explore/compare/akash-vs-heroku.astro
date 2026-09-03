@@ -1,0 +1,250 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+import { HowItWorks } from "@/components/home/HowItWorks";
+
+const parity = [
+  {
+    tier: "Compute Runtime",
+    heroku: "Web / Worker Dynos",
+    equivalent: "Native OCI Containers",
+    execution: "Executes container workloads directly on host hardware, skipping proprietary runtime wrappers to optimize compute efficiency.",
+  },
+  {
+    tier: "Environment Config",
+    heroku: "Buildpacks & Slugs",
+    equivalent: "Universal Dockerfiles",
+    execution: "Uses standard container images rather than platform-specific build logic, preventing vendor lock-in.",
+  },
+  {
+    tier: "Data Continuity",
+    heroku: "Heroku Postgres / Redis",
+    equivalent: "Persistent NVMe Volumes",
+    execution: "Attaches high-speed physical storage blocks directly to the container instance, keeping your database states intact across restarts.",
+  },
+  {
+    tier: "Infrastructure Definition",
+    heroku: "Heroku Procfile",
+    equivalent: "Stack Definition Language (SDL)",
+    execution: "Declares your entire structural requirements (CPU, RAM, storage, env variables) inside a single portable YAML file modeled after Docker Compose.",
+  },
+];
+
+
+const faqs = [
+  {
+    title: "Is the network stable enough for production web applications?",
+    description: "Yes. You retain total programmatic control over where your code executes. By defining specific provider verification rules within your configuration file, you can instruct the network to filter out general consumer nodes and only accept bids from enterprise-grade, audited data centers with verified uptimes. For mission-critical production stacks, you can eliminate single points of failure by deploying your portable definition file to multiple independent providers concurrently.",
+  },
+  {
+    title: "Do I need to buy and hold volatile crypto assets to pay for hosting?",
+    description: "No. You can fund deployments, manage active workloads, and settle your compute costs directly using standard credit cards or stablecoins pegged 1:1 with the US Dollar. The network gateways handle all necessary background operations automatically, ensuring your operational infrastructure costs remain predictable, transparent, and compliant with corporate accounting workflows.",
+  },
+  {
+    title: "What happens if a data center hosting my container drops offline?",
+    description: "Every active deployment is protected by an automated network lease. If a host node fails to broadcast uptime validations or suffers a critical outage, the lease terminates and billing halts instantly. Because your entire system architecture is preserved inside your portable template file, you simply re-submit your manifest to the network to spin up a new instance on an alternate provider within minutes.",
+  },
+];
+---
+
+<Layout
+  title="Akash vs Heroku — Compare"
+  description="Deploy standard containers directly onto a decentralized compute marketplace. Stop overpaying for rigid application tiers, forced container sleeping, and proprietary buildpack constraints."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            The PaaS development workflow.<br />
+            <span class="text-para">Without the Salesforce infrastructure markup.</span>
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Deploy standard containers directly onto a decentralized compute marketplace. Stop overpaying for rigid application tiers, forced container sleeping, and proprietary buildpack constraints.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            See Compute Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/docs/developers/getting-started/"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            View Docs <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/compare/hero-vs-heroku.webp"
+            alt="Akash vs Heroku"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- CORE ECONOMICS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            The Core Economics
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Heroku packages server resources into restricted tiers under the banner of developer convenience. This model scales poorly as application traffic grows, forcing teams into expensive upgrades for simple resource adjustments. Akash removes the platform middleman. By exposing raw data center capacity through an open provider network, developers secure foundational hardware resources at true market cost.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Heroku (Standard 2X)</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Allocation</td>
+                <td class="px-6 py-4 text-sm text-para">1.0 GB RAM / Shared vCPU</td>
+                <td class="px-6 py-4 text-sm text-foreground">1 vCPU Thread / 1 GB Dedicated RAM</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Container Policy</td>
+                <td class="px-6 py-4 text-sm text-para">Always-on runtime capability</td>
+                <td class="px-6 py-4 text-sm text-foreground">Always-on dedicated resource allocation</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Monthly Cost</td>
+                <td class="px-6 py-4 text-sm text-para">~$50.00 per instance</td>
+                <td class="px-6 py-4 text-sm font-semibold text-foreground">~$2.50 average network settlement</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- STRUCTURAL BOTTLENECKS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Architectural Distinctions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Standard Docker Images Over Proprietary Slugs
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Deploying to a traditional PaaS means modifying your repository to fit custom buildpack rules and proprietary runtime limitations. Akash relies entirely on open industry standards. If your API, web app, or background worker can compile into a standard local Docker container, it runs on the network without code changes.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Eliminating Forced Container Sleeping
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Lower-tier Heroku instances utilize an aggressive idle policy, forcing your application container to sleep after 30 minutes of inactivity. This introduces significant cold-start latency for your users when a new request finally hits the endpoint. Akash network leases grant you dedicated, always-on hardware resource blocks, keeping your application active regardless of traffic volume.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICE PARITY INDEX -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Service Parity Index
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            You do not need to rewrite service layers or modify application logic. The platform uses the exact containerized standards your engineering team already deploys in production.
+          </p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Feature Layer</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Legacy Heroku</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">Marketplace Equivalent</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">Technical Execution</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parity.map((row) => (
+                <tr class="border-b border-border">
+                  <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.heroku}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.equivalent}</td>
+                  <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.execution}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SYSTEM CONFIGURATION STEPS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            System Configuration Steps
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash does not use black-box onboarding wizards or automated migration tools. You control your environment directly through an open configuration template.
+          </p>
+        </div>
+        <div class="mt-10">
+          <HowItWorks hideHeading={true} client:visible />
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start Building
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Migrate your containerized pipelines to an open hardware marketplace. Maintain absolute configuration control without legacy vendor markups.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="https://github.com/akash-network/awesome-akash"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Explore SDL Templates
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1.5"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

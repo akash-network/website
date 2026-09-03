@@ -4,41 +4,6 @@ import clsx from "clsx";
 
 const pathname = Astro.url.pathname;
 const disableMargin = ["/deploy", "/providers"];
-const defaultContent = {
-  title: "Experience the Supercloud.",
-  button: {
-    label: "Deploy Now",
-    link: "https://console.akash.network/",
-    id: "console-home",
-  },
-};
-
-const pathContent = {
-  "/about/providers": {
-    title: "Join the Supercloud",
-    button: {
-      label: "Become a Provider",
-      link: "/providers",
-      id: "provider-home",
-    },
-  },
-  "/ecosystem/providers": {
-    title: "Join the Supercloud Provider Network",
-    button: {
-      label: "Become a Provider",
-      link: "/about/providers/",
-      id: "provider-ecosystem",
-    },
-  },
-};
-
-const content = pathname.startsWith("/about/providers")
-  ? pathContent["/about/providers"]
-  : pathname.startsWith("/ecosystem/providers")
-    ? pathContent["/ecosystem/providers"]
-    : defaultContent;
-
-const { title, button } = content;
 
 const shouldHide = shouldHideCta(pathname);
 ---
@@ -47,7 +12,7 @@ const shouldHide = shouldHideCta(pathname);
   class={clsx(
     shouldHide && "hidden",
     (pathname === "/" || pathname.startsWith("/meetingconfirmation")) && "hidden",
-    "flex flex-col items-center justify-around",
+    "flex flex-col items-center justify-center",
     "bg-gray-50 dark:bg-background2",
     "border-y",
     "px-[30px] py-[80px] lg:py-[160px]",
@@ -57,23 +22,32 @@ const shouldHide = shouldHideCta(pathname);
 >
   <h2
     class={clsx(
-      "max-w-[1000px] font-sans font-semibold tracking-tight text-foreground",
+      "max-w-[900px] font-sans font-semibold tracking-tight text-foreground",
       "text-3xl md:text-5xl xl:text-6xl",
       "md:leading-snug",
     )}
   >
-    {title}
+    Start Building
   </h2>
 
-  <div class="mt-6 md:mt-10">
+  <p class="mt-4 md:mt-6 max-w-[600px] text-sm md:text-base leading-relaxed text-para">
+    Launch containerized AI workloads via our self-serve console, or coordinate custom enterprise infrastructure configs with our team.
+  </p>
+
+  <div class="mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-3">
     <a
-      href={button.link}
-      id={button.id}
+      href="https://console.akash.network/"
       target="_blank"
       rel="noopener noreferrer"
       class="inline-flex items-center rounded-md bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
     >
-      {button.label}
+      Deploy Now
+    </a>
+    <a
+      href="/gpus-on-demand"
+      class="inline-flex items-center rounded-md border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+    >
+      Get in Touch
     </a>
   </div>
 </section>

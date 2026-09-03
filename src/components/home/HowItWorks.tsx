@@ -370,7 +370,7 @@ function RunningFrame({ uptime, cost }: { uptime: number; cost: number }) {
 }
 
 
-export function HowItWorks() {
+export function HowItWorks({ hideHeading = false }: { hideHeading?: boolean } = {}) {
   const [cur, setCur]                       = useState(0)
   const [playing, setPlaying]               = useState(true)
   const [fillPct, setFillPct]               = useState(0)
@@ -659,7 +659,7 @@ export function HowItWorks() {
     <>
       {/* ── Mobile carousel ── */}
       <div className="flex flex-col lg:hidden">
-        {heading}
+        {!hideHeading && heading}
 
         <div
           ref={carouselRef}
@@ -742,7 +742,7 @@ export function HowItWorks() {
       {/* ── Desktop ── */}
       <div className="hidden lg:grid lg:grid-cols-2 lg:items-center lg:gap-20">
         <div className="flex flex-col lg:order-2">
-          {heading}
+          {!hideHeading && heading}
           {STEPS.map((step, i) => stepRow(step, i))}
           {progressBar}
         </div>

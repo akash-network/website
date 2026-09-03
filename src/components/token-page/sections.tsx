@@ -97,8 +97,6 @@ const Query = ({
         isLoading={isLoading}
         isError={isError}
       />
-
-      <BuyAktButton className="mx-auto px-20" />
     </div>
   );
 };
