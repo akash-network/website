@@ -40,7 +40,7 @@ Visit [console.akash.network](https://console.akash.network) in your web browser
 1. Click **"Start Free Trial"** or **"Get Started"**
 2. Enter your email address
 3. Verify your email
-4. Receive **$1 in free trial credits** — no card required
+4. Receive **$1 in free trial credits**, with no card required
 
 ![Trial Signup](/images/docs/console/2-trial-signup.png)
 *Sign up with your email to receive $1 in trial credits*
@@ -135,7 +135,7 @@ After requesting quotes, providers will appear in the Compute Marketplace with p
 
 #### 3. Review and Deploy
 
-A summary modal shows your selected provider, the total deployment cost, and how much of your available balance goes into escrow. There is no deposit to pick — Console funds the deployment from your account credits, and the escrow is held rather than charged. Click **"Confirm and deploy"** to launch.
+A summary modal shows your selected provider, the total deployment cost, and how much of your available balance goes into escrow. There is no deposit to pick. Console funds the deployment from your account credits, and the escrow is held rather than charged. Click **"Confirm and deploy"** to launch.
 
 #### 4. Access Your Running Deployment
 

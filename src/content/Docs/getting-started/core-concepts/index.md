@@ -67,7 +67,7 @@ Your escrow pays the provider per block (~6 seconds) in **ACT**.
 
 ### Akash Console (Easiest)
 - Visual web interface
-- $100 free trial (no wallet needed)
+- $1 free trial (no wallet needed)
 - Perfect for beginners
 
 ### CLI (Most Control)

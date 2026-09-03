@@ -235,7 +235,7 @@ done`,
     path: "/v1/deployments",
     title: "POST /v1/deployments",
     description:
-      "Create a new deployment from an SDL manifest. Console funds it automatically from your account credits — no deposit is required.",
+      "Create a new deployment from an SDL manifest. Console funds it automatically from your account credits, so the request takes no deposit.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "data.sdl", location: "body", type: "string", required: true, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute" },
@@ -435,7 +435,7 @@ const { data } = await res.json();`,
     responseFields: [],
     responseExample: `// Full deployment object after the top-up; see GET /v1/deployments/{dseq}.`,
     notes: [
-      "Replaced by automatic funding. Add credits to your account instead — see [How Funding Works](/docs/getting-started/how-funding-works).",
+      "Replaced by automatic funding. Add credits to your account instead. See [How Funding Works](/docs/getting-started/how-funding-works).",
     ],
     codeSnippets: [
       {

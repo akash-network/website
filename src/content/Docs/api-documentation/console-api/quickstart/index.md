@@ -12,7 +12,7 @@ Deploy an nginx container to Akash in five API calls.
 Prerequisites:
 
 - An API key from [Console](https://console.akash.network) (Settings → API Keys), exported as `AKASH_API_KEY`.
-- A `deployment.json` file shaped like `{ "data": { "sdl": "<YOUR_SDL_YAML_AS_STRING>" } }`. No deposit: Console funds the deployment from your account credits. See [How Funding Works](/docs/getting-started/how-funding-works).
+- A `deployment.json` file shaped like `{ "data": { "sdl": "<YOUR_SDL_YAML_AS_STRING>" } }`. It has no deposit field, because Console funds the deployment from your account credits. See [How Funding Works](/docs/getting-started/how-funding-works).
 - `jq` for JSON parsing.
 
 ```bash

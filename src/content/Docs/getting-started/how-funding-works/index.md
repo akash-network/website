@@ -9,7 +9,7 @@ description: "How Akash Console credits, automatic deployment funding, Auto Top-
 
 **You add credits to your Akash Console account, and Console keeps your deployments funded from that balance.** There is no deposit to choose and no per-deployment balance to watch.
 
-This page covers the managed Console at [console.akash.network](https://console.akash.network), including the Console API. If you deploy with your own wallet through Console Air or the CLI, see [Choosing Your Console](/docs/getting-started/choosing-your-console) — you fund each deployment yourself there.
+This page covers the managed Console at [console.akash.network](https://console.akash.network), including the Console API. If you deploy with your own wallet through Console Air or the CLI, you fund each deployment yourself. See [Choosing Your Console](/docs/getting-started/choosing-your-console).
 
 ## Adding credits
 
@@ -25,23 +25,21 @@ Credits are spent as your deployments run. Console converts them to the network'
 
 Your billing page splits the account balance in two.
 
-**Escrow** is what your running deployments hold to stay online. Each deployment has its own escrow account on-chain, and Console keeps roughly two days of that deployment's cost in it — so a deployment costing $1/day holds about $2. Escrowed credits are not spent, only held: whatever a deployment does not use returns to available when it closes.
+**Escrow** is what your running deployments hold to stay online. Each deployment has its own escrow account on-chain, and Console keeps roughly two days of that deployment's cost in it. A deployment costing $1/day holds about $2. Escrowed credits are held, not spent, and whatever a deployment does not use returns to available when it closes.
 
 **Available** is everything else: what you can spend on a new deployment right now.
 
 The billing page also shows how long your whole balance will last at your current spend rate, and which deployments the escrow is split across.
 
-What has changed is that you no longer manage escrow yourself. You do not choose a deposit, and you do not top a deployment up — Console does both. If you deploy with your own wallet instead, you fund each escrow account directly; see [Deployments and Escrow](/docs/learn/core-concepts/deployments) for the chain-level mechanics.
+You do not manage any of this yourself. You never choose a deposit or top a deployment up, because Console does both. If you deploy with your own wallet instead, you fund each escrow account directly. See [Deployments and Escrow](/docs/learn/core-concepts/deployments) for the chain-level mechanics.
 
 ## Automatic funding
 
-Console funds every deployment for you.
-
-A new deployment is funded the moment it is created, so it can take a lease immediately rather than waiting for a background job. From then on, Console tops it up to keep it ahead of its own burn rate for as long as your account has credits. You do not enable this, and there is no per-deployment setting to get wrong.
+Console funds every deployment for you. A new deployment is funded the moment it is created, so it can take a lease immediately rather than waiting for a background job. From then on, Console tops it up to keep it ahead of its own burn rate for as long as your account has credits. You do not enable this, and there is no per-deployment setting to get wrong.
 
 Automatic funding also leaves some of your available balance untouched, so topping up a running deployment's escrow can never eat the headroom you need to start a new one.
 
-**Note:** The exact figures Console funds against — the runway it targets, the headroom it leaves, the amount a deployment starts with — are platform constants, and API callers can read the current values from `GET /v1/deployment-funding-config`.
+**Note:** The exact figures (the runway Console targets, the headroom it leaves, and the amount a deployment starts with) are platform constants. API callers can read the current values from `GET /v1/deployment-funding-config`.
 
 ## Auto Top-Up
 
@@ -56,7 +54,7 @@ There are two modes:
 
 By default a deployment runs until you close it or your credits run out. You can instead give it a runtime limit when you create it, and Console will close it once it reaches that limit and return the unused credits to your balance.
 
-A limit is not a lock. You can extend it, or lift it entirely and go back to always-on funding, from the deployment's settings. Console emails you before a runtime-limited deployment reaches its limit.
+You can extend a limit, or remove it and go back to always-on funding, from the deployment's settings. Console emails you before a runtime-limited deployment reaches its limit.
 
 ## When credits run low
 
@@ -70,8 +68,8 @@ Closing a deployment stops its services and returns whatever is left in its escr
 
 ## Related Resources
 
-- [Console Onboarding Guide](/docs/getting-started/console-onboarding) — deploy your first app
-- [Quick Start](/docs/getting-started/quick-start) — deploy with free trial credits
-- [Managed Wallet API](/docs/api-documentation/console-api/getting-started) — the same funding model, from the API
-- [Choosing Your Console](/docs/getting-started/choosing-your-console) — managed Console vs. self-custody Console Air
-- [Deployments and Escrow](/docs/learn/core-concepts/deployments) — how funding works at the blockchain level
+- [Console Onboarding Guide](/docs/getting-started/console-onboarding) - Deploy your first app
+- [Quick Start](/docs/getting-started/quick-start) - Deploy with free trial credits
+- [Managed Wallet API](/docs/api-documentation/console-api/getting-started) - The same funding model, from the API
+- [Choosing Your Console](/docs/getting-started/choosing-your-console) - Managed Console vs. self-custody Console Air
+- [Deployments and Escrow](/docs/learn/core-concepts/deployments) - How funding works at the blockchain level

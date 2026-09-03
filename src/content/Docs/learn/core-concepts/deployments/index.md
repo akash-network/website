@@ -390,12 +390,12 @@ Recommended escrow: ~1,500 ACT (buffer); fund with ACT unless circuit breaker in
 - CLI: Query deployment status
 
 **Low balance warning:**
-- Self-custody deployments get no automatic alerts from the chain — monitor them yourself
+- Self-custody deployments get no automatic alerts from the chain, so monitor them yourself
 - The managed [Akash Console](https://console.akash.network) emails you before your account credits run out
 
 **Adding funds:**
 - Self-custody: top up escrow with **ACT** using `provider-services tx deployment deposit`. When the circuit breaker is in effect, you can also add **AKT** to keep deployments running. Plan the initial escrow generously.
-- Managed Console: nothing to do. Console tops the deployment up from your account credits for as long as you have them — see [How Funding Works](/docs/getting-started/how-funding-works).
+- Managed Console: nothing to do. Console tops the deployment up from your account credits for as long as you have them. See [How Funding Works](/docs/getting-started/how-funding-works).
 
 ---
 

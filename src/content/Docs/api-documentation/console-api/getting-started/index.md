@@ -60,7 +60,7 @@ All examples in this guide show the full response body — extract the value you
 
 ### Money fields
 
-The Managed Wallet bills your Console account in **USD** (credit card). You add credits to the account, and Console funds your deployments from that balance on its own — creating a deployment takes no deposit, and keeping one running takes no top-up call. See [How Funding Works](/docs/getting-started/how-funding-works) for the full model, or read the current platform figures from `GET /v1/deployment-funding-config`.
+The Managed Wallet bills your Console account in **USD** (credit card). You add credits to the account, and Console funds your deployments from that balance on its own. Creating a deployment takes no deposit, and keeping one running takes no top-up call. See [How Funding Works](/docs/getting-started/how-funding-works) for the full model, or read the current platform figures from `GET /v1/deployment-funding-config`.
 
 The blockchain itself works in raw on-chain denoms (`uact`, `uusdc`, …). Wherever you see `price.denom` / `price.amount` in a bid response or an `escrow_account.state.funds` entry, those are raw chain values in micro-units (1 ACT = 1 000 000 uact). The SDL `pricing` block also uses chain denoms — the managed wallet handles the USD ↔ chain conversion for you.
 
@@ -296,7 +296,7 @@ Response (`200 OK`) is the same shape as `GET /v1/deployments/{dseq}` — the fu
 
 ### 4. Add Deposit to Deployment (Deprecated)
 
-**Deprecated:** Console tops your deployments up automatically for as long as your account has credits, so there is nothing for this endpoint to do. It still accepts requests for existing integrations and will be removed in a future release. Add credits to your account instead — see [How Funding Works](/docs/getting-started/how-funding-works).
+**Deprecated:** Console tops your deployments up automatically for as long as your account has credits, so there is nothing for this endpoint to do. It still accepts requests for existing integrations and will be removed in a future release. Add credits to your account instead. See [How Funding Works](/docs/getting-started/how-funding-works).
 
 cURL:
 
