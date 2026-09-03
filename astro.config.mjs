@@ -9,6 +9,7 @@ import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { apiDocsOnly } from "./src/lib/markdown/apiDocsOnly";
+import { autoFaqAccordion } from "./src/lib/markdown/autoFaqAccordion";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
@@ -16,7 +17,14 @@ import { redirects } from "./src/utils/redirects";
 export default defineConfig({
   redirects: redirects,
   markdown: {
-    remarkPlugins: [remarkMath, normalizeMath, remarkDirective, mermaid, customAsidePlugin],
+    remarkPlugins: [
+      remarkMath,
+      normalizeMath,
+      remarkDirective,
+      mermaid,
+      customAsidePlugin,
+      autoFaqAccordion,
+    ],
     rehypePlugins: [
       apiDocsOnly(rehypeSlug),
       [
@@ -52,18 +60,8 @@ export default defineConfig({
       lastmod: new Date("2024-06-27"),
     }),
     react(),
-    astroExpressiveCode({
-      themes: ["light-plus", "dark-plus"],
-      useDarkModeMediaQuery: true,
-      themeCssSelector: (theme) => `[data-theme='${theme.name}']`,
-      styleOverrides: {
-        terminalTitlebarForeground: "var(--theme-header-bg)",
-        terminalTitlebarDotsForeground: "var(--three-dots-bg)",
-        terminalTitlebarBackground: "var(--theme-header-bg)",
-        terminalTitlebarDotsOpacity: "1",
-        codeFontFamily: "JetBrains Mono",
-      },
-    }),
+    // Options are shared with the <Code> component through ec.config.mjs.
+    astroExpressiveCode(),
     mdx(),
   ],
   site: "https://akash.network",

@@ -486,3 +486,19 @@ html body[data-scroll-locked] {
 .mobile-menu-panel {
   animation: mobileMenuSlideIn 0.3s ease-out;
 }
+
+/* bits-prose table: undo display:block from .prose table, then fix column widths.
+   table-layout:fixed with no explicit per-column widths splits columns evenly,
+   which scales to any column count (2-col comparison tables and wider data tables alike). */
+.bits-prose table {
+  display: table !important;
+  table-layout: fixed !important;
+  width: 100%;
+  overflow-x: auto;
+}
+.bits-prose table th,
+.bits-prose table td {
+  white-space: normal !important;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}

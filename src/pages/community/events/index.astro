@@ -23,15 +23,27 @@ const relevantCards = allCards.filter((curr: any) => {
   return eventDate > currentOffsetDateTime;
 });
 
+const now = new Date().getTime();
+
 const sortedCards = relevantCards.sort((a, b) => {
-  if (a.tbd) {
-    return 1;
-  }
-  if (b.tbd) {
-    return -1;
+  const aPast = !a.tbd && new Date(a.eventDate).getTime() < now;
+  const bPast = !b.tbd && new Date(b.eventDate).getTime() < now;
+
+  // Events that have already happened always go to the bottom.
+  if (aPast !== bPast) {
+    return aPast ? 1 : -1;
   }
 
-  return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
+  // tbd events sort after the dated upcoming events.
+  if (a.tbd !== b.tbd) {
+    return a.tbd ? 1 : -1;
+  }
+
+  const aTime = new Date(a.eventDate).getTime();
+  const bTime = new Date(b.eventDate).getTime();
+
+  // Upcoming: nearest date first. Past: most recently happened first.
+  return aPast ? bTime - aTime : aTime - bTime;
 });
 ---
 

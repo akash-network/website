@@ -9,11 +9,25 @@ categories:
 tags:
   - AI
   - Akash
+  - AI apps
+  - Akash Agents
+  - HandFlow
+  - ElderShield
+  - BioVault
+  - Dramaalert
+  - hackathon
+  - autonomous AI
+  - decentralized cloud
+  - community builds
+  - "2026"
 contributors:
   - Michelle Javed
 
 bannerImage: ./banner-image.png
 ---
+
+> **TL;DR:** Five community-built AI applications on Akash in 2026: Akash Agents (1-click agent deployment), HandFlow (gesture-controlled smart glasses), ElderShield (autonomous elder scam protection for ~$3/month), BioVault Agent (24/7 clinical safety monitoring), and Dramaalert (autonomous prediction market trading bot).
+
 
 By Michelle Javed
 
@@ -86,3 +100,27 @@ Want to be featured in the next list?
 Stay up to date with upcoming hackathons on our [events page](https://akash.network/community/events/).
 
 If you're a university student, apply for the [Akash Student Ambassador program](https://docs.google.com/forms/d/e/1FAIpQLScyLLN4ubVjmxPxWUAgsN5ZuvxImmiOj5fCXQ103z8S-X9J4g/viewform) and have your hackathon projects shared with over 127k followers on our [X](https://x.com/akashnet).
+
+## Frequently Asked Questions
+
+**What is Akash Agents?**
+A community-built web interface by Sandeep Narahari for deploying AI agent frameworks (Hermes, OpenClaw) on Akash compute without terminals, YAML, or infrastructure management — live at agents.akash.network.
+
+**What is HandFlow?**
+A project by UMass Amherst students (YHack 2026 Best First Hack) that turns a $5 glasses-mounted camera into a gesture-controlled computer input device — trained on Akash GPUs during a 24-hour hackathon sprint.
+
+**What is ElderShield?**
+An autonomous AI agent monitoring inboxes for scam URLs — opening every suspicious link in a real browser, classifying risk using Redis-backed memory, and alerting families. Runs on Akash for under $3/month.
+
+**What is BioVault Agent?**
+An autonomous 24/7 clinical safety monitor that checks medical documents every 30 seconds for dose variances, unknown drug names, and protocol deviations — built for low-resource hospitals in developing countries where errors can be fatal.
+
+**What is Dramaalert?**
+An autonomous trading bot for Polymarket prediction markets — ingesting 20+ real-time data sources, running Bayesian inference, and executing Kelly-sized positions without human intervention. Built by Indiana University student ambassadors.
+
+**How did HandFlow use Akash during a hackathon?**
+The team ran parallel GPU training deployments via AkashTrainer — an agent that pushed training scripts to GitHub, spun up Akash deployments, trained models, pushed results back, and closed deployments automatically. Full training took ~1 hour.
+
+**Where can I find these apps or build my own?**
+Visit agents.akash.network for Akash Agents. Find upcoming hackathons at akash.network/community/events/. Student builders can apply at the Akash Student Ambassador program — winning projects get shared with 127K+ followers on X.
+

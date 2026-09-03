@@ -133,7 +133,7 @@ memory:
 
 ```yaml
 storage:
-  - class: beta2    # Storage class name
+  - class: beta3    # Storage class name (NVMe default)
     size: 5000Gi    # Total capacity
     provisioner: ceph.rook.io
 ```
@@ -246,7 +246,6 @@ The operator adds labels to nodes based on discovered hardware:
 ```yaml
 akash.network/capabilities.gpu.vendor.nvidia: "true"
 akash.network/capabilities.gpu.model.rtx4090: "true"
-akash.network/capabilities.storage.class.beta2: "true"
 akash.network/capabilities.storage.class.beta3: "true"
 ```
 

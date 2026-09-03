@@ -8,10 +8,22 @@ categories:
   - Community
 tags:
   - Community
+  - decentralized cloud
+  - cloud cost savings
+  - permissionless compute
+  - AWS alternative
+  - GPU rental
+  - Web3 infrastructure
+  - DePIN
+  - cloud oligopoly
+  - NVIDIA H100
 contributors:
   - Lachlan Todd
 bannerImage: ./akash-decentralized-compute.png
 ---
+
+> **TL;DR:** Web2 cloud computing is dominated by a costly, permissioned oligopoly consuming up to 50% of SaaS revenue. Akash Network offers a decentralized alternative with prices up to 85% lower, no vendor lock-in, and permissionless access to any GPU globally — though UX and developer awareness remain adoption barriers.
+
 
 _This is a special guest post from Lachlan Todd, a new community contributor to Akash Network._
 
@@ -98,3 +110,27 @@ In the above article, we explained the advantages of decentralized cloud computi
 We believe that the advantages are significant and represent a naturally superior solution, but that true change takes time and that barriers exist. As the industry matures and more enter the space, this will help to accelerate adoption, and the Akash Network will be leading the way.
 
 To learn more and get started with the network, visit [Akash Network](https://akash.network/) and follow Akash on [X (Twitter)](https://x.com/akashnet).
+
+## Frequently Asked Questions
+
+**How much cheaper is Akash than AWS, Azure, or Google Cloud?**
+Prices on Akash are up to 85% lower than centralized cloud providers. SaaS companies that spend up to 50% of revenue on cloud could see dramatic cost reductions by switching.
+
+**What are the four main problems with Web2 cloud computing?**
+Permissioned servicing (providers can restrict access), resource availability limits (H100s require reserved instances), data lock-ins (costly egress fees), and prohibitive costs consuming up to 50% of SaaS revenue.
+
+**How does Akash pricing work?**
+Through reverse auctions — tenants set the price and terms they're willing to pay, providers compete to win deployments, and the lowest competitive bid wins. This drives costs down through open market competition.
+
+**Is Akash truly permissionless?**
+Yes — anyone can access compute resources without approval, account restrictions, or geographic limitations, unlike AWS or Hetzner which banned crypto operations in 2022.
+
+**What are the main barriers to Akash adoption?**
+Poor Web3 UX compared to Web2, integration challenges with mature enterprise tools, a limited Web3 developer pool (~23K vs 28M Web2 developers), and general lack of blockchain awareness.
+
+**Can any cloud-native app run on Akash?**
+Yes — any application packaged as a Docker container can deploy on Akash without rewriting code, without vendor lock-in, and without seeking permission from a centralized provider.
+
+**How does Akash handle rare or specialized GPU models?**
+Akash's open marketplace allows any GPU type to be listed by any provider globally — unlike centralized clouds that restrict access to specialized hardware like H100s to enterprise customers with long-term commitments.
+
