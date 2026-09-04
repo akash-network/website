@@ -2,7 +2,7 @@
 aep: 57
 title: "Automatic Escrow Top Up"
 author: Iaroslav Gryshaiev (@ygrishajev) Maxime Beauchamp (@baktun14) Anil Murty (@anilmurty)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2024-01-05
