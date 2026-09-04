@@ -33,6 +33,7 @@ kubectl -n akash-services logs -l app=akash-provider --tail=100 -f
 ```
 
 **Look for:**
+
 - **`"bidding on order"`** - Provider is creating bids
 - **`"bid complete"`** - Bids are being submitted
 - **`"error"` or `"failed"`** - Investigate errors
@@ -40,10 +41,11 @@ kubectl -n akash-services logs -l app=akash-provider --tail=100 -f
 ### 3. Verify On-Chain Registration
 
 ```bash
-provider-services query provider get <your-provider-address>
+akt query provider <your-provider-address>
 ```
 
 **Verify:**
+
 - Provider address is correct
 - Host URI is accessible
 - Attributes are set correctly
@@ -83,6 +85,7 @@ kubectl -n akash-services logs -l app=akash-provider --tail=100 -f | grep bid
 ```
 
 **If you see no bids:**
+
 - Check your pricing is competitive
 - Verify provider attributes are set
 - Ensure firewall allows inbound connections
@@ -99,6 +102,7 @@ kubectl -n akash-services describe pod akash-provider-0
 ```
 
 **Common causes:**
+
 - Insufficient resources
 - Configuration errors in `provider.yaml`
 - Missing secrets or certificates
@@ -118,7 +122,7 @@ kubectl -n akash-services describe pod akash-provider-0
 
 ```bash
 # Check provider account balance
-provider-services query bank balances <provider-address>
+akt query bank balances <provider-address>
 ```
 
 ### Provider Not Accessible Externally
@@ -132,6 +136,7 @@ grpcurl -insecure <provider-domain>:8444 akash.provider.v1.ProviderRPC.GetStatus
 ```
 
 **If it fails:**
+
 - Verify DNS points to your provider IP
 - Check firewall allows ports 80, 8443, 8444, and 5002
 - Ensure provider domain is in certificate
@@ -147,6 +152,7 @@ kubectl -n lease describe pod <pod-name>
 ```
 
 **Common issues:**
+
 - GPU not available (for GPU deployments)
 - Insufficient resources
 - Image pull errors
@@ -157,7 +163,7 @@ kubectl -n lease describe pod <pod-name>
 After provider installation, verify:
 
 - Provider pod is running (`kubectl -n akash-services get pods`)
-- Provider is registered on-chain (`provider-services query provider get`)
+- Provider is registered on-chain (`akt query provider <provider-address>`)
 - Provider status endpoint is accessible (`curl https://provider:8443/status`)
 - Provider gRPC endpoint is accessible (`grpcurl provider:8444 akash.provider.v1.ProviderRPC.GetStatus`)
 - Provider is bidding on orders (check logs)
@@ -179,4 +185,3 @@ After provider installation, verify:
 ---
 
 **Need Help?** Join [#provider-support on Discord](https://discord.com/channels/747885925232672829/1067866274432274442)
-

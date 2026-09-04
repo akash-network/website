@@ -9,7 +9,7 @@ description: "Enable leased IP support on an Akash provider with MetalLB and aka
 
 # IP Leases — Provider Setup (MetalLB + akash-ip-operator)
 
-This guide enables leased IP support on an Akash provider. It reflects verified behavior as of July 2026 (provider image `0.14.2`, MetalLB chart `0.14.9`, Kubernetes with kubespray/Calico) and includes a troubleshooting table with exact error strings.
+This guide enables leased IP support on an Akash provider. It targets provider image `0.16.2`, Akash IP Operator chart `19.0.2`, MetalLB chart `0.14.9`, and Kubernetes with Kubespray/Calico. The MetalLB pin is intentional because the provider still discovers and reads the controller's plaintext metrics endpoint.
 
 IP leases are **optional**. If you do not intend to offer dedicated IPs, do not install the IP operator — nothing else in the provider stack depends on it.
 
@@ -28,7 +28,7 @@ IP leases are **optional**. If you do not intend to offer dedicated IPs, do not 
 - Your provider's on-chain address (`akash1...`). Retrieve it with:
 
   ```bash
-  provider-services keys show <keyname> -a --keyring-backend file
+  akt context keys show <keyname> --address
   ```
 
 - A block of public IPs **delivered on the same L2 segment (VLAN) as a node interface**. MetalLB L2 mode answers ARP for these IPs; if your datacenter routes the block elsewhere or the node only has private/NAT addressing, L2 mode will not work (see troubleshooting item 6).
@@ -65,7 +65,7 @@ Kubernetes only creates SRV records for **named** service ports. The service mus
 ```bash
 kubectl -n metallb-system expose deployment metallb-controller \
   --name=controller \
-  --overrides='{"spec":{"ports":[{"protocol":"TCP","name":"monitoring","port":7472}]}}'
+  --overrides='{"apiVersion":"v1","spec":{"ports":[{"protocol":"TCP","name":"monitoring","port":7472}]}}'
 ```
 
 Verify all three properties:
@@ -91,7 +91,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - 64.31.61.235-64.31.61.238   # your public range
+    - 64.31.61.235-64.31.61.238 # your public range
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
@@ -132,6 +132,7 @@ kubectl label node <node> node.kubernetes.io/exclude-from-external-load-balancer
 
 ```bash
 helm install akash-ip-operator akash/akash-ip-operator -n akash-services \
+  --version 19.0.2 \
   --set provider_address=<your akash1... address>
 ```
 
@@ -175,6 +176,7 @@ Then upgrade the provider and update the on-chain provider record:
 
 ```bash
 helm upgrade akash-provider akash/provider -n akash-services -f provider.yaml \
+  --version 19.0.2 \
   --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
 ```
 

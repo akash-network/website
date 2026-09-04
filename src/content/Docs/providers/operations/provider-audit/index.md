@@ -69,41 +69,41 @@ Everything else in the checklist below is **required** — contact info, locatio
 Verify your attributes on-chain:
 
 ```bash
-provider-services query provider get <your-provider-address> -o text
+akt query provider <your-provider-address> --output yaml
 ```
 
 Canonical key names and allowed values: [provider-attributes.json](https://github.com/akash-network/console/blob/main/config/provider-attributes.json).
 
 ### Always required (every provider)
 
-| On-chain key | Notes |
-| ------------ | ----- |
-| `host` | Must be `akash` |
-| `tier` | Must be `community` for community audit |
-| `organization` | Operator name |
-| `email` | Working contact email |
-| `discord-username` | Your Discord username (must match someone in Akash Discord with Provider role) |
-| `website` | Organization website URL |
-| `status-page` | Public status page URL (use your website if you have no separate status page) |
-| `location-region` | [UN geoscheme](https://en.wikipedia.org/wiki/United_Nations_geoscheme) value — **not** the legacy `region` key |
-| `country` | ISO 3166 Alpha-2 code |
-| `city` | Three-letter city code |
-| `timezone` | UTC offset (e.g. `utc-8`) |
-| `location-type` | `datacenter`, `colo`, `home`, `office`, or `mix` |
-| `hosting-provider` | Facility or cloud name (e.g. `hetzner`, `equinix`) |
-| `capabilities/cpu` | `intel`, `amd`, or `arm` |
-| `capabilities/cpu/arch` | e.g. `x86-64` |
-| `capabilities/memory` | e.g. `ddr4`, `ddr5`, `ddr5ecc` |
-| `network-provider` | ISP name |
-| `network-speed-up` | Upload Mbps — **minimum 500** for audit |
-| `network-speed-down` | Download Mbps — **minimum 500** for audit |
-| `feat-shm` | Must be `true` |
-| `capabilities/storage/2/class` | Must be `ram` |
-| `capabilities/storage/2/persistent` | Must be `"false"` |
-| `capabilities/ip-lease` | `"true"` or `"false"` — declare explicitly |
-| `feat-endpoint-ip` | `"true"` or `"false"` — declare explicitly |
-| `feat-endpoint-custom-domain` | `true` or `false` — declare explicitly |
-| `feat-persistent-storage` | `true` or `false` — declare explicitly |
+| On-chain key                        | Notes                                                                                                          |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `host`                              | Must be `akash`                                                                                                |
+| `tier`                              | Must be `community` for community audit                                                                        |
+| `organization`                      | Operator name                                                                                                  |
+| `email`                             | Working contact email                                                                                          |
+| `discord-username`                  | Your Discord username (must match someone in Akash Discord with Provider role)                                 |
+| `website`                           | Organization website URL                                                                                       |
+| `status-page`                       | Public status page URL (use your website if you have no separate status page)                                  |
+| `location-region`                   | [UN geoscheme](https://en.wikipedia.org/wiki/United_Nations_geoscheme) value — **not** the legacy `region` key |
+| `country`                           | ISO 3166 Alpha-2 code                                                                                          |
+| `city`                              | Three-letter city code                                                                                         |
+| `timezone`                          | UTC offset (e.g. `utc-8`)                                                                                      |
+| `location-type`                     | `datacenter`, `colo`, `home`, `office`, or `mix`                                                               |
+| `hosting-provider`                  | Facility or cloud name (e.g. `hetzner`, `equinix`)                                                             |
+| `capabilities/cpu`                  | `intel`, `amd`, or `arm`                                                                                       |
+| `capabilities/cpu/arch`             | e.g. `x86-64`                                                                                                  |
+| `capabilities/memory`               | e.g. `ddr4`, `ddr5`, `ddr5ecc`                                                                                 |
+| `network-provider`                  | ISP name                                                                                                       |
+| `network-speed-up`                  | Upload Mbps — **minimum 500** for audit                                                                        |
+| `network-speed-down`                | Download Mbps — **minimum 500** for audit                                                                      |
+| `feat-shm`                          | Must be `true`                                                                                                 |
+| `capabilities/storage/2/class`      | Must be `ram`                                                                                                  |
+| `capabilities/storage/2/persistent` | Must be `"false"`                                                                                              |
+| `capabilities/ip-lease`             | `"true"` or `"false"` — declare explicitly                                                                     |
+| `feat-endpoint-ip`                  | `"true"` or `"false"` — declare explicitly                                                                     |
+| `feat-endpoint-custom-domain`       | `true` or `false` — declare explicitly                                                                         |
+| `feat-persistent-storage`           | `true` or `false` — declare explicitly                                                                         |
 
 **Discord example:**
 
@@ -118,10 +118,10 @@ Use the username reviewers can find in the Akash Discord server (without `@`).
 
 Set `feat-persistent-storage` to `true` and include **one** storage class (HDD, SSD, or NVMe):
 
-| On-chain key | Value |
-| ------------ | ----- |
-| `capabilities/storage/1/class` | `beta1`, `beta2`, or `beta3` |
-| `capabilities/storage/1/persistent` | `"true"` |
+| On-chain key                        | Value                        |
+| ----------------------------------- | ---------------------------- |
+| `capabilities/storage/1/class`      | `beta1`, `beta2`, or `beta3` |
+| `capabilities/storage/1/persistent` | `"true"`                     |
 
 If you **do not** offer persistent storage, set `feat-persistent-storage` to `false` and omit the `capabilities/storage/1/*` keys.
 
@@ -129,14 +129,14 @@ If you **do not** offer persistent storage, set `feat-persistent-storage` to `fa
 
 For each GPU model you offer, include the vendor, model, RAM, and interface keys from [provider-configs](https://github.com/akash-network/provider-configs):
 
-| On-chain key | Notes |
-| ------------ | ----- |
-| `capabilities/gpu` | e.g. `nvidia` |
-| `cuda` | CUDA version on GPU nodes (e.g. `12.7`) |
-| `capabilities/gpu/vendor/<vendor>/model/<model>` | Base model key |
-| `.../ram/<size>` | VRAM for that model |
-| `.../interface/<iface>` | e.g. `pcie`, `sxm` |
-| `.../interface/<iface>/ram/<size>` | Combined interface + RAM key |
+| On-chain key                                     | Notes                                                                       |
+| ------------------------------------------------ | --------------------------------------------------------------------------- |
+| `capabilities/gpu`                               | e.g. `nvidia`                                                               |
+| `cuda`                                           | CUDA version on GPU nodes (the current Provider Playbook advertises `13.0`) |
+| `capabilities/gpu/vendor/<vendor>/model/<model>` | Base model key                                                              |
+| `.../ram/<size>`                                 | VRAM for that model                                                         |
+| `.../interface/<iface>`                          | e.g. `pcie`, `sxm`                                                          |
+| `.../ram/<size>/interface/<iface>`               | Combined RAM + interface key                                                |
 
 See [Provider Attributes — GPU Capabilities](/docs/providers/operations/provider-attributes/#gpu-capabilities) for examples.
 
@@ -146,11 +146,11 @@ If you **do not** run GPUs, omit all `capabilities/gpu/*` keys and `cuda`.
 
 If you advertise multi-node RDMA, include:
 
-| On-chain key | Notes |
-| ------------ | ----- |
-| `capabilities/gpu-interconnect` | `"true"` |
+| On-chain key                                      | Notes                   |
+| ------------------------------------------------- | ----------------------- |
+| `capabilities/gpu-interconnect`                   | `"true"`                |
 | `capabilities/gpu-interconnect/fabric/infiniband` | If you offer InfiniBand |
-| `capabilities/gpu-interconnect/fabric/roce` | If you offer RoCE |
+| `capabilities/gpu-interconnect/fabric/roce`       | If you offer RoCE       |
 
 See [Provider Attributes — GPU Interconnect](/docs/providers/operations/provider-attributes/#gpu-interconnect-infiniband--roce). Omit these keys if you have no InfiniBand/RoCE fabric.
 
@@ -171,7 +171,7 @@ Deploy the audit workload from a **tenant wallet that is not your provider walle
 - **Provider wallet** — the `akash1…` address registered as your provider (used in `provider.yaml` / on-chain provider record)
 - **Tenant wallet** — a different wallet you use only to create the deployment, accept your provider's bid, and pay escrow
 
-Fund the tenant wallet with **AKT** (gas) and **ACT** (deployment escrow). See [Deploy with Console Air](/docs/developers/deployment/console-air) or the [CLI installation guide](/docs/developers/deployment/cli/installation-guide).
+Fund the tenant wallet with **AKT** (gas) and **ACT** (deployment escrow). See [Deploy with Console Air](/docs/developers/deployment/console-air) or the [`akt` deployment guide](/docs/developers/deployment/akt/deployments).
 
 ### Prepare the SDL
 
@@ -196,30 +196,21 @@ Use a CLI key that is **not** your provider key:
 
 ```bash
 # Tenant wallet (must differ from provider owner address)
-export AKASH_KEY_NAME=audit-tenant
-export AKASH_ACCOUNT_ADDRESS=$(provider-services keys show $AKASH_KEY_NAME -a)
-
-# Create deployment from edited SDL
-provider-services tx deployment create standalone-audit.sdl.yaml --from $AKASH_KEY_NAME -y
-
-# Note deployment sequence (dseq) from the transaction output, then list bids
-provider-services query market bid list --owner $AKASH_ACCOUNT_ADDRESS
-
-# Accept YOUR provider's bid only (replace dseq and provider address)
+export AKT_KEY_NAME=audit-tenant
 export PROVIDER_ADDRESS=akash1YOUR_PROVIDER_OWNER
-provider-services tx market lease create \
-  --dseq <dseq> \
-  --provider $PROVIDER_ADDRESS \
-  --from $AKASH_KEY_NAME -y
 
-# Send manifest to your provider
-provider-services send-manifest standalone-audit.sdl.yaml \
-  --dseq <dseq> \
-  --provider $PROVIDER_ADDRESS \
-  --from $AKASH_KEY_NAME
+# Confirm this tenant address differs from PROVIDER_ADDRESS
+akt context keys show "$AKT_KEY_NAME" --address
+
+# Create the deployment, select only this provider, create the lease,
+# and send the manifest as one workflow
+akt deploy standalone-audit.sdl.yaml \
+  --from "$AKT_KEY_NAME" \
+  --bid-select "provider=$PROVIDER_ADDRESS" \
+  --yes
 ```
 
-See [CLI common tasks — Create and Deploy](/docs/developers/deployment/cli/common-tasks#create-and-deploy-an-application) for more detail.
+The active `akt` context must use Akash mainnet and contain the funded tenant key. See [`akt` contexts and key management](/docs/developers/deployment/akt/configuration) and the [`akt` deployment workflow](/docs/developers/deployment/akt/deployments).
 
 The deployment serves a **web UI over HTTPS on port 443**. Share that URL with reviewers when benchmarks finish.
 
@@ -267,7 +258,7 @@ A reviewer will verify attributes, Discord membership, benchmark results, and fo
 - [Provider Attributes](/docs/providers/operations/provider-attributes)
 - [Provider Verification](/docs/providers/operations/provider-verification)
 - [Deploy with Console Air](/docs/developers/deployment/console-air)
-- [CLI common tasks](/docs/developers/deployment/cli/common-tasks)
+- [`akt` deployments](/docs/developers/deployment/akt/deployments)
 - [Community audit guide](https://github.com/akash-network/community/blob/main/audit/README.md)
 - [Provider attributes schema](https://github.com/akash-network/console/blob/main/config/provider-attributes.json)
 

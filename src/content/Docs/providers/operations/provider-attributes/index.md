@@ -39,6 +39,7 @@ After updating attributes, restart your provider:
 cd /root/provider
 helm upgrade akash-provider akash/provider \
   -n akash-services \
+  --version 19.0.2 \
   -f provider.yaml \
   --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
 ```
@@ -260,12 +261,12 @@ See [GPU Capabilities](#gpu-capabilities) below for RAM and interface sub-keys.
 
 ### cuda
 
-- **Value**: CUDA version string (for example `12.7`, `13.0`)
+- **Value**: CUDA version string (the current Provider Playbook advertises `13.0`)
 - **Purpose**: Advertise the CUDA version available on GPU nodes
 
 ```yaml
 - key: cuda
-  value: "12.7"
+  value: "13.0"
 ```
 
 ### capabilities/gpu-interconnect
@@ -406,7 +407,7 @@ Advertise support for advanced features.
   value: "true"
 ```
 
-> **Important:** You can only advertise **one persistent storage class** per provider. Match Rook-Ceph: **`beta3` (NVMe) is the default** in the Persistent Storage guide; use `beta2` (SSD) or `beta1` (HDD) only if you configured that instead.
+> **Important:** You can only advertise **one persistent storage class** per provider. Match the class to the storage media you actually configured: `beta3` for NVMe, `beta2` for SSD, or `beta1` for HDD. The Persistent Storage guide uses `beta3` only because its worked example uses NVMe disks.
 
 ### feat-shm
 
@@ -476,6 +477,7 @@ Advertise support for advanced features.
 ```
 
 Both `capabilities/ip-lease` and `feat-endpoint-ip` should be set when offering IP leases.
+
 ### feat-endpoint-custom-domain
 
 - **Values**: `true`, `false`
@@ -494,9 +496,9 @@ Both `capabilities/ip-lease` and `feat-endpoint-ip` should be set when offering 
 - **Purpose**: Advertise Trusted Execution Environment (Confidential Compute) support
 - **Required**: Only if your provider supports TEE workloads
 
-| Value | Description |
-|-------|-------------|
-| `cpu` | CPU-only confidential VMs (AMD SEV-SNP or Intel TDX) |
+| Value     | Description                                                                        |
+| --------- | ---------------------------------------------------------------------------------- |
+| `cpu`     | CPU-only confidential VMs (AMD SEV-SNP or Intel TDX)                               |
 | `cpu-gpu` | Confidential VMs with NVIDIA GPU Confidential Computing (AMD SEV-SNP or Intel TDX) |
 
 The actual hardware platform (`snp` or `tdx`) is detected by the provider from Kubernetes node labels at runtime and is not advertised as a provider attribute.
@@ -593,11 +595,11 @@ If your GPU isn't in the [provider-configs database](https://github.com/akash-ne
 
 Advertise these attributes only after you have completed [Part 2 — InfiniBand / RDMA](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional) — and, for RoCE, [Part 3 — RoCE Rail Networks](/docs/providers/setup-and-installation/kubespray/gpu-support#part-3--roce-rail-networks-optional) — and verified RDMA on the cluster. Tenants request interconnect in the SDL with `gpu.attributes.interconnect` and match on these placement attributes.
 
-| On-chain key | When to set |
-| ------------ | ----------- |
-| `capabilities/gpu-interconnect` | Always, if you offer multi-node RDMA |
-| `capabilities/gpu-interconnect/fabric/infiniband` | If nodes use InfiniBand HCAs |
-| `capabilities/gpu-interconnect/fabric/roce` | If nodes use RoCE (requires [Part 3 rail networks](/docs/providers/setup-and-installation/kubespray/gpu-support#part-3--roce-rail-networks-optional) and provider ≥ 0.16.2) |
+| On-chain key                                      | When to set                                                                                                                                                                 |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `capabilities/gpu-interconnect`                   | Always, if you offer multi-node RDMA                                                                                                                                        |
+| `capabilities/gpu-interconnect/fabric/infiniband` | If nodes use InfiniBand HCAs                                                                                                                                                |
+| `capabilities/gpu-interconnect/fabric/roce`       | If nodes use RoCE (requires [Part 3 rail networks](/docs/providers/setup-and-installation/kubespray/gpu-support#part-3--roce-rail-networks-optional) and provider ≥ 0.16.2) |
 
 Advertise every fabric you actually support. Omit all interconnect keys if you have no InfiniBand/RoCE hardware. Do **not** advertise `fabric/roce` without the rail networks in place — tenant workloads would receive RDMA devices but be unable to reach the fabric.
 
@@ -698,7 +700,7 @@ attributes:
   - key: feat-endpoint-custom-domain
     value: true
 
-  # Persistent Storage (required if you have Rook-Ceph; beta3 = NVMe default)
+  # Persistent Storage (required if you have Rook-Ceph; beta3 = NVMe)
   - key: capabilities/storage/1/class
     value: beta3
   - key: capabilities/storage/1/persistent
@@ -720,7 +722,7 @@ attributes:
   - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi/interface/pcie
     value: "true"
   - key: cuda
-    value: "12.7"
+    value: "13.0"
 
   # GPU Interconnect (only if you completed InfiniBand / RDMA setup)
   # - key: capabilities/gpu-interconnect
@@ -742,7 +744,7 @@ attributes:
 After updating your provider, verify attributes are registered:
 
 ```bash
-provider-services query provider get <your-provider-address>
+akt query provider <your-provider-address>
 ```
 
 Look for your attributes in the `attributes` section of the output.
