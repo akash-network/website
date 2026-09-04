@@ -2,12 +2,12 @@
 aep: 67
 title: "Console Bid Screening"
 author: Anil Murty (@anilmurty) Maxime Beauchamp (@baktun14) Serhii Stotskyi (@stalniy)
-status: Last Call
+status: Final
 type: Standard
 category: Core
 created: 2025-05-16
 updated: 2026-06-09
-estimated-completion: 2026-08-31
+completed: 2026-07-17
 roadmap: major
 ---
 

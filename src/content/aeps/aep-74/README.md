@@ -3,7 +3,7 @@ aep: 74
 title: "Console - Auto Credit Reload"
 description: "Make it easier for customers to keep their deployments running"
 author: Anil Murty (@anilmurty)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2025-07-31
