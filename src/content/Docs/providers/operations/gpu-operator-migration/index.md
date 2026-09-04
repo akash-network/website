@@ -1,6 +1,14 @@
 ---
 categories: ["Providers", "Operations"]
-tags: ["GPU", "NVIDIA GPU Operator", "Migration", "Drivers", "Kubernetes", "Maintenance"]
+tags:
+  [
+    "GPU",
+    "NVIDIA GPU Operator",
+    "Migration",
+    "Drivers",
+    "Kubernetes",
+    "Maintenance",
+  ]
 weight: 5
 title: "GPU Operator migration"
 linkTitle: "GPU Operator migration"
@@ -21,7 +29,7 @@ Migrate if you want a single, versioned source of truth for the GPU stack, simpl
 
 ## Prerequisites
 
-- Cluster admin (`kubectl`) and Helm 3 on the control plane.
+- Cluster admin (`kubectl`) and Helm 4 on the control plane.
 - A maintenance window, or enough spare capacity to drain GPU nodes one at a time.
 - Nodes were set up with the **manual** GPU workflow: a host NVIDIA driver, the NVIDIA Container Toolkit, and a standalone `nvidia-device-plugin` Helm release.
 
@@ -118,21 +126,27 @@ sudo reboot
 
 After reboot, `nvidia-smi` on the host should report **"command not found"** or no driver — that clean state is what lets the Operator manage the driver.
 
-> **containerd runtime:** the GPU Operator's toolkit reconfigures containerd for the `nvidia` runtime. If you previously added an `nvidia` runtime via [Kubespray Setup – Step 7](/docs/providers/setup-and-installation/kubespray/kubernetes-setup#step-7---configure-gpu-support-optional) pointing at the host binary `/usr/bin/nvidia-container-runtime`, you may remove that entry for cleanliness once the Operator is running, but it is not required — the Operator's configuration takes precedence on managed nodes.
+> **containerd runtime:** If the old setup added `containerd_additional_runtimes` pointing at the host's `/usr/bin/nvidia-container-runtime`, remove that Kubespray override during migration. GPU Operator 26.7 manages CDI and the required containerd integration; current [Kubernetes setup guidance](/docs/providers/setup-and-installation/kubespray/kubernetes-setup#step-7---prepare-for-gpu-support-optional) does not add the legacy runtime.
 
 ## Step 4 — Install the GPU Operator
 
-Once your GPU nodes are clean, install the Operator cluster-wide. Use the same values as a fresh setup — see [GPU & InfiniBand Support → Step 2](/docs/providers/setup-and-installation/kubespray/gpu-support#step-2--install-the-gpu-operator) for the full file, Fabric Manager guidance, CRD notes, and pinned chart version (`v26.3.3`).
+Once your GPU nodes are clean, install the Operator cluster-wide. Use the same values as a fresh setup — see [GPU & InfiniBand Support → Step 2](/docs/providers/setup-and-installation/kubespray/gpu-support#step-2--install-the-gpu-operator) for the full file, Fabric Manager guidance, CRD procedure, and pinned chart version (`v26.7.0`).
 
 ```bash
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
 
-# First deploy: helm install (not upgrade -i) so chart CRDs are applied
-helm install gpu-operator nvidia/gpu-operator \
+rm -rf /tmp/akash-gpu-operator-chart
+helm pull nvidia/gpu-operator --version v26.7.0 --untar \
+  --untardir /tmp/akash-gpu-operator-chart
+kubectl apply --server-side --force-conflicts \
+  -f /tmp/akash-gpu-operator-chart/gpu-operator/crds \
+  -f /tmp/akash-gpu-operator-chart/gpu-operator/charts/node-feature-discovery/crds/nfd-api-crds.yaml
+
+helm upgrade --install gpu-operator nvidia/gpu-operator \
   --namespace gpu-operator \
   --create-namespace \
-  --version v26.3.3 \
+  --version v26.7.0 \
   -f gpu-operator-values.yaml
 ```
 
@@ -140,11 +154,11 @@ Key values for migration:
 
 ```yaml
 driver:
-  enabled: true          # Operator installs the driver in a container
+  enabled: true # Operator installs the driver in a container
   rdma:
-    enabled: false       # Leave false unless migrating to InfiniBand too
+    enabled: false # Keep false for DMA-BUF; true enables legacy nvidia-peermem
 fabricManager:
-  enabled: false         # Set true for SXM GPUs
+  enabled: false # Set true for SXM GPUs
 ```
 
 Watch the rollout until every pod is `Running` and validators succeed (`nvidia-cuda-validator` = `Completed`, `nvidia-operator-validator` = `Running`):
@@ -153,8 +167,7 @@ Watch the rollout until every pod is `Running` and validators succeed (`nvidia-c
 kubectl -n gpu-operator get pods -w
 ```
 
-Brief driver crashloops during first bring-up often self-heal — wait for the validators before rolling back.
-The Operator's driver daemonset only schedules on nodes it can manage — cleaned, uncordoned nodes. Uncordon each node after its driver pod is ready (Step 5).
+Brief driver crashloops during first bring-up often self-heal — wait for the validators before rolling back. The Operator's driver DaemonSet can run on a cordoned node; keep each node cordoned until its driver pod and validators are healthy, then uncordon it in Step 5.
 
 ## Step 5 — Uncordon and verify
 
@@ -169,10 +182,24 @@ kubectl get nodes -o custom-columns=\
 NAME:.metadata.name,\
 GPUs:.status.allocatable.nvidia\\.com/gpu
 
-kubectl run gpu-test --rm -it --restart=Never \
-  --image=nvidia/cuda:12.4.0-base-ubuntu22.04 \
-  --limits=nvidia.com/gpu=1 \
-  -- nvidia-smi
+kubectl apply -f - <<'EOF'
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-test
+spec:
+  restartPolicy: Never
+  containers:
+    - name: nvidia-smi
+      image: nvidia/cuda:13.0.3-base-ubuntu24.04
+      command: ["nvidia-smi"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+EOF
+kubectl wait --for=jsonpath='{.status.phase}'=Succeeded pod/gpu-test --timeout=5m
+kubectl logs gpu-test
+kubectl delete pod gpu-test
 ```
 
 ## Step 6 — Verify the provider

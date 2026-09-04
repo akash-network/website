@@ -1,6 +1,14 @@
 ---
 categories: ["Providers", "Operations"]
-tags: ["Gateway API", "NGINX Gateway Fabric", "Migration", "Networking", "Kubernetes", "cert-manager"]
+tags:
+  [
+    "Gateway API",
+    "NGINX Gateway Fabric",
+    "Migration",
+    "Networking",
+    "Kubernetes",
+    "cert-manager",
+  ]
 weight: 3
 title: "Gateway API migration"
 linkTitle: "Gateway API migration"
@@ -44,7 +52,7 @@ kubectl -n akash-gateway describe certificate wildcard-ingress
 
 - [Prerequisites](#prerequisites) satisfied (or you will complete [TLS migration to Gateway API](/docs/providers/operations/tls-gateway-api-migration) in parallel)
 - Provider on v0.11.2 before upgrading to v0.12.0
-- `kubectl` and Helm 3
+- `kubectl` and Helm 4
 - `ingress-nginx` on TCP 8443 and 8444 today
 - Host ports 80, 443, 8443, 8444, and 5002 available on your nodes
 - cert-manager and a `ClusterIssuer` (as required by the prerequisite step)
@@ -237,14 +245,17 @@ for i in $(helm list -n akash-services -q | grep -vw akash-node); do helm -n aka
 ### Upgrade Operators
 
 ```bash
-helm -n akash-services upgrade akash-hostname-operator akash/akash-hostname-operator
-helm -n akash-services upgrade inventory-operator akash/akash-inventory-operator
+helm -n akash-services upgrade akash-hostname-operator akash/akash-hostname-operator \
+  --version 16.0.0
+helm -n akash-services upgrade inventory-operator akash/akash-inventory-operator \
+  --version 16.0.0
 ```
 
 **With persistent storage** (adjust storage class to match your setup):
 
 ```bash
 helm -n akash-services upgrade inventory-operator akash/akash-inventory-operator \
+  --version 16.0.0 \
   --set inventoryConfig.cluster_storage[0]=default \
   --set inventoryConfig.cluster_storage[1]=beta3 \
   --set inventoryConfig.cluster_storage[2]=ram
@@ -253,7 +264,8 @@ helm -n akash-services upgrade inventory-operator akash/akash-inventory-operator
 **With IP leasing (MetalLB):**
 
 ```bash
-helm -n akash-services upgrade akash-ip-operator akash/akash-ip-operator
+helm -n akash-services upgrade akash-ip-operator akash/akash-ip-operator \
+  --version 16.0.0
 ```
 
 ### Upgrade Provider
@@ -263,6 +275,7 @@ cd /root/provider
 
 helm upgrade akash-provider akash/provider \
   -n akash-services \
+  --version 16.0.0 \
   -f provider.yaml \
   --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
 ```
@@ -345,6 +358,7 @@ Each port should appear only once, owned by the NGINX Gateway Fabric process.
 ### Issue: Gateway Shows `Programmed: False`
 
 **Symptoms:**
+
 - `kubectl get gateway akash-gateway` shows `PROGRAMMED: False`
 - TCPRoutes remain unresolved
 
@@ -370,6 +384,7 @@ If the `GatewayClass` is missing, the Helm install may have failed. Re-run the H
 ### Issue: TCPRoute `ResolvedRefs` is `False`
 
 **Symptoms:**
+
 - `kubectl describe tcproute akash-provider-8443` shows backend not found
 
 **Diagnosis:**
@@ -393,6 +408,7 @@ The service must have ports 8443 and 8444 defined.
 ### Issue: Port Conflict on Node
 
 **Symptoms:**
+
 - NGINX Gateway Fabric pods fail to start or crash-loop
 - Error in pod logs: `bind: address already in use`
 
@@ -430,4 +446,3 @@ helm uninstall ingress-nginx -n ingress-nginx
 - [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
 
 ---
-
