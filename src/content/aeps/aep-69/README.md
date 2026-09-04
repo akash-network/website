@@ -2,7 +2,7 @@
 aep: 69
 title: "Provider Console API - v1"
 author: Anil Murty (@anilmurty) Jigar Patel (@jigar-arc10) Deval Patel (devalpatel67)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2025-05-22

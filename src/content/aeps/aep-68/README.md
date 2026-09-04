@@ -2,7 +2,7 @@
 aep: 68
 title: "Console - Billing & Usage"
 author: Anil Murty (@anilmurty)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2025-05-20
