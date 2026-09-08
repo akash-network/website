@@ -140,6 +140,14 @@ const categories = ["All Posts", "News", "Guides", "Articles", "Student Ambassad
         });
       });
     });
+
+    const param = new URLSearchParams(window.location.search).get("category");
+    if (param) {
+      const match = Array.from(filterBtns).find(
+        (b) => b.getAttribute("data-category")?.toLowerCase() === param.toLowerCase(),
+      );
+      match?.click();
+    }
   }
 
   initFilters();
