@@ -9,24 +9,28 @@
 ## Core Principles
 
 ### 1. Accuracy Over Speed
+
 - Verify all version numbers against official sources
 - Test all commands before documenting them
 - Never assume or hallucinate technical details
 - When uncertain, mark content for human verification
 
 ### 2. Clarity Over Cleverness
+
 - Use simple, direct language
 - Active voice preferred
 - No unnecessary jargon
 - Define technical terms on first use
 
 ### 3. Structure Over Style
+
 - Follow consistent patterns for similar content types
 - Use standard headings and organization
 - Maintain hierarchy (never skip heading levels)
 - Separate concerns (operators vs developers)
 
 ### 4. User Focus
+
 - Write for the specified audience (beginners vs experts)
 - Provide context before commands
 - Explain "why" before "how"
@@ -53,14 +57,14 @@ description: "SEO-friendly description for cards and search results"
 
 **Field Requirements:**
 
-| Field | Required | Type | Purpose | Example |
-|-------|----------|------|---------|---------|
-| `categories` | Yes | Array | Breadcrumb navigation | `["For Providers", "Setup & Installation"]` |
-| `tags` | No | Array | Related topics | `["Kubernetes", "GPU", "Hardware"]` |
-| `title` | Yes | String | H1 heading, SEO | `"Hardware Requirements"` |
-| `linkTitle` | No | String | Sidebar (if title too long) | `"Hardware"` |
-| `weight` | No | Number | Sidebar ordering (lower = higher) | `2` |
-| `description` | Yes | String | SEO, preview cards | `"Hardware specifications for providers"` |
+| Field         | Required | Type   | Purpose                           | Example                                     |
+| ------------- | -------- | ------ | --------------------------------- | ------------------------------------------- |
+| `categories`  | Yes      | Array  | Breadcrumb navigation             | `["For Providers", "Setup & Installation"]` |
+| `tags`        | No       | Array  | Related topics                    | `["Kubernetes", "GPU", "Hardware"]`         |
+| `title`       | Yes      | String | H1 heading, SEO                   | `"Hardware Requirements"`                   |
+| `linkTitle`   | No       | String | Sidebar (if title too long)       | `"Hardware"`                                |
+| `weight`      | No       | Number | Sidebar ordering (lower = higher) | `2`                                         |
+| `description` | Yes      | String | SEO, preview cards                | `"Hardware specifications for providers"`   |
 
 ### File Extension Rules
 
@@ -68,11 +72,13 @@ description: "SEO-friendly description for cards and search results"
 - `.mdx` - Markdown with React components (when using `<CodeTabs>`)
 
 **When to use `.mdx`:**
+
 - File imports React components (`CodeTabs`, custom components)
 - Multi-language code examples needed
 - Interactive elements required
 
 **When to use `.md`:**
+
 - All other documentation (95% of files)
 - Simple guides without code tabs
 - Conceptual content
@@ -131,7 +137,7 @@ description: "Brief description"
 
 ### Setup/Installation Guide Pattern
 
-```markdown
+````markdown
 ---
 title: "Installing [Component]"
 description: "Step-by-step guide to install [component]"
@@ -144,6 +150,7 @@ Brief description of what will be installed and why.
 ## Prerequisites
 
 Before starting, ensure you have:
+
 - Requirement 1
 - Requirement 2
 - Requirement 3
@@ -159,7 +166,9 @@ Brief explanation of what this step accomplishes.
 **On the [control plane/worker] node:**
 
 \```bash
+
 # Comment explaining command
+
 command-here
 \```
 
@@ -192,6 +201,7 @@ verification-command
 ### Issue: [Common Problem]
 
 **Symptoms:**
+
 - Symptom 1
 - Symptom 2
 
@@ -207,9 +217,10 @@ solution-command
 
 - [Link 1](/docs/...)
 - [Link 2](/docs/...)
-```
+````
 
 **Critical Elements:**
+
 - Number steps clearly: `STEP 1`, `STEP 2`, etc.
 - Include "Expected output" for non-obvious commands
 - Add verification commands after changes
@@ -234,6 +245,7 @@ Brief overview of the component's purpose and role.
 High-level explanation of the component.
 
 **Key responsibilities:**
+
 - Responsibility 1
 - Responsibility 2
 - Responsibility 3
@@ -267,6 +279,7 @@ How this component interacts with others.
 ```
 
 **Critical Elements:**
+
 - Focus on "how it works" not "how to use it"
 - Include source code references
 - Explain design decisions
@@ -275,12 +288,13 @@ How this component interacts with others.
 
 ### Troubleshooting Pattern
 
-```markdown
+````markdown
 ## Troubleshooting
 
 ### Issue: [Problem Name]
 
 **Symptoms:**
+
 - Observable symptom 1
 - Observable symptom 2
 
@@ -303,7 +317,7 @@ solution-command
 ### Issue: [Next Problem]
 
 [Repeat pattern]
-```
+````
 
 ---
 
@@ -312,14 +326,18 @@ solution-command
 ### Command Line Examples
 
 **Format:**
-```markdown
+
+````markdown
 \```bash
+
 # Explanatory comment
+
 command arg1 arg2
 \```
-```
+````
 
 **Rules:**
+
 - Always use `bash` language tag
 - Include explanatory comments for non-obvious commands
 - NO `$` prompts
@@ -328,24 +346,32 @@ command arg1 arg2
 - Show one logical action per code block
 
 **Example:**
-```markdown
+
+````markdown
 \```bash
+
 # Update package lists
+
 sudo apt update
 
 # Install required packages
+
 sudo apt install -y package1 package2
 \```
-```
+````
 
 **NOT:**
-```markdown
+
+````markdown
 \```
 $ sudo su
+
 # apt update
+
 # apt install package1
+
 \```
-```
+````
 
 ### Multi-Language Code Examples
 
@@ -354,6 +380,7 @@ $ sudo su
 **File must be `.mdx`**
 
 **Pattern:**
+
 ```typescript
 ---
 title: "API Example"
@@ -381,7 +408,7 @@ Brief explanation of the example.
 import (
     "context"
     "fmt"
-    
+
     "pkg.akt.dev/go/node/provider/v1"
 )
 
@@ -396,8 +423,8 @@ func main() {
       label: "TypeScript",
       code: `import { akash } from "@akashnetwork/chain-sdk";
 
-const queryClient = await akash.ClientFactory.createRPCQueryClient({ 
-  rpcEndpoint: "https://rpc.akash.network:443" 
+const queryClient = await akash.ClientFactory.createRPCQueryClient({
+  rpcEndpoint: "https://rpc.akash.network:443"
 });
 
 const response = await queryClient.akash.provider.v1.providers({});
@@ -427,20 +454,25 @@ console.log(response);`
 ### Configuration Files
 
 **Pattern:**
-```markdown
+
+````markdown
 \```yaml
+
 # filename.yaml
+
 key: value
 nested:
-  key: value
-  
+key: value
+
 # Comment explaining section
+
 section:
-  option: value
+option: value
 \```
-```
+````
 
 **Rules:**
+
 - Include filename as comment (first line)
 - Add comments for clarity
 - Show complete working examples when possible
@@ -456,45 +488,59 @@ section:
 **ALWAYS use these current versions. Do not hallucinate or guess.**
 
 #### Kubernetes Infrastructure
+
 - **Kubernetes:** `1.35.4` (via Kubespray 2.31.0)
 - **etcd:** `3.6.10`
 - **containerd:** `2.2.3`
 - **Calico CNI:** `3.31.5`
 
 #### Akash
-- **Akash Node:** `v1.1.0`
-- **Provider Services:** `v0.5.4+`
+
+- **Provider Playbook version source:** [`provider-playbooks/versions.yml`](https://github.com/akash-network/provider-playbooks/blob/main/versions.yml)
+- **`akt` CLI:** `v0.1.1`
+- **Provider:** `v0.16.2`
+- **Akash Node chart:** `18.0.0`
+- **Akash Gateway chart:** `1.2.1`
+- **Provider, Hostname Operator, and Inventory Operator charts:** `19.0.2`
 - **Omnibus Image:** `ghcr.io/akash-network/cosmos-omnibus:v1.2.35-akash-v1.1.0`
 - **Chain ID:** `akashnet-2`
 - **Gas Price:** `0.025uakt` (NOT 0.0025uakt - common error)
 
 #### GPU & Storage
-- **NVIDIA Driver:** `580` (recommended)
-- **NVIDIA Device Plugin:** `v0.18.0`
-- **NVIDIA CDI:** Strategy `cdi-cri` (NOT `nvidia-docker`)
-- **Rook-Ceph:** `v1.18.7`
+
+- **Helm:** `v4.2.4`
+- **NVIDIA GPU Operator:** `v26.7.0`
+- **NVIDIA Network Operator:** `v26.7.0`
+- **NVIDIA CDI:** Enabled; NRI enabled for the Provider Playbook's K3s mode
+- **Rook-Ceph:** `v1.19.10`
+- **Ceph:** `quay.io/ceph/ceph:v19.2.6-20260818`
 - **Cert-Manager:** `v1.19.1`
 
 #### Operating Systems
+
 - **Ubuntu:** `24.04 LTS` (only officially supported OS)
 
 #### Storage Classes
-- **beta1:** HDD (default, cheapest)
+
+- **beta1:** HDD
 - **beta2:** SSD (faster)
 - **beta3:** NVMe (fastest)
 - **ram:** SHM (NOT persistent storage)
 
 #### CLI Commands
-- **Deployments:** Use `provider-services tx deployment ...` (provider-services includes all akash CLI commands)
-- **Queries:** Use `provider-services query ...`
-- **Provider-Specific:** Use `provider-services` commands like `manifest`, `lease-status`, `lease-logs`
-- **Note:** `provider-services` is a superset of `akash` CLI - it includes all blockchain commands plus provider operations
+
+- **Deployments:** Use `akt deploy`, `akt update`, and `akt close`
+- **Queries and Transactions:** Use `akt query ...` and `akt tx ...`
+- **Provider Gateway Operations:** Use `akt provider ...`
+- **Keys:** Use `akt context keys ...`; network, keyring, and signer defaults belong to the active context
+- **Do not recommend:** The legacy `akash` or `provider-services` command-line interfaces
 
 ### When Versions Update
 
 If writing documentation and official versions have changed:
-1. Update this guide first
-2. Update all affected documentation
+
+1. Update the Provider Playbook's `versions.yml` compatibility matrix when the version is part of that automation
+2. Update this guide and all affected documentation
 3. Use `grep -r "old-version" src/content/Docs/` to find all occurrences
 4. Test with new versions before documenting
 
@@ -504,17 +550,18 @@ If writing documentation and official versions have changed:
 
 ### Emphasis Rules
 
-| Use Case | Syntax | Example |
-|----------|--------|---------|
-| Important terms | `**bold**` | `**Important:** Backup your keys` |
-| Commands | `` `backticks` `` | `kubectl get pods` |
-| File names | `` `backticks` `` | `provider.yaml` |
-| Paths | `` `backticks` `` | `/etc/kubernetes/manifests` |
-| Environment variables | `` `backticks` `` | `AKASH_HOME` |
-| Package names | `` `backticks` `` | `akash-node` |
-| Rare emphasis | `*italics*` | `*Optional:* Skip this step` |
+| Use Case              | Syntax            | Example                           |
+| --------------------- | ----------------- | --------------------------------- |
+| Important terms       | `**bold**`        | `**Important:** Backup your keys` |
+| Commands              | `` `backticks` `` | `kubectl get pods`                |
+| File names            | `` `backticks` `` | `provider.yaml`                   |
+| Paths                 | `` `backticks` `` | `/etc/kubernetes/manifests`       |
+| Environment variables | `` `backticks` `` | `AKASH_HOME`                      |
+| Package names         | `` `backticks` `` | `akash-node`                      |
+| Rare emphasis         | `*italics*`       | `*Optional:* Skip this step`      |
 
 **Never use:**
+
 - ALL CAPS for emphasis (except acronyms)
 - Underscores for emphasis
 - Excessive bold/italics
@@ -538,15 +585,16 @@ Use bold text for callouts (NOT HTML, NOT admonitions):
 
 **Callout Types:**
 
-| Type | Use Case | Example |
-|------|----------|---------|
-| `**Important:**` | Must-know information | Required configuration |
-| `**Note:**` | Additional context | Optional considerations |
-| `**Critical:**` | Security, data loss | Backup private keys |
-| `**Tip:**` | Helpful suggestions | Time-saving methods |
-| `**When Needed:**` | Conditional info | Alternative approaches |
+| Type               | Use Case              | Example                 |
+| ------------------ | --------------------- | ----------------------- |
+| `**Important:**`   | Must-know information | Required configuration  |
+| `**Note:**`        | Additional context    | Optional considerations |
+| `**Critical:**`    | Security, data loss   | Backup private keys     |
+| `**Tip:**`         | Helpful suggestions   | Time-saving methods     |
+| `**When Needed:**` | Conditional info      | Alternative approaches  |
 
 **Do NOT use:**
+
 - `:::danger` (doesn't render properly)
 - `:::warning` (doesn't render properly)
 - `:::info` (doesn't render properly)
@@ -556,11 +604,13 @@ Use bold text for callouts (NOT HTML, NOT admonitions):
 ### Link Standards
 
 **Internal Links:**
+
 ```markdown
 [Link Text](/docs/section/page)
 ```
 
 **Rules:**
+
 - ALWAYS start with `/docs/`
 - NO `index.md` in path
 - NO relative paths (`../`)
@@ -568,15 +618,17 @@ Use bold text for callouts (NOT HTML, NOT admonitions):
 - **Provider docs** in this repo use the `/docs/providers/...` path (e.g. `/docs/providers/setup-and-installation/kubespray/provider-installation`). Older examples may show `/docs/for-providers/...`; prefer `/docs/providers/...` for new and updated pages.
 
 **External Links:**
+
 ```markdown
 [Link Text](https://full-url.com)
 ```
 
 **Examples:**
+
 ```markdown
 ✅ GOOD: [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
-❌ BAD:  [Provider Installation](../provider-installation)
-❌ BAD:  [Provider Installation](/for-providers/.../provider-installation/index.md)
+❌ BAD: [Provider Installation](../provider-installation)
+❌ BAD: [Provider Installation](/for-providers/.../provider-installation/index.md)
 ```
 
 ---
@@ -588,6 +640,7 @@ Use bold text for callouts (NOT HTML, NOT admonitions):
 **Audience:** Complete beginners, no Akash experience
 
 **Requirements:**
+
 - Explain every step in detail
 - Define all technical terms
 - Focus on Akash Console (web UI, not CLI)
@@ -599,14 +652,16 @@ Use bold text for callouts (NOT HTML, NOT admonitions):
 **Tone:** Friendly, encouraging, patient
 
 **Example:**
+
 ```markdown
 ## What is a Deployment?
 
-A deployment is your application running on the Akash Network. When you 
-create a deployment, you're requesting compute resources (CPU, RAM, storage) 
+A deployment is your application running on the Akash Network. When you
+create a deployment, you're requesting compute resources (CPU, RAM, storage)
 from providers on the network.
 
 Think of it like renting a server, but:
+
 - Pay only for what you use (per-block pricing)
 - Choose from multiple providers bidding on your request
 - Your app runs in an isolated container
@@ -617,6 +672,7 @@ Think of it like renting a server, but:
 **Audience:** Developers integrating Akash
 
 **Requirements:**
+
 - Assume CLI/programming familiarity
 - Focus on concepts and integration patterns
 - Provide multi-language examples (curl, Go, TypeScript)
@@ -627,7 +683,8 @@ Think of it like renting a server, but:
 **Tone:** Professional, technical, concise
 
 **Example:**
-```markdown
+
+````markdown
 ## Query Providers via gRPC
 
 The provider query service returns all registered providers and their attributes.
@@ -640,20 +697,21 @@ res, _ := client.Providers(context.Background(), &provider.QueryProvidersRequest
 Filter by attribute:
 \```go
 req := &provider.QueryProvidersRequest{
-    Filters: &provider.ProviderFilters{
-        Attributes: []*v1beta3.Attribute{
-            {Key: "region", Value: "us-west"},
-        },
-    },
+Filters: &provider.ProviderFilters{
+Attributes: []\*v1beta3.Attribute{
+{Key: "region", Value: "us-west"},
+},
+},
 }
 \```
-```
+````
 
 ### For Providers (System Administrators)
 
 **Audience:** DevOps engineers, system administrators
 
 **Requirements:**
+
 - Assume Linux/Kubernetes knowledge
 - Be precise with commands and versions
 - Include all prerequisites
@@ -665,32 +723,40 @@ req := &provider.QueryProvidersRequest{
 **Tone:** Direct, technical, security-conscious
 
 **Example:**
-```markdown
+
+````markdown
 ## STEP 3: Configure Persistent Storage
 
 Install Rook-Ceph for persistent storage classes (beta1, beta2, beta3).
 
 **Prerequisites:**
-- Dedicated drives (not partitions) on each worker node
-- Minimum 4 SSDs or 2 NVMe SSDs across cluster
-- Drives must be unformatted
+
+- At least two dedicated physical disks across the cluster
+- One OSD per physical disk, including NVMe
+- Exact stable `/dev/disk/by-id` paths; never a broad wildcard
+- Three storage hosts recommended for production host-failure tolerance
+- Drives must be unpartitioned, unmounted, and free of signatures or LVM ownership
 
 \```bash
+
 # Verify available drives (should show no filesystem)
+
 lsblk -f
 
 # Expected: Empty FSTYPE column for target drives
+
 \```
 
-**Important:** Do not use system drives or shared partitions. Rook-Ceph 
+**Important:** Do not use system drives or shared partitions. Rook-Ceph
 requires exclusive access to raw block devices.
-```
+````
 
 ### For Node Operators (Blockchain Engineers)
 
 **Audience:** Blockchain node operators, validators
 
 **Requirements:**
+
 - Assume blockchain experience
 - Focus on node operations and security
 - Document upgrade procedures clearly
@@ -701,18 +767,21 @@ requires exclusive access to raw block devices.
 **Tone:** Technical, security-focused, precise
 
 **Example:**
+
 ```markdown
 ## Validator Security with TMKMS
 
-TMKMS (Tendermint Key Management System) separates your validator key 
+TMKMS (Tendermint Key Management System) separates your validator key
 from the node, adding a critical security layer.
 
 **Architecture:**
+
 - Validator node runs on Akash (no private key)
 - TMKMS runs on local machine (holds private key)
 - Stunnel provides encrypted communication
 
 **Security benefits:**
+
 - Private key never exposed to remote server
 - Double-signing protection (slashing prevention)
 - Hardware security module (HSM) support
@@ -725,6 +794,7 @@ from the node, adding a critical security layer.
 ### Architecture vs Operations
 
 **Architecture Documentation** (For Developers):
+
 - How code works internally
 - Service structure and design patterns
 - Integration points between services
@@ -732,13 +802,15 @@ from the node, adding a critical security layer.
 - Design rationale
 
 **Example:**
+
 ```markdown
 ## Bid Engine Architecture
 
-The Bid Engine monitors on-chain orders and generates bids based on 
+The Bid Engine monitors on-chain orders and generates bids based on
 available cluster resources.
 
 **Event Flow:**
+
 1. EventBus receives `OrderCreated` event
 2. Bid Engine validates order requirements
 3. Inventory Service provides available resources
@@ -749,19 +821,21 @@ available cluster resources.
 ```
 
 **Operations Documentation** (For Operators):
+
 - How to install/configure
 - How to monitor and troubleshoot
 - How to perform maintenance
 - What commands to run
 
 **Example:**
-```markdown
+
+````markdown
 ## Monitor Bid Activity
 
 Check bid submissions:
 
 \```bash
-provider-services query market bid list --provider=$(provider-services keys show provider -a)
+akt query market bid --by provider "$(akt context keys show provider --address)"
 \```
 
 View bid acceptance rate:
@@ -769,9 +843,10 @@ View bid acceptance rate:
 \```bash
 kubectl logs -n akash-services deployments/akash-provider -f | grep "bid-order"
 \```
-```
+````
 
 **NEVER mix these:**
+
 - Architecture docs should not have kubectl commands
 - Operations docs should not explain code internals
 - Keep them in separate sections
@@ -826,32 +901,38 @@ kubectl logs -n akash-services deployments/akash-provider -f | grep "bid-order"
 ### Technical Errors
 
 ❌ **Old gas prices:**
+
 ```markdown
-BAD:  --gas-prices 0.0025uakt
+BAD: --gas-prices 0.0025uakt
 GOOD: --gas-prices 0.025uakt
 ```
 
 ❌ **Wrong CLI commands:**
+
 ```markdown
-BAD:  provider-services tx deployment create
-GOOD: akash tx deployment create
+BAD: provider-services tx deployment create
+BAD: akash tx deployment create
+GOOD: akt deploy deployment.yaml --from <key>
 ```
 
 ❌ **Old Omnibus images:**
+
 ```markdown
-BAD:  cosmos-omnibus:v0.4.25-akash-v0.34.0
+BAD: cosmos-omnibus:v0.4.25-akash-v0.34.0
 GOOD: cosmos-omnibus:v1.2.35-akash-v1.1.0
 ```
 
 ❌ **Wrong chain ID:**
+
 ```markdown
-BAD:  akashnet-1
+BAD: akashnet-1
 GOOD: akashnet-2
 ```
 
 ### Structural Errors
 
 ❌ **Missing frontmatter:**
+
 ```markdown
 # Page Title
 
@@ -859,6 +940,7 @@ Content here...
 ```
 
 ✅ **Correct:**
+
 ```markdown
 ---
 categories: ["Section"]
@@ -870,14 +952,19 @@ Content here...
 ```
 
 ❌ **Missing horizontal rules:**
+
 ```markdown
 ## Section 1
+
 Content
+
 ## Section 2
+
 Content
 ```
 
 ✅ **Correct:**
+
 ```markdown
 ## Section 1
 
@@ -891,20 +978,25 @@ Content
 ```
 
 ❌ **Skipping heading levels:**
+
 ```markdown
 ## Section
+
 #### Subsection
 ```
 
 ✅ **Correct:**
+
 ```markdown
 ## Section
+
 ### Subsection
 ```
 
 ### Formatting Errors
 
 ❌ **Using admonitions:**
+
 ```markdown
 :::warning
 Important information
@@ -912,40 +1004,46 @@ Important information
 ```
 
 ✅ **Use bold text:**
+
 ```markdown
 **Important:** Important information
 ```
 
 ❌ **Relative links:**
+
 ```markdown
 [Link](../other-page)
 ```
 
 ✅ **Absolute links:**
+
 ```markdown
 [Link](/docs/section/other-page)
 ```
 
 ❌ **Command prompts:**
-```markdown
+
+````markdown
 \```bash
 $ sudo apt update
 $ sudo apt install package
 \```
-```
+````
 
 ✅ **Clean commands:**
-```markdown
+
+````markdown
 \```bash
 sudo apt update
 sudo apt install package
 \```
-```
+````
 
 ### Content Errors
 
 ❌ **Mixing audiences:**
-```markdown
+
+````markdown
 ## Architecture Overview
 
 The Bid Engine monitors orders...
@@ -954,20 +1052,23 @@ To view logs:
 \```bash
 kubectl logs ...
 \```
-```
+````
 
 ✅ **Separate concerns:**
+
 ```markdown
 Architecture doc: Explain how it works
 Operations doc: Show kubectl commands
 ```
 
 ❌ **Assuming without verifying:**
+
 ```markdown
 "The minimum RAM requirement is 0.5 GB"
 ```
 
 ✅ **Verify first:**
+
 ```markdown
 (Check actual minimums, then document accurately)
 ```
@@ -978,7 +1079,7 @@ Operations doc: Show kubectl commands
 
 ### Example 1: Setup Guide
 
-```markdown
+````markdown
 ---
 categories: ["For Providers", "Setup & Installation", "Kubespray"]
 tags: ["Kubernetes", "Installation", "Setup"]
@@ -995,6 +1096,7 @@ Set up a production-ready Kubernetes cluster using Kubespray.
 ## Prerequisites
 
 Before starting, ensure you have:
+
 - 3+ servers running Ubuntu 24.04 LTS
 - 8+ GB RAM per server
 - SSH access to all servers
@@ -1051,10 +1153,10 @@ kubectl get nodes
 
 **Expected output:**
 \```
-NAME     STATUS   ROLES           AGE   VERSION
-node1    Ready    control-plane   5m    v1.35.4
-node2    Ready    <none>          5m    v1.35.4
-node3    Ready    <none>          5m    v1.35.4
+NAME STATUS ROLES AGE VERSION
+node1 Ready control-plane 5m v1.35.4
+node2 Ready <none> 5m v1.35.4
+node3 Ready <none> 5m v1.35.4
 \```
 
 ---
@@ -1064,6 +1166,7 @@ node3    Ready    <none>          5m    v1.35.4
 ### Issue: Kubespray Fails to Deploy
 
 **Symptoms:**
+
 - Ansible playbook fails
 - Error: "Failed to download kubeadm"
 
@@ -1086,11 +1189,11 @@ curl -I https://github.com
 - [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support)
 - [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)
 - [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)
-```
+````
 
 ### Example 2: Architecture Document
 
-```markdown
+````markdown
 ---
 categories: ["For Providers", "Architecture"]
 tags: ["Architecture", "Cluster", "Kubernetes"]
@@ -1109,6 +1212,7 @@ The Cluster Service manages the Kubernetes lifecycle of tenant deployments.
 The Cluster Service acts as the bridge between Akash leases and Kubernetes resources.
 
 **Key responsibilities:**
+
 - Translate SDL manifests to Kubernetes resources
 - Monitor deployment health and resource usage
 - Enforce resource limits and quotas
@@ -1125,10 +1229,10 @@ The Cluster Service initializes with:
 \```go
 // cluster/service.go
 func NewService(ctx context.Context, client kubernetes.Interface) Service {
-    return &service{
-        client: client,
-        inventory: inventory.NewOperator(client),
-    }
+return &service{
+client: client,
+inventory: inventory.NewOperator(client),
+}
 }
 \```
 
@@ -1153,17 +1257,18 @@ The Cluster Service translates SDL service definitions to Kubernetes Deployments
 \```go
 // cluster/kube/builder/deployment.go
 func (b *deploymentBuilder) create() (*appsv1.Deployment, error) {
-    return &appsv1.Deployment{
-        ObjectMeta: b.buildObjectMeta(),
-        Spec: appsv1.DeploymentSpec{
-            Replicas: &b.replicas,
-            Template: b.buildPodTemplate(),
-        },
-    }, nil
+return &appsv1.Deployment{
+ObjectMeta: b.buildObjectMeta(),
+Spec: appsv1.DeploymentSpec{
+Replicas: &b.replicas,
+Template: b.buildPodTemplate(),
+},
+}, nil
 }
 \```
 
 **Key mappings:**
+
 - SDL `cpu` → Kubernetes `resources.requests.cpu`
 - SDL `memory` → Kubernetes `resources.requests.memory`
 - SDL `storage` → PersistentVolumeClaim
@@ -1174,14 +1279,17 @@ func (b *deploymentBuilder) create() (*appsv1.Deployment, error) {
 ## Integration Points
 
 **Upstream:**
+
 - Receives manifests from Manifest Service
 - Receives inventory queries from Bid Engine
 
 **Downstream:**
+
 - Deploys to Kubernetes API
 - Queries Inventory Operator for capacity
 
 **PubSub Events:**
+
 - Publishes `InventoryUpdate` on resource changes
 - Subscribes to `LeaseCreated` and `LeaseClosed`
 
@@ -1192,11 +1300,11 @@ func (b *deploymentBuilder) create() (*appsv1.Deployment, error) {
 - [Manifest Service Architecture](/docs/providers/architecture/manifest-service)
 - [Inventory Operator](/docs/providers/architecture/operators/inventory)
 - [Provider Service Overview](/docs/providers/architecture)
-```
+````
 
 ### Example 3: API Example with CodeTabs
 
-```markdown
+````markdown
 ---
 categories: ["For Developers", "API Protocols"]
 tags: ["API", "gRPC", "SDK"]
@@ -1219,6 +1327,7 @@ Akash exposes gRPC services for all blockchain queries and transactions.
 **Endpoint:** `grpc.akash.network:443`
 
 **Available services:**
+
 - Provider queries
 - Deployment lifecycle
 - Market operations
@@ -1231,63 +1340,64 @@ Akash exposes gRPC services for all blockchain queries and transactions.
 Retrieve all registered providers on the network.
 
 <CodeTabs
-  client:load
-  examples={[
-    {
-      language: "bash",
-      label: "grpcurl",
-      code: `grpcurl -d '{}' \\
+client:load
+examples={[
+{
+language: "bash",
+label: "grpcurl",
+code: `grpcurl -d '{}' \\
   grpc.akash.network:443 \\
   akash.provider.v1.Query/Providers`
-    },
-    {
-      language: "go",
-      code: `package main
+},
+{
+language: "go",
+code: `package main
 
 import (
-    "context"
-    "fmt"
-    
+"context"
+"fmt"
+
     "pkg.akt.dev/go/node/provider/v1"
     "google.golang.org/grpc"
+
 )
 
 func main() {
-    conn, _ := grpc.Dial("grpc.akash.network:443", grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{})))
-    defer conn.Close()
-    
+conn, \_ := grpc.Dial("grpc.akash.network:443", grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{})))
+defer conn.Close()
+
     client := provider.NewQueryClient(conn)
     res, _ := client.Providers(context.Background(), &provider.QueryProvidersRequest{})
-    
+
     fmt.Printf("Found %d providers\\n", len(res.Providers))
-}`
-    },
+
+}`    },
     {
       language: "typescript",
       label: "TypeScript",
-      code: `import { akash } from "@akashnetwork/chain-sdk";
+      code:`import { akash } from "@akashnetwork/chain-sdk";
 
-const queryClient = await akash.ClientFactory.createRPCQueryClient({ 
-  rpcEndpoint: "https://rpc.akash.network:443" 
+const queryClient = await akash.ClientFactory.createRPCQueryClient({
+rpcEndpoint: "https://rpc.akash.network:443"
 });
 
 const response = await queryClient.akash.provider.v1.providers({});
 console.log(\`Found \${response.providers.length} providers\`);`
-    }
-  ]}
+}
+]}
 />
 
 **Response:**
 
 \```json
 {
-  "providers": [
-    {
-      "owner": "akash1...",
-      "host_uri": "https://provider.example.com",
-      "attributes": [...]
-    }
-  ]
+"providers": [
+{
+"owner": "akash1...",
+"host_uri": "https://provider.example.com",
+"attributes": [...]
+}
+]
 }
 \```
 
@@ -1298,12 +1408,12 @@ console.log(\`Found \${response.providers.length} providers\`);`
 Query providers with specific attributes (e.g., region, GPU capabilities).
 
 <CodeTabs
-  client:load
-  examples={[
-    {
-      language: "bash",
-      label: "grpcurl",
-      code: `grpcurl -d '{
+client:load
+examples={[
+{
+language: "bash",
+label: "grpcurl",
+code: `grpcurl -d '{
   "filters": {
     "attributes": [
       {"key": "region", "value": "us-west"}
@@ -1312,31 +1422,30 @@ Query providers with specific attributes (e.g., region, GPU capabilities).
 }' \\
   grpc.akash.network:443 \\
   akash.provider.v1.Query/Providers`
-    },
-    {
-      language: "go",
-      code: `req := &provider.QueryProvidersRequest{
-    Filters: &provider.ProviderFilters{
-        Attributes: []*v1beta3.Attribute{
-            {Key: "region", Value: "us-west"},
-        },
-    },
+},
+{
+language: "go",
+code: `req := &provider.QueryProvidersRequest{
+Filters: &provider.ProviderFilters{
+Attributes: []\*v1beta3.Attribute{
+{Key: "region", Value: "us-west"},
+},
+},
 }
 
-res, _ := client.Providers(context.Background(), req)`
-    },
+res, \_ := client.Providers(context.Background(), req)`    },
     {
       language: "typescript",
       label: "TypeScript",
-      code: `const response = await queryClient.akash.provider.v1.providers({
-  filters: {
-    attributes: [
-      { key: "region", value: "us-west" }
-    ]
-  }
+      code:`const response = await queryClient.akash.provider.v1.providers({
+filters: {
+attributes: [
+{ key: "region", value: "us-west" }
+]
+}
 });`
-    }
-  ]}
+}
+]}
 />
 
 ---
@@ -1346,7 +1455,7 @@ res, _ := client.Providers(context.Background(), req)`
 - [REST API](/docs/for-developers/api-protocols/rest-api)
 - [RPC Endpoints](/docs/for-developers/api-protocols/rpc-endpoints)
 - [Akash SDK](/docs/for-developers/deployment/akash-sdk)
-```
+````
 
 ---
 
@@ -1419,12 +1528,14 @@ Then provide:
 **This guide is updated:** December 3, 2024
 
 **When to update this guide:**
+
 - Official version numbers change
 - New components added (e.g., new operator)
 - Documentation patterns change
 - New features require new patterns
 
 **How to update:**
+
 1. Update version table
 2. Update examples if needed
 3. Update patterns if needed
@@ -1438,9 +1549,9 @@ Then provide:
 **IMPORTANT:** Akash Network does **NOT** have a forum. Do not add forum links to documentation.
 
 **Official Support Channels:**
+
 - **Discord:** [discord.akash.network](https://discord.akash.network) - Primary community support
 - **GitHub:** [github.com/akash-network](https://github.com/akash-network) - Issues and discussions
 - **Documentation:** This website
 
 **Questions?** Contact the documentation team via Discord #docs channel or open an issue on GitHub.
-

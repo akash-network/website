@@ -4,319 +4,128 @@ tags: ["Operations", "Leases"]
 weight: 1
 title: "Lease Management"
 linkTitle: "Lease Management"
-description: "Manage active leases, track earnings, and handle lease lifecycle"
+description: "Inspect active leases and perform provider-side lease operations"
 ---
 
-This guide covers lease management operations for Akash providers. Most lease management tasks can be automated using two scripts. The manual commands at the bottom are provided for reference and troubleshooting.
+Use the unified `akt` CLI for on-chain lease operations and `kubectl` for the workloads represented inside the provider cluster. Comparing both views helps identify a lease that is closed on-chain but still has cluster resources, or a live lease whose workload is unhealthy.
 
----
+## Before you start
 
-## Automated Lease Management (Recommended)
-
-The following two scripts automate most lease management tasks. Set them up once and let them run automatically.
-
-### 1. Dangling Deployments Cleanup
-
-Occasionally, leases may be closed on-chain but remain active in Kubernetes (or vice versa), creating "dangling deployments." These orphaned deployments consume resources without generating revenue.
-
-**This script automatically identifies and removes dangling deployments.**
-
-#### Download and Run
+Install [`akt`](/docs/developers/deployment/akt/installation) and select a mainnet keyring context containing the provider key. Confirm the active identity before a transaction:
 
 ```bash
-cd ~
-wget https://gist.githubusercontent.com/Zblocker64/6da5f4833289270450260d360922cb11/raw/6035d31758143ee0b8edcfcf1b295225a2691bb7/cleanup_provider.sh
-chmod +x cleanup_provider.sh
-./cleanup_provider.sh
+akt context show
+akt context keys show <provider-key> --address
 ```
 
-#### What the Script Does
+The address must match the provider owner recorded in `provider.yaml`.
 
-- Compares on-chain lease state with Kubernetes manifests
-- Identifies discrepancies between chain and cluster
-- Automatically cleans up dangling resources
-- Reports deployments that were removed
+## List active provider leases
 
-**Run this script regularly** (daily or weekly) to keep your provider clean.
-
-### 2. Close Leases by Container Image
-
-Block specific container images by automatically closing leases that use them.
-
-**This script automatically monitors and closes deployments using unwanted images.**
-
-#### Create the Script
-
-Create `/usr/local/bin/akash-kill-lease.sh`:
+Query active leases by provider address:
 
 ```bash
-#!/bin/bash
-
-# Uncomment and set IMAGES to activate
-# IMAGES="packetstream/psclient"
-
-# Multiple images separated by "|"
-# IMAGES="packetstream/psclient|traffmonetizer/cli"
-
-# Exit if no images specified
-test -z $IMAGES && exit 0
-
-kubectl -n lease get manifests -o json | \
-  jq --arg md_lid "akash.network/lease.id" -r '.items[] | [(.metadata.labels | .[$md_lid+".owner"], .[$md_lid+".dseq"], .[$md_lid+".gseq"], .[$md_lid+".oseq"]), (.spec.group | .services[].image)] | @tsv' | \
-  grep -Ei "$IMAGES" | \
-  while read owner dseq gseq oseq image; do
-    kubectl -n akash-services exec -i $(kubectl -n akash-services get pods -l app=akash-provider -o name) -- \
-      env AKASH_OWNER=$owner AKASH_DSEQ=$dseq AKASH_GSEQ=$gseq AKASH_OSEQ=$oseq \
-      provider-services tx market bid close
-  done
-```
-
-#### Make Executable
-
-```bash
-chmod +x /usr/local/bin/akash-kill-lease.sh
-```
-
-#### Create Cron Job (Automate It)
-
-Create `/etc/cron.d/akash-kill-lease`:
-
-```
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-SHELL=/bin/bash
-
-*/5 * * * * root /usr/local/bin/akash-kill-lease.sh
-```
-
-This cron job runs every 5 minutes to automatically close leases with unwanted images.
-
-**Note:** The image name is only known **after** the client sends the manifest (post-bid acceptance), so the provider will have already bid on the deployment.
-
----
-
-## Manual Operations
-
-The commands below are for manual troubleshooting and one-off operations. **Most providers won't need these** - the automated scripts above handle lease management automatically.
-
-### List Provider Active Leases
-
-View all active leases on your provider to monitor current deployments.
-
-### Command Template
-
-```bash
-provider-services query market lease list \
-  --provider <provider-address> \
-  --gseq 0 \
-  --oseq 0 \
+akt query market lease \
+  --by provider \
+  <provider-address> \
+  active \
   --page 1 \
-  --limit 500 \
-  --state active
+  --limit 500
 ```
 
-### Example
+`akt` uses positional resource filters. The active context supplies the chain ID, RPC endpoint, and query defaults.
+
+## Compare leases with cluster workloads
+
+List the provider's workload records and their lease labels:
 
 ```bash
-provider-services query market lease list \
-  --provider akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j \
-  --gseq 0 \
-  --oseq 0 \
+kubectl --namespace lease get manifests --show-labels
+kubectl --namespace lease get providerhosts
+```
+
+Inspect one manifest:
+
+```bash
+kubectl --namespace lease get manifest <manifest-name> --output yaml
+```
+
+The labels identify the owner, deployment sequence (`dseq`), group sequence (`gseq`), order sequence (`oseq`), and provider. Match that tuple to the on-chain lease result.
+
+Deployment routes use Gateway API resources. Confirm them with:
+
+```bash
+kubectl get httproutes --all-namespaces
+```
+
+## Close a provider bid
+
+Closing a bid terminates the provider side of the lease and releases its capacity. Verify the exact lease tuple and reason before signing:
+
+```bash
+akt tx market bid close \
+  --owner <tenant-address> \
+  --dseq <dseq> \
+  --gseq <gseq> \
+  --oseq <oseq> \
+  --from <provider-key> \
+  --reason 10002 \
+  --yes
+```
+
+The provider address is derived from the signing key. Do not pass the tenant's key or address to `--from`.
+
+Provider reason codes are:
+
+|    Code | Meaning                                |
+| ------: | -------------------------------------- |
+| `10000` | Workload or environment instability    |
+| `10001` | Planned decommissioning                |
+| `10002` | Unspecified provider reason            |
+| `10003` | Tenant did not send a manifest in time |
+
+If the lease uses a reclamation window, follow the [reclamation procedure](/docs/providers/setup-and-installation/kubespray/reclamation). The chain rejects a close transaction submitted before its reclamation deadline.
+
+## Verify cleanup
+
+After the transaction is committed, confirm that the lease is no longer active and that its cluster resources disappear:
+
+```bash
+akt query market lease \
+  --by provider \
+  <provider-address> \
+  active \
   --page 1 \
-  --limit 500 \
-  --state active
+  --limit 500
+
+kubectl --namespace lease get manifests --show-labels
+kubectl get namespaces
 ```
 
-### Example Output (payment denom uact / ACT)
-
-```yaml
-leases:
-- escrow_payment:
-    account_id:
-      scope: deployment
-      xid: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28/5903794
-    balance:
-      amount: "0.455120000000000000"
-      denom: uact
-    owner: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
-    rate:
-      amount: "24.780240000000000000"
-      denom: uact
-    state: open
-  lease:
-    closed_on: "0"
-    created_at: "5903822"
-    lease_id:
-      dseq: "5903794"
-      gseq: 1
-      oseq: 1
-      owner: akash19gs08y80wlk5wl4696wz82z2wrmjw5c84cvw28
-      provider: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
-    price:
-      amount: "24.780240000000000000"
-      denom: uact
-    state: active
-```
-
-Providers are paid in **ACT** (uact); balance and rate above are in ACT.
-
-## List Active Leases from Kubernetes
-
-View active leases from the Kubernetes cluster perspective using the Hostname Operator.
-
-### Command
+If a closed lease remains in Kubernetes, inspect the provider and operator logs before deleting anything manually:
 
 ```bash
-kubectl -n lease get providerhosts
+kubectl --namespace akash-services logs statefulset/akash-provider --tail 200
+kubectl --namespace akash-services get pods
+kubectl --namespace lease get events --sort-by=.metadata.creationTimestamp
 ```
 
-### Example Output
-
-```
-NAME                                                  AGE
-gtu5bo14f99elel76srrbj04do.ingress.example.com      60m
-kbij2mvdlhal5dgc4pc7171cmg.ingress.example.com      18m
-```
-
-## Close a Lease (Provider-Side)
-
-Providers can close bids to terminate deployments and recover provider escrow.
-
-**What happens when you close a lease:**
-- Closes the lease (payment channel) immediately
-- Terminates the workload running on the provider
-- Returns provider escrow to the provider (in ACT)
-- Tenant must close their deployment separately to recover their escrow (default deposit in ACT)
-
-### Command Template
+Restart the provider only after identifying a reconciliation problem:
 
 ```bash
-provider-services tx market bid close \
-  --node $AKASH_NODE \
-  --chain-id $AKASH_CHAIN_ID \
-  --owner <TENANT-ADDRESS> \
-  --dseq <DSEQ> \
-  --gseq 1 \
-  --oseq 1 \
-  --from <PROVIDER-ADDRESS> \
-  --keyring-backend $AKASH_KEYRING_BACKEND \
-  -y \
-  --gas-prices="0.025uakt" \
-  --gas="auto" \
-  --gas-adjustment=1.15
+kubectl --namespace akash-services rollout restart statefulset/akash-provider
+kubectl --namespace akash-services rollout status statefulset/akash-provider
 ```
 
-### Example
+## Automation safety
 
-```bash
-provider-services tx market bid close \
-  --node $AKASH_NODE \
-  --chain-id akashnet-2 \
-  --owner akash1n44zc8l6gfm0hpydldndpg8n05xjjwmuahc6nn \
-  --dseq 5905802 \
-  --gseq 1 \
-  --oseq 1 \
-  --from akash1yvu4hhnvs84v4sv53mzu5ntf7fxf4cfup9s22j \
-  --keyring-backend os \
-  -y \
-  --gas-prices="0.025uakt" \
-  --gas="auto" \
-  --gas-adjustment=1.15
-```
+Do not automate lease closure by executing the legacy `provider-services` binary inside the provider pod. The `akt` binary, context, and signing key are not supplied by that pod, and interactive keyrings are unsuitable for unattended cron jobs.
 
-## Retrieve Active Manifest List
+An automated policy needs a dedicated, least-privilege keyring context, a non-interactive secret source, exact allow or deny rules, transaction auditing, retry protection, and alerting. Test the policy with `akt`'s `--dry-run` option before enabling signed transactions. Keep private keys outside scripts, container images, and Git.
 
-List all active manifests (deployments) running on your provider.
+## Related resources
 
-### Command
-
-```bash
-kubectl -n lease get manifests --show-labels
-```
-
-### Example Output
-
-```
-NAME                                            AGE   LABELS
-h644k9qp92e0qeakjsjkk8f3piivkuhgc6baon9tccuqo   26h   akash.network/lease.id.dseq=5950031,akash.network/lease.id.gseq=1,akash.network/lease.id.oseq=1,akash.network/lease.id.owner=akash15745vczur53teyxl4k05u250tfvp0lvdcfqx27,akash.network/lease.id.provider=akash1xmz9es9ay9ln9x2m3q8dlu0alxf0ltce7ykjfx
-```
-
-## Retrieve Manifest Details
-
-Get detailed information about a specific deployment's manifest.
-
-### Command Template
-
-```bash
-kubectl -n lease get manifest <namespace> -o yaml
-```
-
-### Example
-
-```bash
-kubectl -n lease get manifest moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk -o yaml
-```
-
-## Deployment Routing Verification
-
-Verify that deployment hostnames are routed correctly. With the Gateway API stack, the hostname operator creates **HTTPRoute** resources for each deployment.
-
-### Command (Gateway API)
-
-```bash
-kubectl get httproute -A
-```
-
-### Example Output (Gateway API)
-
-```
-NAMESPACE                                       NAME                                      HOSTNAMES                                          AGE
-moc58fca3ccllfrqe49jipp802knon0cslo332qge55qk   5n0vp4dmbtced00smdvb84ftu4.ingress.example.com   5n0vp4dmbtced00smdvb84ftu4.ingress.example.com   70s
-```
-
-## Terminate Workload from Provider (CLI Method)
-
-Alternative method to close a bid using `kubectl exec`.
-
-### Step 1: Find the Deployment
-
-```bash
-kubectl -n lease get manifest --show-labels --sort-by='.metadata.creationTimestamp'
-```
-
-### Step 2: Close the Bid
-
-```bash
-kubectl -n akash-services exec -i $(kubectl -n akash-services get pods -l app=akash-provider --output jsonpath='{.items[0].metadata.name}') -- \
-  bash -c "provider-services tx market bid close \
-    --owner <owner-address> \
-    --dseq <dseq> \
-    --oseq 1 \
-    --gseq 1 \
-    -y"
-```
-
-### Step 3: Verify Provider Health
-
-Watch provider logs to ensure bidding continues normally:
-
-```bash
-kubectl -n akash-services logs -l app=akash-provider --tail=100 -f | \
-  grep -Ev "running check|check result|cluster resources|service available replicas below target"
-```
-
-### Restart Provider if Needed
-
-If account sequence mismatches occur, restart the provider:
-
-```bash
-kubectl -n akash-services delete pods -l app=akash-provider
-```
-
----
-
-## Related Resources
-
-- [Provider Status & Monitoring](/docs/providers/operations/monitoring)
-- [Provider Logs](/docs/providers/operations/monitoring#provider-logs)
+- [`akt` queries and transactions](/docs/developers/deployment/akt/queries-and-transactions)
+- [`akt` contexts and key management](/docs/developers/deployment/akt/configuration)
+- [Provider Status and Monitoring](/docs/providers/operations/monitoring)
 - [Provider Verification](/docs/providers/operations/provider-verification)
-

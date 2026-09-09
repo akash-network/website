@@ -4,376 +4,250 @@ tags: ["Provider Playbook", "Automation", "Ansible", "Setup"]
 weight: 1
 title: "Provider Playbook - Automated Setup"
 linkTitle: "Provider Playbook"
-description: "Automated provider setup using Ansible playbooks"
+description: "Build or extend an Akash provider with the guided Ansible installer"
 ---
 
-**The fastest way to set up an Akash provider using automated Ansible playbooks.**
+The Provider Playbook is the recommended guided installer for self-managed Akash providers. It can build Kubernetes with Kubespray or K3s, or add provider components to an existing cluster.
 
-The Provider Playbook features an interactive setup script that guides you through the entire process, automating Kubernetes installation, provider deployment, and configuration.
+The terminal wizard validates access before making changes, detects host capabilities over SSH, recommends safe defaults, shows a redacted review, and installs only the components you select.
 
- **Setup Time:** ~1 hour
+## Before you start
 
----
+The installer supports Ubuntu 24.04 LTS on x86-64 hosts. Review the [provider hardware requirements](/docs/providers/getting-started/hardware-requirements) before provisioning nodes.
 
-## Why Provider Playbook?
+You also need:
 
-### **Advantages**
-- **Interactive wizard** - Guides you through every step
-- **Automated setup** - Handles all the heavy lifting
-- **Multiple Kubernetes options** - Choose Kubespray (production) or K3s (lightweight)
-- **Flexible configuration** - Select only what you need
-- **Standardized deployment** - Consistent, repeatable process
-- **Infrastructure as Code** - All configurations versioned
+- Root access on the machine where you run the installer.
+- SSH console or out-of-band access to every node so you can authorize an SSH public key.
+- Passwordless `sudo` for every non-root SSH user. Password-based SSH is not supported.
+- A domain you control and the ability to create its DNS records.
+- A funded Akash wallet, or funds to transfer to a wallet created by the wizard.
+- For GPU installation, clean NVIDIA hosts without a preinstalled driver, CUDA driver package, Container Toolkit, or legacy NVIDIA device-plugin Helm release.
+- For Rook-Ceph, at least two dedicated, empty physical disks across the cluster. Three storage hosts are recommended for production availability.
 
-###  Considerations
-- Requires command-line comfort
-- SSH access to all nodes required
-- Still requires Linux/networking understanding
+The reachable SSH address, user, and port for each node are the only host details you must know in advance. Location, CPU, memory, GPUs, network addresses, and eligible Ceph disks are detected after SSH access succeeds.
 
----
+## Install
 
-## What It Automates
-
-The interactive script handles:
-- **Prerequisite installation (Python, Ansible, tools)**
-- **Kubernetes cluster deployment (Kubespray or K3s)**
-- **Wallet setup (create new or import existing)**
-- **GPU detection and NVIDIA driver installation**
-- **Storage configuration (Rook-Ceph for persistent storage)**
-- **Provider software installation and configuration**
-- **OS optimizations and cron jobs**
-- **Tailscale VPN setup (optional)**
-- **SSH key distribution across nodes**
-
----
-
-## Prerequisites
-
-### System Requirements
-- **Ubuntu 24.04 LTS Server** (officially supported)
-- **Root or sudo access** on all nodes
-- **SSH access** to all nodes
-
-### Hardware Requirements
-See [Hardware Requirements](/docs/providers/getting-started/hardware-requirements) for detailed specifications.
-
-### Information You'll Need
-
-Have this ready before starting:
-
-**1. Provider Details:**
-- Provider domain name (e.g., `provider.example.com`)
-- `location-region` — UN geoscheme region (e.g., `na-us-west`)
-- Organization name
-- Contact email
-- Organization website
-
-**2. Node Information:**
-- Number of nodes in your cluster
-- IP addresses for each node
-- SSH credentials (username/port) for each node
-
-**3. Wallet (one of the following):**
-- Create a new wallet during setup (recommended)
-- Existing wallet key file to import
-- Existing wallet mnemonic phrase
-- Existing AKT address with base64 encoded key
-
-**4. Storage Configuration (if using persistent storage):**
-- Storage device names (e.g., `/dev/sdb`, `/dev/nvme0n1`)
-- Number of OSDs per device
-- Storage device type (HDD/SSD/NVMe)
-- Which nodes will provide storage
-
-**5. Tailscale (optional):**
-- Tailscale auth key for secure remote access
-
----
-
-## Installation
-
-### Step 1: SSH into Your First Node
-
-```bash
-ssh user@node1-ip-address
-```
-
-The setup script should be run from your first node (node1) which will become part of your cluster.
-
-### Step 2: Clone the Repository
+Connect to the first node, clone the repository, and run the wizard as root:
 
 ```bash
 git clone https://github.com/akash-network/provider-playbooks.git
 cd provider-playbooks
+sudo ./scripts/setup_provider.sh
 ```
 
-### Step 3: Run the Setup Script
+Successful prerequisite commands keep package-manager output hidden. If a command fails, the wizard prints its captured output with the failing step.
+
+## Installer workflow
+
+### 1. Choose the Kubernetes foundation
+
+| Mode             | Use it when                                       | Behavior                                                                |
+| ---------------- | ------------------------------------------------- | ----------------------------------------------------------------------- |
+| Kubespray        | You want a production-oriented Kubernetes cluster | Downloads the pinned Kubespray release only for this mode               |
+| K3s              | You want a lean Kubernetes installation           | Uses the playbook's K3s role and never downloads Kubespray              |
+| Existing cluster | Kubernetes is already installed                   | Leaves the distribution untouched and installs only selected components |
+
+For clusters built by the wizard, every control-plane node is also a worker:
+
+| Node count | Control planes              | Workers               |
+| ---------: | --------------------------- | --------------------- |
+|          1 | `node1`                     | `node1`               |
+|          2 | `node1`                     | `node1`, `node2`      |
+|  3 or more | `node1`, or `node1`–`node3` | Every configured node |
+
+Kubespray prompts for kubelet and containerd data directories. K3s keeps kubelet data at `/var/lib/kubelet` and prompts only for the K3s data directory, which defaults to `/var/lib/rancher/k3s`.
+
+When using an existing cluster, the first entered host must map to a control-plane node where `sudo kubectl` works. The wizard maps each SSH host to a unique Kubernetes node and does not ask Kubernetes to advertise different node addresses.
+
+### 2. Select components
+
+The wizard can install:
+
+- Provider OS tuning and maintenance jobs.
+- NVIDIA GPU Operator on detected GPU nodes.
+- Rook-Ceph persistent storage.
+- The Akash node, gateway, provider, hostname operator, and inventory operator.
+- Optional Tailscale access.
+
+OS tuning and the provider stack are selected by default. GPU, Rook-Ceph, and Tailscale are opt in.
+
+### 3. Establish SSH access
+
+Enter a reachable IPv4 address, SSH user, and SSH port for each node. The wizard then selects a compatible local key or creates a dedicated Ed25519 key and displays the public key and target users.
+
+Add that public key to each target user's `~/.ssh/authorized_keys`, then continue. The wizard loops until every host accepts key-only SSH and every non-root user can run non-interactive `sudo`.
+
+For a new Kubespray or K3s cluster, private and public addresses are detected over the verified SSH connection. When both are available, the wizard recommends private addresses for Kubernetes inter-node traffic. SSH continues to use the reachable address you entered.
+
+### 4. Detect provider capabilities
+
+Discovery runs over SSH after access validation:
+
+- The first node's public egress address is used to suggest country, city code, UTC offset, and a valid Akash `location-region`. If lookup fails or you decline the result, a guided region picker builds the attributes.
+- `lscpu` and firmware data provide CPU vendor, architecture, memory generation, and ECC. The wizard asks only for values the host does not expose or that you decline.
+- PCI display devices are matched against a pinned Akash GPU database. The wizard derives the provider's GPU model, memory, interface, CUDA, and Fabric Manager settings. SXM GPUs enable Fabric Manager automatically.
+- If Rook-Ceph is selected, every configured host is scanned read-only for eligible whole disks.
+
+### 5. Configure the provider
+
+The wizard collects the base domain without a `provider.` prefix, organization and contact attributes, network attributes, and TLS method. Production TLS can use Cloudflare or Google Cloud DNS-01; a self-signed certificate is available for bootstrap and testing.
+
+Wallet creation, recovery, lookup, and export use only the unified [`akt` CLI](/docs/developers/deployment/akt). The installer uses a dedicated context named `provider`, creating it for mainnet when it is absent instead of launching `akt`'s general first-run network picker. If that context already exists, verify that it points to mainnet before continuing.
+
+Wallet options are:
+
+- Use an existing key from the provider context.
+- Create a new key and display its recovery mnemonic.
+- Recover a key from a mnemonic.
+- Supply an address and pre-encoded provider secrets.
+
+The keyring password is collected once and reused only for the current wallet operation. A separate provider export password is generated automatically and stored only in the protected inventory. If a requested key name already exists, the wizard offers to use it or enter another name.
+
+### 6. Review and deploy
+
+Before writing generated inventory or deploying roles, the wizard displays a redacted installation profile with hosts, topology, components, provider attributes, and storage choices. After confirmation, it generates the protected inventory and starts deployment.
+
+The component order is:
+
+1. Kubernetes foundation and cluster verification.
+2. NVIDIA GPU Operator.
+3. Rook-Ceph storage.
+4. Akash provider stack.
+
+OS preparation runs before the optional infrastructure components. Cluster-scoped Helm operations run once from the first control-plane host; they are not repeated on every node.
+
+## Ceph disk discovery and recommendations
+
+Storage discovery never wipes or modifies a disk. It excludes a device when it is:
+
+- Read-only, removable, or smaller than 5 GiB.
+- Partitioned, mapped, mounted, or used as swap.
+- Marked with filesystem, RAID, LVM, or Ceph signatures.
+- Held by another block device.
+- Missing a stable `/dev/disk/by-id` identity.
+
+The recommendation prioritizes three storage hosts, then two storage hosts, then two physical disks on one host. It prefers the fastest homogeneous media tier that preserves the best available topology. If mixed media are selected, the provider advertises the slowest selected tier:
+
+| Media | Akash storage class |
+| ----- | ------------------- |
+| HDD   | `beta1`             |
+| SSD   | `beta2`             |
+| NVMe  | `beta3`             |
+
+Rook creates exactly one OSD per selected physical disk, including NVMe. At least two disks are required cluster-wide.
+
+| Selected topology                | Replica layout      | Failure domain |
+| -------------------------------- | ------------------- | -------------- |
+| Three or more storage hosts      | 3 copies, minimum 2 | Host           |
+| Two storage hosts                | 2 copies, minimum 1 | Host           |
+| One host with at least two disks | 2 copies, minimum 1 | OSD            |
+
+A one-host layout can survive one disk failure but not loss of that host. Use at least three storage hosts for production host-level availability.
+
+The wizard shows every exact stable disk path and requires explicit confirmation before deployment. Rook consumes the selected disks after confirmation. On rerun, an existing Ceph cluster reuses its recorded exact layout; the installer stops instead of guessing replacement disks when that protected record is unavailable.
+
+After installation, the Rook role verifies the expected OSD count, per-node distribution, Ceph health, and StorageClass. When the provider is selected, the provider role also provisions and mounts a temporary claim before advertising persistent storage; that claim check works with Rook or another compatible storage class.
+
+## Generated files and secrets
+
+Normal installation creates these paths in the repository:
+
+- `.venv/` — the pinned Ansible environment for this project.
+- `.generated/inventory/` — generated inventory and encoded credentials.
+- `.cache/kubespray/` — Kubespray checkout and environment, created only when Kubespray is selected.
+
+All are ignored by Git. Files containing wallet, DNS, Tailscale, or rendered provider credentials are written with mode `0600`. Base64-encoded material is still secret; do not copy `.generated` into source control or share it.
+
+## Generate configuration without installing
+
+Use configuration-only mode to inspect the inventory before installing packages or changing hosts:
 
 ```bash
-./scripts/setup_provider.sh
+./scripts/setup_provider.sh --config-only
 ```
 
-The script will:
-1. Display a welcome banner
-2. Guide you through playbook selection
-3. Install all prerequisites automatically
-4. Collect your configuration information
-5. Set up SSH keys across all nodes
-6. Run the selected playbooks
+This mode still validates SSH and performs remote discovery. It does not create `.venv`, install the isolated Python runtime on hosts, download Kubespray, install `akt`, or deploy roles. Because wallet tooling is not installed, provide pre-encoded wallet material when prompted.
 
----
+The resulting inventory is not immediately runnable on a fresh clone. Follow the repository's [manual bootstrap instructions](https://github.com/akash-network/provider-playbooks#manual-execution) before invoking Ansible yourself.
 
-## Interactive Setup Process
+## Current component versions
 
-### Playbook Selection
+The repository keeps compatibility pins in [`versions.yml`](https://github.com/akash-network/provider-playbooks/blob/main/versions.yml). The installer loads this matrix rather than selecting unbounded `latest` releases.
 
-The script will ask you to select which components to install:
+| Component           | Pinned version                       |
+| ------------------- | ------------------------------------ |
+| Kubespray           | `v2.31.0`                            |
+| K3s                 | `v1.35.3+k3s1`                       |
+| Calico              | `v3.31.5`                            |
+| Helm                | `v4.2.4`                             |
+| NVIDIA GPU Operator | `v26.7.0`                            |
+| Rook-Ceph           | `1.19.10`                            |
+| Ceph                | `quay.io/ceph/ceph:v19.2.6-20260818` |
+| `akt`               | `0.1.1`                              |
 
-**Kubernetes Installation** (required for new clusters)
-- **Kubespray**: Production-grade, full-featured Kubernetes (recommended)
-- **K3s**: Lightweight, single binary, ideal for edge/IoT
+Treat `versions.yml` as the source of truth if this table and the repository ever differ.
 
-**Optional Components:**
-- **OS**: Basic OS configuration and optimizations
-- **GPU**: NVIDIA driver and container toolkit installation
-- **Provider**: Akash Provider service installation
-- **Tailscale**: VPN setup for secure remote access
-- **Rook-Ceph**: Storage operator installation and configuration
+## Verify the installation
 
-### Configuration Collection
+Some Helm releases intentionally return after Kubernetes accepts them, while their controllers and pods continue reconciling. In particular, the GPU Operator, Akash node, and provider are not treated as synchronous readiness gates.
 
-The script will interactively collect:
-- Provider domain and `location-region`
-- Organization details
-- Node IP addresses and SSH credentials
-- Wallet setup (create or import)
-- Storage configuration (if using Rook-Ceph)
-- Tailscale auth key (if using Tailscale)
+A new provider wallet has no funds. Fund its address before expecting the provider pod to become ready and register or bid on-chain.
 
-### Automated Execution
+Check progress with:
 
-Once configured, the script will:
-- Install Python 3.12, Ansible, and dependencies
-- Clone Kubespray (if using Kubespray)
-- Set up SSH keys on all nodes
-- Create Ansible inventory files
-- Run selected Ansible playbooks
-- Optionally reboot nodes after completion
+```bash
+sudo kubectl get nodes
+sudo kubectl get pods --all-namespaces
+sudo kubectl get pods --namespace akash-services
+sudo kubectl logs --namespace akash-services akash-provider-0 --follow
+```
 
----
+Verify the provider's on-chain record with the installer context selected explicitly:
 
-## What Happens During Installation
+```bash
+sudo --set-home akt --context provider query provider <provider-address>
+```
 
-### Prerequisite Installation
-The script automatically installs:
-- Python 3.12 with venv
-- Ansible and dependencies
-- `yq`, `jq`, `unzip`, and other tools
-- `provider-services` CLI
-- Kubespray repository (if using Kubespray)
+See [Provider Verification](/docs/providers/operations/provider-verification) for the complete checklist.
 
-### SSH Key Setup
-- Generates SSH key if none exists
-- Distributes key to all nodes
-- Supports password-based authentication for initial setup
-- Falls back to manual setup instructions if needed
+## Rerun a component
 
-### Wallet Setup
-Choose one of the following:
-- **Create new wallet**: Script generates a new wallet and exports the key
-- **Import key file**: Import existing `key.pem` file
-- **Import seed phrase**: Recover wallet from mnemonic
-- **Paste existing**: Provide AKT address and base64 encoded key
+The normal installer runs as root, so rerun Ansible as root from the repository root to retain access to its virtual environment, generated inventory, SSH key, and `akt` context:
 
-The script will:
-- Export and base64 encode your key
-- Save it to `host_vars/node1.yml`
-- Securely prompt for your key password
+```bash
+sudo --set-home env ANSIBLE_CONFIG="$PWD/ansible.cfg" \
+  .venv/bin/ansible-playbook \
+  --inventory .generated/inventory/hosts.ini \
+  playbooks.yml \
+  --tags provider
+```
 
-### Kubernetes Installation
-
-**If using Kubespray:**
-- Clones Kubespray v2.31.0
-- Creates Python virtual environment
-- Installs Kubespray requirements
-- Generates inventory files
-- Configures containerd with NVIDIA runtime
-- Deploys Kubernetes cluster
-- Installs local-path-provisioner (if not using Rook-Ceph)
-
-**If using K3s:**
-- Installs lightweight K3s distribution
-- Configures custom kubelet and data directories
-- Sets up Calico CNI
-- Includes local-path-provisioner by default
-
-### Provider Installation
-- Detects GPU hardware automatically
-- Creates provider configuration
-- Sets up pricing script
-- Deploys provider service
-- Configures provider attributes
-
-### Storage Setup (Rook-Ceph)
-If selected:
-- Creates OSD configuration
-- Deploys Rook operator
-- Configures Ceph cluster
-- Sets up storage classes (beta1/beta2/beta3)
-- Handles ZFS ephemeral storage if needed
-
----
-
-## Ephemeral Storage Configuration
-
-The script will ask if you use separate ephemeral storage:
-
-**Separate ephemeral storage:**
-- Specify mount location (e.g., `/mnt/ephemeral`)
-- Script configures kubelet and containerd paths
-- Useful for RAID or dedicated fast storage
-
-**Default ephemeral storage:**
-- Uses standard system paths
-- `/var/lib/kubelet` for kubelet
-- `/var/lib/containerd` for containerd
-- `/var/lib/rancher/k3s` for K3s
-
----
-
-## Post-Installation
-
-After the playbook completes:
-
-1. **Node Reboot (Optional)**
-   - Script offers to reboot all nodes
-   - Nodes reboot in reverse order
-   - Recommended for applying all system changes
-
-2. **Verify Installation**
-   ```bash
-   # Check Kubernetes cluster
-   kubectl get nodes
-   
-   # Check all pods are running
-   kubectl get pods -A
-   
-   # Check provider pods specifically
-   kubectl get pods -n akash-services
-   
-   # View provider logs
-   kubectl logs -n akash-services -l app=akash-provider -f
-   ```
-
-3. **Next Steps**
-   - Configure provider pricing
-   - Set up monitoring
-   - Test with a deployment
-   - Review provider attributes
-
-See [Operations](/docs/providers/operations) for ongoing management.
-
----
+Available tags include `preflight`, `tailscale`, `k3s`, `os`, `local-path`, `gpu`, `rook-ceph`, and `provider`.
 
 ## Troubleshooting
 
-### SSH Connection Issues
-- **Error**: "Permission denied (publickey)"
-  - **Solution**: The script will offer to use password authentication or provide manual setup instructions
+### SSH validation fails
 
-- **Error**: "Connection refused"
-  - **Solution**: Verify node IP address and SSH port are correct
+- Add the displayed public key to the exact user's `~/.ssh/authorized_keys` on every node.
+- Verify the entered IPv4 address and port are reachable.
+- For non-root users, confirm `sudo -n true` succeeds without a password prompt.
+- Password authentication is deliberately unsupported.
 
-### Kubernetes Installation Issues
-- **Kubespray fails**: 
-  - Check system requirements meet [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)
-  - Verify network connectivity between nodes
-  - Review kubespray logs in the terminal output
+### No Ceph disks are eligible
 
-- **K3s fails**:
-  - Check systemd status: `systemctl status k3s`
-  - Review logs: `journalctl -u k3s -f`
+Review the exclusion reason shown for each disk. Ceph devices must be dedicated, empty whole disks with stable `/dev/disk/by-id` paths. The wizard will not clean an in-use or previously formatted device for you.
 
-### Provider Service Issues
-- **Wallet errors**:
-  - Deployment deposit is in **ACT** (tenant escrow); provider bid deposit is in **AKT**. Ensure sufficient ACT for escrow and AKT for bid deposits and gas.
-  - Check key password was entered correctly
-  - Ensure key is properly base64 encoded
+### A newly installed component is not ready yet
 
-- **Provider won't start**:
-  - Check provider logs: `kubectl logs -n akash-services -l app=akash-provider`
-  - Verify domain name is correctly configured
-  - Ensure ports 8443 and 8444 are accessible
+Helm acceptance does not mean every controller, image pull, blockchain sync, GPU driver build, or provider pod is complete. Inspect the relevant namespace with `kubectl get pods` and `kubectl describe pod`, then follow the failing pod's logs.
 
-### Storage Issues
-- **Rook-Ceph fails**:
-  - Verify storage devices are clean and available: `lsblk`
-  - Check device names match configuration
-  - Ensure at least one storage node is selected
-  - Review Ceph operator logs: `kubectl logs -n rook-ceph -l app=rook-ceph-operator`
-
-For more help, see [Provider Verification](/docs/providers/operations/provider-verification).
-
----
-
-## Advanced Configuration
-
-### Manual Execution
-
-If you need to run specific playbooks manually after initial setup:
-
-```bash
-# Activate virtual environment
-source ~/kubespray/venv/bin/activate
-
-# Run all playbooks
-ansible-playbook -i ~/kubespray/inventory/akash/inventory.ini playbooks.yml
-
-# Run specific playbooks using tags
-ansible-playbook -i ~/kubespray/inventory/akash/inventory.ini playbooks.yml -t os,provider,gpu
-
-# Run K3s specific playbooks
-ansible-playbook -i ~/kubespray/inventory/akash/inventory.ini playbooks.yml -t k3s
-
-# Run Rook-Ceph playbook
-ansible-playbook -i ~/kubespray/inventory/akash/inventory.ini playbooks.yml -t rook-ceph
-```
-
-### Configuration Files
-
-After setup, your configuration will be in:
-
-- **Inventory**: `~/kubespray/inventory/akash/inventory.ini`
-- **Host Variables**: `/root/provider-playbooks/host_vars/`
-- **Kubespray Config**: `~/kubespray/inventory/akash/group_vars/`
-- **Provider Config**: Generated during provider playbook execution
-
-### Customizing Playbooks
-
-You can customize the playbooks by editing:
-
-- `~/provider-playbooks/roles/*/defaults/main.yml` - Default variables
-- `/root/provider-playbooks/host_vars/node*.yml` - Per-node configuration
-- `~/kubespray/inventory/akash/group_vars/` - Kubernetes cluster settings
-
----
-
-## Next Steps
-
-**After setup:**
-- [Operations →](/docs/providers/operations) - Daily provider management
-- [Provider Verification →](/docs/providers/operations/provider-verification) - Verify your setup
-
-**Alternative methods:**
-- [Kubespray →](/docs/providers/setup-and-installation/kubespray) - Full control with manual setup
-- [Provider Console →](/docs/providers/setup-and-installation/provider-console) - Web-based setup
-
----
+For ongoing management, continue to [Provider Operations](/docs/providers/operations).
 
 ## Resources
 
-- **GitHub Repository:** [akash-network/provider-playbooks](https://github.com/akash-network/provider-playbooks)
-- **Report Issues:** [GitHub Issues](https://github.com/akash-network/provider-playbooks/issues)
-- **Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
-- **Documentation:** [docs.akash.network](https://docs.akash.network)
-
+- [Provider Playbooks repository](https://github.com/akash-network/provider-playbooks)
+- [Provider Playbooks issues](https://github.com/akash-network/provider-playbooks/issues)
+- [Manual Kubespray setup](/docs/providers/setup-and-installation/kubespray)
+- [Akash Discord](https://discord.akash.network) — `#providers`

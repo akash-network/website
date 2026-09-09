@@ -11,7 +11,7 @@ description: "Manual provider setup using Kubespray and Helm for full control"
 
 Kubespray provides a manual, step-by-step approach to deploying an Akash provider, giving you full control and customization over every component. Ideal for advanced users who need specific configurations or want to deeply understand the infrastructure.
 
- **Setup Time:** 1-2 hours
+**Setup Time:** 1-2 hours
 
 ---
 
@@ -19,7 +19,7 @@ Kubespray provides a manual, step-by-step approach to deploying an Akash provide
 
 Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, and domain knowledge for deploying production-ready Kubernetes clusters. For Akash providers, we use:
 
-- **Kubespray 2.31.0** - Latest stable release
+- **Kubespray 2.31.0** - Pinned release used by Provider Playbook
 - **Kubernetes 1.35.4** - Officially supported version
 - **etcd 3.6.10** - Distributed key-value store
 - **containerd 2.2.3** - Container runtime
@@ -30,6 +30,7 @@ Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, 
 ## Why Choose Kubespray?
 
 ### **Advantages**
+
 - **Full control** - Customize every aspect of your setup
 - **Production-grade** - Battle-tested for large deployments
 - **Deep understanding** - Learn exactly how components work together
@@ -37,7 +38,8 @@ Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, 
 - **Custom configurations** - Fine-tune network, storage, and security
 - **Reproducible** - Infrastructure as Code approach
 
-###  Considerations
+### Considerations
+
 - **Requires Kubernetes knowledge** - Must understand K8s concepts
 - **More manual steps** - Less automated than Provider Playbook
 - **Command-line focused** - Terminal-based setup
@@ -48,12 +50,14 @@ Kubespray is a composition of Ansible playbooks, inventory, provisioning tools, 
 ## Prerequisites
 
 ### Required Knowledge
+
 - **Linux administration** - Comfortable with command line and SSH
 - **Kubernetes fundamentals** - Understand pods, deployments, services, namespaces
 - **Networking basics** - IP addressing, DNS, firewalls, routing
 - **Ansible basics** - Understand playbook concepts (helpful but not required)
 
 ### Hardware & System Requirements
+
 See [Hardware Requirements](/docs/providers/getting-started/hardware-requirements) for complete specifications including CPU, RAM, storage, network, and GPU requirements.
 
 ---
@@ -62,39 +66,50 @@ See [Hardware Requirements](/docs/providers/getting-started/hardware-requirement
 
 The Kubespray setup is divided into distinct steps:
 
-### Phase 1: Core Setup (Required)
+### Phase 1: Kubernetes foundation (Required)
 
 **1. [Kubernetes Cluster Setup](/docs/providers/setup-and-installation/kubespray/kubernetes-setup)**
+
 - Clone Kubespray repository
 - Configure inventory and variables
 - Deploy Kubernetes cluster with Ansible
 - Verify cluster health
 
-**2. Provider installation (two parts)**
-- **[Provider installation (prep)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep)** — wallet, `provider.yaml`, **DNS**, **NGF**, and **Let's Encrypt** (steps 1–9)
-- **[Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation)** — `akash-gateway`, operators, and `helm install` for the [Akash provider](https://github.com/akash-network/helm-charts/tree/main/charts/akash-provider)
-- Verify the provider is running
-
-### Phase 2: Optional Features
+### Phase 2: Provider capabilities (Optional)
 
 Add advanced capabilities based on your hardware and business needs:
 
-**3. [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support)**
-- Install NVIDIA drivers and container toolkit
-- Deploy NVIDIA device plugin
+**2. [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support)**
+
+- Deploy NVIDIA GPU Operator
+- Configure CDI and the container runtime
 - Configure GPU attributes
 - Test GPU workloads
 
-**4. [Persistent Storage](/docs/providers/setup-and-installation/kubespray/persistent-storage)**
+**3. [Persistent Storage](/docs/providers/setup-and-installation/kubespray/persistent-storage)**
+
 - Deploy Rook-Ceph operator
 - Configure OSD devices
 - Create storage classes (beta1/beta2/beta3)
 - Test persistent volumes
 
+Install GPU and storage before rendering the provider configuration so its advertised attributes match the available cluster capabilities.
+
+### Phase 3: Provider installation (Required)
+
+**4. Provider installation (two parts)**
+
+- **[Provider installation (prep)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep)** — wallet, `provider.yaml`, **DNS**, **NGF**, and **Let's Encrypt** (steps 1–9)
+- **[Provider installation (install)](/docs/providers/setup-and-installation/kubespray/provider-installation)** — `akash-gateway`, operators, and `helm install` for the [Akash provider](https://github.com/akash-network/helm-charts/tree/main/charts/akash-provider)
+- Verify the provider is running
+
+### Phase 4: Additional features (Optional)
+
 **5. [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases)**
-- Configure IP address pool
-- Deploy MetalLB load balancer
-- Enable IP lease operator
+
+- Configure an IP address pool
+- Deploy the MetalLB load balancer
+- Enable the IP lease operator
 - Test static IP assignment
 
 ---
@@ -103,30 +118,33 @@ Add advanced capabilities based on your hardware and business needs:
 
 ### Start Simple, Add Complexity
 
-**Step 1: Get Basic Provider Running**
+**Step 1: Install the provider stack**
+
 1. Deploy Kubernetes cluster (Kubespray)
-2. Install provider software (Helm)
-3. Test with a simple deployment
-4. Verify provider shows up on network
+2. Enable GPU support if the provider has NVIDIA GPUs
+3. Configure persistent storage if the provider will advertise it
+4. Install the provider software with the resulting attributes
+5. Test with a simple deployment
+6. Verify the provider shows up on network
 
 **Goal:** Prove your infrastructure works
 
 ---
 
-**Step 2: Add Revenue Features**
-5. Enable GPU support (if you have GPUs)
-6. Configure persistent storage (if you have dedicated drives)
-7. Set up IP leases (if you have extra IPs)
+**Step 2: Add more capabilities**
+
+1. Set up IP leases if you have extra public IPs
 
 **Goal:** Maximize earning potential
 
 ---
 
 **Step 3: Optimize & Scale**
-8. Fine-tune pricing based on market
-9. Monitor metrics and performance
-10. Add capacity as needed
-11. Automate maintenance tasks
+
+1. Fine-tune pricing based on market
+2. Monitor metrics and performance
+3. Add capacity as needed
+4. Automate maintenance tasks
 
 **Goal:** Maximize profitability and uptime
 
@@ -135,17 +153,20 @@ Add advanced capabilities based on your hardware and business needs:
 ## Time Estimates
 
 ### First-Time Setup
+
 - **Kubernetes cluster:** 30-45 minutes
 - **Provider installation:** 30-45 minutes
 - **Configuration & testing:** 15-30 minutes
 - **Total:** ~1-2 hours
 
 ### Optional Features
+
 - **GPU support:** 30-60 minutes
 - **Persistent storage:** 45-90 minutes (depending on complexity)
 - **IP leases:** 30-45 minutes
 
 ### Experienced Operators
+
 - **Full setup:** 45-60 minutes
 - **With automation:** 20-30 minutes
 
@@ -155,18 +176,19 @@ Add advanced capabilities based on your hardware and business needs:
 
 ## Kubespray vs Provider Playbook
 
-Both methods use Kubespray, but with different levels of automation:
+The manual path always uses Kubespray. Provider Playbook can build with Kubespray or K3s, or install onto an existing Kubernetes cluster:
 
-| Feature | Kubespray (This Guide) | Provider Playbook |
-|---------|------------------------|-------------------|
-| **Automation** | Manual steps | Interactive script |
-| **Control** | Full control | Guided configuration |
-| **Time** | 1-2 hours | ~1 hour |
-| **Skill Level** | Advanced | Intermediate |
-| **Customization** | Maximum | Standard options |
-| **Best For** | Custom setups, learning | Quick deployment |
+| Feature           | Kubespray (This Guide)  | Provider Playbook    |
+| ----------------- | ----------------------- | -------------------- |
+| **Automation**    | Manual steps            | Interactive script   |
+| **Control**       | Full control            | Guided configuration |
+| **Time**          | 1-2 hours               | ~1 hour              |
+| **Skill Level**   | Advanced                | Intermediate         |
+| **Customization** | Maximum                 | Standard options     |
+| **Best For**      | Custom setups, learning | Quick deployment     |
 
 **Use Kubespray when you:**
+
 - Need specific Kubernetes configurations
 - Want to understand every component
 - Have custom networking requirements
@@ -174,6 +196,7 @@ Both methods use Kubespray, but with different levels of automation:
 - Need fine-grained control over resources
 
 **Use Provider Playbook when you:**
+
 - Want the fastest setup
 - Prefer guided configuration
 - Are setting up a standard provider
@@ -193,6 +216,7 @@ Unlike Provider Playbook's automated script, the Kubespray method requires you t
 6. **Manage updates** - Manually apply upgrades and patches
 
 **However, you gain:**
+
 - Deep understanding of the infrastructure
 - Ability to customize anything
 - Fine-grained control over security
@@ -206,31 +230,36 @@ Unlike Provider Playbook's automated script, the Kubespray method requires you t
 Not sure Kubespray is right for you?
 
 **[Provider Playbook →](/docs/providers/setup-and-installation/provider-playbook)**
-- Automated Kubespray setup with interactive wizard
-- Same Kubernetes stack, automated configuration
+
+- Interactive wizard for Kubespray, K3s, or an existing cluster
+- Automated detection and validated configuration
 - Recommended for most users
--  Time: ~1 hour
+- Time: ~1 hour
 
 **[Provider Console →](/docs/providers/setup-and-installation/provider-console)**
+
 - Web-based setup with no K8s knowledge required
 - Fully managed Kubernetes
 - Best for beginners
--  Time: 15-30 minutes
+- Time: 15-30 minutes
 
 ---
 
 ## Getting Help
 
 ### Before You Start
+
 - Review [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)
 - Read [Should I Run a Provider?](/docs/providers/getting-started/should-i-run-a-provider)
 - Calculate earnings with [Provider Calculator](https://akash.network/pricing/provider-calculator/)
 
 ### During Setup
+
 - **Discord:** [discord.akash.network](https://discord.akash.network) - #providers channel
 - **Kubespray Docs:** [kubespray.io](https://kubespray.io)
 
 ### After Setup
+
 - [Operations Guide →](/docs/providers/operations) - Managing your provider
 - [Provider Verification →](/docs/providers/operations/provider-verification) - Verify your setup
 
@@ -243,4 +272,3 @@ Start with the Kubernetes cluster setup:
 **→ [Kubernetes Setup Guide](/docs/providers/setup-and-installation/kubespray/kubernetes-setup)**
 
 This will walk you through deploying a production-grade Kubernetes cluster using Kubespray 2.31.0.
-

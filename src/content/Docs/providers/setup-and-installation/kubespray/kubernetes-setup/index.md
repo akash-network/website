@@ -11,7 +11,7 @@ description: "Deploy a production-grade Kubernetes cluster using Kubespray 2.31.
 
 This guide walks through deploying a production-ready Kubernetes cluster that will host your Akash provider. The cluster will run all provider leases as Kubernetes pods.
 
- **Time:** 30-45 minutes
+**Time:** 30-45 minutes
 
 ---
 
@@ -29,6 +29,7 @@ Using Kubespray 2.31.0, you'll install:
 ## Before You Begin
 
 Ensure you have:
+
 - **Reviewed [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)**
 - **Ubuntu 24.04 LTS installed on all nodes**
 - **Root or sudo access to all nodes**
@@ -144,6 +145,7 @@ nano ~/kubespray/inventory/akash/inventory.ini
 ```
 
 Configure your nodes in the inventory. **Important:**
+
 - Use **1 or 3** control plane nodes (odd numbers for consensus)
 - List the same nodes under both `[kube_control_plane]` and `[etcd]`
 - Add all worker nodes under `[kube_node]`
@@ -215,27 +217,13 @@ upstream_dns_servers:
 
 ---
 
-## STEP 7 - Configure GPU Support (OPTIONAL)
+## STEP 7 - Prepare for GPU Support (OPTIONAL)
 
 > **Skip this step** if you don't have NVIDIA GPUs.
 
-If you have NVIDIA GPUs, configure the container runtime **before** deploying the cluster:
+GPU Operator 26.7 uses Container Device Interface (CDI) and configures the required runtime integration after Kubernetes is available. Do not add a legacy `containerd_additional_runtimes` entry and do not preinstall an NVIDIA driver, CUDA driver package, NVIDIA Container Toolkit, or standalone device plugin.
 
-```bash
-mkdir -p ~/kubespray/inventory/akash/group_vars/all
-cat > ~/kubespray/inventory/akash/group_vars/all/akash.yml << 'EOF'
-# NVIDIA container runtime for GPU-enabled nodes
-containerd_additional_runtimes:
-  - name: nvidia
-    type: "io.containerd.runc.v2"
-    engine: ""
-    root: ""
-    options:
-      BinaryName: '/usr/bin/nvidia-container-runtime'
-EOF
-```
-
-This configures containerd to support GPU workloads. The actual NVIDIA drivers and device plugin will be installed later.
+Deploy Kubernetes with ordinary containerd, then follow [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support). The Provider Playbook enforces this clean-node requirement automatically.
 
 ---
 
@@ -294,6 +282,7 @@ etcdctl check perf
 ```
 
 **Expected output from `etcdctl check perf`:**
+
 ```
 ...
 PASS: Throughput is 150 writes/s
@@ -454,10 +443,12 @@ This runs every 5 minutes and logs output to syslog.
 Ensure these ports are open between nodes:
 
 **Control Plane:**
+
 - `6443/tcp` - Kubernetes API server
 - `2379-2380/tcp` - etcd client and peer
 
 **All Nodes:**
+
 - `10250/tcp` - Kubelet API
 
 See [Kubernetes port reference](https://kubernetes.io/docs/reference/ports-and-protocols/) for a complete list.
@@ -472,9 +463,10 @@ See [Kubernetes port reference](https://kubernetes.io/docs/reference/ports-and-p
 
 ## Next Steps
 
-Your Kubernetes cluster is now ready!
-- Otherwise: **→ [Provider Installation](/docs/providers/setup-and-installation/kubespray/provider-installation)**
+Your Kubernetes cluster is now ready. Complete the remaining setup in this order:
 
-**Additional optional features:**
-- [Provider installation – STEP 9 (TLS)](/docs/providers/setup-and-installation/kubespray/provider-installation-prep#step-9---lets-encrypt-cert-manager-and-tls-secrets) - **Required** for all providers: cert-manager and Gateway TLS
-- [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) - Enable static IPs for deployments
+1. If you have NVIDIA GPUs, configure [GPU Support](/docs/providers/setup-and-installation/kubespray/gpu-support).
+2. If you offer persistent storage, configure [Persistent Storage](/docs/providers/setup-and-installation/kubespray/persistent-storage).
+3. Complete [Provider Installation Preparation](/docs/providers/setup-and-installation/kubespray/provider-installation-prep).
+4. [Install the Provider](/docs/providers/setup-and-installation/kubespray/provider-installation).
+5. After the provider is installed, optionally enable [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases).

@@ -67,13 +67,13 @@ Get comprehensive provider status including active leases, resource utilization,
 ### Command Template
 
 ```bash
-provider-services status <provider-address>
+akt provider status <provider-address>
 ```
 
 ### Example
 
 ```bash
-provider-services status akash1wxr49evm8hddnx9ujsdtd86gk46s7ejnccqfmy
+akt provider status akash1wxr49evm8hddnx9ujsdtd86gk46s7ejnccqfmy
 ```
 
 ### Example Output
@@ -132,212 +132,130 @@ provider-services status akash1wxr49evm8hddnx9ujsdtd86gk46s7ejnccqfmy
 
 ## GPU Provider Troubleshooting
 
-When GPU deployments fail or GPUs aren't detected, use these steps to diagnose issues.
+The Provider Playbook installs NVIDIA GPU Operator `v26.7.0`. The Operator manages the NVIDIA driver, Container Toolkit, device plugin, validators, and Fabric Manager as Kubernetes workloads. Do not install or upgrade those packages directly on the host; host-managed NVIDIA packages conflict with the Operator-managed stack.
 
-**Scope:** Conduct these checks on **each Kubernetes worker node** hosting GPU resources unless specified otherwise.
+Run the Kubernetes checks below from a control-plane node or another machine with cluster-admin access to the cluster.
 
-### Basic GPU Verifications
-
-#### Install Testing Tools
+### Check the GPU Operator
 
 ```bash
-apt update && apt -y install python3-venv
-python3 -m venv /venv
-source /venv/bin/activate
-pip install torch numpy
+helm status gpu-operator --namespace gpu-operator
+kubectl get clusterpolicy cluster-policy
+kubectl --namespace gpu-operator get deployments,daemonsets
+kubectl --namespace gpu-operator get pods --output wide
 ```
 
-#### Verify GPU Detection
+A healthy installation has:
+
+- A ready `cluster-policy` and a running GPU Operator controller
+- Driver, Container Toolkit, device plugin, and operator validator pods on each GPU node
+- `nvidia-cuda-validator` pods in `Completed` state
+- `nvidia-operator-validator` pods in `Running` state
+
+Driver pods can restart briefly while the Operator reconciles a node. Use the validators and ClusterPolicy state to decide whether the installation is ready.
+
+### Check Allocatable GPUs
+
+Confirm Kubernetes has discovered the expected number of GPUs on every node:
 
 ```bash
-nvidia-smi -L
+kubectl get nodes \
+  --output='custom-columns=NAME:.metadata.name,GPUS:.status.allocatable.nvidia\.com/gpu'
 ```
 
-**Expected Output:**
-
-```
-GPU 0: Tesla T4 (UUID: GPU-faa48437-7587-4bc1-c772-8bd099dba462)
-```
-
-If no GPUs are listed, check:
-- Driver installation
-- Hardware connection
-- BIOS/UEFI settings
-
-#### Check CUDA Version
+If a GPU node reports an empty value or `0`, inspect the Operator pods assigned to that node:
 
 ```bash
-python3 -c "import torch;print(torch.version.cuda)"
+kubectl --namespace gpu-operator get pods --output wide
 ```
 
-**Expected Output:** `12.7` (or your installed CUDA version)
-
-#### Verify CUDA GPU Support
+Then connect to the affected node and confirm that its PCI bus exposes NVIDIA hardware:
 
 ```bash
-python3 -c "import torch; print(torch.cuda.is_available())"
+lspci -nn | grep -i nvidia
 ```
 
-**Expected Output:** `True`
+### Run an End-to-End CUDA Test
 
-If `False`, see the NVIDIA Fabric Manager section below.
+Create a disposable pod that requests one GPU and runs `nvidia-smi` inside the Operator-managed CUDA environment:
 
-### Check Kernel Logs for GPU Errors
+```bash
+kubectl apply -f - <<'EOF'
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-test
+spec:
+  restartPolicy: Never
+  containers:
+    - name: cuda
+      image: nvidia/cuda:13.0.3-base-ubuntu24.04
+      command: ["nvidia-smi"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+EOF
 
-Examine kernel logs for driver issues, version mismatches, or hardware errors:
+kubectl wait pod/gpu-test \
+  --for=jsonpath='{.status.phase}'=Succeeded \
+  --timeout=5m
+kubectl logs gpu-test
+kubectl delete pod gpu-test
+```
+
+If the pod does not succeed, leave it in place while you inspect `kubectl describe pod gpu-test` and `kubectl logs gpu-test`. Delete it after collecting the failure details.
+
+### Inspect a Failing Operator Component
+
+Use the failing pod name from the Operator status output:
+
+```bash
+kubectl --namespace gpu-operator describe pod <pod-name>
+kubectl --namespace gpu-operator logs <pod-name> --all-containers
+```
+
+The pod prefix identifies the failing layer:
+
+- `nvidia-driver-daemonset`: NVIDIA driver or kernel compatibility
+- `nvidia-container-toolkit-daemonset`: container runtime integration
+- `nvidia-device-plugin-daemonset`: GPU resource discovery and advertisement
+- `nvidia-cuda-validator`: CUDA initialization
+- `nvidia-operator-validator`: overall Operator validation
+
+For driver or kernel failures, connect to the affected node and inspect its kernel log:
 
 ```bash
 dmesg -T | grep -Ei 'nvidia|nvml|cuda|mismatch'
 ```
 
-#### Healthy Output Example
+If the node has host-installed NVIDIA driver, Container Toolkit, or Fabric Manager packages, remove that conflicting installation before redeploying with the Provider Playbook.
 
-```
-[Thu Sep 28 19:29:02 2023] nvidia: loading out-of-tree module taints kernel.
-[Thu Sep 28 19:29:02 2023] NVRM: loading NVIDIA UNIX x86_64 Kernel Module  580.13.04
-[Thu Sep 28 19:29:02 2023] nvidia-modeset: Loading NVIDIA Kernel Mode Setting Driver for UNIX platforms  580.13.04
-[Thu Sep 28 19:29:04 2023] [drm] Initialized nvidia-drm 0.0.0 20160202 for 0000:00:04.0 on minor 0
-[Thu Sep 28 19:29:05 2023] nvidia-uvm: Loaded the UVM driver, major device number 235.
-```
+### Check Operator-Managed Fabric Manager
 
-#### Problem Indicators
+Fabric Manager is normally needed for SXM/NVSwitch systems and not for PCIe-only GPU systems. The setup wizard detects supported SXM GPU models and configures the GPU Operator accordingly.
 
-- `mismatch` errors → Driver/kernel version conflict
-- `failed to initialize` → Hardware or configuration issue
-- Missing `nvidia-uvm` → Incomplete driver installation
-
-### Verify NVIDIA Device Plugin
-
-The NVIDIA Device Plugin DaemonSet must be running on all GPU nodes for Kubernetes to schedule GPU workloads.
-
-#### Check Plugin Status
+Check the configured state and any Fabric Manager workloads:
 
 ```bash
-kubectl get pods -n nvidia-device-plugin -l app.kubernetes.io/name=nvidia-device-plugin
+kubectl get clusterpolicy cluster-policy \
+  --output=jsonpath='{.spec.fabricManager.enabled}{"\n"}'
+kubectl --namespace gpu-operator get daemonsets,pods --output wide | grep -i fabric
 ```
 
-#### Expected Output
-
-```
-NAME                                         READY   STATUS    RESTARTS   AGE
-nvidia-device-plugin-daemonset-abc123        1/1     Running   0          2d3h
-nvidia-device-plugin-daemonset-def456        1/1     Running   0          2d3h
-```
-
-**Indicators:**
-- `READY` should be `1/1`
-- `STATUS` should be `Running`
-- One pod per GPU-enabled node
-
-#### Troubleshooting Plugin Issues
-
-If pods are not running:
+When Fabric Manager is enabled, an `nvidia-fabricmanager` pod should run on each applicable node. Inspect a failing pod with:
 
 ```bash
-# Check pod events
-kubectl describe pod -n nvidia-device-plugin <pod-name>
-
-# Check DaemonSet status
-kubectl get daemonset -n nvidia-device-plugin
-
-# View plugin logs
-kubectl logs -n nvidia-device-plugin <pod-name>
+kubectl --namespace gpu-operator describe pod <fabric-manager-pod>
+kubectl --namespace gpu-operator logs <fabric-manager-pod> --all-containers
 ```
 
-### NVIDIA Fabric Manager (SXM GPUs)
-
-**When Needed:** NVIDIA Fabric Manager is **required for non-PCIe GPU configurations** such as:
-- SXM form factor GPUs
-- NVLink-connected GPUs
-- Multi-GPU setups with direct GPU-to-GPU communication
-
-#### Common Error
-
-If `torch.cuda.is_available()` returns:
-
-```
-Error 802: system not yet initialized (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:109.)
-```
-
-Install Fabric Manager to resolve this issue.
-
-#### Install Fabric Manager
-
-Replace `580` with your NVIDIA driver version:
-
-```bash
-apt-get install nvidia-fabricmanager-580
-systemctl start nvidia-fabricmanager
-systemctl enable nvidia-fabricmanager
-```
-
-**Initialization Time:** Wait 2-3 minutes after starting the service before testing GPU availability.
-
-#### Verify Fabric Manager Status
-
-```bash
-systemctl status nvidia-fabricmanager
-```
-
-**Expected Output:**
-
-```
-● nvidia-fabricmanager.service - NVIDIA Fabric Manager Daemon
-     Loaded: loaded
-     Active: active (running) since ...
-```
-
-### Fabric Manager Version Mismatch
-
-Ubuntu repositories may not provide a Fabric Manager version matching your driver, causing startup failures.
-
-#### Symptom
-
-```bash
-systemctl status nvidia-fabricmanager
-```
-
-Shows:
-
-```
-nv-fabricmanager[104230]: fabric manager NVIDIA GPU driver interface version 580.127.05 doesn't match with driver version 580.120
-systemd[1]: nvidia-fabricmanager.service: Control process exited, code=exited, status=1/FAILURE
-```
-
-#### Fix: Use Official NVIDIA Repository
-
-**Prerequisites:**
-- Ubuntu 24.04 LTS
-- Root access
-
-Add the official NVIDIA CUDA repository:
-
-```bash
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub
-apt-key add 3bf863cc.pub
-
-echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/ /" > /etc/apt/sources.list.d/nvidia-official-repo.list
-
-apt update
-apt dist-upgrade
-apt autoremove
-```
-
-**Tip:** Running `apt dist-upgrade` with the official NVIDIA repo upgrades all NVIDIA packages (driver, fabric manager, CUDA tools) in sync, preventing version mismatches.
-
-#### Verify Package Versions
-
-```bash
-dpkg -l | grep nvidia
-```
-
-Remove any unexpected versions and **reboot the node** to apply changes.
+For a PCIe-only system, `false` and no Fabric Manager pod are expected. Do not install `nvidia-fabricmanager` with `apt`; correct the GPU Operator configuration and let the Operator reconcile the node.
 
 ### Additional GPU Resources
 
-- [NVIDIA Developer Forum - Error 802](https://forums.developer.nvidia.com/t/error-802-system-not-yet-initialized-cuda-11-3/234955)
-- [NVIDIA Driver Documentation](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/)
-- [Kubernetes Device Plugins](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/)
+- [NVIDIA GPU Operator Troubleshooting](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/troubleshooting.html)
+- [NVIDIA GPU Operator Platform Support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/platform-support.html)
+- [GPU Support Setup](/docs/providers/setup-and-installation/kubespray/gpu-support)
 
 ---
 
@@ -347,4 +265,3 @@ Remove any unexpected versions and **reboot the node** to apply changes.
 - [GPU Support Setup](/docs/providers/setup-and-installation/kubespray/gpu-support)
 - [Lease Management](/docs/providers/operations/lease-management)
 - [Updates & Maintenance](/docs/providers/operations/updates-maintenance)
-
