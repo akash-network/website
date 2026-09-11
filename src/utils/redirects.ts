@@ -82,4 +82,7 @@ export const redirects = {
   "/explore/use-cases/startups/": "/use-cases/startups/",
   "/explore/use-cases/universities": "/use-cases/universities/",
   "/explore/use-cases/universities/": "/use-cases/universities/",
+  // Renamed slug to match the page's display title.
+  "/use-cases/ai-product-engineering": "/use-cases/ai-inference-and-training/",
+  "/use-cases/ai-product-engineering/": "/use-cases/ai-inference-and-training/",
 };
