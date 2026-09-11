@@ -22,7 +22,7 @@ Deployments are auctions: publish a workload in SDL, providers bid within 30–6
 
 ## Reference
 
-- [Common questions](https://akash.network/explore/faq/): What Akash Network is, whether crypto is required, what GPUs are available, how deployment works.
+- [Common questions](https://akash.network/faq.md): What Akash Network is, whether crypto is required, what GPUs are available, how deployment works.
 - [Documentation](https://akash.network/docs/): Full docs for tenants, providers, and node operators.
 - [Confidential Compute](https://akash.network/docs/learn/core-concepts/confidential-compute): Run workloads in an AMD SEV-SNP or Intel TDX enclave with one SDL field.
 - [Compare](https://akash.network/explore/compare/): Akash Network against RunPod, Lambda Labs, AWS, and Heroku.
