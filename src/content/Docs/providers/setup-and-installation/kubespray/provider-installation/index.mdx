@@ -19,7 +19,11 @@ The [akash-gateway](https://github.com/akash-network/helm-charts/tree/main/chart
 
 ```bash
 cd /root/provider
-helm install akash-gateway akash/akash-gateway -n akash-gateway --create-namespace -f provider.yaml
+helm upgrade --install akash-gateway akash/akash-gateway \
+  --namespace akash-gateway \
+  --create-namespace \
+  --version 1.2.1 \
+  --values provider.yaml
 ```
 
 If you are not using a file yet, you can use `--set "domain=yourdomain.com"` once; a single `provider.yaml` is **recommended** so the domain is identical for the [provider install (STEP 3)](#step-3---install-provider).
@@ -40,8 +44,9 @@ kubectl -n akash-services get tcproutes
 ### Install Hostname Operator
 
 ```bash
-helm install akash-hostname-operator akash/akash-hostname-operator \
-  -n akash-services
+helm upgrade --install akash-hostname-operator akash/akash-hostname-operator \
+  --namespace akash-services \
+  --version 19.0.2
 ```
 
 ### Install Inventory Operator
@@ -49,8 +54,9 @@ helm install akash-hostname-operator akash/akash-hostname-operator \
 **Without persistent storage:**
 
 ```bash
-helm install inventory-operator akash/akash-inventory-operator \
-  -n akash-services \
+helm upgrade --install inventory-operator akash/akash-inventory-operator \
+  --namespace akash-services \
+  --version 19.0.2 \
   --set inventoryConfig.cluster_storage[0]=default \
   --set inventoryConfig.cluster_storage[1]=ram
 ```
@@ -58,14 +64,16 @@ helm install inventory-operator akash/akash-inventory-operator \
 **With persistent storage (adjust beta3 to your storage class):**
 
 ```bash
-helm install inventory-operator akash/akash-inventory-operator \
-  -n akash-services \
+helm upgrade --install inventory-operator akash/akash-inventory-operator \
+  --namespace akash-services \
+  --version 19.0.2 \
   --set inventoryConfig.cluster_storage[0]=default \
   --set inventoryConfig.cluster_storage[1]=beta3 \
   --set inventoryConfig.cluster_storage[2]=ram
 ```
 
-**Note:** 
+**Note:**
+
 - Index 0 is always **default** (ephemeral storage)
 - Index 1 is **ram** (SHM/shared memory) if no persistent storage, or your persistent storage class (**beta1**/**beta2**/**beta3**)
 - Index 2 is **ram** (SHM/shared memory) if you have persistent storage
@@ -74,20 +82,20 @@ helm install inventory-operator akash/akash-inventory-operator \
 ### Apply Provider CRDs
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/main/pkg/apis/akash.network/crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/akash-network/provider/v0.16.2/pkg/apis/akash.network/crd.yaml
 ```
 
 ---
-
 
 ## STEP 3 - Install Provider
 
 ```bash
 cd /root/provider
 
-helm install akash-provider akash/provider \
-  -n akash-services \
-  -f provider.yaml \
+helm upgrade --install akash-provider akash/provider \
+  --namespace akash-services \
+  --version 19.0.2 \
+  --values provider.yaml \
   --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
 ```
 
@@ -131,9 +139,10 @@ The Gateway should show `PROGRAMMED: True`. TCPRoutes `akash-provider-8443`, `ak
 
 ### Check Provider Status
 
+Run this back on the local wallet machine, where `akt` has the mainnet context from the preparation steps:
+
 ```bash
-provider-services query provider get $ACCOUNT_ADDRESS \
-  --node https://rpc.akashnet.net:443
+akt query provider "$(cat account-address.txt)" --output yaml
 ```
 
 **Expected output:**
@@ -168,6 +177,7 @@ Look for messages indicating the provider is bidding on deployments.
 Ensure these ports are open on your provider's public IP:
 
 **Required:**
+
 - `80/tcp` - HTTP
 - `443/tcp` - HTTPS
 - `8443/tcp` - Provider endpoint
@@ -176,6 +186,7 @@ Ensure these ports are open on your provider's public IP:
 - `30000-32767/tcp` - Kubernetes NodePort range
 
 **Optional (if using external access):**
+
 - `6443/tcp` - Kubernetes API
 
 Test connectivity:
@@ -257,20 +268,24 @@ The script runs every 5 minutes to clean up stuck ReplicaSets.
 
 ## Next Steps
 
-Your provider is now running! 
+Your provider is now running!
 
 **Verify your provider:**
+
 - **→ [Provider Verification](/docs/providers/operations/provider-verification/)** - Verify your provider is working correctly
 
 **Quick health checks:**
+
 - Monitor provider status: `kubectl -n akash-services get pods`
 - Check bids: `kubectl -n akash-services logs akash-provider-0 | grep bid`
 - Watch for leases: `kubectl -n lease get pods`
 
 **Optional follow-ups:**
+
 - [IP Leases](/docs/providers/setup-and-installation/kubespray/ip-leases) — static IPs for deployments
 
 **Provider Resources:**
+
 - [Provider Calculator](https://akash.network/pricing/provider-calculator/) - Estimate earnings (provider payouts are in ACT)
 - [Provider Operations](/docs/providers/operations/) - Lease management, monitoring, and maintenance
 - [Akash Discord](https://discord.akash.network) - Join the provider community
@@ -291,6 +306,7 @@ cd /root/provider
 
 helm upgrade akash-provider akash/provider \
   -n akash-services \
+  --version 19.0.2 \
   -f provider.yaml \
   --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
 ```

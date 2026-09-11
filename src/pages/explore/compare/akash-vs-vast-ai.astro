@@ -1,0 +1,309 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+
+const parity = [
+  {
+    tier: "Workload unit",
+    vast: "Docker instance over SSH",
+    equivalent: "One SDL deployment",
+    execution: "Declares every service, its resources, and its exposed ports.",
+  },
+  {
+    tier: "Price stability",
+    vast: "Fixed on-demand, contingent on interruptible",
+    equivalent: "Fixed for the life of the lease",
+    execution: "Your accepted bid is the price until you close or update.",
+  },
+  {
+    tier: "Selection",
+    vast: "Browse listings, filter by reliability score",
+    equivalent: "Read bids",
+    execution: "Bids name the provider, region, and hardware. You choose from them.",
+  },
+  {
+    tier: "Confidential compute",
+    vast: "Not offered",
+    equivalent: "One line in your SDL",
+    execution: "tee: cpu or tee: cpu-gpu runs in an AMD SEV-SNP or Intel TDX enclave.",
+  },
+  {
+    tier: "Automation",
+    vast: "CLI, Python SDK, REST API",
+    equivalent: "CLI, REST API, MCP, agent skill",
+    execution: "An AI coding agent with an API key can deploy, inspect, and close workloads.",
+  },
+  {
+    tier: "Payment",
+    vast: "Prepaid credits",
+    equivalent: "Refundable escrow per deployment",
+    execution: "Unspent balance comes back when you close.",
+  },
+];
+
+const faqs = [
+  {
+    title: "Is Akash cheaper than Vast.ai?",
+    description: "Sometimes, and anyone promising otherwise is guessing. Both are markets where price moves with supply, and Vast.ai's interruptible tier can go lower because you're accepting preemption in exchange. Check both for the GPU and region you need — akash.network/pricing/gpus is live and every number on our stats page comes from on-chain data. The durable difference isn't the hourly rate. It's that an Akash lease can't be outbid once it's running.",
+  },
+  {
+    title: "Do we need cryptocurrency to deploy?",
+    description: "No. Deploy in dollars. Akash Console takes a credit card and bills in USD, the same as any other SaaS tool, and the Console API authenticates with a standard API key. Sign up with GitHub or email, add a card, and ship. No wallet, no seed phrase, no token.",
+  },
+  {
+    title: "What if we want to hold our own keys?",
+    description: "Console Air is the self-custody path: connect your own wallet and sign every transaction yourself. The network also supports USDC and AKT for teams that want on-chain sovereignty — that's an upgrade, not an entry requirement. Protocol-powered, not crypto-complicated.",
+  },
+  {
+    title: "Can either run production inference?",
+    description: "Both can, with care, and neither hands you a hyperscaler SLA. On Vast.ai that means on-demand or reserved instances and filtering by host reliability. On Akash it means Verified Enterprise providers and redundant leases behind a load balancer. Neither migrates a failed workload automatically. The difference is the failure mode: on Vast.ai's interruptible tier a competing bidder can end your instance, while here the risks are provider downtime and an escrow you forgot to top up.",
+  },
+];
+---
+
+<Layout
+  title="Akash vs Vast.ai — Compare"
+  description="Two open markets for GPUs. One of them can't take your machine back mid-run."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Two open markets for GPUs.
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            One of them can't take your machine back mid-run.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/compare/hero-vs-vast-ai.webp"
+            alt="Akash vs Vast.ai"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- CORE ECONOMICS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            The Core Economics
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Both are open markets. Both beat a hyperscaler on price. The difference is what happens after you've got the GPU.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Vast.ai sells three tiers. On-demand holds a machine for your session. Interruptible is cheaper because the bidding never stops: a higher bidder or the host reclaiming capacity pauses or kills your instance. Reserved trades commitment for a discount.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash bids once, at placement. Providers compete for your deployment, you take a bid, and that lease runs until you close it or the escrow empties. Nobody outbids you for a workload that's already serving traffic. The competition happens before your container starts, not while it's running.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Here's what that costs you: nothing you can look up on a rate card. Prices move as providers compete and as more capacity joins the network. See what the market is charging right now on the <a href="/pricing/gpus" class="text-foreground underline underline-offset-4 hover:opacity-80">GPU pricing page</a>.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Vast.ai</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Bidding</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Continuous, on the interruptible tier</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Once, at placement</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Preemption</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Interruptible can be outbid or reclaimed</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">None. The lease is yours until you close it</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">What you get</td>
+                <td class="px-6 py-4 align-top text-sm text-para">A machine, over SSH</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">A deployment, described in one file</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Payment</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Prepaid credits</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Credit card into refundable escrow, or USDC and AKT</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Who holds the rules</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Vast.ai operates the platform</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">An open protocol. Anyone can run a provider</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ARCHITECTURAL DISTINCTIONS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Architectural Distinctions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              A lease, not a standing bid
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              The cheapest capacity on Vast.ai is contingent capacity. That's the right trade for checkpointed batch work and the wrong one for anything with users in front of it. On Akash there's no equivalent exposure: once the lease opens, the provider is committed for as long as it's funded. Market pricing, without holding a position someone can outbid you out of.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              A deployment, not a machine
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Vast.ai hands you a container on a host with SSH — closer to renting a box. Akash takes a file that declares your services, resources, ports, and placement, then runs it. Endpoints, persistent volumes, and multi-service apps are part of the spec instead of something you configure after logging in. For a training run, either works. For something that has to stay up and be addressable, that's less assembly.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              A protocol, not a platform
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Vast.ai is a company that runs a marketplace, holds your credits, and sets the rules. Akash is open-source software with an on-chain market: anyone can run a provider without approval, settlement happens on the network rather than in a company ledger, and you can self-host the whole stack. Even if the dashboard went away, the network and your workloads stay live. That's also why hardware-attested confidential compute works here — the guarantee comes from the silicon, not from trusting an intermediary.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICE PARITY INDEX -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Service Parity Index
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Both run standard containers. The differences are around them.
+          </p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Capability</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Vast.ai</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">On Akash</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">How it works</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parity.map((row) => (
+                <tr class="border-b border-border">
+                  <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.vast}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.equivalent}</td>
+                  <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.execution}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- WHAT WE ARE / WHAT WE AREN'T -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            What We Are. What We Aren't.
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Being a market doesn't make two markets interchangeable. Vast.ai is the better call for some work, and pretending otherwise would waste your time.
+          </p>
+        </div>
+        <div class="grid gap-8 md:grid-cols-3">
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">The lowest possible rate on interruptible capacity</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              If your job restarts cleanly, preemption is a discount. Take it.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Interactive, exploratory work</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              SSH and a Jupyter notebook beat a declarative deployment file for poking at things.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Per-host reliability data</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Vast.ai publishes a reliability score per host and lets you filter on it. Akash sorts providers into Verified Enterprise and Community Independent tiers, which is coarser.
+            </p>
+          </div>
+        </div>
+        <p class="max-w-2xl text-base font-normal text-para">
+          What Akash is for: workloads that need to keep running at a price you agreed to once, on infrastructure nobody can quietly change the terms of.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start Building
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Take a bid, hold the lease, and keep it for as long as the work takes.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

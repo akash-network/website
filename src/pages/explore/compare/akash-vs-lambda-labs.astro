@@ -6,50 +6,60 @@ import { FAQ } from "@/components/token-page/faq";
 
 const parity = [
   {
-    tier: "GPU Node Launch",
-    lambda: "1-Click Instances (SSH Access)",
-    equivalent: "Native OCI Containers",
-    execution: "Executes deep learning container workloads directly on provider hardware, maximizing raw execution speeds.",
+    tier: "GPU node",
+    lambda: "Instances with SSH access",
+    equivalent: "Standard containers",
+    execution: "Your image runs on provider hardware, with shell access through the lease.",
   },
   {
-    tier: "Cluster Topology",
-    lambda: "1-Click Clusters (InfiniBand)",
-    equivalent: "Native Kubernetes",
-    execution: "Interconnects distributed GPU groups using standard container networking fabrics to run large training tasks.",
+    tier: "Environment",
+    lambda: "Managed deep learning stack",
+    equivalent: "Your own images",
+    execution: "Pull PyTorch, TensorFlow, or CUDA images from any public registry. No translation layer.",
   },
   {
-    tier: "Model Verification",
-    lambda: "Managed Deep Learning Stack",
-    equivalent: "Standard Container Images",
-    execution: "Pulls pre-built ML framework images (PyTorch, TensorFlow, CUDA) directly from open public registries without translation layers.",
+    tier: "Storage",
+    lambda: "Attached and object storage",
+    equivalent: "Persistent volumes on the lease",
+    execution: "Requested in the deployment file, attached to the container.",
   },
   {
-    tier: "Architecture IaC",
-    lambda: "Centralized API Keys / Console",
-    equivalent: "Stack Definition Language (SDL)",
-    execution: "Consolidates your entire infrastructure requirements (GPU model, CPU cores, RAM, NVMe storage) in a single portable YAML template.",
+    tier: "Configuration",
+    lambda: "Console and API",
+    equivalent: "SDL, CLI, REST API, MCP",
+    execution: "One portable YAML file, deployable from a terminal, a script, or an AI coding agent.",
+  },
+  {
+    tier: "Confidential compute",
+    lambda: "Not offered",
+    equivalent: "One line in your SDL",
+    execution: "tee: cpu or tee: cpu-gpu runs your workload in an AMD SEV-SNP or Intel TDX enclave.",
   },
 ];
 
 const faqs = [
   {
-    title: "Is the network stable enough for large-scale multi-node LLM training?",
-    description: "Yes. Tenants retain absolute control over workload placement. By defining provider verification rules in your configuration template, you can filter out distributed consumer hardware and exclusively accept bids from audited, tier-3 and tier-4 enterprise data centers. These provider facilities utilize high-speed InfiniBand and NVLink interconnects to process dense tensor parallel workloads without network bottlenecks.",
+    title: "Is Akash stable enough for large multi-node training?",
+    description: "For data-parallel and loosely-coupled work, yes — teams run distributed jobs across Akash providers today. For tightly-coupled training that depends on InfiniBand between nodes, be careful: that's a provider-level property, not a network-wide one. Ask a provider directly before committing to a large synchronous run.",
   },
   {
-    title: "Do we need to hold crypto assets or manage a wallet to lease hardware?",
-    description: "No. You can fund deployments, manage active workloads, and settle compute costs directly using a standard credit card. Akash Console manages the underlying infrastructure wallets and transaction clearing automatically in the background. Your billing is handled entirely via fiat currency, keeping your production compute budgets predictable and compliant with standard corporate accounting.",
+    title: "Do we need cryptocurrency to deploy?",
+    description: "No. Deploy in dollars. Akash Console takes a credit card and bills in USD, the same as any other SaaS tool, and the Console API authenticates with a standard API key. Sign up with GitHub or email, add a card, and ship. No wallet, no seed phrase, no token.",
   },
   {
-    title: "What happens to our model weights if a host drops off the grid?",
-    description: "Every active workload is protected by an automated network lease. If a compute provider encounters a hardware failure or stops broadcasting real-time uptime verification, the lease terminates automatically and billing stops instantly. Because your complete cluster and container parameters are saved within a portable configuration file, you can immediately re-submit the manifest to the network to spin up an identical pipeline on an alternative provider node within minutes.",
+    title: "What if we want to hold our own keys?",
+    description: "Console Air is the self-custody path: connect your own wallet and sign every transaction yourself. The network also supports USDC and AKT for teams that want on-chain sovereignty — that's an upgrade, not an entry requirement. Protocol-powered, not crypto-complicated.",
+  },
+  {
+    title: "What happens to our model weights if a host drops off the network?",
+    description: "The lease ends and the container stops. Persistent volumes are attached to that provider, so treat anything on them as gone when the lease ends. Checkpoint to external storage on a schedule, the same way you would on any spot or preemptible instance. Recovery is a redeploy through the CLI or API — scriptable, but not automatic. Akash doesn't migrate a running workload between providers.",
   },
 ];
 ---
 
 <Layout
   title="Akash vs Lambda Labs — Compare"
-  description="Access high-density NVIDIA H100, A100, and consumer silicon via a peer-to-peer compute ledger. Secure immediate hardware allocations through a live reverse auction without long-term commitments, sales approvals, or waitlists."
+  description="When they're sold out, the marketplace is just getting started. Open GPU supply, no reservation, no waitlist."
 >
   <TopMargin>
     <div class="not-prose pb-28">
@@ -58,24 +68,26 @@ const faqs = [
       <section class="space-y-8 pt-4">
         <div class="space-y-5">
           <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            On-demand AI clusters. Deployed without contract negotiation.
+            When they're sold out, the marketplace is just getting started.
           </h1>
           <p class="max-w-2xl text-base font-normal text-para">
-            Access high-density NVIDIA H100, A100, and RTX hardware via an open compute marketplace. Secure immediate infrastructure allocations through an automated reverse auction without commitments, sales approvals, or waitlists.
+            Open supply of GPUs with nothing signed, nothing reserved, and nothing to wait for.
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
           <a
-            href="/pricing/gpus"
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
             class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
           >
-            See Compute Pricing <ChevronRight size={14} className="ml-1.5" />
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
           </a>
           <a
-            href="/docs/developers/getting-started/"
+            href="/pricing/gpus"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
           >
-            View Docs <ChevronRight size={14} className="ml-1.5" />
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
           </a>
         </div>
         <div class="group mt-2 overflow-hidden rounded-xl">
@@ -94,10 +106,13 @@ const faqs = [
             The Core Economics
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Lambda Labs provides flat hourly rates, but accessing their lowest pricing tiers typically requires long-term contractual commitments or multi-year reserved instances. For teams scaling on-demand without a contract, hardware availability is limited and spot pricing options are unavailable.
+            Lambda has limited inventory. It's good inventory — consistent hardware, consistent networking — but it's a fixed fleet on a published rate card, and the best pricing is attached to reserved terms. When the on-demand H100s are committed to someone else's contract, your options are wait, commit, or go elsewhere.
           </p>
           <p class="max-w-2xl text-base font-normal text-para">
-            Akash processes resource matching through an open marketplace protocol. Verified independent data centers globally bid against one another in real time to host your containerized workloads, securing competitive market spot rates without requiring an institutional contract signature.
+            Akash has open supply. Independent providers bid for your workload in real time, so the price reflects what capacity is actually going spare right now. Nothing signed, nothing reserved, nothing to wait for.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Here's what that costs you: nothing you can look up on a rate card. Prices move as providers compete and as more capacity joins the network. See what the market is charging right now on the <a href="/pricing/gpus" class="text-foreground underline underline-offset-4 hover:opacity-80">GPU pricing page</a>.
           </p>
         </div>
         <div class="overflow-hidden rounded-xl border border-border">
@@ -105,32 +120,37 @@ const faqs = [
             <thead>
               <tr class="border-b border-border bg-gray-50 dark:bg-background2">
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Lambda Labs (H100 On-Demand)</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Lambda Labs</th>
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
               </tr>
             </thead>
             <tbody>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 text-sm font-medium text-foreground">GPU Allocation</td>
-                <td class="px-6 py-4 text-sm text-para">1x NVIDIA H100 PCIe (80 GB VRAM)</td>
-                <td class="px-6 py-4 text-sm text-foreground">1x NVIDIA H100 PCIe (80 GB VRAM)</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Supply</td>
+                <td class="px-6 py-4 align-top text-sm text-para">One operator's fleet</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Global network of competing providers</td>
               </tr>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 text-sm font-medium text-foreground">Lease Terms</td>
-                <td class="px-6 py-4 text-sm text-para">Fixed hourly on-demand billing (subject to capacity shortages)</td>
-                <td class="px-6 py-4 text-sm text-foreground">Flexible spot instances routed across a global provider network</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Price</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Published rate card</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Set by competitive bids, per deployment</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Commitment</td>
+                <td class="px-6 py-4 align-top text-sm text-para">On-demand or reserved terms</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">None. Close the lease whenever you want</td>
               </tr>
               <tr>
-                <td class="px-6 py-4 text-sm font-medium text-foreground">Hourly Rate</td>
-                <td class="px-6 py-4 text-sm text-para">~$2.49 / hour</td>
-                <td class="px-6 py-4 text-sm font-semibold text-foreground">~$1.33–$2.10 average marketplace settlement</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Access</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Account, subject to capacity</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">No waitlist. No approval needed.</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- STRUCTURAL BOTTLENECKS -->
+      <!-- ARCHITECTURAL DISTINCTIONS -->
       <section class="mt-20 md:mt-44">
         <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
           Architectural Distinctions
@@ -138,18 +158,18 @@ const faqs = [
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              On-Demand Capacity Sourcing
+              Capacity you don't have to reserve
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Because Lambda Labs manages a centralized hardware footprint, developers frequently run into instance exhaustion where available nodes are allocated to long-term enterprise contracts. Akash aggregates global capacity into a unified index by connecting idle, audited data centers into a single open network. This model surfaces available hardware pools instantly, allowing teams to execute training or inference tasks without encountering regional capacity walls.
+              Lambda's cheapest pricing rewards teams that can commit for months. That works when demand is predictable and wastes money when it isn't. A fine-tuning run that needs eight H100s for eleven hours should be an eleven-hour lease. You describe it, providers bid, you take one, and you close when the run finishes. There's no term to amortize and no idle reservation to explain to your CFO.
             </p>
           </div>
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              Contract-Free Cluster Deployment
+              Open supply, and what that changes
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Securing multi-node clusters on traditional clouds typically requires 1-to-3-year reservation terms that lock up engineering capital. Akash matches your infrastructure layout dynamically to the active spot market. You can launch parallel cluster resources for short-cycle model training or batch processing runs and spin them down the moment execution completes, paying only for the exact compute time consumed.
+              Lambda operates its own hardware, which gets you consistency and a narrow catalog. Akash aggregates many independent operators, which gets you a wider, cheaper pool and more variation between providers. Every bid names the provider, the region, and the hardware, so you're choosing an operator, not just a GPU. The marketplace sorts them into tiers — Verified Enterprise data centers with redundant power and networking, Community Independent operators optimized for price — so you can filter to the reliability you actually need.
             </p>
           </div>
         </div>
@@ -162,17 +182,17 @@ const faqs = [
             Service Parity Index
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            You do not need to alter your underlying PyTorch models, CUDA configurations, or vLLM inference layers. The platform accepts standard OCI container configurations to run existing development pipelines natively.
+            Nothing about your training or inference code changes. If it runs in Docker, it runs on Akash.
           </p>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full min-w-[800px] border-collapse text-sm">
             <thead>
               <tr class="border-b border-border">
-                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Workload Layer</th>
-                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Lambda Labs Infrastructure</th>
-                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">Marketplace Equivalent</th>
-                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">Technical Execution</th>
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Workload layer</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Lambda Labs</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">On Akash</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">How it works</th>
               </tr>
             </thead>
             <tbody>
@@ -186,6 +206,32 @@ const faqs = [
               ))}
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- WHAT WE ARE / WHAT WE AREN'T -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            What We Are. What We Aren't.
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash doesn't have a centralized SLA, because we aren't a centralized provider. We're a marketplace. Two places where that matters against Lambda specifically:
+          </p>
+        </div>
+        <div class="grid gap-8 md:grid-cols-2">
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Tightly-coupled multi-node training</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Interconnect quality is a provider-level property, and nodes from different providers aren't on the same fabric. For synchronous training across dozens of GPUs over InfiniBand, a single-operator cluster is the better tool. Confirm the interconnect with a provider before planning a large run, or keep that stage on Lambda and use Akash for the fine-tuning, inference, and batch work around it.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Reliability is a choice, not a guarantee</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              You choose your level of reliability by choosing your provider. Verified Enterprise providers for work that has to stay up, Community Independent for work where price matters more. For development, training, batch processing, and inference where cost matters more than a contractual uptime guarantee, Akash is hard to beat. Where you need a signed SLA from one vendor, Lambda might still be the right call.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -203,10 +249,10 @@ const faqs = [
       <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
         <div class="space-y-5">
           <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Start Building.
+            Start Building
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Migrate your machine learning pipelines to an open, competitive compute marketplace. Maintain absolute configuration authority over your hardware allocations without centralized cloud restrictions.
+            Describe the run, take a bid, and pay for exactly the hours you use.
           </p>
         </div>
         <div class="flex flex-wrap justify-center gap-3">
@@ -219,12 +265,10 @@ const faqs = [
             Deploy Now <ChevronRight size={14} className="ml-1.5" />
           </a>
           <a
-            href="https://github.com/akash-network/awesome-akash"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/pricing/gpus"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
           >
-            Explore SDL Templates <ChevronRight size={14} className="ml-1.5" />
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
           </a>
         </div>
       </section>
