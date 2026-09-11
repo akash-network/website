@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { ChevronRight } from "lucide-react";
 import QuoteReveal from "@/components/development-pages/QuoteReveal";
 import TryAkashForm from "@/components/ui/try-akash-form";
+import SavingsClaim from "@/components/use-cases/savings-claim.astro";
 
 const advantages = [
   {
@@ -91,6 +92,7 @@ const toolkit = [
         <div class="space-y-3">
           <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
           <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+          {item.title === "Dynamic Pricing" && <SavingsClaim />}
         </div>
       ))}
     </div>
