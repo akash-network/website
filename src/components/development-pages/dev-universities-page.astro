@@ -8,13 +8,13 @@ import QuoteReveal from "@/components/development-pages/QuoteReveal";
 const pillars = [
   {
     number: "01",
-    title: "Research Sovereignty",
-    desc: "Eliminate dependency on single-provider pricing or availability. Access high-density NVIDIA H100s and A100s on a global marketplace where access is always permissionless.",
+    title: "No single-provider dependency",
+    desc: "Eliminate dependency on single-provider pricing or availability. Access NVIDIA H100 and A100 GPUs on a global marketplace where access is always permissionless.",
   },
   {
     number: "02",
-    title: "Zero Cloud Tax",
-    desc: "Allocate more budget to research and less to infrastructure overhead. By utilizing idle global capacity, institutions scale simulations and training at a fraction of legacy costs.",
+    title: "Lower infrastructure cost",
+    desc: "Allocate more budget to research and less to infrastructure overhead. By using capacity that would otherwise sit idle, institutions scale simulations and training at a fraction of legacy costs.",
   },
   {
     number: "03",
@@ -35,7 +35,7 @@ const programPillars = [
   },
   {
     title: "Technical Exposure",
-    desc: "Get direct experience with high-density GPU infrastructure and decentralized protocols. Access the tools and mentorship required to move beyond classroom theory into real-world distributed systems engineering.",
+    desc: "Get direct experience with production GPU infrastructure and decentralized protocols. Access the tools and mentorship required to move beyond classroom theory into real-world distributed systems engineering.",
   },
 ];
 
@@ -43,14 +43,20 @@ const programs = [
   {
     title: "Research Grants",
     desc: "We fund the builders and researchers pushing the boundaries of decentralized AI and open-source infrastructure. Claim the compute required for your breakthrough.",
+    href: "/grants/",
+    ctaLabel: "Apply for a grant",
   },
   {
     title: "Curriculum Integration",
     desc: "Bring the open cloud into the classroom. We provide the tools and technical support to integrate decentralized computing into engineering and computer science courses.",
+    href: "#contact",
+    ctaLabel: "Talk to us",
   },
   {
     title: "Student Hackathons",
     desc: "Host workshops and challenges that give students direct access to high-performance GPUs to build, test, and ship their own models.",
+    href: "#contact",
+    ctaLabel: "Talk to us",
   },
 ];
 
@@ -108,7 +114,7 @@ const carouselImages = [
       client:load
       lines={[
         "\"Akash is poised to be the decentralized AI solution for the world.",
-        "I'm working to team with Akash to bring the world's best AI startups to Akash away from centralized providers.\""
+        " I'm working to team with Akash to bring the world's best AI startups to Akash away from centralized providers.\""
       ]}
       author="SRIRAM VISHWANATH"
       authorDetails={["Professor, University of Texas at Austin"]}
@@ -186,9 +192,34 @@ const carouselImages = [
         <div class="space-y-3">
           <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
           <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+          <a
+            href={item.href}
+            class="inline-flex items-center gap-1 pt-1 text-sm font-medium text-foreground hover:opacity-70 transition-opacity"
+          >
+            {item.ctaLabel}<ChevronRight size={14} className="ml-0.5" />
+          </a>
         </div>
       ))}
     </div>
+  </section>
+
+  <!-- CONTACT CTA — anchor target for Curriculum Integration and Student
+       Hackathons blocks. Grants block links direct to /grants/. -->
+  <section id="contact" class="mt-20 flex flex-col items-center space-y-6 scroll-mt-24 text-center md:mt-32">
+    <div class="space-y-4">
+      <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+        Talk to us about your program
+      </h2>
+      <p class="max-w-2xl text-base font-normal text-para">
+        Grants, classroom access, and hackathon support for academic institutions.
+      </p>
+    </div>
+    <a
+      href="/gpus-on-demand"
+      class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+    >
+      Get in Touch<ChevronRight size={14} className="ml-1.5" />
+    </a>
   </section>
 
   <!-- GALLERY CAROUSEL -->
