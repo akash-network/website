@@ -36,7 +36,7 @@ export function FAQ({ faqs }: { faqs: FAQs[] }) {
             </span>
           </AccordionTrigger>
 
-          <AccordionContent className="mt-4  md:mt-6">
+          <AccordionContent forceMount className="mt-4  md:mt-6">
             <ReactMarkdown className="prose:font-normal prose:leading-[30px] prose max-w-none prose-p:text-sm  prose-a:text-foreground prose-a:underline-offset-4 prose-a:hover:underline md:prose-p:text-lg ">
               {faq.description}
             </ReactMarkdown>

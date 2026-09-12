@@ -1,0 +1,256 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+import NetworkGlobeSection from "@/components/home/network-globe.astro";
+
+// FAQ answers verified against akash.network/docs/providers on 2026-09-11.
+// Setup and installation docs confirm Ubuntu 24.04 LTS on x86_64 via the
+// official Provider Playbook (Ansible) or Kubespray, with Provider Console
+// as an alternative no-Kubernetes-expertise path. The docs do not document a
+// provider-side mechanism to restrict which deployments may lease capacity —
+// provider attributes are documented as an advertisement/matching system,
+// not a gating one — so the sentence claiming otherwise was removed.
+const faqs = [
+  {
+    title: "What technical stack is required to run a secure provider node?",
+    description:
+      "A Kubernetes cluster on Ubuntu 24.04 LTS (x86_64), a public IP, and the ports the provider service and tenant ingress need. Setup runs through the official Provider Playbook (Ansible) or the Provider Console. GPU nodes use the NVIDIA GPU Operator, installed as part of the playbook.",
+  },
+  {
+    title: "Are tenants isolated securely enough to run safely on my hardware?",
+    description:
+      "Each lease runs in its own Kubernetes namespace, and containers run without elevated privileges by default.",
+  },
+  {
+    title: "What happens to my provider reputation if a tenant workload causes an error?",
+    description:
+      "A tenant's workload failing is not counted against you. Your provider record reflects whether your service accepted and fulfilled leases and stayed reachable, not what happens inside a tenant's container. Kubernetes restarts failed containers according to the tenant's own configuration.",
+  },
+];
+
+const hardware = [
+  {
+    tier: "GPU nodes",
+    spec: "NVIDIA GPUs, identical model per node (RTX 4090, A100, H100).",
+    workloads: "Training, LLM inference, rendering.",
+    orchestration: "GPU worker nodes with the NVIDIA container runtime.",
+  },
+  {
+    tier: "General compute",
+    spec: "12+ CPU cores, 48 GB+ RAM, 500 GB+ NVMe.",
+    workloads: "Web applications, database replicas, CI/CD runners.",
+    orchestration: "Ansible, via the official provider playbook.",
+  },
+  {
+    tier: "Storage",
+    spec: "High-throughput enterprise NVMe arrays.",
+    workloads: "Container databases, model weight storage, persistent state.",
+    orchestration: "Dedicated storage controllers in the cluster.",
+  },
+];
+---
+
+<Layout
+  title="Become a Compute Provider — Akash Network"
+  description="Connect your servers to Akash and let tenants bid on unused CPU, GPU, memory, and storage. You set the price floor. Payment is escrowed upfront and streams while the lease runs."
+  image="/meta-images/providers.jpg"
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.title,
+        "acceptedAnswer": { "@type": "Answer", "text": faq.description },
+      })),
+    })} />
+  </Fragment>
+
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Earn revenue from idle data center capacity
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Connect your servers to Akash and let tenants bid on unused CPU, GPU, memory, and storage. You set the minimum price. You keep operational control of your cluster.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://provider-console.akash.network/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Become a Provider <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/provider-calculator/"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Calculate Earnings <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/use-cases/use-cases-providers.webp"
+            alt="Become an Akash Compute Provider"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- WHAT IT REPLACES -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            What it replaces
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Selling capacity directly means building a sales channel, a billing system, and a support function, then waiting out enterprise procurement cycles. On Akash, your nodes watch the marketplace and bid automatically when a workload matches your hardware and your price floor. Tenants fund the lease before the workload starts, and payment streams to you for as long as it runs.
+          </p>
+        </div>
+        <div class="overflow-x-auto rounded-xl border border-border">
+          <table class="w-full min-w-[720px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Selling capacity directly</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Providing on Akash</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Customer acquisition</td>
+                <td class="px-6 py-4 text-sm text-para">Sales team, marketing spend, procurement cycles.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Your nodes bid automatically on matching workloads.</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Billing</td>
+                <td class="px-6 py-4 text-sm text-para">Custom invoicing, collections, cross-border payments.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Escrowed upfront, paid out continuously during the lease.</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-foreground">Provisioning</td>
+                <td class="px-6 py-4 text-sm text-para">Manual setup per tenant.</td>
+                <td class="px-6 py-4 text-sm text-foreground">Ansible playbook, Kubernetes-based provider service.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- THE NETWORK TODAY -->
+      <div class="mt-20 md:mt-44">
+        <NetworkGlobeSection />
+      </div>
+
+      <!-- HOW IT WORKS FOR OPERATORS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          How it works for operators
+        </h2>
+        <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div class="rounded-xl border border-border bg-background2 p-7 space-y-3">
+            <p class="text-xs font-medium uppercase tracking-widest text-para">Pricing</p>
+            <h3 class="font-sans text-lg !font-medium leading-snug tracking-tight text-foreground">
+              You set the floor
+            </h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              You set the minimum price for CPU cores, memory, storage, and each GPU model in your provider configuration. Your node only bids at or above it. No reseller discount schedule and no margin dictated to you.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-background2 p-7 space-y-3">
+            <p class="text-xs font-medium uppercase tracking-widest text-para">Payments</p>
+            <h3 class="font-sans text-lg !font-medium leading-snug tracking-tight text-foreground">
+              No invoicing
+            </h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Tenants fund a lease escrow before the workload starts, and payment settles to your provider account continuously while the lease runs. No collections, no cross-border invoicing, no defaults.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- HARDWARE REQUIREMENTS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Hardware requirements
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash runs on standard x86_64 and ARM64 Linux servers. Existing bare-metal inventory can be grouped into profiles that target different kinds of tenant workload.
+          </p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Tier</th>
+                <th class="w-[24%] pb-3 pl-6 text-left text-sm font-medium text-para">Minimum spec</th>
+                <th class="w-[26%] pb-3 pl-6 text-left text-sm font-medium text-foreground">What runs on it</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">Setup</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hardware.map((row) => (
+                <tr class="border-b border-border">
+                  <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.spec}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.workloads}</td>
+                  <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.orchestration}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start earning
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Put unallocated racks and idle GPUs on an open market. Set your price, keep control of the cluster, get paid per lease.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://provider-console.akash.network/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Become a Provider <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/provider-calculator/"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            Calculate Earnings <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

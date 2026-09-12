@@ -72,4 +72,17 @@ export const redirects = {
   "/bits/[...page]": "/the-bid/[...page]",
   "/bits/[slug]": "/the-bid/[slug]",
   "/bits/[tag]/[page]": "/the-bid/[tag]/[page]",
+  // Consolidated /explore/use-cases/* into /use-cases/* so the hub and all
+  // five children share one URL tree.
+  "/explore/use-cases": "/use-cases/",
+  "/explore/use-cases/": "/use-cases/",
+  "/explore/use-cases/providers": "/use-cases/providers/",
+  "/explore/use-cases/providers/": "/use-cases/providers/",
+  "/explore/use-cases/startups": "/use-cases/startups/",
+  "/explore/use-cases/startups/": "/use-cases/startups/",
+  "/explore/use-cases/universities": "/use-cases/universities/",
+  "/explore/use-cases/universities/": "/use-cases/universities/",
+  // Renamed slug to match the page's display title.
+  "/use-cases/ai-product-engineering": "/use-cases/ai-inference-and-training/",
+  "/use-cases/ai-product-engineering/": "/use-cases/ai-inference-and-training/",
 };

@@ -41,7 +41,9 @@ const isActive = (item: (typeof items)[0]) =>
   (pathname?.split("/")[1] === item.link?.split("/")[1] &&
     pathname.includes("case-studies")) ||
   (item.link === "/ecosystem/providers/" &&
-    pathname.startsWith("/ecosystem/network-capacity"));
+    pathname.startsWith("/ecosystem/network-capacity")) ||
+  // Use Cases nav item (link `/use-cases/`) highlights on every child page.
+  (item.link === "/use-cases/" && pathname.startsWith("/use-cases/"));
 ---
 
 <div class="border-b border-zinc-200 bg-background dark:border-white/10">
