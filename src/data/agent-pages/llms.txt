@@ -1,34 +1,130 @@
 # Akash Network
 
-> Akash Network is an open-source cloud computing marketplace where independent providers bid to run containerized workloads, including NVIDIA GPUs. Developers and AI agents deploy with a credit card or a crypto wallet and pay auction prices rather than list prices.
+> Akash is an open marketplace for cloud compute. Tenants rent CPU, GPU, memory, storage, and networking from independent providers to run containerized applications. The Akash blockchain coordinates bids, leases, and payments; providers run the workloads. AkashML offers managed model inference on Akash infrastructure.
 
-Deployments are auctions: publish a workload in SDL, providers bid within 30–60 seconds, accept a bid to open a lease. Funds sit in per-deployment escrow and unspent balance is returned on close. The minimum deposit is $0.50.
+Use this index to choose a product and find authoritative documentation. Read the extended reference for deployment workflows, command examples, funding, SDL, troubleshooting, and operating limits. Documentation describes supported features; live provider inventory and accepted bids determine what capacity is available at what price.
 
-## Deploy
+Key distinctions:
 
-- [Agent setup playbook](https://akash.network/get-started.md): Executable onboarding for a coding agent — install the CLI, connect a credential, add the skill, register MCP, verify.
-- [Akash for AI Agents](https://akash.network/docs/getting-started/ai-agents/): Install the Akash skill bundle in Claude Code, Codex, or OpenCode and deploy from natural-language prompts.
-- [Console API](https://akash.network/docs/api-documentation/console-api/getting-started/): REST API with a managed wallet, authenticated by an `x-api-key` header. Full deployment lifecycle in five calls.
-- [akt CLI](https://akash.network/docs/developers/deployment/akt/): Single binary for chain queries, deployments, provider operations, and monitoring.
-- [MCP server](https://akash.network/docs/developers/deployment/akt/mcp/): Expose Akash chain and Console tools to AI assistants over stdio. Read-only by default.
-- [SDL reference](https://akash.network/docs/developers/deployment/akash-sdl): Deployment configuration syntax — image, CPU, memory, storage, GPU, ports, placement, pricing.
-- [Quick Start](https://akash.network/docs/getting-started/quick-start): First deployment in under ten minutes.
+- Akash Console is the managed deployment web app. Console Air is the self-custody, self-hostable deployment web app. Provider Console operates supply-side infrastructure.
+- `akt` is the unified CLI. `AKT` is the network token; `ACT` is the USD-pegged compute credit. The canonical deployment pricing denomination is `uact`; transaction gas is paid in `uakt`. One ACT or AKT contains 1,000,000 of its respective micro-unit.
+- The current Console API funds deployments automatically from account credits. Check akt on GitHub for the most up-to-date code and published releases; Homebrew installs the latest release available in the official tap. Confirm funding flags with the installed CLI help before using older examples.
+- An on-chain lease, provider service readiness, and application health are separate checks. Persistent storage is provider-local and needs backups before lease closure or migration.
+- AkashML inference keys, Console deployment API keys, wallet signing keys, and provider authentication tokens serve different purposes. Use the credential and endpoint for the selected product.
 
-## Products
+## Start here
 
-- [Akash Console](https://console.akash.network): Web interface and managed wallet, billed in USD by card. Create API keys under Settings, API Keys.
-- [Console Air](https://akash.network/docs/getting-started/choosing-your-console): Self-custody deploy app. Bring a Keplr-compatible wallet, pay in AKT and ACT, self-host if you want.
-- [AkashML](https://akashml.com): Managed inference on Akash compute. OpenAI-compatible API at api.akashml.com, Anthropic-compatible Messages endpoint at api.akashml.com/anthropic.
+- [Agent setup playbook](https://akash.network/get-started.md): Onboarding instructions for coding agents, including CLI, credentials, skills, and MCP setup.
+- [Common questions](https://akash.network/faq.md): Answers about Akash products, GPU availability, payments, and deployment.
+- [Extended Akash reference](https://akash.network/llms-full.txt): Detailed plain-text companion covering supported workloads, deployment paths, akt, APIs, SDL, funding, operations, and source/version notes.
+- [Documentation](https://akash.network/docs/): Official documentation for tenants, application developers, providers, and node operators.
+- [What is Akash?](https://akash.network/docs/getting-started/what-is-akash/): Marketplace, infrastructure, participants, and typical uses.
+- [Quick start](https://akash.network/docs/getting-started/quick-start/): First deployment through the managed Console.
+- [Core concepts](https://akash.network/docs/getting-started/core-concepts/): SDL, providers, bids, deployments, leases, and escrow.
+- [Choose Console or Console Air](https://akash.network/docs/getting-started/choosing-your-console/): Select managed billing or self-custody before following a deployment guide.
 
-## Reference
+## Deploy through a web app
 
-- [Common questions](https://akash.network/faq.md): What Akash Network is, whether crypto is required, what GPUs are available, how deployment works.
-- [Documentation](https://akash.network/docs/): Full docs for tenants, providers, and node operators.
-- [Confidential Compute](https://akash.network/docs/learn/core-concepts/confidential-compute): Run workloads in an AMD SEV-SNP or Intel TDX enclave with one SDL field.
-- [Compare](https://akash.network/explore/compare/): Akash Network against RunPod, Lambda Labs, AWS, and Heroku.
-- [GPU pricing](https://akash.network/pricing/gpus): Current GPU availability and price by model.
+- [Akash Console](https://console.akash.network): Hosted deployment app with account credits, templates, an SDL builder, provider selection, logs, and lifecycle management.
+- [Console onboarding](https://akash.network/docs/getting-started/console-onboarding/): Sign up, configure a workload, choose a bid, and open the running service.
+- [How funding works](https://akash.network/docs/getting-started/how-funding-works/): Account credits, available versus escrow balances, automatic deployment funding, optional card Auto Top-Up, and runtime limits.
+- [Deploy with Console Air](https://akash.network/docs/developers/deployment/console-air/): Use a wallet to sign transactions, fund ACT escrow, and manage deployments yourself.
+- [Console Air source and setup](https://github.com/akash-network/console-air): Run or self-host the self-custody web interface.
+- [Console log forwarding](https://akash.network/docs/developers/deployment/akash-console/log-forwarding/): Export deployment logs for monitoring and retention.
+
+## Deploy and operate with akt
+
+- [akt overview](https://akash.network/docs/developers/deployment/akt/): Unified CLI for local signing, Console managed wallets, chain queries, provider operations, and monitoring.
+- [Install and update akt](https://akash.network/docs/developers/deployment/akt/installation/): Install the latest published release from the official Homebrew tap; update with `brew update` and `brew upgrade akash-network/tap/akt`. Includes verified archives, Linux packages, source builds, and setup.
+- [akt releases](https://github.com/akash-network/akt/releases): Check published versions and release notes; main-branch features may not be in an installed release.
+- [Contexts and configuration](https://akash.network/docs/developers/deployment/akt/configuration/): Networks, accounts, keyrings, Console credentials, capability checks, gas policy, output formats, and action logs.
+- [Deployment workflows](https://akash.network/docs/developers/deployment/akt/deployments/): Offline SDL scaffolds and validation; deploy, select bids, update, close, query readiness, and recover from partial failures.
+- [Console integration](https://akash.network/docs/developers/deployment/akt/console/): Managed identity, public GPU/provider discovery, templates, bid screening, logs, events, status, and shell. Funding commands depend on CLI/API version.
+- [Queries and transactions](https://akash.network/docs/developers/deployment/akt/queries-and-transactions/): Chain state, balances, market operations, BME, governance, staking, and authorization.
+- [Network monitor](https://akash.network/docs/developers/deployment/akt/monitor/): Terminal views of consensus, validators, provider capacity, and oracle/BME state.
+- [Command reference](https://akash.network/docs/developers/deployment/akt/commands-reference/): Command groups and positional resource identifiers; confirm exact syntax with the installed command's help.
+- [akt source](https://github.com/akash-network/akt): Most up-to-date code, tests, and development status; unreleased code may be ahead of Homebrew and GitHub release binaries.
+
+## APIs, SDKs, and AI agents
+
+- [API selection guide](https://akash.network/docs/api-documentation/getting-started/): Choose managed deployment APIs, public marketplace data, or direct blockchain/provider clients.
+- [Console API getting started](https://akash.network/docs/api-documentation/console-api/getting-started/): Authenticate with `x-api-key`; create a deployment, retain its rendered manifest, inspect bids, create leases, and manage lifecycle.
+- [Console API reference](https://akash.network/docs/api-documentation/console-api/api-reference/): Current endpoint contracts, request bodies, funding configuration, and response types.
+- [Console API quickstart](https://akash.network/docs/api-documentation/console-api/quickstart/): A worked managed deployment flow.
+- [Public marketplace REST API](https://akash.network/docs/api-documentation/rest-api/): Read provider and capacity data without a deployment API key; indexed data is separate from raw node RPC.
+- [Providers API](https://akash.network/docs/api-documentation/rest-api/providers-api/): Provider records, attributes, hardware, and capacity.
+- [GPU availability API guide](https://akash.network/docs/api-documentation/rest-api/gpu-availability-guide/): Discover GPU models and available resources before requesting bids.
+- [Akash SDKs](https://akash.network/docs/api-documentation/sdk/): Official Go and TypeScript clients generated from chain-sdk definitions.
+- [SDK installation](https://akash.network/docs/api-documentation/sdk/installation/): Current packages, including `pkg.akt.dev/go` and `@akashnetwork/chain-sdk`.
+- [SDK quick start](https://akash.network/docs/api-documentation/sdk/quick-start/): Programmatic deployment and signing.
+- [AuthZ and fee grants](https://akash.network/docs/api-documentation/sdk/authz-feegrant/): Delegate selected transaction permissions and fee payment.
+- [Chain and provider schemas](https://github.com/akash-network/chain-sdk): Authoritative protobuf definitions, SDL parser, generated clients, and API versions.
+- [Akash for AI agents](https://akash.network/docs/getting-started/ai-agents/): Agent-assisted SDL authoring and deployment using the Akash skill bundle.
+- [Akash agent skills](https://github.com/akash-network/akash-skill): Separate deployer, provider, and node-operator skills with installation instructions.
+- [akt CLI agent skill](https://akash.network/docs/developers/deployment/akt/agent-skill/): Install the focused akt skill; includes a complete ZIP and instructions for Codex and other agents.
+- [akt-cli SKILL.md](https://akash.network/skills/akt-cli/SKILL.md): Main operating instructions, hosted as Markdown with relative reference links preserved. Confirm examples against installed CLI help.
+- [akt-cli setup reference](https://akash.network/skills/akt-cli/references/setup.md): Skill installation, CLI discovery, chain and Console contexts, credentials, and optional MCP setup.
+- [akt-cli deployment reference](https://akash.network/skills/akt-cli/references/deployments.md): SDL preparation, previews, bid selection, deployment operations, and lifecycle verification.
+- [akt-cli troubleshooting reference](https://akash.network/skills/akt-cli/references/troubleshooting.md): Diagnose failures and reconcile partial deployment state before retrying.
+- [akt CLI skill source](https://github.com/akash-network/akt/tree/ab8092931db2050c27bc7c499c1d0c89bdcc6d5c/.agents/skills/akt-cli): Operating instructions and supporting references in the akt repository.
+- [akt MCP server](https://akash.network/docs/developers/deployment/akt/mcp/): Stdio tools for chain and Console queries. Read-only by default; selected mutations require `--enable-writes`. MCP does not expose every CLI command.
+
+## SDL, storage, networking, and security
+
+- [Stack Definition Language](https://akash.network/docs/developers/deployment/akash-sdl/): Akash's YAML configuration for services, compute profiles, placement, and deployment groups.
+- [SDL syntax reference](https://akash.network/docs/developers/deployment/akash-sdl/syntax-reference/): Images, commands, environment variables, exposure, resources, credentials, pricing, and replicas.
+- [SDL advanced features](https://akash.network/docs/developers/deployment/akash-sdl/advanced-features/): Named storage mounts, GPU constraints, shared memory, private registries, reclamation, and experimental TEE configuration.
+- [Deployment lifecycle and escrow](https://akash.network/docs/learn/core-concepts/deployments/): Create, bid, lease, submit a manifest, monitor, update, and close; unused escrow returns after closure.
+- [Providers and leases](https://akash.network/docs/learn/core-concepts/providers-leases/): Provider selection, lease terms, and operational responsibilities.
+- [Persistent storage](https://akash.network/docs/learn/core-concepts/persistent-storage/): Volumes survive restarts within a lease; plan backups and explicit data migration between providers.
+- [IP leases](https://akash.network/docs/learn/core-concepts/ip-leases/): Dedicated ingress IPv4, TCP/UDP services, DNS, and same-provider endpoint migration. An ingress IP is not a fixed egress IP.
+- [Shell access](https://akash.network/docs/learn/core-concepts/shell-access/): Inspect and troubleshoot a running container.
+- [Environment variables and secrets](https://akash.network/docs/learn/core-concepts/environment-secrets/): Configuration is in the off-chain manifest; ordinary container environments are visible to the provider.
+- [Private container registries](https://akash.network/docs/learn/core-concepts/private-containers/): Pull authenticated images using scoped registry credentials.
+- [Confidential compute](https://akash.network/docs/learn/core-concepts/confidential-compute/): Experimental AMD SEV-SNP, Intel TDX, and NVIDIA GPU confidential computing; image, memory, and attestation limitations apply.
+
+## AI, GPUs, and application examples
+
+- [GPU pricing](https://akash.network/pricing/gpus): Current GPU offerings and pricing; confirm availability and accepted bid prices when deploying.
+- [GPU deployments](https://akash.network/docs/learn/core-concepts/gpu-deployments/): GPU model and memory requirements, inference/training, and provider-supported multi-node RDMA interconnect.
+- [SDL examples library](https://akash.network/docs/developers/deployment/akash-sdl/examples-library/): Find workload templates, then verify image versions, resource requirements, and pricing before deployment.
+- [Awesome Akash](https://github.com/akash-network/awesome-akash): Community-maintained examples for web apps, databases, agents, model serving, image generation, notebooks, game servers, and blockchain nodes.
+- [vLLM template](https://github.com/akash-network/awesome-akash/tree/master/vllm): Self-host model inference with your own GPU lease and serving configuration.
+- [ComfyUI template](https://github.com/akash-network/awesome-akash/tree/master/comfyui): Run GPU image-generation workflows.
+- [Ray cluster template](https://github.com/akash-network/awesome-akash/tree/master/ray): Application-level distributed compute; verify provider topology and networking for the workload.
+- [AkashML](https://akashml.com): Managed inference with usage-based billing, separate from renting and operating a GPU deployment.
+- [AkashML introduction](https://akashml.com/docs/getting-started/introduction): Account setup, inference API keys, credits, and API base URLs.
+- [AkashML model catalog API](https://akashml.com/docs/api-reference/models/get-v1-models): Current model IDs, pricing, context lengths, modalities, and supported features.
+- [AkashML chat completion API](https://akashml.com/docs/api-reference/openai/post-v1-chat-completions): OpenAI-compatible inference, streaming, authentication, and errors.
+- [AkashML documentation](https://akashml.com/docs/getting-started): Playground, model settings, Anthropic-compatible Messages, and image endpoints.
+- [Akash Chat guide](https://akashml.com/docs/guides/akash-chat): Run an open-source chat frontend against AkashML or another compatible inference endpoint; configure access control and preserve browser-local history when changing domains.
+- [Live compute pricing](https://akash.network/pricing/): Inspect current marketplace pricing; quotes and capacity change with providers and demand.
+
+## Supply compute and operate the network
+
+- [Provider getting started](https://akash.network/docs/providers/getting-started/): Become a compute supplier; evaluate hardware, networking, operating costs, and maintenance.
+- [Provider hardware requirements](https://akash.network/docs/providers/getting-started/hardware-requirements/): Check supported infrastructure before buying or provisioning equipment.
+- [Provider Playbook](https://akash.network/docs/providers/setup-and-installation/provider-playbook/): Guided Ansible installation using Kubespray, K3s, or an existing Kubernetes cluster.
+- [Kubespray provider setup](https://akash.network/docs/providers/setup-and-installation/kubespray/): Manual infrastructure setup and provider installation.
+- [Provider Console](https://akash.network/docs/providers/setup-and-installation/provider-console/): Browser-based provider setup and operation, distinct from tenant Console and Console Air.
+- [Akash Homenode](https://homenode.akash.network/): Contribute eligible consumer/prosumer GPU hardware through the Homenode onboarding program; check current hardware eligibility and participation terms.
+- [GPU and RDMA setup](https://akash.network/docs/providers/setup-and-installation/kubespray/gpu-support/): Provider-side GPU enablement and optional high-speed GPU interconnect.
+- [Provider attributes](https://akash.network/docs/providers/operations/provider-attributes/): Advertise hardware, location, and capabilities used in placement matching.
+- [Provider verification](https://akash.network/docs/providers/operations/provider-verification/): Verification workflow and its scope.
+- [Provider monitoring](https://akash.network/docs/providers/operations/monitoring/): Track health, capacity, and tenant workloads.
+- [Provider reclamation](https://akash.network/docs/providers/setup-and-installation/kubespray/reclamation/): Offer a negotiated migration window before reclaiming leased resources.
+- [Node operators](https://akash.network/docs/node-operators/getting-started/): Run a full node or validator; these roles differ from hosting tenant compute.
+- [Run a validator](https://akash.network/docs/node-operators/validators/running-a-validator/): Consensus operations, staking, uptime, and signing responsibilities.
+- [Node API layer](https://akash.network/docs/node-operators/architecture/api-layer/): Blockchain RPC, REST, and gRPC interfaces.
+- [Network registry](https://github.com/akash-network/net): Current chain IDs, network versions, genesis, RPC nodes, and sandbox configuration.
+- [Network upgrades](https://akash.network/docs/node-operators/network-upgrades/): Upgrade-specific instructions and compatibility requirements.
 
 ## Optional
 
-- [Source](https://github.com/akash-network): Node, provider, Console, CLI, and skill. Apache 2.0.
-- [Blog](https://akash.network/blog/): Releases and network reports.
+- [Cloud comparisons](https://akash.network/explore/compare/): Compare Akash with other cloud and GPU platforms.
+- [Legacy CLI documentation](https://akash.network/docs/developers/deployment/cli/): Older `akash` and `provider-services` workflows; use for version-specific maintenance rather than mixing their flags into `akt` examples.
+- [AKT](https://akash.network/token/): Network token information; distinguish token economics from compute pricing.
+- [Roadmap and Akash Enhancement Proposals](https://akash.network/roadmap/): Track proposal status; an AEP is not proof that a feature is available in production.
+- [Akash source repositories](https://github.com/akash-network): Protocol, provider, Console, CLI, SDK, and website development.
+- [Support issues](https://github.com/akash-network/support/issues): Public technical support and issue history.
+- [Community support](https://discord.akash.network): Developer, deployment, provider, and validator discussions.
