@@ -2,12 +2,14 @@
 import { Card } from "@/components/ui/card";
 import { ChevronRight } from "lucide-react";
 import QuoteReveal from "@/components/development-pages/QuoteReveal";
+import TryAkashForm from "@/components/ui/try-akash-form";
+import SavingsClaim from "@/components/use-cases/savings-claim.astro";
 
 const advantages = [
   {
     number: "01",
     title: "Dynamic Pricing",
-    desc: "Save up to 80% compared to legacy providers. Providers compete for your bid in real-time. You pay for the silicon, not the corporate markup.",
+    desc: "Providers bid for your workload in real time, so you pay a rate set by competition rather than a published list price.",
   },
   {
     number: "02",
@@ -42,12 +44,12 @@ const toolkit = [
   },
   {
     title: "AkashML",
-    desc: "Serve Llama, DeepSeek, and Qwen via OpenAI-compatible endpoints. One base_url swap, 85% lower inference cost.",
-    href: "https://chatapi.akash.network",
+    desc: "Serve Llama, DeepSeek, and Qwen through OpenAI-compatible endpoints. One base_url swap.",
+    href: "https://akashml.com",
   },
   {
     title: "GPU Pricing",
-    desc: "Live market rates for H100s, A100s, and high-end consumer silicon.",
+    desc: "Live market rates for H100s, A100s, and consumer GPUs.",
     href: "/pricing/gpus",
   },
   {
@@ -67,7 +69,7 @@ const toolkit = [
         Stop overpaying for the legacy cloud
       </h1>
       <p class="max-w-2xl text-base font-normal text-para">
-        The centralized providers gatekeep high-end silicon behind sales calls and waitlists. Akash gives you direct access to the world's GPU supply at the cost of silicon.
+        The centralized providers gatekeep high-end GPUs behind sales calls and waitlists. Akash gives you direct access to GPU capacity from independent providers, priced by open bidding.
       </p>
     </div>
     <div class="group mt-10 overflow-hidden rounded-xl">
@@ -82,7 +84,7 @@ const toolkit = [
         The marketplace advantage
       </h2>
       <p class="max-w-2xl text-base font-normal text-para">
-        Founders choose Akash to escape the legacy cloud cartel and build on a protocol designed for speed and sovereignty.
+        Founders choose Akash to escape hyperscaler pricing and get direct access to GPU capacity, without sales calls or committed spend.
       </p>
     </div>
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -90,6 +92,7 @@ const toolkit = [
         <div class="space-y-3">
           <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
           <p class="text-sm font-normal leading-relaxed text-para">{item.desc}</p>
+          {item.title === "Dynamic Pricing" && <SavingsClaim />}
         </div>
       ))}
     </div>
@@ -103,7 +106,7 @@ const toolkit = [
       </div>
       <div class="space-y-6">
         <h3 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
-          Agora Labs: From Akash Innovator to NVIDIA Acquisition
+          Agora Labs: from Akash contributor to acquisition by Brev.dev
         </h3>
         <p class="text-sm font-normal leading-relaxed text-para">
           Agora Labs started as a group of students who couldn't find GPUs. They built on the Akash protocol, scaled their interface for AI developers, and were eventually acquired by Brev.dev and subsequently NVIDIA.
@@ -142,7 +145,10 @@ const toolkit = [
           Passage:<br />50% lower cloud costs.<br />Zero performance loss.
         </h3>
         <p class="text-sm font-normal leading-relaxed text-para">
-          Passage moved their 3D world-building infrastructure to the open marketplace to escape the "Cloud Tax." By leveraging competitive GPU bidding, they cut infrastructure expenses in half while maintaining the high-performance requirements of real-time rendering.
+          Passage moved its 3D world-building infrastructure to Akash and cut infrastructure spend in half while keeping the performance real-time rendering requires.
+        </p>
+        <p class="text-xs leading-snug text-para">
+          Figure reported by Passage, November 2024.
         </p>
         <a
           href="https://akash.network/blog/passage-reduces-cloud-spend-by-50-with-akash/"
@@ -197,24 +203,27 @@ const toolkit = [
     </div>
   </section>
 
-  <!-- FREE CREDITS CTA -->
+  <!-- START BUILDING — mirrors the homepage Start Building section (see
+       components/home/HomeCta.astro). Free-credits offer is flagged for
+       growth separately and is not surfaced here. -->
   <section class="mt-44 flex flex-col items-center space-y-8 text-center">
     <div class="space-y-5">
-      <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
-        Free Credits.
+      <h2 class="max-w-[900px] font-sans font-semibold tracking-tight text-foreground text-3xl md:text-5xl xl:text-6xl md:leading-snug">
+        Start Building
       </h2>
-      <p class="max-w-2xl text-base font-normal text-para">
-        Kickstart your deployment with free compute credits.<br />Test, build, and ship on the Open Cloud with zero upfront commitment.
+      <p class="max-w-[600px] text-sm md:text-base leading-relaxed text-para">
+        Launch containerized AI workloads via our self-serve console, or coordinate custom enterprise infrastructure configs with our team.
       </p>
     </div>
-    <a
-      href="https://console.akash.network"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
-    >
-      Get Your Credits<ChevronRight size={14} className="ml-1.5" />
-    </a>
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <TryAkashForm client:load type="hero" />
+      <a
+        href="/gpus-on-demand"
+        class="inline-flex items-center rounded-md border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+      >
+        Get in Touch
+      </a>
+    </div>
   </section>
 
 </div>

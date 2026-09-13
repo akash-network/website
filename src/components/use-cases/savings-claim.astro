@@ -1,0 +1,21 @@
+---
+import { savingsClaim } from "@/data/savings-claim";
+
+interface Props {
+  className?: string;
+}
+
+const { className } = Astro.props;
+---
+
+{savingsClaim && (
+  <p class:list={["text-xs leading-snug text-para", className]}>
+    H100 capacity on Akash prices at about {savingsClaim.akashPricePerGpuHour} per GPU-hour, against {savingsClaim.hyperscalerRange} per GPU-hour on-demand at AWS, Google Cloud, and Azure — roughly {savingsClaim.percentLower} lower. On-demand list prices as of {savingsClaim.asOf}.{" "}
+    <a
+      href={savingsClaim.methodologyHref}
+      class="underline underline-offset-2 hover:opacity-70 transition-opacity"
+    >
+      How we measure &rarr;
+    </a>
+  </p>
+)}

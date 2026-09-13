@@ -37,7 +37,9 @@ const visibility = {
   development: ["/development", "/roadmap"],
   ecosystem: ["/ecosystem", "/case-studies"],
   pricing: ["/pricing"],
-  explore: ["/explore"],
+  // Explore sub-nav shows on /explore/* (compare, partner-program) and on
+  // /use-cases/* (hub + all five children).
+  explore: ["/explore", "/use-cases"],
 };
 
 const pathnames = Object.values(visibility).flat();
