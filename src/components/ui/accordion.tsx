@@ -50,6 +50,12 @@ const AccordionTrigger = React.forwardRef<
 ));
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
+// When `forceMount` is true, the answer stays mounted in the initial HTML
+// (indexable, discoverable to non-JS crawlers) and is visually collapsed via
+// CSS when data-state=closed. Radix sets the `hidden` attribute on closed
+// forceMounted content, which we override so it stays in the accessibility
+// tree; the collapsed height is enforced with `data-[state=closed]:h-0` so
+// the layout remains identical to the unmount behaviour.
 const AccordionContent = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
@@ -58,6 +64,9 @@ const AccordionContent = React.forwardRef<
     ref={ref}
     className={cn(
       "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+      // Keep forceMounted content visible to crawlers by overriding the
+      // `hidden` attribute Radix applies, and hold height at 0 when closed.
+      "[&[hidden]]:block data-[state=closed]:h-0",
       className,
     )}
     {...props}

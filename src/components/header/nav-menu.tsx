@@ -44,9 +44,9 @@ const featuredItems: Record<MenuId, FeaturedItemData> = {
     imageSrc: "/nav/community_featured.webp",
   },
   network: {
-    href: "/explore/use-cases/",
+    href: "/use-cases/",
     title: "Use Cases",
-    description: "How startups and universities deploy on Akash.",
+    description: "How teams deploy and monetize compute on Akash.",
     imageSrc: "/nav/network_featured.webp",
   },
 };

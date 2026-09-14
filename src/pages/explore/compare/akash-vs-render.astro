@@ -6,41 +6,47 @@ import { FAQ } from "@/components/token-page/faq";
 
 const parity = [
   {
-    tier: "GPU node",
-    lambda: "Instances with SSH access",
+    tier: "Compute runtime",
+    render: "Web services, workers, cron",
     equivalent: "Standard containers",
-    execution: "Your image runs on provider hardware, with shell access through the lease.",
+    execution: "Your image runs directly on provider hardware.",
   },
   {
-    tier: "Environment",
-    lambda: "Managed deep learning stack",
-    equivalent: "Your own images",
-    execution: "Pull PyTorch, TensorFlow, or CUDA images from any public registry. No translation layer.",
+    tier: "Build",
+    render: "Git-push builds or prebuilt images",
+    equivalent: "Prebuilt images",
+    execution: "Build wherever you like. The network needs the image, not your repo.",
   },
   {
-    tier: "Storage",
-    lambda: "Attached and object storage",
-    equivalent: "Persistent volumes on the lease",
-    execution: "Requested in the deployment file, attached to the container.",
+    tier: "Data persistence",
+    render: "Managed Postgres and Redis",
+    equivalent: "Persistent volumes, or an outside managed database",
+    execution: "Run it as a container with a volume, or point at a managed service.",
   },
   {
     tier: "Configuration",
-    lambda: "Console and API",
-    equivalent: "SDL, CLI, REST API, MCP",
-    execution: "One portable YAML file, deployable from a terminal, a script, or an AI coding agent.",
+    render: "Dashboard and render.yaml",
+    equivalent: "SDL",
+    execution: "One portable YAML file covering services, resources, ports, and placement.",
   },
   {
-    tier: "Confidential compute",
-    lambda: "Not offered",
-    equivalent: "One line in your SDL",
-    execution: "tee: cpu or tee: cpu-gpu runs your workload in an AMD SEV-SNP or Intel TDX enclave.",
+    tier: "Deployment control",
+    render: "Dashboard, CLI, API",
+    equivalent: "CLI, REST API, MCP, agent skill",
+    execution: "An AI coding agent with an API key can deploy, inspect, and close workloads.",
+  },
+  {
+    tier: "GPUs",
+    render: "Not supported",
+    equivalent: "Requested in the same SDL",
+    execution: "Add a GPU block naming vendor and model to any service.",
   },
 ];
 
 const faqs = [
   {
-    title: "Is Akash stable enough for large multi-node training?",
-    description: "For data-parallel and loosely-coupled work, yes — teams run distributed jobs across Akash providers today. For tightly-coupled training that depends on InfiniBand between nodes, be careful: that's a provider-level property, not a network-wide one. Ask a provider directly before committing to a large synchronous run.",
+    title: "Is Akash stable enough for production web applications?",
+    description: "With the right setup, yes, and it asks more of you than Render does. Providers are independently operated, so uptime is a property of the provider you chose. Deploy on Verified Enterprise providers, run more than one lease, and load-balance across them. That's real operational work, and it's the honest trade for the price and the GPU access.",
   },
   {
     title: "Do we need cryptocurrency to deploy?",
@@ -51,15 +57,15 @@ const faqs = [
     description: "Console Air is the self-custody path: connect your own wallet and sign every transaction yourself. The network also supports USDC and AKT for teams that want on-chain sovereignty — that's an upgrade, not an entry requirement. Protocol-powered, not crypto-complicated.",
   },
   {
-    title: "What happens to our model weights if a host drops off the network?",
-    description: "The lease ends and the container stops. Persistent volumes are attached to that provider, so treat anything on them as gone when the lease ends. Checkpoint to external storage on a schedule, the same way you would on any spot or preemptible instance. Recovery is a redeploy through the CLI or API — scriptable, but not automatic. Akash doesn't migrate a running workload between providers.",
+    title: "What happens to our database if the provider goes offline?",
+    description: "The lease ends and the container stops. Persistent volumes live with that provider, so a database on a single lease is a single point of failure. Run it on a managed service or replicate off-provider. This is the clearest place where Render's managed Postgres is doing work that becomes yours here — worth pricing honestly before you move.",
   },
 ];
 ---
 
 <Layout
-  title="Akash vs Lambda Labs — Compare"
-  description="When they're sold out, the marketplace is just getting started. Open GPU supply, no reservation, no waitlist."
+  title="Akash vs Render — Compare"
+  description="Render runs your containers for you. Akash rents you the hardware to run them on — including the GPUs Render doesn't have."
 >
   <TopMargin>
     <div class="not-prose pb-28">
@@ -68,10 +74,10 @@ const faqs = [
       <section class="space-y-8 pt-4">
         <div class="space-y-5">
           <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            When they're sold out, the marketplace is just getting started.
+            Render runs your containers. Akash rents you the hardware.
           </h1>
           <p class="max-w-2xl text-base font-normal text-para">
-            Open supply of GPUs with nothing signed, nothing reserved, and nothing to wait for.
+            Including the GPUs Render doesn't have.
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
@@ -92,8 +98,8 @@ const faqs = [
         </div>
         <div class="group mt-2 overflow-hidden rounded-xl">
           <img
-            src="/compare/hero-vs-lambda.webp"
-            alt="Akash vs Lambda Labs"
+            src="/compare/hero-vs-render.webp"
+            alt="Akash vs Render"
             class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
           />
         </div>
@@ -106,10 +112,10 @@ const faqs = [
             The Core Economics
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Lambda has limited inventory. It's good inventory — consistent hardware, consistent networking — but it's a fixed fleet on a published rate card, and the best pricing is attached to reserved terms. When the on-demand H100s are committed to someone else's contract, your options are wait, commit, or go elsewhere.
+            Render charges a flat workspace fee plus per-second compute, sold in fixed instance sizes. Inside that price is the platform: managed Postgres and Redis, git-push deploys, autoscaling, TLS, a support team. You're paying for infrastructure and for not operating it.
           </p>
           <p class="max-w-2xl text-base font-normal text-para">
-            Akash has open supply. Independent providers bid for your workload in real time, so the price reflects what capacity is actually going spare right now. Nothing signed, nothing reserved, nothing to wait for.
+            Akash sells the infrastructure. Providers bid for your deployment, so you pay what the market clears at rather than a menu price — and the operational work Render absorbs stays with you. That's the whole trade, stated plainly.
           </p>
           <p class="max-w-2xl text-base font-normal text-para">
             Here's what that costs you: nothing you can look up on a rate card. Prices move as providers compete and as more capacity joins the network. See what the market is charging right now on the <a href="/pricing/gpus" class="text-foreground underline underline-offset-4 hover:opacity-80">GPU pricing page</a>.
@@ -120,30 +126,35 @@ const faqs = [
             <thead>
               <tr class="border-b border-border bg-gray-50 dark:bg-background2">
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Lambda Labs</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Render</th>
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
               </tr>
             </thead>
             <tbody>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Supply</td>
-                <td class="px-6 py-4 align-top text-sm text-para">One operator's fleet</td>
-                <td class="px-6 py-4 align-top text-sm text-foreground">Global network of competing providers</td>
-              </tr>
-              <tr class="border-b border-border">
                 <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Price</td>
-                <td class="px-6 py-4 align-top text-sm text-para">Published rate card</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Workspace fee plus per-second compute</td>
                 <td class="px-6 py-4 align-top text-sm text-foreground">Set by competitive bids, per deployment</td>
               </tr>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Commitment</td>
-                <td class="px-6 py-4 align-top text-sm text-para">On-demand or reserved terms</td>
-                <td class="px-6 py-4 align-top text-sm text-foreground">None. Close the lease whenever you want</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Sizing</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Fixed instance types</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">The CPU, memory, and storage you specify</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">GPUs</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Not offered</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">H100s, A100s, and L40s, by the hour</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Managed data</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Postgres and Redis, first-party</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">You run them, or point at an outside service</td>
               </tr>
               <tr>
-                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Access</td>
-                <td class="px-6 py-4 align-top text-sm text-para">Account, subject to capacity</td>
-                <td class="px-6 py-4 align-top text-sm text-foreground">No waitlist. No approval needed.</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Where it runs</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Render's cloud</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Any provider on the network, or your own hardware</td>
               </tr>
             </tbody>
           </table>
@@ -155,21 +166,29 @@ const faqs = [
         <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
           Architectural Distinctions
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              Capacity you don't have to reserve
+              GPUs in the same file as your web service
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Lambda's cheapest pricing rewards teams that can commit for months. That works when demand is predictable and wastes money when it isn't. A fine-tuning run that needs eight H100s for eleven hours should be an eleven-hour lease. You describe it, providers bid, you take one, and you close when the run finishes. There's no term to amortize and no idle reservation to explain to your CFO.
+              Render doesn't offer GPU instances. A team on Render that needs to fine-tune or serve a model has to move that workload elsewhere and operate two platforms. On Akash, asking for an H100 is a few lines in the same SDL as the API in front of it. Same workflow, same deployment, same bill.
             </p>
           </div>
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              Open supply, and what that changes
+              Resources you specify, not a tier you round up into
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Lambda operates its own hardware, which gets you consistency and a narrow catalog. Akash aggregates many independent operators, which gets you a wider, cheaper pool and more variation between providers. Every bid names the provider, the region, and the hardware, so you're choosing an operator, not just a GPU. The marketplace sorts them into tiers — Verified Enterprise data centers with redundant power and networking, Community Independent operators optimized for price — so you can filter to the reliability you actually need.
+              Render sells instance types, so an app that needs 1.5 GB of memory buys the size above and pays for CPU it didn't ask for. On Akash you state what you want and providers bid on that exact shape. Nothing is packaged for you.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Portable because it was never proprietary
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              If it runs in Docker, it runs on Akash. The image is standard, the deployment file is portable YAML that reads like Docker Compose, and the same file deploys to any provider on the network — or to your own hardware if you run the provider software. Your containers are standard and your data is yours. No egress fees, no proprietary lock-in. We'd rather earn your business every month than trap you in something you can't leave.
             </p>
           </div>
         </div>
@@ -181,16 +200,13 @@ const faqs = [
           <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
             Service Parity Index
           </h2>
-          <p class="max-w-2xl text-base font-normal text-para">
-            Nothing about your training or inference code changes. If it runs in Docker, it runs on Akash.
-          </p>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full min-w-[800px] border-collapse text-sm">
             <thead>
               <tr class="border-b border-border">
-                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Workload layer</th>
-                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Lambda Labs</th>
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Feature layer</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Render</th>
                 <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">On Akash</th>
                 <th class="pb-3 pl-6 text-left text-sm font-medium text-para">How it works</th>
               </tr>
@@ -199,7 +215,7 @@ const faqs = [
               {parity.map((row) => (
                 <tr class="border-b border-border">
                   <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
-                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.lambda}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.render}</td>
                   <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.equivalent}</td>
                   <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.execution}</td>
                 </tr>
@@ -216,23 +232,38 @@ const faqs = [
             What We Are. What We Aren't.
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Akash doesn't have a centralized SLA, because we aren't a centralized provider. We're a marketplace. Two places where that matters against Lambda specifically:
+            Render sells operational simplicity. For a lot of teams that's exactly the right purchase, and here's where it wins.
           </p>
         </div>
         <div class="grid gap-8 md:grid-cols-2">
           <div class="space-y-3">
-            <h3 class="text-base font-semibold text-foreground">Tightly-coupled multi-node training</h3>
+            <h3 class="text-base font-semibold text-foreground">Managed databases</h3>
             <p class="text-sm font-normal leading-relaxed text-para">
-              Interconnect quality is a provider-level property, and nodes from different providers aren't on the same fabric. For synchronous training across dozens of GPUs over InfiniBand, a single-operator cluster is the better tool. Confirm the interconnect with a provider before planning a large run, or keep that stage on Lambda and use Akash for the fine-tuning, inference, and batch work around it.
+              Render runs Postgres and Redis with backups and upgrades handled. Here, that's your job or an outside provider's.
             </p>
           </div>
           <div class="space-y-3">
-            <h3 class="text-base font-semibold text-foreground">Reliability is a choice, not a guarantee</h3>
+            <h3 class="text-base font-semibold text-foreground">Git-push deploys and preview environments</h3>
             <p class="text-sm font-normal leading-relaxed text-para">
-              You choose your level of reliability by choosing your provider. Verified Enterprise providers for work that has to stay up, Community Independent for work where price matters more. For development, training, batch processing, and inference where cost matters more than a contractual uptime guarantee, Akash is hard to beat. Where you need a signed SLA from one vendor, Lambda might still be the right call.
+              Build-on-push and per-PR environments are Render features. Akash deploys an image you've already built.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">One vendor, one support line</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Render answers when something breaks. On Akash you choose your level of reliability by choosing your provider — Verified Enterprise data centers with redundant power and networking, or Community Independent operators optimized for price — and there's no central desk to call for a workload.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Platform compliance</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Render holds platform-level certifications. Here, compliance depends on the provider you pick.
             </p>
           </div>
         </div>
+        <p class="max-w-2xl text-base font-normal text-para">
+          If what you want is a platform that handles all of that so you don't have to, Render is selling exactly that. If you want GPUs, market pricing, and no ceiling on what you can run, keep reading.
+        </p>
       </section>
 
       <!-- FAQ -->
@@ -252,7 +283,7 @@ const faqs = [
             Start Building
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Describe the run, take a bid, and pay for exactly the hours you use.
+            Bring the container you already build, add a GPU when you need one, and pay the market's clearing price for it.
           </p>
         </div>
         <div class="flex flex-wrap justify-center gap-3">

@@ -6,41 +6,47 @@ import { FAQ } from "@/components/token-page/faq";
 
 const parity = [
   {
-    tier: "GPU node",
-    lambda: "Instances with SSH access",
-    equivalent: "Standard containers",
-    execution: "Your image runs on provider hardware, with shell access through the lease.",
+    tier: "Workload unit",
+    vast: "Docker instance over SSH",
+    equivalent: "One SDL deployment",
+    execution: "Declares every service, its resources, and its exposed ports.",
   },
   {
-    tier: "Environment",
-    lambda: "Managed deep learning stack",
-    equivalent: "Your own images",
-    execution: "Pull PyTorch, TensorFlow, or CUDA images from any public registry. No translation layer.",
+    tier: "Price stability",
+    vast: "Fixed on-demand, contingent on interruptible",
+    equivalent: "Fixed for the life of the lease",
+    execution: "Your accepted bid is the price until you close or update.",
   },
   {
-    tier: "Storage",
-    lambda: "Attached and object storage",
-    equivalent: "Persistent volumes on the lease",
-    execution: "Requested in the deployment file, attached to the container.",
-  },
-  {
-    tier: "Configuration",
-    lambda: "Console and API",
-    equivalent: "SDL, CLI, REST API, MCP",
-    execution: "One portable YAML file, deployable from a terminal, a script, or an AI coding agent.",
+    tier: "Selection",
+    vast: "Browse listings, filter by reliability score",
+    equivalent: "Read bids",
+    execution: "Bids name the provider, region, and hardware. You choose from them.",
   },
   {
     tier: "Confidential compute",
-    lambda: "Not offered",
+    vast: "Not offered",
     equivalent: "One line in your SDL",
-    execution: "tee: cpu or tee: cpu-gpu runs your workload in an AMD SEV-SNP or Intel TDX enclave.",
+    execution: "tee: cpu or tee: cpu-gpu runs in an AMD SEV-SNP or Intel TDX enclave.",
+  },
+  {
+    tier: "Automation",
+    vast: "CLI, Python SDK, REST API",
+    equivalent: "CLI, REST API, MCP, agent skill",
+    execution: "An AI coding agent with an API key can deploy, inspect, and close workloads.",
+  },
+  {
+    tier: "Payment",
+    vast: "Prepaid credits",
+    equivalent: "Refundable escrow per deployment",
+    execution: "Unspent balance comes back when you close.",
   },
 ];
 
 const faqs = [
   {
-    title: "Is Akash stable enough for large multi-node training?",
-    description: "For data-parallel and loosely-coupled work, yes — teams run distributed jobs across Akash providers today. For tightly-coupled training that depends on InfiniBand between nodes, be careful: that's a provider-level property, not a network-wide one. Ask a provider directly before committing to a large synchronous run.",
+    title: "Is Akash cheaper than Vast.ai?",
+    description: "Sometimes, and anyone promising otherwise is guessing. Both are markets where price moves with supply, and Vast.ai's interruptible tier can go lower because you're accepting preemption in exchange. Check both for the GPU and region you need — akash.network/pricing/gpus is live and every number on our stats page comes from on-chain data. The durable difference isn't the hourly rate. It's that an Akash lease can't be outbid once it's running.",
   },
   {
     title: "Do we need cryptocurrency to deploy?",
@@ -51,15 +57,15 @@ const faqs = [
     description: "Console Air is the self-custody path: connect your own wallet and sign every transaction yourself. The network also supports USDC and AKT for teams that want on-chain sovereignty — that's an upgrade, not an entry requirement. Protocol-powered, not crypto-complicated.",
   },
   {
-    title: "What happens to our model weights if a host drops off the network?",
-    description: "The lease ends and the container stops. Persistent volumes are attached to that provider, so treat anything on them as gone when the lease ends. Checkpoint to external storage on a schedule, the same way you would on any spot or preemptible instance. Recovery is a redeploy through the CLI or API — scriptable, but not automatic. Akash doesn't migrate a running workload between providers.",
+    title: "Can either run production inference?",
+    description: "Both can, with care, and neither hands you a hyperscaler SLA. On Vast.ai that means on-demand or reserved instances and filtering by host reliability. On Akash it means Verified Enterprise providers and redundant leases behind a load balancer. Neither migrates a failed workload automatically. The difference is the failure mode: on Vast.ai's interruptible tier a competing bidder can end your instance, while here the risks are provider downtime and an escrow you forgot to top up.",
   },
 ];
 ---
 
 <Layout
-  title="Akash vs Lambda Labs — Compare"
-  description="When they're sold out, the marketplace is just getting started. Open GPU supply, no reservation, no waitlist."
+  title="Akash vs Vast.ai — Compare"
+  description="Two open markets for GPUs. One of them can't take your machine back mid-run."
 >
   <TopMargin>
     <div class="not-prose pb-28">
@@ -68,10 +74,10 @@ const faqs = [
       <section class="space-y-8 pt-4">
         <div class="space-y-5">
           <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            When they're sold out, the marketplace is just getting started.
+            Two open markets for GPUs.
           </h1>
           <p class="max-w-2xl text-base font-normal text-para">
-            Open supply of GPUs with nothing signed, nothing reserved, and nothing to wait for.
+            One of them can't take your machine back mid-run.
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
@@ -92,8 +98,8 @@ const faqs = [
         </div>
         <div class="group mt-2 overflow-hidden rounded-xl">
           <img
-            src="/compare/hero-vs-lambda.webp"
-            alt="Akash vs Lambda Labs"
+            src="/compare/hero-vs-vast-ai.webp"
+            alt="Akash vs Vast.ai"
             class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
           />
         </div>
@@ -106,10 +112,13 @@ const faqs = [
             The Core Economics
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Lambda has limited inventory. It's good inventory — consistent hardware, consistent networking — but it's a fixed fleet on a published rate card, and the best pricing is attached to reserved terms. When the on-demand H100s are committed to someone else's contract, your options are wait, commit, or go elsewhere.
+            Both are open markets. Both beat a hyperscaler on price. The difference is what happens after you've got the GPU.
           </p>
           <p class="max-w-2xl text-base font-normal text-para">
-            Akash has open supply. Independent providers bid for your workload in real time, so the price reflects what capacity is actually going spare right now. Nothing signed, nothing reserved, nothing to wait for.
+            Vast.ai sells three tiers. On-demand holds a machine for your session. Interruptible is cheaper because the bidding never stops: a higher bidder or the host reclaiming capacity pauses or kills your instance. Reserved trades commitment for a discount.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash bids once, at placement. Providers compete for your deployment, you take a bid, and that lease runs until you close it or the escrow empties. Nobody outbids you for a workload that's already serving traffic. The competition happens before your container starts, not while it's running.
           </p>
           <p class="max-w-2xl text-base font-normal text-para">
             Here's what that costs you: nothing you can look up on a rate card. Prices move as providers compete and as more capacity joins the network. See what the market is charging right now on the <a href="/pricing/gpus" class="text-foreground underline underline-offset-4 hover:opacity-80">GPU pricing page</a>.
@@ -120,30 +129,35 @@ const faqs = [
             <thead>
               <tr class="border-b border-border bg-gray-50 dark:bg-background2">
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Lambda Labs</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Vast.ai</th>
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
               </tr>
             </thead>
             <tbody>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Supply</td>
-                <td class="px-6 py-4 align-top text-sm text-para">One operator's fleet</td>
-                <td class="px-6 py-4 align-top text-sm text-foreground">Global network of competing providers</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Bidding</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Continuous, on the interruptible tier</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Once, at placement</td>
               </tr>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Price</td>
-                <td class="px-6 py-4 align-top text-sm text-para">Published rate card</td>
-                <td class="px-6 py-4 align-top text-sm text-foreground">Set by competitive bids, per deployment</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Preemption</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Interruptible can be outbid or reclaimed</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">None. The lease is yours until you close it</td>
               </tr>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Commitment</td>
-                <td class="px-6 py-4 align-top text-sm text-para">On-demand or reserved terms</td>
-                <td class="px-6 py-4 align-top text-sm text-foreground">None. Close the lease whenever you want</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">What you get</td>
+                <td class="px-6 py-4 align-top text-sm text-para">A machine, over SSH</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">A deployment, described in one file</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Payment</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Prepaid credits</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Credit card into refundable escrow, or USDC and AKT</td>
               </tr>
               <tr>
-                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Access</td>
-                <td class="px-6 py-4 align-top text-sm text-para">Account, subject to capacity</td>
-                <td class="px-6 py-4 align-top text-sm text-foreground">No waitlist. No approval needed.</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Who holds the rules</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Vast.ai operates the platform</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">An open protocol. Anyone can run a provider</td>
               </tr>
             </tbody>
           </table>
@@ -155,21 +169,29 @@ const faqs = [
         <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
           Architectural Distinctions
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              Capacity you don't have to reserve
+              A lease, not a standing bid
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Lambda's cheapest pricing rewards teams that can commit for months. That works when demand is predictable and wastes money when it isn't. A fine-tuning run that needs eight H100s for eleven hours should be an eleven-hour lease. You describe it, providers bid, you take one, and you close when the run finishes. There's no term to amortize and no idle reservation to explain to your CFO.
+              The cheapest capacity on Vast.ai is contingent capacity. That's the right trade for checkpointed batch work and the wrong one for anything with users in front of it. On Akash there's no equivalent exposure: once the lease opens, the provider is committed for as long as it's funded. Market pricing, without holding a position someone can outbid you out of.
             </p>
           </div>
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              Open supply, and what that changes
+              A deployment, not a machine
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Lambda operates its own hardware, which gets you consistency and a narrow catalog. Akash aggregates many independent operators, which gets you a wider, cheaper pool and more variation between providers. Every bid names the provider, the region, and the hardware, so you're choosing an operator, not just a GPU. The marketplace sorts them into tiers — Verified Enterprise data centers with redundant power and networking, Community Independent operators optimized for price — so you can filter to the reliability you actually need.
+              Vast.ai hands you a container on a host with SSH — closer to renting a box. Akash takes a file that declares your services, resources, ports, and placement, then runs it. Endpoints, persistent volumes, and multi-service apps are part of the spec instead of something you configure after logging in. For a training run, either works. For something that has to stay up and be addressable, that's less assembly.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              A protocol, not a platform
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Vast.ai is a company that runs a marketplace, holds your credits, and sets the rules. Akash is open-source software with an on-chain market: anyone can run a provider without approval, settlement happens on the network rather than in a company ledger, and you can self-host the whole stack. Even if the dashboard went away, the network and your workloads stay live. That's also why hardware-attested confidential compute works here — the guarantee comes from the silicon, not from trusting an intermediary.
             </p>
           </div>
         </div>
@@ -182,15 +204,15 @@ const faqs = [
             Service Parity Index
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Nothing about your training or inference code changes. If it runs in Docker, it runs on Akash.
+            Both run standard containers. The differences are around them.
           </p>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full min-w-[800px] border-collapse text-sm">
             <thead>
               <tr class="border-b border-border">
-                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Workload layer</th>
-                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Lambda Labs</th>
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Capability</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Vast.ai</th>
                 <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">On Akash</th>
                 <th class="pb-3 pl-6 text-left text-sm font-medium text-para">How it works</th>
               </tr>
@@ -199,7 +221,7 @@ const faqs = [
               {parity.map((row) => (
                 <tr class="border-b border-border">
                   <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
-                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.lambda}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.vast}</td>
                   <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.equivalent}</td>
                   <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.execution}</td>
                 </tr>
@@ -216,23 +238,32 @@ const faqs = [
             What We Are. What We Aren't.
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Akash doesn't have a centralized SLA, because we aren't a centralized provider. We're a marketplace. Two places where that matters against Lambda specifically:
+            Being a market doesn't make two markets interchangeable. Vast.ai is the better call for some work, and pretending otherwise would waste your time.
           </p>
         </div>
-        <div class="grid gap-8 md:grid-cols-2">
+        <div class="grid gap-8 md:grid-cols-3">
           <div class="space-y-3">
-            <h3 class="text-base font-semibold text-foreground">Tightly-coupled multi-node training</h3>
+            <h3 class="text-base font-semibold text-foreground">The lowest possible rate on interruptible capacity</h3>
             <p class="text-sm font-normal leading-relaxed text-para">
-              Interconnect quality is a provider-level property, and nodes from different providers aren't on the same fabric. For synchronous training across dozens of GPUs over InfiniBand, a single-operator cluster is the better tool. Confirm the interconnect with a provider before planning a large run, or keep that stage on Lambda and use Akash for the fine-tuning, inference, and batch work around it.
+              If your job restarts cleanly, preemption is a discount. Take it.
             </p>
           </div>
           <div class="space-y-3">
-            <h3 class="text-base font-semibold text-foreground">Reliability is a choice, not a guarantee</h3>
+            <h3 class="text-base font-semibold text-foreground">Interactive, exploratory work</h3>
             <p class="text-sm font-normal leading-relaxed text-para">
-              You choose your level of reliability by choosing your provider. Verified Enterprise providers for work that has to stay up, Community Independent for work where price matters more. For development, training, batch processing, and inference where cost matters more than a contractual uptime guarantee, Akash is hard to beat. Where you need a signed SLA from one vendor, Lambda might still be the right call.
+              SSH and a Jupyter notebook beat a declarative deployment file for poking at things.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Per-host reliability data</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Vast.ai publishes a reliability score per host and lets you filter on it. Akash sorts providers into Verified Enterprise and Community Independent tiers, which is coarser.
             </p>
           </div>
         </div>
+        <p class="max-w-2xl text-base font-normal text-para">
+          What Akash is for: workloads that need to keep running at a price you agreed to once, on infrastructure nobody can quietly change the terms of.
+        </p>
       </section>
 
       <!-- FAQ -->
@@ -252,7 +283,7 @@ const faqs = [
             Start Building
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Describe the run, take a bid, and pay for exactly the hours you use.
+            Take a bid, hold the lease, and keep it for as long as the work takes.
           </p>
         </div>
         <div class="flex flex-wrap justify-center gap-3">

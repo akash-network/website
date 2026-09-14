@@ -134,6 +134,64 @@ const docSections = [
     </div>
   </section>
 
+  <!-- RAZER CASE STUDY -->
+  <section class="mt-20 md:mt-44">
+    <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
+      <div class="order-2 space-y-6 md:order-1">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Razer Powers Viral AI<br />Inference on Akash
+        </h2>
+        <p class="text-sm font-normal leading-relaxed text-para">
+          To scale its global AVA Mini campaign, Razer integrated its open-source AIKit platform with the Akash independent compute network. By pooling distributed high-performance consumer GPUs behind a single managed endpoint, the engineering team achieved reliable elastic scaling with zero manual infrastructure intervention.
+        </p>
+
+        <!-- Key metrics -->
+        <div class="flex flex-col gap-3 border-t border-border pt-5 sm:grid sm:grid-cols-3 sm:gap-4">
+          <div class="flex items-baseline gap-2 sm:block">
+            <p class="text-xl font-semibold tabular-nums text-foreground whitespace-nowrap">$0.01</p>
+            <p class="text-xs leading-snug text-para sm:mt-0.5">per generated image</p>
+          </div>
+          <div class="flex items-baseline gap-2 sm:block">
+            <p class="text-xl font-semibold tabular-nums text-foreground whitespace-nowrap">3.24s</p>
+            <p class="text-xs leading-snug text-para sm:mt-0.5">avg. end-to-end response time</p>
+          </div>
+          <div class="flex items-baseline gap-2 sm:block">
+            <p class="text-xl font-semibold tabular-nums text-foreground whitespace-nowrap">15x</p>
+            <p class="text-xs leading-snug text-para sm:mt-0.5">lower inference costs than centralized APIs</p>
+          </div>
+        </div>
+
+        <a
+          href="https://www.razer.ai/aikit-akash-avamini/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded-md border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+        >Read Case Study<ChevronRight size={14} className="ml-1.5" /></a>
+      </div>
+
+      <div class="group order-1 overflow-hidden rounded-xl md:order-2">
+        <img
+          src="/images/razer-case-study.webp"
+          alt="Razer AVA Mini campaign powered by Akash Network"
+          class="aspect-square w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- RAZER QUOTE -->
+  <section class="mt-20 md:mt-44">
+    <QuoteReveal
+      client:load
+      lines={[
+        "\"The future of AI isn't just better models – it's efficient infrastructure. With Razer AIKit, many use cases already run locally. With Akash Network, we extend that into a decentralised cloud to scale efficiently.\""
+      ]}
+      preRevealChars={0}
+      author="QUYEN QUACH"
+      authorDetails={["Vice President of Software, Razer"]}
+    />
+  </section>
+
   <!-- CASE STUDY -->
   <section class="mt-20 space-y-10 md:mt-44">
     <div class="grid items-center gap-8 md:gap-16 md:grid-cols-2">
