@@ -150,6 +150,9 @@ buyingAKTSection:
         - title: QuickeX
           link: "https://quickex.io/price/akash-network"
           icon: quickx
+        - title: EIDEX
+          link: "https://eidex.io/screener/akt-akash-to-btc-btc"
+          icon: eidex
 
 faqsSection:
   title: FAQs
