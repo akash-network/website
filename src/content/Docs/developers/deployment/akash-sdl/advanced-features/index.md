@@ -464,7 +464,54 @@ services:
 
 **next_cases** (array of strings)
 - Conditions that trigger a retry
-- Options: `error`, `timeout`, `http_500`, `http_502`, `http_503`, `http_504`
+- Options: `error`, `timeout`, `500`, `502`, `503`, `504`, `403`, `404`, `429`, `off`
+- `off` disables retries entirely and must be the only value when used
+
+### proxy (nginx tuning)
+
+The optional `proxy` block under `http_options` exposes nginx `proxy_*` directives for fine-grained control over how the provider gateway buffers and connects to your service.
+Every field is optional.
+Any field you leave unset falls back to the provider gateway default (the standard nginx default) and does not affect the deployment version hash.
+
+```yaml
+services:
+  web:
+    image: nginx:1.25.3
+    expose:
+      - port: 80
+        to:
+          - global: true
+        http_options:
+          proxy:
+            buffering_disable: false   # Set true to turn off proxy_buffering
+            buffer_size: 8192          # proxy_buffer_size (bytes)
+            buffers_number: 8          # <number> in proxy_buffers <number> <size>
+            buffers_size: 8192         # <size> in proxy_buffers <number> <size> (bytes)
+            busy_buffers_size: 16384   # proxy_busy_buffers_size (bytes)
+            connect_timeout: 60000     # proxy_connect_timeout (milliseconds)
+```
+
+**buffering_disable** (boolean)
+- Set to `true` to turn off nginx `proxy_buffering` for the route
+- Default: `false` (buffering on)
+- Scoped to buffering only: `buffer_size` still applies when buffering is off, while `buffers_number`, `buffers_size`, and `busy_buffers_size` take effect only when buffering is on
+
+**buffer_size** (bytes)
+- Maps to nginx `proxy_buffer_size`, the buffer for the first part of the upstream response (typically the response headers)
+
+**buffers_number** (number)
+- The `<number>` in nginx `proxy_buffers <number> <size>`, the count of buffers used for a single connection
+- Must be set together with `buffers_size` (both or neither)
+
+**buffers_size** (bytes)
+- The `<size>` in nginx `proxy_buffers <number> <size>`, the size of each buffer
+- Must be set together with `buffers_number` (both or neither)
+
+**busy_buffers_size** (bytes)
+- Maps to nginx `proxy_busy_buffers_size`, the total size of buffers that can be busy sending a response to the client while it is not yet fully read
+
+**connect_timeout** (milliseconds)
+- Maps to nginx `proxy_connect_timeout`, the time allowed to establish a connection with the upstream service
 
 ### Example: Large File Upload Service
 
