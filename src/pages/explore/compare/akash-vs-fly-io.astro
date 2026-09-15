@@ -1,0 +1,288 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+
+const parity = [
+  {
+    tier: "Compute runtime",
+    fly: "Fly Machines",
+    equivalent: "Standard containers",
+    execution: "Your image runs directly on provider hardware.",
+  },
+  {
+    tier: "GPUs",
+    fly: "Deprecated",
+    equivalent: "Requested in the same SDL",
+    execution: "Add a GPU block naming vendor and model to any service.",
+  },
+  {
+    tier: "Data persistence",
+    fly: "Fly Volumes, managed Postgres",
+    equivalent: "Persistent volumes, or an outside managed database",
+    execution: "Run it as a container with a volume, or point at a managed service.",
+  },
+  {
+    tier: "Configuration",
+    fly: "fly.toml",
+    equivalent: "SDL",
+    execution: "One portable YAML file covering services, resources, ports, and placement.",
+  },
+  {
+    tier: "Deployment control",
+    fly: "flyctl, Machines API",
+    equivalent: "CLI, REST API, MCP, agent skill",
+    execution: "An AI coding agent with an API key can deploy, inspect, and close workloads.",
+  },
+  {
+    tier: "Confidential compute",
+    fly: "Not offered",
+    equivalent: "One line in your SDL",
+    execution: "tee: cpu or tee: cpu-gpu runs your workload in an AMD SEV-SNP or Intel TDX enclave.",
+  },
+];
+
+const faqs = [
+  {
+    title: "We're migrating off Fly GPUs. How much work is it?",
+    description: "Less than you'd expect if the workload is already containerized, which on Fly it is. You write an SDL describing the same image, resources, and ports, publish it, take a bid, and the container starts. Model weights move the same way they would to any other host. The main change is that you pick a provider from bids rather than a region from a list.",
+  },
+  {
+    title: "Is Akash stable enough for production inference?",
+    description: "With the right setup, yes. Deploy on Verified Enterprise providers, run more than one lease, and load-balance across them. Venice.ai and Prime Intellect serve production inference this way. A single lease with no redundancy behaves like a single Machine with no redundancy.",
+  },
+  {
+    title: "Do we need cryptocurrency to deploy?",
+    description: "No. Deploy in dollars. Akash Console takes a credit card and bills in USD, the same as any other SaaS tool, and the Console API authenticates with a standard API key. Sign up with GitHub or email, add a card, and ship. No wallet, no seed phrase, no token.",
+  },
+  {
+    title: "What if we want to hold our own keys?",
+    description: "Console Air is the self-custody path: connect your own wallet and sign every transaction yourself. The network also supports USDC and AKT for teams that want on-chain sovereignty — that's an upgrade, not an entry requirement. Protocol-powered, not crypto-complicated.",
+  },
+];
+---
+
+<Layout
+  title="Akash vs Fly.io — Compare"
+  description="Fly is retiring its GPUs. Your app can stay where it is. Your model needs somewhere to go."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Fly is retiring its GPUs.
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Your app can stay where it is. Your model needs somewhere to go.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/compare/hero-vs-fly-io.webp"
+            alt="Akash vs Fly.io"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- CORE ECONOMICS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            The Core Economics
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Fly built something genuinely good: hardware-virtualized Machines you can place close to your users, billed by the second, with an API that treats infrastructure as something you script rather than click. For latency-sensitive apps in many regions, that's the right tool and we're not going to pretend otherwise.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            What Fly is not is a GPU platform any more. Their own documentation now carries a deprecation notice on every GPU page. If you were running inference on Fly A100s or L40S Machines, that workload needs a new home — and the question is whether you move it to another company's rate card or to an open market where providers compete for it.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Here's what that costs you: nothing you can look up on a rate card. Prices move as providers compete and as more capacity joins the network. See what the market is charging right now on the <a href="/pricing/gpus" class="text-foreground underline underline-offset-4 hover:opacity-80">GPU pricing page</a>.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Fly.io</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">GPUs</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Deprecated</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">H100s, A100s, and L40s, by the hour</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Price</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Fly's published usage rates</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Set by competitive bids, per deployment</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Hardware</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Fly's fleet</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">A global network of competing providers</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Egress</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Metered</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Zero</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Where it runs</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Fly's regions</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Any provider on the network, or your own hardware</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ARCHITECTURAL DISTINCTIONS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Architectural Distinctions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Somewhere for the GPU workload to land
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              A deprecation is a deadline. The work is the same either way — containerize the model server, point your app at it — so the only real decision is what you're moving onto. On Akash, GPU capacity comes from many independent providers rather than one fleet with a roadmap, and no single company's product decision can retire it out from under you again.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Nobody can deprecate an open market
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Fly's GPUs went away because Fly decided they should. That's a normal thing for a company to do, and it's the structural risk of building on one. Akash is an open protocol: the marketplace is software anyone can run, settlement happens on the network rather than in a company ledger, and providers join because there's demand. Even if the dashboard went away, the network and your workloads stay live.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Your containers stay standard
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              If it runs in Docker, it runs on Akash. No proprietary runtime, no rewrite, no SDK you've never heard of. The deployment file is portable YAML that reads like a Docker Compose file, and the same file deploys to any provider on the network, or to your own hardware if you run the provider software.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICE PARITY INDEX -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Service Parity Index
+          </h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Feature layer</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Fly.io</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">On Akash</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">How it works</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parity.map((row) => (
+                <tr class="border-b border-border">
+                  <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.fly}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.equivalent}</td>
+                  <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.execution}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- WHAT WE ARE / WHAT WE AREN'T -->
+      <section class="mt-20 space-y-8 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            What We Are. What We Aren't.
+          </h2>
+        </div>
+        <div class="max-w-3xl space-y-4">
+          <p class="text-base font-normal leading-relaxed text-para">
+            Akash doesn't have a centralized SLA, because we aren't a centralized provider. We're a marketplace. You choose your level of reliability by choosing your provider — Verified Enterprise data centers with redundant power and networking, or Community Independent operators optimized for price.
+          </p>
+          <p class="text-base font-normal leading-relaxed text-para">
+            Two things Fly does that we don't. <strong class="font-semibold text-foreground">Global edge placement:</strong> Fly will run your app in many regions behind anycast routing and put it physically near your users. Akash providers are distributed, but placement is something you request from bids, not an edge network with automatic routing. If sub-50ms response times in a dozen countries are the product, Fly is built for that and we aren't. <strong class="font-semibold text-foreground">Scale-to-zero and a Machines API:</strong> starting and stopping Machines programmatically is a first-class primitive on Fly. Akash leases run continuously until you close them.
+          </p>
+          <p class="text-base font-normal leading-relaxed text-para">
+            For GPU workloads that need somewhere to go, and for teams who'd rather have providers compete than accept a rate card, that trade is worth making. For a latency-critical edge app, keep it on Fly.
+          </p>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start Building
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Move the GPU workload to a market that can't retire it, and keep the rest of your stack wherever it's happiest.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

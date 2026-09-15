@@ -7,8 +7,8 @@ const DUR = 5000
 
 const PRODUCTS = [
   {
-    title: 'Accelerate AI on AkashML',
-    description: 'Rent high-performance GPUs instantly for machine learning workloads. Launch pre-configured environments for model training, fine-tuning, and inference without the complex infrastructure setup.',
+    title: 'AI Inference on AkashML',
+    description: 'Access leading open-source models instantly via drop-in, OpenAI-compatible APIs. Experience sub-second latency and drastically lower costs than traditional cloud providers without managing the underlying infrastructure.',
     image: '/images/get-started-akashML.webp',
     imageSmall: '/images/get-started-akashML.webp',
     url: 'https://akashml.com',

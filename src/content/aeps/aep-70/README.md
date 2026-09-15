@@ -2,7 +2,7 @@
 aep: 70
 title: "Console API using JWT"
 author: Anil Murty (@anilmurty) Maxime Beauchamp (@baktun14)
-status: draft
+status: Final
 type: Standard
 category: Interface
 created: 2025-05-28

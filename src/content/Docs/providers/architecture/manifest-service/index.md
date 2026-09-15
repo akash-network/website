@@ -32,16 +32,16 @@ type service struct {
     session session.Session
     bus     pubsub.Bus
     sub     pubsub.Subscriber
-    
+
     statusch      chan chan<- *Status
     mreqch        chan manifestRequest
     activeCheckCh chan isActiveCheck
-    
+
     managers  map[string]*manager
     managerch chan *manager
-    
+
     hostnameService HostnameServiceClient
-    
+
     watchdogs  map[DeploymentID]*watchdog
     watchdogch chan DeploymentID
 }
@@ -77,7 +77,7 @@ manifest, err := manifest.NewService(
 
 ```yaml
 # provider.yaml
-manifest-timeout: 5m  # Time to wait for manifest before closing lease
+manifest-timeout: 5m # Time to wait for manifest before closing lease
 ```
 
 **Configuration Parameters:**
@@ -97,11 +97,12 @@ case event.LeaseWon:
     if ev.LeaseID.GetProvider() != s.session.Provider().Address() {
         continue  // Not for this provider
     }
-    
+
     s.handleLease(ev, true)
 ```
 
 **Process:**
+
 1. Verify lease is for this provider
 2. Create watchdog if `manifest-timeout` configured
 3. Create or retrieve manifest manager for deployment
@@ -117,12 +118,13 @@ If `manifest-timeout` is set, a watchdog is created:
 type watchdog struct {
     LeaseID        LeaseID
     ManifestTimeout time.Duration
-    
+
     timer *time.Timer
 }
 ```
 
 **Watchdog Behavior:**
+
 ```go
 // Start timer when lease won
 timer := time.NewTimer(manifestTimeout)
@@ -146,6 +148,7 @@ Tenant submits manifest via HTTP POST to provider:
 **HTTP Endpoint**: `PUT /deployment/{owner}/{dseq}/manifest`
 
 **Request:**
+
 ```yaml
 # Headers
 Authorization: Bearer <jwt-token>
@@ -191,20 +194,20 @@ func createManifestHandler(log log.Logger, mclient Client) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         // 1. Parse request
         deploymentID := requestDeploymentID(req)
-        
+
         // 2. Decode manifest
         var mani manifest.Manifest
         err := DecodeYAML(req.Body, &mani)
-        
+
         // 3. Submit to manifest service
         err = mclient.Submit(subctx, deploymentID, mani)
-        
+
         // 4. Return response
         if err != nil {
             http.Error(w, err.Error(), http.StatusUnprocessableEntity)
             return
         }
-        
+
         w.WriteHeader(http.StatusOK)
     }
 }
@@ -218,7 +221,7 @@ The manifest service validates the submitted manifest:
 func (s *service) Submit(ctx context.Context, did DeploymentID, mani Manifest) error {
     // 1. Validate manifest structure
     err := mani.Validate()
-    
+
     // 2. Check hostname availability
     for _, service := range mani.Services {
         for _, expose := range service.Expose {
@@ -230,7 +233,7 @@ func (s *service) Submit(ctx context.Context, did DeploymentID, mani Manifest) e
             }
         }
     }
-    
+
     // 3. Send to manager for processing
     s.mreqch <- manifestRequest{
         DeploymentID: did,
@@ -240,6 +243,7 @@ func (s *service) Submit(ctx context.Context, did DeploymentID, mani Manifest) e
 ```
 
 **Validation Steps:**
+
 1. **Structure Validation** - Verify YAML syntax and required fields
 2. **Resource Validation** - Ensure resources match lease
 3. **Hostname Validation** - Check hostname availability
@@ -254,20 +258,21 @@ The manifest manager processes the validated manifest:
 ```go
 type manager struct {
     daddr       DeploymentID
-    
+
     config      ServiceConfig
     session     Session
     bus         Bus
-    
+
     leasech     chan event.LeaseWon
     runch       <-chan runner.Result
     manifestch  chan submitRequest
-    
+
     hostnameService HostnameServiceClient
 }
 ```
 
 **Process:**
+
 1. Parse manifest groups
 2. Validate resources against lease
 3. Validate hostnames
@@ -277,11 +282,11 @@ type manager struct {
 func (m *manager) handleManifest(req submitRequest) error {
     // 1. Get manifest group for this lease
     group := req.Manifest.GetGroup(m.lease.GroupSpec.Name)
-    
+
     // 2. Validate hostnames
     hostnames := extractHostnames(group)
     err := m.hostnameService.CanReserveHostnames(hostnames, m.lease.Owner)
-    
+
     // 3. Emit event
     m.bus.Publish(event.ManifestReceived{
         LeaseID:        m.lease,
@@ -304,6 +309,7 @@ event.ManifestReceived{
 ```
 
 **Subscribers:**
+
 - **Cluster Service** - Creates Kubernetes deployment
 - **Bid Engine** - Updates lease tracking
 - **Provider Service** - Logs event
@@ -320,7 +326,7 @@ case req := <-m.manifestch:
         watchdog.stop()
         delete(s.watchdogs, m.daddr)
     }
-    
+
     // Process manifest
     m.handleManifest(req)
 ```
@@ -359,23 +365,16 @@ Manager Removed
 
 ## Manifest Updates
 
-Tenants can update their deployment by submitting a new manifest:
+Tenants can update a deployment and send its new manifest with one `akt` workflow:
 
 ```bash
-# Tenant sends updated manifest
-akash tx deployment update update.yaml \
-  --from mykey \
-  --node https://rpc.akashnet.net:443
-
-# Then sends manifest to provider again
-akash provider send-manifest update.yaml \
-  --dseq 123456 \
-  --provider <provider-address>
+akt update update.yaml 123456 --from mykey
 ```
 
 **Update Process:**
-1. Tenant updates on-chain deployment
-2. Tenant submits new manifest to provider
+
+1. `akt` updates the on-chain deployment
+2. `akt` submits the new manifest to all active lease providers
 3. Manifest service validates changes
 4. Emits `ManifestReceived` event
 5. Cluster service performs rolling update
@@ -417,28 +416,33 @@ log.Info("manifest timeout", "lease", leaseID, "timeout", manifestTimeout)
 The watchdog system solves a resource reservation problem:
 
 **Problem**: Tenant wins lease but never sends manifest
+
 - Cluster resources remain reserved
 - Inventory shows resources as unavailable
 - Provider cannot bid on other deployments
 
 **Solution**: Watchdog timer closes lease after timeout
+
 - Resources returned to available inventory
 - Lease closed on-chain
 - Provider can accept new bids
 
 **Configuration**: `manifest-timeout` in `provider.yaml`
+
 - Set to `5m` for standard timeout
 - Set to `0` to disable (wait indefinitely)
 
 ## Source Code Reference
 
 **Primary Implementation**:
+
 - `manifest/service.go` - Main manifest service
 - `manifest/manager.go` - Per-deployment manager
 - `manifest/watchdog.go` - Timeout monitoring
 - `gateway/rest/router.go` - HTTP endpoints and handlers
 
 **Key Functions**:
+
 - `NewService()` - Initialize manifest service
 - `Submit()` - Accept manifest from tenant
 - `handleLease()` - Process lease won event

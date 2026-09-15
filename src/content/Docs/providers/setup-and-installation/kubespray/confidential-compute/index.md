@@ -29,12 +29,12 @@ Confidential Compute on Akash uses [Kata Containers](https://katacontainers.io/)
 
 ### Supported Configurations
 
-| TEE Type | Runtime Class | Hardware |
-|----------|---------------|----------|
-| AMD SEV-SNP | `kata-qemu-snp` | AMD with SEV-SNP enabled in BIOS |
-| AMD SEV-SNP + GPU | `kata-qemu-nvidia-gpu-snp` | Above + NVIDIA CC-capable GPU |
-| Intel TDX | `kata-qemu-tdx` | Intel with TDX enabled in BIOS |
-| Intel TDX + GPU | `kata-qemu-nvidia-gpu-tdx` | Above + NVIDIA CC-capable GPU |
+| TEE Type          | Runtime Class              | Hardware                         |
+| ----------------- | -------------------------- | -------------------------------- |
+| AMD SEV-SNP       | `kata-qemu-snp`            | AMD with SEV-SNP enabled in BIOS |
+| AMD SEV-SNP + GPU | `kata-qemu-nvidia-gpu-snp` | Above + NVIDIA CC-capable GPU    |
+| Intel TDX         | `kata-qemu-tdx`            | Intel with TDX enabled in BIOS   |
+| Intel TDX + GPU   | `kata-qemu-nvidia-gpu-tdx` | Above + NVIDIA CC-capable GPU    |
 
 ---
 
@@ -166,6 +166,7 @@ kubectl get node <node-name> -o json | \
 ```
 
 The operator deploys several components:
+
 - **nvidia-vfio-manager** — binds GPUs to the `vfio-pci` driver for passthrough
 - **nvidia-cc-manager** — toggles GPU Confidential Computing mode (default: on)
 - **nvidia-kata-sandbox-device-plugin** — advertises `nvidia.com/pgpu` resources
@@ -200,90 +201,51 @@ kubectl get nodes --show-labels | grep -E "amd.feature|intel.feature"
 
 ---
 
-## STEP 4 — Configure Provider Flags
+## STEP 4 — Configure Provider Values
 
-The Akash provider automatically injects an attestation sidecar into every confidential workload if requested by the user. This sidecar runs inside the TEE and serves hardware-signed attestation reports to tenants. Enable it with the following flags.
+The Akash provider can inject an attestation sidecar into confidential workloads that request it. This sidecar runs inside the TEE and serves hardware-signed attestation reports to tenants. Configure it through the provider Helm values.
 
-### Required Flags
+### Helm values
 
-| Flag | Description | Required |
-|------|-------------|----------|
-| `--attestation-webhook-enabled` | Enables the Kubernetes mutating admission webhook. When active, the provider intercepts pod creation requests for confidential compute workloads and automatically injects the attestation sidecar container before scheduling. | Yes |
-| `--attestation-sidecar-image` | Docker image reference for the attestation sidecar (e.g. `ghcr.io/akash-network/attestation-sidecar:latest`). Required when the webhook is enabled — the provider passes this image to the webhook for injection into every confidential workload. | Yes |
-| `--attestation-webhook-port` | HTTPS port for the webhook server that handles Kubernetes API callbacks. In production, pair this with `--gateway-tls-cert` and `--gateway-tls-key` using a certificate whose SAN includes the provider's K8s service DNS name. Defaults to `9443` and auto-generates a self-signed cert if TLS files are omitted. | No |
+| Value                                 | Description                                                                                              | Required |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------- |
+| `attestation.enabled`                 | Enables the mutating admission webhook that injects the attestation sidecar into confidential workloads. | Yes      |
+| `attestation.sidecarImage.repository` | Container repository for the attestation sidecar.                                                        | Yes      |
+| `attestation.sidecarImage.tag`        | Container tag. When empty, defaults to the provider chart app version.                                   | No       |
+| `attestation.webhookPort`             | HTTPS port used for Kubernetes admission callbacks. Defaults to `9443`.                                  | No       |
 
-### Optional Flags
-
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--attestation-mock` | Run the sidecar in mock mode with synthetic (fake) attestation reports instead of real TEE hardware evidence. Also switches the webhook registration to a `host.docker.internal` URL for local clusters. **For local development only, never enable in production.** | `false` |
-
-### Example: Helm Values
-
-When deploying the provider with Helm, add these values:
+Add these values to `provider.yaml`:
 
 ```yaml
 # provider.yaml
 attestation:
-  webhookEnabled: true
-  sidecarImage: "ghcr.io/akash-network/attestation-sidecar:latest"
+  enabled: true
   webhookPort: 9443
+  sidecarImage:
+    repository: ghcr.io/akash-network/provider-attestation-sidecar
+    tag: ""
 ```
 
-### Example: CLI Flags
-
-```bash
-provider-services run \
-  --attestation-webhook-enabled \
-  --attestation-sidecar-image "ghcr.io/akash-network/attestation-sidecar:latest" \
-  --attestation-webhook-port 9443
-```
+Leave the tag empty to keep the sidecar aligned with the provider chart app version. Only set an explicit tag when you have verified that it is compatible with the provider version.
 
 ---
 
 ## STEP 5 — Configure Provider Attributes
 
-Tenants discover TEE-capable providers through on-chain attributes. Add both `tee/platform` and `tee/type` to your `provider.yaml`:
+Tenants discover TEE-capable providers through the on-chain `tee/type` attribute. The provider detects the hardware platform from the Kubernetes node labels configured in [Step 3b](#step-3b--label-nodes-for-tee-platform-detection); do not publish a separate `tee/platform` attribute.
 
-- **`tee/platform`** — the hardware TEE platform: `snp` (AMD SEV-SNP) or `tdx` (Intel TDX)
-- **`tee/type`** — the capability offered: `cpu` (CPU-only) or `cpu-gpu` (CPU + GPU Confidential Computing)
-
-### AMD SEV-SNP, CPU only
+### CPU only
 
 ```yaml
 attributes:
-  - key: tee/platform
-    value: snp
   - key: tee/type
     value: cpu
 ```
 
-### AMD SEV-SNP with GPU
+### CPU with confidential GPU
 
 ```yaml
 attributes:
-  - key: tee/platform
-    value: snp
-  - key: tee/type
-    value: cpu-gpu
-```
-
-### Intel TDX, CPU only
-
-```yaml
-attributes:
-  - key: tee/platform
-    value: tdx
-  - key: tee/type
-    value: cpu
-```
-
-### Intel TDX with GPU
-
-```yaml
-attributes:
-  - key: tee/platform
-    value: tdx
   - key: tee/type
     value: cpu-gpu
 ```
@@ -294,6 +256,7 @@ After updating attributes, restart your provider:
 cd /root/provider
 helm upgrade akash-provider akash/provider \
   -n akash-services \
+  --version 19.0.2 \
   -f provider.yaml \
   --set bidpricescript="$(cat price_script.sh | openssl base64 -A)"
 ```
@@ -349,8 +312,11 @@ deployment:
 Deploy and verify:
 
 ```bash
-# Deploy
-provider-services tx deployment create test-cc.yaml --from <your-key>
+# Deploy through the selected provider
+akt deploy test-cc.yaml \
+  --from <your-key> \
+  --bid-select "provider=<provider-address>" \
+  --yes
 
 # After lease is created, check that the pod has the correct runtime class
 kubectl get pods -n <lease-namespace> -o jsonpath='{.items[0].spec.runtimeClassName}'
@@ -364,15 +330,12 @@ kubectl get pods -n <lease-namespace> -o jsonpath='{.items[0].spec.containers[*]
 ### Request an Attestation Quote
 
 ```bash
-provider-services lease-attestation \
-  --dseq <deployment-sequence> \
-  --gseq 1 \
-  --oseq 1 \
-  --provider <provider-address> \
-  --from <your-key>
+AKT_FROM=<your-key> akt provider lease-attestation \
+  <deployment-sequence> \
+  --provider <provider-address>
 ```
 
-A successful response contains a hardware-signed attestation report, confirming the workload is running in a genuine TEE.
+A successful response confirms that the provider returned an attestation payload over an authenticated lease connection and that the request nonce is fresh. `akt` does not currently validate the evidence signature, endorsement chain, or measurement policy, so treat the response as evidence to pass to a TEE verifier rather than proof by itself that the workload is running on genuine TEE hardware.
 
 ---
 
@@ -395,6 +358,7 @@ kubectl describe pod <pod-name> -n <lease-namespace>
 ```
 
 Common causes:
+
 - **RuntimeClass not found**: Verify the RuntimeClass exists with `kubectl get runtimeclass`
 - **No TEE-capable nodes**: Ensure nodes with TEE hardware are labeled and schedulable
 - **Kata not installed**: Check that Kata is properly installed on the target node
@@ -404,7 +368,7 @@ Common causes:
 
 - Verify the webhook is running: `kubectl get mutatingwebhookconfigurations`
 - Check provider logs for webhook errors
-- Ensure `--attestation-webhook-enabled` is set
+- Ensure `attestation.enabled: true` is present in `provider.yaml` and was applied with the Helm upgrade
 
 ### Attestation quote returns error
 

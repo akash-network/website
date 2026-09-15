@@ -48,7 +48,7 @@ No single entity can shut down your application. Deploy anywhere, anytime.
 Access to high-end GPUs and compute at fraction of the cost. Perfect for AI/ML workloads.
 
 ### **Flexible Access**
-Start with our **trial** (credit card, $100 free credits in ACT, 30 days) or go **permissionless** with your own wallet (no KYC; fund deployments with **ACT**, or with AKT when the circuit breaker is in effect).
+Start with our **trial** ($1 free credits, no card required, 30 days) or go **permissionless** with your own wallet (no KYC; fund deployments with **ACT**, or with AKT when the circuit breaker is in effect).
 
 **Note:** Trial deployments have a 24-hour maximum duration per deployment, but you can redeploy as many times as you want within your 30-day trial period.
 
@@ -118,8 +118,8 @@ The **[Stack Definition Language (SDL)](/docs/developers/deployment/akash-sdl)**
 
 | Feature | Traditional Cloud | Akash - Trial | Akash - Wallet |
 |---------|------------------|---------------|----------------|
-| **Cost** | High, fixed pricing | $100 free credits | Up to 85% cheaper, market-driven |
-| **Access** | Credit card + KYC | Credit card (KYC for verification) | No KYC, permissionless |
+| **Cost** | High, fixed pricing | $1 free credits | Up to 85% cheaper, market-driven |
+| **Access** | Credit card + KYC | Email sign-up, no card for the trial | No KYC, permissionless |
 | **Payment** | Credit card monthly | Credit card (funds ACT) | Crypto (ACT; or AKT when circuit breaker) |
 | **Setup** | Complicated | Sign up in 10 minutes | Install wallet, fund with ACT (or AKT when CB) |
 | **Deployment Limit** | None | 24 hours per deployment | None |
@@ -166,7 +166,7 @@ Reduce cloud costs significantly while scaling your application.
 Ready to deploy your first application on Akash? Choose your path:
 
 ### Managed (no wallet, pay with credit card)
-1. **[Akash Console](https://console.akash.network)** - Visual web interface with managed wallets; start with the [Quick Start free trial](/docs/getting-started/quick-start) and get $100 in credits
+1. **[Akash Console](https://console.akash.network)** - Visual web interface with managed wallets; start with the [Quick Start free trial](/docs/getting-started/quick-start) and get $1 in credits
 2. **[Console API](/docs/api-documentation/console-api)** - REST API for programmatic deployments with managed wallets
 
 ### Self-Custody (bring your own wallet)

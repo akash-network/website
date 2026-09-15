@@ -22,10 +22,10 @@ Before starting, ensure you have:
 ### Required
 
 - **Kubernetes cluster** deployed and verified
-- **Domain name** that you control (e.g., `provider.example.com`)
+- **Base domain** that you control (for example, `example.com`; the provider endpoint becomes `provider.example.com`)
 - **Akash wallet** with:
   - **Provider bid deposit** is in **AKT** (0.5 AKT); keep AKT for gas. Recommended balance for multiple bids.
-  - Funded account ([Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account))
+  - A funded address in the active `akt` mainnet keyring context
 
 ### Optional (if configured)
 
@@ -37,20 +37,26 @@ Before starting, ensure you have:
 ## STEP 1 - Prepare Provider Wallet
 
 > **Don't have an Akash wallet yet?**
-> - [Install Akash CLI](/docs/developers/deployment/cli/installation-guide/)
-> - [Create an Account](/docs/developers/deployment/cli/installation-guide/#create-an-account)
-> - [Fund Your Account](/docs/developers/deployment/cli/installation-guide/#fund-your-account)
+>
+> - [Install the `akt` CLI](/docs/developers/deployment/akt/installation/)
+> - [Create or recover a key](/docs/developers/deployment/akt/configuration/#key-management)
+> - Select a mainnet keyring context and fund its Akash address before installing the provider
 
 ### Export Wallet Key
 
 On your local machine (where you created your Akash wallet):
 
 ```bash
+umask 077
+
 # Export your private key
-provider-services keys export <your-key-name>
+akt context keys export <your-key-name> > key.pem
+
+# Record its address for the control-plane host
+akt context keys show <your-key-name> --address > account-address.txt
 ```
 
-You'll be prompted for your keyring passphrase. The output will look like:
+`akt` prompts for the keyring password and an export password. The resulting `key.pem` contains an armored private key:
 
 ```
 -----BEGIN TENDERMINT PRIVATE KEY-----
@@ -62,14 +68,12 @@ type: secp256k1
 -----END TENDERMINT PRIVATE KEY-----
 ```
 
-Save this output to a file called `key.pem`.
+### Record the export password
 
-### Create Key Secret
-
-Create a password for your key:
+Write the export password you selected above to `key-pass.txt`. This is not the keyring password:
 
 ```bash
-echo "your-secure-password" > key-pass.txt
+printf '%s' 'your-export-password' > key-pass.txt
 ```
 
 ---
@@ -79,15 +83,24 @@ echo "your-secure-password" > key-pass.txt
 SSH into your Kubernetes control plane node and create the provider directory:
 
 ```bash
-mkdir -p /root/provider
+install -d -m 700 /root/provider
 cd /root/provider
+umask 077
 ```
 
 ### Upload Files
 
 Upload the following files to `/root/provider/`:
+
 - `key.pem` (your private key)
-- `key-pass.txt` (your key password)
+- `key-pass.txt` (the private-key export password)
+- `account-address.txt` (the provider's Akash address)
+
+Protect them after upload:
+
+```bash
+chmod 600 /root/provider/key.pem /root/provider/key-pass.txt /root/provider/account-address.txt
+```
 
 ### Encode Secrets
 
@@ -98,8 +111,8 @@ KEY_SECRET=$(cat /root/provider/key.pem | openssl base64 -A)
 # Base64 encode the password
 KEY_PASSWORD=$(cat /root/provider/key-pass.txt | openssl base64 -A)
 
-# Get your provider address
-ACCOUNT_ADDRESS=$(provider-services keys show <your-key-name> -a)
+# Read the provider address exported on the local machine
+ACCOUNT_ADDRESS=$(cat /root/provider/account-address.txt)
 ```
 
 ---
@@ -110,8 +123,8 @@ ACCOUNT_ADDRESS=$(provider-services keys show <your-key-name> -a)
 
 ```bash
 # Download Helm
-wget https://get.helm.sh/helm-v4.0.1-linux-amd64.tar.gz
-tar -zxvf helm-v4.0.1-linux-amd64.tar.gz
+wget https://get.helm.sh/helm-v4.2.4-linux-amd64.tar.gz
+tar -zxvf helm-v4.2.4-linux-amd64.tar.gz
 install linux-amd64/helm /usr/local/bin/helm
 
 # Verify installation
@@ -134,8 +147,12 @@ Create all required namespaces:
 ```bash
 kubectl create namespace akash-services
 kubectl create namespace lease
+kubectl create namespace akash-gateway
 kubectl label namespace akash-services akash.network=true
+kubectl label namespace akash-services akash.network/name=akash-services
 kubectl label namespace lease akash.network=true
+kubectl label namespace akash-gateway akash.network=true
+kubectl label namespace akash-gateway akash.network/name=akash-gateway
 ```
 
 ---
@@ -149,8 +166,9 @@ kubectl label namespace lease akash.network=true
 The default installation uses blockchain snapshots for fast synchronization.
 
 ```bash
-helm install akash-node akash/akash-node \
-  -n akash-services
+helm upgrade --install akash-node akash/akash-node \
+  --namespace akash-services \
+  --version 18.0.0
 ```
 
 ### Verify Node is Running
@@ -178,7 +196,8 @@ akash-node-1-0   1/1     Running   0          2m
 
 ```bash
 cd /root/provider
-curl -s https://raw.githubusercontent.com/akash-network/helm-charts/main/charts/akash-provider/scripts/price_script_generic.sh > price_script.sh
+curl -fsSLo price_script.sh \
+  https://raw.githubusercontent.com/akash-network/helm-charts/provider-19.0.2/charts/akash-provider/scripts/price_script_generic.sh
 chmod +x price_script.sh
 ```
 
@@ -187,12 +206,12 @@ chmod +x price_script.sh
 Replace the values with your actual configuration:
 
 ```bash
-cat > /root/provider/provider.yaml << 'EOF'
+cat > /root/provider/provider.yaml << EOF
 ---
 from: "$ACCOUNT_ADDRESS"
 key: "$KEY_SECRET"
 keysecret: "$KEY_PASSWORD"
-domain: "provider.example.com"
+domain: "example.com"
 node: "http://akash-node-1:26657"
 withdrawalperiod: 12h
 chainid: "akashnet-2"
@@ -209,12 +228,28 @@ attributes:
     value: contact@example.com
   - key: discord-username
     value: your_discord_username
+  - key: website
+    value: https://example.com
+  - key: status-page
+    value: https://status.example.com
   - key: country
     value: US
   - key: city
-    value: "San Francisco"
+    value: SFO
+  - key: timezone
+    value: utc-8
   - key: location-type
     value: datacenter
+  - key: hosting-provider
+    value: your_facility
+  - key: network-provider
+    value: your_network
+  - key: capabilities/ip-lease
+    value: "false"
+  - key: feat-endpoint-ip
+    value: "false"
+  - key: feat-endpoint-custom-domain
+    value: true
   - key: feat-persistent-storage
     value: false
   - key: feat-shm
@@ -270,22 +305,22 @@ attributes:
 **Example for beta3 (NVMe) storage class:**
 
 ```yaml
-  - key: capabilities/storage/1/class
-    value: beta3
-  - key: capabilities/storage/1/persistent
-    value: "true"
+- key: capabilities/storage/1/class
+  value: beta3
+- key: capabilities/storage/1/persistent
+  value: "true"
 ```
 
 **Example for beta2 (SSD) storage class:**
 
 ```yaml
-  - key: capabilities/storage/1/class
-    value: beta2
-  - key: capabilities/storage/1/persistent
-    value: "true"
+- key: capabilities/storage/1/class
+  value: beta2
+- key: capabilities/storage/1/persistent
+  value: "true"
 ```
 
-> **Important:** You can only advertise **one storage class** per provider. Match Rook-Ceph: **`beta3` (NVMe) is the default** in the Persistent Storage guide; use `beta2` (SSD) or `beta1` (HDD) only if you configured that instead.
+> **Important:** You can only advertise **one storage class** per provider. Match the class to the storage media you actually configured: `beta3` for NVMe, `beta2` for SSD, or `beta1` for HDD. The Persistent Storage guide uses `beta3` only because its worked example uses NVMe disks.
 
 ---
 
@@ -296,27 +331,31 @@ If you configured GPU support, add GPU attributes to your `provider.yaml`:
 ```yaml
 attributes:
   # ... existing attributes ...
+  - key: capabilities/gpu
+    value: nvidia
+  - key: cuda
+    value: "13.0"
   - key: capabilities/gpu/vendor/nvidia/model/<model>
     value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/<model>/ram/<ram>
     value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/<model>/interface/<interface>
     value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/<model>/interface/<interface>/ram/<ram>
+  - key: capabilities/gpu/vendor/nvidia/model/<model>/ram/<ram>/interface/<interface>
     value: "true"
 ```
 
 **Example for NVIDIA RTX 4090:**
 
 ```yaml
-  - key: capabilities/gpu/vendor/nvidia/model/rtx4090
-    value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi
-    value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
-    value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie/ram/24Gi
-    value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090/interface/pcie
+  value: "true"
+- key: capabilities/gpu/vendor/nvidia/model/rtx4090/ram/24Gi/interface/pcie
+  value: "true"
 ```
 
 > **Note:** Model names should be lowercase with no spaces. List each GPU model you're offering.
@@ -326,13 +365,13 @@ attributes:
 If you completed [Part 2 — InfiniBand / RDMA](/docs/providers/setup-and-installation/kubespray/gpu-support#part-2--infiniband--rdma-optional), advertise interconnect so tenants can match multi-node NCCL jobs:
 
 ```yaml
-  - key: capabilities/gpu-interconnect
-    value: "true"
-  - key: capabilities/gpu-interconnect/fabric/infiniband
-    value: "true"
-  # Or RoCE instead of (or in addition to) InfiniBand:
-  # - key: capabilities/gpu-interconnect/fabric/roce
-  #   value: "true"
+- key: capabilities/gpu-interconnect
+  value: "true"
+- key: capabilities/gpu-interconnect/fabric/infiniband
+  value: "true"
+# Or RoCE instead of (or in addition to) InfiniBand:
+# - key: capabilities/gpu-interconnect/fabric/roce
+#   value: "true"
 ```
 
 Omit these keys if your nodes have no InfiniBand/RoCE hardware. Full details: [Provider Attributes — GPU Interconnect](/docs/providers/operations/provider-attributes/#gpu-interconnect-infiniband--roce).
@@ -348,7 +387,7 @@ Here's a full example showing GPU, persistent storage, and all optional attribut
 from: "akash1..."
 key: "LS0tLS1CRUdJTi..."
 keysecret: "eHJiajdSS..."
-domain: "provider.example.com"
+domain: "example.com"
 node: "http://akash-node-1:26657"
 withdrawalperiod: 12h
 chainid: "akashnet-2"
@@ -360,7 +399,9 @@ attributes:
   - key: country
     value: US
   - key: city
-    value: "San Francisco"
+    value: SFO
+  - key: timezone
+    value: utc-8
   - key: location-type
     value: datacenter
 
@@ -375,6 +416,12 @@ attributes:
     value: contact@example.com
   - key: discord-username
     value: your_discord_username
+  - key: website
+    value: https://example.com
+  - key: status-page
+    value: https://status.example.com
+  - key: hosting-provider
+    value: your_facility
 
   # CPU & memory
   - key: capabilities/cpu
@@ -389,6 +436,14 @@ attributes:
     value: 10000
   - key: network-speed-down
     value: 10000
+  - key: network-provider
+    value: your_network
+  - key: capabilities/ip-lease
+    value: "false"
+  - key: feat-endpoint-ip
+    value: "false"
+  - key: feat-endpoint-custom-domain
+    value: true
 
   # GPU (if you have GPUs)
   - key: capabilities/gpu
@@ -399,7 +454,7 @@ attributes:
     value: "true"
   - key: capabilities/gpu/vendor/nvidia/model/h100/interface/sxm
     value: "true"
-  - key: capabilities/gpu/vendor/nvidia/model/h100/interface/sxm/ram/80Gi
+  - key: capabilities/gpu/vendor/nvidia/model/h100/ram/80Gi/interface/sxm
     value: "true"
   - key: cuda
     value: "13.0"
@@ -442,7 +497,6 @@ price_target_gpu_mappings: "h100=840,*=840"
 
 ---
 
-
 ## STEP 7 - Configure DNS
 
 ### Configure at Your DNS Provider
@@ -450,6 +504,7 @@ price_target_gpu_mappings: "h100=840,*=840"
 Log into your DNS provider (Cloudflare, GoDaddy, Route53, etc.) and create the following DNS records:
 
 **1. Provider A Record:**
+
 ```
 Type: A
 Name: provider (or your subdomain)
@@ -458,17 +513,19 @@ TTL: 3600 (or Auto)
 ```
 
 **2. Wildcard Ingress A Record:**
+
 ```
 Type: A
-Name: *.ingress.provider (or *.ingress.your-subdomain)
+Name: *.ingress
 Value: <your-provider-public-ip>
 TTL: 3600 (or Auto)
 ```
 
 **Example:**
+
 ```
-provider.example.com           →  203.0.113.45
-*.ingress.provider.example.com →  203.0.113.45
+provider.example.com  →  203.0.113.45
+*.ingress.example.com →  203.0.113.45
 ```
 
 ### Verify DNS Propagation
@@ -480,7 +537,7 @@ After configuring DNS, verify both records resolve correctly:
 dig provider.example.com +short
 
 # Check wildcard ingress domain
-dig test.ingress.provider.example.com +short
+dig test.ingress.example.com +short
 ```
 
 Both should return your provider's public IP.
@@ -488,7 +545,6 @@ Both should return your provider's public IP.
 > **Note:** DNS propagation can take a few minutes. Wait until both records resolve before proceeding.
 
 ---
-
 
 ## STEP 8 - Install Gateway API and NGINX Gateway Fabric
 
@@ -893,6 +949,7 @@ kubectl -n cert-manager get secret cloudflare-api-token-secret -o yaml
 ```
 
 Check token has correct permissions in Cloudflare dashboard:
+
 - **Zone - DNS - Edit**
 - **Zone - Zone - Read**
 - Zone Resources: All Zones
@@ -908,6 +965,7 @@ kubectl -n cert-manager get secret clouddns-gcp-dns01-solver-sa -o yaml
 ```
 
 Check service account has DNS admin permissions in GCP:
+
 - `dns.resourceRecordSets.*`
 - `dns.changes.*`
 - `dns.managedZones.list`
@@ -931,7 +989,6 @@ Wait a minute, then test HTTPS again.
 
 - [Cert-manager](https://cert-manager.io/docs/)
 - [Let's Encrypt](https://letsencrypt.org/)
-
 
 ---
 

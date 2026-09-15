@@ -15,11 +15,12 @@ By default, providers do not offer reclamation. Reclamation is opt-in via config
 
 ## Prerequisites
 
-- `provider-services` **v0.13.0** or later
+- Akash provider `v0.16.2` or later
+- The unified [`akt` CLI](/docs/developers/deployment/akt) in a mainnet keyring context for queries and close transactions
 
 ## Configuration
 
-The reclamation window is set via the `--reclamation-window` flag on `provider-services run`, or equivalently via the `AKASH_RECLAMATION_WINDOW` environment variable.
+Set the reclamation window with the provider chart's `reclamationWindow` value. The chart injects the corresponding `AKASH_RECLAMATION_WINDOW` environment variable into the provider StatefulSet.
 
 Accepted values are Go-style duration strings:
 
@@ -93,10 +94,9 @@ If the provider's configured window is shorter than the order's required minimum
 You can confirm a successful bid's reclamation window on chain:
 
 ```bash
-akash query market bid get \
-    --owner <tenant-address> \
-    --dseq <dseq> --gseq 1 --oseq 1 \
-    --provider <your-provider-address>
+akt query market bid \
+    <tenant-address>/<dseq>/1/1/<your-provider-address> \
+    --output yaml
 ```
 
 The `reclamation_window` field on the bid will reflect the configured value.
@@ -119,18 +119,9 @@ The provider will resume default behavior: no reclamation offered on bids, and o
 
 ## Initiating reclamation
 
-When you need to reclaim resources from an active lease, submit a `MsgLeaseStartReclaim` from the provider key:
+When you need to reclaim resources from an active lease, submit a `MsgLeaseStartReclaim` from the provider key.
 
-```bash
-provider-services tx market bid start-reclaim \
-    --from <provider-key> \
-    --owner <tenant-address> \
-    --dseq <dseq> --gseq 1 --oseq 1 \
-    --provider <your-provider-address> \
-    --reason <reason-code> \
-    --chain-id <chain-id> \
-    --node <rpc-endpoint>
-```
+`akt` v0.1.1 does not yet expose the start-reclaim transaction. Do not substitute the removed legacy `provider-services` CLI examples. Until `akt` adds this command, enable reclamation only when your provider automation has a separately supported way to submit and audit `MsgLeaseStartReclaim`.
 
 The `--reason` flag accepts a numeric code in the range 10000–19999:
 
@@ -144,14 +135,12 @@ Choose the code that most accurately reflects why you're reclaiming. The reason 
 After the reclamation window elapses, close the bid to terminate the lease:
 
 ```bash
-provider-services tx market bid close \
+akt tx market bid close \
     --from <provider-key> \
     --owner <tenant-address> \
     --dseq <dseq> --gseq 1 --oseq 1 \
-    --provider <your-provider-address> \
     --reason <reason-code> \
-    --chain-id <chain-id> \
-    --node <rpc-endpoint>
+    --yes
 ```
 
 Closing before the deadline is rejected by the chain with `reclamation window has not elapsed`.

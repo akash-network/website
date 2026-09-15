@@ -133,7 +133,7 @@ export const exploreItems: NavItem[] = [
   {
     title: "Use Cases",
     description: "Production runtime paths for developers and data centers.",
-    link: "/explore/use-cases/",
+    link: "/use-cases/",
   },
   {
     title: "Compare",
@@ -157,7 +157,7 @@ export const networkItems: NavItem[] = [
   {
     title: "Use Cases",
     description: "Real-world deployment blueprints for engineering teams and compute providers.",
-    link: "/explore/use-cases/",
+    link: "/use-cases/",
   },
   {
     title: "Compare",

@@ -1,0 +1,309 @@
+---
+import Layout from "@/layouts/layout.astro";
+import TopMargin from "@/components/ui/top-margin.astro";
+import { ChevronRight } from "lucide-react";
+import { FAQ } from "@/components/token-page/faq";
+
+const parity = [
+  {
+    tier: "Compute runtime",
+    render: "Web services, workers, cron",
+    equivalent: "Standard containers",
+    execution: "Your image runs directly on provider hardware.",
+  },
+  {
+    tier: "Build",
+    render: "Git-push builds or prebuilt images",
+    equivalent: "Prebuilt images",
+    execution: "Build wherever you like. The network needs the image, not your repo.",
+  },
+  {
+    tier: "Data persistence",
+    render: "Managed Postgres and Redis",
+    equivalent: "Persistent volumes, or an outside managed database",
+    execution: "Run it as a container with a volume, or point at a managed service.",
+  },
+  {
+    tier: "Configuration",
+    render: "Dashboard and render.yaml",
+    equivalent: "SDL",
+    execution: "One portable YAML file covering services, resources, ports, and placement.",
+  },
+  {
+    tier: "Deployment control",
+    render: "Dashboard, CLI, API",
+    equivalent: "CLI, REST API, MCP, agent skill",
+    execution: "An AI coding agent with an API key can deploy, inspect, and close workloads.",
+  },
+  {
+    tier: "GPUs",
+    render: "Not supported",
+    equivalent: "Requested in the same SDL",
+    execution: "Add a GPU block naming vendor and model to any service.",
+  },
+];
+
+const faqs = [
+  {
+    title: "Is Akash stable enough for production web applications?",
+    description: "With the right setup, yes, and it asks more of you than Render does. Providers are independently operated, so uptime is a property of the provider you chose. Deploy on Verified Enterprise providers, run more than one lease, and load-balance across them. That's real operational work, and it's the honest trade for the price and the GPU access.",
+  },
+  {
+    title: "Do we need cryptocurrency to deploy?",
+    description: "No. Deploy in dollars. Akash Console takes a credit card and bills in USD, the same as any other SaaS tool, and the Console API authenticates with a standard API key. Sign up with GitHub or email, add a card, and ship. No wallet, no seed phrase, no token.",
+  },
+  {
+    title: "What if we want to hold our own keys?",
+    description: "Console Air is the self-custody path: connect your own wallet and sign every transaction yourself. The network also supports USDC and AKT for teams that want on-chain sovereignty — that's an upgrade, not an entry requirement. Protocol-powered, not crypto-complicated.",
+  },
+  {
+    title: "What happens to our database if the provider goes offline?",
+    description: "The lease ends and the container stops. Persistent volumes live with that provider, so a database on a single lease is a single point of failure. Run it on a managed service or replicate off-provider. This is the clearest place where Render's managed Postgres is doing work that becomes yours here — worth pricing honestly before you move.",
+  },
+];
+---
+
+<Layout
+  title="Akash vs Render — Compare"
+  description="Render runs your containers for you. Akash rents you the hardware to run them on — including the GPUs Render doesn't have."
+>
+  <TopMargin>
+    <div class="not-prose pb-28">
+
+      <!-- HERO -->
+      <section class="space-y-8 pt-4">
+        <div class="space-y-5">
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Render runs your containers. Akash rents you the hardware.
+          </h1>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Including the GPUs Render doesn't have.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+        <div class="group mt-2 overflow-hidden rounded-xl">
+          <img
+            src="/compare/hero-vs-render.webp"
+            alt="Akash vs Render"
+            class="h-[240px] w-full object-cover md:h-[380px] grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
+          />
+        </div>
+      </section>
+
+      <!-- CORE ECONOMICS -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            The Core Economics
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Render charges a flat workspace fee plus per-second compute, sold in fixed instance sizes. Inside that price is the platform: managed Postgres and Redis, git-push deploys, autoscaling, TLS, a support team. You're paying for infrastructure and for not operating it.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash sells the infrastructure. Providers bid for your deployment, so you pay what the market clears at rather than a menu price — and the operational work Render absorbs stays with you. That's the whole trade, stated plainly.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Here's what that costs you: nothing you can look up on a rate card. Prices move as providers compete and as more capacity joins the network. See what the market is charging right now on the <a href="/pricing/gpus" class="text-foreground underline underline-offset-4 hover:opacity-80">GPU pricing page</a>.
+          </p>
+        </div>
+        <div class="overflow-hidden rounded-xl border border-border">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border bg-gray-50 dark:bg-background2">
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">Render</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Price</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Workspace fee plus per-second compute</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Set by competitive bids, per deployment</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Sizing</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Fixed instance types</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">The CPU, memory, and storage you specify</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">GPUs</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Not offered</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">H100s, A100s, and L40s, by the hour</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Managed data</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Postgres and Redis, first-party</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">You run them, or point at an outside service</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Where it runs</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Render's cloud</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Any provider on the network, or your own hardware</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ARCHITECTURAL DISTINCTIONS -->
+      <section class="mt-20 md:mt-44">
+        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+          Architectural Distinctions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              GPUs in the same file as your web service
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Render doesn't offer GPU instances. A team on Render that needs to fine-tune or serve a model has to move that workload elsewhere and operate two platforms. On Akash, asking for an H100 is a few lines in the same SDL as the API in front of it. Same workflow, same deployment, same bill.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Resources you specify, not a tier you round up into
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              Render sells instance types, so an app that needs 1.5 GB of memory buys the size above and pays for CPU it didn't ask for. On Akash you state what you want and providers bid on that exact shape. Nothing is packaged for you.
+            </p>
+          </div>
+          <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
+            <h3 class="text-xl font-semibold leading-snug text-foreground">
+              Portable because it was never proprietary
+            </h3>
+            <p class="text-sm leading-relaxed text-para">
+              If it runs in Docker, it runs on Akash. The image is standard, the deployment file is portable YAML that reads like Docker Compose, and the same file deploys to any provider on the network — or to your own hardware if you run the provider software. Your containers are standard and your data is yours. No egress fees, no proprietary lock-in. We'd rather earn your business every month than trap you in something you can't leave.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICE PARITY INDEX -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            Service Parity Index
+          </h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px] border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-border">
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Feature layer</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Render</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">On Akash</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">How it works</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parity.map((row) => (
+                <tr class="border-b border-border">
+                  <td class="py-5 pr-6 align-top text-sm font-semibold text-foreground">{row.tier}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-para">{row.render}</td>
+                  <td class="py-5 pl-6 pr-6 align-top text-sm font-normal leading-relaxed text-foreground">{row.equivalent}</td>
+                  <td class="py-5 pl-6 align-top text-sm font-normal leading-relaxed text-para">{row.execution}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- WHAT WE ARE / WHAT WE AREN'T -->
+      <section class="mt-20 space-y-10 md:mt-44">
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            What We Are. What We Aren't.
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Render sells operational simplicity. For a lot of teams that's exactly the right purchase, and here's where it wins.
+          </p>
+        </div>
+        <div class="grid gap-8 md:grid-cols-2">
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Managed databases</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Render runs Postgres and Redis with backups and upgrades handled. Here, that's your job or an outside provider's.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Git-push deploys and preview environments</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Build-on-push and per-PR environments are Render features. Akash deploys an image you've already built.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">One vendor, one support line</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Render answers when something breaks. On Akash you choose your level of reliability by choosing your provider — Verified Enterprise data centers with redundant power and networking, or Community Independent operators optimized for price — and there's no central desk to call for a workload.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">Platform compliance</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Render holds platform-level certifications. Here, compliance depends on the provider you pick.
+            </p>
+          </div>
+        </div>
+        <p class="max-w-2xl text-base font-normal text-para">
+          If what you want is a platform that handles all of that so you don't have to, Render is selling exactly that. If you want GPUs, market pricing, and no ceiling on what you can run, keep reading.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mt-20 md:mt-44">
+        <div class="pb-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            FAQs
+          </h2>
+        </div>
+        <FAQ faqs={faqs} client:load />
+      </section>
+
+      <!-- PAGE CLOSER -->
+      <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
+        <div class="space-y-5">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            Start Building
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Bring the container you already build, add a GPU when you need one, and pay the market's clearing price for it.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          >
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
+          </a>
+          <a
+            href="/pricing/gpus"
+            class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
+          >
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </TopMargin>
+</Layout>

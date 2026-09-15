@@ -6,73 +6,66 @@ import { FAQ } from "@/components/token-page/faq";
 
 const parity = [
   {
-    tier: "Compute Run Rate",
-    aws: "EC2 (Elastic Compute Cloud)",
-    equivalent: "Native OCI Containers",
-    execution: "Executes container workloads directly on host hardware, removing heavy virtualization hypervisors to optimize compute path efficiency.",
+    tier: "Compute",
+    aws: "EC2",
+    equivalent: "Standard containers",
+    execution: "Your image runs on provider hardware. No AMIs, no instance families.",
   },
   {
-    tier: "Orchestration",
-    aws: "EKS (Elastic Kubernetes Service)",
-    equivalent: "Native Kubernetes",
-    execution: "Schedules your specified resource configurations directly into verified, multi-tenant cluster pools.",
+    tier: "GPU capacity",
+    aws: "P4d / P5 instance classes",
+    equivalent: "The marketplace",
+    execution: "H100 and A100 class hardware by the hour, without a reservation.",
   },
   {
-    tier: "Silicon Allocation",
-    aws: "P4d / P5 Instance Classes",
-    equivalent: "Direct GPU Marketplace",
-    execution: "On-demand access to enterprise H100/A100 clusters and high-density consumer hardware without upfront contracts.",
+    tier: "Persistent storage",
+    aws: "EBS",
+    equivalent: "Persistent volumes on the lease",
+    execution: "Requested in the deployment file, attached to the container.",
   },
   {
-    tier: "Persistent Storage",
-    aws: "EBS (Elastic Block Store)",
-    equivalent: "Stateful NVMe Volumes",
-    execution: "Attaches high-speed physical storage blocks directly to the container instance, keeping your data state persistent across system restarts.",
+    tier: "Public addressing",
+    aws: "Elastic IP",
+    equivalent: "IP leases",
+    execution: "A stable public IPv4 endpoint bound to your workload across updates.",
   },
   {
-    tier: "Public Routing",
-    aws: "Elastic IP Address",
-    equivalent: "Static IP Leases",
-    execution: "Provisions and binds fixed, public IPv4 entry points directly to your active workload, ensuring routing endpoints stay stable during updates.",
+    tier: "Infrastructure code",
+    aws: "CloudFormation, CDK",
+    equivalent: "SDL",
+    execution: "One portable YAML file. If you've touched Docker Compose, this will feel familiar.",
   },
   {
-    tier: "Infrastructure as Code",
-    aws: "CloudFormation / AWS CDK",
-    equivalent: "Stack Definition Language (SDL)",
-    execution: "Declares your entire structural requirements (CPU, RAM, storage, env variables) inside a single portable YAML file modeled after Docker Compose.",
-  },
-];
-
-const gaps = [
-  {
-    title: "Stateless Microservices vs. Native Serverless",
-    body: "Akash does not run a proprietary Function-as-a-Service engine matching AWS Lambda. If your application relies on event-driven, zero-scale serverless functions, you handle this by deploying open container runtimes like OpenFaaS or Knative directly inside your layout files.",
-  },
-  {
-    title: "Cryptographic Keypairs over Centralized IAM",
-    body: "The platform discards centralized root accounts, administrative login panels, and complex identity access policies. Infrastructure ownership, system adjustments, and fund lines are controlled entirely via private cryptographic keys. Administrative security is bound directly to your signature, removing the risk of credential leakages through corporate phishing or management panel vulnerabilities.",
+    tier: "Confidential compute",
+    aws: "Nitro Enclaves",
+    equivalent: "One line in your SDL",
+    execution: "tee: cpu or tee: cpu-gpu runs your workload in an AMD SEV-SNP or Intel TDX enclave.",
   },
 ];
 
 const faqs = [
   {
-    title: "Is an open provider network stable enough for production APIs?",
-    description: "Yes. You retain total programmatic control over where your code executes. By defining specific provider verification rules within your configuration file, you can instruct the network to filter out consumer hardware nodes and only accept bids from enterprise-grade, audited data centers with verified uptimes. For mission-critical production stacks, you can eliminate single points of failure by deploying your portable definition file to multiple independent providers concurrently.",
+    title: "Is an open marketplace stable enough for production APIs?",
+    description: "With the right setup, yes. Uptime on Akash is a property of the provider you leased from, so production teams deploy on Verified Enterprise providers, run more than one lease, and load-balance across them. Venice.ai and Prime Intellect serve production traffic this way. A single lease with no redundancy behaves like a single instance with no redundancy — which is also true on EC2, just with an SLA attached.",
   },
   {
-    title: "Do we need to buy and hold crypto assets to secure our hosting line?",
-    description: "No. You can fund deployments, manage active workloads, and settle your compute costs directly using standard credit cards or stablecoins pegged 1:1 with the US Dollar. The network gateways handle all necessary background operations automatically, ensuring your infrastructure costs remain predictable, transparent, and compliant with corporate accounting workflows.",
+    title: "Do we need cryptocurrency to deploy?",
+    description: "No. Deploy in dollars. Akash Console takes a credit card and bills in USD, the same as any other SaaS tool, and the Console API authenticates with a standard API key. Sign up with GitHub or email, add a card, and ship. No wallet, no seed phrase, no token.",
   },
   {
-    title: "What happens if a data center hosting our container drops offline?",
-    description: "Every active deployment is protected by an automated network lease. If a host node fails to broadcast uptime validations or suffers a critical outage, the lease terminates and billing halts instantly. Because your entire system architecture is preserved inside your portable template file, you simply re-submit your manifest to the network to spin up a new instance on an alternate provider within minutes.",
+    title: "What if we want to hold our own keys?",
+    description: "Console Air is the self-custody path: connect your own wallet and sign every transaction yourself. The network also supports USDC and AKT for teams that want on-chain sovereignty — that's an upgrade, not an entry requirement. Protocol-powered, not crypto-complicated.",
+  },
+  {
+    title: "What happens if the datacenter hosting our container drops offline?",
+    description: "The lease ends and the workload stops. Akash doesn't migrate a running container to another provider automatically — recovery is a redeploy through the CLI or API, which takes about as long as the first deployment did. Persistent volumes live with the provider, so checkpoint anything you can't lose to external storage, the same way you would on a spot instance.",
   },
 ];
 ---
 
 <Layout
   title="Akash vs AWS — Compare"
-  description="Provision GPU clusters and container allocations directly from independent infrastructure sources. Eliminate hyperscaler margin stacking, arbitrary regional price manipulation, and restrictive volume contracts."
+  description="Your cloud should compete for your business. AWS sets the price. On Akash, providers bid for yours."
 >
   <TopMargin>
     <div class="not-prose pb-28">
@@ -81,24 +74,26 @@ const faqs = [
       <section class="space-y-8 pt-4">
         <div class="space-y-5">
           <h1 class="max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            Compute pricing set by the market. Not a corporate boardroom.
+            Your cloud should compete for your business.
           </h1>
           <p class="max-w-2xl text-base font-normal text-para">
-            Provision high-density GPU clusters and on-demand container allocations directly from independent infrastructure providers. Eliminate hyperscaler margin stacking, regional price variances, and restrictive volume contracts.
+            AWS sets the price. On Akash, providers bid for yours.
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
           <a
-            href="/pricing/gpus"
+            href="https://console.akash.network"
+            target="_blank"
+            rel="noopener noreferrer"
             class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
           >
-            See Compute Pricing <ChevronRight size={14} className="ml-1.5" />
+            Deploy Now <ChevronRight size={14} className="ml-1.5" />
           </a>
           <a
-            href="/docs/developers/getting-started/"
+            href="/pricing/gpus"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
           >
-            View Docs <ChevronRight size={14} className="ml-1.5" />
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
           </a>
         </div>
         <div class="group mt-2 overflow-hidden rounded-xl">
@@ -117,7 +112,13 @@ const faqs = [
             The Core Economics
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Legacy clouds price compute top-down to offset real estate acquisition, multi-layered operations teams, and institutional margin targets. Akash operates as a peer-to-peer brokerage ledger. Independent data centers with verified idle capacity bid directly against one another to win your container workloads, dropping resource costs down to the native expense of hardware depreciation and local power.
+            AWS prices compute to cover datacenters, global operations, a support organization, and a margin target. You pay for all of it on every instance-hour, whether or not you touch the services around it. That's the Cloud Tax.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash removed it. Providers with real hardware bid against each other for your workload, so you pay what compute costs when the market clears, not what a rate card says. Zero egress fees.
+          </p>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Here's what that costs you: nothing you can look up on a rate card. Prices move as providers compete and as more capacity joins the network. See what the market is charging right now on the <a href="/pricing/gpus" class="text-foreground underline underline-offset-4 hover:opacity-80">GPU pricing page</a>.
           </p>
         </div>
         <div class="overflow-hidden rounded-xl border border-border">
@@ -125,32 +126,37 @@ const faqs = [
             <thead>
               <tr class="border-b border-border bg-gray-50 dark:bg-background2">
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para"></th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">AWS EC2 (c5.large)</th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash Network</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-para">AWS</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">Akash</th>
               </tr>
             </thead>
             <tbody>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 text-sm font-medium text-foreground">Allocation</td>
-                <td class="px-6 py-4 text-sm text-para">2 vCPU / 4 GB Dedicated RAM</td>
-                <td class="px-6 py-4 text-sm text-foreground">2 vCPU / 4 GB Dedicated RAM</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Price</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Published rate card, set by region</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Set by competitive bids, per deployment</td>
               </tr>
               <tr class="border-b border-border">
-                <td class="px-6 py-4 text-sm font-medium text-foreground">Networking</td>
-                <td class="px-6 py-4 text-sm text-para">Base run rate + $0.09/GB public egress</td>
-                <td class="px-6 py-4 text-sm text-foreground">Bandwidth included in host bid</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Egress</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Billed per GB</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Zero</td>
+              </tr>
+              <tr class="border-b border-border">
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">GPU access</td>
+                <td class="px-6 py-4 align-top text-sm text-para">Quota request, capacity reservation</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">Describe what you need, get bids in seconds</td>
               </tr>
               <tr>
-                <td class="px-6 py-4 text-sm font-medium text-foreground">Monthly Cost</td>
-                <td class="px-6 py-4 text-sm text-para">~$61.20 + unpredictable usage fees</td>
-                <td class="px-6 py-4 text-sm font-semibold text-foreground">~$6.50 average settlement</td>
+                <td class="px-6 py-4 align-top text-sm font-medium text-foreground">Commitment</td>
+                <td class="px-6 py-4 align-top text-sm text-para">On-demand, Savings Plans, RIs</td>
+                <td class="px-6 py-4 align-top text-sm text-foreground">None. Close the lease whenever you want</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- STRUCTURAL BOTTLENECKS -->
+      <!-- ARCHITECTURAL DISTINCTIONS -->
       <section class="mt-20 md:mt-44">
         <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
           Architectural Distinctions
@@ -158,18 +164,18 @@ const faqs = [
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              Direct Access to High-Density Hardware
+              Skip the capacity request
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Securing enterprise accelerators like NVIDIA H100 or A100 nodes on AWS requires navigating intensive procurement workflows: multi-year commitments, upfront capacity reservations, and persistent sales negotiations. Akash unifies global infrastructure availability into a single network directory. You can provision dedicated GPU resources by the hour using standard configuration files, bypassing manual account verification entirely.
+              Getting H100 or A100 capacity on AWS means a quota increase, a capacity reservation, and often a conversation with an account team. On Akash you describe what you need and providers around the world compete for the workload. Bids come back in seconds. No waitlist, no approval, no "we'll get back to you."
             </p>
           </div>
           <div class="rounded-xl border border-border bg-card p-6 flex flex-col gap-3">
             <h3 class="text-xl font-semibold leading-snug text-foreground">
-              Transparent Network Egress Costing
+              Your data isn't collateral
             </h3>
             <p class="text-sm leading-relaxed text-para">
-              Traditional hyperscalers build financial barriers around your data. While data ingress is generally free, moving model weights, training logs, or dataset checkpoints out of their private network incurs significant data egress fees. This creates a lock-in mechanism that penalizes multi-cloud strategies. Akash network providers bundle data transfer bandwidth directly into their competitive compute bids, allowing teams to stream large data pipelines without variable trailing fees.
+              Moving data out of AWS is metered per gigabyte, which is exactly why multi-cloud plans stall and datasets stay where they landed. Akash providers include bandwidth in the bid. Move your model weights, checkpoints, and training logs whenever you want — the cost of leaving is never a reason to stay.
             </p>
           </div>
         </div>
@@ -182,17 +188,17 @@ const faqs = [
             Service Parity Index
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            You do not need to rewrite service layers or modify application logic. The platform uses the exact cloud-native standards your engineering team already deploys in production, mapping proprietary APIs to open-source alternatives.
+            If it runs in Docker, it runs on Akash. No proprietary runtime, no rewrite, no SDK you've never heard of.
           </p>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full min-w-[800px] border-collapse text-sm">
             <thead>
               <tr class="border-b border-border">
-                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Infrastructure Tier</th>
-                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">Legacy AWS</th>
-                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">Marketplace Equivalent</th>
-                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">Technical Execution</th>
+                <th class="w-[18%] pb-3 text-left text-sm font-medium text-para">Infrastructure tier</th>
+                <th class="w-[18%] pb-3 pl-6 text-left text-sm font-medium text-para">AWS</th>
+                <th class="w-[20%] pb-3 pl-6 text-left text-sm font-medium text-foreground">On Akash</th>
+                <th class="pb-3 pl-6 text-left text-sm font-medium text-para">How it works</th>
               </tr>
             </thead>
             <tbody>
@@ -209,18 +215,35 @@ const faqs = [
         </div>
       </section>
 
-      <!-- SYSTEM GAP ANALYSIS -->
+      <!-- WHAT WE ARE / WHAT WE AREN'T -->
       <section class="mt-20 space-y-10 md:mt-44">
-        <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
-          System Gap Analysis
-        </h2>
+        <div class="space-y-4">
+          <h2 class="font-sans text-3xl !font-medium leading-snug tracking-tight text-foreground md:text-4xl">
+            What We Are. What We Aren't.
+          </h2>
+          <p class="max-w-2xl text-base font-normal text-para">
+            Akash doesn't have a centralized SLA, because we aren't a centralized provider. We're a marketplace. Here's what that costs you.
+          </p>
+        </div>
         <div class="grid gap-8 md:grid-cols-2">
-          {gaps.map((item) => (
-            <div class="space-y-3">
-              <h3 class="text-base font-semibold text-foreground">{item.title}</h3>
-              <p class="text-sm font-normal leading-relaxed text-para">{item.body}</p>
-            </div>
-          ))}
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">No managed services</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              There's no RDS, DynamoDB, SQS, or Lambda here. You run Postgres, Redis, a queue, or a function runtime as containers you operate. If your team already runs its own data layer, that's a saving. If you leaned on managed services, that's real work you're taking back.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="text-base font-semibold text-foreground">No scale-to-zero</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              Leases run continuously. There's no request-triggered cold start primitive. Run OpenFaaS or Knative inside a lease, or keep that tier where it is.
+            </p>
+          </div>
+          <div class="space-y-3 md:col-span-2">
+            <h3 class="text-base font-semibold text-foreground">You choose your level of reliability by choosing your provider</h3>
+            <p class="text-sm font-normal leading-relaxed text-para">
+              The marketplace organizes providers by tier: Verified Enterprise data centers with redundant power and networking, and Community Independent operators optimized for price. Filter by tier and deploy with confidence. For workloads that need a signed SLA from a single vendor, AWS might still be the right call. We'd rather tell you that now than have you find out after you've migrated.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -241,7 +264,7 @@ const faqs = [
             Start Building
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
-            Migrate your containerized pipelines to an open hardware marketplace. Maintain absolute configuration control without legacy vendor markups.
+            Move the workloads that don't need a managed-services catalog and pay the market's clearing price for them.
           </p>
         </div>
         <div class="flex flex-wrap justify-center gap-3">
@@ -254,13 +277,10 @@ const faqs = [
             Deploy Now <ChevronRight size={14} className="ml-1.5" />
           </a>
           <a
-            href="https://github.com/akash-network/awesome-akash"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/pricing/gpus"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
           >
-            Explore SDL Templates
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1.5"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            See GPU Pricing <ChevronRight size={14} className="ml-1.5" />
           </a>
         </div>
       </section>
