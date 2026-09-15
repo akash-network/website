@@ -1,0 +1,458 @@
+# Akash Network extended reference
+
+> A technical guide to choosing Akash products, deploying container workloads, using the akt CLI and APIs, and operating workloads and infrastructure. The curated source index is at https://akash.network/llms.txt.
+
+## What Akash does
+
+Akash connects tenants who need compute with independent providers who supply it. A tenant specifies container images and resource requirements in Stack Definition Language, or SDL. Providers bid on matching requests; accepting a bid creates a lease. The provider runs the containers on its infrastructure, while the blockchain records marketplace agreements and settles payments from escrow. Application computation happens on provider machines, outside the blockchain.
+
+The compute marketplace supports CPU applications as well as GPU workloads. Common uses include web frontends, APIs, background workers, databases, AI agents, model inference, fine-tuning, training, notebooks, image generation, and game or blockchain servers. These are applications deployed on rented infrastructure. A database or model-serving template still needs application configuration, authentication, monitoring, and backups. Hardware availability and optional capabilities depend on the selected provider.
+
+A tenant rents compute; a provider supplies compute; a validator participates in blockchain consensus. Running a validator does not itself supply GPUs to tenants. AKT is the network token. Lowercase `akt` is a command-line program.
+
+Sources: [What is Akash?](https://akash.network/docs/getting-started/what-is-akash/), [core concepts](https://akash.network/docs/getting-started/core-concepts/), [application templates](https://github.com/akash-network/awesome-akash).
+
+## Choose a deployment path
+
+| Need                                                   | Product or interface                                    | Identity and funding                                                                   |
+| ------------------------------------------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Deploy through a hosted browser app                    | Akash Console                                           | Console account; USD credits; managed wallet and automatic deployment funding          |
+| Deploy through a browser while holding your keys       | Console Air                                             | Self-hosted or locally run app; compatible wallet; ACT escrow and AKT gas              |
+| Deploy from a terminal with local signing              | akt keyring context                                     | Local signing account; on-chain escrow and transaction fees                            |
+| Manage Console deployments from a terminal             | akt console-api context                                 | Console API key; managed wallet; check CLI/API funding compatibility below             |
+| Build a deployment service without managing chain keys | Console API                                             | `x-api-key` header and funded Console account                                          |
+| Build direct blockchain/provider integrations          | Go or TypeScript chain-sdk                              | Application-managed signing and provider authentication                                |
+| Give an AI assistant Akash knowledge or tools          | Akash skill bundle, akt-cli skill, and akt MCP          | Skills document workflows; MCP exposes selected operations using configured identities |
+| Call a hosted model without operating a deployment     | AkashML                                                 | Separate inference API key and inference credits                                       |
+| Offer hardware to tenants                              | Provider Playbook, Kubespray setup, or Provider Console | Operator infrastructure, provider identity, and operating funds                        |
+
+Start with Console for managed web deployment. Choose Console Air or an akt keyring context when self-custody is a requirement. Choose AkashML when the task is calling a supported model; choose a GPU deployment when the task requires control over weights, serving software, dependencies, or training.
+
+Sources: [Console selection](https://akash.network/docs/getting-started/choosing-your-console/), [API selection](https://akash.network/docs/api-documentation/getting-started/), [AkashML introduction](https://akashml.com/docs/getting-started/introduction).
+
+## Deploy through Console or Console Air
+
+For the managed browser path, sign in at `https://console.akash.network`, check account credits, and choose a template or configure a workload with the SDL builder/editor. Review its image, resource requirements, public ports, and storage before creating it. Compare matching provider bids, accept the selected offer, and wait for service readiness. Open the returned service URL and test the application. Use the deployment page for logs, events, updates, and closure. Account funding and optional runtime limits control how long the workload can keep running.
+
+For self-custody, follow the Console Air repository's setup instructions and run a local or self-hosted instance. Connect a compatible wallet, select the intended network, acquire ACT for escrow, and keep AKT for gas. Choose a template or supply SDL, review and sign the deployment transaction, choose a provider bid, and sign the lease transaction. Wait for manifest submission and service readiness, then test the endpoint. Monitor and fund escrow yourself. Export data before closing and signing the closure transaction.
+
+The two browser paths use the same marketplace concepts but have different identity and funding responsibilities. A legacy tutorial showing a wallet-connect button on the hosted managed Console belongs to the older product flow; use Console Air for that self-custody experience.
+
+Sources: [Console onboarding](https://akash.network/docs/getting-started/console-onboarding/), [Console funding](https://akash.network/docs/getting-started/how-funding-works/), [Console Air walkthrough](https://akash.network/docs/developers/deployment/console-air/), [Console Air source](https://github.com/akash-network/console-air).
+
+## Deployment lifecycle and identifiers
+
+1. Package the application as a registry-accessible container image. Pin an explicit version or digest, configure its listening port, and identify persistent data.
+2. Write and validate SDL. It declares services, compute resources, placement constraints, a maximum bid price, and instance counts.
+3. Create a deployment and fund its escrow. Marketplace orders advertise the requested resource groups.
+4. Wait for bids within a bounded timeout. Compare provider capabilities, geography, price, capacity, and any required audited attributes.
+5. Accept suitable bids to create leases. Multi-group deployments can require more than one lease and provider.
+6. Send the rendered manifest to the provider. Console performs this through its lease workflow; direct clients must handle provider submission.
+7. Check provider status, container logs/events, and the application's own endpoint. A successful transaction or active lease alone does not prove application readiness.
+8. Keep the deployment funded and monitored. Update application configuration as needed and plan resource changes or provider migration separately.
+9. Export data before closing. Close the deployment when finished; services stop and only unused escrow returns.
+
+Keep `owner` together with `dseq`, the deployment sequence. A `dseq` is scoped to an owner, not a globally sufficient identity. Groups and orders add `gseq` and `oseq`; provider addresses identify offers and leases. Some current bid APIs also expose `bseq`. Preserve identifiers as returned by the API and follow the endpoint schema instead of inventing a single bid ID or converting large sequence strings to imprecise numbers.
+
+The SDL and full manifest contain application configuration. Resource requests, marketplace records, and the deployment version/hash are on-chain; the full manifest is delivered off-chain to the provider. Off-chain configuration is still visible to the provider in an ordinary container deployment.
+
+Sources: [deployment lifecycle](https://akash.network/docs/learn/core-concepts/deployments/), [Console API workflow](https://akash.network/docs/api-documentation/console-api/getting-started/), [environment and secrets](https://akash.network/docs/learn/core-concepts/environment-secrets/).
+
+## Funding, prices, and escrow
+
+ACT is Akash's USD-pegged compute credit. BME, or Burn-Mint Equilibrium, converts AKT into ACT by burning AKT and supports conversion back through the protocol. ACT is not an ordinary transferable payment token. Use `uact` for canonical SDL pricing and ACT escrow; keep AKT, denominated `uakt`, for transaction gas. One ACT is 1,000,000 uact and one AKT is 1,000,000 uakt. Conversion rates, minimum amounts, and circuit-breaker behavior depend on live protocol state.
+
+For self-custody, inspect balances, current deployment parameters, and BME status. With a configured keyring context, `akt query deployment params` and `akt query bme status` inspect relevant chain state. `akt tx bme mint-act --help` documents the conversion transaction. Its coin argument is AKT to burn, not a promised amount of ACT to receive. Keep enough AKT for fees after conversion. The akt deployment workflow's default `auto` deposit queries the live chain minimum; that minimum is not an estimate of the workload's required runtime budget.
+
+For current managed Console deployment, add USD credits to the account. Console allocates and replenishes on-chain deployment escrow from those credits. Available credit and escrowed credit are different balances. Automatic deployment funding is also different from optional card Auto Top-Up, which authorizes purchasing more account credits. A runtime limit can close a managed deployment even while account credits remain. Current platform funding constants are documented through `GET /v1/deployment-funding-config` on the Console API.
+
+An SDL price is a ceiling for bidding. The accepted provider bid determines lease cost. Chain bids express an amount per block in a denomination; a Console dollar estimate is a derived display. For an ACT bid, an illustrative estimate is:
+
+```text
+cost in ACT = bid amount in uact/block * elapsed blocks / 1,000,000
+estimated hourly cost = bid amount * (3,600 / assumed seconds per block) / 1,000,000
+```
+
+At an assumed six-second block interval, 100 uact/block is approximately 0.06 ACT/hour. Block timing varies. Sum all accepted leases, use live quotes, and include transaction fees. Idle leased compute can still accrue charges; finishing a batch process does not close its deployment. Closing returns the unspent balance, not everything originally deposited. Exhausted escrow can terminate the workload.
+
+Older guides may show `uakt` pricing, USDC, fixed minimum deposits, or manual Console top-ups. Check the selected chain, client release, and current funding contract before copying them. Exceptional AKT funding behavior during BME circuit-breaker conditions must be verified against current parameters.
+
+Sources: [current Console funding](https://akash.network/docs/getting-started/how-funding-works/), [ACT conversion](https://akash.network/docs/developers/deployment/cli/act-mint-burn/), [akt deployment funding](https://akash.network/docs/developers/deployment/akt/deployments/), [BME specification](https://akash.network/roadmap/aep-76/).
+
+## The akt CLI
+
+akt consolidates user-facing CLI operations previously spread across `akash`, `provider-services`, and the chain SDK CLI. It includes network/account contexts, local keys, direct chain queries and transactions, managed Console access, offline SDL generation, deployment workflows, provider operations, a deployment store, action logs, and terminal monitoring. The node and provider daemons remain separate software.
+
+On macOS or Linux with Homebrew, install from the official Akash tap:
+
+```bash
+brew tap akash-network/tap
+brew update
+brew install akash-network/tap/akt
+akt version --long
+```
+
+Linux release archives and native packages are available from the official releases. Follow the installation guide's checksum verification. Windows users can follow the Linux path under WSL2. Match documentation to the installed version.
+
+### Current code, releases, and compatibility
+
+Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest published version and release notes. Homebrew installs the latest release available in the official Akash tap. To upgrade an existing Homebrew installation:
+
+```bash
+brew update
+brew upgrade akash-network/tap/akt
+akt version --long
+```
+
+GitHub can contain changes that have not shipped in a release or reached Homebrew. Use the installed binary's `akt <command> --help` as the authority for available arguments. Match agent skills and command examples to that binary when a corresponding release bundle is available.
+
+The current Console API funds deployments automatically from account credits; deployment creation does not take a deposit field. Older CLI clients and examples may require explicit USD deposits. Check `akt deploy --help`, `akt console deployment create --help`, and the release notes before automating managed deployment. Use a client that supports the current Console funding contract. Funding amounts and `uact` escrow for local chain signing are a separate interface from Console-managed funding.
+
+Sources: [akt releases](https://github.com/akash-network/akt/releases/latest), [official Homebrew formula](https://github.com/akash-network/homebrew-tap/blob/main/akt.rb), [akt installation](https://akash.network/docs/developers/deployment/akt/installation/), [funding documentation](https://akash.network/docs/getting-started/how-funding-works/).
+
+### Contexts and identity
+
+Configuration normally lives at `~/.config/akt/config.yaml`. A context selects a network, authentication method, and account defaults. A `keyring` context signs locally. A `console-api` context identifies the managed account using a Console API key. Configuration and secret/state locations can be isolated using `AKT_HOME` or `--home`; `--context` selects a context for one invocation.
+
+Start by inspecting the configured identity:
+
+```bash
+akt context list
+akt context show
+```
+
+For a new local-signing setup, use the installation guide's first-run network configuration, create or recover a key, and set that account on the desired context. Key creation can print a recovery mnemonic; store it securely. Headless systems may need a supported file-backed keyring instead of the operating system credential store. A Console API context needs no local mnemonic or keyring.
+
+Managed context setup, once the `mainnet` network is configured:
+
+```bash
+akt context create console --network mainnet --auth-method console-api --set-current
+akt console login
+akt console whoami
+```
+
+`akt console login` prompts for and stores a Console key. Automation can supply `AKT_CONSOLE_API_KEY` through its secret environment. Keep it out of committed configuration and transcripts. A bare owner-scoped chain query cannot infer the managed identity from a context without a local default account; use `akt console deployment list` or supply an explicit chain owner.
+
+Source: [akt configuration](https://akash.network/docs/developers/deployment/akt/configuration/).
+
+### Author and screen a workload before spending
+
+SDL commands run locally without an account or RPC endpoint:
+
+```bash
+akt sdl scaffolds
+akt sdl init web --image nginx:1.28.0 > deploy.yaml
+akt sdl validate deploy.yaml
+```
+
+The built-in scaffolds are `web`, `gpu`, `multi-service`, and `ip-lease`. The validator rejects untagged images and `:latest`; pin a version or digest. A syntactically valid SDL does not guarantee available provider capacity or a healthy application.
+
+Public Console marketplace commands can discover capacity and screen requirements without an API key:
+
+```bash
+akt console gpu
+akt console provider list
+akt console template list
+akt console screen deploy.yaml
+```
+
+Screening is a preflight estimate. Providers still need to submit matching bids and accept the actual lease.
+
+### Local-signing deployment and lifecycle
+
+With a funded keyring context selected:
+
+```bash
+# Inspect the plan; auto deposit resolution queries live chain parameters.
+akt deploy deploy.yaml --dry-run
+
+# Submit the deployment and select a provider bid interactively.
+akt deploy deploy.yaml
+```
+
+The workflow creates the deployment, waits for bids, selects a bid, creates the lease, submits the manifest, and normally waits for service readiness. It reports the owner, dseq, provider, price, service URLs, and follow-up commands. `--no-wait-active` skips the readiness wait; it does not prove the app is running.
+
+Use the real dseq returned by deployment in place of `12345` below:
+
+```bash
+akt query deployment 12345
+akt query market lease 12345
+akt provider lease-status 12345
+akt provider lease-logs 12345 --follow
+akt provider lease-events 12345 --follow
+akt provider lease-shell --dseq 12345 --service web -- /bin/sh
+```
+
+The provider is resolved from the active lease. Specify `--provider` when several active leases make the target ambiguous. A provider gateway URL is different from a blockchain RPC URL.
+
+Apply an intended image/configuration update with `akt update deploy.yaml 12345`. Resource or placement changes can disrupt leases and reopen bidding depending on the running protocol/client. Review the effect and data migration requirements before treating them as an in-place update. After updating, verify the provider manifest and application health again.
+
+When the workload is finished and its data has been exported, `akt close 12345` closes the deployment and stops its services. This is irreversible. The CLI rejects an already closed or absent deployment instead of reporting another successful close.
+
+For managed workloads, use `akt console deployment list`, `akt console status 12345`, `akt console logs 12345 --follow`, `akt console events 12345 --follow`, and `akt console shell 12345 web`. These operations use Console-authorized access to the provider instead of a local wallet.
+
+### Automation, recovery, and monitoring
+
+Once budget and provider-selection policy are defined, a local-signing workflow can run without prompts and emit structured steps:
+
+```bash
+akt deploy deploy.yaml --bid-select cheapest --yes -o jsonl
+```
+
+`cheapest` selects among matching bids; it does not assess every reliability or application requirement. Use an explicit provider selection when that is part of the deployment policy. Parse workflow results, errors, transaction hashes, and final readiness instead of assuming that a transaction hash means success.
+
+A failure after deployment creation can leave paid state active. Preserve the returned dseq and provider, inspect existing state, and retry the failed step or close the abandoned deployment. Blindly repeating the create operation can create another funded deployment. Keep SDL separately from `akt store export`, which exports tracking records and is not a deployable SDL or a backup of application data.
+
+`akt context log` inspects recorded mutations. `akt store sync` reconciles tracked deployments with chain state. `akt monitor`, `akt monitor provider`, and `akt monitor bme` expose network, provider, and BME views; application uptime still needs its own health check.
+
+Sources: [installation](https://akash.network/docs/developers/deployment/akt/installation/), [deployments](https://akash.network/docs/developers/deployment/akt/deployments/), [Console integration](https://akash.network/docs/developers/deployment/akt/console/), [monitoring](https://akash.network/docs/developers/deployment/akt/monitor/).
+
+## Managed deployment through the Console API
+
+The managed deployment API base is `https://console-api.akash.network`. Create the credential under Console Settings > API Keys and send it in `x-api-key`. This key can control the Console account, so keep it on a trusted server or in a secret environment rather than a browser bundle.
+
+The current documented flow is:
+
+| Operation                       | Request                                                            | Result to retain/check                                    |
+| ------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------- |
+| Inspect platform funding rules  | `GET /v1/deployment-funding-config`                                | Current automatic funding parameters                      |
+| Create deployment               | `POST /v1/deployments` with `{"data":{"sdl":"<SDL as a string>"}}` | `data.dseq`, returned `data.manifest`, transaction result |
+| Poll bids                       | `GET /v1/bids?dseq=<dseq>`                                         | Open matching bids and each composite `bid.id`            |
+| Accept bids and submit manifest | `POST /v1/leases`                                                  | Selected leases and deployment status                     |
+| Inspect deployment              | `GET /v1/deployments/<dseq>`                                       | Current deployment, lease, and available status data      |
+| Close after exporting data      | `DELETE /v1/deployments/<dseq>`                                    | Closure state; eventual return of unused escrow           |
+
+Serialize SDL as a JSON string with a JSON library. The creation body has no deposit field under the current funding contract. Cache the exact rendered manifest returned by creation; raw SDL is not a substitute. Lease creation uses a different body shape from deployment creation:
+
+```json
+{
+  "manifest": "<rendered manifest returned by deployment creation>",
+  "leases": [
+    {
+      "dseq": "<dseq from the selected bid>",
+      "gseq": 1,
+      "oseq": 1,
+      "provider": "<provider address from the selected bid>"
+    }
+  ]
+}
+```
+
+The sequence values above are placeholders; copy the selected bid's actual values. Follow the current schema for how the bid identity maps into the lease request. Do not assume that the first returned bid is the right provider, or that every group uses sequence 1.
+
+Poll within a deadline, handle HTTP errors before reading successful response fields, and inspect chain transaction results where returned. After a request timeout, reconcile deployment/transaction state before retrying a create or lease operation. For live logs, events, or shell, use the documented provider access flow or akt Console commands, which obtain scoped authorization. Do not invent a Console endpoint from the name of a CLI command.
+
+Public marketplace endpoints, including provider listing, return indexed network data without a deployment key. They are useful for discovery, but their snapshots can lag changes in chain state or capacity. Direct chain RPC/gRPC and provider gateways are separate APIs with different authentication and semantics.
+
+Sources: [Console API getting started](https://akash.network/docs/api-documentation/console-api/getting-started/), [current API reference](https://akash.network/docs/api-documentation/console-api/api-reference/), [public REST API](https://akash.network/docs/api-documentation/rest-api/), [node API layer](https://akash.network/docs/node-operators/architecture/api-layer/).
+
+## SDKs and delegated access
+
+The official SDKs live in `akash-network/chain-sdk`. The Go package is `pkg.akt.dev/go`; the TypeScript package is `@akashnetwork/chain-sdk`. Their protobuf definitions describe chain and provider APIs. SDL parsing, signed transactions, deployment/market queries, and provider authentication support direct integrations. Use version-matched generated types and current examples for message names, type URLs, and response shapes.
+
+A direct integration needs to coordinate both blockchain transactions and off-chain provider operations. Creating a lease without sending its manifest is an incomplete deployment. Successful manifest submission still requires checking running services. Older `akashjs` examples or older node/provider clients can have incompatible types and authentication flows.
+
+Cosmos AuthZ delegates specified transaction permissions; fee grants let another account pay fees. Scope grants to the operations and lifetime required by the application, and track expiration/revocation. These grants are different from a Console API key and from provider access tokens.
+
+Sources: [SDK documentation](https://akash.network/docs/api-documentation/sdk/), [SDK quick start](https://akash.network/docs/api-documentation/sdk/quick-start/), [AuthZ and fee grants](https://akash.network/docs/api-documentation/sdk/authz-feegrant/), [chain-sdk source](https://github.com/akash-network/chain-sdk).
+
+## Write useful SDL
+
+SDL is YAML with Akash-specific semantics. It is not a Docker Compose file or Kubernetes manifest. Its main sections connect as follows:
+
+| Section              | Purpose                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| `services`           | Images, commands/arguments, environment, ports, credentials, and runtime parameters |
+| `profiles.compute`   | CPU, RAM, storage, and optional GPU resources per service instance                  |
+| `profiles.placement` | Provider requirements, optional auditor constraints, and maximum prices             |
+| `deployment`         | Map services to placements and compute profiles with instance counts                |
+| `endpoints`          | Optional dedicated IP endpoints referenced by exposure rules                        |
+
+This complete example describes a small HTTP container. The price is an illustrative bid ceiling, not a live quote; adjust it after checking matching capacity:
+
+```yaml
+version: "2.0"
+
+services:
+  web:
+    image: nginx:1.28.0
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 512Mi
+        storage:
+          - size: 1Gi
+  placement:
+    dcloud:
+      pricing:
+        web:
+          denom: uact
+          amount: 100
+
+deployment:
+  web:
+    dcloud:
+      profile: web
+      count: 1
+```
+
+Validate with `akt sdl validate deploy.yaml`. Service names, placement names, compute profile references, and pricing keys must agree. CPU units represent cores and can be fractional; sizes such as `512Mi` and `1Gi` describe memory/storage. A replica count multiplies requested capacity. A published image must support the provider's CPU architecture; validate newer architecture-targeting fields with a client that supports them.
+
+### Storage and data lifetime
+
+Request an ephemeral root volume plus named persistent volumes for data that must survive a container restart. Mount a persistent volume explicitly through `services.<service>.params.storage.<volume-name>.mount`; match the name to its entry in `profiles.compute.<profile>.resources.storage`. Mark that entry `persistent: true` and select a storage class supported by the provider.
+
+Persistent volumes remain tied to the provider and lease. They do not automatically follow a replacement deployment or provider migration. Before closing or resizing a stateful workload, create the destination, export/replicate data, restore it, verify it, switch traffic, and then close the old lease. A storage class label alone is not a backup or a guaranteed IOPS level.
+
+For ML workloads, distinguish persistent model/checkpoint storage from temporary scratch space and RAM-backed shared memory. Size each for the actual workload; mounting `/dev/shm` requires the documented shared-memory configuration, not just a larger ephemeral disk request.
+
+### Networking
+
+`expose.port` is the container port; `as` is the external port. `to: [{global: true}]` exposes a service publicly. Internal service rules use `to: [{service: <peer>}]`, with service DNS inside the deployment group. Bind the application to an address reachable from outside its process, normally `0.0.0.0`, instead of only loopback.
+
+Use the returned provider URI or forwarded port. HTTP hostnames, custom accepted domains, raw TCP/UDP forwarded ports, and dedicated IP endpoints are different access patterns. Declare custom hostnames and configure DNS/TLS for the selected path. A dedicated IP is not required for every custom-domain HTTP service.
+
+IP leases provide a stable incoming IPv4 address while allocated. They do not guarantee the same outbound source address. Provider support and price vary. Same-provider endpoint migration is supported through the documented flow; moving across providers requires new addressing and traffic cutover.
+
+Keep databases and internal administration services private unless public access is intended and authenticated. Verify long-running inference requests and streaming against the selected gateway's timeout and body-size limits.
+
+### Images and secrets
+
+Pin images to an explicit version or digest; inspect community templates for outdated tags and denominations. Standard deployments can pull private registry images using SDL `credentials`. Use a pull-scoped token and account for registry-specific credential expiry.
+
+Environment variables, registry credentials, and the full manifest are not automatically encrypted against the provider. Keep secrets out of public SDL, source control, and logs. An external secret manager reduces distribution of long-lived secrets but does not itself hide runtime secrets from a standard host. Treat confidential-compute claims separately.
+
+Sources: [SDL syntax](https://akash.network/docs/developers/deployment/akash-sdl/syntax-reference/), [advanced SDL](https://akash.network/docs/developers/deployment/akash-sdl/advanced-features/), [persistent storage](https://akash.network/docs/learn/core-concepts/persistent-storage/), [IP leases](https://akash.network/docs/learn/core-concepts/ip-leases/), [private registries](https://akash.network/docs/learn/core-concepts/private-containers/), [secrets](https://akash.network/docs/learn/core-concepts/environment-secrets/).
+
+## GPU workloads, training, and distributed compute
+
+A GPU deployment includes a GPU count and supported vendor/model attributes in its compute profile. Discover actual inventory before selecting a model string. An offline starting point is:
+
+```bash
+akt sdl init gpu --gpu-model h100 --image vllm/vllm-openai:v0.10.2 > gpu.yaml
+akt sdl validate gpu.yaml
+```
+
+This scaffolds a resource request, not a complete inference application. Configure the chosen model, compatible runtime version, port, authentication, model access, storage, CPU/RAM, and GPU count before deployment. The example image tag is a pinned syntax example, not a recommendation of the latest serving release.
+
+Size VRAM for weights at the chosen precision plus runtime overhead, activations, and KV cache at the intended context length and concurrency. Training also needs gradient and optimizer state. A model's active parameter count alone is insufficient for sizing a mixture-of-experts checkpoint. GPU count does not prove the application's parallelism strategy or interconnect topology will work.
+
+Akash can host vLLM or Ollama inference, ComfyUI/image generation, fine-tuning tools, notebooks, and distributed frameworks such as Ray. Bring an application image that supports the requested GPUs and software stack. Keep checkpoints and outputs outside a disposable lease, monitor completion, and close batch deployments after retrieving results.
+
+For supported multi-node GPU jobs, the documented SDL uses `gpu.attributes.interconnect` and requires the placement attribute `capabilities/gpu-interconnect: "true"`. An empty list selects an implicit peer group; an explicit group name supports separate groups. Compatible providers arrange RDMA devices and fabric configuration. The application still configures ranks, rendezvous, peer exposure, and distributed execution. Do not assume arbitrary GPUs on different providers share NVLink, InfiniBand, or a low-latency training fabric. Check client/provider versions and advertised capability before using this feature.
+
+Sources: [GPU deployments and interconnect](https://akash.network/docs/learn/core-concepts/gpu-deployments/), [GPU availability](https://akash.network/docs/api-documentation/rest-api/gpu-availability-guide/), [vLLM template](https://github.com/akash-network/awesome-akash/tree/master/vllm), [Ray template](https://github.com/akash-network/awesome-akash/tree/master/ray), [ComfyUI template](https://github.com/akash-network/awesome-akash/tree/master/comfyui).
+
+## Managed inference with AkashML
+
+AkashML hosts supported models and bills inference usage. Its account, credits, and API keys are separate from Console deployment credentials. It supports an OpenAI-compatible API base at `https://api.akashml.com/v1`; authentication uses `Authorization: Bearer <AkashML key>`. The documented Anthropic-compatible base is `https://api.akashml.com/anthropic`.
+
+Start by reading `GET /v1/models` to select a current model ID and inspect its pricing, modalities, context length, and supported features. `POST /v1/chat/completions` supports chat generation and streaming with `stream: true`. Tool use and other capabilities depend on the selected model and endpoint. Compatibility does not establish support for every feature of another vendor's API.
+
+For a model request, handle insufficient-credit errors, rate limits, and unavailable backends. Honor retry guidance for rate limits and retain the inference request ID for support. Browse the model catalog and endpoint reference when choosing image, vision, or other model capabilities. Use a self-managed deployment when the required model or runtime is outside the managed catalog.
+
+Sources: [AkashML introduction](https://akashml.com/docs/getting-started/introduction), [model catalog API](https://akashml.com/docs/api-reference/models/get-v1-models), [chat completion API](https://akashml.com/docs/api-reference/openai/post-v1-chat-completions), [AkashML documentation](https://akashml.com/docs/getting-started).
+
+Akash Chat is an open-source chat frontend that can use AkashML or another OpenAI-compatible inference endpoint. Its application configuration includes `API_KEY` and `API_ENDPOINT`; inference requests consume the configured backend account's credits. Configure access control before sharing an instance. Chat history lives in browser local storage in the documented setup, so preserve a stable origin or export/import history when changing deployment URLs. The chat frontend can itself run as an Akash container while its model inference happens through AkashML. Source: [Akash Chat guide](https://akashml.com/docs/guides/akash-chat).
+
+## AI agent integration
+
+The `akash-network/akash-skill` repository provides separate skills for deploying workloads, operating providers, and operating nodes/validators. Follow its current installation instructions for the selected agent. The deployer skill covers SDL, CLI/API/SDK workflows, and managed inference. Installing a skill supplies instructions; it does not supply an account, budget, API key, or compute.
+
+The focused `akt-cli` skill teaches an agent to operate the installed CLI through a shell: inspect contexts, discover supported commands, author SDL, preview and run deployments, inspect provider state, and recover from partial failures. It preserves the requested network, resources, provider constraints, and budget; uses structured output; and reconciles existing deployments before retrying creation. It covers both chain signing and Console-managed workflows.
+
+Follow the [akt CLI agent skill guide](https://akash.network/docs/developers/deployment/akt/agent-skill/) to download and install it. Read the [main SKILL.md](https://akash.network/skills/akt-cli/SKILL.md), [setup](https://akash.network/skills/akt-cli/references/setup.md), [deployment recipes](https://akash.network/skills/akt-cli/references/deployments.md), and [troubleshooting](https://akash.network/skills/akt-cli/references/troubleshooting.md) directly as Markdown.
+
+The [ZIP download](https://akash.network/skills/akt-cli.zip) includes an `akt-cli/` directory containing the skill, all three references, `agents/openai.yaml`, and the upstream Apache 2.0 license. Keep these files together so relative links resolve. For Codex, install the directory at `.agents/skills/akt-cli/` in a project or `~/.agents/skills/akt-cli/` for user-wide access, then invoke `$akt-cli`. For other agents, use their supported skills location. The skill does not require MCP. Homebrew installs the CLI binary separately; it does not install the skill. When a release includes a skill bundle, prefer the one matching your installed binary.
+
+`akt mcp` starts a Model Context Protocol server over stdio. An MCP client can launch it with a configuration such as:
+
+```json
+{
+  "mcpServers": {
+    "akash": {
+      "command": "akt",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+The default exposes read-only tools. Available chain tools depend on the selected network/context, and Console tools depend on a resolving API key. Write tools require `--enable-writes` and an explicit context for mutation logging. Inspect the advertised tool list for the installed release; MCP exposes selected operations, not the complete CLI or a guaranteed end-to-end deployment tool. For full creation workflows, use the CLI/API as documented.
+
+An agent should preserve the chosen network, owner, provider, spending policy, and resulting deployment identifiers throughout an operation. Use structured output and confirm final state from the provider/application. Recovery should reconcile existing state instead of creating another deployment after every timeout.
+
+Sources: [AI agent guide](https://akash.network/docs/getting-started/ai-agents/), [Akash skill repository](https://github.com/akash-network/akash-skill), [akt MCP](https://akash.network/docs/developers/deployment/akt/mcp/).
+
+## Experimental confidential compute
+
+Confidential compute is documented as experimental. Compatible providers use AMD SEV-SNP or Intel TDX, with optional NVIDIA GPU confidential computing. The service-level `params.tee` value selects `cpu` or `cpu-gpu`; GPU confidential workloads also need GPU resources. Verify current parser support, provider capabilities, and workload requirements.
+
+Current documented limits include public-registry images only, numeric UID/GID image users, restrictions on scratch/distroless images, and image unpacking inside guest memory. Size guest RAM for the extracted image and workload. In this runtime, a large ephemeral storage request does not itself create an equivalent disk or add RAM.
+
+`akt provider lease-attestation <dseq>` requests fresh evidence and checks provider transport authentication and nonce handling. Its documented implementation does not yet verify the hardware evidence signature, endorsement chain, or measurement policy. A successful CLI result is therefore insufficient to establish full remote attestation. Hardware isolation also does not replace application authentication, secret-release policy, or backups.
+
+Sources: [confidential compute and limitations](https://akash.network/docs/learn/core-concepts/confidential-compute/), [akt attestation behavior](https://akash.network/docs/developers/deployment/akt/deployments/), [hardware compatibility](https://akash.network/docs/providers/operations/confidential-compute-hardware/).
+
+## Operate and troubleshoot a workload
+
+| Symptom                                           | Check first                                                                        | Next action                                                                                                    |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| No bids                                           | Resource/model availability, maximum price, placement/auditor filters, order state | Screen the SDL and identify which requirement prevents matching; change it only if acceptable for the workload |
+| Created deployment but no running service         | Accepted lease, submitted manifest, provider events                                | Complete the missing lifecycle step and inspect provider status                                                |
+| Image pull failure                                | Registry path/tag, image architecture, pull credentials                            | Correct the image or credentials and resubmit through the update workflow                                      |
+| Container repeatedly restarts                     | Startup logs, command/args, environment, memory limits                             | Fix the application/configuration and verify it stays healthy                                                  |
+| CUDA out of memory                                | Model precision, context length, batch/concurrency, runtime overhead               | Reduce demand or request suitable GPU resources; account for migration when replacing a lease                  |
+| Endpoint unreachable                              | Actual returned URI/port, bind address, exposure, DNS, TLS                         | Test each hop and compare with provider status/events                                                          |
+| Deployment closed unexpectedly                    | Escrow, account credits, runtime limit, provider lease state                       | Determine whether it can still be funded or needs recreation and data restore                                  |
+| Update transaction succeeded but app is unchanged | Manifest acceptance and provider rollout state                                     | Retry the appropriate manifest step and verify the running image/app                                           |
+| CLI funding error                                 | Installed version, context auth method, denomination, Console funding contract     | Use version-compatible instructions; do not send chain coins to a USD-only client field                        |
+| Data missing after migration                      | Old lease closure and volume location                                              | Restore an external backup; provider-local storage does not migrate automatically                              |
+
+Production availability requires application health monitoring, a funding plan, recovery procedures, and backups. Multiple replicas within one provider do not provide independence from that provider's failure. Multi-provider availability needs separate deployments/leases, traffic routing, and an application/data replication strategy.
+
+Resource reclamation lets a tenant negotiate a grace window before provider termination. It is opt-in and depends on provider support and current network bounds. A reclaiming workload continues running and being paid during that window; use it to migrate. Reclamation is not automatic failover and does not eliminate the need to monitor lease state.
+
+Sources: [deployment operations](https://akash.network/docs/developers/deployment/akt/deployments/), [deployment lifecycle](https://akash.network/docs/learn/core-concepts/deployments/), [funding](https://akash.network/docs/getting-started/how-funding-works/), [storage migration](https://akash.network/docs/learn/core-concepts/persistent-storage/), [reclamation](https://akash.network/docs/developers/deployment/akash-sdl/advanced-features/).
+
+## Supply compute as a provider
+
+Providers operate Kubernetes infrastructure, advertise resource/capability attributes, submit bids, accept manifests, schedule tenant workloads, and maintain their gateways and storage/network services. GPU, persistent-storage, dedicated-IP, confidential-compute, and interconnect capabilities require suitable hardware and provider-side configuration. Provider attributes and audits help tenants select infrastructure; they do not establish every application-specific availability or compliance requirement.
+
+The Provider Playbook offers a guided Ansible path using Kubespray, K3s, or an existing Kubernetes cluster. Manual Kubespray/Helm instructions offer more explicit control. Provider Console offers a browser-based operator path and uses a provider wallet. It is a different product from the managed tenant Console.
+
+Before provisioning, check the current hardware/OS requirements, public networking and DNS, wallet/gas requirements, GPU driver/operator compatibility, and storage prerequisites. During operation, monitor node health, capacity reservations, bids, active leases, certificate/gateway state, disk health, and upgrades. Provider-side infrastructure commands can affect all tenants on the cluster.
+
+Revenue depends on accepted leases, utilization, pricing, and operating costs. The existence of GPU demand or a calculator estimate does not guarantee rental income. Use current inventory and lease data rather than static earnings or ROI claims.
+
+Akash Homenode offers another supply path for eligible consumer and prosumer GPU owners. Its onboarding program connects supported hardware to the network without requiring the owner to build a conventional provider cluster independently. Check current enrollment, supported GPUs, installation requirements, fees, and operating expectations on the product site. It is a compute-supply program, not a validator or an application deployment interface. Source: [Akash Homenode](https://homenode.akash.network/).
+
+Sources: [provider onboarding](https://akash.network/docs/providers/getting-started/), [hardware requirements](https://akash.network/docs/providers/getting-started/hardware-requirements/), [Provider Playbook](https://akash.network/docs/providers/setup-and-installation/provider-playbook/), [Provider Console](https://akash.network/docs/providers/setup-and-installation/provider-console/), [provider monitoring](https://akash.network/docs/providers/operations/monitoring/), [GPU setup](https://akash.network/docs/providers/setup-and-installation/kubespray/gpu-support/).
+
+## Nodes, validators, governance, and network upgrades
+
+A full node follows the blockchain and can serve RPC/API access. A validator additionally participates in consensus using a validator signing identity and stake. This requires operational attention to signing keys, uptime, backups, network upgrades, and slashing conditions. Provider operation and validation are separate responsibilities.
+
+Use `akash-network/net` for current chain IDs, genesis, node versions, and endpoints. Avoid hardcoding a historical RPC URL or assuming a sandbox has mainnet capacity and parameters. `akt monitor` can observe consensus, validators, providers, and BME from configured network endpoints. Consult the network upgrade guide before changing node or provider versions.
+
+AKT supports network staking and governance. Akash Enhancement Proposals describe protocol/product designs and their status. Check the proposal's implementation and release status before describing features such as new runtimes or economic changes as generally available.
+
+Sources: [node operators](https://akash.network/docs/node-operators/getting-started/), [validator operations](https://akash.network/docs/node-operators/validators/running-a-validator/), [network registry](https://github.com/akash-network/net), [network upgrades](https://akash.network/docs/node-operators/network-upgrades/), [roadmap](https://akash.network/roadmap/).
+
+## Source scope and freshness
+
+Reviewed September 10, 2026; akt release guidance and agent skill updated September 12, 2026. This is a curated technical synthesis, not a verbatim export of every documentation page. The companion [llms.txt](https://akash.network/llms.txt) lists task-specific sources. Prefer current product documentation and version-matched source/schema over older tutorials. For live state, use chain queries, provider status, and the relevant product API.
+
+Sources include this website's documentation, the official akt repository and releases, installed CLI command help, the akt CLI skill and its supporting references, Console funding/API documentation, the official chain-sdk and Console Air repositories, the Akash skill repository, Awesome Akash templates, and AkashML's API documentation. Source links appear beside each topic. Check GitHub for current akt code and release versions; install or update the published binary through the official Homebrew tap or release assets.
+
+Recheck CLI compatibility when a new release ships, and refresh the mirrored skill bundle when its upstream source changes. Recheck funding contracts, API request shapes, GPU/model catalogs, experimental features, and provider requirements before relying on them. Prices, capacity counts, free-credit promotions, validator thresholds, and timing estimates are deliberately not treated as permanent platform guarantees.
