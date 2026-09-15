@@ -9,7 +9,7 @@ description: "Install the akt binary, run the first-time setup, and enable shell
 
 Install the latest `akt` release, verify the binary, and create your first context.
 
-This guide walks you through installing the binary, running the first-time setup, and enabling shell completion.
+Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest published version. Homebrew installs the latest release available in the official Akash tap; unreleased changes on GitHub may be ahead of that binary.
 
 ---
 
@@ -27,7 +27,8 @@ import TabsWrapper, { TabContent } from "@/components/ui/tabs";
 
 ```bash
 brew tap akash-network/tap
-brew install akt
+brew update
+brew install akash-network/tap/akt
 ```
 
 **Option 2: release archive**
@@ -67,6 +68,16 @@ The command prints the version, commit, and build date. Add `--long` for the Go 
 
 <TabContent value="Linux">
    #### Linux
+
+**Option: Homebrew**
+
+If you already use Homebrew on Linux, install from the official tap:
+
+```bash
+brew tap akash-network/tap
+brew update
+brew install akash-network/tap/akt
+```
 
 **Download the release archive**
 
@@ -164,6 +175,22 @@ akt version
 
 </TabContent>
 </TabsWrapper>
+
+---
+
+## Keep akt Up to Date
+
+For an existing Homebrew installation on macOS or Linux:
+
+```bash
+brew update
+brew upgrade akash-network/tap/akt
+akt version --long
+```
+
+For archive or package installations, download the latest build from [GitHub Releases](https://github.com/akash-network/akt/releases/latest) and repeat the installation steps for your platform. For source builds, follow the current requirements and build instructions in the [akt repository](https://github.com/akash-network/akt#installation).
+
+Use `akt <command> --help` to confirm the options supported by your installed binary. The [agent skill](/docs/developers/deployment/akt/agent-skill) is a separate download; installing or upgrading the CLI with Homebrew does not install it.
 
 ---
 
