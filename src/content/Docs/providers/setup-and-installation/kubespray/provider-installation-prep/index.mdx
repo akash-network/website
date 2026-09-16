@@ -157,12 +157,32 @@ kubectl label namespace akash-gateway akash.network/name=akash-gateway
 
 ---
 
-## STEP 5 - Install Akash RPC Node
+## STEP 5 - Configure Chain RPC Access
 
-> **Important:** Running your own RPC node is a **strict requirement** for Akash providers. This removes dependence on public nodes and ensures reliable access to the blockchain.
+Your provider needs an Akash RPC endpoint to read chain state and broadcast transactions.
+You can point it at a public RPC endpoint or run your own node.
 
-### Install Akash Node via Helm
+- **Public RPC endpoint (recommended for most providers).** Nothing extra to install or keep in sync.
+- **Your own akash-node (optional).** Removes dependence on public endpoints when you want full control over chain access.
 
+Both paths export `AKASH_NODE`, which STEP 6 reads when it writes `provider.yaml`.
+
+### Option A - Use a public RPC endpoint
+
+Public RPC endpoints are published in **[mainnet `meta.json`](https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json)** under `.apis.rpc`.
+Pick one, or select a random entry (`curl` and `jq` required):
+
+```bash
+export AKASH_META_URL="https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json"
+export AKASH_NODE="$(curl -sSf "$AKASH_META_URL" | jq -r '.apis.rpc[].address' | shuf -n 1)"
+echo "$AKASH_NODE"
+```
+
+Continue to [STEP 6](#provider-yaml-full).
+
+### Option B - Run your own akash-node (optional)
+
+Install the node with Helm.
 The default installation uses blockchain snapshots for fast synchronization.
 
 ```bash
@@ -171,7 +191,7 @@ helm upgrade --install akash-node akash/akash-node \
   --version 18.0.0
 ```
 
-### Verify Node is Running
+Verify the node is running:
 
 ```bash
 kubectl -n akash-services get pods -l app=akash-node
@@ -184,7 +204,15 @@ NAME             READY   STATUS    RESTARTS   AGE
 akash-node-1-0   1/1     Running   0          2m
 ```
 
-**Sync Time:** The node will download and extract a blockchain snapshot, then sync to the latest block. This typically takes ~5 minutes. You can proceed with the next steps while it syncs.
+**Sync Time:** The node downloads and extracts a blockchain snapshot, then syncs to the latest block.
+This typically takes ~5 minutes.
+You can proceed with the next steps while it syncs.
+
+Point your provider at the in-cluster node:
+
+```bash
+export AKASH_NODE="http://akash-node-1:26657"
+```
 
 ---
 
@@ -203,7 +231,8 @@ chmod +x price_script.sh
 
 ### Create provider.yaml
 
-Replace the values with your actual configuration:
+Replace the values with your actual configuration.
+`node` is taken from the `AKASH_NODE` you exported in [STEP 5](#step-5---configure-chain-rpc-access):
 
 ```bash
 cat > /root/provider/provider.yaml << EOF
@@ -212,7 +241,7 @@ from: "$ACCOUNT_ADDRESS"
 key: "$KEY_SECRET"
 keysecret: "$KEY_PASSWORD"
 domain: "example.com"
-node: "http://akash-node-1:26657"
+node: "$AKASH_NODE"
 withdrawalperiod: 12h
 chainid: "akashnet-2"
 attributes:
@@ -388,7 +417,7 @@ from: "akash1..."
 key: "LS0tLS1CRUdJTi..."
 keysecret: "eHJiajdSS..."
 domain: "example.com"
-node: "http://akash-node-1:26657"
+node: "https://<public-rpc-endpoint>" # a public RPC from meta.json .apis.rpc, or http://akash-node-1:26657 for a local node
 withdrawalperiod: 12h
 chainid: "akashnet-2"
 
