@@ -1,0 +1,4 @@
+interface:
+  display_name: "Akash CLI"
+  short_description: "Deploy and operate Akash workloads with akt"
+  default_prompt: "Use $akt-cli to inspect my Akash context and help operate my deployment."
