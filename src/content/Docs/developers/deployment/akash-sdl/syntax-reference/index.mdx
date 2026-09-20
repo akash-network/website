@@ -208,7 +208,21 @@ expose:
 | `read_timeout` | 60000 | 60000 | Read timeout (ms) |
 | `send_timeout` | 60000 | 60000 | Send timeout (ms) |
 | `next_tries` | 3 | - | Retry attempts |
-| `next_cases` | `[error, timeout]` | - | When to retry |
+| `next_cases` | `[error, timeout]` | - | When to retry (`error`, `timeout`, `500`, `502`, `503`, `504`, `403`, `404`, `429`, `off`) |
+| `proxy` | - | - | Optional nginx proxy tuning (see below) |
+
+**Proxy tuning (`http_options.proxy`):**
+
+Optional nginx `proxy_*` directives. Every field is optional; unset fields fall back to the provider gateway defaults.
+
+| Option | Unit | Description |
+|--------|------|-------------|
+| `buffering_disable` | boolean | Turn off `proxy_buffering` when `true` (default `false`) |
+| `buffer_size` | bytes | `proxy_buffer_size` |
+| `buffers_number` | count | `<number>` in `proxy_buffers <number> <size>` (set with `buffers_size`) |
+| `buffers_size` | bytes | `<size>` in `proxy_buffers <number> <size>` (set with `buffers_number`) |
+| `busy_buffers_size` | bytes | `proxy_busy_buffers_size` |
+| `connect_timeout` | ms | `proxy_connect_timeout` |
 
 </div>
 
