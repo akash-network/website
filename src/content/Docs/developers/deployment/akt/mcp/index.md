@@ -1,7 +1,7 @@
 ---
 categories: ["Developers", "Deployment", "akt CLI"]
 tags: ["akt", "CLI", "MCP", "AI", "Automation"]
-weight: 7
+weight: 8
 title: "MCP Server"
 linkTitle: "MCP Server"
 description: "Expose Akash Network tools to AI assistants with the akt MCP server"
@@ -80,6 +80,7 @@ Only add `--enable-writes` if you want the client to close deployments, create a
 
 ## Related Resources
 
+- [Agent Skill](/docs/developers/deployment/akt/agent-skill) - Operating instructions and reference guides for agents using the akt CLI
 - [Contexts & Configuration](/docs/developers/deployment/akt/configuration) - The context the server resolves its settings from
 - [Console Integration](/docs/developers/deployment/akt/console) - Setting up the Console API key the Console tools use
 - [Model Context Protocol](https://modelcontextprotocol.io) - Protocol documentation

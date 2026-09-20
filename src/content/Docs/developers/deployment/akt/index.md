@@ -28,7 +28,7 @@ akt tx deployment close 12345
 akt console usage 2026-01-01 2026-01-31
 ```
 
-These pages describe `akt` v0.1.1. The project is under active development, so check `akt <command> --help` when using another release.
+Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest published version. [Homebrew installation](/docs/developers/deployment/akt/installation) installs the latest release available in the official Akash tap. Run `akt version --long` to check your binary and `akt <command> --help` for its supported syntax; code on GitHub may be ahead of a published release.
 
 ---
 
@@ -48,7 +48,7 @@ Author SDL files and run the full deployment lifecycle with `akt deploy`, `akt u
 
 ### [Console Integration](/docs/developers/deployment/akt/console)
 
-Deploy with the Akash Console managed wallet: no local keys, deposits in USD.
+Deploy with the Akash Console managed wallet and account credits.
 
 ### [Queries & Transactions](/docs/developers/deployment/akt/queries-and-transactions)
 
@@ -57,6 +57,10 @@ Query the chain and submit transactions for every Akash and Cosmos SDK module.
 ### [Network Monitor](/docs/developers/deployment/akt/monitor)
 
 Watch consensus, provider fleet health, and Oracle/BME state in real time with `akt monitor`.
+
+### [Agent Skill](/docs/developers/deployment/akt/agent-skill)
+
+Give your coding agent the akt CLI skill. Download the complete bundle, read its reference guides, and install it in your project or agent's skills directory.
 
 ### [MCP Server](/docs/developers/deployment/akt/mcp)
 
