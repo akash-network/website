@@ -38,7 +38,9 @@ export function NetworkStatTiles({ providers, networkCapacity, gpuPrices }: Prop
 
   const gpusAvailable = networkCapacity?.resources.gpu.available ?? providers.reduce((s, p) => s + (p.stats?.gpu?.available ?? 0), 0);
   const vCpuAvailable = networkCapacity ? networkCapacity.resources.cpu.available / 1000 : null;
-  const runningNow = providers.reduce((sum, p) => sum + (p.leaseCount || 0), 0);
+  // Offline providers can still report a stale leaseCount from before they dropped off, so
+  // counting them here would claim leases are "running now" on providers that aren't reachable.
+  const runningNow = onlineProviders.reduce((sum, p) => sum + (p.leaseCount || 0), 0);
   const medianGpuPrice = weightedMedianGpuPrice(gpuPrices);
 
   return (

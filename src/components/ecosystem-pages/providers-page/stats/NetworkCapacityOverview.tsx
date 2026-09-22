@@ -16,6 +16,10 @@ interface CapacityTileProps {
 
 function CapacityTile({ label, used, free, total, format, unit }: CapacityTileProps) {
   const usedPct = total > 0 ? Math.min(100, (used / total) * 100) : 0;
+  // Not simply `100 - usedPct`: total also includes reserved-but-not-yet-active ("pending")
+  // capacity, which is neither used nor free. Sizing the free segment from `free` directly
+  // keeps the bar honest instead of silently folding pending into the free width.
+  const freePct = total > 0 ? Math.min(100 - usedPct, (free / total) * 100) : 0;
 
   return (
     <div className="flex flex-col gap-2.5 rounded-lg border border-border bg-background p-4">
@@ -39,11 +43,11 @@ function CapacityTile({ label, used, free, total, format, unit }: CapacityTilePr
           as data, not empty space. */}
       <div
         role="img"
-        aria-label={`${usedPct.toFixed(0)}% used, ${(100 - usedPct).toFixed(0)}% free`}
+        aria-label={`${usedPct.toFixed(0)}% used, ${freePct.toFixed(0)}% free`}
         className="flex h-2 w-full overflow-hidden rounded-full"
       >
         <div className="h-full bg-foreground" style={{ width: `${usedPct}%` }} />
-        <div className="h-full bg-foreground/15" style={{ width: `${100 - usedPct}%` }} />
+        <div className="h-full bg-foreground/15" style={{ width: `${freePct}%` }} />
       </div>
       <p className="text-xs text-foreground">{usedPct.toFixed(0)}%</p>
 
