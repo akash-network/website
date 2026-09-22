@@ -85,8 +85,11 @@ function ProvidersDashboardContent() {
     window.history.pushState({}, "", url);
   }
 
+  // Only online providers: most of the ~1,800 registered providers with a location are long
+  // offline (some for months), and plotting them on a "Live Network" globe alongside real,
+  // reachable capacity misrepresents the network as far busier/larger than it actually is.
   const geoProviders = useMemo(
-    () => (providers ?? []).filter((p) => getProviderCoords(p)),
+    () => (providers ?? []).filter((p) => p.isOnline && getProviderCoords(p)),
     [providers],
   );
 
