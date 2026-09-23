@@ -62,7 +62,7 @@ export function NetworkCapacityOverview({ networkCapacity }: Props) {
   const resources = networkCapacity?.resources;
 
   return (
-    <div className="rounded-xl border border-border bg-background2 p-4 md:p-5">
+    <div>
       <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-cardGray">Network Capacity</p>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <CapacityTile
