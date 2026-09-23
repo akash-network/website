@@ -18,10 +18,35 @@ const FOCUS_DURATION_MS = 1400;
 const DRAG_SENSITIVITY = 0.006;
 const MAX_THETA = 1.3;
 
-const SPHERE_COLOR = "#14141f";
-const GRID_COLOR = "#4b5570";
-const OUTLINE_COLOR = "#7d89a8";
+const SPHERE_COLOR_DARK = "#14141f";
+const GRID_COLOR_DARK = "#4b5570";
+const OUTLINE_COLOR_DARK = "#7d89a8";
+
+const SPHERE_COLOR_LIGHT = "#e9ecf5";
+const GRID_COLOR_LIGHT = "#a7aec4";
+const OUTLINE_COLOR_LIGHT = "#5b6478";
+
 const MARKER_COLOR = "#8b5cf6";
+
+/** Tracks the site's light/dark toggle (a `dark` class on <html>, flipped outside React) via
+ * MutationObserver, since the globe's colors are Three.js material props — plain CSS can't
+ * theme them the way `dark:` variants theme everything else on the page. */
+function useIsDarkMode(): boolean {
+  const [isDark, setIsDark] = useState(
+    () => typeof document !== "undefined" && document.documentElement.classList.contains("dark"),
+  );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const update = () => setIsDark(root.classList.contains("dark"));
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
+  return isDark;
+}
 
 /** Explicit lat/lng graticule lines rather than a wireframed SphereGeometry — a triangulated wireframe sphere shows the diagonal edge of every quad's two triangles, which reads as clutter instead of a clean lat/long grid. */
 function buildGraticuleGeometry(radius: number): THREE.BufferGeometry {
@@ -100,9 +125,10 @@ interface SceneProps {
   rotation: RotationState;
   badgeRefs: React.MutableRefObject<Map<string, HTMLButtonElement>>;
   dimUnmatchedRef: React.MutableRefObject<Props["dimUnmatched"]>;
+  isDark: boolean;
 }
 
-function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, badgeRefs, dimUnmatchedRef }: SceneProps) {
+function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, badgeRefs, dimUnmatchedRef, isDark }: SceneProps) {
   const groupRef = useRef<THREE.Group>(null);
   const focusTargetRef = useRef(focusTarget);
   focusTargetRef.current = focusTarget;
@@ -134,6 +160,10 @@ function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, ba
 
   const { camera } = useThree();
   const { phi, theta } = rotation;
+
+  const sphereColor = isDark ? SPHERE_COLOR_DARK : SPHERE_COLOR_LIGHT;
+  const gridColor = isDark ? GRID_COLOR_DARK : GRID_COLOR_LIGHT;
+  const outlineColor = isDark ? OUTLINE_COLOR_DARK : OUTLINE_COLOR_LIGHT;
 
   useFrame(() => {
     const now = performance.now();
@@ -213,14 +243,14 @@ function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, ba
     <group ref={groupRef}>
       <mesh>
         <sphereGeometry args={[GLOBE_RADIUS, 48, 32]} />
-        <meshBasicMaterial color={SPHERE_COLOR} />
+        <meshBasicMaterial color={sphereColor} />
       </mesh>
       <lineSegments geometry={graticule}>
-        <lineBasicMaterial color={GRID_COLOR} transparent opacity={0.5} />
+        <lineBasicMaterial color={gridColor} transparent opacity={0.5} />
       </lineSegments>
       {outline && (
         <lineSegments geometry={outline}>
-          <lineBasicMaterial color={OUTLINE_COLOR} transparent opacity={0.85} />
+          <lineBasicMaterial color={outlineColor} transparent opacity={0.85} />
         </lineSegments>
       )}
       {markers.map(({ cluster, position }) => (
@@ -234,6 +264,7 @@ function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, ba
 }
 
 export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlightedClusterId, dimUnmatched, onSelectCluster }: Props) {
+  const isDark = useIsDarkMode();
   const badgeRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
   const scaleRef = useRef(scale);
   scaleRef.current = scale;
@@ -303,6 +334,7 @@ export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlig
           rotation={rotation}
           badgeRefs={badgeRefs}
           dimUnmatchedRef={dimUnmatchedRef}
+          isDark={isDark}
         />
       </Canvas>
       {clusters.map((cluster) => {
