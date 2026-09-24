@@ -68,4 +68,20 @@ export default defineConfig({
   server: {
     host: true,
   },
+  vite: {
+    server: {
+      // Dev-only: console-api.akash.network's CORS allowlist only includes
+      // https://akash.network, so browser requests from localhost are blocked.
+      // Proxying through the dev server keeps the browser same-origin — the
+      // actual cross-origin call happens server-to-server, which CORS doesn't
+      // apply to. Has no effect on `astro build`/production.
+      proxy: {
+        "/api/console-api": {
+          target: "https://console-api.akash.network",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/console-api/, ""),
+        },
+      },
+    },
+  },
 });

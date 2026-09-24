@@ -182,80 +182,93 @@ export interface ProviderStatusDto {
   };
 }
 
+export interface ProviderResourceStat {
+  active: number;
+  available: number;
+  pending: number;
+  total: number;
+}
+
+export interface ProviderGpuModel {
+  vendor: string;
+  model: string;
+  ram: string;
+  interface: string;
+}
+
+/**
+ * Matches the live `console-api.akash.network` `/v1/providers` response shape.
+ * Note: this supersedes an older `activeStats`/`pendingStats`/`availableStats` shape that the API
+ * no longer returns (it now nests capacity under `stats.{cpu,gpu,memory,storage}.{active,pending,available,total}`).
+ */
 export interface ApiProviderList {
   owner: string;
-  name: string;
+  name: string | null;
   hostUri: string;
   createdHeight: number;
-  email: string;
-  website: string;
+  email: string | null;
+  website: string | null;
   lastCheckDate: Date;
   deploymentCount: number;
   leaseCount: number;
-  cosmosSdkVersion: string;
-  akashVersion: string;
-  ipRegion: string;
-  ipRegionCode: string;
-  ipCountry: string;
-  ipCountryCode: string;
-  ipLat: string;
-  ipLon: string;
+  cosmosSdkVersion: string | null;
+  akashVersion: string | null;
+  ipRegion: string | null;
+  ipRegionCode: string | null;
+  ipCountry: string | null;
+  ipCountryCode: string | null;
+  ipLat: string | null;
+  ipLon: string | null;
   uptime1d: number;
   uptime7d: number;
   uptime30d: number;
   isValidVersion: boolean;
   isOnline: boolean;
+  lastOnlineDate: Date | null;
   isAudited: boolean;
-  activeStats: {
-    cpu: number;
-    gpu: number;
-    memory: number;
-    storage: number;
+  stats: {
+    cpu: ProviderResourceStat;
+    gpu: ProviderResourceStat;
+    memory: ProviderResourceStat;
+    storage: {
+      ephemeral: ProviderResourceStat;
+      persistent: ProviderResourceStat;
+      total: ProviderResourceStat;
+    };
   };
-  pendingStats: {
-    cpu: number;
-    gpu: number;
-    memory: number;
-    storage: number;
-  };
-  availableStats: {
-    cpu: number;
-    gpu: number;
-    memory: number;
-    storage: number;
-  };
+  gpuModels: ProviderGpuModel[];
   attributes: Array<{
     key: string;
     value: string;
     auditedBy: string[];
   }>;
 
-  // Attributes schema
-  host: string;
-  organization: string;
-  statusPage: string;
-  locationRegion: string;
-  country: string;
-  city: string;
-  timezone: string;
-  locationType: string;
-  hostingProvider: string;
-  hardwareCpu: string;
-  hardwareCpuArch: string;
-  hardwareGpuVendor: string;
-  hardwareGpuModels: string[];
-  hardwareDisk: string[];
-  featPersistentStorage: boolean;
-  featPersistentStorageType: string[];
-  hardwareMemory: string;
-  networkProvider: string;
-  networkSpeedDown: number;
-  networkSpeedUp: number;
-  tier: string;
-  featEndpointCustomDomain: boolean;
-  workloadSupportChia: boolean;
-  workloadSupportChiaCapabilities: string[];
-  featEndpointIp: boolean;
+  // Attributes schema (flattened from `attributes`)
+  host?: string;
+  organization?: string;
+  statusPage?: string;
+  locationRegion?: string;
+  country?: string;
+  city?: string;
+  timezone?: string;
+  locationType?: string;
+  hostingProvider?: string;
+  hardwareCpu?: string;
+  hardwareCpuArch?: string;
+  hardwareGpuVendor?: string;
+  hardwareGpuModels?: string[];
+  hardwareDisk?: string[];
+  featPersistentStorage?: boolean;
+  featPersistentStorageType?: string[];
+  hardwareMemory?: string;
+  networkProvider?: string;
+  networkSpeedDown?: number;
+  networkSpeedUp?: number;
+  tier?: string;
+  featEndpointCustomDomain?: boolean;
+  workloadSupportChia?: boolean;
+  workloadSupportChiaCapabilities?: string[];
+  featEndpointIp?: boolean;
 }
 
 export interface ClientProviderList extends ApiProviderList {
