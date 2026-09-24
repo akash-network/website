@@ -110,6 +110,11 @@ function badgeSize(count: number): number {
   return Math.min(56, Math.max(26, 22 + count * 3));
 }
 
+function badgeDiameter(cluster: ProviderCluster): number {
+  const count = cluster.providers.length;
+  return count > 1 ? badgeSize(count) : 10;
+}
+
 function nearestEquivalentAngle(from: number, to: number): number {
   const twoPi = Math.PI * 2;
   let delta = (((to - from) % twoPi) + twoPi) % twoPi;
@@ -165,7 +170,7 @@ function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, ba
   const gridColor = isDark ? GRID_COLOR_DARK : GRID_COLOR_LIGHT;
   const outlineColor = isDark ? OUTLINE_COLOR_DARK : OUTLINE_COLOR_LIGHT;
 
-  useFrame(() => {
+  useFrame((state) => {
     const now = performance.now();
     const deltaFrames = (now - lastTime.current) / FRAME_MS_60HZ;
     lastTime.current = now;
@@ -182,13 +187,13 @@ function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, ba
         existing && existing.target?.lat === focus.lat && existing.target?.lng === focus.lng
           ? existing
           : {
-              startedAt: now,
-              fromPhi: phi.current,
-              toPhi: nearestEquivalentAngle(phi.current, targetPhi),
-              fromTheta: theta.current,
-              toTheta: targetTheta,
-              target: focus,
-            };
+            startedAt: now,
+            fromPhi: phi.current,
+            toPhi: nearestEquivalentAngle(phi.current, targetPhi),
+            fromTheta: theta.current,
+            toTheta: targetTheta,
+            target: focus,
+          };
       focusTween.current = active;
 
       const progress = Math.min(1, (now - active.startedAt) / FOCUS_DURATION_MS);
@@ -225,8 +230,13 @@ function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, ba
       worldPos.copy(position).applyMatrix4(groupRef.current.matrixWorld);
       const facing = worldPos.clone().normalize().dot(cameraDir);
       const projected = worldPos.clone().project(camera);
-      const offscreen = !Number.isFinite(projected.x) || !Number.isFinite(projected.y) || Math.abs(projected.x) > 1.15 || Math.abs(projected.y) > 1.15;
-      if (facing < 0.04 || offscreen) {
+      const badgeRadius = badgeDiameter(cluster) / state.size.width;
+      const offscreen =
+        !Number.isFinite(projected.x) ||
+        !Number.isFinite(projected.y) ||
+        Math.hypot(projected.x, projected.y) + badgeRadius > 1;
+      const horizon = 0.04 + GLOBE_RADIUS / distance - GLOBE_RADIUS / BASE_CAMERA_DISTANCE;
+      if (facing < horizon || offscreen) {
         badge.style.opacity = "0";
         badge.style.pointerEvents = "none";
         continue;
@@ -339,7 +349,7 @@ export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlig
       </Canvas>
       {clusters.map((cluster) => {
         const count = cluster.providers.length;
-        const size = count > 1 ? badgeSize(count) : 10;
+        const size = badgeDiameter(cluster);
         const isHighlighted = highlightedClusterId === cluster.id;
         return (
           <button
@@ -351,9 +361,8 @@ export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlig
             type="button"
             onClick={() => onSelectCluster(cluster)}
             style={{ left: "50%", top: "50%", width: size, height: size, opacity: 0 }}
-            className={`absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-violet-600/90 text-[10px] font-bold text-white transition-[opacity,transform] duration-150 hover:scale-110 ${
-              isHighlighted ? "border-white scale-110" : "border-white/70"
-            } ${count === 1 ? "border-[1.5px]" : ""}`}
+            className={`absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-violet-600/90 text-[10px] font-bold text-white transition-[opacity,transform] duration-150 hover:scale-110 ${isHighlighted ? "border-white scale-110" : "border-white/70"
+              } ${count === 1 ? "border-[1.5px]" : ""}`}
           >
             {count > 1 ? count : null}
           </button>
