@@ -1,6 +1,7 @@
 ---
-import GpuTable from "@/components/pricing-page/gpus/gpu-table";
+import GpuPricing from "@/components/pricing-page/gpus/GpuPricing";
 import PricingHeader from "@/components/pricing-page/pricing-header.astro";
+import PricingHero from "@/components/pricing-page/pricing-hero.astro";
 ---
 
 <PricingHeader
@@ -8,5 +9,13 @@ import PricingHeader from "@/components/pricing-page/pricing-header.astro";
   description=" Browse the list of available GPUs along with their hourly rates."
   image="/meta-images/pricing/gpu.jpg"
 >
-  <GpuTable initialData={null} client:load counts />
+  <PricingHero
+    title="GPU Pricing"
+    description={[
+      "Real-time availability for high-demand compute.",
+      "Transparent hourly pricing with no hidden fees.",
+    ]}
+  />
+
+  <GpuPricing client:load />
 </PricingHeader>

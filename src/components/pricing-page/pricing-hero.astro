@@ -1,0 +1,63 @@
+---
+type Props = {
+  /** Pass an array to force line breaks between the parts (from md up). */
+  title: string | string[];
+  /** Same as `title`: an array breaks the description into lines from md up. */
+  description: string | string[];
+};
+
+const { title, description } = Astro.props;
+const titleLines = Array.isArray(title) ? title : [title];
+const descriptionLines = Array.isArray(description)
+  ? description
+  : [description];
+
+// With an "aside" (e.g. a CTA), the description sits under the headline and the aside takes the
+// right column; otherwise the description takes the right column.
+const hasAside = Astro.slots.has("aside");
+---
+
+<div
+  class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)] xl:items-end xl:gap-16"
+>
+  <div>
+    <h1
+      class="text-4xl font-medium leading-[1.05] tracking-tight text-zinc-900 dark:text-zinc-50 md:text-5xl lg:text-6xl"
+    >
+      {
+        titleLines.map((line, index) => (
+          <span class="md:block">
+            {line}
+            {index < titleLines.length - 1 && " "}
+          </span>
+        ))
+      }
+    </h1>
+    {
+      hasAside && (
+        <p class="mt-5 max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-lg">
+          {descriptionLines.map((line, index) => (
+            <span class="md:block">
+              {line}
+              {index < descriptionLines.length - 1 && " "}
+            </span>
+          ))}
+        </p>
+      )
+    }
+  </div>
+  {
+    hasAside ? (
+      <slot name="aside" />
+    ) : (
+      <p class="max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-lg">
+        {descriptionLines.map((line, index) => (
+          <span class="md:block">
+            {line}
+            {index < descriptionLines.length - 1 && " "}
+          </span>
+        ))}
+      </p>
+    )
+  }
+</div>

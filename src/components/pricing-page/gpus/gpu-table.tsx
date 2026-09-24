@@ -11,6 +11,11 @@ import clsx from "clsx";
 import React from "react";
 import { DUMMY_GPU_DATA } from "./dummy-gpu-data";
 import Filter, { defaultFilters, type Filters } from "./filter";
+import {
+  modifyModel,
+  normalizeGpuModel,
+  withBlackwellFallbacks,
+} from "./gpu-models";
 import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import GpuTableRow from "./gpu-table-row";
 import GpuTableRowSkeleton from "./gpu-table-row-skeleton";
@@ -110,62 +115,13 @@ const Table = ({
   );
 };
 
-const modelTexts: Record<string, string> = {
-  rtx: "RTX ",
-  gtx: "GTX ",
-  ti: " Ti",
-  ada: " Ada",
-};
-
-const formatText = (model: string) => {
-  let formattedText = model;
-  for (const key in modelTexts) {
-    const regex = new RegExp(key, "gi");
-    formattedText = formattedText.replace(regex, modelTexts[key]);
-  }
-
-  return formattedText;
-};
-export const modifyModel = (model: string) => {
-  if (model === "rtxa6000") return "A6000";
-  if (model === "pro6000se") return "Pro 6000 SE";
-  if (model === "pro6000we") return "Pro 6000 WE";
-  if (model === "rtxpro6000blackwellmaxqworkstationedition")
-    return "RTX Pro 6000 Blackwell Max-Q";
-  return formatText(model);
-};
+export { modifyModel, normalizeGpuModel };
 
 export const price = (price: number) => {
   if (!price) return "--";
   // Format with comma as decimal separator (European format)
   const formatted = price.toFixed(2);
   return `$${formatted}`;
-};
-
-export const normalizeGpuModel = (model: Gpus["models"][number]) => {
-  const modelLower = model?.model?.toLowerCase();
-  const isB200 = modelLower === "b200";
-  const isB300 = modelLower === "b300";
-
-  if (!isB200 && !isB300) return model;
-
-  const hardcodedPrice = isB200 ? 5 : 6; // B200: $5, B300: $6
-
-  return {
-    ...model,
-    price: {
-      ...model.price,
-      min: hardcodedPrice,
-      max: hardcodedPrice,
-      avg: hardcodedPrice,
-      med: hardcodedPrice,
-      weightedAverage: hardcodedPrice,
-    },
-    providerAvailability: {
-      total: model?.providerAvailability?.total ?? 1,
-      available: 1,
-    },
-  };
 };
 
 // Helper function to parse RAM value and convert to GB
@@ -285,51 +241,8 @@ export const Tables = ({
       : 0;
 
   const normalizedData = React.useMemo(() => {
-    let normalized =
-      filteredData?.map((model) => normalizeGpuModel(model)) ?? [];
-
-    // Ensure B300 and B200 are in the data (add if missing)
-    const hasB300 = normalized.some((m) => m?.model?.toLowerCase() === "b300");
-    const hasB200 = normalized.some((m) => m?.model?.toLowerCase() === "b200");
-
-    if (!hasB300) {
-      normalized.push({
-        vendor: "nvidia",
-        model: "b300",
-        ram: "180GB",
-        interface: "HBM3e",
-        availability: { total: 1, available: 1 },
-        providerAvailability: { total: 1, available: 1 },
-        price: {
-          min: 6,
-          max: 6,
-          avg: 6,
-          med: 6,
-          weightedAverage: 6,
-        },
-      } as Gpus["models"][number]);
-    }
-
-    if (!hasB200) {
-      normalized.push({
-        vendor: "nvidia",
-        model: "b200",
-        ram: "180GB",
-        interface: "HBM3e",
-        availability: { total: 1, available: 1 },
-        providerAvailability: { total: 1, available: 1 },
-        price: {
-          min: 5,
-          max: 5,
-          avg: 5,
-          med: 5,
-          weightedAverage: 5,
-        },
-      } as Gpus["models"][number]);
-    }
-
-    // Normalize all models including newly added ones
-    normalized = normalized.map((model) => normalizeGpuModel(model));
+    // Applies the fixed B300/B200 prices and adds either model if missing
+    const normalized = withBlackwellFallbacks(filteredData ?? []);
 
     // Get B300, B200, and H200 models
     const b300Models = normalized.filter(
