@@ -18,10 +18,8 @@ const { title, description, image, noIndex } = Astro.props;
   noIndex={noIndex}
 >
   <section
-    class="container-wide flex flex-col gap-12 pt-12 md:gap-[4.5rem] md:pt-[100px]"
+    class="container flex flex-col gap-10 pb-20 pt-10 md:gap-12 md:pb-28 md:pt-16"
   >
-    <div class="sidebar-scroll flex w-full flex-col">
-      <slot />
-    </div>
+    <slot />
   </section>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import PricingHeader from "@/components/pricing-page/pricing-header.astro";
-import ProviderTable from "@/components/pricing-page/provider/provider-table";
+import PricingHero from "@/components/pricing-page/pricing-hero.astro";
+import ProviderCalculator from "@/components/pricing-page/provider/ProviderCalculator";
 ---
 
 <PricingHeader
@@ -8,5 +9,10 @@ import ProviderTable from "@/components/pricing-page/provider/provider-table";
   description="Calculate your potential earnings by providing resources to the Akash Network."
   image="/meta-images/pricing/provider.jpg"
 >
-  <ProviderTable initialData={null} client:load />
+  <PricingHero
+    title="Put your silicon to work"
+    description="Estimate what your hardware earns as an Akash provider, in USD and AKT."
+  />
+
+  <ProviderCalculator client:load />
 </PricingHeader>

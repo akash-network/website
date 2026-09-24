@@ -1,6 +1,7 @@
 ---
 import PricingHeader from "@/components/pricing-page/pricing-header.astro";
-import UsageTable from "@/components/pricing-page/usage/usage-table";
+import PricingHero from "@/components/pricing-page/pricing-hero.astro";
+import UsageCalculator from "@/components/pricing-page/usage/UsageCalculator";
 ---
 
 <PricingHeader
@@ -8,5 +9,10 @@ import UsageTable from "@/components/pricing-page/usage/usage-table";
   description="Estimate your costs by selecting the resources you need. Adjust CPU, memory, storage, and other parameters to get a detailed cost breakdown."
   image="/meta-images/pricing/deployment.jpg"
 >
-  <UsageTable initialData={null} client:load />
+  <PricingHero
+    title="Price your deployment"
+    description="Set the resources you need and compare the monthly bill against AWS, GCP, and Azure."
+  />
+
+  <UsageCalculator client:load />
 </PricingHeader>
