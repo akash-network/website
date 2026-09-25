@@ -28,7 +28,7 @@ function isMobileViewport(): boolean {
 
 function ProvidersHero() {
   return (
-    <div className="container mx-auto mb-10 flex flex-col items-start gap-6 px-4 md:mb-[60px] lg:mb-20">
+    <div className="mb-10 flex flex-col items-start gap-6 md:mb-[60px] lg:mb-20">
       <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
         Global supply network
       </h1>
@@ -109,7 +109,7 @@ function ProvidersDashboardContent() {
     return (
       <>
         <ProvidersHero />
-        <div className="container mx-auto px-4">
+        <div>
           <Skeleton className="h-[150px] w-full rounded-xl" />
           <Skeleton className="mt-4 h-[420px] w-full rounded-xl" />
           <Skeleton className="mt-4 h-[480px] w-full rounded-xl" />
@@ -122,7 +122,7 @@ function ProvidersDashboardContent() {
     return (
       <>
         <ProvidersHero />
-        <div className="container mx-auto px-4">
+        <div>
           <p className="py-6 text-center text-red-500">Error loading providers{error ? `: ${error.message}` : ""}</p>
         </div>
       </>
@@ -132,7 +132,7 @@ function ProvidersDashboardContent() {
   return (
     <>
       <ProvidersHero />
-      <div className="container mx-auto mb-10 px-4 md:mb-[60px] lg:mb-20">
+      <div className="mb-10 md:mb-[60px] lg:mb-20">
         <div className="mb-4">
           <NetworkCapacityOverview networkCapacity={networkCapacity} />
         </div>

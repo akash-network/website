@@ -120,7 +120,7 @@ export function GlobeExplorerCard({ providers, networkCapacity, gpuPrices, selec
       <BecomeProviderDialog open={providerDialogOpen} onOpenChange={setProviderDialogOpen} />
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
-        <div className="order-3 w-full md:order-1 lg:w-auto">
+        <div className="order-4 w-full md:order-1 lg:w-auto">
           <NetworkStatTiles providers={providers} networkCapacity={networkCapacity} gpuPrices={gpuPrices} />
         </div>
 
@@ -136,22 +136,26 @@ export function GlobeExplorerCard({ providers, networkCapacity, gpuPrices, selec
           />
         </div>
 
-        <div className="order-2 w-full md:hidden">{renderSearchInput()}</div>
+        {/* On mobile this needs to land right under the globe — above the search row — so
+            selecting a marker shows a visible result instead of one the viewer has to scroll
+            past everything else to find. md:order-5 restores the original desktop position
+            (after the globe, on the right) where there's room for it to sit beside things. */}
+        {panel && (
+          <div className="order-2 w-full shrink-0 animate-in fade-in slide-in-from-right-4 duration-200 md:order-5 lg:w-[340px]">
+            {panel}
+          </div>
+        )}
+
+        <div className="order-3 w-full md:hidden">{renderSearchInput()}</div>
 
         <button
           type="button"
           onClick={() => setProviderDialogOpen(true)}
-          className="order-4 flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background hover:opacity-90 md:hidden"
+          className="order-5 flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background hover:opacity-90 md:hidden"
         >
           Become a Provider
           <ArrowUpRight className="h-3.5 w-3.5" />
         </button>
-
-        {panel && (
-          <div className="order-5 w-full shrink-0 animate-in fade-in slide-in-from-right-4 duration-200 lg:w-[340px]">
-            {panel}
-          </div>
-        )}
       </div>
 
       <div className="mt-2 flex flex-col-reverse items-center justify-between gap-2 sm:flex-row">
