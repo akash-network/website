@@ -80,6 +80,8 @@ type CountrySelectProps = {
   options: CountryEntry[];
   onChange: (country: RPNInput.Country) => void;
   modal?: boolean;
+  /** Extra classes for the trigger button, passed via `countrySelectProps`. */
+  className?: string;
 };
 
 const CountrySelect = ({
@@ -88,6 +90,7 @@ const CountrySelect = ({
   options: countryList,
   onChange,
   modal = false,
+  className,
 }: CountrySelectProps) => {
   const [searchValue, setSearchValue] = React.useState("");
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
@@ -109,7 +112,10 @@ const CountrySelect = ({
         <Button
           type="button"
           variant="outline"
-          className="flex gap-1 rounded-e-none rounded-s-md border-r-0 px-3 focus:z-10"
+          className={cn(
+            "flex gap-1 rounded-e-none rounded-s-md border-r-0 px-3 focus:z-10",
+            className,
+          )}
           disabled={disabled}
         >
           <FlagComponent
