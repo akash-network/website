@@ -9,6 +9,8 @@ description: "Install the akt binary, run the first-time setup, and enable shell
 
 Install the latest `akt` release, verify the binary, and create your first context.
 
+The current release is [v0.1.3](https://github.com/akash-network/akt/releases/tag/v0.1.3). The Homebrew and archive instructions below select the latest published release automatically.
+
 Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest published version. Homebrew installs the latest release available in the official Akash tap; unreleased changes on GitHub may be ahead of that binary.
 
 ---
@@ -196,13 +198,13 @@ Use `akt <command> --help` to confirm the options supported by your installed bi
 
 ## First Run
 
-On the first interactive launch, `akt` fetches available networks from [akash-network/net](https://github.com/akash-network/net) and asks which ones to configure:
+Start first-time setup with an interactive context command. `akt` fetches available networks from [akash-network/net](https://github.com/akash-network/net) and asks which ones to configure:
 
 ```bash
-akt version
+akt context list
 ```
 
-If no config exists, the bootstrap wizard runs before the command. It creates `~/.config/akt/config.yaml`, sets up the first context, and offers Akash Console onboarding. The selected network's current high gas price becomes the transaction fee floor.
+If no config exists, the bootstrap wizard runs before the command. It creates `~/.config/akt/config.yaml`, sets up the first context, and offers Akash Console onboarding. The selected network's current high gas price becomes the transaction fee floor. `akt version` only prints build information and does not launch setup.
 
 Everything `akt` stores, including config, context credentials, keyrings, and deployment state, lives under `~/.config/akt` by default. Set `AKT_HOME` to move it.
 

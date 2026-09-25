@@ -7,7 +7,7 @@ linkTitle: "Commands Reference"
 description: "Reference for akt CLI commands, arguments, and common flags"
 ---
 
-This reference covers the `akt` command groups and the most common Akash and Cosmos SDK operations.
+This reference covers the [akt v0.1.3](https://github.com/akash-network/akt/releases/tag/v0.1.3) command groups and the most common Akash and Cosmos SDK operations.
 
 The chain SDK contributes many additional query and transaction leaves. Run `akt <command> --help` for the exact command tree and flags in your installed release.
 
