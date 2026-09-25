@@ -338,15 +338,19 @@ function GpuPricingContent() {
           <table className="w-full text-left text-sm md:table-fixed">
             <thead className="border-b border-zinc-200 bg-zinc-50/60 dark:border-white/10 dark:bg-white/[0.02]">
               <tr className="text-sm text-zinc-500 dark:text-zinc-400">
-                <th scope="col" className="px-4 py-3 font-medium md:px-6">
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-medium max-[359px]:px-3 md:px-6"
+                >
                   GPU model
                 </th>
                 <th
                   scope="col"
-                  className="whitespace-nowrap px-4 py-3 text-right font-medium md:w-[248px] md:pr-6"
+                  className="whitespace-nowrap px-4 py-3 text-right font-medium max-[359px]:pr-3 md:w-[248px] md:pr-6"
                 >
-                  {/* Offset by the arrow and its gap, so the label lines up with the prices. */}
-                  <span className="mr-11">Starting at</span>
+                  {/* On desktop the price sits beside the arrow, so the label is offset by the
+                      arrow and its gap to line up with the prices. */}
+                  <span className="md:mr-11">Starting at</span>
                 </th>
               </tr>
             </thead>
@@ -447,29 +451,31 @@ function GpuTableRow({ row }: { row: GpuRow }) {
       onClick={handleRowClick}
       className="group cursor-pointer transition-colors hover:bg-zinc-50 dark:hover:bg-white/[0.03]"
     >
-      <td className="px-4 py-4 md:px-6">
-        {/* The specs follow the name and wrap beneath it when the cell runs out of room. */}
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <p className="text-lg font-medium tracking-tight text-zinc-900 dark:text-zinc-50">
+      {/* Mobile: two lines per cell, sized alike so they line up across the row (name and
+          price, then specs and a labelled action). Desktop: one line, with the specs after
+          the name and the action's label revealed on hover. */}
+      <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
+        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
+          <p className="text-lg font-medium leading-7 tracking-tight text-zinc-900 dark:text-zinc-50 max-[359px]:text-base/7">
             {row.name}
           </p>
-          <div className="flex items-center gap-1.5">
+          <div className="flex min-h-7 flex-wrap items-center gap-1.5 md:min-h-0">
             <SpecBadge>{row.ramLabel}</SpecBadge>
             {row.interface && <SpecBadge>{row.interface}</SpecBadge>}
           </div>
         </div>
       </td>
-      <td className="py-4 pl-2 pr-4 md:pr-6">
-        <div className="flex items-center justify-end gap-3">
+      <td className="py-4 pl-2 pr-4 align-top max-[359px]:pr-3 md:pr-6 md:align-middle">
+        <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
           {row.hourly !== null ? (
-            <span className="whitespace-nowrap font-jetBrainsMono text-[17px] font-medium tabular-nums text-zinc-900 dark:text-zinc-50">
+            <span className="whitespace-nowrap font-jetBrainsMono text-[17px] font-medium tabular-nums leading-7 text-zinc-900 dark:text-zinc-50">
               {formatUsd(row.hourly)}
               <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400">
                 /hr
               </span>
             </span>
           ) : (
-            <span className="whitespace-nowrap text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="whitespace-nowrap text-xs leading-7 text-zinc-500 dark:text-zinc-400">
               No recent bids
             </span>
           )}
@@ -480,16 +486,20 @@ function GpuTableRow({ row }: { row: GpuRow }) {
             target={external ? "_blank" : undefined}
             rel={external ? "noopener noreferrer" : undefined}
             aria-label={`${row.isBlackwell ? "Get access to" : "Rent"} ${row.name} ${row.ramLabel}`}
-            // Just the arrow at rest; hovering the row or focusing the link slides the label in.
-            className="inline-flex h-8 shrink-0 items-center rounded-full bg-zinc-100 px-2 text-zinc-900 transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 group-focus-within:pl-3.5 group-hover:pl-3.5 dark:bg-white/10 dark:text-zinc-50 dark:hover:bg-white/15 dark:focus-visible:ring-white/25"
+            // Mobile always shows the label. On desktop it's just the arrow at rest; hovering
+            // the row or focusing the link slides the label in.
+            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-zinc-900 transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:text-zinc-50 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5"
           >
             <span
               aria-hidden
-              className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-medium opacity-0 transition-all duration-300 ease-out group-focus-within:mr-1.5 group-focus-within:max-w-24 group-focus-within:opacity-100 group-hover:mr-1.5 group-hover:max-w-24 group-hover:opacity-100"
+              className="mr-1 max-w-24 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:mr-0 md:max-w-0 md:text-sm md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100"
             >
               {row.isBlackwell ? "Get access" : "Rent"}
             </span>
-            <ArrowRight aria-hidden className="h-4 w-4 shrink-0" />
+            <ArrowRight
+              aria-hidden
+              className="h-3.5 w-3.5 shrink-0 md:h-4 md:w-4"
+            />
           </a>
         </div>
       </td>
@@ -497,9 +507,10 @@ function GpuTableRow({ row }: { row: GpuRow }) {
   );
 }
 
+// Equal widths keep the pair tidy; below 360px they shrink to fit beside the row action.
 function SpecBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-6 min-w-[4.5rem] items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-zinc-600 dark:border-white/15 dark:text-zinc-300">
+    <span className="inline-flex h-6 min-w-[4.5rem] items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-zinc-600 dark:border-white/15 dark:text-zinc-300 max-[359px]:min-w-0 max-[359px]:px-1.5 max-[359px]:text-xs">
       {children}
     </span>
   );
@@ -508,19 +519,19 @@ function SpecBadge({ children }: { children: React.ReactNode }) {
 function SkeletonRow() {
   return (
     <tr>
-      <td className="px-4 py-4 md:px-6">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <Skeleton className="h-5 w-24" />
-          <div className="flex items-center gap-1.5">
+      <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
+        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
+          <Skeleton className="my-1 h-5 w-24 md:my-0" />
+          <div className="flex min-h-7 items-center gap-1.5 md:min-h-0">
             <Skeleton className="h-6 w-[4.5rem]" />
             <Skeleton className="h-6 w-[4.5rem]" />
           </div>
         </div>
       </td>
-      <td className="py-4 pl-2 pr-4 md:pr-6">
-        <div className="flex items-center justify-end gap-3">
-          <Skeleton className="h-5 w-20" />
-          <Skeleton className="h-8 w-8 rounded-full" />
+      <td className="py-4 pl-2 pr-4 align-top max-[359px]:pr-3 md:pr-6 md:align-middle">
+        <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
+          <Skeleton className="my-1 h-5 w-20 md:my-0" />
+          <Skeleton className="h-7 w-16 rounded-full md:h-8 md:w-8" />
         </div>
       </td>
     </tr>
