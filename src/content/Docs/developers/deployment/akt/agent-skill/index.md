@@ -11,6 +11,8 @@ The `akt-cli` skill teaches a coding agent to operate an installed `akt` binary:
 
 ## Get the Skill
 
+For the bundle shipped with akt v0.1.3, download [`akt_0.1.3_skill.zip`](https://github.com/akash-network/akt/releases/download/v0.1.3/akt_0.1.3_skill.zip). Its SHA-256 checksum is included in the [release checksums](https://github.com/akash-network/akt/releases/download/v0.1.3/akt_0.1.3_checksums.txt).
+
 [Download the complete akt-cli skill ZIP](/skills/akt-cli.zip), or read the files hosted on this website:
 
 | File                                                                           | Contents                                                                                                        |
@@ -72,7 +74,7 @@ Extract the complete `akt-cli/` folder into your agent's supported skills direct
 
 ### From the akt Repository
 
-The skill lives in `.agents/skills/akt-cli/` in the [akt repository](https://github.com/akash-network/akt/tree/ab8092931db2050c27bc7c499c1d0c89bdcc6d5c/.agents/skills/akt-cli). Copy that complete folder into your project's or agent's skills directory, or use the website ZIP above.
+The skill lives in `.agents/skills/akt-cli/` in the [akt v0.1.3 source](https://github.com/akash-network/akt/tree/v0.1.3/.agents/skills/akt-cli). Copy that complete folder into your project's or agent's skills directory, or use one of the ZIP downloads above.
 
 ## Use the Skill
 

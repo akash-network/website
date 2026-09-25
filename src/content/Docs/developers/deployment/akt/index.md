@@ -9,6 +9,8 @@ description: "Deploy and manage Akash applications using akt, the unified Akash 
 
 Use `akt` to deploy workloads, query the chain, operate provider leases, and work with the Akash Console managed wallet.
 
+This documentation covers [akt v0.1.3](https://github.com/akash-network/akt/releases/tag/v0.1.3). Run `akt version` to check your installed version.
+
 `akt` replaces the CLI functionality previously spread across `akash`, `provider-services`, and the chain SDK CLI with a single binary. It adds named contexts for managing multiple networks and accounts, offline SDL authoring, built-in deployment workflows, Akash Console managed-wallet integration, and real-time network monitoring.
 
 ---
