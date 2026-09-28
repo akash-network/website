@@ -9,7 +9,7 @@ description: "Deploy and manage Akash applications using akt, the unified Akash 
 
 Use `akt` to deploy workloads, query the chain, operate provider leases, and work with the Akash Console managed wallet.
 
-This documentation covers [akt v0.1.3](https://github.com/akash-network/akt/releases/tag/v0.1.3). Run `akt version` to check your installed version.
+This documentation covers release candidate [akt v1.0.0-rc0](https://github.com/akash-network/akt/releases/tag/v1.0.0-rc0). Run `akt version` to check your installed version.
 
 `akt` replaces the CLI functionality previously spread across `akash`, `provider-services`, and the chain SDK CLI with a single binary. It adds named contexts for managing multiple networks and accounts, offline SDL authoring, built-in deployment workflows, Akash Console managed-wallet integration, and real-time network monitoring.
 
@@ -30,7 +30,7 @@ akt tx deployment close 12345
 akt console usage 2026-01-01 2026-01-31
 ```
 
-Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest published version. [Homebrew installation](/docs/developers/deployment/akt/installation) installs the latest release available in the official Akash tap. Run `akt version --long` to check your binary and `akt <command> --help` for its supported syntax; code on GitHub may be ahead of a published release.
+Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version. [Homebrew installation](/docs/developers/deployment/akt/installation) installs the latest stable release. Use the archive instructions to install the release candidate. Run `akt version --long` to check your binary and `akt <command> --help` for its supported syntax; code on GitHub may be ahead of a published release.
 
 ---
 

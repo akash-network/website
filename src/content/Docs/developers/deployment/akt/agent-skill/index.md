@@ -11,7 +11,7 @@ The `akt-cli` skill teaches a coding agent to operate an installed `akt` binary:
 
 ## Get the Skill
 
-For the bundle shipped with akt v0.1.3, download [`akt_0.1.3_skill.zip`](https://github.com/akash-network/akt/releases/download/v0.1.3/akt_0.1.3_skill.zip). Its SHA-256 checksum is included in the [release checksums](https://github.com/akash-network/akt/releases/download/v0.1.3/akt_0.1.3_checksums.txt).
+For the bundle shipped with release candidate akt v1.0.0-rc0, download [`akt_1.0.0-rc0_skill.zip`](https://github.com/akash-network/akt/releases/download/v1.0.0-rc0/akt_1.0.0-rc0_skill.zip). Its SHA-256 checksum is included in the [release checksums](https://github.com/akash-network/akt/releases/download/v1.0.0-rc0/akt_1.0.0-rc0_checksums.txt).
 
 [Download the complete akt-cli skill ZIP](/skills/akt-cli.zip), or read the files hosted on this website:
 
@@ -28,7 +28,7 @@ The ZIP contains an `akt-cli/` directory with all six files. Keep the folder int
 
 ## Install the CLI
 
-The skill needs `akt` on your agent's `PATH` and access to a shell. On macOS or Linux with Homebrew:
+The skill needs `akt` on your agent's `PATH` and access to a shell. Install v1.0.0-rc0 using the [archive instructions](/docs/developers/deployment/akt/installation). For the latest stable release, use Homebrew:
 
 ```bash
 brew tap akash-network/tap
@@ -37,7 +37,7 @@ brew install akash-network/tap/akt
 akt version --long
 ```
 
-Homebrew installs the latest published CLI release available in the official tap. For an existing installation, run `brew update` followed by `brew upgrade akash-network/tap/akt`. Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for published builds. See [Installation](/docs/developers/deployment/akt/installation) for other platforms and source builds.
+Homebrew installs stable releases only. For an existing installation, run `brew update` followed by `brew upgrade akash-network/tap/akt`. Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for published builds. See [Installation](/docs/developers/deployment/akt/installation) for other platforms and source builds.
 
 Install the skill separately using the steps below. You can inspect contexts and validate SDL before configuring credentials; deploying also requires the appropriate Console account or funded local wallet.
 
@@ -74,7 +74,7 @@ Extract the complete `akt-cli/` folder into your agent's supported skills direct
 
 ### From the akt Repository
 
-The skill lives in `.agents/skills/akt-cli/` in the [akt v0.1.3 source](https://github.com/akash-network/akt/tree/v0.1.3/.agents/skills/akt-cli). Copy that complete folder into your project's or agent's skills directory, or use one of the ZIP downloads above.
+The skill lives in `.agents/skills/akt-cli/` in the [akt v1.0.0-rc0 source](https://github.com/akash-network/akt/tree/v1.0.0-rc0/.agents/skills/akt-cli). Copy that complete folder into your project's or agent's skills directory, or use one of the ZIP downloads above.
 
 ## Use the Skill
 
