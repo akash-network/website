@@ -39,7 +39,7 @@ export function ProviderDetailView({ owner, allProviders, gpuPrices, onBack, onS
 
   if (error || !provider) {
     return (
-      <div className="container mx-auto px-4 py-10 text-center">
+      <div className="py-10 text-center">
         <BackLink onBack={onBack} />
         <p className="mt-6 text-para">Could not load this provider right now.</p>
       </div>
@@ -58,7 +58,7 @@ export function ProviderDetailView({ owner, allProviders, gpuPrices, onBack, onS
   const availableDisk = formatBytesLabel(provider.stats?.storage?.persistent?.available ?? 0);
 
   return (
-    <div className="container mx-auto px-4">
+    <div>
       <BackLink onBack={onBack} />
 
       <div className="mt-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
@@ -301,7 +301,7 @@ function CopyChip({ label }: { label: string }) {
 
 function DetailSkeleton({ onBack }: { onBack: () => void }) {
   return (
-    <div className="container mx-auto px-4">
+    <div>
       <BackLink onBack={onBack} />
       <Skeleton className="mt-4 h-8 w-64" />
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
