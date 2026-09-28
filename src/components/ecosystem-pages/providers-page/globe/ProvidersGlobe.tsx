@@ -16,6 +16,12 @@ const BASE_THETA = 0.24;
 const FRAME_MS_60HZ = 1000 / 60;
 const FOCUS_DURATION_MS = 1400;
 const DRAG_SENSITIVITY = 0.006;
+/** Width the drag sensitivity above was tuned against — the globe's own max-width. Below this
+ * (any phone), the container is narrower, so a full-width swipe covers fewer pixels and would
+ * otherwise rotate the globe noticeably less than the same gesture does on desktop — the drag
+ * feeling "harder to move" the narrower the screen gets. Scaling sensitivity by REFERENCE_WIDTH /
+ * actual width keeps a full-width drag rotating the globe by roughly the same angle everywhere. */
+const REFERENCE_WIDTH = 520;
 const MAX_THETA = 1.3;
 
 const SPHERE_COLOR_DARK = "#14141f";
@@ -178,9 +184,18 @@ function GlobeScene({ clusters, focusTarget, scaleRef, spinningRef, rotation, ba
     const rawFocus = focusTargetRef.current;
     const focus = rawFocus && rawFocus === rotation.dismissedFocus.current ? null : rawFocus;
     if (focus && !rotation.dragging.current) {
+      // The group applies phi (Y) then theta (X) as a combined rotation — Ry(phi) * Rx(theta) * p
+      // for a marker's local position p — so the two angles aren't independent: you can't get the
+      // rotation that brings a marker to face the camera by taking atan2/asin of the marker's own
+      // raw (pre-rotation) x/y/z in isolation, that only happens to work out near lat=0/lng=0. Away
+      // from there it drifts, and badly enough near the poles (where x and z both shrink toward 0,
+      // atan2 loses all meaning) that the marker can end up rotated somewhere off-screen instead of
+      // facing the camera. Solving `Ry(phi) * Rx(theta) * p = (0, 0, 1)` for theta then phi:
       const targetVector = latLngToVector3(focus.lat, focus.lng, 1);
-      const targetPhi = Math.atan2(targetVector.x, targetVector.z);
-      const targetTheta = Math.max(-MAX_THETA, Math.min(MAX_THETA, Math.asin(Math.max(-1, Math.min(1, targetVector.y)))));
+      const rawTheta = Math.atan2(targetVector.y, targetVector.z);
+      const targetTheta = Math.max(-MAX_THETA, Math.min(MAX_THETA, rawTheta));
+      const qz = Math.hypot(targetVector.y, targetVector.z);
+      const targetPhi = Math.atan2(-targetVector.x, qz);
 
       const existing = focusTween.current;
       const active =
@@ -288,6 +303,7 @@ export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlig
   const dragging = useRef<{ startX: number; startY: number; startPhi: number; startTheta: number } | null>(null);
   const dismissedFocus = useRef<FocusTarget>(null);
   const rotation = useMemo(() => ({ phi, theta, dragging, dismissedFocus }), []);
+  const containerWidthRef = useRef(REFERENCE_WIDTH);
 
   const clustersKey = useMemo(
     () => clusters.map((c) => `${c.id}:${c.lat.toFixed(2)},${c.lng.toFixed(2)}`).join("|"),
@@ -296,6 +312,9 @@ export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlig
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
     dragging.current = { startX: event.clientX, startY: event.clientY, startPhi: phi.current, startTheta: theta.current };
+    // Captured at drag-start (not just once) since the container can genuinely resize between
+    // drags — e.g. rotating the phone, or a browser window resize.
+    containerWidthRef.current = event.currentTarget.getBoundingClientRect().width || REFERENCE_WIDTH;
     // Starting a drag permanently overrides whatever focus is currently active (e.g. from a prior
     // marker click) — without this, the drag rotates the globe correctly while the pointer is
     // down, but the instant you release, the still-active focusTarget prop resumes its tween and
@@ -309,7 +328,10 @@ export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlig
     // Divided by the current zoom so a given pointer-pixel delta rotates the sphere by a
     // proportionally smaller angle when zoomed in — surface features appear bigger on screen at
     // higher zoom, so the same fixed sensitivity would otherwise feel wildly over-responsive.
-    const sensitivity = DRAG_SENSITIVITY / scaleRef.current;
+    // Also scaled by REFERENCE_WIDTH / actual width so a full-width drag rotates the globe by
+    // about the same angle on a narrow phone as it does on the wide desktop container.
+    const widthScale = REFERENCE_WIDTH / containerWidthRef.current;
+    const sensitivity = (DRAG_SENSITIVITY * widthScale) / scaleRef.current;
     phi.current = drag.startPhi + (event.clientX - drag.startX) * sensitivity;
     theta.current = Math.max(-MAX_THETA, Math.min(MAX_THETA, drag.startTheta - (event.clientY - drag.startY) * sensitivity));
   }
@@ -324,6 +346,11 @@ export function ProvidersGlobe({ clusters, focusTarget, scale, spinning, highlig
       style={{
         background:
           "radial-gradient(circle at center, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.22) 55%, rgba(255,255,255,0) 72%)",
+        // react-three-fiber's <Canvas> applies its own `className` (and so `touch-none`) to a div
+        // it renders around the real <canvas>, not to the <canvas> element itself — belt-and-braces
+        // this here too so a touch drag starting exactly on the canvas can never be interpreted as
+        // a page scroll on a browser that doesn't propagate touch-action from that wrapper div.
+        touchAction: "none",
       }}
     >
       <Canvas
