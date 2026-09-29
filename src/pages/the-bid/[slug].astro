@@ -46,6 +46,98 @@ export async function getStaticPaths() {
 
 const { post, allTags, relatedPosts } = Astro.props;
 const { Content } = await render(post);
+
+// Parse "## FAQ" / "## FAQs" body section (format: **Question?** Answer text)
+// into Q&A pairs for FAQPage structured data. Mirrors the heading/paragraph
+// detection in src/lib/markdown/autoFaqAccordion.ts, but reads the raw
+// markdown body directly since the accordion transform isn't exposed on
+// post.data.
+function extractFaqs(body: string): { question: string; answer: string }[] {
+  const headingMatch = body.match(/^##\s+FAQs?\s*$/im);
+  if (!headingMatch || headingMatch.index === undefined) return [];
+
+  const afterHeading = body.slice(headingMatch.index + headingMatch[0].length);
+  const nextHeadingMatch = afterHeading.match(/^#{1,6}\s+/m);
+  const section = nextHeadingMatch
+    ? afterHeading.slice(0, nextHeadingMatch.index)
+    : afterHeading;
+
+  return section
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .map((paragraph) => paragraph.match(/^\*\*(.+?)\*\*\s*(.*)$/s))
+    .filter((match): match is RegExpMatchArray => match !== null)
+    .map((match) => ({
+      question: match[1].trim(),
+      answer: match[2]
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+        .replace(/\*\*/g, "")
+        .replace(/\s+/g, " ")
+        .trim(),
+    }))
+    .filter((faq) => faq.question && faq.answer);
+}
+
+const siteUrl = "https://akash.network";
+const postUrl = new URL(`/the-bid/${post.id}/`, Astro.site).toString();
+const listingUrl = new URL("/the-bid/", Astro.site).toString();
+const faqs = extractFaqs(post.body ?? "");
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Akash Network",
+      url: siteUrl,
+      logo: `${siteUrl}/favicon.png`,
+    },
+    {
+      "@type": "Article",
+      "@id": `${postUrl}#article`,
+      headline: post.data.title,
+      description: post.data.metaDescription ?? post.data.description,
+      datePublished: post.data.pubDate.toISOString(),
+      dateModified: (post.data.lastUpdated ?? post.data.pubDate).toISOString(),
+      author: {
+        "@type": "Person",
+        name: post.data.author,
+      },
+      publisher: { "@id": `${siteUrl}/#organization` },
+      mainEntityOfPage: postUrl,
+      ...(post.data.bannerImage
+        ? { image: new URL(post.data.bannerImage.src, Astro.site).toString() }
+        : {}),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${postUrl}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+        { "@type": "ListItem", position: 2, name: "The Bid", item: listingUrl },
+        { "@type": "ListItem", position: 3, name: post.data.title, item: postUrl },
+      ],
+    },
+    ...(faqs.length > 0
+      ? [
+          {
+            "@type": "FAQPage",
+            "@id": `${postUrl}#faq`,
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: { "@type": "Answer", text: faq.answer },
+            })),
+          },
+        ]
+      : []),
+  ],
+};
+
+// Escape "<" so a literal "</script>" inside any field can't close the tag early.
+const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 ---
 
 <BitsLayout
@@ -53,6 +145,8 @@ const { Content } = await render(post);
   title={post.data.metaTitle ?? post.data.title}
   description={post.data.metaDescription ?? post.data.description}
 >
+  <script is:inline type="application/ld+json" set:html={jsonLdScript} />
+
   <!-- Back breadcrumb -->
   <a
     href="/the-bid"
