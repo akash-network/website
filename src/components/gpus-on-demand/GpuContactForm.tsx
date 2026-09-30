@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-import { Button } from "@/components/ui/button";
+import { buttonClass, Panel } from "@/components/pricing-page/shared/ui";
 import {
   Dialog,
   DialogContent,
@@ -33,7 +33,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { CheckCircle2, ExternalLink, X } from "lucide-react";
+
+// shadcn/ui default (neutral, monochrome) field styles, matching the pricing pages' controls.
+// They also override the site-wide Input defaults: the red focus ring and its offset.
+const fieldClass =
+  "h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 text-base text-zinc-900 shadow-sm transition-colors placeholder:text-zinc-500 focus-visible:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/10 focus-visible:ring-offset-0 aria-[invalid=true]:border-red-600 dark:border-white/10 dark:bg-black/40 dark:text-zinc-50 dark:placeholder:text-zinc-400 dark:focus-visible:border-white/30 dark:focus-visible:ring-white/10 dark:aria-[invalid=true]:border-red-400 md:text-sm";
+const countryTriggerClass =
+  "h-9 border-zinc-200 bg-white shadow-sm hover:bg-zinc-100 hover:text-zinc-900 focus-visible:border-zinc-400 focus-visible:ring-2 focus-visible:ring-zinc-950/10 focus-visible:ring-offset-0 dark:border-white/10 dark:bg-black/40 dark:hover:bg-white/[0.06] dark:hover:text-zinc-50";
+const requiredClass = "text-zinc-500 dark:text-zinc-400";
+const messageClass = "text-red-600 dark:text-red-400";
 
 const formSchema = z.object({
   firstname: z.string().min(1, "First name is required*"),
@@ -330,7 +340,8 @@ export function GpuContactForm() {
             }}
           />
 
-          <Button
+          <button
+            type="button"
             onClick={() => {
               trackEvent("continue_to_console_click", {
                 event_category: "GPU Contact Form",
@@ -339,31 +350,35 @@ export function GpuContactForm() {
               });
               window.open("https://console.akash.network", "_blank");
             }}
-            className="h-auto w-full rounded-md bg-primary px-8 py-4 text-lg font-semibold text-white hover:bg-primary/90"
+            className={buttonClass("primary", "default", "w-full")}
           >
             Continue To Console
-          </Button>
+          </button>
         </div>
       ) : (
-        <div className=" flex w-full flex-col gap-8 rounded-lg border p-6 md:p-14">
-          <h2 className="text-2xl font-medium">Get Your Custom Quote</h2>
+        <Panel className="flex w-full flex-col gap-6 p-6 md:p-8">
+          <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-50">
+            Get Your Custom Quote
+          </h2>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
               {(apiErrors.length > 0 || generalError) && (
-                <div className="rounded-lg border !border-primary/50  bg-primary/10 p-4">
+                <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-transparent">
                   <div className="flex">
                     <div className="flex-shrink-0">
-                      <X className="h-5 w-5 text-primary" />
+                      <X className="h-5 w-5 text-red-600 dark:text-red-400" />
                     </div>
                     <div className="ml-3">
-                      <h3 className="text-sm font-medium text-primary">
+                      <h3 className="text-sm font-medium text-red-600 dark:text-red-400">
                         {apiErrors.length > 0
                           ? "Validation Error"
                           : "Submission Error"}
                       </h3>
-                      <div className="mt-2 text-sm text-primary">
-                        {generalError && <p>{generalError}</p>}
+                      <div className="mt-2 text-sm text-red-600/90 dark:text-red-400/90">
+                        {generalError && (
+                          <p className="text-inherit">{generalError}</p>
+                        )}
                         {apiErrors.length > 0 && (
                           <ul className="list-disc space-y-1 pl-5">
                             {apiErrors.map((error, index) => (
@@ -387,13 +402,16 @@ export function GpuContactForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        First Name
-                        <span className="text-red-500">*</span>
+                        First Name <span className={requiredClass}>*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="John" {...field} />
+                        <Input
+                          placeholder="John"
+                          className={fieldClass}
+                          {...field}
+                        />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className={messageClass} />
                     </FormItem>
                   )}
                 />
@@ -403,12 +421,16 @@ export function GpuContactForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Last Name <span className="text-red-500">*</span>
+                        Last Name <span className={requiredClass}>*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Doe" {...field} />
+                        <Input
+                          placeholder="Doe"
+                          className={fieldClass}
+                          {...field}
+                        />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className={messageClass} />
                     </FormItem>
                   )}
                 />
@@ -420,12 +442,16 @@ export function GpuContactForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Email <span className="text-red-500">*</span>
+                      Email <span className={requiredClass}>*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="business@example.com" {...field} />
+                      <Input
+                        placeholder="business@example.com"
+                        className={fieldClass}
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
@@ -437,12 +463,16 @@ export function GpuContactForm() {
                   <FormItem>
                     <FormLabel>
                       Company / Project Name{" "}
-                      <span className="text-red-500">*</span>
+                      <span className={requiredClass}>*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="Acme Inc." {...field} />
+                      <Input
+                        placeholder="Acme Inc."
+                        className={fieldClass}
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
@@ -454,9 +484,13 @@ export function GpuContactForm() {
                   <FormItem>
                     <FormLabel>Website URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://example.com" {...field} />
+                      <Input
+                        placeholder="https://example.com"
+                        className={fieldClass}
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
@@ -467,17 +501,17 @@ export function GpuContactForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Project Details <span className="text-red-500">*</span>
+                      Project Details <span className={requiredClass}>*</span>
                     </FormLabel>
                     <FormControl>
                       <textarea
                         placeholder="Tell us about your project (minimum 10 characters)"
                         rows={4}
-                        className="w-full rounded border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className={cn(fieldClass, "h-auto py-2")}
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
@@ -489,37 +523,45 @@ export function GpuContactForm() {
                   <FormItem className="flex flex-col items-start">
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl className="w-full">
-                      <PhoneInput placeholder="+1" {...field} />
+                      <PhoneInput
+                        placeholder="+1"
+                        defaultCountry="US"
+                        countrySelectProps={{ className: countryTriggerClass }}
+                        numberInputProps={{
+                          className: cn(fieldClass, "rounded-s-none"),
+                        }}
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
 
-              <p className="!mt-8 text-xs text-para md:text-sm">
+              <p className="!mt-8 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-sm">
                 By clicking submit below, you consent to allow Akash Network to
                 store and process the personal information submitted above to
                 provide you the content requested. Please review our{" "}
                 <a
                   target="_blank"
                   href="/privacy"
-                  className="text-primary underline"
+                  className="font-medium text-zinc-900 underline underline-offset-4 dark:text-zinc-50"
                 >
                   privacy policy
                 </a>{" "}
                 for more information.
               </p>
 
-              <Button
+              <button
                 type="submit"
-                className="!mt-8 h-auto w-auto rounded-md px-6 py-3"
+                className={buttonClass("primary", "default", "!mt-8 w-full")}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Sending..." : "Submit"}
-              </Button>
+              </button>
             </form>
           </Form>
-        </div>
+        </Panel>
       )}
 
       <Dialog
@@ -579,18 +621,20 @@ export function GpuContactForm() {
                       <p className="mb-3 text-sm font-medium">
                         Redirecting to Akash Console...
                       </p>
-                      <Button
+                      <button
+                        type="button"
                         onClick={() => {
                           window.open(redirectUri!, "_blank");
                           setShowSuccessDialog(false);
                           setRedirectUri(null);
                         }}
+                        className={buttonClass()}
                       >
                         <span className="flex items-center justify-center gap-2">
                           Redirecting...
                           <ExternalLink className="h-4 w-4" />
                         </span>
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 )}

@@ -84,25 +84,6 @@ export const whyChooseSection = {
   ],
 };
 
-export const readyToDeploy = [
-  {
-    title: "85%",
-    description: "Average Cost Savings",
-  },
-  {
-    title: "50+",
-    description: "Provider Locations",
-  },
-  {
-    title: "2min",
-    description: "Deployment Speed",
-  },
-  {
-    title: "99%",
-    description: "Customer Satisfaction",
-  },
-];
-
 export const buyAkt = [
   {
     logo: `<svg width="100%" height="100%" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
