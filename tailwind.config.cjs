@@ -105,6 +105,19 @@ module.exports = {
           mint: "hsl(var(--secondary-mint))",
           red: "hsl(var(--secondary-red))",
         },
+
+        // Akash design system dark palette (colors_and_type.css --ak-*). Fixed
+        // values, independent of the theme variables above; pair with `dark:`.
+        ak: {
+          black: "#0A0A0A",
+          "off-black": "#111111",
+          subtle: "#1F1F1F",
+          border: "#222222",
+          "border-strong": "#2A2A2A",
+          muted: "#666666",
+          "muted-strong": "#888888",
+          fg: "#F2F2F2",
+        },
       },
 
       fontFamily: {
