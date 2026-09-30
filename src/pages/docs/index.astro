@@ -53,7 +53,7 @@ const pageDescription =
     </div>
   </div>
 
-  <div class="relative mb-0 bg-[#292929] px-5 py-16 xl:px-14">
+  <div class="dark relative mb-0 bg-[#292929] px-5 py-16 xl:px-14">
     <div class="container-reader px-0 md:px-5">
       <div class="mb-4">
         <svg
@@ -81,7 +81,7 @@ const pageDescription =
       </h1>
 
       <!-- Description -->
-      <p class="mt-4 max-w-4xl text-base text-[#687076] md:text-lg">
+      <p class="mt-4 max-w-4xl text-base text-muted-foreground md:text-lg">
         {pageDescription}
       </p>
     </div>
@@ -93,11 +93,11 @@ const pageDescription =
       <div
         class="flex items-center gap-3 rounded-full border border-[#e5e5e5] bg-white px-4 py-3 shadow-sm dark:border-[#333] dark:bg-[#1a1a1a]"
       >
-        <div class="text-[#737373]" set:html={icons.search} />
+        <div class="text-muted-foreground" set:html={icons.search} />
         <input
           type="text"
           placeholder="Search Docs (e.g., 'Deploy', 'Provider', 'SDL')..."
-          class="w-full bg-transparent text-sm text-[#737373] placeholder-[#737373] outline-none"
+          class="w-full bg-transparent text-sm text-muted-foreground placeholder-[#737373] outline-none"
         />
       </div>
     </div>
@@ -106,7 +106,7 @@ const pageDescription =
   <!-- Getting Started Section -->
   <div class="container-reader px-5">
     <div class="my-16">
-      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+      <h2 class="mb-4 text-xl font-semibold text-foreground">
         Getting Started
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
@@ -129,11 +129,11 @@ const pageDescription =
               </div>
               <div>
                 <div class="mb-1 flex items-center gap-2">
-                  <h3 class="text-base font-semibold text-[#11181c] dark:text-white">
+                  <h3 class="text-base font-semibold text-foreground">
                     {card.title}
                   </h3>
                 </div>
-                <p class="text-sm text-[#7e868c]">{card.description}</p>
+                <p class="text-sm text-muted-foreground">{card.description}</p>
               </div>
             </a>
           ))
@@ -146,10 +146,10 @@ const pageDescription =
       docsSections.map((section: Section) => (
         <div class="] mb-16 ">
           <div class="mb-5">
-            <h2 class="text-xl font-semibold text-[#11181c] dark:text-white">
+            <h2 class="text-xl font-semibold text-foreground">
               {section.title}
             </h2>
-            <p class="mt-1 text-sm text-[#7e868c]">{section.description}</p>
+            <p class="mt-1 text-sm text-muted-foreground">{section.description}</p>
           </div>
           <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {section.cards.map((card) => (
@@ -160,13 +160,13 @@ const pageDescription =
                 <div class="mb-3 inline-flex rounded-lg bg-background">
                   <div
                     set:html={icons[card.icon]}
-                    class="h-5 w-5 text-[#11181c] dark:text-white"
+                    class="h-5 w-5 text-foreground"
                   />
                 </div>
-                <h4 class="mb-1 text-sm font-semibold text-[#11181c] dark:text-white">
+                <h4 class="mb-1 text-sm font-semibold text-foreground">
                   {card.title}
                 </h4>
-                <p class="text-xs text-[#7e868c]">{card.description}</p>
+                <p class="text-xs text-muted-foreground">{card.description}</p>
               </a>
             ))}
           </div>
@@ -178,7 +178,7 @@ const pageDescription =
     <div
       class="rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
     >
-      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+      <h2 class="mb-4 text-xl font-semibold text-foreground">
         Need Help?
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -187,7 +187,7 @@ const pageDescription =
             <a
               href={link.href}
               target={link.external ? "_blank" : undefined}
-              class="flex items-center gap-3 text-[#ff414c] hover:underline"
+              class="flex items-center gap-3 text-primary hover:underline"
             >
               <Fragment set:html={link.icon} />
               <span class="font-medium">{link.text}</span>

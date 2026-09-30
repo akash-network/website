@@ -208,7 +208,7 @@ const Panel = ({
                                       {subItem.title}
                                     </p>
                                     {subItem.description && (
-                                      <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                                      <p className="text-xs text-muted-foreground">
                                         {subItem.description}
                                       </p>
                                     )}

@@ -270,28 +270,28 @@ const helpLinks = [
                 <div class="flex flex-shrink-0 items-center justify-center rounded-lg bg-[#f5f5f5] p-2.5 dark:bg-[#333]">
                   <div
                     set:html={option.icon}
-                    class="h-6 w-6 text-[#11181c] dark:text-white"
+                    class="h-6 w-6 text-foreground"
                   />
                 </div>
                 <div class="flex-1">
                   <div class="flex items-center gap-3">
-                    <h3 class="text-xl font-semibold text-[#11181c] dark:text-white">
+                    <h3 class="text-xl font-semibold text-foreground">
                       {option.title}
                     </h3>
                     {option.recommended && (
-                      <span class="rounded-full bg-[#ff414c]/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-[#ff414c]">
+                      <span class="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary">
                         Recommended
                       </span>
                     )}
                   </div>
-                  <p class="mt-2 text-sm text-[#7e868c]">
+                  <p class="mt-2 text-sm text-muted-foreground">
                     {option.description}
                   </p>
                   {option.details && option.details.length > 0 && (
-                    <div class="mt-4 space-y-2 text-sm text-[#7e868c]">
+                    <div class="mt-4 space-y-2 text-sm text-muted-foreground">
                       {option.details.map((detail) => (
                         <div>
-                          <p class="font-semibold text-[#11181c] dark:text-white">
+                          <p class="font-semibold text-foreground">
                             {detail.label}
                           </p>
                           {detail.items && (
@@ -302,7 +302,7 @@ const helpLinks = [
                             </ul>
                           )}
                           {"text" in detail && detail.text && (
-                            <p class="mt-3 text-[#7e868c]">{detail.text}</p>
+                            <p class="mt-3 text-muted-foreground">{detail.text}</p>
                           )}
                         </div>
                       ))}
@@ -313,21 +313,21 @@ const helpLinks = [
                       {option.sections.map((section) => (
                         <div class="rounded-md border border-[#e6e8eb] bg-[#fafafa] p-4 dark:border-[#2a2a2a] dark:bg-[#141414]">
                           <div class="flex items-baseline justify-between gap-3">
-                            <h4 class="text-base font-semibold text-[#11181c] dark:text-white">
+                            <h4 class="text-base font-semibold text-foreground">
                               {section.heading}
                             </h4>
-                            <span class="rounded-full bg-[#f0f0f0] px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-[#7e868c] dark:bg-[#2a2a2a]">
+                            <span class="rounded-full bg-[#f0f0f0] px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground dark:bg-[#2a2a2a]">
                               {section.meta}
                             </span>
                           </div>
-                          <ul class="mt-3 space-y-1 text-sm text-[#7e868c]">
+                          <ul class="mt-3 space-y-1 text-sm text-muted-foreground">
                             {section.items.map((item) => (
                               <li>• {item}</li>
                             ))}
                           </ul>
                           <a
                             href={section.link}
-                            class="mt-4 inline-block text-sm text-[#ff414c] hover:underline"
+                            class="mt-4 inline-block text-sm text-primary hover:underline"
                           >
                             {section.linkText}
                           </a>
@@ -338,7 +338,7 @@ const helpLinks = [
                   {option.link && (
                     <a
                       href={option.link}
-                      class="mt-4 inline-block text-[#ff414c] hover:underline"
+                      class="mt-4 inline-block text-primary hover:underline"
                     >
                       {option.linkText || "Learn More →"}
                     </a>
@@ -447,7 +447,7 @@ const helpLinks = [
     >
       <h2
         id="need-help"
-        class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white"
+        class="mb-4 text-xl font-semibold text-foreground"
       >
         <a
           href="#need-help"
@@ -465,7 +465,7 @@ const helpLinks = [
             <a
               href={link.href}
               target="_blank"
-              class="flex items-center gap-3 text-[#ff414c] hover:underline"
+              class="flex items-center gap-3 text-primary hover:underline"
             >
               <Fragment set:html={link.icon} />
               <span class="font-medium">{link.text}</span>

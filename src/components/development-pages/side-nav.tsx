@@ -29,7 +29,7 @@ export function SideNav({ currentPath }: { currentPath: string }) {
                             ? "bg-primary/10"
                             : null
                         }  block rounded-md px-2  py-1 text-xs
-                        font-medium leading-[18px] text-[#808080] hover:bg-primary/10`}
+                        font-medium leading-[18px] text-muted-foreground hover:bg-primary/10`}
                       >
                         {item.label}
                       </a>

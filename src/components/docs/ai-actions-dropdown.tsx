@@ -144,7 +144,7 @@ const AiActionsDropdown = ({ rawUrl }: Props) => {
                 <span className="mt-0.5 shrink-0 text-para">{action.icon}</span>
                 <span>
                   <p className="text-xs font-medium text-foreground">{action.label}</p>
-                  <p className="text-[11px] text-[#808080]">{action.description}</p>
+                  <p className="text-[11px] text-muted-foreground">{action.description}</p>
                 </span>
               </button>
             ) : (
@@ -159,7 +159,7 @@ const AiActionsDropdown = ({ rawUrl }: Props) => {
                 <span className="mt-0.5 shrink-0 text-para">{action.icon}</span>
                 <span>
                   <p className="text-xs font-medium text-foreground">{action.label}</p>
-                  <p className="text-[11px] text-[#808080]">{action.description}</p>
+                  <p className="text-[11px] text-muted-foreground">{action.description}</p>
                 </span>
               </a>
             ),

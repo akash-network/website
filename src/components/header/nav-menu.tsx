@@ -91,7 +91,7 @@ function DropdownItem({
       <div className="flex flex-col gap-0.5">
         <p className={clsx("text-sm text-foreground", isActive ? "font-medium" : "font-normal")}>{title}</p>
         {description && (
-          <p className="whitespace-nowrap text-xs font-normal text-zinc-400 dark:text-zinc-500">
+          <p className="whitespace-nowrap text-xs font-normal text-muted-foreground">
             {description}
           </p>
         )}
@@ -343,8 +343,8 @@ export default function NavMenu({
           className={clsx(
             "group inline-flex cursor-pointer items-center justify-center text-[13.4px] leading-[18.6px] font-normal transition-colors",
             isCurrentPath(menu)
-              ? "text-zinc-900 dark:text-white"
-              : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white",
+              ? "text-foreground"
+              : "text-muted-foreground hover:text-foreground",
           )}
         >
           {triggerLabels[menu]}

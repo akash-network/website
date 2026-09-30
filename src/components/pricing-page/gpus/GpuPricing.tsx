@@ -40,11 +40,11 @@ type SortKey = "featured" | "price-asc" | "price-desc" | "vram-desc";
 const FEATURED_ORDER = ["b300", "b200", ...GPU_PRIORITY_MODELS];
 
 const selectTriggerClass =
-  "h-9 w-full gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-zinc-900 shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-transparent dark:text-zinc-50";
+  "h-9 w-full gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-foreground shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-transparent";
 const selectContentClass =
   "border-zinc-200 bg-white dark:border-white/10 dark:bg-zinc-950";
 const selectGroupLabelClass =
-  "pl-8 text-xs font-medium text-zinc-500 dark:text-zinc-400";
+  "pl-8 text-xs font-medium text-muted-foreground";
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "featured", label: "Featured" },
@@ -214,10 +214,10 @@ function GpuPricingContent() {
     return (
       <Panel className="flex flex-col items-start gap-4 p-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+          <p className="text-sm font-medium text-foreground">
             Live GPU prices couldn&apos;t be loaded.
           </p>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground">
             The pricing service didn&apos;t respond. Please try again.
           </p>
         </div>
@@ -337,7 +337,7 @@ function GpuPricingContent() {
               aside and never reflows the model column. */}
           <table className="w-full text-left text-sm md:table-fixed">
             <thead className="border-b border-zinc-200 bg-zinc-50/60 dark:border-white/10 dark:bg-white/[0.02]">
-              <tr className="text-sm text-zinc-500 dark:text-zinc-400">
+              <tr className="text-sm text-muted-foreground">
                 <th
                   scope="col"
                   className="px-4 py-3 font-medium max-[359px]:px-3 md:px-6"
@@ -362,7 +362,7 @@ function GpuPricingContent() {
               ) : visibleRows.length === 0 ? (
                 <tr>
                   <td colSpan={2} className="px-6 py-16 text-center">
-                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                    <p className="text-sm font-medium text-foreground">
                       No GPUs match these filters.
                     </p>
                     {hasFilters && (
@@ -385,7 +385,7 @@ function GpuPricingContent() {
           </table>
         </Panel>
 
-        <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs leading-relaxed text-muted-foreground">
           Prices are per GPU-hour in USD, derived from recent provider bids on
           the network and weighted by each provider&apos;s GPU count. B200 and
           B300 are listed at fixed rates.
@@ -405,7 +405,7 @@ function CustomQuoteCard({ className }: { className?: string }) {
         className,
       )}
     >
-      <h2 className="text-lg font-semibold leading-snug tracking-tight text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-lg font-semibold leading-snug text-foreground">
         Looking for Bulk Orders or Custom Configurations?
       </h2>
       <a
@@ -456,7 +456,7 @@ function GpuTableRow({ row }: { row: GpuRow }) {
           the name and the action's label revealed on hover. */}
       <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
         <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
-          <p className="text-lg font-medium leading-7 tracking-tight text-zinc-900 dark:text-zinc-50 max-[359px]:text-base/7">
+          <p className="text-lg font-medium leading-7 text-foreground max-[359px]:text-base/7">
             {row.name}
           </p>
           <div className="flex min-h-7 flex-wrap items-center gap-1.5 md:min-h-0">
@@ -468,14 +468,14 @@ function GpuTableRow({ row }: { row: GpuRow }) {
       <td className="py-4 pl-2 pr-4 align-top max-[359px]:pr-3 md:pr-6 md:align-middle">
         <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
           {row.hourly !== null ? (
-            <span className="whitespace-nowrap font-jetBrainsMono text-[17px] font-medium tabular-nums leading-7 text-zinc-900 dark:text-zinc-50">
+            <span className="whitespace-nowrap font-jetBrainsMono text-[17px] font-medium tabular-nums leading-7 text-foreground">
               {formatUsd(row.hourly)}
-              <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400">
+              <span className="text-sm font-normal text-muted-foreground">
                 /hr
               </span>
             </span>
           ) : (
-            <span className="whitespace-nowrap text-xs leading-7 text-zinc-500 dark:text-zinc-400">
+            <span className="whitespace-nowrap text-xs leading-7 text-muted-foreground">
               No recent bids
             </span>
           )}
@@ -488,7 +488,7 @@ function GpuTableRow({ row }: { row: GpuRow }) {
             aria-label={`${row.isBlackwell ? "Get access to" : "Rent"} ${row.name} ${row.ramLabel}`}
             // Mobile always shows the label. On desktop it's just the arrow at rest; hovering
             // the row or focusing the link slides the label in.
-            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-zinc-900 transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:text-zinc-50 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5"
+            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5"
           >
             <span
               aria-hidden
@@ -510,7 +510,7 @@ function GpuTableRow({ row }: { row: GpuRow }) {
 // Equal widths keep the pair tidy; below 360px they shrink to fit beside the row action.
 function SpecBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-6 min-w-[4.5rem] items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-zinc-600 dark:border-white/15 dark:text-zinc-300 max-[359px]:min-w-0 max-[359px]:px-1.5 max-[359px]:text-xs">
+    <span className="inline-flex h-6 min-w-[4.5rem] items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15 max-[359px]:min-w-0 max-[359px]:px-1.5 max-[359px]:text-xs">
       {children}
     </span>
   );

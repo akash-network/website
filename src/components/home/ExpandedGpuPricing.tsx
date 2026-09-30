@@ -256,12 +256,12 @@ const ExpandedGpu = () => {
                 index === gpuTypes.length - 1 && "rounded-tr-xl",
 
                 isActive
-                  ? "bg-[#FF414C] text-white"
-                  : "bg-[#F7F7F7] dark:bg-[#080808] text-[#8A8F98] dark:text-[#8A8F9D]"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-[#F7F7F7] dark:bg-[#080808] text-muted-foreground"
               )}
             >
               {isActive && (
-                <div className="absolute top-0 left-0 right-0 h-[6px] md:h-[8px] bg-[#FF414C] rounded-t-xl -translate-y-full" />
+                <div className="absolute top-0 left-0 right-0 h-[6px] md:h-[8px] bg-primary rounded-t-xl -translate-y-full" />
               )}
 
               {item?.svg && (
@@ -295,7 +295,7 @@ const ExpandedGpu = () => {
                 "border-t border-r border-[#D1D1D1] dark:border-[#2E2E2E]",
                 index === gpuTypes.length - 1 && "border-r-0",
                 isActive
-                  ? "bg-[linear-gradient(180deg,#FF414C_36.11%,#DA2832_100%)] text-white border-t-[#DC1D28]"
+                  ? "bg-primary text-primary-foreground border-t-primary"
                   : "bg-[#EAEAEA] dark:bg-[linear-gradient(16.2deg,#121212_16.73%,#191818_88.7%)] text-black dark:text-white"
               )}
             >
@@ -322,7 +322,7 @@ const ExpandedGpu = () => {
                     "border-t border-r border-[#D1D1D1] dark:border-[#2E2E2E]",
                     colIndex === gpuTypes.length - 1 && "border-r-0",
                     isActiveCol
-                      ? "bg-[linear-gradient(180deg,#FF414C_36.11%,#DA2832_100%)] text-white border-t-[#DC1D28]"
+                      ? "bg-primary text-primary-foreground border-t-primary"
                       : "bg-[#EAEAEA] dark:bg-[linear-gradient(16.2deg,#121212_16.73%,#191818_88.7%)] text-black dark:text-white"
                   )}
                 >

@@ -586,12 +586,12 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
     border-top: none;
   }
 
-  /* Active section: accent stripe + subtle red-tinted background. */
+  /* Active section: accent stripe + subtle tinted background. */
   .api-reference-html .api-section-block[data-active="true"] {
-    background-color: rgba(255, 65, 76, 0.07);
+    background-color: hsl(var(--primary) / 0.05);
   }
   html.dark .api-reference-html .api-section-block[data-active="true"] {
-    background-color: rgba(255, 65, 76, 0.08);
+    background-color: hsl(var(--primary) / 0.08);
   }
   .api-reference-html .api-section-block[data-active="true"]::before {
     content: "";
@@ -600,7 +600,7 @@ const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
     top: 0;
     bottom: 0;
     width: 3px;
-    background-color: #ff414c;
+    background-color: hsl(var(--primary));
   }
 
   /* Per-section copy button — hidden by default, visible only on the

@@ -141,9 +141,9 @@ const tableColumns =
   "sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1.1fr)]";
 const tableRowClass = `grid grid-cols-2 items-start gap-x-4 gap-y-3 px-5 py-4 sm:px-6 ${tableColumns}`;
 const hintClass =
-  "mt-1.5 font-jetBrainsMono text-[11px] text-zinc-500 dark:text-zinc-400";
+  "mt-1.5 font-jetBrainsMono text-[11px] text-muted-foreground";
 const footnoteClass =
-  "text-xs leading-relaxed text-zinc-500 dark:text-zinc-400";
+  "text-xs leading-relaxed text-muted-foreground";
 
 export default function ProviderCalculator() {
   return (
@@ -254,17 +254,17 @@ function ProviderCalculatorContent() {
     <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
       <div className="flex flex-col gap-6">
         <Panel className="p-6 md:p-8">
-          <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-50">
+          <h2 className="text-xl font-medium text-foreground">
             Describe your hardware
           </h2>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-2 text-sm text-muted-foreground">
             List the hardware you&apos;d offer and the price you&apos;d bid.
             Earnings scale with how much of it gets leased.
           </p>
 
           <div className="mt-8 flex items-center justify-between gap-4">
             <FieldLabel>Utilization</FieldLabel>
-            <span className="font-jetBrainsMono text-sm tabular-nums text-zinc-900 dark:text-zinc-50">
+            <span className="font-jetBrainsMono text-sm tabular-nums text-foreground">
               {utilization}%
             </span>
           </div>
@@ -275,7 +275,7 @@ function ProviderCalculatorContent() {
             max={100}
             label="Utilization, percent of capacity leased"
           />
-          <div className="mt-3 flex justify-between font-jetBrainsMono text-[11px] text-zinc-500 dark:text-zinc-400">
+          <div className="mt-3 flex justify-between font-jetBrainsMono text-[11px] text-muted-foreground">
             <span>0%</span>
             <span>100%</span>
           </div>
@@ -379,10 +379,10 @@ function ProviderCalculatorContent() {
               <div key={resource.key} className={tableRowClass}>
                 {/* Top padding lines the label up with the text inside the inputs. */}
                 <div className="col-span-2 min-w-0 sm:col-span-1 sm:pt-2">
-                  <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                  <p className="text-sm font-medium text-foreground">
                     {resource.label}
                   </p>
-                  <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-0.5 text-xs text-muted-foreground">
                     {resource.hint}
                   </p>
                 </div>
@@ -459,13 +459,13 @@ function ProviderCalculatorContent() {
 
           <dl className="mt-5 flex flex-col gap-3 text-sm">
             <div className="flex items-center justify-between gap-4">
-              <dt className="text-zinc-600 dark:text-zinc-400">Utilization</dt>
-              <dd className="font-jetBrainsMono tabular-nums text-zinc-900 dark:text-zinc-50">
+              <dt className="text-muted-foreground">Utilization</dt>
+              <dd className="font-jetBrainsMono tabular-nums text-foreground">
                 {utilization}%
               </dd>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <dt className="text-zinc-600 dark:text-zinc-400">AKT price</dt>
+              <dt className="text-muted-foreground">AKT price</dt>
               <dd className="flex items-center gap-3">
                 {averageAkt && currentAkt ? (
                   <SegmentedControl
@@ -479,7 +479,7 @@ function ProviderCalculatorContent() {
                   />
                 ) : (
                   aktPrice && (
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                    <span className="text-xs text-muted-foreground">
                       {basis === "average" ? "30-day avg" : "Current"}
                     </span>
                   )
@@ -487,11 +487,11 @@ function ProviderCalculatorContent() {
                 {aktLoading ? (
                   <Skeleton className="h-5 w-14" />
                 ) : aktPrice ? (
-                  <span className="font-jetBrainsMono tabular-nums text-zinc-900 dark:text-zinc-50">
+                  <span className="font-jetBrainsMono tabular-nums text-foreground">
                     {formatUsd(aktPrice, aktPrice < 1 ? 3 : 2)}
                   </span>
                 ) : (
-                  <span className="text-zinc-500 dark:text-zinc-400">
+                  <span className="text-muted-foreground">
                     Unavailable
                   </span>
                 )}
@@ -508,7 +508,7 @@ function ProviderCalculatorContent() {
                 key={line.key}
                 className="grid grid-cols-[minmax(0,140px)_minmax(0,1fr)] items-center gap-4 text-sm"
               >
-                <dt className="truncate text-zinc-600 dark:text-zinc-400">
+                <dt className="truncate text-muted-foreground">
                   {line.label}
                 </dt>
                 <dd className="flex items-center gap-4">
@@ -523,7 +523,7 @@ function ProviderCalculatorContent() {
                       }}
                     />
                   </span>
-                  <span className="min-w-[88px] text-right font-jetBrainsMono tabular-nums text-zinc-900 dark:text-zinc-50">
+                  <span className="min-w-[88px] text-right font-jetBrainsMono tabular-nums text-foreground">
                     {formatUsd(line.monthly)}
                   </span>
                 </dd>
@@ -551,7 +551,7 @@ function ProviderCalculatorContent() {
           </div>
         </Panel>
 
-        <p className="px-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+        <p className="px-1 text-xs leading-relaxed text-muted-foreground">
           Estimates only, before operating costs. Actual earnings depend on the
           leases you win and your uptime. AKT figures convert the USD estimate
           at CoinGecko&apos;s AKT/USD price.
@@ -565,7 +565,7 @@ function TableHeader({ labels }: { labels: [string, string, string] }) {
   return (
     <div
       className={cn(
-        "hidden gap-4 border-b border-zinc-200 bg-zinc-50/60 px-6 py-3 text-sm font-medium text-zinc-500 dark:border-white/10 dark:bg-white/[0.02] dark:text-zinc-400 sm:grid",
+        "hidden gap-4 border-b border-zinc-200 bg-zinc-50/60 px-6 py-3 text-sm font-medium text-muted-foreground dark:border-white/10 dark:bg-white/[0.02] sm:grid",
         tableColumns,
       )}
     >
@@ -590,7 +590,7 @@ function GpuModelSelect({
   if (isLoading) return <Skeleton className="h-9 w-full" />;
   if (options.length === 0) {
     return (
-      <p className="flex h-9 items-center text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="flex h-9 items-center text-sm text-muted-foreground">
         GPU models unavailable
       </p>
     );
@@ -603,7 +603,7 @@ function GpuModelSelect({
     <Select value={value ?? undefined} onValueChange={onValueChange}>
       <SelectTrigger
         aria-label="GPU model"
-        className="h-9 w-full min-w-0 gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-zinc-900 shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-black/40 dark:text-zinc-50"
+        className="h-9 w-full min-w-0 gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-foreground shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-black/40"
       >
         <SelectValue placeholder="Select a model">
           {selected && `${selected.name} ${selected.ramLabel}`}

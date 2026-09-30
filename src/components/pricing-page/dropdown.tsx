@@ -41,7 +41,7 @@ const Dropdown = ({
             className={clsx(
               "data-[state=checked]:bg-primary",
               "data-[state=checked]:text-white",
-              "group/item hover:bg-primary hover:text-white",
+              "group/item hover:bg-primary hover:text-primary-foreground",
             )}
           >
             <a href={`/pricing/${tab.value}`}>{tab.description}</a>

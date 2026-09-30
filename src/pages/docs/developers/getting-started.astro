@@ -204,7 +204,7 @@ const helpLinks = [
     <div
       class="mb-16 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
     >
-      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+      <h2 class="mb-4 text-xl font-semibold text-foreground">
         Need Help?
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -213,7 +213,7 @@ const helpLinks = [
             <a
               href={link.href}
               target="_blank"
-              class="flex items-center gap-3 text-[#ff414c] hover:underline"
+              class="flex items-center gap-3 text-primary hover:underline"
             >
               <Fragment set:html={link.icon} />
               <span class="font-medium">{link.text}</span>

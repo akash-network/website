@@ -39,10 +39,10 @@ import { CheckCircle2, ExternalLink, X } from "lucide-react";
 // shadcn/ui default (neutral, monochrome) field styles, matching the pricing pages' controls.
 // They also override the site-wide Input defaults: the red focus ring and its offset.
 const fieldClass =
-  "h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 text-base text-zinc-900 shadow-sm transition-colors placeholder:text-zinc-500 focus-visible:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/10 focus-visible:ring-offset-0 aria-[invalid=true]:border-red-600 dark:border-white/10 dark:bg-black/40 dark:text-zinc-50 dark:placeholder:text-zinc-400 dark:focus-visible:border-white/30 dark:focus-visible:ring-white/10 dark:aria-[invalid=true]:border-red-400 md:text-sm";
+  "h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 text-base text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/10 focus-visible:ring-offset-0 aria-[invalid=true]:border-red-600 dark:border-white/10 dark:bg-black/40 dark:focus-visible:border-white/30 dark:focus-visible:ring-white/10 dark:aria-[invalid=true]:border-red-400 md:text-sm";
 const countryTriggerClass =
-  "h-9 border-zinc-200 bg-white shadow-sm hover:bg-zinc-100 hover:text-zinc-900 focus-visible:border-zinc-400 focus-visible:ring-2 focus-visible:ring-zinc-950/10 focus-visible:ring-offset-0 dark:border-white/10 dark:bg-black/40 dark:hover:bg-white/[0.06] dark:hover:text-zinc-50";
-const requiredClass = "text-zinc-500 dark:text-zinc-400";
+  "h-9 border-zinc-200 bg-white shadow-sm hover:bg-zinc-100 hover:text-foreground focus-visible:border-zinc-400 focus-visible:ring-2 focus-visible:ring-zinc-950/10 focus-visible:ring-offset-0 dark:border-white/10 dark:bg-black/40 dark:hover:bg-white/[0.06]";
+const requiredClass = "text-muted-foreground";
 const messageClass = "text-red-600 dark:text-red-400";
 
 const formSchema = z.object({
@@ -357,7 +357,7 @@ export function GpuContactForm() {
         </div>
       ) : (
         <Panel className="flex w-full flex-col gap-6 p-6 md:p-8">
-          <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-50">
+          <h2 className="text-xl font-medium text-foreground">
             Get Your Custom Quote
           </h2>
 
@@ -538,14 +538,14 @@ export function GpuContactForm() {
                 )}
               />
 
-              <p className="!mt-8 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-sm">
+              <p className="!mt-8 text-xs leading-relaxed text-muted-foreground md:text-sm">
                 By clicking submit below, you consent to allow Akash Network to
                 store and process the personal information submitted above to
                 provide you the content requested. Please review our{" "}
                 <a
                   target="_blank"
                   href="/privacy"
-                  className="font-medium text-zinc-900 underline underline-offset-4 dark:text-zinc-50"
+                  className="font-medium text-foreground underline underline-offset-4"
                 >
                   privacy policy
                 </a>{" "}

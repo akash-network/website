@@ -30,7 +30,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
         <a
           className={`block rounded-md px-3 py-2 text-sm hover:bg-gray-100 hover:text-primary depth-${depth} ${
             currentHeading.slug === slug
-              ? "dark:bg-darkGray bg-gray-100  text-gray-900 dark:text-white"
+              ? "dark:bg-darkGray bg-gray-100  text-foreground"
               : "text-textGray"
           }`.trim()}
           href={`#${slug}`}
