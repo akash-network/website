@@ -72,7 +72,7 @@ Check the [Usage Pricing Calculator](https://akash.network/pricing/usage-calcula
 ### Prerequisites
 
 - [Akash Console Air](https://air.akash.network/) account with [pre-minted](https://air.akash.network/mint-burn) ACT tokens OR [Akash Console](https://console.akash.network/) if you want to buy credits without crypto.
-- LLM API keys (OpenAI, Anthropic, or compatible provider). [AkashML](https://akashml.com/#models) works perfectly with Claude Code adapter.
+- LLM API keys (OpenAI, Anthropic, or compatible provider). [AkashML](https://akashml.com/#models) works perfectly with Claude Code adapter. Go to the [AkashML documentation](https://akashml.com/docs/getting-started/introduction) to learn how to get started.
 
 ### Step 1: Configure the SDL
 
@@ -174,11 +174,17 @@ deployment:
 
 Add the following variables via the Console UI:
 
-- `DATABASE_URL` — Database connection URL.
+- `DATABASE_URL` — Database connection URL. The second service in our SDL (which uses PostgreSQL) is optional: we use persistent storage to avoid data loss after the container restarts. For successful authentication, the values ​​of the `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DB` variables must match. Variable format: `postgresql://[user]:[password]@[host]:[port]/[database_name]`.
+- `PAPERCLIP_DEPLOYMENT_MODE` — Runtime mode override. Must be `authenticated` for the cloud. Using this mode sets the host to 0.0.0.0.
+- `PAPERCLIP_DEPLOYMENT_EXPOSURE` — Exposure policy override, typically private or public in authenticated mode.
 - `PAPERCLIP_PUBLIC_URL` — Temporary placeholder. Will be replaced with actual URL after deployment. Without this, the UI is unavailable.
+- `BETTER_AUTH_SECRET` — Signing secret for Better Auth sessions and tokens. Generate your own secret using the command `openssl rand -hex 32`.
+- `PAPERCLIP_TOOL_ACTION_SIGNING_SECRET` — Signing secret for tool action approvals. Generate your own secret using the command `openssl rand -hex 32`.
 - `ANTHROPIC_BASE_URL` — Endpoint for Claude Code adapter. AkashML in this case.
 - `ANTHROPIC_AUTH_TOKEN` — API key for accessing our endpoint.
 - `ANTHROPIC_MODEL` — Model that will be used by default.
+
+Only `BETTER_AUTH_SECRET` is required to successfully launch the server. However, `PAPERCLIP_TOOL_ACTION_SIGNING_SECRET` must be configured for the agents to function fully and securely.
 
 Read more about environment variables at [Paperclip Docs](https://docs.paperclip.ing/reference/deploy/environment-variables/) and [AkashML Docs](https://akashml.com/docs/guides/claude-code).
 
