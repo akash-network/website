@@ -15,7 +15,7 @@ Standard cloud deployments require trusting the infrastructure operator. Confide
 
 Akash supports AMD SEV-SNP and Intel TDX. Tenants specify a TEE *capability* (`cpu` or `cpu-gpu`) in their SDL, and the provider resolves the actual hardware *platform* (`snp` or `tdx`) at deployment time based on its cluster nodes. NVIDIA GPU Confidential Computing is available with the `cpu-gpu` capability.
 
-> **Important: Private container registries are not supported yet.** Confidential Compute workloads can only pull images from **public** registries. If your SDL references an image that requires registry credentials to pull, the deployment will fail. See [Limitations and Considerations](#limitations-and-considerations) for details.
+> **New: private registries, persistent encrypted storage, and sealed secrets.** Confidential workloads can now pull private images, attach encrypted persistent volumes, and receive injected secrets, all through tenant-controlled references that the provider brokers but can never read. See [Confidential Registries, Storage, and Secrets](#confidential-registries-storage-and-secrets).
 
 ---
 
@@ -88,7 +88,7 @@ Everything inside the VM boundary is encrypted. The provider's OS and administra
 
 Set `params.tee` to the desired capability in your service definition. The rest of the SDL remains unchanged.
 
-> **Important: Images must come from a public registry.** Private container registries are not supported yet for Confidential Compute. Every `image` referenced by a TEE service must be publicly pullable, images requiring pull credentials will cause the deployment to fail.
+> **Public images need nothing extra.** Any publicly pullable `image` works with no additional configuration. To pull from a **private** registry, provide the credentials as a KBS reference so the provider never sees them, see [Private Registry Credentials](#private-registry-credentials).
 
 ### Basic Example — CPU-only TEE
 
@@ -189,6 +189,119 @@ The `params.tee` field accepts the following values:
 | `cpu-gpu` | `kata-qemu-nvidia-gpu-tdx` | `kata-qemu-nvidia-gpu-snp` | Confidential VM with NVIDIA GPU CC |
 
 `cpu-gpu` must be paired with GPU resources in the compute profile. GPU CC workloads request the `nvidia.com/pgpu` Kubernetes resource for VFIO passthrough.
+
+---
+
+## Confidential Registries, Storage, and Secrets
+
+Confidential workloads often need something that would normally be visible to whoever runs the machine: credentials to pull a private image, or an encrypted disk that survives restarts. Akash handles these through a **Key Broker Service (KBS)**. The KBS hands a secret to the guest only after the guest proves, through hardware attestation, that it is the exact TEE you deployed. The provider relays the request and never sees what comes back.
+
+In your SDL you only ever write a reference: an opaque `kbs:///repo/type/tag` URI, or a signed `sealed.<...>` token. The real secret lives in the KBS and never touches the SDL, the manifest, or the provider.
+
+### Choosing a Key Broker (`params.kbs`)
+
+Set `params.kbs.mode` on each confidential service to choose whose KBS releases its secrets. This block is required whenever a service uses any of the reference-based features below.
+
+**Provider mode** uses the KBS the provider operates. This is the simplest option and is enough for most workloads.
+
+```yaml
+params:
+  tee: cpu
+  kbs:
+    mode: provider
+```
+
+**Tenant mode** points the workload at a KBS you run yourself, so your own attestation policy decides what gets released.
+
+```yaml
+params:
+  tee: cpu
+  kbs:
+    mode: tenant
+    url: https://kbs.example.com:8443
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      ...your KBS public certificate...
+      -----END CERTIFICATE-----
+    imageSecurityPolicyURI: kbs:///team/security-policy/sha256-<64-hex-digest>
+    agentPolicy: |
+      package agent_policy
+      default allow = false
+```
+
+**Managed Trustee (Overclock Labs).** Tenant mode does not mean you have to operate Trustee yourself. Overclock Labs, the team behind Akash, runs a managed Trustee instance you can point `url` at. You get an attestation authority that is independent of the provider, you keep your own key-release policies, and the provider still never sees your secrets, without the work of standing up and maintaining the service. This is the easiest way to use tenant mode.
+
+### Private Registry Credentials
+
+A confidential service can pull from a private registry, but you hand it the credentials **by reference, never inline**, so the provider never reads them. Put the registry login in your KBS and point `credentials.uri` at it:
+
+```yaml
+services:
+  app:
+    image: registry.example.com/team/private-app:latest
+    credentials:
+      uri: kbs:///team/registry/app
+    params:
+      tee: cpu
+      kbs:
+        mode: provider
+```
+
+The URI has to be the canonical `kbs:///repo/type/tag` form. A confidential service rejects inline `username`/`password` credentials, since those would hand the secret straight to the provider. Ordinary (non-TEE) services keep using inline credentials exactly as before.
+
+### Persistent Encrypted Storage
+
+Confidential workloads can attach persistent volumes that only your guest can decrypt. The data survives restarts, and neither the provider nor the host ever holds the key.
+
+Mark the volume `persistent: true`, request a block storage `class` the provider has qualified for confidential storage, and give it a signed key reference:
+
+```yaml
+services:
+  db:
+    image: postgres:16
+    params:
+      tee: cpu
+      kbs:
+        mode: provider
+      storage:
+        data:
+          mount: /var/lib/postgresql/data
+          keyRef: sealed.<compact-JWS>
+profiles:
+  compute:
+    db:
+      resources:
+        cpu:
+          units: 2
+        memory:
+          size: 4Gi
+        storage:
+          - name: data
+            size: 10Gi
+            attributes:
+              class: beta3
+              persistent: true
+```
+
+The guest encrypts the volume with a key the KBS releases against your `keyRef`. That `keyRef` has to be a tenant-signed sealed reference (`sealed.<header>.<payload>.<signature>`), and it only works on a persistent volume. Not every provider offers this. You need one that advertises a block storage class qualified for confidential storage, see [Limitations and Considerations](#limitations-and-considerations).
+
+### Sealed Environment Variables
+
+The guest unseals any environment variable value that starts with `sealed.` before your container runs. If it cannot, the container fails to start rather than coming up with the raw `sealed.` string still in place, so a broken secret never leaks its encoded form into your app.
+
+```yaml
+services:
+  app:
+    image: myorg/app:latest
+    env:
+      - API_KEY=sealed.<compact-JWS>
+    params:
+      tee: cpu
+      kbs:
+        mode: provider
+```
+
+Use sealed environment variables for API keys, database passwords, and other runtime secrets you don't want visible to the provider.
 
 ---
 
@@ -397,7 +510,7 @@ The attestation design enforces these properties:
 
 ## Limitations and Considerations
 
-- **Private container registries are not supported yet.** Confidential Compute workloads can only pull images from **public** registries. Images that require authentication (pull credentials/`imagePullSecrets`) cannot be used with a TEE deployment, and the deployment will fail if it references one. Support for private registries is planned but not yet available. For now, ensure any image used in a confidential workload is publicly pullable.
+- **Private registries require KBS-brokered credentials.** A confidential service can pull private images, but the registry credentials must be supplied as a `kbs:///repo/type/tag` reference under `credentials.uri`, not inline. Inline `username`/`password` credentials and `imagePullSecrets` are rejected for TEE services. See [Confidential Registries, Storage, and Secrets](#confidential-registries-storage-and-secrets).
 - **Provider availability**: Only providers with TEE-capable hardware can accept confidential workloads. Look for the `tee/type` attribute when selecting a provider.
 - **Performance**: Memory encryption adds a small overhead (~1-5%). GPU Confidential Computing may add further overhead depending on the workload.
 - **Sidecar resources**: The attestation sidecar consumes modest resources (10m CPU, 32-64Mi memory) which are automatically included in resource accounting.
@@ -405,7 +518,8 @@ The attestation design enforces these properties:
 - **Distroless and scratch-based images are not supported.** Kata Containers uses a guest agent inside the VM to set up and manage the container filesystem. Images built `FROM scratch` or from `gcr.io/distroless/...` lack the minimal filesystem structure (e.g. `/dev`, `/proc`, `/sys`) that the guest agent requires to initialize the container. Use a minimal but complete base image such as `alpine` or `ubuntu` instead.
 - **Images must run as a numeric user, not a named one.** A named `USER` in the image (e.g. `USER appuser`) fails at container creation (`openat etc/passwd: no such file or directory`) because the host cannot resolve the name against the in-guest filesystem. Use a numeric `UID:GID` (or root). See [Preparing Images for Confidential Compute](#preparing-images-for-confidential-compute).
 - **Image size is bounded by guest memory.** The image is unpacked into guest RAM (there is no host-shared filesystem), so large images need a correspondingly large `memory` request and can otherwise fail to unpack (`Failed to unpack layer to destination`) or time out during creation (`context deadline exceeded`). Prefer small images and size `memory` for the *extracted* image plus your working set.
-- **Ephemeral `storage` is not a real disk (and not extra RAM).** With `shared_fs` disabled, the container's writable layer lives in the guest's RAM. A `storage` request is neither turned into a disk of that size nor into that much RAM (RAM comes from `memory`); usable writable space is bounded by the VM's memory, and writing past it fails with an out-of-space error. Size `memory` for what your workload writes. See [Preparing Images for Confidential Compute](#preparing-images-for-confidential-compute).
+- **Ephemeral `storage` is not a real disk (and not extra RAM).** With `shared_fs` disabled, the container's writable layer lives in the guest's RAM. A `storage` request is neither turned into a disk of that size nor into that much RAM (RAM comes from `memory`); usable writable space is bounded by the VM's memory, and writing past it fails with an out-of-space error. Size `memory` for what your workload writes. For durable data, attach a [persistent encrypted volume](#persistent-encrypted-storage) instead. See [Preparing Images for Confidential Compute](#preparing-images-for-confidential-compute).
+- **Persistent confidential volumes need a qualified provider and a slow first mount.** Encrypted persistent storage is only available on providers that advertise a block storage class qualified for confidential use. The volume is read in full on first attach to establish encryption, so a large disk can take several minutes before the container starts (roughly 15+ minutes per TB); later restarts mount quickly.
 
 ---
 
