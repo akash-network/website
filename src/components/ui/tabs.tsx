@@ -54,7 +54,7 @@ export default function TabsWrapper({
               className={classNames(
                 currentTab === tab
                   ? "border-black text-black dark:border-white dark:text-white"
-                  : "border-transparent text-[#889096] hover:border-gray-300 hover:text-gray-700 dark:hover:text-white",
+                  : "border-transparent text-muted-foreground hover:border-gray-300 hover:text-foreground",
                 " border-b-2 px-3 py-2 text-center text-sm font-medium",
               )}
               aria-current={tab ? "page" : undefined}

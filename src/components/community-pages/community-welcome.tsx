@@ -85,7 +85,7 @@ function HeroSection({
       <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-14">
         {/* Title Block */}
         <div className="flex w-full flex-col items-start gap-5 pb-6 md:pb-10">
-          <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-semibold leading-tight tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl">
             The Open Cloud Community
           </h1>
           <p className="max-w-2xl text-base font-normal text-para">
@@ -202,13 +202,13 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
 //     return (
 //         <section className="border-y border-[#e4e4e7] dark:border-defaultBorder bg-[#fafafa] dark:bg-background2 px-4 py-20 md:px-10 md:py-[120px]">
 //             <div className="mx-auto flex max-w-6xl flex-col items-center gap-8">
-//                 <blockquote className="text-center font-instrument italic text-xl  leading-relaxed text-[#111827] dark:text-foreground md:text-3xl lg:text-[48px] lg:leading-[1.3]">
+//                 <blockquote className="text-center font-instrument italic text-xl  leading-relaxed text-foreground md:text-3xl lg:text-[48px] lg:leading-[1.3]">
 //                     "Bull market, bear market, it doesn&apos;t matter.
 //                     495 open-source contributors averaging 67 commits per week build Akash regardless of market conditions. Akash is the People&apos;s Supercloud and I&apos;m credibly proud of the $AKT community."
 //                 </blockquote>
 //                 <div className="flex flex-col items-center">
-//                     <p className="text-lg font-semibold text-[#111827] dark:text-foreground">Greg Osuri</p>
-//                     <p className="text-center text-base text-[#71717a] dark:text-para">
+//                     <p className="text-lg font-semibold text-foreground">Greg Osuri</p>
+//                     <p className="text-center text-base text-muted-foreground">
 //                         Founder of Akash
 //                         <br />
 //                         Overclock Labs CEO
@@ -238,10 +238,10 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
 //             <div className="mx-auto flex max-w-[1240px] flex-col gap-20 lg:flex-row lg:gap-20">
 //                 {/* Left: Title */}
 //                 <div className="flex flex-col gap-3 lg:w-1/2">
-//                     <h2 className="text-3xl font-semibold text-[#111827] dark:text-foreground md:text-[40px] md:leading-[1.2]">
+//                     <h2 className="text-3xl font-semibold text-foreground md:text-[40px] md:leading-[1.2]">
 //                         Explore Social Channels
 //                     </h2>
-//                     <p className="text-sm leading-5 text-[#71717a]">
+//                     <p className="text-sm leading-5 text-muted-foreground">
 //                         Be part of the Akash Network community. Connect, contribute, and collaborate to shape the future of decentralized cloud computing.
 //                     </p>
 //                 </div>
@@ -309,7 +309,7 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
 //                             <AccordionTrigger className="flex w-full cursor-pointer items-center justify-between py-4 text-left text-base font-medium  no-underline">
 //                                 <span>{item.question}</span>
 //                             </AccordionTrigger>
-//                             <AccordionContent className="pb-4 text-sm leading-5 text-[#737373] dark:text-para whitespace-pre-line">
+//                             <AccordionContent className="pb-4 text-sm leading-5 text-muted-foreground whitespace-pre-line">
 //                                 {item.answer}
 //                             </AccordionContent>
 //                         </AccordionItem>
@@ -328,10 +328,10 @@ function CTASection() {
       <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-8 md:gap-[60px]">
         <div className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-3">
-            <h2 className="text-center text-3xl font-semibold text-[#111827] dark:text-foreground md:text-[48px] md:leading-[1.15]">
+            <h2 className="text-center text-3xl font-semibold text-foreground md:text-[48px] md:leading-[1.15]">
               The Supercloud is waiting.
             </h2>
-            <p className="text-center text-lg text-[#71717a] dark:text-para">
+            <p className="text-center text-lg text-muted-foreground">
               Where will you start?
             </p>
           </div>
@@ -340,7 +340,7 @@ function CTASection() {
               href="https://discord.com/invite/akash"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-[#171717] dark:text-foreground transition-colors hover:bg-[#ebebeb]"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[#ebebeb]"
             >
               Join the Akash Club
               <ArrowUpRightIcon className="h-4 w-4" />
@@ -349,14 +349,14 @@ function CTASection() {
               href="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-[#171717] dark:text-foreground transition-colors hover:bg-[#ebebeb]"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[#ebebeb]"
             >
               Apply to Insiders
               <ArrowUpRightIcon className="h-4 w-4" />
             </a>
           </div>
         </div>
-        <p className="max-w-[859px] text-center text-sm leading-6 text-[#71717a] dark:text-para">
+        <p className="max-w-[859px] text-center text-sm leading-6 text-muted-foreground">
           Note: Technical contributions on GitHub are always open to everyone.
           <br />
           However, access to paid content bounties and official training is reserved for the Insider program.

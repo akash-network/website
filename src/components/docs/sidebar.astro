@@ -31,17 +31,17 @@ const supportIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="
                 nav?.[0]?.subItems?.map((navItem: any, i: any) => (
                   <>
                     {i === 0 && (
-                      <p class="mt-6 border-t border-[#e6e8eb] py-6 text-xs font-bold uppercase tracking-wider text-[#11181c] dark:border-[#333] dark:text-white">
+                      <p class="mt-6 border-t border-[#e6e8eb] py-6 text-xs font-bold uppercase tracking-wider text-foreground dark:border-[#333]">
                         User Docs
                       </p>
                     )}
                     <div
                       class={`flex w-full cursor-pointer items-center justify-between gap-x-2 px-2 py-1 text-sm font-medium`}
                     >
-                      <p class="flex-1 text-left text-[#687076] group-hover:text-[#ff414c] dark:text-[#888]">
+                      <p class="flex-1 text-left text-muted-foreground group-hover:text-primary">
                         {navItem.label}
                       </p>
-                      <ChevronDownIcon className="w-4 text-[#687076]" />
+                      <ChevronDownIcon className="w-4 text-muted-foreground" />
                     </div>
                   </>
                 ))
@@ -60,7 +60,7 @@ const supportIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="
             class={`flex cursor-pointer items-center gap-x-2 rounded-md  my-3 text-sm font-medium leading-[20px] transition-colors  dark:hover:bg-[#333] ${
               pathname === "/support/"
                 ? "text-primary dark:bg-[#3a1d1f]"
-                : "text-para dark:text-[#888]"
+                : "text-muted-foreground"
             }`}
           >
             <span set:html={supportIcon} />

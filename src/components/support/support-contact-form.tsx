@@ -371,7 +371,7 @@ export function SupportContactForm() {
           <div className="flex items-center justify-end pt-4">
             <Button
               type="submit"
-              className="h-auto rounded-md bg-primary px-8 py-3 text-white hover:bg-primary/90"
+              className="h-auto rounded-md bg-primary px-8 py-3 text-primary-foreground hover:bg-primary/90"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Submitting..." : "Submit"}

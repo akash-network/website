@@ -316,7 +316,7 @@ export function ContactForm() {
                     {formData.current_amount_spent_on_computer ===
                       option.value && (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="h-2 w-2 rounded-full bg-white"></div>
+                        <div className="h-2 w-2 rounded-full bg-primary-foreground"></div>
                       </div>
                     )}
                   </div>

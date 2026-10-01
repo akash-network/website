@@ -78,7 +78,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
         <a
           className={`flex items-center text-base ${
             depth === 2 ? "font-bold" : "font-normal"
-          } leading-[24px] text-[#808080]  hover:text-primary depth-${depth} ${
+          } leading-[24px] text-muted-foreground hover:text-primary depth-${depth} ${
             currentHeading.slug === slug && "text-primary"
           }`.trim()}
           href={`#${slug}`}

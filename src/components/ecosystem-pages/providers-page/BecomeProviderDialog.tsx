@@ -54,7 +54,7 @@ export function BecomeProviderDialog({ open, onOpenChange }: Props) {
                 <option.icon className="h-5 w-5" />
               </div>
               <p className="text-xs font-medium text-para">{option.eyebrow}</p>
-              <h3 className="mt-0.5 text-lg font-semibold tracking-tight text-foreground">{option.title}</h3>
+              <h3 className="mt-0.5 text-lg font-semibold text-foreground">{option.title}</h3>
               <p className="mb-4 mt-2 text-sm leading-relaxed text-para">{option.body}</p>
               <a
                 href={option.href}

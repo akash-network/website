@@ -30,7 +30,7 @@ const CheckBox = (props: InputProps) => {
             )}
           >
             <svg
-              className="h-3 w-3 text-white"
+              className="h-3 w-3 text-primary-foreground"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

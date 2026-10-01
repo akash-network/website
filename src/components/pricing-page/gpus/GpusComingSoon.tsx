@@ -36,12 +36,12 @@ const GpusComingSoon = () => {
             <h3 className="text-lg font-semibold text-white ">
               NVIDIA B200 – B300 Coming Soon
             </h3>
-            <p className="hidden text-sm text-[#8F8F8F] sm:block">
+            <p className="hidden text-sm text-muted-foreground sm:block">
               {description}
             </p>
           </div>
         </div>
-        <p className="mb-5 mt-4 text-sm text-[#8F8F8F] sm:hidden">
+        <p className="mb-5 mt-4 text-sm text-muted-foreground sm:hidden">
           {description}
         </p>
         <NvidiaBlackwellForm>
@@ -73,7 +73,7 @@ export const NVIDIAB200SoonForm = ({
   const button = (
     <button className="flex w-full items-center justify-center bg-primary px-3 py-2">
       <div>
-        <p className="text-center text-sm font-semibold text-white ">
+        <p className="text-center text-sm font-semibold text-primary-foreground ">
           NVIDIA B200/300 are coming to Akash -{" "}
           <span className="underline">Get Early Access</span>
         </p>

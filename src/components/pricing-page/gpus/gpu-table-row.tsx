@@ -113,7 +113,7 @@ const GpuTableRow = ({
           {/* Text - hidden by default, shown on hover */}
           <span
             className={cn(
-              "overflow-hidden whitespace-nowrap text-sm font-medium text-[#09090b] transition-all duration-300 ease-in-out dark:text-white",
+              "overflow-hidden whitespace-nowrap text-sm font-medium text-foreground transition-all duration-300 ease-in-out",
               isB200
                 ? "w-0 opacity-0 group-hover:w-[85px] group-hover:opacity-100"
                 : "w-0 opacity-0 group-hover:w-[45px] group-hover:opacity-100",

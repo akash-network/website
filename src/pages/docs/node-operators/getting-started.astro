@@ -172,21 +172,21 @@ const helpLinks = [
                 <div class="flex flex-shrink-0 items-center justify-center rounded-lg bg-[#f5f5f5] p-2.5 dark:bg-[#333]">
                   <div
                     set:html={option.icon}
-                    class="h-6 w-6 text-[#11181c] dark:text-white"
+                    class="h-6 w-6 text-foreground"
                   />
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-xl font-semibold text-[#11181c] dark:text-white">
+                  <h3 class="text-xl font-semibold text-foreground">
                     {option.title}
                   </h3>
-                  <p class="mt-2 text-sm text-[#7e868c]">
+                  <p class="mt-2 text-sm text-muted-foreground">
                     {option.description}
                   </p>
                   {option.details && option.details.length > 0 && (
-                    <div class="mt-4 space-y-2 text-sm text-[#7e868c]">
+                    <div class="mt-4 space-y-2 text-sm text-muted-foreground">
                       {option.details.map((detail) => (
                         <div>
-                          <p class="font-semibold text-[#11181c] dark:text-white">
+                          <p class="font-semibold text-foreground">
                             {detail.label}
                           </p>
                           {detail.items && (
@@ -197,7 +197,7 @@ const helpLinks = [
                             </ul>
                           )}
                           {"text" in detail && detail.text && (
-                            <p class="mt-3 text-[#7e868c]">{detail.text}</p>
+                            <p class="mt-3 text-muted-foreground">{detail.text}</p>
                           )}
                         </div>
                       ))}
@@ -206,7 +206,7 @@ const helpLinks = [
                   {option.link && (
                     <a
                       href={option.link}
-                      class="mt-4 inline-block text-[#ff414c] hover:underline"
+                      class="mt-4 inline-block text-primary hover:underline"
                     >
                       {option.linkText || "Learn More →"}
                     </a>
@@ -261,23 +261,23 @@ const helpLinks = [
     <div
       class="mb-12 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
     >
-      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+      <h2 class="mb-4 text-xl font-semibold text-foreground">
         Active Validator Set
       </h2>
-      <p class="mb-4 text-sm text-[#7e868c]">
-        <strong class="text-[#11181c] dark:text-white">Current Size:</strong> 100
+      <p class="mb-4 text-sm text-muted-foreground">
+        <strong class="text-foreground">Current Size:</strong> 100
         validators
       </p>
-      <p class="mb-4 text-sm text-[#7e868c]">
+      <p class="mb-4 text-sm text-muted-foreground">
         To join the active set, you need more voting power than the 100th
         validator.
       </p>
-      <p class="text-sm text-[#11181c] dark:text-white">
+      <p class="text-sm text-foreground">
         <strong>Check Requirements:</strong>
       </p>
-      <ul class="mt-2 space-y-2 text-sm text-[#7e868c]">
+      <ul class="mt-2 space-y-2 text-sm text-muted-foreground">
         <li class="flex items-start gap-2">
-          <span class="mt-1 text-[#ff414c]">→</span>
+          <span class="mt-1 text-primary">→</span>
           <span
             >Discord: <code
               class="rounded bg-[#f5f5f5] px-1 py-0.5 dark:bg-[#333]"
@@ -286,24 +286,24 @@ const helpLinks = [
           >
         </li>
         <li class="flex items-start gap-2">
-          <span class="mt-1 text-[#ff414c]">→</span>
+          <span class="mt-1 text-primary">→</span>
           <span
             >Explorers: <a
               href="https://www.mintscan.io/akash/validators"
               target="_blank"
-              class="text-[#ff414c] hover:underline">Mintscan</a
+              class="text-primary hover:underline">Mintscan</a
             > | <a
               href="https://atomscan.com/akash/validators"
               target="_blank"
-              class="text-[#ff414c] hover:underline">ATOMScan</a
+              class="text-primary hover:underline">ATOMScan</a
             > | <a
               href="https://explorer.arcturian.tech/akash/staking"
               target="_blank"
-              class="text-[#ff414c] hover:underline">Arcturian Tech</a
+              class="text-primary hover:underline">Arcturian Tech</a
             > | <a
               href="https://akash.valopers.com/"
               target="_blank"
-              class="text-[#ff414c] hover:underline">Valopers</a
+              class="text-primary hover:underline">Valopers</a
             ></span
           >
         </li>
@@ -314,7 +314,7 @@ const helpLinks = [
     <div
       class="mb-16 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
     >
-      <h2 class="mb-4 text-xl font-semibold text-[#11181c] dark:text-white">
+      <h2 class="mb-4 text-xl font-semibold text-foreground">
         Need Help?
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -323,7 +323,7 @@ const helpLinks = [
             <a
               href={link.href}
               target="_blank"
-              class="flex items-center gap-3 text-[#ff414c] hover:underline"
+              class="flex items-center gap-3 text-primary hover:underline"
             >
               <Fragment set:html={link.icon} />
               <span class="font-medium">{link.text}</span>

@@ -48,7 +48,7 @@ export default function Roadmap({ year, quarters, years }: Props) {
     <>
       <section className="container w-full pt-4">
         <div className="space-y-5">
-          <h1 className="max-w-xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className="max-w-xl text-4xl font-semibold leading-tight tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl">
             Akash Roadmap
           </h1>
           <p className="max-w-xl text-base font-normal text-para">
@@ -65,7 +65,7 @@ export default function Roadmap({ year, quarters, years }: Props) {
               className={`rounded-md px-4 py-1.5 text-sm font-medium transition-all ${
                 filter === "all"
                   ? "bg-background text-foreground shadow-sm"
-                  : "text-gray-500 hover:text-foreground dark:text-gray-400 dark:hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground dark:hover:text-foreground"
               }`}
             >
               All
@@ -75,7 +75,7 @@ export default function Roadmap({ year, quarters, years }: Props) {
               className={`rounded-md px-4 py-1.5 text-sm font-medium transition-all ${
                 filter === "major"
                   ? "bg-background text-foreground shadow-sm"
-                  : "text-gray-500 hover:text-foreground dark:text-gray-400 dark:hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground dark:hover:text-foreground"
               }`}
             >
               Major
@@ -106,7 +106,7 @@ export default function Roadmap({ year, quarters, years }: Props) {
                             <div className="flex min-h-6 min-w-6 items-center justify-center rounded-full bg-badgeColor">
                               <div className="size-1.5 rounded-full bg-black dark:bg-white" />
                             </div>
-                            <p className="whitespace-nowrap text-sm font-medium text-[#7E868C99] dark:text-para">
+                            <p className="whitespace-nowrap text-sm font-medium text-muted-foreground">
                               {roadmap.id.split("/")[0]}
                             </p>
                           </div>

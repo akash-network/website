@@ -28,13 +28,13 @@ const chevronIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="
                 <>
                   <a
                     href={crumb.link}
-                    class="text-[#687076] transition-colors hover:text-[#11181c] dark:text-[#888] dark:hover:text-white"
+                    class="text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {crumb.label}
                   </a>
                   <span
                     set:html={chevronIcon}
-                    class="text-[#687076] dark:text-[#888]"
+                    class="text-muted-foreground"
                   />
                 </>
               ) : (

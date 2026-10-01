@@ -64,9 +64,18 @@ module.exports = {
       colors: {
         background: "hsl(var(--background))",
         background2: "hsl(var(--background2))",
-        card: "hsl(var(--card))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
         "background-muted": "hsl(var(--background-muted))",
         foreground: "hsl(var(--foreground))",
+        muted: {
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        popover: {
+          foreground: "hsl(var(--popover-foreground))",
+        },
         para: "hsl(var(--para))",
         cardGray: "hsl(var(--card-gray))",
         textGray: "hsl(var(--text-gray))",
@@ -86,7 +95,7 @@ module.exports = {
         },
         input: "hsl(var(--input))",
         primary: {
-          DEFAULT: "#ff414c",
+          DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
         "success-light": "#D1FAE5",
@@ -97,6 +106,7 @@ module.exports = {
 
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
           rose: "hsl(var(--secondary-rose))",
           lemon: "hsl(var(--secondary-lemon))",
           lemonDark: "hsl(var(--secondary-lemon-dark))",
@@ -105,10 +115,23 @@ module.exports = {
           mint: "hsl(var(--secondary-mint))",
           red: "hsl(var(--secondary-red))",
         },
+
+        // Akash design system dark palette (colors_and_type.css --ak-*). Fixed
+        // values, independent of the theme variables above; pair with `dark:`.
+        ak: {
+          black: "#0A0A0A",
+          "off-black": "#111111",
+          subtle: "#1F1F1F",
+          border: "#222222",
+          "border-strong": "#2A2A2A",
+          muted: "#666666",
+          "muted-strong": "#888888",
+          fg: "#F2F2F2",
+        },
       },
 
       fontFamily: {
-        sans: ["Inter", "Inter Fallback", ...fontFamily.sans],
+        sans: ["Geist Variable", "Geist Fallback", ...fontFamily.sans],
         instrument: ["Instrument Serif", "Instrument Serif Fallback", ...fontFamily.serif],
         jetBrainsMono: ["JetBrains Mono", ...fontFamily.mono],
       },

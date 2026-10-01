@@ -24,7 +24,7 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
           <Disclosure.Button>
             <span className="flex items-center gap-1 text-base font-medium hover:font-semibold ">
               {item.name}
-              {/* <ChevronDownIcon className="h-5 font-medium text-[#11181C]" /> */}
+              {/* <ChevronDownIcon className="h-5 font-medium text-foreground" /> */}
             </span>
           </Disclosure.Button>
 
@@ -46,7 +46,7 @@ const HamburgerMenuDiscloserComponent = ({ item }: IFProps) => {
                       subItem.href.startsWith("http") ? "_blank" : "_self"
                     }
                     key={Math.random() + indx}
-                    className="flex items-center text-base font-medium text-[#808080]"
+                    className="flex items-center text-base font-medium text-muted-foreground"
                   >
                     {subItem.name}{" "}
                     {subItem?.href?.startsWith("http") ? (
