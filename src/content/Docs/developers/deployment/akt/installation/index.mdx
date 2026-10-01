@@ -7,9 +7,11 @@ linkTitle: "Installation"
 description: "Install the akt binary, run the first-time setup, and enable shell completion"
 ---
 
-Install the latest `akt` release, verify the binary, and create your first context.
+Install `akt`, verify the binary, and create your first context.
 
-Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest published version. Homebrew installs the latest release available in the official Akash tap; unreleased changes on GitHub may be ahead of that binary.
+The archive and source instructions below install release candidate [v1.0.0-rc0](https://github.com/akash-network/akt/releases/tag/v1.0.0-rc0). Homebrew installs the latest stable release.
+
+Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version.
 
 ---
 
@@ -23,7 +25,7 @@ import TabsWrapper, { TabContent } from "@/components/ui/tabs";
 <TabContent value="MacOS">
    #### MacOS
 
-**Option 1: Homebrew (recommended)**
+**Option 1: Homebrew (stable)**
 
 ```bash
 brew tap akash-network/tap
@@ -31,13 +33,13 @@ brew update
 brew install akash-network/tap/akt
 ```
 
-**Option 2: release archive**
+**Option 2: release candidate archive**
 
-Releases ship a universal binary that runs on both Apple Silicon and Intel Macs (`curl`, `jq`, and `unzip` required):
+Releases ship a universal binary that runs on both Apple Silicon and Intel Macs (`curl` and `unzip` required):
 
 ```bash
-# Get the latest release tag and version
-AKT_TAG="$(curl -s https://api.github.com/repos/akash-network/akt/releases/latest | jq -r '.tag_name')"
+# Select the release candidate
+AKT_TAG="v1.0.0-rc0"
 AKT_VERSION="${AKT_TAG#v}"
 
 # Download and verify the universal macOS archive
@@ -69,7 +71,7 @@ The command prints the version, commit, and build date. Add `--long` for the Go 
 <TabContent value="Linux">
    #### Linux
 
-**Option: Homebrew**
+**Option: Homebrew (stable)**
 
 If you already use Homebrew on Linux, install from the official tap:
 
@@ -79,13 +81,13 @@ brew update
 brew install akash-network/tap/akt
 ```
 
-**Download the release archive**
+**Download the release candidate archive**
 
-Releases ship `amd64` and `arm64` binaries (`curl`, `jq`, and `unzip` required):
+Releases ship `amd64` and `arm64` binaries (`curl` and `unzip` required):
 
 ```bash
-# Get the latest release tag and version
-AKT_TAG="$(curl -s https://api.github.com/repos/akash-network/akt/releases/latest | jq -r '.tag_name')"
+# Select the release candidate
+AKT_TAG="v1.0.0-rc0"
 AKT_VERSION="${AKT_TAG#v}"
 
 # Map machine type to release architecture
@@ -149,7 +151,7 @@ The Go module resolves its Akash chain SDK dependency from `go.mod`. You only ne
 
 ```bash
 # Clone akt
-git clone https://github.com/akash-network/akt
+git clone --branch v1.0.0-rc0 --depth 1 https://github.com/akash-network/akt
 
 # Build
 cd akt
@@ -180,7 +182,7 @@ akt version
 
 ## Keep akt Up to Date
 
-For an existing Homebrew installation on macOS or Linux:
+Homebrew updates to the latest stable release on macOS or Linux:
 
 ```bash
 brew update
@@ -188,7 +190,7 @@ brew upgrade akash-network/tap/akt
 akt version --long
 ```
 
-For archive or package installations, download the latest build from [GitHub Releases](https://github.com/akash-network/akt/releases/latest) and repeat the installation steps for your platform. For source builds, follow the current requirements and build instructions in the [akt repository](https://github.com/akash-network/akt#installation).
+For archive or package installations, select a stable release or release candidate from [GitHub Releases](https://github.com/akash-network/akt/releases) and repeat the installation steps for your platform. For source builds, follow the current requirements and build instructions in the [akt repository](https://github.com/akash-network/akt#installation).
 
 Use `akt <command> --help` to confirm the options supported by your installed binary. The [agent skill](/docs/developers/deployment/akt/agent-skill) is a separate download; installing or upgrading the CLI with Homebrew does not install it.
 
@@ -196,13 +198,13 @@ Use `akt <command> --help` to confirm the options supported by your installed bi
 
 ## First Run
 
-On the first interactive launch, `akt` fetches available networks from [akash-network/net](https://github.com/akash-network/net) and asks which ones to configure:
+Start first-time setup with an interactive context command. `akt` fetches available networks from [akash-network/net](https://github.com/akash-network/net) and asks which ones to configure:
 
 ```bash
-akt version
+akt context list
 ```
 
-If no config exists, the bootstrap wizard runs before the command. It creates `~/.config/akt/config.yaml`, sets up the first context, and offers Akash Console onboarding. The selected network's current high gas price becomes the transaction fee floor.
+If no config exists, the bootstrap wizard runs before the command. It creates `~/.config/akt/config.yaml`, sets up the first context, and offers Akash Console onboarding. The selected network's current high gas price becomes the transaction fee floor. `akt version` only prints build information and does not launch setup.
 
 Everything `akt` stores, including config, context credentials, keyrings, and deployment state, lives under `~/.config/akt` by default. Set `AKT_HOME` to move it.
 

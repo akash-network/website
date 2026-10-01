@@ -7,11 +7,11 @@ linkTitle: "Commands Reference"
 description: "Reference for akt CLI commands, arguments, and common flags"
 ---
 
-This reference covers the `akt` command groups and the most common Akash and Cosmos SDK operations.
+This reference covers release candidate [akt v1.0.0-rc0](https://github.com/akash-network/akt/releases/tag/v1.0.0-rc0) command groups and the most common Akash and Cosmos SDK operations.
 
 The chain SDK contributes many additional query and transaction leaves. Run `akt <command> --help` for the exact command tree and flags in your installed release.
 
-Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for published versions. [Homebrew](/docs/developers/deployment/akt/installation#keep-akt-up-to-date) installs and updates the binary from the official Akash tap.
+Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version. [Homebrew](/docs/developers/deployment/akt/installation#keep-akt-up-to-date) installs the latest stable release; use the [archive instructions](/docs/developers/deployment/akt/installation) for the release candidate.
 
 ---
 
