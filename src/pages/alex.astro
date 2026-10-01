@@ -1,0 +1,731 @@
+---
+import { BookingCard } from "@/components/alex/BookingCard";
+import { Faq } from "@/components/alex/Faq";
+import {
+  eyebrow,
+  outlineButtonClass,
+  primaryButtonClass,
+  tone,
+} from "@/components/alex/styles";
+import Layout from "@/layouts/layout.astro";
+import { cn } from "@/lib/utils";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+
+// Campaign landing page for the Big Technology Podcast ad ("Visit akash.network/alex").
+// Built from the Claude Design hand-off, inside the site's standard header and footer.
+// Monochrome by design (no Akash red, sans-serif only, a floating CTA), in both the
+// site's light and dark themes; the hand-off itself was dark only.
+
+const headlines = {
+  questions: {
+    text: "As Heard on Big Technology Podcast",
+    className: "text-[length:clamp(36px,4.2vw,56px)] leading-[1.06]",
+  },
+  guesswork: {
+    text: "Frontier compute, without the guesswork.",
+    className: "text-[length:clamp(48px,6vw,84px)] leading-[1.02]",
+  },
+  proof: {
+    text: "Razer cut inference costs 15×. Your turn.",
+    className: "text-[length:clamp(48px,6vw,84px)] leading-[1.02]",
+  },
+};
+
+const config = {
+  // "questions" is the approved headline; the others are variants for an A/B test.
+  headline: "questions" as keyof typeof headlines,
+  // Needs Remington's title, bio and headshot before it can be switched on.
+  showCall: false,
+  showFaq: false,
+  calendlyUrl: "https://calendly.com/remington-akash/consultation",
+};
+
+const headline = headlines[config.headline];
+
+const title = "Book a Free Compute Consultation — Akash Network";
+const description =
+  "As heard on Big Technology Podcast: book a free 30-minute call and leave with a hardware plan, a provider shortlist, and a real price for your workload.";
+const ogImageAlt =
+  "Akash Network: As Heard on Big Technology Podcast. Book a free 30-minute compute consultation.";
+
+const benefits = [
+  "A plan built around your model, volume, and latency",
+  "A cost estimate you can take to finance",
+  "No commitment. If Akash isn't the right fit, we'll say so.",
+];
+
+// Razer figures come from Razer's case study (https://www.razer.ai/aikit-akash-avamini/)
+// and match src/components/home/razer-case-study.astro.
+const proofStats = [
+  { value: "15×", label: "lower per-image inference cost" },
+  { value: "$0.01", label: "per generated image" },
+  { value: "11,000+", label: "images in five days" },
+  { value: "3.24s", label: "average turnaround" },
+];
+
+// Razer quote text preserved verbatim from Razer's case study and
+// src/components/home/razer-case-study.astro. Do not paraphrase.
+const razerQuote =
+  "The future of AI isn't just better models – it's efficient infrastructure. With Razer AIKit, many use cases already run locally. With Akash Network, we extend that into a decentralised cloud to scale efficiently.";
+const razerCaseStudyUrl = "https://www.razer.ai/aikit-akash-avamini/";
+
+const receiptValue = {
+  mono: cn("font-jetBrainsMono text-sm font-medium leading-[1.2]", tone.fg),
+  plain: cn("text-[15px] font-medium leading-[1.2] tabular-nums", tone.fg),
+  struck: cn(
+    "text-[15px] font-medium leading-[1.2] tabular-nums line-through",
+    tone.muted,
+  ),
+  hero: cn(
+    "text-[26px] font-semibold leading-none tracking-[-0.025em] tabular-nums",
+    tone.fg,
+  ),
+};
+
+const receipts: {
+  label: string;
+  value: string;
+  style: keyof typeof receiptValue;
+}[] = [
+  { label: "Hardware", value: "RTX 4090 · RTX 5090", style: "mono" },
+  { label: "Model", value: "FLUX.2-klein-4B", style: "mono" },
+  { label: "Images generated", value: "11,000+", style: "plain" },
+  { label: "Avg turnaround", value: "3.24 s", style: "plain" },
+  {
+    label: "Typical API cost",
+    value: "$0.03 to $0.15 / image",
+    style: "struck",
+  },
+  { label: "On AkashML", value: "$0.01 / image", style: "hero" },
+  { label: "Cost reduction", value: "Up to 15×", style: "plain" },
+];
+
+const questions = [
+  {
+    number: "01",
+    label: "Where to look · Easy access",
+    title: "One marketplace. Providers worldwide.",
+    body: "Data-center GPUs and consumer cards from providers around the world, in one place. No waitlist. No approval queue.",
+  },
+  {
+    number: "02",
+    label: "How much to pay · Flexibility",
+    title: "The market sets the price, not a rate card.",
+    body: "Providers bid for your workload. You pick the one that fits and pay the market-clearing price. Scale up, scale down, or switch providers. No long-term contract.",
+  },
+  {
+    number: "03",
+    label: "Who to trust · Peace of mind",
+    title: "Every bid is visible. Nothing is hidden.",
+    body: "See who runs your workload, where, and at what price. Audited providers, an open-source stack, and a team that will help you set it up.",
+  },
+];
+
+const callSteps = [
+  {
+    label: "01 · 10 min",
+    title: "You tell us what you're running",
+    body: "Model, traffic, latency targets, budget, and what's frustrating you about your current setup.",
+  },
+  {
+    label: "02 · 15 min",
+    title: "We map it to real hardware",
+    body: "Which GPUs fit, which providers have them now, and whether Console or managed AkashML is the better path.",
+  },
+  {
+    label: "03 · 5 min",
+    title: "You leave with numbers",
+    body: "A cost estimate and next steps in writing. No follow-up sequence unless you ask for one.",
+  },
+];
+
+// Still TBD from marketing (see showCall above).
+const host = {
+  name: "Remington",
+  title: "[Title]",
+  bio: "[One line on Remington's background, e.g. what kinds of teams they've helped move onto Akash.]",
+};
+
+const faqs = [
+  {
+    question: "Is the consultation actually free?",
+    answer:
+      "Yes. No card, no commitment, no pitch deck. It's 30 minutes to figure out whether Akash fits your workload and what it would cost.",
+  },
+  {
+    question: "Do I need crypto or a wallet?",
+    answer:
+      "No. Akash Console takes a credit card, and AkashML gives you an OpenAI-compatible API key. Most teams never touch a wallet.",
+  },
+  {
+    question: "Is it reliable enough for production?",
+    answer:
+      "Akash doesn't have a centralized SLA because we aren't a centralized provider. You choose providers by track record and audit status, and AkashML spreads managed inference across multiple providers behind one endpoint. That's the setup Razer used for a public launch.",
+  },
+  {
+    question: "What kinds of workloads fit?",
+    answer:
+      "Inference, fine-tuning, training, and batch jobs. Anything that runs in a container. On the call we'll tell you honestly where it fits and where it doesn't yet.",
+  },
+];
+
+const twoColumns = "grid-cols-[repeat(auto-fit,minmax(min(100%,440px),1fr))]";
+const sectionHeading = cn(
+  "alex-display text-[length:clamp(32px,4vw,44px)] font-semibold leading-[1.08] tracking-[-0.025em] [text-wrap:balance]",
+  tone.fg,
+);
+const body = cn("text-[17px] leading-[1.6] [text-wrap:pretty]", tone.body);
+// The grain texture is light-on-dark; inverted, it reads as paper grain on white.
+const grain =
+  "pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.04] invert dark:opacity-5 dark:invert-0";
+---
+
+<Layout title={title} description={description} image="/meta-images/alex.jpg">
+  <Fragment slot="head">
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="840" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <link rel="dns-prefetch" href="https://assets.calendly.com" />
+    <link rel="dns-prefetch" href="https://calendly.com" />
+  </Fragment>
+
+  <div class="antialiased">
+    <section class="relative overflow-hidden px-6 pb-[72px] pt-[88px]">
+      <img src="/images/alex/grain.webp" alt="" class={grain} />
+      <div
+        class={cn(
+          "relative mx-auto grid max-w-[1200px] items-start gap-14",
+          twoColumns,
+        )}
+      >
+        <div class="flex flex-col gap-7 pt-2">
+          <h1
+            class={cn(
+              "alex-display !font-bold tracking-[-0.035em] [text-wrap:balance]",
+              tone.fg,
+              headline.className,
+            )}
+          >
+            {headline.text}
+          </h1>
+          <p
+            class={cn(
+              "max-w-[520px] text-[19px] leading-normal [text-wrap:pretty]",
+              tone.body,
+            )}
+          >
+            Getting frontier compute has never been harder. Book a free
+            30-minute consultation and leave with a hardware plan, a provider
+            shortlist, and a real price for your workload.
+          </p>
+          <ul class="flex flex-col gap-3">
+            {
+              benefits.map((benefit) => (
+                <li class={cn("flex gap-3 text-[15px] leading-[1.4]", tone.fg)}>
+                  <span
+                    aria-hidden="true"
+                    class={cn("font-jetBrainsMono", tone.faint)}
+                  >
+                    →
+                  </span>
+                  {benefit}
+                </li>
+              ))
+            }
+          </ul>
+          <button
+            type="button"
+            data-alex-scroll="more"
+            class={outlineButtonClass(
+              "h-11 gap-3 self-start rounded-full pl-[18px] pr-2 text-sm leading-none hover:border-neutral-400 dark:hover:border-[#3A3A3A]",
+            )}
+          >
+            <span class="alex-shine alex-shine--on-page">
+              See how Razer cut inference costs 15×
+            </span>
+            <span
+              aria-hidden="true"
+              class={cn(
+                "flex h-7 w-7 items-center justify-center rounded-full bg-neutral-100 dark:bg-ak-subtle",
+                tone.fg,
+              )}
+            >
+              <span class="alex-nudge text-[15px] font-semibold leading-none"
+                >↓</span
+              >
+            </span>
+          </button>
+        </div>
+
+        <BookingCard client:load calendlyUrl={config.calendlyUrl} />
+      </div>
+    </section>
+
+    <section id="more" class="px-6">
+      <div
+        class={cn(
+          "mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(180px,1fr))] border-y",
+          tone.line,
+        )}
+      >
+        <div class="flex flex-col justify-center gap-2 py-7 pr-6">
+          <span class={eyebrow}>Razer × Akash</span>
+          <span class={cn("text-sm leading-[1.4]", tone.body)}>
+            AVA Mini campaign, 2026
+          </span>
+        </div>
+        {
+          proofStats.map((stat) => (
+            <div
+              class={cn("flex flex-col gap-2 border-l px-6 py-7", tone.line)}
+            >
+              <span
+                class={cn(
+                  "font-jetBrainsMono text-4xl font-medium leading-none tracking-[-0.02em]",
+                  tone.fg,
+                )}
+              >
+                {stat.value}
+              </span>
+              <span
+                class={cn(
+                  "text-[13px] leading-[1.4] [text-wrap:pretty]",
+                  tone.body,
+                )}
+              >
+                {stat.label}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+      class={cn("border-t px-6 pb-14 pt-28", tone.surface, tone.divider)}
+    >
+      <div
+        class={cn("mx-auto grid max-w-[1200px] items-start gap-16", twoColumns)}
+      >
+        <div class="flex flex-col gap-7">
+          <span class={eyebrow}>Case study · Razer AVA Mini</span>
+          <h2 class={sectionHeading}>
+            11,000 images in five days. One cent each.
+          </h2>
+          <p class={body}>
+            For its 2026 April Fools' campaign, Razer let anyone turn a pet
+            photo into a personalized 3D AI companion for free. At typical API
+            rates of $0.03 to $0.15 per image, the math didn't work.
+          </p>
+          <p class={body}>
+            So Razer ran its open-source AIKit on consumer RTX 4090 and 5090
+            GPUs across Akash, managed by AkashML behind a single
+            OpenAI-compatible endpoint.
+          </p>
+        </div>
+
+        <div
+          class={cn(
+            "flex flex-col rounded-xl border p-8",
+            tone.page,
+            tone.line,
+          )}
+        >
+          <span class={cn(eyebrow, "mb-3")}>Receipts</span>
+          <dl>
+            {
+              receipts.map((receipt) => (
+                <div
+                  class={cn(
+                    "flex items-baseline justify-between gap-4 border-b py-4 last:border-b-0 last:pb-0",
+                    tone.line,
+                  )}
+                >
+                  <dt class={cn(eyebrow, "leading-[1.4]")}>{receipt.label}</dt>
+                  <dd class={cn("text-right", receiptValue[receipt.style])}>
+                    {receipt.value}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    {/* Continues the Razer band, so the quote reads as part of that story. */}
+    <section
+      class={cn("border-b px-6 pb-28 pt-14", tone.surface, tone.divider)}
+    >
+      <div
+        class="mx-auto flex max-w-3xl flex-col items-center gap-7 text-center"
+      >
+        <figure class="flex flex-col items-center gap-4">
+          <blockquote cite={razerCaseStudyUrl}>
+            <p
+              class={cn(
+                "text-[26px] leading-[1.3] tracking-[-0.015em] [text-wrap:balance]",
+                tone.fg,
+              )}
+            >
+              “{razerQuote}”
+            </p>
+          </blockquote>
+          <figcaption
+            class={cn(
+              "flex flex-col items-center gap-1 font-jetBrainsMono text-xs leading-[1.4] tracking-[0.02em] sm:flex-row sm:gap-0",
+              tone.muted,
+            )}
+          >
+            <span>Quyen Quach</span>
+            <span class="hidden whitespace-pre sm:inline"> ·</span>
+            <span>Vice President of Software, Razer</span>
+          </figcaption>
+        </figure>
+        <a
+          href={razerCaseStudyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={outlineButtonClass("h-10 px-[18px] text-sm leading-none")}
+        >
+          Read Razer's Case Study
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </div>
+    </section>
+
+    <section class="px-6 py-28">
+      <div
+        class={cn(
+          "mx-auto grid max-w-[1200px] items-center gap-16",
+          twoColumns,
+        )}
+      >
+        <div
+          class={cn(
+            "relative aspect-[4/3] overflow-hidden rounded-xl border",
+            tone.surface,
+            tone.line,
+          )}
+        >
+          <img
+            src="/images/alex/astria-case-study.webp"
+            alt="Astria logo on a dark, cloudy sky above the line “powered by: akash”"
+            width="1280"
+            height="720"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class={eyebrow}>Case study · Astria</span>
+          <h2
+            class={cn(
+              "alex-display text-[length:clamp(28px,3.4vw,40px)] font-semibold leading-[1.1] tracking-[-0.025em] [text-wrap:balance]",
+              tone.fg,
+            )}
+          >
+            Why Astria moved its AI image workloads to Akash.
+          </h2>
+          <p class={body}>
+            Astria builds AI image production tools for fashion and ecommerce
+            brands. That means fine-tuning and serving custom models on GPUs
+            around the clock. Here's what changed when they moved that work onto
+            the open compute marketplace.
+          </p>
+          <a
+            href="/case-studies/why-astria-moved-its-ai-image-workloads-to-akash-network/"
+            class={outlineButtonClass(
+              "h-10 self-start px-[18px] text-sm leading-none",
+            )}
+          >
+            Read the Astria Story
+            <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-6 py-28">
+      <div
+        class="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-center gap-16"
+      >
+        <div class="flex flex-col gap-10">
+          <h2 class={sectionHeading}>
+            Every compute buyer asks three questions. Here are straight answers.
+          </h2>
+          <div class="flex flex-col">
+            {
+              questions.map((question) => (
+                <div
+                  class={cn(
+                    "flex flex-col gap-2 border-t py-6 last:border-b",
+                    tone.line,
+                  )}
+                >
+                  <div class="flex items-center gap-3">
+                    <span
+                      class={cn(
+                        "font-jetBrainsMono text-[11px] font-medium leading-none",
+                        tone.faint,
+                      )}
+                    >
+                      {question.number}
+                    </span>
+                    <span class={eyebrow}>{question.label}</span>
+                  </div>
+                  <h3
+                    class={cn(
+                      "text-xl font-semibold leading-[1.3] tracking-[-0.012em]",
+                      tone.fg,
+                    )}
+                  >
+                    {question.title}
+                  </h3>
+                  <p
+                    class={cn(
+                      "text-[15px] leading-[1.6] [text-wrap:pretty]",
+                      tone.body,
+                    )}
+                  >
+                    {question.body}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div
+          class="relative aspect-square overflow-hidden rounded-2xl bg-neutral-100 dark:bg-ak-off-black"
+        >
+          <img
+            src="/development/portal-roadmap.webp"
+            alt="A hand-drawn figure with eyes closed and head in a cloud as stepping stones rise toward them"
+            width="600"
+            height="600"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </section>
+
+    {
+      config.showCall && (
+        <section class={cn("border-y px-6 py-28", tone.surface, tone.divider)}>
+          <div class="mx-auto flex max-w-[1200px] flex-col gap-12">
+            <div class="flex max-w-[720px] flex-col gap-3.5">
+              <span class={eyebrow}>What happens on the call</span>
+              <h2 class={sectionHeading}>
+                30 minutes. Your workload. A real plan.
+              </h2>
+            </div>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
+              {callSteps.map((callStep) => (
+                <div
+                  class={cn(
+                    "flex flex-col gap-3 rounded-lg border p-6",
+                    tone.page,
+                    tone.line,
+                  )}
+                >
+                  <span
+                    class={cn(
+                      "font-jetBrainsMono text-xs font-medium leading-none",
+                      tone.faint,
+                    )}
+                  >
+                    {callStep.label}
+                  </span>
+                  <h3
+                    class={cn(
+                      "text-[17px] font-semibold leading-[1.3]",
+                      tone.fg,
+                    )}
+                  >
+                    {callStep.title}
+                  </h3>
+                  <p class={cn("text-sm leading-[1.55]", tone.body)}>
+                    {callStep.body}
+                  </p>
+                </div>
+              ))}
+              <div
+                class={cn(
+                  "flex flex-col gap-4 rounded-lg border p-6",
+                  tone.page,
+                  tone.line,
+                )}
+              >
+                <span class={eyebrow}>You'll meet</span>
+                <div class="flex items-center gap-3.5">
+                  <span
+                    aria-hidden="true"
+                    class={cn(
+                      "h-14 w-14 shrink-0 rounded-full border",
+                      tone.surface,
+                      tone.line,
+                    )}
+                  />
+                  <div class="flex flex-col gap-1">
+                    <span
+                      class={cn(
+                        "text-base font-semibold leading-[1.3]",
+                        tone.fg,
+                      )}
+                    >
+                      {host.name}
+                    </span>
+                    <span
+                      class={cn(
+                        "font-jetBrainsMono text-xs leading-[1.4]",
+                        tone.muted,
+                      )}
+                    >
+                      {host.title} · Akash Network
+                    </span>
+                  </div>
+                </div>
+                <p class={cn("text-sm leading-[1.55]", tone.body)}>
+                  {host.bio}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      config.showFaq && (
+        <section class="px-6 py-28">
+          <div class="mx-auto flex max-w-[1200px] flex-wrap items-start gap-12">
+            <div class="flex flex-[1_1_280px] flex-col gap-3.5">
+              <span class={eyebrow}>Before you book</span>
+              <h2 class={sectionHeading}>Fair questions.</h2>
+            </div>
+            <div class="min-w-0 flex-[2_1_520px]">
+              <Faq client:visible items={faqs} />
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <section
+      id="final-cta"
+      class={cn("relative overflow-hidden border-t px-6 py-32", tone.divider)}
+    >
+      <img src="/images/alex/grain.webp" alt="" loading="lazy" class={grain} />
+      <div
+        class="relative mx-auto flex max-w-[1200px] flex-col items-center gap-7 text-center"
+      >
+        <h2
+          class={cn(
+            "alex-display text-[length:clamp(48px,7vw,96px)] font-bold leading-[1.02] tracking-[-0.035em]",
+            tone.fg,
+          )}
+        >
+          Claim your compute
+        </h2>
+        <p class={cn("max-w-[520px] text-lg leading-normal", tone.body)}>
+          Thirty minutes, free, with someone who knows the market. Bring the
+          workload. We'll bring the numbers.
+        </p>
+        <button
+          type="button"
+          data-alex-scroll="book"
+          class={primaryButtonClass("h-[50px] px-7 text-[15px] leading-none")}
+        >
+          Book a Free Call
+        </button>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style is:global>
+  /* Inter at its display optical size, standing in for Inter Display. */
+  .alex-display {
+    font-variation-settings: "opsz" 32;
+  }
+
+  /* Moving highlight on two CTA labels: the one sanctioned gradient on the page.
+     --on-page sits on the page background, --on-primary on the primary button. */
+  @keyframes alex-shine {
+    0% {
+      background-position: 150% 0;
+    }
+    100% {
+      background-position: -50% 0;
+    }
+  }
+
+  @keyframes alex-nudge {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+
+  .alex-shine {
+    background-image: linear-gradient(
+      90deg,
+      var(--alex-shine-base) 0%,
+      var(--alex-shine-base) 40%,
+      var(--alex-shine-highlight) 50%,
+      var(--alex-shine-base) 60%,
+      var(--alex-shine-base) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: alex-shine 2.4s linear infinite;
+  }
+
+  .alex-shine--on-page {
+    --alex-shine-base: #262626;
+    --alex-shine-highlight: #a3a3a3;
+  }
+
+  .dark .alex-shine--on-page {
+    --alex-shine-base: #bdbdbd;
+    --alex-shine-highlight: #ffffff;
+  }
+
+  .alex-shine--on-primary {
+    --alex-shine-base: #fafafa;
+    --alex-shine-highlight: #737373;
+  }
+
+  .dark .alex-shine--on-primary {
+    --alex-shine-base: #0a0a0a;
+    --alex-shine-highlight: #a3a3a3;
+  }
+
+  .alex-nudge {
+    display: block;
+    animation: alex-nudge 1.6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .alex-shine {
+      animation: none;
+      background-image: none;
+      color: var(--alex-shine-base);
+      -webkit-text-fill-color: currentColor;
+    }
+
+    .alex-nudge {
+      animation: none;
+    }
+  }
+</style>
