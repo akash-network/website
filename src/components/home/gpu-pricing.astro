@@ -393,7 +393,9 @@ color: hsl(var(--foreground));
 
 </style>
 
-<script is:inline type="module" define:vars={{ backupAkashPrices, staticPrices, BASE_API_URL }}>
+<!-- data-astro-rerun: ClientRouter skips inline scripts it has already run, so without it
+     a second homepage visit in the same session (logo, back button) renders empty bars -->
+<script is:inline type="module" data-astro-rerun define:vars={{ backupAkashPrices, staticPrices, BASE_API_URL }}>
 
 let akashPrices = { ...backupAkashPrices };
 
@@ -515,6 +517,7 @@ update()
 })
 
 window.addEventListener("resize",initSliders)
+document.addEventListener("astro:before-swap",()=>window.removeEventListener("resize",initSliders),{once:true})
 
 function renderCounters(){
 
