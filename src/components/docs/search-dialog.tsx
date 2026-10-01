@@ -256,7 +256,7 @@ const ProjectCard = ({
 
   return (
     <a href={`/docs/${link}/`}>
-      <div className="flex cursor-pointer items-center justify-between rounded-lg p-4 text-[#808080] hover:bg-primary/10 hover:text-primary md:px-6 md:py-4">
+      <div className="flex cursor-pointer items-center justify-between rounded-lg p-4 text-muted-foreground hover:bg-primary/10 hover:text-primary md:px-6 md:py-4">
         <div className="w-[85%]">
           <h3 className="text-base font-bold  md:text-lg">
             <HighlightedText text={title} query={query} />

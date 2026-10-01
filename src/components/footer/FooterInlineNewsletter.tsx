@@ -71,7 +71,7 @@ export function FooterInlineNewsletter() {
     return (
       <div className="flex items-center gap-3 py-1">
         <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
-        <p className="text-sm text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           You're subscribed! Thanks for signing up.
         </p>
       </div>
@@ -89,7 +89,7 @@ export function FooterInlineNewsletter() {
             setEmail(e.target.value);
             setError("");
           }}
-          className="h-10 min-w-0 w-full max-w-xs bg-transparent border-zinc-300 dark:border-zinc-700 text-foreground placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus-visible:ring-zinc-400 focus-visible:border-zinc-400"
+          className="h-10 min-w-0 w-full max-w-xs bg-transparent border-zinc-300 dark:border-zinc-700 text-foreground placeholder:text-muted-foreground focus-visible:ring-zinc-400 focus-visible:border-zinc-400"
         />
         <Button
           type="submit"
@@ -106,9 +106,9 @@ export function FooterInlineNewsletter() {
       {(error || submitError) && (
         <p className="text-xs text-red-400">{error || submitError}</p>
       )}
-      <p className="text-xs text-zinc-500">
+      <p className="text-xs text-muted-foreground">
         By subscribing, you agree to our{" "}
-        <a href="/privacy" className="underline underline-offset-2 hover:text-zinc-300 transition-colors">
+        <a href="/privacy" className="underline underline-offset-2 hover:text-foreground transition-colors">
           Privacy Policy
         </a>
         .

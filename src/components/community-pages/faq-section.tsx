@@ -26,7 +26,7 @@ export function FAQSection() {
     return (
         <section className="px-6 py-20 md:px-10 md:py-[120px] lg:px-[400px]">
             <div className="mx-auto max-w-[913px]">
-                <h2 className="mb-12 text-center text-2xl font-bold  md:text-[36px]">
+                <h2 className="mb-12 text-center text-2xl font-bold  md:text-[36px] md:leading-tight">
                     Frequently asked questions
                 </h2>
                 <Accordion type="single" collapsible className="w-full">
@@ -39,7 +39,7 @@ export function FAQSection() {
                             <AccordionTrigger className="flex w-full cursor-pointer items-center justify-between py-4 text-left text-base font-medium  no-underline">
                                 <span>{item.question}</span>
                             </AccordionTrigger>
-                            <AccordionContent className="pb-4 text-sm leading-5 text-[#737373] dark:text-para whitespace-pre-line">
+                            <AccordionContent className="pb-4 text-sm leading-5 text-muted-foreground whitespace-pre-line">
                                 {item.answer}
                             </AccordionContent>
                         </AccordionItem>

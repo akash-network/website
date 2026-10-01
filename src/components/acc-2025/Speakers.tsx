@@ -166,13 +166,13 @@ const SpeakersContent = () => {
               {speaker.name}
             </p>
             <div className="flex flex-col ">
-              <p className="text-xs font-medium !leading-[1.2] text-[#909090]  md:text-lg">
+              <p className="text-xs font-medium !leading-[1.2] text-muted-foreground  md:text-lg">
                 {speaker.title}
               </p>
               {speaker.company && (
                 <p
                   dangerouslySetInnerHTML={{ __html: speaker.company }}
-                  className="text-xs font-medium !leading-[1.2] text-[#909090] md:text-lg"
+                  className="text-xs font-medium !leading-[1.2] text-muted-foreground md:text-lg"
                 />
               )}
             </div>

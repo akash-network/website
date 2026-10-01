@@ -170,7 +170,7 @@ export function Pricing({ page, pathName, initialData }: any) {
                       target="_blank"
                       rel="noreferrer"
                       href="https://console.akash.network/"
-                      className="flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-[11px]  py-[7px] text-2xs font-bold text-white hover:bg-darkGray md:text-sm"
+                      className="flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-[11px]  py-[7px] text-2xs font-bold text-primary-foreground hover:bg-darkGray md:text-sm"
                     >
                       Console Login
                     </a>
@@ -316,7 +316,7 @@ const AwsIcon = () => {
       height="13"
       viewBox="0 0 22 13"
       fill="currentColor"
-      className="text-[#81848B] dark:text-[#BBBBBB]"
+      className="text-muted-foreground"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clip-path="url(#clip0_2900_74574)">
@@ -357,7 +357,7 @@ const GCPIcon = () => {
       height="17"
       viewBox="0 0 22 17"
       fill="currentColor"
-      className="text-[#81848B] dark:text-[#BBBBBB]"
+      className="text-muted-foreground"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clip-path="url(#clip0_2900_74582)">
@@ -387,7 +387,7 @@ const AzureIcon = () => {
       height="19"
       viewBox="0 0 21 19"
       fill="currentColor"
-      className="text-[#81848B] dark:text-[#BBBBBB]"
+      className="text-muted-foreground"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clip-path="url(#clip0_2900_74589)">

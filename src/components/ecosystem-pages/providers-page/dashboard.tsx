@@ -29,7 +29,7 @@ function isMobileViewport(): boolean {
 function ProvidersHero() {
   return (
     <div className="mb-10 flex flex-col items-start gap-6 md:mb-[60px] lg:mb-20">
-      <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+      <h1 className="text-4xl font-semibold leading-tight tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl">
         Global supply network
       </h1>
       <p className="max-w-2xl text-base font-normal text-para">

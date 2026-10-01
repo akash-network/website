@@ -126,7 +126,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
           ref={isActive ? activeLinkRef : null}
           className={` flex  items-center text-sm ${
             depth === 2 ? "" : "font-normal"
-          } leading-[24px]  text-[#808080] hover:text-primary  depth-${depth} ${
+          } leading-[24px]  text-muted-foreground hover:text-primary  depth-${depth} ${
             isActive && "text-primary"
           }`.trim()}
           href={`#${slug}`}

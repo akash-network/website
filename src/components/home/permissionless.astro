@@ -46,14 +46,14 @@ const features: Feature[] = [
 ];
 ---
 
-<section class="w-full text-[#171717] dark:text-white py-20 lg:py-[120px]">
+<section class="w-full text-foreground py-20 lg:py-[120px]">
   <div class="container">
 
     <div class="text-center mb-16">
       <h2 class="text-[28px] font-semibold leading-[34px]">
         Permissionless Infrastructure. Unlimited Supply.
       </h2>
-      <p class="mt-2 text-[#8A8F98] dark:text-[#8A8F9D] text-base md:text-lg">
+      <p class="mt-2 text-muted-foreground text-base md:text-lg">
         Access a global network of high-<br class="block md:hidden" />performance compute on demand.
       </p>
     </div>
@@ -64,7 +64,7 @@ const features: Feature[] = [
         <div class="flex min-w-[260px] flex-col gap-4 lg:min-w-0">
 
           <div
-            class="flex items-center justify-center h-12 w-12 rounded-lg bg-transparent dark:bg-[#191818] border border-[#E3E3E3] dark:border-[#383838] text-[#171717] dark:text-[#FAFAFA]"
+            class="flex items-center justify-center h-12 w-12 rounded-lg bg-transparent dark:bg-[#191818] border border-[#E3E3E3] dark:border-[#383838] text-foreground"
             set:html={feature.icon}
           />
 
@@ -73,11 +73,11 @@ const features: Feature[] = [
               {feature.title}
             </h3>
 
-            <p class="font-normal text-base md:text-[17px] text-[#171717] dark:text-white whitespace-pre-line line-clamp-2">
+            <p class="font-normal text-base md:text-[17px] text-foreground whitespace-pre-line line-clamp-2">
               {feature.subtitle}
             </p>
 
-            <p class="font-normal text-base md:text-[17px] text-[#8A8F98] dark:text-[#8A8F9D] leading-relaxed max-w-xs line-clamp-2">
+            <p class="font-normal text-base md:text-[17px] text-muted-foreground leading-relaxed max-w-xs line-clamp-2">
               {feature.description}
             </p>
           </div>

@@ -405,7 +405,7 @@ export const Tables = ({
       <div className="w-full overflow-x-auto">
         <div className="flex flex-col">
           {/* Header row - visible on both desktop and mobile */}
-          <div className="flex items-center justify-between border-b border-defaultBorder  pb-3 pt-3 text-sm font-light text-para  xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal xl:text-[#71717A] dark:xl:text-[#A1A1AA]">
+          <div className="flex items-center justify-between border-b border-defaultBorder  pb-3 pt-3 text-sm font-light text-para  xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal">
 
             <span className="md:text-foreground text-[15px] md:text-base md:font-medium">GPU Model</span>
             <span className="text-[15px]">Price (Starting at)</span>

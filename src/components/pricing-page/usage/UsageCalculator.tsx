@@ -236,11 +236,11 @@ function UsageCalculatorContent() {
         <Panel className="p-6 md:p-8">
           <h2
             id="usage-presets"
-            className="text-xl font-medium text-zinc-900 dark:text-zinc-50"
+            className="text-xl font-medium text-foreground"
           >
             Popular deployments
           </h2>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-2 text-sm text-muted-foreground">
             Pick one to load its specs, then adjust anything below.
           </p>
 
@@ -268,24 +268,24 @@ function UsageCalculatorContent() {
                   )}
                 >
                   <span className="flex items-start justify-between gap-3">
-                    <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                    <span className="text-sm font-medium text-foreground">
                       {preset.name}
                     </span>
                     <RadioDot checked={active} />
                   </span>
-                  <span className="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                  <span className="mt-1 text-xs leading-relaxed text-muted-foreground">
                     {preset.description}
                   </span>
                   <span className="mt-auto flex items-end justify-between gap-3 pt-4">
-                    <span className="whitespace-nowrap font-jetBrainsMono text-[11px] text-zinc-500 dark:text-zinc-400">
+                    <span className="whitespace-nowrap font-jetBrainsMono text-[11px] text-muted-foreground">
                       {preset.gpu
                         ? `${preset.gpu.units}× ${gpu?.name ?? "GPU"}`
                         : "CPU only"}
                     </span>
                     {monthly !== null ? (
-                      <span className="whitespace-nowrap font-jetBrainsMono text-sm tabular-nums text-zinc-900 dark:text-zinc-50">
+                      <span className="whitespace-nowrap font-jetBrainsMono text-sm tabular-nums text-foreground">
                         {formatUsd(monthly, monthly >= 1000 ? 0 : 2)}
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="text-xs text-muted-foreground">
                           /mo
                         </span>
                       </span>
@@ -293,7 +293,7 @@ function UsageCalculatorContent() {
                       (gpuUnavailable && gpuPrices.isLoading) ? (
                       <Skeleton className="h-5 w-16" />
                     ) : (
-                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="text-xs text-muted-foreground">
                         Unavailable
                       </span>
                     )}
@@ -305,10 +305,10 @@ function UsageCalculatorContent() {
         </Panel>
 
         <Panel className="p-6 md:p-8">
-          <h2 className="text-xl font-medium text-zinc-900 dark:text-zinc-50">
+          <h2 className="text-xl font-medium text-foreground">
             Describe the deployment
           </h2>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-2 text-sm text-muted-foreground">
             Set the resources you need. The estimate updates as you go.
           </p>
 
@@ -338,7 +338,7 @@ function UsageCalculatorContent() {
                 ))}
           </div>
           {gpuPrices.isError && !gpuPrices.data && (
-            <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-3 text-xs text-muted-foreground">
               Live GPU prices couldn&apos;t be loaded, so GPUs can&apos;t be
               added right now.
             </p>
@@ -347,7 +347,7 @@ function UsageCalculatorContent() {
             <div className="mt-5 flex items-center justify-between gap-4">
               <Label
                 htmlFor={gpuCountId}
-                className="text-zinc-900 dark:text-zinc-50"
+                className="text-foreground"
               >
                 GPU count
               </Label>
@@ -403,7 +403,7 @@ function UsageCalculatorContent() {
 
           {estimates.isError && !estimates.data ? (
             <div className="mt-8 flex flex-col items-start gap-4">
-              <p className="text-sm text-zinc-600 dark:text-zinc-300">
+              <p className="text-sm text-muted-foreground">
                 Pricing estimates couldn&apos;t be loaded right now.
               </p>
               <button
@@ -476,12 +476,12 @@ function UsageCalculatorContent() {
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                     <h3
                       id="usage-compare"
-                      className="text-sm font-medium text-zinc-900 dark:text-zinc-50"
+                      className="text-sm font-medium text-foreground"
                     >
                       Same spec elsewhere
                     </h3>
                     {selectedGpu && (
-                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="text-xs text-muted-foreground">
                         CPU, memory &amp; storage only
                       </span>
                     )}
@@ -535,7 +535,7 @@ function UsageCalculatorContent() {
                       "text-sm",
                       isSaving
                         ? "font-medium text-emerald-700 dark:text-emerald-300"
-                        : "text-zinc-600 dark:text-zinc-300",
+                        : "text-muted-foreground",
                     )}
                   >
                     {savings !== null && savings < 0
@@ -550,7 +550,7 @@ function UsageCalculatorContent() {
                         "font-jetBrainsMono text-2xl font-medium tabular-nums",
                         isSaving
                           ? "text-emerald-600 dark:text-emerald-400"
-                          : "text-zinc-900 dark:text-zinc-50",
+                          : "text-foreground",
                       )}
                     >
                       {savings === null
@@ -585,7 +585,7 @@ function UsageCalculatorContent() {
           </div>
         </Panel>
 
-        <p className="px-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+        <p className="px-1 text-xs leading-relaxed text-muted-foreground">
           Estimates only. CPU, memory and storage prices for Akash, AWS, GCP and
           Azure come from the Akash Console pricing API; hyperscaler figures use
           AWS Fargate, Google Kubernetes Engine and Azure Container Instances
@@ -635,10 +635,10 @@ function ResourceControl({
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-4">
         <label htmlFor={inputId}>
-          <span className="text-sm font-medium leading-none text-zinc-900 dark:text-zinc-50">
+          <span className="text-sm font-medium leading-none text-foreground">
             {label}
           </span>
-          <span className="ml-1.5 font-jetBrainsMono text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="ml-1.5 font-jetBrainsMono text-xs text-muted-foreground">
             {unit}
           </span>
         </label>
@@ -684,13 +684,13 @@ function GpuOption({
           : "border-zinc-200 hover:bg-zinc-50 dark:border-white/10 dark:hover:bg-white/[0.04]",
       )}
     >
-      <span className="whitespace-nowrap text-sm font-medium text-zinc-900 dark:text-zinc-50">
+      <span className="whitespace-nowrap text-sm font-medium text-foreground">
         {title}
       </span>
       {details.map((detail) => (
         <span
           key={detail}
-          className="mt-0.5 whitespace-nowrap font-jetBrainsMono text-[11px] text-zinc-500 dark:text-zinc-400"
+          className="mt-0.5 whitespace-nowrap font-jetBrainsMono text-[11px] text-muted-foreground"
         >
           {detail}
         </span>
@@ -708,8 +708,8 @@ function BreakdownLine({
 }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <dt className="text-zinc-600 dark:text-zinc-400">{label}</dt>
-      <dd className="font-jetBrainsMono tabular-nums text-zinc-900 dark:text-zinc-50">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="font-jetBrainsMono tabular-nums text-foreground">
         {value ?? <Skeleton className="h-4 w-16" />}
       </dd>
     </div>
@@ -733,8 +733,8 @@ function ComparisonBar({
         className={cn(
           "text-sm",
           highlight
-            ? "font-medium text-zinc-900 dark:text-zinc-50"
-            : "text-zinc-600 dark:text-zinc-400",
+            ? "font-medium text-foreground"
+            : "text-muted-foreground",
         )}
       >
         {name}
@@ -755,7 +755,7 @@ function ComparisonBar({
           "min-w-[88px] text-right font-jetBrainsMono text-sm tabular-nums",
           highlight
             ? "font-medium text-emerald-600 dark:text-emerald-400"
-            : "text-zinc-600 dark:text-zinc-300",
+            : "text-muted-foreground",
         )}
       >
         {value}

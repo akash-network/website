@@ -12,11 +12,9 @@ interface Props {
 }
 
 const blockStyle: React.CSSProperties = {
-  fontFamily: "Inter, sans-serif",
   fontWeight: 500,
   fontSize: "28px",
   lineHeight: "33.6px",
-  letterSpacing: "-1.1px",
   width: "100%",
   textAlign: "center",
 };
@@ -52,7 +50,7 @@ export default function QuoteReveal({ lines, author, authorDetails, href, outlin
   const revealedCount = preRevealed + Math.round(progress * (totalChars - preRevealed));
 
   const renderBlockquote = () => (
-    <blockquote style={blockStyle} className="text-foreground">
+    <blockquote style={blockStyle} className="font-sans tracking-tight text-foreground">
       {charGroups.map((group, gi) => (
         <span key={gi} style={{ display: "block", minHeight: group.chars.length ? undefined : "0.6em" }}>
           {group.chars.map((char, ci) => {
@@ -74,7 +72,7 @@ export default function QuoteReveal({ lines, author, authorDetails, href, outlin
       className="mt-8 space-y-1"
       style={{ opacity: progress >= authorThreshold ? 1 : 0, transition: "opacity 0.5s ease" }}
     >
-      <p className="font-semibold text-foreground" style={{ fontFamily: "Inter, sans-serif", letterSpacing: "3px" }}>
+      <p className="font-sans font-semibold text-foreground" style={{ letterSpacing: "3px" }}>
         {author}
       </p>
       {authorDetails?.map((d, i) => (

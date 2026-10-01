@@ -1,3 +1,6 @@
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist/wght-italic.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,12 +16,29 @@
 }
 
 @font-face {
-  font-family: "Inter Fallback";
+  font-family: "Geist Fallback";
   src: local("Arial"), local("Helvetica");
-  size-adjust: 107%;
-  ascent-override: 90%;
-  descent-override: 22%;
+  size-adjust: 104.76%;
+  ascent-override: 95.94%;
+  descent-override: 28.16%;
   line-gap-override: 0%;
+}
+
+/* Heading letter-spacing for Geist, following shadcn/ui's type scale:
+   headings from 20px (text-xl) use tracking-tight, display headings from
+   48px (text-5xl) use tracking-tighter, and smaller headings keep normal
+   spacing. Each clamp() is a size gate: 0 below its threshold, tracking-tight
+   above it. Inter's optical-size axis used to tighten large text on its own;
+   Geist has no such axis. Zero specificity, so a tracking-* class wins. */
+@layer base {
+  :where(h1, h2, h3, h4, h5, h6):where(
+      :not(.font-instrument, .font-jetBrainsMono, .uppercase)
+    ) {
+    letter-spacing: calc(
+      clamp(theme("letterSpacing.tight"), (19.9px - 1em) * 1000, 0em) +
+        clamp(theme("letterSpacing.tight"), (47.9px - 1em) * 1000, 0em)
+    );
+  }
 }
 
 html body[data-scroll-locked] {
@@ -29,21 +49,26 @@ html body[data-scroll-locked] {
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 202 24% 9%;
-    --para: 206 6% 44%;
+    /* text: shadcn/ui neutral */
+    --foreground: 0 0% 3.9%;
+    --muted-foreground: 0 0% 45.1%;
+    --card-foreground: 0 0% 3.9%;
+    --popover-foreground: 0 0% 3.9%;
+    --secondary-foreground: 0 0% 9%;
+    --para: 0 0% 45.1%;
     --para-dark: 216 11% 91%;
-    --card-gray: 206 6% 52%;
+    --card-gray: 0 0% 45.1%;
     --card: 0 0% 96%;
     --background2: 0 0% 100%;
-    --light-foreground: 0 0% 50%;
-    --sort-text: 206 6% 56%;
-    --link-text: 206 6% 52%;
-    --primary: #ff414c;
-    --primary-foreground: 0 0% 100%;
+    --light-foreground: 0 0% 45.1%;
+    --sort-text: 0 0% 45.1%;
+    --link-text: 0 0% 45.1%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
     --background-muted: #f4f4f5;
-    --dark-text: #080808;
+    --dark-text: hsl(0 0% 3.9%);
     --light-gray: #f4f5f7;
-    --dark-gray-text: #71717a;
+    --dark-gray-text: hsl(0 0% 45.1%);
     /* secondary colors */
     --dark-gray-border: #d1d5db;
     --secondary: 0 100% 94%;
@@ -54,10 +79,10 @@ html body[data-scroll-locked] {
     --secondary-lavender: 253 73% 90%;
     --secondary-mint: 101 38% 81%;
     --secondary-red: 7 60% 57%;
-    --text-gray: 217 19% 27%;
+    --text-gray: 0 0% 3.9%;
     --border: 216 12% 84%;
     --badge-color: 220 14% 96%;
-    --icon-text: 215 14% 34%;
+    --icon-text: 0 0% 9%;
     /* neutral colors  */
     --gray: 0, 0% 59% 1;
     --gray-100: 0 0% 94%;
@@ -70,7 +95,7 @@ html body[data-scroll-locked] {
     --dark-gray: 0 0% 23%;
     --default-border: 216, 11%, 91%;
     --accent: 0 0% 93%;
-    --accent-foreground: 202 24% 9%;
+    --accent-foreground: 0 0% 9%;
     --input: 216 12% 84%;
 
     /* code */
@@ -78,7 +103,8 @@ html body[data-scroll-locked] {
     --theme-header-bg: #c1c8cd;
     --three-dots-bg: #d1d5db;
 
-    --docsearch-primary-color: #ff414c !important;
+    --docsearch-primary-color: hsl(0 0% 9%) !important;
+    --docsearch-hit-active-color: hsl(0 0% 98%) !important;
     --docsearch-searchbox-focus-background: hsl(0 0% 100%) !important;
     --docsearch-modal-background: hsl(0 0% 100%) !important;
     --docsearch-searchbox-background: #f9fafb !important;
@@ -86,31 +112,38 @@ html body[data-scroll-locked] {
 
   .dark {
     --background: 0 0% 4%;
-    --foreground: 0 0% 93%;
+    --foreground: 0 0% 98%;
+    --muted-foreground: 0 0% 63.9%;
+    --card-foreground: 0 0% 98%;
+    --popover-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 98%;
+    --card-gray: 0 0% 63.9%;
     --card: 0 0% 9%;
     --background2: 0 0% 9%;
-    --light-foreground: 15 33% 98%;
-    --para: 0 0% 73%;
+    --light-foreground: 0 0% 63.9%;
+    --para: 0 0% 63.9%;
     --para-dark: 0 0% 50%;
-    --primary: #ff414c;
+    --primary: 0 0% 98%;
     --light-gray: #3a3a3a;
-    --primary-foreground: 0 0% 100%;
-    --text-gray: 30 17% 98%;
+    --primary-foreground: 0 0% 9%;
+    --text-gray: 0 0% 98%;
     --border: 0 0% 50%;
-    --sort-text: 30 17% 98%;
+    --sort-text: 0 0% 63.9%;
     --badge-color: 0 0% 24%;
-    --icon-text: 0 0% 73%;
-    --link-text: 0 0% 49%;
-    --dark-gray-text: #5e5e5e;
+    --icon-text: 0 0% 98%;
+    --link-text: 0 0% 63.9%;
+    --dark-gray-text: hsl(0 0% 63.9%);
     --dark-gray-border: #515151;
-    --dark-text: #ffffff;
+    --dark-text: hsl(0 0% 98%);
     /* code */
     --theme-header-bg: #3c3c3c;
     --three-dots-bg: #515151;
     --default-border: 0 0% 18%;
     --accent: 0 0% 16%;
-    --accent-foreground: 0 0% 93%;
+    --accent-foreground: 0 0% 98%;
     --input: 0 0% 50%;
+    --docsearch-primary-color: hsl(0 0% 98%) !important;
+    --docsearch-hit-active-color: hsl(0 0% 9%) !important;
     --docsearch-searchbox-background: hsl(0, 0%, 14%) !important;
     --docsearch-searchbox-focus-background: hsl(0 0% 14%) !important;
     --docsearch-hit-shadow: 0 0 0 1px hsl(0 0% 14%) !important;
@@ -270,7 +303,7 @@ html body[data-scroll-locked] {
 .button--bestia span {
   display: block;
   position: relative;
-  color: white;
+  color: hsl(var(--primary-foreground));
 }
 
 .dark .button--bestia:hover span {
@@ -395,7 +428,7 @@ html body[data-scroll-locked] {
 }
 
 .swiper-pagination-bullet-active {
-  background: #ff414c !important;
+  background: hsl(var(--primary)) !important;
   opacity: 1 !important;
 }
 

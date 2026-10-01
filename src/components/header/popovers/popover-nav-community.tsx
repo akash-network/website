@@ -55,8 +55,8 @@ export const SubNavbar = ({
                 className={clsx(
                   "whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal transition-colors",
                   isActive(item)
-                    ? "text-zinc-900 dark:text-white"
-                    : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white",
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {item.title}
@@ -85,7 +85,7 @@ export const SubNavbar = ({
                     <a
                       href={external.link}
                       target="_blank"
-                      className="flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                      className="flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {external.title}
                       <ArrowRightCircle className="h-[13px] w-[13px] shrink-0 -rotate-45 stroke-[1.5px]" />

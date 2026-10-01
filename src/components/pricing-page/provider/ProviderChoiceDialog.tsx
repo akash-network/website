@@ -53,10 +53,10 @@ export default function ProviderChoiceDialog({
           <span className="sr-only">Close</span>
         </DialogClose>
 
-        <DialogTitle className="max-w-[22ch] pr-10 text-[26px] font-semibold leading-[1.1] tracking-[-0.025em] text-zinc-900 dark:text-zinc-50 sm:text-3xl lg:text-[38px]">
+        <DialogTitle className="max-w-[22ch] pr-10 text-[26px] font-semibold leading-[1.1] tracking-tight text-foreground sm:text-3xl lg:text-[38px]">
           Two ways to provide
         </DialogTitle>
-        <DialogDescription className="mt-3 max-w-[58ch] text-[15px] leading-relaxed text-zinc-500 dark:text-zinc-400">
+        <DialogDescription className="mt-3 max-w-[58ch] text-[15px] leading-relaxed text-muted-foreground">
           Both put capacity onto the same Akash marketplace. Pick the one that
           matches the hardware you have.
         </DialogDescription>
@@ -78,13 +78,13 @@ export default function ProviderChoiceDialog({
                   className="h-full w-full object-cover"
                 />
               </div>
-              <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs font-medium text-muted-foreground">
                 {option.eyebrow}
               </p>
-              <h3 className="mt-1 text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+              <h3 className="mt-1 text-lg font-semibold text-foreground">
                 {option.title}
               </h3>
-              <p className="mb-5 mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+              <p className="mb-5 mt-2 text-sm leading-relaxed text-muted-foreground">
                 {option.body}
               </p>
               {/* mt-auto keeps both buttons on one line however the paragraphs wrap. */}

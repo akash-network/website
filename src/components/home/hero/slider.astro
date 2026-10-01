@@ -19,7 +19,7 @@ const { tileIndex, title, description, url } = Astro.props;
   <div class="flex flex-col gap-3">
     <div class="flex items-start justify-between gap-2">
       <span
-        class="hero-tile-title text-sm font-medium leading-snug text-[#86868b] transition-colors duration-300"
+        class="hero-tile-title text-sm font-medium leading-snug text-muted-foreground transition-colors duration-300"
         set:html={title}
       />
       <svg
@@ -35,7 +35,7 @@ const { tileIndex, title, description, url } = Astro.props;
         <polyline points="7 7 17 7 17 17"></polyline>
       </svg>
     </div>
-    <p class="text-sm leading-snug text-[#86868b]" set:html={description} />
+    <p class="text-sm leading-snug text-muted-foreground" set:html={description} />
   </div>
 </button>
 

@@ -34,7 +34,7 @@ export function FieldLabel({
   return (
     <p
       className={cn(
-        "text-sm font-medium leading-none text-zinc-900 dark:text-zinc-50",
+        "text-sm font-medium leading-none text-foreground",
         className,
       )}
     >
@@ -54,7 +54,7 @@ export function SectionLabel({
   return (
     <p
       className={cn(
-        "text-sm font-medium text-zinc-500 dark:text-zinc-400",
+        "text-sm font-medium text-muted-foreground",
         className,
       )}
     >
@@ -97,9 +97,9 @@ const buttonVariants = {
   primary:
     "bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200",
   outline:
-    "border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 dark:border-white/15 dark:bg-transparent dark:text-zinc-50 dark:hover:bg-white/[0.06]",
+    "border border-zinc-200 bg-white text-foreground hover:bg-zinc-100 dark:border-white/15 dark:bg-transparent dark:hover:bg-white/[0.06]",
   ghost:
-    "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-zinc-50",
+    "text-muted-foreground hover:bg-zinc-100 hover:text-foreground dark:hover:bg-white/[0.06]",
 };
 
 const buttonSizes = {
@@ -116,7 +116,7 @@ export function buttonClass(
 }
 
 export const inputClass =
-  "h-9 w-full rounded-md border border-zinc-200 bg-white px-3 font-jetBrainsMono text-sm tabular-nums text-zinc-900 shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/10 dark:border-white/10 dark:bg-black/40 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus-visible:border-white/30 dark:focus-visible:ring-white/10";
+  "h-9 w-full rounded-md border border-zinc-200 bg-white px-3 font-jetBrainsMono text-sm tabular-nums text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/10 dark:border-white/10 dark:bg-black/40 dark:focus-visible:border-white/30 dark:focus-visible:ring-white/10";
 
 interface NumberInputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -154,7 +154,7 @@ export function NumberInput({
       <span className={cn("relative block", className)}>
         <span
           aria-hidden
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 font-jetBrainsMono text-sm text-zinc-400 dark:text-zinc-500"
+          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 font-jetBrainsMono text-sm text-muted-foreground"
         >
           {prefix}
         </span>
@@ -280,8 +280,8 @@ export function ToggleChips<T extends string>({
             className={cn(
               "h-9 whitespace-nowrap rounded-md border px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:focus-visible:ring-white/25",
               active
-                ? "border-zinc-900 bg-zinc-100 text-zinc-900 dark:border-white/60 dark:bg-white/10 dark:text-zinc-50"
-                : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:border-white/10 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-white/[0.04] dark:hover:text-zinc-50",
+                ? "border-zinc-900 bg-zinc-100 text-foreground dark:border-white/60 dark:bg-white/10"
+                : "border-zinc-200 bg-white text-muted-foreground hover:bg-zinc-50 hover:text-foreground dark:border-white/10 dark:bg-transparent dark:hover:bg-white/[0.04]",
             )}
           >
             {option.label}
@@ -326,8 +326,8 @@ export function SegmentedControl<T extends string>({
             className={cn(
               "h-7 whitespace-nowrap rounded-md px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:focus-visible:ring-white/25",
               active
-                ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-50"
-                : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50",
+                ? "bg-white text-foreground shadow-sm dark:bg-zinc-800"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {option.label}

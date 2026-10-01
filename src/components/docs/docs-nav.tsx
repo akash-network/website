@@ -26,7 +26,7 @@ const STYLES = {
     base: "block rounded-md  text-sm  transition-colors",
     active: "text-primary  dark:text-primary",
     inactive:
-      "text-[#687076]  hover:text-[#11181c] dark:text-[#888] dark:hover:text-white",
+      "text-muted-foreground  hover:text-foreground",
     border: "border-b border-[#e6e8eb] dark:border-[#333]",
   },
   folder: {
@@ -34,10 +34,10 @@ const STYLES = {
   },
   section: {
     header:
-      "mb-3 text-xs font-bold uppercase tracking-widest text-[#11181c] dark:text-white",
+      "mb-3 text-xs font-bold uppercase tracking-widest text-foreground",
     divider: "mb-3 h-px w-full bg-[#e6e8eb] dark:bg-[#333]",
     title:
-      "mb-2 text-xs font-medium uppercase  tracking-widest text-[#11181c] dark:text-white",
+      "mb-2 text-xs font-medium uppercase  tracking-widest text-foreground",
   },
 } as const;
 

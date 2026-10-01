@@ -19,22 +19,22 @@ export default function AkashInsidersContent() {
                     {/* Intro */}
                     <div className="flex flex-col gap-6">
                         <div className="flex flex-col gap-3">
-                            <p className="text-base text-[#71717a] dark:text-para">Step Into Leadership</p>
+                            <p className="text-base text-muted-foreground">Step Into Leadership</p>
                             <h2 className="font-sans text-3xl font-medium leading-snug tracking-tight text-foreground md:text-4xl">
                                 Step Into a Leadership Role as an Akash Insider
                             </h2>
                         </div>
-                        <p className="text-base leading-6 font-semibold text-[#0a0a0a] dark:text-foreground">
+                        <p className="text-base leading-6 font-semibold text-foreground">
                             Join a vetted group of community vanguards who solve real-world problems and drive the growth of the Supercloud.
                         </p>
-                        <p className="text-base leading-6 text-[#71717a] dark:text-para">
+                        <p className="text-base leading-6 text-muted-foreground">
                             This is a high-impact, reward-heavy path for those ready to commit to the mission of the open-source Supercloud.
                         </p>
                     </div>
 
                     {/* The Three Paths of Contribution */}
                     <div className="flex flex-col gap-3">
-                        <h3 className="text-xl font-semibold text-[#0a0a0a]">
+                        <h3 className="text-xl font-semibold text-foreground">
                             The Three Paths of Contribution
                         </h3>
                         <div className="flex flex-col gap-10 rounded-md border border-[#e5e5e5] dark:border-defaultBorder p-4 sm:p-6">
@@ -60,10 +60,10 @@ export default function AkashInsidersContent() {
                                         <span className="text-2xl">{item.emoji}</span>
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <h4 className="text-lg font-semibold text-[#11181c] dark:text-foreground md:text-xl">
+                                        <h4 className="text-lg font-semibold text-foreground md:text-xl">
                                             {item.title}
                                         </h4>
-                                        <p className="text-sm text-[#71717a] dark:text-para md:text-base">
+                                        <p className="text-sm text-muted-foreground md:text-base">
                                             {item.desc}
                                         </p>
                                     </div>
@@ -74,7 +74,7 @@ export default function AkashInsidersContent() {
 
                     {/* Exclusive Insider Perks */}
                     <div className="flex flex-col gap-3">
-                        <h3 className="text-xl font-semibold text-[#0a0a0a]">
+                        <h3 className="text-xl font-semibold text-foreground">
                             Exclusive Insider Perks
                         </h3>
                         <div className="flex flex-col gap-10 rounded-md border border-[#e5e5e5] dark:border-defaultBorder p-4 sm:p-6">
@@ -100,10 +100,10 @@ export default function AkashInsidersContent() {
                                         <span className="text-2xl">{item.emoji}</span>
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <h4 className="text-lg font-semibold text-[#11181c] dark:text-foreground md:text-xl">
+                                        <h4 className="text-lg font-semibold text-foreground md:text-xl">
                                             {item.title}
                                         </h4>
-                                        <p className="text-sm text-[#71717a] dark:text-para md:text-base">
+                                        <p className="text-sm text-muted-foreground md:text-base">
                                             {item.desc}
                                         </p>
                                     </div>

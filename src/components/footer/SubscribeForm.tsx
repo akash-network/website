@@ -135,7 +135,7 @@ export function SubscribeForm() {
               setEmail(e.target.value);
               setError("");
             }}
-            className="h-11 border border-border bg-background text-foreground placeholder:text-para/50 focus:border-primary focus:ring-primary"
+            className="h-11 border border-border bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary"
           />
           {error && <p className="text-xs text-red-500">{error}</p>}
         </div>
@@ -155,7 +155,7 @@ export function SubscribeForm() {
           )}
         </Button>
 
-        <p className="text-center text-xs text-para/60">
+        <p className="text-center text-xs text-muted-foreground">
           No spam, ever. Unsubscribe at any time.
         </p>
       </form>

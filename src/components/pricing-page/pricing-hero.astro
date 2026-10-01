@@ -22,7 +22,7 @@ const hasAside = Astro.slots.has("aside");
 >
   <div>
     <h1
-      class="text-4xl font-medium leading-[1.05] tracking-tight text-zinc-900 dark:text-zinc-50 md:text-5xl lg:text-6xl"
+      class="text-4xl font-medium leading-[1.05] tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl"
     >
       {
         titleLines.map((line, index) => (
@@ -35,7 +35,7 @@ const hasAside = Astro.slots.has("aside");
     </h1>
     {
       hasAside && (
-        <p class="mt-5 max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-lg">
+        <p class="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
           {descriptionLines.map((line, index) => (
             <span class="md:block">
               {line}
@@ -50,7 +50,7 @@ const hasAside = Astro.slots.has("aside");
     hasAside ? (
       <slot name="aside" />
     ) : (
-      <p class="max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-lg">
+      <p class="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
         {descriptionLines.map((line, index) => (
           <span class="md:block">
             {line}
