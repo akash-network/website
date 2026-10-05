@@ -11,6 +11,7 @@ interface BitsPost {
   bannerImage: { src: string } | null;
   author: string;
   tag: string;
+  readingTime?: number;
 }
 
 const fuseOptions = {
@@ -168,6 +169,7 @@ export default function BitsSearchDialog() {
                             author={post.author}
                             tag={post.tag}
                             pubDate={post.pubDate}
+                            readingTime={post.readingTime}
                           />
                         ))
                       )}
@@ -191,6 +193,7 @@ const BitsCard = ({
   author,
   tag,
   pubDate,
+  readingTime,
 }: {
   title: string;
   description: string;
@@ -199,6 +202,7 @@ const BitsCard = ({
   author: string;
   tag: string;
   pubDate: string;
+  readingTime?: number;
 }) => {
   return (
     <a href={`/the-bid/${link}`}>
@@ -233,8 +237,12 @@ const BitsCard = ({
           </div>
 
           <p className="mt-2 inline-flex items-center text-[8px] font-medium text-cardGray">
-            5 Min Read
-            <span className="mx-1 block h-0.5 w-0.5 rounded-full bg-para" />
+            {readingTime && (
+              <>
+                {readingTime} Min Read
+                <span className="mx-1 block h-0.5 w-0.5 rounded-full bg-para" />
+              </>
+            )}
             <span className="text-[8px] text-cardGray">{pubDate}</span>
           </p>
         </div>
