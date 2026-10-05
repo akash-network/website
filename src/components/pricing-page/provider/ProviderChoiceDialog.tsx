@@ -6,35 +6,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowUpRight, X } from "lucide-react";
+import { PROVIDER_OPTIONS, isExternalHref } from "@/lib/provider-options";
+import { ArrowRight, ArrowUpRight, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { buttonClass } from "../shared/ui";
 
-// The same two routes in, with the same copy and artwork, as the provider chooser on the
-// AkashML site (akashml-website: components/ProviderChoice.tsx), so both sites send
-// prospective providers the same way.
-const OPTIONS = [
-  {
-    key: "homenode",
-    eyebrow: "Consumer GPU",
-    title: "Akash HomeNode",
-    body: "For a single graphics card in a machine you already own: a 4090 or 5090 under your desk. HomeNode is the way in if what you have spare is GPU time rather than rack space.",
-    cta: "Set up a HomeNode",
-    href: "https://homenode.akash.network/",
-    image: "/images/provider/homenode-provider.webp",
-  },
-  {
-    key: "provider-console",
-    eyebrow: "Data center capacity",
-    title: "Become a provider",
-    body: "For whole machines: CPU, memory, storage and GPUs offered together. Provider Console is where you stand that capacity up as an Akash provider and start accepting workloads.",
-    cta: "Open Provider Console",
-    href: "https://provider-console.akash.network/",
-    image: "/images/provider/compute-provider.webp",
-  },
-];
-
-/** Wraps a trigger button; clicking it asks which of the two ways in suits the visitor. */
+/** Wraps a trigger button; clicking it asks which of the two ways in (PROVIDER_OPTIONS) suits the visitor. */
 export default function ProviderChoiceDialog({
   children,
 }: {
@@ -62,7 +39,7 @@ export default function ProviderChoiceDialog({
         </DialogDescription>
 
         <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {OPTIONS.map((option) => (
+          {PROVIDER_OPTIONS.map((option) => (
             <article
               key={option.key}
               className="flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-white/10 dark:bg-white/[0.03]"
@@ -90,8 +67,10 @@ export default function ProviderChoiceDialog({
               {/* mt-auto keeps both buttons on one line however the paragraphs wrap. */}
               <a
                 href={option.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...(isExternalHref(option.href) && {
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                })}
                 className={buttonClass(
                   "primary",
                   "default",
@@ -99,7 +78,11 @@ export default function ProviderChoiceDialog({
                 )}
               >
                 {option.cta}
-                <ArrowUpRight aria-hidden className="h-4 w-4" />
+                {isExternalHref(option.href) ? (
+                  <ArrowUpRight aria-hidden className="h-4 w-4" />
+                ) : (
+                  <ArrowRight aria-hidden className="h-4 w-4" />
+                )}
               </a>
             </article>
           ))}
