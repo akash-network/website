@@ -1,0 +1,182 @@
+---
+import BlogControls, { type BlogScope } from "@/components/blog/blog-controls";
+import { cn } from "@/lib/utils";
+import {
+  byNewest,
+  getBlogCategories,
+  getBlogTopics,
+  getPostTopicSlugs,
+  isCaseStudy,
+  toCategorySlug,
+} from "@/utils/blogTaxonomy";
+import { getCollection } from "astro:content";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+// Header of the blog listings: the current category as the page heading, the
+// category links (the navigation pattern of shadcn's own site: muted text, the
+// current one on a muted pill; edges fade while the row scrolls) and the
+// filter, sort and layout controls.
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const posts = (await getCollection("Blog")).sort(byNewest);
+const blogPosts = posts.filter((post) => !isCaseStudy(post));
+const categories = getBlogCategories(posts);
+
+const items = [
+  { key: "all", label: "All", href: "/blog" },
+  ...[...categories].map(([slug, label]) => ({
+    key: slug,
+    label,
+    href: `/blog/${slug}/1`,
+  })),
+  { key: "archived", label: "Archive", href: "/blog/archived" },
+];
+
+// /blog, /blog/2 -> all; /blog/<category>/1 -> category; /blog/archived -> archived
+const segment = decodeURIComponent(
+  Astro.url.pathname.split("/")[2] ?? "",
+).toLowerCase();
+const active = !segment || /^\d+$/.test(segment) ? "all" : segment;
+const heading = items.find((item) => item.key === active)?.label ?? "All";
+
+const scope: BlogScope =
+  active === "all"
+    ? { kind: "all" }
+    : active === "archived"
+      ? { kind: "archived" }
+      : { kind: "category", slug: active };
+
+// Filter options offered for the posts of this listing only.
+const scopePosts = blogPosts.filter((post) =>
+  active === "all"
+    ? !post.data.archive
+    : active === "archived"
+      ? post.data.archive === true
+      : post.data.categories.some((c) => toCategorySlug(c) === active),
+);
+const allTopics = getBlogTopics(blogPosts);
+const allTopicSlugs = new Set(allTopics.map((topic) => topic.slug));
+const scopeTopicSlugs = new Set(
+  scopePosts.flatMap((post) => getPostTopicSlugs(post, allTopicSlugs)),
+);
+const topics = allTopics.filter((topic) => scopeTopicSlugs.has(topic.slug));
+const years = [
+  ...new Set(scopePosts.map((post) => post.data.pubDate.getUTCFullYear())),
+].sort((a, b) => b - a);
+---
+
+<div class={className}>
+  <h1 class="text-3xl md:text-4xl lg:text-5xl">{heading}</h1>
+
+  <div
+    class="mt-6 flex flex-col gap-3 lg:mt-8 lg:flex-row lg:items-start lg:gap-6"
+  >
+    <nav
+      aria-label="Blog categories"
+      class="group/categories relative min-w-0 lg:flex-1"
+    >
+      <!-- No scrollbar: the faded edges show there is more, touch swipes, and
+           mouse users get the arrow buttons below. -m-1 p-1 keeps focus rings
+           from being clipped by the scroll container. -->
+      <div
+        data-category-scroller
+        class="relative -m-1 flex items-center gap-1 overflow-x-auto p-1 [scrollbar-width:none] data-[fade=start]:[mask-image:linear-gradient(to_left,#000_calc(100%-3rem),transparent)] data-[fade=end]:[mask-image:linear-gradient(to_right,#000_calc(100%-3rem),transparent)] data-[fade=both]:[mask-image:linear-gradient(to_right,transparent,#000_3rem,#000_calc(100%-3rem),transparent)] [&::-webkit-scrollbar]:hidden"
+      >
+        {
+          items.map((item) => (
+            <a
+              href={item.href}
+              aria-current={item.key === active ? "page" : undefined}
+              class={cn(
+                "inline-flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-3 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-neutral-400/50 dark:focus-visible:ring-neutral-500/50",
+                item.key === active &&
+                  "bg-neutral-100 text-foreground dark:bg-neutral-800",
+              )}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- Scroll buttons for mouse and trackpad users: they fade in over the
+           gradient edge only while the row is hovered, and only towards an
+           edge that has more categories. Touch devices swipe instead, and
+           keyboard focus scrolls each link into view, so they are skipped
+           in the tab order. -->
+      {
+        [
+          { direction: -1, label: "Scroll categories left", Icon: ChevronLeft },
+          {
+            direction: 1,
+            label: "Scroll categories right",
+            Icon: ChevronRight,
+          },
+        ].map(({ direction, label, Icon }) => (
+          <button
+            type="button"
+            data-category-scroll={direction}
+            aria-label={label}
+            tabindex="-1"
+            class={cn(
+              "pointer-events-none absolute top-1/2 hidden size-8 -translate-y-1/2 items-center justify-center rounded-full bg-background text-foreground opacity-0 ring-1 ring-foreground/10 transition-[opacity,background-color] duration-200 hover:bg-neutral-100 group-hover/categories:pointer-events-auto group-hover/categories:opacity-100 dark:hover:bg-neutral-800 [@media(pointer:fine)]:data-[visible]:inline-flex",
+              direction < 0 ? "left-0" : "right-0",
+            )}
+          >
+            <Icon className="size-4" aria-hidden="true" />
+          </button>
+        ))
+      }
+    </nav>
+
+    <BlogControls client:load scope={scope} topics={topics} years={years} />
+  </div>
+</div>
+
+<!-- Keep the current category in view, fade the edges that have more
+     categories past them and show the matching scroll buttons.
+     data-astro-rerun: ClientRouter skips inline scripts it has already run. -->
+<script is:inline data-astro-rerun>
+  document.querySelectorAll("[data-category-scroller]").forEach((scroller) => {
+    const update = () => {
+      const max = scroller.scrollWidth - scroller.clientWidth;
+      const start = scroller.scrollLeft > 1;
+      const end = scroller.scrollLeft < max - 1;
+      scroller.dataset.fade =
+        start && end ? "both" : start ? "start" : end ? "end" : "";
+      sync(start, end);
+    };
+    const nav = scroller.closest("nav");
+    const buttons = [...nav.querySelectorAll("[data-category-scroll]")];
+    const sync = (start, end) =>
+      buttons.forEach((button) =>
+        button.toggleAttribute(
+          "data-visible",
+          button.dataset.categoryScroll === "-1" ? start : end,
+        ),
+      );
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    buttons.forEach((button) =>
+      button.addEventListener("click", () =>
+        scroller.scrollBy({
+          left:
+            Number(button.dataset.categoryScroll) * scroller.clientWidth * 0.7,
+          behavior: reduceMotion.matches ? "auto" : "smooth",
+        }),
+      ),
+    );
+    const current = scroller.querySelector('[aria-current="page"]');
+    if (current && scroller.scrollWidth > scroller.clientWidth) {
+      scroller.scrollLeft =
+        current.offsetLeft - (scroller.clientWidth - current.offsetWidth) / 2;
+    }
+    update();
+    scroller.addEventListener("scroll", update, { passive: true });
+    new ResizeObserver(update).observe(scroller);
+  });
+</script>

@@ -60,6 +60,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // HTML fragments fetched by page scripts, not pages.
+      filter: (page) => !new URL(page).pathname.startsWith("/partials/"),
       serialize(item) {
         const lastmod = resolveLastmod(item.url);
         return { ...item, lastmod: lastmod?.toISOString() };
