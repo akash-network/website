@@ -14,7 +14,7 @@ Key distinctions:
 
 ## Start here
 
-- [Agent setup playbook](https://akash.network/get-started.md): Onboarding instructions for coding agents, including CLI, credentials, skills, and MCP setup.
+- [Agent setup playbook](https://akash.network/get-started.md): Onboarding instructions for coding agents: connect an Akash Console API key, add the Akash skill or plugin, and verify API access without spending.
 - [Common questions](https://akash.network/faq.md): Answers about Akash products, GPU availability, payments, and deployment.
 - [Extended Akash reference](https://akash.network/llms-full.txt): Detailed plain-text companion covering supported workloads, deployment paths, akt, APIs, SDL, funding, operations, and source/version notes.
 - [Documentation](https://akash.network/docs/): Official documentation for tenants, application developers, providers, and node operators.
