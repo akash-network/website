@@ -73,7 +73,8 @@ const tools = [
     tagline:
       "Turn your idle GPUs into an income stream. Join the supply side and earn from a global marketplace of AI builders.",
     cta: "Become a Provider",
-    href: "https://provider-console.akash.network/",
+    // Provider Console only manages running providers now; setup starts in the docs.
+    href: "/docs/providers/setup-and-installation/provider-playbook/",
     image: "/development/portal-provider.webp",
   },
   {
@@ -107,7 +108,7 @@ const tools = [
     <div class="container">
       <div class="grid gap-5 md:grid-cols-3">
         {tools.map((tool) => (
-          <a href={tool.href} class="block" target="_blank" rel="noopener noreferrer">
+          <a href={tool.href} class="block" target={tool.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer">
             <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
               <div class="flex h-full flex-col gap-5 p-6">
                 <div class="overflow-hidden rounded-lg">
