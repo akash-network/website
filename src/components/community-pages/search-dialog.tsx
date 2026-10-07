@@ -15,6 +15,7 @@ interface Project {
   projectDescription: string;
   projectImage: BannerImage;
   author: string[];
+  readingTime?: number;
 }
 
 interface BannerImage {
@@ -167,6 +168,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
                             image={project.projectImage.src}
                             author={project.author}
                             date={project.pubDate}
+                            readingTime={project.readingTime}
                           />
                         ))
                       )}
@@ -190,6 +192,7 @@ const ProjectCard = ({
   image,
   author,
   date,
+  readingTime,
 }: any) => {
   return (
     <a href={link}>
@@ -221,8 +224,12 @@ const ProjectCard = ({
           </div>
 
           <p className="mt-2 inline-flex items-center text-[8px] font-medium text-cardGray">
-            5 Min Read
-            <span className="mx-1  block h-0.5 w-0.5 rounded-full bg-para"></span>
+            {readingTime && (
+              <>
+                {readingTime} Min Read
+                <span className="mx-1  block h-0.5 w-0.5 rounded-full bg-para"></span>
+              </>
+            )}
             <span className="text-[8px] text-cardGray">{date}</span>
           </p>
         </div>

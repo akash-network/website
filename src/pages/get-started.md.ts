@@ -8,7 +8,7 @@ const stripFrontmatter = (markdown: string) =>
 
 export const GET: APIRoute = () => {
   const body = renderAgentPage({
-    title: "Onboard your agent to Akash Network",
+    title: "Onboard your agent to Akash",
     content: marked.parse(stripFrontmatter(getStartedMarkdown), {
       async: false,
     }) as string,

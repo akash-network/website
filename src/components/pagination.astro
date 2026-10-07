@@ -1,28 +1,35 @@
 ---
-import ButtonLink from "./ui/button-link.astro";
+import { OUTLINE_BUTTON_CLASS } from "@/components/blog/blogUi";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+// shadcn/ui data-table pagination: page count plus outline Previous/Next
+// buttons (links styled with the outline Button variant).
 const { page } = Astro.props;
 ---
 
-<div class="mb-10 mt-[56px] flex items-center justify-between">
-  <p class="text-xs md:text-base">Page: {page.currentPage} / {page.lastPage}</p>
-  <div class="flex space-x-4">
+<nav
+  aria-label="Pagination"
+  class="mb-10 mt-[56px] flex items-center justify-between gap-4"
+>
+  <p class="text-sm font-medium text-muted-foreground">
+    Page {page.currentPage} of {page.lastPage}
+  </p>
+  <div class="flex items-center gap-2">
     {
-      page.url.prev ? (
-        <>
-          <ButtonLink link={page.url.prev} variant="secondary" size="lg">
-            Previous
-          </ButtonLink>
-        </>
-      ) : null
+      page.url.prev && (
+        <a href={page.url.prev} rel="prev" class={OUTLINE_BUTTON_CLASS}>
+          <ChevronLeft className="size-4" aria-hidden="true" />
+          Previous
+        </a>
+      )
     }
     {
-      page.url.next ? (
-        <>
-          <ButtonLink link={page.url.next} variant="secondary" size="lg">
-            Next
-          </ButtonLink>
-        </>
-      ) : null
+      page.url.next && (
+        <a href={page.url.next} rel="next" class={OUTLINE_BUTTON_CLASS}>
+          Next
+          <ChevronRight className="size-4" aria-hidden="true" />
+        </a>
+      )
     }
   </div>
-</div>
+</nav>

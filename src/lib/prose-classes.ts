@@ -113,3 +113,41 @@ const bitsClassName = clsx(
 );
 
 export { bitsClassName as bitsProseClasses };
+
+// Blog posts: Geist at 16/24 (18/28 from md) in the foreground colour,
+// regular-weight headings with tight leading and tracking, underlined links.
+const blogPostClassName = clsx(
+  "prose prose-blog max-w-full md:mt-12",
+
+  // Body copy and lists
+  "prose-p:my-6 prose-p:text-base prose-p:leading-6 prose-p:text-foreground md:prose-p:text-lg md:prose-p:leading-7",
+  "prose-ul:my-6 prose-ol:my-6 prose-ul:pl-5 prose-ol:pl-5",
+  "prose-li:my-2 prose-li:text-base prose-li:leading-6 prose-li:text-foreground md:prose-li:text-lg md:prose-li:leading-7",
+  "prose-strong:font-semibold prose-strong:text-foreground",
+  "prose-a:font-normal prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-foreground/70",
+
+  // Headings
+  "prose-headings:font-normal prose-headings:text-foreground",
+  "prose-h2:mb-6 prose-h2:mt-12 prose-h2:text-[32px] prose-h2:leading-[1.1] prose-h2:tracking-[-0.04em]",
+  "prose-h3:mb-6 prose-h3:mt-10 prose-h3:text-2xl prose-h3:leading-[1.1] prose-h3:tracking-[-0.04em] md:prose-h3:text-[28px] md:prose-h3:tracking-[-1.28px]",
+  "prose-h4:mb-4 prose-h4:mt-8 prose-h4:text-xl prose-h4:leading-snug prose-h4:tracking-[-0.02em]",
+
+  // Quotes hold TL;DRs and summaries in these posts: body size, upright
+  "prose-blockquote:my-8 prose-blockquote:border-l-2 prose-blockquote:border-neutral-300 prose-blockquote:pl-5 prose-blockquote:font-normal prose-blockquote:not-italic prose-blockquote:text-foreground dark:prose-blockquote:border-neutral-700",
+  "[&_blockquote_p]:before:content-none [&_blockquote_p]:after:content-none",
+
+  // MathJax output cannot wrap: keep it inside the column and scroll it there
+  "[&_.math-inline]:inline-block [&_.math-inline]:max-w-full [&_.math-inline]:overflow-x-auto [&_.math-inline]:overflow-y-hidden [&_.math-inline]:align-bottom",
+  "[&_.math-display]:max-w-full [&_.math-display]:overflow-x-auto",
+
+  // Tables, images and rules, as in proseClasses
+  "prose-table:mt-10 prose-table:border-b",
+  "prose-thead:border-defaultBorder prose-thead:text-justify md:prose-thead:text-xs md:prose-thead:font-medium",
+  "md:prose-th:px-4 prose-tr:border-defaultBorder",
+  "prose-td:py-4 prose-td:text-start prose-td:px-2 md:prose-td:px-4 md:prose-td:text-sm",
+  "prose-img:my-6 md:prose-img:my-14 prose-img:mx-auto prose-img:max-w-[70rem] prose-img:w-full",
+  "[&_.image]:max-w-[70rem] [&_.image]:mx-auto",
+  "prose-hr:border-defaultBorder prose-hr:mb-0",
+);
+
+export { blogPostClassName as blogPostProseClasses };
