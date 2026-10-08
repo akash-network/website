@@ -185,10 +185,10 @@ Future breaking changes are introduced as a new version prefix; prior versions r
     title: "Pagination",
     description:
       "`GET /v1/deployments` uses offset-based pagination via `skip` and `limit`. The response includes a `pagination` object with `total`, `skip`, `limit`, and `hasMore` so you can drive a paging loop without guessing when to stop.",
-    bodyMd: `| Parameter | Type    | Default | Minimum | Description                        |
-| --------- | ------- | ------- | ------- | ---------------------------------- |
-| skip      | integer | 0       | 0       | Number of records to skip (offset) |
-| limit     | integer | 1000    | 1       | Maximum records to return per page |`,
+    bodyMd: `| Parameter | Type    | Default | Minimum | Maximum | Description                        |
+| --------- | ------- | ------- | ------- | ------- | ---------------------------------- |
+| skip      | integer | 0       | 0       | none    | Number of records to skip (offset) |
+| limit     | integer | 100     | 1       | 100     | Maximum records to return per page |`,
     codeSnippets: [
       {
         language: "bash",
@@ -244,7 +244,7 @@ done`,
     responseStatus: "201 Created",
     responseFields: [
       { field: "data.dseq", type: "string", description: "Deployment sequence ID" },
-      { field: "data.manifest", type: "string", description: "Rendered manifest blob to send with `POST /v1/leases`" },
+      { field: "data.manifest", type: "string", description: "Rendered manifest. You don't need to keep it: `POST /v1/leases` sends the provider a manifest built from the SDL Console recorded" },
       { field: "data.signTx.code", type: "number", description: "Cosmos tx code (0 = success)" },
       { field: "data.signTx.transactionHash", type: "string", description: "Broadcast transaction hash" },
       { field: "data.signTx.rawLog", type: "string", description: "Raw chain log" },
@@ -362,21 +362,22 @@ const { data: bids } = await res.json();`,
     path: "/v1/leases",
     title: "POST /v1/leases",
     description:
-      "Accept one or more provider bids and ship the manifest in a single call.",
+      "Accept one or more provider bids. Console creates the leases, then sends each provider the manifest built from the SDL it recorded when the deployment was created, so the request carries only the bids.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
-      { field: "manifest", location: "body", type: "string", required: true, description: "Manifest blob returned by `POST /v1/deployments`" },
       { field: "leases", location: "body", type: "array", required: true, description: "One entry per bid to accept" },
       { field: "leases[].dseq", location: "body", type: "string", required: true, description: "Deployment sequence ID" },
       { field: "leases[].gseq", location: "body", type: "number", required: true, description: "Group sequence (from `bid.id.gseq`)" },
       { field: "leases[].oseq", location: "body", type: "number", required: true, description: "Order sequence (from `bid.id.oseq`)" },
       { field: "leases[].provider", location: "body", type: "string", required: true, description: "Provider address (from `bid.id.provider`)" },
+      { field: "manifest", location: "body", type: "string", required: false, description: "**Deprecated.** Leave it out: Console builds the manifest from the SDL it recorded" },
     ],
     responseStatus: "200 OK",
     responseFields: [],
     responseExample: `// Same shape as GET /v1/deployments/{dseq}`,
     notes: [
       "Response is the full deployment object — same shape as `GET /v1/deployments/{dseq}`.",
+      "A `502` with code `provider_unreachable` means no lease was created, so pick another bid. With code `manifest_not_delivered` the lease exists but the provider didn't take the manifest: send the same request again to retry, or close the deployment to stop paying for it.",
     ],
     codeSnippets: [
       {
@@ -385,7 +386,6 @@ const { data: bids } = await res.json();`,
   -H "x-api-key: $AKASH_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "manifest": "<MANIFEST>",
     "leases": [
       { "dseq": "1234567", "gseq": 1, "oseq": 1, "provider": "akash1provider..." }
     ]
@@ -400,7 +400,6 @@ const { data: bids } = await res.json();`,
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    manifest,
     leases: [
       {
         dseq: chosen.dseq,
@@ -476,7 +475,10 @@ const { data } = await res.json();`,
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "skip", location: "query", type: "integer", required: false, description: "Offset. Default `0`" },
-      { field: "limit", location: "query", type: "integer", required: false, description: "Max records. Default `1000`" },
+      { field: "limit", location: "query", type: "integer", required: false, description: "Records per page, from `1` to `100`. Default `100`" },
+      { field: "state", location: "query", type: "string", required: false, description: "`active` (default) or `closed`" },
+      { field: "search", location: "query", type: "string", required: false, description: "Case-insensitive match against each deployment's name and dseq" },
+      { field: "reverse", location: "query", type: "string", required: false, description: "`true` lists the newest deployment first. Default `false` (oldest first)" },
     ],
     responseStatus: "200 OK",
     responseFields: [
@@ -594,6 +596,84 @@ const { data } = await res.json();`,
     ],
   },
   {
+    id: "patch-v1deployments-dseq",
+    kind: "endpoint",
+    group: "core",
+    host: "console-api",
+    protocol: "http",
+    method: "PATCH",
+    path: "/v1/deployments/{dseq}",
+    title: "PATCH /v1/deployments/{dseq}",
+    description:
+      "Change a running deployment in place: a service's image, command, arguments, environment variables, registry credentials, exposed ports or volume mounts, or the deployment's name. Console applies the patch to the SDL it recorded at create, so the request never carries an SDL, and only the services you name change.",
+    requestParams: [
+      { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
+      { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
+      { field: "data.services.<name>.image", location: "body", type: "string", required: false, description: "New image for the service, with an explicit tag" },
+      { field: "data.services.<name>.env", location: "body", type: "object", required: false, description: "Merged into the service's env by variable name. `null` removes a variable" },
+      { field: "data.services.<name>.command", location: "body", type: "array", required: false, description: "Replaces the container command" },
+      { field: "data.services.<name>.args", location: "body", type: "array", required: false, description: "Replaces the command arguments" },
+      { field: "data.services.<name>.credentials", location: "body", type: "object", required: false, description: "Private registry `host`, `username` and `password`. `null` clears them" },
+      { field: "data.services.<name>.expose.<port>", location: "body", type: "object", required: false, description: "Keyed by the container port the SDL declares: `port`, `as`, `accept` (custom domains) and `httpOptions`" },
+      { field: "data.services.<name>.storage.<volume>", location: "body", type: "object", required: false, description: "`mount` and `readOnly` only. Sizes are fixed at create" },
+      { field: "data.name", location: "body", type: "string", required: false, description: "Renames the deployment" },
+      { field: "data.sealedSecrets", location: "body", type: "string", required: false, description: "Compact JWE holding only the secret values this patch replaces, for env values written as `ac-secret://NAME`" },
+      { field: "data.ifManifestVersion", location: "body", type: "string", required: false, description: "Base64 manifest version you expect to be current. Answers `409` if the deployment has moved on" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.deployment", type: "object", description: "The deployment, as in `GET /v1/deployments/{dseq}`" },
+      { field: "data.leases", type: "array", description: "Its leases" },
+      { field: "data.name", type: "string", description: "Deployment name" },
+      { field: "data.manifestVersion", type: "string", description: "Base64 version of the manifest now current. Pass it as `ifManifestVersion` on the next patch" },
+    ],
+    responseExample: `// { "data": { "deployment": {...}, "leases": [...], "escrow_account": {...}, "name": "...", "manifestVersion": "..." } }`,
+    notes: [
+      "Compute resources, replica counts, groups and globally exposed ports are fixed at create. A patch that would change them answers `422` with code `deployment_resources_changed`; create a new deployment instead.",
+      "`404` means Console holds no recorded SDL for this deployment, so there is nothing to patch.",
+      "`409` with code `deployment_definition_changed` means another change landed between this patch reading the deployment and writing it. Reload it and retry.",
+    ],
+    codeSnippets: [
+      {
+        language: "bash",
+        code: `curl -X PATCH "https://console-api.akash.network/v1/deployments/1234567" \\
+  -H "x-api-key: $AKASH_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "data": {
+      "services": {
+        "web": {
+          "image": "nginx:1.27.3",
+          "env": { "LOG_LEVEL": "debug", "OLD_FLAG": null }
+        }
+      }
+    }
+  }'`,
+      },
+      {
+        language: "javascript",
+        code: `const res = await fetch(
+  \`https://console-api.akash.network/v1/deployments/\${dseq}\`,
+  {
+    method: "PATCH",
+    headers: {
+      "x-api-key": process.env.AKASH_API_KEY,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      data: {
+        services: {
+          web: { image: "nginx:1.27.3", env: { LOG_LEVEL: "debug", OLD_FLAG: null } },
+        },
+      },
+    }),
+  },
+);
+const { data } = await res.json();`,
+      },
+    ],
+  },
+  {
     id: "put-v1deployments-dseq",
     kind: "endpoint",
     group: "core",
@@ -602,7 +682,8 @@ const { data } = await res.json();`,
     method: "PUT",
     path: "/v1/deployments/{dseq}",
     title: "PUT /v1/deployments/{dseq}",
-    description: "Update an active deployment with a revised SDL.",
+    description:
+      "**Deprecated.** Resubmits the whole SDL. Use `PATCH /v1/deployments/{dseq}` instead; this endpoint will be removed in a future release.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
@@ -611,6 +692,9 @@ const { data } = await res.json();`,
     responseStatus: "200 OK",
     responseFields: [],
     responseExample: `// Full deployment object — same shape as GET /v1/deployments/{dseq}.`,
+    notes: [
+      "Refused with `422` and code `deployment_resources_changed` when the SDL changes the groups, compute resources, replica counts or globally exposed ports the deployment was created with.",
+    ],
     codeSnippets: [
       {
         language: "bash",

@@ -216,17 +216,17 @@ The current documented flow is:
 | Operation                       | Request                                                            | Result to retain/check                                    |
 | ------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------- |
 | Inspect platform funding rules  | `GET /v1/deployment-funding-config`                                | Current automatic funding parameters                      |
-| Create deployment               | `POST /v1/deployments` with `{"data":{"sdl":"<SDL as a string>"}}` | `data.dseq`, returned `data.manifest`, transaction result |
+| Create deployment               | `POST /v1/deployments` with `{"data":{"sdl":"<SDL as a string>"}}` | `data.dseq`, transaction result                           |
 | Poll bids                       | `GET /v1/bids?dseq=<dseq>`                                         | Open matching bids and each composite `bid.id`            |
-| Accept bids and submit manifest | `POST /v1/leases`                                                  | Selected leases and deployment status                     |
+| Accept bids                     | `POST /v1/leases` with only the selected bids                      | Selected leases and deployment status                     |
 | Inspect deployment              | `GET /v1/deployments/<dseq>`                                       | Current deployment, lease, and available status data      |
+| Change image, env or ports      | `PATCH /v1/deployments/<dseq>` with only the changed fields        | Updated deployment and its new `manifestVersion`          |
 | Close after exporting data      | `DELETE /v1/deployments/<dseq>`                                    | Closure state; eventual return of unused escrow           |
 
-Serialize SDL as a JSON string with a JSON library. The creation body has no deposit field under the current funding contract. Cache the exact rendered manifest returned by creation; raw SDL is not a substitute. Lease creation uses a different body shape from deployment creation:
+Serialize SDL as a JSON string with a JSON library. The creation body has no deposit field under the current funding contract. Console records the SDL at creation and sends each provider its manifest when the lease is created, so the lease body carries only the selected bids. The `manifest` field on `POST /v1/leases` is deprecated; leave it out. Lease creation uses a different body shape from deployment creation:
 
 ```json
 {
-  "manifest": "<rendered manifest returned by deployment creation>",
   "leases": [
     {
       "dseq": "<dseq from the selected bid>",
@@ -238,7 +238,9 @@ Serialize SDL as a JSON string with a JSON library. The creation body has no dep
 }
 ```
 
-The sequence values above are placeholders; copy the selected bid's actual values. Follow the current schema for how the bid identity maps into the lease request. Do not assume that the first returned bid is the right provider, or that every group uses sequence 1.
+The sequence values above are placeholders; copy the selected bid's actual values. Follow the current schema for how the bid identity maps into the lease request. Do not assume that the first returned bid is the right provider, or that every group uses sequence 1. A `502` with code `provider_unreachable` created no lease, so choose another bid; with code `manifest_not_delivered` the lease exists, and repeating the same request retries delivery.
+
+To change a running deployment, send `PATCH /v1/deployments/<dseq>` with only the services and fields that change (image, environment, command, ports, mounts). The full-SDL `PUT` on the same path is deprecated. Compute resources, replica counts and globally exposed ports are fixed at creation; changing them takes a new deployment.
 
 Poll within a deadline, handle HTTP errors before reading successful response fields, and inspect chain transaction results where returned. After a request timeout, reconcile deployment/transaction state before retrying a create or lease operation. For live logs, events, or shell, use the documented provider access flow or akt Console commands, which obtain scoped authorization. Do not invent a Console endpoint from the name of a CLI command.
 
