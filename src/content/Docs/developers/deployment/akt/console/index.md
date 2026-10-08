@@ -4,12 +4,12 @@ tags: ["akt", "CLI", "Console", "Managed Wallet"]
 weight: 4
 title: "Akash Console Integration"
 linkTitle: "Console Integration"
-description: "Deploy with the Akash Console managed wallet from akt with no local keys and deposits in USD"
+description: "Deploy with the Akash Console managed wallet from akt, with no local keys and no deposits"
 ---
 
 **Deploy on Akash from the CLI without managing keys or buying AKT.**
 
-Contexts with the `console-api` auth method route deployment operations through the [Akash Console Managed Wallet API](/docs/api-documentation/console-api). The Console backend handles signing and broadcasting, deposits are in USD, and no local keys are needed.
+Contexts with the `console-api` auth method route deployment operations through the [Akash Console Managed Wallet API](/docs/api-documentation/console-api). The Console backend handles signing and broadcasting and funds each deployment from your account credits, so no local keys or deposits are needed.
 
 The Console API key is the identity for this context. A local keyring and `default-account` are intentionally optional.
 
@@ -46,11 +46,11 @@ akt console whoami
 
 ## Deploy with the Managed Wallet
 
-On a `console-api` context, the top-level workflow commands route through the Console automatically. Deposits are USD and must be at least $0.50. Accepted forms include `5`, `5usd`, `$5`, and `5.50usd`:
+On a `console-api` context, the top-level workflow commands route through the Console automatically. The Console funds every deployment from your account credits, so `akt deploy` takes no deposit there and rejects one:
 
 ```bash
 # Deploy using the Console managed wallet
-akt deploy deploy.yaml --deposit 5
+akt deploy deploy.yaml
 
 # List your deployments
 akt console deployment list
@@ -62,7 +62,7 @@ akt update deploy.yaml 12345
 akt close 12345
 ```
 
-USD input uses plain decimal notation with at most two fractional digits. Signs, exponent notation, underscores, non-finite values, and sub-cent amounts are rejected before an API request. Coin values such as `5000000uakt` are rejected on the Console rail.
+**Note:** akt 0.1.x predates automatic funding. It refuses a Console deploy without `--deposit` of at least $0.50 (for example `akt deploy deploy.yaml --deposit 0.5`), an amount the Console ignores. Homebrew installs the latest stable release, so run `akt version` to see which behavior you have.
 
 `akt deploy` creates the deployment, waits for bids, and creates the lease through the Console. The Console handles manifest submission internally.
 
@@ -98,23 +98,26 @@ akt console deployment list
 akt console deployment list active --limit 20 --skip 0
 akt console deployment get 12345
 
-# Create a deployment (managed wallet signs server-side)
-akt console deployment create deploy.yaml 5
+# Create a deployment (managed wallet signs server-side, no deposit)
+akt console deployment create deploy.yaml
 
 # Update takes the dseq before the SDL file
 akt console deployment update 12345 deploy.yaml
 
-# Add funds to a deployment's escrow
-akt console deployment deposit 12345 5
+# Show a deployment's funding record
+akt console deployment settings 12345
 
-# View or change a deployment's auto-top-up setting
-akt console deployment settings 12345 true
+# Stop it after 12 hours, or return it to always-on funding
+akt console deployment settings 12345 12
+akt console deployment settings 12345 none
 
 # Close
 akt console deployment close 12345
 ```
 
-Create, update, deposit, settings changes, and close validate their identifiers and current deployment state before mutation. Update, deposit, settings changes, and close reject closed deployments. Close also rejects an absent deployment, so a repeated close never appears successful.
+A runtime limit closes the deployment once it has run that many hours and returns the unused funds. Automatic funding itself cannot be switched off.
+
+Create, update, settings changes, and close validate their identifiers and current deployment state before mutation. Update, settings changes, and close reject closed deployments. Close also rejects an absent deployment, so a repeated close never appears successful.
 
 ---
 
@@ -166,7 +169,7 @@ akt console wallet cost
 akt console usage 2026-01-01 2026-01-31
 ```
 
-**Note:** An account that has never configured auto-reload reports the unconfigured default (`"configured": false`) instead of an error. Running `akt console wallet settings true` creates the settings record and enables auto-reload, which authorizes automatic credit purchases against your payment method.
+**Note:** An account that has never configured Auto Recharge reports the unconfigured default (`"configured": false`) instead of an error. Running `akt console wallet settings true` creates the settings record and enables Auto Recharge, which charges your default card to keep the account's credit balance up. This is an account-level setting; per-deployment funding is always on.
 
 Console bids reported in `uact` per block include an estimated 30-day dollar cost based on six-second blocks. Other denominations remain explicit.
 
