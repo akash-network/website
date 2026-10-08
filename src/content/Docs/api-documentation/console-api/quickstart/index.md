@@ -22,7 +22,6 @@ CREATE=$(curl -s -X POST https://console-api.akash.network/v1/deployments \
   -H "Content-Type: application/json" \
   -d @deployment.json)
 DSEQ=$(echo "$CREATE" | jq -r '.data.dseq')
-MANIFEST=$(echo "$CREATE" | jq -r '.data.manifest')
 
 # 2. Wait 30 seconds for bids, then read the first bid's composite id
 sleep 30
@@ -32,17 +31,16 @@ GSEQ=$(echo "$BID" | jq -r '.gseq')
 OSEQ=$(echo "$BID" | jq -r '.oseq')
 PROVIDER=$(echo "$BID" | jq -r '.provider')
 
-# 3. Create lease — accepts the bid and ships the manifest
+# 3. Create the lease. Console sends the provider the manifest itself
 curl -s -X POST https://console-api.akash.network/v1/leases \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
   -d "$(jq -n \
-        --arg manifest "$MANIFEST" \
         --arg dseq "$DSEQ" \
         --argjson gseq "$GSEQ" \
         --argjson oseq "$OSEQ" \
         --arg provider "$PROVIDER" \
-        '{manifest: $manifest, leases: [{dseq: $dseq, gseq: $gseq, oseq: $oseq, provider: $provider}]}')"
+        '{leases: [{dseq: $dseq, gseq: $gseq, oseq: $oseq, provider: $provider}]}')"
 
 # 4. Check status
 curl -s "https://console-api.akash.network/v1/deployments/$DSEQ" \

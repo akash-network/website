@@ -116,6 +116,8 @@ Response (`201 Created`):
 }
 ```
 
+You don't need to keep `manifest`. Console records the SDL and sends the provider its manifest when you create the lease.
+
 ---
 
 ### 2. Wait for and Fetch Bids
@@ -206,9 +208,9 @@ async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
 
 ### 3. Create Lease
 
-Accept one or more bids to activate the deployment lease(s) and send the manifest to the chosen provider(s) in a single call.
+Accept one or more bids to activate the deployment lease(s). Console creates the leases, then sends each chosen provider the manifest built from the SDL it recorded when you created the deployment, so the request carries only the bids.
 
-Pick the bid(s) you want, then build the `leases[]` array from the bid id (omitting `owner` and `bseq`). The `manifest` field is the rendered manifest produced by the SDL — you can re-use the manifest hash returned by `POST /v1/deployments` if you cached it.
+Pick the bid(s) you want, then build the `leases[]` array from the bid id (omitting `owner` and `bseq`). A `manifest` field is still accepted but deprecated, so leave it out.
 
 cURL:
 
@@ -217,7 +219,6 @@ curl -X POST https://console-api.akash.network/v1/leases \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "manifest": "<MANIFEST_FROM_CREATE_DEPLOYMENT>",
     "leases": [
       { "dseq": "1234567", "gseq": 1, "oseq": 1, "provider": "akash1providerxxx..." }
     ]
@@ -235,7 +236,6 @@ const res = await fetch("https://console-api.akash.network/v1/leases", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    manifest,
     leases: [
       {
         dseq: chosen.dseq,
@@ -291,6 +291,8 @@ Response (`200 OK`) is the same shape as `GET /v1/deployments/{dseq}` — the fu
   }
 }
 ```
+
+If a provider can't be reached, the call answers `502`. With code `provider_unreachable` no lease was created, so pick another bid. With code `manifest_not_delivered` the lease exists but the provider didn't take the manifest: send the same request again to retry, or close the deployment to stop paying for it.
 
 ---
 
