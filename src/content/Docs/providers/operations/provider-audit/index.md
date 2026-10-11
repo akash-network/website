@@ -179,6 +179,51 @@ Fund the tenant wallet with **AKT** (gas) and **ACT** (deployment escrow). See [
 2. Set **`AUDIT_PROVIDER_ID`** to your **provider owner address** (`akash1…`). Do not use a DDNS hostname or public IP.
 3. Adjust CPU, memory, storage, and — only if they match what you advertise — GPU, persistent volume, and SHM so the manifest fits your capabilities.
 
+#### Trim the SDL to match your provider
+
+The template asks for a GPU, a persistent volume, and RAM-backed SHM by default. If your provider doesn't offer one of these, **your provider will not bid on the audit deployment** and won't appear in the bid list. Remove what you don't offer:
+
+| If you don't offer | Remove from `services.provider-audit` | Remove from `profiles.compute.provider-audit.resources` |
+| --- | --- | --- |
+| GPUs | Set `AUDIT_GPU_ENABLED=false` (or delete the line) | The whole `gpu:` block |
+| Persistent storage (e.g. Ceph) | `AUDIT_PV_MOUNT_PATH=/data` and the `data:` entry under `params.storage` | The `storage` item named `data` (`persistent: true`) |
+| SHM (`ram` storage class) | `AUDIT_RAM_REQUIRED=true`, `AUDIT_RAM_MOUNT_PATH=/dev/shm`, and the `shm:` entry under `params.storage` | The `storage` item named `shm` (`class: ram`) |
+
+Keep the first, unnamed `storage` item (ephemeral storage); every deployment needs it.
+
+For example, a CPU-only provider without persistent storage or SHM would use:
+
+```yaml
+services:
+  provider-audit:
+    image: zblocker64/overclock-test-deployment:0.3.3
+    env:
+      - AUDIT_STANDALONE_UI=1
+      - AUDIT_HTTP_BIND=0.0.0.0
+      - AUDIT_HTTP_PORT=8080
+      - AUDIT_PROVIDER_ID=akash1REPLACE_WITH_PROVIDER_OWNER
+      - AUDIT_TIMEOUT_SECONDS=3600
+      - AUDIT_GPU_ENABLED=false
+    expose:
+      - port: 8080
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    provider-audit:
+      resources:
+        cpu:
+          units: 8
+        memory:
+          size: 16Gi
+        storage:
+          - size: 100Gi
+```
+
+Leave the `placement` and `deployment` sections as they are in the template. If your provider still doesn't bid, check that its on-chain attributes match the `placement` attributes and that the pricing in the SDL is at or above your provider's bid price.
+
 ### Option A: Deploy with Console Air
 
 1. Open **[air.akash.network](https://air.akash.network)** and connect your **tenant** wallet (not your provider wallet).
