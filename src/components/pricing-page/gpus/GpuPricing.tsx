@@ -23,6 +23,7 @@ import {
   formatUsd,
   type ToggleOption,
 } from "../shared/ui";
+import { gpuDetailHref } from "@/lib/gpu-detail-pages/slugs";
 import { BLACKWELL_ACCESS_URL, withBlackwellFallbacks } from "./gpu-models";
 import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import {
@@ -434,16 +435,24 @@ function FilterGroup({
 }
 
 function GpuTableRow({ row }: { row: GpuRow }) {
-  const href = row.isBlackwell ? BLACKWELL_ACCESS_URL : RENT_URL;
-  const external = !row.isBlackwell;
+  // Blackwell models go to the access form, everything else to the console. Models with a
+  // detail page also link their name there.
+  const detailHref = gpuDetailHref(row.model);
+  const action = row.isBlackwell
+    ? { href: BLACKWELL_ACCESS_URL, label: "Get access", aria: "Get access to" }
+    : { href: RENT_URL, label: "Rent", aria: "Rent" };
+  const external = action.href === RENT_URL;
 
   // The whole row is clickable, but it forwards to the real link so middle-click, keyboard
   // focus, and click tracking on the link's id keep working.
+  // A click on the model name or badges of a row with a detail page opens that page instead.
   const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement>) => {
-    if ((event.target as HTMLElement).closest("a, button")) return;
-    event.currentTarget
-      .querySelector<HTMLAnchorElement>("a[data-row-link]")
-      ?.click();
+    const target = event.target as HTMLElement;
+    if (target.closest("a, button")) return;
+    const link = target.closest(".gpu-detail-cell")
+      ? "a.gpu-detail-link"
+      : "a[data-row-link]";
+    event.currentTarget.querySelector<HTMLAnchorElement>(link)?.click();
   };
 
   return (
@@ -455,9 +464,25 @@ function GpuTableRow({ row }: { row: GpuRow }) {
           price, then specs and a labelled action). Desktop: one line, with the specs after
           the name and the action's label revealed on hover. */}
       <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
-        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
+        {/* With a detail page, only the name and badges link there (shrink-wrapped so the
+            cell's empty space keeps the row's own action). */}
+        <div
+          className={cn(
+            "flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2",
+            detailHref && "gpu-detail-cell w-fit",
+          )}
+        >
           <p className="text-lg font-medium leading-7 text-foreground max-[359px]:text-base/7">
-            {row.name}
+            {detailHref ? (
+              <a
+                href={detailHref}
+                className="gpu-detail-link focus-visible:outline-none"
+              >
+                {row.name}
+              </a>
+            ) : (
+              row.name
+            )}
           </p>
           <div className="flex min-h-7 flex-wrap items-center gap-1.5 md:min-h-0">
             <SpecBadge>{row.ramLabel}</SpecBadge>
@@ -482,19 +507,20 @@ function GpuTableRow({ row }: { row: GpuRow }) {
           <a
             data-row-link
             id={`${row.model}-(gpu-rent)`}
-            href={href}
+            href={action.href}
             target={external ? "_blank" : undefined}
             rel={external ? "noopener noreferrer" : undefined}
-            aria-label={`${row.isBlackwell ? "Get access to" : "Rent"} ${row.name} ${row.ramLabel}`}
+            aria-label={`${action.aria} ${row.name} ${row.ramLabel}`}
             // Mobile always shows the label. On desktop it's just the arrow at rest; hovering
-            // the row or focusing the link slides the label in.
-            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5"
+            // the row or focusing the link slides the label in, except over the model name and
+            // badges of a row with a detail page, which link there instead.
+            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-cell:hover]:pl-2"
           >
             <span
               aria-hidden
-              className="mr-1 max-w-24 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:mr-0 md:max-w-0 md:text-sm md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100"
+              className="mr-1 max-w-24 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:mr-0 md:max-w-0 md:text-sm md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-cell:hover]:mr-0 md:group-has-[.gpu-detail-cell:hover]:max-w-0 md:group-has-[.gpu-detail-cell:hover]:opacity-0"
             >
-              {row.isBlackwell ? "Get access" : "Rent"}
+              {action.label}
             </span>
             <ArrowRight
               aria-hidden

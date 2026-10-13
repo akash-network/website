@@ -70,6 +70,10 @@ export const BLACKWELL_ACCESS_URL = "/nvidia-blackwell-gpus";
 export const isBlackwellModel = (model: string) =>
   BLACKWELL_HOURLY_PRICES.has((model ?? "").toLowerCase());
 
+/** Fixed hourly USD rate for a Blackwell model, or undefined for bid-priced models. */
+export const blackwellHourlyPrice = (model: string) =>
+  BLACKWELL_HOURLY_PRICES.get((model ?? "").toLowerCase());
+
 export const normalizeGpuModel = <T extends GpuModel>(model: T): T => {
   const hardcodedPrice = BLACKWELL_HOURLY_PRICES.get(
     model?.model?.toLowerCase() ?? "",
@@ -95,10 +99,13 @@ export const normalizeGpuModel = <T extends GpuModel>(model: T): T => {
 };
 
 // Listed even when the API has no entry for them yet.
-const BLACKWELL_FALLBACKS: GpuModel[] = ["b300", "b200"].map((model) => ({
+const BLACKWELL_FALLBACKS: GpuModel[] = [
+  ["b300", "288GB"],
+  ["b200", "180GB"],
+].map(([model, ram]) => ({
   vendor: "nvidia",
   model,
-  ram: "180GB",
+  ram,
   interface: "HBM3e",
   availability: { total: 1, available: 1 },
   providerAvailability: { total: 1, available: 1 },

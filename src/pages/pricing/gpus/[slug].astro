@@ -1,0 +1,440 @@
+---
+import CtaLinks from "@/components/pricing-page/gpu-detail/cta-links.astro";
+import DataTable from "@/components/pricing-page/gpu-detail/data-table.astro";
+import PricingHero from "@/components/pricing-page/pricing-hero.astro";
+import Layout from "@/layouts/layout.astro";
+import {
+  GPU_DETAIL_PAGES,
+  renderInline,
+  stripInline,
+  type GpuDetailPage,
+} from "@/lib/gpu-detail-pages";
+import { Check, ChevronDown } from "lucide-react";
+
+export function getStaticPaths() {
+  return Object.values(GPU_DETAIL_PAGES).map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props as { page: GpuDetailPage };
+const {
+  hero,
+  pricing,
+  models,
+  highlights,
+  fit,
+  useCases,
+  deploy,
+  enterprise,
+  specs,
+} = page;
+
+const SITE = "https://akash.network";
+const url = `${SITE}/pricing/gpus/${page.slug}/`;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE}/#organization`,
+      name: "Akash Network",
+      url: SITE,
+      logo: `${SITE}/favicon.ico`,
+    },
+    {
+      "@type": "WebPage",
+      "@id": url,
+      url,
+      name: page.seo.title,
+      description: page.seo.description,
+      isPartOf: { "@id": `${SITE}/#organization` },
+      breadcrumb: { "@id": `${url}#breadcrumb` },
+      ...(page.seo.image && {
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: `${SITE}${page.seo.image}`,
+          caption: page.seo.imageAlt,
+        },
+      }),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "GPU Pricing",
+          item: `${SITE}/pricing/gpus/`,
+        },
+        { "@type": "ListItem", position: 3, name: page.shortName, item: url },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${url}#faq`,
+      mainEntity: page.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: stripInline(item.answer) },
+      })),
+    },
+  ],
+};
+
+// Shared type scale, matching the pricing pages.
+const h2 = "text-2xl font-medium text-foreground md:text-3xl";
+const h3 = "text-lg font-medium text-foreground";
+const body = "text-base leading-relaxed text-muted-foreground";
+const note = "text-sm leading-relaxed text-muted-foreground";
+const card =
+  "rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]";
+const badge =
+  "inline-flex h-6 items-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15";
+const section = "flex scroll-mt-28 flex-col gap-6";
+---
+
+<Layout
+  title={page.seo.title}
+  description={page.seo.description}
+  image={page.seo.image ?? "/meta-images/pricing/gpu.jpg"}
+>
+  <Fragment slot="head">
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  </Fragment>
+
+  <div
+    class="container flex flex-col gap-16 pb-20 pt-10 md:gap-24 md:pb-28 md:pt-16"
+  >
+    <div class="flex flex-col gap-8 md:gap-10">
+      <nav aria-label="Breadcrumb">
+        <ol class="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <a
+              href="/pricing/gpus/"
+              class="transition-colors hover:text-foreground">GPU Pricing</a
+            >
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" class="text-foreground">
+            {page.shortName}
+          </li>
+        </ol>
+      </nav>
+
+      <PricingHero
+        title={hero.title}
+        description={hero.description}
+        align="start"
+      >
+        <div slot="aside" class={`${card} flex flex-col gap-5 p-5`}>
+          <div class="flex flex-col gap-1">
+            <p class="text-sm font-medium text-muted-foreground">
+              On-demand from
+            </p>
+            <p
+              class="font-jetBrainsMono text-3xl font-medium tabular-nums text-foreground"
+            >
+              {hero.price}
+              <span class="font-sans text-sm font-normal text-muted-foreground"
+                >per GPU-hour</span
+              >
+            </p>
+            <p class={note}>{hero.priceNote}</p>
+          </div>
+          <CtaLinks links={hero.ctas} />
+        </div>
+        <div class="mt-8 flex flex-col gap-6">
+          <div class="flex flex-wrap gap-1.5">
+            {hero.specs.map((spec) => <span class={badge}>{spec}</span>)}
+          </div>
+          <ul class="flex flex-col gap-2 text-sm text-muted-foreground">
+            {
+              hero.bullets.map((bullet) => (
+                <li class="flex gap-2">
+                  <Check
+                    aria-hidden="true"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-foreground"
+                  />
+                  {bullet}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </PricingHero>
+
+      <p
+        class="max-w-3xl border-t border-zinc-200 pt-8 text-base leading-relaxed text-muted-foreground dark:border-white/10 md:text-lg"
+        set:html={renderInline(page.intro)}
+      />
+    </div>
+
+    <section id="rent" class={section}>
+      <h2 class={h2}>{pricing.title}</h2>
+      {
+        pricing.paragraphs.map((text) => (
+          <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+        ))
+      }
+      <div class="max-w-3xl">
+        <DataTable table={pricing.table} caption={pricing.title} />
+      </div>
+      <p class={`${note} max-w-3xl`} set:html={renderInline(pricing.note)} />
+
+      <h3 class={`${h3} mt-6`}>{pricing.optionsTitle}</h3>
+      <div class="grid gap-4 md:grid-cols-2">
+        {
+          pricing.options.map((option) => (
+            <div class={`${card} flex flex-col gap-4 p-5 md:p-6`}>
+              <div class="flex flex-col gap-1.5">
+                <p class={h3}>{option.title}</p>
+                <p class={note}>{option.description}</p>
+              </div>
+              <ul class="flex flex-1 flex-col gap-2 text-sm text-muted-foreground">
+                {option.bullets.map((bullet) => (
+                  <li class="flex gap-2">
+                    <Check
+                      aria-hidden="true"
+                      className="mt-0.5 h-4 w-4 shrink-0 text-foreground"
+                    />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+              <CtaLinks links={[option.cta]} />
+            </div>
+          ))
+        }
+      </div>
+      <p class={note}>{pricing.optionsNote}</p>
+    </section>
+
+    {
+      models && (
+        <section id="models" class={section}>
+          <h2 class={h2}>{models.title}</h2>
+          {models.paragraphs.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+          <DataTable table={models.table} caption={models.title} />
+          <p class={`${note} max-w-3xl`} set:html={renderInline(models.note)} />
+
+          {models.subsections.map((sub) => (
+            <div class="mt-6 flex flex-col gap-4">
+              <h3 class={h3}>{sub.title}</h3>
+              {sub.paragraphs.map((text) => (
+                <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+              ))}
+              {sub.bullets && (
+                <ul class="flex max-w-3xl flex-col gap-2.5">
+                  {sub.bullets.map((item) => (
+                    <li class="flex gap-2 text-base leading-relaxed text-muted-foreground">
+                      <Check
+                        aria-hidden="true"
+                        className="mt-1.5 h-4 w-4 shrink-0 text-foreground"
+                      />
+                      <span>
+                        <span class="font-medium text-foreground">
+                          {item.title}:
+                        </span>{" "}
+                        {item.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {sub.table && (
+                <div class="max-w-3xl">
+                  <DataTable table={sub.table} caption={sub.title} />
+                </div>
+              )}
+              {sub.note && (
+                <p
+                  class={`${note} max-w-3xl`}
+                  set:html={renderInline(sub.note)}
+                />
+              )}
+            </div>
+          ))}
+        </section>
+      )
+    }
+
+    {
+      highlights?.map((sub) => (
+        <section class={section}>
+          <h2 class={h2}>{sub.title}</h2>
+          {sub.paragraphs.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+          {sub.bullets && (
+            <ul class="flex max-w-3xl flex-col gap-2.5">
+              {sub.bullets.map((item) => (
+                <li class="flex gap-2 text-base leading-relaxed text-muted-foreground">
+                  <Check
+                    aria-hidden="true"
+                    className="mt-1.5 h-4 w-4 shrink-0 text-foreground"
+                  />
+                  <span>
+                    <span class="font-medium text-foreground">
+                      {item.title}:
+                    </span>{" "}
+                    {item.text}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {sub.table && (
+            <div class="max-w-3xl">
+              <DataTable table={sub.table} caption={sub.title} />
+            </div>
+          )}
+          {sub.note && (
+            <p class={`${note} max-w-3xl`} set:html={renderInline(sub.note)} />
+          )}
+        </section>
+      ))
+    }
+
+    {
+      fit && (
+        <section id="fit" class={section}>
+          <h2 class={h2}>{fit.title}</h2>
+          <ul class="grid gap-4 md:grid-cols-3">
+            {fit.choices.map((choice) => (
+              <li class={`${card} flex flex-col gap-1.5 p-5`}>
+                <p class={h3}>{choice.title}</p>
+                <p class={note}>{choice.text}</p>
+              </li>
+            ))}
+          </ul>
+          {fit.paragraphs.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+        </section>
+      )
+    }
+
+    {
+      useCases && (
+        <section id="use-cases" class={section}>
+          <h2 class={h2}>{useCases.title}</h2>
+          {useCases.paragraphs?.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+          <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {useCases.items.map((item) => (
+              <li class={`${card} flex flex-col gap-1.5 p-5`}>
+                <p class={h3}>{item.title}</p>
+                <p class={note}>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      deploy && (
+        <section id="deploy" class={section}>
+          <h2 class={h2}>{deploy.title}</h2>
+          <ol class="grid gap-4 md:grid-cols-3">
+            {deploy.steps.map((step, index) => (
+              <li class={`${card} flex flex-col gap-3 p-5`}>
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 font-jetBrainsMono text-sm font-medium text-foreground dark:bg-white/10">
+                  {index + 1}
+                </span>
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-medium text-foreground">{step.title}</span>{" "}
+                  {step.text}
+                </p>
+              </li>
+            ))}
+          </ol>
+          <CtaLinks links={[deploy.cta]} />
+        </section>
+      )
+    }
+
+    {
+      enterprise && (
+        <section id="enterprise" class={section}>
+          <div class="flex flex-col gap-3">
+            <h2 class={h2}>{enterprise.title}</h2>
+            <p class={`${body} max-w-3xl`}>{enterprise.description}</p>
+          </div>
+          <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+            {enterprise.items.map((item) => (
+              <li class="flex flex-col gap-1.5 border-t border-zinc-200 pt-4 dark:border-white/10">
+                <p class="text-sm font-medium text-foreground">{item.title}</p>
+                <p class={note}>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <CtaLinks links={[enterprise.cta]} />
+            <p class={note}>{enterprise.ctaNote}</p>
+          </div>
+        </section>
+      )
+    }
+
+    <section id="specs" class={section}>
+      <h2 class={h2}>{specs.title}</h2>
+      <div class="max-w-3xl">
+        <DataTable
+          caption={specs.title}
+          table={{ columns: ["Spec", specs.columnLabel], rows: specs.rows }}
+        />
+      </div>
+    </section>
+
+    <section id="faq" class={section}>
+      <h2 class={h2}>{page.faqTitle}</h2>
+      {
+        /* Native disclosure: answers ship in the HTML for crawlers and need no JS. */
+      }
+      <div
+        class="max-w-3xl divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-white/10 dark:border-white/10"
+      >
+        {
+          page.faq.map((item) => (
+            <details class="group">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-medium text-foreground transition-colors hover:text-muted-foreground [&::-webkit-details-marker]:hidden">
+                {item.question}
+                <ChevronDown
+                  aria-hidden="true"
+                  className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                />
+              </summary>
+              <p
+                class={`${note} pb-4 pr-8`}
+                set:html={renderInline(item.answer)}
+              />
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+      class={`${card} flex flex-col gap-6 p-6 md:flex-row md:items-end md:justify-between md:p-10`}
+    >
+      <div class="flex max-w-2xl flex-col gap-3">
+        <h2 class={h2}>{page.closing.title}</h2>
+        <p class={body}>{page.closing.description}</p>
+      </div>
+      <CtaLinks links={page.closing.ctas} class="shrink-0" />
+    </section>
+  </div>
+</Layout>

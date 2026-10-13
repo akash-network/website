@@ -1,0 +1,71 @@
+---
+import { renderInline, type GpuTable } from "@/lib/gpu-detail-pages";
+import { cn } from "@/lib/utils";
+
+type Props = {
+  table: GpuTable;
+  /** Accessible name for the table, read before its rows. */
+  caption: string;
+};
+
+const { table, caption } = Astro.props;
+const numeric = new Set(table.numericColumns ?? []);
+---
+
+{
+  /* Same panel and header treatment as the GPU pricing table. Wide tables scroll inside
+    the panel on small screens instead of widening the page. */
+}
+<div
+  class="overflow-x-auto rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]"
+>
+  <table class="w-full text-left text-sm">
+    <caption class="sr-only">{caption}</caption>
+    <thead
+      class="border-b border-zinc-200 bg-zinc-50/60 dark:border-white/10 dark:bg-white/[0.02]"
+    >
+      <tr class="text-sm text-muted-foreground">
+        {
+          table.columns.map((column, index) => (
+            <th
+              scope="col"
+              class={cn(
+                "whitespace-nowrap px-4 py-3 font-medium md:px-6",
+                numeric.has(index) && "text-right",
+              )}
+            >
+              {column}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-zinc-200 dark:divide-white/10">
+      {
+        table.rows.map((row) => (
+          <tr>
+            {row.map((cell, index) =>
+              index === 0 ? (
+                <th
+                  scope="row"
+                  class="min-w-[9rem] px-4 py-3.5 font-medium text-foreground md:px-6"
+                  set:html={renderInline(cell)}
+                />
+              ) : (
+                <td
+                  class={cn(
+                    "px-4 py-3.5 text-muted-foreground md:px-6",
+                    numeric.has(index)
+                      ? "whitespace-nowrap text-right font-jetBrainsMono tabular-nums text-foreground"
+                      : "min-w-[9rem]",
+                  )}
+                  set:html={renderInline(cell)}
+                />
+              ),
+            )}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
