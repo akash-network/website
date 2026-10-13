@@ -116,7 +116,7 @@ export const b300: GpuDetailPage = {
       bullets: [
         {
           title: "More memory per GPU",
-          text: "288 GB of HBM3e from 12-high stacks, 60% more than the B200.",
+          text: "288 GB of HBM3e from 12-high stacks, 50% more than the B200.",
         },
         {
           title: "More low-precision compute",
@@ -225,7 +225,7 @@ export const b300: GpuDetailPage = {
       ["FP64", "~1.25 TFLOPS"],
       ["NVLink", "5th gen, 1.8 TB/s GPU-to-GPU"],
       ["Networking", "Up to 800 Gb/s per GPU with NVIDIA ConnectX-8"],
-      ["GPU power limit", "Up to 1,100 W"],
+      ["GPU power limit", "Up to 1,400 W"],
       ["Confidential computing", "Supported on compatible systems"],
       ["8-GPU HGX B300 total memory", "~2.1 TB"],
     ],
@@ -240,7 +240,7 @@ export const b300: GpuDetailPage = {
     {
       question: "What are the NVIDIA B300 specs?",
       answer:
-        "The B300 delivers 13.5 PFLOPS of dense FP4 compute with native NVFP4 support, up to 8 TB/s of memory bandwidth, 5th-gen NVLink at 1.8 TB/s per GPU and a power limit of up to 1,100 W.",
+        "The B300 delivers 13.5 PFLOPS of dense FP4 compute with native NVFP4 support, up to 8 TB/s of memory bandwidth, 5th-gen NVLink at 1.8 TB/s per GPU and a power limit of up to 1,400 W.",
     },
     {
       question: "How much memory does the NVIDIA B300 have?",
