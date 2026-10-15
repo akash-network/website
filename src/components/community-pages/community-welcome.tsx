@@ -111,18 +111,34 @@ const tabs: { key: TabKey; icon: React.FC<{ className?: string }>; label: string
 ];
 
 function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setActiveTab: (tab: TabKey) => void }) {
-  const activeIndex = tabs.findIndex((t) => t.key === activeTab);
+  return (
+    <div className="flex w-full flex-col items-center gap-5">
+      <h2 className="text-center text-lg font-medium text-para">
+        How do you want to build?
+      </h2>
+      <div className="hidden w-full md:block">
+        <DesktopTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
+      <div className="w-full md:hidden">
+        <MobileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
+    </div>
+  );
+}
+
+// Measures the active button so the highlight can slide to it (horizontally or vertically).
+function useSlidingPill(activeIndex: number) {
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [pillStyle, setPillStyle] = useState({ width: 0, transform: "translateX(0px)" });
+  const [pillStyle, setPillStyle] = useState<React.CSSProperties>({ width: 0, height: 0 });
 
   const updatePill = useCallback(() => {
     const el = buttonRefs.current[activeIndex];
     if (el) {
       setPillStyle({
         width: el.offsetWidth,
-        transform: `translateX(${el.offsetLeft}px)`,
+        height: el.offsetHeight,
+        transform: `translate(${el.offsetLeft}px, ${el.offsetTop}px)`,
       });
     }
   }, [activeIndex]);
@@ -131,7 +147,7 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
     updatePill();
   }, [updatePill]);
 
-  // Re-measure when container resizes (handles orientation change, window resize)
+  // Re-measure when container resizes (handles orientation change, window resize, md breakpoint toggling)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -140,57 +156,73 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
     return () => ro.disconnect();
   }, [updatePill]);
 
-  useEffect(() => {
-    // Only trigger centering scroll on mobile (sm breakpoint is 640px)
-    if (window.innerWidth >= 640) return;
+  return { buttonRefs, containerRef, pillStyle };
+}
 
-    const container = scrollContainerRef.current;
-    const el = buttonRefs.current[activeIndex];
-    if (container && el) {
-      const scrollLeft = el.offsetLeft - container.offsetWidth / 2 + el.offsetWidth / 2;
-      container.scrollTo({ left: scrollLeft, behavior: "smooth" });
-    }
-  }, [activeIndex]);
+const pillClass =
+  "absolute left-0 top-0 bg-background shadow transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]";
+
+// Mobile: full-width vertical list so every label and subtitle stays readable.
+function MobileTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setActiveTab: (tab: TabKey) => void }) {
+  const activeIndex = tabs.findIndex((t) => t.key === activeTab);
+  const { buttonRefs, containerRef, pillStyle } = useSlidingPill(activeIndex);
 
   return (
-    <div className="flex w-full flex-col items-center gap-5">
-      <h2 className="text-center text-lg font-medium text-para">
-        How do you want to build?
-      </h2>
-      <div
-        ref={scrollContainerRef}
-        className="w-full overflow-x-auto rounded-full bg-[#F4F4F5] dark:bg-background2 p-2 scrollbar-hide"
-      >
-        <div ref={containerRef} className="relative flex min-w-max sm:min-w-0 sm:w-full items-center">
+    <div className="w-full rounded-2xl bg-[#F4F4F5] p-1.5 dark:bg-background2">
+      <div ref={containerRef} className="relative flex flex-col">
+        <div className={`${pillClass} rounded-xl`} style={pillStyle} />
+        {tabs.map((tab, i) => {
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              ref={(el) => { buttonRefs.current[i] = el; }}
+              onClick={() => setActiveTab(tab.key)}
+              className={`relative z-10 flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 ${isActive ? "text-foreground" : "text-para"}`}
+            >
+              <tab.icon className="h-7 w-7 shrink-0" />
+              <div className="flex flex-col items-start">
+                <span className="text-lg font-medium leading-tight">{tab.label}</span>
+                <span className="text-sm text-para">{tab.sub}</span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
-          <div
-            className="absolute top-0 h-full rounded-full bg-background shadow transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
-            style={{ width: pillStyle.width, transform: pillStyle.transform }}
-          />
+// md+: horizontal pill switcher with equal-width tabs; compact until lg so all three fit.
+function DesktopTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setActiveTab: (tab: TabKey) => void }) {
+  const activeIndex = tabs.findIndex((t) => t.key === activeTab);
+  const { buttonRefs, containerRef, pillStyle } = useSlidingPill(activeIndex);
 
-          {tabs.map((tab, i) => {
-            const isActive = activeTab === tab.key;
-            return (
-              <button
-                key={tab.key}
-                ref={(el) => { buttonRefs.current[i] = el; }}
-                onClick={() => setActiveTab(tab.key)}
-                // shrink-0 on mobile → flex-1 on sm+
-                className={`relative z-10 shrink-0 sm:flex-1 flex items-center justify-start gap-2 md:gap-4 rounded-full px-7 py-3 md:py-4 md:px-10 transition-colors duration-200 ${isActive ? "text-foreground" : "text-para hover:text-foreground"}`}
-              >
-                <tab.icon className="h-8 w-8 transition-colors duration-200" />
-                <div className="flex flex-col items-start">
-                  <span className="font-medium text-2xl whitespace-nowrap transition-colors duration-200">
-                    {tab.label}
-                  </span>
-                  <span className={`font-normal text-sm whitespace-nowrap transition-colors duration-200 ${isActive ? "text-para" : ""}`}>
-                    {tab.sub}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+  return (
+    <div className="w-full rounded-full bg-[#F4F4F5] p-2 dark:bg-background2">
+      <div ref={containerRef} className="relative flex w-full items-center">
+        <div className={`${pillClass} rounded-full`} style={pillStyle} />
+        {tabs.map((tab, i) => {
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              ref={(el) => { buttonRefs.current[i] = el; }}
+              onClick={() => setActiveTab(tab.key)}
+              className={`relative z-10 flex flex-1 items-center justify-start gap-2 lg:gap-4 rounded-full px-4 py-3 lg:py-4 lg:px-10 transition-colors duration-200 ${isActive ? "text-foreground" : "text-para hover:text-foreground"}`}
+            >
+              <tab.icon className="h-6 w-6 shrink-0 transition-colors duration-200 lg:h-8 lg:w-8" />
+              <div className="flex flex-col items-start">
+                <span className="font-medium text-lg lg:text-2xl whitespace-nowrap transition-colors duration-200">
+                  {tab.label}
+                </span>
+                <span className={`font-normal text-sm whitespace-nowrap transition-colors duration-200 ${isActive ? "text-para" : ""}`}>
+                  {tab.sub}
+                </span>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
