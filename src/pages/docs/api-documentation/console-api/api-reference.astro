@@ -276,12 +276,13 @@ function renderMarkdown(md: string): string {
 
 const groupedSections: Record<SectionGroup, Section[]> = {
   core: [],
+  teams: [],
   jwt: [],
   "lease-ops": [],
 };
 for (const section of sections) groupedSections[section.group].push(section);
 
-const groupOrder: SectionGroup[] = ["core", "jwt", "lease-ops"];
+const groupOrder: SectionGroup[] = ["core", "teams", "jwt", "lease-ops"];
 
 const sectionsLite = sections.map((s) => ({ id: s.id, title: s.title }));
 ---
