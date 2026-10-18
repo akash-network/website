@@ -978,10 +978,12 @@ Owners and admins reach every project. Members and viewers reach every project o
 | ---- | ------------------------- | ------- |
 | 400  | \`organization_mismatch\`   | \`x-organization-id\` names another organization than the API key's. |
 | 403  | \`organization_forbidden\`  | The caller is not a member of the organization, for example after leaving it. |
-| 403  | \`project_forbidden\`       | The project is out of reach, the key is limited to another project, or the deployment is filed in a project the caller cannot change. |
+| 403  | \`project_forbidden\`       | \`x-project-id\` names a project out of reach or other than the key's, or the deployment is filed in a project the caller cannot change. |
 | 400  | \`project_required\`        | No project the caller can deploy into was named. |
 | 403  | \`project_budget_exceeded\` | The deposit would take the project past its monthly budget. \`data.projectIds\` lists the projects. |
 | 403  | \`session_required\`        | The action needs a signed-in Console session. |
+
+Reading a project, deployment, budget or grant outside the caller's reach answers \`404\`, the same as one that does not exist.
 
 Creating an organization (\`POST /v1/organizations\`), deleting it (\`DELETE /v1/organizations/{id}\`), leaving it (\`DELETE /v1/organizations/{id}/membership\`) and accepting an invitation (\`POST /v1/invitations/accept\`) need a signed-in Console session, so an API key gets \`403\` \`session_required\`. Do those in [Console](https://console.akash.network).`,
     codeSnippets: [
