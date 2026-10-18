@@ -325,7 +325,7 @@ const { data } = await res.json();`,
     ],
     notes: [
       "Request **Confidential Compute (TEE)** by adding a `params.tee` field (`cpu` or `cpu-gpu`) to a service in the SDL — `cpu-gpu` requires GPU resources. See [Confidential Compute (TEE)](/docs/api-documentation/console-api/getting-started#confidential-compute-tee).",
-      "`400` with code `project_required` means no project you can deploy into was found: pass `data.projectId` or `x-project-id`. `403` with code `project_budget_exceeded` means the deposit would take the project past its monthly budget, and nothing was created. An unknown `projectId` answers `404`.",
+      "`400` with code `project_required` means no project you can deploy into was found: pass `data.projectId` or `x-project-id`. `403` with code `project_budget_exceeded` means the deposit would take the project past its monthly budget, and nothing was created. `503` with code `deposit_price_unavailable` means the deposit could not be priced against the project's budget; it is transient, so retry. An unknown `projectId` answers `404`.",
     ],
   },
   {
