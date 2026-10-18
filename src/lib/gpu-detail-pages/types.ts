@@ -20,6 +20,12 @@ export type GpuTitledText = {
   text: string;
 };
 
+/** A list item; the bold lead-in label is optional. */
+export type GpuBullet = {
+  title?: string;
+  text: string;
+};
+
 export type GpuOffer = {
   title: string;
   description: string;
@@ -30,7 +36,7 @@ export type GpuOffer = {
 export type GpuSubsection = {
   title: string;
   paragraphs: string[];
-  bullets?: GpuTitledText[];
+  bullets?: GpuBullet[];
   table?: GpuTable;
   note?: string;
 };
@@ -55,21 +61,23 @@ export type GpuDetailPage = {
   hero: {
     title: string;
     description: string;
+    /** Small print under the description, e.g. which edition the page covers. */
+    note?: string;
     specs: string[];
     price: string;
     priceNote: string;
     bullets: string[];
     ctas: GpuLink[];
   };
-  intro: string;
+  intro?: string;
   pricing: {
     title: string;
     paragraphs: string[];
     table: GpuTable;
-    note: string;
-    optionsTitle: string;
-    options: GpuOffer[];
-    optionsNote: string;
+    note?: string;
+    optionsTitle?: string;
+    options?: GpuOffer[];
+    optionsNote?: string;
   };
   models?: {
     title: string;
@@ -82,13 +90,17 @@ export type GpuDetailPage = {
   highlights?: GpuSubsection[];
   fit?: {
     title: string;
+    /** Lead-in shown under the heading, before the choices. */
+    description?: string;
     choices: GpuTitledText[];
     paragraphs: string[];
   };
   useCases?: {
     title: string;
     paragraphs?: string[];
-    items: GpuTitledText[];
+    items: GpuBullet[];
+    /** Shown after the items, e.g. a "Not ideal for" caveat. */
+    note?: string;
   };
   deploy?: {
     title: string;
@@ -104,8 +116,10 @@ export type GpuDetailPage = {
   };
   specs: {
     title: string;
-    columnLabel: string;
-    rows: [string, string][];
+    /** Header row, starting with the label column ("Spec"). */
+    columns: string[];
+    rows: string[][];
+    note?: string;
   };
   faqTitle: string;
   faq: GpuFaqItem[];

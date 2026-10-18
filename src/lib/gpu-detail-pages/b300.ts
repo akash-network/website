@@ -212,7 +212,7 @@ export const b300: GpuDetailPage = {
   },
   specs: {
     title: "NVIDIA B300 GPU specifications",
-    columnLabel: "B300 (per GPU)",
+    columns: ["Spec", "B300 (per GPU)"],
     rows: [
       ["Architecture", "Blackwell Ultra"],
       ["Form factor", "SXM"],

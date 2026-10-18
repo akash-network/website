@@ -153,6 +153,7 @@ const section = "flex scroll-mt-28 flex-col gap-6";
           <CtaLinks links={hero.ctas} />
         </div>
         <div class="mt-8 flex flex-col gap-6">
+          {hero.note && <p class={`${note} max-w-2xl`}>{hero.note}</p>}
           <div class="flex flex-wrap gap-1.5">
             {hero.specs.map((spec) => <span class={badge}>{spec}</span>)}
           </div>
@@ -172,10 +173,14 @@ const section = "flex scroll-mt-28 flex-col gap-6";
         </div>
       </PricingHero>
 
-      <p
-        class="max-w-3xl border-t border-zinc-200 pt-8 text-base leading-relaxed text-muted-foreground dark:border-white/10 md:text-lg"
-        set:html={renderInline(page.intro)}
-      />
+      {
+        page.intro && (
+          <p
+            class="max-w-3xl border-t border-zinc-200 pt-8 text-base leading-relaxed text-muted-foreground dark:border-white/10 md:text-lg"
+            set:html={renderInline(page.intro)}
+          />
+        )
+      }
     </div>
 
     <section id="rent" class={section}>
@@ -188,12 +193,23 @@ const section = "flex scroll-mt-28 flex-col gap-6";
       <div class="max-w-3xl">
         <DataTable table={pricing.table} caption={pricing.title} />
       </div>
-      <p class={`${note} max-w-3xl`} set:html={renderInline(pricing.note)} />
+      {
+        pricing.note && (
+          <p
+            class={`${note} max-w-3xl`}
+            set:html={renderInline(pricing.note)}
+          />
+        )
+      }
 
-      <h3 class={`${h3} mt-6`}>{pricing.optionsTitle}</h3>
+      {
+        pricing.optionsTitle && (
+          <h3 class={`${h3} mt-6`}>{pricing.optionsTitle}</h3>
+        )
+      }
       <div class="grid gap-4 md:grid-cols-2">
         {
-          pricing.options.map((option) => (
+          pricing.options?.map((option) => (
             <div class={`${card} flex flex-col gap-4 p-5 md:p-6`}>
               <div class="flex flex-col gap-1.5">
                 <p class={h3}>{option.title}</p>
@@ -215,7 +231,7 @@ const section = "flex scroll-mt-28 flex-col gap-6";
           ))
         }
       </div>
-      <p class={note}>{pricing.optionsNote}</p>
+      {pricing.optionsNote && <p class={note}>{pricing.optionsNote}</p>}
     </section>
 
     {
@@ -243,10 +259,12 @@ const section = "flex scroll-mt-28 flex-col gap-6";
                         className="mt-1.5 h-4 w-4 shrink-0 text-foreground"
                       />
                       <span>
-                        <span class="font-medium text-foreground">
-                          {item.title}:
-                        </span>{" "}
-                        {item.text}
+                        {item.title && (
+                          <span class="font-medium text-foreground">
+                            {item.title}:{" "}
+                          </span>
+                        )}
+                        <Fragment set:html={renderInline(item.text)} />
                       </span>
                     </li>
                   ))}
@@ -285,10 +303,12 @@ const section = "flex scroll-mt-28 flex-col gap-6";
                     className="mt-1.5 h-4 w-4 shrink-0 text-foreground"
                   />
                   <span>
-                    <span class="font-medium text-foreground">
-                      {item.title}:
-                    </span>{" "}
-                    {item.text}
+                    {item.title && (
+                      <span class="font-medium text-foreground">
+                        {item.title}:{" "}
+                      </span>
+                    )}
+                    <Fragment set:html={renderInline(item.text)} />
                   </span>
                 </li>
               ))}
@@ -310,11 +330,14 @@ const section = "flex scroll-mt-28 flex-col gap-6";
       fit && (
         <section id="fit" class={section}>
           <h2 class={h2}>{fit.title}</h2>
+          {fit.description && (
+            <p class={`${body} max-w-3xl`}>{fit.description}</p>
+          )}
           <ul class="grid gap-4 md:grid-cols-3">
             {fit.choices.map((choice) => (
               <li class={`${card} flex flex-col gap-1.5 p-5`}>
                 <p class={h3}>{choice.title}</p>
-                <p class={note}>{choice.text}</p>
+                <p class={note} set:html={renderInline(choice.text)} />
               </li>
             ))}
           </ul>
@@ -335,11 +358,24 @@ const section = "flex scroll-mt-28 flex-col gap-6";
           <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {useCases.items.map((item) => (
               <li class={`${card} flex flex-col gap-1.5 p-5`}>
-                <p class={h3}>{item.title}</p>
-                <p class={note}>{item.text}</p>
+                {item.title && <p class={h3}>{item.title}</p>}
+                <p
+                  class={
+                    item.title
+                      ? note
+                      : "text-sm leading-relaxed text-foreground"
+                  }
+                  set:html={renderInline(item.text)}
+                />
               </li>
             ))}
           </ul>
+          {useCases.note && (
+            <p
+              class={`${body} max-w-3xl`}
+              set:html={renderInline(useCases.note)}
+            />
+          )}
         </section>
       )
     }
@@ -394,9 +430,14 @@ const section = "flex scroll-mt-28 flex-col gap-6";
       <div class="max-w-3xl">
         <DataTable
           caption={specs.title}
-          table={{ columns: ["Spec", specs.columnLabel], rows: specs.rows }}
+          table={{ columns: specs.columns, rows: specs.rows }}
         />
       </div>
+      {
+        specs.note && (
+          <p class={`${note} max-w-3xl`} set:html={renderInline(specs.note)} />
+        )
+      }
     </section>
 
     <section id="faq" class={section}>

@@ -1,11 +1,24 @@
+import { a100 } from "./a100";
+import { b200 } from "./b200";
 import { b300 } from "./b300";
+import { h100 } from "./h100";
+import { h200 } from "./h200";
+import { rtxPro6000Server } from "./rtx-pro-6000-server";
+import { rtxPro6000Workstation } from "./rtx-pro-6000-workstation";
 import type { GpuDetailSlug } from "./slugs";
 import type { GpuDetailPage } from "./types";
 
 // To add a GPU page: write its copy next to b300.ts, register it here and add its slug to
-// GPU_DETAIL_SLUGS. The pricing table links the matching row to the new page.
+// GPU_DETAIL_SLUGS (plus MODEL_SLUGS if the slug differs from the API model id). The pricing
+// table links the matching row to the new page.
 export const GPU_DETAIL_PAGES: Record<GpuDetailSlug, GpuDetailPage> = {
   b300,
+  b200,
+  h200,
+  h100,
+  a100,
+  "rtx-pro-6000-workstation": rtxPro6000Workstation,
+  "rtx-pro-6000-server": rtxPro6000Server,
 };
 
 const escapeHtml = (text: string) =>
