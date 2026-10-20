@@ -63,7 +63,7 @@ If none is set, **pause here.** The key can only be created in a browser. Ask th
 
 1. Open `https://console.akash.network` and sign in. New accounts receive trial credits with no card required; adding a card lifts the trial's 24-hour per-deployment limit.
 2. Go to **Settings > API Keys**.
-3. Create a key, copy it when it is shown, and paste it back.
+3. Create a key, copy it when it is shown, and paste it back. Keys expire after one year at most, and Console emails the owner before a key expires.
 
 Store it as an environment variable in the user's shell profile or the agent's secret store. Never write it into source files, `config` files, or anything tracked by git. If a project `.env` is the only option, confirm it is gitignored first.
 

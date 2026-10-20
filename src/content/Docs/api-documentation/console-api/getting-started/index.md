@@ -20,10 +20,22 @@ Note: The Console API is actively developed. See the changelog ([https://github.
 1. Visit [console.akash.network](https://console.akash.network)
 2. Sign in with your account
 3. Navigate to **Settings** → **API Keys**
-4. Click **"Create API Key"**
+4. Click **"Create API Key"** and pick when it expires: 30 days, 90 days, 1 year or a custom date
 5. Copy and save your API key securely
 
 > Warning: API keys grant full access to your Console account. Keep them secret.
+
+### Key Expiration
+
+Every API key expires, at most one year after it is created. A key created through `POST /v1/api-keys` takes an optional `data.expiresAt` (ISO 8601 date-time) that must be in the future and at most one year from now. Without it, the key expires one year after it is created. Asking for a later date returns `400 Bad Request`.
+
+Console emails the key's owner up to three reminders, 30, 7 and 1 day before the key expires. After that, requests made with the key return `401 Unauthorized`.
+
+To rotate a key:
+
+1. Create a new key under **Settings** → **API Keys**
+2. Update your integration to use the new key and confirm it works
+3. Revoke the old key from the API keys page, or with `DELETE /v1/api-keys/{id}`
 
 ### Authentication
 
@@ -42,10 +54,12 @@ If the key is missing or invalid, the API returns `401 Unauthorized`:
 { "error": "Unauthorized", "message": "Invalid API key" }
 ```
 
+An expired key also returns `401 Unauthorized`, with the message `API key has expired`.
+
 Security practices:
 
 - Store the key in an environment variable (`AKASH_API_KEY`), never in source code.
-- Rotate keys in Console under Settings → API Keys to keep your workflows safe in case of key compromise.
+- Rotate keys in Console under Settings → API Keys before they expire, and right away if a key may be compromised.
 - Keys grant full access to your Console account, so treat them like passwords.
 
 ### Response envelope
@@ -616,7 +630,7 @@ Use HTTP status codes to determine recovery behavior.
 | 200 OK                    | Request succeeded  | -                                                      |
 | 201 Created               | Resource created   | `POST /v1/deployments`, `POST /v2/deployment-settings` |
 | 400 Bad Request           | Invalid input      | Malformed SDL, missing required field                  |
-| 401 Unauthorized          | Auth failed        | Missing or invalid `x-api-key`                         |
+| 401 Unauthorized          | Auth failed        | Missing, invalid or expired `x-api-key`                |
 | 404 Not Found             | Resource not found | `dseq` does not exist or belongs to another user       |
 | 429 Rate Limited          | Rate limited       | Polling interval too fast or burst of requests         |
 | 500 Internal Server Error | Server error       | Retry with exponential backoff                         |

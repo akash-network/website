@@ -209,7 +209,7 @@ Sources: [installation](https://akash.network/docs/developers/deployment/akt/ins
 
 ## Managed deployment through the Console API
 
-The managed deployment API base is `https://console-api.akash.network`. Create the credential under Console Settings > API Keys and send it in `x-api-key`. This key can control the Console account, so keep it on a trusted server or in a secret environment rather than a browser bundle.
+The managed deployment API base is `https://console-api.akash.network`. Create the credential under Console Settings > API Keys and send it in `x-api-key`. This key can control the Console account, so keep it on a trusted server or in a secret environment rather than a browser bundle. Keys expire at most one year after creation (`POST /v1/api-keys` defaults `data.expiresAt` to one year and rejects later dates); an expired key returns `401 Unauthorized`, so rotate before expiry.
 
 The current documented flow is:
 
