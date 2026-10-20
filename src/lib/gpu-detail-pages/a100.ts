@@ -1,16 +1,21 @@
 import {
   allPricingLink,
+  BID_PRICED,
   deployLink,
   DEPLOY_STEP_ADD_APP,
   DEPLOY_STEP_DEPLOY,
-  ON_DEMAND_FROM,
-  priceLabels,
+  isoDate,
+  liveDate,
+  livePriceLabels,
   pricingTable,
+  SNAPSHOT_DATE,
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-const HOURLY = ON_DEMAND_FROM.a100;
-const { rate: RATE } = priceLabels(HOURLY);
+const { source, snapshot: HOURLY } = BID_PRICED.a100;
+const UPDATED = SNAPSHOT_DATE;
+const AS_OF = liveDate(UPDATED);
+const { rate: RATE } = livePriceLabels(HOURLY);
 
 const reserve: GpuLink = {
   label: "Reserve A100 capacity",
@@ -24,6 +29,8 @@ const sales: GpuLink = {
 export const a100: GpuDetailPage = {
   slug: "a100",
   shortName: "A100",
+  pricesUpdated: isoDate(UPDATED),
+  livePrice: source,
   seo: {
     title: "NVIDIA A100 80GB GPU: Specs & Rental | Akash",
     description:
@@ -46,13 +53,17 @@ export const a100: GpuDetailPage = {
   pricing: {
     title: "Rent an A100 on Akash",
     paragraphs: [
-      `On-demand A100s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
+      `As of ${AS_OF}, on-demand A100s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
     ],
-    table: pricingTable(HOURLY, {
-      single: "1x A100 80GB",
-      node: "8x A100 80GB (640 GB total)",
-      quoted: "Reserved cluster",
-    }),
+    table: pricingTable(
+      HOURLY,
+      {
+        single: "1x A100 80GB",
+        node: "8x A100 80GB (640 GB total)",
+        quoted: "Reserved cluster",
+      },
+      { livePrice: true },
+    ),
     options: [
       {
         title: "On-demand",
@@ -129,14 +140,29 @@ export const a100: GpuDetailPage = {
       "The NVIDIA A100 is used for AI training, inference, data analytics and HPC. Its 80 GB of memory and MIG support make it suited to:",
     ],
     items: [
-      { text: "Fine-tuning and training mid-size models in BF16 or TF32." },
-      { text: "Batch and offline inference where FP8 isn't required." },
-      { text: "Multi-tenant workloads — up to 7 MIG instances per GPU." },
       {
-        text: "HPC and scientific computing with 19.5 TFLOPS of FP64 Tensor.",
+        title: "LLM inference with NIM",
+        text: "Verified for current open models including gpt-oss, Llama 3.1/3.3 70B and Nemotron 3 through NIM microservices.",
       },
       {
-        text: "Data analytics — NVIDIA cites 2× faster big-data analytics on A100 80GB than A100 40GB.",
+        title: "Consolidated multi-model pipelines",
+        text: "Run speech recognition, text-to-speech and vision-language models together on one A100 with MIG, with 32% higher throughput than time-slicing.",
+      },
+      {
+        title: "AI training with TF32 and BF16",
+        text: "Up to 20× the Tensor Core performance of the Volta generation, and 3× faster training on the largest recommender models.",
+      },
+      {
+        title: "Multi-tenant inference",
+        text: "Up to 7 MIG instances per GPU, delivering 7× BERT-Large inference throughput versus a single instance.",
+      },
+      {
+        title: "Big data analytics",
+        text: "2× faster Spark and RAPIDS analytics on the 80 GB version than on A100 40GB.",
+      },
+      {
+        title: "HPC simulation",
+        text: "19.5 TFLOPS of FP64 Tensor, with up to 2× faster Quantum Espresso on the 80 GB version.",
       },
     ],
     note: "**Not ideal for:** FP8 or FP4 inference. The A100 has no FP8 or FP4 Tensor Cores; choose H100, H200 or Blackwell.",
@@ -191,7 +217,7 @@ export const a100: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an NVIDIA A100?",
-      answer: `On-demand A100s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
+      answer: `As of ${AS_OF}, on-demand A100s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
     },
     {
       question: "Can the A100 be split into smaller GPUs?",

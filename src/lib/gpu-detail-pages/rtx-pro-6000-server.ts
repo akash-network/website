@@ -1,16 +1,21 @@
 import {
   allPricingLink,
+  BID_PRICED,
   deployLink,
   DEPLOY_STEP_ADD_APP,
   DEPLOY_STEP_DEPLOY,
-  ON_DEMAND_FROM,
-  priceLabels,
+  isoDate,
+  liveDate,
+  livePriceLabels,
   pricingTable,
+  SNAPSHOT_DATE,
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-const HOURLY = ON_DEMAND_FROM["rtx-pro-6000-server"];
-const { rate: RATE } = priceLabels(HOURLY);
+const { source, snapshot: HOURLY } = BID_PRICED["rtx-pro-6000-server"];
+const UPDATED = SNAPSHOT_DATE;
+const AS_OF = liveDate(UPDATED);
+const { rate: RATE } = livePriceLabels(HOURLY);
 
 const sales: GpuLink = {
   label: "Talk to sales",
@@ -20,6 +25,8 @@ const sales: GpuLink = {
 export const rtxPro6000Server: GpuDetailPage = {
   slug: "rtx-pro-6000-server",
   shortName: "RTX PRO 6000 Server",
+  pricesUpdated: isoDate(UPDATED),
+  livePrice: source,
   seo: {
     title: "NVIDIA RTX PRO 6000 Server Edition: Specs & Rental | Akash",
     description:
@@ -42,13 +49,17 @@ export const rtxPro6000Server: GpuDetailPage = {
   pricing: {
     title: "Rent an RTX PRO 6000 Server Edition on Akash",
     paragraphs: [
-      `On-demand RTX PRO 6000 Server Edition GPUs on Akash start at ${RATE} per GPU-hour.`,
+      `As of ${AS_OF}, on-demand RTX PRO 6000 Server Edition GPUs on Akash start at ${RATE} per GPU-hour.`,
     ],
-    table: pricingTable(HOURLY, {
-      single: "1x RTX PRO 6000 Server Edition (96 GB)",
-      node: "8x RTX PRO 6000 Server Edition (768 GB total)",
-      quoted: "Committed capacity",
-    }),
+    table: pricingTable(
+      HOURLY,
+      {
+        single: "1x RTX PRO 6000 Server Edition (96 GB)",
+        node: "8x RTX PRO 6000 Server Edition (768 GB total)",
+        quoted: "Committed capacity",
+      },
+      { livePrice: true },
+    ),
   },
   highlights: [
     {
@@ -104,16 +115,29 @@ export const rtxPro6000Server: GpuDetailPage = {
     ],
     items: [
       {
-        title: "Agentic AI inference",
-        text: "Up to 5× higher LLM inference throughput.",
+        title: "Agentic AI and LLM inference",
+        text: "Up to 5× higher LLM inference throughput than L40S, with an optimized NIM profile for gpt-oss-120b.",
       },
-      { title: "Text-to-video generation", text: "3.3× faster." },
-      { title: "Genomics", text: "Nearly 7× faster sequencing." },
       {
-        title: "Recommender systems",
-        text: "Nearly 2× faster inference.",
+        title: "Multimodal and video generation",
+        text: "3.3× faster text-to-video generation than L40S.",
       },
-      { title: "Rendering", text: "Over 2× faster." },
+      {
+        title: "Genomics and drug discovery",
+        text: "Nearly 7× faster genomics sequencing and up to 4.8× faster OpenFold2 inference than L40S.",
+      },
+      {
+        title: "Physical AI and digital twins",
+        text: "Robotics simulation and industrial digital twins on Omniverse; supported hardware for Cosmos world-model microservices.",
+      },
+      {
+        title: "Rendering and recommender systems",
+        text: "Over 2× faster rendering and nearly 2× faster recommender inference than L40S.",
+      },
+      {
+        title: "Virtual workstations and secure multi-tenant AI",
+        text: "VGPU with up to 48 concurrent VMs per GPU, MIG isolation and confidential computing for finance, healthcare and government.",
+      },
     ],
     note: "**Not ideal for:** large multi-node training. Choose H100, H200 or B200 for NVLink-connected training clusters.",
   },
@@ -177,7 +201,7 @@ export const rtxPro6000Server: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an RTX PRO 6000 Server Edition?",
-      answer: `On-demand RTX PRO 6000 Server Edition GPUs on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand.`,
+      answer: `As of ${AS_OF}, on-demand RTX PRO 6000 Server Edition GPUs on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand.`,
     },
     {
       question: "Is it a good alternative to the H100?",

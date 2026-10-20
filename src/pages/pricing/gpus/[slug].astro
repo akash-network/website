@@ -9,6 +9,7 @@ import {
   stripInline,
   type GpuDetailPage,
 } from "@/lib/gpu-detail-pages";
+import { formatDate } from "@/lib/gpu-detail-pages/shared";
 import { Check, ChevronDown } from "lucide-react";
 
 export function getStaticPaths() {
@@ -33,6 +34,8 @@ const {
 
 const SITE = "https://akash.network";
 const url = `${SITE}/pricing/gpus/${page.slug}/`;
+const pricesUpdatedLabel =
+  page.pricesUpdated && formatDate(new Date(`${page.pricesUpdated}T00:00:00Z`));
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -50,6 +53,7 @@ const structuredData = {
       url,
       name: page.seo.title,
       description: page.seo.description,
+      ...(page.pricesUpdated && { dateModified: page.pricesUpdated }),
       isPartOf: { "@id": `${SITE}/#organization` },
       breadcrumb: { "@id": `${url}#breadcrumb` },
       ...(page.seo.image && {
@@ -94,7 +98,7 @@ const note = "text-sm leading-relaxed text-muted-foreground";
 const card =
   "rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]";
 const badge =
-  "inline-flex h-6 items-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15";
+  "inline-flex min-h-6 items-center rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15";
 const section = "flex scroll-mt-28 flex-col gap-6";
 ---
 
@@ -106,6 +110,7 @@ const section = "flex scroll-mt-28 flex-col gap-6";
   <Fragment slot="head">
     <script
       is:inline
+      id="gpu-detail-structured-data"
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     />
@@ -113,6 +118,7 @@ const section = "flex scroll-mt-28 flex-col gap-6";
 
   <div
     class="container flex flex-col gap-16 pb-20 pt-10 md:gap-24 md:pb-28 md:pt-16"
+    data-live-price-config={JSON.stringify(page.livePrice ?? {})}
   >
     <div class="flex flex-col gap-8 md:gap-10">
       <nav aria-label="Breadcrumb">
@@ -143,12 +149,22 @@ const section = "flex scroll-mt-28 flex-col gap-6";
             <p
               class="font-jetBrainsMono text-3xl font-medium tabular-nums text-foreground"
             >
-              {hero.price}
+              <Fragment set:html={renderInline(hero.price)} />
               <span class="font-sans text-sm font-normal text-muted-foreground"
                 >per GPU-hour</span
               >
             </p>
             <p class={note}>{hero.priceNote}</p>
+            {
+              pricesUpdatedLabel && (
+                <p class={note}>
+                  Prices updated{" "}
+                  <time datetime={page.pricesUpdated} data-live-date>
+                    {pricesUpdatedLabel}
+                  </time>
+                </p>
+              )
+            }
           </div>
           <CtaLinks links={hero.ctas} />
         </div>
@@ -479,3 +495,108 @@ const section = "flex scroll-mt-28 flex-col gap-6";
     </section>
   </div>
 </Layout>
+
+<script>
+  import {
+    gpuHourlyPrice,
+    parseRamGb,
+    type GpuPricesResponse,
+  } from "@/components/pricing-page/gpus/gpu-models";
+  import { BASE_API_URL } from "@/lib/constants";
+  import {
+    formatDate,
+    isoDate,
+    priceLabels,
+  } from "@/lib/gpu-detail-pages/shared";
+  import type { LivePriceSource } from "@/lib/gpu-detail-pages/types";
+
+  // The HTML ships with snapshot prices. Swap in the current weighted-average bid from the
+  // Console API (the figure the GPU pricing table shows) and date it today. Fixed-rate pages have no
+  // model and only get today's date. If the API fails or has no bids, the snapshot stays.
+  async function liveHourly({ model, ramGb }: LivePriceSource) {
+    const res = await fetch(`${BASE_API_URL}/v1/gpu-prices`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = (await res.json()) as GpuPricesResponse;
+    // If several variants match (e.g. SXM and PCIe), quote the cheapest one's average.
+    const prices = (data.models ?? [])
+      .filter(
+        (m) => m.model === model && (!ramGb || parseRamGb(m.ram) === ramGb),
+      )
+      .map(gpuHourlyPrice)
+      .filter(
+        (price): price is number => typeof price === "number" && price > 0,
+      );
+    return prices.length ? Math.min(...prices) : undefined;
+  }
+
+  async function updateLivePrices() {
+    const root = document.querySelector<HTMLElement>(
+      "[data-live-price-config]",
+    );
+    if (!root) return;
+    const source = JSON.parse(
+      root.dataset.livePriceConfig || "{}",
+    ) as Partial<LivePriceSource>;
+
+    let hourly: number | undefined;
+    if (source.model) {
+      try {
+        hourly = await liveHourly(source as LivePriceSource);
+      } catch (error) {
+        console.warn("[gpu-detail] live price fetch failed", error);
+        return;
+      }
+      if (hourly === undefined && !source.listed) {
+        console.warn(`[gpu-detail] no live bids for ${source.model}`);
+        return;
+      }
+    }
+
+    const today = new Date();
+    const values: Record<string, string> = {
+      asOf: formatDate(today),
+      ...(hourly !== undefined && priceLabels(hourly)),
+    };
+
+    // Old text -> new text, applied to the structured data so it matches the page.
+    const changes = new Map<string, string>();
+    const swap = (from: string, to: string) => {
+      if (from && from !== to) changes.set(from, to);
+    };
+
+    document
+      .querySelectorAll<HTMLElement>("[data-live-price]")
+      .forEach((el) => {
+        const next = values[el.dataset.livePrice ?? ""];
+        if (next === undefined) return;
+        swap(el.textContent ?? "", next);
+        el.textContent = next;
+      });
+    document
+      .querySelectorAll<HTMLTimeElement>("time[data-live-date]")
+      .forEach((el) => {
+        swap(el.dateTime, isoDate(today));
+        swap((el.textContent ?? "").trim(), formatDate(today));
+        el.dateTime = isoDate(today);
+        el.textContent = formatDate(today);
+      });
+
+    const ld = document.getElementById("gpu-detail-structured-data");
+    if (ld?.textContent && changes.size) {
+      // One pass, longest first, so a new value is never replaced again.
+      const pattern = new RegExp(
+        [...changes.keys()]
+          .sort((a, b) => b.length - a.length)
+          .map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+          .join("|"),
+        "g",
+      );
+      ld.textContent = ld.textContent.replace(
+        pattern,
+        (match) => changes.get(match) ?? match,
+      );
+    }
+  }
+
+  updateLivePrices();
+</script>

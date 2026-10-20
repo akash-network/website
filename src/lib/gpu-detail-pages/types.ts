@@ -46,10 +46,26 @@ export type GpuFaqItem = {
   answer: string;
 };
 
+/** Where a page's live price comes from. Serialized into the page for the browser script. */
+export type LivePriceSource = {
+  /** Console API model id, e.g. "pro6000se". */
+  model: string;
+  /** Only count entries with this much memory (GB), so variants the page doesn't cover
+   *  (A100 40GB, H100 NVL 94GB) can't set the "from" price. */
+  ramGb?: number;
+  /** The snapshot rate is Akash's listed price, so it stays current when there are no bids. */
+  listed?: boolean;
+};
+
 export type GpuDetailPage = {
   slug: string;
   /** Short name used in breadcrumbs and labels, e.g. "B300". */
   shortName: string;
+  /** ISO date (YYYY-MM-DD) the listed prices were last checked. Shown by the price and sent
+   *  as `dateModified` in structured data. */
+  pricesUpdated?: string;
+  /** Set on pages priced from open bids; the browser refreshes the price from the API. */
+  livePrice?: LivePriceSource;
   seo: {
     title: string;
     description: string;

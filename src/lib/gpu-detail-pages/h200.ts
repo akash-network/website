@@ -1,16 +1,21 @@
 import {
   allPricingLink,
+  BID_PRICED,
   deployLink,
   DEPLOY_STEP_ADD_APP,
   DEPLOY_STEP_DEPLOY,
-  ON_DEMAND_FROM,
-  priceLabels,
+  isoDate,
+  liveDate,
+  livePriceLabels,
   pricingTable,
+  SNAPSHOT_DATE,
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-const HOURLY = ON_DEMAND_FROM.h200;
-const { rate: RATE } = priceLabels(HOURLY);
+const { source, snapshot: HOURLY } = BID_PRICED.h200;
+const UPDATED = SNAPSHOT_DATE;
+const AS_OF = liveDate(UPDATED);
+const { rate: RATE } = livePriceLabels(HOURLY);
 
 const reserve: GpuLink = {
   label: "Reserve H200 capacity",
@@ -24,6 +29,8 @@ const sales: GpuLink = {
 export const h200: GpuDetailPage = {
   slug: "h200",
   shortName: "H200",
+  pricesUpdated: isoDate(UPDATED),
+  livePrice: source,
   seo: {
     title: "NVIDIA H200 GPU: 141GB HBM3e Specs & Rental | Akash",
     description:
@@ -46,13 +53,17 @@ export const h200: GpuDetailPage = {
   pricing: {
     title: "Rent an H200 on Akash",
     paragraphs: [
-      `On-demand H200s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
+      `As of ${AS_OF}, on-demand H200s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
     ],
-    table: pricingTable(HOURLY, {
-      single: "1x H200 (141 GB)",
-      node: "8x H200 (1.13 TB total)",
-      quoted: "Reserved cluster",
-    }),
+    table: pricingTable(
+      HOURLY,
+      {
+        single: "1x H200 (141 GB)",
+        node: "8x H200 (1.13 TB total)",
+        quoted: "Reserved cluster",
+      },
+      { livePrice: true },
+    ),
     options: [
       {
         title: "On-demand",
@@ -127,13 +138,30 @@ export const h200: GpuDetailPage = {
       "The NVIDIA H200 is used for LLM inference, fine-tuning and HPC on the Hopper architecture. Its 141 GB of memory and 4.8 TB/s bandwidth make it suited to:",
     ],
     items: [
-      { text: "LLM inference — larger models per GPU and bigger batches." },
-      { text: "Long-context serving — more room for KV cache than the H100." },
-      { text: "Fine-tuning — larger models on fewer GPUs." },
       {
-        text: "HPC and simulation — 34 TFLOPS FP64 and 67 TFLOPS FP64 Tensor per GPU.",
+        title: "Large-model LLM inference",
+        text: "Up to 1.9× higher Llama 2 70B throughput and 1.6× higher GPT-3 175B throughput than H100.",
       },
-      { text: "Multi-tenant serving — up to 7 MIG instances of 18 GB each." },
+      {
+        title: "Long-context serving",
+        text: "One 8× H200 node holds a 405B-parameter model in FP8 and serves 128K-token inputs.",
+      },
+      {
+        title: "Speculative decoding",
+        text: "Up to 3.6× higher throughput with draft-target speculative decoding in TensorRT-LLM.",
+      },
+      {
+        title: "LLM fine-tuning",
+        text: "Fine-tune 70B models at over 15,000 tokens/s on an 8× H200 node with NeMo.",
+      },
+      {
+        title: "RAG, speech and vision AI",
+        text: "Deploy retrieval-augmented generation, computer vision and speech pipelines with NIM microservices.",
+      },
+      {
+        title: "HPC and simulation",
+        text: "Up to 110× faster time to results than CPUs on scientific workloads, in the same power profile as H100.",
+      },
     ],
   },
   deploy: {
@@ -190,7 +218,7 @@ export const h200: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an NVIDIA H200?",
-      answer: `On-demand H200s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
+      answer: `As of ${AS_OF}, on-demand H200s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
     },
     {
       question: "Can I split an H200 into smaller GPUs?",

@@ -28,9 +28,13 @@ const escapeHtml = (text: string) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+// `{{key|value}}` marks a price or date the browser updates from the live API.
+const LIVE = /\{\{(\w+)\|(.+?)\}\}/g;
+
 /** Renders the `**bold**` and `[label](href)` markup allowed in page copy as HTML. */
 export function renderInline(text: string) {
   return escapeHtml(text)
+    .replace(LIVE, '<span data-live-price="$1">$2</span>')
     .replace(
       /\*\*(.+?)\*\*/g,
       '<strong class="font-medium text-foreground">$1</strong>',
@@ -44,7 +48,10 @@ export function renderInline(text: string) {
 
 /** Plain text of the same markup, for meta tags and structured data. */
 export const stripInline = (text: string) =>
-  text.replace(/\*\*(.+?)\*\*/g, "$1").replace(/\[(.+?)\]\((.+?)\)/g, "$1");
+  text
+    .replace(LIVE, "$2")
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\[(.+?)\]\((.+?)\)/g, "$1");
 
 export { GPU_DETAIL_SLUGS, gpuDetailHref } from "./slugs";
 export type { GpuDetailPage, GpuLink, GpuTable } from "./types";

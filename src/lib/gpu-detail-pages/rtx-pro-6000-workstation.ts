@@ -1,16 +1,21 @@
 import {
   allPricingLink,
+  BID_PRICED,
   deployLink,
   DEPLOY_STEP_ADD_APP,
   DEPLOY_STEP_DEPLOY,
-  ON_DEMAND_FROM,
-  priceLabels,
+  isoDate,
+  liveDate,
+  livePriceLabels,
   pricingTable,
+  SNAPSHOT_DATE,
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-const HOURLY = ON_DEMAND_FROM["rtx-pro-6000-workstation"];
-const { rate: RATE } = priceLabels(HOURLY);
+const { source, snapshot: HOURLY } = BID_PRICED["rtx-pro-6000-workstation"];
+const UPDATED = SNAPSHOT_DATE;
+const AS_OF = liveDate(UPDATED);
+const { rate: RATE } = livePriceLabels(HOURLY);
 
 const sales: GpuLink = {
   label: "Talk to sales",
@@ -20,6 +25,8 @@ const sales: GpuLink = {
 export const rtxPro6000Workstation: GpuDetailPage = {
   slug: "rtx-pro-6000-workstation",
   shortName: "RTX PRO 6000 Workstation",
+  pricesUpdated: isoDate(UPDATED),
+  livePrice: source,
   seo: {
     title: "NVIDIA RTX PRO 6000 Blackwell: 96GB Specs & Rental | Akash",
     description:
@@ -48,12 +55,16 @@ export const rtxPro6000Workstation: GpuDetailPage = {
   pricing: {
     title: "Rent an RTX PRO 6000 on Akash",
     paragraphs: [
-      `On-demand RTX PRO 6000 Blackwell GPUs on Akash start at ${RATE} per GPU-hour.`,
+      `As of ${AS_OF}, on-demand RTX PRO 6000 Blackwell GPUs on Akash start at ${RATE} per GPU-hour.`,
     ],
-    table: pricingTable(HOURLY, {
-      single: "1x RTX PRO 6000 (96 GB)",
-      quoted: "Multi-GPU or committed term",
-    }),
+    table: pricingTable(
+      HOURLY,
+      {
+        single: "1x RTX PRO 6000 (96 GB)",
+        quoted: "Multi-GPU or committed term",
+      },
+      { livePrice: true },
+    ),
   },
   highlights: [
     {
@@ -110,15 +121,28 @@ export const rtxPro6000Workstation: GpuDetailPage = {
     ],
     items: [
       {
-        text: "LLM inference — run larger models on a single GPU with FP4 and FP8.",
+        title: "Local LLMs and agentic AI",
+        text: "Run autonomous AI agents, inference and LLM fine-tuning on one GPU; 96 GB holds 70B-class models.",
       },
       {
-        text: "Fine-tuning mid-size models without splitting them across GPUs.",
+        title: "AI model prototyping and training",
+        text: "Up to 4,000 FP4 AI TOPS with sparsity; GE HealthCare reports 2.5× faster AI training than RTX 6000 Ada.",
       },
-      { text: "Image and video generation with room for high resolutions." },
-      { text: "3D rendering and visualization with 4th-gen RT Cores." },
       {
-        text: "Engineering simulation — NVIDIA customer Sintavia reports 4.5× faster CFD than a 64-core CPU.",
+        title: "Physical AI and world models",
+        text: "Supported hardware for NVIDIA Cosmos world-foundation-model microservices.",
+      },
+      {
+        title: "Rendering and visualization",
+        text: "3D modeling, animation, virtual production and architectural visualization with RTX Mega Geometry and DLSS 4.",
+      },
+      {
+        title: "Engineering and scientific computing",
+        text: "Genomic sequencing, drug discovery and seismic modeling; Sintavia reports 4.5× faster CFD than a 64-core CPU.",
+      },
+      {
+        title: "Video and streaming pipelines",
+        text: "4 NVENC and 4 NVDEC engines for livestreaming, real-time editing and 4K/8K workflows.",
       },
     ],
     note: "**Not ideal for:** multi-node training. The card has no NVLink; choose H100, H200 or B200 for large distributed training.",
@@ -181,7 +205,7 @@ export const rtxPro6000Workstation: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an RTX PRO 6000?",
-      answer: `On-demand RTX PRO 6000 Blackwell GPUs on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand.`,
+      answer: `As of ${AS_OF}, on-demand RTX PRO 6000 Blackwell GPUs on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand.`,
     },
   ],
   closing: {

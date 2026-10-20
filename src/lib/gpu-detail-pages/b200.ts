@@ -1,9 +1,12 @@
 import { blackwellHourlyPrice } from "@/components/pricing-page/gpus/gpu-models";
 import {
   allPricingLink,
+  BUILD_DATE,
   deployLink,
   DEPLOY_STEP_ADD_APP,
   DEPLOY_STEP_DEPLOY,
+  liveDate,
+  isoDate,
   priceLabels,
   pricingTable,
 } from "./shared";
@@ -12,6 +15,9 @@ import type { GpuDetailPage, GpuLink } from "./types";
 // Same fixed rate the pricing table lists, so the two never drift apart.
 const HOURLY = blackwellHourlyPrice("b200") ?? 5;
 const { rate: RATE, rateShort: RATE_SHORT } = priceLabels(HOURLY);
+// A fixed rate, so it is current as of every build.
+const UPDATED = BUILD_DATE;
+const AS_OF = liveDate(UPDATED);
 
 const reserve: GpuLink = {
   label: "Reserve B200 capacity",
@@ -25,6 +31,7 @@ const sales: GpuLink = {
 export const b200: GpuDetailPage = {
   slug: "b200",
   shortName: "B200",
+  pricesUpdated: isoDate(UPDATED),
   seo: {
     title: "NVIDIA B200 GPU: 180GB HBM3e Specs & Rental | Akash",
     description:
@@ -47,7 +54,7 @@ export const b200: GpuDetailPage = {
   pricing: {
     title: "Rent a B200 on Akash",
     paragraphs: [
-      `On-demand B200s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
+      `As of ${AS_OF}, on-demand B200s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
     ],
     table: pricingTable(HOURLY, {
       single: "1x B200 (180 GB)",
@@ -135,19 +142,28 @@ export const b200: GpuDetailPage = {
     ],
     items: [
       {
-        text: "Large-model training and fine-tuning across 8-GPU nodes linked by 1.8 TB/s NVLink.",
+        title: "Reasoning-model inference in FP4",
+        text: "Serve reasoning models in NVFP4 with accuracy within about 1% of FP8 and far more tokens per GPU. An 8× B200 node delivers over 30,000 tokens/s on DeepSeek-R1.",
       },
       {
-        text: "High-throughput LLM inference with FP4 and FP8 for more tokens per GPU.",
+        title: "Mixture-of-experts serving",
+        text: "Run large MoE models with multi-token prediction and NVFP4 for big throughput gains over FP8.",
       },
       {
-        text: "Reasoning and agent workloads that need fast inference across long outputs.",
+        title: "Agentic AI with long inputs",
+        text: "Disaggregated serving with NVIDIA Dynamo gives up to 4× faster per-user token speed for code generation, summarization and agent workflows on 8× B200.",
       },
       {
-        text: "Multi-tenant serving with MIG: up to 7 isolated instances per GPU.",
+        title: "Low-cost token generation",
+        text: "Around $0.02 per million tokens on gpt-oss-120b, roughly 4.5× cheaper than Hopper.",
       },
       {
-        text: "AI plus HPC — about 37 TFLOPS of FP64 per GPU for simulation alongside AI.",
+        title: "Large-model training and post-training",
+        text: "Around 3× the training performance of an H100 system, with NVFP4 now speeding up training as well as inference.",
+      },
+      {
+        title: "Confidential AI inference",
+        text: "Run private inference with confidential computing on and keep 96–98% of normal throughput.",
       },
     ],
   },
@@ -208,7 +224,7 @@ export const b200: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an NVIDIA B200?",
-      answer: `On-demand B200s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
+      answer: `As of ${AS_OF}, on-demand B200s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
     },
     {
       question: "Is the B200 good for scientific computing?",

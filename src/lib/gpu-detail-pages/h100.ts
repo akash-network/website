@@ -1,16 +1,21 @@
 import {
   allPricingLink,
+  BID_PRICED,
   deployLink,
   DEPLOY_STEP_ADD_APP,
   DEPLOY_STEP_DEPLOY,
-  ON_DEMAND_FROM,
-  priceLabels,
+  isoDate,
+  liveDate,
+  livePriceLabels,
   pricingTable,
+  SNAPSHOT_DATE,
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-const HOURLY = ON_DEMAND_FROM.h100;
-const { rate: RATE } = priceLabels(HOURLY);
+const { source, snapshot: HOURLY } = BID_PRICED.h100;
+const UPDATED = SNAPSHOT_DATE;
+const AS_OF = liveDate(UPDATED);
+const { rate: RATE } = livePriceLabels(HOURLY);
 
 const reserve: GpuLink = {
   label: "Reserve H100 capacity",
@@ -24,6 +29,8 @@ const sales: GpuLink = {
 export const h100: GpuDetailPage = {
   slug: "h100",
   shortName: "H100",
+  pricesUpdated: isoDate(UPDATED),
+  livePrice: source,
   seo: {
     title: "NVIDIA H100 GPU: 80GB Specs & Rental | Akash",
     description:
@@ -46,13 +53,17 @@ export const h100: GpuDetailPage = {
   pricing: {
     title: "Rent an H100 on Akash",
     paragraphs: [
-      `On-demand H100s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
+      `As of ${AS_OF}, on-demand H100s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
     ],
-    table: pricingTable(HOURLY, {
-      single: "1x H100 (80 GB)",
-      node: "8x H100 (640 GB total)",
-      quoted: "Reserved cluster",
-    }),
+    table: pricingTable(
+      HOURLY,
+      {
+        single: "1x H100 (80 GB)",
+        node: "8x H100 (640 GB total)",
+        quoted: "Reserved cluster",
+      },
+      { livePrice: true },
+    ),
     options: [
       {
         title: "On-demand",
@@ -131,16 +142,29 @@ export const h100: GpuDetailPage = {
     ],
     items: [
       {
-        text: "Model training and fine-tuning across 8-GPU nodes linked by 900 GB/s NVLink.",
-      },
-      { text: "LLM inference with FP8 for higher throughput." },
-      {
-        text: "Research and experimentation on a mature, widely supported platform.",
+        title: "Large language model training",
+        text: "Up to 4× faster GPT-3 175B training than A100; Llama 3.1 405B was trained on more than 16,000 H100s.",
       },
       {
-        text: "HPC and simulation — 34 TFLOPS FP64 and 67 TFLOPS FP64 Tensor per GPU.",
+        title: "LLM inference with FP8",
+        text: "1,979 TFLOPS of dense FP8 through the Transformer Engine; up to 5× A100 on Llama 2 70B.",
       },
-      { text: "Multi-tenant serving — up to 7 MIG instances of 10 GB each." },
+      {
+        title: "Reasoning-model serving",
+        text: "Disaggregated serving with NVIDIA Dynamo more than doubles Llama 70B throughput on Hopper.",
+      },
+      {
+        title: "RLHF and post-training",
+        text: "Up to 5.6× faster RLHF with TensorRT-LLM; the standard GPU for Nemotron reasoning-model fine-tuning recipes.",
+      },
+      {
+        title: "Enterprise AI with RAG, vision and speech",
+        text: "NIM microservices plus MIG partitioning into up to 7 instances for multi-tenant deployments.",
+      },
+      {
+        title: "HPC and genomics",
+        text: "67 TFLOPS of FP64 Tensor and DPX instructions deliver up to 7× A100 on dynamic-programming workloads such as DNA sequence alignment.",
+      },
     ],
   },
   deploy: {
@@ -197,7 +221,7 @@ export const h100: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an NVIDIA H100?",
-      answer: `On-demand H100s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
+      answer: `As of ${AS_OF}, on-demand H100s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
     },
     {
       question: "Is the H100 still worth using?",
