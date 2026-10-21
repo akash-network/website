@@ -20,6 +20,12 @@ export type GpuTitledText = {
   text: string;
 };
 
+/** A list item; the bold lead-in label is optional. */
+export type GpuBullet = {
+  title?: string;
+  text: string;
+};
+
 export type GpuOffer = {
   title: string;
   description: string;
@@ -30,7 +36,7 @@ export type GpuOffer = {
 export type GpuSubsection = {
   title: string;
   paragraphs: string[];
-  bullets?: GpuTitledText[];
+  bullets?: GpuBullet[];
   table?: GpuTable;
   note?: string;
 };
@@ -40,10 +46,26 @@ export type GpuFaqItem = {
   answer: string;
 };
 
+/** Where a page's live price comes from. Serialized into the page for the browser script. */
+export type LivePriceSource = {
+  /** Console API model id, e.g. "pro6000se". */
+  model: string;
+  /** Only count entries with this much memory (GB), so variants the page doesn't cover
+   *  (A100 40GB, H100 NVL 94GB) can't set the "from" price. */
+  ramGb?: number;
+  /** The snapshot rate is Akash's listed price, so it stays current when there are no bids. */
+  listed?: boolean;
+};
+
 export type GpuDetailPage = {
   slug: string;
   /** Short name used in breadcrumbs and labels, e.g. "B300". */
   shortName: string;
+  /** ISO date (YYYY-MM-DD) the listed prices were last checked. Shown by the price and sent
+   *  as `dateModified` in structured data. */
+  pricesUpdated?: string;
+  /** Set on pages priced from open bids; the browser refreshes the price from the API. */
+  livePrice?: LivePriceSource;
   seo: {
     title: string;
     description: string;
@@ -55,21 +77,23 @@ export type GpuDetailPage = {
   hero: {
     title: string;
     description: string;
+    /** Small print under the description, e.g. which edition the page covers. */
+    note?: string;
     specs: string[];
     price: string;
     priceNote: string;
     bullets: string[];
     ctas: GpuLink[];
   };
-  intro: string;
+  intro?: string;
   pricing: {
     title: string;
     paragraphs: string[];
     table: GpuTable;
-    note: string;
-    optionsTitle: string;
-    options: GpuOffer[];
-    optionsNote: string;
+    note?: string;
+    optionsTitle?: string;
+    options?: GpuOffer[];
+    optionsNote?: string;
   };
   models?: {
     title: string;
@@ -82,13 +106,17 @@ export type GpuDetailPage = {
   highlights?: GpuSubsection[];
   fit?: {
     title: string;
+    /** Lead-in shown under the heading, before the choices. */
+    description?: string;
     choices: GpuTitledText[];
     paragraphs: string[];
   };
   useCases?: {
     title: string;
     paragraphs?: string[];
-    items: GpuTitledText[];
+    items: GpuBullet[];
+    /** Shown after the items, e.g. a "Not ideal for" caveat. */
+    note?: string;
   };
   deploy?: {
     title: string;
@@ -104,8 +132,10 @@ export type GpuDetailPage = {
   };
   specs: {
     title: string;
-    columnLabel: string;
-    rows: [string, string][];
+    /** Header row, starting with the label column ("Spec"). */
+    columns: string[];
+    rows: string[][];
+    note?: string;
   };
   faqTitle: string;
   faq: GpuFaqItem[];

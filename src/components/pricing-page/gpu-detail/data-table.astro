@@ -30,7 +30,7 @@ const numeric = new Set(table.numericColumns ?? []);
             <th
               scope="col"
               class={cn(
-                "whitespace-nowrap px-4 py-3 font-medium md:px-6",
+                "px-3 py-3 font-medium md:whitespace-nowrap md:px-6",
                 numeric.has(index) && "text-right",
               )}
             >
@@ -48,16 +48,16 @@ const numeric = new Set(table.numericColumns ?? []);
               index === 0 ? (
                 <th
                   scope="row"
-                  class="min-w-[9rem] px-4 py-3.5 font-medium text-foreground md:px-6"
+                  class="min-w-[6rem] px-3 py-3.5 font-medium text-foreground md:min-w-[9rem] md:px-6"
                   set:html={renderInline(cell)}
                 />
               ) : (
                 <td
                   class={cn(
-                    "px-4 py-3.5 text-muted-foreground md:px-6",
+                    "px-3 py-3.5 text-muted-foreground md:px-6",
                     numeric.has(index)
-                      ? "whitespace-nowrap text-right font-jetBrainsMono tabular-nums text-foreground"
-                      : "min-w-[9rem]",
+                      ? "text-right font-jetBrainsMono tabular-nums text-foreground md:whitespace-nowrap"
+                      : "min-w-[6rem] md:min-w-[9rem]",
                   )}
                   set:html={renderInline(cell)}
                 />
