@@ -981,6 +981,8 @@ Owners and admins reach every project. Members and viewers reach every project o
 | 403  | \`project_forbidden\`       | \`x-project-id\` names a project out of reach or other than the key's, or the deployment is filed in a project the caller cannot change. |
 | 400  | \`project_required\`        | No project the caller can deploy into was named. |
 | 403  | \`project_budget_exceeded\` | The deposit would take the project past its monthly budget. \`data.projectIds\` lists the projects. |
+| 403  | \`project_limit_reached\`   | The organization already has 10 projects, the default one included. \`data.limit\` holds the limit. |
+| 403  | \`organization_limit_reached\` | The caller already has 3 organizations they created, the most one person can have. \`data.limit\` holds the limit. |
 | 403  | \`session_required\`        | The action needs a signed-in Console session. |
 
 Reading a project, deployment, budget or grant outside the caller's reach answers \`404\`, the same as one that does not exist.
@@ -1403,7 +1405,7 @@ const { data } = await res.json();`,
   }
 }`,
     notes: [
-      "`409` with code `project_name_taken` when another project has this name. `403` with code `project_limit_reached` when the organization has as many projects as it can hold.",
+      "`409` with code `project_name_taken` when another project has this name. `403` with code `project_limit_reached` when the organization already has 10 projects, the default one included; `data.limit` holds the limit.",
     ],
     codeSnippets: apiKeyRequestSnippets("POST", "/v1/projects", {
       data: { name: "checkout-api", description: "Payments backend" },
@@ -1882,7 +1884,7 @@ const { data } = await res.json();`,
     requestParams: [
       API_KEY_PARAM,
       { field: "data.name", location: "body", type: "string", required: true, description: "Key name" },
-      { field: "data.expiresAt", location: "body", type: "string", required: false, description: "ISO-8601 expiry, in the future" },
+      { field: "data.expiresAt", location: "body", type: "string", required: false, description: "ISO 8601 date-time, in the future and at most one year from now. Defaults to one year after creation. A later date: `400`" },
       { field: "data.projectId", location: "body", type: "string (uuid)", required: false, description: "Limits the key to this project of the organization. Unknown or out of reach: `404`" },
     ],
     responseStatus: "201 Created",
@@ -1899,7 +1901,7 @@ const { data } = await res.json();`,
     "keyFormat": "ac.sk.mainnet.xxx...xxxx",
     "organizationId": "${EXAMPLE_IDS.organization}",
     "projectId": "${EXAMPLE_IDS.project}",
-    "expiresAt": null,
+    "expiresAt": "2027-10-03T10:00:00.000Z",
     "lastUsedAt": null,
     "createdAt": "2026-10-03T10:00:00.000Z",
     "updatedAt": "2026-10-03T10:00:00.000Z"

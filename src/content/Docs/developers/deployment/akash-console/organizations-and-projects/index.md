@@ -29,7 +29,7 @@ Switch between them with the switcher in the top bar. It lists your personal acc
 4. Choose how the organization pays: add a card now, or set it up later from **Billing**.
 5. Click **Create organization**. You become its owner.
 
-Creating an organization needs a signed-in Console session; it cannot be done with an API key. There is a limit on how many organizations one person can create.
+Creating an organization needs a signed-in Console session; it cannot be done with an API key. One person can create up to 3 organizations; deleted ones don't count.
 
 An organization never gets free trial credits. It starts with an empty balance, so no one can deploy in it until an owner or billing member adds a card and buys credits. See [Team billing](#team-billing).
 
@@ -49,7 +49,7 @@ Each member of an organization has one role.
 
 An organization always has at least one owner. To hand it over, an owner opens **Settings → General → Transfer ownership**: the member becomes an owner and the previous owner becomes an admin.
 
-In Console you invite people as **Member** or **Admin** and change roles from the **Members** page. The **Viewer** and **Billing** roles are assigned through the [Console API](/docs/api-documentation/console-api/organizations-and-projects).
+You pick the role (**Member**, **Viewer**, **Billing** or **Admin**) when you invite someone, and can change it later from **Settings → Members**.
 
 ---
 
@@ -57,7 +57,7 @@ In Console you invite people as **Member** or **Admin** and change roles from th
 
 A project groups the deployments behind one app or service, together with their saved templates and alerts. Every organization has a **default project**, which cannot be deleted. In Console, projects appear in organizations; your personal account keeps everything in its default project.
 
-Owners and admins create projects from the **Projects** page (**New project**), rename them, and delete them once they hold no open deployments. There is a limit on how many projects an organization can have.
+Owners and admins create projects from the **Projects** page (**New project**), rename them, and delete them once they hold no open deployments. An organization can have up to 10 projects, the default project included.
 
 ### Project access
 
@@ -92,7 +92,7 @@ Owners and admins invite people from **Settings → Members → Invite members**
 
 1. Enter one or more email addresses, separated by commas or spaces.
 2. Pick the role.
-3. For a member, pick their project access: all projects, or specific projects with a role on each.
+3. For a member or viewer, pick their project access: all projects, or specific projects with a role on each. A viewer can only get the Viewer project role. Billing members get no project access.
 4. Click **Send invite**.
 
 Each address receives an email with a link. Invitations expire after 7 days. From the pending invitations list you can resend an invitation (with a new link and expiry), copy a fresh invite link to share yourself, or revoke it.

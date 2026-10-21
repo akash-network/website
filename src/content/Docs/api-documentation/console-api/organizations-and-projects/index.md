@@ -271,14 +271,16 @@ Organization and project errors use the usual error body, with the code in `code
 }
 ```
 
-| Status | `code`                    | Meaning                                                                                                                        |
-| ------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 400    | `organization_mismatch`   | `x-organization-id` names another organization than the API key's.                                                             |
-| 403    | `organization_forbidden`  | You are not a member of the organization, for example after leaving it or being removed.                                       |
-| 403    | `project_forbidden`       | `x-project-id` names a project out of your reach or other than the key's, or the deployment is in a project you cannot change. |
-| 400    | `project_required`        | No project you can deploy into was named. Pass `projectId` or `x-project-id`.                                                  |
-| 403    | `project_budget_exceeded` | The deposit would take the project past its monthly budget. `data.projectIds` lists the projects.                              |
-| 403    | `session_required`        | The action needs a signed-in Console session, not an API key.                                                                  |
+| Status | `code`                       | Meaning                                                                                                                        |
+| ------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 400    | `organization_mismatch`      | `x-organization-id` names another organization than the API key's.                                                             |
+| 403    | `organization_forbidden`     | You are not a member of the organization, for example after leaving it or being removed.                                       |
+| 403    | `project_forbidden`          | `x-project-id` names a project out of your reach or other than the key's, or the deployment is in a project you cannot change. |
+| 400    | `project_required`           | No project you can deploy into was named. Pass `projectId` or `x-project-id`.                                                  |
+| 403    | `project_budget_exceeded`    | The deposit would take the project past its monthly budget. `data.projectIds` lists the projects.                              |
+| 403    | `project_limit_reached`      | The organization already has 10 projects, the default one included. `data.limit` holds the limit.                              |
+| 403    | `organization_limit_reached` | You already have 3 organizations you created, the most one person can have. `data.limit` holds the limit.                      |
+| 403    | `session_required`           | The action needs a signed-in Console session, not an API key.                                                                  |
 
 Reading a project, deployment, budget or grant outside your reach answers `404`, the same as one that does not exist.
 

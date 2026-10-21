@@ -665,7 +665,7 @@ Error response shape. When the API knows the precise reason, `code` carries it:
 }
 ```
 
-The organization and project codes are `organization_forbidden`, `organization_mismatch`, `project_forbidden`, `project_required`, `project_budget_exceeded` and `session_required`. See [Errors](/docs/api-documentation/console-api/organizations-and-projects#errors) for what each one means.
+The organization and project codes are `organization_forbidden`, `organization_mismatch`, `project_forbidden`, `project_required`, `project_budget_exceeded`, `project_limit_reached`, `organization_limit_reached` and `session_required`. See [Errors](/docs/api-documentation/console-api/organizations-and-projects#errors) for what each one means.
 
 ### Polling for Bids
 
