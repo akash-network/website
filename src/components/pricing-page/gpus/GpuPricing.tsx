@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useGpuPrices } from "../shared/pricing-api";
 import {
@@ -44,8 +44,7 @@ const selectTriggerClass =
   "h-9 w-full gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-foreground shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-transparent";
 const selectContentClass =
   "border-zinc-200 bg-white dark:border-white/10 dark:bg-zinc-950";
-const selectGroupLabelClass =
-  "pl-8 text-xs font-medium text-muted-foreground";
+const selectGroupLabelClass = "pl-8 text-xs font-medium text-muted-foreground";
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "featured", label: "Featured" },
@@ -444,15 +443,14 @@ function GpuTableRow({ row }: { row: GpuRow }) {
   const external = action.href === RENT_URL;
 
   // The whole row is clickable, but it forwards to the real link so middle-click, keyboard
-  // focus, and click tracking on the link's id keep working.
-  // A click on the model name or badges of a row with a detail page opens that page instead.
+  // focus, and click tracking on the link's id keep working. The model name is its own
+  // link (to the detail page), so clicks on it are left alone.
   const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement>) => {
     const target = event.target as HTMLElement;
     if (target.closest("a, button")) return;
-    const link = target.closest(".gpu-detail-cell")
-      ? "a.gpu-detail-link"
-      : "a[data-row-link]";
-    event.currentTarget.querySelector<HTMLAnchorElement>(link)?.click();
+    event.currentTarget
+      .querySelector<HTMLAnchorElement>("a[data-row-link]")
+      ?.click();
   };
 
   return (
@@ -462,23 +460,27 @@ function GpuTableRow({ row }: { row: GpuRow }) {
     >
       {/* Mobile: two lines per cell, sized alike so they line up across the row (name and
           price, then specs and a labelled action). Desktop: one line, with the specs after
-          the name and the action's label revealed on hover. */}
+          the name. */}
       <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
-        {/* With a detail page, only the name and badges link there (shrink-wrapped so the
-            cell's empty space keeps the row's own action). */}
-        <div
-          className={cn(
-            "flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2",
-            detailHref && "gpu-detail-cell w-fit",
-          )}
-        >
+        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
           <p className="text-lg font-medium leading-7 text-foreground max-[359px]:text-base/7">
             {detailHref ? (
+              // A quiet underline and ↗ mark names that open a detail page (→ on the action
+              // means "go rent", ↗ here means "about this GPU"). The faint ↗ lights up with
+              // the row; hovering or focusing the name itself turns the underline and ↗ full
+              // strength while the action's label retracts, so only one destination reads
+              // as active at a time.
               <a
                 href={detailHref}
-                className="gpu-detail-link focus-visible:outline-none"
+                className="gpu-detail-link group/name inline-flex items-center gap-1 rounded-sm underline decoration-zinc-300 decoration-[1.5px] underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current focus-visible:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:decoration-white/25 dark:focus-visible:ring-white/25"
+                title={`View ${row.name} specs and pricing`}
+                aria-label={`${row.name} specs and pricing`}
               >
                 {row.name}
+                <ArrowUpRight
+                  aria-hidden
+                  className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-all duration-300 ease-out group-hover/name:text-foreground group-focus-visible/name:text-foreground md:opacity-30 md:group-hover:opacity-100 md:group-focus-visible/name:opacity-100"
+                />
               </a>
             ) : (
               row.name
@@ -512,13 +514,13 @@ function GpuTableRow({ row }: { row: GpuRow }) {
             rel={external ? "noopener noreferrer" : undefined}
             aria-label={`${action.aria} ${row.name} ${row.ramLabel}`}
             // Mobile always shows the label. On desktop it's just the arrow at rest; hovering
-            // the row or focusing the link slides the label in, except over the model name and
-            // badges of a row with a detail page, which link there instead.
-            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-cell:hover]:pl-2"
+            // the row or focusing the link slides the label in, except over the model name,
+            // whose own link leads to the detail page instead.
+            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-link:hover]:pl-2"
           >
             <span
               aria-hidden
-              className="mr-1 max-w-24 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:mr-0 md:max-w-0 md:text-sm md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-cell:hover]:mr-0 md:group-has-[.gpu-detail-cell:hover]:max-w-0 md:group-has-[.gpu-detail-cell:hover]:opacity-0"
+              className="mr-1 max-w-24 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:mr-0 md:max-w-0 md:text-sm md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-link:hover]:mr-0 md:group-has-[.gpu-detail-link:hover]:max-w-0 md:group-has-[.gpu-detail-link:hover]:opacity-0"
             >
               {action.label}
             </span>
