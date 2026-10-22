@@ -12,7 +12,7 @@ faqAccordion: true
 
 *By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
-For a single GPU, the A100 PCIe and the A100 SXM perform almost identically: both have 80GB of HBM2e, both hit 19.5 TFLOPS FP32, and they sit within about 5% on memory bandwidth. For the full spec rundown, see the [NVIDIA A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/). The scaling gap only opens with multiple GPUs, where the SXM form factor's NVLink and NVSwitch interconnect pull far ahead of PCIe.
+For a single GPU, the [A100](/pricing/gpus/a100/) PCIe and the A100 SXM perform almost identically: both have 80GB of HBM2e, both hit 19.5 TFLOPS FP32, and they sit within about 5% on memory bandwidth. For the full spec rundown, see the [NVIDIA A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/). The scaling gap only opens with multiple GPUs, where the SXM form factor's NVLink and NVSwitch interconnect pull far ahead of PCIe.
 
 ## TL;DR
 

@@ -14,7 +14,7 @@ metaDescription: "RTX PRO 6000 Blackwell's 96GB GDDR7 vs H100's 80GB HBM3 (3.35T
 
 *By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
-If your model fits entirely on one GPU, an RTX PRO 6000 Blackwell (96GB) runs it as well as an H100 (80GB) for a single user. Datacenter GPUs like the H100 and H200 win once you need multi-user concurrency, multi-GPU interconnect, or sustained production serving — the workstation card was not built for those, and its own spec sheet says so directly.
+If your model fits entirely on one GPU, an [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-workstation/) Blackwell (96GB) runs it as well as an [H100](/pricing/gpus/h100/) (80GB) for a single user. Datacenter GPUs like the H100 and [H200](/pricing/gpus/h200/) win once you need multi-user concurrency, multi-GPU interconnect, or sustained production serving — the workstation card was not built for those, and its own spec sheet says so directly.
 
 ## TL;DR
 

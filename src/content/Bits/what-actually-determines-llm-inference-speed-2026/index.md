@@ -22,7 +22,7 @@ Seven things, and the model you picked is only one of them. GPU compute, memory 
 
 - The seven factors are GPU compute, memory bandwidth, model size and architecture, VRAM and KV cache, precision, batch size, and inference software.
 - Compute and bandwidth govern different phases. Prefill processes the prompt and is compute bound, setting time to first token. Decode generates tokens one at a time and is bandwidth bound, setting tokens per second.
-- The decode ceiling is arithmetic. Memory bandwidth divided by bytes read per token. An H100 at 3.35 TB/s reading a 70 GB model tops out near 48 tokens per second for a single stream.
+- The decode ceiling is arithmetic. Memory bandwidth divided by bytes read per token. An [H100](/pricing/gpus/h100/) at 3.35 TB/s reading a 70 GB model tops out near 48 tokens per second for a single stream.
 - Software moves the number as much as silicon. Continuous batching and paged KV cache gave 2 to 4x throughput in the vLLM paper. Chunked prefill gave up to 5.6x serving capacity under latency targets. Speculative decoding gave up to 6.5x in EAGLE-3.
 - The proof is in the spread. Artificial Analysis records a 9.8x output speed gap and a 35x time to first token gap across 11 providers serving identical MiniMax-M3 weights.
 
@@ -54,7 +54,7 @@ The ceiling is a division. Take the GPU's memory bandwidth, divide by the bytes 
 
 Bandwidth and capacity come from NVIDIA's published specifications for the [H100](https://www.nvidia.com/en-us/data-center/h100/), [H200](https://www.nvidia.com/en-us/data-center/h200/), [RTX PRO 6000 Blackwell Server Edition](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/), the [A100 datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet.pdf), the [HGX reference architecture](https://docs.nvidia.com/enterprise-reference-architectures/hgx-ai-factory/latest/components.html) for B200 and B300, and NVIDIA's [Vera Rubin deep dive](https://developer.nvidia.com/blog/inside-the-nvidia-rubin-platform-six-new-chips-one-ai-supercomputer/) for Rubin. The ceilings are our arithmetic from those figures, and they are ceilings. Real deployments land below them, because attention over the KV cache, kernel launch overhead, and sampling all consume time this calculation ignores.
 
-The cleanest proof that bandwidth rather than compute drives decode: the H100 and H200 use the same Hopper compute die and post identical FP8 throughput. The H200 generates tokens faster because NVIDIA attached faster memory to it.
+The cleanest proof that bandwidth rather than compute drives decode: the H100 and [H200](/pricing/gpus/h200/) use the same Hopper compute die and post identical FP8 throughput. The H200 generates tokens faster because NVIDIA attached faster memory to it.
 
 ## Factor 3: Do model size and MoE architecture change inference speed?
 
@@ -84,7 +84,7 @@ Moving weights from 16-bit to 8-bit roughly halves the memory traffic per forwar
 
 The cost is accuracy, and it varies by model and format rather than following a clean rule. This is now a visible product decision rather than an implementation detail. On the Artificial Analysis provider listings, endpoints are labelled FP8, MXFP8, and NVFP4 next to the operator's name. When two providers serve the same weights at different speeds, precision is one of the first places to look.
 
-One hardware caveat: precision support is generational. Ampere has no native FP8 tensor cores, so 8-bit weights on an A100 must be dequantized before the matmul, adding compute that Hopper and Blackwell do not pay.
+One hardware caveat: precision support is generational. Ampere has no native FP8 tensor cores, so 8-bit weights on an [A100](/pricing/gpus/a100/) must be dequantized before the matmul, adding compute that Hopper and Blackwell do not pay.
 
 ## Factor 6: How much does batch size change inference speed?
 
@@ -128,9 +128,9 @@ It depends entirely on whether your model and KV cache fit. Below is live pricin
 | B200 180GB SXM | up to 8,000 GB/s | $5.00/hr | ~1.6 TB/s | 180 GB |
 | B300 288GB SXM6 | up to 8,000 GB/s | $6.00/hr | ~1.3 TB/s | 288 GB |
 
-Prices are Akash marketplace rates as of October 22, 2026: the provider-weighted average bid from the Akash console API for the RTX 5090, RTX 4090, H100, A100, and RTX PRO 6000, and Akash's listed rates for the H200, B200, and B300.
+Prices are Akash marketplace rates as of October 22, 2026: the provider-weighted average bid from the Akash console API for the RTX 5090, RTX 4090, H100, A100, and [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-server/), and Akash's listed rates for the H200, B200, and B300.
 
-The B200 row is the interesting result. At $5.00/hr against roughly 8 TB/s, it delivers more bandwidth per dollar than an H100 (about 1.6 versus 1.2 TB/s), while carrying 180 GB instead of 80 GB — for a bandwidth-bound workload that also needs KV cache headroom, that's the strongest combination in the table, and it's the case where paying more per hour genuinely buys more tokens per dollar. B300 gives up a little bandwidth per dollar for 288 GB, which is a capacity purchase rather than a speed purchase.
+The [B200](/pricing/gpus/b200/) row is the interesting result. At $5.00/hr against roughly 8 TB/s, it delivers more bandwidth per dollar than an H100 (about 1.6 versus 1.2 TB/s), while carrying 180 GB instead of 80 GB — for a bandwidth-bound workload that also needs KV cache headroom, that's the strongest combination in the table, and it's the case where paying more per hour genuinely buys more tokens per dollar. [B300](/pricing/gpus/b300/) gives up a little bandwidth per dollar for 288 GB, which is a capacity purchase rather than a speed purchase.
 
 The consumer cards still win the per-dollar column outright and lose on everything requiring capacity. A 32 GB card cannot hold a 70B model, cannot hold a large KV cache, and has no NVLink for tensor parallelism, which means it cannot batch its way to high aggregate throughput. Under about 20B parameters at 4-bit with low concurrency, that column is telling you something real. Serving a 120B MoE to hundreds of concurrent users, it is a trap.
 

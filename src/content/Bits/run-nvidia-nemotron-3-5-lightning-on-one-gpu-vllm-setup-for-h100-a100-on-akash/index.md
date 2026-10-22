@@ -12,7 +12,7 @@ faqAccordion: true
 
 *Last updated: October 2026*
 
-You can run NVIDIA Nemotron 3.5 Lightning with [vLLM](/blog/running-vllm-on-akash/) on a single 80GB GPU: one H100 or one A100 serves the BF16 build, which needs roughly 60GB of VRAM. Nemotron 3.5 Lightning is an open 30-billion-parameter Mixture-of-Experts model (3B active) that NVIDIA released on August 11, 2026, built for the high-volume execution layer of long-running AI agents.
+You can run NVIDIA Nemotron 3.5 Lightning with [vLLM](/blog/running-vllm-on-akash/) on a single 80GB GPU: one [H100](/pricing/gpus/h100/) or one [A100](/pricing/gpus/a100/) serves the BF16 build, which needs roughly 60GB of VRAM. Nemotron 3.5 Lightning is an open 30-billion-parameter Mixture-of-Experts model (3B active) that NVIDIA released on August 11, 2026, built for the high-volume execution layer of long-running AI agents.
 
 **TL;DR**
 
@@ -84,7 +84,7 @@ If you would rather not run a server at all, the weights are available on [Huggi
 
 ## Where should you deploy Nemotron 3.5 Lightning?
 
-Deploy it by self-hosting on raw GPUs through [Akash Console](https://console.akash.network/), an open GPU marketplace that prices compute through a reverse auction rather than fixed retail rates, and routinely lands well below hyperscaler pricing. You rent a single H100, A100, H200, or an RTX 5090, deploy a container running [vLLM](/blog/running-vllm-on-akash/), and keep full control of routing, data residency, and the serving config, at marketplace prices. (Akash uses a reverse auction: you submit a workload and a maximum price, and providers bid the rate down.) A working, tested SDL for this exact deployment is in the next section.
+Deploy it by self-hosting on raw GPUs through [Akash Console](https://console.akash.network/), an open GPU marketplace that prices compute through a reverse auction rather than fixed retail rates, and routinely lands well below hyperscaler pricing. You rent a single H100, A100, [H200](/pricing/gpus/h200/), or an RTX 5090, deploy a container running [vLLM](/blog/running-vllm-on-akash/), and keep full control of routing, data residency, and the serving config, at marketplace prices. (Akash uses a reverse auction: you submit a workload and a maximum price, and providers bid the rate down.) A working, tested SDL for this exact deployment is in the next section.
 
 ## How do you deploy Nemotron 3.5 Lightning on Akash with an SDL?
 

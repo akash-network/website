@@ -12,7 +12,7 @@ faqAccordion: true
 
 *Last updated: October 2026*
 
-For most 2026 workloads the split is simple: pick the A100 40GB for LoRA and QLoRA fine-tuning and quantized inference on models up to about 13B parameters, and pick the A100 80GB to serve 13B to 70B models, run context lengths past 32K, or hold full precision without quantization. Both cards ship the same 6,912 CUDA cores and the same 19.5 TFLOPS of FP32 compute. The only differences that decide the pick are memory capacity, memory bandwidth, and MIG slice size.
+For most 2026 workloads the split is simple: pick the [A100](/pricing/gpus/a100/) 40GB for LoRA and QLoRA fine-tuning and quantized inference on models up to about 13B parameters, and pick the A100 80GB to serve 13B to 70B models, run context lengths past 32K, or hold full precision without quantization. Both cards ship the same 6,912 CUDA cores and the same 19.5 TFLOPS of FP32 compute. The only differences that decide the pick are memory capacity, memory bandwidth, and MIG slice size.
 
 That decision matters more this month. NVIDIA's Vera Rubin generation launched in early August 2026, and as Blackwell volume ramps, the A100 is settling into its role as the mainstream inference and fine-tuning card rather than a frontier trainer. It is not winding down: NVIDIA's Jensen Huang has called the A100 fleet mission-capable from 2020 through 2029, and A100 supply is still active across cloud providers. So for teams renting one now, the live question is which variant. For full specs, benchmarks, and rental costs, see the [NVIDIA A100 GPU guide](/bits/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/); this post is the deeper 40GB-versus-80GB decision.
 
@@ -59,7 +59,7 @@ The 40GB comfortably handles models up to roughly 13B parameters; the 80GB exten
 
 If you'd rather skip the manual setup, [Razer AIKit](https://console.akash.network/templates/akash-network-awesome-akash-Razer-AIKit) packages vLLM, Jupyter Lab, and a web UI into a single one-click GPU container, letting you fine-tune or serve any of the 300,000+ Hugging Face models on an A100 without configuring the stack yourself.
 
-The 80GB is the card you pick when memory is the constraint. It handles 13B to 65B models on one card, and serving a 70B model in full FP16 precision means two 80GB cards with tensor parallelism, since a single 80GB is not enough. A single A100 40GB cannot run a 70B model in full precision at all and would need four cards in BF16 or heavy quantization, which is usually the moment teams step up to the 80GB or to an H100. For a hands-on single-card example, see [running a model on one A100 with vLLM](/bits/run-nvidia-nemotron-3-5-lightning-on-one-gpu-vllm-setup-for-h100-a100-on-akash/).
+The 80GB is the card you pick when memory is the constraint. It handles 13B to 65B models on one card, and serving a 70B model in full FP16 precision means two 80GB cards with tensor parallelism, since a single 80GB is not enough. A single A100 40GB cannot run a 70B model in full precision at all and would need four cards in BF16 or heavy quantization, which is usually the moment teams step up to the 80GB or to an [H100](/pricing/gpus/h100/). For a hands-on single-card example, see [running a model on one A100 with vLLM](/bits/run-nvidia-nemotron-3-5-lightning-on-one-gpu-vllm-setup-for-h100-a100-on-akash/).
 
 | Workload | A100 40GB | A100 80GB |
 |---|---|---|

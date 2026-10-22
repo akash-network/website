@@ -14,13 +14,13 @@ metaDescription: "NVIDIA B200 GPU rental price in 2026, including cost per hour,
 
 *By Sandeep Narahari, Contributor. Last updated: October 2026. Prices checked September 24, 2026; Akash H100 and H200 rates checked October 22, 2026.*
 
-On Akash, the B200 GPU rental price starts from \$5.00 per GPU-hour as of September 2026, according to [Akash GPU pricing](/pricing/gpus/). For that you get one NVIDIA B200 with 180GB of HBM3e and 8 TB/s of memory bandwidth, billed on demand with no long-term contract.
+On Akash, the [B200](/pricing/gpus/b200/) GPU rental price starts from \$5.00 per GPU-hour as of September 2026, according to [Akash GPU pricing](/pricing/gpus/). For that you get one NVIDIA B200 with 180GB of HBM3e and 8 TB/s of memory bandwidth, billed on demand with no long-term contract.
 
 ## TL;DR
 
 - **\$5.00 per GPU-hour on Akash:** At the rate used in this article, one B200 costs \$120 a day or \$3,600 a month running nonstop. A full 8-GPU configuration costs \$40 an hour, or \$28,800 a month. Akash's GPU pricing is dynamic, so verify the current rate before deploying.
 - **Trillion-parameter models can fit on one 8x B200 node by weight capacity:** Kimi K2.6 (1T parameters), GLM-5.2 (753B), and DeepSeek-V4-Pro (1.6T) have published checkpoints that fit within 1,440GB of B200 HBM. Kimi K3 (2.8T) exceeds that capacity and requires a multi-node configuration.
-- **Lowest bandwidth-adjusted cost of the four GPUs compared:** At the rental rates used here, a B200 costs \$0.625 per TB/s of peak memory bandwidth per hour, below the H100, H200, and B300 in this comparison. For memory-bandwidth-bound serving, that makes it a candidate for lower cost per token, but actual token economics require benchmarking.
+- **Lowest bandwidth-adjusted cost of the four GPUs compared:** At the rental rates used here, a B200 costs \$0.625 per TB/s of peak memory bandwidth per hour, below the [H100](/pricing/gpus/h100/), [H200](/pricing/gpus/h200/), and [B300](/pricing/gpus/b300/) in this comparison. For memory-bandwidth-bound serving, that makes it a candidate for lower cost per token, but actual token economics require benchmarking.
 - **B300 uses fewer GPUs for memory-heavy workloads; B200 offers more bandwidth per dollar:** B300's 288GB per GPU can reduce the number of GPUs required for some large models. When comparing configurations with more B200 GPUs, the B200 can provide more aggregate memory bandwidth per dollar, but actual throughput depends on the model and serving stack.
 - **64.9% below AWS list price:** At the rates used here, \$5.00 per B200 GPU-hour compares with about \$14.24 per GPU-hour for the AWS P6-B200 list rate, while Google Cloud's A4 8-GPU B200 configuration is \$64.44 per hour, or about \$8.06 per GPU-hour.
 
@@ -146,7 +146,7 @@ Before you rent, check whether your model fits on one 8x B200 node, how many GPU
 - **Are you paying for hours or for tokens?** A B300 can fit some models on fewer GPUs because it has more memory per GPU. A B200 configuration can provide more aggregate memory bandwidth for a larger GPU count, which may benefit bandwidth-bound serving. Benchmark your own model before committing.
 - **Do you need more than one node?** For Kimi K3 or multi-node training, enable GPU interconnect when you deploy in [Akash Console](https://console.akash.network/new-deployment). Akash supports RDMA over InfiniBand and RoCE. You can require a specific fabric or let the provider choose.
 - **How many hours will it actually run?** At \$5/hour, one B200 running 24 hours a day for 30 days costs \$3,600. Running it for 16 hours per day costs about \$2,400 over 30 days. You need to actually close the deployment or use a runtime limit to stop billing.
-- **On-demand or reserved?** For bursty or experimental work, use on-demand capacity. For predictable production workloads, [Akash Enterprise](/use-cases/enterprise/) offers reserved B300, B200, H200, H100, and A100 capacity with dedicated enterprise support and SLA-backed options.
+- **On-demand or reserved?** For bursty or experimental work, use on-demand capacity. For predictable production workloads, [Akash Enterprise](/use-cases/enterprise/) offers reserved B300, B200, H200, H100, and [A100](/pricing/gpus/a100/) capacity with dedicated enterprise support and SLA-backed options.
 
 ## Is a B200 on Akash cheaper than on AWS or Google Cloud?
 

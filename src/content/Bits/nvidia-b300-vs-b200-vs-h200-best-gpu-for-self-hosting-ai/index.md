@@ -12,7 +12,7 @@ faqAccordion: true
 
 *Last updated: October 2026*
 
-The H200 is the best-value choice for self-hosting AI models when the model fits within its 141GB of VRAM. Choose the B200 when you need Blackwell's FP4 support and additional memory, and choose the B300 when your model requires up to 288GB of VRAM per GPU.
+The [H200](/pricing/gpus/h200/) is the best-value choice for self-hosting AI models when the model fits within its 141GB of VRAM. Choose the [B200](/pricing/gpus/b200/) when you need Blackwell's FP4 support and additional memory, and choose the [B300](/pricing/gpus/b300/) when your model requires up to 288GB of VRAM per GPU.
 
 **TL;DR**
 
@@ -43,7 +43,7 @@ Board-level note: the figures above are chip-level. NVIDIA's HGX board versions 
 
 The takeaway: the B300 is a memory and FP4 upgrade, not a general compute upgrade. NVIDIA's own HGX platform page states HGX B300 delivers 1.5x more dense FP4 Tensor Core FLOPS versus HGX B200, while FP8 and BF16 throughput are unchanged and bandwidth stays at 8 TB/s.
 
-Two details matter for self-hosters. The B300 reaches its capacity by stacking HBM3e twelve dies high instead of the B200's eight, following the same more-memory-same-silicon playbook NVIDIA used going from H100 to H200. And the B300's 1,400W TDP is 40% above the B200's 1,000W, which is why B300 capacity concentrates in liquid-cooled facilities and stays scarcer than the spec sheet suggests.
+Two details matter for self-hosters. The B300 reaches its capacity by stacking HBM3e twelve dies high instead of the B200's eight, following the same more-memory-same-silicon playbook NVIDIA used going from [H100](/pricing/gpus/h100/) to H200. And the B300's 1,400W TDP is 40% above the B200's 1,000W, which is why B300 capacity concentrates in liquid-cooled facilities and stays scarcer than the spec sheet suggests.
 
 ## Which open-weight models fit on the B300, B200, and H200?
 

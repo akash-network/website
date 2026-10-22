@@ -19,7 +19,7 @@ Kimi K3 occupies 1.56TB on disk, GLM-5.2 occupies 755.6GB in its official FP8 re
 - Actual checkpoint sizes: Kimi K3 at 1.56TB, GLM-5.2 at 755.6GB official FP8 (1.507TB if you insist on BF16), DeepSeek V4 Flash 0731 at 156.4GB.
 - Parameter count is a bad proxy. Kimi K3 has 3.7x GLM-5.2's parameters but takes only about twice the disk, because K3 ships natively in 4-bit MXFP4 while GLM-5.2's headline checkpoint is 16-bit.
 - The 5.6TB figure circulating for Kimi K3 is wrong. It comes from multiplying 2.8T parameters by 2 bytes for BF16, a precision Moonshot never released.
-- Hardware floors differ by a factor of eight. K3 wants an 8x B300 node or larger, GLM-5.2 FP8 fits a single 8x H200 node, and V4 Flash 0731 fits on 2 H200s or a single RTX 4090 with system RAM.
+- Hardware floors differ by a factor of eight. K3 wants an 8x B300 node or larger, GLM-5.2 FP8 fits a single 8x [H200](/pricing/gpus/h200/) node, and V4 Flash 0731 fits on 2 H200s or a single RTX 4090 with system RAM.
 - License terms are a real decision axis. GLM-5.2 and DeepSeek V4 Flash 0731 are plain MIT. Kimi K3 uses a custom license with revenue-triggered obligations above \$20M.
 
 ## How big are the Kimi K3, GLM-5.2, and DeepSeek V4 Flash 0731 checkpoints?
@@ -68,9 +68,9 @@ Kimi K3 needs an 8x B300 node, GLM-5.2 needs 8x H200 to hold its official FP8 we
 | DeepSeek V4 Flash 0731 | 156.4 GB | 2x H200 | 282 GB |
 | DeepSeek V4 Flash 0731 (3-bit GGUF) | 103 GB | 1x RTX 4090 + 128GB RAM | 24 GB VRAM plus system RAM |
 
-Three details change deployment plans. [vLLM](/blog/running-vllm-on-akash/)'s day-zero guidance puts Kimi K3's hardware floor at one 8x B300 node or a GB300 NVL72, while Moonshot's own production guidance calls for 64 or more accelerators. K3 does not fit an 8x H200 node at 1,128GB, so Hopper deployments require multi-node placement. GLM-5.2's FP8 release likewise does not fit on 8x H100 at all, which makes the 8x H200 node its natural home. And only DeepSeek V4 Flash 0731 has a credible single-GPU path, running quantized on one RTX 4090 with sufficient system RAM.
+Three details change deployment plans. [vLLM](/blog/running-vllm-on-akash/)'s day-zero guidance puts Kimi K3's hardware floor at one 8x B300 node or a GB300 NVL72, while Moonshot's own production guidance calls for 64 or more accelerators. K3 does not fit an 8x H200 node at 1,128GB, so Hopper deployments require multi-node placement. GLM-5.2's FP8 release likewise does not fit on 8x [H100](/pricing/gpus/h100/) at all, which makes the 8x H200 node its natural home. And only DeepSeek V4 Flash 0731 has a credible single-GPU path, running quantized on one RTX 4090 with sufficient system RAM.
 
-Architecture matters at long context too. Three out of every four attention layers in Kimi K3 use Kimi Delta Attention, which carries a constant-size state instead of a KV cache that grows linearly with context, so K3's memory profile at 1M tokens is better than its weight size alone suggests. GLM-5.2 uses MLA attention with a sparse-attention indexer, and its full 1M context in practice wants 8x B200 with FP8 KV cache rather than the 8x H200 that holds the weights.
+Architecture matters at long context too. Three out of every four attention layers in Kimi K3 use Kimi Delta Attention, which carries a constant-size state instead of a KV cache that grows linearly with context, so K3's memory profile at 1M tokens is better than its weight size alone suggests. GLM-5.2 uses MLA attention with a sparse-attention indexer, and its full 1M context in practice wants 8x [B200](/pricing/gpus/b200/) with FP8 KV cache rather than the 8x H200 that holds the weights.
 
 ## What does it cost per hour to self-host Kimi K3, GLM-5.2, or DeepSeek V4 Flash 0731?
 

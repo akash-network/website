@@ -12,14 +12,14 @@ faqAccordion: true
 
 *Last updated: October 2026*
 
-Use a managed API for Qwen3.8-27B when volume is low or bursty — you pay only per token and ship the same day. Self-host on a rented H100 (starting around \$2.04/GPU-hr, roughly \$1,469/month for an always-on card, on [Akash](/pricing/gpus/) as of August 15, 2026) once you generate steady volume above roughly 460 million output tokens per month, the point where the fixed GPU cost undercuts per-token billing.
+Use a managed API for Qwen3.8-27B when volume is low or bursty — you pay only per token and ship the same day. Self-host on a rented [H100](/pricing/gpus/h100/) (starting around \$2.04/GPU-hr, roughly \$1,469/month for an always-on card, on [Akash](/pricing/gpus/) as of August 15, 2026) once you generate steady volume above roughly 460 million output tokens per month, the point where the fixed GPU cost undercuts per-token billing.
 
 Qwen3.8-27B went open-weight under Apache 2.0 on August 13-14, 2026, which is what makes this choice possible: rent access through someone else's API, or run the weights yourself on one GPU. The two paths have opposite cost curves, so the right call depends on your token volume, your data-control needs, and how much operational work you want to own.
 
 **TL;DR**
 
 - **Managed API** = pay per token, zero ops, instant. Qwen3.8-27B is listed on [OpenRouter](https://openrouter.ai/provider/akashml) at \$0.45 per 1M input tokens and \$3.20 per 1M output tokens (262K context), as of August 14, 2026. Qwen's own hosted version is "coming soon."
-- **Self-host** = fixed hourly cost, full control, data stays in your environment. One GPU runs the FP8 build in ~28GB. On the GPU marketplace [Akash](/pricing/gpus/), checked August 15, 2026, H100 80GB starts at \$2.04/GPU-hr and A100 80GB starts at \$1.07/GPU-hr.
+- **Self-host** = fixed hourly cost, full control, data stays in your environment. One GPU runs the FP8 build in ~28GB. On the GPU marketplace [Akash](/pricing/gpus/), checked August 15, 2026, H100 80GB starts at \$2.04/GPU-hr and [A100](/pricing/gpus/a100/) 80GB starts at \$1.07/GPU-hr.
 - **Break-even** lands around 460M output tokens/month against a single always-on H100, or roughly 240M tokens/month against a cheaper A100 (same FP8 footprint fits both). Below it, the managed API is cheaper and simpler; above it, the rented GPU wins as marginal cost per token approaches zero.
 - **Official benchmarks** put Qwen3.8-27B at 61.7 on SWE-bench Pro and 90.3 on LiveCodeBench v6, well above its predecessor — first-party numbers, independent verification pending.
 

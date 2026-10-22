@@ -18,8 +18,8 @@ The NVIDIA H200 is a Hopper-architecture data center GPU with 141GB of HBM3e mem
 
 ## TL;DR
 
-- Specs: 141GB HBM3e, 4.8TB/s bandwidth, 3,958 TFLOPS FP8 with sparsity, up to 700W TDP in SXM form factor. Same compute silicon as the H100, with 1.76x the memory and 1.43x the bandwidth ([NVIDIA](https://www.nvidia.com/en-us/data-center/h200/)).
-- Cheapest on-demand rate found: \$3.85 per GPU-hour, the listed rate on the [Akash Network marketplace](/pricing/gpus/) as of October 22, 2026. The next cheapest, Nebius at \$4.50 and RunPod at \$4.59, run 17% and 19% above it.
+- Specs: 141GB HBM3e, 4.8TB/s bandwidth, 3,958 TFLOPS FP8 with sparsity, up to 700W TDP in SXM form factor. Same compute silicon as the [H100](/pricing/gpus/h100/), with 1.76x the memory and 1.43x the bandwidth ([NVIDIA](https://www.nvidia.com/en-us/data-center/h200/)).
+- Cheapest on-demand rate found: \$3.85 per GPU-hour, the listed rate on the [Akash Network marketplace](/pricing/gpus/h200/) as of October 22, 2026. The next cheapest, Nebius at \$4.50 and RunPod at \$4.59, run 17% and 19% above it.
 - Most expensive: \$10.60 per GPU-hour on Azure ND96isr H200 v5 in East US 2, fetched from the Azure Retail Prices API on August 20, 2026. Azure costs 2.8x the marketplace low for identical hardware.
 - Cheapest interruptible rate: \$2.33 per GPU-hour on Azure low priority in South Central US 2, which is 78% below Azure list and suits checkpointed or batch work only.
 - Real inference gain over H100: roughly 1.4x on memory-bound decode, not the 1.9x headline figure, which came from a specific TensorRT-LLM offline throughput test.

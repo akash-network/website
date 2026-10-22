@@ -18,7 +18,7 @@ Qwen3.8-Flash-Next is Alibaba's open-weight preview of the architecture behind Q
 
 - 180B total parameters (125B language model + 51B n-gram embedding + 4B multi-token prediction), with only 6B activated per token.
 - 262,144-token native context, extensible to 1,000,000 tokens via YaRN scaling.
-- The FP8 checkpoint is 172.78 GiB; BF16 is 335.28 GiB. Plan for a minimum of TP2 on a GB300 node or TEP8 on an 8x H200 node — or skip GPUs entirely with a quantized GGUF build on 96GB+ of CPU/unified memory.
+- The FP8 checkpoint is 172.78 GiB; BF16 is 335.28 GiB. Plan for a minimum of TP2 on a GB300 node or TEP8 on an 8x [H200](/pricing/gpus/h200/) node — or skip GPUs entirely with a quantized GGUF build on 96GB+ of CPU/unified memory.
 - Introduces three new architectural pieces: Qwen Sparse Attention (QSA), Gated Residual connections, and n-gram embedding for cheap parameter scaling.
 - It's a research preview, not the production model. The hosted Qwen3.8-Flash (via Qwen Cloud) ships with 1M context by default and built-in tools.
 
@@ -141,7 +141,7 @@ Is Qwen3.8-Flash-Next the right size for your workload? Usually not if you need 
 | License | qwen-community-1.0 | Apache 2.0 | Not yet confirmed |
 | Best fit | Agentic/tool-use workloads at scale | Local dev, single-GPU coding agents | Highest raw dense-model capability |
 
-Sources: Qwen3.8-Flash-Next model card; our [Qwen3.8-27B: Managed API vs Self-Hosting](/bits/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/) post, which measured Qwen3.8-27B's FP8 build at roughly 28GB, comfortably fitting one H100 or A100 80GB.
+Sources: Qwen3.8-Flash-Next model card; our [Qwen3.8-27B: Managed API vs Self-Hosting](/bits/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/) post, which measured Qwen3.8-27B's FP8 build at roughly 28GB, comfortably fitting one [H100](/pricing/gpus/h100/) or [A100](/pricing/gpus/a100/) 80GB.
 
 Takeaway: Qwen3.8-27B is the model to prototype with locally; Qwen3.8-Flash-Next is the model to put behind a production agent stack once you've validated the workflow, since its MoE routing gives it much stronger agentic scores per activated parameter than the dense 27B, at the cost of needing a real multi-GPU deployment.
 

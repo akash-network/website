@@ -16,7 +16,7 @@ metaDescription: "GPU compute drives prompt processing, memory bandwidth drives 
 
 *AI Infrastructure Engineering 101, Part 2.*
 
-Memory bandwidth slows down token generation. Compute slows down prompt reading. To work out which one applies to you, divide the GPU's math speed by its memory speed: 295 on an H100, 206 on an H200, 281 on a B200. If your workload does less math than that per byte it reads, memory is your limit. Generating a token does about one operation per byte, so it almost always is.
+Memory bandwidth slows down token generation. Compute slows down prompt reading. To work out which one applies to you, divide the GPU's math speed by its memory speed: 295 on an [H100](/pricing/gpus/h100/), 206 on an [H200](/pricing/gpus/h200/), 281 on a [B200](/pricing/gpus/b200/). If your workload does less math than that per byte it reads, memory is your limit. Generating a token does about one operation per byte, so it almost always is.
 
 [What Actually Determines LLM Inference Speed in 2026?](/the-bid/what-actually-determines-llm-inference-speed-2026/) said prefill is limited by compute and decode by bandwidth. Here is the math behind it.
 
@@ -76,7 +76,7 @@ Here is a 70B model in FP8, so 70 GB of weights, on one H100:
 
 Both columns assume full speed, which never quite happens. Prefill usually hits 40% to 50% of peak math speed, while decode gets closer to peak on the memory side, so the real prefill gap is smaller than 5 to 1 and the real decode gap stays near 295 to 1. The 1,500-token prompt is not made up. It is the median prompt Microsoft measured on a live coding service in Splitwise.
 
-Three sets of measurements back this up. NVIDIA's own [TensorRT-LLM post](https://nvidia.github.io/TensorRT-LLM/blogs/H200launch.html) shows the H200 generating tokens 1.9x faster than an H100 on Llama-70B, while time to first token stays about the same, because that part is limited by compute. [Splitwise](https://arxiv.org/abs/2311.18677) found that going from A100 to H100, which is 3.43x more math but only 1.64x more bandwidth, cut prompt reading 1.95x but token writing only 1.68x. The same paper found that cutting an H100 from 700W to 350W barely slows token generation but hurts prompt reading badly. A chip waiting on memory does not need much power.
+Three sets of measurements back this up. NVIDIA's own [TensorRT-LLM post](https://nvidia.github.io/TensorRT-LLM/blogs/H200launch.html) shows the H200 generating tokens 1.9x faster than an H100 on Llama-70B, while time to first token stays about the same, because that part is limited by compute. [Splitwise](https://arxiv.org/abs/2311.18677) found that going from [A100](/pricing/gpus/a100/) to H100, which is 3.43x more math but only 1.64x more bandwidth, cut prompt reading 1.95x but token writing only 1.68x. The same paper found that cutting an H100 from 700W to 350W barely slows token generation but hurts prompt reading badly. A chip waiting on memory does not need much power.
 
 That is all about the regular layers. Attention behaves differently, which is why batching helps less than you would expect. Recasens and co-authors, in [Mind the Memory Gap](https://arxiv.org/abs/2503.08311) (IEEE CLOUD 2025), found even large batches stay stuck on memory: batching lets requests share one weight read, but each still reads its own KV cache. Splitwise also found real chat traffic runs with 20 or fewer tokens in flight most of the time, far below the 295 an H100 needs.
 

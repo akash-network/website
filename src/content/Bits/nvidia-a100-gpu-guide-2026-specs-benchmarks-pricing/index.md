@@ -12,14 +12,14 @@ faqAccordion: true
 
 *Last updated: October 2026*
 
-The NVIDIA A100 is a 2020 data-center GPU built on the Ampere architecture, with 6,912 CUDA cores, 432 third-generation Tensor cores, and 40GB or 80GB of high-bandwidth memory. In 2026 it remains a mainstream choice for AI inference, fine-tuning, and mid-scale training. On the [Akash marketplace](/pricing/gpus/), checked October 22, 2026, an 80GB A100 starts at \$1.07/GPU-hr, averages \$1.49/GPU-hr, with providers' top asking rate at \$1.91/GPU-hr.
+The NVIDIA A100 is a 2020 data-center GPU built on the Ampere architecture, with 6,912 CUDA cores, 432 third-generation Tensor cores, and 40GB or 80GB of high-bandwidth memory. In 2026 it remains a mainstream choice for AI inference, fine-tuning, and mid-scale training. On the [Akash marketplace](/pricing/gpus/a100/), checked October 22, 2026, an 80GB A100 starts at \$1.07/GPU-hr, averages \$1.49/GPU-hr, with providers' top asking rate at \$1.91/GPU-hr.
 
 **TL;DR**
 
 - **What it is:** NVIDIA's Ampere-generation data-center GPU (GA100), launched 2020, still in heavy use in 2026.
 - **Headline specs:** 6,912 CUDA cores, 432 Tensor cores, 40GB HBM2 or 80GB HBM2e, up to 2,039 GB/s bandwidth, 312 TFLOPS dense FP16.
 - **Variants:** 40GB and 80GB, in PCIe or SXM form factors, plus the 8-GPU DGX A100 server.
-- **Where it sits:** two generations behind NVIDIA's current Blackwell chips (B300/B200), but capable for most non-frontier AI work. The H100 delivers roughly 3 to 4 times its transformer throughput.
+- **Where it sits:** two generations behind NVIDIA's current Blackwell chips ([B300](/pricing/gpus/b300/)/[B200](/pricing/gpus/b200/)), but capable for most non-frontier AI work. The [H100](/pricing/gpus/h100/) delivers roughly 3 to 4 times its transformer throughput.
 - **Cost:** on [Akash](/pricing/gpus/), checked October 22, 2026, an 80GB A100 runs \$1.07 to \$1.91/GPU-hr, averaging \$1.49/GPU-hr. See the FAQ and the [pricing page](/pricing/gpus/) for current rates.
 
 ## What is the NVIDIA A100?
@@ -92,7 +92,7 @@ Here is where the A100 sits across recent NVIDIA data-center generations:
 | H200 | Hopper | 2024 | 141 GB HBM3e | 4,800 GB/s | ~989 TFLOPS | Yes |
 | B200 | Blackwell | 2024 to 2025 | 192 GB HBM3e | ~8,000 GB/s | higher, adds FP4 | Yes |
 
-The takeaway: the H100 and H200 share the same compute engine and differ mainly in memory, so an H200 helps A100 upgraders most when a model exceeds 80GB. Blackwell (B200) is a generational leap but costs more and is scarcer than Ampere and Hopper parts, which is one reason the A100 still has a role. For how the newest chips stack up, see [NVIDIA B300 vs B200 vs H200](/bits/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/).
+The takeaway: the H100 and [H200](/pricing/gpus/h200/) share the same compute engine and differ mainly in memory, so an H200 helps A100 upgraders most when a model exceeds 80GB. Blackwell (B200) is a generational leap but costs more and is scarcer than Ampere and Hopper parts, which is one reason the A100 still has a role. For how the newest chips stack up, see [NVIDIA B300 vs B200 vs H200](/bits/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/).
 
 ## What can you run on an A100?
 

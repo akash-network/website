@@ -137,7 +137,7 @@ Supply is a separate constraint from price. [Thunder Compute's September 2026 ma
 
 ## Will H100, H200 and B200 become better alternatives to Blackwell and Rubin?
 
-For inference and fine-tuning, H100 and H200 look like the value tier. The reported increases apply to new 2027 rack systems, so Hopper GPUs already installed are not affected by them. Hopper is also better supplied and cheaper per hour today.
+For inference and fine-tuning, [H100](/pricing/gpus/h100/) and [H200](/pricing/gpus/h200/) look like the value tier. The reported increases apply to new 2027 rack systems, so Hopper GPUs already installed are not affected by them. Hopper is also better supplied and cheaper per hour today.
 
 | GPU | Memory | Median price per hour | Confirmed stock share | Covered by reported 2027 increases? |
 |---|---|---|---|---|
@@ -156,7 +156,7 @@ Hopper pricing is also not falling. [SemiAnalysis's H100 rental index](https://n
 
 One practical caution on AMD: AIMultiple notes MI300X lists below the H100 floor at some providers, but it runs on ROCm rather than CUDA, and not every workload ports cleanly.
 
-**Takeaway:** H100 and H200 are the value tier for inference and fine-tuning, but run the cost-per-run math before ruling out B200 for training.
+**Takeaway:** H100 and H200 are the value tier for inference and fine-tuning, but run the cost-per-run math before ruling out [B200](/pricing/gpus/b200/) for training.
 
 ## How will higher GPU prices affect AI training and inference costs?
 
@@ -191,7 +191,7 @@ The discounts below are measured from AIMultiple's reserved-tier data, not proje
 | 1 year reserved | 5% to 38% off overall | Full-year commitment |
 | Multi-year | Deepest discounts, negotiated directly | Longest lock, resale value risk |
 
-The one-year discount varies sharply by GPU. AIMultiple measures B200 reserving at around 15% off and L40S at around 28% off, with the steepest discounts on B300 where providers compete hardest for committed buyers. H100 and H200 see only single-digit to low-teens discounts, because their on-demand market is already competitive enough that providers do not sacrifice margin.
+The one-year discount varies sharply by GPU. AIMultiple measures B200 reserving at around 15% off and L40S at around 28% off, with the steepest discounts on [B300](/pricing/gpus/b300/) where providers compete hardest for committed buyers. H100 and H200 see only single-digit to low-teens discounts, because their on-demand market is already competitive enough that providers do not sacrifice margin.
 
 Availability risk deserves equal weight to price risk. [SemiAnalysis reported on-demand capacity sold out](https://newsletter.semianalysis.com/p/the-great-gpu-shortage-rental-capacity) across GPU types, with holders unwilling to release capacity back into the pool even after price increases. A contract that guarantees machines carries value beyond the rate.
 

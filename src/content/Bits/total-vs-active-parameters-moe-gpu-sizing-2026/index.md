@@ -103,7 +103,7 @@ The takeaway: a 117B model fits on one GPU and a 125B model needs eight, because
 
 ## How many GPUs do you need to run a 70B or 405B model?
 
-At BF16, a 70B model's ~140GB floor fits on two 80GB GPUs (H100/A100) or one 141GB H200; a 405B model's ~810GB floor needs at least six H200s or ten 80GB GPUs. That is a bare-weights minimum with zero room for KV cache, activations, or the parallelism scheme the model actually ships with, so treat it as a starting point, not an order.
+At BF16, a 70B model's ~140GB floor fits on two 80GB GPUs ([H100](/pricing/gpus/h100/)/[A100](/pricing/gpus/a100/)) or one 141GB [H200](/pricing/gpus/h200/); a 405B model's ~810GB floor needs at least six H200s or ten 80GB GPUs. That is a bare-weights minimum with zero room for KV cache, activations, or the parallelism scheme the model actually ships with, so treat it as a starting point, not an order.
 
 The formula above gives a floor, not an answer. Qwen3.8-Flash-Next makes the gap concrete.
 
@@ -131,4 +131,4 @@ Sizing to total parameters means you are usually buying memory rather than FLOPs
 
 **Do fewer active parameters make an MoE model faster to run?** Not proportionally. Token generation is usually limited by memory bandwidth, not math, and the Mixtral authors note that routing adds overhead while running multiple experts per device increases memory loads. They describe MoE as best suited to batched workloads that reach good arithmetic intensity — the same threshold that determines whether you're compute- or bandwidth-bound in general.
 
-**When does a model need a multi-node GPU cluster instead of one 8-GPU server?** When its weights plus KV cache exceed the memory of the largest single node you can rent. An 8x H100 node holds 640GB, 8x H200 holds 1,128GB, and 8x B300 holds 2,304GB, so Kimi K3, with a 1.56TB checkpoint, needs two 8x B200 nodes but fits on one 8x B300 node. On Akash, as of October 22, 2026, that 8x B300 node costs \$48 an hour, against \$80 an hour for 16 B200s across two nodes.
+**When does a model need a multi-node GPU cluster instead of one 8-GPU server?** When its weights plus KV cache exceed the memory of the largest single node you can rent. An 8x H100 node holds 640GB, 8x H200 holds 1,128GB, and 8x [B300](/pricing/gpus/b300/) holds 2,304GB, so Kimi K3, with a 1.56TB checkpoint, needs two 8x [B200](/pricing/gpus/b200/) nodes but fits on one 8x B300 node. On Akash, as of October 22, 2026, that 8x B300 node costs \$48 an hour, against \$80 an hour for 16 B200s across two nodes.
