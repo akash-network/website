@@ -3,10 +3,11 @@ aep: 89
 title: "Unified Akash Command-Line Interface"
 description: "Establish akt as the single user-facing CLI and separate command ownership from daemon and library repositories"
 author: Joseph Chalabi (@chalabi2) Artur Troian (@troian)
-status: Draft
+status: Final (Core)
 type: Standard
 category: Interface
 created: 2026-08-14
+completed: 2026-10-08
 discussions-to: https://github.com/orgs/akash-network/discussions
 roadmap: major
 requires: 56, 63
@@ -89,12 +90,12 @@ boundary defined here.
 
 The Akash repositories have the following responsibilities after migration:
 
-| Repository | Responsibility |
-| --- | --- |
-| `akash-network/akt` | The canonical user-facing CLI, including local client state and workflows. |
-| `akash-network/chain-sdk` | Reusable protocol types, clients, signing support, SDL support, certificate support, and provider API libraries. |
-| `akash-network/node` | The blockchain node daemon and commands required to initialize, configure, operate, inspect, export, and test a node. |
-| `akash-network/provider` | The provider daemon and commands required to configure, migrate, operate, and inspect provider infrastructure. |
+| Repository                | Responsibility                                                                                                        |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `akash-network/akt`       | The canonical user-facing CLI, including local client state and workflows.                                            |
+| `akash-network/chain-sdk` | Reusable protocol types, clients, signing support, SDL support, certificate support, and provider API libraries.      |
+| `akash-network/node`      | The blockchain node daemon and commands required to initialize, configure, operate, inspect, export, and test a node. |
+| `akash-network/provider`  | The provider daemon and commands required to configure, migrate, operate, and inspect provider infrastructure.        |
 
 `akt`, the node, and the provider may each depend on Chain SDK libraries. The
 node and provider must not import `akt`, and they must not import a shared package
@@ -126,18 +127,18 @@ its consumers migrate. Other Chain SDK packages remain reusable libraries.
 names below define the top-level ownership and may gain compatible subcommands
 over time.
 
-| Activity | Canonical command group |
-| --- | --- |
-| Select a network, identity, and defaults | `akt context` |
-| Manage self-custodial keys | `akt context keys` |
-| Submit an arbitrary chain transaction | `akt tx` |
-| Query chain state | `akt query` or `akt q` |
-| Run a deployment lifecycle action | `akt deploy`, `akt update`, `akt close` |
-| Interact with a provider gateway | `akt provider` |
-| Use managed Console services | `akt console` |
-| Validate and inspect SDL | `akt sdl` |
-| Inspect local deployment records | `akt store` |
-| Observe chain, deployment, and provider state | `akt monitor` |
+| Activity                                      | Canonical command group                 |
+| --------------------------------------------- | --------------------------------------- |
+| Select a network, identity, and defaults      | `akt context`                           |
+| Manage self-custodial keys                    | `akt context keys`                      |
+| Submit an arbitrary chain transaction         | `akt tx`                                |
+| Query chain state                             | `akt query` or `akt q`                  |
+| Run a deployment lifecycle action             | `akt deploy`, `akt update`, `akt close` |
+| Interact with a provider gateway              | `akt provider`                          |
+| Use managed Console services                  | `akt console`                           |
+| Validate and inspect SDL                      | `akt sdl`                               |
+| Inspect local deployment records              | `akt store`                             |
+| Observe chain, deployment, and provider state | `akt monitor`                           |
 
 Aliases may be supplied for compatibility, but documentation and examples must
 use the canonical forms.
@@ -293,23 +294,23 @@ private keys, mnemonics, API keys, or unredacted secret request data.
 Migration occurs by command ownership, not by preserving every legacy command in
 every binary. The expected mapping is:
 
-| Legacy surface | Unified surface |
-| --- | --- |
-| `akash tx ...` | `akt tx ...` |
-| `akash query ...` and `akash q ...` | `akt query ...` and `akt q ...` |
-| `akash keys ...` | `akt context keys ...` |
-| User network and account configuration | `akt context ...` |
-| Deployment lifecycle scripts assembled from chain commands | `akt deploy`, `akt update`, `akt close` |
-| `provider-services status` | `akt provider status` |
-| `provider-services lease-status` | `akt provider lease-status` |
-| `provider-services lease-logs` | `akt provider lease-logs` |
-| `provider-services lease-events` | `akt provider lease-events` |
-| `provider-services lease-shell` | `akt provider lease-shell` |
-| `provider-services send-manifest` | `akt provider send-manifest` |
-| `provider-services get-manifest` | `akt provider get-manifest` |
-| `provider-services migrate-hostnames` | `akt provider migrate-hostnames` |
-| `provider-services migrate-endpoints` | `akt provider migrate-endpoints` |
-| Managed deployment API scripts | The same `akt` workflow commands under a Console context |
+| Legacy surface                                             | Unified surface                                          |
+| ---------------------------------------------------------- | -------------------------------------------------------- |
+| `akash tx ...`                                             | `akt tx ...`                                             |
+| `akash query ...` and `akash q ...`                        | `akt query ...` and `akt q ...`                          |
+| `akash keys ...`                                           | `akt context keys ...`                                   |
+| User network and account configuration                     | `akt context ...`                                        |
+| Deployment lifecycle scripts assembled from chain commands | `akt deploy`, `akt update`, `akt close`                  |
+| `provider-services status`                                 | `akt provider status`                                    |
+| `provider-services lease-status`                           | `akt provider lease-status`                              |
+| `provider-services lease-logs`                             | `akt provider lease-logs`                                |
+| `provider-services lease-events`                           | `akt provider lease-events`                              |
+| `provider-services lease-shell`                            | `akt provider lease-shell`                               |
+| `provider-services send-manifest`                          | `akt provider send-manifest`                             |
+| `provider-services get-manifest`                           | `akt provider get-manifest`                              |
+| `provider-services migrate-hostnames`                      | `akt provider migrate-hostnames`                         |
+| `provider-services migrate-endpoints`                      | `akt provider migrate-endpoints`                         |
+| Managed deployment API scripts                             | The same `akt` workflow commands under a Console context |
 
 The migration proceeds in four stages:
 
