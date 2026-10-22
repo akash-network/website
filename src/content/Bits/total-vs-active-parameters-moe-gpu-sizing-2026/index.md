@@ -1,7 +1,7 @@
 ---
 title: "Total vs Active Parameters: How Much GPU Memory Does an LLM Need?"
 pubDate: 2026-09-02
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Total parameters set how much GPU memory an LLM needs; active parameters set the compute cost per token. See why Kimi K3, at 104B active parameters, still needs 64+ accelerators."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "Total vs Active Parameters: LLM GPU Memory Guide (2026)"
 metaDescription: "How much GPU memory does an LLM need? Total parameters set memory, active sets compute cost — a sizing guide for MoE models like Mixtral and DeepSeek-V3."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 Total parameters set how much GPU memory you need. Active parameters set how much compute each token costs. Kimi K3 activates 104B parameters per token and still needs 64 or more accelerators, because sparsity governs compute, not footprint.
 

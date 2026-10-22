@@ -1,7 +1,7 @@
 ---
 title: "Grok 4.6 vs GPT-5.6 Sol vs Claude Fable 5: Pricing, Benchmarks, Performance & What's New (2026)"
 pubDate: 2026-08-14
-lastUpdated: 2026-08-14
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Grok 4.6 vs GPT-5.6 Sol vs Claude Fable 5 compared on API pricing, benchmarks, intelligence, and performance. See which 2026 frontier model is best."
 tags: ["Comparisons"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 [Grok 4.6](https://x.ai/), [GPT-5.6 Sol](https://openai.com/), and [Claude Fable 5](https://www.anthropic.com/) are the three frontier models in play in August 2026, and they sit within about two points of each other on published intelligence indexes. The gap that is not close is price: Grok 4.6 is \$2/\$6 per million tokens, GPT-5.6 Sol is \$5/\$30, and Claude Fable 5 is \$10/\$50.
 

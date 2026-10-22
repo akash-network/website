@@ -1,7 +1,7 @@
 ---
 title: "Qwen3.8-Flash-Next GPU Requirements, Context & Benchmarks (2026)"
 pubDate: 2026-08-26
-lastUpdated: 2026-08-26
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Qwen3.8-Flash-Next is 180B total / 6B active, 262K native context (1M with YaRN). FP8 is 173 GiB — here’s the GPU math, benchmarks, and cloud cost."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 Qwen3.8-Flash-Next is Alibaba's open-weight preview of the architecture behind Qwen4: a 180B-parameter hybrid model that activates only 6B parameters per token, natively handles 262,144 tokens of context (extensible to 1,000,000), and needs a multi-GPU cluster, not a single card, to serve at full precision — a quantized GGUF build is the only way around that, at a quality cost. Source: [Hugging Face model card](https://huggingface.co/Qwen/Qwen3.8-Flash-Next), [Unsloth docs](https://unsloth.ai/docs/models/qwen3.8-next).
 
@@ -151,13 +151,13 @@ For the full single-GPU cost breakdown, including the token volume where self-ho
 
 Yes. Since a single accelerator can't hold either checkpoint, most teams evaluating Qwen3.8-Flash-Next will rent a matching multi-GPU node rather than buy one.
 
-Using live rates from Akash's GPU marketplace, checked August 20, 2026, H200 SXM5 (141GB) starts at \$4.45 per GPU-hour ([NVIDIA H200 GPU Guide 2026](/bits/nvidia-h200-gpu-guide-2026-specs-benchmarks-pricing/)), and B300 (288GB, the standalone DGX B300 part) has been listed from \$6.00 per GPU-hour as a starting rate, checked August 7, 2026, though it doesn't yet have a dedicated self-serve availability page the way H100, H200, and A100 do, so treat it as a rate to confirm via a custom quote rather than guaranteed instant capacity ([Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 self-host guide](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/)).
+Using rates from Akash's GPU marketplace, H200 SXM5 (141GB) is listed at \$3.85 per GPU-hour as of October 22, 2026 ([NVIDIA H200 GPU Guide 2026](/bits/nvidia-h200-gpu-guide-2026-specs-benchmarks-pricing/)), and B300 (288GB, the standalone DGX B300 part) has been listed from \$6.00 per GPU-hour as a starting rate, checked October 22, 2026 (see [B300 pricing on Akash](/pricing/gpus/b300/)), though B300 capacity is limited, so treat it as a rate to confirm via a custom quote rather than guaranteed instant capacity ([Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 self-host guide](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/)).
 
 Rough monthly cost at these starting rates, running 24/7 (730 hours):
 
 | Config | GPUs | Rate used | Hourly | Monthly (730 hrs) |
 |---|---|---|---|---|
-| TEP8, 8x H200 (FP8) | 8 | \$4.45/GPU-hr | \$35.60 | ~\$25,988 |
+| TEP8, 8x H200 (FP8) | 8 | \$3.85/GPU-hr | \$30.80 | ~\$22,484 |
 | TP2, 2x B300 (FP8, minimum) | 2 | \$6.00/GPU-hr | \$12.00 | ~\$8,760 |
 | TP4, 4x B300 (FP8, full-tray) | 4 | \$6.00/GPU-hr | \$24.00 | ~\$17,520 |
 

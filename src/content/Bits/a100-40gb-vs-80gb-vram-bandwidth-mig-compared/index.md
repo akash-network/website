@@ -1,7 +1,7 @@
 ---
 title: "A100 40GB vs 80GB: VRAM, Bandwidth &amp; MIG Compared for GPU Cloud (2026 Decision Guide)"
 pubDate: 2026-08-17
-lastUpdated: 2026-08-17
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "NVIDIA A100 40GB vs 80GB compared: HBM2 vs HBM2e, memory bandwidth (1.55 vs 2.04 TB/s), MIG slice sizes, and which models fit each card. How to choose in 2026."
 tags: ["Comparisons", "Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 For most 2026 workloads the split is simple: pick the A100 40GB for LoRA and QLoRA fine-tuning and quantized inference on models up to about 13B parameters, and pick the A100 80GB to serve 13B to 70B models, run context lengths past 32K, or hold full precision without quantization. Both cards ship the same 6,912 CUDA cores and the same 19.5 TFLOPS of FP32 compute. The only differences that decide the pick are memory capacity, memory bandwidth, and MIG slice size.
 

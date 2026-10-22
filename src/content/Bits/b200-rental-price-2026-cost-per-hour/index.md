@@ -1,7 +1,7 @@
 ---
 title: "NVIDIA B200 (Blackwell) GPU Rental Price in September 2026: Starting from $5/Hour"
 pubDate: 2026-09-24
-lastUpdated: 2026-09-24
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "NVIDIA B200 GPU rental price in 2026, including cost per hour, Akash pricing, Blackwell GPU specs, model sizing, B200 vs B300, and cloud GPU options."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "NVIDIA B200 GPU Rental Price 2026 | Cost/Hour & Blackwell"
 metaDescription: "NVIDIA B200 GPU rental price in 2026, including cost per hour, Akash pricing, Blackwell GPU specs, model sizing, B200 vs B300, and cloud GPU options."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026. Prices checked September 24, 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026. Prices checked September 24, 2026; Akash H100 and H200 rates checked October 22, 2026.*
 
 On Akash, the B200 GPU rental price starts from \$5.00 per GPU-hour as of September 2026, according to [Akash GPU pricing](/pricing/gpus/). For that you get one NVIDIA B200 with 180GB of HBM3e and 8 TB/s of memory bandwidth, billed on demand with no long-term contract.
 
@@ -85,14 +85,14 @@ It depends on whether you're paying for hours or for throughput. A B300 has 288G
 
 | Model | B200 on Akash | B300 on Akash | H200 on Akash |
 |---|---|---|---|
-| DeepSeek-V4-Flash | 2 GPUs, \$10.00/hr | 1 GPU, \$6.00/hr | 2 GPUs, \$8.90/hr |
-| Qwen3.5-397B-A17B | 4 GPUs, \$20.00/hr | 2 GPUs, \$12.00/hr | 4 GPUs, \$17.80/hr |
-| Kimi K2.6 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$35.60/hr |
-| GLM-5.2 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$35.60/hr |
-| DeepSeek-V4-Pro | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$35.60/hr |
-| Kimi K3 | 16 GPUs, \$80.00/hr | 8 GPUs, \$48.00/hr | 16 GPUs, \$71.20/hr |
+| DeepSeek-V4-Flash | 2 GPUs, \$10.00/hr | 1 GPU, \$6.00/hr | 2 GPUs, \$7.70/hr |
+| Qwen3.5-397B-A17B | 4 GPUs, \$20.00/hr | 2 GPUs, \$12.00/hr | 4 GPUs, \$15.40/hr |
+| Kimi K2.6 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$30.80/hr |
+| GLM-5.2 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$30.80/hr |
+| DeepSeek-V4-Pro | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$30.80/hr |
+| Kimi K3 | 16 GPUs, \$80.00/hr | 8 GPUs, \$48.00/hr | 16 GPUs, \$61.60/hr |
 
-Same sizing method as the table above. Akash rates used here: B200 \$5.00, B300 \$6.00, H200 \$4.45 per GPU-hour. Actual marketplace prices can vary.
+Same sizing method as the table above. Akash rates used here: B200 \$5.00, B300 \$6.00, H200 \$3.85 per GPU-hour. Actual marketplace prices can vary.
 
 At these example configurations, the B300 has the lower hourly GPU cost for every model in the table because its larger memory capacity can reduce the number of GPUs required.
 
@@ -104,14 +104,14 @@ As a starting point: for a memory-capacity-constrained job, B300 can lower the h
 
 On Akash, the B200 is priced at \$5.00 per GPU-hour, equivalent to about \$0.625 per TB/s of memory bandwidth per hour. That is the lowest bandwidth-adjusted cost among the four GPUs in this comparison.
 
-For workloads where LLM decode is primarily limited by GPU memory bandwidth, this provides a useful estimate of relative token economics. Using the B200 as the baseline, the H100 costs about 22% more per unit of memory bandwidth, the B300 about 20% more, and the H200 about 48% more.
+For workloads where LLM decode is primarily limited by GPU memory bandwidth, this provides a useful estimate of relative token economics. Using the B200 as the baseline, the H100 costs about 30% more per unit of memory bandwidth, the B300 about 20% more, and the H200 about 28% more.
 
 | GPU | Memory (GB) | Bandwidth (TB/s) | Akash rate (USD/GPU-hr) | Cost per TB/s-hour (USD) | Estimated relative cost per token* | Cost per GB-hour (USD) |
 |---|---|---|---|---|---|---|
 | B200 | 180 | 8.0 | \$5.00 | \$0.625 | 1.00x | \$0.0278 |
 | B300 | 288 | 8.0 | \$6.00 | \$0.750 | 1.20x | \$0.0208 |
-| H100 SXM | 80 | 3.35 | \$2.56 | \$0.764 | 1.22x | \$0.0320 |
-| H200 | 141 | 4.8 | \$4.45 | \$0.927 | 1.48x | \$0.0316 |
+| H200 | 141 | 4.8 | \$3.85 | \$0.802 | 1.28x | \$0.0273 |
+| H100 SXM | 80 | 3.35 | \$2.73 | \$0.815 | 1.30x | \$0.0341 |
 
 *Estimated relative cost per token is calculated from hourly rental cost divided by peak memory bandwidth, with the B200 set to 1.00x. It is a bandwidth-based proxy, not a measured tokens-per-second benchmark. The comparison assumes decode is primarily memory-bandwidth-bound. Specs from [NVIDIA DGX B200](https://www.nvidia.com/en-us/data-center/dgx-b200/) and [NVIDIA H200](https://www.nvidia.com/en-us/data-center/h200/).
 
@@ -191,7 +191,7 @@ The usual path is to test a workload at on-demand pricing first, then move stead
 
 **Does the B200 support FP4 models like Kimi K3 and DeepSeek V4?** Yes. The B200 has FP4 Tensor Cores, and NVIDIA rates an 8-GPU B200 system at up to 144 PFLOPS of FP4 compute. That matters because Kimi K3 ships in MXFP4 and DeepSeek V4 in mixed FP4 and FP8. The previous-generation H100 and H200 don't have FP4 Tensor Cores.
 
-**How much faster is a B200 than an H100?** A B200 has 8 TB/s of memory bandwidth, 2.4 times the H100 SXM's 3.35 TB/s, and 180GB of memory versus 80GB. The actual speedup in LLM serving depends on the model, quantization, batch size, and software stack, so benchmark your workload. On Akash, a B200 costs \$5.00 per GPU-hour and an H100 \$2.56.
+**How much faster is a B200 than an H100?** A B200 has 8 TB/s of memory bandwidth, 2.4 times the H100 SXM's 3.35 TB/s, and 180GB of memory versus 80GB. The actual speedup in LLM serving depends on the model, quantization, batch size, and software stack, so benchmark your workload. On Akash, a B200 costs \$5.00 per GPU-hour and an H100 \$2.73.
 
 **Do I need a contract to rent B200 GPUs on Akash?** No. You can rent B200s on Akash on demand at \$5.00 per GPU-hour with no contract and stop whenever you like. Teams with steady workloads can move to reserved capacity through [Akash Enterprise](/use-cases/enterprise/), which adds a committed term, an SLA, invoice billing in USD, and bare-metal options.
 

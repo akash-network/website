@@ -1,7 +1,7 @@
 ---
 title: "GPU Compute vs Memory Bandwidth: The Two Limits of LLM Inference"
 pubDate: 2026-09-01
-lastUpdated: 2026-09-01
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "GPU compute governs prompt processing (prefill); memory bandwidth is usually the limit on token generation (decode) — though KV-cache access, batching, and kernel efficiency can shift it. See the ops:byte ratio that tells you which applies to your workload."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "GPU Compute vs Memory Bandwidth: LLM Inference Bottlenecks (2026)"
 metaDescription: "GPU compute drives prompt processing, memory bandwidth drives token generation. Learn the ops:byte ratio for H100, H200, B200, and A100 to find your GPU bottleneck."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 *AI Infrastructure Engineering 101, Part 2.*
 

@@ -1,7 +1,7 @@
 ---
 title: "Does Enterprise AI Leak Your Company Data? The Reverse Information Paradox Explained"
 pubDate: 2026-07-22
-lastUpdated: 2026-07-22
+lastUpdated: 2026-10-22
 author: "Joe, Community Manager"
 description: "Microsoft CEO Satya Nadella's Reverse Information Paradox explains how enterprises leak proprietary know-how to AI vendors. Here is why it happens and how open models on compute you control fix it."
 tags: ["Enterprise AI", "Open Source AI", "AI Privacy", "AkashML"]
@@ -9,7 +9,7 @@ bannerImage: ./banner.webp
 draft: false
 ---
 
-*Last updated: July 2026*
+*Last updated: October 2026*
 
 The Reverse Information Paradox, coined by Microsoft CEO Satya Nadella in a July 2026 essay, is the problem that enterprises using AI pay twice: once in cash, and again in the proprietary knowledge they must feed a model to make it useful. The fix is to run open models on compute you control, so that knowledge compounds for your firm instead of your vendor.
 

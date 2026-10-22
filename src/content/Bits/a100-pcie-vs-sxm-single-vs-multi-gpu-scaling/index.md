@@ -1,7 +1,7 @@
 ---
 title: "A100 PCIe vs SXM in 2026: Single-GPU vs Multi-GPU Scaling Reality Check"
 pubDate: 2026-08-18
-lastUpdated: 2026-08-18
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "The A100 PCIe and A100 SXM deliver near-identical single-GPU speed, but SXM's NVLink and NVSwitch pull ahead across multiple GPUs. What differs between the two form factors, a benchmark where SXM runs about 4.4x faster at 4 GPUs, and when to pick each."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: August 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 For a single GPU, the A100 PCIe and the A100 SXM perform almost identically: both have 80GB of HBM2e, both hit 19.5 TFLOPS FP32, and they sit within about 5% on memory bandwidth. For the full spec rundown, see the [NVIDIA A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/). The scaling gap only opens with multiple GPUs, where the SXM form factor's NVLink and NVSwitch interconnect pull far ahead of PCIe.
 

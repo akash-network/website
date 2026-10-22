@@ -1,7 +1,7 @@
 ---
 title: "Blackwell & Vera Rubin GPU Price Increase 2027: How Much Will GPU Rental Prices Rise?"
 pubDate: 2026-09-06
-lastUpdated: 2026-09-06
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "NVIDIA Blackwell 300 and Vera Rubin 200 GPU prices are set to rise 15% to 17% in 2027 as memory costs surge 435%. See how the GPU price increase affects H100, H200, B200, and B300 rental rates, and whether to buy, rent, or reserve GPU capacity now."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "NVIDIA Blackwell & Vera Rubin GPU Price Hike 2027"
 metaDescription: "NVIDIA Blackwell and Vera Rubin GPU prices rise 15-17% in 2027 on surging memory costs. See the impact on GPU rental prices for H100, H200, B200, and B300."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 [Bloomberg reported on August 22, 2026](https://fortune.com/2026/08/22/nvidia-customers-ai-related-price-hikes-15-percent-vera-rubin-grace-blackwell-chips/) that NVIDIA has told large customers to expect price increases above 15% on Grace Blackwell and Vera Rubin servers shipping in early 2027. [The Information reported the figure at around 17%](https://www.duckittech.com/news/nvidia-vera-rubin-and-blackwell-server-prices-could-rise-17-as-memory-costs-surge). Rising memory costs are the reason given in both reports.
 

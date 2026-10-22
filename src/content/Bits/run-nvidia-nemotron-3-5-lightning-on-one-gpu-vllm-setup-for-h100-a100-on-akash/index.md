@@ -1,7 +1,7 @@
 ---
 title: "Run NVIDIA Nemotron 3.5 Lightning on One GPU: vLLM Setup for H100 & A100 on Akash (2026)"
 pubDate: 2026-08-13
-lastUpdated: 2026-08-13
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Run NVIDIA Nemotron 3.5 Lightning with vLLM on a single H100 or A100 (August 2026). GPU and VRAM requirements, benchmarks, and a ready-to-deploy on Akash."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 You can run NVIDIA Nemotron 3.5 Lightning with [vLLM](/blog/running-vllm-on-akash/) on a single 80GB GPU: one H100 or one A100 serves the BF16 build, which needs roughly 60GB of VRAM. Nemotron 3.5 Lightning is an open 30-billion-parameter Mixture-of-Experts model (3B active) that NVIDIA released on August 11, 2026, built for the high-volume execution layer of long-running AI agents.
 
@@ -21,7 +21,7 @@ You can run NVIDIA Nemotron 3.5 Lightning with [vLLM](/blog/running-vllm-on-akas
 - **H100 vs A100:** both hold the ~60GB BF16 weights on one 80GB card. The A100 is the cheaper choice for standard serving; step up to the H100 for higher throughput per GPU and NVFP4 speculative decoding.
 - **Size and design:** 30B total parameters, 3B active per token, on a hybrid Mamba-2 + MoE + attention architecture, with a context window up to 1M tokens.
 - **Performance:** scores 81.6 on MMLU Pro, 75.6 on GPQA Diamond, and 52.8 on SWE-bench Verified (NVFP4 checkpoint). It ties gpt-oss-120b on the Artificial Analysis Intelligence Index (24) at roughly a quarter of the total parameters.
-- **Speed and cost:** the fastest model in its class in Artificial Analysis testing at roughly 669 tokens per second, up to 4x the output speed of similar-sized models. On [Akash](/pricing/gpus/), checked August 13, 2026, an A100 is priced at \$1.86/GPU-hr and an H100 at \$2.58/GPU-hr, a fraction of hyperscaler on-demand rates.
+- **Speed and cost:** the fastest model in its class in Artificial Analysis testing at roughly 669 tokens per second, up to 4x the output speed of similar-sized models. On [Akash](/pricing/gpus/), checked October 22, 2026, an A100 is priced at \$1.67/GPU-hr and an H100 at \$2.73/GPU-hr, a fraction of hyperscaler on-demand rates.
 
 Need bare-metal GPU access, or affordable, high-performance GPU compute? From training models to running inference to deploying containerized apps, [Akash](/pricing/gpus/) covers all your compute needs — see the [GPUs on demand](/gpus-on-demand/) form for large clusters or reserved capacity in any quantity.
 
@@ -56,10 +56,10 @@ Pick the A100 for standard BF16 serving at the lowest cost per GPU-hour, and pic
 | Fits BF16 weights (~60GB) | Yes | Yes |
 | Memory bandwidth | 2.0 TB/s | 3.35 TB/s |
 | Native FP4/FP8 tensor cores | No (BF16/W4A16 paths) | Yes (NVFP4-accelerated) |
-| Akash price (checked Aug 13, 2026) | \$1.86/GPU-hr | \$2.58/GPU-hr |
+| Akash price (checked Oct 22, 2026) | \$1.67/GPU-hr | \$2.73/GPU-hr |
 | Best fit | Cost-sensitive BF16 serving | High-throughput or NVFP4 serving |
 
-The takeaway: if you're serving the BF16 checkpoint at moderate concurrency, the A100 does the job for roughly 28% less per hour. Reach for the H100 when concurrency climbs, when you want NVFP4's speculative-decoding speedup, or when you're running the full 1M-token context at scale.
+The takeaway: if you're serving the BF16 checkpoint at moderate concurrency, the A100 does the job for roughly 39% less per hour. Reach for the H100 when concurrency climbs, when you want NVFP4's speculative-decoding speedup, or when you're running the full 1M-token context at scale.
 
 ## How do you run Nemotron 3.5 Lightning with vLLM?
 
@@ -312,12 +312,12 @@ The takeaway: Nemotron 3.5 Lightning finishes a representative agent task in abo
 
 ## How much does it cost to run Nemotron 3.5 Lightning on GPU cloud?
 
-Because Nemotron 3.5 Lightning fits on one 80GB GPU, its serving cost is essentially the price of a single GPU-hour, and that price varies widely by provider. On the [Akash marketplace](/pricing/gpus/), checked August 13, 2026, an A100 is priced at \$1.86/GPU-hr and an H100 at \$2.58/GPU-hr, a fraction of hyperscaler on-demand rates. Since the model runs fine on an A100, picking the A100 is the cheaper way to serve it.
+Because Nemotron 3.5 Lightning fits on one 80GB GPU, its serving cost is essentially the price of a single GPU-hour, and that price varies widely by provider. On the [Akash marketplace](/pricing/gpus/), checked October 22, 2026, an A100 is priced at \$1.67/GPU-hr and an H100 at \$2.73/GPU-hr, a fraction of hyperscaler on-demand rates. Since the model runs fine on an A100, picking the A100 is the cheaper way to serve it.
 
 | Provider (GPU, on-demand) | Approx. \$/GPU-hour | As of |
 |---|---|---|
-| Akash (A100, 80GB SXM4) | \$1.86 (starting rate) | Aug 13, 2026 |
-| Akash (H100, 80GB SXM5) | \$2.58 (starting rate) | Aug 13, 2026 |
+| Akash (A100, 80GB SXM4) | \$1.67 (weighted average) | Oct 22, 2026 |
+| Akash (H100, 80GB SXM5) | \$2.73 (weighted average) | Oct 22, 2026 |
 | Vast.ai (H100, spot) | ~\$1.49 | Feb 2026 |
 | Broad H100 market | \$1.40 to \$8.00+ | May 2026 |
 | Hyperscaler H100 (Azure/GCP) | ~\$7 to over \$10 | 2026 |
@@ -334,7 +334,7 @@ The takeaway: the same Nemotron 3.5 Lightning inference workload can cost severa
 
 **Can Nemotron 3.5 Lightning run on a single GPU?** Yes. Nemotron 3.5 Lightning is designed for single-GPU deployment on one 80GB card, either an H100 or an A100. Thanks to its 4-bit NVFP4 checkpoint it also runs on a GeForce RTX 5090, a DGX Spark, and, through W4A16 kernels, on older Ampere-class GPUs. Multi-GPU setups are only needed for very high concurrency at the full 1M-token context.
 
-**Should you run Nemotron 3.5 Lightning on an H100 or an A100?** Both work, since both are 80GB cards that hold the ~60GB BF16 weights. The A100, priced at \$1.86/GPU-hr on Akash as of August 13, 2026, is the cheaper choice for standard serving. The H100, at \$2.58/GPU-hr, is worth the premium for higher throughput or NVFP4 speculative decoding.
+**Should you run Nemotron 3.5 Lightning on an H100 or an A100?** Both work, since both are 80GB cards that hold the ~60GB BF16 weights. The A100, priced at \$1.67/GPU-hr on Akash as of October 22, 2026, is the cheaper choice for standard serving. The H100, at \$2.73/GPU-hr, is worth the premium for higher throughput or NVFP4 speculative decoding.
 
 **How much VRAM does Nemotron 3.5 Lightning need?** It depends on the checkpoint. The BF16 build needs roughly 60GB of VRAM for weights, so a single 80GB H100 or A100 holds it with headroom for KV cache. The NVFP4 (4-bit) build is much smaller, in the mid-teens of gigabytes, which is why it fits a 32GB GeForce RTX 5090 and leaves more room for concurrency and long context on an 80GB card.
 
@@ -346,4 +346,4 @@ The takeaway: the same Nemotron 3.5 Lightning inference workload can cost severa
 
 **How do you deploy Nemotron 3.5 Lightning on Akash?** Write an SDL manifest that requests a single H100 or A100, runs the `vllm/vllm-openai` server image, and sets a maximum bid, then deploy it through Akash Console. Complete working manifests for both an H100 and an A100 are in the deployment section above. You add your Hugging Face token, deploy, and get an OpenAI-compatible endpoint on port 8000, with providers bidding your GPU-hour price down through the reverse auction.
 
-**How much does it cost to run Nemotron 3.5 Lightning?** Since the model fits on one GPU, cost tracks a single GPU-hour. On the Akash marketplace, checked August 13, 2026, an A100 runs \$1.86/GPU-hr and an H100 runs \$2.58/GPU-hr, versus roughly \$7 to \$10-plus per hour for hyperscaler H100 on-demand pricing. Because Nemotron 3.5 Lightning runs on an A100, the lower A100 rate is the cheapest way to keep it served, and for always-on agents that per-hour choice compounds directly into monthly spend.
+**How much does it cost to run Nemotron 3.5 Lightning?** Since the model fits on one GPU, cost tracks a single GPU-hour. On the Akash marketplace, checked October 22, 2026, an A100 runs \$1.67/GPU-hr and an H100 runs \$2.73/GPU-hr, versus roughly \$7 to \$10-plus per hour for hyperscaler H100 on-demand pricing. Because Nemotron 3.5 Lightning runs on an A100, the lower A100 rate is the cheapest way to keep it served, and for always-on agents that per-hour choice compounds directly into monthly spend.

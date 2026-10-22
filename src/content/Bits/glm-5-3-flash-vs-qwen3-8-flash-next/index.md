@@ -1,7 +1,7 @@
 ---
 title: "GLM-5.3-Flash vs Qwen3.8-Flash-Next: Performance, Context & Self-Hosting"
 pubDate: 2026-08-27
-lastUpdated: 2026-08-27
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Compare GLM-5.3-Flash and Qwen3.8-Flash-Next on performance, context length, architecture, GPU requirements, and self-hosting."
 tags: ["Comparisons"]
@@ -12,7 +12,7 @@ metaTitle: "GLM-5.3-Flash vs Qwen3.8-Flash-Next (2026)"
 metaDescription: "Compare GLM-5.3-Flash and Qwen3.8-Flash-Next on architecture, context window, self-hosting requirements, benchmarks, and licensing."
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 GLM-5.3-Flash and Qwen3.8-Flash-Next both launched on August 26, 2026 ([TechNode](https://technode.com/2026/08/26/alibabas-qwen-to-open-source-qwen3-8-flash-next-previewing-qwen4-architecture/)), and both are open-weight multimodal Mixture-of-Experts models using hybrid sparse and linear attention. GLM-5.3-Flash has the larger native context window (1M versus 262K) and a permissive MIT license; Qwen3.8-Flash-Next needs less memory to self-host at every quantization level and ships under a community license that needs checking before commercial use.
 

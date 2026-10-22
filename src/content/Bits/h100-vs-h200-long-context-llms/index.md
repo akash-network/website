@@ -1,7 +1,7 @@
 ---
 title: "H100 vs H200 for Long-Context LLMs: How Much More Context Fits in 141GB?"
 pubDate: 2026-08-21
-lastUpdated: 2026-08-22
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "H100 vs H200 for long-context LLMs: see why 80GB vs 141GB of VRAM can deliver up to 103× more aggregate KV-cache capacity, depending on model size and precision."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: August 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 The H200's 141GB holds between 2x and 103x more aggregate KV-cache token capacity than the H100's 80GB, not the 1.76x the nameplate numbers suggest. That capacity is a shared pool split across however many requests are running concurrently, not a single session's context window: a single session is separately capped by the model's own `max_position_embeddings` (128K for Llama 3.1, 131,072 with YaRN for Qwen3-32B) no matter how much memory is free. The multiplier itself is not the ratio of total memory. It is the ratio of what is left after the model weights are loaded, and that leftover is where the non-linearity lives.
 

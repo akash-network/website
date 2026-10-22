@@ -1,7 +1,7 @@
 ---
 title: "Qwen3.8-27B: Managed API vs Self-Hosting on GPU Cloud (2026)"
 pubDate: 2026-08-15
-lastUpdated: 2026-08-15
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Qwen3.8-27B managed API costs pennies at low volume, but a single H100 (~$2.04/GPU-hr) beats per-token pricing once you clear roughly 460M output tokens a month."
 tags: ["Comparisons"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 Use a managed API for Qwen3.8-27B when volume is low or bursty — you pay only per token and ship the same day. Self-host on a rented H100 (starting around \$2.04/GPU-hr, roughly \$1,469/month for an always-on card, on [Akash](/pricing/gpus/) as of August 15, 2026) once you generate steady volume above roughly 460 million output tokens per month, the point where the fixed GPU cost undercuts per-token billing.
 
