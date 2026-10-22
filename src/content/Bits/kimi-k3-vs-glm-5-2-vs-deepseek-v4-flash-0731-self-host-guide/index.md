@@ -151,3 +151,5 @@ There's a subtler reason to keep that loop closed, too: every prompt, correction
 
 **Do all three support 1M context?** All three advertise roughly 1,048,576-token context windows, but the memory cost differs sharply. Kimi K3 uses Kimi Delta Attention on three of every four layers, giving constant-size state rather than a growing KV cache. GLM-5.2 needs 8x B200 with FP8 KV cache to reach full context, notably more than the hardware that holds its weights.
 
+**How much does LLM hosting cost per month for Kimi K3, GLM-5.2, and DeepSeek V4 Flash?** Running 24/7 for 730 hours on Akash, DeepSeek V4 Flash 0731 on 2x H200 costs about \$5,621 a month, GLM-5.2 costs about \$11,242 on 4x H200 at INT4 or \$22,484 on 8x H200 at FP8, and Kimi K3 on 8x B300 costs about \$35,040. Those figures use the H200 rate of \$3.85 and the B300 rate of \$6.00 per GPU-hour as of October 22, 2026. A managed API costs less whenever your traffic doesn't keep the node busy.
+

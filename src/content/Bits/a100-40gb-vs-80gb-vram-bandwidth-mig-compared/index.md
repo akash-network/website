@@ -105,4 +105,6 @@ Both split into up to seven Multi-Instance GPU (MIG) partitions. On the 40GB eac
 The A100 40GB is the standard card for LoRA and QLoRA fine-tuning of 7B to 13B models. Step up to the 80GB only if your base model, sequence length, or batch size exceeds 40GB, or if you want to fine-tune larger models without optimizer offloading.
 
 **Is there a performance difference between the two A100 variants on training that fits in 40GB?**
+
+**Is the RTX A6000 GPU an alternative to the A100 40GB?** For single-GPU inference, it can be. The RTX A6000 is an Ampere workstation card with 48GB of GDDR6, 8GB more than the A100 40GB, and two cards can pool memory over a 2-way NVLink bridge at up to 112 GB/s ([NVIDIA](https://www.nvidia.com/en-us/products/workstations/rtx-a6000/)). The A100 40GB keeps the features that matter for serving and training at scale: HBM2 at 1,555 GB/s, MIG partitioning, and 600 GB/s NVLink on SXM. If you need more than 48GB on one card, the A100 80GB rents on [Akash](/pricing/gpus/) from \$1.07 per GPU-hour as of October 22, 2026.
 Almost none. Both cards have identical CUDA and Tensor Core counts and the same 19.5 TFLOPS FP32 and 312 TFLOPS FP16/BF16 throughput. For a compute-bound job that fits inside 40GB, the two perform the same; the 80GB only pulls ahead when the workload is memory-capacity or memory-bandwidth bound.

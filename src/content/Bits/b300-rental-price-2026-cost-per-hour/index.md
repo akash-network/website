@@ -137,3 +137,5 @@ Need B300s for months? [Akash Enterprise](/use-cases/enterprise/) offers reserve
 **Is the B300 worth it over an H200 for inference?** The B300 is worth it over an H200 when memory capacity is the constraint. It offers 288 GB against 141 GB and 8 TB/s against 4.8 TB/s, at a higher per-GPU-hour rate. For any model that fits in 141 GB, the H200 is the better value and the easier capacity to find.
 
 **Should I wait for the Rubin R100 instead of renting a B300?** No, waiting is rarely correct if you need capacity now. The Rubin R100 with 288 GB of HBM4 began shipping in the second half of 2026, with broad cloud availability expected in 2027. Renting rather than buying is precisely how you avoid being stranded by that transition.
+
+**How much does a B300 cost for a day or a week?** At Akash's on-demand rate of \$6.00 per GPU-hour, one B300 costs \$144 for 24 hours and \$1,008 for a 168-hour week. A full 8x B300 node costs \$1,152 a day or \$8,064 a week. Charges stop when you close the deployment, so short fine-tuning or evaluation runs pay only for the hours they use.
