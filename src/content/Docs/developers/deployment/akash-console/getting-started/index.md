@@ -238,6 +238,12 @@ From here you can:
 
 See [How Funding Works](/docs/getting-started/how-funding-works) for the full picture.
 
+### Work as a Team
+
+Create an organization from the switcher in the top bar to share projects, deployments and billing with your team. An organization has its own balance and cards, separate from your personal account, and does not get free trial credits. Its owners and members with the **Billing** role add cards and credits; admins can see billing but not change it.
+
+See [Organizations and Projects](/docs/developers/deployment/akash-console/organizations-and-projects) for roles, projects, invitations and budgets.
+
 ---
 
 ## Next Steps
