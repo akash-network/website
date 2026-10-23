@@ -1,7 +1,7 @@
 ---
 title: "A100 PCIe vs SXM in 2026: Single-GPU vs Multi-GPU Scaling Reality Check"
 pubDate: 2026-08-18
-lastUpdated: 2026-08-18
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "The A100 PCIe and A100 SXM deliver near-identical single-GPU speed, but SXM's NVLink and NVSwitch pull ahead across multiple GPUs. What differs between the two form factors, a benchmark where SXM runs about 4.4x faster at 4 GPUs, and when to pick each."
 tags: ["Guides"]
@@ -10,9 +10,9 @@ draft: false
 faqAccordion: true
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: August 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
-For a single GPU, the A100 PCIe and the A100 SXM perform almost identically: both have 80GB of HBM2e, both hit 19.5 TFLOPS FP32, and they sit within about 5% on memory bandwidth. For the full spec rundown, see the [NVIDIA A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/). The scaling gap only opens with multiple GPUs, where the SXM form factor's NVLink and NVSwitch interconnect pull far ahead of PCIe.
+For a single GPU, the [A100](/pricing/gpus/a100/) PCIe and the A100 SXM perform almost identically: both have 80GB of HBM2e, both hit 19.5 TFLOPS FP32, and they sit within about 5% on memory bandwidth. For the full spec rundown, see the [NVIDIA A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/). The scaling gap only opens with multiple GPUs, where the SXM form factor's NVLink and NVSwitch interconnect pull far ahead of PCIe.
 
 ## TL;DR
 
@@ -100,3 +100,5 @@ A100 rental rates change constantly and vary by form factor, commitment, and pro
 **How much faster is A100 SXM for multi-GPU training?** It depends on how much the GPUs communicate. In a memory-bound HPL-AI benchmark, a 4-GPU SXM4 system was about 4.4x faster than 4-GPU PCIe (~485 vs ~110 TFLOPS), consistent with SXM's far higher GPU-to-GPU bandwidth, though the result also depends on system topology. See the [NVIDIA developer-forum result](https://forums.developer.nvidia.com/t/hpc-benchmarks-discrepancy-between-a100-pcie-and-a100-smx4/201656). Communication-light workloads see far smaller gaps, and single-GPU workloads see none.
 
 **Can I run multi-GPU training on Akash?** You can run data-parallel and loosely-coupled multi-GPU jobs on Akash using standard GPU nodes, which suits most fine-tuning and inference scaling. For tightly-coupled training that needs NVLink, confirm the provider lists a genuine SXM/HGX A100 node before deploying. Akash's Starcluster initiative targets aggregating HGX-class clusters for this use case.
+
+**What is NVLink?** NVLink is NVIDIA's direct GPU-to-GPU interconnect, which lets GPUs exchange data without going through the PCIe bus. On the A100 it provides 600 GB/s per GPU, against 64 GB/s for PCIe Gen4 ([NVIDIA](https://www.nvidia.com/en-us/data-center/a100/)). SXM A100s get it across all eight GPUs through the HGX baseboard and NVSwitch, while PCIe A100s can only pair two cards with an NVLink bridge, which is why multi-GPU training scales so differently on the two form factors.

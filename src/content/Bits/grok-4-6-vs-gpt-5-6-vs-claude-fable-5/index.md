@@ -1,7 +1,7 @@
 ---
 title: "Grok 4.6 vs GPT-5.6 Sol vs Claude Fable 5: Pricing, Benchmarks, Performance & What's New (2026)"
 pubDate: 2026-08-14
-lastUpdated: 2026-08-14
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Grok 4.6 vs GPT-5.6 Sol vs Claude Fable 5 compared on API pricing, benchmarks, intelligence, and performance. See which 2026 frontier model is best."
 tags: ["Comparisons"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 [Grok 4.6](https://x.ai/), [GPT-5.6 Sol](https://openai.com/), and [Claude Fable 5](https://www.anthropic.com/) are the three frontier models in play in August 2026, and they sit within about two points of each other on published intelligence indexes. The gap that is not close is price: Grok 4.6 is \$2/\$6 per million tokens, GPT-5.6 Sol is \$5/\$30, and Claude Fable 5 is \$10/\$50.
 
@@ -132,3 +132,5 @@ Choose Grok 4.6 for the best price-to-capability ratio and output-heavy agent wo
 **Which model has the biggest context window?** GPT-5.6 Sol and Claude Fable 5 both offer roughly a 1M-token context window, larger than Grok 4.6's roughly 500K. Confirm the exact figures on each maker's developer documentation before relying on them, as the makers' marketing pages do not always state the number in plain text.
 
 **Is Grok 4.6 available yet?** Yes. [xAI](https://x.ai/) released Grok 4.6 on August 12, 2026 as a significant improvement over Grok 4.5 at the same price. It is the newest of the three models, following GPT-5.6 Sol on July 9 and Claude Fable 5 on June 9.
+
+**Is Claude Fable 5 free to use?** Not through the API. Anthropic bills Claude Fable 5 at \$10 per million input tokens and \$50 per million output tokens, with a 90% discount on cached input, which makes it the most expensive of the three models here. Check [Anthropic's pricing page](https://www.anthropic.com/pricing) for which claude.ai plans include it. If cost is the constraint, open-weight models on [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) such as DeepSeek V4 Flash 0731 run at \$0.14 input and \$0.28 output per million tokens.

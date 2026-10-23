@@ -1,7 +1,7 @@
 ---
 title: "NVIDIA B200 (Blackwell) GPU Rental Price in September 2026: Starting from $5/Hour"
 pubDate: 2026-09-24
-lastUpdated: 2026-09-24
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "NVIDIA B200 GPU rental price in 2026, including cost per hour, Akash pricing, Blackwell GPU specs, model sizing, B200 vs B300, and cloud GPU options."
 tags: ["Guides"]
@@ -12,15 +12,15 @@ metaTitle: "NVIDIA B200 GPU Rental Price 2026 | Cost/Hour & Blackwell"
 metaDescription: "NVIDIA B200 GPU rental price in 2026, including cost per hour, Akash pricing, Blackwell GPU specs, model sizing, B200 vs B300, and cloud GPU options."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026. Prices checked September 24, 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026. Prices checked September 24, 2026; Akash H100 and H200 rates checked October 22, 2026.*
 
-On Akash, the B200 GPU rental price starts from \$5.00 per GPU-hour as of September 2026, according to [Akash GPU pricing](/pricing/gpus/). For that you get one NVIDIA B200 with 180GB of HBM3e and 8 TB/s of memory bandwidth, billed on demand with no long-term contract.
+On Akash, the [B200](/pricing/gpus/b200/) GPU rental price starts from \$5.00 per GPU-hour as of September 2026, according to [Akash GPU pricing](/pricing/gpus/). For that you get one NVIDIA B200 with 180GB of HBM3e and 8 TB/s of memory bandwidth, billed on demand with no long-term contract.
 
 ## TL;DR
 
 - **\$5.00 per GPU-hour on Akash:** At the rate used in this article, one B200 costs \$120 a day or \$3,600 a month running nonstop. A full 8-GPU configuration costs \$40 an hour, or \$28,800 a month. Akash's GPU pricing is dynamic, so verify the current rate before deploying.
 - **Trillion-parameter models can fit on one 8x B200 node by weight capacity:** Kimi K2.6 (1T parameters), GLM-5.2 (753B), and DeepSeek-V4-Pro (1.6T) have published checkpoints that fit within 1,440GB of B200 HBM. Kimi K3 (2.8T) exceeds that capacity and requires a multi-node configuration.
-- **Lowest bandwidth-adjusted cost of the four GPUs compared:** At the rental rates used here, a B200 costs \$0.625 per TB/s of peak memory bandwidth per hour, below the H100, H200, and B300 in this comparison. For memory-bandwidth-bound serving, that makes it a candidate for lower cost per token, but actual token economics require benchmarking.
+- **Lowest bandwidth-adjusted cost of the four GPUs compared:** At the rental rates used here, a B200 costs \$0.625 per TB/s of peak memory bandwidth per hour, below the [H100](/pricing/gpus/h100/), [H200](/pricing/gpus/h200/), and [B300](/pricing/gpus/b300/) in this comparison. For memory-bandwidth-bound serving, that makes it a candidate for lower cost per token, but actual token economics require benchmarking.
 - **B300 uses fewer GPUs for memory-heavy workloads; B200 offers more bandwidth per dollar:** B300's 288GB per GPU can reduce the number of GPUs required for some large models. When comparing configurations with more B200 GPUs, the B200 can provide more aggregate memory bandwidth per dollar, but actual throughput depends on the model and serving stack.
 - **64.9% below AWS list price:** At the rates used here, \$5.00 per B200 GPU-hour compares with about \$14.24 per GPU-hour for the AWS P6-B200 list rate, while Google Cloud's A4 8-GPU B200 configuration is \$64.44 per hour, or about \$8.06 per GPU-hour.
 
@@ -85,14 +85,14 @@ It depends on whether you're paying for hours or for throughput. A B300 has 288G
 
 | Model | B200 on Akash | B300 on Akash | H200 on Akash |
 |---|---|---|---|
-| DeepSeek-V4-Flash | 2 GPUs, \$10.00/hr | 1 GPU, \$6.00/hr | 2 GPUs, \$8.90/hr |
-| Qwen3.5-397B-A17B | 4 GPUs, \$20.00/hr | 2 GPUs, \$12.00/hr | 4 GPUs, \$17.80/hr |
-| Kimi K2.6 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$35.60/hr |
-| GLM-5.2 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$35.60/hr |
-| DeepSeek-V4-Pro | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$35.60/hr |
-| Kimi K3 | 16 GPUs, \$80.00/hr | 8 GPUs, \$48.00/hr | 16 GPUs, \$71.20/hr |
+| DeepSeek-V4-Flash | 2 GPUs, \$10.00/hr | 1 GPU, \$6.00/hr | 2 GPUs, \$7.70/hr |
+| Qwen3.5-397B-A17B | 4 GPUs, \$20.00/hr | 2 GPUs, \$12.00/hr | 4 GPUs, \$15.40/hr |
+| Kimi K2.6 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$30.80/hr |
+| GLM-5.2 | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$30.80/hr |
+| DeepSeek-V4-Pro | 8 GPUs, \$40.00/hr | 4 GPUs, \$24.00/hr | 8 GPUs, \$30.80/hr |
+| Kimi K3 | 16 GPUs, \$80.00/hr | 8 GPUs, \$48.00/hr | 16 GPUs, \$61.60/hr |
 
-Same sizing method as the table above. Akash rates used here: B200 \$5.00, B300 \$6.00, H200 \$4.45 per GPU-hour. Actual marketplace prices can vary.
+Same sizing method as the table above. Akash rates used here: B200 \$5.00, B300 \$6.00, H200 \$3.85 per GPU-hour. Actual marketplace prices can vary.
 
 At these example configurations, the B300 has the lower hourly GPU cost for every model in the table because its larger memory capacity can reduce the number of GPUs required.
 
@@ -104,14 +104,14 @@ As a starting point: for a memory-capacity-constrained job, B300 can lower the h
 
 On Akash, the B200 is priced at \$5.00 per GPU-hour, equivalent to about \$0.625 per TB/s of memory bandwidth per hour. That is the lowest bandwidth-adjusted cost among the four GPUs in this comparison.
 
-For workloads where LLM decode is primarily limited by GPU memory bandwidth, this provides a useful estimate of relative token economics. Using the B200 as the baseline, the H100 costs about 22% more per unit of memory bandwidth, the B300 about 20% more, and the H200 about 48% more.
+For workloads where LLM decode is primarily limited by GPU memory bandwidth, this provides a useful estimate of relative token economics. Using the B200 as the baseline, the H100 costs about 30% more per unit of memory bandwidth, the B300 about 20% more, and the H200 about 28% more.
 
 | GPU | Memory (GB) | Bandwidth (TB/s) | Akash rate (USD/GPU-hr) | Cost per TB/s-hour (USD) | Estimated relative cost per token* | Cost per GB-hour (USD) |
 |---|---|---|---|---|---|---|
 | B200 | 180 | 8.0 | \$5.00 | \$0.625 | 1.00x | \$0.0278 |
 | B300 | 288 | 8.0 | \$6.00 | \$0.750 | 1.20x | \$0.0208 |
-| H100 SXM | 80 | 3.35 | \$2.56 | \$0.764 | 1.22x | \$0.0320 |
-| H200 | 141 | 4.8 | \$4.45 | \$0.927 | 1.48x | \$0.0316 |
+| H200 | 141 | 4.8 | \$3.85 | \$0.802 | 1.28x | \$0.0273 |
+| H100 SXM | 80 | 3.35 | \$2.73 | \$0.815 | 1.30x | \$0.0341 |
 
 *Estimated relative cost per token is calculated from hourly rental cost divided by peak memory bandwidth, with the B200 set to 1.00x. It is a bandwidth-based proxy, not a measured tokens-per-second benchmark. The comparison assumes decode is primarily memory-bandwidth-bound. Specs from [NVIDIA DGX B200](https://www.nvidia.com/en-us/data-center/dgx-b200/) and [NVIDIA H200](https://www.nvidia.com/en-us/data-center/h200/).
 
@@ -146,7 +146,7 @@ Before you rent, check whether your model fits on one 8x B200 node, how many GPU
 - **Are you paying for hours or for tokens?** A B300 can fit some models on fewer GPUs because it has more memory per GPU. A B200 configuration can provide more aggregate memory bandwidth for a larger GPU count, which may benefit bandwidth-bound serving. Benchmark your own model before committing.
 - **Do you need more than one node?** For Kimi K3 or multi-node training, enable GPU interconnect when you deploy in [Akash Console](https://console.akash.network/new-deployment). Akash supports RDMA over InfiniBand and RoCE. You can require a specific fabric or let the provider choose.
 - **How many hours will it actually run?** At \$5/hour, one B200 running 24 hours a day for 30 days costs \$3,600. Running it for 16 hours per day costs about \$2,400 over 30 days. You need to actually close the deployment or use a runtime limit to stop billing.
-- **On-demand or reserved?** For bursty or experimental work, use on-demand capacity. For predictable production workloads, [Akash Enterprise](/use-cases/enterprise/) offers reserved B300, B200, H200, H100, and A100 capacity with dedicated enterprise support and SLA-backed options.
+- **On-demand or reserved?** For bursty or experimental work, use on-demand capacity. For predictable production workloads, [Akash Enterprise](/use-cases/enterprise/) offers reserved B300, B200, H200, H100, and [A100](/pricing/gpus/a100/) capacity with dedicated enterprise support and SLA-backed options.
 
 ## Is a B200 on Akash cheaper than on AWS or Google Cloud?
 
@@ -191,8 +191,10 @@ The usual path is to test a workload at on-demand pricing first, then move stead
 
 **Does the B200 support FP4 models like Kimi K3 and DeepSeek V4?** Yes. The B200 has FP4 Tensor Cores, and NVIDIA rates an 8-GPU B200 system at up to 144 PFLOPS of FP4 compute. That matters because Kimi K3 ships in MXFP4 and DeepSeek V4 in mixed FP4 and FP8. The previous-generation H100 and H200 don't have FP4 Tensor Cores.
 
-**How much faster is a B200 than an H100?** A B200 has 8 TB/s of memory bandwidth, 2.4 times the H100 SXM's 3.35 TB/s, and 180GB of memory versus 80GB. The actual speedup in LLM serving depends on the model, quantization, batch size, and software stack, so benchmark your workload. On Akash, a B200 costs \$5.00 per GPU-hour and an H100 \$2.56.
+**How much faster is a B200 than an H100?** A B200 has 8 TB/s of memory bandwidth, 2.4 times the H100 SXM's 3.35 TB/s, and 180GB of memory versus 80GB. The actual speedup in LLM serving depends on the model, quantization, batch size, and software stack, so benchmark your workload. On Akash, a B200 costs \$5.00 per GPU-hour and an H100 \$2.73.
 
 **Do I need a contract to rent B200 GPUs on Akash?** No. You can rent B200s on Akash on demand at \$5.00 per GPU-hour with no contract and stop whenever you like. Teams with steady workloads can move to reserved capacity through [Akash Enterprise](/use-cases/enterprise/), which adds a committed term, an SLA, invoice billing in USD, and bare-metal options.
 
 **How do I pay for B200 GPUs on Akash?** On-demand deployments are paid from your Akash Console balance, which you can top up with a [credit card](/blog/introducing-credit-card-payments-in-akash-console/). Billing runs per block while the deployment is live, so you stop paying when you close it. Reserved capacity through [Akash Enterprise](/use-cases/enterprise/) is invoiced in USD instead.
+
+**Is the NVIDIA B200 the same as the GB200?** No. The B200 is the Blackwell GPU itself. The GB200 is a superchip that pairs one Grace CPU with two Blackwell GPUs over NVLink-C2C, and 36 of them make up the liquid-cooled GB200 NVL72 rack with 72 GPUs ([NVIDIA](https://www.nvidia.com/en-us/data-center/gb200-nvl72/)). On Akash, B200s rent individually at \$5.00 per GPU-hour, or \$40.00 an hour for a full 8-GPU configuration, with no rack-scale commitment.

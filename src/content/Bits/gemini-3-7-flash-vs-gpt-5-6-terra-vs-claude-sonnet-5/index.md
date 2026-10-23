@@ -1,7 +1,7 @@
 ---
 title: "Gemini 3.7 Flash vs GPT-5.6 Terra vs Claude Sonnet 5: Pricing, Benchmarks & Performance (2026)"
 pubDate: 2026-08-14
-lastUpdated: 2026-08-14
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Gemini 3.7 Flash is the cheapest of the three at a blended $1.35 per million tokens, GPT-5.6 Terra leads most agentic coding benchmarks, and Claude Sonnet 5 leads knowledge work. Full pricing, benchmark, and speed comparison for August 2026."
 tags: ["Comparisons", "Alternatives", "Guides"]
@@ -12,7 +12,7 @@ metaTitle: "Gemini 3.7 Flash vs GPT-5.6 Terra vs Claude Sonnet 5 (2026)"
 metaDescription: "Compare Gemini 3.7 Flash, GPT-5.6 Terra, and Claude Sonnet 5 on pricing, coding benchmarks, speed, and context windows to pick the right model for 2026."
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 As of August 14, 2026, [Gemini 3.7 Flash](https://gemini.google.com/) is the cheapest of the three at a blended \$1.35 per million tokens and the fastest by output speed, [GPT-5.6 Terra](https://openai.com/) leads most agentic coding benchmarks, and [Claude Sonnet 5](https://www.anthropic.com/) leads knowledge work. All three are closed, API-only models, and two have price increases already scheduled.
 
@@ -135,7 +135,7 @@ If self-hosting rather than a managed endpoint is the goal, the thing that trips
 
 The integration cost is close to zero either way. [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) is a managed inference service on Akash Network, a GPU marketplace where independent providers bid to run workloads, and it exposes an OpenAI-compatible API, so pointing an existing app at it is a one-line base-URL change: the same effort as switching between any of the three closed models above. For [Claude Code](https://akashml.com/docs/guides/claude-code) specifically, you can set `ANTHROPIC_BASE_URL` to AkashML's Anthropic-compatible endpoint and remap tiers, slotting GLM-5.2 into the Opus tier and DeepSeek V4 Flash into the Sonnet tier, which runs agentic coding sessions against open weights without leaving the existing CLI workflow.
 
-If you would rather rent hardware than pay per token, [Akash's marketplace rates](/pricing/gpus/) as of mid-August 2026 are \$1.86/GPU-hr for an A100, \$2.58 for an H100, \$4.37 for an H200, \$5.00 for a B200, and \$6.00 for a B300, against roughly \$7 to over \$10 per hour for hyperscaler H100 on-demand capacity. Which card you need is decided by memory rather than hourly price, and the ordering inverts once you divide by capacity: the B300 is the most expensive GPU per hour but the cheapest per gigabyte of VRAM, which is the number that predicts the bill for memory-bound serving. A single B300 holds DeepSeek V4 Flash 0731 with roughly 130GB left for KV cache, while Kimi K3 does not fit an 8x H200 node at all. [Comparing the B300, B200, and H200 for self-hosting](/bits/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/) works through that math per model. Rates move with the reverse auction, so check [live Akash GPU pricing](/gpus-on-demand/) before planning around them.
+If you would rather rent hardware than pay per token, [Akash's marketplace rates](/pricing/gpus/) as of October 22, 2026 are \$1.67/GPU-hr for an [A100](/pricing/gpus/a100/), \$2.73 for an [H100](/pricing/gpus/h100/), \$3.85 for an [H200](/pricing/gpus/h200/), \$5.00 for a [B200](/pricing/gpus/b200/), and \$6.00 for a [B300](/pricing/gpus/b300/), against roughly \$7 to over \$10 per hour for hyperscaler H100 on-demand capacity. Which card you need is decided by memory rather than hourly price, and the ordering inverts once you divide by capacity: the B300 is the most expensive GPU per hour but the cheapest per gigabyte of VRAM, which is the number that predicts the bill for memory-bound serving. A single B300 holds DeepSeek V4 Flash 0731 with roughly 130GB left for KV cache, while Kimi K3 does not fit an 8x H200 node at all. [Comparing the B300, B200, and H200 for self-hosting](/bits/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/) works through that math per model. Rates move with the reverse auction, so check [live Akash GPU pricing](/gpus-on-demand/) before planning around them.
 
 The honest tradeoff: the closed three still lead on the hardest agentic and computer-use tasks, ship polished multimodal features, and require no infrastructure decisions. A rented node also bills whether requests arrive or not, so for spiky traffic a managed endpoint usually beats self-hosting on cost. What open weights buy is the option: price set by competition rather than by a vendor, plus air-gapping, data residency, custom fine-tunes, and the right to keep running a model after its creator deprecates it. The real 2026 decision is not only which of the three closed APIs to pick, but whether a closed API is the right layer at all.
 
@@ -185,3 +185,5 @@ For most teams the practical answer is two models rather than one: a cheap, fast
 **Are these benchmark scores independently verified?** Partly. The cross-model scores here come from Google's own launch comparison table, so competitor numbers are vendor-run. OpenAI also published an audit on July 8, 2026 finding roughly 30% of SWE-bench Pro tasks flawed. Treat all figures as directional and test on your own workload.
 
 **How much cheaper are open-weight models than these three?** GLM-5.2 costs about \$1.10 per million tokens blended on [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) and DeepSeek V4 Flash 0731 about \$0.17, against \$1.35 for Gemini 3.7 Flash, \$3.60 for Claude Sonnet 5, and \$4.00 for GPT-5.6 Terra. GLM-5.2 undercuts all three while scoring 51 on the Artificial Analysis Intelligence Index against their 52 to 55.
+
+**Is DeepSeek V4 Flash better than OpenAI's GPT-5.6 Terra?** Not on capability. On the Artificial Analysis Intelligence Index, DeepSeek V4 Flash 0731 scores 50 against GPT-5.6 Terra's 57. On price it wins by a wide margin, blending to \$0.17 per million tokens on [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) against \$4.00 for Terra, about a twentieth of the cost, and its MIT-licensed weights can be self-hosted, for example on 2x H200 at \$7.70 an hour on Akash. For high-volume work that doesn't need Terra's top-end accuracy, DeepSeek is the better value.

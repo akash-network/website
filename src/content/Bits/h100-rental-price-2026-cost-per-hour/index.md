@@ -1,7 +1,7 @@
 ---
 title: "H100 Rental Price in September 2026: Cost Per Hour by GPU Provider"
 pubDate: 2026-08-19
-lastUpdated: 2026-09-12
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "How much does an NVIDIA H100 cost to rent in September 2026? Compare H100 prices from Akash, GPU clouds, and hyperscalers, with rates ranging from about $2 to $12 per GPU-hour."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 Renting an NVIDIA [H100](https://www.nvidia.com/en-us/data-center/h100/) costs about \$2 to \$12 per GPU-hour on-demand in 2026. Most single-GPU on-demand rates cluster between \$2 and \$7, interruptible spot capacity can dip below \$2, and the priciest hyperscaler 8-GPU nodes reach roughly \$12.29 per GPU-hour. One widely cited aggregator puts the market median near \$3.39.
 
@@ -35,7 +35,7 @@ Prices checked September 12, 2026, in US regions. Rates elsewhere can differ by 
 |---|---|---|---|---|
 | Vast.ai | Marketplace host | Mixed | Marketplace (interruptible) | ~\$1.73 and up |
 | [RunPod](https://www.runpod.io/pricing) | Community Cloud | PCIe | On-demand | ~\$1.99 |
-| Akash | Marketplace | SXM5 | Marketplace | ~\$2.71 |
+| Akash | Marketplace | SXM5 | Marketplace | ~\$2.73 |
 | RunPod | Secure Cloud | PCIe | On-demand | ~\$2.89 |
 | Lambda | On-demand | PCIe | On-demand | ~\$3.29 |
 | Lambda | On-demand | SXM5 | On-demand | ~\$3.99 |
@@ -45,7 +45,7 @@ Prices checked September 12, 2026, in US regions. Rates elsewhere can differ by 
 | [Google Cloud](https://cloud.google.com/compute/gpus-pricing) | a3-highgpu-8g (8x) | SXM5 | On-demand | ~\$11.06 |
 | Azure | ND96isr H100 v5 (8x) | SXM5 | On-demand | ~\$12.29 |
 
-Source: [GetDeploying H100 index](https://getdeploying.com/gpus/nvidia-h100), cross-checked against each provider's own pricing page, all checked September 12, 2026. Akash figure is the live weighted-average rate shown on the [Akash GPU pricing page](/pricing/gpus/), sourced from the [Akash console GPU pricing API](https://console-api.akash.network/v1/gpu-prices), checked September 12, 2026 (range on that date: \$2.04 to \$3.16) — check the current number before deploying, since the live rate varies with marketplace supply.
+Source: [GetDeploying H100 index](https://getdeploying.com/gpus/nvidia-h100), cross-checked against each provider's own pricing page, all checked September 12, 2026. Akash figure is the live weighted-average rate shown on the [Akash GPU pricing page](/pricing/gpus/h100/), sourced from the [Akash console GPU pricing API](https://console-api.akash.network/v1/gpu-prices), checked October 22, 2026 (range on that date: \$2.04 to \$3.16) — check the current number before deploying, since the live rate varies with marketplace supply.
 
 Two cautions on reading this table. First, these are different products: a marketplace host, a single-GPU PCIe instance, and an 8-GPU SXM node carry different performance, interconnect, and reliability, so a like-for-like comparison means matching form factor and node size, not just the dollar figure. Second, the AWS, Azure, and Google rates are standard on-demand list prices; the same providers sell the identical hardware for materially less through spot and multi-year commitments, covered next. For a worked example of what an Akash H100 rate means for a real workload's monthly bill, see the [Qwen self-hosting cost breakdown](/the-bid/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/).
 
@@ -115,7 +115,7 @@ The takeaway: when you compare two H100 quotes, confirm they match on form facto
 
 ## How does the H100 compare to newer and older GPUs on price?
 
-In broad terms the H100 sits between the newest Blackwell parts and the previous-generation A100 on price, though configuration and region cause enough overlap that this is a tendency, not a fixed hierarchy. Whether to rent an H100 at all depends on the model you are running.
+In broad terms the H100 sits between the newest Blackwell parts and the previous-generation [A100](/pricing/gpus/a100/) on price, though configuration and region cause enough overlap that this is a tendency, not a fixed hierarchy. Whether to rent an H100 at all depends on the model you are running.
 
 For large-model training and high-throughput inference, the [B300, B200, and H200](/the-bid/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/) offer more memory and throughput at a higher hourly rate, which can still win on total job cost when they finish faster. For smaller models, the previous-generation A100 is frequently cheaper per hour and adequate, as the [A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/) covers in detail — and for many of those models, a single H100 is enough on its own, as this [Nemotron single-GPU setup](/the-bid/run-nvidia-nemotron-3-5-lightning-on-one-gpu-vllm-setup-for-h100-a100-on-akash/) shows. The H100 costs more per hour than the A100 but runs many training and inference jobs faster, so the two can land close on cost per token when the H100 finishes sooner; the exact ratio depends on the workload.
 
@@ -142,4 +142,6 @@ The takeaway: the cheapest GPU-hour is not always the cheapest job. A faster car
 
 **What is the difference between H100 PCIe, SXM5, and NVL pricing?** PCIe H100 80GB cards cost less to buy and rent and suit single-card use. SXM5 delivers higher memory bandwidth and NVLink for multi-GPU training and carries a rental premium, usually appearing in 8-GPU nodes. NVL is a higher-memory (94GB) PCIe-form variant used in some single-GPU instances, such as Azure's NC H100 v5.
 
-**Is the H100 still worth renting over an H200 or A100?** Often yes. The H100 is cheaper per hour than the H200 and adequate for most training and inference, while the [A100](/the-bid/a100-40gb-vs-80gb-vram-bandwidth-mig-compared/) is cheaper still for smaller models. Compare cost per completed job, not just the hourly rate, since a faster card can finish sooner.
+**Is the H100 still worth renting over an H200 or A100?** Often yes. The H100 is cheaper per hour than the [H200](/pricing/gpus/h200/) and adequate for most training and inference, while the [A100](/the-bid/a100-40gb-vs-80gb-vram-bandwidth-mig-compared/) is cheaper still for smaller models. Compare cost per completed job, not just the hourly rate, since a faster card can finish sooner.
+
+**How does a cloud GPU marketplace price H100s?** In a cloud GPU marketplace such as Akash, independent providers bid for your workload instead of publishing one fixed rate, so price follows supply and demand. On October 22, 2026, H100 SXM5 bids on Akash ranged from \$2.04 to \$3.16 per GPU-hour with a weighted average of \$2.73, and 7 of 69 listed H100s were available. Fixed-rate clouds publish a single list price instead, which is why hyperscaler H100s still sit at about \$6.88 per GPU-hour and above.

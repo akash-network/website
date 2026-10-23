@@ -16,16 +16,16 @@ export const BID_PRICED: Record<
   BidPricedSlug,
   { source: LivePriceSource; snapshot: number }
 > = {
-  h200: { source: { model: "h200", listed: true }, snapshot: 4.45 },
+  h200: { source: { model: "h200", listed: true }, snapshot: 3.85 },
   h100: { source: { model: "h100", ramGb: 80 }, snapshot: 2.73 },
-  a100: { source: { model: "a100", ramGb: 80 }, snapshot: 1.72 },
+  a100: { source: { model: "a100", ramGb: 80 }, snapshot: 1.67 },
   "rtx-pro-6000-workstation": {
     source: { model: "pro6000we" },
     snapshot: 1.44,
   },
-  "rtx-pro-6000-server": { source: { model: "pro6000se" }, snapshot: 2.02 },
+  "rtx-pro-6000-server": { source: { model: "pro6000se" }, snapshot: 2.01 },
 };
-export const SNAPSHOT_DATE = new Date("2026-10-20T00:00:00Z");
+export const SNAPSHOT_DATE = new Date("2026-10-22T00:00:00Z");
 
 /** When this build ran. Fixed-rate prices are current as of this date. */
 export const BUILD_DATE = new Date();

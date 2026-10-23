@@ -1,7 +1,7 @@
 ---
 title: "The Ultimate Self-Hosting Guide: Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 (2026)"
 pubDate: 2026-08-06
-lastUpdated: 2026-08-06
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Kimi K3 needs 1.56TB on disk, GLM-5.2 needs 755.6GB at FP8, and DeepSeek V4 Flash 0731 needs 156.4GB. Actual checkpoint sizes, GPU counts, hourly costs, and license terms for the three open-weight frontier models, with the parameter-count math that misleads everyone."
 tags: ["Comparisons", "Alternatives", "Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 Kimi K3 occupies 1.56TB on disk, GLM-5.2 occupies 755.6GB in its official FP8 release, and DeepSeek V4 Flash 0731 occupies 156.4GB. That is a 10x spread between the largest and smallest, and it does not track parameter count the way most comparisons assume.
 
@@ -19,7 +19,7 @@ Kimi K3 occupies 1.56TB on disk, GLM-5.2 occupies 755.6GB in its official FP8 re
 - Actual checkpoint sizes: Kimi K3 at 1.56TB, GLM-5.2 at 755.6GB official FP8 (1.507TB if you insist on BF16), DeepSeek V4 Flash 0731 at 156.4GB.
 - Parameter count is a bad proxy. Kimi K3 has 3.7x GLM-5.2's parameters but takes only about twice the disk, because K3 ships natively in 4-bit MXFP4 while GLM-5.2's headline checkpoint is 16-bit.
 - The 5.6TB figure circulating for Kimi K3 is wrong. It comes from multiplying 2.8T parameters by 2 bytes for BF16, a precision Moonshot never released.
-- Hardware floors differ by a factor of eight. K3 wants an 8x B300 node or larger, GLM-5.2 FP8 fits a single 8x H200 node, and V4 Flash 0731 fits on 2 H200s or a single RTX 4090 with system RAM.
+- Hardware floors differ by a factor of eight. K3 wants an 8x B300 node or larger, GLM-5.2 FP8 fits a single 8x [H200](/pricing/gpus/h200/) node, and V4 Flash 0731 fits on 2 H200s or a single RTX 4090 with system RAM.
 - License terms are a real decision axis. GLM-5.2 and DeepSeek V4 Flash 0731 are plain MIT. Kimi K3 uses a custom license with revenue-triggered obligations above \$20M.
 
 ## How big are the Kimi K3, GLM-5.2, and DeepSeek V4 Flash 0731 checkpoints?
@@ -68,24 +68,24 @@ Kimi K3 needs an 8x B300 node, GLM-5.2 needs 8x H200 to hold its official FP8 we
 | DeepSeek V4 Flash 0731 | 156.4 GB | 2x H200 | 282 GB |
 | DeepSeek V4 Flash 0731 (3-bit GGUF) | 103 GB | 1x RTX 4090 + 128GB RAM | 24 GB VRAM plus system RAM |
 
-Three details change deployment plans. [vLLM](/blog/running-vllm-on-akash/)'s day-zero guidance puts Kimi K3's hardware floor at one 8x B300 node or a GB300 NVL72, while Moonshot's own production guidance calls for 64 or more accelerators. K3 does not fit an 8x H200 node at 1,128GB, so Hopper deployments require multi-node placement. GLM-5.2's FP8 release likewise does not fit on 8x H100 at all, which makes the 8x H200 node its natural home. And only DeepSeek V4 Flash 0731 has a credible single-GPU path, running quantized on one RTX 4090 with sufficient system RAM.
+Three details change deployment plans. [vLLM](/blog/running-vllm-on-akash/)'s day-zero guidance puts Kimi K3's hardware floor at one 8x B300 node or a GB300 NVL72, while Moonshot's own production guidance calls for 64 or more accelerators. K3 does not fit an 8x H200 node at 1,128GB, so Hopper deployments require multi-node placement. GLM-5.2's FP8 release likewise does not fit on 8x [H100](/pricing/gpus/h100/) at all, which makes the 8x H200 node its natural home. And only DeepSeek V4 Flash 0731 has a credible single-GPU path, running quantized on one RTX 4090 with sufficient system RAM.
 
-Architecture matters at long context too. Three out of every four attention layers in Kimi K3 use Kimi Delta Attention, which carries a constant-size state instead of a KV cache that grows linearly with context, so K3's memory profile at 1M tokens is better than its weight size alone suggests. GLM-5.2 uses MLA attention with a sparse-attention indexer, and its full 1M context in practice wants 8x B200 with FP8 KV cache rather than the 8x H200 that holds the weights.
+Architecture matters at long context too. Three out of every four attention layers in Kimi K3 use Kimi Delta Attention, which carries a constant-size state instead of a KV cache that grows linearly with context, so K3's memory profile at 1M tokens is better than its weight size alone suggests. GLM-5.2 uses MLA attention with a sparse-attention indexer, and its full 1M context in practice wants 8x [B200](/pricing/gpus/b200/) with FP8 KV cache rather than the 8x H200 that holds the weights.
 
 ## What does it cost per hour to self-host Kimi K3, GLM-5.2, or DeepSeek V4 Flash 0731?
 
-Checked against live [Akash marketplace rates](/pricing/gpus/) on August 7, 2026: H200 SXM5 (141GB) is averaging **\$4.37/GPU-hr**, with only 8 of 40 listed [on-demand GPU](/gpus-on-demand/) units currently available from a single active provider. DeepSeek V4 Flash 0731 runs about \$8.74/hour on 2 H200s, GLM-5.2 about \$34.96/hour on 8. Kimi K3's 8x B300 requirement now has a listed starting price too — B300 shows at \$6.00/GPU-hr on Akash's pricing page — but B300 doesn't yet have a dedicated availability page the way H100/H200/A100 do, so treat that figure as a starting rate to confirm via a custom quote rather than guaranteed instant self-serve capacity.
+Checked against [Akash marketplace rates](/pricing/gpus/) on October 22, 2026: H200 SXM5 (141GB) is listed at **\$3.85/GPU-hr**, with capacity arranged through the [on-demand GPU](/gpus-on-demand/) request form. DeepSeek V4 Flash 0731 runs about \$7.70/hour on 2 H200s, GLM-5.2 about \$30.80/hour on 8. Kimi K3's 8x B300 requirement now has a listed starting price too — B300 shows at \$6.00/GPU-hr on [Akash's B300 pricing page](/pricing/gpus/b300/) — but B300 capacity is limited, so treat that figure as a starting rate to confirm via a custom quote rather than guaranteed instant self-serve capacity.
 
 | Model | Node | Hourly | Monthly at 24/7 |
 |---|---|---|---|
-| DeepSeek V4 Flash 0731 | 2x H200 SXM | \$8.74 | ~\$6,380 |
-| GLM-5.2 (INT4) | 4x H200 SXM | \$17.48 | ~\$12,760 |
-| GLM-5.2 (FP8 official) | 8x H200 SXM | \$34.96 | ~\$25,521 |
+| DeepSeek V4 Flash 0731 | 2x H200 SXM | \$7.70 | ~\$5,621 |
+| GLM-5.2 (INT4) | 4x H200 SXM | \$15.40 | ~\$11,242 |
+| GLM-5.2 (FP8 official) | 8x H200 SXM | \$30.80 | ~\$22,484 |
 | Kimi K3 | 8x B300 | \$48.00 (at \$6.00/GPU-hr starting rate) | ~\$35,040 |
 
-Worth flagging: an 8x H200 deployment for GLM-5.2 FP8 would currently consume the entire available H200 supply on Akash (8 of 8 available units, from the one provider offering them). That is a real capacity constraint today, not a pricing one — treat the GLM-5.2 FP8 row as a spot-availability check before you plan around it, and INT4 on 4x H200 as the more reliably obtainable path.
+Worth flagging: H200 supply on Akash is thin, and an 8x H200 deployment for GLM-5.2 FP8 needs a full node from a single provider. That is a real capacity constraint today, not a pricing one — treat the GLM-5.2 FP8 row as a spot-availability check before you plan around it, and INT4 on 4x H200 as the more reliably obtainable path.
 
-If Kimi K3 is your model, budget around \$48/hour for the 8x B300 node at Akash's listed starting rate, but confirm actual availability first — there's no self-serve inventory count for B300 yet, unlike H100/H200/A100. For most teams, decentralized marketplace capacity at this tier is still an emerging option rather than a settled one, and neither is any single consumer machine a substitute. K3's weights are genuinely open, and few teams need to self-host them at all. What the weights buy most teams is optionality, an audit path, and a private deployment route if regulation demands one, rather than a cheaper monthly bill.
+If Kimi K3 is your model, budget around \$48/hour for the 8x B300 node at Akash's listed starting rate, but confirm actual availability first, since B300 capacity on Akash is limited. For most teams, decentralized marketplace capacity at this tier is still an emerging option rather than a settled one, and neither is any single consumer machine a substitute. K3's weights are genuinely open, and few teams need to self-host them at all. What the weights buy most teams is optionality, an audit path, and a private deployment route if regulation demands one, rather than a cheaper monthly bill.
 
 ## Which gives the most capability per dollar: Kimi K3, GLM-5.2, or DeepSeek V4 Flash 0731?
 
@@ -125,7 +125,7 @@ Self-host DeepSeek V4 Flash 0731 if you want open weights on hardware you can ac
 
 ## When is a managed API cheaper than self-hosting an open-weight model?
 
-A managed API wins whenever your volume does not cover the fixed cost of a node sitting idle, which for most teams is most of the time. A 2x H200 node at roughly \$8.74 per hour bills whether requests arrive or not, so at \$0.28 per million output tokens the same spend buys about 31.2 million output tokens per hour before self-hosting is even competitive.
+A managed API wins whenever your volume does not cover the fixed cost of a node sitting idle, which for most teams is most of the time. A 2x H200 node at roughly \$7.70 per hour bills whether requests arrive or not, so at \$0.28 per million output tokens the same spend buys about 27.5 million output tokens per hour before self-hosting is even competitive.
 
 DeepSeek V4 Flash 0731 is available on [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) at \$0.14 per million input tokens and \$0.28 per million output, with cache reads at \$0.02, at full precision with the complete 1M context behind an OpenAI-compatible API. GLM-5.2 is on AkashML too, listed on [OpenRouter](https://openrouter.ai/provider/akashml) at \$0.77/M input and \$2.42/M output with a 1.05M-token context (a 45% discount off list at time of writing) — cheaper than self-hosting for most volumes, without giving up the FP8-class weights. Because the weights are identical to the ones you would download, moving between the endpoint and your own deployment is a configuration change rather than a migration, not a re-architecture.
 
@@ -150,4 +150,6 @@ There's a subtler reason to keep that loop closed, too: every prompt, correction
 **Which of these models can run on consumer hardware?** Only DeepSeek V4 Flash 0731 has a practical consumer path, running quantized at roughly 11 tokens per second on a single RTX 4090 with 96GB or more of system RAM. GLM-5.2 can technically load a 2-bit quant on a 4x 4090 box with 256GB of RAM at 3 to 6 tokens per second. Kimi K3 has no practical consumer deployment.
 
 **Do all three support 1M context?** All three advertise roughly 1,048,576-token context windows, but the memory cost differs sharply. Kimi K3 uses Kimi Delta Attention on three of every four layers, giving constant-size state rather than a growing KV cache. GLM-5.2 needs 8x B200 with FP8 KV cache to reach full context, notably more than the hardware that holds its weights.
+
+**How much does LLM hosting cost per month for Kimi K3, GLM-5.2, and DeepSeek V4 Flash?** Running 24/7 for 730 hours on Akash, DeepSeek V4 Flash 0731 on 2x H200 costs about \$5,621 a month, GLM-5.2 costs about \$11,242 on 4x H200 at INT4 or \$22,484 on 8x H200 at FP8, and Kimi K3 on 8x B300 costs about \$35,040. Those figures use the H200 rate of \$3.85 and the B300 rate of \$6.00 per GPU-hour as of October 22, 2026. A managed API costs less whenever your traffic doesn't keep the node busy.
 
