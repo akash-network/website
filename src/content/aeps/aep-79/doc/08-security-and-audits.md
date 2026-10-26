@@ -2,8 +2,8 @@
 |---|---|
 | **Document** | 08. Security & Audits |
 | **Doc ID** | AKASH-MIG-08 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering + security leads, audit firms, Akash core team |
 | **Status** | Normative where marked (MUST/SHALL); informative otherwise |
@@ -14,12 +14,13 @@ Defines the security program for the migration: how the threat model changes whe
 Cosmos SDK chain (see [01. Current architecture](./01-current-architecture.md)) for Solana or an EVM chain, the
 component threat models the Vendor MUST design and test against, key management and the upgrade-authority
 lifecycle (D-15), the audit plan and its coupling to program gates, the protocol invariant set, operational
-security (monitoring, incident response, bug bounty, verifiable builds), and the bridge stance.
+security (monitoring, incident response, bug bounty, verifiable builds), the one-way migration portal (D-25),
+and the bridge stance.
 
 ## In scope
 
 - Security posture delta analysis: Cosmos sovereign chain → Solana / EVM deployment.
-- Threat models for every protocol component and its security-relevant off-chain periphery.
+- Threat models for every protocol component and its security-relevant off-chain periphery, including the migration portal mint path and its verification trust root (D-25, Q-44).
 - Key management, multisig/timelock policy, guardian pause powers, authority sunset roadmap.
 - Audit tranches, firm selection criteria, gate coupling; bug bounty; monitoring; incident response.
 - Protocol invariants (consumed as executable properties by [09. Testing](./09-testing-and-verification.md)).
@@ -28,7 +29,7 @@ security (monitoring, incident response, bug bounty, verifiable builds), and the
 
 - Test implementation detail (fuzz harnesses, testnets, acceptance criteria): [09](./09-testing-and-verification.md).
 - Cutover runbooks and gate definitions G0–G5: [10. Rollout & cutover](./10-rollout-and-cutover.md).
-- Claims mechanism design and supply accounting: [05. Token migration](./05-token-migration.md).
+- Claims and portal mechanism design and supply accounting: [05. Token migration](./05-token-migration.md) (portal mechanism per Q-44).
 - Target architecture internals (accounts, instructions, contracts): [03](./03-solana-architecture.md) / [04](./04-ethereum-architecture.md).
 
 ---
@@ -43,7 +44,7 @@ surfaces that appear, and surfaces that transform.
 | Surface (today) | Detail on current chain | Post-migration |
 |---|---|---|
 | Sovereign validator set + slashing | ~100-validator CometBFT set bonded in AKT; 5% double-sign slash, downtime jailing (`cmd/akash/cmd/genesis.go:219-299`) | Gone. Consensus security is inherited from the L1 (§1.2). Validator-key compromise, cartel, and chain-halt-by-validators classes vanish, as does the cost of operating/monitoring a validator set |
-| IBC surface | ICS-20 transfer, v1 + v2 (Eureka) routers; `ibctransfer` module account holds Minter+Burner | Gone at halt H (D-05: no persistent bridge). Removes voucher-inflation bugs, counterparty-chain risk, relayer censorship. Stranded-voucher handling per D-07 |
+| IBC surface | ICS-20 transfer, v1 + v2 (Eureka) routers; `ibctransfer` module account holds Minter+Burner | Gone at halt H (no persistent bridge, §8). Removes voucher-inflation bugs, counterparty-chain risk, relayer censorship. Stranded-voucher handling per D-07 |
 | CosmWasm + awasm filter | wasmd hosting only the Pyth feed contracts, wrapped by a custom msg filter allowing exactly one message type; hardcoded `ContractDebugMode=true` defect (`app/app.go:158-163`) | Gone (D-22). No general-purpose contract runtime to confine; the outstanding debug-mode defect is retired rather than ported |
 | Single-source CosmWasm oracle | One authorized pusher: the Pyth contract address is the sole `Sources` entry with `MinPriceSources=1`; Wormhole guardian-set updates bypass Akash governance entirely (`_docs/governance-updates.md:44-57`) | Replaced by direct Pyth pull-oracle reads in protocol programs/contracts (D-13). **This is a net security improvement**: it removes the single authorized pusher, the four-contract CosmWasm verification chain, and a guardian-update path outside Akash governance, in exchange for a direct, monitorable dependency on Pyth with in-protocol staleness/confidence gating |
 
@@ -52,7 +53,8 @@ surfaces that appear, and surfaces that transform.
 | New surface | Why it matters |
 |---|---|
 | **Program/contract upgrade authority: the new root of trust** | Today a malicious upgrade requires a public governance proposal plus 2/3 of validators voluntarily running the binary. Post-migration, whoever controls the upgrade authority can replace the code that custodies all protocol funds with one (multisig) signature. Every control in §4 exists to constrain this |
-| **Claims distributor honeypot** | At S1 the `akash-claims` / `MigrationClaims` system (including the Wind-down Reserve) controls effectively the entire migrated AKT supply (all unclaimed liquid balances plus all module-held funds) for an exposure window of up to 2 years (D-05). It is the single largest honeypot in the program and receives the strictest treatment in this document (§2.1, §4.5, §5.1) |
+| **Migration portal mint path (D-25)** | From token launch L = V + 7d the portal holds mint authority for SPL AKT for the 2-year portal window (D-25.a) and mints 1:1 against AKT removed from circulation on akashnet-2. Every SPL AKT it mints rests on the portal verification path (mechanism per Q-44), whose verifiers are a new root of trust alongside the upgrade authority: a verification or accounting flaw mints SPL AKT with no matching removal (R-01). Migration is one-way, so an erroneous mint cannot be reversed through the portal; pausing further mints is the only containment. It is the largest mint path in the program and receives the strictest treatment in this document (§2.11, §5.1, §6, §7.1) |
+| **Claims distributor honeypot** | ~~At S1 the `akash-claims` / `MigrationClaims` system (including the Wind-down Reserve) controls effectively the entire migrated AKT supply (all unclaimed liquid balances plus all module-held funds) for an exposure window of up to 2 years (D-05).~~ **[WITHDRAWN: superseded by D-25]** Under D-25 the claims system no longer carries AKT held in user accounts at S1. It controls whatever S1 and S2 still carry (protocol-held funds, ACT, residuals; scope under review in Q-50), plus AKT still on `akashnet-2` at H (in user accounts, bonded or unbonding) if Q-47 adopts the S2 path, for an exposure window of up to 2 years. It keeps the strict treatment of §2.1, §4.5 and §5.1 |
 | Crank/keeper liveness dependency | Escrow settlement, BME epochs, and residual distributions execute via permissionless cranks (Solana) or keeper automation (EVM) instead of consensus-embedded End/BeginBlockers (D-20/D-21). Liveness failure delays settlement and overdrawn detection (economic exposure), though lazy accounting means no funds are lost by inaction |
 | Fee-payer / relayer abuse surface | Gasless-UX sponsorship (fee payer on Solana, paymaster/relayer on EVM) introduces a hot-key service that attackers can drain or abuse (§2.7) |
 | L1 inheritance | Solana: consensus outages/degradation and the Alpenglow consensus transition landing inside the migration window (A-13); plan an instability buffer. Ethereum path: L1 consensus plus **the host chain's centralized sequencer** (Stage 1 fault proofs; no major L2 at Stage 2 as of 2026-08; candidate-chain policy also shifts, e.g. Base announced Superchain exit 2026-02); sequencer censorship/downtime and forced-inclusion latency become part of the protocol's availability story |
@@ -90,6 +92,11 @@ E elevation of privilege). Mitigation cells reference the requirement that manda
 Context: Merkle-distribution claims per D-05; claimants prove ownership of a snapshot Cosmos address and
 designate a target-chain recipient. Roots: S1 root, weekly interim residual roots (C→H), S2 root.
 
+Under D-25, AKT held in user accounts migrates through the portal (§2.11), not through the S1 root. The claims
+machinery below is retained for what S1 and S2 still carry (protocol-held funds, ACT, residuals; Q-50) and for
+the post-halt candidate in Q-47, under which holders of AKT still on `akashnet-2` at H (in user accounts, bonded or unbonding) would claim
+through the portal with Cosmos-key signatures; if Q-47 adopts that path, REQ-SEC-008 to REQ-SEC-010 apply to it unchanged.
+
 | Threat | Class | Vector | Mitigation |
 |---|---|---|---|
 | Double-claim | T | Replay same leaf; claim across two roots containing overlapping balances | REQ-SEC-007; residual roots MUST contain only incremental amounts ([05](./05-token-migration.md)) |
@@ -98,7 +105,7 @@ designate a target-chain recipient. Roots: S1 root, weekly interim residual root
 | Multisig threshold bypass | E | Cosmos multisig accounts have a distinct threshold pubkey type; a verifier that accepts any single participant key steals every multisig-held balance | REQ-SEC-009 |
 | Cross-domain replay | T | Claim message replayed on the other target chain, a testnet, or a later distribution | REQ-SEC-010 |
 | Root substitution | T/E | Compromised authority replaces a registered root with an attacker root, the single fastest full-drain path | REQ-SEC-005, REQ-SEC-006 |
-| Honeypot drain via code defect | E | Any arithmetic/validation bug in the one program holding ~the entire supply | REQ-SEC-011/012; audit tranche T1 (§5.1); I-3 on-chain |
+| Honeypot drain via code defect | E | Any arithmetic/validation bug in the program holding the S1/S2 distributions (scope per Q-50) | REQ-SEC-011/012; audit tranche T1 (§5.1); I-3 on-chain |
 
 **REQ-SEC-005** Each Merkle root MUST be immutable once registered: no instruction/function to modify or delete a registered root may exist. New roots (weekly residuals, S2) are append-only, and root registration MUST be permanently disabled (irreversible flag) once the S2 root and the D-07 redemption reserve root are set.
 
@@ -279,6 +286,38 @@ transactions.
 
 **REQ-SEC-044** Implementation contracts MUST call `_disableInitializers()` in constructors, and deployment scripts MUST atomically deploy+initialize proxies (deterministic deployment, no initialization window).
 
+### 2.11 Migration portal (D-25)
+
+Context: per D-25, a migration portal opens at token launch L = V + 7d (REQ-ROL-054) and stays open 2 years
+(D-25.a). AKT removed from circulation on `akashnet-2` is minted 1:1 (micro-unit) as SPL AKT to the Solana
+address the holder names. Migration is one-way: no program, contract or operated service provides a reverse
+path. How AKT leaves circulation on `akashnet-2` and how Solana verifies it before minting are open (Q-44). The
+Q-44 candidates differ in their trust root: (a) a keyless migration address with batch roots attested by 3+
+independent parties (the REQ-SEC-005/006 pattern); (b) an x/migrate module burning on-chain, with the same
+attestation; (c) Wormhole NTT in burn-and-mint mode, which adds the Wormhole guardian set as a trust root
+(`akashnet-2` already trusts it for Pyth, [01](./01-current-architecture.md) §5.8). The threats below hold for
+every candidate; the mitigations bind whichever candidate Q-44 selects. The portal is Path A only.
+
+| Threat | Class | Vector | Mitigation |
+|---|---|---|---|
+| Mint without removal | T/E | Forged or unverified removal evidence accepted; verification defect; accounting flaw that counts a removal that did not occur | REQ-SEC-078; caps (REQ-SEC-080); per-mint on-chain check (REQ-SEC-084); I-8 monitor with auto-pause (REQ-SEC-085); audit tranche T1 closed at GT (REQ-SEC-083) |
+| Verification trust-root compromise | S/E | Colluding or compromised verifiers (attesting parties under Q-44 (a)/(b), the Wormhole guardian set under (c)); a 1-of-N or vendor-default verifier configuration (the KelpDAO class, §8) | REQ-SEC-078 (≥3 independent verifiers, published set); timelocked changes (REQ-SEC-028) |
+| Double mint | T | One removal minted twice: evidence replayed across batches, retries, epochs or deployments | REQ-SEC-079 |
+| Recipient or amount substitution | T/S | Solana recipient or amount altered between the holder's removal on `akashnet-2` and the mint | REQ-SEC-079 |
+| Fork-sourced removals | S | Removals on a non-canonical continuation of `akashnet-2` (a fork after H, or a contested split; R-20) presented as valid | REQ-SEC-078 (canonical chain only, heights up to H) |
+| Old-chain state rewrite | T | A coordinated `akashnet-2` upgrade, height patch or state repair (§1.3) reverses or alters a removal already minted | REQ-SEC-081 |
+| Mint-authority misuse | E | Upgrade authority replaces portal code, or mint authority moved to another key | REQ-SEC-028; §4.1 (mint authority held by protocol PDAs only); REQ-SEC-082; upgrade-authority monitor (§7.1) |
+| Mint-path liveness | D | Verifier outage or pause leaves holders whose AKT has already left circulation without SPL AKT | REQ-SEC-081 (pause never forfeits a removal); window extension only by governance (D-25.a) |
+| Fake portal sites | S | Look-alike domains and drainer kits route a holder's migration to an attacker recipient (R-34) | REQ-SEC-088; REQ-SEC-034 |
+
+**REQ-SEC-078** The portal MUST mint only against removals from circulation on canonical `akashnet-2` (chain id `akashnet-2`, heights up to H), verified by the mechanism selected in Q-44; removals on any fork or continuation MUST be rejected. Whichever candidate Q-44 selects, verification MUST require ≥3 independent verifiers under distinct operators and infrastructure (no 1-of-N and no vendor-default configuration), and the verifier set, threshold and any external trust root (for candidate (c), the Wormhole guardian set) MUST be published before GT. Any change to the verifier set or threshold is a privileged operation under REQ-SEC-028.
+
+**REQ-SEC-079** Each verified removal MUST be minted at most once, enforced by an on-chain per-removal receipt checked before minting (the REQ-SEC-007 pattern). The minted amount MUST equal the removed amount 1:1 in micro-units, and the recipient MUST be the Solana address the holder named for that removal (how it is carried: per Q-44); no other party may change either after removal.
+
+**REQ-SEC-080** The portal MUST enforce governance-set per-epoch and per-recipient mint caps, fixed and published at GT. A mint that would exceed a cap MUST be deferred, never dropped, and deferred mints MUST execute in the order their removals were verified (REQ-SEC-045). Cap saturation MUST alert (§7.1).
+
+**REQ-SEC-081** The portal MUST implement a pause of mint execution (guardian tier, §4.3) that never forfeits a removal already made on `akashnet-2`: every verified removal stays mintable once mints resume. Because migration is one-way, pause is the only containment; no instruction may reverse, claw back or re-route a completed mint, or freeze SPL AKT already minted. While the portal is open, any `akashnet-2` software upgrade, height patch or state repair MUST be coordinated with the portal: mints paused before the upgrade height, and resumed only after I-8 (§6) is reconciled against post-upgrade state. Any `akashnet-2` upgrade the Q-44 mechanism needs MUST ride with or before the migration proposal (Q-44).
+
 ---
 
 ## 3. MEV and transaction-ordering analysis
@@ -314,7 +353,7 @@ Residual ordering surfaces and their treatment:
 | | Solana | Ethereum/host chain |
 |---|---|---|
 | Upgrade authority | Squads v4 multisig (de-facto standard as of 2026-08) holding all program upgrade authorities, executing only timelocked proposals | Safe multisig as proposer on OZ `TimelockController`; timelock is `owner`/`UPGRADER_ROLE` of all UUPS proxies |
-| Token authorities | AKT/ACT mint authorities held by protocol PDAs (claims/emissions/BME programs) per D-03/D-19, never by the multisig directly | Mint roles granted only to `MigrationClaims`, `EmissionsMinter`, `BurnMintEscrow` per D-04/D-19 |
+| Token authorities | AKT/ACT mint authorities held by protocol PDAs (portal/claims/emissions/BME programs) per D-03/D-19/D-25, never by the multisig directly | Mint roles granted only to `MigrationClaims`, `EmissionsMinter`, `BurnMintEscrow` per D-04/D-19 |
 | DAO layer | Realms (SPL Governance) token voting (Q-11 gap analysis pending) | `AkashGovernor` (OZ Governor) |
 | Guardian (pause) | Designated pause key set inside Squads (any 2-of-7 members may trigger intake pause) | `PAUSER_ROLE` held by a 2-of-7 sub-quorum of the Safe |
 
@@ -328,11 +367,13 @@ Residual ordering surfaces and their treatment:
 
 **REQ-SEC-052** Signer departure or suspected compromise MUST trigger a multisig membership change within 7 days; ≥2 simultaneously compromised/lost signers triggers the emergency re-key runbook (REQ-SEC-055).
 
+**REQ-SEC-082** The SPL AKT mint and the portal launch at L, before G1 (D-25). For them, the launch configuration of §4.1 (multisig meeting REQ-SEC-048 to REQ-SEC-051, timelock per §4.2, guardian pause set) MUST be in place by GT: signer set fixed and published, the REQ-SEC-055 key ceremony completed and rehearsed, and the §4.5 sunset roadmap for these programs published. The G1 fixing in REQ-SEC-048 applies to the remaining programs.
+
 ### 4.2 Timelock policy
 
 | Operation class | Delay | Approver |
 |---|---|---|
-| Routine parameter change (bounded ranges defined in 03/04) | 48 h | Multisig (Phase L) / DAO (Phase 1+) |
+| Routine parameter change (bounded ranges defined in 03/04) | 48 h | Multisig (Phase 0) / DAO (Phase 1+) |
 | Program/contract upgrade | 7 d | Multisig + published diff/audit note |
 | Residual root registration (weekly, C→H) | 48 h | Multisig + 3-party attestation (REQ-SEC-006) |
 | Emergency security patch | 24 h minimum | Elevated threshold 6-of-7; public disclosure ≤72 h after execution |
@@ -351,6 +392,7 @@ Pause is an intake freeze, never an exit freeze. Per component:
 | Escrow | New accounts, new deposits | Settle, payment withdraw, depositor refund, account close |
 | BME | New swap requests (queue intake) | Queued executions; ACT→AKT refunds under CR-halt (the D-20 exit valve) |
 | Claims | Nothing at guardian tier | Claims processing (pausable only via full-stop, REQ-SEC-012/054) |
+| Portal (D-25) | Mint executions (guardian tier, and automatically on an I-8 breach, REQ-SEC-085); removals already made stay mintable (REQ-SEC-081) | SPL AKT already minted (no freeze, clawback or reverse instruction exists) |
 | Emissions | Mint executions | n/a (no user funds) |
 
 **REQ-SEC-054** Guardian (intake) pause MUST NOT be able to block withdrawals, refunds, settlements, or closes. A full-stop pause (all state transitions of one component) MUST require multisig quorum, MUST auto-expire after ≤72 h unless renewed by a governance action, and every use MUST be publicly disclosed with cause.
@@ -363,7 +405,7 @@ Pause is an intake freeze, never an exit freeze. Per component:
 
 | Phase | Trigger (all criteria) | Authority state |
 |---|---|---|
-| **L: Launch** | Target-chain launch | Multisig + timelock as §4.1; security-council cancel active |
+| **0: Launch** (named "L" before version 0.10; "L" now denotes token launch only, D-25) | Target-chain launch (for the SPL AKT mint and the portal: token launch L, D-25, per REQ-SEC-082) | Multisig + timelock as §4.1; security-council cancel active |
 | **1: DAO-gated** | S2 complete; two consecutive clean quarters (zero SEV-1/SEV-2, §7.2); all audit criticals closed | Upgrades/params require a passed DAO vote; multisig demoted to executor of passed proposals + canceller. Solana: upgrade authority moves under Realms-governed execution with Squads as emergency council. EVM: Governor becomes sole timelock proposer; Safe retains cancel + pause only |
 | **2: Immutability (core)** | Phase 1 + burn-in of N months (default 12; ratify at G2; recorded as an open question for [13](./13-open-questions-and-assumptions.md)) + governance vote | `akash-claims`/`MigrationClaims` and the escrow core: upgrade authority revoked (Solana: set to None; EVM: upgrade path permanently disabled). Root registration already burned per REQ-SEC-005. Market/config/BME remain DAO-upgradeable; emissions mint authority remains DAO+timelock permanently |
 
@@ -379,9 +421,9 @@ Pause is an intake freeze, never an exit freeze. Per component:
 
 | Tranche | Scope | Depth | Gate coupling |
 |---|---|---|---|
-| **T1: Token & claims** | AKT/ACT mints + extensions/restrictions, `akash-claims`/`MigrationClaims` incl. Wind-down Reserve + residual-root flow, signature verification library (REQ-SEC-008/009), governance/timelock/multisig wiring | 2 independent firms, full scope, fix re-verification | MUST close (all Critical/High fixed + re-verified) before any real-value deployment of token or claims; these gate S1 |
+| **T1: Token, portal & claims** | AKT/ACT mints + extensions/restrictions; migration portal (D-25): portal program, the Q-44 verification path including any `akashnet-2` module or upgrade it needs, off-chain verifier services, portal web front end and the I-8 monitor; `akash-claims`/`MigrationClaims` incl. Wind-down Reserve + residual-root flow, signature verification library (REQ-SEC-008/009), governance/timelock/multisig wiring | 2 independent firms, full scope, fix re-verification | Token and portal scope (with the governance wiring they use) MUST close (all Critical/High fixed + re-verified) at GT, before the migration proposal is submitted and therefore before L (REQ-SEC-083). Claims scope MUST close before any real-value deployment of claims; it gates S1 |
 | **T2: Marketplace & economics** | Escrow, BME, market, deployment, provider/audit registries, config, emissions | 2 independent firms + 1 economic/tokenomics review (BME CR breaker + spread + emissions interaction, run dynamics of §2.3) | MUST close before marketplace mainnet launch |
-| **T3: Off-chain** | Signer sidecar (D-17), fee relayer (§2.7), claim portal backend, monitoring pipeline, key ceremony/runbooks | 1 code-audit firm + 1 infrastructure pentest | MUST close before cutover C |
+| **T3: Off-chain** | Signer sidecar (D-17), fee relayer (§2.7), claim portal backend (migration-portal off-chain components are in T1), monitoring pipeline, key ceremony/runbooks | 1 code-audit firm + 1 infrastructure pentest | MUST close before cutover C |
 
 **REQ-SEC-058** Each on-chain tranche MUST be audited by two independent firms (no shared ownership or staff), each covering the full tranche scope (not split halves).
 
@@ -392,6 +434,8 @@ Pause is an intake freeze, never an exit freeze. Per component:
 **REQ-SEC-061** All audit reports MUST be published within 30 days of the corresponding fixes being deployed.
 
 **REQ-SEC-062** T2 MUST additionally run a public audit competition (Code4rena/Cantina-class platform; candidate, select at procurement) on the frozen codebase before mainnet launch.
+
+**REQ-SEC-083** The token and portal scope of T1 (SPL AKT mint, portal program, the Q-44 verification path including any `akashnet-2` module or upgrade it needs, off-chain verifier services, portal web front end) MUST be audited by two independent firms per REQ-SEC-058 and MUST close, with every Critical/High finding fixed and re-verified by the issuing firm, at GT. GT passes before the migration proposal is submitted (D-25.c, REQ-ROL-053), so no token or portal code reaches L with an open Critical/High. Any material diff to this scope after GT falls under REQ-SEC-060 and MUST complete its delta review before L.
 
 ### 5.2 Candidate firms (examples-to-procure; candidates, NOT commitments)
 
@@ -420,8 +464,11 @@ them into fuzz targets, stateful property suites, and (where marked) on-chain as
 | I-5 | Depositor refunds pay out in FIFO deposit order | Property suite |
 | I-6 | ACT balances change only via protocol burn/mint instructions (non-transferability, D-19) | On-chain by construction + monitor |
 | I-7 | BME vault has exactly one outflow path (REQ-SEC-020) | Code review + monitor |
+| I-8 | Portal supply conservation (D-25): at all times, SPL AKT supply ≤ cumulative verified removals on `akashnet-2` (+ any Wind-down Reserve mint and emissions, per Q-50 and D-12); each verified removal mints at most once, 1:1, to its named recipient | **Monitor with auto-pause** (REQ-SEC-085) + on-chain per-mint check (REQ-SEC-084) + property suite |
 
 **REQ-SEC-063** Each invariant I-1..I-7 MUST exist as a machine-checkable property in the 09 test suites, and I-3/I-4 MUST additionally be asserted on-chain in the executing instruction/function.
+
+**REQ-SEC-084** I-8 MUST exist as a machine-checkable property in the 09 test suites and MUST be exercised in the portal rehearsal before GT ([09](./09-testing-and-verification.md)). Every portal mint MUST check on-chain, before minting, that its amount does not exceed the verified, not-yet-minted removal it consumes (REQ-SEC-079), so that a violation of the per-removal part of I-8 aborts atomically; the supply-level part of I-8 is enforced by the monitor of REQ-SEC-085.
 
 **REQ-SEC-064** The Vendor SHOULD apply formal or semi-formal verification (e.g., Certora-class for EVM, Kani/proptest-backed model checking for Rust; candidates) to the escrow settlement arithmetic and the claims verification library; budget carried in [11. SOW](./11-scope-of-work.md).
 
@@ -435,7 +482,9 @@ them into fuzz targets, stateful property suites, and (where marked) on-chain as
 
 | Monitor | Computes | Alert |
 |---|---|---|
-| Supply conservation | On-chain AKT supply == S1/S2/residual root totals + emissions − burns (and I-1 escrow conservation) | Any mismatch → SEV-1, auto-page |
+| Supply conservation | On-chain AKT supply == S1/S2/residual root totals + emissions − burns (and I-1 escrow conservation); under D-25, plus cumulative portal mints, with S1/S2 scope per Q-50 | Any mismatch → SEV-1, auto-page |
+| Portal supply conservation (I-8) | SPL AKT supply vs cumulative verified removals on `akashnet-2` (+ any Wind-down Reserve mint and emissions, per Q-50 and D-12), read from both chains | Any breach → automatic pause of portal mints (REQ-SEC-085) + SEV-1, auto-page |
+| Portal mint path | Mints per epoch and per recipient vs caps (REQ-SEC-080); verifier liveness and agreement; removal-to-mint lag; deferred-mint backlog | Cap saturation or verifier disagreement → page; lag or backlog above runbook thresholds → warn |
 | Vault CR | BME collateral ratio + trend | ≤9700 bps warn; ≤9500 bps page; redemption-velocity spike page |
 | Claims velocity | Claimed value per rolling 1 h / 24 h vs baseline | Anomaly → page + REQ-SEC-012 breaker check |
 | Upgrade-authority activity | Any tx touching upgrade authorities, timelock queue, multisig config, mint authorities | Every event → page (no exceptions) |
@@ -449,6 +498,8 @@ them into fuzz targets, stateful property suites, and (where marked) on-chain as
 **REQ-SEC-066** Monitors MUST run on infrastructure independent of the primary RPC/indexer vendor (second data source), so a poisoned read path cannot blind them.
 
 **REQ-SEC-067** Supply-conservation (I-1/I-3) violations SHOULD trigger a pre-authorized automatic guardian intake pause of the affected component (policy decision at G2), and MUST page regardless.
+
+**REQ-SEC-085** The portal supply-conservation monitor (I-8) MUST be rehearsed end to end on a mainnet fork before GT (REQ-ROL-053) and MUST be live and alert-tested before L, running on infrastructure independent of the portal's verifiers and of the primary RPC/indexer vendor (REQ-SEC-066), with its own reads of `akashnet-2` and Solana. Any I-8 breach MUST automatically pause portal mints (pre-authorized, no human step; REQ-SEC-081 semantics) and declare SEV-1. Mints resume only after a public reconciliation and a multisig decision recorded per REQ-SEC-054.
 
 ### 7.2 Incident response
 
@@ -467,20 +518,24 @@ them into fuzz targets, stateful property suites, and (where marked) on-chain as
 
 **REQ-SEC-071** Console/client UX MUST include low-escrow-balance warnings ahead of depletion (default: alert at ≤72 h of runway), the compensating control for the §2.2 settle-front-running residual.
 
+**REQ-SEC-086** For the portal, the REQ-SEC-069 roster MUST be in place before L with 24/7 coverage during the token launch week starting at L, and a pause-capable quorum MUST stay reachable for the whole portal window so that the REQ-SEC-068 pause target holds for portal mints. The REQ-SEC-068 live pause drill MUST be performed on the portal before L, and the REQ-SEC-070 comms templates MUST include portal incidents and the pre-drafted notice for a slipped L (R-38).
+
 ### 7.3 Bug bounty
 
 **REQ-SEC-072** An Immunefi-class bug bounty (platform selection at G2) MUST be live at least 2 weeks before mainnet launch, covering the final audited code, and MUST remain funded through at least the end of the claim window.
 
-Indicative tiers (final sizing at G2; payouts capped at 10% of demonstrably at-risk funds):
+**REQ-SEC-087** A bug bounty covering the SPL AKT mint and the portal (program, Q-44 verification path, off-chain verifier services, portal web front end) MUST be live at least 2 weeks before L, covering the T1 token and portal code as audited at GT (REQ-SEC-083). Platform selection and tier sizing for this scope MUST be completed by GT, ahead of the G2 timing in REQ-SEC-072. Unbacked portal mints and verification bypass MUST sit in the Critical tier at its top range, and the bounty MUST remain funded through at least the end of the portal window (D-25.a).
+
+Indicative tiers (final sizing at G2, and at GT for the token and portal scope per REQ-SEC-087; payouts capped at 10% of demonstrably at-risk funds):
 
 | Tier | Examples | Indicative range (USD) |
 |---|---|---|
-| Critical | Theft/freezing of funds, unauthorized mint, root substitution, claims bypass | $250k–$1,000,000 |
+| Critical | Theft/freezing of funds, unauthorized mint (including any portal mint without a matching removal on `akashnet-2`, or verification bypass), root substitution, claims bypass | $250k–$1,000,000 |
 | High | Temporary fund lock-up, breaker bypass, griefing with direct economic loss | $50k–$100k |
 | Medium | Griefing without direct loss, quota/allow-list bypass on relayer | $10k–$25k |
 | Low | Best-practice deviations with a plausible path to impact | $1k–$5k |
 
-In scope: all protocol programs/contracts, token mints, claims + portal backend, relayer, signer sidecar. Out of
+In scope: all protocol programs/contracts, token mints, migration portal (program, verification path, verifier services, web front end), claims + portal backend, relayer, signer sidecar. Out of
 scope: testnets, indexer/Console issues without fund impact (separate web-tier bounty), known issues, social
 engineering, physical attacks, third-party dependencies (Pyth, Squads, Safe; report upstream).
 
@@ -492,15 +547,30 @@ engineering, physical attacks, third-party dependencies (Pyth, Squads, Safe; rep
 
 **REQ-SEC-075** Dependency hygiene: lockfiles committed; `cargo audit`/`cargo vet` (Rust) and dependency audit (Solidity/TS) in CI; release artifacts signed; no unpinned toolchains in release paths.
 
+### 7.5 Phishing and fake portal sites
+
+The portal is open for 2 years and every holder, exchange and custodian moving AKT uses it (D-25), so fake
+portal sites and wallet-drainer kits are the main user-side threat (R-34). Losses are scoped to the deceived
+holder, never to the portal's mint authority, but the reputational cost falls on the program.
+
+**REQ-SEC-088** Before GT, the official portal domain, look-alike-domain and drainer-kit monitoring, and a takedown process (registrar, wallet-blocklist and search/ad-provider escalation paths) MUST be live (REQ-ROL-053, R-34). The single canonical portal domain, and any `akashnet-2` address or identifier the holder must use under the Q-44 mechanism, MUST be published in the migration proposal and exchange notices, pinned in first-party clients, and offered to wallet partners for verified-domain allowlists. The portal front end MUST render the Solana recipient and amount exactly as they will be minted, with clipboard-mismatch warnings, MUST reconcile against authoritative chain reads before any signing prompt (REQ-SEC-034), and MUST be served with registrar lock and DNS hardening on the official domain. Official comms MUST never link through intermediate domains.
+
 ---
 
 ## 8. Bridge stance
 
-Per D-05 there is **no persistent bridge**: migration is one-way Merkle claims plus exchange swaps, and the
-claims system is time-bounded and sunset per §4.5. This is a deliberate security posture, not a gap: a standing
-bridge would be a second honeypot with an indefinite lifetime.
+~~Per D-05 there is **no persistent bridge**: migration is one-way Merkle claims plus exchange swaps, and the
+claims system is time-bounded and sunset per §4.5.~~ **[WITHDRAWN: superseded by D-25]** Per D-25, AKT
+migrates through a **one-way migration portal**: AKT removed from circulation on `akashnet-2` is minted as SPL
+AKT, there is no reverse path, and the mint path closes when the 2-year portal window ends (D-25.a). The portal
+is therefore a one-way, time-bounded mint path, not a two-way bridge; whatever S1 and S2 still carry moves by the
+claims system (Q-50), which stays time-bounded and sunset per §4.5. There is still **no persistent bridge**.
+This is a deliberate security posture, not a gap: a standing bridge would be a second honeypot with an
+indefinite lifetime.
 
-**REQ-SEC-076** The Vendor MUST NOT deploy any burn/mint or lock/mint pathway for AKT or ACT beyond the claims system and the emissions minter specified in this document set.
+**REQ-SEC-076** **[WITHDRAWN: superseded by D-25; replaced by REQ-SEC-089]** The Vendor MUST NOT deploy any burn/mint or lock/mint pathway for AKT or ACT beyond the claims system and the emissions minter specified in this document set.
+
+**REQ-SEC-089** The Vendor MUST NOT deploy any burn/mint or lock/mint pathway for AKT or ACT beyond the migration portal (D-25), the claims system and the emissions minter specified in this document set. The portal MUST be one-way: no program, contract or operated service may provide a path from SPL AKT back to AKT on `akashnet-2`. The portal's mint capability MUST end when the portal window closes (2 years from L, D-25.a, or later only if extended by governance; Q-48) through a single auditable on-chain action that revokes or permanently disables it.
 
 If governance later pursues multichain AKT, the design constraint is the **KelpDAO incident (2026-04)**: ~$292M
 lost through a LayerZero deployment configured with a single verifier (1-of-1 DVN) whose RPC infrastructure
@@ -515,16 +585,16 @@ failure.
 
 - [01. Current architecture](./01-current-architecture.md): the mechanisms whose semantics §2 threat models preserve.
 - [03. Solana architecture](./03-solana-architecture.md) / [04. Ethereum architecture](./04-ethereum-architecture.md): PDA schemas, oracle bounds, parameter ranges consumed by REQ-SEC-017/037/046.
-- [05. Token migration](./05-token-migration.md): claim digest specification, root construction, Wind-down Reserve.
-- [09. Testing & verification](./09-testing-and-verification.md): executable form of §6 invariants; drills and dress rehearsals.
-- [10. Rollout & cutover](./10-rollout-and-cutover.md): gates G0–G5 (REQ-SEC-059 binds to G3), war-room windows.
+- [05. Token migration](./05-token-migration.md): claim digest specification, root construction, Wind-down Reserve; portal model (D-25).
+- [09. Testing & verification](./09-testing-and-verification.md): executable form of §6 invariants; drills and dress rehearsals, including the portal rehearsal before GT.
+- [10. Rollout & cutover](./10-rollout-and-cutover.md): gates G0–G5 (REQ-SEC-059 binds to G3) and GT (REQ-ROL-053; REQ-SEC-083/085/087/088 bind to it), L = V + 7d (REQ-ROL-054), war-room windows.
 - [11. Scope of work](./11-scope-of-work.md): audit/bounty/monitoring budget and staffing.
-- [12. Risk register](./12-risk-register.md): risk-level treatment of the §1.2 surfaces.
-- [13. Open questions](./13-open-questions-and-assumptions.md): Q-08 (collateral), Q-11 (Realms gaps), A-13 (Alpenglow).
+- [12. Risk register](./12-risk-register.md): risk-level treatment of the §1.2 surfaces; R-01 (portal and claims mint path), R-34 (fake portal sites), R-38 (compressed launch).
+- [13. Open questions](./13-open-questions-and-assumptions.md): D-25 (portal), Q-44 (portal mechanism and trust root), Q-47 (post-halt AKT), Q-48 (window close), Q-50 (wind-down accounting), Q-08 (collateral), Q-11 (Realms gaps), A-13 (Alpenglow).
 
 ## Feeds into
 
-- **09**: invariants I-1..I-7, drill requirements, monitor alert tests.
-- **10**: gate entry criteria (audit closure REQ-SEC-058..061), pause runbooks, war-room windows.
+- **09**: invariants I-1..I-8, drill requirements, monitor alert tests, portal rehearsal (pause and I-8 auto-pause).
+- **10**: gate entry criteria (audit closure REQ-SEC-058..061; T1 token and portal closure at GT, REQ-SEC-083), pause runbooks, war-room windows.
 - **11**: audit tranches, bounty, monitoring, key-ceremony deliverables as SOW line items.
 - **12**: §1/§2 threat surfaces as risk-register entries with owners.
