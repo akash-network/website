@@ -140,11 +140,12 @@ const blogPostClassName = clsx(
   "[&_.math-inline]:inline-block [&_.math-inline]:max-w-full [&_.math-inline]:overflow-x-auto [&_.math-inline]:overflow-y-hidden [&_.math-inline]:align-bottom",
   "[&_.math-display]:max-w-full [&_.math-display]:overflow-x-auto",
 
-  // Tables, images and rules, as in proseClasses
+  // Tables, images and rules, as in proseClasses; explicit foreground text so
+  // cells don't inherit the typography plugin's blue-gray in dark mode
   "prose-table:mt-10 prose-table:border-b",
   "prose-thead:border-defaultBorder prose-thead:text-justify md:prose-thead:text-xs md:prose-thead:font-medium",
-  "md:prose-th:px-4 prose-tr:border-defaultBorder",
-  "prose-td:py-4 prose-td:text-start prose-td:px-2 md:prose-td:px-4 md:prose-td:text-sm",
+  "prose-th:text-foreground md:prose-th:px-4 prose-tr:border-defaultBorder",
+  "prose-td:py-4 prose-td:text-foreground prose-td:text-start prose-td:px-2 md:prose-td:px-4 md:prose-td:text-sm",
   "prose-img:my-6 md:prose-img:my-14 prose-img:mx-auto prose-img:max-w-[70rem] prose-img:w-full",
   "[&_.image]:max-w-[70rem] [&_.image]:mx-auto",
   "prose-hr:border-defaultBorder prose-hr:mb-0",
