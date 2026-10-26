@@ -535,3 +535,13 @@ html body[data-scroll-locked] {
   word-break: break-word;
   overflow-wrap: break-word;
 }
+
+/* Blog posts: wrap table cells so long text fits the column instead of
+   scrolling sideways. Overrides the first/last-column nowrap rules above. */
+.prose.blog-post-prose th,
+.prose.blog-post-prose td,
+.prose.blog-post-prose th code,
+.prose.blog-post-prose td code {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
