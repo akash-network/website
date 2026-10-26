@@ -117,7 +117,7 @@ export { bitsClassName as bitsProseClasses };
 // Blog posts: Geist at 16/24 (18/28 from md) in the foreground colour,
 // regular-weight headings with tight leading and tracking, underlined links.
 const blogPostClassName = clsx(
-  "prose prose-blog max-w-full md:mt-12",
+  "prose prose-blog blog-post-prose max-w-full md:mt-12",
 
   // Body copy and lists
   "prose-p:my-6 prose-p:text-base prose-p:leading-6 prose-p:text-foreground md:prose-p:text-lg md:prose-p:leading-7",
