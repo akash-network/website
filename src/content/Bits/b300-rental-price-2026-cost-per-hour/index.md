@@ -1,7 +1,7 @@
 ---
 title: "B300 Rental Cost in 2026: From $6/Hour on Akash for 288GB SXM6"
 pubDate: 2026-09-03
-lastUpdated: 2026-10-17
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "How much it costs to rent an NVIDIA B300 GPU per hour in 2026, what 288GB of HBM3e gets you over an H200 or H100, and when renting beats buying a $53,000 card."
 tags: ["Guides"]
@@ -12,15 +12,15 @@ metaTitle: "B300 Rental Price 2026: Cost Per Hour on Akash (from $6/hr)"
 metaDescription: "How much it costs to rent an NVIDIA B300 per hour in 2026, what 288GB HBM3e gets you over an H200 or H100, and when renting beats buying."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 17, 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 22, 2026.*
 
 On Akash, [renting an NVIDIA B300](/pricing/gpus/b300/) starts from \$6.00 per GPU-hour on demand, or \$48 an hour for an 8-GPU HGX B300 node (October 2026). That compares with a purchase price near \$53,000 for the card alone.
 
 ## TL;DR
 
 - **On Akash:** from \$6.00/GPU-hour on demand, \$48/hour for 8x B300, and reserved clusters by quote — [rent an NVIDIA B300 on Akash](/pricing/gpus/b300/).
-- **Relative cost:** a B300 runs roughly 1.4x an H200 rate and about 2.3x an H100 rate on the same marketplace, for 2x and 3.6x the memory respectively.
-- **What you get:** 288 GB of HBM3e at 8 TB/s in an SXM6 form factor, roughly 3.6x the memory of an H100 and 50% more than a B200.
+- **Relative cost:** a B300 runs roughly 1.6x an [H200](/pricing/gpus/h200/) rate and about 2.2x an [H100](/pricing/gpus/h100/) rate on the same marketplace, for 2x and 3.6x the memory respectively.
+- **What you get:** 288 GB of HBM3e at 8 TB/s in an SXM6 form factor, roughly 3.6x the memory of an H100 and 50% more than a [B200](/pricing/gpus/b200/).
 - **Rent vs buy:** a single B300 costs roughly \$53,000 to purchase and a full 8-GPU DGX B300 system runs \$300,000 to \$500,000, so renting wins for anything below sustained multi-year utilization.
 - **Best fit:** memory-bound inference on 100B-plus parameter models, long-context serving, and fine-tuning runs measured in days or weeks.
 
@@ -63,7 +63,7 @@ Workloads where the B300 rental is the right call:
 - **Reasoning models with long output chains.** NVIDIA rates Blackwell Ultra attention throughput at twice the B200's, and reasoning workloads are decode-bound rather than bound by training arithmetic.
 - **High-concurrency batch inference.** More resident KV cache means more simultaneous sequences per GPU, which lowers cost per token even at a higher cost per hour.
 
-Workloads where a B300 rental wastes money: 7B to 30B models that fit comfortably on an H100 or an RTX PRO 6000, FP8-only serving stacks that cannot reach NVFP4, and anything FP64-heavy. For those, an H100 does the same job for a fraction of the price.
+Workloads where a B300 rental wastes money: 7B to 30B models that fit comfortably on an H100 or an [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-server/), FP8-only serving stacks that cannot reach NVFP4, and anything FP64-heavy. For those, an H100 does the same job for a fraction of the price.
 
 ## When does renting a B300 make more sense than buying for training?
 
@@ -137,3 +137,5 @@ Need B300s for months? [Akash Enterprise](/use-cases/enterprise/) offers reserve
 **Is the B300 worth it over an H200 for inference?** The B300 is worth it over an H200 when memory capacity is the constraint. It offers 288 GB against 141 GB and 8 TB/s against 4.8 TB/s, at a higher per-GPU-hour rate. For any model that fits in 141 GB, the H200 is the better value and the easier capacity to find.
 
 **Should I wait for the Rubin R100 instead of renting a B300?** No, waiting is rarely correct if you need capacity now. The Rubin R100 with 288 GB of HBM4 began shipping in the second half of 2026, with broad cloud availability expected in 2027. Renting rather than buying is precisely how you avoid being stranded by that transition.
+
+**How much does a B300 cost for a day or a week?** At Akash's on-demand rate of \$6.00 per GPU-hour, one B300 costs \$144 for 24 hours and \$1,008 for a 168-hour week. A full 8x B300 node costs \$1,152 a day or \$8,064 a week. Charges stop when you close the deployment, so short fine-tuning or evaluation runs pay only for the hours they use.
