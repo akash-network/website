@@ -336,7 +336,7 @@ akt deploy <sdl-file>
 
 **Flags:**
 
-- `--deposit` - `auto` for the live chain minimum, an explicit chain coin, or an explicit Console USD value such as `5`, `5usd`, or `$5`. Console contexts cannot use the default `auto` value.
+- `--deposit` - Chain rail only: `auto` for the live chain minimum, or an explicit chain coin. Console contexts take no deposit (akt 0.1.x required a USD value of at least $0.50).
 - `--bid-timeout` - Maximum time to wait for bids (default: `5m`)
 - `--bid-select` - `interactive` (default), `cheapest`, or `provider=<addr>`
 - `--ready-timeout` - Maximum readiness wait after manifest submission (default: `2m`)
@@ -582,14 +582,13 @@ akt console whoami
 ```bash
 akt console deployment list [active|closed] --limit 20 --skip 0
 akt console deployment get <dseq>
-akt console deployment create <sdl-file> [deposit-usd]
+akt console deployment create <sdl-file>
 akt console deployment update <dseq> <sdl-file>
-akt console deployment deposit <dseq> [amount-usd]
-akt console deployment settings <dseq> [true|false]
+akt console deployment settings <dseq> [hours|none]
 akt console deployment close <dseq>
 ```
 
-USD amounts must use plain decimal notation with no more than two fractional digits and must be at least $0.50. Deployment mutations validate the positive dseq and reject closed resources before sending a write request. A repeated close is an error.
+`settings` with no value shows the deployment's funding record. An hour count sets a runtime limit, after which the platform closes the deployment and returns the unused funds; `none` removes the limit. Deployment mutations validate the positive dseq and reject closed resources before sending a write request. A repeated close is an error.
 
 ---
 

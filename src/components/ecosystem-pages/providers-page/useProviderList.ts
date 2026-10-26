@@ -1,6 +1,6 @@
 import { BASE_API_URL } from "@/lib/constants";
 import type { ApiProviderList } from "@/types/provider";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
 import axios from "axios";
 
 const isProd = import.meta.env.PROD;
@@ -19,7 +19,14 @@ export async function getProviderList(): Promise<ApiProviderList[]> {
   }
 }
 
-export function useProviderList() {
+/** The full list is ~290 KB gzipped, so callers that don't need near-real-time updates (e.g. the
+ * homepage) should poll far less often than the providers page's 2s default. */
+type PollingOptions = Pick<
+  UseQueryOptions<ApiProviderList[], Error>,
+  "refetchInterval" | "refetchIntervalInBackground"
+>;
+
+export function useProviderList(polling?: PollingOptions) {
   return useQuery<ApiProviderList[], Error>({
     queryKey: ["PROVIDER_LIST"],
     queryFn: getProviderList,
@@ -27,5 +34,6 @@ export function useProviderList() {
     refetchIntervalInBackground: true,
     retry: 3,
     retryDelay: 1000,
+    ...polling,
   });
 }

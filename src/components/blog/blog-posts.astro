@@ -1,0 +1,46 @@
+---
+import {
+  DISPLAY_STORAGE_KEY,
+  POSTS_GRID_CLASS,
+} from "@/components/blog/blogUi";
+import Pagination from "@/components/pagination.astro";
+
+// Static, paginated post grid for the blog listings. While a filter or the
+// oldest-first sort is active, the blog controls set data-client on the
+// wrapper, which hides this grid, and render their results into
+// [data-blog-client] with the same grid classes.
+
+interface Props {
+  page: {
+    currentPage: number;
+    lastPage: number;
+    url: { prev?: string; next?: string };
+  };
+}
+
+const { page } = Astro.props;
+---
+
+<div data-blog-results class="group/results mt-10 scroll-mt-28 md:mt-12">
+  <div class="group-data-[client]/results:hidden">
+    <div data-blog-posts data-display="grid" class={POSTS_GRID_CLASS}>
+      <!-- Apply the saved grid/list choice before the cards render. -->
+      <script
+        is:inline
+        data-astro-rerun
+        define:vars={{ key: DISPLAY_STORAGE_KEY }}
+      >
+        try {
+          if (localStorage.getItem(key) === "list") {
+            document
+              .querySelectorAll("[data-blog-posts]")
+              .forEach((grid) => grid.setAttribute("data-display", "list"));
+          }
+        } catch {}
+      </script>
+      <slot />
+    </div>
+    <Pagination page={page} />
+  </div>
+  <div data-blog-client class="hidden group-data-[client]/results:block"></div>
+</div>

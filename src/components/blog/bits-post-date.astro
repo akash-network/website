@@ -1,0 +1,36 @@
+---
+import FormattedDate from "@/components/formatted-date.astro";
+import { bitsUpdatedDate } from "@/lib/bits-dates";
+
+// Single source for Bid post dates: the byline shows
+// "Published <pubDate> · Updated <lastUpdated>", cards show
+// "Updated <lastUpdated>". Both fall back to pubDate alone when the post
+// has no later lastUpdated.
+interface Props {
+  pubDate: Date;
+  lastUpdated?: Date;
+  variant: "byline" | "card";
+}
+
+const { pubDate, lastUpdated, variant } = Astro.props;
+const updated = bitsUpdatedDate({ pubDate, lastUpdated });
+---
+
+{
+  variant === "byline" ? (
+    <span>
+      Published <FormattedDate date={pubDate} />
+      {updated && (
+        <>
+          {" · "}Updated <FormattedDate date={updated} />
+        </>
+      )}
+    </span>
+  ) : updated ? (
+    <span>
+      Updated <FormattedDate date={updated} />
+    </span>
+  ) : (
+    <FormattedDate date={pubDate} />
+  )
+}

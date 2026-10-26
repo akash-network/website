@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ChevronRight, Play, Pause } from 'lucide-react'
+import { BecomeProviderDialog } from '@/components/ecosystem-pages/providers-page/BecomeProviderDialog'
 
 const DUR = 5000
 
@@ -27,10 +28,37 @@ const PRODUCTS = [
     description: 'Monetize your idle server capacity. Run our provider software to list your GPU and CPU hardware on the global network and automatically earn revenue from enterprise deployments.',
     image: '/images/get-started-provider.webp',
     imageSmall: '/images/get-started-provider.webp',
-    url: 'https://provider-console.akash.network',
+    // No url: the button opens the HomeNode / data center chooser instead of linking out.
     buttonLabel: 'Become a Provider',
   },
 ]
+
+type Product = (typeof PRODUCTS)[number]
+
+const CTA_CLASS = 'mt-5 h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800'
+
+function ProductCta({ product, onProviderChoice }: { product: Product; onProviderChoice: () => void }) {
+  const label = (
+    <>
+      {product.buttonLabel}
+      <ChevronRight className="h-3 w-3" />
+    </>
+  )
+  if (!product.url) {
+    return (
+      <Button variant="outline" size="sm" onClick={onProviderChoice} className={CTA_CLASS}>
+        {label}
+      </Button>
+    )
+  }
+  return (
+    <Button variant="outline" size="sm" asChild className={CTA_CLASS}>
+      <a href={product.url} target="_blank" rel="noopener noreferrer">
+        {label}
+      </a>
+    </Button>
+  )
+}
 
 export function ProductShowcase() {
   const [cur, setCur]       = useState(0)
@@ -44,6 +72,7 @@ export function ProductShowcase() {
   const dragStartX    = useRef(0)
   const dragOffsetRef = useRef(0)
   const [dragOffset, setDragOffset] = useState(0)
+  const [providerDialogOpen, setProviderDialogOpen] = useState(false)
   const carouselRef   = useRef<HTMLDivElement>(null)
 
   const startTimer = () => {
@@ -218,17 +247,7 @@ export function ProductShowcase() {
                     {product.title}
                   </p>
                   <p className="text-sm leading-relaxed text-para">{product.description}</p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                    className="mt-5 h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                  >
-                    <a href={product.url} target="_blank" rel="noopener noreferrer">
-                      {product.buttonLabel}
-                      <ChevronRight className="h-3 w-3" />
-                    </a>
-                  </Button>
+                  <ProductCta product={product} onProviderChoice={() => setProviderDialogOpen(true)} />
                 </div>
                 <div className="overflow-hidden rounded-xl border border-border" style={{ aspectRatio: '1 / 1' }}>
                   <img
@@ -300,17 +319,7 @@ export function ProductShowcase() {
                     <p className="mt-2 text-sm leading-relaxed text-para">
                       {product.description}
                     </p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      asChild
-                      className="mt-5 h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                    >
-                      <a href={product.url} target="_blank" rel="noopener noreferrer">
-                        {product.buttonLabel}
-                        <ChevronRight className="h-3 w-3" />
-                      </a>
-                    </Button>
+                    <ProductCta product={product} onProviderChoice={() => setProviderDialogOpen(true)} />
                   </div>
                 )}
               </div>
@@ -338,6 +347,7 @@ export function ProductShowcase() {
           ))}
         </div>
       </div>
+      <BecomeProviderDialog open={providerDialogOpen} onOpenChange={setProviderDialogOpen} />
     </>
   )
 }

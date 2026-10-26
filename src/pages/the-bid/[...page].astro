@@ -2,7 +2,7 @@
 import BitsSearchDialog from "@/components/blog/bits-search-dialog";
 import Pagination from "@/components/pagination.astro";
 import BitsTag from "@/components/ui/bits-tag.astro";
-import FormattedDate from "@/components/formatted-date.astro";
+import BitsPostDate from "@/components/blog/bits-post-date.astro";
 import Layout from "@/layouts/layout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
@@ -122,7 +122,11 @@ const pathName = Astro.url.pathname.split("/");
 
                 <div class="mt-4 flex items-center justify-between">
                   <p class="text-2xs font-medium text-linkText md:text-sm">
-                    <FormattedDate date={post.data.pubDate} />
+                    <BitsPostDate
+                      pubDate={post.data.pubDate}
+                      lastUpdated={post.data.lastUpdated}
+                      variant="card"
+                    />
                   </p>
                   {post.data.tags[0] && (
                     <span class="inline-flex items-center rounded-full bg-[hsl(0,0%,94%)] px-2.5 py-0.5 text-xs font-medium text-[hsl(0,0%,20%)] dark:bg-[hsl(0,0%,22%)] dark:text-[hsl(0,0%,88%)]">

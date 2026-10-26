@@ -4,11 +4,12 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import { ChevronRight } from "lucide-react";
 import { FAQ } from "@/components/token-page/faq";
 import NetworkGlobeSection from "@/components/home/network-globe.astro";
+import { BecomeProviderButton } from "@/components/ecosystem-pages/providers-page/BecomeProviderButton";
 
 // FAQ answers verified against akash.network/docs/providers on 2026-09-11.
 // Setup and installation docs confirm Ubuntu 24.04 LTS on x86_64 via the
-// official Provider Playbook (Ansible) or Kubespray, with Provider Console
-// as an alternative no-Kubernetes-expertise path. The docs do not document a
+// official Provider Playbook (Ansible) or Kubespray. Provider Console is now
+// for managing a running provider, not setting one up. The docs do not document a
 // provider-side mechanism to restrict which deployments may lease capacity —
 // provider attributes are documented as an advertisement/matching system,
 // not a gating one — so the sentence claiming otherwise was removed.
@@ -16,7 +17,7 @@ const faqs = [
   {
     title: "What technical stack is required to run a secure provider node?",
     description:
-      "A Kubernetes cluster on Ubuntu 24.04 LTS (x86_64), a public IP, and the ports the provider service and tenant ingress need. Setup runs through the official Provider Playbook (Ansible) or the Provider Console. GPU nodes use the NVIDIA GPU Operator, installed as part of the playbook.",
+      "A Kubernetes cluster on Ubuntu 24.04 LTS (x86_64), a public IP, and the ports the provider service and tenant ingress need. Setup runs through the official Provider Playbook (Ansible), and Provider Console is where you manage the provider once it is live. GPU nodes use the NVIDIA GPU Operator, installed as part of the playbook.",
   },
   {
     title: "Are tenants isolated securely enough to run safely on my hardware?",
@@ -83,14 +84,10 @@ const hardware = [
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
-          <a
-            href="https://provider-console.akash.network/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
-          >
-            Become a Provider <ChevronRight size={14} className="ml-1.5" />
-          </a>
+          <BecomeProviderButton
+            client:idle
+            className="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          />
           <a
             href="/pricing/provider-calculator/"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
@@ -234,14 +231,10 @@ const hardware = [
           </p>
         </div>
         <div class="flex flex-wrap justify-center gap-3">
-          <a
-            href="https://provider-console.akash.network/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
-          >
-            Become a Provider <ChevronRight size={14} className="ml-1.5" />
-          </a>
+          <BecomeProviderButton
+            client:idle
+            className="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          />
           <a
             href="/pricing/provider-calculator/"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"

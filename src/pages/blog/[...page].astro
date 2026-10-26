@@ -1,9 +1,11 @@
 ---
-import SearchDialog from "@/components/blog/search-dialog";
+import BlogFilterBar from "@/components/blog/blog-filter-bar.astro";
+import BlogPosts from "@/components/blog/blog-posts.astro";
+import { POSTS_PER_PAGE } from "@/components/blog/blogUi";
 import PostCard from "@/components/cards/post-card.astro";
-import Pagination from "@/components/pagination.astro";
-import Tag2 from "@/components/ui/tag2.astro";
 import Layout from "@/layouts/layout.astro";
+import { byNewest, isCaseStudy } from "@/utils/blogTaxonomy";
+import { getReadingTime } from "@/utils/readingTime";
 import type { PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
@@ -15,141 +17,41 @@ export async function getStaticPaths({
   paginate: PaginateFunction;
 }) {
   const posts = (await getCollection("Blog"))
-    .filter((post) => {
-      return (
-        post.data.archive !== true &&
-        !post.data.categories.some(
-          (category: string) => category.toLowerCase() === "case studies",
-        )
-      );
-    })
-    .sort((a, b) => {
-      const dateA = new Date(a.data.pubDate);
-      const dateB = new Date(b.data.pubDate);
+    .filter((post) => post.data.archive !== true && !isCaseStudy(post))
+    .sort(byNewest);
 
-      return dateB.getTime() - dateA.getTime();
-    });
-
-  const categories: string[] = [];
-
-  posts.forEach((post) => {
-    post.data.categories.forEach((category: string) => {
-      const lowerCasedCategory = category.toLowerCase();
-      // Filter out "Case Studies" from blog categories
-      if (
-        !categories.includes(category) &&
-        category.toLowerCase() !== "case studies"
-      ) {
-        categories.push(category);
-      }
-    });
-  });
-
-  const pinnedPost: BlogPost = posts[0];
-  posts.shift();
   return paginate(posts, {
-    props: { categories: categories, pinnedPost: pinnedPost },
-    pageSize: 12,
+    // The newest post's banner stays the listing's social image.
+    props: { ogImage: posts[0].data.bannerImage.src },
+    pageSize: POSTS_PER_PAGE,
   });
 }
 
-const { page, categories, pinnedPost } = Astro.props;
-
-const pathName = Astro.url.pathname.split("/");
+const { page, ogImage } = Astro.props;
 ---
 
 <Layout
   title="Akash Network Blog - Insights into Decentralized Cloud Computing"
   description="Stay updated with the latest trends, news, and insights in decentralized cloud computing. Explore thought leadership, technical deep-dives, and community highlights."
-  image={pinnedPost.data.bannerImage.src}
+  image={ogImage}
 >
-  <div class="container mt-[120px]">
-    {
-      page.currentPage === 1 && (
-        <a class="flex cursor-pointer" href={`/blog/${pinnedPost.id}`}>
-          <PostCard
-            type="large"
-            title={pinnedPost.data.title}
-            image={pinnedPost.data.bannerImage}
-            tag={pinnedPost.data.categories[0]}
-            contributor={pinnedPost.data.contributors[0]}
-            pubDate={pinnedPost.data.pubDate}
-            description={pinnedPost.data.description}
-          />
-        </a>
-      )
-    }
-  </div>
+  <div class="container mt-10 md:mt-16">
+    <BlogFilterBar />
 
-  <div class="container mt-[120px]">
-    <div
-      class="lg: flex flex-col items-start justify-between gap-x-5 border-b pb-0 pb-5 lg:flex-row lg:border-none"
-    >
-      <div
-        class="sidebar-scroll flex max-w-full items-center justify-start gap-2 overflow-auto pb-1"
-      >
-        <Tag2
-          active={pathName[1]?.toLowerCase() === "blog" && !pathName[2]}
-          href={`/blog`}
-        >
-          All Posts
-        </Tag2>
-
-        {
-          categories.map((category: string) => {
-            return (
-              <Tag2
-                href={
-                  category.toLowerCase() === "archive"
-                    ? `/blog/archived.astro`
-                    : `/blog/${category.toLowerCase()?.replaceAll(" ", "-")}/1`
-                }
-                active={pathName[2]?.toLowerCase() === category.toLowerCase()}
-              >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Tag2>
-            );
-          })
-        }
-
-        <Tag2
-          active={pathName[2]?.toLowerCase() === "archived"}
-          href={`/blog/archived`}
-        >
-          Archive
-        </Tag2>
-      </div>
-
-      <div class="hidden lg:block">
-        <SearchDialog client:load />
-      </div>
-    </div>
-
-    <div class="mt-5 flex justify-end lg:hidden">
-      <SearchDialog client:load />
-    </div>
-    <!-- Posts grid -->
-    <div
-      class="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-[80px] lg:grid-cols-3 lg:gap-16"
-    >
+    <BlogPosts page={page}>
       {
-        page.data.map((post: BlogPost, i: number) => {
-          return (
-            <a class="flex cursor-pointer " href={`/blog/${post.id}`}>
-              <PostCard
-                title={post.data.title}
-                image={post.data.bannerImage}
-                tag={post.data.categories[0]}
-                contributor={post.data.contributors[0]}
-                pubDate={post.data.pubDate}
-                description={post.data.description}
-              />
-            </a>
-          );
-        })
+        page.data.map((post: BlogPost) => (
+          <PostCard
+            href={`/blog/${post.id}`}
+            title={post.data.title}
+            image={post.data.bannerImage}
+            tag={post.data.categories[0]}
+            contributor={post.data.contributors[0]}
+            pubDate={post.data.pubDate}
+            readingTime={getReadingTime(post.body)}
+          />
+        ))
       }
-    </div>
-
-    <Pagination page={page} />
+    </BlogPosts>
   </div>
 </Layout>

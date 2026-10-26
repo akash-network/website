@@ -1,7 +1,7 @@
 ---
 title: "Blackwell & Vera Rubin GPU Price Increase 2027: How Much Will GPU Rental Prices Rise?"
 pubDate: 2026-09-06
-lastUpdated: 2026-09-06
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "NVIDIA Blackwell 300 and Vera Rubin 200 GPU prices are set to rise 15% to 17% in 2027 as memory costs surge 435%. See how the GPU price increase affects H100, H200, B200, and B300 rental rates, and whether to buy, rent, or reserve GPU capacity now."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "NVIDIA Blackwell & Vera Rubin GPU Price Hike 2027"
 metaDescription: "NVIDIA Blackwell and Vera Rubin GPU prices rise 15-17% in 2027 on surging memory costs. See the impact on GPU rental prices for H100, H200, B200, and B300."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 [Bloomberg reported on August 22, 2026](https://fortune.com/2026/08/22/nvidia-customers-ai-related-price-hikes-15-percent-vera-rubin-grace-blackwell-chips/) that NVIDIA has told large customers to expect price increases above 15% on Grace Blackwell and Vera Rubin servers shipping in early 2027. [The Information reported the figure at around 17%](https://www.duckittech.com/news/nvidia-vera-rubin-and-blackwell-server-prices-could-rise-17-as-memory-costs-surge). Rising memory costs are the reason given in both reports.
 
@@ -137,7 +137,7 @@ Supply is a separate constraint from price. [Thunder Compute's September 2026 ma
 
 ## Will H100, H200 and B200 become better alternatives to Blackwell and Rubin?
 
-For inference and fine-tuning, H100 and H200 look like the value tier. The reported increases apply to new 2027 rack systems, so Hopper GPUs already installed are not affected by them. Hopper is also better supplied and cheaper per hour today.
+For inference and fine-tuning, [H100](/pricing/gpus/h100/) and [H200](/pricing/gpus/h200/) look like the value tier. The reported increases apply to new 2027 rack systems, so Hopper GPUs already installed are not affected by them. Hopper is also better supplied and cheaper per hour today.
 
 | GPU | Memory | Median price per hour | Confirmed stock share | Covered by reported 2027 increases? |
 |---|---|---|---|---|
@@ -156,7 +156,7 @@ Hopper pricing is also not falling. [SemiAnalysis's H100 rental index](https://n
 
 One practical caution on AMD: AIMultiple notes MI300X lists below the H100 floor at some providers, but it runs on ROCm rather than CUDA, and not every workload ports cleanly.
 
-**Takeaway:** H100 and H200 are the value tier for inference and fine-tuning, but run the cost-per-run math before ruling out B200 for training.
+**Takeaway:** H100 and H200 are the value tier for inference and fine-tuning, but run the cost-per-run math before ruling out [B200](/pricing/gpus/b200/) for training.
 
 ## How will higher GPU prices affect AI training and inference costs?
 
@@ -191,7 +191,7 @@ The discounts below are measured from AIMultiple's reserved-tier data, not proje
 | 1 year reserved | 5% to 38% off overall | Full-year commitment |
 | Multi-year | Deepest discounts, negotiated directly | Longest lock, resale value risk |
 
-The one-year discount varies sharply by GPU. AIMultiple measures B200 reserving at around 15% off and L40S at around 28% off, with the steepest discounts on B300 where providers compete hardest for committed buyers. H100 and H200 see only single-digit to low-teens discounts, because their on-demand market is already competitive enough that providers do not sacrifice margin.
+The one-year discount varies sharply by GPU. AIMultiple measures B200 reserving at around 15% off and L40S at around 28% off, with the steepest discounts on [B300](/pricing/gpus/b300/) where providers compete hardest for committed buyers. H100 and H200 see only single-digit to low-teens discounts, because their on-demand market is already competitive enough that providers do not sacrifice margin.
 
 Availability risk deserves equal weight to price risk. [SemiAnalysis reported on-demand capacity sold out](https://newsletter.semianalysis.com/p/the-great-gpu-shortage-rental-capacity) across GPU types, with holders unwilling to release capacity back into the pool even after price increases. A contract that guarantees machines carries value beyond the rate.
 
@@ -218,3 +218,5 @@ A workable rule: reserve the portion of demand you are confident about for twelv
 **Is the H100 still worth renting in 2027?** For inference and fine-tuning, yes. AIMultiple's August 2026 index puts H100 at a \$3.38 median with 43% to 51% confirmed stock, far better availability than B300 at 5% to 28%. For large training runs, B200 offers roughly 2.5 times the training performance and may cost less per finished job.
 
 **How much does a Vera Rubin rack cost?** Morgan Stanley estimates a Vera Rubin VR200 NVL72 rack at around \$7.8 million, against roughly \$3.99 million for the current GB300 rack. Memory accounts for an estimated \$2.0 million of that total, with each Rubin GPU estimated at \$55,000 and each Vera CPU at \$5,000.
+
+**What is the NVIDIA GB300 NVL72?** The GB300 NVL72 is NVIDIA's current rack-scale Blackwell Ultra system: 72 Blackwell Ultra GPUs and 36 Grace CPUs in one fully liquid-cooled rack, linked by 130 TB/s of NVLink bandwidth with about 20 TB of GPU memory ([NVIDIA](https://www.nvidia.com/en-us/data-center/gb300-nvl72/)). Morgan Stanley estimates a GB300 rack at roughly \$3.99 million, and GB300 systems are among those named in the reported 2027 price increase, ahead of the Vera Rubin VR200 NVL72 at around \$7.8 million.

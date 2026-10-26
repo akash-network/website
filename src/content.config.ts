@@ -17,7 +17,6 @@ import { docsSchema } from "@/utils/schema/docsSchema";
 import { ecosystemSchema } from "@/utils/schema/ecosystem";
 import { homePageSchema } from "@/utils/schema/homepage";
 import { privacySchema } from "@/utils/schema/privacy";
-import { providersPage } from "@/utils/schema/providers_page";
 import { roadmapSchema } from "@/utils/schema/roadmap";
 import { tokenPage } from "@/utils/schema/token_page";
 import { defineCollection, z } from "astro:content";
@@ -69,7 +68,6 @@ export const collections = {
   Homepage: homePageSchema,
   Token_Homepage: tokenPage,
   Deploy_Homepage: deployPage,
-  Providers_Homepage: providersPage,
   Development_Page: developmentSchema,
   About_Page: aboutSchema,
   Brand_Resources_Homepage: brandResourcesSchema,

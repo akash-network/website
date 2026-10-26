@@ -22,6 +22,8 @@ export const redirects = {
   "/about/network-capacity": "/ecosystem/providers/",
   "/ecosystem/network-capacity/": "/ecosystem/providers/",
   "/ecosystem/network-capacity": "/ecosystem/providers/",
+  "/providers/": "/ecosystem/providers/",
+  "/providers": "/ecosystem/providers/",
   "/development/current-projects": "/roadmap/",
   "/ecosystem": "/ecosystem/akash-tools/latest/",
   "/development": "/development/welcome/overview/",

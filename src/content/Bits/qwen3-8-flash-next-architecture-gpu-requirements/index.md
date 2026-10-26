@@ -1,7 +1,7 @@
 ---
 title: "Qwen3.8-Flash-Next GPU Requirements, Context & Benchmarks (2026)"
 pubDate: 2026-08-26
-lastUpdated: 2026-08-26
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Qwen3.8-Flash-Next is 180B total / 6B active, 262K native context (1M with YaRN). FP8 is 173 GiB — here’s the GPU math, benchmarks, and cloud cost."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
 Qwen3.8-Flash-Next is Alibaba's open-weight preview of the architecture behind Qwen4: a 180B-parameter hybrid model that activates only 6B parameters per token, natively handles 262,144 tokens of context (extensible to 1,000,000), and needs a multi-GPU cluster, not a single card, to serve at full precision — a quantized GGUF build is the only way around that, at a quality cost. Source: [Hugging Face model card](https://huggingface.co/Qwen/Qwen3.8-Flash-Next), [Unsloth docs](https://unsloth.ai/docs/models/qwen3.8-next).
 
@@ -18,7 +18,7 @@ Qwen3.8-Flash-Next is Alibaba's open-weight preview of the architecture behind Q
 
 - 180B total parameters (125B language model + 51B n-gram embedding + 4B multi-token prediction), with only 6B activated per token.
 - 262,144-token native context, extensible to 1,000,000 tokens via YaRN scaling.
-- The FP8 checkpoint is 172.78 GiB; BF16 is 335.28 GiB. Plan for a minimum of TP2 on a GB300 node or TEP8 on an 8x H200 node — or skip GPUs entirely with a quantized GGUF build on 96GB+ of CPU/unified memory.
+- The FP8 checkpoint is 172.78 GiB; BF16 is 335.28 GiB. Plan for a minimum of TP2 on a GB300 node or TEP8 on an 8x [H200](/pricing/gpus/h200/) node — or skip GPUs entirely with a quantized GGUF build on 96GB+ of CPU/unified memory.
 - Introduces three new architectural pieces: Qwen Sparse Attention (QSA), Gated Residual connections, and n-gram embedding for cheap parameter scaling.
 - It's a research preview, not the production model. The hosted Qwen3.8-Flash (via Qwen Cloud) ships with 1M context by default and built-in tools.
 
@@ -141,7 +141,7 @@ Is Qwen3.8-Flash-Next the right size for your workload? Usually not if you need 
 | License | qwen-community-1.0 | Apache 2.0 | Not yet confirmed |
 | Best fit | Agentic/tool-use workloads at scale | Local dev, single-GPU coding agents | Highest raw dense-model capability |
 
-Sources: Qwen3.8-Flash-Next model card; our [Qwen3.8-27B: Managed API vs Self-Hosting](/bits/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/) post, which measured Qwen3.8-27B's FP8 build at roughly 28GB, comfortably fitting one H100 or A100 80GB.
+Sources: Qwen3.8-Flash-Next model card; our [Qwen3.8-27B: Managed API vs Self-Hosting](/bits/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/) post, which measured Qwen3.8-27B's FP8 build at roughly 28GB, comfortably fitting one [H100](/pricing/gpus/h100/) or [A100](/pricing/gpus/a100/) 80GB.
 
 Takeaway: Qwen3.8-27B is the model to prototype with locally; Qwen3.8-Flash-Next is the model to put behind a production agent stack once you've validated the workflow, since its MoE routing gives it much stronger agentic scores per activated parameter than the dense 27B, at the cost of needing a real multi-GPU deployment.
 
@@ -151,13 +151,13 @@ For the full single-GPU cost breakdown, including the token volume where self-ho
 
 Yes. Since a single accelerator can't hold either checkpoint, most teams evaluating Qwen3.8-Flash-Next will rent a matching multi-GPU node rather than buy one.
 
-Using live rates from Akash's GPU marketplace, checked August 20, 2026, H200 SXM5 (141GB) starts at \$4.45 per GPU-hour ([NVIDIA H200 GPU Guide 2026](/bits/nvidia-h200-gpu-guide-2026-specs-benchmarks-pricing/)), and B300 (288GB, the standalone DGX B300 part) has been listed from \$6.00 per GPU-hour as a starting rate, checked August 7, 2026, though it doesn't yet have a dedicated self-serve availability page the way H100, H200, and A100 do, so treat it as a rate to confirm via a custom quote rather than guaranteed instant capacity ([Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 self-host guide](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/)).
+Using rates from Akash's GPU marketplace, H200 SXM5 (141GB) is listed at \$3.85 per GPU-hour as of October 22, 2026 ([NVIDIA H200 GPU Guide 2026](/bits/nvidia-h200-gpu-guide-2026-specs-benchmarks-pricing/)), and B300 (288GB, the standalone DGX B300 part) has been listed from \$6.00 per GPU-hour as a starting rate, checked October 22, 2026 (see [B300 pricing on Akash](/pricing/gpus/b300/)), though B300 capacity is limited, so treat it as a rate to confirm via a custom quote rather than guaranteed instant capacity ([Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 self-host guide](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/)).
 
 Rough monthly cost at these starting rates, running 24/7 (730 hours):
 
 | Config | GPUs | Rate used | Hourly | Monthly (730 hrs) |
 |---|---|---|---|---|
-| TEP8, 8x H200 (FP8) | 8 | \$4.45/GPU-hr | \$35.60 | ~\$25,988 |
+| TEP8, 8x H200 (FP8) | 8 | \$3.85/GPU-hr | \$30.80 | ~\$22,484 |
 | TP2, 2x B300 (FP8, minimum) | 2 | \$6.00/GPU-hr | \$12.00 | ~\$8,760 |
 | TP4, 4x B300 (FP8, full-tray) | 4 | \$6.00/GPU-hr | \$24.00 | ~\$17,520 |
 
@@ -186,3 +186,5 @@ For a broader look at what to rent when a workload doesn't need the largest GPU 
 **Does Qwen3.8-Flash-Next support image and video input?** Yes. It's a causal language model with a vision encoder, listed on Hugging Face under the image-text-to-text task, and it accepts text, image URLs, and video URLs in the same chat message through the standard OpenAI-compatible API.
 
 **How does Qwen3.8-Flash-Next compare to DeepSeek-V4-Flash-0731?** On Alibaba's published benchmarks, Qwen3.8-Flash-Next leads on most coding and agentic tasks (SWE-bench Pro: 62.5 vs. 56.0; JobBench: 55.7 vs. 41.3) while activating fewer parameters (6B vs. 13B). DeepSeek-V4-Flash-0731 scores higher on repo-level code generation (NL2Repo-Bench: 54.2 vs. 48.1). DeepSeek-V4-Flash-0731 also has the smaller footprint of the two: 156.4GB versus Qwen3.8-Flash-Next's 172.78GB FP8 checkpoint (see our [Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 self-host guide](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/)).
+
+**Do I need a GB300 NVL72 rack to run Qwen3.8-Flash-Next?** No. The GB300 configuration in Qwen's recipe refers to NVIDIA's 72-GPU, liquid-cooled NVL72 rack, but the model also runs on standard 8-GPU servers. On Akash, as of October 22, 2026, the TEP8 path on 8x H200 costs \$30.80 an hour and the minimum FP8 setup on 2x B300 costs \$12.00 an hour, with no rack-scale commitment.

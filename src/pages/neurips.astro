@@ -4,6 +4,7 @@ import Hero from "@/components/neurips/hero.astro";
 import InfoCards from "@/components/neurips/InfoCards.astro";
 import Integrations from "@/components/neurips/Integrations.astro";
 import Layout from "@/layouts/layout.astro";
+import { getReadingTime } from "@/utils/readingTime";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 const showBlogs = [
@@ -36,16 +37,15 @@ type BlogPost = CollectionEntry<"Blog">;
       {
         blogs.map((post: BlogPost) => {
           return (
-            <a href={`/blog/${post.id}`} class=" flex cursor-pointer">
-              <PostCard
-                title={post.data.title}
-                image={post.data.bannerImage}
-                tag={post.data.tags[0]}
-                contributor={post.data.contributors[0]}
-                pubDate={post.data.pubDate}
-                description={post.data.description}
-              />
-            </a>
+            <PostCard
+              href={`/blog/${post.id}`}
+              title={post.data.title}
+              image={post.data.bannerImage}
+              tag={post.data.tags[0]}
+              contributor={post.data.contributors[0]}
+              pubDate={post.data.pubDate}
+              readingTime={getReadingTime(post.body)}
+            />
           );
         })
       }

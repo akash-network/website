@@ -11,24 +11,24 @@ The `akt-cli` skill teaches a coding agent to operate an installed `akt` binary:
 
 ## Get the Skill
 
-For the bundle shipped with release candidate akt v1.0.0-rc0, download [`akt_1.0.0-rc0_skill.zip`](https://github.com/akash-network/akt/releases/download/v1.0.0-rc0/akt_1.0.0-rc0_skill.zip). Its SHA-256 checksum is included in the [release checksums](https://github.com/akash-network/akt/releases/download/v1.0.0-rc0/akt_1.0.0-rc0_checksums.txt).
+This page hosts the bundle shipped with akt v1.0.1. The ZIP is the same file as the release's [`akt_1.0.1_skill.zip`](https://github.com/akash-network/akt/releases/download/v1.0.1/akt_1.0.1_skill.zip), so its SHA-256 also appears in the [release checksums](https://github.com/akash-network/akt/releases/download/v1.0.1/akt_1.0.1_checksums.txt). If `akt version` reports a different version, download the `akt_<version>_skill.zip` from [that release](https://github.com/akash-network/akt/releases) instead.
 
 [Download the complete akt-cli skill ZIP](/skills/akt-cli.zip), or read the files hosted on this website:
 
-| File                                                                           | Contents                                                                                                        |
-| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| [SKILL.md](/skills/akt-cli/SKILL.md)                                           | Main instructions: context selection, command discovery, structured output, deployment workflows, and recovery. |
-| [references/setup.md](/skills/akt-cli/references/setup.md)                     | Installation, version checks, chain and Console contexts, credentials, and optional MCP setup.                  |
-| [references/deployments.md](/skills/akt-cli/references/deployments.md)         | SDL preparation, previews, bid selection, deployment inspection, updates, and closure.                          |
-| [references/troubleshooting.md](/skills/akt-cli/references/troubleshooting.md) | Diagnose setup, funding, bid, manifest, and provider failures; reconcile partial deployments before retrying.   |
-| [agents/openai.yaml](/skills/akt-cli/agents/openai.yaml)                       | Optional display name, description, and default prompt for compatible agents.                                   |
-| [LICENSE](/skills/akt-cli/LICENSE)                                             | The upstream Apache 2.0 license.                                                                                |
+| File                                                                           | Contents                                                                                                            |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| [SKILL.md](/skills/akt-cli/SKILL.md)                                           | Main instructions: context selection, command discovery, structured output, deployment workflows, and recovery.     |
+| [references/setup.md](/skills/akt-cli/references/setup.md)                     | Installation, version checks, chain and Console contexts, credentials, and optional MCP setup.                      |
+| [references/deployments.md](/skills/akt-cli/references/deployments.md)         | SDL preparation, previews, bid selection, inspection, updates and patches, Console secrets, redeploys, and closure. |
+| [references/troubleshooting.md](/skills/akt-cli/references/troubleshooting.md) | Diagnose setup, funding, bid, manifest, and provider failures; reconcile partial deployments before retrying.       |
+| [agents/openai.yaml](/skills/akt-cli/agents/openai.yaml)                       | Optional display name, description, and default prompt for compatible agents.                                       |
+| [LICENSE](/skills/akt-cli/LICENSE)                                             | The upstream Apache 2.0 license.                                                                                    |
 
 The ZIP contains an `akt-cli/` directory with all six files. Keep the folder intact so the relative links in `SKILL.md` and its references continue to work. A [SHA-256 checksum](/skills/akt-cli.zip.sha256) is available for the ZIP.
 
 ## Install the CLI
 
-The skill needs `akt` on your agent's `PATH` and access to a shell. Install v1.0.0-rc0 using the [archive instructions](/docs/developers/deployment/akt/installation). For the latest stable release, use Homebrew:
+The skill needs `akt` on your agent's `PATH` and access to a shell. Install the latest stable release with Homebrew:
 
 ```bash
 brew tap akash-network/tap
@@ -74,7 +74,7 @@ Extract the complete `akt-cli/` folder into your agent's supported skills direct
 
 ### From the akt Repository
 
-The skill lives in `.agents/skills/akt-cli/` in the [akt v1.0.0-rc0 source](https://github.com/akash-network/akt/tree/v1.0.0-rc0/.agents/skills/akt-cli). Copy that complete folder into your project's or agent's skills directory, or use one of the ZIP downloads above.
+The skill lives in `.agents/skills/akt-cli/` in the [akt v1.0.1 source](https://github.com/akash-network/akt/tree/v1.0.1/.agents/skills/akt-cli). Copy that complete folder into your project's or agent's skills directory, or use one of the ZIP downloads above.
 
 ## Use the Skill
 
@@ -105,7 +105,7 @@ For changes that spend funds or alter a deployment, specify the target context, 
 - **Context and identity:** Inspect configuration, select chain signing or Console managed deployment, and keep credentials out of output.
 - **Command discovery:** Check the installed binary's version and help before relying on flags or examples.
 - **Deployment preparation:** Write and validate SDL, preserve resource and placement requirements, preview the plan, and choose an explicit bid strategy for unattended work.
-- **Operations:** Use JSON or JSONL output, inspect leases, fetch status, logs, and events, and update or close the intended deployment.
+- **Operations:** Use JSON or JSONL output, inspect leases, fetch status, logs, and events, and update, patch, redeploy, or close the intended deployment. On Console contexts, secret values come from a secrets file, never from arguments or the SDL.
 - **Recovery:** Locate the last successful step, inspect chain and provider state, and continue from existing resources after a partial failure.
 
 The skill works through the CLI with shell access. [akt MCP](/docs/developers/deployment/akt/mcp) optionally exposes selected Akash operations as tools for MCP clients. For broader deployment, provider, and node-operator guidance, see the separate [Akash skill bundle](/docs/getting-started/ai-agents).

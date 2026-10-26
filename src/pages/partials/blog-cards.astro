@@ -1,0 +1,42 @@
+---
+import PostCard from "@/components/cards/post-card.astro";
+import {
+  byNewest,
+  getBlogTopics,
+  getPostTopicSlugs,
+  isCaseStudy,
+  toCategorySlug,
+} from "@/utils/blogTaxonomy";
+import { getReadingTime } from "@/utils/readingTime";
+import { getCollection } from "astro:content";
+
+// Every blog listing card as an HTML fragment (no layout). The blog controls
+// fetch it once when a filter or the oldest-first sort is used, then filter,
+// sort and paginate the cards in the browser using the data-* attributes.
+// Excluded from the sitemap in astro.config.mjs.
+export const partial = true;
+
+const posts = (await getCollection("Blog"))
+  .filter((post) => !isCaseStudy(post))
+  .sort(byNewest);
+const topicSlugs = new Set(getBlogTopics(posts).map((topic) => topic.slug));
+---
+
+{
+  posts.map((post) => (
+    <PostCard
+      href={`/blog/${post.id}`}
+      title={post.data.title}
+      image={post.data.bannerImage}
+      tag={post.data.categories[0]}
+      contributor={post.data.contributors[0]}
+      pubDate={post.data.pubDate}
+      readingTime={getReadingTime(post.body)}
+      data-date={post.data.pubDate.toISOString()}
+      data-year={post.data.pubDate.getUTCFullYear()}
+      data-categories={post.data.categories.map(toCategorySlug).join(",")}
+      data-topics={getPostTopicSlugs(post, topicSlugs).join(",")}
+      data-archived={post.data.archive ? "true" : undefined}
+    />
+  ))
+}

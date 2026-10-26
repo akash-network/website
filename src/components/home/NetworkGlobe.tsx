@@ -2,6 +2,7 @@ import createGlobe from 'cobe'
 import { useEffect, useRef, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { BecomeProviderDialog } from '@/components/ecosystem-pages/providers-page/BecomeProviderDialog'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -72,6 +73,7 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
   const rafRef    = useRef<number>(0)
 
   const [grabbing, setGrabbing] = useState(false)
+  const [providerDialogOpen, setProviderDialogOpen] = useState(false)
 
   const stats: StatItem[] | null = initialStats ? buildStats(initialStats) : null
   const markers = initialMarkers.length > 0 ? initialMarkers : FALLBACK_MARKERS
@@ -162,12 +164,11 @@ export function NetworkGlobe({ initialStats, initialMarkers }: Props) {
               View All Providers <ChevronRight className="h-3.5 w-3.5" />
             </a>
           </Button>
-          <Button asChild size="sm"
+          <Button size="sm" onClick={() => setProviderDialogOpen(true)}
             className="h-9 gap-1.5 bg-foreground text-background hover:bg-foreground/90 border-0">
-            <a href="https://provider-console.akash.network/" target="_blank" rel="noopener noreferrer">
-              Become a Provider <ChevronRight className="h-3.5 w-3.5" />
-            </a>
+            Become a Provider <ChevronRight className="h-3.5 w-3.5" />
           </Button>
+          <BecomeProviderDialog open={providerDialogOpen} onOpenChange={setProviderDialogOpen} />
         </div>
       </div>
 

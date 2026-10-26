@@ -19,6 +19,10 @@ interface Props {
   selectedClusterId: string | null;
   onSelectCluster: (cluster: ProviderCluster) => void;
   panel: ReactNode | null;
+  /** The card's own "Become a Provider" buttons (toolbar on desktop, full-width on mobile). Pages
+   * that already offer the CTA elsewhere — the homepage puts it in its section header — turn
+   * these off so it isn't shown twice. */
+  showBecomeProvider?: boolean;
 }
 
 function matchesQuery(provider: ApiProviderList, query: string): boolean {
@@ -31,7 +35,15 @@ function matchesQuery(provider: ApiProviderList, query: string): boolean {
   );
 }
 
-export function GlobeExplorerCard({ providers, networkCapacity, gpuPrices, selectedClusterId, onSelectCluster, panel }: Props) {
+export function GlobeExplorerCard({
+  providers,
+  networkCapacity,
+  gpuPrices,
+  selectedClusterId,
+  onSelectCluster,
+  panel,
+  showBecomeProvider = true,
+}: Props) {
   const [search, setSearch] = useState("");
   const [scale, setScale] = useState(MIN_SCALE);
   const [spinning, setSpinning] = useState(true);
@@ -105,19 +117,21 @@ export function GlobeExplorerCard({ providers, networkCapacity, gpuPrices, selec
             <IconButton onClick={() => setSpinning((s) => !s)} label={spinning ? "Pause spin" : "Resume spin"}>
               {spinning ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
             </IconButton>
-            <button
-              type="button"
-              onClick={() => setProviderDialogOpen(true)}
-              className="ml-1 hidden h-7 items-center gap-1.5 whitespace-nowrap rounded-md bg-foreground px-3 text-xs font-medium text-background hover:opacity-90 md:flex"
-            >
-              Become a Provider
-              <ArrowUpRight className="h-3 w-3" />
-            </button>
+            {showBecomeProvider && (
+              <button
+                type="button"
+                onClick={() => setProviderDialogOpen(true)}
+                className="ml-1 hidden h-7 items-center gap-1.5 whitespace-nowrap rounded-md bg-foreground px-3 text-xs font-medium text-background hover:opacity-90 md:flex"
+              >
+                Become a Provider
+                <ArrowUpRight className="h-3 w-3" />
+              </button>
+            )}
           </div>
         </div>
       </div>
 
-      <BecomeProviderDialog open={providerDialogOpen} onOpenChange={setProviderDialogOpen} />
+      {showBecomeProvider && <BecomeProviderDialog open={providerDialogOpen} onOpenChange={setProviderDialogOpen} />}
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
         <div className="order-4 w-full md:order-1 lg:w-auto">
@@ -148,14 +162,16 @@ export function GlobeExplorerCard({ providers, networkCapacity, gpuPrices, selec
 
         <div className="order-3 w-full md:hidden">{renderSearchInput()}</div>
 
-        <button
-          type="button"
-          onClick={() => setProviderDialogOpen(true)}
-          className="order-5 flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background hover:opacity-90 md:hidden"
-        >
-          Become a Provider
-          <ArrowUpRight className="h-3.5 w-3.5" />
-        </button>
+        {showBecomeProvider && (
+          <button
+            type="button"
+            onClick={() => setProviderDialogOpen(true)}
+            className="order-5 flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-medium text-background hover:opacity-90 md:hidden"
+          >
+            Become a Provider
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </button>
+        )}
       </div>
 
       <div className="mt-2 flex flex-col-reverse items-center justify-between gap-2 sm:flex-row">

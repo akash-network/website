@@ -50,14 +50,14 @@ Two execution paths can coexist in one context:
 - `console-api`: Console signs using its managed wallet and funds deployments
   from account credits.
 
-The context preference chooses the path for shared `deploy`, `update`, and
+The context preference chooses the path for shared `deploy`, `update`, `redeploy`, and
 `close` workflows. Explicit `akt tx` commands always use local signing.
 Explicit `akt console` commands use Console. Read [setup](references/setup.md)
 when configuration, credentials, installation, or MCP setup is needed.
 
 ## Choose the operation and identifiers
 
-Prefer `akt deploy`, `akt update`, and `akt close` for complete deployment
+Prefer `akt deploy`, `akt update`, `akt redeploy`, and `akt close` for complete deployment
 lifecycle work. They select the configured execution path and coordinate the
 underlying steps. Use lower-level commands when the task calls for an individual
 operation or recovery step.

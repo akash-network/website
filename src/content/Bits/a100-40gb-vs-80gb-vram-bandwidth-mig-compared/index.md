@@ -1,7 +1,7 @@
 ---
 title: "A100 40GB vs 80GB: VRAM, Bandwidth &amp; MIG Compared for GPU Cloud (2026 Decision Guide)"
 pubDate: 2026-08-17
-lastUpdated: 2026-08-17
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "NVIDIA A100 40GB vs 80GB compared: HBM2 vs HBM2e, memory bandwidth (1.55 vs 2.04 TB/s), MIG slice sizes, and which models fit each card. How to choose in 2026."
 tags: ["Comparisons", "Guides"]
@@ -10,9 +10,9 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: August 2026*
+*Last updated: October 2026*
 
-For most 2026 workloads the split is simple: pick the A100 40GB for LoRA and QLoRA fine-tuning and quantized inference on models up to about 13B parameters, and pick the A100 80GB to serve 13B to 70B models, run context lengths past 32K, or hold full precision without quantization. Both cards ship the same 6,912 CUDA cores and the same 19.5 TFLOPS of FP32 compute. The only differences that decide the pick are memory capacity, memory bandwidth, and MIG slice size.
+For most 2026 workloads the split is simple: pick the [A100](/pricing/gpus/a100/) 40GB for LoRA and QLoRA fine-tuning and quantized inference on models up to about 13B parameters, and pick the A100 80GB to serve 13B to 70B models, run context lengths past 32K, or hold full precision without quantization. Both cards ship the same 6,912 CUDA cores and the same 19.5 TFLOPS of FP32 compute. The only differences that decide the pick are memory capacity, memory bandwidth, and MIG slice size.
 
 That decision matters more this month. NVIDIA's Vera Rubin generation launched in early August 2026, and as Blackwell volume ramps, the A100 is settling into its role as the mainstream inference and fine-tuning card rather than a frontier trainer. It is not winding down: NVIDIA's Jensen Huang has called the A100 fleet mission-capable from 2020 through 2029, and A100 supply is still active across cloud providers. So for teams renting one now, the live question is which variant. For full specs, benchmarks, and rental costs, see the [NVIDIA A100 GPU guide](/bits/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/); this post is the deeper 40GB-versus-80GB decision.
 
@@ -59,7 +59,7 @@ The 40GB comfortably handles models up to roughly 13B parameters; the 80GB exten
 
 If you'd rather skip the manual setup, [Razer AIKit](https://console.akash.network/templates/akash-network-awesome-akash-Razer-AIKit) packages vLLM, Jupyter Lab, and a web UI into a single one-click GPU container, letting you fine-tune or serve any of the 300,000+ Hugging Face models on an A100 without configuring the stack yourself.
 
-The 80GB is the card you pick when memory is the constraint. It handles 13B to 65B models on one card, and serving a 70B model in full FP16 precision means two 80GB cards with tensor parallelism, since a single 80GB is not enough. A single A100 40GB cannot run a 70B model in full precision at all and would need four cards in BF16 or heavy quantization, which is usually the moment teams step up to the 80GB or to an H100. For a hands-on single-card example, see [running a model on one A100 with vLLM](/bits/run-nvidia-nemotron-3-5-lightning-on-one-gpu-vllm-setup-for-h100-a100-on-akash/).
+The 80GB is the card you pick when memory is the constraint. It handles 13B to 65B models on one card, and serving a 70B model in full FP16 precision means two 80GB cards with tensor parallelism, since a single 80GB is not enough. A single A100 40GB cannot run a 70B model in full precision at all and would need four cards in BF16 or heavy quantization, which is usually the moment teams step up to the 80GB or to an [H100](/pricing/gpus/h100/). For a hands-on single-card example, see [running a model on one A100 with vLLM](/bits/run-nvidia-nemotron-3-5-lightning-on-one-gpu-vllm-setup-for-h100-a100-on-akash/).
 
 | Workload | A100 40GB | A100 80GB |
 |---|---|---|
@@ -105,4 +105,6 @@ Both split into up to seven Multi-Instance GPU (MIG) partitions. On the 40GB eac
 The A100 40GB is the standard card for LoRA and QLoRA fine-tuning of 7B to 13B models. Step up to the 80GB only if your base model, sequence length, or batch size exceeds 40GB, or if you want to fine-tune larger models without optimizer offloading.
 
 **Is there a performance difference between the two A100 variants on training that fits in 40GB?**
+
+**Is the RTX A6000 GPU an alternative to the A100 40GB?** For single-GPU inference, it can be. The RTX A6000 is an Ampere workstation card with 48GB of GDDR6, 8GB more than the A100 40GB, and two cards can pool memory over a 2-way NVLink bridge at up to 112 GB/s ([NVIDIA](https://www.nvidia.com/en-us/products/workstations/rtx-a6000/)). The A100 40GB keeps the features that matter for serving and training at scale: HBM2 at 1,555 GB/s, MIG partitioning, and 600 GB/s NVLink on SXM. If you need more than 48GB on one card, the A100 80GB rents on [Akash](/pricing/gpus/) from \$1.07 per GPU-hour as of October 22, 2026.
 Almost none. Both cards have identical CUDA and Tensor Core counts and the same 19.5 TFLOPS FP32 and 312 TFLOPS FP16/BF16 throughput. For a compute-bound job that fits inside 40GB, the two perform the same; the 80GB only pulls ahead when the workload is memory-capacity or memory-bandwidth bound.

@@ -4,21 +4,28 @@ type Props = {
   title: string | string[];
   /** Same as `title`: an array breaks the description into lines from md up. */
   description: string | string[];
+  /** Vertical alignment of the two columns from xl up. "end" suits a short aside; a tall one
+   *  reads better with "start", so the headline isn't pushed down to its bottom edge. */
+  align?: "end" | "start";
 };
 
-const { title, description } = Astro.props;
+const { title, description, align = "end" } = Astro.props;
 const titleLines = Array.isArray(title) ? title : [title];
 const descriptionLines = Array.isArray(description)
   ? description
   : [description];
 
 // With an "aside" (e.g. a CTA), the description sits under the headline and the aside takes the
-// right column; otherwise the description takes the right column.
+// right column; otherwise the description takes the right column. Default-slot content goes
+// under the headline.
 const hasAside = Astro.slots.has("aside");
 ---
 
 <div
-  class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)] xl:items-end xl:gap-16"
+  class:list={[
+    "grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)] xl:gap-16",
+    align === "start" ? "xl:items-start" : "xl:items-end",
+  ]}
 >
   <div>
     <h1
@@ -45,6 +52,7 @@ const hasAside = Astro.slots.has("aside");
         </p>
       )
     }
+    <slot />
   </div>
   {
     hasAside ? (

@@ -1,0 +1,602 @@
+---
+import CtaLinks from "@/components/pricing-page/gpu-detail/cta-links.astro";
+import DataTable from "@/components/pricing-page/gpu-detail/data-table.astro";
+import PricingHero from "@/components/pricing-page/pricing-hero.astro";
+import Layout from "@/layouts/layout.astro";
+import {
+  GPU_DETAIL_PAGES,
+  renderInline,
+  stripInline,
+  type GpuDetailPage,
+} from "@/lib/gpu-detail-pages";
+import { formatDate } from "@/lib/gpu-detail-pages/shared";
+import { Check, ChevronDown } from "lucide-react";
+
+export function getStaticPaths() {
+  return Object.values(GPU_DETAIL_PAGES).map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props as { page: GpuDetailPage };
+const {
+  hero,
+  pricing,
+  models,
+  highlights,
+  fit,
+  useCases,
+  deploy,
+  enterprise,
+  specs,
+} = page;
+
+const SITE = "https://akash.network";
+const url = `${SITE}/pricing/gpus/${page.slug}/`;
+const pricesUpdatedLabel =
+  page.pricesUpdated && formatDate(new Date(`${page.pricesUpdated}T00:00:00Z`));
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE}/#organization`,
+      name: "Akash Network",
+      url: SITE,
+      logo: `${SITE}/favicon.ico`,
+    },
+    {
+      "@type": "WebPage",
+      "@id": url,
+      url,
+      name: page.seo.title,
+      description: page.seo.description,
+      ...(page.pricesUpdated && { dateModified: page.pricesUpdated }),
+      isPartOf: { "@id": `${SITE}/#organization` },
+      breadcrumb: { "@id": `${url}#breadcrumb` },
+      ...(page.seo.image && {
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: `${SITE}${page.seo.image}`,
+          caption: page.seo.imageAlt,
+        },
+      }),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "GPU Pricing",
+          item: `${SITE}/pricing/gpus/`,
+        },
+        { "@type": "ListItem", position: 3, name: page.shortName, item: url },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${url}#faq`,
+      mainEntity: page.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: stripInline(item.answer) },
+      })),
+    },
+  ],
+};
+
+// Shared type scale, matching the pricing pages.
+const h2 = "text-2xl font-medium text-foreground md:text-3xl";
+const h3 = "text-lg font-medium text-foreground";
+const body = "text-base leading-relaxed text-muted-foreground";
+const note = "text-sm leading-relaxed text-muted-foreground";
+const card =
+  "rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]";
+const badge =
+  "inline-flex min-h-6 items-center rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15";
+const section = "flex scroll-mt-28 flex-col gap-6";
+---
+
+<Layout
+  title={page.seo.title}
+  description={page.seo.description}
+  image={page.seo.image ?? "/meta-images/pricing/gpu.jpg"}
+>
+  <Fragment slot="head">
+    <script
+      is:inline
+      id="gpu-detail-structured-data"
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  </Fragment>
+
+  <div
+    class="container flex flex-col gap-16 pb-20 pt-10 md:gap-24 md:pb-28 md:pt-16"
+    data-live-price-config={JSON.stringify(page.livePrice ?? {})}
+  >
+    <div class="flex flex-col gap-8 md:gap-10">
+      <nav aria-label="Breadcrumb">
+        <ol class="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <a
+              href="/pricing/gpus/"
+              class="transition-colors hover:text-foreground">GPU Pricing</a
+            >
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" class="text-foreground">
+            {page.shortName}
+          </li>
+        </ol>
+      </nav>
+
+      <PricingHero
+        title={hero.title}
+        description={hero.description}
+        align="start"
+      >
+        <div slot="aside" class={`${card} flex flex-col gap-5 p-5`}>
+          <div class="flex flex-col gap-1">
+            <p class="text-sm font-medium text-muted-foreground">
+              On-demand from
+            </p>
+            <p
+              class="font-jetBrainsMono text-3xl font-medium tabular-nums text-foreground"
+            >
+              <Fragment set:html={renderInline(hero.price)} />
+              <span class="font-sans text-sm font-normal text-muted-foreground"
+                >per GPU-hour</span
+              >
+            </p>
+            <p class={note}>{hero.priceNote}</p>
+            {
+              pricesUpdatedLabel && (
+                <p class={note}>
+                  Prices updated{" "}
+                  <time datetime={page.pricesUpdated} data-live-date>
+                    {pricesUpdatedLabel}
+                  </time>
+                </p>
+              )
+            }
+          </div>
+          <CtaLinks links={hero.ctas} />
+        </div>
+        <div class="mt-8 flex flex-col gap-6">
+          {hero.note && <p class={`${note} max-w-2xl`}>{hero.note}</p>}
+          <div class="flex flex-wrap gap-1.5">
+            {hero.specs.map((spec) => <span class={badge}>{spec}</span>)}
+          </div>
+          <ul class="flex flex-col gap-2 text-sm text-muted-foreground">
+            {
+              hero.bullets.map((bullet) => (
+                <li class="flex gap-2">
+                  <Check
+                    aria-hidden="true"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-foreground"
+                  />
+                  {bullet}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </PricingHero>
+
+      {
+        page.intro && (
+          <p
+            class="max-w-3xl border-t border-zinc-200 pt-8 text-base leading-relaxed text-muted-foreground dark:border-white/10 md:text-lg"
+            set:html={renderInline(page.intro)}
+          />
+        )
+      }
+    </div>
+
+    <section id="rent" class={section}>
+      <h2 class={h2}>{pricing.title}</h2>
+      {
+        pricing.paragraphs.map((text) => (
+          <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+        ))
+      }
+      <div class="max-w-3xl">
+        <DataTable table={pricing.table} caption={pricing.title} />
+      </div>
+      {
+        pricing.note && (
+          <p
+            class={`${note} max-w-3xl`}
+            set:html={renderInline(pricing.note)}
+          />
+        )
+      }
+
+      {
+        pricing.optionsTitle && (
+          <h3 class={`${h3} mt-6`}>{pricing.optionsTitle}</h3>
+        )
+      }
+      <div class="grid gap-4 md:grid-cols-2">
+        {
+          pricing.options?.map((option) => (
+            <div class={`${card} flex flex-col gap-4 p-5 md:p-6`}>
+              <div class="flex flex-col gap-1.5">
+                <p class={h3}>{option.title}</p>
+                <p class={note}>{option.description}</p>
+              </div>
+              <ul class="flex flex-1 flex-col gap-2 text-sm text-muted-foreground">
+                {option.bullets.map((bullet) => (
+                  <li class="flex gap-2">
+                    <Check
+                      aria-hidden="true"
+                      className="mt-0.5 h-4 w-4 shrink-0 text-foreground"
+                    />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+              <CtaLinks links={[option.cta]} />
+            </div>
+          ))
+        }
+      </div>
+      {pricing.optionsNote && <p class={note}>{pricing.optionsNote}</p>}
+    </section>
+
+    {
+      models && (
+        <section id="models" class={section}>
+          <h2 class={h2}>{models.title}</h2>
+          {models.paragraphs.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+          <DataTable table={models.table} caption={models.title} />
+          <p class={`${note} max-w-3xl`} set:html={renderInline(models.note)} />
+
+          {models.subsections.map((sub) => (
+            <div class="mt-6 flex flex-col gap-4">
+              <h3 class={h3}>{sub.title}</h3>
+              {sub.paragraphs.map((text) => (
+                <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+              ))}
+              {sub.bullets && (
+                <ul class="flex max-w-3xl flex-col gap-2.5">
+                  {sub.bullets.map((item) => (
+                    <li class="flex gap-2 text-base leading-relaxed text-muted-foreground">
+                      <Check
+                        aria-hidden="true"
+                        className="mt-1.5 h-4 w-4 shrink-0 text-foreground"
+                      />
+                      <span>
+                        {item.title && (
+                          <span class="font-medium text-foreground">
+                            {item.title}:{" "}
+                          </span>
+                        )}
+                        <Fragment set:html={renderInline(item.text)} />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {sub.table && (
+                <div class="max-w-3xl">
+                  <DataTable table={sub.table} caption={sub.title} />
+                </div>
+              )}
+              {sub.note && (
+                <p
+                  class={`${note} max-w-3xl`}
+                  set:html={renderInline(sub.note)}
+                />
+              )}
+            </div>
+          ))}
+        </section>
+      )
+    }
+
+    {
+      highlights?.map((sub) => (
+        <section class={section}>
+          <h2 class={h2}>{sub.title}</h2>
+          {sub.paragraphs.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+          {sub.bullets && (
+            <ul class="flex max-w-3xl flex-col gap-2.5">
+              {sub.bullets.map((item) => (
+                <li class="flex gap-2 text-base leading-relaxed text-muted-foreground">
+                  <Check
+                    aria-hidden="true"
+                    className="mt-1.5 h-4 w-4 shrink-0 text-foreground"
+                  />
+                  <span>
+                    {item.title && (
+                      <span class="font-medium text-foreground">
+                        {item.title}:{" "}
+                      </span>
+                    )}
+                    <Fragment set:html={renderInline(item.text)} />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {sub.table && (
+            <div class="max-w-3xl">
+              <DataTable table={sub.table} caption={sub.title} />
+            </div>
+          )}
+          {sub.note && (
+            <p class={`${note} max-w-3xl`} set:html={renderInline(sub.note)} />
+          )}
+        </section>
+      ))
+    }
+
+    {
+      fit && (
+        <section id="fit" class={section}>
+          <h2 class={h2}>{fit.title}</h2>
+          {fit.description && (
+            <p class={`${body} max-w-3xl`}>{fit.description}</p>
+          )}
+          <ul class="grid gap-4 md:grid-cols-3">
+            {fit.choices.map((choice) => (
+              <li class={`${card} flex flex-col gap-1.5 p-5`}>
+                <p class={h3}>{choice.title}</p>
+                <p class={note} set:html={renderInline(choice.text)} />
+              </li>
+            ))}
+          </ul>
+          {fit.paragraphs.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+        </section>
+      )
+    }
+
+    {
+      useCases && (
+        <section id="use-cases" class={section}>
+          <h2 class={h2}>{useCases.title}</h2>
+          {useCases.paragraphs?.map((text) => (
+            <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+          ))}
+          <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {useCases.items.map((item) => (
+              <li class={`${card} flex flex-col gap-1.5 p-5`}>
+                {item.title && <p class={h3}>{item.title}</p>}
+                <p
+                  class={
+                    item.title
+                      ? note
+                      : "text-sm leading-relaxed text-foreground"
+                  }
+                  set:html={renderInline(item.text)}
+                />
+              </li>
+            ))}
+          </ul>
+          {useCases.note && (
+            <p
+              class={`${body} max-w-3xl`}
+              set:html={renderInline(useCases.note)}
+            />
+          )}
+        </section>
+      )
+    }
+
+    {
+      deploy && (
+        <section id="deploy" class={section}>
+          <h2 class={h2}>{deploy.title}</h2>
+          <ol class="grid gap-4 md:grid-cols-3">
+            {deploy.steps.map((step, index) => (
+              <li class={`${card} flex flex-col gap-3 p-5`}>
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 font-jetBrainsMono text-sm font-medium text-foreground dark:bg-white/10">
+                  {index + 1}
+                </span>
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                  <span class="font-medium text-foreground">{step.title}</span>{" "}
+                  {step.text}
+                </p>
+              </li>
+            ))}
+          </ol>
+          <CtaLinks links={[deploy.cta]} />
+        </section>
+      )
+    }
+
+    {
+      enterprise && (
+        <section id="enterprise" class={section}>
+          <div class="flex flex-col gap-3">
+            <h2 class={h2}>{enterprise.title}</h2>
+            <p class={`${body} max-w-3xl`}>{enterprise.description}</p>
+          </div>
+          <ul class="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+            {enterprise.items.map((item) => (
+              <li class="flex flex-col gap-1.5 border-t border-zinc-200 pt-4 dark:border-white/10">
+                <p class="text-sm font-medium text-foreground">{item.title}</p>
+                <p class={note}>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <CtaLinks links={[enterprise.cta]} />
+            <p class={note}>{enterprise.ctaNote}</p>
+          </div>
+        </section>
+      )
+    }
+
+    <section id="specs" class={section}>
+      <h2 class={h2}>{specs.title}</h2>
+      <div class="max-w-3xl">
+        <DataTable
+          caption={specs.title}
+          table={{ columns: specs.columns, rows: specs.rows }}
+        />
+      </div>
+      {
+        specs.note && (
+          <p class={`${note} max-w-3xl`} set:html={renderInline(specs.note)} />
+        )
+      }
+    </section>
+
+    <section id="faq" class={section}>
+      <h2 class={h2}>{page.faqTitle}</h2>
+      {
+        /* Native disclosure: answers ship in the HTML for crawlers and need no JS. */
+      }
+      <div
+        class="max-w-3xl divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-white/10 dark:border-white/10"
+      >
+        {
+          page.faq.map((item) => (
+            <details class="group">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-medium text-foreground transition-colors hover:text-muted-foreground [&::-webkit-details-marker]:hidden">
+                {item.question}
+                <ChevronDown
+                  aria-hidden="true"
+                  className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                />
+              </summary>
+              <p
+                class={`${note} pb-4 pr-8`}
+                set:html={renderInline(item.answer)}
+              />
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+      class={`${card} flex flex-col gap-6 p-6 md:flex-row md:items-end md:justify-between md:p-10`}
+    >
+      <div class="flex max-w-2xl flex-col gap-3">
+        <h2 class={h2}>{page.closing.title}</h2>
+        <p class={body}>{page.closing.description}</p>
+      </div>
+      <CtaLinks links={page.closing.ctas} class="shrink-0" />
+    </section>
+  </div>
+</Layout>
+
+<script>
+  import {
+    gpuHourlyPrice,
+    parseRamGb,
+    type GpuPricesResponse,
+  } from "@/components/pricing-page/gpus/gpu-models";
+  import { BASE_API_URL } from "@/lib/constants";
+  import {
+    formatDate,
+    isoDate,
+    priceLabels,
+  } from "@/lib/gpu-detail-pages/shared";
+  import type { LivePriceSource } from "@/lib/gpu-detail-pages/types";
+
+  // The HTML ships with snapshot prices. Swap in the current weighted-average bid from the
+  // Console API (the figure the GPU pricing table shows) and date it today. Fixed-rate pages have no
+  // model and only get today's date. If the API fails or has no bids, the snapshot stays.
+  async function liveHourly({ model, ramGb }: LivePriceSource) {
+    const res = await fetch(`${BASE_API_URL}/v1/gpu-prices`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = (await res.json()) as GpuPricesResponse;
+    // If several variants match (e.g. SXM and PCIe), quote the cheapest one's average.
+    const prices = (data.models ?? [])
+      .filter(
+        (m) => m.model === model && (!ramGb || parseRamGb(m.ram) === ramGb),
+      )
+      .map(gpuHourlyPrice)
+      .filter(
+        (price): price is number => typeof price === "number" && price > 0,
+      );
+    return prices.length ? Math.min(...prices) : undefined;
+  }
+
+  async function updateLivePrices() {
+    const root = document.querySelector<HTMLElement>(
+      "[data-live-price-config]",
+    );
+    if (!root) return;
+    const source = JSON.parse(
+      root.dataset.livePriceConfig || "{}",
+    ) as Partial<LivePriceSource>;
+
+    let hourly: number | undefined;
+    if (source.model) {
+      try {
+        hourly = await liveHourly(source as LivePriceSource);
+      } catch (error) {
+        console.warn("[gpu-detail] live price fetch failed", error);
+        return;
+      }
+      if (hourly === undefined && !source.listed) {
+        console.warn(`[gpu-detail] no live bids for ${source.model}`);
+        return;
+      }
+    }
+
+    const today = new Date();
+    const values: Record<string, string> = {
+      asOf: formatDate(today),
+      ...(hourly !== undefined && priceLabels(hourly)),
+    };
+
+    // Old text -> new text, applied to the structured data so it matches the page.
+    const changes = new Map<string, string>();
+    const swap = (from: string, to: string) => {
+      if (from && from !== to) changes.set(from, to);
+    };
+
+    document
+      .querySelectorAll<HTMLElement>("[data-live-price]")
+      .forEach((el) => {
+        const next = values[el.dataset.livePrice ?? ""];
+        if (next === undefined) return;
+        swap(el.textContent ?? "", next);
+        el.textContent = next;
+      });
+    document
+      .querySelectorAll<HTMLTimeElement>("time[data-live-date]")
+      .forEach((el) => {
+        swap(el.dateTime, isoDate(today));
+        swap((el.textContent ?? "").trim(), formatDate(today));
+        el.dateTime = isoDate(today);
+        el.textContent = formatDate(today);
+      });
+
+    const ld = document.getElementById("gpu-detail-structured-data");
+    if (ld?.textContent && changes.size) {
+      // One pass, longest first, so a new value is never replaced again.
+      const pattern = new RegExp(
+        [...changes.keys()]
+          .sort((a, b) => b.length - a.length)
+          .map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+          .join("|"),
+        "g",
+      );
+      ld.textContent = ld.textContent.replace(
+        pattern,
+        (match) => changes.get(match) ?? match,
+      );
+    }
+  }
+
+  updateLivePrices();
+</script>

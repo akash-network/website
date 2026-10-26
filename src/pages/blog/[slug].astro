@@ -1,67 +1,33 @@
 ---
+import AkashMLBanner from "@/components/akashml-banner.astro";
 import CalloutsClasses from "@/components/callouts-classes.astro";
-import ConsoleBanner from "@/components/console-banner.astro";
 import FormattedDate from "@/components/formatted-date.astro";
-import { TwitterIcon } from "@/components/header/icons";
-import ButtonLink from "@/components/ui/button-link.astro";
 import BlogLayout from "@/layouts/blog-layout.astro";
-import { proseClasses } from "@/lib/prose-classes";
+import { blogPostProseClasses } from "@/lib/prose-classes";
+import { isCaseStudy, toCategorySlug } from "@/utils/blogTaxonomy";
+import { getReadingTime } from "@/utils/readingTime";
 import { Image } from "astro:assets";
-import { getCollection, render, type CollectionEntry } from "astro:content";
-import { Facebook, Linkedin } from "lucide-react";
+import { getCollection, render } from "astro:content";
 
-type BlogPost = CollectionEntry<"Blog">;
 export async function getStaticPaths() {
   const posts = await getCollection("Blog");
 
-  const categories: string[] = [];
-
-  posts.forEach((post) => {
-    post.data.categories.forEach((category: string) => {
-      const lowerCasedCategory = category;
-
-      // Filter out "Case Studies" from blog categories
-      if (
-        !categories.includes(lowerCasedCategory) &&
-        category.toLowerCase() !== "case studies"
-      ) {
-        categories.push(lowerCasedCategory);
-      }
-    });
-  });
-
-  return posts.map((post) => {
-    const searchCategory = post.data.categories[0].toLowerCase();
-
-    const relatedArticles = posts
-      .filter((post) =>
-        post.data.categories.some(
-          (category: string) => category.toLowerCase() === searchCategory
-        )
-      )
-      .filter((post) => {
-        return post.data.archive !== true;
-      })
-      .filter((post) => {
-        return !post.data.categories.some(
-          (category: string) => category.toLowerCase() === "case studies"
-        );
-      });
-
-    return {
-      params: { slug: post.id },
-      props: {
-        post: post,
-        categories: categories,
-        relatedArticles: relatedArticles,
-      },
-    };
-  });
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
 }
 
-const { post, categories, relatedArticles } = Astro.props;
+const { post } = Astro.props;
 
 const { Content } = await render(post);
+const readingTime = getReadingTime(post.body);
+
+const category = post.data.categories[0];
+const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
+const categoryHref = isCaseStudy(post)
+  ? "/case-studies"
+  : `/blog/${toCategorySlug(category)}/1`;
 ---
 
 <BlogLayout
@@ -70,65 +36,62 @@ const { Content } = await render(post);
   description={post.data.metaDescription
     ? post.data.metaDescription
     : post.data.description}
-  tags={categories}
-  relatedArticles={relatedArticles}
 >
   <div class="grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
-    <div class="col-span-12 md:col-span-8">
-      <div class="mt-4 hidden items-center gap-x-4 md:mt-0 md:flex">
-        <p class="text-xs font-medium leading-none text-darkText md:text-base">
-          by {`${post.data.contributors[0]}`}
-        </p>
-        <a
-          class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
+    <header class="col-span-12 md:col-span-8">
+      <!-- shadcn/ui Breadcrumb with a slash separator -->
+      <nav aria-label="Breadcrumb">
+        <ol
+          class="flex flex-wrap items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
         >
-          {
-            post.data.categories[0].charAt(0).toUpperCase() +
-              post.data.categories[0].slice(1)
-          }
-        </a>
-      </div>
+          <li>
+            <a href="/blog" class="transition-colors hover:text-foreground">
+              Blog
+            </a>
+          </li>
+          <li role="presentation" aria-hidden="true">/</li>
+          <li>
+            <a
+              href={categoryHref}
+              class="transition-colors hover:text-foreground"
+            >
+              {categoryLabel}
+            </a>
+          </li>
+        </ol>
+      </nav>
 
-      <p
-        class="mt-6 inline-flex items-center text-xs font-medium text-para md:mt-4 md:hidden md:text-base"
+      <h1
+        class="mt-3 text-[40px] !font-[450] leading-[48px] tracking-[-0.06em] md:text-5xl md:leading-[56px]"
       >
-        5 Min. Read
-
-        <span class="ml-2 text-xs text-para md:text-base">
-          <FormattedDate date={post.data.pubDate} />
-        </span>
-      </p>
-
-      <h1 class="mt-4 font-sans text-3xl md:mt-[18px] md:text-4xl lg:text-5xl">
         {post.data.title}
       </h1>
 
-      <p
-        class="mt-6 hidden items-center text-xs font-medium text-darkText md:mt-4 md:inline-flex md:text-base"
-      >
-        5 Min. Read
-        <span class="ml-2 text-xs md:text-base">
-          <FormattedDate date={post.data.pubDate} />
-        </span>
+      <p class="mt-5 text-sm text-foreground">
+        By {post.data.contributors.join(", ")}
       </p>
 
-      <div class="mt-4 flex items-center gap-x-4 md:mt-0 md:hidden">
-        <p
-          class="text-xs font-medium leading-none text-darkText md:block md:text-base"
-        >
-          by {`${post.data.contributors[0]}`}
-        </p>
-
-        <p
-          class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
-        >
-          Insight
-        </p>
-      </div>
-    </div>
+      <!-- From md up, the date and reading time sit in the sidebar. -->
+      <p
+        class="mt-2 flex items-center gap-2 text-sm text-muted-foreground md:hidden"
+      >
+        <FormattedDate date={post.data.pubDate} />
+        {
+          readingTime && (
+            <>
+              <span
+                aria-hidden="true"
+                class="size-1 rounded-full bg-current opacity-50"
+              />
+              {readingTime} min read
+            </>
+          )
+        }
+      </p>
+    </header>
   </div>
 
-  <div class="mt-4 grid grid-cols-12 md:gap-x-10">
+  <div class="mt-8 grid grid-cols-12 md:gap-x-10">
     <article class="col-span-12 md:col-span-8">
       <div>
         <Image
@@ -142,182 +105,32 @@ const { Content } = await render(post);
         />
       </div>
 
-      <article class={proseClasses}>
+      <article class={blogPostProseClasses}>
         <Content />
       </article>
-
-      <div class="mt-10 flex">
-        <ButtonLink
-          link={`https://github.com/akash-network/website-revamp/tree/main/src/content/Blog/${post.id}/index.md`}
-          variant="secondary"
-          size="xl"
-        >
-          Update Post
-        </ButtonLink>
-      </div>
     </article>
 
-    <aside
-      class="sticky top-28 col-span-4 hidden h-screen space-y-[56px] md:block"
-    >
-      <div>
-        <p class="font-bold leading-none text-foreground">Explore Topics</p>
+    <aside class="col-span-4 hidden space-y-8 md:block">
+      <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
+        <dt class="text-muted-foreground">Published</dt>
+        <dd class="text-foreground">
+          <FormattedDate date={post.data.pubDate} />
+        </dd>
+        {
+          readingTime && (
+            <>
+              <dt class="text-muted-foreground">Reading time</dt>
+              <dd class="text-foreground">{readingTime} min read</dd>
+            </>
+          )
+        }
+      </dl>
 
-        <div class="mt-6 flex flex-wrap gap-2">
-          {
-            categories
-              .sort(() => Math.random() - 0.5)
-              .map((category: string) => (
-                <a
-                  class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-darkText"
-                  href={`/blog/${category.toLowerCase()?.replaceAll(" ", "-")}/1`}
-                >
-                  {category}
-                </a>
-              ))
-          }
-        </div>
-      </div>
-
-      <div>
-        <p class="font-bold text-foreground">Related Articles</p>
-        <div class="mt-3 flex flex-col space-y-2">
-          {
-            relatedArticles
-              .sort(() => Math.random() - 0.5)
-              .slice(0, 4)
-              .map((post: BlogPost) => {
-                return (
-                  <a
-                    href={`/blog/${post.id}`}
-                    class="line-clamp-2 cursor-pointer  text-darkText hover:text-primary hover:no-underline"
-                  >
-                    {post.data.title}
-                  </a>
-                );
-              })
-          }
-        </div>
-      </div>
-
-      <div>
-        <p class="font-bold leading-none text-foreground">Share this blog</p>
-
-        <div class="mt-5 flex space-x-4 text-para">
-          <a
-            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/blog/${post.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <TwitterIcon />
-          </a>
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/blog/${post.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Facebook className="h-5 w-5" />
-          </a>
-          <a
-            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/blog/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Linkedin className="h-5 w-5" />
-          </a>
-        </div>
-      </div>
-
-      <!-- Console Banner -->
-      <ConsoleBanner />
+      <AkashMLBanner />
     </aside>
   </div>
 
-  <div class="block md:hidden">
-    <div class="flex items-center justify-between pt-10 md:hidden">
-      <p class="text-center text-base font-bold text-foreground">
-        Share this Blog
-      </p>
-      <!-- Social Media Links  -->
-      <div class="mt-4 flex items-center justify-center space-x-2.5">
-        <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/blog/${post.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <TwitterIcon />
-        </a>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/blog/${post.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Facebook className="h-5 w-5" />
-        </a>
-        <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/blog/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Linkedin className="h-5 w-5" />
-        </a>
-      </div>
-    </div>
-    <div class="mt-10 space-y-10 md:hidden">
-      <div>
-        <p class="text-xs font-bold text-foreground">Explore Topics</p>
-        <div class="mt-3 flex flex-wrap gap-x-2 gap-y-2">
-          {
-            categories
-              .sort(() => Math.random() - 0.5)
-              .map((category: string) => (
-                <a
-                  class="inline-flex items-center rounded-full bg-badgeColor  px-3 py-1.5 text-xs font-medium text-iconText"
-                  href={`/blog/${category.toLowerCase()}/1`}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </a>
-              ))
-          }
-        </div>
-      </div>
-    </div>
-
-    <!-- Console Banner Mobile -->
-    <div class="mb-10 mt-10 md:hidden">
-      <ConsoleBanner />
-    </div>
-
-    <div class="hidden items-center justify-between py-10 md:flex">
-      <p class="text-center text-base font-bold text-foreground">
-        Share this Blog
-      </p>
-      <!-- Social Media Links  -->
-      <div class="mt-4 flex items-center justify-center space-x-2.5">
-        <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/blog/${post.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <TwitterIcon />
-        </a>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/blog/${post.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Facebook className="h-5 w-5" />
-        </a>
-        <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/blog/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Linkedin className="h-5 w-5" />
-        </a>
-      </div>
-    </div>
-  </div>
+  <AkashMLBanner class="mb-10 mt-10 md:hidden" />
 
   <CalloutsClasses />
 </BlogLayout>

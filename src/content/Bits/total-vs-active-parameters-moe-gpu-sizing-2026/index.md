@@ -1,7 +1,7 @@
 ---
 title: "Total vs Active Parameters: How Much GPU Memory Does an LLM Need?"
 pubDate: 2026-09-02
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-22
 author: "Sandeep Narahari, Contributor"
 description: "Total parameters set how much GPU memory an LLM needs; active parameters set the compute cost per token. See why Kimi K3, at 104B active parameters, still needs 64+ accelerators."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "Total vs Active Parameters: LLM GPU Memory Guide (2026)"
 metaDescription: "How much GPU memory does an LLM need? Total parameters set memory, active sets compute cost — a sizing guide for MoE models like Mixtral and DeepSeek-V3."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: September 2026.*
+*By Sandeep Narahari, Contributor. Last updated: October 2026.*
 
 Total parameters set how much GPU memory you need. Active parameters set how much compute each token costs. Kimi K3 activates 104B parameters per token and still needs 64 or more accelerators, because sparsity governs compute, not footprint.
 
@@ -103,7 +103,7 @@ The takeaway: a 117B model fits on one GPU and a 125B model needs eight, because
 
 ## How many GPUs do you need to run a 70B or 405B model?
 
-At BF16, a 70B model's ~140GB floor fits on two 80GB GPUs (H100/A100) or one 141GB H200; a 405B model's ~810GB floor needs at least six H200s or ten 80GB GPUs. That is a bare-weights minimum with zero room for KV cache, activations, or the parallelism scheme the model actually ships with, so treat it as a starting point, not an order.
+At BF16, a 70B model's ~140GB floor fits on two 80GB GPUs ([H100](/pricing/gpus/h100/)/[A100](/pricing/gpus/a100/)) or one 141GB [H200](/pricing/gpus/h200/); a 405B model's ~810GB floor needs at least six H200s or ten 80GB GPUs. That is a bare-weights minimum with zero room for KV cache, activations, or the parallelism scheme the model actually ships with, so treat it as a starting point, not an order.
 
 The formula above gives a floor, not an answer. Qwen3.8-Flash-Next makes the gap concrete.
 
@@ -130,3 +130,5 @@ Sizing to total parameters means you are usually buying memory rather than FLOPs
 **Why do MoE models activate only a small fraction of their parameters?** Because quality scales with total capacity while inference cost scales with active compute. Raising the expert count while holding the number selected per token fixed grows the model's capacity without growing its arithmetic. Ratios have risen from roughly 3.6:1 in Mixtral 8x7B to about 27:1 in Kimi K3.
 
 **Do fewer active parameters make an MoE model faster to run?** Not proportionally. Token generation is usually limited by memory bandwidth, not math, and the Mixtral authors note that routing adds overhead while running multiple experts per device increases memory loads. They describe MoE as best suited to batched workloads that reach good arithmetic intensity — the same threshold that determines whether you're compute- or bandwidth-bound in general.
+
+**When does a model need a multi-node GPU cluster instead of one 8-GPU server?** When its weights plus KV cache exceed the memory of the largest single node you can rent. An 8x H100 node holds 640GB, 8x H200 holds 1,128GB, and 8x [B300](/pricing/gpus/b300/) holds 2,304GB, so Kimi K3, with a 1.56TB checkpoint, needs two 8x [B200](/pricing/gpus/b200/) nodes but fits on one 8x B300 node. On Akash, as of October 22, 2026, that 8x B300 node costs \$48 an hour, against \$80 an hour for 16 B200s across two nodes.

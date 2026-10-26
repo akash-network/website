@@ -1,0 +1,10 @@
+---
+import { NetworkExplorer } from "./NetworkExplorer";
+---
+
+<!-- Data is fetched client-side (live, like /ecosystem/providers). client:visible keeps three.js
+     off the homepage's critical path; the root margin starts hydrating a little before the
+     section scrolls into view so the globe is usually ready by the time it's on screen. -->
+<section class="container w-full py-16 md:py-20">
+  <NetworkExplorer client:visible={{ rootMargin: "400px" }} />
+</section>

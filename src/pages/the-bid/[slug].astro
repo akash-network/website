@@ -1,9 +1,10 @@
 ---
 import CalloutsClasses from "@/components/callouts-classes.astro";
 import ConsoleBanner from "@/components/console-banner.astro";
-import FormattedDate from "@/components/formatted-date.astro";
+import BitsPostDate from "@/components/blog/bits-post-date.astro";
 import { TwitterIcon } from "@/components/header/icons";
 import BitsLayout from "@/layouts/bits-layout.astro";
+import { bitsUpdatedDate } from "@/lib/bits-dates";
 import { bitsProseClasses } from "@/lib/prose-classes";
 import { Image } from "astro:assets";
 import { getCollection, render, type CollectionEntry } from "astro:content";
@@ -73,6 +74,8 @@ function extractFaqs(body: string): { question: string; answer: string }[] {
       answer: match[2]
         .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
         .replace(/\*\*/g, "")
+        // Drop markdown backslash escapes (e.g. "\$6" -> "$6").
+        .replace(/\\([\\`*_{}\[\]()#+\-.!$])/g, "$1")
         .replace(/\s+/g, " ")
         .trim(),
     }))
@@ -100,7 +103,7 @@ const jsonLd = {
       headline: post.data.title,
       description: post.data.metaDescription ?? post.data.description,
       datePublished: post.data.pubDate.toISOString(),
-      dateModified: (post.data.lastUpdated ?? post.data.pubDate).toISOString(),
+      dateModified: (bitsUpdatedDate(post.data) ?? post.data.pubDate).toISOString(),
       author: {
         "@type": "Person",
         name: post.data.author,
@@ -188,7 +191,11 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
       <p
         class="mt-6 inline-flex items-center text-xs font-medium text-para md:mt-4 md:hidden md:text-base"
       >
-        <FormattedDate date={post.data.pubDate} />
+        <BitsPostDate
+          pubDate={post.data.pubDate}
+          lastUpdated={post.data.lastUpdated}
+          variant="byline"
+        />
       </p>
 
       <h1 class="mt-4 font-sans text-3xl md:mt-[18px] md:text-4xl lg:text-5xl">
@@ -198,7 +205,11 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
       <p
         class="mt-6 hidden items-center text-xs font-medium text-para md:mt-4 md:inline-flex md:text-sm"
       >
-        <FormattedDate date={post.data.pubDate} />
+        <BitsPostDate
+          pubDate={post.data.pubDate}
+          lastUpdated={post.data.lastUpdated}
+          variant="byline"
+        />
       </p>
 
       <div class="mt-4 flex items-center gap-x-4 md:mt-0 md:hidden">

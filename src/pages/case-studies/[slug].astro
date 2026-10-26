@@ -6,6 +6,7 @@ import { TwitterIcon } from "@/components/header/icons";
 import ButtonLink from "@/components/ui/button-link.astro";
 import BlogLayout from "@/layouts/blog-layout.astro";
 import { proseClasses } from "@/lib/prose-classes";
+import { getReadingTime } from "@/utils/readingTime";
 import { Image } from "astro:assets";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import { Facebook, Linkedin } from "lucide-react";
@@ -44,6 +45,7 @@ export async function getStaticPaths() {
 const { post, otherCaseStudies } = Astro.props;
 
 const { Content } = await render(post);
+const readingTime = getReadingTime(post.body);
 ---
 
 <BlogLayout
@@ -76,7 +78,7 @@ const { Content } = await render(post);
       <p
         class="mt-6 inline-flex items-center text-xs font-medium text-para md:mt-4 md:hidden md:text-base"
       >
-        5 Min. Read
+        {readingTime && `${readingTime} Min. Read`}
 
         <span class="ml-2 text-xs text-para md:text-base">
           <FormattedDate date={post.data.pubDate} />
@@ -90,7 +92,7 @@ const { Content } = await render(post);
       <p
         class="mt-6 hidden items-center text-xs font-medium text-darkText md:mt-4 md:inline-flex md:text-base"
       >
-        5 Min. Read
+        {readingTime && `${readingTime} Min. Read`}
         <span class="ml-2 text-xs md:text-base">
           <FormattedDate date={post.data.pubDate} />
         </span>
