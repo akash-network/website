@@ -4,8 +4,8 @@
 |---|---|
 | **Document** | 06. State & data migration |
 | **Doc ID** | AKASH-MIG-06 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering |
 | **Status** | Normative where marked (MUST/SHALL); informative otherwise |
@@ -29,7 +29,8 @@ validator continuity through halt, archival, and decommission. Token *value* acc
 
 ## Out of scope
 
-- AKT/ACT supply equation, claim UX, exchange swaps, unclaimed policy: [05](./05-token-migration.md).
+- AKT/ACT supply equation, claim UX, exchange swaps (withdrawn under D-25: venues migrate through the portal), unclaimed policy: [05](./05-token-migration.md).
+- The migration portal (D-25): its mechanism (Q-44) and supply conservation, [05](./05-token-migration.md); its client tooling, [07](./07-offchain-and-clients.md) §8.
 - Target-chain designs consuming these artifacts: [03](./03-solana-architecture.md), [04](./04-ethereum-architecture.md).
 - Rehearsal pass criteria and test tooling detail: [09](./09-testing-and-verification.md).
 - Cutover runbook timing and operational notifications: [10](./10-rollout-and-cutover.md).
@@ -40,13 +41,22 @@ serializes full application state to JSON at a height (`akash export` / `ExportA
 `app/export.go:30`). A **module account** is a protocol-owned keyless account (escrow vault, BME vault,
 governance deposits, etc.); the list is wired at `app/mac.go:15-27`.
 
+**Portal model (D-25).** **V** is the moment the migration proposal passes on `akashnet-2`; **L** = V + 7d is
+token launch, when the SPL AKT mint goes live and the migration portal opens for 2 years (D-25.a). From L,
+holders, exchanges and custodians move AKT one-way from `akashnet-2` to SPL AKT on Solana through the portal at
+their own pace (mechanism per Q-44). S1 therefore **no longer carries AKT held in user accounts**: there is no S1
+claim for liquid, bonded, unbonding or reward AKT. Staking keeps securing `akashnet-2` and earning rewards until
+C, and `x/mint` inflation ends at C (D-25.b). What S1 and S2 still carry (protocol-held funds, ACT, residuals) is
+under review in Q-50.
+
 ## 1. State disposition inventory
 
-### 1.1 The five treatments
+### 1.1 The six treatments
 
 | Treatment | Meaning | Value carried? |
 |---|---|---|
-| **Migrated-as-value** | Converted into target-chain token credits (claims, vesting re-creation, Reserve seeding) per doc 05 | Yes |
+| **Migrated via portal** (D-25) | The holder moves AKT one-way from `akashnet-2` to SPL AKT on Solana through the migration portal, from L for the 2-year window, at its own pace (mechanism per Q-44); no snapshot credit. For staked AKT the form is **unbond then migrate**: the holder unbonds (14 days), then uses the portal | Yes, 1:1, holder-initiated |
+| **Migrated-as-value** | Converted into target-chain token credits (claims, vesting re-creation, Reserve seeding) per doc 05. Under D-25 this no longer covers AKT in user accounts; vesting per Q-45, Reserve seeding under review (Q-50) | Yes |
 | **Migrated-as-registration** | The *actor* re-establishes the record on the target chain by signing a fresh transaction; no state is copied | No (identity re-established) |
 | **Wound down** | Runs to terminal state on the old chain during C→H under D-08; economic outcomes honored via residual distributions | Via residuals |
 | **Dropped** | No successor object on the target chain | No |
@@ -58,7 +68,14 @@ migrated-as-registration, wound down, dropped}; completeness is checked mechanic
 
 **REQ-STA-002** Independently of treatment, ALL state SHALL be archived per §7: "dropped" never means deleted from the historical record.
 
+**REQ-STA-064** The disposition set of REQ-STA-001 SHALL include **migrated via portal** (D-25), with **unbond
+then migrate** as its form for bonded and unbonding AKT. AKT held by user accounts (`x/bank` balances, `x/staking`
+delegations and unbonding entries, `x/distribution` rewards and commission) maps to this treatment and to no
+other; the completeness check of REQ-STA-001 MUST fail if any of it also maps to migrated-as-value.
+
 ### 1.2 The supply-fixed-at-S1 principle and the reserved perimeter
+
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
 
 Two rules make every later section deterministic:
 
@@ -70,7 +87,8 @@ Two rules make every later section deterministic:
    individually claimed: the `escrow`, `bme`, and `gov` (proposal deposits) module accounts, every ICS-20
    transfer escrow address (one derived account per IBC channel), `fee_collector`, and `distribution`
    (community-pool portion per doc 05). `bonded_tokens_pool` / `not_bonded_tokens_pool` are **not** reserved:
-   they back the bonded/unbonding stake credited as liquid at S1 (D-06).
+   ~~they back the bonded/unbonding stake credited as liquid at S1 (D-06).~~ **[WITHDRAWN: superseded by D-25]**
+   They back stake that holders unbond, then migrate through the portal (§1.1).
 
 **REQ-STA-003** No `uakt` or `uact` minted on the old chain after the S1 height SHALL appear in any claim set,
 residual distribution, or Reserve accounting line.
@@ -102,6 +120,9 @@ Source structures are per [01](./01-current-architecture.md); genesis shapes bel
 | `x/wasm` (wasmd) | Contract code + state: pyth, pyth_pro, pyth_vaa, wormhole (guardian sets, VAA archive) | **Dropped** (D-22): targets read Pyth directly; contracts archived incl. code blobs | Archive checksum; code-hash inventory |
 | `x/take` | Not wired; store deleted in v2.0.0 | **Absent**: nothing to migrate; listed for completeness | Assert absent from export |
 
+The Wind-down Reserve routing in the `x/escrow` and `x/bme` rows is under review (Q-50, §1.2): under D-25, AKT
+those modules pay out on `akashnet-2` after C is portal-eligible.
+
 Why the registration rows cannot be ported trustlessly: provider and audit records are keyed by secp256k1 Cosmos
 accounts (bech32 `akash1…`); target identities use different key/address schemes (Solana Ed25519, EVM keccak
 addresses), so ownership of a target identity cannot be derived from old-chain state: it requires a fresh
@@ -125,17 +146,17 @@ v2.1.0) is empty at S1; a non-empty map is a blocking discrepancy escalated per 
 
 | Module | Source structure | Treatment | Verification method |
 |---|---|---|---|
-| `x/auth` | Accounts (base, module, vesting), numbers, sequences | **Dropped**, except vesting schedules → **migrated-as-value** (re-created per D-06/doc 05); numbers/sequences meaningless on target | Vesting inventory cross-check (§2.4); per-account schedule recomputation on sample n≥50 |
-| `x/bank` | Balances, supply, denom metadata, SendEnabled | Balances → **migrated-as-value** (S1 claim set: `uakt`; `uact` → ACT ledger seed); metadata/SendEnabled dropped (D-03/D-19 re-author) | Doc 05 conservation equation; dual-implementation root equality |
-| `x/staking` | Validators, delegations, unbonding, redelegations | **Migrated-as-value** as liquid credits (D-06); validator objects dropped (no consensus to port) | Σ(delegation tokens)+Σ(unbonding) vs bonded/not_bonded pool balances (documented rounding tolerance) |
-| `x/mint` | Inflation params/state (live values on-chain only; Q-19) | **Dropped**; replaced by emissions program (D-12) | Params captured in archive + Q-19 data pull |
-| `x/distribution` | Outstanding rewards, commission, fee pool, community pool | Accrued-to-S1 rewards/commission → **migrated-as-value** (doc 05); community pool → Reserve → treasury at S2; post-S1 accruals inert (REQ-STA-003) | Doc 05 reward computation vs module balance reconciliation |
+| `x/auth` | Accounts (base, module, vesting), numbers, sequences | **Dropped**, except vesting schedules → **migrated-as-value** (re-created per D-06/doc 05); numbers/sequences meaningless on target. Under D-25 the vesting treatment is open (Q-45: migrate as tokens vest, or re-create remaining schedules) | Vesting inventory cross-check (§2.4); per-account schedule recomputation on sample n≥50 |
+| `x/bank` | Balances, supply, denom metadata, SendEnabled | ~~Balances → **migrated-as-value** (S1 claim set: `uakt`; `uact` → ACT ledger seed)~~ **[WITHDRAWN: superseded by D-25]** `uakt` in user accounts → **Migrated via portal** (D-25), holder-initiated from L, never in an S1 claim set; `uact` → ACT ledger seed (ACT handling under review, Q-50); module-account balances per §1.2; metadata/SendEnabled dropped (D-03/D-19 re-author) | Doc 05 conservation equation; dual-implementation root equality; portal: supply-conservation invariant ([05](./05-token-migration.md), [08](./08-security-and-audits.md)) |
+| `x/staking` | Validators, delegations, unbonding, redelegations | ~~**Migrated-as-value** as liquid credits (D-06)~~ **[WITHDRAWN: superseded by D-25]** **Unbond then migrate** (D-25): bonded and unbonding AKT is not credited; the holder unbonds (14 days), then uses the portal; staking secures `akashnet-2` and earns rewards until C; validator objects dropped (no consensus to port) | Σ(delegation tokens)+Σ(unbonding) vs bonded/not_bonded pool balances (documented rounding tolerance); bonded-stake monitoring from V (§6.6) |
+| `x/mint` | Inflation params/state (live values on-chain only; Q-19) | **Dropped**; replaced by emissions program (D-12); inflation set to zero at C by the sunset upgrade (D-25.b, REQ-STA-067) | Params captured in archive + Q-19 data pull; zero issuance from `h_up` (REQ-STA-067) |
+| `x/distribution` | Outstanding rewards, commission, fee pool, community pool | ~~Accrued-to-S1 rewards/commission → **migrated-as-value** (doc 05)~~ **[WITHDRAWN: superseded by D-25]** rewards and commission are withdrawn by holders to their accounts, then migrated via the portal; community pool → Reserve → treasury at S2 (under review, Q-50); ~~post-S1 accruals inert (REQ-STA-003)~~ **[WITHDRAWN: superseded by D-25]** accruals after C come from fees only (D-25.b) and, once withdrawn, are portal-eligible like any AKT | Doc 05 reward computation vs module balance reconciliation |
 | `x/slashing` | Signing infos, missed-block bitmaps, params | **Dropped**; stays *active* C→H (§6); signing data feeds continuity payouts | §6 uptime dataset cross-check vs raw `LastCommit` |
-| `x/gov` | Proposals, deposits, votes, params | Deposits at S1 → reserved; refunds C→H → residual credits (§3.2); history dropped/archived | Deposit ledger reconciliation at S2 |
+| `x/gov` | Proposals, deposits, votes, params | Deposits at S1 → reserved; refunds C→H → residual credits (§3.2); history dropped/archived. Deposit reservation and refund crediting under review (Q-50) | Deposit ledger reconciliation at S2 |
 | `x/authz` | Grants (incl. `DepositAuthorization`) | **Dropped**; delegated-deposit semantics re-implemented natively on target (D-21); grant-restore mapping honored in residuals (§3.3) | Residual granter-attribution audit (§3.3) |
 | `x/feegrant` | Fee allowances | **Dropped** (target fee mechanics differ); usable until H | Archive checksum |
 | `ibc` core | Clients, connections, channels | **Dropped**; kept operational until H for returns (§5.5) | Archive checksum |
-| `ibctransfer` | Per-channel escrow balances, denom traces | Escrows → **reserved** at S1 (per-channel ledger, D-07); returns C→H credited via residuals (§3.2); post-H → doc 05 redemption | Per-channel escrow reconciliation weekly; S2 remainder = redemption budget |
+| `ibctransfer` | Per-channel escrow balances, denom traces | Escrows → **reserved** at S1 (per-channel ledger, D-07); returns C→H credited via residuals (§3.2); post-H → doc 05 redemption. Under D-25, holders return IBC AKT to `akashnet-2`, then migrate (D-07 as amended, Q-46); residual crediting of returns under review (Q-50) | Per-channel escrow reconciliation weekly; S2 remainder = redemption budget |
 | `x/evidence` | Equivocation evidence | **Dropped**/archived; submission stays allowed C→H (§6.5) | Archive checksum |
 | `x/upgrade` | Applied upgrade heights, pending plan | **Dropped**; the halt plan (§5.6) is the final entry | Archive checksum |
 | `x/params`, `x/consensus` | Chain-internal config | **Dropped** | Archive checksum |
@@ -203,10 +224,10 @@ header h+1, and binary version; the pinned app hash MUST match across both archi
 
 | Artifact | Produced at | Schema (canonical CSV unless noted) | Consumer |
 |---|---|---|---|
-| `s1_claims.csv` + Merkle root | S1 | `row, address_bech32, address_hex, denom{uakt\|uact}, amount_micro, class{liquid\|bonded\|unbonding\|reward}` | Claims program/contract (doc 05) |
+| `s1_claims.csv` + Merkle root | S1 | `row, address_bech32, address_hex, denom{uakt\|uact}, amount_micro, class{liquid\|bonded\|unbonding\|reward}` **[`uakt` user-account rows WITHDRAWN: superseded by D-25; scope per REQ-STA-065]** | Claims program/contract (doc 05) |
 | `reserved_pool_ledger.csv` | S1 (restated at S2) | `account, account_kind{module\|ibc_escrow}, denom, amount_micro, disposition_ref` | Wind-down Reserve seeding (doc 05) |
 | `act_ledger_seed.csv` | S1 | `uact` liquid holders + reserved `uact` positions | ACT mint seeding (D-19, doc 05) |
-| `vesting_inventory.csv` | S1 | `address, type{continuous\|delayed\|base}, original_vesting, start_time, end_time, locked_at_s1` | Vesting re-creation (doc 05) |
+| `vesting_inventory.csv` | S1 | `address, type{continuous\|delayed\|base}, original_vesting, start_time, end_time, locked_at_s1` | Vesting re-creation (doc 05); produced only if Q-45 requires it |
 | `ibc_escrow_by_channel.csv` | S1, weekly, S2 | `channel_id, counterparty_chain, escrow_address, denom, amount_micro` | D-07 redemption sizing (doc 05, Q-03) |
 | `residual_deltas_wk<k>.csv` + root | Weekly k=1..12 (12 weekly cycles + the S2 final distribution = 13 residual payouts total, matching [10 §8.2](./10-rollout-and-cutover.md)) | `address, denom{akt\|act}, delta_micro, class` (§3.5) | Weekly residual distribution (D-05) |
 | `s2_final_set.csv` + root | S2 | Same schema as weekly + final-settlement and refund classes | Final residual distribution (D-05) |
@@ -216,6 +237,12 @@ header h+1, and binary version; the pinned app hash MUST match across both archi
 
 **REQ-STA-014** Every pipeline run SHALL emit the complete artifact set applicable to its event (S1, weekly, S2)
 plus the signed manifest; partial artifact sets MUST NOT be published.
+
+**REQ-STA-065** (S1 export scope, D-25) No S1 artifact SHALL credit `uakt` held by user accounts in any class
+(liquid, bonded, unbonding, accrued reward or commission): that AKT migrates through the portal (§1.1). The full S1
+genesis export is still taken under §2.1 to §2.3, verified, and archived (REQ-STA-002, §7). `s1_claims.csv`,
+`reserved_pool_ledger.csv` and `act_ledger_seed.csv` carry only what Q-50 retains (protocol-held funds, ACT,
+residual inputs); `vesting_inventory.csv` is produced only if Q-45 requires it.
 
 ### 2.5 Determinism and rounding
 
@@ -262,6 +289,8 @@ publication ≤ 24 h after C including human review steps (doc 10 runbook); week
 to publication. Budgets MUST hold at 2× current mainnet state size, demonstrated during rehearsals (§9).
 
 ## 3. Weekly residual diff computation
+
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
 
 ### 3.1 Method: event-sourced replay with state reconciliation
 
@@ -360,6 +389,15 @@ set, so no address loses value to the threshold.
 
 ## 4. Verification
 
+**Scope under D-25.** Root verification is retained for every artifact set that remains: whatever S1 and S2
+still carry (REQ-STA-065, Q-50), weekly residual sets, and any post-halt AKT set chosen under Q-47 (REQ-STA-069).
+Portal mints before H are not derived from these artifacts; their verification path is Q-44 and their supply
+conservation is owned by [05](./05-token-migration.md) and [08](./08-security-and-audits.md).
+
+**REQ-STA-066** Property check (a) of REQ-STA-034 SHALL use doc 05's supply equation as amended for D-25, in which
+`uakt` held by user accounts at S1 is not a claim term; checks (b) to (g) apply unchanged to every artifact set
+that remains.
+
 ### 4.1 Dual independent implementations
 
 **REQ-STA-032** Two implementations of the entire artifact pipeline (S1 claim sets, weekly residuals incl.
@@ -424,6 +462,11 @@ self-registering plugin system (`upgrades/types/types.go` `RegisterUpgrade`, bla
 migrations that alter genesis-export schemas; permitted writes are limited to parameter values (consensus MaxGas
 per REQ-STA-045), enforced by comparing pre/post store lists in the upgrade test.
 
+**REQ-STA-067** In addition to the consensus MaxGas write (REQ-STA-045), the sunset upgrade SHALL set `x/mint`
+inflation to zero from `h_up` (D-25.b), so no `uakt` minted after C reaches the portal. This is a value write that
+leaves store layout and export schemas unchanged (REQ-STA-040); the upgrade test MUST assert that `x/mint` issues
+zero `uakt` in every block from `h_up`. Whether BME may still mint `uakt` on `akashnet-2` after C is part of Q-50.
+
 The filter is an ante-handler decorator (the ante chain is currently stock, `app/ante.go:46-58`) prepended to the
 fee decorators; it applies to every transaction from block `h_up` onward, in both CheckTx and DeliverTx.
 
@@ -469,11 +512,24 @@ nested message fails the filter.
 governance only; community-pool spends and arbitrary executions are rejected. Expedited proposals SHOULD be used
 for emergencies [TO-VERIFY: expedited gov params live on mainnet].
 
+**D-25 and the allow-list.** From L the portal is how AKT leaves `akashnet-2`, and it must keep working through
+H. The staking and distribution rows above also carry the unbond-then-migrate path (undelegation, reward and
+commission withdrawal); their "economically inert post-S1" rationale no longer holds, since AKT released after C
+stays portal-eligible.
+
+**REQ-STA-068** The allow-list SHALL admit, from `h_up` to H, every message the Q-44 portal mechanism requires
+on `akashnet-2`, filtered as narrowly as that mechanism allows, so AKT can be migrated through H. The exact entries
+are fixed when Q-44 closes and are part of the sunset upgrade's normative allow-list (REQ-STA-041).
+
 ### 5.3 Fee floor and block-gas cap
 
 Minimum gas price on Cosmos is node-local configuration, not consensus; it cannot be relied on for a
-network-wide floor. Note also that post-S1 old-AKT tends toward zero market price, so *no* fee level is a strong
-economic barrier; the floor is a rate-limiter, and the real spam bound is the allow-list plus block gas.
+network-wide floor. ~~Note also that post-S1 old-AKT tends toward zero market price, so *no* fee level is a strong
+economic barrier; the floor is a rate-limiter, and the real spam bound is the allow-list plus block gas.~~
+**[WITHDRAWN: superseded by D-25]** Under D-25, AKT on `akashnet-2` stays redeemable through the portal until the
+window closes, so fees paid after C carry real cost to wind-down users and to holders migrating; the final floor
+(Q-17) must be set with that in view. The "lost claim value" rationale in REQ-STA-045 likewise no longer holds;
+the cap is retained as a spam bound.
 
 **REQ-STA-044** The sunset upgrade SHALL enforce a consensus-level global minimum gas price in the ante chain,
 compiled in as a constant: provisional **0.5 uakt/gas** (20× the community floor of 0.025 uakt; final value per
@@ -485,9 +541,11 @@ bounding worst-case spam throughput on a chain whose gas token has lost claim va
 
 ### 5.4 Rationale notes (normative context)
 
-- **Bank sends stay enabled.** (a) Post-S1 transfers are claim-inert (REQ-STA-003): claims were fixed at S1, so
-  moving old-AKT cannot move claim value; the exfiltration surface is *leaving the chain*, which is blocked.
-  (b) Wallets, exchange consolidation sweeps, and own-account gas top-ups require plain sends; blocking them
+- **Bank sends stay enabled.** ~~(a) Post-S1 transfers are claim-inert (REQ-STA-003): claims were fixed at S1, so
+  moving old-AKT cannot move claim value; the exfiltration surface is *leaving the chain*, which is blocked.~~
+  **[WITHDRAWN: superseded by D-25]** (a) Under D-25, AKT stays portal-eligible after C, so sends move value
+  exactly as before C; holders, exchanges and custodians need them to consolidate balances before migrating, and
+  the Q-44 mechanism may itself require them (REQ-STA-068). (b) Wallets, exchange consolidation sweeps, and own-account gas top-ups require plain sends; blocking them
   breaks wind-down UX for zero benefit. (c) Module accounts cannot receive external sends anyway (`app/app.go:85`).
 - **Oracle keep-alive.** The wind-down path *needs* live AKT/USD prices until H: BME CR computation (a zero price
   forces `halt_oracle`, which blocks even ACT→AKT refunds), the escrow AKT-fallback settlement, and `MsgBurnACT`
@@ -499,8 +557,12 @@ degradation.
 
 ### 5.5 IBC policy: outbound blocked, inbound feeds redemption
 
-Outbound ICS-20 (`MsgTransfer`) is rejected from `h_up` to prevent post-snapshot exfiltration of claim-inert AKT
-to DEX venues where it could be sold to buyers unaware that claims are fixed at S1. Inbound remains fully
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
+
+Outbound ICS-20 (`MsgTransfer`) is rejected from `h_up` ~~to prevent post-snapshot exfiltration of claim-inert AKT
+to DEX venues where it could be sold to buyers unaware that claims are fixed at S1.~~ **[WITHDRAWN: superseded by
+D-25]** Under D-25 the reason is that AKT outside `akashnet-2` cannot use the portal until it returns (D-07 as
+amended, Q-46). Inbound remains fully
 operational: each returning voucher releases coins from the (reserved) transfer escrow to the recipient, credited
 as class F10 (§3.2), the on-chain half of the D-07 redemption design. Returns during C→H are thus honored
 *automatically* via weekly residuals; only post-H stragglers need the foundation redemption process (doc 05).
@@ -517,16 +579,30 @@ that height deterministically; the last committed block is `h_S2 = H`, the S2 ex
 recommended node config for the final week sets `halt-height = h_S2 + 1`, and operators are instructed not to
 enable Cosmovisor auto-download. Emergency deferral of H uses `MsgCancelUpgrade` + a new plan (REQ-STA-043).
 
+**REQ-STA-069** AKT still on `akashnet-2` at H, whether in user accounts or still bonded or unbonding, SHALL be
+handled per Q-47 (leading candidate: include it in the S2 export and let holders claim through the portal with
+Cosmos-key signatures until the 2-year window ends). Stake still bonded or unbonding at H, which A-25 expects to
+exist, is within Q-47 and MUST be covered by its decision. The S2 genesis export, archived per §7, is the authoritative record of these
+balances; if Q-47 adopts its leading candidate, the S2 artifact set SHALL add the corresponding AKT set with its
+Merkle root, built under §2 and verified under §4 like every other set.
+
 ## 6. Validator continuity C→H
 
 ### 6.1 Problem
 
-From `h_up`, block rewards are paid in old-AKT that is excluded from claims (REQ-STA-003): validating
-`akashnet-2` earns nothing real for 90 days while costs continue. Unmitigated, validators unbond and shut down,
+~~From `h_up`, block rewards are paid in old-AKT that is excluded from claims (REQ-STA-003): validating
+`akashnet-2` earns nothing real for 90 days while costs continue.~~ **[WITHDRAWN: superseded by D-25]** Under
+D-25.b, `x/mint` inflation is zero from `h_up`, so validators earn only transaction fees from C to H while costs
+continue. Unmitigated, validators unbond and shut down,
 and the chain loses liveness (> 1/3 voting power offline) before H, stranding running leases, escrow refunds,
 and the residual pipeline itself.
 
+D-25 adds a second, earlier pressure: from V, holders unbond in order to migrate, thinning bonded stake well
+before C (§6.6).
+
 ### 6.2 Wind-down incentive
+
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
 
 **REQ-STA-049** The S1 accounting SHALL reserve a **validator continuity budget** as an explicit Wind-down
 Reserve line item (`reserved_pool_ledger.csv`), sized by governance input per Q-13, paid in target-chain AKT at
@@ -552,12 +628,35 @@ Overclock; these actions are pre-authorized in the cutover runbook.
 
 ### 6.5 Slashing stays active; the equivocation gap
 
-Slashing and jailing remain fully active C→H (downtime jailing; 5% double-sign slash), but post-S1 slashed
-old-AKT has no claim value: **the continuity payout is the only real economic stake** against equivocation.
+Slashing and jailing remain fully active C→H (downtime jailing; 5% double-sign slash), ~~but post-S1 slashed
+old-AKT has no claim value: **the continuity payout is the only real economic stake** against equivocation.~~
+**[WITHDRAWN: superseded by D-25]** Under D-25, bonded AKT stays portal-eligible, so slashing keeps its economic
+deterrent through H; the forfeiture in REQ-STA-053 is an additional deterrent, not a replacement.
 
 **REQ-STA-053** Any validator tombstoned or slashed for equivocation during C→H SHALL forfeit its entire
 continuity payout; downtime jailing does not forfeit but reduces `signed_blocks_i` naturally. This forfeiture is
 the migration-era replacement for slashing's economic deterrent and MUST be stated in the Q-13 program terms.
+
+### 6.6 Bonded-stake thinning from V (D-25, Q-49, R-36)
+
+Under D-25, bonded and unbonding AKT must be unbonded (14 days) before it can be migrated, while staking keeps
+securing `akashnet-2` and earning rewards until C. Holders who migrate early therefore withdraw stake from
+consensus from V onward, long before the C to H window that §6.1 to §6.5 address. A thinner bonded set lowers the
+stake needed to control one third or two thirds of voting power, and A-25 assumes enough AKT stays bonded through
+H to keep the chain live and meet the 20% quorum on the cutover, sunset and halt proposals. The minimum
+bonded-stake threshold, the quorum risk on those proposals, and whether continuity incentives (Q-13) start before
+C are open in Q-49 (needed by G1); R-36 tracks the risk.
+
+**REQ-STA-070** From V until H, wind-down monitoring (REQ-STA-052) SHALL also track and publish:
+bonded AKT and bonded ratio, unbonding-queue volume, active validator count, the smallest number of validators
+controlling one third and two thirds of voting power, and, for each pending cutover, sunset or halt proposal,
+projected turnout against its quorum. A bonded-stake and quorum report SHALL be presented at each gate after V
+(R-36 mitigation).
+
+**REQ-STA-071** A bonded ratio falling toward quorum risk (the R-36 trigger), or below the minimum threshold set by
+Q-49, SHALL be escalated per the doc 10 runbook and reported at the next gate. The response, including whether the
+REQ-STA-052 escalation actions and Q-13 continuity incentives apply before C, is decided in Q-49; this document
+does not pre-empt it.
 
 ## 7. Archives (D-18)
 
@@ -579,7 +678,7 @@ archive-node data directory captured immediately at halt.
 ### 7.2 Integrity
 
 **REQ-STA-055** A single top-level archive manifest SHALL list SHA-256 checksums of every artifact, be signed by
-the REQ-STA-037 attestor set, and be published in the docs repository and on the claim portal.
+the REQ-STA-037 attestor set, and be published in the docs repository and on the migration portal.
 
 **REQ-STA-056** The archive manifest hash SHOULD additionally be anchored on the target chain (Solana: a
 memo/account written by the D-11 authority; EVM: an event emitted by `MigrationClaims`), making archive integrity
@@ -601,18 +700,24 @@ and date recorded in the doc 10 runbook:
 
 | # | Item | Action |
 |---|---|---|
-| 1 | Public RPC/gRPC/REST endpoints (`rpc.akash.network` et al.) | Serve HTTP 410 + JSON pointer to archives/claim portal for 90 days, then remove |
+| 1 | Public RPC/gRPC/REST endpoints (`rpc.akash.network` et al.) | Serve HTTP 410 + JSON pointer to archives/migration portal for 90 days, then remove |
 | 2 | `snapshots.akash.network` | Stop publication; keep the final H snapshot listed, marked terminal |
 | 3 | `akash-network/net` repo `mainnet/meta.json` | Mark network halted: final height H, halt timestamp, archive manifest URL |
 | 4 | Cosmos chain-registry entry | PR marking `akashnet-2` as killed, pointing to migration docs |
 | 5 | Seed/persistent-peer nodes | Shut down after item 3 lands |
 | 6 | Monitoring/alerting for old-chain infra | Retire dashboards; export final metrics to the archive |
-| 7 | DNS | Repoint chain hostnames to a static sunset page (archives, claim portal, docs) |
+| 7 | DNS | Repoint chain hostnames to a static sunset page (archives, migration portal, docs) |
 | 8 | Docs | Banner every old-chain page; wallet/exchange partners notified to delist the chain (not the token) |
 | 9 | Release channels (Homebrew tap, install.sh, container registry) | Mark old-chain binaries archived; do not delete |
 
-**REQ-STA-060** Permanent survivors (never decommissioned): the archives (§7), the claim portal (for the full
-claim windows per D-05: 2 years from S1, residuals 2 years from S2), and the migration documentation set.
+**REQ-STA-060** **[WITHDRAWN: superseded by D-25; replaced by REQ-STA-072]** ~~Permanent survivors (never decommissioned): the archives (§7), the claim portal (for the full
+claim windows per D-05: 2 years from S1, residuals 2 years from S2), and the migration documentation set.~~
+
+**REQ-STA-072** Permanent survivors (never decommissioned): the archives (§7) and the migration documentation set.
+Survivors for a fixed window: the migration portal, open until 2 years after L (D-25.a; extension only by
+governance; AKT not migrated by then per Q-48), and any residual, ACT or post-halt claim surface retained under
+Q-50 or Q-47, for the window doc 05 sets for it. These windows run independently of H and of the H+90d
+decommission above.
 
 ## 9. Migration rehearsal requirements
 
@@ -635,6 +740,12 @@ per [09. Testing & verification](./09-testing-and-verification.md).
 **REQ-STA-063** No production S1 SHALL occur until R3 has passed with zero discrepancies; a failed rehearsal
 restarts the R-count clock for the failed stages (doc 10 gate dependency).
 
+**REQ-STA-073** R1, R2 and R3 SHALL also exercise the `akashnet-2` side of the portal across the sunset and the
+halt on forked state: portal migrations through the Q-44 mechanism submitted before and after `h_up` (REQ-STA-068),
+unbond then migrate, zero `x/mint` issuance from `h_up` (REQ-STA-067), and the Q-47 path for AKT left on
+`akashnet-2` at H (REQ-STA-069). The end-to-end portal rehearsal required before L is a GT criterion owned by
+[10](./10-rollout-and-cutover.md) (REQ-ROL-053), not part of R1 to R3.
+
 R4 (the final dress rehearsal at S1−14d, defined in [10. Rollout & cutover](./10-rollout-and-cutover.md)
 §4.1) re-runs the frozen R3 configuration on fresh mainnet-fork state; its pass criteria are R3's.
 
@@ -647,7 +758,7 @@ R4 (the final dress rehearsal at S1−14d, defined in [10. Rollout & cutover](./
 - [08. Security & audits](./08-security-and-audits.md): attestor key policy, incident response.
 - [09. Testing & verification](./09-testing-and-verification.md): rehearsal pass criteria, upgrade test harness.
 - [10. Rollout & cutover](./10-rollout-and-cutover.md): runbook slots for every schedule in this doc; decommission ownership.
-- [13. Open questions](./13-open-questions-and-assumptions.md): Q-02, Q-03, Q-09, Q-10, Q-13, Q-17, Q-18, Q-19; A-01, A-02.
+- [13. Open questions](./13-open-questions-and-assumptions.md): Q-02, Q-03, Q-09, Q-10, Q-13, Q-17, Q-18, Q-19; A-01, A-02; D-25 and Q-44 to Q-50, A-25.
 
 ## Feeds into
 
@@ -655,5 +766,5 @@ R4 (the final dress rehearsal at S1−14d, defined in [10. Rollout & cutover](./
 - **09** consumes: rehearsal scope (R1–R3), dual-implementation gate, property-check list as test oracles.
 - **10** consumes: sunset/halt governance sequencing, export schedule, verification windows, decommission checklist, continuity monitoring thresholds.
 - **11** consumes: migration-engine, verifier, sunset-upgrade, and archive workstreams as SOW deliverables.
-- **12** consumes: oracle keep-alive, validator attrition, equivocation-gap, and root-mismatch risks.
+- **12** consumes: oracle keep-alive, validator attrition, equivocation-gap, and root-mismatch risks; bonded-stake thinning from V (R-36, §6.6).
 - **14** consumes: the allow-list and disposition tables for the exhaustive mapping appendix.

@@ -4,11 +4,11 @@
 |---|---|
 | **Document** | 14. Appendix: protocol mapping |
 | **Doc ID** | AKASH-MIG-14 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering (all workstreams) |
-| **Status** | Informative: realizes decisions D-01…D-24; contains no new requirements |
+| **Status** | Informative: realizes decisions D-01…D-25; contains no new requirements |
 
 ## Purpose
 
@@ -94,7 +94,7 @@ Every transaction message accepted by the current chain. Type URLs are the proto
 | `/akash.bme.v1.MsgBurnMint` | Queue an AKT↔ACT swap request; executed at next epoch (`server.go:52-75`; `keeper.go:786-865`) | `akash-bme.request_burn_mint` (creates pending-record PDA) | `BurnMintEscrow.requestBurnMint` | Parity: only uakt↔uact; healthy oracle price required on both denoms; rejected when status ≥ halt_cr EXCEPT ACT→AKT refunds under CR-halt (blocked under halt_oracle); funds escrowed into vault at request; pending balances excluded from CR (D-20). Delta: request pays rent for its queue record (refunded on execute/cancel) |
 | `/akash.bme.v1.MsgMintACT` | Sugar: BurnMint with `DenomToMint = uact` (`server.go:77-98`) | `akash-bme.mint_act` | `BurnMintEscrow.mintACT` | `MinMint = 10,000,000 uact` floor applies (§5) |
 | `/akash.bme.v1.MsgBurnACT` | Sugar: BurnMint with `DenomToMint = uakt` (`server.go:100-121`) | `akash-bme.burn_act` | `BurnMintEscrow.burnACT` | Allowed under CR-halt (refund path), not under oracle-halt |
-| `/akash.bme.v1.MsgFundVault` | Gov-only vault top-up from a non-module source (`server.go:123-167`) | gov-gated `akash-bme.fund_vault` | gov-gated `BurnMintEscrow.fundVault` | Vault seeded at S1 from migrated bme module account via Wind-down Reserve (D-05, D-20; [05](./05-token-migration.md)) |
+| `/akash.bme.v1.MsgFundVault` | Gov-only vault top-up from a non-module source (`server.go:123-167`) | gov-gated `akash-bme.fund_vault` | gov-gated `BurnMintEscrow.fundVault` | Vault seeded at S1 from migrated bme module account via Wind-down Reserve (D-05, D-20; [05](./05-token-migration.md)); seeding under review (D-25, Q-50) |
 | `/akash.bme.v1.MsgUpdateParams` | Gov-gated (`server.go:34-50`) | gov-gated `akash-config.set_bme_params` | gov-gated `AkashConfig.setBmeParams` | §5; epoch params convert block→time basis (D-20) |
 
 ### 1.5 x/oracle (`akash.oracle.v2`)
@@ -137,12 +137,12 @@ Every transaction message accepted by the current chain. Type URLs are the proto
 
 | Cosmos msg (type URL) | Semantics | Solana | EVM | Behavioral deltas / notes |
 |---|---|---|---|---|
-| `/cosmos.bank.v1beta1.MsgSend` (uakt) | Transfer AKT | SPL Token-2022 `transfer_checked` (AKT mint, D-03) | `AKT.transfer` / `transferFrom` (D-04) | 1:1 in micro-units (6 decimals both sides) |
+| `/cosmos.bank.v1beta1.MsgSend` (uakt) | Transfer AKT | SPL Token-2022 `transfer_checked` (AKT mint, D-03) | `AKT.transfer` / `transferFrom` (D-04) | 1:1 in micro-units (6 decimals both sides). On Path A, AKT reaches the SPL mint only through the migration portal from L (D-25; §1.11); how AKT leaves circulation on `akashnet-2` for the portal is per Q-44 |
 | `/cosmos.bank.v1beta1.MsgSend` (uact) | Rejected today: `SendEnabled=false` for uact (`cmd/akash/cmd/genesis.go:121-130`) | n/a: ACT mint has Token-2022 `NonTransferable`; only protocol burn/mint CPIs move it (D-19) | n/a: `ACT` transfers revert except for protocol contracts (D-19) | Non-transferability parity is a hard requirement of D-19 |
 | `/cosmos.bank.v1beta1.MsgMultiSend` | Batch transfer | Multiple transfer instructions in one Solana tx | Multicall / batch-disperse contract (non-protocol) | Convenience only; not a protocol surface |
-| `/cosmos.staking.v1beta1.MsgDelegate` | Bond AKT to a validator | n/a post-migration (D-06): no sovereign consensus; governance power via Realms AKT deposits | n/a post-migration: governance via `AkashGovernor` votes | Bonded/unbonding stake is credited liquid at S1 (D-06); replacement participation incentives per D-12 |
-| `/cosmos.staking.v1beta1.MsgUndelegate`, `MsgBeginRedelegate` | Unbond / move stake | n/a post-migration | n/a post-migration | Unbonding entries at S1 credited liquid (D-06) |
-| `/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward`, `MsgWithdrawValidatorCommission` | Claim staking rewards | n/a post-migration | n/a post-migration | Accrued unclaimed rewards up to halt are folded into claims (D-06; [05](./05-token-migration.md)) |
+| `/cosmos.staking.v1beta1.MsgDelegate` | Bond AKT to a validator | n/a post-migration (D-06): no sovereign consensus; governance power via Realms AKT deposits | n/a post-migration: governance via `AkashGovernor` votes | **[WITHDRAWN: superseded by D-25]** ~~Bonded/unbonding stake is credited liquid at S1 (D-06)~~. Under D-25 bonded AKT is not auto-credited: holders unbond and then migrate through the portal; staking secures `akashnet-2` and earns rewards until C. Replacement participation incentives per D-12 |
+| `/cosmos.staking.v1beta1.MsgUndelegate`, `MsgBeginRedelegate` | Unbond / move stake | n/a post-migration | n/a post-migration | **[WITHDRAWN: superseded by D-25]** ~~Unbonding entries at S1 credited liquid (D-06)~~. Under D-25 `MsgUndelegate` is the first step of migrating staked AKT: unbonding completes on `akashnet-2` (14 days), then the AKT migrates through the portal |
+| `/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward`, `MsgWithdrawValidatorCommission` | Claim staking rewards | n/a post-migration | n/a post-migration | **[WITHDRAWN: superseded by D-25]** ~~Accrued unclaimed rewards up to halt are folded into claims (D-06; [05](./05-token-migration.md))~~. Under D-25 rewards accrue on `akashnet-2` until C; withdrawn rewards are liquid AKT that migrates through the portal |
 | `/cosmos.gov.v1.MsgSubmitProposal` | Submit governance proposal (deposit-gated) | Realms (SPL Governance) create-proposal in the AKT realm (D-11) | `AkashGovernor.propose` | Deposit model → proposal-creation token threshold (Realms) / `proposalThreshold` (Governor); no burn-on-veto equivalent |
 | `/cosmos.gov.v1.MsgVote` (+`MsgVoteWeighted`) | Vote on proposal | Realms cast-vote | `AkashGovernor.castVote` / `castVoteWithReason` | Quorum/period values set at G1 per D-11 (§5.6) |
 | `/cosmos.gov.v1.MsgDeposit` | Top up proposal deposit | n/a: no deposit phase in Realms | n/a: no deposit phase in Governor | Spam control shifts to creation thresholds |
@@ -151,7 +151,7 @@ Every transaction message accepted by the current chain. Type URLs are the proto
 | `/cosmos.authz.v1beta1.MsgExec` | Execute a granted msg | n/a: depositor signs deposit ix directly; allowance consumed inside `account_deposit` / `create_deployment` / `create_bid` paths | n/a: same | Matches current semantics: grants are consumed inside escrow's `AuthorizeDeposits`, not via generic exec |
 | `/cosmos.authz.v1beta1.MsgGrant` (generic, other types) | Arbitrary msg delegation | No general successor; app-level session keys/delegates per [07](./07-offchain-and-clients.md) | No general successor; account-abstraction session keys | Only the DepositAuthorization seam is protocol-load-bearing today |
 | `/cosmos.feegrant.v1beta1.MsgGrantAllowance` / `MsgRevokeAllowance` | Sponsor another account's tx fees (used for onboarding; fees only; deposits use authz) | Fee-sponsorship service: sponsor co-signs as Solana fee payer (relayer per [07](./07-offchain-and-clients.md), Q-07) | ERC-4337 paymaster charging/settling in AKT ([07](./07-offchain-and-clients.md)) | Moves from consensus feature to operated service on Solana; on EVM paymaster is on-chain but operated (Q-07) |
-| `/ibc.applications.transfer.v1.MsgTransfer` | ICS-20 send AKT to other Cosmos chains | n/a post-migration: no IBC; third-party bridges out of protocol scope | n/a post-migration: canonical/third-party bridges out of protocol scope | IBC-out AKT handled by the D-07 pre-C return-home window + redemption process ([05](./05-token-migration.md) §7) |
+| `/ibc.applications.transfer.v1.MsgTransfer` | ICS-20 send AKT to other Cosmos chains | n/a post-migration: no IBC; third-party bridges out of protocol scope | n/a post-migration: canonical/third-party bridges out of protocol scope | IBC-out AKT handled by the D-07 pre-C return-home window + redemption process ([05](./05-token-migration.md) §7). Under D-25 holders return IBC AKT to `akashnet-2` and then migrate through the portal (D-07 as amended); vouchers still out at H: Q-46 |
 
 ### 1.11 New target-chain entrypoints with no Cosmos msg predecessor (context)
 
@@ -162,7 +162,8 @@ Every transaction message accepted by the current chain. Type URLs are the proto
 | `akash-deployment.finalize_deployment_close` (crank) | inline in `closeDeployment` | Cascade finalization (§1.1) |
 | `akash-bme.crank_epoch` (permissionless, tipped) | keeper automation calling `BurnMintEscrow.executeEpoch` | Replaces bme EndBlocker epoch execution (D-20); processes ≤ `max_records_per_crank` |
 | Pyth receiver `post_update` (ecosystem ix) | `IPyth.updatePriceFeeds` | Replaces the CosmWasm pyth contract → `MsgAddPriceEntry` path (D-13) |
-| `akash-claims.claim` / residual claim | `MigrationClaims.claim` | Token migration (D-05; [05](./05-token-migration.md)) |
+| `akash-claims.claim` / residual claim | `MigrationClaims.claim` | Token migration (D-05; [05](./05-token-migration.md)). Under D-25, Path A claims no longer carry AKT held in user accounts at S1; they serve whatever S1 and S2 still carry (protocol-held funds, ACT, residuals; Q-50) and the post-halt candidate in Q-47 (03 REQ-SOL-080). `MigrationClaims` is the alternate path's design (04 §11.2) |
+| migration portal mint (03 §12.1; a dedicated program or an `akash-claims` extension, per Q-44) | n/a: Path B keeps `MigrationClaims` (04 §11.2) | One-way AKT migration (D-25): AKT removed from circulation on `akashnet-2` (mechanism per Q-44) is minted 1:1 (micro-unit) as SPL AKT to the Solana address the holder names, from L for 2 years (D-25.a); no reverse path |
 | `akash-emissions.distribute` | `EmissionsMinter.mint` (timelocked schedule) | Replacement emissions (D-12) |
 
 ---
@@ -384,11 +385,11 @@ otherwise.
 
 | Param | Current value | Target disposition | Notes |
 |---|---|---|---|
-| staking.UnbondingTime | 14 days | n/a post-migration (D-06) | No sovereign staking |
+| staking.UnbondingTime | 14 days | n/a post-migration (D-06) | No sovereign staking. Until C it sets the delay before staked AKT can migrate through the portal (unbond, then migrate; D-25) |
 | staking.MaxValidators | 100 | n/a | none |
 | staking.BondDenom | uakt | n/a | none |
 | staking.MinCommissionRate | 0.05 | n/a | none |
-| mint (inflation) params | NOT in repo; on-chain state only (Q-19) | replaced by `akash-emissions`/`EmissionsMinter` schedule (D-12, curve per Q-01) | Modeling input for [05](./05-token-migration.md) |
+| mint (inflation) params | NOT in repo; on-chain state only (Q-19) | replaced by `akash-emissions`/`EmissionsMinter` schedule (D-12, curve per Q-01) | Modeling input for [05](./05-token-migration.md). The sunset upgrade sets `akashnet-2` inflation to zero at C, so no AKT minted after C reaches the portal (D-25.b) |
 | distribution.CommunityTax | 0 | n/a: treasury funded by emissions split (D-12) | none |
 | distribution.WithdrawAddrEnabled | true | n/a | none |
 | gov.MinDeposit | 2,500,000,000 uakt (2,500 AKT) | Realms proposal-creation threshold / `AkashGovernor.proposalThreshold`; values set at G1 (D-11) | No deposit-refund/burn mechanic on targets |
@@ -410,7 +411,9 @@ otherwise.
 
 ## 6. Module-account mapping
 
-Current perms per `app/mac.go:15-27`; `allowedReceivingModAcc` is EMPTY ⇒ every module account is
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
+
+The review note applies to the Wind-down Reserve dispositions in this table (escrow, distribution, BME vault seeding, gov deposits, IBC escrows). Current perms per `app/mac.go:15-27`; `allowedReceivingModAcc` is EMPTY ⇒ every module account is
 blocked from receiving external bank sends today.
 
 | Module account (perms) | Solana | EVM | Notes |
@@ -419,11 +422,11 @@ blocked from receiving external bank sends today.
 | `bme` (Burner, Minter) | `akash-bme`: vault = AKT token account owned by PDA `["vault"]`; ACT mint+burn authority = PDA `["mint-authority"]` (D-19) | `BurnMintEscrow` holds vault AKT; has mint/burn rights on `ACT` (role-gated) | Vault seeded from migrated bme module balance (D-20 via D-05). Burner/Minter perms → explicit mint-authority PDAs / `MINTER_ROLE` |
 | `fee_collector` (no perms) | n/a: tx fees go to Solana validators (burn+tips) | n/a: gas to the host-chain sequencer | No protocol fee capture today (take dead); §5.5 |
 | `distribution` (no perms) | n/a: community pool balance at S1 → Wind-down Reserve → DAO treasury (Realms treasury account) | → `AkashTimelock`-owned treasury | [05](./05-token-migration.md); precedent: v2.1.0 already moved 427,414,453 uakt distribution→escrow imperatively (`upgrades/software/v2.1.0/upgrade.go:88-108`) |
-| `mint` (Minter) | `akash-emissions` PDA holds AKT mint authority post-claims (D-03, D-12) | `EmissionsMinter` sole minter alongside `MigrationClaims` (D-04) | Sovereign inflation ends at halt |
-| `bonded_tokens_pool` (Burner, Staking) | n/a: bonded stake credited liquid at S1 (D-06) | n/a | none |
-| `not_bonded_tokens_pool` (Burner, Staking) | n/a: unbonding stake credited liquid at S1 (D-06) | n/a | none |
+| `mint` (Minter) | `akash-emissions` PDA holds AKT mint authority post-claims (D-03, D-12). Under D-25 the AKT mint-authority holders are: the portal's mint-authority PDA from L for the portal window (in a dedicated portal program or in `akash-claims`, per Q-44), then the `akash-emissions` PDA (03 REQ-SOL-079) | `EmissionsMinter` sole minter alongside `MigrationClaims` (D-04) | Sovereign inflation ends at halt. Under D-25.b the sunset upgrade sets `akashnet-2` inflation to zero at C |
+| `bonded_tokens_pool` (Burner, Staking) | **[WITHDRAWN: superseded by D-25]** ~~n/a: bonded stake credited liquid at S1 (D-06)~~. n/a: holders unbond bonded AKT on `akashnet-2`, then migrate it through the portal (D-25) | n/a | none |
+| `not_bonded_tokens_pool` (Burner, Staking) | **[WITHDRAWN: superseded by D-25]** ~~n/a: unbonding stake credited liquid at S1 (D-06)~~. n/a: unbonding AKT completes unbonding on `akashnet-2`, then migrates through the portal (D-25) | n/a | none |
 | `gov` (Burner) | Realms governance PDAs (proposal escrows) | `AkashGovernor`/`AkashTimelock` | Live gov deposits at S1 reserved and resolved per [05](./05-token-migration.md) |
-| `transfer` / ibc (Minter, Burner) | n/a: IBC escrow balances at S1 reserved; stranded vouchers per D-07 | n/a | none |
+| `transfer` / ibc (Minter, Burner) | n/a: IBC escrow balances at S1 reserved; stranded vouchers per D-07 | n/a | Under D-25 holders return IBC AKT to `akashnet-2` and then migrate through the portal (D-07 as amended); vouchers still out at H: Q-46 |
 | receive-blocking (`allowedReceivingModAcc` empty, `app/app.go:85,496-504`) | Program vaults writable only via program instructions (owner = program PDAs), an equivalent guarantee | Cannot block bare ERC-20 transfers to a contract address: guard via internal accounting + `sweep()` for unattributed AKT | EVM delta flagged for [08](./08-security-and-audits.md) monitoring |
 
 ---
@@ -434,7 +437,7 @@ blocked from receiving external bank sends today.
 
 | Cosmos | Solana | EVM | Notes |
 |---|---|---|---|
-| `akash1…` bech32 account (secp256k1; addr = ripemd160(sha256(pubkey))) | base58 ed25519 pubkey (32 B) | `0x…` 20-B EIP-55 (keccak of secp256k1 pubkey) | NO derivation mapping in either direction; linkage established only by signed claim (old key authorizes new address) per [05](./05-token-migration.md) |
+| `akash1…` bech32 account (secp256k1; addr = ripemd160(sha256(pubkey))) | base58 ed25519 pubkey (32 B) | `0x…` 20-B EIP-55 (keccak of secp256k1 pubkey) | NO derivation mapping in either direction; linkage established only by signed claim (old key authorizes new address) per [05](./05-token-migration.md). Under D-25 (Path A), the holder names the Solana recipient when AKT leaves circulation on `akashnet-2` through the portal (mechanism per Q-44); signed claims remain for whatever claims still carry (Q-47, Q-50) |
 | `akashvaloper…` / `akashvalcons…` | n/a post-migration | n/a | Validator identities end (D-06) |
 | Module account address (`authtypes.NewModuleAddress`) | Program PDA | Contract address | §6 |
 | x509 cert identity (x/cert) | wallet signature + provider registry signing keys (D-10) | same | [07](./07-offchain-and-clients.md) |
@@ -443,7 +446,7 @@ blocked from receiving external bank sends today.
 
 | Cosmos | Solana | EVM | Notes |
 |---|---|---|---|
-| `uakt` (10⁻⁶ AKT; display `akt`) | AKT Token-2022 mint base unit, 6 decimals (D-03) | `AKT` ERC-20, 6 decimals (D-04) | 1:1 micro-unit parity by design |
+| `uakt` (10⁻⁶ AKT; display `akt`) | AKT Token-2022 mint base unit, 6 decimals (D-03) | `AKT` ERC-20, 6 decimals (D-04) | 1:1 micro-unit parity by design; the migration portal mints 1:1 per micro-unit (D-25) |
 | `uact` (10⁻⁶ ACT; `SendEnabled=false`) | ACT Token-2022 NonTransferable mint, 6 decimals (D-19) | `ACT` restricted ERC-20, 6 decimals | Wallet presentation per Q-16 |
 | `uusd` (oracle quote, exponent 6) | Pyth USD quote, exponent −8 | same | ×100 rescale at every oracle read; implement once in a shared price lib |
 | `LegacyDec` (18 fractional digits) | u128 fixed-point ×1e18 | uint256 ×1e18 (WAD) | Used for rates, prices, CR math |
@@ -555,6 +558,17 @@ enum index, frozen at IDL freeze, [07](./07-offchain-and-clients.md)); EVM = Sol
 | `simulate` / CheckTx | `simulateTransaction` | `eth_call` / `estimateGas` |
 | Discovery service (`GetInfo`, min_client_version) | akash-config version registry + on-chain Anchor IDL accounts | `AkashConfig.versions()` + published ABI registry |
 | SDL / manifest (off-chain, hash on-chain) | Unchanged: hash in deployment account (D-09, A-10) | Unchanged: hash in Deployment struct |
+
+### 9.1 Program events and governance terms (D-25)
+
+| Term | Meaning |
+|---|---|
+| **V** | The moment the migration proposal passes on `akashnet-2` (end of its voting period). |
+| **L** | Token launch, `L = V + 7d`: the SPL AKT mint is live on Solana mainnet and the migration portal opens. Point of no return for the token. |
+| **GT** | Gate *token launch readiness*. Passes before the migration proposal is submitted, because L follows V by only 7 days (D-25.c); criteria in [10](./10-rollout-and-cutover.md). |
+| **Migration portal** | The one-way path, open from L for 2 years (D-25.a), by which AKT taken out of circulation on `akashnet-2` is minted 1:1 (micro-unit) as SPL AKT to the Solana address the holder names; mechanism per Q-44; no reverse path. Solana: [03 §12.1](./03-solana-architecture.md) (a dedicated program or an `akash-claims` extension). EVM: n/a (Path B keeps `MigrationClaims`, [04 §11.2](./04-ethereum-architecture.md)). |
+| **Migration proposal** | Governance proposal (i) on `akashnet-2`, formerly the non-binding "signal proposal". Approves the migration to Solana and authorizes the token launch at L = V + 7d and the portal; quorum 20% of bonded stake, majority yes; its passage closes G0. |
+| **Cutover proposal** | Governance proposal (ii) on `akashnet-2`, formerly the "binding approval" or "binding proposal". Fixes the sunset upgrade, the C height formula and H = C + 90d. |
 
 ---
 

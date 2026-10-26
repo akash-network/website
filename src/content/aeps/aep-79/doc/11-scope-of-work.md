@@ -4,8 +4,8 @@
 |---|---|
 | **Document** | 11. Scope of work |
 | **Doc ID** | AKASH-MIG-11 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor commercial and engineering leadership; Overclock program management |
 | **Status** | Normative (MUST/SHALL) and commercial; attached to the executed contract as its statement of work; informative where not marked |
@@ -20,9 +20,11 @@
 
 ## In scope
 
-- Two-stage commercial structure (Stage A target-neutral; Stage B single-target build and launch).
+- Two-stage commercial structure (Stage A target-neutral; Stage B single-target build and launch), plus the
+  pre-G0 Path A token and portal track (D-25, §1.2).
 - Workstreams WS0–WS8 with numbered deliverables (D-WSn.m) and acceptance criteria.
-- Milestones M0–M8 mapped to gates G0–G5 (gates defined in [10](./10-rollout-and-cutover.md)).
+- Milestones M0–M8 mapped to gates G0–G5 (gates defined in [10](./10-rollout-and-cutover.md)), plus milestone MT
+  mapped to gate GT (token launch readiness, D-25.c).
 - Effort estimates, team composition, RACI, change control, IP/licensing, warranty, exclusions.
 
 ## Out of scope
@@ -60,6 +62,7 @@ before the target is chosen.
 | Stage | Window | Pricing | Content |
 |---|---|---|---|
 | **Stage A: target-neutral foundation** | T0 → M1 | Firm fixed price | Kickoff verification sprint (volatile facts, [13 §4](./13-open-questions-and-assumptions.md)); tokenomics modeling start (WS1); migration-engine detailed design (WS3); REQ-baseline confirmation of docs [03](./03-solana-architecture.md)/[04](./04-ethereum-architecture.md); prototype spikes incl. the Q-15 Go–Solana prototype; Q-05/Q-11/Q-12/Q-19 investigations; G0 decision package |
+| **Token and portal track (Path A, D-25)** | Before G0 → MT (gate GT, passed before the migration proposal is submitted) | Per milestone (MT, REQ-SOW-061) | SPL AKT mint (D-WS2.7); migration portal, verification path per Q-44 (D-WS3.8), portal UI and migration CLI `akash migrate` (D-WS4.8); T1 audits and bounty (D-WS5.7, D-WS5.8); exchange and custodian technical notice (D-WS8.6); then token launch at L = V + 7d (D-WS7.6) |
 | **Stage B: single-target build and launch** | G0 → M8 | Fixed per milestone, priced per path (two-column bid) | Full build, audit, testnet, launch, cutover (S1), wind-down (S2), sunset, hypercare on the **selected** target only |
 
 **REQ-SOW-003** Stage A SHALL be target-neutral: its deliverables MUST be equally valid for the Solana and Ethereum
@@ -76,11 +79,24 @@ against it.
 **REQ-SOW-006** Stage B SHALL NOT start before (a) client acceptance of M1 and (b) the G0 decision; the Stage B
 schedule (calendar maintained client-side; milestone sequence per §3.1) re-baselines from the actual G0 date (A-14).
 
+> **Stage A / Stage B boundary (D-25).** G0 is no longer the first point at which Path A production work starts.
+> Path A (Solana) is the core team's selection (D-01), and the token and portal track runs before G0 as a
+> single-path exception to REQ-GEN-018 (REQ-GEN-023), so that GT can pass before the migration proposal is
+> submitted (D-25.c). The migration proposal's passage closes G0 (REQ-GEN-022) and fixes V; token launch L = V + 7d
+> follows, after which the portal stays open 2 years (REQ-ROL-054). Everything outside the track stays as above:
+> Stage A target-neutral, Stage B (marketplace build, cutover C, wind-down, S2, sunset) unchanged in shape.
+
+**REQ-SOW-055** Notwithstanding REQ-SOW-003, the Vendor SHALL execute the Path A token and portal track (D-WS2.7,
+D-WS3.8, D-WS4.8, D-WS5.7, D-WS5.8 and D-WS8.6, all due at MT) before G0, per REQ-GEN-023 and D-25. No other
+target-exclusive production work SHALL begin before G0.
+
 ### 1.3 Program shape
 
 Nine workstreams (§2) run across nine milestones (§3) aligned to gates G0–G5 defined in
-[10. Rollout & cutover](./10-rollout-and-cutover.md). The effort envelope is 142–200 person-months across the milestone
-sequence (§3.1), plus wind-down and hypercare tails (§4), a planning estimate refined at M1 (REQ-SOW-045). Precedents ran
+[10. Rollout & cutover](./10-rollout-and-cutover.md), plus milestone MT aligned to gate GT for the token and portal
+track (§1.2). The effort envelope is 142–200 person-months across the milestone
+sequence (§3.1), plus wind-down and hypercare tails (§4), a planning estimate refined at M1 (REQ-SOW-045). It predates
+D-25 and is re-baselined at MT (REQ-SOW-062). Precedents ran
 longer end-to-end (Helium ≈ 2 years from vote to L1 sunset; Render ≈ 2 years to completed ticker swap; see
 [02](./02-target-selection.md)); this program compresses the build because the specification is complete before T0,
 while the exchange/claims tail remains calendar-bound, not effort-bound.
@@ -111,7 +127,7 @@ decisions land.
 | D-WS0.1 | Program management plan (schedule, staffing, tooling, comms per §9) | Client review; covers all WS and M0–M8 | M0 |
 | D-WS0.2 | Weekly status reports | Format per REQ-SOW-050; delivered every week, no gaps | recurring |
 | D-WS0.3 | REQ-traceability matrix (living) | Every in-scope `REQ-*` mapped to deliverable + test + status; refreshed at each milestone | each M |
-| D-WS0.4 | Gate review packages G0–G5 | Contents per [10](./10-rollout-and-cutover.md) gate entry criteria | each G |
+| D-WS0.4 | Gate review packages G0–G5 and GT | Contents per [10](./10-rollout-and-cutover.md) gate entry criteria | each G (GT at MT) |
 | D-WS0.5 | Monthly risk reviews | R-xx deltas with mitigation status; steering minutes | recurring |
 
 **REQ-SOW-008** The Vendor SHALL maintain the REQ-traceability matrix such that at every milestone review 100% of
@@ -134,7 +150,8 @@ validator wind-down incentives, for the client and governance to decide on.
 - Emissions curve modeling (Q-01): gross rate, decay, provider-incentive/community-treasury split, hard cap; ≥3
   scenarios with sensitivity analysis; provider-incentive budget sizing and payout options.
 - BME parameter study: CR thresholds (9500/9000 bps defaults per D-20), mint-spread sensitivity, time-based epoch
-  length, vault seeding from the S1 Wind-down Reserve ([05](./05-token-migration.md)).
+  length, vault seeding from the S1 Wind-down Reserve ([05](./05-token-migration.md); vault seeding and the Reserve
+  are under review, D-25, Q-50).
 - Validator wind-down incentive sizing (Q-13) for `akashnet-2` validators operating the chain C→H.
 
 **Out of scope.** Making the decisions: parameters are ratified by the client and, where
@@ -163,7 +180,9 @@ ratification process; archive node or trusted state export by M0.
 REQ sets of [03](./03-solana-architecture.md) or [04](./04-ethereum-architecture.md).
 
 **Scope.**
-- Tokens: AKT (D-03 Token-2022 / D-04 ERC-20) and ACT as restricted protocol asset (D-19).
+- Tokens: AKT (D-03 Token-2022 / D-04 ERC-20) and ACT as restricted protocol asset (D-19). On Path A the SPL AKT
+  mint is delivered in the token and portal track before G0 (D-WS2.7, due MT; REQ-SOW-055), with the standard
+  decided at GT (D-03, Q-05).
 - Marketplace: deployment, market (order→bid→lease, reclamation D-24), escrow with streaming settlement (D-21),
   provider registry, audit registry; BME engine port (D-20) with crank/keeper execution.
 - Config/governance wiring (D-11): parameter accounts/contracts, timelock, upgrade authority per
@@ -182,6 +201,7 @@ general smart-contract platform successor (D-22).
 | D-WS2.4 | BME + escrow settlement engine | REQ family satisfied incl. CR breaker, AKT-fallback, FIFO refunds, delegated-deposit allowance (D-21); invariant suite green | M3 |
 | D-WS2.5 | Governance/config wiring + emissions | Parameter changes only via governance path; emissions mint matches ratified schedule across ≥2 simulated epochs on testnet | M4 |
 | D-WS2.6 | Mainnet deployment + verified builds | Reproducible build hashes published; upgrade authority per key ceremony (D-WS5.5) | M5 |
+| D-WS2.7 | SPL AKT mint (Path A, token and portal track, D-25) | Standard per D-03, decided at GT with the exchange and custodian survey (Q-05); exercised with the portal (D-WS3.8) on a mainnet fork; T1 audit closed (D-WS5.7) | MT |
 
 **REQ-SOW-012** WS2 SHALL implement 100% of the selected path's `REQ-SOL-*` or `REQ-EVM-*` requirements except those
 explicitly deferred by an approved CR.
@@ -189,27 +209,41 @@ explicitly deferred by an approved CR.
 **REQ-SOW-013** Every WS2 code module SHALL carry test references to the REQ IDs it satisfies, and CI SHALL fail on
 untraceable normative behavior changes.
 
-**Dependencies.** G0 (target); WS1 parameter freeze at G1; WS5 reviews inline. **Overclock prerequisites.** Timely
+**Dependencies.** G0 (target; D-WS2.7 precedes G0 per REQ-SOW-055); WS1 parameter freeze at G1; WS5 reviews inline. **Overclock prerequisites.** Timely
 decisions on Q-08 (provider collateral) and Q-11 by G1.
 
 ### WS3. Migration engine
 
-**Objective.** Build and operate the machinery that moves value (snapshots, Merkle claims, Wind-down Reserve,
-residual distributions, IBC redemption, old-chain sunset) per [05](./05-token-migration.md) and
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be
+> re-checked for double-counting before G1.
+
+**Objective.** Build and operate the machinery that moves value (migration portal, snapshots, Merkle claims,
+Wind-down Reserve, residual distributions, IBC redemption, old-chain sunset) per [05](./05-token-migration.md) and
 [06](./06-state-and-data-migration.md).
 
-**Scope.**
+**Scope.** The claims stack is the migration portal plus residual claims (REQ-SOW-056); residual scope is under
+review (Q-50).
+- **Migration portal (D-25):** the one-way path from `akashnet-2` to SPL AKT: how AKT leaves circulation on
+  `akashnet-2` and how Solana verifies it before minting 1:1 (mechanism per Q-44), the portal program, pause, and the
+  supply-conservation monitor with auto-pause ([05](./05-token-migration.md)/[08](./08-security-and-audits.md)).
+  Delivered in the token and portal track before G0 (D-WS3.8, due MT; REQ-SOW-055).
 - Snapshot exporter: **two independent implementations** (S1- and S2-capable) covering balances, vesting schedules,
-  bonded/unbonding stake incl. accrued rewards (D-06), and module accounts.
+  bonded/unbonding stake incl. accrued rewards (D-06), and module accounts. *D-25:* S1 no longer carries AKT held in
+  user accounts; bonded/unbonding coverage (D-06) is **[WITHDRAWN: superseded by D-25]**; vesting per Q-45; AKT
+  still on `akashnet-2` at H (in user accounts, bonded or unbonding) per Q-47; what S1 and S2 still carry per Q-50.
 - Merkle tooling: tree construction, root verification, proof service, independent-verifier kit; claims
   program/contract (`akash-claims` / `MigrationClaims`) incl. Wind-down Reserve and vesting re-creation (D-05/D-06).
+  *D-25:* retained where it still serves residuals, ACT or the post-halt candidate in Q-47; vesting re-creation per
+  Q-45; Wind-down Reserve under review (Q-50).
 - Residual-distribution pipeline: automated weekly old-chain→new-chain Merkle drops C→H (D-05, Q-18); IBC-redemption
   support tooling (D-07) incl. counterparty voucher snapshots per Q-03.
 - Old-chain sunset upgrade (D-18): msg-type filter + min-gas raise at C (Q-17 calibration with the core team), halt at
   H, final state export and archives per [06](./06-state-and-data-migration.md).
 
 **Out of scope.** Any persistent two-way bridge (excluded by D-05). Exchange-side swap execution (§5). Custodial
-mechanics for Console managed wallets (Q-14: Console team leads).
+mechanics for Console managed wallets (Q-14: Console team leads). Any reverse path from Solana to `akashnet-2`: the
+portal is one-way (D-25). Exchange-side and custodian-side portal use (A-24). S1 claims for AKT held in user accounts
+and exchange bulk swaps at S1 (withdrawn by D-25).
 
 | ID | Deliverable | Acceptance criteria | Due |
 |---|---|---|---|
@@ -220,6 +254,7 @@ mechanics for Console managed wallets (Q-14: Console team leads).
 | D-WS3.5 | IBC redemption tooling (D-07) | Counterparty snapshot list per Q-03; redemption flow tested with stand-in data | M5 |
 | D-WS3.6 | Sunset upgrade for `akashnet-2` | Passes upgrade tests against mainnet state export; msg allow-list per D-18/Q-17; adopted on rehearsal network | M5 |
 | D-WS3.7 | Supply reconciliation dashboard | Live proof that minted(new) + reserved = snapshot supply at all times ([05](./05-token-migration.md)) | M6 |
+| D-WS3.8 | Migration portal: verification path (Q-44) + portal program (token and portal track, D-25) | Implemented and rehearsed end to end on a mainnet fork, including pause and the supply-conservation monitor (invariant per [05](./05-token-migration.md)/[08](./08-security-and-audits.md); breach auto-pauses portal mints); T1 audit closed (D-WS5.7) | MT |
 
 **REQ-SOW-014** The two snapshot exporters SHALL be built by non-overlapping engineer sets with no shared code except
 canonical schema definitions, and both SHALL run at every rehearsal and at S1/S2.
@@ -230,13 +265,19 @@ any divergence is a program-halting defect until root-caused.
 **REQ-SOW-016** The residual-distribution pipeline SHALL honor old-chain escrow settlements, refunds, and withdrawals
 occurring C→H in new-chain AKT with a lag of ≤7 days (D-05; cadence per Q-18).
 
+**REQ-SOW-056** The WS3 claims stack SHALL comprise (a) the migration portal (D-25; mechanism per Q-44), delivered
+by MT, and (b) residual claims (Merkle tooling, claims program/contract, proof service), whose scope is fixed by the
+Q-50 decision before G1. S1 claims for AKT held in user accounts and exchange bulk swaps at S1 are out of scope
+(D-25).
+
 **Dependencies.** A-01 (upgrade freeze from G2); WS2 token mints; docs
 [05](./05-token-migration.md)/[06](./06-state-and-data-migration.md) baselines. **Overclock prerequisites.** Core-team
 review bandwidth for the sunset upgrade; validator outreach channel; archive infrastructure decision (Q-09) by G3.
 
 ### WS4. Off-chain services & clients
 
-**Objective.** Adapt the off-chain estate (provider daemon, indexing, SDKs, CLI, claim portal) per
+**Objective.** Adapt the off-chain estate (provider daemon, indexing, SDKs, CLI, claim portal, migration portal web
+app) per
 [07. Off-chain & clients](./07-offchain-and-clients.md), preserving the Console API surface (A-11).
 
 **Scope.**
@@ -246,8 +287,14 @@ review bandwidth for the sunset upgrade; validator outreach channel; archive inf
   events as system of record for history (D-23).
 - `chain-sdk` v2 (TypeScript and Go) replacing the `pkg.akt.dev/go` chain surface; CLI re-target; JWT auth continuity
   (D-10).
+- **Migration portal web app and migration CLI (D-25):** the holder flow that migrates AKT from `akashnet-2` to the Solana address the
+  holder names (mechanism per Q-44), served from the official portal domain with look-alike monitoring and a
+  takedown process (R-34), plus the headless migration CLI path (working name `akash migrate`,
+  [07](./07-offchain-and-clients.md) REQ-OFF-070) for exchanges, custodians, providers, validators and scripted
+  treasuries. Both are delivered in the token and portal track before G0 (D-WS4.8, due MT; REQ-SOW-055).
 - Claim portal (web) for S1/residual/S2 claims incl. proof generation and wallet flows; provider re-registration
-  wizard (keys, attributes, collateral per Q-08, JWT signing-key anchoring).
+  wizard (keys, attributes, collateral per Q-08, JWT signing-key anchoring). *D-25:* S1 claims for AKT held in user
+  accounts are **[WITHDRAWN: superseded by D-25]**; the claim flows serve residual and S2 claims (Q-50, Q-47).
 - Console integration support: interface contracts, fixtures, liaison; Console team implements Console changes
   (Q-14).
 
@@ -263,6 +310,7 @@ production infra beyond hypercare (Q-07).
 | D-WS4.5 | Claim portal + provider re-registration wizard | End-to-end on public testnet with real snapshot fixtures; rate-limit review; screening hooks per Q-10 decision | M4 |
 | D-WS4.6 | Console integration support package | Interface contracts + fixtures delivered; Console team sign-off on sufficiency | M4 |
 | D-WS4.7 | Production releases of all clients | Versioned, signed releases; provider upgrade path validated by ≥3 external testnet providers (A-05) | M5 |
+| D-WS4.8 | Migration portal web app and migration CLI path (token and portal track, D-25) | Portal UI ([07](./07-offchain-and-clients.md) REQ-OFF-066 to REQ-OFF-069) and the headless `akash migrate` path (REQ-OFF-070, incl. Ledger, Cosmos multisig and air-gapped signing) end to end with D-WS3.8 on a mainnet fork; official portal domain, look-alike monitoring and takedown process live (R-34) | MT |
 
 **REQ-SOW-017** The indexer SHALL preserve existing Console API shapes such that Console requires only
 address/tx-hash-format changes (A-11); breaking shape changes require a CR.
@@ -270,7 +318,8 @@ address/tx-hash-format changes (A-11); breaking shape changes require a CR.
 **REQ-SOW-018** All client deliverables SHALL ship with migration guides and compatibility matrices (WS8) at the same
 milestone.
 
-**Dependencies.** WS2 interface definitions (IDL/ABI) from M2; D-17/Q-15 decision at G1. **Overclock prerequisites.**
+**Dependencies.** WS2 interface definitions (IDL/ABI) from M2 (for D-WS4.8, the portal interface from D-WS3.8, before
+MT); D-17/Q-15 decision at G1. **Overclock prerequisites.**
 Console counterpart from G0; maintainer access to `akash-network/provider`, `pkg.akt.dev/go`, and chain-sdk repos;
 provider-council testers (A-05).
 
@@ -283,7 +332,9 @@ reviews, external audits, bounty, monitoring, key ceremonies, incident response.
 - Threat-model upkeep; internal security review of every WS2/WS3/WS4 deliverable before external audit.
 - Audit management: scoping, data rooms, firm liaison, finding triage, fix cycles, re-audit (firms contracted by
   Overclock per §6.6, Vendor-managed technically).
-- Bug bounty setup (platform, scope, severity/payout ladder) live before mainnet deploy.
+- Bug bounty setup (platform, scope, severity/payout ladder) live before mainnet deploy. For the token and portal
+  (D-25): T1 audits closed before GT, and a bounty covering token and portal live at least 2 weeks before L
+  (D-WS5.7, D-WS5.8).
 - Monitoring/alerting build: supply-conservation monitors, escrow/BME invariant watchers, crank/keeper liveness,
   claims anomaly detection.
 - Key ceremonies (upgrade authority, multisig, timelock) per [08](./08-security-and-audits.md); incident-response
@@ -300,6 +351,8 @@ signers).
 | D-WS5.4 | Monitoring & alerting stack | REQ-SEC monitors live against mainnet deployment before S1; runbook-linked alerts | M5 |
 | D-WS5.5 | Key ceremony execution + records | Documented, witnessed ceremonies; custody per [08](./08-security-and-audits.md); recovery drills passed | M5 |
 | D-WS5.6 | Incident-response playbooks + drill results | ≥2 game-day drills covering cutover-window scenarios from [12](./12-risk-register.md) | M5 |
+| D-WS5.7 | T1 audits (token and portal) closed (token and portal track, D-25) | All critical and high findings fixed and re-verified (GT criterion 1, REQ-ROL-053) | MT |
+| D-WS5.8 | Bug bounty covering token and portal (token and portal track, D-25) | Scope and go-live date in the GT evidence; live at least 2 weeks before L (GT criterion 4, REQ-ROL-053); pool funded client-side (§6.6) | MT |
 
 **REQ-SOW-019** External audit scope SHALL cover, at minimum: all WS2 programs/contracts, the WS3 claims path and
 exporters, and the sunset upgrade; ≥2 independent firms for the on-chain protocol and ≥1 for the migration engine.
@@ -310,7 +363,15 @@ without published audit reports and verified fixes.
 **REQ-SOW-021** The bug bounty program SHALL be live and funded before any mainnet deployment and SHALL remain in
 force through hypercare exit (M8).
 
-**Dependencies.** WS2/WS3 deliverable freezes (audit entry); Overclock audit contracting by M2. **Overclock
+**REQ-SOW-057** External audit scope (REQ-SOW-019) SHALL also cover the SPL AKT mint and the migration portal (T1
+audits). T1 audits SHALL be closed, with all critical and high findings fixed and re-verified, before GT; REQ-SOW-020
+applies to the SPL AKT mint and portal at L.
+
+**REQ-SOW-058** The bug bounty program (REQ-SOW-021) SHALL cover the token and portal and SHALL be live at least 2
+weeks before L.
+
+**Dependencies.** WS2/WS3 deliverable freezes (audit entry); Overclock audit contracting by M2 (T1 token and portal
+audits: contracted in time to close before GT, REQ-SOW-057). **Overclock
 prerequisites.** Audit budget and firm contracts (Q-20); multisig signer availability; legal review of bounty terms.
 
 ### WS6. Quality & testnets
@@ -324,7 +385,8 @@ prerequisites.** Audit budget and firm contracts (Q-20); multisig signer availab
 - Fuzz/invariant suites (supply conservation, escrow non-negativity, CR-breaker monotonicity).
 - Public incentivized testnet: deployment, operations, telemetry, participant support.
 - Migration rehearsals ×3 against mainnet-scale state exports, each exercising S1 → claims → residual cycle → S2
-  end-to-end; load/performance testing against [09](./09-testing-and-verification.md) targets.
+  end-to-end; load/performance testing against [09](./09-testing-and-verification.md) targets. *D-25:* what S1 and
+  the claims step still carry is per Q-50; the portal is rehearsed separately on a mainnet fork before GT (D-WS3.8).
 
 **Out of scope.** Testnet participant rewards funding (client-side, Q-21); Console QA (Console team).
 
@@ -347,14 +409,18 @@ reward budget (Q-21) by G1; provider-council recruitment (A-05).
 
 ### WS7. Launch & wind-down operations
 
-**Objective.** Execute the runbooks of [10. Rollout & cutover](./10-rollout-and-cutover.md): mainnet launch, S1
-cutover, weekly residual cycles, S2, old-chain sunset, hypercare.
+**Objective.** Execute the runbooks of [10. Rollout & cutover](./10-rollout-and-cutover.md): token launch at L,
+mainnet launch, S1 cutover, weekly residual cycles, S2, old-chain sunset, hypercare.
 
 **Scope.**
+- **Token launch at L (D-25):** execute the launch runbook rehearsed on a mainnet fork (R-38) so that the SPL AKT
+  mint is live and the migration portal open at L = V + 7d (REQ-ROL-054); operate the portal from L (D-WS7.6,
+  REQ-SOW-059).
 - Target-chain launch operations: deployments, provider-onboarding window (launch precedes C, D-08).
 - S1 cutover execution at C per the T-minus runbook: snapshot, root attestation support, claims opening, exchange-swap
-  support window.
-- Weekly residual-distribution cycles C→H (≈13 cycles, D-05) with published per-cycle reports.
+  support window. *D-25:* claims opening for AKT held in user accounts and the exchange-swap support window are
+  **[WITHDRAWN: superseded by D-25]**; what S1 still carries is under review (Q-50).
+- Weekly residual-distribution cycles C→H (≈13 cycles, D-05) with published per-cycle reports (under review, Q-50).
 - S2 at H: final snapshot, residual distribution, halt coordination, archive publication (D-18).
 - Hypercare: 90 days post-S2 (H → M8); on-call, defect remediation, operational tuning, handover shadowing.
 
@@ -364,10 +430,11 @@ operations (Q-07: separately contractable).
 | ID | Deliverable | Acceptance criteria | Due |
 |---|---|---|---|
 | D-WS7.1 | Mainnet launch executed | Programs/contracts live; provider registrations meet [10](./10-rollout-and-cutover.md) launch criteria | M5→M6 |
-| D-WS7.2 | S1 cutover executed | Runbook completed within its window; roots attested; claims open; reconciliation clean (D-WS3.7) | M6 (G4) |
+| D-WS7.2 | S1 cutover executed | Runbook completed within its window; roots attested; claims open (only for what S1 still carries, Q-50; AKT in user accounts migrates through the portal, D-25); reconciliation clean (D-WS3.7) | M6 (G4) |
 | D-WS7.3 | Residual cycles operated | Every cycle ≤7-day lag (REQ-SOW-016); per-cycle report published | C→H |
 | D-WS7.4 | S2 + sunset executed | Halt at H; archives published per [06](./06-state-and-data-migration.md); final conservation report | M7 (feeds G5) |
 | D-WS7.5 | Hypercare period + exit report | SLAs per REQ-SOW-024 met; open-defect count within warranty terms; handover complete (WS8) | M8 |
+| D-WS7.6 | Token launch at L executed (D-25) | SPL AKT mint live and migration portal open at L = V + 7d per the launch runbook rehearsed on a mainnet fork (R-38, REQ-ROL-054); portal supply-conservation monitor (D-WS3.8) live | L |
 
 **REQ-SOW-024** From launch through hypercare exit, the Vendor SHALL staff on-call with: P1 (funds-at-risk or
 protocol-halt) response ≤2 h and mitigation plan ≤24 h; P2 response ≤1 business day; post-incident reports within 5
@@ -377,8 +444,13 @@ business days.
 [10](./10-rollout-and-cutover.md) §4.2 (G4 subsequently verifies the executed S1), and SHALL abort per the
 runbook's rollback criteria without requiring a change order.
 
-**Dependencies.** G3 (launch) and G4 (cutover) authorizations; WS3/WS5 tooling live. **Overclock prerequisites.**
-Governance halt-height proposal passed (A-02); exchange coordination complete (Q-04); comms execution; foundation ops
+**REQ-SOW-059** The token and portal are in launch scope from L: the on-call obligations of REQ-SOW-024 apply to them
+from L through hypercare exit, and the portal SHALL stay open 2 years from L (D-25.a, REQ-ROL-054). Portal operation
+after M8 for the rest of the window is post-hypercare operation (Q-07, §8.2).
+
+**Dependencies.** GT and the migration proposal (token launch at L); G3 (launch) and G4 (cutover) authorizations;
+WS3/WS5 tooling live. **Overclock prerequisites.**
+Governance cutover proposal passed (A-02; fixes the C height formula and H = C + 90d; formerly the halt-height proposal); exchange coordination complete (Q-04); comms execution; foundation ops
 for the IBC redemption window (D-07).
 
 ### WS8. Documentation, devrel & handover
@@ -389,6 +461,8 @@ for the IBC redemption window (D-07).
 - Protocol documentation for the target chain (concepts, accounts/contracts, instruction/function reference;
   complements [14](./14-appendix-protocol-mapping.md)).
 - Provider migration guide, tenant migration guide, wallet/holder claim guides, exchange technical pack.
+  *D-25:* migration portal guides and the exchange and custodian technical notice (D-WS8.6, D-WS8.7) replace the
+  exchange technical pack (D-WS8.3).
 - Operational runbooks (indexer, cranks/keepers, monitors); handover training to the operator chosen under Q-07;
   recorded training for Overclock engineering and the provider community.
 
@@ -398,12 +472,17 @@ for the IBC redemption window (D-07).
 |---|---|---|---|
 | D-WS8.1 | Protocol + API documentation | Complete for every shipped program/contract and client; reviewed by Overclock eng | M5 |
 | D-WS8.2 | Provider & tenant migration guides | Validated by ≥3 external testnet providers completing migration unaided | M5 |
-| D-WS8.3 | Exchange technical pack | Delivered to Overclock BD ≥16 weeks before planned C; swap runbook + test vectors + contacts | M4 |
+| D-WS8.3 | **[WITHDRAWN: superseded by D-25]** (replacement: D-WS8.6) Exchange technical pack | Delivered to Overclock BD ≥16 weeks before planned C; swap runbook + test vectors + contacts | M4 |
 | D-WS8.4 | Claim-portal user guides + holder FAQ | Published with portal; covers S1/residual/S2 and IBC-redemption cases | M6 |
 | D-WS8.5 | Runbooks + training + handover | Named operator (Q-07) runs one full residual cycle and one incident drill unaided | M8 |
+| D-WS8.6 | Exchange and custodian technical notice (token and portal track, D-25) | Delivered to Overclock BD for the venues and custodians in Q-04; states L = V + 7d; covers migrating custodial AKT through the portal (A-24) | MT |
+| D-WS8.7 | Migration portal user guides + holder FAQ (D-25) | Published with the portal at L; cover one-way migration, unbond-then-migrate, returning IBC AKT then migrating (D-07), the 2-year window and the official portal domain (R-34) | L |
 
-**REQ-SOW-026** The exchange technical pack SHALL be delivered no less than 16 weeks before the planned cutover date C
+**REQ-SOW-026** **[WITHDRAWN: superseded by D-25]** (replacement: REQ-SOW-060) The exchange technical pack SHALL be delivered no less than 16 weeks before the planned cutover date C
 (exchange lead times per [05](./05-token-migration.md); precedent: 3–6 month notice).
+
+**REQ-SOW-060** The exchange and custodian technical notice (D-WS8.6) SHALL be delivered before GT and SHALL state
+L = V + 7d (GT criterion 6, REQ-ROL-053; Q-04).
 
 **REQ-SOW-027** Handover SHALL be evidenced by the receiving operator executing the core operational procedures
 without Vendor assistance, recorded as part of M8 acceptance.
@@ -417,17 +496,20 @@ to exchanges.
 
 Gates G0–G5 are defined in [10. Rollout & cutover](./10-rollout-and-cutover.md); glosses below are informative. The
 milestone sequence and gate mapping below are contractual; the calendar targets (offsets from Vendor kickoff T0) are
-maintained in the client-side program & comms plan and are re-baselined at M1 (REQ-SOW-045) and at the actual G0 date.
+maintained in the client-side program & comms plan and are re-baselined at M1 (REQ-SOW-045), at MT (REQ-SOW-062) and
+at the actual G0 date. MT is added by D-25 without renumbering M0 to M8; it precedes G0, and its position relative to
+M0 and M1 is not fixed by this SOW.
 
 | M | Gate | Milestone content (headline) |
 |---|---|---|
 | M0 | none | Mobilization complete: verification sprint done (volatile facts re-verified, [13 §4](./13-open-questions-and-assumptions.md)); environments and CI up; program plan accepted (D-WS0.1) |
 | M1 | feeds **G0** (target selection) | Stage A complete: G0 decision package; REQ-baseline confirmation (D-WS2.1); migration-engine design (D-WS3.1); tokenomics model v1 (D-WS1.2); Q-15 verdict (D-WS4.1) |
+| MT | **GT** (token launch readiness; passes before the migration proposal is submitted, D-25.c) | Token and portal track complete (Path A, before G0, REQ-SOW-055): SPL AKT mint (D-WS2.7); portal verification path and program rehearsed end to end on a mainnet fork with pause and the supply-conservation monitor (D-WS3.8); portal web app and migration CLI `akash migrate` (REQ-OFF-070), official domain, look-alike monitoring and takedown (D-WS4.8); T1 audits closed (D-WS5.7); token and portal bounty (D-WS5.8); exchange and custodian technical notice (D-WS8.6); D-03 decided with the Q-05 survey. GT criterion 7 (migration proposal disclosures, REQ-GEN-021) is met on the governance side (§5 row 8). Token launch L = V + 7d follows G0 (D-WS7.6) |
 | M2 | **G1** (architecture freeze) | Detailed design frozen on selected target; tokenomics ratified (D-WS1.5); tokens on devnet (D-WS2.2); parity harness v1 (D-WS6.1) |
 | M3 | none | Feature-complete on persistent devnet: marketplace + BME/escrow (D-WS2.3/2.4), exporters ×2 (D-WS3.2), adapter + indexer (D-WS4.2/4.3); internal security reviews current (D-WS5.1) |
-| M4 | **G2** (code complete; audits started; public testnet live; old-chain upgrade freeze per A-01) | Public testnet live (D-WS6.3); claims end-to-end on testnet (D-WS3.3); SDKs/portal (D-WS4.4/4.5); audits underway; exchange pack delivered (D-WS8.3); rehearsal 1 done |
+| M4 | **G2** (code complete; audits started; public testnet live; old-chain upgrade freeze per A-01) | Public testnet live (D-WS6.3); claims end-to-end on testnet (D-WS3.3); SDKs/portal (D-WS4.4/4.5); audits underway; ~~exchange pack delivered (D-WS8.3)~~ **[WITHDRAWN: superseded by D-25]** (replacement: D-WS8.6 at MT); rehearsal 1 done |
 | M5 | **G3** (launch readiness) | Audits closed (D-WS5.2); rehearsal 3 at mainnet scale (D-WS6.4); load targets met (D-WS6.5); mainnet deployed + key ceremonies (D-WS2.6/5.5); monitoring + bounty live (D-WS5.3/5.4); launch executed, provider onboarding open (D-WS7.1) |
-| M6 | **G4** (S1 executed and verified; cutover at C per the [10](./10-rollout-and-cutover.md) §4.2 go/no-go) | S1 executed (D-WS7.2); claims open; exchange swaps in progress; residual cycle 1 complete; reconciliation dashboard clean (D-WS3.7) |
+| M6 | **G4** (S1 executed and verified; cutover at C per the [10](./10-rollout-and-cutover.md) §4.2 go/no-go) | S1 executed (D-WS7.2); claims open; ~~exchange swaps in progress~~ **[WITHDRAWN: superseded by D-25]** (AKT claims and exchange swaps at S1 replaced by the portal from L; what S1 still carries per Q-50); residual cycle 1 complete (under review, Q-50); reconciliation dashboard clean (D-WS3.7) |
 | M7 | feeds **G5** (at H = C+90 d) | All residual cycles done (D-WS7.3); S2 + halt + archives (D-WS7.4); final supply-conservation report |
 | M8 | **G5** (sunset complete; program close) | Hypercare exit (90 d post-S2, D-WS7.5); handover complete (D-WS8.5); warranty transition per §6.4 |
 
@@ -438,12 +520,18 @@ punch-listed per REQ-SOW-007) and, where a gate is attached, the gate decision i
 **REQ-SOW-029** The client SHALL complete each milestone acceptance review within 10 business days of the Vendor's
 submission; the review clock and the gate-decision clock run concurrently where applicable.
 
+**REQ-SOW-061** MT SHALL be deemed achieved only when its listed deliverables are accepted (REQ-SOW-028) and GT is
+recorded as passed per [10](./10-rollout-and-cutover.md) (REQ-ROL-053), and SHALL be achieved before the migration
+proposal is submitted (D-25.c). GT is reviewed under REQ-SOW-052 with a D-WS0.4 package. Proposals SHALL price MT as
+its own line in the fixed-price milestone table (REQ-SOW-049 item 4).
+
 ### 3.2 Payment schedule (suggested, negotiable)
 
 Fixed price per milestone, payable on acceptance of the milestone's gate/deliverable evidence (§3.1, §3.3). The
 percentage allocation across milestones is a commercial matter maintained in the client-side program & comms plan,
 outside this technical set. Stage A (M0–M1) is invoiced under the Stage A order; M2–M8 under the Stage B order for
-the selected path.
+the selected path. MT is Path A-specific yet precedes G0, so it fits neither order as written; the order under which
+MT is invoiced is a commercial matter maintained client-side (D-25).
 
 **REQ-SOW-030** Payments SHALL be tied exclusively to accepted milestones per §3.1; no time-based fees under the
 fixed-price component (T&M applies only where §6.1 says so).
@@ -459,6 +547,10 @@ outputs, tracker links) covering at minimum:
 - **M0**: verification-sprint report vs [13 §4](./13-open-questions-and-assumptions.md); CI/environments walkthrough.
 - **M1**: G0 package walkthrough; spike demos (Q-15 prototype live; escrow/BME benchmarks on both targets); D-WS2.1
   deviations list; tokenomics model run live.
+- **MT**: GT evidence per [10](./10-rollout-and-cutover.md) (REQ-ROL-053): T1 audit reports and fix re-verification;
+  portal mainnet-fork rehearsal report including pause and the supply-conservation monitor; D-03 decision record with
+  the Q-05 survey; bug bounty scope and go-live date; portal domain and look-alike monitoring records; exchange and
+  custodian notice delivery records.
 - **M2**: devnet demo (token mints + a governance parameter change through timelock); D-WS1.5 ratification records.
 - **M3**: full lifecycle demo on persistent devnet (deploy → bid → lease → settle → close, BME swap epoch,
   forced-settle crank/keeper); exporter ×2 root match on a fresh mainnet export; parity run.
@@ -469,7 +561,8 @@ outputs, tracker links) covering at minimum:
 - **M6**: S1 execution log vs runbook; attested roots + independent-verifier confirmations; claims telemetry;
   reconciliation review; exchange status summary.
 - **M7**: residual-cycle ledger (all cycles, lags, amounts); S2 execution log; archive URLs + integrity hashes; final
-  conservation report (liquid@S1 + reserved@S1 = total; reserved fully allocated by S2, D-05).
+  conservation report (liquid@S1 + reserved@S1 = total; reserved fully allocated by S2, D-05). *D-25:* this formula
+  is under review (Q-50); the portal invariant is stated in [05](./05-token-migration.md)/[08](./08-security-and-audits.md).
 - **M8**: hypercare metrics vs REQ-SOW-024; open-defect register; handover evidence per REQ-SOW-027; warranty-period
   plan.
 
@@ -479,6 +572,11 @@ outputs, tracker links) covering at minimum:
 
 Planning estimate, **not a commitment**; the Vendor bids its own numbers, and the estimate is re-baselined at M1
 (REQ-SOW-045). Ranges cover both target paths.
+
+> **Re-baselined at MT (D-25).** The figures in §4.1 and §4.3 predate D-25. They include S1 claims for AKT held in
+> user accounts and exchange-swap support that D-25 withdraws, and they assume the token and claim portal are built
+> after G0 inside Stage B rather than in the pre-G0 token and portal track. Effort and team shape are re-baselined
+> at MT (REQ-SOW-062); no revised figures are given here.
 
 | WS | Workstream | Low PM | High PM | Primary roles |
 |---|---|---|---|---|
@@ -526,7 +624,8 @@ Planning estimate, **not a commitment**; the Vendor bids its own numbers, and th
 the security lead, and the two most senior target-chain engineers ("key personnel"), with CVs and shipped-protocol
 references.
 
-**REQ-SOW-034** Key personnel SHALL be allocated ≥80% to this engagement from G0 through G4 and SHALL NOT be
+**REQ-SOW-034** Key personnel SHALL be allocated ≥80% to this engagement ~~from G0~~ from the start of the pre-G0
+token and portal track (REQ-SOW-055, D-25) through G4 and SHALL NOT be
 substituted without client consent; substitutes MUST have equal or better demonstrated qualifications, with ≥10
 business days' notice and a paid overlap period at the Vendor's cost.
 
@@ -555,10 +654,10 @@ R = responsible (does the work), A = accountable (owns the outcome; one A per ro
 | 5 | Deliverable acceptance & milestone sign-off | C | **A**/R | I | none |
 | 6 | Audit firm selection & contracting (Q-20) | C | **A**/R | I | audit firms: I |
 | 7 | External audits: execution + remediation | R (manage/fix) | **A** | I | audit firms: R |
-| 8 | Governance proposals (migration approval, halt height; A-02) | C (drafting) | R | **A** | none |
+| 8 | Governance proposals (migration proposal incl. REQ-GEN-021 disclosures; cutover, sunset and halt proposals; A-02) | C (drafting) | R | **A** | none |
 | 9 | Snapshot execution S1/S2 (D-05) | R | **A** | I | exchanges: I |
 | 10 | Merkle root attestation & publication | R (compute/verify) | **A** (attest) | I | independent verifiers: C |
-| 11 | Exchange coordination (Q-04) | C (tech pack, D-WS8.3) | **A**/R | I | exchanges: R |
+| 11 | Exchange coordination (Q-04) | C (technical notice, D-WS8.6; D-WS8.3 withdrawn) | **A**/R | I | exchanges: R |
 | 12 | Community & holder communications | C (content) | **A**/R | I | wallets/DEX frontends: C |
 | 13 | Treasury & Wind-down Reserve operations | R (tooling/execution) | **A** (custody) | C (policy) | none |
 | 14 | Key ceremonies & upgrade-authority custody (D-15) | R (ceremony) | **A** (custodian) | I | independent witness: C |
@@ -619,6 +718,10 @@ times per REQ-SOW-024.
 **REQ-SOW-045** At M1 the parties SHALL re-baseline the Stage B schedule and effort estimate against Stage A findings,
 preserving the milestone/gate structure of §3.1; the re-baseline is executed as a CR.
 
+**REQ-SOW-062** At MT the parties SHALL re-baseline the effort estimate (§4) and the schedule for D-25, against the
+token and portal track as executed and the scope D-25 withdraws, preserving the milestone and gate structure of
+§3.1 (M0 to M8 plus MT); the re-baseline is executed as a CR.
+
 ### 6.5 Liability, insurance, termination
 
 - **Liability cap and carve-outs:** [placeholder; legal to finalize; market practice is a cap at a multiple of fees
@@ -638,14 +741,14 @@ of 2026-08-10, not quotes [TO-VERIFY: market quotes at M1 for audit, bounty-plat
 
 | Budget line | Indicative range | Notes |
 |---|---|---|
-| Security audits (≥2 firms; protocol + migration engine + sunset upgrade) | US$400k–1.0M | Pass-through per REQ-SOW-047; firm selection Q-20 |
-| Bug bounty pool + platform fees | US$250k–1.0M funded ceiling | Severity-tiered; pool pays out only on valid findings |
+| Security audits (≥2 firms; protocol + migration engine + sunset upgrade) | US$400k–1.0M | Pass-through per REQ-SOW-047; firm selection Q-20. *Timing moved earlier (D-25):* T1 audits of the token and portal close before GT, so this spend starts before G0 (REQ-SOW-057) |
+| Bug bounty pool + platform fees | US$250k–1.0M funded ceiling | Severity-tiered; pool pays out only on valid findings. *Timing moved earlier (D-25):* funded by GT for a bounty covering token and portal, live at least 2 weeks before L (REQ-SOW-058) |
 | RPC / indexer / testnet infrastructure opex | US$10k–40k / month | Program duration + hypercare; post-M8 per Q-07 |
 | Incentivized-testnet rewards | per Q-21 decision | Community incentives, provider participation (A-05) |
 | Exchange integration costs | per venue; expected minimal for 1:1 swaps | Q-04; precedent: swaps typically fee-free but venue-specific |
 | Old-chain archive hosting (≥5 y) | per Q-09 decision | Storage vendor + funding source |
 | Key-ceremony hardware (HSMs, air-gapped machines) | US$10k–30k | Retained by Overclock |
-| Legal counsel (claims, unclaimed funds, screening) | client-side | Q-02, Q-03, Q-10 |
+| Legal counsel (claims, unclaimed funds, screening) | client-side | Q-02, Q-03, Q-10; under D-25 also Q-45 (unvested AKT) and Q-48 (AKT not migrated when the window closes) |
 
 **REQ-SOW-047** Where the Vendor administers third-party spend (e.g., audit logistics), it SHALL be billed as
 pass-through at cost with zero markup, under a client-approved cap per line; forecast overruns SHALL be flagged before
@@ -688,25 +791,28 @@ obligations re-open via CR (§6.2).
 | ID | Assumption (abbreviated) | Commercial consequence if false |
 |---|---|---|
 | A-01 | `akashnet-2` stable; state-affecting upgrade freeze from G2 | WS3 rework; schedule CR |
-| A-02 | Governance approves migration and halt-height proposals | Program pause/termination per §6.5 |
+| A-02 | Governance approves the migration proposal and the cutover, sunset and halt proposals | Program pause/termination per §6.5 |
 | A-03 | Overclock counterparts per §4.5 | Schedule/effort CR |
-| A-04 | ≥85–90% of circulating AKT reachable via exchanges + claims within 12 months | Extended claims-support tail (Q-07 scope) |
+| A-04 | **[WITHDRAWN: superseded by D-25]** (replacement: A-24) ≥85–90% of circulating AKT reachable via exchanges + claims within 12 months | Extended claims-support tail (Q-07 scope) |
 | A-05 | Providers accept one daemon upgrade + re-registration | WS4/WS8 extra enablement effort |
 | A-07 | Ecosystem facts re-verified at kickoff hold | Stage A CRs before G0 (cheapest point to absorb) |
-| A-09 | AKT ticker retained across venues | Exchange-pack rework (D-WS8.3) |
+| A-09 | AKT ticker retained across venues | Exchange-pack rework (D-WS8.3, withdrawn; under D-25 the technical notice D-WS8.6) |
 | A-12 | Baseline = v2 line at `096bff57`; pre-G1 protocol changes folded into docs 01/14 | Re-baseline CR at M1 |
 | A-14 *(new)* | Client renders the G0 decision ≤10 business days after M1 acceptance | Stage B calendar slips day-for-day |
 | A-15 *(new)* | Single prime Vendor; subcontractors (e.g., WS1 economist) only with client approval and prime liability | Contract restructuring |
+| A-24 *(new, D-25)* | Exchanges and custodians migrate custodial AKT through the portal within the 2-year window and list SPL AKT | Extended portal-support tail (Q-07 scope); window extension per Q-48 |
+| A-25 *(new, D-25)* | Enough AKT stays bonded on `akashnet-2` through H for liveness and the 20% quorum on the cutover, sunset and halt proposals | Those proposals at risk: schedule CR; old-chain measures per Q-49 |
 
 ### 8.2 Exclusions: not in Vendor scope or fees
 
 1. Legal opinions, regulatory filings, jurisdictional analyses (client counsel; Q-02, Q-03, Q-10).
 2. Exchange listing/negotiation and any listing or integration fees (Overclock BD; Vendor delivers D-WS8.3 and
-   engineering support only).
+   engineering support only). Under D-25 the Vendor deliverable is D-WS8.6 (D-WS8.3 is withdrawn).
 3. Marketing and paid communications spend (Vendor supports technical content only).
 4. **Tokenomics decisions**: the Vendor models (WS1); the client and governance decide (D-12, Q-01).
 5. Post-hypercare operations: indexer, RPC, cranks/keepers, fee-sponsorship relayer, claims support beyond M8, unless
-   separately contracted per Q-07.
+   separately contracted per Q-07. This includes portal operation and support after M8 for the rest of the 2-year
+   portal window (D-25.a, REQ-SOW-059).
 6. Old-chain validator operations C→H (validators/community; Vendor ships the sunset upgrade, D-WS3.6).
 7. Console product development and custodial managed-wallet migration execution (Console team; Q-14).
 8. Market making, liquidity provisioning, or DeFi listings for AKT on the target chain.
@@ -749,15 +855,19 @@ with Overclock counterparts; and document-set changes via pull request per the
 
 ## Cross-references
 
+- [02. Target selection](./02-target-selection.md): REQ-GEN-022 (Gate 0 composition) and REQ-GEN-023 (pre-G0 token
+  and portal exception, §1.2).
 - [03. Solana](./03-solana-architecture.md) / [04. Ethereum architecture](./04-ethereum-architecture.md): REQ sets WS2 implements.
 - [05. Token migration](./05-token-migration.md), [06. State & data migration](./06-state-and-data-migration.md):
   REQ sets WS3 implements.
 - [07. Off-chain & clients](./07-offchain-and-clients.md): REQ set WS4 implements.
 - [08. Security & audits](./08-security-and-audits.md): WS5 program (audits, key ceremonies, monitoring).
 - [09. Testing & verification](./09-testing-and-verification.md): WS6 acceptance thresholds.
-- [10. Rollout & cutover](./10-rollout-and-cutover.md): gates G0–G5 and the runbooks WS7 executes.
+- [10. Rollout & cutover](./10-rollout-and-cutover.md): gates G0–G5 and the runbooks WS7 executes; gate GT
+  (REQ-ROL-053) and token launch L (REQ-ROL-054).
 - [12. Risk register](./12-risk-register.md): risks WS0 co-owns.
-- [13. Open questions & assumptions](./13-open-questions-and-assumptions.md): D/A/Q items cited throughout.
+- [13. Open questions & assumptions](./13-open-questions-and-assumptions.md): D/A/Q items cited throughout, including
+  D-25 (one-way migration portal) and its A-24, A-25, Q-44 to Q-50.
 
 ## Feeds into
 
