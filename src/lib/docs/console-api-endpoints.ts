@@ -6,7 +6,7 @@ export type LanguageKey =
   | "ruby"
   | "php";
 
-export type SectionGroup = "core" | "jwt" | "lease-ops";
+export type SectionGroup = "core" | "teams" | "jwt" | "lease-ops";
 
 export interface ParamRow {
   field: string;
@@ -71,6 +71,48 @@ export const LANGUAGE_LABELS: Record<LanguageKey, string> = {
 
 export const AUTHORED_LANGUAGES: LanguageKey[] = ["bash", "javascript"];
 
+const API_KEY_PARAM: ParamRow = { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" };
+
+const EXAMPLE_IDS = {
+  organization: "0b6c3f9e-8f1a-4d2b-9c7e-1a2b3c4d5e6f",
+  project: "7d2e4a61-3b9c-4f0e-a5d8-6c1b2e3f4a5b",
+  member: "5a8b1c2d-3e4f-4a5b-8c6d-7e8f9a0b1c2d",
+  user: "9c1d2e3f-4a5b-4c6d-9e7f-8a9b0c1d2e3f",
+  invitation: "2f3e4d5c-6b7a-4980-8f1e-2d3c4b5a6978",
+  grant: "4e5f6a7b-8c9d-4e0f-a1b2-c3d4e5f6a7b8",
+  budget: "8a9b0c1d-2e3f-4a5b-b6c7-d8e9f0a1b2c3",
+  apiKey: "3c4d5e6f-7a8b-4c9d-8e0f-1a2b3c4d5e6f",
+};
+
+/** cURL and Node.js samples for a JSON request authenticated with the API key. */
+function apiKeyRequestSnippets(
+  method: "GET" | "POST" | "PATCH" | "DELETE",
+  path: string,
+  body?: object,
+): CodeSnippet[] {
+  const url = `${META.baseUrl}${path}`;
+  const json = body && JSON.stringify(body, null, 2);
+  const curl = [
+    `curl${method === "GET" ? "" : ` -X ${method}`} "${url}"`,
+    `  -H "x-api-key: $AKASH_API_KEY"`,
+    ...(json ? [`  -H "Content-Type: application/json"`, `  -d '${json.replace(/\n/g, "\n  ")}'`] : []),
+  ].join(" \\\n");
+  const options = [
+    ...(method === "GET" ? [] : [`  method: "${method}",`]),
+    json
+      ? `  headers: {\n    "x-api-key": process.env.AKASH_API_KEY,\n    "Content-Type": "application/json",\n  },`
+      : `  headers: { "x-api-key": process.env.AKASH_API_KEY },`,
+    ...(json ? [`  body: JSON.stringify(${json.replace(/\n/g, "\n  ")}),`] : []),
+  ].join("\n");
+  const readResponse =
+    method === "DELETE" ? "// 204 No Content on success" : "const { data } = await res.json();";
+
+  return [
+    { language: "bash", code: curl },
+    { language: "javascript", code: `const res = await fetch("${url}", {\n${options}\n});\n${readResponse}` },
+  ];
+}
+
 export const sections: Section[] = [
   // ──────────────────────────────────────────────────────────────────────────
   // CORE — prefaces
@@ -84,7 +126,7 @@ export const sections: Section[] = [
     description:
       "Every request must include the `x-api-key` header. Create and manage keys in [Console](https://console.akash.network) under Settings → API Keys.",
     bodyMd:
-      "Authentication errors return `401 Unauthorized` with `{ \"error\": \"Unauthorized\", \"message\": \"Invalid API key\" }`.",
+      "Authentication errors return `401 Unauthorized` with `{ \"error\": \"Unauthorized\", \"message\": \"Invalid API key\" }`.\n\nA key acts in the account it was created in, your personal account or a team, with your role there, and can be limited to one project. See [Organizations and projects](#group-teams).",
     codeSnippets: [
       {
         language: "bash",
@@ -145,19 +187,22 @@ const res = await fetch("https://console-api.akash.network/v1/deployments", {
 | ---- | ------------------- | ------------------------------------------------------------------------------- |
 | 400  | BadRequest          | The request body or query parameters are invalid. Check \`message\` for details.  |
 | 401  | Unauthorized        | \`x-api-key\` is missing, expired, or invalid.                                    |
-| 404  | NotFound            | The resource (\`dseq\`) does not exist or is not owned by the authenticated user. |
+| 403  | Forbidden           | Your role, the key's project, or a project budget does not allow the request.   |
+| 404  | NotFound            | The resource (\`dseq\`) does not exist or is out of the caller's reach.            |
 | 429  | TooManyRequests     | Request rate exceeded. Wait before retrying.                                    |
-| 500  | InternalServerError | Unexpected server error. Retry with exponential backoff.                        |`,
+| 500  | InternalServerError | Unexpected server error. Retry with exponential backoff.                        |
+
+\`code\` names the precise reason, such as \`project_forbidden\` or \`project_budget_exceeded\`. The organization and project codes are listed under [Organizations and projects](#group-teams).`,
     codeSnippets: [
       {
         language: "bash",
         code: `# Error response schema:
-{ "error": "string", "message": "string" }`,
+{ "error": "string", "message": "string", "code": "string", "type": "string" }`,
       },
       {
         language: "javascript",
         code: `// Error response schema:
-// { "error": "string", "message": "string" }`,
+// { "error": "string", "message": "string", "code": "string", "type": "string" }`,
       },
     ],
   },
@@ -240,6 +285,7 @@ done`,
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "data.sdl", location: "body", type: "string", required: true, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute" },
       { field: "data.runtimeLimitHours", location: "body", type: "number", required: false, description: "Close the deployment after this many hours of runtime, counted from lease start. Omit for always-on funding" },
+      { field: "data.projectId", location: "body", type: "string (uuid)", required: false, description: "Project of the organization to file the deployment in. Omit it to use the only project you can deploy into, otherwise the organization's default project" },
     ],
     responseStatus: "201 Created",
     responseFields: [
@@ -279,6 +325,7 @@ const { data } = await res.json();`,
     ],
     notes: [
       "Request **Confidential Compute (TEE)** by adding a `params.tee` field (`cpu` or `cpu-gpu`) to a service in the SDL — `cpu-gpu` requires GPU resources. See [Confidential Compute (TEE)](/docs/api-documentation/console-api/getting-started#confidential-compute-tee).",
+      "`400` with code `project_required` means no project you can deploy into was found: pass `data.projectId` or `x-project-id`. `403` with code `project_budget_exceeded` means the deposit would take the project past its monthly budget, and nothing was created. `503` with code `deposit_price_unavailable` means the deposit could not be priced against the project's budget; it is transient, so retry. An unknown `projectId` answers `404`.",
     ],
   },
   {
@@ -479,10 +526,12 @@ const { data } = await res.json();`,
       { field: "state", location: "query", type: "string", required: false, description: "`active` (default) or `closed`" },
       { field: "search", location: "query", type: "string", required: false, description: "Case-insensitive match against each deployment's name and dseq" },
       { field: "reverse", location: "query", type: "string", required: false, description: "`true` lists the newest deployment first. Default `false` (oldest first)" },
+      { field: "projectId", location: "query", type: "string (uuid)", required: false, description: "Only the deployments filed in this project. A project you cannot reach lists nothing" },
     ],
     responseStatus: "200 OK",
     responseFields: [
       { field: "data.deployments[]", type: "array", description: "One entry per deployment, same shape as `GET /v1/deployments/{dseq}` minus per-lease `status`" },
+      { field: "data.deployments[].projectId", type: "string | null", description: "Project the deployment is filed in" },
       { field: "data.pagination.total", type: "number", description: "Total deployments for the user" },
       { field: "data.pagination.skip", type: "number", description: "Skip value used" },
       { field: "data.pagination.limit", type: "number", description: "Limit value used" },
@@ -908,6 +957,963 @@ const { data } = await res.json();`,
   },
 
   // ──────────────────────────────────────────────────────────────────────────
+  // TEAMS: organizations, members, invitations, projects, budgets, spend
+  // ──────────────────────────────────────────────────────────────────────────
+  {
+    id: "teams-overview",
+    kind: "preface",
+    group: "teams",
+    host: "console-api",
+    title: "Organizations and projects",
+    description:
+      "Every request runs in one organization, your personal account or a team, and can be limited to one project of it. An API key acts in the organization it was created in, with your role there, and can be limited to one project. See [Organizations and Projects through the API](/docs/api-documentation/console-api/organizations-and-projects) for a walkthrough.",
+    bodyMd: `| Header            | Description |
+| ----------------- | ----------- |
+| \`x-organization-id\` | Id or slug of the organization. Optional with an API key, which already decides it: naming another organization answers \`400\` \`organization_mismatch\`. |
+| \`x-project-id\`      | Limits the request to one project of the organization. A project out of your reach answers \`403\` \`project_forbidden\`. |
+
+Owners and admins reach every project. Members and viewers reach every project or only the ones granted to them, and billing members reach none. Each endpoint below says who may call it.
+
+| HTTP | \`code\`                    | Meaning |
+| ---- | ------------------------- | ------- |
+| 400  | \`organization_mismatch\`   | \`x-organization-id\` names another organization than the API key's. |
+| 403  | \`organization_forbidden\`  | The caller is not a member of the organization, for example after leaving it. |
+| 403  | \`project_forbidden\`       | \`x-project-id\` names a project out of reach or other than the key's, or the deployment is filed in a project the caller cannot change. |
+| 400  | \`project_required\`        | No project the caller can deploy into was named. |
+| 403  | \`project_budget_exceeded\` | The deposit would take the project past its monthly budget. \`data.projectIds\` lists the projects. |
+| 403  | \`project_limit_reached\`   | The organization already has 10 projects, the default one included. \`data.limit\` holds the limit. |
+| 403  | \`organization_limit_reached\` | The caller already has 3 organizations they created, the most one person can have. \`data.limit\` holds the limit. |
+| 403  | \`session_required\`        | The action needs a signed-in Console session. |
+
+Reading a project, deployment, budget or grant outside the caller's reach answers \`404\`, the same as one that does not exist.
+
+Creating an organization (\`POST /v1/organizations\`), deleting it (\`DELETE /v1/organizations/{id}\`), leaving it (\`DELETE /v1/organizations/{id}/membership\`) and accepting an invitation (\`POST /v1/invitations/accept\`) need a signed-in Console session, so an API key gets \`403\` \`session_required\`. Do those in [Console](https://console.akash.network).`,
+    codeSnippets: [
+      {
+        language: "bash",
+        code: `# List the deployments of one project
+curl "https://console-api.akash.network/v1/deployments" \\
+  -H "x-api-key: $AKASH_API_KEY" \\
+  -H "x-project-id: ${EXAMPLE_IDS.project}"`,
+      },
+      {
+        language: "javascript",
+        code: `// List the deployments of one project
+const res = await fetch("https://console-api.akash.network/v1/deployments", {
+  headers: {
+    "x-api-key": process.env.AKASH_API_KEY,
+    "x-project-id": "${EXAMPLE_IDS.project}",
+  },
+});
+const { data } = await res.json();`,
+      },
+    ],
+  },
+  {
+    id: "get-v1organizations",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/organizations",
+    title: "GET /v1/organizations",
+    description:
+      "List the organizations of the caller and their role in each. With an API key, the list holds only the key's organization.",
+    requestParams: [API_KEY_PARAM],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[].id", type: "string (uuid)", description: "Organization id" },
+      { field: "data[].name", type: "string", description: "Organization name" },
+      { field: "data[].slug", type: "string", description: "Slug, accepted by `x-organization-id` like the id" },
+      { field: "data[].type", type: "string", description: "`personal` or `team`" },
+      { field: "data[].role", type: "string", description: "The caller's role: `owner`, `admin`, `member`, `billing` or `viewer`" },
+      { field: "data[].isActive", type: "boolean", description: "Whether this request ran in this organization" },
+      { field: "data[].hasPaymentMethod", type: "boolean | null", description: "Whether the organization has a card saved. Null for one the request did not run in" },
+      { field: "data[].createdAt", type: "string", description: "ISO-8601 creation time" },
+    ],
+    responseExample: `{
+  "data": [
+    {
+      "id": "${EXAMPLE_IDS.organization}",
+      "name": "Acme Corp",
+      "slug": "acme-corp",
+      "type": "team",
+      "role": "admin",
+      "isActive": true,
+      "hasPaymentMethod": true,
+      "createdAt": "2026-10-01T12:00:00.000Z"
+    }
+  ]
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/organizations"),
+  },
+  {
+    id: "patch-v1organizations-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "PATCH",
+    path: "/v1/organizations/{id}",
+    title: "PATCH /v1/organizations/{id}",
+    description: "Rename the active team organization. Owners and admins only.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Id of the active organization" },
+      { field: "data.name", location: "body", type: "string", required: true, description: "New name, unique among the organizations the caller belongs to" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// Same shape as one entry of GET /v1/organizations.`,
+    notes: [
+      "`403` with code `personal_organization` for a personal account. `409` with code `organization_name_taken` when the caller already belongs to an organization with this name.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("PATCH", `/v1/organizations/${EXAMPLE_IDS.organization}`, { data: { name: "Acme Platform" } }),
+  },
+  {
+    id: "get-v1organization-members",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/organization-members",
+    title: "GET /v1/organization-members",
+    description: "List the members of the active organization. Every member may call it.",
+    requestParams: [API_KEY_PARAM],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[].id", type: "string (uuid)", description: "Membership id, used by the member endpoints below" },
+      { field: "data[].userId", type: "string (uuid)", description: "User id, used to grant project access" },
+      { field: "data[].username", type: "string | null", description: "Username" },
+      { field: "data[].email", type: "string | null", description: "Email address" },
+      { field: "data[].role", type: "string", description: "`owner`, `admin`, `member`, `billing` or `viewer`" },
+      { field: "data[].projectAccess", type: "string | null", description: "`all` or `selected` for members and viewers, `all` for owners and admins, null for billing members" },
+      { field: "data[].projectCount", type: "number | null", description: "Projects granted to a member or viewer on `selected`" },
+      { field: "data[].createdAt", type: "string", description: "When they joined" },
+    ],
+    responseExample: `{
+  "data": [
+    {
+      "id": "${EXAMPLE_IDS.member}",
+      "userId": "${EXAMPLE_IDS.user}",
+      "username": "dev",
+      "email": "dev@example.com",
+      "role": "member",
+      "projectAccess": "selected",
+      "projectCount": 1,
+      "createdAt": "2026-10-02T09:30:00.000Z"
+    }
+  ]
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/organization-members"),
+  },
+  {
+    id: "patch-v1organization-members-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "PATCH",
+    path: "/v1/organization-members/{id}",
+    title: "PATCH /v1/organization-members/{id}",
+    description:
+      "Change a member's role, project access and project grants, all together or not at all. Owners and admins; only an owner can change anything about the owner role.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Membership id from `GET /v1/organization-members`" },
+      { field: "data.role", location: "body", type: "string", required: false, description: "`owner`, `admin`, `member`, `billing` or `viewer`" },
+      { field: "data.projectAccess", location: "body", type: "string", required: false, description: "`all` or `selected`. Required when someone becomes a member or viewer from another role" },
+      { field: "data.projectGrants", location: "body", type: "array", required: false, description: "`[{ projectId, role }]` with role `viewer`, `member` or `admin`. Replaces every grant of a member or viewer on `selected`" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// Same shape as one entry of GET /v1/organization-members.`,
+    notes: [
+      "Send at least one field. A member or viewer on `selected` needs at least one grant.",
+      "`400` with code `project_access_required` when someone becomes a member or viewer without `projectAccess`. `403` with code `owner_role_restricted` when a non-owner touches the owner role. `409` with code `last_owner` when the organization would be left without an owner.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("PATCH", `/v1/organization-members/${EXAMPLE_IDS.member}`, {
+      data: {
+        role: "member",
+        projectAccess: "selected",
+        projectGrants: [{ projectId: EXAMPLE_IDS.project, role: "admin" }],
+      },
+    }),
+  },
+  {
+    id: "delete-v1organization-members-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "DELETE",
+    path: "/v1/organization-members/{id}",
+    title: "DELETE /v1/organization-members/{id}",
+    description:
+      "Remove a member from the active organization. Their access, and the API keys they created in it, stop working. Owners and admins; only an owner can remove an owner.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Membership id" },
+    ],
+    responseStatus: "204 No Content",
+    responseFields: [],
+    notes: ["`409` with code `last_owner` when the organization would be left without an owner."],
+    codeSnippets: apiKeyRequestSnippets("DELETE", `/v1/organization-members/${EXAMPLE_IDS.member}`),
+  },
+  {
+    id: "post-v1organization-members-id-ownership-transfer",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/organization-members/{id}/ownership-transfer",
+    title: "POST /v1/organization-members/{id}/ownership-transfer",
+    description:
+      "Make a member an owner of the active organization and step the calling owner down to admin. Owners only.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Membership id of the new owner" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// The member who received ownership, same shape as one entry of GET /v1/organization-members.`,
+    codeSnippets: apiKeyRequestSnippets("POST", `/v1/organization-members/${EXAMPLE_IDS.member}/ownership-transfer`),
+  },
+  {
+    id: "get-v1organization-members-id-project-grants",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/organization-members/{id}/project-grants",
+    title: "GET /v1/organization-members/{id}/project-grants",
+    description: "List the projects a member is granted, with the role on each. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Membership id" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[].projectId", type: "string (uuid)", description: "Granted project" },
+      { field: "data[].role", type: "string", description: "`viewer`, `member` or `admin`" },
+    ],
+    responseExample: `{ "data": [{ "projectId": "${EXAMPLE_IDS.project}", "role": "member" }] }`,
+    codeSnippets: apiKeyRequestSnippets("GET", `/v1/organization-members/${EXAMPLE_IDS.member}/project-grants`),
+  },
+  {
+    id: "get-v1organization-invitations",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/organization-invitations",
+    title: "GET /v1/organization-invitations",
+    description: "List the pending invitations of the active organization. Owners and admins.",
+    requestParams: [API_KEY_PARAM],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[].id", type: "string (uuid)", description: "Invitation id" },
+      { field: "data[].email", type: "string", description: "Invited address" },
+      { field: "data[].role", type: "string", description: "Role the invitation grants" },
+      { field: "data[].projectAccess", type: "string", description: "`all` or `selected`" },
+      { field: "data[].projectGrants", type: "array", description: "`[{ projectId, role }]` granted on joining" },
+      { field: "data[].invitedBy", type: "object | null", description: "`{ id, username }` of the inviter" },
+      { field: "data[].expiresAt", type: "string", description: "When the link stops working, 7 days after it was sent" },
+    ],
+    responseExample: `{
+  "data": [
+    {
+      "id": "${EXAMPLE_IDS.invitation}",
+      "email": "dev@example.com",
+      "role": "member",
+      "projectAccess": "selected",
+      "projectGrants": [{ "projectId": "${EXAMPLE_IDS.project}", "role": "member" }],
+      "invitedBy": { "id": "${EXAMPLE_IDS.user}", "username": "jane" },
+      "createdAt": "2026-10-02T09:00:00.000Z",
+      "expiresAt": "2026-10-09T09:00:00.000Z"
+    }
+  ]
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/organization-invitations"),
+  },
+  {
+    id: "post-v1organization-invitations",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/organization-invitations",
+    title: "POST /v1/organization-invitations",
+    description:
+      "Invite people to the active team by email. Each address gets an email with a link, valid for 7 days, that they accept in Console. Owners and admins; only an owner can invite an owner.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "data.emails", location: "body", type: "array<string>", required: true, description: "1 to 20 addresses" },
+      { field: "data.role", location: "body", type: "string", required: true, description: "`owner`, `admin`, `member`, `billing` or `viewer`" },
+      { field: "data.projectAccess", location: "body", type: "string", required: false, description: "`all` or `selected`. For a member or viewer, required unless `projectGrants` is given" },
+      { field: "data.projectGrants", location: "body", type: "array", required: false, description: "`[{ projectId, role }]` for a member or viewer on `selected`" },
+    ],
+    responseStatus: "201 Created",
+    responseFields: [],
+    responseExample: `// One pending invitation per address, same shape as GET /v1/organization-invitations.
+// An address already invited keeps its existing invitation.`,
+    notes: [
+      "`400` with code `project_access_required` for a member or viewer with neither `projectAccess` nor grants. `409` with code `already_member` when an address belongs to a member. `403` with code `invitation_limit_reached` when the organization has too many pending invitations, and `429` with code `invitation_email_limit_reached` when too many invitation emails were sent recently.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/organization-invitations", {
+      data: {
+        emails: ["dev@example.com"],
+        role: "member",
+        projectAccess: "selected",
+        projectGrants: [{ projectId: EXAMPLE_IDS.project, role: "member" }],
+      },
+    }),
+  },
+  {
+    id: "post-v1organization-invitations-id-resend",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/organization-invitations/{id}/resend",
+    title: "POST /v1/organization-invitations/{id}/resend",
+    description: "Email a pending invitation again, with a new link and a new expiry. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Invitation id" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// The renewed invitation, same shape as one entry of GET /v1/organization-invitations.`,
+    codeSnippets: apiKeyRequestSnippets("POST", `/v1/organization-invitations/${EXAMPLE_IDS.invitation}/resend`),
+  },
+  {
+    id: "post-v1organization-invitations-id-link",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/organization-invitations/{id}/link",
+    title: "POST /v1/organization-invitations/{id}/link",
+    description:
+      "Issue a new link for a pending invitation, to share it yourself. Every earlier link of the invitation stops working. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Invitation id" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [{ field: "data.url", type: "string", description: "The invitation link" }],
+    responseExample: `{ "data": { "url": "https://console.akash.network/invitations#token=..." } }`,
+    codeSnippets: apiKeyRequestSnippets("POST", `/v1/organization-invitations/${EXAMPLE_IDS.invitation}/link`),
+  },
+  {
+    id: "delete-v1organization-invitations-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "DELETE",
+    path: "/v1/organization-invitations/{id}",
+    title: "DELETE /v1/organization-invitations/{id}",
+    description: "Revoke a pending invitation. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Invitation id" },
+    ],
+    responseStatus: "204 No Content",
+    responseFields: [],
+    codeSnippets: apiKeyRequestSnippets("DELETE", `/v1/organization-invitations/${EXAMPLE_IDS.invitation}`),
+  },
+  {
+    id: "get-v1projects",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/projects",
+    title: "GET /v1/projects",
+    description: "List the projects of the active organization the caller can reach, most recently active first.",
+    requestParams: [API_KEY_PARAM],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[].id", type: "string (uuid)", description: "Project id, for `projectId` and `x-project-id`" },
+      { field: "data[].name", type: "string", description: "Name, unique within the organization" },
+      { field: "data[].slug", type: "string", description: "Slug set from the name at creation" },
+      { field: "data[].description", type: "string | null", description: "Description" },
+      { field: "data[].isDefault", type: "boolean", description: "Whether it is the organization's default project" },
+      { field: "data[].deployments", type: "object | null", description: "`activeCount` and a `preview` of the newest active deployments. Null when the caller cannot read them" },
+      { field: "data[].access.canDeploy", type: "boolean", description: "Whether the caller may deploy into the project" },
+      { field: "data[].access.canManage", type: "boolean", description: "Whether the caller may rename the project and manage its access" },
+      { field: "data[].lastActivityAt", type: "string", description: "Newest activity the caller may read" },
+    ],
+    responseExample: `{
+  "data": [
+    {
+      "id": "${EXAMPLE_IDS.project}",
+      "name": "checkout-api",
+      "slug": "checkout-api",
+      "description": "Payments backend",
+      "isDefault": false,
+      "createdAt": "2026-10-01T12:05:00.000Z",
+      "createdBy": { "id": "${EXAMPLE_IDS.user}", "username": "jane" },
+      "lastActivityAt": "2026-10-12T08:40:00.000Z",
+      "deployments": {
+        "activeCount": 1,
+        "preview": [{ "dseq": "1234567", "name": "api", "status": "running" }]
+      },
+      "access": { "canDeploy": true, "canManage": false }
+    }
+  ]
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/projects"),
+  },
+  {
+    id: "post-v1projects",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/projects",
+    title: "POST /v1/projects",
+    description: "Create a project in the active organization. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "data.name", location: "body", type: "string", required: true, description: "Unique within the organization, whatever its case" },
+      { field: "data.description", location: "body", type: "string", required: false, description: "Optional description" },
+    ],
+    responseStatus: "201 Created",
+    responseFields: [],
+    responseExample: `{
+  "data": {
+    "id": "${EXAMPLE_IDS.project}",
+    "name": "checkout-api",
+    "slug": "checkout-api",
+    "description": "Payments backend",
+    "isDefault": false,
+    "createdAt": "2026-10-01T12:05:00.000Z",
+    "createdBy": { "id": "${EXAMPLE_IDS.user}", "username": "jane" }
+  }
+}`,
+    notes: [
+      "`409` with code `project_name_taken` when another project has this name. `403` with code `project_limit_reached` when the organization already has 10 projects, the default one included; `data.limit` holds the limit.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/projects", {
+      data: { name: "checkout-api", description: "Payments backend" },
+    }),
+  },
+  {
+    id: "get-v1projects-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/projects/{id}",
+    title: "GET /v1/projects/{id}",
+    description: "Get a project of the active organization the caller can reach.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Project id" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// Same shape as the POST /v1/projects response.`,
+    codeSnippets: apiKeyRequestSnippets("GET", `/v1/projects/${EXAMPLE_IDS.project}`),
+  },
+  {
+    id: "patch-v1projects-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "PATCH",
+    path: "/v1/projects/{id}",
+    title: "PATCH /v1/projects/{id}",
+    description: "Rename a project or change its description. Owners, admins and the project's admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Project id" },
+      { field: "data.name", location: "body", type: "string", required: false, description: "New name" },
+      { field: "data.description", location: "body", type: "string | null", required: false, description: "New description, or `null` to clear it" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// Same shape as the POST /v1/projects response.`,
+    codeSnippets: apiKeyRequestSnippets("PATCH", `/v1/projects/${EXAMPLE_IDS.project}`, {
+      data: { name: "payments-api" },
+    }),
+  },
+  {
+    id: "delete-v1projects-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "DELETE",
+    path: "/v1/projects/{id}",
+    title: "DELETE /v1/projects/{id}",
+    description: "Delete a project that holds no open deployment. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Project id" },
+    ],
+    responseStatus: "204 No Content",
+    responseFields: [],
+    notes: [
+      "`409` with code `project_is_default` for the default project, or `project_not_empty` while it holds open deployments. Close them or move them first.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("DELETE", `/v1/projects/${EXAMPLE_IDS.project}`),
+  },
+  {
+    id: "get-v1projects-id-members",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/projects/{id}/members",
+    title: "GET /v1/projects/{id}/members",
+    description: "List who was granted access to a project, and the members and viewers who reach every project.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Project id" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[]", type: "array", description: "Grants on the project: `id` (grant id), `projectId`, `userId`, `username`, `email`, `role`, `createdAt`" },
+      { field: "membersWithAllProjects[]", type: "array", description: "Members and viewers on `all` with no grant on this project. Owners and admins are not listed" },
+    ],
+    responseExample: `{
+  "data": [
+    {
+      "id": "${EXAMPLE_IDS.grant}",
+      "projectId": "${EXAMPLE_IDS.project}",
+      "userId": "${EXAMPLE_IDS.user}",
+      "username": "dev",
+      "email": "dev@example.com",
+      "role": "member",
+      "createdAt": "2026-10-02T09:30:00.000Z"
+    }
+  ],
+  "membersWithAllProjects": []
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", `/v1/projects/${EXAMPLE_IDS.project}/members`),
+  },
+  {
+    id: "post-v1project-members",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/project-members",
+    title: "POST /v1/project-members",
+    description:
+      "Grant a member or viewer of the organization a role on a project. Owners, admins and the project's admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "data.projectId", location: "body", type: "string (uuid)", required: true, description: "Project id" },
+      { field: "data.userId", location: "body", type: "string (uuid)", required: true, description: "`userId` of a member or viewer, from `GET /v1/organization-members`" },
+      { field: "data.role", location: "body", type: "string", required: true, description: "`viewer` reads, `member` also deploys, `admin` also renames the project and manages its access" },
+    ],
+    responseStatus: "201 Created",
+    responseFields: [],
+    responseExample: `// The grant, same shape as one entry of GET /v1/projects/{id}/members.`,
+    notes: [
+      "`409` with code `already_granted`, `implicit_project_access` (an owner or admin, who reaches every project) or `billing_role_not_grantable`.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/project-members", {
+      data: { projectId: EXAMPLE_IDS.project, userId: EXAMPLE_IDS.user, role: "member" },
+    }),
+  },
+  {
+    id: "patch-v1project-members-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "PATCH",
+    path: "/v1/project-members/{id}",
+    title: "PATCH /v1/project-members/{id}",
+    description: "Change the project role a grant gives. Owners, admins and the project's admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Grant id" },
+      { field: "data.role", location: "body", type: "string", required: true, description: "`viewer`, `member` or `admin`" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// The updated grant.`,
+    codeSnippets: apiKeyRequestSnippets("PATCH", `/v1/project-members/${EXAMPLE_IDS.grant}`, { data: { role: "viewer" } }),
+  },
+  {
+    id: "delete-v1project-members-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "DELETE",
+    path: "/v1/project-members/{id}",
+    title: "DELETE /v1/project-members/{id}",
+    description: "Revoke a grant, effective from the member's next request. Owners, admins and the project's admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Grant id" },
+    ],
+    responseStatus: "204 No Content",
+    responseFields: [],
+    codeSnippets: apiKeyRequestSnippets("DELETE", `/v1/project-members/${EXAMPLE_IDS.grant}`),
+  },
+  {
+    id: "get-v1project-budgets",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/project-budgets",
+    title: "GET /v1/project-budgets",
+    description:
+      "List the project budgets the caller can read, with this month's committed spend. Owners, admins, billing members and the project's admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "projectId", location: "query", type: "string (uuid)", required: false, description: "Only the budget of this project" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[].id", type: "string (uuid)", description: "Budget id" },
+      { field: "data[].projectId", type: "string (uuid)", description: "Project id" },
+      { field: "data[].monthlyAmountUsd", type: "number", description: "Deposits allowed per calendar month (UTC), in USD" },
+      { field: "data[].alertThresholdPercent", type: "number", description: "Share of the budget at which owners and admins are emailed, once a month" },
+      { field: "data[].stopTopUps", type: "boolean", description: "Whether top-ups of running deployments also stop at the budget" },
+      { field: "data[].currentPeriod.committedUsd", type: "number", description: "Deposits recorded this month, the figure new deposits are judged against" },
+    ],
+    responseExample: `{
+  "data": [
+    {
+      "id": "${EXAMPLE_IDS.budget}",
+      "projectId": "${EXAMPLE_IDS.project}",
+      "monthlyAmountUsd": 500,
+      "alertThresholdPercent": 80,
+      "stopTopUps": false,
+      "currentPeriod": { "startDate": "2026-10-01", "endDate": "2026-10-31", "committedUsd": 120.5 },
+      "createdAt": "2026-10-01T12:10:00.000Z",
+      "updatedAt": "2026-10-01T12:10:00.000Z"
+    }
+  ]
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", `/v1/project-budgets?projectId=${EXAMPLE_IDS.project}`),
+  },
+  {
+    id: "post-v1project-budgets",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/project-budgets",
+    title: "POST /v1/project-budgets",
+    description:
+      "Set a monthly budget for a project. New deployments that would pass it are refused with `project_budget_exceeded`; top-ups are refused too when `stopTopUps` is on. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "data.projectId", location: "body", type: "string (uuid)", required: true, description: "Project id" },
+      { field: "data.monthlyAmountUsd", location: "body", type: "number", required: true, description: "From `1` to `10000000`, in whole cents" },
+      { field: "data.alertThresholdPercent", location: "body", type: "integer", required: false, description: "From `1` to `100`. Default `80`" },
+      { field: "data.stopTopUps", location: "body", type: "boolean", required: false, description: "Also refuse top-ups of the project's running deployments past the budget. Default `false`" },
+    ],
+    responseStatus: "201 Created",
+    responseFields: [],
+    responseExample: `// The budget, same shape as one entry of GET /v1/project-budgets.`,
+    notes: ["`409` with code `project_budget_exists` when the project already has a budget. Change it with `PATCH` instead."],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/project-budgets", {
+      data: { projectId: EXAMPLE_IDS.project, monthlyAmountUsd: 500, alertThresholdPercent: 80, stopTopUps: false },
+    }),
+  },
+  {
+    id: "patch-v1project-budgets-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "PATCH",
+    path: "/v1/project-budgets/{id}",
+    title: "PATCH /v1/project-budgets/{id}",
+    description: "Change a project's monthly budget. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Budget id" },
+      { field: "data.monthlyAmountUsd", location: "body", type: "number", required: false, description: "New monthly amount" },
+      { field: "data.alertThresholdPercent", location: "body", type: "integer", required: false, description: "New alert threshold" },
+      { field: "data.stopTopUps", location: "body", type: "boolean", required: false, description: "Whether top-ups also stop at the budget" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [],
+    responseExample: `// The updated budget.`,
+    codeSnippets: apiKeyRequestSnippets("PATCH", `/v1/project-budgets/${EXAMPLE_IDS.budget}`, {
+      data: { monthlyAmountUsd: 750 },
+    }),
+  },
+  {
+    id: "delete-v1project-budgets-id",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "DELETE",
+    path: "/v1/project-budgets/{id}",
+    title: "DELETE /v1/project-budgets/{id}",
+    description: "Remove a project's monthly budget. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "id", location: "path", type: "string (uuid)", required: true, description: "Budget id" },
+    ],
+    responseStatus: "204 No Content",
+    responseFields: [],
+    codeSnippets: apiKeyRequestSnippets("DELETE", `/v1/project-budgets/${EXAMPLE_IDS.budget}`),
+  },
+  {
+    id: "get-v1project-spend",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/project-spend",
+    title: "GET /v1/project-spend",
+    description:
+      "Report the active organization's spend per project over a date range. Callers see the projects they can reach; the organization total is for owners, admins and billing members.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "startDate", location: "query", type: "string", required: false, description: "First UTC day (`YYYY-MM-DD`), inclusive. Defaults to the first day of `endDate`'s month" },
+      { field: "endDate", location: "query", type: "string", required: false, description: "Last UTC day, inclusive. Defaults to today. The range spans at most 366 days" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.projects[]", type: "array", description: "`projectId`, `name`, `isDefault`, `isDeleted` and the amounts below, per project" },
+      { field: "data.projects[].committedUsd", type: "number", description: "Deposits signed for the project's deployments in the range" },
+      { field: "data.projects[].consumedUsd", type: "number", description: "What their leases cost over the range, including `estimatedConsumedUsd`" },
+      { field: "data.projects[].estimatedConsumedUsd", type: "number", description: "Part of `consumedUsd` accrued since the last on-chain settlement" },
+      { field: "data.unassigned", type: "object | null", description: "Spend of deployments filed in no project. Null for a caller limited to some projects" },
+      { field: "data.total", type: "object | null", description: "The organization's whole spend. Null for a caller limited to some projects" },
+      { field: "data.isEstimated", type: "boolean", description: "Whether any figure includes an estimate" },
+    ],
+    responseExample: `{
+  "data": {
+    "startDate": "2026-10-01",
+    "endDate": "2026-10-31",
+    "isEstimated": true,
+    "projects": [
+      {
+        "projectId": "${EXAMPLE_IDS.project}",
+        "name": "checkout-api",
+        "isDefault": false,
+        "isDeleted": false,
+        "committedUsd": 120.5,
+        "consumedUsd": 84.12,
+        "estimatedConsumedUsd": 1.3
+      }
+    ],
+    "unassigned": { "committedUsd": 0, "consumedUsd": 0, "estimatedConsumedUsd": 0 },
+    "total": { "committedUsd": 120.5, "consumedUsd": 84.12, "estimatedConsumedUsd": 1.3 }
+  }
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/project-spend?startDate=2026-10-01&endDate=2026-10-31"),
+  },
+  {
+    id: "get-v1deployment-spend",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/deployment-spend",
+    title: "GET /v1/deployment-spend",
+    description:
+      "Report what the active organization's deployments consumed over a date range, per deployment and per project and day. Takes the same `startDate` and `endDate` as `GET /v1/project-spend`.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "startDate", location: "query", type: "string", required: false, description: "First UTC day (`YYYY-MM-DD`), inclusive" },
+      { field: "endDate", location: "query", type: "string", required: false, description: "Last UTC day, inclusive" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.projects[]", type: "array", description: "The projects the caller can see, and deleted ones with spend in the range" },
+      { field: "data.days[]", type: "array", description: "`date`, `projectId` and `consumedUsd` per project and UTC day, leaving out days with no spend" },
+      { field: "data.deployments[]", type: "array", description: "`dseq`, `name`, `projectId`, `consumedUsd`, `hours`, `gpuHours` and `gpuModels` per deployment, most spent first" },
+    ],
+    responseExample: `{
+  "data": {
+    "startDate": "2026-10-01",
+    "endDate": "2026-10-31",
+    "projects": [{ "projectId": "${EXAMPLE_IDS.project}", "name": "checkout-api", "isDefault": false, "isDeleted": false }],
+    "days": [{ "date": "2026-10-01", "projectId": "${EXAMPLE_IDS.project}", "consumedUsd": 2.71 }],
+    "deployments": [
+      {
+        "dseq": "1234567",
+        "name": "api",
+        "projectId": "${EXAMPLE_IDS.project}",
+        "consumedUsd": 84.12,
+        "hours": 744,
+        "gpuHours": 0,
+        "gpuModels": []
+      }
+    ]
+  }
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/deployment-spend?startDate=2026-10-01&endDate=2026-10-31"),
+  },
+  {
+    id: "get-v1organization-activities",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/organization-activities",
+    title: "GET /v1/organization-activities",
+    description:
+      "List what happened in the active organization, newest first, within the projects the caller can reach. A key that is not bound to a project also sees organization-wide events, such as members joining.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "projectId", location: "query", type: "string (uuid)", required: false, description: "Only the activities of this project" },
+      { field: "limit", location: "query", type: "integer", required: false, description: "Activities per page, at most `100`. Default `20`" },
+      { field: "cursor", location: "query", type: "string", required: false, description: "`nextCursor` of the previous page" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data[].type", type: "string", description: "`organization_created`, `organization_renamed`, `project_created`, `member_invited`, `member_joined`, `member_updated`, `member_granted`, `member_revoked`, `deployment_created`, `deployment_closed` or `deployment_moved`" },
+      { field: "data[].projectId", type: "string | null", description: "Project the activity happened in, null for an organization-wide one" },
+      { field: "data[].actor", type: "object | null", description: "`{ id, username }` of who did it, null for the system or a deleted user" },
+      { field: "data[].payload", type: "object", description: "Values for the activity text, per type, such as `dseq` and `name`" },
+      { field: "nextCursor", type: "string | null", description: "Pass it as `cursor` for the next page. Null on the last page" },
+    ],
+    responseExample: `{
+  "data": [
+    {
+      "id": "6e7f8a9b-0c1d-4e2f-a3b4-c5d6e7f8a9b0",
+      "projectId": "${EXAMPLE_IDS.project}",
+      "actor": { "id": "${EXAMPLE_IDS.user}", "username": "dev" },
+      "type": "deployment_created",
+      "payload": { "dseq": "1234567", "name": "api" },
+      "createdAt": "2026-10-12T08:40:00.000Z"
+    }
+  ],
+  "nextCursor": null
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", `/v1/organization-activities?projectId=${EXAMPLE_IDS.project}&limit=20`),
+  },
+  {
+    id: "patch-v1deployments-dseq-project",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "PATCH",
+    path: "/v1/deployments/{dseq}/project",
+    title: "PATCH /v1/deployments/{dseq}/project",
+    description:
+      "Move a deployment to another project of the active organization. It keeps running; only the project it is filed in changes. Owners and admins.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
+      { field: "data.projectId", location: "body", type: "string (uuid)", required: true, description: "Target project" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.dseq", type: "string", description: "Deployment sequence ID" },
+      { field: "data.projectId", type: "string (uuid)", description: "Project the deployment is now filed in" },
+    ],
+    responseExample: `{ "data": { "dseq": "1234567", "projectId": "${EXAMPLE_IDS.project}" } }`,
+    notes: ["Other roles get `403`. An unknown deployment or project answers `404`."],
+    codeSnippets: apiKeyRequestSnippets("PATCH", "/v1/deployments/1234567/project", {
+      data: { projectId: EXAMPLE_IDS.project },
+    }),
+  },
+  {
+    id: "get-v1deployment-locations-dseq",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/deployment-locations/{dseq}",
+    title: "GET /v1/deployment-locations/{dseq}",
+    description:
+      "Find the organization and project a deployment is filed in. With an API key, it only looks within the key's organization and reach.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.organizationId", type: "string (uuid)", description: "Organization id" },
+      { field: "data.organizationSlug", type: "string", description: "Organization slug" },
+      { field: "data.projectId", type: "string | null", description: "Project id, null when the deployment is filed in no project" },
+    ],
+    responseExample: `{
+  "data": {
+    "organizationId": "${EXAMPLE_IDS.organization}",
+    "organizationSlug": "acme-corp",
+    "projectId": "${EXAMPLE_IDS.project}"
+  }
+}`,
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/deployment-locations/1234567"),
+  },
+  {
+    id: "post-v1api-keys",
+    kind: "endpoint",
+    group: "teams",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/api-keys",
+    title: "POST /v1/api-keys",
+    description:
+      "Create an API key in the active organization, optionally limited to one of its projects. A project-bound key cannot manage members, invitations, projects, billing or API keys.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "data.name", location: "body", type: "string", required: true, description: "Key name" },
+      { field: "data.expiresAt", location: "body", type: "string", required: false, description: "ISO 8601 date-time, in the future and at most one year from now. Defaults to one year after creation. A later date: `400`" },
+      { field: "data.projectId", location: "body", type: "string (uuid)", required: false, description: "Limits the key to this project of the organization. Unknown or out of reach: `404`" },
+    ],
+    responseStatus: "201 Created",
+    responseFields: [
+      { field: "data.apiKey", type: "string", description: "The secret, returned only here" },
+      { field: "data.organizationId", type: "string (uuid)", description: "Organization the key acts in" },
+      { field: "data.projectId", type: "string | null", description: "Only project the key reaches, or null for every project its owner can reach" },
+    ],
+    responseExample: `{
+  "data": {
+    "id": "${EXAMPLE_IDS.apiKey}",
+    "name": "checkout-api CI",
+    "apiKey": "ac.sk.mainnet.xxx...",
+    "keyFormat": "ac.sk.mainnet.xxx...xxxx",
+    "organizationId": "${EXAMPLE_IDS.organization}",
+    "projectId": "${EXAMPLE_IDS.project}",
+    "expiresAt": "2027-10-03T10:00:00.000Z",
+    "lastUsedAt": null,
+    "createdAt": "2026-10-03T10:00:00.000Z",
+    "updatedAt": "2026-10-03T10:00:00.000Z"
+  }
+}`,
+    notes: ["`GET /v1/api-keys` lists your keys with the same `organizationId` and `projectId` fields, without the secret."],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/api-keys", {
+      data: { name: "checkout-api CI", projectId: EXAMPLE_IDS.project },
+    }),
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
   // JWT — group header + preface + endpoint
   // ──────────────────────────────────────────────────────────────────────────
   {
@@ -1291,6 +2297,7 @@ export function getSectionsByGroup(group: SectionGroup): Section[] {
 
 export const GROUP_LABELS: Record<SectionGroup, string> = {
   core: "Core",
+  teams: "Organizations and projects",
   jwt: "JWT for provider access",
   "lease-ops": "Lease operations (provider)",
 };
