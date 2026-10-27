@@ -34,7 +34,7 @@ Last fall, we announced that we were bringing Akash to the [Cosmos](https://cos
 
 To gain market proof for our decentralized peer-to-peer marketplace, we launched our [Founding Member Rewards Program](https://akash.network/blog/congratulations-to-founding-member-challenge-contributors-still-time-to-join-for-5500-akash-tokens/), a series of challenges over a one month period designed to show contributors how to become a cloud provider and how to deploy applications in our decentralized Supercloud. The program involved 3 progressively difficult challenges along with bonus challenges, and contributors joined from all over the world, including the U.S., Korea, Japan, China, Europe, India, and South America. We were excited by the incredible community engagement, with 45 providers and nearly 1,700 applications completed on the first Akash testnet.
 
-Contributors lit up our Twitter with [praise](https://akash.network/l/love) for our documentation and ease of deployment. In user interviews conducted by a top partner network, 40 out of 100 developers shared that Akash had the best developer experience and documentation. We prioritize exceptional [documentation](https://akash.network/docs/), and it was rewarding to get this feedback from the community.
+Contributors lit up our Twitter with praise for our documentation and ease of deployment. In user interviews conducted by a top partner network, 40 out of 100 developers shared that Akash had the best developer experience and documentation. We prioritize exceptional [documentation](https://akash.network/docs/), and it was rewarding to get this feedback from the community.
 
 **Engaging Top Validators**
 
@@ -66,7 +66,7 @@ In 2019, we proved that our platform worked – providers offered their unused c
 
 As we expand technical infrastructure and services, we’ve been working with Alex Ellis to bring OpenFaaS to Akash Network. With 20,000+ stars on GitHub, [OpenFaaS](https://www.openfaas.com/) is an open-source alternative to serverless computing that is gaining wide adoption.
 
-We’ll also be focused on expanding our network of in-home cloud compute providers through the development and launch of the Akash Supermini, the world’s most powerful portable plug-and-earn server and in-home supercomputer. Through the Supermini, anyone can become an income generating in-home cloud compute provider on Akash’s Supercloud. If you haven’t already, [**reserve yours now**](https://akash.network/supermini/reserve) as initial quantities are limited.
+We’ll also be focused on expanding our network of in-home cloud compute providers through the development and launch of the Akash Supermini, the world’s most powerful portable plug-and-earn server and in-home supercomputer. Through the Supermini, anyone can become an income generating in-home cloud compute provider on Akash’s Supercloud. If you haven’t already, **reserve yours now** as initial quantities are limited.
 
 I want to extend a tremendous thanks to our team, partners, validators, and investors, who have continued to believe in our vision and support us on our journey to creating a permissionless, open, and secure future for the cloud. We want to create a future where architects and builders of the internet have greater freedom to innovate, and where people around the world can be ensured sovereignty over their data.
 

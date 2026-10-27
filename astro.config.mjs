@@ -11,6 +11,7 @@ import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { apiDocsOnly } from "./src/lib/markdown/apiDocsOnly";
 import { autoFaqAccordion } from "./src/lib/markdown/autoFaqAccordion";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
+import { rewriteSyncedRepoLinks } from "./src/lib/markdown/rewriteSyncedRepoLinks";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
 import { createLastmodResolver } from "./src/utils/sitemapLastmod";
@@ -27,6 +28,7 @@ export default defineConfig({
       mermaid,
       customAsidePlugin,
       autoFaqAccordion,
+      rewriteSyncedRepoLinks,
     ],
     rehypePlugins: [
       apiDocsOnly(rehypeSlug),

@@ -125,7 +125,7 @@ Previously, Kelsey served as Senior PR Manager at Ethereum Classic Labs where sh
 
 Kelsey will be focused on engaging media and influencers with the possibilities of DeCloud. She’ll be working across our global teams on communications and content programs, and events, that educate and inspire.  
 
-[**Learn More**](https://akash.network/blog/introducing-kelsey-ruiz-head-of-communications/)  
+**Learn More**  
   
 
 ####   

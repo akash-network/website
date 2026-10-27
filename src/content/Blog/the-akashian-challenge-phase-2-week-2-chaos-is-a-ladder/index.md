@@ -23,7 +23,7 @@ On Friday July 3rd, our CEO Greg Osuri and VP of Product Jack Zampolin hosted an
 
 **Today, we’re excited to launch The Akashian Challenge Phase 2 Week 2: Chaos is a Ladder, at 1600 UTC / 9:00AM PST.**
 
-[**Get Started Now**](https://akash.network/docs/akashian/phase2#week-2-chaos-is-a-ladder)
+**Get Started Now**
 
 ##### **Week 2: Chaos is a Ladder**
 
@@ -56,9 +56,9 @@ These long-running challenges include the following, [detailed in the Phase 2 bl
 
 **\_\_\_\_\_\_**
 
-1.  **Review the** [**Challenge Schedule**](https://akash.network/challenge/phase2/schedule)
-2.  **Review the** [**Rewards Schedule**](https://akash.network/challenge/phase2/rewards)
-3.  [**Get Started Now**](https://akash.network/docs/akashian/phase2#week-2-chaos-is-a-ladder)
+1.  **Review the** **Challenge Schedule**
+2.  **Review the** **Rewards Schedule**
+3.  **Get Started Now**
 
 ##### **Don’t Miss Critical Updates**
 
@@ -66,4 +66,4 @@ These long-running challenges include the following, [detailed in the Phase 2 bl
 
 Join [our Telegram](https://t.me/AkashNW) and [Riot](https://riot.im/app/#/room/#akashnet:matrix.org) to get the latest news, giveaways, and special invitations to events and AMAs!
 
-[**Get**](https://akash.network/docs/akashian/phase2) [**Started**](https://akash.network/docs/akashian/phase2#week-2-chaos-is-a-ladder) [**Now**](https://akash.network/docs/akashian/phase2)
+**Get Started Now**

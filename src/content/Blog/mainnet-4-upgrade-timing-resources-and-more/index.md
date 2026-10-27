@@ -36,15 +36,15 @@ Today is the day! Akash's Mainnet 4 upgrade is on track to reach the specified b
 
 ## Mainnet 4 upgrade resources
 
-Akash Network's documentation: [https://akash.network/docs/mainnet4-upgrade-docs](https://akash.network/docs/mainnet4-upgrade-docs)
+Akash Network's documentation: [https://akash.network/docs/node-operators/network-upgrades/](https://akash.network/docs/node-operators/network-upgrades/)
 
-Akash v0.18.0 CLI Release Notes: [https://akash.network/docs/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes](https://akash.network/docs/mainnet4-upgrade-docs/akash-v0.18.0-cli-release-notes)
+Akash v0.18.0 CLI Release Notes: [https://github.com/akash-network/provider/releases](https://github.com/akash-network/provider/releases)
 
-Akash Mainnet 4 Node Upgrade Guide: [https://akash.network/docs/mainnet4-upgrade-docs/akash-mainnet4-node-upgrade-guide](https://akash.network/docs/mainnet4-upgrade-docs/akash-mainnet4-node-upgrade-guide)
+Akash Mainnet 4 Node Upgrade Guide: [https://akash.network/docs/node-operators/network-upgrades/](https://akash.network/docs/node-operators/network-upgrades/)
 
-Akash Provider Upgrade: [https://akash.network/docs/mainnet4-upgrade-docs/provider-upgrade](https://akash.network/docs/mainnet4-upgrade-docs/provider-upgrade)
+Akash Provider Upgrade: [https://akash.network/docs/providers/operations/updates-maintenance/](https://akash.network/docs/providers/operations/updates-maintenance/)
 
-Akash Provider Enablement for **IP Leases**: [https://akash.network/docs/other-resources/experimental/mainnet4-upgrade-docs/ip-leases-provider-enablement-optional-step](https://akash.network/docs/other-resources/experimental/mainnet4-upgrade-docs/ip-leases-provider-enablement-optional-step)
+Akash Provider Enablement for **IP Leases**: [https://akash.network/docs/providers/setup-and-installation/kubespray/ip-leases/](https://akash.network/docs/providers/setup-and-installation/kubespray/ip-leases/)
 
 ## Follow the Mainnet 4 upgrade in real-time
 

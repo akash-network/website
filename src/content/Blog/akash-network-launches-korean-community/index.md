@@ -29,7 +29,7 @@ For those new to The Unstoppable Cloud, we welcome you to check out the followin
 
 *   [**Akash White Papers**](https://akash.network/whitepapers/?lang=ko)
     
-*   [**Mainnet Launch & IEO on BitMax**](https://akash.network/blog/%ec%95%84%ec%b9%b4%ec%8b%9c%ea%b0%80-%eb%a9%94%ec%9d%b8%eb%84%b7-%eb%a1%a0%ec%b9%ad%ea%b3%bc-bitmax%ec%97%90%ec%84%9c-ieo%eb%a5%bc-%ec%a7%84%ed%96%89%ed%95%a9%eb%8b%88%eb%8b%a4/?lang=ko)
+*   [**Mainnet Launch & IEO on BitMax**](https://akash.network/blog/announcing-akash-mainnet-live-and-bitmax-ieo/)
     
 *   [**AKT Token Page**](https://akash.network/token/?lang=ko)
     

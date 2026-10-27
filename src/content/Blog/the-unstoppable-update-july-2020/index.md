@@ -67,9 +67,9 @@ With a reputable and high integrity team led by CEO Jordan Bibla, Lunie is a com
 
 Building the future of the cloud takes a talented and unstoppable team courageous and ambitious enough to challenge the status quo. We’re excited to introduce our newest Dream Team members helping us materialize the world’s first decentralized cloud!
 
-- [**Introducing Jack Zampolin, VP of Product**](https://akash.network/blog/introducing-jack-zampolin/)**:** Former head of product at Cosmos, Jack’s experience in cloud, blockchain, and Cosmos SDK will help us accelerate to market the world’s first decentralized cloud compute marketplace.
+- **Introducing Jack Zampolin, VP of Product:** Former head of product at Cosmos, Jack’s experience in cloud, blockchain, and Cosmos SDK will help us accelerate to market the world’s first decentralized cloud compute marketplace.
 - [**Introducing Olive Kimoto, Creative Content Manager**](https://akash.network/blog/announcing-olive-kimoto/)**:** What’s remarkable about Olive’s creative point of view is her understanding and inclusion. She approaches her work with empathy, one of Akash’s core values, and a value that makes Olive such an adaptable and exceptional creative designer.
-- [**Introducing Michael Gushansky, Marketing & Community Manager**](https://akash.network/blog/introducing-michael-gushansky/)**:** A relentless problem solver and relationship-builder, Michael has a user-first mentality and a growth orientation well-suited for the demands of an entrepreneurial and high growth organization.
+- **Introducing Michael Gushansky, Marketing & Community Manager:** A relentless problem solver and relationship-builder, Michael has a user-first mentality and a growth orientation well-suited for the demands of an entrepreneurial and high growth organization.
 - [**Introducing Cheng Wang, CFO**](https://akash.network/blog/introducing-cheng-wang/)**:** A savvy entrepreneur and operational leader, with finance chops from legendary firms like Goldman Sachs and Morgan Stanley, Cheng has _unstoppable_ financial and operational capabilities to help us materialize the future of the cloud.
 
 #### **Be first to get Akash news!**

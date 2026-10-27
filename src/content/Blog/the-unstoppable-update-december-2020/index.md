@@ -91,7 +91,7 @@ We’re excited to announce that Brian Fox has joined Akash Network as an Adviso
   
 As we’ve continued to grow our global community and demand for AKT has increased, our team has been focused on expanding liquidity and access to AKT. As the first Akash exchange partner to enable residents of the United States to access AKT, we’re thrilled that we can now offer even more people around the world access to AKT, and continue to grow our accelerating global community through our partnership with BitMart, a premier global digital asset platform.
 
-[**Learn More →**](https://akash.network/blog/akt-token-now-on-bitmart-exchange/)
+[**Learn More →**](https://akash.network/token/)
 
 ####   
 **Phase 3 Testnet Livestream**  
