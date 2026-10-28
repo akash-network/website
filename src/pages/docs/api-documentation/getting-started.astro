@@ -233,19 +233,19 @@ const helpLinks = [
     </div>
   </div>
 
-  <div class="container-reader px-5 md:mt-10">
+  <div class="mx-auto max-w-[1100px] px-5 md:px-8 md:pt-14 xl:px-12">
     <div class="flex flex-col items-start">
-      <h1 id="overview" class="text-3xl font-bold md:text-4xl lg:text-5xl">
+      <h1 id="overview" class="text-3xl !font-semibold leading-[1.1] tracking-[-0.05em] md:text-4xl lg:text-5xl">
         {pageTitle}
       </h1>
-      <p class="mt-6 text-base text-para md:text-lg">{pageDescription}</p>
+      <p class="mt-4 max-w-2xl text-base leading-[1.7] text-muted-foreground md:text-lg">{pageDescription}</p>
     </div>
 
     <!-- Integration Options -->
-    <div class="mt-12">
+    <div class="mt-14 md:mt-16">
       <h2
         id="integration-options"
-        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+        class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl"
       >
         <a
           href="#integration-options"
@@ -262,7 +262,7 @@ const helpLinks = [
           integrationOptions.map((option) => (
             <div
               class:list={[
-                "group rounded-lg border border-[#e6e8eb] bg-white p-6 transition-all hover:shadow-lg dark:border-[#333] dark:bg-[#1a1a1a]",
+                "group rounded-xl border border-[#e6e8eb] bg-background p-6 transition-colors hover:border-neutral-300 dark:border-[#333] dark:hover:border-neutral-700",
                 option.wide && "lg:col-span-2",
               ]}
             >
@@ -352,10 +352,10 @@ const helpLinks = [
     </div>
 
     <!-- SDK Documentation -->
-    <div class="mt-12">
+    <div class="mt-14 md:mt-16">
       <h2
         id="blockchain-sdk-documentation"
-        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+        class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl"
       >
         <a
           href="#blockchain-sdk-documentation"
@@ -367,7 +367,7 @@ const helpLinks = [
           <span class="heading-anchor-icon" aria-hidden="true"></span>
         </a>
       </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {
           sdkDocsCards.map((card) => (
             <SectionCard
@@ -382,10 +382,10 @@ const helpLinks = [
     </div>
 
     <!-- Console API Documentation -->
-    <div class="mt-12">
+    <div class="mt-14 md:mt-16">
       <h2
         id="deployment-rest-api-documentation"
-        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+        class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl"
       >
         <a
           href="#deployment-rest-api-documentation"
@@ -397,7 +397,7 @@ const helpLinks = [
           <span class="heading-anchor-icon" aria-hidden="true"></span>
         </a>
       </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {
           consoleApiCards.map((card) => (
             <SectionCard
@@ -412,10 +412,10 @@ const helpLinks = [
     </div>
 
     <!-- Console API — Network Data (indexed) -->
-    <div class="mt-12">
+    <div class="mt-14 md:mt-16">
       <h2
         id="console-api-network-data"
-        class="mb-6 text-2xl font-bold text-foreground md:text-3xl"
+        class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl"
       >
         <a
           href="#console-api-network-data"
@@ -427,7 +427,7 @@ const helpLinks = [
           <span class="heading-anchor-icon" aria-hidden="true"></span>
         </a>
       </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {
           restApiCards.map((card) => (
             <SectionCard
@@ -443,11 +443,11 @@ const helpLinks = [
 
     <!-- Need Help Section -->
     <div
-      class="mb-16 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
+      class="mb-16 mt-16 rounded-xl border border-[#e6e8eb] p-6 dark:border-[#333] md:p-8"
     >
       <h2
         id="need-help"
-        class="mb-4 text-xl font-semibold text-foreground"
+        class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground"
       >
         <a
           href="#need-help"
@@ -465,7 +465,7 @@ const helpLinks = [
             <a
               href={link.href}
               target="_blank"
-              class="flex items-center gap-3 text-primary hover:underline"
+              class="flex items-center gap-3 rounded-lg border border-[#e6e8eb] px-4 py-3 text-sm text-foreground transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-[#333] dark:hover:border-neutral-700 dark:hover:bg-neutral-900"
             >
               <Fragment set:html={link.icon} />
               <span class="font-medium">{link.text}</span>

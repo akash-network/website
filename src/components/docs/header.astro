@@ -1,95 +1,44 @@
 ---
-import DarkModeToggle from "../dark-mode-toggle";
-import { DiscordIcon, GithubIcon, TwitterIcon, YoutubeIcon } from "../header/icons";
-import SpeakToExpert from "../pricing-page/SpeakToExpert";
 import Logo from "../ui/logo.astro";
-import AlgoliaSearch from "./algolia-search.jsx";
 ---
 
-<nav class="flex flex-col border-b border-[#e6e8eb] dark:border-[#333]">
-  <div class="flex w-full items-center justify-between gap-3 px-5 py-4">
-    <!-- Left side: Logo -->
-    <div class="flex items-center gap-6">
-      <a href="/" class="flex items-center">
-        <Logo width={120} height={20} />
+<nav class="flex h-16 border-b border-[#e6e8eb] dark:border-[#333]">
+  <div class="flex w-full items-center justify-between gap-3 px-5">
+    <!-- Left side: Logo / Docs -->
+    <div class="flex items-center gap-2">
+      <!-- Same logo size as the marketing header -->
+      <a href="/" class="flex items-center" aria-label="Akash Network home">
+        <Logo width={95} />
       </a>
-      <div class="flex items-center gap-8">
-        <AlgoliaSearch client:only />
-      </div>
+      <span
+        aria-hidden="true"
+        class="relative top-0.5 select-none text-lg leading-none text-black dark:text-white"
+        >•</span
+      >
+      <!-- Same ink as the logo (black / white), a touch smaller than the wordmark -->
+      <a
+        href="/docs/"
+        class="relative top-px text-[23px] font-normal leading-none tracking-[-0.04em] text-black transition-opacity hover:opacity-70 dark:text-white"
+      >
+        Documentation
+      </a>
     </div>
 
-    <!-- Right side: Search, Social icons and buttons -->
-    <div class="flex flex-1 items-center justify-end gap-5 xl:gap-8">
-      <div class="hidden flex-shrink-0 items-center gap-5 md:flex xl:gap-8">
-        <!-- Social Icons -->
-        <div class="flex items-center gap-3 text-muted-foreground">
-          <DarkModeToggle client:load />
-          <a
-            class="cursor-pointer transition-colors hover:text-primary"
-            href="https://x.com/akashnet"
-            target="_blank"
-            aria-label="Twitter"
-          >
-            <TwitterIcon />
-          </a>
-          <a
-            class="cursor-pointer transition-colors hover:text-primary"
-            href="https://github.com/akash-network"
-            target="_blank"
-            aria-label="GitHub"
-          >
-            <GithubIcon />
-          </a>
-          <a
-            class="cursor-pointer transition-colors hover:text-primary"
-            href="https://discord.com/invite/akash"
-            target="_blank"
-            aria-label="Discord"
-          >
-            <DiscordIcon />
-          </a>
-          <!-- YouTube -->
-          <a
-            class="cursor-pointer transition-colors hover:text-primary"
-            href="https://www.youtube.com/@AkashNetwork"
-            target="_blank"
-            aria-label="YouTube"
-          >
-            <YoutubeIcon />
-            <!-- <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"
-              ></path>
-              <path d="m10 15 5-3-5-3z"></path>
-            </svg> -->
-          </a>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="flex items-center gap-3">
-          <!-- Reach Out Button -->
-          <SpeakToExpert size="extra-small" variant="secondary" client:load />
-
-          <!-- Deploy Now Button -->
-          <a
-            id="console-header"
-            href="https://console.akash.network/"
-            class="flex items-center justify-center rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Deploy Now
-          </a>
-        </div>
-      </div>
+    <!-- Right side: same CTA pair as the marketing header -->
+    <div class="flex items-center gap-2">
+      <a
+        href="/gpus-on-demand"
+        class="inline-flex items-center justify-center rounded-md bg-zinc-100 px-[11px] py-[7px] text-xs font-medium text-foreground transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+      >
+        Get in Touch
+      </a>
+      <a
+        id="console-header"
+        href="https://console.akash.network/"
+        class="inline-flex items-center justify-center rounded-md bg-black px-[11px] py-[7px] text-xs font-medium text-white transition-colors hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
+      >
+        Deploy Now
+      </a>
     </div>
   </div>
 </nav>

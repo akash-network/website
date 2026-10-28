@@ -124,18 +124,21 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
       <li>
         <a
           ref={isActive ? activeLinkRef : null}
-          className={` flex  items-center text-sm ${
-            depth === 2 ? "" : "font-normal"
-          } leading-[24px]  text-muted-foreground hover:text-primary  depth-${depth} ${
-            isActive && "text-primary"
-          }`.trim()}
+          aria-current={isActive ? "location" : undefined}
+          className={`-ml-px flex items-center border-l py-1 text-[13px] leading-5 transition-colors depth-${depth} ${
+            depth === 2 ? "pl-3" : "pl-6"
+          } ${
+            isActive
+              ? "border-foreground font-medium text-foreground"
+              : "border-transparent text-neutral-500 hover:text-foreground dark:text-neutral-400"
+          }`}
           href={`#${slug}`}
           onClick={onLinkClick}
         >
           {text}
         </a>
         {children.length > 0 ? (
-          <ul className="ml-2 mt-1  space-y-1 text-sm ">
+          <ul>
             {children.map((heading) => (
               <TableOfContentsItem key={heading.slug} heading={heading} />
             ))}
@@ -154,7 +157,7 @@ const TableOfContents = ({ toc = [], labels }: Props) => {
         isHoveringTocRef.current = false;
       }}
     >
-      <ul className="space-y-1 ">
+      <ul className="border-l border-[#e6e8eb] dark:border-[#333]">
         {toc.map((heading2) => (
           <TableOfContentsItem key={heading2.slug} heading={heading2} />
         ))}

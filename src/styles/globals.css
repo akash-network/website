@@ -217,7 +217,7 @@ html body[data-scroll-locked] {
   .toc-sticky {
     position: -webkit-sticky !important;
     position: sticky !important;
-    top: 73px !important;
+    top: 64px !important;
   }
 }
 
@@ -314,11 +314,19 @@ html body[data-scroll-locked] {
 
 .DocSearch-Button {
   border: 1px solid hsl(var(--default-border)) !important;
-  border-radius: 4px !important;
-  height: 38px !important;
+  border-radius: 6px !important;
+  height: 36px !important;
   width: 100%;
-  padding-inline: 0.8rem !important;
+  padding-inline: 10px 6px !important;
   margin: 0 !important;
+  background: hsl(var(--background)) !important;
+  box-shadow: none !important;
+  transition: border-color 150ms ease;
+}
+
+.DocSearch-Button:hover,
+.DocSearch-Button:focus-visible {
+  border-color: hsl(var(--muted-foreground)) !important;
 }
 
 .DocSearch-Search-Icon {
@@ -331,8 +339,28 @@ html body[data-scroll-locked] {
   color: hsl(var(--para)) !important;
   font-weight: 400 !important;
   font-size: 14px !important;
-  margin-left: 0.8rem;
+  margin-left: 0.5rem;
   content: "Search docs..." !important;
+}
+
+.DocSearch-Button-Keys {
+  min-width: 0 !important;
+  gap: 2px;
+}
+
+.DocSearch-Button-Key {
+  background: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--default-border)) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  color: hsl(var(--muted-foreground)) !important;
+  font-size: 11px;
+  height: 20px !important;
+  min-width: 20px;
+  width: auto !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  top: 0 !important;
 }
 
 .DocSearch-Button-Container span {
@@ -395,6 +423,13 @@ html body[data-scroll-locked] {
 .prose th code,
 .prose td code {
   vertical-align: baseline;
+}
+
+/* Docs inline `code`: quiet pill with a hairline border */
+.docs-article :not(pre) > code {
+  border: 1px solid hsl(var(--default-border));
+  border-radius: 4px;
+  padding: 1px 5px;
 }
 
 .prose pre code {
