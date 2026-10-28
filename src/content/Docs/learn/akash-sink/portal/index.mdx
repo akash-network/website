@@ -1,0 +1,226 @@
+---
+categories: ["Learn", "Akash Sink"]
+tags: ["Akash Sink", "AKT", "Solana", "Keplr", "Portal"]
+weight: 1
+title: "Use the Akash Sink Portal"
+linkTitle: "Portal Guide"
+description: "Send AKT from Akash to Solana with the Akash Sink portal: connect Keplr, choose a Solana address, confirm the transfer and track it"
+---
+
+The Akash Sink portal sends AKT from your Keplr wallet on Akash to a Solana wallet. This guide walks through one transfer and shows how to follow it. For how transfers work, see [Akash Sink](/docs/learn/akash-sink).
+
+import ThemedImage from "@/components/docs/ThemedImage.astro";
+import connectKeplr from "./connect-keplr.png";
+import connectKeplrDark from "./connect-keplr-dark.png";
+import chooseSolanaAddress from "./choose-solana-address.png";
+import chooseSolanaAddressDark from "./choose-solana-address-dark.png";
+import enterAmount from "./enter-amount.png";
+import enterAmountDark from "./enter-amount-dark.png";
+import reviewTransfer from "./review-transfer.png";
+import reviewTransferDark from "./review-transfer-dark.png";
+import depositSubmitted from "./deposit-submitted.png";
+import depositSubmittedDark from "./deposit-submitted-dark.png";
+import transferDetails from "./transfer-details.png";
+import transferDetailsDark from "./transfer-details-dark.png";
+import yourTransfers from "./your-transfers.png";
+import yourTransfersDark from "./your-transfers-dark.png";
+
+---
+
+## Prerequisites
+
+- **Keplr** with your Akash account: the browser extension, or the browser inside the Keplr mobile app.
+- **AKT** for the amount you want to send, plus the Akash network fee.
+- **A Solana wallet address** that you control. It doesn't need any SOL.
+
+**Time Estimate:** a few minutes
+
+---
+
+## STEP 1: Connect Keplr
+
+1. Open the Akash Sink portal: TBD at launch.
+2. Click **Connect Keplr** and approve the request in Keplr.
+
+<ThemedImage
+  light={connectKeplr}
+  dark={connectKeplrDark}
+  alt="Akash Sink portal before connecting, with the Transfer AKT card and its Connect Keplr button"
+/>
+
+The page shows your Akash address and AKT balance.
+
+---
+
+## STEP 2: Choose the Solana Address
+
+Under **To · Solana**, either:
+
+- click **Connect Wallet** and choose Phantom, Solflare or Backpack, or
+- paste the address of any Solana wallet, for example a hardware wallet or a wallet on another device.
+
+<ThemedImage
+  light={chooseSolanaAddress}
+  dark={chooseSolanaAddressDark}
+  alt="Transfer card with Keplr connected, showing Connect Wallet and the field to paste a Solana address"
+/>
+
+Connecting a Solana wallet only fills in its address. Your Solana wallet never signs anything.
+
+The portal refuses text that isn't a Solana address, and addresses that can't belong to a wallet, such as associated token accounts.
+
+---
+
+## STEP 3: Enter the Amount
+
+Type the amount of AKT, or click **Max** to send your balance minus room for the network fee. The help text under the field shows the current minimum and maximum per transfer.
+
+<ThemedImage
+  light={enterAmount}
+  dark={enterAmountDark}
+  alt="Transfer card with 10 AKT entered, the network fee, the total from Keplr and the amount received on Solana"
+/>
+
+Use your browser's decimal mark, for example `2.5` in English or `2,5` in German, with at most six decimal places.
+
+If you enter more than your balance, the portal offers **Send the max instead**.
+
+---
+
+## STEP 4: Review and Confirm
+
+1. Click **Review Transfer**.
+2. Check each detail in **Confirm one-way transfer**:
+   - the Solana address, shown in groups of four characters
+   - the Akash account sending the AKT
+   - the amount, the network fee and the total
+3. Tick **I checked this is my Solana address** and **I understand this transfer is one way**.
+4. Click **Confirm in Keplr**, then approve the transaction in Keplr.
+
+<ThemedImage
+  light={reviewTransfer}
+  dark={reviewTransferDark}
+  alt="Confirm one-way transfer dialog with the grouped Solana address, both boxes ticked and the Confirm in Keplr button"
+/>
+
+On a phone, the review appears in the page instead of a dialog.
+
+---
+
+## STEP 5: Track the Transfer
+
+After Keplr sends the deposit, the receipt shows **Deposit submitted** with the ledger ID, status, amount and destination. The ledger ID appears a few seconds later, once Akash includes the deposit in a block. Save it.
+
+<ThemedImage
+  light={depositSubmitted}
+  dark={depositSubmittedDark}
+  alt="Deposit submitted receipt with the ledger ID still being assigned and the status Validation pending"
+/>
+
+The tracker moves through four stages:
+
+| Stage      | What happens                                             |
+| ---------- | -------------------------------------------------------- |
+| Validating | Akash confirms your deposit and assigns a ledger ID.     |
+| Validated  | Akash holds your AKT while Solana verifies your deposit. |
+| Sending    | Solana mints your AKT and finalizes the transaction.     |
+| Received   | The AKT is in your Solana wallet.                        |
+
+When the transfer finishes, all four stages are complete:
+
+<ThemedImage
+  light={transferDetails}
+  dark={transferDetailsDark}
+  alt="Transfer details for a completed transfer, with all four tracker stages done and the ledger ID"
+/>
+
+The receipt shows the estimated transfer time. You can close the page. The transfer continues, and the portal shows its current status when you come back.
+
+---
+
+## Statuses
+
+**Your transfers** lists the transfers started in this browser. Once Keplr is connected, it also lists every transfer from that account.
+
+<ThemedImage
+  light={yourTransfers}
+  dark={yourTransfersDark}
+  alt="Your transfers list with completed transfers, a refunded transfer with its Retry Transfer button, and the Track field"
+/>
+
+| Status              | Meaning                                                                                  |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| Validation pending  | The portal is checking your deposit on Akash.                                            |
+| Validated           | Akash confirmed the deposit. Your AKT is queued to mint on Solana.                       |
+| Transfer pending    | AKT is being minted to your Solana address.                                              |
+| Completed           | The AKT arrived on Solana.                                                               |
+| Refund pending      | Couldn't be completed. Your AKT returns to Keplr after the challenge window.             |
+| Refunded            | Your AKT is back in Keplr. The network fee isn't returned.                               |
+| Failed              | Akash rejected the deposit, so your AKT stayed in Keplr. The network fee isn't returned. |
+| Submission rejected | Rejected by the node. The portal keeps checking in case an earlier copy went through.    |
+| Needs review        | The transfer needs operator review.                                                      |
+
+Don't send a transfer again while it shows **Submission rejected** or **Needs review**.
+
+**Status stale** and **Update unavailable** mean the portal couldn't refresh the status. It keeps trying, and the transfer itself isn't affected.
+
+---
+
+## Find a Transfer
+
+- **In this browser:** open **Your transfers**.
+- **On another device:** connect the same Keplr account. The portal finds that account's transfers on Akash.
+- **By ID:** under **Your transfers**, enter the ledger ID or the Akash transaction hash from your Keplr activity, then click **Track**.
+
+**View** on any row opens its transfer details.
+
+---
+
+## Retry a Transfer
+
+**Refunded** and **Failed** transfers have a **Retry Transfer** button. It fills in the same amount and address. Correct the address if it caused the refund, then review and send again.
+
+---
+
+## See AKT in Your Solana Wallet
+
+The AKT arrives as an SPL token in the Solana wallet you chose. Most wallets list it automatically. Check that its mint address matches the [AKT mint on Solana](/docs/learn/akash-sink#verify-akt-on-solana).
+
+---
+
+## Troubleshooting
+
+### Keplr Doesn't Connect
+
+- Install or unlock the Keplr extension, then reload the page.
+- On a phone, open the portal from the browser inside the Keplr app.
+
+### The Address Is Refused
+
+- Copy the address from your Solana wallet's receive screen.
+- Don't use a token account address from a block explorer. The portal only accepts wallet addresses.
+
+### The Amount Is Refused
+
+- Check the minimum and maximum in the help text under the amount.
+- Leave room for the network fee, or use **Max**.
+- Use at most six decimal places and your browser's decimal mark.
+
+### New Deposits or Transfers Are Paused
+
+The portal blocks new transfers while deposits are switched off, or while Solana can't verify Akash. Try again later. AKT from transfers you already sent stays locked on Akash until it's minted or refunded.
+
+### The Deposit Failed
+
+A deposit fails when it breaks a limit: the minimum or maximum per transfer, the account's transfers or AKT per day, or its open transfers. Wait for an open transfer to finish, or try again the next UTC day. See [Limits](/docs/learn/akash-sink#limits).
+
+### The Transfer Takes Longer Than Expected
+
+Transfers wait when the daily mint limit is reached and continue once it resets. Keep the ledger ID and don't send the transfer again. The AKT stays locked on Akash until it's minted or refunded.
+
+---
+
+## Related Resources
+
+- [Akash Sink](/docs/learn/akash-sink) - How transfers, limits and refunds work
+- [Send AKT to Solana with akt](/docs/developers/akt/sink) - The same transfer from the command line

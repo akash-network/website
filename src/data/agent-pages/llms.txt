@@ -34,15 +34,16 @@ Key distinctions:
 
 ## Deploy and operate with akt
 
-- [akt overview](https://akash.network/docs/developers/deployment/akt/): Unified CLI for local signing, Console managed wallets, chain queries, provider operations, and monitoring.
-- [Install and update akt](https://akash.network/docs/developers/deployment/akt/installation/): Install the latest published release from the official Homebrew tap; update with `brew update` and `brew upgrade akash-network/tap/akt`. Includes verified archives, Linux packages, source builds, and setup.
+- [akt overview](https://akash.network/docs/developers/akt/): Unified CLI for local signing, Console managed wallets, chain queries, provider operations, and monitoring.
+- [Install and update akt](https://akash.network/docs/developers/akt/installation/): Install the latest published release from the official Homebrew tap; update with `brew update` and `brew upgrade akash-network/tap/akt`. Includes verified archives, Linux packages, source builds, and setup.
 - [akt releases](https://github.com/akash-network/akt/releases): Check published versions and release notes; main-branch features may not be in an installed release.
-- [Contexts and configuration](https://akash.network/docs/developers/deployment/akt/configuration/): Networks, accounts, keyrings, Console credentials, capability checks, gas policy, output formats, and action logs.
+- [Contexts and configuration](https://akash.network/docs/developers/akt/configuration/): Networks, accounts, keyrings, Console credentials, capability checks, gas policy, output formats, and action logs.
 - [Deployment workflows](https://akash.network/docs/developers/deployment/akt/deployments/): Offline SDL scaffolds and validation; deploy, select bids, update, close, query readiness, and recover from partial failures.
 - [Console integration](https://akash.network/docs/developers/deployment/akt/console/): Managed identity, public GPU/provider discovery, templates, bid screening, logs, events, status, and shell. Funding commands depend on CLI/API version.
-- [Queries and transactions](https://akash.network/docs/developers/deployment/akt/queries-and-transactions/): Chain state, balances, market operations, BME, governance, staking, and authorization.
-- [Network monitor](https://akash.network/docs/developers/deployment/akt/monitor/): Terminal views of consensus, validators, provider capacity, and oracle/BME state.
-- [Command reference](https://akash.network/docs/developers/deployment/akt/commands-reference/): Command groups and positional resource identifiers; confirm exact syntax with the installed command's help.
+- [Queries and transactions](https://akash.network/docs/developers/akt/queries-and-transactions/): Chain state, balances, market operations, BME, governance, staking, and authorization.
+- [Send AKT to Solana with akt](https://akash.network/docs/developers/akt/sink/): One-way Akash Sink deposits with `akt tx sink deposit`, transfer status, refunds, and the reporter, pause guardian, and governance sink commands. Needs akt version TBD at launch or later.
+- [Network monitor](https://akash.network/docs/developers/akt/monitor/): Terminal views of consensus, validators, provider capacity, and oracle/BME state.
+- [Command reference](https://akash.network/docs/developers/akt/commands-reference/): Command groups and positional resource identifiers; confirm exact syntax with the installed command's help.
 - [akt source](https://github.com/akash-network/akt): Most up-to-date code, tests, and development status; unreleased code may be ahead of Homebrew and GitHub release binaries.
 
 ## APIs, SDKs, and AI agents
@@ -61,13 +62,13 @@ Key distinctions:
 - [Chain and provider schemas](https://github.com/akash-network/chain-sdk): Authoritative protobuf definitions, SDL parser, generated clients, and API versions.
 - [Akash for AI agents](https://akash.network/docs/getting-started/ai-agents/): Agent-assisted SDL authoring and deployment using the Akash skill bundle.
 - [Akash agent skills](https://github.com/akash-network/akash-skill): Separate deployer, provider, and node-operator skills with installation instructions.
-- [akt CLI agent skill](https://akash.network/docs/developers/deployment/akt/agent-skill/): Install the focused akt skill; includes a complete ZIP and instructions for Codex and other agents.
+- [akt CLI agent skill](https://akash.network/docs/developers/akt/agent-skill/): Install the focused akt skill; includes a complete ZIP and instructions for Codex and other agents.
 - [akt-cli SKILL.md](https://akash.network/skills/akt-cli/SKILL.md): Main operating instructions, hosted as Markdown with relative reference links preserved. Confirm examples against installed CLI help.
 - [akt-cli setup reference](https://akash.network/skills/akt-cli/references/setup.md): Skill installation, CLI discovery, chain and Console contexts, credentials, and optional MCP setup.
 - [akt-cli deployment reference](https://akash.network/skills/akt-cli/references/deployments.md): SDL preparation, previews, bid selection, deployment operations, and lifecycle verification.
 - [akt-cli troubleshooting reference](https://akash.network/skills/akt-cli/references/troubleshooting.md): Diagnose failures and reconcile partial deployment state before retrying.
 - [akt CLI skill source](https://github.com/akash-network/akt/tree/ab8092931db2050c27bc7c499c1d0c89bdcc6d5c/.agents/skills/akt-cli): Operating instructions and supporting references in the akt repository.
-- [akt MCP server](https://akash.network/docs/developers/deployment/akt/mcp/): Stdio tools for chain and Console queries. Read-only by default; selected mutations require `--enable-writes`. MCP does not expose every CLI command.
+- [akt MCP server](https://akash.network/docs/developers/akt/mcp/): Stdio tools for chain and Console queries. Read-only by default; selected mutations require `--enable-writes`. MCP does not expose every CLI command.
 
 ## SDL, storage, networking, and security
 
@@ -117,6 +118,7 @@ Key distinctions:
 - [Run a validator](https://akash.network/docs/node-operators/validators/running-a-validator/): Consensus operations, staking, uptime, and signing responsibilities.
 - [Node API layer](https://akash.network/docs/node-operators/architecture/api-layer/): Blockchain RPC, REST, and gRPC interfaces.
 - [Network registry](https://github.com/akash-network/net): Current chain IDs, network versions, genesis, RPC nodes, and sandbox configuration.
+- [Akash Sink services](https://akash.network/docs/node-operators/akash-sink/): What validators and node operators run for AKT transfers to Solana: the open relayer and the governance-selected reporters, with node, key and funding requirements.
 - [Network upgrades](https://akash.network/docs/node-operators/network-upgrades/): Upgrade-specific instructions and compatibility requirements.
 
 ## Optional
@@ -124,6 +126,8 @@ Key distinctions:
 - [Cloud comparisons](https://akash.network/explore/compare/): Compare Akash with other cloud and GPU platforms.
 - [Legacy CLI documentation](https://akash.network/docs/developers/deployment/cli/): Older `akash` and `provider-services` workflows; use for version-specific maintenance rather than mixing their flags into `akt` examples.
 - [AKT](https://akash.network/token/): Network token information; distinguish token economics from compute pricing.
+- [Akash Sink](https://akash.network/docs/learn/akash-sink/): Move AKT one way from Akash to Solana; transfer statuses, limits, fees, refunds, and how to verify the AKT mint on Solana.
+- [Akash Sink portal guide](https://akash.network/docs/learn/akash-sink/portal/): Send a transfer with Keplr and a Solana wallet address, then track it by ledger ID or transaction hash.
 - [Roadmap and Akash Enhancement Proposals](https://akash.network/roadmap/): Track proposal status; an AEP is not proof that a feature is available in production.
 - [Akash source repositories](https://github.com/akash-network): Protocol, provider, Console, CLI, SDK, and website development.
 - [Support issues](https://github.com/akash-network/support/issues): Public technical support and issue history.

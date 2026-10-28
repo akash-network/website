@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "akt CLI"]
 tags: ["akt", "CLI", "Commands", "Reference"]
-weight: 9
+weight: 8
 title: "akt Commands Reference"
 linkTitle: "Commands Reference"
 description: "Reference for akt CLI commands, arguments, and common flags"
@@ -11,7 +11,7 @@ This reference covers release candidate [akt v1.0.0-rc0](https://github.com/akas
 
 The chain SDK contributes many additional query and transaction leaves. Run `akt <command> --help` for the exact command tree and flags in your installed release.
 
-Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version. [Homebrew](/docs/developers/deployment/akt/installation#keep-akt-up-to-date) installs the latest stable release; use the [archive instructions](/docs/developers/deployment/akt/installation) for the release candidate.
+Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version. [Homebrew](/docs/developers/akt/installation#keep-akt-up-to-date) installs the latest stable release; use the [archive instructions](/docs/developers/akt/installation) for the release candidate.
 
 ---
 
@@ -466,6 +466,33 @@ akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
 ---
 
+### Sink Transfers
+
+Query [Akash Sink](/docs/learn/akash-sink) transfers from Akash to Solana:
+
+```bash
+# Public status, transfer and settlement by record ID
+akt query sink record 12
+
+# Transfer and settlement without the public status
+akt query sink transfer 12
+
+# Transfers not yet minted or refunded (--start-after pages, --held-only filters)
+akt query sink open-transfers --limit 50
+akt query sink open-transfers --held-only
+
+# An account's deposits and AKT for its last deposit day, and its open transfers
+akt query sink account [address]
+
+# Locked totals, refund counters, reporter epoch and parameters
+akt query sink state
+
+# Current parameters (JSON output is the input for propose-params)
+akt query sink params
+```
+
+---
+
 ## Transaction Commands
 
 All transaction commands accept `--from`, `--gas`, `--gas-prices`, `--fees`, `--broadcast-mode`, `--yes`, `--dry-run`, and other standard flags. Defaults come from the active context. Gas-price-derived fees cannot fall below the selected network's configured price; fixed `--fees` values bypass that calculation.
@@ -554,6 +581,41 @@ akt tx bme burn-mint 500000uakt uact
 ```
 
 See [Mint & Burn ACT](/docs/developers/deployment/cli/act-mint-burn) for background on when and why to convert.
+
+---
+
+### Sink (AKT to Solana)
+
+Send AKT one way from Akash to a Solana wallet through [Akash Sink](/docs/learn/akash-sink):
+
+```bash
+# Lock AKT on Akash; the same amount is minted to the Solana address
+akt tx sink deposit <solana-address> 10akt
+
+# Pay a voided transfer's refund to its sender after the challenge window
+akt tx sink finalize-refund 12
+```
+
+The deposit amount is an exact AKT decimal (`2.5akt`) or a whole number of `uakt`. Use `--broadcast-mode block` to see the transfer's record ID in the output.
+
+Reporter, guardian and governance commands:
+
+```bash
+# Reporters: vote on a transfer's Solana outcome, or veto a void during its challenge window
+akt tx sink report-outcome <id> <minted|voided> <slot> <signature>
+akt tx sink veto-void <id> <reason>
+
+# Pause guardian: switch deposits, refunds or both off
+akt tx sink guardian-pause <deposits|refunds|all>
+
+# Governance proposals
+akt tx sink propose-params <params.json>
+akt tx sink propose-void <id>
+akt tx sink propose-veto <id> <reason>
+akt tx sink propose-resolve <id> <restart|confirm-mint|confirm-void> <reason> [slot] [signature]
+```
+
+See [Send AKT to Solana](/docs/developers/akt/sink) for the full workflow, limits and errors.
 
 ---
 
@@ -810,7 +872,7 @@ The export format is for inspection and backup. It is not a deployable SDL.
 
 ## Monitor Commands
 
-Real-time dashboards over an RPC WebSocket connection. See [Network Monitor](/docs/developers/deployment/akt/monitor).
+Real-time dashboards over an RPC WebSocket connection. See [Network Monitor](/docs/developers/akt/monitor).
 
 ```bash
 # Launch hub (defaults to Network dashboard)
@@ -835,7 +897,7 @@ Inside the Network dashboard, `1` opens Overview, `2` Validators, `3` Governance
 
 ## MCP Command
 
-Start an MCP server for AI assistant integration. See [MCP Server](/docs/developers/deployment/akt/mcp).
+Start an MCP server for AI assistant integration. See [MCP Server](/docs/developers/akt/mcp).
 
 ```bash
 # Read-only mode (safe for AI agents)
@@ -904,8 +966,8 @@ akt deploy deploy.yaml --bid-select cheapest --yes -o jsonl
 
 ## Related Resources
 
-- [Installation](/docs/developers/deployment/akt/installation)
-- [Contexts & Configuration](/docs/developers/deployment/akt/configuration)
+- [Installation](/docs/developers/akt/installation)
+- [Contexts & Configuration](/docs/developers/akt/configuration)
 - [Deployments](/docs/developers/deployment/akt/deployments)
 - [Console Integration](/docs/developers/deployment/akt/console)
 - [SDL Reference](/docs/developers/deployment/akash-sdl)

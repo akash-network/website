@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "akt CLI"]
 tags: ["akt", "CLI", "AI Agents", "Skill", "Automation"]
-weight: 7
+weight: 6
 title: "akt CLI Agent Skill"
 linkTitle: "Agent Skill"
 description: "Download and install the akt CLI agent skill, including setup, deployment, and troubleshooting references"
@@ -37,7 +37,7 @@ brew install akash-network/tap/akt
 akt version --long
 ```
 
-Homebrew installs stable releases only. For an existing installation, run `brew update` followed by `brew upgrade akash-network/tap/akt`. Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for published builds. See [Installation](/docs/developers/deployment/akt/installation) for other platforms and source builds.
+Homebrew installs stable releases only. For an existing installation, run `brew update` followed by `brew upgrade akash-network/tap/akt`. Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for published builds. See [Installation](/docs/developers/akt/installation) for other platforms and source builds.
 
 Install the skill separately using the steps below. You can inspect contexts and validate SDL before configuring credentials; deploying also requires the appropriate Console account or funded local wallet.
 
@@ -108,4 +108,4 @@ For changes that spend funds or alter a deployment, specify the target context, 
 - **Operations:** Use JSON or JSONL output, inspect leases, fetch status, logs, and events, and update, patch, redeploy, or close the intended deployment. On Console contexts, secret values come from a secrets file, never from arguments or the SDL.
 - **Recovery:** Locate the last successful step, inspect chain and provider state, and continue from existing resources after a partial failure.
 
-The skill works through the CLI with shell access. [akt MCP](/docs/developers/deployment/akt/mcp) optionally exposes selected Akash operations as tools for MCP clients. For broader deployment, provider, and node-operator guidance, see the separate [Akash skill bundle](/docs/getting-started/ai-agents).
+The skill works through the CLI with shell access. [akt MCP](/docs/developers/akt/mcp) optionally exposes selected Akash operations as tools for MCP clients. For broader deployment, provider, and node-operator guidance, see the separate [Akash skill bundle](/docs/getting-started/ai-agents).

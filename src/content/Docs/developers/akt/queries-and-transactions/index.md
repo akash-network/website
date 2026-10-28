@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "akt CLI"]
 tags: ["akt", "CLI", "Queries", "Transactions", "Blockchain"]
-weight: 5
+weight: 3
 title: "Queries & Transactions"
 linkTitle: "Queries & Transactions"
 description: "Query the Akash blockchain and submit transactions for every Akash and Cosmos SDK module with akt"
@@ -17,7 +17,7 @@ description: "Query the Akash blockchain and submit transactions for every Akash
 
 | Group             | Modules and commands                                                                                                                  |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Akash             | `deployment`, `market`, `provider`, `cert`, `audit`, `escrow`, `oracle`, `bme`                                                        |
+| Akash             | `deployment`, `market`, `provider`, `cert`, `audit`, `escrow`, `oracle`, `bme`, `sink`                                                |
 | Cosmos SDK        | `auth`, `bank`, `staking`, `distribution`, `gov`, `authz`, `feegrant`, `slashing`, `vesting`, `upgrade`, `evidence`, `mint`, `params` |
 | IBC               | `ibc`, `ibc-transfer`                                                                                                                 |
 | CosmWasm          | Contract queries plus `store`, `instantiate`, `execute`, `migrate`, and administration transactions                                   |
@@ -108,6 +108,9 @@ akt query staking validators
 # Query a WASM contract
 akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
+# Status of an Akash Sink transfer to Solana
+akt query sink record 12
+
 # The q alias works everywhere
 akt q deployment 12345
 ```
@@ -144,11 +147,16 @@ akt tx cert publish client
 # Convert between AKT and ACT (Burn-Mint-Equilibrium)
 akt tx bme mint-act 500000uakt
 akt tx bme burn-act 500000uact
+
+# Send AKT to a Solana wallet through Akash Sink (one way)
+akt tx sink deposit <solana-address> 10000000uakt
 ```
+
+See [Send AKT to Solana](/docs/developers/akt/sink) for the full set of sink commands.
 
 Coin inputs use explicit denominations. For example, 1 AKT is `1000000uakt`. Pretty output scales micro-denominated values to readable AKT, mAKT, or uAKT values while JSON and YAML preserve machine-readable amounts.
 
-With `--gas auto`, `akt` simulates the transaction to estimate the gas limit. Gas-price-derived fees use the selected network's configured gas price as a floor. A lower invocation or environment value is raised to that floor, a higher value is preserved, and explicit `--fees` remains authoritative. See [Gas prices and transaction fees](/docs/developers/deployment/akt/configuration#gas-prices-and-transaction-fees).
+With `--gas auto`, `akt` simulates the transaction to estimate the gas limit. Gas-price-derived fees use the selected network's configured gas price as a floor. A lower invocation or environment value is raised to that floor, a higher value is preserved, and explicit `--fees` remains authoritative. See [Gas prices and transaction fees](/docs/developers/akt/configuration#gas-prices-and-transaction-fees).
 
 Direct `akt tx` commands require a keyring signing account. In a `console-api` context, use `akt deploy`, `akt update`, and `akt close`, or the matching `akt console` deployment command.
 
@@ -171,6 +179,6 @@ akt query bank balances akash1abc... -o yaml
 
 ## Related Resources
 
-- [Commands Reference](/docs/developers/deployment/akt/commands-reference) - Complete `akt` command reference
+- [Commands Reference](/docs/developers/akt/commands-reference) - Complete `akt` command reference
 - [Deployments](/docs/developers/deployment/akt/deployments) - The one-command deployment workflow
-- [Contexts & Configuration](/docs/developers/deployment/akt/configuration) - Where transaction defaults come from
+- [Contexts & Configuration](/docs/developers/akt/configuration) - Where transaction defaults come from

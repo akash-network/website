@@ -11,7 +11,7 @@ Use the unified `akt` CLI for on-chain lease operations and `kubectl` for the wo
 
 ## Before you start
 
-Install [`akt`](/docs/developers/deployment/akt/installation) and select a mainnet keyring context containing the provider key. Confirm the active identity before a transaction:
+Install [`akt`](/docs/developers/akt/installation) and select a mainnet keyring context containing the provider key. Confirm the active identity before a transaction:
 
 ```bash
 akt context show
@@ -125,7 +125,7 @@ An automated policy needs a dedicated, least-privilege keyring context, a non-in
 
 ## Related resources
 
-- [`akt` queries and transactions](/docs/developers/deployment/akt/queries-and-transactions)
-- [`akt` contexts and key management](/docs/developers/deployment/akt/configuration)
+- [`akt` queries and transactions](/docs/developers/akt/queries-and-transactions)
+- [`akt` contexts and key management](/docs/developers/akt/configuration)
 - [Provider Status and Monitoring](/docs/providers/operations/monitoring)
 - [Provider Verification](/docs/providers/operations/provider-verification)
