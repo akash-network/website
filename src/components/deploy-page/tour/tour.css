@@ -1,0 +1,81 @@
+/* Theme and keyframes for the /deploy product tour (ConsoleTour.tsx). The
+   mock Console follows the site theme, like Console itself; values mirror
+   Console's neutral shadcn tokens. */
+
+.tc {
+  --tc-bg: 255 255 255;
+  --tc-fg: 10 10 10;
+  --tc-card: 255 255 255;
+  --tc-muted: 245 245 245;
+  --tc-primary: 23 23 23;
+  --tc-primary-fg: 255 255 255;
+  --tc-code: 250 250 250;
+  --tc-chrome: 242 242 242;
+}
+
+.dark .tc,
+.tc.dark {
+  --tc-bg: 10 10 10;
+  --tc-fg: 250 250 250;
+  --tc-card: 23 23 23;
+  --tc-muted: 28 28 28;
+  --tc-primary: 230 230 230;
+  --tc-primary-fg: 23 23 23;
+  --tc-code: 20 20 20;
+  --tc-chrome: 22 22 22;
+}
+
+@keyframes tour-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tour-rise {
+  animation: tour-rise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tour-hint {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+}
+
+@keyframes tour-hint-strong {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.tour-hint {
+  animation: tour-hint 1.8s ease-in-out infinite;
+}
+
+.tour-hint-strong {
+  animation: tour-hint-strong 0.9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-rise,
+  .tour-hint,
+  .tour-hint-strong {
+    animation: none;
+  }
+}
