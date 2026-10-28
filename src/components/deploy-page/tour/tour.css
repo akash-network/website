@@ -72,10 +72,30 @@
   animation: tour-hint-strong 0.9s ease-in-out infinite;
 }
 
+/* Fills while the next mission counts down; the tour pauses it inline. */
+@keyframes tour-countdown {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.tour-countdown {
+  transform-origin: left;
+  animation: tour-countdown linear both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tour-rise,
   .tour-hint,
   .tour-hint-strong {
     animation: none;
+  }
+
+  /* The countdown still shows in text. */
+  .tour-countdown {
+    display: none;
   }
 }

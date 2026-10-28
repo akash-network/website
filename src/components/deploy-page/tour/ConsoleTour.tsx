@@ -48,6 +48,8 @@ const PHONE_COACH_RESERVE = 230;
 const PHONE_STAGE_H: [number, number] = [260, 420];
 const CURSOR_TRAVEL = 650;
 const WATCH_DWELL = 1500;
+/** How long a finished mission waits before the next one plays on its own. */
+const AUTO_NEXT_MS = 10_000;
 const IDLE_HINT_MS = 4000;
 const CAMERA_EASE = "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)";
 const CONSOLE_URL = "https://console.akash.network";
@@ -106,6 +108,12 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
   const [visit, setVisit] = useState(0);
   // Arrived by Back, so steps that normally move on by themselves wait.
   const [manual, setManual] = useState(false);
+  // Auto-next: the visitor chose to stay, or has focus in the receipt.
+  const [stayed, setStayed] = useState(false);
+  const [holding, setHolding] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [nextIn, setNextIn] = useState(AUTO_NEXT_MS / 1000);
+  const nextBudget = useRef(AUTO_NEXT_MS);
 
   const [fit, setFit] = useState<{
     side: boolean;
@@ -135,6 +143,14 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
 
   const mission: Mission = missionById(missionId);
   const next = MISSIONS[(MISSIONS.indexOf(mission) + 1) % MISSIONS.length];
+  // After the last mission, the tour waits instead of starting over.
+  const startsOver = MISSIONS.indexOf(next) === 0;
+  const autoNext = finished && !stayed && !startsOver;
+  const nextPaused = holding || !inView;
+  const sweep: React.CSSProperties = {
+    animationDuration: `${AUTO_NEXT_MS}ms`,
+    animationPlayState: nextPaused ? "paused" : "running",
+  };
   const step = mission?.steps[index] ?? null;
   const zoom = viewport.mobile
     ? Math.max(MOBILE_ZOOM, viewport.w / DESIGN_W)
@@ -297,6 +313,28 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     return () => observer.disconnect();
   }, [armed]);
 
+  // Auto-next only counts down while the mock is on screen and the tab is open.
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    let seen = false;
+    const update = () =>
+      setInView(seen && document.visibilityState === "visible");
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        seen = entry.isIntersecting;
+        update();
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(el);
+    document.addEventListener("visibilitychange", update);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", update);
+    };
+  }, []);
+
   const clearPending = useCallback(() => {
     pendingRef.current.forEach(clearTimeout);
     pendingRef.current = [];
@@ -315,6 +353,8 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
       setIdle(false);
       setBusy(false);
       setFinished(false);
+      setStayed(false);
+      setHolding(false);
       setManual(byBack);
       setVisit((v) => v + 1);
     },
@@ -560,6 +600,29 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     return () => cancelAnimationFrame(frame);
   }, [step, stage, reduced]);
 
+  // A finished mission hands over to the next one unless the visitor stays.
+  useEffect(() => {
+    if (!finished) return;
+    nextBudget.current = AUTO_NEXT_MS;
+    setNextIn(AUTO_NEXT_MS / 1000);
+  }, [finished, missionId]);
+
+  useEffect(() => {
+    if (!autoNext || nextPaused) return;
+    const start = performance.now();
+    const budget = nextBudget.current;
+    const tick = window.setInterval(() => {
+      const rest = budget - (performance.now() - start);
+      setNextIn(Math.max(1, Math.ceil(rest / 1000)));
+    }, 200);
+    const done = window.setTimeout(() => startMission(next.id), budget);
+    return () => {
+      clearInterval(tick);
+      clearTimeout(done);
+      nextBudget.current = Math.max(0, budget - (performance.now() - start));
+    };
+  }, [autoNext, nextPaused, next.id, startMission]);
+
   const onStageClick = (e: React.MouseEvent) => {
     setIdle(false);
     coachDriven.current = false;
@@ -636,15 +699,36 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
       Play
     </button>
   ) : finished ? (
-    <button
-      type="button"
-      data-coach-action
-      onClick={fromCoach(() => startMission(next.id))}
-      className={primaryButton}
-    >
-      Next: {next.title}
-      <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-    </button>
+    <>
+      <button
+        type="button"
+        data-coach-action
+        onClick={fromCoach(() => startMission(next.id))}
+        className={cn(primaryButton, "relative overflow-hidden")}
+      >
+        {startsOver ? "Start over" : "Next"}: {next.title}
+        <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+        {autoNext && (
+          <span
+            aria-hidden
+            className="tour-countdown absolute inset-x-0 bottom-0 h-0.5 bg-primary-foreground/60"
+            style={sweep}
+          />
+        )}
+      </button>
+      {autoNext && (
+        <span className="text-xs text-muted-foreground">
+          {nextPaused ? "Paused" : `Starts in ${nextIn}s`} ·{" "}
+          <button
+            type="button"
+            onClick={fromCoach(() => setStayed(true))}
+            className="font-medium text-foreground underline-offset-4 hover:underline"
+          >
+            Stay here
+          </button>
+        </span>
+      )}
+    </>
   ) : !step ? null : ready && !step.action ? (
     <button
       type="button"
@@ -949,6 +1033,14 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
                 <Receipt
                   props={props}
                   next={next}
+                  startsOver={startsOver}
+                  countdown={
+                    autoNext
+                      ? { seconds: nextIn, paused: nextPaused, sweep }
+                      : null
+                  }
+                  onStay={() => setStayed(true)}
+                  onHold={setHolding}
                   headingRef={receiptRef}
                   onMission={startMission}
                 />
@@ -1034,7 +1126,7 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
       <p className="sr-only" aria-live="polite">
         {mission && step
           ? finished
-            ? `${mission.title} complete.`
+            ? `${mission.title} complete.${autoNext ? ` ${next.title} starts in ${AUTO_NEXT_MS / 1000} seconds.` : ""}`
             : `Step ${index + 1} of ${mission.steps.length}: ${step.title}. ${step.body}`
           : ""}
       </p>
@@ -1045,11 +1137,25 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
 function Receipt({
   props,
   next,
+  startsOver,
+  countdown,
+  onStay,
+  onHold,
   headingRef,
   onMission,
 }: {
   props: SceneProps;
   next: Mission;
+  startsOver: boolean;
+  /** Set while the next mission is counting down to start on its own. */
+  countdown: {
+    seconds: number;
+    paused: boolean;
+    sweep: React.CSSProperties;
+  } | null;
+  onStay: () => void;
+  /** Keyboard focus inside the receipt holds the countdown. */
+  onHold: (holding: boolean) => void;
   headingRef: React.RefObject<HTMLParagraphElement>;
   onMission: (id: MissionId) => void;
 }) {
@@ -1090,8 +1196,17 @@ function Receipt({
         : "Acme AI is set up";
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center overflow-auto bg-black/55 p-3 backdrop-blur-sm motion-safe:duration-500 motion-safe:animate-in motion-safe:fade-in-0">
-      <div className="w-full max-w-md rounded-xl bg-[#0a0a0a] p-5 text-white shadow-2xl ring-1 ring-white/10 sm:p-7">
+    <div className="absolute inset-0 z-50 flex overflow-auto bg-black/55 p-3 backdrop-blur-sm motion-safe:duration-500 motion-safe:animate-in motion-safe:fade-in-0">
+      <div
+        className="m-auto w-full max-w-md rounded-xl bg-[#0a0a0a] p-5 text-white shadow-2xl ring-1 ring-white/10 sm:p-7"
+        // Keyboard focus only: a mouse click elsewhere in the tour also
+        // moves focus here, and shouldn't stop the countdown.
+        onFocus={(e) => onHold(e.target.matches(":focus-visible"))}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null))
+            onHold(false);
+        }}
+      >
         <p className="font-jetBrainsMono text-[10.5px] uppercase tracking-[0.15em] text-white/60">
           Receipt
         </p>
@@ -1120,27 +1235,56 @@ function Receipt({
         <button
           type="button"
           onClick={() => onMission(next.id)}
-          className="group mt-5 flex w-full items-center gap-3 rounded-lg bg-white/[0.06] p-2 pr-4 text-left ring-1 ring-white/15 transition-colors hover:bg-white/10"
+          className="group relative mt-5 flex w-full items-center gap-3.5 overflow-hidden rounded-lg bg-white/[0.08] p-2 pr-3 text-left ring-1 ring-white/25 transition-colors hover:bg-white/[0.12] hover:ring-white/40 max-sm:pl-3"
         >
+          {countdown && (
+            <>
+              <span
+                aria-hidden
+                className="tour-countdown absolute inset-0 bg-white/[0.07]"
+                style={countdown.sweep}
+              />
+              <span
+                aria-hidden
+                className="tour-countdown absolute inset-x-0 bottom-0 h-0.5 bg-white"
+                style={countdown.sweep}
+              />
+            </>
+          )}
           <img
             src={next.image}
             alt=""
-            className="h-12 w-20 shrink-0 rounded-md object-cover"
+            className="relative h-14 w-24 shrink-0 rounded-md object-cover max-sm:hidden"
           />
-          <span className="min-w-0 flex-1">
-            <span className="block font-jetBrainsMono text-[10.5px] uppercase tracking-[0.15em] text-white/55">
-              Up next
+          <span className="relative min-w-0 flex-1">
+            <span className="block font-jetBrainsMono text-[10.5px] uppercase tracking-[0.15em] text-white/60">
+              {startsOver ? "Start over" : "Up next"}
+              {countdown &&
+                (countdown.paused
+                  ? " · paused"
+                  : ` · in ${countdown.seconds}s`)}
             </span>
-            <span className="mt-0.5 block truncate text-sm font-semibold text-white">
+            <span className="mt-1 block truncate text-base font-semibold text-white">
               {next.title}
             </span>
           </span>
-          <ArrowRight
-            className="h-4 w-4 shrink-0 text-white/70 transition-transform group-hover:translate-x-0.5"
-            aria-hidden
-          />
+          <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:translate-x-0.5">
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </span>
         </button>
-        <div className="mt-2 flex gap-2">
+        {countdown && (
+          <p className="mt-2 text-[11px] text-white/55">
+            Starts automatically.{" "}
+            <button
+              type="button"
+              onClick={onStay}
+              className="font-medium text-white/85 underline underline-offset-2 transition-colors hover:text-white"
+            >
+              Stay here
+            </button>
+          </p>
+        )}
+        <div className="mt-3 flex gap-2">
           <a
             href={CONSOLE_URL}
             target="_blank"

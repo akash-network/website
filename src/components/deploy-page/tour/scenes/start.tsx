@@ -171,7 +171,7 @@ export function OnboardingScene(_props: SceneProps) {
             <div
               key={t.id}
               data-tt={t.id}
-              className="tour-rise relative"
+              className="tour-rise relative flex flex-col"
               style={{ animationDelay: `${100 + i * 110}ms` }}
             >
               {i === 0 && (
@@ -184,8 +184,9 @@ export function OnboardingScene(_props: SceneProps) {
                 alt=""
                 className="h-[132px] w-full rounded-t-xl object-cover"
               />
-              <div className="rounded-b-xl border border-t-0 border-tc-fg/10 bg-tc-card p-4">
-                <span className="rounded-md border border-tc-fg/15 px-1.5 py-0.5 text-[10px] text-tc-fg/70">
+              {/* Cards share the row's height; the button sits at the bottom. */}
+              <div className="flex flex-1 flex-col rounded-b-xl border border-t-0 border-tc-fg/10 bg-tc-card p-4">
+                <span className="self-start rounded-md border border-tc-fg/15 px-1.5 py-0.5 text-[10px] text-tc-fg/70">
                   {t.tag}
                 </span>
                 <div className="mt-3 text-[20px] font-semibold tracking-tight">
@@ -194,14 +195,14 @@ export function OnboardingScene(_props: SceneProps) {
                 <div className="mt-1.5 line-clamp-2 h-[36px] text-[12px] leading-[18px] text-tc-fg/60">
                   {t.body}
                 </div>
-                <div className="mt-3 font-jetBrainsMono text-[10.5px] text-tc-fg/55">
+                <div className="mb-3 mt-3 font-jetBrainsMono text-[10.5px] text-tc-fg/55">
                   <span className="font-semibold text-tc-fg">{t.price}</span> ·{" "}
                   {t.spec}
                 </div>
                 <span
                   data-tt={i === 0 ? "card-hello-cta" : undefined}
                   className={cn(
-                    "mt-3 flex h-9 items-center justify-center gap-1.5 rounded-md text-[12.5px] font-medium",
+                    "mt-auto flex h-9 items-center justify-center gap-1.5 rounded-md text-[12.5px] font-medium",
                     i === 0
                       ? "bg-tc-primary text-tc-primary-fg"
                       : "border border-tc-fg/15",
