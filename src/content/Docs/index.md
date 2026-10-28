@@ -1,7 +1,7 @@
 ---
-title: "Akash Network Documentation"
+title: "Akash Documentation"
 linkTitle: "Documentation"
-description: "Access comprehensive documentation to guide you through using Akash Network. Find detailed instructions, FAQs, and resources for a seamless experience."
+description: "Access comprehensive documentation to guide you through using Akash. Find detailed instructions, FAQs, and resources for a seamless experience."
 categories: ["Documentation"]
 ---
 

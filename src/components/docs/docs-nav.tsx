@@ -1,5 +1,5 @@
 import { docsSequence as docs } from "@/content/Docs/_sequence";
-import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
 // Types
@@ -23,21 +23,20 @@ const STORAGE_KEYS = {
 
 const STYLES = {
   link: {
-    base: "block rounded-md  text-sm  transition-colors",
-    active: "text-primary  dark:text-primary",
+    base: "flex min-h-8 items-center rounded-md px-2 py-1.5 text-sm leading-5 transition-colors",
+    active: "bg-neutral-100 font-medium text-foreground dark:bg-neutral-800/80",
     inactive:
-      "text-muted-foreground  hover:text-foreground",
-    border: "border-b border-[#e6e8eb] dark:border-[#333]",
+      "text-neutral-600 hover:bg-neutral-100/70 hover:text-foreground dark:text-neutral-400 dark:hover:bg-neutral-800/50",
   },
   folder: {
-    base: "flex w-full items-center gap-2 rounded-md  text-sm  transition-colors",
+    base: "flex min-h-8 w-full items-center gap-1 rounded-md text-sm leading-5 transition-colors",
   },
   section: {
+    // dark: variant needed to beat the global `.dark h2/h3` foreground rule
     header:
-      "mb-3 text-xs font-bold uppercase tracking-widest text-foreground",
-    divider: "mb-3 h-px w-full bg-[#e6e8eb] dark:bg-[#333]",
+      "px-2 pb-1 text-[13px] leading-4 text-neutral-500 dark:text-neutral-500",
     title:
-      "mb-2 text-xs font-medium uppercase  tracking-widest text-foreground",
+      "px-2 pb-1 pt-2 text-[13px] leading-4 text-neutral-500 dark:text-neutral-500",
   },
 } as const;
 
@@ -351,14 +350,14 @@ interface NavLinkProps {
   depth: number;
 }
 
-function NavLink({ item, isActive, depth }: NavLinkProps) {
-  const borderClass = depth === 0 ? STYLES.link.border : "";
+function NavLink({ item, isActive }: NavLinkProps) {
   const stateClass = isActive ? STYLES.link.active : STYLES.link.inactive;
 
   return (
     <a
       href={item.link}
-      className={`${STYLES.link.base} ${borderClass} ${stateClass}`}
+      aria-current={isActive ? "page" : undefined}
+      className={`${STYLES.link.base} ${stateClass}`}
     >
       {item.label}
     </a>
@@ -388,9 +387,9 @@ function NavFolder({
 }: NavFolderProps) {
   if (depth === 0) {
     return (
-      <div className=" border-b pb-2 pt-2 first:mt-0   last:border-b-0">
+      <div className="pt-5 first:pt-0">
         <h3 className={STYLES.section.header}>{item.label}</h3>
-        <div className="space-y-2">
+        <div className="space-y-px">
           {item.subItems?.map((subItem) => (
             <NavItem
               key={subItem.label || subItem.link}
@@ -407,7 +406,6 @@ function NavFolder({
     );
   }
 
-  const borderClass = depth === 0 ? STYLES.link.border : "";
   const stateClass = isActive ? STYLES.link.active : STYLES.link.inactive;
 
   // If item has a direct link (from index.md), clicking should navigate
@@ -433,25 +431,29 @@ function NavFolder({
 
   return (
     <>
-      <div className={`${STYLES.folder.base} ${borderClass} ${stateClass}`}>
-        <a href={linkUrl} onClick={handleTextClick} className="flex-1">
+      <div className={`${STYLES.folder.base} ${stateClass}`}>
+        <a
+          href={linkUrl}
+          onClick={handleTextClick}
+          aria-current={isActive ? "page" : undefined}
+          className="flex-1 py-1.5 pl-2"
+        >
           {item.label}
         </a>
         <button
           type="button"
           onClick={handleChevronClick}
-          className={`flex-shrink-0 cursor-pointer p-0.5 transition-opacity hover:opacity-70 ${stateClass}`}
+          className="mr-1 flex-shrink-0 cursor-pointer rounded p-1 text-neutral-400 transition-colors hover:text-foreground dark:text-neutral-500"
           aria-label={isOpen ? "Close section" : "Open section"}
+          aria-expanded={isOpen}
         >
-          {isOpen ? (
-            <ChevronDownIcon className="h-4 w-4" />
-          ) : (
-            <ChevronRightIcon className="h-4 w-4" />
-          )}
+          <ChevronRightIcon
+            className={`h-4 w-4 transition-transform duration-150 ${isOpen ? "rotate-90" : ""}`}
+          />
         </button>
       </div>
       {isOpen && item.subItems && (
-        <div className="ml-1 mt-0.5 space-y-2 border-l border-[#e6e8eb] pl-3 dark:border-[#333]">
+        <div className="my-0.5 ml-3 space-y-px border-l border-[#e6e8eb] pl-2 dark:border-[#333]">
           {item.subItems.map((subItem) => (
             <NavItem
               key={subItem.label || subItem.link}
@@ -528,11 +530,9 @@ function Section({
   return (
     <div>
       {section.header && (
-        <>
-          <h2 className={STYLES.section.title}>{section.header}</h2>
-        </>
+        <h2 className={STYLES.section.title}>{section.header}</h2>
       )}
-      <div className="space-y-0">
+      <div>
         {section.items.map((item) => (
           <NavItem
             key={item.label || item.link}
@@ -613,7 +613,7 @@ export function DocsNav({ docsNav = [], pathName = [] }: DocsNavProps) {
   }
 
   return (
-    <nav className="space-y-2 overflow-y-auto">
+    <nav className="space-y-5 overflow-y-auto">
       {sections.map((section, sectionIndex) => (
         <Section
           key={sectionIndex}
@@ -629,12 +629,13 @@ export function DocsNav({ docsNav = [], pathName = [] }: DocsNavProps) {
 
 export const HomeButton = ({ pathname }: { pathname: string }) => {
   const isActive = pathname === "/docs/" || pathname === "/docs";
-  const stateClass = isActive ? " text-primary " : "text-para";
+  const stateClass = isActive ? STYLES.link.active : STYLES.link.inactive;
 
   return (
     <a
       href="/docs/"
-      className={`mb-1.5 flex items-center gap-2  text-sm  transition-colors ${stateClass}`}
+      aria-current={isActive ? "page" : undefined}
+      className={`${STYLES.link.base} gap-2 ${stateClass}`}
     >
       <span>Home</span>
     </a>

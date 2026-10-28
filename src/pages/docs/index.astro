@@ -4,13 +4,7 @@ import { getCollection, getEntry } from "astro:content";
 
 import AlgoliaSearch from "@/components/docs/algolia-search";
 import MobileNav from "@/components/docs/mobile-sidebar";
-import {
-  docsSections,
-  gettingStartedCards,
-  helpLinks,
-  icons,
-  type Section,
-} from "@/lib/docs/docs-home-data";
+import { docsSections, icons, type Section } from "@/lib/docs/docs-home-data";
 import { generateDocsNav } from "@/lib/docs/generate-nav/docs-nav";
 
 const pathname = new URL(Astro.request.url).pathname;
@@ -23,7 +17,7 @@ const docs = generateDocsNav(docsData);
 const pageTitle = doc?.data?.title ?? "Akash Documentation";
 const pageDescription =
   doc?.data?.description ??
-  "Access comprehensive documentation to guide you through using Akash Network. Find detailed instructions, FAQs, and resources for a seamless experience.";
+  "Access comprehensive documentation to guide you through using Akash. Find detailed instructions, FAQs, and resources for a seamless experience.";
 ---
 
 <DocsLayout
@@ -53,148 +47,56 @@ const pageDescription =
     </div>
   </div>
 
-  <div class="dark relative mb-0 bg-[#292929] px-5 py-16 xl:px-14">
-    <div class="container-reader px-0 md:px-5">
-      <div class="mb-4">
-        <svg
-          width="70"
-          height="61"
-          viewBox="0 0 70 61"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M43.2915 40.4478L55.9186 55.3403L58.2154 60.6704H34.9283L23.2783 40.4478H43.2915Z"
-            fill="#FF414C"></path>
-          <path
-            d="M58.2092 60.6778L69.8399 40.4551L46.5592 0H23.2783L58.2092 60.6778Z"
-            fill="#FF414C"></path>
-          <path
-            d="M11.6403 20.2119H34.9212L11.65 60.667L0 40.4443L11.6403 20.2119Z"
-            fill="#FF414C"></path>
-        </svg>
-      </div>
-
-      <!-- Title -->
-      <h1 class="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+  <div class="mx-auto max-w-[1100px] px-5 md:px-8 xl:px-12">
+    <!-- Hero -->
+    <div class="pb-2 md:pt-14">
+      <h1
+        class="max-w-3xl text-4xl !font-semibold leading-[1.1] tracking-[-0.05em] text-foreground md:text-5xl"
+      >
         {pageTitle}
       </h1>
-
-      <!-- Description -->
-      <p class="mt-4 max-w-4xl text-base text-muted-foreground md:text-lg">
+      <p
+        class="mt-4 max-w-2xl text-base leading-[1.7] text-muted-foreground md:text-lg md:leading-[1.65]"
+      >
         {pageDescription}
       </p>
-    </div>
-  </div>
-
-  <!-- Search Bar Section -->
-  <!-- <div class="-mt-6 mb-16 flex justify-center px-4">
-    <div class="relative w-full max-w-[642px]">
-      <div
-        class="flex items-center gap-3 rounded-full border border-[#e5e5e5] bg-white px-4 py-3 shadow-sm dark:border-[#333] dark:bg-[#1a1a1a]"
-      >
-        <div class="text-muted-foreground" set:html={icons.search} />
-        <input
-          type="text"
-          placeholder="Search Docs (e.g., 'Deploy', 'Provider', 'SDL')..."
-          class="w-full bg-transparent text-sm text-muted-foreground placeholder-[#737373] outline-none"
-        />
-      </div>
-    </div>
-  </div> -->
-
-  <!-- Getting Started Section -->
-  <div class="container-reader px-5">
-    <div class="my-16">
-      <h2 class="mb-4 text-xl font-semibold text-foreground">
-        Getting Started
-      </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
-        {
-          gettingStartedCards.map((card) => (
-            <a
-              href={card.href}
-              class="group  flex flex-col gap-4 overflow-hidden rounded-lg border border-[#e6e8eb] bg-white p-4 transition-all hover:shadow-lg dark:border-[#333] dark:bg-[#1a1a1a]"
-            >
-              <div
-                class={`w-full overflow-hidden rounded-md bg-gray-100 dark:bg-[#222]`}
-                style={`aspect-ratio: 16/9`}
-              >
-                <img
-                  src={card.image}
-                  alt={card.imageAlt}
-                  loading="eager"
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <div>
-                <div class="mb-1 flex items-center gap-2">
-                  <h3 class="text-base font-semibold text-foreground">
-                    {card.title}
-                  </h3>
-                </div>
-                <p class="text-sm text-muted-foreground">{card.description}</p>
-              </div>
-            </a>
-          ))
-        }
-      </div>
     </div>
 
     <!-- Documentation Sections -->
     {
       docsSections.map((section: Section) => (
-        <div class="] mb-16 ">
+        <section class="mt-14 md:mt-16">
           <div class="mb-5">
-            <h2 class="text-xl font-semibold text-foreground">
+            <h2 class="text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl">
               {section.title}
             </h2>
-            <p class="mt-1 text-sm text-muted-foreground">{section.description}</p>
+            <p class="mt-1 text-sm text-muted-foreground md:text-[15px]">
+              {section.description}
+            </p>
           </div>
-          <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {section.cards.map((card) => (
               <a
                 href={card.href}
-                class="group block rounded-xl border  p-4 transition-all  hover:shadow-xl  "
+                target={card.external ? "_blank" : undefined}
+                rel={card.external ? "noopener noreferrer" : undefined}
+                class="group flex flex-col rounded-xl border border-[#e6e8eb] bg-background p-5 transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-[#333] dark:hover:border-neutral-700 dark:hover:bg-neutral-900 md:p-6"
               >
-                <div class="mb-3 inline-flex rounded-lg bg-background">
-                  <div
-                    set:html={icons[card.icon]}
-                    class="h-5 w-5 text-foreground"
-                  />
-                </div>
-                <h4 class="mb-1 text-sm font-semibold text-foreground">
+                <div
+                  set:html={icons[card.icon]}
+                  class="h-5 w-5 text-foreground"
+                />
+                <h3 class="mt-4 text-base font-semibold tracking-[-0.02em] text-foreground">
                   {card.title}
-                </h4>
-                <p class="text-xs text-muted-foreground">{card.description}</p>
+                </h3>
+                <p class="mt-1 text-sm leading-5 text-muted-foreground">
+                  {card.description}
+                </p>
               </a>
             ))}
           </div>
-        </div>
+        </section>
       ))
     }
-
-    <!-- Need Help Section -->
-    <div
-      class="rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
-    >
-      <h2 class="mb-4 text-xl font-semibold text-foreground">
-        Need Help?
-      </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {
-          helpLinks.map((link) => (
-            <a
-              href={link.href}
-              target={link.external ? "_blank" : undefined}
-              class="flex items-center gap-3 text-primary hover:underline"
-            >
-              <Fragment set:html={link.icon} />
-              <span class="font-medium">{link.text}</span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
   </div>
 </DocsLayout>

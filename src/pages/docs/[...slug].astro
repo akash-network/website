@@ -58,22 +58,25 @@ const fileExt = page.filePath?.endsWith(".mdx") ? "mdx" : "md";
   image="/meta-images/docs.png"
 >
   <div
-    class="sticky top-0 z-10 mb-10 h-[130px] bg-background px-4 pt-4 lg:hidden lg:pt-0"
+    class="sticky top-0 z-10 mb-10 h-[130px] bg-background px-4 pt-4 md:mb-0 md:h-auto md:border-b md:px-8 md:py-3 lg:hidden"
   >
-    <div>
+    <!-- From md up the sidebar carries search and the nav tree -->
+    <div class="md:hidden">
       <AlgoliaSearch client:only />
     </div>
 
-    <div class="my-4 border-b"></div>
+    <div class="my-4 border-b md:hidden"></div>
 
     <div class="">
       <div class="flex items-center gap-x-3">
-        <MobileNav
-          client:load
-          catName={catName}
-          docsNav={nav}
-          pathname={pathname}
-        />
+        <div class="md:hidden">
+          <MobileNav
+            client:load
+            catName={catName}
+            docsNav={nav}
+            pathname={pathname}
+          />
+        </div>
 
         {
           !page.data.hideTOC && (
@@ -91,25 +94,23 @@ const fileExt = page.filePath?.endsWith(".mdx") ? "mdx" : "md";
     </div>
   </div>
   <div>
-    <div class="mx-auto max-w-[1350px]">
+    <div class="mx-auto max-w-[1280px]">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-start">
         <div
           class={classNames(
             page.data.hideTOC
               ? "w-full min-w-0"
-              : "w-full min-w-0 px-5 lg:flex-1",
-            "md:pt-12",
+              : "w-full min-w-0 px-5 md:px-8 lg:flex-1 xl:px-12",
+            "md:pt-8 lg:pt-12",
           )}
         >
           <Breadcrumbs pathname={pathname} />
           <h1
-            class="text-3xl md:text-4xl md:font-medium lg:text-5xl"
+            class="mb-6 text-3xl !font-semibold leading-[1.1] tracking-[-0.05em] md:mb-8 md:text-4xl lg:text-5xl"
             id="overview"
           >
             {page.data.title}
           </h1>
-
-          <div class="my-5 border-b md:my-10"></div>
 
           <!--
             Expressive Code attaches its stylesheet to the first code block.
@@ -117,13 +118,13 @@ const fileExt = page.filePath?.endsWith(".mdx") ? "mdx" : "md";
             so load it once outside the island for tabbed installation pages.
           -->
           <div hidden aria-hidden="true"><Code code="#" lang="text" /></div>
-          <article class={docsProseClasses}>
+          <article class={classNames(docsProseClasses, "docs-article")}>
             <Content />
           </article>
-          <div class="mt-5 border-y py-5 md:mt-10 md:px-2">
+          <div class="mt-12 border-t pt-6">
             <a
               target="_blank"
-              class="flex items-center gap-2 text-xs font-medium hover:text-primary"
+              class="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
               href={`https://github.com/akash-network/website-revamp/tree/main/src/content/Docs/${page.id}`}
             >
               <svg
@@ -144,7 +145,7 @@ const fileExt = page.filePath?.endsWith(".mdx") ? "mdx" : "md";
                   stroke-linecap="round"
                   stroke-linejoin="round"></path>
               </svg>
-              Edit page on github
+              Edit this page on GitHub
             </a>
           </div>
           <NextPrevNav nav={findPrevAndNextPages(nav, pathname)} />
@@ -152,10 +153,10 @@ const fileExt = page.filePath?.endsWith(".mdx") ? "mdx" : "md";
 
         {
           !page.data.hideTOC && (
-            <aside class="sidebar-scroll toc-sticky z-10 hidden h-[calc(100vh-73px)] w-[18rem] shrink-0 self-start overflow-y-auto  bg-background lg:block">
-              <div class="h-fit  pb-6 pl-3 pt-5">
-                <h4 class="text-xs font-semibold tracking-widest">
-                  ON THIS PAGE
+            <aside class="sidebar-scroll toc-sticky z-10 hidden h-[calc(100vh-64px)] w-56 shrink-0 self-start overflow-y-auto bg-background lg:block xl:w-60">
+              <div class="h-fit pb-6 pr-5 pt-12">
+                <h4 class="text-sm font-medium text-foreground">
+                  On this page
                 </h4>
 
                 <AiActionsDropdown
