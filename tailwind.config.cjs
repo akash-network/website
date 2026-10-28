@@ -128,6 +128,19 @@ module.exports = {
           "muted-strong": "#888888",
           fg: "#F2F2F2",
         },
+
+        // Mock Akash Console in the /deploy product tour. Light and dark
+        // values live in src/components/deploy-page/tour/tour.css (.tc).
+        tc: {
+          bg: "rgb(var(--tc-bg) / <alpha-value>)",
+          fg: "rgb(var(--tc-fg) / <alpha-value>)",
+          card: "rgb(var(--tc-card) / <alpha-value>)",
+          muted: "rgb(var(--tc-muted) / <alpha-value>)",
+          primary: "rgb(var(--tc-primary) / <alpha-value>)",
+          "primary-fg": "rgb(var(--tc-primary-fg) / <alpha-value>)",
+          code: "rgb(var(--tc-code) / <alpha-value>)",
+          chrome: "rgb(var(--tc-chrome) / <alpha-value>)",
+        },
       },
 
       fontFamily: {
