@@ -1,10 +1,11 @@
 ---
-import { getCollection } from "astro:content";
-import { Image } from "astro:assets";
+import { POSTS_GRID_CLASS } from "@/components/blog/blogUi";
+import CategoryNav from "@/components/blog/category-nav.astro";
+import PostCard from "@/components/cards/post-card.astro";
 import TopMargin from "@/components/ui/top-margin.astro";
 import Layout from "@/layouts/layout.astro";
-import { Card } from "@/components/ui/card";
-import { ChevronRight, ArrowUpRight } from "lucide-react";
+import { getReadingTime } from "@/utils/readingTime";
+import { getCollection } from "astro:content";
 
 const title = "Community Contributions";
 const description =
@@ -15,14 +16,30 @@ const contributions = allContributions.sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 
-const categories = ["All Posts", "News", "Guides", "Articles", "Student Ambassadors"];
+// Category links styled like the blog's; this page filters its own cards in
+// the browser and keeps the choice in ?category=<name>.
+const categories = ["News", "Guides", "Articles", "Student Ambassadors"];
+const items = [
+  { key: "all", label: "All", href: "/community/contributions/" },
+  ...categories.map((category) => ({
+    key: category.toLowerCase(),
+    label: category,
+    href: `/community/contributions/?category=${encodeURIComponent(category)}`,
+  })),
+];
 ---
 
-<Layout title={title} description={description} image="/meta-images/community.png">
+<Layout
+  title={title}
+  description={description}
+  image="/meta-images/community.png"
+>
   <TopMargin isNotContainer>
     <div class="container">
       <div class="mb-10 space-y-5 md:mb-[60px] lg:mb-20">
-        <h1 class="text-4xl font-semibold leading-tight tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl">
+        <h1
+          class="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl md:tracking-tighter lg:text-6xl"
+        >
           {title}
         </h1>
         <p class="max-w-2xl text-base font-normal text-para">
@@ -30,80 +47,42 @@ const categories = ["All Posts", "News", "Guides", "Articles", "Student Ambassad
         </p>
       </div>
 
-      <!-- Category Switcher -->
-      <div class="mb-10 overflow-x-auto scrollbar-hide">
-        <div class="inline-flex items-center rounded-full bg-[#F4F4F5] dark:bg-background2 p-1.5">
-          {
-            categories.map((cat, i) => (
-              <button
-                data-category={cat}
-                class={`filter-btn whitespace-nowrap rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 ${
-                  i === 0
-                    ? "bg-background text-foreground shadow-sm"
-                    : "text-para hover:text-foreground"
-                }`}
-              >
-                {cat}
-              </button>
-            ))
-          }
-        </div>
+      <div data-contribution-categories>
+        <CategoryNav
+          items={items}
+          active="all"
+          label="Contribution categories"
+        />
       </div>
 
-      <!-- Cards Grid -->
-      <div class="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div
+        data-display="grid"
+        class:list={["mt-10 md:mt-12", POSTS_GRID_CLASS]}
+      >
         {
           contributions.map((contribution) => {
-            const isExternal = Boolean(contribution.data.external && contribution.data.link);
-            const href = isExternal
-              ? contribution.data.link!
-              : `/community/contributions/${contribution.id}`;
+            const isExternal = Boolean(
+              contribution.data.external && contribution.data.link,
+            );
 
             return (
-            <div class="article-card h-full" data-category={contribution.data.categories[0]}>
-              <a
-                href={href}
-                target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
-                class="block h-full"
-              >
-                <Card className="group h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20">
-                  <div class="flex h-full flex-col gap-5 p-6">
-                    <div class="overflow-hidden rounded-lg">
-                      {contribution.data.bannerImage ? (
-                        <Image
-                          src={contribution.data.bannerImage}
-                          alt={contribution.data.title}
-                          width={800}
-                          height={450}
-                          class="h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
-                        />
-                      ) : (
-                        <img
-                          src="/images/contributions/thumbnail-background.png"
-                          alt={contribution.data.title}
-                          class="h-44 w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03] group-hover:brightness-105"
-                        />
-                      )}
-                    </div>
-                    <p class="text-xs font-normal text-para">{contribution.data.contributors[0]}</p>
-                    <h3 class="text-xl font-semibold leading-snug text-foreground">
-                      {contribution.data.title}
-                    </h3>
-                    <div class="mt-auto pt-1">
-                      <div class="flex h-9 w-full items-center justify-center gap-1.5 rounded-md border bg-transparent px-3 text-xs font-medium text-foreground shadow-sm transition-colors group-hover:bg-neutral-200 dark:group-hover:bg-badgeColor">
-                        Read More
-                        {isExternal ? (
-                          <ArrowUpRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                        ) : (
-                          <ChevronRight size={13} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </a>
-            </div>
+              <PostCard
+                href={
+                  isExternal
+                    ? contribution.data.link
+                    : `/community/contributions/${contribution.id}`
+                }
+                external={isExternal}
+                title={contribution.data.title}
+                image={contribution.data.bannerImage}
+                tag={contribution.data.categories[0]}
+                contributor={contribution.data.contributors[0]}
+                pubDate={contribution.data.pubDate}
+                readingTime={getReadingTime(contribution.body)}
+                data-category={
+                  contribution.data.categories[0]?.toLowerCase() ?? ""
+                }
+              />
             );
           })
         }
@@ -114,42 +93,52 @@ const categories = ["All Posts", "News", "Guides", "Articles", "Student Ambassad
 
 <script>
   function initFilters() {
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
-    const cards = document.querySelectorAll<HTMLElement>(".article-card");
+    const nav = document.querySelector("[data-contribution-categories]");
+    if (!nav) return;
+    const links = [
+      ...nav.querySelectorAll<HTMLAnchorElement>("[data-category-key]"),
+    ];
+    const scroller = nav.querySelector<HTMLElement>("[data-category-scroller]");
+    const cards = document.querySelectorAll<HTMLElement>("[data-category]");
 
-    filterBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const category = btn.getAttribute("data-category");
-
-        filterBtns.forEach((b) => {
-          b.classList.remove("bg-background", "text-foreground", "shadow-sm");
-          b.classList.add("text-para");
-        });
-        btn.classList.remove("text-para");
-        btn.classList.add("bg-background", "text-foreground", "shadow-sm");
-
-        cards.forEach((card) => {
-          if (
-            category === "All Posts" ||
-            card.getAttribute("data-category") === category
-          ) {
-            card.style.display = "";
-          } else {
-            card.style.display = "none";
-          }
-        });
+    const show = (key: string) => {
+      links.forEach((link) => {
+        if (link.dataset.categoryKey !== key) {
+          link.removeAttribute("aria-current");
+          return;
+        }
+        link.setAttribute("aria-current", "page");
+        // Centre the pill in a row that scrolls (phones); scrollIntoView
+        // would also scroll the page.
+        if (scroller && scroller.scrollWidth > scroller.clientWidth) {
+          scroller.scrollLeft =
+            link.offsetLeft - (scroller.clientWidth - link.offsetWidth) / 2;
+        }
       });
-    });
+      cards.forEach((card) => {
+        card.style.display =
+          key === "all" || card.dataset.category === key ? "" : "none";
+      });
+    };
 
-    const param = new URLSearchParams(window.location.search).get("category");
-    if (param) {
-      const match = Array.from(filterBtns).find(
-        (b) => b.getAttribute("data-category")?.toLowerCase() === param.toLowerCase(),
-      );
-      match?.click();
+    links.forEach((link) =>
+      link.addEventListener("click", (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+          return;
+        }
+        event.preventDefault();
+        show(link.dataset.categoryKey ?? "all");
+        window.history.replaceState(window.history.state, "", link.href);
+      }),
+    );
+
+    const param = new URLSearchParams(window.location.search)
+      .get("category")
+      ?.toLowerCase();
+    if (param && links.some((link) => link.dataset.categoryKey === param)) {
+      show(param);
     }
   }
 
-  initFilters();
   document.addEventListener("astro:page-load", initFilters);
 </script>

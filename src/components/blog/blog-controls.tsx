@@ -29,15 +29,21 @@ import {
   Loader2,
   SlidersHorizontal,
 } from "lucide-react";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type ComponentProps,
+  type ReactNode,
+} from "react";
 import { createPortal } from "react-dom";
 
 // Filter (topic and year checkboxes), sort and grid/list controls for the blog
 // listings, built from shadcn/ui Popover, Checkbox and DropdownMenu. The
 // listing pages stay static: while a filter or the oldest-first sort is
-// active, the cards come from /partials/blog-cards/ and are filtered, sorted
-// and paginated here. The state lives in the URL (?topic=…&year=…&sort=oldest);
-// the layout choice is kept in localStorage.
+// active, the cards come from /partials/blog-cards/ (The Bid passes its own
+// partial) and are filtered, sorted and paginated here. The state lives in the
+// URL (?topic=…&year=…&sort=oldest); the layout choice is kept in localStorage.
 
 export type BlogScope =
   | { kind: "all" }
@@ -48,6 +54,10 @@ interface Props {
   scope: BlogScope;
   topics: { slug: string; label: string }[];
   years: number[];
+  /** Card fragment to filter, e.g. /partials/bits-cards/. */
+  cardsUrl?: string;
+  /** Collection the search dialog searches. */
+  search?: ComponentProps<typeof SearchDialog>["source"];
 }
 
 type Sort = "newest" | "oldest";
@@ -65,11 +75,13 @@ interface Card {
 const splitList = (value?: string | null) =>
   (value ?? "").split(",").filter(Boolean);
 
-let cardsRequest: Promise<Card[]> | undefined;
+const cardsRequests = new Map<string, Promise<Card[]>>();
 
-/** Fetches and parses the card fragment once per page load. */
-function loadCards() {
-  cardsRequest ??= fetch("/partials/blog-cards/")
+/** Fetches and parses a card fragment once per page load. */
+function loadCards(url: string) {
+  const cached = cardsRequests.get(url);
+  if (cached) return cached;
+  const request = fetch(url)
     .then((response) => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.text();
@@ -89,10 +101,11 @@ function loadCards() {
         }));
     })
     .catch((error) => {
-      cardsRequest = undefined;
+      cardsRequests.delete(url);
       throw error;
     });
-  return cardsRequest;
+  cardsRequests.set(url, request);
+  return request;
 }
 
 const toggle = (values: string[], value: string) =>
@@ -100,7 +113,13 @@ const toggle = (values: string[], value: string) =>
     ? values.filter((item) => item !== value)
     : [...values, value];
 
-export default function BlogControls({ scope, topics, years }: Props) {
+export default function BlogControls({
+  scope,
+  topics,
+  years,
+  cardsUrl = "/partials/blog-cards/",
+  search = "blog",
+}: Props) {
   const [ready, setReady] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
@@ -169,17 +188,17 @@ export default function BlogControls({ scope, topics, years }: Props) {
     if (!active || cards) return;
     let cancelled = false;
     setLoadFailed(false);
-    loadCards().then(
+    loadCards(cardsUrl).then(
       (loaded) => !cancelled && setCards(loaded),
       (error) => {
-        console.error("Couldn't load the blog cards for filtering:", error);
+        console.error(`Couldn't load ${cardsUrl} for filtering:`, error);
         if (!cancelled) setLoadFailed(true);
       },
     );
     return () => {
       cancelled = true;
     };
-  }, [results, active, cards, attempt]);
+  }, [results, active, cards, attempt, cardsUrl]);
 
   const matches = useMemo(() => {
     if (!cards) return [];
@@ -222,7 +241,7 @@ export default function BlogControls({ scope, topics, years }: Props) {
 
   return (
     <div className="flex items-center gap-1">
-      <SearchDialog />
+      <SearchDialog source={search} />
 
       {(topics.length > 0 || years.length > 0) && (
         <Popover open={filterOpen} onOpenChange={setFilterOpen}>
