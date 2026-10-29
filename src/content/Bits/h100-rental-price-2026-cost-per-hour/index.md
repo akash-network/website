@@ -1,7 +1,7 @@
 ---
 title: "H100 Rental Price in September 2026: Cost Per Hour by GPU Provider"
 pubDate: 2026-08-19
-lastUpdated: 2026-10-22
+lastUpdated: 2026-10-29
 author: "Sandeep Narahari, Contributor"
 description: "How much does an NVIDIA H100 cost to rent in September 2026? Compare H100 prices from Akash, GPU clouds, and hyperscalers, with rates ranging from about $2 to $12 per GPU-hour."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 2026.*
+_By Sandeep Narahari, Contributor. Last updated: October 2026._
 
 Renting an NVIDIA [H100](https://www.nvidia.com/en-us/data-center/h100/) costs about \$2 to \$12 per GPU-hour on-demand in 2026. Most single-GPU on-demand rates cluster between \$2 and \$7, interruptible spot capacity can dip below \$2, and the priciest hyperscaler 8-GPU nodes reach roughly \$12.29 per GPU-hour. One widely cited aggregator puts the market median near \$3.39.
 
@@ -31,23 +31,41 @@ An H100 rents for about \$2 to \$12 per GPU-hour on-demand in 2026, depending on
 
 Prices checked September 12, 2026, in US regions. Rates elsewhere can differ by 5% to 20%, and marketplace rates move continuously.
 
-| Provider | Instance / SKU | Form factor | Billing type | Rate per GPU-hour |
-|---|---|---|---|---|
-| Vast.ai | Marketplace host | Mixed | Marketplace (interruptible) | ~\$1.73 and up |
-| [RunPod](https://www.runpod.io/pricing) | Community Cloud | PCIe | On-demand | ~\$1.99 |
-| Akash | Marketplace | SXM5 | Marketplace | ~\$2.73 |
-| RunPod | Secure Cloud | PCIe | On-demand | ~\$2.89 |
-| Lambda | On-demand | PCIe | On-demand | ~\$3.29 |
-| Lambda | On-demand | SXM5 | On-demand | ~\$3.99 |
-| CoreWeave | HGX H100 (8-GPU) | SXM5 | On-demand (8-GPU bundle) | ~\$6.16 |
-| [AWS](https://aws.amazon.com/ec2/instance-types/p5/) | p5.4xlarge (1x), p5.48xlarge (8x) | SXM5 | On-demand | ~\$6.88 |
-| [Azure](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/) | NC40ads H100 v5 (1x) | NVL (94GB) | On-demand | ~\$6.98 |
-| [Google Cloud](https://cloud.google.com/compute/gpus-pricing) | a3-highgpu-8g (8x) | SXM5 | On-demand | ~\$11.06 |
-| Azure | ND96isr H100 v5 (8x) | SXM5 | On-demand | ~\$12.29 |
+| Provider                                                                     | Instance / SKU                    | Form factor | Billing type                | Rate per GPU-hour |
+| ---------------------------------------------------------------------------- | --------------------------------- | ----------- | --------------------------- | ----------------- |
+| Vast.ai                                                                      | Marketplace host                  | Mixed       | Marketplace (interruptible) | ~\$1.73 and up    |
+| [RunPod](https://www.runpod.io/pricing)                                      | Community Cloud                   | PCIe        | On-demand                   | ~\$1.99           |
+| Akash                                                                        | Marketplace                       | SXM5        | Marketplace                 | ~\$2.73           |
+| RunPod                                                                       | Secure Cloud                      | PCIe        | On-demand                   | ~\$2.89           |
+| Lambda                                                                       | On-demand                         | PCIe        | On-demand                   | ~\$3.29           |
+| Lambda                                                                       | On-demand                         | SXM5        | On-demand                   | ~\$3.99           |
+| CoreWeave                                                                    | HGX H100 (8-GPU)                  | SXM5        | On-demand (8-GPU bundle)    | ~\$6.16           |
+| [AWS](https://aws.amazon.com/ec2/instance-types/p5/)                         | p5.4xlarge (1x), p5.48xlarge (8x) | SXM5        | On-demand                   | ~\$6.88           |
+| [Azure](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/) | NC40ads H100 v5 (1x)              | NVL (94GB)  | On-demand                   | ~\$6.98           |
+| [Google Cloud](https://cloud.google.com/compute/gpus-pricing)                | a3-highgpu-8g (8x)                | SXM5        | On-demand                   | ~\$11.06          |
+| Azure                                                                        | ND96isr H100 v5 (8x)              | SXM5        | On-demand                   | ~\$12.29          |
 
 Source: [GetDeploying H100 index](https://getdeploying.com/gpus/nvidia-h100), cross-checked against each provider's own pricing page, all checked September 12, 2026. Akash figure is the live weighted-average rate shown on the [Akash GPU pricing page](/pricing/gpus/h100/), sourced from the [Akash console GPU pricing API](https://console-api.akash.network/v1/gpu-prices), checked October 22, 2026 (range on that date: \$2.04 to \$3.16) — check the current number before deploying, since the live rate varies with marketplace supply.
 
 Two cautions on reading this table. First, these are different products: a marketplace host, a single-GPU PCIe instance, and an 8-GPU SXM node carry different performance, interconnect, and reliability, so a like-for-like comparison means matching form factor and node size, not just the dollar figure. Second, the AWS, Azure, and Google rates are standard on-demand list prices; the same providers sell the identical hardware for materially less through spot and multi-year commitments, covered next. For a worked example of what an Akash H100 rate means for a real workload's monthly bill, see the [Qwen self-hosting cost breakdown](/the-bid/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/).
+
+## How much does an H100 cost per month and per year?
+
+An H100 on Akash costs about \$2.73 an hour, \$1,966 a month, and \$23,915 a year if it runs nonstop. An 8-GPU node costs about \$21.84 an hour, \$15,725 a month, and \$191,318 a year.
+
+| Duration          | 1x H100 on Akash (USD) | 8x H100 node on Akash (USD) |
+| ----------------- | ---------------------- | --------------------------- |
+| 1 hour            | \$2.73                 | \$21.84                     |
+| 24 hours          | \$65.52                | \$524.16                    |
+| 1 week (168 hr)   | \$458.64               | \$3,669.12                  |
+| 1 month (720 hr)  | \$1,965.60             | \$15,724.80                 |
+| 1 year (8,760 hr) | \$23,914.80            | \$191,318.40                |
+
+Rate: the \$2.73 per GPU-hour weighted-average marketplace figure from the table above, checked October 22, 2026. Marketplace rates move with supply, so treat these as planning numbers rather than a quote.
+
+Few deployments run nonstop. Scale a GPU down overnight so it runs 16 hours a day and a month is 480 hours, not 720: about \$1,310 per GPU, or \$10,483 for a full node. On-demand billing stops when the deployment does.
+
+For the previous generation, an 80GB A100 averages \$1.49 per GPU-hour on Akash, per the [A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/), checked October 22, 2026 — roughly \$1,073 a month nonstop against the H100's \$1,966. That gap is the real question behind most H100-versus-A100 budgets: the H100 costs about 83% more per hour, so it only wins on total cost when it finishes the job enough faster to make up the difference.
 
 ## Why did H100 rental prices go up in 2026?
 
@@ -67,12 +85,12 @@ Marketplace and specialized GPU clouds are both usually cheaper than hyperscaler
 
 A hyperscaler is a large general-purpose cloud such as AWS, Microsoft Azure, or Google Cloud. A marketplace GPU cloud, like Akash, lets multiple providers bid to fill capacity, which tends to push rates toward the market floor. A specialized GPU cloud is a fixed-rate provider built specifically for AI compute. All three rent the same class of NVIDIA H100, but their pricing reflects very different cost structures.
 
-| Provider category | Example H100 on-demand rate (USD per GPU-hour) | Relative cost |
-|---|---|---|
-| Marketplace / community / spot | ~\$1.50 to \$2 | Lowest |
-| Specialized GPU cloud (fixed-rate) | ~\$2.50 to \$4 | Low to mid |
-| Hyperscaler (single-GPU) | ~\$6.88 to \$6.98 | High |
-| Hyperscaler (8-GPU SXM node) | ~\$11.06 to \$12.29 | Highest |
+| Provider category                  | Example H100 on-demand rate (USD per GPU-hour) | Relative cost |
+| ---------------------------------- | ---------------------------------------------- | ------------- |
+| Marketplace / community / spot     | ~\$1.50 to \$2                                 | Lowest        |
+| Specialized GPU cloud (fixed-rate) | ~\$2.50 to \$4                                 | Low to mid    |
+| Hyperscaler (single-GPU)           | ~\$6.88 to \$6.98                              | High          |
+| Hyperscaler (8-GPU SXM node)       | ~\$11.06 to \$12.29                            | Highest       |
 
 Source: [CloudZero](https://www.cloudzero.com/blog/h100-gpu-cost/), checked September 12, 2026. Takeaway: the gap between marketplace/specialized rates and hyperscaler rates holds even before spot or reserved discounts are applied.
 
@@ -84,12 +102,12 @@ Spot is the cheapest H100 pricing model, reserved sits in the middle, and on-dem
 
 On-demand means paying the posted hourly rate with no commitment. Reserved means committing to a one-year or three-year term for a discount. Spot, also called interruptible, is unused inventory sold cheap that the provider can reclaim at short notice.
 
-| Billing model | Typical price vs on-demand | Example rate (from ~\$3.39 median) | Best for |
-|---|---|---|---|
-| On-demand | Baseline | ~\$3.39/hr | Bursty, experimental, short jobs |
-| 1-year reserved | ~28% less | ~\$2.44/hr | Steady, predictable workloads |
-| 3-year reserved | ~49% less | ~\$1.73/hr | Long-term production at scale |
-| Spot / interruptible | ~47% to 53% less | ~\$1.60 to \$1.80/hr | Checkpointed training, batch jobs |
+| Billing model        | Typical price vs on-demand | Example rate (from ~\$3.39 median) | Best for                          |
+| -------------------- | -------------------------- | ---------------------------------- | --------------------------------- |
+| On-demand            | Baseline                   | ~\$3.39/hr                         | Bursty, experimental, short jobs  |
+| 1-year reserved      | ~28% less                  | ~\$2.44/hr                         | Steady, predictable workloads     |
+| 3-year reserved      | ~49% less                  | ~\$1.73/hr                         | Long-term production at scale     |
+| Spot / interruptible | ~47% to 53% less           | ~\$1.60 to \$1.80/hr               | Checkpointed training, batch jobs |
 
 Source: [GetDeploying GPU Price Index](https://getdeploying.com/gpu-price-index), 2026. On hyperscalers the same pattern holds: AWS and Azure spot rates commonly run 60% to 80% below on-demand, and multi-year commitments cut the effective rate by roughly a third to a half.
 
@@ -119,12 +137,12 @@ In broad terms the H100 sits between the newest Blackwell parts and the previous
 
 For large-model training and high-throughput inference, the [B300, B200, and H200](/the-bid/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/) offer more memory and throughput at a higher hourly rate, which can still win on total job cost when they finish faster. For smaller models, the previous-generation A100 is frequently cheaper per hour and adequate, as the [A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/) covers in detail — and for many of those models, a single H100 is enough on its own, as this [Nemotron single-GPU setup](/the-bid/run-nvidia-nemotron-3-5-lightning-on-one-gpu-vllm-setup-for-h100-a100-on-akash/) shows. The H100 costs more per hour than the A100 but runs many training and inference jobs faster, so the two can land close on cost per token when the H100 finishes sooner; the exact ratio depends on the workload.
 
-| GPU generation | Example model | Relative on-demand price vs H100 | Typical fit |
-|---|---|---|---|
-| Blackwell (newest) | B200, B300 | Higher | Frontier training, largest models |
-| Hopper | H200 | Slightly higher | Memory-bound inference, 70B+ models |
-| Hopper | H100 | Baseline | General training and inference |
-| Ampere (prior gen) | A100 80GB | Lower | Fine-tuning, mid-size models |
+| GPU generation     | Example model                                            | Relative on-demand price vs H100 | Typical fit                         |
+| ------------------ | -------------------------------------------------------- | -------------------------------- | ----------------------------------- |
+| Blackwell (newest) | [B200](/pricing/gpus/b200/), [B300](/pricing/gpus/b300/) | Higher                           | Frontier training, largest models   |
+| Hopper             | H200                                                     | Slightly higher                  | Memory-bound inference, 70B+ models |
+| Hopper             | H100                                                     | Baseline                         | General training and inference      |
+| Ampere (prior gen) | A100 80GB                                                | Lower                            | Fine-tuning, mid-size models        |
 
 The takeaway: the cheapest GPU-hour is not always the cheapest job. A faster card at a higher rate can finish sooner and cost less overall, so compare cost per completed run alongside the hourly rate, with the caveat that this depends on the specific workload and how well it uses the extra memory and throughput.
 
