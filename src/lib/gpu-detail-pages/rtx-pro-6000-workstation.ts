@@ -17,6 +17,8 @@ const UPDATED = SNAPSHOT_DATE;
 const AS_OF = liveDate(UPDATED);
 const { rate: RATE } = livePriceLabels(HOURLY);
 
+const COMPARISON_POST = "/the-bid/rtx-pro-6000-blackwell-vs-h100-vs-h200-2026/";
+
 const sales: GpuLink = {
   label: "Talk to sales",
   href: "/gpus-on-demand",
@@ -65,6 +67,7 @@ export const rtxPro6000Workstation: GpuDetailPage = {
       },
       { livePrice: true },
     ),
+    note: `For how it stacks up against the H100 and H200 on memory, throughput and hourly cost, see [RTX PRO 6000 vs H100 vs H200](${COMPARISON_POST}).`,
   },
   highlights: [
     {
