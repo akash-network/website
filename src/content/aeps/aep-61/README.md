@@ -2,7 +2,7 @@
 aep: 61
 title: "Enhanced Read Performance Onchain Queries"
 author: Artur Troian (@troian)
-status: Last Call
+status: Final
 type: Standard
 category: Core
 created: 2025-01-30

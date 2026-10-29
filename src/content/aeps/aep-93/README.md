@@ -3,11 +3,11 @@ aep: 93
 title: "Console: Async Actions & Notification Center"
 description: "Run blockchain actions as persistent server-side jobs and show their progress, together with alerts, in an in-app notification center instead of a blocking modal"
 author: Maxime Beauchamp (@baktun14)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2026-09-04
-estimated-completion: 2026-12-31
+completed: 2026-10-28
 discussions-to: https://github.com/orgs/akash-network/discussions
 roadmap: minor
 requires: 63, 84
@@ -125,7 +125,24 @@ Behind a feature flag, in this order: the feed and its read-only notification ce
 
 ## Implementations
 
-Not started. The reference implementation lands in `akash-network/console` in the order given in section F, behind a feature flag. The AEP moves to Last Call once the idempotency properties have been proven with fault-injection tests and the fire-and-forget actions have migrated.
+All in `akash-network/console`, merged between 2026-10-05 and 2026-10-28. Background actions and the notification center were on for every user from 2026-10-21. The flags and the blocking transaction dialog were removed on 2026-10-28.
+
+The build departs from the design above. By the time work started, the web app sent creates, leases and updates through the domain endpoints rather than `POST /v1/tx`, so the asynchronous mode lives on those endpoints:
+
+- `?async=true` works on `POST /v1/deployments`, `DELETE /v1/deployments/{dseq}`, `PATCH /v1/deployments/{dseq}` and `POST /v1/leases`. `POST /v1/tx` stays synchronous. Calls without `async` answer as before, and their outcome still lands in the feed.
+- There is no generic transaction engine and no sign-only signer call. Instead each operation is safe to repeat: a close is idempotent, and a create or lease that already landed is adopted rather than sent again. When the signer cannot tell whether a transaction landed, it returns the hash ([#3804](https://github.com/akash-network/console/pull/3804)) and the activity stays pending until that hash is looked up.
+
+| Area | Pull requests |
+|---|---|
+| Activity feed, bell, history page and toasts | [#4206](https://github.com/akash-network/console/pull/4206), [#4233](https://github.com/akash-network/console/pull/4233), [#4250](https://github.com/akash-network/console/pull/4250), [#4289](https://github.com/akash-network/console/pull/4289), [#4293](https://github.com/akash-network/console/pull/4293), [#4300](https://github.com/akash-network/console/pull/4300), [#4343](https://github.com/akash-network/console/pull/4343), [#4348](https://github.com/akash-network/console/pull/4348), [#4352](https://github.com/akash-network/console/pull/4352), [#4464](https://github.com/akash-network/console/pull/4464), [#4526](https://github.com/akash-network/console/pull/4526), [#4533](https://github.com/akash-network/console/pull/4533), [#4589](https://github.com/akash-network/console/pull/4589) |
+| Close in the background | [#4223](https://github.com/akash-network/console/pull/4223), [#4245](https://github.com/akash-network/console/pull/4245), [#4247](https://github.com/akash-network/console/pull/4247), [#4255](https://github.com/akash-network/console/pull/4255), [#4257](https://github.com/akash-network/console/pull/4257), [#4260](https://github.com/akash-network/console/pull/4260), [#4264](https://github.com/akash-network/console/pull/4264), [#4265](https://github.com/akash-network/console/pull/4265), [#4271](https://github.com/akash-network/console/pull/4271), [#4272](https://github.com/akash-network/console/pull/4272), [#4285](https://github.com/akash-network/console/pull/4285), [#4453](https://github.com/akash-network/console/pull/4453) |
+| Create in the background | [#4302](https://github.com/akash-network/console/pull/4302), [#4345](https://github.com/akash-network/console/pull/4345), [#4357](https://github.com/akash-network/console/pull/4357), [#4359](https://github.com/akash-network/console/pull/4359), [#4360](https://github.com/akash-network/console/pull/4360), [#4527](https://github.com/akash-network/console/pull/4527), [#4529](https://github.com/akash-network/console/pull/4529), [#4601](https://github.com/akash-network/console/pull/4601), [#4603](https://github.com/akash-network/console/pull/4603), [#4604](https://github.com/akash-network/console/pull/4604) |
+| Accepting a bid in the background | [#4342](https://github.com/akash-network/console/pull/4342), [#4347](https://github.com/akash-network/console/pull/4347), [#4553](https://github.com/akash-network/console/pull/4553) |
+| Update in the background | [#4301](https://github.com/akash-network/console/pull/4301), [#4346](https://github.com/akash-network/console/pull/4346), [#4354](https://github.com/akash-network/console/pull/4354), [#4588](https://github.com/akash-network/console/pull/4588), [#4594](https://github.com/akash-network/console/pull/4594), [#4595](https://github.com/akash-network/console/pull/4595) |
+| Closes Console makes for the user | [#4341](https://github.com/akash-network/console/pull/4341), [#4344](https://github.com/akash-network/console/pull/4344), [#4503](https://github.com/akash-network/console/pull/4503), [#4504](https://github.com/akash-network/console/pull/4504) |
+| Alerts in the feed | [#4353](https://github.com/akash-network/console/pull/4353), [#4356](https://github.com/akash-network/console/pull/4356), [#4358](https://github.com/akash-network/console/pull/4358) |
+| Observability | [#4350](https://github.com/akash-network/console/pull/4350) |
+| Flag removal and legacy path cleanup | [#4615](https://github.com/akash-network/console/pull/4615), [#4616](https://github.com/akash-network/console/pull/4616), [#4624](https://github.com/akash-network/console/pull/4624) |
 
 ## Security Considerations
 
