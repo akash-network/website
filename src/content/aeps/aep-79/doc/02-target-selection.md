@@ -4,22 +4,23 @@
 |---|---|
 | **Document** | 02. Target selection |
 | **Doc ID** | AKASH-MIG-02 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Akash leadership & community, Vendor engagement lead |
-| **Status** | Analysis; target selected only at Gate 0 |
+| **Status** | Analysis; core team selected Path A, confirmed at Gate 0 when the migration proposal passes (D-01) |
 
 ## Purpose
 
 Establish the option space for Akash's execution environment after leaving its sovereign Cosmos SDK
 chain, evaluate the options against weighted criteria derived from the migration drivers, and define
-the evidence framework by which the target is selected at Gate 0 (D-01). This document exists so that
-Gate 0 is a decision over evidence, not a debate over vibes.
+the evidence framework by which Gate 0 confirms the target selection (D-01: the core team has
+selected Path A, confirmed at Gate 0 when the migration proposal passes). This document exists so
+that Gate 0 is a decision over evidence, not a debate over vibes.
 
 ## In scope
 
-- Migration drivers and the requirements they impose on a target (REQ-GEN-001..020).
+- Migration drivers and the requirements they impose on a target (REQ-GEN-001..023).
 - Option space: Solana mainnet; an existing EVM L2; dedicated Arbitrum Orbit rollup; Ethereum L1; SVM L2;
   stay-Cosmos with shared security; status quo.
 - Gate 0 evidence items and the Gate 0 process.
@@ -126,8 +127,8 @@ SHALL be modelled at current, 3× and 10× load before Gate 0 sign-off.
 
 | # | Option | One-line description | Status |
 |---|---|---|---|
-| A | **Solana mainnet** | Programs on Solana L1 | **Candidate path A (D-01; selected at Gate 0)** |
-| B1 | **Existing EVM L2** | EVM contracts on an established general-purpose L2; host chain selected per Q-42 (candidates: Base, Arbitrum One, Robinhood Chain) | **Candidate path B (D-01; selected at Gate 0)**; fully specified in [04](./04-ethereum-architecture.md) |
+| A | **Solana mainnet** | Programs on Solana L1 | **Path A: core team selection (D-01); confirmed at Gate 0** |
+| B1 | **Existing EVM L2** | EVM contracts on an established general-purpose L2; host chain selected per Q-42 (candidates: Base, Arbitrum One, Robinhood Chain) | **Path B: alternate (D-01)**; fully specified in [04](./04-ethereum-architecture.md) |
 | B2 | Dedicated Arbitrum Orbit chain | Own EVM rollup, AKT as gas | Specified as variant in [04](./04-ethereum-architecture.md); non-default (D-02) |
 | B3 | Ethereum L1 | Contracts directly on mainnet | Rejected |
 | C | SVM L2 (Eclipse/Termina-class) | Own SVM chain or shared SVM L2 | Not a candidate; noted as future option |
@@ -234,10 +235,17 @@ growing liability as upstream Cosmos consolidates). Baseline, not a plan.
 
 ## 4. Gate 0 selection
 
-### 4.1 D-01: two candidate paths, one selection at Gate 0
+### 4.1 D-01: core team selection of Path A, confirmed at Gate 0
+
+**Core team selection (2026-10-20).** The core team has selected Path A (Solana). Gate 0 confirms
+that selection when the migration proposal passes on `akashnet-2` (REQ-GEN-022). Because the SPL
+AKT token launches and the migration portal opens one week after that vote (L = V + 7d, D-25),
+Path A token and portal work proceeds before Gate 0 so that gate GT (token launch readiness)
+passes before the migration proposal is submitted (REQ-GEN-023, D-25.c). Path B stays specified at
+equal depth as the alternate (§4.2).
 
 Both candidate paths clear the §2 requirements as of 2026-08. They differ in the *kind* of strength
-they offer, and Gate 0 weighs verified evidence of each:
+they offer, and the selection and its Gate 0 confirmation weigh verified evidence of each:
 
 - **What weighs toward A (Solana):** the DePIN category and both relevant migration precedents live
   there (Akash would follow a proven playbook into its own buyer/seller ecosystem rather than
@@ -273,18 +281,28 @@ at Gate 0:
 6. The EVM claims-verification gas benchmark and paymaster viability at projected claim volumes miss
    the [04](./04-ethereum-architecture.md) targets with no mitigation.
 
-Gate 0 selects the path whose verified evidence pack is stronger. A failed viability check on either
-path moves the selection to the other, with Stage A work carrying over intact (the migration engine,
-tokenomics model, and off-chain adapter design are target-neutral by construction).
+Gate 0 confirms the core team's selection of Path A when its verified evidence pack holds. A failed
+viability check on Path A moves the selection to Path B, with Stage A work carrying over intact (the
+migration engine, tokenomics model, and off-chain adapter design are target-neutral by
+construction).
 
 ### 4.3 Gate 0 process
 
-**REQ-GEN-017** Gate 0 SHALL comprise: (i) publication of the kickoff verification report
-(evidence items + volatile-fact re-verification per [13 §4](./13-open-questions-and-assumptions.md));
-(ii) a community signal proposal on `akashnet-2` presenting this document and the verification
-report; (iii) leadership/steering sign-off recorded in the decision log; (iv) Vendor Stage B
-authorization for exactly one path. Gate 0 closes phase P0
-([10](./10-rollout-and-cutover.md)).
+Gate 0 confirms the core team's selection of Path A (D-01). Under D-25 the governance sequence on
+`akashnet-2` opens with the **migration proposal** (formerly the non-binding signal proposal),
+which approves the migration to Solana and authorizes the token launch at L = V + 7d and the
+migration portal; its passage (V) closes Gate 0. Because L follows V by only 7 days, gate GT
+(token launch readiness, [10](./10-rollout-and-cutover.md)) passes before the migration proposal is
+submitted. The later **cutover proposal** (formerly the binding approval) fixes the sunset upgrade,
+the C height formula and H = C + 90d. REQ-GEN-021 to REQ-GEN-023 below carry this sequence;
+REQ-GEN-017 and REQ-GEN-020 are withdrawn.
+
+**REQ-GEN-017** **[WITHDRAWN: superseded by D-25]** Replaced by REQ-GEN-022. ~~Gate 0 SHALL
+comprise: (i) publication of the kickoff verification report (evidence items + volatile-fact
+re-verification per [13 §4](./13-open-questions-and-assumptions.md)); (ii) a community signal
+proposal on `akashnet-2` presenting this document and the verification report; (iii)
+leadership/steering sign-off recorded in the decision log; (iv) Vendor Stage B authorization for
+exactly one path. Gate 0 closes phase P0 ([10](./10-rollout-and-cutover.md)).~~
 
 **REQ-GEN-018** No Stage B (single-path) implementation work SHALL begin before Gate 0; Stage A
 work SHALL be limited to target-neutral deliverables plus the two prototype spikes (Q-15 Solana
@@ -295,9 +313,32 @@ daemon integration; EVM claims-verification gas benchmark).
 architecture document SHALL be marked `[ALTERNATE - NOT SELECTED]` in its metadata table but
 retained in the set.
 
-**REQ-GEN-020** The community signal proposal SHALL disclose, plainly: the end of sovereign staking
-(and validator income), the claims process obligations on holders, the wind-down timeline for live
-leases, and the point of no return (S1), with no ambiguity about irreversibility.
+**REQ-GEN-020** **[WITHDRAWN: superseded by D-25]** Replaced by REQ-GEN-021. ~~The community
+signal proposal SHALL disclose, plainly: the end of sovereign staking (and validator income), the
+claims process obligations on holders, the wind-down timeline for live leases, and the point of no
+return (S1), with no ambiguity about irreversibility.~~
+
+**REQ-GEN-021** The migration proposal on `akashnet-2` SHALL disclose, plainly and with no
+ambiguity about irreversibility: (i) the end of staking rewards at C and of validator income at H;
+(ii) that migration through the portal is one-way and irreversible, with no path back from SPL AKT
+to AKT on `akashnet-2`; (iii) the 2-year portal window counted from L (D-25.a); (iv) that bonded
+and unbonding AKT must be unbonded (14 days) and then migrated; (v) the wind-down timeline for live
+leases; and (vi) the points of no return: L for the token and C for the marketplace. Replaces
+REQ-GEN-020. What the proposal discloses about a marketplace migration that stops after L (the cutover
+proposal fails or the program aborts before C) is open in Q-51, needed by GT.
+
+**REQ-GEN-022** Gate 0 SHALL comprise: (i) publication of the kickoff verification report
+(evidence items + volatile-fact re-verification per [13 §4](./13-open-questions-and-assumptions.md));
+(ii) the migration proposal passing on `akashnet-2` (V; quorum 20% of bonded stake, majority yes),
+approving the migration to Solana and authorizing the token launch at L = V + 7d and the migration
+portal (D-25); (iii) leadership/steering sign-off recorded in the decision log; (iv) Vendor Stage B
+authorization. Gate 0 closes phase P0 ([10](./10-rollout-and-cutover.md)). Replaces REQ-GEN-017.
+
+**REQ-GEN-023** Notwithstanding REQ-GEN-018, Path A token and migration-portal work (the SPL AKT
+mint, the portal and its verification path per Q-44) SHALL proceed before Gate 0 as a single-path
+exception, so that gate GT (token launch readiness, [10](./10-rollout-and-cutover.md)) passes
+before the migration proposal is submitted (D-25, D-25.c). All other Stage B work remains subject
+to REQ-GEN-018.
 
 ## 5. What Akash gives up, stated honestly
 
@@ -316,12 +357,12 @@ leases, and the point of no return (S1), with no ambiguity about irreversibility
 
 - [00. Executive summary](./00-executive-summary.md): condensed version of this analysis.
 - [03](./03-solana-architecture.md) / [04](./04-ethereum-architecture.md): the two target designs.
-- [13](./13-open-questions-and-assumptions.md): D-01/D-02 entries, evidence-linked questions
-  (Q-04, Q-05, Q-06, Q-15).
+- [13](./13-open-questions-and-assumptions.md): D-01/D-02/D-25 entries, evidence-linked questions
+  (Q-04, Q-05, Q-06, Q-15, Q-44).
 - [12](./12-risk-register.md), risks cited: Alpenglow window, Token-2022 gaps, exchange slippage,
   competitive adjacency.
 
 ## Feeds into
 
 Gate 0 (via [10](./10-rollout-and-cutover.md)); Vendor Stage A scope ([11](./11-scope-of-work.md));
-the community signal proposal.
+the migration proposal.

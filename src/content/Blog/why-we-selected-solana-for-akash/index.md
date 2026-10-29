@@ -45,7 +45,7 @@ That cost shows up in five places:
 - **Distribution.** Wallets, stablecoins, DeFi and retail attention are elsewhere. In 2025 and 2026 Kujira, Comdex, Picasso, Quasar and Evmos wound down, Neutron left Interchain Security, and Noble left for its own EVM chain on 2026-03-18.
 - **Talent.** The pools of Rust and Solidity developers dwarf the Cosmos SDK pool, so contributing to Akash gets easier on either target.
 
-Sovereignty does work for some apps. dYdX runs well as a Cosmos appchain because its order book needs custom block processing. Akash's marketplace does not, and that asymmetry is the case for leaving.
+dYdX runs well as a Cosmos appchain because its order book needs custom block processing. Akash's marketplace does not, and that asymmetry is the case for leaving.
 
 ## How we decided
 
@@ -124,7 +124,7 @@ Capacity is not a concern either. Solana blocks now hold 100M compute units, and
 
 More than 50 DePIN projects, worth about \$3.5B combined, settle on Solana: Helium, Render, io.net, Nosana and Hivemapper among them. Helium is the only network to retire its own L1 into another L1 at scale, in 2023, and it is healthy three years on. Render moved its token too.
 
-Their playbooks are the ones our plan uses. Render moved its token to Solana through an upgrade portal, the closest model for ours, and Helium's migration tooling is open for reuse. Akash follows a proven path into its own buyers' and sellers' ecosystem instead of pioneering into an empty one. io.net, with more than 100,000 GPUs, competes with Akash there, which also shows the demand is real.
+Their playbooks are the ones our plan uses. Render moved its token to Solana through an upgrade portal, the closest model for ours, and Helium's migration tooling is open for reuse. Akash follows a proven path into its own buyers' and sellers' ecosystem instead of pioneering into an empty one.
 
 ### Liquidity, users and institutional capital
 
