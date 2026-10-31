@@ -133,4 +133,4 @@ Conclusion
 
 At Akash, we believe that by using the power of a free market, we can unlock 85% of capacity in 8.4 million data centers currently underutilized today. We created the tools to activate an incentive structure that not only fairly distributes but will unlock network effects to accelerate growth.  
 
-Please [subscribe to our newsletter](https://akash.network/newsletter) to stay informed on future articles that might interest you.  Also, find us in our [community](https://akash.network/community) if you’d like to continue the conversation.
+Please subscribe to our newsletter to stay informed on future articles that might interest you.  Also, find us in our [community](https://akash.network/community) if you’d like to continue the conversation.

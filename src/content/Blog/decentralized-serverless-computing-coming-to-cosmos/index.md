@@ -69,7 +69,7 @@ If you’re a validator, or interested in becoming one, find out how you can ear
 
 ### **Join Us to Build the Future of the Cloud!**
 
-**Riot:** [**https://akash.network/chat**](https://akash.network/chat)
+**Riot:** [**https://discord.com/invite/akash**](https://discord.com/invite/akash)
 
 **Telegram:** [**https://t.me/AkashNW**](https://t.me/AkashNW)
 

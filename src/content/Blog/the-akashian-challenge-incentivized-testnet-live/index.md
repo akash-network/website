@@ -27,7 +27,7 @@ Use your technical and strategic prowess to out-maneuver opponents on your way t
 
 **Let the games begin!**
 
-[**Get Started Now**](https://akash.network/akashian/docs) **|** [**Learn More**](https://akash.network/challenge/)
+**Get Started Now** **|** [**Learn More**](https://akash.network/challenge/)
 
 ### **The Akashian Challenge Phase 1:**
 
@@ -47,8 +47,8 @@ Phase 1 comprises four separate week-long stages with different objectives. Part
 
 During Phase 1, we’ll be testing four releases of Akash Network in the span of four weeks starting April 30th, 2020:
 
-- Each of these releases have important milestones published [here](https://akash.network/akashian/phase1/plan).
-- Instructions for getting started on Centauri are published [here](https://akash.network/akashian/phase1/guide).
+- Each of these releases have important milestones published here.
+- Instructions for getting started on Centauri are published here.
 - Instructions for each release will be published before the week begins.
 
 ### **Release Schedule**
@@ -57,7 +57,7 @@ During Phase 1, we’ll be testing four releases of Akash Network in the span of
 
 ### **Reward Structure**
 
-Phase 1 has four categories of rewards a team can earn by completing tasks for the category. Each participant can earn up to 67,556 AKT. A detailed reward schedule for Phase 1 is published [here](https://akash.network/akashian/phase1/rewards). Below is a summary:
+Phase 1 has four categories of rewards a team can earn by completing tasks for the category. Each participant can earn up to 67,556 AKT. A detailed reward schedule for Phase 1 is published here. Below is a summary:
 
 ![](https://www.datocms-assets.com/45776/1620922441-screen-shot-2020-04-29-at-10-16-16-pm.png)
 
@@ -65,7 +65,7 @@ Phase 1 has four categories of rewards a team can earn by completing tasks for t
 
 Centauri is the first release of the testnet and has three critical milestones that eventually lead to the launch of the network on May 8th, 2020 1600 UTC.
 
-Follow the Phase 1 [guide](https://akash.network/akashian/phase1/guide) for instructions.
+Follow the Phase 1 guide for instructions.
 
 ![](https://www.datocms-assets.com/45776/1620922458-screen-shot-2020-04-29-at-10-17-41-pm.png)
 
@@ -91,4 +91,4 @@ Visit The Akashian Challenge page for a detailed schedule of rewards. A total of
 
 [Join our Telegram](https://t.me/AkashNW) for the latest announcements and news.
 
-[**Get Started Now**](https://akash.network/akashian/docs) **|** [**Learn More**](https://akash.network/challenge/)
+**Get Started Now** **|** [**Learn More**](https://akash.network/challenge/)
