@@ -2,6 +2,7 @@
 import FormattedDate from "@/components/formatted-date.astro";
 import { cn } from "@/lib/utils";
 import { Image } from "astro:assets";
+import { ArrowUpRight } from "lucide-react";
 
 // shadcn/ui Card (image card): media flush to the top, then a headline with
 // "date · category" above it and "author · reading time" below, on a px-6
@@ -10,10 +11,12 @@ import { Image } from "astro:assets";
 // against the ring. The image placeholder uses shadcn's neutral muted colour
 // as a literal because this site does not define --muted.
 // Inside a post grid set to list view (data-display="list" on group/posts)
-// the media is hidden.
+// the media is hidden. External cards open in a new tab and name the site
+// they lead to in place of the reading time.
 
 interface Props {
-  image: any;
+  /** Banner; the muted placeholder shows when there is none. */
+  image?: any;
   title: string;
   contributor: string;
   tag: string;
@@ -21,6 +24,8 @@ interface Props {
   href?: string;
   /** Minutes, from getReadingTime(post.body); omitted when unknown. */
   readingTime?: number;
+  /** href leaves the site: open it in a new tab and show its host. */
+  external?: boolean;
   hideTag?: boolean;
   hideDate?: boolean;
   hideAuthor?: boolean;
@@ -36,6 +41,7 @@ const {
   pubDate,
   href,
   readingTime,
+  external = false,
   hideTag = false,
   hideDate = false,
   hideAuthor = false,
@@ -43,10 +49,16 @@ const {
 } = Astro.props;
 
 const Root = href ? "a" : "article";
+const site =
+  external && href
+    ? new URL(href, Astro.url).hostname.replace(/^www\./, "")
+    : undefined;
 ---
 
 <Root
   href={href}
+  target={site ? "_blank" : undefined}
+  rel={site ? "noopener noreferrer" : undefined}
   class={cn(
     "group isolate flex h-full w-full flex-col overflow-hidden rounded-[14px] bg-background2 text-card-foreground ring-1 ring-foreground/10 transition-shadow hover:ring-foreground/20",
     href &&
@@ -57,14 +69,18 @@ const Root = href ? "a" : "article";
   <div
     class="aspect-video shrink-0 overflow-hidden bg-neutral-100 group-data-[display=list]/posts:hidden dark:bg-neutral-800"
   >
-    <Image
-      src={image}
-      alt={`banner image for the post ${title}`}
-      width={1200}
-      format="webp"
-      class="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
-      loading="lazy"
-    />
+    {
+      image && (
+        <Image
+          src={image}
+          alt={`banner image for the post ${title}`}
+          width={1200}
+          format="webp"
+          class="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
+          loading="lazy"
+        />
+      )
+    }
   </div>
 
   <div
@@ -98,17 +114,24 @@ const Root = href ? "a" : "article";
     </div>
 
     {
-      (!hideAuthor || (!hideDate && readingTime)) && (
+      (!hideAuthor || site || (!hideDate && readingTime)) && (
         <div class="mt-auto flex min-w-0 items-center gap-2 px-6 text-sm text-muted-foreground">
           {!hideAuthor && <span class="truncate">By {contributor}</span>}
-          {!hideAuthor && !hideDate && readingTime && (
+          {!hideAuthor && (site || (!hideDate && readingTime)) && (
             <span
               aria-hidden="true"
               class="size-1 shrink-0 rounded-full bg-current opacity-50"
             />
           )}
-          {!hideDate && readingTime && (
-            <span class="shrink-0">{readingTime} min read</span>
+          {site ? (
+            <span class="inline-flex shrink-0 items-center gap-1">
+              {site}
+              <ArrowUpRight className="size-3.5" aria-hidden="true" />
+              <span class="sr-only">(opens in a new tab)</span>
+            </span>
+          ) : (
+            !hideDate &&
+            readingTime && <span class="shrink-0">{readingTime} min read</span>
           )}
         </div>
       )
