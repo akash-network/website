@@ -81,6 +81,19 @@ export const redirects = {
     "/docs/developers/deployment/console-air/",
   "/docs/getting-started/intro-to-akash/payments/":
     "/docs/getting-started/how-funding-works/",
+  // The akt CLI moved out of Deployment; only its deployment pages stayed.
+  "/docs/developers/deployment/akt/installation":
+    "/docs/developers/akt/installation/",
+  "/docs/developers/deployment/akt/configuration":
+    "/docs/developers/akt/configuration/",
+  "/docs/developers/deployment/akt/queries-and-transactions":
+    "/docs/developers/akt/queries-and-transactions/",
+  "/docs/developers/deployment/akt/monitor": "/docs/developers/akt/monitor/",
+  "/docs/developers/deployment/akt/agent-skill":
+    "/docs/developers/akt/agent-skill/",
+  "/docs/developers/deployment/akt/mcp": "/docs/developers/akt/mcp/",
+  "/docs/developers/deployment/akt/commands-reference":
+    "/docs/developers/akt/commands-reference/",
   "/bits": "/the-bid",
   "/bits/": "/the-bid",
   "/bits/[...page]": "/the-bid/[...page]",

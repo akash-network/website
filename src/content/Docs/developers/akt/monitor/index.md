@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "akt CLI"]
 tags: ["akt", "CLI", "Monitoring", "Network", "Validators"]
-weight: 6
+weight: 5
 title: "Network Monitor"
 linkTitle: "Monitor"
 description: "Watch Akash consensus, provider fleet health, and Oracle/BME state in real time with akt monitor"
@@ -91,5 +91,5 @@ _The Oracle/BME dashboard combines price health, mint controls, collateral thres
 
 ## Related Resources
 
-- [Contexts & Configuration](/docs/developers/deployment/akt/configuration) - Where the default RPC endpoint comes from
-- [Commands Reference](/docs/developers/deployment/akt/commands-reference) - Complete `akt` command reference
+- [Contexts & Configuration](/docs/developers/akt/configuration) - Where the default RPC endpoint comes from
+- [Commands Reference](/docs/developers/akt/commands-reference) - Complete `akt` command reference
