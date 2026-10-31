@@ -17,6 +17,10 @@ const UPDATED = SNAPSHOT_DATE;
 const AS_OF = liveDate(UPDATED);
 const { rate: RATE } = livePriceLabels(HOURLY);
 
+const GUIDE_POST =
+  "/the-bid/nvidia-h200-gpu-guide-2026-specs-benchmarks-pricing/";
+const CONTEXT_POST = "/the-bid/h100-vs-h200-long-context-llms/";
+
 const reserve: GpuLink = {
   label: "Reserve H200 capacity",
   href: "/gpus-on-demand",
@@ -64,6 +68,7 @@ export const h200: GpuDetailPage = {
       },
       { livePrice: true },
     ),
+    note: `For benchmarks and rates across other providers, see the [NVIDIA H200 guide](${GUIDE_POST}).`,
     options: [
       {
         title: "On-demand",
@@ -213,8 +218,7 @@ export const h200: GpuDetailPage = {
     },
     {
       question: "What is the difference between the H200 and H100?",
-      answer:
-        "The H200 has the same compute as the H100 SXM but 141 GB of memory versus 80 GB and 1.4× the bandwidth. In NVIDIA's published benchmarks, the H200 delivers up to 1.9× higher Llama 2 70B inference throughput.",
+      answer: `The H200 has the same compute as the H100 SXM but 141 GB of memory versus 80 GB and 1.4× the bandwidth. In NVIDIA's published benchmarks, the H200 delivers up to 1.9× higher Llama 2 70B inference throughput. For what that extra memory is worth on long-context serving, see [H100 vs H200 for long-context LLMs](${CONTEXT_POST}).`,
     },
     {
       question: "How much does it cost to rent an NVIDIA H200?",

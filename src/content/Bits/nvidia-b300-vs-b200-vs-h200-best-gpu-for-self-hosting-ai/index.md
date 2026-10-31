@@ -1,7 +1,7 @@
 ---
 title: "NVIDIA B300 vs B200 vs H200: Best GPU for Self-Hosting AI Models in 2026"
 pubDate: 2026-08-12
-lastUpdated: 2026-10-22
+lastUpdated: 2026-10-29
 author: "Sandeep Narahari, Contributor"
 description: "Compare NVIDIA B300 vs B200 vs H200 for self-hosting AI models. See VRAM, performance, GPU requirements, pricing, model compatibility, and which GPU to choose."
 tags: ["Comparisons"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*Last updated: October 2026*
+_Last updated: October 2026_
 
 The [H200](/pricing/gpus/h200/) is the best-value choice for self-hosting AI models when the model fits within its 141GB of VRAM. Choose the [B200](/pricing/gpus/b200/) when you need Blackwell's FP4 support and additional memory, and choose the [B300](/pricing/gpus/b300/) when your model requires up to 288GB of VRAM per GPU.
 
@@ -29,15 +29,15 @@ Need bare-metal GPU access, or affordable, high-performance GPU compute? From tr
 
 The B300 leads on memory (288GB) and FP4 compute (15 PFLOPS dense), the B200 matches its 8 TB/s bandwidth with 192GB, and the H200 offers the smallest memory footprint but the lowest power draw, the lowest price, and the most mature deployment ecosystem of the three. The B300, officially named Blackwell Ultra, was announced at GTC in March 2025 and has been shipping in rack-scale systems since the second half of 2025, with individual cloud instances broadly listed through 2026.
 
-| Spec | B300 (Blackwell Ultra) | B200 (Blackwell) | H200 (Hopper) |
-|---|---|---|---|
-| VRAM (GB, HBM3e) | 288 | 192 | 141 |
-| Memory bandwidth (TB/s) | 8.0 | 8.0 | 4.8 |
-| Dense FP4 compute (PFLOPS) | 15 | 9 | Not supported |
-| Dense FP8 compute (PFLOPS) | 4.5 (unchanged from B200) | 4.5 | 1.98 |
-| NVLink per GPU (TB/s) | 1.8 (NVLink 5) | 1.8 (NVLink 5) | 0.9 (NVLink 4) |
-| TDP (W) | 1,400 | 1,000 | 700 |
-| 8-GPU node VRAM (GB) | 2,304 | 1,536 | 1,128 |
+| Spec                       | B300 (Blackwell Ultra)    | B200 (Blackwell) | H200 (Hopper)  |
+| -------------------------- | ------------------------- | ---------------- | -------------- |
+| VRAM (GB, HBM3e)           | 288                       | 192              | 141            |
+| Memory bandwidth (TB/s)    | 8.0                       | 8.0              | 4.8            |
+| Dense FP4 compute (PFLOPS) | 15                        | 9                | Not supported  |
+| Dense FP8 compute (PFLOPS) | 4.5 (unchanged from B200) | 4.5              | 1.98           |
+| NVLink per GPU (TB/s)      | 1.8 (NVLink 5)            | 1.8 (NVLink 5)   | 0.9 (NVLink 4) |
+| TDP (W)                    | 1,400                     | 1,000            | 700            |
+| 8-GPU node VRAM (GB)       | 2,304                     | 1,536            | 1,128          |
 
 Board-level note: the figures above are chip-level. NVIDIA's HGX board versions expose 180GB per B200 and 270GB per B300, with the full 192GB and 288GB reserved for Grace-paired GB200 and GB300 systems. Every model-fit conclusion in this post holds under either variant.
 
@@ -49,12 +49,12 @@ Two details matter for self-hosters. The B300 reaches its capacity by stacking H
 
 The right GPU is determined by the model you want to run: start with the model's checkpoint size, then account for KV cache, context length, and runtime overhead. By that measure, DeepSeek V4 Flash 0731 fits a single B300, GLM-5.2's official FP8 release needs 8x H200 or 4x B300, and Kimi K3 fits only an 8x B300 node among these three GPUs. Checkpoint sizes below come from our [self-hosting guide to Kimi K3, GLM-5.2, and DeepSeek V4 Flash 0731](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/), measured from each model's Hugging Face repository.
 
-| Model (official checkpoint) | Weights (GB) | Min B300 config | Min B200 config | Min H200 config |
-|---|---|---|---|---|
-| DeepSeek V4 Flash 0731 (MXFP4) | 156.4 | 1x (288GB) | 2x (384GB) | 2x (282GB) |
-| GLM-5.2 (INT4 community) | 368 to 388 | 2x (576GB) | 3x (576GB) | 4x (564GB) |
-| GLM-5.2 (FP8 official) | 755.6 | 4x (1,152GB) | 8x (1,536GB) | 8x (1,128GB) |
-| Kimi K3 (MXFP4) | 1,560 | 8x (2,304GB) | Does not fit 8x (1,536GB) | Does not fit 8x (1,128GB) |
+| Model (official checkpoint)    | Weights (GB) | Min B300 config | Min B200 config           | Min H200 config           |
+| ------------------------------ | ------------ | --------------- | ------------------------- | ------------------------- |
+| DeepSeek V4 Flash 0731 (MXFP4) | 156.4        | 1x (288GB)      | 2x (384GB)                | 2x (282GB)                |
+| GLM-5.2 (INT4 community)       | 368 to 388   | 2x (576GB)      | 3x (576GB)                | 4x (564GB)                |
+| GLM-5.2 (FP8 official)         | 755.6        | 4x (1,152GB)    | 8x (1,536GB)              | 8x (1,128GB)              |
+| Kimi K3 (MXFP4)                | 1,560        | 8x (2,304GB)    | Does not fit 8x (1,536GB) | Does not fit 8x (1,128GB) |
 
 The pattern: each memory tier unlocks a model class the tier below cannot hold on one node, and Kimi K3's 1.56TB checkpoint exceeds an entire 8x B200 node's aggregate VRAM before a single KV cache byte is allocated.
 
@@ -68,11 +68,11 @@ The single-GPU story is the B300's strongest card. At 288GB, one B300 holds Deep
 
 As of October 22, 2026, the [Akash marketplace](/pricing/gpus/) prices the **H200 at \$3.85/GPU-hr**, the **B200 at \$5.00/GPU-hr**, and the **B300 at \$6.00/GPU-hr**. For any quantity or term, use the [GPUs on demand](/gpus-on-demand/) request form.
 
-| GPU | Akash rate ($/GPU-hr) | Tracked market low ($/GPU-hr) | Tracked market median ($/GPU-hr) | Tracked market high ($/GPU-hr) |
-|---|---|---|---|---|
-| H200 | 3.85 (Oct 22 2026) | 3.36 | 4.00 to 4.39 | ~13.78 (hyperscaler, normalized) |
-| B200 | 5.00 (Oct 22 2026) | 5.29 (on-demand); 3.35 (reserved) | ~6.14 | 7.05 (on-demand survey) |
-| B300 | 6.00 (Oct 22 2026) | 7.39 (on-demand); 3.86 (60-mo reserved) | 8.31 | 17.80 |
+| GPU  | Akash rate ($/GPU-hr) | Tracked market low ($/GPU-hr)           | Tracked market median ($/GPU-hr) | Tracked market high ($/GPU-hr)   |
+| ---- | --------------------- | --------------------------------------- | -------------------------------- | -------------------------------- |
+| H200 | 3.85 (Oct 22 2026)    | 3.36                                    | 4.00 to 4.39                     | ~13.78 (hyperscaler, normalized) |
+| B200 | 5.00 (Oct 22 2026)    | 5.29 (on-demand); 3.35 (reserved)       | ~6.14                            | 7.05 (on-demand survey)          |
+| B300 | 6.00 (Oct 22 2026)    | 7.39 (on-demand); 3.86 (60-mo reserved) | 8.31                             | 17.80                            |
 
 The takeaway: the spread between the cheapest and most expensive listings for identical silicon runs 2x to 4x at every tier, and the B300's listed premium over the H200 on Akash (56%) is far smaller than its 104% memory advantage.
 
@@ -80,14 +80,14 @@ Market figures above come from independent price aggregators, all carrying Augus
 
 Node-level math at Akash rates puts real workloads in monthly terms:
 
-| Configuration | Aggregate VRAM (GB) | Hourly ($) | Monthly at 24/7 ($) | Runs |
-|---|---|---|---|---|
-| 1x B300 | 288 | 6.00 | ~4,380 | DeepSeek V4 Flash 0731 |
-| 2x H200 | 282 | 7.70 | ~5,621 | DeepSeek V4 Flash 0731 |
-| 4x H200 | 564 | 15.40 | ~11,242 | GLM-5.2 INT4 |
-| 8x H200 | 1,128 | 30.80 | ~22,484 | GLM-5.2 FP8 |
-| 8x B200 | 1,536 | 40.00 | ~29,200 | GLM-5.2 FP8 + full-context KV |
-| 8x B300 | 2,304 | 48.00 | ~35,040 | Kimi K3 |
+| Configuration | Aggregate VRAM (GB) | Hourly ($) | Monthly at 24/7 ($) | Runs                          |
+| ------------- | ------------------- | ---------- | ------------------- | ----------------------------- |
+| 1x B300       | 288                 | 6.00       | ~4,380              | DeepSeek V4 Flash 0731        |
+| 2x H200       | 282                 | 7.70       | ~5,621              | DeepSeek V4 Flash 0731        |
+| 4x H200       | 564                 | 15.40      | ~11,242             | GLM-5.2 INT4                  |
+| 8x H200       | 1,128               | 30.80      | ~22,484             | GLM-5.2 FP8                   |
+| 8x B200       | 1,536               | 40.00      | ~29,200             | GLM-5.2 FP8 + full-context KV |
+| 8x B300       | 2,304               | 48.00      | ~35,040             | Kimi K3                       |
 
 The takeaway hiding in that table: at listed rates, a single B300 undercuts the 2x H200 setup for DeepSeek V4 Flash by 22% per hour while holding comparable usable memory on one device, with no interconnect required. Treat the B300 rows as budget anchors based on listed rates rather than guaranteed prices.
 
@@ -98,6 +98,30 @@ The B300 is worth its roughly 20% listed price premium over the B200 when your m
 Per gigabyte of VRAM, the ordering inverts from the sticker prices. At Akash's listed rates the B300 costs \$0.021 per GB-hour, the B200 \$0.026, and the H200 \$0.027, so the most expensive GPU is the cheapest memory. For memory-bound serving, which describes most large MoE inference, that is the number that predicts your bill.
 
 The honest case against the B300 is infrastructure, not price. [B300 pricing spans a wide 7.39-to-17.80 dollar range across the market](https://getdeploying.com/gpus/nvidia-b300), and its 1,400W TDP restricts it to liquid-cooled facilities. The B200 is [tracked across 26+ providers](https://getdeploying.com/gpus/nvidia-b200-vs-nvidia-h200) with pricing that has consolidated through 2026.
+
+## B200 vs H200: which should you rent?
+
+Rent the **B200** when you need FP4 precision, more than 1,128GB of aggregate VRAM in one 8-GPU node, or bandwidth-bound throughput; rent the **H200** when your model fits in 141GB per GPU, because it costs 30% less per hour and is far easier to source. The B200 is a full architecture step ahead, not a memory refresh: it carries 1.36x the VRAM, 1.67x the bandwidth, 2.27x the dense FP8 compute, and FP4 tensor cores the H200 does not have at all.
+
+| Metric                              | B200 (Blackwell)        | H200 (Hopper)  | B200 advantage       |
+| ----------------------------------- | ----------------------- | -------------- | -------------------- |
+| VRAM (GB, HBM3e)                    | 192                     | 141            | 1.36x                |
+| Memory bandwidth (TB/s)             | 8.0                     | 4.8            | 1.67x                |
+| Dense FP8 compute (PFLOPS)          | 4.5                     | 1.98           | 2.27x                |
+| Dense FP4 compute (PFLOPS)          | 9                       | Not supported  | No H200 equivalent   |
+| NVLink per GPU (TB/s)               | 1.8 (NVLink 5)          | 0.9 (NVLink 4) | 2.0x                 |
+| TDP (W)                             | 1,000                   | 700            | 1.43x the power draw |
+| 8-GPU node VRAM (GB)                | 1,536                   | 1,128          | 1.36x                |
+| Akash rate (\$/GPU-hr, Oct 22 2026) | 5.00                    | 3.85           | 30% more expensive   |
+| Cost per GB-hour (\$)               | 0.026 chip; 0.028 board | 0.027          | Within 5% either way |
+
+Memory figures are chip-level, as in the three-way table above. On HGX boards, which is what clouds actually rent, a B200 exposes 180GB, and the [B200 page](/pricing/gpus/b200/) quotes that figure. The per-gigabyte row is the one line that depends on which you use: at 192GB the B200 is 4.6% cheaper per GB-hour than the H200, at 180GB it is 1.7% more expensive. Either way the two are within 5% of each other, so memory cost is not what should decide this. Every other row and every model-fit conclusion holds under both variants.
+
+The pricing conclusion is narrower than the spec gap suggests. Per hour the H200 is 30% cheaper, but per gigabyte of memory the two are within 4% of each other, so the choice rarely turns on memory cost. It turns on whether the workload can use Blackwell's extra bandwidth and FP4 path. A memory-bound MoE decode that already fits an 8x H200 node sees most of the B200's 1.67x bandwidth advantage; an FP8 workload with slack memory sees far less and pays 30% more for it.
+
+Availability cuts the other way. The H200 is listed at a tracked on-demand low near \$3.36 with a median of \$4.00 to \$4.39, against a B200 low of \$5.29 and a median near \$6.14, and the H200 has the more mature serving stack and wider provider coverage. The B200 is consolidating in price, as noted above, but it is still the scarcer of the two.
+
+At node scale the decision resolves cleanly. An 8x H200 node holds 1,128GB for \$30.80/hr, roughly \$22,484 a month at 24/7; an 8x B200 node holds 1,536GB for \$40.00/hr, roughly \$29,200. The extra \$6,716 a month buys 408GB of headroom and FP4. For GLM-5.2's official FP8 release at standard context, the H200 node is enough and the B200 premium is wasted. For the same model at full 1M context with FP8 KV cache, the H200 node runs out of memory and the B200 node is the cheapest option that does not.
 
 ## When is the H200 still the right choice in 2026?
 
@@ -119,15 +143,15 @@ Choose the cheapest GPU configuration that holds your model's weights plus KV ca
 
 Applied to the workloads in this comparison, that process lands here:
 
-| Your situation | GPU | Reason |
-|---|---|---|
-| DeepSeek V4 Flash or similar ~150GB models | 1x B300 or 2x H200 | \$6.00/hr vs \$7.70/hr; B300 avoids tensor parallelism |
-| GLM-5.2 INT4 or other ~380GB checkpoints | 4x H200 | \$15.40/hr, half the cost of the FP8 route |
-| GLM-5.2 FP8 official, standard context | 8x H200 | Cheapest node holding the weights, at \$30.80/hr |
-| GLM-5.2 at full 1M context with FP8 KV cache | 8x B200 | 1,536GB node absorbs KV growth the H200 node cannot |
-| Kimi K3 or any 1.5TB+ checkpoint | 8x B300 | Only 8-GPU option here with 2,304GB aggregate (checkpoint sizes) |
-| FP4-quantized high-traffic inference | B200 or B300 | 9 to 15 PFLOPS dense FP4; H200 has none |
-| Power- or cooling-constrained colocation | H200 or B200 | 700W and 1,000W TDP vs the B300's 1,400W |
+| Your situation                               | GPU                | Reason                                                           |
+| -------------------------------------------- | ------------------ | ---------------------------------------------------------------- |
+| DeepSeek V4 Flash or similar ~150GB models   | 1x B300 or 2x H200 | \$6.00/hr vs \$7.70/hr; B300 avoids tensor parallelism           |
+| GLM-5.2 INT4 or other ~380GB checkpoints     | 4x H200            | \$15.40/hr, half the cost of the FP8 route                       |
+| GLM-5.2 FP8 official, standard context       | 8x H200            | Cheapest node holding the weights, at \$30.80/hr                 |
+| GLM-5.2 at full 1M context with FP8 KV cache | 8x B200            | 1,536GB node absorbs KV growth the H200 node cannot              |
+| Kimi K3 or any 1.5TB+ checkpoint             | 8x B300            | Only 8-GPU option here with 2,304GB aggregate (checkpoint sizes) |
+| FP4-quantized high-traffic inference         | B200 or B300       | 9 to 15 PFLOPS dense FP4; H200 has none                          |
+| Power- or cooling-constrained colocation     | H200 or B200       | 700W and 1,000W TDP vs the B300's 1,400W                         |
 
 One consideration sits outside the table: whether to self-host at all. A node bills whether requests arrive or not, so for variable traffic a managed endpoint on [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) serving the same open weights often costs less than an idle GPU, and AkashML doesn't retain any data sent through it. Self-hosting wins on data residency, guaranteed capacity, and control.
 
@@ -152,5 +176,7 @@ Deploy **B300**, **B200**, or **H200** on the [Akash marketplace](/pricing/gpus/
 **How do enterprises get B300 or B200 capacity on Akash?** Through the GPUs on demand request form at [akash.network/gpus-on-demand](/gpus-on-demand/). It covers B300 and B200 capacity, large multi-node clusters, reserved and committed terms, procurement and invoicing, and confidential compute deployments, in any quantity. Include the target model, node size, and context length for an accurate quote.
 
 **Is the H200 still worth renting in 2026?** Yes, for models that fit its 141GB per GPU or 1,128GB per 8-GPU node at FP8. At **\$3.85/GPU-hr on Akash** as of October 2026, the H200 is the cheapest of the three, though its median market price has risen about 25% since August 2025 and it lacks FP4 hardware.
+
+**How much more does a B200 cost than an H200?** On Akash, as of October 22, 2026, a B200 is \$5.00/GPU-hr and an H200 is \$3.85/GPU-hr, a 30% premium per GPU-hour. Per gigabyte of VRAM the gap nearly disappears: \$0.026 per GB-hour on the B200 against \$0.027 on the H200. At node scale an 8x B200 runs \$40.00/hr, about \$29,200 a month at 24/7, against \$30.80/hr and roughly \$22,484 for an 8x H200.
 
 **Is the B300 cheaper than the H200 per gigabyte of memory?** Yes. On Akash, as of October 22, 2026, the B300's \$6.00 per GPU-hour buys 288GB, about \$0.021 per GB-hour, while the H200's \$3.85 buys 141GB, about \$0.027 per GB-hour. The H200 is still 36% cheaper per hour, so it wins when your model fits in 141GB; the B300 wins when you would otherwise need two H200s, since one B300 costs 22% less per hour than a 2x H200 setup.

@@ -61,6 +61,7 @@ export const b200: GpuDetailPage = {
       node: "8x B200 (1.44 TB total)",
       quoted: "Reserved cluster",
     }),
+    note: "For the cost per day, month and year, and how B200 rates compare with the H100, H200 and B300, see [B200 rental price](/the-bid/b200-rental-price-2026-cost-per-hour/).",
     options: [
       {
         title: "On-demand",
@@ -220,7 +221,7 @@ export const b200: GpuDetailPage = {
     {
       question: "What is the difference between the B200 and H200?",
       answer:
-        "The B200 has 180 GB of memory versus 141 GB on the H200, 1.67× the bandwidth, double the NVLink bandwidth and native FP4, which the Hopper-based H200 lacks.",
+        "The B200 has 180 GB of memory versus 141 GB on the H200, 1.67× the bandwidth, double the NVLink bandwidth and native FP4, which the Hopper-based H200 lacks. For which one to rent for a given model, see [B200 vs H200](/the-bid/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/).",
     },
     {
       question: "How much does it cost to rent an NVIDIA B200?",
