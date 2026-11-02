@@ -109,7 +109,7 @@ On a phone, the review appears in the page instead of a dialog.
 
 ## STEP 5: Track the Transfer
 
-After Keplr sends the deposit, the receipt shows **Deposit submitted** with the ledger ID, status, amount and destination. The ledger ID appears a few seconds later, once Akash includes the deposit in a block. Save it.
+After Keplr sends the deposit, the receipt shows **Deposit submitted** with the ledger ID, status, amount and destination. The ledger ID appears a few seconds later, once Akash includes the deposit in a block. Save the full `owner/height/sequence` ID. The list may abbreviate it; **Copy** keeps every character.
 
 <ThemedImage
   light={depositSubmitted}
@@ -140,7 +140,7 @@ The receipt shows the estimated transfer time. You can close the page. The trans
 
 ## Statuses
 
-**Your transfers** lists the transfers started in this browser. Once Keplr is connected, it also lists every transfer from that account.
+**Your transfers** lists the transfers started in this browser. Once Keplr is connected, it also discovers recent transfers from that account through the chain's owner query. This works even when a transaction hash is unavailable.
 
 <ThemedImage
   light={yourTransfers}
@@ -154,13 +154,13 @@ The receipt shows the estimated transfer time. You can close the page. The trans
 | Validated           | Akash confirmed the deposit. Your AKT is queued to mint on Solana.                       |
 | Transfer pending    | AKT is being minted to your Solana address.                                              |
 | Completed           | The AKT arrived on Solana.                                                               |
-| Refund pending      | Couldn't be completed. Your AKT returns to Keplr after the challenge window.             |
+| Refund pending      | A void is confirmed. Payment is still waiting for the refund conditions.                 |
 | Refunded            | Your AKT is back in Keplr. The network fee isn't returned.                               |
 | Failed              | Akash rejected the deposit, so your AKT stayed in Keplr. The network fee isn't returned. |
 | Submission rejected | Rejected by the node. The portal keeps checking in case an earlier copy went through.    |
 | Needs review        | The transfer needs operator review.                                                      |
 
-Don't send a transfer again while it shows **Submission rejected** or **Needs review**.
+Don't send a transfer again while it shows **Submission rejected** or **Needs review**. Open its details to distinguish the financial outcome from the hold: a completed mint or paid refund can still need review.
 
 **Status stale** and **Update unavailable** mean the portal couldn't refresh the status. It keeps trying, and the transfer itself isn't affected.
 
@@ -172,7 +172,9 @@ Don't send a transfer again while it shows **Submission rejected** or **Needs re
 - **On another device:** connect the same Keplr account. The portal finds that account's transfers on Akash.
 - **By ID:** under **Your transfers**, enter the ledger ID or the Akash transaction hash from your Keplr activity, then click **Track**.
 
-**View** on any row opens its transfer details.
+**View** on any row opens its transfer details. Transfers found by owner can open directly by ID without a transaction hash.
+
+History from the previous bridge stays stored separately in the browser. Its numeric IDs belong to the original network and are not interpreted as IDs on the new one.
 
 ---
 
@@ -212,7 +214,7 @@ The portal blocks new transfers while deposits are switched off, or while Solana
 
 ### The Deposit Failed
 
-A deposit fails when it breaks a limit: the minimum or maximum per transfer, the account's transfers or AKT per day, or its open transfers. Wait for an open transfer to finish, or try again the next UTC day. See [Limits](/docs/learn/akash-sink#limits).
+A deposit fails if it breaks the minimum or maximum amount per transfer, the account daily amount cap or the aggregate daily amount cap. Send less when possible, or wait for midnight UTC. Finishing another transfer does not restore daily sending capacity. See [Limits](/docs/learn/akash-sink#limits).
 
 ### The Transfer Takes Longer Than Expected
 

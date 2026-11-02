@@ -33,7 +33,7 @@ Download the Akash Sink services release, which contains both the relayer and th
 
 - Release: TBD at launch
 - Checksum: TBD at launch
-- Source: [akash-network/node `contracts/solana`](https://github.com/akash-network/node/tree/feat/sink-contracts/contracts/solana)
+- Source: [akash-network/node `contracts/solana`](https://github.com/akash-network/node)
 
 The release runs on Node.js 24. Run the commands on this page from the release directory.
 
@@ -47,17 +47,9 @@ chmod 600 /etc/akt-relayer/payer-keypair.json
 solana-keygen pubkey /etc/akt-relayer/payer-keypair.json
 ```
 
-Send SOL to the payer address. Measured costs at the base fee, without priority fees:
+Send SOL to the payer address. Budget for transaction fees, permanent status-account rent and, on a first mint to a wallet, associated-token-account rent. Query rent requirements against the selected Solana cluster; account sizes changed with the composite-ID schema.
 
-| Action                                 | Cost             |
-| -------------------------------------- | ---------------- |
-| Mint to a wallet's first AKT account   | About 0.0035 SOL |
-| Mint to an existing token account      | About 0.0014 SOL |
-| Void                                   | About 0.0014 SOL |
-| Header update                          | About 0.0015 SOL |
-| Proof buffer, while a proof is pending | About 0.03 SOL   |
-
-A first mint includes the rent for the wallet's new AKT token account. Proof buffer rent comes back when the buffer closes, and pruning an expired header returns its rent to the relayer that prunes it.
+A transfer status uses 101 bytes including the discriminator and is never closed. A proof buffer uses 4,176 bytes including the discriminator; its rent returns to the submitter when it closes. Pruning an expired header returns rent to the account that prunes it.
 
 Updates happen only when a pending transfer needs a newer header, or when the light client has gone a fifth of its trusting period without one. Hold a few days of spend plus 0.05 SOL for temporary accounts.
 
@@ -72,32 +64,32 @@ Create `/etc/akt-relayer/config.json`. Relative paths resolve against the file's
 ```json
 {
   "akashRpc": "http://127.0.0.1:26657",
-  "akashChainId": "akashnet-2",
+  "akashChainId": "<chain ID from the deployment manifest>",
   "solanaRpc": "http://127.0.0.1:8899",
-  "solanaGenesisHash": "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d",
+  "solanaGenesisHash": "<Solana genesis hash from the deployment manifest>",
   "programId": "<AKT program, TBD at launch>",
   "payerKeyFile": "/etc/akt-relayer/payer-keypair.json",
   "stateDir": "/var/lib/akt-relayer"
 }
 ```
 
-| Field                    | Required | Meaning                                                    |
-| ------------------------ | -------- | ---------------------------------------------------------- |
-| `akashRpc`               | Yes      | CometBFT RPC URL                                           |
-| `akashChainId`           | Yes      | `akashnet-2`; the node and the AKT program must match      |
-| `solanaRpc`              | Yes      | Solana JSON-RPC URL, with no credentials                   |
-| `solanaGenesisHash`      | Yes      | Checked at startup                                         |
-| `programId`              | Yes      | The AKT program on Solana                                  |
-| `payerKeyFile`           | Yes      | Owner-only payer keypair                                   |
-| `stateDir`               | Yes      | Journals and spend ledger                                  |
-| `lightClientProgram`     | No       | Optional pin; leave unset to follow changes                |
-| `maxLamportsPerTransfer` | No       | Spend limit per transfer, default 5,000,000 lamports       |
-| `maxHeaderSignatures`    | No       | Larger commits are trimmed, default 100                    |
-| `refreshFraction`        | No       | Share of the trusting period before an update, default 0.2 |
-| `retryMaxSeconds`        | No       | Longest backoff for a failed transfer, default 900         |
-| `pruneIntervalSeconds`   | No       | How often expired headers are pruned, default 600          |
-| `maxAgeSeconds`          | No       | Oldest acceptable Akash block, default 60                  |
-| `pollSeconds`            | No       | Pause between passes, default 3                            |
+| Field                    | Required | Meaning                                                         |
+| ------------------------ | -------- | --------------------------------------------------------------- |
+| `akashRpc`               | Yes      | CometBFT RPC URL                                                |
+| `akashChainId`           | Yes      | The node and the AKT program must match the deployment manifest |
+| `solanaRpc`              | Yes      | Solana JSON-RPC URL, with no credentials                        |
+| `solanaGenesisHash`      | Yes      | Checked at startup                                              |
+| `programId`              | Yes      | The AKT program on Solana                                       |
+| `payerKeyFile`           | Yes      | Owner-only payer keypair                                        |
+| `stateDir`               | Yes      | Journals and spend ledger                                       |
+| `lightClientProgram`     | No       | Optional pin; leave unset to follow changes                     |
+| `maxLamportsPerTransfer` | No       | Spend limit per transfer, default 5,000,000 lamports            |
+| `maxHeaderSignatures`    | No       | Larger commits are trimmed, default 100                         |
+| `refreshFraction`        | No       | Share of the trusting period before an update, default 0.2      |
+| `retryMaxSeconds`        | No       | Longest backoff for a failed transfer, default 900              |
+| `pruneIntervalSeconds`   | No       | How often expired headers are pruned, default 600               |
+| `maxAgeSeconds`          | No       | Oldest acceptable Akash block, default 60                       |
+| `pollSeconds`            | No       | Pause between passes, default 3                                 |
 
 Take `solanaGenesisHash` from a trusted source, not from the RPC you configure. Never point two running relayers at one `stateDir`.
 
@@ -136,11 +128,21 @@ With `none`, the relayer still relays transfers that the latest verified header 
 For each transfer without a result on Solana, the relayer:
 
 1. Waits without paying while minting is paused or a per-transfer or daily cap applies (`relay-wait`). Capped transfers mint once the limit allows.
-2. Never relays a record that Akash shows as voided or refunded without a Solana result (`relay-unbacked-settlement`).
+2. Never relays a record that Akash shows as refund-pending or refunded without a Solana result (`relay-unbacked-settlement`).
 3. Rereads the transfer at the newest Akash height right before its first paid transaction (`relay-final-check`).
 4. Simulates every transaction before sending it, so a failing one costs nothing.
 
 ---
+
+## Identity and Crash Recovery
+
+A transfer is identified by `owner/height/sequence`. Its permanent status PDA uses the owner's 20 address bytes and little-endian height and sequence. A mint and a void compete for the same status account; a completed status cannot be closed or replayed after a light-client repin.
+
+Proof buffers use the payer and the full 32-byte SHA-256 of the exact key being proven. Mint and governance-void keys differ, so their buffers differ. The relayer can close and recreate its own temporary buffer after a failed attempt. Attempt and spend accounting remain in its durable ledger.
+
+Start the new schema with a fresh state directory next to the preserved old one. Numeric-ID journals are incompatible. Discovery keeps a chronological cursor and queries each page at the same Akash height. A pruned height fails the pass; it must never be treated as proof that a transfer is absent.
+
+Mints can be submitted immediately and repeatedly once their proofs are available. Akash sending epochs do not schedule them. Solana's per-transfer and daily amount caps remain independent.
 
 ## Spend Limit
 
@@ -149,7 +151,7 @@ The relayer records what it pays per transfer: every fee, plus the rent its reso
 Investigate the transfer's `relay-retry` errors, then reset its budget:
 
 ```bash
-npx tsx local/relay.ts --config /etc/akt-relayer/config.json --reset-budget 42
+npx tsx local/relay.ts --config /etc/akt-relayer/config.json --reset-budget '<owner>/<height>/<sequence>'
 npx tsx local/relay.ts --config /etc/akt-relayer/config.json --reset-budget all
 ```
 
@@ -173,7 +175,7 @@ Route these to someone on call:
 - `relayer-access` with `none`, or `relay-header-blocked`: the payer can't update the light client. Request the relayer role, or rely on another relayer.
 - `relay-budget-exhausted`: the spend limit was reached for one transfer. Read its `relay-retry` errors, fix the cause, then reset.
 - `relay-final-check`: Akash changed between planning and paying. Review the transfer; this is usually a governance action.
-- `relay-unbacked-settlement`: Akash shows a void or refund with no Solana result. Investigate the reporters or governance.
+- `relay-unbacked-settlement`: Akash shows a refund-pending or refunded settlement with no Solana result. Investigate the reporters or governance.
 - Repeated `relay-retry` or `header-retry`: transfers or updates keep failing. Check the RPCs, the payer balance and the light client.
 - `header-unsupported`: no set of signatures fits one update, so the light client will expire. Escalate.
 - `consensus-prune-failed`, `proof-buffer-close-failed`: rent recovery failed and is retried later. Check the RPC if it persists.

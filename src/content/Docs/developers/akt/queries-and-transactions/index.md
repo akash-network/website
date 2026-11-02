@@ -109,7 +109,7 @@ akt query staking validators
 akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
 # Status of an Akash Sink transfer to Solana
-akt query sink record 12
+akt query sink transfer '<owner>/<height>/<sequence>'
 
 # The q alias works everywhere
 akt q deployment 12345

@@ -34,7 +34,7 @@ Download the Akash Sink services release, which contains both the relayer and th
 
 - Release: TBD at launch
 - Checksum: TBD at launch
-- Source: [akash-network/node `contracts/solana`](https://github.com/akash-network/node/tree/feat/sink-contracts/contracts/solana)
+- Source: [akash-network/node `contracts/solana`](https://github.com/akash-network/node)
 
 The release runs on Node.js 24. Run the commands on this page from the release directory.
 
@@ -106,9 +106,9 @@ Create a configuration file outside the release directory, for example `/etc/akt
 ```json
 {
   "akashRpc": "http://127.0.0.1:26657",
-  "akashChainId": "akashnet-2",
+  "akashChainId": "<chain ID from the deployment manifest>",
   "solanaRpc": "http://127.0.0.1:8899",
-  "solanaGenesisHash": "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d",
+  "solanaGenesisHash": "<Solana genesis hash from the deployment manifest>",
   "programId": "<AKT program, TBD at launch>",
   "mint": "<AKT mint, TBD at launch>",
   "reporter": "akash1...",
@@ -178,21 +178,29 @@ Keep preview running for several days. Every pass should finish with `"failures"
 
 ## STEP 5: Join the Reporter Set
 
-Share your reporter account address with the Akash community. A governance proposal adds it to the `reporters` parameter and sets a `reporter_threshold` above two thirds of the new set. Anyone can submit it:
+Share your reporter account address with the Akash community. A governance proposal adds it to the `reporters` parameter and sets a `reporters_threshold` decimal ratio strictly above two thirds and at most 1. Anyone can submit it:
 
 ```bash
-akt query sink params -o json > sink-params.json
-# Add the address to "reporters" and update "reporter_threshold", then:
-akt tx sink propose-params sink-params.json --deposit <amount>uakt
+akt query sink state -o json | jq '.params' > sink-params.json
+# Add the address to "reporters" and set "reporters_threshold", then:
+akt tx sink update-params sink-params.json --generate-only
 ```
 
-After the proposal passes, check that your address is listed:
+Include the generated message in a governance proposal through the network's normal proposal workflow. Generation does not submit a proposal. After it passes, check that your address and the new policy version are listed:
 
 ```bash
-akt query sink params
+akt query sink state
 ```
 
 ---
+
+## Policy Changes and Discovery
+
+Use the complete `owner/height/sequence` ID in logs, durable jobs and manual commands. Discovery scans the chronological history at one committed height; owner ordering cannot be used as a global append-only cursor. A pruned or inconsistent page fails the whole pass. Keep the last processed chronological identity even after the latest page has no next key.
+
+The reporter policy version and settlement round are different: policy version identifies membership and threshold, while governance increments the round when resolving a transfer. Reports must match the current policy and exact round. Historical vote evidence remains attached to its original version. Repeated evidence from one reporter for the same outcome/version is one vote; an opposite outcome is retained as conflict evidence.
+
+A policy change refreshes unpaid quorum authorization. It does not erase authorization for a paid refund or mint, and governance-confirmed refunds remain authorized. Inspect the dispute query as well as unpaid transfers so held minted and refunded records are not missed.
 
 ## STEP 6: Start Broadcasting
 

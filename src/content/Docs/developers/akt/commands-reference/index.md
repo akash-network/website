@@ -468,28 +468,18 @@ akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
 ### Sink Transfers
 
-Query [Akash Sink](/docs/learn/akash-sink) transfers from Akash to Solana:
+Query [Akash Sink](/docs/learn/akash-sink) by its complete `owner/height/sequence` ID:
 
 ```bash
-# Public status, transfer and settlement by record ID
-akt query sink record 12
-
-# Transfer and settlement without the public status
-akt query sink transfer 12
-
-# Transfers not yet minted or refunded (--start-after pages, --held-only filters)
-akt query sink open-transfers --limit 50
-akt query sink open-transfers --held-only
-
-# An account's deposits and AKT for its last deposit day, and its open transfers
-akt query sink account [address]
-
-# Locked totals, refund counters, reporter epoch and parameters
+akt query sink transfer '<owner>/<height>/<sequence>'
+akt query sink transfers --owner <akash-address> --limit 50
+akt query sink transfers --status STATUS_REFUND_PENDING --limit 50
+akt query sink disputes --limit 50
+akt query sink account <akash-address>
 akt query sink state
-
-# Current parameters (JSON output is the input for propose-params)
-akt query sink params
 ```
+
+Transfers and disputes use `--page-key` pagination. Keep `--height` and filters fixed across pages. Disputes include held minted and refunded transfers. State includes parameters, totals, current policy, epoch usage and the refund queue head.
 
 ---
 
@@ -593,27 +583,27 @@ Send AKT one way from Akash to a Solana wallet through [Akash Sink](/docs/learn/
 akt tx sink deposit <solana-address> 10akt
 
 # Pay a voided transfer's refund to its sender after the challenge window
-akt tx sink finalize-refund 12
+akt tx sink finalize-refund '<owner>/<height>/<sequence>'
 ```
 
-The deposit amount is an exact AKT decimal (`2.5akt`) or a whole number of `uakt`. Use `--broadcast-mode block` to see the transfer's record ID in the output.
+The deposit amount is an exact AKT decimal (`2.5akt`) or a whole number of `uakt`. `MsgSinkResponse` carries the composite ID once the transaction is included.
 
 Reporter, guardian and governance commands:
 
 ```bash
-# Reporters: vote on a transfer's Solana outcome, or veto a void during its challenge window
-akt tx sink report-outcome <id> <minted|voided> <slot> <signature>
+akt tx sink report-outcome <id> <policy-version> <round> <minted|voided> <slot> <signature>
 akt tx sink veto-void <id> <reason>
+akt tx sink guardian-pause --deposits --refunds
 
-# Pause guardian: switch deposits, refunds or both off
-akt tx sink guardian-pause <deposits|refunds|all>
-
-# Governance proposals
-akt tx sink propose-params <params.json>
-akt tx sink propose-void <id>
-akt tx sink propose-veto <id> <reason>
-akt tx sink propose-resolve <id> <restart|confirm-mint|confirm-void> <reason> [slot] [signature]
+# Generate governance messages for the network's proposal workflow
+akt tx sink update-params <params.json> --generate-only
+akt tx sink request-void <id> --generate-only
+akt tx sink restart-transfer <id> <expected-round> <reason> --generate-only
+akt tx sink confirm-mint <id> <expected-round> <slot> <signature> <reason> --generate-only
+akt tx sink confirm-void <id> <expected-round> <slot> <signature> <reason> --generate-only
 ```
+
+`<id>` is always the complete `owner/height/sequence`. Governance messages require the governance module authority; an ordinary account cannot execute them directly. A stale expected round is rejected.
 
 See [Send AKT to Solana](/docs/developers/akt/sink) for the full workflow, limits and errors.
 

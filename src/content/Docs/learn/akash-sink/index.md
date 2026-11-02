@@ -27,21 +27,24 @@ There are two ways to send a transfer:
 
 Most transfers finish within a few minutes. You don't need to do anything after the deposit, and closing the portal doesn't stop a transfer.
 
-Each transfer has a **ledger ID**, a number Akash assigns in order. The akt CLI calls it the record ID. Use it to look up the transfer in the portal or on the command line.
+Each transfer has a **ledger ID** in the form `owner/height/sequence`: the Akash sender, creating block and position within that block. Keep the full ID to look up the transfer in the portal or on the command line.
 
-If Solana can't deliver to the address, the transfer is voided and the AKT is refunded on Akash. See [Refunds](#refunds).
+If Solana cannot deliver to the address, it records a permanent void. The AKT then follows the refund process on Akash. See [Refunds](#refunds).
 
 ---
 
 ## Statuses
 
-Akash keeps one of three public statuses for every transfer. The portal splits these into smaller steps; see [Statuses in the portal](/docs/learn/akash-sink/portal#statuses).
+Akash keeps the financial outcome separate from any dispute. The portal also verifies the finalized Solana outcome; see [Statuses in the portal](/docs/learn/akash-sink/portal#statuses).
 
-| Status           | Meaning                                                                                  |
-| ---------------- | ---------------------------------------------------------------------------------------- |
-| Transfer pending | The AKT is locked on Akash. The Solana mint isn't confirmed yet.                         |
-| Completed        | Reporters confirmed the mint on Solana.                                                  |
-| Void             | The transfer was voided. The AKT is refunded after the challenge window, or already was. |
+| Status           | Meaning                                                                  |
+| ---------------- | ------------------------------------------------------------------------ |
+| Transfer pending | AKT is locked on Akash; the outcome is not yet confirmed.                |
+| Minted           | Reporters or governance confirmed the Solana mint. Backing stays locked. |
+| Refund pending   | A Solana void is confirmed, but the sender has not been repaid.          |
+| Refunded         | The original sender received the refund on Akash.                        |
+
+A veto or conflict hold requires review. Even a minted or refunded transfer can have an unresolved conflict; the hold does not erase what has already happened.
 
 ---
 
@@ -49,19 +52,19 @@ Akash keeps one of three public statuses for every transfer. The portal splits t
 
 Akash governance sets the transfer limits and can change them.
 
-| Limit               | What it covers                                       |
-| ------------------- | ---------------------------------------------------- |
-| Minimum and maximum | The smallest and largest single transfer.            |
-| Transfers per day   | Deposits one Akash account can make in a UTC day.    |
-| Open transfers      | Unfinished transfers one account can have at once.   |
-| AKT per day         | AKT one account can deposit in a UTC day, if set.    |
-| Daily mint limit    | AKT minted on Solana in a UTC day, across all users. |
+| Limit                  | What it covers                                          |
+| ---------------------- | ------------------------------------------------------- |
+| Minimum and maximum    | The smallest and largest single deposit.                |
+| Account daily amount   | AKT one Akash account can deposit during a UTC day.     |
+| Aggregate daily amount | AKT all accounts together can deposit during a UTC day. |
+| Solana mint amounts    | Independent per-transfer and daily mint caps on Solana. |
+| Refund daily amount    | AKT that can be repaid on Akash during a UTC day.       |
 
-A transfer stays open until it's minted or refunded. A deposit that breaks a per-transfer or per-account limit fails, and the AKT stays in your wallet. If the transaction was already sent, its network fee isn't returned.
+Every cap is a positive amount. There are no per-account deposit-count or open-transfer-count limits. Deposits that exceed a sending cap fail; the amount stays in the sender's wallet, though a submitted transaction can still incur a network fee.
 
-The daily mint limit works differently. Akash still accepts deposits when the limit is reached, and those transfers mint on a later UTC day, once the limit resets.
+The sending day ends at midnight UTC. Solana mints can happen as soon as a deposit proof is available, repeatedly throughout the day. They do not wait for the Akash sending day to end. If Solana's independent daily cap is exhausted, affected mints wait for its next UTC day. A refund does not restore the sender's sending allowance.
 
-The portal shows the current minimum and maximum next to the amount. From the command line, `akt query sink params` shows every limit, and `akt query sink account` shows your account's daily usage and open transfers.
+The portal shows transfer bounds and the account daily cap. `akt query sink state` shows all parameters and global usage; `akt query sink account <owner>` shows the account's lifetime and current-day sending amounts.
 
 ---
 
@@ -75,15 +78,15 @@ The portal shows the current minimum and maximum next to the amount. From the co
 
 ## Refunds
 
-Solana voids a transfer when it can't deliver to the address, for example because the address belongs to a program or a token account instead of a wallet. Akash governance can also void a transfer that can't be minted. A voided transfer is refunded in three steps:
+Solana voids a transfer when it can't deliver to the address, for example because the address belongs to a program or a token account instead of a wallet. Akash governance can also order a void. The order must be proven on Solana; it does not authorize a refund by itself. The refund process has three steps:
 
 1. Reporters confirm the void on Akash.
 2. A challenge window of at least 72 hours starts. During the window, a reporter or Akash governance can stop the refund if the void doesn't match Solana.
-3. After the window, the refund is paid to the Akash account that made the deposit. Reporters pay refunds automatically, and anyone can trigger one with `akt tx sink finalize-refund`.
+3. After the window, an eligible refund can be paid to the original sender. Reporters submit refunds automatically, and anyone can submit `akt tx sink finalize-refund <owner/height/sequence>`.
 
 The refund returns the full deposited amount. The Akash network fee for the deposit isn't returned.
 
-Refunds are paid oldest first, up to a daily refund limit. A refund can take longer when older refunds are waiting or the day's limit is used up.
+Payment also needs current authorization, no hold, enabled refunds, queue priority and room under the daily refund cap. A deadline passing does not prove payment. `Refunded` means the money has actually returned.
 
 ---
 
@@ -92,7 +95,7 @@ Refunds are paid oldest first, up to a daily refund limit. A refund can take lon
 - **Check the address.** AKT is minted to exactly the address you enter, and a completed transfer can't be reversed. Send to a Solana wallet address you control, not a token account.
 - **Your Solana wallet doesn't sign.** You sign one transaction: the deposit on Akash. Connecting a Solana wallet in the portal only reads its address.
 - **Deposits and refunds can be paused.** A pause guardian chosen by governance can turn deposits, refunds or both off. Only governance can turn them back on. AKT from transfers you already made stays locked on Akash until it's minted or refunded.
-- **Governance controls the settings.** The limits, the reporter set, the vote threshold and the pause guardian are Akash governance parameters. Anyone can read them with `akt query sink params`.
+- **Governance controls the settings.** The limits, the reporter set, the vote threshold and the pause guardian are Akash governance parameters. Anyone can read them with `akt query sink state`.
 
 ---
 
@@ -135,7 +138,7 @@ A pause stops new deposits, refunds or both. AKT from transfers you already made
 
 ### How do I find a transfer?
 
-In the portal, connect the Keplr account that sent it, or track it by ledger ID or Akash transaction hash. On the command line, run `akt query sink record <ledger-id>`.
+In the portal, connect the Keplr account that sent it, or track it by ledger ID or Akash transaction hash. On the command line, run `akt query sink transfer <owner/height/sequence>`.
 
 ---
 
@@ -143,15 +146,17 @@ In the portal, connect the Keplr account that sent it, or track it by ledger ID 
 
 Akash REST endpoints serve the `sink` queries:
 
-| Query                       | REST path                                           |
-| --------------------------- | --------------------------------------------------- |
-| Public status of a transfer | `/akash/sink/v1/records/{id}`                       |
-| Transfer and settlement     | `/akash/sink/v1/transfers/{id}`                     |
-| Account usage               | `/akash/sink/v1/accounts/{address}`                 |
-| Open transfers              | `/akash/sink/v1/open_transfers?start_after=&limit=` |
-| Totals and parameters       | `/akash/sink/v1/state`                              |
+| Query                                        | REST path                                                       |
+| -------------------------------------------- | --------------------------------------------------------------- |
+| Complete transfer                            | `/akash/sink/v1/transfers/{id.owner}/{id.height}/{id.sequence}` |
+| Owner, status or chronological history       | `/akash/sink/v1/transfers?owner=&status=&pagination.limit=`     |
+| All held transfers, including paid conflicts | `/akash/sink/v1/disputes`                                       |
+| Account usage                                | `/akash/sink/v1/accounts/{owner}`                               |
+| Totals, policy, parameters and epoch usage   | `/akash/sink/v1/state`                                          |
 
-Every deposit emits a `sink_deposit` event with the `transfer_id`, `sender`, `amount` in `uakt`, `recipient` and `height`. The ledger ID is also in the transaction's `MsgSinkResponse`.
+List queries use native key pagination with a default of 100 and maximum of 500. Use one `x-cosmos-block-height` for every page in a pass. A pruned height must fail the pass. Do not enumerate numeric IDs or assume a newly active owner sorts after a previous cursor.
+
+`MsgSinkResponse` carries the full typed ID. The typed `EventTransferCreated` event is supplementary; owner queries and ID lookups do not depend on a transaction event index. The transfer response exposes one explicit financial status and a separate hold, without a second public-status mapping.
 
 A deposit must be the only message in its transaction and must be signed by the depositing account. Akash rejects deposits sent through authz, a smart contract or a transaction with other messages.
 
