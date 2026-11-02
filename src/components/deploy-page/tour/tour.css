@@ -87,6 +87,39 @@
   animation: tour-countdown linear both;
 }
 
+/* The active step's bar fills left to right; the tour sets the duration. */
+.tour-fill {
+  transform-origin: left;
+  animation: tour-countdown linear both;
+}
+
+/* A completed step's bar turns from red to black. */
+@keyframes tour-settle {
+  from {
+    background-color: #ff414c;
+  }
+}
+
+.tour-settle {
+  animation: tour-settle 450ms ease-out;
+}
+
+/* A faint scan across the playing mission's pill, brightest at its front. */
+@keyframes tour-scan {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+.tour-scan {
+  animation: tour-scan 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* The step bars, the pill scan and the red-to-black settle keep running with
+   reduced motion: they are slow progress cues, not movement across the page. */
 @media (prefers-reduced-motion: reduce) {
   .tour-rise,
   .tour-hint,

@@ -6,6 +6,7 @@ import {
   Eye,
   FastForward,
   MousePointerClick,
+  Pause,
   Play,
   RotateCcw,
 } from "lucide-react";
@@ -26,6 +27,7 @@ import {
   pathAt,
   type Mission,
   type MissionId,
+  type Step,
 } from "./missions";
 import { Scene, SceneOverlay } from "./scenes";
 import { deploymentFacts } from "./scenes/deployment";
@@ -47,10 +49,24 @@ const MIN_STAGE_W = 480;
 const PHONE_COACH_RESERVE = 230;
 const PHONE_STAGE_H: [number, number] = [260, 420];
 const CURSOR_TRAVEL = 650;
-const WATCH_DWELL = 1500;
+const CLICK_MS = 180;
+/** Pauses before and after a step's intro. */
+const INTRO_LEAD = 250;
+const INTRO_TAIL = 150;
+// Each step stays up long enough to read: a base plus a share per word of its
+// title and body, within bounds. Time spent on the intro counts toward it.
+const READ_BASE = 2000;
+const READ_PER_WORD = 200;
+const READ_MIN = 4000;
+const READ_MAX = 9000;
+/** Least time a step holds after its intro, however long the intro was. */
+const MIN_HOLD = 1200;
+/** A step's bar never fills faster than this, so it reads as progress. */
+const MIN_FILL = 700;
 /** How long a finished mission waits before the next one plays on its own. */
 const AUTO_NEXT_MS = 10_000;
 const IDLE_HINT_MS = 4000;
+const MODE_NOTE_MS = 3200;
 const CAMERA_EASE = "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)";
 const CONSOLE_URL = "https://console.akash.network";
 /** Share of the mock that must be on screen before the first mission plays. */
@@ -67,6 +83,77 @@ const matches = (target: string, tt: string | undefined) =>
   (target.endsWith("*") ? tt.startsWith(target.slice(0, -1)) : tt === target);
 const formatClock = (s: number) =>
   `${Math.floor(s / 60)}:${String(Math.round(s) % 60).padStart(2, "0")}`;
+
+/**
+ * Timeouts that can all be paused and resumed together, so the tour can stop
+ * mid-step and carry on where it was.
+ */
+class Timers {
+  private live = new Map<
+    number,
+    { fn: () => void; left: number; at: number; id: number }
+  >();
+  private paused = false;
+  private seq = 0;
+
+  set(ms: number, fn: () => void) {
+    const key = ++this.seq;
+    const t = { fn, left: ms, at: 0, id: 0 };
+    this.live.set(key, t);
+    if (!this.paused) this.arm(key);
+    return key;
+  }
+
+  clear(key: number) {
+    const t = this.live.get(key);
+    if (!t) return;
+    clearTimeout(t.id);
+    this.live.delete(key);
+  }
+
+  pause() {
+    if (this.paused) return;
+    this.paused = true;
+    const now = performance.now();
+    this.live.forEach((t) => {
+      clearTimeout(t.id);
+      t.left = Math.max(0, t.left - (now - t.at));
+    });
+  }
+
+  resume() {
+    if (!this.paused) return;
+    this.paused = false;
+    this.live.forEach((_, key) => this.arm(key));
+  }
+
+  private arm(key: number) {
+    const t = this.live.get(key);
+    if (!t) return;
+    t.at = performance.now();
+    t.id = window.setTimeout(() => {
+      this.live.delete(key);
+      t.fn();
+    }, t.left);
+  }
+}
+
+/** How long a step's intro plays, and how long it then holds for reading. */
+function stepTiming(step: Step, watch: boolean, reduced = false) {
+  // With reduced motion the intro is skipped: the step shows its end state.
+  const intro = reduced
+    ? 0
+    : (step.intro ?? []).reduce(
+        (t, a) =>
+          t +
+          (a.wait ?? 400) +
+          (watch && a.to ? CURSOR_TRAVEL + (a.click ? CLICK_MS : 0) : 0),
+        INTRO_LEAD + INTRO_TAIL,
+      );
+  const words = `${step.title} ${step.body}`.split(/\s+/).length;
+  const read = clamp(READ_BASE + words * READ_PER_WORD, READ_MIN, READ_MAX);
+  return { intro, hold: Math.max(MIN_HOLD, read - intro) };
+}
 
 export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
   const data = useNetworkData(snapshot);
@@ -112,6 +199,11 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
   const [stayed, setStayed] = useState(false);
   const [holding, setHolding] = useState(false);
   const [inView, setInView] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  // Shown for a moment after the visitor switches between Watch and Try it.
+  const [modeNote, setModeNote] = useState<{ mode: Mode; key: number } | null>(
+    null,
+  );
   const [nextIn, setNextIn] = useState(AUTO_NEXT_MS / 1000);
   const nextBudget = useRef(AUTO_NEXT_MS);
 
@@ -134,7 +226,10 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
   const manualRef = useRef(false);
   const genRef = useRef(0);
   const pendingRef = useRef<number[]>([]);
-  const coachActionsRef = useRef<HTMLDivElement>(null);
+  // The tour's step timers; Watch mode can pause them.
+  const timersRef = useRef<Timers | null>(null);
+  timersRef.current ??= new Timers();
+  const sched = timersRef.current;
   const receiptRef = useRef<HTMLParagraphElement>(null);
   const coachDriven = useRef(false);
   reducedRef.current = reduced;
@@ -152,6 +247,8 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     animationPlayState: nextPaused ? "paused" : "running",
   };
   const step = mission?.steps[index] ?? null;
+  // Only Watch mode plays by itself, so only it can be paused.
+  const paused = userPaused && mode === "watch" && armed && !finished;
   const zoom = viewport.mobile
     ? Math.max(MOBILE_ZOOM, viewport.w / DESIGN_W)
     : viewport.w / DESIGN_W;
@@ -336,9 +433,9 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
   }, []);
 
   const clearPending = useCallback(() => {
-    pendingRef.current.forEach(clearTimeout);
+    pendingRef.current.forEach((k) => sched.clear(k));
     pendingRef.current = [];
-  }, []);
+  }, [sched]);
 
   useEffect(() => clearPending, [clearPending]);
 
@@ -356,6 +453,7 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
       setStayed(false);
       setHolding(false);
       setManual(byBack);
+      setUserPaused(false);
       setVisit((v) => v + 1);
     },
     [clearPending],
@@ -455,11 +553,11 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
       const gen = genRef.current;
       const later = (ms: number, fn: () => void) =>
         pendingRef.current.push(
-          window.setTimeout(() => genRef.current === gen && fn(), ms),
+          sched.set(ms, () => genRef.current === gen && fn()),
         );
       later(CURSOR_TRAVEL, () => {
         setCursor((c) => ({ ...c, clicking: true }));
-        later(180, () => {
+        later(CLICK_MS, () => {
           setCursor((c) => ({ ...c, clicking: false }));
           setBusy(false);
           perform(value);
@@ -476,16 +574,16 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     let cancelled = false;
     const timers: number[] = [];
     const later = (ms: number, fn: () => void) =>
-      timers.push(window.setTimeout(() => !cancelled && fn(), ms));
+      timers.push(sched.set(ms, () => !cancelled && fn()));
     // Steps without an action move on by themselves, unless the visitor came
     // back to them or prefers reduced motion; then they wait for Continue.
     const done = () =>
       step.action || manualRef.current || reducedRef.current
         ? setReady(true)
-        : later(900, advance);
+        : later(stepTiming(step, modeRef.current === "watch").hold, advance);
     const cleanup = () => {
       cancelled = true;
-      timers.forEach(clearTimeout);
+      timers.forEach((k) => sched.clear(k));
     };
 
     if (reducedRef.current) {
@@ -497,7 +595,7 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     let i = 0;
     const run = () => {
       if (i >= intro.length) {
-        later(150, done);
+        later(INTRO_TAIL, done);
         return;
       }
       const action = intro[i];
@@ -521,14 +619,14 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
         later(CURSOR_TRAVEL, () => {
           if (!action.click) return next();
           setCursor((c) => ({ ...c, clicking: true }));
-          later(180, () => {
+          later(CLICK_MS, () => {
             setCursor((c) => ({ ...c, clicking: false }));
             next();
           });
         });
       });
     };
-    later(250, run);
+    later(INTRO_LEAD, run);
     return cleanup;
     // The intro restarts only when the step changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -554,13 +652,18 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
 
   // Watch mode does each action itself.
   useEffect(() => {
-    if (mode !== "watch" || !ready) return;
-    const t = window.setTimeout(
-      () => (step?.action ? showMe() : advance()),
-      WATCH_DWELL,
+    if (mode !== "watch" || !ready || !step) return;
+    const t = sched.set(stepTiming(step, true, reducedRef.current).hold, () =>
+      step.action ? showMe() : advance(),
     );
-    return () => clearTimeout(t);
-  }, [mode, ready, step, showMe, advance]);
+    return () => sched.clear(t);
+  }, [mode, ready, step, showMe, advance, sched]);
+
+  // Pausing holds every step timer, the bar and the scan where they are.
+  useEffect(() => {
+    if (paused) sched.pause();
+    else sched.resume();
+  }, [paused, sched]);
 
   useEffect(() => {
     if (mode === "do") setCursor((c) => ({ ...c, visible: false }));
@@ -572,7 +675,7 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     if (!coachDriven.current) return;
     if (finished) receiptRef.current?.focus({ preventScroll: true });
     else if (ready)
-      coachActionsRef.current
+      coachRef.current
         ?.querySelector<HTMLElement>("[data-coach-action]")
         ?.focus({ preventScroll: true });
   }, [ready, finished]);
@@ -632,20 +735,59 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
       perform(hit.dataset.choice ?? null);
   };
 
+  /** Open any step of the mission. Choices are reset or filled in to match. */
+  const jumpTo = (target: number, byBack: boolean) => {
+    if (!mission || target < 0 || target >= mission.steps.length) return;
+    const choiceAt = (kind: "gpu" | "bid") =>
+      mission.steps.findIndex((s) => s.action?.choice === kind);
+    const gpuAt = choiceAt("gpu");
+    const bidAt = choiceAt("bid");
+    setCtx((c) => {
+      // Choices at or after the target are made again; ones skipped past
+      // take the first option.
+      const gpu =
+        gpuAt < 0 ? c.gpu : target <= gpuAt ? null : (c.gpu ?? data.gpus[0]);
+      const bid =
+        bidAt < 0
+          ? c.bid
+          : target <= bidAt
+            ? null
+            : (c.bid ?? simulateBids(gpu ?? data.gpus[0])[0]);
+      return { gpu, bid };
+    });
+    goTo(target, byBack);
+  };
+
   const back = () => {
     coachDriven.current = true;
     coachRef.current?.focus({ preventScroll: true });
     if (!mission) return;
-    const target = finished ? mission.steps.length - 1 : index - 1;
-    if (target < 0) return;
-    // Choices made at or after the step we go back to are made again.
-    const choiceAt = (kind: "gpu" | "bid") =>
-      mission.steps.findIndex((s) => s.action?.choice === kind);
-    setCtx((c) => ({
-      gpu: choiceAt("gpu") >= 0 && target <= choiceAt("gpu") ? null : c.gpu,
-      bid: choiceAt("bid") >= 0 && target <= choiceAt("bid") ? null : c.bid,
-    }));
-    goTo(target, true);
+    jumpTo(finished ? mission.steps.length - 1 : index - 1, true);
+  };
+
+  /** Switch Watch / Try it, and replay the current step in the new mode. */
+  const switchMode = (value: Mode) => {
+    setArmed(true);
+    if (value === mode) return;
+    setMode(value);
+    setModeNote({ mode: value, key: Date.now() });
+    if (!finished) {
+      setCursor((c) => ({ ...c, visible: false }));
+      goTo(index, manual);
+    }
+  };
+
+  useEffect(() => {
+    if (!modeNote) return;
+    const t = window.setTimeout(() => setModeNote(null), MODE_NOTE_MS);
+    return () => clearTimeout(t);
+  }, [modeNote]);
+
+  /** A progress bar was clicked: play the mission from that step. */
+  const seek = (target: number) => {
+    if (!finished && target === index) return;
+    setArmed(true);
+    jumpTo(target, false);
   };
 
   /** A coach control was used: keep focus in the coach while the step changes. */
@@ -663,6 +805,22 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     !!mission?.speed &&
     (finished || mission.steps.slice(0, index + 1).some((s) => s.clock));
   const ticking = !finished && !!step?.clock && stage < step.clock.length - 1;
+  // The active step's bar fills over as long as the step will play. A step
+  // that waits for the visitor fills over its intro, then holds full.
+  const fillMs = useMemo(() => {
+    if (!step) return 0;
+    const watch = mode === "watch";
+    const t = stepTiming(step, watch, reduced);
+    // Watch mode plays every step through. Trying it, a step with an action
+    // waits for the click; one without waits for Continue after Back or with
+    // reduced motion.
+    const waits = !watch && (!!step.action || manual || reduced);
+    return waits
+      ? Math.max(t.intro, MIN_FILL)
+      : t.intro +
+          t.hold +
+          (step.action && !reduced ? CURSOR_TRAVEL + CLICK_MS : 0);
+  }, [step, mode, manual, reduced]);
   const bids = useMemo(
     () => simulateBids(ctx.gpu ?? data.gpus[0]),
     [ctx.gpu, data.gpus],
@@ -685,6 +843,8 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
             meta: `${hourly(b.hr)} · ${b.region}`,
           }))
         : null;
+  /** The coach is showing options to pick from, rather than one button. */
+  const choosing = armed && !finished && ready && !!step?.action && !!choices;
   const primaryButton =
     "inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90";
 
@@ -704,20 +864,30 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
         type="button"
         data-coach-action
         onClick={fromCoach(() => startMission(next.id))}
-        className={cn(primaryButton, "relative overflow-hidden")}
+        // Moving on to another mission, not another step: outlined, so it
+        // doesn't read as one more step.
+        className="group relative inline-flex h-9 items-center justify-center gap-1.5 overflow-hidden rounded-md border border-foreground bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-foreground hover:text-background"
       >
-        {startsOver ? "Start over" : "Next"}: {next.title}
-        <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+        <span className="relative">
+          {startsOver ? "Start over" : "Next"}: {next.title}
+        </span>
+        <ArrowRight
+          className="relative h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+          aria-hidden
+        />
         {autoNext && (
           <span
             aria-hidden
-            className="tour-countdown absolute inset-x-0 bottom-0 h-0.5 bg-primary-foreground/60"
+            className="tour-countdown absolute inset-x-0 bottom-0 h-0.5 bg-[#FF414C]"
             style={sweep}
           />
         )}
       </button>
       {autoNext && (
-        <span className="text-xs text-muted-foreground">
+        <span
+          // Above the button: first in the row, on a line of its own.
+          className="order-first w-full text-xs text-muted-foreground"
+        >
           {nextPaused ? "Paused" : `Starts in ${nextIn}s`} ·{" "}
           <button
             type="button"
@@ -741,9 +911,18 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     </button>
   ) : !ready ? (
     <span className="inline-flex h-9 items-center gap-2 px-2 text-sm text-muted-foreground">
-      <span className="h-1.5 w-1.5 rounded-full bg-[#FF414C] motion-safe:animate-pulse" />
+      <span
+        className={cn(
+          "h-1.5 w-1.5 rounded-full",
+          paused
+            ? "bg-muted-foreground"
+            : "bg-[#FF414C] motion-safe:animate-pulse",
+        )}
+      />
       {mode === "watch"
-        ? "Playing…"
+        ? paused
+          ? "Paused"
+          : "Playing…"
         : step.action
           ? "Watch this…"
           : "Almost there…"}
@@ -782,34 +961,99 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
     </button>
   );
 
+  // One bar per chapter; only the chapter being played splits into a bar
+  // per step, and widens to make room for them.
   const chapterBars = mission?.chapters.map((chapter) => {
     const steps = mission.steps.filter((s) => s.chapter === chapter);
     const first = mission.steps.indexOf(steps[0]);
+    const last = first + steps.length - 1;
     const active = !finished && step?.chapter === chapter;
+    const done = finished || index > last;
+    // The bar that just completed turns from red to black.
+    const settled = (pos: number) =>
+      pos === (finished ? index : index - 1) && "tour-settle";
+    const bar = (
+      pos: number,
+      label: string,
+      fill: React.ReactNode,
+      current = false,
+    ) => (
+      <button
+        key={pos}
+        type="button"
+        onClick={() => seek(pos)}
+        aria-label={label}
+        aria-current={current ? "step" : undefined}
+        title={label}
+        // A taller hit area than the 4px bar it draws.
+        className="group -my-1.5 flex min-w-0 flex-1 cursor-pointer items-center py-1.5"
+      >
+        <span className="relative h-1 flex-1 overflow-hidden rounded-full bg-foreground/10 transition-transform group-hover:scale-y-150">
+          {fill}
+        </span>
+      </button>
+    );
     return (
-      <div key={chapter} className="min-w-0 flex-1">
+      <div
+        key={chapter}
+        // Sized from its label, so the label never crops; the active chapter
+        // takes most of the room left over.
+        className="transition-[flex-grow] duration-500 ease-out"
+        style={{
+          flexGrow: active ? Math.max(2, steps.length) : 1,
+          flexBasis: "auto",
+        }}
+      >
         <div
           className={cn(
-            "truncate font-jetBrainsMono text-[11px] uppercase tracking-wider",
+            "whitespace-nowrap font-jetBrainsMono text-[11px] uppercase tracking-wider",
             active ? "text-foreground" : "text-muted-foreground",
           )}
         >
           {chapter}
         </div>
         <div className="mt-1.5 flex gap-1">
-          {steps.map((s, i) => (
-            <span
-              key={s.id}
-              className={cn(
-                "h-1 flex-1 rounded-full transition-colors duration-500",
-                finished || first + i < index
-                  ? "bg-foreground"
-                  : first + i === index
-                    ? "bg-[#FF414C]"
-                    : "bg-foreground/10",
+          {active
+            ? steps.map((s, i) => {
+                const pos = first + i;
+                return bar(
+                  pos,
+                  `Step ${pos + 1}: ${s.title}`,
+                  pos < index ? (
+                    <span
+                      key="done"
+                      className={cn(
+                        "absolute inset-0 bg-foreground",
+                        settled(pos),
+                      )}
+                    />
+                  ) : pos === index ? (
+                    <span
+                      key={`fill-${visit}-${armed}-${mode}`}
+                      className="tour-fill absolute inset-0 bg-[#FF414C]"
+                      style={{
+                        animationDuration: `${fillMs}ms`,
+                        animationPlayState:
+                          armed && !paused ? "running" : "paused",
+                      }}
+                    />
+                  ) : null,
+                  pos === index,
+                );
+              })
+            : bar(
+                first,
+                `${chapter}: ${steps.length} step${steps.length > 1 ? "s" : ""}, from step ${first + 1}`,
+                done ? (
+                  <span
+                    key="done"
+                    className={cn(
+                      "absolute inset-0 bg-foreground",
+                      settled(last),
+                    )}
+                  />
+                ) : null,
               )}
-            />
-          ))}
         </div>
       </div>
     );
@@ -854,14 +1098,21 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
                 reveal();
               }}
               className={cn(
-                "shrink-0 rounded-full border px-2 py-1.5 text-[13px] font-medium transition-colors sm:px-3.5 sm:text-sm",
+                "relative shrink-0 overflow-hidden rounded-full border px-2 py-1.5 text-[13px] font-medium transition-colors sm:px-3.5 sm:text-sm",
                 m.id === missionId
                   ? "border-foreground bg-foreground text-background"
                   : "text-muted-foreground hover:border-foreground/40 hover:text-foreground",
               )}
             >
-              <span className="lg:hidden">{m.short}</span>
-              <span className="hidden lg:inline">{m.title}</span>
+              {m.id === missionId && armed && !finished && (
+                <span
+                  aria-hidden
+                  className="tour-scan pointer-events-none absolute inset-y-0 left-0 w-2/5 bg-gradient-to-r from-transparent to-background/25"
+                  style={{ animationPlayState: paused ? "paused" : "running" }}
+                />
+              )}
+              <span className="relative lg:hidden">{m.short}</span>
+              <span className="relative hidden lg:inline">{m.title}</span>
             </button>
           ))}
         </div>
@@ -903,10 +1154,7 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
               type="button"
               aria-pressed={mode === value}
               aria-label={label}
-              onClick={() => {
-                setMode(value);
-                setArmed(true);
-              }}
+              onClick={() => switchMode(value)}
               className={cn(
                 "flex items-center gap-1.5 rounded-full px-2 py-1 transition-colors sm:px-3",
                 mode === value
@@ -926,7 +1174,8 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
         <div
           ref={chaptersRef}
           className="flex gap-3 px-4 pt-3 md:px-8 md:pt-4"
-          aria-hidden="true"
+          role="group"
+          aria-label="Steps"
         >
           {chapterBars}
         </div>
@@ -1029,6 +1278,40 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
                 )}
               </div>
 
+              {modeNote && (
+                <div
+                  key={modeNote.key}
+                  role="status"
+                  // Above everything in the mock, which blurs behind it.
+                  className="pointer-events-none absolute inset-0 z-[60] flex items-center justify-center bg-black/20 px-3 backdrop-blur-sm motion-safe:duration-300 motion-safe:animate-in motion-safe:fade-in-0"
+                >
+                  {/* Dark in both themes, like the receipt. */}
+                  <div className="flex max-w-sm items-start gap-3 rounded-xl border border-ak-border-strong bg-ak-off-black px-4 py-3 shadow-2xl motion-safe:duration-300 motion-safe:animate-in motion-safe:zoom-in-95">
+                    {modeNote.mode === "watch" ? (
+                      <Eye
+                        className="mt-0.5 h-4 w-4 shrink-0 text-white"
+                        aria-hidden
+                      />
+                    ) : (
+                      <MousePointerClick
+                        className="mt-0.5 h-4 w-4 shrink-0 text-[#FF414C]"
+                        aria-hidden
+                      />
+                    )}
+                    <div>
+                      <p className="text-sm font-semibold text-white">
+                        {modeNote.mode === "watch" ? "Watching" : "Your turn"}
+                      </p>
+                      <p className="mt-0.5 text-[13px] leading-snug text-white/70">
+                        {modeNote.mode === "watch"
+                          ? "Sit back. The tour clicks through each step for you."
+                          : "Click the spot outlined in red, or use the button in the panel."}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {finished && (
                 <Receipt
                   props={props}
@@ -1058,63 +1341,101 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
             className={cn(
               "flex outline-none",
               fit.side
-                ? "shrink-0 flex-col gap-5 overflow-y-auto border-l px-6 py-6"
+                ? "shrink-0 flex-col border-l"
                 : "flex-col gap-4 border-t px-4 py-4 md:flex-row md:items-center md:gap-8 md:px-8 md:py-5",
             )}
             style={
               fit.side
                 ? {
                     width: SIDE_COACH_W,
-                    maxHeight: (fit.height ?? 0) + 2 * SIDE_PAD,
+                    height: (fit.height ?? 0) + 2 * SIDE_PAD,
                   }
                 : undefined
             }
           >
             {fit.side && (
-              <div className="flex gap-2" aria-hidden="true">
+              <div
+                className="flex shrink-0 gap-2 px-6 pt-6"
+                role="group"
+                aria-label="Steps"
+              >
                 {chapterBars}
               </div>
             )}
-            <div className={cn("min-w-0", !fit.side && "flex-1")}>
-              <p className="font-jetBrainsMono text-[11px] uppercase tracking-wider text-muted-foreground">
-                {finished ? "Mission complete" : `${counter} · ${step.chapter}`}
-              </p>
-              <p
-                className={cn(
-                  "mt-1 font-semibold leading-snug text-foreground",
-                  fit.side ? "text-xl tracking-tight" : "text-lg",
-                )}
-              >
-                {finished ? mission.title : step.title}
-              </p>
-              <p
-                className={cn(
-                  "mt-1.5 text-sm leading-relaxed text-muted-foreground",
-                  !fit.side && "md:min-h-[2lh]",
-                )}
-              >
-                {finished
-                  ? "Everything you just did works the same way in Akash Console."
-                  : step.action?.choice === "bid"
-                    ? `${step.body} These bids are simulated within the ${data.live ? "live " : ""}${ctx.gpu?.name ?? "GPU"} price range.`
-                    : step.body}
-              </p>
+            <div
+              className={cn(
+                "min-w-0",
+                fit.side
+                  ? "flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 py-5"
+                  : "flex-1",
+              )}
+            >
+              <div>
+                <div className="flex h-6 items-center gap-2 font-jetBrainsMono text-[11px] uppercase tracking-wider text-muted-foreground">
+                  {finished ? (
+                    "Mission complete"
+                  ) : (
+                    <>
+                      <span>
+                        {counter}
+                        {/* The chapter bars already name it on wider screens. */}
+                        <span className="md:hidden"> · {step.chapter}</span>
+                      </span>
+                      {mode === "watch" && armed && (
+                        <button
+                          type="button"
+                          onClick={() => setUserPaused((v) => !v)}
+                          aria-label={
+                            paused ? "Play the tour" : "Pause the tour"
+                          }
+                          aria-pressed={paused}
+                          title={paused ? "Play" : "Pause"}
+                          // Pinned to the right edge of the panel.
+                          className="ml-auto inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-foreground transition-colors hover:bg-accent"
+                        >
+                          {paused ? (
+                            <Play className="h-3 w-3" aria-hidden />
+                          ) : (
+                            <Pause className="h-3 w-3" aria-hidden />
+                          )}
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+                <p
+                  className={cn(
+                    "mt-1 font-semibold leading-snug text-foreground",
+                    fit.side ? "text-xl tracking-tight" : "text-lg",
+                  )}
+                >
+                  {finished ? mission.title : step.title}
+                </p>
+                <p
+                  className={cn(
+                    "mt-1.5 text-sm leading-relaxed text-muted-foreground",
+                    !fit.side && "md:min-h-[2lh]",
+                  )}
+                >
+                  {finished
+                    ? "Everything you just did works the same way in Akash Console."
+                    : step.action?.choice === "bid"
+                      ? `${step.body} These bids are simulated within the ${data.live ? "live " : ""}${ctx.gpu?.name ?? "GPU"} price range.`
+                      : step.body}
+                </p>
+              </div>
+              {/* Options are part of the step; the footer keeps its place. */}
+              {fit.side && choosing && (
+                <div className="flex flex-col gap-2">{coachAction}</div>
+              )}
             </div>
             {fit.side ? (
-              <>
-                <div
-                  ref={coachActionsRef}
-                  className="flex flex-col gap-2 [&>button]:w-full"
-                >
-                  {coachAction}
-                </div>
-                <div className="mt-auto">{backButton}</div>
-              </>
+              <div className="flex shrink-0 flex-wrap items-center gap-2 border-t px-6 py-4 [&>button[data-coach-action]]:flex-1">
+                {backButton}
+                {!choosing && coachAction}
+              </div>
             ) : (
-              <div
-                ref={coachActionsRef}
-                className="flex shrink-0 flex-wrap items-center gap-2"
-              >
+              <div className="flex shrink-0 flex-wrap items-center gap-2">
                 {backButton}
                 {coachAction}
               </div>
