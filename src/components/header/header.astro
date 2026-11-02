@@ -7,9 +7,12 @@ import clsx from "clsx";
 import TryAkashForm from "../ui/try-akash-form";
 import HamburgerMenu from "./hamburger-menu";
 import NavMenu from "./nav-menu";
+import { getSiteMenuData } from "./site-menu/menu-data";
+import SiteMenu from "./site-menu/site-menu";
 import SubNavbar from "./SubNavbar.astro";
 
 const pathname = `/${Astro.url.pathname.split("/")[1]}`;
+const siteMenuData = await getSiteMenuData();
 const isValidatorsPage = Astro.url.pathname.startsWith("/akash-validators");
 const isProvidersPage =
   Astro.url.pathname.startsWith("/ecosystem/providers") ||
@@ -82,7 +85,7 @@ const navContainerClass = hideContainer ? "" : "container";
     </div>
 
     <!-- Center: desktop nav links -->
-    <div class="absolute left-1/2 hidden h-full -translate-x-1/2 items-center gap-x-[20px] slg:flex xl:gap-x-[24px]">
+    <div class="absolute left-1/2 hidden h-full -translate-x-1/2 items-center gap-x-[12px] slg:flex llg:gap-x-[20px] xl:gap-x-[24px]">
       <NavMenu
         client:idle
         latestRoadmapYear={latestRoadmapYear}
@@ -112,6 +115,11 @@ const navContainerClass = hideContainer ? "" : "container";
           Get in Touch
         </a>
         <TryAkashForm client:idle type="headerDeploy" />
+        <SiteMenu
+          client:media="(min-width: 1100px)"
+          data={siteMenuData}
+          hideDarkToggle={hideDarkToggle}
+        />
       </div>
     </div>
   </nav>

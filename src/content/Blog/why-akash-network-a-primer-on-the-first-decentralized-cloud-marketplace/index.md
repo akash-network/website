@@ -116,7 +116,7 @@ During the global pandemic, [these workloads have become increasingly expensive 
 
 [Akash’s economic model](https://akash.network/blog/an-evolution-of-akash-network-token-economics/) uses a native currency, Akash Token (AKT) to solve for volatility (one of the biggest challenges for adoption in crypto), while ensuring economic security of the platform’s public blockchain. The model bootstraps early supply by subsidizing using inflation (i.e., borrowing from the future), and activates an incentive structure that not only fairly distributes, but will unlock network effects to accelerate growth.
 
-The [Akash Token (AKT)](https://akash.network/blog/category/token-economics/) is a utility token that performs three main functions: Resolve, Reward, and Reserve.
+The [Akash Token (AKT)](https://akash.network/token/) is a utility token that performs three main functions: Resolve, Reward, and Reserve.
 
 **Resolve**
 

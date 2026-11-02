@@ -57,7 +57,7 @@ The benefits of cloud computing to companies throughout their lifecycle can be e
 
 Cloud computing has hit a new peak in 2020 due in large part to the accelerating growth of AI and ML technologies that require massive computing capacity. Blockchain provides a powerful solution to addressing current inefficiencies that impact pricing, innovation, and cost structure for users and suppliers. At Akash Network, we’ve leveraged blockchain to build the world’s first decentralized peer-to-peer cloud marketplace for serverless computing, enabling any data center and anyone with a computer to easily sell their unused compute.
 
-With the advent of blockchain-powered cloud offerings, there will be more secure, more flexible, and significantly lower cost alternatives to the top 4 CSPs. More efficiently utilized data centers will achieve better utilization and amortization of their capital expenditures, and in-home innovations like the Helium Hot Spot and the [Akash Supermini server](https://akash.network/supermini/reserve) will enable individual users to participate in the marketplace. 
+With the advent of blockchain-powered cloud offerings, there will be more secure, more flexible, and significantly lower cost alternatives to the top 4 CSPs. More efficiently utilized data centers will achieve better utilization and amortization of their capital expenditures, and in-home innovations like the Helium Hot Spot and the Akash Supermini server will enable individual users to participate in the marketplace. 
 
 1.  Forrester Research 2019, “[Predictions 2020: Cloud Computing](https://blog.akash.network/2020/02/26/how-blockchain-is-transforming-cloud/#easy-footnote-1-631)”
     
