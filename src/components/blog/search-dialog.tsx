@@ -7,14 +7,16 @@ import { Loader2, Search } from "lucide-react";
 
 import Fuse from "fuse.js"; // Import the Fuse.js library
 
-// Define a TypeScript interface for the project data
+// Define a TypeScript interface for the project data. Blog entries name a
+// contributor, Bid entries an author; Bid banners are optional.
 interface Blog {
   title: string;
   description: string;
   link: string;
   pubDate: string;
-  bannerImage: BannerImage;
-  contributor: string;
+  bannerImage: BannerImage | null;
+  contributor?: string;
+  author?: string;
   tag: string;
   readingTime?: number;
 }
@@ -23,9 +25,28 @@ interface BannerImage {
   src: string;
 }
 
+const SOURCES = {
+  blog: {
+    endpoint: "/api/search/blog.json",
+    basePath: "/blog/",
+    label: "Search blog posts",
+  },
+  bits: {
+    endpoint: "/api/search/bits.json",
+    basePath: "/the-bid/",
+    label: "Search The Bid",
+  },
+};
+
 // Trigger is a shadcn/ui outline Button; the dialog follows shadcn's
 // CommandDialog (input row with a bottom border, then a scrolling list).
-export default function SearchDialog() {
+export default function SearchDialog({
+  source = "blog",
+}: {
+  source?: keyof typeof SOURCES;
+}) {
+  const { endpoint, basePath, label } = SOURCES[source];
+
   // State variables
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [collectionData, setCollectionData] = useState<Blog[]>([]); // An array to store project data
@@ -55,7 +76,7 @@ export default function SearchDialog() {
       setError(null); // Reset error state before fetching data
 
       // Fetch data when the dialog is open
-      fetch(`/api/search/blog.json`)
+      fetch(endpoint)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -97,7 +118,7 @@ export default function SearchDialog() {
       <button
         type="button"
         onClick={openModal}
-        aria-label="Search blog posts"
+        aria-label={label}
         className={cn(GHOST_PILL_CLASS, "w-8 px-0")}
       >
         <Search className="size-4" aria-hidden="true" />
@@ -129,9 +150,7 @@ export default function SearchDialog() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl overflow-hidden rounded-xl border bg-background text-left text-foreground shadow-lg">
-                  <Dialog.Title className="sr-only">
-                    Search blog posts
-                  </Dialog.Title>
+                  <Dialog.Title className="sr-only">{label}</Dialog.Title>
                   <div className="flex h-12 items-center gap-2 border-b px-4">
                     <Search
                       className="size-4 shrink-0 text-muted-foreground"
@@ -139,8 +158,8 @@ export default function SearchDialog() {
                     />
                     <input
                       className="h-full w-full bg-transparent text-base outline-none placeholder:text-muted-foreground sm:text-sm"
-                      placeholder="Search blog posts..."
-                      aria-label="Search blog posts"
+                      placeholder={`${label}...`}
+                      aria-label={label}
                       value={searchQuery}
                       onChange={handleSearchInput}
                     />
@@ -170,9 +189,9 @@ export default function SearchDialog() {
                               key={index}
                               title={blog.title}
                               description={blog.description}
-                              link={blog.link}
-                              bannerImage={blog.bannerImage.src}
-                              contributor={blog.contributor}
+                              href={`${basePath}${blog.link}`}
+                              bannerImage={blog.bannerImage?.src}
+                              contributor={blog.contributor ?? blog.author}
                               tag={blog.tag}
                               pubDate={blog.pubDate}
                               readingTime={blog.readingTime}
@@ -195,7 +214,7 @@ export default function SearchDialog() {
 const BlocCard = ({
   title,
   description,
-  link,
+  href,
   bannerImage,
   contributor,
   tag,
@@ -204,26 +223,30 @@ const BlocCard = ({
 }: {
   title: string;
   description: string;
-  link: string;
-  bannerImage: string;
-  contributor: string;
+  href: string;
+  bannerImage?: string;
+  contributor?: string;
   tag: string;
   pubDate: string;
   readingTime?: number;
 }) => {
   return (
     <a
-      href={`/blog/${link}`}
+      href={href}
       className="flex items-center gap-4 rounded-md p-2 outline-none transition-colors hover:bg-accent focus-visible:bg-accent"
     >
-      <img
-        width={600}
-        height={338}
-        src={bannerImage}
-        alt=""
-        loading="lazy"
-        className="hidden aspect-video w-28 shrink-0 rounded-md border object-cover sm:block"
-      />
+      {bannerImage ? (
+        <img
+          width={600}
+          height={338}
+          src={bannerImage}
+          alt=""
+          loading="lazy"
+          className="hidden aspect-video w-28 shrink-0 rounded-md border object-cover sm:block"
+        />
+      ) : (
+        <div className="hidden aspect-video w-28 shrink-0 rounded-md border bg-neutral-100 dark:bg-neutral-800 sm:block" />
+      )}
 
       <div className="min-w-0 flex-1">
         <div className="flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
@@ -233,7 +256,8 @@ const BlocCard = ({
             </span>
           )}
           <span className="truncate">
-            {contributor} · {pubDate}
+            {contributor && `${contributor} · `}
+            {pubDate}
             {readingTime && ` · ${readingTime} min read`}
           </span>
         </div>
