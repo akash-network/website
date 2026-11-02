@@ -17,6 +17,9 @@ const UPDATED = SNAPSHOT_DATE;
 const AS_OF = liveDate(UPDATED);
 const { rate: RATE } = livePriceLabels(HOURLY);
 
+const PRICE_POST = "/the-bid/h100-rental-price-2026-cost-per-hour/";
+const CONTEXT_POST = "/the-bid/h100-vs-h200-long-context-llms/";
+
 const reserve: GpuLink = {
   label: "Reserve H100 capacity",
   href: "/gpus-on-demand",
@@ -64,6 +67,7 @@ export const h100: GpuDetailPage = {
       },
       { livePrice: true },
     ),
+    note: `For rates across other providers, the on-demand, reserved and spot split, and the cost per month and year, see [H100 rental price](${PRICE_POST}).`,
     options: [
       {
         title: "On-demand",
@@ -225,8 +229,7 @@ export const h100: GpuDetailPage = {
     },
     {
       question: "Is the H100 still worth using?",
-      answer:
-        "Yes, for workloads that fit in 80 GB per GPU. It shares the H200's compute and runs on a mature, widely supported Hopper software stack.",
+      answer: `Yes, for workloads that fit in 80 GB per GPU. It shares the H200's compute and runs on a mature, widely supported Hopper software stack. For how 80 GB compares with the H200's 141 GB once KV cache is accounted for, see [H100 vs H200 for long-context LLMs](${CONTEXT_POST}).`,
     },
     {
       question: "Can I reserve a dedicated H100 cluster?",

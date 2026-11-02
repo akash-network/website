@@ -37,9 +37,9 @@ Today, we’re highlighting several open-source projects featuring this integrat
 
 - [Pinterest app on Rails](https://github.com/ovrclk/akash-on-rails)
 
-- [Backup and restore Postgres](https://akash.network/docs/guides/postgres-sql-restore-or-backup/)
+- [Backup and restore Postgres](https://github.com/akash-network/awesome-akash/tree/master/postgres-restore)
 
-- [Unstoppable Web 2.0](https://akash.network/docs/guides/unstopabble-web/)
+- Unstoppable Web 2.0
 
 - [Hosted Helium Validators](https://github.com/filebase/helium-on-akash)
 

@@ -20,7 +20,7 @@ cloudmosResourcesSection:
     - title: Akash Console Docs
       description: Tap into the Akash Marketplace and deploy permissionlessly using one of the network’s open-source deployment tools.
       badge: "./assets/github.svg"
-      link: "/docs/getting-started/quickstart-guides/akash-console/"
+      link: "/docs/developers/deployment/akash-console/getting-started/"
       linkIcon: true
       linkLabel: "View More"
     - title: Credit Card Payments in Akash Console
@@ -42,12 +42,12 @@ resourcesSection:
     - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash Console
       description: Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash Console.
       img: "./assets/console.png"
-      link: "/docs/getting-started/quickstart-guides/akash-console/"
+      link: "/docs/developers/deployment/akash-console/getting-started/"
 
     - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash CLI
       description: "Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash CLI."
       img: "./assets/cli.png"
-      link: "/docs/getting-started/quickstart-guides/akash-cli/"
+      link: "/docs/developers/deployment/cli/"
 
 additionalDeploymentSection:
   title: Additional Deployment Resources
@@ -60,5 +60,5 @@ additionalDeploymentSection:
       link: /docs/developers/deployment/cli/
     - title: Terraform Cloud Integration
       content: Effortless integration with the Akash Network using Terraform Cloud
-      link: /docs/other-resources/experimental/akash-deployments-via-terraform/
+      link: https://github.com/akash-network/community/tree/main/sig-clients/terraform-provider
 ---
