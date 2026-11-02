@@ -1,5 +1,6 @@
 ---
 import PostCard from "@/components/cards/post-card.astro";
+import { getReadingTime } from "@/utils/readingTime";
 import { getBitsPosts, getPostTagSlugs } from "@/utils/bitsTaxonomy";
 
 // Every Bid listing card as an HTML fragment (no layout), for the blog
@@ -20,9 +21,8 @@ const posts = await getBitsPosts();
       tag={post.data.tags[0]}
       contributor={post.data.author}
       pubDate={post.data.pubDate}
-      hideTag
-      hideDate
-      hideAuthor
+      readingTime={getReadingTime(post.body)}
+      listThumbnail
       data-date={post.data.pubDate.toISOString()}
       data-year={post.data.pubDate.getUTCFullYear()}
       data-categories={getPostTagSlugs(post).join(",")}

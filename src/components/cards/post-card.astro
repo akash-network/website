@@ -11,8 +11,9 @@ import { ArrowUpRight } from "lucide-react";
 // against the ring. The image placeholder uses shadcn's neutral muted colour
 // as a literal because this site does not define --muted.
 // Inside a post grid set to list view (data-display="list" on group/posts)
-// the media is hidden. External cards open in a new tab and name the site
-// they lead to in place of the reading time.
+// the media is hidden, or with listThumbnail shown as a small thumbnail at
+// the right edge. External cards open in a new tab and name the site they
+// lead to in place of the reading time.
 
 interface Props {
   /** Banner; the muted placeholder shows when there is none. */
@@ -29,6 +30,8 @@ interface Props {
   hideTag?: boolean;
   hideDate?: boolean;
   hideAuthor?: boolean;
+  /** In list view, keep the banner as a thumbnail at the right edge. */
+  listThumbnail?: boolean;
   /** data-* attributes for client-side filtering (blog-cards partial). */
   [attribute: `data-${string}`]: string | number | undefined;
 }
@@ -45,6 +48,7 @@ const {
   hideTag = false,
   hideDate = false,
   hideAuthor = false,
+  listThumbnail = false,
   ...attributes
 } = Astro.props;
 
@@ -63,11 +67,17 @@ const site =
     "group isolate flex h-full w-full flex-col overflow-hidden rounded-[14px] bg-background2 text-card-foreground ring-1 ring-foreground/10 transition-shadow hover:ring-foreground/20",
     href &&
       "outline-none focus-visible:ring-[3px] focus-visible:ring-neutral-400/50 dark:focus-visible:ring-neutral-500/50",
+    listThumbnail && "group-data-[display=list]/posts:flex-row",
   )}
   {...attributes}
 >
   <div
-    class="aspect-video shrink-0 overflow-hidden bg-neutral-100 group-data-[display=list]/posts:hidden dark:bg-neutral-800"
+    class={cn(
+      "aspect-video shrink-0 overflow-hidden bg-neutral-100 dark:bg-neutral-800",
+      listThumbnail
+        ? "group-data-[display=list]/posts:order-last group-data-[display=list]/posts:my-4 group-data-[display=list]/posts:mr-4 group-data-[display=list]/posts:w-28 group-data-[display=list]/posts:self-center group-data-[display=list]/posts:rounded-lg sm:group-data-[display=list]/posts:w-40 md:group-data-[display=list]/posts:w-48"
+        : "group-data-[display=list]/posts:hidden",
+    )}
   >
     {
       image && (
@@ -84,7 +94,7 @@ const site =
   </div>
 
   <div
-    class="flex flex-1 flex-col gap-6 py-6 group-data-[display=list]/posts:gap-4 group-data-[display=list]/posts:py-5"
+    class="flex min-w-0 flex-1 flex-col gap-6 py-6 group-data-[display=list]/posts:gap-4 group-data-[display=list]/posts:py-5"
   >
     <div class="flex flex-col gap-2 px-6">
       {

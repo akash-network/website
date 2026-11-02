@@ -3,6 +3,7 @@ import BitsFilterBar from "@/components/blog/bits-filter-bar.astro";
 import BlogPosts from "@/components/blog/blog-posts.astro";
 import { POSTS_PER_PAGE } from "@/components/blog/blogUi";
 import PostCard from "@/components/cards/post-card.astro";
+import { getReadingTime } from "@/utils/readingTime";
 import Layout from "@/layouts/layout.astro";
 import { getBitsPosts } from "@/utils/bitsTaxonomy";
 import type { PaginateFunction } from "astro";
@@ -38,9 +39,8 @@ const { page } = Astro.props;
             tag={post.data.tags[0]}
             contributor={post.data.author}
             pubDate={post.data.pubDate}
-            hideTag
-            hideDate
-            hideAuthor
+            readingTime={getReadingTime(post.body)}
+            listThumbnail
           />
         ))
       }
