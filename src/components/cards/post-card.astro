@@ -30,6 +30,8 @@ interface Props {
   hideTag?: boolean;
   hideDate?: boolean;
   hideAuthor?: boolean;
+  /** Show the reading time at the right of the date row, not below. */
+  readingTimeTop?: boolean;
   /** In list view, keep the banner as a thumbnail at the right edge. */
   listThumbnail?: boolean;
   /** data-* attributes for client-side filtering (blog-cards partial). */
@@ -48,6 +50,7 @@ const {
   hideTag = false,
   hideDate = false,
   hideAuthor = false,
+  readingTimeTop = false,
   listThumbnail = false,
   ...attributes
 } = Astro.props;
@@ -57,6 +60,9 @@ const site =
   external && href
     ? new URL(href, Astro.url).hostname.replace(/^www\./, "")
     : undefined;
+const topReadingTime =
+  readingTimeTop && !site && !hideDate ? readingTime : undefined;
+const bottomReadingTime = readingTimeTop || hideDate ? undefined : readingTime;
 ---
 
 <Root
@@ -75,7 +81,7 @@ const site =
     class={cn(
       "aspect-video shrink-0 overflow-hidden bg-neutral-100 dark:bg-neutral-800",
       listThumbnail
-        ? "group-data-[display=list]/posts:order-last group-data-[display=list]/posts:my-4 group-data-[display=list]/posts:mr-4 group-data-[display=list]/posts:w-28 group-data-[display=list]/posts:self-center group-data-[display=list]/posts:rounded-lg sm:group-data-[display=list]/posts:w-40 md:group-data-[display=list]/posts:w-48"
+        ? "group-data-[display=list]/posts:order-last group-data-[display=list]/posts:my-3 group-data-[display=list]/posts:mr-3 group-data-[display=list]/posts:w-24 group-data-[display=list]/posts:self-center group-data-[display=list]/posts:rounded-md md:group-data-[display=list]/posts:w-32"
         : "group-data-[display=list]/posts:hidden",
     )}
   >
@@ -98,7 +104,7 @@ const site =
   >
     <div class="flex flex-col gap-2 px-6">
       {
-        (!hideTag || !hideDate) && (
+        (!hideTag || !hideDate || topReadingTime) && (
           <div class="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
             {!hideDate && (
               <span class="shrink-0">
@@ -112,6 +118,11 @@ const site =
               />
             )}
             {!hideTag && tag && <span class="truncate">{tag}</span>}
+            {topReadingTime && (
+              <span class="ml-auto shrink-0 pl-2">
+                {topReadingTime} min read
+              </span>
+            )}
           </div>
         )
       }
@@ -124,10 +135,10 @@ const site =
     </div>
 
     {
-      (!hideAuthor || site || (!hideDate && readingTime)) && (
+      (!hideAuthor || site || bottomReadingTime) && (
         <div class="mt-auto flex min-w-0 items-center gap-2 px-6 text-sm text-muted-foreground">
           {!hideAuthor && <span class="truncate">By {contributor}</span>}
-          {!hideAuthor && (site || (!hideDate && readingTime)) && (
+          {!hideAuthor && (site || bottomReadingTime) && (
             <span
               aria-hidden="true"
               class="size-1 shrink-0 rounded-full bg-current opacity-50"
@@ -140,8 +151,9 @@ const site =
               <span class="sr-only">(opens in a new tab)</span>
             </span>
           ) : (
-            !hideDate &&
-            readingTime && <span class="shrink-0">{readingTime} min read</span>
+            bottomReadingTime && (
+              <span class="shrink-0">{bottomReadingTime} min read</span>
+            )
           )}
         </div>
       )

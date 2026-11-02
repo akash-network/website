@@ -55,6 +55,9 @@ const { page, label } = Astro.props;
             contributor={post.data.author}
             pubDate={post.data.pubDate}
             readingTime={getReadingTime(post.body)}
+            readingTimeTop
+            hideTag
+            hideAuthor
             listThumbnail
           />
         ))
