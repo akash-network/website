@@ -15,7 +15,7 @@ contributors:
 bannerImage: ./banner-image.jpg
 ---
 
-This week we introduced The Akash Network to the world with a press release and the open sourcing of our software. You can learn about Akash to your heart’s content by [visiting our site](https://akash.network/) or [reading our light paper](https://akash.network/paper.pdf) (a friendly version of the traditionally-impenetrable crypto whitepaper), so I’ll dispense with a long description of Akash to focus instead on something more meta: **why** we’re doing this and **how** we’re going to do it.
+This week we introduced The Akash Network to the world with a press release and the open sourcing of our software. You can learn about Akash to your heart’s content by [visiting our site](https://akash.network/) or [reading our light paper](https://akash.network/whitepaper/) (a friendly version of the traditionally-impenetrable crypto whitepaper), so I’ll dispense with a long description of Akash to focus instead on something more meta: **why** we’re doing this and **how** we’re going to do it.
 
 ## The Akash tl;dr
 

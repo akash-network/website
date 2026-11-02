@@ -37,7 +37,7 @@ To be competitive, technology platforms have needed to either enhance existing c
 
 Within this market context, there are 8.4 million data centers with an estimated 85% of server capacity underutilized.
 
-To provide an alternative to the cloud oligopoly and to leverage this underutilized capacity from data centers, Akash is creating the Supercloud, the world’s first and only decentralized peer-to-peer cloud marketplace for serverless compute and services, enabling any data center and anyone with a computer to [become a cloud provider](https://akash.network/docs/providers/kube) by offering their unused compute cycles in a safe and frictionless marketplace.
+To provide an alternative to the cloud oligopoly and to leverage this underutilized capacity from data centers, Akash is creating the Supercloud, the world’s first and only decentralized peer-to-peer cloud marketplace for serverless compute and services, enabling any data center and anyone with a computer to [become a cloud provider](https://akash.network/docs/providers/setup-and-installation/kubespray/kubernetes-setup/) by offering their unused compute cycles in a safe and frictionless marketplace.
 
 For a system to reach or exceed the scale of the internet, the system should improve on the foundational principles of the internet while solving for inefficiencies inadvertently introduced. We designed Akash to be a decentralized and open ecosystem that is censorship-resistant and self-sovereign.
 
@@ -93,4 +93,4 @@ Akash’s blockchain provides a shared state for decentralized control planes an
 
 By leveraging the power of a free market and a permissionless, open cloud, Akash Network will unlock 85% of cloud compute capacity in 8.4 million data centers currently underutilized. Significantly more efficient and up to 10x lower in cost, our Supercloud provides the market with a compelling alternative to the cloud infrastructure oligopoly.
 
-**\[** [**Download Updated Akash Network Token Economic Model to Learn More**](https://akash.network/static/akash-econ.pdf) **\]**
+**\[** [**Download Updated Akash Network Token Economic Model to Learn More**](https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B) **\]**
