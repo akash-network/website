@@ -1,5 +1,9 @@
 ---
+import { getSiteMenuData } from "../header/site-menu/menu-data";
+import SiteMenu from "../header/site-menu/site-menu";
 import Logo from "../ui/logo.astro";
+
+const siteMenuData = await getSiteMenuData();
 ---
 
 <nav class="flex h-16 border-b border-[#e6e8eb] dark:border-[#333]">
@@ -24,7 +28,7 @@ import Logo from "../ui/logo.astro";
       </a>
     </div>
 
-    <!-- Right side: same CTA pair as the marketing header -->
+    <!-- Right side: same CTAs and site menu as the marketing header -->
     <div class="flex items-center gap-2">
       <a
         href="/gpus-on-demand"
@@ -39,6 +43,9 @@ import Logo from "../ui/logo.astro";
       >
         Deploy Now
       </a>
+      <!-- This header only shows from lg up; below that the docs layout uses
+           the marketing header, whose hamburger menu has no site menu. -->
+      <SiteMenu client:media="(min-width: 1024px)" data={siteMenuData} />
     </div>
   </div>
 </nav>
