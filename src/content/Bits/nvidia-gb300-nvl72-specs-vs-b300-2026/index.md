@@ -33,7 +33,7 @@ Strictly, there's no standalone "GB300 GPU." GB300 names the Grace plus Blackwel
 
 Whether you ask GB300 vs B300 or B300 vs GB300, the answer is the same: at the chip level, not much. Both use NVIDIA's Blackwell Ultra GPU with 288GB of HBM3e. The difference is the system around it.
 
-An HGX B300 server puts 8 GPUs on one board. A GB300 NVL72 puts 72 in a rack, adds Grace CPUs, and stretches NVLink across all of them. Think H100 vs DGX H100: the part versus the machine.
+An HGX B300 server puts 8 GPUs on one board. The NVL72 puts 72 in a rack, adds Grace CPUs, and stretches NVLink across all of them. Think H100 vs DGX H100: the part versus the machine.
 
 | Spec (per system) | HGX B300 (8-GPU server) | GB300 NVL72 (rack) |
 |---|---|---|
@@ -48,11 +48,11 @@ An HGX B300 server puts 8 GPUs on one board. A GB300 NVL72 puts 72 in a rack, ad
 
 *Sources: [NVIDIA HGX specs](https://www.nvidia.com/en-us/data-center/hgx/), [NVIDIA GB300 NVL72 specs](https://www.nvidia.com/en-us/data-center/gb300-nvl72/). Per-GPU FP4 is the system figure divided by GPU count.*
 
-The takeaway is the NVLink domain. In B300 servers, GPU 1 reaches GPU 9 over the network; in a GB300 rack, all 72 share NVLink. NVIDIA also rates each rack GPU slightly higher (15 vs 13.5 PFLOPS dense FP4), so same generation, not identical configuration.
+The takeaway is the NVLink domain. In B300 servers, GPU 1 reaches GPU 9 over the network; in the rack, all 72 share NVLink. NVIDIA also rates each rack GPU slightly higher (15 vs 13.5 PFLOPS dense FP4), so same generation, not identical configuration.
 
 ## What are the NVIDIA GB300 specs?
 
-The NVIDIA GB300 NVL72 has 72 GPUs, 36 CPUs, 20TB of HBM3e, and 130 TB/s of NVLink per rack, with each of the GB300 GPUs carrying up to 288GB. Full sheet from [NVIDIA's GB300 NVL72 page](https://www.nvidia.com/en-us/data-center/gb300-nvl72/):
+The NVIDIA GB300 NVL72 has 72 GPUs, 36 CPUs, 20TB of HBM3e, and 130 TB/s of NVLink per rack, with each GPU carrying up to 288GB. Full sheet from [NVIDIA's GB300 NVL72 page](https://www.nvidia.com/en-us/data-center/gb300-nvl72/):
 
 | Spec | GB300 NVL72 |
 |---|---|
@@ -68,11 +68,11 @@ The NVIDIA GB300 NVL72 has 72 GPUs, 36 CPUs, 20TB of HBM3e, and 130 TB/s of NVLi
 | Networking | 800 Gb/s per GPU via ConnectX-8 SuperNIC |
 | Cooling | Fully liquid-cooled |
 
-One note on GB300 memory: 72 x 288GB is about 20.7TB, but NVIDIA lists the rack at 20TB, so that's the official number. The 37TB "fast memory" figure adds the 17TB of Grace CPU memory.
+One note on rack memory: 72 x 288GB is about 20.7TB, but NVIDIA lists the rack at 20TB, so that's the official number. The 37TB "fast memory" figure adds the 17TB of Grace CPU memory.
 
 ## How does the GB300 NVL72 compare to the GB200 NVL72?
 
-The GB300 NVL72 keeps the GB200's rack layout and NVLink fabric but swaps in Blackwell Ultra GPUs, which adds roughly 50% more GPU memory and dense FP4 compute per rack.
+The newer rack keeps the GB200's layout and NVLink fabric but swaps in Blackwell Ultra GPUs, which adds roughly 50% more GPU memory and dense FP4 compute per rack.
 
 | Spec (per rack) | GB200 NVL72 | GB300 NVL72 |
 |---|---|---|
@@ -92,7 +92,7 @@ The upgrade is capacity, not interconnect. Memory bandwidth and NVLink stay flat
 
 You need a GB300 NVL72 when your workload sends constant all-to-all traffic across dozens of GPUs, such as frontier-scale pretraining or very wide expert-parallel MoE serving. For most other work, 8-GPU B300 nodes do the job.
 
-The deciding number is bandwidth between GPUs. Inside a GB300 rack, every GPU reaches the other 71 at 1.8 TB/s over NVLink. Between B300 servers, traffic runs over the network at up to 800 Gb/s per GPU, about 100 GB/s, far slower than NVLink.
+The deciding number is bandwidth between GPUs. Inside the rack, every GPU reaches the other 71 at 1.8 TB/s over NVLink. Between B300 servers, traffic runs over the network at up to 800 Gb/s per GPU, about 100 GB/s, far slower than NVLink.
 
 An 8x B300 node still holds about 2.1TB of GPU memory, enough to serve trillion-parameter MoE models in 4-bit precision. Our [B300 288GB workload guide](/the-bid/b300-288gb-vram-ai-workloads-2026/) covers which models fit.
 
@@ -100,16 +100,16 @@ On Akash, teams can [deploy the NVIDIA B300 on demand](/pricing/gpus/b300/), or 
 
 ## FAQ
 
-**Is the GB300 the same GPU as the B300?** Mostly. GB300 NVL72 racks and B300 servers both use NVIDIA's Blackwell Ultra GPU with 288GB of HBM3e. B300 usually means the 8-GPU HGX or DGX server, while GB300 NVL72 is the 72-GPU rack with Grace CPUs. NVIDIA rates rack GPUs slightly higher on dense FP4.
+**Is the GB300 the same GPU as the B300?** Mostly. Both systems use NVIDIA's Blackwell Ultra GPU with 288GB of HBM3e. B300 usually means the 8-GPU HGX or DGX server, while GB300 NVL72 is the 72-GPU rack with Grace CPUs. NVIDIA rates rack GPUs slightly higher on dense FP4.
 
-**How much memory does the GB300 NVL72 have?** The GB300 NVL72 has 20TB of HBM3e GPU memory across 72 GPUs, up to 288GB per GPU, with up to 576 TB/s of total bandwidth. Add the 17TB of LPDDR5X on the Grace CPUs and total fast memory reaches 37TB per rack, per NVIDIA's specs.
+**How much memory does the GB300 NVL72 have?** The rack has 20TB of HBM3e GPU memory across 72 GPUs, up to 288GB per GPU, with up to 576 TB/s of total bandwidth. Add the 17TB of LPDDR5X on the Grace CPUs and total fast memory reaches 37TB per rack, per NVIDIA's specs.
 
-**What's the difference between GB300 and GB200?** The GB300 NVL72 uses Blackwell Ultra GPUs; the GB200 NVL72 uses the original Blackwell. GB300 raises rack GPU memory from 13.4TB to 20TB and dense FP4 compute from 720 to 1,080 PFLOPS. Both racks hold 72 GPUs and 36 Grace CPUs and share the same 130 TB/s NVLink bandwidth.
+**What's the difference between GB300 and GB200?** The GB300 NVL72 uses Blackwell Ultra GPUs; the GB200 NVL72 uses the original Blackwell. The newer rack raises GPU memory from 13.4TB to 20TB and dense FP4 compute from 720 to 1,080 PFLOPS. Both racks hold 72 GPUs and 36 Grace CPUs and share the same 130 TB/s NVLink bandwidth.
 
-**How many GPUs are in a GB300 NVL72?** A GB300 NVL72 contains 72 NVIDIA Blackwell Ultra GPUs and 36 NVIDIA Grace CPUs in a single liquid-cooled rack. All 72 GPUs sit in one NVLink domain, which is where the "NVL72" in the name comes from. For comparison, an HGX B300 server holds 8 of the same generation of GPU.
+**How many GPUs are in a GB300 NVL72?** The rack contains 72 NVIDIA Blackwell Ultra GPUs and 36 NVIDIA Grace CPUs in a single liquid-cooled rack. All 72 GPUs sit in one NVLink domain, which is where the "NVL72" in the name comes from. For comparison, an HGX B300 server holds 8 of the same generation of GPU.
 
-**What's the NVLink bandwidth in a GB300 NVL72?** The GB300 NVL72 has 130 TB/s of total NVLink bandwidth across its 72-GPU domain, using fifth-generation NVLink at 1.8 TB/s per GPU. An 8-GPU HGX B300 server has the same 1.8 TB/s per GPU but 14.4 TB/s total, because only 8 GPUs share the NVLink fabric.
+**What's the NVLink bandwidth in a GB300 NVL72?** The rack has 130 TB/s of total NVLink bandwidth across its 72-GPU domain, using fifth-generation NVLink at 1.8 TB/s per GPU. An 8-GPU HGX B300 server has the same 1.8 TB/s per GPU but 14.4 TB/s total, because only 8 GPUs share the NVLink fabric.
 
-**Does the GB300 NVL72 need liquid cooling?** Yes. NVIDIA describes the GB300 NVL72 as a fully liquid-cooled, rack-scale design, so it needs a data center with liquid cooling infrastructure. That's a major difference from 8-GPU B300 servers, where cooling depends on the server build, and one reason most teams run Blackwell Ultra in smaller nodes.
+**Does the GB300 NVL72 need liquid cooling?** Yes. NVIDIA describes the system as a fully liquid-cooled, rack-scale design, so it needs a data center with liquid cooling infrastructure. That's a major difference from 8-GPU B300 servers, where cooling depends on the server build, and one reason most teams run Blackwell Ultra in smaller nodes.
 
-**What CPU does the GB300 NVL72 use?** The GB300 NVL72 uses 36 NVIDIA Grace CPUs, one for every two GPUs, built on Arm Neoverse V2 cores for 2,592 cores per rack. The Grace CPUs carry 17TB of LPDDR5X memory at 14 TB/s, which NVIDIA counts toward the rack's 37TB of total fast memory.
+**What CPU does the GB300 NVL72 use?** The rack uses 36 NVIDIA Grace CPUs, one for every two GPUs, built on Arm Neoverse V2 cores for 2,592 cores per rack. The Grace CPUs carry 17TB of LPDDR5X memory at 14 TB/s, which NVIDIA counts toward the rack's 37TB of total fast memory.
