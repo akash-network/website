@@ -6,8 +6,9 @@ import BlogLayout from "@/layouts/blog-layout.astro";
 import { blogPostProseClasses } from "@/lib/prose-classes";
 import { isCaseStudy, toCategorySlug } from "@/utils/blogTaxonomy";
 import { getReadingTime } from "@/utils/readingTime";
-import { Image } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
+import { existsSync } from "node:fs";
 
 export async function getStaticPaths() {
   const posts = await getCollection("Blog");
@@ -23,6 +24,23 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const readingTime = getReadingTime(post.body);
 
+// Share image: a dedicated card in public/meta-images/blog/<slug>.webp when the post has one
+// (older posts whose banners don't fit a share preview, and GIF banners, which would stay
+// animated and several MB); otherwise the banner as a WebP at most 1200px wide.
+const banner = post.data.bannerImage;
+const shareCard = `/meta-images/blog/${post.id}.webp`;
+const shareImage =
+  banner.format === "gif" || existsSync(`public${shareCard}`)
+    ? shareCard
+    : (
+        await getImage({
+          src: banner,
+          format: "webp",
+          width: Math.min(banner.width, 1200),
+          quality: 82,
+        })
+      ).src;
+
 const category = post.data.categories[0];
 const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
 const categoryHref = isCaseStudy(post)
@@ -31,7 +49,7 @@ const categoryHref = isCaseStudy(post)
 ---
 
 <BlogLayout
-  image={post.data.bannerImage.src}
+  image={shareImage}
   title={post.data.metaTitle ? post.data.metaTitle : post.data.title}
   description={post.data.metaDescription
     ? post.data.metaDescription
