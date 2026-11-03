@@ -73,21 +73,21 @@ SDK observation validation checks outcome/evidence format. It does not verify a 
 
 ## Recovery and Deployment Compatibility
 
-The composite-ID module uses genesis schema version 2 and module consensus version 2. Numeric-ID testnets require a new chain, Solana program and mint in a separate namespace. Preserve the old programs, ledgers, runtime state and portal history; do not copy scalar-ID journals into the new services. The chain upgrade only installs sink on pre-sink state and rejects an existing sink version entry.
+The composite-ID module uses genesis schema version 4 and module consensus version 2. Numeric-ID and earlier composite-ID testnets require fresh paired state. Schema versions 1 through 3 are rejected; changing the marker alone is not a migration. Preserve the old programs, ledgers, runtime state and portal history; do not copy scalar-ID journals into the new services. The chain upgrade only installs sink on pre-sink state and rejects an existing sink version entry.
 
-A populated export contains parameters, policy history, raw send/refund usage, every transfer with its explicit settlement and void order, and each account's usage once. Import rebuilds status, dispute, refund and history indexes. It does not create new funds, sweep balances or guess missing authorization.
+A populated export contains parameters, the explicit current policy version and referenced policy history, raw send/refund usage, each `GenesisRecord` with its status and complete settlement, and each account's usage once. Settlement data includes the permanent void authorization, retained votes, governance observation, veto and integer challenge deadline. Import restores canonical status keys and rebuilds dispute, refund and history indexes. It does not create new funds, sweep balances or guess missing authorization.
 
-The module bank balance must equal the sum of pending, minted and refund-pending amounts in `uakt`, with no extra denominations. Refunded amounts are outside escrow. Restore bank and auth state together with sink state and verify the populated export/import round trip before enabling services.
+The module bank balance must equal the sum of pending, minted, void-requested and refund-pending amounts in `uakt`, with no extra denominations. Refunded amounts are outside escrow. Restore bank and auth state together with sink state and verify the populated export/import round trip before enabling services.
 
-Keep genesis `initial_height` above all imported transfer heights. Import rejects a record at or above the first block height, because reusing an ID would collide with its permanent Solana resolution account. The per-block sequence resets to zero at BeginBlock; the first issued sequence is 1. A database restart continues from its committed height.
+Set genesis `genesis_time` at or after the exported last block time, and keep `initial_height` above all imported transfer heights. Import rejects a record at or above the first block height, because reusing an ID would collide with its permanent Solana resolution account. The per-block sequence resets to zero at BeginBlock; the first issued sequence is 1. A database restart continues from its committed height.
 
 Back up the full export, binaries, program artifacts and network manifest. Verify their hashes and chain/program/mint identities before resuming. Compare the exported policy history and raw epoch usage. Query the restored transfers, disputes, refund head and current policy, and reconcile escrow against Solana outcomes. A successful process start alone is not a recovery check.
 
 ---
 
-## Releases and Network Values
+## Build and Network Values
 
-Use the release manifest for the exact node/SDK/services versions, checksums, Akash chain ID, Solana genesis hash, program ID and mint. Do not infer compatibility from the `akash.sink.v1` protobuf package name: the unreleased schema changed inside that package. No new deployment address is assigned by these instructions.
+Use the reviewed build manifest for the exact node/SDK/services versions, checksums, Akash chain ID, Solana genesis hash, program ID and mint. Do not infer compatibility from the `akash.sink.v1` protobuf package name: the unreleased schema changed inside that package. No new deployment address is assigned by these instructions.
 
 - [Node, module and Solana services source](https://github.com/akash-network/node)
 - [SDK source](https://github.com/akash-network/chain-sdk)

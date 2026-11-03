@@ -37,12 +37,13 @@ If Solana cannot deliver to the address, it records a permanent void. The AKT th
 
 Akash keeps the financial outcome separate from any dispute. The portal also verifies the finalized Solana outcome; see [Statuses in the portal](/docs/learn/akash-sink/portal#statuses).
 
-| Status           | Meaning                                                                  |
-| ---------------- | ------------------------------------------------------------------------ |
-| Transfer pending | AKT is locked on Akash; the outcome is not yet confirmed.                |
-| Minted           | Reporters or governance confirmed the Solana mint. Backing stays locked. |
-| Refund pending   | A Solana void is confirmed, but the sender has not been repaid.          |
-| Refunded         | The original sender received the refund on Akash.                        |
+| Status           | Meaning                                                                                |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| Transfer pending | AKT is locked on Akash; the outcome is not yet confirmed.                              |
+| Minted           | Reporters or governance confirmed the Solana mint. Backing stays locked.               |
+| Void requested   | Governance requested a void. Solana has not confirmed it, and no refund has been paid. |
+| Refund pending   | A Solana void is confirmed, but the sender has not been repaid.                        |
+| Refunded         | The original sender received the refund on Akash.                                      |
 
 A veto or conflict hold requires review. Even a minted or refunded transfer can have an unresolved conflict; the hold does not erase what has already happened.
 
@@ -52,19 +53,21 @@ A veto or conflict hold requires review. Even a minted or refunded transfer can 
 
 Akash governance sets the transfer limits and can change them.
 
-| Limit                  | What it covers                                          |
-| ---------------------- | ------------------------------------------------------- |
-| Minimum and maximum    | The smallest and largest single deposit.                |
-| Account daily amount   | AKT one Akash account can deposit during a UTC day.     |
-| Aggregate daily amount | AKT all accounts together can deposit during a UTC day. |
-| Solana mint amounts    | Independent per-transfer and daily mint caps on Solana. |
-| Refund daily amount    | AKT that can be repaid on Akash during a UTC day.       |
+| Limit                  | What it covers                                               |
+| ---------------------- | ------------------------------------------------------------ |
+| Minimum and maximum    | The smallest and largest single deposit.                     |
+| Account epoch amount   | AKT one Akash account can deposit during a quota period.     |
+| Aggregate epoch amount | AKT all accounts together can deposit during a quota period. |
+| Solana mint amounts    | Independent per-transfer and daily mint caps on Solana.      |
+| Refund epoch amount    | AKT that can be repaid on Akash during a quota period.       |
 
-Every cap is a positive amount. There are no per-account deposit-count or open-transfer-count limits. Deposits that exceed a sending cap fail; the amount stays in the sender's wallet, though a submitted transaction can still incur a network fee.
+The account cap may be zero to disable that limit. The other caps remain positive, and the aggregate cap still applies. There are no per-account deposit-count or open-transfer-count limits. Deposits that exceed an enabled sending cap fail; the amount stays in the sender's wallet, though a submitted transaction can still incur a network fee.
 
-The sending day ends at midnight UTC. Solana mints can happen as soon as a deposit proof is available, repeatedly throughout the day. They do not wait for the Akash sending day to end. If Solana's independent daily cap is exhausted, affected mints wait for its next UTC day. A refund does not restore the sender's sending allowance.
+Akash uses its existing epochs module to track quota periods. The selected `day` schedule has a configurable duration and start time in epochs genesis. Allowances reset when that schedule advances, rather than at midnight UTC. A refund does not restore the sender's sending allowance.
 
-The portal shows transfer bounds and the account daily cap. `akt query sink state` shows all parameters and global usage; `akt query sink account <owner>` shows the account's lifetime and current-day sending amounts.
+Solana mints can happen as soon as a deposit proof is available. They do not wait for the Akash quota period to end. If Solana's independent daily cap is exhausted, affected mints wait for its next UTC day.
+
+The portal shows transfer bounds and epoch caps. `akt query sink state` shows all parameters, the current epoch and global usage; `akt query sink account <owner>` shows the account's lifetime and current-epoch sending amounts.
 
 ---
 
@@ -86,7 +89,7 @@ Solana voids a transfer when it can't deliver to the address, for example becaus
 
 The refund returns the full deposited amount. The Akash network fee for the deposit isn't returned.
 
-Payment also needs current authorization, no hold, enabled refunds, queue priority and room under the daily refund cap. A deadline passing does not prove payment. `Refunded` means the money has actually returned.
+The challenge window is a configurable duration measured from authorization. Crossing a quota boundary does not shorten it. Payment also needs current authorization, no hold, enabled refunds, queue priority and room under the epoch refund cap. A deadline passing does not prove payment. `Refunded` means the money has actually returned.
 
 ---
 

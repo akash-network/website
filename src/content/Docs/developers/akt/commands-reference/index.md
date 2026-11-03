@@ -582,7 +582,7 @@ Send AKT one way from Akash to a Solana wallet through [Akash Sink](/docs/learn/
 # Lock AKT on Akash; the same amount is minted to the Solana address
 akt tx sink deposit <solana-address> 10akt
 
-# Pay a voided transfer's refund to its sender after the challenge window
+# Pay an authorized refund after its challenge window and other refund checks
 akt tx sink finalize-refund '<owner>/<height>/<sequence>'
 ```
 
@@ -597,7 +597,7 @@ akt tx sink guardian-pause --deposits --refunds
 
 # Generate governance messages for the network's proposal workflow
 akt tx sink update-params <params.json> --generate-only
-akt tx sink request-void <id> --generate-only
+akt tx sink request-void <id> <expected-round> --generate-only
 akt tx sink restart-transfer <id> <expected-round> <reason> --generate-only
 akt tx sink confirm-mint <id> <expected-round> <slot> <signature> <reason> --generate-only
 akt tx sink confirm-void <id> <expected-round> <slot> <signature> <reason> --generate-only

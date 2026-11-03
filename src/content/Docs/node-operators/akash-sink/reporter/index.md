@@ -216,7 +216,7 @@ A rejected or timed-out transaction is logged, and the next pass rereads chain s
 
 ## Verify Operation
 
-- Each pass summary shows `"failures":0` and `"index":"open-transfers"`.
+- Each pass summary shows `"failures":0` and `"index":"canonical"`.
 - Your address appears in the votes of recent transfers:
 
 ```bash
@@ -233,15 +233,16 @@ Route these to someone on call:
 
 - `light-client-mismatch`: the light client changed away from your pin, and the reporter has stopped.
 - `light-client-changed`: the light client changed. Review the governance proposal.
-- `open-transfers-inconsistent`: your Akash node's listing disagrees with its own state.
 - `Akash settlement contradicts finalized Solana outcome`: a possible false report or false confirmation.
 - `Akash reports an outcome without a finalized Solana status`: a possible false void or mint quorum.
 - `Akash reports a Solana slot beyond any plausible finalized slot`: a report carries a fabricated slot.
 - `Transfer requires governance review`: a veto or conflict hold is waiting for governance.
 - Repeated `error` lines: stale or misconfigured nodes, missing history or signer failures.
-- `"index":"full-scan"`: your Akash node lacks the `OpenTransfers` query. Upgrade it.
+- `audit-unavailable`: the historical audit failed. Open-transfer reviews continue; historical audits retry from their saved position.
 
-Stale nodes, missing history, signer failures and RPC errors stop reporting. They never cause a veto or a refund on their own.
+A governance void request alone is not a reported Solana outcome. The reporter does not treat an absent Solana receipt for that request as false confirmation.
+
+Stale nodes, missing history, signer failures and RPC errors never justify a vote, veto or refund. An individual transfer error does not prevent review of the remaining open transfers.
 
 ---
 

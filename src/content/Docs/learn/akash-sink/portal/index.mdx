@@ -154,6 +154,7 @@ The receipt shows the estimated transfer time. You can close the page. The trans
 | Validated           | Akash confirmed the deposit. Your AKT is queued to mint on Solana.                       |
 | Transfer pending    | AKT is being minted to your Solana address.                                              |
 | Completed           | The AKT arrived on Solana.                                                               |
+| Void requested      | Governance requested a void. Solana confirmation and refund authorization are pending.   |
 | Refund pending      | A void is confirmed. Payment is still waiting for the refund conditions.                 |
 | Refunded            | Your AKT is back in Keplr. The network fee isn't returned.                               |
 | Failed              | Akash rejected the deposit, so your AKT stayed in Keplr. The network fee isn't returned. |
@@ -214,7 +215,7 @@ The portal blocks new transfers while deposits are switched off, or while Solana
 
 ### The Deposit Failed
 
-A deposit fails if it breaks the minimum or maximum amount per transfer, the account daily amount cap or the aggregate daily amount cap. Send less when possible, or wait for midnight UTC. Finishing another transfer does not restore daily sending capacity. See [Limits](/docs/learn/akash-sink#limits).
+A deposit fails if it breaks the minimum or maximum amount per transfer, an enabled account epoch cap or the aggregate epoch cap. Send less when possible, or wait for Akash's next configured quota period. Finishing another transfer does not restore sending capacity. See [Limits](/docs/learn/akash-sink#limits).
 
 ### The Transfer Takes Longer Than Expected
 

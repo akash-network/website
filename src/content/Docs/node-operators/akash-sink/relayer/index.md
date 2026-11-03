@@ -49,9 +49,9 @@ solana-keygen pubkey /etc/akt-relayer/payer-keypair.json
 
 Send SOL to the payer address. Budget for transaction fees, permanent status-account rent and, on a first mint to a wallet, associated-token-account rent. Query rent requirements against the selected Solana cluster; account sizes changed with the composite-ID schema.
 
-A transfer status uses 101 bytes including the discriminator and is never closed. A proof buffer uses 4,176 bytes including the discriminator; its rent returns to the submitter when it closes. Pruning an expired header returns rent to the account that prunes it.
+A transfer status uses 101 bytes including the discriminator and is never closed. A proof buffer allocates its 80-byte header plus the declared proof length, up to 16,464 bytes. Larger buffers grow after creation. Their rent returns to the submitter when they close. Keep enough payer liquidity for temporary buffer rent in addition to the net spend limit. Pruning an expired header returns rent to the account that prunes it.
 
-Updates happen only when a pending transfer needs a newer header, or when the light client has gone a fifth of its trusting period without one. Hold a few days of spend plus 0.05 SOL for temporary accounts.
+Updates happen only when a pending transfer needs a newer header, or when the light client has gone a fifth of its trusting period without one. Keep several days of transaction fees and enough temporary liquidity for the planned proof buffers, using the cluster's rent quote for each allocation.
 
 The relayer doesn't watch its own balance. Set up an alert for it.
 
@@ -138,9 +138,9 @@ For each transfer without a result on Solana, the relayer:
 
 A transfer is identified by `owner/height/sequence`. Its permanent status PDA uses the owner's 20 address bytes and little-endian height and sequence. A mint and a void compete for the same status account; a completed status cannot be closed or replayed after a light-client repin.
 
-Proof buffers use the payer and the full 32-byte SHA-256 of the exact key being proven. Mint and governance-void keys differ, so their buffers differ. The relayer can close and recreate its own temporary buffer after a failed attempt. Attempt and spend accounting remain in its durable ledger.
+Proof buffers use the payer and the full 32-byte SHA-256 of the exact key being proven. Mint keys prove native `RecordData`. Governance voids prove native `SettlementData`, including permanent authorization, under the current status key. A status change therefore requires a new proof key and buffer nonce. The relayer can close and recreate its own temporary buffer after a failed attempt. Attempt and spend accounting remain in its durable ledger.
 
-Start the new schema with a fresh state directory next to the preserved old one. Numeric-ID journals are incompatible. Discovery keeps a chronological cursor and queries each page at the same Akash height. A pruned height fails the pass; it must never be treated as proof that a transfer is absent.
+Start the new schema with a fresh state directory next to the preserved old one. Earlier schema journals are incompatible. Each pending job binds its exact proof key, value hash, proof height and upload progress. Discovery keeps a chronological cursor and queries each page at the same Akash height. A pruned height fails the pass; it must never be treated as proof that a transfer is absent.
 
 Mints can be submitted immediately and repeatedly once their proofs are available. Akash sending epochs do not schedule them. Solana's per-transfer and daily amount caps remain independent.
 
