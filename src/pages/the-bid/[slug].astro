@@ -1,56 +1,36 @@
 ---
 import CalloutsClasses from "@/components/callouts-classes.astro";
 import BitsPostDate from "@/components/blog/bits-post-date.astro";
+import FormattedDate from "@/components/formatted-date.astro";
 import BeforeFaq from "@/components/the-bid/before-faq.astro";
 import CtaCard from "@/components/the-bid/cta-card.astro";
 import CtaStrip from "@/components/the-bid/cta-strip.astro";
 import RunItOnAkash from "@/components/the-bid/run-it-on-akash.astro";
-import { TwitterIcon } from "@/components/header/icons";
 import BitsLayout from "@/layouts/bits-layout.astro";
 import { bitsUpdatedDate } from "@/lib/bits-dates";
-import { bitsProseClasses } from "@/lib/prose-classes";
+import { blogPostProseClasses } from "@/lib/prose-classes";
 import { bidCta } from "@/lib/the-bid-cta";
+import { toCategorySlug } from "@/utils/blogTaxonomy";
+import { getReadingTime } from "@/utils/readingTime";
 import { Image } from "astro:assets";
-import { getCollection, render, type CollectionEntry } from "astro:content";
-import { Facebook, Linkedin } from "lucide-react";
-
-type BitsPost = CollectionEntry<"Bits">;
+import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getCollection("Bits");
 
-  const allTags: string[] = [];
-  posts.forEach((post) => {
-    post.data.tags.forEach((tag: string) => {
-      if (!allTags.includes(tag)) allTags.push(tag);
-    });
-  });
-
-  return posts.map((post) => {
-    const relatedPosts = posts
-      .filter((p) => !p.data.draft && p.id !== post.id)
-      .filter((p) =>
-        p.data.tags.some((t: string) =>
-          post.data.tags.some(
-            (pt: string) => pt.toLowerCase() === t.toLowerCase(),
-          ),
-        ),
-      )
-      .sort(
-        (a, b) =>
-          new Date(b.data.pubDate).getTime() -
-          new Date(a.data.pubDate).getTime(),
-      );
-
-    return {
-      params: { slug: post.id },
-      props: { post, allTags, relatedPosts },
-    };
-  });
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
 }
 
-const { post, allTags, relatedPosts } = Astro.props;
+const { post } = Astro.props;
 const { Content } = await render(post);
+const readingTime = getReadingTime(post.body);
+const updated = bitsUpdatedDate(post.data);
+
+const tag = post.data.tags[0];
+const tagLabel = tag && tag.charAt(0).toUpperCase() + tag.slice(1);
 
 // Parse "## FAQ" / "## FAQs" body section (format: **Question?** Answer text)
 // into Q&A pairs for FAQPage structured data. Mirrors the heading/paragraph
@@ -108,7 +88,7 @@ const jsonLd = {
       headline: post.data.title,
       description: post.data.metaDescription ?? post.data.description,
       datePublished: post.data.pubDate.toISOString(),
-      dateModified: (bitsUpdatedDate(post.data) ?? post.data.pubDate).toISOString(),
+      dateModified: (updated ?? post.data.pubDate).toISOString(),
       author: {
         "@type": "Person",
         name: post.data.author,
@@ -125,7 +105,12 @@ const jsonLd = {
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
         { "@type": "ListItem", position: 2, name: "The Bid", item: listingUrl },
-        { "@type": "ListItem", position: 3, name: post.data.title, item: postUrl },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: post.data.title,
+          item: postUrl,
+        },
       ],
     },
     ...(faqs.length > 0
@@ -155,86 +140,72 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 >
   <script is:inline type="application/ld+json" set:html={jsonLdScript} />
 
-  <!-- Back breadcrumb -->
-  <a
-    href="/the-bid"
-    class="mb-14 inline-flex items-center gap-x-2 text-sm font-medium text-para transition-colors hover:text-foreground"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path d="M19 12H5" />
-      <path d="m12 19-7-7 7-7" />
-    </svg>
-    Back to The Bid
-  </a>
-
+  <!-- Header, banner and body as on blog posts (src/pages/blog/[slug].astro) -->
   <div class="grid grid-cols-12 md:gap-x-10 lg:gap-x-16">
-    <div class="col-span-12 md:col-span-8">
-      <div class="mt-4 hidden items-center gap-x-4 md:mt-0 md:flex">
-        <p class="text-xs font-medium leading-none text-para md:text-sm">
-          by {post.data.author}
-        </p>
-        {
-          post.data.tags[0] && (
-            <a class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
-              {post.data.tags[0].charAt(0).toUpperCase() +
-                post.data.tags[0].slice(1)}
+    <header class="col-span-12 md:col-span-8">
+      <!-- shadcn/ui Breadcrumb with a slash separator -->
+      <nav aria-label="Breadcrumb">
+        <ol
+          class="flex flex-wrap items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
+        >
+          <li>
+            <a href="/the-bid" class="transition-colors hover:text-foreground">
+              The Bid
             </a>
-          )
-        }
-      </div>
+          </li>
+          {
+            tag && (
+              <>
+                <li role="presentation" aria-hidden="true">
+                  /
+                </li>
+                <li>
+                  <a
+                    href={`/the-bid/${toCategorySlug(tag)}/1`}
+                    class="transition-colors hover:text-foreground"
+                  >
+                    {tagLabel}
+                  </a>
+                </li>
+              </>
+            )
+          }
+        </ol>
+      </nav>
 
-      <p
-        class="mt-6 inline-flex items-center text-xs font-medium text-para md:mt-4 md:hidden md:text-base"
+      <h1
+        class="mt-3 text-[40px] !font-[450] leading-[48px] tracking-[-0.06em] md:text-5xl md:leading-[56px]"
       >
-        <BitsPostDate
-          pubDate={post.data.pubDate}
-          lastUpdated={post.data.lastUpdated}
-          variant="byline"
-        />
-      </p>
-
-      <h1 class="mt-4 font-sans text-3xl md:mt-[18px] md:text-4xl lg:text-5xl">
         {post.data.title}
       </h1>
 
+      <p class="mt-5 text-sm text-foreground">By {post.data.author}</p>
+
+      <!-- From md up, the dates and reading time sit in the sidebar. -->
       <p
-        class="mt-6 hidden items-center text-xs font-medium text-para md:mt-4 md:inline-flex md:text-sm"
+        class="mt-2 flex items-center gap-2 text-sm text-muted-foreground md:hidden"
       >
         <BitsPostDate
           pubDate={post.data.pubDate}
           lastUpdated={post.data.lastUpdated}
-          variant="byline"
+          variant="card"
         />
-      </p>
-
-      <div class="mt-4 flex items-center gap-x-4 md:mt-0 md:hidden">
-        <p
-          class="text-xs font-medium leading-none text-para"
-        >
-          by {post.data.author}
-        </p>
         {
-          post.data.tags[0] && (
-            <p class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText">
-              {post.data.tags[0]}
-            </p>
+          readingTime && (
+            <>
+              <span
+                aria-hidden="true"
+                class="size-1 rounded-full bg-current opacity-50"
+              />
+              {readingTime} min read
+            </>
           )
         }
-      </div>
-    </div>
+      </p>
+    </header>
   </div>
 
-  <div class="mt-4 grid grid-cols-12 md:gap-x-10">
+  <div class="mt-8 grid grid-cols-12 md:gap-x-10">
     <article class="col-span-12 md:col-span-8">
       {
         post.data.bannerImage && (
@@ -243,9 +214,8 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
               src={post.data.bannerImage}
               alt={`Banner image for the post ${post.data.title}`}
               width={1200}
-              height={675}
               format="webp"
-              class="w-full h-auto rounded-lg"
+              class="inset-0 aspect-video bg-gray-200 object-cover"
               loading="lazy"
               quality="max"
             />
@@ -255,7 +225,7 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 
       <CtaStrip cta={cta} postId={post.id} class="mt-6 md:hidden" />
 
-      <article class={bitsProseClasses}>
+      <article class={blogPostProseClasses}>
         <BeforeFaq>
           <Content />
           <RunItOnAkash slot="insert" cta={cta} postId={post.id} />
@@ -263,126 +233,37 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
       </article>
     </article>
 
+    <!-- Sticky so the rent card stays in view while reading -->
     <aside
-      class="sticky top-28 col-span-4 hidden h-screen space-y-[56px] md:block"
+      class="sticky top-28 col-span-4 hidden space-y-8 self-start md:block"
     >
+      <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
+        <dt class="text-muted-foreground">Published</dt>
+        <dd class="text-foreground">
+          <FormattedDate date={post.data.pubDate} />
+        </dd>
+        {
+          updated && (
+            <>
+              <dt class="text-muted-foreground">Updated</dt>
+              <dd class="text-foreground">
+                <FormattedDate date={updated} />
+              </dd>
+            </>
+          )
+        }
+        {
+          readingTime && (
+            <>
+              <dt class="text-muted-foreground">Reading time</dt>
+              <dd class="text-foreground">{readingTime} min read</dd>
+            </>
+          )
+        }
+      </dl>
+
       <CtaCard cta={cta} postId={post.id} />
-
-      <div>
-        <p class="font-bold leading-none text-foreground">Explore Topics</p>
-        <div class="mt-6 flex flex-wrap gap-2">
-          {
-            allTags
-              .sort(() => Math.random() - 0.5)
-              .map((tag: string) => (
-                <a
-                  class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-darkText"
-                  href={`/the-bid/${tag.toLowerCase().replaceAll(" ", "-")}/1`}
-                >
-                  {tag}
-                </a>
-              ))
-          }
-        </div>
-      </div>
-
-      {
-        relatedPosts.length > 0 && (
-          <div>
-            <p class="font-bold text-foreground">Related Articles</p>
-            <div class="mt-3 flex flex-col space-y-2">
-              {relatedPosts.slice(0, 2).map((p: BitsPost) => (
-                <a
-                  href={`/the-bid/${p.id}`}
-                  class="line-clamp-2 cursor-pointer text-darkText hover:text-primary hover:no-underline"
-                >
-                  {p.data.title}
-                </a>
-              ))}
-            </div>
-          </div>
-        )
-      }
-
-      <div>
-        <p class="font-bold leading-none text-foreground">Share this post</p>
-        <div class="mt-5 flex space-x-4 text-para">
-          <a
-            href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/the-bid/${post.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <TwitterIcon />
-          </a>
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/the-bid/${post.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Facebook className="h-5 w-5" />
-          </a>
-          <a
-            href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/the-bid/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Linkedin className="h-5 w-5" />
-          </a>
-        </div>
-      </div>
     </aside>
-  </div>
-
-  <!-- Mobile share + topics -->
-  <div class="block md:hidden">
-    <div class="flex items-center justify-between pt-10">
-      <p class="text-center text-base font-bold text-foreground">
-        Share this Post
-      </p>
-      <div class="mt-4 flex items-center justify-center space-x-2.5">
-        <a
-          href={`https://twitter.com/intent/tweet?text=${post.data.title}&url=https://akash.network/the-bid/${post.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <TwitterIcon />
-        </a>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=https://akash.network/the-bid/${post.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Facebook className="h-5 w-5" />
-        </a>
-        <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=https://akash.network/the-bid/${post.id}&title=${post.data.title}&summary=${post.data.description}&source=`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Linkedin className="h-5 w-5" />
-        </a>
-      </div>
-    </div>
-
-    <div class="mb-10 mt-10 space-y-10">
-      <div>
-        <p class="text-xs font-bold text-foreground">Explore Topics</p>
-        <div class="mt-3 flex flex-wrap gap-x-2 gap-y-2">
-          {
-            allTags
-              .sort(() => Math.random() - 0.5)
-              .map((tag: string) => (
-                <a
-                  class="inline-flex items-center rounded-full bg-badgeColor px-3 py-1.5 text-xs font-medium text-iconText"
-                  href={`/the-bid/${tag.toLowerCase().replaceAll(" ", "-")}/1`}
-                >
-                  {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                </a>
-              ))
-          }
-        </div>
-      </div>
-    </div>
   </div>
 
   <CalloutsClasses />
