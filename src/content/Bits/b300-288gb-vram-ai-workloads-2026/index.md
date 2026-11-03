@@ -114,7 +114,7 @@ Practical mapping from the workloads above, using tiers Akash currently lists:
 
 - **70B-class model at FP8, 32K context:** H200 141GB at \$3.85/hr, or H100 80GB from \$2.04/hr with an FP8 cache.
 - **Mid-size models needing headroom above 80GB:** [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-server/) Server Edition from \$1.52/hr.
-- **Batch fine-tuning, classical ML, smaller models:** [A100](/pricing/gpus/a100/) 80GB from \$1.07/hr, with 37 of 200 listed units available as of November 3, 2026.
+- **Batch fine-tuning, classical ML, smaller models:** [A100](/pricing/gpus/a100/) 80GB from \$1.07/hr as of November 3, 2026.
 - **Inference without managing infrastructure directly:** AkashML serves open models through a managed endpoint on Akash's decentralized GPUs.
 - **Workloads with data-sensitivity requirements:** confidential compute on Akash runs a deployment where the machine's owner cannot inspect it.
 
