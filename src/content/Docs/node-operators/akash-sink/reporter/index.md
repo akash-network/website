@@ -113,7 +113,6 @@ Create a configuration file outside the release directory, for example `/etc/akt
   "mint": "<AKT mint, TBD at launch>",
   "reporter": "akash1...",
   "maxAgeSeconds": 60,
-  "maxTransfers": 1000,
   "pollSeconds": 15,
   "feeAmountUakt": "12500",
   "gasLimit": "500000",
@@ -136,11 +135,12 @@ Create a configuration file outside the release directory, for example `/etc/akt
 | `reporter`           | Your reporter account address                           |
 | `lightClientProgram` | Optional pin; leave unset to follow changes (see below) |
 | `maxAgeSeconds`      | Freshness bound for both nodes, at most 600             |
-| `maxTransfers`       | Scan limit for nodes without the `OpenTransfers` query  |
 | `pollSeconds`        | Delay between passes                                    |
 | `feeAmountUakt`      | Fee per Akash transaction, at most 1 AKT                |
 | `gasLimit`           | Gas per Akash transaction, at most 20,000,000           |
 | `externalSigner`     | The signer command from STEP 2                          |
+
+Unknown configuration fields are rejected. Each pass reviews every dispute, then refund-pending, then transfer-pending transfer at one committed height, without a record-count limit. A failed history audit raises `audit-unavailable` and retains its cursor while open-transfer reviews continue.
 
 The reporter refuses credentials in `akashRpc`; put an authenticated endpoint behind a local proxy instead. Set `feeAmountUakt` high enough to cover the network's minimum gas price for `gasLimit`. `--signer-command PATH` on the command line replaces the configured signer command.
 

@@ -22,7 +22,7 @@ akt query sink state -o json
 akt query sink account <akash-address> -o json
 ```
 
-`params.deposits_enabled` controls deposits. Every amount uses an SDK Coin with denomination `uakt`. The positive limits are `min_amount_per_transfer`, `max_amount_per_transfer`, `max_amount_per_account_epoch`, `max_amount_per_epoch` and `max_refund_per_epoch`. Send and refund epochs are separate UTC days. There are no per-account count quotas.
+`params.deposits_enabled` controls deposits. Every amount uses an SDK Coin with denomination `uakt`. The positive limits are `min_amount_per_transfer`, `max_amount_per_transfer`, `max_epoch_amount_per_account`, `max_transfer_amount_per_epoch` and `max_epoch_refund`. Send and refund epochs are separate UTC days. There are no per-account count quotas.
 
 ## Send AKT to Solana
 
@@ -50,7 +50,7 @@ akt query sink transfer '<owner>/<height>/<sequence>' -o json
 akt query sink transfers --owner <akash-address> --limit 50 -o json
 ```
 
-The response contains the ID, immutable recipient and amount, settlement and governance void-order flag.
+The response contains the ID, the immutable Solana destination (`dest`) and amount, settlement and governance void-order flag.
 
 | Financial status          | Meaning                                                                     |
 | ------------------------- | --------------------------------------------------------------------------- |
