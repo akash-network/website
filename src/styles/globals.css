@@ -329,6 +329,28 @@ html body[data-scroll-locked] {
   border-color: hsl(var(--muted-foreground)) !important;
 }
 
+/* Search modal: no focus ring on the input; a thin faded border on the whole field instead */
+.DocSearch-Form {
+  box-shadow: none !important;
+  border: 1px solid hsl(var(--default-border)) !important;
+  transition: border-color 150ms ease;
+}
+
+.DocSearch-Form:focus-within {
+  border-color: hsl(var(--foreground)) !important;
+}
+
+.DocSearch-Form *,
+.DocSearch-Form *:focus,
+.DocSearch-Form *:focus-visible,
+.DocSearch-Input,
+.DocSearch-Input:focus,
+.DocSearch-Input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .DocSearch-Search-Icon {
   color: hsl(var(--para)) !important;
   width: 16px;
@@ -361,6 +383,12 @@ html body[data-scroll-locked] {
   padding: 0 4px !important;
   margin: 0 !important;
   top: 0 !important;
+}
+
+/* The ⌘ glyph renders smaller than a capital K at the same size; bump it to match */
+.DocSearch-Button-Key:first-child {
+  font-size: 14px;
+  line-height: 1;
 }
 
 .DocSearch-Button-Container span {

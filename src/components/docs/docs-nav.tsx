@@ -33,10 +33,11 @@ const STYLES = {
   },
   section: {
     // dark: variant needed to beat the global `.dark h2/h3` foreground rule
+    // Uppercase + tracking (not weight/colour) sets labels apart from links
     header:
-      "px-2 pb-1 text-[13px] leading-4 text-neutral-500 dark:text-neutral-500",
+      "px-2 pb-2 text-[11px] uppercase leading-4 tracking-[0.08em] text-neutral-500 dark:text-neutral-500",
     title:
-      "px-2 pb-1 pt-2 text-[13px] leading-4 text-neutral-500 dark:text-neutral-500",
+      "px-2 pb-2 pt-2 text-[11px] uppercase leading-4 tracking-[0.08em] text-neutral-500 dark:text-neutral-500",
   },
 } as const;
 
