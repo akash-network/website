@@ -1,23 +1,26 @@
 import classNames from "clsx";
 
-const p = "prose-p:text-xs md:prose-p:text-sm lg:prose-p:text-base";
+/** Body copy: 16px / 1.7 with near-foreground ink for comfortable long reads */
+const p =
+  "prose-p:text-[15px] md:prose-p:text-[16px] prose-p:leading-[1.7] prose-p:text-neutral-700 dark:prose-p:text-neutral-300";
 const h1 =
-  "prose-h1:text-3xl md:prose-h1:text-4xl lg:prose-h1:text-6xl prose-h1:font-bold prose-h1:text-foreground";
+  "prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:font-semibold prose-h1:tracking-[-0.05em] prose-h1:text-foreground";
 const h2 =
-  "prose-h2:text-xl md:prose-h2:text-2xl lg:prose-h2:text-3xl prose-h2:font-medium";
+  "prose-h2:text-xl md:prose-h2:text-2xl prose-h2:font-semibold prose-h2:leading-8 prose-h2:tracking-[-0.04em] prose-h2:mb-4";
 const h3 =
-  "prose-h3:text-base md:prose-h3:text-xl lg:prose-h3:text-2xl prose-h3:font-medium";
+  "prose-h3:text-lg md:prose-h3:text-xl prose-h3:font-semibold prose-h3:tracking-[-0.02em]";
 const h4 =
-  "prose-h4:text-sm md:prose-h4:text-base lg:prose-h4:text-lg prose-h4:font-medium";
+  "prose-h4:text-base md:prose-h4:text-lg prose-h4:font-semibold prose-h4:tracking-[-0.01em]";
 const h5 =
-  "prose-h5:mt-4 prose-h5:mb-3 prose-h5:text-sm lg:prose-h5:text-base prose-h5:font-medium";
+  "prose-h5:mt-4 prose-h5:mb-3 prose-h5:text-sm lg:prose-h5:text-base prose-h5:font-semibold";
 const ul =
-  "prose-ul:font-os prose-ul:text-xs md:prose-ul:text-sm lg:prose-ul:text-base";
+  "prose-ul:font-os prose-ul:text-[15px] md:prose-ul:text-[16px] prose-ul:leading-[1.7]";
 const ol =
-  "prose-ol:font-os prose-ol:text-xs md:prose-ol:text-sm lg:prose-ol:text-base";
+  "prose-ol:font-os prose-ol:text-[15px] md:prose-ol:text-[16px] prose-ol:leading-[1.7]";
+const li = "prose-li:text-neutral-700 dark:prose-li:text-neutral-300";
 const table = [
   "prose-table:overflow-x-auto prose-table:table-auto prose-table:border-b prose-tr:border-defaultBorder",
-  "prose-td:py-4 prose-td:text-start prose-td:text-para prose-td:px-2 md:prose-td:px-4 md:prose-td:text-sm",
+  "prose-td:py-3 prose-td:text-start prose-td:text-neutral-700 dark:prose-td:text-neutral-300 prose-td:px-2 md:prose-td:px-4 md:prose-td:text-sm",
   "prose-th:text-para prose-thead:text-justify prose-thead:border-defaultBorder",
   "md:prose-thead:text-xs md:prose-thead:font-medium md:prose-th:px-4",
 ].join(" ");
@@ -27,6 +30,11 @@ const pre = "prose-pre:overflow-x-auto prose-pre:max-w-full";
 const code = [
   "prose-code:rounded-sm prose-code:px-1 prose-code:py-0 prose-code:font-mono",
   "prose-code:text-[0.9em] prose-code:leading-none prose-code:align-baseline",
+].join(" ");
+/** Links read as links: foreground ink with a quiet underline that firms up on hover */
+const a = [
+  "prose-a:font-medium prose-a:text-foreground prose-a:underline prose-a:decoration-neutral-300 prose-a:underline-offset-[3px]",
+  "hover:prose-a:decoration-foreground dark:prose-a:decoration-neutral-600 dark:hover:prose-a:decoration-foreground",
 ].join(" ");
 
 export const proseClasses = classNames(
@@ -38,11 +46,13 @@ export const proseClasses = classNames(
   h5,
   ul,
   ol,
+  li,
   table,
   pre,
   code,
+  a,
   "prose max-w-full",
-  "prose-a:text-primary prose-a:no-underline prose-img:w-full text-foreground prose-hr:border-defaultBorder",
+  "prose-img:w-full text-foreground prose-hr:border-defaultBorder",
 );
 
 const className = proseClasses;

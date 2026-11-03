@@ -151,23 +151,23 @@ const helpLinks = [
     </div>
   </div>
 
-  <div class="container-reader px-5 md:mt-10">
+  <div class="mx-auto max-w-[1100px] px-5 md:px-8 md:pt-14 xl:px-12">
     <div class="flex flex-col items-start">
-      <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl">
+      <h1 class="text-3xl !font-semibold leading-[1.1] tracking-[-0.05em] md:text-4xl lg:text-5xl">
         {pageTitle}
       </h1>
-      <p class="mt-6 text-base text-para md:text-lg">{pageDescription}</p>
+      <p class="mt-4 max-w-2xl text-base leading-[1.7] text-muted-foreground md:text-lg">{pageDescription}</p>
     </div>
 
     <!-- Choose Your Path -->
-    <div class="mt-12">
-      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+    <div class="mt-14 md:mt-16">
+      <h2 class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl">
         Choose Your Path
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {
           pathOptions.map((option) => (
-            <div class="group rounded-lg border border-[#e6e8eb] bg-white p-6 transition-all hover:shadow-lg dark:border-[#333] dark:bg-[#1a1a1a]">
+            <div class="group rounded-xl border border-[#e6e8eb] bg-background p-6 transition-colors hover:border-neutral-300 dark:border-[#333] dark:hover:border-neutral-700">
               <div class="flex items-start gap-4">
                 <div class="flex flex-shrink-0 items-center justify-center rounded-lg bg-[#f5f5f5] p-2.5 dark:bg-[#333]">
                   <div
@@ -220,11 +220,11 @@ const helpLinks = [
     </div>
 
     <!-- Node Build Methods -->
-    <div class="mt-12">
-      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+    <div class="mt-14 md:mt-16">
+      <h2 class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl">
         Node Build Methods
       </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {
           nodeBuildCards.map((card) => (
             <SectionCard
@@ -239,11 +239,11 @@ const helpLinks = [
     </div>
 
     <!-- Additional Resources -->
-    <div class="mt-12">
-      <h2 class="mb-6 text-2xl font-bold text-foreground md:text-3xl">
+    <div class="mt-14 md:mt-16">
+      <h2 class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground md:text-2xl">
         Additional Resources
       </h2>
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {
           additionalResourcesCards.map((card) => (
             <SectionCard
@@ -259,9 +259,9 @@ const helpLinks = [
 
     <!-- Active Validator Set -->
     <div
-      class="mb-12 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
+      class="mb-12 mt-16 rounded-xl border border-[#e6e8eb] p-6 dark:border-[#333] md:p-8"
     >
-      <h2 class="mb-4 text-xl font-semibold text-foreground">
+      <h2 class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground">
         Active Validator Set
       </h2>
       <p class="mb-4 text-sm text-muted-foreground">
@@ -312,9 +312,9 @@ const helpLinks = [
 
     <!-- Need Help Section -->
     <div
-      class="mb-16 mt-12 rounded-lg border border-[#e6e8eb] bg-[#f8f9fa] p-8 dark:border-[#333] dark:bg-[#1a1a1a]"
+      class="mb-16 mt-16 rounded-xl border border-[#e6e8eb] p-6 dark:border-[#333] md:p-8"
     >
-      <h2 class="mb-4 text-xl font-semibold text-foreground">
+      <h2 class="mb-5 text-xl font-semibold tracking-[-0.04em] text-foreground">
         Need Help?
       </h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -323,7 +323,7 @@ const helpLinks = [
             <a
               href={link.href}
               target="_blank"
-              class="flex items-center gap-3 text-primary hover:underline"
+              class="flex items-center gap-3 rounded-lg border border-[#e6e8eb] px-4 py-3 text-sm text-foreground transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-[#333] dark:hover:border-neutral-700 dark:hover:bg-neutral-900"
             >
               <Fragment set:html={link.icon} />
               <span class="font-medium">{link.text}</span>
