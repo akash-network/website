@@ -1,11 +1,15 @@
 ---
 import CalloutsClasses from "@/components/callouts-classes.astro";
-import ConsoleBanner from "@/components/console-banner.astro";
 import BitsPostDate from "@/components/blog/bits-post-date.astro";
+import BeforeFaq from "@/components/the-bid/before-faq.astro";
+import CtaCard from "@/components/the-bid/cta-card.astro";
+import CtaStrip from "@/components/the-bid/cta-strip.astro";
+import RunItOnAkash from "@/components/the-bid/run-it-on-akash.astro";
 import { TwitterIcon } from "@/components/header/icons";
 import BitsLayout from "@/layouts/bits-layout.astro";
 import { bitsUpdatedDate } from "@/lib/bits-dates";
 import { bitsProseClasses } from "@/lib/prose-classes";
+import { bidCta } from "@/lib/the-bid-cta";
 import { Image } from "astro:assets";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import { Facebook, Linkedin } from "lucide-react";
@@ -86,6 +90,7 @@ const siteUrl = "https://akash.network";
 const postUrl = new URL(`/the-bid/${post.id}/`, Astro.site).toString();
 const listingUrl = new URL("/the-bid/", Astro.site).toString();
 const faqs = extractFaqs(post.body ?? "");
+const cta = bidCta(post.data.title);
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -248,14 +253,21 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
         )
       }
 
+      <CtaStrip cta={cta} postId={post.id} class="mt-6 md:hidden" />
+
       <article class={bitsProseClasses}>
-        <Content />
+        <BeforeFaq>
+          <Content />
+          <RunItOnAkash slot="insert" cta={cta} postId={post.id} />
+        </BeforeFaq>
       </article>
     </article>
 
     <aside
       class="sticky top-28 col-span-4 hidden h-screen space-y-[56px] md:block"
     >
+      <CtaCard cta={cta} postId={post.id} />
+
       <div>
         <p class="font-bold leading-none text-foreground">Explore Topics</p>
         <div class="mt-6 flex flex-wrap gap-2">
@@ -318,8 +330,6 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
           </a>
         </div>
       </div>
-
-      <ConsoleBanner />
     </aside>
   </div>
 
@@ -354,7 +364,7 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
       </div>
     </div>
 
-    <div class="mt-10 space-y-10">
+    <div class="mb-10 mt-10 space-y-10">
       <div>
         <p class="text-xs font-bold text-foreground">Explore Topics</p>
         <div class="mt-3 flex flex-wrap gap-x-2 gap-y-2">
@@ -372,10 +382,6 @@ const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
           }
         </div>
       </div>
-    </div>
-
-    <div class="mb-10 mt-10">
-      <ConsoleBanner />
     </div>
   </div>
 
