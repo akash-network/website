@@ -70,4 +70,4 @@ The top 100 to participate and complete all three challenges will be qualified t
 
 ### **Join the conversation**
 
-Subscribe to our [newsletter](https://akash.network/newsletter) and join our community channels on [Matrix](https://akash.network/chat) and [Telegram](https://t.me/AkashNW) to stay up to date and get your questions answered! And make sure to watch out for future badge announcements!
+Subscribe to our newsletter and join our community channels on [Matrix](https://discord.com/invite/akash) and [Telegram](https://t.me/AkashNW) to stay up to date and get your questions answered! And make sure to watch out for future badge announcements!

@@ -17,7 +17,7 @@ bannerImage: ./banner-image.png
 
 **With 185 registrants from around the world and 3,000,000 AKT at stake, The Akashian Challenge Phase 1 is underway!**
 
-Registration is [still open](https://docs.google.com/forms/d/1oM8eQcaWkpt3nRLh_H0tvQ2AeLpgjkdLn6rfhKyrsJk/edit), and you can [get started](https://akash.network/docs/akashian/phase1) if you’ve already registered.
+Registration is [still open](https://docs.google.com/forms/d/1oM8eQcaWkpt3nRLh_H0tvQ2AeLpgjkdLn6rfhKyrsJk/edit), and you can get started if you’ve already registered.
 
 A reminder that Phase 1 is made up of four week-long stages with different objectives. You can earn tokens by completing missions related to operating and validating the Akash Blockchain. The missions will range from setting up Akash nodes to governing the network.
 
@@ -29,13 +29,13 @@ Have questions? Feel free to connect with us on [our Telegram](https://t.me/Akas
 
 And now...**go forth and explore--fortune favors the bold!**
 
-[**Get Started Now**](https://akash.network/akashian/docs) **|** [**Learn More**](https://akash.network/challenge/)
+**Get Started Now** **|** [**Learn More**](https://akash.network/challenge/)
 
 ### **Centauri Release**
 
 As the first release of The Akashian Challenge incentivized testnet, Centauri has three critical milestones that lead to the launch of the network on May 8th, 2020 1600 UTC.
 
-**Follow the Phase 1** [**guide**](https://akash.network/akashian/phase1/guide) **for instructions.**
+**Follow the Phase 1** **guide** **for instructions.**
 
 ![](https://www.datocms-assets.com/45776/1620922421-screen-shot-2020-05-05-at-7-08-22-am.png)
 

@@ -331,7 +331,7 @@ export default function NavMenu({
   return (
     <div
       ref={containerRef}
-      className="relative flex h-full items-center gap-x-[20px] xl:gap-x-[24px]"
+      className="relative flex h-full items-center gap-x-[12px] llg:gap-x-[20px] xl:gap-x-[24px]"
       onMouseLeave={scheduleClose}
       onMouseEnter={cancelClose}
     >

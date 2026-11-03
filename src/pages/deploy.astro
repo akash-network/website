@@ -1,133 +1,169 @@
 ---
-import PraetorsCard from "@/components/providers-page/praetors-card.astro";
+import { ConsoleTour } from "@/components/deploy-page/tour/ConsoleTour";
+import { loadNetworkSnapshot } from "@/components/deploy-page/tour/snapshot";
 import Layout from "@/layouts/layout.astro";
-import { Image } from "astro:assets";
 import { getEntry } from "astro:content";
-import { ArrowUpCircle } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 
 const deployPage = await getEntry("Deploy_Homepage", "index");
+if (!deployPage) throw new Error("Missing Deploy_Homepage content entry");
 
 const {
-  resourcesSection,
+  pageTitle,
   heroSection,
   cloudmosResourcesSection,
   additionalDeploymentSection,
 } = deployPage.data;
+
+// Provider locations and counts for the tour, fetched at build time.
+const snapshot = await loadNetworkSnapshot();
 ---
 
 <Layout
-  title={heroSection.title}
+  title={pageTitle}
   image={heroSection.heroImage.src}
   description={heroSection.description}
+  classname="bg-background"
 >
-  <div class="bg-background py-10 md:py-20">
-    <div class="container flex flex-col gap-y-14">
-      <div
-        class="flex flex-col items-center gap-6 lg:flex-row-reverse lg:justify-between lg:gap-14"
+  <section class="container-wide pt-10 text-center md:pt-16">
+    <h1
+      class="mx-auto max-w-[860px] text-4xl !font-semibold leading-[1.05] tracking-tighter text-foreground md:text-6xl"
+    >
+      <Fragment set:html={heroSection.title} />
+    </h1>
+    <p
+      class="mx-auto mt-5 max-w-[620px] text-base leading-relaxed text-para md:text-lg"
+    >
+      {heroSection.description}
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <a
+        href={heroSection.button.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex h-10 items-center gap-1.5 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
       >
-        <div class="w-full flex-shrink lg:max-w-[50%]">
-          <Image
-            src={heroSection.heroImage}
-            alt={`HeroImage`}
-            width={1500}
-            height={1500}
-            format="svg"
-            class="w-full rounded-md object-cover"
-            loading="eager"
-          />
-        </div>
-
-        <div class="flex-1">
-          <h2
-            class="text-2xl font-semibold leading-8 md:text-3lg md:leading-[48px]"
-          >
-            {heroSection.title}
-          </h2>
-          <p class="mt-4 text-sm md:mt-5 md:text-base md:leading-[28px]">
-            {heroSection.description}
-          </p>
-
-          <div
-            class="mt-10 flex flex-col items-start gap-x-6 gap-y-3 xl:flex-row"
-          >
-            <a
-              target="_blank"
-              href={heroSection.button.link}
-              class="inline-flex cursor-pointer items-center justify-center rounded-md border border-primary bg-primary/5 px-4 py-2 text-xs font-medium leading-none text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground dark:border-primary md:px-6 md:text-base"
-            >
-              <ArrowUpCircle className="mr-2 size-4  rotate-45" />
-              {heroSection.button.label}
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="h-px w-full bg-defaultBorder"></div>
-
-      <div>
-        <h2 class="font-medium">
-          {cloudmosResourcesSection.title}
-        </h2>
-
-        <div
-          class="mt-4 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {
-            cloudmosResourcesSection.cards.map((card) => (
-              <PraetorsCard
-                title={card.title}
-                description={card.description}
-                link={card.link}
-                linkIcon
-                linkLabel={"View More"}
-              />
-            ))
-          }
-        </div>
-      </div>
-      <div class="h-px w-full bg-defaultBorder"></div>
-      <div>
-        <h2 class="font-medium">
-          {resourcesSection.title}
-        </h2>
-
-        <div
-          class="mt-4 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {
-            resourcesSection.cards.map((card) => (
-              <PraetorsCard
-                title={card.title}
-                description={card.description}
-                link={card.link}
-                linkIcon
-                linkLabel={"View More"}
-              />
-            ))
-          }
-        </div>
-      </div>
-      <div class="h-px w-full bg-defaultBorder"></div>
-      <div>
-        <h2 class="font-medium">
-          {additionalDeploymentSection.title}
-        </h2>
-
-        <div
-          class="mt-4 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {
-            additionalDeploymentSection.resources.map((resource) => (
-              <PraetorsCard
-                title={resource.title}
-                description={resource.content}
-                link={resource.link}
-                linkIcon={true}
-                linkLabel={"Read More"}
-              />
-            ))
-          }
-        </div>
-      </div>
+        {heroSection.button.label}
+        <ArrowUpRight className="h-4 w-4" />
+      </a>
+      <a
+        href="/docs/getting-started/quick-start/"
+        class="inline-flex h-10 items-center rounded-md border bg-background px-5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+      >
+        Read the docs
+      </a>
     </div>
-  </div>
+  </section>
+
+  <section class="container-wide mt-12 md:mt-16" aria-label="Product tour">
+    <ConsoleTour client:load snapshot={snapshot} />
+    <p class="mt-3 text-center text-xs text-muted-foreground">
+      Runs in your browser. GPU availability and price ranges are live from the
+      Akash network; accounts, providers and bids are illustrative.
+    </p>
+  </section>
+
+  <section class="container-wide mt-12 md:mt-16">
+    <ul
+      class="grid grid-cols-1 gap-px overflow-hidden rounded-lg border bg-[hsl(216,11%,91%)] dark:bg-[hsl(0,0%,18%)] sm:grid-cols-2 lg:grid-cols-4"
+    >
+      {
+        heroSection.featureList.map((feature) => (
+          <li class="flex items-center gap-3 bg-background px-5 py-4 text-sm font-medium text-foreground">
+            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+              <Check className="h-3 w-3" />
+            </span>
+            {feature}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="container-wide mt-20 md:mt-28">
+    <h2
+      class="text-2xl font-semibold tracking-tight text-foreground md:text-4xl"
+    >
+      {additionalDeploymentSection.title}
+    </h2>
+    <p class="mt-3 max-w-[560px] text-sm text-para md:text-base">
+      Console is the quickest way in. When you want to automate, script or hold
+      your own keys, the same network is a request away.
+    </p>
+    <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        additionalDeploymentSection.resources.map((resource) => (
+          <a
+            href={resource.link}
+            class="group flex flex-col rounded-lg border bg-background p-5 transition-colors hover:bg-accent/40 dark:hover:bg-card"
+          >
+            <h3 class="text-base font-semibold text-foreground">
+              {resource.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-para">
+              {resource.content}
+            </p>
+            <span class="mt-auto inline-flex items-center gap-1 pt-6 text-sm font-medium text-foreground">
+              Learn more
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container-wide mt-16 md:mt-24">
+    <h2
+      class="text-2xl font-semibold tracking-tight text-foreground md:text-4xl"
+    >
+      {cloudmosResourcesSection.title}
+    </h2>
+    <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        cloudmosResourcesSection.cards.map((card) => (
+          <a
+            href={card.link}
+            class="group flex flex-col rounded-lg border bg-background p-5 transition-colors hover:bg-accent/40 dark:hover:bg-card"
+          >
+            <h3 class="text-base font-semibold text-foreground">
+              {card.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-para">
+              {card.description}
+            </p>
+            <span class="mt-auto inline-flex items-center gap-1 pt-6 text-sm font-medium text-foreground">
+              {card.linkLabel}
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section
+    class="mt-20 flex flex-col items-center border-y bg-gray-50 px-6 py-20 text-center dark:bg-background2 md:mt-28 md:py-28"
+  >
+    <h2
+      class="max-w-[760px] text-3xl font-semibold tracking-tighter text-foreground md:text-5xl"
+    >
+      Your turn
+    </h2>
+    <p
+      class="mt-4 max-w-[520px] text-sm leading-relaxed text-para md:text-base"
+    >
+      Everything in the tour works the same way in Akash Console. Sign up with
+      Google, GitHub or email to deploy your own container.
+    </p>
+    <a
+      href={heroSection.button.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-8 inline-flex h-10 items-center gap-1.5 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+    >
+      {heroSection.button.label}
+      <ArrowUpRight className="h-4 w-4" />
+    </a>
+  </section>
 </Layout>

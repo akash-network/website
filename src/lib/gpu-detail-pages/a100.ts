@@ -17,6 +17,11 @@ const UPDATED = SNAPSHOT_DATE;
 const AS_OF = liveDate(UPDATED);
 const { rate: RATE } = livePriceLabels(HOURLY);
 
+const GUIDE_POST =
+  "/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/";
+const VRAM_POST = "/the-bid/a100-40gb-vs-80gb-vram-bandwidth-mig-compared/";
+const SCALING_POST = "/the-bid/a100-pcie-vs-sxm-single-vs-multi-gpu-scaling/";
+
 const reserve: GpuLink = {
   label: "Reserve A100 capacity",
   href: "/gpus-on-demand",
@@ -64,6 +69,7 @@ export const a100: GpuDetailPage = {
       },
       { livePrice: true },
     ),
+    note: `For benchmarks, buying guidance and rates across other providers, see the [NVIDIA A100 guide](${GUIDE_POST}).`,
     options: [
       {
         title: "On-demand",
@@ -196,7 +202,7 @@ export const a100: GpuDetailPage = {
       ["Max power", "400 W", "300 W"],
       ["MIG", "Up to 7 @ 10 GB", "Up to 7 @ 10 GB"],
     ],
-    note: "The 40GB A100 uses HBM2 at 1,555 GB/s with up to 7 MIG instances of 5 GB.",
+    note: `The 40GB A100 uses HBM2 at 1,555 GB/s with up to 7 MIG instances of 5 GB. For PCIe versus SXM and how A100s scale across multiple GPUs, see [A100 PCIe vs SXM](${SCALING_POST}).`,
   },
   faqTitle: "NVIDIA A100 FAQ",
   faq: [
@@ -207,8 +213,7 @@ export const a100: GpuDetailPage = {
     },
     {
       question: "How much memory does the NVIDIA A100 have?",
-      answer:
-        "The A100 80GB has 80 GB of HBM2e with 2,039 GB/s of bandwidth on SXM. The A100 40GB has 40 GB of HBM2 at 1,555 GB/s.",
+      answer: `The A100 80GB has 80 GB of HBM2e with 2,039 GB/s of bandwidth on SXM. The A100 40GB has 40 GB of HBM2 at 1,555 GB/s. For which capacity a given workload needs, see [A100 40GB vs 80GB](${VRAM_POST}).`,
     },
     {
       question: "What is the difference between the A100 and H100?",

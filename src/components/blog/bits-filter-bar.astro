@@ -1,0 +1,76 @@
+---
+import BlogControls, { type BlogScope } from "@/components/blog/blog-controls";
+import CategoryNav from "@/components/blog/category-nav.astro";
+import {
+  getBitsPosts,
+  getBitsTags,
+  getPostTagSlugs,
+} from "@/utils/bitsTaxonomy";
+
+// Header of The Bid listings, laid out like the blog's (blog-filter-bar.astro):
+// the heading, the tags as category links, then search, filter, sort and
+// layout controls. The filter offers the other tags of the listed posts, and
+// their years once they span more than one.
+
+const posts = await getBitsPosts();
+const tags = getBitsTags(posts);
+
+const items = [
+  { key: "all", label: "All", href: "/the-bid" },
+  ...[...tags].map(([slug, label]) => ({
+    key: slug,
+    label,
+    href: `/the-bid/${slug}/1`,
+  })),
+];
+
+// /the-bid, /the-bid/2 -> all; /the-bid/<tag>/1 -> tag
+const segment = decodeURIComponent(
+  Astro.url.pathname.split("/")[2] ?? "",
+).toLowerCase();
+const active = !segment || /^\d+$/.test(segment) ? "all" : segment;
+
+const scope: BlogScope =
+  active === "all" ? { kind: "all" } : { kind: "category", slug: active };
+
+// Filter options offered for the posts of this listing only.
+const scopePosts =
+  active === "all"
+    ? posts
+    : posts.filter((post) => getPostTagSlugs(post).includes(active));
+const scopeTags = new Set(scopePosts.flatMap((post) => getPostTagSlugs(post)));
+const topics = [...tags]
+  .filter(([slug]) => slug !== active && scopeTags.has(slug))
+  .map(([slug, label]) => ({ slug, label }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+const years = [
+  ...new Set(scopePosts.map((post) => post.data.pubDate.getUTCFullYear())),
+].sort((a, b) => b - a);
+---
+
+<div>
+  <h1 class="text-3xl md:text-4xl lg:text-5xl">The Bid</h1>
+  <p class="mt-3 text-base text-muted-foreground md:text-lg">
+    Quick-read technical insights on the AI Space by Akash
+  </p>
+
+  <div
+    class="mt-6 flex flex-col gap-3 lg:mt-8 lg:flex-row lg:items-start lg:gap-6"
+  >
+    <CategoryNav
+      items={items}
+      active={active}
+      label="The Bid categories"
+      class="lg:flex-1"
+    />
+
+    <BlogControls
+      client:load
+      scope={scope}
+      topics={topics}
+      years={years.length > 1 ? years : []}
+      cardsUrl="/partials/bits-cards/"
+      search="bits"
+    />
+  </div>
+</div>
