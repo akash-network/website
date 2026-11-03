@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Lucas Botbol"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Ayati Ogochukwu"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

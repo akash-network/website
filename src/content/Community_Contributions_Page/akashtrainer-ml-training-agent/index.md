@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Huy Huynh & Kien Nguyen"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

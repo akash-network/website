@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Helen Hui"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

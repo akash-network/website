@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Rachel Turner"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

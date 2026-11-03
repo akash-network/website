@@ -15,7 +15,7 @@ tags:
   - SecNumCloud
 contributors:
   - Hugo DAVID
-bannerImage: ./cloud-war-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 # The Cloud War: Digital Sovereignty, the CLOUD Act, and What Decentralization Actually Changes

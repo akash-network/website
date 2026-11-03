@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Shelby Peris"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

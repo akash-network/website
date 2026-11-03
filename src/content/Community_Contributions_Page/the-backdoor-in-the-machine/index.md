@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Asad Rizvi"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

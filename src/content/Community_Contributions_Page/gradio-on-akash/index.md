@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Ensar Burrja"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

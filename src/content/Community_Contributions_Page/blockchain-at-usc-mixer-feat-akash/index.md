@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Alex Diaz & Alon Mutter"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

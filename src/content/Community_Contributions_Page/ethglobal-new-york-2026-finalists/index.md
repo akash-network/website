@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Tharun Ekambaram"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

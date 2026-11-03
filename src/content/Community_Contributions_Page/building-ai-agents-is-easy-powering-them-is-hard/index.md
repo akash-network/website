@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Deepthi Morusupalli"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

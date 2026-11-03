@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Alex Diaz"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Ayesha Satpathy"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

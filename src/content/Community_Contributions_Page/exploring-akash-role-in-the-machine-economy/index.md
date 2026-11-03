@@ -10,5 +10,5 @@ tags:
   - Student Ambassadors
 contributors:
   - "Alon Mutter"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
