@@ -11,7 +11,7 @@ tags:
   - AI Agents
 contributors:
   - aoritus
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 # How to Deploy Paperclip on Akash: Self-Host Your AI Agent Teams
 

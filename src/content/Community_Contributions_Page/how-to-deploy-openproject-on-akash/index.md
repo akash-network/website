@@ -11,7 +11,7 @@ tags:
   - SDL
 contributors:
   - Rodri
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 This guide walks you through deploying [OpenProject](https://www.openproject.org), a free project management tool, on Akash Network. Everything is done through [Akash Console](https://console.akash.network) or [Console Air](https://github.com/akash-network/console-air) in your browser.
 

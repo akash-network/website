@@ -17,8 +17,18 @@ const contributions = allContributions.sort(
 );
 
 // Category links styled like the blog's; this page filters its own cards in
-// the browser and keeps the choice in ?category=<name>.
-const categories = ["News", "Guides", "Articles", "Student Ambassadors"];
+// the browser and keeps the choice in ?category=<name>. A card shows under
+// every category it lists; ambassador posts list their type first.
+const categories = [
+  "News",
+  "Guides",
+  "Articles",
+  "Student Ambassadors",
+  "Technical",
+  "Events",
+  "Content Creation",
+  "Hackathons",
+];
 const items = [
   { key: "all", label: "All", href: "/community/contributions/" },
   ...categories.map((category) => ({
@@ -79,9 +89,9 @@ const items = [
                 contributor={contribution.data.contributors[0]}
                 pubDate={contribution.data.pubDate}
                 readingTime={getReadingTime(contribution.body)}
-                data-category={
-                  contribution.data.categories[0]?.toLowerCase() ?? ""
-                }
+                data-category={contribution.data.categories
+                  .map((category) => category.toLowerCase())
+                  .join("|")}
               />
             );
           })
@@ -117,7 +127,9 @@ const items = [
       });
       cards.forEach((card) => {
         card.style.display =
-          key === "all" || card.dataset.category === key ? "" : "none";
+          key === "all" || card.dataset.category?.split("|").includes(key)
+            ? ""
+            : "none";
       });
     };
 

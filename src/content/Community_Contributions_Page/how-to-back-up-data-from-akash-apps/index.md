@@ -11,7 +11,7 @@ tags:
   - Backups
 contributors:
   - Sam Lister
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 Akash is a decentralized cloud platform built on a low-level architecture, which gives you an exceptional degree of control over your deployments. It's also a fast-growing platform where new capabilities and ease-of-use features are being shipped all the time — and the best is still ahead. A few of those conveniences, data management among them, are still being developed. Until they land, it's worth knowing how to handle them yourself, so this guide covers what you need to know about keeping your data safe when running deployments on Akash.

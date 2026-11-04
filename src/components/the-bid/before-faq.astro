@@ -1,0 +1,13 @@
+---
+// Renders the default slot (a post body) with the `insert` slot placed just before its "FAQ"
+// heading, or after the body when it has none. Astro can't put a component inside rendered
+// Markdown, so both slots are rendered to HTML and joined at the heading.
+
+const body = await Astro.slots.render("default");
+const insert = await Astro.slots.render("insert");
+const faq = body.search(/<h2[^>]*>\s*FAQs?\s*<\/h2>/i);
+const html =
+  faq === -1 ? body + insert : body.slice(0, faq) + insert + body.slice(faq);
+---
+
+<Fragment set:html={html} />

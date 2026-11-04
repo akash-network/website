@@ -5,10 +5,11 @@ draft: false
 external: true
 link: "https://x.com/AkashStudents/status/2069157596431597955?s=20"
 categories:
+  - Content Creation
   - Student Ambassadors
 tags:
   - Student Ambassadors
 contributors:
   - "Asad Rizvi"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
