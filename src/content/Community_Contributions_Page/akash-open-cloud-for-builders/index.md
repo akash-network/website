@@ -10,7 +10,7 @@ tags:
 contributors:
   - Lucas Botbol
 link: "https://www.linkedin.com/posts/lucasbotbolagusti_akash-network-the-open-cloud-for-builders-activity-7398834097013387264-wSLR?utm_source=share&utm_medium=member_desktop&rcm=ACoAADLQn6EBUFig-TCMsUdoD9X4oLZPqNgnrBM"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 The cloud has always promised openness — but in practice, a few large corporations have controlled most of the world's compute. Akash Network is changing that, and it's becoming the platform of choice for developers who want to build without constraints.

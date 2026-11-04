@@ -5,10 +5,11 @@ draft: false
 external: true
 link: "https://x.com/carne_asado/status/2038917326511251918?s=46"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors
 contributors:
   - "Asad Rizvi"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

@@ -10,7 +10,7 @@ tags:
 contributors:
   - Helen Hui
 link: "https://www.linkedin.com/pulse/why-blockchain-reshape-modern-ai-training-how-you-can-helen-hui-dzqhe?trk=public_post_feed-article-content"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 AI training is one of the most resource-intensive workloads on the planet. And today, almost all of it runs through three or four hyperscalers. That's about to change.
