@@ -1072,10 +1072,12 @@ export function ConsoleTour({ snapshot }: { snapshot?: NetworkSnapshot }) {
   );
 
   return (
+    // `isolate` keeps the receipt's and overlays' z-indexes inside the tour,
+    // so they never rise over the sticky site header.
     <div
       ref={rootRef}
       id="tour"
-      className="scroll-mt-24 overflow-hidden rounded-2xl border bg-background"
+      className="isolate scroll-mt-24 overflow-hidden rounded-2xl border bg-background"
     >
       {/* Mission bar */}
       <div
