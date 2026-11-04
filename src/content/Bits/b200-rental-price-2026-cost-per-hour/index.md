@@ -1,7 +1,7 @@
 ---
 title: "NVIDIA B200 (Blackwell) GPU Rental Price in September 2026: Starting from $5/Hour"
 pubDate: 2026-09-24
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-03
 author: "Sandeep Narahari, Contributor"
 description: "NVIDIA B200 GPU rental price in 2026, including cost per hour, Akash pricing, Blackwell GPU specs, model sizing, B200 vs B300, and cloud GPU options."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "NVIDIA B200 GPU Rental Price 2026 | Cost/Hour & Blackwell"
 metaDescription: "NVIDIA B200 GPU rental price in 2026, including cost per hour, Akash pricing, Blackwell GPU specs, model sizing, B200 vs B300, and cloud GPU options."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 2026. Prices checked September 24, 2026; Akash H100 and H200 rates checked October 22, 2026.*
+*By Sandeep Narahari, Contributor. Last updated: November 2026. Prices checked September 24, 2026; Akash H100 rate checked November 3, 2026; Akash H200 rate checked October 22, 2026.*
 
 On Akash, the [B200](/pricing/gpus/b200/) GPU rental price starts from \$5.00 per GPU-hour as of September 2026, according to [Akash GPU pricing](/pricing/gpus/). For that you get one NVIDIA B200 with 180GB of HBM3e and 8 TB/s of memory bandwidth, billed on demand with no long-term contract.
 
