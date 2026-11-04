@@ -472,9 +472,9 @@ Parameters and reporter policies are separate queries, not fields of state. Send
 
 The pending CLI uses positional owner/status filters, positional guardian pauses, and propose-params/propose-void/propose-veto/propose-resolve governance helpers. Reports read current policy and round unless explicitly overridden. Follow the current command guide rather than older generated-message examples.
 
-For local testing without a portal, use the native akash CLI and the Compose upgrade setup. It requires a separately prepared native fixture and matching artifacts. Full local upgrade-to-refund E2E remains unverified. DevOps instructions cover the registered v2.2.0 upgrade, Solana program ceremony, independent services, activation, and recovery. Production addresses and release artifacts remain TBD at launch.
+Operator guides cover relayers and independent reporters against an existing bridge: verified service releases, network identities, fee accounts, external signing, governance admission, monitoring, and retained-state restarts. Production addresses and release artifacts remain TBD at launch.
 
-Sources: [Akash Sink](https://akash.network/docs/learn/akash-sink/), [portal guide](https://akash.network/docs/learn/akash-sink/portal/), [pending akt commands](https://akash.network/docs/developers/akt/sink/), [local and deployment instructions](https://akash.network/docs/node-operators/akash-sink/).
+Sources: [Akash Sink](https://akash.network/docs/learn/akash-sink/), [portal guide](https://akash.network/docs/learn/akash-sink/portal/), [pending akt commands](https://akash.network/docs/developers/akt/sink/), [relayer and reporter operation](https://akash.network/docs/node-operators/akash-sink/).
 
 ## Source scope and freshness
 

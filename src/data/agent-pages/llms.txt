@@ -118,7 +118,7 @@ Key distinctions:
 - [Run a validator](https://akash.network/docs/node-operators/validators/running-a-validator/): Consensus operations, staking, uptime, and signing responsibilities.
 - [Node API layer](https://akash.network/docs/node-operators/architecture/api-layer/): Blockchain RPC, REST, and gRPC interfaces.
 - [Network registry](https://github.com/akash-network/net): Current chain IDs, network versions, genesis, RPC nodes, and sandbox configuration.
-- [Akash Sink services](https://akash.network/docs/node-operators/akash-sink/): Local CLI-only Compose testing and DevOps deployment paths, the registered v2.2.0 upgrade, Solana ceremony, relayer and reporter installation, activation, and recovery. Includes verification limits and native fixture prerequisites.
+- [Akash Sink services](https://akash.network/docs/node-operators/akash-sink/): Operate relayers and independent reporters against an existing bridge: service installation, network identity, fees, external signing, governance admission, monitoring, and recovery.
 - [Network upgrades](https://akash.network/docs/node-operators/network-upgrades/): Upgrade-specific instructions and compatibility requirements.
 
 ## Optional

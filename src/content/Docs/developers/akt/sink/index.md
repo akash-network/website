@@ -9,7 +9,7 @@ description: "Deposit AKT, query composite transfers, follow refunds, and use th
 
 Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transfer by its `owner/height/sequence` ID. The same amount is minted on Solana. Transfers are one way.
 
-**Draft CLI instructions:** these examples target the pending `akt` Sink update, not a published release. Check `akt query sink --help` and `akt tx sink --help` against the commands below. The [local E2E and deployment guides](/docs/node-operators/akash-sink) use the native `akash` CLI and do not depend on this pending update.
+**Draft CLI instructions:** these examples target the pending `akt` Sink update, not a published release. Check `akt query sink --help` and `akt tx sink --help` against the commands below. For services that process transfers, see [relayer and reporter operation](/docs/node-operators/akash-sink).
 
 ## Contents
 
@@ -138,7 +138,7 @@ akt tx sink propose-resolve '<owner>/<height>/<sequence>' confirm-void 'verified
 
 Choose the required action and the deposit appropriate to the network. `propose-void` and `propose-resolve` read the current round; `--expected-round` can set it explicitly. A stale round is rejected when the proposal executes. Restarts and confirmations advance the round. A void order alone does not authorize a refund: the Solana outcome and native refund conditions still apply.
 
-Use the [native deployment runbook](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-deployment.md#configure-and-enable-sink) for the `akash` generate-only governance workflow. Its command names and JSON output differ from these `akt` helpers.
+The native `akash` CLI has different command names and JSON output. These examples are for `akt`; do not interchange the two binaries in a command.
 
 ## Troubleshooting
 
@@ -151,5 +151,5 @@ Use the [native deployment runbook](https://github.com/akash-network/node/blob/f
 
 - [How Akash Sink works](/docs/learn/akash-sink)
 - [Use the portal](/docs/learn/akash-sink/portal)
-- [Local testing and deployment](/docs/node-operators/akash-sink)
+- [Relayers and reporters](/docs/node-operators/akash-sink)
 - [Command reference](/docs/developers/akt/commands-reference#sink-akt-to-solana)

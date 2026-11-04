@@ -9,7 +9,7 @@ description: "Configure independent nodes and an external signer, preview Sink o
 
 A reporter verifies finalized Solana outcomes and reports them on Akash. Reporters can also veto conflicting refunds and finalize eligible refunds. They cannot mint tokens on Solana.
 
-For a new network, complete [deployment](/docs/node-operators/akash-sink#deploy-an-operated-network) first. Follow the [reporter reference](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/reporter.md) for configuration, custody, and alert details.
+Use these instructions with an existing bridge and its reviewed service release. Follow the [reporter reference](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/reporter.md) for configuration, custody, and alert details.
 
 ## Requirements
 
@@ -22,7 +22,7 @@ Keep Solana history for the outages you need to recover from plus the challenge 
 
 ## Install and configure
 
-Follow [service installation](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-services.md) to verify the archive and install it under a dedicated Unix account.
+Obtain the reviewed service archive, verify its hash, and follow [host installation](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-services.md#install-on-each-operators-host) to install it under a dedicated Unix account.
 
 Copy the shipped `reporter/config.example.json` to `/etc/akt-reporter/config.json`. Set the exact chain ID, Solana genesis, program, mint, reporter address, RPCs, fees, and `externalSigner`. Obtain identities from the reviewed deployment manifest, not from an untrusted endpoint. A mainnet fork has its own chain identity.
 
@@ -56,7 +56,7 @@ akash query sink params --node "$RPC" --output json
 akash query sink reporters 0 --node "$RPC" --output json
 ```
 
-Use the [native governance procedure](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-deployment.md#configure-and-enable-sink) to propose the complete parameter set. The [pending akt CLI guide](/docs/developers/akt/sink#governance-actions) describes its proposal helpers separately.
+Share your public reporter address for the network's governance process. A proposal adds it to the complete parameter set. The [pending akt CLI guide](/docs/developers/akt/sink#governance-actions) describes the proposal helper. Do not enable signing until the proposal passes and the current policy includes your account.
 
 After passage, confirm your address is in the current policy. Quorum is the member count multiplied by the decimal threshold, rounded up, and must exceed two thirds of the members. Policy version and settlement round are separate; each report must match both.
 

@@ -9,7 +9,7 @@ description: "Install and operate a relayer against an existing Akash and Solana
 
 A relayer uploads Akash block headers and transfer proofs to Solana. Solana verifies the signatures and proofs before minting or voiding a transfer. The relayer needs a funded payer, but cannot change the proven recipient or amount.
 
-For a new network, complete [deployment](/docs/node-operators/akash-sink#deploy-an-operated-network) first. For a disposable test, use [local E2E](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-local-e2e.md).
+Use these instructions with an existing bridge and its reviewed service release. See [service roles and prerequisites](/docs/node-operators/akash-sink).
 
 ## Requirements
 
@@ -23,7 +23,7 @@ Follow the [node and history requirements](https://github.com/akash-network/node
 
 ## Install and configure
 
-Use [service installation](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-services.md) to build or obtain the checked archive, verify its hash, create the service account, and install the root-owned release.
+Obtain the reviewed service archive and verify its hash against the network manifest. Follow [host installation](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-services.md#install-on-each-operators-host) to create the service account and install the root-owned release.
 
 Copy the shipped `relayer/config.example.json` to `/etc/akt-relayer/config.json`. Fill it from the deployment manifest, including:
 
