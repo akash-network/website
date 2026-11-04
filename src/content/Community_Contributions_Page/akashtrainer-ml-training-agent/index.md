@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://github.com/akash-network/awesome-akash/tree/master/akash-trainer"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors

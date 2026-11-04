@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://github.com/tharune/senthos"
 categories:
+  - Hackathons
   - Student Ambassadors
 tags:
   - Student Ambassadors

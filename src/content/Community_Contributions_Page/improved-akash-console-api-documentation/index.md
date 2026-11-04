@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://github.com/akash-network/website/pulls?q=is%3Apr+author%3Ahrishabhayush"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors

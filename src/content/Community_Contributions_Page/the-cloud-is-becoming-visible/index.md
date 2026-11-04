@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://rachelturney.substack.com/p/the-cloud-is-becoming-visible"
 categories:
+  - Content Creation
   - Student Ambassadors
 tags:
   - Student Ambassadors

@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://x.com/AkashStudents/status/2014779402601779470?s=20"
 categories:
+  - Events
   - Student Ambassadors
 tags:
   - Student Ambassadors

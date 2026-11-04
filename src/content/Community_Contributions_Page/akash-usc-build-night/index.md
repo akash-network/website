@@ -5,6 +5,7 @@ pubDate: "2025-12-10"
 draft: false
 categories:
   - News
+  - Events
 tags:
   - News
 contributors:

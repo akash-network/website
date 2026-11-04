@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://x.com/BotbolLucas/status/2036658487921402046?s=20"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors

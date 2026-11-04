@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://github.com/hdavid-13/static-akash-website"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors

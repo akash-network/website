@@ -7,7 +7,7 @@ archive: false
 showcase: true
 featured: true
 categories:
-  - General
+  - Articles
 tags:
   - Digital Sovereignty
   - CLOUD Act

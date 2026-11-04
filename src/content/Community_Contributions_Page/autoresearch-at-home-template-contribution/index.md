@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://github.com/akash-network/awesome-akash/pull/782"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors

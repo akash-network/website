@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://akash.network/community/contributions/cloud-war/"
 categories:
+  - Content Creation
   - Student Ambassadors
 tags:
   - Student Ambassadors

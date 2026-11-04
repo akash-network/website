@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://www.youtube.com/watch?v=KrhQFXzmqS8"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors

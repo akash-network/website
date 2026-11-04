@@ -5,6 +5,7 @@ draft: false
 external: true
 link: "https://x.com/carne_asado/status/2049953165382971730?s=20"
 categories:
+  - Content Creation
   - Student Ambassadors
 tags:
   - Student Ambassadors
