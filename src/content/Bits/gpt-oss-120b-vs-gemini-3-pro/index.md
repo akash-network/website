@@ -4,7 +4,7 @@ pubDate: 2026-11-05
 lastUpdated: 2026-11-05
 author: "Sandeep Narahari, Contributor"
 description: "gpt-oss-120b vs Gemini 3 Pro: gpt-oss-120b costs $0.037/$0.187 per 1M tokens on AkashML; Gemini 3 Pro costs $2/$12 but adds 1M context."
-tags: ["Comparisons", "Alternatives", "Guides"]
+tags: ["AkashML"]
 bannerImage: ./banner.webp
 draft: false
 faqAccordion: true
