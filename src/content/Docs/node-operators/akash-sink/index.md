@@ -2,102 +2,78 @@
 categories: ["Node Operators"]
 tags: ["Akash Sink", "Solana", "Reporter", "Relayer", "Validators"]
 weight: 6
-title: "Akash Sink Services"
+title: "Run Akash Sink"
 linkTitle: "Akash Sink"
-description: "What Akash validators and node operators run for Akash Sink: the relayer and reporter services that move AKT transfers from Akash to Solana"
+description: "Local CLI testing, Akash upgrades, Solana deployment, and operation of Sink relayers and reporters"
 ---
 
-**Akash Sink moves AKT one way from Akash to Solana. Two services run alongside Akash nodes to keep it working: relayers and reporters.** This section covers what each one does and what you need to run it.
+Sink connects the Akash module to three Solana programs through a relayer and independent reporters. Choose the instructions for your task:
 
-For how transfers work from a user's point of view, see [Akash Sink](/docs/learn/akash-sink).
+| Task                                                         | Guide                                                                                                                          |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| Test the whole bridge locally with the CLI, without a portal | [Local setup and E2E](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-local-e2e.md)                     |
+| Upgrade Akash and deploy an operated network                 | [Akash and Solana deployment](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-deployment.md)            |
+| Build the Solana programs                                    | [Build and toolchain](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/setup.md)              |
+| Deploy programs and assign authorities                       | [Solana program ceremony](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-program.md) |
+| Package and install supervised services                      | [Service installation](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-services.md)   |
+| Operate a relayer or reporter                                | [Relayer](/docs/node-operators/akash-sink/relayer) · [Reporter](/docs/node-operators/akash-sink/reporter)                      |
 
----
+These runbooks contain the commands and their prerequisites. Use one reviewed source revision throughout. Launch release tags, production program IDs, mint, and checksums remain TBD at launch.
 
-## What Validators Need
+## Test locally
 
-Validators need no new service to keep transfers working. After the chain upgrade that installs the `sink` module, run the upgraded `akash` binary as usual. The release and its upgrade guide are TBD at launch; use the matching [release manifest](#releases-and-network-values).
+The local path adds Solana, a relayer, and seven reporters to the existing Akash upgrade-test Docker Compose setup. It uses the native `akash` CLI, so it does not depend on the pending `akt` commands.
 
-Mints on Solana are authorized by the signatures validators already produce. An Akash light client on Solana verifies each block header against the Akash validator set, then checks a proof of the transfer record against that header. No extra key or signing service is involved.
+Start with [local setup](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-local-setup.md). It requires a separately prepared native upgrade fixture, matching Linux artifacts, and fresh test keys. Follow its architecture, fixed-port, and snapshot prerequisites before starting containers. The Compose overlay does not create the native fixture for you.
 
-Validators are well placed to run the two services below, since both need Akash nodes and around-the-clock operations. Run them on their own hosts, not on your validator.
+Then follow the [mint, refund, and restart steps](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-local-e2e.md). Standard builds retain the 72-hour challenge minimum. The documented `sinkdev` option is only for accelerated tests.
 
----
+Container preparation and Solana program readback have been checked. The complete local upgrade-to-refund sequence remains unverified.
 
-## Services
+## Deploy an operated network
 
-| Service  | What it does                                                                                                                                                   | Authority                                                                                                                                 | Who runs it      |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| Relayer  | Uploads Akash block headers to the light client on Solana, and submits the proofs that mint or void each transfer. At least one must run for transfers to move | None. Solana verifies every header and proof, so a relayer can only delay transfers                                                       | Anyone           |
-| Reporter | Reads each transfer's outcome from its own Solana node and votes on Akash, so Akash can close the transfer or refund it                                        | Votes only, and can never mint. A refund needs more than two thirds of the reporters, a challenge window of at least 72 hours and no veto | The reporter set |
+Follow [the deployment runbook](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-deployment.md) in order:
 
-Neither service holds user funds or controls the AKT program on Solana.
+1. Build the node with its committed SDK dependencies and release tags. Record the source and artifact hashes.
+2. Rehearse the registered `v2.2.0` upgrade from `v2.1.2` on an isolated snapshot fork. Preserve the native epoch schedule and release challenge.
+3. Back up the chain, stage the binary on validators, and complete the governed upgrade. The handler installs Sink disabled and also performs the reviewed escrow and Pyth migrations.
+4. Deploy and verify the three Solana programs, their authorities, and a post-upgrade Akash checkpoint.
+5. Install the relayer and independent reporters. Fund their fee accounts and run reporters in preview.
+6. Configure and enable the bridge through the documented authority and governance steps, then verify canary transfers and retained-state restarts.
 
----
+The node runbook includes native governance commands, fixed gas for unsigned message generation, and checks for the upgrade's balance changes. The [Solana production runbook](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/production-deployment.md) covers activation, monitoring, and incidents.
 
-## How They Fit Together
+A snapshot-fork upgrade, mint, refund-pending settlement, and retained-state restarts have passed. That does not establish a mature 72-hour refund, a full mainnet-sized export/import, or a clean end-to-end replay of both published runbooks.
 
-1. A user deposits AKT on Akash. The `sink` module locks it and writes a transfer record.
-2. A relayer proves the record on Solana. The AKT program mints the AKT, or voids the transfer if the address can't receive it.
-3. Each reporter reads the result at finalized commitment from its own Solana node and sends `MsgReportOutcome` on Akash.
-4. When enough reporters agree, Akash settles the transfer as minted, or as refund-pending. Payment follows only after every refund condition is met.
+## Understand the services
 
-If no relayer runs, transfers wait. If fewer reporters than the threshold report, transfers stay pending on Akash. Neither failure loses funds.
+| Service  | Responsibility                                                                             | Credentials                                                       |
+| -------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| Relayer  | Upload signed Akash headers and proofs that Solana verifies                                | A funded Solana payer and the configured header-update permission |
+| Reporter | Verify finalized Solana outcomes and submit reports, vetoes, and eligible refunds on Akash | A governance-selected Akash account and external signer           |
 
----
+Neither service holds user funds. Validators continue producing their normal consensus signatures; the Solana light client verifies those signatures. Run services separately from validator hosts.
 
-## What You Need
+Reporter quorum is `ceil(member count × threshold)`. The required vote count must exceed two thirds of the members. Seven reporters with a threshold of `0.70` require five votes. Query the active policy rather than assuming a version or fixed reporter count.
 
-**Relayer:** an Akash node that keeps at least one light-client trusting period of state, a Solana RPC you run or trust, and a Solana payer key funded with SOL. See the [relayer requirements](/docs/node-operators/akash-sink/relayer#requirements).
+After the upgrade, set `RPC` to the upgraded node's CometBFT endpoint and inspect the separate native queries:
 
-**Reporter:** your own Akash node, your own Solana RPC node with transaction history, an Akash account key in a KMS or HSM, and AKT for fees. See the [reporter requirements](/docs/node-operators/akash-sink/reporter#requirements).
+```bash
+akash query sink params --node "$RPC" --output json
+akash query sink reporters 0 --node "$RPC" --output json
+akash query sink state --node "$RPC" --output json
+```
 
-Both run on Node.js 24 from the Akash Sink services release, each on its own host.
+`params` returns configuration, `reporters 0` returns the current policy, and `state` returns totals, native epoch usage, and the refund candidate. A refund still needs challenge maturity, current authorization, no hold, enabled refunds, queue priority, and available epoch capacity.
 
----
+## Preserve state during recovery
 
-## Become a Reporter
+Retain chain databases, network identities, program artifacts, and service journals. Do not attach a new mint to already resolved native transfers or reset journals to hide a failure. Backing includes pending, minted, void-requested, and refund-pending amounts; paid refunds are no longer locked.
 
-Akash governance sets the reporters in the `sink` module parameters: up to 32 accounts, with a vote threshold above two thirds of the set.
+The registered upgrade installs Sink on pre-Sink state. It is not a migration between incompatible Sink testnet schemas. A service rollback cannot undo chain transactions. Follow the [incident runbooks](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/production-deployment.md#incident-runbooks) before recovery.
 
-1. Set up your nodes and run the reporter in preview mode, which reads and decides without sending anything. See [Run a Reporter](/docs/node-operators/akash-sink/reporter).
-2. Share your reporter account address. A governance proposal adds it to `reporters` and adjusts `reporters_threshold`, for example with [`akt tx sink update-params`](/docs/developers/akt/sink#governance-actions).
-3. Once the proposal passes, run the reporter with broadcasting enabled.
+## Related guides
 
-The threshold is a decimal ratio with `3 × ratio > 2` and `ratio <= 1`. The required vote count is the ratio times membership, rounded up. Changing membership or that effective count creates a new immutable policy version; reordering the same members does not.
-
-Unpaid transfers refresh their quorum authorization under the new policy. Minted and refunded records retain the evidence that authorized their outcome. Governance-confirmed refund authorization survives rotation. Votes retain their policy versions, and opposite evidence can create a conflict even after a transfer is financially complete. Query `disputes` to include those terminal conflicts.
-
-SDK observation validation checks outcome/evidence format. It does not verify a Solana transaction or finality. Each reporter must do those checks against its own correctly identified node before signing.
-
----
-
-## Recovery and Deployment Compatibility
-
-The composite-ID module uses genesis schema version 4 and module consensus version 2. Numeric-ID and earlier composite-ID testnets require fresh paired state. Schema versions 1 through 3 are rejected; changing the marker alone is not a migration. Preserve the old programs, ledgers, runtime state and portal history; do not copy scalar-ID journals into the new services. The chain upgrade only installs sink on pre-sink state and rejects an existing sink version entry.
-
-A populated export contains parameters, the explicit current policy version and referenced policy history, raw send/refund usage, each `GenesisRecord` with its status and complete settlement, and each account's usage once. Settlement data includes the permanent void authorization, retained votes, governance observation, veto and integer challenge deadline. Import restores canonical status keys and rebuilds dispute, refund and history indexes. It does not create new funds, sweep balances or guess missing authorization.
-
-The module bank balance must equal the sum of pending, minted, void-requested and refund-pending amounts in `uakt`, with no extra denominations. Refunded amounts are outside escrow. Restore bank and auth state together with sink state and verify the populated export/import round trip before enabling services.
-
-Set genesis `genesis_time` at or after the exported last block time, and keep `initial_height` above all imported transfer heights. Import rejects a record at or above the first block height, because reusing an ID would collide with its permanent Solana resolution account. The per-block sequence resets to zero at BeginBlock; the first issued sequence is 1. A database restart continues from its committed height.
-
-Back up the full export, binaries, program artifacts and network manifest. Verify their hashes and chain/program/mint identities before resuming. Compare the exported policy history and raw epoch usage. Query the restored transfers, disputes, refund head and current policy, and reconcile escrow against Solana outcomes. A successful process start alone is not a recovery check.
-
----
-
-## Build and Network Values
-
-Use the reviewed build manifest for the exact node/SDK/services versions, checksums, Akash chain ID, Solana genesis hash, program ID and mint. Do not infer compatibility from the `akash.sink.v1` protobuf package name: the unreleased schema changed inside that package. No new deployment address is assigned by these instructions.
-
-- [Node, module and Solana services source](https://github.com/akash-network/node)
-- [SDK source](https://github.com/akash-network/chain-sdk)
-- [Portal source](https://github.com/akash-network/sink-portal)
-
----
-
-## Related Resources
-
-- [Run an Akash Sink Reporter](/docs/node-operators/akash-sink/reporter)
-- [Run an Akash Sink Relayer](/docs/node-operators/akash-sink/relayer)
-- [Akash Sink](/docs/learn/akash-sink)
-- [Send AKT to Solana with akt](/docs/developers/akt/sink)
+- [How Akash Sink works](/docs/learn/akash-sink)
+- [Send AKT with the pending akt CLI](/docs/developers/akt/sink)
+- [Use the portal](/docs/learn/akash-sink/portal)

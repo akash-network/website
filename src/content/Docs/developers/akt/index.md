@@ -50,7 +50,7 @@ Query the chain and submit transactions for every Akash and Cosmos SDK module.
 
 ### [Send AKT to Solana](/docs/developers/akt/sink)
 
-Send AKT to a Solana wallet through Akash Sink, follow the transfer and its refund, and run the reporter, guardian and governance sink commands.
+Preview the pending Sink commands for deposits, composite transfer queries, refunds, reporters, and governance proposals. For a runnable native CLI setup, use the [local and deployment guides](/docs/node-operators/akash-sink).
 
 ### [Network Monitor](/docs/developers/akt/monitor)
 

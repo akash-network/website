@@ -455,32 +455,30 @@ Sources: [node operators](https://akash.network/docs/node-operators/getting-star
 
 ## Move AKT to Solana with Akash Sink
 
-Akash Sink moves AKT one way from Akash to Solana. A deposit locks AKT in the Akash `sink` module and writes a permanent transfer record. A relayer proves the record to the AKT program on Solana, which checks it against its Akash light client and mints the same amount to the recorded Solana wallet. Independent reporters then confirm the outcome on Akash. AKT on Solana can't return to Akash through Akash Sink.
+Akash Sink locks AKT on Akash and mints the same amount on Solana. Transfers are one way and use complete owner/height/sequence IDs. Relayers submit verified headers and proofs; independent reporters verify finalized outcomes. A confirmed void becomes refund-pending. Payment still requires the challenge deadline, current authorization, no hold, enabled refunds, queue priority, and available capacity. The standard challenge minimum is 72 hours.
 
-If Solana can't deliver to the address, for example a program or a token account, the transfer is voided. After reporters confirm the void and a challenge window of at least 72 hours, the deposit is refunded to the sender. The Akash network fee isn't refunded. Governance sets the per-transfer, per-account and daily limits, the reporter set, and a pause guardian that can switch deposits or refunds off.
-
-Users send transfers from the Akash Sink web portal with Keplr, or with akt:
+The following examples target the pending akt Sink update, not a published release:
 
 ```bash
-# Limits, and whether deposits are enabled
 akt query sink params
-
-# Lock AKT for a Solana wallet; block mode prints the record ID
-akt tx sink deposit <solana-address> 10akt --broadcast-mode block
-
-# Transfer pending, Completed or Void, with the settlement details
-akt query sink record <id>
+akt query sink reporters
+akt query sink state
+akt tx sink deposit <solana-address> 10akt
+akt query sink transfer '<owner>/<height>/<sequence>'
+akt query sink transfers <akash-address> refund-pending
 ```
 
-Send to a Solana wallet address, not a token account. Check the AKT mint address on Solana before trusting a token named AKT.
+Parameters and reporter policies are separate queries, not fields of state. Sending and refund quotas follow the native day epoch schedule. Reporter quorum is the member count multiplied by the decimal threshold, rounded up, and must exceed two thirds of the members.
 
-Two off-chain services keep transfers moving. Anyone can run a relayer, which uploads Akash headers to the light client on Solana and submits mint or void proofs; it has no trusted power. Reporters, chosen by Akash governance, read outcomes from their own Solana nodes and vote on Akash; they can never mint. Validators need no new service beyond the upgraded node, since the light client verifies the signatures they already produce.
+The pending CLI uses positional owner/status filters, positional guardian pauses, and propose-params/propose-void/propose-veto/propose-resolve governance helpers. Reports read current policy and round unless explicitly overridden. Follow the current command guide rather than older generated-message examples.
 
-Sources: [Akash Sink](https://akash.network/docs/learn/akash-sink/), [portal guide](https://akash.network/docs/learn/akash-sink/portal/), [akt sink commands](https://akash.network/docs/developers/akt/sink/), [relayer and reporter services](https://akash.network/docs/node-operators/akash-sink/).
+For local testing without a portal, use the native akash CLI and the Compose upgrade setup. It requires a separately prepared native fixture and matching artifacts. Full local upgrade-to-refund E2E remains unverified. DevOps instructions cover the registered v2.2.0 upgrade, Solana program ceremony, independent services, activation, and recovery. Production addresses and release artifacts remain TBD at launch.
+
+Sources: [Akash Sink](https://akash.network/docs/learn/akash-sink/), [portal guide](https://akash.network/docs/learn/akash-sink/portal/), [pending akt commands](https://akash.network/docs/developers/akt/sink/), [local and deployment instructions](https://akash.network/docs/node-operators/akash-sink/).
 
 ## Source scope and freshness
 
-Reviewed September 10, 2026; akt release guidance and agent skill updated September 12, 2026. This is a curated technical synthesis, not a verbatim export of every documentation page. The companion [llms.txt](https://akash.network/llms.txt) lists task-specific sources. Prefer current product documentation and version-matched source/schema over older tutorials. For live state, use chain queries, provider status, and the relevant product API.
+Reviewed September 10, 2026; akt release guidance and agent skill updated September 12, 2026. The Sink section was updated November 4, 2026 for the current draft docs and pending CLI changes. This is a curated technical synthesis, not a verbatim export of every documentation page. The companion [llms.txt](https://akash.network/llms.txt) lists task-specific sources. Prefer current product documentation and version-matched source/schema over older tutorials. For live state, use chain queries, provider status, and the relevant product API.
 
 Sources include this website's documentation, the official akt repository and releases, installed CLI command help, the akt CLI skill and its supporting references, Console funding/API documentation, the official chain-sdk and Console Air repositories, the Akash skill repository, Awesome Akash templates, and AkashML's API documentation. Source links appear beside each topic. Check GitHub for current akt code and release versions; install or update the published binary through the official Homebrew tap or release assets.
 

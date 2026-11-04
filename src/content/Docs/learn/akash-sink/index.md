@@ -11,6 +11,8 @@ description: "How Akash Sink moves AKT from Akash to Solana: one-way transfers, 
 
 Transfers are one way. AKT that arrives on Solana can't be sent back to Akash through Akash Sink.
 
+Sink remains pre-release. Use a matching test deployment until the production release and addresses are announced. The CLI examples track the [pending akt update](/docs/developers/akt/sink).
+
 There are two ways to send a transfer:
 
 - **[The Akash Sink portal](/docs/learn/akash-sink/portal)**: a web app. Connect Keplr, enter a Solana address and an amount, then confirm.
@@ -23,7 +25,7 @@ There are two ways to send a transfer:
 1. **You deposit AKT on Akash.** The deposit names a Solana wallet address. The Akash `sink` module locks the AKT and writes a permanent record of the transfer: its ledger ID, sender, recipient and amount.
 2. **The record is proven on Solana.** A relayer submits Akash block headers and a proof of the record to Solana. The AKT program on Solana checks the proof against its Akash light client. A relayer can delay a transfer, but it can't change a record or create one.
 3. **Solana mints the AKT.** The program mints exactly the recorded amount to the recorded address.
-4. **Reporters settle the transfer on Akash.** Independent reporters check the result on Solana and vote on Akash. The transfer is settled once enough votes agree. Governance sets that threshold, and it must be more than two thirds of the reporters.
+4. **Reporters settle the transfer on Akash.** Independent reporters check the result on Solana and vote on Akash. The transfer is settled once enough votes agree. Governance sets a decimal threshold. The required vote count is the reporter count multiplied by that threshold, rounded up, and must exceed two thirds of the reporters.
 
 Most transfers finish within a few minutes. You don't need to do anything after the deposit, and closing the portal doesn't stop a transfer.
 
@@ -67,7 +69,7 @@ Akash uses its existing epochs module to track quota periods. The selected `day`
 
 Solana mints can happen as soon as a deposit proof is available. They do not wait for the Akash quota period to end. If Solana's independent daily cap is exhausted, affected mints wait for its next UTC day.
 
-The portal shows transfer bounds and epoch caps. `akt query sink state` shows all parameters, the current epoch and global usage; `akt query sink account <owner>` shows the account's lifetime and current-epoch sending amounts.
+The portal shows transfer bounds and epoch caps. `akt query sink params` shows configuration; `akt query sink state` shows the current epoch and global usage; `akt query sink account <owner>` shows the account's lifetime and current-epoch sending amounts.
 
 ---
 
@@ -98,7 +100,7 @@ The challenge window is a configurable duration measured from authorization. Cro
 - **Check the address.** AKT is minted to exactly the address you enter, and a completed transfer can't be reversed. Send to a Solana wallet address you control, not a token account.
 - **Your Solana wallet doesn't sign.** You sign one transaction: the deposit on Akash. Connecting a Solana wallet in the portal only reads its address.
 - **Deposits and refunds can be paused.** A pause guardian chosen by governance can turn deposits, refunds or both off. Only governance can turn them back on. AKT from transfers you already made stays locked on Akash until it's minted or refunded.
-- **Governance controls the settings.** The limits, the reporter set, the vote threshold and the pause guardian are Akash governance parameters. Anyone can read them with `akt query sink state`.
+- **Governance controls the settings.** The limits, the reporter set, the vote threshold and the pause guardian are Akash governance parameters. Read settings with `akt query sink params` and the active policy with `akt query sink reporters`. These commands require the [pending Sink CLI update](/docs/developers/akt/sink).
 
 ---
 
@@ -129,7 +131,7 @@ No. Akash Sink only moves AKT from Akash to Solana.
 
 A wallet address: the address your Solana wallet shows when you receive tokens. Phantom, Solflare, Backpack and hardware wallets all work, and so does a new address that has never been used.
 
-Akash refuses text that isn't a valid Solana address and addresses that can't belong to a wallet, such as associated token accounts. Other addresses that can't hold AKT as a wallet, such as programs, are voided on Solana and refunded.
+Akash checks the address format and its configured recipient policy. Solana checks the actual account when resolving the transfer. A token account or other ineligible account can therefore pass the native address check and still be voided on Solana. Send to your wallet address, not its token account.
 
 ### What if I sent AKT to the wrong wallet?
 
@@ -149,15 +151,17 @@ In the portal, connect the Keplr account that sent it, or track it by ledger ID 
 
 Akash REST endpoints serve the `sink` queries:
 
-| Query                                        | REST path                                                       |
-| -------------------------------------------- | --------------------------------------------------------------- |
-| Complete transfer                            | `/akash/sink/v1/transfers/{id.owner}/{id.height}/{id.sequence}` |
-| Owner, status or chronological history       | `/akash/sink/v1/transfers?owner=&status=&pagination.limit=`     |
-| All held transfers, including paid conflicts | `/akash/sink/v1/disputes`                                       |
-| Account usage                                | `/akash/sink/v1/accounts/{owner}`                               |
-| Totals, policy, parameters and epoch usage   | `/akash/sink/v1/state`                                          |
+| Query                                              | REST path                                                       |
+| -------------------------------------------------- | --------------------------------------------------------------- |
+| Complete transfer                                  | `/akash/sink/v1/transfers/{id.owner}/{id.height}/{id.sequence}` |
+| Transfers, optionally filtered by owner and status | `/akash/sink/v1/transfers?owner=&status=&pagination.limit=`     |
+| All held transfers, including paid conflicts       | `/akash/sink/v1/disputes`                                       |
+| Account usage                                      | `/akash/sink/v1/accounts/{owner}`                               |
+| Totals, epoch usage, and refund candidate          | `/akash/sink/v1/state`                                          |
+| Parameters                                         | `/akash/sink/v1/params`                                         |
+| Current reporter policy                            | `/akash/sink/v1/reporters`                                      |
 
-List queries use native key pagination with a default of 100 and maximum of 500. Use one `x-cosmos-block-height` for every page in a pass. A pruned height must fail the pass. Do not enumerate numeric IDs or assume a newly active owner sorts after a previous cursor.
+Continue list queries with the returned `pagination.next_key`. Treat the key as opaque and keep the same filters, direction, and `x-cosmos-block-height` across a pass. A pruned height must fail the pass. Do not enumerate numeric IDs or treat an exhausted snapshot cursor as a permanent subscription to future transfers.
 
 `MsgSinkResponse` carries the full typed ID. The typed `EventTransferCreated` event is supplementary; owner queries and ID lookups do not depend on a transaction event index. The transfer response exposes one explicit financial status and a separate hold, without a second public-status mapping.
 

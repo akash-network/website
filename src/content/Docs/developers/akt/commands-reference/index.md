@@ -468,18 +468,21 @@ akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
 ### Sink Transfers
 
-Query [Akash Sink](/docs/learn/akash-sink) by its complete `owner/height/sequence` ID:
+These commands target the [pending Sink CLI update](/docs/developers/akt/sink). Check your binary's help before use.
 
 ```bash
+akt query sink params
+akt query sink reporters
+akt query sink reporters all
 akt query sink transfer '<owner>/<height>/<sequence>'
-akt query sink transfers --owner <akash-address> --limit 50
-akt query sink transfers --status STATUS_REFUND_PENDING --limit 50
+akt query sink transfers <akash-address> --limit 50
+akt query sink transfers refund-pending --limit 50
 akt query sink disputes --limit 50
 akt query sink account <akash-address>
 akt query sink state
 ```
 
-Transfers and disputes use `--page-key` pagination. Keep `--height` and filters fixed across pages. Disputes include held minted and refunded transfers. State includes parameters, totals, current policy, epoch usage and the refund queue head.
+Owner and status filters are positional. Use `--page-key` with the returned cursor and keep height, filters, and direction fixed across pages. `state` contains totals, epoch usage, and the refund candidate; configuration and policies come from `params` and `reporters`.
 
 ---
 
@@ -576,36 +579,30 @@ See [Mint & Burn ACT](/docs/developers/deployment/cli/act-mint-burn) for backgro
 
 ### Sink (AKT to Solana)
 
-Send AKT one way from Akash to a Solana wallet through [Akash Sink](/docs/learn/akash-sink):
+The [pending Sink commands](/docs/developers/akt/sink) use complete `owner/height/sequence` IDs:
 
 ```bash
-# Lock AKT on Akash; the same amount is minted to the Solana address
-akt tx sink deposit <solana-address> 10akt
-
-# Pay an authorized refund after its challenge window and other refund checks
-akt tx sink finalize-refund '<owner>/<height>/<sequence>'
+akt tx sink deposit <solana-address> 10akt --from <sender-key>
+akt tx sink finalize-refund <id> --from <executor-key>
+akt tx sink report-outcome <id> minted <slot> <signature> --from reporter
+akt tx sink veto-void <id> <reason> --from reporter
+akt tx sink guardian-pause all --from guardian
 ```
 
-The deposit amount is an exact AKT decimal (`2.5akt`) or a whole number of `uakt`. `MsgSinkResponse` carries the composite ID once the transaction is included.
+Reports read the current policy and round, with `--policy-version` and `--round` overrides. The guardian pause is positional: `deposits`, `refunds`, or `all`.
 
-Reporter, guardian and governance commands:
+Governance helpers submit proposals:
 
 ```bash
-akt tx sink report-outcome <id> <policy-version> <round> <minted|voided> <slot> <signature>
-akt tx sink veto-void <id> <reason>
-akt tx sink guardian-pause --deposits --refunds
-
-# Generate governance messages for the network's proposal workflow
-akt tx sink update-params <params.json> --generate-only
-akt tx sink request-void <id> <expected-round> --generate-only
-akt tx sink restart-transfer <id> <expected-round> <reason> --generate-only
-akt tx sink confirm-mint <id> <expected-round> <slot> <signature> <reason> --generate-only
-akt tx sink confirm-void <id> <expected-round> <slot> <signature> <reason> --generate-only
+akt tx sink propose-params <params.json> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-void <id> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-veto <id> <reason> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve <id> restart <reason> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve <id> confirm-mint <reason> <slot> <signature> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve <id> confirm-void <reason> <slot> <signature> --deposit <proposal-deposit> --from <proposer-key>
 ```
 
-`<id>` is always the complete `owner/height/sequence`. Governance messages require the governance module authority; an ordinary account cannot execute them directly. A stale expected round is rejected.
-
-See [Send AKT to Solana](/docs/developers/akt/sink) for the full workflow, limits and errors.
+Void and resolution proposals bind the current round unless `--expected-round` overrides it. Save the complete parameter object with `akt query sink params -o json` before editing and proposing it. See [Send AKT to Solana](/docs/developers/akt/sink) for prerequisites and payment conditions.
 
 ---
 

@@ -41,7 +41,7 @@ Key distinctions:
 - [Deployment workflows](https://akash.network/docs/developers/deployment/akt/deployments/): Offline SDL scaffolds and validation; deploy, select bids, update, close, query readiness, and recover from partial failures.
 - [Console integration](https://akash.network/docs/developers/deployment/akt/console/): Managed identity, public GPU/provider discovery, templates, bid screening, logs, events, status, and shell. Funding commands depend on CLI/API version.
 - [Queries and transactions](https://akash.network/docs/developers/akt/queries-and-transactions/): Chain state, balances, market operations, BME, governance, staking, and authorization.
-- [Send AKT to Solana with akt](https://akash.network/docs/developers/akt/sink/): One-way Akash Sink deposits with `akt tx sink deposit`, transfer status, refunds, and the reporter, pause guardian, and governance sink commands. Needs akt version TBD at launch or later.
+- [Send AKT to Solana with akt](https://akash.network/docs/developers/akt/sink/): Pending Sink CLI commands for deposits, composite transfer IDs, separate params/reporters/state queries, refunds, and governance proposals. Not yet a released command contract.
 - [Network monitor](https://akash.network/docs/developers/akt/monitor/): Terminal views of consensus, validators, provider capacity, and oracle/BME state.
 - [Command reference](https://akash.network/docs/developers/akt/commands-reference/): Command groups and positional resource identifiers; confirm exact syntax with the installed command's help.
 - [akt source](https://github.com/akash-network/akt): Most up-to-date code, tests, and development status; unreleased code may be ahead of Homebrew and GitHub release binaries.
@@ -118,7 +118,7 @@ Key distinctions:
 - [Run a validator](https://akash.network/docs/node-operators/validators/running-a-validator/): Consensus operations, staking, uptime, and signing responsibilities.
 - [Node API layer](https://akash.network/docs/node-operators/architecture/api-layer/): Blockchain RPC, REST, and gRPC interfaces.
 - [Network registry](https://github.com/akash-network/net): Current chain IDs, network versions, genesis, RPC nodes, and sandbox configuration.
-- [Akash Sink services](https://akash.network/docs/node-operators/akash-sink/): What validators and node operators run for AKT transfers to Solana: the open relayer and the governance-selected reporters, with node, key and funding requirements.
+- [Akash Sink services](https://akash.network/docs/node-operators/akash-sink/): Local CLI-only Compose testing and DevOps deployment paths, the registered v2.2.0 upgrade, Solana ceremony, relayer and reporter installation, activation, and recovery. Includes verification limits and native fixture prerequisites.
 - [Network upgrades](https://akash.network/docs/node-operators/network-upgrades/): Upgrade-specific instructions and compatibility requirements.
 
 ## Optional

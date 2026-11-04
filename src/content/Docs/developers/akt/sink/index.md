@@ -4,152 +4,152 @@ tags: ["akt", "CLI", "Akash Sink", "Solana", "AKT"]
 weight: 4
 title: "Send AKT to Solana"
 linkTitle: "AKT to Solana"
-description: "Send AKT from Akash to Solana with akt tx sink deposit, follow transfers and refunds, and run the reporter, guardian and governance sink commands"
+description: "Deposit AKT, query composite transfers, follow refunds, and use the pending akt Sink proposal helpers"
 ---
 
-Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transfer by its composite ID. The same amount is minted on Solana; transfers are one way.
+Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transfer by its `owner/height/sequence` ID. The same amount is minted on Solana. Transfers are one way.
 
-These commands use the composite-ID sink schema. The node, CLI and services must come from matching reviewed builds. Run `akt query sink --help` and `akt tx sink --help` to check your binary.
+**Draft CLI instructions:** these examples target the pending `akt` Sink update, not a published release. Check `akt query sink --help` and `akt tx sink --help` against the commands below. The [local E2E and deployment guides](/docs/node-operators/akash-sink) use the native `akash` CLI and do not depend on this pending update.
 
-## Before You Start
+## Contents
 
-You need an Akash signing account, AKT for the deposit and network fee, and a Solana wallet address you control. See [Contexts & Configuration](/docs/developers/akt/configuration).
+- [Read the current configuration](#read-the-current-configuration)
+- [Send AKT](#send-akt)
+- [Follow a transfer](#follow-a-transfer)
+- [Paginate at one height](#paginate-at-one-height)
+- [Refunds](#refunds)
+- [Reporter commands](#reporter-commands)
+- [Pause guardian](#pause-guardian)
+- [Governance actions](#governance-actions)
 
-Read the current parameters and usage:
+## Read the current configuration
+
+Configure an Akash context and a funded signing account using [Contexts and configuration](/docs/developers/akt/configuration). Use a Solana wallet address you control.
 
 ```bash
+akt query sink params -o json
+akt query sink reporters -o json
 akt query sink state -o json
 akt query sink account <akash-address> -o json
 ```
 
-`params.enabled` controls deposits. Every amount uses an SDK Coin with denomination `uakt`. The per-transfer, aggregate send and refund caps must be positive. The minimum must be positive while deposits are enabled. A zero `max_epoch_amount_per_account` disables only the account amount cap. There are no per-account count quotas.
+`params` returns the parameter object, including `enabled`, transfer limits, and the challenge duration. `reporters` returns the current policy; pass a version number or `all` to inspect retained policies. `state` returns totals, native epoch usage, and `refund_head`. Parameters and reporter policies are no longer fields of `state`.
 
-Send and refund consumption are tracked separately against the existing `x/epochs` schedule named `day`. Its start and duration are configured in epochs genesis; Sink does not calculate UTC-day boundaries. The reporter challenge window uses its own configurable Duration.
+Sending and refund quotas use Akash's existing `day` epoch schedule. They do not reset at a hardcoded UTC midnight. The challenge window is a separate duration. Read the current limits before depositing.
 
-## Send AKT to Solana
+## Send AKT
 
 ```bash
-akt tx sink deposit <solana-address> 10akt
-akt tx sink deposit <solana-address> 10000000uakt
+akt tx sink deposit <solana-address> 10akt --from <sender-key>
+# The same amount in base units:
+akt tx sink deposit <solana-address> 10000000uakt --from <sender-key>
 ```
 
-The CLI accepts exact AKT decimals or whole `uakt`; it rejects other denominations and never rounds. A successful deposit locks the AKT and creates an explicit `STATUS_TRANSFER_PENDING` settlement.
+Choose one command. The CLI accepts exact AKT decimals or whole `uakt`; it never rounds. You pay the Akash transaction fee separately. The deposit must be the transaction's sole message, signed by its sender.
 
-A deposit must be the transaction's sole message and must be signed by its sender. The ante check binds that exact message to the keeper operation. The existing bank `BlockedAddrs` check prevents ordinary sends to the Sink module. The bound Sink message performs the escrow transfer through the keeper. Authz and contract calls do not satisfy the top-level deposit binding.
+After inclusion, obtain the complete ID from the transaction response or your transfer history. The ID contains the sender, creating block height, and sequence within that block. Sequence starts at 1 each block and is shared across owners. Sequence alone is not a transfer ID.
 
-`MsgSinkResponse` contains `{owner, height, sequence}`. Its text form is `owner/height/sequence`, for example:
-
-```text
-akash1zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3vx69t4/9001/42
-```
-
-Height is the creating block. Sequence starts at 1 in each block and is shared by all owners. Keep all three components; sequence alone does not identify a transfer. Do not infer an ID from totals. If the broadcast returns before inclusion, query the transaction or the sender's transfer history.
-
-## Follow a Transfer
+## Follow a transfer
 
 ```bash
 akt query sink transfer '<owner>/<height>/<sequence>' -o json
-akt query sink transfers --owner <akash-address> --limit 50 -o json
-```
-
-The response contains `id`, immutable `data` with `dest` and amount, `settlement`, and top-level `status`. Settlement status is part of the canonical storage key. A permanent `settlement.void_authorization` records a governance void request.
-
-| Financial status          | Meaning                                                                                      |
-| ------------------------- | -------------------------------------------------------------------------------------------- |
-| `STATUS_TRANSFER_PENDING` | AKT is locked; settlement is not yet authorized.                                             |
-| `STATUS_MINTED`           | A reporter quorum or governance confirmed the mint; backing remains locked.                  |
-| `STATUS_VOIDED`           | Governance requested a void. Solana confirmation and refund authorization are still pending. |
-| `STATUS_REFUND_PENDING`   | A Solana void is confirmed; the refund has not been paid.                                    |
-| `STATUS_REFUNDED`         | The original sender has received the refund.                                                 |
-
-`HOLD_VETO` or `HOLD_CONFLICT` is separate from the financial status. A minted or refunded transfer can acquire a conflict hold. Use the dispute query to find these records; filtering only unpaid transfers would miss them.
-
-```bash
+akt query sink transfers <akash-address> --limit 50 -o json
+akt query sink transfers <akash-address> refund-pending -o json
 akt query sink disputes --limit 50 -o json
-akt query sink transfers --owner <akash-address> --status STATUS_REFUND_PENDING -o json
 ```
 
-## Paginate at One Height
+Owner and status filters are positional in `akt`. A status can also be used alone, for example `akt query sink transfers refund-pending`. The single-transfer response contains a `transfer` object with the ID, immutable record, financial status, and settlement evidence.
 
-List queries accept `--page-key`, `--limit` and `--reverse`. They reject offset and total-count pagination. The default limit is 100 and the maximum is 500.
+| Status                    | Meaning                                                           |
+| ------------------------- | ----------------------------------------------------------------- |
+| `STATUS_TRANSFER_PENDING` | AKT is locked; the outcome is not confirmed.                      |
+| `STATUS_MINTED`           | Mint confirmed; its AKT backing remains locked.                   |
+| `STATUS_VOIDED`           | Governance requested a void; Solana confirmation is still needed. |
+| `STATUS_REFUND_PENDING`   | Void confirmed; the refund has not been paid.                     |
+| `STATUS_REFUNDED`         | The original sender received the refund.                          |
+
+`HOLD_VETO` and `HOLD_CONFLICT` are separate from financial status. Disputes can include already minted or refunded transfers. A hold does not undo a completed mint or payment.
+
+## Paginate at one height
 
 ```bash
-akt query sink transfers --height <committed-height> --limit 100 -o json
-akt query sink transfers --height <same-height> --limit 100 --page-key '<next_key>' -o json
+akt query sink transfers --height <committed-height> --limit 50 -o json
+akt query sink transfers --height <same-height> --limit 50 --page-key '<next_key>' -o json
 ```
 
-Keep the height and filters unchanged across a pass. A pruned height is a failed pass, not an empty page. Unfiltered history is chronological by height and sequence, so a newly active owner cannot appear behind a completed discovery cursor. Long-running consumers retain the last processed chronological identity when a page has no next key.
+Copy `pagination.next_key` without decoding or changing it. Keep height, owner, status, and direction unchanged across pages. Stop when the next key is empty. If the node pruned the height, restart the scan at an available committed height.
 
-`state` returns parameters, financial totals, the current reporter policy, current send/refund usage and `refund_head`. `account` returns lifetime sending and current-epoch sending amounts. Queries normalize stale epoch usage without changing storage; genesis export preserves the raw stamps.
+For `transfers`, `--offset` and `--page` require a specific financial status. Do not combine them with `--page-key`. Key pagination avoids depending on query-specific offset behavior.
 
 ## Refunds
 
 ```bash
-akt tx sink finalize-refund '<owner>/<height>/<sequence>'
+akt tx sink finalize-refund '<owner>/<height>/<sequence>' --from <executor-key>
 ```
 
-Anyone may pay the fee for this message. The funds always go to the original owner, exactly once. Payment requires a confirmed Solana void, an elapsed challenge window, current authorization, no hold, enabled refunds, queue priority and room under the refund epoch cap. The release challenge floor is 72 hours.
+Anyone may submit this transaction and pay its fee. Funds always return to the original owner, exactly once. Reporters also finalize eligible refunds automatically.
 
-`refund_head` identifies the oldest eligible-policy candidate. Queue membership alone does not prove that the challenge has matured or capacity is available. Governance-confirmed refunds survive reporter rotation. Quorum-authorized refunds need the current policy. Refunding does not restore the sender's sending capacity in the current epoch.
+Payment requires current authorization, no hold, elapsed challenge time, enabled refunds, queue priority, and available refund-epoch capacity. The standard build's challenge minimum is 72 hours. `refund_head` identifies a candidate; it does not prove the candidate is payable. Check `STATUS_REFUNDED` and the recipient balance to confirm payment.
 
-## Reporter Commands
+## Reporter commands
 
 ```bash
-akt tx sink report-outcome '<owner>/<height>/<sequence>' <policy-version> <round> minted <slot> <solana-signature> --from reporter
+akt tx sink report-outcome '<owner>/<height>/<sequence>' minted <slot> <solana-signature> --from reporter
 akt tx sink veto-void '<owner>/<height>/<sequence>' 'finalized Solana evidence disagrees' --from reporter
 ```
 
-Read the policy version from `state` and the round from `transfer`. The report must match both. The signature is the base58 Solana transaction signature. SDK validation checks its format; the reporter must independently verify the transaction and finality.
+The signer must be authorized. `report-outcome` reads the current policy version and settlement round before signing. `--policy-version` and `--round` override those values when needed. Read the policy through `reporters` and the round through `transfer`.
 
-Votes are deduplicated by reporter, outcome and policy version. A changed signature for the same tuple does not add a vote. Once quorum is reached, the settlement retains its certificate and can retain one opposite-outcome witness for a conflict. Further redundant votes do not grow the record. The embedded `settlement.policy` identifies the certificate policy.
+The signature is the base58 transaction signature for the finalized Solana outcome. Syntax validation does not verify that outcome. Reporters must check their own Solana node before signing. See [reporter operation](/docs/node-operators/akash-sink/reporter).
 
-See [Run an Akash Sink Reporter](/docs/node-operators/akash-sink/reporter) for service setup.
-
-## Pause Guardian
+## Pause guardian
 
 ```bash
-akt tx sink guardian-pause --deposits --from guardian
-akt tx sink guardian-pause --refunds --from guardian
-akt tx sink guardian-pause --deposits --refunds --from guardian
+akt tx sink guardian-pause deposits --from guardian
+akt tx sink guardian-pause refunds --from guardian
+akt tx sink guardian-pause all --from guardian
 ```
 
-The configured guardian can only turn these switches off. Governance controls re-enabling them.
+Choose the intended pause. The guardian can only disable deposits, refunds, or both. Governance re-enables them.
 
-## Governance Actions
+## Governance actions
 
-The authority is the governance module. Generate the sink message, inspect it, then include it in a governance proposal using the network's normal proposal workflow. These commands do not grant an ordinary signing account governance authority.
+The pending `akt` commands submit governance proposals containing the appropriate Sink message. They do not let an ordinary account execute a governance-only action directly.
+
+Start a parameter proposal from the complete current object:
 
 ```bash
-akt query sink state -o json | jq '.params' > sink-params.json
-akt tx sink update-params sink-params.json --generate-only
-akt tx sink request-void '<owner>/<height>/<sequence>' <expected-round> --generate-only
-akt tx sink restart-transfer '<owner>/<height>/<sequence>' <expected-round> 'refresh disputed evidence' --generate-only
-akt tx sink confirm-mint '<owner>/<height>/<sequence>' <expected-round> <slot> <solana-signature> 'verified mint' --generate-only
-akt tx sink confirm-void '<owner>/<height>/<sequence>' <expected-round> <slot> <solana-signature> 'verified void' --generate-only
+akt query sink params -o json > sink-params.json
+# Edit the approved fields, preserving the rest.
+akt tx sink propose-params sink-params.json --deposit <proposal-deposit> --from <proposer-key>
 ```
 
-A new void request, restart and both confirmations require the expected settlement round. A proposal for an older round fails instead of overwriting a newer governance answer. Restart and confirmations each advance the round. A void request keeps the current round; repeating an already recorded order is an authenticated no-op.
+Unlike the native `akash query sink params` response, this `akt` command prints the parameter object directly. Do not extract `.params` from it.
 
-- Restart clears authorization and holds on an unpaid transfer so reporters can vote again.
-- Confirm-mint records mint evidence for an unpaid or minted transfer. It cannot reverse a paid refund.
-- Confirm-void on an unpaid transfer or conflict-held minted transfer requires a void order and starts a fresh challenge window. Confirm-void on an already-refunded transfer resolves the dispute without paying again.
+Other proposal helpers are:
 
-A void order is an instruction to obtain a Solana void; it is not evidence that Solana has voided the transfer and does not authorize a refund by itself. Its authorization remains in the settlement through later status changes, reporter rotation, governance resolution and genesis recovery.
+```bash
+akt tx sink propose-void '<owner>/<height>/<sequence>' --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-veto '<owner>/<height>/<sequence>' 'evidence disagrees' --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve '<owner>/<height>/<sequence>' restart 'reviewed retry' --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve '<owner>/<height>/<sequence>' confirm-mint 'verified mint' <slot> <solana-signature> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve '<owner>/<height>/<sequence>' confirm-void 'verified void' <slot> <solana-signature> --deposit <proposal-deposit> --from <proposer-key>
+```
 
-Parameter updates replace the complete parameter object. Changing reporter membership or the effective threshold creates a new policy version. Historical policies and paid-state evidence remain. Lowering the refund cap scans unpaid records and fails if one would no longer fit; existing challenge deadlines are unchanged.
+Choose the required action and the deposit appropriate to the network. `propose-void` and `propose-resolve` read the current round; `--expected-round` can set it explicitly. A stale round is rejected when the proposal executes. Restarts and confirmations advance the round. A void order alone does not authorize a refund: the Solana outcome and native refund conditions still apply.
+
+Use the [native deployment runbook](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-deployment.md#configure-and-enable-sink) for the `akash` generate-only governance workflow. Its command names and JSON output differ from these `akt` helpers.
 
 ## Troubleshooting
 
-- A rejected deposit leaves the amount in the sender's wallet; the network fee may still be charged.
-- An account or aggregate send-cap error requires a smaller amount or the next configured send epoch. There is no outstanding-count quota to clear.
-- A pending Solana mint can wait for a cap, pause, current light-client header or valid proof. It does not need an Akash sending epoch to end.
-- A stale policy requires fresh reporter authorization; a stale governance round requires a new proposal based on the current settlement.
-- A conflict hold requires governance review. Do not repeat the deposit to fix it.
-- A passed challenge deadline does not prove payment. Read `STATUS_REFUNDED`.
+- If a deposit exceeds a sending cap, reduce the amount or wait for the configured epoch. A refund does not restore sending capacity.
+- If a Solana mint waits, check its pause, caps, light-client freshness, and relayer progress. It does not wait for an Akash epoch to end.
+- If a transfer is held, investigate the evidence and governance path. Do not repeat the deposit to fix it.
+- If the challenge deadline passed but funds have not returned, check every refund condition and the committed transaction.
 
-## Related Resources
+## Related guides
 
-- [Akash Sink](/docs/learn/akash-sink)
-- [Use the Akash Sink Portal](/docs/learn/akash-sink/portal)
-- [Queries & Transactions](/docs/developers/akt/queries-and-transactions)
-- [Commands Reference](/docs/developers/akt/commands-reference#sink-akt-to-solana)
+- [How Akash Sink works](/docs/learn/akash-sink)
+- [Use the portal](/docs/learn/akash-sink/portal)
+- [Local testing and deployment](/docs/node-operators/akash-sink)
+- [Command reference](/docs/developers/akt/commands-reference#sink-akt-to-solana)

@@ -2,190 +2,64 @@
 categories: ["Node Operators", "Akash Sink"]
 tags: ["Akash Sink", "Relayer", "Solana", "Validators"]
 weight: 2
-title: "Run an Akash Sink Relayer"
+title: "Run an Akash Sink relayer"
 linkTitle: "Relayer"
-description: "Run an Akash Sink relayer: an Akash node with proof history, a Solana RPC, a funded payer key, configuration, update rights, spend limits and alerts"
+description: "Install and operate a relayer against an existing Akash and Solana deployment"
 ---
 
-A relayer carries Akash state to Solana. It keeps the Akash light client on Solana current by uploading signed Akash block headers, and submits the proofs that mint or void each transfer.
+A relayer uploads Akash block headers and transfer proofs to Solana. Solana verifies the signatures and proofs before minting or voiding a transfer. The relayer needs a funded payer, but cannot change the proven recipient or amount.
 
-A relayer has no trusted power: the light client verifies every header and the AKT program verifies every proof. Anyone can run one, and several can run at once. Each transfer resolves once on Solana, and a relayer that loses the race pays only its proof-upload fees.
-
-Read [Akash Sink Services](/docs/node-operators/akash-sink) first for how relayers fit in.
-
----
+For a new network, complete [deployment](/docs/node-operators/akash-sink#deploy-an-operated-network) first. For a disposable test, use [local E2E](https://github.com/akash-network/node/blob/feat/sink-review/_docs/sink-local-e2e.md).
 
 ## Requirements
 
-- **Akash node:** a CometBFT RPC endpoint you run or trust, serving proofs of the `sink` store at every height from the light client's latest verified height to now. Keep at least one light-client trusting period of state; `pruning = "nothing"` is simplest.
-- **Solana RPC:** HTTP JSON-RPC, from your own node or a provider you trust. A dishonest RPC can't make Solana accept a false header or proof, but it can waste fees.
-- **Payer key:** a Solana keypair file used only by this relayer, funded with SOL.
-- **State directory:** one per relayer and payer. It holds header-upload journals and the spend ledger.
-- **Runtime:** Node.js 24 and the Akash Sink services release (TBD at launch). It needs no Akash or Solana validator. Run it on its own host, not on your validator.
+- An Akash RPC with the expected chain ID, current blocks, and the state history needed to construct proofs.
+- A Solana RPC on the expected genesis, with sufficient transaction history for recovery.
+- A dedicated Solana payer funded for fees and temporary account rent.
+- A persistent state directory used by only one running relayer with that payer.
+- Node.js 24 and a reviewed service archive built for the host's CPU architecture and libc.
 
-The Akash node must not be catching up, and its latest block must be newer than `maxAgeSeconds`.
+Follow the [node and history requirements](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/operators.md#requirements). Pruned history can prevent proof generation or recovery.
 
----
+## Install and configure
 
-## Install
+Use [service installation](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-services.md) to build or obtain the checked archive, verify its hash, create the service account, and install the root-owned release.
 
-Download the Akash Sink services release, which contains both the relayer and the reporter, and check it against its published checksum:
+Copy the shipped `relayer/config.example.json` to `/etc/akt-relayer/config.json`. Fill it from the deployment manifest, including:
 
-- Release: TBD at launch
-- Checksum: TBD at launch
-- Source: [akash-network/node `contracts/solana`](https://github.com/akash-network/node)
+- `akashRpc`, `akashChainId`, `solanaRpc`, and `solanaGenesisHash`.
+- The deployed `programId`.
+- `payerKeyFile`, owned by the service account with mode `0600`.
+- `headerEncoder`, set to `/opt/akt-bridge/current/bin/akt-header-encoder`.
+- `stateDir`, set to `/var/lib/akt-relayer` and retained across releases.
 
-The release runs on Node.js 24. Run the commands on this page from the release directory.
+Do not use development program IDs or a repository cache as production state. Set an explicit spending budget and alert on payer balance. The [configuration reference](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/operators.md#configure) lists the remaining options.
 
----
-
-## STEP 1: Create and Fund the Payer
-
-```bash
-solana-keygen new -o /etc/akt-relayer/payer-keypair.json
-chmod 600 /etc/akt-relayer/payer-keypair.json
-solana-keygen pubkey /etc/akt-relayer/payer-keypair.json
-```
-
-Send SOL to the payer address. Budget for transaction fees, permanent status-account rent and, on a first mint to a wallet, associated-token-account rent. Query rent requirements against the selected Solana cluster; account sizes changed with the composite-ID schema.
-
-A transfer status uses 101 bytes including the discriminator and is never closed. A proof buffer allocates its 80-byte header plus the declared proof length, up to 16,464 bytes. Larger buffers grow after creation. Their rent returns to the submitter when they close. Keep enough payer liquidity for temporary buffer rent in addition to the net spend limit. Pruning an expired header returns rent to the account that prunes it.
-
-Updates happen only when a pending transfer needs a newer header, or when the light client has gone a fifth of its trusting period without one. Keep several days of transaction fees and enough temporary liquidity for the planned proof buffers, using the cluster's rent quote for each allocation.
-
-The relayer doesn't watch its own balance. Set up an alert for it.
-
----
-
-## STEP 2: Configure
-
-Create `/etc/akt-relayer/config.json`. Relative paths resolve against the file's directory, and unknown fields are rejected:
-
-```json
-{
-  "akashRpc": "http://127.0.0.1:26657",
-  "akashChainId": "<chain ID from the deployment manifest>",
-  "solanaRpc": "http://127.0.0.1:8899",
-  "solanaGenesisHash": "<Solana genesis hash from the deployment manifest>",
-  "programId": "<AKT program, TBD at launch>",
-  "payerKeyFile": "/etc/akt-relayer/payer-keypair.json",
-  "stateDir": "/var/lib/akt-relayer"
-}
-```
-
-| Field                    | Required | Meaning                                                         |
-| ------------------------ | -------- | --------------------------------------------------------------- |
-| `akashRpc`               | Yes      | CometBFT RPC URL                                                |
-| `akashChainId`           | Yes      | The node and the AKT program must match the deployment manifest |
-| `solanaRpc`              | Yes      | Solana JSON-RPC URL, with no credentials                        |
-| `solanaGenesisHash`      | Yes      | Checked at startup                                              |
-| `programId`              | Yes      | The AKT program on Solana                                       |
-| `payerKeyFile`           | Yes      | Owner-only payer keypair                                        |
-| `stateDir`               | Yes      | Journals and spend ledger                                       |
-| `lightClientProgram`     | No       | Optional pin; leave unset to follow changes                     |
-| `maxLamportsPerTransfer` | No       | Spend limit per transfer, default 5,000,000 lamports            |
-| `maxHeaderSignatures`    | No       | Larger commits are trimmed, default 100                         |
-| `refreshFraction`        | No       | Share of the trusting period before an update, default 0.2      |
-| `retryMaxSeconds`        | No       | Longest backoff for a failed transfer, default 900              |
-| `pruneIntervalSeconds`   | No       | How often expired headers are pruned, default 600               |
-| `maxAgeSeconds`          | No       | Oldest acceptable Akash block, default 60                       |
-| `pollSeconds`            | No       | Pause between passes, default 3                                 |
-
-Take `solanaGenesisHash` from a trusted source, not from the RPC you configure. Never point two running relayers at one `stateDir`.
-
-Skipping across a long interval needs the old validator set to hold more than a third of the new voting power. Lower `refreshFraction` if the validator set changes quickly.
-
----
-
-## STEP 3: Run
-
-From the release directory:
+Check the configuration from the installed release:
 
 ```bash
-npm run relayer -- --config /etc/akt-relayer/config.json
+cd /opt/akt-bridge/current/contracts/solana
+node --import tsx deploy/service-config.ts relayer /etc/akt-relayer/config.json
 ```
 
-The relayer runs continuously. Run it under a supervisor such as systemd that always restarts it. Each output line is JSON, and alerts go to stderr. A restart resumes an interrupted header upload from the state directory.
+This check does not read the payer key. Startup also checks the live chain and program identities.
 
----
+## Start the service
 
-## Update Rights
-
-Mints and voids are open to anyone. Header updates need update rights on the light client, which the relayer logs as `relayer-access` at startup and whenever they change:
-
-| `access` | Meaning                                              | Updates headers | Prunes |
-| -------- | ---------------------------------------------------- | --------------- | ------ |
-| `member` | The payer holds the relayer role on the light client | Yes             | Yes    |
-| `open`   | Open relaying is on, so any payer can update headers | Yes             | No     |
-| `none`   | Neither                                              | No              | No     |
-
-With `none`, the relayer still relays transfers that the latest verified header already covers, and logs `relay-header-blocked` when a newer header is needed. The AKT program's multisig grants the relayer role and turns open relaying on or off.
-
----
-
-## Before It Pays
-
-For each transfer without a result on Solana, the relayer:
-
-1. Waits without paying while minting is paused or a per-transfer or daily cap applies (`relay-wait`). Capped transfers mint once the limit allows.
-2. Never relays a record that Akash shows as refund-pending or refunded without a Solana result (`relay-unbacked-settlement`).
-3. Rereads the transfer at the newest Akash height right before its first paid transaction (`relay-final-check`).
-4. Simulates every transaction before sending it, so a failing one costs nothing.
-
----
-
-## Identity and Crash Recovery
-
-A transfer is identified by `owner/height/sequence`. Its permanent status PDA uses the owner's 20 address bytes and little-endian height and sequence. A mint and a void compete for the same status account; a completed status cannot be closed or replayed after a light-client repin.
-
-Proof buffers use the payer and the full 32-byte SHA-256 of the exact key being proven. Mint keys prove native `RecordData`. Governance voids prove native `SettlementData`, including permanent authorization, under the current status key. A status change therefore requires a new proof key and buffer nonce. The relayer can close and recreate its own temporary buffer after a failed attempt. Attempt and spend accounting remain in its durable ledger.
-
-Start the new schema with a fresh state directory next to the preserved old one. Earlier schema journals are incompatible. Each pending job binds its exact proof key, value hash, proof height and upload progress. Discovery keeps a chronological cursor and queries each page at the same Akash height. A pruned height fails the pass; it must never be treated as proof that a transfer is absent.
-
-Mints can be submitted immediately and repeatedly once their proofs are available. Akash sending epochs do not schedule them. Solana's per-transfer and daily amount caps remain independent.
-
-## Spend Limit
-
-The relayer records what it pays per transfer: every fee, plus the rent its resolving transaction locks. When a transfer's total passes `maxLamportsPerTransfer`, the relayer stops paying for it and logs `relay-budget-exhausted`. The default of 5,000,000 lamports leaves room for dozens of failed attempts.
-
-Investigate the transfer's `relay-retry` errors, then reset its budget:
+Install the shipped `deploy/systemd/akt-relayer.service` as described in the service guide. After reviewing its paths and permissions:
 
 ```bash
-npx tsx local/relay.ts --config /etc/akt-relayer/config.json --reset-budget '<owner>/<height>/<sequence>'
-npx tsx local/relay.ts --config /etc/akt-relayer/config.json --reset-budget all
+systemctl daemon-reload
+systemctl enable --now akt-relayer
+journalctl -u akt-relayer -f
 ```
 
-The running relayer picks up the change on its next pass.
+Confirm that headers advance and pending transfers resolve. Header updates require the configured relayer role or open-relaying setting; running the process alone does not grant those rights. Read the `relayer-access` output and [update-rights reference](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/operators.md#update-rights).
 
----
+## Monitor and recover
 
-## Large Validator Sets
+Monitor light-client age, payer balance, progress, and JSON alerts. Investigate `relay-budget-exhausted`, `relay-discovery-failed`, `relay-unbacked-settlement`, `light-client-mismatch`, and repeated retry failures. See the [alert reference](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/operators.md#alerts).
 
-A header with more than `maxHeaderSignatures` signatures doesn't fit one Solana transaction. The relayer keeps the highest-power signers until they hold more than two thirds of the voting power, with a margin, marks the rest absent, and logs `header-signatures-trimmed`. If no subset fits, it logs `header-unsupported`.
+Keep the same journals and spend ledger after restart. Do not delete a running payer lock, reset a budget to hide repeated failures, or restore an older journal after transactions were sent. Missing transaction history can block recovery even when a permanent Solana outcome exists.
 
----
-
-## Alerts
-
-Route these to someone on call:
-
-- `light-client-changed`: governance moved the AKT program to a new light client. Confirm the proposal and check `relayer-access`.
-- `light-client-mismatch`: the light client differs from your pin, and paying has stopped. Verify the change, then update or remove the pin.
-- `bridge-chain-mismatch`: the AKT program accepts another Akash chain. Check `akashChainId` and `programId`.
-- `relayer-access` with `none`, or `relay-header-blocked`: the payer can't update the light client. Request the relayer role, or rely on another relayer.
-- `relay-budget-exhausted`: the spend limit was reached for one transfer. Read its `relay-retry` errors, fix the cause, then reset.
-- `relay-final-check`: Akash changed between planning and paying. Review the transfer; this is usually a governance action.
-- `relay-unbacked-settlement`: Akash shows a refund-pending or refunded settlement with no Solana result. Investigate the reporters or governance.
-- Repeated `relay-retry` or `header-retry`: transfers or updates keep failing. Check the RPCs, the payer balance and the light client.
-- `header-unsupported`: no set of signatures fits one update, so the light client will expire. Escalate.
-- `consensus-prune-failed`, `proof-buffer-close-failed`: rent recovery failed and is retried later. Check the RPC if it persists.
-
-Also watch the light client's age, which is the time since its latest verified Akash header. The relayer stops at expiry with `light client expired`, and recovery needs governance.
-
----
-
-## Related Resources
-
-- [Akash Sink Services](/docs/node-operators/akash-sink) - How relayers and reporters fit together
-- [Run an Akash Sink Reporter](/docs/node-operators/akash-sink/reporter)
-- [Akash Sink](/docs/learn/akash-sink) - How transfers work for users
+Use the [service upgrade and recovery procedure](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/deploy-services.md#upgrade-rollback-and-recovery). An expired or frozen light client requires the separate [incident runbook](https://github.com/akash-network/node/blob/feat/sink-review/contracts/solana/docs/production-deployment.md#incident-runbooks).
