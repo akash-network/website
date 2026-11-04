@@ -5,10 +5,11 @@ draft: false
 external: true
 link: "https://github.com/akash-network/awesome-akash/pull/782"
 categories:
+  - Technical
   - Student Ambassadors
 tags:
   - Student Ambassadors
 contributors:
   - "Asad Rizvi"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

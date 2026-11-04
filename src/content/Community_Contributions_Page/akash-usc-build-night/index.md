@@ -5,12 +5,13 @@ pubDate: "2025-12-10"
 draft: false
 categories:
   - News
+  - Events
 tags:
   - News
 contributors:
   - USC Blockchain
 link: "https://x.com/0xBlockchainSC/status/1998533122133209567?s=20"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 USC Blockchain hosted a hands-on Build Night in collaboration with Akash Network, bringing together students from across the University of Southern California to explore decentralized cloud computing firsthand.

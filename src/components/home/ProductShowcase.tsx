@@ -22,6 +22,8 @@ const PRODUCTS = [
     imageSmall: '/images/get-started-console.webp',
     url: 'https://console.akash.network',
     buttonLabel: 'Deploy Now',
+    // Lower-commitment option for visitors who aren't ready to sign up: the on-site Console tour.
+    secondary: { url: '/deploy/', label: 'Take the tour' },
   },
   {
     title: 'Become a Compute Provider',
@@ -35,7 +37,9 @@ const PRODUCTS = [
 
 type Product = (typeof PRODUCTS)[number]
 
-const CTA_CLASS = 'mt-5 h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800'
+const CTA_CLASS = 'h-7 gap-1.5 px-3 text-xs hover:bg-zinc-100 dark:hover:bg-zinc-800'
+// Secondary action: no border and muted text, so the outlined primary stays the obvious next step.
+const SECONDARY_CTA_CLASS = cn(CTA_CLASS, 'text-para hover:text-foreground')
 
 function ProductCta({ product, onProviderChoice }: { product: Product; onProviderChoice: () => void }) {
   const label = (
@@ -44,19 +48,26 @@ function ProductCta({ product, onProviderChoice }: { product: Product; onProvide
       <ChevronRight className="h-3 w-3" />
     </>
   )
-  if (!product.url) {
-    return (
-      <Button variant="outline" size="sm" onClick={onProviderChoice} className={CTA_CLASS}>
-        {label}
-      </Button>
-    )
-  }
-  return (
+  const primary = product.url ? (
     <Button variant="outline" size="sm" asChild className={CTA_CLASS}>
       <a href={product.url} target="_blank" rel="noopener noreferrer">
         {label}
       </a>
     </Button>
+  ) : (
+    <Button variant="outline" size="sm" onClick={onProviderChoice} className={CTA_CLASS}>
+      {label}
+    </Button>
+  )
+  return (
+    <div className="mt-5 flex flex-wrap items-center gap-2">
+      {primary}
+      {product.secondary && (
+        <Button variant="ghost" size="sm" asChild className={SECONDARY_CTA_CLASS}>
+          <a href={product.secondary.url}>{product.secondary.label}</a>
+        </Button>
+      )}
+    </div>
   )
 }
 
