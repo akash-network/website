@@ -498,11 +498,9 @@ const section = "flex scroll-mt-28 flex-col gap-6";
 
 <script>
   import {
-    gpuHourlyPrice,
-    parseRamGb,
-    type GpuPricesResponse,
-  } from "@/components/pricing-page/gpus/gpu-models";
-  import { BASE_API_URL } from "@/lib/constants";
+    fetchGpuPrices,
+    liveHourly,
+  } from "@/lib/gpu-detail-pages/live-price";
   import {
     formatDate,
     isoDate,
@@ -513,22 +511,6 @@ const section = "flex scroll-mt-28 flex-col gap-6";
   // The HTML ships with snapshot prices. Swap in the current weighted-average bid from the
   // Console API (the figure the GPU pricing table shows) and date it today. Fixed-rate pages have no
   // model and only get today's date. If the API fails or has no bids, the snapshot stays.
-  async function liveHourly({ model, ramGb }: LivePriceSource) {
-    const res = await fetch(`${BASE_API_URL}/v1/gpu-prices`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = (await res.json()) as GpuPricesResponse;
-    // If several variants match (e.g. SXM and PCIe), quote the cheapest one's average.
-    const prices = (data.models ?? [])
-      .filter(
-        (m) => m.model === model && (!ramGb || parseRamGb(m.ram) === ramGb),
-      )
-      .map(gpuHourlyPrice)
-      .filter(
-        (price): price is number => typeof price === "number" && price > 0,
-      );
-    return prices.length ? Math.min(...prices) : undefined;
-  }
-
   async function updateLivePrices() {
     const root = document.querySelector<HTMLElement>(
       "[data-live-price-config]",
@@ -541,7 +523,7 @@ const section = "flex scroll-mt-28 flex-col gap-6";
     let hourly: number | undefined;
     if (source.model) {
       try {
-        hourly = await liveHourly(source as LivePriceSource);
+        hourly = liveHourly(await fetchGpuPrices(), source as LivePriceSource);
       } catch (error) {
         console.warn("[gpu-detail] live price fetch failed", error);
         return;
