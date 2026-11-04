@@ -1,0 +1,124 @@
+---
+import { buttonClass } from "@/components/pricing-page/shared/ui";
+import LiveBadge from "@/components/the-bid/live-badge.astro";
+import {
+  AKASHML_URL,
+  bidCtaHref,
+  CONSOLE_URL,
+  fromRate,
+  priceData,
+  type BidCta,
+} from "@/lib/the-bid-cta";
+import { ArrowUpRight } from "lucide-react";
+
+// Block placed before a post's FAQ (see before-faq.astro): the self-host-or-API decision the
+// posts discuss, as two paths. The lead path comes first and gets the filled button. It sits
+// inside the prose article, hence not-prose.
+
+interface Props {
+  cta: BidCta;
+  postId: string;
+}
+
+const { cta, postId } = Astro.props;
+const consoleFirst = cta.lead === "console";
+const paths = consoleFirst ? ["console", "akashml"] : ["akashml", "console"];
+const card =
+  "flex flex-col rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-white/[0.02] md:p-6";
+const label = "text-sm font-medium text-muted-foreground";
+const title = "mt-2 text-xl font-medium tracking-tight text-foreground";
+const body = "mt-2 text-sm leading-6 text-muted-foreground";
+// mt-auto pins the price line and button to the bottom so both buttons align.
+const meta = "mt-auto pt-5 text-sm text-muted-foreground";
+---
+
+<section
+  aria-labelledby="run-it-on-akash"
+  class="not-prose mt-16 border-t border-zinc-200 pt-10 dark:border-white/10"
+>
+  <h2
+    id="run-it-on-akash"
+    class="text-[32px] font-normal leading-[1.1] tracking-[-0.04em] text-foreground"
+  >
+    Run it on Akash
+  </h2>
+  <p class="mt-2 text-sm leading-6 text-muted-foreground md:text-base">
+    Rent the GPU and run the model yourself, or call it through an API.
+  </p>
+
+  <div class="mt-6 grid gap-4 md:grid-cols-2">
+    {
+      paths.map((path) =>
+        path === "console" ? (
+          <div class={card}>
+            <div class="flex items-center justify-between gap-3">
+              <p class={label}>Akash Console</p>
+              <LiveBadge />
+            </div>
+            <p class={title}>Rent the GPU</p>
+            <p class={body}>
+              Deploy any container on {cta.gpuPhrase}. Providers bid on your
+              deployment and you accept the offer you want.
+            </p>
+            <p class={meta}>
+              {cta.gpus.length > 1 && "From "}
+              <span
+                class="font-jetBrainsMono text-base font-medium tabular-nums text-foreground"
+                data-bid-price={priceData(cta.gpus)}
+              >
+                {fromRate(cta.gpus)}
+              </span>{" "}
+              per GPU-hour
+            </p>
+            <a
+              href={bidCtaHref(CONSOLE_URL, postId, "end")}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-bid-cta="console"
+              data-bid-cta-placement="end"
+              class={buttonClass(
+                consoleFirst ? "primary" : "outline",
+                "default",
+                "mt-4 self-start",
+              )}
+            >
+              {cta.rentLabel}
+              <span class="sr-only">(opens in a new tab)</span>
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+            </a>
+          </div>
+        ) : (
+          <div class={card}>
+            <p class={label}>AkashML</p>
+            <p class={title}>Call the model</p>
+            <p class={body}>
+              Skip the infrastructure. Send requests to open models like Qwen,
+              GLM and Kimi through an OpenAI-compatible API, served on Akash.
+            </p>
+            <p class={meta}>Pay per token, no GPUs to manage</p>
+            <a
+              href={bidCtaHref(AKASHML_URL, postId, "end")}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-bid-cta="akashml"
+              data-bid-cta-placement="end"
+              class={buttonClass(
+                consoleFirst ? "outline" : "primary",
+                "default",
+                "mt-4 self-start",
+              )}
+            >
+              Try AkashML
+              <span class="sr-only">(opens in a new tab)</span>
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+            </a>
+          </div>
+        ),
+      )
+    }
+  </div>
+</section>
+
+<script>
+  import "@/components/the-bid/cta-client";
+</script>
