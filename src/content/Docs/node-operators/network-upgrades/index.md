@@ -15,15 +15,15 @@ This section contains comprehensive upgrade guides for node operators and valida
 
 ## Current Network Upgrade
 
-### [Mainnet 18 - Akash v2.1.0](/docs/node-operators/network-upgrades/mainnet-18/)
+### [Mainnet 19 - Akash v2.2.0](/docs/node-operators/network-upgrades/mainnet-19/)
 
 **Status:** Upcoming  
-**Governance Proposal:** [#328](https://www.mintscan.io/akash/proposals/328)  
-**Upgrade Height:** 27,230,465  
-**Estimated Time:** June 11th, 2026 at ~14:00 UTC  
-**Binary Version:** v2.1.0  
+**Governance Proposal:** [#347](https://www.mintscan.io/akash/proposals/347)  
+**Upgrade Height:** 29,399,482  
+**Estimated Time:** November 6th, 2026 at ~14:00 UTC  
+**Binary Version:** v2.2.0  
 
-Complete upgrade guide including Oracle v2, Resource Reclamation (AEP-82), Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. Monitor block height and Discord for timing; prepare your node before the upgrade.
+Complete upgrade guide including the new `x/sink` module for AKT on Solana (AEP-95), the Pyth VAA verifier contract update, escrow payment repair, Cosmovisor and manual upgrade instructions, build from source guide, and troubleshooting. Monitor block height and Discord for timing; prepare your node before the upgrade.
 
 ---
 
