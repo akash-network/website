@@ -1,7 +1,7 @@
 ---
 title: "H100 Rental Price in September 2026: Cost Per Hour by GPU Provider"
 pubDate: 2026-08-19
-lastUpdated: 2026-10-29
+lastUpdated: 2026-11-03
 author: "Sandeep Narahari, Contributor"
 description: "How much does an NVIDIA H100 cost to rent in September 2026? Compare H100 prices from Akash, GPU clouds, and hyperscalers, with rates ranging from about $2 to $12 per GPU-hour."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-_By Sandeep Narahari, Contributor. Last updated: October 2026._
+_By Sandeep Narahari, Contributor. Last updated: November 2026._
 
 Renting an NVIDIA [H100](https://www.nvidia.com/en-us/data-center/h100/) costs about \$2 to \$12 per GPU-hour on-demand in 2026. Most single-GPU on-demand rates cluster between \$2 and \$7, interruptible spot capacity can dip below \$2, and the priciest hyperscaler 8-GPU nodes reach roughly \$12.29 per GPU-hour. One widely cited aggregator puts the market median near \$3.39.
 
@@ -45,7 +45,7 @@ Prices checked September 12, 2026, in US regions. Rates elsewhere can differ by 
 | [Google Cloud](https://cloud.google.com/compute/gpus-pricing)                | a3-highgpu-8g (8x)                | SXM5        | On-demand                   | ~\$11.06          |
 | Azure                                                                        | ND96isr H100 v5 (8x)              | SXM5        | On-demand                   | ~\$12.29          |
 
-Source: [GetDeploying H100 index](https://getdeploying.com/gpus/nvidia-h100), cross-checked against each provider's own pricing page, all checked September 12, 2026. Akash figure is the live weighted-average rate shown on the [Akash GPU pricing page](/pricing/gpus/h100/), sourced from the [Akash console GPU pricing API](https://console-api.akash.network/v1/gpu-prices), checked October 22, 2026 (range on that date: \$2.04 to \$3.16) — check the current number before deploying, since the live rate varies with marketplace supply.
+Source: [GetDeploying H100 index](https://getdeploying.com/gpus/nvidia-h100), cross-checked against each provider's own pricing page, all checked September 12, 2026. Akash figure is the live weighted-average rate shown on the [Akash GPU pricing page](/pricing/gpus/h100/), sourced from the [Akash console GPU pricing API](https://console-api.akash.network/v1/gpu-prices), checked November 3, 2026 (range on that date: \$2.04 to \$3.16) — check the current number before deploying, since the live rate varies with marketplace supply.
 
 Two cautions on reading this table. First, these are different products: a marketplace host, a single-GPU PCIe instance, and an 8-GPU SXM node carry different performance, interconnect, and reliability, so a like-for-like comparison means matching form factor and node size, not just the dollar figure. Second, the AWS, Azure, and Google rates are standard on-demand list prices; the same providers sell the identical hardware for materially less through spot and multi-year commitments, covered next. For a worked example of what an Akash H100 rate means for a real workload's monthly bill, see the [Qwen self-hosting cost breakdown](/the-bid/qwen3-8-27b-managed-api-vs-self-hosting-gpu-cloud/).
 
@@ -61,11 +61,11 @@ An H100 on Akash costs about \$2.73 an hour, \$1,966 a month, and \$23,915 a yea
 | 1 month (720 hr)  | \$1,965.60             | \$15,724.80                 |
 | 1 year (8,760 hr) | \$23,914.80            | \$191,318.40                |
 
-Rate: the \$2.73 per GPU-hour weighted-average marketplace figure from the table above, checked October 22, 2026. Marketplace rates move with supply, so treat these as planning numbers rather than a quote.
+Rate: the \$2.73 per GPU-hour weighted-average marketplace figure from the table above, checked November 3, 2026. Marketplace rates move with supply, so treat these as planning numbers rather than a quote.
 
 Few deployments run nonstop. Scale a GPU down overnight so it runs 16 hours a day and a month is 480 hours, not 720: about \$1,310 per GPU, or \$10,483 for a full node. On-demand billing stops when the deployment does.
 
-For the previous generation, an 80GB A100 averages \$1.49 per GPU-hour on Akash, per the [A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/), checked October 22, 2026 — roughly \$1,073 a month nonstop against the H100's \$1,966. That gap is the real question behind most H100-versus-A100 budgets: the H100 costs about 83% more per hour, so it only wins on total cost when it finishes the job enough faster to make up the difference.
+For the previous generation, an 80GB A100 averages \$1.49 per GPU-hour on Akash, per the [A100 GPU guide](/the-bid/nvidia-a100-gpu-guide-2026-specs-benchmarks-pricing/), checked November 3, 2026 — roughly \$1,073 a month nonstop against the H100's \$1,966. That gap is the real question behind most H100-versus-A100 budgets: the H100 costs about 83% more per hour, so it only wins on total cost when it finishes the job enough faster to make up the difference.
 
 ## Why did H100 rental prices go up in 2026?
 
@@ -162,4 +162,4 @@ The takeaway: the cheapest GPU-hour is not always the cheapest job. A faster car
 
 **Is the H100 still worth renting over an H200 or A100?** Often yes. The H100 is cheaper per hour than the [H200](/pricing/gpus/h200/) and adequate for most training and inference, while the [A100](/the-bid/a100-40gb-vs-80gb-vram-bandwidth-mig-compared/) is cheaper still for smaller models. Compare cost per completed job, not just the hourly rate, since a faster card can finish sooner.
 
-**How does a cloud GPU marketplace price H100s?** In a cloud GPU marketplace such as Akash, independent providers bid for your workload instead of publishing one fixed rate, so price follows supply and demand. On October 22, 2026, H100 SXM5 bids on Akash ranged from \$2.04 to \$3.16 per GPU-hour with a weighted average of \$2.73, and 7 of 69 listed H100s were available. Fixed-rate clouds publish a single list price instead, which is why hyperscaler H100s still sit at about \$6.88 per GPU-hour and above.
+**How does a cloud GPU marketplace price H100s?** In a cloud GPU marketplace such as Akash, independent providers bid for your workload instead of publishing one fixed rate, so price follows supply and demand. On November 3, 2026, H100 SXM5 bids on Akash ranged from \$2.04 to \$3.16 per GPU-hour with a weighted average of \$2.73. Fixed-rate clouds publish a single list price instead, which is why hyperscaler H100s still sit at about \$6.88 per GPU-hour and above.

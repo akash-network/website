@@ -1,7 +1,7 @@
 ---
 title: "B300's 288GB VRAM: Which AI Workloads Actually Benefit From It in 2026?"
 pubDate: 2026-08-24
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-03
 author: "Sandeep Narahari, Contributor"
 description: "The B300's 288GB of HBM3e helps three workloads: long-context inference at high concurrency, single-GPU serving of 235B to 428B-class models, and mid-size full fine-tuning. Below that band, an H200 or H100 does the same job for less."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 2026.*
+*By Sandeep Narahari, Contributor. Last updated: November 2026.*
 
 Three workloads justify the B300's 288GB: long-context inference at high concurrency, single-GPU serving of roughly 235B to 428B-parameter models, and full fine-tuning in the 8B to 16B range. Below that band, the extra memory sits idle while you pay for it.
 
@@ -113,8 +113,8 @@ Workloads that see no benefit from the extra capacity:
 Practical mapping from the workloads above, using tiers Akash currently lists:
 
 - **70B-class model at FP8, 32K context:** H200 141GB at \$3.85/hr, or H100 80GB from \$2.04/hr with an FP8 cache.
-- **Mid-size models needing headroom above 80GB:** [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-server/) Server Edition from \$1.49/hr.
-- **Batch fine-tuning, classical ML, smaller models:** [A100](/pricing/gpus/a100/) 80GB from \$1.07/hr, with 79 of 200 listed units available as of October 22, 2026.
+- **Mid-size models needing headroom above 80GB:** [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-server/) Server Edition from \$1.52/hr.
+- **Batch fine-tuning, classical ML, smaller models:** [A100](/pricing/gpus/a100/) 80GB from \$1.07/hr as of November 3, 2026.
 - **Inference without managing infrastructure directly:** AkashML serves open models through a managed endpoint on Akash's decentralized GPUs.
 - **Workloads with data-sensitivity requirements:** confidential compute on Akash runs a deployment where the machine's owner cannot inspect it.
 

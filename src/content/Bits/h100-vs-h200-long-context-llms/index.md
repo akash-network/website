@@ -1,7 +1,7 @@
 ---
 title: "H100 vs H200 for Long-Context LLMs: How Much More Context Fits in 141GB?"
 pubDate: 2026-08-21
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-03
 author: "Sandeep Narahari, Contributor"
 description: "H100 vs H200 for long-context LLMs: see why 80GB vs 141GB of VRAM can deliver up to 103× more aggregate KV-cache capacity, depending on model size and precision."
 tags: ["Guides"]
@@ -10,7 +10,7 @@ draft: false
 faqAccordion: true
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 2026.*
+*By Sandeep Narahari, Contributor. Last updated: November 2026.*
 
 The [H200](/pricing/gpus/h200/)'s 141GB holds between 2x and 103x more aggregate KV-cache token capacity than the [H100](/pricing/gpus/h100/)'s 80GB, not the 1.76x the nameplate numbers suggest. That capacity is a shared pool split across however many requests are running concurrently, not a single session's context window: a single session is separately capped by the model's own `max_position_embeddings` (128K for Llama 3.1, 131,072 with YaRN for Qwen3-32B) no matter how much memory is free. The multiplier itself is not the ratio of total memory. It is the ratio of what is left after the model weights are loaded, and that leftover is where the non-linearity lives.
 
@@ -179,4 +179,4 @@ Note the fourth row honestly: the H200 does not solve 70B at BF16 either. A 70B-
 
 **What error does vLLM give when the KV cache does not fit?** vLLM refuses to start and raises an error naming the required KV cache size, the available size and the estimated maximum model length that would fit, suggesting you raise `gpu_memory_utilization` or lower `max_model_len`. A softer failure appears at runtime as a preemption warning stating that a sequence group was preempted "because there is not enough KV cache space," which silently reduces throughput.
 
-**How much more does an H200 cost than an H100 for long-context inference?** On [Akash](/pricing/gpus/), as of October 22, 2026, an H200 is listed at \$3.85 per GPU-hour against a weighted-average \$2.73 for an H100, about 41% more per hour. Because the H200 carries 141GB instead of 80GB, it is cheaper per gigabyte of memory, about \$0.027 versus \$0.034 per GB-hour, and memory is what long-context KV cache fills first.
+**How much more does an H200 cost than an H100 for long-context inference?** On [Akash](/pricing/gpus/), an H200 is listed at \$3.85 per GPU-hour (as of October 22, 2026) against a weighted-average \$2.73 for an H100 (as of November 3, 2026), about 41% more per hour. Because the H200 carries 141GB instead of 80GB, it is cheaper per gigabyte of memory, about \$0.027 versus \$0.034 per GB-hour, and memory is what long-context KV cache fills first.
