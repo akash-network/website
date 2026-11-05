@@ -10,7 +10,7 @@ tags:
 contributors:
   - Ayesha Satpathy
 link: "https://www.linkedin.com/posts/ayeshasatpathy_akashambassadors-activity-7399512011249868800-c6mA?utm_source=share&utm_medium=member_desktop&rcm=ACoAADl2CroBVl3Y--ZsrolprCV-0LJDfi1uJXU"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 Centralized cloud infrastructure has dominated the internet for over a decade — but that dominance comes at a cost. A handful of providers control where data lives, who can access it, and under what conditions.

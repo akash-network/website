@@ -1,7 +1,7 @@
 ---
 title: "What Actually Determines LLM Inference Speed in 2026?"
 pubDate: 2026-08-29
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-03
 author: "Sandeep Narahari, Contributor"
 description: "Seven factors set LLM inference speed in 2026 — GPU compute, memory bandwidth, model architecture, VRAM/KV cache, precision, batch size, and serving software — and the model you picked is only one of them."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "LLM Inference Speed Explained: 7 Factors That Matter (2026)"
 metaDescription: "LLM inference speed comes down to 7 factors, not just the model: GPU compute, memory bandwidth, VRAM/KV cache, precision, batch size, and serving software."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 2026.*
+*By Sandeep Narahari, Contributor. Last updated: November 2026.*
 
 *AI Infrastructure Engineering 101, Part 1.*
 
@@ -115,20 +115,20 @@ None of this requires newer silicon. All of it requires someone to configure it.
 
 ## Which GPU delivers the most inference speed per dollar in 2026?
 
-It depends entirely on whether your model and KV cache fit. Below is live pricing from the Akash marketplace, queried on October 22, 2026, combined with the manufacturer bandwidth figures above.
+It depends entirely on whether your model and KV cache fit. Below is live pricing from the Akash marketplace, queried on November 3, 2026 (H200, B200, and B300 listed rates as of October 22, 2026), combined with the manufacturer bandwidth figures above.
 
 | GPU | Bandwidth | Price on Akash | Bandwidth per $/hr | Capacity |
 |---|---|---|---|---|
 | RTX 5090 | 1,792 GB/s | $0.57/hr | ~3.1 TB/s | 32 GB, no NVLink |
-| RTX 4090 | 1,008 GB/s | $0.34/hr | ~3.0 TB/s | 24 GB, no NVLink |
+| RTX 4090 | 1,008 GB/s | $0.36/hr | ~2.8 TB/s | 24 GB, no NVLink |
 | H100 80GB SXM5 | 3,350 GB/s | $2.73/hr | ~1.2 TB/s | 80 GB |
 | A100 80GB SXM4 | 2,039 GB/s | $1.67/hr | ~1.2 TB/s | 80 GB, no FP8 |
 | H200 141GB SXM | 4,800 GB/s | $3.85/hr | ~1.2 TB/s | 141 GB |
-| RTX PRO 6000 Blackwell SE | 1,597 GB/s | $2.01/hr | ~0.8 TB/s | 96 GB |
+| RTX PRO 6000 Blackwell SE | 1,597 GB/s | $2.07/hr | ~0.8 TB/s | 96 GB |
 | B200 180GB SXM | up to 8,000 GB/s | $5.00/hr | ~1.6 TB/s | 180 GB |
 | B300 288GB SXM6 | up to 8,000 GB/s | $6.00/hr | ~1.3 TB/s | 288 GB |
 
-Prices are Akash marketplace rates as of October 22, 2026: the provider-weighted average bid from the Akash console API for the RTX 5090, RTX 4090, H100, A100, and [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-server/), and Akash's listed rates for the H200, B200, and B300.
+Prices are Akash marketplace rates: the provider-weighted average bid from the Akash console API for the RTX 5090, RTX 4090, H100, A100, and [RTX PRO 6000](/pricing/gpus/rtx-pro-6000-server/) as of November 3, 2026, and Akash's listed rates for the H200, B200, and B300 as of October 22, 2026.
 
 The [B200](/pricing/gpus/b200/) row is the interesting result. At $5.00/hr against roughly 8 TB/s, it delivers more bandwidth per dollar than an H100 (about 1.6 versus 1.2 TB/s), while carrying 180 GB instead of 80 GB — for a bandwidth-bound workload that also needs KV cache headroom, that's the strongest combination in the table, and it's the case where paying more per hour genuinely buys more tokens per dollar. [B300](/pricing/gpus/b300/) gives up a little bandwidth per dollar for 288 GB, which is a capacity purchase rather than a speed purchase.
 
@@ -162,4 +162,4 @@ The pairing configurations are the tell: prefill-decode disaggregation, attentio
 
 **How much VRAM do I need to serve a 70B model?** More than the weights alone. A 70B model at 8-bit weights is roughly 70 GB, which fits an 80 GB card but leaves little room for the KV cache and activations that grow with context length and concurrency. A 141 GB H200 or a multi-GPU configuration provides the headroom that makes batching viable.
 
-**What is vLLM?** vLLM is an open-source inference and serving engine for large language models. Its PagedAttention design allocates KV cache in fixed-size blocks, and together with continuous batching that delivered 2 to 4x higher throughput in the vLLM paper. It exposes an OpenAI-compatible API, which makes it a common way to serve open models on rented GPUs, such as an H100 on Akash at a weighted average of \$2.73 per GPU-hour as of October 22, 2026.
+**What is vLLM?** vLLM is an open-source inference and serving engine for large language models. Its PagedAttention design allocates KV cache in fixed-size blocks, and together with continuous batching that delivered 2 to 4x higher throughput in the vLLM paper. It exposes an OpenAI-compatible API, which makes it a common way to serve open models on rented GPUs, such as an H100 on Akash at a weighted average of \$2.73 per GPU-hour as of November 3, 2026.

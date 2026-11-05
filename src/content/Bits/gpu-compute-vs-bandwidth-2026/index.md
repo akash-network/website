@@ -1,7 +1,7 @@
 ---
 title: "GPU Compute vs Memory Bandwidth: The Two Limits of LLM Inference"
 pubDate: 2026-09-01
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-03
 author: "Sandeep Narahari, Contributor"
 description: "GPU compute governs prompt processing (prefill); memory bandwidth is usually the limit on token generation (decode) — though KV-cache access, batching, and kernel efficiency can shift it. See the ops:byte ratio that tells you which applies to your workload."
 tags: ["Guides"]
@@ -12,7 +12,7 @@ metaTitle: "GPU Compute vs Memory Bandwidth: LLM Inference Bottlenecks (2026)"
 metaDescription: "GPU compute drives prompt processing, memory bandwidth drives token generation. Learn the ops:byte ratio for H100, H200, B200, and A100 to find your GPU bottleneck."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 2026.*
+*By Sandeep Narahari, Contributor. Last updated: November 2026.*
 
 *AI Infrastructure Engineering 101, Part 2.*
 
@@ -117,4 +117,4 @@ So the big TFLOPS number barely matters for token speed, and the TB/s number bar
 
 **How many tokens does an H100 need to keep its math units busy?** About 295 in one pass. Splitwise measured real chat traffic running with 20 or fewer tokens in flight 60% to 70% of the time, more than ten times short of that.
 
-**What is GPU computing?** GPU computing means running general-purpose workloads, not just graphics, on a GPU's thousands of parallel cores, usually through a framework such as CUDA. For AI it splits into the two halves this guide measures: compute (TFLOPS), which sets how fast a GPU reads prompts, and memory bandwidth (TB/s), which sets how fast it writes tokens. On Akash, that trade-off shows up in price: an H100 with 3.35 TB/s rents at a weighted average of \$2.73 per GPU-hour, while an H200 with 4.8 TB/s on the same compute die is listed at \$3.85, as of October 22, 2026.
+**What is GPU computing?** GPU computing means running general-purpose workloads, not just graphics, on a GPU's thousands of parallel cores, usually through a framework such as CUDA. For AI it splits into the two halves this guide measures: compute (TFLOPS), which sets how fast a GPU reads prompts, and memory bandwidth (TB/s), which sets how fast it writes tokens. On Akash, that trade-off shows up in price: an H100 with 3.35 TB/s rents at a weighted average of \$2.73 per GPU-hour as of November 3, 2026, while an H200 with 4.8 TB/s on the same compute die is listed at \$3.85 as of October 22, 2026.

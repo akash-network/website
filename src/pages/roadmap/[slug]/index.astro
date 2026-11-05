@@ -79,7 +79,7 @@ const estimatedCompletion =
 const completionDate = roadmap.data["completed"]?.toLocaleDateString();
 ---
 
-<Layout title={roadmap.data.title ?? ""}>
+<Layout title={roadmap.data.title ?? ""} image="/meta-images/roadmap.webp">
   <TopMargin readable className="flex flex-col gap-10 md:gap-16">
     <div class="flex items-center gap-3 text-para">
       <a href={`/roadmap/${year}`} class="hidden md:block"
