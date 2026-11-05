@@ -256,6 +256,10 @@ export const redirects = {
     "/docs/node-operators/network-upgrades/",
   "/docs/node-operators/network-upgrades/mainnet-17/":
     "/docs/node-operators/network-upgrades/",
+  "/docs/node-operators/network-upgrades/mainnet-18":
+    "/docs/node-operators/network-upgrades/",
+  "/docs/node-operators/network-upgrades/mainnet-18/":
+    "/docs/node-operators/network-upgrades/",
   "/docs/pricing/provider-calculator": "/pricing/provider-calculator/",
   "/docs/pricing/provider-calculator/": "/pricing/provider-calculator/",
   "/docs/providers/getting-started/gpu-providers":
