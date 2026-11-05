@@ -22,7 +22,7 @@ export async function getStaticPaths({
 
   return paginate(posts, {
     // The newest post's banner stays the listing's social image.
-    props: { ogImage: posts[0].data.bannerImage.src },
+    props: { ogImage: "/meta-images/blog.webp" },
     pageSize: POSTS_PER_PAGE,
   });
 }
