@@ -13,7 +13,7 @@ The [Akash skill](https://github.com/akash-network/akash-skill) is an open-sourc
 
 Installing it adds three skills: `akash-network:akash` (deploying workloads), `akash-network:akash-provider` (running a provider), and `akash-network:akash-node` (running a node or validator). This page focuses on the deployer skill.
 
-For an agent operating the `akt` binary, use the focused [akt CLI agent skill](/docs/developers/deployment/akt/agent-skill). That page hosts the skill and its supporting files from the akt repository, with a ZIP download and installation instructions.
+For an agent operating the `akt` binary, use the focused [akt CLI agent skill](/docs/developers/akt/agent-skill). That page hosts the skill and its supporting files from the akt repository, with a ZIP download and installation instructions.
 
 ---
 
@@ -121,8 +121,8 @@ In Claude Code you can also invoke the deployer skill directly:
 - [Quick Start](/docs/getting-started/quick-start) - Deploy your first app on Akash
 - [Core Concepts](/docs/getting-started/core-concepts) - How deployments, leases, and bids work
 - [SDL Reference](/docs/developers/deployment/akash-sdl) - Deployment configuration syntax
-- [akt CLI](/docs/developers/deployment/akt) - Command-line deployment
-- [akt CLI Agent Skill](/docs/developers/deployment/akt/agent-skill) - Skill download, setup, deployment recipes, and troubleshooting
+- [Deploy with akt](/docs/developers/deployment/akt) - Command-line deployment
+- [akt CLI Agent Skill](/docs/developers/akt/agent-skill) - Skill download, setup, deployment recipes, and troubleshooting
 - [Console API](/docs/api-documentation/console-api) - Managed-wallet HTTP API and API keys
 - [Akash Skill on GitHub](https://github.com/akash-network/akash-skill) - Source, issues, and releases
 

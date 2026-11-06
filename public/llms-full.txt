@@ -108,7 +108,7 @@ GitHub can contain changes that have not shipped in a release or reached Homebre
 
 The current Console API funds deployments automatically from account credits; deployment creation does not take a deposit field. Older CLI clients and examples may require explicit USD deposits. Check `akt deploy --help`, `akt console deployment create --help`, and the release notes before automating managed deployment. Use a client that supports the current Console funding contract. Funding amounts and `uact` escrow for local chain signing are a separate interface from Console-managed funding.
 
-Sources: [akt releases](https://github.com/akash-network/akt/releases/latest), [official Homebrew formula](https://github.com/akash-network/homebrew-tap/blob/main/akt.rb), [akt installation](https://akash.network/docs/developers/deployment/akt/installation/), [funding documentation](https://akash.network/docs/getting-started/how-funding-works/).
+Sources: [akt releases](https://github.com/akash-network/akt/releases/latest), [official Homebrew formula](https://github.com/akash-network/homebrew-tap/blob/main/akt.rb), [akt installation](https://akash.network/docs/developers/akt/installation/), [funding documentation](https://akash.network/docs/getting-started/how-funding-works/).
 
 ### Contexts and identity
 
@@ -133,7 +133,7 @@ akt console whoami
 
 `akt console login` prompts for and stores a Console key. Automation can supply `AKT_CONSOLE_API_KEY` through its secret environment. Keep it out of committed configuration and transcripts. A bare owner-scoped chain query cannot infer the managed identity from a context without a local default account; use `akt console deployment list` or supply an explicit chain owner.
 
-Source: [akt configuration](https://akash.network/docs/developers/deployment/akt/configuration/).
+Source: [akt configuration](https://akash.network/docs/developers/akt/configuration/).
 
 ### Author and screen a workload before spending
 
@@ -205,7 +205,7 @@ A failure after deployment creation can leave paid state active. Preserve the re
 
 `akt context log` inspects recorded mutations. `akt store sync` reconciles tracked deployments with chain state. `akt monitor`, `akt monitor provider`, and `akt monitor bme` expose network, provider, and BME views; application uptime still needs its own health check.
 
-Sources: [installation](https://akash.network/docs/developers/deployment/akt/installation/), [deployments](https://akash.network/docs/developers/deployment/akt/deployments/), [Console integration](https://akash.network/docs/developers/deployment/akt/console/), [monitoring](https://akash.network/docs/developers/deployment/akt/monitor/).
+Sources: [installation](https://akash.network/docs/developers/akt/installation/), [deployments](https://akash.network/docs/developers/deployment/akt/deployments/), [Console integration](https://akash.network/docs/developers/deployment/akt/console/), [monitoring](https://akash.network/docs/developers/akt/monitor/).
 
 ## Managed deployment through the Console API
 
@@ -375,7 +375,7 @@ The `akash-network/akash-skill` repository provides separate skills for deployin
 
 The focused `akt-cli` skill teaches an agent to operate the installed CLI through a shell: inspect contexts, discover supported commands, author SDL, preview and run deployments, inspect provider state, and recover from partial failures. It preserves the requested network, resources, provider constraints, and budget; uses structured output; and reconciles existing deployments before retrying creation. It covers both chain signing and Console-managed workflows.
 
-Follow the [akt CLI agent skill guide](https://akash.network/docs/developers/deployment/akt/agent-skill/) to download and install it. Read the [main SKILL.md](https://akash.network/skills/akt-cli/SKILL.md), [setup](https://akash.network/skills/akt-cli/references/setup.md), [deployment recipes](https://akash.network/skills/akt-cli/references/deployments.md), and [troubleshooting](https://akash.network/skills/akt-cli/references/troubleshooting.md) directly as Markdown.
+Follow the [akt CLI agent skill guide](https://akash.network/docs/developers/akt/agent-skill/) to download and install it. Read the [main SKILL.md](https://akash.network/skills/akt-cli/SKILL.md), [setup](https://akash.network/skills/akt-cli/references/setup.md), [deployment recipes](https://akash.network/skills/akt-cli/references/deployments.md), and [troubleshooting](https://akash.network/skills/akt-cli/references/troubleshooting.md) directly as Markdown.
 
 The [ZIP download](https://akash.network/skills/akt-cli.zip) includes an `akt-cli/` directory containing the skill, all three references, `agents/openai.yaml`, and the upstream Apache 2.0 license. Keep these files together so relative links resolve. For Codex, install the directory at `.agents/skills/akt-cli/` in a project or `~/.agents/skills/akt-cli/` for user-wide access, then invoke `$akt-cli`. For other agents, use their supported skills location. The skill does not require MCP. Homebrew installs the CLI binary separately; it does not install the skill. When a release includes a skill bundle, prefer the one matching your installed binary.
 
@@ -396,7 +396,7 @@ The default exposes read-only tools. Available chain tools depend on the selecte
 
 An agent should preserve the chosen network, owner, provider, spending policy, and resulting deployment identifiers throughout an operation. Use structured output and confirm final state from the provider/application. Recovery should reconcile existing state instead of creating another deployment after every timeout.
 
-Sources: [AI agent guide](https://akash.network/docs/getting-started/ai-agents/), [Akash skill repository](https://github.com/akash-network/akash-skill), [akt MCP](https://akash.network/docs/developers/deployment/akt/mcp/).
+Sources: [AI agent guide](https://akash.network/docs/getting-started/ai-agents/), [Akash skill repository](https://github.com/akash-network/akash-skill), [akt MCP](https://akash.network/docs/developers/akt/mcp/).
 
 ## Experimental confidential compute
 
@@ -453,9 +453,32 @@ AKT supports network staking and governance. Akash Enhancement Proposals describ
 
 Sources: [node operators](https://akash.network/docs/node-operators/getting-started/), [validator operations](https://akash.network/docs/node-operators/validators/running-a-validator/), [network registry](https://github.com/akash-network/net), [network upgrades](https://akash.network/docs/node-operators/network-upgrades/), [roadmap](https://akash.network/roadmap/).
 
+## Move AKT to Solana with Akash Sink
+
+Akash Sink locks AKT on Akash and mints the same amount on Solana. Transfers are one way and use complete owner/height/sequence IDs. Relayers submit verified headers and proofs; independent reporters verify finalized outcomes. A confirmed void becomes refund-pending. Payment still requires the challenge deadline, current authorization, no hold, enabled refunds, queue priority, and available capacity. The standard challenge minimum is 72 hours.
+
+The following examples target the pending akt Sink update, not a published release:
+
+```bash
+akt query sink params
+akt query sink reporters
+akt query sink state
+akt tx sink deposit <solana-address> 10akt
+akt query sink transfer '<owner>/<height>/<sequence>'
+akt query sink transfers <akash-address> refund-pending
+```
+
+Parameters and reporter policies are separate queries, not fields of state. Sending and refund quotas follow the native day epoch schedule. Reporter quorum is the member count multiplied by the decimal threshold, rounded up, and must exceed two thirds of the members.
+
+The pending CLI uses positional owner/status filters, positional guardian pauses, and propose-params/propose-void/propose-veto/propose-resolve governance helpers. Reports read current policy and round unless explicitly overridden. Follow the current command guide rather than older generated-message examples.
+
+Operator guides cover relayers and independent reporters against an existing bridge: verified service releases, network identities, fee accounts, external signing, governance admission, monitoring, and retained-state restarts. Production addresses and release artifacts remain TBD at launch.
+
+Sources: [Akash Sink](https://akash.network/docs/learn/akash-sink/), [portal guide](https://akash.network/docs/learn/akash-sink/portal/), [pending akt commands](https://akash.network/docs/developers/akt/sink/), [relayer and reporter operation](https://akash.network/docs/node-operators/akash-sink/).
+
 ## Source scope and freshness
 
-Reviewed September 10, 2026; akt release guidance and agent skill updated September 12, 2026. This is a curated technical synthesis, not a verbatim export of every documentation page. The companion [llms.txt](https://akash.network/llms.txt) lists task-specific sources. Prefer current product documentation and version-matched source/schema over older tutorials. For live state, use chain queries, provider status, and the relevant product API.
+Reviewed September 10, 2026; akt release guidance and agent skill updated September 12, 2026. The Sink section was updated November 4, 2026 for the current draft docs and pending CLI changes. This is a curated technical synthesis, not a verbatim export of every documentation page. The companion [llms.txt](https://akash.network/llms.txt) lists task-specific sources. Prefer current product documentation and version-matched source/schema over older tutorials. For live state, use chain queries, provider status, and the relevant product API.
 
 Sources include this website's documentation, the official akt repository and releases, installed CLI command help, the akt CLI skill and its supporting references, Console funding/API documentation, the official chain-sdk and Console Air repositories, the Akash skill repository, Awesome Akash templates, and AkashML's API documentation. Source links appear beside each topic. Check GitHub for current akt code and release versions; install or update the published binary through the official Homebrew tap or release assets.
 

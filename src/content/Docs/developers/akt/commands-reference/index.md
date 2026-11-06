@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "akt CLI"]
 tags: ["akt", "CLI", "Commands", "Reference"]
-weight: 9
+weight: 8
 title: "akt Commands Reference"
 linkTitle: "Commands Reference"
 description: "Reference for akt CLI commands, arguments, and common flags"
@@ -11,7 +11,7 @@ This reference covers release candidate [akt v1.0.0-rc0](https://github.com/akas
 
 The chain SDK contributes many additional query and transaction leaves. Run `akt <command> --help` for the exact command tree and flags in your installed release.
 
-Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version. [Homebrew](/docs/developers/deployment/akt/installation#keep-akt-up-to-date) installs the latest stable release; use the [archive instructions](/docs/developers/deployment/akt/installation) for the release candidate.
+Check [GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version. [Homebrew](/docs/developers/akt/installation#keep-akt-up-to-date) installs the latest stable release; use the [archive instructions](/docs/developers/akt/installation) for the release candidate.
 
 ---
 
@@ -466,6 +466,26 @@ akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
 ---
 
+### Sink Transfers
+
+These commands target the [pending Sink CLI update](/docs/developers/akt/sink). Check your binary's help before use.
+
+```bash
+akt query sink params
+akt query sink reporters
+akt query sink reporters all
+akt query sink transfer '<owner>/<height>/<sequence>'
+akt query sink transfers <akash-address> --limit 50
+akt query sink transfers refund-pending --limit 50
+akt query sink disputes --limit 50
+akt query sink account <akash-address>
+akt query sink state
+```
+
+Owner and status filters are positional. Use `--page-key` with the returned cursor and keep height, filters, and direction fixed across pages. `state` contains totals, epoch usage, and the refund candidate; configuration and policies come from `params` and `reporters`.
+
+---
+
 ## Transaction Commands
 
 All transaction commands accept `--from`, `--gas`, `--gas-prices`, `--fees`, `--broadcast-mode`, `--yes`, `--dry-run`, and other standard flags. Defaults come from the active context. Gas-price-derived fees cannot fall below the selected network's configured price; fixed `--fees` values bypass that calculation.
@@ -554,6 +574,35 @@ akt tx bme burn-mint 500000uakt uact
 ```
 
 See [Mint & Burn ACT](/docs/developers/deployment/cli/act-mint-burn) for background on when and why to convert.
+
+---
+
+### Sink (AKT to Solana)
+
+The [pending Sink commands](/docs/developers/akt/sink) use complete `owner/height/sequence` IDs:
+
+```bash
+akt tx sink deposit <solana-address> 10akt --from <sender-key>
+akt tx sink finalize-refund <id> --from <executor-key>
+akt tx sink report-outcome <id> minted <slot> <signature> --from reporter
+akt tx sink veto-void <id> <reason> --from reporter
+akt tx sink guardian-pause all --from guardian
+```
+
+Reports read the current policy and round, with `--policy-version` and `--round` overrides. The guardian pause is positional: `deposits`, `refunds`, or `all`.
+
+Governance helpers submit proposals:
+
+```bash
+akt tx sink propose-params <params.json> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-void <id> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-veto <id> <reason> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve <id> restart <reason> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve <id> confirm-mint <reason> <slot> <signature> --deposit <proposal-deposit> --from <proposer-key>
+akt tx sink propose-resolve <id> confirm-void <reason> <slot> <signature> --deposit <proposal-deposit> --from <proposer-key>
+```
+
+Void and resolution proposals bind the current round unless `--expected-round` overrides it. Save the complete parameter object with `akt query sink params -o json` before editing and proposing it. See [Send AKT to Solana](/docs/developers/akt/sink) for prerequisites and payment conditions.
 
 ---
 
@@ -810,7 +859,7 @@ The export format is for inspection and backup. It is not a deployable SDL.
 
 ## Monitor Commands
 
-Real-time dashboards over an RPC WebSocket connection. See [Network Monitor](/docs/developers/deployment/akt/monitor).
+Real-time dashboards over an RPC WebSocket connection. See [Network Monitor](/docs/developers/akt/monitor).
 
 ```bash
 # Launch hub (defaults to Network dashboard)
@@ -835,7 +884,7 @@ Inside the Network dashboard, `1` opens Overview, `2` Validators, `3` Governance
 
 ## MCP Command
 
-Start an MCP server for AI assistant integration. See [MCP Server](/docs/developers/deployment/akt/mcp).
+Start an MCP server for AI assistant integration. See [MCP Server](/docs/developers/akt/mcp).
 
 ```bash
 # Read-only mode (safe for AI agents)
@@ -904,8 +953,8 @@ akt deploy deploy.yaml --bid-select cheapest --yes -o jsonl
 
 ## Related Resources
 
-- [Installation](/docs/developers/deployment/akt/installation)
-- [Contexts & Configuration](/docs/developers/deployment/akt/configuration)
+- [Installation](/docs/developers/akt/installation)
+- [Contexts & Configuration](/docs/developers/akt/configuration)
 - [Deployments](/docs/developers/deployment/akt/deployments)
 - [Console Integration](/docs/developers/deployment/akt/console)
 - [SDL Reference](/docs/developers/deployment/akash-sdl)

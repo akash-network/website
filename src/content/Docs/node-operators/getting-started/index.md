@@ -48,6 +48,18 @@ Choose your path: run a full node to interact with the blockchain, or become a v
 
 ---
 
+### Akash Sink Services
+
+**Purpose:** Keep AKT transfers from Akash to Solana moving by running a relayer, or a reporter if governance adds you to the reporter set.
+
+**Requirements:**
+- Your own Akash node, plus a Solana RPC node
+- A Solana payer key with SOL (relayer), or an Akash account key in a KMS or HSM (reporter)
+
+**Next Step:** [Akash Sink Services](/docs/node-operators/akash-sink)
+
+---
+
 ## Active Validator Set
 
 **Current Size:** 100 validators

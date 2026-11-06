@@ -16,7 +16,7 @@ By default, providers do not offer reclamation. Reclamation is opt-in via config
 ## Prerequisites
 
 - Akash provider `v0.16.2` or later
-- The unified [`akt` CLI](/docs/developers/deployment/akt) in a mainnet keyring context for queries and close transactions
+- The unified [`akt` CLI](/docs/developers/akt) in a mainnet keyring context for queries and close transactions
 
 ## Configuration
 

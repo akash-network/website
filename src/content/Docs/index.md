@@ -22,7 +22,8 @@ New to Akash? Start here:
 Deploy applications and build on Akash Network:
 
 - **[Getting Started](/docs/developers/getting-started)** - Choose your deployment method and get started
-- **[Deployment](/docs/developers/deployment)** - Console, akt CLI, SDKs, SDL, and AuthZ
+- **[Deployment](/docs/developers/deployment)** - Console, SDKs, SDL, AuthZ, and deploying with akt
+- **[akt CLI](/docs/developers/akt)** - The unified Akash command-line interface: setup, chain queries and transactions, monitoring, and agent tooling
 - **[Contributing](/docs/developers/contributing)** - Contribute to Akash codebase and documentation
 
 ### Providers
@@ -41,6 +42,7 @@ Run blockchain nodes and validators:
 - **[Getting Started](/docs/node-operators/getting-started)** - Choose between full node and validator
 - **[Node Build](/docs/node-operators/node-build)** - CLI Build, Omnibus, and Helm Chart
 - **[Validators](/docs/node-operators/validators)** - Running validators, Omnibus, and TMKMS
+- **[Akash Sink](/docs/node-operators/akash-sink)** - Relayer and reporter services for AKT transfers to Solana
 - **[Network Upgrades](/docs/node-operators/network-upgrades)** - Mainnet 15 upgrade guide
 - **[Architecture](/docs/node-operators/architecture)** - Node architecture and API endpoints
 
@@ -57,6 +59,7 @@ Build on Akash with SDKs, APIs, and architectural insights:
 Deep dive into Akash concepts and resources:
 
 - **[Core Concepts](/docs/learn/core-concepts)** - Detailed guides for deployments, storage, GPUs, and more
+- **[Akash Sink](/docs/learn/akash-sink)** - Move AKT from Akash to Solana, one way
 - **[Community Resources](/docs/learn/community-resources)** - Discord, GitHub, blog, and support channels
 
 ## Need Help?

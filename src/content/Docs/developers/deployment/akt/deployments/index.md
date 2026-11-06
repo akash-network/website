@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "Deployment", "Deploy with akt"]
 tags: ["akt", "CLI", "Deployments", "SDL", "Workflows"]
-weight: 3
+weight: 1
 title: "Deploy with akt"
 linkTitle: "Deployments"
 description: "Author SDL files and run the full deployment lifecycle with akt deploy, update, and close"
@@ -17,7 +17,7 @@ The workflow commands `akt deploy`, `akt update`, and `akt close` orchestrate th
 
 Before deploying, ensure you have:
 
-- `akt` installed and a context configured ([installation guide](/docs/developers/deployment/akt/installation))
+- `akt` installed and a context configured ([installation guide](/docs/developers/akt/installation))
 - For `keyring` contexts: a funded account for the live chain deposit and transaction fees. `akt` queries the current deployment minimum when the deposit is `auto`.
 - For `console-api` contexts: a Console API key ([Console integration](/docs/developers/deployment/akt/console)) and credits on the Console account. The Console funds each deployment, so there is no deposit.
 
@@ -229,7 +229,7 @@ akt store import deployments-backup.yaml
 ## Next Steps
 
 - **[Console integration](/docs/developers/deployment/akt/console)** - Deploy with the managed wallet, funded in USD
-- **[Queries and transactions](/docs/developers/deployment/akt/queries-and-transactions)** - Work with the chain directly
+- **[Queries and transactions](/docs/developers/akt/queries-and-transactions)** - Work with the chain directly
 - **[SDL reference](/docs/developers/deployment/akash-sdl)** - Learn SDL configuration
 - **[SDL examples](/docs/developers/deployment/akash-sdl/examples-library)** - Browse deployment examples
 

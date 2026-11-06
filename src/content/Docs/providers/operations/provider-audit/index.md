@@ -210,7 +210,7 @@ akt deploy standalone-audit.sdl.yaml \
   --yes
 ```
 
-The active `akt` context must use Akash mainnet and contain the funded tenant key. See [`akt` contexts and key management](/docs/developers/deployment/akt/configuration) and the [`akt` deployment workflow](/docs/developers/deployment/akt/deployments).
+The active `akt` context must use Akash mainnet and contain the funded tenant key. See [`akt` contexts and key management](/docs/developers/akt/configuration) and the [`akt` deployment workflow](/docs/developers/deployment/akt/deployments).
 
 The deployment serves a **web UI over HTTPS on port 443**. Share that URL with reviewers when benchmarks finish.
 
