@@ -30,17 +30,103 @@ useradd --system --home-dir /var/lib/akt-reporter --shell /usr/sbin/nologin akt-
 install -d -o akt-reporter -g akt-reporter -m 0700 /etc/akt-reporter /var/lib/akt-reporter
 install -o akt-reporter -g akt-reporter -m 0600 \
   "$ROOT/config/reporter.json" /etc/akt-reporter/config.json
+```
+
+Use either a new key or your existing Akash wallet.
+
+### Create a new key
+
+```bash
 runuser -u akt-reporter -- "$ROOT/bin/akt-reporter" keys create \
   --out /etc/akt-reporter/reporter.key
 ```
 
-Only the public Akash address is printed. Fund it with AKT for fees and share it
-with the governance coordinator. Back up the key securely. It is an unencrypted
+Only the public Akash address is printed. Back up the key securely. It is an unencrypted
 software key, readable only by the service user (`0600`); use a dedicated key,
 never a validator consensus key. No KMS or custom signer is required.
 
+Continue at [Configure the reporter](#configure-the-reporter).
+
+### Use an existing Akash wallet
+
+Use the native Akash node CLI, `akash`, on your secure workstation for this
+one-time export. It does not need a running node. The commands below use
+`akash keys`; CLI versions that export only encrypted armor cannot produce a
+reporter key file directly.
+
+#### Recover the same account
+
+If the wallet is already in an Akash CLI keyring, skip recovery. Set `KEY_HOME`,
+`KEY_BACKEND` and `KEY_NAME` below to that keyring and key.
+
+Otherwise, recover from your existing mnemonic into a separate keyring:
+
+```bash
+KEY_HOME="$HOME/.akash-reporter-export"
+KEY_BACKEND=file
+KEY_NAME=existing-reporter
+HD_PATH="m/44'/118'/0'/0/0"
+
+akash keys add "$KEY_NAME" --recover --no-backup \
+	--hd-path "$HD_PATH" --home "$KEY_HOME" --keyring-backend "$KEY_BACKEND"
+```
+
+Enter the mnemonic at the prompt. Use your wallet's actual derivation path and
+account index; the example selects the first standard Cosmos account. If the
+wallet uses a BIP39 passphrase, add `--interactive` and enter that passphrase.
+The keyring encryption password is separate from the BIP39 passphrase.
+
+Print the recovered address:
+
+```bash
+akash keys show "$KEY_NAME" --address \
+	--home "$KEY_HOME" --keyring-backend "$KEY_BACKEND"
+```
+
+Compare it with the address in your existing wallet. Continue only when they
+match. Recovery does not create a new on-chain account or move funds.
+
+#### Export and install the private key
+
+Export directly to a new owner-only file. This prints no private key to the
+terminal and refuses to overwrite an existing file:
+
+```bash
+(
+	umask 077
+	set -o noclobber
+	akash keys export "$KEY_NAME" --unsafe --unarmored-hex --yes \
+		--home "$KEY_HOME" --keyring-backend "$KEY_BACKEND" \
+		> "$KEY_HOME/reporter.key"
+)
+```
+
+The result is 64 lowercase hex characters without `0x`. The reporter accepts
+this raw private key, not the mnemonic or an encrypted keyring export.
+
+Transfer `reporter.key` to `/root/reporter.key` on the reporter host over SSH.
+As the host administrator, install it into the empty service key path:
+
+```bash
+test ! -e /etc/akt-reporter/reporter.key &&
+	install -o akt-reporter -g akt-reporter -m 0600 \
+		/root/reporter.key /etc/akt-reporter/reporter.key
+
+runuser -u akt-reporter -- /opt/akt-bridge/current/bin/akt-reporter \
+	keys address --key-file /etc/akt-reporter/reporter.key
+```
+
+Confirm the printed address still matches your wallet. Set `reporter` to that
+address and `keyFile` to `/etc/akt-reporter/reporter.key` in the config.
+
+Keep a secure backup and remove temporary transfer copies.
+
+### Configure the reporter
+
+Fund the verified address with AKT for fees and share it with the governance coordinator.
+
 Edit `/etc/akt-reporter/config.json`. Set your independent RPC endpoints, deployed
-program and mint, generated reporter address, `akashChainId` and
+program and mint, verified reporter address, `akashChainId` and
 `solanaGenesisHash`. Replace both mainnet identities in the example with the test
 deployment identities. Keep `keyFile` pointing to
 `/etc/akt-reporter/reporter.key`, and preserve the reviewed fee and freshness limits.

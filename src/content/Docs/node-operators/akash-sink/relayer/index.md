@@ -24,7 +24,7 @@ Follow the [node and history requirements](https://github.com/akash-network/sink
 
 ## Install and configure
 
-Complete [download and installation](/docs/node-operators/akash-sink#download-and-install), then create the service account and key as the host administrator:
+Complete [download and installation](/docs/node-operators/akash-sink#download-and-install), then create the service account as the host administrator:
 
 ```bash
 ROOT=/opt/akt-bridge/current
@@ -32,14 +32,53 @@ useradd --system --home-dir /var/lib/akt-relayer --shell /usr/sbin/nologin akt-r
 install -d -o akt-relayer -g akt-relayer -m 0700 /etc/akt-relayer /var/lib/akt-relayer
 install -o akt-relayer -g akt-relayer -m 0600 \
   "$ROOT/config/relayer.json" /etc/akt-relayer/config.json
+```
+
+Use either a new key or your existing Solana keypair.
+
+### Create a new key
+
+```bash
 runuser -u akt-relayer -- "$ROOT/bin/akt-relayer" keys create \
   --out /etc/akt-relayer/payer-keypair.json
 ```
 
-Only the public address is printed. Fund it with SOL and obtain header-update
-permission from the bridge administrator when relaying is closed. Keep a secure
-backup of the key file; it uses the standard Solana CLI JSON format. Creation
+Only the public address is printed. Keep a secure backup of the key file;
+it uses the standard Solana CLI JSON format. Creation
 refuses to overwrite an existing key.
+
+Continue at [Configure the relayer](#configure-the-relayer).
+
+### Use an existing Solana keypair
+
+Use the existing Solana CLI keypair JSON file, a 64-byte integer array. A
+mnemonic or a browser wallet's base58 private-key export is not this format.
+Check its address on your workstation:
+
+```bash
+solana-keygen pubkey /secure/path/payer-keypair.json
+```
+
+Transfer the file to `/root/payer-keypair.json` on the relayer host over SSH.
+As the host administrator, install it into the empty service key path:
+
+```bash
+test ! -e /etc/akt-relayer/payer-keypair.json &&
+	install -o akt-relayer -g akt-relayer -m 0600 \
+		/root/payer-keypair.json /etc/akt-relayer/payer-keypair.json
+
+runuser -u akt-relayer -- /opt/akt-bridge/current/bin/akt-relayer \
+	keys address --key-file /etc/akt-relayer/payer-keypair.json
+```
+
+Confirm the printed address matches your existing Solana wallet. Set
+`payerKeyFile` to `/etc/akt-relayer/payer-keypair.json` in the config.
+
+Keep a secure backup and remove temporary transfer copies.
+
+### Configure the relayer
+
+Fund the verified address with SOL. Obtain header-update permission when relaying is closed.
 
 Edit `/etc/akt-relayer/config.json` using the deployment handoff:
 
