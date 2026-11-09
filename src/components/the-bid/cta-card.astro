@@ -23,7 +23,11 @@ interface Props {
 
 const { cta, postId, class: className } = Astro.props;
 const consoleHref = bidCtaHref(CONSOLE_URL, postId, "sidebar");
-const akashmlHref = bidCtaHref(AKASHML_URL, postId, "sidebar");
+const akashmlHref = bidCtaHref(
+  cta.model?.url ?? AKASHML_URL,
+  postId,
+  "sidebar",
+);
 const textLink =
   "inline-flex items-center gap-1 font-medium text-foreground underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-white/30";
 ---
@@ -102,11 +106,14 @@ const textLink =
       <>
         <p class="text-sm font-medium text-muted-foreground">AkashML</p>
         <p class="mt-2 text-lg font-medium leading-snug tracking-tight text-foreground">
-          Run open models by API
+          {cta.model
+            ? `Run ${cta.model.name} by API`
+            : "Run open models by API"}
         </p>
         <p class="mt-2 text-sm leading-6 text-muted-foreground">
-          Qwen, GLM, Kimi, Llama and more, served on Akash through an
-          OpenAI-compatible API. Pay per token.
+          {cta.model
+            ? `${cta.model.name}, served on Akash through an OpenAI-compatible API. Pay per token.`
+            : "Qwen, GLM, Kimi, Llama and more, served on Akash through an OpenAI-compatible API. Pay per token."}
         </p>
 
         <a
@@ -117,7 +124,7 @@ const textLink =
           data-bid-cta-placement="sidebar"
           class={buttonClass("primary", "default", "mt-4 w-full")}
         >
-          Try AkashML
+          {cta.model ? `Try ${cta.model.name}` : "Try AkashML"}
           <span class="sr-only">(opens in a new tab)</span>
           <ArrowUpRight className="size-4" aria-hidden="true" />
         </a>

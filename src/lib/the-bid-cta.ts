@@ -31,7 +31,20 @@ export type BidCta = {
   /** "an H200", "an H100 or A100", or a generic phrase when the title names no GPU. */
   gpuPhrase: string;
   rentLabel: string;
+  /** Set when the title names a model AkashML serves; the AkashML CTA then links to its page. */
+  model?: BidCtaModel;
 };
+
+export type BidCtaModel = { name: string; url: string };
+
+// Models a title may contain, mapped to their AkashML model page. The first one the title
+// names wins.
+const TITLE_MODELS: [RegExp, BidCtaModel][] = [
+  [
+    /\bKimi K3\.1 Pro\b/i,
+    { name: "Kimi K3.1 Pro", url: "https://akashml.com/models/kimi-k3.1-pro" },
+  ],
+];
 
 // GPU names a title may contain, mapped to their pricing data. "RTX PRO 6000" quotes the
 // Server Edition, the edition with steady supply on the marketplace.
@@ -78,6 +91,12 @@ export function bidCta(title: string): BidCta {
     .map(({ slug }) => slug);
 
   const gpus = (named.length ? named : DEFAULT_GPUS).map(toGpu);
+  const model = TITLE_MODELS.map(([pattern, model]) => ({
+    model,
+    index: title.search(pattern),
+  }))
+    .filter(({ index }) => index >= 0)
+    .sort((a, b) => a.index - b.index)[0]?.model;
   const single = named.length === 1 ? withArticle(gpus[0].name) : undefined;
 
   return {
@@ -88,6 +107,7 @@ export function bidCta(title: string): BidCta {
       ? withArticle(orList(gpus.map((gpu) => gpu.name)))
       : "a GPU from the Akash marketplace",
     rentLabel: single ? `Rent ${single}` : "Rent a GPU",
+    model,
   };
 }
 
