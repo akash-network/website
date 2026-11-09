@@ -114,7 +114,7 @@ Other tokens can copy the name and symbol. Check the mint address before you acc
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Akash Sink portal              | TBD at launch                                                                                                                        |
 | AKT mint on Solana             | TBD at launch                                                                                                                        |
-| AKT token metadata             | [Mainnet JSON](https://raw.githubusercontent.com/akash-network/net/a3679c66d2e95912435b9640ad68b610d4d0a46f/solana/mainnet/akt.json) |
+| AKT token metadata             | [Mainnet JSON](https://raw.githubusercontent.com/akash-network/net/84b94d96287d3507830a1d9832f55925f24b8dc8/solana/mainnet/akt.json) |
 | Akash Sink portal source       | [akash-network/sink-portal](https://github.com/akash-network/sink-portal)                                                            |
 | `sink` module account on Akash | `akash1r9ut4ukp207nhumr8uaykyh6v7p9qlwxmcf48p`                                                                                       |
 
