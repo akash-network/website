@@ -7,95 +7,82 @@ linkTitle: "Akash Sink"
 description: "Run relayers and independent reporters for an existing Akash Sink bridge"
 ---
 
-Relayers and reporters keep transfers moving between Akash and Solana. Download
-them from [sink-operators](https://github.com/akash-network/sink-operators), independently of the native node release.
+Relayers and reporters are maintained in [akash-network/node](https://github.com/akash-network/node/tree/main/contracts/solana). Each has its own version, download and Docker image, independent of blockchain releases.
 
-[v0.1.0](https://github.com/akash-network/sink-operators/releases/tag/v0.1.0) is a prerelease for isolated test networks.
-Production deployment is not ready. These commands use `--network testnet`,
-which rejects both mainnets. Obtain the test chain ID, Solana genesis, RPCs,
-program and mint from the deployment coordinator. The program must match the
-release's compiled interface.
+| Task                                          | Guide                                                      |
+| --------------------------------------------- | ---------------------------------------------------------- |
+| Submit Akash headers and proofs to Solana     | [Run a relayer](/docs/node-operators/akash-sink/relayer)   |
+| Verify finalized outcomes and report to Akash | [Run a reporter](/docs/node-operators/akash-sink/reporter) |
+| Send AKT                                      | [Bridge with akt](/docs/developers/akt/sink)               |
 
-| Task                                               | Guide                                                      |
-| -------------------------------------------------- | ---------------------------------------------------------- |
-| Send AKT and follow a transfer                     | [Bridge with akt](/docs/developers/akt/sink)               |
-| Submit Akash headers and transfer proofs to Solana | [Run a relayer](/docs/node-operators/akash-sink/relayer)   |
-| Verify finalized outcomes and report them on Akash | [Run a reporter](/docs/node-operators/akash-sink/reporter) |
+## Before starting
 
-## Service roles
+Use a Linux amd64 host with Docker Engine and Compose v2. Obtain the supported service version, Akash chain ID, Solana genesis hash, program/mint addresses and RPC endpoints from the deployment coordinator. Configuration selects the deployment; the programs must implement the release's supported interfaces. Release availability alone does not mean mainnet is ready.
 
-| Service  | Responsibility                                                                             | Credentials                                                         |
-| -------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
-| Relayer  | Upload signed Akash headers and proofs that Solana verifies                                | A funded Solana payer and the configured header-update permission   |
-| Reporter | Verify finalized Solana outcomes and submit reports, vetoes, and eligible refunds on Akash | A governance-selected Akash account with an owner-only software key |
+The relayer needs a Solana payer funded with SOL, header-update permission and persistent journals. Each reporter needs a dedicated Akash private key, AKT for fees, governance admission and independent Akash and replaying Solana nodes. Keep Solana history for the challenge period plus expected outages. Neither service holds user funds.
 
-Neither service holds user funds. Validators continue producing their normal consensus signatures; the Solana light client verifies those signatures. Run services separately from validator hosts.
+Run one signing process per key. Keep service keys separate from validator consensus keys. Keys are mounted from files, never entered into Compose environment variables.
 
-A relayer cannot change the proven recipient or amount. A reporter cannot mint on Solana. Reporters must use independent nodes and verify finalized outcomes before signing. If a service is offline, transfers can wait even while both chains continue producing blocks.
+## Docker Compose setup
 
-## Before starting a service
-
-Obtain the reviewed service release and network manifest. Confirm the Akash chain ID, Solana genesis, program, mint, artifact checksums, and the service version supported by that bridge. Use a release built for those deployed program IDs.
-
-A relayer needs a dedicated payer funded with SOL and persistent journals. A reporter needs a dedicated software key, AKT for fees, and governance admission to the active reporter policy. Keep signing keys outside release directories.
-
-Set `RPC` to the Akash node's CometBFT endpoint and query the active configuration with the matching native binary:
+Run the host setup as an administrator. Choose one role and a **published** version from [node releases](https://github.com/akash-network/node/releases):
 
 ```bash
-akash query sink params --node "$RPC" --output json
-akash query sink reporters 0 --node "$RPC" --output json
-akash query sink state --node "$RPC" --output json
+ROLE=reporter # or relayer
+VERSION=0.1.0
+ACCOUNT=akt-$ROLE
+BASE=https://github.com/akash-network/node/releases/download/$ROLE%2Fv$VERSION
+
+install -d -m 0755 /opt/$ACCOUNT
+cd /opt/$ACCOUNT
+curl -fLO "$BASE/akt-$ROLE-compose.yaml"
+curl -fLO "$BASE/akt-$ROLE.env.example"
+curl -fLO "$BASE/akt-$ROLE-config.example.json"
+curl -fLO "$BASE/akt-${ROLE}_${VERSION}_checksums.txt"
+sha256sum --ignore-missing --check "akt-${ROLE}_${VERSION}_checksums.txt"
+mv "akt-$ROLE-compose.yaml" docker-compose.yaml
+mv "akt-$ROLE.env.example" .env
+mv "akt-$ROLE-config.example.json" config.json
+
+useradd --system --home-dir /var/lib/$ACCOUNT --shell /usr/sbin/nologin "$ACCOUNT"
+install -d -o "$ACCOUNT" -g "$ACCOUNT" -m 0700 /etc/$ACCOUNT
+install -o "$ACCOUNT" -g "$ACCOUNT" -m 0600 config.json /etc/$ACCOUNT/config.json
+sed -i "s/^OPERATOR_UID=.*/OPERATOR_UID=$(id -u "$ACCOUNT")/" .env
+sed -i "s/^OPERATOR_GID=.*/OPERATOR_GID=$(id -g "$ACCOUNT")/" .env
+# Relayer only: retain this directory across container upgrades.
+if [ "$ROLE" = relayer ]; then
+  install -d -o "$ACCOUNT" -g "$ACCOUNT" -m 0700 /var/lib/$ACCOUNT
+fi
+docker compose pull
 ```
 
-`params` returns configuration, `reporters 0` returns the current policy, and `state` returns totals, native epoch usage, and the refund candidate. The [pending akt CLI](/docs/developers/akt/sink) exposes these queries too.
+If the service account already exists, reuse it and skip `useradd`. Review `.env` and edit `/etc/$ACCOUNT/config.json` with the deployment values before starting. Container `127.0.0.1` is not the host or another container; use reachable RPC addresses.
 
-## Download and install
+Continue with the [reporter](/docs/node-operators/akash-sink/reporter) or [relayer](/docs/node-operators/akash-sink/relayer) guide to create/import a key and start the service.
 
-The operator archive includes its Node runtime, dependencies, header encoder,
-executable commands and systemd units. No source checkout, compiler, npm, KMS or
-hardware wallet is needed. Use Ubuntu 24.04 x86-64 (glibc 2.39 or newer). Install
-the host prerequisites; the relayer uses Python's standard library for locking:
+## Environment variables
 
-```bash
-apt-get update
-apt-get install -y ca-certificates curl tar python3 libstdc++6
-```
+`.env` configures Compose. Chain settings belong in `config.json`.
 
-Install v0.1.0 as the host administrator. For an existing installation, follow
-the [upgrade procedure](https://github.com/akash-network/sink-operators/blob/v0.1.0/docs/install.md#upgrade-or-roll-back) first:
+| Variable           | Default or requirement | Purpose                                                                      |
+| ------------------ | ---------------------- | ---------------------------------------------------------------------------- |
+| `OPERATOR_IMAGE`   | Required               | Published role-specific version or image digest                              |
+| `OPERATOR_NETWORK` | `mainnet`              | Use `testnet` for an isolated deployment; it rejects both mainnet identities |
+| `OPERATOR_UID`     | `10001`                | Service UID; must own the key and relayer state                              |
+| `OPERATOR_GID`     | `10001`                | Service GID                                                                  |
+| `OPERATOR_CONFIG`  | Required               | Existing absolute host path to JSON config; read-only mount                  |
+| `OPERATOR_KEY`     | Required               | Existing absolute host path to the `0600` private-key file; read-only mount  |
+| `OPERATOR_STATE`   | Relayer only           | Existing writable host directory for journals and spending state             |
 
-```bash
-TAG=v0.1.0
-VERSION=${TAG#v}
-ASSET=akt-bridge_${VERSION}_linux_amd64.tar.gz
-BASE=https://github.com/akash-network/sink-operators/releases/download/$TAG
-DOWNLOAD=$(mktemp -d /var/tmp/akt-bridge.XXXXXX)
-cd "$DOWNLOAD"
-curl -fLO "$BASE/$ASSET"
-curl -fLO "$BASE/akt-bridge_${VERSION}_checksums.txt"
-sha256sum --check "akt-bridge_${VERSION}_checksums.txt"
+The setup above replaces the default UID/GID with the dedicated host account. Missing files fail startup instead of becoming empty directories. Both images expose no ports and send logs to stdout/stderr with rotation. See the [complete JSON configuration reference](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operator-configuration.md) for every service field.
 
-RELEASE=/opt/akt-bridge/releases/$TAG
-test ! -e "$RELEASE"
-install -d -m 0755 "$RELEASE"
-tar -xzf "$ASSET" -C "$RELEASE"
-chown -R root:root "$RELEASE"
-chmod -R a+rX,go-w "$RELEASE"
-"$RELEASE/bin/akt-reporter" --version
-ln -s "releases/$TAG" /opt/akt-bridge/current.next
-mv -Tf /opt/akt-bridge/current.next /opt/akt-bridge/current
-cd "$RELEASE"
-rm -rf "$DOWNLOAD"
-```
+## Download without Docker
 
-Verify the printed source commit against the release notes, then follow the
-[relayer](/docs/node-operators/akash-sink/relayer) or
-[reporter](/docs/node-operators/akash-sink/reporter) steps. Keys and durable state
-stay outside the release directory.
+Each release also includes a checksummed `akt-ROLE_VERSION_linux_amd64.tar.gz` archive. It bundles Node and dependencies; the relayer includes its header encoder. Use Ubuntu 24.04 amd64 or compatible glibc 2.39+, with Bash, Python 3, CA certificates and libstdc++6. Follow [archive installation](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operator-releases.md#download-without-docker). No source checkout, compiler, npm, KMS or hardware wallet is needed.
 
-For later upgrades, stop the service before switching `current`; keep the previous
-compatible release and current journals. Follow the
-[upgrade procedure](https://github.com/akash-network/sink-operators/blob/v0.1.0/docs/install.md#upgrade-or-roll-back).
+## Upgrade or roll back
+
+Stop the service, select the reviewed version or digest in `OPERATOR_IMAGE`, then run `docker compose pull` and `docker compose up -d`. A signing reporter must continue using both its base and broadcast Compose files. Preserve keys, configuration and relayer journals; never run old and new signing processes together. Verify network identity and logs after restart. Rollback uses the previous compatible image and the same retained data.
 
 ## Reporter quorum and refunds
 

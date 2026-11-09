@@ -9,7 +9,7 @@ description: "Install and operate a relayer against an existing Akash and Solana
 
 A relayer uploads Akash block headers and transfer proofs to Solana. Solana verifies the signatures and proofs before minting or voiding a transfer. The relayer needs a funded payer, but cannot change the proven recipient or amount.
 
-These instructions use the v0.1.0 test-network release with an existing bridge.
+These instructions use the independently released relayer image from node, against an existing compatible bridge.
 See [service roles and prerequisites](/docs/node-operators/akash-sink).
 
 ## Requirements
@@ -18,29 +18,22 @@ See [service roles and prerequisites](/docs/node-operators/akash-sink).
 - A Solana RPC on the expected genesis, with sufficient transaction history for recovery.
 - A dedicated Solana payer funded for fees and temporary account rent.
 - A persistent state directory used by only one running relayer with that payer.
-- The reviewed Linux operator package; its Node runtime is included.
+- The reviewed relayer image; its runtime and header encoder are included.
 
-Follow the [node and history requirements](https://github.com/akash-network/sink-operators/blob/v0.1.0/docs/install.md#before-you-start). Pruned history can prevent proof generation or recovery.
+Follow the [node and history requirements](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operator-releases.md#before-you-start). Pruned history can prevent proof generation or recovery.
 
 ## Install and configure
 
-Complete [download and installation](/docs/node-operators/akash-sink#download-and-install), then create the service account as the host administrator:
-
-```bash
-ROOT=/opt/akt-bridge/current
-useradd --system --home-dir /var/lib/akt-relayer --shell /usr/sbin/nologin akt-relayer
-install -d -o akt-relayer -g akt-relayer -m 0700 /etc/akt-relayer /var/lib/akt-relayer
-install -o akt-relayer -g akt-relayer -m 0600 \
-  "$ROOT/config/relayer.json" /etc/akt-relayer/config.json
-```
+Complete [Docker Compose setup](/docs/node-operators/akash-sink#docker-compose-setup) with `ROLE=relayer`. Run the following host commands from `/opt/akt-relayer`.
 
 Use either a new key or your existing Solana keypair.
 
 ### Create a new key
 
 ```bash
-runuser -u akt-relayer -- "$ROOT/bin/akt-relayer" keys create \
-  --out /etc/akt-relayer/payer-keypair.json
+docker run --rm --user "$(id -u akt-relayer):$(id -g akt-relayer)" \
+  --mount type=bind,src=/etc/akt-relayer,dst=/keys \
+  ghcr.io/akash-network/akt-relayer:$VERSION keys create --out /keys/payer-keypair.json
 ```
 
 Only the public address is printed. Keep a secure backup of the key file;
@@ -67,12 +60,11 @@ test ! -e /etc/akt-relayer/payer-keypair.json &&
 	install -o akt-relayer -g akt-relayer -m 0600 \
 		/root/payer-keypair.json /etc/akt-relayer/payer-keypair.json
 
-runuser -u akt-relayer -- /opt/akt-bridge/current/bin/akt-relayer \
-	keys address --key-file /etc/akt-relayer/payer-keypair.json
+docker compose run --rm relayer keys address --key-file /run/keys/key
 ```
 
 Confirm the printed address matches your existing Solana wallet. Set
-`payerKeyFile` to `/etc/akt-relayer/payer-keypair.json` in the config.
+`payerKeyFile` to `/run/keys/key` in the config.
 
 Keep a secure backup and remove temporary transfer copies.
 
@@ -84,38 +76,37 @@ Edit `/etc/akt-relayer/config.json` using the deployment handoff:
 
 - `akashRpc`, `akashChainId`, `solanaRpc`, and `solanaGenesisHash`.
 - The deployed `programId`.
-- `payerKeyFile`, owned by the service account with mode `0600`.
-- `headerEncoder`, set to `/opt/akt-bridge/current/bin/akt-header-encoder`.
-- `stateDir`, set to `/var/lib/akt-relayer` and retained across releases.
+- `payerKeyFile`, set to `/run/keys/key`; `.env` maps the host key to this read-only path.
+- `headerEncoder`, set to `/opt/akt/bin/akt-header-encoder`.
+- `stateDir`, set to `/data`; `.env` maps `/var/lib/akt-relayer` into the container. Retain it across releases.
 
-Use the test deployment IDs supported by this release. Keep state outside the
-release directory, set an explicit spending budget and alert on payer balance. The [configuration guide](https://github.com/akash-network/sink-operators/blob/v0.1.0/docs/install.md#create-a-key-and-configure) lists the remaining options.
+Use the deployment handoff. For an isolated deployment, set `OPERATOR_NETWORK=testnet` in `.env` and use its chain ID and genesis hash. Keep state outside the
+release directory, set an explicit spending budget and alert on payer balance. The [configuration guide](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operator-configuration.md) lists the remaining options.
 
 Check the configuration from the installed release:
 
 ```bash
-runuser -u akt-relayer -- /opt/akt-bridge/current/bin/akt-relayer check --network testnet --config /etc/akt-relayer/config.json
+docker compose run --rm relayer keys address --key-file /run/keys/key
+docker compose run --rm relayer check --network mainnet --config /etc/akt/config.json
 ```
 
-This check does not read the payer key. Startup also checks the live chain and program identities.
+Use `--network testnet` when `.env` selects testnet. Configuration check does not read the payer key. Startup also checks the live chain and program identities.
 
 ## Start the service
 
-Install the shipped `deploy/systemd/akt-relayer.service` as described in the service guide. After reviewing its paths and permissions:
+The relayer submits transactions in its normal run mode:
 
 ```bash
-install -m 0644 "$ROOT/deploy/systemd/akt-relayer.service" /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable --now akt-relayer
-journalctl -u akt-relayer -f
+docker compose up -d
+docker compose logs -f relayer
 ```
 
-Confirm that headers advance and pending transfers resolve. Header updates require the configured relayer role or open-relaying setting; running the process alone does not grant those rights. Read the `relayer-access` output and [relayer operations guide](https://github.com/akash-network/sink-operators/blob/v0.1.0/docs/operations.md#relayer).
+Confirm that headers advance and pending transfers resolve. Header updates require the configured relayer role or open-relaying setting; running the process alone does not grant those rights. Read the `relayer-access` output and [relayer operations guide](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operators.md).
 
 ## Monitor and recover
 
-Monitor light-client age, payer balance, progress, and JSON alerts. Investigate `relay-budget-exhausted`, `relay-discovery-failed`, `relay-unbacked-settlement`, `light-client-mismatch`, and repeated retry failures. See the [operations guide](https://github.com/akash-network/sink-operators/blob/v0.1.0/docs/operations.md#relayer).
+Monitor light-client age, payer balance, progress, and JSON alerts. Investigate `relay-budget-exhausted`, `relay-discovery-failed`, `relay-unbacked-settlement`, `light-client-mismatch`, and repeated retry failures. See the [operations guide](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operators.md).
 
 Keep the same journals and spend ledger after restart. Do not delete a running payer lock, reset a budget to hide repeated failures, or restore an older journal after transactions were sent. Missing transaction history can block recovery even when a permanent Solana outcome exists.
 
-Use the [service upgrade and recovery procedure](https://github.com/akash-network/sink-operators/blob/v0.1.0/docs/install.md#upgrade-or-roll-back). An expired or frozen light client requires the separate [incident runbook](https://github.com/akash-network/node/blob/main/contracts/solana/docs/production-deployment.md#incident-runbooks).
+Use the [service upgrade and recovery procedure](/docs/node-operators/akash-sink#upgrade-or-roll-back). An expired or frozen light client requires the separate [incident runbook](https://github.com/akash-network/node/blob/main/contracts/solana/docs/production-deployment.md#incident-runbooks).
