@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Play, Pause } from 'lucide-react'
+import { prefersReducedMotion } from './reducedMotion'
 
 // ── SVG layout ──────────────────────────────────────────────────────
 const VW = 500
@@ -16,7 +17,7 @@ const PROV_BOT = PROV_Y + NH      // 62
 const MKT_Y1 = 148
 const MKT_Y2 = 208
 const TENT_CX = 250
-const TENT_NW = 110
+const TENT_NW = 130
 const TENT_Y = 308
 const TENT_H = NH
 const P_BOT = PROV_BOT + 1        // 63
@@ -43,7 +44,7 @@ const STEPS = [
   },
   {
     title: 'Open Bidding',
-    body: 'The manifest is securely transmitted and broadcast to the Akash as a deployment order. Active providers whose audited hardware satisfies the SDL constraints automatically submit competitive bids in real time.',
+    body: 'The manifest is securely transmitted and broadcast to the Akash network as a deployment order. Active providers whose audited hardware satisfies the SDL constraints automatically submit competitive bids in real time.',
   },
   {
     title: 'Active Lease',
@@ -80,7 +81,15 @@ function TrustBadge({ trust }: { trust: string }) {
 // ── SVG topology ─────────────────────────────────────────────────────
 type Phase = 0 | 1 | 2
 
-function TopologySVG({ phase }: { phase: Phase }) {
+function TopologySVG({ phase, paused }: { phase: Phase; paused: boolean }) {
+  const svgRef = useRef<SVGSVGElement>(null)
+  useEffect(() => {
+    const svg = svgRef.current
+    if (!svg) return
+    if (paused) svg.pauseAnimations()
+    else svg.unpauseAnimations()
+  }, [paused])
+
   const showBids  = phase >= 1
   const showLease = phase === 2
   const BID_PRICES = ['$1.18', '$1.31', '$1.23', '$1.67', '$1.45']
@@ -88,7 +97,8 @@ function TopologySVG({ phase }: { phase: Phase }) {
   const MKT_LABEL = phase === 0 ? 'RECEIVING MANIFEST' : phase === 1 ? '── AUCTION OPEN ──' : 'LEASE ACTIVE'
 
   return (
-    <svg viewBox={`0 0 ${VW} ${VH}`}
+    <svg ref={svgRef} viewBox={`0 0 ${VW} ${VH}`} role="img"
+      aria-label={`Network topology: ${phase === 0 ? 'tenant sends manifest to the marketplace' : phase === 1 ? 'providers submit bids' : 'lease active between tenant and Provider 01'}`}
       style={{ height: '100%', width: 'auto', maxWidth: '100%', fontFamily: "ui-monospace, 'Cascadia Code', monospace" }}
     >
       <defs>
@@ -124,10 +134,10 @@ function TopologySVG({ phase }: { phase: Phase }) {
 
       <rect x="10" y={MKT_Y1} width={VW - 20} height={MKT_Y2 - MKT_Y1}
         rx="4" fill={CLR_BG} stroke={MKT_COLOR} strokeWidth="1"
-        style={{ animation: 'as-pulse 2.2s ease-in-out infinite' }} filter="url(#as-glow)"
+        style={{ animation: 'as-pulse 2.2s ease-in-out infinite', animationPlayState: paused ? 'paused' : 'running' }} filter="url(#as-glow)"
       />
       <text x={VW / 2} y={MKT_Y1 + (MKT_Y2 - MKT_Y1) / 2 + 1} textAnchor="middle" dominantBaseline="middle"
-        fontSize="7.5" fill={MKT_COLOR} fontWeight="600" letterSpacing="1.8"
+        fontSize="10" fill={MKT_COLOR} fontWeight="600" letterSpacing="1.5"
       >{MKT_LABEL}</text>
 
       {CXS.map((cx, i) => {
@@ -137,16 +147,16 @@ function TopologySVG({ phase }: { phase: Phase }) {
         return (
           <g key={i}>
             <rect x={cx - NW / 2} y={PROV_Y} width={NW} height={NH} rx="3" fill={CLR_CARD} stroke={nodeStroke} strokeWidth="1" />
-            <text x={cx} y={PROV_Y + NH / 2 + 1} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={labelColor} letterSpacing="0.3">
+            <text x={cx} y={PROV_Y + NH / 2 + 1} textAnchor="middle" dominantBaseline="middle" fontSize="11" fill={labelColor}>
               {`Provider ${String(i + 1).padStart(2, '0')}`}
             </text>
             {showBids && !showLease && (
-              <text x={cx} y={PROV_Y - 6} textAnchor="middle" dominantBaseline="middle" fontSize="6.5" fill="#fbbf24" fontWeight="600">
+              <text x={cx} y={PROV_Y - 6} textAnchor="middle" dominantBaseline="middle" fontSize="10" fill="#fbbf24" fontWeight="600">
                 {BID_PRICES[i]}
               </text>
             )}
             {showLease && isWinner && (
-              <text x={cx} y={PROV_Y - 6} textAnchor="middle" dominantBaseline="middle" fontSize="6.5" fill="#4ade80" fontWeight="700">
+              <text x={cx} y={PROV_Y - 6} textAnchor="middle" dominantBaseline="middle" fontSize="10" fill="#4ade80" fontWeight="700">
                 ✓ SELECTED
               </text>
             )}
@@ -158,7 +168,7 @@ function TopologySVG({ phase }: { phase: Phase }) {
         stroke={phase === 0 ? '#22d3ee' : phase === 2 ? '#4ade80' : CLR_BORDER} strokeWidth="1"
       />
       <text x={TENT_CX} y={TENT_Y + TENT_H / 2 + 1} textAnchor="middle" dominantBaseline="middle"
-        fontSize="7" letterSpacing="0.3" fill={phase === 0 ? '#22d3ee' : phase === 2 ? '#4ade80' : CLR_PARA}
+        fontSize="10" fill={phase === 0 ? '#22d3ee' : phase === 2 ? '#4ade80' : CLR_PARA}
       >Tenant — Deployer</text>
 
       {phase === 0 && (
@@ -218,6 +228,10 @@ function ManifestFrame() {
   const [visibleLines, setVisibleLines] = useState(0)
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setVisibleLines(MANIFEST_LINES.length)
+      return
+    }
     setVisibleLines(0)
     let i = 0
     const id = setInterval(() => {
@@ -237,7 +251,7 @@ function ManifestFrame() {
           </div>
         ))}
         {visibleLines < MANIFEST_LINES.length && (
-          <span className="inline-block h-[13px] w-[7px] translate-y-[1px] animate-pulse bg-green-400" />
+          <span className="inline-block h-[13px] w-[7px] translate-y-[1px] bg-green-400 motion-safe:animate-pulse" />
         )}
       </div>
     </div>
@@ -275,7 +289,7 @@ function AuctionFrame({
           <span className="flex h-4 w-4 shrink-0 items-center justify-center">
             {allReceived
               ? <span className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500/25 text-[10px] text-green-400">✓</span>
-              : <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400" />
+              : <span className="h-1.5 w-1.5 rounded-full bg-amber-400 motion-safe:animate-pulse" />
             }
           </span>
           <span className={cn('text-[11px] font-medium', allReceived ? 'text-green-400' : 'text-foreground')}>
@@ -289,35 +303,35 @@ function AuctionFrame({
 
       <table className="w-full table-fixed border-collapse text-[11px]">
         <colgroup>
-          <col className="w-[34%]" /><col className="w-[30%]" /><col className="w-[20%]" /><col className="w-[16%]" />
+          <col className="w-[30%]" /><col className="w-[30%]" /><col className="w-[18%]" /><col className="w-[22%]" />
         </colgroup>
         <thead>
           <tr className="border-b border-defaultBorder">
             {['Provider', 'GPU', 'Bid / hr', 'Trust'].map((h) => (
-              <th key={h} className="pb-1.5 pt-1 text-left text-[9px] font-normal uppercase tracking-wider text-para">{h}</th>
+              <th key={h} className="pb-1.5 pt-1 text-left text-[10px] font-normal uppercase tracking-wider text-para">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {SIM_PROVIDERS.map((p, i) => (
             <tr key={p.id} className={cn(
-              'border-b transition-all duration-300',
+              'border-b transition-all duration-300 motion-reduce:transition-none',
               visibleRows.includes(i) ? 'opacity-100' : 'opacity-0',
               selectedIdx === i ? 'border-green-700/50 bg-green-950/25' : 'border-defaultBorder/60',
             )}>
-              <td className="py-2.5 pr-2">
-                <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
+              <td className="whitespace-nowrap py-2.5 pr-2">
+                <span className="mr-1.5 hidden h-1.5 w-1.5 rounded-full bg-green-500 sm:inline-block" />
                 <span className="font-mono text-[10px] text-para">{p.id}</span>
               </td>
               <td className="py-2.5 pr-2">
-                <Badge variant="outline" className="border-defaultBorder font-mono text-[10px] text-para">{p.gpu}</Badge>
+                <Badge variant="outline" className="whitespace-nowrap border-defaultBorder px-1.5 font-mono text-[10px] text-para sm:px-2.5">{p.gpu}</Badge>
               </td>
               <td className={cn('py-2.5 pr-2 font-mono text-[11px]', selectedIdx === i ? 'font-bold text-green-300' : 'text-green-400')}>
                 {revealedBids.includes(i) ? p.bid : <span className="text-para opacity-40">pending</span>}
               </td>
               <td className="py-2.5">
                 {selectedIdx === i
-                  ? <span className="rounded-sm bg-green-500/20 px-1.5 py-0.5 text-[9px] font-semibold text-green-400">✓ Selected</span>
+                  ? <span className="whitespace-nowrap rounded-sm bg-green-500/20 px-1 py-0.5 text-[10px] font-semibold text-green-400">✓ Selected</span>
                   : <TrustBadge trust={p.trust} />
                 }
               </td>
@@ -366,14 +380,14 @@ function LeaseFrame({ uptime, cost }: { uptime: number; cost: number }) {
             { label: 'Cost so far', value: `$${cost.toFixed(4)}`, green: true },
           ].map(({ label, value, green }) => (
             <div key={label} className="rounded-md border border-defaultBorder bg-card px-2.5 py-2">
-              <p className="mb-0.5 text-[9px] uppercase tracking-wider text-para">{label}</p>
+              <p className="mb-0.5 text-[10px] uppercase tracking-wider text-para">{label}</p>
               <p className={cn('font-mono text-[11px]', green ? 'text-green-400' : 'text-foreground')}>{value}</p>
             </div>
           ))}
         </div>
 
         <div className="mb-2.5 shrink-0 rounded-md border border-defaultBorder bg-card px-2.5 py-2">
-          <p className="mb-0.5 text-[9px] uppercase tracking-wider text-para">Escrow locked</p>
+          <p className="mb-0.5 text-[10px] uppercase tracking-wider text-para">Escrow locked</p>
           <p className="font-mono text-[11px] text-green-400">$50</p>
         </div>
 
@@ -391,7 +405,7 @@ function LeaseFrame({ uptime, cost }: { uptime: number; cost: number }) {
 
         <div className="flex shrink-0 items-center justify-between gap-2 rounded-md border border-defaultBorder bg-card px-2.5 py-2">
           <span className="shrink-0 font-mono text-[10px] text-para">Endpoint</span>
-          <span className="truncate font-mono text-[10px] text-foreground">akash://abc123.akash.pub:8080</span>
+          <span className="truncate font-mono text-[10px] text-foreground">https://abc123.akash.pub</span>
         </div>
       </div>
     </div>
@@ -419,14 +433,14 @@ export default function AkashArchitectureSimulator() {
 
   const clearBidTimers = () => { bidTimers.current.forEach(clearTimeout); bidTimers.current = [] }
   const stopRunning    = () => { if (uptimeTimer.current) clearInterval(uptimeTimer.current) }
-  const startRunning   = () => {
+  const startRunning   = (fromS = 2, fromC = 0.0002) => {
     stopRunning()
-    let s = 2; let c = 0.0002
+    let s = fromS; let c = fromC
     setUptime(s); setCost(c)
     uptimeTimer.current = setInterval(() => { s++; c += 0.000328; setUptime(s); setCost(c) }, 1000)
   }
 
-  const startTimerRef = useRef<() => void>(() => {})
+  const startTimerRef = useRef<(offset?: number) => void>(() => {})
   const setupFrameRef = useRef<(n: number) => void>(() => {})
 
   const setupFrame = (n: number) => {
@@ -443,12 +457,17 @@ export default function AkashArchitectureSimulator() {
       selectTimer.current = setTimeout(() => setSelectedIdx(SELECTED_IDX), 640 + 600 + 800)
     }
 
-    if (n === 2) startRunning()
+    if (n === 2) {
+      if (playingRef.current) startRunning()
+      else { setUptime(2); setCost(0.0002) }
+    }
   }
   setupFrameRef.current = setupFrame
 
-  const startTimer = () => {
-    startRef.current = performance.now()
+  const pausedElapsed = useRef(0)
+
+  const startTimer = (offset = 0) => {
+    startRef.current = performance.now() - offset
     const tick = () => {
       if (!playingRef.current) return
       const el = performance.now() - startRef.current
@@ -471,7 +490,13 @@ export default function AkashArchitectureSimulator() {
   startTimerRef.current = startTimer
 
   useEffect(() => {
-    setupFrame(0); startTimer()
+    if (prefersReducedMotion()) {
+      // Don't autoplay for users who asked for reduced motion.
+      setPlaying(false); playingRef.current = false
+      setupFrame(0)
+    } else {
+      setupFrame(0); startTimer()
+    }
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       clearBidTimers()
@@ -484,6 +509,7 @@ export default function AkashArchitectureSimulator() {
   const goTo = (n: number) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current)
     curRef.current = n; setCur(n); setFillPct(0)
+    pausedElapsed.current = 0
     setupFrame(n)
     if (playingRef.current) startTimer()
   }
@@ -491,20 +517,29 @@ export default function AkashArchitectureSimulator() {
   const togglePlay = () => {
     const next = !playing; setPlaying(next); playingRef.current = next
     if (next) {
-      if (curRef.current === 1) setupFrameRef.current(1)
-      startTimerRef.current()
+      if (curRef.current === 1) {
+        // Bid reveal was interrupted — replay the step from the start.
+        setupFrameRef.current(1)
+        setFillPct(0)
+        startTimerRef.current()
+      } else {
+        if (curRef.current === 2) startRunning(uptime, cost)
+        startTimerRef.current(pausedElapsed.current)
+      }
     } else {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      pausedElapsed.current = performance.now() - startRef.current
       clearBidTimers()
       if (selectTimer.current) { clearTimeout(selectTimer.current); selectTimer.current = null }
+      stopRunning()
     }
   }
 
   return (
     <div>
       {/* Title + progress controls */}
-      <div className="mb-5 flex items-center justify-between">
-        <h3 className="text-xl font-semibold text-foreground">Akash Deployment Simulator</h3>
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold text-foreground md:text-xl">Akash Deployment Simulator</h2>
         <div className="flex items-center gap-2">
           <div className="flex h-[28px] items-center gap-2 rounded-md border border-black/10 dark:border-white/15 bg-background px-2.5 dark:bg-card">
             {STEPS.map((_, i) => (
@@ -534,14 +569,15 @@ export default function AkashArchitectureSimulator() {
       <div className="overflow-hidden rounded-xl border border-border">
 
         {/* Step tabs — description text lives inside each active tab */}
-        <div className="grid grid-cols-3 border-b border-border">
+        <div className="grid grid-cols-1 border-b border-border md:grid-cols-3">
           {STEPS.map((step, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
+              aria-current={cur === i ? 'step' : undefined}
               className={cn(
-                'group relative cursor-pointer py-5 text-left transition-colors duration-150',
-                i < STEPS.length - 1 ? 'border-r border-border' : '',
+                'group relative cursor-pointer py-4 text-left transition-colors duration-150 md:py-5',
+                i < STEPS.length - 1 ? 'border-b border-border md:border-b-0 md:border-r' : '',
                 cur === i ? 'bg-background' : 'bg-muted/30 hover:bg-accent dark:bg-muted/10 dark:hover:bg-accent/60',
               )}
             >
@@ -561,7 +597,7 @@ export default function AkashArchitectureSimulator() {
                   )}>
                     {step.title}
                   </p>
-                  <p className="mt-2 text-xs leading-relaxed text-para">
+                  <p className={cn('mt-2 text-xs leading-relaxed text-para', cur === i ? 'block' : 'hidden md:block')}>
                     {step.body}
                   </p>
                 </div>
@@ -579,14 +615,14 @@ export default function AkashArchitectureSimulator() {
             <span className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
           </div>
           {/* Fixed-height content grid */}
-          <div className="grid h-[420px] md:grid-cols-2">
-            <div className="h-full overflow-y-auto border-b border-defaultBorder md:border-b-0 md:border-r md:border-defaultBorder">
+          <div className="grid md:h-[420px] md:grid-cols-2">
+            <div className="min-h-[400px] border-b md:h-full md:min-h-0 md:overflow-y-auto border-defaultBorder md:border-b-0 md:border-r md:border-defaultBorder">
               {cur === 0 && <ManifestFrame key="mf" />}
               {cur === 1 && <AuctionFrame visibleRows={visibleRows} revealedBids={revealedBids} selectedIdx={selectedIdx} />}
               {cur === 2 && <LeaseFrame key={`lf-${cur}`} uptime={uptime} cost={cost} />}
             </div>
-            <div className="flex h-full items-center justify-center overflow-hidden p-3 md:p-5">
-              <TopologySVG key={cur} phase={cur as Phase} />
+            <div className="flex h-[260px] items-center justify-center overflow-hidden p-3 md:h-full md:p-5">
+              <TopologySVG key={cur} phase={cur as Phase} paused={!playing} />
             </div>
           </div>
         </div>
