@@ -22,7 +22,7 @@ Keep Solana history for the outages you need to recover from plus the challenge 
 
 ## Install and configure
 
-Complete [Docker Compose setup](/docs/node-operators/akash-sink#docker-compose-setup) with `ROLE=reporter`. Run the following host commands from `/opt/akt-reporter`.
+Complete [Docker Compose setup](/docs/node-operators/akash-sink#docker-compose-setup) with `ROLE=reporter` and `VERSION=0.1.4-rc1` (a prerelease). Run the following host commands from `/opt/akt-reporter`.
 
 Use either a new key or your existing Akash wallet.
 
@@ -117,7 +117,7 @@ Keep a secure backup and remove temporary transfer copies.
 
 Fund the verified address with AKT for fees and share it with the governance coordinator.
 
-Edit `/etc/akt-reporter/config.json`. Set your independent RPC endpoints, deployed program and mint, verified reporter address, `akashChainId` and `solanaGenesisHash`. Keep the container key path `keyFile=/run/keys/key`; `.env` maps the host file to that path.
+Edit `/etc/akt-reporter/config.json`. The shared setup fills in the mainnet program, mint and network identities. Set your independent RPC endpoints and verified `reporter` address. Leave `lightClientProgram` unset to follow the bridge pin, or pin the reviewed light client to stop on a change. Keep the container key path `keyFile=/run/keys/key`; `.env` maps the host file to that path.
 
 For an isolated deployment, set `OPERATOR_NETWORK=testnet` in `.env` and use its chain ID and genesis hash. Use the same network in the check below:
 
@@ -126,11 +126,11 @@ docker compose run --rm reporter keys address --key-file /run/keys/key
 docker compose run --rm reporter check --config /etc/akt/config.json --network mainnet
 ```
 
-Use `--network testnet` for a test deployment. Check validates configuration without loading the key or contacting a node. Run only one signing process per account. [External signers](https://github.com/akash-network/node/blob/main/contracts/solana/docs/reporter.md#key-custody) remain optional; software signing needs no KMS.
+Use `--network testnet` for a test deployment. Check validates configuration without loading the key or contacting a node. Run only one signing process per account. [External signers](https://github.com/akash-network/node/blob/reporter/v0.1.4-rc1/contracts/solana/docs/reporter.md#key-custody) remain optional; software signing needs no KMS.
 
 ## Preview before broadcasting
 
-Start in preview mode:
+After your address is admitted by governance, start in preview mode:
 
 ```bash
 docker compose up -d
@@ -145,22 +145,23 @@ not as a void.
 
 ## Join the reporter policy
 
-Akash governance chooses reporter membership and the decimal threshold. Query the configuration and current policy with the matching native node binary:
+Akash governance chooses reporter membership and the decimal threshold. Query the configuration and current policy with akt v1.1.1 using your mainnet context:
 
 ```bash
-akash query sink params --node "$RPC" --output json
-akash query sink reporters 0 --node "$RPC" --output json
+akt query sink params -o json
+akt query sink reporters -o json
 ```
 
-Share your public reporter address for the network's governance process. A proposal adds it to the complete parameter set. The [pending akt CLI guide](/docs/developers/akt/sink#governance-actions) describes the proposal helper. Do not enable signing until the proposal passes and the current policy includes your account.
+Share your public reporter address for the network's governance process. A proposal adds it to the complete parameter set. The [akt CLI guide](/docs/developers/akt/sink#governance-actions) describes the proposal helper. Do not enable signing until the proposal passes and the current policy includes your account.
 
 After passage, confirm your address is in the current policy. Quorum is the member count multiplied by the decimal threshold, rounded up, and must exceed two thirds of the members. Policy version and settlement round are separate; each report must match both.
 
 ## Enable signing
 
-After governance admission and a successful preview scan, enable broadcasting:
+After governance admission and a successful preview scan, enable broadcasting. Set `VERSION` to the version already installed if this is a new shell:
 
 ```bash
+VERSION=0.1.4-rc1
 BASE=https://github.com/akash-network/node/releases/download/reporter%2Fv$VERSION
 curl -fLO "$BASE/akt-reporter-broadcast.yaml"
 sha256sum --ignore-missing --check "akt-reporter_${VERSION}_checksums.txt"
@@ -173,8 +174,8 @@ Keep both Compose files in subsequent restart/upgrade commands. Omit the overrid
 
 ## Monitor and recover
 
-Page on conflicting outcomes, unavailable audits, stale nodes, signer errors, and light-client changes. Reporters inspect disputes even when a transfer is already minted or refunded. See the [operations guide](https://github.com/akash-network/node/blob/main/contracts/solana/docs/reporter.md#alerts).
+Page on conflicting outcomes, unavailable audits, stale nodes, signer errors, and light-client changes. Reporters inspect disputes even when a transfer is already minted or refunded. See the [operations guide](https://github.com/akash-network/node/blob/reporter/v0.1.4-rc1/contracts/solana/docs/reporter.md#alerts).
 
 Refunds require the recorded challenge deadline and all native payment conditions. Standard builds enforce a minimum of 72 hours. If evidence cannot be checked before a deadline, escalate through governance or the refund pause; do not fabricate an outcome.
 
-After a restart, confirm the same chain and program identities, retained votes, and balances. Follow [service recovery](/docs/node-operators/akash-sink#upgrade-or-roll-back) when changing releases.
+The reporter needs no local state directory: retained votes and settlement state are read from Akash. After a restart, confirm the same chain and program identities, retained votes, and balances. Follow [service recovery](/docs/node-operators/akash-sink#upgrade-or-roll-back) when changing releases.

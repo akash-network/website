@@ -41,7 +41,7 @@ Key distinctions:
 - [Deployment workflows](https://akash.network/docs/developers/deployment/akt/deployments/): Offline SDL scaffolds and validation; deploy, select bids, update, close, query readiness, and recover from partial failures.
 - [Console integration](https://akash.network/docs/developers/deployment/akt/console/): Managed identity, public GPU/provider discovery, templates, bid screening, logs, events, status, and shell. Funding commands depend on CLI/API version.
 - [Queries and transactions](https://akash.network/docs/developers/akt/queries-and-transactions/): Chain state, balances, market operations, BME, governance, staking, and authorization.
-- [Send AKT to Solana with akt](https://akash.network/docs/developers/akt/sink/): Pending Sink CLI commands for deposits, composite transfer IDs, separate params/reporters/state queries, refunds, and governance proposals. Not yet a released command contract.
+- [Send AKT to Solana with akt](https://akash.network/docs/developers/akt/sink/): akt v1.1.1 Sink commands for deposits, composite transfer IDs, separate params/reporters/state queries, refunds, and governance proposals.
 - [Network monitor](https://akash.network/docs/developers/akt/monitor/): Terminal views of consensus, validators, provider capacity, and oracle/BME state.
 - [Command reference](https://akash.network/docs/developers/akt/commands-reference/): Command groups and positional resource identifiers; confirm exact syntax with the installed command's help.
 - [akt source](https://github.com/akash-network/akt): Most up-to-date code, tests, and development status; unreleased code may be ahead of Homebrew and GitHub release binaries.
@@ -132,3 +132,5 @@ Key distinctions:
 - [Akash source repositories](https://github.com/akash-network): Protocol, provider, Console, CLI, SDK, and website development.
 - [Support issues](https://github.com/akash-network/support/issues): Public technical support and issue history.
 - [Community support](https://discord.akash.network): Developer, deployment, provider, and validator discussions.
+
+- [Akash Sink mainnet reference](https://akash.network/docs/learn/akash-sink/mainnet/): Canonical token mint, contract and multisig addresses, verified metadata, source repositories, built contracts and versioned operator Docker releases.

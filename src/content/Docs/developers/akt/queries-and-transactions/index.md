@@ -152,7 +152,7 @@ akt tx bme burn-act 500000uact
 akt tx sink deposit <solana-address> 10000000uakt
 ```
 
-Sink commands require the pending CLI update. See [Send AKT to Solana](/docs/developers/akt/sink) for compatibility and the complete command set.
+Sink commands are available in akt v1.1.1. See [Send AKT to Solana](/docs/developers/akt/sink) for compatibility and the complete command set.
 
 Coin inputs use explicit denominations. For example, 1 AKT is `1000000uakt`. Pretty output scales micro-denominated values to readable AKT, mAKT, or uAKT values while JSON and YAML preserve machine-readable amounts.
 

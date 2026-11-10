@@ -4,12 +4,12 @@ tags: ["akt", "CLI", "Akash Sink", "Solana", "AKT"]
 weight: 4
 title: "Send AKT to Solana"
 linkTitle: "AKT to Solana"
-description: "Deposit AKT, query composite transfers, follow refunds, and use the pending akt Sink proposal helpers"
+description: "Deposit AKT, query composite transfers, follow refunds, and use akt Sink governance proposal helpers"
 ---
 
 Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transfer by its `owner/height/sequence` ID. The same amount is minted on Solana. Transfers are one way.
 
-**Draft CLI instructions:** these examples target the pending `akt` Sink update, not a published release. Check `akt query sink --help` and `akt tx sink --help` against the commands below. For services that process transfers, see [relayer and reporter operation](/docs/node-operators/akash-sink).
+These commands are verified against [akt v1.1.1](https://github.com/akash-network/akt/releases/tag/v1.1.1). Check `akt version`; older installations may not include Sink. Use the [mainnet addresses and releases](/docs/learn/akash-sink/mainnet) when configuring a client. For services that process transfers, see [relayer and reporter operation](/docs/node-operators/akash-sink).
 
 ## Contents
 
@@ -24,7 +24,14 @@ Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transf
 
 ## Read the current configuration
 
-Configure an Akash context and a funded signing account using [Contexts and configuration](/docs/developers/akt/configuration). Use a Solana wallet address you control.
+Configure an Akash context and a funded signing account using [Contexts and configuration](/docs/developers/akt/configuration). Use a Solana wallet address you control. For a new CLI configuration, create the network before its context:
+
+```bash
+akt context network create mainnet --template mainnet
+akt context create sink-mainnet --network mainnet --set-current
+```
+
+If the network or context already exists, select your existing mainnet context instead. Confirm its chain is `akashnet-2` before signing.
 
 ```bash
 akt query sink params -o json
@@ -40,14 +47,22 @@ Sending and refund quotas use Akash's existing `day` epoch schedule. They do not
 ## Send AKT
 
 ```bash
-akt tx sink deposit <solana-address> 10akt --from <sender-key>
+akt tx sink deposit <solana-address> 1akt --from <sender-key>
 # The same amount in base units:
-akt tx sink deposit <solana-address> 10000000uakt --from <sender-key>
+akt tx sink deposit <solana-address> 1000000uakt --from <sender-key>
 ```
 
-Choose one command. The CLI accepts exact AKT decimals or whole `uakt`; it never rounds. You pay the Akash transaction fee separately. The deposit must be the transaction's sole message, signed by its sender.
+Choose one command. This example sends **1 AKT**. The CLI accepts exact AKT decimals or whole `uakt`; it never rounds. You pay the Akash transaction fee separately. The deposit must be the transaction's sole message, signed by its sender.
 
-After inclusion, obtain the complete ID from the transaction response or your transfer history. The ID contains the sender, creating block height, and sequence within that block. Sequence starts at 1 each block and is shared across owners. Sequence alone is not a transfer ID.
+A broadcast response alone does not prove inclusion. Save its transaction hash, then query the committed receipt:
+
+```bash
+akt query tx <akash-transaction-hash> -o json
+```
+
+Wait for inclusion and require execution code `0`. A failed transaction does not create a deposit. After successful inclusion, obtain the complete ID from the transaction response or your transfer history. The ID contains the sender, creating block height, and sequence within that block. Sequence starts at 1 each block and is shared across owners. Sequence alone is not a transfer ID.
+
+Off-curve recipient vaults, including Squads vaults, must be allowed on both chains. See [recipient vault policy](/docs/learn/akash-sink/mainnet#multisig-and-native-authorities). Do not use the token mint, program ID or token-account address as the recipient.
 
 ## Follow a transfer
 
@@ -114,7 +129,7 @@ Choose the intended pause. The guardian can only disable deposits, refunds, or b
 
 ## Governance actions
 
-The pending `akt` commands submit governance proposals containing the appropriate Sink message. They do not let an ordinary account execute a governance-only action directly.
+The `akt` commands submit governance proposals containing the appropriate Sink message. They do not let an ordinary account execute a governance-only action directly.
 
 Start a parameter proposal from the complete current object:
 

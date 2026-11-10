@@ -468,7 +468,7 @@ akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
 ### Sink Transfers
 
-These commands target the [pending Sink CLI update](/docs/developers/akt/sink). Check your binary's help before use.
+These commands are verified against [akt v1.1.1](/docs/developers/akt/sink). Check `akt version` and your binary's help before use.
 
 ```bash
 akt query sink params
@@ -579,7 +579,7 @@ See [Mint & Burn ACT](/docs/developers/deployment/cli/act-mint-burn) for backgro
 
 ### Sink (AKT to Solana)
 
-The [pending Sink commands](/docs/developers/akt/sink) use complete `owner/height/sequence` IDs:
+The [Sink commands](/docs/developers/akt/sink) use complete `owner/height/sequence` IDs:
 
 ```bash
 akt tx sink deposit <solana-address> 10akt --from <sender-key>

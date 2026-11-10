@@ -20,11 +20,11 @@ See [service roles and prerequisites](/docs/node-operators/akash-sink).
 - A persistent state directory used by only one running relayer with that payer.
 - The reviewed relayer image; its runtime and header encoder are included.
 
-Follow the [node and history requirements](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operator-releases.md#before-you-start). Pruned history can prevent proof generation or recovery.
+Follow the [node and history requirements](https://github.com/akash-network/node/blob/relayer/v0.1.3/contracts/solana/docs/operator-releases.md#before-you-start). Pruned history can prevent proof generation or recovery.
 
 ## Install and configure
 
-Complete [Docker Compose setup](/docs/node-operators/akash-sink#docker-compose-setup) with `ROLE=relayer`. Run the following host commands from `/opt/akt-relayer`.
+Complete [Docker Compose setup](/docs/node-operators/akash-sink#docker-compose-setup) with `ROLE=relayer` and `VERSION=0.1.3`. Run the following host commands from `/opt/akt-relayer`.
 
 Use either a new key or your existing Solana keypair.
 
@@ -72,7 +72,7 @@ Keep a secure backup and remove temporary transfer copies.
 
 Fund the verified address with SOL. Obtain header-update permission when relaying is closed.
 
-Edit `/etc/akt-relayer/config.json` using the deployment handoff:
+Edit `/etc/akt-relayer/config.json` using the populated mainnet configuration:
 
 - `akashRpc`, `akashChainId`, `solanaRpc`, and `solanaGenesisHash`.
 - The deployed `programId`.
@@ -80,8 +80,8 @@ Edit `/etc/akt-relayer/config.json` using the deployment handoff:
 - `headerEncoder`, set to `/opt/akt/bin/akt-header-encoder`.
 - `stateDir`, set to `/data`; `.env` maps `/var/lib/akt-relayer` into the container. Retain it across releases.
 
-Use the deployment handoff. For an isolated deployment, set `OPERATOR_NETWORK=testnet` in `.env` and use its chain ID and genesis hash. Keep state outside the
-release directory, set an explicit spending budget and alert on payer balance. The [configuration guide](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operator-configuration.md) lists the remaining options.
+The access manager and current light client are discovered from the bridge. Leave `lightClientProgram` unset to follow the bridge pin, or set the reviewed address to stop on a pin change. For an isolated deployment, set `OPERATOR_NETWORK=testnet` in `.env` and use its chain ID and genesis hash. Keep state outside the
+release directory, set an explicit spending budget and alert on payer balance. The [configuration guide](https://github.com/akash-network/node/blob/relayer/v0.1.3/contracts/solana/docs/operator-configuration.md) lists the remaining options.
 
 Check the configuration from the installed release:
 
@@ -101,12 +101,14 @@ docker compose up -d
 docker compose logs -f relayer
 ```
 
-Confirm that headers advance and pending transfers resolve. Header updates require the configured relayer role or open-relaying setting; running the process alone does not grant those rights. Read the `relayer-access` output and [relayer operations guide](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operators.md).
+Confirm the startup identity and `relayer-access` logs. The normal run mode broadcasts transactions; it is not a preview. Headers advance when a proof needs a newer height or when the refresh threshold is reached. With `refreshFraction: 0.2` and a 14-day trusting period, an idle client can wait about 2.8 days between refreshes. A restart does not force an otherwise unnecessary update. Confirm pending transfers resolve and the client stays active. Header updates require the configured relayer role or open-relaying setting; running the process alone does not grant those rights. Read the `relayer-access` output and [relayer operations guide](https://github.com/akash-network/node/blob/relayer/v0.1.3/contracts/solana/docs/operators.md).
+
+Public RPC rate limits or unavailable blocks are operational failures, not evidence of a void. The relayer release reads Solana time from the Clock sysvar; use a current release rather than bypassing client-expiry checks.
 
 ## Monitor and recover
 
-Monitor light-client age, payer balance, progress, and JSON alerts. Investigate `relay-budget-exhausted`, `relay-discovery-failed`, `relay-unbacked-settlement`, `light-client-mismatch`, and repeated retry failures. See the [operations guide](https://github.com/akash-network/node/blob/main/contracts/solana/docs/operators.md).
+Monitor light-client age, payer balance, progress, and JSON alerts. Investigate `relay-budget-exhausted`, `relay-discovery-failed`, `relay-unbacked-settlement`, `light-client-mismatch`, and repeated retry failures. See the [operations guide](https://github.com/akash-network/node/blob/relayer/v0.1.3/contracts/solana/docs/operators.md).
 
 Keep the same journals and spend ledger after restart. Do not delete a running payer lock, reset a budget to hide repeated failures, or restore an older journal after transactions were sent. Missing transaction history can block recovery even when a permanent Solana outcome exists.
 
-Use the [service upgrade and recovery procedure](/docs/node-operators/akash-sink#upgrade-or-roll-back). An expired or frozen light client requires the separate [incident runbook](https://github.com/akash-network/node/blob/main/contracts/solana/docs/production-deployment.md#incident-runbooks).
+Use the [service upgrade and recovery procedure](/docs/node-operators/akash-sink#upgrade-or-roll-back). An expired or frozen light client requires the separate [incident runbook](https://github.com/akash-network/node/blob/launch/solana-mainnet-20261109/contracts/solana/docs/deploy-program.md#incident-runbooks).

@@ -11,7 +11,7 @@ description: "How Akash Sink moves AKT from Akash to Solana: one-way transfers, 
 
 Transfers are one way. AKT that arrives on Solana can't be sent back to Akash through Akash Sink.
 
-Sink remains pre-release. Use a matching test deployment until the production release and addresses are announced. The CLI examples track the [pending akt update](/docs/developers/akt/sink).
+The mainnet contracts are deployed. See [mainnet addresses and releases](/docs/learn/akash-sink/mainnet) for the token mint, bridge programs, multisig, source code and operator downloads. The [CLI guide](/docs/developers/akt/sink) uses akt v1.1.1; the public portal URL will be announced separately.
 
 There are two ways to send a transfer:
 
@@ -100,25 +100,19 @@ The challenge window is a configurable duration measured from authorization. Cro
 - **Check the address.** AKT is minted to exactly the address you enter, and a completed transfer can't be reversed. Send to a Solana wallet address you control, not a token account.
 - **Your Solana wallet doesn't sign.** You sign one transaction: the deposit on Akash. Connecting a Solana wallet in the portal only reads its address.
 - **Deposits and refunds can be paused.** A pause guardian chosen by governance can turn deposits, refunds or both off. Only governance can turn them back on. AKT from transfers you already made stays locked on Akash until it's minted or refunded.
-- **Governance controls the settings.** The limits, the reporter set, the vote threshold and the pause guardian are Akash governance parameters. Read settings with `akt query sink params` and the active policy with `akt query sink reporters`. These commands require the [pending Sink CLI update](/docs/developers/akt/sink).
+- **Governance controls the settings.** The limits, the reporter set, the vote threshold and the pause guardian are Akash governance parameters. Read settings with `akt query sink params` and the active policy with `akt query sink reporters`. These commands require the [akt v1.1.1 commands](/docs/developers/akt/sink).
 
 ---
 
 ## Verify AKT on Solana
 
-AKT on Solana is an SPL token with six decimals, like AKT on Akash, so one base unit equals one `uakt`. Its token name is `Akash Network Token` and its symbol is `akt`.
+AKT on Solana is an SPL token with six decimals, like AKT on Akash, so one base unit equals one `uakt`. Its token name is `Akash` and its symbol is `AKT`.
 
 Other tokens can copy the name and symbol. Check the mint address before you accept or buy AKT on Solana.
 
-| Item                           | Value                                                                                                                                |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Akash Sink portal              | TBD at launch                                                                                                                        |
-| AKT mint on Solana             | TBD at launch                                                                                                                        |
-| AKT token metadata             | [Mainnet JSON](https://raw.githubusercontent.com/akash-network/net/84b94d96287d3507830a1d9832f55925f24b8dc8/solana/mainnet/akt.json) |
-| Akash Sink portal source       | [akash-network/sink-portal](https://github.com/akash-network/sink-portal)                                                            |
-| `sink` module account on Akash | `akash1r9ut4ukp207nhumr8uaykyh6v7p9qlwxmcf48p`                                                                                       |
+The canonical mint is [`5d3fjPDdkYbtYcAMR9PC2TANaEyhzuyP8JxTEwqjVgBZ`](https://explorer.solana.com/address/5d3fjPDdkYbtYcAMR9PC2TANaEyhzuyP8JxTEwqjVgBZ).
 
-The `sink` module account holds all locked AKT. Akash only releases AKT from it as a refund.
+See the [mainnet reference](/docs/learn/akash-sink/mainnet) for all contract and multisig addresses, metadata, verification commands, Docker releases and source repositories. The native Sink module account holds locked AKT; only refunds release it back to senders.
 
 ---
 
@@ -172,6 +166,7 @@ A deposit must be the only message in its transaction and must be signed by the 
 
 ## Related Resources
 
+- [Mainnet addresses and releases](/docs/learn/akash-sink/mainnet) - Contracts, multisig, artifacts and source
 - [Use the Akash Sink Portal](/docs/learn/akash-sink/portal) - Send a transfer with Keplr
 - [Send AKT to Solana with akt](/docs/developers/akt/sink) - Command-line transfers and module commands
 - [Akash Sink Services](/docs/node-operators/akash-sink) - Run a relayer or reporter
