@@ -13,24 +13,15 @@ This section contains practical, step-by-step guides that walk you through build
 
 ---
 
-## What You'll Learn
+## Start Here
 
-Our guides cover:
-
-- **AkashML Integration** - Using Akash's AI inference APIs
-- **Full-Stack Development** - Building complete applications
-- **Deployment Best Practices** - Deploying to Akash Network
-- **Real-World Examples** - Practical, production-ready code
+- **[Quick Start - Deploy with Free Trial](/docs/getting-started/quick-start)** - Deploy your first app on Akash Network.
+- **[Build a LinkedIn Profile Roaster with AkashML](/docs/developers/guides/linkedin-roast-app)** - Learn how to build a fun AI-powered app that roasts LinkedIn profiles using AkashML and deploy it on Akash Network.
+- **[SDL Examples Library](/docs/developers/deployment/akash-sdl/examples-library)** - Real-world SDL deployment examples from the community.
 
 ---
 
 ## Prerequisites
-
-Most guides assume you have:
-
-- Basic programming knowledge (JavaScript/TypeScript, Python, or Go)
-- Familiarity with web development concepts
-- An Akash wallet with some AKT for deployments
 
 Specific prerequisites are listed in each guide.
 
