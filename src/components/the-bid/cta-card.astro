@@ -1,0 +1,160 @@
+---
+import { buttonClass } from "@/components/pricing-page/shared/ui";
+import LiveBadge from "@/components/the-bid/live-badge.astro";
+import {
+  AKASHML_URL,
+  bidCtaHref,
+  CONSOLE_URL,
+  priceData,
+  fromRate,
+  type BidCta,
+} from "@/lib/the-bid-cta";
+import { cn } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
+
+// Sidebar card on The Bid posts (md and up). GPU posts list the GPUs with their live rates
+// and link to Console, with AkashML as the alternative; other posts lead with AkashML.
+
+interface Props {
+  cta: BidCta;
+  postId: string;
+  class?: string;
+}
+
+const { cta, postId, class: className } = Astro.props;
+const consoleHref = bidCtaHref(CONSOLE_URL, postId, "sidebar");
+const akashmlHref = bidCtaHref(
+  cta.model?.url ?? AKASHML_URL,
+  postId,
+  "sidebar",
+);
+const textLink =
+  "inline-flex items-center gap-1 font-medium text-foreground underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-white/30";
+---
+
+<section
+  aria-label={cta.lead === "console" ? "Rent on Akash" : "AkashML"}
+  class={cn(
+    "rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-white/[0.02]",
+    className,
+  )}
+>
+  {
+    cta.lead === "console" ? (
+      <>
+        <div class="flex items-center justify-between gap-3">
+          <p class="text-sm font-medium text-muted-foreground">Rent on Akash</p>
+          <LiveBadge />
+        </div>
+        <p class="mt-2 text-lg font-medium leading-snug tracking-tight text-foreground">
+          Rent {cta.subject} by the hour
+        </p>
+
+        <ul class="mt-4 divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-white/10 dark:border-white/10">
+          {cta.gpus.map((gpu) => (
+            <li class="flex items-center justify-between gap-3 py-2.5">
+              <span class="min-w-0">
+                <span class="block truncate text-sm font-medium text-foreground">
+                  {gpu.name}
+                </span>
+                <span class="block text-xs text-muted-foreground">
+                  {gpu.memory}
+                </span>
+              </span>
+              <span class="flex shrink-0 items-baseline font-jetBrainsMono text-sm tabular-nums text-foreground">
+                <span data-bid-price={priceData([gpu])}>{fromRate([gpu])}</span>
+                <span class="text-muted-foreground">/hr</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href={consoleHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-bid-cta="console"
+          data-bid-cta-placement="sidebar"
+          class={buttonClass("primary", "default", "mt-4 w-full")}
+        >
+          {cta.rentLabel}
+          <span class="sr-only">(opens in a new tab)</span>
+          <ArrowUpRight className="size-4" aria-hidden="true" />
+        </a>
+        <p class="mt-3 text-xs leading-5 text-muted-foreground">
+          Rates per GPU-hour. Providers bid on your deployment and you accept
+          the offer you want.
+        </p>
+
+        <p class="mt-4 border-t border-zinc-200 pt-4 text-sm text-muted-foreground dark:border-white/10">
+          Rather call a model by API?{" "}
+          <a
+            href={akashmlHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-bid-cta="akashml"
+            data-bid-cta-placement="sidebar"
+            class={textLink}
+          >
+            Try AkashML
+            <span class="sr-only">(opens in a new tab)</span>
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </a>
+        </p>
+      </>
+    ) : (
+      <>
+        <p class="text-sm font-medium text-muted-foreground">AkashML</p>
+        <p class="mt-2 text-lg font-medium leading-snug tracking-tight text-foreground">
+          {cta.model
+            ? `Run ${cta.model.name} by API`
+            : "Run open models by API"}
+        </p>
+        <p class="mt-2 text-sm leading-6 text-muted-foreground">
+          {cta.model
+            ? `${cta.model.name}, served on Akash through an OpenAI-compatible API. Pay per token.`
+            : "Qwen, GLM, Kimi, Llama and more, served on Akash through an OpenAI-compatible API. Pay per token."}
+        </p>
+
+        <a
+          href={akashmlHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-bid-cta="akashml"
+          data-bid-cta-placement="sidebar"
+          class={buttonClass("primary", "default", "mt-4 w-full")}
+        >
+          {cta.model ? `Try ${cta.model.name}` : "Try AkashML"}
+          <span class="sr-only">(opens in a new tab)</span>
+          <ArrowUpRight className="size-4" aria-hidden="true" />
+        </a>
+
+        <p class="mt-4 border-t border-zinc-200 pt-4 text-sm text-muted-foreground dark:border-white/10">
+          Want your own GPU?{" "}
+          <a
+            href={consoleHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-bid-cta="console"
+            data-bid-cta-placement="sidebar"
+            class={textLink}
+          >
+            Rent one from{" "}
+            <span class="inline-flex items-baseline font-jetBrainsMono tabular-nums">
+              <span data-bid-price={priceData(cta.gpus)}>
+                {fromRate(cta.gpus)}
+              </span>
+              /hr
+            </span>
+            <span class="sr-only">(opens in a new tab)</span>
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </a>
+        </p>
+      </>
+    )
+  }
+</section>
+
+<script>
+  import "@/components/the-bid/cta-client";
+</script>

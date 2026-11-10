@@ -5,10 +5,11 @@ draft: false
 external: true
 link: "https://rachelturney.substack.com/p/the-future-of-ai-isnt-cloud-or-local"
 categories:
+  - Content Creation
   - Student Ambassadors
 tags:
   - Student Ambassadors
 contributors:
   - "Rachel Turney"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

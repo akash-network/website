@@ -3,11 +3,11 @@ aep: 91
 title: "Console: Escrow Abstraction and Auto-Funding"
 description: "Hide on-chain escrow from managed-wallet users: always-on deployment funding, optional runtime limits, threshold-based credit reload and one account-level balance view"
 author: Maxime Beauchamp (@baktun14)
-status: Draft
+status: Final
 type: Standard
 category: Interface
 created: 2026-09-04
-estimated-completion: 2026-09-30
+completed: 2026-09-09
 discussions-to: https://github.com/orgs/akash-network/discussions
 roadmap: major
 requires: 74, 75
@@ -219,7 +219,7 @@ All in `akash-network/console`, merged between 2026-07-20 and 2026-09-04 unless 
 | Unreachable providers | [#3647](https://github.com/akash-network/console/pull/3647), [#3648](https://github.com/akash-network/console/pull/3648), [#3649](https://github.com/akash-network/console/pull/3649), [#3695](https://github.com/akash-network/console/pull/3695), [#3696](https://github.com/akash-network/console/pull/3696), [#3697](https://github.com/akash-network/console/pull/3697), [#3699](https://github.com/akash-network/console/pull/3699), [#3731](https://github.com/akash-network/console/pull/3731), [#3743](https://github.com/akash-network/console/pull/3743), [#3786](https://github.com/akash-network/console/pull/3786) |
 | Observability and sweep cost | [#3546](https://github.com/akash-network/console/pull/3546), [#3711](https://github.com/akash-network/console/pull/3711), [#3714](https://github.com/akash-network/console/pull/3714), [#3720](https://github.com/akash-network/console/pull/3720), [#3721](https://github.com/akash-network/console/pull/3721), [#3732](https://github.com/akash-network/console/pull/3732), [#3734](https://github.com/akash-network/console/pull/3734), [#3738](https://github.com/akash-network/console/pull/3738), [#3746](https://github.com/akash-network/console/pull/3746), [#3747](https://github.com/akash-network/console/pull/3747) |
 
-Still open at the time of writing: deadline-aware retries and the unknown-outcome case in B.8, the settings-table drift behind the Rationale's live-set rule, the promotional email in C.2, burst measurement for need-sized reloads, and bounding the refusal loop described under Security Considerations. The AEP moves to Last Call once B.8 has merged.
+The items still open when this AEP was written merged between 2026-09-06 and 2026-09-09: the unknown-outcome case and deadline-aware retries in B.8 ([#3804](https://github.com/akash-network/console/pull/3804), [#3805](https://github.com/akash-network/console/pull/3805)), the settings-table drift behind the Rationale's live-set rule ([#3806](https://github.com/akash-network/console/pull/3806), [#3807](https://github.com/akash-network/console/pull/3807), [#3808](https://github.com/akash-network/console/pull/3808), [#3838](https://github.com/akash-network/console/pull/3838), [#3892](https://github.com/akash-network/console/pull/3892), [#3893](https://github.com/akash-network/console/pull/3893)), the refusal-loop bound described under Security Considerations ([#3812](https://github.com/akash-network/console/pull/3812)) and burst measurement for automatic charges ([#3814](https://github.com/akash-network/console/pull/3814)). The C.2 promotional email is a one-time send outside the codebase.
 
 ## Security Considerations
 
