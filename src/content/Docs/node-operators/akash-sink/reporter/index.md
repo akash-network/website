@@ -1,8 +1,8 @@
 ---
-categories: ["Node Operators", "Akash Sink"]
-tags: ["Akash Sink", "Reporter", "Solana", "Validators"]
+categories: ["Node Operators", "Akash Migrate"]
+tags: ["Akash Migrate", "Reporter", "Solana", "Validators"]
 weight: 1
-title: "Run an Akash Sink reporter"
+title: "Run an Akash Migrate reporter"
 linkTitle: "Reporter"
 description: "Configure independent nodes and a software key, preview Sink outcomes, and activate a reporter through governance"
 ---

@@ -32,11 +32,13 @@ const { Content, headings } = await render(page);
 
 const pathname = new URL(Astro.request.url).pathname;
 
-const catName = pathname
-  .split("/")
-  [pathname.split("/").length - 2].split("-")
-  .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-  .join(" ");
+const catName =
+  page.data.linkTitle ||
+  pathname
+    .split("/")
+    [pathname.split("/").length - 2].split("-")
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
 const pages = await getCollection("Docs");
 

@@ -1,13 +1,13 @@
 ---
-categories: ["Learn", "Akash Sink"]
+categories: ["Learn", "Akash Migrate"]
 tags: ["AKT", "Solana", "Contracts", "Multisig"]
 weight: 2
-title: "Akash Sink mainnet reference"
+title: "Akash Migrate mainnet reference"
 linkTitle: "Mainnet addresses and releases"
 description: "Official AKT mint, bridge programs, Squads addresses, source repositories, contract artifacts and operator releases"
 ---
 
-Use these addresses for Akash Sink on `akashnet-2` and Solana mainnet-beta. Addresses and deployed contract bytes were checked on **November 10, 2026**. Query the chains for current authorities, limits, pauses and reporter membership.
+Use these addresses for Akash Migrate on `akashnet-2` and Solana mainnet-beta. Addresses and deployed contract bytes were checked on **November 10, 2026**. Query the chains for current authorities, limits, pauses and reporter membership.
 
 ## Token and contract addresses
 
@@ -26,13 +26,13 @@ The mint and bridge program are different accounts. Use the **mint** to identify
 
 ## Multisig and native authorities
 
-| Account                   | Address                                                                                                                                                                   | Purpose                                                                                   |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Squads vault, index `0`   | [<code style="white-space: nowrap">H2sXJRVW3SnTdFGjTXpGSsVKN2HnDaKc6xLRomS36H3U</code>](https://explorer.solana.com/address/H2sXJRVW3SnTdFGjTXpGSsVKN2HnDaKc6xLRomS36H3U) | Upgrade authority for all three programs, access-manager admin and Solana pause guardian. |
-| Squads multisig account   | [<code style="white-space: nowrap">Hx92ZBfSJ7kLaDpmRYvh5TcnrSLWMnh5eDdpQqC9B3ke</code>](https://explorer.solana.com/address/Hx92ZBfSJ7kLaDpmRYvh5TcnrSLWMnh5eDdpQqC9B3ke) | Stores membership, threshold and transaction settings. It is distinct from the vault.     |
-| Squads v4 program         | [<code style="white-space: nowrap">SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf</code>](https://explorer.solana.com/address/SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf)   | Executes approved vault instructions.                                                     |
-| Akash Sink module account | <code style="white-space: nowrap">akash1r9ut4ukp207nhumr8uaykyh6v7p9qlwxmcf48p</code>                                                                                     | Holds native AKT backing and pending deposits; refunds return to their original senders.  |
-| Akash pause guardian      | <code style="white-space: nowrap">akash1aagclq778tq4ga0lke3wrd3mgw0rt3cc6670dp</code>                                                                                     | Can disable native deposits, refunds or both. Akash governance re-enables them.           |
+| Account                      | Address                                                                                                                                                                   | Purpose                                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Squads vault, index `0`      | [<code style="white-space: nowrap">H2sXJRVW3SnTdFGjTXpGSsVKN2HnDaKc6xLRomS36H3U</code>](https://explorer.solana.com/address/H2sXJRVW3SnTdFGjTXpGSsVKN2HnDaKc6xLRomS36H3U) | Upgrade authority for all three programs, access-manager admin and Solana pause guardian. |
+| Squads multisig account      | [<code style="white-space: nowrap">Hx92ZBfSJ7kLaDpmRYvh5TcnrSLWMnh5eDdpQqC9B3ke</code>](https://explorer.solana.com/address/Hx92ZBfSJ7kLaDpmRYvh5TcnrSLWMnh5eDdpQqC9B3ke) | Stores membership, threshold and transaction settings. It is distinct from the vault.     |
+| Squads v4 program            | [<code style="white-space: nowrap">SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf</code>](https://explorer.solana.com/address/SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf)   | Executes approved vault instructions.                                                     |
+| Native `sink` module account | <code style="white-space: nowrap">akash1r9ut4ukp207nhumr8uaykyh6v7p9qlwxmcf48p</code>                                                                                     | Holds native AKT backing and pending deposits; refunds return to their original senders.  |
+| Akash pause guardian         | <code style="white-space: nowrap">akash1aagclq778tq4ga0lke3wrd3mgw0rt3cc6670dp</code>                                                                                     | Can disable native deposits, refunds or both. Akash governance re-enables them.           |
 
 At verification, the squad required **2 of 5** approvals and had a **zero-second time lock**. Check its current settings in the [Squads app](https://app.squads.so/squads/H2sXJRVW3SnTdFGjTXpGSsVKN2HnDaKc6xLRomS36H3U/transactions?tab=Vault). Reaching the approval threshold makes a proposal executable; a member with execution permission must still execute it.
 

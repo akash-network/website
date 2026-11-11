@@ -20,6 +20,7 @@ Choose your path: run a full node to interact with the blockchain, or become a v
 **Purpose:** Interact with the blockchain, run your own RPC/API endpoints, and support network decentralization.
 
 **Requirements:**
+
 - CPU: 4-8 cores
 - Memory: 16-32 GB RAM
 - Storage: 512 GB SSD (1 TB+ recommended)
@@ -34,6 +35,7 @@ Choose your path: run a full node to interact with the blockchain, or become a v
 **Purpose:** Secure the network, validate transactions, and earn staking rewards.
 
 **Requirements:**
+
 - CPU: 8+ cores (16 recommended)
 - Memory: 128 GB RAM
 - Storage: 1 TB NVMe SSD
@@ -43,20 +45,22 @@ Choose your path: run a full node to interact with the blockchain, or become a v
 **Important:** You **must** run a full node first before becoming a validator.
 
 **Next Steps:**
+
 1. [Build a Full Node](/docs/node-operators/node-build) - Get your node synced
 2. [Run a Validator](/docs/node-operators/validators/running-a-validator) - Create your validator
 
 ---
 
-### Akash Sink Services
+### Akash Migrate services
 
 **Purpose:** Keep AKT transfers from Akash to Solana moving by running a relayer, or a reporter if governance adds you to the reporter set.
 
 **Requirements:**
+
 - Your own Akash node, plus a Solana RPC node
 - A Solana payer key with SOL (relayer), or an Akash account key in a KMS or HSM (reporter)
 
-**Next Step:** [Akash Sink Services](/docs/node-operators/akash-sink)
+**Next Step:** [Akash Migrate services](/docs/node-operators/akash-sink)
 
 ---
 
@@ -67,6 +71,7 @@ Choose your path: run a full node to interact with the blockchain, or become a v
 To join the active set, you need more voting power than the 100th validator.
 
 **Check Requirements:**
+
 - Discord: `$votingpower` in [#validator-alerts](https://discord.akash.network)
 - Explorers: [Mintscan](https://www.mintscan.io/akash/validators) | [ATOMScan](https://atomscan.com/akash/validators) | [Arcturian](https://explorer.arcturian.tech/akash/staking)
 
@@ -95,4 +100,3 @@ To join the active set, you need more voting power than the 100th validator.
 ---
 
 **Ready to start?** → [Node Build Guides](/docs/node-operators/node-build)
-

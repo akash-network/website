@@ -1,13 +1,13 @@
 ---
 categories: ["Developers", "akt CLI"]
-tags: ["akt", "CLI", "Akash Sink", "Solana", "AKT"]
+tags: ["akt", "CLI", "Akash Migrate", "Solana", "AKT"]
 weight: 4
 title: "Send AKT to Solana"
 linkTitle: "AKT to Solana"
 description: "Deposit AKT, query composite transfers, follow refunds, and use akt Sink governance proposal helpers"
 ---
 
-Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transfer by its `owner/height/sequence` ID. The same amount is minted on Solana. Transfers are one way.
+Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transfer by its `owner/height/sequence` ID. The same amount is minted on Solana. Transfers are one way. Akash Migrate uses the native `sink` module, which keeps its name in CLI commands.
 
 These commands are verified against [akt v1.1.1](https://github.com/akash-network/akt/releases/tag/v1.1.1). Check `akt version`; older installations may not include Sink. Use the [mainnet addresses and releases](/docs/learn/akash-sink/mainnet) when configuring a client. For services that process transfers, see [relayer and reporter operation](/docs/node-operators/akash-sink).
 
@@ -164,7 +164,7 @@ The native `akash` CLI has different command names and JSON output. These exampl
 
 ## Related guides
 
-- [How Akash Sink works](/docs/learn/akash-sink)
+- [How Akash Migrate works](/docs/learn/akash-sink)
 - [Use the portal](/docs/learn/akash-sink/portal)
 - [Relayers and reporters](/docs/node-operators/akash-sink)
 - [Command reference](/docs/developers/akt/commands-reference#sink-akt-to-solana)

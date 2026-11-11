@@ -1,10 +1,10 @@
 ---
 categories: ["Node Operators"]
-tags: ["Akash Sink", "Solana", "Reporter", "Relayer", "Validators"]
+tags: ["Akash Migrate", "Solana", "Reporter", "Relayer", "Validators"]
 weight: 6
-title: "Operate Akash Sink services"
-linkTitle: "Akash Sink"
-description: "Run relayers and independent reporters for an existing Akash Sink bridge"
+title: "Operate Akash Migrate services"
+linkTitle: "Akash Migrate"
+description: "Run relayers and independent reporters for an existing Akash Migrate bridge"
 ---
 
 Relayers and reporters are maintained in [akash-network/node](https://github.com/akash-network/node/tree/main/contracts/solana). Each has its own version, download and Docker image, independent of blockchain releases.
@@ -128,6 +128,6 @@ The [relayer guide](/docs/node-operators/akash-sink/relayer#monitor-and-recover)
 
 ## Related guides
 
-- [How Akash Sink works](/docs/learn/akash-sink)
+- [How Akash Migrate works](/docs/learn/akash-sink)
 - [Bridge with akt](/docs/developers/akt/sink)
 - [Use the portal](/docs/learn/akash-sink/portal)

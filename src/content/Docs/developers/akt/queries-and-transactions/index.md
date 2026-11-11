@@ -108,7 +108,7 @@ akt query staking validators
 # Query a WASM contract
 akt query wasm contract-state smart akash1contract... '{"get_count":{}}'
 
-# Status of an Akash Sink transfer to Solana
+# Status of an Akash Migrate transfer to Solana
 akt query sink transfer '<owner>/<height>/<sequence>'
 
 # The q alias works everywhere
@@ -148,7 +148,7 @@ akt tx cert publish client
 akt tx bme mint-act 500000uakt
 akt tx bme burn-act 500000uact
 
-# Send AKT to a Solana wallet through Akash Sink (one way)
+# Send AKT to a Solana wallet through Akash Migrate (one way)
 akt tx sink deposit <solana-address> 10000000uakt
 ```
 

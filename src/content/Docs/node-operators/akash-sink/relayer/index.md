@@ -1,8 +1,8 @@
 ---
-categories: ["Node Operators", "Akash Sink"]
-tags: ["Akash Sink", "Relayer", "Solana", "Validators"]
+categories: ["Node Operators", "Akash Migrate"]
+tags: ["Akash Migrate", "Relayer", "Solana", "Validators"]
 weight: 2
-title: "Run an Akash Sink relayer"
+title: "Run an Akash Migrate relayer"
 linkTitle: "Relayer"
 description: "Install and operate a relayer against an existing Akash and Solana deployment"
 ---
