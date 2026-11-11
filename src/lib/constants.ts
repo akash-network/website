@@ -1,9 +1,11 @@
+export const CONSOLE_API_ORIGIN = "https://console-api.akash.network";
+
 // console-api.akash.network's CORS allowlist only includes https://akash.network, so browser
 // requests from a local dev server are blocked. In dev, route through the Vite proxy configured
 // in astro.config.mjs (same-origin from the browser's perspective) instead of hitting it directly.
 export const BASE_API_URL = import.meta.env.DEV
   ? "/api/console-api"
-  : "https://console-api.akash.network";
+  : CONSOLE_API_ORIGIN;
 
 export const mainnetId = "mainnet";
 export const subscribeLink = "https://akashnet.typeform.com/to/awKX5bPw";
