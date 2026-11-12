@@ -6,22 +6,6 @@ export const getYearToUse = () => {
 };
 
 export const redirects = {
-  "/docs/learn/akash-sink": "/docs/learn/akash-migrate/",
-  "/docs/learn/akash-sink/": "/docs/learn/akash-migrate/",
-  "/docs/learn/akash-sink/portal": "/docs/learn/akash-migrate/portal/",
-  "/docs/learn/akash-sink/portal/": "/docs/learn/akash-migrate/portal/",
-  "/docs/learn/akash-sink/mainnet": "/docs/learn/akash-migrate/mainnet/",
-  "/docs/learn/akash-sink/mainnet/": "/docs/learn/akash-migrate/mainnet/",
-  "/docs/node-operators/akash-sink": "/docs/node-operators/akash-migrate/",
-  "/docs/node-operators/akash-sink/": "/docs/node-operators/akash-migrate/",
-  "/docs/node-operators/akash-sink/relayer":
-    "/docs/node-operators/akash-migrate/relayer/",
-  "/docs/node-operators/akash-sink/relayer/":
-    "/docs/node-operators/akash-migrate/relayer/",
-  "/docs/node-operators/akash-sink/reporter":
-    "/docs/node-operators/akash-migrate/reporter/",
-  "/docs/node-operators/akash-sink/reporter/":
-    "/docs/node-operators/akash-migrate/reporter/",
   "/compare": "/explore/compare",
   "/compare/": "/explore/compare",
   "/akt": "/token",
