@@ -11,7 +11,7 @@ Build an Akash RPC node manually on a Linux server. This guide provides full con
 **Time:** 15-30 minutes (setup) + 20-30 minutes (sync via snapshot)
 
 **Requirements:**
-- Ubuntu 24.04 LTS
+- Ubuntu 26.04 LTS (24.04 LTS also supported)
 - 4 CPU cores
 - 8 GB RAM
 - 100 GB SSD storage (minimum), 1 TB recommended

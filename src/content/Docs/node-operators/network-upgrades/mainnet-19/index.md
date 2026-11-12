@@ -86,7 +86,7 @@ In the event of issues during the upgrade, coordinate via the **#validators chan
 
 This upgrade adds the `x/sink` store, migrates one CosmWasm contract, and iterates open escrow payments. No existing module state is rewritten. It is recommended that all validators meet the following:
 
-- **OS:** Ubuntu 24.04
+- **OS:** Ubuntu 26.04 LTS (24.04 LTS also supported)
 - **RAM:** At least 32 GB with swap enabled
 - **CPU:** 8+ cores minimum
 - **Storage:** Sufficient space for blockchain data (1 TB+ recommended)

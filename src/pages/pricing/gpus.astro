@@ -1,21 +1,424 @@
 ---
 import GpuPricing from "@/components/pricing-page/gpus/GpuPricing";
 import PricingHeader from "@/components/pricing-page/pricing-header.astro";
-import PricingHero from "@/components/pricing-page/pricing-hero.astro";
+import { fetchGpuPricesSnapshot } from "@/components/pricing-page/shared/pricing-api";
+import { renderInline, stripInline } from "@/lib/gpu-detail-pages";
+import { formatDate, isoDate } from "@/lib/gpu-detail-pages/shared";
+import { buttonClass } from "@/components/pricing-page/shared/ui";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
+
+const SITE = "https://akash.network";
+const url = `${SITE}/pricing/gpus/`;
+const CONSOLE_URL = "https://console.akash.network/";
+const RESERVE_URL = "/gpus-on-demand";
+const USAGE_CALCULATOR_URL = "/pricing/usage-calculator/";
+
+const title =
+  "GPU Rental Pricing: Rent H100, H200, B200 & B300 On Demand | Akash";
+const description =
+  "Rent cloud GPUs by the hour on Akash: H100, H200, B200, B300, A100, RTX 4090 and more. Live prices from providers, pay as you go, no contracts, no egress fees.";
+
+// Prices ship in the HTML (refreshed in the browser), so the table reads without JavaScript.
+const prices = await fetchGpuPricesSnapshot();
+const pricesUpdated = prices && new Date(prices.fetchedAt);
+
+const gpuPages = {
+  b300: { name: "NVIDIA B300", href: "/pricing/gpus/b300/" },
+  b200: { name: "NVIDIA B200", href: "/pricing/gpus/b200/" },
+  h200: { name: "NVIDIA H200", href: "/pricing/gpus/h200/" },
+  h100: { name: "NVIDIA H100", href: "/pricing/gpus/h100/" },
+  a100: { name: "NVIDIA A100", href: "/pricing/gpus/a100/" },
+  proServer: {
+    name: "NVIDIA RTX Pro 6000 Server Edition",
+    href: "/pricing/gpus/rtx-pro-6000-server/",
+  },
+  proWorkstation: {
+    name: "NVIDIA RTX Pro 6000 Workstation Edition",
+    href: "/pricing/gpus/rtx-pro-6000-workstation/",
+  },
+};
+
+// GPU groups below the table. Memory sizes only, no prices: the table carries prices.
+const gpuGroups = [
+  {
+    title: "Data-center GPUs for training and large-model inference",
+    description:
+      "The most memory per GPU, for frontier-scale training and serving large models.",
+    gpus: [
+      {
+        name: "B300",
+        vram: "288 GB",
+        use: "Largest models, frontier training",
+        href: gpuPages.b300.href,
+      },
+      {
+        name: "B200",
+        vram: "180 GB",
+        use: "Large-model training and inference",
+        href: gpuPages.b200.href,
+      },
+      {
+        name: "H200",
+        vram: "141 GB",
+        use: "Long-context inference",
+        href: gpuPages.h200.href,
+      },
+      {
+        name: "H100",
+        vram: "80 GB",
+        use: "Fine-tuning and production inference",
+        href: gpuPages.h100.href,
+      },
+      {
+        name: "A100",
+        vram: "80 GB",
+        use: "Cost-efficient training and inference",
+        href: gpuPages.a100.href,
+      },
+    ],
+    note: "Looking at rack-scale Blackwell? See how the [GB300 NVL72 compares with the B300](/the-bid/nvidia-gb300-nvl72-specs-vs-b300-2026/).",
+  },
+  {
+    title:
+      "Workstation and consumer GPUs for inference, fine-tuning and image generation",
+    description:
+      "Lower hourly rates for serving mid-size and smaller models, LoRA fine-tuning and image generation.",
+    gpus: [
+      {
+        name: "RTX Pro 6000 Server Edition",
+        vram: "96 GB",
+        use: "Mid-size models on one GPU",
+        href: gpuPages.proServer.href,
+      },
+      {
+        name: "RTX Pro 6000 Workstation Edition",
+        vram: "96 GB",
+        use: "Mid-size models on one GPU",
+        href: gpuPages.proWorkstation.href,
+      },
+      {
+        name: "RTX 5090",
+        vram: "32 GB",
+        use: "Smaller models and LoRA fine-tuning",
+      },
+      {
+        name: "RTX 4090",
+        vram: "24 GB",
+        use: "Image generation and small-model inference",
+      },
+    ],
+  },
+] as {
+  title: string;
+  description: string;
+  gpus: { name: string; vram: string; use: string; href?: string }[];
+  note?: string;
+}[];
+
+const steps = [
+  {
+    title: "Pick a GPU.",
+    text: "Compare models and average prices in the table above.",
+  },
+  {
+    title: "Deploy a container.",
+    text: `In [Akash Console](${CONSOLE_URL}), choose a template or paste a Docker image, then accept a provider's bid.`,
+  },
+  {
+    title: "Pay for what you use.",
+    text: `Billing runs while the deployment runs. Estimate costs with the [Usage Pricing Calculator](${USAGE_CALCULATOR_URL}).`,
+  },
+  { title: "Stop anytime.", text: "Close the deployment and billing stops." },
+];
+
+const capacityOptions = [
+  {
+    title: "On-demand",
+    text: "For experiments, bursts and workloads you scale up and down. Deploy in minutes and pay by the hour.",
+    cta: {
+      label: "Deploy on-demand",
+      href: `${CONSOLE_URL}new-deployment`,
+      external: true,
+      variant: "primary" as const,
+    },
+  },
+  {
+    title: "Reserved",
+    text: "For steady production traffic or multi-node training: dedicated bare-metal GPUs or a full cluster, with custom-quoted terms.",
+    cta: {
+      label: "Request reserved capacity",
+      href: RESERVE_URL,
+      external: false,
+      variant: "outline" as const,
+    },
+  },
+];
+
+// Answers carry no prices: the table above is the one place prices appear. Inline
+// `[label](href)` and `**bold**` render via `renderInline`; the schema gets plain text.
+const faq = [
+  {
+    question:
+      "Can I pay only for the GPU hours I use, with no long-term contract?",
+    answer:
+      "Yes. On Akash, on-demand GPU deployments are billed for the time they run, with no long-term contract. Close a deployment and billing stops. Only reserved clusters are quoted for a fixed term.",
+  },
+  {
+    question: "How are GPU prices on Akash set, and are there hidden fees?",
+    answer: `Independent providers bid on each deployment, and you see every bid and choose one before anything runs. Akash's GPU pricing table shows the average price per GPU-hour: recent bids, weighted by each provider's GPU count. The bid you accept is the rate you pay. To estimate CPU, memory and storage alongside the GPU, use the [Usage Pricing Calculator](${USAGE_CALCULATOR_URL}).`,
+  },
+  {
+    question: "Are there egress or bandwidth fees?",
+    answer:
+      "No. Akash doesn't charge egress or bandwidth fees, so serving an inference endpoint or moving checkpoints and datasets out adds no per-GB charge.",
+  },
+  {
+    question:
+      "How reliable are GPU providers on Akash, and can I see uptime before I choose?",
+    answer: `Yes. When you request quotes in [Akash Console](${CONSOLE_URL}), each provider's bid shows its region and uptime stats, so you can compare before you accept. You can also limit a deployment to audited providers. For production workloads, [reserved clusters](${RESERVE_URL}) come with SLA-backed uptime.`,
+  },
+  {
+    question: "Can I choose where my AI workloads physically run?",
+    answer: `Yes. On Akash, every provider's bid shows its region when you request quotes in [Akash Console](${CONSOLE_URL}), so you choose where your workload runs before you accept a bid.`,
+  },
+  {
+    question: "Can I run my own Docker image without managing Kubernetes?",
+    answer: `Yes. In [Akash Console](${CONSOLE_URL}), pick a template or paste any Docker image, choose a GPU and deploy. The provider runs the container on its own infrastructure, so there's no cluster for you to set up or manage.`,
+  },
+  {
+    question: "Do I need crypto to rent a GPU?",
+    answer:
+      "No. Akash Console is a managed service: you pay by credit card in USD, the same as any other cloud. No wallet or crypto needed.",
+  },
+  {
+    question: "Can I reserve dedicated GPUs or a multi-GPU cluster?",
+    answer: `Yes. On Akash, reserved clusters run on dedicated bare metal with NVLink, and InfiniBand for multi-node training, with SLA-backed uptime and custom-quoted terms. Request a quote through the [bulk order form](${RESERVE_URL}).`,
+  },
+  {
+    question: "Which GPU should I choose for LLM inference vs. training?",
+    answer: `For training and serving large models, pick a data-center GPU: the [B300](${gpuPages.b300.href}) (288 GB) and [B200](${gpuPages.b200.href}) (180 GB) hold the largest models per GPU, the [H200](${gpuPages.h200.href}) (141 GB) suits long-context inference, and the [H100](${gpuPages.h100.href}) and [A100](${gpuPages.a100.href}) (80 GB) cover most fine-tuning and serving. For inference on smaller models, fine-tuning and image generation, the [RTX Pro 6000](${gpuPages.proServer.href}) (96 GB) or an RTX 5090 or 4090 costs less per hour.`,
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": url,
+      url,
+      name: title,
+      description,
+      ...(pricesUpdated && { dateModified: isoDate(pricesUpdated) }),
+      breadcrumb: { "@id": `${url}#breadcrumb` },
+    },
+    {
+      // /pricing/ redirects here, so the trail matches the GPU detail pages' "GPU Pricing".
+      "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "GPU Pricing", item: url },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${url}#gpus`,
+      name: "GPUs available to rent on Akash",
+      itemListElement: Object.values(gpuPages).map((page, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: page.name,
+        url: `${SITE}${page.href}`,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${url}#faq`,
+      mainEntity: faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: stripInline(item.answer) },
+      })),
+    },
+  ],
+};
+
+// Shared type scale, matching the GPU detail pages.
+const h2 = "text-xl font-medium text-foreground md:text-2xl";
+const note = "text-sm leading-relaxed text-muted-foreground";
+const section = "flex scroll-mt-28 flex-col gap-6";
+const card =
+  "rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]";
+const badge =
+  "inline-flex h-6 shrink-0 items-center rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15";
 ---
 
 <PricingHeader
-  title="GPU Pricing and Availability"
-  description=" Browse the list of available GPUs along with their hourly rates."
+  title="GPU Rental Pricing"
+  fullTitle={title}
+  description={description}
   image="/meta-images/pricing/gpus.webp"
 >
-  <PricingHero
-    title="GPU Pricing"
-    description={[
-      "Real-time availability for high-demand compute.",
-      "Transparent hourly pricing with no hidden fees.",
-    ]}
-  />
+  <Fragment slot="head">
+    <script
+      is:inline
+      id="gpu-pricing-structured-data"
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  </Fragment>
 
-  <GpuPricing client:load />
+  {
+    /* H1 with the intro full width beneath it; the intro carries the old tagline's points. */
+  }
+  <div class="flex flex-col gap-5">
+    <h1
+      class="text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl md:tracking-tighter lg:text-6xl"
+    >
+      GPU Rental Pricing
+    </h1>
+    <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
+      Akash is a GPU cloud where you rent NVIDIA GPUs by the hour, from
+      data-center B300, B200, H200 and H100 down to RTX 4090 and older cards.
+      Prices below come from live provider bids on the network, with real-time
+      availability and no hidden fees. Deploy any Docker container, pay only for
+      the time you use, with no long-term contract and no egress fees.
+    </p>
+    {
+      pricesUpdated && (
+        <p class="text-sm font-medium text-foreground">
+          Prices updated{" "}
+          <time datetime={isoDate(pricesUpdated)}>
+            {formatDate(pricesUpdated)}
+          </time>
+        </p>
+      )
+    }
+  </div>
+
+  <GpuPricing client:load initial={prices} />
+
+  <div class="mt-6 flex flex-col gap-16 md:mt-10 md:gap-24">
+    <div class="grid gap-4 lg:grid-cols-2">
+      {
+        gpuGroups.map((group) => (
+          <section class={`${card} flex flex-col gap-5 p-5 md:p-6`}>
+            <div class="flex flex-col gap-2">
+              <h2 class={h2}>{group.title}</h2>
+              <p class={note}>{group.description}</p>
+            </div>
+            <ul class="flex flex-col divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-white/10 dark:border-white/10">
+              {group.gpus.map((gpu) => (
+                <li class="flex items-center justify-between gap-4 py-3">
+                  <div class="flex min-w-0 flex-col">
+                    {gpu.href ? (
+                      <a
+                        href={gpu.href}
+                        class="group/gpu inline-flex items-center gap-1 font-medium text-foreground"
+                      >
+                        <span class="underline decoration-zinc-300 decoration-[1.5px] underline-offset-4 transition-colors group-hover/gpu:decoration-current dark:decoration-white/25">
+                          {gpu.name}
+                        </span>
+                        <ArrowUpRight
+                          aria-hidden="true"
+                          className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-colors group-hover/gpu:text-foreground"
+                        />
+                      </a>
+                    ) : (
+                      <span class="font-medium text-foreground">
+                        {gpu.name}
+                      </span>
+                    )}
+                    <span class="text-sm text-muted-foreground">{gpu.use}</span>
+                  </div>
+                  <span class={badge}>{gpu.vram}</span>
+                </li>
+              ))}
+            </ul>
+            {group.note && (
+              <p class={note} set:html={renderInline(group.note)} />
+            )}
+          </section>
+        ))
+      }
+    </div>
+
+    <section class={section}>
+      <h2 class={h2}>How GPU rental on Akash works</h2>
+      <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          steps.map((step, index) => (
+            <li class={`${card} flex flex-col gap-3 p-5`}>
+              <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 font-jetBrainsMono text-sm font-medium text-foreground dark:bg-white/10">
+                {index + 1}
+              </span>
+              <p class={note}>
+                <span class="font-medium text-foreground">{step.title}</span>{" "}
+                <Fragment set:html={renderInline(step.text)} />
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class={section}>
+      <h2 class={h2}>On-demand or reserved capacity</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        {
+          capacityOptions.map((option) => (
+            <div class={`${card} flex flex-col gap-4 p-5 md:p-6`}>
+              <div class="flex flex-col gap-2">
+                <h3 class="text-lg font-medium text-foreground">
+                  {option.title}
+                </h3>
+                <p class={note}>{option.text}</p>
+              </div>
+              <a
+                href={option.cta.href}
+                target={option.cta.external ? "_blank" : undefined}
+                rel={option.cta.external ? "noopener noreferrer" : undefined}
+                class={buttonClass(
+                  option.cta.variant,
+                  "default",
+                  "mt-auto w-fit",
+                )}
+              >
+                {option.cta.label}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="faq" class={section}>
+      <h2 class={h2}>GPU rental FAQ</h2>
+      {
+        /* Native disclosure: answers ship in the HTML for crawlers and need no JS. */
+      }
+      <div
+        class="divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-white/10 dark:border-white/10"
+      >
+        {
+          faq.map((item) => (
+            <details class="group">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-medium leading-6 text-foreground transition-colors hover:text-muted-foreground md:py-6 md:text-lg md:leading-[30px] [&::-webkit-details-marker]:hidden">
+                {item.question}
+                <ChevronDown
+                  aria-hidden="true"
+                  className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                />
+              </summary>
+              <p
+                class="pb-4 pr-8 text-sm leading-relaxed text-muted-foreground md:pb-6 md:text-lg md:leading-[30px]"
+                set:html={renderInline(item.answer)}
+              />
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 </PricingHeader>

@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import React, { useMemo, useState } from "react";
-import { useGpuPrices } from "../shared/pricing-api";
+import { useGpuPrices, type GpuPricesSnapshot } from "../shared/pricing-api";
 import {
   CONTACT_URL,
   FieldLabel,
@@ -80,16 +80,22 @@ function sortRows(rows: GpuRow[], sort: SortKey) {
 const vramBucket = (ramGb: number): VramBucket =>
   ramGb >= 80 ? "large" : ramGb > 24 ? "mid" : "small";
 
-export default function GpuPricing() {
+type GpuPricingProps = {
+  /** Prices fetched at build time, so the table is in the page's HTML before any script runs. */
+  initial?: GpuPricesSnapshot | null;
+};
+
+export default function GpuPricing({ initial }: GpuPricingProps) {
   return (
     <PricingQueryProvider>
-      <GpuPricingContent />
+      <GpuPricingContent initial={initial} />
     </PricingQueryProvider>
   );
 }
 
-function GpuPricingContent() {
-  const { data, isLoading, isError, refetch, isFetching } = useGpuPrices();
+function GpuPricingContent({ initial }: GpuPricingProps) {
+  const { data, isLoading, isError, refetch, isFetching } =
+    useGpuPrices(initial);
 
   const [model, setModel] = useState("all");
   const [vendor, setVendor] = useState("all");
@@ -97,8 +103,13 @@ function GpuPricingContent() {
   const [iface, setIface] = useState<InterfaceFamily | "all">("all");
   const [sort, setSort] = useState<SortKey>("vram-desc");
 
+  // Models with no recent bids are left out, so empty rows don't read as missing stock. Next-gen
+  // models stay listed without a price so visitors can request access.
   const rows = useMemo(
-    () => withNextGenModels(data?.models ?? []).map(toGpuRow),
+    () =>
+      withNextGenModels(data?.models ?? [])
+        .map(toGpuRow)
+        .filter((row) => row.hourly !== null || row.isNextGen),
     [data],
   );
 
@@ -350,7 +361,7 @@ function GpuPricingContent() {
                 >
                   {/* On desktop the price sits beside the arrow, so the label is offset by the
                       arrow and its gap to line up with the prices. */}
-                  <span className="md:mr-11">Starting at</span>
+                  <span className="md:mr-11">Avg. price / GPU-hr</span>
                 </th>
               </tr>
             </thead>
@@ -392,13 +403,20 @@ function GpuPricingContent() {
           a price.
         </p>
 
-        <CustomQuoteCard className="mt-5 lg:hidden" />
+        {/* The aside's card holds the section heading; this copy is for small screens. */}
+        <CustomQuoteCard className="mt-5 lg:hidden" headingAs="p" />
       </div>
     </div>
   );
 }
 
-function CustomQuoteCard({ className }: { className?: string }) {
+function CustomQuoteCard({
+  className,
+  headingAs: Heading = "h2",
+}: {
+  className?: string;
+  headingAs?: "h2" | "p";
+}) {
   return (
     <div
       className={cn(
@@ -406,9 +424,9 @@ function CustomQuoteCard({ className }: { className?: string }) {
         className,
       )}
     >
-      <h2 className="text-lg font-semibold leading-snug text-foreground">
+      <Heading className="text-lg font-semibold leading-snug text-foreground">
         Looking for Bulk Orders or Custom Configurations?
-      </h2>
+      </Heading>
       <a
         href={CONTACT_URL}
         className={buttonClass("primary", "default", "w-full")}

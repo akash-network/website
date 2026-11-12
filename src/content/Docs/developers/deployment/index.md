@@ -31,9 +31,9 @@ This section covers everything you need to deploy applications, including Akash 
 
 **Programmatic deployments** - Build applications with Go or JavaScript/TypeScript SDKs.
 
-### [akt CLI](/docs/developers/deployment/akt)
+### [Deploy with akt](/docs/developers/deployment/akt)
 
-**Unified command-line interface** - Deploy through local keys or the Console managed wallet, query the chain, operate leases, and monitor the network from one binary.
+**Command-line deployments** - Deploy with local keys or the Console managed wallet using `akt`. Installation, chain queries and the full command set are in the [akt CLI](/docs/developers/akt) section.
 
 ### [Akash CLI](/docs/developers/deployment/cli)
 

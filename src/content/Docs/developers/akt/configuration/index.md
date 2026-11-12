@@ -1,5 +1,5 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "akt CLI"]
 tags: ["akt", "CLI", "Configuration", "Contexts", "Keys"]
 weight: 2
 title: "Contexts & Configuration"
@@ -9,7 +9,7 @@ description: "Configure akt contexts, networks, keys, and environment variables"
 
 **Configure `akt` with contexts, networks, and keys.**
 
-> **Prerequisite:** Install `akt` first. See the [installation guide](/docs/developers/deployment/akt/installation).
+> **Prerequisite:** Install `akt` first. See the [installation guide](/docs/developers/akt/installation).
 
 After initial context configuration, most commands need no connection or signer flags. This guide covers the settings that supply those defaults.
 
@@ -294,6 +294,6 @@ The log rotates automatically at 10 MB and keeps up to five rotated files.
 
 - **[Deployments](/docs/developers/deployment/akt/deployments)** - Deploy your first application
 - **[Console integration](/docs/developers/deployment/akt/console)** - Set up a managed-wallet context
-- **[Commands reference](/docs/developers/deployment/akt/commands-reference)** - Review the main `akt` command groups
+- **[Commands reference](/docs/developers/akt/commands-reference)** - Review the main `akt` command groups
 
 ---
