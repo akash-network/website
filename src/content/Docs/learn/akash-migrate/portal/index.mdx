@@ -7,7 +7,7 @@ linkTitle: "Portal Guide"
 description: "Send AKT from Akash to Solana with Akash Migrate: connect Keplr, choose a Solana address, confirm the transfer and track it"
 ---
 
-Akash Migrate sends AKT from your Keplr wallet on Akash to a Solana wallet. This guide walks through one transfer and shows how to follow it. For how transfers work, see [Akash Migrate](/docs/learn/akash-sink).
+Akash Migrate sends AKT from your Keplr wallet on Akash to a Solana wallet. This guide walks through one transfer and shows how to follow it. For how transfers work, see [Akash Migrate](/docs/learn/akash-migrate).
 
 import ThemedImage from "@/components/docs/ThemedImage.astro";
 import connectKeplr from "./connect-keplr.png";
@@ -187,7 +187,7 @@ History from the previous bridge stays stored separately in the browser. Its num
 
 ## See AKT in Your Solana Wallet
 
-The AKT arrives as an SPL token in the Solana wallet you chose. Most wallets list it automatically. Check that its mint address matches the [AKT mint on Solana](/docs/learn/akash-sink#verify-akt-on-solana).
+The AKT arrives as an SPL token in the Solana wallet you chose. Most wallets list it automatically. Check that its mint address matches the [AKT mint on Solana](/docs/learn/akash-migrate#verify-akt-on-solana).
 
 ---
 
@@ -215,7 +215,7 @@ The portal blocks new transfers while deposits are switched off, or while Solana
 
 ### The Deposit Failed
 
-A deposit fails if it breaks the minimum or maximum amount per transfer, an enabled account epoch cap or the aggregate epoch cap. Send less when possible, or wait for Akash's next configured quota period. Finishing another transfer does not restore sending capacity. See [Limits](/docs/learn/akash-sink#limits).
+A deposit fails if it breaks the minimum or maximum amount per transfer, an enabled account epoch cap or the aggregate epoch cap. Send less when possible, or wait for Akash's next configured quota period. Finishing another transfer does not restore sending capacity. See [Limits](/docs/learn/akash-migrate#limits).
 
 ### The Transfer Takes Longer Than Expected
 
@@ -225,5 +225,5 @@ Transfers wait when the daily mint limit is reached and continue once it resets.
 
 ## Related Resources
 
-- [Akash Migrate](/docs/learn/akash-sink) - How transfers, limits and refunds work
+- [Akash Migrate](/docs/learn/akash-migrate) - How transfers, limits and refunds work
 - [Send AKT to Solana with akt](/docs/developers/akt/sink) - The same transfer from the command line

@@ -11,11 +11,11 @@ description: "How Akash Migrate moves AKT from Akash to Solana: one-way transfer
 
 Transfers are one way. AKT that arrives on Solana can't be sent back to Akash through Akash Migrate.
 
-The mainnet contracts are deployed. See [mainnet addresses and releases](/docs/learn/akash-sink/mainnet) for the token mint, bridge programs, multisig, source code and operator downloads. The [CLI guide](/docs/developers/akt/sink) uses akt v1.1.1; the public portal URL will be announced separately.
+The mainnet contracts are deployed. See [mainnet addresses and releases](/docs/learn/akash-migrate/mainnet) for the token mint, bridge programs, multisig, source code and operator downloads. The [CLI guide](/docs/developers/akt/sink) uses akt v1.1.1; the public portal URL will be announced separately.
 
 There are two ways to send a transfer:
 
-- **[The Akash Migrate portal](/docs/learn/akash-sink/portal)**: a web app. Connect Keplr, enter a Solana address and an amount, then confirm.
+- **[The Akash Migrate portal](/docs/learn/akash-migrate/portal)**: a web app. Connect Keplr, enter a Solana address and an amount, then confirm.
 - **[The akt CLI](/docs/developers/akt/sink)**: run `akt tx sink deposit` from the command line.
 
 ---
@@ -37,7 +37,7 @@ If Solana cannot deliver to the address, it records a permanent void. The AKT th
 
 ## Statuses
 
-Akash keeps the financial outcome separate from any dispute. The portal also verifies the finalized Solana outcome; see [Statuses in the portal](/docs/learn/akash-sink/portal#statuses).
+Akash keeps the financial outcome separate from any dispute. The portal also verifies the finalized Solana outcome; see [Statuses in the portal](/docs/learn/akash-migrate/portal#statuses).
 
 | Status           | Meaning                                                                                |
 | ---------------- | -------------------------------------------------------------------------------------- |
@@ -112,7 +112,7 @@ Other tokens can copy the name and symbol. Check the mint address before you acc
 
 The canonical mint is [`5d3fjPDdkYbtYcAMR9PC2TANaEyhzuyP8JxTEwqjVgBZ`](https://explorer.solana.com/address/5d3fjPDdkYbtYcAMR9PC2TANaEyhzuyP8JxTEwqjVgBZ).
 
-See the [mainnet reference](/docs/learn/akash-sink/mainnet) for all contract and multisig addresses, metadata, verification commands, Docker releases and source repositories. The native Sink module account holds locked AKT; only refunds release it back to senders.
+See the [mainnet reference](/docs/learn/akash-migrate/mainnet) for all contract and multisig addresses, metadata, verification commands, Docker releases and source repositories. The native Sink module account holds locked AKT; only refunds release it back to senders.
 
 ---
 
@@ -166,8 +166,8 @@ A deposit must be the only message in its transaction and must be signed by the 
 
 ## Related Resources
 
-- [Mainnet addresses and releases](/docs/learn/akash-sink/mainnet) - Contracts, multisig, artifacts and source
-- [Use Akash Migrate](/docs/learn/akash-sink/portal) - Send a transfer with Keplr
+- [Mainnet addresses and releases](/docs/learn/akash-migrate/mainnet) - Contracts, multisig, artifacts and source
+- [Use Akash Migrate](/docs/learn/akash-migrate/portal) - Send a transfer with Keplr
 - [Send AKT to Solana with akt](/docs/developers/akt/sink) - Command-line transfers and module commands
-- [Akash Migrate services](/docs/node-operators/akash-sink) - Run a relayer or reporter
+- [Akash Migrate services](/docs/node-operators/akash-migrate) - Run a relayer or reporter
 - [Queries & Transactions](/docs/developers/akt/queries-and-transactions) - Other akt chain commands

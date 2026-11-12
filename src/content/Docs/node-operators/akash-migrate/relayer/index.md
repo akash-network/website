@@ -10,7 +10,7 @@ description: "Install and operate a relayer against an existing Akash and Solana
 A relayer uploads Akash block headers and transfer proofs to Solana. Solana verifies the signatures and proofs before minting or voiding a transfer. The relayer needs a funded payer, but cannot change the proven recipient or amount.
 
 These instructions use the independently released relayer image from node, against an existing compatible bridge.
-See [service roles and prerequisites](/docs/node-operators/akash-sink).
+See [service roles and prerequisites](/docs/node-operators/akash-migrate).
 
 ## Requirements
 
@@ -24,7 +24,7 @@ Follow the [node and history requirements](https://github.com/akash-network/node
 
 ## Install and configure
 
-Complete [Docker Compose setup](/docs/node-operators/akash-sink#docker-compose-setup) with `ROLE=relayer` and `VERSION=0.1.3`. Run the following host commands from `/opt/akt-relayer`.
+Complete [Docker Compose setup](/docs/node-operators/akash-migrate#docker-compose-setup) with `ROLE=relayer` and `VERSION=0.1.3`. Run the following host commands from `/opt/akt-relayer`.
 
 Use either a new key or your existing Solana keypair.
 
@@ -111,4 +111,4 @@ Monitor light-client age, payer balance, progress, and JSON alerts. Investigate 
 
 Keep the same journals and spend ledger after restart. Do not delete a running payer lock, reset a budget to hide repeated failures, or restore an older journal after transactions were sent. Missing transaction history can block recovery even when a permanent Solana outcome exists.
 
-Use the [service upgrade and recovery procedure](/docs/node-operators/akash-sink#upgrade-or-roll-back). An expired or frozen light client requires the separate [incident runbook](https://github.com/akash-network/node/blob/launch/solana-mainnet-20261109/contracts/solana/docs/deploy-program.md#incident-runbooks).
+Use the [service upgrade and recovery procedure](/docs/node-operators/akash-migrate#upgrade-or-roll-back). An expired or frozen light client requires the separate [incident runbook](https://github.com/akash-network/node/blob/launch/solana-mainnet-20261109/contracts/solana/docs/deploy-program.md#incident-runbooks).

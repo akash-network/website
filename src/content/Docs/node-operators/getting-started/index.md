@@ -60,7 +60,7 @@ Choose your path: run a full node to interact with the blockchain, or become a v
 - Your own Akash node, plus a Solana RPC node
 - A Solana payer key with SOL (relayer), or an Akash account key in a KMS or HSM (reporter)
 
-**Next Step:** [Akash Migrate services](/docs/node-operators/akash-sink)
+**Next Step:** [Akash Migrate services](/docs/node-operators/akash-migrate)
 
 ---
 

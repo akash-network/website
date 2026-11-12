@@ -22,7 +22,7 @@ Keep Solana history for the outages you need to recover from plus the challenge 
 
 ## Install and configure
 
-Complete [Docker Compose setup](/docs/node-operators/akash-sink#docker-compose-setup) with `ROLE=reporter` and `VERSION=0.1.4-rc1` (a prerelease). Run the following host commands from `/opt/akt-reporter`.
+Complete [Docker Compose setup](/docs/node-operators/akash-migrate#docker-compose-setup) with `ROLE=reporter` and `VERSION=0.1.4-rc1` (a prerelease). Run the following host commands from `/opt/akt-reporter`.
 
 Use either a new key or your existing Akash wallet.
 
@@ -178,4 +178,4 @@ Page on conflicting outcomes, unavailable audits, stale nodes, signer errors, an
 
 Refunds require the recorded challenge deadline and all native payment conditions. Standard builds enforce a minimum of 72 hours. If evidence cannot be checked before a deadline, escalate through governance or the refund pause; do not fabricate an outcome.
 
-The reporter needs no local state directory: retained votes and settlement state are read from Akash. After a restart, confirm the same chain and program identities, retained votes, and balances. Follow [service recovery](/docs/node-operators/akash-sink#upgrade-or-roll-back) when changing releases.
+The reporter needs no local state directory: retained votes and settlement state are read from Akash. After a restart, confirm the same chain and program identities, retained votes, and balances. Follow [service recovery](/docs/node-operators/akash-migrate#upgrade-or-roll-back) when changing releases.

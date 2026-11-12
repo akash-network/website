@@ -50,7 +50,7 @@ Query the chain and submit transactions for every Akash and Cosmos SDK module.
 
 ### [Send AKT to Solana](/docs/developers/akt/sink)
 
-Use the Sink commands in akt v1.1.1 for deposits, composite transfer queries, refunds, reporters, and governance proposals. See [relayer and reporter operation](/docs/node-operators/akash-sink) for the services that process transfers.
+Use the Sink commands in akt v1.1.1 for deposits, composite transfer queries, refunds, reporters, and governance proposals. See [relayer and reporter operation](/docs/node-operators/akash-migrate) for the services that process transfers.
 
 ### [Network Monitor](/docs/developers/akt/monitor)
 

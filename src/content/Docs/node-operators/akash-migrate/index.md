@@ -9,15 +9,15 @@ description: "Run relayers and independent reporters for an existing Akash Migra
 
 Relayers and reporters are maintained in [akash-network/node](https://github.com/akash-network/node/tree/main/contracts/solana). Each has its own version, download and Docker image, independent of blockchain releases.
 
-| Task                                          | Guide                                                      |
-| --------------------------------------------- | ---------------------------------------------------------- |
-| Submit Akash headers and proofs to Solana     | [Run a relayer](/docs/node-operators/akash-sink/relayer)   |
-| Verify finalized outcomes and report to Akash | [Run a reporter](/docs/node-operators/akash-sink/reporter) |
-| Send AKT                                      | [Bridge with akt](/docs/developers/akt/sink)               |
+| Task                                          | Guide                                                         |
+| --------------------------------------------- | ------------------------------------------------------------- |
+| Submit Akash headers and proofs to Solana     | [Run a relayer](/docs/node-operators/akash-migrate/relayer)   |
+| Verify finalized outcomes and report to Akash | [Run a reporter](/docs/node-operators/akash-migrate/reporter) |
+| Send AKT                                      | [Bridge with akt](/docs/developers/akt/sink)                  |
 
 ## Before starting
 
-Use a Linux amd64 host with Docker Engine, Compose v2, curl, jq and sha256sum. The [mainnet reference](/docs/learn/akash-sink/mainnet) lists the deployed programs, mint, source code and release artifacts. Each service needs both an Akash CometBFT RPC and a Solana RPC. Use your operator endpoints; reporters require independent observation nodes.
+Use a Linux amd64 host with Docker Engine, Compose v2, curl, jq and sha256sum. The [mainnet reference](/docs/learn/akash-migrate/mainnet) lists the deployed programs, mint, source code and release artifacts. Each service needs both an Akash CometBFT RPC and a Solana RPC. Use your operator endpoints; reporters require independent observation nodes.
 
 The relayer needs a Solana payer funded with SOL, open relaying or header-update permission, and persistent journals. Each reporter needs a dedicated Akash private key, AKT for fees, governance admission and independent Akash and replaying Solana nodes. Keep Solana history for the challenge period plus expected outages. Neither service holds user funds.
 
@@ -32,7 +32,7 @@ Run the host setup as an administrator. Choose one role; the commands select the
 | Relayer  | `0.1.3`                      | `ghcr.io/akash-network/akt-relayer:0.1.3`      |
 | Reporter | `0.1.4-rc1` (**prerelease**) | `ghcr.io/akash-network/akt-reporter:0.1.4-rc1` |
 
-The reporter release candidate includes receipt-verification fixes. Confirm the selected version with your deployment coordinator. The release links, source and immutable image digests are in the [mainnet reference](/docs/learn/akash-sink/mainnet#releases-and-docker-images).
+The reporter release candidate includes receipt-verification fixes. Confirm the selected version with your deployment coordinator. The release links, source and immutable image digests are in the [mainnet reference](/docs/learn/akash-migrate/mainnet#releases-and-docker-images).
 
 ```bash
 ROLE=relayer # or reporter
@@ -88,7 +88,7 @@ rm config.mainnet.json
 
 Keep `OPERATOR_NETWORK=mainnet`. The role guide supplies your key and, for a reporter, its verified public address. These operator-specific inputs are the remaining required settings. Review `.env` before starting. Do not put private keys in environment variables or commit runtime configuration. For RPC authentication, use a local authenticated proxy rather than credentials in URLs.
 
-Continue with the [reporter](/docs/node-operators/akash-sink/reporter) or [relayer](/docs/node-operators/akash-sink/relayer) guide to create/import a key and start the service.
+Continue with the [reporter](/docs/node-operators/akash-migrate/reporter) or [relayer](/docs/node-operators/akash-migrate/relayer) guide to create/import a key and start the service.
 
 ## Environment variables
 
@@ -124,10 +124,10 @@ A confirmed Solana void becomes refund-pending. Payment still needs challenge ma
 
 Monitor light-client age, RPC freshness, fee balances, transfer progress, refund conditions and cap usage. [akash-sink-monitor](https://github.com/akash-network/akash-sink-monitor) provides separate bridge monitoring and alerting; install and configure it independently. Confirm alert delivery to the on-call operator. Preserve the same network identities and durable service state across restarts. Do not restore older journals after transactions have been sent.
 
-The [relayer guide](/docs/node-operators/akash-sink/relayer#monitor-and-recover) covers proof and transaction recovery. The [reporter guide](/docs/node-operators/akash-sink/reporter#monitor-and-recover) covers unavailable evidence, conflicting outcomes, and signer failures.
+The [relayer guide](/docs/node-operators/akash-migrate/relayer#monitor-and-recover) covers proof and transaction recovery. The [reporter guide](/docs/node-operators/akash-migrate/reporter#monitor-and-recover) covers unavailable evidence, conflicting outcomes, and signer failures.
 
 ## Related guides
 
-- [How Akash Migrate works](/docs/learn/akash-sink)
+- [How Akash Migrate works](/docs/learn/akash-migrate)
 - [Bridge with akt](/docs/developers/akt/sink)
-- [Use the portal](/docs/learn/akash-sink/portal)
+- [Use the portal](/docs/learn/akash-migrate/portal)

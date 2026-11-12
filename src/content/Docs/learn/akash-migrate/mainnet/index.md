@@ -95,7 +95,7 @@ ghcr.io/akash-network/akt-relayer@sha256:f614f5acc5b6a2c5dcde9c66f19ebaef1ba439e
 ghcr.io/akash-network/akt-reporter@sha256:09fb90cdf973376f1e1b70e9ddd7c154a60ea29f27d48138f398cad5449fc1c0
 ```
 
-Follow [operator installation](/docs/node-operators/akash-sink) for configuration, funding, reporter admission and startup.
+Follow [operator installation](/docs/node-operators/akash-migrate) for configuration, funding, reporter admission and startup.
 
 ## Contract artifacts and source
 

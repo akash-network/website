@@ -9,7 +9,7 @@ description: "Deposit AKT, query composite transfers, follow refunds, and use ak
 
 Send AKT from Akash to Solana with `akt tx sink deposit`, then follow the transfer by its `owner/height/sequence` ID. The same amount is minted on Solana. Transfers are one way. Akash Migrate uses the native `sink` module, which keeps its name in CLI commands.
 
-These commands are verified against [akt v1.1.1](https://github.com/akash-network/akt/releases/tag/v1.1.1). Check `akt version`; older installations may not include Sink. Use the [mainnet addresses and releases](/docs/learn/akash-sink/mainnet) when configuring a client. For services that process transfers, see [relayer and reporter operation](/docs/node-operators/akash-sink).
+These commands are verified against [akt v1.1.1](https://github.com/akash-network/akt/releases/tag/v1.1.1). Check `akt version`; older installations may not include Sink. Use the [mainnet addresses and releases](/docs/learn/akash-migrate/mainnet) when configuring a client. For services that process transfers, see [relayer and reporter operation](/docs/node-operators/akash-migrate).
 
 ## Contents
 
@@ -62,7 +62,7 @@ akt query tx <akash-transaction-hash> -o json
 
 Wait for inclusion and require execution code `0`. A failed transaction does not create a deposit. After successful inclusion, obtain the complete ID from the transaction response or your transfer history. The ID contains the sender, creating block height, and sequence within that block. Sequence starts at 1 each block and is shared across owners. Sequence alone is not a transfer ID.
 
-Off-curve recipient vaults, including Squads vaults, must be allowed on both chains. See [recipient vault policy](/docs/learn/akash-sink/mainnet#multisig-and-native-authorities). Do not use the token mint, program ID or token-account address as the recipient.
+Off-curve recipient vaults, including Squads vaults, must be allowed on both chains. See [recipient vault policy](/docs/learn/akash-migrate/mainnet#multisig-and-native-authorities). Do not use the token mint, program ID or token-account address as the recipient.
 
 ## Follow a transfer
 
@@ -115,7 +115,7 @@ akt tx sink veto-void '<owner>/<height>/<sequence>' 'finalized Solana evidence d
 
 The signer must be authorized. `report-outcome` reads the current policy version and settlement round before signing. `--policy-version` and `--round` override those values when needed. Read the policy through `reporters` and the round through `transfer`.
 
-The signature is the base58 transaction signature for the finalized Solana outcome. Syntax validation does not verify that outcome. Reporters must check their own Solana node before signing. See [reporter operation](/docs/node-operators/akash-sink/reporter).
+The signature is the base58 transaction signature for the finalized Solana outcome. Syntax validation does not verify that outcome. Reporters must check their own Solana node before signing. See [reporter operation](/docs/node-operators/akash-migrate/reporter).
 
 ## Pause guardian
 
@@ -164,7 +164,7 @@ The native `akash` CLI has different command names and JSON output. These exampl
 
 ## Related guides
 
-- [How Akash Migrate works](/docs/learn/akash-sink)
-- [Use the portal](/docs/learn/akash-sink/portal)
-- [Relayers and reporters](/docs/node-operators/akash-sink)
+- [How Akash Migrate works](/docs/learn/akash-migrate)
+- [Use the portal](/docs/learn/akash-migrate/portal)
+- [Relayers and reporters](/docs/node-operators/akash-migrate)
 - [Command reference](/docs/developers/akt/commands-reference#sink-akt-to-solana)

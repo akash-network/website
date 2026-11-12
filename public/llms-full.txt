@@ -474,9 +474,9 @@ The CLI uses positional owner/status filters, positional guardian pauses, and pr
 
 Relayers and reporters live in akash-network/node under contracts/solana and have independent namespaced releases (relayer/vVERSION and reporter/vVERSION), Linux amd64 downloads, and ghcr.io/akash-network/akt-relayer and akt-reporter Docker images. The operator guides cover Docker Compose, all Compose environment variables, JSON configuration, raw private-key files including existing wallets, governance admission, preview/broadcast, monitoring and retained relayer journals. Deployment IDs are configured; the programs must implement the supported interface. Mainnet qualification remains separate. No npm, compiler, KMS or hardware wallet is required to run an image or downloaded package.
 
-Mainnet token: Akash (AKT), six decimals, mint `5d3fjPDdkYbtYcAMR9PC2TANaEyhzuyP8JxTEwqjVgBZ`. Use the [mainnet reference](https://akash.network/docs/learn/akash-sink/mainnet/) for contract and multisig addresses, deployed artifacts, source pins and operator image digests. The reporter v0.1.4-rc1 release is a prerelease. The portal URL is not yet announced.
+Mainnet token: Akash (AKT), six decimals, mint `5d3fjPDdkYbtYcAMR9PC2TANaEyhzuyP8JxTEwqjVgBZ`. Use the [mainnet reference](https://akash.network/docs/learn/akash-migrate/mainnet/) for contract and multisig addresses, deployed artifacts, source pins and operator image digests. The reporter v0.1.4-rc1 release is a prerelease. The portal URL is not yet announced.
 
-Sources: [Akash Migrate](https://akash.network/docs/learn/akash-sink/), [portal guide](https://akash.network/docs/learn/akash-sink/portal/), [akt commands](https://akash.network/docs/developers/akt/sink/), [relayer and reporter operation](https://akash.network/docs/node-operators/akash-sink/).
+Sources: [Akash Migrate](https://akash.network/docs/learn/akash-migrate/), [portal guide](https://akash.network/docs/learn/akash-migrate/portal/), [akt commands](https://akash.network/docs/developers/akt/sink/), [relayer and reporter operation](https://akash.network/docs/node-operators/akash-migrate/).
 
 ## Source scope and freshness
 

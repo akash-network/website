@@ -118,7 +118,7 @@ Key distinctions:
 - [Run a validator](https://akash.network/docs/node-operators/validators/running-a-validator/): Consensus operations, staking, uptime, and signing responsibilities.
 - [Node API layer](https://akash.network/docs/node-operators/architecture/api-layer/): Blockchain RPC, REST, and gRPC interfaces.
 - [Network registry](https://github.com/akash-network/net): Current chain IDs, network versions, genesis, RPC nodes, and sandbox configuration.
-- [Akash Migrate services](https://akash.network/docs/node-operators/akash-sink/): Operate relayers and independent reporters against an existing bridge: service installation, network identity, fees, external signing, governance admission, monitoring, and recovery.
+- [Akash Migrate services](https://akash.network/docs/node-operators/akash-migrate/): Operate relayers and independent reporters against an existing bridge: service installation, network identity, fees, external signing, governance admission, monitoring, and recovery.
 - [Network upgrades](https://akash.network/docs/node-operators/network-upgrades/): Upgrade-specific instructions and compatibility requirements.
 
 ## Optional
@@ -126,11 +126,11 @@ Key distinctions:
 - [Cloud comparisons](https://akash.network/explore/compare/): Compare Akash with other cloud and GPU platforms.
 - [Legacy CLI documentation](https://akash.network/docs/developers/deployment/cli/): Older `akash` and `provider-services` workflows; use for version-specific maintenance rather than mixing their flags into `akt` examples.
 - [AKT](https://akash.network/token/): Network token information; distinguish token economics from compute pricing.
-- [Akash Migrate](https://akash.network/docs/learn/akash-sink/): Move AKT one way from Akash to Solana; transfer statuses, limits, fees, refunds, and how to verify the AKT mint on Solana.
-- [Akash Migrate portal guide](https://akash.network/docs/learn/akash-sink/portal/): Send a transfer with Keplr and a Solana wallet address, then track it by ledger ID or transaction hash.
+- [Akash Migrate](https://akash.network/docs/learn/akash-migrate/): Move AKT one way from Akash to Solana; transfer statuses, limits, fees, refunds, and how to verify the AKT mint on Solana.
+- [Akash Migrate portal guide](https://akash.network/docs/learn/akash-migrate/portal/): Send a transfer with Keplr and a Solana wallet address, then track it by ledger ID or transaction hash.
 - [Roadmap and Akash Enhancement Proposals](https://akash.network/roadmap/): Track proposal status; an AEP is not proof that a feature is available in production.
 - [Akash source repositories](https://github.com/akash-network): Protocol, provider, Console, CLI, SDK, and website development.
 - [Support issues](https://github.com/akash-network/support/issues): Public technical support and issue history.
 - [Community support](https://discord.akash.network): Developer, deployment, provider, and validator discussions.
 
-- [Akash Migrate mainnet reference](https://akash.network/docs/learn/akash-sink/mainnet/): Canonical token mint, contract and multisig addresses, verified metadata, source repositories, built contracts and versioned operator Docker releases.
+- [Akash Migrate mainnet reference](https://akash.network/docs/learn/akash-migrate/mainnet/): Canonical token mint, contract and multisig addresses, verified metadata, source repositories, built contracts and versioned operator Docker releases.
