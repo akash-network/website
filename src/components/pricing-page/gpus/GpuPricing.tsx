@@ -102,16 +102,16 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
   const lastModified = data?.lastModified;
   useEffect(() => {
     if (!lastModified) return;
+    // Shown in the visitor's time zone; the build-time HTML uses UTC.
     const date = new Date(lastModified);
     document
       .querySelectorAll<HTMLTimeElement>("time[data-prices-updated]")
       .forEach((el) => {
-        el.dateTime = date.toISOString().slice(0, 10);
+        el.dateTime = date.toISOString();
         el.textContent = date.toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
           year: "numeric",
-          timeZone: "UTC",
         });
       });
   }, [lastModified]);
