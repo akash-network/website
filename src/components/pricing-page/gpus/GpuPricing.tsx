@@ -24,7 +24,7 @@ import {
   type ToggleOption,
 } from "../shared/ui";
 import { gpuDetailHref } from "@/lib/gpu-detail-pages/slugs";
-import { BLACKWELL_ACCESS_URL, withBlackwellFallbacks } from "./gpu-models";
+import { nextGenAccessHref, withNextGenModels } from "./gpu-models";
 import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import {
   byPrice,
@@ -38,7 +38,7 @@ const RENT_URL = "https://console.akash.network/new-deployment";
 type VramBucket = "small" | "mid" | "large";
 type SortKey = "featured" | "price-asc" | "price-desc" | "vram-desc";
 
-const FEATURED_ORDER = ["b300", "b200", ...GPU_PRIORITY_MODELS];
+const FEATURED_ORDER = ["b300", "b200", "rubin", ...GPU_PRIORITY_MODELS];
 
 const selectTriggerClass =
   "h-9 w-full gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-foreground shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-transparent";
@@ -98,7 +98,7 @@ function GpuPricingContent() {
   const [sort, setSort] = useState<SortKey>("vram-desc");
 
   const rows = useMemo(
-    () => withBlackwellFallbacks(data?.models ?? []).map(toGpuRow),
+    () => withNextGenModels(data?.models ?? []).map(toGpuRow),
     [data],
   );
 
@@ -387,8 +387,9 @@ function GpuPricingContent() {
 
         <p className="text-xs leading-relaxed text-muted-foreground">
           Prices are per GPU-hour in USD, derived from recent provider bids on
-          the network and weighted by each provider&apos;s GPU count. B200 and
-          B300 are listed at fixed rates.
+          the network and weighted by each provider&apos;s GPU count. Next-gen
+          GPUs without recent bids show &ldquo;Request access&rdquo; instead of
+          a price.
         </p>
 
         <CustomQuoteCard className="mt-5 lg:hidden" />
@@ -434,11 +435,18 @@ function FilterGroup({
 }
 
 function GpuTableRow({ row }: { row: GpuRow }) {
-  // Blackwell models go to the access form, everything else to the console. Models with a
-  // detail page also link their name there.
+  // Rows with a live price are on the network and rent through the console. Next-gen models
+  // without one go to the access form instead, with the full "Request access" label shown at
+  // all times since there's no price beside it. Models with a detail page also link their
+  // name there.
   const detailHref = gpuDetailHref(row.model);
-  const action = row.isBlackwell
-    ? { href: BLACKWELL_ACCESS_URL, label: "Get access", aria: "Get access to" }
+  const onRequest = row.isNextGen && row.hourly === null;
+  const action = onRequest
+    ? {
+        href: nextGenAccessHref(row.model),
+        label: "Request access",
+        aria: "Request access to",
+      }
     : { href: RENT_URL, label: "Rent", aria: "Rent" };
   const external = action.href === RENT_URL;
 
@@ -501,7 +509,7 @@ function GpuTableRow({ row }: { row: GpuRow }) {
                 /hr
               </span>
             </span>
-          ) : (
+          ) : onRequest ? null : (
             <span className="whitespace-nowrap text-xs leading-7 text-muted-foreground">
               No recent bids
             </span>
@@ -516,11 +524,21 @@ function GpuTableRow({ row }: { row: GpuRow }) {
             // Mobile always shows the label. On desktop it's just the arrow at rest; hovering
             // the row or focusing the link slides the label in, except over the model name,
             // whose own link leads to the detail page instead.
-            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-link:hover]:pl-2"
+            className={cn(
+              "inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8",
+              onRequest
+                ? "md:pl-3.5 md:pr-2"
+                : "md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-link:hover]:pl-2",
+            )}
           >
             <span
               aria-hidden
-              className="mr-1 max-w-24 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:mr-0 md:max-w-0 md:text-sm md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-link:hover]:mr-0 md:group-has-[.gpu-detail-link:hover]:max-w-0 md:group-has-[.gpu-detail-link:hover]:opacity-0"
+              className={cn(
+                "mr-1 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:text-sm",
+                onRequest
+                  ? "md:mr-1.5"
+                  : "max-w-24 md:mr-0 md:max-w-0 md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-link:hover]:mr-0 md:group-has-[.gpu-detail-link:hover]:max-w-0 md:group-has-[.gpu-detail-link:hover]:opacity-0",
+              )}
             >
               {action.label}
             </span>

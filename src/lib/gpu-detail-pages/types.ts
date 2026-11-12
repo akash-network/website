@@ -55,6 +55,9 @@ export type LivePriceSource = {
   ramGb?: number;
   /** The snapshot rate is Akash's listed price, so it stays current when there are no bids. */
   listed?: boolean;
+  /** No snapshot rate: the page ships "Request access" and only shows a price once the API
+   *  has bids for the model. */
+  onRequest?: boolean;
 };
 
 export type GpuDetailPage = {

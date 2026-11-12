@@ -1,26 +1,14 @@
-import { blackwellHourlyPrice } from "@/components/pricing-page/gpus/gpu-models";
 import {
   allPricingLink,
-  BUILD_DATE,
   deployLink,
-  isoDate,
-  liveDate,
-  priceLabels,
-  pricingTable,
+  onRequestPriceLabels,
+  onRequestPricingTable,
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-// Same fixed rate the pricing table lists, so the two never drift apart.
-const HOURLY = blackwellHourlyPrice("b300") ?? 6;
-// A fixed rate, so it is current as of every build.
-const UPDATED = BUILD_DATE;
-const AS_OF = liveDate(UPDATED);
-const {
-  rate: RATE,
-  rateShort: RATE_SHORT,
-  monthly: MONTHLY,
-  node: NODE_HOURLY,
-} = priceLabels(HOURLY);
+// No fixed rate: the page ships "Request access" and shows the live weighted-average bid
+// from the Console API when providers have B300 bids open, the same figure as the pricing table.
+const { rateShort: RATE_SHORT } = onRequestPriceLabels("Request access");
 
 const PRICE_POST = "/the-bid/b300-rental-price-2026-cost-per-hour/";
 const COMPARISON_POST =
@@ -28,17 +16,17 @@ const COMPARISON_POST =
 
 const reserve: GpuLink = {
   label: "Reserve B300 capacity",
-  href: "/nvidia-blackwell-gpus",
+  href: "/next-gen-gpus/?gpu=b300#request-access",
 };
 const sales: GpuLink = {
   label: "Talk to sales",
-  href: "/nvidia-blackwell-gpus",
+  href: "/next-gen-gpus/?gpu=b300#request-access",
 };
 
 export const b300: GpuDetailPage = {
   slug: "b300",
   shortName: "B300",
-  pricesUpdated: isoDate(UPDATED),
+  livePrice: { model: "b300", onRequest: true },
   seo: {
     title: "NVIDIA B300 GPU: 288GB HBM3e Specs & On-Demand Rental | Akash",
     description:
@@ -63,13 +51,13 @@ export const b300: GpuDetailPage = {
     ],
     ctas: [reserve, deployLink, allPricingLink],
   },
-  intro: `The NVIDIA B300 GPU is a Blackwell Ultra data center GPU with 288 GB of HBM3e memory and up to 8 TB/s of memory bandwidth, built for large-model AI inference, training, fine-tuning and long-context workloads. On Akash, you can rent a B300 on demand from ${RATE_SHORT} per GPU-hour, or reserve a dedicated B300 cluster for production.`,
+  intro: `The NVIDIA B300 GPU is a Blackwell Ultra data center GPU with 288 GB of HBM3e memory and up to 8 TB/s of memory bandwidth, built for large-model AI inference, training, fine-tuning and long-context workloads. On Akash, you can rent B300s on demand from providers on the network, or reserve a dedicated B300 cluster for production.`,
   pricing: {
     title: "Rent a B300 on Akash",
     paragraphs: [
-      `As of ${AS_OF}, on-demand B300s on Akash start at ${RATE} per GPU-hour. Reserved B300 clusters are quoted on GPU count, term and workload.`,
+      "On-demand B300 prices on Akash come from live provider bids, not a fixed rate, so the figures below update with the market. When no provider has B300 bids open, request access instead. Reserved B300 clusters are quoted on GPU count, term and workload.",
     ],
-    table: pricingTable(HOURLY, {
+    table: onRequestPricingTable({
       single: "1x B300 (288 GB)",
       node: "8x B300 (~2.1 TB total)",
       quoted: "Reserved cluster",
@@ -249,7 +237,8 @@ export const b300: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an NVIDIA B300?",
-      answer: `As of ${AS_OF}, on-demand B300s on Akash start at ${RATE} per GPU-hour, about ${MONTHLY} a month running 24/7, or ${NODE_HOURLY} per hour for an 8-GPU server. Pricing changes with marketplace supply and demand.`,
+      answer:
+        "B300 pricing on Akash comes from live provider bids, so it moves with marketplace supply and demand. The [GPU pricing table](/pricing/gpus/) shows the current rate. When no provider has B300 bids open, [request access](/next-gen-gpus/) for on-demand or reserved capacity.",
     },
     {
       question: "Is the NVIDIA B300 available on demand?",

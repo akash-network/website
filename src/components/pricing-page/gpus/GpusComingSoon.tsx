@@ -1,10 +1,11 @@
 import NvidiaBlackwellForm from "@/components/blackwell/nvidia-blackwell-form";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowUpCircle } from "lucide-react";
+import { NEXT_GEN_ACCESS_URL } from "./gpu-models";
 
 const GpusComingSoon = () => {
   const description =
-    "Supercharge your AI and compute workloads with NVIDIA's most advanced GPUs, coming soon to Akash Supercloud.";
+    "B300s are on the network today. Request access to B200, GB200, GB300 and Vera Rubin capacity on Akash Supercloud.";
 
   return (
     <>
@@ -34,7 +35,7 @@ const GpusComingSoon = () => {
 
           <div>
             <h3 className="text-lg font-semibold text-white ">
-              NVIDIA B200 – B300 Coming Soon
+              Next-gen NVIDIA GPUs
             </h3>
             <p className="hidden text-sm text-muted-foreground sm:block">
               {description}
@@ -74,8 +75,8 @@ export const NVIDIAB200SoonForm = ({
     <button className="flex w-full items-center justify-center bg-primary px-3 py-2">
       <div>
         <p className="text-center text-sm font-semibold text-primary-foreground ">
-          NVIDIA B200/300 are coming to Akash -{" "}
-          <span className="underline">Get Early Access</span>
+          Next-gen NVIDIA GPUs on Akash: B300 to Vera Rubin -{" "}
+          <span className="underline">Request access</span>
         </p>
       </div>
     </button>
@@ -86,6 +87,6 @@ export const NVIDIAB200SoonForm = ({
     //   {externalButton ? button : children}
     // </NvidiaBlackwellForm>
 
-    <a href="/nvidia-blackwell-gpus">{button}</a>
+    <a href={NEXT_GEN_ACCESS_URL}>{button}</a>
   );
 };

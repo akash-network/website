@@ -1,4 +1,3 @@
-
 import TryAkashForm from "@/components/ui/try-akash-form";
 import { gpus } from "@/utils/api";
 import {
@@ -12,9 +11,10 @@ import React from "react";
 import { DUMMY_GPU_DATA } from "./dummy-gpu-data";
 import Filter, { defaultFilters, type Filters } from "./filter";
 import {
+  isNextGenModel,
   modifyModel,
-  normalizeGpuModel,
-  withBlackwellFallbacks,
+  nextGenAccessHref,
+  withNextGenModels,
 } from "./gpu-models";
 import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import GpuTableRow from "./gpu-table-row";
@@ -115,7 +115,7 @@ const Table = ({
   );
 };
 
-export { modifyModel, normalizeGpuModel };
+export { modifyModel };
 
 export const price = (price: number) => {
   if (!price) return "--";
@@ -227,22 +227,22 @@ export const Tables = ({
   const totalGpus =
     filteredData?.length > 0
       ? filteredData?.reduce(
-        (prev, curr) => prev + (curr?.availability?.total ?? 0),
-        0,
-      )
+          (prev, curr) => prev + (curr?.availability?.total ?? 0),
+          0,
+        )
       : 0;
 
   const totalAvailableGpus =
     filteredData?.length > 0
       ? filteredData?.reduce(
-        (prev, curr) => prev + (curr?.availability?.available ?? 0),
-        0,
-      )
+          (prev, curr) => prev + (curr?.availability?.available ?? 0),
+          0,
+        )
       : 0;
 
   const normalizedData = React.useMemo(() => {
-    // Applies the fixed B300/B200 prices and adds either model if missing
-    const normalized = withBlackwellFallbacks(filteredData ?? []);
+    // Lists B300, B200 and Vera Rubin even when the API has no entry for them yet
+    const normalized = withNextGenModels(filteredData ?? []);
 
     // Get B300, B200, and H200 models
     const b300Models = normalized.filter(
@@ -287,7 +287,13 @@ export const Tables = ({
     });
 
     // Combine all models including B300, B200, H200, then group by VRAM
-    const allModels = [...b300Models, ...b200Models, ...h200Models, ...priorityGpus, ...otherModels];
+    const allModels = [
+      ...b300Models,
+      ...b200Models,
+      ...h200Models,
+      ...priorityGpus,
+      ...otherModels,
+    ];
 
     // Group by VRAM category while maintaining current order within each group
     const groupedByVram: Record<string, typeof allModels> = {
@@ -352,30 +358,28 @@ export const Tables = ({
         <>
           {/* Render grouped VRAM sections */}
           {vramGroups.map((groupName, i) => {
-            const groupModels = normalizedData?.groupedByVram?.[groupName] || [];
+            const groupModels =
+              normalizedData?.groupedByVram?.[groupName] || [];
             if (groupModels.length === 0) return null;
 
             return (
               <React.Fragment key={groupName}>
                 {/* VRAM Group Header */}
-                <div className={
-                  clsx(
-                    "bg-[#F5F5F5] dark:bg-background2 w-fit px-4 py-0.5 md:py-1 font-medium  mb-1 md:!mb-0 rounded-full ",
-                    i === 0 ? "mt-[14px] md:mt-4" : "mt-10"
-                  )
-                }>
-                  <h3 className="text-para text-sm">
-                    {groupName} VRAM
-                  </h3>
+                <div
+                  className={clsx(
+                    "mb-1 w-fit rounded-full bg-[#F5F5F5] px-4 py-0.5 font-medium  dark:bg-background2 md:!mb-0 md:py-1 ",
+                    i === 0 ? "mt-[14px] md:mt-4" : "mt-10",
+                  )}
+                >
+                  <h3 className="text-sm text-para">{groupName} VRAM</h3>
                 </div>
 
                 {/* Group Models */}
-                {groupModels.map((rawModel, index) => {
-                  const model = normalizeGpuModel(rawModel);
-                  const modelLower = model?.model?.toLowerCase();
-                  const isB200 = modelLower === "b200";
-                  const isB300 = modelLower === "b300";
-                  const isSpecialModel = isB200 || isB300;
+                {groupModels.map((model, index) => {
+                  // Priced models are on the network and rent through the console; unpriced
+                  // next-gen models link to the access page.
+                  const isNextGen =
+                    isNextGenModel(model?.model) && !model?.price;
                   const providerCount =
                     model?.providerAvailability?.available || 0;
 
@@ -387,9 +391,15 @@ export const Tables = ({
                       interface={model?.interface || ""}
                       minPrice={model?.price?.min || 0}
                       maxPrice={model?.price?.max || 0}
-                      avgPrice={model?.price?.weightedAverage || 0}
+                      avgPrice={
+                        model?.price?.weightedAverage ??
+                        (isNextGen ? "Request access" : 0)
+                      }
                       providerCount={providerCount}
-                      isB200={isSpecialModel}
+                      isNextGen={isNextGen}
+                      href={
+                        isNextGen ? nextGenAccessHref(model?.model) : undefined
+                      }
                       id={`${model?.model}-(gpu-rent)`}
                     />
                   );
@@ -406,8 +416,9 @@ export const Tables = ({
         <div className="flex flex-col">
           {/* Header row - visible on both desktop and mobile */}
           <div className="flex items-center justify-between border-b border-defaultBorder  pb-3 pt-3 text-sm font-light text-para  xl:pb-2 xl:pt-0 xl:text-xs xl:font-normal">
-
-            <span className="md:text-foreground text-[15px] md:text-base md:font-medium">GPU Model</span>
+            <span className="text-[15px] md:text-base md:font-medium md:text-foreground">
+              GPU Model
+            </span>
             <span className="text-[15px]">Price (Starting at)</span>
           </div>
 

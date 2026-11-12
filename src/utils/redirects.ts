@@ -383,4 +383,7 @@ export const redirects = {
   // Linked as https://akash.network/chat from the synced AEP-4 page.
   "/chat": "https://discord.com/invite/akash",
   "/chat/": "https://discord.com/invite/akash",
+  // Nov 2026: the Blackwell page became the next-gen GPUs page (B300 to Vera Rubin).
+  "/nvidia-blackwell-gpus": "/next-gen-gpus/",
+  "/nvidia-blackwell-gpus/": "/next-gen-gpus/",
 };

@@ -170,7 +170,7 @@ function ProviderCalculatorContent() {
     () =>
       (gpuPrices.data?.models ?? [])
         .map(toGpuRow)
-        .filter((row) => row.hourly !== null && !row.isBlackwell)
+        .filter((row) => row.hourly !== null && !row.isNextGen)
         .sort(
           (a, b) =>
             gpuOptionRank(a) - gpuOptionRank(b) ||

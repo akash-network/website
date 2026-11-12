@@ -47,6 +47,7 @@ export const modifyModel = (model: string) => {
   if (model === "pro6000se") return "Pro 6000 SE";
   if (model === "pro6000we") return "Pro 6000 WE";
   if (model === "pro6000mq") return "Pro 6000 Max-Q";
+  if (model === "rubin") return "Vera Rubin";
   if (model === "rtxpro6000blackwellmaxqworkstationedition")
     return "RTX Pro 6000 Blackwell Max-Q";
   return formatText(model);
@@ -58,74 +59,49 @@ export const gpuDisplayName = (model: string) => {
   return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
-// B300 and B200 aren't priced from open bids: the pricing tables list them at fixed hourly
-// rates and send visitors to /nvidia-blackwell-gpus to request access.
-const BLACKWELL_HOURLY_PRICES = new Map<string, number>([
-  ["b300", 6],
-  ["b200", 5],
+// Next-generation NVIDIA GPUs. Like every other model, their prices come only from the
+// Console API: when it has no bids for one, the tables show "Request access" in place of a
+// price and send visitors to the next-gen page instead of the console.
+export const NEXT_GEN_ACCESS_URL = "/next-gen-gpus";
+
+/** The access page with this model preselected in its request form, scrolled to the form. */
+export const nextGenAccessHref = (model: string) =>
+  `/next-gen-gpus/?gpu=${encodeURIComponent((model ?? "").toLowerCase())}#request-access`;
+
+// Listed even when the API has no entry for them yet, so the tables can offer access. Vera
+// Rubin's id is a placeholder until a provider lists it; rename it to the id the API uses.
+const NEXT_GEN_LISTED: { model: string; ram: string; interface: string }[] = [
+  { model: "b300", ram: "288GB", interface: "HBM3e" },
+  { model: "b200", ram: "180GB", interface: "HBM3e" },
+  { model: "rubin", ram: "288GB", interface: "HBM4" },
+];
+
+const NEXT_GEN_MODELS = new Set([
+  ...NEXT_GEN_LISTED.map(({ model }) => model),
+  "gb300",
+  "gb200",
 ]);
 
-export const BLACKWELL_ACCESS_URL = "/nvidia-blackwell-gpus";
+export const isNextGenModel = (model: string) =>
+  NEXT_GEN_MODELS.has((model ?? "").toLowerCase());
 
-export const isBlackwellModel = (model: string) =>
-  BLACKWELL_HOURLY_PRICES.has((model ?? "").toLowerCase());
-
-/** Fixed hourly USD rate for a Blackwell model, or undefined for bid-priced models. */
-export const blackwellHourlyPrice = (model: string) =>
-  BLACKWELL_HOURLY_PRICES.get((model ?? "").toLowerCase());
-
-export const normalizeGpuModel = <T extends GpuModel>(model: T): T => {
-  const hardcodedPrice = BLACKWELL_HOURLY_PRICES.get(
-    model?.model?.toLowerCase() ?? "",
+/** Adds a placeholder (no price, nothing available) for each listed next-gen model the API
+ *  doesn't return, so it still shows up with a "Request access" link. */
+export const withNextGenModels = <T extends GpuModel>(models: T[]): T[] => {
+  const present = new Set(models.map((m) => m?.model?.toLowerCase()));
+  const missing = NEXT_GEN_LISTED.filter(
+    ({ model }) => !present.has(model),
+  ).map(
+    (entry) =>
+      ({
+        vendor: "nvidia",
+        ...entry,
+        availability: { total: 0, available: 0 },
+        providerAvailability: { total: 0, available: 0 },
+        price: null,
+      }) as GpuModel as T,
   );
-
-  if (hardcodedPrice === undefined) return model;
-
-  return {
-    ...model,
-    price: {
-      ...model.price,
-      min: hardcodedPrice,
-      max: hardcodedPrice,
-      avg: hardcodedPrice,
-      med: hardcodedPrice,
-      weightedAverage: hardcodedPrice,
-    },
-    providerAvailability: {
-      total: model?.providerAvailability?.total ?? 1,
-      available: 1,
-    },
-  } as T;
-};
-
-// Listed even when the API has no entry for them yet.
-const BLACKWELL_FALLBACKS: GpuModel[] = [
-  ["b300", "288GB"],
-  ["b200", "180GB"],
-].map(([model, ram]) => ({
-  vendor: "nvidia",
-  model,
-  ram,
-  interface: "HBM3e",
-  availability: { total: 1, available: 1 },
-  providerAvailability: { total: 1, available: 1 },
-  price: null,
-}));
-
-/** Applies the fixed B300/B200 prices and adds either model if the API omitted it. */
-export const withBlackwellFallbacks = <T extends GpuModel>(
-  models: T[],
-): T[] => {
-  const normalized = models.map((model) => normalizeGpuModel(model));
-
-  for (const fallback of BLACKWELL_FALLBACKS) {
-    const present = normalized.some(
-      (m) => m?.model?.toLowerCase() === fallback.model,
-    );
-    if (!present) normalized.push(normalizeGpuModel(fallback as T));
-  }
-
-  return normalized;
+  return [...models, ...missing];
 };
 
 /** Parses API RAM strings like "80Gi" or "180GB" into a number of GB. */

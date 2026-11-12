@@ -1,0 +1,104 @@
+---
+import { ContactForm } from "@/components/blackwell/ContactForm";
+import NextGenModels, {
+  type NextGenModel,
+} from "@/components/next-gen-gpus/NextGenModels";
+import TopMargin from "@/components/ui/top-margin.astro";
+import Layout from "@/layouts/layout.astro";
+import "@/styles/globals.css";
+
+// Newest first. "On the network" replaces the fallback status whenever providers list the
+// model in the Console API, so this list doesn't need editing as capacity comes online.
+const models: NextGenModel[] = [
+  {
+    id: "rubin",
+    name: "NVIDIA Vera Rubin",
+    architecture: "Rubin · next generation after Blackwell",
+    spec: "HBM4",
+    description:
+      "NVIDIA's next platform pairs Rubin GPUs with HBM4 memory and the Vera CPU, built for frontier-scale training and inference. Register interest to plan Rubin capacity on Akash.",
+    fallbackStatus: "Register interest",
+  },
+  {
+    id: "b300",
+    name: "NVIDIA HGX B300",
+    architecture: "Blackwell Ultra",
+    spec: "288 GB HBM3e per GPU",
+    description:
+      "The most memory per GPU in the Blackwell family, for serving trillion-parameter MoE models and long-context inference on a single 8-GPU node.",
+    fallbackStatus: "Request access",
+  },
+  {
+    id: "gb300",
+    name: "NVIDIA GB300 NVL72",
+    architecture: "Grace Blackwell Ultra",
+    spec: "72 GPUs · 36 Grace CPUs per rack",
+    description:
+      "Rack-scale Blackwell Ultra: 72 GPUs in one NVLink domain, for reasoning models and the largest training runs. Offered as reserved clusters.",
+    fallbackStatus: "Reserved clusters",
+  },
+  {
+    id: "b200",
+    name: "NVIDIA HGX B200",
+    architecture: "Blackwell",
+    spec: "180 GB HBM3e per GPU",
+    description:
+      "Blackwell with native FP4 for training and inference. An 8-GPU node brings 1.44 TB of GPU memory linked by 1.8 TB/s NVLink.",
+    fallbackStatus: "Request access",
+  },
+  {
+    id: "gb200",
+    name: "NVIDIA GB200 NVL72",
+    architecture: "Grace Blackwell",
+    spec: "72 GPUs · 36 Grace CPUs per rack",
+    description:
+      "Liquid-cooled rack that links 72 Blackwell GPUs and 36 Grace CPUs as one system, for real-time LLM inference and large-scale training. Offered as reserved clusters.",
+    fallbackStatus: "Reserved clusters",
+  },
+];
+---
+
+<Layout
+  title="Next-Gen NVIDIA GPUs: B300, GB300, B200, GB200 and Vera Rubin"
+  image="/meta-images/nvidia-blackwell.webp"
+  description="Rent NVIDIA B300 GPUs on Akash and request access to B200, GB200 NVL72, GB300 NVL72 and Vera Rubin capacity, on demand or as reserved clusters."
+>
+  <TopMargin className="container-wide" isNotContainer>
+    <section
+      class="flex flex-col gap-12 pb-20 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-20"
+    >
+      <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-4">
+          <h1 class="text-4xl !font-semibold leading-[1.2] lg:text-[54px]">
+            Next-gen NVIDIA GPUs
+          </h1>
+          <p class="text-para md:text-lg">
+            Blackwell, Blackwell Ultra and Vera Rubin on the Akash Supercloud,
+            from single GPUs on demand to reserved rack-scale clusters.
+          </p>
+          <p class="text-para md:text-lg">
+            Models marked &ldquo;On the network&rdquo; are listed by providers
+            today. For everything else, tell us what you need and the team will
+            get in touch about capacity.
+          </p>
+          <a
+            href="/pricing/gpus/"
+            class="w-fit text-sm font-medium text-foreground underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-current dark:decoration-white/30"
+          >
+            See live GPU prices
+          </a>
+        </div>
+
+        <NextGenModels models={models} client:load />
+      </div>
+
+      <div
+        id="request-access"
+        class="flex scroll-mt-28 flex-col gap-8 rounded-lg border p-6 md:p-14 lg:sticky lg:top-24"
+      >
+        <h2 class="text-2xl font-medium">Request access to next-gen GPUs</h2>
+        <ContactForm client:load />
+      </div>
+    </section>
+  </TopMargin>
+</Layout>

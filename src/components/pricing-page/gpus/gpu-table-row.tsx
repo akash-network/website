@@ -10,7 +10,7 @@ interface GpuTableRowProps {
   maxPrice: string | number;
   avgPrice: string | number;
   providerCount?: number;
-  isB200?: boolean;
+  isNextGen?: boolean;
   href?: string;
   id?: string;
   className?: string;
@@ -24,7 +24,7 @@ const GpuTableRow = ({
   maxPrice,
   avgPrice,
   providerCount = 1,
-  isB200 = false,
+  isNextGen = false,
   href = "https://console.akash.network/new-deployment",
   id,
   className,
@@ -32,7 +32,7 @@ const GpuTableRow = ({
 
   const formattedAvgPrice =
     typeof avgPrice === "string" ? avgPrice : price(avgPrice);
-  const link = isB200 ? '/nvidia-blackwell-gpus' : href
+  const link = href
   const isInternalLink = link.startsWith("/");
 
   return (
@@ -85,7 +85,7 @@ const GpuTableRow = ({
                     Avg price:
                   </span>
                   <span className="text-base font-bold text-white">
-                    {formattedAvgPrice}/h
+                    {formattedAvgPrice}{typeof avgPrice === "number" && "/h"}
                   </span>
                 </div>
                 <div className="mt-1 flex justify-center">
@@ -99,13 +99,13 @@ const GpuTableRow = ({
         </div> */}
 
         <span className="min-w-[70px] text-base font-medium text-foreground">
-          {formattedAvgPrice}/hr
+          {formattedAvgPrice}{typeof avgPrice === "number" && "/hr"}
         </span>
 
         <div
           className={cn(
             "flex h-7 items-center justify-center overflow-hidden rounded-full bg-[#F5F5F5] transition-all duration-300 ease-in-out dark:bg-background2",
-            isB200
+            isNextGen
               ? "w-7 group-hover:w-[130px] group-hover:gap-2 group-hover:pl-4 group-hover:pr-3"
               : "w-7 group-hover:w-[90px] group-hover:gap-2 group-hover:pl-4 group-hover:pr-3",
           )}
@@ -114,12 +114,12 @@ const GpuTableRow = ({
           <span
             className={cn(
               "overflow-hidden whitespace-nowrap text-sm font-medium text-foreground transition-all duration-300 ease-in-out",
-              isB200
+              isNextGen
                 ? "w-0 opacity-0 group-hover:w-[85px] group-hover:opacity-100"
                 : "w-0 opacity-0 group-hover:w-[45px] group-hover:opacity-100",
             )}
           >
-            {isB200 ? "Get Access" : "Rent"}
+            {isNextGen ? "Get Access" : "Rent"}
           </span>
           {/* Arrow */}
           <ArrowRight className="h-4 w-4 shrink-0 transition-colors duration-300 ease-in-out " />
