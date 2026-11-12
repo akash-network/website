@@ -1,41 +1,42 @@
 ---
-title: "B300 Rental Cost in 2026: From $6/Hour on Akash for 288GB SXM6"
+title: "B300 Rental Cost in 2026: Price Per Hour and Rent vs Buy for 288GB SXM6"
 pubDate: 2026-09-03
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 author: "Sandeep Narahari, Contributor"
 description: "How much it costs to rent an NVIDIA B300 GPU per hour in 2026, what 288GB of HBM3e gets you over an H200 or H100, and when renting beats buying a $53,000 card."
 tags: ["Guides"]
 bannerImage: ./banner.webp
 draft: false
 faqAccordion: true
-metaTitle: "B300 Rental Price 2026: Cost Per Hour on Akash (from $6/hr)"
+metaTitle: "B300 Rental Price 2026: Cost Per Hour and Rent vs Buy"
 metaDescription: "How much it costs to rent an NVIDIA B300 per hour in 2026, what 288GB HBM3e gets you over an H200 or H100, and when renting beats buying."
 ---
 
-*By Sandeep Narahari, Contributor. Last updated: October 22, 2026.*
+*By Sandeep Narahari, Contributor. Last updated: November 12, 2026. Market reference rate from gpus.io, August 2026.*
 
-On Akash, [renting an NVIDIA B300](/pricing/gpus/b300/) starts from \$6.00 per GPU-hour on demand, or \$48 an hour for an 8-GPU HGX B300 node (October 2026). That compares with a purchase price near \$53,000 for the card alone.
+On Akash, the price to [rent an NVIDIA B300](/pricing/gpus/b300/) comes from live provider bids, shown on the [GPU pricing table](/pricing/gpus/). When no provider has B300 bids open, you can [request access](/next-gen-gpus/) for on-demand or reserved capacity. The cost math in this guide uses a market reference rate of \$8.31 per GPU-hour, the tracked market median from [gpus.io](https://gpus.io/en/gpus/b300) in August 2026, which comes to \$66.48 an hour for an 8-GPU HGX B300 node. That compares with a purchase price near \$53,000 for the card alone.
 
 ## TL;DR
 
-- **On Akash:** from \$6.00/GPU-hour on demand, \$48/hour for 8x B300, and reserved clusters by quote — [rent an NVIDIA B300 on Akash](/pricing/gpus/b300/).
-- **Relative cost:** a B300 runs roughly 1.6x an [H200](/pricing/gpus/h200/) rate and about 2.2x an [H100](/pricing/gpus/h100/) rate on the same marketplace, for 2x and 3.6x the memory respectively.
+- **On Akash:** on-demand pricing comes from live provider bids, and reserved clusters are quoted on GPU count, term, and workload. Check the current rate on the [B300 pricing page](/pricing/gpus/b300/), or [request access](/next-gen-gpus/) when no provider has B300 bids open.
+- **Market reference:** the tracked market median was \$8.31 per GPU-hour in August 2026 ([gpus.io](https://gpus.io/en/gpus/b300)), or \$66.48 an hour for 8x B300. This guide uses that figure for its cost math.
+- **Relative cost:** the B300 carries 2x the memory of an [H200](/pricing/gpus/h200/) and 3.6x that of an [H100](/pricing/gpus/h100/). Compare their live rates on the [GPU pricing table](/pricing/gpus/) per GB of memory, not only per GPU.
 - **What you get:** 288 GB of HBM3e at 8 TB/s in an SXM6 form factor, roughly 3.6x the memory of an H100 and 50% more than a [B200](/pricing/gpus/b200/).
-- **Rent vs buy:** a single B300 costs roughly \$53,000 to purchase and a full 8-GPU DGX B300 system runs \$300,000 to \$500,000, so renting wins for anything below sustained multi-year utilization.
+- **Rent vs buy:** a single B300 costs roughly \$53,000 to purchase and a full 8-GPU DGX B300 system runs \$300,000 to \$500,000. At the market reference rate, the card's price equals about 266 days of nonstop rental, so buying only pays off under sustained multi-year utilization.
 - **Best fit:** memory-bound inference on 100B-plus parameter models, long-context serving, and fine-tuning runs measured in days or weeks.
 
 ## What does the B300 rate actually add up to per day, month, and year?
 
-At that hourly rate, one B300 costs \$144 per day, \$4,320 per month at 720 hours, and \$52,560 per year at continuous 8,760-hour use. An 8-GPU node costs eight times those figures.
+At the market reference rate of \$8.31 per GPU-hour, one B300 costs \$199.44 per day, \$5,983.20 per month at 720 hours, and \$72,795.60 per year at continuous 8,760-hour use. An 8-GPU node costs eight times those figures. On Akash the rate comes from live provider bids, so swap in the current figure from the [B300 pricing page](/pricing/gpus/b300/) to price your own run.
 
-| Duration | 1x B300 | 8x B300 node |
+| Duration | 1x B300 at \$8.31/hr | 8x B300 node at \$66.48/hr |
 |---|---|---|
-| 24 hours (1 day) | \$144 | \$1,152 |
-| 168 hours (1 week) | \$1,008 | \$8,064 |
-| 720 hours (1 month) | \$4,320 | \$34,560 |
-| 8,760 hours (1 year) | \$52,560 | \$420,480 |
+| 24 hours (1 day) | \$199.44 | \$1,595.52 |
+| 168 hours (1 week) | \$1,396.08 | \$11,168.64 |
+| 720 hours (1 month) | \$5,983.20 | \$47,865.60 |
+| 8,760 hours (1 year) | \$72,795.60 | \$582,364.80 |
 
-The number that matters for budgeting is the monthly figure at your real duty cycle, not the 24/7 figure. A team running eight B300s eight hours a day on weekdays consumes roughly 176 GPU-hours per GPU per month, which comes to about \$1,056 per GPU rather than \$4,320, or \$8,448 for the node. Model your actual schedule before you compare an hourly rate against a purchase price, because idle hours are the single largest variable in the total.
+The number that matters for budgeting is the monthly figure at your real duty cycle, not the 24/7 figure. A team running eight B300s eight hours a day on weekdays consumes roughly 176 GPU-hours per GPU per month, which at the reference rate comes to \$1,462.56 per GPU rather than \$5,983.20, or \$11,700.48 for the node. Model your actual schedule before you compare an hourly rate against a purchase price, because idle hours are the single largest variable in the total.
 
 ## What are you actually renting when you rent a B300?
 
@@ -50,7 +51,7 @@ A B300 rental gives you one NVIDIA Blackwell Ultra GPU with 288 GB of HBM3e memo
 
 The B300 is a memory part before it is a compute part. Bandwidth did not move from the B200, and dense FP8 throughput is roughly the same across both parts, which means a serving stack that has not adopted NVFP4 gets no compute benefit at all and is paying purely for capacity. Two capabilities were deliberately cut to fund that design: INT8 throughput sits well under FP8 because that silicon budget went to NVFP4, and FP64 was cut back for the same reason. The result is a part that handles classical HPC worse than the B200 it replaces. See our [B300 vs B200 vs H200 comparison](/the-bid/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/) for the full spec breakdown.
 
-What you are renting, then, is capacity rather than raw throughput, and capacity is where the B300 prices well. At its entry rate, a B300 returns more GPU memory per dollar-hour than an H100 or an H200 at their [respective rates](/pricing/gpus/). If your constraint is fitting a model, that is the number to optimize. If your constraint is FLOPS, it is not.
+What you are renting, then, is capacity rather than raw throughput, and capacity is where the B300 can price well. It holds about 2x the memory of an H200 and 3.6x that of an H100, so it returns more GPU memory per dollar-hour whenever its rate is below about 2x the H200 rate or 3.6x the H100 rate on the [GPU pricing table](/pricing/gpus/). If your constraint is fitting a model, that is the number to optimize. If your constraint is FLOPS, it is not.
 
 ## Which inference workloads make renting a B300 worth it?
 
@@ -67,7 +68,7 @@ Workloads where a B300 rental wastes money: 7B to 30B models that fit comfortabl
 
 ## When does renting a B300 make more sense than buying for training?
 
-Renting a B300 makes more sense than buying whenever your training utilization sits below roughly 60% to 70% sustained over multiple years, because market estimates put a single B300 near \$53,000 and a fully configured 8-GPU DGX B300 system between \$300,000 and \$500,000.
+Renting a B300 makes more sense than buying when your training utilization stays low or uneven over the life of the hardware, because market estimates put a single B300 near \$53,000 and a fully configured 8-GPU DGX B300 system between \$300,000 and \$500,000. At the market reference rate used in this guide, the card's price alone equals about 36% utilization over two years, and power, cooling, networking, and staff push that break-even higher.
 
 Rent when any of these are true:
 
@@ -80,17 +81,17 @@ Buy when you have a genuinely continuous training pipeline, an existing high-den
 
 ## What does the rent versus buy math look like for a B300?
 
-At the \$6.00 entry rate, \$53,000 of B300 hardware buys about 8,833 rented GPU-hours, which is roughly 368 days of continuous use. Break-even therefore lands near one year of nonstop utilization before you add any of the costs of actually running the machine.
+At the \$8.31 market reference rate, \$53,000 of B300 hardware buys about 6,378 rented GPU-hours, which is roughly 266 days of continuous use. Break-even therefore lands under nine months of nonstop utilization before you add any of the costs of actually running the machine. To redo this for Akash, use the live rate from the [GPU pricing table](/pricing/gpus/): a lower hourly rate pushes break-even further out, and a higher one pulls it in.
 
-| Factor | Renting at entry rate | Buying one B300 |
+| Factor | Renting at market reference (\$8.31/hr) | Buying one B300 |
 |---|---|---|
 | Upfront capital | \$0 | ~\$53,000 per GPU, \$300,000 to \$500,000 for an 8-GPU DGX B300 |
-| Cost at 100% use, 1 year | \$52,560 | Hardware, plus power, cooling, networking, and staff |
-| Cost at 30% use, 1 year | \$15,768 | Unchanged; idle hardware still depreciates |
+| Cost at 100% use, 1 year | \$72,795.60 | Hardware, plus power, cooling, networking, and staff |
+| Cost at 30% use, 1 year | \$21,838.68 | Unchanged; idle hardware still depreciates |
 | Time to first token | Minutes | Weeks to months of procurement and buildout |
 | Exposure to Rubin R100 transition | Switch SKUs at the end of a lease | Own the asset through the transition |
 
-The takeaway: renting only loses on price if you can hold a B300 above roughly 70% utilization for two-plus years and you already have the facility to run it. At 30% utilization, one year of rental costs less than a third of the card's sticker price, before you count the facility. Purchase figures are reseller estimates rather than NVIDIA list prices, since the B300 is not sold as a standalone card and NVIDIA publishes no list price for it.
+The takeaway: at the market reference rate, the purchase price alone equals about 36% utilization over two years or about 24% over three, and power, cooling, networking, and staff push those thresholds higher. Renting loses on price only when you can keep a B300 busy above that adjusted threshold for two-plus years and you already have the facility to run it. At 30% utilization, one year of rental costs about 41% of the card's sticker price, before you count the facility. Purchase figures are reseller estimates rather than NVIDIA list prices, since the B300 is not sold as a standalone card and NVIDIA publishes no list price for it.
 
 ## Who should rent B300 GPUs?
 
@@ -99,7 +100,7 @@ B300 rental fits four groups: AI startups shipping large open-weight models, res
 - **Startups serving 100B-plus models.** Renting converts a \$53,000 capital decision into an hourly one, and lets you drop to H200s or H100s the moment your model gets smaller or quantized.
 - **Research teams.** Grant-funded work with defined project windows should never own hardware that outlives the grant. Rent for the run, release the lease, publish.
 - **Enterprises evaluating Blackwell Ultra.** Renting a small B300 cluster for four to six weeks answers the "does NVFP4 actually help our stack" question for a fraction of the cost of the procurement process for buying.
-- **Short-term and seasonal projects.** A four-week fine-tune at 8 GPUs costs about \$32,256 at the entry rate, against \$300,000-plus to purchase the equivalent node.
+- **Short-term and seasonal projects.** A four-week fine-tune at 8 GPUs costs \$44,674.56 at the market reference rate, against \$300,000-plus to purchase the equivalent node.
 
 Who should not rent: teams whose models fit in 80 GB, teams running FP64 scientific workloads, and teams with sustained continuous training and an existing facility built for the hardware.
 
@@ -118,17 +119,17 @@ Check eight things before signing a B300 rental: GPU count and topology, interco
 
 ## How do you rent B300 GPUs on Akash?
 
-To [rent an NVIDIA B300 on Akash](/pricing/gpus/b300/), deploy on demand from \$6.00 per GPU-hour, or submit the [GPUs on demand](https://akash.network/gpus-on-demand/) request form with your GPU count, workload type, and duration, and the team returns a custom quote matched against available provider capacity.
+To [rent an NVIDIA B300 on Akash](/pricing/gpus/b300/), deploy on demand at the live rate when providers have B300 bids open, as shown on the [GPU pricing table](/pricing/gpus/). When none do, [request access](/next-gen-gpus/) for on-demand or reserved capacity. You can also submit the [GPUs on demand](https://akash.network/gpus-on-demand/) request form with your GPU count, workload type, and duration, and the team returns a custom quote matched against available provider capacity.
 
 Need B300s for months? [Akash Enterprise](/use-cases/enterprise/) offers reserved B300 capacity.
 
 ## FAQ
 
-**How much does it cost to rent a B300 GPU per hour?** On Akash, a B300 starts from \$6.00 per GPU-hour on demand. The rate covers one full B300 with 288 GB of HBM3e on an SXM6 socket. Reserved terms and spot capacity price below on-demand; bundled managed stacks price above it.
+**How much does it cost to rent a B300 GPU per hour?** On Akash, B300 pricing comes from live provider bids, so the current rate is on the [B300 pricing page](/pricing/gpus/b300/) and the [GPU pricing table](/pricing/gpus/). When no provider has B300 bids open, [request access](/next-gen-gpus/) for on-demand or reserved capacity. For reference, the tracked market median was \$8.31 per GPU-hour in August 2026, according to [gpus.io](https://gpus.io/en/gpus/b300). A rate covers one full B300 with 288 GB of HBM3e on an SXM6 socket. Reserved terms and spot capacity price below on-demand; bundled managed stacks price above it.
 
-**Is it cheaper to rent or buy a B300 GPU?** Renting a B300 is cheaper than buying for most teams — see the rent-vs-buy breakdown above. Buying only wins above roughly 70% sustained utilization across multiple years, plus the facility to run it.
+**Is it cheaper to rent or buy a B300 GPU?** Renting a B300 is cheaper than buying for most teams with bursty or fixed-term work — see the rent-vs-buy breakdown above. At the \$8.31 market reference rate, the card's roughly \$53,000 price equals about 266 days of nonstop rental, so buying wins only with sustained utilization across multiple years, plus the facility to run it.
 
-**How much does an 8x B300 node cost per month?** An 8x B300 node on Akash costs about \$35,000 per month running 24/7: \$48 per hour across 730 hours comes to \$35,040. The table above uses a 720-hour, 30-day month, which comes to \$34,560. A node that runs only part of the day costs proportionally less.
+**How much does an 8x B300 node cost per month?** At the \$8.31 market reference rate, an 8x B300 node costs about \$48,500 per month running 24/7: \$66.48 per hour across 730 hours comes to \$48,530.40. The table above uses a 720-hour, 30-day month, which comes to \$47,865.60. On Akash, the node rate follows live provider bids on the [GPU pricing table](/pricing/gpus/). A node that runs only part of the day costs proportionally less.
 
 **Can I reserve B300 capacity for 3–12 months?** Yes. [Akash Enterprise](/use-cases/enterprise/) offers reserved B300 capacity committed for the term you need, with bare metal available and no multi-year lock-in. Reserved clusters are quoted on GPU count, term, and workload.
 
@@ -138,4 +139,4 @@ Need B300s for months? [Akash Enterprise](/use-cases/enterprise/) offers reserve
 
 **Should I wait for the Rubin R100 instead of renting a B300?** No, waiting is rarely correct if you need capacity now. The Rubin R100 with 288 GB of HBM4 began shipping in the second half of 2026, with broad cloud availability expected in 2027. Renting rather than buying is precisely how you avoid being stranded by that transition.
 
-**How much does a B300 cost for a day or a week?** At Akash's on-demand rate of \$6.00 per GPU-hour, one B300 costs \$144 for 24 hours and \$1,008 for a 168-hour week. A full 8x B300 node costs \$1,152 a day or \$8,064 a week. Charges stop when you close the deployment, so short fine-tuning or evaluation runs pay only for the hours they use.
+**How much does a B300 cost for a day or a week?** At the \$8.31 market reference rate, one B300 costs \$199.44 for 24 hours and \$1,396.08 for a 168-hour week. A full 8x B300 node costs \$1,595.52 a day or \$11,168.64 a week. On Akash, charges stop when you close the deployment, so short fine-tuning or evaluation runs pay only for the hours they use.

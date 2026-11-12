@@ -151,17 +151,17 @@ For the full single-GPU cost breakdown, including the token volume where self-ho
 
 Yes. Since a single accelerator can't hold either checkpoint, most teams evaluating Qwen3.8-Flash-Next will rent a matching multi-GPU node rather than buy one.
 
-Using rates from Akash's GPU marketplace, H200 SXM5 (141GB) is listed at \$3.85 per GPU-hour as of October 22, 2026 ([NVIDIA H200 GPU Guide 2026](/bits/nvidia-h200-gpu-guide-2026-specs-benchmarks-pricing/)), and B300 (288GB, the standalone DGX B300 part) has been listed from \$6.00 per GPU-hour as a starting rate, checked October 22, 2026 (see [B300 pricing on Akash](/pricing/gpus/b300/)), though B300 capacity is limited, so treat it as a rate to confirm via a custom quote rather than guaranteed instant capacity ([Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 self-host guide](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/)).
+Using rates from Akash's GPU marketplace, H200 SXM5 (141GB) is listed at \$3.85 per GPU-hour as of October 22, 2026 ([NVIDIA H200 GPU Guide 2026](/bits/nvidia-h200-gpu-guide-2026-specs-benchmarks-pricing/)). B300 (288GB, the standalone DGX B300 part) is priced from live provider bids on the [B300 pricing page](/pricing/gpus/b300/), and you can [request access](/next-gen-gpus/) when no provider has bids open. B300 capacity is limited, and the B300 rows below use the tracked August 2026 market median of \$8.31 per GPU-hour as a reference rate, not an Akash rate ([NVIDIA B300 vs B200 vs H200](/the-bid/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/)).
 
-Rough monthly cost at these starting rates, running 24/7 (730 hours):
+Rough monthly cost at these rates, running 24/7 (730 hours):
 
 | Config | GPUs | Rate used | Hourly | Monthly (730 hrs) |
 |---|---|---|---|---|
-| TEP8, 8x H200 (FP8) | 8 | \$3.85/GPU-hr | \$30.80 | ~\$22,484 |
-| TP2, 2x B300 (FP8, minimum) | 2 | \$6.00/GPU-hr | \$12.00 | ~\$8,760 |
-| TP4, 4x B300 (FP8, full-tray) | 4 | \$6.00/GPU-hr | \$24.00 | ~\$17,520 |
+| TEP8, 8x H200 (FP8) | 8 | \$3.85/GPU-hr (Akash) | \$30.80 | ~\$22,484 |
+| TP2, 2x B300 (FP8, minimum) | 2 | \$8.31/GPU-hr (market median) | \$16.62 | ~\$12,133 |
+| TP4, 4x B300 (FP8, full-tray) | 4 | \$8.31/GPU-hr (market median) | \$33.24 | ~\$24,265 |
 
-These are starting rates on live GPU marketplaces, not fixed prices; reverse-auction pricing on [Akash](/pricing/gpus/) moves with supply and demand, so confirm current rates before budgeting. B300 in particular is worth a capacity check first, since availability, not price, is the binding constraint right now.
+These are reference rates, not fixed prices; reverse-auction pricing on [Akash](/pricing/gpus/) moves with supply and demand, so confirm current rates before budgeting. B300 in particular is worth a capacity check first, since availability, not price, is the binding constraint right now.
 
 Takeaway: whether Qwen3.8-Flash-Next is worth self-hosting versus calling through Qwen Cloud's API comes down to your request volume and whether you need the preserved-thinking, agentic-context features that come with running the open weights directly. A GPU marketplace removes the capital cost from that decision by letting you rent the exact multi-GPU shape the model needs, by the hour, instead of buying an eight-figure cluster upfront.
 
@@ -187,4 +187,4 @@ For a broader look at what to rent when a workload doesn't need the largest GPU 
 
 **How does Qwen3.8-Flash-Next compare to DeepSeek-V4-Flash-0731?** On Alibaba's published benchmarks, Qwen3.8-Flash-Next leads on most coding and agentic tasks (SWE-bench Pro: 62.5 vs. 56.0; JobBench: 55.7 vs. 41.3) while activating fewer parameters (6B vs. 13B). DeepSeek-V4-Flash-0731 scores higher on repo-level code generation (NL2Repo-Bench: 54.2 vs. 48.1). DeepSeek-V4-Flash-0731 also has the smaller footprint of the two: 156.4GB versus Qwen3.8-Flash-Next's 172.78GB FP8 checkpoint (see our [Kimi K3 vs GLM-5.2 vs DeepSeek-V4-Flash-0731 self-host guide](/bits/kimi-k3-vs-glm-5-2-vs-deepseek-v4-flash-0731-self-host-guide/)).
 
-**Do I need a GB300 NVL72 rack to run Qwen3.8-Flash-Next?** No. The GB300 configuration in Qwen's recipe refers to NVIDIA's 72-GPU, liquid-cooled NVL72 rack, but the model also runs on standard 8-GPU servers. On Akash, as of October 22, 2026, the TEP8 path on 8x H200 costs \$30.80 an hour and the minimum FP8 setup on 2x B300 costs \$12.00 an hour, with no rack-scale commitment.
+**Do I need a GB300 NVL72 rack to run Qwen3.8-Flash-Next?** No. The GB300 configuration in Qwen's recipe refers to NVIDIA's 72-GPU, liquid-cooled NVL72 rack, but the model also runs on standard 8-GPU servers. On Akash, as of October 22, 2026, the TEP8 path on 8x H200 costs \$30.80 an hour, with no rack-scale commitment. The minimum FP8 setup on 2x B300 comes to about \$16.62 an hour at the tracked market median of \$8.31 per GPU-hour; Akash's B300 rate comes from live provider bids on the [B300 pricing page](/pricing/gpus/b300/).
