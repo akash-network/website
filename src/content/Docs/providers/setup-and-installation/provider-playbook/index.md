@@ -94,7 +94,7 @@ Discovery runs over SSH after access validation:
 
 The wizard collects the base domain without a `provider.` prefix, organization and contact attributes, network attributes, and TLS method. Production TLS can use Cloudflare or Google Cloud DNS-01; a self-signed certificate is available for bootstrap and testing.
 
-Wallet creation, recovery, lookup, and export use only the unified [`akt` CLI](/docs/developers/deployment/akt). The installer uses a dedicated context named `provider`, creating it for mainnet when it is absent instead of launching `akt`'s general first-run network picker. If that context already exists, verify that it points to mainnet before continuing.
+Wallet creation, recovery, lookup, and export use only the unified [`akt` CLI](/docs/developers/akt). The installer uses a dedicated context named `provider`, creating it for mainnet when it is absent instead of launching `akt`'s general first-run network picker. If that context already exists, verify that it points to mainnet before continuing.
 
 Wallet options are:
 

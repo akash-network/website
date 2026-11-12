@@ -1,48 +1,21 @@
 ---
 categories: ["Developers", "Deployment"]
-tags: ["akt", "CLI", "Command Line"]
+tags: ["akt", "CLI", "Deployment"]
 weight: 0
-title: "akt CLI"
-linkTitle: "akt CLI"
-description: "Deploy and manage Akash applications using akt, the unified Akash Network command-line interface"
+title: "Deploy with akt"
+linkTitle: "Deploy with akt"
+description: "Deploy and manage Akash applications from the command line with akt, using your own keys or the Akash Console managed wallet"
 ---
 
-Use `akt` to deploy workloads, query the chain, operate provider leases, and work with the Akash Console managed wallet.
+**Deploy and manage applications from the command line with `akt`.**
 
-This documentation covers release candidate [akt v1.0.0-rc0](https://github.com/akash-network/akt/releases/tag/v1.0.0-rc0). Run `akt version` to check your installed version.
+`akt` runs the deployment lifecycle in one command: it creates the deployment, waits for bids, selects a provider, creates the lease and sends the manifest. It signs with your own keys, or routes through the Akash Console managed wallet so you need no local keys at all.
 
-`akt` replaces the CLI functionality previously spread across `akash`, `provider-services`, and the chain SDK CLI with a single binary. It adds named contexts for managing multiple networks and accounts, offline SDL authoring, built-in deployment workflows, Akash Console managed-wallet integration, and real-time network monitoring.
-
----
-
-## Why akt
-
-- **One binary** - Chain queries, transactions, deployment workflows, provider operations, and monitoring in a single tool.
-- **Flag-minimal operation** - After initial context configuration, most commands require zero additional flags.
-- **Two deployment rails** - Sign transactions locally with your own keys, or route through the [Akash Console managed wallet](/docs/api-documentation/console-api) with no local keys at all.
-- **Positional arguments** - Commands take their primary values positionally, following the Akash resource hierarchy (`owner/dseq/gseq/oseq/provider`).
-
-```bash
-# State keyword, identity + state, dseq, and a date range: all positional
-akt query deployment active
-akt query deployment akash1abc.../12345 closed
-akt tx deployment close 12345
-akt console usage 2026-01-01 2026-01-31
-```
-
-Check [akt on GitHub](https://github.com/akash-network/akt) for the most up-to-date code and [GitHub Releases](https://github.com/akash-network/akt/releases/latest) for the latest stable version. [Homebrew installation](/docs/developers/deployment/akt/installation) installs the latest stable release. Use the archive instructions to install the release candidate. Run `akt version --long` to check your binary and `akt <command> --help` for its supported syntax; code on GitHub may be ahead of a published release.
+New to `akt`? [Install it](/docs/developers/akt/installation) and [create a context](/docs/developers/akt/configuration) first. The [akt CLI](/docs/developers/akt) section covers everything else the CLI does, including chain queries and transactions, network monitoring and AI agent tooling.
 
 ---
 
 ## In This Section
-
-### [Installation](/docs/developers/deployment/akt/installation)
-
-Install the `akt` binary, run the first-time setup, and enable shell completion.
-
-### [Contexts & Configuration](/docs/developers/deployment/akt/configuration)
-
-Configure contexts, networks, keys, and environment variables.
 
 ### [Deployments](/docs/developers/deployment/akt/deployments)
 
@@ -52,35 +25,21 @@ Author SDL files and run the full deployment lifecycle with `akt deploy`, `akt u
 
 Deploy with the Akash Console managed wallet and account credits.
 
-### [Queries & Transactions](/docs/developers/deployment/akt/queries-and-transactions)
+---
 
-Query the chain and submit transactions for every Akash and Cosmos SDK module.
+## Quick Start
 
-### [Network Monitor](/docs/developers/deployment/akt/monitor)
-
-Watch consensus, provider fleet health, and Oracle/BME state in real time with `akt monitor`.
-
-### [Agent Skill](/docs/developers/deployment/akt/agent-skill)
-
-Give your coding agent the akt CLI skill. Download the complete bundle, read its reference guides, and install it in your project or agent's skills directory.
-
-### [MCP Server](/docs/developers/deployment/akt/mcp)
-
-Expose Akash tools to AI assistants over the Model Context Protocol.
-
-### [Commands Reference](/docs/developers/deployment/akt/commands-reference)
-
-Reference for `akt` command groups, common arguments, and flags.
+```bash
+# Generate an SDL, preview the plan, then deploy
+akt sdl init web --image nginx:1.27 > deploy.yaml
+akt deploy deploy.yaml --dry-run
+akt deploy deploy.yaml
+```
 
 ---
 
-## Quick Links
+## Related Resources
 
-- **[akt on GitHub](https://github.com/akash-network/akt)** - Source code, releases, and issue tracker
-- **[SDL Reference](/docs/developers/deployment/akash-sdl)** - Deployment configuration syntax
-- **[Managed Wallet API](/docs/api-documentation/console-api)** - The Console API behind `akt console`
-- **[Discord Support](https://discord.akash.network)** - Get help in the #developers channel
-
----
-
-Start with the [installation guide](/docs/developers/deployment/akt/installation).
+- [akt CLI](/docs/developers/akt) - Installation, configuration and the full command set
+- [SDL Reference](/docs/developers/deployment/akash-sdl) - Deployment configuration syntax
+- [Commands Reference](/docs/developers/akt/commands-reference) - Every `akt` command group

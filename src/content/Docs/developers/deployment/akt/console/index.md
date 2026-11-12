@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "Deployment", "Deploy with akt"]
 tags: ["akt", "CLI", "Console", "Managed Wallet"]
-weight: 4
+weight: 2
 title: "Akash Console Integration"
 linkTitle: "Console Integration"
 description: "Deploy with the Akash Console managed wallet from akt, with no local keys and no deposits"
@@ -231,4 +231,4 @@ After each successful Console leaf command, `akt` writes an action-specific `Nex
 
 - [Managed Wallet API](/docs/api-documentation/console-api) - The REST API behind these commands
 - [Deployments](/docs/developers/deployment/akt/deployments) - The full deployment lifecycle with `akt`
-- [Contexts & Configuration](/docs/developers/deployment/akt/configuration) - Context and credential management
+- [Contexts & Configuration](/docs/developers/akt/configuration) - Context and credential management

@@ -1,0 +1,17 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+// Shows the light image in the light theme and the dark image in the dark
+// theme. Both must have the same dimensions so the page doesn't shift.
+interface Props {
+  light: ImageMetadata;
+  dark: ImageMetadata;
+  alt: string;
+}
+
+const { light, dark, alt } = Astro.props;
+---
+
+<Image src={light} alt={alt} class="w-full dark:hidden" />
+<Image src={dark} alt={alt} class="hidden w-full dark:block" />
