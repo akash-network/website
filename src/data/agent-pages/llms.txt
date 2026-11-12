@@ -107,7 +107,6 @@ Key distinctions:
 - [Provider hardware requirements](https://akash.network/docs/providers/getting-started/hardware-requirements/): Check supported infrastructure before buying or provisioning equipment.
 - [Provider Playbook](https://akash.network/docs/providers/setup-and-installation/provider-playbook/): Guided Ansible installation using Kubespray, K3s, or an existing Kubernetes cluster.
 - [Kubespray provider setup](https://akash.network/docs/providers/setup-and-installation/kubespray/): Manual infrastructure setup and provider installation.
-- [Provider Console](https://akash.network/docs/providers/setup-and-installation/provider-console/): Browser-based provider setup and operation, distinct from tenant Console and Console Air.
 - [Akash Homenode](https://homenode.akash.network/): Contribute eligible consumer/prosumer GPU hardware through the Homenode onboarding program; check current hardware eligibility and participation terms.
 - [GPU and RDMA setup](https://akash.network/docs/providers/setup-and-installation/kubespray/gpu-support/): Provider-side GPU enablement and optional high-speed GPU interconnect.
 - [Provider attributes](https://akash.network/docs/providers/operations/provider-attributes/): Advertise hardware, location, and capabilities used in placement matching.

@@ -121,7 +121,7 @@ export const providersSection: Section = {
       href: "/docs/providers/setup-and-installation",
       icon: "tool",
       title: "Setup & Installation",
-      description: "Provider Playbook, Kubespray, and Provider Console",
+      description: "Provider Playbook and Kubespray",
     },
     {
       href: "/docs/providers/operations",

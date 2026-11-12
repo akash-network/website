@@ -137,7 +137,7 @@ helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
 
 rm -rf /tmp/akash-gpu-operator-chart
-helm pull nvidia/gpu-operator --version v26.7.0 --untar \
+helm pull nvidia/gpu-operator --version v26.7.2 --untar \
   --untardir /tmp/akash-gpu-operator-chart
 kubectl apply --server-side --force-conflicts \
   -f /tmp/akash-gpu-operator-chart/gpu-operator/crds \
@@ -146,7 +146,7 @@ kubectl apply --server-side --force-conflicts \
 helm upgrade --install gpu-operator nvidia/gpu-operator \
   --namespace gpu-operator \
   --create-namespace \
-  --version v26.7.0 \
+  --version v26.7.2 \
   -f gpu-operator-values.yaml
 ```
 

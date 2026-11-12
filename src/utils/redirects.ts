@@ -161,14 +161,18 @@ export const redirects = {
   "/docs/learn/tokenomics/": "/token/",
   "/docs/network-features/fractional-uakt": "/docs/learn/core-concepts/",
   "/docs/network-features/fractional-uakt/": "/docs/learn/core-concepts/",
+  "/docs/providers/setup-and-installation/provider-console":
+    "/docs/providers/setup-and-installation/provider-playbook/",
+  "/docs/providers/setup-and-installation/provider-console/":
+    "/docs/providers/setup-and-installation/provider-playbook/",
   "/docs/other-resources/archived-resources/praetor-app/akash-provider/build-windows-provider":
-    "/docs/providers/setup-and-installation/provider-console/",
+    "/docs/providers/setup-and-installation/provider-playbook/",
   "/docs/other-resources/archived-resources/praetor-app/akash-provider/build-windows-provider/":
-    "/docs/providers/setup-and-installation/provider-console/",
+    "/docs/providers/setup-and-installation/provider-playbook/",
   "/docs/other-resources/archived-resources/praetor-app/akash-provider/single-server-provider":
-    "/docs/providers/setup-and-installation/provider-console/",
+    "/docs/providers/setup-and-installation/provider-playbook/",
   "/docs/other-resources/archived-resources/praetor-app/akash-provider/single-server-provider/":
-    "/docs/providers/setup-and-installation/provider-console/",
+    "/docs/providers/setup-and-installation/provider-playbook/",
   "/docs/other-resources/authentication":
     "/docs/developers/deployment/cli/commands-reference/",
   "/docs/other-resources/authentication/":

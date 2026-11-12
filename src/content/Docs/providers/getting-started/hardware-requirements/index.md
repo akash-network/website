@@ -17,7 +17,8 @@ This guide covers system requirements, hardware specifications, and best practic
 
 ### Operating System
 
-- **Ubuntu 24.04 LTS Server** (officially supported)
+- **Ubuntu 26.04 LTS Server** (recommended)
+- **Ubuntu 24.04 LTS Server** (still supported)
 - Ensure all nodes are fully updated with latest security patches
 
 ### CPU Architecture
