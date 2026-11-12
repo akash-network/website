@@ -3,20 +3,23 @@ import Layout from "@/layouts/layout.astro";
 
 type Props = {
   title: string;
+  /** Replaces the whole <title>, skipping the shared " | Explore Pricing and Earnings" suffix. */
+  fullTitle?: string;
   description: string;
   image?: string;
   noIndex?: boolean;
 };
 
-const { title, description, image, noIndex } = Astro.props;
+const { title, fullTitle, description, image, noIndex } = Astro.props;
 ---
 
 <Layout
-  title={`${title} | Explore Pricing and Earnings on Akash`}
+  title={fullTitle ?? `${title} | Explore Pricing and Earnings on Akash`}
   description={description}
   image={image || "/meta-images/pricing/gpus.webp"}
   noIndex={noIndex}
 >
+  <slot name="head" slot="head" />
   <section
     class="container flex flex-col gap-10 pb-20 pt-10 md:gap-12 md:pb-28 md:pt-16"
   >
