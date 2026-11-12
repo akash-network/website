@@ -13,7 +13,7 @@ The terminal wizard validates access before making changes, detects host capabil
 
 ## Before you start
 
-The installer supports Ubuntu 24.04 LTS on x86-64 hosts. Review the [provider hardware requirements](/docs/providers/getting-started/hardware-requirements) before provisioning nodes.
+The installer supports Ubuntu 26.04 LTS (recommended) and 24.04 LTS on x86-64 hosts. Review the [provider hardware requirements](/docs/providers/getting-started/hardware-requirements) before provisioning nodes.
 
 You also need:
 
@@ -178,11 +178,11 @@ The repository keeps compatibility pins in [`versions.yml`](https://github.com/a
 
 | Component           | Pinned version                       |
 | ------------------- | ------------------------------------ |
-| Kubespray           | `v2.31.0`                            |
-| K3s                 | `v1.35.3+k3s1`                       |
-| Calico              | `v3.31.5`                            |
+| Kubespray           | `v2.32.0`                            |
+| K3s                 | `v1.36.6+k3s1`                       |
+| Calico              | `v3.31.7`                            |
 | Helm                | `v4.2.4`                             |
-| NVIDIA GPU Operator | `v26.7.0`                            |
+| NVIDIA GPU Operator | `v26.7.2`                            |
 | Rook-Ceph           | `1.19.10`                            |
 | Ceph                | `quay.io/ceph/ceph:v19.2.6-20260818` |
 | `akt`               | `0.1.1`                              |

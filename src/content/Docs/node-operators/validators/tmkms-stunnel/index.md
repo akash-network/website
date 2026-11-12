@@ -74,7 +74,7 @@ Before starting, ensure you have:
 - See [Akash CLI Installation](/docs/developers/deployment/cli/installation-guide)
 
 ### 2. Separate TMKMS Server
-- **OS:** Ubuntu 20.04+ or 22.04 LTS
+- **OS:** Ubuntu 26.04 LTS (24.04 LTS also supported)
 - **CPU:** 2 cores minimum
 - **RAM:** 2 GB minimum
 - **Network:** Internet connectivity

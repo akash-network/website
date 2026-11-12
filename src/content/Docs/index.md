@@ -31,7 +31,7 @@ Deploy applications and build on Akash Network:
 Run compute resources on Akash Network:
 
 - **[Getting Started](/docs/providers/getting-started)** - Should you run a provider? Hardware requirements and cost analysis
-- **[Setup & Installation](/docs/providers/setup-and-installation)** - Provider Playbook, Kubespray, and Provider Console
+- **[Setup & Installation](/docs/providers/setup-and-installation)** - Provider Playbook and Kubespray
 - **[Operations](/docs/providers/operations)** - Lease management, monitoring, maintenance, and provider verification
 - **[Architecture](/docs/providers/architecture)** - Provider service architecture and components
 

@@ -121,9 +121,8 @@ Follow for quick updates and announcements.
 3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Provider Console Issues:**
-1. Check the [Provider Console Guide](/docs/providers/setup-and-installation/provider-console)
-2. Ask in Discord **#provider-console** channel
-3. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
+1. Ask in Discord **#provider-console** channel
+2. If needed, open a [GitHub issue](https://github.com/akash-network/support/issues)
 
 **For Validator Issues:**
 1. Check the [Validator Documentation](/docs/node-operators/validators)

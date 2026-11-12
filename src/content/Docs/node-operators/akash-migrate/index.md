@@ -108,7 +108,7 @@ The setup above replaces the default UID/GID with the dedicated host account. Mi
 
 ## Download without Docker
 
-Each release also includes a checksummed `akt-ROLE_VERSION_linux_amd64.tar.gz` archive. It bundles Node and dependencies; the relayer includes its header encoder. Use Ubuntu 24.04 amd64 or compatible glibc 2.39+, with Bash, Python 3, CA certificates and libstdc++6. Follow [archive installation](https://github.com/akash-network/node/blob/relayer/v0.1.3/contracts/solana/docs/operator-releases.md#download-without-docker). No source checkout, compiler, npm, KMS or hardware wallet is needed.
+Each release also includes a checksummed `akt-ROLE_VERSION_linux_amd64.tar.gz` archive. It bundles Node and dependencies; the relayer includes its header encoder. Use Ubuntu 26.04 or 24.04 amd64, or another distribution with glibc 2.39+, with Bash, Python 3, CA certificates and libstdc++6. Follow [archive installation](https://github.com/akash-network/node/blob/relayer/v0.1.3/contracts/solana/docs/operator-releases.md#download-without-docker). No source checkout, compiler, npm, KMS or hardware wallet is needed.
 
 ## Upgrade or roll back
 

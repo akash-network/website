@@ -33,7 +33,7 @@ Use the **[Provider Earn Calculator](https://akash.network/pricing/provider-calc
 Before diving into provider operations, you should have:
 
 - **Linux administration experience** - Comfortable with command line
-- **Kubernetes knowledge** - Basic understanding (not required for Provider Console users)
+- **Kubernetes knowledge** - Basic understanding
 - **Networking skills** - Understand firewalls, routing, DNS
 - **Hardware or cloud resources** - Physical servers or VMs
 - **Domain name** - A domain you own for your provider

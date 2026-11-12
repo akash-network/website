@@ -103,15 +103,6 @@ There are three ways to set up an Akash provider:
 - More flexibility
 - **Time:** 1-2 hours
 
-### 3. Provider Console
-**Best for:** Users with no Kubernetes experience
-
-- Web-based interface
-- No K8s knowledge required
-- Easiest to get started
-- Managed Kubernetes setup
-- **Time:** 15-30 minutes
-
 ---
 
 ## Cost Considerations
@@ -140,7 +131,6 @@ There are three ways to set up an Akash provider:
 ### Initial Setup
 - **Provider Playbook:** ~1 hour
 - **Kubespray Setup:** 1-2 hours
-- **Provider Console:** 15-30 minutes
 
 ### Ongoing Maintenance
 - **Monitoring:** 30 min/day
