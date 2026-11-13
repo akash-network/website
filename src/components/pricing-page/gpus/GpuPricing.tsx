@@ -23,6 +23,7 @@ import {
   formatUsd,
   type ToggleOption,
 } from "../shared/ui";
+import { formatDate, isoDate } from "@/lib/gpu-detail-pages/shared";
 import { gpuDetailHref } from "@/lib/gpu-detail-pages/slugs";
 import { nextGenAccessHref, withNextGenModels } from "./gpu-models";
 import { GPU_PRIORITY_MODELS } from "./gpu-priority";
@@ -94,8 +95,10 @@ export default function GpuPricing({ initial }: GpuPricingProps) {
 }
 
 function GpuPricingContent({ initial }: GpuPricingProps) {
-  const { data, isLoading, isError, refetch, isFetching } =
+  const { data, dataUpdatedAt, isLoading, isError, refetch, isFetching } =
     useGpuPrices(initial);
+  // The time the table's data was fetched: the build snapshot in the HTML, then each refresh.
+  const updated = dataUpdatedAt ? new Date(dataUpdatedAt) : null;
 
   const [model, setModel] = useState("all");
   const [vendor, setVendor] = useState("all");
@@ -250,6 +253,8 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
         aria-label="Filter GPUs"
         className="flex flex-col gap-4 lg:sticky lg:top-24"
       >
+        <CustomQuoteCard className="hidden lg:flex" />
+
         <Panel className="flex flex-col gap-6 p-5">
           <FilterGroup label="Sort by">
             <Select
@@ -338,7 +343,12 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
           )}
         </Panel>
 
-        <CustomQuoteCard className="hidden lg:flex" />
+        {updated && (
+          <p className="px-1 text-xs text-muted-foreground">
+            Prices updated{" "}
+            <time dateTime={isoDate(updated)}>{formatDate(updated)}</time>
+          </p>
+        )}
       </aside>
 
       <div className="flex min-w-0 flex-col gap-3">
@@ -346,9 +356,9 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
           {/* The price and the row action share one fixed-width cell, sized for the
               action's widest label: when the label slides in, it pushes only the price
               aside and never reflows the model column. */}
-          <table className="w-full text-left text-sm md:table-fixed">
-            <thead className="border-b border-zinc-200 bg-zinc-50/60 dark:border-white/10 dark:bg-white/[0.02]">
-              <tr className="text-sm text-muted-foreground">
+          <table className="w-full text-left text-sm max-md:block md:table-fixed">
+            <thead className="border-b border-zinc-200 bg-zinc-50/60 dark:border-white/10 dark:bg-white/[0.02] max-md:block">
+              <tr className="text-sm text-muted-foreground max-md:flex max-md:justify-between">
                 <th
                   scope="col"
                   className="px-4 py-3 font-medium max-[359px]:px-3 md:px-6"
@@ -365,7 +375,7 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-200 dark:divide-white/10">
+            <tbody className="divide-y divide-zinc-200 dark:divide-white/10 max-md:block">
               {isLoading ? (
                 Array.from({ length: 8 }, (_, index) => (
                   <SkeletonRow key={index} />
@@ -397,10 +407,10 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
         </Panel>
 
         <p className="text-xs leading-relaxed text-muted-foreground">
-          Prices are per GPU-hour in USD, derived from recent provider bids on
-          the network and weighted by each provider&apos;s GPU count. Next-gen
-          GPUs without recent bids show &ldquo;Request access&rdquo; instead of
-          a price.
+          Each price is the average hourly rate for one GPU in USD, based on
+          recent provider bids and weighted by how many GPUs each provider
+          offers. Next-gen GPUs with no recent bids show &ldquo;Request
+          access&rdquo; instead.
         </p>
 
         {/* The aside's card holds the section heading; this copy is for small screens. */}
@@ -455,8 +465,8 @@ function FilterGroup({
 function GpuTableRow({ row }: { row: GpuRow }) {
   // Rows with a live price are on the network and rent through the console. Next-gen models
   // without one go to the access form instead, with the full "Request access" label shown at
-  // all times since there's no price beside it. Models with a detail page also link their
-  // name there.
+  // all times since there's no price beside it. Models with a detail page get a "View specs"
+  // pill linking there.
   const detailHref = gpuDetailHref(row.model);
   const onRequest = row.isNextGen && row.hourly === null;
   const action = onRequest
@@ -469,8 +479,8 @@ function GpuTableRow({ row }: { row: GpuRow }) {
   const external = action.href === RENT_URL;
 
   // The whole row is clickable, but it forwards to the real link so middle-click, keyboard
-  // focus, and click tracking on the link's id keep working. The model name is its own
-  // link (to the detail page), so clicks on it are left alone.
+  // focus, and click tracking on the link's id keep working. The "View specs" pill is its
+  // own link (to the detail page), so clicks on it are left alone.
   const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement>) => {
     const target = event.target as HTMLElement;
     if (target.closest("a, button")) return;
@@ -482,44 +492,43 @@ function GpuTableRow({ row }: { row: GpuRow }) {
   return (
     <tr
       onClick={handleRowClick}
-      className="group cursor-pointer transition-colors hover:bg-zinc-50 dark:hover:bg-white/[0.03]"
+      className={cn(
+        "group cursor-pointer transition-colors hover:bg-zinc-50 dark:hover:bg-white/[0.03]",
+        MOBILE_ROW,
+      )}
     >
-      {/* Mobile: two lines per cell, sized alike so they line up across the row (name and
-          price, then specs and a labelled action). Desktop: one line, with the specs after
-          the name. */}
-      <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
-        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
-          <p className="text-lg font-medium leading-7 text-foreground max-[359px]:text-base/7">
-            {detailHref ? (
-              // A quiet underline and ↗ mark names that open a detail page (→ on the action
-              // means "go rent", ↗ here means "about this GPU"). The faint ↗ lights up with
-              // the row; hovering or focusing the name itself turns the underline and ↗ full
-              // strength while the action's label retracts, so only one destination reads
-              // as active at a time.
+      {/* Mobile: the row is a grid (cells use display: contents): name on the left, price and
+          labelled action on the right, then the pills on their own full-width line below.
+          Desktop: one line, with the pills after the name. */}
+      <td className="max-md:contents md:px-6 md:py-4 md:align-middle">
+        <div className="max-md:contents md:flex md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
+          <p className="text-lg font-medium leading-7 text-foreground max-md:col-start-1 max-md:row-start-1 max-[359px]:text-base/7">
+            {row.name}
+          </p>
+          <div className="flex flex-wrap items-center gap-1.5 max-md:col-span-2 max-md:row-start-2">
+            {detailHref && (
+              // Same pill as the specs beside it, so the spec page reads as part of the model's
+              // info; Rent / Request access stays the row's primary action. `gpu-detail-link`
+              // retracts the action's hover label while this pill is hovered.
               <a
                 href={detailHref}
-                className="gpu-detail-link group/name inline-flex items-center gap-1 rounded-sm underline decoration-zinc-300 decoration-[1.5px] underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current focus-visible:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:decoration-white/25 dark:focus-visible:ring-white/25"
-                title={`View ${row.name} specs and pricing`}
-                aria-label={`${row.name} specs and pricing`}
+                className={cn(
+                  SPEC_PILL,
+                  "gpu-detail-link gap-1 transition-colors hover:border-zinc-400 hover:bg-zinc-100 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:hover:border-white/40 dark:hover:bg-white/10 dark:focus-visible:ring-white/25",
+                )}
+                aria-label={`View ${row.name} specs and pricing`}
               >
-                {row.name}
-                <ArrowUpRight
-                  aria-hidden
-                  className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-all duration-300 ease-out group-hover/name:text-foreground group-focus-visible/name:text-foreground md:opacity-30 md:group-hover:opacity-100 md:group-focus-visible/name:opacity-100"
-                />
+                View specs
+                <ArrowUpRight aria-hidden className="h-3 w-3 shrink-0" />
               </a>
-            ) : (
-              row.name
             )}
-          </p>
-          <div className="flex min-h-7 flex-wrap items-center gap-1.5 md:min-h-0">
             <SpecBadge>{row.ramLabel}</SpecBadge>
             {row.interface && <SpecBadge>{row.interface}</SpecBadge>}
           </div>
         </div>
       </td>
-      <td className="py-4 pl-2 pr-4 align-top max-[359px]:pr-3 md:pr-6 md:align-middle">
-        <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
+      <td className="max-md:contents md:py-4 md:pl-2 md:pr-6 md:align-middle">
+        <div className="flex items-center justify-end gap-2 max-md:col-start-2 max-md:row-start-1 md:gap-3">
           {row.hourly !== null ? (
             <span className="whitespace-nowrap font-jetBrainsMono text-[17px] font-medium tabular-nums leading-7 text-foreground">
               {formatUsd(row.hourly)}
@@ -546,7 +555,7 @@ function GpuTableRow({ row }: { row: GpuRow }) {
               "inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8",
               onRequest
                 ? "md:pl-3.5 md:pr-2"
-                : "md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-link:hover]:pl-2",
+                : "max-[359px]:px-2 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-link:hover]:pl-2",
             )}
           >
             <span
@@ -555,7 +564,7 @@ function GpuTableRow({ row }: { row: GpuRow }) {
                 "mr-1 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:text-sm",
                 onRequest
                   ? "md:mr-1.5"
-                  : "max-w-24 md:mr-0 md:max-w-0 md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-link:hover]:mr-0 md:group-has-[.gpu-detail-link:hover]:max-w-0 md:group-has-[.gpu-detail-link:hover]:opacity-0",
+                  : "max-w-24 max-[359px]:mr-0 max-[359px]:max-w-0 md:mr-0 md:max-w-0 md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-link:hover]:mr-0 md:group-has-[.gpu-detail-link:hover]:max-w-0 md:group-has-[.gpu-detail-link:hover]:opacity-0",
               )}
             >
               {action.label}
@@ -571,29 +580,32 @@ function GpuTableRow({ row }: { row: GpuRow }) {
   );
 }
 
+// Phones: a two-column grid row (name | price and action), pills on a full-width line below.
+const MOBILE_ROW =
+  "max-md:grid max-md:grid-cols-[minmax(0,1fr)_auto] max-md:gap-x-3 max-md:gap-y-3 max-md:px-4 max-md:py-4 max-[359px]:px-3";
+
 // Equal widths keep the pair tidy; below 360px they shrink to fit beside the row action.
+const SPEC_PILL =
+  "inline-flex h-6 items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15 md:min-w-[4.5rem] max-[359px]:px-1.5 max-[359px]:text-xs";
+
 function SpecBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex h-6 min-w-[4.5rem] items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15 max-[359px]:min-w-0 max-[359px]:px-1.5 max-[359px]:text-xs">
-      {children}
-    </span>
-  );
+  return <span className={SPEC_PILL}>{children}</span>;
 }
 
 function SkeletonRow() {
   return (
-    <tr>
-      <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
-        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
-          <Skeleton className="my-1 h-5 w-24 md:my-0" />
-          <div className="flex min-h-7 items-center gap-1.5 md:min-h-0">
+    <tr className={MOBILE_ROW}>
+      <td className="max-md:contents md:px-6 md:py-4 md:align-middle">
+        <div className="max-md:contents md:flex md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
+          <Skeleton className="my-1 h-5 w-24 max-md:col-start-1 max-md:row-start-1 md:my-0" />
+          <div className="flex items-center gap-1.5 max-md:col-span-2 max-md:row-start-2">
             <Skeleton className="h-6 w-[4.5rem]" />
             <Skeleton className="h-6 w-[4.5rem]" />
           </div>
         </div>
       </td>
-      <td className="py-4 pl-2 pr-4 align-top max-[359px]:pr-3 md:pr-6 md:align-middle">
-        <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
+      <td className="max-md:contents md:py-4 md:pl-2 md:pr-6 md:align-middle">
+        <div className="flex items-center justify-end gap-2 max-md:col-start-2 max-md:row-start-1 md:gap-3">
           <Skeleton className="my-1 h-5 w-20 md:my-0" />
           <Skeleton className="h-7 w-16 rounded-full md:h-8 md:w-8" />
         </div>

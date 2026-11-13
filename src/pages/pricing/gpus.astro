@@ -1,9 +1,10 @@
 ---
 import GpuPricing from "@/components/pricing-page/gpus/GpuPricing";
 import PricingHeader from "@/components/pricing-page/pricing-header.astro";
+import PricingHero from "@/components/pricing-page/pricing-hero.astro";
 import { fetchGpuPricesSnapshot } from "@/components/pricing-page/shared/pricing-api";
 import { renderInline, stripInline } from "@/lib/gpu-detail-pages";
-import { formatDate, isoDate } from "@/lib/gpu-detail-pages/shared";
+import { isoDate } from "@/lib/gpu-detail-pages/shared";
 import { buttonClass } from "@/components/pricing-page/shared/ui";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 
@@ -76,7 +77,6 @@ const gpuGroups = [
         href: gpuPages.a100.href,
       },
     ],
-    note: "Looking at rack-scale Blackwell or NVIDIA Vera Rubin? See [next-gen GPUs on Akash](/next-gen-gpus/), or how the [GB300 NVL72 compares with the B300](/the-bid/nvidia-gb300-nvl72-specs-vs-b300-2026/).",
   },
   {
     title:
@@ -112,7 +112,6 @@ const gpuGroups = [
   title: string;
   description: string;
   gpus: { name: string; vram: string; use: string; href?: string }[];
-  note?: string;
 }[];
 
 const steps = [
@@ -131,9 +130,20 @@ const steps = [
   { title: "Stop anytime.", text: "Close the deployment and billing stops." },
 ];
 
+// Sits under both GPU group tiles.
+const rackScaleNote =
+  "Looking at rack-scale Blackwell or NVIDIA Vera Rubin? See [next-gen GPUs on Akash](/next-gen-gpus/), or how the [GB300 NVL72 compares with the B300](/the-bid/nvidia-gb300-nvl72-specs-vs-b300-2026/).";
+
 const capacityOptions = [
   {
     title: "On-demand",
+    image: {
+      src: "/images/pricing/gpus/console-1084.webp",
+      srcset:
+        "/images/pricing/gpus/console-640.webp 640w, /images/pricing/gpus/console-1084.webp 1084w",
+      width: 1084,
+      height: 813,
+    },
     text: "For experiments, bursts and workloads you scale up and down. Deploy in minutes and pay by the hour.",
     cta: {
       label: "Deploy on-demand",
@@ -144,6 +154,12 @@ const capacityOptions = [
   },
   {
     title: "Reserved",
+    image: {
+      src: "/images/pricing/gpus/reserved-data-centre.webp",
+      srcset: undefined,
+      width: 1600,
+      height: 1198,
+    },
     text: "For steady production traffic or multi-node training: dedicated bare-metal GPUs or a full cluster, with custom-quoted terms.",
     cta: {
       label: "Request reserved capacity",
@@ -269,81 +285,16 @@ const badge =
     />
   </Fragment>
 
-  {
-    /* H1 with the intro full width beneath it; the intro carries the old tagline's points. */
-  }
-  <div class="flex flex-col gap-5">
-    <h1
-      class="text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl md:tracking-tighter lg:text-6xl"
-    >
-      GPU Rental Pricing
-    </h1>
-    <p class="text-base leading-relaxed text-muted-foreground md:text-lg">
-      Akash is a GPU cloud where you rent NVIDIA GPUs by the hour, from
-      data-center B300, B200, H200 and H100 down to RTX 4090 and older cards.
-      Prices below come from live provider bids on the network, with real-time
-      availability and no hidden fees. Deploy any Docker container, pay only for
-      the time you use, with no long-term contract and no egress fees.
-    </p>
-    {
-      pricesUpdated && (
-        <p class="text-sm font-medium text-foreground">
-          Prices updated{" "}
-          <time datetime={isoDate(pricesUpdated)}>
-            {formatDate(pricesUpdated)}
-          </time>
-        </p>
-      )
-    }
-  </div>
+  {/* Same two-column hero as the usage and provider calculators. */}
+  <PricingHero
+    wide
+    title="GPU Rental Pricing"
+    description="Rent GPUs by the hour from independent providers on the Akash Open Cloud. Providers bid for your workload, so the prices below are what the market charges right now."
+  />
 
   <GpuPricing client:load initial={prices} />
 
   <div class="mt-6 flex flex-col gap-16 md:mt-10 md:gap-24">
-    <div class="grid gap-4 lg:grid-cols-2">
-      {
-        gpuGroups.map((group) => (
-          <section class={`${card} flex flex-col gap-5 p-5 md:p-6`}>
-            <div class="flex flex-col gap-2">
-              <h2 class={h2}>{group.title}</h2>
-              <p class={note}>{group.description}</p>
-            </div>
-            <ul class="flex flex-col divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-white/10 dark:border-white/10">
-              {group.gpus.map((gpu) => (
-                <li class="flex items-center justify-between gap-4 py-3">
-                  <div class="flex min-w-0 flex-col">
-                    {gpu.href ? (
-                      <a
-                        href={gpu.href}
-                        class="group/gpu inline-flex items-center gap-1 font-medium text-foreground"
-                      >
-                        <span class="underline decoration-zinc-300 decoration-[1.5px] underline-offset-4 transition-colors group-hover/gpu:decoration-current dark:decoration-white/25">
-                          {gpu.name}
-                        </span>
-                        <ArrowUpRight
-                          aria-hidden="true"
-                          className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-colors group-hover/gpu:text-foreground"
-                        />
-                      </a>
-                    ) : (
-                      <span class="font-medium text-foreground">
-                        {gpu.name}
-                      </span>
-                    )}
-                    <span class="text-sm text-muted-foreground">{gpu.use}</span>
-                  </div>
-                  <span class={badge}>{gpu.vram}</span>
-                </li>
-              ))}
-            </ul>
-            {group.note && (
-              <p class={note} set:html={renderInline(group.note)} />
-            )}
-          </section>
-        ))
-      }
-    </div>
-
     <section class={section}>
       <h2 class={h2}>How GPU rental on Akash works</h2>
       <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -368,30 +319,92 @@ const badge =
       <div class="grid gap-4 md:grid-cols-2">
         {
           capacityOptions.map((option) => (
-            <div class={`${card} flex flex-col gap-4 p-5 md:p-6`}>
-              <div class="flex flex-col gap-2">
-                <h3 class="text-lg font-medium text-foreground">
-                  {option.title}
-                </h3>
-                <p class={note}>{option.text}</p>
+            <div class={`${card} flex flex-col overflow-hidden`}>
+              {/* Decorative: the title and text say what the tile offers. */}
+              <div class="relative aspect-[4/3] overflow-hidden border-b border-zinc-200 bg-[#0b0d10] dark:border-white/10">
+                <img
+                  src={option.image.src}
+                  srcset={option.image.srcset}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  width={option.image.width}
+                  height={option.image.height}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover brightness-[0.82]"
+                />
               </div>
-              <a
-                href={option.cta.href}
-                target={option.cta.external ? "_blank" : undefined}
-                rel={option.cta.external ? "noopener noreferrer" : undefined}
-                class={buttonClass(
-                  option.cta.variant,
-                  "default",
-                  "mt-auto w-fit",
-                )}
-              >
-                {option.cta.label}
-              </a>
+              <div class="flex flex-1 flex-col gap-4 p-5 md:p-6">
+                <div class="flex flex-col gap-2">
+                  <h3 class="text-lg font-medium text-foreground">
+                    {option.title}
+                  </h3>
+                  <p class={note}>{option.text}</p>
+                </div>
+                <a
+                  href={option.cta.href}
+                  target={option.cta.external ? "_blank" : undefined}
+                  rel={option.cta.external ? "noopener noreferrer" : undefined}
+                  class={buttonClass(
+                    option.cta.variant,
+                    "default",
+                    "mt-auto w-fit",
+                  )}
+                >
+                  {option.cta.label}
+                </a>
+              </div>
             </div>
           ))
         }
       </div>
     </section>
+
+    <div class="flex flex-col gap-4">
+      <div class="grid gap-4 lg:grid-cols-2">
+        {
+          gpuGroups.map((group) => (
+            <section class={`${card} flex flex-col gap-5 p-5 md:p-6`}>
+              <div class="flex flex-col gap-2">
+                <h2 class={h2}>{group.title}</h2>
+                <p class={note}>{group.description}</p>
+              </div>
+              <ul class="flex flex-col divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-white/10 dark:border-white/10">
+                {group.gpus.map((gpu) => (
+                  <li class="flex items-center justify-between gap-4 py-3">
+                    <div class="flex min-w-0 flex-col">
+                      {gpu.href ? (
+                        <a
+                          href={gpu.href}
+                          class="group/gpu inline-flex items-center gap-1 font-medium text-foreground"
+                        >
+                          <span class="underline decoration-zinc-300 decoration-[1.5px] underline-offset-4 transition-colors group-hover/gpu:decoration-current dark:decoration-white/25">
+                            {gpu.name}
+                          </span>
+                          <ArrowUpRight
+                            aria-hidden="true"
+                            className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-colors group-hover/gpu:text-foreground"
+                          />
+                        </a>
+                      ) : (
+                        <span class="font-medium text-foreground">
+                          {gpu.name}
+                        </span>
+                      )}
+                      <span class="text-sm text-muted-foreground">
+                        {gpu.use}
+                      </span>
+                    </div>
+                    <span class={badge}>{gpu.vram}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+      <p class={note} set:html={renderInline(rackScaleNote)} />
+    </div>
 
     <section id="faq" class={section}>
       <h2 class={h2}>GPU rental FAQ</h2>
