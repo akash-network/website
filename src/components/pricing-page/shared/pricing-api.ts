@@ -13,20 +13,38 @@ const ONE_MINUTE = 60_000;
 /** A `/v1/gpu-prices` response fetched at build time, so the page's HTML ships with prices. */
 export interface GpuPricesSnapshot {
   data: GpuPricesResponse;
-  /** Epoch milliseconds when the snapshot was fetched. */
+  /** Epoch milliseconds when the API last regenerated these prices (see `pricesTimestamp`). */
   fetchedAt: number;
 }
 
+/** `/v1/gpu-prices` plus when the API generated it. */
+export type GpuPricesResult = GpuPricesResponse & {
+  /** Epoch milliseconds from the response's Last-Modified header (fetch time if absent). */
+  lastModified: number;
+};
+
+// The response body has no timestamp; its Last-Modified header says when the API last
+// regenerated prices. Browsers can read it cross-origin (a CORS-safelisted header).
+const pricesTimestamp = (lastModified?: string | null) => {
+  const parsed = lastModified ? Date.parse(lastModified) : NaN;
+  return Number.isNaN(parsed) ? Date.now() : parsed;
+};
+
 export function useGpuPrices(initial?: GpuPricesSnapshot | null) {
-  return useQuery<GpuPricesResponse>({
+  return useQuery<GpuPricesResult>({
     queryKey: ["PRICING_GPU_PRICES"],
-    queryFn: async () =>
-      (await axios.get<GpuPricesResponse>(GPU_PRICES_URL)).data,
+    queryFn: async () => {
+      const res = await axios.get<GpuPricesResponse>(GPU_PRICES_URL);
+      return {
+        ...res.data,
+        lastModified: pricesTimestamp(res.headers["last-modified"]),
+      };
+    },
     refetchInterval: ONE_MINUTE,
     // Build-time data renders the table on the server; marking it stale makes the browser
     // refresh it on load.
     ...(initial && {
-      initialData: initial.data,
+      initialData: { ...initial.data, lastModified: initial.fetchedAt },
       initialDataUpdatedAt: initial.fetchedAt,
       staleTime: 0,
     }),
@@ -47,7 +65,10 @@ export async function fetchGpuPricesSnapshot(
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = (await res.json()) as GpuPricesResponse;
     if (!Array.isArray(data?.models)) throw new Error("No models in response");
-    return { data, fetchedAt: Date.now() };
+    return {
+      data,
+      fetchedAt: pricesTimestamp(res.headers.get("last-modified")),
+    };
   } catch (error) {
     console.warn("[pricing] GPU prices unavailable at build time:", error);
     return null;

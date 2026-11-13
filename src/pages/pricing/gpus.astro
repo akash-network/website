@@ -19,6 +19,7 @@ const description =
   "Rent cloud GPUs by the hour on Akash: H100, H200, B200, B300, A100, RTX 4090 and more. Live prices from providers, pay as you go, no contracts, no egress fees.";
 
 // Prices ship in the HTML (refreshed in the browser), so the table reads without JavaScript.
+// The "Prices updated" date is the API's Last-Modified time; the table updates it in the browser.
 const prices = await fetchGpuPricesSnapshot();
 const pricesUpdated = prices && new Date(prices.fetchedAt);
 
@@ -289,7 +290,7 @@ const badge =
       pricesUpdated && (
         <p class="text-sm font-medium text-foreground">
           Prices updated{" "}
-          <time datetime={isoDate(pricesUpdated)}>
+          <time datetime={isoDate(pricesUpdated)} data-prices-updated>
             {formatDate(pricesUpdated)}
           </time>
         </p>

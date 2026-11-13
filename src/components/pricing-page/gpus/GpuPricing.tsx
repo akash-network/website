@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useGpuPrices, type GpuPricesSnapshot } from "../shared/pricing-api";
 import {
   CONTACT_URL,
@@ -96,6 +96,25 @@ export default function GpuPricing({ initial }: GpuPricingProps) {
 function GpuPricingContent({ initial }: GpuPricingProps) {
   const { data, isLoading, isError, refetch, isFetching } =
     useGpuPrices(initial);
+
+  // The page's "Prices updated" line ships with the build's date; keep it in step with the
+  // prices the table is showing.
+  const lastModified = data?.lastModified;
+  useEffect(() => {
+    if (!lastModified) return;
+    // Shown in the visitor's time zone; the build-time HTML uses UTC.
+    const date = new Date(lastModified);
+    document
+      .querySelectorAll<HTMLTimeElement>("time[data-prices-updated]")
+      .forEach((el) => {
+        el.dateTime = date.toISOString();
+        el.textContent = date.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+      });
+  }, [lastModified]);
 
   const [model, setModel] = useState("all");
   const [vendor, setVendor] = useState("all");
