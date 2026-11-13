@@ -27,9 +27,6 @@ export const BID_PRICED: Record<
 };
 export const SNAPSHOT_DATE = new Date("2026-10-22T00:00:00Z");
 
-/** When this build ran. Fixed-rate prices are current as of this date. */
-export const BUILD_DATE = new Date();
-
 /** "October 20, 2026" */
 export const formatDate = (date: Date) =>
   date.toLocaleDateString("en-US", {
@@ -91,6 +88,33 @@ export const livePriceLabels = (hourly: number) => {
 
 /** A date the browser replaces with today's once it has confirmed the price. */
 export const liveDate = (date: Date) => live("asOf", formatDate(date));
+
+/** Price labels for a page with no fixed rate (`onRequest`): each ships as `fallback` and the
+ *  browser swaps in the live figure when the API has bids. */
+export const onRequestPriceLabels = (fallback: string) => {
+  const keys = ["rate", "rateShort", "monthly", "node", "nodeMonthly"] as const;
+  return Object.fromEntries(
+    keys.map((key) => [key, live(key, fallback)]),
+  ) as Record<(typeof keys)[number], string>;
+};
+
+/** Pricing table for an `onRequest` page: "On request" until the API has a live bid. */
+export const onRequestPricingTable = (rows: {
+  single: string;
+  node?: string;
+  quoted: string;
+}): GpuTable => {
+  const p = onRequestPriceLabels("On request");
+  return {
+    columns: ["Configuration", "Per hour", "Per month (720 h)"],
+    numericColumns: [1, 2],
+    rows: [
+      [rows.single, p.rate, p.monthly],
+      ...(rows.node ? [[rows.node, p.node, p.nodeMonthly]] : []),
+      [rows.quoted, "Custom quote", "Custom quote"],
+    ],
+  };
+};
 
 /** Hourly and monthly pricing table: one GPU, optionally an 8-GPU node, then a quoted row. */
 export const pricingTable = (

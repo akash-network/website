@@ -198,7 +198,7 @@ export default function NvidiaBlackwellForm({
         className="hide-scrollbar z-[100]  max-h-[95vh] overflow-hidden overflow-y-auto !border-none bg-transparent p-0 shadow-none sm:max-w-[600px]"
       >
         <DialogTitle className="sr-only">
-          NVIDIA Blackwell Early Access Form
+          Next-Gen NVIDIA GPU Access Form
         </DialogTitle>
 
         {submitted ? (
@@ -248,7 +248,7 @@ export default function NvidiaBlackwellForm({
             )}
 
             <h2 className=" mb-4 text-3xl font-bold text-foreground">
-              Akash - NVIDIA Blackwell Early Access
+              Akash - Next-Gen NVIDIA GPU Access
             </h2>
 
             <div className="grid gap-4 md:grid-cols-2">
@@ -327,7 +327,10 @@ export default function NvidiaBlackwellForm({
               <div className="space-y-3">
                 {[
                   "B300",
+                  "GB300",
                   "B200",
+                  "GB200",
+                  "Vera Rubin",
                   "H200",
                   "H100",
                   "Other (A100, 4090..etc)",

@@ -10,8 +10,21 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
+
+// Checkbox values are sent to HubSpot as-is. `id` matches the Console API model id, so a link
+// such as /next-gen-gpus/?gpu=b200 can preselect the GPU the visitor clicked.
+const GPU_OPTIONS = [
+  { id: "b300", label: "B300" },
+  { id: "gb300", label: "GB300" },
+  { id: "b200", label: "B200" },
+  { id: "gb200", label: "GB200" },
+  { id: "rubin", label: "Vera Rubin" },
+  { id: "h200", label: "H200" },
+  { id: "h100", label: "H100" },
+  { id: "other", label: "Other (A100, 4090..etc)" },
+];
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,6 +47,22 @@ export function ContactForm() {
     website: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  // Preselect the GPU passed in the URL (?gpu=b200), e.g. from a "Request access" link.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search)
+      .get("gpu")
+      ?.toLowerCase();
+    const option = GPU_OPTIONS.find(
+      (o) => o.id === requested || o.label.toLowerCase() === requested,
+    );
+    if (option)
+      setFormData((prev) =>
+        prev.gpu_type_interest.includes(option.label)
+          ? prev
+          : { ...prev, gpu_type_interest: [option.label] },
+      );
+  }, []);
   const [submitError, setSubmitError] = useState("");
 
   function formFieldsToHSJSON() {
@@ -248,23 +277,21 @@ export function ContactForm() {
             <span className="text-red-400">*</span>
           </label>
           <div className="space-y-3">
-            {["B300", "B200", "H200", "H100", "Other (A100, 4090..etc)"].map(
-              (gpuType) => (
-                <div key={gpuType} className="flex items-center space-x-3">
-                  <Checkbox
-                    id={`gpu-${gpuType}`}
-                    checked={formData.gpu_type_interest.includes(gpuType)}
-                    onCheckedChange={() => handleCheckboxChange(gpuType)}
-                  />
-                  <label
-                    htmlFor={`gpu-${gpuType}`}
-                    className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    {gpuType}
-                  </label>
-                </div>
-              ),
-            )}
+            {GPU_OPTIONS.map(({ label }) => label).map((gpuType) => (
+              <div key={gpuType} className="flex items-center space-x-3">
+                <Checkbox
+                  id={`gpu-${gpuType}`}
+                  checked={formData.gpu_type_interest.includes(gpuType)}
+                  onCheckedChange={() => handleCheckboxChange(gpuType)}
+                />
+                <label
+                  htmlFor={`gpu-${gpuType}`}
+                  className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {gpuType}
+                </label>
+              </div>
+            ))}
           </div>
           {errors.gpu_type_interest && (
             <span className="mt-2 block text-xs text-red-400">

@@ -7,9 +7,12 @@ type Props = {
   /** Vertical alignment of the two columns from xl up. "end" suits a short aside; a tall one
    *  reads better with "start", so the headline isn't pushed down to its bottom edge. */
   align?: "end" | "start";
+  /** For a description longer than the calculators': widens the right column from xl up and
+   *  sets the description a step smaller (17px from md up instead of 18px). */
+  wide?: boolean;
 };
 
-const { title, description, align = "end" } = Astro.props;
+const { title, description, align = "end", wide = false } = Astro.props;
 const titleLines = Array.isArray(title) ? title : [title];
 const descriptionLines = Array.isArray(description)
   ? description
@@ -23,13 +26,16 @@ const hasAside = Astro.slots.has("aside");
 
 <div
   class:list={[
-    "grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)] xl:gap-16",
+    "grid gap-8 xl:gap-16",
+    wide
+      ? "xl:grid-cols-[minmax(0,1fr)_minmax(0,560px)]"
+      : "xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)]",
     align === "start" ? "xl:items-start" : "xl:items-end",
   ]}
 >
   <div>
     <h1
-      class="text-4xl font-medium leading-[1.05] tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl"
+      class="text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl md:tracking-tighter lg:text-6xl"
     >
       {
         titleLines.map((line, index) => (
@@ -58,7 +64,12 @@ const hasAside = Astro.slots.has("aside");
     hasAside ? (
       <slot name="aside" />
     ) : (
-      <p class="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+      <p
+        class:list={[
+          "max-w-xl text-base leading-relaxed text-muted-foreground",
+          wide ? "md:text-[17px]" : "md:text-lg",
+        ]}
+      >
         {descriptionLines.map((line, index) => (
           <span class="md:block">
             {line}

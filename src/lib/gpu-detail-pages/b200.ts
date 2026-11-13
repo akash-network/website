@@ -1,37 +1,30 @@
-import { blackwellHourlyPrice } from "@/components/pricing-page/gpus/gpu-models";
 import {
   allPricingLink,
-  BUILD_DATE,
-  deployLink,
   DEPLOY_STEP_ADD_APP,
   DEPLOY_STEP_DEPLOY,
-  liveDate,
-  isoDate,
-  priceLabels,
-  pricingTable,
+  deployLink,
+  onRequestPriceLabels,
+  onRequestPricingTable,
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-// Same fixed rate the pricing table lists, so the two never drift apart.
-const HOURLY = blackwellHourlyPrice("b200") ?? 5;
-const { rate: RATE, rateShort: RATE_SHORT } = priceLabels(HOURLY);
-// A fixed rate, so it is current as of every build.
-const UPDATED = BUILD_DATE;
-const AS_OF = liveDate(UPDATED);
+// No fixed rate: the page ships "Request access" and shows the live weighted-average bid
+// from the Console API when providers have B200 bids open, the same figure as the pricing table.
+const { rateShort: RATE_SHORT } = onRequestPriceLabels("Request access");
 
 const reserve: GpuLink = {
   label: "Reserve B200 capacity",
-  href: "/nvidia-blackwell-gpus",
+  href: "/next-gen-gpus/?gpu=b200#request-access",
 };
 const sales: GpuLink = {
   label: "Talk to sales",
-  href: "/nvidia-blackwell-gpus",
+  href: "/next-gen-gpus/?gpu=b200#request-access",
 };
 
 export const b200: GpuDetailPage = {
   slug: "b200",
   shortName: "B200",
-  pricesUpdated: isoDate(UPDATED),
+  livePrice: { model: "b200", onRequest: true },
   seo: {
     title: "NVIDIA B200 GPU: 180GB HBM3e Specs & Rental | Akash",
     description:
@@ -54,9 +47,9 @@ export const b200: GpuDetailPage = {
   pricing: {
     title: "Rent a B200 on Akash",
     paragraphs: [
-      `As of ${AS_OF}, on-demand B200s on Akash start at ${RATE} per GPU-hour. Reserved clusters are custom-quoted by GPU count, term and workload.`,
+      "On-demand B200 prices on Akash come from live provider bids, not a fixed rate, so the figures below update with the market. When no provider has B200 bids open, request access instead. Reserved clusters are custom-quoted by GPU count, term and workload.",
     ],
-    table: pricingTable(HOURLY, {
+    table: onRequestPricingTable({
       single: "1x B200 (180 GB)",
       node: "8x B200 (1.44 TB total)",
       quoted: "Reserved cluster",
@@ -225,7 +218,8 @@ export const b200: GpuDetailPage = {
     },
     {
       question: "How much does it cost to rent an NVIDIA B200?",
-      answer: `As of ${AS_OF}, on-demand B200s on Akash start at ${RATE} per GPU-hour. Pricing changes with marketplace supply and demand; reserved clusters are custom-quoted.`,
+      answer:
+        "B200 pricing on Akash comes from live provider bids, so it moves with marketplace supply and demand. The [GPU pricing table](/pricing/gpus/) shows the current rate. When no provider has B200 bids open, [request access](/next-gen-gpus/); reserved clusters are custom-quoted.",
     },
     {
       question: "Is the B200 good for scientific computing?",

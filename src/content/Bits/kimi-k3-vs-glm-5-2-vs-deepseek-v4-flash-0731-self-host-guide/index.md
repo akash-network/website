@@ -128,18 +128,18 @@ If you need K3.1 Pro without building that, a managed endpoint is the realistic 
 
 ## What does it cost per hour to self-host Kimi K3, GLM-5.2, or DeepSeek V4 Flash 0731?
 
-Checked against [Akash marketplace rates](/pricing/gpus/) on October 22, 2026: H200 SXM5 (141GB) is listed at **\$3.85/GPU-hr**, with capacity arranged through the [on-demand GPU](/gpus-on-demand/) request form. DeepSeek V4 Flash 0731 runs about \$7.70/hour on 2 H200s, GLM-5.2 about \$30.80/hour on 8. Kimi K3's 8x B300 requirement now has a listed starting price too — B300 shows at \$6.00/GPU-hr on [Akash's B300 pricing page](/pricing/gpus/b300/) — but B300 capacity is limited, so treat that figure as a starting rate to confirm via a custom quote rather than guaranteed instant self-serve capacity.
+Checked against [Akash marketplace rates](/pricing/gpus/) on October 22, 2026: H200 SXM5 (141GB) is listed at **\$3.85/GPU-hr**, with capacity arranged through the [on-demand GPU](/gpus-on-demand/) request form. DeepSeek V4 Flash 0731 runs about \$7.70/hour on 2 H200s, GLM-5.2 about \$30.80/hour on 8. Kimi K3's 8x B300 requirement is priced from live provider bids on [Akash's B300 pricing page](/pricing/gpus/b300/), and you can [request access](/next-gen-gpus/) when no provider has bids open. The table costs that node at the tracked August 2026 market median of \$8.31/GPU-hr ([B300 vs B200 vs H200](/the-bid/nvidia-b300-vs-b200-vs-h200-best-gpu-for-self-hosting-ai/)) as a reference, not as an Akash rate.
 
 | Model                  | Node        | Hourly                                   | Monthly at 24/7 |
 | ---------------------- | ----------- | ---------------------------------------- | --------------- |
 | DeepSeek V4 Flash 0731 | 2x H200 SXM | \$7.70                                   | ~\$5,621        |
 | GLM-5.2 (INT4)         | 4x H200 SXM | \$15.40                                  | ~\$11,242       |
 | GLM-5.2 (FP8 official) | 8x H200 SXM | \$30.80                                  | ~\$22,484       |
-| Kimi K3                | 8x B300     | \$48.00 (at \$6.00/GPU-hr starting rate) | ~\$35,040       |
+| Kimi K3                | 8x B300     | \$66.48 (at \$8.31/GPU-hr market median) | ~\$48,530       |
 
 Worth flagging: H200 supply on Akash is thin, and an 8x H200 deployment for GLM-5.2 FP8 needs a full node from a single provider. That is a real capacity constraint today, not a pricing one — treat the GLM-5.2 FP8 row as a spot-availability check before you plan around it, and INT4 on 4x H200 as the more reliably obtainable path.
 
-If Kimi K3 is your model, budget around \$48/hour for the 8x B300 node at Akash's listed starting rate, but confirm actual availability first, since B300 capacity on Akash is limited. For most teams, decentralized marketplace capacity at this tier is still an emerging option rather than a settled one, and neither is any single consumer machine a substitute. K3's weights are genuinely open, and few teams need to self-host them at all. What the weights buy most teams is optionality, an audit path, and a private deployment route if regulation demands one, rather than a cheaper monthly bill.
+If Kimi K3 is your model, the 8x B300 node comes to around \$66.48/hour at the tracked market median. Check live bids on the [B300 pricing page](/pricing/gpus/b300/) and confirm actual availability first, since B300 capacity on Akash is limited. For most teams, decentralized marketplace capacity at this tier is still an emerging option rather than a settled one, and neither is any single consumer machine a substitute. K3's weights are genuinely open, and few teams need to self-host them at all. What the weights buy most teams is optionality, an audit path, and a private deployment route if regulation demands one, rather than a cheaper monthly bill.
 
 ## Which gives the most capability per dollar: Kimi K3, GLM-5.2, or DeepSeek V4 Flash 0731?
 
@@ -218,7 +218,7 @@ There's a subtler reason to keep that loop closed, too: every prompt, correction
 
 **Do all three support 1M context?** All three advertise roughly 1,048,576-token context windows, but the memory cost differs sharply. Kimi K3 uses Kimi Delta Attention on three of every four layers, giving constant-size state rather than a growing KV cache. GLM-5.2 needs 8x B200 with FP8 KV cache to reach full context, notably more than the hardware that holds its weights.
 
-**How much does LLM hosting cost per month for Kimi K3, GLM-5.2, and DeepSeek V4 Flash?** Running 24/7 for 730 hours on Akash, DeepSeek V4 Flash 0731 on 2x H200 costs about \$5,621 a month, GLM-5.2 costs about \$11,242 on 4x H200 at INT4 or \$22,484 on 8x H200 at FP8, and Kimi K3 on 8x B300 costs about \$35,040. Those figures use the H200 rate of \$3.85 and the B300 rate of \$6.00 per GPU-hour as of October 22, 2026. A managed API costs less whenever your traffic doesn't keep the node busy.
+**How much does LLM hosting cost per month for Kimi K3, GLM-5.2, and DeepSeek V4 Flash?** Running 24/7 for 730 hours on Akash, DeepSeek V4 Flash 0731 on 2x H200 costs about \$5,621 a month, and GLM-5.2 costs about \$11,242 on 4x H200 at INT4 or \$22,484 on 8x H200 at FP8, using the H200 rate of \$3.85 per GPU-hour as of October 22, 2026. Kimi K3 on 8x B300 comes to about \$48,530 a month at the tracked August 2026 market median of \$8.31 per GPU-hour; Akash's B300 rate comes from live provider bids on the [B300 pricing page](/pricing/gpus/b300/). A managed API costs less whenever your traffic doesn't keep the node busy.
 
 **How much VRAM do you need to run Kimi K3?** You need 1.56TB for the weights alone, measured by summing the 96 safetensors shards on Hugging Face, plus roughly 29GB of KV cache at the full 1M-token context in bf16. That means at least 12 H200s or 20 H100s before any headroom.
 
