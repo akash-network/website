@@ -225,6 +225,8 @@ The current documented flow is:
 | Change image, env or ports      | `PATCH /v1/deployments/<dseq>` with only the changed fields        | Updated deployment and its new `manifestVersion`          |
 | Close after exporting data      | `DELETE /v1/deployments/<dseq>`                                    | Closure state; eventual return of unused escrow           |
 
+Creation needs no SDL when there is only an image: send `data.service` (`image`, `resources` with `cpu`, `memory`, `storage` and optional `gpu`, at least one entry in `ports`, optional `env`) and Console writes the SDL of one public service named `app` with one replica. `data.templateId` without `data.sdl` deploys a gallery template from `GET /v1/templates-list`, and `data.overrides` changes its image, env, command or ports per service. Send exactly one of `data.sdl`, `data.service` or `data.templateId`. Console records the SDL either way, so the deployment takes `PATCH` like any other. `data.secretEnv` on create and `PATCH` lists the env variables whose values Console encrypts; the other values stay readable, `[]` keeps all of them readable, and leaving it out (without `data.sealedSecrets`) encrypts every env value.
+
 Serialize SDL as a JSON string with a JSON library. The creation body has no deposit field under the current funding contract. Console records the SDL at creation and sends each provider its manifest when the lease is created, so the lease body carries only the selected bids. The `manifest` field on `POST /v1/leases` is deprecated; leave it out. Lease creation uses a different body shape from deployment creation:
 
 ```json
