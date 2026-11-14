@@ -280,10 +280,14 @@ done`,
     path: "/v1/deployments",
     title: "POST /v1/deployments",
     description:
-      "Create a new deployment from an SDL manifest. Console funds it automatically from your account credits, so the request takes no deposit.",
+      "Create a new deployment from an SDL manifest, or without one from an image or a gallery template. Console funds it automatically from your account credits, so the request takes no deposit.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
-      { field: "data.sdl", location: "body", type: "string", required: true, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute" },
+      { field: "data.sdl", location: "body", type: "string", required: false, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute. Send exactly one of `data.sdl`, `data.service`, or `data.templateId` without `data.sdl`" },
+      { field: "data.service", location: "body", type: "object", required: false, description: "Creates the deployment without an SDL. `image`, `resources` (`cpu`, `memory`, `storage`, optional `gpu` with `units` and `model`), `ports` (at least one `{ port, as }`, all public) and optional `env`. Console writes the SDL of one service named `app` and records it" },
+      { field: "data.templateId", location: "body", type: "string", required: false, description: "Without `data.sdl`: the gallery template to deploy, as listed by `GET /v1/templates-list`. With `data.sdl`: only records which template the SDL came from" },
+      { field: "data.overrides", location: "body", type: "object", required: false, description: "Changes to the template's SDL, keyed by service name, in the shape of `data.services` in `PATCH /v1/deployments/{dseq}`. Only with `data.templateId` and no `data.sdl`" },
+      { field: "data.secretEnv", location: "body", type: "array", required: false, description: "Names of the env variables whose values are secret. Console encrypts those and stores every other env value readable; `[]` keeps all of them readable. Without it, and without `data.sealedSecrets`, every env value is encrypted" },
       { field: "data.runtimeLimitHours", location: "body", type: "number", required: false, description: "Close the deployment after this many hours of runtime, counted from lease start. Omit for always-on funding" },
       { field: "data.projectId", location: "body", type: "string (uuid)", required: false, description: "Project of the organization to file the deployment in. Omit it to use the only project you can deploy into, otherwise the organization's default project" },
     ],
@@ -308,7 +312,23 @@ done`,
         code: `curl -X POST https://console-api.akash.network/v1/deployments \\
   -H "x-api-key: $AKASH_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{ "data": { "sdl": "version: \\"2.0\\"\\n..." } }'`,
+  -d '{ "data": { "sdl": "version: \\"2.0\\"\\n..." } }'
+
+# Without an SDL: an image, its resources and its ports
+curl -X POST https://console-api.akash.network/v1/deployments \\
+  -H "x-api-key: $AKASH_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "data": {
+      "service": {
+        "image": "nginx:1.27.2",
+        "resources": { "cpu": 0.5, "memory": "512Mi", "storage": "1Gi" },
+        "ports": [{ "port": 80 }],
+        "env": { "LOG_LEVEL": "info" }
+      },
+      "secretEnv": []
+    }
+  }'`,
       },
       {
         language: "javascript",
@@ -324,6 +344,8 @@ const { data } = await res.json();`,
       },
     ],
     notes: [
+      "**No SDL needed.** Send `data.service` and Console writes the SDL of one service named `app`: one replica, every listed port public, at the Console's default price ceiling. Or send `data.templateId` without `data.sdl` to deploy a gallery template, with `data.overrides` changing its image, env, command or ports per service. Either way Console records the SDL, so the deployment shows on the Update tab, takes `PATCH /v1/deployments/{dseq}` and redeploys like any other. A request naming none of the three sources, or more than one, answers `400`; an unknown `templateId` sent without `data.sdl` answers `404`.",
+      "**Choosing what is secret.** `data.secretEnv` lists the env variables whose values Console encrypts; the others stay readable in the Console and in `GET /v1/deployments/{dseq}`. `[]` keeps every env value readable. A name no service sets answers `400`. A request with neither `data.secretEnv` nor `data.sealedSecrets` has every env value encrypted.",
       "Request **Confidential Compute (TEE)** by adding a `params.tee` field (`cpu` or `cpu-gpu`) to a service in the SDL — `cpu-gpu` requires GPU resources. See [Confidential Compute (TEE)](/docs/api-documentation/console-api/getting-started#confidential-compute-tee).",
       "`400` with code `project_required` means no project you can deploy into was found: pass `data.projectId` or `x-project-id`. `403` with code `project_budget_exceeded` means the deposit would take the project past its monthly budget, and nothing was created. `503` with code `deposit_price_unavailable` means the deposit could not be priced against the project's budget; it is transient, so retry. An unknown `projectId` answers `404`.",
     ],
@@ -666,6 +688,7 @@ const { data } = await res.json();`,
       { field: "data.services.<name>.expose.<port>", location: "body", type: "object", required: false, description: "Keyed by the container port the SDL declares: `port`, `as`, `accept` (custom domains) and `httpOptions`" },
       { field: "data.services.<name>.storage.<volume>", location: "body", type: "object", required: false, description: "`mount` and `readOnly` only. Sizes are fixed at create" },
       { field: "data.name", location: "body", type: "string", required: false, description: "Renames the deployment" },
+      { field: "data.secretEnv", location: "body", type: "array", required: false, description: "Names of the env variables this patch writes whose values are secret. Console encrypts those and stores the other written values readable; `[]` keeps all of them readable. Without it, and without `data.sealedSecrets`, every written value is encrypted" },
       { field: "data.sealedSecrets", location: "body", type: "string", required: false, description: "Compact JWE holding only the secret values this patch replaces, for env values written as `ac-secret://NAME`" },
       { field: "data.ifManifestVersion", location: "body", type: "string", required: false, description: "Base64 manifest version you expect to be current. Answers `409` if the deployment has moved on" },
     ],
