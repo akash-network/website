@@ -692,7 +692,7 @@ deployment:
 
 | How the port is exposed | What routes the traffic | Default behavior |
 |---|---|---|
-| HTTP: a global port published `as: 80`, reached through the deployment's hostname or a custom domain | The provider's ingress controller | Round-robin across the replicas, request by request. No sticky sessions. |
+| HTTP: a global TCP port exposed on 80 (`as: 80`, or `port: 80` with no `as`), reached through the deployment's hostname or a custom domain | The provider's HTTP gateway: NGINX Gateway Fabric on current provider setups, ingress-nginx on older ones | A replica chosen for each request, with no sticky sessions. NGINX Gateway Fabric picks two replicas at random and sends the request to the one with fewer active connections; ingress-nginx goes round-robin. |
 | Any other global port, reached through the provider's host and a forwarded port | Kubernetes service routing on the provider | A replica picked at random for each new connection |
 | A port exposed to another service (`to: - service: ...`) | Kubernetes service routing on the provider | A replica picked at random for each new connection |
 
