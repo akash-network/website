@@ -676,6 +676,77 @@ services:
 
 ---
 
+## Replicas and Traffic Distribution
+
+A `count` above 1 runs that many identical replicas of a service. The provider spreads incoming traffic across them, and what does the spreading depends on how the port is exposed.
+
+```yaml
+deployment:
+  web:
+    akash:
+      profile: web
+      count: 3
+```
+
+### How Traffic Reaches the Replicas
+
+| How the port is exposed | What routes the traffic | Default behavior |
+|---|---|---|
+| HTTP: a global TCP port exposed on 80 (`as: 80`, or `port: 80` with no `as`), reached through the deployment's hostname or a custom domain | The provider's HTTP gateway: NGINX Gateway Fabric on current provider setups, ingress-nginx on older ones | A replica chosen for each request, with no sticky sessions. NGINX Gateway Fabric picks two replicas at random and sends the request to the one with fewer active connections; ingress-nginx goes round-robin. |
+| Any other global port, reached through the provider's host and a forwarded port | Kubernetes service routing on the provider | A replica picked at random for each new connection |
+| A port exposed to another service (`to: - service: ...`) | Kubernetes service routing on the provider | A replica picked at random for each new connection |
+
+What this means for an application:
+
+- **No session affinity.** Two HTTP requests from the same client can land on different replicas, even when they share one keep-alive connection.
+- **Long-lived connections stay where they start.** A WebSocket or a raw TCP connection stays on the replica that accepted it until it closes. Only new connections are spread.
+- **Replicas share nothing.** Each replica has its own memory and filesystem. With persistent storage, each replica gets its own volume, not a shared one.
+- **A replica that is down gets no traffic.** The provider routes around a replica that is restarting and adds it back once it runs again.
+- **Providers can configure this differently.** These are the defaults of the software providers run. A provider can change the balancing method, so don't rely on a strict order or an even split.
+
+### Sticky Sessions and Shared State
+
+The SDL has no option for session affinity. An app that keeps state between requests has four ways to work with several replicas:
+
+- **Keep the replicas stateless.** Carry the session in a signed cookie or token (a JWT, for example), so any replica can serve any request.
+- **Move the state into a shared service.** Run Redis, PostgreSQL or another store as its own service in the same deployment, exposed only to the replicas. Sessions, caches, uploads and job queues live there.
+- **Run a single replica.** Keep `count: 1` for a service that holds its state in memory or on its own volume, such as a database, and scale it with more CPU and memory instead.
+- **Route the traffic yourself.** Declare each backend as its own service with `count: 1` and put a proxy you control (nginx, HAProxy, Traefik) in front as the only globally exposed service. The proxy reaches each backend by its service name and can apply cookie-based affinity.
+
+A shared session store for three web replicas:
+
+```yaml
+services:
+  web:
+    image: ghcr.io/acme/web:2.4.0
+    env:
+      - SESSION_STORE_URL=redis://sessions:6379
+    expose:
+      - port: 3000
+        as: 80
+        to:
+          - global: true
+
+  sessions:
+    image: redis:7.4
+    expose:
+      - port: 6379
+        to:
+          - service: web
+
+deployment:
+  web:
+    akash:
+      profile: web
+      count: 3
+  sessions:
+    akash:
+      profile: sessions
+      count: 1
+```
+
+---
+
 ## Log Forwarding
 
 Run the Akash log collector as a sidecar to ship a service's container logs and Kubernetes events to an external monitoring provider. This is the same mechanism the Console SDL builder enables when you toggle **Log Forwarding** — see the [Console guide](/docs/developers/deployment/akash-console/log-forwarding) for the visual workflow. Below is the manual pattern for CLI and automation users.
