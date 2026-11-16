@@ -25,7 +25,11 @@ import {
 } from "../shared/ui";
 import { formatDate, isoDate } from "@/lib/gpu-detail-pages/shared";
 import { gpuDetailHref } from "@/lib/gpu-detail-pages/slugs";
-import { nextGenAccessHref, withNextGenModels } from "./gpu-models";
+import {
+  isAccessOnlyModel,
+  nextGenAccessHref,
+  withNextGenModels,
+} from "./gpu-models";
 import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import {
   byPrice,
@@ -107,11 +111,15 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
   const [sort, setSort] = useState<SortKey>("vram-desc");
 
   // Models with no recent bids are left out, so empty rows don't read as missing stock. Next-gen
-  // models stay listed without a price so visitors can request access.
+  // models stay listed without a price so visitors can request access; access-only models
+  // (B300) drop their price too, so they show "Request access" and sort with the unpriced.
   const rows = useMemo(
     () =>
       withNextGenModels(data?.models ?? [])
         .map(toGpuRow)
+        .map((row) =>
+          isAccessOnlyModel(row.model) ? { ...row, hourly: null } : row,
+        )
         .filter((row) => row.hourly !== null || row.isNextGen),
     [data],
   );
@@ -409,7 +417,7 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
         <p className="text-xs leading-relaxed text-muted-foreground">
           Each price is the average hourly rate for one GPU in USD, based on
           recent provider bids and weighted by how many GPUs each provider
-          offers. Next-gen GPUs with no recent bids show &ldquo;Request
+          offers. Next-gen GPUs available on request show &ldquo;Request
           access&rdquo; instead.
         </p>
 
