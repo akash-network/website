@@ -108,7 +108,7 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
   const [vendor, setVendor] = useState("all");
   const [vram, setVram] = useState<VramBucket | "all">("all");
   const [iface, setIface] = useState<InterfaceFamily | "all">("all");
-  const [sort, setSort] = useState<SortKey>("vram-desc");
+  const [sort, setSort] = useState<SortKey>("featured");
 
   // Models with no recent bids are left out, so empty rows don't read as missing stock. Next-gen
   // models stay listed without a price so visitors can request access; access-only models
