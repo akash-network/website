@@ -6,8 +6,8 @@ import {
 } from "./shared";
 import type { GpuDetailPage, GpuLink } from "./types";
 
-// No fixed rate: the page ships "Request access" and shows the live weighted-average bid
-// from the Console API when providers have B300 bids open, the same figure as the pricing table.
+// Offered on request: the page shows "Request access" and never swaps in a live bid, matching
+// the pricing table (B300 is access-only in gpu-models.ts).
 const { rateShort: RATE_SHORT } = onRequestPriceLabels("Request access");
 
 const PRICE_POST = "/the-bid/b300-rental-price-2026-cost-per-hour/";
@@ -55,7 +55,7 @@ export const b300: GpuDetailPage = {
   pricing: {
     title: "Rent a B300 on Akash",
     paragraphs: [
-      "On-demand B300 prices on Akash come from live provider bids, not a fixed rate, so the figures below update with the market. When no provider has B300 bids open, request access instead. Reserved B300 clusters are quoted on GPU count, term and workload.",
+      "B300 capacity on Akash is offered on request, for on-demand use or as a reserved cluster. Share the GPU count, term and workload in the access form and the team will get in touch about pricing.",
     ],
     table: onRequestPricingTable({
       single: "1x B300 (288 GB)",
@@ -238,7 +238,7 @@ export const b300: GpuDetailPage = {
     {
       question: "How much does it cost to rent an NVIDIA B300?",
       answer:
-        "B300 pricing on Akash comes from live provider bids, so it moves with marketplace supply and demand. The [GPU pricing table](/pricing/gpus/) shows the current rate. When no provider has B300 bids open, [request access](/next-gen-gpus/) for on-demand or reserved capacity.",
+        "B300 pricing on Akash is set on request and depends on GPU count, term and workload. [Request access](/next-gen-gpus/?gpu=b300#request-access) for on-demand or reserved capacity, and the team will get in touch about pricing.",
     },
     {
       question: "Is the NVIDIA B300 available on demand?",

@@ -85,6 +85,13 @@ const NEXT_GEN_MODELS = new Set([
 export const isNextGenModel = (model: string) =>
   NEXT_GEN_MODELS.has((model ?? "").toLowerCase());
 
+// Next-gen models offered through the access form even while providers bid on them: the GPU
+// table hides their price and shows "Request access" instead of "Rent".
+const ACCESS_ONLY_MODELS = new Set(["b300"]);
+
+export const isAccessOnlyModel = (model: string) =>
+  ACCESS_ONLY_MODELS.has((model ?? "").toLowerCase());
+
 /** Adds a placeholder (no price, nothing available) for each listed next-gen model the API
  *  doesn't return, so it still shows up with a "Request access" link. */
 export const withNextGenModels = <T extends GpuModel>(models: T[]): T[] => {

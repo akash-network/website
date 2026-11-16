@@ -521,6 +521,7 @@ const section = "flex scroll-mt-28 flex-col gap-6";
 </Layout>
 
 <script>
+  import { isAccessOnlyModel } from "@/components/pricing-page/gpus/gpu-models";
   import {
     fetchGpuPrices,
     liveHourly,
@@ -543,6 +544,9 @@ const section = "flex scroll-mt-28 flex-col gap-6";
     const source = JSON.parse(
       root.dataset.livePriceConfig || "{}",
     ) as Partial<LivePriceSource>;
+
+    // Access-only models (B300) keep "Request access", as in the pricing table.
+    if (source.model && isAccessOnlyModel(source.model)) return;
 
     let hourly: number | undefined;
     if (source.model) {
