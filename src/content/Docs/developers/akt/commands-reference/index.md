@@ -579,10 +579,10 @@ See [Mint & Burn ACT](/docs/developers/deployment/cli/act-mint-burn) for backgro
 
 ### Sink (AKT to Solana)
 
-The [Sink commands](/docs/developers/akt/sink) use complete `owner/height/sequence` IDs:
+The [Sink commands](/docs/developers/akt/sink) use complete `owner/height/sequence` IDs. The minimum deposit is **1,000 AKT (1k AKT)**, plus the Akash network fee:
 
 ```bash
-akt tx sink deposit <solana-address> 10akt --from <sender-key>
+akt tx sink deposit <solana-address> 1000akt --from <sender-key>
 akt tx sink finalize-refund <id> --from <executor-key>
 akt tx sink report-outcome <id> minted <slot> <signature> --from reporter
 akt tx sink veto-void <id> <reason> --from reporter
