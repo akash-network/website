@@ -30,7 +30,6 @@ import {
   nextGenAccessHref,
   withNextGenModels,
 } from "./gpu-models";
-import { GPU_PRIORITY_MODELS } from "./gpu-priority";
 import {
   byPrice,
   toGpuRow,
@@ -43,7 +42,24 @@ const RENT_URL = "https://console.akash.network/new-deployment";
 type VramBucket = "small" | "mid" | "large";
 type SortKey = "featured" | "price-asc" | "price-desc" | "vram-desc";
 
-const FEATURED_ORDER = ["b300", "b200", "rubin", ...GPU_PRIORITY_MODELS];
+// Featured table order, based on pricing-table clicks and the GPUs available on the network.
+// An entry is a model, or "model:GB" to place one memory variant (A100 80 GB, not 40 GB).
+// Anything not listed follows, largest VRAM first.
+const FEATURED_ORDER = [
+  "b300",
+  "b200",
+  "rubin",
+  "h100",
+  "h200",
+  "a100:80",
+  "pro6000se",
+  "pro6000we",
+  "rtx5090",
+  "rtx3090",
+  "rtx4090",
+  "v100",
+];
+const FEATURED_MODELS = new Set(FEATURED_ORDER.map((key) => key.split(":")[0]));
 
 const selectTriggerClass =
   "h-9 w-full gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-foreground shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-transparent";
@@ -59,7 +75,10 @@ const SORT_OPTIONS: { value: SortKey; label: string }[] = [
 ];
 
 const featuredRank = (row: GpuRow) => {
-  const index = FEATURED_ORDER.indexOf(row.model.toLowerCase());
+  const model = row.model.toLowerCase();
+  const variant = FEATURED_ORDER.indexOf(`${model}:${row.ramGb}`);
+  if (variant !== -1) return variant;
+  const index = FEATURED_ORDER.indexOf(model);
   return index === -1 ? FEATURED_ORDER.length : index;
 };
 
@@ -108,7 +127,7 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
   const [vendor, setVendor] = useState("all");
   const [vram, setVram] = useState<VramBucket | "all">("all");
   const [iface, setIface] = useState<InterfaceFamily | "all">("all");
-  const [sort, setSort] = useState<SortKey>("vram-desc");
+  const [sort, setSort] = useState<SortKey>("featured");
 
   // Models with no recent bids are left out, so empty rows don't read as missing stock. Next-gen
   // models stay listed without a price so visitors can request access; access-only models
@@ -133,7 +152,7 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
       if (!labels.has(key)) labels.set(key, row.name);
     }
     const options = [...labels].map(([value, label]) => ({ value, label }));
-    const isFeatured = (value: string) => FEATURED_ORDER.includes(value);
+    const isFeatured = (value: string) => FEATURED_MODELS.has(value);
     return {
       featured: options.filter((option) => isFeatured(option.value)),
       other: options
