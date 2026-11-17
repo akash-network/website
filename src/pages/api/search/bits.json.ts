@@ -1,3 +1,4 @@
+import { getReadingTime } from "@/utils/readingTime";
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
@@ -22,6 +23,7 @@ async function getBitsPageContent() {
     }),
     author: content.data.author,
     tag: content.data.tags[0] ?? "",
+    readingTime: getReadingTime(content.body),
   }));
 }
 

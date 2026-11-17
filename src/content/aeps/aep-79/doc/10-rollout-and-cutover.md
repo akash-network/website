@@ -4,22 +4,29 @@
 |---|---|
 | **Document** | 10. Rollout, cutover & old-chain sunset |
 | **Doc ID** | AKASH-MIG-10 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering & delivery leads, Overclock ops/comms, community reviewers |
 | **Status** | Normative where marked (MUST/SHALL); informative otherwise |
 
 ## Purpose
 
-The program spine: phase plan (P0–P7), decision gates (G0–G5), the governance sequence on the Cosmos chain, the S1
+The program spine: phase plan (P0–P7), decision gates (G0–G5, plus the token launch readiness gate GT), the governance sequence on the Cosmos chain, the token launch L and migration portal, the S1
 cutover runbook, wind-down operations through halt, rollback/contingency handling, operational notifications, and
 post-migration hypercare/handover. Event notation (fixed in [D-05/D-18](./13-open-questions-and-assumptions.md)): **C** = cutover;
 **S1** = supply snapshot at C; **H** = final halt = C+90d; **S2** = residual snapshot at H.
+Added by [D-25](./13-open-questions-and-assumptions.md): **V** = the moment the migration proposal (§3.i) passes on
+`akashnet-2` (end of its voting period); **L** = token launch = V + 7d (SPL AKT mint live on Solana mainnet and the
+one-way migration portal open); **GT** = token launch readiness gate, passed before the migration proposal is
+submitted (§2, D-25.c). Points of no return: **L** for the token, **C** for the marketplace (§6.2). S1 no longer
+carries AKT held in user accounts: holders, exchanges and custodians move AKT through the portal at their own pace
+from L; whatever S1 and S2 still carry (protocol-held funds, ACT, residuals) is under review in Q-50.
 
 ## In scope
 
 - Phase plan (gate/event-bounded); gate definitions (entry, exit, evidence, approver).
+- Token launch readiness (GT), the token launch event L = V + 7d, and the 2-year portal window as program events (D-25).
 - The on-chain governance sequence on `akashnet-2` (Akash mainnet), including proposal skeletons.
 - The S1 cutover runbook (T-minus schedule with owners) and the C→H wind-down operating rhythm.
 - Rollback and contingency mechanics, including the abort switch and the point of no return.
@@ -29,7 +36,8 @@ post-migration hypercare/handover. Event notation (fixed in [D-05/D-18](./13-ope
 
 - The program calendar and the audience-facing communications plan: maintained client-side in the
   program & comms plan, outside this technical set.
-- Claims/token mechanics and exchange swap design: [05. Token migration](./05-token-migration.md).
+- Claims/token mechanics and exchange coordination (the S1 exchange swap is withdrawn under D-25): [05. Token migration](./05-token-migration.md). SPL AKT and
+  migration portal design are also in [05](./05-token-migration.md); the portal mechanism is open (Q-44).
 - Snapshot/export tooling, verification internals, archives, decommission details: [06. State & data migration](./06-state-and-data-migration.md).
 - Rehearsal/dry-run definitions and pass criteria: [09. Testing](./09-testing-and-verification.md).
 - RACI, staffing, payment milestones M0..Mn: [11. Scope of work](./11-scope-of-work.md).
@@ -46,18 +54,24 @@ only.
 
 | Phase | Bounded by | Principal contents | Exits via |
 |---|---|---|---|
-| P0 Mobilization + Stage A verification | T0 (Vendor kickoff) → G0 | Staffing, environments, re-verification of volatile facts ([13 §4](./13-open-questions-and-assumptions.md)), live-state data pull (Q-19), exchange outreach start (Q-04), prototype spikes (Q-15), signal proposal (§3.i), G0 decision package | **G0** |
+| P0 Mobilization + Stage A verification | T0 (Vendor kickoff) → G0 | Staffing, environments, re-verification of volatile facts ([13 §4](./13-open-questions-and-assumptions.md)), live-state data pull (Q-19), exchange outreach start (Q-04), prototype spikes (Q-15), G0 decision package. Token track (D-25; REQ-ROL-056): Path A SPL AKT token and migration portal build, T1 audits of token and portal ([08](./08-security-and-audits.md)), **GT** (§2, REQ-ROL-053), then the **migration proposal** (§3.i) submitted after GT passes | **GT** (inside P0), then **G0** |
+| *L Token launch (event)* | V + 7d, right after G0 (REQ-ROL-054) | SPL AKT mint live on Solana mainnet; migration portal opens and stays open 2 years from L (D-25.a), running alongside P1 to P7 and beyond. Holders, exchanges and custodians migrate at their own pace; bonded and unbonding AKT is unbonded (14 days) and then migrated; staking keeps securing `akashnet-2` and earning rewards until C | n/a (event; point of no return for the token, §6.2) |
 | P1 Design freeze | G0 → G1 | Selected-path architecture ([03](./03-solana-architecture.md)/[04](./04-ethereum-architecture.md)) REQ baseline, [05](./05-token-migration.md)/[06](./06-state-and-data-migration.md)/[07](./07-offchain-and-clients.md) designs, G1-gated Q-xx resolutions, emissions model ratified (Q-01) | **G1** |
 | P2 Build | G1 → G2 | Programs/contracts, claims stack, migration pipeline v1, chain adapter, indexer, Console port | **G2** |
 | P3 Testnet + audits | P2 tail (audit prep on frozen components) → G3 | Public testnet, two audit rounds ([08](./08-security-and-audits.md)), load tests, migration dry-runs R1–R2 ([09](./09-testing-and-verification.md)) | feeds G3 |
-| P4 Rehearsals + governance ratification | dry-run R2 pass → G3 | Rehearsal R3 (mainnet-fork dress, G3 evidence), binding proposals (§3.ii–iii), exchange commitments | **G3** |
-| P5 Launch + S1 cutover + verification | G3 → G4 | Target-chain launch + provider onboarding open (launch precedes C, [07](./07-offchain-and-clients.md)); rehearsal R4 (final dress, S1−14d); §4 runbook: sunset upgrade at C, snapshot, root attestation + 7-day public verification (D-05.b), exchange swaps, claims open ≈C+8–10d | **G4** |
-| P6 Wind-down operations | C → H (90d ≈ 13 wk) | §5: weekly residual distributions, provider migration KPIs, validator wind-down administration, tenant notices (§5.4) | feeds G5 |
+| P4 Rehearsals + governance ratification | dry-run R2 pass → G3 | Rehearsal R3 (mainnet-fork dress, G3 evidence), **cutover proposal** (§3.ii; was the binding approval) and sunset upgrade proposal (§3.iii), ~~exchange commitments~~ **[WITHDRAWN: superseded by D-25]** | **G3** |
+| P5 Launch + S1 cutover + verification | G3 → G4 | Target-chain launch + provider onboarding open (launch precedes C, [07](./07-offchain-and-clients.md)); rehearsal R4 (final dress, S1−14d); §4 runbook: sunset upgrade at C, snapshot, root attestation + 7-day public verification (D-05.b), ~~exchange swaps, claims open ≈C+8–10d~~ **[WITHDRAWN: superseded by D-25]**. For AKT in user accounts the portal (from L) replaces the snapshot, root, verification and claims steps; those steps remain only for what S1 still carries (Q-50) | **G4** |
+| P6 Wind-down operations | C → H (90d ≈ 13 wk) | §5: weekly residual distributions (under review, Q-50), provider migration KPIs, validator wind-down administration, tenant notices (§5.4), bonded-stake and quorum monitoring (§5.5; R-36, Q-49) | feeds G5 |
 | P7 S2 + sunset + close-out | H → H+13 wk close-out | S2 residual snapshot + final distribution, halt, archives, infra decommission (H+90d), hypercare exit, handover | **G5** |
 
 P3 overlaps P2's tail (audit prep on frozen components); P4 overlaps P3's (rehearsals start once dry-run R2 passes).
 
-## 2. Decision gates (G0–G5)
+Token track (D-25): GT passes inside P0 before the migration proposal is submitted, because L follows V by only
+7 days. The migration proposal's passage closes G0 (with the other G0 exit items) and fixes L = V + 7d. The portal is
+open from L for 2 years, in parallel with P1 to P7 and beyond; the marketplace still moves later through the gated
+plan (P1 to P7, cutover C, 90-day wind-down, halt H).
+
+## 2. Decision gates (GT, G0–G5)
 
 **REQ-ROL-003** Each gate SHALL be passed by a recorded sign-off from its named approver(s), referencing the
 evidence bundle; gate reviews and outcomes are logged in the program repository.
@@ -65,25 +79,67 @@ evidence bundle; gate reviews and outcomes are logged in the program repository.
 **REQ-ROL-004** Gate evidence bundles MUST be archived (hashes recorded) and retrievable through H+5y; they are
 contractual acceptance artifacts referenced by [11](./11-scope-of-work.md) payment milestones.
 
+### GT. Token launch readiness (inside P0; before the migration proposal is submitted)
+
+Implements D-25.c. L follows V by only 7 days, so token and portal readiness is proven before the migration proposal
+(§3.i) is submitted, not after it passes.
+- **Entry:** Path A SPL AKT token and migration portal built under the single-path exception (REQ-ROL-056); T1 audits
+  of token and portal engaged ([08](./08-security-and-audits.md)).
+- **Exit checklist:** the seven criteria of REQ-ROL-053.
+- **Evidence:** T1 audit reports and re-verification of fixes, portal mainnet-fork rehearsal report (including pause
+  and the supply-conservation monitor), D-03 decision record with the Q-05 survey, bug bounty scope and go-live date,
+  portal domain and look-alike monitoring records, exchange and custodian notice delivery records, migration proposal
+  text.
+- **Approver:** not yet named in D-25.c ([13](./13-open-questions-and-assumptions.md)); the recorded sign-off of
+  REQ-ROL-003 applies.
+- **In parallel while pending:** all P0 work; target-neutral workstreams listed under G0.
+
+**REQ-ROL-053** GT SHALL pass before the migration proposal (§3.i) is submitted on `akashnet-2` (D-25.c). GT SHALL
+NOT pass unless all of the following are met:
+1. T1 audits (token and portal) closed; all critical and high findings fixed and re-verified.
+2. Portal verification path (Q-44) implemented and rehearsed end to end on a mainnet fork, including pause and the
+   supply-conservation monitor.
+3. D-03 decided (Token-2022 or legacy SPL) with the exchange and custodian survey (Q-05).
+4. Bug bounty covering token and portal live at least 2 weeks before L.
+5. Official portal domain, look-alike monitoring and takedown process live (R-34).
+6. Exchange and custodian technical notice delivered (Q-04), stating L = V + 7d.
+7. Migration proposal text carries the disclosures in REQ-GEN-021 ([02](./02-target-selection.md)).
+
+**REQ-ROL-054** Token launch L SHALL occur at V + 7d, where V is the end of the voting period in which the migration
+proposal (§3.i) passes on `akashnet-2`. At L the SPL AKT mint goes live on Solana mainnet and the migration portal
+MUST open; the portal SHALL stay open for 2 years from L, extendable only by governance (D-25, D-25.a). Migration is
+one-way: AKT removed from circulation on `akashnet-2` is minted 1:1 (micro-unit) as SPL AKT to the Solana address the
+holder names (mechanism per Q-44), and no reverse path exists.
+
+**REQ-ROL-055** Before V, the launch runbook for L SHALL be rehearsed on a mainnet fork, and a public notice for use
+if L must slip SHALL be pre-drafted (R-38).
+
 ### G0. Target ratification (end of P0)
 
-Implements D-01: final selection between the Solana and Ethereum paths.
+Implements D-01: final selection between the Solana and Ethereum paths. Path A (Solana) is the core team's
+selection; G0 confirms it when the migration proposal passes (D-01, D-25). G0 comprises the items in REQ-GEN-022
+([02](./02-target-selection.md)).
 - **Entry:** kickoff verification sprint complete (volatile-facts report delivered); [02](./02-target-selection.md)
-  analysis re-validated; community **signal proposal** (§3.i) submitted on `akashnet-2`.
+  analysis re-validated; GT passed (REQ-ROL-053); **migration proposal** (§3.i) submitted on `akashnet-2`.
 - **Exit checklist:**
-  - [ ] Signal proposal passed (quorum ≥20%, majority yes) on `akashnet-2`.
+  - [ ] Migration proposal passed (quorum ≥20% of bonded stake, majority yes) on `akashnet-2`; its passage sets V and L = V + 7d (REQ-ROL-054).
   - [ ] Overclock leadership sign-off memo naming the target (D-01 → Fixed in [13](./13-open-questions-and-assumptions.md)).
   - [ ] Vendor contract phase-2 trigger executed (target-specific build authorized per [11](./11-scope-of-work.md)).
   - [ ] Program calendar re-baselined in the client-side program & comms plan (REQ-ROL-002).
 - **Evidence:** proposal tally export, leadership memo, verification-sprint report, updated doc 13.
-- **Approver:** joint, Akash governance (signal) + Overclock leadership; Vendor acknowledges.
-- **In parallel while pending:** target-neutral workstreams (token-migration design, claims UX, indexer schema, chain-adapter interface, exchange outreach). No target-specific mainnet code.
+- **Approver:** joint, Akash governance (migration proposal) + Overclock leadership; Vendor acknowledges.
+- **In parallel while pending:** target-neutral workstreams (token-migration design, claims UX, indexer schema, chain-adapter interface, exchange outreach). No target-specific mainnet code, except Path A token and portal work and GT (REQ-ROL-056).
 
 **REQ-ROL-005** The Vendor MUST NOT begin target-specific implementation (beyond design spikes and prototypes)
 before G0 passes.
 
-**REQ-ROL-006** G0 SHALL NOT pass without all four exit items; a failed signal proposal returns the program to
-option analysis ([02](./02-target-selection.md)) with no Vendor obligation beyond P0.
+**REQ-ROL-056** Notwithstanding REQ-ROL-005, Path A (Solana) token and portal implementation, T1 audits and GT
+evidence SHALL proceed in P0 before G0, as a single-path exception to REQ-GEN-018 (D-25; REQ-GEN-023). All other
+target-specific implementation remains gated by REQ-ROL-005.
+
+**REQ-ROL-006** G0 SHALL NOT pass without all four exit items; a failed migration proposal returns the program to
+option analysis ([02](./02-target-selection.md)) with no Vendor obligation beyond P0, and no token launch (no V, so
+no L).
 
 ### G1. Architecture freeze (end of P1)
 
@@ -91,9 +147,10 @@ option analysis ([02](./02-target-selection.md)) with no Vendor obligation beyon
   + [05](./05-token-migration.md)/[06](./06-state-and-data-migration.md)/[07](./07-offchain-and-clients.md) complete; all Q-xx items "needed by G1" resolved.
 - **Exit checklist:**
   - [ ] REQ baseline of docs 03/04 (selected path) + 05/06/07 frozen at version 1.0.
-  - [ ] Provisional decisions due at G1 (D-03, D-07, D-11, D-17) confirmed or amended in doc 13.
+  - [ ] Provisional decisions due at G1 (D-03, D-07, D-11, D-17) confirmed or amended in doc 13. D-03 is now decided at GT (REQ-ROL-053); D-07 as amended by D-25.
   - [ ] Exchange coordination plan v1 (venues, lead times, coverage math; Q-04) approved.
-  - [ ] Thresholds proposed in this document (70% exchange coverage, genesis-provider counts, KPI intervention levels) ratified or amended.
+  - [ ] Thresholds proposed in this document (~~70% exchange coverage~~ **[WITHDRAWN: superseded by D-25]**, genesis-provider counts, KPI intervention levels) ratified or amended.
+  - [ ] Q-49 (old-chain security as stake unbonds) and Q-50 (wind-down accounting under the portal model) resolved; bonded-stake and quorum report (REQ-ROL-057) presented.
 - **Evidence:** design-review minutes, frozen doc versions, exchange plan.
 - **Approver:** joint, Overclock (accepts design) + Vendor (commits to build).
 - **In parallel while pending:** build of already-approved components; testnet tooling; comms hub.
@@ -126,12 +183,13 @@ in effect through H.
 - **Exit checklist:**
   - [ ] Audits clean: all critical and high findings fixed **and re-verified by the auditor**; mediums dispositioned with published rationale ([08](./08-security-and-audits.md)).
   - [ ] Rehearsal R3 (full dress on a mainnet-fork snapshot) passed within its target windows ([09](./09-testing-and-verification.md)); rehearsal R4 scheduled at S1−14d.
-  - [ ] Exchange commitments: written swap playbooks from venues jointly covering **≥70% of trailing-90d AKT spot volume** (proposed value, ratified at G1; REQ-ROL-012).
-  - [ ] **Binding on-chain governance approval** of the migration + S1 schedule passed (§3.ii).
+  - [ ] ~~Exchange commitments: written swap playbooks from venues jointly covering **≥70% of trailing-90d AKT spot volume** (proposed value, ratified at G1; REQ-ROL-012).~~ **[WITHDRAWN: superseded by D-25]** Exchanges and custodians migrate through the portal on their own schedule (A-24).
+  - [ ] **Cutover proposal** (§3.ii) passed on `akashnet-2`, fixing the sunset upgrade, the C height formula and H = C+90d.
   - [ ] War-room staffing, monitoring dashboards, status page, and operational-notification artifacts ready (§4.4, §7).
-  - [ ] Claims portal + CLI release candidates signed off after a mainnet-fork claim dry-run.
-- **Evidence:** final audit reports + re-verification letters, rehearsal R3 report, signed exchange commitments, on-chain tally of §3.ii, runbook sign-off.
-- **Approver:** Akash governance (binding vote) + joint Overclock/Vendor go decision.
+  - [ ] Claims portal + CLI release candidates signed off after a mainnet-fork claim dry-run (claims of what S1 still carries, per Q-50; distinct from the migration portal, live since L).
+  - [ ] Bonded-stake and quorum report (REQ-ROL-057) presented.
+- **Evidence:** final audit reports + re-verification letters, rehearsal R3 report, ~~signed exchange commitments~~ **[WITHDRAWN: superseded by D-25]**, on-chain tally of §3.ii, runbook sign-off.
+- **Approver:** Akash governance (cutover proposal) + joint Overclock/Vendor go decision.
 - **In parallel while pending:** provider re-registration (§4.1 S1−30d items), rehearsal R4 prep.
 
 **REQ-ROL-010** G3 SHALL NOT pass with any unremediated critical/high audit finding; re-verification MUST be
@@ -140,27 +198,33 @@ performed by the issuing auditor, not self-attested.
 **REQ-ROL-011** G3 SHALL NOT pass unless rehearsal R3 met the §4.3 cutover time targets end to end on the
 rehearsal environment: export → verified root within the ≤24h publication budget, plus a claims-open drill
 at the rehearsed C+8–10d offset (verification window compressed on the rehearsal clock, steps executed in
-full; D-05.b; [09](./09-testing-and-verification.md)).
+full; D-05.b; [09](./09-testing-and-verification.md)). **[WITHDRAWN: superseded by D-25]** for AKT in user
+accounts, which migrates through the portal from L (REQ-ROL-054); the export, root and claims-open drill are retained
+only for what S1 still carries (Q-50).
 
-**REQ-ROL-012** G3 SHALL NOT pass until exchange swap commitments cover ≥70% of trailing-90-day AKT spot volume
+**REQ-ROL-012** ~~G3 SHALL NOT pass until exchange swap commitments cover ≥70% of trailing-90-day AKT spot volume
 [TO-VERIFY: per-venue AKT volume distribution; the Q-04 data pull establishes the denominator]. Waiving or lowering
-the threshold requires Overclock leadership sign-off recorded in doc 13.
+the threshold requires Overclock leadership sign-off recorded in doc 13.~~ **[WITHDRAWN: superseded by D-25]**
+No exchange bulk swap occurs at S1; the exchange and custodian notice is a GT criterion (REQ-ROL-053 item 6).
 
-**REQ-ROL-013** No irreversible action on `akashnet-2` (sunset-upgrade submission, module-account commitments, cutover dates presented as final) SHALL occur before the binding governance approval (§3.ii) passes, i.e., before G3.
+**REQ-ROL-013** No irreversible action on `akashnet-2` (sunset-upgrade submission, module-account commitments, cutover dates presented as final) SHALL occur before the cutover proposal (§3.ii; was the binding governance approval) passes, i.e., before G3. Exceptions (D-25): any `akashnet-2` upgrade the portal mechanism needs, which rides with or before the migration proposal (Q-44); and the token launch and portal migrations from L, which are irreversible (REQ-ROL-058).
 
 ### G4. S1 executed and verified (end of P5)
 
-- **Entry:** §4 runbook executed through the first weekly residual cycle (S1+7d) and self-custody
-  claims-open (≈C+8–10d per D-05.b).
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
+> Applies to the exit items marked (Q-50), which rely on S1 contents and residual distributions; the marketplace items stand.
+
+- **Entry:** §4 runbook executed through the first weekly residual cycle (S1+7d) ~~and self-custody
+  claims-open (≈C+8–10d per D-05.b)~~ **[WITHDRAWN: superseded by D-25]**.
 - **Exit checklist:**
   - [ ] Sunset upgrade activated at height C; old chain producing blocks in wind-down mode.
-  - [ ] S1 dual-implementation verification passed; root attestation published (§4.3); 7-day public
-    verification window completed with no substantiated objection and the root armed (D-05.b).
-  - [ ] Self-custody claims opened on schedule (≈C+8–10d) and live ≥7d with success rate ≥99%; no open P1 incidents.
-  - [ ] Exchange swaps executing (majors credited or in announced windows).
+  - [ ] (Q-50) S1 dual-implementation verification passed; root attestation published (§4.3); 7-day public
+    verification window completed with no substantiated objection and the root armed (D-05.b). Applies only to what S1 still carries.
+  - [ ] ~~Self-custody claims opened on schedule (≈C+8–10d) and live ≥7d with success rate ≥99%; no open P1 incidents.~~ **[WITHDRAWN: superseded by D-25]** AKT in user accounts migrates through the portal from L (REQ-ROL-054); the no-open-P1 condition remains in REQ-ROL-014.
+  - [ ] ~~Exchange swaps executing (majors credited or in announced windows).~~ **[WITHDRAWN: superseded by D-25]**
   - [ ] Marketplace open on target chain with genesis providers live and ≥1 independent funded deployment completing an order→bid→lease cycle.
-  - [ ] First weekly residual cycle (§5.1) executed.
-- **Evidence:** attestation bundle, claims/swap telemetry, incident log, marketplace dashboards.
+  - [ ] (Q-50) First weekly residual cycle (§5.1) executed.
+- **Evidence:** attestation bundle (Q-50), ~~claims/swap telemetry~~ **[WITHDRAWN: superseded by D-25]**, incident log, marketplace dashboards.
 - **Approver:** joint war-room sign-off (roster §4.2); reported to governance via forum post.
 - **In parallel while pending:** wind-down operations (§5) run regardless; G4 only closes P5.
 
@@ -170,7 +234,7 @@ G4 by S1+21d escalates to the contingency board (§6.3).
 ### G5. S2, sunset complete, program close (end of P7)
 
 - **Exit checklist:**
-  - [ ] S2 residual snapshot at H exported, verified to the same dual-implementation standard, and final residual distribution published ([05](./05-token-migration.md)).
+  - [ ] S2 residual snapshot at H exported, verified to the same dual-implementation standard, and final residual distribution published ([05](./05-token-migration.md)). Under review (D-25, Q-50); AKT still on `akashnet-2` at H (in user accounts, bonded or unbonding) per Q-47.
   - [ ] Chain halted at H; archives published per [06](./06-state-and-data-migration.md): full state export, indexer DB, static explorer.
   - [ ] Infrastructure decommission checklist ([06](./06-state-and-data-migration.md)) complete at H+90d.
   - [ ] Hypercare exit criteria met (§8.1); success-metric scorecard published (§8.2).
@@ -189,24 +253,38 @@ A **governance proposal** is an on-chain vote among staked-AKT holders on the Co
 ~3–4 days wall clock. Expedited proposals (shortened voting for emergencies) exist in the chain's SDK version
 [TO-VERIFY: live `akashnet-2` expedited governance parameters (voting period and minimum deposit) at P0].
 
+Under D-25 the sequence starts with the **migration proposal** (i), which replaces the non-binding signal proposal
+and is binding for the token launch, and continues with the **cutover proposal** (ii), which replaces the binding
+migration approval. Proposals (iii), (iii-b) and (iv) are unchanged. Because holders unbond to migrate, the 20% quorum
+on proposals (ii), (iii) and (iii-b) depends on enough AKT staying bonded through H (A-25); bonded stake is monitored
+from V (§5.5, REQ-ROL-057).
+
 **REQ-ROL-016** The governance sequence SHALL execute in order (i)→(ii)→(iii)→(iii-b); a later proposal MUST NOT be
 submitted before its predecessor passes. Proposal skeletons (full texts are a P4 deliverable; Overclock owns,
 Vendor supplies technical content):
 
-- **(i) Signal: "Migrate the Akash protocol to [target]"** (text proposal, P0; G0 entry). States intent to migrate
-  per the AKASH-MIG document set (version pinned by hash), summarizes the dual-snapshot mechanism (S1 at cutover,
+- **(i) Migration proposal: "Migrate the Akash protocol to [target]"** (was: signal proposal; P0, submitted only
+  after GT passes, REQ-ROL-053; G0 exit condition). States intent to migrate
+  per the AKASH-MIG document set (version pinned by hash), ~~summarizes the dual-snapshot mechanism (S1 at cutover,
   90-day wind-down, S2 at halt, 2-year claim window) and the Gate 0 process, and asks the community to signal
-  support. Explicitly non-binding: no height, no date, no funds movement.
-- **(ii) Binding migration approval** (text proposal, submitted during P4; G3 exit condition per REQ-ROL-013). Ratifies:
-  execution per the doc set; the sunset upgrade **name `v3.0.0-sunset`**; the **S1 height formula** (C = first
+  support. Explicitly non-binding: no height, no date, no funds movement.~~ **[WITHDRAWN: superseded by D-25]**
+  Approves the migration to Solana and authorizes the token launch at L = V + 7d and the migration portal
+  (REQ-ROL-054); **binding for the token launch**. Quorum 20% of bonded stake, majority yes; its passage closes G0
+  (with the other G0 exit items). Carries the disclosures in REQ-GEN-021 and the Gate 0 process. Any `akashnet-2`
+  upgrade the portal mechanism needs rides with or before this proposal (Q-44). The cutover height, H and the
+  sunset upgrade are fixed later by (ii).
+- **(ii) Cutover proposal** (was: binding migration approval; text proposal, submitted during P4; G3 exit condition per REQ-ROL-013). Ratifies:
+  execution per the doc set; the sunset upgrade **name `v3.0.0-sunset`**; the **S1 height formula** (C height formula: C = first
   block whose timestamp ≥ the approved cutover instant, with the concrete height
   computed at proposal-(iii) submission as `h_submit + ceil((T_cutover − t_submit)/6.5s)` from the chain's 6.5 s
-  average block time); H = C+90d; the wind-down message allow-list policy (Q-17); claim windows per D-05; and the
-  point-of-no-return declaration (§6.2) verbatim.
+  average block time); H = C+90d; the wind-down message allow-list policy (Q-17); ~~claim windows per D-05~~
+  **[WITHDRAWN: superseded by D-25]** for AKT (portal window per D-25.a; claim windows for what S1 and S2 still
+  carry per Q-50); and the point-of-no-return declarations (§6.2: REQ-ROL-040 and REQ-ROL-058) verbatim.
 - **(iii) Sunset software upgrade** (software-upgrade proposal, submitted S1−21d). The standard Cosmos mechanism
   directing every validator's Cosmovisor supervisor to swap binaries at an exact height: schedules `v3.0.0-sunset`
   at the concrete height C per (ii), binary URLs + SHA-256 checksums in the info field. The upgrade installs the
-  wind-down message filter and min-gas raise (D-18; detail in [06](./06-state-and-data-migration.md)).
+  wind-down message filter and min-gas raise (D-18; detail in [06](./06-state-and-data-migration.md)), and sets
+  x/mint inflation to zero so no AKT minted after C reaches the portal (D-25.b).
   **(iii-b)** mirrors this at H−21d, scheduling the final halt at height H.
 - **(iv) Emergency path (C→H)** (expedited, as needed). Pre-drafted expedited proposals covering: cancellation of a
   scheduled upgrade (pre-S1 abort, §6.1); wind-down extension (replacement halt height); sunset anti-spam parameter
@@ -214,7 +292,8 @@ Vendor supplies technical content):
 
 **REQ-ROL-017** Proposal (ii) MUST contain, at minimum: doc-set version hash, upgrade name, S1 height formula and
 target instant, H offset, claim-window durations, and the §6.2 point-of-no-return text. Any later material deviation
-requires a superseding proposal.
+requires a superseding proposal. (Proposal (ii) is the cutover proposal. Claim-window durations:
+**[WITHDRAWN: superseded by D-25]** for AKT in user accounts; residual and ACT claim windows, if any, per Q-50.)
 
 **REQ-ROL-018** Proposal (iii) SHALL be submitted no later than S1−21d and MUST encode the concrete height C;
 predicted-time drift handling per REQ-ROL-024.
@@ -230,39 +309,48 @@ funding arranged before G3.
 **REQ-ROL-021** The cutover SHALL be executed from a versioned, executable copy of this runbook; every deviation
 MUST be logged in real time in the war-room log and reviewed at the S1 retrospective.
 
+The token launch precedes this runbook: by S1, SPL AKT has circulated on Solana since L and AKT holders, exchanges
+and custodians migrate through the portal at their own pace (D-25; REQ-ROL-054). This runbook covers the marketplace
+cutover at C and whatever S1 still carries (Q-50).
+
 ### 4.1 T-minus schedule
+
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
+> Applies to the rows for S1 export and roots, Wind-down Reserve mint, BME vault seeding, public verification, claims-open and residual cycles. Those rows are withdrawn as they apply to AKT in user accounts and kept only for what Q-50 retains.
 
 | T | Action | Owner | Notes |
 |---|---|---|---|
 | S1−35d | Target-chain production deployment complete: programs/contracts live, order intake disabled via config ([03](./03-solana-architecture.md)/[04](./04-ethereum-architecture.md)) | Vendor | G3 evidence |
-| S1−30d | **Formal exchange notices**: exact cutover instant, height formula, per-venue swap tech pack final | Overclock BD | Precedent: 3–6mo engagement, 30d formal notice (RNDR/HNT playbooks) |
+| S1−30d | **Formal exchange notices**: exact cutover instant, height formula, ~~per-venue swap tech pack final~~ **[WITHDRAWN: superseded by D-25]** (exchange and custodian portal notice delivered at GT, REQ-ROL-053) | Overclock BD | Precedent: 3–6mo engagement, 30d formal notice (RNDR/HNT playbooks) |
 | S1−30d | **Provider re-registration opens** on target chain; **provider daemon GA** (chain adapter, [07](./07-offchain-and-clients.md)) | Vendor eng + Overclock provider team | D-08: launch precedes C |
 | S1−30d | Validator coordination channel stood up; abort-procedure instructions distributed (§6.1) | Overclock ops | Validators = the ≤100 block-producing operators of the Cosmos chain |
-| S1−28d | Claims portal + CLI final RC; mainnet-fork claim dry-run | Vendor | [05](./05-token-migration.md) |
+| S1−28d | Claims portal + CLI final RC; mainnet-fork claim dry-run | Vendor | [05](./05-token-migration.md); claims of what S1 still carries (Q-50) |
 | S1−21d | Sunset upgrade proposal (iii) submitted with concrete height C | Overclock on-chain ops | §3 |
 | S1−17d | Voting closes; C confirmed (or program re-baselines) | Akash governance | 3d voting period |
 | S1−14d | **Rehearsal R4**: final dress on fresh mainnet-fork state | Vendor | [09](./09-testing-and-verification.md); failure → §6.1 abort review |
-| S1−14d | IBC voucher-return final call (Osmosis/Hub frontends, wallets) | Overclock comms | D-07; IBC = Cosmos cross-chain transfer protocol, see [01](./01-current-architecture.md) |
+| S1−14d | IBC voucher-return final call (Osmosis/Hub frontends, wallets) | Overclock comms | D-07; IBC = Cosmos cross-chain transfer protocol, see [01](./01-current-architecture.md). Under D-25 holders return IBC AKT to `akashnet-2` and then migrate through the portal; vouchers still out at H per Q-46 |
 | S1−7d | **Genesis providers confirmed**: ≥20 providers including top-5 by GPU capacity registered, bid engines live (threshold ratified at G1) | Overclock provider team | Go/no-go input |
 | S1−7d | War-room shifts locked; status page live; dashboards frozen | Joint ops | §4.4 |
 | **S1−72h** | **Go/no-go #1** | Roster §4.2 | Abort → §6.1 path A |
 | S1−48h | Height re-estimates published every 12h (block-time drift) | Overclock ops | REQ-ROL-024 |
-| **S1−24h** | **Exchange/custodian deposit + withdrawal freeze** for Cosmos-chain AKT | Exchanges (coordinated by Overclock BD) | HNT precedent: ~1-day pause |
+| **S1−24h** | **Exchange/custodian deposit + withdrawal freeze** for Cosmos-chain AKT **[WITHDRAWN: superseded by D-25]**. No exchange bulk swap occurs at S1; exchanges and custodians migrate through the portal on their own schedule (A-24) | Exchanges (coordinated by Overclock BD) | HNT precedent: ~1-day pause |
 | S1−24h | Wallets pause stake/redelegate UX; Console blocks new old-chain deployments (UI-level; chain enforces at C) | Wallet partners / Console team | |
 | **S1−6h** | **Go/no-go #2 (final)** | Roster §4.2 | After "go", no abort (§6.2) |
-| **S1 (height C)** | **Sunset upgrade activates**: marketplace-entry messages filtered, min-gas raised; chain continues in wind-down mode. S1 balance baseline = committed state at height C−1 (last pre-upgrade block; the upgrade handler moves no balances) | Validators (Cosmovisor) | D-18; [06](./06-state-and-data-migration.md) |
-| C → +20h | Snapshot export ×2 independent pipelines; transform; Merkle roots computed and compared (§4.3) | Vendor + Overclock (independent operators) | [06](./06-state-and-data-migration.md) |
-| +20h → +24h | Root attestation window: signer quorum per §4.3 | Attestation roster | |
-| ≤ S1+24h | **Root published on target chain; Wind-down Reserve minted; BME vault seeded** (REQ-ROL-029). Self-custody claims do NOT open yet (D-05.b) | Vendor | [05](./05-token-migration.md) |
-| S1 → +7d | **Exchange swaps execute**. Custodial crediting is NOT gated on the verification window or claims-open (D-05.b; venue allocations reserved in the S1 tree): majors ≤~1 day (HNT precedent); stragglers staggered up to ~4 wk (RNDR precedent); day-1 auto-convert is the requested default (ASI precedent) | Exchanges / Overclock BD | Per-venue windows on status page |
-| S1+24h | **Marketplace order intake enabled** on target (providers already registered); first funded deployments expected ≤S1+48h once exchange-swapped AKT circulates (self-custody claims open ≈C+8–10d) | Vendor + Overclock | D-08 |
-| S1+24h → ≈C+8d | **7-day public verification window** on the published S1 root: dual-implementation match published, community recomputation invited; root armed at window close ([06](./06-state-and-data-migration.md) §4.3) | Vendor + community | D-05.b; REQ-ROL-030 |
-| S1+72h | War-room review #1: swap coverage, verification-window telemetry, incident log; staffing step-down decision | Joint | §4.4 |
-| S1+7d | First weekly residual cycle executes (§5.1); S1 retrospective published; G4 review scheduled | Joint | §5 |
-| ≈C+8–10d | **Self-custody claims open** (portal + CLI) once the verification window closes and the root is armed | Vendor | [05](./05-token-migration.md); D-05.b |
+| **S1 (height C)** | **Sunset upgrade activates**: marketplace-entry messages filtered, min-gas raised, x/mint inflation set to zero (D-25.b); chain continues in wind-down mode. S1 balance baseline = committed state at height C−1 (last pre-upgrade block; the upgrade handler moves no balances) | Validators (Cosmovisor) | D-18; [06](./06-state-and-data-migration.md) |
+| C → +20h | Snapshot export ×2 independent pipelines; transform; Merkle roots computed and compared (§4.3) | Vendor + Overclock (independent operators) | [06](./06-state-and-data-migration.md); S1 contents per Q-50 (no AKT in user accounts) |
+| +20h → +24h | Root attestation window: signer quorum per §4.3 | Attestation roster | Q-50 |
+| ≤ S1+24h | **Root published on target chain; Wind-down Reserve minted; BME vault seeded** (REQ-ROL-029). Self-custody claims do NOT open yet (D-05.b). **[WITHDRAWN: superseded by D-25]** as it applies to AKT in user accounts; root publication, Reserve mint and vault seeding kept only as far as Q-50 retains them | Vendor | [05](./05-token-migration.md); under review (Q-50) |
+| S1 → +7d | **Exchange swaps execute**. Custodial crediting is NOT gated on the verification window or claims-open (D-05.b; venue allocations reserved in the S1 tree): majors ≤~1 day (HNT precedent); stragglers staggered up to ~4 wk (RNDR precedent); day-1 auto-convert is the requested default (ASI precedent). **[WITHDRAWN: superseded by D-25]** Exchanges and custodians migrate custodial AKT through the portal from L (REQ-ROL-054) | Exchanges / Overclock BD | Per-venue windows on status page |
+| S1+24h | **Marketplace order intake enabled** on target (providers already registered); first funded deployments expected ≤S1+48h once exchange-swapped AKT circulates (self-custody claims open ≈C+8–10d). **[WITHDRAWN: superseded by D-25]** for the funding condition: SPL AKT circulates from L, before order intake opens | Vendor + Overclock | D-08 |
+| S1+24h → ≈C+8d | **7-day public verification window** on the published S1 root: dual-implementation match published, community recomputation invited; root armed at window close ([06](./06-state-and-data-migration.md) §4.3). **[WITHDRAWN: superseded by D-25]** as it applies to AKT in user accounts; kept only for what S1 still carries (Q-50) | Vendor + community | D-05.b; REQ-ROL-030 |
+| S1+72h | War-room review #1: ~~swap coverage~~ **[WITHDRAWN: superseded by D-25]**, verification-window telemetry, incident log; staffing step-down decision | Joint | §4.4 |
+| S1+7d | First weekly residual cycle executes (§5.1); S1 retrospective published; G4 review scheduled | Joint | §5; residual cycle under review (Q-50) |
+| ≈C+8–10d | **Self-custody claims open** (portal + CLI) once the verification window closes and the root is armed. **[WITHDRAWN: superseded by D-25]** for AKT in user accounts, which migrates through the migration portal from L (REQ-ROL-054); claims of what S1 still carries, if any, per Q-50 | Vendor | [05](./05-token-migration.md); D-05.b |
 
 **REQ-ROL-022** Formal exchange notices MUST be sent no later than S1−30d and MUST include the point-of-no-return
-declaration (§6.2) and the per-venue technical pack (§7).
+declaration (§6.2) and the per-venue technical pack (§7). (The swap content of the pack is
+**[WITHDRAWN: superseded by D-25]**, see REQ-ROL-046; the point-of-no-return declarations are REQ-ROL-040 and
+REQ-ROL-058.)
 
 **REQ-ROL-023** Provider re-registration and the GA provider daemon release MUST be available no later than S1−30d,
 so that supply exists on the target chain before demand cuts over (D-08).
@@ -275,6 +363,8 @@ and Solana state going live. Akash's design is strictly softer: **the old chain 
 upgrade only freezes marketplace entry; the balance "halt" is *logical* at height C. Transfers, refunds, settlement,
 withdrawals, and BME burns keep working through H, so the ≤24h target (REQ-ROL-029) bounds only root-publication
 latency (self-custody claims open after the 7-day public verification window, ≈C+8–10d per D-05.b).
+**[WITHDRAWN: superseded by D-25]** for the parenthetical: AKT in user accounts does not wait for S1 claims; it
+migrates through the portal, open since L.
 
 ### 4.2 Go/no-go governance
 
@@ -289,6 +379,9 @@ ad-hoc criteria additions require chair approval.
 
 ### 4.3 Snapshot verification and root attestation
 
+S1 no longer carries AKT held in user accounts (D-25). The pipelines, root and attestation below apply to whatever S1
+still carries (protocol-held funds, ACT, residuals), which is under review in Q-50.
+
 **REQ-ROL-027** The S1 snapshot SHALL be exported and transformed by **two independent pipeline implementations run
 by different operators** (Vendor and Overclock) from independently synced nodes; the resulting Merkle roots MUST
 match bit-for-bit before publication ([06](./06-state-and-data-migration.md) defines the pipelines; [05](./05-token-migration.md) the tree format).
@@ -298,13 +391,17 @@ community auditors, Vendor security lead) over the root, snapshot height, and su
 attestation bundle is published alongside the root.
 
 **REQ-ROL-029** Target for height C → attested root published on the target chain is **≤24h**. Exceeding 24h is a
-declared incident with §7 notifications; exceeding 72h escalates per §6.3 row B. Self-custody claims-open follows at
-≈C+8–10d after the 7-day public verification window (D-05.b); that offset is schedule, not an incident trigger.
+declared incident with §7 notifications; exceeding 72h escalates per §6.3 row B. ~~Self-custody claims-open follows at
+≈C+8–10d after the 7-day public verification window (D-05.b); that offset is schedule, not an incident trigger.~~
+**[WITHDRAWN: superseded by D-25]** (replacement: REQ-ROL-054). The ≤24h root target stands for what S1 still
+carries (Q-50).
 
 **REQ-ROL-030** Self-custody claims MUST NOT open before (a) the attestation bundle is published AND (b) the ≥7-day
 public verification window ([06](./06-state-and-data-migration.md) §4.3) has elapsed with the root armed (D-05.b).
-Exchange custodial swaps execute from S1 against venue allocations reserved in the S1 tree and are NOT gated on the
-verification window or on claims-open.
+~~Exchange custodial swaps execute from S1 against venue allocations reserved in the S1 tree and are NOT gated on the
+verification window or on claims-open.~~ **[WITHDRAWN: superseded by D-25]** for AKT in user accounts and exchange
+custodial swaps (replacement: REQ-ROL-054). Conditions (a) and (b) are retained for any claims of what S1 still
+carries (Q-50).
 
 ### 4.4 Monitoring thresholds and war-room
 
@@ -321,7 +418,7 @@ incident commander, claims on-call, protocol on-call, old-chain ops, indexer/Con
 | Escrow settlement lag | p95 >60s over 1h | P2; crank/keeper capacity response ([03](./03-solana-architecture.md)/[04](./04-ethereum-architecture.md)) |
 | Old-chain block interval | >15s sustained 30 min | Validator ops escalation; §6.3 row E |
 | Old-chain bonded voting power online | <80% | Activate validator contingency (§5.2, §6.3 row E) |
-| Exchange swap coverage at S1+7d | <95% of exchange-held supply | BD escalation; per-venue status publication (§6.3 row C) |
+| Exchange swap coverage at S1+7d **[WITHDRAWN: superseded by D-25]** | <95% of exchange-held supply | BD escalation; per-venue status publication (§6.3 row C) |
 | Claim-portal availability | <99.5% daily | P2 |
 
 ### 4.5 Target-specific runbook deltas
@@ -339,6 +436,8 @@ claims-open). Root publication lands in `MigrationClaims`; attestation signing u
 ## 5. Wind-down operations (C → H)
 
 ### 5.1 Weekly residual distribution cycle (D-05)
+
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
 
 Old-chain escrow settlements, refunds, and withdrawals during C→H are honored on the target chain from the Wind-down
 Reserve via weekly Merkle distributions ([05](./05-token-migration.md) defines amounts; cadence per Q-18).
@@ -358,6 +457,9 @@ dispute window, and attestation before distribution.
 resolution and the next cycle absorbs any delay. Disputes and resolutions are published.
 
 ### 5.2 Validator wind-down administration
+
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
+> Applies to settlement of validator incentives in the terminal distribution at H (REQ-ROL-035).
 
 The old chain needs ≥2/3 of bonded voting power online through H to keep producing blocks; the incentive design for
 validators serving through halt is specified in [06](./06-state-and-data-migration.md), funded per Q-13.
@@ -386,14 +488,29 @@ count old vs new chain; escrow value remaining on the old chain; cumulative resi
 
 **REQ-ROL-038** Tenants with leases still active on the old chain SHALL receive: weekly general updates; direct
 notices (Console, provider relays) at C+30d, C+60d, and C+75d; and a final forced-close warning no later than
-**7 days before H**, stating that leases open at H are force-closed with escrow refunds honored in the S2 distribution ([05](./05-token-migration.md), [06](./06-state-and-data-migration.md)).
+**7 days before H**, stating that leases open at H are force-closed with escrow refunds honored in the S2 distribution ([05](./05-token-migration.md), [06](./06-state-and-data-migration.md)). The S2 refund path is under review (D-25, Q-50).
+
+### 5.5 Bonded-stake and quorum monitoring (V → H)
+
+Holders unbond (14 days) before migrating, so stake securing `akashnet-2` thins out from V onward (R-36). The old
+chain must stay live and meet the 20% quorum on the cutover, sunset and halt proposals through H (A-25).
+
+**REQ-ROL-057** From V through H, Overclock SHALL monitor bonded stake on `akashnet-2` and report the bonded ratio and
+the quorum headroom for each pending or upcoming governance proposal (§3) at every gate review (R-36, A-25). The
+minimum bonded-stake threshold, the response when the bonded ratio falls toward quorum risk, and whether continuity
+incentives (Q-13) start before C are set by Q-49, needed by G1. A breach of the Q-49 threshold activates §6.3
+row E.
 
 ## 6. Rollback and contingency
 
 ### 6.1 Pre-S1: abort paths (old chain unaffected)
 
 Before the sunset upgrade activates, aborting leaves `akashnet-2` untouched, which is the point of REQ-ROL-013 (no
-irreversible old-chain action before the G3 binding vote): the program can stop at any gate with no protocol damage.
+irreversible old-chain action before the cutover proposal, §3.ii, passes at G3): the program can stop at any gate
+with no protocol damage. Under D-25 these abort paths cover the **marketplace only**. They do
+not reverse the token launch: from L, SPL AKT exists and every portal migration is final (§6.2, REQ-ROL-058). A
+marketplace abort leaves SPL AKT and the portal live per REQ-ROL-054, and the marketplace stays on `akashnet-2`; what
+that means for SPL AKT, the portal and the disclosures in the migration proposal is open in Q-51 (needed by GT).
 
 **REQ-ROL-039** The scheduled sunset upgrade MUST carry an abort switch usable until the S1−6h go/no-go, implemented
 as two windows:
@@ -409,15 +526,24 @@ as two windows:
 An abort via either path returns the program to P4; rescheduling requires a new proposal (iii). Between C and root
 publication one damage-limited recovery remains: if S1 verification fails catastrophically (§6.3 row B exhausted),
 an emergency proposal (§3.iv) re-opens the marketplace by reverting the message filter, a disaster path that
-exists only until claims open.
+exists only until claims open (claims of what S1 still carries, per Q-50).
 
-### 6.2 Post-S1: point of no return
+### 6.2 Points of no return: L (token) and C (marketplace)
 
 **REQ-ROL-040** The point of no return is the **execution of S1 itself** (activation of the sunset upgrade at C and
 the start of exchange custodial swaps): from that moment the migration cannot be reversed. The subsequent
 publication of the attested S1 root and the opening of claims (≈C+8–10d per D-05.b) is the **final verification
 milestone**, after which no accounting adjustment to the S1 distribution is possible. Both statements MUST appear
 verbatim in proposal (ii), all exchange notices, the claim portal, and the migration hub page.
+**[WITHDRAWN: superseded by D-25]** for "the start of exchange custodial swaps" and for claims of AKT in user
+accounts. Retained: C remains the point of no return for the **marketplace** migration, and the final verification
+milestone applies to whatever S1 still carries (Q-50). The token point of no return is REQ-ROL-058.
+
+**REQ-ROL-058** The point of no return for the **token** is **L**: once SPL AKT is minted at L, the token launch
+cannot be reversed, and each portal migration is final, with no reverse path provided by any program, contract or
+operated service (D-25). Marketplace abort paths before C (§6.1) do not affect it. This statement MUST appear
+verbatim in the migration proposal (§3.i; REQ-GEN-021), the cutover proposal (§3.ii), all exchange and custodian
+notices, the portal, and the migration hub page.
 
 ### 6.3 Contingency matrix
 
@@ -426,11 +552,15 @@ least once across rehearsals R3–R4 ([09](./09-testing-and-verification.md)).
 
 | # | Scenario | Detection | Immediate action | Authority | Comms |
 |---|---|---|---|---|---|
-| A | Claims bug discovered post-S1 | §4.4 thresholds; bug bounty; user reports | **Pause claims only** via guardian role ([08](./08-security-and-audits.md)); marketplace and residual cycles keep running; patch via timelock-expedited path; root unchanged | Guardian (pause) + upgrade multisig (patch) | Status page ≤1h; post-mortem ≤72h |
+| A | **Portal bug discovered (from L)**: verification or accounting flaw that could mint SPL AKT without a matching removal on `akashnet-2` (R-01, Q-44). Was: claims bug discovered post-S1 | Supply-conservation monitor (a breach auto-pauses portal mints); bug bounty; user reports. For retained claims: §4.4 thresholds | **Pause portal mints** (no reverse path exists to block); patched redeploy; public reconciliation (R-01). For claims of what S1 still carries (Q-50): **pause claims only** via guardian role ([08](./08-security-and-audits.md)); marketplace and residual cycles keep running; patch via timelock-expedited path; root unchanged | Portal: monitor auto-pause, then pause and redeploy authority per [08](./08-security-and-audits.md). Claims: guardian (pause) + upgrade multisig (patch) | Public notice ≤1h on the portal and migration hub page (status page once live, REQ-ROL-047); public reconciliation; post-mortem ≤72h |
 | B | Snapshot verification mismatch (pipelines disagree) | REQ-ROL-027 comparison | Delay root publication ≤72h; triage board (Vendor eng lead, Overclock ops, one attestor-auditor) isolates divergence; if unresolved, a third independent implementation adjudicates | Triage board; chair decides publish/hold | Incident notice at +24h (REQ-ROL-029); daily updates |
-| C | Exchange fails to swap on time | Venue status tracking | None on-chain; custodial users' entitlements are unaffected (venue allocation reserved per [05](./05-token-migration.md)); publish per-venue status; RNDR precedent: staggered windows up to ~4 wk are normal | Overclock BD | Per-venue status rows; user guidance |
+| C | Exchange fails to swap on time **[WITHDRAWN: superseded by D-25]**. Replacement scenario: exchange or custodian slow to migrate custodial AKT through the portal or to list SPL AKT (A-24, R-12) | Venue status tracking | None on-chain; custodial users' entitlements are unaffected (venue allocation reserved per [05](./05-token-migration.md)); publish per-venue status; RNDR precedent: staggered windows up to ~4 wk are normal **[WITHDRAWN: superseded by D-25]**. Replacement action: venues migrate on their own schedule within the 2-year portal window (D-25.a); publish per-venue status; escalate through venue outreach (Q-04) | Overclock BD | Per-venue status rows; user guidance |
 | D | Target-chain outage during S1 window | Chain monitoring | Claims are not time-critical: delay claims-open/marketplace-open until stable; old chain continues wind-down unaffected (§4.5) | War-room chair | Status page; revised timeline notice |
-| E | Mass provider no-show / old-chain validator attrition | §5.3 KPIs; §4.4 voting-power threshold | Provider side: §5.3 incentive boost, then governance-approved wind-down extension (§3.iv). Validator side: Q-13 incentives; worst case, accelerate S2 from the last good height by emergency governance + social consensus | Overclock + governance | Weekly updates; dedicated notices |
+| E | Mass provider no-show / old-chain validator attrition | §5.3 KPIs; §4.4 voting-power threshold; §5.5 bonded-stake monitoring from V (REQ-ROL-057; R-36) | Stake side: response set by Q-49. Provider side: §5.3 incentive boost, then governance-approved wind-down extension (§3.iv). Validator side: Q-13 incentives; worst case, accelerate S2 from the last good height by emergency governance + social consensus | Overclock + governance | Weekly updates; dedicated notices |
+
+Row A applies from L for the life of the portal window; its portal pause path is first rehearsed for GT
+(REQ-ROL-053 item 2). Row C's original scenario no longer arises; its replacement is exercised in its place under
+REQ-ROL-041.
 
 **REQ-ROL-042** The guardian pause (row A) MUST be scoped to claim execution only; it SHALL NOT be able to pause
 marketplace programs/contracts, already-attested residual distributions, or transfers of already-claimed AKT.
@@ -451,8 +581,10 @@ Operational notifications (execution-required; REQ IDs below remain active):
 
 | Notification | Latest trigger | Owner | Reference |
 |---|---|---|---|
-| Exchange/custodian formal notice + final technical pack | S1−30d (pack delivered ≥16 wk before C) | Overclock BD; pack content by Vendor | §4.1; REQ-ROL-022, REQ-ROL-046; [11](./11-scope-of-work.md) REQ-SOW-026 |
-| Exchange/custodian deposit + withdrawal freeze notice | S1−24h freeze | Exchanges, coordinated by Overclock BD | §4.1 |
+| Exchange and custodian technical notice for the portal, stating L = V + 7d | Before the migration proposal is submitted (GT) | Overclock BD | §2 GT; REQ-ROL-053 item 6; Q-04 |
+| Public notice if L must slip (pre-drafted) | Drafted before V; issued if L slips | Overclock comms | §2 GT; REQ-ROL-055; R-38 |
+| Exchange/custodian formal notice + final technical pack | S1−30d (pack delivered ≥16 wk before C) | Overclock BD; pack content by Vendor | §4.1; REQ-ROL-022, REQ-ROL-046 (swap content withdrawn, D-25); [11](./11-scope-of-work.md) REQ-SOW-026 (withdrawn; the portal notice is REQ-SOW-060) |
+| Exchange/custodian deposit + withdrawal freeze notice **[WITHDRAWN: superseded by D-25]** | S1−24h freeze | Exchanges, coordinated by Overclock BD | §4.1 |
 | Provider daemon-GA upgrade notice + re-registration opening | S1−30d | Vendor eng + Overclock provider team | §4.1; REQ-ROL-023 |
 | Validator upgrade coordination channel + abort-procedure instructions | S1−30d | Overclock ops | §4.1, §6.1 |
 | IBC counterparty notices | S1−60d | Overclock | REQ-ROL-045 |
@@ -461,10 +593,12 @@ Operational notifications (execution-required; REQ IDs below remain active):
 
 **REQ-ROL-045** IBC counterparty notices (at minimum an Osmosis governance forum post and a Cosmos Hub forum post)
 MUST be published no later than S1−60d, covering the voucher-return campaign, the stranded-voucher redemption
-process, and channel wind-down ([05](./05-token-migration.md)).
+process, and channel wind-down ([05](./05-token-migration.md)). Under D-25 the voucher-return campaign asks holders to
+return IBC AKT to `akashnet-2` and then migrate through the portal (D-07 as amended); vouchers still out at H per Q-46.
 
-**REQ-ROL-046** The exchange-facing technical pack MUST include: snapshot/height definition, Merkle proof format +
-verification tooling, venue swap-allocation mechanics, test vectors, target-chain integration guide (mint/contract addresses, finality guidance), freeze-window recommendation, and support escalation contacts.
+**REQ-ROL-046** The exchange-facing technical pack MUST include: ~~snapshot/height definition, Merkle proof format +
+verification tooling, venue swap-allocation mechanics, test vectors,~~ **[WITHDRAWN: superseded by D-25]** target-chain integration guide (mint/contract addresses, finality guidance), ~~freeze-window recommendation,~~ **[WITHDRAWN: superseded by D-25]** and support escalation contacts. The struck items served the S1 exchange swap only; the
+exchange and custodian notice for the portal is a GT criterion (REQ-ROL-053 item 6).
 
 **REQ-ROL-047** A public status page SHALL run from S1−7d through G5; during C→H a written weekly update SHALL be
 published (residual cycle results, KPIs, incidents) per §5.
@@ -472,6 +606,10 @@ published (residual cycle results, KPIs, incidents) per §5.
 ## 8. Post-migration: hypercare, success metrics, handover
 
 ### 8.1 Hypercare (90 days, C → H; reduced through G5)
+
+Portal operations from L, before the S1 war-room (REQ-ROL-031), status page (REQ-ROL-047) and hypercare below start,
+follow [11](./11-scope-of-work.md) REQ-SOW-059 (on-call from L) and [08](./08-security-and-audits.md) REQ-SEC-086
+(incident roster, 24/7 coverage in the token launch week).
 
 **REQ-ROL-048** The Vendor SHALL provide hypercare from S1 through H at the following SLAs, and from H through G5 at
 P1/P2-only coverage:
@@ -496,7 +634,7 @@ trigger runbook playbooks remain normative in §4.4 and §5.3.
 | Metric | Target |
 |---|---|
 | Fund-loss incidents unrecovered | 0 |
-| S1 root-publication latency | ≤24h (REQ-ROL-029); self-custody claims-open on the D-05.b schedule (≈C+8–10d) |
+| S1 root-publication latency | ≤24h (REQ-ROL-029); ~~self-custody claims-open on the D-05.b schedule (≈C+8–10d)~~ **[WITHDRAWN: superseded by D-25]** |
 | Residual cycles executed on schedule | 13/13 |
 
 Misses do not retroactively fail gates; each miss requires a published root-cause and remediation plan at G5.
@@ -521,15 +659,15 @@ endpoints retired at H+90d per D-18); completion evidence feeds G5.
 
 ## Cross-references
 
-- [02. Target selection](./02-target-selection.md): Gate 0 selection basis; ratified at G0.
-- [05. Token migration](./05-token-migration.md): S1/S2 contents, claims, exchange allocations, Wind-down Reserve, IBC redemption.
+- [02. Target selection](./02-target-selection.md): Gate 0 selection basis; ratified at G0. REQ-GEN-021 (migration proposal disclosures), REQ-GEN-022 (Gate 0), REQ-GEN-023 (token and portal work before G0).
+- [05. Token migration](./05-token-migration.md): S1/S2 contents, claims, exchange allocations, Wind-down Reserve, IBC redemption; SPL AKT and the migration portal.
 - [06. State & data migration](./06-state-and-data-migration.md): sunset upgrade internals, export/verification pipelines, validator incentive formula, archives, decommission.
 - [07. Off-chain services & clients](./07-offchain-and-clients.md): provider daemon GA, Console, wallet integrations (§4/§7).
 - [08. Security & audits](./08-security-and-audits.md): audit gates, guardian role, timelock paths, key ceremony detail.
 - [09. Testing & verification](./09-testing-and-verification.md): dry-runs R1–R2, rehearsals R3–R4, pass criteria behind G2/G3.
 - [11. Scope of work](./11-scope-of-work.md): milestones M0..Mn and payment gates mapped to G0–G5; RACI for the §7 operational notifications.
-- [12. Risk register](./12-risk-register.md): risks whose triggers reference §4.4/§5.3 thresholds.
-- [13. Open questions](./13-open-questions-and-assumptions.md): D-01, D-05, D-08, D-18; Q-04, Q-13, Q-17, Q-18, Q-19.
+- [12. Risk register](./12-risk-register.md): risks whose triggers reference §4.4/§5.3 thresholds; R-01, R-12, R-34, R-36, R-38 for the portal and token launch.
+- [13. Open questions](./13-open-questions-and-assumptions.md): D-01, D-05, D-08, D-18, D-25; A-24, A-25; Q-04, Q-13, Q-17, Q-18, Q-19, Q-44, Q-46, Q-47, Q-49, Q-50, Q-51.
 
 ## Feeds into
 

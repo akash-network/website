@@ -4,25 +4,38 @@ type Props = {
   title: string | string[];
   /** Same as `title`: an array breaks the description into lines from md up. */
   description: string | string[];
+  /** Vertical alignment of the two columns from xl up. "end" suits a short aside; a tall one
+   *  reads better with "start", so the headline isn't pushed down to its bottom edge. */
+  align?: "end" | "start";
+  /** For a description longer than the calculators': widens the right column from xl up and
+   *  sets the description a step smaller (17px from md up instead of 18px). */
+  wide?: boolean;
 };
 
-const { title, description } = Astro.props;
+const { title, description, align = "end", wide = false } = Astro.props;
 const titleLines = Array.isArray(title) ? title : [title];
 const descriptionLines = Array.isArray(description)
   ? description
   : [description];
 
 // With an "aside" (e.g. a CTA), the description sits under the headline and the aside takes the
-// right column; otherwise the description takes the right column.
+// right column; otherwise the description takes the right column. Default-slot content goes
+// under the headline.
 const hasAside = Astro.slots.has("aside");
 ---
 
 <div
-  class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)] xl:items-end xl:gap-16"
+  class:list={[
+    "grid gap-8 xl:gap-16",
+    wide
+      ? "xl:grid-cols-[minmax(0,1fr)_minmax(0,560px)]"
+      : "xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)]",
+    align === "start" ? "xl:items-start" : "xl:items-end",
+  ]}
 >
   <div>
     <h1
-      class="text-4xl font-medium leading-[1.05] tracking-tight text-zinc-900 dark:text-zinc-50 md:text-5xl lg:text-6xl"
+      class="text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl md:tracking-tighter lg:text-6xl"
     >
       {
         titleLines.map((line, index) => (
@@ -35,7 +48,7 @@ const hasAside = Astro.slots.has("aside");
     </h1>
     {
       hasAside && (
-        <p class="mt-5 max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-lg">
+        <p class="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
           {descriptionLines.map((line, index) => (
             <span class="md:block">
               {line}
@@ -45,12 +58,18 @@ const hasAside = Astro.slots.has("aside");
         </p>
       )
     }
+    <slot />
   </div>
   {
     hasAside ? (
       <slot name="aside" />
     ) : (
-      <p class="max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-lg">
+      <p
+        class:list={[
+          "max-w-xl text-base leading-relaxed text-muted-foreground",
+          wide ? "md:text-[17px]" : "md:text-lg",
+        ]}
+      >
         {descriptionLines.map((line, index) => (
           <span class="md:block">
             {line}

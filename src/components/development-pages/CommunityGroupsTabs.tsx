@@ -226,7 +226,7 @@ export default function CommunityGroupsTabs({ groups }: Props) {
               className={`rounded-md px-5 py-2 text-sm font-medium transition-all ${
                 activeTab === tab.value
                   ? "bg-background text-foreground shadow-sm"
-                  : "text-gray-500 hover:text-foreground dark:text-gray-400 dark:hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground dark:hover:text-foreground"
               }`}
             >
               {tab.label}

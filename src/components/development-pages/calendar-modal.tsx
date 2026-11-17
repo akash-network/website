@@ -114,7 +114,7 @@ export function CalendarModal() {
                 <Dialog.Panel className="w-full max-w-[90rem] transform overflow-hidden rounded-lg bg-background px-4 py-3 text-left align-middle shadow-xl transition-all md:px-12 md:py-10">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
+                    className="text-lg font-medium leading-6 text-foreground"
                   >
                     <div className="flex items-center justify-between rounded-t">
                       <h3 className="font-semibold md:text-2xl">

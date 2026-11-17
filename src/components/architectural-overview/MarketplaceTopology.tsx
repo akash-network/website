@@ -90,19 +90,19 @@ export default function MarketplaceTopology() {
   const isBids = phase === 'bids';
 
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-gray-800/80 bg-[#08080f]">
+    <div className="dark w-full overflow-hidden rounded-xl border border-gray-800/80 bg-[#08080f]">
       {/* Terminal chrome */}
       <div className="flex items-center gap-2 border-b border-gray-800/60 bg-[#0c0c18] px-4 py-2.5">
         <div className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
         <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
         <div className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
-        <span className="ml-2 font-mono text-[11px] text-gray-600">
+        <span className="ml-2 font-mono text-[11px] text-muted-foreground">
           akash-network — marketplace topology — interactive simulation
         </span>
         {phase !== 'idle' && (
           <button
             onClick={handleReset}
-            className="ml-auto font-mono text-[11px] text-gray-600 transition-colors hover:text-gray-400"
+            className="ml-auto font-mono text-[11px] text-muted-foreground transition-colors hover:text-foreground"
           >
             reset
           </button>

@@ -85,7 +85,7 @@ function HeroSection({
       <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-14">
         {/* Title Block */}
         <div className="flex w-full flex-col items-start gap-5 pb-6 md:pb-10">
-          <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-semibold leading-tight tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl">
             The Open Cloud Community
           </h1>
           <p className="max-w-2xl text-base font-normal text-para">
@@ -111,18 +111,34 @@ const tabs: { key: TabKey; icon: React.FC<{ className?: string }>; label: string
 ];
 
 function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setActiveTab: (tab: TabKey) => void }) {
-  const activeIndex = tabs.findIndex((t) => t.key === activeTab);
+  return (
+    <div className="flex w-full flex-col items-center gap-5">
+      <h2 className="text-center text-lg font-medium text-para">
+        How do you want to build?
+      </h2>
+      <div className="hidden w-full md:block">
+        <DesktopTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
+      <div className="w-full md:hidden">
+        <MobileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
+    </div>
+  );
+}
+
+// Measures the active button so the highlight can slide to it (horizontally or vertically).
+function useSlidingPill(activeIndex: number) {
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [pillStyle, setPillStyle] = useState({ width: 0, transform: "translateX(0px)" });
+  const [pillStyle, setPillStyle] = useState<React.CSSProperties>({ width: 0, height: 0 });
 
   const updatePill = useCallback(() => {
     const el = buttonRefs.current[activeIndex];
     if (el) {
       setPillStyle({
         width: el.offsetWidth,
-        transform: `translateX(${el.offsetLeft}px)`,
+        height: el.offsetHeight,
+        transform: `translate(${el.offsetLeft}px, ${el.offsetTop}px)`,
       });
     }
   }, [activeIndex]);
@@ -131,7 +147,7 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
     updatePill();
   }, [updatePill]);
 
-  // Re-measure when container resizes (handles orientation change, window resize)
+  // Re-measure when container resizes (handles orientation change, window resize, md breakpoint toggling)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -140,57 +156,73 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
     return () => ro.disconnect();
   }, [updatePill]);
 
-  useEffect(() => {
-    // Only trigger centering scroll on mobile (sm breakpoint is 640px)
-    if (window.innerWidth >= 640) return;
+  return { buttonRefs, containerRef, pillStyle };
+}
 
-    const container = scrollContainerRef.current;
-    const el = buttonRefs.current[activeIndex];
-    if (container && el) {
-      const scrollLeft = el.offsetLeft - container.offsetWidth / 2 + el.offsetWidth / 2;
-      container.scrollTo({ left: scrollLeft, behavior: "smooth" });
-    }
-  }, [activeIndex]);
+const pillClass =
+  "absolute left-0 top-0 bg-background shadow transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]";
+
+// Mobile: full-width vertical list so every label and subtitle stays readable.
+function MobileTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setActiveTab: (tab: TabKey) => void }) {
+  const activeIndex = tabs.findIndex((t) => t.key === activeTab);
+  const { buttonRefs, containerRef, pillStyle } = useSlidingPill(activeIndex);
 
   return (
-    <div className="flex w-full flex-col items-center gap-5">
-      <h2 className="text-center text-lg font-medium text-para">
-        How do you want to build?
-      </h2>
-      <div
-        ref={scrollContainerRef}
-        className="w-full overflow-x-auto rounded-full bg-[#F4F4F5] dark:bg-background2 p-2 scrollbar-hide"
-      >
-        <div ref={containerRef} className="relative flex min-w-max sm:min-w-0 sm:w-full items-center">
+    <div className="w-full rounded-2xl bg-[#F4F4F5] p-1.5 dark:bg-background2">
+      <div ref={containerRef} className="relative flex flex-col">
+        <div className={`${pillClass} rounded-xl`} style={pillStyle} />
+        {tabs.map((tab, i) => {
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              ref={(el) => { buttonRefs.current[i] = el; }}
+              onClick={() => setActiveTab(tab.key)}
+              className={`relative z-10 flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 ${isActive ? "text-foreground" : "text-para"}`}
+            >
+              <tab.icon className="h-7 w-7 shrink-0" />
+              <div className="flex flex-col items-start">
+                <span className="text-lg font-medium leading-tight">{tab.label}</span>
+                <span className="text-sm text-para">{tab.sub}</span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
-          <div
-            className="absolute top-0 h-full rounded-full bg-background shadow transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
-            style={{ width: pillStyle.width, transform: pillStyle.transform }}
-          />
+// md+: horizontal pill switcher with equal-width tabs; compact until lg so all three fit.
+function DesktopTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setActiveTab: (tab: TabKey) => void }) {
+  const activeIndex = tabs.findIndex((t) => t.key === activeTab);
+  const { buttonRefs, containerRef, pillStyle } = useSlidingPill(activeIndex);
 
-          {tabs.map((tab, i) => {
-            const isActive = activeTab === tab.key;
-            return (
-              <button
-                key={tab.key}
-                ref={(el) => { buttonRefs.current[i] = el; }}
-                onClick={() => setActiveTab(tab.key)}
-                // shrink-0 on mobile → flex-1 on sm+
-                className={`relative z-10 shrink-0 sm:flex-1 flex items-center justify-start gap-2 md:gap-4 rounded-full px-7 py-3 md:py-4 md:px-10 transition-colors duration-200 ${isActive ? "text-foreground" : "text-para hover:text-foreground"}`}
-              >
-                <tab.icon className="h-8 w-8 transition-colors duration-200" />
-                <div className="flex flex-col items-start">
-                  <span className="font-medium text-2xl whitespace-nowrap transition-colors duration-200">
-                    {tab.label}
-                  </span>
-                  <span className={`font-normal text-sm whitespace-nowrap transition-colors duration-200 ${isActive ? "text-para" : ""}`}>
-                    {tab.sub}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+  return (
+    <div className="w-full rounded-full bg-[#F4F4F5] p-2 dark:bg-background2">
+      <div ref={containerRef} className="relative flex w-full items-center">
+        <div className={`${pillClass} rounded-full`} style={pillStyle} />
+        {tabs.map((tab, i) => {
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              ref={(el) => { buttonRefs.current[i] = el; }}
+              onClick={() => setActiveTab(tab.key)}
+              className={`relative z-10 flex flex-1 items-center justify-start gap-2 lg:gap-4 rounded-full px-4 py-3 lg:py-4 lg:px-10 transition-colors duration-200 ${isActive ? "text-foreground" : "text-para hover:text-foreground"}`}
+            >
+              <tab.icon className="h-6 w-6 shrink-0 transition-colors duration-200 lg:h-8 lg:w-8" />
+              <div className="flex flex-col items-start">
+                <span className="font-medium text-lg lg:text-2xl whitespace-nowrap transition-colors duration-200">
+                  {tab.label}
+                </span>
+                <span className={`font-normal text-sm whitespace-nowrap transition-colors duration-200 ${isActive ? "text-para" : ""}`}>
+                  {tab.sub}
+                </span>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -202,13 +234,13 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
 //     return (
 //         <section className="border-y border-[#e4e4e7] dark:border-defaultBorder bg-[#fafafa] dark:bg-background2 px-4 py-20 md:px-10 md:py-[120px]">
 //             <div className="mx-auto flex max-w-6xl flex-col items-center gap-8">
-//                 <blockquote className="text-center font-instrument italic text-xl  leading-relaxed text-[#111827] dark:text-foreground md:text-3xl lg:text-[48px] lg:leading-[1.3]">
+//                 <blockquote className="text-center font-instrument italic text-xl  leading-relaxed text-foreground md:text-3xl lg:text-[48px] lg:leading-[1.3]">
 //                     "Bull market, bear market, it doesn&apos;t matter.
 //                     495 open-source contributors averaging 67 commits per week build Akash regardless of market conditions. Akash is the People&apos;s Supercloud and I&apos;m credibly proud of the $AKT community."
 //                 </blockquote>
 //                 <div className="flex flex-col items-center">
-//                     <p className="text-lg font-semibold text-[#111827] dark:text-foreground">Greg Osuri</p>
-//                     <p className="text-center text-base text-[#71717a] dark:text-para">
+//                     <p className="text-lg font-semibold text-foreground">Greg Osuri</p>
+//                     <p className="text-center text-base text-muted-foreground">
 //                         Founder of Akash
 //                         <br />
 //                         Overclock Labs CEO
@@ -238,10 +270,10 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
 //             <div className="mx-auto flex max-w-[1240px] flex-col gap-20 lg:flex-row lg:gap-20">
 //                 {/* Left: Title */}
 //                 <div className="flex flex-col gap-3 lg:w-1/2">
-//                     <h2 className="text-3xl font-semibold text-[#111827] dark:text-foreground md:text-[40px] md:leading-[1.2]">
+//                     <h2 className="text-3xl font-semibold text-foreground md:text-[40px] md:leading-[1.2]">
 //                         Explore Social Channels
 //                     </h2>
-//                     <p className="text-sm leading-5 text-[#71717a]">
+//                     <p className="text-sm leading-5 text-muted-foreground">
 //                         Be part of the Akash Network community. Connect, contribute, and collaborate to shape the future of decentralized cloud computing.
 //                     </p>
 //                 </div>
@@ -309,7 +341,7 @@ function HowToBuildTabs({ activeTab, setActiveTab }: { activeTab: TabKey; setAct
 //                             <AccordionTrigger className="flex w-full cursor-pointer items-center justify-between py-4 text-left text-base font-medium  no-underline">
 //                                 <span>{item.question}</span>
 //                             </AccordionTrigger>
-//                             <AccordionContent className="pb-4 text-sm leading-5 text-[#737373] dark:text-para whitespace-pre-line">
+//                             <AccordionContent className="pb-4 text-sm leading-5 text-muted-foreground whitespace-pre-line">
 //                                 {item.answer}
 //                             </AccordionContent>
 //                         </AccordionItem>
@@ -328,10 +360,10 @@ function CTASection() {
       <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-8 md:gap-[60px]">
         <div className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-3">
-            <h2 className="text-center text-3xl font-semibold text-[#111827] dark:text-foreground md:text-[48px] md:leading-[1.15]">
+            <h2 className="text-center text-3xl font-semibold text-foreground md:text-[48px] md:leading-[1.15]">
               The Supercloud is waiting.
             </h2>
-            <p className="text-center text-lg text-[#71717a] dark:text-para">
+            <p className="text-center text-lg text-muted-foreground">
               Where will you start?
             </p>
           </div>
@@ -340,7 +372,7 @@ function CTASection() {
               href="https://discord.com/invite/akash"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-[#171717] dark:text-foreground transition-colors hover:bg-[#ebebeb]"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[#ebebeb]"
             >
               Join the Akash Club
               <ArrowUpRightIcon className="h-4 w-4" />
@@ -349,14 +381,14 @@ function CTASection() {
               href="https://akashnet.typeform.com/to/PXpRWgfD?typeform-source=akash.network"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-[#171717] dark:text-foreground transition-colors hover:bg-[#ebebeb]"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[#ebebeb]"
             >
               Apply to Insiders
               <ArrowUpRightIcon className="h-4 w-4" />
             </a>
           </div>
         </div>
-        <p className="max-w-[859px] text-center text-sm leading-6 text-[#71717a] dark:text-para">
+        <p className="max-w-[859px] text-center text-sm leading-6 text-muted-foreground">
           Note: Technical contributions on GitHub are always open to everyone.
           <br />
           However, access to paid content bounties and official training is reserved for the Insider program.

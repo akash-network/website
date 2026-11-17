@@ -9,9 +9,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import React, { useMemo, useState } from "react";
-import { useGpuPrices } from "../shared/pricing-api";
+import { useGpuPrices, type GpuPricesSnapshot } from "../shared/pricing-api";
 import {
   CONTACT_URL,
   FieldLabel,
@@ -23,8 +23,13 @@ import {
   formatUsd,
   type ToggleOption,
 } from "../shared/ui";
-import { BLACKWELL_ACCESS_URL, withBlackwellFallbacks } from "./gpu-models";
-import { GPU_PRIORITY_MODELS } from "./gpu-priority";
+import { formatDate, isoDate } from "@/lib/gpu-detail-pages/shared";
+import { gpuDetailHref } from "@/lib/gpu-detail-pages/slugs";
+import {
+  isAccessOnlyModel,
+  nextGenAccessHref,
+  withNextGenModels,
+} from "./gpu-models";
 import {
   byPrice,
   toGpuRow,
@@ -37,14 +42,30 @@ const RENT_URL = "https://console.akash.network/new-deployment";
 type VramBucket = "small" | "mid" | "large";
 type SortKey = "featured" | "price-asc" | "price-desc" | "vram-desc";
 
-const FEATURED_ORDER = ["b300", "b200", ...GPU_PRIORITY_MODELS];
+// Featured table order, based on pricing-table clicks and the GPUs available on the network.
+// An entry is a model, or "model:GB" to place one memory variant (A100 80 GB, not 40 GB).
+// Anything not listed follows, largest VRAM first.
+const FEATURED_ORDER = [
+  "b300",
+  "b200",
+  "rubin",
+  "h100",
+  "h200",
+  "a100:80",
+  "pro6000se",
+  "pro6000we",
+  "rtx5090",
+  "rtx3090",
+  "rtx4090",
+  "v100",
+];
+const FEATURED_MODELS = new Set(FEATURED_ORDER.map((key) => key.split(":")[0]));
 
 const selectTriggerClass =
-  "h-9 w-full gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-zinc-900 shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-transparent dark:text-zinc-50";
+  "h-9 w-full gap-2 rounded-md border-zinc-200 bg-white px-3 text-left text-sm text-foreground shadow-sm focus:ring-2 focus:ring-zinc-950/10 dark:border-white/10 dark:bg-transparent";
 const selectContentClass =
   "border-zinc-200 bg-white dark:border-white/10 dark:bg-zinc-950";
-const selectGroupLabelClass =
-  "pl-8 text-xs font-medium text-zinc-500 dark:text-zinc-400";
+const selectGroupLabelClass = "pl-8 text-xs font-medium text-muted-foreground";
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "featured", label: "Featured" },
@@ -54,7 +75,10 @@ const SORT_OPTIONS: { value: SortKey; label: string }[] = [
 ];
 
 const featuredRank = (row: GpuRow) => {
-  const index = FEATURED_ORDER.indexOf(row.model.toLowerCase());
+  const model = row.model.toLowerCase();
+  const variant = FEATURED_ORDER.indexOf(`${model}:${row.ramGb}`);
+  if (variant !== -1) return variant;
+  const index = FEATURED_ORDER.indexOf(model);
   return index === -1 ? FEATURED_ORDER.length : index;
 };
 
@@ -80,25 +104,42 @@ function sortRows(rows: GpuRow[], sort: SortKey) {
 const vramBucket = (ramGb: number): VramBucket =>
   ramGb >= 80 ? "large" : ramGb > 24 ? "mid" : "small";
 
-export default function GpuPricing() {
+type GpuPricingProps = {
+  /** Prices fetched at build time, so the table is in the page's HTML before any script runs. */
+  initial?: GpuPricesSnapshot | null;
+};
+
+export default function GpuPricing({ initial }: GpuPricingProps) {
   return (
     <PricingQueryProvider>
-      <GpuPricingContent />
+      <GpuPricingContent initial={initial} />
     </PricingQueryProvider>
   );
 }
 
-function GpuPricingContent() {
-  const { data, isLoading, isError, refetch, isFetching } = useGpuPrices();
+function GpuPricingContent({ initial }: GpuPricingProps) {
+  const { data, dataUpdatedAt, isLoading, isError, refetch, isFetching } =
+    useGpuPrices(initial);
+  // The time the table's data was fetched: the build snapshot in the HTML, then each refresh.
+  const updated = dataUpdatedAt ? new Date(dataUpdatedAt) : null;
 
   const [model, setModel] = useState("all");
   const [vendor, setVendor] = useState("all");
   const [vram, setVram] = useState<VramBucket | "all">("all");
   const [iface, setIface] = useState<InterfaceFamily | "all">("all");
-  const [sort, setSort] = useState<SortKey>("vram-desc");
+  const [sort, setSort] = useState<SortKey>("featured");
 
+  // Models with no recent bids are left out, so empty rows don't read as missing stock. Next-gen
+  // models stay listed without a price so visitors can request access; access-only models
+  // (B300) drop their price too, so they show "Request access" and sort with the unpriced.
   const rows = useMemo(
-    () => withBlackwellFallbacks(data?.models ?? []).map(toGpuRow),
+    () =>
+      withNextGenModels(data?.models ?? [])
+        .map(toGpuRow)
+        .map((row) =>
+          isAccessOnlyModel(row.model) ? { ...row, hourly: null } : row,
+        )
+        .filter((row) => row.hourly !== null || row.isNextGen),
     [data],
   );
 
@@ -111,7 +152,7 @@ function GpuPricingContent() {
       if (!labels.has(key)) labels.set(key, row.name);
     }
     const options = [...labels].map(([value, label]) => ({ value, label }));
-    const isFeatured = (value: string) => FEATURED_ORDER.includes(value);
+    const isFeatured = (value: string) => FEATURED_MODELS.has(value);
     return {
       featured: options.filter((option) => isFeatured(option.value)),
       other: options
@@ -214,10 +255,10 @@ function GpuPricingContent() {
     return (
       <Panel className="flex flex-col items-start gap-4 p-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+          <p className="text-sm font-medium text-foreground">
             Live GPU prices couldn&apos;t be loaded.
           </p>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-muted-foreground">
             The pricing service didn&apos;t respond. Please try again.
           </p>
         </div>
@@ -239,6 +280,8 @@ function GpuPricingContent() {
         aria-label="Filter GPUs"
         className="flex flex-col gap-4 lg:sticky lg:top-24"
       >
+        <CustomQuoteCard className="hidden lg:flex" />
+
         <Panel className="flex flex-col gap-6 p-5">
           <FilterGroup label="Sort by">
             <Select
@@ -327,7 +370,12 @@ function GpuPricingContent() {
           )}
         </Panel>
 
-        <CustomQuoteCard className="hidden lg:flex" />
+        {updated && (
+          <p className="px-1 text-xs text-muted-foreground">
+            Prices updated{" "}
+            <time dateTime={isoDate(updated)}>{formatDate(updated)}</time>
+          </p>
+        )}
       </aside>
 
       <div className="flex min-w-0 flex-col gap-3">
@@ -335,9 +383,9 @@ function GpuPricingContent() {
           {/* The price and the row action share one fixed-width cell, sized for the
               action's widest label: when the label slides in, it pushes only the price
               aside and never reflows the model column. */}
-          <table className="w-full text-left text-sm md:table-fixed">
-            <thead className="border-b border-zinc-200 bg-zinc-50/60 dark:border-white/10 dark:bg-white/[0.02]">
-              <tr className="text-sm text-zinc-500 dark:text-zinc-400">
+          <table className="w-full text-left text-sm max-md:block md:table-fixed">
+            <thead className="border-b border-zinc-200 bg-zinc-50/60 dark:border-white/10 dark:bg-white/[0.02] max-md:block">
+              <tr className="text-sm text-muted-foreground max-md:flex max-md:justify-between">
                 <th
                   scope="col"
                   className="px-4 py-3 font-medium max-[359px]:px-3 md:px-6"
@@ -350,11 +398,11 @@ function GpuPricingContent() {
                 >
                   {/* On desktop the price sits beside the arrow, so the label is offset by the
                       arrow and its gap to line up with the prices. */}
-                  <span className="md:mr-11">Starting at</span>
+                  <span className="md:mr-11">Avg. price / GPU-hr</span>
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-200 dark:divide-white/10">
+            <tbody className="divide-y divide-zinc-200 dark:divide-white/10 max-md:block">
               {isLoading ? (
                 Array.from({ length: 8 }, (_, index) => (
                   <SkeletonRow key={index} />
@@ -362,7 +410,7 @@ function GpuPricingContent() {
               ) : visibleRows.length === 0 ? (
                 <tr>
                   <td colSpan={2} className="px-6 py-16 text-center">
-                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                    <p className="text-sm font-medium text-foreground">
                       No GPUs match these filters.
                     </p>
                     {hasFilters && (
@@ -385,19 +433,27 @@ function GpuPricingContent() {
           </table>
         </Panel>
 
-        <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-          Prices are per GPU-hour in USD, derived from recent provider bids on
-          the network and weighted by each provider&apos;s GPU count. B200 and
-          B300 are listed at fixed rates.
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          Each price is the average hourly rate for one GPU in USD, based on
+          recent provider bids and weighted by how many GPUs each provider
+          offers. Next-gen GPUs available on request show &ldquo;Request
+          access&rdquo; instead.
         </p>
 
-        <CustomQuoteCard className="mt-5 lg:hidden" />
+        {/* The aside's card holds the section heading; this copy is for small screens. */}
+        <CustomQuoteCard className="mt-5 lg:hidden" headingAs="p" />
       </div>
     </div>
   );
 }
 
-function CustomQuoteCard({ className }: { className?: string }) {
+function CustomQuoteCard({
+  className,
+  headingAs: Heading = "h2",
+}: {
+  className?: string;
+  headingAs?: "h2" | "p";
+}) {
   return (
     <div
       className={cn(
@@ -405,9 +461,9 @@ function CustomQuoteCard({ className }: { className?: string }) {
         className,
       )}
     >
-      <h2 className="text-lg font-semibold leading-snug tracking-tight text-zinc-900 dark:text-zinc-50">
+      <Heading className="text-lg font-semibold leading-snug text-foreground">
         Looking for Bulk Orders or Custom Configurations?
-      </h2>
+      </Heading>
       <a
         href={CONTACT_URL}
         className={buttonClass("primary", "default", "w-full")}
@@ -434,13 +490,27 @@ function FilterGroup({
 }
 
 function GpuTableRow({ row }: { row: GpuRow }) {
-  const href = row.isBlackwell ? BLACKWELL_ACCESS_URL : RENT_URL;
-  const external = !row.isBlackwell;
+  // Rows with a live price are on the network and rent through the console. Next-gen models
+  // without one go to the access form instead, with the full "Request access" label shown at
+  // all times since there's no price beside it. Models with a detail page get a "View specs"
+  // pill linking there.
+  const detailHref = gpuDetailHref(row.model);
+  const onRequest = row.isNextGen && row.hourly === null;
+  const action = onRequest
+    ? {
+        href: nextGenAccessHref(row.model),
+        label: "Request access",
+        aria: "Request access to",
+      }
+    : { href: RENT_URL, label: "Rent", aria: "Rent" };
+  const external = action.href === RENT_URL;
 
   // The whole row is clickable, but it forwards to the real link so middle-click, keyboard
-  // focus, and click tracking on the link's id keep working.
+  // focus, and click tracking on the link's id keep working. The "View specs" pill is its
+  // own link (to the detail page), so clicks on it are left alone.
   const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement>) => {
-    if ((event.target as HTMLElement).closest("a, button")) return;
+    const target = event.target as HTMLElement;
+    if (target.closest("a, button")) return;
     event.currentTarget
       .querySelector<HTMLAnchorElement>("a[data-row-link]")
       ?.click();
@@ -449,52 +519,82 @@ function GpuTableRow({ row }: { row: GpuRow }) {
   return (
     <tr
       onClick={handleRowClick}
-      className="group cursor-pointer transition-colors hover:bg-zinc-50 dark:hover:bg-white/[0.03]"
+      className={cn(
+        "group cursor-pointer transition-colors hover:bg-zinc-50 dark:hover:bg-white/[0.03]",
+        MOBILE_ROW,
+      )}
     >
-      {/* Mobile: two lines per cell, sized alike so they line up across the row (name and
-          price, then specs and a labelled action). Desktop: one line, with the specs after
-          the name and the action's label revealed on hover. */}
-      <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
-        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
-          <p className="text-lg font-medium leading-7 tracking-tight text-zinc-900 dark:text-zinc-50 max-[359px]:text-base/7">
+      {/* Mobile: the row is a grid (cells use display: contents): name on the left, price and
+          labelled action on the right, then the pills on their own full-width line below.
+          Desktop: one line, with the pills after the name. */}
+      <td className="max-md:contents md:px-6 md:py-4 md:align-middle">
+        <div className="max-md:contents md:flex md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
+          <p className="text-lg font-medium leading-7 text-foreground max-md:col-start-1 max-md:row-start-1 max-[359px]:text-base/7">
             {row.name}
           </p>
-          <div className="flex min-h-7 flex-wrap items-center gap-1.5 md:min-h-0">
+          <div className="flex flex-wrap items-center gap-1.5 max-md:col-span-2 max-md:row-start-2">
+            {detailHref && (
+              // Same pill as the specs beside it, so the spec page reads as part of the model's
+              // info; Rent / Request access stays the row's primary action. `gpu-detail-link`
+              // retracts the action's hover label while this pill is hovered.
+              <a
+                href={detailHref}
+                className={cn(
+                  SPEC_PILL,
+                  "gpu-detail-link gap-1 transition-colors hover:border-zinc-400 hover:bg-zinc-100 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:hover:border-white/40 dark:hover:bg-white/10 dark:focus-visible:ring-white/25",
+                )}
+                aria-label={`View ${row.name} specs and pricing`}
+              >
+                View specs
+                <ArrowUpRight aria-hidden className="h-3 w-3 shrink-0" />
+              </a>
+            )}
             <SpecBadge>{row.ramLabel}</SpecBadge>
             {row.interface && <SpecBadge>{row.interface}</SpecBadge>}
           </div>
         </div>
       </td>
-      <td className="py-4 pl-2 pr-4 align-top max-[359px]:pr-3 md:pr-6 md:align-middle">
-        <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
+      <td className="max-md:contents md:py-4 md:pl-2 md:pr-6 md:align-middle">
+        <div className="flex items-center justify-end gap-2 max-md:col-start-2 max-md:row-start-1 md:gap-3">
           {row.hourly !== null ? (
-            <span className="whitespace-nowrap font-jetBrainsMono text-[17px] font-medium tabular-nums leading-7 text-zinc-900 dark:text-zinc-50">
+            <span className="whitespace-nowrap font-jetBrainsMono text-[17px] font-medium tabular-nums leading-7 text-foreground">
               {formatUsd(row.hourly)}
-              <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400">
+              <span className="text-sm font-normal text-muted-foreground">
                 /hr
               </span>
             </span>
-          ) : (
-            <span className="whitespace-nowrap text-xs leading-7 text-zinc-500 dark:text-zinc-400">
+          ) : onRequest ? null : (
+            <span className="whitespace-nowrap text-xs leading-7 text-muted-foreground">
               No recent bids
             </span>
           )}
           <a
             data-row-link
             id={`${row.model}-(gpu-rent)`}
-            href={href}
+            href={action.href}
             target={external ? "_blank" : undefined}
             rel={external ? "noopener noreferrer" : undefined}
-            aria-label={`${row.isBlackwell ? "Get access to" : "Rent"} ${row.name} ${row.ramLabel}`}
+            aria-label={`${action.aria} ${row.name} ${row.ramLabel}`}
             // Mobile always shows the label. On desktop it's just the arrow at rest; hovering
-            // the row or focusing the link slides the label in.
-            className="inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-zinc-900 transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:text-zinc-50 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5"
+            // the row or focusing the link slides the label in, except over the model name,
+            // whose own link leads to the detail page instead.
+            className={cn(
+              "inline-flex h-7 shrink-0 items-center rounded-full bg-zinc-100 pl-3 pr-2 text-foreground transition-all duration-300 ease-out hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:bg-white/10 dark:hover:bg-white/15 dark:focus-visible:ring-white/25 md:h-8",
+              onRequest
+                ? "md:pl-3.5 md:pr-2"
+                : "max-[359px]:px-2 md:px-2 md:group-focus-within:pl-3.5 md:group-hover:pl-3.5 md:group-has-[.gpu-detail-link:hover]:pl-2",
+            )}
           >
             <span
               aria-hidden
-              className="mr-1 max-w-24 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:mr-0 md:max-w-0 md:text-sm md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100"
+              className={cn(
+                "mr-1 overflow-hidden whitespace-nowrap text-xs font-medium transition-all duration-300 ease-out md:text-sm",
+                onRequest
+                  ? "md:mr-1.5"
+                  : "max-w-24 max-[359px]:mr-0 max-[359px]:max-w-0 md:mr-0 md:max-w-0 md:opacity-0 md:group-focus-within:mr-1.5 md:group-focus-within:max-w-24 md:group-focus-within:opacity-100 md:group-hover:mr-1.5 md:group-hover:max-w-24 md:group-hover:opacity-100 md:group-has-[.gpu-detail-link:hover]:mr-0 md:group-has-[.gpu-detail-link:hover]:max-w-0 md:group-has-[.gpu-detail-link:hover]:opacity-0",
+              )}
             >
-              {row.isBlackwell ? "Get access" : "Rent"}
+              {action.label}
             </span>
             <ArrowRight
               aria-hidden
@@ -507,29 +607,32 @@ function GpuTableRow({ row }: { row: GpuRow }) {
   );
 }
 
+// Phones: a two-column grid row (name | price and action), pills on a full-width line below.
+const MOBILE_ROW =
+  "max-md:grid max-md:grid-cols-[minmax(0,1fr)_auto] max-md:gap-x-3 max-md:gap-y-3 max-md:px-4 max-md:py-4 max-[359px]:px-3";
+
 // Equal widths keep the pair tidy; below 360px they shrink to fit beside the row action.
+const SPEC_PILL =
+  "inline-flex h-6 items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-muted-foreground dark:border-white/15 md:min-w-[4.5rem] max-[359px]:px-1.5 max-[359px]:text-xs";
+
 function SpecBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex h-6 min-w-[4.5rem] items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 px-2 font-jetBrainsMono text-[13px] tabular-nums text-zinc-600 dark:border-white/15 dark:text-zinc-300 max-[359px]:min-w-0 max-[359px]:px-1.5 max-[359px]:text-xs">
-      {children}
-    </span>
-  );
+  return <span className={SPEC_PILL}>{children}</span>;
 }
 
 function SkeletonRow() {
   return (
-    <tr>
-      <td className="px-4 py-4 align-top max-[359px]:px-3 md:px-6 md:align-middle">
-        <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
-          <Skeleton className="my-1 h-5 w-24 md:my-0" />
-          <div className="flex min-h-7 items-center gap-1.5 md:min-h-0">
+    <tr className={MOBILE_ROW}>
+      <td className="max-md:contents md:px-6 md:py-4 md:align-middle">
+        <div className="max-md:contents md:flex md:flex-row md:flex-wrap md:items-center md:gap-x-3 md:gap-y-2">
+          <Skeleton className="my-1 h-5 w-24 max-md:col-start-1 max-md:row-start-1 md:my-0" />
+          <div className="flex items-center gap-1.5 max-md:col-span-2 max-md:row-start-2">
             <Skeleton className="h-6 w-[4.5rem]" />
             <Skeleton className="h-6 w-[4.5rem]" />
           </div>
         </div>
       </td>
-      <td className="py-4 pl-2 pr-4 align-top max-[359px]:pr-3 md:pr-6 md:align-middle">
-        <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
+      <td className="max-md:contents md:py-4 md:pl-2 md:pr-6 md:align-middle">
+        <div className="flex items-center justify-end gap-2 max-md:col-start-2 max-md:row-start-1 md:gap-3">
           <Skeleton className="my-1 h-5 w-20 md:my-0" />
           <Skeleton className="h-7 w-16 rounded-full md:h-8 md:w-8" />
         </div>

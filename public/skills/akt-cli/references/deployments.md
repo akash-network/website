@@ -109,8 +109,66 @@ After the update is authorized:
 akt update deploy.yaml 12345 --context example --yes -o jsonl
 ```
 
-Changing resources can close leases and reopen bidding. Inspect the updated
-deployment and services on the same execution path after the workflow.
+Console saved-definition updates preserve unchanged secrets and reject resource
+changes; use redeploy for resource changes. Inspect the updated deployment and
+services on the same execution path after the workflow.
+
+## Variables, secrets, and partial updates
+
+On Console, use `ac-secret://NAME` in an environment value or registry
+username/password. Supply a separate JSON or YAML map of secret names to string
+values with `--secrets-file secrets.yaml`; `--secrets-file -` reads stdin. Do not
+place secret values in arguments, workflow definitions, or diagnostic output.
+
+```bash
+akt deploy deploy.yaml --secrets-file secrets.yaml --context example --bid-select cheapest --yes -o jsonl
+akt console deployment sdl 12345 --context example > saved.yaml
+akt update saved.yaml 12345 --secrets-file replacements.yaml --context example --yes -o jsonl
+```
+
+Saved SDL contains references and can be fetched on another machine. Omitted
+secret values survive updates. To remove a secret, remove its reference; to add
+or replace one, supply the corresponding value. An empty patch with an explicit
+secrets file rotates values only.
+
+A partial patch uses the API's inner configuration shape:
+
+```yaml
+services:
+  web:
+    image: nginx:1.27-alpine
+    env:
+      LOG_LEVEL: debug
+      OLD_VARIABLE: null
+    args: []
+```
+
+```bash
+akt update changes.yaml 12345 --patch --context example --yes -o jsonl
+```
+
+Null removes a variable or clears command, args, or credentials. Patches also
+support existing port numbers and storage mounts. A version conflict requires
+fetching and reviewing the latest definition before retrying. A failed provider
+submission remains a failure even if the saved definition already changed.
+
+The chain path supports ordinary SDL patches with `--base-sdl` or a recorded
+source path; it rejects Console secret references and secret-file inputs. A
+successful chain patch clears the recorded source path because the original
+file is stale. Supply the resulting configuration explicitly on later edits.
+
+## Redeploy
+
+```bash
+akt redeploy 12345 --context example --bid-select cheapest --yes -o jsonl
+```
+
+This creates a new deployment and leaves the source open. Console loads its
+saved configuration and inherits secrets, including from a closed source.
+`--sdl-file` overrides the configuration and `--secrets-file` supplies secret
+replacements. The chain path requires `--sdl-file` or a readable recorded source
+path. Inspect the new deployment before any separately authorized cleanup of
+the source.
 
 ## Close a deployment
 

@@ -11,7 +11,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const {
   title,
   description,
-  image = "/meta-images/home.png",
+  image = "/meta-images/home.webp",
   noIndex,
 } = Astro.props;
 ---
@@ -74,13 +74,13 @@ const {
 <link
   rel="preload"
   as="style"
-  href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+  href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
   onload="this.rel='stylesheet'"
 />
 <noscript
   ><link
     rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
   /></noscript
 >
 
@@ -186,6 +186,21 @@ const {
     src="https://www.facebook.com/tr?id=654184647412382&ev=PageView&noscript=1"
   />
 </noscript>
+
+<!-- ContentSquare: deferred, sitewide. The tag records ClientRouter navigations itself, so no manual trackPageview. -->
+<script is:inline>
+  if (!window.__csqInit) {
+    window.__csqInit = true;
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        var s = document.createElement("script");
+        s.src = "https://t.contentsquare.net/uxa/f3d653170e755.js";
+        s.async = true;
+        document.head.appendChild(s);
+      }, 200);
+    });
+  }
+</script>
 
 <script is:inline>
   let isFirstLoad = true;

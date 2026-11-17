@@ -4,11 +4,11 @@
 |---|---|
 | **Program** | Akash chain migration (working title: "Akash 3.0") |
 | **Doc set ID** | AKASH-MIG |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Executing developer agency ("the Vendor"), Akash core team, community reviewers |
-| **Status** | Target selection open; decided at Gate 0 (see [10](./10-rollout-and-cutover.md)) |
+| **Status** | Core team selected Path A (Solana); confirmed at Gate 0 when the migration proposal passes (see [10](./10-rollout-and-cutover.md)) |
 
 ## What this is
 
@@ -23,8 +23,9 @@ sovereign Cosmos SDK Layer-1 chain (`akashnet-2`) to one of two target ecosystem
   Arbitrum Orbit rollup.
 
 Both paths are specified fully enough to execute. The comparative analysis lives in
-[02. Target selection](./02-target-selection.md); the final choice is a client decision at **Gate 0**
-and does not block Vendor mobilization on shared workstreams (token migration design, indexing,
+[02. Target selection](./02-target-selection.md). The core team has selected Path A (Solana), and
+**Gate 0** confirms it when the migration proposal passes on `akashnet-2` (D-01); the selection
+does not block Vendor mobilization on shared workstreams (token migration design, indexing,
 off-chain adaptation layers).
 
 This document set is the successor to, and supersedes where in conflict, the earlier
@@ -42,7 +43,7 @@ Read in numeric order for full context; role-based shortcuts below.
 | 02 | [Target selection](./02-target-selection.md) | Option space, analysis, Gate 0 |
 | 03 | [Solana target architecture](./03-solana-architecture.md) | Programs, accounts/PDAs, instructions, settlement cranks, fees, governance, oracles |
 | 04 | [Ethereum target architecture](./04-ethereum-architecture.md) | Contracts, existing-L2 variant vs dedicated-rollup variant, host-chain criteria, gas abstraction, governance |
-| 05 | [Token migration](./05-token-migration.md) | AKT supply accounting, snapshot, claims, staking/vesting/IBC handling, exchanges, emissions |
+| 05 | [Token migration](./05-token-migration.md) | AKT supply accounting, migration portal, snapshot, claims, staking/vesting/IBC handling, exchanges, emissions |
 | 06 | [State & data migration](./06-state-and-data-migration.md) | What migrates vs winds down, export/transform tooling, verification, archives |
 | 07 | [Off-chain services & clients](./07-offchain-and-clients.md) | provider-services adaptation, Console/API, indexers, SDKs, wallets, provider auth |
 | 08 | [Security & audits](./08-security-and-audits.md) | Threat model, key management, upgrade authority, audit plan, bug bounty |
@@ -72,9 +73,13 @@ Read in numeric order for full context; role-based shortcuts below.
 3. **Decision / assumption / question / risk IDs.** `D-xx` (decisions made), `A-xx` (assumptions to
    validate), `Q-xx` (open questions with owners), `R-xx` (risks). All indexed in
    [13](./13-open-questions-and-assumptions.md) and [12](./12-risk-register.md).
-4. **Event notation.** Protocol events are sequenced relative to `C` (cutover = S1) and `H`
-   (halt/snapshot = S2), e.g. `H+90d`, `S1−24h`; gates `G0–G5` order the program. Calendar planning
-   (dates, durations, milestones-with-dates) is intentionally excluded from this technical set.
+4. **Event notation.** Protocol events are sequenced relative to `V` (the migration proposal
+   passes on `akashnet-2`, at the end of its voting period), `L` (token launch, `L = V+7d`: SPL AKT
+   mint live and migration portal open), `C` (cutover = S1) and `H` (halt/snapshot = S2), e.g.
+   `V+7d`, `H+90d`, `S1−24h`; gates `G0–G5` order the program, plus gate `GT` (token launch
+   readiness), which passes before the migration proposal is submitted (D-25). Points of no
+   return: `L` for the token, `C` for the marketplace. Calendar planning (dates, durations,
+   milestones-with-dates) is intentionally excluded from this technical set.
 5. **Code citations.** References like `x/escrow/keeper/keeper.go:210` point into
    [`akash-network/node`](https://github.com/akash-network/node) at the commit current on 2026-08-10;
    protobuf type references point into `akash-api` (`pkg.akt.dev/go`).
@@ -85,8 +90,8 @@ Read in numeric order for full context; role-based shortcuts below.
 ## Status & change control
 
 - This set is a **draft for internal and community review**. Nothing here is a governance decision;
-  on-chain governance approval of the migration itself is a precondition tracked in
-  [10](./10-rollout-and-cutover.md).
+  on-chain governance approval of the migration itself (the migration proposal) is a precondition
+  tracked in [10](./10-rollout-and-cutover.md).
 - Changes flow via pull request to this directory. Each merged revision bumps the version in each
   affected file's metadata table. Requirement IDs are never renumbered; superseded requirements are
   marked `[WITHDRAWN]` in place.

@@ -132,7 +132,7 @@ akt provider status akash1wxr49evm8hddnx9ujsdtd86gk46s7ejnccqfmy
 
 ## GPU Provider Troubleshooting
 
-The Provider Playbook installs NVIDIA GPU Operator `v26.7.0`. The Operator manages the NVIDIA driver, Container Toolkit, device plugin, validators, and Fabric Manager as Kubernetes workloads. Do not install or upgrade those packages directly on the host; host-managed NVIDIA packages conflict with the Operator-managed stack.
+The Provider Playbook installs NVIDIA GPU Operator `v26.7.2`. The Operator manages the NVIDIA driver, Container Toolkit, device plugin, validators, and Fabric Manager as Kubernetes workloads. Do not install or upgrade those packages directly on the host; host-managed NVIDIA packages conflict with the Operator-managed stack.
 
 Run the Kubernetes checks below from a control-plane node or another machine with cluster-admin access to the cluster.
 

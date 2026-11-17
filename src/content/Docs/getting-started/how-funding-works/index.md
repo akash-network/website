@@ -11,6 +11,8 @@ description: "How Akash Console credits, automatic deployment funding, Auto Top-
 
 This page covers the managed Console at [console.akash.network](https://console.akash.network), including the Console API. If you deploy with your own wallet through Console Air or the CLI, you fund each deployment yourself. See [Choosing Your Console](/docs/getting-started/choosing-your-console).
 
+Everything here applies to your personal account and to each organization (team) you belong to. An organization has its own balance; see [Team billing](#team-billing).
+
 ## Adding credits
 
 Credits are denominated in US dollars. You get them three ways:
@@ -66,10 +68,23 @@ If the balance does reach zero, automatic funding has nothing left to top up wit
 
 Closing a deployment stops its services and returns whatever is left in its escrow to your available balance. Settlement happens on-chain, so the credited amount can take a short while to appear.
 
+## Team billing
+
+An organization pays for its own deployments. It has its own balance, wallet and cards, separate from every member's personal account, and its deployments are funded from that balance exactly as described above. A member deploying in an organization spends the organization's credits, never their own.
+
+- **No free trial.** An organization starts with an empty balance, so nobody can deploy in it until credits are added.
+- **Who pays.** Owners and members with the **Billing** role add cards, buy credits and set up automatic card charges for the organization. Admins can see the billing page but cannot change it. Members and viewers do not see the billing page.
+- **Who hears about it.** Low-balance warnings and other billing emails go to the organization's owners and billing members.
+- **Project budgets.** Owners and admins can cap what each project deposits per month. See [Budgets and spend](/docs/developers/deployment/akash-console/organizations-and-projects#budgets-and-spend).
+- **Deleting an organization** forfeits the credits it still holds.
+
+See [Organizations and Projects](/docs/developers/deployment/akash-console/organizations-and-projects) for the roles and how organizations work.
+
 ## Related Resources
 
 - [Console Onboarding Guide](/docs/getting-started/console-onboarding) - Deploy your first app
 - [Quick Start](/docs/getting-started/quick-start) - Deploy with free trial credits
 - [Managed Wallet API](/docs/api-documentation/console-api/getting-started) - The same funding model, from the API
 - [Choosing Your Console](/docs/getting-started/choosing-your-console) - Managed Console vs. self-custody Console Air
+- [Organizations and Projects](/docs/developers/deployment/akash-console/organizations-and-projects) - Team billing, roles and project budgets
 - [Deployments and Escrow](/docs/learn/core-concepts/deployments) - How funding works at the blockchain level

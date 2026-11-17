@@ -4,19 +4,14 @@ const { icon, title, description, link } = Astro.props;
 
 <a
   href={link}
-  class="not-prose group block rounded-lg border bg-background p-5 shadow-sm transition-all hover:shadow-lg"
+  class="not-prose group flex flex-col rounded-xl border border-[#e6e8eb] bg-background p-6 transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-[#333] dark:hover:border-neutral-700 dark:hover:bg-neutral-900"
 >
-  <div class="flex items-start gap-4">
-    <div
-      class="flex-shrink-0 rounded-lg border border-paraDark bg-background2 p-2.5 transition-colors dark:bg-background"
-    >
-      <div set:html={icon} class="h-6 w-6 text-foreground" />
-    </div>
-    <div class="flex-1">
-      <h4 class="text-sm font-semibold text-foreground md:text-base">
-        {title}
-      </h4>
-      <p class="mt-1.5 text-xs text-para md:text-sm">{description}</p>
-    </div>
-  </div>
+  <div
+    set:html={icon}
+    class="h-5 w-5 text-foreground [&>svg]:h-5 [&>svg]:w-5 [&>svg]:stroke-[1.5]"
+  />
+  <h4 class="mt-4 text-base font-semibold tracking-[-0.02em] text-foreground">
+    {title}
+  </h4>
+  <p class="mt-1 text-sm leading-5 text-muted-foreground">{description}</p>
 </a>

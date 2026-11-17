@@ -1,64 +1,52 @@
 ---
-pageTitle: Customize your Akash experience with the perfect tool
+pageTitle: Deploy with Akash Console
 
 heroSection:
-  title: Streamline Deployment with Akash Console
-  description: Akash Console makes it easy to deploy on compute providers around the world. Access 1-click templates, view deployment status, and customize deployments to your specifications.
+  title: "Try Akash Console<br />before you sign up"
+  description: Watch a web app go from a one-click template to a live URL, then switch to Try it and click through yourself. It runs right here, with live GPU availability from the Akash network.
   heroImage: "./assets/hero.svg"
   featureList:
-    - Built for the unique demands of Web3 and crypto apps
-    - Say no to complex processes and yes to one-click deployment
-    - Adapt to your business needs in real-time, ensuring optimal performance and cost efficiency
+    - Providers bid on your exact spec
+    - One-click templates or any Docker image
+    - Pay by card, no wallet needed
+    - Logs, shell and updates in the browser
   button:
-    label: Launch Akash Console
+    label: Start deploying
     link: "https://console.akash.network/"
-    enable: true
 
 cloudmosResourcesSection:
-  title: Akash Console Resources
+  title: Learn Akash Console
   cards:
-    - title: Akash Console Docs
-      description: Tap into the Akash Marketplace and deploy permissionlessly using one of the network’s open-source deployment tools.
-      badge: "./assets/github.svg"
-      link: "/docs/getting-started/quickstart-guides/akash-console/"
-      linkIcon: true
-      linkLabel: "View More"
-    - title: Credit Card Payments in Akash Console
-      description: Akash Console now supports credit card payments, giving users a seamless way to manage costs without crypto.
-      badge: "./assets/book-stack.svg"
-      link: "/blog/introducing-credit-card-payments-in-akash-console/"
-      linkIcon: true
-      linkLabel: "View More"
-    - title: Developer Specific Workflows in Akash Console
-      description: Tailored flows for different use cases, making it easier than ever to deploy, manage, and scale on Akash.
-      badge: "./assets/youtube.svg"
-      link: "/blog/introducing-developer-specific-workflows-in-akash-console/ "
-      linkIcon: true
-      linkLabel: "View More"
-
-resourcesSection:
-  title: Getting Started
-  cards:
-    - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash Console
-      description: Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash Console.
-      img: "./assets/console.png"
-      link: "/docs/getting-started/quickstart-guides/akash-console/"
-
-    - title: Deploy 'Hello World' SDL in 5 Minutes using the Akash CLI
-      description: "Learn how to deploy a 'Hello World' SDL in 5 minutes using the Akash CLI."
-      img: "./assets/cli.png"
-      link: "/docs/getting-started/quickstart-guides/akash-cli/"
+    - title: Quick start
+      description: Deploy your first app on Akash Console, step by step.
+      link: "/docs/getting-started/quick-start/"
+      linkLabel: "Read the guide"
+    - title: Console onboarding
+      description: A step-by-step walk through sign-up, templates, configuration and quotes.
+      link: "/docs/getting-started/console-onboarding/"
+      linkLabel: "Read the guide"
+    - title: How funding works
+      description: Credits, escrow and auto top-up, and how long your balance lasts.
+      link: "/docs/getting-started/how-funding-works/"
+      linkLabel: "Read the guide"
+    - title: Organizations and projects
+      description: Roles, invitations, project budgets and team billing.
+      link: "/docs/developers/deployment/akash-console/organizations-and-projects/"
+      linkLabel: "Read the guide"
 
 additionalDeploymentSection:
-  title: Additional Deployment Resources
+  title: More ways to deploy
   resources:
-    - title: Akash CLI
-      content: Deploy and manage your applications on Akash with ease using the Command Line Interface
-      link: "/docs/developers/deployment/cli/"
-    - title: CLI Booster
-      content: The Akash CLI Booster was created to make the use of the current command line tooling much simpler for deployments and related activities. In this guide we will review the primary capabilities of this exciting new tool.
-      link: /docs/developers/deployment/cli/
-    - title: Terraform Cloud Integration
-      content: Effortless integration with the Akash Network using Terraform Cloud
-      link: /docs/other-resources/experimental/akash-deployments-via-terraform/
+    - title: Console API
+      content: Create and manage deployments over REST with an API key. Billing runs through your Console balance, with no wallet or private keys to manage.
+      link: "/docs/api-documentation/console-api/"
+    - title: akt CLI
+      content: One binary to write SDL, deploy and inspect leases, with Console managed-wallet support for scripts and CI.
+      link: "/docs/developers/deployment/akt/"
+    - title: AI coding agents
+      content: Install the Akash skill in Claude Code, Codex or OpenCode and deploy from a plain-language prompt.
+      link: "/docs/getting-started/ai-agents/"
+    - title: Console Air
+      content: Prefer self-custody? Bring your own Keplr-compatible wallet, pay in AKT or ACT, and host the UI yourself.
+      link: "/docs/getting-started/choosing-your-console/"
 ---

@@ -1,4 +1,4 @@
-import { BASE_API_URL } from "@/lib/constants";
+import { BASE_API_URL, CONSOLE_API_ORIGIN } from "@/lib/constants";
 import { gpus as GPU_PRICES_URL } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -10,13 +10,48 @@ export const HOURS_PER_MONTH = 30.437 * 24;
 
 const ONE_MINUTE = 60_000;
 
-export function useGpuPrices() {
+/** A `/v1/gpu-prices` response fetched at build time, so the page's HTML ships with prices. */
+export interface GpuPricesSnapshot {
+  data: GpuPricesResponse;
+  /** Epoch milliseconds when the snapshot was fetched. */
+  fetchedAt: number;
+}
+
+export function useGpuPrices(initial?: GpuPricesSnapshot | null) {
   return useQuery<GpuPricesResponse>({
     queryKey: ["PRICING_GPU_PRICES"],
     queryFn: async () =>
       (await axios.get<GpuPricesResponse>(GPU_PRICES_URL)).data,
     refetchInterval: ONE_MINUTE,
+    // Build-time data renders the table on the server; marking it stale makes the browser
+    // refresh it on load.
+    ...(initial && {
+      initialData: initial.data,
+      initialDataUpdatedAt: initial.fetchedAt,
+      staleTime: 0,
+    }),
   });
+}
+
+/** Fetches GPU prices at build time. Returns null on failure so the page falls back to
+ *  loading them in the browser. */
+export async function fetchGpuPricesSnapshot(
+  timeoutMs = 10_000,
+): Promise<GpuPricesSnapshot | null> {
+  try {
+    // Runs on the server, where CORS doesn't apply, so it skips the dev-only proxy path
+    // (relative URLs don't resolve in Node).
+    const res = await fetch(`${CONSOLE_API_ORIGIN}/v1/gpu-prices`, {
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = (await res.json()) as GpuPricesResponse;
+    if (!Array.isArray(data?.models)) throw new Error("No models in response");
+    return { data, fetchedAt: Date.now() };
+  } catch (error) {
+    console.warn("[pricing] GPU prices unavailable at build time:", error);
+    return null;
+  }
 }
 
 /** Deployment spec in the units `/v1/pricing` expects: millicores and bytes. */

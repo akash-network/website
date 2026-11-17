@@ -1,0 +1,105 @@
+---
+/**
+ * Two product cards at the foot of /deploy, for a visitor who wants Akash
+ * without running a container, or wants to add compute instead: AkashML on
+ * the left, Homenode on the right. The same card as the Homenode page's
+ * "Need compute instead?" pair: Overclock's product photograph in a fixed
+ * 4:3 box with the product's wordmark in white over its dark top-left corner,
+ * then a title, one line and the call to action pinned to the card's foot.
+ * The photographs sit a touch darker; hovering a card eases one in and
+ * lifts it, as on /develop.
+ */
+import { ArrowUpRight } from "lucide-react";
+
+const cards = [
+  {
+    id: "akashml",
+    name: "AkashML",
+    title: "Run AI inference",
+    body: "A high-performance AI inference service built on Akash Network. Use it through an API or the Playground, priced per million tokens.",
+    cta: "Explore the Playground",
+    href: "https://akashml.com",
+    image: "/images/deploy/more/akashml",
+    mark: "/images/deploy/more/akashml-mark.svg",
+    markClass: "h-[18px] md:h-[22px] lg:h-[27px]",
+  },
+  {
+    id: "homenode",
+    name: "Homenode",
+    title: "Earn from your idle GPU",
+    body: "Put your gaming PC's GPU to work on Akash Network while you're not using it, and share in what it earns. Runs on the RTX 3090, 4090, 5090 and RTX Pro 6000.",
+    cta: "Get started with Homenode",
+    href: "https://homenode.akash.network",
+    image: "/images/deploy/more/homenode",
+    mark: "/images/deploy/more/homenode-mark.svg",
+    markClass: "h-[18px] md:h-[22px] lg:h-[28px]",
+  },
+];
+---
+
+<section
+  class="container-wide mt-16 pb-20 md:mt-24 md:pb-28"
+  aria-labelledby="more-from-akash"
+>
+  <h2
+    id="more-from-akash"
+    class="text-2xl font-semibold tracking-tight text-foreground md:text-4xl"
+  >
+    More from Akash
+  </h2>
+  <p class="mt-3 max-w-[560px] text-sm text-para md:text-base">
+    Not every job needs a container. Run AI inference through AkashML, or add
+    your own GPU to the network with Homenode.
+  </p>
+  <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6" role="list">
+    {
+      cards.map((c) => (
+        <li class="group grid grid-rows-[auto_1fr] overflow-hidden rounded-2xl border bg-gray-50 dark:bg-background2">
+          {/* decorative: the title and line say what it shows */}
+          <div class="relative aspect-[4/3] overflow-hidden border-b bg-[#0b0d10]">
+            <img
+              src={`${c.image}-1084.webp`}
+              srcset={`${c.image}-640.webp 640w, ${c.image}-1084.webp 1084w`}
+              sizes="(min-width: 1280px) 608px, (min-width: 768px) calc(50vw - 36px), calc(100vw - 48px)"
+              width="1084"
+              height="813"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              class="h-full w-full object-cover brightness-90 transition-all duration-500 group-hover:scale-[1.03] group-hover:brightness-95"
+            />
+            {/* the wordmarks ship black (Overclock's files): white here */}
+            <img
+              src={c.mark}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              class={`pointer-events-none absolute left-4 top-4 w-auto brightness-0 invert md:left-5 md:top-5 lg:left-7 lg:top-7 ${c.markClass}`}
+            />
+          </div>
+          <div class="flex flex-col items-start gap-2.5 px-5 pb-6 pt-6 md:px-7 md:pb-8 md:pt-7 lg:px-8 lg:pb-9 lg:pt-8">
+            {/* the wordmark names the product for the eye; this names it for a screen reader */}
+            <h3 class="text-2xl font-semibold leading-tight tracking-tight text-foreground lg:text-[28px]">
+              <span class="sr-only">{c.name}: </span>
+              {c.title}
+            </h3>
+            {/* takes the spare height, so both buttons line up across the row */}
+            <p class="max-w-[46ch] flex-grow text-[15px] leading-relaxed text-para">
+              {c.body}
+            </p>
+            <a
+              href={c.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-2.5 inline-flex h-11 items-center gap-2 rounded-md border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            >
+              {c.cta}
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>

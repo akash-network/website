@@ -302,7 +302,7 @@ const GpuSelect = ({ data }: { data: Gpus }) => {
             </>
           )}
         </Listbox>
-        <div className="flex w-full items-center gap-2 rounded-lg bg-background2 px-[13px] py-[9px] text-sm font-medium leading-none text-gray-400 outline-none">
+        <div className="flex w-full items-center gap-2 rounded-lg bg-background2 px-[13px] py-[9px] text-sm font-medium leading-none text-muted-foreground outline-none">
           <span className="text-xs font-medium capitalize leading-none text-foreground md:text-sm">
             {selected?.model}
           </span>

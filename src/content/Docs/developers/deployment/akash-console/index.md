@@ -32,6 +32,14 @@ Learn the basics of Akash Console, including:
 
 **Start here if you're new to Akash Console.**
 
+### [Organizations and Projects](/docs/developers/deployment/akash-console/organizations-and-projects)
+
+Work with your team in a shared organization:
+- Roles: owner, admin, member, billing and viewer
+- Projects and who can access them
+- Invitations, budgets and the activity feed
+- Team billing, separate from your personal account
+
 ---
 
 ## Deployment Options

@@ -8,7 +8,7 @@ linkTitle: "Setup & Installation"
 
 **Choose your preferred method to set up an Akash provider.**
 
-There are three ways to become an Akash provider, each suited for different use cases and skill levels.
+There are two ways to set up an Akash provider, each suited for different use cases and skill levels.
 
 ---
 
@@ -45,12 +45,12 @@ There are three ways to become an Akash provider, each suited for different use 
 
 - Full control over every aspect
 - Maximum customization
-- Production-grade setup with Kubernetes 1.35.4
+- Production-grade setup with Kubernetes 1.36.4
 - Best for large deployments
 
 **Includes:**
 
-- Kubernetes cluster setup with Kubespray 2.31.0
+- Kubernetes cluster setup with Kubespray 2.32.0
 - Provider installation with Helm
 - GPU support configuration
 - Persistent storage setup
@@ -60,37 +60,17 @@ There are three ways to become an Akash provider, each suited for different use 
 
 ---
 
-### 3. [Provider Console](/docs/providers/setup-and-installation/provider-console) (No K8s Experience Required)
-
-**Web-based setup with visual interface**
-
-**Best for:** Users with no Kubernetes experience  
- **Time:** 15-30 minutes  
- **Skill level:** Beginner
-
-**Features:**
-
-- No command line required
-- No Kubernetes knowledge needed
-- Managed Kubernetes setup
-- Visual setup wizard
-- Real-time monitoring
-
-**Choose this if:** You have no Kubernetes experience and want the easiest way to get started.
-
----
-
 ## Comparison
 
-| Feature            | Provider Playbook | Kubespray      | Provider Console |
-| ------------------ | ----------------- | -------------- | ---------------- |
-| **Ease of Use**    | Guided            | Manual         | Managed          |
-| **Setup Time**     | ~1 hour           | 1-2 hours      | 15-30 minutes    |
-| **Customization**  | High              | Maximum        | Limited          |
-| **Skill Required** | Medium            | High           | Low              |
-| **Best For**       | Most users        | Advanced users | Beginners        |
-| **CLI Required**   | Yes               | Yes            | No               |
-| **Automation**     | High              | Low            | High             |
+| Feature            | Provider Playbook | Kubespray      |
+| ------------------ | ----------------- | -------------- |
+| **Ease of Use**    | Guided            | Manual         |
+| **Setup Time**     | ~1 hour           | 1-2 hours      |
+| **Customization**  | High              | Maximum        |
+| **Skill Required** | Medium            | High           |
+| **Best For**       | Most users        | Advanced users |
+| **CLI Required**   | Yes               | Yes            |
+| **Automation**     | High              | Low            |
 
 ---
 
@@ -110,18 +90,11 @@ There are three ways to become an Akash provider, each suited for different use 
 - You need custom configurations
 - You're building a large provider
 
-### Choose Provider Console if:
-
-- You're new to providers
-- You want to test quickly
-- You prefer visual interfaces
-- You want the easiest path
-
 ---
 
 ## Not Sure?
 
-Choose the **[Provider Playbook](/docs/providers/setup-and-installation/provider-playbook)** for a guided, self-managed installation. Choose **[Provider Console](/docs/providers/setup-and-installation/provider-console)** when you prefer a managed, browser-based path.
+Choose the **[Provider Playbook](/docs/providers/setup-and-installation/provider-playbook)** for a guided, self-managed installation. Choose **[Kubespray](/docs/providers/setup-and-installation/kubespray)** if you need full control over the cluster.
 
 ---
 

@@ -62,7 +62,7 @@ const Panel = ({ open, nav, pathname }: any) => {
 
 function SideNav({ nav, pathname }: any) {
   return (
-    <div className="w-full px-4 py-2">
+    <div className="w-full px-2 py-2">
       <HomeButton pathname={pathname} />
 
       <div className="mt-4">
@@ -71,10 +71,10 @@ function SideNav({ nav, pathname }: any) {
 
       <div className="mt-4 border-b "></div>
 
-      <div className="mt-2 pb-6">
+      <div className="mt-4 pb-6">
         <a
           href="/support"
-          className={`flex cursor-pointer items-center gap-x-2 rounded-[4px]  py-1 text-sm font-medium leading-[20px]  hover:bg-[#F4F1F1] hover:text-primary dark:hover:bg-darkGray dark:hover:text-white   `}
+          className="flex min-h-8 items-center gap-x-2 rounded-md px-2 py-1.5 text-sm text-neutral-600 transition-colors hover:bg-neutral-100/70 hover:text-foreground dark:text-neutral-400 dark:hover:bg-neutral-800/50"
         >
           Support
         </a>

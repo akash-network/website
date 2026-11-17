@@ -8,7 +8,7 @@ export function CalendarButton({ onClick }: CalendarButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+      className="flex items-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-[13.4px] font-normal text-muted-foreground transition-colors hover:text-foreground"
     >
       <CalendarIcon className="h-[13px] w-[13px] shrink-0" />
       Community Calendar

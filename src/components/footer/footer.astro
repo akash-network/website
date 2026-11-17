@@ -207,7 +207,7 @@ const shouldHide = shouldHideCta(pathname);
               aria-label={`Akash Network ${social.name}`}
               href={social.link}
               target="_blank"
-              class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+              class="text-muted-foreground hover:text-foreground transition-colors"
             >
               <social.icon />
             </a>
@@ -227,7 +227,7 @@ const shouldHide = shouldHideCta(pathname);
     <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between border-b border-zinc-200 dark:border-white/10 pb-10">
       <div class="flex flex-col gap-1">
         <p class="text-sm font-medium text-foreground">Subscribe to our newsletter</p>
-        <p class="text-[13px] text-zinc-500">Get the latest news and updates.</p>
+        <p class="text-[13px] text-muted-foreground">Get the latest news and updates.</p>
       </div>
       <div class="md:max-w-sm w-full">
         <FooterInlineNewsletter client:load />

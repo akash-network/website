@@ -5,8 +5,12 @@ const DarkModeToggle = ({ footer }: { footer?: boolean }) => {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
+    // With no saved theme the site follows the OS preference ("System").
     const localTheme = window.localStorage.getItem("theme");
-    localTheme && setTheme(localTheme);
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    setTheme(localTheme ?? (prefersDark ? "dark" : "light"));
   }, []);
 
   const toggleTheme = () => {

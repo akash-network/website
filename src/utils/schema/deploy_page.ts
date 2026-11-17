@@ -15,7 +15,6 @@ export const deployPage = defineCollection({
         button: z.object({
           label: z.string(),
           link: z.string(),
-          enable: z.boolean(),
         }),
       }),
 
@@ -25,22 +24,8 @@ export const deployPage = defineCollection({
           z.object({
             title: z.string(),
             description: z.string(),
-            badge: image(),
             link: z.string(),
-            linkIcon: z.boolean(),
             linkLabel: z.string(),
-          }),
-        ),
-      }),
-
-      resourcesSection: z.object({
-        title: z.string(),
-        cards: z.array(
-          z.object({
-            title: z.string(),
-            description: z.string(),
-            img: image(),
-            link: z.string().optional(),
           }),
         ),
       }),

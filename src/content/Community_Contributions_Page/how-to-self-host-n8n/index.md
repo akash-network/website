@@ -10,7 +10,7 @@ tags:
 contributors:
   - Lucas Botbol
 link: "https://x.com/BotbolLucas/status/2005386440545538217"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 n8n is one of the most powerful open-source workflow automation tools available — and self-hosting it gives you full control over your data, integrations, and costs. On Akash Network, you can run your own n8n server for a fraction of what traditional cloud providers charge.

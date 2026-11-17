@@ -1,4 +1,4 @@
-// Priority order for GPU models (after B300/B200 which are always first)
+// Priority order for GPU models (after the next-gen models, which are always first)
 // Change this list to update the order across all GPU tables and filters
 export const GPU_PRIORITY_MODELS: string[] = [
   "h200",

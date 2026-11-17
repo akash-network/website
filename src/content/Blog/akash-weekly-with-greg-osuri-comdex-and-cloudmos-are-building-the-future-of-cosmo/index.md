@@ -66,7 +66,7 @@ Siddarth notes that Comdex discovered Akash Network through its visibility in th
 
 Max found Akash Network through its visibility in the Cosmos ecosystem, much like Comdex.
 
-Cloudmos is an alum of [Akash Accelerator](https://akash.network/akash-accelerator) and remains a participant in the program. Max notes that his discussions and meetings with Alani Kuye, Technical Program Manager at Overclock Labs, have helped Cloudmos to better align its roadmap and vision. Akash Accelerator is a great way to get guidance and actionable advice straight from the Overclock Labs teams.
+Cloudmos is an alum of Akash Accelerator and remains a participant in the program. Max notes that his discussions and meetings with Alani Kuye, Technical Program Manager at Overclock Labs, have helped Cloudmos to better align its roadmap and vision. Akash Accelerator is a great way to get guidance and actionable advice straight from the Overclock Labs teams.
 
 Max is also a founding member of the [Akash Insiders](https://akash.network/community#insiders). The Akash Insiders program is a great way to get deeply involved with the core of the Akash Network community and to get access to new features before they are fully released to the network. The Insiders are managed day-to-day by [Adam Wozney](https://twitter.com/AdamDeanWozney), Head of Community at Overclock Labs.
 

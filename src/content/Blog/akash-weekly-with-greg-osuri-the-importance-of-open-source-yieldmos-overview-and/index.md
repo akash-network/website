@@ -129,7 +129,7 @@ Keplr is closed source, so Greg recommends the same best practices for security 
 
 ### Where kind we find a list of Akash Accelerator projects?
 
-[This page on our website lists our current accelerator projects.](https://akash.network/akash-accelerator)
+This page on our website lists our current accelerator projects.
 
 ### Is there a plan for an APR boost?
 

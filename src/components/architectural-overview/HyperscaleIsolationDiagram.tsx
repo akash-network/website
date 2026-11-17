@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Lock, MapPin, FileText } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { prefersReducedMotion } from './reducedMotion'
 
 const PROBLEMS = [
   {
@@ -34,6 +35,10 @@ export function HyperscaleIsolationDiagram() {
   const [step, setStep] = useState(0)
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setStep(4)
+      return
+    }
     const timers = [
       setTimeout(() => setStep(1), 400),
       setTimeout(() => setStep(2), 800),
@@ -45,8 +50,7 @@ export function HyperscaleIsolationDiagram() {
 
   return (
     <div
-      className="dark flex flex-col overflow-hidden rounded-xl border border-border bg-background"
-      style={{ aspectRatio: '1 / 1' }}
+      className="dark flex flex-col overflow-hidden rounded-xl border border-border bg-background lg:aspect-square"
     >
       <div className="flex shrink-0 items-center gap-1.5 border-b border-defaultBorder bg-card px-4 py-3">
         <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
@@ -59,20 +63,20 @@ export function HyperscaleIsolationDiagram() {
 
         {/* Central vendor node */}
         <div className={cn(
-          'rounded-lg border border-defaultBorder bg-card p-4 text-center transition-all duration-500',
+          'rounded-lg border border-defaultBorder bg-card p-4 text-center transition-all duration-500 motion-reduce:transition-none',
           step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2',
         )}>
-          <p className="mb-1 text-[9px] uppercase tracking-widest text-para">Single Vendor Control Point</p>
+          <p className="mb-1 text-[10px] uppercase tracking-widest text-para">Single Vendor Control Point</p>
           <p className="text-sm font-semibold text-foreground">Legacy Hyperscaler</p>
           <div className="mt-2.5 flex justify-center gap-1.5">
-            <Badge variant="outline" className="border-defaultBorder px-2 py-0 text-[9px] text-para">AWS</Badge>
-            <Badge variant="outline" className="border-defaultBorder px-2 py-0 text-[9px] text-para">Azure</Badge>
-            <Badge variant="outline" className="border-defaultBorder px-2 py-0 text-[9px] text-para">GCP</Badge>
+            <Badge variant="outline" className="border-defaultBorder px-2 py-0 text-[10px] text-para">AWS</Badge>
+            <Badge variant="outline" className="border-defaultBorder px-2 py-0 text-[10px] text-para">Azure</Badge>
+            <Badge variant="outline" className="border-defaultBorder px-2 py-0 text-[10px] text-para">GCP</Badge>
           </div>
         </div>
 
         {/* Branching SVG connector */}
-        <div className={cn('shrink-0 transition-opacity duration-300', step >= 1 ? 'opacity-40' : 'opacity-0')}>
+        <div className={cn('hidden shrink-0 transition-opacity duration-300 motion-reduce:transition-none sm:block', step >= 1 ? 'opacity-40' : 'opacity-0')}>
           <svg viewBox="0 0 300 28" className="w-full" preserveAspectRatio="none">
             <line x1="150" y1="0" x2="150" y2="14" stroke="hsl(var(--border))" strokeWidth="1" />
             <line x1="50" y1="14" x2="250" y2="14" stroke="hsl(var(--border))" strokeWidth="1" />
@@ -82,31 +86,42 @@ export function HyperscaleIsolationDiagram() {
           </svg>
         </div>
 
-        {/* Three problem cards */}
-        <div className="grid flex-1 grid-cols-3 gap-2">
+        {/* Three problem cards — mobile: vertical tree trunk on the left with a branch into each card */}
+        <div className="grid flex-1 grid-cols-1 gap-2 pl-8 sm:grid-cols-3 sm:pl-0">
           {PROBLEMS.map((p, i) => (
             <div
               key={i}
               className={cn(
-                'flex flex-col gap-2 rounded-lg border p-3 transition-all duration-500',
+                'relative flex flex-col gap-2 rounded-lg border p-3 transition-all duration-500 motion-reduce:transition-none',
                 p.border, p.bg,
                 step >= i + 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2',
               )}
             >
+              {/* Trunk segment: from the gap above this card down to the next card (or to this card's middle for the last one) */}
+              <span
+                aria-hidden
+                className={cn(
+                  'absolute -left-[17px] w-px bg-[hsl(var(--border)/0.4)] sm:hidden',
+                  i === 0 ? '-top-[17px]' : '-top-[9px]',
+                  i === PROBLEMS.length - 1 ? 'bottom-1/2' : '-bottom-px',
+                )}
+              />
+              {/* Branch into the card */}
+              <span aria-hidden className="absolute -left-[17px] top-1/2 h-px w-4 bg-[hsl(var(--border)/0.4)] sm:hidden" />
               <p.Icon className={cn('h-3.5 w-3.5 shrink-0', p.text)} />
-              <p className={cn('text-[10px] font-semibold leading-snug', p.text)}>{p.title}</p>
-              <p className="text-[9px] leading-relaxed text-para">{p.body}</p>
+              <p className={cn('text-xs font-semibold leading-snug', p.text)}>{p.title}</p>
+              <p className="text-[11px] leading-relaxed text-para">{p.body}</p>
             </div>
           ))}
         </div>
 
         {/* Status footer */}
         <div className={cn(
-          'shrink-0 flex items-center gap-2 rounded-md border border-defaultBorder bg-card/50 px-3 py-2 transition-opacity duration-500',
+          'shrink-0 flex items-center gap-2 rounded-md border border-defaultBorder bg-card/50 px-3 py-2 transition-opacity duration-500 motion-reduce:transition-none',
           step >= 4 ? 'opacity-100' : 'opacity-0',
         )}>
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" />
-          <span className="font-mono text-[10px] text-para">No competitive market. No exit path.</span>
+          <span className="font-mono text-[11px] text-para">No competitive market. No exit path.</span>
         </div>
 
       </div>

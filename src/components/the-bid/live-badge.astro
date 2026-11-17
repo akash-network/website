@@ -1,0 +1,19 @@
+---
+// "Live" marker next to a marketplace rate. Hidden until cta-client.ts has refreshed the
+// prices, so pages without JavaScript never claim a snapshot is live.
+---
+
+<span
+  data-bid-live
+  hidden
+  class="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground"
+>
+  <span class="relative flex size-2" aria-hidden="true">
+    <span
+      class="absolute inline-flex size-full rounded-full bg-emerald-500 opacity-60 motion-safe:animate-ping"
+    ></span>
+    <span class="relative inline-flex size-2 rounded-full bg-emerald-500"
+    ></span>
+  </span>
+  Live
+</span>

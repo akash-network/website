@@ -213,10 +213,10 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
           document.documentElement.setAttribute("data-theme", "dark-plus");
         }
 
+        // No saved theme means "System": the OS preference is applied but not
+        // persisted, so it keeps following prefers-color-scheme.
         if (onlyDark) {
           localStorage.setItem("theme", "dark");
-        } else {
-          localStorage.setItem("theme", appliedTheme);
         }
       };
 
@@ -224,6 +224,11 @@ const htmlDataTheme = onlyDark ? "dark-plus" : undefined;
 
       window.addEventListener("DOMContentLoaded", applyTheme);
       document.addEventListener("astro:after-swap", applyTheme);
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", () => {
+          if (!localStorage.getItem("theme")) applyTheme();
+        });
 
       const handleHeaderToggleClick = () => {
         if (onlyDark) return;

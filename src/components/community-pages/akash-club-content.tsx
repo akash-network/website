@@ -50,10 +50,10 @@ export default function AkashClubContent() {
                     {/* Learn Section */}
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
-                            <h3 className="text-xl font-semibold text-[#11181c]">
+                            <h3 className="text-xl font-semibold text-foreground">
                                 Learn: Weekly Sessions &amp; Trivia
                             </h3>
-                            <p className="mt-1 text-sm md:text-base text-[#687076] dark:text-para">
+                            <p className="mt-1 text-sm md:text-base text-muted-foreground">
                                 Move beyond price speculation and master the fundamentals of decentralized infrastructure.
                             </p>
                         </div>
@@ -80,7 +80,7 @@ export default function AkashClubContent() {
                                         <span className="text-2xl">{item.emoji}</span>
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <h4 className="text-lg font-semibold text-[#11181c]  dark:text-foreground md:text-xl">
+                                        <h4 className="text-lg font-semibold text-foreground  md:text-xl">
                                             {item.title}
                                         </h4>
                                         <p className="text-sm text-para md:text-base">
@@ -95,10 +95,10 @@ export default function AkashClubContent() {
                     {/* Earn Section */}
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
-                            <h3 className="text-xl font-semibold text-[#11181c]">
+                            <h3 className="text-xl font-semibold text-foreground">
                                 Earn: The Community Reward Stack
                             </h3>
-                            <p className="mt-1 text-sm md:text-base text-[#687076] dark:text-para">
+                            <p className="mt-1 text-sm md:text-base text-muted-foreground">
                                 Hear directly from the people building the protocol.
                             </p>
                         </div>
@@ -120,7 +120,7 @@ export default function AkashClubContent() {
                                         <span className="text-2xl">{item.emoji}</span>
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <h4 className="text-lg font-semibold text-[#11181c]  dark:text-foreground md:text-xl">
+                                        <h4 className="text-lg font-semibold text-foreground  md:text-xl">
                                             {item.title}
                                         </h4>
                                         <p className="text-sm text-para md:text-base">
@@ -134,7 +134,7 @@ export default function AkashClubContent() {
 
                     {/* Club Game Nights */}
                     <div className="flex flex-col gap-4">
-                        <h3 className="text-xl font-semibold text-[#11181c] dark:text-foreground">
+                        <h3 className="text-xl font-semibold text-foreground">
                             Club Game Nights &amp; Trivia
                         </h3>
                         <div className="rounded-md border border-[#e5e5e5] dark:border-defaultBorder p-4 sm:p-6">
@@ -143,10 +143,10 @@ export default function AkashClubContent() {
                                     <span className="text-2xl">🎮</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <h4 className="text-lg font-semibold text-[#11181c] dark:text-foreground md:text-xl">
+                                    <h4 className="text-lg font-semibold text-foreground md:text-xl">
                                         Network with our Community
                                     </h4>
-                                    <p className="mt-1 text-sm text-[#687076] dark:text-para md:text-base">
+                                    <p className="mt-1 text-sm text-muted-foreground md:text-base">
                                         Visit our Akash Passage world hosted on Akash GPUs to meet others passionate about Akash.
                                     </p>
                                 </div>

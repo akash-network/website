@@ -4,8 +4,8 @@
 |---|---|
 | **Document** | 01. Current architecture (Akash on Cosmos SDK) |
 | **Doc ID** | AKASH-MIG-01 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering |
 | **Status** | INFORMATIVE: no `REQ-*` requirements; the factual baseline the normative documents build on |
@@ -762,7 +762,7 @@ declared but never assigned (`cmd/akash/cmd/genesis.go:210`); live values are ma
 `allowedReceivingModAcc` is **empty** ⇒ every module account is blocked from receiving external bank sends
 (`app/app.go:85,496-504`); funds enter module accounts only through module logic. The balances these accounts
 hold at snapshot are exactly the funds routed to the Wind-down Reserve under D-05
-([05](./05-token-migration.md)).
+([05](./05-token-migration.md)); that routing is under review (D-25, Q-50).
 
 **KV stores** (`app/types/app.go:605-637`); cosmos: consensus, auth, feegrant, authz, bank, staking, mint,
 distribution, slashing, gov, params, ibc, upgrade, evidence, ibctransfer, wasm; akash: epochs, escrow,
@@ -817,7 +817,8 @@ Wired at `app/types/app.go:336-551`:
 
 Implication: cross-chain AKT exists as ICS-20 vouchers on other Cosmos chains (Osmosis, Cosmos Hub, …), backed by
 `uakt` locked in per-channel IBC escrow addresses on Akash. Those balances are snapshot inputs (D-07, §8,
-Q-03/Q-19). Naming trap: "Hermes" in `_run/node` scripts is the **Pyth Hermes price service**, not the IBC
+Q-03/Q-19); under D-25 holders return IBC AKT to `akashnet-2` and then migrate through the portal, and
+vouchers still out at H are Q-46. Naming trap: "Hermes" in `_run/node` scripts is the **Pyth Hermes price service**, not the IBC
 relayer of the same name (`_docs/pyth-integration.md:304-305`).
 
 ### 5.8 Hard-coded addresses and trust roots
@@ -964,10 +965,11 @@ The repo does not contain these; they are live `akashnet-2` state, captured in t
 1. **Inflation/mint parameters and current annual provisions**: stock `x/mint` state; not in source (§5.3).
 2. **Vesting account inventory**: stock Base/Delayed/Continuous vesting accounts
    (`cmd/akash/cmd/genaccounts.go:24-110`); enumerate owners, schedules, remaining locked amounts from a state
-   export (D-06 re-creates them on the target chain).
+   export (D-06 vesting re-creation is superseded by D-25; unvested AKT under the portal model is Q-45).
 3. **Supply split by category**: liquid / bonded / unbonding / community pool / module-account balances (escrow,
-   bme vault, gov deposits, fee collector) / IBC-out; the S1 conservation check in
-   [05](./05-token-migration.md) reconciles against this.
+   bme vault, gov deposits, fee collector) / IBC-out; the supply-conservation checks in
+   [05](./05-token-migration.md) (the portal invariant of D-25, and whatever S1 still carries per Q-50)
+   reconcile against this.
 4. **State sizes per module**: record counts and byte sizes for every store in §5.4 (sizes the export/transform
    pipeline and archive plan in [06](./06-state-and-data-migration.md)).
 5. **Transaction-rate and operation-mix statistics**: msgs/day by type (deployments, bids, leases, withdrawals,
@@ -975,9 +977,9 @@ The repo does not contain these; they are live `akashnet-2` state, captured in t
    [03](./03-solana-architecture.md)/[04](./04-ethereum-architecture.md) and load targets in
    [09](./09-testing-and-verification.md).
 6. **Community pool balance** (post the v2.1.0 427,414,453 uakt withdrawal, §5.9): Wind-down Reserve input
-   (D-05).
+   (D-05; under review: D-25, Q-50).
 7. **IBC escrow balances per channel**: `uakt` locked behind each ICS-20 channel, with counterparty chain
-   identification (Osmosis, Cosmos Hub, …); input to the voucher-return campaign (D-07, Q-03, Q-19).
+   identification (Osmosis, Cosmos Hub, …); input to the voucher-return campaign (D-07, Q-03, Q-19, Q-46).
 8. **Current on-chain param values for every module in §3/§5.3**: governance has changed params since genesis;
    the tables above are code defaults and intended values, not necessarily live values. The kickoff pull
    re-baselines [14](./14-appendix-protocol-mapping.md).

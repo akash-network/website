@@ -26,4 +26,4 @@ We are thrilled to announce that our CEO & Co-Founder, Greg Osuri, will be a fea
 **Talk**: April 19 – st arting at 4:25pm
 **Topic**: [The Decentra lized Future of Cloud Infrastructure](http://blockdevcon.com/sponsors/)
 
-Interested in learning more about Akash? Take a look at our [website](https://akash.network/), join us on [Telegram](https://t.me/AkashNW) or read our [light paper](https://akash.network/paper.pdf/).
+Interested in learning more about Akash? Take a look at our [website](https://akash.network/), join us on [Telegram](https://t.me/AkashNW) or read our [light paper](https://akash.network/whitepaper/).

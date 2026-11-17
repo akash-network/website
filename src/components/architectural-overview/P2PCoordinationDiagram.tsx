@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Layers, CircleDollarSign, ShieldCheck } from 'lucide-react'
+import { prefersReducedMotion } from './reducedMotion'
 
 const LAYERS = [
   {
@@ -39,6 +40,10 @@ export function P2PCoordinationDiagram() {
   const [visible, setVisible] = useState<number[]>([])
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setVisible(LAYERS.map((_, i) => i))
+      return
+    }
     const timers: ReturnType<typeof setTimeout>[] = []
     LAYERS.forEach((_, i) => {
       timers.push(setTimeout(() => setVisible((prev) => [...prev, i]), 400 + i * 600))
@@ -48,8 +53,7 @@ export function P2PCoordinationDiagram() {
 
   return (
     <div
-      className="dark flex flex-col overflow-hidden rounded-xl border border-border bg-background"
-      style={{ aspectRatio: '1 / 1' }}
+      className="dark flex flex-col overflow-hidden rounded-xl border border-border bg-background lg:aspect-square"
     >
       <div className="flex shrink-0 items-center gap-1.5 border-b border-defaultBorder bg-card px-4 py-3">
         <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
@@ -62,9 +66,9 @@ export function P2PCoordinationDiagram() {
 
         {/* Header */}
         <div className="mb-1 flex items-center justify-between">
-          <span className="text-[10px] font-medium text-foreground">Trust Architecture</span>
+          <span className="text-xs font-medium text-foreground">Trust Architecture</span>
           <span className="flex items-center gap-1.5 font-mono text-[10px] text-green-400">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
+            <span className="h-1.5 w-1.5 rounded-full bg-green-500 motion-safe:animate-pulse" />
             3 layers active
           </span>
         </div>
@@ -74,7 +78,7 @@ export function P2PCoordinationDiagram() {
           <div
             key={i}
             className={cn(
-              'flex gap-3 rounded-lg border p-3 transition-all duration-500',
+              'flex gap-3 rounded-lg border p-3 transition-all duration-500 motion-reduce:transition-none',
               layer.border, layer.bg,
               visible.includes(i) ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-3',
             )}
@@ -87,32 +91,32 @@ export function P2PCoordinationDiagram() {
             </div>
 
             <div className="flex flex-1 flex-col gap-1.5">
-              <div className="flex items-center justify-between gap-2">
-                <p className={cn('text-[11px] font-semibold', layer.text)}>{layer.title}</p>
+              <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+                <p className={cn('text-xs font-semibold', layer.text)}>{layer.title}</p>
                 <div className="flex shrink-0 gap-1">
                   {layer.parties.map((p) => (
                     <span
                       key={p}
-                      className={cn('rounded border px-1 py-0.5 text-[8px] font-medium', layer.border, layer.text)}
+                      className={cn('rounded border px-1 py-0.5 text-[10px] font-medium', layer.border, layer.text)}
                     >
                       {p}
                     </span>
                   ))}
                 </div>
               </div>
-              <p className="text-[9px] leading-relaxed text-para">{layer.body}</p>
+              <p className="text-[11px] leading-relaxed text-para">{layer.body}</p>
             </div>
           </div>
         ))}
 
         {/* Network status footer */}
         <div className={cn(
-          'mt-auto shrink-0 rounded-md border border-defaultBorder bg-card px-3 py-2 transition-opacity duration-700',
+          'mt-auto shrink-0 rounded-md border border-defaultBorder bg-card px-3 py-2 transition-opacity duration-700 motion-reduce:transition-none',
           visible.length === LAYERS.length ? 'opacity-100' : 'opacity-0',
         )}>
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] text-para">Network settlement</span>
-            <span className="flex items-center gap-1.5 font-mono text-[10px] text-green-400">
+          <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+            <span className="text-[11px] text-para">Network settlement</span>
+            <span className="flex items-center gap-1.5 font-mono text-[11px] text-green-400">
               <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
               Trustless · Automated
             </span>

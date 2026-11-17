@@ -1,0 +1,74 @@
+---
+import { buttonClass } from "@/components/pricing-page/shared/ui";
+import {
+  AKASHML_URL,
+  bidCtaHref,
+  CONSOLE_URL,
+  fromRate,
+  priceData,
+  type BidCta,
+} from "@/lib/the-bid-cta";
+import { cn } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
+
+// One-line CTA under the banner on phones, where the sidebar card is hidden. The whole strip
+// is the link; the button is drawn with a span so nothing interactive is nested.
+
+interface Props {
+  cta: BidCta;
+  postId: string;
+  class?: string;
+}
+
+const { cta, postId, class: className } = Astro.props;
+const isConsole = cta.lead === "console";
+---
+
+<a
+  href={bidCtaHref(isConsole ? CONSOLE_URL : AKASHML_URL, postId, "top")}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-bid-cta={cta.lead}
+  data-bid-cta-placement="top"
+  class={cn(
+    "group flex items-center justify-between gap-4 rounded-xl border border-zinc-200 bg-white p-4 transition-colors hover:bg-zinc-50 dark:border-white/10 dark:bg-white/[0.02] dark:hover:bg-white/[0.04]",
+    className,
+  )}
+>
+  <span class="min-w-0">
+    <span class="block text-sm font-medium text-foreground">
+      {
+        isConsole
+          ? `Rent ${cta.subject} on Akash`
+          : "Run open models on AkashML"
+      }
+    </span>
+    <span class="mt-0.5 block text-xs text-muted-foreground">
+      {
+        isConsole ? (
+          <>
+            {cta.gpus.length > 1 && "From "}
+            <span
+              class="font-jetBrainsMono tabular-nums text-foreground"
+              data-bid-price={priceData(cta.gpus)}
+            >
+              {fromRate(cta.gpus)}
+            </span>{" "}
+            per GPU-hour
+          </>
+        ) : (
+          "OpenAI-compatible API, pay per token"
+        )
+      }
+    </span>
+  </span>
+  <span class={buttonClass("primary", "sm", "shrink-0")}>
+    {isConsole ? "Rent" : "Try"}
+    <span class="sr-only">(opens in a new tab)</span>
+    <ArrowUpRight className="size-3.5" aria-hidden="true" />
+  </span>
+</a>
+
+<script>
+  import "@/components/the-bid/cta-client";
+</script>

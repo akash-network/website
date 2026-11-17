@@ -17,7 +17,7 @@ bannerImage: ./banner-image.png
 
 [**After an incredible 2020 of product, partnership, promotions, and people milestones achieved, our team is accelerating to the DeCloud in 2021!**
 
-](https://akash.network/blog/2020-to-2021-acceleration-to-the-decloud/)Next month, we’ll be launching Mainnet 2, the materialization of Akash DeCloud, the world’s first decentralized cloud, taking on the $370 billion cloud industry currently dominated by Amazon Web Services, Google Cloud, Microsoft Azure, and Alibaba Cloud.
+](https://akash.network/blog/2020-to-2021-acceleration-to-the-decloud/ month, we’ll be launching Mainnet 2, the materialization of Akash DeCloud, the world’s first decentralized cloud, taking on the $370 billion cloud industry currently dominated by Amazon Web Services, Google Cloud, Microsoft Azure, and Alibaba Cloud.
 
 Our engineering team has been diligently testing and integrating learnings from The Akashian Challenge Phase 3 Testnet to launch a strong Mainnet 2 in February.
 

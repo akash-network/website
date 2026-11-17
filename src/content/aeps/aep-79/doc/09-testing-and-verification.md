@@ -4,8 +4,8 @@
 |---|---|
 | **Document** | 09. Testing & verification |
 | **Doc ID** | AKASH-MIG-09 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering, Vendor QA, Akash core team, auditors |
 | **Status** | Normative where marked (MUST/SHALL); informative otherwise |
@@ -25,6 +25,7 @@ primary acceptance criterion**, proven by replaying recorded history, not argued
 - The golden-vector differential harness against recorded `akashnet-2` behavior.
 - Integration localnet definition and the numbered scenario catalog (PR gate).
 - Public testnet phases, migration rehearsals, load/perf targets, CI/release gates, traceability.
+- The end-to-end portal and token launch rehearsal on a mainnet fork (RT, §6.1), a GT criterion (D-25, REQ-ROL-053).
 
 ## Out of scope
 
@@ -57,7 +58,7 @@ Table 1. Test layers, tooling, ownership:
 | L4 | Differential vs current chain | Golden-vector replay of recorded `akashnet-2` behavior (§2) | Vector runner over LiteSVM | Vector runner over Foundry/Anvil | Vendor QA + Overclock counterpart | PR (core subset) + nightly (full corpus) |
 | L5 | Fork / mainnet-sim | New programs against real deployed dependencies (Pyth, the settlement stablecoin, Squads/Safe, Realms/Governor) on forked target-chain state | Surfpool mainnet fork; bankrun for fast fork-level JS tests | Anvil `--fork-url` (host chain) | Vendor QA | Nightly + pre-release |
 | L6 | Public testnet | Real providers, real hardware, real wallets (§5) | Solana devnet/testnet deployment | Host-chain public testnet (e.g. Base Sepolia or Arbitrum Sepolia) | Vendor + community providers | Continuous from M-phase per [11](./11-scope-of-work.md) |
-| L7 | Migration rehearsals | Full dry-runs of S1/S2 pipeline + cutover runbook on forked mainnet state (§6) | testnetify (`in-place-testnet`) old chain + target-chain rehearsal deploys | same | Vendor + Overclock, observed by community | R1–R3 pre-G3, plus R4 final dress at S1−14d ([10](./10-rollout-and-cutover.md)) |
+| L7 | Migration rehearsals | Portal and token launch rehearsal (RT, §6.1); full dry-runs of S1/S2 pipeline + cutover runbook on forked mainnet state (§6.2) | testnetify (`in-place-testnet`) old chain + target-chain rehearsal deploys; RT adds a Surfpool Solana mainnet fork | same (RT is Path A only, D-25) | Vendor + Overclock, observed by community | RT before GT; R1–R3 pre-G3, plus R4 final dress at S1−14d ([10](./10-rollout-and-cutover.md)) |
 | L8 | Chaos / load | Throughput, latency, congestion, fault injection (§7) | Load generator + Surfpool/testnet congestion sims | Load generator + Anvil/testnet fee sims | Vendor infra + QA | Weekly from feature-complete; pre-gate |
 | L9 | Audits as verification | External audits + bounty converted into executable regressions | per [08](./08-security-and-audits.md) | per [08](./08-security-and-audits.md) | Auditors + Vendor | Per audit window |
 
@@ -203,6 +204,7 @@ contract, enforced as fuzz properties (L2) and as runtime monitors in integratio
 | Conservation | Σ(deposits) = Σ(withdrawals + refunds + held funds + recorded debt) per escrow account and globally; BME vault + supplies conserve value net of spread |
 | No-negative | No token balance, allowance, or fund entry below zero except the documented overdrawn marker semantics, which MUST be internally consistent |
 | One-claim-per-leaf | A Merkle claim leaf can be consumed at most once, under concurrent/replayed submission |
+| Portal conservation (I-8, D-25) | SPL AKT supply ≤ cumulative verified removals on `akashnet-2` (+ any Wind-down Reserve mint and emissions, per Q-50 and D-12); each verified removal mints at most once, 1:1 in micro-units, to its named recipient, under concurrent, replayed, out-of-order and cap-deferred submission |
 | CR-gating | No ACT mint executes while CR < halt threshold; ACT→AKT refunds allowed under CR-halt, blocked under oracle-halt |
 | FIFO order | Refunds consume depositors strictly in deposit order; grant refunds restore exactly the unspent allowance |
 | Settle idempotency | settle(t); settle(t) ≡ settle(t); and settle(t1); settle(t2) ≡ settle(t2) for t1<t2 |
@@ -221,6 +223,8 @@ release.
 **REQ-TST-019** Branch coverage MUST be 100% on three subsystems: Merkle claims verification, escrow
 settlement math (accrual, FIFO deduction, overdrawn transitions, fallback), and BME collateral-ratio
 computation and status transitions; CI MUST fail on regression below 100%.
+
+**REQ-TST-065** Branch coverage MUST also be 100% on the portal (D-25): removal verification (the Q-44 mechanism's on-chain code and any `akashnet-2` module it adds), per-removal receipts, mint caps and deferral, and pause/resume paths, measured on the release audited for GT; CI MUST fail on regression below 100%. Portal suites are Path A only and run from before G0 (REQ-GEN-023).
 
 **REQ-TST-020** Fuzz budgets: every PR runs the bounded seeded suite (persisted corpus + regression
 seeds, ≤10 min wall clock); nightly ≥4 h per protocol program/contract suite; weekly ≥24 h with
@@ -261,6 +265,7 @@ the current `_run/` localnet as the day-to-day development environment.
 | Chain | `solana-test-validator` or Surfpool localnet, deterministic genesis | Anvil, deterministic genesis/chain-id |
 | Protocol programs/contracts | all `akash-*` programs per [03](./03-solana-architecture.md) | all contracts per [04](./04-ethereum-architecture.md) |
 | Tokens | AKT (Token-2022), ACT (NonTransferable), test settlement-stablecoin mint | AKT/ACT ERC-20s, test settlement stablecoin |
+| Portal (D-25) | portal program with SPL AKT mint authority, an `akashnet-2` localnet (or testnetified fork) as the removal source, and the Q-44 verification path with fault-injectable verifiers | n/a (Path A only) |
 | Oracle | fake Pyth feed: price simulator with scriptable modes (fixed, step, ramp, stale, deviation-spike) writing pull-oracle updates | MockPyth-style contract, same scriptable modes |
 | Cranks/automation | permissionless crank runner (Tuk Tuk-style) for settle/BME epochs/residuals | keeper automation mock (Gelato/Chainlink-style scheduler) |
 | Indexer | Geyser/webhook → Postgres indexer serving Console API shapes (D-16) | Ponder-class indexer, same API shapes |
@@ -284,6 +289,11 @@ catalog MAY grow but MUST NOT shrink without client sign-off.
 
 Table 2. Scenario catalog (▲ = PR gate subset). "Verifies" lists the owning docs/decisions; exact
 REQ-ID bindings live in the traceability matrix (§9).
+
+Note (D-25): AKT held in user accounts migrates through the portal (S-27 to S-29), not through S1 claims.
+S-15 to S-18 are retained for the claims machinery that still serves what S1 and S2 carry (Q-50) and the
+post-halt candidate in Q-47; their fixtures follow those scopes as Q-50 and Q-47 resolve, and S-17
+(vesting) follows Q-45.
 
 | ID | Scenario | Key assertions | Verifies |
 |---|---|---|---|
@@ -313,6 +323,9 @@ REQ-ID bindings live in the traceability matrix (§9).
 | S-24 | Indexer integrity: kill/restart indexer mid-flow; catches up with no gaps; Console API shapes unchanged; (EVM) reorg replay correct | D-16, D-23 events-as-history | 07 |
 | S-25 | Deployment update: manifest hash update on-chain; provider fetches/validates new manifest; mismatch rejected | D-09 manifest pointer flow | 03/04; 07 |
 | S-26 | Crank/keeper outage: automation down 1 h; lazy accrual stays correct; on resume settlement catches up; (Solana) closing terminal entities refunds rent | D-21 laziness; D-23 close/rent-refund | 03; 08 §6 |
+| S-27 ▲ | Portal migration (Path A): holder removes AKT from circulation on `akashnet-2` (per Q-44) naming a Solana recipient → verification → SPL AKT minted; replayed or forged evidence, below-threshold verification, and removals from a non-canonical chain rejected | 1:1 micro-unit mint to the named recipient; one mint per removal; I-8 holds | 05; 08 §2.11, §6 (I-8); D-25 |
+| S-28 | Portal caps and pause (Path A): per-epoch and per-recipient caps reached → mints deferred, then executed in verification order; guardian pause → mints stop, removals made during pause stay mintable and mint on resume; injected I-8 breach → automatic pause and page | cap deferral order; no forfeited removal; no reversal of a completed mint; auto-pause latency | 08 §2.11, §7.1; D-25 |
+| S-29 | Unbond then migrate (Path A): bonded AKT unbonds over the 14-day period (rehearsal clock) and then migrates; bonded or unbonding AKT is never credited by the portal | unbonded amount minted 1:1; no credit for bonded/unbonding balances | 05, 06; D-25 |
 
 **REQ-TST-029** Each scenario MUST assert on indexer-reported state as well as chain state, so the
 indexer (the system of record for history per D-23) is inside the tested surface.
@@ -325,7 +338,7 @@ indexer (the system of record for history per D-23) is inside the tested surface
 |---|---|---|---|
 | P1 Internal devnet | Continuous deployment target for Vendor + Overclock; synthetic actors only | Localnet PR gate green; CD pipeline live (§8) | 14 consecutive days uptime; full scenario catalog green on devnet; invariant monitors clean |
 | P2 Incentivized provider testnet (≥6 weeks) | Public testnet with real providers on real hardware, incentives program, Console testnet UI, claims dress-rehearsal distribution | P1 exit; provider onboarding docs + adapter GA-candidate; bounty scope extended to testnet ([08](./08-security-and-audits.md)) | Participation targets met (REQ-TST-031); ≥500 real deployments cumulative; load targets demonstrated (§7); zero open sev-1/sev-2 |
-| P3 Migration dress rehearsal (community-open) | Rehearsal R3 (§6) run in public: claims portal, residual cycle, provider re-registration, exchange sandbox | P2 exit; rehearsals R1/R2 complete; audit fixes merged | R3 pass criteria met (§6); community-reported blocker count = 0 for 14 days |
+| P3 Migration dress rehearsal (community-open) | Rehearsal R3 (§6) run in public: claims portal, residual cycle, provider re-registration, ~~exchange sandbox~~ (withdrawn, D-25: venues migrate through the portal, REQ-TST-072) | P2 exit; rehearsals R1/R2 complete; audit fixes merged | R3 pass criteria met (§6); community-reported blocker count = 0 for 14 days |
 
 **REQ-TST-030** The three phases MUST run in order; each exit MUST be evidenced in a signed-off
 report attached to the corresponding gate package (§9).
@@ -336,6 +349,9 @@ including ≥5 providers offering GPUs, each sustaining leases for ≥2 consecut
 **REQ-TST-032** P2 MUST include a claims dress-rehearsal distribution whose Merkle tree is generated
 by the real [06](./06-state-and-data-migration.md) pipeline from a testnetified `akashnet-2` export
 (not synthetic fixtures) so claim UX meets realistic leaf shapes (single, multisig, vesting).
+
+Note (D-25): REQ-TST-032 is retained for the claims machinery that still serves what S1 and S2 carry (Q-50) and
+the post-halt candidate in Q-47; its leaf scope follows those questions, and vesting leaves follow Q-45.
 
 **REQ-TST-033** The bug-bounty program defined in [08](./08-security-and-audits.md) MUST include the
 public testnet and the claims portal in scope no later than P2 start.
@@ -351,13 +367,40 @@ current chain's discovery/`min_client_version` contract per [07](./07-offchain-a
 Rehearsals execute the [06](./06-state-and-data-migration.md) snapshot/transform pipeline and the
 [10](./10-rollout-and-cutover.md) cutover runbook end-to-end on **forked mainnet state**, using the
 in-repo testnetify tooling (`akash in-place-testnet`; the `tests/upgrade` + `script/upgrades.sh`
-pattern: download real snapshot → testnetify → run the sunset upgrade under automation).
+pattern: download real snapshot → testnetify → run the sunset upgrade under automation). Under D-25 a
+separate rehearsal, RT (§6.1), rehearses the portal and token launch before GT, because L follows the
+migration proposal by only 7 days (REQ-ROL-054, R-38).
+
+### 6.1 Portal and token launch rehearsal (RT)
+
+RT is a GT criterion (REQ-ROL-053): the portal verification path (Q-44) implemented and rehearsed end to end
+on a mainnet fork, including pause and the supply-conservation monitor. It is Path A only and runs before
+the migration proposal is submitted (D-25.c).
+
+**REQ-TST-066** Before GT, the Vendor MUST run RT end to end on a mainnet fork: `akashnet-2` state forked via testnetify and Solana mainnet forked via Surfpool. RT MUST execute the launch runbook verbatim: deploy the SPL AKT mint (standard per D-03 as decided at GT) and the portal with their launch authorities ([08](./08-security-and-audits.md) REQ-SEC-082), apply any `akashnet-2` upgrade the Q-44 mechanism needs, open the portal, and migrate through the Q-44 verification path. Migrations MUST cover at least a hot wallet, a Ledger hardware wallet, a Cosmos multisig, an exchange-style custodial batch large enough to reach the mint caps, and a holder who unbonds first (S-29, on the rehearsal clock), each verified to the micro-unit and recipient against its removal on `akashnet-2`.
+
+**REQ-TST-067** RT MUST drill the portal pause: a guardian pause of mint execution landed within the [08](./08-security-and-audits.md) REQ-SEC-068 target from declaration; removals made during the pause minted after resume (REQ-SEC-081); no completed mint reversed or frozen. Timings MUST be reported.
+
+**REQ-TST-068** RT MUST run the I-8 supply-conservation monitor in its production configuration (independent infrastructure, [08](./08-security-and-audits.md) REQ-SEC-085) against both forks and MUST inject at least one supply discrepancy on the fork. The monitor MUST detect it, automatically pause portal mints and page within the bounds of the monitoring runbook, and RT MUST rehearse the reconciliation and the resume decision.
+
+**REQ-TST-069** RT MUST include negative cases on the forked environment: replayed and forged removal evidence, a verifier set below threshold, recipient or amount substitution, removals from a non-canonical chain, and cap overflow (deferred, then executed in verification order), each rejected or deferred per [08](./08-security-and-audits.md) §2.11; and the coordinated `akashnet-2` upgrade drill of REQ-SEC-081 (pause, upgrade, reconcile I-8, resume).
+
+**REQ-TST-070** RT MUST run on the release candidate audited for GT ([08](./08-security-and-audits.md) REQ-SEC-083) and the frozen launch runbook; any material change afterward requires a repeat of RT before L. RT MUST produce a published report (timings per runbook step, migration samples, pause and auto-pause timings, monitor alerts, defects found, runbook deltas) that is GT evidence (REQ-ROL-053).
+
+### 6.2 Cutover rehearsals (R1 to R4)
+
+Note (D-25, Q-47, Q-50): AKT held in user accounts migrates through the portal (§6.1), not through S1
+claims. R1 to R4 keep exercising the claims machinery only for what S1 and S2 still carry (protocol-held
+funds, ACT, residuals; Q-50) and for AKT still on `akashnet-2` at H (in user accounts, bonded or unbonding) if Q-47 adopts the S2 path; claim samples
+in R1 to R3 and wallet vectors in REQ-TST-038 follow those scopes as Q-50 and Q-47 resolve, and vesting follows
+Q-45. The weekly residual cycle drilled by REQ-TST-039 is under review (D-25, Q-50): with AKT on akashnet-2
+redeemable through the portal, it must be re-checked for double-counting before G1.
 
 | Rehearsal | Anchor | Scope | Pass criteria (all MUST hold) |
 |---|---|---|---|
 | R1 | During program phase P3 ([10](./10-rollout-and-cutover.md) §1); first dry-run | Pipeline shakeout: fork mainnet, run sunset upgrade, export S1, build distribution, deploy claims to rehearsal env, sample claims | Root reproducibility (REQ-TST-036); pipeline completes within 2× timing budget; ≥100 sampled claims verified incl. vesting |
-| R2 | During program phase P3, after R1 passes | Full runbook: T-minus schedule executed verbatim; wind-down simulation with live-fire providers from P2; residual cycle ×2; rollback drill | Timing budget met (REQ-TST-037); claims E2E incl. Ledger + multisig (REQ-TST-038); residual ×2 (REQ-TST-039); rollback drill pass (REQ-TST-040) |
-| R3 | G3 evidence (run within testnet phase P3, §5) | Dress rehearsal on candidate release + frozen runbook, community-observed; exchange sandbox swaps; G3 evidence | All R2 criteria on frozen artifacts; zero manual interventions outside runbook; exchange sandbox pass (REQ-TST-041) |
+| R2 | During program phase P3, after R1 passes | Full runbook: T-minus schedule executed verbatim; wind-down simulation with live-fire providers from P2; residual cycle ×2; rollback drill | Timing budget met (~~REQ-TST-037~~ REQ-TST-071; claims-open drilled only for retained claims, no AKT claims-open, D-25); claims E2E incl. Ledger + multisig (REQ-TST-038); residual ×2 (REQ-TST-039); rollback drill pass (REQ-TST-040) |
+| R3 | G3 evidence (run within testnet phase P3, §5) | Dress rehearsal on candidate release + frozen runbook, community-observed; ~~exchange sandbox swaps~~ (withdrawn, D-25); G3 evidence | All R2 criteria on frozen artifacts; zero manual interventions outside runbook; ~~exchange sandbox pass (REQ-TST-041)~~ (withdrawn, D-25) |
 | R4 | S1−14d (per [10](./10-rollout-and-cutover.md) §4.1) | Final dress on fresh mainnet-fork state: frozen R3 release + runbook re-run | All R3 criteria re-confirmed on the frozen artifacts; failure routes to the [10](./10-rollout-and-cutover.md) §6.1 abort review |
 
 **REQ-TST-035** The Vendor MUST execute ≥3 full rehearsals (R1–R3) before G3; R3 MUST run on the frozen
@@ -368,11 +411,17 @@ final dress at S1−14d per [10](./10-rollout-and-cutover.md) §4.1, re-runs the
 from the same export by two independent implementations of the transform pipeline (per
 [06](./06-state-and-data-migration.md)'s dual-implementation requirement) in every rehearsal.
 
-**REQ-TST-037** The S1 pipeline (halt-marker → export → transform → root) MUST complete within the
+**REQ-TST-037** **[WITHDRAWN: superseded by D-25; replaced by REQ-TST-071]** The S1 pipeline (halt-marker → export → transform → root) MUST complete within the
 budget allocated in [10](./10-rollout-and-cutover.md)'s T-minus schedule; for planning this doc assumes
 ≤6 h export-to-root and attested root published ≤24 h after C (REQ-ROL-029). Rehearsals MUST additionally
 drill claims-open at the rehearsed C+8–10 d offset (after the 7-day public verification window per
 D-05.b, compressed on the rehearsal clock with every step executed in full); reconcile with 10 at G2.
+
+**REQ-TST-071** The S1 pipeline (halt-marker → export → transform → root), for whatever S1 still carries
+(Q-50), MUST complete within the budget allocated in [10](./10-rollout-and-cutover.md)'s T-minus schedule;
+for planning this doc assumes ≤6 h export-to-root and attested root published ≤24 h after C (REQ-ROL-029).
+Claims-open for the retained claims is rehearsed at the offset 10 sets once Q-50 and Q-47 resolve; there is
+no 7-day verification window for AKT in user accounts (D-25). Reconcile with 10 at G2.
 
 **REQ-TST-038** Claims MUST be exercised end-to-end in R2 and R3 with real wallet vectors: hot
 wallets, Ledger hardware wallets (current firmware), a Squads (Solana) or Safe (EVM) multisig, and a
@@ -387,9 +436,14 @@ each cycle.
 drilled in at least one rehearsal: abort at the latest allowed T-minus step, old chain resumes
 normal operation, target-chain artifacts safely quarantined; drill timed and reported.
 
-**REQ-TST-041** Before G3, ≥2 exchange venues (from the Q-04 coordination list) MUST complete
+**REQ-TST-041** **[WITHDRAWN: superseded by D-25; replaced by REQ-TST-072]** Before G3, ≥2 exchange venues (from the Q-04 coordination list) MUST complete
 sandbox integration tests: test swap of custodial balances against a rehearsal distribution,
 deposit/withdrawal pause/resume choreography, and address-format validation; results recorded per venue.
+
+**REQ-TST-072** Before GT, at least 2 exchange or custodian venues from the Q-04 coordination list SHOULD
+complete a sandbox portal migration on the RT environment (§6.1): migrate custodial AKT through the portal,
+including cap deferral for a large batch, receive SPL AKT, and validate Solana address formats and SPL AKT
+deposit handling. Results are recorded per venue and attached to the GT evidence package (A-24).
 
 **REQ-TST-042** Each rehearsal MUST produce a published report: timings per runbook step, root
 hashes, claim samples, defects found, runbook deltas; R-report sign-off is a gate input (§9).
@@ -512,15 +566,23 @@ least one passing test or an explicit client-approved waiver; CI MUST list orpha
 logged in the traceability matrix with rationale; waivers MUST NOT apply to requirements tagged
 security-critical in [08](./08-security-and-audits.md).
 
+**REQ-TST-073** At GT there MUST be zero orphan requirements in the token and portal scope: every `REQ-*`
+governing the SPL AKT mint, the portal or GT itself (including [08](./08-security-and-audits.md) §2.11 and
+REQ-SEC-082 to REQ-SEC-088, the portal requirements in [05](./05-token-migration.md), and REQ-ROL-053) MUST
+map to at least one passing test, RT criterion, or approved waiver (REQ-TST-062). CI MUST list token and
+portal orphans separately from the G3 set.
+
 Testing exit criteria contributed to the program gates (gates themselves defined in
-[10](./10-rollout-and-cutover.md); payment linkage in [11](./11-scope-of-work.md)):
+[10](./10-rollout-and-cutover.md); payment linkage in [11](./11-scope-of-work.md)). GT precedes the migration
+proposal and therefore G0 (D-25.c):
 
 | Gate | Testing exit criteria (all MUST hold) |
 |---|---|
-| G1 | Parity harness operational end-to-end on ≥10 golden vectors (≥6 escrow-family) on the selected target (REQ-TST-016); migration localnet one-command boot (REQ-TST-025); S-01 green; CI matrix live for L1/L2-bounded/L3-subset |
-| G2 | Full suite green across Table 3; coverage targets met (REQ-TST-018/019); full vector corpus ≥500 green (REQ-TST-016); scenario catalog complete (REQ-TST-028); P1 exit achieved; timing-budget reconciliation with 10 done (REQ-TST-037) |
-| G3 | Rehearsal R3 passed on frozen artifacts (REQ-TST-035..042); audits complete with fixes merged + regressions added (REQ-TST-005, per [08](./08-security-and-audits.md)); load/perf targets met (REQ-TST-043..052); P2 exit incl. provider targets (REQ-TST-031); zero orphan REQs (REQ-TST-061); exchange sandbox complete (REQ-TST-041) |
-| G4 | Mainnet smoke passed (REQ-TST-064); claims E2E live check passed; parity report for the deployed release published; §7 dashboards live against mainnet |
+| GT | RT passed on the GT release candidate and frozen launch runbook, Q-44 verification path end to end on a mainnet fork (REQ-TST-066..070), including the pause drill (REQ-TST-067) and I-8 auto-pause (REQ-TST-068); T1 token and portal audits closed with regressions added (REQ-TST-005, [08](./08-security-and-audits.md) REQ-SEC-083); portal branch coverage 100% (REQ-TST-065); S-27 to S-29 green; zero orphan token and portal REQs (REQ-TST-073); venue portal sandbox results attached where completed (REQ-TST-072) |
+| G1 | Parity harness operational end-to-end on ≥10 golden vectors (≥6 escrow-family) on the selected target (REQ-TST-016); migration localnet one-command boot (REQ-TST-025); S-01 green; CI matrix live for L1/L2-bounded/L3-subset; portal canary at L reported (REQ-TST-074) |
+| G2 | Full suite green across Table 3; coverage targets met (REQ-TST-018/019); full vector corpus ≥500 green (REQ-TST-016); scenario catalog complete (REQ-TST-028); P1 exit achieved; timing-budget reconciliation with 10 done (REQ-TST-071, replacing withdrawn REQ-TST-037) |
+| G3 | Rehearsal R3 passed on frozen artifacts (REQ-TST-035..042, with REQ-TST-071 in place of withdrawn REQ-TST-037 and REQ-TST-041 withdrawn); audits complete with fixes merged + regressions added (REQ-TST-005, per [08](./08-security-and-audits.md)); load/perf targets met (REQ-TST-043..052); P2 exit incl. provider targets (REQ-TST-031); zero orphan REQs (REQ-TST-061); ~~exchange sandbox complete (REQ-TST-041)~~ (withdrawn, D-25; venue portal sandbox moves to GT, REQ-TST-072) |
+| G4 | Mainnet smoke passed (REQ-TST-064); claims E2E live check passed (claims scope per Q-50 and Q-47); parity report for the deployed release published; §7 dashboards live against mainnet |
 
 **REQ-TST-063** Each gate review MUST receive an evidence package: current traceability matrix,
 parity report, coverage/CU/gas reports, rehearsal and testnet-phase reports, open-defect list by
@@ -532,6 +594,15 @@ cycle (provider operated by Overclock), one BME swap round-trip, and ≥3 live c
 rehearsal-reserved test allocation (hot wallet, Ledger, multisig), all verified to the micro-unit
 and reported in the G4 package.
 
+Note (D-25): the live-claims part of REQ-TST-064 applies to whatever claims S1 still carries (Q-50); AKT
+held in user accounts is covered by the portal canary of REQ-TST-074.
+
+**REQ-TST-074** Portal mainnet canary: immediately after the portal opens at L, Overclock MUST execute at
+least 3 canary migrations (hot wallet, Ledger, multisig), each verified on mainnet to the micro-unit and
+recipient against its removal on `akashnet-2`, and MUST confirm the I-8 monitor live against mainnet. A failed
+canary MUST trigger the [08](./08-security-and-audits.md) REQ-SEC-068 pause decision. Results MUST be published
+and included in the G1 evidence package.
+
 ---
 
 ## Cross-references
@@ -541,14 +612,14 @@ and reported in the G4 package.
 - [05. Token migration](./05-token-migration.md): Merkle distribution format, claim flows, residual cycle verified here.
 - [06. State & data migration](./06-state-and-data-migration.md): export/transform pipeline and dual-implementation root verification exercised by §6 rehearsals.
 - [07. Off-chain & clients](./07-offchain-and-clients.md): indexer, provider adapter, JWT auth, chain-sdk codegen consumed by §4/§8.
-- [08. Security & audits](./08-security-and-audits.md): invariant list (§6 there) imported by §3; audits/bounty as layer L9.
-- [10. Rollout & cutover](./10-rollout-and-cutover.md): gate definitions, T-minus schedule, rollback plan drilled in §6.
+- [08. Security & audits](./08-security-and-audits.md): invariant list (§6 there, including I-8 portal conservation) imported by §3; portal threat model (§2.11 there) exercised by RT and S-27 to S-29; audits/bounty as layer L9.
+- [10. Rollout & cutover](./10-rollout-and-cutover.md): gate definitions including GT (REQ-ROL-053), L = V + 7d (REQ-ROL-054), T-minus schedule, rollback plan drilled in §6.
 - [11. Scope of work](./11-scope-of-work.md): QA workstream, test lead role, milestone/payment linkage.
-- [13. Open questions](./13-open-questions-and-assumptions.md): Q-04 (exchanges), Q-19 (op-mix data pull), Q-01 (emissions curve).
+- [13. Open questions](./13-open-questions-and-assumptions.md): D-25 (portal), Q-44 (portal mechanism), Q-45 (vesting), Q-47 (post-halt AKT), Q-50 (wind-down accounting), A-24 (venues migrate through the portal), Q-04 (exchanges), Q-19 (op-mix data pull), Q-01 (emissions curve).
 
 ## Feeds into
 
-- [10. Rollout & cutover](./10-rollout-and-cutover.md): gate exit evidence (§9), rehearsal results (§6).
+- [10. Rollout & cutover](./10-rollout-and-cutover.md): gate exit evidence (§9), including GT evidence from RT (§6.1); rehearsal results (§6).
 - [11. Scope of work](./11-scope-of-work.md): test deliverables, ownership, and acceptance criteria bound to payment gates.
 - [12. Risk register](./12-risk-register.md): residual risks from waived/orphan requirements and unmet load targets.
 - [08. Security & audits](./08-security-and-audits.md): regression-test obligations for findings (REQ-TST-005).

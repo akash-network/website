@@ -1,7 +1,7 @@
 ---
-categories: ["Developers", "Deployment", "akt CLI"]
+categories: ["Developers", "Deployment", "Deploy with akt"]
 tags: ["akt", "CLI", "Deployments", "SDL", "Workflows"]
-weight: 3
+weight: 1
 title: "Deploy with akt"
 linkTitle: "Deployments"
 description: "Author SDL files and run the full deployment lifecycle with akt deploy, update, and close"
@@ -17,9 +17,9 @@ The workflow commands `akt deploy`, `akt update`, and `akt close` orchestrate th
 
 Before deploying, ensure you have:
 
-- `akt` installed and a context configured ([installation guide](/docs/developers/deployment/akt/installation))
+- `akt` installed and a context configured ([installation guide](/docs/developers/akt/installation))
 - For `keyring` contexts: a funded account for the live chain deposit and transaction fees. `akt` queries the current deployment minimum when the deposit is `auto`.
-- For `console-api` contexts: a Console API key ([Console integration](/docs/developers/deployment/akt/console)) and an explicit USD deposit of at least $0.50.
+- For `console-api` contexts: a Console API key ([Console integration](/docs/developers/deployment/akt/console)) and credits on the Console account. The Console funds each deployment, so there is no deposit.
 
 ---
 
@@ -52,7 +52,8 @@ A valid document prints `valid: 1 service(s), 1 group(s), 0 warning(s)`. Problem
 invalid: 1 error(s), 1 warning(s)
   error: services/web/image: image "nginx" has no tag; pin an explicit version for reproducible deployments
     hint: use "nginx:<version>" instead of an untagged image
-  warning: profiles/placement/dcloud/pricing: pricing denom "uakt" does not match the default deposit; use "uact" on either rail or pass a matching explicit uakt deposit on chain
+  warning: profiles/placement/dcloud/pricing: pricing denom "uakt" does not match the deposit; deployments are priced in "uact" (micro-ACT, 1:1 USD) on both the on-chain and managed (console-api) rails, and the chain rejects a group whose price denom differs from the deposit denom
+    hint: switch the pricing denom to "uact", or pass a matching --deposit <amount>uakt when you deploy
 ```
 
 **Lint rules:**
@@ -76,7 +77,7 @@ In interactive mode (the default), `akt` shows a per-step progress display and p
 
 **Flags:**
 
-- `--deposit` - Initial deposit. Use `auto` for the live chain minimum, an explicit coin with its denomination on the chain rail, or `5`, `5usd`, `$5`, or `5.50usd` on the Console rail. The default is `auto`, but Console contexts require an explicit USD amount.
+- `--deposit` - Initial deposit on the chain rail: `auto` (the default) for the live chain minimum, or an explicit coin with its denomination. Console contexts take no deposit and reject one. akt 0.1.x instead required a USD amount of at least $0.50 there.
 - `--bid-timeout` - Maximum time to wait for bids (default: `5m`)
 - `--bid-select` - Bid selection mode: `interactive` (default), `cheapest`, or `provider=<addr>`
 - `--ready-timeout` - Maximum time to wait for deployed services to become ready (default: `2m`)
@@ -228,7 +229,7 @@ akt store import deployments-backup.yaml
 ## Next Steps
 
 - **[Console integration](/docs/developers/deployment/akt/console)** - Deploy with the managed wallet, funded in USD
-- **[Queries and transactions](/docs/developers/deployment/akt/queries-and-transactions)** - Work with the chain directly
+- **[Queries and transactions](/docs/developers/akt/queries-and-transactions)** - Work with the chain directly
 - **[SDL reference](/docs/developers/deployment/akash-sdl)** - Learn SDL configuration
 - **[SDL examples](/docs/developers/deployment/akash-sdl/examples-library)** - Browse deployment examples
 

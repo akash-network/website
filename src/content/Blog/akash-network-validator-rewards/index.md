@@ -33,11 +33,11 @@ Under certain network conditions, a validator can earn anywhere between 56% APR 
 
 The implicit value of AKT depends on its earning potential from the below income sources:
 
-**1\. Transaction Fees:** Every transaction on the blockchain is subject to a small fee (gas fee). A typical deployment takes ~10 transactions. See the [design spec](https://akash.network/docs/architecture/overview/) for details.
+**1\. Transaction Fees:** Every transaction on the blockchain is subject to a small fee (gas fee). A typical deployment takes ~10 transactions. See the [design spec](https://akash.network/architectural-overview/) for details.
 
-**2\. Make (selling compute) and Take (buying computing) Fees:** Every trade on Akash is subject to maker and taker fee. (Sec 5.D in [Economics paper](https://akash.network/static/akash-econ.pdf)).
+**2\. Make (selling compute) and Take (buying computing) Fees:** Every trade on Akash is subject to maker and taker fee. (Sec 5.D in [Economics paper](https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B)).
 
-**3\. Commission:** Akash’s blockchain allows for 128 validators in the first year (that’ll increase to 442 in 10 yrs). Validators charge a commission to delegators (Sec 3 in [Economics paper](https://akash.network/static/akash-econ.pdf)). Check out the [Cosmos commission rates](https://www.mintscan.io/validators) to get an idea. The fee structure is fully governed by validators and subject to change if the community votes to change it.
+**3\. Commission:** Akash’s blockchain allows for 128 validators in the first year (that’ll increase to 442 in 10 yrs). Validators charge a commission to delegators (Sec 3 in [Economics paper](https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B)). Check out the [Cosmos commission rates](https://www.mintscan.io/validators) to get an idea. The fee structure is fully governed by validators and subject to change if the community votes to change it.
 
 ### **Network Demand**
 
@@ -55,7 +55,7 @@ Our current focus partnering with validators to secure the Akash Network blockch
 
 ### Join Us to Build the Future of the Cloud!
 
-Riot: [https://akash.network/chat](https://akash.network/chat)
+Riot: [https://discord.com/invite/akash](https://discord.com/invite/akash)
 
 Telegram: [https://t.me/AkashNW](https://t.me/AkashNW)
 

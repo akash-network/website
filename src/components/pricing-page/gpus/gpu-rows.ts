@@ -1,7 +1,7 @@
 import {
   gpuDisplayName,
   gpuHourlyPrice,
-  isBlackwellModel,
+  isNextGenModel,
   parseRamGb,
   type GpuModel,
 } from "./gpu-models";
@@ -20,7 +20,8 @@ export interface GpuRow {
   interface: string;
   interfaceFamily: InterfaceFamily;
   hourly: number | null;
-  isBlackwell: boolean;
+  /** Next-gen model: links to the access page, and says "Request access" when unpriced. */
+  isNextGen: boolean;
 }
 
 export function toGpuRow(model: GpuModel): GpuRow {
@@ -42,7 +43,7 @@ export function toGpuRow(model: GpuModel): GpuRow {
         ? "pcie"
         : "other",
     hourly: gpuHourlyPrice(model),
-    isBlackwell: isBlackwellModel(model.model),
+    isNextGen: isNextGenModel(model.model),
   };
 }
 

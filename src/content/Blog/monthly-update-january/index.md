@@ -33,8 +33,8 @@ Here is our month of January in review.
 ### **Product Progress** 
 
 - **Introduction of streamlined Akash Provider build process** \- This allows users to install an Akash Provider in just a few steps (via Helm Charts).
-- **Deployment remote shell access** \- Enables remote access to the command line (CLI) of a running deployment and allows copying of files to a remote deployment instance. Click [here](https://akash.network/docs/release-notes/v0.14.0#deployment-shell-access) to learn more.
-- **Deployment hostname migration** \- Allows migration of a hostname between a legacy deployment and a new deployment. This upgrade also limits deployment to minimal downtime during application updates and migrations. Click [here](https://akash.network/docs/release-notes/v0.14.0#hostname-migration) to learn more.
+- **Deployment remote shell access** \- Enables remote access to the command line (CLI) of a running deployment and allows copying of files to a remote deployment instance. Click [here](https://github.com/akash-network/node/releases/tag/v0.14.0) to learn more.
+- **Deployment hostname migration** \- Allows migration of a hostname between a legacy deployment and a new deployment. This upgrade also limits deployment to minimal downtime during application updates and migrations. Click [here](https://github.com/akash-network/node/releases/tag/v0.14.0) to learn more.
 
 ### **Partnerships** 
 

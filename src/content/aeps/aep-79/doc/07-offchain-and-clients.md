@@ -4,8 +4,8 @@
 |---|---|
 | **Document** | 07. Off-chain services & clients |
 | **Doc ID** | AKASH-MIG-07 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering (off-chain / infrastructure workstream) |
 | **Status** | Normative where marked (MUST/SHALL); informative otherwise |
@@ -23,12 +23,13 @@ chain selected at Gate 0. On-chain program/contract designs live in [03](./03-so
 - The `pkg/chain` adapter for provider-services, including the Solana signer sidecar (D-17).
 - Provider/tenant authentication redesign (D-10) and manifest-flow invariants (D-09).
 - Indexer requirements and architecture (D-16); Console/API compatibility (A-11).
-- SDKs, CLI command mapping, version negotiation, wallets, explorers, RPC, fee UX, claim tooling.
+- SDKs, CLI command mapping, version negotiation, wallets, explorers, RPC, fee UX, migration portal and claim tooling.
 
 ## Out of scope
 
 - Program/contract instruction-level design: [03](./03-solana-architecture.md), [04](./04-ethereum-architecture.md).
 - Token claim mechanics and Merkle tree formats: [05](./05-token-migration.md).
+- The portal mechanism (Q-44) and supply conservation: [05](./05-token-migration.md).
 - Archive production and old-chain data export: [06](./06-state-and-data-migration.md).
 - Cutover scheduling and governance gates: [10](./10-rollout-and-cutover.md) (§9 here covers off-chain ordering only).
 
@@ -48,7 +49,7 @@ the x509/JWT provider-gateway trust root. All four seams change.
 | `@akashnetwork/chain-sdk` (TS) | Tenant/tooling SDK; negotiates API version via discovery (`testutil/network/rpc.go:12`) | Everything (Cosmos tx/query/proto stack) | chain-sdk v2: Codama client (Solana) / viem (EVM) (§5.1) | Vendor | §5 |
 | `pkg.akt.dev/go` + `/cli` | Shared Go contract: proto types, denoms, sdkutil, entire CLI trees (`cmd/akash/cmd/root.go:69-87`) | Everything; the node repo itself consumes it | Go SDK v3 hosting `pkg/chain` types + generated bindings (§5.2) | Vendor | §5 |
 | `akash` CLI | User CLI (root `akash`, env prefix `AKASH`) | All `tx`/`query`/`keys`/`events` subtrees | `akash` CLI v3 (§5.3) with command-map parity | Vendor | §5.3 |
-| Wallets | Keplr, Leap (+ Ledger via them) | Chain unsupported post-halt | Phantom/Solflare/Backpack/Ledger or MetaMask/Coinbase Wallet/Rabby/Ledger (§6.1); Keplr/Leap retained for claims | Third party; integration Overclock | §6 |
+| Wallets | Keplr, Leap (+ Ledger via them) | Chain unsupported post-halt | Phantom/Solflare/Backpack/Ledger or MetaMask/Coinbase Wallet/Rabby/Ledger (§6.1); Keplr/Leap retained for portal migration (from L) and wind-down (to H) | Third party; integration Overclock | §6, §8 |
 | Explorers | Mintscan et al. | Coverage ends at halt H | Solscan/SolanaFM or Basescan + Console public pages; static archive explorer | Third party / Overclock | §7.1 |
 | `akash-network/net` `meta.json` | Chain registry (RPC endpoints, versions, upgrade matrix) at `https://raw.githubusercontent.com/akash-network/net/master/mainnet/meta.json` | Schema is Cosmos-shaped | New schema: program/contract addresses, cluster, indexer + sponsorship URLs; on-chain `akash-config` is authoritative (§5.4) | Overclock | §5.4 |
 | snapshots.akash.network | Node snapshot host (`/<network>/latest`) | No sovereign nodes to bootstrap post-halt | Serve old-chain snapshots until H+90d (D-18); then archive per 06 | Overclock | [06](./06-state-and-data-migration.md) |
@@ -60,7 +61,8 @@ the x509/JWT provider-gateway trust root. All four seams change.
 (issue-tracked) before Gate G2 as defined in [10](./10-rollout-and-cutover.md).
 
 **REQ-OFF-002** After cutover C, no supported client or service may require a Cosmos dependency (bech32
-parsing, CometBFT RPC, amino/proto registry) except: (a) the claim portal's old-chain proof flow (§8) and
+parsing, CometBFT RPC, amino/proto registry) except: (a) the migration portal, the CLI migration path and the
+claim flows that remain (§8) and
 (b) read-only archive tooling per [06](./06-state-and-data-migration.md).
 
 **REQ-OFF-003** All off-chain components MUST treat the indexer as the only source of *historical* protocol
@@ -442,6 +444,11 @@ no address rewriting.
 ([05](./05-token-migration.md)), the indexer MAY offer an opt-in mapping so "my history" spans both chains for
 claimed addresses; the join table MUST be rebuildable from on-chain claim events only.
 
+**REQ-OFF-063** Under D-25 few addresses make S1 claims, so the opt-in join of REQ-OFF-040 SHALL also cover portal
+migrations: each migration links the `akashnet-2` source address to the Solana recipient the holder named. The
+join MUST remain opt-in and MUST be rebuildable from portal migration records (format per Q-44) and on-chain claim
+events only.
+
 ## 5. SDKs & CLI
 
 ### 5.1 TypeScript: `@akashnetwork/chain-sdk` v2
@@ -484,6 +491,7 @@ CLI v3 keeps verbs and UX (dseq/gseq/oseq flags, SDL input) per D-09.
 | 15 | `akash tx provider create provider.yaml` | `akash provider register provider.yaml --collateral X` | plus `akash provider migrate` wizard (§8) |
 | 16 | `akash events` | `akash events tail [--filter ...]` | indexer stream, not CometBFT websocket |
 | 17 | `akash status` | `akash net status` | reads `akash-config` + RPC health |
+| 18 | none | `akash migrate` (working name) | one-way AKT migration to SPL AKT, available from L; mechanism per Q-44 (§8, REQ-OFF-070) |
 
 **REQ-OFF-043** CLI v3 MUST implement the table above; removed commands MUST exit non-zero with a migration
 message naming the replacement, not fail with "unknown command", for one major release.
@@ -502,7 +510,7 @@ at startup and refuse to operate (hard fail with upgrade instructions) when thei
 `min_client_version`, preserving today's forced-upgrade lever client-side, since no node exists to reject old
 clients.
 
-**REQ-OFF-046** Off-chain mutable metadata (RPC endpoints, indexer URL, sponsorship URL, claim-portal URL)
+**REQ-OFF-046** Off-chain mutable metadata (RPC endpoints, indexer URL, sponsorship URL, migration-portal URL)
 MUST be published as a versioned JSON schema in `akash-network/net` (successor to `mainnet/meta.json`);
 `akash-config` prevails on conflicts for on-chain facts.
 
@@ -519,18 +527,35 @@ MUST be published as a versioned JSON schema in `akash-network/net` (successor t
 | MetaMask | EVM | yes | `personal_sign`/EIP-712 | passthrough | 1 |
 | Coinbase Wallet | EVM | yes | yes (ERC-1271 for smart wallet) | no | 1 |
 | Rabby | EVM | yes | yes | passthrough | 2 |
-| Keplr / Leap | old chain only | wind-down ops until H | ADR-36 (claim proofs, §8) | yes | claims only |
+| Keplr / Leap | old chain (`akashnet-2`) | portal migration from L (per Q-44); unbonding; wind-down ops until H | ADR-36 (claim proofs that remain, §8) | yes | migration and wind-down |
+
+Under D-25, Keplr and Leap are the source wallets for portal migrations from L and remain in use for unbonding
+and wind-down operations until H; the Solana wallets above receive and hold SPL AKT from L (token standard per
+D-03).
 
 **REQ-OFF-047** Console MUST integrate wallets via the standard discovery layers (Wallet Standard on Solana;
 EIP-6963 on EVM) rather than per-wallet adapters, with Tier-1 wallets explicitly QA'd each release.
 
+**REQ-OFF-064** Because SPL AKT exists from L, Console MAY support SPL AKT in its Solana wallet flows (balance
+display, transfers, links to the official migration portal) before C, ahead of the marketplace programs;
+deployment and escrow paths on Solana go live only with the marketplace programs (REQ-OFF-059). Wherever Console
+shows both, it MUST label AKT on `akashnet-2` and SPL AKT on Solana distinctly and MUST NOT present them as one
+balance (R-37). From L, Console's `akashnet-2` wallet views SHOULD link to the official migration portal.
+
 ### 6.2 Managed-wallet users (Q-14)
 
-**REQ-OFF-048** Console's managed/custodial wallet balances (keys operated by Overclock) SHALL be migrated
+**REQ-OFF-048** **[WITHDRAWN: superseded by D-25; replaced by REQ-OFF-065]** ~~Console's managed/custodial wallet balances (keys operated by Overclock) SHALL be migrated
 custodially at S1 exactly like an exchange swap ([05](./05-token-migration.md)): Overclock claims in bulk from
 its custodial addresses and credits users on new-chain custodial wallets, with no user action and an audit
 trail reconciling per-user balances pre/post swap. Mechanics and comms are Q-14 (owner: Console team, needed
-by G2).
+by G2).~~
+
+**REQ-OFF-065** Console's managed/custodial wallets (keys operated by Overclock) SHALL migrate custodial AKT
+through the migration portal like any custodian (D-25, A-24), with no user action: Overclock credits each user on
+a Solana custodial wallet and keeps an audit trail reconciling per-user balances before and after migration.
+Timing is Overclock's choice within the 2-year window, coordinated with the Console default-target switch (§9);
+managed-wallet ACT and any other balances follow Q-50. Mechanics and comms remain Q-14 (owner: Console team,
+needed by G2).
 
 ### 6.3 Fee sponsorship service (Q-07) and trials
 
@@ -569,7 +594,7 @@ Mintscan coverage ends at halt H; the static archive explorer is specified in
 
 ### 7.2 RPC strategy
 
-**REQ-OFF-053** Production services (Console, indexer, sponsorship, claim portal) MUST run against ≥ 2
+**REQ-OFF-053** Production services (Console, indexer, sponsorship, migration portal) MUST run against ≥ 2
 independent commercial RPC providers with client-side failover and per-provider health metrics;
 provider-services documentation MUST ship the same dual-endpoint guidance. Solana SHOULD additionally run one
 self-operated Agave node with the Geyser plugin (indexer sovereignty, §4.2); EVM equivalently MAY run a
@@ -579,14 +604,58 @@ host-chain full node. Vendor selection and SLAs are a kickoff task (volatile fac
 ### 7.3 Status page & public API limits
 
 **REQ-OFF-054** A public status page MUST cover: RPC providers (per-provider), indexer ingest lag, Console
-API, sponsorship relayer, claim portal, and (until H) old-chain wind-down services.
+API, sponsorship relayer, migration portal (from L), and (until H) old-chain wind-down services.
 
 **REQ-OFF-055** Public indexer/Console API endpoints MUST publish documented rate limits (anonymous + keyed
 tiers) and return standard rate-limit headers; limits MUST at least match today's Console API tiers.
 
-## 8. Claim portal & migration UX tooling
+## 8. Migration portal & migration UX tooling
+
+Under D-25, AKT launches as SPL AKT on Solana at L = V + 7d (V: the migration proposal passes on `akashnet-2`),
+and the migration portal opens at L for 2 years (D-25.a). Migration is one-way: AKT removed from circulation on
+`akashnet-2` is minted 1:1 (micro-unit) as SPL AKT to the Solana address the holder names, and no reverse path
+exists. How AKT leaves circulation on `akashnet-2` and how Solana verifies it before minting is open (Q-44); the
+requirements below hold for any Q-44 candidate. The portal replaces S1 snapshot claims for AKT in user accounts.
+Path A (Solana) is the core team's selection, confirmed at G0 when the migration proposal passes (D-01).
 
 Claim mechanics (Merkle trees, S1/S2, residuals) are in [05](./05-token-migration.md); this covers the tooling.
+
+### 8.1 Migration portal
+
+**REQ-OFF-066** A web migration portal MUST let a holder: (a) connect a Cosmos wallet holding AKT on `akashnet-2`
+(Keplr or Leap, Ledger included, §6.1); (b) name the Solana recipient, by connecting a Solana wallet (§6.1) or by
+entering an address, which the portal validates as a Solana address and displays in full; (c) migrate a chosen
+amount through the Q-44 mechanism, signing with the Cosmos wallet; and (d) track each migration from submission on
+`akashnet-2` to the SPL AKT mint on Solana. The portal opens at L and stays open for the 2-year window (D-25.a).
+It MUST be served only from the official portal domain, published per REQ-OFF-046 and in every governance
+proposal and exchange notice (R-34).
+
+**REQ-OFF-067** Before the holder signs, the portal MUST show the amount, the `akashnet-2` source address and the
+Solana recipient exactly as they will be signed, warn on clipboard mismatch, and require explicit confirmation
+that migration is one-way and irreversible: SPL AKT cannot be returned to `akashnet-2` (D-25; disclosures per
+REQ-GEN-021).
+
+**REQ-OFF-068** The portal MUST show, for the connected address, the AKT that can migrate now and the AKT that
+cannot yet, with the path for each: bonded and unbonding AKT (unbond then migrate, 14-day unbonding, D-25);
+unwithdrawn staking rewards and commission (withdraw, then migrate); locked vesting AKT (per Q-45); and AKT held
+over IBC (return it to `akashnet-2`, then migrate, per Q-46). The portal SHOULD offer the undelegate and
+reward-withdrawal transactions itself. After H, it serves AKT left on `akashnet-2` as Q-47 decides.
+
+**REQ-OFF-069** Fee sponsorship: holders MUST NOT need SOL to migrate. Any Solana-side transaction the Q-44
+mechanism requires from or for the holder, including creation of the recipient's token account, SHALL be
+sponsored through the §6.3 sponsorship service under the REQ-OFF-049 controls. Fees on `akashnet-2` follow the
+Q-44 mechanism; the portal MAY sponsor them with `feegrant`, which the sunset allow-list keeps available through
+H ([06](./06-state-and-data-migration.md) §5.2).
+
+**REQ-OFF-070** A headless migration path (working name `akash migrate`, §5.3 row 18) MUST be available at L for
+exchanges, custodians, providers, validators and scripted treasuries. It reads the source key from a Cosmos
+keyring or Ledger, supports Cosmos multisig owners and air-gapped signing (emit, sign offline, submit), takes the
+Solana recipient and amount, performs the same migration as the portal per Q-44 with the REQ-OFF-067 checks (a
+non-interactive acknowledgement flag MAY serve scripted use), and reports status through the mint. It MAY ship
+ahead of CLI v3, as a standalone release or in the current `akash` CLI line. `[TO-VERIFY: multisig and Ledger
+support for the Q-44 message type in current Cosmos tooling]`
+
+### 8.2 Claims that remain
 
 **REQ-OFF-056** A web claim portal MUST support: prove old-chain ownership by ADR-36 offline signature via
 Keplr/Leap (Ledger included) over a challenge that binds the target-chain recipient address; submit the Merkle
@@ -596,6 +665,14 @@ address, including weekly residual distributions during C→H (D-05).
 **REQ-OFF-057** A headless CLI claim path (`akash claim`) MUST exist for providers, exchanges, and scripted
 treasuries: reads the old key from a Cosmos keyring, signs the same challenge format as the portal, submits
 via RPC; supports multisig owners `[TO-VERIFY: ADR-36 multisig signing support in current Keplr/CLI tooling]`.
+
+**REQ-OFF-071** The claim flows of REQ-OFF-056 and REQ-OFF-057 (`akash claim`) SHALL be built only for claims
+that remain: residual and ACT claims if Q-50 keeps them, and post-halt AKT claims if Q-47 adopts its leading
+candidate. They MUST NOT be offered as a path for AKT held in user accounts on `akashnet-2` before H, which
+migrates through the portal (REQ-OFF-066, REQ-OFF-070). If neither Q-50 nor Q-47 retains a claim, they are not
+built.
+
+### 8.3 Provider re-registration
 
 **REQ-OFF-058** Provider re-registration wizard: `akash provider migrate` MUST, in one command: read the
 operator's provider record and audited attributes from the [06] archive (or live old chain pre-halt), prefill
@@ -608,19 +685,34 @@ chain; the wizard MUST emit a re-audit request artifact.
 
 Authoritative schedule and gates in [10](./10-rollout-and-cutover.md); off-chain ordering constraints:
 
+Notation (D-25): **V** = the migration proposal passes on `akashnet-2`; **L** = token launch = V + 7d (SPL AKT
+mint live, migration portal open); **marketplace launch** = mainnet launch of the marketplace programs, which
+precedes C (D-08). Version 0.9 of this section used "L" for marketplace launch.
+
 | Stage | Off-chain actions |
 |---|---|
-| Pre-launch | Indexer + RPC contracts live against testnet, then mainnet programs at launch L; claim portal and sponsorship staged; chain-sdk v2 / CLI v3 / Go SDK released |
-| L → C (launch → cutover) | provider-services GA (adapter + JWT auth); providers re-register (§8 wizard) and serve the new chain; Console dual-stack: both chains visible, new chain becomes the default deploy target, old-chain deploys behind an end-of-life warning |
-| C (=S1) | Old chain enters sunset (D-18): Console switches old chain to read-only + wind-down actions (close/withdraw/deposit top-up only); claims open; old-chain indexer keeps ingesting |
-| C → H | Dual-stack steady state: wind-down dashboard (old leases, residual distributions); weekly residual claims surfaced in portal |
-| H (=S2) | Old-chain reads flip to the imported archive (§4.5); old RPC/indexer/snapshots decommission per D-18 at H+90d |
+| Before the migration proposal is submitted (GT) | Migration portal (web), CLI migration path, portal sponsorship, RPC failover and status-page coverage built and rehearsed in the REQ-OFF-072 order; official portal domain live with look-alike monitoring (R-34) |
+| V to L (7 days) | Official portal URL published (REQ-OFF-046) and linked from Console and docs; portal and CLI path staged for L; no mints before L |
+| L (token launch) | SPL AKT mint live; portal opens (web and CLI) for 2 years (D-25.a); Keplr/Leap serve as source wallets, Solana wallets receive SPL AKT; Console MAY show SPL AKT (REQ-OFF-064) |
+| L to marketplace launch | Indexer + RPC contracts live against testnet, then mainnet programs at marketplace launch; sponsorship and any remaining claim flows (REQ-OFF-071) staged; chain-sdk v2 / CLI v3 / Go SDK released; portal open throughout |
+| Marketplace launch to C | provider-services GA (adapter + JWT auth); providers re-register (§8 wizard) and serve the new chain; Console dual-stack: both chains visible, new chain becomes the default deploy target, old-chain deploys behind an end-of-life warning; Console managed wallets migrate through the portal (REQ-OFF-065) |
+| C (=S1) | Old chain enters sunset (D-18): Console switches old chain to read-only + wind-down actions (close/withdraw/deposit top-up only); ~~claims open~~ **[WITHDRAWN: superseded by D-25]** no AKT claims open at S1, AKT keeps migrating through the portal, residual or ACT claims only as Q-50 decides; old-chain indexer keeps ingesting |
+| C → H | Dual-stack steady state: wind-down dashboard (old leases, residual distributions); weekly residual claims surfaced in portal (under review, Q-50); Console prompts holders with AKT left on `akashnet-2` to unbond and migrate before H |
+| H (=S2) | Old-chain reads flip to the imported archive (§4.5); old RPC/indexer/snapshots decommission per D-18 at H+90d; AKT left on `akashnet-2` at H reaches the portal per Q-47; portal stays open |
+| L + 2 years | Portal window closes unless governance extends it (D-25.a); AKT not migrated by then per Q-48 |
 
-**REQ-OFF-059** Deploy order MUST be: indexer + RPC infra → programs/contracts (mainnet launch L) →
+**REQ-OFF-059** Deploy order MUST be: indexer + RPC infra → programs/contracts (mainnet marketplace launch) →
 provider-services GA and provider re-registration → Console target-chain default. No stage may go live before
 its predecessor passes the [09](./09-testing-and-verification.md) acceptance gate.
 
-**REQ-OFF-060** During L→H, provider-services MUST support one daemon instance per chain running concurrently
+**REQ-OFF-072** The migration portal has its own order, independent of REQ-OFF-059: RPC infrastructure with
+failover (REQ-OFF-053) and status-page coverage (REQ-OFF-054), then the SPL AKT mint and portal program together
+with any `akashnet-2` component Q-44 requires (which rides with or before the migration proposal), then the portal
+web app (REQ-OFF-066), the CLI migration path (REQ-OFF-070) and portal sponsorship (REQ-OFF-069). Each stage MUST
+pass its [09](./09-testing-and-verification.md) acceptance gate, and all MUST be ready for GT (REQ-ROL-053) before
+the migration proposal is submitted; SPL AKT mints on mainnet begin only at L.
+
+**REQ-OFF-060** From marketplace launch to H, provider-services MUST support one daemon instance per chain running concurrently
 against the same Kubernetes cluster with disjoint cluster resource naming (namespaces/ingress derived from
 lease IDs MUST NOT collide across chains; verified in 09 dual-stack tests).
 
@@ -637,15 +729,15 @@ window.
 
 - [01. Current architecture](./01-current-architecture.md): module/state detail behind §1–§3.
 - [03. Solana architecture](./03-solana-architecture.md) / [04. Ethereum architecture](./04-ethereum-architecture.md): programs/contracts, event emission, `akash-config`.
-- [05. Token migration](./05-token-migration.md): claims consumed by §8; exchange/custodial swaps (§6.2).
+- [05. Token migration](./05-token-migration.md): portal model (D-25) and claims consumed by §8; custodial migration (§6.2).
 - [06. State & data migration](./06-state-and-data-migration.md): archives imported in §4.5; provider record source for §8.
 - [10. Rollout & cutover](./10-rollout-and-cutover.md): gates and calendar for §9.
-- [13. Open questions](./13-open-questions-and-assumptions.md): Q-07, Q-12, Q-14, Q-15, Q-16, Q-18; volatile-fact list.
+- [13. Open questions](./13-open-questions-and-assumptions.md): Q-07, Q-12, Q-14, Q-15, Q-16, Q-18; D-25, Q-44 to Q-48, Q-50, A-24; volatile-fact list.
 - [14. Appendix: protocol mapping](./14-appendix-protocol-mapping.md), the full event/msg/query mapping backing §2.3 and §5.3.
 
 ## Feeds into
 
-- [08. Security & audits](./08-security-and-audits.md): sidecar custody (REQ-OFF-015), JWT verification (§3), sponsorship abuse controls (REQ-OFF-049).
+- [08. Security & audits](./08-security-and-audits.md): sidecar custody (REQ-OFF-015), JWT verification (§3), sponsorship abuse controls (REQ-OFF-049); migration portal domain and signing checks (REQ-OFF-066, REQ-OFF-067).
 - [09. Testing & verification](./09-testing-and-verification.md): every REQ-OFF acceptance test; latency budgets (REQ-OFF-018/035), hash vectors (REQ-OFF-031), dual-stack tests (REQ-OFF-060).
 - [10. Rollout & cutover](./10-rollout-and-cutover.md): §9 stage ordering constraints.
 - [11. Scope of work](./11-scope-of-work.md): off-chain workstream deliverables (adapter, sidecar, indexer, SDKs, CLI, portal).

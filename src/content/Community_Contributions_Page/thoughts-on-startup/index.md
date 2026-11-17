@@ -10,7 +10,7 @@ tags:
 contributors:
   - Helen Hui
 link: "https://www.linkedin.com/pulse/thoughts-startup-horizontal-vertical-something-between-helen-hui-l3rbc"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 One of the earliest and most consequential decisions a startup founder faces isn't about product features or fundraising — it's about positioning. Should you go horizontal and serve everyone, or vertical and own one niche completely?

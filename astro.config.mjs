@@ -11,8 +11,12 @@ import { customAsidePlugin } from "./src/lib/aside/customAsidePlugin";
 import { apiDocsOnly } from "./src/lib/markdown/apiDocsOnly";
 import { autoFaqAccordion } from "./src/lib/markdown/autoFaqAccordion";
 import { normalizeMath } from "./src/lib/markdown/normalizeMath";
+import { rewriteSyncedRepoLinks } from "./src/lib/markdown/rewriteSyncedRepoLinks";
 import { mermaid } from "./src/utils/mermaid";
 import { redirects } from "./src/utils/redirects";
+import { createLastmodResolver } from "./src/utils/sitemapLastmod";
+
+const resolveLastmod = createLastmodResolver();
 
 export default defineConfig({
   redirects: redirects,
@@ -24,6 +28,7 @@ export default defineConfig({
       mermaid,
       customAsidePlugin,
       autoFaqAccordion,
+      rewriteSyncedRepoLinks,
     ],
     rehypePlugins: [
       apiDocsOnly(rehypeSlug),
@@ -57,7 +62,12 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      lastmod: new Date("2024-06-27"),
+      // HTML fragments fetched by page scripts, not pages.
+      filter: (page) => !new URL(page).pathname.startsWith("/partials/"),
+      serialize(item) {
+        const lastmod = resolveLastmod(item.url);
+        return { ...item, lastmod: lastmod?.toISOString() };
+      },
     }),
     react(),
     // Options are shared with the <Code> component through ec.config.mjs.

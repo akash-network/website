@@ -92,7 +92,7 @@ For any other questions on server rules or details, hop on over to the [MothRuby
 
 ![](https://www.datocms-assets.com/45776/1620925375-akashcraftlivestream-twitter-1024x576.png)
 
-Join Akash Senior Marketing Manager [Michael Gushansky](https://akash.network/blog/introducing-michael-gushansky/) and [Crypto Moth](https://twitter.com/JustaCryptoMoth) for a special livestream event Friday 4/30 6PM PST. They’ll be discussing the origin of Akashcraft, walking through gameplay and taking questions from the audience! 5 lucky winners will leave with limited edition Akashcraft merch.
+Join Akash Senior Marketing Manager Michael Gushansky and [Crypto Moth](https://twitter.com/JustaCryptoMoth) for a special livestream event Friday 4/30 6PM PST. They’ll be discussing the origin of Akashcraft, walking through gameplay and taking questions from the audience! 5 lucky winners will leave with limited edition Akashcraft merch.
 
 [Join the livestream!](https://youtu.be/jKv5OPhB_-c)
 

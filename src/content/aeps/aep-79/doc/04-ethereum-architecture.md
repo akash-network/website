@@ -4,8 +4,8 @@
 |---|---|
 | **Document** | 04. Ethereum Target Architecture |
 | **Doc ID** | AKASH-MIG-04 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering (Solidity/EVM team) |
 | **Status** | Normative where marked (MUST/SHALL); informative otherwise |
@@ -1003,6 +1003,11 @@ Invariant I-EM-1: cumulative minted ≤ `HARD_CAP` regardless of schedule conten
 `EmissionsMinted(epoch, providerPoolAmount, treasuryAmount)`, `ScheduleUpdated`.
 
 ### 11.2 `MigrationClaims` (interface only; normative spec in [05](./05-token-migration.md))
+
+> **Note (D-25).** D-25 moved the token migration to a one-way migration portal on Path A (Solana):
+> SPL AKT launches at L = V + 7d and S1 snapshot claims no longer carry AKT held in user accounts
+> ([03 §12.1](./03-solana-architecture.md)). The EVM claims design in this section is retained as
+> the design of the alternate path (Path B).
 
 Consumed by this architecture as follows: it is the only AKT minter besides `EmissionsMinter`
 (REQ-EVM-014); it operates the S1 Merkle distribution, the Wind-down Reserve, weekly residual

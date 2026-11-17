@@ -13,7 +13,7 @@ export const speakToExpertVariants = cva(
       },
       variant: {
         primary:
-          "border-primary dark:border-primary bg-primary/5 text-primary hover:bg-primary hover:text-white",
+          "border-primary dark:border-primary bg-primary/5 text-primary hover:bg-primary hover:text-primary-foreground",
         secondary:
           "bg-background text-para hover:border-primary hover:text-primary",
         ghost:

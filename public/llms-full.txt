@@ -108,7 +108,7 @@ GitHub can contain changes that have not shipped in a release or reached Homebre
 
 The current Console API funds deployments automatically from account credits; deployment creation does not take a deposit field. Older CLI clients and examples may require explicit USD deposits. Check `akt deploy --help`, `akt console deployment create --help`, and the release notes before automating managed deployment. Use a client that supports the current Console funding contract. Funding amounts and `uact` escrow for local chain signing are a separate interface from Console-managed funding.
 
-Sources: [akt releases](https://github.com/akash-network/akt/releases/latest), [official Homebrew formula](https://github.com/akash-network/homebrew-tap/blob/main/akt.rb), [akt installation](https://akash.network/docs/developers/deployment/akt/installation/), [funding documentation](https://akash.network/docs/getting-started/how-funding-works/).
+Sources: [akt releases](https://github.com/akash-network/akt/releases/latest), [official Homebrew formula](https://github.com/akash-network/homebrew-tap/blob/main/akt.rb), [akt installation](https://akash.network/docs/developers/akt/installation/), [funding documentation](https://akash.network/docs/getting-started/how-funding-works/).
 
 ### Contexts and identity
 
@@ -133,7 +133,7 @@ akt console whoami
 
 `akt console login` prompts for and stores a Console key. Automation can supply `AKT_CONSOLE_API_KEY` through its secret environment. Keep it out of committed configuration and transcripts. A bare owner-scoped chain query cannot infer the managed identity from a context without a local default account; use `akt console deployment list` or supply an explicit chain owner.
 
-Source: [akt configuration](https://akash.network/docs/developers/deployment/akt/configuration/).
+Source: [akt configuration](https://akash.network/docs/developers/akt/configuration/).
 
 ### Author and screen a workload before spending
 
@@ -205,28 +205,32 @@ A failure after deployment creation can leave paid state active. Preserve the re
 
 `akt context log` inspects recorded mutations. `akt store sync` reconciles tracked deployments with chain state. `akt monitor`, `akt monitor provider`, and `akt monitor bme` expose network, provider, and BME views; application uptime still needs its own health check.
 
-Sources: [installation](https://akash.network/docs/developers/deployment/akt/installation/), [deployments](https://akash.network/docs/developers/deployment/akt/deployments/), [Console integration](https://akash.network/docs/developers/deployment/akt/console/), [monitoring](https://akash.network/docs/developers/deployment/akt/monitor/).
+Sources: [installation](https://akash.network/docs/developers/akt/installation/), [deployments](https://akash.network/docs/developers/deployment/akt/deployments/), [Console integration](https://akash.network/docs/developers/deployment/akt/console/), [monitoring](https://akash.network/docs/developers/akt/monitor/).
 
 ## Managed deployment through the Console API
 
-The managed deployment API base is `https://console-api.akash.network`. Create the credential under Console Settings > API Keys and send it in `x-api-key`. This key can control the Console account, so keep it on a trusted server or in a secret environment rather than a browser bundle.
+The managed deployment API base is `https://console-api.akash.network`. Create the credential under Console Settings > API Keys and send it in `x-api-key`. A key acts in the account it was created in, the user's personal account or a team organization, with the creator's role there, and can be limited to one project. It can spend that account's credits, so keep it on a trusted server or in a secret environment rather than a browser bundle. Keys expire at most one year after creation (`POST /v1/api-keys` defaults `data.expiresAt` to one year and rejects later dates); an expired key returns `401 Unauthorized`, so rotate before expiry.
+
+In a team, `POST /v1/deployments` takes an optional `data.projectId`; without it the deployment goes to the only project the key can deploy into, else the team's default project, and `400` with code `project_required` means none fits. The optional `x-project-id` header limits any request to one project, and `x-organization-id` (id or slug) must match the key's organization if sent (`400` `organization_mismatch`). Other team codes: `organization_forbidden` (no longer a member), `project_forbidden` (project out of reach), `project_budget_exceeded` (the deposit would pass the project's monthly budget, nothing created), `project_limit_reached` (the organization already has 10 projects, default included), `organization_limit_reached` (the user already has 3 organizations they created), both `403` with `data.limit`, `session_required` (creating a team or accepting an invitation needs the Console web app).
 
 The current documented flow is:
 
 | Operation                       | Request                                                            | Result to retain/check                                    |
 | ------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------- |
 | Inspect platform funding rules  | `GET /v1/deployment-funding-config`                                | Current automatic funding parameters                      |
-| Create deployment               | `POST /v1/deployments` with `{"data":{"sdl":"<SDL as a string>"}}` | `data.dseq`, returned `data.manifest`, transaction result |
+| Create deployment               | `POST /v1/deployments` with `{"data":{"sdl":"<SDL as a string>"}}` | `data.dseq`, transaction result                           |
 | Poll bids                       | `GET /v1/bids?dseq=<dseq>`                                         | Open matching bids and each composite `bid.id`            |
-| Accept bids and submit manifest | `POST /v1/leases`                                                  | Selected leases and deployment status                     |
+| Accept bids                     | `POST /v1/leases` with only the selected bids                      | Selected leases and deployment status                     |
 | Inspect deployment              | `GET /v1/deployments/<dseq>`                                       | Current deployment, lease, and available status data      |
+| Change image, env or ports      | `PATCH /v1/deployments/<dseq>` with only the changed fields        | Updated deployment and its new `manifestVersion`          |
 | Close after exporting data      | `DELETE /v1/deployments/<dseq>`                                    | Closure state; eventual return of unused escrow           |
 
-Serialize SDL as a JSON string with a JSON library. The creation body has no deposit field under the current funding contract. Cache the exact rendered manifest returned by creation; raw SDL is not a substitute. Lease creation uses a different body shape from deployment creation:
+Creation needs no SDL when there is only an image: send `data.service` (`image`, `resources` with `cpu`, `memory`, `storage` and optional `gpu`, at least one entry in `ports`, optional `env`) and Console writes the SDL of one public service named `app` with one replica. `data.templateId` without `data.sdl` deploys a gallery template from `GET /v1/templates-list`, and `data.overrides` changes its image, env, command or ports per service. Send exactly one of `data.sdl`, `data.service` or `data.templateId`. Console records the SDL either way, so the deployment takes `PATCH` like any other. `data.secretEnv` on create and `PATCH` lists the env variables whose values Console encrypts; the other values stay readable, `[]` keeps all of them readable, and leaving it out (without `data.sealedSecrets`) encrypts every env value.
+
+Serialize SDL as a JSON string with a JSON library. The creation body has no deposit field under the current funding contract. Console records the SDL at creation and sends each provider its manifest when the lease is created, so the lease body carries only the selected bids. The `manifest` field on `POST /v1/leases` is deprecated; leave it out. Lease creation uses a different body shape from deployment creation:
 
 ```json
 {
-  "manifest": "<rendered manifest returned by deployment creation>",
   "leases": [
     {
       "dseq": "<dseq from the selected bid>",
@@ -238,13 +242,15 @@ Serialize SDL as a JSON string with a JSON library. The creation body has no dep
 }
 ```
 
-The sequence values above are placeholders; copy the selected bid's actual values. Follow the current schema for how the bid identity maps into the lease request. Do not assume that the first returned bid is the right provider, or that every group uses sequence 1.
+The sequence values above are placeholders; copy the selected bid's actual values. Follow the current schema for how the bid identity maps into the lease request. Do not assume that the first returned bid is the right provider, or that every group uses sequence 1. A `502` with code `provider_unreachable` created no lease, so choose another bid; with code `manifest_not_delivered` the lease exists, and repeating the same request retries delivery.
+
+To change a running deployment, send `PATCH /v1/deployments/<dseq>` with only the services and fields that change (image, environment, command, ports, mounts). The full-SDL `PUT` on the same path is deprecated. Compute resources, replica counts and globally exposed ports are fixed at creation; changing them takes a new deployment.
 
 Poll within a deadline, handle HTTP errors before reading successful response fields, and inspect chain transaction results where returned. After a request timeout, reconcile deployment/transaction state before retrying a create or lease operation. For live logs, events, or shell, use the documented provider access flow or akt Console commands, which obtain scoped authorization. Do not invent a Console endpoint from the name of a CLI command.
 
 Public marketplace endpoints, including provider listing, return indexed network data without a deployment key. They are useful for discovery, but their snapshots can lag changes in chain state or capacity. Direct chain RPC/gRPC and provider gateways are separate APIs with different authentication and semantics.
 
-Sources: [Console API getting started](https://akash.network/docs/api-documentation/console-api/getting-started/), [current API reference](https://akash.network/docs/api-documentation/console-api/api-reference/), [public REST API](https://akash.network/docs/api-documentation/rest-api/), [node API layer](https://akash.network/docs/node-operators/architecture/api-layer/).
+Sources: [Console API getting started](https://akash.network/docs/api-documentation/console-api/getting-started/), [organizations and projects through the API](https://akash.network/docs/api-documentation/console-api/organizations-and-projects/), [current API reference](https://akash.network/docs/api-documentation/console-api/api-reference/), [public REST API](https://akash.network/docs/api-documentation/rest-api/), [node API layer](https://akash.network/docs/node-operators/architecture/api-layer/).
 
 ## SDKs and delegated access
 
@@ -371,7 +377,7 @@ The `akash-network/akash-skill` repository provides separate skills for deployin
 
 The focused `akt-cli` skill teaches an agent to operate the installed CLI through a shell: inspect contexts, discover supported commands, author SDL, preview and run deployments, inspect provider state, and recover from partial failures. It preserves the requested network, resources, provider constraints, and budget; uses structured output; and reconciles existing deployments before retrying creation. It covers both chain signing and Console-managed workflows.
 
-Follow the [akt CLI agent skill guide](https://akash.network/docs/developers/deployment/akt/agent-skill/) to download and install it. Read the [main SKILL.md](https://akash.network/skills/akt-cli/SKILL.md), [setup](https://akash.network/skills/akt-cli/references/setup.md), [deployment recipes](https://akash.network/skills/akt-cli/references/deployments.md), and [troubleshooting](https://akash.network/skills/akt-cli/references/troubleshooting.md) directly as Markdown.
+Follow the [akt CLI agent skill guide](https://akash.network/docs/developers/akt/agent-skill/) to download and install it. Read the [main SKILL.md](https://akash.network/skills/akt-cli/SKILL.md), [setup](https://akash.network/skills/akt-cli/references/setup.md), [deployment recipes](https://akash.network/skills/akt-cli/references/deployments.md), and [troubleshooting](https://akash.network/skills/akt-cli/references/troubleshooting.md) directly as Markdown.
 
 The [ZIP download](https://akash.network/skills/akt-cli.zip) includes an `akt-cli/` directory containing the skill, all three references, `agents/openai.yaml`, and the upstream Apache 2.0 license. Keep these files together so relative links resolve. For Codex, install the directory at `.agents/skills/akt-cli/` in a project or `~/.agents/skills/akt-cli/` for user-wide access, then invoke `$akt-cli`. For other agents, use their supported skills location. The skill does not require MCP. Homebrew installs the CLI binary separately; it does not install the skill. When a release includes a skill bundle, prefer the one matching your installed binary.
 
@@ -392,7 +398,7 @@ The default exposes read-only tools. Available chain tools depend on the selecte
 
 An agent should preserve the chosen network, owner, provider, spending policy, and resulting deployment identifiers throughout an operation. Use structured output and confirm final state from the provider/application. Recovery should reconcile existing state instead of creating another deployment after every timeout.
 
-Sources: [AI agent guide](https://akash.network/docs/getting-started/ai-agents/), [Akash skill repository](https://github.com/akash-network/akash-skill), [akt MCP](https://akash.network/docs/developers/deployment/akt/mcp/).
+Sources: [AI agent guide](https://akash.network/docs/getting-started/ai-agents/), [Akash skill repository](https://github.com/akash-network/akash-skill), [akt MCP](https://akash.network/docs/developers/akt/mcp/).
 
 ## Experimental confidential compute
 
@@ -449,9 +455,34 @@ AKT supports network staking and governance. Akash Enhancement Proposals describ
 
 Sources: [node operators](https://akash.network/docs/node-operators/getting-started/), [validator operations](https://akash.network/docs/node-operators/validators/running-a-validator/), [network registry](https://github.com/akash-network/net), [network upgrades](https://akash.network/docs/node-operators/network-upgrades/), [roadmap](https://akash.network/roadmap/).
 
+## Move AKT to Solana with Akash Migrate
+
+Akash Migrate locks AKT on Akash and mints the same amount on Solana. Transfers are one way and use complete owner/height/sequence IDs. Relayers submit verified headers and proofs; independent reporters verify finalized outcomes. A confirmed void becomes refund-pending. Payment still requires the challenge deadline, current authorization, no hold, enabled refunds, queue priority, and available capacity. The standard challenge minimum is 72 hours.
+
+The following examples are verified against akt v1.1.1:
+
+```bash
+akt query sink params
+akt query sink reporters
+akt query sink state
+akt tx sink deposit <solana-address> 10akt
+akt query sink transfer '<owner>/<height>/<sequence>'
+akt query sink transfers <akash-address> refund-pending
+```
+
+Parameters and reporter policies are separate queries, not fields of state. Sending and refund quotas follow the native day epoch schedule. Reporter quorum is the member count multiplied by the decimal threshold, rounded up, and must exceed two thirds of the members.
+
+The CLI uses positional owner/status filters, positional guardian pauses, and propose-params/propose-void/propose-veto/propose-resolve governance helpers. Reports read current policy and round unless explicitly overridden. Follow the current command guide rather than older generated-message examples.
+
+Relayers and reporters live in akash-network/node under contracts/solana and have independent namespaced releases (relayer/vVERSION and reporter/vVERSION), Linux amd64 downloads, and ghcr.io/akash-network/akt-relayer and akt-reporter Docker images. The operator guides cover Docker Compose, all Compose environment variables, JSON configuration, raw private-key files including existing wallets, governance admission, preview/broadcast, monitoring and retained relayer journals. Deployment IDs are configured; the programs must implement the supported interface. Mainnet qualification remains separate. No npm, compiler, KMS or hardware wallet is required to run an image or downloaded package.
+
+Mainnet token: Akash (AKT), six decimals, mint `5d3fjPDdkYbtYcAMR9PC2TANaEyhzuyP8JxTEwqjVgBZ`. Use the [mainnet reference](https://akash.network/docs/learn/akash-migrate/mainnet/) for contract and multisig addresses, deployed artifacts, source pins and operator image digests. The reporter v0.1.4-rc1 release is a prerelease. The portal URL is not yet announced.
+
+Sources: [Akash Migrate](https://akash.network/docs/learn/akash-migrate/), [portal guide](https://akash.network/docs/learn/akash-migrate/portal/), [akt commands](https://akash.network/docs/developers/akt/sink/), [relayer and reporter operation](https://akash.network/docs/node-operators/akash-migrate/).
+
 ## Source scope and freshness
 
-Reviewed September 10, 2026; akt release guidance and agent skill updated September 12, 2026. This is a curated technical synthesis, not a verbatim export of every documentation page. The companion [llms.txt](https://akash.network/llms.txt) lists task-specific sources. Prefer current product documentation and version-matched source/schema over older tutorials. For live state, use chain queries, provider status, and the relevant product API.
+Reviewed September 10, 2026; akt release guidance and agent skill updated September 12, 2026. The Akash Migrate section was updated November 10, 2026 against akt v1.1.1, relayer v0.1.3 and reporter v0.1.4-rc1 (a prerelease). Product naming was updated November 11, 2026. This is a curated technical synthesis, not a verbatim export of every documentation page. The companion [llms.txt](https://akash.network/llms.txt) lists task-specific sources. Prefer current product documentation and version-matched source/schema over older tutorials. For live state, use chain queries, provider status, and the relevant product API.
 
 Sources include this website's documentation, the official akt repository and releases, installed CLI command help, the akt CLI skill and its supporting references, Console funding/API documentation, the official chain-sdk and Console Air repositories, the Akash skill repository, Awesome Akash templates, and AkashML's API documentation. Source links appear beside each topic. Check GitHub for current akt code and release versions; install or update the published binary through the official Homebrew tap or release assets.
 

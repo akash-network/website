@@ -45,7 +45,7 @@ To provide an alternative to the cloud oligopoly and to leverage this underutili
   
 **How Akash Can Help**  
   
-On Akash’s platform, developers (tenants) _set_ their own prices and allow cloud providers to _bid_ for the workload in a reverse auction.  Coupled with our economics, we’re able to save up to 10x on your cloud compute bill, and help cloud providers earn up to 4X more than AWS ([_Akash Token Economics_](https://akash.network/blog/2020/02/05/an-evolution-of-akash-network-token-economics/) _and_ [_Research_](https://akash.network/static/akash-econ.pdf)_)_.    
+On Akash’s platform, developers (tenants) _set_ their own prices and allow cloud providers to _bid_ for the workload in a reverse auction.  Coupled with our economics, we’re able to save up to 10x on your cloud compute bill, and help cloud providers earn up to 4X more than AWS ([_Akash Token Economics_](https://akash.network/blog/an-evolution-of-akash-network-token-economics/) _and_ [_Research_](https://ipfs.io/ipfs/QmdV52bF7j4utynJ6L11RgG93FuJiUmBH1i7pRD6NjUt6B)_)_.    
   
 ML/AI companies (or anyone with a computer) can become a node in our network to sell their excess compute, providing an additional income source and greater flexibility to ramp up or down based on your needs with:
 

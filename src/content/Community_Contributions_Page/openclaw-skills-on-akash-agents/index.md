@@ -11,7 +11,7 @@ tags:
   - AI Agents
 contributors:
   - Phoebe, Piber, Sandeep and Rodri
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 OpenClaw is an open-source AI agent that takes action on your behalf. This includes reading files, running commands, browsing the web, and managing your calendar, all through messaging apps like Telegram or Discord. Think of it as a personal assistant that works around the clock.

@@ -21,7 +21,7 @@ As a decentralized system, and the world’s first distributed cloud computing m
 
 **With 3,000,000 AKT in rewards, Supermini prizes, and 106 validators vying for 64 validator spots at Mainnet,** Challengers will need to leverage their technical and social prowess to maneuver their way to victory. Through The Akashian Challenge, participants are able to explore different aspects of our decentralized cloud computing platform.
 
-[**Get Started Now**](https://akash.network/docs/akashian/phase2)
+**Get Started Now**
 
 ### **Phase 1 Recap**
 
@@ -41,7 +41,7 @@ We were elated to see all the collaboration that occurred in Phase 1, and we’r
 
 **The Akashian Challenge Phase 2: DEX Operations will launch next Monday, June 29th at 1600 UTC / 9:00AM PST. Phase 2 will encompass three weeks of challenges.**
 
-**Check out our** [**Phase 2 Challenge Schedule**](https://akash.network/challenge/phase2/schedule) **and** [**Phase 2 Rewards Schedule**](https://akash.network/challenge/phase2/rewards) **to plan your strategy!**
+**Check out our** **Phase 2 Challenge Schedule** **and** **Phase 2 Rewards Schedule** **to plan your strategy!**
 
 To incentivize participants we’ve allocated 600,000 AKT for Phase 2 rewards.
 
@@ -132,7 +132,7 @@ The Week 3 challenge encompasses more throughput DEX testing, and encourages par
 **Phase 2 Rewards**  
 **\_\_\_\_\_**
 
-You can check out the [**Phase 2 Rewards Schedule**](https://akash.network/challenge/phase2/rewards) for a detailed schedule of reward opportunities. A total of **600,000 AKT** is allocated for Phase 2 Rewards that include:
+You can check out the **Phase 2 Rewards Schedule** for a detailed schedule of reward opportunities. A total of **600,000 AKT** is allocated for Phase 2 Rewards that include:
 
 1.  **One-Off Challenges**
 2.  **Phase Completion**
@@ -145,9 +145,9 @@ You can check out the [**Phase 2 Rewards Schedule**](https://akash.network/chall
 **Ready to Get Started?**  
 **\_\_\_\_\_\_**
 
-1.  **Review the** [**Challenge Schedule**](https://akash.network/challenge/phase2/schedule)
-2.  **Review the** [**Rewards Schedule**](https://akash.network/challenge/phase2/rewards)
-3.  **Check out the** [**Phase 2 Docs**](https://akash.network/docs/akashian/phase2)
+1.  **Review the** **Challenge Schedule**
+2.  **Review the** **Rewards Schedule**
+3.  **Check out the** **Phase 2 Docs**
 4.  **Plan for launch next Monday, June 29th at 1600 UTC / 9:00 AM PST**
 
 ###
@@ -157,4 +157,4 @@ You can check out the [**Phase 2 Rewards Schedule**](https://akash.network/chall
 
 Join [our Telegram](https://t.me/AkashNW) and [Riot](https://riot.im/app/#/room/#akashnet:matrix.org) to get the latest news, giveaways, and special invitations to events and AMAs!
 
-[**Get Started Now**](https://akash.network/docs/akashian/phase2)
+**Get Started Now**

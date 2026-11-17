@@ -5,10 +5,11 @@ draft: false
 external: true
 link: "https://x.com/mutter88126/status/2008071052061225451?s=20"
 categories:
+  - Content Creation
   - Student Ambassadors
 tags:
   - Student Ambassadors
 contributors:
   - "Alon Mutter"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

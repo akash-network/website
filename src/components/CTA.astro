@@ -3,7 +3,7 @@ import { shouldHideCta } from "@/utils/hideCta";
 import clsx from "clsx";
 
 const pathname = Astro.url.pathname;
-const disableMargin = ["/deploy", "/providers"];
+const disableMargin = ["/deploy"];
 
 const shouldHide = shouldHideCta(pathname);
 ---

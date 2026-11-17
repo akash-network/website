@@ -267,7 +267,7 @@ export default function Sort({
                     key={option.title}
                     className={({ active }) =>
                       classNames(
-                        active ? "bg-primary text-white" : "text-textGray",
+                        active ? "bg-primary text-primary-foreground" : "text-textGray",
                         "relative cursor-default select-none py-2 pl-8 pr-4",
                       )
                     }

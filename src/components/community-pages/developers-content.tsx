@@ -79,10 +79,10 @@ export default function DevelopersContent() {
             <div className="mx-auto flex max-w-[1080px] flex-col items-center gap-6">
                 {/* Header */}
                 <div className="flex flex-col items-center gap-4">
-                    <h2 className="text-center font-semibold text-[#09090b] dark:text-foreground text-[32px] leading-10 px-6 sm:px-0">
+                    <h2 className="text-center font-semibold text-foreground text-[32px] leading-10 px-6 sm:px-0">
                         Power Your Applications with Decentralized Compute
                     </h2>
-                    <p className="max-w-6xl text-center text-base leading-6 text-[#71717a] dark:text-para font-normal">
+                    <p className="max-w-6xl text-center text-base leading-6 text-muted-foreground font-normal">
                         Akash Network provides high-performance GPU and CPU power for the next generation of decentralized applications.
                         Stop overpaying for centralized cloud monopolies and start building on the permissionless Supercloud.
                     </p>
@@ -101,7 +101,7 @@ export default function DevelopersContent() {
                     </a>
                     <a
                         href="/docs"
-                        className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-8 py-2.5 text-sm font-medium text-[#171717] dark:text-foreground transition-colors hover:bg-[#ebebeb]"
+                        className="inline-flex items-center gap-2 rounded-lg bg-[#f5f5f5] dark:bg-background2 px-8 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-[#ebebeb]"
                     >
                         View Documentation
                         <ArrowUpRightIcon className="h-4 w-4" />
@@ -118,10 +118,10 @@ export default function DevelopersContent() {
                                     <span className="text-2xl">{item.emoji}</span>
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                    <h4 className="text-lg font-semibold text-[#11181c] dark:text-foreground md:text-xl">
+                                    <h4 className="text-lg font-semibold text-foreground md:text-xl">
                                         {item.title}
                                     </h4>
-                                    <p className="text-sm text-[#71717a] dark:text-para md:text-base">
+                                    <p className="text-sm text-muted-foreground md:text-base">
                                         {item.desc}
                                     </p>
                                 </div>
@@ -169,7 +169,7 @@ export default function DevelopersContent() {
                                 {consoleFeatures.map((item, i) => (
                                     <div key={i} className="flex items-start gap-5">
                                         <div className="flex h-10 w-10 shrink-0 bg-background items-center justify-center rounded-lg border border-[#e5e5e5]">
-                                            <item.icon className="h-5 w-5 text-[#232323] dark:text-white" />
+                                            <item.icon className="h-5 w-5 text-foreground" />
                                         </div>
                                         <div className="flex flex-col gap-1">
                                             <h4 className="text-base font-semibold text-[#fafafa]">

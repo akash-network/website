@@ -47,7 +47,7 @@ The Pinterest app backs up to Skynet using [Filebase](https://filebase.com/), a 
 
 Filebase’s S3 Compatible API functions as a drop-in replacement for existing applications and tools that use Amazon S3, and Filebase’s backend connects to both Sia and Skynet enabling data to be stored at the lowest cost possible. Filebase object storage has also been validated for use with several Kubernetes backup tools.
 
-With this integration from Filebase, apps running on Akash can now backup, restore, and migrate a database by connecting the containers running on Akash to persistent storage on Skynet. The [Akash documentation site](http://docs.akash.network/) has been updated with the official guides to run your own [Pinterest app on Rails](https://github.com/ovrclk/akash-on-rails) and a spin off to simply [backup and restore Postgres](https://akash.network/docs/deploy/postgresql-restore-backup) to Skynet storage.
+With this integration from Filebase, apps running on Akash can now backup, restore, and migrate a database by connecting the containers running on Akash to persistent storage on Skynet. The [Akash documentation site](http://docs.akash.network/) has been updated with the official guides to run your own [Pinterest app on Rails](https://github.com/ovrclk/akash-on-rails) and a spin off to simply [backup and restore Postgres](https://github.com/akash-network/awesome-akash/tree/master/postgres-restore) to Skynet storage.
 
 ### **The “Full Stack” Integration**
 
@@ -55,7 +55,7 @@ One challenge for new developers is making architecture decisions on which stack
 
 Akash Founder and CEO, Greg Osuri launched a [challenge on Twitter](https://twitter.com/gregosuri/status/1390090199728676864) offering a $2,140 reward for the first developer to integrate Akash and [Skynet](http://siasky.net/) with a unique requirement, use Skynet as the front-end and Akash as the back-end to create a “full-stack” decentralized web application.
 
-This challenge was met quickly by the developers in the Akash and Skynet community. The [Unstoppable Web 2.0](https://akash.network/docs/deploy/unstoppable-web-2.0) project includes everything necessary for a fully decentralized web app. The application code, technology choices, and configuration used in this project provides a software development tool kit for future developers. The solution uses Skynet for the front-end, Akash for the back-end - running Postgres, and Filebase for the database backups to Skynet.
+This challenge was met quickly by the developers in the Akash and Skynet community. The Unstoppable Web 2.0 project includes everything necessary for a fully decentralized web app. The application code, technology choices, and configuration used in this project provides a software development tool kit for future developers. The solution uses Skynet for the front-end, Akash for the back-end - running Postgres, and Filebase for the database backups to Skynet.
 
 The full stack solution for a decentralized web is now a reality, with [Skynet](http://siasky.net/) as the front-end, Akash as the back-end app and database, and Filebase and Skynet as the backup. Each step of this partnership has been supported and developed by the community.
 

@@ -166,7 +166,7 @@ export default function SearchDialog({ currentPath }: { currentPath: string }) {
 const ProjectCard = ({ title, link }: { title: string; link: string }) => {
   return (
     <a href={link}>
-      <div className="hover:bg-primary/10 flex cursor-pointer items-center justify-between rounded-lg p-4 text-[#808080] hover:text-primary md:px-6 md:py-4">
+      <div className="hover:bg-primary/10 flex cursor-pointer items-center justify-between rounded-lg p-4 text-muted-foreground hover:text-primary md:px-6 md:py-4">
         <div className="w-[85%]">
           <h3 className="text-base font-bold  md:text-lg">{title}</h3>
         </div>

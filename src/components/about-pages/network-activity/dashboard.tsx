@@ -846,7 +846,7 @@ export function Dashboard({
                     {block.height}
                   </a>
                 </td>
-                <td className="flex w-fit text-[10px] font-bold text-[#808080] md:py-[16px] md:text-base">
+                <td className="flex w-fit text-[10px] font-bold text-muted-foreground md:py-[16px] md:text-base">
                   <a
                     href={`https://stats.akash.network/validators/${
                       block.proposer.operatorAddress
@@ -858,10 +858,10 @@ export function Dashboard({
                     {getShortText(block.proposer.moniker, 20)}
                   </a>
                 </td>
-                <td className="text-[10px] font-bold text-[#808080] md:py-[16px] md:text-base">
+                <td className="text-[10px] font-bold text-muted-foreground md:py-[16px] md:text-base">
                   {block.transactionCount}
                 </td>
-                <td className="text-[10px] font-bold text-[#808080] md:py-[16px] md:text-base">
+                <td className="text-[10px] font-bold text-muted-foreground md:py-[16px] md:text-base">
                   <FormattedRelativeTime
                     value={
                       (new Date(block.datetime).getTime() -
@@ -918,7 +918,7 @@ export function Dashboard({
                     {getShortText(transaction.hash, 15)}
                   </a>
                 </td>
-                <td className="text-[10px] font-bold text-[#808080] md:py-[16px] md:text-base">
+                <td className="text-[10px] font-bold text-muted-foreground md:py-[16px] md:text-base">
                   {transaction.messages[0].isReceiver
                     ? "Receive"
                     : useFriendlyMessageType(transaction.messages[0].type)}
@@ -927,10 +927,10 @@ export function Dashboard({
                     ? " +" + (transaction.messages.length - 1)
                     : ""}
                 </td>
-                <td className="text-[10px] font-bold text-[#808080] md:py-[16px] md:text-base">
+                <td className="text-[10px] font-bold text-muted-foreground md:py-[16px] md:text-base">
                   {transaction.height}
                 </td>
-                <td className="text-[10px] font-bold text-[#808080] md:py-[16px] md:text-base">
+                <td className="text-[10px] font-bold text-muted-foreground md:py-[16px] md:text-base">
                   <FormattedRelativeTime
                     value={
                       (new Date(transaction.datetime).getTime() -

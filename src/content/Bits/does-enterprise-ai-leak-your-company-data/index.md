@@ -1,7 +1,7 @@
 ---
 title: "Does Enterprise AI Leak Your Company Data? The Reverse Information Paradox Explained"
 pubDate: 2026-07-22
-lastUpdated: 2026-07-22
+lastUpdated: 2026-10-22
 author: "Joe, Community Manager"
 description: "Microsoft CEO Satya Nadella's Reverse Information Paradox explains how enterprises leak proprietary know-how to AI vendors. Here is why it happens and how open models on compute you control fix it."
 tags: ["Enterprise AI", "Open Source AI", "AI Privacy", "AkashML"]
@@ -9,7 +9,7 @@ bannerImage: ./banner.webp
 draft: false
 ---
 
-*Last updated: July 2026*
+*Last updated: October 2026*
 
 The Reverse Information Paradox, coined by Microsoft CEO Satya Nadella in a July 2026 essay, is the problem that enterprises using AI pay twice: once in cash, and again in the proprietary knowledge they must feed a model to make it useful. The fix is to run open models on compute you control, so that knowledge compounds for your firm instead of your vendor.
 
@@ -68,3 +68,5 @@ Less than the boundary around it, for most enterprise work. Open-weight models h
 **How is an open-source model more private than a closed one?** Privacy comes from where the model runs, not just its license. An open-weight model hosted on compute you control keeps your prompts, traces, and corrections inside your own boundary, so they never enter a vendor's learning loop. A closed model sends that same data to infrastructure the vendor operates.
 
 **How much cheaper is open-model inference?** Akash reports AkashML inference from around $0.15 per million tokens, with up to 85% savings versus centralized AI inference providers, as of July 2026. Actual savings depend on model, throughput, and whether you use managed inference or your own container.
+
+**What challenges does generative AI face with respect to data?** The biggest is that generative AI needs your proprietary data to be useful, and on a closed, vendor-hosted model that data leaks out through prompts, corrections, and evals, the problem Satya Nadella calls the Reverse Information Paradox. The other challenges follow from it: you cannot audit what the vendor retains or learns, your know-how compounds for the vendor instead of for you, and switching gets harder the more of your workflow the model absorbs. Running open-weight models on compute you control, through [AkashML](/blog/akashml-managed-ai-inference-on-the-decentralized-supercloud/) or your own container on [on-demand GPUs](/gpus-on-demand/), keeps that data inside your boundary.

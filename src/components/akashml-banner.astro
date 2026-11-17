@@ -1,0 +1,57 @@
+---
+import { ArrowUpRight } from "lucide-react";
+
+// AkashML promo card for blog posts: in the sidebar from md up, after the
+// article on phones. Dark in both themes, like the AkashML site; the logo SVG
+// is black and is inverted to white here. The dark: border repeats the colour
+// because the global .border rule sets its own colour under .dark.
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "relative overflow-hidden rounded-xl border border-white/10 bg-neutral-950 p-6 text-neutral-50 dark:border-white/10",
+    className,
+  ]}
+>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -bottom-28 -right-20 size-72 rounded-full bg-[radial-gradient(closest-side,rgba(214,158,92,0.28),transparent)]"
+  >
+  </div>
+
+  <img
+    src="/logos/akashml.svg"
+    alt="AkashML"
+    width="139"
+    height="22"
+    class="relative h-5 w-auto brightness-0 invert"
+  />
+
+  <p
+    class="relative mt-6 text-xl leading-snug tracking-[-0.02em] text-neutral-50"
+  >
+    Fast, affordable inference for open models
+  </p>
+  <p class="relative mt-2 text-sm leading-6 text-neutral-400">
+    Run Llama, Qwen, GLM and more on Akash's open compute marketplace.
+    <span class="whitespace-nowrap">Drop-in</span> API compatibility means you can
+    switch in minutes.
+  </p>
+
+  <a
+    href="https://akashml.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="relative mt-6 inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-neutral-50 px-4 text-sm font-medium text-neutral-950 outline-none transition-colors hover:bg-neutral-200 focus-visible:ring-[3px] focus-visible:ring-neutral-500/50"
+  >
+    Try AkashML
+    <span class="sr-only">(opens in a new tab)</span>
+    <ArrowUpRight className="size-4" aria-hidden="true" />
+  </a>
+</div>

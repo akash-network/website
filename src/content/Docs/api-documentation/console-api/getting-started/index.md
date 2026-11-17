@@ -19,11 +19,24 @@ Note: The Console API is actively developed. See the changelog ([https://github.
 
 1. Visit [console.akash.network](https://console.akash.network)
 2. Sign in with your account
-3. Navigate to **Settings** → **API Keys**
-4. Click **"Create API Key"**
-5. Copy and save your API key securely
+3. If the key is for a team, switch to that organization in the top bar. A key acts in the account it was created in.
+4. Navigate to **Settings** → **API Keys**
+5. Click **"Create API Key"** and pick when it expires: 30 days, 90 days, 1 year or a custom date. In a team you can also pick a **Project** to limit the key to it.
+6. Copy and save your API key securely
 
-> Warning: API keys grant full access to your Console account. Keep them secret.
+> Warning: An API key can do everything your role allows in the account it was created in, unless you limit it to one project. Keep it secret.
+
+### Key Expiration
+
+Every API key expires, at most one year after it is created. A key created through `POST /v1/api-keys` takes an optional `data.expiresAt` (ISO 8601 date-time) that must be in the future and at most one year from now. Without it, the key expires one year after it is created. Asking for a later date returns `400 Bad Request`.
+
+Console emails the key's owner up to three reminders, 30, 7 and 1 day before the key expires. After that, requests made with the key return `401 Unauthorized`.
+
+To rotate a key:
+
+1. Create a new key under **Settings** → **API Keys**
+2. Update your integration to use the new key and confirm it works
+3. Revoke the old key from the API keys page, or with `DELETE /v1/api-keys/{id}`
 
 ### Authentication
 
@@ -42,11 +55,28 @@ If the key is missing or invalid, the API returns `401 Unauthorized`:
 { "error": "Unauthorized", "message": "Invalid API key" }
 ```
 
+An expired key also returns `401 Unauthorized`, with the message `API key has expired`.
+
 Security practices:
 
 - Store the key in an environment variable (`AKASH_API_KEY`), never in source code.
-- Rotate keys in Console under Settings → API Keys to keep your workflows safe in case of key compromise.
-- Keys grant full access to your Console account, so treat them like passwords.
+- Rotate keys in Console under Settings → API Keys before they expire, and right away if a key may be compromised.
+- Keys act with your role in their account, so treat them like passwords. Limit a key to one project when it only works there.
+
+### Organizations and projects
+
+If you belong to a team, two optional headers matter:
+
+- `x-organization-id`: the organization (id or slug) a request runs in. An API key already decides it, so you only need the header to double-check: naming another organization answers `400` with code `organization_mismatch`.
+- `x-project-id`: limits a request to one project. Lists only show that project's deployments, and new deployments go into it.
+
+```bash
+curl https://console-api.akash.network/v1/deployments \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "x-project-id: $PROJECT_ID"
+```
+
+See [Organizations and Projects](/docs/api-documentation/console-api/organizations-and-projects) for project-bound keys, deploying into a project and the error codes.
 
 ### Response envelope
 
@@ -60,7 +90,7 @@ All examples in this guide show the full response body — extract the value you
 
 ### Money fields
 
-The Managed Wallet bills your Console account in **USD** (credit card). You add credits to the account, and Console funds your deployments from that balance on its own. Creating a deployment takes no deposit, and keeping one running takes no top-up call. See [How Funding Works](/docs/getting-started/how-funding-works) for the full model, or read the current platform figures from `GET /v1/deployment-funding-config`.
+The Managed Wallet bills your Console account in **USD** (credit card). You add credits to the account, and Console funds your deployments from that balance on its own. In a team, deployments are funded from the team's own balance, not yours. Creating a deployment takes no deposit, and keeping one running takes no top-up call. See [How Funding Works](/docs/getting-started/how-funding-works) for the full model, or read the current platform figures from `GET /v1/deployment-funding-config`.
 
 The blockchain itself works in raw on-chain denoms (`uact`, `uusdc`, …). Wherever you see `price.denom` / `price.amount` in a bid response or an `escrow_account.state.funds` entry, those are raw chain values in micro-units (1 ACT = 1 000 000 uact). The SDL `pricing` block also uses chain denoms — the managed wallet handles the USD ↔ chain conversion for you.
 
@@ -115,6 +145,10 @@ Response (`201 Created`):
   }
 }
 ```
+
+You don't need to keep `manifest`. Console records the SDL and sends the provider its manifest when you create the lease.
+
+In a team, add `"projectId"` to `data` to pick the project the deployment goes into. Without it, Console uses the only project you can deploy into (such as the project of a project-bound key or of the `x-project-id` header), otherwise the team's default project. See [Deploy into a project](/docs/api-documentation/console-api/organizations-and-projects#deploy-into-a-project).
 
 ---
 
@@ -206,9 +240,9 @@ async function waitForBids(dseq, { pollMs = 3000, maxAttempts = 20 } = {}) {
 
 ### 3. Create Lease
 
-Accept one or more bids to activate the deployment lease(s) and send the manifest to the chosen provider(s) in a single call.
+Accept one or more bids to activate the deployment lease(s). Console creates the leases, then sends each chosen provider the manifest built from the SDL it recorded when you created the deployment, so the request carries only the bids.
 
-Pick the bid(s) you want, then build the `leases[]` array from the bid id (omitting `owner` and `bseq`). The `manifest` field is the rendered manifest produced by the SDL — you can re-use the manifest hash returned by `POST /v1/deployments` if you cached it.
+Pick the bid(s) you want, then build the `leases[]` array from the bid id (omitting `owner` and `bseq`). A `manifest` field is still accepted but deprecated, so leave it out.
 
 cURL:
 
@@ -217,7 +251,6 @@ curl -X POST https://console-api.akash.network/v1/leases \
   -H "x-api-key: $AKASH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "manifest": "<MANIFEST_FROM_CREATE_DEPLOYMENT>",
     "leases": [
       { "dseq": "1234567", "gseq": 1, "oseq": 1, "provider": "akash1providerxxx..." }
     ]
@@ -235,7 +268,6 @@ const res = await fetch("https://console-api.akash.network/v1/leases", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    manifest,
     leases: [
       {
         dseq: chosen.dseq,
@@ -291,6 +323,8 @@ Response (`200 OK`) is the same shape as `GET /v1/deployments/{dseq}` — the fu
   }
 }
 ```
+
+If a provider can't be reached, the call answers `502`. With code `provider_unreachable` no lease was created, so pick another bid. With code `manifest_not_delivered` the lease exists but the provider didn't take the manifest: send the same request again to retry, or close the deployment to stop paying for it.
 
 ---
 
@@ -595,7 +629,7 @@ For attestation, the security model, and supported hardware, see the [Confidenti
 - **Never commit API keys** to version control
 - **Use environment variables** for API keys
 - **Rotate keys regularly** as a security best practice
-- **Restrict key permissions** if possible
+- **Limit a key to one project** when it only deploys there
 
 ```typescript
 // Good: use environment variables
@@ -614,19 +648,24 @@ Use HTTP status codes to determine recovery behavior.
 | 200 OK                    | Request succeeded  | -                                                      |
 | 201 Created               | Resource created   | `POST /v1/deployments`, `POST /v2/deployment-settings` |
 | 400 Bad Request           | Invalid input      | Malformed SDL, missing required field                  |
-| 401 Unauthorized          | Auth failed        | Missing or invalid `x-api-key`                         |
-| 404 Not Found             | Resource not found | `dseq` does not exist or belongs to another user       |
+| 401 Unauthorized          | Auth failed        | Missing, invalid or expired `x-api-key`                |
+| 403 Forbidden             | Not allowed        | Your role, the key's project or a project budget does not allow it |
+| 404 Not Found             | Resource not found | `dseq` does not exist or is out of your reach          |
 | 429 Rate Limited          | Rate limited       | Polling interval too fast or burst of requests         |
 | 500 Internal Server Error | Server error       | Retry with exponential backoff                         |
 
-Error response shape:
+Error response shape. When the API knows the precise reason, `code` carries it:
 
 ```json
 {
-  "error": "BadRequest",
-  "message": "SDL validation failed: missing 'profiles' section"
+  "error": "ForbiddenError",
+  "message": "The project is not reachable in this organization",
+  "code": "project_forbidden",
+  "type": "client_error"
 }
 ```
+
+The organization and project codes are `organization_forbidden`, `organization_mismatch`, `project_forbidden`, `project_required`, `project_budget_exceeded`, `project_limit_reached`, `organization_limit_reached` and `session_required`. See [Errors](/docs/api-documentation/console-api/organizations-and-projects#errors) for what each one means.
 
 ### Polling for Bids
 
@@ -659,6 +698,7 @@ Poll every 3 seconds for 30–60 seconds, then back off or return a timeout erro
 
 - **[API Reference](/docs/api-documentation/console-api/api-reference)** - Complete endpoint documentation
 - **[Quickstart](/docs/api-documentation/console-api/quickstart)** - End-to-end deployment in five API calls
+- **[Organizations and Projects](/docs/api-documentation/console-api/organizations-and-projects)** - Teams, projects and project-bound keys through the API
 - **[SDL Reference](/docs/developers/deployment/akash-sdl)** - SDL syntax guide
 - **[Console Documentation](/docs/developers/deployment/akash-console)** - Console overview
 - **[Confidential Compute (TEE)](/docs/learn/core-concepts/confidential-compute)** - Attestation and security model

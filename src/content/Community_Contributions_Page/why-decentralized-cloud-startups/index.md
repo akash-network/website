@@ -10,7 +10,7 @@ tags:
 contributors:
   - Helen Hui
 link: "https://www.linkedin.com/pulse/why-decentralized-cloud-startups-have-weaker-early-moats-helen-hui-zef1e"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 Decentralized cloud startups face a paradox: they're building some of the most defensible long-term infrastructure in tech, but in the early stages they look weaker than their centralized rivals.

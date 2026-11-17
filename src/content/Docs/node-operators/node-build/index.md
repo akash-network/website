@@ -33,7 +33,7 @@ The [CLI build](/docs/node-operators/node-build/cli-build) guide uses `curl` and
 **Time:** 15-30 minutes (setup) + sync time
 
 **Requirements:**
-- Ubuntu 24.04 LTS
+- Ubuntu 26.04 LTS (24.04 LTS also supported)
 - 4 CPU cores
 - 8 GB RAM
 - 100 GB SSD storage (minimum), 1 TB recommended

@@ -5,10 +5,11 @@ draft: false
 external: true
 link: "https://github.com/tharune/cumulant"
 categories:
+  - Hackathons
   - Student Ambassadors
 tags:
   - Student Ambassadors
 contributors:
   - "Tharun Ekambaram"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---

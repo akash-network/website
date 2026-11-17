@@ -1,0 +1,30 @@
+---
+import { buttonClass } from "@/components/pricing-page/shared/ui";
+import type { GpuLink } from "@/lib/gpu-detail-pages";
+import { cn } from "@/lib/utils";
+
+type Props = {
+  links: GpuLink[];
+  class?: string;
+};
+
+const { links, class: className } = Astro.props;
+// The first link is the primary action, the second an outline button, and any others are
+// quieter ghost links.
+const variants = ["primary", "outline"] as const;
+---
+
+<div class={cn("flex flex-wrap gap-3", className)}>
+  {
+    links.map((link, index) => (
+      <a
+        href={link.href}
+        target={link.external ? "_blank" : undefined}
+        rel={link.external ? "noopener noreferrer" : undefined}
+        class={buttonClass(variants[index] ?? "ghost")}
+      >
+        {link.label}
+      </a>
+    ))
+  }
+</div>

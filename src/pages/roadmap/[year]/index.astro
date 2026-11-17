@@ -37,7 +37,7 @@ const { quarters, years } = Astro.props;
 const { year } = Astro.params;
 ---
 
-<Layout title={`${title} - ${year}`}>
+<Layout title={`${title} - ${year}`} image="/meta-images/roadmap.webp">
   <TopMargin className="flex flex-col min-h-screen" isNotContainer>
     <Roadmap
       year={Number(year)}

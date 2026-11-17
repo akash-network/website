@@ -1,0 +1,86 @@
+---
+import BlogControls, { type BlogScope } from "@/components/blog/blog-controls";
+import CategoryNav from "@/components/blog/category-nav.astro";
+import {
+  byNewest,
+  getBlogCategories,
+  getBlogTopics,
+  getPostTopicSlugs,
+  isCaseStudy,
+  toCategorySlug,
+} from "@/utils/blogTaxonomy";
+import { getCollection } from "astro:content";
+
+// Header of the blog listings: the current category as the page heading, the
+// category links (category-nav.astro) and the filter, sort and layout
+// controls.
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const posts = (await getCollection("Blog")).sort(byNewest);
+const blogPosts = posts.filter((post) => !isCaseStudy(post));
+const categories = getBlogCategories(posts);
+
+const items = [
+  { key: "all", label: "All", href: "/blog" },
+  ...[...categories].map(([slug, label]) => ({
+    key: slug,
+    label,
+    href: `/blog/${slug}/1`,
+  })),
+  { key: "archived", label: "Archive", href: "/blog/archived" },
+];
+
+// /blog, /blog/2 -> all; /blog/<category>/1 -> category; /blog/archived -> archived
+const segment = decodeURIComponent(
+  Astro.url.pathname.split("/")[2] ?? "",
+).toLowerCase();
+const active = !segment || /^\d+$/.test(segment) ? "all" : segment;
+const heading = items.find((item) => item.key === active)?.label ?? "All";
+
+const scope: BlogScope =
+  active === "all"
+    ? { kind: "all" }
+    : active === "archived"
+      ? { kind: "archived" }
+      : { kind: "category", slug: active };
+
+// Filter options offered for the posts of this listing only.
+const scopePosts = blogPosts.filter((post) =>
+  active === "all"
+    ? !post.data.archive
+    : active === "archived"
+      ? post.data.archive === true
+      : post.data.categories.some((c) => toCategorySlug(c) === active),
+);
+const allTopics = getBlogTopics(blogPosts);
+const allTopicSlugs = new Set(allTopics.map((topic) => topic.slug));
+const scopeTopicSlugs = new Set(
+  scopePosts.flatMap((post) => getPostTopicSlugs(post, allTopicSlugs)),
+);
+const topics = allTopics.filter((topic) => scopeTopicSlugs.has(topic.slug));
+const years = [
+  ...new Set(scopePosts.map((post) => post.data.pubDate.getUTCFullYear())),
+].sort((a, b) => b - a);
+---
+
+<div class={className}>
+  <h1 class="text-3xl md:text-4xl lg:text-5xl">{heading}</h1>
+
+  <div
+    class="mt-6 flex flex-col gap-3 lg:mt-8 lg:flex-row lg:items-start lg:gap-6"
+  >
+    <CategoryNav
+      items={items}
+      active={active}
+      label="Blog categories"
+      class="lg:flex-1"
+    />
+
+    <BlogControls client:load scope={scope} topics={topics} years={years} />
+  </div>
+</div>

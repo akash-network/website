@@ -3,7 +3,7 @@ import Hero from "@/components/home/hero/hero.astro";
 import ProductShowcaseSection from "@/components/home/product-showcase.astro";
 import InfraCarouselSection from "@/components/home/infra-carousel.astro";
 import HowItWorksSection from "@/components/home/how-it-works.astro";
-import NetworkGlobeSection from "@/components/home/network-globe.astro";
+import NetworkExplorerSection from "@/components/home/network-explorer.astro";
 import HomeCta from "@/components/home/HomeCta.astro";
 import RazerCaseStudySection from "@/components/home/razer-case-study.astro";
 import TrustedBy from "@/components/home/trustedby/trusted-by.astro";
@@ -32,17 +32,6 @@ const { heroSection } = homepage?.data;
     imagesizes="(max-width: 1136px) 100vw, 1136px"
     slot="head"
   />
-  <!-- ContentSquare - deferred -->
-  <script is:inline slot="head">
-    window.addEventListener("load", function () {
-      setTimeout(function () {
-        var s = document.createElement("script");
-        s.src = "https://t.contentsquare.net/uxa/f3d653170e755.js";
-        s.async = true;
-        document.head.appendChild(s);
-      }, 200);
-    });
-  </script>
   <div>
     <Hero heroSection={heroSection} />
     <div class="h-fit w-full bg-background dark:bg-[#030303]">
@@ -64,7 +53,7 @@ const { heroSection } = homepage?.data;
       <RazerCaseStudySection />
     </div>
     <div class="h-fit w-full bg-zinc-50 dark:bg-black">
-      <NetworkGlobeSection />
+      <NetworkExplorerSection />
     </div>
     <HomeCta />
   </div>

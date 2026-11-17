@@ -4,11 +4,12 @@ import TopMargin from "@/components/ui/top-margin.astro";
 import { ChevronRight } from "lucide-react";
 import { FAQ } from "@/components/token-page/faq";
 import NetworkGlobeSection from "@/components/home/network-globe.astro";
+import { BecomeProviderButton } from "@/components/ecosystem-pages/providers-page/BecomeProviderButton";
 
 // FAQ answers verified against akash.network/docs/providers on 2026-09-11.
-// Setup and installation docs confirm Ubuntu 24.04 LTS on x86_64 via the
-// official Provider Playbook (Ansible) or Kubespray, with Provider Console
-// as an alternative no-Kubernetes-expertise path. The docs do not document a
+// Setup and installation docs confirm Ubuntu 26.04 LTS (or 24.04 LTS) on x86_64 via the
+// official Provider Playbook (Ansible) or Kubespray. Provider Console is now
+// for managing a running provider, not setting one up. The docs do not document a
 // provider-side mechanism to restrict which deployments may lease capacity —
 // provider attributes are documented as an advertisement/matching system,
 // not a gating one — so the sentence claiming otherwise was removed.
@@ -16,7 +17,7 @@ const faqs = [
   {
     title: "What technical stack is required to run a secure provider node?",
     description:
-      "A Kubernetes cluster on Ubuntu 24.04 LTS (x86_64), a public IP, and the ports the provider service and tenant ingress need. Setup runs through the official Provider Playbook (Ansible) or the Provider Console. GPU nodes use the NVIDIA GPU Operator, installed as part of the playbook.",
+      "A Kubernetes cluster on Ubuntu 26.04 LTS or 24.04 LTS (x86_64), a public IP, and the ports the provider service and tenant ingress need. Setup runs through the official Provider Playbook (Ansible), and Provider Console is where you manage the provider once it is live. GPU nodes use the NVIDIA GPU Operator, installed as part of the playbook.",
   },
   {
     title: "Are tenants isolated securely enough to run safely on my hardware?",
@@ -55,7 +56,7 @@ const hardware = [
 <Layout
   title="Become a Compute Provider — Akash Network"
   description="Connect your servers to Akash and let tenants bid on unused CPU, GPU, memory, and storage. You set the price floor. Payment is escrowed upfront and streams while the lease runs."
-  image="/meta-images/providers.jpg"
+  image="/meta-images/providers.webp"
 >
   <Fragment slot="head">
     <script is:inline type="application/ld+json" set:html={JSON.stringify({
@@ -75,7 +76,7 @@ const hardware = [
       <!-- HERO -->
       <section class="space-y-8 pt-4">
         <div class="space-y-5">
-          <h1 class="max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 class="max-w-3xl text-4xl font-semibold leading-tight tracking-tight md:tracking-tighter text-foreground md:text-5xl lg:text-6xl">
             Earn revenue from idle data center capacity
           </h1>
           <p class="max-w-2xl text-base font-normal text-para">
@@ -83,14 +84,10 @@ const hardware = [
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
-          <a
-            href="https://provider-console.akash.network/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
-          >
-            Become a Provider <ChevronRight size={14} className="ml-1.5" />
-          </a>
+          <BecomeProviderButton
+            client:idle
+            className="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          />
           <a
             href="/pricing/provider-calculator/"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"
@@ -160,7 +157,7 @@ const hardware = [
         <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
           <div class="rounded-xl border border-border bg-background2 p-7 space-y-3">
             <p class="text-xs font-medium uppercase tracking-widest text-para">Pricing</p>
-            <h3 class="font-sans text-lg !font-medium leading-snug tracking-tight text-foreground">
+            <h3 class="font-sans text-lg !font-medium leading-snug text-foreground">
               You set the floor
             </h3>
             <p class="text-sm font-normal leading-relaxed text-para">
@@ -169,7 +166,7 @@ const hardware = [
           </div>
           <div class="rounded-xl border border-border bg-background2 p-7 space-y-3">
             <p class="text-xs font-medium uppercase tracking-widest text-para">Payments</p>
-            <h3 class="font-sans text-lg !font-medium leading-snug tracking-tight text-foreground">
+            <h3 class="font-sans text-lg !font-medium leading-snug text-foreground">
               No invoicing
             </h3>
             <p class="text-sm font-normal leading-relaxed text-para">
@@ -226,7 +223,7 @@ const hardware = [
       <!-- PAGE CLOSER -->
       <section class="mt-20 flex flex-col items-center space-y-8 text-center md:mt-44">
         <div class="space-y-5">
-          <h2 class="text-5xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl lg:text-7xl">
+          <h2 class="text-5xl font-semibold leading-tight tracking-tighter text-foreground md:text-6xl lg:text-7xl">
             Start earning
           </h2>
           <p class="max-w-2xl text-base font-normal text-para">
@@ -234,14 +231,10 @@ const hardware = [
           </p>
         </div>
         <div class="flex flex-wrap justify-center gap-3">
-          <a
-            href="https://provider-console.akash.network/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
-          >
-            Become a Provider <ChevronRight size={14} className="ml-1.5" />
-          </a>
+          <BecomeProviderButton
+            client:idle
+            className="inline-flex items-center rounded-md border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+          />
           <a
             href="/pricing/provider-calculator/"
             class="inline-flex items-center rounded-md border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-badgeColor"

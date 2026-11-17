@@ -35,13 +35,13 @@ Download Cloudmos using the links below.
 
 [Download Keplr Wallet](https://www.keplr.app/download), and follow the in-app instructions to create a new wallet.
 
-[_Issues with downloading? See our docs for more information._](https://akash.network/docs/guides/deploy/cloudmos-deploy-installation?q=cloudmos)
+[_Issues with downloading? See our docs for more information._](https://akash.network/docs/developers/deployment/akash-console/)
 
 ### Step 2: Get Some AKT (Akash’s Utility Token)
 
 You’ll need at least 5 AKT (~$1.65 at the moment) to escrow for your deployment on Cloudmos. We recommend getting at least 10 AKT, so you have a little extra if needed.
 
-[See instructions and a list of exchanges here.](https://akash.network/docs/getting-started/token-and-wallets/#purchasing-akash-tokens)
+[See instructions and a list of exchanges here.](https://akash.network/docs/getting-started/how-funding-works/)
 
 Once you have AKT in your Keplr wallet, head to the next step.
 

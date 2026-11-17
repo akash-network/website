@@ -11,7 +11,7 @@ tags:
   - Deployment
 contributors:
   - Rodri
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 # Akash SDL: The Practical Guide

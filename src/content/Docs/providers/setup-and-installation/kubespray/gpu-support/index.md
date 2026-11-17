@@ -80,7 +80,7 @@ helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
 ```
 
-Pin the chart to **`v26.7.0`**. NVIDIA GPU Operator charts use CalVer (`vYY.MM.PP`).
+Pin the chart to **`v26.7.2`**. NVIDIA GPU Operator charts use CalVer (`vYY.MM.PP`).
 
 Create `gpu-operator-values.yaml`:
 
@@ -123,7 +123,7 @@ Helm does not upgrade CRDs stored in a chart's `crds/` directory. Pull the pinne
 ```bash
 rm -rf /tmp/akash-gpu-operator-chart
 helm pull nvidia/gpu-operator \
-  --version v26.7.0 \
+  --version v26.7.2 \
   --untar \
   --untardir /tmp/akash-gpu-operator-chart
 
@@ -134,7 +134,7 @@ kubectl apply --server-side --force-conflicts \
 helm upgrade --install gpu-operator nvidia/gpu-operator \
   --namespace gpu-operator \
   --create-namespace \
-  --version v26.7.0 \
+  --version v26.7.2 \
   -f gpu-operator-values.yaml
 ```
 
@@ -334,14 +334,14 @@ Wait for MOFED to compile (5–10 minutes on first deploy) and all pods to reach
 ```bash
 kubectl -n nvidia-network-operator get pods -w
 
-# MOFED compile progress
-kubectl -n nvidia-network-operator logs -l app=mofed-ubuntu24.04 -f --tail=10
+# MOFED compile progress (app=mofed-ubuntu24.04 on Ubuntu 24.04 nodes)
+kubectl -n nvidia-network-operator logs -l app=mofed-ubuntu26.04 -f --tail=10
 ```
 
 Expected pods when complete:
 
 ```
-mofed-ubuntu24.04-*     1/1  Running   ← one per node, MOFED loaded
+mofed-ubuntu26.04-*     1/1  Running   ← one per node, MOFED loaded
 rdma-shared-dp-ds-*     1/1  Running   ← RDMA device plugin per node
 kube-multus-ds-*        1/1  Running
 cni-plugins-ds-*        1/1  Running
@@ -654,21 +654,21 @@ RoCE only (Part 3):
 ```bash
 # GPU Operator CRDs
 rm -rf /tmp/akash-gpu-operator-chart
-helm pull nvidia/gpu-operator --version v26.7.0 --untar \
+helm pull nvidia/gpu-operator --version v26.7.2 --untar \
   --untardir /tmp/akash-gpu-operator-chart
 kubectl apply --server-side --force-conflicts \
   -f /tmp/akash-gpu-operator-chart/gpu-operator/crds \
   -f /tmp/akash-gpu-operator-chart/gpu-operator/charts/node-feature-discovery/crds/nfd-api-crds.yaml
 helm upgrade -i gpu-operator nvidia/gpu-operator \
   --namespace gpu-operator --create-namespace \
-  --version v26.7.0 -f gpu-operator-values.yaml
+  --version v26.7.2 -f gpu-operator-values.yaml
 ```
 
 **GPU driver pod stuck in `Init:0/1` after opting into `nvidia-peermem`** — the driver init container is waiting for MOFED. This applies only when `driver.rdma.enabled: true`. Either finish the Network Operator deployment or return to the default DMA-BUF configuration with `driver.rdma.enabled: false`.
 
 ```bash
 kubectl -n nvidia-network-operator get pods | grep mofed
-kubectl -n nvidia-network-operator logs -l app=mofed-ubuntu24.04 --tail=20
+kubectl -n nvidia-network-operator logs -l app=mofed-ubuntu26.04 --tail=20   # mofed-ubuntu24.04 on 24.04
 ```
 
 **Driver pods crashloop then recover** — common during first bring-up while the toolkit / device plugin / MOFED ordering settles. Wait for `nvidia-cuda-validator` = `Completed` and `nvidia-operator-validator` = `Running` before debugging further.

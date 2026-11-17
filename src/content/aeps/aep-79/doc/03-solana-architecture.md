@@ -4,8 +4,8 @@
 |---|---|
 | **Document** | 03. Solana Target Architecture |
 | **Doc ID** | AKASH-MIG-03 |
-| **Version** | 0.9 (draft for review) |
-| **Date** | 2026-08-10 |
+| **Version** | 0.10 (draft for review) |
+| **Date** | 2026-10-20 |
 | **Owner** | Overclock Labs |
 | **Audience** | Vendor engineering |
 | **Status** | Normative where marked (MUST/SHALL); informative otherwise |
@@ -18,13 +18,13 @@
 
 ## In scope
 
-- The nine protocol programs (`akash-deployment`, `akash-market`, `akash-escrow`, `akash-bme`, `akash-provider-registry`, `akash-audit`, `akash-config`, `akash-claims`, `akash-emissions`) and their CPI topology.
+- The nine protocol programs (`akash-deployment`, `akash-market`, `akash-escrow`, `akash-bme`, `akash-provider-registry`, `akash-audit`, `akash-config`, `akash-claims`, `akash-emissions`) and their CPI topology, plus the on-chain interface of the one-way migration portal (§12.1, D-25), which is either a dedicated portal program or an extension of `akash-claims`, per Q-44.
 - AKT and ACT token design on Solana (Token-2022), settlement-stablecoin integration (D-14).
 - Transaction composition, compute budgets, priority fees, rent economics, congestion behavior, idempotency, and crank/relayer interfaces.
 
 ## Out of scope
 
-- Token-migration mechanics, snapshots, claims logic, and emissions curve: [05. Token migration](./05-token-migration.md) (interfaces only here).
+- Token-migration mechanics (migration portal, snapshots, claims logic) and emissions curve: [05. Token migration](./05-token-migration.md) (interfaces only here).
 - State/data migration and old-chain sunset: [06. State & data migration](./06-state-and-data-migration.md).
 - Off-chain services beyond their on-chain interfaces: provider daemon, Console, indexer, relayer operations, JWT verification ([07. Off-chain services & clients](./07-offchain-and-clients.md)).
 - Key management, audit plan, detailed multisig/timelock composition: [08. Security & audits](./08-security-and-audits.md).
@@ -68,7 +68,7 @@ Each principle is anchored to a fixed decision in [13](./13-open-questions-and-a
 
 ## 2. Program suite overview
 
-Nine programs (names fixed by BRIEF/13 terminology). Rust crate names mirror the kebab names.
+Nine programs (names fixed by BRIEF/13 terminology), plus the migration portal where Q-44 makes it a dedicated program (§12.1). Rust crate names mirror the kebab names.
 
 | Program | Purpose | Replaces (Cosmos) |
 |---|---|---|
@@ -79,7 +79,7 @@ Nine programs (names fixed by BRIEF/13 terminology). Rust crate names mirror the
 | `akash-provider-registry` | Provider records, attributes, JWT signing keys, collateral | `x/provider` (+ part of `x/cert` per D-10) |
 | `akash-audit` | Auditor attestations per (provider, auditor) | `x/audit` |
 | `akash-config` | Protocol parameters, program/version registry, governance authority glue | module params + discovery service |
-| `akash-claims` | Token migration: S1/S2 Merkle claims, Wind-down Reserve, residual distributions | (new; spec in [05](./05-token-migration.md)) |
+| `akash-claims` | Token migration: S1/S2 Merkle claims, Wind-down Reserve, residual distributions (scope under D-25: REQ-SOL-080); the migration portal (§12.1) is either added here or deployed as a dedicated program, per Q-44 | (new; spec in [05](./05-token-migration.md)) |
 | `akash-emissions` | Post-migration AKT emissions to provider-incentive pool + community treasury | `x/mint` replacement (D-12) |
 
 Not ported: `x/cert` (D-10 → [07](./07-offchain-and-clients.md)), `x/take` (dead code on current chain), `x/oracle`+`x/epochs`+CosmWasm/`awasm` (collapse into direct Pyth pull reads + time-based cranks, D-22), staking/slashing/gov/IBC (sovereign-chain machinery, ends per D-05/D-18).
@@ -97,6 +97,7 @@ graph TD
   CFG[akash-config]
   CLM[akash-claims]
   EMI[akash-emissions]
+  PRT["migration portal: own program or in akash-claims, per Q-44"]
   T22[(SPL/Token-2022 mints: AKT, ACT, settlement stablecoin)]
   PYTH[(Pyth receiver price accounts)]
 
@@ -108,6 +109,7 @@ graph TD
   ESC -->|AKT and settlement-stablecoin vault transfers| T22
   BME -->|ACT mint/burn, AKT vault transfers| T22
   CLM -->|AKT mint during claim window| T22
+  PRT -->|AKT mint during portal window, D-25| T22
   EMI -->|AKT mint post-window| T22
   MKT -.->|read| PRV
   MKT -.->|read| AUD
@@ -207,9 +209,9 @@ The current chain closes deployment/group/order/bid/lease state atomically throu
 
 **REQ-SOL-022** AKT is a Token-2022 mint, 6 decimals, with the metadata extension (metadata pointer self-referencing the mint; name "Akash Network", symbol "AKT") and NO other extensions: no transfer hooks, no permanent delegate, no transfer fees, no confidential transfers. Freeze authority MUST be `None` at creation (irrevocably).
 
-**REQ-SOL-023** AKT mint authority lifecycle: at token genesis the authority is the `akash-claims` migration PDA (claim-window minting per [05](./05-token-migration.md)); at claim-window close it is transferred to the `akash-emissions` schedule PDA whose minting is DAO+timelock-governed (D-12, §12). No other party ever holds AKT mint authority; each transfer emits an event and is a governance action per §13.
+**REQ-SOL-023** **[WITHDRAWN: superseded by D-25]** Replaced by REQ-SOL-079. ~~AKT mint authority lifecycle: at token genesis the authority is the `akash-claims` migration PDA (claim-window minting per [05](./05-token-migration.md)); at claim-window close it is transferred to the `akash-emissions` schedule PDA whose minting is DAO+timelock-governed (D-12, §12). No other party ever holds AKT mint authority; each transfer emits an event and is a governance action per §13.~~
 
-**REQ-SOL-024** Q-05 fallback: if the kickoff exchange/custody verification (Q-05) fails the Token-2022 support threshold defined in [05](./05-token-migration.md), AKT falls back to a legacy SPL mint with Metaplex metadata. The fallback MUST change nothing else in this document (escrow/BME hold no AKT-side Token-2022 extension dependencies by design); ACT is unaffected (ACT never touches exchanges).
+**REQ-SOL-024** Q-05 fallback: if the kickoff exchange/custody verification (Q-05) fails the Token-2022 support threshold defined in [05](./05-token-migration.md), AKT falls back to a legacy SPL mint with Metaplex metadata. The fallback MUST change nothing else in this document (escrow/BME hold no AKT-side Token-2022 extension dependencies by design); ACT is unaffected (ACT never touches exchanges). Because SPL AKT launches at L = V + 7d (D-25), D-03 and this fallback are decided at gate GT, not later.
 
 ### 4.2 ACT: Token-2022 NonTransferable (D-19)
 
@@ -541,7 +543,7 @@ Purpose: the AKT↔ACT burn-mint engine, comprising swap queues executed in time
 | Account | Seeds | Fields | Size / rent | Close |
 |---|---|---|---|---|
 | BmeState | `["bme_state"]` | `status: u8` (1=healthy, 2=warning, 3=halt_cr, 4=halt_oracle; enum values preserved), `previous_status: u8`, `epoch_secs: i64` (current, backoff-adjusted), `next_mint_epoch_at: i64`, `next_burn_epoch_at: i64`, `total_burned_akt/act: u64`, `total_minted_akt/act: u64`, `remint_credit_act: u64`, `act_escrowed: u128` (§4.2), `pending_akt: u64`, `pending_act: u64` (in-flight, excluded from CR; parity `ledgerPendingBalances`), `mint_head/tail: u64`, `burn_head/tail: u64`, `last_cr_bps: u16` | 256 B → 0.0040 SOL ≈ $0.60 | never |
-| Vault | `["bme_vault"]` (AKT token account, authority = same PDA) | AKT collateral; seeded from the migrated `bme` module account via the Wind-down Reserve ([05](./05-token-migration.md)) | token account | never |
+| Vault | `["bme_vault"]` (AKT token account, authority = same PDA) | AKT collateral; seeded from the migrated `bme` module account via the Wind-down Reserve ([05](./05-token-migration.md)); seeding under review (D-25, Q-50) | token account | never |
 | SwapRequest | `["swap", dir, seq_le]` | `owner`, `to: Pubkey` (recipient, parity `MsgBurnMint.To`), `amount_in: u64`, `state: u8` (pending / executed / canceled), `attempts: u8`, `created_at` | 128 B → 0.0018 SOL ≈ $0.27 | on executed/canceled (immediately); rent → owner |
 | TipTreasury | `["tip_treasury"]` | lamports pool for crank tips (Tuk Tuk-compatible; funding source Q in 13) | 0 B system acct | never |
 
@@ -564,7 +566,7 @@ Purpose: the AKT↔ACT burn-mint engine, comprising swap queues executed in time
 
 ### 11.3 Flow of funds
 
-AKT→ACT (mint direction): user AKT enters the vault at request time and **stays in the vault as collateral** on execution; ACT is minted at the EMA-checked spot price minus `mint_spread_bps`. ACT→AKT (burn direction): user ACT is burned at request; on execution AKT is **paid from the vault**. `[TO-VERIFY: whether current-chain execution pays redemptions from the vault balance or fresh-mints uakt (x/bme keeper execution internals); if fresh-mint, list as an additional delta with supply-neutrality analysis in 14]`. On Solana, vault-payout is normative: post-migration AKT mint authority belongs exclusively to claims/emissions (REQ-SOL-023), so BME MUST NOT mint AKT.
+AKT→ACT (mint direction): user AKT enters the vault at request time and **stays in the vault as collateral** on execution; ACT is minted at the EMA-checked spot price minus `mint_spread_bps`. ACT→AKT (burn direction): user ACT is burned at request; on execution AKT is **paid from the vault**. `[TO-VERIFY: whether current-chain execution pays redemptions from the vault balance or fresh-mints uakt (x/bme keeper execution internals); if fresh-mint, list as an additional delta with supply-neutrality analysis in 14]`. On Solana, vault-payout is normative: post-migration AKT mint authority belongs exclusively to the portal, claims and emissions (REQ-SOL-079), so BME MUST NOT mint AKT.
 
 ### 11.4 Collateral ratio and statuses
 
@@ -576,13 +578,35 @@ Events: `SwapRequested`, `SwapExecuted` (the `LedgerRecordExecuted` analog; carr
 
 ---
 
-## 12. `akash-claims` and `akash-emissions` (interfaces only)
+## 12. `akash-claims`, the migration portal and `akash-emissions` (interfaces only)
 
-Both are specified in [05. Token migration](./05-token-migration.md); this section fixes only what the rest of the architecture depends on.
+> **Under review (D-25, Q-50).** With AKT on akashnet-2 redeemable through the portal, this mechanism must be re-checked for double-counting before G1.
 
-**REQ-SOL-059** `akash-claims` holds the AKT mint authority during the claim window (REQ-SOL-023) and exposes: Merkle-root tranche accounts (S1, weekly residuals, S2 per D-05), `claim` (mints to claimant against an unclaimed-leaf proof, one-shot per leaf), the Wind-down Reserve PDA, and a governance-gated `seed_bme_vault` that funds `["bme_vault"]` from the Reserve (D-20). Vesting re-creation per D-06 uses per-beneficiary vesting PDAs with linear/cliff release, claimable as vested.
+All three are specified in [05. Token migration](./05-token-migration.md); this section fixes only what the rest of the architecture depends on. The review note above applies to the Wind-down Reserve, the residual tranches and `seed_bme_vault` in REQ-SOL-059; the migration portal is §12.1.
+
+**REQ-SOL-059** `akash-claims` holds the AKT mint authority during the claim window (REQ-SOL-023, withdrawn; under D-25 the AKT mint authority is per REQ-SOL-079) and exposes: Merkle-root tranche accounts (S1, weekly residuals, S2 per D-05), `claim` (mints to claimant against an unclaimed-leaf proof, one-shot per leaf), the Wind-down Reserve PDA, and a governance-gated `seed_bme_vault` that funds `["bme_vault"]` from the Reserve (D-20). Vesting re-creation per D-06 uses per-beneficiary vesting PDAs with linear/cliff release, claimable as vested.
+
+REQ-SOL-059 is amended for D-25 by REQ-SOL-079 (AKT mint authority) and REQ-SOL-080 (claims scope); where they conflict, REQ-SOL-079 and REQ-SOL-080 govern.
 
 **REQ-SOL-060** `akash-emissions` receives the AKT mint authority at claim-window close and mints per an on-chain schedule account (rate table with hard cap) to exactly two destinations: the provider-incentives treasury and the community treasury (both DAO-owned token accounts). The schedule is DAO-mutable within the immutable hard cap; the curve itself is the Q-01 modeling deliverable: the Vendor implements the mechanism, not a specific curve (D-12). Minting is executed by a permissionless, time-gated `mint_epoch` crank.
+
+### 12.1 Migration portal (D-25)
+
+D-25 replaces S1 snapshot claims for AKT held in user accounts with a one-way migration portal. SPL AKT launches at L = V + 7d (one week after the migration proposal passes on `akashnet-2`); the portal opens at L and stays open for 2 years (D-25.a). The portal is either a dedicated program or `akash-claims` extended with portal instructions; which one follows the mechanism chosen under Q-44 (needed by GT). This section is mechanism-neutral: how AKT leaves circulation on `akashnet-2` and how Solana verifies that before minting are per Q-44. Where Q-44 makes the portal a dedicated program, every reference in this document to "the nine programs" (REQ-SOL-062, REQ-SOL-065, REQ-SOL-071) includes it, and its AKT-mint edge in §2.1 is the only CPI edge it adds (REQ-SOL-008).
+
+**REQ-SOL-074** The portal MUST mint SPL AKT 1:1 in micro-units (6 decimals, parity with `uakt`) to the Solana address the holder names, and only against a removal of AKT from circulation on `akashnet-2` that has been verified per Q-44. Each verified removal MUST be mintable at most once, and every mint MUST emit an event (REQ-SOL-014) carrying the `akashnet-2` removal reference (format per Q-44), the recipient and the amount.
+
+**REQ-SOL-075** Migration is one-way (D-25): no instruction in any program of this set burns, locks or redeems SPL AKT in exchange for AKT on `akashnet-2`, and no program, contract or operated service in this program provides a reverse path.
+
+**REQ-SOL-076** The portal window MUST open at L and close 2 years after L (D-25.a). The close time MAY be extended only by a governance action (§13). AKT not migrated when the window closes is handled per Q-48.
+
+**REQ-SOL-077** The portal MUST NOT mint on the attestation or signature of a single party: whatever verification path Q-44 selects MUST meet an independent attestation threshold, and any trust root it adds (attesters, or a bridge guardian set) is part of the threat model in [08](./08-security-and-audits.md).
+
+**REQ-SOL-078** Supply conservation (D-25; the invariant is stated in [05](./05-token-migration.md) and [08](./08-security-and-audits.md)): at all times, SPL AKT supply ≤ cumulative verified removals on `akashnet-2` (+ any Wind-down Reserve mint and emissions, per Q-50 and D-12). The portal MUST enforce per-epoch and per-recipient mint caps set by governance (§13), and a breach of the invariant reported by the supply-conservation monitor MUST pause portal mints automatically. A pause stops new portal mints only; SPL AKT already minted is never frozen or reclaimed (REQ-SOL-022). Resumption follows the emergency path in [08](./08-security-and-audits.md).
+
+**REQ-SOL-079** AKT mint authority (replaces REQ-SOL-023): from token genesis at L, the AKT mint authority is a mint-authority PDA of the portal (in the dedicated portal program, or in `akash-claims` where the portal extends it, per Q-44) for the portal window. Any other AKT minting during the window (claims for whatever S1 and S2 still carry, per Q-50; `akash-emissions` per D-12) MUST be accounted under the invariant of REQ-SOL-078, through an authority arrangement fixed under Q-44 (by GT) and Q-50 (by G1). After the portal window the AKT mint authority is the `akash-emissions` schedule PDA, whose minting is DAO+timelock-governed (D-12, REQ-SOL-060; there, "claim-window close" reads as portal-window close). No other party ever holds AKT mint authority; each transfer emits an event and is a governance action per §13.
+
+**REQ-SOL-080** Claims scope under D-25 (amends REQ-SOL-059): `akash-claims` Merkle tranches MUST NOT carry AKT held in user accounts at S1; that AKT migrates only through the portal (REQ-SOL-074). The claims machinery (tranche accounts, `claim` against unclaimed-leaf proofs with Cosmos-key signatures, one-shot per leaf) is retained for whatever S1 and S2 still carry (protocol-held funds, ACT, residuals; Q-50) and for the post-halt candidate in Q-47 (AKT still in user accounts on `akashnet-2` at H). Vesting re-creation per D-06 is superseded by D-25 (unvested AKT: Q-45). The Wind-down Reserve PDA and `seed_bme_vault` stay specified and are under review (Q-50).
 
 ---
 
@@ -598,7 +622,7 @@ Per D-11/D-15; operational detail (signer sets, ceremony, transition plan) in [0
 
 | DAO-mutable (via `governance_authority`) | Immutable at launch (program upgrade required) | Permanently immutable |
 |---|---|---|
-| every `["params", *]` value in §5.1; oracle feed ids; tip rates; `min_client_version`; emissions schedule (≤ hard cap); BME vault funding; authority rotation | instruction logic, account layouts, event schemas (append-only), PDA seed schema (REQ-SOL-013) | AKT/ACT decimals; ACT NonTransferable extension; AKT no-hooks/no-freeze (REQ-SOL-022); emissions hard cap; published Merkle roots ([05](./05-token-migration.md)) |
+| every `["params", *]` value in §5.1; oracle feed ids; tip rates; `min_client_version`; emissions schedule (≤ hard cap); BME vault funding; authority rotation; portal window extension (REQ-SOL-076) and portal mint caps (REQ-SOL-078) | instruction logic, account layouts, event schemas (append-only), PDA seed schema (REQ-SOL-013) | AKT/ACT decimals; ACT NonTransferable extension; AKT no-hooks/no-freeze (REQ-SOL-022); emissions hard cap; published Merkle roots ([05](./05-token-migration.md)) |
 
 **REQ-SOL-064** A published path toward reduced upgradeability (D-15) MUST exist at launch: programs reaching stability criteria (defined in [08](./08-security-and-audits.md)) either burn upgrade authority (loader-v4 finalize) or move it to a pure on-chain-governed path; the escrow and token-adjacent programs are first in line.
 
@@ -724,13 +748,13 @@ Numbered, exhaustive for on-chain behavior; the per-message mapping in [14](./14
 ## Cross-references
 
 - [01. Current architecture](./01-current-architecture.md): Cosmos-side semantics this design mirrors; all `x/...` path citations.
-- [05. Token migration](./05-token-migration.md): claims/emissions programs, Wind-down Reserve, BME vault seeding, S1 conversion factor.
+- [05. Token migration](./05-token-migration.md): migration portal (D-25), claims/emissions programs, Wind-down Reserve, BME vault seeding, S1 conversion factor.
 - [06. State & data migration](./06-state-and-data-migration.md): what state exists at launch (nothing live migrates, D-08).
 - [07. Off-chain services & clients](./07-offchain-and-clients.md): indexer (event consumption), relayer operations, JWT verification, SDK/version negotiation, provider chain adapter.
 - [08. Security & audits](./08-security-and-audits.md): Squads/timelock composition, authority ceremonies, audit scope per program.
 - [09. Testing & verification](./09-testing-and-verification.md): parity fixtures, CU regression, hot-account load tests, crank SLA verification.
 - [12. Risk register](./12-risk-register.md): Alpenglow, Token-2022 support, crank-liveness risks.
-- [13. Open questions](./13-open-questions-and-assumptions.md): D-03/09/10/11/13/14/15/19/20/21/22/23/24; Q-01/05/07/08/11/12/16/22; A-13.
+- [13. Open questions](./13-open-questions-and-assumptions.md): D-03/09/10/11/13/14/15/19/20/21/22/23/24/25; Q-01/05/07/08/11/12/16/22/44/45/47/48/50; A-13.
 - [14. Appendix: protocol mapping](./14-appendix-protocol-mapping.md), per-message/query/event mapping to the instructions defined here.
 
 ## Feeds into

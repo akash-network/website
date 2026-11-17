@@ -1,17 +1,10 @@
 import type { APIRoute } from "astro";
-import { marked } from "marked";
-import faqMarkdown from "../data/agent-pages/faq.md?raw";
-import { renderAgentPage } from "../lib/agent-pages/renderAgentPage";
+import markdown from "../data/agent-pages/faq.md?raw";
 
 export const GET: APIRoute = () => {
-  const body = renderAgentPage({
-    title: "Akash Network FAQ",
-    content: marked.parse(faqMarkdown, { async: false }) as string,
-  });
-
-  return new Response(body, {
+  return new Response(markdown, {
     headers: {
-      "Content-Type": "text/html; charset=utf-8",
+      "Content-Type": "text/markdown; charset=utf-8",
     },
   });
 };

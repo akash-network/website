@@ -4,10 +4,10 @@ tags: ["Kubernetes", "Cluster Setup", "Infrastructure", "Kubespray"]
 weight: 1
 title: "Kubernetes Cluster Setup with Kubespray"
 linkTitle: "Kubernetes Setup"
-description: "Deploy a production-grade Kubernetes cluster using Kubespray 2.31.0"
+description: "Deploy a production-grade Kubernetes cluster using Kubespray 2.32.0"
 ---
 
-**Deploy Kubernetes 1.35.4 using Kubespray for your Akash provider.**
+**Deploy Kubernetes 1.36.4 using Kubespray for your Akash provider.**
 
 This guide walks through deploying a production-ready Kubernetes cluster that will host your Akash provider. The cluster will run all provider leases as Kubernetes pods.
 
@@ -17,12 +17,12 @@ This guide walks through deploying a production-ready Kubernetes cluster that wi
 
 ## What You'll Deploy
 
-Using Kubespray 2.31.0, you'll install:
+Using Kubespray 2.32.0, you'll install:
 
-- **Kubernetes 1.35.4** - Container orchestration
-- **etcd 3.6.10** - Distributed key-value store
-- **containerd 2.2.3** - Container runtime
-- **Calico 3.31.5** - Container networking (CNI)
+- **Kubernetes 1.36.4** - Container orchestration
+- **etcd 3.6.14** - Distributed key-value store
+- **containerd 2.3.5** - Container runtime
+- **Calico 3.31.7** - Container networking (CNI)
 
 ---
 
@@ -31,7 +31,7 @@ Using Kubespray 2.31.0, you'll install:
 Ensure you have:
 
 - **Reviewed [Hardware Requirements](/docs/providers/getting-started/hardware-requirements)**
-- **Ubuntu 24.04 LTS installed on all nodes**
+- **Ubuntu 26.04 LTS (or 24.04 LTS) installed on all nodes**
 - **Root or sudo access to all nodes**
 - **Network connectivity between all nodes**
 
@@ -43,11 +43,11 @@ Clone Kubespray on a control machine (not on the cluster nodes themselves):
 
 ```bash
 cd ~
-git clone -b v2.31.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
+git clone -b v2.32.0 --depth=1 https://github.com/kubernetes-sigs/kubespray.git
 cd kubespray
 ```
 
-> **Note:** We use Kubespray 2.31.0 which includes Kubernetes 1.35.4
+> **Note:** We use Kubespray 2.32.0 which includes Kubernetes 1.36.4
 
 ---
 

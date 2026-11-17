@@ -10,7 +10,7 @@ tags:
 contributors:
   - Lucas Botbol
 link: "https://x.com/BotbolLucas/status/2017733501987033395?s=20"
-bannerImage: ./project-banner.png
+bannerImage: ./project-banner.webp
 ---
 
 Running your own AI assistant doesn't have to cost anything. With Akash Network's decentralized compute marketplace, you can deploy clawdbot — a lightweight AI bot — for free using AKT credits or community incentives.
