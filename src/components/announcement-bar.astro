@@ -1,0 +1,48 @@
+---
+// Site-wide announcement bar, rendered above the header on every page.
+// Update `href`, `title`, `detail` and `cta` for the next announcement.
+const href = "https://forwards.akash.network/";
+const title = "Introducing Akash Compute Forwards";
+const detail = "A Forward Market for the GPU-Hour";
+const cta = "Learn more";
+---
+
+<div
+  id="announcement-bar"
+  class="relative z-[41] border-b border-zinc-800 bg-zinc-950 text-zinc-50 dark:border-white/10 dark:bg-zinc-900"
+>
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener"
+    class="group mx-auto flex min-h-[40px] max-w-[1440px] items-center justify-center gap-x-3 px-4 py-2 text-[13px] leading-5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/60"
+  >
+    <span
+      class="hidden shrink-0 rounded-full border border-white/20 px-2 py-px text-[11px] font-medium uppercase tracking-wide text-zinc-300 sm:inline-block"
+    >
+      New
+    </span>
+    <span class="min-w-0 text-center">
+      <span class="font-medium">{title}</span><span
+        class="hidden text-zinc-400 md:inline">: {detail}</span
+      >
+    </span>
+    <span
+      class="inline-flex shrink-0 items-center gap-1 rounded-md bg-white px-2.5 py-1 text-xs font-medium text-zinc-950 transition-colors group-hover:bg-zinc-200"
+    >
+      {cta}
+      <svg
+        aria-hidden="true"
+        class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M3 8h10M9 4l4 4-4 4"></path>
+      </svg>
+    </span>
+  </a>
+</div>
