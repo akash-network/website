@@ -68,6 +68,22 @@ const PROVIDE_COMPUTE_TILE = {
   ),
 };
 
+const COMPUTE_FORWARDS_TILE = {
+  title: "Compute Forwards",
+  description: "A forward market for the GPU-hour. Coming soon.",
+  href: "https://forwards.akash.network/",
+  image: "/images/site-menu/compute-forwards.png",
+  logo: (
+    <div className="absolute inset-0 flex items-center justify-center">
+      <img
+        src="/images/site-menu/logos/akash-logo.svg"
+        alt=""
+        className="h-5 w-[22px]"
+      />
+    </div>
+  ),
+};
+
 const DEVELOPER_RESOURCES = [
   { key: "docs", label: "Documentation", href: "/docs/" },
   {
@@ -290,6 +306,20 @@ export default function SiteMenu({
             >
               <TileBody {...PROVIDE_COMPUTE_TILE} />
             </button>
+
+            <a
+              href={COMPUTE_FORWARDS_TILE.href}
+              target="_blank"
+              rel="noreferrer"
+              className={TILE_CLASSNAME}
+            >
+              <TileBody
+                image={COMPUTE_FORWARDS_TILE.image}
+                logo={COMPUTE_FORWARDS_TILE.logo}
+                title={COMPUTE_FORWARDS_TILE.title}
+                description={COMPUTE_FORWARDS_TILE.description}
+              />
+            </a>
           </div>
 
           <div className="mt-auto flex flex-col divide-y divide-zinc-200 pt-6 dark:divide-white/10">
