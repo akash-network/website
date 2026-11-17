@@ -33,6 +33,14 @@ const PRODUCTS = [
     // No url: the button opens the HomeNode / data center chooser instead of linking out.
     buttonLabel: 'Become a Provider',
   },
+  {
+    title: 'Akash Compute Forwards',
+    description: 'A forward market for the GPU-hour. Buyers and providers agree on a price for compute delivered in a future month, with grades, delivery and settlement defined up front. Coming soon.',
+    image: '/images/get-started-forwards.webp',
+    imageSmall: '/images/get-started-forwards.webp',
+    url: 'https://forwards.akash.network/',
+    buttonLabel: 'Learn more',
+  },
 ]
 
 type Product = (typeof PRODUCTS)[number]
