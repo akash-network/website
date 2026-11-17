@@ -1,9 +1,12 @@
 ---
 // Site-wide announcement bar, rendered above the header on every page.
-// Update `href`, `title`, `detail` and `cta` for the next announcement.
+// Update `href`, `badge`, `brand`, `title`, `detail` and `cta` for the next
+// announcement. `brand` is dropped on small screens to keep one line.
 const href = "https://forwards.akash.network/";
-const title = "Introducing Akash Compute Forwards";
-const detail = "A Forward Market for the GPU-Hour";
+const badge = "Coming soon";
+const brand = "Akash";
+const title = "Compute Forwards";
+const detail = "A forward market for the GPU-hour";
 const cta = "Learn more";
 ---
 
@@ -18,14 +21,18 @@ const cta = "Learn more";
     class="group mx-auto flex min-h-[40px] max-w-[1440px] items-center justify-center gap-x-3 px-4 py-2 text-[13px] leading-5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/60"
   >
     <span
-      class="hidden shrink-0 rounded-full border border-white/20 px-2 py-px text-[11px] font-medium uppercase tracking-wide text-zinc-300 sm:inline-block"
+      class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/20 px-2 py-px text-[11px] font-medium text-zinc-300"
     >
-      New
+      <span
+        aria-hidden="true"
+        class="h-1.5 w-1.5 rounded-full bg-zinc-300 motion-safe:animate-pulse"
+      ></span>
+      {badge}
     </span>
-    <span class="min-w-0 text-center">
-      <span class="font-medium">{title}</span><span
-        class="hidden text-zinc-400 md:inline">: {detail}</span
-      >
+    <span class="min-w-0 truncate text-center">
+      <span class="font-medium"
+        ><span class="hidden sm:inline">{`${brand} `}</span>{title}</span
+      ><span class="hidden text-zinc-400 md:inline"> — {detail}</span>
     </span>
     <span
       class="inline-flex shrink-0 items-center gap-1 rounded-md bg-white px-2.5 py-1 text-xs font-medium text-zinc-950 transition-colors group-hover:bg-zinc-200"
