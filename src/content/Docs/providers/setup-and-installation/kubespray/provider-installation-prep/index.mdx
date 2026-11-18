@@ -582,7 +582,7 @@ Install the Kubernetes Gateway API and NGINX Gateway Fabric (NGF) with **port 44
 ### Install Gateway API CRDs
 
 ```bash
-kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.6.7" | kubectl apply --server-side -f -
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.9.0" | kubectl apply --server-side -f -
 ```
 
 Verify:
@@ -647,7 +647,7 @@ Install NGF (from `/root/provider`):
 cd /root/provider
 
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
-  --version 2.6.7 \
+  --version 2.9.0 \
   --create-namespace \
   -n nginx-gateway \
   -f values-nginx-gateway-fabric.yaml
@@ -658,6 +658,49 @@ Verify:
 ```bash
 kubectl -n nginx-gateway get pods
 ```
+
+### Upgrade an existing NGINX Gateway Fabric install
+
+NGF 2.9.0 ships **nginx 1.31.9**, which fixes the [NGINX2Root](https://nginx2root.com) vulnerabilities (CVE-2026-123007 and four related CVEs). The main one is unauthenticated remote code execution over HTTP/2, which the provider gateway serves on port 443. **Every provider running an older NGF should upgrade.** Check your version with:
+
+```bash
+helm -n nginx-gateway list
+kubectl -n akash-gateway exec ds/akash-gateway-nginx -c nginx -- nginx -v
+```
+
+Helm never upgrades CRDs, so apply the Gateway API and NGF CRDs first. `--force-conflicts` lets server-side apply take over CRDs that an earlier version installed:
+
+```bash
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.9.0" \
+  | kubectl apply --server-side --force-conflicts -f -
+kubectl apply --server-side --force-conflicts \
+  -f https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.9.0/deploy/crds.yaml
+```
+
+Then upgrade NGF with the same values file you installed with:
+
+```bash
+cd /root/provider
+
+helm upgrade ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+  --version 2.9.0 \
+  -n nginx-gateway \
+  -f values-nginx-gateway-fabric.yaml \
+  --wait
+```
+
+The NGINX data plane DaemonSet restarts one node at a time, so open connections on each node are reset once. Wait for the rollout and check the result:
+
+```bash
+kubectl -n akash-gateway rollout status ds/akash-gateway-nginx
+kubectl -n akash-gateway exec ds/akash-gateway-nginx -c nginx -- nginx -v   # nginx/1.31.9
+kubectl -n akash-gateway get gateway akash-gateway                         # PROGRAMMED True
+kubectl get httproute,tcproute -A
+```
+
+> **Before upgrading:** if you changed the `NginxProxy` resource by hand (for example `kubectl patch` to add a security context), add the same change to `values-nginx-gateway-fabric.yaml` under `nginx.patches`, or the upgrade may drop it. Check with `kubectl -n nginx-gateway get nginxproxy -o yaml`.
+
+> The akash-gateway chart's `TCPRoute`s use `gateway.networking.k8s.io/v1alpha2`. Gateway API 1.7.0 still serves that version and prints a deprecation warning; you can ignore it.
 
 ---
 

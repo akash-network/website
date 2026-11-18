@@ -64,7 +64,7 @@ kubectl -n akash-gateway describe certificate wildcard-ingress
 Install the Gateway API CRDs (experimental channel, includes `TCPRoute`) from NGINX Gateway Fabric. These are required before deploying NGINX Gateway Fabric.
 
 ```bash
-kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.6.7" | kubectl apply --server-side -f -
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/experimental?ref=v2.9.0" | kubectl apply --server-side -f -
 ```
 
 Verify the CRDs are installed:
@@ -147,7 +147,7 @@ Install NGINX Gateway Fabric via Helm:
 cd /root/provider
 
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
-  --version 2.6.7 \
+  --version 2.9.0 \
   --create-namespace \
   -n nginx-gateway \
   -f values-nginx-gateway-fabric.yaml

@@ -176,16 +176,17 @@ The resulting inventory is not immediately runnable on a fresh clone. Follow the
 
 The repository keeps compatibility pins in [`versions.yml`](https://github.com/akash-network/provider-playbooks/blob/main/versions.yml). The installer loads this matrix rather than selecting unbounded `latest` releases.
 
-| Component           | Pinned version                       |
-| ------------------- | ------------------------------------ |
-| Kubespray           | `v2.32.0`                            |
-| K3s                 | `v1.36.6+k3s1`                       |
-| Calico              | `v3.31.7`                            |
-| Helm                | `v4.2.4`                             |
-| NVIDIA GPU Operator | `v26.7.2`                            |
-| Rook-Ceph           | `1.19.10`                            |
-| Ceph                | `quay.io/ceph/ceph:v19.2.6-20260818` |
-| `akt`               | `0.1.1`                              |
+| Component            | Pinned version                       |
+| -------------------- | ------------------------------------ |
+| Kubespray            | `v2.32.0`                            |
+| K3s                  | `v1.36.6+k3s1`                       |
+| Calico               | `v3.31.7`                            |
+| Helm                 | `v4.2.4`                             |
+| NVIDIA GPU Operator  | `v26.7.2`                            |
+| NGINX Gateway Fabric | `2.9.0` (nginx 1.31.9)               |
+| Rook-Ceph            | `1.19.10`                            |
+| Ceph                 | `quay.io/ceph/ceph:v19.2.6-20260818` |
+| `akt`                | `0.1.1`                              |
 
 Treat `versions.yml` as the source of truth if this table and the repository ever differ.
 
