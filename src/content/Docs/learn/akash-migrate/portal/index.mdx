@@ -34,10 +34,12 @@ import globalCapsDark from "./global-caps-dark.png";
 ## Prerequisites
 
 - **Keplr** with your Akash account: the browser extension, or the browser inside the Keplr mobile app.
-- **AKT** for the amount you want to send, plus the Akash network fee.
+- **At least 1,000 AKT (1k AKT)** to transfer, plus additional AKT for the Akash network fee.
 - **A Solana wallet address** that you control. It doesn't need any SOL.
 
 **Time Estimate:** a few minutes
+
+The screenshots use illustrative amounts and limits from before the minimum increased to **1,000 AKT**. Smaller amounts shown in the screenshots cannot be used for a new transfer. Check the portal for current limits.
 
 ---
 
@@ -99,7 +101,7 @@ The portal refuses text that isn't a Solana address, and addresses that can't be
 
 ## STEP 3: Enter the Amount
 
-Type the amount of AKT, or click **Max** to send your balance minus room for the network fee. The help text under the field shows the current minimum and maximum per transfer.
+Enter **1,000 AKT or more**, or click **Max** to fill the available amount while leaving room for the network fee. The minimum applies to the transfer amount itself; the fee is separate. Check your current transfer limits and remaining allowance before reviewing.
 
 <ThemedImage
   light={enterAmount}
@@ -107,7 +109,7 @@ Type the amount of AKT, or click **Max** to send your balance minus room for the
   alt="Transfer card with 10 AKT entered, the network fee, the total from Keplr and the amount received on Solana"
 />
 
-Use your browser's decimal mark, for example `2.5` in English or `2,5` in German, with at most six decimal places.
+Use your browser's decimal mark, for example `1000.5` in English or `1000,5` in German, with at most six decimal places.
 
 If you enter more than your balance, the portal offers **Send the max instead**.
 
@@ -250,7 +252,7 @@ The AKT arrives as an SPL token in the Solana wallet you chose. Most wallets lis
 
 ### The Amount Is Refused
 
-- Check the minimum and maximum in the help text under the amount.
+- Enter at least **1,000 AKT**, excluding the network fee, and stay within the current per-transfer maximum.
 - Open **Wallet limits** beside your Akash address to check your remaining allowance and reset time.
 - Leave room for the network fee, or use **Max**.
 - Use at most six decimal places and your browser's decimal mark.
@@ -261,7 +263,7 @@ The portal blocks new transfers while deposits are switched off, or while Solana
 
 ### The Deposit Failed
 
-A deposit fails if it breaks the minimum or maximum amount per transfer, an enabled account epoch cap or the aggregate epoch cap. Send less when possible, or wait for Akash's next configured quota period. Finishing another transfer does not restore sending capacity. See [Limits](/docs/learn/akash-migrate#limits).
+A deposit fails if it breaks the minimum or maximum amount per transfer, an enabled account epoch cap or the aggregate epoch cap. If the amount is below **1,000 AKT**, increase it. If it exceeds a cap, reduce it while keeping at least **1,000 AKT**, or wait for Akash's next configured quota period. Finishing another transfer does not restore sending capacity. See [Limits](/docs/learn/akash-migrate#limits).
 
 ### The Transfer Takes Longer Than Expected
 
