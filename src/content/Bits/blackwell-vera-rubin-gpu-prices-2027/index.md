@@ -64,7 +64,7 @@ The last row is the most useful line in the table. Morgan Stanley estimates the 
 
 ### Memory capacity is growing fast
 
-[Each Rubin GPU carries 288 GB of HBM4](https://wccftech.com/nvidia-vera-rubin-rack-hit-with-memory-price-surge-pushing-hbm4-lpddr5x-bill-to-2m-of-7-8m-total/). Each Vera CPU carries 1.5 TB of LPDDR5X. A full VR200 NVL72 rack therefore holds 20.7 TB of HBM4 and 54 TB of LPDDR5X. [The earlier GB200 NVL72 rack held 17 TB of LPDDR5X](https://www.tomshardware.com/tech-industry/artificial-intelligence/nvidias-memory-costs-soar-485-percent-latest-ai-systems-now-cost-usd7-8-million-to-build-memory-now-comprises-25-percent-of-the-total-cost-rubin-gpus-a-mere-usd50-000-apiece). Capacity roughly tripled on the LPDDR5X side alone.
+[Each Rubin GPU carries 288 GB of HBM4](https://wccftech.com/nvidia-vera-rubin-rack-hit-with-memory-price-surge-pushing-hbm4-lpddr5x-bill-to-2m-of-7-8m-total/). Each Vera CPU carries 1.5 TB of LPDDR5X. A full VR200 NVL72 rack therefore holds 20.7 TB of HBM4 and 54 TB of LPDDR5X. [The earlier GB200 NVL72 rack held 17 TB of LPDDR5X](https://www.tomshardware.com/tech-industry/artificial-intelligence/nvidias-memory-costs-soar-485-percent-latest-ai-systems-now-cost-usd7-8-million-to-build-memory-now-comprises-25-percent-of-the-total-cost-rubin-gpus-a-mere-usd50-000-apiece). Capacity roughly tripled on the LPDDR5X side alone. For the full per-GPU figures, see [NVIDIA Vera Rubin specs](/pricing/gpus/vera-rubin/).
 
 ### The memory market is tight
 
