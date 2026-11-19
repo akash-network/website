@@ -47,12 +47,12 @@ Sending and refund quotas use Akash's existing `day` epoch schedule. They do not
 ## Send AKT
 
 ```bash
-akt tx sink deposit <solana-address> 1akt --from <sender-key>
+akt tx sink deposit <solana-address> 1000akt --from <sender-key>
 # The same amount in base units:
-akt tx sink deposit <solana-address> 1000000uakt --from <sender-key>
+akt tx sink deposit <solana-address> 1000000000uakt --from <sender-key>
 ```
 
-Choose one command. This example sends **1 AKT**. The CLI accepts exact AKT decimals or whole `uakt`; it never rounds. You pay the Akash transaction fee separately. The deposit must be the transaction's sole message, signed by its sender.
+Choose one command. This example sends **1,000 AKT (1k AKT)**, the minimum per transfer. The CLI accepts exact AKT decimals or whole `uakt`; it never rounds. You pay the Akash transaction fee separately. The deposit must be the transaction's sole message, signed by its sender.
 
 A broadcast response alone does not prove inclusion. Save its transaction hash, then query the committed receipt:
 
@@ -157,7 +157,8 @@ The native `akash` CLI has different command names and JSON output. These exampl
 
 ## Troubleshooting
 
-- If a deposit exceeds a sending cap, reduce the amount or wait for the configured epoch. A refund does not restore sending capacity.
+- If a deposit is below **1,000 AKT**, increase the amount and leave room for the network fee.
+- If a deposit exceeds a sending cap, reduce the amount while keeping at least **1,000 AKT**, or wait for the configured epoch. A refund does not restore sending capacity.
 - If a Solana mint waits, check its pause, caps, light-client freshness, and relayer progress. It does not wait for an Akash epoch to end.
 - If a transfer is held, investigate the evidence and governance path. Do not repeat the deposit to fix it.
 - If the challenge deadline passed but funds have not returned, check every refund condition and the committed transaction.

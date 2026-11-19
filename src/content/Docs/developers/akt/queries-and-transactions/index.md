@@ -149,10 +149,10 @@ akt tx bme mint-act 500000uakt
 akt tx bme burn-act 500000uact
 
 # Send AKT to a Solana wallet through Akash Migrate (one way)
-akt tx sink deposit <solana-address> 10000000uakt
+akt tx sink deposit <solana-address> 1000000000uakt
 ```
 
-Sink commands are available in akt v1.1.1. See [Send AKT to Solana](/docs/developers/akt/sink) for compatibility and the complete command set.
+Sink commands are available in akt v1.1.1. The minimum Sink transfer is **1,000 AKT (1k AKT)**, or `1000000000uakt`, plus the Akash network fee. See [Send AKT to Solana](/docs/developers/akt/sink) for compatibility and the complete command set.
 
 Coin inputs use explicit denominations. For example, 1 AKT is `1000000uakt`. Pretty output scales micro-denominated values to readable AKT, mAKT, or uAKT values while JSON and YAML preserve machine-readable amounts.
 

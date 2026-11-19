@@ -53,7 +53,7 @@ A veto or conflict hold requires review. Even a minted or refunded transfer can 
 
 ## Limits
 
-Akash governance sets the transfer limits and can change them.
+The minimum transfer is **1,000 AKT (1k AKT)**, or `1000000000uakt`. Your balance must also cover the Akash network fee. Akash governance sets the transfer limits and can change them; check the portal or `akt query sink params` before depositing.
 
 | Limit                  | What it covers                                               |
 | ---------------------- | ------------------------------------------------------------ |
@@ -121,6 +121,10 @@ See the [mainnet reference](/docs/learn/akash-migrate/mainnet) for all contract 
 ### Can I move AKT from Solana back to Akash?
 
 No. Akash Migrate only moves AKT from Akash to Solana.
+
+### Is there a minimum transfer amount?
+
+Yes. Each transfer must be at least **1,000 AKT (1k AKT)**. Keep additional AKT in your wallet for the Akash network fee. Per-transfer maximums and remaining account and global allowances also apply; see [Limits](#limits).
 
 ### Which Solana addresses can receive AKT?
 
