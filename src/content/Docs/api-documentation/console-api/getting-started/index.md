@@ -517,6 +517,65 @@ main().catch((err) => {
 
 ---
 
+## Secrets
+
+Console can keep environment values secret. It encrypts each secret value on its side, and no endpoint returns the value afterwards. In the SDL Console stores, a secret appears as an `ac-secret://NAME` reference instead of its value. The SDL syntax is covered in [Secrets in Akash Console](/docs/learn/core-concepts/environment-secrets#secrets-in-akash-console).
+
+### Mark values as secret
+
+Put the secret values in your SDL as usual and list their variable names in `secretEnv`. Console encrypts them on the server, so you don't need any client-side encryption.
+
+```bash
+curl -X POST https://console-api.akash.network/v1/deployments \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "sdl": "<YOUR_SDL_YAML_AS_STRING>",
+      "secretEnv": ["API_KEY", "DATABASE_URL"]
+    }
+  }'
+```
+
+- `secretEnv` covers the env of every service in the SDL. Each name you list must be set in the SDL, or the request fails with `400`.
+- Every env value you leave out of `secretEnv` is stored as you sent it and stays readable.
+- If you omit `secretEnv`, Console encrypts every env value. Send `"secretEnv": []` to keep them all readable.
+- Registry credentials are always encrypted.
+
+### Rotate one secret
+
+Patch the variable with its new value and name it in `secretEnv`:
+
+```bash
+curl -X PATCH https://console-api.akash.network/v1/deployments/$DSEQ \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "services": { "web": { "env": { "API_KEY": "new-value" } } },
+      "secretEnv": ["API_KEY"]
+    }
+  }'
+```
+
+Variables you don't send keep their current values, secrets included. Set a variable to `null` to remove it. Console sends the deployment update and the new manifest for you, and the new value reaches your container through that update.
+
+Use `PATCH` rather than `PUT /v1/deployments/{dseq}`. `PUT` is deprecated and replaces the whole SDL, so you'd have to send every secret value again, and Console can't give you the stored ones.
+
+### See which secrets a deployment has
+
+`GET /v1/deployments/{dseq}` returns the stored SDL in `data.consoleSettings.sdl`. Each secret shows up there as an `ac-secret://` reference, never as its value. For a value Console encrypted from `secretEnv`, Console picks the reference name.
+
+### Redeploy with the same secrets
+
+To create a new deployment that reuses the stored secrets of an existing one, pass its dseq as `inheritSecretsFrom` on `POST /v1/deployments`. The source deployment can be closed. This is how you reuse an SDL full of `ac-secret://` references without re-entering the values.
+
+### Seal secrets yourself (advanced)
+
+If you'd rather Console never receive a secret in plain text, or your SDL already contains `ac-secret://NAME` references, send the values in `sealedSecrets` instead. It's a compact JWE of a flat JSON map from reference name to value, encrypted to the public key that `GET /v1/sdl-secrets-context` returns and carrying the claims that endpoint lists. On `PATCH`, the JWE only needs the names you're replacing. Other names keep their stored values.
+
+---
+
 ## Confidential Compute (TEE)
 
 Run your workload inside a hardware-isolated Trusted Execution Environment (TEE) by adding a single `params.tee` field to a service in your SDL. Set it to `cpu` for a CPU-only confidential VM, or `cpu-gpu` to combine confidential compute with GPU acceleration. The provider selects the underlying hardware platform (AMD SEV-SNP or Intel TDX) and handles attestation automatically — you only choose the TEE option, nothing else.
