@@ -146,6 +146,7 @@ export const b300: GpuDetailPage = {
       "For FP64-heavy scientific simulations, B200 or H200 can be a better fit than B300 because B300 prioritizes AI workloads and offers substantially lower FP64 throughput.",
       `For the full side-by-side on specs, speed and cost, see [B300 vs B200 vs H200](${COMPARISON_POST}).`,
       "The B300 is the GPU inside 8-GPU HGX and DGX B300 systems. GB300 NVL72 is a separate rack-scale platform that pairs 72 Blackwell Ultra GPUs with 36 Grace CPUs.",
+      "Need the next generation? See [NVIDIA Vera Rubin](/pricing/gpus/vera-rubin/).",
     ],
   },
   useCases: {

@@ -5,6 +5,7 @@ import { h100 } from "./h100";
 import { h200 } from "./h200";
 import { rtxPro6000Server } from "./rtx-pro-6000-server";
 import { rtxPro6000Workstation } from "./rtx-pro-6000-workstation";
+import { veraRubin } from "./vera-rubin";
 import type { GpuDetailSlug } from "./slugs";
 import type { GpuDetailPage } from "./types";
 
@@ -12,6 +13,7 @@ import type { GpuDetailPage } from "./types";
 // GPU_DETAIL_SLUGS (plus MODEL_SLUGS if the slug differs from the API model id). The pricing
 // table links the matching row to the new page.
 export const GPU_DETAIL_PAGES: Record<GpuDetailSlug, GpuDetailPage> = {
+  "vera-rubin": veraRubin,
   b300,
   b200,
   h200,
