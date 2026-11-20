@@ -9,8 +9,10 @@ import {
   stripInline,
   type GpuDetailPage,
 } from "@/lib/gpu-detail-pages";
-import { formatDate } from "@/lib/gpu-detail-pages/shared";
+import { formatDate, isoDate } from "@/lib/gpu-detail-pages/shared";
 import { Check, ChevronDown } from "lucide-react";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 export function getStaticPaths() {
   return Object.values(GPU_DETAIL_PAGES).map((page) => ({
@@ -38,6 +40,18 @@ const onRequest = Boolean(page.livePrice?.onRequest);
 const url = `${SITE}/pricing/gpus/${page.slug}/`;
 const pricesUpdatedLabel =
   page.pricesUpdated && formatDate(new Date(`${page.pricesUpdated}T00:00:00Z`));
+const dateModified =
+  page.pricesUpdated ??
+  (page.modifiedAtBuild ? isoDate(new Date()) : undefined);
+// A page without its own share card yet uses the GPU pricing one.
+const slugImage = `/meta-images/pricing/gpus/${page.slug}.webp`;
+const shareImage =
+  page.seo.image ??
+  (existsSync(join(process.cwd(), "public", slugImage))
+    ? slugImage
+    : "/meta-images/pricing/gpus.webp");
+// Static label above the price (no live price), e.g. "Availability".
+const priceLabel = hero.priceLabel;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -55,7 +69,7 @@ const structuredData = {
       url,
       name: page.seo.title,
       description: page.seo.description,
-      ...(page.pricesUpdated && { dateModified: page.pricesUpdated }),
+      ...(dateModified && { dateModified }),
       isPartOf: { "@id": `${SITE}/#organization` },
       breadcrumb: { "@id": `${url}#breadcrumb` },
       ...(page.seo.image && {
@@ -107,7 +121,7 @@ const section = "flex scroll-mt-28 flex-col gap-6";
 <Layout
   title={page.seo.title}
   description={page.seo.description}
-  image={page.seo.image ?? `/meta-images/pricing/gpus/${page.slug}.webp`}
+  image={shareImage}
 >
   <Fragment slot="head">
     <script
@@ -146,7 +160,11 @@ const section = "flex scroll-mt-28 flex-col gap-6";
         <div slot="aside" class={`${card} flex flex-col gap-5 p-5`}>
           <div class="flex flex-col gap-1">
             {
-              onRequest ? (
+              priceLabel ? (
+                <p class="text-sm font-medium text-muted-foreground">
+                  {priceLabel}
+                </p>
+              ) : onRequest ? (
                 <>
                   <p
                     class="text-sm font-medium text-muted-foreground"
@@ -172,11 +190,17 @@ const section = "flex scroll-mt-28 flex-col gap-6";
               class="font-jetBrainsMono text-3xl font-medium tabular-nums text-foreground"
             >
               <Fragment set:html={renderInline(hero.price)} />
-              <span
-                class="font-sans text-sm font-normal text-muted-foreground"
-                data-live-only={onRequest ? "" : undefined}
-                hidden={onRequest}>per GPU-hour</span
-              >
+              {
+                !priceLabel && (
+                  <span
+                    class="font-sans text-sm font-normal text-muted-foreground"
+                    data-live-only={onRequest ? "" : undefined}
+                    hidden={onRequest}
+                  >
+                    per GPU-hour
+                  </span>
+                )
+              }
             </p>
             <p class={note}>{hero.priceNote}</p>
             {
@@ -354,6 +378,16 @@ const section = "flex scroll-mt-28 flex-col gap-6";
               ))}
             </ul>
           )}
+          {sub.cards && (
+            <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {sub.cards.map((item) => (
+                <li class={`${card} flex flex-col gap-1.5 p-5`}>
+                  {item.title && <p class={h3}>{item.title}</p>}
+                  <p class={note} set:html={renderInline(item.text)} />
+                </li>
+              ))}
+            </ul>
+          )}
           {sub.table && (
             <div class="max-w-3xl">
               <DataTable table={sub.table} caption={sub.title} />
@@ -362,6 +396,14 @@ const section = "flex scroll-mt-28 flex-col gap-6";
           {sub.note && (
             <p class={`${note} max-w-3xl`} set:html={renderInline(sub.note)} />
           )}
+          {sub.subsections?.map((child) => (
+            <div class="mt-4 flex flex-col gap-4">
+              <h3 class={h3}>{child.title}</h3>
+              {child.paragraphs.map((text) => (
+                <p class={`${body} max-w-3xl`} set:html={renderInline(text)} />
+              ))}
+            </div>
+          ))}
         </section>
       ))
     }
@@ -372,6 +414,13 @@ const section = "flex scroll-mt-28 flex-col gap-6";
           <h2 class={h2}>{fit.title}</h2>
           {fit.description && (
             <p class={`${body} max-w-3xl`}>{fit.description}</p>
+          )}
+          {fit.table && <DataTable table={fit.table} caption={fit.title} />}
+          {fit.tableNote && (
+            <p
+              class={`${note} max-w-3xl`}
+              set:html={renderInline(fit.tableNote)}
+            />
           )}
           <ul class="grid gap-4 md:grid-cols-3">
             {fit.choices.map((choice) => (

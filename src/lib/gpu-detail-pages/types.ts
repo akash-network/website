@@ -37,8 +37,12 @@ export type GpuSubsection = {
   title: string;
   paragraphs: string[];
   bullets?: GpuBullet[];
+  /** Items shown as a card grid, like the use cases section. Rendered for highlights only. */
+  cards?: GpuBullet[];
   table?: GpuTable;
   note?: string;
+  /** H3 sections under this one. Rendered for page highlights only. */
+  subsections?: { title: string; paragraphs: string[] }[];
 };
 
 export type GpuFaqItem = {
@@ -67,6 +71,8 @@ export type GpuDetailPage = {
   /** ISO date (YYYY-MM-DD) the listed prices were last checked. Shown by the price and sent
    *  as `dateModified` in structured data. */
   pricesUpdated?: string;
+  /** Send the build date as `dateModified` in structured data, for pages with no price date. */
+  modifiedAtBuild?: boolean;
   /** Set on pages priced from open bids; the browser refreshes the price from the API. */
   livePrice?: LivePriceSource;
   seo: {
@@ -83,6 +89,9 @@ export type GpuDetailPage = {
     /** Small print under the description, e.g. which edition the page covers. */
     note?: string;
     specs: string[];
+    /** Label above the price, for pages with no live price (e.g. "Availability"). Shows
+     *  `price` as plain text, without "per GPU-hour". */
+    priceLabel?: string;
     price: string;
     priceNote: string;
     bullets: string[];
@@ -112,6 +121,9 @@ export type GpuDetailPage = {
     /** Lead-in shown under the heading, before the choices. */
     description?: string;
     choices: GpuTitledText[];
+    /** Side-by-side comparison shown before the choices, with an optional note under it. */
+    table?: GpuTable;
+    tableNote?: string;
     paragraphs: string[];
   };
   useCases?: {
