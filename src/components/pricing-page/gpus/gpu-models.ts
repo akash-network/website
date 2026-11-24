@@ -71,7 +71,7 @@ export const nextGenAccessHref = (model: string) =>
 // Listed even when the API has no entry for them yet, so the tables can offer access. Vera
 // Rubin's id is a placeholder until a provider lists it; rename it to the id the API uses.
 const NEXT_GEN_LISTED: { model: string; ram: string; interface: string }[] = [
-  { model: "b300", ram: "288GB", interface: "HBM3e" },
+  { model: "b300", ram: "288GB", interface: "SXM" },
   { model: "b200", ram: "180GB", interface: "SXM6" },
   { model: "rubin", ram: "288GB", interface: "NVL72" },
 ];

@@ -359,9 +359,9 @@ function GpuPricingContent({ initial }: GpuPricingProps) {
           )}
 
           {interfaceOptions.length > 2 && (
-            <FilterGroup label="Interface">
+            <FilterGroup label="Form factor">
               <ToggleChips
-                label="Interface"
+                label="Form factor"
                 options={interfaceOptions}
                 value={activeIface}
                 onValueChange={setIface}
