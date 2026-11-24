@@ -192,11 +192,56 @@ env:
 
 ---
 
+## Secrets in Akash Console
+
+If you deploy with [Akash Console](https://console.akash.network), you can keep a secret value out of your SDL entirely. Console encrypts the value, stores it with the deployment, and puts it back in place when it sends the manifest to your provider.
+
+### Reference a Secret in Your SDL
+
+Where the value would go, write `ac-secret://` followed by a name:
+
+```yaml
+services:
+  web:
+    image: myapp:latest
+    env:
+      - NODE_ENV=production
+      - API_KEY=ac-secret://API_KEY
+      - DATABASE_URL=ac-secret://DATABASE_URL
+```
+
+A private registry username or password can be a reference too:
+
+```yaml
+services:
+  web:
+    image: ghcr.io/myorg/myapp:latest
+    credentials:
+      host: ghcr.io
+      username: myuser
+      password: ac-secret://REGISTRY_PASSWORD
+```
+
+- A name starts with a letter or an underscore, followed by up to 63 letters, digits, or underscores.
+- Plain values can't start with `ac-`. Console reserves that prefix for references.
+
+### Enter the Values
+
+When you configure a new deployment, enter each value in the **Environment Variables & Secrets** card. For an existing deployment, open it and use the **Update** tab to add a secret or replace its value. The new value reaches your container when you update the deployment; until then the running workload keeps the old one.
+
+Once saved, a secret's value is never shown again, in the Console or through the API. You can replace it but not read it back. Secrets belong to a single deployment, so other deployments can't use them.
+
+Your container still reads `API_KEY` as an ordinary environment variable, and the provider running it receives the value in the manifest. To manage secrets through the API, see [Secrets](/docs/api-documentation/console-api/getting-started#secrets) in the Console API guide.
+
+---
+
 ## Managing Secrets
 
 ###  Security Warning
 
 **Environment variables in SDL are NOT encrypted.** Anyone with access to your SDL file can read them.
+
+With Akash Console you can avoid this by [referencing a secret](#secrets-in-akash-console) instead of writing its value.
 
 ### Where Secrets Appear
 
