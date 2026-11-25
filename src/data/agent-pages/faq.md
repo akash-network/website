@@ -16,7 +16,7 @@ Yes. Akash Network ships five agent-facing interfaces: an open-source skill bund
 
 ## Do you need cryptocurrency to use Akash Network?
 
-No. Akash Console at console.akash.network is the managed path: sign up with an email address, add a credit card, and deploy. Billing is in US dollars, the minimum deployment deposit is $0.50, and no wallet, seed phrase, or token purchase is involved at any step. Programmatic access works the same way — the Console API authenticates with an API key and bills the same card.
+No. Akash Console at console.akash.network is the managed path: sign up with an email address, add a credit card, and deploy. Billing is in US dollars, Console funds each deployment from the account's credits with no deposit to choose, and no wallet, seed phrase, or token purchase is involved at any step. Programmatic access works the same way: the Console API authenticates with an API key and bills the same card.
 
 ## Can you deploy to Akash Network with your own wallet?
 

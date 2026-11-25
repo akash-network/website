@@ -326,53 +326,11 @@ Response (`200 OK`) is the same shape as `GET /v1/deployments/{dseq}` — the fu
 
 If a provider can't be reached, the call answers `502`. With code `provider_unreachable` no lease was created, so pick another bid. With code `manifest_not_delivered` the lease exists but the provider didn't take the manifest: send the same request again to retry, or close the deployment to stop paying for it.
 
----
-
-### 4. Add Deposit to Deployment (Deprecated)
-
-**Deprecated:** Console tops your deployments up automatically for as long as your account has credits, so there is nothing for this endpoint to do. It still accepts requests for existing integrations and will be removed in a future release. Add credits to your account instead. See [How Funding Works](/docs/getting-started/how-funding-works).
-
-cURL:
-
-```bash
-curl -X POST https://console-api.akash.network/v1/deposit-deployment \
-  -H "x-api-key: $AKASH_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{ "data": { "dseq": "1234567", "deposit": 0.5 } }'
-```
-
-JavaScript (fetch):
-
-```javascript
-const res = await fetch(
-  "https://console-api.akash.network/v1/deposit-deployment",
-  {
-    method: "POST",
-    headers: {
-      "x-api-key": process.env.AKASH_API_KEY,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data: { dseq, deposit: 0.5 } }),
-  },
-);
-const { data } = await res.json();
-```
-
-Response (`200 OK`): the full deployment object after the top-up.
-
-```json
-{
-  "data": {
-    "deployment": { "...": "..." },
-    "leases": [],
-    "escrow_account": { "...": "..." }
-  }
-}
-```
+You don't need a funding call after the lease. Console tops the deployment up from your account credits for as long as it runs, so keep credits on the account instead of funding each deployment. See [How Funding Works](/docs/getting-started/how-funding-works).
 
 ---
 
-### 5. Close Deployment
+### 4. Close Deployment
 
 Close a deployment. Whatever it has not yet spent returns to your Console account balance.
 
@@ -560,11 +518,44 @@ curl -X PATCH https://console-api.akash.network/v1/deployments/$DSEQ \
 
 Variables you don't send keep their current values, secrets included. Set a variable to `null` to remove it. Console sends the deployment update and the new manifest for you, and the new value reaches your container through that update.
 
-Use `PATCH` rather than `PUT /v1/deployments/{dseq}`. `PUT` is deprecated and replaces the whole SDL, so you'd have to send every secret value again, and Console can't give you the stored ones.
+To send an edited copy of the whole SDL instead, keeping the secrets you don't touch, see [Replace a Deployment Definition](#replace-a-deployment-definition). Avoid the deprecated `PUT /v1/deployments/{dseq}` for this: it replaces every stored secret with the values in the request, so you'd have to send them all again.
 
-### See which secrets a deployment has
+### List a deployment's secrets
 
-`GET /v1/deployments/{dseq}` returns the stored SDL in `data.consoleSettings.sdl`. Each secret shows up there as an `ac-secret://` reference, never as its value. For a value Console encrypted from `secretEnv`, Console picks the reference name.
+`GET /v1/deployments/{dseq}/secrets` lists each secret the stored SDL references and every place it is used. It never returns a value.
+
+```bash
+curl https://console-api.akash.network/v1/deployments/$DSEQ/secrets \
+  -H "x-api-key: $AKASH_API_KEY"
+```
+
+Response (`200 OK`):
+
+```json
+{
+  "data": {
+    "secrets": [
+      { "name": "REGISTRY_PASSWORD", "usedBy": [{ "service": "web", "credential": "password" }] },
+      {
+        "name": "TOKEN",
+        "usedBy": [
+          { "service": "web", "env": "TOKEN" },
+          { "service": "worker", "env": "API_TOKEN" }
+        ]
+      },
+      { "name": "s0_e2", "usedBy": [{ "service": "web", "env": "DATABASE_URL" }] }
+    ]
+  }
+}
+```
+
+- Secrets are listed once each, sorted by name.
+- A `usedBy` entry has `env` when the secret is the value of an environment variable, and `credential` (`username` or `password`) when it fills a private registry login.
+- One secret can fill several places, like `TOKEN` above.
+- A name like `s0_e2` is one Console picked when it encrypted a value for you from `secretEnv`.
+- `404` means you have no deployment with this dseq, or Console holds no definition for it.
+
+The stored SDL that `GET /v1/deployments/{dseq}` returns in `data.consoleSettings.sdl` shows the same secrets as `ac-secret://NAME` references.
 
 ### Redeploy with the same secrets
 
@@ -572,7 +563,268 @@ To create a new deployment that reuses the stored secrets of an existing one, pa
 
 ### Seal secrets yourself (advanced)
 
-If you'd rather Console never receive a secret in plain text, or your SDL already contains `ac-secret://NAME` references, send the values in `sealedSecrets` instead. It's a compact JWE of a flat JSON map from reference name to value, encrypted to the public key that `GET /v1/sdl-secrets-context` returns and carrying the claims that endpoint lists. On `PATCH`, the JWE only needs the names you're replacing. Other names keep their stored values.
+If you'd rather Console never receive a secret in plain text, or your SDL already contains `ac-secret://NAME` references, send the values in `sealedSecrets` instead. It's a compact JWE of a flat JSON map from reference name to value, encrypted to the public key that `GET /v1/sdl-secrets-context` returns and carrying the claims that endpoint lists. On `PATCH` and on `PUT /v1/deployments/{dseq}/definition`, the JWE only needs the names you're replacing. Other names keep their stored values. A seal sent with `PATCH` is bound to the SDL Console stores, and one sent with `PUT /v1/deployments/{dseq}/definition` to the document in that request.
+
+---
+
+## Replace a Deployment Definition
+
+`PATCH` changes the fields you name. `PUT /v1/deployments/{dseq}/definition` replaces the whole definition: you send the complete SDL the deployment should run from now on. Secrets you leave as `ac-secret://NAME` references keep their stored values, so you never send them again. Console then updates the deployment and sends the new manifest to its providers, as it does for a patch.
+
+The flow is to read the definition, edit it, check it, and send it back.
+
+### 1. Read the current definition
+
+`GET /v1/deployments/{dseq}` returns what Console stores for the deployment in `data.consoleSettings`:
+
+| Field             | What it holds                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| `sdl`             | The stored SDL as YAML text. Each secret appears as an `ac-secret://NAME` reference. |
+| `definition`      | The same SDL as a JSON object, ready to edit and send back as it is.                 |
+| `manifestVersion` | The version you read. Send it back as `ifManifestVersion` to guard your write.       |
+
+```bash
+API=https://console-api.akash.network
+
+curl -s "$API/v1/deployments/$DSEQ" -H "x-api-key: $AKASH_API_KEY" \
+  | jq '.data.consoleSettings' > current.json
+```
+
+If `consoleSettings` is `null`, Console holds no definition for the deployment. Record one first, as described in [Record a missing definition](#record-a-missing-definition).
+
+### 2. Edit it
+
+Change what you need, such as an image, an env value or a command, and leave each secret as its reference. This example moves the `web` service to a new image:
+
+```bash
+jq '.definition | .services.web.image = "ghcr.io/myorg/web:1.4.0"' current.json > definition.json
+```
+
+The network fixes a running deployment's groups, compute resources, replica counts and globally exposed ports. Leave those as they are, or create a new deployment for the change.
+
+### 3. Check it
+
+`POST /v1/deployments/{dseq}/definition/validate` runs the checks the replace would run and saves nothing:
+
+```bash
+curl -X POST "$API/v1/deployments/$DSEQ/definition/validate" \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "$(jq '{data: {definition: .}}' definition.json)"
+```
+
+```json
+{ "data": { "valid": true, "errors": [], "keptSecrets": ["API_KEY", "s0_e1"] } }
+```
+
+`keptSecrets` lists the references that will keep their stored values. If `valid` is `false`, see [Check a Definition](#check-a-definition) for how to read `errors`.
+
+### 4. Replace it
+
+```bash
+curl -X PUT "$API/v1/deployments/$DSEQ/definition" \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "$(jq --arg version "$(jq -r '.manifestVersion' current.json)" \
+        '{data: {definition: ., ifManifestVersion: $version}}' definition.json)"
+```
+
+Response (`200 OK`): the deployment, in the shape `GET /v1/deployments/{dseq}` returns, plus its `name` and the `manifestVersion` it now runs.
+
+```json
+{
+  "data": {
+    "deployment": { "id": { "owner": "akash1ownerxxx...", "dseq": "1234567" }, "state": "active", "...": "..." },
+    "leases": [{ "...": "..." }],
+    "escrow_account": { "...": "..." },
+    "name": "web",
+    "manifestVersion": "Ab3x...="
+  }
+}
+```
+
+The request takes these fields in `data`:
+
+- `sdl` or `definition`: the whole document, as YAML text or as a JSON object. Send exactly one.
+- `secretEnv`: which env values you add or change are secret. See below.
+- `sealedSecrets`: secret values you sealed yourself, bound to the document in this request. It only needs the names you are setting.
+- `ifManifestVersion`: the version you read. See [The version guard](#the-version-guard).
+- `name`: renames the deployment. Leave it out to keep the current name.
+
+Add `?async=true` to return as soon as the definition is saved. The answer is then `202` with an `activityId` to follow at `GET /v1/activities/{id}` and the saved `manifestVersion`. Refusals still come back on the request itself.
+
+### How stored secrets carry over
+
+Console compares the document you send with the one it stores:
+
+| In the document you send                                       | What Console stores                                                       |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `ac-secret://NAME`, with no new value for `NAME`               | Kept: the stored value stays                                              |
+| `ac-secret://NAME`, with a new value in `sealedSecrets`        | Replaced with the new value                                               |
+| A plain value you added or changed                             | Sealed as a new secret by default; `secretEnv` decides, see below         |
+| A plain value Console stores readable, sent back unchanged     | Stays readable, unless you name it in `secretEnv`                         |
+| A stored secret that no reference names any more               | Dropped                                                                   |
+| `ac-secret://NAME`, with neither a new nor a stored value      | Refused with `400`                                                        |
+
+`secretEnv` works as it does on create, applied to the values you add or change:
+
+- Leave it out and Console encrypts every value you add or change, unless the request carries `sealedSecrets`.
+- List variable names and Console encrypts only those. The other values you add or change stay readable.
+- Send `[]` to keep every value you add or change readable.
+- Naming a variable that Console stores readable makes it secret, even if you send the same value.
+- A name that no service sets answers `400`.
+
+Registry credentials are always encrypted.
+
+To rotate a secret without sealing it yourself, write the new value where its reference was and name the variable in `secretEnv`. For example, `API_KEY=new-value` with `"secretEnv": ["API_KEY"]`. Console stores the new value under a name it picks, such as `s0_e1`, and drops the old one. To keep the reference name, seal the new value yourself in `sealedSecrets` instead. Either way, the new value reaches your container through the update Console sends.
+
+### The version guard
+
+Send the `manifestVersion` you read as `ifManifestVersion`. If the deployment changed after you read it, the replace answers `409` with code `deployment_definition_changed` and saves nothing. Read the definition again, redo your edit and send it again.
+
+Without `ifManifestVersion`, Console guards on the version it read when your request arrived, so a change landing at the same time still answers `409` rather than being overwritten. Resending the identical request is safe: if the deployment is already on the version that request produces, it succeeds. Each successful replace returns the new `manifestVersion`, which you can send as `ifManifestVersion` on your next change.
+
+### When Console refuses a replacement
+
+A refused replace saves nothing, sends no deployment update and contacts no provider.
+
+| Status | Code                            | Meaning                                                                                                                                                             | What to do                                                    |
+| ------ | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| 400    |                                 | The SDL is invalid, a reference has no value, `sealedSecrets` holds a name no service references or is malformed or expired, or `secretEnv` names a variable no service sets. The message says which. | Fix the document. The check route lists every error at once. |
+| 403    |                                 | `sealedSecrets` was sealed for another user or against a different document than the one you sent                                                                  | Seal the values again against the document you send           |
+| 403    | `project_forbidden`             | The deployment is in a project you can't change                                                                                                                     | Use a key or role that can change that project                |
+| 404    |                                 | Console holds no definition for this deployment                                                                                                                     | [Record it](#record-a-missing-definition) first               |
+| 409    | `deployment_definition_changed` | The deployment changed after you read it                                                                                                                            | Read it again, redo the edit and retry                        |
+| 409    |                                 | `sealedSecrets` was sealed to a key Console no longer holds                                                                                                         | Fetch `GET /v1/sdl-secrets-context` and seal again            |
+| 409    | `stored_secrets_unavailable`    | The stored secrets were sealed for a team member who has since deleted their account                                                                                | Send the full SDL with every secret value again               |
+| 422    | `deployment_resources_changed`  | The document changes the groups, compute resources, replica counts or globally exposed ports                                                                        | Create a new deployment instead                               |
+| 500    | `stored_secrets_unreadable`     | Console can't open the secrets it stores for this deployment                                                                                                        | Retrying won't help. Send the full SDL with every secret value again |
+| 500    | `stored_sdl_unreadable`         | Console can't read the SDL it stores for this deployment                                                                                                            | Retrying won't help                                           |
+| 503    |                                 | The key management service is briefly unreachable                                                                                                                   | Retry                                                         |
+
+To send the full SDL with every secret value, use the deprecated `PUT /v1/deployments/{dseq}`, which doesn't read the stored secrets. It replaces all of them with the ones you send.
+
+### Record a missing definition
+
+A deployment created before Console stored definitions, or created outside Console, may have none. `PATCH`, the replace and check-before-replace routes and the secrets list then answer `404`. Record the SDL the deployment runs with `POST /v1/deployments/{dseq}/definition`:
+
+```bash
+curl -X POST "https://console-api.akash.network/v1/deployments/$DSEQ/definition" \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "data": { "sdl": "<THE_SDL_THE_DEPLOYMENT_RUNS>" } }'
+```
+
+Response (`201 Created`):
+
+```json
+{ "data": { "sdl": "<the SDL as Console stored it>", "manifestVersion": "Ab3x...=" } }
+```
+
+- Console records the SDL only if it matches what the deployment runs. Otherwise it answers `422` with code `deployment_definition_mismatch` and records nothing. To apply a different SDL to such a deployment, send it to the deprecated `PUT /v1/deployments/{dseq}`, which records the SDL it applies.
+- Recording sends no deployment update and no manifest, so it also works on a closed deployment.
+- It never overwrites. If Console already holds a definition, it answers `409` with code `deployment_definition_exists`; edit that one instead.
+- Secret values are stored as on create, but this route has no `secretEnv`. Without `sealedSecrets`, Console encrypts every env value. With `sealedSecrets`, it keeps the plain env values readable. Registry credentials are always encrypted.
+
+After that, the deployment reads, patches and replaces like any other.
+
+---
+
+## Check a Definition
+
+Two routes run Console's checks on a definition without deploying it:
+
+- `POST /v1/deployments/validate` checks a definition before you create a deployment from it. It takes the `sdl` or `definition`, `secretEnv`, `sealedSecrets` and `inheritSecretsFrom` the create would carry.
+- `POST /v1/deployments/{dseq}/definition/validate` checks a definition before it replaces that deployment's. It takes `sdl` or `definition`, `secretEnv` and `sealedSecrets`, and also reports changes that only a new deployment can take.
+
+Neither one creates, saves, encrypts or sends anything. They check the document and its secrets, not your balance or project budget.
+
+```bash
+curl -X POST https://console-api.akash.network/v1/deployments/validate \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "sdl": "<YOUR_SDL_YAML_AS_STRING>",
+      "secretEnv": ["API_KEY", "SENTRY_DSN"]
+    }
+  }'
+```
+
+A check that finds problems still answers `200 OK`:
+
+```json
+{
+  "data": {
+    "valid": false,
+    "errors": [
+      {
+        "path": "/services/web/env/2",
+        "keyword": "sdl-reference",
+        "message": "no value supplied for SDL Reference \"ac-secret://STRIPE_KEY\" in service \"web\""
+      },
+      {
+        "path": "/secretEnv",
+        "keyword": "secretEnv",
+        "message": "\"SENTRY_DSN\" is listed in secretEnv, but the request sets no environment variable of that name"
+      }
+    ],
+    "keptSecrets": []
+  }
+}
+```
+
+How to read it:
+
+- `valid` is `true` when the same create or replace would not be refused for its document or its secrets.
+- `errors` lists every problem, not just the first. Each would make the real request fail.
+- `path` is a JSON pointer into the document. `/services/web/env/2` is the third env entry of the `web` service. The same path applies whether you sent YAML or JSON. It is empty when the error concerns the whole document.
+- `keyword` is the kind of check that failed. You will see `sdl-reference` (a reference without a value, or a plain value starting with the reserved `ac-` prefix), `secretEnv` (a name in `secretEnv` that no service sets), `maxLength` (the document is too large to store), `secrets` (the secret values go over Console's limits) and `deployment_resources_changed` (only a new deployment can take the change), along with SDL schema keywords such as `required`.
+- `message` explains the error in words.
+- `keptSecrets` lists the references whose values would come from what Console already stores: the deployment's own secrets, or those of `inheritSecretsFrom`.
+
+A status other than `200` means the check itself could not run. For example, `400` for a request with both `sdl` and `definition` or a malformed `sealedSecrets`, `404` when the deployment has no stored definition or `inheritSecretsFrom` names a deployment you can't change, and `409` with code `inherited_secrets_unreadable` when the secrets of `inheritSecretsFrom` can no longer be opened.
+
+---
+
+## Send a Definition as JSON
+
+Every route that takes an SDL also takes it as a JSON object in `definition`, in place of the YAML text in `sdl`. That covers `POST /v1/deployments`, `PUT /v1/deployments/{dseq}/definition`, `POST /v1/deployments/{dseq}/definition` and both check routes. Send `sdl` or `definition`, not both.
+
+```bash
+curl -X POST https://console-api.akash.network/v1/deployments \
+  -H "x-api-key: $AKASH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "definition": {
+        "version": "2.0",
+        "services": {
+          "web": {
+            "image": "nginx:1.27.2",
+            "env": ["MODE=production", "API_KEY=your-api-key-here"],
+            "expose": [{ "port": 80, "as": 80, "to": [{ "global": true }] }]
+          }
+        },
+        "profiles": {
+          "compute": {
+            "web": {
+              "resources": { "cpu": { "units": 0.5 }, "memory": { "size": "512Mi" }, "storage": [{ "size": "1Gi" }] }
+            }
+          },
+          "placement": { "dcloud": { "pricing": { "web": { "denom": "uact", "amount": 10000 } } } }
+        },
+        "deployment": { "web": { "dcloud": { "profile": "web", "count": 1 } } }
+      },
+      "secretEnv": ["API_KEY"]
+    }
+  }'
+```
+
+- The object has the same fields as an SDL file: `version`, `services`, `profiles`, `deployment`, and `endpoints` if you use them. Env entries stay `NAME=value` strings, and a secret stays `NAME=ac-secret://NAME`.
+- Console validates it like the YAML and reports each problem at its JSON path.
+- `GET /v1/deployments/{dseq}` returns the stored definition in this shape as `data.consoleSettings.definition`, so you can edit it and send it back as it is.
+- If you seal secrets yourself, the seal is bound to the definition's compact JSON, `JSON.stringify(definition)`, with keys in the order you send them. Seal the exact object you send.
 
 ---
 
@@ -710,6 +962,8 @@ Use HTTP status codes to determine recovery behavior.
 | 401 Unauthorized          | Auth failed        | Missing, invalid or expired `x-api-key`                |
 | 403 Forbidden             | Not allowed        | Your role, the key's project or a project budget does not allow it |
 | 404 Not Found             | Resource not found | `dseq` does not exist or is out of your reach          |
+| 409 Conflict              | Changed meanwhile  | The deployment changed after you read it (`deployment_definition_changed`) |
+| 422 Unprocessable Entity  | Needs a new deployment | The SDL changes resources a running deployment can't change (`deployment_resources_changed`) |
 | 429 Rate Limited          | Rate limited       | Polling interval too fast or burst of requests         |
 | 500 Internal Server Error | Server error       | Retry with exponential backoff                         |
 
