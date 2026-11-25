@@ -193,14 +193,13 @@ H2="Content-Type: application/json"
 CREATE=$(curl -sS -X POST "$API/v1/deployments" -H "$H1" -H "$H2" \
   -d "$(jq -n --arg sdl "$SDL" '{data:{sdl:$sdl, runtimeLimitHours:1}}')")
 DSEQ=$(jq -r '.data.dseq' <<<"$CREATE")
-MANIFEST=$(jq -r '.data.manifest' <<<"$CREATE")
 
 # 2. Poll bids every 3 s until data is non-empty (typically 30 to 60 s)
 BIDS=$(curl -sS "$API/v1/bids?dseq=$DSEQ" -H "$H1")
 
 # 3. Accept the first bid; gseq, oseq, provider come from bid.id
 curl -sS -X POST "$API/v1/leases" -H "$H1" -H "$H2" \
-  -d "$(jq --arg m "$MANIFEST" '{manifest:$m, leases:[.data[0].bid.id | {dseq, gseq, oseq, provider}]}' <<<"$BIDS")"
+  -d "$(jq '{leases:[.data[0].bid.id | {dseq, gseq, oseq, provider}]}' <<<"$BIDS")"
 
 # 4. Confirm state is active and a URI is served, then close
 curl -sS "$API/v1/deployments/$DSEQ" -H "$H1"

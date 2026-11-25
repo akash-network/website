@@ -438,7 +438,7 @@ async function main() {
     method: "POST",
     body: JSON.stringify({ data: { sdl: SDL } }),
   });
-  const { dseq, manifest } = create.data;
+  const { dseq } = create.data;
 
   const bids = await waitForBids(dseq);
   const chosenId = bids[0].bid.id;
@@ -446,7 +446,6 @@ async function main() {
   await apiRequest("/v1/leases", {
     method: "POST",
     body: JSON.stringify({
-      manifest,
       leases: [
         {
           dseq: chosenId.dseq,
