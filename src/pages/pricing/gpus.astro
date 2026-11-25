@@ -3,6 +3,7 @@ import GpuPricing from "@/components/pricing-page/gpus/GpuPricing";
 import PricingHeader from "@/components/pricing-page/pricing-header.astro";
 import PricingHero from "@/components/pricing-page/pricing-hero.astro";
 import { fetchGpuPricesSnapshot } from "@/components/pricing-page/shared/pricing-api";
+import { toGpuRow } from "@/components/pricing-page/gpus/gpu-rows";
 import { renderInline, stripInline } from "@/lib/gpu-detail-pages";
 import { isoDate } from "@/lib/gpu-detail-pages/shared";
 import { buttonClass } from "@/components/pricing-page/shared/ui";
@@ -12,12 +13,12 @@ const SITE = "https://akash.network";
 const url = `${SITE}/pricing/gpus/`;
 const CONSOLE_URL = "https://console.akash.network/";
 const RESERVE_URL = "/gpus-on-demand";
+const BULK_ORDER_URL = "/next-gen-gpus/";
 const USAGE_CALCULATOR_URL = "/pricing/usage-calculator/";
 
-const title =
-  "GPU Rental Pricing: Rent H100, H200, B200 & B300 On Demand | Akash";
+const title = "GPU Rental Pricing: Rent Cloud GPUs On Demand | Akash";
 const description =
-  "Rent cloud GPUs by the hour on Akash: H100, H200, B200, B300, A100, RTX 4090 and more. Live prices from providers, pay as you go, no contracts, no egress fees.";
+  "Rent a cloud GPU by the hour or reserve a bare-metal GPU cluster. Live prices on 25+ GPU models, deploy in minutes, no contracts or egress fees.";
 
 // Prices ship in the HTML (refreshed in the browser), so the table reads without JavaScript.
 const prices = await fetchGpuPricesSnapshot();
@@ -117,7 +118,7 @@ const gpuGroups = [
 const steps = [
   {
     title: "Pick a GPU.",
-    text: "Compare models and average prices in the table above.",
+    text: "Compare the GPUs for rent and their average prices in the table above.",
   },
   {
     title: "Deploy a container.",
@@ -160,7 +161,7 @@ const capacityOptions = [
       width: 1600,
       height: 1198,
     },
-    text: "For steady production traffic or multi-node training: dedicated bare-metal GPUs or a full cluster, with custom-quoted terms.",
+    text: "For steady production traffic or multi-node training: rent a GPU cluster or dedicated bare-metal GPUs, with custom-quoted terms.",
     cta: {
       label: "Request reserved capacity",
       href: RESERVE_URL,
@@ -170,12 +171,52 @@ const capacityOptions = [
   },
 ];
 
-// Answers carry no prices: the table above is the one place prices appear. Inline
-// `[label](href)` and `**bold**` render via `renderInline`; the schema gets plain text.
+// Cost FAQ prices come from the same snapshot as the table, so they update with it.
+// Ranges start at 24 GB cards so answers don't quote 2 GB legacy GPUs as Akash's price.
+const priceRows = (prices?.data.models ?? [])
+  .map(toGpuRow)
+  .filter((row) => row.hourly !== null);
+const tierPrices = (match: (row: (typeof priceRows)[number]) => boolean) =>
+  priceRows.filter(match).map((row) => row.hourly as number);
+const tiers = {
+  // GeForce cards (rtx3090, rtx4090…), not workstation models like rtx4000ada.
+  consumer: tierPrices(
+    (row) =>
+      /^rtx\d{4}(ti)?$/i.test(row.model) && row.ramGb >= 24 && row.ramGb <= 32,
+  ),
+  workstation: tierPrices((row) => row.ramGb === 96),
+  dataCenter: tierPrices((row) => row.ramGb === 80),
+};
+const usd = (value: number) => `$${value.toFixed(2)}`;
+const range = (values: number[], sep = "–") =>
+  `${usd(Math.min(...values))}${sep}${usd(Math.max(...values))}`;
+const costAnswer =
+  pricesUpdated && Object.values(tiers).every((values) => values.length > 0)
+    ? `On Akash, renting a GPU for AI work costs about ${range(Object.values(tiers).flat(), " to ")} per GPU-hour, as of ${pricesUpdated.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}. Consumer GPUs with 24–32 GB run about ${range(tiers.consumer)}, workstation GPUs with 96 GB about ${range(tiers.workstation)}, and 80 GB data-center GPUs about ${range(tiers.dataCenter)}. Prices come from live provider bids, and there are no egress fees.`
+    : "On Akash, GPU prices come from live provider bids and are listed per GPU-hour in the table above. There are no egress fees.";
+
+// Inline `[label](href)` and `**bold**` render via `renderInline`; the schema gets plain text.
 const faq = [
   {
-    question:
-      "Can I pay only for the GPU hours I use, with no long-term contract?",
+    question: "How much does it cost to rent a GPU?",
+    answer: costAnswer,
+  },
+  {
+    question: "How does renting a GPU on Akash work?",
+    answer:
+      "Renting a GPU on Akash takes four steps: pick a GPU in the pricing table, deploy a container in Akash Console from a template or your own Docker image, accept a provider's bid, and pay while the deployment runs. On-demand deployments start in minutes, and billing stops when you close the deployment.",
+  },
+  {
+    question: "What is GPU as a service?",
+    answer:
+      "GPU as a service (GPUaaS) means renting GPU compute from a cloud provider instead of buying hardware: you pay by the hour or for a reserved term, and the provider runs the servers. On Akash, GPU as a service comes in two forms: on-demand GPUs billed while they run, and reserved bare-metal clusters with SLA-backed uptime.",
+  },
+  {
+    question: "How can my company secure GPU capacity during a GPU shortage?",
+    answer: `On Akash, companies secure GPU capacity in two ways: rent on-demand GPUs from independent providers when they're available, or reserve a dedicated bare-metal cluster for a fixed term with SLA-backed uptime and custom-quoted pricing. Reserved clusters include NVLink, and InfiniBand for multi-node training. Request a quote through the [bulk order form](${BULK_ORDER_URL}).`,
+  },
+  {
+    question: "Can I rent a GPU by the hour, with no long-term contract?",
     answer:
       "Yes. On Akash, on-demand GPU deployments are billed for the time they run, with no long-term contract. Close a deployment and billing stops. Only reserved clusters are quoted for a fixed term.",
   },
@@ -202,13 +243,13 @@ const faq = [
     answer: `Yes. In [Akash Console](${CONSOLE_URL}), pick a template or paste any Docker image, choose a GPU and deploy. The provider runs the container on its own infrastructure, so there's no cluster for you to set up or manage.`,
   },
   {
-    question: "Do I need crypto to rent a GPU?",
+    question: "Can I pay for GPU rental with a credit card?",
     answer:
-      "No. Akash Console is a managed service: you pay by credit card in USD, the same as any other cloud. No wallet or crypto needed.",
+      "Yes. Akash Console is a managed service: you pay by credit card in USD, like any other cloud provider, with no wallet or special account needed.",
   },
   {
     question: "Can I reserve dedicated GPUs or a multi-GPU cluster?",
-    answer: `Yes. On Akash, reserved clusters run on dedicated bare metal with NVLink, and InfiniBand for multi-node training, with SLA-backed uptime and custom-quoted terms. Request a quote through the [bulk order form](${RESERVE_URL}).`,
+    answer: `Yes. On Akash, reserved clusters run on dedicated bare metal with NVLink, and InfiniBand for multi-node training, with SLA-backed uptime and custom-quoted terms. Request a quote through the [bulk order form](${BULK_ORDER_URL}).`,
   },
   {
     question: "Which GPU should I choose for LLM inference vs. training?",
@@ -289,7 +330,7 @@ const badge =
   <PricingHero
     wide
     title="GPU Rental Pricing"
-    description="Rent GPUs by the hour from independent providers on the Akash Open Cloud. Providers bid for your workload, so the prices below are what the market charges right now."
+    description="Rent a cloud GPU by the hour from independent providers. Akash is a GPU rental marketplace: providers bid for your workload, so the prices below are what the market charges right now."
   />
 
   <GpuPricing client:load initial={prices} />
