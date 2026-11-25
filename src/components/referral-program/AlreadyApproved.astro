@@ -1,0 +1,121 @@
+---
+/**
+ * Closing band for people who are already affiliates: the one inverted block
+ * on the page. Left, where to go and the button; right, the path in Console
+ * and the three things waiting on the Referrals page.
+ */
+import { ArrowUpRight, ChevronRight, Link2, Users, Wallet } from "lucide-react";
+import { CONSOLE_URL } from "./terms";
+
+const items = [
+  {
+    icon: Link2,
+    title: "Your referral link",
+    body: "Copy it, or share it straight from the page.",
+  },
+  {
+    icon: Users,
+    title: "People you referred",
+    body: "Shown by short code, with who's paying and the months left.",
+  },
+  {
+    icon: Wallet,
+    title: "Your commission",
+    body: "What's credited and what's still on hold.",
+  },
+];
+---
+
+<div
+  class="ap-band relative overflow-hidden rounded-2xl bg-foreground text-background"
+>
+  <div
+    class="relative grid grid-cols-1 gap-10 p-6 sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-16 lg:p-14"
+  >
+    <div>
+      <p
+        class="inline-flex items-center gap-2 rounded-full border border-background/20 px-3 py-1 text-xs font-medium text-background/80"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-background"></span>
+        For affiliates
+      </p>
+      <h2
+        class="mt-5 text-3xl font-semibold leading-tight !text-background md:text-5xl md:tracking-tighter"
+      >
+        Already an affiliate?
+      </h2>
+      <p
+        class="mt-4 max-w-[460px] text-base leading-relaxed text-background/70 md:text-lg"
+      >
+        Everything for your referrals lives in one place in Console, next to
+        your billing.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a
+          href={CONSOLE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex h-10 items-center gap-1.5 rounded-md bg-background px-5 text-sm font-medium text-foreground transition-colors hover:bg-background/90"
+        >
+          Open Console
+          <ArrowUpRight className="h-4 w-4" />
+        </a>
+        <a
+          href="#rules"
+          class="inline-flex h-10 items-center rounded-md border border-background/25 px-5 text-sm font-medium text-background transition-colors hover:bg-background/10"
+        >
+          Read the rules
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="rounded-xl border border-background/15 bg-background/[0.04] p-4 sm:p-5"
+    >
+      <p
+        class="flex flex-wrap items-center gap-1.5 font-mono text-[12px]"
+        aria-label="Console, then Settings, then Referrals"
+      >
+        <span
+          class="hidden rounded-md border border-background/20 px-2 py-1 text-background/70 min-[420px]:inline"
+          >Console</span
+        >
+        <ChevronRight
+          className="hidden h-3.5 w-3.5 text-background/40 min-[420px]:block"
+          aria-hidden="true"
+        />
+        <span
+          class="rounded-md border border-background/20 px-2 py-1 text-background/70"
+          >Settings</span
+        >
+        <ChevronRight
+          className="h-3.5 w-3.5 text-background/40"
+          aria-hidden="true"
+        />
+        <span
+          class="rounded-md bg-background px-2 py-1 font-medium text-foreground"
+          >Referrals</span
+        >
+      </p>
+      <ul class="mt-4" role="list">
+        {
+          items.map((it) => (
+            <li class="flex items-start gap-3 border-t border-background/15 py-4 last:pb-1">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-background/20 text-background">
+                <it.icon className="h-4 w-4" />
+              </span>
+              <span class="min-w-0">
+                <span class="block text-sm font-medium text-background">
+                  {it.title}
+                </span>
+                <span class="mt-0.5 block text-sm text-background/60">
+                  {it.body}
+                </span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</div>
