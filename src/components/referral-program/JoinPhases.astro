@@ -1,0 +1,242 @@
+---
+/**
+ * Who can join: the two launch phases as a short track. Each card carries
+ * its own header (a numbered node and First or Next), and from md up an arrow
+ * sits between the two headers to join them. Each card opens on what that phase
+ * looks like for the person joining: a hand-reviewed request at the top of a
+ * small stack for the community, and the Join card a customer who has paid
+ * $100+ by card sees under Settings → Referrals. Then who, how, and one call to action.
+ */
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Gift,
+  MousePointer2,
+} from "lucide-react";
+import { CONSOLE_URL, DISCORD_URL, TERMS, usd } from "./terms";
+
+const spend = usd(TERMS.phaseTwoSpend);
+---
+
+<div>
+  <ol
+    class="relative grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6"
+    role="list"
+  >
+    <!-- the step between the two cards, sitting on their header row -->
+    <li
+      class="pointer-events-none absolute left-1/2 top-[30px] z-10 hidden h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border bg-background text-foreground shadow-sm md:flex"
+      aria-hidden="true"
+    >
+      <ArrowRight className="h-4 w-4" />
+    </li>
+    <!-- PHASE 1 -->
+    <li
+      class="flex flex-col overflow-hidden rounded-2xl border bg-card/50 dark:bg-background2"
+    >
+      <div class="flex h-[60px] items-center gap-3 border-b px-6 md:px-8">
+        <span
+          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-foreground font-sans text-[13px] font-semibold tabular-nums text-background"
+          aria-hidden="true">1</span
+        >
+        <span class="text-sm font-medium text-foreground"
+          ><span class="sr-only">Phase 1:</span>First</span
+        >
+      </div>
+      <div class="ap-vignette !h-[260px]" aria-hidden="true">
+        <div class="relative w-full max-w-[320px]">
+          <div
+            class="absolute inset-x-8 -top-5 h-full rounded-xl border bg-background opacity-50 shadow-sm"
+          >
+          </div>
+          <div
+            class="absolute inset-x-4 -top-2.5 h-full rounded-xl border bg-background opacity-80 shadow-sm"
+          >
+          </div>
+          <div class="relative rounded-xl border bg-background p-4 shadow-sm">
+            <div class="flex items-center gap-3">
+              <span
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-semibold text-background"
+                >Y</span
+              >
+              <span class="min-w-0">
+                <span class="block text-[13px] font-medium text-foreground"
+                  >yourhandle</span
+                >
+                <span class="block text-[11px] text-muted-foreground"
+                  >Akash community member</span
+                >
+              </span>
+            </div>
+            <ul
+              class="mt-4 space-y-2 border-t pt-3 text-[12px] text-foreground"
+            >
+              <li class="flex items-center gap-2">
+                <Check className="h-3.5 w-3.5 shrink-0" />
+                Builds, writes or teaches with Akash
+              </li>
+              <li class="flex items-center gap-2">
+                <Check className="h-3.5 w-3.5 shrink-0" />
+                Reviewed by the Akash team
+              </li>
+            </ul>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-[11px] text-muted-foreground"
+                >Approved by hand</span
+              >
+              <span
+                class="inline-flex items-center gap-1.5 rounded-full bg-foreground px-2.5 py-1 text-[11px] font-medium text-background"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-background"></span>
+                Approved affiliate
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-1 flex-col p-6 md:p-8">
+        <h3 class="text-2xl font-semibold text-foreground">Community</h3>
+        <p class="mt-2 max-w-[460px] text-sm leading-relaxed text-para">
+          The first affiliates come from the Akash community: people we know and
+          trust, approved one by one.
+        </p>
+        <dl class="mt-6 border-t text-sm">
+          <div
+            class="grid grid-cols-[48px_minmax(0,1fr)] gap-3 border-b py-3 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-4"
+          >
+            <dt class="text-muted-foreground">Who</dt>
+            <dd class="text-foreground">Community members we know and trust</dd>
+          </div>
+          <div
+            class="grid grid-cols-[48px_minmax(0,1fr)] gap-3 border-b py-3 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-4"
+          >
+            <dt class="text-muted-foreground">How</dt>
+            <dd class="text-foreground">
+              Say hello in the community; the team approves each affiliate by
+              hand
+            </dd>
+          </div>
+        </dl>
+        <div class="mt-auto pt-8">
+          <a
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-10 items-center gap-1.5 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Join the Akash Discord
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <!-- PHASE 2 -->
+    <li
+      class="flex flex-col overflow-hidden rounded-2xl border bg-card/50 dark:bg-background2"
+    >
+      <div class="flex h-[60px] items-center gap-3 border-b px-6 md:px-8">
+        <span
+          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-foreground bg-background font-sans text-[13px] font-semibold tabular-nums text-foreground"
+          aria-hidden="true">2</span
+        >
+        <span class="text-sm font-medium text-foreground"
+          ><span class="sr-only">Phase 2:</span>Next</span
+        >
+      </div>
+      <div class="ap-vignette !h-[260px]" aria-hidden="true">
+        <div
+          class="relative w-full max-w-[320px] rounded-xl border bg-background p-4 shadow-sm"
+        >
+          <p class="text-[11px] text-muted-foreground">
+            Settings / <span class="text-foreground">Referrals</span>
+          </p>
+          <div class="mt-3 flex items-start gap-2.5">
+            <span
+              class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-foreground"
+            >
+              <Gift className="h-3.5 w-3.5" />
+            </span>
+            <span class="min-w-0">
+              <span
+                class="block text-[12px] font-medium leading-snug text-foreground"
+                >Join the referral program</span
+              >
+              <span class="block text-[11px] text-muted-foreground"
+                >Share a link to Console and earn credit.</span
+              >
+            </span>
+          </div>
+          <div class="mt-4 rounded-lg border px-3 py-2.5">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-muted-foreground">Paid by card</span>
+              <span
+                class="inline-flex items-center gap-1 font-medium text-foreground"
+              >
+                {spend}+
+                <Check className="h-3 w-3" />
+              </span>
+            </div>
+            <span class="mt-2 block h-1 overflow-hidden rounded-full bg-accent">
+              <span class="ap-meter block h-full rounded-full bg-foreground"
+              ></span>
+            </span>
+          </div>
+          <div class="relative mt-4">
+            <span
+              class="flex h-8 items-center justify-center rounded-md bg-primary text-[12px] font-medium text-primary-foreground"
+            >
+              Join
+            </span>
+            <MousePointer2
+              className="ap-cursor absolute -bottom-3 right-12 h-5 w-5 fill-foreground text-background"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-1 flex-col p-6 md:p-8">
+        <h3 class="text-2xl font-semibold text-foreground">
+          Customers who've paid {spend}+
+        </h3>
+        <p class="mt-2 max-w-[460px] text-sm leading-relaxed text-para">
+          Next, the program opens to Console customers who've paid {spend} or more
+          by card. They join in one click, with no approval step.
+        </p>
+        <dl class="mt-6 border-t text-sm">
+          <div
+            class="grid grid-cols-[48px_minmax(0,1fr)] gap-3 border-b py-3 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-4"
+          >
+            <dt class="text-muted-foreground">Who</dt>
+            <dd class="text-foreground">
+              {spend} or more in card payments after refunds, from their personal
+              account and teams they created
+            </dd>
+          </div>
+          <div
+            class="grid grid-cols-[48px_minmax(0,1fr)] gap-3 border-b py-3 sm:grid-cols-[72px_minmax(0,1fr)] sm:gap-4"
+          >
+            <dt class="text-muted-foreground">How</dt>
+            <dd class="text-foreground">
+              A Join card under Settings → Referrals in Console. We also email
+              customers who qualify.
+            </dd>
+          </div>
+        </dl>
+        <div class="mt-auto pt-8">
+          <a
+            href={CONSOLE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-10 items-center gap-1.5 rounded-md border bg-background px-5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Open Console
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </li>
+  </ol>
+</div>

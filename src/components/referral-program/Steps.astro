@@ -1,0 +1,154 @@
+---
+/**
+ * How it works, in three steps. Each card opens on a small piece of the real
+ * product at that step: the referral link, the sign-up page a referred person
+ * sees, and the commission rows in the affiliate's billing history.
+ */
+import { Gift } from "lucide-react";
+import { TERMS, usd } from "./terms";
+
+const pct = `${TERMS.rate * 100}%`;
+---
+
+<ol class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6" role="list">
+  <li
+    class="flex flex-col overflow-hidden rounded-2xl border bg-card/50 dark:bg-background2"
+  >
+    <div class="ap-vignette" aria-hidden="true">
+      <div class="w-full max-w-[300px] space-y-2">
+        <div class="ap-chip font-mono">
+          <span class="truncate"
+            >console.akash.network/?ref=<b class="ap-ref">yourcode</b></span
+          >
+        </div>
+        <div class="ap-chip font-mono opacity-70">
+          <span class="truncate"
+            >…/new-deployment?ref=<b class="ap-ref">yourcode</b></span
+          >
+        </div>
+        <div class="ap-chip font-mono opacity-40">
+          <span class="truncate"
+            >…/templates?ref=<b class="ap-ref">yourcode</b></span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-1 flex-col gap-2 p-6">
+      <p class="font-mono text-xs text-muted-foreground">01</p>
+      <h3 class="text-xl font-semibold text-foreground">Share your link</h3>
+      <p class="text-sm leading-relaxed text-para">
+        Your link lives in Console under Settings → Referrals. It works on any
+        Console page, so you can add <code class="ap-inline">?ref=</code> to a template
+        or deployment link you already share.
+      </p>
+    </div>
+  </li>
+
+  <li
+    class="flex flex-col overflow-hidden rounded-2xl border bg-card/50 dark:bg-background2"
+  >
+    <div class="ap-vignette" aria-hidden="true">
+      <div
+        class="w-full max-w-[300px] rounded-lg border bg-background p-3 shadow-sm"
+      >
+        <div
+          class="flex items-start gap-2.5 rounded-md border bg-card/60 p-2.5"
+        >
+          <span
+            class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border bg-background text-foreground"
+          >
+            <Gift className="h-3.5 w-3.5" />
+          </span>
+          <span class="min-w-0">
+            <span class="block text-[12px] font-medium text-foreground"
+              >You were referred to Akash Console</span
+            >
+            <span class="block text-[11px] text-muted-foreground">
+              Start with {usd(TERMS.referredTrial)} in trial credit.
+            </span>
+          </span>
+        </div>
+        <p class="mt-3 text-center text-[13px] font-semibold text-foreground">
+          Start deploying
+        </p>
+        <div
+          class="mt-2 flex h-8 items-center justify-center rounded-md bg-primary text-[12px] font-medium text-primary-foreground"
+        >
+          Continue with email
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-1 flex-col gap-2 p-6">
+      <p class="font-mono text-xs text-muted-foreground">02</p>
+      <h3 class="text-xl font-semibold text-foreground">
+        They start with {usd(TERMS.referredTrial)}
+      </h3>
+      <p class="text-sm leading-relaxed text-para">
+        People who sign up through your link get {usd(TERMS.referredTrial)} of trial
+        credit instead of {usd(TERMS.standardTrial)}, with the same checks and
+        limits as the standard trial.
+      </p>
+    </div>
+  </li>
+
+  <li
+    class="flex flex-col overflow-hidden rounded-2xl border bg-card/50 dark:bg-background2"
+  >
+    <div class="ap-vignette" aria-hidden="true">
+      <div
+        class="w-full max-w-[300px] overflow-hidden rounded-lg border bg-background text-[12px] shadow-sm"
+      >
+        {
+          [
+            { what: "Affiliate commission", amount: 2.5, state: "Credited" },
+            {
+              what: "First-payment bonus",
+              amount: TERMS.bonus,
+              state: "On hold",
+            },
+            { what: "Affiliate commission", amount: 5, state: "On hold" },
+          ].map((r, i) => (
+            <div
+              class:list={[
+                "flex items-center gap-3 px-3 py-2.5",
+                i > 0 && "border-t",
+              ]}
+            >
+              <span class="min-w-0 flex-1 truncate text-foreground">
+                {r.what}
+              </span>
+              <span class="font-medium tabular-nums text-foreground">
+                +{usd(r.amount, true)}
+              </span>
+              <span
+                class:list={[
+                  "w-[68px] rounded-full px-2 py-0.5 text-center text-[10px] font-medium",
+                  r.state === "Credited"
+                    ? "bg-foreground text-background"
+                    : "border text-muted-foreground",
+                ]}
+              >
+                {r.state}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="flex flex-1 flex-col gap-2 p-6">
+      <p class="font-mono text-xs text-muted-foreground">03</p>
+      <h3 class="text-xl font-semibold text-foreground">
+        You earn when they pay
+      </h3>
+      <p class="text-sm leading-relaxed text-para">
+        For {TERMS.windowMonths} months after they sign up, you earn {pct} of every
+        card payment they make. Plus {usd(TERMS.bonus)} if their first payment is
+        {usd(TERMS.bonusMinPayment)} or more, once they've used {
+          usd(TERMS.bonusMinUsed)
+        }
+        on deployments beyond their trial credit. It all lands as Console credit in
+        your personal account.
+      </p>
+    </div>
+  </li>
+</ol>

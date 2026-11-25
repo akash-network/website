@@ -1,0 +1,311 @@
+---
+import AlreadyApproved from "@/components/referral-program/AlreadyApproved.astro";
+import EarningsExample from "@/components/referral-program/EarningsExample";
+import HeroStory from "@/components/referral-program/HeroStory";
+import JoinPhases from "@/components/referral-program/JoinPhases.astro";
+import Steps from "@/components/referral-program/Steps.astro";
+import { DISCORD_URL, TERMS, usd } from "@/components/referral-program/terms";
+import Layout from "@/layouts/layout.astro";
+import { ArrowRight, Plus } from "lucide-react";
+import "@/components/referral-program/referral.css";
+
+const pct = `${TERMS.rate * 100}%`;
+const description = `Share Akash Console with a referral link. People you refer start with ${usd(TERMS.referredTrial)} of trial credit, and you earn ${pct} of their card payments for ${TERMS.windowMonths} months after they sign up, as Console credit.`;
+
+const glance = [
+  { value: pct, label: "of every card payment by the people you refer" },
+  {
+    value: `${TERMS.windowMonths} months`,
+    label: "of commission after each person you refer signs up",
+  },
+  {
+    value: `+${usd(TERMS.bonus)}`,
+    label: `bonus when a referred person's first payment is ${usd(TERMS.bonusMinPayment)} or more`,
+  },
+  {
+    value: usd(TERMS.referredTrial),
+    label: `trial credit for the people you refer, instead of ${usd(TERMS.standardTrial)}`,
+  },
+];
+
+const rules = [
+  {
+    topic: "Payout",
+    rule: "Commission is Console credit in your personal account. You spend it on deployments; it can't be withdrawn as cash.",
+  },
+  {
+    topic: "Commission window",
+    rule: `You earn ${pct} of the card payments a referred person makes in the ${TERMS.windowMonths} months after they sign up. Time they spend on the trial counts toward those ${TERMS.windowMonths} months.`,
+  },
+  {
+    topic: "Holding period",
+    rule: `Each commission is held for at least ${TERMS.holdDays} days before it's credited. Anything tied to a disputed payment stays on hold until the dispute is resolved. A refund or chargeback cancels it, or takes it back once credited.`,
+  },
+  {
+    topic: "First-payment bonus",
+    rule: `Their first payment must be ${usd(TERMS.bonusMinPayment)} or more; only the first payment counts. The +${usd(TERMS.bonus)} bonus is credited once they've used ${usd(TERMS.bonusMinUsed)} on deployments beyond their trial credit within those ${TERMS.windowMonths} months, or it's canceled. Up to ${TERMS.bonusMaxPerMonth} bonuses per affiliate per month.`,
+  },
+  {
+    topic: "What counts",
+    rule: "Only card payments: adding credits and auto reload. Coupons, trial credit, manual credits and bonuses earn nothing.",
+  },
+  {
+    topic: "Self-referral",
+    rule: "Referring yourself earns nothing. That includes signing up with the same email, from the same device, or with a card you share.",
+  },
+  {
+    topic: "Your link",
+    rule: `Only new sign-ups count: someone who already has a Console account doesn't become your referral. A visit with your link is remembered for ${TERMS.linkDays} days, the last referral link someone opens wins, and each account has one referrer.`,
+  },
+  {
+    topic: "Removal",
+    rule: "We can remove an affiliate at any time. That stops new referrals and future commission, and cancels anything still on hold.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Where do I find my referral link?",
+    a: "In Console, under Settings → Referrals. Once you've joined, it shows your link, who signed up, who's paying, and what's credited and on hold.",
+  },
+  {
+    q: "Can I turn my commission into cash?",
+    a: "No. Commission is Console credit, added to your personal account. Spend it on any deployment.",
+  },
+  {
+    q: "I work in a team. Where does my commission go?",
+    a: "Always to your personal account, whichever team you have open. For the people you refer, card payments count from their personal account and from teams they created, not from teams they only joined.",
+  },
+  {
+    q: "Why is my commission on hold?",
+    a: `Every commission waits at least ${TERMS.holdDays} days before it's credited, so a refund or chargeback can cancel it first. The first-payment bonus also waits until they've used ${usd(TERMS.bonusMinUsed)} on deployments beyond their trial credit, and anything tied to a disputed payment waits until the dispute is resolved.`,
+  },
+  {
+    q: "Can I add my code to a template or deployment link?",
+    a: "Yes. Your code works on any Console page: add ?ref=yourcode to the end of a link you already share, like a template or a guide.",
+  },
+  {
+    q: `What happens ${TERMS.windowMonths} months after they sign up?`,
+    a: `Commission from that person stops. They keep their account and keep deploying as usual, and each new person you refer starts their own ${TERMS.windowMonths} months.`,
+  },
+];
+---
+
+<Layout
+  title="Referral Program — Akash Console"
+  image="/meta-images/deploy.webp"
+  description={description}
+  classname="bg-background"
+>
+  <div class="ap not-prose">
+    <!-- HERO -->
+    <section
+      class="container-wide grid grid-cols-1 items-center gap-12 pt-10 md:pt-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:pt-20"
+    >
+      <div>
+        <p
+          class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium text-foreground"
+        >
+          <span class="h-1.5 w-1.5 rounded-full bg-foreground"></span>
+          Akash Console referral program
+        </p>
+        <h1
+          class="mt-5 text-4xl !font-semibold leading-[1.05] tracking-tighter text-foreground md:text-6xl"
+        >
+          Share Console.<br />Earn credit.
+        </h1>
+        <p
+          class="mt-5 max-w-[540px] text-base leading-relaxed text-para md:text-lg"
+        >
+          Affiliates get a referral link to Akash Console. New users who sign up
+          with it start with a bigger trial, and you earn Console credit on what
+          they pay by card in their first {TERMS.windowMonths} months.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a
+            href="#who-can-join"
+            class="inline-flex h-10 items-center gap-1.5 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Who can join
+            <ArrowRight className="h-4 w-4" />
+          </a>
+          <a
+            href="#how-it-works"
+            class="inline-flex h-10 items-center rounded-md border bg-background px-5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            How it works
+          </a>
+        </div>
+      </div>
+
+      <HeroStory client:load />
+    </section>
+
+    <!-- AT A GLANCE -->
+    <section
+      class="container-wide mt-16 md:mt-24"
+      aria-labelledby="at-a-glance"
+    >
+      <h2 id="at-a-glance" class="sr-only">At a glance</h2>
+      <dl
+        class="grid grid-cols-2 gap-px overflow-hidden rounded-xl border bg-[hsl(216,11%,91%)] dark:bg-[hsl(0,0%,18%)] lg:grid-cols-4"
+      >
+        {
+          glance.map((g) => (
+            <div class="flex flex-col-reverse justify-end gap-2 bg-background p-4 sm:p-6 md:p-8">
+              <dt class="max-w-[220px] text-[13px] leading-snug text-para sm:text-sm">
+                {g.label}
+              </dt>
+              <dd class="text-[28px] font-semibold tabular-nums leading-none tracking-tight text-foreground sm:text-4xl md:text-5xl">
+                {g.value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mt-3 text-xs text-muted-foreground">Terms can change.</p>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section
+      id="how-it-works"
+      class="container-wide mt-20 scroll-mt-24 md:mt-32"
+      aria-labelledby="how-it-works-title"
+    >
+      <div class="mb-10 max-w-[640px]">
+        <h2
+          id="how-it-works-title"
+          class="text-3xl font-semibold text-foreground md:text-4xl"
+        >
+          How it works
+        </h2>
+        <p class="mt-3 text-base text-para">
+          One link, three steps. Everything happens in Console, and nothing
+          changes for the people you refer beyond a bigger trial.
+        </p>
+      </div>
+      <Steps />
+    </section>
+
+    <!-- WORKED EXAMPLE -->
+    <section
+      class="container-wide mt-20 md:mt-32"
+      aria-labelledby="example-title"
+    >
+      <div class="mb-10 max-w-[640px]">
+        <h2
+          id="example-title"
+          class="text-3xl font-semibold text-foreground md:text-4xl"
+        >
+          Follow one referral
+        </h2>
+        <p class="mt-3 text-base text-para">
+          Pick what someone you referred pays by card each month and watch where
+          the credit goes: {pct} for {TERMS.windowMonths} months after they sign up,
+          a bonus if their first payment is {usd(TERMS.bonusMinPayment)} or more,
+          and a hold of at least {TERMS.holdDays} days before each commission lands.
+        </p>
+      </div>
+      <EarningsExample client:visible />
+    </section>
+
+    <!-- RULES -->
+    <section
+      id="rules"
+      class="container-wide mt-20 grid scroll-mt-24 grid-cols-1 gap-10 md:mt-32 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16"
+      aria-labelledby="rules-title"
+    >
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <h2
+          id="rules-title"
+          class="text-3xl font-semibold text-foreground md:text-4xl"
+        >
+          The rules
+        </h2>
+        <p class="mt-3 max-w-[440px] text-base text-para">
+          Short, so you can read them before you share. Terms can change.
+        </p>
+      </div>
+      <dl class="border-t">
+        {
+          rules.map((r) => (
+            <div class="grid grid-cols-1 gap-1 border-b py-5 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-8">
+              <dt class="text-sm font-medium text-foreground">{r.topic}</dt>
+              <dd class="text-sm leading-relaxed text-para">{r.rule}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <!-- WHO CAN JOIN -->
+    <section
+      id="who-can-join"
+      class="container-wide mt-20 scroll-mt-24 md:mt-32"
+      aria-labelledby="who-can-join-title"
+    >
+      <div class="mb-10 max-w-[640px]">
+        <h2
+          id="who-can-join-title"
+          class="text-3xl font-semibold text-foreground md:text-4xl"
+        >
+          Who can join
+        </h2>
+        <p class="mt-3 text-base text-para">
+          Phase 1 is approved by hand. Phase 2 opens it to customers who've paid {
+            usd(TERMS.phaseTwoSpend)
+          } or more by card.
+        </p>
+      </div>
+      <JoinPhases />
+    </section>
+
+    <!-- FAQ -->
+    <section
+      class="container-wide mt-20 grid grid-cols-1 gap-10 md:mt-32 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16"
+      aria-labelledby="faq-title"
+    >
+      <div>
+        <h2
+          id="faq-title"
+          class="text-3xl font-semibold text-foreground md:text-4xl"
+        >
+          Questions
+        </h2>
+        <p class="mt-3 max-w-[440px] text-base text-para">
+          Something else? Ask in the
+          <a
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-current dark:decoration-white/30"
+            >Akash Discord</a
+          >.
+        </p>
+      </div>
+      <div class="border-t">
+        {
+          faqs.map((f) => (
+            <details class="ap-faq group border-b">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-base font-medium text-foreground">
+                {f.q}
+                <Plus
+                  className="ap-faq-icon h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"
+                  aria-hidden="true"
+                />
+              </summary>
+              <p class="max-w-[640px] pb-5 text-sm leading-relaxed text-para">
+                {f.a}
+              </p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="container-wide mt-20 pb-20 md:mt-32 md:pb-28">
+      <AlreadyApproved />
+    </section>
+  </div>
+</Layout>

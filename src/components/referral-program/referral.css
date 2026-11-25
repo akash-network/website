@@ -1,0 +1,185 @@
+/* /community/referral-program: the few styles Tailwind utilities don't cover. */
+
+/* Step vignettes: a quiet stage above each step's copy. */
+.ap .ap-vignette {
+  display: flex;
+  height: 216px;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid hsl(216 11% 91%);
+  padding: 28px 24px;
+  background-image: radial-gradient(hsl(0 0% 0% / 0.07) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+.dark .ap .ap-vignette {
+  border-bottom-color: hsl(0 0% 18%);
+  background-image: radial-gradient(hsl(0 0% 100% / 0.08) 1px, transparent 1px);
+}
+
+.ap .ap-chip {
+  display: flex;
+  height: 34px;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid hsl(216 11% 91%);
+  background: hsl(var(--background));
+  padding: 0 10px;
+  font-size: 11px;
+  color: hsl(var(--foreground));
+}
+@media (min-width: 400px) {
+  .ap .ap-chip {
+    font-size: 12px;
+  }
+}
+.dark .ap .ap-chip {
+  border-color: hsl(0 0% 18%);
+}
+
+.ap .ap-ref {
+  font-weight: 500;
+  border-radius: 3px;
+  padding: 0 3px;
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.ap .ap-inline {
+  border-radius: 4px;
+  border: 1px solid hsl(216 11% 91%);
+  padding: 1px 5px;
+  font-size: 0.85em;
+  color: hsl(var(--foreground));
+}
+.dark .ap .ap-inline {
+  border-color: hsl(0 0% 18%);
+}
+
+/* FAQ: native details, a plus that turns into a cross. */
+.ap .ap-faq summary::-webkit-details-marker {
+  display: none;
+}
+.ap .ap-faq[open] .ap-faq-icon {
+  transform: rotate(45deg);
+}
+.ap .ap-faq summary:focus-visible {
+  outline: 2px solid hsl(var(--foreground));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Phase 2 email: the spend meter is full. */
+.ap .ap-meter {
+  width: 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ap .ap-meter {
+    animation: ap-fill 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 40%;
+  }
+}
+@keyframes ap-fill {
+  from {
+    width: 8%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Closing band: a faint dot grid, fading in from the right. */
+.ap .ap-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    hsl(var(--background) / 0.14) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+  -webkit-mask-image: linear-gradient(to left, #000 10%, transparent 70%);
+  mask-image: linear-gradient(to left, #000 10%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Hero walkthrough (HeroStory.tsx). Elements marked .ap-a animate in with an
+   inline animation-delay; the panel pauses them all with .ap-hs-paused.
+   Default styles are the finished state, so reduced motion shows that. */
+.ap-hs .ap-in {
+  animation: ap-hs-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.ap-hs .ap-pop {
+  animation: ap-hs-pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+}
+.ap-hs .ap-out {
+  animation: ap-hs-out 0.25s ease both;
+}
+.ap-hs .ap-fill {
+  width: 100%;
+  animation: ap-hs-fill 1.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.ap-hs .ap-press {
+  animation: ap-hs-press 0.32s ease both;
+}
+.ap-hs .ap-cursor {
+  animation: ap-hs-cursor 1.1s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+.ap-hs.ap-hs-paused .ap-a {
+  animation-play-state: paused !important;
+}
+@keyframes ap-hs-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes ap-hs-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+@keyframes ap-hs-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ap-hs-fill {
+  from {
+    width: 0;
+  }
+}
+@keyframes ap-hs-press {
+  50% {
+    transform: scale(0.94);
+  }
+}
+@keyframes ap-hs-cursor {
+  0% {
+    opacity: 0;
+    transform: translate(80px, 70px);
+  }
+  20% {
+    opacity: 1;
+  }
+  78% {
+    transform: translate(0, 0);
+  }
+  88% {
+    transform: translate(0, 0) scale(0.82);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ap-hs .ap-a {
+    animation: none !important;
+  }
+  .ap-hs .ap-out,
+  .ap-hs .ap-cursor {
+    opacity: 0;
+  }
+}

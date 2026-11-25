@@ -4,6 +4,7 @@ import {
   CalendarHeart,
   Codesandbox,
   FileStack,
+  Gift,
   HeartHandshake,
   Newspaper
 } from "lucide-react";
@@ -46,6 +47,14 @@ export const communityItems: NavItem[] = [
     title: "Student Ambassadors",
     description: "Empowering future cloud leaders.",
     link: "/community/student-ambassadors/",
+  },
+  {
+    icon: Gift,
+    title: "Referral Program",
+    description: "Share Console and earn credit.",
+    link: "/community/referral-program/",
+    // Community tab bar and mobile menu only; not in the desktop dropdown.
+    subnavOnly: true,
   },
   {
     title: "Swag Shop",
