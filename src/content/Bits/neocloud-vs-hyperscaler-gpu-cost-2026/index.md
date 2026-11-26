@@ -4,6 +4,7 @@ description: "H100 and A100 prices per GPU-hour on AWS, Google Cloud, CoreWeave,
 pubDate: 2026-11-27
 author: "Sandeep Narahari, Contributor"
 tags: ["Guides"]
+bannerImage: ./banner.webp
 draft: false
 faqAccordion: true
 metaTitle: "Neocloud vs Hyperscaler vs GPU Marketplace: GPU Costs (2026)"
