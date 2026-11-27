@@ -58,9 +58,7 @@ For H100 prices from more providers, including Azure and Lambda, and monthly and
 
 An H100 running the same model with the same settings produces the same tokens per second on any cloud. So cost per token follows the hourly price. At 2,500 output tokens per second, a million tokens costs \$0.28 on Akash and \$0.76 on AWS.
 
-$$
-\text{Cost per 1M tokens} = \frac{\text{price per GPU-hour}}{\text{tokens per second} \times 3600} \times 1{,}000{,}000
-$$
+**Cost per 1M tokens = price per GPU-hour ÷ (tokens per second × 3,600) × 1,000,000**
 
 | Provider            | H100 per GPU-hour | At 1,000 tokens/s | At 2,500 tokens/s | At 5,000 tokens/s |
 | ------------------- | ----------------- | ----------------- | ----------------- | ----------------- |
