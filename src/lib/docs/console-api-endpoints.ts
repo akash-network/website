@@ -84,9 +84,28 @@ const EXAMPLE_IDS = {
   apiKey: "3c4d5e6f-7a8b-4c9d-8e0f-1a2b3c4d5e6f",
 };
 
+const EXAMPLE_DEFINITION = {
+  version: "2.0",
+  services: {
+    web: {
+      image: "nginx:1.27.3",
+      env: ["LOG_LEVEL=info", "API_KEY=ac-secret://API_KEY"],
+      expose: [{ port: 80, as: 80, to: [{ global: true }] }],
+    },
+  },
+  profiles: {
+    compute: { web: { resources: { cpu: { units: 0.5 }, memory: { size: "512Mi" }, storage: [{ size: "1Gi" }] } } },
+    placement: { dcloud: { pricing: { web: { denom: "uact", amount: 10000 } } } },
+  },
+  deployment: { web: { dcloud: { profile: "web", count: 1 } } },
+};
+
+const DEFINITION_FIELD_DESCRIPTION =
+  "The SDL as a JSON object, with the same fields as the YAML (`version`, `services`, `profiles`, `deployment`, and `endpoints` if used). Send it or `data.sdl`, not both";
+
 /** cURL and Node.js samples for a JSON request authenticated with the API key. */
 function apiKeyRequestSnippets(
-  method: "GET" | "POST" | "PATCH" | "DELETE",
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   path: string,
   body?: object,
 ): CodeSnippet[] {
@@ -283,11 +302,13 @@ done`,
       "Create a new deployment from an SDL manifest, or without one from an image or a gallery template. Console funds it automatically from your account credits, so the request takes no deposit.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
-      { field: "data.sdl", location: "body", type: "string", required: false, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute. Send exactly one of `data.sdl`, `data.service`, or `data.templateId` without `data.sdl`" },
+      { field: "data.sdl", location: "body", type: "string", required: false, description: "Deployment manifest in SDL (YAML) format, as a JSON string. May include a `params.tee` field (`cpu`/`cpu-gpu`) to request Confidential Compute. Send exactly one of `data.sdl`, `data.definition`, `data.service`, or `data.templateId` on its own" },
+      { field: "data.definition", location: "body", type: "object", required: false, description: "The SDL as a JSON object instead of YAML text, with the same fields (`version`, `services`, `profiles`, `deployment`, and `endpoints` if used). Validated like the text. See [Send a Definition as JSON](/docs/api-documentation/console-api/getting-started#send-a-definition-as-json)" },
       { field: "data.service", location: "body", type: "object", required: false, description: "Creates the deployment without an SDL. `image`, `resources` (`cpu`, `memory`, `storage`, optional `gpu` with `units` and an optional NVIDIA `model`), `ports` (at least one `{ port, as }`, all public, `as` defaulting to `port`) and optional `env`. Console writes the SDL of one service named `app` and records it" },
       { field: "data.templateId", location: "body", type: "string", required: false, description: "Without `data.sdl`: the gallery template to deploy, as listed by `GET /v1/templates-list`. With `data.sdl`: only records which template the SDL came from" },
       { field: "data.overrides", location: "body", type: "object", required: false, description: "Changes to the template's SDL, keyed by service name, in the shape of `data.services` in `PATCH /v1/deployments/{dseq}`. Only with `data.templateId` and no `data.sdl`" },
       { field: "data.secretEnv", location: "body", type: "array", required: false, description: "Names of the env variables whose values are secret. Console encrypts those and stores every other env value readable; `[]` keeps all of them readable. Without it, and without `data.sealedSecrets`, every env value is encrypted" },
+      { field: "data.inheritSecretsFrom", location: "body", type: "string", required: false, description: "Dseq of a deployment you can change whose stored secrets this one starts from, so an SDL full of `ac-secret://` references deploys without re-entering values. The source may be closed" },
       { field: "data.runtimeLimitHours", location: "body", type: "number", required: false, description: "Close the deployment after this many hours of runtime, counted from lease start. Omit for always-on funding" },
       { field: "data.projectId", location: "body", type: "string (uuid)", required: false, description: "Project of the organization to file the deployment in. Omit it to use the only project you can deploy into, otherwise the organization's default project" },
     ],
@@ -346,6 +367,7 @@ const { data } = await res.json();`,
     notes: [
       "**No SDL needed.** Send `data.service` and Console writes the SDL of one service named `app`: one replica, every listed port public, at the Console's default price ceiling. Or send `data.templateId` without `data.sdl` to deploy a gallery template, with `data.overrides` changing its image, env, command or ports per service. Either way Console records the SDL, so the deployment shows on the Update tab, takes `PATCH /v1/deployments/{dseq}` and redeploys like any other. A request naming none of the three sources, or more than one, answers `400`; an unknown `templateId` sent without `data.sdl` answers `404`.",
       "**Choosing what is secret.** `data.secretEnv` lists the env variables whose values Console encrypts; the others stay readable in the Console and in `GET /v1/deployments/{dseq}`. `[]` keeps every env value readable. A name no service sets answers `400`. A request with neither `data.secretEnv` nor `data.sealedSecrets` has every env value encrypted. Registry credentials are encrypted either way.",
+      "To find every error in a definition before creating from it, send it to `POST /v1/deployments/validate` first.",
       "Request **Confidential Compute (TEE)** by adding a `params.tee` field (`cpu` or `cpu-gpu`) to a service in the SDL — `cpu-gpu` requires GPU resources. See [Confidential Compute (TEE)](/docs/api-documentation/console-api/getting-started#confidential-compute-tee).",
       "`400` with code `project_required` means no project you can deploy into was found: pass `data.projectId` or `x-project-id`. `403` with code `project_budget_exceeded` means the deposit would take the project past its monthly budget, and nothing was created. `503` with code `deposit_price_unavailable` means the deposit could not be priced against the project's budget; it is transient, so retry. An unknown `projectId` answers `404`.",
     ],
@@ -484,53 +506,6 @@ const { data } = await res.json();`,
     ],
   },
   {
-    id: "post-v1deposit-deployment",
-    kind: "endpoint",
-    group: "core",
-    host: "console-api",
-    protocol: "http",
-    method: "POST",
-    path: "/v1/deposit-deployment",
-    title: "POST /v1/deposit-deployment",
-    description:
-      "**Deprecated.** Console funds every deployment automatically for as long as your account has credits, so there is nothing for this endpoint to do. It still accepts requests so existing integrations keep working, and will be removed in a future release.",
-    requestParams: [
-      { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
-      { field: "data.dseq", location: "body", type: "string", required: true, description: "Deployment sequence ID" },
-      { field: "data.deposit", location: "body", type: "number", required: true, description: "Deposit amount in USD. Minimum `0.5`. Accepted but no longer needed" },
-    ],
-    responseStatus: "200 OK",
-    responseFields: [],
-    responseExample: `// Full deployment object after the top-up; see GET /v1/deployments/{dseq}.`,
-    notes: [
-      "Replaced by automatic funding. Add credits to your account instead. See [How Funding Works](/docs/getting-started/how-funding-works).",
-    ],
-    codeSnippets: [
-      {
-        language: "bash",
-        code: `curl -X POST https://console-api.akash.network/v1/deposit-deployment \\
-  -H "x-api-key: $AKASH_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{ "data": { "dseq": "1234567", "deposit": 0.5 } }'`,
-      },
-      {
-        language: "javascript",
-        code: `const res = await fetch(
-  "https://console-api.akash.network/v1/deposit-deployment",
-  {
-    method: "POST",
-    headers: {
-      "x-api-key": process.env.AKASH_API_KEY,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data: { dseq, deposit: 0.5 } }),
-  },
-);
-const { data } = await res.json();`,
-      },
-    ],
-  },
-  {
     id: "get-v1deployments",
     kind: "endpoint",
     group: "core",
@@ -611,6 +586,12 @@ const { data } = await res.json();`,
       { field: "data.deployment.created_at", type: "string", description: "Chain height at creation" },
       { field: "data.leases[]", type: "array", description: "Active leases (composite id + `state`, `price`, `created_at`, `closed_on`, `status`)" },
       { field: "data.escrow_account", type: "object", description: "Deployment escrow account with `funds[]`, `deposits[]`, `transferred[]` (raw chain denoms)" },
+      { field: "data.name", type: "string | null", description: "Deployment name" },
+      { field: "data.consoleSettings", type: "object | null", description: "What Console stores for the deployment, or `null` when it stores no definition" },
+      { field: "data.consoleSettings.sdl", type: "string", description: "The stored SDL as YAML. Secrets appear as `ac-secret://NAME` references, never as values" },
+      { field: "data.consoleSettings.definition", type: "object | null", description: "The same SDL as a JSON object, in the shape `PUT /v1/deployments/{dseq}/definition` takes, so you can edit it and send it back" },
+      { field: "data.consoleSettings.manifestVersion", type: "string", description: "Base64 version of the stored definition. Send it as `ifManifestVersion` on your next change" },
+      { field: "data.consoleSettings.templateId", type: "string | null", description: "Gallery template the deployment came from, if any" },
     ],
     responseExample: `{
   "data": {
@@ -647,6 +628,13 @@ const { data } = await res.json();`,
         "funds": [{ "denom": "uact", "amount": "5500000" }],
         "deposits": []
       }
+    },
+    "name": "web",
+    "consoleSettings": {
+      "sdl": "version: \\"2.0\\"\\nservices:\\n  web:\\n    image: nginx:1.27.2\\n    env:\\n      - API_KEY=ac-secret://API_KEY\\n...",
+      "definition": { "version": "2.0", "services": { "web": { "image": "nginx:1.27.2", "env": ["API_KEY=ac-secret://API_KEY"] } } },
+      "manifestVersion": "Ab3x...=",
+      "templateId": null
     }
   }
 }`,
@@ -665,6 +653,51 @@ const { data } = await res.json();`,
 const { data } = await res.json();`,
       },
     ],
+  },
+  {
+    id: "get-v1deployments-dseq-secrets",
+    kind: "endpoint",
+    group: "core",
+    host: "console-api",
+    protocol: "http",
+    method: "GET",
+    path: "/v1/deployments/{dseq}/secrets",
+    title: "GET /v1/deployments/{dseq}/secrets",
+    description:
+      "List the secrets a deployment's stored SDL references, and every service environment variable or registry credential each one fills. Values are never returned.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.secrets[]", type: "array", description: "One entry per secret, sorted by name" },
+      { field: "data.secrets[].name", type: "string", description: "The `NAME` in `ac-secret://NAME`. Includes names Console picked when it encrypted a value from `secretEnv`, such as `s0_e1`" },
+      { field: "data.secrets[].usedBy[]", type: "array", description: "Every place the secret is used, in SDL order" },
+      { field: "data.secrets[].usedBy[].service", type: "string", description: "Service name" },
+      { field: "data.secrets[].usedBy[].env", type: "string", description: "Environment variable the secret is the value of. Present for env usage" },
+      { field: "data.secrets[].usedBy[].credential", type: "string", description: "`username` or `password` of the service's private registry login. Present for credential usage" },
+    ],
+    responseExample: `{
+  "data": {
+    "secrets": [
+      { "name": "REGISTRY_PASSWORD", "usedBy": [{ "service": "web", "credential": "password" }] },
+      {
+        "name": "TOKEN",
+        "usedBy": [
+          { "service": "web", "env": "TOKEN" },
+          { "service": "worker", "env": "API_TOKEN" }
+        ]
+      },
+      { "name": "s0_e2", "usedBy": [{ "service": "web", "env": "DATABASE_URL" }] }
+    ]
+  }
+}`,
+    notes: [
+      "`404` means you have no deployment with this dseq, or Console holds no definition for it. Record one with `POST /v1/deployments/{dseq}/definition`.",
+      "`500` with code `stored_sdl_unreadable` means Console can't read the SDL it stores. Retrying won't help.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("GET", "/v1/deployments/1234567/secrets"),
   },
   {
     id: "patch-v1deployments-dseq",
@@ -704,6 +737,7 @@ const { data } = await res.json();`,
       "Compute resources, replica counts, groups and globally exposed ports are fixed at create. A patch that would change them answers `422` with code `deployment_resources_changed`; create a new deployment instead.",
       "`404` means Console holds no recorded SDL for this deployment, so there is nothing to patch.",
       "`409` with code `deployment_definition_changed` means another change landed between this patch reading the deployment and writing it. Reload it and retry.",
+      "To send the whole definition instead of a patch, use `PUT /v1/deployments/{dseq}/definition`.",
     ],
     codeSnippets: [
       {
@@ -755,7 +789,7 @@ const { data } = await res.json();`,
     path: "/v1/deployments/{dseq}",
     title: "PUT /v1/deployments/{dseq}",
     description:
-      "**Deprecated.** Resubmits the whole SDL. Use `PATCH /v1/deployments/{dseq}` instead; this endpoint will be removed in a future release.",
+      "**Deprecated.** Resubmits the whole SDL and replaces every stored secret with the values in the request. Use `PUT /v1/deployments/{dseq}/definition` to replace the whole definition while keeping stored secrets, or `PATCH /v1/deployments/{dseq}` to change part of it. This endpoint will be removed in a future release.",
     requestParams: [
       { field: "x-api-key", location: "header", type: "string", required: true, description: "Your API key" },
       { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
@@ -791,6 +825,164 @@ const { data } = await res.json();`,
 const { data } = await res.json();`,
       },
     ],
+  },
+  {
+    id: "put-v1deployments-dseq-definition",
+    kind: "endpoint",
+    group: "core",
+    host: "console-api",
+    protocol: "http",
+    method: "PUT",
+    path: "/v1/deployments/{dseq}/definition",
+    title: "PUT /v1/deployments/{dseq}/definition",
+    description:
+      "Replace a deployment's whole definition, then update the deployment and send the new manifest to its providers. A secret left as an `ac-secret://NAME` reference keeps its stored value, so you can edit the definition `GET /v1/deployments/{dseq}` returns and send it back without any secret values.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
+      { field: "async", location: "query", type: "string", required: false, description: "`true` answers `202` once the definition is saved, with an `activityId` to follow at `GET /v1/activities/{id}`. Refusals still answer on the request" },
+      { field: "data.sdl", location: "body", type: "string", required: false, description: "The whole SDL the deployment should run from now on, as YAML. Send it or `data.definition`, not both" },
+      { field: "data.definition", location: "body", type: "object", required: false, description: DEFINITION_FIELD_DESCRIPTION },
+      { field: "data.secretEnv", location: "body", type: "array", required: false, description: "Names of the env variables whose values are secret. Applies to the values you add or change, and to a readable value you name here. Without it, and without `data.sealedSecrets`, every value you add or change is encrypted; `[]` keeps them readable. A name no service sets answers `400`" },
+      { field: "data.sealedSecrets", location: "body", type: "string", required: false, description: "Compact JWE with only the secret values you are setting, bound to the document in this request. Other names keep their stored values" },
+      { field: "data.ifManifestVersion", location: "body", type: "string", required: false, description: "The `consoleSettings.manifestVersion` you read. Answers `409` if the deployment has changed since" },
+      { field: "data.name", location: "body", type: "string", required: false, description: "Renames the deployment. Omit it to keep the current name" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.deployment", type: "object", description: "The deployment, as in `GET /v1/deployments/{dseq}`" },
+      { field: "data.leases", type: "array", description: "Its leases" },
+      { field: "data.name", type: "string | null", description: "Deployment name" },
+      { field: "data.manifestVersion", type: "string", description: "Base64 version now recorded. Send it as `ifManifestVersion` on the next change" },
+    ],
+    responseExample: `// { "data": { "deployment": {...}, "leases": [...], "escrow_account": {...}, "name": "web", "manifestVersion": "..." } }`,
+    notes: [
+      "**How secrets carry over.** A reference with no new value keeps its stored value. A value in `data.sealedSecrets` replaces it. A plain value you add or change is encrypted unless `data.secretEnv` leaves it out. A readable value sent back unchanged stays readable. A stored secret no reference names any more is dropped. A reference with neither a new nor a stored value answers `400`. Registry credentials are always encrypted.",
+      "`404` means Console holds no definition for this deployment. Record the one it runs with `POST /v1/deployments/{dseq}/definition` first.",
+      "`409` with code `deployment_definition_changed` means the deployment changed after you read it: read it again and retry. Without `ifManifestVersion`, Console guards on the version it read when the request arrived. A `409` without a code means `data.sealedSecrets` was sealed to a key Console no longer holds; fetch `GET /v1/sdl-secrets-context` and seal again.",
+      "`422` with code `deployment_resources_changed` means the definition changes the groups, compute resources, replica counts or globally exposed ports, which only a new deployment can take.",
+      "`500` with code `stored_secrets_unreadable` or `stored_sdl_unreadable` is permanent. `503` is transient, so retry. Every refusal saves nothing and contacts no provider.",
+      "Check a definition first with `POST /v1/deployments/{dseq}/definition/validate`. See [Replace a Deployment Definition](/docs/api-documentation/console-api/getting-started#replace-a-deployment-definition).",
+    ],
+    codeSnippets: apiKeyRequestSnippets("PUT", "/v1/deployments/1234567/definition", {
+      data: { definition: EXAMPLE_DEFINITION, ifManifestVersion: "Ab3x...=" },
+    }),
+  },
+  {
+    id: "post-v1deployments-dseq-definition",
+    kind: "endpoint",
+    group: "core",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/deployments/{dseq}/definition",
+    title: "POST /v1/deployments/{dseq}/definition",
+    description:
+      "Record the SDL of a deployment Console holds no definition for, such as one created before Console stored definitions or outside Console. Console records it only if it matches what the deployment runs, and sends no deployment update and no manifest.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
+      { field: "data.sdl", location: "body", type: "string", required: false, description: "The SDL the deployment runs, as YAML. Send it or `data.definition`, not both" },
+      { field: "data.definition", location: "body", type: "object", required: false, description: DEFINITION_FIELD_DESCRIPTION },
+      { field: "data.sealedSecrets", location: "body", type: "string", required: false, description: "Values for the `ac-secret://` references in the SDL, sealed as on create. With it, plain env values stay readable; without it, Console encrypts every env value" },
+    ],
+    responseStatus: "201 Created",
+    responseFields: [
+      { field: "data.sdl", type: "string", description: "The SDL as Console stored it" },
+      { field: "data.manifestVersion", type: "string", description: "Base64 version recorded" },
+    ],
+    responseExample: `{ "data": { "sdl": "...", "manifestVersion": "Ab3x...=" } }`,
+    notes: [
+      "`422` with code `deployment_definition_mismatch` means the SDL doesn't match what the deployment runs, and nothing was recorded.",
+      "`409` with code `deployment_definition_exists` means Console already holds a definition, which this route never overwrites. Change that one with `PATCH` or `PUT /v1/deployments/{dseq}/definition`.",
+      "Works on a closed deployment too. Afterwards the deployment reads, patches and replaces like any other.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/deployments/1234567/definition", {
+      data: { definition: EXAMPLE_DEFINITION },
+    }),
+  },
+  {
+    id: "post-v1deployments-validate",
+    kind: "endpoint",
+    group: "core",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/deployments/validate",
+    title: "POST /v1/deployments/validate",
+    description:
+      "Run the checks `POST /v1/deployments` would run on a definition and its secrets, and get every error at once. Creates, saves and sends nothing, and doesn't check your balance or project budget.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "data.sdl", location: "body", type: "string", required: false, description: "The SDL to check, as YAML. Send it or `data.definition`, not both" },
+      { field: "data.definition", location: "body", type: "object", required: false, description: DEFINITION_FIELD_DESCRIPTION },
+      { field: "data.secretEnv", location: "body", type: "array", required: false, description: "The `secretEnv` the create would carry" },
+      { field: "data.sealedSecrets", location: "body", type: "string", required: false, description: "The seal the create would carry. Opened to see which names it supplies, never stored" },
+      { field: "data.inheritSecretsFrom", location: "body", type: "string", required: false, description: "The `inheritSecretsFrom` the create would carry" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.valid", type: "boolean", description: "`true` when the create would not be refused for its document or its secrets" },
+      { field: "data.errors[]", type: "array", description: "Every error found, not just the first" },
+      { field: "data.errors[].path", type: "string", description: "JSON pointer into the document, such as `/services/web/env/1`. Empty when the error concerns the whole document" },
+      { field: "data.errors[].keyword", type: "string", description: "Kind of check that failed, such as `required`, `sdl-reference`, `secretEnv`, `maxLength` or `secrets`" },
+      { field: "data.errors[].message", type: "string", description: "What is wrong" },
+      { field: "data.keptSecrets", type: "array", description: "References whose values would come from `inheritSecretsFrom` rather than this request" },
+    ],
+    responseExample: `{
+  "data": {
+    "valid": false,
+    "errors": [
+      {
+        "path": "/services/web/env/1",
+        "keyword": "sdl-reference",
+        "message": "no value supplied for SDL Reference \\"ac-secret://API_KEY\\" in service \\"web\\""
+      }
+    ],
+    "keptSecrets": []
+  }
+}`,
+    notes: [
+      "A document with errors still answers `200` with `valid: false`. Another status means the check itself could not run: `400` for both or neither of `sdl` and `definition` or a malformed seal, `404` when `inheritSecretsFrom` names no deployment you can change, `409` with code `inherited_secrets_unreadable` when that deployment's secrets can't be opened.",
+      "See [Check a Definition](/docs/api-documentation/console-api/getting-started#check-a-definition) for how to read `errors`.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/deployments/validate", {
+      data: { definition: EXAMPLE_DEFINITION, secretEnv: [] },
+    }),
+  },
+  {
+    id: "post-v1deployments-dseq-definition-validate",
+    kind: "endpoint",
+    group: "core",
+    host: "console-api",
+    protocol: "http",
+    method: "POST",
+    path: "/v1/deployments/{dseq}/definition/validate",
+    title: "POST /v1/deployments/{dseq}/definition/validate",
+    description:
+      "Run the checks `PUT /v1/deployments/{dseq}/definition` would run against this deployment, including changes only a new deployment can take, and get every error at once. Saves, seals and sends nothing.",
+    requestParams: [
+      API_KEY_PARAM,
+      { field: "dseq", location: "path", type: "string", required: true, description: "Deployment sequence ID" },
+      { field: "data.sdl", location: "body", type: "string", required: false, description: "The SDL to check, as YAML. Send it or `data.definition`, not both" },
+      { field: "data.definition", location: "body", type: "object", required: false, description: DEFINITION_FIELD_DESCRIPTION },
+      { field: "data.secretEnv", location: "body", type: "array", required: false, description: "The `secretEnv` the replace would carry" },
+      { field: "data.sealedSecrets", location: "body", type: "string", required: false, description: "The seal the replace would carry. Opened to see which names it supplies, never stored" },
+    ],
+    responseStatus: "200 OK",
+    responseFields: [
+      { field: "data.valid", type: "boolean", description: "`true` when the replace would not be refused for its document or its secrets" },
+      { field: "data.errors[]", type: "array", description: "Every error found, each with `path`, `keyword` and `message`. A change only a new deployment can take has keyword `deployment_resources_changed` at `/deployment`" },
+      { field: "data.keptSecrets", type: "array", description: "References that would keep the value the deployment stores" },
+    ],
+    responseExample: `{ "data": { "valid": true, "errors": [], "keptSecrets": ["API_KEY"] } }`,
+    notes: [
+      "A document with errors still answers `200` with `valid: false`. `404` means Console holds no definition for this deployment. `500` means it can't read what it stores, which retrying won't fix.",
+      "It doesn't take `ifManifestVersion`, so it can't tell you whether the deployment changes before you replace it. The replace itself answers `409` for that.",
+    ],
+    codeSnippets: apiKeyRequestSnippets("POST", "/v1/deployments/1234567/definition/validate", {
+      data: { definition: EXAMPLE_DEFINITION },
+    }),
   },
   {
     id: "delete-v1deployments-dseq",

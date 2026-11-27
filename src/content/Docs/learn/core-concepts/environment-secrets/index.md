@@ -229,7 +229,7 @@ services:
 
 When you configure a new deployment, enter each value in the **Environment Variables & Secrets** card. For an existing deployment, open it and use the **Update** tab to add a secret or replace its value. The new value reaches your container when you update the deployment; until then the running workload keeps the old one.
 
-Once saved, a secret's value is never shown again, in the Console or through the API. You can replace it but not read it back. Secrets belong to a single deployment, so other deployments can't use them.
+Once saved, a secret's value is never shown again, in the Console or through the API. You can replace it but not read it back. Each deployment stores its own secrets, and other deployments can't read them. A new deployment created through the API can start with a copy of an earlier one's secrets.
 
 Your container still reads `API_KEY` as an ordinary environment variable, and the provider running it receives the value in the manifest. To manage secrets through the API, see [Secrets](/docs/api-documentation/console-api/getting-started#secrets) in the Console API guide.
 

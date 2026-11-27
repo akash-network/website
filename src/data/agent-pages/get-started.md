@@ -193,14 +193,13 @@ H2="Content-Type: application/json"
 CREATE=$(curl -sS -X POST "$API/v1/deployments" -H "$H1" -H "$H2" \
   -d "$(jq -n --arg sdl "$SDL" '{data:{sdl:$sdl, runtimeLimitHours:1}}')")
 DSEQ=$(jq -r '.data.dseq' <<<"$CREATE")
-MANIFEST=$(jq -r '.data.manifest' <<<"$CREATE")
 
 # 2. Poll bids every 3 s until data is non-empty (typically 30 to 60 s)
 BIDS=$(curl -sS "$API/v1/bids?dseq=$DSEQ" -H "$H1")
 
 # 3. Accept the first bid; gseq, oseq, provider come from bid.id
 curl -sS -X POST "$API/v1/leases" -H "$H1" -H "$H2" \
-  -d "$(jq --arg m "$MANIFEST" '{manifest:$m, leases:[.data[0].bid.id | {dseq, gseq, oseq, provider}]}' <<<"$BIDS")"
+  -d "$(jq '{leases:[.data[0].bid.id | {dseq, gseq, oseq, provider}]}' <<<"$BIDS")"
 
 # 4. Confirm state is active and a URI is served, then close
 curl -sS "$API/v1/deployments/$DSEQ" -H "$H1"
@@ -215,9 +214,10 @@ Keep these in mind when a later task asks for a real deployment:
 
 - **A deployment is an auction, not a push.** Create the deployment, wait for provider bids, accept one, and the manifest goes to that provider in the same call. Nothing runs until a lease exists.
 - **Bids take 30 to 60 seconds.** Poll `GET /v1/bids` every 3 seconds, then back off or return a timeout. Tighter polling earns a `429`.
-- **Funding is automatic.** There is no deposit to choose and no top-up to call. Console funds each deployment from the account's available credits and keeps roughly two days of cost in escrow. `POST /v1/deposit-deployment` is deprecated; do not use it.
+- **Funding is automatic.** There is no deposit to choose and no top-up to call. Console funds each deployment from the account's available credits and keeps roughly two days of cost in escrow. A create request carries no deposit field.
 - **Credits are the only limit.** When the account balance reaches zero, running deployments spend down their escrow and close. If the user's work matters, tell them to add credits or enable Auto Top-Up in Console before a long run.
 - **Close what you open.** A deployment runs until it is closed or credits run out. An abandoned deployment is a live bill. Prefer `runtimeLimitHours` on anything the agent creates for itself, and extend it with `PATCH /v2/deployment-settings/{dseq}` if needed. Limits can be raised or removed, not lowered.
+- **Edit a running deployment without its secret values.** `PATCH /v1/deployments/{dseq}` changes named fields. To replace the whole definition, read `data.consoleSettings.definition` and `manifestVersion` from `GET /v1/deployments/{dseq}`, edit it, check it with `POST /v1/deployments/{dseq}/definition/validate`, and send it to `PUT /v1/deployments/{dseq}/definition` with `ifManifestVersion`. Leave secrets as `ac-secret://NAME` references and they keep their stored values. Groups, compute resources, replica counts, and globally exposed ports need a new deployment.
 - **Trial accounts cap each deployment at 24 hours.** A trial deployment closes on its own at the limit. If the user has not added a card, do not promise anything that must run longer.
 - **Images need explicit version tags.** Do not use `latest` in a deployment the user will rely on.
 - **Confidential compute images must be public.** A service with `params.tee: cpu` or `cpu-gpu` cannot pull from a private registry; `credentials` are ignored and the deployment fails. `cpu-gpu` also requires a `gpu` block in the compute profile.
