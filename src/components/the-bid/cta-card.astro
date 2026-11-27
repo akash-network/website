@@ -4,9 +4,9 @@ import LiveBadge from "@/components/the-bid/live-badge.astro";
 import {
   AKASHML_URL,
   bidCtaHref,
-  CONSOLE_URL,
-  priceData,
-  fromRate,
+  rentLinkAttrs,
+  priceAttrs,
+  snapshotPriceHtml,
   type BidCta,
 } from "@/lib/the-bid-cta";
 import { cn } from "@/lib/utils";
@@ -22,12 +22,23 @@ interface Props {
 }
 
 const { cta, postId, class: className } = Astro.props;
-const consoleHref = bidCtaHref(CONSOLE_URL, postId, "sidebar");
+const rentLink = rentLinkAttrs(cta, postId, "sidebar");
 const akashmlHref = bidCtaHref(
   cta.model?.url ?? AKASHML_URL,
   postId,
   "sidebar",
 );
+const rowFormat = (gpu: BidCta["gpus"][number]) => ({
+  unit: "/hr",
+  unitClass: "text-muted-foreground",
+  requestHref: gpu.requestHref,
+  linkClass:
+    "font-sans text-sm font-medium underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-white/30",
+});
+const linkFormat = {
+  unit: "/hr",
+  rateClass: "font-jetBrainsMono tabular-nums",
+};
 const textLink =
   "inline-flex items-center gap-1 font-medium text-foreground underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-white/30";
 ---
@@ -61,24 +72,24 @@ const textLink =
                   {gpu.memory}
                 </span>
               </span>
-              <span class="flex shrink-0 items-baseline font-jetBrainsMono text-sm tabular-nums text-foreground">
-                <span data-bid-price={priceData([gpu])}>{fromRate([gpu])}</span>
-                <span class="text-muted-foreground">/hr</span>
-              </span>
+              <span
+                class="shrink-0 font-jetBrainsMono text-sm tabular-nums text-foreground"
+                {...priceAttrs([gpu], rowFormat(gpu))}
+                set:html={snapshotPriceHtml([gpu], rowFormat(gpu))}
+              />
             </li>
           ))}
         </ul>
 
         <a
-          href={consoleHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-bid-cta="console"
+          {...rentLink}
           data-bid-cta-placement="sidebar"
           class={buttonClass("primary", "default", "mt-4 w-full")}
         >
           {cta.rentLabel}
-          <span class="sr-only">(opens in a new tab)</span>
+          {!cta.requestHref && (
+            <span class="sr-only">(opens in a new tab)</span>
+          )}
           <ArrowUpRight className="size-4" aria-hidden="true" />
         </a>
         <p class="mt-3 text-xs leading-5 text-muted-foreground">
@@ -131,21 +142,12 @@ const textLink =
 
         <p class="mt-4 border-t border-zinc-200 pt-4 text-sm text-muted-foreground dark:border-white/10">
           Want your own GPU?{" "}
-          <a
-            href={consoleHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-bid-cta="console"
-            data-bid-cta-placement="sidebar"
-            class={textLink}
-          >
-            Rent one from{" "}
-            <span class="inline-flex items-baseline font-jetBrainsMono tabular-nums">
-              <span data-bid-price={priceData(cta.gpus)}>
-                {fromRate(cta.gpus)}
-              </span>
-              /hr
-            </span>
+          <a {...rentLink} data-bid-cta-placement="sidebar" class={textLink}>
+            Rent one:{" "}
+            <span
+              {...priceAttrs(cta.gpus, linkFormat)}
+              set:html={snapshotPriceHtml(cta.gpus, linkFormat)}
+            />
             <span class="sr-only">(opens in a new tab)</span>
             <ArrowUpRight className="size-3.5" aria-hidden="true" />
           </a>
