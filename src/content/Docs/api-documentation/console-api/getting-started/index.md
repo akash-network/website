@@ -695,13 +695,13 @@ A refused replace saves nothing, sends no deployment update and contacts no prov
 | 404    |                                 | Console holds no definition for this deployment                                                                                                                     | [Record it](#record-a-missing-definition) first               |
 | 409    | `deployment_definition_changed` | The deployment changed after you read it                                                                                                                            | Read it again, redo the edit and retry                        |
 | 409    |                                 | `sealedSecrets` was sealed to a key Console no longer holds                                                                                                         | Fetch `GET /v1/sdl-secrets-context` and seal again            |
-| 409    | `stored_secrets_unavailable`    | The stored secrets were sealed for a team member who has since deleted their account                                                                                | Send the full SDL with every secret value again               |
+| 409    | `stored_secrets_unavailable`    | The stored secrets were sealed for a team member who has since deleted their account                                                                                | Send the replace again with a value for every `ac-secret://` reference it makes. Console stores them in place of the old ones |
 | 422    | `deployment_resources_changed`  | The document changes the groups, compute resources, replica counts or globally exposed ports                                                                        | Create a new deployment instead                               |
 | 500    | `stored_secrets_unreadable`     | Console can't open the secrets it stores for this deployment                                                                                                        | Retrying won't help. Send the full SDL with every secret value again |
 | 500    | `stored_sdl_unreadable`         | Console can't read the SDL it stores for this deployment                                                                                                            | Retrying won't help                                           |
 | 503    |                                 | The key management service is briefly unreachable                                                                                                                   | Retry                                                         |
 
-To send the full SDL with every secret value, use the deprecated `PUT /v1/deployments/{dseq}`, which doesn't read the stored secrets. It replaces all of them with the ones you send.
+For `stored_secrets_unreadable`, send the full SDL with every secret value to the deprecated `PUT /v1/deployments/{dseq}`, which doesn't read the stored secrets. It replaces all of them with the ones you send.
 
 ### Record a missing definition
 
