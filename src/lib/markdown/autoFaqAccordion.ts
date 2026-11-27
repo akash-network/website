@@ -33,7 +33,7 @@ const DETAILS_CLASS =
 const SUMMARY_CLASS =
   "flex cursor-pointer list-none items-center justify-between gap-4 text-base font-medium text-foreground marker:content-none [&::-webkit-details-marker]:hidden";
 const ANSWER_CLASS =
-  "mt-3 text-sm text-darkText md:text-base [&_a]:text-primary [&_a]:no-underline [&_a:hover]:text-primary/80";
+  "mt-3 text-sm text-darkText md:text-base [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/80";
 
 const isFaqHeading = (node: any) =>
   node?.type === "heading" &&
