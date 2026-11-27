@@ -105,7 +105,7 @@ See live prices for every GPU on [Akash GPU pricing](/pricing/gpus/), or [reques
 
 **Which GPU cloud is best for running open-source AI models?** For models that run on 1 to 8 GPUs, an open GPU cloud like Akash gets you the GPU in minutes, at a lower hourly rate than neoclouds and hyperscalers, with no egress fees. Lower hourly rates on the same GPU mean a lower cost per token. Teams whose apps run on a hyperscaler can keep them there and move only the GPU work.
 
-**How does RunPod compare with AWS for GPUs?** RunPod rents single GPUs on demand with no egress fees, from partner data centers (Secure Cloud) or community hosts (Community Cloud). AWS sells GPUs as EC2 instances alongside its managed services and bills egress per GB. For a side-by-side with Akash, see [Akash vs RunPod](/explore/compare/akash-vs-runpod/) and [Akash vs AWS](/explore/compare/akash-vs-aws/).
+**How does RunPod compare with AWS for GPUs?** RunPod rents GPUs on demand, from a single GPU to multi-GPU pods and multi-node Instant Clusters, with no egress fees. Its GPUs run in partner data centers (Secure Cloud) or on community hosts (Community Cloud). AWS sells GPUs as EC2 instances, from one GPU to multi-node clusters, alongside its managed services, and bills egress per GB. For a side-by-side with Akash, see [Akash vs RunPod](/explore/compare/akash-vs-runpod/) and [Akash vs AWS](/explore/compare/akash-vs-aws/).
 
 **Do GPU clouds charge egress fees?** Some do. AWS and Google Cloud charge for data leaving their networks. Akash and RunPod don't charge egress fees, so serving an inference endpoint or moving checkpoints out adds no per-GB cost.
 
