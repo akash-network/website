@@ -157,17 +157,3 @@ Not included: spot and preemptible prices, committed-use and reserved discounts,
 **How is GPU pricing set on Akash?** Providers quote for each deployment, and you see every quote, with the provider's region and uptime, before anything runs. The quote you accept is the rate you pay, locked for the life of the deployment, with no egress fees on top. Akash publishes live average prices for every GPU on its [pricing page](/pricing/gpus/).
 
 **How much does it cost to self-host an open-source LLM?** Divide the GPU's hourly price by the tokens it produces per hour. For example, if an H100 at \$2.55 per hour produced 2,000 output tokens per second, the cost would be about \$0.35 per million tokens. Measure your own throughput, because it changes with the model, batch size and serving settings.
-
-## Sources
-
-- Akash [GPU pricing](/pricing/gpus/), [quick start](/docs/getting-started/quick-start/), [deployments](/docs/learn/core-concepts/deployments/) and [enterprise](/use-cases/enterprise/)
-- Akash docs: [providers and leases](/docs/learn/core-concepts/providers-leases/) (location attributes), [confidential compute](/docs/learn/core-concepts/confidential-compute/) and [SDL syntax reference](/docs/developers/deployment/akash-sdl/syntax-reference/) (GPU interconnect over InfiniBand or RoCE)
-- [AkashML](https://akashml.com)
-- [Astria case study](/blog/why-astria-moved-its-ai-image-workloads-to-akash-network/)
-- [RunPod pricing](https://www.runpod.io/pricing) and RunPod Pods pricing docs (egress)
-- [CoreWeave pricing](https://www.coreweave.com/pricing)
-- AWS [p5.48xlarge](https://instances.vantage.sh/aws/ec2/p5.48xlarge), [p5.4xlarge](https://instances.vantage.sh/aws/ec2/p5.4xlarge) and [p4de.24xlarge](https://instances.vantage.sh/aws/ec2/p4de.24xlarge) prices (Vantage)
-- AWS Capacity Blocks for ML
-- [Google Cloud accelerator-optimized pricing](https://cloud.google.com/compute/gpus-pricing)
-- Egress pricing study, HackerNoon
-- Equinix: What is a neocloud?
