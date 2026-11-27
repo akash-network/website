@@ -22,7 +22,7 @@ Open-source models like Llama, Qwen and DeepSeek have made the GPU the biggest l
 - **Hyperscalers** (AWS, Google Cloud) bundle GPUs with hundreds of managed services. They have the highest GPU prices of the three, charge egress fees, and H100s often need a quota request.
 - **Neoclouds** such as CoreWeave run their own GPU fleets built for AI. They price below hyperscalers and usually sell H100s as 8-GPU nodes.
 - **GPU marketplaces** let a network of GPU providers compete for your job. On Akash, an open GPU cloud, you deploy one GPU, a full 8-GPU node or a multi-node cluster in minutes, with no quota request, no egress fees and no long-term contract.
-- **For open-source models,** the same GPU runs the same model at the same speed wherever it sits, so a lower hourly rate means a lower cost per token. Many teams keep their apps on a hyperscaler and run their GPU work on Akash.
+- **For open-source models,** what matters is getting the right GPUs fast and keeping control of your data and stack. Akash gives you on-demand GPUs from verified enterprise data centers, reserved clusters with InfiniBand and an SLA, region control for sovereign AI, and confidential computing. Many teams keep their apps on a hyperscaler and run their GPU work on Akash.
 
 ## What's the difference between a neocloud and a hyperscaler?
 
