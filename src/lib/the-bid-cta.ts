@@ -21,6 +21,8 @@ export type BidCtaGpu = {
   snapshot: number | null;
   /** Set for bid-priced GPUs; the browser swaps in the live rate. */
   source?: LivePriceSource;
+  /** Request-access page for GPUs offered on request (B200, B300). */
+  requestHref?: string;
 };
 
 export type BidCta = {
@@ -31,6 +33,8 @@ export type BidCta = {
   /** "an H200", "an H100 or A100", or a generic phrase when the title names no GPU. */
   gpuPhrase: string;
   rentLabel: string;
+  /** Set when every GPU is offered on request: the rent buttons go here instead of Console. */
+  requestHref?: string;
   /** Set when the title names a model AkashML serves; the AkashML CTA then links to its page. */
   model?: BidCtaModel;
 };
@@ -86,6 +90,9 @@ const toGpu = (slug: GpuDetailSlug): BidCtaGpu => {
       ? null
       : Number(stripInline(page.hero.price).replace(/[^\d.]/g, "")),
     source: page.livePrice,
+    requestHref: page.livePrice?.onRequest
+      ? `/next-gen-gpus/?gpu=${slug}#request-access`
+      : undefined,
   };
 };
 
@@ -106,6 +113,9 @@ export function bidCta(title: string): BidCta {
     .filter(({ index }) => index >= 0)
     .sort((a, b) => a.index - b.index)[0]?.model;
   const single = named.length === 1 ? withArticle(gpus[0].name) : undefined;
+  const requestHref = gpus.every((gpu) => gpu.requestHref)
+    ? gpus[0].requestHref
+    : undefined;
 
   return {
     lead: named.length || GPU_TOPIC.test(title) ? "console" : "akashml",
@@ -114,10 +124,31 @@ export function bidCta(title: string): BidCta {
     gpuPhrase: named.length
       ? withArticle(orList(gpus.map((gpu) => gpu.name)))
       : "a GPU from the Akash marketplace",
-    rentLabel: single ? `Rent ${single}` : "Rent a GPU",
+    rentLabel: requestHref
+      ? "Request access"
+      : single
+        ? `Rent ${single}`
+        : "Rent a GPU",
+    requestHref,
     model,
   };
 }
+
+/** Attributes for a CTA's rent link: Console in a new tab, or the request-access page in the
+ *  same tab when every GPU is offered on request. */
+export const rentLinkAttrs = (
+  cta: BidCta,
+  postId: string,
+  placement: BidCtaPlacement,
+) =>
+  cta.requestHref
+    ? { href: cta.requestHref, "data-bid-cta": "request" }
+    : {
+        href: bidCtaHref(CONSOLE_URL, postId, placement),
+        target: "_blank",
+        rel: "noopener noreferrer",
+        "data-bid-cta": "console",
+      };
 
 /** Outbound CTA link, tagged so Console and AkashML analytics can attribute the visit. */
 export const bidCtaHref = (
@@ -144,6 +175,9 @@ export type BidPriceFormat = {
   unit: string;
   rateClass?: string;
   unitClass?: string;
+  /** With no rate, "Request access" links here. Leave unset inside another link. */
+  requestHref?: string;
+  linkClass?: string;
 };
 
 const escapeHtml = (text: string) =>
@@ -153,12 +187,21 @@ const escapeHtml = (text: string) =>
  *  and the browser, which re-renders it with live weighted-average bids. */
 export function bidPriceHtml(
   rates: (number | null | undefined)[],
-  { unit, rateClass = "", unitClass = "" }: BidPriceFormat,
+  {
+    unit,
+    rateClass = "",
+    unitClass = "",
+    requestHref,
+    linkClass = "",
+  }: BidPriceFormat,
 ) {
   const priced = rates.filter(
     (rate): rate is number => typeof rate === "number" && rate > 0,
   );
-  if (!priced.length) return escapeHtml(NO_RATE_LABEL);
+  if (!priced.length)
+    return requestHref
+      ? `<a href="${escapeHtml(requestHref)}" class="${escapeHtml(linkClass)}" data-bid-cta="request">${escapeHtml(NO_RATE_LABEL)}</a>`
+      : escapeHtml(NO_RATE_LABEL);
   const avg = priced.reduce((sum, rate) => sum + rate, 0) / priced.length;
   const prefix = priced.length > 1 ? "Avg. " : "";
   return `${prefix}<span class="${escapeHtml(rateClass)}">${priceLabels(avg).rate}</span><span class="${escapeHtml(unitClass)}">${escapeHtml(unit)}</span>`;
