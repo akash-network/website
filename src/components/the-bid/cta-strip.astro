@@ -4,8 +4,8 @@ import {
   AKASHML_URL,
   bidCtaHref,
   CONSOLE_URL,
-  fromRate,
-  priceData,
+  priceAttrs,
+  snapshotPriceHtml,
   type BidCta,
 } from "@/lib/the-bid-cta";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,10 @@ interface Props {
 
 const { cta, postId, class: className } = Astro.props;
 const isConsole = cta.lead === "console";
+const priceFormat = {
+  unit: " per GPU-hour",
+  rateClass: "font-jetBrainsMono tabular-nums text-foreground",
+};
 ---
 
 <a
@@ -46,16 +50,10 @@ const isConsole = cta.lead === "console";
     <span class="mt-0.5 block text-xs text-muted-foreground">
       {
         isConsole ? (
-          <>
-            {cta.gpus.length > 1 && "From "}
-            <span
-              class="font-jetBrainsMono tabular-nums text-foreground"
-              data-bid-price={priceData(cta.gpus)}
-            >
-              {fromRate(cta.gpus)}
-            </span>{" "}
-            per GPU-hour
-          </>
+          <span
+            {...priceAttrs(cta.gpus, priceFormat)}
+            set:html={snapshotPriceHtml(cta.gpus, priceFormat)}
+          />
         ) : (
           "OpenAI-compatible API, pay per token"
         )

@@ -5,8 +5,8 @@ import {
   AKASHML_URL,
   bidCtaHref,
   CONSOLE_URL,
-  fromRate,
-  priceData,
+  priceAttrs,
+  snapshotPriceHtml,
   type BidCta,
 } from "@/lib/the-bid-cta";
 import { ArrowUpRight } from "lucide-react";
@@ -30,6 +30,11 @@ const title = "mt-2 text-xl font-medium tracking-tight text-foreground";
 const body = "mt-2 text-sm leading-6 text-muted-foreground";
 // mt-auto pins the price line and button to the bottom so both buttons align.
 const meta = "mt-auto pt-5 text-sm text-muted-foreground";
+const priceFormat = {
+  unit: " per GPU-hour",
+  rateClass:
+    "font-jetBrainsMono text-base font-medium tabular-nums text-foreground",
+};
 ---
 
 <section
@@ -61,14 +66,10 @@ const meta = "mt-auto pt-5 text-sm text-muted-foreground";
               deployment and you accept the offer you want.
             </p>
             <p class={meta}>
-              {cta.gpus.length > 1 && "From "}
               <span
-                class="font-jetBrainsMono text-base font-medium tabular-nums text-foreground"
-                data-bid-price={priceData(cta.gpus)}
-              >
-                {fromRate(cta.gpus)}
-              </span>{" "}
-              per GPU-hour
+                {...priceAttrs(cta.gpus, priceFormat)}
+                set:html={snapshotPriceHtml(cta.gpus, priceFormat)}
+              />
             </p>
             <a
               href={bidCtaHref(CONSOLE_URL, postId, "end")}

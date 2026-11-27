@@ -1,12 +1,13 @@
 import { fetchGpuPrices, liveHourly } from "@/lib/gpu-detail-pages/live-price";
-import { priceLabels } from "@/lib/gpu-detail-pages/shared";
 import type { LivePriceSource } from "@/lib/gpu-detail-pages/types";
+import { bidPriceHtml, type BidPriceFormat } from "@/lib/the-bid-cta";
 
-// Browser side of The Bid CTAs. Each `[data-bid-price]` ships with the lowest snapshot rate of
-// its GPUs; swap in the lowest live one and show the "Live" badges. If the API fails, the
-// snapshots stay. Clicks on `[data-bid-cta]` links are reported to GA4.
+// Browser side of The Bid CTAs. Each `[data-bid-price]` ships with the average of its GPUs'
+// snapshot rates; re-render it with each GPU's live weighted-average bid (falling back to the
+// snapshot) and show the "Live" badges. If the API fails, the snapshots stay. Clicks on
+// `[data-bid-cta]` links are reported to GA4.
 
-type PriceEntry = { snapshot: number; source?: LivePriceSource };
+type PriceEntry = { snapshot: number | null; source?: LivePriceSource };
 
 async function refreshPrices() {
   const prices = document.querySelectorAll<HTMLElement>("[data-bid-price]");
@@ -22,11 +23,12 @@ async function refreshPrices() {
 
   prices.forEach((el) => {
     const entries = JSON.parse(el.dataset.bidPrice || "[]") as PriceEntry[];
+    const format = JSON.parse(el.dataset.bidFormat || "{}") as BidPriceFormat;
     const rates = entries.map(
       ({ snapshot, source }) =>
         (source && liveHourly(data, source)) ?? snapshot,
     );
-    if (rates.length) el.textContent = priceLabels(Math.min(...rates)).rate;
+    el.innerHTML = bidPriceHtml(rates, format);
   });
   document
     .querySelectorAll<HTMLElement>("[data-bid-live]")

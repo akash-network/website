@@ -5,8 +5,8 @@ import {
   AKASHML_URL,
   bidCtaHref,
   CONSOLE_URL,
-  priceData,
-  fromRate,
+  priceAttrs,
+  snapshotPriceHtml,
   type BidCta,
 } from "@/lib/the-bid-cta";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,11 @@ const akashmlHref = bidCtaHref(
   postId,
   "sidebar",
 );
+const rowFormat = { unit: "/hr", unitClass: "text-muted-foreground" };
+const linkFormat = {
+  unit: "/hr",
+  rateClass: "font-jetBrainsMono tabular-nums",
+};
 const textLink =
   "inline-flex items-center gap-1 font-medium text-foreground underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-white/30";
 ---
@@ -61,10 +66,11 @@ const textLink =
                   {gpu.memory}
                 </span>
               </span>
-              <span class="flex shrink-0 items-baseline font-jetBrainsMono text-sm tabular-nums text-foreground">
-                <span data-bid-price={priceData([gpu])}>{fromRate([gpu])}</span>
-                <span class="text-muted-foreground">/hr</span>
-              </span>
+              <span
+                class="shrink-0 font-jetBrainsMono text-sm tabular-nums text-foreground"
+                {...priceAttrs([gpu], rowFormat)}
+                set:html={snapshotPriceHtml([gpu], rowFormat)}
+              />
             </li>
           ))}
         </ul>
@@ -139,13 +145,11 @@ const textLink =
             data-bid-cta-placement="sidebar"
             class={textLink}
           >
-            Rent one from{" "}
-            <span class="inline-flex items-baseline font-jetBrainsMono tabular-nums">
-              <span data-bid-price={priceData(cta.gpus)}>
-                {fromRate(cta.gpus)}
-              </span>
-              /hr
-            </span>
+            Rent one:{" "}
+            <span
+              {...priceAttrs(cta.gpus, linkFormat)}
+              set:html={snapshotPriceHtml(cta.gpus, linkFormat)}
+            />
             <span class="sr-only">(opens in a new tab)</span>
             <ArrowUpRight className="size-3.5" aria-hidden="true" />
           </a>
